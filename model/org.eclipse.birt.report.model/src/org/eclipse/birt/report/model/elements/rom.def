@@ -1622,6 +1622,11 @@
     <Member displayNameID="Structure.JoinCondition.leftExpression" isIntrinsic="true" name="leftExpression" returnType="any" runtimeSettable="true" since="2.1" type="expression" valueRequired="true"/>
     <Member displayNameID="Structure.JoinCondition.rightExpression" isIntrinsic="true" name="rightExpression" returnType="any" runtimeSettable="true" since="2.1" type="expression" valueRequired="true"/>
   </Structure>
+  <Structure displayNameID="Structure.OdaDesignerState" name="OdaDesignerState" since="2.1">
+    <Member displayNameID="Structure.OdaDesignerState.version" isIntrinsic="true" name="version" runtimeSettable="true" since="2.1" type="string" />
+    <Member displayNameID="Structure.OdaDesignerState.stateContentAsString" isIntrinsic="true" name="stateContentAsString" runtimeSettable="true" since="2.1" type="string" />
+    <Member displayNameID="Structure.OdaDesignerState.stateContentAsBlob" isIntrinsic="true" name="stateContentAsBlob" returnType="any" runtimeSettable="true" since="2.1" type="string" />
+  </Structure>  
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" displayNameID="Element.Module.helpGuide" name="helpGuide" runtimeSettable="false" since="reserved" type="uri"/>
@@ -1895,6 +1900,7 @@
     <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
     <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
+    <Property detailType="OdaDesignerState" displayNameID="Element.OdaDataSet.designerState" name="designerState" since="2.1" type="structure"/>    
     <PropertyVisibility name="extensionID" visibility="hide"/>
     <PropertyVisibility name="resultSetName" visibility="hide"/>
     <PropertyVisibility name="privateDriverProperties" visibility="hide"/>

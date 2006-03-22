@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -290,4 +291,147 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 		return Collections.EMPTY_LIST;
 	}
 
+	/**
+	 * Returns the version of designer state.
+	 * 
+	 * @return the version of designer state.
+	 */
+
+	public String getDesigerStateVersion( )
+	{
+		Object value = getProperty( DESIGNER_STATE_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof OdaDesignerState;
+
+		return ( (OdaDesignerState) value ).getVersion( );
+	}
+
+	/**
+	 * Returns the version of designer state.
+	 * 
+	 * @param version
+	 *            the version of designer state.
+	 * @throws SemanticException
+	 *             if designer state property is locked.
+	 */
+
+	public void setDesigerStateVersion( String version )
+			throws SemanticException
+	{
+		setDesignerStateMemberValue( OdaDesignerState.VERSION_MEMBER, version );
+	}
+
+	/**
+	 * Returns the content of designer state as the string.
+	 * 
+	 * @return the content of designer state as the string.
+	 */
+
+	public String getDesigerStateContentAsString( )
+	{
+		Object value = getProperty( DESIGNER_STATE_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof OdaDesignerState;
+
+		return ( (OdaDesignerState) value ).getContentAsString( );
+	}
+
+	/**
+	 * Returns the content of designer state as the string.
+	 * 
+	 * @param content
+	 *            the content of designer state as the string.
+	 * 
+	 * @throws SemanticException
+	 *             if designer state property is locked.
+	 */
+
+	public void setDesigerStateContentAsString( String content )
+			throws SemanticException
+	{
+		setDesignerStateMemberValue( OdaDesignerState.CONTENT_AS_STRING_MEMBER,
+				content );
+	}
+
+	/**
+	 * Returns the content of designer state as the byte array.
+	 * 
+	 * @return the content of designer state as the byte array.
+	 */
+
+	public byte[] getDesigerStateContentAsBlob( )
+	{
+		Object value = getProperty( DESIGNER_STATE_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof OdaDesignerState;
+
+		return ( (OdaDesignerState) value ).getContentAsBlob( );
+	}
+
+	/**
+	 * Returns the content of designer state as the byte.
+	 * 
+	 * @param content
+	 *            the content of designer state as the byte.
+	 * 
+	 * @throws SemanticException
+	 *             if designer state property is locked.
+	 */
+
+	public void setDesigerStateContentAsBlob( byte[] content )
+			throws SemanticException
+	{
+		setDesignerStateMemberValue( OdaDesignerState.CONTENT_AS_BLOB_MEMBER,
+				content );
+	}
+
+	/**
+	 * Sets the version of designer state.
+	 * 
+	 * @param version
+	 *            the version of designer state.
+	 */
+
+	private void setDesignerStateMemberValue( String memberName,
+			Object memberValue ) throws SemanticException
+	{
+		Object value = element.getLocalProperty( module, DESIGNER_STATE_PROP );
+
+		if ( value == null )
+		{
+			OdaDesignerState designerState = new OdaDesignerState( );
+			if ( OdaDesignerState.VERSION_MEMBER.equalsIgnoreCase( memberName ) )
+				designerState.setVersion( (String) memberValue );
+			else if ( OdaDesignerState.CONTENT_AS_STRING_MEMBER
+					.equalsIgnoreCase( memberName ) )
+				designerState.setContentAsString( (String) memberValue );
+			else if ( OdaDesignerState.CONTENT_AS_BLOB_MEMBER
+					.equalsIgnoreCase( memberName ) )
+				designerState.setContentAsBlob( (byte[]) memberValue );
+
+			setProperty( DESIGNER_STATE_PROP, designerState );
+		}
+		else
+		{
+			PropertyHandle propHandle = getPropertyHandle( DESIGNER_STATE_PROP );
+			OdaDesignerState designerState = (OdaDesignerState) value;
+			OdaDesignerStateHandle stateHandle = (OdaDesignerStateHandle) designerState
+					.getHandle( propHandle );
+
+			if ( OdaDesignerState.VERSION_MEMBER.equalsIgnoreCase( memberName ) )
+				stateHandle.setVersion( (String) memberValue );
+			else if ( OdaDesignerState.CONTENT_AS_STRING_MEMBER
+					.equalsIgnoreCase( memberName ) )
+				stateHandle.setContentAsString( (String) memberValue );
+			else if ( OdaDesignerState.CONTENT_AS_BLOB_MEMBER
+					.equalsIgnoreCase( memberName ) )
+				stateHandle.setContentAsBlob( (byte[]) memberValue );
+		}
+	}
 }

@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
@@ -48,6 +49,7 @@ import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
@@ -310,25 +312,35 @@ public class StructureState extends AbstractPropertyState
 			return state;
 		}
 
-		String propName = propDefn == null ? null : propDefn.getName( ); 
-		if ( element instanceof DataSet )
+		if ( element instanceof OdaDataSet
+				&& OdaDataSet.DESIGNER_STATE_PROP.equalsIgnoreCase( name ) )
 		{
-			if ( SimpleDataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
-			{
-				CompatibleDataSetParamStructureState state = new CompatibleDataSetParamStructureState(
-						handler, element, propDefn, list );
-				state.setName( propName );
+			OdaDesignerStateStructureState state = new OdaDesignerStateStructureState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
 
-				return state;
-			}
-			else if ( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
-			{
-				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
-						handler, element, propDefn, list );
-				state.setName( propName );
+		String propName = propDefn == null ? null : propDefn.getName( );
 
-				return state;
-			}
+		if ( ( element instanceof SimpleDataSet )
+				&& SimpleDataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
+		{
+			CompatibleDataSetParamStructureState state = new CompatibleDataSetParamStructureState(
+					handler, element, propDefn, list );
+			state.setName( propName );
+
+			return state;
+		}
+
+		if ( ( element instanceof DataSet )
+				&& DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
+		{
+			CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
+					handler, element, propDefn, list );
+			state.setName( propName );
+
+			return state;
 		}
 
 		return super.jumpTo( );
@@ -447,8 +459,9 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( DateTimeFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				DateTimeFormatValue.class );
-		
-		structDict.put( ParameterFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
+
+		structDict.put(
+				ParameterFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				ParameterFormatValue.class );
 
 		structDict.put( DataSourceParamBinding.STRUCT_NAME.toLowerCase( ),
@@ -459,5 +472,8 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( JoinCondition.STRUCTURE_NAME.toLowerCase( ),
 				JoinCondition.class );
+
+		structDict.put( OdaDesignerState.STRUCTURE_NAME.toLowerCase( ),
+				OdaDesignerState.class );
 	}
 }

@@ -37,7 +37,9 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
  * 
  */
 
-public abstract class SimpleDataSet extends DataSet implements ISimpleDataSetModel
+public abstract class SimpleDataSet extends DataSet
+		implements
+			ISimpleDataSetModel
 {
 
 	/**

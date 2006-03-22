@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -2570,6 +2571,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		}
 
 		property( obj, OdaDataSet.RESULT_SET_NAME_PROP );
+		writeOdaDesignerState( obj );
 
 		List properties = (List) obj.getLocalProperty( getModule( ),
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
@@ -2754,4 +2756,48 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.endElement( );
 	}
 
+	/**
+	 * Visits the designer state of the oda data set.
+	 * 
+	 * @param obj
+	 *            the oda data set to traverse
+	 */
+
+	private void writeOdaDesignerState( OdaDataSet obj )
+	{
+		OdaDesignerState designerState = (OdaDesignerState) obj
+				.getLocalProperty( getModule( ), OdaDataSet.DESIGNER_STATE_PROP );
+
+		if ( designerState == null )
+			return;
+
+		writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
+		writer.attribute( DesignElement.NAME_PROP,
+				OdaDataSet.DESIGNER_STATE_PROP );
+
+		property( designerState, OdaDesignerState.VERSION_MEMBER );
+		property( designerState, OdaDesignerState.CONTENT_AS_STRING_MEMBER );
+
+		try
+		{
+			if ( designerState.getContentAsBlob( ) != null )
+			{
+				byte[] data = base.encode( designerState.getContentAsBlob( ) );
+				String value = new String( data, OdaDesignerState.CHARSET );
+
+				if ( value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
+					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
+							OdaDesignerState.CONTENT_AS_BLOB_MEMBER, value,
+							false );
+				else
+					writeLongIndentText( DesignSchemaConstants.PROPERTY_TAG,
+							OdaDesignerState.CONTENT_AS_BLOB_MEMBER, value );
+			}
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			assert false;
+		}
+		writer.endElement( );
+	}
 }
