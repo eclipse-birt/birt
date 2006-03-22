@@ -266,13 +266,13 @@ final class PreparedQuery
 				prefix = "Total.isTopN";
 				break;
 			case IConditionalExpression.OP_TOP_PERCENT :
-				prefix = "Total.isTopPercent";
+				prefix = "Total.isTopNPercent";
 				break;
 			case IConditionalExpression.OP_BOTTOM_N :
 				prefix = "Total.isBottomN";
 				break;
 			case IConditionalExpression.OP_BOTTOM_PERCENT :
-				prefix = "Total.isBottomPercent";
+				prefix = "Total.isBottomNPercent";
 				break;
 		}
 		
