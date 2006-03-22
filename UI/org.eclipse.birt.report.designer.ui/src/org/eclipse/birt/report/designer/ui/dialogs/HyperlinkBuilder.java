@@ -27,15 +27,20 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.ReportEngine;
+import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -63,6 +68,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -71,6 +77,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -86,65 +93,45 @@ import org.eclipse.ui.ISharedImages;
 public class HyperlinkBuilder extends BaseDialog
 {
 
-	private static final String TITLE = Messages
-			.getString( "HyperlinkBuilder.DialogTitle" );
-	private static final String LABEL_SELECT_TYPE = Messages
-			.getString( "HyperlinkBuilder.Label.SelectType" ); //$NON-NLS-1$
-	private static final String LABEL_LOCATION = Messages
-			.getString( "HyperlinkBuilder.Label.Location" ); //$NON-NLS-1$
-	private static final String LABEL_TARGET = Messages
-			.getString( "HyperlinkBuilder.Label.Target" ); //$NON-NLS-1$
-	private static final String LABEL_BOOKMARK = Messages
-			.getString( "HyperlinkBuilder.Label.Bookmark" ); //$NON-NLS-1$
-	private static final String LABEL_LINKED_EXPRESSION = Messages
-			.getString( "HyperlinkBuilder.Label.LinkedExpression" ); //$NON-NLS-1$
-	private static final String LABEL_REPORT = Messages
-			.getString( "HyperlinkBuilder.Label.Report" ); //$NON-NLS-1$
-	private static final String LABEL_REPORT_PARAMETER = Messages
-			.getString( "HyperlinkBuilder.Label.Parameters" ); //$NON-NLS-1$
-	private static final String LABEL_FORMAT = Messages
-			.getString( "HyperlinkBuilder.Label.Format" ); //$NON-NLS-1$
+	private static final String TITLE = Messages.getString( "HyperlinkBuilder.DialogTitle" ); //$NON-NLS-1$
+	private static final String LABEL_SELECT_TYPE = Messages.getString( "HyperlinkBuilder.Label.SelectType" ); //$NON-NLS-1$
+	private static final String LABEL_LOCATION = Messages.getString( "HyperlinkBuilder.Label.Location" ); //$NON-NLS-1$
+	private static final String LABEL_TARGET = Messages.getString( "HyperlinkBuilder.Label.Target" ); //$NON-NLS-1$
+	private static final String LABEL_BOOKMARK = Messages.getString( "HyperlinkBuilder.Label.Bookmark" ); //$NON-NLS-1$
+	private static final String LABEL_LINKED_EXPRESSION = Messages.getString( "HyperlinkBuilder.Label.LinkedExpression" ); //$NON-NLS-1$
+	private static final String LABEL_REPORT = Messages.getString( "HyperlinkBuilder.Label.Report" ); //$NON-NLS-1$
+	private static final String LABEL_REPORT_PARAMETER = Messages.getString( "HyperlinkBuilder.Label.Parameters" ); //$NON-NLS-1$
+	private static final String LABEL_FORMAT = Messages.getString( "HyperlinkBuilder.Label.Format" ); //$NON-NLS-1$
 
-	private static final String RADIO_NONE = Messages
-			.getString( "HyperlinkBuilder.Radio.None" ); //$NON-NLS-1$
-	private static final String RADIO_URI = Messages
-			.getString( "HyperlinkBuilder.Radio.Uri" ); //$NON-NLS-1$
-	private static final String RADIO_BOOKMARK = Messages
-			.getString( "HyperlinkBuilder.Radio.Bookmark" ); //$NON-NLS-1$
-	private static final String RADIO_DRILLTHROUGH = Messages
-			.getString( "HyperlinkBuilder.Radio.DrillThrough" ); //$NON-NLS-1$
+	private static final String RADIO_NONE = Messages.getString( "HyperlinkBuilder.Radio.None" ); //$NON-NLS-1$
+	private static final String RADIO_URI = Messages.getString( "HyperlinkBuilder.Radio.Uri" ); //$NON-NLS-1$
+	private static final String RADIO_BOOKMARK = Messages.getString( "HyperlinkBuilder.Radio.Bookmark" ); //$NON-NLS-1$
+	private static final String RADIO_DRILLTHROUGH = Messages.getString( "HyperlinkBuilder.Radio.DrillThrough" ); //$NON-NLS-1$
 
-	private static final String COLUMN_PARAMETER = Messages
-			.getString( "HyperlinkBuilder.Column.Parameters" ); //$NON-NLS-1$
-	private static final String COLUMN_VALUE = Messages
-			.getString( "HyperlinkBuilder.Column.Values" ); //$NON-NLS-1$
+	private static final String COLUMN_PARAMETER = Messages.getString( "HyperlinkBuilder.Column.Parameters" ); //$NON-NLS-1$
+	private static final String COLUMN_VALUE = Messages.getString( "HyperlinkBuilder.Column.Values" ); //$NON-NLS-1$
+	private static final String COLUMN_REQUIRED = Messages.getString("HyperlinkBuilder.ParameterRequired"); //$NON-NLS-1$
 
-	private static final Image IMAGE_OPEN_FILE = ReportPlatformUIImages
-			.getImage( IReportGraphicConstants.ICON_OPEN_FILE );
+	private static final Image IMAGE_OPEN_FILE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_OPEN_FILE );
 
-	private static final Image ERROR_ICON = ReportPlatformUIImages
-			.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+	private static final Image REQUIRED_ICON = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DEFAULT );
+	private static final Image ERROR_ICON = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 
-	private static final String ERROR_MSG_REPORT_REQUIRED = Messages
-			.getString( "HyperlinkBuilder.ErrorMessage.ReportReqired" ); //$NON-NLS-1$
-	private static final String ERROR_MSG_INVALID_REPORT = Messages
-			.getString( "HyperlinkBuilder.ErrorMessage.InvalidReport" ); //$NON-NLS-1$
+	private static final String ERROR_MSG_REPORT_REQUIRED = Messages.getString( "HyperlinkBuilder.ErrorMessage.ReportReqired" ); //$NON-NLS-1$
+	private static final String ERROR_MSG_INVALID_REPORT = Messages.getString( "HyperlinkBuilder.ErrorMessage.InvalidReport" ); //$NON-NLS-1$
 
 	private static final String TOOLTIP_BROWSE_FILE = "Browse for File"; //$NON-NLS-1$
 	private static final String TOOLTIP_EXPRESSION = "Open Expression Builder"; //$NON-NLS-1$
 
-	private static final String REQUIED_MARK = "*";
+	private static final String REQUIED_MARK = "*"; //$NON-NLS-1$
 
-	private static final IChoiceSet CHOICESET_TARGET = DesignEngine
-			.getMetaDataDictionary( ).getChoiceSet(
-					DesignChoiceConstants.CHOICE_TARGET_NAMES_TYPE );
+	private static final IChoiceSet CHOICESET_TARGET = DesignEngine.getMetaDataDictionary( )
+			.getChoiceSet( DesignChoiceConstants.CHOICE_TARGET_NAMES_TYPE );
 
-	private static final IChoiceSet CHOICESET_FORMAT = DesignEngine
-			.getMetaDataDictionary( ).getChoiceSet(
-					DesignChoiceConstants.CHOICE_ACTION_FORMAT_TYPE );
+	private static final IChoiceSet CHOICESET_FORMAT = DesignEngine.getMetaDataDictionary( )
+			.getChoiceSet( DesignChoiceConstants.CHOICE_ACTION_FORMAT_TYPE );
 
-	private static final ParamBinding dummyParameterBinding = StructureFactory
-			.createParamBinding( );
+	private static final ParamBinding dummyParameterBinding = StructureFactory.createParamBinding( );
 
 	private ActionHandle inputHandle;
 	private List dataSetList;
@@ -157,18 +144,23 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private Combo bookmarkChooser, targetChooser, formatChooser;
 
-	private Text locationEditor, bookmarkEditor;
+	private Text bookmarkEditor;
+
+	/**
+	 * Target report design location.
+	 */
+	private Text locationEditor;
 
 	private CLabel messageLine;
 
 	private TableViewer paramBindingTable;
 
-	private ComboBoxCellEditor paramterChooser;
+	private ComboBoxCellEditor parameterChooser;
 
 	private ArrayList bindingList = new ArrayList( );
 	private ArrayList parameterList = new ArrayList( );
 
-	private ReportDesignHandle reportHandle;
+	private Object targetReportHandle;
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
@@ -198,6 +190,15 @@ public class HyperlinkBuilder extends BaseDialog
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
+			if ( columnIndex == 1 )
+			{
+				ParamBinding parameterBinding = ( (ParamBinding) element );
+				boolean isRequired = isParameterRequired( parameterBinding.getParamName( ) );
+				if ( isRequired )
+				{
+					return REQUIRED_ICON;
+				}
+			}
 			return null;
 		}
 
@@ -212,7 +213,7 @@ public class HyperlinkBuilder extends BaseDialog
 					text = parameterBinding.getParamName( );
 
 				}
-				else
+				else if ( columnIndex == 2 )
 				{
 					text = parameterBinding.getExpression( );
 				}
@@ -271,10 +272,9 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				buildParameterChoices( paramBinding.getParamName( ) );
 				int index = -1;
-				for ( int i = 0; i < paramterChooser.getItems( ).length; i++ )
+				for ( int i = 0; i < parameterChooser.getItems( ).length; i++ )
 				{
-					if ( paramterChooser.getItems( )[i].equals( paramBinding
-							.getParamName( ) ) )
+					if ( parameterChooser.getItems( )[i].equals( paramBinding.getParamName( ) ) )
 					{
 						index = i;
 						break;
@@ -306,17 +306,48 @@ public class HyperlinkBuilder extends BaseDialog
 						paramBinding = StructureFactory.createParamBinding( );
 						bindingList.add( paramBinding );
 					}
-					paramBinding
-							.setParamName( paramterChooser.getItems( )[index] );
+					paramBinding.setParamName( parameterChooser.getItems( )[index] );
 				}
 			}
 			paramBindingTable.refresh( );
 		}
 	};
 
+	/**
+	 * Drillthrough, target report design.
+	 */
+	private Button reportDesignButton;
+
+	/**
+	 * Drillthrough, target report document.
+	 */
+	private Button reportDocumentButton;
+
+	/**
+	 * Drillthrough, target report document location.
+	 */
+	private Text documentEditor;
+
+	/**
+	 * Drillthrough, targetBookmark.
+	 */
+	private Button targetBookmarkButton;
+
+	/**
+	 * Drillthrough, toc entity.
+	 */
+	private Button tocButton;
+
+	private Button sameWindowButton;
+	private Button newWindowButton;
+	private Button htmlButton;
+	private Button pdfButton;
+	private Combo anchorChooser;
+	private Group targetGroup;
+
 	public HyperlinkBuilder( Shell parentShell )
 	{
-		super( parentShell, TITLE ); //$NON-NLS-1$
+		super( parentShell, TITLE );
 	}
 
 	public HyperlinkBuilder( )
@@ -328,13 +359,11 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
 		createSelectionArea( composite );
-		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL )
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		displayArea = new Composite( composite, SWT.NONE );
-		displayArea.setLayoutData( new GridData( 450, 250 ) );
+		displayArea.setLayoutData( new GridData( 450, 490 ) );
 		displayArea.setLayout( new GridLayout( 3, false ) );
-		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL )
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		return composite;
 	}
 
@@ -378,19 +407,17 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		selectedType = type;
 		clearArea( );
-		closeReport( );
+		closeTargetReport( );
 
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( type ) )
 		{
 			switchToURI( );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
-				.equals( type ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( type ) )
 		{
 			switchToBookmark( );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
-				.equals( type ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( type ) )
 		{
 			switchToDrillthrough( );
 		}
@@ -427,45 +454,236 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private void switchToDrillthrough( )
 	{
-		new Label( displayArea, SWT.NONE )
-				.setText( REQUIED_MARK + LABEL_REPORT );
-		locationEditor = new Text( displayArea, SWT.BORDER | SWT.SINGLE );
-		locationEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		// new Label( displayArea, SWT.NONE ).setText( REQUIED_MARK +
+		// LABEL_REPORT );
+		// locationEditor = new Text( displayArea, SWT.BORDER | SWT.SINGLE );
+		// locationEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+		// ) );
+		// locationEditor.addModifyListener( new ModifyListener( ) {
+		//		
+		// public void modifyText( ModifyEvent e )
+		// {
+		// closeReport( );
+		// initParamterBindings( );
+		// initBookmarkList( reportHandle );
+		// updateButtons( );
+		// }
+		//		
+		// } );
+		// createBrowerButton( displayArea, locationEditor, false, true );
+		//		
+		// UIUtil.createBlankLabel( displayArea );
+		// messageLine = new CLabel( displayArea, SWT.NONE );
+		// GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		// gd.horizontalSpan = 2;
+		// messageLine.setLayoutData( gd );
+		//		
+		// createBindingTable( displayArea );
+		// createBookmarkBar( false );
+		// createTargetBar( );
+		// createFormatBar( );
+
+		displayArea.setLayout( new GridLayout( ) );
+		messageLine = new CLabel( displayArea, SWT.NONE );
+		messageLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		createDrillthroughSelectTargetReport( );
+		createDrillthroughSelectTargetAnchor( );
+		createDrillthroughCreateLinkExpression( );
+		createDrillthroughSelectShowTarget( );
+		createDrillthroughSelectFormat( );
+
+	}
+
+	private void createDrillthroughSelectTargetReport( )
+	{
+		targetGroup = new Group( displayArea, SWT.NONE );
+		targetGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		targetGroup.setText( Messages.getString("HyperlinkBuilder.DrillThroughStep1") ); //$NON-NLS-1$
+		GridLayout layout = new GridLayout( );
+		layout.numColumns = 3;
+		targetGroup.setLayout( layout );
+
+		reportDesignButton = new Button( targetGroup, SWT.RADIO );
+		reportDesignButton.setText( Messages.getString("HyperlinkBuilder.ReportDesignButton") ); //$NON-NLS-1$
+		reportDesignButton.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				selectRadio( targetGroup, reportDesignButton );
+				initTargetReport( locationEditor.getText( ) );
+				deSelectAnchor( );
+				updateButtons( );
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+		} );
+
+		locationEditor = new Text( targetGroup, SWT.BORDER | SWT.SINGLE );
 		locationEditor.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
 			{
-				closeReport( );
+				closeTargetReport( );
+				initTargetReport( locationEditor.getText( ) );
 				initParamterBindings( );
-				initBookmarkList( reportHandle );
+				updateButtons( );
+				deSelectAnchor( );
+			}
+
+		} );
+		locationEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		createBrowerButton( targetGroup, locationEditor, false, true );
+
+		createBindingTable( targetGroup );
+
+		reportDocumentButton = new Button( targetGroup, SWT.RADIO );
+		reportDocumentButton.setText( Messages.getString("HyperlinkBuilder.ReportDocumentButton") ); //$NON-NLS-1$
+
+		reportDocumentButton.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				selectRadio( targetGroup, reportDocumentButton );
+				initTargetReport( documentEditor.getText( ) );
+				deSelectAnchor( );
+				updateButtons( );
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+		} );
+
+		documentEditor = new Text( targetGroup, SWT.BORDER | SWT.SINGLE );
+		documentEditor.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				closeTargetReport( );
+				initTargetReport( documentEditor.getText( ) );
 				updateButtons( );
 			}
 
 		} );
-		createBrowerButton( displayArea, locationEditor, false, true );
+		documentEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		createBrowerButton( targetGroup,
+				documentEditor,
+				false,
+				true,
+				"*.rptdocument" ); //$NON-NLS-1$
 
-		UIUtil.createBlankLabel( displayArea );
-		messageLine = new CLabel( displayArea, SWT.NONE );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
-		messageLine.setLayoutData( gd );
-
-		createBindingTable( );
-		createBookmarkBar( false );
-		createTargetBar( );
-		createFormatBar( );
 	}
 
-	private void createBindingTable( )
+	private void createDrillthroughSelectTargetAnchor( )
 	{
-		Label label = new Label( displayArea, SWT.NONE );
+		final Group group = new Group( displayArea, SWT.NONE );
+		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		group.setText( Messages.getString("HyperlinkBuilder.DrillThroughStep2") ); //$NON-NLS-1$
+		group.setLayout( new GridLayout( ) );
+
+		targetBookmarkButton = new Button( group, SWT.RADIO );
+		targetBookmarkButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughTargetBookmark") ); //$NON-NLS-1$
+		targetBookmarkButton.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				initAnchorChooser( targetReportHandle, false );
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+		} );
+
+		tocButton = new Button( group, SWT.RADIO );
+		tocButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughTargetToc") ); //$NON-NLS-1$
+
+		tocButton.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				initAnchorChooser( targetReportHandle, true );
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+		} );
+
+		anchorChooser = new Combo( group, SWT.BORDER | SWT.READ_ONLY );
+		anchorChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		anchorChooser.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				bookmarkEditor.setText( anchorChooser.getText( ) );
+				updateButtons( );
+			}
+
+		} );
+
+	}
+
+	private void createDrillthroughCreateLinkExpression( )
+	{
+		Group group = new Group( displayArea, SWT.NONE );
+		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		group.setText( Messages.getString("HyperlinkBuilder.DrillThroughStep3") ); //$NON-NLS-1$
+		GridLayout layout = new GridLayout( );
+		layout.numColumns = 3;
+		group.setLayout( layout );
+		new Label( group, SWT.NONE ).setText( Messages.getString("HyperlinkBuilder.DrillThroughLinkExpression") ); //$NON-NLS-1$
+
+		bookmarkEditor = new Text( group, SWT.BORDER | SWT.READ_ONLY );
+		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		createExpressionButton( group, bookmarkEditor );
+	}
+
+	private void createDrillthroughSelectShowTarget( )
+	{
+		Group group = new Group( displayArea, SWT.NONE );
+		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		group.setText( Messages.getString("HyperlinkBuilder.DrillThroughStep4") ); //$NON-NLS-1$
+		group.setLayout( new GridLayout( ) );
+
+		sameWindowButton = new Button( group, SWT.RADIO );
+		sameWindowButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughSamewindow") ); //$NON-NLS-1$
+
+		newWindowButton = new Button( group, SWT.RADIO );
+		newWindowButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughNewWindow") ); //$NON-NLS-1$
+
+	}
+
+	private void createDrillthroughSelectFormat( )
+	{
+		Group group = new Group( displayArea, SWT.NONE );
+		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		group.setText( Messages.getString("HyperlinkBuilder.DrillThroughStep5") ); //$NON-NLS-1$
+		group.setLayout( new GridLayout( ) );
+
+		htmlButton = new Button( group, SWT.RADIO );
+		htmlButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughHtml") ); //$NON-NLS-1$
+
+		pdfButton = new Button( group, SWT.RADIO );
+		pdfButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughPdf") ); //$NON-NLS-1$
+
+	}
+
+	private void createBindingTable( Composite parent )
+	{
+		Label label = new Label( parent, SWT.NONE );
 		label.setText( LABEL_REPORT_PARAMETER );
-		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
-		paramBindingTable = new TableViewer( displayArea, SWT.BORDER
-				| SWT.SINGLE | SWT.FULL_SELECTION );
+		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING
+				| GridData.HORIZONTAL_ALIGN_END ) );
+		paramBindingTable = new TableViewer( parent, SWT.BORDER
+				| SWT.SINGLE
+				| SWT.FULL_SELECTION );
 		Table table = paramBindingTable.getTable( );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.horizontalSpan = 2;
+		gd.heightHint = 60;
 		table.setLayoutData( gd );
 		table.setLinesVisible( true );
 		table.setHeaderVisible( true );
@@ -473,7 +691,12 @@ public class HyperlinkBuilder extends BaseDialog
 		TableColumn parameterColumn = new TableColumn( table, SWT.LEFT );
 		parameterColumn.setText( COLUMN_PARAMETER );
 		parameterColumn.setResizable( true );
-		parameterColumn.setWidth( 150 );
+		parameterColumn.setWidth( 100 );
+
+		parameterColumn = new TableColumn( table, SWT.CENTER );
+		parameterColumn.setText( COLUMN_REQUIRED );
+		parameterColumn.setResizable( true );
+		parameterColumn.setWidth( 55 );
 
 		TableColumn valueColumn = new TableColumn( table, SWT.LEFT );
 		valueColumn.setText( COLUMN_VALUE );
@@ -496,15 +719,18 @@ public class HyperlinkBuilder extends BaseDialog
 
 		} );
 
-		paramBindingTable.setColumnProperties( new String[]{COLUMN_PARAMETER,
-				COLUMN_VALUE} );
+		paramBindingTable.setColumnProperties( new String[]{
+				COLUMN_PARAMETER, COLUMN_REQUIRED, COLUMN_VALUE
+		} );
 
-		paramterChooser = new ComboBoxCellEditor( table, new String[0],
+		parameterChooser = new ComboBoxCellEditor( table,
+				new String[0],
 				SWT.READ_ONLY );
 		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table );
 		valueEditor.setDataSetList( dataSetList );
-		paramBindingTable.setCellEditors( new CellEditor[]{paramterChooser,
-				valueEditor} );
+		paramBindingTable.setCellEditors( new CellEditor[]{
+				parameterChooser, null, valueEditor
+		} );
 		paramBindingTable.setContentProvider( contentProvider );
 		paramBindingTable.setLabelProvider( labelProvider );
 		paramBindingTable.setCellModifier( cellModifier );
@@ -530,10 +756,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				ExpressionBuilder builder = new ExpressionBuilder( text
-						.getText( ) );
-				builder.setExpressionProvier( new ExpressionProvider(
-						dataSetList ) );
+				ExpressionBuilder builder = new ExpressionBuilder( text.getText( ) );
+				builder.setExpressionProvier( new ExpressionProvider( dataSetList ) );
 				if ( builder.open( ) == Dialog.OK )
 				{
 					text.setText( builder.getResult( ) );
@@ -545,8 +769,19 @@ public class HyperlinkBuilder extends BaseDialog
 
 	}
 
-	private void createBrowerButton( Composite parent, final Text text,
+	private Button createBrowerButton( Composite parent, final Text text,
 			final boolean needQuote, final boolean needFilter )
+	{
+		return createBrowerButton( parent,
+				text,
+				needQuote,
+				needFilter,
+				"*.rptdesign" ); //$NON-NLS-1$
+	}
+
+	private Button createBrowerButton( Composite parent, final Text text,
+			final boolean needQuote, final boolean needFilter,
+			final String fileExt )
 	{
 		Button button = new Button( parent, SWT.PUSH );
 		button.setLayoutData( new GridData( ) );
@@ -559,8 +794,9 @@ public class HyperlinkBuilder extends BaseDialog
 				FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ) );
 				if ( needFilter )
 				{
-					dialog.setFilterExtensions( new String[]{"*.rptdesign" //$NON-NLS-1$
-							} );
+					dialog.setFilterExtensions( new String[]{
+						fileExt
+					} );
 				}
 				try
 				{
@@ -593,7 +829,7 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 
 		} );
-
+		return button;
 	}
 
 	private void createTargetBar( )
@@ -601,8 +837,7 @@ public class HyperlinkBuilder extends BaseDialog
 		new Label( displayArea, SWT.NONE ).setText( LABEL_TARGET );
 		targetChooser = new Combo( displayArea, SWT.READ_ONLY | SWT.BORDER );
 		targetChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		targetChooser.setItems( ChoiceSetFactory
-				.getDisplayNamefromChoiceSet( CHOICESET_TARGET ) );
+		targetChooser.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( CHOICESET_TARGET ) );
 		UIUtil.createBlankLabel( displayArea );
 	}
 
@@ -643,8 +878,7 @@ public class HyperlinkBuilder extends BaseDialog
 		new Label( displayArea, SWT.NONE ).setText( LABEL_FORMAT );
 		formatChooser = new Combo( displayArea, SWT.READ_ONLY | SWT.BORDER );
 		formatChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		formatChooser.setItems( ChoiceSetFactory
-				.getDisplayNamefromChoiceSet( CHOICESET_FORMAT ) );
+		formatChooser.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( CHOICESET_FORMAT ) );
 		UIUtil.createBlankLabel( displayArea );
 	}
 
@@ -658,42 +892,68 @@ public class HyperlinkBuilder extends BaseDialog
 			inputHandle.setTargetWindow( null );
 			inputHandle.setReportName( null );
 			inputHandle.setFormatType( null );
-			inputHandle.getMember( Action.PARAM_BINDINGS_MEMBER ).setValue(
-					null );
+			inputHandle.getMember( Action.PARAM_BINDINGS_MEMBER )
+					.setValue( null );
 
-			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
-					.equals( selectedType ) )
+			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 			{
 				inputHandle.setURI( locationEditor.getText( ).trim( ) );
-				inputHandle.setTargetWindow( ChoiceSetFactory
-						.getValueFromChoiceSet( targetChooser.getText( ),
-								CHOICESET_TARGET ) );
+				inputHandle.setTargetWindow( ChoiceSetFactory.getValueFromChoiceSet( targetChooser.getText( ),
+						CHOICESET_TARGET ) );
 			}
-			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
-					.equals( selectedType ) )
+			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
 			{
-				inputHandle
-						.setTargetBookmark( bookmarkEditor.getText( ).trim( ) );
+				inputHandle.setTargetBookmark( bookmarkEditor.getText( ).trim( ) );
 			}
-			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
-					.equals( selectedType ) )
+			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 			{
-				inputHandle.setReportName( locationEditor.getText( ).trim( ) );
-				for ( Iterator iter = bindingList.iterator( ); iter.hasNext( ); )
+				if ( reportDesignButton.getSelection( ) )
 				{
-					inputHandle.addParamBinding( (ParamBinding) iter.next( ) );
+					inputHandle.setTargetFileType( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN );
+					inputHandle.setReportName( locationEditor.getText( ).trim( ) );
+					for ( Iterator iter = bindingList.iterator( ); iter.hasNext( ); )
+					{
+						inputHandle.addParamBinding( (ParamBinding) iter.next( ) );
+					}
 				}
+				else if ( reportDocumentButton.getSelection( ) )
+				{
+					inputHandle.setTargetFileType( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT );
+					inputHandle.setReportName( documentEditor.getText( ).trim( ) );
+				}
+
 				if ( !StringUtil.isBlank( bookmarkEditor.getText( ) ) )
 				{
 					inputHandle.setTargetBookmark( bookmarkEditor.getText( )
 							.trim( ) );
+
+					if ( targetBookmarkButton.getSelection( ) )
+					{
+						inputHandle.setTargetBookmarkType( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK );
+					}
+					else if ( tocButton.getSelection( ) )
+					{
+						inputHandle.setTargetBookmarkType( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC );
+					}
 				}
-				inputHandle.setTargetWindow( ChoiceSetFactory
-						.getValueFromChoiceSet( targetChooser.getText( ),
-								CHOICESET_TARGET ) );
-				inputHandle.setFormatType( ChoiceSetFactory
-						.getValueFromChoiceSet( formatChooser.getText( ),
-								CHOICESET_FORMAT ) );
+
+				if ( sameWindowButton.getSelection( ) )
+				{
+					inputHandle.setTargetWindow( DesignChoiceConstants.TARGET_NAMES_TYPE_SELF );
+				}
+				else
+				{
+					inputHandle.setTargetWindow( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK );
+				}
+
+				if ( htmlButton.getSelection( ) )
+				{
+					inputHandle.setFormatType( "html" ); //$NON-NLS-1$
+				}
+				else
+				{
+					inputHandle.setFormatType( DesignChoiceConstants.FORMAT_TYPE_PDF );
+				}
 			}
 			inputHandle.setLinkType( selectedType );
 		}
@@ -707,7 +967,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 	public boolean close( )
 	{
-		closeReport( );
+		closeTargetReport( );
 		return super.close( );
 	}
 
@@ -728,18 +988,15 @@ public class HyperlinkBuilder extends BaseDialog
 
 		switchTo( inputHandle.getLinkType( ) );
 
-		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
-				.equals( selectedType ) )
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 		{
 			uriRadio.setSelection( true );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
-				.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
 		{
 			bookmarkRadio.setSelection( true );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
-				.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 		{
 			drillRadio.setSelection( true );
 		}
@@ -752,8 +1009,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private void initDisplayArea( )
 	{
-		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
-				.equals( selectedType ) )
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 		{
 			if ( inputHandle.getURI( ) != null )
 			{
@@ -761,17 +1017,15 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			if ( inputHandle.getTargetWindow( ) != null )
 			{
-				targetChooser.setText( ChoiceSetFactory
-						.getDisplayNameFromChoiceSet( inputHandle
-								.getTargetWindow( ), CHOICESET_TARGET ) );
+				targetChooser.setText( ChoiceSetFactory.getDisplayNameFromChoiceSet( inputHandle.getTargetWindow( ),
+						CHOICESET_TARGET ) );
 			}
 			else
 			{
 				targetChooser.select( 0 );
 			}
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
-				.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
 		{
 			if ( inputHandle.getTargetBookmark( ) != null )
 			{
@@ -780,133 +1034,218 @@ public class HyperlinkBuilder extends BaseDialog
 			initBookmarkList( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ) );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
-				.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 		{
+			// if ( inputHandle.getTargetBookmark( ) != null )
+			// {
+			// bookmarkEditor.setText( inputHandle.getTargetBookmark( ) );
+			// }
+			// if ( inputHandle.getReportName( ) != null )
+			// {
+			// locationEditor.setText( inputHandle.getReportName( ) );
+			// }
+			// else
+			// {
+			// initParamterBindings( );
+			// initBookmarkList( null );
+			// }
+			// if ( inputHandle.getTargetWindow( ) != null )
+			// {
+			// targetChooser.setText(
+			// ChoiceSetFactory.getDisplayNameFromChoiceSet(
+			// inputHandle.getTargetWindow( ),
+			// CHOICESET_TARGET ) );
+			// }
+			// else
+			// {
+			// targetChooser.select( 0 );
+			// }
+			// if ( inputHandle.getFormatType( ) != null )
+			// {
+			// formatChooser.setText(
+			// ChoiceSetFactory.getDisplayNameFromChoiceSet(
+			// inputHandle.getFormatType( ),
+			// CHOICESET_FORMAT ) );
+			// }
+			// else
+			// {
+			// formatChooser.select( 0 );
+			// }
+			// TODO
+
+			if ( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT.equals( inputHandle.getTargetFileType( ) ) )
+			{
+				reportDocumentButton.setSelection( true );
+				if ( inputHandle.getReportName( ) != null )
+				{
+					documentEditor.setText( inputHandle.getReportName( ) );
+				}
+				selectRadio( targetGroup, reportDocumentButton );
+			}
+			else
+			{
+				reportDesignButton.setSelection( true );
+				if ( inputHandle.getReportName( ) != null )
+				{
+					locationEditor.setText( inputHandle.getReportName( ) );
+				}
+				selectRadio( targetGroup, reportDesignButton );
+			}
+
+			if ( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( inputHandle.getTargetBookmarkType( ) ) )
+			{
+				targetBookmarkButton.setSelection( true );
+				initAnchorChooser( targetReportHandle, false );
+			}
+			else if ( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC.equals( inputHandle.getTargetBookmarkType( ) ) )
+			{
+				tocButton.setSelection( true );
+				initAnchorChooser( targetReportHandle, true );
+			}
+
 			if ( inputHandle.getTargetBookmark( ) != null )
 			{
 				bookmarkEditor.setText( inputHandle.getTargetBookmark( ) );
 			}
-			if ( inputHandle.getReportName( ) != null )
+
+			if ( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK.equals( inputHandle.getTargetWindow( ) ) )
 			{
-				locationEditor.setText( inputHandle.getReportName( ) );
+				newWindowButton.setSelection( true );
 			}
 			else
 			{
-				initParamterBindings( );
-				initBookmarkList( null );
+				sameWindowButton.setSelection( true );
 			}
-			if ( inputHandle.getTargetWindow( ) != null )
+
+			if ( DesignChoiceConstants.FORMAT_TYPE_PDF.equals( inputHandle.getFormatType( ) ) )
 			{
-				targetChooser.setText( ChoiceSetFactory
-						.getDisplayNameFromChoiceSet( inputHandle
-								.getTargetWindow( ), CHOICESET_TARGET ) );
+				pdfButton.setSelection( true );
 			}
 			else
 			{
-				targetChooser.select( 0 );
+				htmlButton.setSelection( true );
 			}
-			if ( inputHandle.getFormatType( ) != null )
-			{
-				formatChooser.setText( ChoiceSetFactory
-						.getDisplayNameFromChoiceSet( inputHandle
-								.getFormatType( ), CHOICESET_FORMAT ) );
-			}
-			else
-			{
-				formatChooser.select( 0 );
-			}
+
 		}
 		updateButtons( );
 	}
 
 	private void initParamterBindings( )
 	{
-		bindingList.clear( );
-		parameterList.clear( );
+		if ( targetReportHandle != null )
+		{
+			bindingList.clear( );
+			parameterList.clear( );
 
-		String errorMessage = null;
-		String newFilename = locationEditor.getText( ).trim( );
-		if ( newFilename.length( ) == 0 )
-		{
-			errorMessage = ERROR_MSG_REPORT_REQUIRED;
-		}
-		else
-		{
-			try
+			String errorMessage = null;
+			String newFilename = locationEditor.getText( ).trim( );
+			if ( newFilename.length( ) == 0 )
 			{
-				reportHandle = SessionHandleAdapter.getInstance( )
-						.getSessionHandle( ).openDesign( newFilename );
+				errorMessage = ERROR_MSG_REPORT_REQUIRED;
 			}
-			catch ( DesignFileException e )
+			else
 			{
-				try
+				if ( targetReportHandle instanceof ReportDesignHandle )
 				{
-					reportHandle = SessionHandleAdapter.getInstance( )
-							.getSessionHandle( ).openDesign(
-									URIUtil.resolveAbsolutePath(
-											getBasePath( ), newFilename ) );
-				}
-				catch ( DesignFileException e1 )
-				{
-					errorMessage = ERROR_MSG_INVALID_REPORT;
-				}
-			}
-			if ( reportHandle != null )
-			{
-				for ( Iterator iter = reportHandle.getAllParameters( )
-						.iterator( ); iter.hasNext( ); )
-				{
-					Object obj = iter.next( );
-					if ( obj instanceof ParameterHandle )
+					for ( Iterator iter = ( (ReportDesignHandle) targetReportHandle ).getAllParameters( )
+							.iterator( ); iter.hasNext( ); )
 					{
-						parameterList.add( obj );
+						Object obj = iter.next( );
+						if ( obj instanceof ParameterHandle )
+						{
+							parameterList.add( obj );
+						}
+						else if ( obj instanceof ParameterGroupHandle )
+						{
+							parameterList.addAll( ( (ParameterGroupHandle) obj ).getParameters( )
+									.getContents( ) );
+						}
 					}
-					else if ( obj instanceof ParameterGroupHandle )
+					if ( newFilename.equals( inputHandle.getReportName( ) ) )
 					{
-						parameterList.addAll( ( (ParameterGroupHandle) obj )
-								.getParameters( ).getContents( ) );
-					}
-				}
-				if ( newFilename.equals( inputHandle.getReportName( ) ) )
-				{
-					for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter
-							.hasNext( ); )
-					{
-						ParamBindingHandle handle = (ParamBindingHandle) iter
-								.next( );
-						bindingList.add( handle.getStructure( ) );
+						for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
+						{
+							ParamBindingHandle handle = (ParamBindingHandle) iter.next( );
+							bindingList.add( handle.getStructure( ) );
+						}
 					}
 				}
 			}
-		}
-		if ( errorMessage != null )
-		{
-			messageLine.setText( errorMessage );
-			messageLine.setImage( ERROR_ICON );
-		}
-		else
-		{
-			messageLine.setText( "" ); //$NON-NLS-1$
-			messageLine.setImage( null );
-		}
+			if ( errorMessage != null )
+			{
+				messageLine.setText( errorMessage );
+				messageLine.setImage( ERROR_ICON );
+			}
+			else
+			{
+				messageLine.setText( "" ); //$NON-NLS-1$
+				messageLine.setImage( null );
+			}
 
-		paramBindingTable.refresh( );
-		paramBindingTable.getTable( ).setEnabled( !parameterList.isEmpty( ) );
+			paramBindingTable.refresh( );
+			paramBindingTable.getTable( )
+					.setEnabled( !parameterList.isEmpty( ) );
 
-		updateButtons( );
+			updateButtons( );
+		}
 	}
 
-	private void initBookmarkList( ModuleHandle handle )
+	private void initBookmarkList( Object handle )
 	{
 		bookmarkChooser.removeAll( );
 		if ( handle != null && handle instanceof ReportDesignHandle )
 		{
-			bookmarkChooser.setItems( (String[]) ( (ReportDesignHandle) handle )
-					.getAllBookmarks( ).toArray( new String[0] ) );
+			bookmarkChooser.setItems( (String[]) ( (ReportDesignHandle) handle ).getAllBookmarks( )
+					.toArray( new String[0] ) );
 			bookmarkChooser.setText( bookmarkEditor.getText( ) );
 		}
 		bookmarkChooser.setEnabled( bookmarkChooser.getItemCount( ) > 0 );
+	}
+
+	private void initAnchorChooser( Object handle, boolean isToc )
+	{
+		anchorChooser.removeAll( );
+		if ( handle instanceof ReportDesignHandle )
+		{
+			if ( isToc )
+			{
+				anchorChooser.setItems( (String[]) ( (ReportDesignHandle) handle ).getAllTocs( )
+						.toArray( new String[0] ) );
+			}
+			else
+			{
+				anchorChooser.setItems( (String[]) ( (ReportDesignHandle) handle ).getAllBookmarks( )
+						.toArray( new String[0] ) );
+			}
+		}
+		else if ( handle instanceof IReportDocument )
+		{
+			if ( isToc )
+			{
+				TOCNode rootTocNode = ( (IReportDocument) handle ).findTOC( null );
+				anchorChooser.setItems( (String[]) getAllTocNode( rootTocNode ).toArray( new String[0] ) );
+			}
+			else
+			{
+				anchorChooser.setItems( (String[]) ( (IReportDocument) handle ).getBookmarks( )
+						.toArray( new String[0] ) );
+			}
+		}
+		anchorChooser.setEnabled( anchorChooser.getItemCount( ) > 0 );
+		bookmarkEditor.setText( "" ); //$NON-NLS-1$
+	}
+
+	private List getAllTocNode( TOCNode parent )
+	{
+		List tocList = new ArrayList( );
+		tocList.add( parent.getDisplayString( ) );
+		List childToc = parent.getChildren( );
+		for ( Iterator iter = childToc.iterator( ); iter.hasNext( ); )
+		{
+			TOCNode node = (TOCNode) iter.next( );
+			tocList.addAll( getAllTocNode( node ) );
+		}
+		return tocList;
 	}
 
 	private void addRadioListener( Button radio, final String type )
@@ -926,20 +1265,19 @@ public class HyperlinkBuilder extends BaseDialog
 	private void updateButtons( )
 	{
 		boolean okEnable = true;
-		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
-				.equals( selectedType ) )
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 		{
 			okEnable = !StringUtil.isBlank( locationEditor.getText( ) );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
-				.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
 		{
 			okEnable = !StringUtil.isBlank( bookmarkEditor.getText( ) );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
-				.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 		{
-			okEnable = !StringUtil.isBlank( locationEditor.getText( ) )
+			okEnable = targetReportHandle != null
+					&& !StringUtil.isBlank( locationEditor.getText( ) )
+					|| !StringUtil.isBlank( documentEditor.getText( ) )
 					&& messageLine.getImage( ) == null;
 		}
 		getOkButton( ).setEnabled( okEnable );
@@ -961,8 +1299,7 @@ public class HyperlinkBuilder extends BaseDialog
 				avaliavleList.remove( paramBinding.getParamName( ) );
 			}
 		}
-		paramterChooser.setItems( (String[]) avaliavleList
-				.toArray( new String[0] ) );
+		parameterChooser.setItems( (String[]) avaliavleList.toArray( new String[0] ) );
 	}
 
 	private void deleteRow( )
@@ -977,8 +1314,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private ParamBinding getSelectedBinding( )
 	{
-		IStructuredSelection selection = (IStructuredSelection) paramBindingTable
-				.getSelection( );
+		IStructuredSelection selection = (IStructuredSelection) paramBindingTable.getSelection( );
 		if ( selection.size( ) == 1 )
 		{
 			return (ParamBinding) selection.getFirstElement( );
@@ -986,19 +1322,72 @@ public class HyperlinkBuilder extends BaseDialog
 		return null;
 	}
 
-	private void closeReport( )
+	private void closeTargetReport( )
 	{
-		if ( reportHandle != null )
+		if ( targetReportHandle instanceof ReportDesignHandle )
 		{
-			reportHandle.close( );
-			reportHandle = null;
+			( (ReportDesignHandle) targetReportHandle ).close( );
+			targetReportHandle = null;
+		}
+	}
+
+	private void initTargetReport( String newFilename )
+	{
+		targetReportHandle = null;
+		String errorMessage = null;
+		if ( newFilename.endsWith( ".rptdocument" ) ) //$NON-NLS-1$
+		{
+			ReportEngine engine = new ReportEngine( new EngineConfig( ) );
+
+			try
+			{
+				targetReportHandle = engine.openReportDocument( URIUtil.resolveAbsolutePath( getBasePath( ),
+						newFilename ) );
+			}
+			catch ( EngineException e )
+			{
+			}
+		}
+		else
+		{
+			try
+			{
+				targetReportHandle = SessionHandleAdapter.getInstance( )
+						.getSessionHandle( )
+						.openDesign( newFilename );
+			}
+			catch ( DesignFileException e )
+			{
+				try
+				{
+					targetReportHandle = SessionHandleAdapter.getInstance( )
+							.getSessionHandle( )
+							.openDesign( URIUtil.resolveAbsolutePath( getBasePath( ),
+									newFilename ) );
+				}
+				catch ( DesignFileException e1 )
+				{
+					errorMessage = ERROR_MSG_INVALID_REPORT;
+				}
+			}
+		}
+		if ( errorMessage != null )
+		{
+			messageLine.setText( errorMessage );
+			messageLine.setImage( ERROR_ICON );
+		}
+		else
+		{
+			messageLine.setText( "" ); //$NON-NLS-1$
+			messageLine.setImage( null );
 		}
 	}
 
 	private String getBasePath( )
 	{
 		String baseFile = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ).getFileName( );
+				.getReportDesignHandle( )
+				.getFileName( );
 		return new File( baseFile ).getParent( );
 	}
 
@@ -1023,5 +1412,78 @@ public class HyperlinkBuilder extends BaseDialog
 	public String getResultString( ) throws IOException
 	{
 		return ModuleUtil.serializeAction( (ActionHandle) getResult( ) );
+	}
+
+	/**
+	 * Set radio members enable, and others radio's members disable.
+	 * 
+	 * @param container
+	 * @param radio
+	 * @param enable
+	 */
+	private void selectRadio( Composite container, Button radio )
+	{
+		Control[] children = container.getChildren( );
+		boolean isChoiceChild = false;
+		for ( int i = 0; i < children.length; i++ )
+		{
+			if ( children[i] instanceof Label )
+			{
+				continue;
+			}
+			// break if style is radio
+			if ( ( children[i].getStyle( ) & SWT.RADIO ) != 0 )
+			{
+				if ( children[i] == radio )
+				{
+					isChoiceChild = true;
+				}
+				else
+				{
+					isChoiceChild = false;
+				}
+				continue;
+			}
+			if ( !isChoiceChild )
+			{
+				children[i].setEnabled( false );
+			}
+			else
+			{
+				children[i].setEnabled( true );
+			}
+		}
+	}
+
+	private void deSelectAnchor( )
+	{
+		targetBookmarkButton.setSelection( false );
+		tocButton.setSelection( false );
+		anchorChooser.removeAll( );
+		bookmarkEditor.setText( "" ); //$NON-NLS-1$
+	}
+
+	protected boolean isParameterRequired( String paramName )
+	{
+		if ( paramName == null )
+		{
+			return false;
+		}
+
+		if ( parameterList != null )
+		{
+			for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
+			{
+				Object obj = iter.next( );
+				if ( obj instanceof ScalarParameterHandle
+						&& ( (ScalarParameterHandle) obj ).getName( )
+								.equals( paramName ) )
+				{
+					return !( (ScalarParameterHandle) obj ).allowNull( )
+							|| !( (ScalarParameterHandle) obj ).allowBlank( );
+				}
+			}
+		}
+		return false;
 	}
 }
