@@ -232,8 +232,14 @@ public abstract class EngineTask implements IEngineTask
 	{
 		this.runnable = runnable;
 		executionContext.setRunnable( runnable );
-		executionContext.registerBeans( runnable.getTestConfig( ) );
+		//register the properties into the scope, so the user can 
+		//access the config through the property name directly.
 		executionContext.registerBeans( System.getProperties( ) );
+		executionContext.registerBeans( runnable.getTestConfig( ) );
+		//put the properties into the configs also, so the user can
+		//access the config through config["name"].
+		executionContext.getConfigs( ).putAll( System.getProperties( ) );
+		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
 	}
 
 	/*
@@ -508,7 +514,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.31 $ $Date: 2006/03/08 02:44:19 $
+	 * @version $Revision: 1.32 $ $Date: 2006/03/21 23:23:18 $
 	 */
 	static abstract class ParameterVisitor
 	{
