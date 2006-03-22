@@ -26,6 +26,7 @@
       <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.birt.report.data.oda.jdbc"/>
+      <import plugin="org.apache.commons.codec"/>
    </requires>
 
    <extension
