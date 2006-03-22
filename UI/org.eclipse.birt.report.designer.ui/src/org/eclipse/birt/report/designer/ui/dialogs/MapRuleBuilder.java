@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.MapHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;

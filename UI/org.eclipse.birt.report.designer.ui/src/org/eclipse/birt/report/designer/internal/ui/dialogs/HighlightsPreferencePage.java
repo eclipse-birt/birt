@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
 import org.eclipse.birt.report.designer.util.ColorManager;
