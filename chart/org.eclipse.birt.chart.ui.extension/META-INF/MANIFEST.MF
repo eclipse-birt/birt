@@ -7,6 +7,7 @@ Bundle-ClassPath: ui-extension.jar
 Bundle-Activator: org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.birt.chart.ui
+Require-Bundle: org.apache.commons.codec,
+ org.eclipse.birt.chart.ui
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.birt.chart.ui.swt.wizard

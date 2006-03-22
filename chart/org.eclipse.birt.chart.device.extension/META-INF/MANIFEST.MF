@@ -11,8 +11,7 @@ Export-Package: org.eclipse.birt.chart.device.extension.i18n,
  org.eclipse.birt.chart.device.image,
  org.eclipse.birt.chart.device.plugin,
  org.eclipse.birt.chart.device.swing,
- org.eclipse.birt.chart.device.swt,
  org.eclipse.birt.chart.device.util
-Require-Bundle: org.eclipse.swt;resolution:=optional,
+Require-Bundle: org.apache.commons.codec,
  org.eclipse.birt.chart.engine
 Eclipse-LazyStart: true

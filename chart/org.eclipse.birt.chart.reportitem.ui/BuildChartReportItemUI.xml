@@ -51,7 +51,7 @@
  *    1. 03/15/2005: initial version
  *
 -->
-<project name="BIRT Chart ReportItem Project" default="build" basedir=".">
+<project name="BIRT Chart ReportItem UI Project" default="build" basedir=".">
 	<description>BIRT Chart UI Extensions Project.</description>
 	<!-- set global properties for this build -->
 	<!-- Public properties, used by public targets, top level build script
@@ -68,19 +68,38 @@
 	<property name="lib" location="lib"/>
 	<property name="bin" location="bin"/>
 	
-	<property name="module.name" value="org.eclipse.birt.chart.reportitem"/>
+	<property name="module.name" value="org.eclipse.birt.chart.reportitem.ui"/>
 
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
 	<property name="model.dir" location="../org.eclipse.birt.report.model"/>
 	<property name="engine.dir" location="../org.eclipse.birt.report.engine"/>
+	<property name="designer.core.dir" location="../org.eclipse.birt.report.designer.core"/>
+	<property name="designer.ui.dir" location="../org.eclipse.birt.report.designer.ui"/>
 	<property name="data.dir" location="../org.eclipse.birt.data"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
+	<property name="chart.reportitem.dir" location="../org.eclipse.birt.chart.reportitem"/>
+	<property name="chart.ui.dir" location="../org.eclipse.birt.chart.ui"/>
+	<property name="core.ui.dir" location="../org.eclipse.birt.core.ui"/>
+
+	<!-- set platform related properties-->
+	<condition property="basews" value="win32">
+			<os family="windows"/>
+	</condition>
+	<condition property="basews" value="gtk">
+		<not>
+			<os family="windows"/>
+		</not>
+	</condition>
 
 	<!-- set eclipse related properties -->
 	<property name="eclipse.runtime.dir" value="org.eclipse.core.runtime" />
+	<property name="eclipse.ui.workbench.dir" value="org.eclipse.ui.workbench" />
+	<property name="eclipse.draw2d.dir" value="org.eclipse.draw2d" />
 	<property name="eclipse.osgi.dir" value="org.eclipse.osgi" />
+	<property name="eclipse.jface.dir" value="org.eclipse.jface" />
 	<property name="emf.common.dir" value="org.eclipse.emf.common" />
 	<property name="emf.ecore.dir" value="org.eclipse.emf.ecore" />
+	<property name="swt.dir" value="org.eclipse.swt" />
 	
 	<path id="class.path">
 		<pathelement path="${bin}"/>
@@ -88,26 +107,40 @@
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
 			<include name="org.eclipse.core.*.jar"/>
-			<include name="${eclipse.osgi.dir}_*/osgi.jar"/>
+			<include name="${eclipse.ui.workbench.dir}_*/workbench.jar"/>
+			<include name="org.eclipse.ui.workbench*.jar"/>
+			<include name="${eclipse.draw2d.dir}_*/draw2d.jar"/>
+			<include name="org.eclipse.draw2d*.jar"/>
+			<include name="${eclipse.osgi.dir}_*/*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>
+			<include name="${eclipse.jface.dir}_*/jface.jar"/>
+			<include name="org.eclipse.jface*.jar"/>
 			<include name="${emf.common.dir}_*/runtime/common.jar"/>
 			<include name="${emf.ecore.dir}_*/runtime/ecore.jar"/>
 			<include name="org.eclipse.emf.common_*.jar"/>
 			<include name="org.eclipse.emf.ecore_*.jar"/>
+			<include name="${swt.dir}.${basews}_*/ws/${basews}/swt.jar"/>
+			<include name="org.eclipse.swt*.jar"/>
 			<include name="org.eclipse.equinox.*.jar"/>
 			<include name="com.ibm.icu_*.jar"/>	
 		</fileset>
-				
+		
 		<fileset dir="${core.dir}/lib">
 				<include name="**/*.jar"/>
 		</fileset>
+		
 		<pathelement path="${core.dir}/core.jar"/>
 		<pathelement path="${model.dir}/model.jar"/>
 		<fileset dir="${engine.dir}">
 				<include name="*.jar"/>
 		</fileset>
+		<pathelement path="${designer.core.dir}/core.jar"/>
+		<pathelement path="${designer.ui.dir}/ui.jar"/>
 		<pathelement path="${data.dir}/dte.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
+		<pathelement path="${chart.reportitem.dir}/reportitem.jar"/>
+		<pathelement path="${chart.ui.dir}/ui.jar"/>
+		<pathelement path="${core.ui.dir}/coreui.jar"/>
 	</path>
 	
 	<!-- Compile source code and generate jar for this project.
@@ -115,7 +148,7 @@
 		 	eclipse.home
 	-->
 	<target name="Jar" depends="compileSource" description="create project jar">
-		<jar destfile="reportitem.jar">
+		<jar destfile="reportitem-ui.jar">
 			<fileset dir="${bin}">
 				<include name="**/*.class"/>
 				<include name="**/*.txt"/>
@@ -126,6 +159,7 @@
 		</jar>
 	</target>
 	
+	
 	<!-- Export the project, for instance, jar files are copied to a designated folder
 					 the dependency on Jar should implement in top level script by call sequence	
 					 Parameters:
@@ -135,7 +169,7 @@
 	<target name="Export">
 		<property file="META-INF/MANIFEST.MF" />
 	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
-	        <fileset dir="." includes="reportitem.jar,about.html,plugin.xml,plugin*.properties,.options,lib/**,icons/**,META-INF/MANIFEST.MF"/>
+	        <fileset dir="." includes="reportitem-ui.jar,about.html,plugin.xml,plugin*.properties,.options,lib/**,icons/**,META-INF/MANIFEST.MF"/>
 	    </copy>
 	</target>
 
@@ -156,7 +190,7 @@
 	<target name="Clean" description="clean up">
 		<!-- Delete the binary directory trees -->
 		<delete dir="${bin}"/>
-		<delete file="reportitem.jar"/>
+		<delete file="reportitem-ui.jar"/>
 	</target>
 
 	<!-- Generate the JavaDoc.
@@ -205,14 +239,32 @@
 	
 	<!-- Build the dependent projects -->
 	<target name="buildDependency">
-		<echo message="Start call Jar task in ${chart.engine.dir}"/>
-		<ant dir="${chart.engine.dir}" antfile="BuildChartEngine.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+		<echo message="Start call Jar task in ${chart.reportitem.dir}"/>
+		<ant dir="${chart.reportitem.dir}" antfile="BuildChartReportItem.xml" target="Jar" inheritAll="false" inheritRefs="false" >
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
-		<echo message="End call Jar task in ${chart.engine.dir}"/>
+		<echo message="End call Jar task in ${chart.reportitem.dir}"/>
 
+		<echo message="Start call Jar task in ${chart.ui.dir}"/>
+		<ant dir="${chart.ui.dir}" antfile="BuildChartUI.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="End call Jar task in ${chart.ui.dir}"/>
+
+		<echo message="Start call Jar task in ${designer.ui.dir}"/>
+		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml"  target="Jar" inheritAll="false" inheritRefs="false" >
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>		
+		<echo message="End call Jar task in ${designer.ui.dir}"/>
+		
+		<echo message="start call Jar task in ${core.ui.dir}"/>
+		<ant dir="${core.ui.dir}" antfile="BuildCoreUI.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>	
+		<echo message="end call Jar task in ${core.ui.dir}"/>
+		
 	</target>
-	
+
 	<target name="build" depends="Jar" description="package ui extension files" />
 	
 </project>

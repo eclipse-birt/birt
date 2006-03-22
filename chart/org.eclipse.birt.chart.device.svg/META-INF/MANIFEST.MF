@@ -10,6 +10,7 @@ Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.device.svg,
  org.eclipse.birt.chart.device.svg.i18n,
  org.eclipse.birt.chart.device.svg.plugin
-Require-Bundle: org.eclipse.birt.chart.engine,
+Require-Bundle: org.apache.commons.codec,
+ org.eclipse.birt.chart.engine,
  org.eclipse.birt.chart.device.extension
 Eclipse-LazyStart: true

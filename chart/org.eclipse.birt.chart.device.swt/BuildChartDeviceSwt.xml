@@ -52,7 +52,7 @@
  *
 -->
 <project name="BIRT Chart Engine Project" default="build" basedir=".">
-	<description>BIRT Chart Device Extensions Project.</description>
+	<description>BIRT Chart Device Swt Project.</description>
 	<!-- set global properties for this build -->
 	<!-- Public properties, used by public targets, top level build script will pass on the value at 
 		 runtime. Properties will have there default value.
@@ -75,11 +75,23 @@
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
 
-	<property name="module.name" value="org.eclipse.birt.chart.device.extension"/>
+	<property name="module.name" value="org.eclipse.birt.chart.device.swt"/>
+
+
+	<!-- set platform related properties-->
+	<condition property="basews" value="win32">
+		<os family="windows"/>
+	</condition>
+	<condition property="basews" value="gtk">
+		<not>
+			<os family="windows"/>
+		</not>
+	</condition>
 
 	<!-- set eclipse related properties -->
 	<property name="emf.common.dir" value="org.eclipse.emf.common" />
 	<property name="emf.ecore.dir" value="org.eclipse.emf.ecore" />
+	<property name="swt.dir" value="org.eclipse.swt" />
 	
 	<path id="class.path">
 		<pathelement path="${dir.bin}"/>
@@ -93,6 +105,8 @@
 			<include name="${emf.ecore.dir}_*/runtime/ecore.jar"/>
 			<include name="org.eclipse.emf.common_*.jar"/>
 			<include name="org.eclipse.emf.ecore_*.jar"/>
+			<include name="${swt.dir}.${basews}_*/ws/${basews}/swt.jar"/>
+			<include name="org.eclipse.swt*.jar"/>
 			<include name="com.ibm.icu_*.jar"/>
 		</fileset>
 		
@@ -110,7 +124,7 @@
 		 	eclipse.home
 	-->
 	<target name="Jar" depends="compileSource" description="create project jar">
-		<jar destfile="device-extension.jar">
+		<jar destfile="device-swt.jar">
 			<fileset dir="${dir.bin}">
 				<include name="**/*.class"/>
 				<include name="**/*.txt"/>
@@ -132,7 +146,7 @@
 	<target name="Export">
 		<property file="META-INF/MANIFEST.MF" />
 		<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
-	        <fileset dir="." includes="device-extension.jar,plugin.xml,about.html,.options,{dir.lib}/**,META-INF/MANIFEST.MF"/>
+	        <fileset dir="." includes="device-swt.jar,plugin.xml,about.html,.options,{dir.lib}/**,META-INF/MANIFEST.MF"/>
 	    </copy>
 	</target>
 	
@@ -153,7 +167,7 @@
 	<target name="Clean" description="clean up">
 		<!-- Delete the binary directory trees -->
 		<delete dir="${dir.bin}"/>
-		<delete file="device-extension.jar"/>
+		<delete file="device-swt.jar"/>
 	</target>
 	
 	
@@ -167,7 +181,7 @@
 				 author="true" 
 				 version="true" 
 				 use="true" 
-				 windowtitle="BIRT Chart Device Extension Project" 
+				 windowtitle="BIRT Chart Device Swt Project" 
 				 source="1.4"
 				 packagenames="${module.name}.*">
 			

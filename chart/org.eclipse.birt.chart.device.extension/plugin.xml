@@ -8,9 +8,6 @@
             device="org.eclipse.birt.chart.device.swing.SwingRendererImpl"
             name="dv.SWING"/>
       <deviceRenderer
-            device="org.eclipse.birt.chart.device.swt.SwtRendererImpl"
-            name="dv.SWT"/>
-      <deviceRenderer
             device="org.eclipse.birt.chart.device.image.PngRendererImplOld"
             name="dv.PNG24"/>
       <deviceRenderer
@@ -42,8 +39,5 @@
       <displayserver
             server="org.eclipse.birt.chart.device.swing.SwingDisplayServer"
             name="ds.SWING"/>
-      <displayserver
-            server="org.eclipse.birt.chart.device.swt.SwtDisplayServer"
-            name="ds.SWT"/>
    </extension>
 </plugin>

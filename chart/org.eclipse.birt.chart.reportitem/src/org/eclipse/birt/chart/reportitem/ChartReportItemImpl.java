@@ -409,10 +409,11 @@ public final class ChartReportItemImpl extends ReportItem
 				getProperty( propName ),
 				value );
 
-		if ( oDesignerRepresentation != null )
-		{
-			( (DesignerRepresentation) oDesignerRepresentation ).setDirty( true );
-		}
+		// if ( oDesignerRepresentation != null )
+		// {
+		// ( (DesignerRepresentation) oDesignerRepresentation ).setDirty( true
+		// );
+		// }
 	}
 
 	void basicSetProperty( String propName, Object value )
