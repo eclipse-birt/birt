@@ -5,13 +5,14 @@ Bundle-SymbolicName: org.eclipse.birt.chart.examples; singleton:=true
 Bundle-Version: 2.1.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.birt.chart.engine,
- org.eclipse.birt.chart.engine.extension,
+Require-Bundle: org.eclipse.birt.chart.engine.extension,
  org.eclipse.birt.chart.device.extension,
  org.eclipse.birt.chart.device.svg,
+ org.eclipse.birt.chart.device.swt,
  org.eclipse.birt.chart.ui,
  org.eclipse.birt.chart.ui.extension,
  org.eclipse.birt.chart.reportitem,
+ org.eclipse.birt.chart.reportitem.ui,
  org.eclipse.birt.report.model,
  org.eclipse.birt.report.engine
 Eclipse-LazyStart: true
