@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
@@ -398,21 +397,7 @@ public class MeterChart extends DefaultChartTypeImpl
 		DialSeries dialseries = (DialSeries) DialSeriesImpl.create( );
 
 		// Copy generic series properties
-		dialseries.setLabel( series.getLabel( ) );
-		dialseries.setVisible( series.isVisible( ) );
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
-		{
-			dialseries.getTriggers( ).addAll( series.getTriggers( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataPoint( ) ) )
-		{
-			dialseries.setDataPoint( series.getDataPoint( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
-		{
-			dialseries.getDataDefinition( ).add( series.getDataDefinition( )
-					.get( 0 ) );
-		}
+		ChartUIUtil.copyGeneralSeriesAttributes( series, dialseries );
 
 		// Copy series specific properties
 		if ( series instanceof LineSeries )

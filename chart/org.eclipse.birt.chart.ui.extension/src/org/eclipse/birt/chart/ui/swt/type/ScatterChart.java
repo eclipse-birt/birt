@@ -25,10 +25,8 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
@@ -469,31 +467,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 		}
 
 		// Copy generic series properties
-		scatterseries.setLabel( series.getLabel( ) );
-		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
-				|| series.getLabelPosition( ).equals( Position.OUTSIDE_LITERAL ) )
-		{
-			scatterseries.setLabelPosition( Position.ABOVE_LITERAL );
-		}
-		else
-		{
-			scatterseries.setLabelPosition( series.getLabelPosition( ) );
-		}
-
-		scatterseries.setVisible( series.isVisible( ) );
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
-		{
-			scatterseries.getTriggers( ).addAll( series.getTriggers( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataPoint( ) ) )
-		{
-			scatterseries.setDataPoint( series.getDataPoint( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
-		{
-			scatterseries.getDataDefinition( ).add( series.getDataDefinition( )
-					.get( 0 ) );
-		}
+		ChartUIUtil.copyGeneralSeriesAttributes( series, scatterseries );
 
 		// Copy series specific properties
 		if ( series instanceof BarSeries )

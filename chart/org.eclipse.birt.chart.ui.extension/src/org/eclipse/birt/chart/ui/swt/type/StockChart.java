@@ -23,16 +23,13 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
-import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
@@ -450,48 +447,7 @@ public class StockChart extends DefaultChartTypeImpl
 				.setColor( ColorDefinitionImpl.BLACK( ) );
 
 		// Copy generic series properties
-		stockseries.setLabel( series.getLabel( ) );
-		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
-				|| series.getLabelPosition( ).equals( Position.OUTSIDE_LITERAL ) )
-		{
-			stockseries.setLabelPosition( series.getLabelPosition( ) );
-		}
-		else
-		{
-			stockseries.setLabelPosition( Position.OUTSIDE_LITERAL );
-		}
-		stockseries.setVisible( series.isVisible( ) );
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
-		{
-			stockseries.getTriggers( ).addAll( series.getTriggers( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataPoint( ) ) )
-		{
-			stockseries.setDataPoint( series.getDataPoint( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
-		{
-			if ( series.getDataDefinition( ).size( ) != 4 )
-			{
-				// For High value
-				stockseries.getDataDefinition( )
-						.add( EcoreUtil.copy( (Query) series.getDataDefinition( )
-								.get( 0 ) ) );
-				// For Low value
-				stockseries.getDataDefinition( )
-						.add( EcoreUtil.copy( (Query) series.getDataDefinition( )
-								.get( 0 ) ) );
-				// For Open value
-				stockseries.getDataDefinition( )
-						.add( EcoreUtil.copy( (Query) series.getDataDefinition( )
-								.get( 0 ) ) );
-				// For Close value
-				stockseries.getDataDefinition( )
-						.add( series.getDataDefinition( ).get( 0 ) );
-			}
-			stockseries.getDataDefinition( )
-					.addAll( series.getDataDefinition( ) );
-		}
+		ChartUIUtil.copyGeneralSeriesAttributes( series, stockseries );
 
 		// Copy series specific properties
 		if ( series instanceof BarSeries )

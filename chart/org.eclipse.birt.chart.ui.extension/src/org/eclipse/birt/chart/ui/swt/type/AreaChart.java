@@ -32,7 +32,6 @@ import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.AxisImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -694,31 +693,7 @@ public class AreaChart extends DefaultChartTypeImpl
 		}
 
 		// Copy generic series properties
-		areaseries.setLabel( series.getLabel( ) );
-		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
-				|| series.getLabelPosition( ).equals( Position.OUTSIDE_LITERAL ) )
-		{
-			areaseries.setLabelPosition( Position.ABOVE_LITERAL );
-		}
-		else
-		{
-			areaseries.setLabelPosition( series.getLabelPosition( ) );
-		}
-
-		areaseries.setVisible( series.isVisible( ) );
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
-		{
-			areaseries.getTriggers( ).addAll( series.getTriggers( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataPoint( ) ) )
-		{
-			areaseries.setDataPoint( series.getDataPoint( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
-		{
-			areaseries.getDataDefinition( ).add( series.getDataDefinition( )
-					.get( 0 ) );
-		}
+		ChartUIUtil.copyGeneralSeriesAttributes( series, areaseries );
 
 		// Copy series specific properties
 		if ( series instanceof StockSeries )

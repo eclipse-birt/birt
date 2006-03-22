@@ -27,7 +27,6 @@ import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.AxisImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -693,30 +692,7 @@ public class BarChart extends DefaultChartTypeImpl
 		barseries.setRiser( RiserType.RECTANGLE_LITERAL );
 
 		// Copy generic series properties
-		barseries.setLabel( series.getLabel( ) );
-		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
-				|| series.getLabelPosition( ).equals( Position.OUTSIDE_LITERAL ) )
-		{
-			barseries.setLabelPosition( series.getLabelPosition( ) );
-		}
-		else
-		{
-			barseries.setLabelPosition( Position.OUTSIDE_LITERAL );
-		}
-		barseries.setVisible( series.isVisible( ) );
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
-		{
-			barseries.getTriggers( ).addAll( series.getTriggers( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataPoint( ) ) )
-		{
-			barseries.setDataPoint( series.getDataPoint( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
-		{
-			barseries.getDataDefinition( ).add( series.getDataDefinition( )
-					.get( 0 ) );
-		}
+		ChartUIUtil.copyGeneralSeriesAttributes( series, barseries );
 
 		// Copy series specific properties
 		if ( series instanceof LineSeries )

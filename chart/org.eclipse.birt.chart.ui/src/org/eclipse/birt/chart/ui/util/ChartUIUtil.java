@@ -34,12 +34,15 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -872,6 +875,101 @@ public class ChartUIUtil
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			( (OrthogonalSampleData) list.get( i ) ).setSeriesDefinitionIndex( i );
+		}
+	}
+
+	/**
+	 * Copies general attributes in Series, except Stacked. Stacked is set
+	 * according to chart subtype.
+	 * 
+	 * @param oldSeries
+	 *            copied series
+	 * @param newSeries
+	 *            target series
+	 */
+	public static void copyGeneralSeriesAttributes( Series oldSeries,
+			Series newSeries )
+	{
+		newSeries.setLabel( oldSeries.getLabel( ) );
+		newSeries.setSeriesIdentifier( oldSeries.getSeriesIdentifier( ) );
+		if ( oldSeries.isSetVisible( ) )
+		{
+			newSeries.setVisible( oldSeries.isVisible( ) );
+		}
+		if ( oldSeries.isSetTranslucent( ) )
+		{
+			newSeries.setTranslucent( oldSeries.isTranslucent( ) );
+		}
+		if ( oldSeries.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
+		{
+			newSeries.getTriggers( ).addAll( oldSeries.getTriggers( ) );
+		}
+		if ( oldSeries.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataPoint( ) ) )
+		{
+			newSeries.setDataPoint( oldSeries.getDataPoint( ) );
+		}
+		if ( oldSeries.eIsSet( ComponentPackage.eINSTANCE.getSeries_CurveFitting( ) ) )
+		{
+			newSeries.setCurveFitting( oldSeries.getCurveFitting( ) );
+		}
+
+		// Label position
+		if ( oldSeries.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
+				|| oldSeries.getLabelPosition( )
+						.equals( Position.OUTSIDE_LITERAL ) )
+		{
+			if ( newSeries instanceof LineSeries )
+			{
+				newSeries.setLabelPosition( Position.ABOVE_LITERAL );
+			}
+			else
+			{
+				newSeries.setLabelPosition( oldSeries.getLabelPosition( ) );
+			}
+		}
+		else
+		{
+			if ( newSeries instanceof LineSeries )
+			{
+				newSeries.setLabelPosition( oldSeries.getLabelPosition( ) );
+			}
+			else
+			{
+				newSeries.setLabelPosition( Position.OUTSIDE_LITERAL );
+			}
+		}
+
+		// Data definition
+		if ( oldSeries.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
+		{
+			Object query = oldSeries.getDataDefinition( ).get( 0 );
+			if ( newSeries instanceof StockSeries )
+			{
+				if ( oldSeries.getDataDefinition( ).size( ) != 4 )
+				{
+					// For High value
+					newSeries.getDataDefinition( )
+							.add( EcoreUtil.copy( (Query) query ) );
+					// For Low value
+					newSeries.getDataDefinition( )
+							.add( EcoreUtil.copy( (Query) query ) );
+					// For Open value
+					newSeries.getDataDefinition( )
+							.add( EcoreUtil.copy( (Query) query ) );
+					// For Close value
+					newSeries.getDataDefinition( )
+							.add( EcoreUtil.copy( (Query) query ) );
+				}
+				else
+				{
+					newSeries.getDataDefinition( )
+							.addAll( oldSeries.getDataDefinition( ) );
+				}
+			}
+			else
+			{
+				newSeries.getDataDefinition( ).add( query );
+			}
 		}
 	}
 
