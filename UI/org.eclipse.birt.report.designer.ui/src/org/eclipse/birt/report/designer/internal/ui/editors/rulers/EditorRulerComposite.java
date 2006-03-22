@@ -805,7 +805,9 @@ public class EditorRulerComposite extends Composite
 		if ( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE
 				.equalsIgnoreCase( masterPage.getOrientation( ) ) )
 		{
-			size = new Dimension( size.height, size.width );
+			int width = (int) DEUtil.convertoToPixel( masterPage.getWidth( ) );
+			int height = (int) DEUtil.convertoToPixel( masterPage.getHeight( ) );
+			size = new Dimension( width, height );
 		}
 
 		return size;
