@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.report.engine.adapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +30,8 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
+import org.eclipse.birt.data.engine.api.IJoinCondition;
+import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
@@ -41,6 +44,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
+import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
@@ -51,6 +55,7 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
+import org.eclipse.birt.data.engine.impl.jointdataset.JoinConditionExpression;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -66,6 +71,8 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.JoinConditionHandle;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -168,7 +175,7 @@ public class ModelDteApiAdapter
 			DataSourceHandle dataSource ) throws BirtException
 	{
 		if ( dataSource instanceof OdaDataSourceHandle )
-			return newExtendedDataSource( ( OdaDataSourceHandle ) dataSource );
+			return newOdaDataSource( ( OdaDataSourceHandle ) dataSource );
 
 		if ( dataSource instanceof ScriptDataSourceHandle )
 			return newScriptDataSource( ( ScriptDataSourceHandle ) dataSource );
@@ -186,30 +193,38 @@ public class ModelDteApiAdapter
 			throws BirtException
 	{
 		if ( dataSet instanceof OdaDataSetHandle )
-			return newExtendedDataSet( ( OdaDataSetHandle ) dataSet,
+			return newOdaDataSet( ( OdaDataSetHandle ) dataSet,
 					context );
 
 		if ( dataSet instanceof ScriptDataSetHandle )
 			return newScriptDataSet( ( ScriptDataSetHandle ) dataSet,
 					context );
 		
-		//if ( dataSet instanceof JointDataSetHandle )
-		//	return newJointDataSet( (JointDataSetHandle)dataSet, context);
+		if ( dataSet instanceof JointDataSetHandle )
+			return newJointDataSet( (JointDataSetHandle)dataSet, context);
 		// any other types are not supported
 		assert false;
 		return null;
 	}
 
-	/*private IJointDataSetDesign newJointDataSet( JointDataSetHandle handle, ExecutionContext context2 ) throws BirtException
+	/**
+	 * Create an IJointDataSetDesign instance.
+	 * 
+	 * @param handle
+	 * @param context2
+	 * @return
+	 * @throws BirtException
+	 */
+	private IJointDataSetDesign newJointDataSet( JointDataSetHandle handle, ExecutionContext context2 ) throws BirtException
 	{
 		Iterator it = handle.joinConditionsIterator( );
 		List joinConditions = new ArrayList();
 		
-		JoinCondition jc = null;
+		JoinConditionHandle jc = null;
 		
 		while( it.hasNext( ) )
 		{
-			jc = (JoinCondition)it.next( );
+			jc = (JoinConditionHandle)it.next( );
 			joinConditions.add( new JoinConditionExpression( new ScriptExpression( jc.getLeftExpression( )), new ScriptExpression(jc.getRightExpression( )),toDteJoinOperator(jc.getOperator( )))) ;
 		}
 		
@@ -231,7 +246,7 @@ public class ModelDteApiAdapter
 	private int toDteJoinOperator( String operator )
 	{
 		if( operator.equals( DesignChoiceConstants.JOIN_OPERATOR_EQALS ))
-			return IJoinConditionExpression.OP_EQ;
+			return IJoinCondition.OP_EQ;
 		return -1;
 	}
 	
@@ -250,7 +265,8 @@ public class ModelDteApiAdapter
 			return IJointDataSetDesign.RIGHT_OUTER_JOIN;
 		}
 		return -1;
-	}*/
+	}
+	
 	/**
 	 * Evaluates a property binding Javascript expression
 	 */
@@ -261,7 +277,7 @@ public class ModelDteApiAdapter
 		return result.toString( );
 	}
 
-	IOdaDataSourceDesign newExtendedDataSource( OdaDataSourceHandle source )
+	IOdaDataSourceDesign newOdaDataSource( OdaDataSourceHandle source )
 			throws BirtException
 	{
 		OdaDataSourceDesign dteSource = new OdaDataSourceDesign( source
@@ -339,6 +355,11 @@ public class ModelDteApiAdapter
 		return dteSource;
 	}
 
+	/**
+	 * 
+	 * @param source
+	 * @return
+	 */
 	IScriptDataSourceDesign newScriptDataSource( ScriptDataSourceHandle source )
 	{
 		ScriptDataSourceDesign dteSource = new ScriptDataSourceDesign( source
@@ -356,6 +377,11 @@ public class ModelDteApiAdapter
 		return dteSource;
 	}
 
+	/**
+	 * 
+	 * @param source
+	 * @param dest
+	 */
 	void adaptBaseDataSource( DataSourceHandle source, BaseDataSourceDesign dest )
 	{
 		dest.setBeforeOpenScript( source.getBeforeOpen( ) );
@@ -364,7 +390,7 @@ public class ModelDteApiAdapter
 		dest.setAfterCloseScript( source.getAfterClose( ) );
 	}
 
-	IOdaDataSetDesign newExtendedDataSet( OdaDataSetHandle modelDataSet,
+	IOdaDataSetDesign newOdaDataSet( OdaDataSetHandle modelDataSet,
 			ExecutionContext context ) throws BirtException
 	{
 		OdaDataSetDesign dteDataSet = new OdaDataSetDesign( modelDataSet
@@ -464,77 +490,80 @@ public class ModelDteApiAdapter
 	void adaptBaseDataSet( DataSetHandle modelDataSet,
 			BaseDataSetDesign dteDataSet ) throws BirtException
 	{
-		if ( modelDataSet.getDataSource( ) == null )
+		if ( (!(modelDataSet instanceof JointDataSetHandle)) && modelDataSet.getDataSource( ) == null )
 			throw new EngineException(
 					"The data source of this data set can not be null." );
 
-		dteDataSet.setDataSource( modelDataSet.getDataSource( )
-				.getQualifiedName( ) );
-		dteDataSet.setBeforeOpenScript( modelDataSet.getBeforeOpen( ) );
-		dteDataSet.setAfterOpenScript( modelDataSet.getAfterOpen( ) );
-		dteDataSet.setOnFetchScript( modelDataSet.getOnFetch( ) );
-		dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose( ) );
-		dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) );
-
-		// cache row count
-		dteDataSet.setCacheRowCount( modelDataSet.getCachedRowCount( ) );
-
-		// dataset parameters definition
-		HashMap paramBindingCandidates = new HashMap( );
-
-		Iterator elmtIter = modelDataSet.parametersIterator( );
-		if ( elmtIter != null )
+		if ( !( modelDataSet instanceof JointDataSetHandle ) )
 		{
-			while ( elmtIter.hasNext( ) )
-			{
-				DataSetParameterHandle modelParam = ( DataSetParameterHandle ) elmtIter
-						.next( );
-				dteDataSet.addParameter( newParam( modelParam ) );
+			dteDataSet.setDataSource( modelDataSet.getDataSource( )
+					.getQualifiedName( ) );
+			dteDataSet.setBeforeOpenScript( modelDataSet.getBeforeOpen( ) );
+			dteDataSet.setAfterOpenScript( modelDataSet.getAfterOpen( ) );
+			dteDataSet.setOnFetchScript( modelDataSet.getOnFetch( ) );
+			dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose( ) );
+			dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) );
+//			 dataset parameters definition
+			HashMap paramBindingCandidates = new HashMap( );
 
-				// collect input parameter default values as
-				// potential parameter binding if no explicit ones are
-				// defined for a parameter
-				if ( modelParam.isInput( ) )
+			Iterator elmtIter = modelDataSet.parametersIterator( );
+			if ( elmtIter != null )
+			{
+				while ( elmtIter.hasNext( ) )
 				{
-					String defaultValueExpr = modelParam.getDefaultValue( );
-					if ( defaultValueExpr != null )
-						paramBindingCandidates.put( modelParam.getName( ),
-								defaultValueExpr );
+					DataSetParameterHandle modelParam = ( DataSetParameterHandle ) elmtIter
+							.next( );
+					dteDataSet.addParameter( newParam( modelParam ) );
+
+					// collect input parameter default values as
+					// potential parameter binding if no explicit ones are
+					// defined for a parameter
+					if ( modelParam.isInput( ) )
+					{
+						String defaultValueExpr = modelParam.getDefaultValue( );
+						if ( defaultValueExpr != null )
+							paramBindingCandidates.put( modelParam.getName( ),
+									defaultValueExpr );
+					}
 				}
 			}
-		}
 
-		// input parameter bindings
-		elmtIter = modelDataSet.paramBindingsIterator( );
-		if ( elmtIter != null )
-		{
-			while ( elmtIter.hasNext( ) )
+			// input parameter bindings
+			elmtIter = modelDataSet.paramBindingsIterator( );
+			if ( elmtIter != null )
 			{
-				ParamBindingHandle modelParamBinding = ( ParamBindingHandle ) elmtIter
-						.next( );
-				// replace default value of the same parameter, if defined
-				paramBindingCandidates.put( modelParamBinding.getParamName( ),
-						modelParamBinding.getExpression( ) );
+				while ( elmtIter.hasNext( ) )
+				{
+					ParamBindingHandle modelParamBinding = ( ParamBindingHandle ) elmtIter
+							.next( );
+					// replace default value of the same parameter, if defined
+					paramBindingCandidates.put( modelParamBinding.getParamName( ),
+							modelParamBinding.getExpression( ) );
+				}
 			}
-		}
 
-		// assign merged parameter bindings to the data set
-		if ( paramBindingCandidates.size( ) > 0 )
-		{
-			elmtIter = paramBindingCandidates.keySet( ).iterator( );
-			while ( elmtIter.hasNext( ) )
+			// assign merged parameter bindings to the data set
+			if ( paramBindingCandidates.size( ) > 0 )
 			{
-				Object paramName = elmtIter.next( );
-				assert ( paramName != null && paramName instanceof String );
-				String expression = ( String ) paramBindingCandidates
-						.get( paramName );
-				dteDataSet.addInputParamBinding( newInputParamBinding(
-						( String ) paramName, expression ) );
+				elmtIter = paramBindingCandidates.keySet( ).iterator( );
+				while ( elmtIter.hasNext( ) )
+				{
+					Object paramName = elmtIter.next( );
+					assert ( paramName != null && paramName instanceof String );
+					String expression = ( String ) paramBindingCandidates
+							.get( paramName );
+					dteDataSet.addInputParamBinding( newInputParamBinding(
+							( String ) paramName, expression ) );
+				}
 			}
-		}
 
+			// cache row count
+			dteDataSet.setCacheRowCount( modelDataSet.getCachedRowCount( ) );
+
+		}
+	
 		// computed columns
-		elmtIter = modelDataSet.computedColumnsIterator( );
+		Iterator elmtIter = modelDataSet.computedColumnsIterator( );
 		if ( elmtIter != null )
 		{
 			while ( elmtIter.hasNext( ) )
