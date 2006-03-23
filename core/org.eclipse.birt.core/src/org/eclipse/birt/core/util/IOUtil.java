@@ -43,6 +43,8 @@ import org.eclipse.birt.core.exception.BirtException;
 public class IOUtil
 {
 
+	public static final int INT_LENGTH = 4;
+	
 	/**
 	 * Read an int value from an input stream
 	 * 
