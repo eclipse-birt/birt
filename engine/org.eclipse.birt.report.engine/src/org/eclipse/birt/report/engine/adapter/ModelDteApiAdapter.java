@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
+import org.eclipse.birt.data.engine.api.querydefn.JoinCondition;
 import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
@@ -55,7 +56,6 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
-import org.eclipse.birt.data.engine.impl.jointdataset.JoinConditionExpression;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -225,7 +225,7 @@ public class ModelDteApiAdapter
 		while( it.hasNext( ) )
 		{
 			jc = (JoinConditionHandle)it.next( );
-			joinConditions.add( new JoinConditionExpression( new ScriptExpression( jc.getLeftExpression( )), new ScriptExpression(jc.getRightExpression( )),toDteJoinOperator(jc.getOperator( )))) ;
+			joinConditions.add( new JoinCondition( new ScriptExpression( jc.getLeftExpression( )), new ScriptExpression(jc.getRightExpression( )),toDteJoinOperator(jc.getOperator( )))) ;
 		}
 		
 		int joinType = toDteJoinType(jc.getJoinType( ));
