@@ -19,34 +19,54 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.axis.transport.http.AxisServlet;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.service.ReportEngineService;
 
 public class BirtSoapMessageDispatcherServlet extends AxisServlet
 {
+
 	private static ReportEngineService reportEngineService = null;
 
 	public void init( ServletConfig config ) throws ServletException
 	{
 		super.init( config );
-		
-		InitReportEngineService( config );
+		try
+		{
+			InitReportEngineService( config );
+		}
+		catch ( BirtException e )
+		{
+			throw new ServletException( );
+		}
 	}
 
 	private void InitReportEngineService( ServletConfig config )
+			throws BirtException
 	{
 		if ( reportEngineService != null )
 		{
 			return;
 		}
-		reportEngineService = new ReportEngineService( config );
+
+		synchronized ( this )
+		{
+			if ( reportEngineService != null )
+			{
+				return;
+			}
+			ReportEngineService.initEngineInstance( config );
+			reportEngineService = ReportEngineService.getInstance( );
+		}
 	}
-	
-	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+
+	public void doGet( HttpServletRequest request, HttpServletResponse response )
+			throws ServletException, IOException
 	{
 		super.doGet( request, response );
 	}
 
-	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+	public void doPost( HttpServletRequest request, HttpServletResponse response )
+			throws ServletException, IOException
 	{
 		super.doPost( request, response );
 	}

@@ -35,6 +35,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.IPlatformContext;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.PlatformServletContext;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.IBirtConstants;
@@ -52,13 +53,14 @@ import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IResultSetItem;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.engine.script.internal.ScriptExecutor;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -68,13 +70,14 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class ReportEngineService
 {
+
 	private static ReportEngineService instance;
-	
+
 	/**
 	 * Report engine instance.
 	 */
-	private ReportEngine engine = null;
-	
+	private IReportEngine engine = null;
+
 	/**
 	 * Static engine config instance.
 	 */
@@ -84,49 +87,30 @@ public class ReportEngineService
 	 * Image directory for report images and charts.
 	 */
 	private String imageDirectory = null;
-    
+
 	/**
 	 * URL accesses images.
 	 */
 	private String imageBaseUrl = null;
 
 	/**
-     * Image handler instance.
-     */
+	 * Image handler instance.
+	 */
 	private HTMLServerImageHandler imageHandler = null;
 
 	/**
 	 * Web app context path.
 	 */
 	private String contextPath = null;
-    
+
 	/**
 	 * Constructor.
 	 * 
 	 * @param config
+	 * @throws BirtException
 	 */
-	public ReportEngineService( ServletConfig config )
-	{
-		initEngineInstance( config );
-		ReportEngineService.instance = this;
-	}
-	
-	/**
-	 * Get engine instance.
-	 * 
-	 * @return
-	 */
-	synchronized public static ReportEngineService getInstance( )
-	{
-		return instance;
-	}
-	
-    /**
-	 * Get engine instance.
-	 * 
-	 * @return engine instance
-	 */
-	synchronized private void initEngineInstance( ServletConfig servletConfig )
+	private ReportEngineService( ServletConfig servletConfig )
+			throws BirtException
 	{
 		System.setProperty( "RUN_UNDER_ECLIPSE", "false" ); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -134,152 +118,202 @@ public class ReportEngineService
 		{
 			return;
 		}
-		
+
 		config = new EngineConfig( );
 
 		// Register new image handler
-        HTMLEmitterConfig emitterConfig = new HTMLEmitterConfig( );
-        emitterConfig.setActionHandler( new HTMLActionHandler( ) );
-        imageHandler = new HTMLServerImageHandler( );
-        emitterConfig.setImageHandler( imageHandler );
-        config.getEmitterConfigs( ).put( "html", emitterConfig ); //$NON-NLS-1$
+		HTMLEmitterConfig emitterConfig = new HTMLEmitterConfig( );
+		emitterConfig.setActionHandler( new HTMLActionHandler( ) );
+		imageHandler = new HTMLServerImageHandler( );
+		emitterConfig.setImageHandler( imageHandler );
+		config.getEmitterConfigs( ).put( "html", emitterConfig ); //$NON-NLS-1$
 
 		// Prepare image directory.
-		imageDirectory =  servletConfig.getServletContext( ).getInitParameter( ParameterAccessor.INIT_PARAM_IMAGE_DIR );
-		
-		if ( imageDirectory == null 
-				|| imageDirectory.trim( ).length( ) <= 0
+		imageDirectory = servletConfig.getServletContext( ).getInitParameter(
+				ParameterAccessor.INIT_PARAM_IMAGE_DIR );
+
+		if ( imageDirectory == null || imageDirectory.trim( ).length( ) <= 0
 				|| ParameterAccessor.isRelativePath( imageDirectory ) )
 		{
-			imageDirectory = servletConfig.getServletContext( ).getRealPath( "/report/images" ); //$NON-NLS-1$
+			imageDirectory = servletConfig.getServletContext( ).getRealPath(
+					"/report/images" ); //$NON-NLS-1$
 		}
-		
+
 		// Prepare image base url.
 		imageBaseUrl = "/run?__imageID="; //$NON-NLS-1$
-	    
+
 		// Prepare log directory.
-	    String logDirectory =  servletConfig.getServletContext( ).getInitParameter( ParameterAccessor.INIT_PARAM_LOG_DIR );
-		
-		if ( logDirectory == null 
-				|| logDirectory.trim( ).length( ) <= 0
+		String logDirectory = servletConfig.getServletContext( )
+				.getInitParameter( ParameterAccessor.INIT_PARAM_LOG_DIR );
+
+		if ( logDirectory == null || logDirectory.trim( ).length( ) <= 0
 				|| ParameterAccessor.isRelativePath( logDirectory ) )
 		{
-			logDirectory = servletConfig.getServletContext( ).getRealPath( "/logs" ); //$NON-NLS-1$
+			logDirectory = servletConfig.getServletContext( ).getRealPath(
+					"/logs" ); //$NON-NLS-1$
 		}
 
 		// Prepare log level.
-	    String logLevel =  servletConfig.getServletContext( ).getInitParameter( ParameterAccessor.INIT_PARAM_LOG_LEVEL );
-	    Level level = Level.OFF;
-	    if ( "SEVERE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-	    {
-	    	level = Level.SEVERE;
-	    }
-	    else if ( "WARNING".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-	    {
-	    	level = Level.WARNING;
-	    }
-	    else if ( "INFO".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-	    {
-	    	level = Level.INFO;
-	    }
-	    else if ( "CONFIG".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-	    {
-	    	level = Level.CONFIG;
-	    }
-	    else if ( "FINE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-	    {
-	    	level = Level.FINE;
-	    }
-	    else if ( "FINER".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-	    {
-	    	level = Level.FINER;
-	    }
-	    else if ( "FINEST".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-	    {
-	    	level = Level.FINEST;
-	    }
-	    else if ( "OFF".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-	    {
-	    	level = Level.OFF;
-	    }
-        config.setLogConfig( logDirectory, level );
-        
-        // Prepare ScriptLib location
-        String scriptLibDir =  servletConfig.getServletContext( ).getInitParameter( ParameterAccessor.INIT_PARAM_SCRIPTLIB_DIR );		
-		if ( scriptLibDir == null || 
-			 scriptLibDir.trim( ).length( ) <= 0 ||
-			 ParameterAccessor.isRelativePath( scriptLibDir ) )
+		String logLevel = servletConfig.getServletContext( ).getInitParameter(
+				ParameterAccessor.INIT_PARAM_LOG_LEVEL );
+		Level level = Level.OFF;
+		if ( "SEVERE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
-			scriptLibDir = servletConfig.getServletContext( ).getRealPath( "/scriptlib" ); //$NON-NLS-1$
+			level = Level.SEVERE;
 		}
-		
-		ArrayList jarFileList = new ArrayList();
+		else if ( "WARNING".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		{
+			level = Level.WARNING;
+		}
+		else if ( "INFO".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		{
+			level = Level.INFO;
+		}
+		else if ( "CONFIG".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		{
+			level = Level.CONFIG;
+		}
+		else if ( "FINE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		{
+			level = Level.FINE;
+		}
+		else if ( "FINER".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		{
+			level = Level.FINER;
+		}
+		else if ( "FINEST".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		{
+			level = Level.FINEST;
+		}
+		else if ( "OFF".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		{
+			level = Level.OFF;
+		}
+		config.setLogConfig( logDirectory, level );
+
+		// Prepare ScriptLib location
+		String scriptLibDir = servletConfig.getServletContext( )
+				.getInitParameter( ParameterAccessor.INIT_PARAM_SCRIPTLIB_DIR );
+		if ( scriptLibDir == null || scriptLibDir.trim( ).length( ) <= 0
+				|| ParameterAccessor.isRelativePath( scriptLibDir ) )
+		{
+			scriptLibDir = servletConfig.getServletContext( ).getRealPath(
+					"/scriptlib" ); //$NON-NLS-1$
+		}
+
+		ArrayList jarFileList = new ArrayList( );
 		if ( scriptLibDir != null )
 		{
 			File dir = new File( scriptLibDir );
 			getAllJarFiles( dir, jarFileList );
 		}
-		
+
 		String scriptlibClassPath = ""; //$NON-NLS-1$
-		for ( int i=0; i<jarFileList.size(); i++ )
-			scriptlibClassPath += ScriptExecutor.PROPERTYSEPARATOR + ((File)jarFileList.get(i)).getAbsolutePath();
-		
-		if ( scriptlibClassPath.startsWith(ScriptExecutor.PROPERTYSEPARATOR) )
-			scriptlibClassPath = scriptlibClassPath.substring( ScriptExecutor.PROPERTYSEPARATOR.length() );
-		
-		System.setProperty( ScriptExecutor.WEBAPP_CLASSPATH_KEY, scriptlibClassPath );
+		for ( int i = 0; i < jarFileList.size( ); i++ )
+			scriptlibClassPath += ScriptExecutor.PROPERTYSEPARATOR
+					+ ( (File) jarFileList.get( i ) ).getAbsolutePath( );
+
+		if ( scriptlibClassPath.startsWith( ScriptExecutor.PROPERTYSEPARATOR ) )
+			scriptlibClassPath = scriptlibClassPath
+					.substring( ScriptExecutor.PROPERTYSEPARATOR.length( ) );
+
+		System.setProperty( ScriptExecutor.WEBAPP_CLASSPATH_KEY,
+				scriptlibClassPath );
+
+		config.setEngineHome( "" ); //$NON-NLS-1$
+
 	}
-	
+
 	/**
-	 * Get all the files under the specified folder (including all the files under sub-folders)
-	 * @param dir - the folder to look into
-	 * @param fileList - the fileList to be returned
+	 * Get engine instance.
+	 * 
+	 * @return
+	 */
+	public static ReportEngineService getInstance( )
+	{
+		return instance;
+	}
+
+	/**
+	 * Get engine instance. This method is not thread safe should be protected
+	 * by the caller.
+	 * 
+	 * @return engine instance
+	 * @throws BirtException
+	 */
+	public static void initEngineInstance( ServletConfig servletConfig )
+			throws BirtException
+	{
+		if ( ReportEngineService.instance != null )
+			return;
+		ReportEngineService.instance = new ReportEngineService( servletConfig );
+	}
+
+	/**
+	 * Get all the files under the specified folder (including all the files
+	 * under sub-folders)
+	 * 
+	 * @param dir -
+	 *            the folder to look into
+	 * @param fileList -
+	 *            the fileList to be returned
 	 */
 	private void getAllJarFiles( File dir, ArrayList fileList )
 	{
-		if ( dir.exists() &&
-			 dir.isDirectory() )
+		if ( dir.exists( ) && dir.isDirectory( ) )
 		{
-			File[] files = dir.listFiles();
+			File[] files = dir.listFiles( );
 			if ( files == null )
 				return;
 
-			for ( int i=0; i<files.length; i++ )
+			for ( int i = 0; i < files.length; i++ )
 			{
 				File file = files[i];
-				if ( file.isFile() )
+				if ( file.isFile( ) )
 				{
-					 if ( file.getName().endsWith(".jar") ) //$NON-NLS-1$
-					 	fileList.add( file );
+					if ( file.getName( ).endsWith( ".jar" ) ) //$NON-NLS-1$
+						fileList.add( file );
 				}
-				else if ( file.isDirectory() )
+				else if ( file.isDirectory( ) )
 				{
 					getAllJarFiles( file, fileList );
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Set Engine context.
 	 * 
 	 * @param servletContext
 	 * @param request
 	 */
-	synchronized public void setEngineContext( ServletContext servletContext, HttpServletRequest request )
+
+	synchronized public void setEngineContext( ServletContext servletContext )
 	{
-	    if ( engine == null )
+
+		if ( engine == null )
 		{
-	    	String url = request.getRequestURL( ).toString( );
-	    	this.contextPath = request.getContextPath( );
-	    	url = url.substring( 0, url.indexOf( contextPath, url.indexOf( "/" ) ) ) + contextPath; //$NON-NLS-1$
-	    	
-            config.setEngineHome( "" ); //$NON-NLS-1$
-            IPlatformContext context = new PlatformServletContext( servletContext, url );
-            config.setEngineContext( context );
-			
-			engine = new ReportEngine( config );
+			IPlatformContext platformContext = new PlatformServletContext(
+					servletContext );
+			config.setPlatformContext( platformContext );
+
+			try
+			{
+				Platform.startup( platformContext );
+			}
+			catch ( BirtException e )
+			{
+				// TODO remove this output.
+
+				e.printStackTrace( );
+			}
+
+			IReportEngineFactory factory = (IReportEngineFactory) Platform
+					.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
+			engine = factory.createReportEngine( config );
 		}
+
 	}
 
 	/**
@@ -288,7 +322,8 @@ public class ReportEngineService
 	 * @param report
 	 * @return
 	 */
-	synchronized public IReportRunnable openReportDesign( String report ) throws EngineException
+	public synchronized IReportRunnable openReportDesign( String report )
+			throws EngineException
 	{
 		return engine.openReportDesign( report );
 	}
@@ -299,40 +334,49 @@ public class ReportEngineService
 	 * @param runnable
 	 * @return
 	 */
-	synchronized public IGetParameterDefinitionTask createGetParameterDefinitionTask( IReportRunnable runnable )
+	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
+			IReportRunnable runnable )
 	{
 		IGetParameterDefinitionTask task = null;
-		
+
 		try
 		{
-			task = engine.createGetParameterDefinitionTask( runnable );
+			synchronized ( this.getClass( ) )
+			{
+				task = engine.createGetParameterDefinitionTask( runnable );
+			}
+
 		}
 		catch ( Exception e )
 		{
 		}
-		
+
 		return task;
 	}
 
 	/**
 	 * Open report document from archive,
 	 * 
-	 * @param docName - the name of the report document
+	 * @param docName -
+	 *            the name of the report document
 	 * @return
 	 */
-	synchronized public IReportDocument openReportDocument( String docName )
+	public IReportDocument openReportDocument( String docName )
 	{
-		
+
 		IReportDocument document = null;
-		
+
 		try
 		{
-			document = engine.openReportDocument( docName );
+			synchronized ( this.getClass( ) )
+			{
+				document = engine.openReportDocument( docName );
+			}
 		}
 		catch ( Exception e )
 		{
 		}
-		
+
 		return document;
 	}
 
@@ -343,46 +387,51 @@ public class ReportEngineService
 	 * @param outputStream
 	 * @throws EngineException
 	 */
-	synchronized public void renderImage( String imageId, ServletOutputStream outputStream ) throws RemoteException
+	public void renderImage( String imageId, ServletOutputStream outputStream )
+			throws RemoteException
 	{
 		assert ( this.imageHandler != null );
-		
+
 		try
 		{
-			this.imageHandler.getImage( outputStream, this.imageDirectory, imageId );
+			this.imageHandler.getImage( outputStream, this.imageDirectory,
+					imageId );
 		}
 		catch ( EngineException e )
 		{
 			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( "ReportEngineService.renderImage( )" ) ); //$NON-NLS-1$
+			fault
+					.setFaultCode( new QName(
+							"ReportEngineService.renderImage( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 
 	}
-	
+
 	/**
 	 * Create HTML render context.
 	 * 
 	 * @param svgFlag
 	 * @return
 	 */
-	synchronized private HTMLRenderContext createHTMLrenderContext(	boolean svgFlag )
+	private HTMLRenderContext createHTMLrenderContext( boolean svgFlag )
 	{
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( imageDirectory );
 		renderContext.setBaseImageURL( contextPath + imageBaseUrl );
 		renderContext.setBaseURL( this.contextPath + "/frameset" ); //$NON-NLS-1$
-		renderContext.setSupportedImageFormats( svgFlag ? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
+		renderContext.setSupportedImageFormats( svgFlag
+				? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return renderContext;
 	}
-	
+
 	/**
 	 * Create PDF render context.
 	 * 
 	 * @return
 	 */
-	synchronized private PDFRenderContext createPDFrenderContext( )
+	private PDFRenderContext createPDFrenderContext( )
 	{
 		PDFRenderContext renderContext = new PDFRenderContext( );
 		renderContext.setBaseURL( this.contextPath + "/frameset" ); //$NON-NLS-1$
@@ -401,41 +450,53 @@ public class ReportEngineService
 	 * @param svgFlag
 	 * @throws IOException
 	 */
-	synchronized public void runAndRenderReport( HttpServletRequest request, IReportRunnable runnable,
-			ServletOutputStream outputStream, String format, Locale locale, HashMap parameters,
+	public void runAndRenderReport( HttpServletRequest request,
+			IReportRunnable runnable, ServletOutputStream outputStream,
+			String format, Locale locale, HashMap parameters,
 			boolean masterPage, boolean svgFlag ) throws RemoteException
 	{
 		assert runnable != null;
-		
+
 		// Render options
 		HTMLRenderOption option = new HTMLRenderOption( );
 		option.setOutputStream( outputStream );
 		option.setOutputFormat( format );
 		option.setMasterPageContent( masterPage );
 
-		IRunAndRenderTask runAndRenderTask = engine.createRunAndRenderTask( runnable );
+		IRunAndRenderTask runAndRenderTask = null;
+
+		synchronized ( this.getClass( ) )
+		{
+			runAndRenderTask = engine.createRunAndRenderTask( runnable );
+		}
+
 		runAndRenderTask.setLocale( locale );
 		runAndRenderTask.setParameterValues( parameters );
 		runAndRenderTask.setRenderOption( option );
-		
+
 		HashMap context = new HashMap( );
-		
-		//context.put( DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE );
-		context.put( "org.eclipse.birt.data.engine.dataset.cache.option", Boolean.TRUE );
-		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST, request );
-		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY, ReportEngineService.class.getClassLoader());
-		
+
+		// context.put( DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE );
+		context.put( "org.eclipse.birt.data.engine.dataset.cache.option",
+				Boolean.TRUE );
+		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
+				request );
+		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+				ReportEngineService.class.getClassLoader( ) );
+
 		if ( !ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 		{
-			context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT, createHTMLrenderContext( svgFlag ) );
+			context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					createHTMLrenderContext( svgFlag ) );
 		}
 		else
 		{
-			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT, createPDFrenderContext( ) );
+			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
+					createPDFrenderContext( ) );
 		}
 
 		runAndRenderTask.setAppContext( context );
-		
+
 		try
 		{
 			runAndRenderTask.run( );
@@ -443,7 +504,8 @@ public class ReportEngineService
 		catch ( BirtException e )
 		{
 			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( "ReportEngineService.runAndRenderReport( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.runAndRenderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -463,23 +525,32 @@ public class ReportEngineService
 	 * @param parameters
 	 * @throws RemoteException
 	 */
-	synchronized public void runReport( HttpServletRequest request, IReportRunnable runnable,
-		String documentName, Locale locale, HashMap parameters ) throws RemoteException
+	public void runReport( HttpServletRequest request,
+			IReportRunnable runnable, String documentName, Locale locale,
+			HashMap parameters ) throws RemoteException
 	{
 		assert runnable != null;
-		
+
 		// Preapre the run report task.
-		IRunTask runTask = engine.createRunTask( runnable );
+		IRunTask runTask = null;
+		synchronized ( this.getClass( ) )
+		{
+			runTask = engine.createRunTask( runnable );
+		}
+
 		runTask.setLocale( locale );
 		runTask.setParameterValues( parameters );
-		
+
 		HashMap context = new HashMap( );
-		//context.put( DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE );
-		context.put( "org.eclipse.birt.data.engine.dataset.cache.option", Boolean.TRUE );
-		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST, request );
-		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY, ReportEngineService.class.getClassLoader());
+		// context.put( DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE );
+		context.put( "org.eclipse.birt.data.engine.dataset.cache.option",
+				Boolean.TRUE );
+		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
+				request );
+		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+				ReportEngineService.class.getClassLoader( ) );
 		runTask.setAppContext( context );
-		
+
 		// Run report.
 		try
 		{
@@ -489,16 +560,18 @@ public class ReportEngineService
 		{
 			// Any Birt exception.
 			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( "ReportEngineService.runReport( )" ) ); //$NON-NLS-1$
+			fault
+					.setFaultCode( new QName(
+							"ReportEngineService.runReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 		finally
 		{
 			runTask.close( );
-		}		
+		}
 	}
-	
+
 	/**
 	 * Render report page.
 	 * 
@@ -508,21 +581,30 @@ public class ReportEngineService
 	 * @return report page content
 	 * @throws RemoteException
 	 */
-	synchronized public ByteArrayOutputStream renderReport( HttpServletRequest request, IReportDocument reportDocument,
-			long pageNumber, boolean masterPage, boolean svgFlag, List activeIds, Locale locale ) throws RemoteException
+	public ByteArrayOutputStream renderReport( HttpServletRequest request,
+			IReportDocument reportDocument, long pageNumber,
+			boolean masterPage, boolean svgFlag, List activeIds, Locale locale )
+			throws RemoteException
 	{
 		assert reportDocument != null;
 		assert pageNumber > 0 && pageNumber < reportDocument.getPageCount( );
-		
+
 		ByteArrayOutputStream out = new ByteArrayOutputStream( );
-		
+
 		// Create render task.
-		IRenderTask renderTask = engine.createRenderTask( reportDocument );
-		
+		IRenderTask renderTask = null;
+		synchronized ( this.getClass( ) )
+		{
+			renderTask = engine.createRenderTask( reportDocument );
+		}
+
 		HashMap context = new HashMap( );
-		context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT, createHTMLrenderContext( svgFlag ) );
-		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST, request );
-		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY, ReportEngineService.class.getClassLoader());
+		context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+				createHTMLrenderContext( svgFlag ) );
+		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
+				request );
+		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+				ReportEngineService.class.getClassLoader( ) );
 		renderTask.setAppContext( context );
 
 		// Render option
@@ -532,11 +614,12 @@ public class ReportEngineService
 		setting.setEmbeddable( true );
 		setting.setInstanceIDs( activeIds );
 		setting.setMasterPageContent( masterPage );
-		setting.setActionHandle( new ViewerHTMLActionHandler( reportDocument, pageNumber) );
-		
+		setting.setActionHandle( new ViewerHTMLActionHandler( reportDocument,
+				pageNumber ) );
+
 		renderTask.setRenderOption( setting );
 		renderTask.setLocale( locale );
-		
+
 		// Render designated page.
 		try
 		{
@@ -545,14 +628,16 @@ public class ReportEngineService
 		catch ( BirtException e )
 		{
 			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( "ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 		catch ( Exception e )
 		{
 			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( "ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -560,10 +645,10 @@ public class ReportEngineService
 		{
 			renderTask.close( );
 		}
-		
+
 		return out;
 	}
-	
+
 	/**
 	 * Get query result sets.
 	 * 
@@ -571,46 +656,56 @@ public class ReportEngineService
 	 * @return
 	 * @throws RemoteException
 	 */
-	synchronized public ResultSet[] getResultSets( IReportDocument document ) throws RemoteException
+	public ResultSet[] getResultSets( IReportDocument document )
+			throws RemoteException
 	{
 		assert document != null;
-		
+
 		ResultSet[] resultSetArray = null;
-		IDataExtractionTask dataTask = engine.createDataExtractionTask( document );
-		
+
+		IDataExtractionTask dataTask = null;
+
+		synchronized ( ReportEngineService.class )
+		{
+			dataTask = engine.createDataExtractionTask( document );
+		}
+
 		try
 		{
 			List resultSets = dataTask.getResultSetList( );
-	
+
 			if ( resultSets != null && resultSets.size( ) > 0 )
 			{
 				resultSetArray = new ResultSet[resultSets.size( )];
 				for ( int k = 0; k < resultSets.size( ); k++ )
 				{
 					resultSetArray[k] = new ResultSet( );
-					IResultSetItem resultSetItem = ( IResultSetItem ) resultSets.get( k );
+					IResultSetItem resultSetItem = (IResultSetItem) resultSets
+							.get( k );
 					assert resultSetItem != null;
-					
-					resultSetArray[k].setQueryName( resultSetItem.getResultSetName( ) );
-					
-					IResultMetaData metaData = resultSetItem.getResultMetaData( );
+
+					resultSetArray[k].setQueryName( resultSetItem
+							.getResultSetName( ) );
+
+					IResultMetaData metaData = resultSetItem
+							.getResultMetaData( );
 					assert metaData != null;
-					
+
 					Column[] columnArray = new Column[metaData.getColumnCount( )];
 					for ( int i = 0; i < metaData.getColumnCount( ); i++ )
 					{
 						columnArray[i] = new Column( );
-						
+
 						String name = metaData.getColumnName( i );
 						columnArray[i].setName( name );
-						
+
 						String label = metaData.getColumnLabel( i );
 						if ( label == null || label.length( ) <= 0 )
 						{
 							label = name;
 						}
 						columnArray[i].setLabel( label );
-						
+
 						columnArray[i].setVisibility( new Boolean( true ) );
 					}
 					resultSetArray[k].setColumn( columnArray );
@@ -620,14 +715,18 @@ public class ReportEngineService
 		catch ( BirtException e )
 		{
 			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( "ReportEngineService.getMetaData( )" ) ); //$NON-NLS-1$
+			fault
+					.setFaultCode( new QName(
+							"ReportEngineService.getMetaData( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 		catch ( Exception e )
 		{
 			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( "ReportEngineService.getMetaData( )" ) ); //$NON-NLS-1$
+			fault
+					.setFaultCode( new QName(
+							"ReportEngineService.getMetaData( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -638,7 +737,7 @@ public class ReportEngineService
 
 		return resultSetArray;
 	}
-	
+
 	/**
 	 * Extract data.
 	 * 
@@ -650,18 +749,19 @@ public class ReportEngineService
 	 * @param outputStream
 	 * @throws RemoteException
 	 */
-	synchronized public void extractData( IReportDocument document, String resultSetName, Collection columns,
-			Locale locale, ServletOutputStream outputStream ) throws RemoteException
+	public void extractData( IReportDocument document, String resultSetName,
+			Collection columns, Locale locale, ServletOutputStream outputStream )
+			throws RemoteException
 	{
 		assert document != null;
 		assert resultSetName != null && resultSetName.length( ) > 0;
 		assert columns != null && !columns.isEmpty( );
-		
+
 		String[] columnNames = new String[columns.size( )];
 		Iterator iSelectedColumns = columns.iterator( );
 		for ( int i = 0; iSelectedColumns.hasNext( ); i++ )
 		{
-			columnNames[i] = ( String ) iSelectedColumns.next( );
+			columnNames[i] = (String) iSelectedColumns.next( );
 		}
 
 		IDataExtractionTask dataTask = null;
@@ -669,22 +769,26 @@ public class ReportEngineService
 		IDataIterator iData = null;
 		try
 		{
-			dataTask = engine.createDataExtractionTask( document );
+			synchronized ( this.getClass( ) )
+			{
+				dataTask = engine.createDataExtractionTask( document );
+			}
+
 			dataTask.selectResultSet( resultSetName );
 			dataTask.selectColumns( columnNames );
 			dataTask.setLocale( locale );
-			
+
 			result = dataTask.extract( );
 			if ( result != null )
 			{
 				IResultMetaData iMetaData = result.getResultMetaData( );
 				iData = result.nextResultIterator( );
-				
+
 				if ( iData != null && iMetaData != null )
 				{
 					StringBuffer buf = new StringBuffer( );
 
-					//	Captions
+					// Captions
 					String caption = iMetaData.getColumnLabel( 0 );
 					if ( caption != null )
 					{
@@ -694,7 +798,7 @@ public class ReportEngineService
 					{
 						buf.append( iMetaData.getColumnName( 0 ) );
 					}
-					
+
 					for ( int i = 1; i < columnNames.length; i++ )
 					{
 						buf.append( ',' ); //$NON-NLS-1$
@@ -708,7 +812,7 @@ public class ReportEngineService
 							buf.append( iMetaData.getColumnName( i ) );
 						}
 					}
-					
+
 					outputStream.println( buf.toString( ) );
 					buf.delete( 0, buf.length( ) );
 
@@ -716,11 +820,12 @@ public class ReportEngineService
 					while ( iData.next( ) )
 					{
 						String value = null;
-						
+
 						try
 						{
-							value = cvsConvertor( ( String ) DataTypeUtil
-									.convert( iData.getValue( columnNames[0] ), DataType.STRING_TYPE ) );
+							value = cvsConvertor( (String) DataTypeUtil
+									.convert( iData.getValue( columnNames[0] ),
+											DataType.STRING_TYPE ) );
 						}
 						catch ( Exception e )
 						{
@@ -731,37 +836,41 @@ public class ReportEngineService
 						{
 							buf.append( value );
 						}
-						
+
 						for ( int i = 1; i < columnNames.length; i++ )
 						{
 							buf.append( ',' ); //$NON-NLS-1$
-							
+
 							try
 							{
-								value = cvsConvertor( ( String ) DataTypeUtil
-										.convert( iData.getValue( columnNames[i] ), DataType.STRING_TYPE ) );
+								value = cvsConvertor( (String) DataTypeUtil
+										.convert( iData
+												.getValue( columnNames[i] ),
+												DataType.STRING_TYPE ) );
 							}
 							catch ( Exception e )
 							{
 								value = null;
 							}
-							
+
 							if ( value != null )
 							{
 								buf.append( value );
 							}
 						}
-						
+
 						outputStream.println( buf.toString( ) );
 						buf.delete( 0, buf.length( ) );
 					}
 				}
 			}
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( "ReportEngineService.extractData( )" ) ); //$NON-NLS-1$
+			fault
+					.setFaultCode( new QName(
+							"ReportEngineService.extractData( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -776,44 +885,48 @@ public class ReportEngineService
 			{
 				result.close( );
 			}
-			
+
 			if ( dataTask != null )
 			{
 				dataTask.close( );
 			}
 		}
 	}
-	
+
 	/**
 	 * CSV format convertor. Here is the rule.
 	 * 
-	 * 	1) Fields with embedded commas must be delimited with double-quote characters.
-	 * 	2) Fields that contain double quote characters must be surounded by double-quotes, and
-	 * 	   the embedded double-quotes must each be represented by a pair of consecutive double quotes.
-	 * 	3) A field that contains embedded line-breaks must be surounded by double-quotes.
-	 * 	4) Fields with leading or trailing spaces must be delimited with double-quote characters.
-	 *  
+	 * 1) Fields with embedded commas must be delimited with double-quote
+	 * characters. 2) Fields that contain double quote characters must be
+	 * surounded by double-quotes, and the embedded double-quotes must each be
+	 * represented by a pair of consecutive double quotes. 3) A field that
+	 * contains embedded line-breaks must be surounded by double-quotes. 4)
+	 * Fields with leading or trailing spaces must be delimited with
+	 * double-quote characters.
+	 * 
 	 * @param value
 	 * @return
 	 * @throws RemoteException
 	 */
-	synchronized private String cvsConvertor( String value ) throws RemoteException
+	private String cvsConvertor( String value ) throws RemoteException
 	{
 		if ( value == null )
 		{
 			return null;
 		}
-		
+
 		value = value.replaceAll( "\"", "\"\"" ); //$NON-NLS-1$  //$NON-NLS-2$
-		
+
 		boolean needQuote = false;
-		needQuote = ( value.indexOf( ',' ) != -1 ) || ( value.indexOf( '"' ) != -1 ) //$NON-NLS-1$ //$NON-NLS-2$
-			|| ( value.indexOf( 0x0A ) != -1 ) || value.startsWith( " " ) || value.endsWith( " " );  //$NON-NLS-1$ //$NON-NLS-2$
-		value = needQuote ? "\"" + value + "\"" : value;  //$NON-NLS-1$ //$NON-NLS-2$
-		
+		needQuote = ( value.indexOf( ',' ) != -1 )
+				|| ( value.indexOf( '"' ) != -1 ) //$NON-NLS-1$ //$NON-NLS-2$
+				|| ( value.indexOf( 0x0A ) != -1 )
+				|| value.startsWith( " " ) || value.endsWith( " " ); //$NON-NLS-1$ //$NON-NLS-2$
+		value = needQuote ? "\"" + value + "\"" : value; //$NON-NLS-1$ //$NON-NLS-2$
+
 		return value;
 	}
-	
+
 	/**
 	 * Prepare the report parameters.
 	 * 
@@ -823,8 +936,8 @@ public class ReportEngineService
 	 * @param locale
 	 * @return
 	 */
-	synchronized public HashMap parseParameters( HttpServletRequest request, IGetParameterDefinitionTask task,
-			Map configVars, Locale locale )
+	public HashMap parseParameters( HttpServletRequest request,
+			IGetParameterDefinitionTask task, Map configVars, Locale locale )
 	{
 		assert task != null;
 		HashMap params = new HashMap( );
@@ -832,30 +945,38 @@ public class ReportEngineService
 		Collection parameterList = task.getParameterDefns( false );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = ( IScalarParameterDefn ) iter.next( );
+			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
+					.next( );
 
 			String paramValue = null;
 			Object paramValueObj = null;
 
-			//ScalarParameterHandle paramHandle = (ScalarParameterHandle) parameterObj.getHandle( );
+			// ScalarParameterHandle paramHandle = (ScalarParameterHandle)
+			// parameterObj.getHandle( );
 			String paramName = parameterObj.getName( );
 			String format = parameterObj.getDisplayFormat( );
 
 			// Get default value from task
-			ReportParameterConverter converter = new ReportParameterConverter( format, locale );
+			ReportParameterConverter converter = new ReportParameterConverter(
+					format, locale );
 
 			if ( ParameterAccessor.isReportParameterExist( request, paramName ) )
 			{
 				// Get value from http request
-				paramValue = ParameterAccessor.getReportParameter( request, paramName, paramValue );
-				paramValueObj = converter.parse( paramValue, parameterObj.getDataType( ) );
+				paramValue = ParameterAccessor.getReportParameter( request,
+						paramName, paramValue );
+				paramValueObj = converter.parse( paramValue, parameterObj
+						.getDataType( ) );
 			}
-			else if ( ParameterAccessor.isDesigner( request ) && configVars.containsKey( paramName ) )
+			else if ( ParameterAccessor.isDesigner( request )
+					&& configVars.containsKey( paramName ) )
 			{
 				// Get value from test config
 				String configValue = (String) configVars.get( paramName );
-				ReportParameterConverter cfgConverter = new ReportParameterConverter( format, Locale.US );
-				paramValueObj = cfgConverter.parse( configValue, parameterObj.getDataType( ) );
+				ReportParameterConverter cfgConverter = new ReportParameterConverter(
+						format, Locale.US );
+				paramValueObj = cfgConverter.parse( configValue, parameterObj
+						.getDataType( ) );
 			}
 			else
 			{
@@ -867,7 +988,7 @@ public class ReportEngineService
 
 		return params;
 	}
-	
+
 	/**
 	 * Check whether missing parameter or not.
 	 * 
@@ -875,19 +996,22 @@ public class ReportEngineService
 	 * @param parameters
 	 * @return
 	 */
-	synchronized public boolean validateParameters( IGetParameterDefinitionTask task, Map parameters )
+	public boolean validateParameters( IGetParameterDefinitionTask task,
+			Map parameters )
 	{
 		assert task != null;
 		assert parameters != null;
 
 		boolean missingParameter = false;
-		
+
 		Collection parameterList = task.getParameterDefns( false );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = ( IScalarParameterDefn ) iter.next( );
-			//ScalarParameterHandle paramHandle = (ScalarParameterHandle) parameterObj.getHandle( );
-			
+			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
+					.next( );
+			// ScalarParameterHandle paramHandle = (ScalarParameterHandle)
+			// parameterObj.getHandle( );
+
 			String parameterName = parameterObj.getName( );
 			Object parameterValue = parameters.get( parameterName );
 
@@ -895,17 +1019,19 @@ public class ReportEngineService
 			{
 				continue;
 			}
-			
+
 			if ( parameterValue == null && !parameterObj.allowNull( ) )
 			{
 				missingParameter = true;
 				break;
 			}
-			
-			if (IScalarParameterDefn.TYPE_STRING == parameterObj.getDataType( )  )
+
+			if ( IScalarParameterDefn.TYPE_STRING == parameterObj.getDataType( ) )
 			{
-				String parameterStringValue = ( String ) parameterValue;
-				if ( parameterStringValue != null && parameterStringValue.length( ) <= 0 && !parameterObj.allowBlank( ) )
+				String parameterStringValue = (String) parameterValue;
+				if ( parameterStringValue != null
+						&& parameterStringValue.length( ) <= 0
+						&& !parameterObj.allowBlank( ) )
 				{
 					missingParameter = true;
 					break;
@@ -922,7 +1048,7 @@ public class ReportEngineService
 	 * @param type
 	 * @return
 	 */
-	synchronized public int getEngineDataType( String type )
+	public int getEngineDataType( String type )
 	{
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
 		{
