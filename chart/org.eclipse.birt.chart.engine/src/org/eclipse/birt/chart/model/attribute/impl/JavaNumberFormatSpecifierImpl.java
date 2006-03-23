@@ -303,7 +303,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	public String format( double dValue, ULocale lo )
 	{
 		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance( lo );
-		df.applyLocalizedPattern( getPattern( ) );
+		df.applyPattern( getPattern( ) );
 		return isSetMultiplier( ) ? df.format( dValue * getMultiplier( ) )
 				: df.format( dValue );
 	}
