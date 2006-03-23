@@ -40,7 +40,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.17 $ $Date: 2006/02/15 09:53:55 $
+ * @version $Revision: 1.18 $ $Date: 2006/03/21 23:23:17 $
  */
 public class ReportRunner
 {
@@ -198,19 +198,15 @@ public class ReportRunner
 
 			// set report render options
 			IRenderOption options;
-			if ( format.equalsIgnoreCase( "pdf" ) )
-			{
-				options = new FORenderOption( );
-			}
-			else if ( format.equalsIgnoreCase( "fo" ) )
-			{
-				options = new FORenderOption( );
-			}
-			else
+			if ( format.equalsIgnoreCase( "html" ) )
 			{
 				options = new HTMLRenderOption( );
 				if ( "ReportletNoCSS".equals( htmlType ) )
 					( (HTMLRenderOption) options ).setEmbeddable( true );
+			}
+			else
+			{
+				options = new RenderOptionBase();
 			}
 
 			options.setOutputFormat( format );
@@ -300,21 +296,15 @@ public class ReportRunner
 
 			// set report render options
 			IRenderOption options;
-			if ( format.equalsIgnoreCase( "pdf" ) )
+			if ( format.equalsIgnoreCase( "html" ) )
 			{
-				options = new FORenderOption( );
-			}
-			else if ( format.equalsIgnoreCase( "fo" ) )
-			{
-				options = new FORenderOption( );
+				options = new HTMLRenderOption( );
+				if ( "ReportletNoCSS".equals( htmlType ) )
+					( (HTMLRenderOption) options ).setEmbeddable( true );
 			}
 			else
 			{
-				options = new HTMLRenderOption( );
-				if ( htmlType == "ReportletNoCSS" )
-				{
-					( (HTMLRenderOption) options ).setEmbeddable( true );
-				}
+				options = new RenderOptionBase();
 			}
 
 			// set the output format
@@ -384,7 +374,7 @@ public class ReportRunner
 				.println( "--mode/-m [ run | render | runrender] the default is runrender" );
 		System.out.println( " for runrender mode:" );
 		System.out.println( "\t we should add it in the end<design file>" ); //$NON-NLS-1$
-		System.out.println( "\t --format/-f [ HTML | FO | PDF ]" ); //$NON-NLS-1$
+		System.out.println( "\t --format/-f [ HTML | PDF ]" ); //$NON-NLS-1$
 		System.out.println( "\t --output/-o <target file>" ); //$NON-NLS-1$
 		System.out.println( "\t --htmltype/-t < HTML | ReportletNoCSS >" ); //$NON-NLS-1$
 		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$

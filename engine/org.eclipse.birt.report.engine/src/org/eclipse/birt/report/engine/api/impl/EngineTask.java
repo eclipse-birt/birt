@@ -24,7 +24,6 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.report.engine.api.FORenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -266,17 +265,6 @@ public abstract class EngineTask implements IEngineTask
 			{
 				options.setOutputFormat( "html" ); // $NON-NLS-1
 			}
-			if ( "fo".equalsIgnoreCase( format ) )
-			{
-				if ( options instanceof FORenderOption )
-				{
-					FORenderOption foOptions = (FORenderOption) options;
-					if ( foOptions.getTailoredForFOP( ) )
-					{
-						options.setOutputFormat( "fop" );
-					}
-				}
-			}
 		}
 		renderOptions = options;
 		// Set up rendering environment and check for supported format
@@ -514,7 +502,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.32 $ $Date: 2006/03/21 23:23:18 $
+	 * @version $Revision: 1.33 $ $Date: 2006/03/22 03:01:43 $
 	 */
 	static abstract class ParameterVisitor
 	{
