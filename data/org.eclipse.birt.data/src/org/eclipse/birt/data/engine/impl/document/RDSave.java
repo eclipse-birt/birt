@@ -57,6 +57,7 @@ public class RDSave
 	private BufferedOutputStream lenBos;
 	private DataOutputStream lenDos;
 	private byte[] zeroBytes;
+	private int currentOffset;
 	
 	//
 	private Map exprValueMap = new HashMap( );
@@ -200,7 +201,8 @@ public class RDSave
 		
 		byte[] bytes = tempBaos.toByteArray( );
 		IOUtil.writeRawBytes( rowDos, bytes );
-		IOUtil.writeInt( lenDos, bytes.length );
+		IOUtil.writeInt( lenDos, currentOffset );
+		currentOffset += bytes.length;
 		
 		tempBaos = null;
 		tempBos = null;
@@ -222,7 +224,8 @@ public class RDSave
 		for ( int i = 0; i < gapRows; i++ )
 		{
 			IOUtil.writeRawBytes( rowDos, zeroBytes );
-			IOUtil.writeInt( lenDos, zeroBytes.length );
+			IOUtil.writeInt( lenDos, currentOffset );
+			currentOffset += zeroBytes.length;
 		}
 	}
 	
