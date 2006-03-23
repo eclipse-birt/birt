@@ -229,32 +229,32 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	}
 
 	/**
-	 * Tests whether to supress duplicates rows with same content.
+	 * Tests whether to suppress duplicates rows with same content.
 	 * 
-	 * @return <code>true</code> if supress duplicates rows with same content,
+	 * @return <code>true</code> if suppress duplicates rows with same content,
 	 *         otherwise <code>false</code>.
 	 * 
-	 * @see #setSupressDuplicates(boolean)
+	 * @see #setSuppressDuplicates(boolean)
 	 */
 
-	public boolean supressDuplicates( )
+	public boolean suppressDuplicates( )
 	{
 		return getBooleanProperty( SUPPRESS_DUPLICATES_PROP );
 	}
 
 	/**
-	 * Sets the flag whether to supress duplicates rows with same content.
+	 * Sets the flag whether to suppress duplicates rows with same content.
 	 * 
 	 * @param value
-	 *            <code>true</code> if supress duplicates rows with same
+	 *            <code>true</code> if suppress duplicates rows with same
 	 *            content, otherwise <code>false</code>.
 	 * @throws SemanticException
 	 *             If the expression is invalid.
 	 * 
-	 * @see #supressDuplicates()
+	 * @see #suppressDuplicates()
 	 */
 
-	public void setSupressDuplicates( boolean value ) throws SemanticException
+	public void setSuppressDuplicates( boolean value ) throws SemanticException
 	{
 		setProperty( SUPPRESS_DUPLICATES_PROP, Boolean.valueOf( value ) );
 	}

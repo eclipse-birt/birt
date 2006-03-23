@@ -38,7 +38,7 @@ public interface ITableRowModel
 
 	/**
 	 * Name of the suppress duplicates property. If it is set to be true, then
-	 * the detail rows with same contents will be supressed.
+	 * the detail rows with same contents will be suppressed.
 	 */
 
 	public static final String SUPPRESS_DUPLICATES_PROP = "suppressDuplicates"; //$NON-NLS-1$

@@ -126,9 +126,10 @@ public class ColumnHandle extends ReportElementHandle
 	 * @return a boolean value which indicates if this column is suppress
 	 *         duplicates.
 	 */
-	public boolean getSuppressDuplicates( )
+
+	public boolean suppressDuplicates( )
 	{
-		return getBooleanProperty( ColumnHandle.SUPPRESS_DUPLICATES_PROP );
+		return getBooleanProperty( SUPPRESS_DUPLICATES_PROP );
 	}
 
 	/**
@@ -141,7 +142,7 @@ public class ColumnHandle extends ReportElementHandle
 	{
 		try
 		{
-			setProperty( ColumnHandle.SUPPRESS_DUPLICATES_PROP, String
+			setProperty( SUPPRESS_DUPLICATES_PROP, String
 					.valueOf( suppressDuplicates ) );
 		}
 		catch ( SemanticException e )
