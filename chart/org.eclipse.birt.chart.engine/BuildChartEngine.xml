@@ -108,6 +108,10 @@
 			<include name="com.ibm.icu_*.jar"/>
 		</fileset>
 		
+		<fileset dir="../org.mozilla.rhino">
+				<include name="**/*.jar"/>
+		</fileset>
+		
 		<fileset dir="${core.dir}/lib">
 				<include name="**/*.jar"/>
 		</fileset>

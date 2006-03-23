@@ -101,6 +101,10 @@
 	<path id="class.path">
 		<pathelement path="${bin}"/>
 	
+		<fileset dir="../org.apache.commons.codec">
+				<include name="**/*.jar"/>
+		</fileset>
+		
 		<fileset file="${core.dir}/lib/*.jar" />
 		<pathelement path="${core.dir}/core.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>

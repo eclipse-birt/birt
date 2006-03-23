@@ -96,6 +96,10 @@
 			<include name="com.ibm.icu_*.jar"/>
 		</fileset>
 		
+		<fileset dir="../org.apache.commons.codec">
+				<include name="**/*.jar"/>
+		</fileset>
+		
 		<fileset dir="${core.dir}/lib">
 						<include name="**/*.jar"/>
 		</fileset>
