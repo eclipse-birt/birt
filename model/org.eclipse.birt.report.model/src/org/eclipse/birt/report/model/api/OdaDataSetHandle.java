@@ -16,10 +16,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -428,10 +430,40 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 				stateHandle.setVersion( (String) memberValue );
 			else if ( OdaDesignerState.CONTENT_AS_STRING_MEMBER
 					.equalsIgnoreCase( memberName ) )
+			{
+				getModuleHandle( ).getCommandStack( ).startTrans( null );
 				stateHandle.setContentAsString( (String) memberValue );
+				stateHandle.setContentAsBlob( null );
+				getModuleHandle( ).getCommandStack( ).commit( );
+			}
 			else if ( OdaDesignerState.CONTENT_AS_BLOB_MEMBER
 					.equalsIgnoreCase( memberName ) )
+			{
+				getModuleHandle( ).getCommandStack( ).startTrans( null );
+				stateHandle.setContentAsString( null );
 				stateHandle.setContentAsBlob( (byte[]) memberValue );
+				getModuleHandle( ).getCommandStack( ).commit( );
+			}
 		}
+	}
+
+	/**
+	 * Returns the oda designer state.
+	 * 
+	 * @return a handle to the designer state property, return <code>null</code>
+	 *         if the designer state.
+	 * @see OdaDesignerStateHandle
+	 */
+
+	public OdaDesignerStateHandle getDesignerStateHandle( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( OdaDataSet.DESIGNER_STATE_PROP );
+		OdaDesignerState designerState = (OdaDesignerState) propHandle
+				.getValue( );
+
+		if ( designerState == null )
+			return null;
+
+		return (OdaDesignerStateHandle) designerState.getHandle( propHandle );
 	}
 }

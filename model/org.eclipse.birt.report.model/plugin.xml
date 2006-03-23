@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.report.model"
-   name="BIRT Model"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.report.model.plugin.ModelPlugin">
-   <runtime>
-      <library name="model.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   <requires>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.data.oda"/>
-	  <import plugin="org.eclipse.datatools.connectivity.oda"/>
-   	  <import plugin="org.apache.commons.codec"/>
-      <import plugin="org.w3c.sac"/>
-      <import plugin="org.mozilla.rhino"/>
-   </requires>
-   <extension-point id="reportItemModel" name="reportItemModel" schema="schema/reportItem.exsd"/>
+<plugin>
+     <extension-point id="reportItemModel" name="reportItemModel" schema="schema/reportItem.exsd"/>
    <extension-point id="encryptionHelper" name="encryptionHelper" schema="schema/encryptionHelper.exsd"/>
 </plugin>

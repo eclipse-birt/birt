@@ -16,18 +16,21 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.OdaDesignerStateHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
@@ -36,12 +39,15 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
+import org.eclipse.datatools.connectivity.oda.design.DesignerState;
+import org.eclipse.datatools.connectivity.oda.design.DesignerStateContent;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.Properties;
@@ -217,7 +223,9 @@ public class ModelOdaAdapter
 
 		setHandle.getElement( )
 				.clearProperty( OdaDataSetHandle.PARAMETERS_PROP );
-		List dataSetParams = newROMSetParams( setDesign.getParameters( ) );
+		List dataSetParams = newROMSetParams( setDesign.getParameters( ),
+				setDesign.getOdaExtensionDataSourceId( ), setDesign
+						.getOdaExtensionDataSetId( ) );
 		PropertyValueValidationUtil.validateProperty( setHandle,
 				OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
 		setHandle.getElement( ).setProperty( OdaDataSetHandle.PARAMETERS_PROP,
@@ -226,13 +234,17 @@ public class ModelOdaAdapter
 		// set the result sets
 
 		List resultRetColumns = newROMResultSets( setDesign
-				.getPrimaryResultSet( ) );
+				.getPrimaryResultSet( ), setDesign
+				.getOdaExtensionDataSourceId( ), setDesign
+				.getOdaExtensionDataSetId( ) );
 		if ( resultRetColumns == null )
 		{
 			ResultSets sets = setDesign.getResultSets( );
 			if ( sets != null && !sets.getResultSetDefinitions( ).isEmpty( ) )
 				resultRetColumns = newROMResultSets( (ResultSetDefinition) sets
-						.getResultSetDefinitions( ).get( 0 ) );
+						.getResultSetDefinitions( ).get( 0 ), setDesign
+						.getOdaExtensionDataSourceId( ), setDesign
+						.getOdaExtensionDataSetId( ) );
 
 		}
 
@@ -306,6 +318,7 @@ public class ModelOdaAdapter
 				.parametersIterator( ) ) );
 
 		setDesign.setPrimaryResultSet( newOdaResultSetDefinition( setHandle ) );
+
 	}
 
 	/**
@@ -907,7 +920,10 @@ public class ModelOdaAdapter
 			dataAttrs.setName( setColumn.getColumnName( ) );
 			dataAttrs.setPosition( setColumn.getPosition( ).intValue( ) );
 
-			// TODO set the data type
+			dataAttrs.setNativeDataTypeCode( NativeDataTypeUtil
+					.ROMTypeToNativeCode(
+							DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE,
+							setColumn.getDataType( ) ) );
 
 			columnDefn.setAttributes( dataAttrs );
 			odaSetColumns.getResultColumnDefinitions( ).add( columnDefn );
@@ -926,7 +942,8 @@ public class ModelOdaAdapter
 	 * @return a list containing ROM ResultSetColumn.
 	 */
 
-	private List newROMResultSets( ResultSetDefinition setDefn )
+	private List newROMResultSets( ResultSetDefinition setDefn,
+			String dataSourceId, String dataSetId )
 	{
 		if ( setDefn == null )
 			return null;
@@ -934,7 +951,8 @@ public class ModelOdaAdapter
 		List retList = new ArrayList( );
 
 		ResultSetColumns setColumns = setDefn.getResultSetColumns( );
-		retList.addAll( newROMResultSetColumns( setColumns ) );
+		retList.addAll( newROMResultSetColumns( setColumns, dataSourceId,
+				dataSetId ) );
 
 		return retList;
 	}
@@ -948,7 +966,8 @@ public class ModelOdaAdapter
 	 * @return a list containing ROM ResultSetColumn.
 	 */
 
-	private List newROMResultSetColumns( ResultSetColumns setColumns )
+	private List newROMResultSetColumns( ResultSetColumns setColumns,
+			String dataSourceId, String dataSetId )
 	{
 		if ( setColumns == null )
 			return null;
@@ -965,9 +984,10 @@ public class ModelOdaAdapter
 			ColumnDefinition columnDefn = (ColumnDefinition) odaSetColumns
 					.get( i );
 
-			// what's this?
-
 			DataElementAttributes dataAttrs = columnDefn.getAttributes( );
+			if ( dataAttrs == null )
+				continue;
+
 			ResultSetColumn newColumn = StructureFactory
 					.createResultSetColumn( );
 
@@ -976,7 +996,24 @@ public class ModelOdaAdapter
 
 			retList.add( newColumn );
 
-			// TODO data type code.
+			String romDataType = null;
+
+			try
+			{
+				romDataType = NativeDataTypeUtil.nativeCodeToROMType(
+						dataSourceId, dataSetId,
+						DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE,
+						dataAttrs.getNativeDataTypeCode( ) );
+			}
+			catch ( OdaException e )
+			{
+			}
+			catch ( BirtException e )
+			{
+
+			}
+
+			newColumn.setDataType( romDataType );
 
 			// maps the native type code to model type string.
 			// newColumn.setDataType( dataAttrs.getNativeDataTypeCode( ) );
@@ -994,7 +1031,8 @@ public class ModelOdaAdapter
 	 * @return a list containing <code>DataSetParameter</code>.
 	 */
 
-	private List newROMSetParams( DataSetParameters odaSetParams )
+	private List newROMSetParams( DataSetParameters odaSetParams,
+			String dataSourceId, String dataSetId )
 	{
 		if ( odaSetParams == null )
 			return null;
@@ -1009,8 +1047,8 @@ public class ModelOdaAdapter
 		{
 			ParameterDefinition odaParamDefn = (ParameterDefinition) odaParams
 					.get( i );
-			DataSetParameter setParam = setParamAdapter
-					.newROMDataSetParameter( odaParamDefn );
+			DataSetParameter setParam = setParamAdapter.newROMDataSetParameter(
+					odaParamDefn, dataSourceId, dataSetId );
 			retList.add( setParam );
 		}
 		return retList;
@@ -1082,7 +1120,9 @@ public class ModelOdaAdapter
 
 			updateROMStructureList( setHandle
 					.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP ),
-					newROMSetParams( setDesign.getParameters( ) ) );
+					newROMSetParams( setDesign.getParameters( ), setDesign
+							.getOdaExtensionDataSourceId( ), setDesign
+							.getOdaExtensionDataSetId( ) ) );
 
 			ResultSetDefinition resultDefn = setDesign.getPrimaryResultSet( );
 			if ( resultDefn == null )
@@ -1096,7 +1136,9 @@ public class ModelOdaAdapter
 
 			updateROMStructureList( setHandle
 					.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP ),
-					newROMResultSets( resultDefn ) );
+					newROMResultSets( resultDefn, setDesign
+							.getOdaExtensionDataSourceId( ), setDesign
+							.getOdaExtensionDataSetId( ) ) );
 
 			setHandle.setResultSetName( setDesign.getPrimaryResultSetName( ) );
 
@@ -1145,4 +1187,80 @@ public class ModelOdaAdapter
 		for ( int i = 0; i < structList.size( ); i++ )
 			propHandle.addItem( structList.get( i ) );
 	}
+
+	/**
+	 * Creates a ODA DesignerState object with the given OdaDataSet.
+	 * 
+	 * @param setHandle
+	 *            the ODA DataSet.
+	 * @return the oda DesignerState object.
+	 */
+
+	public DesignerState newOdaDesignerState( OdaDataSetHandle setHandle )
+	{
+		OdaDesignerStateHandle designerState = setHandle
+				.getDesignerStateHandle( );
+
+		if ( designerState == null )
+			return null;
+
+		DesignerState odaState = DesignFactory.eINSTANCE.createDesignerState( );
+		odaState.setVersion( designerState.getVersion( ) );
+
+		byte[] blobContent = designerState.getContentAsBlob( );
+		String stringContent = designerState.getContentAsString( );
+		if ( blobContent == null && stringContent == null )
+			return odaState;
+
+		DesignerStateContent stateContent = DesignFactory.eINSTANCE
+				.createDesignerStateContent( );
+		stateContent.setStateContentAsBlob( blobContent );
+		stateContent.setStateContentAsString( stringContent );
+		odaState.setStateContent( stateContent );
+
+		return odaState;
+	}
+
+	/**
+	 * Creates a ROM DesignerState object with the given ODA DataSet design.
+	 * 
+	 * @param designerState
+	 *            the ODA designer state.
+	 * @param setHandle
+	 *            the ODA DataSet.
+	 * @throws SemanticException
+	 *             if ROM Designer state value is locked.
+	 */
+
+	public void updateROMDesignerState( DesignerState designerState,
+			OdaDataSetHandle setHandle ) throws SemanticException
+	{
+		if ( designerState == null || setHandle == null )
+			return;
+
+		CommandStack cmdStack = setHandle.getModuleHandle( ).getCommandStack( );
+		cmdStack.startTrans( null );
+		try
+		{
+			setHandle.setDesigerStateVersion( designerState.getVersion( ) );
+
+			DesignerStateContent stateContent = designerState.getStateContent( );
+			if ( stateContent == null )
+				return;
+
+			setHandle.setDesigerStateContentAsString( stateContent
+					.getStateContentAsString( ) );
+			setHandle.setDesigerStateContentAsBlob( stateContent
+					.getStateContentAsBlob( ) );
+
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
+	}
+
 }

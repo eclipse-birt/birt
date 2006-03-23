@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
-<plugin
-   name = "BIRT Model ODA Adapter"
-   id="org.eclipse.birt.report.model.adapter.oda"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.report.model.adapter.oda.plugin.ModelAdapterOdaPlugin">
-   <runtime>
-      <library name="modeloda.jar">
-         <export name="*"/>
-      </library>
-   </runtime>	
-   <requires>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.report.model"/> 
-	  <import plugin="org.eclipse.datatools.connectivity.oda.design"/>
-   </requires>
+<plugin>
+    
 </plugin>

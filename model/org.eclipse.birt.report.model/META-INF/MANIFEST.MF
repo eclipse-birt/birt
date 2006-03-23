@@ -1,0 +1,34 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Model
+Bundle-SymbolicName: org.eclipse.birt.report.model; singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: model.jar
+Bundle-Activator: org.eclipse.birt.report.model.plugin.ModelPlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.report.model.api,
+ org.eclipse.birt.report.model.api.activity,
+ org.eclipse.birt.report.model.api.command,
+ org.eclipse.birt.report.model.api.core,
+ org.eclipse.birt.report.model.api.css,
+ org.eclipse.birt.report.model.api.elements,
+ org.eclipse.birt.report.model.api.elements.structures,
+ org.eclipse.birt.report.model.api.elements.table,
+ org.eclipse.birt.report.model.api.extension,
+ org.eclipse.birt.report.model.api.metadata,
+ org.eclipse.birt.report.model.api.util,
+ org.eclipse.birt.report.model.api.validators,
+ org.eclipse.birt.report.model.core,
+ org.eclipse.birt.report.model.core.namespace,
+ org.eclipse.birt.report.model.elements,
+ org.eclipse.birt.report.model.elements.interfaces,
+ org.eclipse.birt.report.model.metadata,
+ org.eclipse.birt.report.model.parser
+Require-Bundle: org.eclipse.birt.core,
+ org.eclipse.birt.data.oda,
+ org.eclipse.datatools.connectivity.oda,
+ org.apache.commons.codec,
+ org.w3c.sac,
+ org.mozilla.rhino
+Eclipse-LazyStart: true
