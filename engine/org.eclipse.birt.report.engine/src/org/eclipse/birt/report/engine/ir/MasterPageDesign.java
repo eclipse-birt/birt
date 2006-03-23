@@ -13,13 +13,11 @@ package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
 
-import org.eclipse.birt.report.engine.content.IStyle;
-
 
 /**
  * Master Page
  * 
- * @version $Revision: 1.7 $ $Date: 2005/10/19 11:03:03 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/11 06:26:41 $
  */
 abstract public class MasterPageDesign extends StyledElementDesign
 {
@@ -58,7 +56,7 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	 */
 	protected String orientation;
 
-	protected IStyle contentStyle = null;
+	protected String bodyStyleName;
 	
 	protected ArrayList regions = new ArrayList();
 	/**
@@ -204,14 +202,14 @@ abstract public class MasterPageDesign extends StyledElementDesign
 		this.orientation = orientation;
 	}
 	
-	public IStyle getContentStyle( )
+	public String getBodyStyleName( )
 	{
-		return contentStyle;
+		return bodyStyleName;
 	}
 	
-	public void setContentStyle( IStyle contentStyle)
+	public void setBodyStyleName( String bodyStyleName)
 	{
-		this.contentStyle = contentStyle;
+		this.bodyStyleName = bodyStyleName;
 	}
 	
 	public ArrayList getRegions()

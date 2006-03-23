@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.85 $ $Date: 2006/03/21 08:35:42 $
+ * @version $Revision: 1.86 $ $Date: 2006/03/23 03:33:35 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -342,7 +342,11 @@ class EngineIRVisitor extends DesignVisitor
 	private void setupMasterPage( MasterPageDesign page, MasterPageHandle handle )
 	{
 		setupStyledElement( page, handle );
-		page.setContentStyle( setupContentStyle( page ) );
+		String styleName = setupBodyStyle( page );
+		if (styleName != null)
+		{
+			page.setBodyStyleName( styleName );
+		}
 
 		page.setPageType( handle.getPageType( ) );
 
@@ -2169,13 +2173,13 @@ class EngineIRVisitor extends DesignVisitor
 	}
 
 	/**
-	 * Creates the content style for master page.
+	 * Creates the body style for master page.
 	 * 
 	 * @param design
 	 *            the master page design
 	 * @return the content style
 	 */
-	protected StyleDeclaration setupContentStyle( MasterPageDesign design )
+	protected String setupBodyStyle( MasterPageDesign design )
 	{
 		String styleName = design.getStyleName( );
 		IStyle style = report.findStyle( styleName );
@@ -2196,7 +2200,8 @@ class EngineIRVisitor extends DesignVisitor
 		contentStyle.setProperty( IStyle.STYLE_BACKGROUND_REPEAT, style
 				.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ) );
 
-		return contentStyle;
+		String bodyStyleName = assignStyleName( contentStyle );
+		return bodyStyleName;
 	}
 
 	private void setupElementIDMap( ReportElementDesign rptElement )

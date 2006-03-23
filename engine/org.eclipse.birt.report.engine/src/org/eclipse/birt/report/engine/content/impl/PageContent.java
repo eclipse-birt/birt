@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.content.impl;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.core.util.IOUtil;
@@ -43,10 +42,11 @@ public class PageContent extends AbstractContent implements IPageContent
 	protected DimensionType marginLeft;
 	protected DimensionType marginRight;
 	protected DimensionType marginBottom;
-	transient protected ArrayList header;
-	transient protected ArrayList footer;
 	transient protected IImageContent waterMark;
 	transient protected IContent body;
+	transient protected IContent header;
+	transient protected IContent footer;
+	
 	protected long pageNumber = -1;
 
 	public int getContentType( )
@@ -57,6 +57,9 @@ public class PageContent extends AbstractContent implements IPageContent
 	public PageContent( ReportContent report )
 	{
 		super( report );
+		header = report.createContainerContent( );
+		body = report.createContainerContent( );
+		footer = report.createContainerContent( );
 	}
 
 	public void setGenerateBy( Object design )
@@ -100,6 +103,9 @@ public class PageContent extends AbstractContent implements IPageContent
 				footerHeight = new DimensionType( 0.25f,
 						EngineIRConstants.UNITS_IN );
 			}
+			header.setStyleClass( page.getStyleName( ) );
+			footer.setStyleClass( page.getStyleName() );			
+			body.setStyleClass( page.getBodyStyleName( ) );
 		}
 	}
 
@@ -138,22 +144,35 @@ public class PageContent extends AbstractContent implements IPageContent
 		return waterMark;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public List getHeader( )
 	{
-		if ( header == null )
-		{
-			header = new ArrayList( );
-		}
-		return header;
+		return header.getChildren( );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public List getFooter( )
 	{
-		if ( footer == null )
+		return footer.getChildren( );
+	}
+	
+	public IContent getPageHeader()
 		{
-			footer = new ArrayList( );
+		return header;
 		}
+	
+	public IContent getPageFooter()
+	{
 		return footer;
+	}
+
+	public IContent getPageBody()
+	{
+		return body;
 	}
 
 	/**
@@ -241,27 +260,20 @@ public class PageContent extends AbstractContent implements IPageContent
 		return rightWidth;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public IStyle getContentComputedStyle( )
 	{
-		if ( body == null )
-		{
-			if ( generateBy instanceof MasterPageDesign )
-			{
-				body = report.createCellContent( );
-				body.setInlineStyle( ( (MasterPageDesign) generateBy )
-						.getContentStyle( ) );
-			}
-		}
 		return body.getComputedStyle( );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public IStyle getContentStyle( )
 	{
-		if ( generateBy instanceof MasterPageDesign )
-		{
-			return ( (MasterPageDesign) generateBy ).getContentStyle( );
-		}
-		return null;
+		return body.getStyle( );
 	}
 
 	public void setPageNumber( long pn )

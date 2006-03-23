@@ -89,7 +89,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.81 $ $Date: 2006/03/22 03:23:32 $
+ * @version $Revision: 1.82 $ $Date: 2006/03/22 10:08:43 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -658,6 +658,26 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 	}
+	/*** 
+     * output the style of page header/footer/body.
+	 * In embedded HTML, we output the style as inline style, otherwise
+     * use the style name as the "class"
+	 * @param styleName name of the style
+	 * @param style style object
+	 */
+	public void handlePageStyle( String styleName, IStyle style )
+	{
+		if ( isEmbeddable )
+		{
+			StringBuffer styleBuffer = new StringBuffer( );
+			AttributeBuilder.buildStyle( styleBuffer, style, this );
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+		}
+		else
+		{
+			setStyleName( styleName );					
+		}	
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -666,38 +686,46 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startPage( IPageContent page )
 	{
+		pageNo++;
+		
 		if ( pageNo > 1 && outputMasterPageContent == false )
 		{
 			writer.openTag( "hr" );
 			writer.closeTag( "hr" );
 		}
 
+		// out put the page tag
 		writer.openTag( HTMLTags.TAG_DIV );
-		IStyle contentStyle = page == null ? null : page.getContentStyle( );
-		pageNo++;
-		if ( contentStyle != null )
-		{
 			if ( pageNo > 1 )
 			{
-				contentStyle.setPageBreakBefore( "always" );
-			}
-			StringBuffer styleBuffer = new StringBuffer( );
-			AttributeBuilder.buildStyle( styleBuffer, contentStyle, this );
-			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-		}
-		else if ( pageNo > 1 )
-		{
-			writer
-					.attribute( HTMLTags.ATTR_STYLE,
-							"page-break-before: always;" );
+			writer.attribute( HTMLTags.ATTR_STYLE, "page-break-before: always;" );
 		}
 
+		//output page header
 		if ( page != null )
 		{
 			if ( outputMasterPageContent )
 			{
+				//output DIV for page header
+				writer.openTag( HTMLTags.TAG_DIV );		
+				handlePageStyle( page.getPageHeader().getStyleClass( ), page.getPageHeader().getStyle( ) );
+				
 				contentVisitor.visitList( page.getHeader( ), null );
+				
+				//close the page header
+				writer.closeTag( HTMLTags.TAG_DIV );
 			}
+			}
+		
+		// start output the page body , with the body style 
+		writer.openTag( HTMLTags.TAG_DIV );
+
+		if ( page != null )
+		{
+			IContent pageBody = page.getPageBody( );
+			IStyle bodyStyle = pageBody.getStyle( );
+			String bodyStyleName = pageBody.getStyleClass( );
+			handlePageStyle( bodyStyleName, bodyStyle );
 		}
 	}
 
@@ -708,15 +736,29 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endPage( IPageContent page )
 	{
+		
 		logger.log( Level.FINE, "[HTMLReportEmitter] End page." ); //$NON-NLS-1$
 
+		//close the page body (DIV)		
+		writer.closeTag( HTMLTags.TAG_DIV );
+		
+		//output page footer
 		if ( page != null )
 		{
 			if ( outputMasterPageContent )
 			{
+				//start output the page footer
+				writer.openTag( HTMLTags.TAG_DIV );				
+				handlePageStyle( page.getPageFooter().getStyleClass( ), page.getPageFooter().getStyle( ) );			
+				
 				contentVisitor.visitList( page.getFooter( ), null );
+								
+				//close the page footer
+				writer.closeTag( HTMLTags.TAG_DIV );
 			}
 		}
+		
+		// close the page tag ( DIV )
 		writer.closeTag( HTMLTags.TAG_DIV );
 	}
 

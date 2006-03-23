@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * The content is defined by getBody().
  * 
- * @version $Revision: 1.2 $ $Date: 2005/11/14 10:55:59 $
+ * @version $Revision: 1.3 $ $Date: 2005/12/06 05:26:11 $
  */
 public interface IPageContent extends IContent
 {
@@ -57,6 +57,12 @@ public interface IPageContent extends IContent
 
 	public List getFooter( );
 
+	public IContent getPageHeader();
+	
+	public IContent getPageFooter();
+	
+	public IContent getPageBody();
+
 	public DimensionType getMarginTop( );
 
 	public DimensionType getMarginBottom( );
@@ -86,6 +92,7 @@ public interface IPageContent extends IContent
 	public DimensionType getRightWidth( );
 
 	/**
+ 	 * @deprecated use getPageBody().getStyle()
 	 * @return Returns the content style.
 	 */
 	public IStyle getContentStyle( );
@@ -94,6 +101,9 @@ public interface IPageContent extends IContent
 
 	void setPageNumber( long pageNumber );
 	
+	/**
+     * @deprecated use getPageBody().getComputedStyle()
+     */
 	public IStyle getContentComputedStyle();
 
 }

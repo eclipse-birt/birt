@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.32 $ $Date: 2005/12/29 07:21:34 $
+ * @version $Revision: 1.33 $ $Date: 2006/01/19 04:31:08 $
  */
 public class ReportExecutor
 {
@@ -154,17 +154,22 @@ public class ReportExecutor
 			SimpleMasterPageDesign pageDesign = (SimpleMasterPageDesign) masterPage;
 			InstanceID iid = new InstanceID( null, pageDesign.getID( ), null );
 			pageContent.setInstanceID( iid );
+			
+			context.pushContent( pageContent.getPageHeader( ) );
 			for ( int i = 0; i < pageDesign.getHeaderCount( ); i++ )
 			{
 				pageDesign.getHeader( i ).accept( builder,
 						new PageContentBuilder( pageContent.getHeader( ) ) );
 			}
+			context.popContent( );
 
+			context.pushContent( pageContent.getPageFooter( ) );
 			for ( int i = 0; i < pageDesign.getFooterCount( ); i++ )
 			{
 				pageDesign.getFooter( i ).accept( builder,
 						new PageContentBuilder( pageContent.getFooter( ) ) );
 			}
+			context.popContent( );
 			// reenable the TOC
 			context.setTOCBuilder( tocBuilder );
 		}
