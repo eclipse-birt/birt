@@ -167,7 +167,7 @@ public class GroupDialog extends BaseDialog
 	final private static IChoice[] intervalChoicesDate = getIntervalChoicesDate( );
 	final private static IChoice[] intervalChoicesNumeric = getIntervalChoicesNumeric( );
 	private static IChoice[] intervalChoices = intervalChoicesAll;
-	private String previoiusKeyExpression = "";
+	private String previoiusKeyExpression = ""; //$NON-NLS-1$
 
 	private Button repeatHeaderButton;
 
@@ -324,7 +324,7 @@ public class GroupDialog extends BaseDialog
 
 			public void modifyText( ModifyEvent e )
 			{
-				if ( !keyChooser.getText( ).trim( ).equals( "" ) )
+				if ( !keyChooser.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
 					resetInterval( );
 			}
 
@@ -460,13 +460,13 @@ public class GroupDialog extends BaseDialog
 
 		Group pagebreakGroup = new Group( composite, SWT.NONE );
 		// TODO i18n
-		pagebreakGroup.setText( "Page break" );
+		pagebreakGroup.setText( Messages.getString("GroupDialog.PageBreak") ); //$NON-NLS-1$
 		pagebreakGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 2;
 		pagebreakGroup.setLayout( layout );
 		// TODO i18n
-		new Label( pagebreakGroup, SWT.NONE ).setText( "Before:" );
+		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString("GroupDialog.PageBreakBefore") ); //$NON-NLS-1$
 		pagebreakBeforeCombo = new Combo( pagebreakGroup, SWT.NONE );
 		for ( int i = 0; i < pagebreakBeforeChoicesAll.length; i++ )
 		{
@@ -474,7 +474,7 @@ public class GroupDialog extends BaseDialog
 		}
 		pagebreakBeforeCombo.setData( pagebreakBeforeChoicesAll );
 
-		new Label( pagebreakGroup, SWT.NONE ).setText( "After:" );
+		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString("GroupDialog.PageBreakAfter") ); //$NON-NLS-1$
 		pagebreakAfterCombo = new Combo( pagebreakGroup, SWT.NONE );
 		for ( int i = 0; i < pagebreakAfterChoicesAll.length; i++ )
 		{
@@ -483,7 +483,7 @@ public class GroupDialog extends BaseDialog
 		pagebreakAfterCombo.setData( pagebreakAfterChoicesAll );
 
 		repeatHeaderButton = new Button( pagebreakGroup, SWT.CHECK );
-		repeatHeaderButton.setText( "Repeat Header" );
+		repeatHeaderButton.setText( Messages.getString("GroupDialog.RepeatHeader") ); //$NON-NLS-1$
 		GridData data = new GridData( );
 		data.horizontalSpan = 2;
 		repeatHeaderButton.setLayoutData( data );
@@ -849,7 +849,7 @@ public class GroupDialog extends BaseDialog
 		keyChooser.deselectAll( );
 		if ( StringUtil.isBlank( key ) )
 		{
-			keyChooser.setText( "" );
+			keyChooser.setText( "" ); //$NON-NLS-1$
 
 			return;
 		}
