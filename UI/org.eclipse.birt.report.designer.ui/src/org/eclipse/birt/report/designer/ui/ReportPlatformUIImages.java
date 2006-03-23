@@ -671,7 +671,9 @@ public class ReportPlatformUIImages
 		}
 		else if ( model instanceof DesignElementHandle )
 		{// the icon name for elements is just the same as the element name
-			if ( ( (DesignElementHandle) model ).getRoot( ) instanceof LibraryHandle )
+			if ( ( (DesignElementHandle) model ).getRoot( ) instanceof LibraryHandle 
+					&& !(model instanceof ThemeHandle)
+					&& !(model instanceof ParameterHandle))
 			{
 				imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model ).getElement( )
 						.getDefn( )
