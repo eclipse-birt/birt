@@ -40,13 +40,13 @@ public class ChartWizard extends WizardBase
 
 	private static final int CHART_WIZARD_HEIGHT_MINMUM = 670;
 
-	private static final double DEFAULT_CHART_BLOCK_HEIGHT = 130;
+	public static final double DEFAULT_CHART_BLOCK_HEIGHT = 130;
 
-	private static final double DEFAULT_CHART_BLOCK_WIDTH = 212;
+	public static final double DEFAULT_CHART_BLOCK_WIDTH = 212;
 
-	private static final double DEFAULT_CHART_WITHOUT_AXIS_BLOCK_HEIGHT = 130;
+	public static final double DEFAULT_CHART_WITHOUT_AXIS_BLOCK_HEIGHT = 130;
 
-	private static final double DEFAULT_CHART_WITHOUT_AXIS_BLOCK_WIDTH = 212;
+	public static final double DEFAULT_CHART_WITHOUT_AXIS_BLOCK_WIDTH = 212;
 
 	private ChartAdapter adapter = null;
 

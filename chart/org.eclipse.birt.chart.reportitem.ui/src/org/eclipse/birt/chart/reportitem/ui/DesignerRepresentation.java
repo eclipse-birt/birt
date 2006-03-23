@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartDlg;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
@@ -111,15 +112,7 @@ public final class DesignerRepresentation extends Figure
 		if ( crii != null )
 		{
 			final Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
-			// GET
-			// THE
-			// MODEL
-			// WRAPPED
-			// INSIDE
-			// THE
-			// REPORT
-			// ITEM
-			// IMPL
+			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
 			if ( cm != null )
 			{
 				final IDisplayServer idsSWT = ChartDlg.getDisplayServer( ); // REUSE
@@ -130,12 +123,14 @@ public final class DesignerRepresentation extends Figure
 			}
 			else
 			{
-				setSize( 500, 400 );
+				setSize( (int) ChartWizard.DEFAULT_CHART_BLOCK_WIDTH,
+						(int) ChartWizard.DEFAULT_CHART_BLOCK_HEIGHT );
 			}
 		}
 		else
 		{
-			setSize( 500, 400 );
+			setSize( (int) ChartWizard.DEFAULT_CHART_BLOCK_WIDTH,
+					(int) ChartWizard.DEFAULT_CHART_BLOCK_HEIGHT );
 		}
 
 		try
@@ -333,7 +328,7 @@ public final class DesignerRepresentation extends Figure
 			{
 				RunTimeContext rtc = new RunTimeContext( );
 				rtc.setScriptingEnabled( false );
-				rtc.setMessageLookup( new BIRTDesignerMessageLookup(crii.getHandle()));
+				rtc.setMessageLookup( new BIRTDesignerMessageLookup( crii.getHandle( ) ) );
 				gr.render( idr,
 						gr.build( idr.getDisplayServer( ),
 								cm,
@@ -349,7 +344,10 @@ public final class DesignerRepresentation extends Figure
 			}
 		}
 
-		g.drawImage( imgChart, r.x, r.y );
+		if ( imgChart != null )
+		{
+			g.drawImage( imgChart, r.x, r.y );
+		}
 		bPainting = false;
 	}
 
