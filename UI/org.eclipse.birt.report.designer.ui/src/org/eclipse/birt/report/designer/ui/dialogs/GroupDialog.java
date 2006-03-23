@@ -155,12 +155,25 @@ public class GroupDialog extends BaseDialog
 	final private static String SORT_GROUP_TITLE = DEUtil.getPropertyDefn( ReportDesignConstants.TABLE_GROUP_ELEMENT,
 			GroupHandle.SORT_DIRECTION_PROP )
 			.getDisplayName( );
-	
+
+	final private static IChoice[] pagebreakBeforeChoicesAll = DesignEngine.getMetaDataDictionary( )
+			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_BEFORE )
+			.getChoices( );
+	final private static IChoice[] pagebreakAfterChoicesAll = DesignEngine.getMetaDataDictionary( )
+			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER )
+			.getChoices( );
+
 	final private static IChoice[] intervalChoicesString = getIntervalChoicesString( );
 	final private static IChoice[] intervalChoicesDate = getIntervalChoicesDate( );
 	final private static IChoice[] intervalChoicesNumeric = getIntervalChoicesNumeric( );
 	private static IChoice[] intervalChoices = intervalChoicesAll;
 	private String previoiusKeyExpression = "";
+
+	private Button repeatHeaderButton;
+
+	private Combo pagebreakAfterCombo;
+
+	private Combo pagebreakBeforeCombo;
 
 	/**
 	 * Constructor.
@@ -307,15 +320,15 @@ public class GroupDialog extends BaseDialog
 
 		keyChooser = new Combo( keyArea, SWT.DROP_DOWN );
 		keyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		keyChooser.addModifyListener( new ModifyListener(){
+		keyChooser.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
 			{
 				if ( !keyChooser.getText( ).trim( ).equals( "" ) )
 					resetInterval( );
 			}
-			
-		});
+
+		} );
 		Button exprButton = new Button( keyArea, SWT.PUSH );
 		exprButton.setText( "..." ); //$NON-NLS-1$
 		exprButton.addSelectionListener( new SelectionAdapter( ) {
@@ -406,8 +419,10 @@ public class GroupDialog extends BaseDialog
 	private void createGroupArea( Composite parent )
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
-		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.VERTICAL_ALIGN_BEGINNING ) );
+		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_BEGINNING );
+		layoutData.verticalSpan = 2;
+		composite.setLayoutData( layoutData );
 		composite.setLayout( new GridLayout( ) );
 
 		Group includeGroup = new Group( composite, SWT.NONE );
@@ -442,6 +457,36 @@ public class GroupDialog extends BaseDialog
 		ascending.setText( sortByAscending.getDisplayName( ) );
 		descending = new Button( sortingGroupComposite, SWT.RADIO );
 		descending.setText( sortByDescending.getDisplayName( ) );
+
+		Group pagebreakGroup = new Group( composite, SWT.NONE );
+		// TODO i18n
+		pagebreakGroup.setText( "Page break" );
+		pagebreakGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridLayout layout = new GridLayout( );
+		layout.numColumns = 2;
+		pagebreakGroup.setLayout( layout );
+		// TODO i18n
+		new Label( pagebreakGroup, SWT.NONE ).setText( "Before:" );
+		pagebreakBeforeCombo = new Combo( pagebreakGroup, SWT.NONE );
+		for ( int i = 0; i < pagebreakBeforeChoicesAll.length; i++ )
+		{
+			pagebreakBeforeCombo.add( pagebreakBeforeChoicesAll[i].getDisplayName( ) );
+		}
+		pagebreakBeforeCombo.setData( pagebreakBeforeChoicesAll );
+
+		new Label( pagebreakGroup, SWT.NONE ).setText( "After:" );
+		pagebreakAfterCombo = new Combo( pagebreakGroup, SWT.NONE );
+		for ( int i = 0; i < pagebreakAfterChoicesAll.length; i++ )
+		{
+			pagebreakAfterCombo.add( pagebreakAfterChoicesAll[i].getDisplayName( ) );
+		}
+		pagebreakAfterCombo.setData( pagebreakAfterChoicesAll );
+
+		repeatHeaderButton = new Button( pagebreakGroup, SWT.CHECK );
+		repeatHeaderButton.setText( "Repeat Header" );
+		GridData data = new GridData( );
+		data.horizontalSpan = 2;
+		repeatHeaderButton.setLayoutData( data );
 	}
 
 	/**
@@ -569,7 +614,47 @@ public class GroupDialog extends BaseDialog
 
 		tocEditor.setText( UIUtil.convertToGUIString( inputGroup.getTocExpression( ) ) );
 
+		index = getPagebreakBeforeIndex( inputGroup.getPageBreakBefore( ) );
+		pagebreakBeforeCombo.select( index );
+
+		index = getPagebreakAfterIndex( inputGroup.getPageBreakAfter( ) );
+		pagebreakAfterCombo.select( index );
+
+		if ( inputGroup.repeatHeader( ) )
+		{
+			repeatHeaderButton.setSelection( true );
+		}
+
 		return true;
+	}
+
+	private int getPagebreakAfterIndex( String pageBreakAfter )
+	{
+		int index = 0;
+		for ( int i = 0; i < pagebreakAfterChoicesAll.length; i++ )
+		{
+			if ( pagebreakAfterChoicesAll[i].getName( ).equals( pageBreakAfter ) )
+			{
+				index = i;
+				break;
+			}
+		}
+		return index;
+	}
+
+	private int getPagebreakBeforeIndex( String pageBreakBefore )
+	{
+		int index = 0;
+		for ( int i = 0; i < pagebreakBeforeChoicesAll.length; i++ )
+		{
+			if ( pagebreakBeforeChoicesAll[i].getName( )
+					.equals( pageBreakBefore ) )
+			{
+				index = i;
+				break;
+			}
+		}
+		return index;
 	}
 
 	/**
@@ -709,7 +794,9 @@ public class GroupDialog extends BaseDialog
 			{
 				inputGroup.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
 			}
-
+			inputGroup.setPageBreakBefore( pagebreakBeforeChoicesAll[pagebreakBeforeCombo.getSelectionIndex( )].getName( ) );
+			inputGroup.setPageBreakAfter( pagebreakAfterChoicesAll[pagebreakAfterCombo.getSelectionIndex( )].getName( ) );
+			inputGroup.setRepeatHeader( repeatHeaderButton.getSelection( ) );
 		}
 		catch ( SemanticException e )
 		{
@@ -790,7 +877,7 @@ public class GroupDialog extends BaseDialog
 		}
 		return exp;
 	}
-	
+
 	/**
 	 * Reset interval
 	 * 
@@ -810,7 +897,7 @@ public class GroupDialog extends BaseDialog
 
 		previoiusKeyExpression = currentKeyExpression;
 	}
-	
+
 	/**
 	 * Get subIntervalChoice, could be String,Date,Numeric or All
 	 * 
@@ -840,7 +927,7 @@ public class GroupDialog extends BaseDialog
 			return intervalChoicesAll;
 		}
 	}
-	
+
 	private static IChoice[] getIntervalChoicesString( )
 	{
 		String[] str = new String[]{
@@ -850,7 +937,7 @@ public class GroupDialog extends BaseDialog
 
 		return getIntervalChoiceArray( str );
 	}
-	
+
 	private static IChoice[] getIntervalChoicesDate( )
 	{
 		String[] str = new String[]{
@@ -867,8 +954,8 @@ public class GroupDialog extends BaseDialog
 
 		return getIntervalChoiceArray( str );
 	}
-	
-	private static IChoice[] getIntervalChoicesNumeric()
+
+	private static IChoice[] getIntervalChoicesNumeric( )
 	{
 		String[] str = new String[]{
 				DesignChoiceConstants.INTERVAL_NONE,
@@ -877,7 +964,7 @@ public class GroupDialog extends BaseDialog
 
 		return getIntervalChoiceArray( str );
 	}
-	
+
 	/**
 	 * Get intervalChoiceArray
 	 * 
@@ -902,7 +989,7 @@ public class GroupDialog extends BaseDialog
 
 		return (IChoice[]) choiceList.toArray( choice );
 	}
-	
+
 	/**
 	 * Get columnDataType
 	 * 
@@ -954,13 +1041,13 @@ public class GroupDialog extends BaseDialog
 
 		enableIntervalRangeAndBase( false );
 	}
-	
+
 	/**
 	 * Enable the interval range and base right after refreshing the interval
 	 * type
 	 * 
 	 */
-	private void enableIntervalRangeAndBase( boolean bool)
+	private void enableIntervalRangeAndBase( boolean bool )
 	{
 		intervalRange.setEnabled( bool );
 		intervalBaseButton.setEnabled( bool );
