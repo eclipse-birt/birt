@@ -45,7 +45,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -83,7 +82,7 @@ public class TriggerDataComposite extends Composite
 
 	private transient Composite cmpTooltip = null;
 
-	private transient Spinner iscDelay = null;
+	// private transient Spinner iscDelay = null;
 
 	private transient Text txtTooltipText = null;
 
@@ -263,19 +262,21 @@ public class TriggerDataComposite extends Composite
 		cmpTooltip = new Composite( grpValue, SWT.NONE );
 		cmpTooltip.setLayout( new GridLayout( 3, false ) );
 
-		Label lblDelay = new Label( cmpTooltip, SWT.NONE );
-		GridData gdLBLDelay = new GridData( );
-		lblDelay.setLayoutData( gdLBLDelay );
-		lblDelay.setText( Messages.getString( "TriggerDataComposite.Lbl.TooltipDelay" ) ); //$NON-NLS-1$
-
-		iscDelay = new Spinner( cmpTooltip, SWT.BORDER );
-		GridData gdISCDelay = new GridData( GridData.FILL_HORIZONTAL );
-		gdISCDelay.horizontalSpan = 2;
-		iscDelay.setLayoutData( gdISCDelay );		
-		iscDelay.setMaximum( 5000 );
-		iscDelay.setMinimum( 100 );
-		iscDelay.setIncrement( 100 );
-		iscDelay.setSelection( 200 );
+		// Deprecate delay attribute: #132289
+		// Label lblDelay = new Label( cmpTooltip, SWT.NONE );
+		// GridData gdLBLDelay = new GridData( );
+		// lblDelay.setLayoutData( gdLBLDelay );
+		// lblDelay.setText( Messages.getString(
+		// "TriggerDataComposite.Lbl.TooltipDelay" ) ); //$NON-NLS-1$
+		//
+		// iscDelay = new Spinner( cmpTooltip, SWT.BORDER );
+		// GridData gdISCDelay = new GridData( GridData.FILL_HORIZONTAL );
+		// gdISCDelay.horizontalSpan = 2;
+		// iscDelay.setLayoutData( gdISCDelay );
+		// iscDelay.setMaximum( 5000 );
+		// iscDelay.setMinimum( 100 );
+		// iscDelay.setIncrement( 100 );
+		// iscDelay.setSelection( 200 );
 
 		Label lblText = new Label( cmpTooltip, SWT.NONE );
 		lblText.setText( Messages.getString( "TriggerDataComposite.Lbl.TooltipText" ) ); //$NON-NLS-1$
@@ -497,7 +498,7 @@ public class TriggerDataComposite extends Composite
 				this.slValues.topControl = cmpTooltip;
 				TooltipValue tooltipValue = (TooltipValue) trigger.getAction( )
 						.getValue( );
-				iscDelay.setSelection( tooltipValue.getDelay( ) );
+				// iscDelay.setSelection( tooltipValue.getDelay( ) );
 				txtTooltipText.setText( ( tooltipValue.getText( ) != null )
 						? tooltipValue.getText( ) : "" ); //$NON-NLS-1$
 				break;
@@ -552,7 +553,9 @@ public class TriggerDataComposite extends Composite
 						txtSeriesParm.getText( ) );
 				break;
 			case 1 :
-				value = TooltipValueImpl.create( iscDelay.getSelection( ), "" ); //$NON-NLS-1$
+				// value = TooltipValueImpl.create( iscDelay.getSelection( ), ""
+				// ); //$NON-NLS-1$
+				value = TooltipValueImpl.create( 200, "" ); //$NON-NLS-1$
 				( (TooltipValue) value ).setText( txtTooltipText.getText( ) );
 				break;
 			case 2 :
@@ -583,15 +586,15 @@ public class TriggerDataComposite extends Composite
 	{
 		cmbTriggerType.select( 0 );
 		cmbActionType.select( 0 );
-		switchUI();
+		switchUI( );
 	}
 
 	public Point getPreferredSize( )
 	{
 		return new Point( 260, 260 );
 	}
-	
-	private void switchUI()
+
+	private void switchUI( )
 	{
 		switch ( cmbActionType.getSelectionIndex( ) )
 		{
@@ -622,7 +625,7 @@ public class TriggerDataComposite extends Composite
 		}
 		grpValue.layout( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -632,7 +635,7 @@ public class TriggerDataComposite extends Composite
 	{
 		if ( e.getSource( ).equals( cmbActionType ) )
 		{
-			switchUI();
+			switchUI( );
 		}
 		else if ( e.getSource( ).equals( btnBaseURL ) )
 		{
