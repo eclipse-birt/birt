@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -98,11 +99,15 @@ public class DefaultResourceLocator implements IResourceLocator
 		{
 			try
 			{
-				return f.toURL( );
+				return f.getCanonicalFile( ).toURL( );
 			}
 			catch ( MalformedURLException e )
 			{
 				return null;
+			}
+			catch ( IOException e )
+			{
+			    return null;
 			}
 		}
 

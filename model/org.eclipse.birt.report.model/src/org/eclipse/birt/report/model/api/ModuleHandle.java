@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1844,6 +1845,31 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		Module library = module.getLibraryWithNamespace( namespace,
 				IModuleNameSpace.ONE_LEVEL );
+		if ( library == null )
+			return null;
+
+		return (LibraryHandle) library.getHandle( library );
+	}
+
+	/**
+	 * Returns the library handle with the given file name. The filename can
+	 * include directory information, either relative or absolute directory. And
+	 * the file should be on the local disk.
+	 * 
+	 * @param fileName
+	 *            the library file name. The filename can include directory
+	 *            information, either relative or absolute directory. And the
+	 *            file should be on the local disk.
+	 * @return the library handle with the given file name
+	 */
+
+	public LibraryHandle findLibrary( String fileName )
+	{
+		URL url = module.findResource( fileName, IResourceLocator.LIBRARY );
+		if ( url == null )
+			return null;
+
+		Module library = module.getLibraryByLocation( url.toString( ) );
 		if ( library == null )
 			return null;
 
