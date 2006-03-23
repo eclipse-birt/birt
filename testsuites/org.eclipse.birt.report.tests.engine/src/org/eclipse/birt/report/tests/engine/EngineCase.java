@@ -121,11 +121,11 @@ public abstract class EngineCase extends TestCase
 	{
 		Vector runArgs = new Vector( );
 		// invoke the report runner.
-		String input = PLUGIN_PATH + System.getProperty( "file.separator" )
-				+ RESOURCE_BUNDLE.getString( "CASE_INPUT" );
-		input += System.getProperty( "file.separator" ) + caseName
-				+ ".rptdesign";
-		System.out.println( "input is : " + input );
+		String input = PLUGIN_PATH + System.getProperty( "file.separator" ) //$NON-NLS-1$
+				+ RESOURCE_BUNDLE.getString( "CASE_INPUT" ); //$NON-NLS-1$
+		input += System.getProperty( "file.separator" ) + caseName //$NON-NLS-1$
+				+ ".rptdesign"; //$NON-NLS-1$
+		System.out.println( "input is : " + input ); //$NON-NLS-1$
 
 		// run report runner.
 
