@@ -1,31 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.report.data.oda.xml"
-   name="BIRT ODA-XML Driver"
-   version="2.1.0"
-   provider-name="Eclipse.org">
-   <runtime>
-       <library name="lib/resolver.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/xercesImpl.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/xml-apis.jar">
-         <export name="*"/>
-      </library>
-      <library name="oda-xml.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   <requires>
- 	  <import plugin="org.junit" optional="true"/>
-      <import plugin="org.eclipse.datatools.connectivity.oda"/>
-      <import plugin="com.ibm.icu"/>
-   </requires>
-   
-   <extension
+<plugin>
+     <extension
          point="org.eclipse.datatools.connectivity.oda.dataSource">
       <dataSet
             defaultDisplayName="%dataset.name"

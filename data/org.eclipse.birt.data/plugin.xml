@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.data"
-   name="BIRT Data Engine"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.data.engine.plugin.DataEnginePlugin">
-   <runtime>
-      <library name="dte.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   <requires>
-   	  <import plugin="org.junit" optional="true"/>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.datatools.connectivity.oda"/>
-      <import plugin="com.ibm.icu"/>
-      <import plugin="org.mozilla.rhino"/>
-   </requires>
-   <extension-point id="aggregation" name="Custom Aggregation Extension" schema="schema/Aggregation.exsd"/>
+<plugin>
+     <extension-point id="aggregation" name="Custom Aggregation Extension" schema="schema/Aggregation.exsd"/>
 </plugin>

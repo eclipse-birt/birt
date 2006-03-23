@@ -1,25 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.report.data.oda.sampledb"
-   name="BIRT Sample Database"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.report.data.oda.sampledb.plugin.SampledbPlugin">
+<plugin>
 
-   <runtime>
-      <library name="sampledb.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-
-   <requires>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.report.data.oda.jdbc"/>
-      <import plugin="org.eclipse.datatools.connectivity.oda"/>
-   </requires>
-       
-   <extension
+     <extension
          point="org.eclipse.datatools.connectivity.oda.dataSource">
       <dataSource
             odaVersion="2.0.0"

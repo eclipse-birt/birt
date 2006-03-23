@@ -1,28 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.report.data.oda.xml.ui"
-   name="BIRT XML UI Plug-in"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.report.data.oda.xml.ui.UiPlugin">
-   <runtime>
-      <library name="xmlui.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   
-   <requires>
-      <import plugin="org.eclipse.birt.report.data.oda.xml"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.birt.report.designer.ui"/>
-      <import plugin="org.eclipse.birt.report.model"/>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.datatools.connectivity.oda.design.ui"/>
-   </requires>
-   
-   <extension
+<plugin>
+     <extension
          point="org.eclipse.datatools.connectivity.connectionProfile">
       <category
             id="%oda.parent.category.id"
