@@ -50,38 +50,6 @@ public abstract class PropertyDefn
 {
 
 	/**
-	 * Type code for a system property.
-	 */
-
-	public static final int SYSTEM_PROPERTY = 0;
-
-	/**
-	 * Type code for a user property.
-	 */
-
-	public static final int USER_PROPERTY = 1;
-
-	/**
-	 * Type code for a property defined in XML file with the
-	 * ReportItemExtensionPoint.
-	 */
-
-	public static final int EXTENSION_PROPERTY = 2;
-
-	/**
-	 * Type code for a property defined by an extension implementation of
-	 * ReportItemExtensionPoint.
-	 */
-
-	public static final int EXTENSION_MODEL_PROPERTY = 3;
-
-	/**
-	 * Type code for a property defined by a ODA extension.
-	 */
-
-	public static final int ODA_PROPERTY = 4;
-
-	/**
 	 * Supported sub-types for list property type.
 	 */
 

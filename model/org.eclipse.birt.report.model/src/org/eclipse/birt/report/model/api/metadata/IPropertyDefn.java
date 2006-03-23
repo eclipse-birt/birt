@@ -22,6 +22,38 @@ public interface IPropertyDefn
 {
 
 	/**
+	 * Type code for a system property.
+	 */
+
+	public static final int SYSTEM_PROPERTY = 0;
+
+	/**
+	 * Type code for a user property.
+	 */
+
+	public static final int USER_PROPERTY = 1;
+
+	/**
+	 * Type code for a property defined in XML file with the
+	 * ReportItemExtensionPoint.
+	 */
+
+	public static final int EXTENSION_PROPERTY = 2;
+
+	/**
+	 * Type code for a property defined by an extension implementation of
+	 * ReportItemExtensionPoint.
+	 */
+
+	public static final int EXTENSION_MODEL_PROPERTY = 3;
+
+	/**
+	 * Type code for a property defined by a ODA extension.
+	 */
+
+	public static final int ODA_PROPERTY = 4;
+
+	/**
 	 * Indicates whether this property is a list. It is useful only when the
 	 * property type is a structure type.
 	 * 
@@ -124,4 +156,20 @@ public interface IPropertyDefn
 	 */
 
 	public boolean isEncryptable( );
+
+	/**
+	 * Returns the type of this value. The return can be one of the following
+	 * constants:
+	 * <p>
+	 * <ul>
+	 * <li>SYSTEM_PROPERTY</li>
+	 * <li>USER_PROPERTY</li>
+	 * <li>STRUCT_PROPERTY</li>
+	 * <li>EXTENSION_PROPERTY</li>
+	 * </ul>
+	 * 
+	 * @return the type of this definition
+	 */
+
+	public abstract int getValueType( );
 }
