@@ -363,16 +363,22 @@ public final class RunTimeContext implements Serializable
 	{
 		if ( iRightToLeft == -1 )
 		{
-			if ( lcl != null
-					&& ( lcl.getLanguage( )
-							.equals( new ULocale( "he" ).getLanguage( ) ) || lcl.getLanguage( ) //$NON-NLS-1$
-							.equals( new ULocale( "ar" ).getLanguage( ) ) ) ) //$NON-NLS-1$
+			iRightToLeft = 0;
+			if ( lcl != null )
 			{
-				iRightToLeft = 1;
-			}
-			else
-			{
-				iRightToLeft = 0;
+				String language = lcl.getLanguage( );
+				// See ISO codes at http://www.unicode.org/unicode/onlinedat/languages.html
+				// RTL languages are Hebrew, Arabic, Urdu, Farsi (Persian), Yiddish
+				if (	language.equals(  "he"  ) || //$NON-NLS-1$
+						language.equals(  "iw"  ) || //$NON-NLS-1$
+						language.equals(  "ar"  ) || //$NON-NLS-1$
+						language.equals(  "fa"  ) || //$NON-NLS-1$
+						language.equals(  "ur"  ) || //$NON-NLS-1$
+						language.equals(  "yi"  ) || //$NON-NLS-1$
+						language.equals(  "ji"  )  ) //$NON-NLS-1$ 
+				{
+					iRightToLeft = 1;
+				}
 			}
 		}
 		return iRightToLeft == 1;
