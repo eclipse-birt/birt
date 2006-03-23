@@ -105,7 +105,38 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_THEME = ReportDesignConstants.THEME_ITEM;
 
 	public final static String ICON_ELEMENT_TEMPLATEITEM = ReportDesignConstants.TEMPLATE_REPORT_ITEM;
+	
+	// Library report item icons
+	public final static String LINK = "LINK";
 
+	public final static String ICON_ELEMENT_DATA_LINK = ICON_ELEMENT_DATA + "_" + LINK;
+	
+	public final static String ICON_ELEMENT_DATA_SET_LINK = ICON_ELEMENT_DATA_SET + "_" + LINK;
+	
+	public final static String ICON_ELEMENT_DATA_SOURCE_LINK = ICON_ELEMENT_DATA_SOURCE + "_" + LINK;
+	
+	public final static String ICON_ELEMENT_GRID_LINK = ICON_ELEMENT_GRID + "_" + LINK;
+	
+	public final static String ICON_ELEMENT_IMAGE_LINK = ICON_ELEMENT_IMAGE + "_" + LINK;
+	
+	public final static String ICON_ELEMENT_LABEL_LINK = ICON_ELEMENT_LABEL + "_" + LINK;
+	
+	public final static String ICON_ELEMENT_LIST_LINK = ICON_ELEMENT_LIST + "_" + LINK;
+	
+	public final static String ICON_ELEMENT_TABLE_LINK = ICON_ELEMENT_TABLE + "_" + LINK;
+	
+	public final static String ICON_ELEMENT_TEXT_LINK = ICON_ELEMENT_TEXT + "_" + LINK;
+	
+	public final static String ICON_ELEMENT_TEXTDATA_LINK = ICON_ELEMENT_TEXTDATA + "_" + LINK; 
+	
+	public final static String ICON_ELEMENT_ODA_DATA_SET_LINK = ReportDesignConstants.ODA_DATA_SET + "_" + LINK;
+
+	public final static String ICON_ELEMENT_ODA_DATA_SOURCE_LINK = ReportDesignConstants.ODA_DATA_SOURCE + "_" + LINK;
+
+	public final static String ICON_ELEMENT_SCRIPT_DATA_SET_LINK = ReportDesignConstants.SCRIPT_DATA_SET + "_" + LINK;
+
+	public final static String ICON_ELEMENT_SCRIPT_DATA_SOURCE_LINK = ReportDesignConstants.SCRIPT_DATA_SOURCE + "_" + LINK;
+	
 	// outline view icons
 	public final static String ICON_NODE_BODY = "Body"; //$NON-NLS-1$
 
