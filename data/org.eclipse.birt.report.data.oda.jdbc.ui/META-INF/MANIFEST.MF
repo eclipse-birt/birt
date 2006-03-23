@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.birt.report.designer.ui,
  org.eclipse.gef,
  org.eclipse.jface.text,
- org.eclipse.birt.report.data.oda.jdbc
+ org.eclipse.birt.report.data.oda.jdbc,
+ org.apache.commons.codec
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.birt.report.data.oda.jdbc.ui,
  org.eclipse.birt.report.data.oda.jdbc.ui.dialogs,
