@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.List;
 
-import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -27,8 +26,8 @@ public class JointDataSetDesign extends BaseDataSetDesign
 {
 
 	//
-	private IBaseDataSetDesign left;
-	private IBaseDataSetDesign right;
+	private String left;
+	private String right;
 	
 	/**
 	 * The join type of this JointDataSet. May one of inner join, left outer join
@@ -45,8 +44,8 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	 * Constructor.
 	 * @throws DataException 
 	 */
-	public JointDataSetDesign( String name, IBaseDataSetDesign left,
-			IBaseDataSetDesign right, int joinType, List joinConditions )
+	public JointDataSetDesign( String name, String left,
+			String right, int joinType, List joinConditions )
 			throws DataException
 	{
 		super( name );
@@ -77,7 +76,7 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getLeftDataSetDesign()
 	 */
-	public IBaseDataSetDesign getLeftDataSetDesign( )
+	public String getLeftDataSetDesignName( )
 	{
 		return left;
 	}
@@ -87,7 +86,7 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getRightDataSetDesign()
 	 */
-	public IBaseDataSetDesign getRightDataSetDesign( )
+	public String getRightDataSetDesignName( )
 	{
 		return right;
 	}

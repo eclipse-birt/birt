@@ -87,12 +87,12 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		dataSet = (IJointDataSetDesign) dataSetDesign;
 
 		ResultIterator left = getSortedResultIterator( dataEngine,
-				dataSet.getLeftDataSetDesign( ),
+				dataSet.getLeftDataSetDesignName( ),
 				appContext,
 				dataSet.getJoinConditions( ),
 				true );
 		ResultIterator right = getSortedResultIterator( dataEngine,
-				dataSet.getRightDataSetDesign( ),
+				dataSet.getRightDataSetDesignName( ),
 				appContext,
 				dataSet.getJoinConditions( ),
 				false );
@@ -125,8 +125,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private JointResultMetadata getJointResultMetadata( ResultIterator left,
 			ResultIterator right ) throws DataException
 	{
-		String leftPrefix = dataSet.getLeftDataSetDesign( ).getName( );
-		String rightPrefix = dataSet.getRightDataSetDesign( ).getName( );
+		String leftPrefix = dataSet.getLeftDataSetDesignName( );
+		String rightPrefix = dataSet.getRightDataSetDesignName( );
 		if ( leftPrefix.equals( rightPrefix ) )
 		{
 			leftPrefix = leftPrefix + "1";
@@ -238,11 +238,11 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @throws BirtException
 	 */
 	private ResultIterator getSortedResultIterator( DataEngineImpl dataEngine,
-			IBaseDataSetDesign dataSetDesign, Map appContext,
+			String dataSetDesignName, Map appContext,
 			List joinConditions, boolean isLeftDataSet ) throws DataException
 	{
 		QueryDefinition queryDefinition = new QueryDefinition( );
-		queryDefinition.setDataSetName( dataSetDesign.getName( ) );
+		queryDefinition.setDataSetName( dataSetDesignName );
 		IPreparedQuery preparedQuery;
 		try
 		{

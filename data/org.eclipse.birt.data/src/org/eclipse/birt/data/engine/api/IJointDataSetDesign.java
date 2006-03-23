@@ -35,20 +35,20 @@ public interface IJointDataSetDesign extends IBaseDataSetDesign
 	public static int RIGHT_OUTER_JOIN = 2;
 
 	/**
-	 * This method returns the data set which servers as left operand of a
+	 * This method returns the name of data set which servers as left operand of a
 	 * joint.
 	 * 
 	 * @return name of data set that servers as first oprand
 	 */
-	public IBaseDataSetDesign getLeftDataSetDesign( );
+	public String getLeftDataSetDesignName( );
 
 	/**
-	 * This method returns the data set which servers as right operand of a
+	 * This method returns the name of data set which servers as right operand of a
 	 * joint.
 	 * 
 	 * @return name of data set that servers as second oprand
 	 */
-	public IBaseDataSetDesign getRightDataSetDesign( );
+	public String getRightDataSetDesignName( );
 
 	/**
 	 * This method returns the Joint Type.
