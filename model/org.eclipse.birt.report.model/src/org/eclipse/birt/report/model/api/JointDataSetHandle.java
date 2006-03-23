@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.DataSetHandle.DataSetParametersPropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.Module;
@@ -234,5 +235,19 @@ public class JointDataSetHandle extends DataSetHandle
 	public String getOnFetch( )
 	{
 		throw new IllegalOperationException( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getPropertyHandle(java.lang.String)
+	 */
+	public PropertyHandle getPropertyHandle( String propName )
+	{
+		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
+		if ( propDefn == null )
+			return null;
+
+		return super.getPropertyHandle( propName );
 	}
 }
