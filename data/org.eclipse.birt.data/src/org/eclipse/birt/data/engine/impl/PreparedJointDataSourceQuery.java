@@ -105,7 +105,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 
 		JointResultMetadata meta = getJointResultMetadata( left, right );
 
-		resultClass = getPreparedResultClass( meta.getResultClass( ) );
+		resultClass = meta.getResultClass( );
 
 		populator = JointDataSetPopulatorFactory.getBinaryTreeDataSetPopulator( left.getOdiResult( ),
 				right.getOdiResult( ),
@@ -157,15 +157,16 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			IResultClass left, String leftPrefix, IResultClass right,
 			String rightPrefix ) throws DataException
 	{
-		int[] index = new int[left.getFieldCount( ) + right.getFieldCount( )];
-		boolean[] isFromLeft = new boolean[left.getFieldCount( )
-				+ right.getFieldCount( )];
+		int length = left.getFieldCount( )
+		+ right.getFieldCount( )+ ((dataSet.getComputedColumns( )==null)?0:dataSet.getComputedColumns( ).size( ));
+		int[] index = new int[length];
+		int[] columnSource = new int[length];
 		List projectedColumns = new ArrayList( );
 
 		for ( int i = 1; i <= left.getFieldCount( ); i++ )
 		{
 			index[i - 1] = i;
-			isFromLeft[i - 1] = true;
+			columnSource[i - 1] = JointResultMetadata.COLUMN_TYPE_LEFT;
 			projectedColumns.add( new ResultFieldMetadata( i,
 					leftPrefix + left.getFieldName( i ),
 					leftPrefix + left.getFieldName( i ),
@@ -173,10 +174,10 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 					left.getFieldNativeTypeName( i ),
 					false ) );
 		}
-		for ( int i = left.getFieldCount( ) + 1; i <= index.length; i++ )
+		for ( int i = left.getFieldCount( ) + 1; i <= left.getFieldCount( )+right.getFieldCount( ); i++ )
 		{
 			index[i - 1] = i - left.getFieldCount( );
-			isFromLeft[i - 1] = false;
+			columnSource[i - 1] = JointResultMetadata.COLUMN_TYPE_RIGHT;
 			projectedColumns.add( new ResultFieldMetadata( i,
 					rightPrefix
 							+ right.getFieldName( i - left.getFieldCount( ) ),
@@ -186,19 +187,33 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 					right.getFieldNativeTypeName( i - left.getFieldCount( ) ),
 					false ) );
 		}
-
+		if( dataSet.getComputedColumns( )!= null)
+		{
+			for( int i = 0; i <dataSet.getComputedColumns( ).size( ); i++)
+			{
+				IComputedColumn cc = (IComputedColumn)dataSet.getComputedColumns( ).get(i);
+				index[i + left.getFieldCount( ) + right.getFieldCount( ) ] = -1;
+				columnSource[i + left.getFieldCount( ) + right.getFieldCount( )] = JointResultMetadata.COLUMN_TYPE_COMPUTED;
+				projectedColumns.add( new ResultFieldMetadata( i,
+						cc.getName( ),
+						cc.getName( ),
+						DataType.getClass( cc.getDataType( ) ),
+						null,
+						true ) );
+			}
+		}
 		ResultClass resultClass = new ResultClass( projectedColumns );
-		return new JointResultMetadata( resultClass, isFromLeft, index );
+		return new JointResultMetadata( resultClass, columnSource, index );
 
 	}
 	
-	/**
+/*	*//**
 	 * Return the ResultClass. The result class consists of fields from JointDataSetMeta and 
 	 * the computed columns.
 	 * @param jointResultClass
 	 * @return
 	 * @throws DataException
-	 */
+	 *//*
 	private IResultClass getPreparedResultClass( IResultClass jointResultClass )
 			throws DataException
 	{
@@ -227,7 +242,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 					true ) );
 		}
 		return new ResultClass( projectedColumns );
-	}
+	}*/
 
 	/**
 	 * Return the ResultIterator which is sorted using expression in join condition.

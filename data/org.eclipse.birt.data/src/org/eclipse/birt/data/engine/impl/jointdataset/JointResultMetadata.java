@@ -17,8 +17,11 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  */
 public class JointResultMetadata
 {
+	public static final int COLUMN_TYPE_COMPUTED = 0;
+	public static final int COLUMN_TYPE_LEFT = 1;
+	public static final int COLUMN_TYPE_RIGHT = 2;
 	//
-	private boolean[] isFromLeftResultSet;
+	private int[] columnSource;
 	private int[] columnIndex;
 	private IResultClass resultClass;
 	
@@ -29,10 +32,10 @@ public class JointResultMetadata
 	 * @param isFromLeftResultSet
 	 * @param index
 	 */
-	public JointResultMetadata( IResultClass resultClass, boolean[] isFromLeftResultSet, int[] index )
+	public JointResultMetadata( IResultClass resultClass, int[] columnSource, int[] index )
 	{
 		this.resultClass = resultClass;
-		this.isFromLeftResultSet = isFromLeftResultSet;
+		this.columnSource = columnSource;
 		this.columnIndex = index;
 	}
 	
@@ -51,9 +54,9 @@ public class JointResultMetadata
 	 * @param index
 	 * @return
 	 */
-	boolean isFromLeftResultSet( int index  )
+	int getColumnSource( int index  )
 	{
-		return isFromLeftResultSet[index - 1];
+		return columnSource[index - 1];
 	}
 	
 	/**

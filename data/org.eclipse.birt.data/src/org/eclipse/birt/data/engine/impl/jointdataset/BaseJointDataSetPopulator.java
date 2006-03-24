@@ -116,13 +116,13 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 		{
 			IResultObject ri = null;
 			
-			if( meta.isFromLeftResultSet( i ))
+			if( meta.getColumnSource( i ) == JointResultMetadata.COLUMN_TYPE_LEFT)
 			{
 				if( joinType!=IJointDataSetDesign.RIGHT_OUTER_JOIN)
 					ri = primary;
 				else
 					ri = secondary;
-			}else 
+			}else if( meta.getColumnSource( i ) == JointResultMetadata.COLUMN_TYPE_RIGHT)
 			{
 				if( joinType!=IJointDataSetDesign.RIGHT_OUTER_JOIN)
 					ri = secondary;
