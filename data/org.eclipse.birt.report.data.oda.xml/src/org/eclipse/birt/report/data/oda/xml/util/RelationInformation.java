@@ -13,6 +13,7 @@ package org.eclipse.birt.report.data.oda.xml.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.eclipse.birt.report.data.oda.xml.DataTypes;
 import org.eclipse.birt.report.data.oda.xml.i18n.Messages;
@@ -228,6 +229,11 @@ public class RelationInformation
 	public HashMap getTableFilter( String tableName )
 	{
 		return ( (TableInfo) this.tableInfos.get( tableName ) ).getFilter( );
+	}
+	
+	public Iterator getTableNames()
+	{
+		return this.tableInfos.keySet( ).iterator( );
 	}
 }
 

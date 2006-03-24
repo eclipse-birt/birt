@@ -20,22 +20,10 @@
                   defaultDisplayName="xml file"
                   canInherit="true"
                   name="XML_FILE"/> 
-            <property
-                  type="string"
-                  defaultDisplayName="XPath List"
-                  canInherit="true"
-                  name="XPATHTEXT"/> 
-            <property
-                  type="string"
-                  defaultDisplayName="Table Name"
-                  canInherit="true"
-                  name="TABLENAME"/>
          </propertyGroup>
          <propertyVisibility name="queryText" visibility="hide"/>
-         <propertyVisibility name="TABLENAME" visibility="hide"/>
          <propertyVisibility name="MAX_ROW" visibility="hide"/>
          <propertyVisibility name="XML_FILE" visibility="hide"/>
-         <propertyVisibility name="XPATHTEXT" visibility="hide"/>
          </properties>
             <dataTypeMapping
                   nativeDataType="BIT"

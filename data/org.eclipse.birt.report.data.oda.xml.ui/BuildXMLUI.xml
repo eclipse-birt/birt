@@ -78,12 +78,6 @@
 		<fileset dir="${oda.xml.ui.dir}">
 			<include name="${oda.xml.ui.jar}"/>
 		</fileset>
-		<fileset dir="${designer.ui.dir}">
-			<include name="${designer.ui.jar}"/>
-		</fileset>
-		<fileset dir="${model.dir}">
-			<include name="${model.jar}"/>
-		</fileset>
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.swt*/**/swt.jar" /> 
 			<include name="org.eclipse.swt*.jar" /> 
@@ -210,19 +204,7 @@
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="end call Jar task in ${oda.xml.dir}"/>
-
-		<echo message="start call Jar task in ${model.dir}"/>
-		<ant dir="${model.dir}" antfile="BuildModel.xml" target="Jar" inheritAll="false">
-		 	<property name="eclipse.home" value="${eclipse.home}" />
-		</ant>		
-		<echo message="end call Jar task in ${model.dir}"/>
-				
-		<echo message="start call Jar task in ${designer.ui.dir}"/>
-		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml" target="Jar" inheritAll="false">
-		  <property name="eclipse.home" value="${eclipse.home}" /> 
-		</ant> 		
-		<echo message="end call Jar task in ${designer.ui.dir}"/>
-		
+					
 		<echo message="start call Jar task in ${oda.designer.ui.dir}"/>
 		<ant dir="${oda.designer.ui.dir}" antfile="build.xml" target="build.jars" inheritAll="false">
 			<property name="dtp.home" value="${dtp.home}"/>

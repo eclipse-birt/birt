@@ -41,7 +41,7 @@
       <page
             id="%oda.data.source.id"
             name="%profile.propertypage.name"
-            class="org.eclipse.birt.report.data.oda.xml.ui.profile.XMLPropertyPage"
+            class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XMLPropertyPage"
             objectClass="org.eclipse.datatools.connectivity.IConnectionProfile">
          <filter
                name="org.eclipse.datatools.profile.property.id"
@@ -54,14 +54,14 @@
       <dataSourceUI id="%oda.data.source.id">
          <newDataSourceWizard
                includesProgressMonitor="false"
-               pageClass="org.eclipse.birt.report.data.oda.xml.ui.profile.XMLSelectionWizardPage"
+               pageClass="org.eclipse.birt.report.data.oda.xml.ui.wizards.XMLSelectionWizardPage"
                pageTitle="%wizard.data.source.page.title"
                windowTitle="%wizard.window.title"/>
       </dataSourceUI>
       <dataSetUI id="org.eclipse.birt.report.data.oda.xml.dataSet"
                  initialPageId="org.eclipse.datatools.connectivity.oda.design.ui1"
                  hasParameterDefinition="false">
-            <newDataSetWizard class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetWizard"/>
+            <newDataSetWizard class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.NewDataSetWizard"/>
             <dataSetPage
                   id="org.eclipse.datatools.connectivity.oda.design.ui1"
                   wizardPageClass="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetSelectionPage"

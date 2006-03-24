@@ -327,11 +327,14 @@ public class ModelDteApiAdapter
 				 * Here is a temp solution to adapt relative path to xml driver.
 				 * TODO Enhance me.
 				 */
-				if( "org.eclipse.birt.report.data.oda.xml".equals( driverName )
-					&& (propName.equals( "FILELIST" )||propName.equals( "SCHEMAFILE" )))
+				if ( "org.eclipse.birt.report.data.oda.xml".equals( driverName )
+						&& ( propName.equals( "FILELIST" ) || propName.equals( " " ) )
+						&& propValue != null )
 				{
-					Object url = source.getModuleHandle( ).findResource( ( String ) propValue,IResourceLocator.LIBRARY );
-					propValue = url == null? "":url.toString( );
+					Object url = source.getModuleHandle( )
+							.findResource( (String) propValue,
+									IResourceLocator.LIBRARY );
+					propValue = url == null ? "" : url.toString( );
 				}	
 				dteSource.addPublicProperty( propName, propValue );
 			}
