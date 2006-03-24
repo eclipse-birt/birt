@@ -1009,35 +1009,5 @@ public final class DataTypeUtil
 
         return odaType;
     }
-
-    /**
-     * Converts an ODA data type literal value to its
-     * corresponding code value.
-     * @param odaDataTypeLiteral    a literal value of an ODA data type 
-     * @return  corresponding ODA data type code value
-     */
-    public static int toOdaDataTypeCode( String odaDataTypeLiteral )
-    {
-        // TODO - move implementation to DTP oda.util.manifest
-        if( odaDataTypeLiteral.equalsIgnoreCase( "String" ) )
-            return Types.CHAR;
-        if( odaDataTypeLiteral.equalsIgnoreCase( "Integer" ) )
-            return Types.INTEGER;
-        if( odaDataTypeLiteral.equalsIgnoreCase( "Double" ) )
-            return Types.DOUBLE;
-        if( odaDataTypeLiteral.equalsIgnoreCase( "Decimal" ) )
-            return Types.DECIMAL;
-        if( odaDataTypeLiteral.equalsIgnoreCase( "Date" ) )
-            return Types.DATE;
-        if( odaDataTypeLiteral.equalsIgnoreCase( "Time" ) )
-            return Types.TIME;
-        if( odaDataTypeLiteral.equalsIgnoreCase( "Timestamp" ) )
-            return Types.TIMESTAMP;
-        if( odaDataTypeLiteral.equalsIgnoreCase( "Blob" ) )
-            return Types.BLOB;
-        if( odaDataTypeLiteral.equalsIgnoreCase( "Clob" ) )
-            return Types.CLOB;
-        return Types.NULL;
-    }
 	
 }

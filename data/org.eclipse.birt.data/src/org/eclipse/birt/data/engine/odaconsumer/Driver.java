@@ -19,19 +19,18 @@ import java.net.URL;
 import java.sql.Types;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.datatools.connectivity.oda.consumer.helper.OdaDriver;
 import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.LogConfiguration;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
+import org.eclipse.datatools.connectivity.oda.consumer.helper.OdaDriver;
 import org.eclipse.datatools.connectivity.oda.util.manifest.DataSetType;
 import org.eclipse.datatools.connectivity.oda.util.manifest.DataTypeMapping;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 import org.eclipse.datatools.connectivity.oda.util.manifest.TraceLogging;
 
 /**
@@ -154,30 +153,18 @@ class Driver
 		if( mapping == null )	
 			return Types.NULL;
 		
-		String odaType = mapping.getOdaScalarDataType();		
-		int odaTypeCode = toOdaDataTypeCode( odaType );
+		int odaTypeCode = mapping.getOdaScalarDataTypeCode();
 
         if( odaTypeCode == Types.NULL )
         {
 			// shouldn't be in here, the configuration should only have the 
 			// types above
 			sm_logger.logp( Level.WARNING, sm_className, methodName,
-					"Invalid ODA data type {0} specified in data source extension mapping.", odaType );
+					"Invalid ODA data type {0} specified in data source extension mapping.", 
+                    mapping.getOdaScalarDataType() );
 		}
         return odaTypeCode;
 	}
-
-    /**
-     * Converts an ODA data type literal value to its
-     * corresponding code value.
-     * @param odaDataTypeLiteral
-     * @return
-     */
-    int toOdaDataTypeCode( String odaDataTypeLiteral )
-    {
-        // TODO - replace with call to oda.util.manifest
-        return DataTypeUtil.toOdaDataTypeCode( odaDataTypeLiteral );
-    }
 	
     /**
      * Passes the trace logging configuration values to the
