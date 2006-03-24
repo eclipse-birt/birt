@@ -232,13 +232,13 @@ public abstract class EngineCase extends TestCase
 
 		try
 		{
-			golden = getClassFolder( ) + "/" + GOLDEN_FOLDER + "/" + golden;
-			output = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + output;
+			golden = getClassFolder( ) + "/" + GOLDEN_FOLDER + "/" + golden;  //$NON-NLS-1$//$NON-NLS-2$
+			output = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + output;  //$NON-NLS-1$//$NON-NLS-2$
 
 			readerA = new FileReader( golden );
 			readerB = new FileReader( output );
 
-			same = compareTextFile( readerA, readerB );
+			same = compareTextFile( readerA, readerB, output );
 		}
 		catch ( IOException e )
 		{
@@ -268,17 +268,20 @@ public abstract class EngineCase extends TestCase
 	}
 
 	/**
-	 * Run and render the given design file into html file. If the input is "a.xml", output 
-	 * html file will be named "a.html" under folder "output".
+	 * Run and render the given design file into html file. If the input is
+	 * "a.xml", output html file will be named "a.html" under folder "output".
+	 * 
 	 * @param input
 	 * @throws EngineException
 	 */
-	
-	protected void runAndRender_HTML( String input, String output ) throws EngineException
+
+	protected void runAndRender_HTML( String input, String output )
+			throws EngineException
 	{
 		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
 				+ "/" + output; //$NON-NLS-1$
-		String inputFile = this.getClassFolder( ) + "/" + INPUT_FOLDER + "/" + input; //$NON-NLS-1$
+		String inputFile = this.getClassFolder( )
+				+ "/" + INPUT_FOLDER + "/" + input; //$NON-NLS-1$
 
 		String format = "html"; //$NON-NLS-1$
 		String encoding = "UTF-8"; //$NON-NLS-1$
@@ -306,24 +309,26 @@ public abstract class EngineCase extends TestCase
 		task.close( );
 	}
 
-	
 	/**
 	 * 
 	 * @param doc
+	 *            input rpt docuement file
+	 * @param output
+	 *            output file of the generation.
 	 * @throws EngineException
 	 */
-	
-	public void render_HTML( String doc ) throws EngineException
+
+	public void render_HTML( String doc, String output ) throws EngineException
 	{
-		String outputName = doc.substring( 0, doc.lastIndexOf( '.' ) + 1 )
-				+ "html"; //$NON-NLS-1$
-		String outputFile = this.getClassFolder( ) + OUTPUT_FOLDER
-				+ "/" + outputName; //$NON-NLS-1$
+		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
+				+ "/" + output; //$NON-NLS-1$
+		String inputFile = this.getClassFolder( )
+				+ "/" + INPUT_FOLDER + "/" + doc; //$NON-NLS-1$
 
 		String format = "html"; //$NON-NLS-1$
 		String encoding = "UTF-8"; //$NON-NLS-1$
 
-		IReportDocument document = engine.openReportDocument( doc );
+		IReportDocument document = engine.openReportDocument( inputFile );
 		IRenderTask task = engine.createRenderTask( document );
 		task.setLocale( Locale.ENGLISH );
 
@@ -341,7 +346,10 @@ public abstract class EngineCase extends TestCase
 				encoding );
 
 		task.setRenderOption( options );
-		task.render( );
+		
+		
+		// TODO: changed to task.render when Engine has fix the render().
+		task.render( "ALL" ); //$NON-NLS-1$
 		task.close( );
 	}
 
@@ -357,7 +365,7 @@ public abstract class EngineCase extends TestCase
 	 *             if any exception
 	 */
 
-	private boolean compareTextFile( Reader golden, Reader output )
+	private boolean compareTextFile( Reader golden, Reader output, String fileName )
 			throws Exception
 	{
 		StringBuffer errorText = new StringBuffer( );
@@ -386,6 +394,9 @@ public abstract class EngineCase extends TestCase
 
 					message.append( "line=" ); //$NON-NLS-1$
 					message.append( lineNo );
+					message.append( "(" ); //$NON-NLS-1$
+					message.append( fileName );
+					message.append( ")" ); //$NON-NLS-1$
 					message.append( " is different:\n" );//$NON-NLS-1$
 					message.append( " The line from golden file: " );//$NON-NLS-1$
 					message.append( strA );
