@@ -1742,7 +1742,7 @@
       <Type name="DataSet"/>
       <Type name="TemplateDataSet"/>
     </Slot>
-    <Slot displayNameID="Element.ReportDesign.slot.pageSetup" multipleCardinality="false" name="pageSetup" since="1.0" xmlName="page-setup">
+    <Slot displayNameID="Element.ReportDesign.slot.pageSetup" multipleCardinality="true" name="pageSetup" since="1.0" xmlName="page-setup">
       <Type name="MasterPage"/>
 	  <Trigger validator="MasterPageRequiredValidator"/>
     </Slot>
