@@ -57,7 +57,7 @@ public class CssErrDialog extends TitleAreaDialog
 	protected Control createContents( Composite parent )
 	{
 		Control control = super.createContents( parent );
-		this.setMessage( Messages.getString("CssErrDialog.AreaMessage") );	
+		setMessage( Messages.getString("CssErrDialog.AreaMessage") );	
 		setTitle( Messages.getString("CssErrDialog.AreaTitle"));
 		getShell( ).setText( Messages.getString("CssErrDialog.shellTitle.ImportCssStyleMssageTitle"));
 
