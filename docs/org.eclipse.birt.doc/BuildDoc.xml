@@ -116,19 +116,20 @@
 			 the dependency on Jar should implement in top level script by call sequence
 			 Parameters:
 			 		- ${export.dir} target directory to put the plugin binaries
-			 		- ${plugin.version} the version of plugin exported
+			 		- ${Bundle-Version} the version of bundle exported
 	-->
 	<target name="Export">
-		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-	  <copy todir="${export.dir}/${module.name}_${plugin.version}">
-	    <fileset dir="." includes="plugin.xml,.project,*Toc.xml,doc.zip,about.html,notices.html"/>
+		<property file="META-INF/MANIFEST.MF" />
+		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />
+	  <copy todir="${export.dir}/${plugin.package}">
+	    <fileset dir="." includes="plugin.xml,.project,META-INF/MANIFEST.MF,*Toc.xml,doc.zip,about.html,notices.html"/>
 	  </copy>
 	  <!-- Copy the BIRT examples plugins.
 	   -->
-    <copy todir="${export.dir}/${module.name}_${plugin.version}/Samples/org.eclipse.birt.chart.examples" failonerror="false">
+    <copy todir="${export.dir}/${plugin.package}/Samples/org.eclipse.birt.chart.examples" failonerror="false">
       <fileset dir="${chartexamples.dir}"/>
     </copy>
-    <copy todir="${export.dir}/${module.name}_${plugin.version}/Samples/org.eclipse.birt.sample.reportitem.rotatedtext" failonerror="false">
+    <copy todir="${export.dir}/${plugin.package}/Samples/org.eclipse.birt.sample.reportitem.rotatedtext" failonerror="false">
       <fileset dir="${rotatedtextitem.dir}"/>
     </copy>
 	</target>
@@ -183,7 +184,6 @@
 	<target name="engineJavadoc">
 		<delete dir="${engine.javadoc.dir}"/>
 		<ant dir="${engine.dir}" antfile="BuildEngine.xml" target="APIJavaDoc" inheritall="false" inheritrefs="false">
-		 	<property name="eclipse.home" value="${eclipse.home}" />
       		<property name="api.javadoc.dir" value="../${module.name}/${engine.javadoc.dir}" />
 		</ant>
   </target>
