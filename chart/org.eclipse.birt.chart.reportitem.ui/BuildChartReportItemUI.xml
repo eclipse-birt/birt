@@ -128,19 +128,33 @@
 		<fileset dir="${core.dir}/lib">
 				<include name="**/*.jar"/>
 		</fileset>
-		
-		<pathelement path="${core.dir}/core.jar"/>
-		<pathelement path="${model.dir}/model.jar"/>
+		<fileset dir="${model.dir}">
+				<include name="*.jar"/>
+		</fileset>
 		<fileset dir="${engine.dir}">
 				<include name="*.jar"/>
 		</fileset>
-		<pathelement path="${designer.core.dir}/core.jar"/>
-		<pathelement path="${designer.ui.dir}/ui.jar"/>
-		<pathelement path="${data.dir}/dte.jar"/>
-		<pathelement path="${chart.engine.dir}/engine.jar"/>
-		<pathelement path="${chart.reportitem.dir}/reportitem.jar"/>
-		<pathelement path="${chart.ui.dir}/ui.jar"/>
-		<pathelement path="${core.ui.dir}/coreui.jar"/>
+		<fileset dir="${designer.core.dir}">
+				<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${designer.ui.dir}">
+				<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${data.dir}">
+				<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${chart.engine.dir}">
+				<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${chart.reportitem.dir}">
+				<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${chart.ui.dir}">
+				<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${core.ui.dir}">
+				<include name="*.jar"/>
+		</fileset>
 	</path>
 	
 	<!-- Compile source code and generate jar for this project.
