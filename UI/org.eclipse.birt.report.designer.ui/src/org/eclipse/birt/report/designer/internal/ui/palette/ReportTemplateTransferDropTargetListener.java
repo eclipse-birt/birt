@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.commands.Command;
@@ -142,12 +143,31 @@ public class ReportTemplateTransferDropTargetListener
 					return;
 				}
 			}
-			super.handleDrop( );
+			boolean isTheme = false;
+			if(preHandle instanceof LibraryElementsToolHandleExtends
+			&&	template instanceof Object[])
+			{
+				Object[] objs = (Object[])template;
+				if(objs.length == 1
+				&& objs[0] instanceof ThemeHandle)
+				{
+					isTheme = true;
+				}
+			}
+				
+			if(isTheme == false)
+			{
+				super.handleDrop( );
+			}
+			
 			SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
 					.getCommandStack( )
 					.commit( );
+			if(isTheme == false)
+			{
 			selectAddedObject( );
+			}
 		}
 
 	}

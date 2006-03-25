@@ -1034,6 +1034,11 @@ public class UIUtil
 			LibraryHandle libraryHandle ) throws DesignFileException,
 			SemanticException
 	{
+		if (moduleHandle != libraryHandle 
+			&& moduleHandle.isInclude( libraryHandle ))
+		{
+			moduleHandle.reloadLibrary( libraryHandle );
+		}else
 		if ( moduleHandle != libraryHandle
 				&& !moduleHandle.isInclude( libraryHandle ) )
 		{
