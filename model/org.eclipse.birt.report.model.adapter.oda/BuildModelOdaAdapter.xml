@@ -75,6 +75,8 @@
 	<property name="eclipse.home" location="." />
 	<property name="dtp.home" location=".." />
 	
+	<property name="manifest" value="META-INF/MANIFEST.MF" />
+	
 	<property name="core.dir" value="../org.eclipse.birt.core" />
 	<property name="model.dir" value="../org.eclipse.birt.report.model" />
 	<property name="data.oda.dir" value="../org.eclipse.birt.data.oda" />	
@@ -116,7 +118,18 @@
 	-->
 	
 	<target name="Jar" depends="compileSource">
-		<jar destfile="modeloda.jar" >
+		
+		<!-- Copy all jar'd resource files into bin -->
+		
+    	<copy todir="${build.dir}">
+	   		<fileset dir="${basedir}">
+	   			<include name="${manifest}"/>
+	   			<include name="plugin.xml"/>
+	   			<include name=".options"/>				   
+	   		</fileset>
+	   	</copy>
+		
+		<jar destfile="modeloda.jar" manifest="${manifest}">
 			<fileset dir="${build.dir}">
 				<exclude name="**/*Test.class"/>
 			</fileset>
@@ -130,13 +143,12 @@
 		 		- ${export.dir} target directory to put the plugin binaries
 	 -->
 	<target name="Export" >
-		<property file="META-INF/MANIFEST.MF" />
 		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />		
 		
 		<echo message="Export Model Oda Adapter version = ${Bundle-Version}" />
 		
-	  	<copy todir="${export.dir}/${module.name}_${plugin.package}" failonerror="false">
-	        <fileset dir="." includes="modeloda.jar,plugin.xml,META-INF/**,about.html,.options,lib/**,schema/**, about_files/**"/>
+	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}" failonerror="false">
+	        <fileset dir="." includes="modeloda.jar"/>
 	    </copy>		    
 	</target>
 

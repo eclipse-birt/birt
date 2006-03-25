@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Model ODA Adapter
 Bundle-SymbolicName: org.eclipse.birt.report.model.adapter.oda
 Bundle-Version: 2.1.0.qualifier
-Bundle-ClassPath: modeloda.jar
 Bundle-Activator: org.eclipse.birt.report.model.adapter.oda.plugin.ModelAdapterOdaPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
