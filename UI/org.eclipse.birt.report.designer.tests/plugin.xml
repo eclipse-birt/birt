@@ -1,37 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.report.designer.tests"
-   name="BIRT Test Plugin"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.report.designer.tests.TestsPlugin">
+<plugin>
 
-   <runtime>
-      <library name="tests.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-
-   <requires>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.junit"/>
-      <import plugin="org.eclipse.gef"/>      
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.birt.report.model"/>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.data"/>
-      <import plugin="org.eclipse.birt.report.designer.core"/>
-      <import plugin="org.eclipse.birt.report.designer.ui"/>
-      <import plugin="org.eclipse.birt.report.data.oda.jdbc.ui"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.eclipse.birt.report.designer.ui.ide"/>      
-      
-   </requires>
-   <extension
+     <extension
          id="testingBall"
          name="Matrix for testing"
          point="org.eclipse.birt.report.model.reportItemModel">

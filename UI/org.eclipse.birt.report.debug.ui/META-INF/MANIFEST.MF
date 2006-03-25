@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT debug Plug-in
+Bundle-SymbolicName: org.eclipse.birt.report.debug.ui; singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-Activator: org.eclipse.core.internal.compatibility.PluginActivator
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.report.debug.internal.ui.launcher,
+ org.eclipse.birt.report.debug.internal.ui.launcher.util,
+ org.eclipse.birt.report.debug.ui,
+ org.eclipse.birt.report.debug.ui.launcher,
+ org.eclipse.birt.report.debug.ui.launching
+Require-Bundle: org.eclipse.debug.core,
+ org.eclipse.debug.ui,
+ org.eclipse.ui,
+ org.eclipse.core.runtime.compatibility,
+ org.eclipse.jdt.launching,
+ org.eclipse.pde.ui,
+ org.eclipse.pde.core,
+ org.eclipse.jdt.core,
+ org.eclipse.pde,
+ org.eclipse.birt.core,
+ org.eclipse.core.resources,
+ org.eclipse.birt.report.viewer,
+ org.eclipse.birt.report.designer.core,
+ org.eclipse.ui.ide,
+ org.eclipse.birt.report.designer.ui.preview,
+ org.eclipse.birt.report.designer.ui.ide,
+ org.eclipse.ui.forms
+Eclipse-LazyStart: true
+Plugin-Class: org.eclipse.birt.report.debug.ui.DebugUI
+Bundle-RequiredExecutionEnvironment: J2SE-1.4

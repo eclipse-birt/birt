@@ -1,40 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.report.debug.ui"
-   name="BIRT debug Plug-in"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.report.debug.ui.DebugUI">
+<plugin>
 
-   <runtime>
-      <library name="debugui.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-
-   <requires>
-      <import plugin="org.eclipse.debug.core"/>
-      <import plugin="org.eclipse.debug.ui"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
-      <import plugin="org.eclipse.jdt.launching"/>
-      <import plugin="org.eclipse.pde.ui"/>
-      <import plugin="org.eclipse.pde.core"/>
-      <import plugin="org.eclipse.jdt.core"/>
-      <import plugin="org.eclipse.pde"/>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.birt.report.viewer"/>
-      <import plugin="org.eclipse.birt.report.designer.core"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.birt.report.designer.ui.preview"/>
-      <import plugin="org.eclipse.birt.report.designer.ui.ide"/>
-      <import plugin="org.eclipse.ui.forms"/>
-   </requires>
-   
-   
-	<extension
+    	<extension
 	         point="org.eclipse.debug.core.launchConfigurationTypes">
 	      <launchConfigurationType
 	            name="%report.debug"

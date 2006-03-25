@@ -47,6 +47,7 @@
  * Change History:
  *
  *    1. 03/16/2005: initial version
+ *    2. 03/16/2006: single jar version
  *
 -->
 
@@ -78,16 +79,10 @@
 	<property name="dir.bin" location="temp.folder" />
 	
 	<property name="module.name" value="org.eclipse.birt.report.designer.tests" />
-	<property name="core.dir" value="../org.eclipse.birt.core" />
-	<property name="model.dir" value="../org.eclipse.birt.report.model" />
-	<property name="data.dir" value="../org.eclipse.birt.data" />
 	<property name="engine.dir" value="../org.eclipse.birt.report.engine" />
-	<property name="designer.core.dir" value="../org.eclipse.birt.report.designer.core" />
-	<property name="designer.ui.dir" value="../org.eclipse.birt.report.designer.ui" />
 	<property name="designer.ui.ide.dir" value="../org.eclipse.birt.report.designer.ui.ide" />
 	<property name="oda.ui.dir" value="../org.eclipse.birt.report.data.oda.jdbc.ui" />
 	<property name="junit.classpath" value="${eclipse.home}/plugins/org.junit_3.8.1/junit.jar" />
-	<property name="jar.name" value="tests.jar" />
 	
 	<property name="arch" value="x86" />
 	
@@ -122,15 +117,11 @@
 		 Input parameters:
 		 	eclipse.home
 	-->
-	<target name="Jar" depends="buildDependents,generateBuildScript">
-		<ant inheritAll="false">
-			<property name="javacFailOnError" value="true" />
-			<property name="javacSource" value="1.4" />
-			<property name="javacTarget" value="1.4" />
-			<property name="os" value="${os}" />
-			<property name="ws" value="${ws}" />
-			<property name="arch" value="${arch}" />			
-		</ant>
+	<target name="Jar" depends="build,clearJars">
+		<java classpath="${eclipse.home}/startup.jar" classname="org.eclipse.core.launcher.Main" fork="true" dir="." failonerror="true">
+			<arg line="-application org.eclipse.ant.core.antRunner -file build.xml build.update.jar" />
+			<jvmarg line="-Declipse.home=${eclipse.home} -Dclean=true -Dos=${os} -Dws=${ws} -Darch=${arch} -DjavacSource=1.4 -DjavacTarget=1.4" />
+		</java>
 	</target>
 
 	<target name="Export" />
@@ -169,9 +160,8 @@
 	</target>
 
 	<!-- Clean all objects manually when the script generated is lost-->
-	<target name="exceptionalClean" depends="checkBuildScript" unless="buildScript.available">
+	<target name="exceptionalClean" depends="checkBuildScript,clearJars" unless="buildScript.available">
 		<delete dir="${dir.bin}" />
-		<delete file="${jar.name}" />
 	</target>
 
 	<target name="Javadoc" />
@@ -206,13 +196,31 @@
 			<property name="ws" value="${ws}" />
 			<property name="arch" value="${arch}" />
 		</ant>
-		
-		<ant dir="${designer.ui.ide.dir}" antfile="BuildDesignerIDE.xml"  target="Jar" inheritAll="false">
+		<ant dir="${designer.ui.ide.dir}" antfile="BuildDesignerIDE.xml"  target="build" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
 			<property name="os" value="${os}" />
 			<property name="ws" value="${ws}" />
 			<property name="arch" value="${arch}" />
+		</ant>						
+	</target>
+	
+	<target name="build" depends="buildDependents,generateBuildScript">
+		<ant inheritAll="false">
+			<property name="javacFailOnError" value="true" />
+			<property name="javacSource" value="1.4" />
+			<property name="javacTarget" value="1.4" />
+			<property name="os" value="${os}" />
+			<property name="ws" value="${ws}" />
+			<property name="arch" value="${arch}" />
 		</ant>
+	</target>
+	
+	<target name="clearJars">
+		<delete>
+			<fileset dir=".">
+				<include name="${module.name}*.jar" />
+			</fileset>
+		</delete>
 	</target>
 
 </project>
