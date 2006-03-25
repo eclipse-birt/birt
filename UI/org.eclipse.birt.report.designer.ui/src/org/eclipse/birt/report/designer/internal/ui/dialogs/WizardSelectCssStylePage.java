@@ -314,8 +314,28 @@ public class WizardSelectCssStylePage extends WizardPage
 				cssHandle = SessionHandleAdapter.getInstance( )
 						.getReportDesignHandle( )
 						.openCssStyleSheet( fileName );
-				Iterator styleIter = cssHandle.getStyleIterator( );
 
+				CssErrDialog cssErrorDialg = null;
+				if(!cssHandle.getParserFatalErrors( ).isEmpty( ))
+				{
+					cssErrorDialg = new CssErrDialog(this.getShell( ),cssHandle.getParserFatalErrors( ),CssErrDialog.FATAL_ERROR);
+				}else
+				if(!cssHandle.getParserErrors( ).isEmpty( ))
+				{
+					cssErrorDialg = new CssErrDialog(this.getShell( ),cssHandle.getParserErrors( ),CssErrDialog.ERROR);
+	
+				}else
+				if(!cssHandle.getParserWarnings( ).isEmpty( ))
+				{
+					cssErrorDialg = new CssErrDialog(this.getShell( ),cssHandle.getParserWarnings(),CssErrDialog.WARNING);
+				}
+				
+				if( cssErrorDialg != null)
+				{
+					cssErrorDialg.open( );
+				}
+				
+				Iterator styleIter = cssHandle.getStyleIterator( );
 				while ( styleIter.hasNext( ) )
 				{
 					SharedStyleHandle styleHandle = (SharedStyleHandle) styleIter.next( );
