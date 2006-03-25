@@ -1517,6 +1517,7 @@
     <Member detailType="columnDataType" displayNameID="Structure.DataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
         <Default>any</Default>
     </Member> 
+	<Member displayNameID="Structure.DataSetParam.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />            
     <Member displayNameID="Structure.DataSetParam.position" isIntrinsic="true" name="position" runtimeSettable="false" since="1.0" type="integer"/>
 	<Member context="factory" displayNameID="Structure.DataSetParam.defaultValue" isIntrinsic="true" name="defaultValue" returnType="any" runtimeSettable="false" since="reserved" type="expression"/>    
     <Member displayNameID="Structure.DataSetParam.isOptional" isIntrinsic="true" name="isOptional" runtimeSettable="false" since="1.0" type="boolean">
@@ -1542,6 +1543,7 @@
     <Member detailType="columnDataType" displayNameID="Structure.ResultSetColumn.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
 		<Default>any</Default>
 	</Member>
+    <Member displayNameID="Structure.ResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />
   </Structure>
   <Structure displayNameID="Structure.ComputedColumn" name="ComputedColumn" since="1.0">
     <Member displayNameID="Structure.ComputedColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>

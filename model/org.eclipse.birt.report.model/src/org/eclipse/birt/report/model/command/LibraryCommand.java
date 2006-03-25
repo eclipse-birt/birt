@@ -291,8 +291,7 @@ public class LibraryCommand extends AbstractElementCommand
 				if ( actionCode == RELOAD_ACTION )
 				{
 					Map values = unresolveElementDescendent( module, child );
-					values.put( new Long( child.getID( ) ), values );
-					overriddenValues.putAll( values );
+					overriddenValues.put( new Long( child.getID( ) ), values );
 				}
 
 				if ( actionCode == SIMPLE_ACTION )
@@ -507,7 +506,14 @@ public class LibraryCommand extends AbstractElementCommand
 		// not layout structure involved.
 
 		if ( child.getDefn( ).getSlotCount( ) == 0 )
+		{
+			// unresolves the extends child
+
+			parent.dropDerived( child );
+			value.unresolved( value.getName( ) );
+			
 			return Collections.EMPTY_MAP;
+		}
 
 		Map overriddenValues = ElementStructureUtil
 				.collectPropertyValues( child );

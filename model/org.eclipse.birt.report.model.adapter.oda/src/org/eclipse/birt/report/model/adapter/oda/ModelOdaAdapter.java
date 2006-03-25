@@ -918,12 +918,14 @@ public class ModelOdaAdapter
 			DataElementAttributes dataAttrs = DesignFactory.eINSTANCE
 					.createDataElementAttributes( );
 			dataAttrs.setName( setColumn.getColumnName( ) );
-			dataAttrs.setPosition( setColumn.getPosition( ).intValue( ) );
 
-			dataAttrs.setNativeDataTypeCode( NativeDataTypeUtil
-					.ROMTypeToNativeCode(
-							DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE,
-							setColumn.getDataType( ) ) );
+			Integer position = setColumn.getPosition( );
+			if ( position != null )
+				dataAttrs.setPosition( setColumn.getPosition( ).intValue( ) );
+
+			Integer nativeDataType = setColumn.getNativeDataType( );
+			if ( nativeDataType != null )
+				dataAttrs.setNativeDataTypeCode( nativeDataType.intValue( ) );
 
 			columnDefn.setAttributes( dataAttrs );
 			odaSetColumns.getResultColumnDefinitions( ).add( columnDefn );
@@ -1014,9 +1016,8 @@ public class ModelOdaAdapter
 			}
 
 			newColumn.setDataType( romDataType );
-
-			// maps the native type code to model type string.
-			// newColumn.setDataType( dataAttrs.getNativeDataTypeCode( ) );
+			newColumn.setNativeDataType( new Integer( dataAttrs
+					.getNativeDataTypeCode( ) ) );
 		}
 
 		return retList;

@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
  * <dd>a result set column has a choice data type: any, integer, string, data
  * time, decimal, float, structure or table.</dd>
  * </dl>
- *  
+ * 
  */
 
 public class ResultSetColumnHandle extends StructureHandle
@@ -73,8 +73,8 @@ public class ResultSetColumnHandle extends StructureHandle
 
 	/**
 	 * Returns the data type of this column. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -96,8 +96,8 @@ public class ResultSetColumnHandle extends StructureHandle
 
 	/**
 	 * Sets the data type of this column. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -142,4 +142,28 @@ public class ResultSetColumnHandle extends StructureHandle
 	{
 		setPropertySilently( ResultSetColumn.POSITION_MEMBER, position );
 	}
+
+	/**
+	 * Returns the native data type.
+	 * 
+	 * @return the result set column native data type.
+	 */
+
+	public Integer getNativeDataType( )
+	{
+		return (Integer) getProperty( ResultSetColumn.NATIVE_DATA_TYPE_MEMBER );
+	}
+
+	/**
+	 * Sets the result set column native data type.
+	 * 
+	 * @param dataType
+	 *            the native data type to set.
+	 */
+
+	public void setNativeDataType( Integer dataType )
+	{
+		setPropertySilently( ResultSetColumn.NATIVE_DATA_TYPE_MEMBER, dataType );
+	}
+
 }

@@ -127,6 +127,12 @@ public class DataSetParameter extends Structure
 	public static final String IS_OUTPUT_MEMBER = "isOutput"; //$NON-NLS-1$
 
 	/**
+	 * Name of the member indicating the native (database) data type code.
+	 */
+
+	public static final String NATIVE_DATA_TYPE_MEMBER = "nativeDataType"; //$NON-NLS-1$
+
+	/**
 	 * The parameter position.
 	 */
 
@@ -174,6 +180,12 @@ public class DataSetParameter extends Structure
 
 	private String defaultValue;
 
+	/**
+	 * The native (database) data type.
+	 */
+	
+	private Integer nativeDataType;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -208,8 +220,10 @@ public class DataSetParameter extends Structure
 			return allowNull;
 		if ( IS_INPUT_MEMBER.equals( propName ) )
 			return isInput;
-		if ( IS_OUTPUT_MEMBER.equals( propName ) )
+		if ( IS_OUTPUT_MEMBER.equals( propName ) )			
 			return isOutput;
+		if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
+			return nativeDataType;		
 	
 		assert false;
 		return null;
@@ -241,6 +255,8 @@ public class DataSetParameter extends Structure
 			isInput = (Boolean) value;
 		else if ( IS_OUTPUT_MEMBER.equals( propName ) )
 			isOutput = (Boolean) value;
+		else if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
+			nativeDataType = (Integer) value;
 		else
 			assert false;
 	}
@@ -497,5 +513,28 @@ public class DataSetParameter extends Structure
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 		return list;
+	}
+	
+	/**
+	 * Returns the native data type.
+	 * 
+	 * @return the parameter native data type.
+	 */
+
+	public Integer getNativeDataType( )
+	{
+		return (Integer) getProperty( null, NATIVE_DATA_TYPE_MEMBER );
+	}
+
+	/**
+	 * Sets the parameter native data type.
+	 * 
+	 * @param dataType
+	 *            the native data type to set.
+	 */
+
+	public void setNativeDataType( Integer dataType )
+	{
+		setProperty( NATIVE_DATA_TYPE_MEMBER, dataType );
 	}
 }

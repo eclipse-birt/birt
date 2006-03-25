@@ -352,6 +352,29 @@ public class DataSetParameterHandle extends StructureHandle
 	}
 
 	/**
+	 * Returns the native data type.
+	 * 
+	 * @return the parameter native data type.
+	 */
+
+	public Integer getNativeDataType( )
+	{
+		return (Integer) getProperty( DataSetParameter.NATIVE_DATA_TYPE_MEMBER );
+	}
+
+	/**
+	 * Sets the parameter native data type.
+	 * 
+	 * @param dataType
+	 *            the native data type to set.
+	 */
+
+	public void setNativeDataType( Integer dataType )
+	{
+		setPropertySilently( DataSetParameter.NATIVE_DATA_TYPE_MEMBER, dataType );
+	}
+
+	/**
 	 * Represents the member handle which handles the "name" member in the data
 	 * set parameter structure.
 	 */
