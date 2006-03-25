@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Model
 Bundle-SymbolicName: org.eclipse.birt.report.model; singleton:=true
 Bundle-Version: 2.1.0.qualifier
-Bundle-ClassPath: model.jar
 Bundle-Activator: org.eclipse.birt.report.model.plugin.ModelPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
