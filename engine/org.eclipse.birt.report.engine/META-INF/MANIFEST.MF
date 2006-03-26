@@ -2,11 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Engine
 Bundle-SymbolicName: org.eclipse.birt.report.engine; singleton:=true
-Bundle-Version: 2.1.0
-Bundle-ClassPath: engine.jar,
- lib/commons-cli-1.0.jar,
- lib/Tidy.jar,
- scriptapi.jar
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.report.engine.plugin.EnginePlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
