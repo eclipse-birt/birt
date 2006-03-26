@@ -40,7 +40,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.18 $ $Date: 2006/03/21 23:23:17 $
+ * @version $Revision: 1.19 $ $Date: 2006/03/23 04:44:55 $
  */
 public class ReportRunner
 {
@@ -104,7 +104,7 @@ public class ReportRunner
 	 * @param args -
 	 *            application arguments
 	 */
-	protected ReportRunner( String[] args )
+	public ReportRunner( String[] args )
 	{
 		this.args = (String[]) args.clone( );
 	}

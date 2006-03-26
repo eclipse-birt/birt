@@ -35,6 +35,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 {
 	ReportDocumentReader reportDoc;
 	String emitterID;
+	boolean bodyOnly;
 
 	/**
 	 * @param engine
@@ -119,6 +120,15 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			format = "html"; //$NON-NLS-1$
 		}
+		
+		if ("html".equalsIgnoreCase( format ))
+		{
+			bodyOnly = false;
+		}
+		else
+		{
+			bodyOnly = true;
+		}
 
 		ExtensionManager extManager = ExtensionManager.getInstance( );
 		boolean supported = false;
@@ -178,7 +188,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			executionContext.setExecutor( executor );
 			IContentEmitter emitter = createContentEmitter( executor );
 			startRender( );
-			loader.loadPage( pageNumber, emitter );
+			loader.loadPage( pageNumber, bodyOnly, emitter );
 			closeRender( );
 		}
 		catch ( Exception ex )
@@ -216,7 +226,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			executionContext.setExecutor( executor );
 			IContentEmitter emitter = createContentEmitter( executor );
 			startRender( );
-			loader.loadPageRange( pageSequences, emitter );
+			loader.loadPageRange( pageSequences, bodyOnly, emitter );
 			closeRender( );
 		}
 		catch ( Exception ex )

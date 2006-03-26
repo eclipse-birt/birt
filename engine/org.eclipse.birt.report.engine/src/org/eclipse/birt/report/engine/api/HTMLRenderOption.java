@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * output settings for HTML output format
  */
-public class HTMLRenderOption extends RenderOptionBase
+public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOption 
 {
 	public static final String HTML_TYPE = "HTMLType"; //$NON-NLS-1$
 	public static final String HTML = "HTML"; //$NON-NLS-1$
@@ -29,15 +29,17 @@ public class HTMLRenderOption extends RenderOptionBase
 	public static final String OBSERVE_TEMPLATE_DEFAULT = "observeTemplateDefault"; //$NON-NLS-1$
 	public static final String HTML_INCLUDE_SELECTION_HANDLE = "includeSelectionHandle"; //$NON-NLS-1$
 
-	// used to pass back a set of instance IDs. One use is for interactivity
-	protected List instanceIDs = null;
-
 	/**
 	 * @return Returns the instanceIDs.
 	 */
 	public List getInstanceIDs( )
 	{
-		return instanceIDs;
+		Object list = options.get( INSTANCE_ID_LIST );
+		if ( list instanceof List )
+		{
+			return (List) list;
+		}
+		return null;
 	}
 
 	/**
@@ -46,7 +48,7 @@ public class HTMLRenderOption extends RenderOptionBase
 	 */
 	public void setInstanceIDs( List instanceIDs )
 	{
-		this.instanceIDs = instanceIDs;
+		options.put( INSTANCE_ID_LIST, instanceIDs );
 	}
 
 	/**

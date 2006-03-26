@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.content.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -38,7 +39,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Report content is the result of report generation.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/12/02 11:57:06 $
+ * @version $Revision: 1.11 $ $Date: 2006/01/20 14:55:38 $
  */
 public class ReportContent implements IReportContent
 {
@@ -98,6 +99,16 @@ public class ReportContent implements IReportContent
 		return cssEngine;
 	}
 
+	public IPageContent getPageContent(long pageNumber)
+	{
+		return null;
+	}
+	
+	public IContent getContent(InstanceID id)
+	{
+		return null;
+	}
+	
 	public IHyperlinkAction createActionContent( )
 	{
 		return new ActionContent( );

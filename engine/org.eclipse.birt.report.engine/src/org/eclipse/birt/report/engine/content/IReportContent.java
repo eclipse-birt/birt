@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.content;
 
 import java.util.List;
 
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -20,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * The object represents the report content as a whole.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/12/02 11:57:06 $
+ * @version $Revision: 1.9 $ $Date: 2006/01/20 14:55:40 $
  */
 public interface IReportContent
 {
@@ -53,6 +54,22 @@ public interface IReportContent
 	 */
 	public TOCNode getTOC( );
 
+	/**
+	 * The page content in the report content.
+	 * If the page is not exist, return NULL.
+	 * @param pageNumber page number
+	 * @return the page content object.
+	 */
+	public IPageContent getPageContent(long pageNumber);
+	
+	/**
+	 * return the content in this report.
+	 * @param id content id
+	 * @return the content object
+	 */
+	public IContent getContent(InstanceID id);
+	
+	
 	/**
 	 * find the named style.
 	 * 

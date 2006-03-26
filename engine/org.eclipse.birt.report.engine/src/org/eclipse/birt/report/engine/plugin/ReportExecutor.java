@@ -21,7 +21,7 @@ public class ReportExecutor implements IPlatformRunnable
 	{
 		if ( args instanceof String[] )
 		{
-			ReportRunner.main( (String[]) args );
+			new ReportRunner( (String[]) args ).execute( );
 		}
 		return null;
 	}
