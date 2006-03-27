@@ -40,6 +40,23 @@ public class FormPageDef implements IExtensionConstants
 		displayName = loadStringAttribute( element, ATTRIBUTE_DISPLAY_NAME );
 		pageClass = loadStringAttribute( element, ATTRIBUTE_CLASS );
 		visible = loadBooleanAttribute( element, ATTRIBUTE_VISIBLE );
+		relative = loadStringAttribute( element, ATTRIBUTE_RELATIVE );
+		position = loadPosition( element, ATTRIBUTE_POSITION );
+	}
+
+	private int loadPosition( IConfigurationElement element,
+			String attributeName )
+	{
+		String attribute = element.getAttribute( attributeName );
+		if ( "left".equals( attribute ) ) //$NON-NLS-1$
+		{
+			return 0;
+		}
+		else if ( "right".equals( attribute ) ) //$NON-NLS-1$
+		{
+			return 1;
+		}
+		return 0;
 	}
 
 	// not implement

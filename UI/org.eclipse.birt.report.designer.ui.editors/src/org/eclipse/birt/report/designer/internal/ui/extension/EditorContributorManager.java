@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.core.runtime.CoreException;
@@ -64,6 +65,7 @@ public class EditorContributorManager implements IExtensionConstants
 						formPageList.add( index, incomingPage );
 					}
 				}
+				formPageList = sortFormPageList( formPageList );
 			}
 			return merged;
 		}
@@ -249,8 +251,124 @@ public class EditorContributorManager implements IExtensionConstants
 		EditorContributor editorContributor = new EditorContributor( );
 		editorContributor.targetEditorId = loadStringAttribute( element,
 				ATTRIBUTE_TARGET_EDITOR_ID );
-		editorContributor.formPageList = createFormPageDefList( element );
+		editorContributor.formPageList = sortFormPageList( createFormPageDefList( element ) );
 		return editorContributor;
+	}
+
+	private static List sortFormPageList( List formPageList )
+	{
+		List list = new ArrayList( formPageList.size( ) );
+		Map relativeMap = new HashMap( );
+		for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
+		{
+			FormPageDef element = (FormPageDef) iter.next( );
+			if ( element.relative == null )
+			{
+				// add to first
+				list.add( 0, element );
+			}
+			else
+			{
+				int relativePosition = getRelativeElementPosition( element,
+						list );
+				if ( relativePosition > -1 )
+				{
+
+					list.add( relativePosition + element.position, element );
+
+					if ( relativeMap.containsKey( element ) )
+					{
+						// resort exist by-relative elements
+						List relativeList = (List) relativeMap.get( element );
+						for ( Iterator iterator = relativeList.iterator( ); iterator.hasNext( ); )
+						{
+							FormPageDef relativeFormPage = (FormPageDef) iterator.next( );
+							list.remove( relativeFormPage );
+							list.add( relativePosition
+									+ element.position
+									+ relativeFormPage.position,
+									relativeFormPage );
+						}
+					}
+				}
+				else
+				{
+					if ( relativeMap.containsKey( element ) )
+					{
+						List relativeList = (List) relativeMap.get( element );
+						FormPageDef relativeElement = (FormPageDef) relativeList.get( 0 );
+						relativePosition = getElementPosition( relativeElement,
+								list );
+						int position = relativePosition
+								- relativeElement.position;
+
+						list.add( position < 0 ? 0 : position, element );
+
+						for ( Iterator iterator = relativeList.iterator( ); iterator.hasNext( ); )
+						{
+							FormPageDef relativeFormPage = (FormPageDef) iterator.next( );
+							list.remove( relativeFormPage );
+							list.add( relativePosition
+									+ element.position
+									+ relativeFormPage.position,
+									relativeFormPage );
+						}
+					}
+					else
+					{
+						addRelativeMap( element, formPageList, relativeMap );
+						// add to last
+						list.add( list.size( ), element );
+					}
+				}
+			}
+		}
+		return list;
+	}
+
+	private static int getElementPosition( FormPageDef relativeElement,
+			List list )
+	{
+		return list.indexOf( relativeElement );
+	}
+
+	private static void addRelativeMap( FormPageDef element, List formPageList,
+			Map relativeMap )
+	{
+		for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
+		{
+			FormPageDef formPage = (FormPageDef) iter.next( );
+			if ( formPage.id.equals( element.relative ) )
+			{
+				if ( relativeMap.containsKey( formPage ) )
+				{
+					( (ArrayList) relativeMap.get( formPage ) ).add( element );
+				}
+				else
+				{
+					ArrayList list = new ArrayList( );
+					list.add( element );
+					relativeMap.put( formPage, list );
+				}
+				break;
+			}
+		}
+	}
+
+	private static int getRelativeElementPosition( FormPageDef element,
+			List list )
+	{
+		String relativeId = element.relative;
+		int i = 0;
+		for ( Iterator iter = list.iterator( ); iter.hasNext( ); i++ )
+		{
+			FormPageDef formPage = (FormPageDef) iter.next( );
+			if ( formPage.id.equals( relativeId ) )
+			{
+				return list.indexOf( formPage );
+			}
+		}
+		return -1;
 	}
 
 	private List createFormPageDefList( IConfigurationElement element )

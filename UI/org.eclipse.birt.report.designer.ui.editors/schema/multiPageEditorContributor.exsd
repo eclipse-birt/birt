@@ -93,12 +93,27 @@
                </restriction>
             </simpleType>
          </attribute>
-         <attribute name="position" type="string">
+         <attribute name="relative" type="string">
             <annotation>
                <documentation>
                   
                </documentation>
             </annotation>
+         </attribute>
+         <attribute name="position">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="left">
+                  </enumeration>
+                  <enumeration value="right">
+                  </enumeration>
+               </restriction>
+            </simpleType>
          </attribute>
       </complexType>
    </element>

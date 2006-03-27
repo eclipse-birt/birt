@@ -71,6 +71,8 @@
             class="org.eclipse.birt.report.designer.ui.preview.editors.ReportPreviewFormPage"
             displayName="%design.preview"
             id="org.eclipse.birt.report.designer.ui.editors.design.preview"
+            position="right"
+            relative="org.eclipse.birt.report.designer.ui.editors.design.xmlsource"
             visible="true"/>
       </targetEditor>
       <targetEditor targetEditorId="org.eclipse.birt.report.designer.ui.editors.TemplateEditor">
@@ -78,6 +80,8 @@
             class="org.eclipse.birt.report.designer.ui.preview.editors.ReportPreviewFormPage"
             displayName="%template.preview"
             id="org.eclipse.birt.report.designer.ui.editors.template.preview"
+            position="right"
+            relative="org.eclipse.birt.report.designer.ui.editors.design.xmlsource"
             visible="true"/>
       </targetEditor>
    </extension>

@@ -13,16 +13,22 @@
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportMasterPageEditorFormPage"
             displayName="%design.masterPage"
             id="org.eclipse.birt.report.designer.ui.editors.design.masterpage"
+            position="right"
+            relative="org.eclipse.birt.report.designer.ui.editors.design.layout"
             visible="true"/>
       <formPage
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportScriptFormPage"
             displayName="%design.script"
             id="org.eclipse.birt.report.designer.ui.editors.design.script"
+            position="right"
+            relative="org.eclipse.birt.report.designer.ui.editors.design.masterpage"
             visible="true"/>
       <formPage
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportXMLSourceEditorFormPage"
             displayName="%design.xmlsource"
             id="org.eclipse.birt.report.designer.ui.editors.design.xmlsource"
+            position="right"
+            relative="org.eclipse.birt.report.designer.ui.editors.design.script"
             visible="true"/>
       </targetEditor>
       <targetEditor targetEditorId="org.eclipse.birt.report.designer.ui.editors.TemplateEditor">
@@ -35,16 +41,22 @@
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportMasterPageEditorFormPage"
             displayName="%template.masterPage"
             id="org.eclipse.birt.report.designer.ui.editors.template.masterpage"
+            position="right"
+            relative="org.eclipse.birt.report.designer.ui.editors.template.layout"
             visible="true"/>
       <formPage
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportScriptFormPage"
             displayName="%template.script"
             id="org.eclipse.birt.report.designer.ui.editors.template.script"
+            position="right"
+            relative="org.eclipse.birt.report.designer.ui.editors.template.masterpage"
             visible="true"/>
       <formPage
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportXMLSourceEditorFormPage"
             displayName="%template.xmlsource"
             id="org.eclipse.birt.report.designer.ui.editors.design.xmlsource"
+            position="right"
+            relative="org.eclipse.birt.report.designer.ui.editors.template.script"
             visible="true"/>
       </targetEditor>
    </extension>
