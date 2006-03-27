@@ -22,7 +22,6 @@ import java.util.Locale;
 import org.eclipse.birt.report.tests.engine.api.Bug128854PrompttextTest;
 import org.eclipse.birt.report.tests.engine.api.DefaultStatusHandlerTest;
 import org.eclipse.birt.report.tests.engine.api.EngineConfigTest;
-import org.eclipse.birt.report.tests.engine.api.FORenderOptionTest;
 import org.eclipse.birt.report.tests.engine.api.HTMLActionHandlerTest;
 import org.eclipse.birt.report.tests.engine.api.HTMLCompleteImageHandlerTest;
 import org.eclipse.birt.report.tests.engine.api.HTMLEmitterConfigTest;
@@ -47,7 +46,7 @@ import junit.framework.TestSuite;
 /**
  *  Put your comments  
  *
- * @ @version $Revision: 1.6 $Date: 2005-6-27 
+ * @ @version $Revision: 1.7 $Date: 2005-6-27 
  */
 public class AllTests extends TestCase{
 
@@ -76,7 +75,6 @@ public class AllTests extends TestCase{
 		//$JUnit-BEGIN$
 		suite.addTestSuite(DefaultStatusHandlerTest.class);
 		suite.addTestSuite(EngineConfigTest.class);
-		suite.addTestSuite(FORenderOptionTest.class);
 		//suite.addTestSuite(HTMLActionHandlerTest.class);
 		suite.addTestSuite(HTMLCompleteImageHandlerTest.class);
 		suite.addTestSuite(HTMLEmitterConfigTest.class);
