@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ContentViewer;
@@ -300,7 +301,8 @@ public class ResourceEditDialog extends BaseDialog
 				.getULocale( );
 
 		String fullBaseName = folderName + File.separator + baseName + "_" //$NON-NLS-1$
-				+ lc.getLanguage( ) + "_" + lc.getCountry( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ lc.getLanguage( )
+				+ "_" + lc.getCountry( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		File f = new File( fullBaseName );
 		if ( f.exists( ) && f.isFile( ) )
@@ -324,7 +326,8 @@ public class ResourceEditDialog extends BaseDialog
 		}
 
 		fullBaseName = folderName + File.separator + baseName + "_" //$NON-NLS-1$
-				+ lc.getLanguage( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
+				+ lc.getLanguage( )
+				+ ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		f = new File( fullBaseName );
 		if ( f.exists( ) && f.isFile( ) )
@@ -371,7 +374,8 @@ public class ResourceEditDialog extends BaseDialog
 		}
 
 		propFileName = baseName + "_" + lc.getLanguage( ) + "_" //$NON-NLS-1$ //$NON-NLS-2$
-				+ lc.getCountry( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ lc.getCountry( )
+				+ ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/**
@@ -385,6 +389,19 @@ public class ResourceEditDialog extends BaseDialog
 			{
 				File f = new File( folderName + File.separator + propFileName );
 
+				if ( !f.canWrite( ) )
+				{
+					MessageDialog.openError( getShell( ),
+							Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ),
+							Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message",
+									new Object[]{
+										folderName
+												+ File.separator
+												+ propFileName
+									} ) );
+					return;
+				}
+
 				FileOutputStream fos = new FileOutputStream( f );
 
 				content.store( fos, "" ); //$NON-NLS-1$
@@ -393,11 +410,15 @@ public class ResourceEditDialog extends BaseDialog
 			}
 			catch ( FileNotFoundException e )
 			{
-				// ignore.
+				ExceptionHandler.handle( e );
+			}
+			catch ( SecurityException e )
+			{
+				ExceptionHandler.handle( e );
 			}
 			catch ( IOException e )
 			{
-				// ignore.
+				ExceptionHandler.handle( e );
 			}
 		}
 	}
@@ -578,7 +599,7 @@ public class ResourceEditDialog extends BaseDialog
 		String key = keyText.getText( );
 		String val = valueText.getText( );
 
-		if ( key != null && key.trim().length( ) > 0 )
+		if ( key != null && key.trim( ).length( ) > 0 )
 		{
 			content.put( key, val );
 
