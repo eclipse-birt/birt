@@ -150,8 +150,8 @@ public interface DesignChoiceConstants
 	// pageBreakBefore
 
 	public static final String CHOICE_PAGE_BREAK_BEFORE = "pageBreakBefore"; //$NON-NLS-1$
-	public static final String PAGE_BREAK_BREAK_AUTO = "auto"; //$NON-NLS-1$
-	public static final String PAGE_BREAK_BREAK_ALWAYS = "always"; //$NON-NLS-1$
+	public static final String PAGE_BREAK_BEFORE_AUTO = "auto"; //$NON-NLS-1$
+	public static final String PAGE_BREAK_BEFORE_ALWAYS = "always"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_BEFORE_AVOID = "avoid"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST = "always-excluding-first"; //$NON-NLS-1$
 	
