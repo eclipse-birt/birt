@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.FileArchiveReader;
+import org.eclipse.birt.core.archive.FolderArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
@@ -289,10 +290,17 @@ public class ReportEngineHelper
 	public IReportDocument openReportDocument( String docArchiveName )
 			throws EngineException
 	{
-		FileArchiveReader reader = null;
+		IDocArchiveReader reader = null;
 		try 
 		{
+			if ( docArchiveName.endsWith( File.separator ) )
+			{
+				reader = new FolderArchiveReader( docArchiveName );
+			}
+			else 
+			{
 			reader = new FileArchiveReader( docArchiveName );
+			}
 		} 
 		catch (IOException e) 
 		{

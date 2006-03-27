@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.FileArchiveWriter;
+import org.eclipse.birt.core.archive.FolderArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -76,7 +78,14 @@ public class RunTask extends AbstractRunTask implements IRunTask
 					"Report document name is not specified when running a report." ); //$NON-NLS-1$
 		try
 		{
+			if ( reportDocName.endsWith( File.separator ) )
+			{
+				archive = new FolderArchiveWriter( reportDocName );
+			}
+			else 
+			{
 			archive = new FileArchiveWriter( reportDocName );
+			}
 		}
 		catch ( IOException e )
 		{

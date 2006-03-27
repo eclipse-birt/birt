@@ -174,7 +174,8 @@ public class ViewerAttributeBean
 			}
 		}
 
-		if ( reportDocFile.exists( ) && reportDocFile.isFile( ) )
+		// bug129777 add fold document
+		if ( reportDocFile.exists( ) && ( reportDocFile.isFile( ) || reportDocFile.isDirectory( ) ) )
 		{
 			this.reportDocumentInstance = ReportEngineService.getInstance( )
 					.openReportDocument( this.reportDocumentName );

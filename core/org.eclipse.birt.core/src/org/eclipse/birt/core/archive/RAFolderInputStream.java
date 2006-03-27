@@ -109,7 +109,7 @@ public class RAFolderInputStream extends RAInputStream
      */
 	public final void readFully(byte b[], int off, int len) throws IOException
 	{
-		randomFile.readInt();
+		randomFile.readFully( b, off, len );
 	}
 
 	/**
