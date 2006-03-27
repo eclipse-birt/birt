@@ -653,6 +653,15 @@ public class ReportPlatformUIImages
 						+ "_"
 						+ IReportGraphicConstants.LINK );
 			}
+			else if ( ( (DesignElementHandle) model ).getExtends( ) != null
+					&& ( (DesignElementHandle) model ).getExtends( ).getRoot( ) instanceof LibraryHandle )
+			{
+				image = getImage( ( (DesignElementHandle) model ).getElement( )
+						.getDefn( )
+						.getName( )
+						+ "_"
+						+ IReportGraphicConstants.LINK );
+			}
 			else
 			{
 				image = getImage( ( (DesignElementHandle) model ).getElement( )
@@ -660,6 +669,7 @@ public class ReportPlatformUIImages
 						.getName( ) );
 			}
 		}
+
 		return image;
 	}
 
@@ -696,6 +706,15 @@ public class ReportPlatformUIImages
 							|| ( model instanceof ListingHandle )
 							|| ( model instanceof TableHandle )
 							|| ( model instanceof TextItemHandle ) || ( model instanceof TextDataHandle ) ) )
+			{
+				imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model ).getElement( )
+						.getDefn( )
+						.getName( )
+						+ "_"
+						+ IReportGraphicConstants.LINK );
+			}
+			else if ( ( (DesignElementHandle) model ).getExtends( ) != null
+					&& ( (DesignElementHandle) model ).getExtends( ).getRoot( ) instanceof LibraryHandle )
 			{
 				imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model ).getElement( )
 						.getDefn( )
