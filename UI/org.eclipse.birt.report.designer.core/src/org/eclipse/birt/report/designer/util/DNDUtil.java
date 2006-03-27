@@ -1028,6 +1028,11 @@ public class DNDUtil
 		if ( targetObj instanceof SlotHandle )
 		{
 			SlotHandle targetHandle = (SlotHandle) targetObj;
+			if(targetHandle.getElementHandle( ) instanceof LibraryHandle 
+					&& childHandle instanceof ThemeHandle)
+				{
+					return CONTAIN_NO;
+				}
 			return targetHandle.getElementHandle( ).canContain(
 					targetHandle.getSlotID( ), childHandle )
 					? CONTAIN_THIS
