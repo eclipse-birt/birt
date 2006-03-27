@@ -181,12 +181,24 @@
 	
 	<!-- Build the dependent projects -->
 	<target name="buildDependency">
+		<echo message="Start call Jar task in ${chart.engine.dir}"/>
+		<ant dir="${chart.engine.dir}" antfile="BuildChartEngine.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="End call Jar task in ${chart.engine.dir}"/>
+			
 		<echo message="Start call Jar task in ${chart.ui.dir}"/>
 		<ant dir="${chart.ui.dir}" antfile="BuildChartUI.xml" target="Jar" inheritAll="false" inheritRefs="false"  >
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>	
 		<echo message="End call Jar task in ${chart.ui.dir}"/>
 		
+		<echo message="start call Jar task in ${core.ui.dir}"/>
+		<ant dir="${core.ui.dir}" antfile="BuildCoreUI.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>	
+		<echo message="end call Jar task in ${core.ui.dir}"/>
+
 	</target>
 
 
