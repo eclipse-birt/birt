@@ -495,17 +495,40 @@ public final class CurveRenderer
 			if ( drawSide )
 			{
 				pre.setBackground( sideColor );
-				loa[0].set( x2 + kError, y2 + kError );
-				loa[1].set( x2 + kError + dTapeWidth, y2 + kError - dTapeWidth );
-				if ( cwa.isTransposed( ) )
+
+				if ( leftSide )
 				{
-					loa[2].set( zeroLocation, y2 + kError - dTapeWidth );
-					loa[3].set( zeroLocation, y2 + kError );
+					loa[0].set( x1 + kError, y1 + kError );
+					loa[1].set( x1 + kError + dTapeWidth, y1
+							+ kError
+							- dTapeWidth );
+					if ( cwa.isTransposed( ) )
+					{
+						loa[2].set( zeroLocation, y1 + kError - dTapeWidth );
+						loa[3].set( zeroLocation, y1 + kError );
+					}
+					else
+					{
+						loa[2].set( x1 + kError + dTapeWidth, zeroLocation );
+						loa[3].set( x1 + kError, zeroLocation );
+					}
 				}
 				else
 				{
-					loa[2].set( x2 + kError + dTapeWidth, zeroLocation );
-					loa[3].set( x2 + kError, zeroLocation );
+					loa[0].set( x2 + kError, y2 + kError );
+					loa[1].set( x2 + kError + dTapeWidth, y2
+							+ kError
+							- dTapeWidth );
+					if ( cwa.isTransposed( ) )
+					{
+						loa[2].set( zeroLocation, y2 + kError - dTapeWidth );
+						loa[3].set( zeroLocation, y2 + kError );
+					}
+					else
+					{
+						loa[2].set( x2 + kError + dTapeWidth, zeroLocation );
+						loa[3].set( x2 + kError, zeroLocation );
+					}
 				}
 				pre.setPoints( loa );
 
@@ -894,8 +917,10 @@ public final class CurveRenderer
 					}
 
 					// TODO user a single surface to draw the tape.
-					boolean drawRightSide = ( i == iNumberOfPoints - 2 )
-							&& ( j == iNumberOfDivisions - 1 /* && bKeepState */&& bFillArea );
+					boolean drawRightSide = bFillArea
+							&& ( ( !iRender.isRightToLeft( )
+									&& i == iNumberOfPoints - 2 && j == iNumberOfDivisions - 1 ) || ( iRender.isRightToLeft( )
+									&& i == 0 && j == 0 ) );
 
 					plotPlane( ipr,
 							faXY1[0] + fXOffset,
@@ -905,7 +930,7 @@ public final class CurveRenderer
 							bRendering3D ? faZ[i] : 0,
 							bRendering3D ? faZ[i] : 0,
 							drawRightSide,
-							false );
+							iRender.isRightToLeft( ) );
 				}
 
 				if ( !bFillArea )

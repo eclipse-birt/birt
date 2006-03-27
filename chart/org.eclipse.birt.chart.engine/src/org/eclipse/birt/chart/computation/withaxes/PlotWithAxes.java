@@ -1401,18 +1401,34 @@ public abstract class PlotWithAxes extends Methods
 						double[] da = scX.getEndPoints( );
 						double dT_RI = dBlockX - dX1; // THRESHOLD -
 						// REQUESTEDINTERSECTION
-						double dAMin_AMax = da[1] - da[0];
-						double dAMax_RI = Math.abs( da[1] - dX );
-						double dDelta = ( dT_RI / dAMax_RI ) * dAMin_AMax;
-						dStart = da[0] + dDelta;
-						dEnd = da[1];
 
-						if ( dStart < dBlockX )
+						if ( scX.getDirection( ) == BACKWARD )
 						{
-							dStart = dBlockX;
-							bForceBreak = true; // ADJUST THE TOP EDGE OF THE
-							// Y-AXIS SCALE TO THE TOP EDGE
-							// OF THE PLOT BLOCK
+							double dAMin_AMax = da[0] - da[1];
+							double dAMax_RI = Math.abs( da[0] - dX );
+							double dDelta = ( dT_RI / dAMax_RI ) * dAMin_AMax;
+							dEnd = da[1] + dDelta;
+							dStart = da[0];
+
+							if ( dEnd < dBlockX )
+							{
+								dEnd = dBlockX;
+								bForceBreak = true;
+							}
+						}
+						else
+						{
+							double dAMin_AMax = da[1] - da[0];
+							double dAMax_RI = Math.abs( da[1] - dX );
+							double dDelta = ( dT_RI / dAMax_RI ) * dAMin_AMax;
+							dStart = da[0] + dDelta;
+							dEnd = da[1];
+
+							if ( dStart < dBlockX )
+							{
+								dStart = dBlockX;
+								bForceBreak = true;
+							}
 						}
 
 						// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
@@ -1539,18 +1555,35 @@ public abstract class PlotWithAxes extends Methods
 						double dT_RI = dX2 - ( dBlockX + dBlockWidth ); // THRESHOLD
 						// -
 						// REQUESTEDINTERSECTION
-						double dAMin_AMax = da[1] - da[0];
-						double dAMin_RI = dX - da[0];
-						double dDelta = ( dT_RI / dAMin_RI ) * dAMin_AMax;
-						dEnd = da[1] - dDelta;
-						dStart = da[0];
 
-						if ( dEnd > dBlockX + dBlockWidth )
+						if ( scX.getDirection( ) == BACKWARD )
 						{
-							dEnd = dBlockX + dBlockWidth;
-							bForceBreak = true; // ADJUST THE TOP EDGE OF THE
-							// Y-AXIS SCALE TO THE TOP EDGE
-							// OF THE PLOT BLOCK
+							double dAMin_AMax = da[0] - da[1];
+							double dAMin_RI = Math.abs( dX - da[1] );
+							double dDelta = Math.abs( dT_RI / dAMin_RI )
+									* dAMin_AMax;
+							dStart = da[0] - dDelta;
+							dEnd = da[1];
+
+							if ( dStart > dBlockX + dBlockWidth )
+							{
+								dStart = dBlockX + dBlockWidth;
+								bForceBreak = true;
+							}
+						}
+						else
+						{
+							double dAMin_AMax = da[1] - da[0];
+							double dAMin_RI = Math.abs( dX - da[0] );
+							double dDelta = ( dT_RI / dAMin_RI ) * dAMin_AMax;
+							dEnd = da[1] - dDelta;
+							dStart = da[0];
+
+							if ( dEnd > dBlockX + dBlockWidth )
+							{
+								dEnd = dBlockX + dBlockWidth;
+								bForceBreak = true;
+							}
 						}
 
 						// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
@@ -2006,16 +2039,38 @@ public abstract class PlotWithAxes extends Methods
 						double[] da = scY.getEndPoints( );
 						double dT_RI = dBlockY - dY1; // THRESHOLD -
 						// REQUESTEDINTERSECTION
-						double dAMin_AMax = da[0] - da[1];
-						double dAMin_RI = da[0] - dY;
-						double dStart = da[0];
-						double dEnd = ( dT_RI / dAMin_RI ) * dAMin_AMax + da[1];
-						if ( dEnd < dBlockY )
+
+						double dStart, dEnd;
+
+						if ( bForwardScale )
 						{
-							dEnd = dBlockY;
-							bForceBreak = true; // ADJUST THE TOP EDGE OF THE
-							// Y-AXIS SCALE TO THE TOP EDGE
-							// OF THE PLOT BLOCK
+							double dAMin_AMax = da[1] - da[0];
+							double dAMin_RI = da[1] - dY;
+							dEnd = da[1];
+							dStart = ( dT_RI / dAMin_RI ) * dAMin_AMax + da[0];
+							if ( dStart < dBlockY )
+							{
+								dStart = dBlockY;
+								bForceBreak = true; // ADJUST THE TOP EDGE OF
+								// THE
+								// Y-AXIS SCALE TO THE TOP EDGE
+								// OF THE PLOT BLOCK
+							}
+						}
+						else
+						{
+							double dAMin_AMax = da[0] - da[1];
+							double dAMin_RI = da[0] - dY;
+							dStart = da[0];
+							dEnd = ( dT_RI / dAMin_RI ) * dAMin_AMax + da[1];
+							if ( dEnd < dBlockY )
+							{
+								dEnd = dBlockY;
+								bForceBreak = true; // ADJUST THE TOP EDGE OF
+								// THE
+								// Y-AXIS SCALE TO THE TOP EDGE
+								// OF THE PLOT BLOCK
+							}
 						}
 
 						// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
@@ -2110,19 +2165,41 @@ public abstract class PlotWithAxes extends Methods
 						double dX2_X1 = dY2 - ( dBlockY + dBlockHeight ); // THRESHOLD
 						// -
 						// REQUESTEDINTERSECTION
-						double dAMin_AMax = da[0] - da[1];
-						double dX2_AMax = dY - da[1];
-						double dStart = da[0]
-								- ( dX2_X1 / dX2_AMax )
-								* dAMin_AMax;
-						double dEnd = da[1];
 
-						if ( dStart > dBlockY + dBlockHeight )
+						double dStart, dEnd;
+
+						if ( bForwardScale )
 						{
-							dStart = dBlockY + dBlockHeight;
-							bForceBreak = true; // ADJUST THE TOP EDGE OF THE
-							// Y-AXIS SCALE TO THE TOP EDGE
-							// OF THE PLOT BLOCK
+							double dAMin_AMax = da[1] - da[0];
+							double dX2_AMax = dY - da[0];
+							dEnd = da[1]
+									- ( dX2_X1 / dX2_AMax )
+									* dAMin_AMax;
+							dStart = da[0];
+
+							if ( dEnd > dBlockY + dBlockHeight )
+							{
+								dEnd = dBlockY + dBlockHeight;
+								bForceBreak = true;
+							}
+						}
+						else
+						{
+							double dAMin_AMax = da[0] - da[1];
+							double dX2_AMax = dY - da[1];
+							dStart = da[0]
+									- ( dX2_X1 / dX2_AMax )
+									* dAMin_AMax;
+							dEnd = da[1];
+
+							if ( dStart > dBlockY + dBlockHeight )
+							{
+								dStart = dBlockY + dBlockHeight;
+								bForceBreak = true; // ADJUST THE TOP EDGE OF
+													// THE
+								// Y-AXIS SCALE TO THE TOP EDGE
+								// OF THE PLOT BLOCK
+							}
 						}
 
 						// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
