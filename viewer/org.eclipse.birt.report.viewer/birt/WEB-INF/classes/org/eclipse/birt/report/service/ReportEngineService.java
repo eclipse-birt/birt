@@ -289,7 +289,7 @@ public class ReportEngineService
 	 * @param request
 	 */
 
-	synchronized public void setEngineContext( ServletContext servletContext )
+	synchronized public void setEngineContext( ServletContext servletContext, HttpServletRequest request  )
 	{
 
 		if ( engine == null )
@@ -312,6 +312,9 @@ public class ReportEngineService
 			IReportEngineFactory factory = (IReportEngineFactory) Platform
 					.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 			engine = factory.createReportEngine( config );
+			
+			contextPath = request.getContextPath( );
+			
 		}
 
 	}

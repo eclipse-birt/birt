@@ -181,7 +181,7 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 			throws ServletException, IOException
 	{
 		ReportEngineService.getInstance( ).setEngineContext(
-				getServletContext( ) );
+				getServletContext( ), request );
 
 		// Exception happened during context init.
 		BirtContext context = new BirtContext( request );
@@ -250,7 +250,7 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 				.equalsIgnoreCase( requestType ) )
 		{
 			ReportEngineService.getInstance( ).setEngineContext(
-					getServletContext( ) );
+					getServletContext( ), request );
 			BirtContext context = new BirtContext( request );
 
 			if ( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
