@@ -56,22 +56,19 @@ public class TemplateExecutor extends ReportItemExecutor
 		context.pushContent( textObj );
 
 		IStyle style = textObj.getStyle( );
-		style.setProperty( IStyle.STYLE_BORDER_TOP_COLOR, IStyle.BLACK_VALUE );
+		style.setProperty( IStyle.STYLE_BORDER_TOP_COLOR, IStyle.GRAY_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_TOP_STYLE, IStyle.SOLID_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH, IStyle.THIN_VALUE );
-		style
-				.setProperty( IStyle.STYLE_BORDER_BOTTOM_COLOR,
-						IStyle.BLACK_VALUE );
-		style
-				.setProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE,
-						IStyle.SOLID_VALUE );
+		style.setProperty( IStyle.STYLE_BORDER_BOTTOM_COLOR, IStyle.GRAY_VALUE );
+		style.setProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE, IStyle.SOLID_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH, IStyle.THIN_VALUE );
-		style.setProperty( IStyle.STYLE_BORDER_LEFT_COLOR, IStyle.BLACK_VALUE );
+		style.setProperty( IStyle.STYLE_BORDER_LEFT_COLOR, IStyle.GRAY_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_LEFT_STYLE, IStyle.SOLID_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.THIN_VALUE );
-		style.setProperty( IStyle.STYLE_BORDER_RIGHT_COLOR, IStyle.BLACK_VALUE );
+		style.setProperty( IStyle.STYLE_BORDER_RIGHT_COLOR, IStyle.GRAY_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.SOLID_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.THIN_VALUE );
+		style.setProperty( IStyle.STYLE_TEXT_ALIGN, IStyle.CENTER_VALUE );
 
 		initializeContent( parent, item, textObj );
 		textObj.setLabelText( template.getPromptText( ) );

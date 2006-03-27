@@ -15,6 +15,7 @@ public class TemplateDesign extends ReportItemDesign
 {
 	String promptText;
 	String promptTextKey;
+	String allowedType;
 
 	public void setPromptText( String text )
 	{
@@ -39,5 +40,15 @@ public class TemplateDesign extends ReportItemDesign
 	public Object accept( IReportItemVisitor visitor, Object value )
 	{
 		return visitor.visitTemplate( this, value );
+	}
+	
+	public void setAllowedType( String allowedType)
+	{
+		this.allowedType = allowedType;
+	}
+	
+	public String getAllowedType( )
+	{
+		return this.allowedType;
 	}
 }
