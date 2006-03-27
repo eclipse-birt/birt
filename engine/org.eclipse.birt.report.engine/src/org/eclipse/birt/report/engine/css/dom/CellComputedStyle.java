@@ -13,12 +13,15 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 
 public class CellComputedStyle extends ComputedStyle
 {
 
 	private CSSStylableElement cell;
+	private IStyle columnStyle;
+	private IStyle rowStyle;
 
 	public CellComputedStyle( ICellContent elt )
 	{
@@ -27,6 +30,7 @@ public class CellComputedStyle extends ComputedStyle
 		if ( row != null )
 		{
 			IElement parentElt = row.getParent( );
+			rowStyle = row.getStyle();
 			if ( parentElt instanceof ITableBandContent )
 			{
 				parentElt = parentElt.getParent( );
@@ -38,8 +42,10 @@ public class CellComputedStyle extends ComputedStyle
 				if ( columnId >= 0 && columnId < table.getColumnCount( ) )
 				{
 					IColumn column = table.getColumn( columnId );
-					if ( column.getStyleClass( ) != null )
+					String styleClass = column.getStyleClass( ); 
+					if (  styleClass != null )
 					{
+						columnStyle = elt.getReportContent( ).findStyle( styleClass );
 						cell = new StyledCell( elt );
 					}
 				}
@@ -48,6 +54,7 @@ public class CellComputedStyle extends ComputedStyle
 		if ( cell == null )
 		{
 			cell = elt;
+			columnStyle = null;
 		}
 	}
 
@@ -63,10 +70,31 @@ public class CellComputedStyle extends ComputedStyle
 		IStyle s = cell.getStyle( );
 
 		Value sv = s == null ? null : (Value) s.getProperty( index );
+		if ( sv == null && columnStyle != null
+				&& isBackgroundProperties( index )
+				&& rowStyle!=null
+				&& rowStyle.getProperty( index ) == null )
+		{
+			sv = (Value) columnStyle.getProperty( index );
+		}
 
 		Value cv = engine.resolveStyle( elt, index, sv, pcs );
-
 		return cv;
+	}
+	
+	private boolean isBackgroundProperties(int index)
+	{
+		if (StyleConstants.STYLE_BACKGROUND_COLOR==index 
+				||StyleConstants.STYLE_BACKGROUND_ATTACHMENT==index
+				||StyleConstants.STYLE_BACKGROUND_IMAGE==index
+				||StyleConstants.STYLE_BACKGROUND_REPEAT==index)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	private abstract static class StyledElement implements CSSStylableElement
