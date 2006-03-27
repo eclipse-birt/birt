@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart Device Extension(s)
 Bundle-SymbolicName: org.eclipse.birt.chart.device.extension; singleton:=true
 Bundle-Version: 2.1.0.qualifier
-Bundle-ClassPath: device-extension.jar
 Bundle-Activator: org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin

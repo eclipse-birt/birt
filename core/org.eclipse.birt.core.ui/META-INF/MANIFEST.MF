@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Core UI
 Bundle-SymbolicName: org.eclipse.birt.core.ui; singleton:=true
 Bundle-Version: 2.1.0.qualifier
-Bundle-ClassPath: coreui.jar
 Bundle-Activator: org.eclipse.birt.core.ui.plugin.CoreUIPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin

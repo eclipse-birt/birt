@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart Engine Extension
 Bundle-SymbolicName: org.eclipse.birt.chart.engine.extension; singleton:=true
 Bundle-Version: 2.1.0.qualifier
-Bundle-ClassPath: engine-extension.jar
 Bundle-Activator: org.eclipse.birt.chart.plugin.ChartEngineExtensionPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin

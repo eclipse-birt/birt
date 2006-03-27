@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart Device SVG Extension
 Bundle-SymbolicName: org.eclipse.birt.chart.device.svg; singleton:=true
 Bundle-Version: 2.1.0.qualifier
-Bundle-ClassPath: device-svg.jar
 Bundle-Activator: org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin

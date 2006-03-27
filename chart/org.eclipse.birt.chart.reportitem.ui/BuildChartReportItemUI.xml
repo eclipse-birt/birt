@@ -62,11 +62,11 @@
 		     javadoc.dir
 		     plugin.version 
 	-->
+	<property file="META-INF/MANIFEST.MF" />
 	<property name="eclipse.home" location="." />
 	
-	<property name="src" location="src"/>
-	<property name="lib" location="lib"/>
-	<property name="bin" location="bin"/>
+	<property name="dir.src" location="src"/>
+	<property name="dir.bin" location="bin"/>
 	
 	<property name="module.name" value="org.eclipse.birt.chart.reportitem.ui"/>
 
@@ -80,6 +80,8 @@
 	<property name="chart.reportitem.dir" location="../org.eclipse.birt.chart.reportitem"/>
 	<property name="chart.ui.dir" location="../org.eclipse.birt.chart.ui"/>
 	<property name="core.ui.dir" location="../org.eclipse.birt.core.ui"/>
+	
+	<property name="jar.name" value="${module.name}_${Bundle-Version}.jar" />	
 
 	<!-- set platform related properties-->
 	<condition property="basews" value="win32">
@@ -102,7 +104,7 @@
 	<property name="swt.dir" value="org.eclipse.swt" />
 	
 	<path id="class.path">
-		<pathelement path="${bin}"/>
+		<pathelement path="${dir.bin}"/>
 		
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
@@ -125,36 +127,16 @@
 			<include name="com.ibm.icu_*.jar"/>	
 		</fileset>
 		
-		<fileset dir="${core.dir}/lib">
-				<include name="**/*.jar"/>
-		</fileset>
-		<fileset dir="${model.dir}">
-				<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${engine.dir}">
-				<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${designer.core.dir}">
-				<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${designer.ui.dir}">
-				<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${data.dir}">
-				<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${chart.engine.dir}">
-				<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${chart.reportitem.dir}">
-				<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${chart.ui.dir}">
-				<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${core.ui.dir}">
-				<include name="*.jar"/>
-		</fileset>
+		<fileset file="${core.dir}/*.jar" />
+		<fileset file="${engine.dir}/*.jar" />
+		<fileset file="${model.dir}/*.jar" />
+		<fileset file="${data.dir}/*.jar" />
+		<fileset file="${designer.core.dir}/*.jar" />
+		<fileset file="${designer.ui.dir}/*.jar" />
+		<pathelement path="${chart.engine.dir}/org.eclipse.birt.chart.engine_${Bundle-Version}.jar"/>
+		<pathelement path="${core.ui.dir}/org.eclipse.birt.core.ui_${Bundle-Version}.jar"/>
+		<pathelement path="${chart.ui.dir}/org.eclipse.birt.chart.ui_${Bundle-Version}.jar"/>
+		<pathelement path="${chart.reportitem.dir}/org.eclipse.birt.chart.reportitem_${Bundle-Version}.jar"/>
 	</path>
 	
 	<!-- Compile source code and generate jar for this project.
@@ -162,14 +144,15 @@
 		 	eclipse.home
 	-->
 	<target name="Jar" depends="compileSource" description="create project jar">
-		<jar destfile="reportitem-ui.jar">
-			<fileset dir="${bin}">
-				<include name="**/*.class"/>
-				<include name="**/*.txt"/>
-				<include name="**/*.xml"/>
-				<include name="**/*.def"/>
-				<include name="**/*.properties"/>
+		<jar destfile="${jar.name}" manifest="./META-INF/MANIFEST.MF">
+			<fileset dir="${dir.bin}">
+				<include name="**/*.class" />
+				<include name="**/*.txt" />
+				<include name="**/*.xml" />
+				<include name="**/*.def" />
+				<include name="**/*.properties" />
 			</fileset>
+			<fileset dir="." includes="about.html,plugin.xml,plugin*.properties,.options,schema/**,lib/**,icons/**"/>
 		</jar>
 	</target>
 	
@@ -181,10 +164,9 @@
 					 		- ${plugin.version} the version of plugin exported
 	-->
 	<target name="Export">
-		<property file="META-INF/MANIFEST.MF" />
-	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
-	        <fileset dir="." includes="reportitem-ui.jar,about.html,plugin.xml,plugin*.properties,.options,lib/**,icons/**,META-INF/MANIFEST.MF"/>
-	    </copy>
+		<copy todir="${export.dir}">
+	        <fileset dir="." includes="${jar.name}"/>
+	  </copy>
 	</target>
 
 	
@@ -203,8 +185,8 @@
 	<!-- Clean all objects created by this script -->
 	<target name="Clean" description="clean up">
 		<!-- Delete the binary directory trees -->
-		<delete dir="${bin}"/>
-		<delete file="reportitem-ui.jar"/>
+		<delete dir="${dir.bin}"/>
+		<delete file="${jar.name}"/>
 	</target>
 
 	<!-- Generate the JavaDoc.
@@ -221,7 +203,7 @@
 				 windowtitle="BIRT Chart Engine Project" 
 				 source="1.4"
 				 packagenames="${module.name}.*">
-				<packageset dir="${src}" defaultexcludes="yes" />
+				<packageset dir="${dir.src}" defaultexcludes="yes" />
 	 	        <bottom><![CDATA[<i>Copyright &#169;  2004 Actuate Corp. All rights reserved. </i>]]></bottom>
 				<classpath refid="class.path" />
 		</javadoc>
@@ -229,20 +211,20 @@
 	
 	<!-- Compile Source Files -->
 	<target name="compileSource" depends="buildDependency">
-		<mkdir dir="${bin}"/>
+		<mkdir dir="${dir.bin}"/>
 
 		<!-- copy any resource file we needed into the bin directory-->
-		<copy todir="${bin}">
-			<fileset dir="${src}">
+		<copy todir="${dir.bin}">
+			<fileset dir="${dir.src}">
 				<include name="**/*.txt"/>
 				<include name="**/*.xml"/>
 				<include name="**/*.properties"/>
 			</fileset>
 		</copy>
 		
-		<!-- Compile the java code from ${src} into ${bin} -->
-		<javac srcdir="${src}" 
-			   destdir="${bin}" 
+		<!-- Compile the java code from ${dir.src} into ${dir.bin} -->
+		<javac srcdir="${dir.src}" 
+			   destdir="${dir.bin}" 
 			   encoding="utf-8" 
 			   source="1.4" 
 			   debug="true">
@@ -264,18 +246,18 @@
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="End call Jar task in ${chart.ui.dir}"/>
+		
+		<echo message="Start call Jar task in ${designer.core.dir}"/>
+		<ant dir="${designer.core.dir}" antfile="BuildDesignerCore.xml"  target="Jar" inheritAll="false" inheritRefs="false" >
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>		
+		<echo message="End call Jar task in ${designer.core.dir}"/>
 
 		<echo message="Start call Jar task in ${designer.ui.dir}"/>
 		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml"  target="Jar" inheritAll="false" inheritRefs="false" >
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>		
 		<echo message="End call Jar task in ${designer.ui.dir}"/>
-		
-		<echo message="start call Jar task in ${core.ui.dir}"/>
-		<ant dir="${core.ui.dir}" antfile="BuildCoreUI.xml" target="Jar" inheritAll="false" inheritRefs="false" >
-		 	<property name="eclipse.home" value="${eclipse.home}" />
-		</ant>	
-		<echo message="end call Jar task in ${core.ui.dir}"/>
 		
 	</target>
 

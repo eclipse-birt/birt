@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart Library UI Plug-in
 Bundle-SymbolicName: org.eclipse.birt.chart.ui; singleton:=true
 Bundle-Version: 2.1.0.qualifier
-Bundle-ClassPath: ui.jar
 Bundle-Activator: org.eclipse.birt.chart.ui.plugin.ChartUIPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
