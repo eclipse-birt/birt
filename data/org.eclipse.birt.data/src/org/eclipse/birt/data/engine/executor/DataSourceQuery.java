@@ -368,7 +368,9 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			ParameterHint parameterHint = new ParameterHint( parameterDefn.getName(), 
 															 parameterDefn.isInputMode(),
 															 parameterDefn.isOutputMode() );
-			parameterHint.setPosition( parameterDefn.getPosition( ) );
+			if( isParameterPositionValid(parameterDefn.getPosition()))
+				parameterHint.setPosition( parameterDefn.getPosition( ) );
+
 			// following data types is not supported by odaconsumer currently
 			Class dataTypeClass = DataType.getClass( parameterDefn.getType( ) );
 			if ( dataTypeClass == DataType.AnyType.class
@@ -388,7 +390,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			{
 				Object inputValue = convertToValue( parameterHint.getDefaultInputValue( ),
 						parameterDefn.getType( ) );
-				if ( parameterHint.getPosition( ) != -1 )
+				if ( isParameterPositionValid(parameterHint.getPosition( )) )
 					this.setInputParamValue( parameterHint.getPosition( ),
 							inputValue );
 				else
@@ -397,6 +399,17 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			}			
 		}
 		this.setInputParameterBinding();
+	}
+	
+	/**
+	 * Check whether the given parameter position is valid.
+	 * 
+	 * @param parameterPosition
+	 * @return
+	 */
+	private boolean isParameterPositionValid(int parameterPosition)
+	{
+		return parameterPosition > 0;
 	}
 	
 	/*
@@ -690,7 +703,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		while ( inputParamValueslist.hasNext( ) )
 		{
 			ParameterBinding paramBind = (ParameterBinding) inputParamValueslist.next( );
-			if ( paramBind.getPosition( ) != -1 )
+			if ( isParameterPositionValid(paramBind.getPosition( )) )
 				odaStatement.setParameterValue( paramBind.getPosition( ),
 						paramBind.getValue() );
 			else
