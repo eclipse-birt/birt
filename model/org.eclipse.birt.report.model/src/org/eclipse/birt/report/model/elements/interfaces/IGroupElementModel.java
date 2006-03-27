@@ -133,4 +133,11 @@ public interface IGroupElementModel
 	 */
 
 	public static final String HIDE_DETAIL_PROP = "hideDetail"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the on-pageBreak property. It is for a script executed when the
+	 * element is prepared for page breaking in the Presentation engine.
+	 */
+
+	public static final String ON_PAGE_BREAK_METHOD = "onPageBreak"; //$NON-NLS-1$
 }

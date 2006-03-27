@@ -2314,6 +2314,10 @@
       <Argument name="this" tagID="Element.Label.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.ILabelInstance"/>
       <Argument name="reportContext" tagID="Element.Label.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
+    <Method context="presentation" displayNameID="Element.Label.onPageBreak" name="onPageBreak" since="2.1" toolTipID="Element.Label.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.Label.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.ILabelInstance"/>
+      <Argument name="reportContext" tagID="Element.Label.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
     <Property detailType="Action" displayNameID="Element.Label.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
     <PropertyVisibility name="dataSet" visibility="hide"/>
     <StyleProperty name="backgroundColor"/>
@@ -2401,6 +2405,10 @@
       <Argument name="this" tagID="Element.Data.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance"/>
       <Argument name="reportContext" tagID="Element.Data.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>    
+    <Method context="presentation" displayNameID="Element.Data.onPageBreak" name="onPageBreak" since="2.1" toolTipID="Element.Data.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.Data.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance"/>
+      <Argument name="reportContext" tagID="Element.Data.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
     <StyleProperty name="backgroundColor"/>
     <StyleProperty name="backgroundImage"/>
     <StyleProperty name="backgroundRepeat"/>
@@ -2474,6 +2482,10 @@
       <Argument name="this" tagID="Element.Text.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance"/>
       <Argument name="reportContext" tagID="Element.Text.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>    
+    <Method context="presentation" displayNameID="Element.Text.onPageBreak" name="onPageBreak" since="2.1" toolTipID="Element.Text.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.Text.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance"/>
+      <Argument name="reportContext" tagID="Element.Text.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
     <StyleProperty name="backgroundAttachment"/>
     <StyleProperty name="backgroundImage"/>
     <StyleProperty name="backgroundPositionX"/>
@@ -2621,11 +2633,19 @@
       <Argument name="this" tagID="Element.List.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.IListInstance"/>
       <Argument name="reportContext" tagID="Element.List.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>  
+    <Method context="presentation" displayNameID="Element.List.onPageBreak" name="onPageBreak" since="2.1" toolTipID="Element.List.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.List.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.IListInstance"/>
+      <Argument name="reportContext" tagID="Element.List.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ListGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ListGroup" name="ListGroup" nameSpace="none" since="1.0" xmlName="group">
     <Method context="startup" displayNameID="Element.ListGroup.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ListGroup.onPrepare.toolTip">
       <Argument name="this" tagID="Element.ListGroup.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IListGroup"/>
       <Argument name="reportContext" tagID="Element.ListGroup.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.ListGroup.onPageBreak" name="onPageBreak" since="2.1" toolTipID="Element.ListGroup.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.ListGroup.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.element.IListGroup"/>
+      <Argument name="reportContext" tagID="Element.ListGroup.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
     <Slot displayNameID="Element.ListGroup.slot.header" multipleCardinality="true" name="header" selector="list-group-header" since="1.0" xmlName="header">
       <Type name="FreeForm"/>
@@ -2691,7 +2711,11 @@
     <Method context="presentation" displayNameID="Element.Table.onRender" name="onRender" since="1.0" toolTipID="Element.Table.onRender.toolTip">
       <Argument name="this" tagID="Element.Table.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.ITableInstance"/>
       <Argument name="reportContext" tagID="Element.Table.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-    </Method>    
+    </Method>   
+    <Method context="presentation" displayNameID="Element.Table.onPageBreak" name="onPageBreak" since="2.1" toolTipID="Element.Table.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.Table.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.ITableInstance"/>
+      <Argument name="reportContext" tagID="Element.Table.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method> 
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.TableGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableGroup" name="TableGroup" nameSpace="none" since="1.0" xmlName="group">
     <Slot displayNameID="Element.TableGroup.slot.header" multipleCardinality="true" name="header" selector="table-group-header" since="1.0" xmlName="header">
@@ -2705,6 +2729,10 @@
     <Method context="startup" displayNameID="Element.TableGroup.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.TableGroup.onPrepare.toolTip">
       <Argument name="this" tagID="Element.TableGroup.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.ITableGroup"/>
       <Argument name="reportContext" tagID="Element.TableGroup.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.TableGroup.onPageBreak" name="onPageBreak" since="2.1" toolTipID="Element.TableGroup.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.TableGroup.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.element.ITableGroup"/>
+      <Argument name="reportContext" tagID="Element.TableGroup.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Column" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableColumn" name="Column" nameSpace="none" since="1.0" xmlName="column">
@@ -2884,7 +2912,11 @@
     <Method context="presentation" displayNameID="Element.Image.onRender" name="onRender" since="1.0" toolTipID="Element.Image.onRender.toolTip">
       <Argument name="this" tagID="Element.Image.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.IImageInstance"/>
       <Argument name="reportContext" tagID="Element.Image.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-    </Method>    
+    </Method>   
+    <Method context="presentation" displayNameID="Element.Image.onPageBreak" name="onPageBreak" since="2.1" toolTipID="Element.Image.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.Image.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.IImageInstance"/>
+      <Argument name="reportContext" tagID="Element.Image.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method> 
     <StyleProperty name="backgroundColor"/>
     <StyleProperty name="borderTopWidth"/>
     <StyleProperty name="borderTopStyle"/>
@@ -2944,6 +2976,10 @@
       <Argument name="this" tagID="Element.Grid.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.IGridInstance"/>
       <Argument name="reportContext" tagID="Element.Grid.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>    
+    <Method context="presentation" displayNameID="Element.Grid.onPageBreak" name="onPageBreak" since="2.1" toolTipID="Element.Grid.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.Grid.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.IGridInstance"/>
+      <Argument name="reportContext" tagID="Element.Grid.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Line" extends="ReportItem" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.LineItem" name="Line" since="reserved" selector="line">
     <Property detailType="lineOrientation" displayNameID="Element.Line.orientation" name="orientation" since="reserved" type="choice">
@@ -3002,7 +3038,11 @@
     <Method context="presentation" displayNameID="Element.TextData.onRender" name="onRender" since="1.0" toolTipID="Element.TextData.onRender.toolTip">
       <Argument name="this" tagID="Element.TextData.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance"/>
       <Argument name="reportContext" tagID="Element.TextData.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-    </Method>    
+    </Method>  
+    <Method context="presentation" displayNameID="Element.TextData.onPageBreak" name="onPageBreak" since="2.1" toolTipID="Element.TextData.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.TextData.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance"/>
+      <Argument name="reportContext" tagID="Element.TextData.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>  
     <StyleProperty name="backgroundAttachment"/>
     <StyleProperty name="backgroundImage"/>
     <StyleProperty name="backgroundPositionX"/>
@@ -3070,6 +3110,10 @@
     <Method context="presentation" displayNameID="Element.ExtendedItem.onRender" name="onRender" since="1.0" toolTipID="Element.ExtendedItem.onRender.toolTip">
       <Argument name="this" tagID="Element.ExtendedItem.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.IReportItemInstance"/>
       <Argument name="reportContext" tagID="Element.ExtendedItem.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.ExtendedItem.onPageBreak" name="onPageBreak" since="2.1" toolTipID="Element.ExtendedItem.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.ExtendedItem.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.IReportItemInstance"/>
+      <Argument name="reportContext" tagID="Element.ExtendedItem.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Theme" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Theme" name="Theme" nameSpace="theme" since="2.0" xmlName="theme">

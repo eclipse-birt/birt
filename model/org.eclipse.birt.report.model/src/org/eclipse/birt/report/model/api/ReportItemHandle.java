@@ -458,4 +458,34 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	{
 		setProperty( ReportItem.ON_PREPARE_METHOD, script );
 	}
+
+	/**
+	 * Gets the on-pageBreak script of the report item. Presentation phase. It
+	 * is for a script executed when the element is prepared for page breaking
+	 * in the Presentation engine.
+	 * 
+	 * @return the on-pageBreak script of the report item
+	 * 
+	 */
+
+	public String getOnPageBreak( )
+	{
+		return getStringProperty( ON_PAGE_BREAK_METHOD );
+	}
+
+	/**
+	 * Sets the on-pageBreak script of the report item.
+	 * 
+	 * @param script
+	 *            the script to set
+	 * @throws SemanticException
+	 *             if the method is locked.
+	 * 
+	 * @see #getOnPageBreak()
+	 */
+
+	public void setOnPageBreak( String script ) throws SemanticException
+	{
+		setProperty( ON_PAGE_BREAK_METHOD, script );
+	}
 }

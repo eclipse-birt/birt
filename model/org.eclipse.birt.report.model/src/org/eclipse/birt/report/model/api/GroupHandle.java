@@ -569,4 +569,34 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		setProperty( HIDE_DETAIL_PROP, Boolean.valueOf( value ) );
 	}
+
+	/**
+	 * Gets the on-pageBreak script of the group element. Presentation phase. It
+	 * is for a script executed when the element is prepared for page breaking
+	 * in the Presentation engine.
+	 * 
+	 * @return the on-pageBreak script of the group element
+	 * 
+	 */
+
+	public String getOnPageBreak( )
+	{
+		return getStringProperty( ON_PAGE_BREAK_METHOD );
+	}
+
+	/**
+	 * Sets the on-pageBreak script of the group element.
+	 * 
+	 * @param script
+	 *            the script to set
+	 * @throws SemanticException
+	 *             if the method is locked.
+	 * 
+	 * @see #getOnPageBreak()
+	 */
+
+	public void setOnPageBreak( String script ) throws SemanticException
+	{
+		setProperty( ON_PAGE_BREAK_METHOD, script );
+	}
 }

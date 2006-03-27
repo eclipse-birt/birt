@@ -96,4 +96,11 @@ public interface IReportItemModel
 
 	public static final String PARAM_BINDINGS_PROP = "paramBindings"; //$NON-NLS-1$
 
+	/**
+	 * Name of the on-pageBreak property. It is for a script executed when the
+	 * element is prepared for page breaking in the Presentation engine.
+	 */
+
+	public static final String ON_PAGE_BREAK_METHOD = "onPageBreak"; //$NON-NLS-1$
+
 }

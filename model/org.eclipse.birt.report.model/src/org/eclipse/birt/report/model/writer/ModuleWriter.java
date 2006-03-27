@@ -2435,6 +2435,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ReportItem.ON_PREPARE_METHOD );
 		property( obj, ReportItem.ON_CREATE_METHOD );
 		property( obj, ReportItem.ON_RENDER_METHOD );
+		property( obj, ReportItem.ON_PAGE_BREAK_METHOD );
 
 		writeOverridenPropertyValues( obj );
 	}
@@ -2535,6 +2536,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, GroupElement.EVENT_HANDLER_CLASS_PROP );
 		property( obj, GroupElement.ON_PREPARE_METHOD );
+		property( obj, GroupElement.ON_PAGE_BREAK_METHOD );
 		property( obj, GroupElement.REPEAT_HEADER_PROP );
 		property( obj, GroupElement.HIDE_DETAIL_PROP );
 
