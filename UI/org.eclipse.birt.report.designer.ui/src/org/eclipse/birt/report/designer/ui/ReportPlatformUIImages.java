@@ -636,25 +636,7 @@ public class ReportPlatformUIImages
 		}
 		else if ( model instanceof DesignElementHandle )
 		{// the icon name for elements is just the same as the element name
-			if ( ( (DesignElementHandle) model ).getRoot( ) instanceof LibraryHandle
-					&& ( ( model instanceof DataSourceHandle )
-							|| ( model instanceof DataSetHandle )
-							|| ( model instanceof GridHandle )
-							|| ( model instanceof ImageHandle )
-							|| ( model instanceof DataItemHandle )
-							|| ( model instanceof LabelHandle )
-							|| ( model instanceof ListingHandle )
-							|| ( model instanceof TableHandle )
-							|| ( model instanceof TextItemHandle ) || ( model instanceof TextDataHandle ) ) )
-			{
-				image = getImage( ( (DesignElementHandle) model ).getElement( )
-						.getDefn( )
-						.getName( )
-						+ "_"
-						+ IReportGraphicConstants.LINK );
-			}
-			else if ( ( (DesignElementHandle) model ).getExtends( ) != null
-					&& ( (DesignElementHandle) model ).getExtends( ).getRoot( ) instanceof LibraryHandle )
+			if ( isLinkImg( (DesignElementHandle) model ) == true )
 			{
 				image = getImage( ( (DesignElementHandle) model ).getElement( )
 						.getDefn( )
@@ -671,6 +653,32 @@ public class ReportPlatformUIImages
 		}
 
 		return image;
+	}
+
+	private static boolean isLinkImg( DesignElementHandle handle )
+	{
+		if (!( handle.getRoot( ) instanceof LibraryHandle
+				|| ( handle.getExtends( ) != null && handle.getExtends( )
+						.getRoot( ) instanceof LibraryHandle ) ))
+		{
+			return false;
+		}
+
+		if ( ( handle instanceof DataSourceHandle )
+				|| ( handle instanceof DataSetHandle )
+				|| ( handle instanceof GridHandle )
+				|| ( handle instanceof ImageHandle )
+				|| ( handle instanceof DataItemHandle )
+				|| ( handle instanceof LabelHandle )
+				|| ( handle instanceof ListingHandle )
+				|| ( handle instanceof TableHandle )
+				|| ( handle instanceof TextItemHandle )
+				|| ( handle instanceof TextDataHandle ) )
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -696,25 +704,7 @@ public class ReportPlatformUIImages
 		}
 		else if ( model instanceof DesignElementHandle )
 		{// the icon name for elements is just the same as the element name
-			if ( ( (DesignElementHandle) model ).getRoot( ) instanceof LibraryHandle
-					&& ( ( model instanceof DataSourceHandle )
-							|| ( model instanceof DataSetHandle )
-							|| ( model instanceof GridHandle )
-							|| ( model instanceof ImageHandle )
-							|| ( model instanceof DataItemHandle )
-							|| ( model instanceof LabelHandle )
-							|| ( model instanceof ListingHandle )
-							|| ( model instanceof TableHandle )
-							|| ( model instanceof TextItemHandle ) || ( model instanceof TextDataHandle ) ) )
-			{
-				imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model ).getElement( )
-						.getDefn( )
-						.getName( )
-						+ "_"
-						+ IReportGraphicConstants.LINK );
-			}
-			else if ( ( (DesignElementHandle) model ).getExtends( ) != null
-					&& ( (DesignElementHandle) model ).getExtends( ).getRoot( ) instanceof LibraryHandle )
+			if ( isLinkImg( (DesignElementHandle) model ) )
 			{
 				imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model ).getElement( )
 						.getDefn( )
