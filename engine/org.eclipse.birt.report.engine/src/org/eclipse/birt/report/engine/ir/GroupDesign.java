@@ -17,7 +17,7 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * used by ListItem and TableItem.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/12/23 06:37:24 $
+ * @version $Revision: 1.7 $ $Date: 2006/03/17 02:18:27 $
  */
 public class GroupDesign
 {
@@ -26,6 +26,16 @@ public class GroupDesign
 	 */
 	protected String name;
 
+	/**
+	 * the page break before property 
+	 */
+	protected String pageBreakBefore;
+	
+	/**
+	 * the page break after property
+	 */
+	protected String pageBreakAfter;
+	
 	/**
 	 * group hideDetail
 	 */
@@ -63,4 +73,23 @@ public class GroupDesign
 		return hideDetail;
 	}
 	
+	public String getPageBreakBefore()
+	{
+		return pageBreakBefore;
+	}
+	
+	public void setPageBreakBefore(String pageBreak)
+	{
+		pageBreakBefore = pageBreak;
+	}
+	
+	public String getPageBreakAfter()
+	{
+		return pageBreakAfter;
+	}
+	
+	public void setPageBreakAfter(String pageBreak)
+	{
+		pageBreakAfter = pageBreak;
+	}
 }

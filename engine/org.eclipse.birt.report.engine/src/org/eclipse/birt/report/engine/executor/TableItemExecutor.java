@@ -51,6 +51,7 @@ import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.RowData;
 import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * Defines execution logic for a List report item.
@@ -63,7 +64,7 @@ import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.38 $ $Date: 2006/01/25 09:06:46 $
+ * @version $Revision: 1.39 $ $Date: 2006/01/26 04:34:38 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -169,7 +170,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.38 $ $Date: 2006/01/25 09:06:46 $
+	 * @version $Revision: 1.39 $ $Date: 2006/01/26 04:34:38 $
 	 */
 	private static class TABLEINFO
 	{
@@ -429,6 +430,18 @@ public class TableItemExecutor extends ListingElementExecutor
 
 		if ( group != null )
 		{
+			String pageBreakBefore = group.getPageBreakBefore( );
+			if (DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS.equals(pageBreakBefore))
+			{
+				needPageBreak = true;
+			}
+			if (DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST.equals(pageBreakBefore))
+			{
+				if (rset.getStartingGroupLevel( ) > index)
+				{
+					needPageBreak = true;
+				}
+			}
 			TableBandDesign band = group.getHeader( );
 			if ( layoutEmitter == null && tableInfo.hasDropCells( index ) )
 			{
@@ -464,6 +477,18 @@ public class TableItemExecutor extends ListingElementExecutor
 		{
 			assert layoutEmitter == emitter;
 			layoutEmitter.resolveCellsOfDropAll( index );
+		}
+		String pageBreakAfter = group.getPageBreakAfter( );
+		if (DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals(pageBreakAfter))
+		{
+			needPageBreak = true;
+		}
+		if (DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST.equals(pageBreakAfter))
+		{
+			if (rset.getEndingGroupLevel( ) > index)
+			{
+				needPageBreak = true;
+			}
 		}
 	}
 

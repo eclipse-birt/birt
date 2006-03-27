@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.87 $ $Date: 2006/03/23 09:28:45 $
+ * @version $Revision: 1.88 $ $Date: 2006/03/27 03:20:02 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1191,6 +1191,12 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		// name
 		group.setName( handle.getName( ) );
+		String pageBreakBefore = handle
+				.getStringProperty( StyleHandle.PAGE_BREAK_BEFORE_PROP );
+		String pageBreakAfter = handle
+				.getStringProperty( StyleHandle.PAGE_BREAK_AFTER_PROP );
+		group.setPageBreakBefore( pageBreakBefore );
+		group.setPageBreakAfter( pageBreakAfter );
 	}
 
 	/**
@@ -1666,6 +1672,49 @@ class EngineIRVisitor extends DesignVisitor
 		return createPrivateStyle( handle, true );
 	}
 
+	protected String decodePageBreak( String pageBreak )
+	{
+		if ( pageBreak == null )
+		{
+			return null;
+		}
+		if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals( pageBreak ) )
+		{
+			return IStyle.CSS_ALWAYS_VALUE;
+		}
+		if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST
+				.equals( pageBreak ) )
+		{
+			return IStyle.CSS_ALWAYS_VALUE;
+		}
+		if ( DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO.equals( pageBreak ) )
+		{
+			return IStyle.CSS_AUTO_VALUE;
+		}
+		if ( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID.equals( pageBreak ) )
+		{
+			return IStyle.CSS_AVOID_VALUE;
+		}
+		if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS.equals( pageBreak ) )
+		{
+			return IStyle.CSS_ALWAYS_VALUE;
+		}
+		if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST
+				.equals( pageBreak ) )
+		{
+			return IStyle.CSS_ALWAYS_VALUE;
+		}
+		if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_AUTO.equals( pageBreak ) )
+		{
+			return IStyle.CSS_AUTO_VALUE;
+		}
+		if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_AVOID.equals( pageBreak ) )
+		{
+			return IStyle.CSS_AVOID_VALUE;
+		}
+		return IStyle.CSS_AUTO_VALUE;
+	}
+
 	protected StyleDeclaration createPrivateStyle( ReportElementHandle handle,
 			boolean isContainer )
 	{
@@ -1721,10 +1770,12 @@ class EngineIRVisitor extends DesignVisitor
 		style
 				.setMasterPage( getElementProperty( handle,
 						Style.MASTER_PAGE_PROP ) );
-		style.setPageBreakAfter( getElementProperty( handle,
-				Style.PAGE_BREAK_AFTER_PROP ) );
-		style.setPageBreakBefore( getElementProperty( handle,
-				Style.PAGE_BREAK_BEFORE_PROP ) );
+		String pageBreakAfter = getElementProperty(handle, StyleHandle.PAGE_BREAK_AFTER_PROP);
+		style.setPageBreakAfter( decodePageBreak(pageBreakAfter) );
+		String pageBreakBefore = getElementProperty( handle,
+				StyleHandle.PAGE_BREAK_BEFORE_PROP );
+		style.setPageBreakBefore( decodePageBreak(pageBreakBefore) );
+		 
 		style.setPageBreakInside( getElementProperty( handle,
 				Style.PAGE_BREAK_INSIDE_PROP ) );
 

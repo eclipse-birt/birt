@@ -145,19 +145,19 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			return;
 		}
 		// multiple group tables
-		
+
 		// bug130622
 		// if hideDetail be setted in some group,
-		// all sub groups and details will be hidden. 
+		// all sub groups and details will be hidden.
 		boolean hideDetail = false;
-		int hideGroupStartIndex = -1; 
+		int hideGroupStartIndex = -1;
 		do
 		{
 			rsetCursor++;
 			int startGroup = rset.getStartingGroupLevel( );
-			
+
 			ArrayList groupList = listing.getGroups( );
-			
+
 			if ( startGroup != NONE_GROUP )
 			{
 				// It start the group startGroup. It also start the
@@ -167,33 +167,36 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				{
 					groupIndex = 0;
 				}
-				while ( groupIndex < groupCount && ( hideGroupStartIndex == -1 || groupIndex < hideGroupStartIndex ) )
+				while ( groupIndex < groupCount
+						&& ( hideGroupStartIndex == -1 || groupIndex < hideGroupStartIndex ) )
 				{
 					startGroupTOCEntry( );// open the group
 					startTOCEntry( null );// open the group header
 					accessGroupHeader( listing, groupIndex, outputEmitter );
 					finishTOCEntry( );// close the group header
 					groupIndex++;
-					
-					GroupDesign groupDesign = ( GroupDesign ) groupList.get( groupIndex - 1 );
-					if ( groupDesign.getHideDetail( ) && hideGroupStartIndex == -1 )
+
+					GroupDesign groupDesign = (GroupDesign) groupList
+							.get( groupIndex - 1 );
+					if ( groupDesign.getHideDetail( )
+							&& hideGroupStartIndex == -1 )
 					{
 						hideDetail = true;
 						hideGroupStartIndex = groupIndex;
 						break;
 					}
-					
+
 				}
 				// for each group, we should restart the duplicate state
 				clearDuplicateFlags( listing );
 			}
 			startGroupTOCEntry( );
-			
+
 			if ( !hideDetail )
 			{
-			accessDetail( listing, outputEmitter, rsIterator );
+				accessDetail( listing, outputEmitter, rsIterator );
 			}
-			
+
 			finishGroupTOCEntry( );
 			int endGroup = rset.getEndingGroupLevel( );
 			if ( endGroup != NONE_GROUP )
@@ -209,8 +212,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				}
 				if ( hideGroupStartIndex == -1 )
 				{
-				groupIndex = groupCount - 1;
-				}		
+					groupIndex = groupCount - 1;
+				}
 				else
 				{
 					groupIndex = hideGroupStartIndex - 1;
