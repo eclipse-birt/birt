@@ -3892,7 +3892,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * 
 	 * @return
 	 */
-	protected boolean isRightToLeft( )
+	public boolean isRightToLeft( )
 	{
 		if ( rtc == null )
 		{
