@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
+import org.eclipse.birt.report.designer.internal.ui.ide.propertyeditor.IDECategoryProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory;
 import org.eclipse.core.runtime.IAdapterFactory;
 
