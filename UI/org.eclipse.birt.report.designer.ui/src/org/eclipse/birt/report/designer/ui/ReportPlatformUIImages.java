@@ -16,11 +16,19 @@ import java.net.URL;
 
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtensionConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TextDataHandle;
+import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
@@ -628,9 +636,16 @@ public class ReportPlatformUIImages
 		}
 		else if ( model instanceof DesignElementHandle )
 		{// the icon name for elements is just the same as the element name
-			if ( ( (DesignElementHandle) model ).getRoot( ) instanceof LibraryHandle 
-			&& !(model instanceof ThemeHandle)
-			&& !(model instanceof ParameterHandle))
+			if ( ( (DesignElementHandle) model ).getRoot( ) instanceof LibraryHandle
+					&& ( ( model instanceof DataSourceHandle )
+							|| ( model instanceof DataSetHandle )
+							|| ( model instanceof GridHandle )
+							|| ( model instanceof ImageHandle )
+							|| ( model instanceof DataItemHandle )
+							|| ( model instanceof LabelHandle )
+							|| ( model instanceof ListingHandle )
+							|| ( model instanceof TableHandle )
+							|| ( model instanceof TextItemHandle ) || ( model instanceof TextDataHandle ) ) )
 			{
 				image = getImage( ( (DesignElementHandle) model ).getElement( )
 						.getDefn( )
@@ -671,20 +686,28 @@ public class ReportPlatformUIImages
 		}
 		else if ( model instanceof DesignElementHandle )
 		{// the icon name for elements is just the same as the element name
-			if ( ( (DesignElementHandle) model ).getRoot( ) instanceof LibraryHandle 
-					&& !(model instanceof ThemeHandle)
-					&& !(model instanceof ParameterHandle))
+			if ( ( (DesignElementHandle) model ).getRoot( ) instanceof LibraryHandle
+					&& ( ( model instanceof DataSourceHandle )
+							|| ( model instanceof DataSetHandle )
+							|| ( model instanceof GridHandle )
+							|| ( model instanceof ImageHandle )
+							|| ( model instanceof DataItemHandle )
+							|| ( model instanceof LabelHandle )
+							|| ( model instanceof ListingHandle )
+							|| ( model instanceof TableHandle )
+							|| ( model instanceof TextItemHandle ) || ( model instanceof TextDataHandle ) ) )
 			{
 				imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model ).getElement( )
 						.getDefn( )
 						.getName( )
 						+ "_"
 						+ IReportGraphicConstants.LINK );
-			}else
+			}
+			else
 			{
-			imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model ).getElement( )
-					.getDefn( )
-					.getName( ) );
+				imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model ).getElement( )
+						.getDefn( )
+						.getName( ) );
 			}
 		}
 		return imageDescriptor;
