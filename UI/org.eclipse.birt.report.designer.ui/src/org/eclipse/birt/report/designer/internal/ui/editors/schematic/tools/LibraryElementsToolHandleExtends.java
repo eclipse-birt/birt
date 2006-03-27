@@ -64,7 +64,7 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 			{
 				if(elementHandle instanceof ThemeHandle)
 				{
-					ThemeHandle model = applyTheme( (ThemeHandle)elementHandle,moduleHandle,library);
+					ThemeHandle model = UIUtil.applyTheme( (ThemeHandle)elementHandle,moduleHandle,library);
 					if(model != null)
 					{
 						setModel(elementHandle);
@@ -100,61 +100,4 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 		return false;
 	}		
 
-	private ThemeHandle themeInModuleHandle(ThemeHandle handle, ModuleHandle moduleHandle)
-	{
-		
-		String themeName = handle.getName( ).trim( );
-		String themeFileName = handle.getModuleHandle( ).getFileName( );
-
-		LibraryHandle libHandle = moduleHandle.findLibrary(themeFileName);
-		if(libHandle == null)
-		{
-			return null;
-		}
-		Iterator iterator = moduleHandle.getAllThemes( ).iterator( );
-
-		if ( iterator != null )
-		{
-			while ( iterator.hasNext( ) )
-			{
-				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				
-				
-				if(elementHandle.getName( ).trim( ).equals( themeName ) 
-				&& elementHandle.getRoot( ) == libHandle)								
-				{			
-					return (ThemeHandle)elementHandle;
-				}
-				
-			}
-		}		
-			
-		return null;
-	}
-	
-	private ThemeHandle applyTheme(ThemeHandle handle, ModuleHandle moduleHandle, LibraryHandle library)
-	{
-		
-		ThemeHandle applyThemeHandle = themeInModuleHandle(handle,moduleHandle);
-		if(applyThemeHandle != null)
-		{
-			try
-			{
-				moduleHandle.setTheme( applyThemeHandle );
-//				ThemeHandle a = moduleHandle.getTheme( );
-//				moduleHandle.setTheme( a );
-			}
-			catch ( SemanticException e )
-			{
-				GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
-						e,
-						"Library.DND.messages.cannotApplyTheme" );//$NON-NLS-1$
-				ExceptionHandler.handle( exception );
-				e.printStackTrace();
-				
-			}
-		}
-		return applyThemeHandle;
-		
-	}
 }

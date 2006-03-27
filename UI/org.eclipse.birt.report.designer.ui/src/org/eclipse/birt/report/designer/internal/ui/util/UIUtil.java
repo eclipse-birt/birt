@@ -14,18 +14,18 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
@@ -43,8 +43,10 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -61,7 +63,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
@@ -1101,5 +1102,75 @@ public class UIUtil
 			}
 		}
 		return namespace;
+	}
+	
+	public static ThemeHandle themeInModuleHandle(ThemeHandle handle, ModuleHandle moduleHandle)
+	{
+		
+		String themeName = handle.getName( ).trim( );
+		String themeFileName = handle.getModuleHandle( ).getFileName( );
+
+		LibraryHandle libHandle = moduleHandle.findLibrary(themeFileName);
+		if(libHandle == null)
+		{
+			return null;
+		}
+		Iterator iterator = moduleHandle.getAllThemes( ).iterator( );
+
+		if ( iterator != null )
+		{
+			while ( iterator.hasNext( ) )
+			{
+				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
+				
+				
+				if(elementHandle.getName( ).trim( ).equals( themeName ) 
+				&& elementHandle.getRoot( ) == libHandle)								
+				{			
+					return (ThemeHandle)elementHandle;
+				}
+				
+			}
+		}		
+			
+		return null;
+	}
+	
+	public static ThemeHandle applyTheme(ThemeHandle handle, ModuleHandle moduleHandle, LibraryHandle library)
+	{
+		
+		if(handle.getRoot( ) == moduleHandle)
+		{
+			try
+			{
+				moduleHandle.setTheme( handle );
+			}
+			catch ( SemanticException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return handle;
+		}
+			
+		ThemeHandle applyThemeHandle = themeInModuleHandle(handle,moduleHandle);
+		if(applyThemeHandle != null)
+		{
+			try
+			{
+				moduleHandle.setTheme( applyThemeHandle );
+			}
+			catch ( SemanticException e )
+			{
+				GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
+						e,
+						"Library.DND.messages.cannotApplyTheme" );//$NON-NLS-1$
+				ExceptionHandler.handle( exception );
+				e.printStackTrace();
+				
+			}
+		}
+		return applyThemeHandle;
+		
 	}
 }

@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.dnd;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
@@ -62,6 +64,17 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 	 */
 	public boolean performDrop( Object data )
 	{
+		if(data instanceof Object[] 
+		&& ((Object[])data)[0] instanceof ThemeHandle
+		&& getCurrentTarget( ) instanceof ModuleHandle)
+		{
+			if ( Policy.TRACING_DND_DRAG )
+			{
+				System.out.println( "DND >> Dropped. Operation: Apply Theme, Target: " //$NON-NLS-1$
+						+ getCurrentTarget( ) );
+			}
+			return ApplyTheme( (ThemeHandle)((Object[])data)[0], (ModuleHandle)getCurrentTarget( ) );
+		}
 		if ( getCurrentOperation( ) == DND.DROP_MOVE )
 		{
 			if ( Policy.TRACING_DND_DRAG )
@@ -122,6 +135,8 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 	 */
 	protected abstract boolean moveData( Object transfer, Object target );
 
+	protected abstract boolean ApplyTheme( ThemeHandle themeHandle, ModuleHandle moudelHandle );
+	
 	/**
 	 * Copys elements
 	 * 
