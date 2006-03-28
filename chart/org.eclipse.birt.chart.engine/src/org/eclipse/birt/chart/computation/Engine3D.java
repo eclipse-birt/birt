@@ -639,10 +639,6 @@ public final class Engine3D implements IConstants
 			object3D.transform( V2C_MATRIX );
 
 			t3dre.prepare2D( xOffset, yOffset );
-			if ( t3dre.getAction( ) == Text3DRenderEvent.RENDER_TEXT_IN_BLOCK )
-			{
-				t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-			}
 		}
 		else if ( obj instanceof Oval3DRenderEvent )
 		{
@@ -811,25 +807,22 @@ public final class Engine3D implements IConstants
 	{
 		for ( int i = 0; i < rtList.size( ); i++ )
 		{
-			Object event = rtList.get( i );
-			Object3D far = getObjectFromEvent( event );
-			if ( far.getViewerVectors( ).length < 3 )
-				continue;
-
+			long max_loop = rtList.size( ) - i;
+			int n = -1;
 			boolean restart = true;
-			while ( restart )
+			while ( restart && n < max_loop )
 			{
 				restart = false;
+				n++;
 
-				event = rtList.get( i );
-				far = getObjectFromEvent( event );
+				Object event = rtList.get( i );
+				Object3D far = getObjectFromEvent( event );
 
-				for ( int j = i; j < rtList.size( ); j++ )
+				for ( int j = i + 1; j < rtList.size( ); j++ )
 				{
 					Object event2 = rtList.get( j );
 					Object3D near = getObjectFromEvent( event2 );
-					if ( near.getViewerVectors( ).length < 3 )
-						continue;
+
 					if ( far.testZOverlap( near ) )
 					{
 						if ( far.testSwap( near ) )
@@ -841,14 +834,9 @@ public final class Engine3D implements IConstants
 							break;
 						}
 					}
-					else
-					{
-						continue;
-					}
 				}
 			}
 		}
-
 	}
 
 	protected Object3D getObjectFromEvent( Object event )
@@ -908,6 +896,5 @@ public final class Engine3D implements IConstants
 			}
 
 		} );
-
 	}
 }

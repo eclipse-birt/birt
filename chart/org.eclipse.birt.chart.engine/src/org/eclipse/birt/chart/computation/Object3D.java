@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.internal.computations.Matrix;
+import org.eclipse.birt.chart.internal.computations.Polygon;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
@@ -121,7 +122,7 @@ public class Object3D
 			Vector v1 = new Vector( va[1] );
 			v1.sub( va[0] );
 			Vector v2 = new Vector( va[2] );
-			v2.sub( va[1] );
+			v2.sub( va[0] );
 
 			normal = v1.crossProduct( v2 );
 		}
@@ -310,6 +311,8 @@ public class Object3D
 
 			default :
 			{
+				boolean endClipped = false;
+
 				for ( int i = 0; i < va.length; i++ )
 				{
 					Vector start = null;
@@ -330,8 +333,25 @@ public class Object3D
 
 					if ( retval != Engine3D.OUT_OF_RANGE_BOTH )
 					{
-						lst.add( start );
-						lst.add( end );
+						if ( i == 0
+								|| ( retval & Engine3D.OUT_OF_RANGE_START ) != 0
+								|| endClipped )
+						{
+							lst.add( start );
+						}
+
+						endClipped = false;
+
+						if ( ( retval & Engine3D.OUT_OF_RANGE_END ) != 0 )
+						{
+							endClipped = true;
+						}
+
+						if ( i != va.length - 1 || endClipped )
+						{
+							lst.add( end );
+						}
+
 					}
 				}
 			}
@@ -416,6 +436,7 @@ public class Object3D
 	{
 		if ( viewVa.length < 3 && obj.getViewerVectors( ).length < 3 )
 		{
+			// TODO consider inside/outside direction.
 			return true;
 		}
 
@@ -453,15 +474,16 @@ public class Object3D
 
 		for ( int i = 0; i < tva.length; i++ )
 		{
+			double p = tva[i].get( 0 )
+					* normal.get( 0 )
+					+ tva[i].get( 1 )
+					* normal.get( 1 )
+					+ tva[i].get( 2 )
+					* normal.get( 2 )
+					+ d;
+
 			if ( outside )
 			{
-				double p = tva[i].get( 0 )
-						* normal.get( 0 )
-						+ tva[i].get( 1 )
-						* normal.get( 1 )
-						+ tva[i].get( 2 )
-						* normal.get( 2 )
-						+ d;
 				if ( ChartUtil.mathLT( p, 0 ) )
 				{
 					return false;
@@ -469,13 +491,6 @@ public class Object3D
 			}
 			else
 			{
-				double p = tva[i].get( 0 )
-						* normal.get( 0 )
-						+ tva[i].get( 1 )
-						* normal.get( 1 )
-						+ tva[i].get( 2 )
-						* normal.get( 2 )
-						+ d;
 				if ( ChartUtil.mathGT( p, 0 ) )
 				{
 					return false;
@@ -486,39 +501,28 @@ public class Object3D
 		return true;
 	}
 
-	Location[] vectors2locations( Vector[] va )
-	{
-		if ( va != null )
-		{
-			Location[] loa = new Location[va.length];
-
-			for ( int i = 0; i < va.length; i++ )
-			{
-				loa[i] = LocationImpl.create( va[i].get( 0 ), va[i].get( 1 ) );
-			}
-
-			return loa;
-		}
-		return null;
-	}
-
 	/**
 	 * @param near
 	 * @return
 	 */
 	protected boolean testIntersect( Object3D near )
 	{
-		// Vector[] va1 = getViewerVectors( );
-		// Vector[] va2 = near.getViewerVectors( );
-		//
-		// Polygon p1 = PolygonImpl.create( vectors2locations( va1 ) );
-		// Polygon p2 = PolygonImpl.create( vectors2locations( va2 ) );
+		Vector[] va1 = getViewerVectors( );
+		Vector[] va2 = near.getViewerVectors( );
 
-		// return p1.intersects( p2 );
+		Polygon p1 = new Polygon( );
+		for ( int i = 0; i < va1.length; i++ )
+		{
+			p1.add( va1[i].get( 0 ), va1[i].get( 1 ) );
+		}
 
-		// Temporarily disable this check, because it may cause an infinite loop
-		// occasionally.
-		return false;
+		Polygon p2 = new Polygon( );
+		for ( int i = 0; i < va2.length; i++ )
+		{
+			p2.add( va2[i].get( 0 ), va2[i].get( 1 ) );
+		}
+
+		return p1.intersects( p2 );
 	}
 
 	/**
@@ -569,6 +573,6 @@ public class Object3D
 	 */
 	public boolean testZOverlap( Object3D near )
 	{
-		return ( near.getZMax( ) >= this.getZMin( ) );
+		return ( near.getZMin( ) <= this.getZMax( ) );
 	}
 }

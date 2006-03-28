@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.event;
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 
@@ -53,6 +52,22 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		return object3D.getLocation3D( )[0];
 	}
 
+	/**
+	 * @param loa
+	 */
+	public void setBlockBounds3D( Location3D[] loa )
+	{
+		this.object3D = new Object3D( loa );
+	}
+
+	/**
+	 * @return
+	 */
+	public Location3D[] getBlockBounds3D( )
+	{
+		return object3D.getLocation3D( );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -61,10 +76,6 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	public PrimitiveRenderEvent copy( )
 	{
 		Text3DRenderEvent tre = new Text3DRenderEvent( source );
-		if ( _boBlock != null )
-		{
-			tre.setBlockBounds( BoundsImpl.copyInstance( _boBlock ) );
-		}
 		tre.setAction( _iAction );
 		tre.setTextPosition( _iTextPosition );
 		if ( _la != null )
@@ -82,7 +93,9 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		return tre;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
 	public Object3D getObject3D( )
@@ -90,18 +103,26 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		return object3D;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double,
+	 *      double)
 	 */
 	public void prepare2D( double xOffset, double yOffset )
 	{
 		Location[] points = object3D.getPoints2D( xOffset, yOffset );
 		setLocation( points[0] );
+		
+		if ( _iAction == Text3DRenderEvent.RENDER_TEXT_IN_BLOCK )
+		{
+			_iAction = Text3DRenderEvent.RENDER_TEXT_AT_LOCATION;
+		}
 	}
-	
+
 	public void reset( )
 	{
-		object3D.reset();
+		object3D.reset( );
 	}
 
 }
