@@ -11,11 +11,20 @@
 
 package org.eclipse.birt.report.designer.ui.preview.editors;
 
+import java.util.List;
+
+import org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterDialog;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -52,8 +61,71 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		}
 		if ( getBrowser( ) != null )
 		{
+			boolean showParameterDialog = false;
+			List parameters = ( (ModuleHandle) getModel( ) ).getFlattenParameters( );
+			if ( parameters != null )
+			{
+				for ( int i = 0; i < parameters.size( ); i++ )
+				{
+					if ( parameters.get( i ) instanceof ScalarParameterHandle )
+					{
+						ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters.get( i ) );
+
+						if ( parameter.isHidden( ) )
+						{
+							continue;
+						}
+
+						String paramValue = null;
+						ConfigVariable cfgVar = ( (ModuleHandle) getModel( ) ).findConfigVariable( parameter.getName( ) );
+
+						if ( cfgVar != null )
+						{
+							paramValue = cfgVar.getValue( );
+						}
+						else
+						{
+							paramValue = parameter.getDefaultValue( );
+						}
+
+						if ( paramValue == null && !parameter.allowNull( ) )
+						{
+							showParameterDialog = true;
+							break;
+						}
+
+						if ( paramValue != null
+								&& paramValue.trim( ).length( ) <= 0
+								&& !parameter.allowBlank( )
+								&& parameter.getDataType( )
+										.equalsIgnoreCase( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+						{
+							showParameterDialog = true;
+							break;
+						}
+
+					}
+				}
+			}
+
+			if ( showParameterDialog )
+			{
+				InputParameterDialog dialog = new InputParameterDialog( Display.getCurrent( )
+						.getActiveShell( ),
+						InputParameterDialog.TITLE ); //$NON-NLS-1$
+				dialog.setInput( (ModuleHandle) getModel( ) );
+				if ( dialog.open( ) == Dialog.OK )
+				{
+					if ( ( (ModuleHandle) getModel( )).needsSave( ) )
+					{
+						this.doSave( null );
+					}
+				}
+			}
+
 			display( );
 		}
+		
 		return true;
 	}
 
