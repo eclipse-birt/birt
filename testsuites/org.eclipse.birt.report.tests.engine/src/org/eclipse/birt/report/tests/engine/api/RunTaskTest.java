@@ -17,8 +17,11 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 
 public class RunTaskTest extends EngineCase {
 
-
-
+	private String separator=System.getProperty("file.separator");
+	private String INPUT=getBaseFolder()+separator+INPUT_FOLDER + separator ;
+	private String OUTPUT=getBaseFolder()+separator+OUTPUT_FOLDER + separator ;
+	private String report_design, report_document,name;
+	private IReportRunnable runnable;
 	public RunTaskTest(String name) {
 		super(name);
 	}
@@ -32,29 +35,13 @@ public class RunTaskTest extends EngineCase {
 	 *
 	 */
 	public void testRun(){
-/*		
-		String plug_path=EngineCase.PLUGIN_PATH;
-		String file_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_INPUT")
-					+System.getProperty("file.separator")+"runtask_test.rptdesign";
-		String document_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_OUTPUT")
-		+System.getProperty("file.separator")+"reportdocument";
-*/		
-		String path=getBaseFolder()+System.getProperty("file.separator");
-		String file_path=INPUT_FOLDER+System.getProperty("file.separator")+"runtask_test.rptdesign";
-		String document_path=OUTPUT_FOLDER+System.getProperty("file.separator")+"runtask_test_reportdocument";
-		
-		String report_design=path+file_path;
-		String report_document=path+document_path;
+		name="runtask_test";
+		report_design=INPUT+name+".rptdesign";//path+file_path;
+		report_document=OUTPUT+"runtask_"+name+".rptdocument";//path+document_path;
 	
-/*
-		String report_design="D:/TEMP/workspace3.1/org.eclipse.birt.report.tests.engine/input/runtask_test.rptdesign";
-		String report_document="D:/TEMP/workspace3.1/org.eclipse.birt.report.tests.engine/output/reportdocument";
-*/		
 		removeFile( report_document );
 		
 		try{
-			EngineConfig config=new EngineConfig();
-			ReportEngine engine=new ReportEngine(config);
 			IReportRunnable runnable=engine.openReportDesign(report_design);
 			IDocArchiveWriter archive=new FileArchiveWriter(report_document);
 			IRunTask task=engine.createRunTask(runnable);
@@ -62,71 +49,23 @@ public class RunTaskTest extends EngineCase {
 			//test run(IDocumentArchive archive)
 			//normal archive
 			task.run(archive);
-			//task.close();
-
 			
 			File documents=new File(report_document);
 			assertNotNull("reportdocument directory should exist!",documents);
-/*			String[] files=documents.list();
-			assertEquals("Generated report document should include 6 files and 2 directories",8,files.length);
-			File design=new File(report_document+"/design");
-			File name=new File(report_document+"/name");
-			File bookmark=new File(report_document+"/bookmark");
-			File pages=new File(report_document+"/pages");
-			File parameter=new File(report_document+"/parameter");
-			File toc=new File(report_document+"/toc");
-			File content=new File(report_document+"/content");
-			assertNotNull("design file should exist under report document directory",design);
-			assertNotNull("name file should exist under report document directory",name);
-			assertNotNull("bookmark file should exist under report document directory",bookmark);
-			assertNotNull("pages file should exist under report document directory",pages);
-			assertNotNull("parameter file should exist under report document directory",parameter);
-			assertNotNull("toc file should exist under report document directory",toc);
-			assertNotNull("content directory should exist under report document directory",content);
-			assertEquals("content directory should contain two files",2,content.list().length );*/
 			removeFile( report_document );
 			
 			//null archive
-			
 			archive=null;
-//			task=engine.createRunTask(runnable);
 			task.run(archive);
-//			task.close();
-			
 
 			//test run(string docname)
-//			task=engine.createRunTask(runnable);
 			task.run(report_document);
-			task.close();
 			documents=new File(report_document);
 			assertNotNull("reportdocument directory should exist!",documents);
-/*			String[] files1=documents.list();
-			assertEquals("Generated report document should include 6 files and 2 directories",8,files1.length);
-			design=new File(report_document+"/design");
-			name=new File(report_document+"/name");
-			bookmark=new File(report_document+"/bookmark");
-			pages=new File(report_document+"/pages");
-			parameter=new File(report_document+"/parameter");
-			toc=new File(report_document+"/toc");
-			content=new File(report_document+"/content");
-			assertNotNull("design file should exist under report document directory",design);
-			assertNotNull("name file should exist under report document directory",name);
-			assertNotNull("bookmark file should exist under report document directory",bookmark);
-			assertNotNull("pages file should exist under report document directory",pages);
-			assertNotNull("parameter file should exist under report document directory",parameter);
-			assertNotNull("toc file should exist under report document directory",toc);
-			assertNotNull("content directory should exist under report document directory",content);
-			assertEquals("content directory should contain two files",2,content.list().length );
-*/			removeFile( report_document );
-/*			//test null docname
-			String reportdoc=null;
-//			task=engine.createRunTask(runnable);
-			task.run(reportdoc);
-*/			
+			removeFile( report_document );
 			task.close();
 			
 			
-			engine.shutdown();
 		}catch(EngineException ee){
 			assertEquals("return wrong error","Report archive is not specified when running a report.",ee.getErrorCode());
 
@@ -135,8 +74,125 @@ public class RunTaskTest extends EngineCase {
 		}
 	}
 
+	public void testRunFolderDocument1(){
+		report_design=INPUT+"case1.rptdesign";
+		String folderDocument=OUTPUT+"runtask_folderdocument_case1"+separator;
+		try{
+			runnable=engine.openReportDesign(report_design);
+			IRunTask task=engine.createRunTask(runnable);
+			task.run(folderDocument);
+			task.close();
+		}catch(EngineException ee){
+			ee.printStackTrace();
+			assertTrue("EngineException in testRunFolderDocument1",false);
+		}
+	}
+	
+	public void testRunFolderDocument2(){
+		report_design=INPUT+"long_text.rptdesign";
+		String folderDocument=OUTPUT+"runtask_folderdocument_long_text"+separator;
+		try{
+			runnable=engine.openReportDesign(report_design);
+			IRunTask task=engine.createRunTask(runnable);
+			task.run(folderDocument);
+			task.close();
+		}catch(EngineException ee){
+			ee.printStackTrace();
+			assertTrue("EngineException in testRunFolderDocument2",false);
+		}
+	}
+	
+	
+	public void testRunFolderDocument3(){
+		report_design=INPUT+"master_page.rptdesign";
+		String folderDocument=OUTPUT+"runtask_folderdocument_master_page"+separator;
+		try{
+			runnable=engine.openReportDesign(report_design);
+			IRunTask task=engine.createRunTask(runnable);
+			task.run(folderDocument);
+			task.close();
+		}catch(EngineException ee){
+			ee.printStackTrace();
+			assertTrue("EngineException in testRunFolderDocument3",false);
+		}
+	}
 
+	public void testRunFolderDocument4(){
+		report_design=INPUT+"multiple_datasets.rptdesign";
+		String folderDocument=OUTPUT+"runtask_folderdocument_multiple_datasets"+separator;
+		try{
+			runnable=engine.openReportDesign(report_design);
+			IRunTask task=engine.createRunTask(runnable);
+			task.run(folderDocument);
+			task.close();
+		}catch(EngineException ee){
+			ee.printStackTrace();
+			assertTrue("EngineException in testRunFolderDocument4",false);
+		}
+	}
 	
 	
+	public void testRunFolderDocument5(){
+		report_design=INPUT+"pages9.rptdesign";
+		String folderDocument=OUTPUT+"runtask_folderdocument_pages9"+separator;
+		try{
+			runnable=engine.openReportDesign(report_design);
+			IRunTask task=engine.createRunTask(runnable);
+			task.run(folderDocument);
+			task.close();
+		}catch(EngineException ee){
+			ee.printStackTrace();
+			assertTrue("EngineException in testRunFolderDocument5",false);
+		}
+	}
+
+	public void testRunFolderDocument6(){
+		report_design=INPUT+"table_nest_pages.rptdesign";
+		String folderDocument=OUTPUT+"runtask_folderdocument_table_nest_pages"+separator;
+		try{
+			runnable=engine.openReportDesign(report_design);
+			IRunTask task=engine.createRunTask(runnable);
+			task.run(folderDocument);
+			task.close();
+		}catch(EngineException ee){
+			ee.printStackTrace();
+			assertTrue("EngineException in testRunFolderDocument6",false);
+		}
+	}
+	
+		
+	public void testRunFolderDocument7(){
+		report_design=INPUT+"chart.rptdesign";
+		String folderDocument=OUTPUT+"runtask_folderdocument_chart"+separator;
+		try{
+			runnable=engine.openReportDesign(report_design);
+			IRunTask task=engine.createRunTask(runnable);
+			task.run(folderDocument);
+			task.close();
+		}catch(EngineException ee){
+			ee.printStackTrace();
+			assertTrue("EngineException in testRunFolderDocument7",false);
+		}
+	}
+	
+	
+	public void testRunFolderDocument8(){
+		report_design=INPUT+"complex_report.rptdesign";
+		String folderDocument=OUTPUT+"runtask_folderdocument_complex_report"+separator;
+		try{
+			runnable=engine.openReportDesign(report_design);
+			IRunTask task=engine.createRunTask(runnable);
+			task.run(folderDocument);
+			task.close();
+		}catch(EngineException ee){
+			ee.printStackTrace();
+			assertTrue("EngineException in testRunFolderDocument8",false);
+		}
+	}
+	
+	protected void setUp() throws Exception {
+		super.setUp();
+	}
+
 	
 }

@@ -40,7 +40,7 @@
                         <cell>
                             <text>
                                 <property name="contentType">html</property>
-                                <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                                <text-property name="content"><![CDATA[<value-of>new Date("01/01/2005")</value-of>]]></text-property>
                             </text>
                         </cell>
                         <cell>

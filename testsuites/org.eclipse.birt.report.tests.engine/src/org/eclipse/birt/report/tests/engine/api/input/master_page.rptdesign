@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 1.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051124-0810></property>
-    <property name="units">in</property>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-            <page-header>
-                <grid id="4">
-                    <property name="width">100%</property>
-                    <column id="5"/>
-                    <column id="6"/>
-                    <row id="7">
-                        <cell id="8">
-                            <label id="10">
-                                <text-property name="text">label</text-property>
-                            </label>
-                        </cell>
-                        <cell id="9">
-                            <image id="11">
-                                <property name="imageName">actuatetop.jpg</property>
-                            </image>
-                        </cell>
-                    </row>
-                </grid>
-            </page-header>
-            <page-footer>
-                <grid id="12">
-                    <property name="width">100%</property>
-                    <column id="13"/>
-                    <column id="14"/>
-                    <row id="15">
-                        <cell id="16">
-                            <text id="18">
-                                <property name="contentType">html</property>
-                                <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                            </text>
-                        </cell>
-                        <cell id="17">
-                            <text id="19">
-                                <property name="contentType">html</property>
-                                <text-property name="content"><![CDATA[Last printed: <value-of>new Date()</value-of>]]></text-property>
-                            </text>
-                        </cell>
-                    </row>
-                </grid>
-            </page-footer>
-        </simple-master-page>
-    </page-setup>
-    <list-property name="images">
-        <structure>
-            <property name="name">actuatetop.jpg</property>
-            <property name="data">
+	<property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051124-0810></property>
+	<property name="units">in</property>
+	<page-setup>
+		<simple-master-page name="Simple MasterPage" id="2">
+			<page-header>
+				<grid id="4">
+					<property name="width">100%</property>
+					<column id="5"/>
+					<column id="6"/>
+					<row id="7">
+						<cell id="8">
+							<label id="10">
+								<text-property name="text">label</text-property>
+							</label>
+						</cell>
+						<cell id="9">
+							<image id="11">
+								<property name="imageName">actuatetop.jpg</property>
+							</image>
+						</cell>
+					</row>
+				</grid>
+			</page-header>
+			<page-footer>
+				<grid id="12">
+					<property name="width">100%</property>
+					<column id="13"/>
+					<column id="14"/>
+					<row id="15">
+						<cell id="16">
+							<text id="18">
+								<property name="contentType">html</property>
+								<text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+							</text>
+						</cell>
+						<cell id="17">
+							<text id="19">
+								<property name="contentType">html</property>
+								<text-property name="content"><![CDATA[Last printed: <value-of>new Date("01/01/2005")</value-of>]]></text-property>
+							</text>
+						</cell>
+					</row>
+				</grid>
+			</page-footer>
+		</simple-master-page>
+	</page-setup>
+	<list-property name="images">
+		<structure>
+			<property name="name">actuatetop.jpg</property>
+			<property name="data">
                 /9j/4AAQSkZJRgABAgEASABIAAD/7QnSUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEAAQBI
                 AAAAAQABOEJJTQQNAAAAAAAEAAAAHjhCSU0EGQAAAAAABAAAAB44QklNA/MAAAAAAAkAAAAAAAAAAAEA
                 OEJJTQQKAAAAAAABAAA4QklNJxAAAAAAAAoAAQAAAAAAAAACOEJJTQP1AAAAAABIAC9mZgABAGxmZgAG
@@ -213,6 +213,6 @@
                 2n2vl1N5P+AX7Pk131fm97+8hZfG1nx9Xif0q1/n0AI/D0/padPypT+XTr7b6v1737r3Xvfuvde9+691
                 737r3Xvfuvde9+691737r3Xvfuvde9+691737r3Xvfuvde9+691737r3Xvfuvdf/2Q==
             </property>
-        </structure>
-    </list-property>
+		</structure>
+	</list-property>
 </report>

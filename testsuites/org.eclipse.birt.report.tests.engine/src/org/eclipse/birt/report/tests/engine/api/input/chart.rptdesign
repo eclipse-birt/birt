@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 1.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051124-0810></property>
-    <property name="units">in</property>
-    <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
-            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
-            <property name="odaURL">jdbc:classicmodels:sampledb</property>
-            <property name="odaUser">ClassicModels</property>
-        </oda-data-source>
-    </data-sources>
-    <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
-            <property name="dataSource">Data Source</property>
-            <list-property name="filter">
-                <structure>
-                    <property name="operator">lt</property>
-                    <expression name="expr">row["CUSTOMERNUMBER"]</expression>
-                    <expression name="value1">122</expression>
-                </structure>
-            </list-property>
-            <property name="queryText">select *
+	<property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051124-0810></property>
+	<property name="units">in</property>
+	<data-sources>
+		<oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+			<property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+			<property name="odaURL">jdbc:classicmodels:sampledb</property>
+			<property name="odaUser">ClassicModels</property>
+		</oda-data-source>
+	</data-sources>
+	<data-sets>
+		<oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+			<property name="dataSource">Data Source</property>
+			<list-property name="filter">
+				<structure>
+					<property name="operator">lt</property>
+					<expression name="expr">row["CUSTOMERNUMBER"]</expression>
+					<expression name="value1">122</expression>
+				</structure>
+			</list-property>
+			<property name="queryText">select *
 from CLASSICMODELS.CUSTOMERS</property>
-        </oda-data-set>
-    </data-sets>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
-        </simple-master-page>
-    </page-setup>
-    <body>
-        <extended-item extensionName="Chart" id="6">
-            <property name="height">3.635in</property>
-            <property name="width">6.072in</property>
-            <property name="dataSet">Data Set</property>
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+		</oda-data-set>
+	</data-sets>
+	<page-setup>
+		<simple-master-page name="Simple MasterPage" id="2">
+			<page-footer>
+				<text id="3">
+					<property name="contentType">html</property>
+					<text-property name="content"><![CDATA[<value-of>new Date("01/01/2005")</value-of>]]></text-property>
+				</text>
+			</page-footer>
+		</simple-master-page>
+	</page-setup>
+	<body>
+		<extended-item extensionName="Chart" id="6">
+			<property name="height">3.635in</property>
+			<property name="width">6.072in</property>
+			<property name="dataSet">Data Set</property>
+			<xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Stacked</SubType>
   <Block>
@@ -819,7 +819,7 @@ from CLASSICMODELS.CUSTOMERS</property>
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-        </extended-item>
-    </body>
+			<property name="outputFormat">SVG</property>
+		</extended-item>
+	</body>
 </report>
