@@ -18,7 +18,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -232,8 +234,8 @@ public abstract class EngineCase extends TestCase
 
 		try
 		{
-			golden = getClassFolder( ) + "/" + GOLDEN_FOLDER + "/" + golden;  //$NON-NLS-1$//$NON-NLS-2$
-			output = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + output;  //$NON-NLS-1$//$NON-NLS-2$
+			golden = getClassFolder( ) + "/" + GOLDEN_FOLDER + "/" + golden; //$NON-NLS-1$//$NON-NLS-2$
+			output = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + output; //$NON-NLS-1$//$NON-NLS-2$
 
 			readerA = new FileReader( golden );
 			readerB = new FileReader( output );
@@ -278,6 +280,12 @@ public abstract class EngineCase extends TestCase
 	protected void runAndRender_HTML( String input, String output )
 			throws EngineException
 	{
+		runAndRender_HTML( input, output, null );
+	}
+
+	protected final void runAndRender_HTML( String input, String output,
+			Map paramValues ) throws EngineException
+	{
 		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
 				+ "/" + output; //$NON-NLS-1$
 		String inputFile = this.getClassFolder( )
@@ -288,6 +296,16 @@ public abstract class EngineCase extends TestCase
 
 		IReportRunnable runnable = engine.openReportDesign( inputFile );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
+		if( paramValues != null )
+		{
+			Iterator keys = paramValues.keySet( ).iterator( );
+			while( keys.hasNext( ) )
+			{
+				String key = (String)keys.next( );
+				task.setParameterValue( key, paramValues.get( key ) );
+			}
+		}
+		
 		task.setLocale( Locale.ENGLISH );
 
 		IRenderOption options = new HTMLRenderOption( );
@@ -346,8 +364,7 @@ public abstract class EngineCase extends TestCase
 				encoding );
 
 		task.setRenderOption( options );
-		
-		
+
 		// TODO: changed to task.render when Engine has fix the render().
 		task.render( "ALL" ); //$NON-NLS-1$
 		task.close( );
@@ -365,8 +382,8 @@ public abstract class EngineCase extends TestCase
 	 *             if any exception
 	 */
 
-	private boolean compareTextFile( Reader golden, Reader output, String fileName )
-			throws Exception
+	private boolean compareTextFile( Reader golden, Reader output,
+			String fileName ) throws Exception
 	{
 		StringBuffer errorText = new StringBuffer( );
 
