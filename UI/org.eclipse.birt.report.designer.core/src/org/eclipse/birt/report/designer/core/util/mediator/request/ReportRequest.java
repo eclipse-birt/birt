@@ -34,6 +34,12 @@ public class ReportRequest extends Request
 	 * Open editor request. <code>OPEN_EDITOR</code>
 	 */
 	public static final String OPEN_EDITOR = "open editor"; //$NON-NLS-1$
+	
+	/**
+	 * Open editor request. <code>OPEN_EDITOR</code>
+	 */
+	public static final String LOAD_MASTERPAGE = "load masterpage"; //$NON-NLS-1$
+	
 
 	/**
 	 * Create element request. <code>CREATE_ELEMENT</code>

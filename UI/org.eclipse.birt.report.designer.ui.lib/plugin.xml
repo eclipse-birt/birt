@@ -27,6 +27,11 @@
             id="org.eclipse.birt.report.designer.ui.editors.library.layout"
             visible="true"/>
       <formPage
+            class="org.eclipse.birt.report.designer.ui.editors.LibraryMasterPageEditorFormPage"
+            displayName="%design.masterPage"
+            id="org.eclipse.birt.report.designer.ui.lib.editors.design.masterpage"
+            visible="true"/>
+      <formPage
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportScriptFormPage"
             displayName="%library.script"
             id="org.eclipse.birt.report.designer.ui.editors.library.script"

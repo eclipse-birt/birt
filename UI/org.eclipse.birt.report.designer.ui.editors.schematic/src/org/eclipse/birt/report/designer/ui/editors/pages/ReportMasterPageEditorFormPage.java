@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layout.Rep
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
@@ -34,7 +35,7 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 			IReportEditorPage
 {
 
-	public static final String ID = "BIRT.LayoutMasterPage"; //$NON-NLS-1$
+	public static final String ID = MultiPageReportEditor.LayoutMasterPage_ID; //$NON-NLS-1$
 	private FormEditor editor;
 	private Control control;
 	private int index;

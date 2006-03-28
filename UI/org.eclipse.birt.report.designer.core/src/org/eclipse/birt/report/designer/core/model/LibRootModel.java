@@ -20,4 +20,10 @@ public class LibRootModel
 		}
 		return true;
 	}
+	
+	public Object getModel()
+	{
+		return library;
+	}
+		
 }

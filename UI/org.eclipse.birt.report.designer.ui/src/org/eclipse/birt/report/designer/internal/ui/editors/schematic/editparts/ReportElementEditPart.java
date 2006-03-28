@@ -96,8 +96,13 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 					+ model );
 		}
 		setModel( model );
+		peer = creatDesignElementHandleAdapter();
+	}
+	
+	public DesignElementHandleAdapter creatDesignElementHandleAdapter()
+	{
 		HandleAdapterFactory.getInstance( ).remove( getModel( ) );
-		peer = HandleAdapterFactory.getInstance( )
+		return HandleAdapterFactory.getInstance( )
 				.getDesignElementHandleAdapter( getModel( ), this );
 	}
 

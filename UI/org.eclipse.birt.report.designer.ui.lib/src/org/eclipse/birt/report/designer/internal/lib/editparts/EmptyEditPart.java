@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.lib.editparts;
 
+import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.LibRootModel;
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.lib.editors.figures.EmptyFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -92,5 +94,10 @@ public class EmptyEditPart extends ReportElementEditPart
 	public void installEditPolicy( Object role, EditPolicy editPolicy )
 	{
 		//do nother
+	}
+	public DesignElementHandleAdapter creatDesignElementHandleAdapter()
+	{
+		return HandleAdapterFactory.getInstance( )
+				.getDesignElementHandleAdapter( getModel( ), this );
 	}
 }

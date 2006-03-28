@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewe
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
@@ -36,7 +37,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 			IReportEditorPage
 {
 
-	public static final String ID = "BIRT.LayoutFormPage"; //$NON-NLS-1$
+	public static final String ID = MultiPageReportEditor.LayoutEditor_ID; //$NON-NLS-1$
 
 	private int index;
 
