@@ -27,6 +27,7 @@ public interface IBaseExpression
 	 * expression value rather than to evaluate expression handle
 	 * 
 	 * @return unique expression id
+	 * @deprecated
 	 */
 	public String getID( );
 	
@@ -36,6 +37,7 @@ public interface IBaseExpression
 	 * used since a unique ID needs to be guranteed.
 	 * 
 	 * @param exprID
+	 * @deprecated
 	 */
 	public void setID( String exprID );
 
@@ -52,6 +54,7 @@ public interface IBaseExpression
      * Returns the handle associated with the expression.   
      * 
      * @return the expression execution handle.
+     * @deprecated
      */
     public abstract Object getHandle();
 

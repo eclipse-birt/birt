@@ -15,7 +15,9 @@ package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -50,6 +52,8 @@ abstract public class BaseTransform implements IBaseTransform
 	protected 	List rowExpressions = new ArrayList();
 	protected 	List beforeExpressions = new ArrayList();
 	protected 	List afterExpressions = new ArrayList();
+	
+	private 	Map resultExprsMap = new HashMap( );
 	
 	/**
 	 * Returns the filters defined in this transform, as an ordered list of 
@@ -160,6 +164,19 @@ abstract public class BaseTransform implements IBaseTransform
 	public Collection getBeforeExpressions() 
 	{
 		return beforeExpressions;
+	}
+
+	public void addResultSetExpression( String name, IBaseExpression expression )
+	{
+		this.resultExprsMap.put( name, expression );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IBaseTransform#getResultSetExpressions()
+	 */
+	public Map getResultSetExpressions( )
+	{
+		return this.resultExprsMap;
 	}
 	
 }

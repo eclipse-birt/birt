@@ -445,6 +445,80 @@ public class ResultIterator implements IResultIterator
 		return DataTypeUtil.toBytes( getValue( dataExpr ) );
 	}
 	
+	//------new method for bound column name------
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getValue(java.lang.String)
+	 */
+	public Object getValue( String exprName ) throws BirtException
+	{
+		return null;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBoolean(java.lang.String)
+	 */
+	public Boolean getBoolean( String name ) throws BirtException
+	{
+		return DataTypeUtil.toBoolean( getValue( name ) );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getInteger(java.lang.String)
+	 */
+	public Integer getInteger( String name ) throws BirtException
+	{
+		return DataTypeUtil.toInteger( getValue( name ) );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getDouble(java.lang.String)
+	 */
+	public Double getDouble( String name ) throws BirtException
+	{
+		return DataTypeUtil.toDouble( getValue( name ) );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getString(java.lang.String)
+	 */
+	public String getString( String name ) throws BirtException
+	{
+		return DataTypeUtil.toString( getValue( name ) );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBigDecimal(java.lang.String)
+	 */
+	public BigDecimal getBigDecimal( String name ) throws BirtException
+	{
+		return DataTypeUtil.toBigDecimal( getValue( name ) );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getDate(java.lang.String)
+	 */
+	public Date getDate( String name ) throws BirtException
+	{
+		return DataTypeUtil.toDate( getValue( name ) );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBlob(java.lang.String)
+	 */
+	public Blob getBlob( String name ) throws BirtException
+	{
+		return DataTypeUtil.toBlob( getValue( name ) );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBytes(java.lang.String)
+	 */
+	public byte[] getBytes( String name ) throws BirtException
+	{
+		return DataTypeUtil.toBytes( getValue( name ) );
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#skipToEnd(int)
 	 */

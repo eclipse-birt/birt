@@ -108,6 +108,7 @@ public interface IResultIterator
      * @return			The value of the given expression.
      * 					It could be null.
      * @throws 			BirtException if error occurs in Data Engine
+     * @deprecated
      */
     public Object getValue( IBaseExpression dataExpr ) throws BirtException;
 
@@ -124,6 +125,7 @@ public interface IResultIterator
      * @return			The value of the given expression as a Boolean.
      * 					It could be null.
      * @throws 			BirtException if error occurs in Data Engine
+     * @deprecated
      */
     public Boolean getBoolean( IBaseExpression dataExpr ) throws BirtException;
 
@@ -140,6 +142,7 @@ public interface IResultIterator
      * @return			The value of the given expression as an Integer.
      * 					It could be null.
      * @throws 			BirtException if error occurs in Data Engine
+     * @deprecated
      */
     public Integer getInteger( IBaseExpression dataExpr ) throws BirtException;
 
@@ -156,6 +159,7 @@ public interface IResultIterator
      * @return			The value of the given expression as a Double.
      * 					It could be null.
      * @throws 			BirtException if error occurs in Data Engine
+     * @deprecated
      */
     public Double getDouble( IBaseExpression dataExpr ) throws BirtException;
 
@@ -172,6 +176,7 @@ public interface IResultIterator
      * @return			The value of the given expression as a String.
      * 					It could be null.
      * @throws 			BirtException if error occurs in Data Engine
+     * @deprecated
      */
     public String getString( IBaseExpression dataExpr ) throws BirtException;
 
@@ -188,6 +193,7 @@ public interface IResultIterator
      * @return			The value of the given expression as a BigDecimal.
      * 					It could be null.
      * @throws 			BirtException if error occurs in Data Engine
+     * @deprecated
      */
     public BigDecimal getBigDecimal( IBaseExpression dataExpr ) throws BirtException;
 
@@ -204,6 +210,7 @@ public interface IResultIterator
      * @return			The value of the given expression as a Date.
      * 					It could be null.
      * @throws 			BirtException if error occurs in Data Engine
+     * @deprecated
      */
     public Date getDate( IBaseExpression dataExpr ) throws BirtException;
 
@@ -218,6 +225,7 @@ public interface IResultIterator
      * @return			The value of the given Blob expression.
      * 					It could be null.
      * @throws 			BirtException if error occurs in Data Engine
+     * @deprecated
      */
     public Blob getBlob( IBaseExpression dataExpr ) throws BirtException;
 
@@ -232,8 +240,99 @@ public interface IResultIterator
      * @return			The value of the given Blob expression.
      * 					It could be null.
      * @throws 			BirtException if error occurs in Data Engine
+     * @deprecated
      */
     public byte[] getBytes( IBaseExpression dataExpr ) throws BirtException;
+    
+    /**
+	 * Returns the value of a bound column. Currently it is only a dummy
+	 * implementation.
+	 * 
+	 * @param name of bound column
+	 * @return value of bound column
+	 * @throws BirtException
+	 */
+    public Object getValue( String name ) throws BirtException;
+    
+    /**
+	 * Returns the value of a bound column as the Boolean data type.
+	 * Currently it is only a dummy implementation.
+	 * 
+	 * @param name of bound column
+	 * @return value of bound column
+	 * @throws BirtException
+	 */
+    public Boolean getBoolean( String name ) throws BirtException;
+
+    /**
+	 * Returns the value of a bound column as the Integer data type.
+	 * Currently it is only a dummy implementation.
+	 * 
+	 * @param name of bound column
+	 * @return value of bound column
+	 * @throws BirtException
+	 */
+    public Integer getInteger( String name ) throws BirtException;
+
+    /**
+	 * Returns the value of a bound column as the Double data type.
+	 * Currently it is only a dummy implementation.
+	 * 
+	 * @param name of bound column
+	 * @return value of bound column
+	 * @throws BirtException
+	 */
+    public Double getDouble( String name ) throws BirtException;
+
+    /**
+	 * Returns the value of a bound column as the String data type.
+	 * Currently it is only a dummy implementation.
+	 * 
+	 * @param name of bound column
+	 * @return value of bound column
+	 * @throws BirtException
+	 */
+    public String getString( String name ) throws BirtException;
+
+    /**
+	 * Returns the value of a bound column as the BigDecimal data type.
+	 * Currently it is only a dummy implementation.
+	 * 
+	 * @param name of bound column
+	 * @return value of bound column
+	 * @throws BirtException
+	 */
+    public BigDecimal getBigDecimal( String name ) throws BirtException;
+
+    /**
+	 * Returns the value of a bound column as the Date data type. Currently
+	 * it is only a dummy implementation.
+	 * 
+	 * @param name of bound column
+	 * @return value of bound column
+	 * @throws BirtException
+	 */
+    public Date getDate( String name ) throws BirtException;
+
+    /**
+	 * Returns the value of a bound column as the Blob data type. Currently
+	 * it is only a dummy implementation.
+	 * 
+	 * @param name of bound column
+	 * @return value of bound column
+	 * @throws BirtException
+	 */
+    public Blob getBlob( String name ) throws BirtException;
+
+    /**
+	 * Returns the value of a bound column as the byte[] data type.
+	 * Currently it is only a dummy implementation.
+	 * 
+	 * @param name of bound column
+	 * @return value of bound column
+	 * @throws BirtException
+	 */
+    public byte[] getBytes( String name ) throws BirtException;
     
     /**
      * Advances the iterator, skipping rows to the last row in the current group 
