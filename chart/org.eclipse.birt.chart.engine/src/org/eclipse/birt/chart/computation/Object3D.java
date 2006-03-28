@@ -436,7 +436,7 @@ public class Object3D
 	{
 		if ( viewVa.length < 3 && obj.getViewerVectors( ).length < 3 )
 		{
-			// TODO consider inside/outside direction.
+			// skip cases of both lines or points.
 			return true;
 		}
 
@@ -448,10 +448,6 @@ public class Object3D
 		if ( viewVa.length < 3 )
 		{
 			normal = new Vector( obj.getNormal( ) );
-			outside = !outside;
-			ov = tva[0];
-			tva = getViewerVectors( );
-			// viewDirection = obj.getCenter( );
 		}
 		else
 		{
