@@ -28,13 +28,13 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 public class ScriptExecutor
 {
 
-	public static final String PROPERTYSEPARATOR = ";";
+	public static final String PROPERTYSEPARATOR = EngineConstants.PROPERTYSEPARATOR;
 
-	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath";
+	public static final String WEBAPP_CLASSPATH_KEY = EngineConstants.WEBAPP_CLASSPATH_KEY;
 
-	public static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath";
+	public static final String WORKSPACE_CLASSPATH_KEY = EngineConstants.WORKSPACE_CLASSPATH_KEY;
 
-	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath";
+	public static final String PROJECT_CLASSPATH_KEY = EngineConstants.PROJECT_CLASSPATH_KEY;
 
 	protected static Logger log = Logger.getLogger( ScriptExecutor.class
 			.getName( ) );

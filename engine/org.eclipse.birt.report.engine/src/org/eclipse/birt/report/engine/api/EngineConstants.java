@@ -21,4 +21,10 @@ public class EngineConstants {
 	public final static String APPCONTEXT_DATASET_CACHE_OPTION = "DATASET_CACHE_OPTION"; //$NON-NLS-1$
 	public final static String APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST = "BIRT_VIEWER_HTTPSERVET_REQUEST"; //$NON-NLS-1$
 	public final static String APPCONTEXT_CLASSLOADER_KEY = "PARENT_CLASSLOADER"; //$NON-NLS-1$
+
+	//used by ScriptExecutor
+	public static final String PROPERTYSEPARATOR = ";"; //$NON-NLS-1$
+	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath"; //$NON-NLS-1$
+	public static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
+	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath"; //$NON-NLS-1$
 }
