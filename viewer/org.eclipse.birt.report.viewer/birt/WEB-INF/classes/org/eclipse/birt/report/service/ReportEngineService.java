@@ -62,7 +62,6 @@ import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
-import org.eclipse.birt.report.engine.script.internal.ScriptExecutor;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
@@ -70,7 +69,9 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class ReportEngineService
 {
-
+	public static final String PROPERTYSEPARATOR = ";";
+	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath";
+	
 	private static ReportEngineService instance;
 
 	/**
@@ -210,14 +211,14 @@ public class ReportEngineService
 
 		String scriptlibClassPath = ""; //$NON-NLS-1$
 		for ( int i = 0; i < jarFileList.size( ); i++ )
-			scriptlibClassPath += ScriptExecutor.PROPERTYSEPARATOR
+			scriptlibClassPath += PROPERTYSEPARATOR
 					+ ( (File) jarFileList.get( i ) ).getAbsolutePath( );
 
-		if ( scriptlibClassPath.startsWith( ScriptExecutor.PROPERTYSEPARATOR ) )
+		if ( scriptlibClassPath.startsWith( PROPERTYSEPARATOR ) )
 			scriptlibClassPath = scriptlibClassPath
-					.substring( ScriptExecutor.PROPERTYSEPARATOR.length( ) );
+					.substring( PROPERTYSEPARATOR.length( ) );
 
-		System.setProperty( ScriptExecutor.WEBAPP_CLASSPATH_KEY,
+		System.setProperty( WEBAPP_CLASSPATH_KEY,
 				scriptlibClassPath );
 
 		config.setEngineHome( "" ); //$NON-NLS-1$
