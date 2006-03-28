@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.data.ui.dataset;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -30,8 +31,9 @@ public final class DataSetUIUtil
 	 * @param items
 	 * @throws SemanticException
 	 */
-	public static void updateColumnCache( DataSetHandle dataSetHandle, DataSetItemModel[] items ) throws SemanticException
+	public static void updateColumnCache( DataSetHandle dataSetHandle ) throws SemanticException
 	{
+		DataSetItemModel[] items = DataSetManager.getCurrentInstance( ).getColumns( dataSetHandle, true);
 		if ( items.length > 0 )
 		{
 			dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
