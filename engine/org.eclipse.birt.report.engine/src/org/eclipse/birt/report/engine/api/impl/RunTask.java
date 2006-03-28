@@ -78,7 +78,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 					"Report document name is not specified when running a report." ); //$NON-NLS-1$
 		try
 		{
-			if ( reportDocName.endsWith( File.separator ) )
+			if ( reportDocName.endsWith( "\\" ) || reportDocName.endsWith( "/" ) )
 			{
 				archive = new FolderArchiveWriter( reportDocName );
 			}

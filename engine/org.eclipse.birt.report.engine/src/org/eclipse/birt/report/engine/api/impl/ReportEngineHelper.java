@@ -293,7 +293,7 @@ public class ReportEngineHelper
 		IDocArchiveReader reader = null;
 		try 
 		{
-			if ( docArchiveName.endsWith( File.separator ) )
+			if ( docArchiveName.endsWith( "\\" ) || docArchiveName.endsWith( "/" ) )
 			{
 				reader = new FolderArchiveReader( docArchiveName );
 			}
