@@ -117,12 +117,17 @@ public interface IUIServiceProvider
 	 *            command context.
 	 * @param sTitle
 	 *            dialog title if applicable.
-	 * @return
 	 * 
 	 * @since 2.0
 	 */
 	public String invoke( int command, String value, Object context,
 			String sTitle ) throws ChartException;
+	
+	/**
+	 * Returns whether all outside builder invokings are supported
+	 * @since 2.1
+	 */
+	public boolean isInvokingSupported( );
 
 	/**
 	 * This method will be used by the Chart Builder UI to validate the model

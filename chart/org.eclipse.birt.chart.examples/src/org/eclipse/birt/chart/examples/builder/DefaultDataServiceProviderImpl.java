@@ -25,7 +25,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 
 	private transient String sDataSetName = "Dummy DataSet"; //$NON-NLS-1$
 	private static final int COLUMN_COUNT = 8;
-	private static final int ROW_COUNT = 10;
+	private static final int ROW_COUNT = 6;
 
 	/*
 	 * (non-Javadoc)
@@ -184,6 +184,11 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	public boolean isLivePreviewEnabled( )
 	{
 		return true;
+	}
+
+	public boolean isInvokingSupported( )
+	{
+		return false;
 	}
 
 }

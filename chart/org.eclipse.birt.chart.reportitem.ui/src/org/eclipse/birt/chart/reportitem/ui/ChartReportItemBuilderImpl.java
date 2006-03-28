@@ -484,4 +484,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 
 		return value;
 	}
+
+	public boolean isInvokingSupported( )
+	{
+		return true;
+	}
 }

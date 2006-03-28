@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.birt.chart.exception.ChartException;
 
 /**
- * 
+ * Data service provider for chart wizard, to provide all necessary data.
  */
 
 public interface IDataServiceProvider
@@ -26,10 +26,20 @@ public interface IDataServiceProvider
 	public static final int COMMAND_EDIT_FILTER = 1;
 	public static final int COMMAND_EDIT_PARAMETER = 2;
 
+	/**
+	 * Returns all available datasets to choose.
+	 */
 	public String[] getAllDataSets( );
 
+	/**
+	 * Returns the bound dataset currently, or null if there's no dataset bound.
+	 */
 	public String getBoundDataSet( );
 
+	/**
+	 * Returns the dataset bound by parents, or null if there's no dataset bound
+	 * there.
+	 */
 	public String getReportDataSet( );
 
 	public String[] getAllStyles( );
@@ -84,6 +94,19 @@ public interface IDataServiceProvider
 	 */
 	public void dispose( );
 
+	/**
+	 * Returns whether live preview is enabled
+	 * 
+	 * @return whether live preview is enabled
+	 */
 	public boolean isLivePreviewEnabled( );
+
+	/**
+	 * Returns whether all outside builder invokings are supported
+	 * 
+	 * @return whether all invokings are supported
+	 * @since 2.1
+	 */
+	public boolean isInvokingSupported( );
 
 }

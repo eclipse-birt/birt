@@ -335,6 +335,7 @@ public class TriggerDataComposite extends Composite
 			btnBaseURL.setText( Messages.getString( "TriggerDataComposite.Text.EditBaseURL" ) ); //$NON-NLS-1$
 			btnBaseURL.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.InvokeURLBuilder" ) ); //$NON-NLS-1$
 			btnBaseURL.addSelectionListener( this );
+			btnBaseURL.setEnabled( wizardContext.getUIServiceProvider( ).isInvokingSupported( ) );
 		}
 
 		Label lblDefine = new Label( cmpURL, SWT.WRAP );

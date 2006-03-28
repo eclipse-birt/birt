@@ -165,17 +165,16 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		}
 
 		btnBuilder = new Button( cmpTop, SWT.PUSH );
-		GridData gdBTNBuilder = new GridData( );
-		gdBTNBuilder.heightHint = 20;
-		gdBTNBuilder.widthHint = 20;
-		btnBuilder.setLayoutData( gdBTNBuilder );
-		btnBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
-		btnBuilder.addSelectionListener( this );
-		btnBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
-		btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
-		if ( serviceprovider == null )
 		{
-			btnBuilder.setEnabled( false );
+			GridData gdBTNBuilder = new GridData( );
+			gdBTNBuilder.heightHint = 20;
+			gdBTNBuilder.widthHint = 20;
+			btnBuilder.setLayoutData( gdBTNBuilder );
+			btnBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
+			btnBuilder.addSelectionListener( this );
+			btnBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
+			btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
+			btnBuilder.setEnabled( serviceprovider.isInvokingSupported( ) );
 		}
 
 		if ( isFormatSpecifiedEnabled )

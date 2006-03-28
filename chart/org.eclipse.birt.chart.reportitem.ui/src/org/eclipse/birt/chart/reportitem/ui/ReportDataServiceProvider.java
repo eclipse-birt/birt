@@ -285,7 +285,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	protected int invokeNewDataSet( )
 	{
 		new NewDataSetAction( ).run( );
-		return Window.CANCEL;
+		return Window.OK;
 	}
 
 	protected int invokeEditFilter( )
@@ -404,6 +404,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				&& ChartReportItemPlugin.getDefault( )
 						.getPluginPreferences( )
 						.getBoolean( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE );
+	}
+
+	public boolean isInvokingSupported( )
+	{
+		return true;
 	}
 
 }
