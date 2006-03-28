@@ -139,15 +139,28 @@
 		 		- ${plugin.version} the version of plugin exported
 	 -->
 	<target name="Export">
+		<mkdir dir="${export.dir}" />
 		<property file="META-INF/MANIFEST.MF" />
-		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-		<antcall target="i18n"/>
-	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
-	        <fileset
-	        	dir="."
-	        	includes="*.jar,about.html,plugin.xml,plugin*.properties,.options,${db.dir}/*.jar, META-INF/**"
-	        />
-	    </copy>
+		<xmlproperty file="plugin.xml" collapseAttributes="true" />
+		<antcall target="i18n" />
+		<jar destfile="${export.dir}/${module.name}_${Bundle-Version}.jar">
+			<fileset dir="${dir.bin}">
+				<include name="**/*.class" />
+				<include name="**/*.txt" />
+				<include name="**/*.xml" />
+				<include name="**/*.def" />
+				<include name="**/*.properties" />
+				<exclude name="**/*Test.class" />
+			</fileset>
+			<fileset dir=".">
+				<include name="plugin.xml" />
+				<include name="plugin*.properties" />
+				<include name="about.html" />
+				<include name=".options" />
+				<include name="META-INF/MANIFEST.MF" />
+				<include name="icons/*.*"/>
+			</fileset>
+		</jar>
 	</target>
 	
 	<target name="i18n">
