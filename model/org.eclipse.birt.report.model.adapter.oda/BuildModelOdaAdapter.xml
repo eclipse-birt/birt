@@ -119,17 +119,7 @@
 	
 	<target name="Jar" depends="compileSource">
 		
-		<!-- Copy all jar'd resource files into bin -->
-		
-    	<copy todir="${build.dir}">
-	   		<fileset dir="${basedir}">
-	   			<include name="${manifest}"/>
-	   			<include name="plugin.xml"/>
-	   			<include name=".options"/>				   
-	   		</fileset>
-	   	</copy>
-		
-		<jar destfile="modeloda.jar" manifest="${manifest}">
+		<jar destfile="modeloda.jar">
 			<fileset dir="${build.dir}">
 				<exclude name="**/*Test.class"/>
 			</fileset>
@@ -142,14 +132,23 @@
 		 Parameters:
 		 		- ${export.dir} target directory to put the plugin binaries
 	 -->
-	<target name="Export" >
+	<target name="Export">
+		<mkdir dir="${export.dir}"/>
+		<property file="META-INF/MANIFEST.MF" />		
 		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />		
 		
 		<echo message="Export Model Oda Adapter version = ${Bundle-Version}" />
 		
-	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}" failonerror="false">
-	        <fileset dir="." includes="modeloda.jar"/>
-	    </copy>		    
+		<jar destfile="${export.dir}/${module.name}_${Bundle-Version}.jar" manifest="${manifest}">
+			<fileset dir="${basedir}">
+	   			<include name="${manifest}"/>				
+				<include name="plugin.xml"/>
+				<include name=".options"/>
+			</fileset>
+			<fileset dir="${build.dir}/">
+				<include name="*/**"/>
+			</fileset>
+		</jar>			    
 	</target>
 
 	
