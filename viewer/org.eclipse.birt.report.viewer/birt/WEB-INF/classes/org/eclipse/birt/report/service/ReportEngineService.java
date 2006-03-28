@@ -69,9 +69,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class ReportEngineService
 {
-	public static final String PROPERTYSEPARATOR = ";";
-	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath";
-	
+
 	private static ReportEngineService instance;
 
 	/**
@@ -211,14 +209,14 @@ public class ReportEngineService
 
 		String scriptlibClassPath = ""; //$NON-NLS-1$
 		for ( int i = 0; i < jarFileList.size( ); i++ )
-			scriptlibClassPath += PROPERTYSEPARATOR
+			scriptlibClassPath += EngineConstants.PROPERTYSEPARATOR
 					+ ( (File) jarFileList.get( i ) ).getAbsolutePath( );
 
-		if ( scriptlibClassPath.startsWith( PROPERTYSEPARATOR ) )
+		if ( scriptlibClassPath.startsWith( EngineConstants.PROPERTYSEPARATOR ) )
 			scriptlibClassPath = scriptlibClassPath
-					.substring( PROPERTYSEPARATOR.length( ) );
+					.substring( EngineConstants.PROPERTYSEPARATOR.length( ) );
 
-		System.setProperty( WEBAPP_CLASSPATH_KEY,
+		System.setProperty( EngineConstants.WEBAPP_CLASSPATH_KEY,
 				scriptlibClassPath );
 
 		config.setEngineHome( "" ); //$NON-NLS-1$
@@ -290,7 +288,8 @@ public class ReportEngineService
 	 * @param request
 	 */
 
-	synchronized public void setEngineContext( ServletContext servletContext, HttpServletRequest request  )
+	synchronized public void setEngineContext( ServletContext servletContext,
+			HttpServletRequest request )
 	{
 
 		if ( engine == null )
@@ -313,9 +312,9 @@ public class ReportEngineService
 			IReportEngineFactory factory = (IReportEngineFactory) Platform
 					.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 			engine = factory.createReportEngine( config );
-			
+
 			contextPath = request.getContextPath( );
-			
+
 		}
 
 	}
