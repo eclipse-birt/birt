@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.FileArchiveWriter;
+import org.eclipse.birt.core.archive.FolderArchive;
 import org.eclipse.birt.core.archive.FolderArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -42,6 +43,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	private IDocArchiveWriter archive;
 	private ReportDocumentWriter writer;
 	private IPageHandler pageHandler;
+	private boolean cancelled;
 
 	/**
 	 * @param engine
@@ -210,5 +212,18 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	public void close( )
 	{
 		super.close( );
+	}
+
+	public void cancel() {
+		cancelled = true;
+	}
+	
+	public boolean isCancelled()
+	{
+		return cancelled;
+	}
+
+	public void run(FolderArchive fArchive) throws EngineException {
+		// TODO Auto-generated method stub
 	}
 }

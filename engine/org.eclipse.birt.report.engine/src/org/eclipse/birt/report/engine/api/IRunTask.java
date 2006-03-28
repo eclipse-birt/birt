@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import org.eclipse.birt.core.archive.FolderArchive;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 
 /**
@@ -26,7 +27,7 @@ public interface IRunTask extends IEngineTask
 	 *            a callback function that is called after each checkpoint
 	 */
 	public void setPageHandler( IPageHandler callback );
-
+	
 	/**
 	 * runs the task to generate report document
 	 * 
@@ -40,4 +41,16 @@ public interface IRunTask extends IEngineTask
 	 * @throws EngineException throws exception when running report fails
 	 */
 	public abstract void run( IDocArchiveWriter archive ) throws EngineException;
+	
+	/**
+	 * @param fArchive a folder archive that is used both as the data source, and as output
+	 *        The engine WILL overwrite the archive that is passed in! 
+	 * @throws EngineException throws exception when running report fails
+	 */
+	public abstract void run( FolderArchive fArchive) throws EngineException;
+	
+	/**
+	 * cancelling a report generation
+	 */
+	public abstract void cancel();
 }
