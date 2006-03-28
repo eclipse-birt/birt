@@ -27,7 +27,6 @@ import java.util.ResourceBundle;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
@@ -323,12 +322,12 @@ public class JarFile implements Serializable
 			return OdaJdbcDriver.getDriverDirectory();
 		}
 		catch ( IOException e )
-		{
-			ExceptionHandler.handle( e );
+		{ // TODO
+			ExceptionHandler.showException( null, "title", "msg", e );
 		}
 		catch ( OdaException e )
-		{
-			ExceptionHandler.handle( e );
+		{ // TODO
+			ExceptionHandler.showException( null, "title", "msg", e );
 		}
 
 		return null;

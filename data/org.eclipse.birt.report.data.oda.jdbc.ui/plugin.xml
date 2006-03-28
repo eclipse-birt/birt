@@ -61,6 +61,7 @@
       <dataSetUI id="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"
                  initialPageId="org.eclipse.birt.report.data.oda.jdbc.ui.dataset1"
                  hasParameterDefinition="true">
+            <newDataSetWizard class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.NewDataSetWizard"/>
             <dataSetPage
                   id="org.eclipse.birt.report.data.oda.jdbc.ui.dataset1"
                   wizardPageClass="org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage"
@@ -70,11 +71,20 @@
        <dataSetUI id="org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet"
                     initialPageId="org.eclipse.birt.report.data.oda.jdbc.ui.dataset2"
 		       		hasParameterDefinition = "true">
+		    <newDataSetWizard class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.NewDataSetWizard"/>
             <dataSetPage
                   id="org.eclipse.birt.report.data.oda.jdbc.ui.dataset2"
                   wizardPageClass="org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage"
                   path="/"
                   displayName="%dataset.editor.page.query"/>
        </dataSetUI>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+         <page
+            class="org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.datasetpreview"
+            id="org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage"/>
    </extension>
    </plugin>

@@ -26,13 +26,6 @@ import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.UserPropertyException;
-import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
-import org.eclipse.birt.report.model.metadata.StringPropertyType;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.TableItem;
@@ -43,7 +36,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.19 $ $Date: 2005/11/24 06:01:41 $
+ * @version $Revision: 1.20 $ $Date: 2006/03/06 08:01:18 $
  */
 public class Utility
 {
@@ -56,47 +49,6 @@ public class Utility
      */
     private Utility()
     {
-    }
-
-    public static String getUserProperty(DesignElementHandle ds, String propertyName)
-    {
-    	return ds.getStringProperty( propertyName );
-    }
-
-    public static void setUserProperty(DesignElementHandle ds, String propertyName, String value)
-    {
-        UserPropertyDefnHandle handle = ds.getUserPropertyDefnHandle(propertyName);
-        UserPropertyDefn defn = null;
-        //PropertyHandle handle = ds.getPropertyHandle(ExtendedDataSet.USER_PROPERTIES_PROP);
-        if(handle != null)
-        {
-            defn = (UserPropertyDefn) handle.getDefn();
-        }
-        else
-        {
-            defn = new UserPropertyDefn();
-            defn.setType(new StringPropertyType());
-            defn.setName(propertyName);
-            //handle.addItem(defn);
-            try
-            {
-                ds.addUserPropertyDefn(defn);
-            }
-            catch (UserPropertyException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }            
-        }
-        try
-        {
-            ds.setStringProperty(propertyName, value);
-        }
-        catch (SemanticException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 
 	/**
@@ -404,7 +356,8 @@ public class Utility
 		}
 		catch ( ClassNotFoundException e )
 		{
-			ExceptionHandler.handle( e );
+			//TODO
+			ExceptionHandler.showException( null, "title", "msg", e );
 		}
 
 		return new HashMap( );

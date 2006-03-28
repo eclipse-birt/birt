@@ -75,17 +75,11 @@
 		<fileset dir="${oda.jdbc.dir}">
 			<include name="${oda.jdbc.jar}"/>
 		</fileset>
-		<fileset dir="${birt.designer.ui.dir}">
-			<include name="${birt.designer.ui.jar}"/>
-		</fileset>
 		<fileset dir="${oda.connectivity.ui.dir}">
 			<include name="${oda.connectivity.ui.jar}" />
 		</fileset>
 		<fileset dir="${oda.designer.dir}">
 			<include name="${oda.designer.jar}" />
-		</fileset>
-		<fileset dir="${birt.model.dir}">
-			<include name="${birt.model.jar}" />
 		</fileset>
 		<fileset dir="${oda.designer.ui.dir}">
 			<include name="${oda.designer.ui.jar}" />
@@ -221,13 +215,7 @@
 		</ant>
 		<echo message="end call Jar task in ${oda.jdbc.dir}"/>
 		
-		<echo message="start call Jar task in ${birt.model.dir}"/>
-		<ant dir="${birt.model.dir}" antfile="buildModel.xml" target="Jar" inheritAll="false">
-			<property name="eclipse.home" value="${eclipse.home}" />
-		</ant>
-		<echo message="end call Jar task in ${birt.model.dir}"/>
-		
-		<!--echo message="start call Jar task in ${oda.designer.ui.dir}"/>
+		<echo message="start call Jar task in ${oda.designer.ui.dir}"/>
 		<ant dir="${oda.designer.ui.dir}" antfile="build.xml" target="build.jars" inheritAll="false">
 			<property name="dtp.home" value="${dtp.home}"/>
 		</ant>
@@ -237,7 +225,7 @@
 		<ant dir="${oda.designer.dir}" antfile="build.xml" target="build.jars" inheritAll="false">
 			<property name="dtp.home" value="${dtp.home}"/>
 		</ant>
-		<echo message="end call Jar task in ${oda.designer.dir}"/-->
+		<echo message="end call Jar task in ${oda.designer.dir}"/>
 	</target>
 
 	<target name="compileSource" depends="buildDependency" description="compile the source ">

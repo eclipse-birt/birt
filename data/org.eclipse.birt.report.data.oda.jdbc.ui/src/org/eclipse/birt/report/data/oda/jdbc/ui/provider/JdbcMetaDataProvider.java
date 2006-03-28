@@ -16,18 +16,15 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
-import org.eclipse.birt.report.data.oda.jdbc.ui.model.CrossReference;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Column;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
@@ -46,13 +43,11 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 	private String driverClass = null;
 	private String pass = null;
 	private DatabaseMetaData metaData;
-	private HashMap crossReferenceMap = null;
 	
 	public JdbcMetaDataProvider( Connection connection)
 	{
 		this.jdbcConnection = connection;
 		metaData = null;
-		crossReferenceMap = new HashMap();
 	}
 	
 
@@ -113,7 +108,8 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			}
 			catch ( SQLException e )
 			{
-				ExceptionHandler.handle( e );
+				//TODO
+				ExceptionHandler.showException( null, "title", "msg", e );
 			}
 			
 		}
@@ -126,21 +122,29 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 	 *  (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#connect(org.eclipse.birt.report.model.api.DataSourceHandle)
 	 */
-	public Connection connect(DataSourceHandle dataSourceHandle)
+	public Connection connect(DataSourceDesign dataSourceHandle)
 	{		
 		
-		OdaDataSourceHandle handle = (OdaDataSourceHandle) dataSourceHandle;
+		DataSourceDesign handle = (DataSourceDesign) dataSourceHandle;
 	
-		String userName = (String)handle.getProperty(Constants.ODAUser);
-		String passWord = (String)handle.getProperty(Constants.ODAPassword);
-		String url = (String)handle.getProperty(Constants.ODAURL);
-		String driver = (String)handle.getProperty(Constants.ODADriverClass);
+		String userName = (String) handle.getPublicProperties( )
+				.findProperty( Constants.ODAUser )
+				.getValue( );
+		String passWord = (String) handle.getPublicProperties( )
+				.findProperty( Constants.ODAPassword )
+				.getValue( );
+		String url = (String) handle.getPublicProperties( )
+				.findProperty( Constants.ODAURL )
+				.getValue( );
+		String driver = (String) handle.getPublicProperties( )
+				.findProperty( Constants.ODADriverClass )
+				.getValue( );
 		
 		jdbcConnection = connect( userName,
 				passWord,
 				url,
 				driver,
-				handle.getExtensionID()); 
+				handle.getOdaExtensionId( ) ); 
 		
 		return jdbcConnection;
 	}
@@ -192,7 +196,8 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			}
       		catch(SQLException e)
 			{
-      			ExceptionHandler.handle( e );
+    			//TODO
+    			ExceptionHandler.showException( null, "title", "msg", e );
 			}
       	}
       
@@ -649,109 +654,109 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 	 *  (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#getCrossReferences(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public ArrayList getCrossReferences( String primarySchema,
-			String primaryTable, String foreignSchema, String foreignTable )
-	{
-		if ( metaData == null )
-		{
-			return null;
-		}
-
-		String fullPrimaryTableName = primaryTable;
-		String fullForeignTableName = foreignTable;
-
-		if ( primarySchema != null )
-		{
-			fullPrimaryTableName = primarySchema + "." + fullPrimaryTableName;
-		}
-
-		if ( foreignSchema != null )
-		{
-			fullForeignTableName = foreignSchema + "." + fullForeignTableName;
-		}
-
-		// If already retrieved then, get it from the Hash
-
-		ArrayList crossReferences = (ArrayList) crossReferenceMap.get( fullForeignTableName );
-		if ( crossReferences != null )
-		{
-			return crossReferences;
-		}
-		else
-		{
-			crossReferences = new ArrayList( );
-		}
-
-		ResultSet crossReferencesRs = null;
-
-		try
-		{
-			try {crossReferencesRs = metaData.getCrossReference( null,
-					primarySchema,
-					primaryTable,
-					null,
-					foreignSchema,
-					foreignTable );
-			}catch (SQLException e)
-			{
-				
-				crossReferencesRs = reTryAchieveResultSet( "CROSSREFERENCE", new Object[]{null,
-						primarySchema,
-						primaryTable,
-						null,
-						foreignSchema,
-						foreignTable });
-			}
-			// test
-			// crossReferencesRs = metaData.getCrossReference(null,
-			// primarySchema, "customers", null, foreignSchema, "orders");
-
-			while ( crossReferencesRs.next( ) )
-			{
-				//Here the sequence of geting statements are significant for some data base driver do not all the
-				//retrievement of an element of high index once an element of low index is retrieved from ResultSet 
-				String pkSchema = crossReferencesRs.getString( "PKTABLE_SCHEM" );
-				String pkTable = crossReferencesRs.getString( "PKTABLE_NAME" );
-				String pkColumn = crossReferencesRs.getString( "PKCOLUMN_NAME" );
-				String fkSchema = crossReferencesRs.getString( "FKTABLE_SCHEM" );
-				String fkTable = crossReferencesRs.getString( "FKTABLE_NAME" );
-				String fkColumn = crossReferencesRs.getString( "FKCOLUMN_NAME" );
-
-				String pkFullColumnName = pkTable + "." + pkColumn;
-				String fkFullColumnName = fkTable + "." + fkColumn;
-
-				if ( pkSchema != null && pkSchema.length( ) > 0 )
-				{
-					pkFullColumnName = pkSchema + "." + pkFullColumnName;
-				}
-
-				if ( fkSchema != null && fkSchema.length( ) > 0 )
-				{
-					fkFullColumnName = fkSchema + "." + fkFullColumnName;
-				}
-
-				CrossReference crossReference = new CrossReference( pkSchema,
-						pkTable,
-						pkColumn,
-						fkSchema,
-						fkTable,
-						fkColumn );
-				crossReferences.add( crossReference );
-			}
-			if ( crossReferences != null && crossReferences.size( ) > 0 )
-			{
-				crossReferenceMap.put( fullPrimaryTableName, crossReferences );
-			}
-
-		}
-		catch ( SQLException e )
-		{
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}
-
-		return crossReferences;
-	}
+//	public ArrayList getCrossReferences( String primarySchema,
+//			String primaryTable, String foreignSchema, String foreignTable )
+//	{
+//		if ( metaData == null )
+//		{
+//			return null;
+//		}
+//
+//		String fullPrimaryTableName = primaryTable;
+//		String fullForeignTableName = foreignTable;
+//
+//		if ( primarySchema != null )
+//		{
+//			fullPrimaryTableName = primarySchema + "." + fullPrimaryTableName;
+//		}
+//
+//		if ( foreignSchema != null )
+//		{
+//			fullForeignTableName = foreignSchema + "." + fullForeignTableName;
+//		}
+//
+//		// If already retrieved then, get it from the Hash
+//
+//		ArrayList crossReferences = (ArrayList) crossReferenceMap.get( fullForeignTableName );
+//		if ( crossReferences != null )
+//		{
+//			return crossReferences;
+//		}
+//		else
+//		{
+//			crossReferences = new ArrayList( );
+//		}
+//
+//		ResultSet crossReferencesRs = null;
+//
+//		try
+//		{
+//			try {crossReferencesRs = metaData.getCrossReference( null,
+//					primarySchema,
+//					primaryTable,
+//					null,
+//					foreignSchema,
+//					foreignTable );
+//			}catch (SQLException e)
+//			{
+//				
+//				crossReferencesRs = reTryAchieveResultSet( "CROSSREFERENCE", new Object[]{null,
+//						primarySchema,
+//						primaryTable,
+//						null,
+//						foreignSchema,
+//						foreignTable });
+//			}
+//			// test
+//			// crossReferencesRs = metaData.getCrossReference(null,
+//			// primarySchema, "customers", null, foreignSchema, "orders");
+//
+//			while ( crossReferencesRs.next( ) )
+//			{
+//				//Here the sequence of geting statements are significant for some data base driver do not all the
+//				//retrievement of an element of high index once an element of low index is retrieved from ResultSet 
+//				String pkSchema = crossReferencesRs.getString( "PKTABLE_SCHEM" );
+//				String pkTable = crossReferencesRs.getString( "PKTABLE_NAME" );
+//				String pkColumn = crossReferencesRs.getString( "PKCOLUMN_NAME" );
+//				String fkSchema = crossReferencesRs.getString( "FKTABLE_SCHEM" );
+//				String fkTable = crossReferencesRs.getString( "FKTABLE_NAME" );
+//				String fkColumn = crossReferencesRs.getString( "FKCOLUMN_NAME" );
+//
+//				String pkFullColumnName = pkTable + "." + pkColumn;
+//				String fkFullColumnName = fkTable + "." + fkColumn;
+//
+//				if ( pkSchema != null && pkSchema.length( ) > 0 )
+//				{
+//					pkFullColumnName = pkSchema + "." + pkFullColumnName;
+//				}
+//
+//				if ( fkSchema != null && fkSchema.length( ) > 0 )
+//				{
+//					fkFullColumnName = fkSchema + "." + fkFullColumnName;
+//				}
+//
+//				CrossReference crossReference = new CrossReference( pkSchema,
+//						pkTable,
+//						pkColumn,
+//						fkSchema,
+//						fkTable,
+//						fkColumn );
+//				crossReferences.add( crossReference );
+//			}
+//			if ( crossReferences != null && crossReferences.size( ) > 0 )
+//			{
+//				crossReferenceMap.put( fullPrimaryTableName, crossReferences );
+//			}
+//
+//		}
+//		catch ( SQLException e )
+//		{
+//			// TODO Auto-generated catch block
+//			//e.printStackTrace();
+//		}
+//
+//		return crossReferences;
+//	}
 	/**
 	 * When using some driver, one connection metaData can only use methods like
 	 * "getColumns()" once in its lifecycle, i.e. jdbc-odbc-sqlserver driver.

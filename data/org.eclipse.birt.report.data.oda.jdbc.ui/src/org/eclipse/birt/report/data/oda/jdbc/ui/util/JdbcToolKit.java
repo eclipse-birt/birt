@@ -28,7 +28,6 @@ import java.util.zip.ZipFile;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
 public class JdbcToolKit
 {
@@ -286,7 +285,8 @@ public class JdbcToolKit
 			}
 			catch ( MalformedURLException e )
 			{
-				ExceptionHandler.handle( e );
+				//TODO
+				ExceptionHandler.showException( null, "title", "msg", e );
 			}
 		}
 		URLClassLoader urlClassLoader = new URLClassLoader( urlList,
@@ -353,7 +353,8 @@ public class JdbcToolKit
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			//TODO
+			ExceptionHandler.showException( null, "title", "msg", e );
 		}
 		return (String[]) jarEntries.toArray( new String[jarEntries.size( )] );
 	}

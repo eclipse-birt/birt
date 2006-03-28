@@ -19,7 +19,6 @@ import java.util.Set;
 
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 public class JdbcDriverConfigUtil
@@ -79,11 +78,13 @@ public class JdbcDriverConfigUtil
 		}
 		catch ( OdaException e )
 		{
-			ExceptionHandler.handle( e );
+			//TODO
+			ExceptionHandler.showException( null, "title", "msg", e );
 		}
 		catch ( IOException e )
 		{
-			ExceptionHandler.handle( e );
+			//TODO
+			ExceptionHandler.showException( null, "title", "msg", e );
 		}
 		return null;
 	}

@@ -19,10 +19,8 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.ConnectionMetaDataManager;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Schema;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Table;
-import org.eclipse.birt.report.designer.ui.editors.sql.ISQLSyntax;
-import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.OdaDataSetHandle;
-import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.CompletionProposal;
@@ -40,7 +38,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/05/26 01:21:28 $
+ * @version $Revision: 1.12 $ $Date: 2005/09/09 02:06:05 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -48,36 +46,45 @@ public class JdbcSQLContentAssistProcessor implements
 		ISQLSyntax
 {
 
-	private transient OdaDataSetHandle handle = null;
+	private transient DataSetDesign handle = null;
 	private transient ConnectionMetaData metaData = null;
 	private transient ICompletionProposal[] lastProposals = null;
 
 	/**
 	 *  
 	 */
-	public JdbcSQLContentAssistProcessor( DataSetHandle ds )
+	public JdbcSQLContentAssistProcessor( DataSetDesign ds )
 	{
 		super( );
-        handle = (OdaDataSetHandle) ds;
-        OdaDataSourceHandle dataSourceHandle = (OdaDataSourceHandle) handle.getDataSource( );
-        setDataSourceHandle(dataSourceHandle);
+        handle = (DataSetDesign) ds;
+        DataSourceDesign dataSourceDesign = handle.getDataSourceDesign( );
+        setDataSourceHandle(dataSourceDesign);
 	}
     
-    public void setDataSourceHandle(OdaDataSourceHandle dataSourceHandle)
-    {
-        if(metaData != null)
-        {
-            metaData.clearCache();
-            metaData = null;
-        }
-        metaData = ConnectionMetaDataManager.getInstance( )
-                .getMetaData( (String)dataSourceHandle.getProperty(Constants.ODADriverClass),
-                        (String)dataSourceHandle.getProperty(Constants.ODAURL),
-                        (String)dataSourceHandle.getProperty(Constants.ODAUser),
-                        (String)dataSourceHandle.getProperty(Constants.ODAPassword), //$NON-NLS-1$
-                        null );
-        
-    }
+    public void setDataSourceHandle( DataSourceDesign dataSourceHandle )
+	{
+		if ( metaData != null )
+		{
+			metaData.clearCache( );
+			metaData = null;
+		}
+		String driverClass = dataSourceHandle.getPublicProperties( )
+				.findProperty( Constants.ODADriverClass )
+				.getValue( );
+		String url = dataSourceHandle.getPublicProperties( )
+				.findProperty( Constants.ODAURL )
+				.getValue( );
+		String user = dataSourceHandle.getPublicProperties( )
+				.findProperty( Constants.ODAUser )
+				.getValue( );
+		String password = dataSourceHandle.getPublicProperties( )
+				.findProperty( Constants.ODAPassword )
+				.getValue( );
+		metaData = ConnectionMetaDataManager.getInstance( )
+				.getMetaData( driverClass, url, user, password, //$NON-NLS-1$
+						null );
+
+	}
 
 	/*
 	 * (non-Javadoc)

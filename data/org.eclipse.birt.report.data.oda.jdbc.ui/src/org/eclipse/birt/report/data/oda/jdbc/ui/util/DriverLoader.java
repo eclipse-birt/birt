@@ -16,7 +16,6 @@ import java.text.StringCharacterIterator;
 
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
 public final class DriverLoader
 {
@@ -35,7 +34,8 @@ public final class DriverLoader
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle(e);
+			//TODO
+			ExceptionHandler.showException( null, "title", "msg", e );
 			return null;
 		}
 	}

@@ -9,8 +9,6 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
-
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,23 +18,18 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
-import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.ExternalEditorPreferenceManager;
-import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.IExternalEditorPreference;
+import org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DbObject;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
-import org.eclipse.birt.report.designer.ui.editors.sql.SQLPartitionScanner;
-import org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage;
-import org.eclipse.birt.report.model.api.OdaDataSetHandle;
-import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.runtime.Preferences;
+import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
+import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -98,15 +91,14 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.39 $ $Date: 2006/02/28 04:12:06 $
+ * @version $Revision: 1.40 $ $Date: 2006/03/15 11:10:17 $
  */
 
-public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
+public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
 {
 	private transient Document doc = null;
 	private SourceViewer viewer = null;
 	private Hashtable htActions = new Hashtable( );
-    private transient IExternalEditorPreference preference = null;
     private TreeItem rootNode = null;
     private Text searchTxt = null;
     private boolean isSchemaSupported = false;
@@ -127,7 +119,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	private ComboViewer filterComboViewer = null;
 	private Combo schemaCombo = null;
 	private Label schemaLabel = null;
-	OdaDataSourceHandle prevDataSourceHandle = null;
 	Connection jdbcConnection = null;
 	boolean validConnection = false;
 	private Button identifierQuoteStringCheckBox = null; 
@@ -141,6 +132,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	private String cachedSearchTxt = "";
 	private String cachedDbType = "";
 	private int cachedSchemaComboIndex = -1;
+	private DataSourceDesign prevDataSourceDesign;
+	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
+	
 	static
 	{
 		try
@@ -171,15 +165,46 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			
 		} 
 	}
-    
-	/**
-	 * @param pageName
-	 */
-	public SQLDataSetEditorPage( )
+ 
+	public SQLDataSetEditorPage( String pageName )
 	{
-		super( );
+		super( pageName );
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#createPageCustomControl(org.eclipse.swt.widgets.Composite)
+	 */
+	public void createPageCustomControl( Composite parent )
+	{
+		setControl( createPageControl( parent ) );
+		initializeControl( );
+	}
+	
+	/**
+	 * initial dataset control
+	 *
+	 */
+	private void initializeControl( )
+	{
+		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );
+		setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE);
+		refreshPage( );
+		prepareUI( );
+	}
+	
+    /*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSetWizardPageCore#collectDataSetDesign(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
+	 */
+	protected DataSetDesign collectDataSetDesign( DataSetDesign design )
+	{
+		if ( design != null )
+			design.setQueryText( doc.get( ) );
+		return design;
+	}
+	    
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -261,7 +286,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			GridData data = new GridData(GridData.FILL_BOTH);
 			data.grabExcessHorizontalSpace = true;
 			data.grabExcessVerticalSpace = true;
-			//data.heightHint = 150;
+			data.heightHint = 150;
 			availableDbObjectsTree.setLayoutData(data);
 		}
 		
@@ -379,6 +404,10 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		identifierQuoteStringCheckBox.setLayoutData( layoutData );
 	}
 	
+	/**
+	 * 
+	 * @param b
+	 */
 	private void enableSchemaComponent( boolean b )
 	{
 		if ( b )
@@ -394,6 +423,10 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		}
 	}
 
+	/**
+	 * 
+	 * @param filterComboViewer
+	 */
 	private void setFilterComboContents(ComboViewer filterComboViewer)
 	{
 		if( filterComboViewer == null )
@@ -460,10 +493,11 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	protected void populateAvailableDbObjects()
 	{
+		DataSetDesign dataSetDesign = getDataSetDesign( );
+
+		DataSourceDesign curDataSourceDesign = dataSetDesign.getDataSourceDesign( );
 		
-		OdaDataSourceHandle curDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
-		
-		if ( curDataSourceHandle == prevDataSourceHandle )
+		if ( curDataSourceDesign == prevDataSourceDesign )
 		{
 			if ( ( cachedSearchTxt == searchTxt.getText( ) || ( cachedSearchTxt != null && cachedSearchTxt.equals( searchTxt.getText( ) ) ) )
 					&& ( cachedDbType == getSelectedDbType( ) || ( cachedDbType != null && cachedDbType.equals( getSelectedDbType( ) ) ) ) )
@@ -505,6 +539,15 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	}
 	
 	/**
+	 * 
+	 * @return
+	 */
+	private DataSetDesign getDataSetDesign( )
+	{
+		return this.getInitializationDesign( );
+	}
+	
+	/**
 	 * populate shema list if the schema is supported
 	 *
 	 */
@@ -531,7 +574,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		if(schemaList!=null)
 		{
 			int numberOfSchema = 0;
-			Preferences preferences = ReportPlugin.getDefault( )
+			Preferences preferences = JdbcPlugin.getDefault( )
 					.getPluginPreferences( );
 			if ( preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA ) )
 			{
@@ -583,7 +626,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		rootNode = new TreeItem(availableDbObjectsTree,SWT.NONE);
 		rootNode.setImage(dataBaseImage);
 		
-		OdaDataSourceHandle dataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
+		DataSourceDesign dataSourceHandle = this.getDataSetDesign( ).getDataSourceDesign( );
 		
 		rootNode.setText(dataSourceHandle.getName());
 	}
@@ -654,7 +697,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					{
 						int numberOfTable;
 						
-						Preferences preferences = ReportPlugin.getDefault( ).getPluginPreferences( );
+						Preferences preferences = JdbcPlugin.getDefault( ).getPluginPreferences( );
 						if ( preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA ) )
 						{
 							numberOfTable = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA );
@@ -815,7 +858,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			{
 				int numberOfTable;
 				
-				Preferences preferences = ReportPlugin.getDefault( ).getPluginPreferences( );
+				Preferences preferences = JdbcPlugin.getDefault( ).getPluginPreferences( );
 				if ( preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA ) )
 				{
 					numberOfTable = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA );
@@ -918,9 +961,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	}
 	
 	// Connects the metadata provider to the specified data source
-	protected Connection connectMetadataProvider( IMetaDataProvider metadata, OdaDataSourceHandle dataSourceHandle )
+	protected Connection connectMetadataProvider( IMetaDataProvider metadata, DataSourceDesign dataSourceDesign )
 	{
-		return metadata.connect( dataSourceHandle );
+		return metadata.connect( dataSourceDesign );
 	}
 	
 	private void initialize()
@@ -948,8 +991,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 		createMetaDataProvider( );
 
-		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
-		jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceHandle);
+		prevDataSourceDesign = this.getDataSetDesign( ).getDataSourceDesign( );
+		jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceDesign);
 		
 		validConnection = (jdbcConnection == null) ? false: true; 
 		
@@ -965,7 +1008,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		}
 		catch(Exception e)
 		{
-			ExceptionHandler.handle( e );
+			//TODO
+			ExceptionHandler.showException( null, "title", "msg", e );
 		}
 	}
 	/**
@@ -985,14 +1029,14 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 * @param curDataSourceHandle
 	 *
 	 */
-	protected void resetJdbcInfo(OdaDataSourceHandle curDataSourceHandle)
+	protected void resetJdbcInfo(DataSourceDesign curDataSourceDesign)
 	{
 		if( metaDataProvider != null )
 		{
 			metaDataProvider.closeConnection( );
 			metaDataProvider = null;
 			createMetaDataProvider( );
-			jdbcConnection = connectMetadataProvider( metaDataProvider, curDataSourceHandle);
+			jdbcConnection = connectMetadataProvider( metaDataProvider, curDataSourceDesign);
 			
 			// Clear the Table list and the schema List
 			tableList = null;
@@ -1009,7 +1053,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		}
 		catch(Exception e)
 		{
-			ExceptionHandler.handle( e );
+			ExceptionHandler.showException( null, "title", "msg", e );
 		}
 	}
 	
@@ -1151,18 +1195,19 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 
 		// Get the currently selected Data Source
-		OdaDataSourceHandle curDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
+		DataSourceDesign curDataSourceDesign = this.getDataSetDesign( )
+				.getDataSourceDesign( );
 		
-		if( curDataSourceHandle != prevDataSourceHandle )
+		if( curDataSourceDesign != prevDataSourceDesign )
 		{
 			RemoveAllAvailableDbObjects();
-			resetJdbcInfo(curDataSourceHandle);
+			resetJdbcInfo(curDataSourceDesign);
 			enableSchemaComponent( isSchemaSupported );
 			setRootElement();
-            sourceViewerConfiguration.getContentAssistProcessor().setDataSourceHandle(curDataSourceHandle);
+            sourceViewerConfiguration.getContentAssistProcessor().setDataSourceHandle(curDataSourceDesign);
 			
 			populateAvailableDbObjects();
-			prevDataSourceHandle = curDataSourceHandle;
+			prevDataSourceDesign = curDataSourceDesign;
 		}
 	}	
 	
@@ -1484,7 +1529,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		ruler.addDecorator( 0, lineNumbers );
 		viewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
 				| SWT.V_SCROLL );
-        sourceViewerConfiguration = new JdbcSQLSourceViewerConfiguration( ( (OdaDataSetHandle) getContainer( ).getModel( ) ) );
+		sourceViewerConfiguration = new JdbcSQLSourceViewerConfiguration( this.getDataSetDesign( ) );
 		viewer.configure( sourceViewerConfiguration );
 		
 		doc = new Document( getQueryText() );
@@ -1548,10 +1593,11 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
     
     private final boolean isExternalEditorConfigured()
     {
-        OdaDataSourceHandle handle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
-        String editorName = Utility.getUserProperty(handle, ExternalEditorPreferenceManager.PROPERTY_NAME_PREFIX + "externaleditortype");
-        preference = ExternalEditorPreferenceManager.getInstance().getEditor(editorName); 
-        return (preference != null && preference.canBeLaunched((OdaDataSetHandle) getContainer( ).getModel( )));
+    	return false;
+//        DataSourceDesign handle = this.getDataSetDesign( ).getDataSourceDesign( );
+//        String editorName = Utility.getUserProperty(handle, ExternalEditorPreferenceManager.PROPERTY_NAME_PREFIX + "externaleditortype");
+//        preference = ExternalEditorPreferenceManager.getInstance().getEditor(editorName); 
+//        return (preference != null && preference.canBeLaunched(this.getDataSetDesign( )));
     }
 
 	private final void attachMenus( SourceViewer viewer )
@@ -1587,6 +1633,14 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		widget.setMenu( menu );
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @param viewer
+	 * @param name
+	 * @param operation
+	 * @return
+	 */
 	private final SQLEditorAction getAction( String id, SourceViewer viewer,
 			String name, int operation )
 	{
@@ -1599,28 +1653,21 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		return action;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#pageActivated()
-	 */
-	public void pageActivated( )
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSetWizardPageCore#refresh(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
+     */
+    protected void refresh( DataSetDesign dataSetDesign )
 	{
-		getContainer( ).setMessage( JdbcPlugin.getResourceString( "dataset.editor.page.query" ), IMessageProvider.NONE );//$NON-NLS-1$
-		
-		// If the Selected Data Source HAs changed then the 
-		// Table Selection Page and the Textual query editor should reflect this change
-		refreshPage();
-		
-		prepareUI();		
+		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.editor.page.query" );
+		setMessage( DEFAULT_MESSAGE );
+		refreshPage( );
+		prepareUI( );
 	}
-
+	
 	/**
-	 * Prepare UI when pageActivated event is invoked
-	 * Following things will be done:
-	 * 		Set StyledText content
-	 * 		Set StyledText as focus
-	 * 		
+	 * Prepare UI when pageActivated event is invoked Following things will be
+	 * done: Set StyledText content Set StyledText as focus
+	 * 
 	 */
 	private void prepareUI()
 	{	
@@ -1644,7 +1691,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	private String getQueryText( )
 	{
-		String queryText = ( (OdaDataSetHandle) getContainer( ).getModel( ) ).getQueryText( );
+		String queryText = this.getDataSetDesign( ).getQueryText( );
 		if ( queryText != null && queryText.trim( ).length( ) > 0 )
 			return queryText;
 
@@ -1680,7 +1727,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 		// TODO: to be externalized
 		final String[] lines;
-		if ( ( (OdaDataSetHandle) getContainer( ).getModel( ) ).getExtensionID( )
+		if ( this.getDataSetDesign( ).getOdaExtensionDataSetId( )
 				.equals( "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet" ) )
 			lines = new String[]{
 				"{call procedure-name(arg1,arg2, ...)}"
@@ -1704,55 +1751,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#canLeave()
+	 * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#cleanup()
 	 */
-	public boolean canLeave( )
-	{
-		try
-		{
-			( (OdaDataSetHandle) getContainer( ).getModel( ) ).setQueryText( doc.get( ) );
-		}
-		catch ( SemanticException e )
-		{
-			return false;
-		}
-		return true;
-	}
-
-	/* 
-	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performOk()
-	 */
-	public boolean performOk( )
-	{
-		try
-		{
-			( (OdaDataSetHandle) getContainer( ).getModel( ) ).setQueryText( doc.get( ) );
-		}
-		catch ( SemanticException e )
-		{
-			return false;
-		}
-		finally
-		{
-			cleanUp( );
-		}
-		return true;
-	}
-
-	/*
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#performCancel()
-	 */
-	public boolean performCancel( )
-	{
-		cleanUp();
-		return super.performCancel();
-	}
-
-	/**
-	 * CleanUp database connection
-	 */
-	private void cleanUp( )
+	protected void cleanup( )
 	{
 		if ( metaDataProvider != null )
 		{
@@ -1797,31 +1798,31 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
     public void widgetSelected(SelectionEvent e)
     {
-        if(preference != null)
-        {
-            try
-            {
-                ( (OdaDataSetHandle) getContainer( ).getModel( ) ).setQueryText( doc.get( ) );
-                String command = preference.getPreparedCommandLine((OdaDataSetHandle) getContainer( ).getModel( ));
-                Process process = Runtime.getRuntime().exec(command);
-                process.waitFor();
-                FileInputStream fis = new FileInputStream(preference.getTemporaryFile());
-                StringBuffer stringBuffer = new StringBuffer();
-                byte[] buf = new byte[10000];
-                int n = -1;
-                while((n = fis.read(buf)) != -1)
-                {
-                    stringBuffer.append(new String(buf, 0, n));
-                }
-                doc.set(stringBuffer.toString());
-                preference.getTemporaryFile().delete();
-                
-            }
-            catch (Exception e1)
-            {
-                ExceptionHandler.handle(e1);
-            }
-        }
+//        if(preference != null)
+//        {
+//            try
+//            {
+//                this.getDataSetDesign( ).setQueryText( doc.get( ) );
+//				String command = preference.getPreparedCommandLine( this.getDataSetDesign( ) );
+//				Process process = Runtime.getRuntime( ).exec( command );
+//                process.waitFor();
+//                FileInputStream fis = new FileInputStream(preference.getTemporaryFile());
+//                StringBuffer stringBuffer = new StringBuffer();
+//                byte[] buf = new byte[10000];
+//                int n = -1;
+//                while((n = fis.read(buf)) != -1)
+//                {
+//                    stringBuffer.append(new String(buf, 0, n));
+//                }
+//                doc.set(stringBuffer.toString());
+//                preference.getTemporaryFile().delete();
+//                
+//            }
+//            catch (Exception e1)
+//            {
+//            	ExceptionHandler.showException( null, "title", "msg", e1 );
+//            }
+//        }
     }
 
     /* (non-Javadoc)
@@ -1830,15 +1831,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
     public void widgetDefaultSelected(SelectionEvent e)
     {
     }
-
-	/*
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#getToolTip()
-	 */
-	public String getToolTip( )
-	{
-		// TODO: to be externalized
-		return "Create or Edit an SQL SELECT statement";
-	}
 	
 }
 

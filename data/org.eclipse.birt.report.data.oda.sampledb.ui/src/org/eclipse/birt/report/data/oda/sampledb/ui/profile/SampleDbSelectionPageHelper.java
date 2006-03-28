@@ -40,7 +40,7 @@ public class SampleDbSelectionPageHelper
 	private Label m_driverClass, m_driverURL, m_sampleUser;
 
     static final String DEFAULT_MESSAGE = 
-        Messages.getMessage(  "datasource.page.msg" ); //$NON-NLS-1$
+        Messages.getMessage(  "datasource.page.title" ); //$NON-NLS-1$
     
     private static final String EMPTY_STRING = "";
     
@@ -55,31 +55,32 @@ public class SampleDbSelectionPageHelper
     }
 
     void createCustomControl( Composite parent )
-    {
-		//create the composite to hold the widgets
+	{
+		// create the composite to hold the widgets
 		Composite content = new Composite( parent, SWT.NONE );
-		
+
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 2;
 		content.setLayout( layout );
-		
-		new Label( content, SWT.LEFT ).setText( 
-					Messages.getMessage( "datasource.page.driver.class" ));  //$NON-NLS-1$
+
+		new Label( content, SWT.LEFT ).setText( Messages.getMessage( "datasource.page.driver.class" ) ); //$NON-NLS-1$
 		m_driverClass = new Label( content, SWT.LEFT );
 		m_driverClass.setText( SampleDBConstants.DRIVER_CLASS ); //$NON-NLS-1$
 		new Label( content, SWT.LEFT ).setText( Messages.getMessage( "datasource.page.url" ) ); //$NON-NLS-1$
 		m_driverURL = new Label( content, SWT.LEFT );
 		m_driverURL.setText( SampleDBConstants.DRIVER_URL );//$NON-NLS-1$
-		new Label( content, SWT.LEFT ).setText( Messages.getMessage( "datasource.page.user") ); //$NON-NLS-1$
+		new Label( content, SWT.LEFT ).setText( Messages.getMessage( "datasource.page.user" ) ); //$NON-NLS-1$
 		m_sampleUser = new Label( content, SWT.LEFT );
 		m_sampleUser.setText( SampleDBJDBCConnectionFactory.getDbUser( ) );//$NON-NLS-1$
-    }
+		setMessage( DEFAULT_MESSAGE );
+	}
     
     /**
-     * collect custom properties
-     * @param props
-     * @return
-     */
+	 * collect custom properties
+	 * 
+	 * @param props
+	 * @return
+	 */
     Properties collectCustomProperties( Properties props )
     {
         if( props == null )
@@ -137,4 +138,29 @@ public class SampleDbSelectionPageHelper
         	user = EMPTY_STRING;
         m_sampleUser.setText( user );
     }
+	
+    /**
+     * set message
+     * @param message
+     */
+	private void setMessage( String message )
+	{
+		if ( m_wizardPage != null )
+			m_wizardPage.setMessage( message );
+		else if ( m_propertyPage != null )
+			m_propertyPage.setMessage( message );
+	}
+
+	/**
+	 * set message
+	 * @param message
+	 * @param type
+	 */
+	private void setMessage( String message, int type )
+	{
+		if ( m_wizardPage != null )
+			m_wizardPage.setMessage( message, type );
+		else if ( m_propertyPage != null )
+			m_propertyPage.setMessage( message, type );
+	}
  }
