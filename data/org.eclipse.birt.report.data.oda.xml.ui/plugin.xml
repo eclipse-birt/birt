@@ -61,7 +61,7 @@
       <dataSetUI id="org.eclipse.birt.report.data.oda.xml.dataSet"
                  initialPageId="org.eclipse.datatools.connectivity.oda.design.ui1"
                  hasParameterDefinition="false">
-            <newDataSetWizard class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.NewDataSetWizard"/>
+            <dataSetWizard class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizard"/>
             <dataSetPage
                   id="org.eclipse.datatools.connectivity.oda.design.ui1"
                   wizardPageClass="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetSelectionPage"
