@@ -202,7 +202,7 @@
 	        />
 	    </copy-->
 		
-		<jar destfile="${export.dir}/${module.name}_${Bundle-Version}.jar">
+		<jar destfile="${export.dir}/${module.name}_${Bundle-Version}.jar" manifest="META-INF/MANIFEST.MF">
 			<fileset dir="${bin}">
 				<include name="**/*.class" />
 				<include name="**/*.txt" />
