@@ -68,7 +68,9 @@
 
 	<property name="eclipse.home" location="." />
 	<property name="module.name" value="org.eclipse.birt" />
-
+	<property name="export.dir" location="export" />
+	<property name="manifest" value="META-INF/MANIFEST.MF" />
+	
 	<!-- Generate zip for this project.
 		 Input parameters:
 		 	eclipse.home
@@ -81,16 +83,14 @@
 		<tstamp>
 			<format property="TODAY" pattern="yyyyMMddHHmm" />
 		</tstamp>
-		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-		<copy todir="${export.dir}/${module.name}_${plugin.version}">
-			<fileset dir=".">
-				<exclude name="BuildBirt.xml" />
-				<exclude name=".project" />
-				<exclude name="CVS/*" />
-				<exclude name="about.mappings" />
-			</fileset>
-		</copy>
-		<copy todir="${export.dir}/${module.name}_${plugin.version}" overwrite="true">
+		
+		<mkdir dir="${export.dir}"/>		
+		<property file="META-INF/MANIFEST.MF" />
+		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />		
+
+		<echo message="Export Birt version = ${Bundle-Version}" />
+		
+		<copy todir="${export.dir}" overwrite="true">
 			<fileset dir=".">
 				<include name="about.mappings" />
 			</fileset>
@@ -101,18 +101,34 @@
 			</filterchain>
 
 		</copy>
-		<copy todir="${export.dir}/${module.name}_${plugin.version}" overwrite="true">
+		<echo message="${TODAY}"/>
+		<copy todir="${export.dir}" overwrite="true">
 			<fileset dir=".">
 				<include name="about.properties" />
 			</fileset>
 			<filterchain>
 				<replacetokens>
-					<token key="Replace_By_Version" value="${plugin.version}" />
+					<token key="Replace_By_Version" value="${Bundle-Version}" />
 				</replacetokens>
 			</filterchain>
-
 		</copy>
-
+		<echo message="${Bundle-Version}"/>
+ 		<jar destfile="${export.dir}/${module.name}_${Bundle-Version}.jar"  manifest="${manifest}">
+			<fileset dir="${basedir}">
+	   			<include name="${manifest}"/>				
+				<include name="plugin.xml"/>
+				<include name="eclipse32.gif"/>
+				<include name="about.html"/>
+				<include name="about.ini"/>
+			</fileset>
+ 			<fileset dir="${export.dir}">
+ 				<include name="about.mappings"/>
+ 				<include name="about.properties"/>
+			</fileset>
+		</jar>	
+		<delete>
+		    <fileset dir="${export.dir}" includes="about.*"/>
+		</delete>
 	</target>
 
 	<target name="UnitTest">

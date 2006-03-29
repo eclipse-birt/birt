@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt"
-   name="Business Intelligence and Reporting Tools"
-   version="2.1.0"
-   provider-name="Eclipse.org">
+<plugin>
 </plugin>
