@@ -19,13 +19,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.util.Calendar;
 import java.util.Date;
 
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
 
 
 /**
