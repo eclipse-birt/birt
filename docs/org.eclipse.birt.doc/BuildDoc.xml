@@ -121,17 +121,29 @@
 	<target name="Export">
 		<property file="META-INF/MANIFEST.MF" />
 		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />
-	  <copy todir="${export.dir}/${plugin.package}">
-	    <fileset dir="." includes="plugin.xml,.project,META-INF/MANIFEST.MF,*Toc.xml,doc.zip,about.html,notices.html"/>
-	  </copy>
 	  <!-- Copy the BIRT examples plugins.
 	   -->
-    <copy todir="${export.dir}/${plugin.package}/Samples/org.eclipse.birt.chart.examples" failonerror="false">
+    <copy todir="Samples/org.eclipse.birt.chart.examples" failonerror="false">
       <fileset dir="${chartexamples.dir}"/>
     </copy>
-    <copy todir="${export.dir}/${plugin.package}/Samples/org.eclipse.birt.sample.reportitem.rotatedtext" failonerror="false">
+    <copy todir="Samples/org.eclipse.birt.sample.reportitem.rotatedtext" failonerror="false">
       <fileset dir="${rotatedtextitem.dir}"/>
     </copy>
+		<mkdir dir="${export.dir}" />
+		<xmlproperty file="plugin.xml" collapseAttributes="true" />
+		<jar destfile="${export.dir}/${plugin.package}.jar">
+			<fileset dir=".">
+				<include name="plugin.xml" />
+				<include name=".project" />
+				<include name="META-INF/MANIFEST.MF" />
+				<include name="about.html" />
+				<include name="notices.html" />
+				<include name="*Toc.xml" />
+				<include name="doc.zip" />
+				<include name="Samples/**/*.*" />
+			</fileset>
+		</jar>
+		<delete dir="Samples" />
 	</target>
 
 	<!-- Run Unit test.
@@ -184,6 +196,7 @@
 	<target name="engineJavadoc">
 		<delete dir="${engine.javadoc.dir}"/>
 		<ant dir="${engine.dir}" antfile="BuildEngine.xml" target="APIJavaDoc" inheritall="false" inheritrefs="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
       		<property name="api.javadoc.dir" value="../${module.name}/${engine.javadoc.dir}" />
 		</ant>
   </target>
