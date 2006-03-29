@@ -131,7 +131,7 @@
     </copy>
 		<mkdir dir="${export.dir}" />
 		<xmlproperty file="plugin.xml" collapseAttributes="true" />
-		<jar destfile="${export.dir}/${plugin.package}.jar">
+		<jar destfile="${export.dir}/${plugin.package}.jar" manifest="META-INF/MANIFEST.MF">
 			<fileset dir=".">
 				<include name="plugin.xml" />
 				<include name=".project" />
