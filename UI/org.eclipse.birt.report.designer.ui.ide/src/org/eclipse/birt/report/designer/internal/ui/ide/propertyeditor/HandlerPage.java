@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.propertyeditor;
 
+import java.util.ResourceBundle;
+
 import org.eclipse.birt.report.designer.internal.ui.ide.util.ClassFinder;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
@@ -61,7 +64,7 @@ public class HandlerPage extends AttributePage
 				400 );
 
 		Button browse = new Button( this, SWT.PUSH );
-		browse.setText( "Browse" );
+		browse.setText( Messages.getString("EventHandlerPage.Browse") );
 		browse.setLayoutData( new GridData( ) );
 		browse.addSelectionListener( new SelectionAdapter( ) {
 
@@ -95,4 +98,6 @@ public class HandlerPage extends AttributePage
 		WidgetUtil.createGridPlaceholder( this, 2, true );
 
 	}
+
+
 }
