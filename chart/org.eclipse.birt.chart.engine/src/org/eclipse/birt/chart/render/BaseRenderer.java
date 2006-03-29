@@ -761,7 +761,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		ipr.drawRectangle( rre );
 		lia = LineAttributesImpl.copyInstance( lia );
 		lia.setVisible( true ); // SEPARATOR LINES MUST BE VISIBLE
-		
+
 		LineAttributes liSep = lg.getSeparator( ) == null ? lia
 				: lg.getSeparator( );
 
@@ -3516,18 +3516,17 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws ChartException
 	 */
 	protected final void render3DPlane( IPrimitiveRenderer ipr, Object oSource,
-			Location3D[][] loaFace, Fill f, LineAttributes lia )
-			throws ChartException
+			List loaFace, Fill f, LineAttributes lia ) throws ChartException
 	{
 		Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				Polygon3DRenderEvent.class );
 
-		int nSides = loaFace.length;
+		int nSides = loaFace.size( );
 
 		for ( int i = 0; i < nSides; i++ )
 		{
 			pre.setOutline( lia );
-			pre.setPoints3D( loaFace[i] );
+			pre.setPoints3D( (Location3D[]) loaFace.get( i ) );
 			pre.setBackground( f );
 			dc.addPlane( pre, PrimitiveRenderEvent.FILL
 					| PrimitiveRenderEvent.DRAW );
