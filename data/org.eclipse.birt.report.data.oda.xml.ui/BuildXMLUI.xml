@@ -126,7 +126,7 @@
 		<mkdir dir="${export.dir}" />
 		<property file="META-INF/MANIFEST.MF" />
 		<xmlproperty file="plugin.xml" collapseAttributes="true" />
-		<jar destfile="${export.dir}/${module.name}_${Bundle-Version}.jar">
+		<jar destfile="${export.dir}/${module.name}_${Bundle-Version}.jar" manifest="META-INF/MANIFEST.MF">
 			<fileset dir="${dir.bin}">
 				<include name="**/*.class" />
 				<include name="**/*.txt" />
