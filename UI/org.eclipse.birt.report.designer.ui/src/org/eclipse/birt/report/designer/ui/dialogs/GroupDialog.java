@@ -108,6 +108,7 @@ public class GroupDialog extends BaseDialog
 
 	public static final String GROUP_DLG_TITLE_EDIT = Messages.getString( "GroupDialog.Title.Edit" ); //$NON-NLS-1$
 
+	public static final String GROUP_DLG_HIDE_DETAIL = Messages.getString(  "GroupDialog.buttion.HideDetail" );
 	private List dataSetList = null, columnList;
 
 	private GroupHandle inputGroup;
@@ -137,6 +138,8 @@ public class GroupDialog extends BaseDialog
 	private Button intervalBaseButton;
 
 	private Text intervalBaseText;
+	
+	private Button hideDetail;
 
 	private Text tocEditor;
 
@@ -408,7 +411,12 @@ public class GroupDialog extends BaseDialog
 
 		intervalBaseText = new Text( composite, SWT.SINGLE | SWT.BORDER );
 		intervalBaseText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		
+		hideDetail = new Button(composite, SWT.CHECK);
+		hideDetail.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		hideDetail.setText( GROUP_DLG_HIDE_DETAIL );
 	}
+	
 
 	/**
 	 * Creates the group area
@@ -625,6 +633,7 @@ public class GroupDialog extends BaseDialog
 			repeatHeaderButton.setSelection( true );
 		}
 
+		hideDetail.setSelection( inputGroup.hideDetail( ) );		
 		return true;
 	}
 
@@ -703,7 +712,7 @@ public class GroupDialog extends BaseDialog
 			int index = keyChooser.getSelectionIndex( );
 			String oldKeyExpr = inputGroup.getKeyExpr( );
 			String newKeyExpr = getKeyExpression( );
-
+			
 			inputGroup.setKeyExpr( newKeyExpr );
 			if ( newKeyExpr != null && !newKeyExpr.equals( oldKeyExpr ) )
 			{
@@ -761,6 +770,7 @@ public class GroupDialog extends BaseDialog
 				inputGroup.setIntervalBase( null );
 			}
 
+			inputGroup.setHideDetail( hideDetail.getSelection( ) );
 			if ( inputGroup instanceof TableGroupHandle )
 			{
 				if ( includeHeader.getSelection( ) != inputGroup.hasHeader( ) )

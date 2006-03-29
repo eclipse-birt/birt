@@ -23,7 +23,9 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LineHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -34,12 +36,16 @@ import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.ListGroup;
+import org.eclipse.birt.report.model.elements.TableGroup;
 
 /**
  * This class is a heritor of ElementFactory,which is used to new elements
@@ -575,5 +581,47 @@ public class DesignElementFactory extends ElementFactory
 		String newName = getNewName( element.getElement( ).getElementName( ),
 				name );
 		return factory.newElementFrom( element, newName );
+	}
+	
+	/**
+	 * Creates a new table group element. Table groups cannot have a name.
+	 * 
+	 * @return a handle to the table group
+	 */
+
+	public TableGroupHandle newTableGroup( )
+	{
+		TableGroupHandle handle = factory.newTableGroup( );
+		try
+		{
+			// set default value to false;
+			handle.setHideDetail( false );
+		}
+		catch ( SemanticException e )
+		{
+			e.printStackTrace();
+		}
+		return handle;
+	}
+	
+	/**
+	 * Creates a new list group element. List groups cannot have a name.
+	 * 
+	 * @return a handle to the list group
+	 */
+
+	public ListGroupHandle newListGroup( )
+	{
+		ListGroupHandle handle = factory.newListGroup( );
+		try
+		{
+			// set default value to false;
+			handle.setHideDetail( false );
+		}
+		catch ( SemanticException e )
+		{
+			e.printStackTrace();
+		}
+		return handle;
 	}
 }
