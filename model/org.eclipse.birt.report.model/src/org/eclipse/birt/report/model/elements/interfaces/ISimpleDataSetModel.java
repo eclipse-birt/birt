@@ -53,12 +53,6 @@ public interface ISimpleDataSetModel
 	public static final String ON_FETCH_METHOD = "onFetch"; //$NON-NLS-1$
 
 	/**
-	 * The property name of the data set parameters definitions.
-	 */
-
-	public static final String PARAMETERS_PROP = "parameters"; //$NON-NLS-1$
-
-	/**
 	 * The property name of the data set parameter binding elements that bind
 	 * data set input parameters to expressions.
 	 */

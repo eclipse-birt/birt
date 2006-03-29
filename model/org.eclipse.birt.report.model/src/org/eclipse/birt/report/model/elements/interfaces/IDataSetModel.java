@@ -41,4 +41,10 @@ public interface IDataSetModel
 
 	public static final String FILTER_PROP = "filter"; //$NON-NLS-1$
 
+	/**
+	 * The property name of the data set parameters definitions.
+	 */
+
+	public static final String PARAMETERS_PROP = "parameters"; //$NON-NLS-1$
+
 }

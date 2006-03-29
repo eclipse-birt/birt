@@ -150,16 +150,6 @@ public class JointDataSetHandle extends DataSetHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#parametersIterator()
-	 */
-	public Iterator parametersIterator( )
-	{
-		throw new IllegalOperationException( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getCachedRowCount()
 	 */
 	public int getCachedRowCount( )

@@ -323,24 +323,24 @@ public class StructureState extends AbstractPropertyState
 
 		String propName = propDefn == null ? null : propDefn.getName( );
 
-		if ( ( element instanceof SimpleDataSet )
-				&& SimpleDataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
+		if ( ( element instanceof DataSet ) )
 		{
-			CompatibleDataSetParamStructureState state = new CompatibleDataSetParamStructureState(
-					handler, element, propDefn, list );
-			state.setName( propName );
+			if ( DataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
+			{
+				CompatibleDataSetParamStructureState state = new CompatibleDataSetParamStructureState(
+						handler, element, propDefn, list );
+				state.setName( propName );
 
-			return state;
-		}
+				return state;
+			}
+			else if ( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
+			{
+				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
+						handler, element, propDefn, list );
+				state.setName( propName );
 
-		if ( ( element instanceof DataSet )
-				&& DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
-		{
-			CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
-					handler, element, propDefn, list );
-			state.setName( propName );
-
-			return state;
+				return state;
+			}
 		}
 
 		return super.jumpTo( );

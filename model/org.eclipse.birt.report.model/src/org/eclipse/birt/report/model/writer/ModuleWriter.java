@@ -2327,6 +2327,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitDataSet( obj );
 
+		writeStructureList( obj, DataSet.PARAMETERS_PROP );
 		writeStructureList( obj, DataSet.RESULT_SET_PROP );
 		writeStructureList( obj, DataSet.COMPUTED_COLUMNS_PROP );
 		writeStructureList( obj, DataSet.COLUMN_HINTS_PROP );
@@ -2354,7 +2355,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, SimpleDataSet.REF_TEMPLATE_PARAMETER_PROP );
 		property( obj, SimpleDataSet.CACHED_ROW_COUNT_PROP );
 
-		writeStructureList( obj, SimpleDataSet.PARAMETERS_PROP );
 		writeStructureList( obj, SimpleDataSet.PARAM_BINDINGS_PROP );
 
 		CachedMetaData metadata = (CachedMetaData) obj.getLocalProperty(

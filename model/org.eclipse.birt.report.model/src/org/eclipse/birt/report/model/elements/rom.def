@@ -1845,6 +1845,7 @@
 	</Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSet" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSet" nameSpace="dataSet" since="2.1" xmlName="data-set">
+    <Property detailType="DataSetParam" displayNameID="Element.DataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Property detailType="ComputedColumn" displayNameID="Element.DataSet.computedColumns" isList="true" name="computedColumns" since="1.0" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.DataSet.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
@@ -1876,7 +1877,6 @@
 	<Property displayNameID="Element.SimpleDataSet.cachedRowCount" name="cachedRowCount" since="2.0" type="integer"/>
     <Property detailType="DataSource" displayNameID="Element.SimpleDataSet.dataSource" name="dataSource" since="1.0" type="element" valueRequired="true"/>    
     <Property detailType="ParamBinding" displayNameID="Element.SimpleDataSet.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
-    <Property detailType="DataSetParam" displayNameID="Element.SimpleDataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
 	<Property detailType="CachedMetaData" displayNameID="Element.SimpleDataSet.cachedMetaData" isList="false" name="cachedMetaData" since="1.0" type="structure"/>
   	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.SimpleDataSet.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>
