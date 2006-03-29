@@ -159,7 +159,7 @@
 				<include name=".options" />
         		<include name="schema/**" />
                 <include name="${dir.drivers}/**"/>
-                <include name="plugin.properties/>
+                <include name="plugin.properties"/>
 				<include name="META-INF/MANIFEST.MF" />
 			</fileset>
 		</jar>
