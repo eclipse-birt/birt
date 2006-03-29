@@ -28,6 +28,7 @@ import org.eclipse.birt.report.tests.engine.api.HTMLEmitterConfigTest;
 import org.eclipse.birt.report.tests.engine.api.HTMLRenderContextTest;
 import org.eclipse.birt.report.tests.engine.api.HTMLRenderOptionTest;
 import org.eclipse.birt.report.tests.engine.api.HTMLServerImageHandlerTest;
+import org.eclipse.birt.report.tests.engine.api.RenderFolderDocumentTest;
 import org.eclipse.birt.report.tests.engine.api.RenderOptionBaseTest;
 import org.eclipse.birt.report.tests.engine.api.ReportEngineTest;
 import org.eclipse.birt.report.tests.engine.api.ReportParameterConverterTest;
@@ -46,7 +47,7 @@ import junit.framework.TestSuite;
 /**
  *  Put your comments  
  *
- * @ @version $Revision: 1.7 $Date: 2005-6-27 
+ * @ @version $Revision: 1.8 $Date: 2005-6-27 
  */
 public class AllTests extends TestCase{
 
@@ -89,6 +90,7 @@ public class AllTests extends TestCase{
 		suite.addTestSuite(DataPreviewTaskTest.class);
 		suite.addTestSuite(RunTaskTest.class);
 		suite.addTestSuite(ReportDocumentTest.class);
+		suite.addTestSuite(RenderFolderDocumentTest.class);
 		//suite.addTestSuite(RenderTaskTest.class);
 		//added 06/02/28
 		suite.addTestSuite(Bug128854PrompttextTest.class);
