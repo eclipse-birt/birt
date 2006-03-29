@@ -64,7 +64,7 @@ public class GroupProcessorManager
 	 * @throws DataException
 	 */
 	public void doGroupFilteringAndSorting( ResultSetCache rsCache,
-			IExpressionProcessor exprProc, boolean doGroupFiltering )
+			IExpressionProcessor exprProc )
 			throws DataException
 	{
 		this.populator.setCache( rsCache );
@@ -75,8 +75,7 @@ public class GroupProcessorManager
 		Context cx = Context.enter( );
 		try
 		{
-			new GroupInstanceFilter( this ).doGroupFiltering( cx,
-					doGroupFiltering );
+			new GroupInstanceFilter( this ).doGroupFiltering( cx );
 			new GroupInstanceSorter( this ).doGroupSorting( cx );
 		}
 		finally

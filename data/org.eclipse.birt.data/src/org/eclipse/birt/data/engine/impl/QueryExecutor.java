@@ -19,18 +19,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
+import org.eclipse.birt.data.engine.expression.FilterExpressionParser;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.QueryExecutorUtil.ColumnInfo;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator;
@@ -369,8 +376,24 @@ abstract class QueryExecutor implements IQueryExecutor
 				odiQuery.setOrdering( Arrays.asList( sortSpecs));
 			}
 
-			
-			List computedColumns = null;
+			// set filter event
+		    List dataSetFilters = new ArrayList( );
+		    List queryFilters = new ArrayList( );
+		    if ( dataSet.getFilters( ) != null )
+			{
+				dataSetFilters = dataSet.getFilters( );
+			}
+		    
+		    if ( this.baseQueryDefn.getFilters( ) != null )
+			{
+		    	queryFilters = this.baseQueryDefn.getFilters( );
+			}
+		    
+		    //When prepare filters, the temporaryComputedColumns would also be effect.
+		    List multipassFilters = prepareFilters( cx, dataSetFilters, queryFilters, temporaryComputedColumns );
+		   		   			  
+		    //******************populate the onFetchEvent below**********************/		    
+		    List computedColumns = null;
 		    // set computed column event
 			computedColumns = this.dataSet.getComputedColumns( );
 			if ( computedColumns != null )
@@ -388,23 +411,10 @@ abstract class QueryExecutor implements IQueryExecutor
 	    		OnFetchScriptHelper event = new OnFetchScriptHelper( dataSet ); 
 	    		odiQuery.addOnFetchEvent( event );
 		    }
-		    
-		    // set filter event
-		    List dataSetFilters = new ArrayList( );
-		    List queryFilters = new ArrayList( );
-		    if ( dataSet.getFilters( ) != null )
-			{
-				dataSetFilters = dataSet.getFilters( );
-			}
-		    
-		    if ( this.baseQueryDefn.getFilters( ) != null )
-			{
-		    	queryFilters = this.baseQueryDefn.getFilters( );
-			}
-		   		   			    
-		    if ( dataSetFilters.size( ) + queryFilters.size( ) > 0 )
+	    	
+		    if ( dataSetFilters.size( ) + queryFilters.size( ) + multipassFilters.size() > 0 )
 		    {
-		    	IResultObjectEvent objectEvent = new FilterByRow( dataSetFilters, queryFilters,
+		    	IResultObjectEvent objectEvent = new FilterByRow( dataSetFilters, queryFilters, multipassFilters,
 		    			dataSet );
 		    	odiQuery.addOnFetchEvent( objectEvent );
 		    }
@@ -416,6 +426,90 @@ abstract class QueryExecutor implements IQueryExecutor
 		{
 			Context.exit();
 		}
+	}
+	
+	/**
+	 * 
+	 * @param cx
+	 * @param dataSetFilters
+	 * @param queryFilters
+	 * @param temporaryComputedColumns
+	 * @return
+	 */
+	private List prepareFilters(Context cx, List dataSetFilters, List queryFilters,
+			List temporaryComputedColumns) {
+		List result = new ArrayList();
+		prepareFilter(cx, dataSetFilters, temporaryComputedColumns, result);
+		prepareFilter(cx, queryFilters, temporaryComputedColumns, result);
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param cx
+	 * @param dataSetFilters
+	 * @param temporaryComputedColumns
+	 * @param result
+	 */
+	private void prepareFilter(Context cx, List dataSetFilters, List temporaryComputedColumns, List result) {
+		if (dataSetFilters != null && !dataSetFilters.isEmpty()) {
+			Iterator it = dataSetFilters.iterator();
+			for (int i = 0; it.hasNext(); i++) {
+				IFilterDefinition src = (IFilterDefinition) it.next();
+				IBaseExpression expr = src.getExpression();
+
+				if ( isGroupFilter( src )) {
+					ConditionalExpression ce = ((ConditionalExpression) expr);
+					String exprText = ce.getExpression().getText();
+					ColumnInfo columnInfo = QueryExecutorUtil
+							.getColInfoFromJSExpr(cx, exprText);
+
+					int index = columnInfo.getColumnIndex();
+					String name = columnInfo.getColumnName();
+
+					if (name == null && index < 0) {
+						// If failed to treate filter key as a column reference
+						// expression
+						// then treat it as a computed column expression
+						temporaryComputedColumns.add(new ComputedColumn(
+								"_{$TEMP_FILTER_" + i + "$}_", exprText,
+								DataType.ANY_TYPE));
+						it.remove();
+						result.add(new FilterDefinition(
+								new ConditionalExpression(new ScriptExpression(
+										String.valueOf("row[\"_{$TEMP_FILTER_" + i
+												+ "$}_\"]")), ce.getOperator(), ce
+										.getOperand1(), ce.getOperand2())));
+					}
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param filter
+	 * @return
+	 */
+	private boolean isGroupFilter( IFilterDefinition filter)
+	{
+		IBaseExpression expr = filter.getExpression( );
+
+		if ( expr instanceof IConditionalExpression )
+		{
+			String expr4Exception = ( (ConditionalExpression) expr ).getExpression( )
+					.getText( );
+			try
+			{
+				new FilterExpressionParser( null, null ).compileFilterExpression( expr4Exception );
+			}
+			catch ( DataException e )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/*

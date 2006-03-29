@@ -53,7 +53,7 @@ public class GroupInstanceFilter
 	 * @param cx
 	 * @throws DataException
 	 */
-	public void doGroupFiltering( Context cx, boolean canDoGroupFiltering )
+	public void doGroupFiltering( Context cx )
 			throws DataException
 	{
 		List groupLevels = new ArrayList( );
@@ -61,8 +61,6 @@ public class GroupInstanceFilter
 		populateGroupFilteringExpressions( expressionList, groupLevels );
 		if ( expressionList.size( ) > 0 )
 		{
-			if ( !canDoGroupFiltering )
-				throw new DataException( ResourceConstants.GROUP_FILTERING_IS_NOT_ALLOWED_IN_GIVEN_QUERY );
 			this.groupProcessor.calculateExpressionList( expressionList,
 					groupLevels,
 					IExpressionProcessor.FILTER_ON_GROUP_EXPR );

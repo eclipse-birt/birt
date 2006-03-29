@@ -41,14 +41,16 @@ public class FilterByRow implements IResultObjectEvent
 	//
 	public static final int DATASET_FILTER = 1;
 	public static final int QUERY_FILTER = 2;
-	public static final int ALL_FILTER = 3;
+	public static final int ALL_ROW_FILTER = 3;
 	public static final int NO_FILTER = 4;
+	public static final int GROUP_FILTER = 5;
 	
 	//
 	private DataSetRuntime dataSet;
 	private List currentFilters;
 	private List dataSetFilters;
 	private List queryFilters;
+	private List groupFilters;
 	private List allFilters;
 	private int currentWorkingFilters;
 	
@@ -63,7 +65,7 @@ public class FilterByRow implements IResultObjectEvent
 	 * @param dataSet
 	 * @throws DataException
 	 */
-	FilterByRow( List dataSetFilters, List queryFilters, DataSetRuntime dataSet ) throws DataException
+	FilterByRow( List dataSetFilters, List queryFilters, List groupFilters, DataSetRuntime dataSet ) throws DataException
 	{
 		isLegal( dataSetFilters );
 		isLegal( queryFilters);
@@ -72,9 +74,9 @@ public class FilterByRow implements IResultObjectEvent
 		
 		this.dataSetFilters = FilterUtil.sortFilters(dataSetFilters);
 		this.queryFilters = FilterUtil.sortFilters(queryFilters);
-		
+		this.groupFilters = groupFilters;
 		this.allFilters = getAllFilters( dataSetFilters, queryFilters );
-		this.currentWorkingFilters = ALL_FILTER;
+		this.currentWorkingFilters = ALL_ROW_FILTER;
 		
 		logger.log( Level.FINER, "FilterByRow starts up" );
 	}
@@ -115,7 +117,7 @@ public class FilterByRow implements IResultObjectEvent
 	 */
 	public void restoreWorkingFilterSet()
 	{
-		this.currentWorkingFilters = ALL_FILTER;
+		this.currentWorkingFilters = ALL_ROW_FILTER;
 	}
 	
 	/**
@@ -135,9 +137,13 @@ public class FilterByRow implements IResultObjectEvent
 		{
 			return this.queryFilters.size( ) > 0;
 		}
+		else if ( GROUP_FILTER == filterSetType )
+		{
+			return this.groupFilters.size() > 0;
+		}
 		else 
 		{
-			return this.dataSetFilters.size( )+this.queryFilters.size( ) > 0;
+			return this.allFilters.size( ) > 0;
 		}
 	}
 	
@@ -263,7 +269,11 @@ public class FilterByRow implements IResultObjectEvent
 		{
 			return this.queryFilters;
 		}
-		else if ( ALL_FILTER == filterSetType )
+		else if ( GROUP_FILTER == filterSetType )
+		{
+			return this.groupFilters;
+		}
+		else if ( ALL_ROW_FILTER == filterSetType )
 		{
 			return this.allFilters;
 		}else
@@ -272,14 +282,19 @@ public class FilterByRow implements IResultObjectEvent
 		}
 	}
 	
-	private void validateFilterType( int filterSetType ) throws DataException
+	/**
+	 * 
+	 * @param filterSetType
+	 */
+	private void validateFilterType( int filterSetType )
 	{
 		if( filterSetType != NO_FILTER &&
 			filterSetType != DATASET_FILTER &&
-			filterSetType != ALL_FILTER &&
-			filterSetType != QUERY_FILTER)
+			filterSetType != ALL_ROW_FILTER &&
+			filterSetType != QUERY_FILTER &&
+			filterSetType != GROUP_FILTER)
 		{
-			throw new DataException( "shit");
+			assert false;
 		}
 	}
 

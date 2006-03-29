@@ -179,23 +179,22 @@ public class ResultSetPopulator
 		// filtering should not
 		// be supported for that the aggregation result would be affected by
 		// group filtering.
-		boolean allowGroupFiltering = !ResultSetPopulatorUtil.hasAggregationsInComputedColumns( fetchEventsList,
+		
+		boolean hasAggregationInCC = !ResultSetPopulatorUtil.hasAggregationsInComputedColumns( fetchEventsList,
 				this );
 
 		// If there are some aggregations in computed columns, or there are some
 		// multipass filters
 		// then dealing with those aggregations/multipass filters. Else start
 		// population directly
-		boolean needMultipassRowProcessing = ( !allowGroupFiltering )
+		boolean needMultipassRowProcessing = ( !hasAggregationInCC )
 				|| FilterUtil.hasMultiPassFilters( fetchEventsList );
 
 		RowProcessorFactory.getRowProcessor( this, needMultipassRowProcessing )
 				.pass( odaResultSet );
 
 		if ( query.getGrouping( ) != null )
-			groupProcessorManager.doGroupFilteringAndSorting( this.smartCache,
-					exprProcessor,
-					allowGroupFiltering );
+			groupProcessorManager.doGroupFilteringAndSorting( this.smartCache,exprProcessor );
 	}
 
 	/**
