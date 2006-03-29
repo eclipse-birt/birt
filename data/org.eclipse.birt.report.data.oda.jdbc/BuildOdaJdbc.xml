@@ -143,26 +143,10 @@
 	 -->
 	<target name="Export">
 		<property file="META-INF/MANIFEST.MF" />
-		<xmlproperty file="plugin.xml" collapseAttributes="true" />
-		<!--	<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
+		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
+	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
 	        <fileset dir="." includes="*.jar,plugin.xml,about.html, .options, ${dir.drivers}/**, schema/**, about_files/**, plugin*.properties, META-INF/**"/>
-	    </copy>-->
-		<jar destfile="${export.dir}/${module.name}_${Bundle-Version}.jar" manifest="META-INF/MANIFEST.MF">
-			<fileset dir="${dir.bin}">
-				<include name="**/*.class" />
-				<exclude name="**/*Test.class" />
-			</fileset>
-			<fileset dir=".">
-                <include name="*.jar" />
-				<include name="plugin.xml" />
-				<include name="about.html" />
-				<include name=".options" />
-        		<include name="schema/**" />
-                <include name="${dir.drivers}/**"/>
-                <include name="plugin.properties"/>
-				<include name="META-INF/MANIFEST.MF" />
-			</fileset>
-		</jar>
+	    </copy>
 	</target>
 
 	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
