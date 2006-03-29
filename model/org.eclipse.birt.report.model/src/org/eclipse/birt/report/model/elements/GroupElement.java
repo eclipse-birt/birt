@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.strategy.GroupElementPropSearchStrategy;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 
 /**
@@ -195,5 +196,20 @@ public abstract class GroupElement extends DesignElement
 	public PropertySearchStrategy getStrategy( )
 	{
 		return GroupElementPropSearchStrategy.getInstance( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getFactoryProperty(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	public Object getFactoryProperty( Module module, ElementPropertyDefn prop )
+	{
+		if ( !prop.isStyleProperty( ) )
+		    return super.getFactoryProperty( module, prop );
+		else
+			return getStrategy( ).getPropertyFromElement( module, this, prop );
 	}
 }

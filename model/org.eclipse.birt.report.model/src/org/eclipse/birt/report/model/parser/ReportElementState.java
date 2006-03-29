@@ -517,7 +517,6 @@ public abstract class ReportElementState extends DesignParseState
 					handler.getModule( ), Style.HIGHLIGHT_RULES_PROP );
 			if ( highlightRules != null )
 			{
-
 				for ( int i = 0; i < highlightRules.size( ); i++ )
 				{
 					HighlightRule highlightRule = (HighlightRule) highlightRules
@@ -525,8 +524,8 @@ public abstract class ReportElementState extends DesignParseState
 					highlightRule.setTestExpression( (String) handler.tempValue
 							.get( Style.HIGHLIGHT_RULES_PROP ) );
 				}
+				handler.tempValue.remove( Style.HIGHLIGHT_RULES_PROP );
 			}
-			handler.tempValue.remove( Style.HIGHLIGHT_RULES_PROP );
 		}
 		// check whether the value of "mapTestExpre" is in tempt map.
 		if ( handler.tempValue.get( Style.MAP_RULES_PROP ) != null )
@@ -542,8 +541,8 @@ public abstract class ReportElementState extends DesignParseState
 					mapRule.setTestExpression( (String) handler.tempValue
 							.get( Style.MAP_RULES_PROP ) );
 				}
+				handler.tempValue.remove( Style.MAP_RULES_PROP );
 			}
-			handler.tempValue.remove( Style.MAP_RULES_PROP );
 		}
 	}
 

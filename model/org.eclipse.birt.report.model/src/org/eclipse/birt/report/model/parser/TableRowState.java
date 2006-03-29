@@ -16,10 +16,11 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * This class parses a row within a table item.
- *  
+ * 
  */
 
 public class TableRowState extends ReportElementState
@@ -63,7 +64,7 @@ public class TableRowState extends ReportElementState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		element = new TableRow( );
-		
+
 		initSimpleElement( attrs );
 	}
 
@@ -78,5 +79,16 @@ public class TableRowState extends ReportElementState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CELL_TAG ) )
 			return new CellState( handler, element, TableRow.CONTENT_SLOT );
 		return super.startElement( tagName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+	 */
+
+	public void end( ) throws SAXException
+	{
+		makeTestExpressionCompatible( );
 	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
+import org.xml.sax.SAXException;
 
 /**
  * This class parses common properties for both list and table report items.
@@ -56,5 +57,17 @@ public abstract class ListingItemState extends ReportItemState
 	public DesignElement getElement( )
 	{
 		return element;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.ReportItemState#end()
+	 */
+
+	public void end( ) throws SAXException
+	{
+		makeTestExpressionCompatible( );
+		super.end( );
 	}
 }

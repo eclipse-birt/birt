@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * This class parses a cell within a table item.
@@ -70,16 +71,16 @@ public class CellState extends ReportElementState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		element = new Cell( );
-		
+
 		initSimpleElement( attrs );
-	}	
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
 	 */
-	
+
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
@@ -112,9 +113,22 @@ public class CellState extends ReportElementState
 				|| tagName
 						.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
 			return new TextDataItemState( handler, element, Cell.CONTENT_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
-			return new TemplateReportItemState( handler, element, Cell.CONTENT_SLOT );
+		if ( tagName
+				.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+			return new TemplateReportItemState( handler, element,
+					Cell.CONTENT_SLOT );
 		return super.startElement( tagName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+	 */
+
+	public void end( ) throws SAXException
+	{
+		makeTestExpressionCompatible( );
 	}
 
 }
