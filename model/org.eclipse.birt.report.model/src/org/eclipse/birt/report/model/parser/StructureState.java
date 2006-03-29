@@ -50,6 +50,7 @@ import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
@@ -313,7 +314,9 @@ public class StructureState extends AbstractPropertyState
 		}
 
 		if ( element instanceof OdaDataSet
-				&& OdaDataSet.DESIGNER_STATE_PROP.equalsIgnoreCase( name ) )
+				&& OdaDataSet.DESIGNER_STATE_PROP.equalsIgnoreCase( name )
+				|| ( element instanceof OdaDataSource && OdaDataSource.DESIGNER_STATE_PROP
+						.equalsIgnoreCase( name ) ) )
 		{
 			OdaDesignerStateStructureState state = new OdaDesignerStateStructureState(
 					handler, element );

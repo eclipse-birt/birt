@@ -1202,6 +1202,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitOdaDataSource( obj );
 
+		writeOdaDesignerState( obj, OdaDataSource.DESIGNER_STATE_PROP );
+		
 		List properties = (List) obj.getLocalProperty( getModule( ),
 				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
@@ -2573,7 +2575,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		}
 
 		property( obj, OdaDataSet.RESULT_SET_NAME_PROP );
-		writeOdaDesignerState( obj );
+		writeOdaDesignerState( obj, OdaDataSet.DESIGNER_STATE_PROP );
 
 		List properties = (List) obj.getLocalProperty( getModule( ),
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
@@ -2765,10 +2767,10 @@ public abstract class ModuleWriter extends ElementVisitor
 	 *            the oda data set to traverse
 	 */
 
-	private void writeOdaDesignerState( OdaDataSet obj )
+	private void writeOdaDesignerState( DesignElement obj, String propName )
 	{
 		OdaDesignerState designerState = (OdaDesignerState) obj
-				.getLocalProperty( getModule( ), OdaDataSet.DESIGNER_STATE_PROP );
+				.getLocalProperty( getModule( ), propName );
 
 		if ( designerState == null )
 			return;
