@@ -115,7 +115,7 @@
 		<!-- Copy resource files into build -->
 		<copy todir="${test.build.dir}">
 			<fileset dir="${test.src.dir}">
-				<include name="**/input/*.*" />
+				<include name="**/input/**" />
 				<include name="**/golden/*.*" />
 				<include name="**/output/*.*" />
 				<include name="**/*.properties" />
