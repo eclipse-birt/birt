@@ -47,7 +47,7 @@ import junit.framework.TestSuite;
 /**
  *  Put your comments  
  *
- * @ @version $Revision: 1.8 $Date: 2005-6-27 
+ * @ @version $Revision: 1.9 $Date: 2005-6-27 
  */
 public class AllTests extends TestCase{
 
@@ -91,7 +91,7 @@ public class AllTests extends TestCase{
 		suite.addTestSuite(RunTaskTest.class);
 		suite.addTestSuite(ReportDocumentTest.class);
 		suite.addTestSuite(RenderFolderDocumentTest.class);
-		//suite.addTestSuite(RenderTaskTest.class);
+		suite.addTestSuite(RenderTaskTest.class);
 		//added 06/02/28
 		suite.addTestSuite(Bug128854PrompttextTest.class);
 		//$JUnit-END$

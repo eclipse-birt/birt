@@ -2,6 +2,7 @@ package org.eclipse.birt.report.tests.engine.api;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Locale;
 
 import junit.framework.Test;
 
@@ -57,296 +58,35 @@ public class RenderTaskTest extends EngineCase {
 	 * Test render(long pageNumber) method
 	 */
 	public void testRender() {
-			renderReport("case1");
-			renderReport("table_pages");
-			renderReport("long_text");
-			renderReport("multiple_datasets");
-			renderReport("table_nest_pages");
-			//renderReport("oncreate-style-label");
-			renderReport("javascript-support-data");
-			renderReport("master_page");
-			renderReport("chart");
-			renderReport("complex_report");
-			//renderReport("report_from_library1");
-			renderReport("area3dChart");
-			renderReport("MeterChart");
-			renderReport("complex_report");
-			renderReport("complex_report");
-			renderReport("image_in_DB");
+/*			renderReport("case1","no");
+			renderReport("table_pages","All");
+			renderReport("long_text","All");
+			renderReport("multiple_datasets","All");
+			renderReport("table_nest_pages","All");
+			//renderReport("oncreate-style-label","All");
+			renderReport("javascript-support-data","All");
+			renderReport("master_page","All");
+			renderReport("chart","All");
+			renderReport("complex_report","All");
+			//renderReport("report_from_library1","All");
+			renderReport("area3dChart","All");
+			renderReport("MeterChart","All");
+			renderReport("complex_report","All");
+			renderReport("complex_report","All");
+			renderReport("image_in_DB","All");
+			*/
+			renderReport("pages9","");
+			renderReport("pages9","2");
+			renderReport("pages9","3,10");
+			renderReport("pages9","2-9");
+			renderReport("pages9","0-100");
+			renderReport("pages9",null);
+			renderReport("pages9","0");
+			renderReport("pages9","abc");
+
 	}
 
-	/**
-	 * Test render(pageRange) methods
-	 * 
-	 */
-	public void testRenderRange() {
-		String report_design;
-		String report_document;
-		IReportDocument reportDoc;
-		IRenderTask task;
-		long pageNumber = 0;
-		String outputFileName, outputPath = path + OUTPUT_FOLDER + "/", inputPath = path
-				+ INPUT_FOLDER + "/";
-		String fileName;
-		String pageRange;
-		try {
-			// test simple design file. fileName="case1";
-			fileName = "pages9";
-			report_design = inputPath + fileName + ".rptdesign";
-			report_document = outputPath + fileName + "_reportdocument";
-			// create directories to deposit output files
-			createDir(fileName);
-
-			createReportDocument(report_design, report_document);
-			// open the document in the archive.
-			reportDoc = engine.openReportDocument(report_document);
-			// create an RenderTask using the report document
-			task = engine.createRenderTask(reportDoc);
-			task.setAppContext(new HashMap());
-			// get the page number
-			pageNumber = reportDoc.getPageCount();
-
-			// pageRange is blank, should output all
-			pageRange = "";
-			// render html output
-			outputFileName = outputPath + fileName + "/html/page" + pageRange
-					+ ".html";
-			IRenderOption renderOptions = new HTMLRenderOption();
-			renderOptions.setOutputFormat("html");
-			renderOptions.setOutputFileName(outputFileName);
-			task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			File htmlFile = new File(outputFileName);
-			assertTrue(htmlFile.exists());
-			assertTrue(htmlFile.length() != 0);
-			// removeFile(htmlFile);
-
-			// render pdf output
-			outputFileName = outputPath + fileName + "/pdf/page" + pageRange
-					+ ".pdf";
-			renderOptions.setOutputFormat("pdf");
-			renderOptions.setOutputFileName(outputFileName);
-			// task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			File pdfFile = new File(outputFileName);
-			assertTrue(pdfFile.exists());
-			assertTrue(pdfFile.length() != 0);
-			// removeFile(pdfFile);
-
-			// pageRange is all, should output all
-			pageRange = "all";
-			// render html output
-			outputFileName = outputPath + fileName + "/html/page" + pageRange
-					+ ".html";
-			renderOptions.setOutputFormat("html");
-			renderOptions.setOutputFileName(outputFileName);
-			task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			htmlFile = new File(outputFileName);
-			assertTrue(htmlFile.exists());
-			assertTrue(htmlFile.length() != 0);
-			// removeFile(htmlFile);
-
-			// render pdf output
-			outputFileName = outputPath + fileName + "/pdf/page" + pageRange
-					+ ".pdf";
-			renderOptions.setOutputFormat("pdf");
-			renderOptions.setOutputFileName(outputFileName);
-			// task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			pdfFile = new File(outputFileName);
-			assertTrue(pdfFile.exists());
-			assertTrue(pdfFile.length() != 0);
-			// removeFile(pdfFile);
-
-			// pageRange is 2, should output all
-			pageRange = "2";
-			// render html output
-			outputFileName = outputPath + fileName + "/html/page" + pageRange
-					+ ".html";
-			renderOptions.setOutputFormat("html");
-			renderOptions.setOutputFileName(outputFileName);
-			task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			htmlFile = new File(outputFileName);
-			assertTrue(htmlFile.exists());
-			assertTrue(htmlFile.length() != 0);
-			// removeFile(htmlFile);
-
-			// render pdf output
-			outputFileName = outputPath + fileName + "/pdf/page" + pageRange
-					+ ".pdf";
-			renderOptions.setOutputFormat("pdf");
-			renderOptions.setOutputFileName(outputFileName);
-			// task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			pdfFile = new File(outputFileName);
-			assertTrue(pdfFile.exists());
-			assertTrue(pdfFile.length() != 0);
-			// removeFile(pdfFile);
-
-			// pageRange is 3,pageNumber, should output all
-			pageRange = "3," + pageNumber;
-			// render html output
-			outputFileName = outputPath + fileName + "/html/page" + pageRange
-					+ ".html";
-			renderOptions.setOutputFormat("html");
-			renderOptions.setOutputFileName(outputFileName);
-			task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			htmlFile = new File(outputFileName);
-			assertTrue(htmlFile.exists());
-			assertTrue(htmlFile.length() != 0);
-			// removeFile(htmlFile);
-
-			// render pdf output
-			outputFileName = outputPath + fileName + "/pdf/page" + pageRange
-					+ ".pdf";
-			renderOptions.setOutputFormat("pdf");
-			renderOptions.setOutputFileName(outputFileName);
-			// task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			pdfFile = new File(outputFileName);
-			assertTrue(pdfFile.exists());
-			assertTrue(pdfFile.length() != 0);
-			// removeFile(pdfFile);
-
-			// pageRange is 2-pageNumber, should output all
-			pageRange = "2-" + pageNumber;
-			// render html output
-			outputFileName = outputPath + fileName + "/html/page" + pageRange
-					+ ".html";
-			renderOptions.setOutputFormat("html");
-			renderOptions.setOutputFileName(outputFileName);
-			task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			htmlFile = new File(outputFileName);
-			assertTrue(htmlFile.exists());
-			assertTrue(htmlFile.length() != 0);
-			// removeFile(htmlFile);
-
-			// render pdf output
-			outputFileName = outputPath + fileName + "/pdf/page" + pageRange
-					+ ".pdf";
-			renderOptions.setOutputFormat("pdf");
-			renderOptions.setOutputFileName(outputFileName);
-			// task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			pdfFile = new File(outputFileName);
-			assertTrue(pdfFile.exists());
-			assertTrue(pdfFile.length() != 0);
-			// removeFile(pdfFile);
-
-			// pageRange is 0-pageNumber+1, should output nothing
-			pageRange = "0-" + ((int) pageNumber + 1);
-			// render html output
-			outputFileName = outputPath + fileName + "/html/page" + pageRange
-					+ ".html";
-			renderOptions.setOutputFormat("html");
-			renderOptions.setOutputFileName(outputFileName);
-			task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			htmlFile = new File(outputFileName);
-			assertTrue(htmlFile.exists());
-			assertTrue(htmlFile.length() != 0);
-			// removeFile(htmlFile);
-
-			// render pdf output
-			outputFileName = outputPath + fileName + "/pdf/page" + pageRange
-					+ ".pdf";
-			renderOptions.setOutputFormat("pdf");
-			renderOptions.setOutputFileName(outputFileName);
-			// task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			pdfFile = new File(outputFileName);
-			assertTrue(pdfFile.exists());
-			assertTrue(pdfFile.length() != 0);
-			// removeFile(pdfFile);
-
-			// pageRange is null, should output all
-			pageRange = null;
-			// render html output
-			outputFileName = outputPath + fileName + "/html/pagenull" + ".html";
-			renderOptions.setOutputFormat("html");
-			renderOptions.setOutputFileName(outputFileName);
-			task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			htmlFile = new File(outputFileName);
-			assertTrue(htmlFile.exists());
-			assertTrue(htmlFile.length() != 0);
-			// removeFile(htmlFile);
-
-			// render pdf output
-			outputFileName = outputPath + fileName + "/pdf/pagenull" + ".pdf";
-			renderOptions.setOutputFormat("pdf");
-			renderOptions.setOutputFileName(outputFileName);
-			// task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			pdfFile = new File(outputFileName);
-			assertTrue(pdfFile.exists());
-			assertTrue(pdfFile.length() != 0);
-			// removeFile(pdfFile);
-
-			// pageRange is 0, should output nothing
-			pageRange = "0";
-			// render html output
-			outputFileName = outputPath + fileName + "/html/page" + pageRange
-					+ ".html";
-			renderOptions.setOutputFormat("html");
-			renderOptions.setOutputFileName(outputFileName);
-			task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			htmlFile = new File(outputFileName);
-			assertFalse(htmlFile.exists());
-			// removeFile(htmlFile);
-
-			// render pdf output
-			outputFileName = outputPath + fileName + "/pdf/page" + pageRange
-					+ ".pdf";
-			renderOptions.setOutputFormat("pdf");
-			renderOptions.setOutputFileName(outputFileName);
-			// task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			pdfFile = new File(outputFileName);
-			assertFalse(pdfFile.exists());
-			// removeFile(pdfFile);
-
-			// pageRange is 0, should output nothing
-			pageRange = "abc";
-			// render html output
-			outputFileName = outputPath + fileName + "/html/page" + pageRange
-					+ ".html";
-			renderOptions.setOutputFormat("html");
-			renderOptions.setOutputFileName(outputFileName);
-			task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			htmlFile = new File(outputFileName);
-			assertFalse(htmlFile.exists());
-			// removeFile(htmlFile);
-
-			// render pdf output
-			outputFileName = outputPath + fileName + "/pdf/page" + pageRange
-					+ ".pdf";
-			renderOptions.setOutputFormat("pdf");
-			renderOptions.setOutputFileName(outputFileName);
-			// task.setRenderOption(renderOptions);
-			task.render(pageRange);
-			pdfFile = new File(outputFileName);
-			assertFalse(pdfFile.exists());
-			// removeFile(pdfFile);
-
-			// close the RenderTask
-			task.close();
-
-		} catch (Exception e) {
-			assertTrue(e.toString(), false);
-			e.printStackTrace();
-			
-		}
-	}
-
-
-	protected void renderReport(String fileName){
+	protected void renderReport(String fileName, String pageRange){
 		report_design = inputPath + fileName + ".rptdesign";
 		report_document = outputPath + fileName + "_reportdocument";
 		
@@ -362,41 +102,71 @@ public class RenderTaskTest extends EngineCase {
 			// create an RenderTask using the report document
 			task = engine.createRenderTask(reportDoc);
 			task.setAppContext(new HashMap());
+			task.setLocale(Locale.ENGLISH);
 			// get the page number
 			pageNumber = reportDoc.getPageCount();
-	
-			for (int i = 1; i <= pageNumber; i++) {
-				outputFileName = outputPath + fileName + "/html/page" + i
-						+ ".html";
-				IRenderOption renderOptions = new HTMLRenderOption();
-				renderOptions.setOutputFormat("html");
-				renderOptions.setOutputFileName(outputFileName);
-				task.setRenderOption(renderOptions);
-				task.render(i);
+
+			IRenderOption htmlRenderOptions = new HTMLRenderOption();
+			IRenderOption pdfRenderOptions = new HTMLRenderOption();
+			htmlRenderOptions.setOutputFormat("html");
+			pdfRenderOptions.setOutputFormat("pdf");
+			
+			if(pageRange !=null && pageRange.equals("no")){
+				for (int i = 1; i <= pageNumber; i++) {
+					outputFileName = outputPath + fileName + "/html/page" + i
+							+ ".html";
+					htmlRenderOptions.setOutputFileName(outputFileName);
+					task.setRenderOption(htmlRenderOptions);
+					task.render(i);
+					File htmlFile = new File(outputFileName);
+		
+					assertTrue("Render "+fileName+" to html failed. ",htmlFile.exists());
+					assertTrue("Render "+fileName+" to html failed. ",htmlFile.length() != 0);
+				}
+				for (int i = 1; i <= pageNumber; i++) {
+					outputFileName = outputPath + fileName + "/pdf/page" + i
+							+ ".pdf";
+					pdfRenderOptions.setOutputFileName(outputFileName);
+					task.setRenderOption(pdfRenderOptions);
+					task.render(i);
+					File pdfFile = new File(outputFileName);
+					assertTrue("Render "+fileName+" to pdf failed. ",pdfFile.exists());
+					assertTrue("Render "+fileName+" to pdf failed. ",pdfFile.length() != 0);
+				}
+			}else{
+				outputFileName = outputPath + fileName + "/html/page" + pageRange
+				+ ".html";
+				htmlRenderOptions.setOutputFileName(outputFileName);
+				task.setRenderOption(htmlRenderOptions);
+				task.render(pageRange);
 				File htmlFile = new File(outputFileName);
-	
-				assertTrue(htmlFile.exists());
-				assertTrue(htmlFile.length() != 0);
-				removeFile(htmlFile);
-			}
-			for (int i = 1; i <= pageNumber; i++) {
-				outputFileName = outputPath + fileName + "/pdf/page" + i
-						+ ".pdf";
-				IRenderOption renderOptions = new HTMLRenderOption();
-				renderOptions.setOutputFormat("pdf");
-				renderOptions.setOutputFileName(outputFileName);
-				task.setRenderOption(renderOptions);
-				task.render(i);
+				if(pageRange!=null && (pageRange.equals("0")|| pageRange.equals("abc"))){
+					assertFalse(htmlFile.exists());
+				}else{
+					assertTrue("Render "+fileName+" to html failed. "+pageRange,htmlFile.exists());
+					assertTrue("Render "+fileName+" to html failed. "+pageRange,htmlFile.length() != 0);
+				}
+
+				outputFileName = outputPath + fileName + "/pdf/page" + pageRange
+				+ ".pdf";
+				pdfRenderOptions.setOutputFileName(outputFileName);
+				task.setRenderOption(pdfRenderOptions);
+				task.render(pageRange);
+				
 				File pdfFile = new File(outputFileName);
-				assertTrue(pdfFile.exists());
-				assertTrue(pdfFile.length() != 0);
-				removeFile(pdfFile);
+				if(pageRange!=null && (pageRange.equals("0")|| pageRange.equals("abc"))){
+					assertFalse(pdfFile.exists());
+				}else{
+					assertTrue("Render "+fileName+" to pdf failed. "+pageRange,pdfFile.exists());
+					assertTrue("Render "+fileName+" to pdf failed. "+pageRange,pdfFile.length() != 0);
+				}
 			}
-			task.close();
+				task.close();
 		}catch(Exception e){
 			e.printStackTrace();
 			assertTrue("Render "+fileName+" failed. "+e.getLocalizedMessage(),  false);
 		}
+		
 	}
 
 	
