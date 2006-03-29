@@ -17,9 +17,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.birt.core,
  org.eclipse.ui.forms,
  org.eclipse.birt.report.designer.ui.editors,
- org.eclipse.birt.report.designer.ui.editors.schematic
+ org.eclipse.birt.report.designer.ui.editors.schematic,
+ org.eclipse.ui.ide;resolution:=optional
 Eclipse-LazyStart: true
-Export-Package: org.eclipse.birt.report.designer.ui.preview,
+Export-Package: org.eclipse.birt.report.designer.ui.ide.navigator,
+ org.eclipse.birt.report.designer.ui.preview,
  org.eclipse.birt.report.designer.ui.preview.editors
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: J2SE-1.4

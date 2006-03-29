@@ -19,15 +19,33 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.IViewActionDelegate;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.views.navigator.ResourceNavigator;
 
 
 /**
  * 
  */
 
-public class PublishTemplateNavigatorAction extends PreviewAction
+public class PublishTemplateNavigatorAction implements IViewActionDelegate
 {
+	
+	protected ResourceNavigator navigator;
+
+	/**
+	 * @see org.eclipse.ui.IViewActionDelegate#init(org.eclipse.ui.IViewPart)
+	 */
+	public void init( IViewPart view )
+	{
+		if ( view instanceof ResourceNavigator )
+		{
+			navigator = (ResourceNavigator) view;
+		}
+	}	
 
 	/**
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
@@ -68,5 +86,25 @@ public class PublishTemplateNavigatorAction extends PreviewAction
 			action.setEnabled( false );
 		}
 	}
+	
+	protected IFile getSelectedFile( )
+	{
+		if ( navigator != null )
+		{
+			IStructuredSelection selection = (IStructuredSelection) navigator.getTreeViewer( )
+					.getSelection( );
+			if ( selection.size( ) == 1
+					&& selection.getFirstElement( ) instanceof IFile )
+			{
+				return (IFile) selection.getFirstElement( );
+			}
+		}
+		return null;
+	}
+
+	public void selectionChanged( IAction action, ISelection selection )
+	{
+		
+	}	
 
 }

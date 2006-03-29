@@ -17,9 +17,6 @@ Export-Package: org.eclipse.birt.report.designer.internal.ui.ide.adapters,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.ui,
- org.eclipse.ui.views,
- org.eclipse.ui.cheatsheets,
- org.eclipse.ui.forms,
  org.eclipse.ui.ide,
  org.eclipse.jface.text,
  org.eclipse.ui.editors,
@@ -35,7 +32,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.birt.report.designer.ui.lib.explorer,
  org.eclipse.birt.report.designer.ui.editors,
  org.eclipse.birt.report.designer.ui.editors.schematic,
- org.eclipse.birt.report.viewer,
- org.eclipse.jdt.launching
+ org.eclipse.jdt.launching,
+ org.eclipse.ui.forms,
+ org.eclipse.ui.cheatsheets
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.4
