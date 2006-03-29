@@ -9,7 +9,6 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.model.plugin;
 
 import org.eclipse.birt.report.model.api.metadata.IChoice;

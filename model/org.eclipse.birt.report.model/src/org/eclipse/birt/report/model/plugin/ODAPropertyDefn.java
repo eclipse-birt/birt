@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.plugin;
 
-
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -107,10 +106,9 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	{
 		PropertyChoice[] propertyChoices = property.getChoices( );
 
-		ChoiceSet choiceSet = null;
+		ChoiceSet choiceSet = new ChoiceSet( );
 		if ( propertyChoices != null && propertyChoices.length > 0 )
 		{
-			choiceSet = new ChoiceSet( );
 			IChoice[] choices = new ODAChoice[propertyChoices.length];
 			for ( int i = 0; i < propertyChoices.length; i++ )
 			{
@@ -171,10 +169,10 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getAllowedChoices()
 	 */
+
 	public IChoiceSet getAllowedChoices( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return getChoices( );
 	}
 
 	/*
