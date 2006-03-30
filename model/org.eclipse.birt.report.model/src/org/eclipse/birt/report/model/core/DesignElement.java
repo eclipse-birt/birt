@@ -3313,27 +3313,13 @@ public abstract class DesignElement
 		element.baseId = NO_BASE_ID;
 		element.propValues = new HashMap( );
 
-		// the element id is the same as the matrix, then if we add the copy to
-		// the design tree, we will check the id and re-allocate a unique name
-		// for it. This is the same issue as the name does.
+		// copy user property definitions first, otherwise definition will not
+		// be found when copying property values
 
 		DesignElement current = this;
 		Iterator iter = null;
 		while ( current != null )
 		{
-			iter = current.propValues.keySet( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				String key = (String) iter.next( );
-				if ( element.propValues.get( key ) != null )
-					continue;
-
-				PropertyDefn propDefn = getPropertyDefn( key );
-				Object value = current.propValues.get( key );
-				element.propValues.put( key, ModelUtil.copyValue( propDefn,
-						value ) );
-			}
-
 			if ( !current.isVirtualElement( ) && current.userProperties != null )
 			{
 				if ( element.userProperties == null )
@@ -3349,6 +3335,31 @@ public abstract class DesignElement
 							.get( key );
 					element.userProperties.put( key, uDefn.copy( ) );
 				}
+			}
+
+			current = current.isVirtualElement( )
+					? current.getVirtualParent( )
+					: current.getExtendsElement( );
+		}
+
+		// the element id is the same as the matrix, then if we add the copy to
+		// the design tree, we will check the id and re-allocate a unique name
+		// for it. This is the same issue as the name does.
+
+		current = this;
+		while ( current != null )
+		{
+			iter = current.propValues.keySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				String key = (String) iter.next( );
+				if ( element.propValues.get( key ) != null )
+					continue;
+
+				PropertyDefn propDefn = getPropertyDefn( key );
+				Object value = current.propValues.get( key );
+				element.propValues.put( key, ModelUtil.copyValue( propDefn,
+						value ) );
 			}
 
 			current = current.isVirtualElement( )

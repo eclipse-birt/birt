@@ -11,11 +11,16 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Represents a joint data set. A joint data set is a data set joined by several
@@ -99,4 +104,40 @@ public class JointDataSet extends DataSet implements IJointDataSetModel
 		return (JointDataSetHandle) handle;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.DataSet#validate(org.eclipse.birt.report.model.core.Module)
+	 */
+
+	public List validate( Module module )
+	{
+		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * Gets the names of the data sets in this joint data set.
+	 * 
+	 * @param module
+	 *            the root module of the element
+	 * 
+	 * @return a list of names of data sets in this joint data set.
+	 */
+
+	public List getDataSetNames( Module module )
+	{
+		List dataSetsReferences = getListProperty( module,
+				JointDataSet.DATA_SETS_PROP );
+		if ( dataSetsReferences == null )
+		{
+			return Collections.EMPTY_LIST;
+		}
+		List results = new ArrayList( );
+		for ( int i = 0; i < dataSetsReferences.size( ); i++ )
+		{
+			results.add( ( (ElementRefValue) dataSetsReferences.get( i ) )
+					.getName( ) );
+		}
+		return results;
+	}
 }

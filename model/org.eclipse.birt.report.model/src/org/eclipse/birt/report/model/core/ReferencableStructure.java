@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -330,14 +331,39 @@ public abstract class ReferencableStructure extends Structure
 	protected Object clone( ) throws CloneNotSupportedException
 	{
 		ReferencableStructure struct = (ReferencableStructure) super.clone( );
-		if ( libReference != null )
-			struct.libReference = new StructRefValue( libReference
-					.getLibraryNamespace( ), libReference.getName( ) );
-		else
-			struct.libReference = null;
+		struct.libReference = null;
 		struct.clients = new ArrayList( );
 		struct.clientStructures = new ArrayList( );
+
+		// retrieve the member value from the lib reference
+
+		Iterator propIter = getDefn( ).getPropertyIterator( );
+		while ( propIter.hasNext( ) )
+		{
+			PropertyDefn prop = (PropertyDefn) propIter.next( );
+
+			// if the structure has the local value already or the member is
+			// "libReference", then return
+
+			if ( struct.getLocalProperty( null, prop ) != null
+					|| LIB_REFERENCE_MEMBER.equals( prop.getName( ) ) )
+				continue;
+
+			StructRefValue libRef = this.libReference;
+			while ( libRef != null )
+			{
+				ReferencableStructure libStructure = libReference
+						.getTargetStructure( );
+				Object value = libStructure.getLocalProperty( null, prop );
+				if ( value != null )
+					struct.setProperty( prop, value );
+
+				libRef = (StructRefValue) libStructure.getLocalProperty( null, LIB_REFERENCE_MEMBER );
+			}
+		}
+
 		return struct;
+
 	}
 
 	/**

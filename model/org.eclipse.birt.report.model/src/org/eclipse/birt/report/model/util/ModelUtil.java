@@ -908,4 +908,30 @@ public class ModelUtil
 				defaultTimeZone.getRawOffset( ), defaultTimeZone.getID( ) );
 		SimpleTimeZone.setDefault( pdt );
 	}
+
+	/**
+	 * Gets the copy of the given element.
+	 * 
+	 * @param element
+	 *            the element to copy
+	 * @return the copy of the element
+	 */
+	
+	public static DesignElement getCopy( DesignElement element )
+	{
+		if ( element == null )
+			return null;
+
+		try
+		{
+			DesignElement copy = (DesignElement) element.clone( );
+			assert copy != null;
+			return copy;
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false;
+			return null;
+		}
+	}
 }

@@ -11,19 +11,15 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.DataSetHandle.DataSetParametersPropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Provides API to operate a joint data set.
@@ -61,18 +57,7 @@ public class JointDataSetHandle extends DataSetHandle
 
 	public List getDataSetNames( )
 	{
-		List dataSetsReferences = getListProperty( JointDataSet.DATA_SETS_PROP );
-		if ( dataSetsReferences == null )
-		{
-			return Collections.EMPTY_LIST;
-		}
-		List results = new ArrayList( );
-		for ( int i = 0; i < dataSetsReferences.size( ); i++ )
-		{
-			results.add( ( (ElementRefValue) dataSetsReferences.get( i ) )
-					.getName( ) );
-		}
-		return results;
+		return ( (JointDataSet) getElement( ) ).getDataSetNames( module );
 	}
 
 	/**
