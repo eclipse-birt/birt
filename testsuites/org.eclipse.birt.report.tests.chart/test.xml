@@ -44,43 +44,9 @@
 			<include name="**/*.class" />
 		</fileset>
 		<pathelement path="${test.build.dir}" />
-		<!--pathelement path="${core.dir}\core.jar" /-->
 		<pathelement path="${core.dir}/lib/js.jar" />
-		<!--pathelement path="${core.dir}\lib\junit.jar" /-->
-		<!--pathelement path="${data.oda.dir}\oda.jar" /-->
-		<!--pathelement path="${data.oda.jdbc.dir}\*.jar" /-->
-		<!--pathelement path="${datatools.connectivity.oda.dir}\oda.jar" /-->
-<!--
-     <library name="lib/js.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/junit.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/commons-logging.jar">
-         <export name="*"/>
-      </library>
-      <library name="core.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/servlet.jar">
-         <export name="*"/>
-      </library>
- 
-      <import plugin="org.eclipse.birt.chart.device.extension"/>
-      <import plugin="org.eclipse.birt.chart.device.svg"/>
-      <import plugin="org.eclipse.birt.chart.engine"/>
-      <import plugin="org.eclipse.birt.chart.engine.extension"/>
-      <import plugin="org.eclipse.birt.core"/>
- 
-      <import plugin="org.eclipse.birt.report.model"/>
-      <import plugin="org.eclipse.birt.chart.reportitem"/>
-
--->		
-		
-		
+	
 		  <fileset dir="..">
-		  	
 		  	<include name="org.eclipse.emf*.jar" />
 		  	<include name="org.eclipse.swt*.jar" />
 		  
@@ -90,8 +56,8 @@
 		  	
 		  	<include name="org.eclipse.birt.chart.device.extension/device-extension.jar" />
 		  	<include name="org.eclipse.birt.chart.device.svg/device-svg.jar" />
-		  	<include name="org.eclipse.birt.chart.engine.extension/engine-extension.jar" />
-		  	<include name="org.eclipse.birt.chart.engine/engine.jar" />
+		  	<include name="org.eclipse.birt.chart.engine.extension/*.jar" />
+		  	<include name="org.eclipse.birt.chart.engine/*.jar" />
 		  	<include name="org.eclipse.birt.core/*.jar" />		  	
 		  	
 		    	<include name="org.eclipse.birt.core/*.jar" />
@@ -103,8 +69,12 @@
 		    	<include name="org.eclipse.birt.data/*.jar" />
 		  	
 			    <include name="org.eclipse.birt.report.engine/*.jar" />
-		  	<include name="com.ibm.icu*.jar" />
-		  </fileset>
+			  </fileset>
+		  
+		  <fileset dir="${eclipse.home}/plugins">
+			    <include name="com.ibm.icu_*.jar"/>	
+		  	<include name="org.eclipse.emf*.jar" />
+		  </fileset>	
 	
 	</path>
 
