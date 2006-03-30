@@ -1853,6 +1853,7 @@
 	  <Trigger validator="DataSetResultSetValidator"/>
 	</Property>
     <Property detailType="ColumnHint" displayNameID="Element.DataSet.columnHints" isList="true" name="columnHints" since="1.0" type="structure"/>
+	<Property detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" isList="false" name="cachedMetaData" since="1.0" type="structure"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.SimpleDataSet" extends="DataSet" hasStyle="false" isAbstract="true" isNameRequired="true" name="SimpleDataSet" since="1.0" xmlName="simple-data-set">
     <Method context="factory" displayNameID="Element.SimpleDataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.SimpleDataSet.beforeOpen.toolTip" >
@@ -1878,7 +1879,6 @@
 	<Property displayNameID="Element.SimpleDataSet.cachedRowCount" name="cachedRowCount" since="2.0" type="integer"/>
     <Property detailType="DataSource" displayNameID="Element.SimpleDataSet.dataSource" name="dataSource" since="1.0" type="element" valueRequired="true"/>    
     <Property detailType="ParamBinding" displayNameID="Element.SimpleDataSet.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
-	<Property detailType="CachedMetaData" displayNameID="Element.SimpleDataSet.cachedMetaData" isList="false" name="cachedMetaData" since="1.0" type="structure"/>
   	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.SimpleDataSet.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>
   </Element>
@@ -1896,7 +1896,7 @@
 	</Method>		  		
     <Method context="factory" displayNameID="Element.ScriptDataSet.close" name="close" since="1.0" toolTipID="Element.ScriptDataSet.close.toolTip" >
       <Argument name="this" tagID="Element.ScriptDataSet.close.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance"/>
-	</Method>		  				
+	</Method>
   </Element>
   <Element canExtend="true" displayNameID="Element.OdaDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>

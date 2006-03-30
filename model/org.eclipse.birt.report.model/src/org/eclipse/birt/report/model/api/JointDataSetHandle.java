@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -115,114 +116,31 @@ public class JointDataSetHandle extends DataSetHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getCachedMetaDataHandle()
-	 */
-	public CachedMetaDataHandle getCachedMetaDataHandle( )
-	{
-		throw new IllegalOperationException( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#paramBindingsIterator()
 	 */
 	public Iterator paramBindingsIterator( )
 	{
-		throw new IllegalOperationException( );
+		return Collections.EMPTY_LIST.iterator( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getCachedRowCount()
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setProperty(java.lang.String,
+	 *      java.lang.Object)
 	 */
-	public int getCachedRowCount( )
-	{
-		throw new IllegalOperationException( );
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getAfterClose()
-	 */
-	public String getAfterClose( )
+	public void setProperty( String propName, Object value )
+			throws SemanticException
 	{
-		throw new IllegalOperationException( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getAfterOpen()
-	 */
-	public String getAfterOpen( )
-	{
-		throw new IllegalOperationException( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getBeforeClose()
-	 */
-	public String getBeforeClose( )
-	{
-		throw new IllegalOperationException( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getBeforeOpen()
-	 */
-	public String getBeforeOpen( )
-	{
-		throw new IllegalOperationException( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getDataSource()
-	 */
-	public DataSourceHandle getDataSource( )
-	{
-		throw new IllegalOperationException( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getDataSourceName()
-	 */
-	public String getDataSourceName( )
-	{
-		throw new IllegalOperationException( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getOnFetch()
-	 */
-	public String getOnFetch( )
-	{
-		throw new IllegalOperationException( );
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getPropertyHandle(java.lang.String)
-	 */
-	public PropertyHandle getPropertyHandle( String propName )
-	{
-		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
-		if ( propDefn == null )
-			return null;
-
-		return super.getPropertyHandle( propName );
+		if ( !( PARAM_BINDINGS_PROP.equalsIgnoreCase( propName )
+				|| CACHED_ROW_COUNT_PROP.equalsIgnoreCase( propName ) 
+				|| AFTER_CLOSE_METHOD.equalsIgnoreCase( propName ) )
+				|| AFTER_OPEN_METHOD.equalsIgnoreCase( propName )
+				|| BEFORE_CLOSE_METHOD.equalsIgnoreCase( propName )
+				|| BEFORE_OPEN_METHOD.equalsIgnoreCase( propName ) 
+				|| DATA_SOURCE_PROP.equalsIgnoreCase( propName )
+				|| ON_FETCH_METHOD.equalsIgnoreCase( propName ))
+			super.setProperty( propName, value );
 	}
 }

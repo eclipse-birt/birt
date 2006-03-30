@@ -47,4 +47,9 @@ public interface IDataSetModel
 
 	public static final String PARAMETERS_PROP = "parameters"; //$NON-NLS-1$
 
+	/**
+	 * The property name of the cached data set information.
+	 */
+
+	public static final String CACHED_METADATA_PROP = "cachedMetaData"; //$NON-NLS-1$
 }

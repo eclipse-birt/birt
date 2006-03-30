@@ -2334,7 +2334,24 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructureList( obj, DataSet.COMPUTED_COLUMNS_PROP );
 		writeStructureList( obj, DataSet.COLUMN_HINTS_PROP );
 		writeStructureList( obj, DataSet.FILTER_PROP );
+		
+		CachedMetaData metadata = (CachedMetaData) obj.getLocalProperty(
+				getModule( ), DataSet.CACHED_METADATA_PROP );
+		if ( metadata != null )
+		{
+			// Writing cached data set meta-data information.
 
+			writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
+			writer.attribute( DesignElement.NAME_PROP,
+					SimpleDataSet.CACHED_METADATA_PROP );
+
+			writeStructureList( metadata, CachedMetaData.PARAMETERS_MEMBER );
+			writeStructureList( metadata, CachedMetaData.RESULT_SET_MEMBER );
+
+			writer.endElement( );
+
+			// end of writing meta-data information.
+		}
 	}
 
 	/*
@@ -2359,23 +2376,6 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeStructureList( obj, SimpleDataSet.PARAM_BINDINGS_PROP );
 
-		CachedMetaData metadata = (CachedMetaData) obj.getLocalProperty(
-				getModule( ), SimpleDataSet.CACHED_METADATA_PROP );
-		if ( metadata != null )
-		{
-			// Writing cached data set meta-data information.
-
-			writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-			writer.attribute( DesignElement.NAME_PROP,
-					SimpleDataSet.CACHED_METADATA_PROP );
-
-			writeStructureList( metadata, CachedMetaData.PARAMETERS_MEMBER );
-			writeStructureList( metadata, CachedMetaData.RESULT_SET_MEMBER );
-
-			writer.endElement( );
-
-			// end of writing meta-data information.
-		}
 	}
 
 	/*
