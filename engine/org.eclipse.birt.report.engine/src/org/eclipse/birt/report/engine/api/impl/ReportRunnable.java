@@ -176,4 +176,11 @@ public class ReportRunnable implements IReportRunnable
     public void setReportEngine(IReportEngine engine) {
         this.engine = engine;
     }
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IReportRunnable#setDesignHandle(org.eclipse.birt.report.model.api.ReportDesignHandle)
+	 */
+	public void setDesignHandle(ReportDesignHandle handle) {
+		this.designHandle = handle;
+	}
 }

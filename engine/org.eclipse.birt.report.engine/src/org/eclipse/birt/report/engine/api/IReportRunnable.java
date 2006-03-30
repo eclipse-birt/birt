@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * A runnable report design (i.e., not modifiable) that can be run in the BIRT engine
@@ -63,6 +64,13 @@ public interface IReportRunnable {
 	 * @return the design element handle that design engine creates when opening the report
 	 */
 	public abstract DesignElementHandle getDesignHandle();
+
+	/**
+	 * sets a new report design handle before rendering the report
+	 * 
+	 * @param handle a new report design handle
+	 */
+	public abstract void setDesignHandle(ReportDesignHandle handle);
 	
 	/**
 	 * returns report name
