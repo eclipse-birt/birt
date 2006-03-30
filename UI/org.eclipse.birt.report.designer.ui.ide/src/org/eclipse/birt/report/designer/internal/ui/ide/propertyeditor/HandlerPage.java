@@ -11,15 +11,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.propertyeditor;
 
-import java.util.ResourceBundle;
-
 import org.eclipse.birt.report.designer.internal.ui.ide.util.ClassFinder;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.AttributeConstant;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -64,7 +64,7 @@ public class HandlerPage extends AttributePage
 				400 );
 
 		Button browse = new Button( this, SWT.PUSH );
-		browse.setText( Messages.getString("EventHandlerPage.Browse") );
+		browse.setText( Messages.getString( "EventHandlerPage.Browse" ) );
 		browse.setLayoutData( new GridData( ) );
 		browse.addSelectionListener( new SelectionAdapter( ) {
 
@@ -72,11 +72,17 @@ public class HandlerPage extends AttributePage
 			{
 				ClassFinder finder = new ClassFinder( );
 				String className = null;
-				if ( input != null
-						&& input.size( ) > 0
-						&& input.get( 0 ) instanceof DesignElementHandle )
+				if ( input != null && input.size( ) > 0 )
 				{
-					className = EventHandlerWrapper.getEventHandlerClassName( (DesignElementHandle) input.get( 0 ) );
+					if ( input.get( 0 ) instanceof DesignElementHandle )
+					{
+						className = EventHandlerWrapper.getEventHandlerClassName( (DesignElementHandle) input.get( 0 ) );
+
+					}
+					else if ( input.get( 0 ) instanceof ExtendedItemHandle && extraProperty != null)
+					{
+						className = (String) ( extraProperty.get( AttributeConstant.EVENT_HANDLER_CLASS_PROPERTY_KEY ) );
+					}
 				}
 				if ( className != null )
 				{
@@ -98,6 +104,5 @@ public class HandlerPage extends AttributePage
 		WidgetUtil.createGridPlaceholder( this, 2, true );
 
 	}
-
 
 }

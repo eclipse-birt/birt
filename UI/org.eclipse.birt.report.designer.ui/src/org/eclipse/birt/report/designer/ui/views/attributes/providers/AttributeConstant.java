@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.views.attributes.providers;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
@@ -214,5 +215,10 @@ public class AttributeConstant
 	public static final String IMAGE_ALTERNATE = ImageHandle.ALT_TEXT_PROP;
 
 	public static final String HORIZONTAL_ALIGN = "GUI_HORIZONTAL_ALIGN";//$NON-NLS-1$
+	
+	/**
+	 * Category name for standard EventHandler page.
+	 */
+	public static final String EVENT_HANDLER_CLASS_PROPERTY_KEY = ReportDesignHandle.EVENT_HANDLER_CLASS_PROP;
 
 }
