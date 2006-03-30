@@ -568,6 +568,7 @@ public class ChoiceSetFactory
 	public static String[] getMasterPages( )
 	{
 		ArrayList list = new ArrayList( );
+		list.add( CHOICE_NONE );
 		ModuleHandle handle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 		SlotHandle pages = handle.getMasterPages( );
