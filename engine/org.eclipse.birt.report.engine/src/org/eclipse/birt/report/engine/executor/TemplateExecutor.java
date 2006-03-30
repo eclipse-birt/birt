@@ -69,6 +69,7 @@ public class TemplateExecutor extends ReportItemExecutor
 		style.setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.SOLID_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.THIN_VALUE );
 		style.setProperty( IStyle.STYLE_TEXT_ALIGN, IStyle.CENTER_VALUE );
+		style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, IStyle.MIDDLE_VALUE );
 
 		initializeContent( parent, item, textObj );
 		textObj.setLabelText( template.getPromptText( ) );

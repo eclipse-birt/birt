@@ -88,7 +88,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.83 $ $Date: 2006/03/23 09:28:54 $
+ * @version $Revision: 1.84 $ $Date: 2006/03/27 03:20:17 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1286,7 +1286,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// bookmark
 		setBookmark( tagName, text.getBookmark( ) );
 		
-		// If text is get from a label or template, add it to active id list, and output type ��iid to html
+		// If text is get from a label or template, add it to active id list, and output type & iid to html
 		setActiveIDTypeIID( text );
 		
 		// title
@@ -1296,7 +1296,39 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		handleShrink( display, mergedStyle, height, width, styleBuffer );
 		handleStyle( text, styleBuffer, false );
 
-		writer.text( textValue );
+		
+		String verticalAlign = mergedStyle.getVerticalAlign( );
+		if ( !"baseline".equals( verticalAlign ) && height != null )
+		{
+			// implement vertical align.
+			writer.openTag( HTMLTags.TAG_TABLE );
+			writer.attribute( HTMLTags.ATTR_STYLE, " width:100%; height:100%;" );
+			writer.openTag( HTMLTags.TAG_TR );
+			writer.openTag( HTMLTags.TAG_TD );
+
+			StringBuffer textStyleBuffer = new StringBuffer( );
+			textStyleBuffer.append( " vertical-align:" );
+			textStyleBuffer.append( verticalAlign );
+			textStyleBuffer.append( ";" );
+			String textAlign = mergedStyle.getTextAlign( );
+			if ( textAlign != null )
+			{
+				textStyleBuffer.append( " text-align:" );
+				textStyleBuffer.append( textAlign );
+				textStyleBuffer.append( ";" );
+			}
+			writer.attribute( HTMLTags.ATTR_STYLE, textStyleBuffer );
+
+			writer.text( textValue );
+
+			writer.closeTag( HTMLTags.TAG_TD );
+			writer.closeTag( HTMLTags.TAG_TR );
+			writer.closeTag( HTMLTags.TAG_TABLE );
+		}
+		else
+		{
+			writer.text( textValue );
+		}
 		
 		writer.closeTag( tagName );
 	}
