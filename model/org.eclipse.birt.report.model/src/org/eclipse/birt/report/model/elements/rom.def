@@ -2774,9 +2774,6 @@
     <StyleProperty name="wordSpacing"/>
     <StyleProperty name="display"/>
     <StyleProperty name="masterPage"/>
-    <StyleProperty name="pageBreakBefore"/>
-    <StyleProperty name="pageBreakAfter"/>
-    <StyleProperty name="pageBreakInside"/>
     <StyleProperty name="showIfBlank"/>
     <StyleProperty name="paddingTop"/>
     <StyleProperty name="paddingLeft"/>
