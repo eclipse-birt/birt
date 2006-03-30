@@ -3,6 +3,7 @@ package org.eclipse.birt.report.tests.engine.api;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.logging.Level;
 
 import junit.framework.Test;
 
@@ -12,6 +13,8 @@ import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
@@ -58,7 +61,7 @@ public class RenderTaskTest extends EngineCase {
 	 * Test render(long pageNumber) method
 	 */
 	public void testRender() {
-/*			renderReport("case1","no");
+			renderReport("case1","no");
 			renderReport("table_pages","All");
 			renderReport("long_text","All");
 			renderReport("multiple_datasets","All");
@@ -74,7 +77,7 @@ public class RenderTaskTest extends EngineCase {
 			renderReport("complex_report","All");
 			renderReport("complex_report","All");
 			renderReport("image_in_DB","All");
-			*/
+			
 			renderReport("pages9","");
 			renderReport("pages9","2");
 			renderReport("pages9","3,10");
@@ -108,8 +111,20 @@ public class RenderTaskTest extends EngineCase {
 
 			IRenderOption htmlRenderOptions = new HTMLRenderOption();
 			IRenderOption pdfRenderOptions = new HTMLRenderOption();
+
+			HTMLRenderContext renderContext = new HTMLRenderContext( );
+			renderContext.setImageDirectory( "image" );
+			HashMap appContext = new HashMap( );
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					renderContext );
+			task.setAppContext( appContext );
+
 			htmlRenderOptions.setOutputFormat("html");
 			pdfRenderOptions.setOutputFormat("pdf");
+			htmlRenderOptions.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
+					"UTF-8" );
+			pdfRenderOptions.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
+			"UTF-8" );
 			
 			if(pageRange !=null && pageRange.equals("no")){
 				for (int i = 1; i <= pageNumber; i++) {
@@ -184,6 +199,7 @@ public class RenderTaskTest extends EngineCase {
 		// create an IRunTask
 		IRunTask runTask = engine.createRunTask(report);
 		// execute the report to create the report document.
+		runTask.setAppContext(new HashMap());
 		runTask.run(archive);
 		// close the task, release the resource.
 		runTask.close();
