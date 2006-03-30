@@ -24,6 +24,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -132,6 +133,19 @@ public class PDFEmitter implements IAreaVisitor
 	protected ReportDesignHandle reportDesign;
 	
 	protected PDFRenderContext context;
+	
+	private Stack containerStack = new Stack();
+	
+	private class ContainerPosition
+	{
+		private int x;
+		private int y;
+		public ContainerPosition(int x, int y)
+		{
+			this.x = x;
+			this.y = y;
+		}
+	}
 	
 	/**
 	 * get the output format. here it returns "pdf".
@@ -268,17 +282,33 @@ public class PDFEmitter implements IAreaVisitor
 		if (container instanceof PageArea)
 		{
 			newPage(container);
+			containerStack.push(new ContainerPosition(0, 0));
 		}
 		else
 		{
 			drawContainer(container);
+			ContainerPosition pos;
+			if ( ! containerStack.isEmpty() )
+			{
+				pos = (ContainerPosition)containerStack.peek();
+				ContainerPosition current = new ContainerPosition(
+						pos.x+container.getX(), pos.y+container.getY());
+				containerStack.push(current);
+			}
+			else
+			{
+				containerStack.push(new ContainerPosition(
+						container.getX(), container.getY()));
+			}
 		}
 	}
 
 	public void endContainer(IContainerArea containerArea)
 	{
-		// nothing to do with endContainer, because layout sends
-		// the absolute position relative to the page now.
+		if (! containerStack.isEmpty())
+		{
+			containerStack.pop();	
+		}
 	}
 
 	/**
@@ -361,10 +391,16 @@ public class PDFEmitter implements IAreaVisitor
 		{
 			return;
 		}
-		
+		ContainerPosition curPos;
+		if ( !containerStack.isEmpty() )
+			curPos = (ContainerPosition)containerStack.peek();	
+		else 
+			curPos = new ContainerPosition(0, 0);
+		int layoutX = curPos.x + container.getX();
+		int layoutY = curPos.y + container.getY();
 		//the container's start position (the left top corner of the container)
-		float startX = layoutPointX2PDF (container.getAbsoluteX());
-		float startY = layoutPointY2PDF (container.getAbsoluteY());
+		float startX = layoutPointX2PDF (layoutX);
+		float startY = layoutPointY2PDF (layoutY);
 
 		//the dimension of the container
 		float width = pdfMeasure(container.getWidth());
@@ -404,20 +440,20 @@ public class PDFEmitter implements IAreaVisitor
 		//cache the border info
 		BorderInfo[] borders = new BorderInfo[4];
 		borders[BorderInfo.TOP_BORDER] = new BorderInfo(
-				container.getAbsoluteX(), container.getAbsoluteY()+ borderTopWidth/2,
-				container.getAbsoluteX()+container.getWidth(), container.getAbsoluteY()+ borderTopWidth/2,
+				layoutX, layoutY + borderTopWidth/2,
+				layoutX + container.getWidth(), layoutY + borderTopWidth/2,
 				borderTopWidth, borderTopColor, container.getStyle().getBorderTopStyle(), BorderInfo.TOP_BORDER);
 		borders[BorderInfo.RIGHT_BORDER] = new BorderInfo(
-				container.getAbsoluteX()+container.getWidth()-borderRightWidth/2, container.getAbsoluteY(), 
-				container.getAbsoluteX()+container.getWidth()-borderRightWidth/2, container.getAbsoluteY()+ container.getHeight(),       
+				layoutX+container.getWidth()-borderRightWidth/2, layoutY, 
+				layoutX+container.getWidth()-borderRightWidth/2, layoutY+ container.getHeight(),       
 				borderRightWidth, borderRightColor, container.getStyle().getBorderRightStyle(), BorderInfo.RIGHT_BORDER);
 		borders[BorderInfo.BOTTOM_BORDER] = new BorderInfo(
-				container.getAbsoluteX(), container.getAbsoluteY()+container.getHeight()-borderBottomWidth/2, 
-				container.getAbsoluteX()+container.getWidth(), container.getAbsoluteY()+container.getHeight()-borderBottomWidth/2, 
+				layoutX, layoutY+container.getHeight()-borderBottomWidth/2, 
+				layoutX+container.getWidth(), layoutY+container.getHeight()-borderBottomWidth/2, 
 				borderBottomWidth, borderBottomColor, container.getStyle().getBorderBottomStyle(), BorderInfo.BOTTOM_BORDER);
 		borders[BorderInfo.LEFT_BORDER] = new BorderInfo(
-				container.getAbsoluteX()+borderLeftWidth/2, container.getAbsoluteY(),
-				container.getAbsoluteX()+borderLeftWidth/2, container.getAbsoluteY()+ container.getHeight(), 
+				layoutX+borderLeftWidth/2, layoutY,
+				layoutX+borderLeftWidth/2, layoutY+ container.getHeight(), 
 				borderLeftWidth, borderLeftColor, container.getStyle().getBorderLeftStyle(), BorderInfo.LEFT_BORDER);
 		
 		// draw the four borders of the container if there are any. Each border is showed as a line.
@@ -425,9 +461,9 @@ public class PDFEmitter implements IAreaVisitor
 		
 		//Check if itself is the destination of a bookmark.
 		//if so, make a bookmark; if not, do nothing
-		makeBookmark(container);
+		makeBookmark(container, curPos);
 		//handle hyper-link action
-		handleHyperlinkAction(container);
+		handleHyperlinkAction(container, curPos);
 	}
 	
 	/**
@@ -441,7 +477,13 @@ public class PDFEmitter implements IAreaVisitor
 		
 	    //style.getFontVariant();     	small-caps or normal
 	    //FIXME does NOT support small-caps now
-
+		ContainerPosition curPos;
+		if ( !containerStack.isEmpty() )
+			curPos = (ContainerPosition)containerStack.peek();	
+		else 
+			curPos = new ContainerPosition(0, 0);
+		int textX = curPos.x + text.getX();
+		int textY = curPos.y + text.getY();
 		float fontSize = text.getFontInfo().getFontSize();
 		float characterSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
 	        	style.getProperty(StyleConstants.STYLE_LETTER_SPACING)) );
@@ -455,8 +497,8 @@ public class PDFEmitter implements IAreaVisitor
 		cb.setCharacterSpacing(characterSpacing);
 		cb.setWordSpacing(wordSpacing);
 	       
-	    placeText(cb, text.getFontInfo(), layoutAreaX2PDF(text.getAbsoluteX()), 
-	    		layoutAreaY2PDF(text.getAbsoluteY(), text.getFontInfo().getBaseline()));
+	    placeText(cb, text.getFontInfo(), layoutAreaX2PDF(textX), 
+	    		layoutAreaY2PDF(textY, text.getFontInfo().getBaseline()));
 	    
 	    Color color = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR));
 	    if (null != color)
@@ -472,30 +514,30 @@ public class PDFEmitter implements IAreaVisitor
 	    	    
 		if ("line-through".equalsIgnoreCase(style.getTextLineThrough())) //$NON-NLS-1$
 	    {
-	    	drawLine( layoutPointX2PDF(text.getAbsoluteX()), 
-	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getLineThroughPosition()), 
-	        		layoutPointX2PDF(text.getAbsoluteX()+text.getWidth()), 
-	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getLineThroughPosition()), 
+	    	drawLine( layoutPointX2PDF(textX), 
+	        		layoutPointY2PDF(textY + text.getFontInfo().getLineThroughPosition()), 
+	        		layoutPointX2PDF(textX + text.getWidth()), 
+	        		layoutPointY2PDF(textY + text.getFontInfo().getLineThroughPosition()), 
 	        		text.getFontInfo().getLineWidth(),
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),  
 	        		"solid", cb ); //$NON-NLS-1$
 	    }
 	    if ("overline".equalsIgnoreCase(style.getTextOverline())) //$NON-NLS-1$
 	    {	
-	        drawLine( layoutPointX2PDF(text.getAbsoluteX()), 
-	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getOverlinePosition()),
-	        		layoutPointX2PDF(text.getAbsoluteX()+text.getWidth()), 
-	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getOverlinePosition()),
+	        drawLine( layoutPointX2PDF(textX), 
+	        		layoutPointY2PDF(textY + text.getFontInfo().getOverlinePosition()),
+	        		layoutPointX2PDF(textX + text.getWidth()), 
+	        		layoutPointY2PDF(textY + text.getFontInfo().getOverlinePosition()),
 	        		text.getFontInfo().getLineWidth(), 
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),
 	        		"solid", cb ); //$NON-NLS-1$
 	    }
 		if ("underline".equalsIgnoreCase(style.getTextUnderline())) //$NON-NLS-1$
 	    {
-	        drawLine(layoutPointX2PDF(text.getAbsoluteX()), 
-	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getUnderlinePosition()),
-	        		layoutPointX2PDF(text.getAbsoluteX()+text.getWidth()), 
-	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getUnderlinePosition()),
+	        drawLine(layoutPointX2PDF(textX), 
+	        		layoutPointY2PDF(textY + text.getFontInfo().getUnderlinePosition()),
+	        		layoutPointX2PDF(textX + text.getWidth()), 
+	        		layoutPointY2PDF(textY + text.getFontInfo().getUnderlinePosition()),
 	        		text.getFontInfo().getLineWidth(), 
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),
 	        		"solid", cb ); //$NON-NLS-1$
@@ -503,9 +545,9 @@ public class PDFEmitter implements IAreaVisitor
 	 
 		//Check if itself is the destination of a bookmark.
 		//if so, make a bookmark; if not, do nothing
-		makeBookmark(text);
+		makeBookmark(text, curPos);
 		//handle hyper-link action
-		handleHyperlinkAction(text);
+		handleHyperlinkAction(text, curPos);
 	}
 
 	/**
@@ -516,6 +558,13 @@ public class PDFEmitter implements IAreaVisitor
 	{	
 		Image img = null;
 		cb.saveState();
+		ContainerPosition curPos;
+		if ( !containerStack.isEmpty() )
+			curPos = (ContainerPosition)containerStack.peek();	
+		else 
+			curPos = new ContainerPosition(0, 0);
+		int imageX = curPos.x + image.getX();
+		int imageY = curPos.y + image.getY();
 		try
 		{
 			//lookup the source type of the image area
@@ -540,8 +589,8 @@ public class PDFEmitter implements IAreaVisitor
 			// add the image to the given contentByte
 			cb.addImage(img, 
 					pdfMeasure(image.getWidth()), 0f, 0f, pdfMeasure(image.getHeight()),
-					layoutAreaX2PDF(image.getAbsoluteX()), 
-					layoutAreaY2PDF(image.getAbsoluteY(), image.getHeight()));
+					layoutAreaX2PDF(imageX), 
+					layoutAreaY2PDF(imageY, image.getHeight()));
 		} catch (BadElementException bee)
 		{
 			logger.log( Level.WARNING, bee.getMessage( ), bee );
@@ -561,10 +610,10 @@ public class PDFEmitter implements IAreaVisitor
 		
 		//Check if itself is the destination of a bookmark.
 		//if so, make a bookmark; if not, do nothing
-		makeBookmark(image);
+		makeBookmark(image, curPos);
 		
 		//handle hyper-link action
-		handleHyperlinkAction(image);
+		handleHyperlinkAction(image, curPos);
 	}
 	
 	/**
@@ -1137,23 +1186,25 @@ public class PDFEmitter implements IAreaVisitor
 	 * this method does nothing.
 	 * 
 	 * @param area			the area which may need to be marked. 
+	 * @param curPos 		the position of the area's container relative to the page.
 	 */
-	private void makeBookmark(IArea area) 
+	private void makeBookmark(IArea area, ContainerPosition curPos) 
 	{
 		IContent content = area.getContent();
 		if( null != content )
 		{
+			int areaY = curPos.y + area.getY();
 			String bookmark = content.getBookmark();
 			if (null != bookmark)
 			{
 				cb.localDestination( bookmark, new PdfDestination(
-						PdfDestination.XYZ, -1, layoutPointY2PDF(area.getAbsoluteY()), 0));
+						PdfDestination.XYZ, -1, layoutPointY2PDF(areaY), 0));
 			}
 			String tocmark = content.getTOC();
 			if (null != tocmark)
 			{
 				cb.localDestination( tocmark, new PdfDestination(
-						PdfDestination.XYZ, -1, layoutPointY2PDF(area.getAbsoluteY()), 0));
+						PdfDestination.XYZ, -1, layoutPointY2PDF(areaY), 0));
 			}
 		}
 	}
@@ -1163,11 +1214,13 @@ public class PDFEmitter implements IAreaVisitor
 	 * 
 	 * @param area			the area which may need to handle the hyperlink action
 	 */
-	private void handleHyperlinkAction(IArea area)
+	private void handleHyperlinkAction(IArea area, ContainerPosition curPos)
 	{
 		IContent content = area.getContent();
 		if( null != content )
 		{
+			int areaX = curPos.x + area.getX();
+			int areaY = curPos.y + area.getY();
 			IHyperlinkAction hlAction = content.getHyperlinkAction();
 			if ( null != hlAction )
 			try
@@ -1176,10 +1229,10 @@ public class PDFEmitter implements IAreaVisitor
 				{
 				case IHyperlinkAction.ACTION_BOOKMARK: 
 					writer.addAnnotation( new PdfAnnotation( writer,
-							layoutPointX2PDF(area.getAbsoluteX()),
-							layoutPointY2PDF(area.getAbsoluteY()+area.getHeight()),
-							layoutPointX2PDF(area.getAbsoluteX()+area.getWidth()),
-							layoutPointY2PDF(area.getAbsoluteY()),
+							layoutPointX2PDF(areaX),
+							layoutPointY2PDF(areaY+area.getHeight()),
+							layoutPointX2PDF(areaX+area.getWidth()),
+							layoutPointY2PDF(areaY),
 							createPdfAction(
 									hlAction.getHyperlink(), 
 									hlAction.getBookmark(), 
@@ -1256,19 +1309,19 @@ public class PDFEmitter implements IAreaVisitor
 						link.append( hlAction.getBookmark() );
 					}
 					writer.addAnnotation( new PdfAnnotation( writer,
-							layoutPointX2PDF(area.getAbsoluteX()),
-							layoutPointY2PDF(area.getAbsoluteY()+area.getHeight()),
-							layoutPointX2PDF(area.getAbsoluteX()+area.getWidth()),
-							layoutPointY2PDF(area.getAbsoluteY()),
+							layoutPointX2PDF(areaX),
+							layoutPointY2PDF(areaY+area.getHeight()),
+							layoutPointX2PDF(areaX+area.getWidth()),
+							layoutPointY2PDF(areaY),
 		            		createPdfAction(link.toString( ), null, hlAction.getTargetWindow(), IHyperlinkAction.ACTION_DRILLTHROUGH )));
 					break;
 					
 				case IHyperlinkAction.ACTION_HYPERLINK: 
 					writer.addAnnotation( new PdfAnnotation( writer,
-							layoutPointX2PDF(area.getAbsoluteX()),
-							layoutPointY2PDF(area.getAbsoluteY()+area.getHeight()),
-							layoutPointX2PDF(area.getAbsoluteX()+area.getWidth()),
-							layoutPointY2PDF(area.getAbsoluteY()),
+							layoutPointX2PDF(areaX),
+							layoutPointY2PDF(areaY+area.getHeight()),
+							layoutPointX2PDF(areaX+area.getWidth()),
+							layoutPointY2PDF(areaY),
 							createPdfAction(hlAction.getHyperlink(), null, hlAction.getTargetWindow(), IHyperlinkAction.ACTION_HYPERLINK)) );
 					break;
 				}
