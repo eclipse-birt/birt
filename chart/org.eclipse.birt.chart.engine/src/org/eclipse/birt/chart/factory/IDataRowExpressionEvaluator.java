@@ -39,6 +39,7 @@ public interface IDataRowExpressionEvaluator
 	 * @return An Object representing the evaluated expression. The Object must
 	 *         be of a type String, Number, Date, Calendar, or it will be
 	 *         evaluated as a String using toString().
+	 * @deprecated It's the same as evaluate() now.
 	 */
 	Object evaluateGlobal( String expression );
 

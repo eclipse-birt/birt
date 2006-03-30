@@ -24,9 +24,9 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
@@ -116,7 +116,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			int rowCount, boolean isStringType ) throws ChartException
 	{
 		ArrayList dataList = new ArrayList( );
-		
+
 		// Set thread context class loader so Rhino can find POJOs in workspace
 		// projects
 		ClassLoader oldContextLoader = Thread.currentThread( )
@@ -126,7 +126,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			parentLoader = this.getClass( ).getClassLoader( );
 		ClassLoader newContextLoader = DataSetManager.getCustomScriptClassLoader( parentLoader );
 		Thread.currentThread( ).setContextClassLoader( newContextLoader );
-		
+
 		try
 		{
 			DataSetHandle datasetHandle = getDataSetFromHandle( );
@@ -140,7 +140,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							rowCount <= 0 ? getMaxRow( ) : rowCount );
 			if ( actualResultSet != null )
 			{
-				IBaseExpression[] expressions = extractExpressions( actualResultSet );
+				IScriptExpression[] expressions = extractExpressions( actualResultSet );
 				int columnCount = expressions.length;
 				IResultIterator iter = actualResultSet.getResultIterator( );
 				while ( iter.next( ) )
@@ -150,7 +150,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						String[] record = new String[columnCount];
 						for ( int n = 0; n < columnCount; n++ )
 						{
-							record[n] = iter.getString( expressions[n] );
+							record[n] = iter.getString( expressions[n].getText( ) );
 						}
 						dataList.add( record );
 					}
@@ -159,7 +159,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						Object[] record = new Object[columnCount];
 						for ( int n = 0; n < columnCount; n++ )
 						{
-							record[n] = iter.getValue( expressions[n] );
+							record[n] = iter.getValue( expressions[n].getText( ) );
 						}
 						dataList.add( record );
 					}
@@ -179,16 +179,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
 		}
-		
+
 		return dataList;
 	}
 
-	private IBaseExpression[] extractExpressions( IQueryResults qr )
+	private IScriptExpression[] extractExpressions( IQueryResults qr )
 	{
 		Collection col = qr.getPreparedQuery( )
 				.getReportQueryDefn( )
-				.getRowExpressions( );
-		return (IBaseExpression[]) col.toArray( new IBaseExpression[col.size( )] );
+				.getResultSetExpressions( )
+				.values( );
+		return (IScriptExpression[]) col.toArray( new IScriptExpression[col.size( )] );
 	}
 
 	public String getBoundDataSet( )
