@@ -9,8 +9,11 @@
 
 package org.eclipse.birt.report.tests.engine;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -28,6 +31,8 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.archive.FileArchiveWriter;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.PlatformFileContext;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -40,6 +45,7 @@ import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
+import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.ReportRunner;
 
@@ -66,6 +72,9 @@ public abstract class EngineCase extends TestCase
 	protected static final String GOLDEN_FOLDER = "golden"; //$NON-NLS-1$
 
 	protected ReportEngine engine = null;
+
+	private static final String FORMAT_HTML = "html"; //$NON-NLS-1$
+	private static final String ENCODING_UTF8 = "UTF-8"; //$NON-NLS-1$
 
 	public static void main( String[] args )
 	{
@@ -146,20 +155,21 @@ public abstract class EngineCase extends TestCase
 		ReportRunner.main( args );
 	}
 
-	/*
+	/**
 	 * Add below three methods to test RunTask
 	 */
-	public void copyStream( String src, String tgt )
+
+	public void copyStream( String source, String target )
 	{
-		InputStream in = getClass( ).getClassLoader( )
-				.getResourceAsStream( src );
+		InputStream in = getClass( ).getClassLoader( ).getResourceAsStream(
+				source );
 		assertTrue( in != null );
 		try
 		{
 			int size = in.available( );
 			byte[] buffer = new byte[size];
 			in.read( buffer );
-			OutputStream out = new FileOutputStream( tgt );
+			OutputStream out = new FileOutputStream( target );
 			out.write( buffer );
 			out.close( );
 			in.close( );
@@ -168,6 +178,57 @@ public abstract class EngineCase extends TestCase
 		{
 			ex.printStackTrace( );
 			fail( );
+		}
+	}
+
+	/**
+	 * Make a copy of a given file to the target file.
+	 * 
+	 * @param from
+	 *            the file where to copy from
+	 * @param to
+	 *            the target file to copy to.
+	 * @throws IOException
+	 */
+
+	protected final void copyFile( String from, String to ) throws IOException
+	{
+
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+
+		try
+		{
+			new File( to ).createNewFile( );
+
+			bis = new BufferedInputStream( new FileInputStream( from ) );
+			bos = new BufferedOutputStream( new FileOutputStream( to ) );
+
+			int nextByte = 0;
+			while ( ( nextByte = bis.read( ) ) != -1 )
+			{
+				bos.write( nextByte );
+			}
+		}
+		catch ( IOException e )
+		{
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				if ( bis != null )
+					bis.close( );
+
+				if ( bos != null )
+					bos.close( );
+			}
+			catch ( IOException e )
+			{
+				// ignore
+			}
+
 		}
 	}
 
@@ -283,29 +344,30 @@ public abstract class EngineCase extends TestCase
 		runAndRender_HTML( input, output, null );
 	}
 
+	/**
+	 * RunAndRender a report with the given parameters.
+	 */
+
 	protected final void runAndRender_HTML( String input, String output,
 			Map paramValues ) throws EngineException
 	{
 		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
 				+ "/" + output; //$NON-NLS-1$
 		String inputFile = this.getClassFolder( )
-				+ "/" + INPUT_FOLDER + "/" + input; //$NON-NLS-1$
-
-		String format = "html"; //$NON-NLS-1$
-		String encoding = "UTF-8"; //$NON-NLS-1$
+				+ "/" + INPUT_FOLDER + "/" + input; //$NON-NLS-1$ //$NON-NLS-2$
 
 		IReportRunnable runnable = engine.openReportDesign( inputFile );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
-		if( paramValues != null )
+		if ( paramValues != null )
 		{
 			Iterator keys = paramValues.keySet( ).iterator( );
-			while( keys.hasNext( ) )
+			while ( keys.hasNext( ) )
 			{
-				String key = (String)keys.next( );
+				String key = (String) keys.next( );
 				task.setParameterValue( key, paramValues.get( key ) );
 			}
 		}
-		
+
 		task.setLocale( Locale.ENGLISH );
 
 		IRenderOption options = new HTMLRenderOption( );
@@ -318,12 +380,42 @@ public abstract class EngineCase extends TestCase
 				renderContext );
 		task.setAppContext( appContext );
 
-		options.setOutputFormat( format );
+		options.setOutputFormat( FORMAT_HTML );
 		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
-				encoding );
+				ENCODING_UTF8 );
 
 		task.setRenderOption( options );
 		task.run( );
+		task.close( );
+	}
+
+	/**
+	 * Run a report, generate a self-contained report document.
+	 * 
+	 * @throws EngineException
+	 */
+
+	protected final void run( String input, String output ) throws EngineException
+	{
+		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
+				+ "/" + output; //$NON-NLS-1$
+		String inputFile = this.getClassFolder( )
+				+ "/" + INPUT_FOLDER + "/" + input; //$NON-NLS-1$ //$NON-NLS-2$
+
+		IReportRunnable runnable = engine.openReportDesign( inputFile );
+		IRunTask task = engine.createRunTask( runnable );
+		task.setAppContext( new HashMap( ) );
+		IDocArchiveWriter archive = null;
+		try
+		{
+			archive = new FileArchiveWriter( outputFile );
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace( );
+		}
+
+		task.run( archive );
 		task.close( );
 	}
 
@@ -333,10 +425,14 @@ public abstract class EngineCase extends TestCase
 	 *            input rpt docuement file
 	 * @param output
 	 *            output file of the generation.
+	 * @param pageRange
+	 *            The pages to render, use "All" to render all, use 1-N to
+	 *            render a selected page.
 	 * @throws EngineException
 	 */
 
-	public void render_HTML( String doc, String output ) throws EngineException
+	protected void render_HTML( String doc, String output, String pageRange )
+			throws EngineException
 	{
 		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
 				+ "/" + output; //$NON-NLS-1$
@@ -366,8 +462,47 @@ public abstract class EngineCase extends TestCase
 		task.setRenderOption( options );
 
 		// TODO: changed to task.render when Engine has fix the render().
-		task.render( "ALL" ); //$NON-NLS-1$
+		task.render( pageRange ); //$NON-NLS-1$
 		task.close( );
+	}
+
+	/**
+	 * Run the input design, generate a report document, and then render the
+	 * report document into a html file, <code>pageRange</code> specified the
+	 * page(s) to render.
+	 * @throws IOException 
+	 * @throws EngineException 
+	 */
+
+	protected final void runAndThenRender( String input, String output,
+			String pageRange ) throws Exception
+	{
+		String tempDoc = "temp_123aaabbbccc789.rptdocument"; //$NON-NLS-1$
+		
+		run( input, tempDoc );
+
+		String from = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
+				+ "/" + tempDoc; //$NON-NLS-1$
+		String temp = this.getClassFolder( )
+				+ "/" + INPUT_FOLDER + "/" + tempDoc; //$NON-NLS-1$//$NON-NLS-2$
+
+	
+		try
+		{
+			copyFile( from, temp );
+			render_HTML( tempDoc, output, pageRange ); 
+		}
+		catch ( Exception e )
+		{
+			throw e;
+		}
+		finally
+		{
+			// remove the temp file on exit.
+			File tempFile = new File( temp );
+			if( tempFile.exists( ) )
+				tempFile.delete( );
+		}
 	}
 
 	/**
