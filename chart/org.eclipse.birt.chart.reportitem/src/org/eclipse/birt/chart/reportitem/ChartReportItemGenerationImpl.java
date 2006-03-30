@@ -13,8 +13,8 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -148,17 +148,30 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 			// if the Data rows are null/empty, do nothing.
 			return;
 		}
-		
 		// Evaluate the expressions so that they are registered by the DtE
-		// in the Report Document
+		// in the Report
+		// Document
 		IRowSet rowSet = rowSets[0];
-		Map expressions = queries[0].getResultSetExpressions( );
+		Collection expressions = queries[0].getBeforeExpressions( );
+		for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
+		{
+			rowSet.evaluate( (IBaseExpression) iter.next( ) );
+		}
+
+		expressions = queries[0].getRowExpressions( );
 		while ( rowSet.next( ) )
 		{
-			for ( Iterator iter = expressions.values( ).iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
 			{
 				rowSet.evaluate( (IBaseExpression) iter.next( ) );
 			}
 		}
+
+		expressions = queries[0].getAfterExpressions( );
+		for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
+		{
+			rowSet.evaluate( (IBaseExpression) iter.next( ) );
+		}
+
 	}
 }
