@@ -221,15 +221,19 @@ public class ModelOdaAdapter
 
 		// set the data set parameter list.
 
-		setHandle.getElement( )
-				.clearProperty( OdaDataSetHandle.PARAMETERS_PROP );
-		List dataSetParams = newROMSetParams( setDesign.getParameters( ),
-				setDesign.getOdaExtensionDataSourceId( ), setDesign
-						.getOdaExtensionDataSetId( ) );
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
-		setHandle.getElement( ).setProperty( OdaDataSetHandle.PARAMETERS_PROP,
-				dataSetParams );
+		// TODO DataSetDesign do not support parameters yet.
+
+		// setHandle.getElement( )
+		// .clearProperty( OdaDataSetHandle.PARAMETERS_PROP );
+
+		// List dataSetParams = newROMSetParams( setDesign.getParameters( ),
+		// setDesign.getOdaExtensionDataSourceId( ), setDesign
+		// .getOdaExtensionDataSetId( ) );
+		// PropertyValueValidationUtil.validateProperty( setHandle,
+		// OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
+		// setHandle.getElement( ).setProperty(
+		// OdaDataSetHandle.PARAMETERS_PROP,
+		// dataSetParams );
 
 		// set the result sets
 
@@ -314,8 +318,10 @@ public class ModelOdaAdapter
 			setDesign
 					.setDataSourceDesign( createDataSourceDesign( sourceHandle ) );
 
-		setDesign.setParameters( newOdaDataSetParams( setHandle
-				.parametersIterator( ) ) );
+		// TODO DataSetDesign do not support parameters yet.
+
+		// setDesign.setParameters( newOdaDataSetParams( setHandle
+		// .parametersIterator( ) ) );
 
 		setDesign.setPrimaryResultSet( newOdaResultSetDefinition( setHandle ) );
 
@@ -1119,11 +1125,13 @@ public class ModelOdaAdapter
 				}
 			}
 
-			updateROMStructureList( setHandle
-					.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP ),
-					newROMSetParams( setDesign.getParameters( ), setDesign
-							.getOdaExtensionDataSourceId( ), setDesign
-							.getOdaExtensionDataSetId( ) ) );
+			// TODO DataSetDesign do not support parameters yet.
+
+			// updateROMStructureList( setHandle
+			// .getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP ),
+			// newROMSetParams( setDesign.getParameters( ), setDesign
+			// .getOdaExtensionDataSourceId( ), setDesign
+			// .getOdaExtensionDataSetId( ) ) );
 
 			ResultSetDefinition resultDefn = setDesign.getPrimaryResultSet( );
 			if ( resultDefn == null )
@@ -1202,24 +1210,7 @@ public class ModelOdaAdapter
 		OdaDesignerStateHandle designerState = setHandle
 				.getDesignerStateHandle( );
 
-		if ( designerState == null )
-			return null;
-
-		DesignerState odaState = DesignFactory.eINSTANCE.createDesignerState( );
-		odaState.setVersion( designerState.getVersion( ) );
-
-		byte[] blobContent = designerState.getContentAsBlob( );
-		String stringContent = designerState.getContentAsString( );
-		if ( blobContent == null && stringContent == null )
-			return odaState;
-
-		DesignerStateContent stateContent = DesignFactory.eINSTANCE
-				.createDesignerStateContent( );
-		stateContent.setStateContentAsBlob( blobContent );
-		stateContent.setStateContentAsString( stringContent );
-		odaState.setStateContent( stateContent );
-
-		return odaState;
+		return createOdaDesignState( designerState );
 	}
 
 	/**
@@ -1239,29 +1230,113 @@ public class ModelOdaAdapter
 		if ( designerState == null || setHandle == null )
 			return;
 
-		CommandStack cmdStack = setHandle.getModuleHandle( ).getCommandStack( );
+		updateROMDesignerState( designerState, setHandle
+				.getDesignerStateHandle( ) );
+	}
+
+	/**
+	 * Creates a ODA DesignerState object with the given OdaDataSource.
+	 * 
+	 * @param sourceHandle
+	 *            the ODA DataSource.
+	 * @return the oda DesignerState object.
+	 */
+
+	public DesignerState newOdaDesignerState( OdaDataSourceHandle sourceHandle )
+	{
+		OdaDesignerStateHandle designerState = sourceHandle
+				.getDesignerStateHandle( );
+
+		return createOdaDesignState( designerState );
+	}
+
+	/**
+	 * Creates a ODA DesignerState object with the given ROM designer state.
+	 * 
+	 * @param designerState
+	 *            the ROM designer state.
+	 * @return the oda DesignerState object.
+	 */
+
+	private DesignerState createOdaDesignState(
+			OdaDesignerStateHandle designerState )
+	{
+		if ( designerState == null )
+			return null;
+
+		DesignerState odaState = DesignFactory.eINSTANCE.createDesignerState( );
+		odaState.setVersion( designerState.getVersion( ) );
+
+		byte[] blobContent = designerState.getContentAsBlob( );
+		String stringContent = designerState.getContentAsString( );
+		if ( blobContent == null && stringContent == null )
+			return odaState;
+
+		DesignerStateContent stateContent = DesignFactory.eINSTANCE
+				.createDesignerStateContent( );
+		if ( blobContent != null )
+			stateContent.setStateContentAsBlob( blobContent );
+		if ( stringContent != null )
+			stateContent.setStateContentAsString( stringContent );
+		odaState.setStateContent( stateContent );
+
+		return odaState;
+
+	}
+
+	/**
+	 * Creates a ROM DesignerState object with the given ODA DataSet design.
+	 * 
+	 * @param designerState
+	 *            the ODA designer state.
+	 * @param sourceHandle
+	 *            the ODA DataSource.
+	 * @throws SemanticException
+	 *             if ROM Designer state value is locked.
+	 */
+
+	public void updateROMDesignerState( DesignerState designerState,
+			OdaDataSourceHandle sourceHandle ) throws SemanticException
+	{
+		if ( designerState == null || sourceHandle == null )
+			return;
+
+		updateROMDesignerState( designerState, sourceHandle
+				.getDesignerStateHandle( ) );
+	}
+
+	/**
+	 * Creates a ROM DesignerState object with the given ODA DataSet design.
+	 * 
+	 * @param designerState
+	 *            the ODA designer state.
+	 * @param romDesignerState
+	 *            the ROM designer state.
+	 * @throws SemanticException
+	 *             if ROM Designer state value is locked.
+	 */
+
+	private void updateROMDesignerState( DesignerState designerState,
+			OdaDesignerStateHandle romDesignerState ) throws SemanticException
+	{
+		if ( designerState == null || romDesignerState == null )
+			return;
+
+		CommandStack cmdStack = romDesignerState.getElementHandle( )
+				.getModuleHandle( ).getCommandStack( );
 		cmdStack.startTrans( null );
-		try
-		{
-			setHandle.setDesigerStateVersion( designerState.getVersion( ) );
 
-			DesignerStateContent stateContent = designerState.getStateContent( );
-			if ( stateContent == null )
-				return;
+		romDesignerState.setVersion( designerState.getVersion( ) );
 
-			setHandle.setDesigerStateContentAsString( stateContent
-					.getStateContentAsString( ) );
-			setHandle.setDesigerStateContentAsBlob( stateContent
-					.getStateContentAsBlob( ) );
+		DesignerStateContent stateContent = designerState.getStateContent( );
+		if ( stateContent == null )
+			return;
 
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
-			throw e;
-		}
+		romDesignerState.setContentAsString( stateContent
+				.getStateContentAsString( ) );
+		romDesignerState
+				.setContentAsBlob( stateContent.getStateContentAsBlob( ) );
 
 		cmdStack.commit( );
 	}
-
 }
