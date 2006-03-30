@@ -6,7 +6,14 @@
          <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="odadatasource" name="Data Source UI Extension point"/>
       </appInfo>
       <documentation>
-         The data source extension allows providers to add their own type of data source support to the BIRT designer.&lt;br/&gt;
+         [Deprecated] As of BIRT 2.1, the BIRT ODA design-time framework is deprecated.  
+&lt;br&gt;BIRT 2.1 report designer now adopts the Eclipse Data Tools Platform (DTP) ODA design-time framework.
+This extension point is replaced by the &lt;i&gt;org.eclipse.datatools.connectivity.oda.design.ui.dataSource&lt;/i&gt; extension point.
+
+&lt;br&gt;BIRT 2.1 provides backward compatibility support of existing ODA extensions that implemented this deprecated extension point.
+
+&lt;br&gt;&lt;br&gt;Original description:&lt;br&gt;
+The data source extension allows providers to add their own type of data source support to the BIRT designer.&lt;br/&gt;
 The extension can optionally provide the following implementations for the data source.&lt;br/&gt;
 1) A wizard for creating the data source&lt;br/&gt;
 2) A set of pages for editing the data source&lt;br/&gt;
@@ -20,6 +27,9 @@ For each data set that is defined, it can optionally provide &lt;br/&gt;
 
    <element name="extension">
       <annotation>
+         <appInfo>
+            <meta.element deprecated="true"/>
+         </appInfo>
          <documentation>
             Data Source Extension point
          </documentation>
@@ -55,6 +65,9 @@ For each data set that is defined, it can optionally provide &lt;br/&gt;
 
    <element name="odaDataSourceUI">
       <annotation>
+         <appInfo>
+            <meta.element deprecated="true"/>
+         </appInfo>
          <documentation>
             This extension allows providers to add support for a new data source.
 It defines child elements for the data source wizard, one or more editor pages and for data sets that this data source supports.
@@ -151,6 +164,9 @@ Note: The page with the id &quot;one&quot; should already have been added before
 
    <element name="odaDataSetUI">
       <annotation>
+         <appInfo>
+            <meta.element deprecated="true"/>
+         </appInfo>
          <documentation>
             This element identifies a data set type that is supported by this data source.
 It provides the New data set wizard and a set of one or more editor pages.
@@ -306,8 +322,12 @@ Note: The page with the id &quot;one&quot; should already have been added before
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         The new data source wizard should extend the org.eclipse.birt.report.designer.ui.odadatasource.wizards.AbstractDataSourceConnectionWizard class.&lt;br/&gt;&lt;br/&gt;
+         [Deprecated] As of BIRT 2.1, the BIRT ODA design-time framework is deprecated.  
+&lt;br&gt;BIRT 2.1 report designer now adopts the Eclipse Data Tools Platform (DTP) ODA design-time framework.
+This extension point is replaced by the &lt;i&gt;org.eclipse.datatools.connectivity.oda.design.ui.dataSource&lt;/i&gt; extension point.
 
+&lt;br&gt;&lt;br&gt;Original description:&lt;br&gt;
+The new data source wizard should extend the org.eclipse.birt.report.designer.ui.odadatasource.wizards.AbstractDataSourceConnectionWizard class.&lt;br/&gt;&lt;br/&gt;
 The new data set wizard should extend the org.eclipse.birt.report.designer.ui.odadatasource.wizards.AbstractDataSetWizard class&lt;br/&gt;&lt;br/&gt;
 
 The editor pages should be an implementation of org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage. They can also extend from the abstract class  org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage.&lt;br/&gt;&lt;br/&gt;
