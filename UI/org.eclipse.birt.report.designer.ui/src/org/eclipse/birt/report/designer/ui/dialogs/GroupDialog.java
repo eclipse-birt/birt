@@ -714,7 +714,7 @@ public class GroupDialog extends BaseDialog
 			String newKeyExpr = getKeyExpression( );
 			
 			inputGroup.setKeyExpr( newKeyExpr );
-			if ( newKeyExpr != null && !newKeyExpr.equals( oldKeyExpr ) )
+			if ( newKeyExpr != null && newKeyExpr.length( ) != 0 && !newKeyExpr.equals( oldKeyExpr ) )
 			{
 				SlotHandle slotHandle = null;
 				if ( inputGroup instanceof ListGroupHandle )
@@ -883,7 +883,7 @@ public class GroupDialog extends BaseDialog
 		}
 		else
 		{
-			exp = keyChooser.getText( );
+			exp = keyChooser.getText( ).trim( );
 		}
 		return exp;
 	}
