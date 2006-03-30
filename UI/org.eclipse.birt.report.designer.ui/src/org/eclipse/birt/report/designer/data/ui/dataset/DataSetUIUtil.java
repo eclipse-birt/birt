@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.data.ui.dataset;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -59,6 +60,23 @@ public final class DataSetUIUtil
 			dataSetHandle
 					.setCachedMetaData( null );
 		}
+	}
+	
+	/**
+	 * Add this method according to GUI's requirement.This method is only for temporarily usage.
+	 * @param dataSetHandle
+	 * @return
+	 * @throws SemanticException
+	 * @deprecated
+	 */
+	public static CachedMetaDataHandle getCachedMetaDataHandle( DataSetHandle dataSetHandle ) throws SemanticException
+	{
+		if( dataSetHandle.getCachedMetaDataHandle( ) == null )
+		{
+			updateColumnCache( dataSetHandle );
+		}
+		
+		return dataSetHandle.getCachedMetaDataHandle( );
 	}
 	
 	/**
