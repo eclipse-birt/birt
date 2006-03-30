@@ -119,6 +119,8 @@
 				<include name="**/*.def" />
 				<include name="**/*.properties" />
 				<exclude name="**/*Test.class" />
+				<include name="**/*.properties" />
+	    		<include name="**/*.gif"/>
 			</fileset>
 		</jar>
 	</target>
@@ -140,6 +142,7 @@
 				<include name="**/*.xml" />
 				<include name="**/*.def" />
 				<include name="**/*.properties" />
+				<include name="**/*.gif"/>
 				<exclude name="**/*Test.class" />
 			</fileset>
 			<fileset dir=".">
@@ -232,7 +235,8 @@
 		<mkdir dir="${dir.bin}" />
 		<copy todir="${dir.bin}">
 			<fileset dir="${dir.src}">
-				<include name="**/messages*.properties"/>
+				<include name="**/*.properties"/>
+				<include name="**/*.gif"/>
 			</fileset>
 		</copy>
 
