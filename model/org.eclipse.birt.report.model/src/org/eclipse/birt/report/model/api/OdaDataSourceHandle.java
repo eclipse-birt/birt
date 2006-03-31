@@ -34,7 +34,8 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 public class OdaDataSourceHandle extends DataSourceHandle
 		implements
-			IOdaDataSourceModel, IOdaExtendableElementModel
+			IOdaDataSourceModel,
+			IOdaExtendableElementModel
 {
 
 	/**
@@ -166,8 +167,7 @@ public class OdaDataSourceHandle extends DataSourceHandle
 
 	public IElementDefn getDefn( )
 	{
-		ElementDefn extDefn = ( (OdaDataSource) getElement( ) )
-				.getExtDefn( );
+		ElementDefn extDefn = ( (OdaDataSource) getElement( ) ).getExtDefn( );
 		if ( extDefn != null )
 			return extDefn;
 
@@ -191,7 +191,7 @@ public class OdaDataSourceHandle extends DataSourceHandle
 		return Collections.EMPTY_LIST;
 
 	}
-	
+
 	/**
 	 * Returns the version of designer state.
 	 * 
@@ -354,10 +354,10 @@ public class OdaDataSourceHandle extends DataSourceHandle
 	 * @see OdaDesignerStateHandle
 	 */
 
-	public OdaDesignerStateHandle getDesignerStateHandle( )
+	public OdaDesignerStateHandle getDesignerState( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( OdaDataSet.DESIGNER_STATE_PROP );
-		
+
 		OdaDesignerState designerState = (OdaDesignerState) propHandle
 				.getValue( );
 
@@ -366,4 +366,27 @@ public class OdaDataSourceHandle extends DataSourceHandle
 
 		return (OdaDesignerStateHandle) designerState.getHandle( propHandle );
 	}
+
+	/**
+	 * Sets the designer state for a oda data source.
+	 * 
+	 * @param designerState
+	 *            new designer state
+	 * @return a handle to the designer state
+	 * 
+	 * @throws SemanticException
+	 *             if member of the designer state is not valid.
+	 */
+
+	public OdaDesignerStateHandle setDesignerState(
+			OdaDesignerState designerState ) throws SemanticException
+	{
+		setProperty( OdaDataSource.DESIGNER_STATE_PROP, designerState );
+
+		if ( designerState == null )
+			return null;
+		return (OdaDesignerStateHandle) designerState
+				.getHandle( getPropertyHandle( OdaDataSource.DESIGNER_STATE_PROP ) );
+	}
+
 }

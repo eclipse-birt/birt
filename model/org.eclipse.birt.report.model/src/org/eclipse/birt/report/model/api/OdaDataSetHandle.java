@@ -453,7 +453,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * @see OdaDesignerStateHandle
 	 */
 
-	public OdaDesignerStateHandle getDesignerStateHandle( )
+	public OdaDesignerStateHandle getDesignerState( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( OdaDataSet.DESIGNER_STATE_PROP );
 		OdaDesignerState designerState = (OdaDesignerState) propHandle
@@ -463,5 +463,27 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 			return null;
 
 		return (OdaDesignerStateHandle) designerState.getHandle( propHandle );
+	}
+
+	/**
+	 * Sets the designer state for a oda data set.
+	 * 
+	 * @param designerState
+	 *            new designer state
+	 * @return a handle to the designer state
+	 * 
+	 * @throws SemanticException
+	 *             if member of the designer state is not valid.
+	 */
+
+	public OdaDesignerStateHandle setDesignerState(
+			OdaDesignerState designerState ) throws SemanticException
+	{
+		setProperty( OdaDataSet.DESIGNER_STATE_PROP, designerState );
+
+		if ( designerState == null )
+			return null;
+		return (OdaDesignerStateHandle) designerState
+				.getHandle( getPropertyHandle( OdaDataSet.DESIGNER_STATE_PROP ) );
 	}
 }

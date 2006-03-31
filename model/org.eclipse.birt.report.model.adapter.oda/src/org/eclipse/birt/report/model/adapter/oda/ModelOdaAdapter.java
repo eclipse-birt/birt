@@ -983,7 +983,7 @@ public class ModelOdaAdapter
 	public DesignerState newOdaDesignerState( OdaDataSetHandle setHandle )
 	{
 		OdaDesignerStateHandle designerState = setHandle
-				.getDesignerStateHandle( );
+				.getDesignerState( );
 
 		return DesignerStateAdapter.createOdaDesignState( designerState );
 	}
@@ -1005,8 +1005,7 @@ public class ModelOdaAdapter
 		if ( designerState == null || setHandle == null )
 			return;
 
-		DesignerStateAdapter.updateROMDesignerState( designerState, setHandle
-				.getDesignerStateHandle( ) );
+		DesignerStateAdapter.updateROMDesignerState( designerState, setHandle );
 	}
 
 	/**
@@ -1020,7 +1019,7 @@ public class ModelOdaAdapter
 	public DesignerState newOdaDesignerState( OdaDataSourceHandle sourceHandle )
 	{
 		OdaDesignerStateHandle designerState = sourceHandle
-				.getDesignerStateHandle( );
+				.getDesignerState( );
 
 		return DesignerStateAdapter.createOdaDesignState( designerState );
 	}
@@ -1043,6 +1042,6 @@ public class ModelOdaAdapter
 			return;
 
 		DesignerStateAdapter.updateROMDesignerState( designerState,
-				sourceHandle.getDesignerStateHandle( ) );
+				sourceHandle );
 	}
 }

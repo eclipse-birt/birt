@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -286,6 +287,17 @@ public class StructureFactory
 	public static JoinCondition createJoinCondition( )
 	{
 		return new JoinCondition( );
+	}
+
+	/**
+	 * Creates an empty oda designer state.
+	 * 
+	 * @return an empty oda designer state.
+	 */
+
+	public static OdaDesignerState createOdaDesignerState( )
+	{
+		return new OdaDesignerState( );
 	}
 
 	/**
