@@ -66,10 +66,12 @@ import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.MapRuleDesign;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
+import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
@@ -91,7 +93,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.48 $ $Date: 2006/01/13 04:56:58 $
+ * @version $Revision: 1.49 $ $Date: 2006/02/28 03:53:13 $
  */
 public class ReportQueryBuilder
 {
@@ -187,7 +189,25 @@ public class ReportQueryBuilder
 
 			queryIDs = report.getQueryIDs( );
 			queryIDs.clear( );
-
+			
+			// visit master page
+			for ( int i = 0; i < report.getPageSetup().getMasterPageCount( ); i++ )
+			{				
+				MasterPageDesign masterPage = report.getPageSetup().getMasterPage( i );
+				if ( masterPage != null )
+				{
+					SimpleMasterPageDesign pageDesign = (SimpleMasterPageDesign) masterPage;
+					for ( int j = 0; j < pageDesign.getHeaderCount( ); j++ )
+					{
+						pageDesign.getHeader( j ).accept( this, null );
+					}
+					for ( int j = 0; j < pageDesign.getFooterCount( ); j++ )
+					{
+						pageDesign.getFooter( j ).accept( this, null );
+					}
+				}
+			}
+			
 			// visit report
 			for ( int i = 0; i < report.getContentCount( ); i++ )
 				report.getContent( i ).accept( this, null );
