@@ -74,12 +74,12 @@ public class HandlerPage extends AttributePage
 				String className = null;
 				if ( input != null && input.size( ) > 0 )
 				{
-					if ( input.get( 0 ) instanceof ExtendedItemHandle
-							&& extraProperty != null )
-					{
-						className = (String) ( extraProperty.get( AttributeConstant.EVENT_HANDLER_CLASS_PROPERTY_KEY ) );
-					}
-					else if ( input.get( 0 ) instanceof DesignElementHandle )
+//					if ( input.get( 0 ) instanceof ExtendedItemHandle
+//					{
+//						className = (String) ( EventHandlerWrapper.get( AttributeConstant.EVENT_HANDLER_CLASS_PROPERTY_KEY ) );
+//					}
+//					else 
+						if ( input.get( 0 ) instanceof DesignElementHandle )
 					{
 						className = EventHandlerWrapper.getEventHandlerClassName( (DesignElementHandle) input.get( 0 ) );
 
