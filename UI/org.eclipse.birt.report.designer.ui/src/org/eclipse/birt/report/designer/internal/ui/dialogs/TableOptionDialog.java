@@ -282,7 +282,10 @@ public class TableOptionDialog extends BaseDialog
 
 					try
 					{
-						Integer.parseInt( e.text );
+						if(e.text.length( ) != 0)
+						{
+							Integer.parseInt( e.text );
+						}						
 						e.doit = true;
 					}
 					catch ( Exception _ )
