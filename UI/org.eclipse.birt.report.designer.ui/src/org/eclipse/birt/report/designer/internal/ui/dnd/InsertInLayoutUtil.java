@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -666,9 +667,13 @@ public class InsertInLayoutUtil
 		}
 		else if ( insertObj instanceof DataSetHandle )
 		{
-			return isHandleValid( (DataSetHandle) insertObj )
-					&& ( (DataSetHandle) insertObj ).getDataSource( ) != null
-					&& handleValidateDataSet( targetPart );
+			if ( insertObj instanceof JointDataSetHandle )
+				return isHandleValid( (DataSetHandle) insertObj )
+						&& handleValidateDataSet( targetPart );
+			else
+				return isHandleValid( (DataSetHandle) insertObj )
+						&& ( (DataSetHandle) insertObj ).getDataSource( ) != null
+						&& handleValidateDataSet( targetPart );
 		}
 		else if ( insertObj instanceof DataSetItemModel )
 		{

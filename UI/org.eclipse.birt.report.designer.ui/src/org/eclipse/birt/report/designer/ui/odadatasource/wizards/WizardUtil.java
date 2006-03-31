@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.ui.actions.EditDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.EditDataSourceAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
+import org.eclipse.birt.report.designer.ui.actions.NewJointDataSetAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.IWorkbenchActionConstants;
 
@@ -51,7 +52,10 @@ public class WizardUtil {
 	public static void createNewDataSetMenu(IMenuManager menu)
 	{
 		NewDataSetAction action =  new NewDataSetAction(Messages.getString("dataset.new"));//$NON-NLS-1$
-    	menu.add( action );					
+    	menu.add( action );
+
+		NewJointDataSetAction joinaction =  new NewJointDataSetAction(Messages.getString("dataset.join.new"));//$NON-NLS-1$
+    	menu.add( joinaction );	
 	}
     
     public static void createEditDataSetMenu(IMenuManager menu, Object selectedObject)

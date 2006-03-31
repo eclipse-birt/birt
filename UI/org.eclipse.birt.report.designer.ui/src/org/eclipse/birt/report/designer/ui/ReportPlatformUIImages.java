@@ -186,6 +186,9 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_SCRIPT_DATA_SOURCE,
 				ICONS_PATH + OBJ16_PATH + "data_source.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_JOINT_DATA_SET,
+				ICONS_PATH + OBJ16_PATH + "data_set.gif" ); //$NON-NLS-1$
+		
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_GRID, ICONS_PATH
 				+ PAL_PATH
 				+ "grid.gif" ); //$NON-NLS-1$
