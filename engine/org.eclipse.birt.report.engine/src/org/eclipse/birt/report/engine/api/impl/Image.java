@@ -56,7 +56,6 @@ public class Image extends ReportPart implements IImage
 	 */
 	protected byte[] data = null;
 
-	protected InputStream in = null;
 
 	/**
 	 * Constructor with an image uri
@@ -78,12 +77,11 @@ public class Image extends ReportPart implements IImage
 			return;
 		}
 
+		this.source = IImage.FILE_IMAGE;
 		try
 		{
 			URL url = new URL( uri );
 			extension = FileUtil.getExtFromFileName( uri, FileUtil.SEPARATOR_URI );
-			this.in = new BufferedInputStream( url.openStream( ) );
-			this.source = IImage.FILE_IMAGE;
 			return;
 		}
 		catch ( MalformedURLException e )
@@ -93,17 +91,7 @@ public class Image extends ReportPart implements IImage
 		{
 		}
 
-		try
-		{
-			this.in = new BufferedInputStream( new FileInputStream( new File(
-					uri ) ) );
 			extension = FileUtil.getExtFromFileName( uri, FileUtil.SEPARATOR_PATH );
-			this.source = IImage.FILE_IMAGE;
-		}
-		catch ( FileNotFoundException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-		}
 	}
 
 	/**
@@ -121,7 +109,6 @@ public class Image extends ReportPart implements IImage
 		id = name;
 		this.data = data;
 		this.source = IImage.CUSTOM_IMAGE;
-		this.in = new ByteArrayInputStream( this.data );
 	}
 
 	public Image( IImageContent content )
@@ -142,23 +129,13 @@ public class Image extends ReportPart implements IImage
 			case IImageContent.IMAGE_FILE :
 				if ( imgUri != null )
 				{
-					try
-					{
-						in = new BufferedInputStream( new FileInputStream(
-								new File( imgUri ) ) );
 						this.id = imgUri;
 						this.source = IImage.FILE_IMAGE;
 					}
-					catch ( FileNotFoundException e )
-					{
-						logger.log( Level.SEVERE, e.getMessage( ), e );
-					}
-				}
 				break;
 			case IImageContent.IMAGE_NAME :
 				if ( imgData != null )
 				{
-					this.in = new ByteArrayInputStream( imgData );
 					this.data = imgData;
 					this.source = IImage.DESIGN_IMAGE;
 					this.id = imgUri;
@@ -167,7 +144,6 @@ public class Image extends ReportPart implements IImage
 			case IImageContent.IMAGE_EXPRESSION :
 				if ( imgData != null )
 				{
-					this.in = new ByteArrayInputStream( imgData );
 					this.data = imgData;
 					this.source = IImage.CUSTOM_IMAGE;
 				}
@@ -226,7 +202,57 @@ public class Image extends ReportPart implements IImage
 	 */
 	public InputStream getImageStream( )
 	{
-		return in;
+		switch ( this.source )
+		{
+			case IImage.FILE_IMAGE :
+				try
+				{
+					URL url = new URL( this.id );
+					return new BufferedInputStream( url.openStream( ) );
+				}
+				catch ( MalformedURLException e )
+				{
+				}
+				catch ( IOException e1 )
+				{
+				}
+
+				try
+				{
+					return new BufferedInputStream( new FileInputStream( new File( this.id ) ) );
+				}
+				catch ( FileNotFoundException e )
+				{
+					logger.log( Level.SEVERE, e.getMessage( ), e );
+				}
+				return null;
+
+			case IImage.CUSTOM_IMAGE :
+				return new ByteArrayInputStream( this.data );
+
+			case IImage.DESIGN_IMAGE :
+				return new ByteArrayInputStream( this.data );
+
+			case IImage.URL_IMAGE :
+				try
+				{
+					URL url = new URL( this.id );
+					return new BufferedInputStream( url.openStream( ) );
+				}
+				catch ( MalformedURLException e )
+				{
+				}
+				catch ( IOException e1 )
+				{
+				}
+				return null;
+
+			case IImage.INVALID_IMAGE :
+				return null;
+
+			default :
+				return null;
+		}
 	}
 
 	/*
@@ -242,18 +268,11 @@ public class Image extends ReportPart implements IImage
 			return;
 		}
 
-		InputStream input = null;
-		if ( in != null )
-		{
-			input = in;
-		}
-		else if ( data != null )
-		{
-			input = new ByteArrayInputStream( data );
-		}
-		else
+		InputStream input = getImageStream();
+		if ( null == input )
 		{
 			logger.log( Level.SEVERE, "image source {0} is not found!", id ); //$NON-NLS-1$
+			return;
 		}
 		// if(!dest.exists())
 		// {
@@ -275,9 +294,27 @@ public class Image extends ReportPart implements IImage
 		finally
 		{
 			if ( input != null )
+			{
+				try
+				{
 				input.close( );
+				}
+				catch (IOException e)
+				{
+					logger.log( Level.SEVERE, e.getMessage( ), e );
+				}
+			}
 			if ( output != null )
+			{
+				try
+				{
 				output.close( );
+				}
+				catch (IOException e)
+				{
+					logger.log( Level.SEVERE, e.getMessage( ), e );
+				}
+			}
 		}
 		// }
 
