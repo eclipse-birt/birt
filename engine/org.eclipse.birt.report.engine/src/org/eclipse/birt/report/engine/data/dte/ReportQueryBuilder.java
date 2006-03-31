@@ -93,7 +93,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.49 $ $Date: 2006/02/28 03:53:13 $
+ * @version $Revision: 1.50 $ $Date: 2006/03/31 06:18:40 $
  */
 public class ReportQueryBuilder
 {
@@ -864,15 +864,7 @@ public class ReportQueryBuilder
 		 */
 		protected void handleRow( RowDesign row, Object value )
 		{
-			// handleStyle( row.getStyle( ) );
-			if ( row.getVisibility( ) != null )
-			{
-				for ( int i = 0; i < row.getVisibility( ).count( ); i++ )
-					addExpression( row.getVisibility( ).getRule( i )
-							.getExpression( ) );
-			}
-			addExpression(row.getTOC());
-			addExpression( row.getBookmark( ) );
+			handleReportItemExpressions( row );
 			for ( int i = 0; i < row.getCellCount( ); i++ )
 			{
 				CellDesign cell = row.getCell( i );
@@ -889,6 +881,8 @@ public class ReportQueryBuilder
 		protected void handleCell( CellDesign cell, Object value )
 		{
 			// handleStyle( cell.getStyle( ) );
+			handleReportItemExpressions( cell );
+
 			for ( int i = 0; i < cell.getContentCount( ); i++ )
 				cell.getContent( i ).accept( this, value );
 		}

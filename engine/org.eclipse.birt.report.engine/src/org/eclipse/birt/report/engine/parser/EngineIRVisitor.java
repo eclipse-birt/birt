@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.88 $ $Date: 2006/03/27 03:20:02 $
+ * @version $Revision: 1.89 $ $Date: 2006/03/27 11:15:41 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -438,7 +438,7 @@ class EngineIRVisitor extends DesignVisitor
 				page.addFooter( (ReportItemDesign) currentElement );
 			}
 		}
-
+		
 		currentElement = page;
 	}
 
@@ -490,7 +490,7 @@ class EngineIRVisitor extends DesignVisitor
 				container.addItem( (ReportItemDesign) currentElement );
 			}
 		}
-
+		
 		currentElement = container;
 	}
 
@@ -506,7 +506,7 @@ class EngineIRVisitor extends DesignVisitor
 		multiLineItem.setContentType( contentType );
 		setHighlight( multiLineItem, valueExpr );
 		setMap( multiLineItem, valueExpr );
-
+		
 		currentElement = multiLineItem;
 	}
 
@@ -703,7 +703,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		// Fill in help text
 		labelItem.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );
-
+		
 		currentElement = labelItem;
 	}
 
@@ -765,6 +765,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 
 		new TableItemDesignLayout( ).layout( grid );
+
 		currentElement = grid;
 	}
 
@@ -904,7 +905,7 @@ class EngineIRVisitor extends DesignVisitor
 				}
 			}
 		}
-
+		
 		currentElement = table;
 	}
 
@@ -920,7 +921,7 @@ class EngineIRVisitor extends DesignVisitor
 		
 		boolean supress = handle.suppressDuplicates( );
 		col.setSuppressDuplicate( supress );
-
+		
 		currentElement = col;
 	}
 
@@ -958,6 +959,8 @@ class EngineIRVisitor extends DesignVisitor
 		row.setOnCreate( createExpression( onCreate ) );
 		row.setOnRender( ( (RowHandle) handle ).getOnRender( ) );
 
+		setHighlight( row, null );
+		
 		currentElement = row;
 	}
 
@@ -1048,6 +1051,8 @@ class EngineIRVisitor extends DesignVisitor
 		cell.setOnCreate( createExpression( onCreate ) );
 		cell.setOnRender( handle.getOnRender( ) );
 
+		setHighlight( cell, null );
+		
 		currentElement = cell;
 	}
 
@@ -1159,7 +1164,7 @@ class EngineIRVisitor extends DesignVisitor
 			textItem.setTextType( contentType );
 		}
 		textItem.setText( handle.getContentKey( ), handle.getContent( ) );
-
+		
 		currentElement = textItem;
 	}
 
@@ -1172,7 +1177,7 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		ExtendedItemDesign extendedItem = new ExtendedItemDesign( );
 		setupReportItem( extendedItem, obj );
-
+				
 		currentElement = extendedItem;
 	}
 
@@ -1305,6 +1310,8 @@ class EngineIRVisitor extends DesignVisitor
 		Iterator visibilityIter = handle.visibilityRulesIterator( );
 		VisibilityDesign visibility = createVisibility( visibilityIter );
 		item.setVisibility( visibility );
+		
+		setHighlight( item, null );
 	}
 
 	/**
