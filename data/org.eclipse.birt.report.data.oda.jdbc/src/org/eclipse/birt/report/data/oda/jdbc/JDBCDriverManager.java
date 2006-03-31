@@ -145,7 +145,7 @@ public class JDBCDriverManager
 			loadAndRegisterDriver(driverClass);
 			if ( logger.isLoggable( Level.FINER ))
 				logger.finer( "Calling DriverManager.getConnection. url=" + url );
-			return DriverManager.getConnection( url, connectionProperties );
+			return DriverManager.getConnection( url.trim( ), connectionProperties );
 		}
 	}
 	
