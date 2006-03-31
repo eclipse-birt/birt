@@ -238,7 +238,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			{
 				// we never add page break before the table header and
 				// the last row
-				needPageBreak = false;
+				//needPageBreak = false;
 				startTOCEntry( null );
 				accessFooter( listing, outputEmitter, rsIterator );
 				finishTOCEntry( );
