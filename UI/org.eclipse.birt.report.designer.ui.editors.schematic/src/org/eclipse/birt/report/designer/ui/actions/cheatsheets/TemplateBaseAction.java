@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layout.ReportLayoutEditor;
-import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.designer.ui.editors.pages.ReportLayoutEditorFormPage;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -25,7 +25,6 @@ import org.eclipse.gef.ui.parts.AbstractEditPartViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 
@@ -51,8 +50,7 @@ public abstract class TemplateBaseAction extends Action
 	public void run( String[] params, ICheatSheetManager manager )
 	{
 		this.params = params;
-		IEditorPart editor = PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( ).getActivePage( ).getActiveEditor( );
+		IEditorPart editor = UIUtil.getActiveReportEditor( );
 		if ( editor instanceof MultiPageReportEditor )
 		{
 			// switch to Design Page

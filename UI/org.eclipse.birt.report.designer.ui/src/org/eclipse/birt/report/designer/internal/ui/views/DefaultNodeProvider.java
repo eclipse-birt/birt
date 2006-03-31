@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
@@ -522,7 +523,7 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( type == null )
 		{
 			List supportList = DEUtil.getElementSupportList( slotHandle );
-			if ( supportList.size( ) == 1 )
+			if ( supportList.size( ) == 1 || supportList.get( 0 ) instanceof SimpleMasterPageHandle)
 			{
 				type = ( (IElementDefn) supportList.get( 0 ) ).getName( );
 			}
