@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.io.File;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -72,6 +74,18 @@ public class ImportLibraryAction extends Action
 		}
 		if ( filename != null )
 		{
+			if( !(new File(filename).exists()))
+			{
+				ExceptionHandler.openErrorMessageBox( Messages.getString( "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
+						Messages.getFormattedString( "AddLibraryAction.Error.FileNotFound", new String[]{filename} ) ); //$NON-NLS-1$
+				return;
+			}
+			if ( !(filename.endsWith( ".rptlibrary") ))
+			{
+				ExceptionHandler.openErrorMessageBox( Messages.getString( "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
+						Messages.getFormattedString( "AddLibraryAction.Error.FileIsNotLibrary", new String[]{filename,".rptlibrary"} ) ); //$NON-NLS-1$
+				return;
+			}	
 			if ( !isInExplorer( filename ) )
 			{
 				addToPreference( filename );

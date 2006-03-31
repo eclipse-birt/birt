@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import java.io.File;
+
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -183,7 +186,20 @@ public class LibraryPreferencePage extends PreferencePage implements
 				{
 					return;
 				}
-
+				// if file does not exist
+				if( !(new File(fileName).exists()))
+				{
+					ExceptionHandler.openErrorMessageBox( Messages.getString( "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
+							Messages.getFormattedString( "AddLibraryAction.Error.FileNotFound", new String[]{fileName} ) ); //$NON-NLS-1$
+					return;
+				}
+				//if file is not library
+				if ( !(fileName.endsWith( ".rptlibrary") ))
+				{
+					ExceptionHandler.openErrorMessageBox( Messages.getString( "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
+							Messages.getFormattedString( "AddLibraryAction.Error.FileIsNotLibrary", new String[]{fileName,".rptlibrary"} ) ); //$NON-NLS-1$
+					return;
+				}
 				// If can't find the name
 				if ( LibraryList.indexOf( fileName ) == -1 )
 				{
