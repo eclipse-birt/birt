@@ -8,10 +8,10 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.model.extension.oda;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.plugin.ODABaseProviderFactory;
 
 /**
  * This class is used to wrap the ODA code. The
@@ -25,7 +25,7 @@ public class ODAProviderFactory implements IODAProviderFactory
 	/*
 	 * Factory used to create the ODAProvider instance.
 	 */
-	private static ODABaseProviderFactory baseFactory = null;
+	private static IODAProviderFactory baseFactory = null;
 
 	/*
 	 * The only one ODAProviderFactory instance.
@@ -53,7 +53,7 @@ public class ODAProviderFactory implements IODAProviderFactory
 	 *            definition.
 	 * @return the ODA provider instance.
 	 */
-	public  ODAProvider createODAProvider( DesignElement element,
+	public ODAProvider createODAProvider( DesignElement element,
 			String extensionID )
 	{
 		if ( baseFactory != null )
@@ -70,7 +70,7 @@ public class ODAProviderFactory implements IODAProviderFactory
 	 *            The real factory class used to create the ODA provider.
 	 */
 
-	public synchronized static void initeTheFactory( ODABaseProviderFactory base )
+	public synchronized static void initeTheFactory( IODAProviderFactory base )
 	{
 		if ( baseFactory != null )
 			return;
