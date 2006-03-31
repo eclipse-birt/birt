@@ -26,7 +26,6 @@ public class AllTests
 		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.tests" );
 		//$JUnit-BEGIN$
 		suite.addTest( org.eclipse.birt.report.designer.core.AllCoreTests.suite( ) );
-		suite.addTest( org.eclipse.birt.report.designer.data.jdbc.util.AllTests.suite( ) );
 		suite.addTest( org.eclipse.birt.report.designer.ui.AllUITests.suite( ) );
 		suite.addTest( org.eclipse.birt.report.designer.util.AllUtilTests.suite( ) );
 		suite.addTest( org.eclipse.birt.report.designer.internal.ui.util.AllUIUtilTests.suite( ) );
