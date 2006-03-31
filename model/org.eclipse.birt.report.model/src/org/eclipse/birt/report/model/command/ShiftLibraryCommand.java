@@ -60,7 +60,8 @@ public class ShiftLibraryCommand extends AbstractElementCommand
 		assert !libraries.isEmpty( );
 
 		if ( !libraries.contains( library ) )
-			throw new LibraryException( library,
+			throw new LibraryException( library, new String[]{library
+					.getNamespace( )},
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 
 		// Move the new position so that it is in range.

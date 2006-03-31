@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1891,6 +1890,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void shiftLibrary( LibraryHandle library, int toPosn )
 			throws SemanticException
 	{
+		if ( library == null )
+			return;
+
 		ShiftLibraryCommand command = new ShiftLibraryCommand( module );
 		command.shiftLibrary( (Library) library.getElement( ), toPosn );
 	}
@@ -1957,6 +1959,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void dropLibrary( LibraryHandle library ) throws SemanticException
 	{
+		if ( library == null )
+			return;
+
 		LibraryCommand command = new LibraryCommand( module );
 		command.dropLibrary( (Library) library.getElement( ) );
 	}
@@ -2002,6 +2007,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void dropLibraryAndBreakExtends( LibraryHandle library )
 			throws SemanticException
 	{
+		if ( library == null )
+			return;
+
 		LibraryCommand command = new LibraryCommand( module );
 		command.dropLibraryAndBreakExtends( (Library) library.getElement( ) );
 	}

@@ -349,6 +349,7 @@ public class StructureFactory
 		if ( lib == null )
 		{
 			throw new LibraryException( baseModule,
+					new String[]{( (Library) baseModule ).getNamespace( )},
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 		}
 

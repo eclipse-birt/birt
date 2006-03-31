@@ -137,7 +137,8 @@ public class LibraryCommand extends AbstractElementCommand
 
 		if ( !module.getLibraries( ).contains( library ) )
 		{
-			throw new LibraryException( library,
+			throw new LibraryException( library, new String[]{library
+					.getNamespace( )},
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 		}
 
@@ -206,7 +207,8 @@ public class LibraryCommand extends AbstractElementCommand
 
 		if ( !module.getLibraries( ).contains( library ) )
 		{
-			throw new LibraryException( library,
+			throw new LibraryException( library, new String[]{library
+					.getNamespace( )},
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 		}
 
@@ -328,7 +330,9 @@ public class LibraryCommand extends AbstractElementCommand
 
 		if ( !module.getLibraries( ).contains( library ) )
 		{
-			throw new LibraryException( library,
+			throw new LibraryException( library, new String[]{library == null
+					? null
+					: library.getNamespace( )},
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 		}
 
@@ -511,7 +515,7 @@ public class LibraryCommand extends AbstractElementCommand
 
 			parent.dropDerived( child );
 			value.unresolved( value.getName( ) );
-			
+
 			return Collections.EMPTY_MAP;
 		}
 

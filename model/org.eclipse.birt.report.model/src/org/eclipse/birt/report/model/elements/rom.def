@@ -1666,7 +1666,8 @@
       <Type name="DataSet"/>
     </Slot>
     <Slot displayNameID="Element.Library.slot.pageSetup" multipleCardinality="true" name="pageSetup" since="1.0" xmlName="page-setup">
-      <Type name="MasterPage"/>
+      <Type name="SimpleMasterPage"/>
+      <Type name="GraphicMasterPage"/>		
 	  <Trigger validator="MasterPageRequiredValidator"/>
     </Slot>
     <Slot displayNameID="Element.Library.slot.components" multipleCardinality="true" name="components" since="reserved" xmlName="components">
@@ -1745,7 +1746,8 @@
       <Type name="TemplateDataSet"/>
     </Slot>
     <Slot displayNameID="Element.ReportDesign.slot.pageSetup" multipleCardinality="true" name="pageSetup" since="1.0" xmlName="page-setup">
-      <Type name="MasterPage"/>
+      <Type name="SimpleMasterPage"/>
+      <Type name="GraphicMasterPage"/>		
 	  <Trigger validator="MasterPageRequiredValidator"/>
     </Slot>
     <Slot displayNameID="Element.ReportDesign.slot.components" multipleCardinality="true" name="components" since="reserved" xmlName="components">
