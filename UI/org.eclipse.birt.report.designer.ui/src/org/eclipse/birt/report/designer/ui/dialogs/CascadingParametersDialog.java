@@ -550,7 +550,7 @@ public class CascadingParametersDialog extends BaseDialog
 		limitArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		listLimit = new Text( limitArea, SWT.BORDER );
-		GridData gridData = new GridData();
+		GridData gridData = new GridData( );
 		gridData.widthHint = 80;
 		listLimit.setLayoutData( gridData );
 
@@ -1056,6 +1056,15 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			Object actualElement = ( (TableItem) element ).getData( );
 
+			try
+			{
+				saveParameterProperties();
+			}
+			catch ( SemanticException e1 )
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			if ( COLUMN_NAME.equals( property ) )
 			{
 				try
