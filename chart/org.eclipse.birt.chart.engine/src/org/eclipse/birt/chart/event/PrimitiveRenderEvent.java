@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.event;
 
 import java.util.EventObject;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.IConstants;
@@ -24,7 +25,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 /**
  * PrimitiveRenderEvent
  */
-public abstract class PrimitiveRenderEvent extends EventObject implements
+public abstract class PrimitiveRenderEvent extends ChartEvent implements
 		Comparable
 {
 
@@ -37,21 +38,18 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 	private double dDepth = 0;
 
 	/**
+	 * Creates a Primitive Render Event from a source object.
+	 * The source can be of any type. Inside the chart engine, it is
+	 * a StructureSource object
 	 * 
-	 * @param oSource
+	 * @param oSource The Source Object
+	 * @see StructureSource
 	 */
 	public PrimitiveRenderEvent( Object oSource )
 	{
 		super( oSource );
 	}
 
-	/**
-	 * Resets all fields to default value.
-	 */
-	public void reset( )
-	{
-
-	}
 
 	/**
 	 * 
@@ -66,7 +64,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE ) );
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
 	}
 
 	/**
@@ -84,7 +82,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE ) );
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
 	}
 
 	/**
@@ -207,7 +205,8 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 					new Object[]{
 						o
 					},
-					ResourceBundle.getBundle( Messages.ENGINE ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE,
+							Locale.getDefault( ) ) ) );
 		}
 		/*
 		 * if (dDepth != pre.dDepth) { return (dDepth > pre.dDepth) ?
@@ -241,7 +240,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE ) );
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
 	}
 
 	/**
@@ -258,7 +257,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE ) );
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
 	}
 
 	/**
@@ -270,12 +269,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 		this.dDepth = dDepth;
 	}
 
-	public final void setSourceObject( Object oSource )
-	{
-		if ( oSource == null )
-			throw new IllegalArgumentException( Messages.getString( "error.null.source" ) ); //$NON-NLS-1$ 
-		super.source = oSource;
-	}
+
 
 	/**
 	 * 

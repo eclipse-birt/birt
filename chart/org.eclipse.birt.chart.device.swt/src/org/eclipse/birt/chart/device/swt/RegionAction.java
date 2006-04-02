@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.device.swt;
 
+import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -29,7 +30,7 @@ import org.eclipse.swt.widgets.Display;
 public final class RegionAction
 {
 
-	private final Object _oSource;
+	private final StructureSource _oSource;
 
 	private final Region _sh;
 
@@ -37,7 +38,7 @@ public final class RegionAction
 
 	private final Action _ac;
 
-	private RegionAction( Object source, Region rg, Path ph, Action ac )
+	private RegionAction( StructureSource source, Region rg, Path ph, Action ac )
 	{
 		this._oSource = source;
 		this._sh = rg;
@@ -46,13 +47,17 @@ public final class RegionAction
 	}
 
 	/**
-	 * This constructor supports polygon shapes Future shapes (and corresponding
-	 * constructors) will be added later
+	 * RegionAction constructor taking a polygon to define the region
 	 * 
-	 * @param loa
-	 * @param ac
+	 * @param oSource StructureSource
+	 * @param loa Polygon points
+	 * @param ac Action
+	 * @param dTranslateX X Translation to apply on polygon coordinates
+	 * @param dTranslateY Y Translation to apply on polygon coordinates
+	 * @param dScale Scale to apply on polygon coordinates
+	 * @param clipping Clipping area, points outside it will be clipped
 	 */
-	RegionAction( Object oSource, Location[] loa, Action ac,
+	RegionAction( StructureSource oSource, Location[] loa, Action ac,
 			double dTranslateX, double dTranslateY, double dScale,
 			Region clipping )
 	{
@@ -75,11 +80,15 @@ public final class RegionAction
 	/**
 	 * This constructor supports shape definition via a rectangle.
 	 * 
-	 * @param oSource
-	 * @param boEllipse
-	 * @param ac
+	 * @param oSource StructureSource
+	 * @param bo Rectangle
+	 * @param ac Action
+	 * @param dTranslateX X translation to apply to rectangle
+	 * @param dTranslateY Y translation to apply to rectangle
+	 * @param dScale scale to apply to rectangle
+	 * @param clipping Clipping area, points outside it will be clipped
 	 */
-	RegionAction( Object oSource, Bounds bo, Action ac, double dTranslateX,
+	RegionAction( StructureSource oSource, Bounds bo, Action ac, double dTranslateX,
 			double dTranslateY, double dScale, Region clipping )
 	{
 		_oSource = oSource;
@@ -102,7 +111,7 @@ public final class RegionAction
 		_ac = ac;
 		_ph = null;
 	}
-
+	
 	/**
 	 * This constructor supports shape definition via an elliptical arc
 	 * 
@@ -113,7 +122,7 @@ public final class RegionAction
 	 * @param iArcType
 	 * @param ac
 	 */
-	RegionAction( Object oSource, Bounds boEllipse, double dStart,
+	RegionAction( StructureSource oSource, Bounds boEllipse, double dStart,
 			double dExtent, boolean bSector, Action ac, double dTranslateX,
 			double dTranslateY, double dScale, Region clipping )
 	{
@@ -152,34 +161,44 @@ public final class RegionAction
 		_ac = ac;
 		_sh = null;
 	}
-
 	/**
-	 * This constructor supports polygon shapes Future shapes (and corresponding
-	 * constructors) will be added later
+	 *  This constructor supports polygon shapes without clipping 
+	 *  
+	 * @param oSource StructureSource
+	 * @param loa Polygon points
+	 * @param ac Action
+	 * @param dTranslateX X Translation to apply on polygon coordinates
+	 * @param dTranslateY Y Translation to apply on polygon coordinates
+	 * @param dScale Scale to apply on polygon coordinates
 	 * 
-	 * @param loa
-	 * @param ac
+	 * @deprecated
+	 * @see #RegionAction(StructureSource, Location[], Action, double, double, double, Region)
 	 */
-	RegionAction( Object oSource, Location[] loa, Action ac,
+	RegionAction( StructureSource oSource, Location[] loa, Action ac,
 			double dTranslateX, double dTranslateY, double dScale )
 	{
 		this( oSource, loa, ac, dTranslateX, dTranslateY, dScale, null );
 	}
 
 	/**
-	 * This constructor supports shape definition via a rectangle.
+	 * This constructor supports shape definition via a rectangle without clipping
 	 * 
-	 * @param oSource
-	 * @param boEllipse
-	 * @param ac
+	 * @param oSource StructureSource
+	 * @param bo Rectangle
+	 * @param ac Action
+	 * @param dTranslateX X translation to apply to rectangle
+	 * @param dTranslateY Y translation to apply to rectangle
+	 * @param dScale scale to apply to rectangle
+	 * 
+	 * @deprecated
+	 * @see #RegionAction(StructureSource, Bounds, Action, double, double, double, Region)
 	 */
-	RegionAction( Object oSource, Bounds bo, Action ac, double dTranslateX,
+	RegionAction( StructureSource oSource, Bounds bo, Action ac, double dTranslateX,
 			double dTranslateY, double dScale )
 	{
 		this( oSource, bo, ac, dTranslateX, dTranslateY, dScale, null );
 	}
-
-	/**
+/**
 	 * This constructor supports shape definition via an elliptical arc
 	 * 
 	 * @param oSource
@@ -189,7 +208,7 @@ public final class RegionAction
 	 * @param iArcType
 	 * @param ac
 	 */
-	RegionAction( Object oSource, Bounds boEllipse, double dStart,
+	RegionAction( StructureSource oSource, Bounds boEllipse, double dStart,
 			double dExtent, boolean bSector, Action ac, double dTranslateX,
 			double dTranslateY, double dScale )
 	{
@@ -205,10 +224,9 @@ public final class RegionAction
 				null );
 	}
 
+
 	/**
-	 * Returns the action associated with current ShapedAction.
-	 * 
-	 * @return
+	 * @return The action associated with current ShapedAction.
 	 */
 	public final Action getAction( )
 	{
@@ -216,21 +234,19 @@ public final class RegionAction
 	}
 
 	/**
-	 * Returns the source object associated with current ShapedAction.
-	 * 
-	 * @return
+	 * @return The source object associated with current ShapedAction
 	 */
-	public final Object getSource( )
+	public final StructureSource getSource( )
 	{
 		return _oSource;
 	}
 
 	/**
-	 * Returns a copy of current action. Note the Region object is value copied,
+	 * Note the Region object is value copied,
 	 * others are just reference copy. <b>The invoker must call
 	 * <code>dispose()</code> explicitly when this is not used anymore</b>.
 	 * 
-	 * @return
+	 * @return A copy of current RegionAction
 	 */
 	public RegionAction copy( )
 	{
@@ -240,18 +256,17 @@ public final class RegionAction
 		if ( _sh != null )
 		{
 			nrg = new Region( );
-			nrg.add( _sh );
+		nrg.add( _sh );
 		}
 
 		if ( _ph != null )
 		{
 			nph = new Path( Display.getDefault( ) );
 			nph.addPath( _ph );
-		}
-
-		return new RegionAction( _oSource, nrg, nph, _ac );
 	}
 
+		return new RegionAction( _oSource, nrg, nph, _ac );
+}
 	/**
 	 * Returns if the current region contains given point.
 	 * 

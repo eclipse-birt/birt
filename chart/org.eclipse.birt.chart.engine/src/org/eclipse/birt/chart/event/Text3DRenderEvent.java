@@ -75,7 +75,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		Text3DRenderEvent tre = new Text3DRenderEvent( source );
+		Text3DRenderEvent tre = new Text3DRenderEvent( (StructureSource)source );
 		tre.setAction( _iAction );
 		tre.setTextPosition( _iTextPosition );
 		if ( _la != null )

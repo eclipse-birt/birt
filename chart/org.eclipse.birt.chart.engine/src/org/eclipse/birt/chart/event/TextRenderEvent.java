@@ -271,7 +271,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		final TextRenderEvent tre = new TextRenderEvent( source );
+		final TextRenderEvent tre = new TextRenderEvent( (StructureSource)source );
 		if ( _boBlock != null )
 		{
 			tre.setBlockBounds( BoundsImpl.copyInstance( _boBlock ) );
@@ -311,5 +311,14 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	public final void draw( IDeviceRenderer idr ) throws ChartException
 	{
 		idr.drawText( this );
+	}
+
+	public void reset( )
+	{
+		_boBlock = null;
+		_la = null;
+		_lo = null;
+		_taBlock = null;
+		
 	}
 }

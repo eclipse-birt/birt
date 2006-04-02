@@ -100,7 +100,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		Line3DRenderEvent lre = new Line3DRenderEvent( source );
+		Line3DRenderEvent lre = new Line3DRenderEvent( (StructureSource)source );
 		if ( lia != null )
 		{
 			lre.setLineAttributes( LineAttributesImpl.copyInstance( lia ) );
@@ -136,7 +136,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	public void reset( )
 	{
 		object3D = new Object3D( 2 );
-		super.reset( );
+		super.reset();
 	}
 
 }

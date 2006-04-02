@@ -389,7 +389,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( ) throws ChartException
 	{
-		ArcRenderEvent are = new ArcRenderEvent( source );
+		ArcRenderEvent are = new ArcRenderEvent( (StructureSource)source );
 		if ( outline != null )
 		{
 			are.setOutline( LineAttributesImpl.copyInstance( outline ) );

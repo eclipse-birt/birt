@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * This class defines a structure source object for chart rendering event.
@@ -126,7 +127,7 @@ public class StructureSource
 	 * @param o
 	 * @return
 	 */
-	public static StructureSource createUnknown( Object o )
+	public static StructureSource createUnknown( EObject o )
 	{
 		return new StructureSource( o, StructureType.UNKNOWN );
 	}

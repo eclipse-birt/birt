@@ -222,7 +222,8 @@ public final class SwingEventHandler implements
 						break;
 
 					case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
-						if ( src.getType( ) == StructureType.SERIES )
+						if ( src.getType( ) == StructureType.SERIES
+								|| src.getType( ) == StructureType.SERIES_DATA_POINT )
 						{
 							final Series seRT;
 							if ( src.getType( ) == StructureType.SERIES )

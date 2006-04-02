@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.event;
 /**
  * StructureChangeEvent
  */
-public final class StructureChangeEvent extends PrimitiveRenderEvent
+public final class StructureChangeEvent extends ChartEvent
 {
 
 	/**
@@ -104,6 +104,12 @@ public final class StructureChangeEvent extends PrimitiveRenderEvent
 			return AFTER;
 		}
 		return UNDEFINED;
+	}
+
+	public void reset( )
+	{
+		// NO-OP
+		
 	}
 
 }

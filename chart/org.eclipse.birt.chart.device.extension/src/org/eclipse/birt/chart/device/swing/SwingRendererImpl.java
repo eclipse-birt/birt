@@ -1581,7 +1581,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
-				al.add( new ShapedAction( iev.getSource( ),
+				al.add( new ShapedAction( iev.getStructureSource( ),
 						loa,
 						tga[i].getAction( ),
 						clipping ) );
@@ -1609,7 +1609,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
-				al.add( new ShapedAction( iev.getSource( ),
+				al.add( new ShapedAction( iev.getStructureSource( ),
 						loa,
 						tga[i].getAction( ),
 						clipping ) );
@@ -1628,7 +1628,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
-				al.add( new ShapedAction( iev.getSource( ),
+				al.add( new ShapedAction( iev.getStructureSource( ),
 						boEllipse,
 						tga[i].getAction( ),
 						clipping ) );
@@ -1651,7 +1651,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
-				al.add( new ShapedAction( iev.getSource( ),
+				al.add( new ShapedAction( iev.getStructureSource( ),
 						boEllipse,
 						dStart,
 						dExtent,
@@ -1682,7 +1682,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
-				al.add( new ShapedAction( iev.getSource( ),
+				al.add( new ShapedAction( iev.getStructureSource( ),
 						loa,
 						tga[i].getAction( ),
 						clipping ) );

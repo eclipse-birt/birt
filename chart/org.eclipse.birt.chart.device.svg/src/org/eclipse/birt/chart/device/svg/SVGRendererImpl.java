@@ -20,13 +20,8 @@ import java.awt.geom.Line2D;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -41,7 +36,6 @@ import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin;
-import org.eclipse.birt.chart.device.swing.ShapedAction;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.AreaRenderEvent;
@@ -53,35 +47,19 @@ import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.RectangleRenderEvent;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
-import org.eclipse.birt.chart.event.StructureSource;
-import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.event.TextRenderEvent;
-import org.eclipse.birt.chart.event.WrappedStructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
-import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
-import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
-import org.eclipse.birt.chart.model.attribute.ScriptValue;
-import org.eclipse.birt.chart.model.attribute.TooltipValue;
-import org.eclipse.birt.chart.model.attribute.TriggerCondition;
-import org.eclipse.birt.chart.model.attribute.URLValue;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.util.PluginSettings;
-import org.eclipse.emf.common.util.EList;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -93,7 +71,8 @@ import org.w3c.dom.Element;
  */
 public class SVGRendererImpl extends SwingRendererImpl
 {
-
+	protected List scriptRefList = null;
+	protected List scriptCodeList = null;
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
 
 	/**
@@ -101,13 +80,10 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	private IUpdateNotifier _iun = null;
 	
-	private Map componentPrimitives = new Hashtable();
-	private Map labelPrimitives = new Hashtable();
-	private Map cacheHotspots = new Hashtable();
-	private Map cacheSeriesHotspots = new Hashtable();
-	private List scripts = new Vector();
-	protected List scriptRefList = null;
-	protected List scriptCodeList = null;
+
+
+
+	private SVGInteractiveRenderer ivRenderer;
 	
 	/**
 	 * 
@@ -128,6 +104,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 		}
 		else
 			_ids = new SVGDisplayServer( );
+		
+		ivRenderer = new SVGInteractiveRenderer( getULocale( ) );
 	}
 	/**
 	 * The SVG version is "-//W3C//DTD SVG 1.0//EN".
@@ -164,10 +142,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	protected SVGGraphics2D svggc;
 	
-	/**
-	 * Element that represents the hot spot layer
-	 */
-	protected Element hotspotLayer;
+
 	
 	/**
 	 * Property that determins if the SVG should resize to the containing element dimensions.
@@ -186,6 +161,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 		if ( sProperty.equals( IDeviceRenderer.UPDATE_NOTIFIER ) )
 		{
 			_iun = (IUpdateNotifier) oValue;
+			ivRenderer.setIUpdateNotifier( _iun );
+			
 		}		
 		else if ( sProperty.equals( IDeviceRenderer.EXPECTED_BOUNDS ) )
 		{
@@ -194,8 +171,9 @@ public class SVGRendererImpl extends SwingRendererImpl
 			{
 				dom = createSvgDocument( bo.getWidth( ), bo.getHeight( ) );
 				svggc = new SVGGraphics2D( dom );
+				ivRenderer.setSVG2D( svggc );
 				//Create the hotspot layer
-				hotspotLayer = createHotspotLayer(dom);
+				ivRenderer.createHotspotLayer(dom);
 				super.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, svggc );
 			}
 			catch ( Exception e )
@@ -221,12 +199,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		}
 	}
 	
-	protected Element createHotspotLayer(Document dom){
-		Element hotspot = dom.createElement("g"); //$NON-NLS-1$
-		hotspot.setAttribute( "id", "hotSpots" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		hotspot.setAttribute( "style", "fill-opacity:0.01;fill:#FFFFFF;" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		return hotspot;		
-	}
+
 	
 	protected void addScripts(){
 		if (this.scriptCodeList != null){
@@ -252,13 +225,12 @@ public class SVGRendererImpl extends SwingRendererImpl
 	{
 		super.after( );
 		
-		//need to process cached hotspots
-		processDataPointHotspot();
-		addScripts();
+		ivRenderer.addInteractivity( );
+			addScripts();
 		((SVGGraphics2D)_g2d).flush();		
 		
 		//make sure we add the hotspot layer to the bottom layer of the svg
-		dom.getDocumentElement().appendChild(hotspotLayer);
+		dom.getDocumentElement().appendChild(ivRenderer.getHotspotLayer( ));
 		
 		if ( oOutputIdentifier instanceof OutputStream ) // OUTPUT STREAM
 		{
@@ -301,10 +273,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 					null );
 		}
 		
-		cacheHotspots.clear();
-		labelPrimitives.clear();		
-		componentPrimitives.clear();
-		scripts.clear();
+		ivRenderer.clear( );
+		
 	}
 
 	/**
@@ -579,249 +549,13 @@ public class SVGRendererImpl extends SwingRendererImpl
 			}
 			
 		}
-		
-
-		//////////////////////////////////////
-		//Add event handling to the hotspot
-		//////////////////////////////////////
-		
-		if (elm != null) {
-			for (int x = 0; x < triggers.length; x++) {
-				Trigger tg = triggers[x];
-				
-				final StructureSource src = (StructureSource) ie.getSource( );
-				
-				switch (tg.getAction().getType().getValue()) {
-				case ActionType.SHOW_TOOLTIP:
-					String tooltipText = ((TooltipValue) tg.getAction().getValue()).getText();
-					//make sure the tooltip text is not empty
-					if ((tooltipText != null) && (tooltipText.trim().length() > 0)){
-						Element title = svggc.dom.createElement("title"); //$NON-NLS-1$
-						title.appendChild(svggc.dom
-								.createTextNode(tooltipText));
-						elm.appendChild(title);
-						elm.setAttribute("onmouseout", "TM.remove()"); //$NON-NLS-1$ //$NON-NLS-2$
-						elm.setAttribute("onmousemove", "TM.show(evt)"); //$NON-NLS-1$ //$NON-NLS-2$
-					}
-					break;
-				case ActionType.URL_REDIRECT:
-					URLValue urlValue = ((URLValue) tg.getAction().getValue());
-					//See if this is an internal anchor link
-					if ( urlValue.getBaseUrl().startsWith("#")){ //$NON-NLS-1$
-						Element aLink = ((SVGGraphics2D)_g2d).createElement("g"); //$NON-NLS-1$
-						aLink.setAttribute("onclick", "top.document.location.hash='"+urlValue.getBaseUrl()+"';"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						aLink.setAttribute("style", "cursor:pointer"); //$NON-NLS-1$ //$NON-NLS-2$
-						aLink.appendChild(elm);
-						elm = aLink;
-					}
-					else{
-						Element aLink = ((SVGGraphics2D)_g2d).createElement("a"); //$NON-NLS-1$
-							
-						aLink.setAttribute("xlink:href", urlValue.getBaseUrl()); //$NON-NLS-1$
-						if (urlValue.getTarget() != null)
-							aLink.setAttribute("target", urlValue.getTarget()); //$NON-NLS-1$ 
-						aLink.appendChild(elm);
-						elm = aLink;
-					}					
-					break;
-
-				case ActionType.TOGGLE_VISIBILITY :
-					
-					if ( src.getType( ) == StructureType.SERIES )
-					{
-						final Series seRT = (Series) src.getSource( );					
-						logger.log( ILogger.INFORMATION,
-								Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
-										getULocale() )
-										+ seRT );
-						Series seDT = null;
-						try
-						{
-							// THE
-							// CORRESPONDING
-							// DESIGN-TIME
-							// SERIES							
-							seDT = findDesignTimeSeries( seRT ); // LOCATE
-							cacheSeriesHotspots.put(elm, seDT);
-						}
-						catch ( ChartException oosx )
-						{
-							logger.log( oosx );
-							return;
-						}
-					}
-					break;
-					
-				case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
-					if ( src.getType( ) == StructureType.SERIES )
-					{
-						
-						final Series seRT = (Series) src.getSource( );
-						logger.log( ILogger.INFORMATION,
-								Messages.getString( "info.toggle.datapoint.visibility", //$NON-NLS-1$
-										getULocale() )
-										+ seRT );
-						Series seDT = null;
-						try
-						{
-							seDT = findDesignTimeSeries( seRT );
-						}
-						catch ( ChartException oosx )
-						{
-							logger.log( oosx );
-							return;
-						}
-						if (seDT != null)
-							cacheHotspots.put(elm, seDT);
-						
-					}
-					break;
-					
-				case ActionType.HIGHLIGHT :
-					
-					if ( src.getType( ) == StructureType.SERIES )
-					{
-						final Series seRT = (Series) src.getSource( );					
-						logger.log( ILogger.INFORMATION,
-								Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
-										getULocale() )
-										+ seRT );
-						String scriptEvent = getJsScriptEvent(tg.getCondition().getValue());
-						if (scriptEvent != null){
-							
-							Series seDT = null;
-							try
-							{
-								// THE
-								// CORRESPONDING
-								// DESIGN-TIME
-								// SERIES							
-								seDT = findDesignTimeSeries( seRT ); // LOCATE
-								List components = (List)componentPrimitives.get(seDT);
-								if (components != null){
-									Iterator iter = components.iterator();
-									StringBuffer sb = new StringBuffer();
-									sb.append(seDT.hashCode());
-									if (iter.hasNext())
-										sb.append(",new Array(");							 //$NON-NLS-1$
-									while (iter.hasNext()){
-										sb.append("'").append(iter.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-										if (iter.hasNext())
-											sb.append(","); //$NON-NLS-1$
-									}
-									if (components.size() > 0)
-										sb.append(")"); //$NON-NLS-1$
-									elm.setAttribute(scriptEvent, //$NON-NLS-1$
-											"highlight(evt, " //$NON-NLS-1$
-													+ sb.toString() + ")"); //$NON-NLS-1$	
-									//see if this is on mouse over event.  Then we should have a on mouse out event to correctly reset
-									//the highlight color
-									if (tg.getCondition().getValue() == TriggerCondition.ONMOUSEOVER){
-										elm.setAttribute("onmouseout", //$NON-NLS-1$
-												"highlight(evt, null, null)"); //$NON-NLS-1$	
-									}
-									setCursor(elm);
-		
-									//should define style class and set the visibility to visible
-									((SVGGraphics2D)_g2d).addCSSStyle(".class"+seDT.hashCode(), "visibility", "visible"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-								}
-							}
-							catch ( ChartException oosx )
-							{
-								logger.log( oosx );
-								return;
-							}
-						}
-					}
-					break;					
-				case ActionType.INVOKE_SCRIPT:
-					final StructureSource sructSource = (StructureSource) ie.getSource( );
-					//lets see if we need to add accessibility
-					if (tg.getCondition().equals(TriggerCondition.ACCESSIBILITY_LITERAL)){
-						AccessibilityValue accessValue = ((AccessibilityValue) tg.getAction().getValue());
-						if (accessValue.getText() != null){
-							Element title = ((SVGGraphics2D)_g2d).createElement("title"); //$NON-NLS-1$
-							title.appendChild(svggc.dom
-									.createTextNode(accessValue.getText()));
-							elm.appendChild(title);
-						}
-						if (accessValue.getAccessibility() != null){
-							Element description = ((SVGGraphics2D)_g2d).createElement("desc"); //$NON-NLS-1$
-							description.appendChild(svggc.dom
-									.createTextNode(accessValue.getAccessibility()));
-							elm.appendChild(description);
-						}
-						
-					}
-					else{
-					String scriptEvent = getJsScriptEvent(tg.getCondition().getValue());
-					if (scriptEvent != null){
-						String script = ((ScriptValue) tg.getAction().getValue()).getScript();
-						String callbackFunction = "callback"+Math.abs(script.hashCode())+"(evt,"+sructSource.getSource().hashCode()+");"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						elm.setAttribute(scriptEvent, callbackFunction); 
-						setCursor(elm);
-						if (!(scripts.contains(script))){
-							
-							((SVGGraphics2D)_g2d).addScript("function callback"+Math.abs(script.hashCode())+"(evt,source)" +"{"+script+"}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-							scripts.add(script);
-						}
-					}
-					}
-					break;
-
-										
-				}
-			}
-
-			hotspotLayer.appendChild( elm );
-		}
-		
+	
+		ivRenderer.prepareInteractiveEvent( elm, ie, triggers );
 	}
-	private String getJsScriptEvent(int condition){
-		switch(condition){
-		case TriggerCondition.MOUSE_HOVER :
-			return "onmouseover"; //$NON-NLS-1$
-		case TriggerCondition.MOUSE_CLICK :
-			return "onclick"; //$NON-NLS-1$
-		case TriggerCondition.ONCLICK :
-			return"onclick"; //$NON-NLS-1$
-		case TriggerCondition.ONDBLCLICK :
-			return"onclick"; //$NON-NLS-1$
-		case TriggerCondition.ONMOUSEDOWN :
-			return"onmousedown"; //$NON-NLS-1$
-		case TriggerCondition.ONMOUSEUP :
-			return"onmouseup"; //$NON-NLS-1$
-		case TriggerCondition.ONMOUSEOVER :
-			return"onmouseover"; //$NON-NLS-1$
-		case TriggerCondition.ONMOUSEMOVE :
-			return"onmousemove"; //$NON-NLS-1$
-		case TriggerCondition.ONMOUSEOUT :
-			return"onmouseout"; //$NON-NLS-1$
-		case TriggerCondition.ONFOCUS :
-			return"onfocusin"; //$NON-NLS-1$
-		case TriggerCondition.ONBLUR :
-			return"onfocusout"; //$NON-NLS-1$
-		case TriggerCondition.ONKEYDOWN :
-			return"onkeydown"; //$NON-NLS-1$
-		case TriggerCondition.ONKEYPRESS :
-			return"onkeypress"; //$NON-NLS-1$
-		case TriggerCondition.ONKEYUP :
-			return"onkeyup"; //$NON-NLS-1$
-		case TriggerCondition.ONLOAD :
-			return"onload"; //$NON-NLS-1$
-		}
-		return null;
-		
-	}
-	protected void setCursor( Element currentElement )
-	{
-		String style = currentElement.getAttribute( "style" ); //$NON-NLS-1$
-		if ( style == null )
-		{
-			style = ""; //$NON-NLS-1$
-		}
-		currentElement.setAttribute( "style", style + "cursor:pointer;" ); //$NON-NLS-1$ //$NON-NLS-2$
-	}
+
+	
+	
+
 		
 
 	/**
@@ -842,458 +576,27 @@ public class SVGRendererImpl extends SwingRendererImpl
 		}
 		return -1;
 	}
-	/**
-	 * Locates a design-time series corresponding to a given cloned run-time
-	 * series.
-	 * 
-	 * @param seRT
-	 * @return
-	 */
-	private final Series findDesignTimeSeries( Series seRT )
-			throws ChartException
-	{
-
-		Series seDT = null;
-
-		final Chart cmRT = _iun.getRunTimeModel( );
-		final Chart cmDT = _iun.getDesignTimeModel( );
-
-		if ( cmDT instanceof ChartWithAxes )
-		{
-			final ChartWithAxes cwaRT = (ChartWithAxes) cmRT;
-			final ChartWithAxes cwaDT = (ChartWithAxes) cmDT;
-
-			Axis[] axaBase = cwaRT.getPrimaryBaseAxes( );
-			Axis axBase = axaBase[0];
-			Axis[] axaOrthogonal = cwaRT.getOrthogonalAxes( axBase, true );
-			EList elSD, elSE;
-			SeriesDefinition sd;
-			Series se = null;
-			int i = -1, j = 0, k = 0;
-			boolean bFound = false;
-
-			elSD = axaBase[0].getSeriesDefinitions( );
-			for ( j = 0; j < elSD.size( ); j++ )
-			{
-				sd = (SeriesDefinition) elSD.get( j );
-				elSE = sd.getSeries( );
-				for ( k = 0; k < elSE.size( ); k++ )
-				{
-					se = (Series) elSE.get( k );
-					if ( seRT == se )
-					{
-						bFound = true;
-						break;
-					}
-				}
-				if ( bFound )
-				{
-					break;
-				}
-			}
-
-			if ( !bFound )
-			{
-				// LOCATE INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN RUN TIME
-				// MODEL
-				for ( i = 0; i < axaOrthogonal.length; i++ )
-				{
-					elSD = axaOrthogonal[i].getSeriesDefinitions( );
-					for ( j = 0; j < elSD.size( ); j++ )
-					{
-						sd = (SeriesDefinition) elSD.get( j );
-						elSE = sd.getSeries( );
-						for ( k = 0; k < elSE.size( ); k++ )
-						{
-							se = (Series) elSE.get( k );
-							if ( seRT == se )
-							{
-								bFound = true;
-								break;
-							}
-						}
-						if ( bFound )
-						{
-							break;
-						}
-					}
-					if ( bFound )
-					{
-						break;
-					}
-				}
-			}
-
-			if ( !bFound )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.OUT_OF_SYNC,
-						"info.cannot.find.series", //$NON-NLS-1$
-						new Object[]{
-							seRT
-						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale() ) );
-			}
-
-			// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME
-			// MODEL
-			axaBase = cwaDT.getPrimaryBaseAxes( );
-			axBase = axaBase[0];
-			axaOrthogonal = cwaDT.getOrthogonalAxes( axBase, true );
-			if ( i == -1 )
-			{
-				elSD = axaBase[0].getSeriesDefinitions( );
-			}
-			else
-			{
-				elSD = axaOrthogonal[i].getSeriesDefinitions( );
-			}
-			sd = (SeriesDefinition) elSD.get( j );
-			elSE = sd.getSeries( );
-			seDT = (Series) elSE.get( k );
-		}
-		else if ( cmDT instanceof ChartWithoutAxes )
-		{
-			final ChartWithoutAxes cwoaRT = (ChartWithoutAxes) cmRT;
-			final ChartWithoutAxes cwoaDT = (ChartWithoutAxes) cmDT;
-
-			EList elSD, elSE;
-			SeriesDefinition sd;
-			Series se = null;
-			int i = -1, j = 0, k = 0;
-			boolean bFound = false;
-
-			elSD = cwoaRT.getSeriesDefinitions( );
-			for ( j = 0; j < elSD.size( ); j++ )
-			{
-				sd = (SeriesDefinition) elSD.get( j );
-				elSE = sd.getSeries( );
-				for ( k = 0; k < elSE.size( ); k++ )
-				{
-					se = (Series) elSE.get( k );
-					if ( seRT == se )
-					{
-						bFound = true;
-						break;
-					}
-				}
-				if ( bFound )
-				{
-					break;
-				}
-			}
-
-			if ( !bFound )
-			{
-				i = 1;
-				elSD = ( (SeriesDefinition) cwoaRT.getSeriesDefinitions( )
-						.get( 0 ) ).getSeriesDefinitions( );
-
-				for ( j = 0; j < elSD.size( ); j++ )
-				{
-					sd = (SeriesDefinition) elSD.get( j );
-					elSE = sd.getSeries( );
-					for ( k = 0; k < elSE.size( ); k++ )
-					{
-						se = (Series) elSE.get( k );
-						if ( seRT == se )
-						{
-							bFound = true;
-							break;
-						}
-					}
-					if ( bFound )
-					{
-						break;
-					}
-				}
-			}
-
-			if ( !bFound )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.OUT_OF_SYNC,
-						"info.cannot.find.series", //$NON-NLS-1$
-						new Object[]{
-							seRT
-						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale() ) );
-			}
-
-			if ( i == -1 )
-			{
-				elSD = cwoaDT.getSeriesDefinitions( );
-			}
-			else
-			{
-				elSD = ( (SeriesDefinition) cwoaDT.getSeriesDefinitions( )
-						.get( 0 ) ).getSeriesDefinitions( );
-			}
-			sd = (SeriesDefinition) elSD.get( j );
-			elSE = sd.getSeries( );
-			seDT = (Series) elSE.get( k );
-		}
-
-		return seDT;
-	}
-
-	protected void processDataPointHotspot(){	
-		Iterator iter = cacheSeriesHotspots.keySet().iterator();
-		Iterator valIter = cacheSeriesHotspots.values().iterator();
-		while (iter.hasNext()){
-			Element elm = (Element)iter.next();
-			Series seDT = (Series)valIter.next();
-			List components = (List)componentPrimitives.get(seDT);
-			if (components != null){
-				Iterator iterComp = components.iterator();
-				StringBuffer sb = new StringBuffer();
-				StringBuffer labelSB = new StringBuffer();
-				sb.append(seDT.hashCode());
-				if (iterComp.hasNext())
-					sb.append(",new Array(");							 //$NON-NLS-1$
-				while (iterComp.hasNext()){
-					sb.append("'").append(iterComp.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-					if (iterComp.hasNext())
-						sb.append(","); //$NON-NLS-1$
-				}
-				if (components.size() > 0)
-					sb.append(")"); //$NON-NLS-1$
-
-				//see if we need to hide te data labels
-				List labelComp = (List)labelPrimitives.get(seDT);
-				if (labelComp != null){
-					Iterator iterLabel = labelComp.iterator();
-					if (iterLabel.hasNext())
-						labelSB.append("new Array(");							 //$NON-NLS-1$
-					while (iterLabel.hasNext()){
-						labelSB.append("'").append(iterLabel.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-						if (iterLabel.hasNext())
-							labelSB.append(","); //$NON-NLS-1$
-					}
-					if (labelComp.size() > 0)
-						labelSB.append(")"); //$NON-NLS-1$
-					sb.append(",").append(labelSB);
-				}
-				
-				elm.setAttribute("onmousedown", //$NON-NLS-1$
-						"toggleVisibility(evt, " //$NON-NLS-1$
-								+ sb.toString()+")"); //$NON-NLS-1$							
-				setCursor(elm);
 	
-				//should define style class and set the visibility to visible
-				((SVGGraphics2D)_g2d).addCSSStyle(".class"+seDT.hashCode(), "visibility", "visible"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			}
-		}
-			
-		iter = cacheHotspots.keySet().iterator();
-		valIter = cacheHotspots.values().iterator();
-		while (iter.hasNext()){
-			Element elm = (Element)iter.next();
-			Series seDT = (Series)valIter.next();
-			
-			List components = (List)labelPrimitives.get(seDT);
-			if (components != null){
-				Iterator compIter = components.iterator();
-				StringBuffer sb = new StringBuffer();
-				sb.append(seDT.hashCode());
-				if (compIter.hasNext())
-					sb.append(",new Array(");							 //$NON-NLS-1$
-				while (compIter.hasNext()){
-					sb.append("'").append(compIter.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-					if (compIter.hasNext())
-						sb.append(","); //$NON-NLS-1$
-				}
-				if (components.size() > 0)
-					sb.append(")"); //$NON-NLS-1$
-				elm.setAttribute("onmousedown", //$NON-NLS-1$
-						"toggleLabelsVisibility(evt, " //$NON-NLS-1$
-								+ sb.toString() + ")"); //$NON-NLS-1$							
-				setCursor(elm);
+
 	
-			}
-		}
-		
-
-		
-	}
-	/**
-	 * Helper function that will determine if the source object is a series component of the chart.
-	 * 
-	 * @param src StructureSource that is stored in the primitive render event.
-	 * @return null if the source object is not a series otherwise it returns the StructureSource.
-	 */
-	private StructureSource isSeries(StructureSource src){
-		if (src instanceof WrappedStructureSource){
-			WrappedStructureSource wss = (WrappedStructureSource)src;
-			while (wss != null){
-				if (wss.getType() == StructureType.SERIES) {
-					return wss;
-				}
-				if (wss.getParent().getType() == StructureType.SERIES){
-					return wss.getParent();
-				}
-				if (wss.getParent() instanceof WrappedStructureSource)
-					wss = (WrappedStructureSource)wss.getParent();
-				else
-					wss = null;
-			}
-		}
-		else if (src.getType() == StructureType.SERIES) return src;
-		return null;
-	}
-
-	/**
-	 * Groups the svg drawing instructions that represents this primitive events.  Each group is 
-	 * assigned an id that identifies the source object of the primitive event
-	 * 
-	 * @param pre primitive render event
-	 * @param drawText TODO
-	 */
-	protected void groupPrimitive(PrimitiveRenderEvent pre, boolean drawText) {
-		if ( _iun == null )
-		{
-			logger.log( ILogger.WARNING,
-					Messages.getString( "exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
-			return;
-		}		
-		SVGGraphics2D svg_g2d = (SVGGraphics2D) _g2d;
-
-		// For now only group series elements
-		if (pre.getSource() instanceof StructureSource) {
-			if (drawText){
-				Object source = ((StructureSource) pre.getSource()).getSource();
-				if (source instanceof Series){
-					try {
-					Series seDT = findDesignTimeSeries((Series) source); // LOCATE
-					String id = Integer.toString(pre.hashCode());
-					// svg_g2d.setStyleClass("class"+seDT.hashCode());
-					List components = (List) labelPrimitives.get(seDT);
-					if (components == null) {
-						components = new ArrayList();
-						labelPrimitives.put(seDT, components);
-					}
-					
-					components.add(id);
-					
-					// Create group element that will contain the drawing
-					// instructions that corresponds to the event
-					Element outerGroup = svg_g2d.createElement("g"); //$NON-NLS-1$
-					svg_g2d.pushParent(outerGroup);
-					
-					Element primGroup = svg_g2d.createElement("g"); //$NON-NLS-1$
-					outerGroup.appendChild(primGroup);
-					svg_g2d.pushParent(primGroup);
-					primGroup.setAttribute("id", seDT.hashCode() + "_" + id); //$NON-NLS-1$ //$NON-NLS-2$
-					primGroup.setAttribute("style", "visibility:visible;"); //$NON-NLS-1$ //$NON-NLS-2$
-					outerGroup.setAttribute("id", seDT.hashCode() + "_" + id+"_g"); //$NON-NLS-1$ //$NON-NLS-2$
-					outerGroup.setAttribute("style", "visibility:visible;"); //$NON-NLS-1$ //$NON-NLS-2$
-					} catch (ChartException e) {
-						logger.log(e);
-						return;
-					}
-				}
-			}
-			else{
-			final StructureSource src = isSeries((StructureSource) pre
-					.getSource());
-			if (src != null) {
-				try {
-					Series seDT = findDesignTimeSeries((Series) src.getSource()); // LOCATE
-					String id = Integer.toString(pre.hashCode());
-					// svg_g2d.setStyleClass("class"+seDT.hashCode());
-					List components = (List) componentPrimitives.get(seDT);
-					if (components == null) {
-						components = new ArrayList();
-						componentPrimitives.put(seDT, components);
-					}
-
-					// May have to group drawing instructions that come from the
-					// same primitive render events.
-					String idTemp = id;
-					int counter = 1;
-					while (components.contains(idTemp)) {
-						idTemp = id + "@" + counter; //$NON-NLS-1$
-						counter++;
-					}
-
-					components.add(idTemp);
-
-					// Create group element that will contain the drawing
-					// instructions that corresponds to the event
-					Element primGroup = svg_g2d.createElement("g"); //$NON-NLS-1$
-					svg_g2d.pushParent(primGroup);
-					primGroup
-							.setAttribute("id", seDT.hashCode() + "_" + idTemp); //$NON-NLS-1$ //$NON-NLS-2$
-					primGroup.setAttribute("style", "visibility:visible;"); //$NON-NLS-1$ //$NON-NLS-2$
-
-					svg_g2d.setDeferStrokColor(primGroup);
-
-				} catch (ChartException e) {
-					logger.log(e);
-					return;
-				}
-			}
-				
-			}
-		}
-	}
 	
-	/**
-	 * UnGroups the svg drawing instructions that represents this primitive events. 
-	 * 
-	 * @param pre primitive render event
-	 * @param drawText TODO
-	 */
-	protected void ungroupPrimitive(PrimitiveRenderEvent pre, boolean drawText){
-		if ( _iun == null )
-		{
-			logger.log( ILogger.WARNING,
-					Messages.getString( "exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
-			return;
-		}		
-		SVGGraphics2D svg_g2d = (SVGGraphics2D)_g2d;
-//		svg_g2d.setStyleClass(null);		
-//		svg_g2d.setId(null);
 		
-		
-		//For now only ungroup series elements
-		if (pre.getSource() instanceof StructureSource) {
-			if (drawText){
-				Object source = ((StructureSource) pre.getSource()).getSource();
-				if (source instanceof Series){
-				svg_g2d.popParent();
-				svg_g2d.popParent();
-				}
-				
-			}
-			else{
-				final StructureSource src = isSeries((StructureSource) pre.getSource( ));
-				if ( src != null ){
-					svg_g2d.setDeferStrokColor(null);
-					svg_g2d.popParent();
-				}
-			}
-		}
-	}
-	
 	public void drawArc(ArcRenderEvent are) throws ChartException {
-		groupPrimitive(are, false);
+		ivRenderer.groupPrimitive(are, false);
 		super.drawArc(are);
-		ungroupPrimitive(are, false);
+		ivRenderer.ungroupPrimitive(are, false);
 	}
 
 	public void drawArea(AreaRenderEvent are) throws ChartException {
-		groupPrimitive(are, false);
+		ivRenderer.groupPrimitive(are, false);
 		super.drawArea(are);
-		ungroupPrimitive(are, false);
+		ivRenderer.ungroupPrimitive(are, false);
 	}
 
 	public void drawImage(ImageRenderEvent pre) throws ChartException {
-		groupPrimitive(pre, false);
+		ivRenderer.groupPrimitive(pre, false);
 		super.drawImage(pre);
-		ungroupPrimitive(pre, false);
+		ivRenderer.ungroupPrimitive(pre, false);
 	}
 	
 	protected Image createImage( byte[] data )
@@ -1303,57 +606,57 @@ public class SVGRendererImpl extends SwingRendererImpl
 	
 
 	public void drawLine(LineRenderEvent lre) throws ChartException {
-		groupPrimitive(lre, false);
+		ivRenderer.groupPrimitive(lre, false);
 		super.drawLine(lre);
-		ungroupPrimitive(lre, false);
+		ivRenderer.ungroupPrimitive(lre, false);
 	}
 
 	public void drawOval(OvalRenderEvent ore) throws ChartException {
-		groupPrimitive(ore, false);
+		ivRenderer.groupPrimitive(ore, false);
 		super.drawOval(ore);
-		ungroupPrimitive(ore, false);
+		ivRenderer.ungroupPrimitive(ore, false);
 	}
 
 	public void drawPolygon(PolygonRenderEvent pre) throws ChartException {
-		groupPrimitive(pre, false);
+		ivRenderer.groupPrimitive(pre, false);
 		super.drawPolygon(pre);
-		ungroupPrimitive(pre, false);
+		ivRenderer.ungroupPrimitive(pre, false);
 	}
 
 	public void drawRectangle(RectangleRenderEvent rre) throws ChartException {
-		groupPrimitive(rre, false);
+		ivRenderer.groupPrimitive(rre, false);
 		super.drawRectangle(rre);
-		ungroupPrimitive(rre, false);
+		ivRenderer.ungroupPrimitive(rre, false);
 	}
 
 	public void fillArc(ArcRenderEvent are) throws ChartException {
-		groupPrimitive(are, false);
+		ivRenderer.groupPrimitive(are, false);
 		super.fillArc(are);
-		ungroupPrimitive(are, false);
+		ivRenderer.ungroupPrimitive(are, false);
 	}
 
 	public void fillArea(AreaRenderEvent are) throws ChartException {
-		groupPrimitive(are, false);
+		ivRenderer.groupPrimitive(are, false);
 		super.fillArea(are);
-		ungroupPrimitive(are, false);
+		ivRenderer.ungroupPrimitive(are, false);
 	}
 
 	public void fillOval(OvalRenderEvent ore) throws ChartException {
-		groupPrimitive(ore, false);
+		ivRenderer.groupPrimitive(ore, false);
 		super.fillOval(ore);
-		ungroupPrimitive(ore, false);
+		ivRenderer.ungroupPrimitive(ore, false);
 	}
 
 	public void fillPolygon(PolygonRenderEvent pre) throws ChartException {
-		groupPrimitive(pre, false);
+		ivRenderer.groupPrimitive(pre, false);
 		super.fillPolygon(pre);
-		ungroupPrimitive(pre, false);
+		ivRenderer.ungroupPrimitive(pre, false);
 	}
 
 	public void fillRectangle(RectangleRenderEvent rre) throws ChartException {
-		groupPrimitive(rre, false);
+		ivRenderer.groupPrimitive(rre, false);
 		super.fillRectangle(rre);
-		ungroupPrimitive(rre, false);
+		ivRenderer.ungroupPrimitive(rre, false);
 	}
 	
 	/*
@@ -1363,7 +666,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
-		groupPrimitive(tre, true);
+		ivRenderer.groupPrimitive(tre, true);
 		SVGTextRenderer tr = SVGTextRenderer.instance( (SVGDisplayServer) _ids );
 		switch ( tre.getAction( ) )
 		{
@@ -1395,7 +698,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 						tre.getLabel( ) );
 				break;
 		}
-		ungroupPrimitive(tre, true);
+		ivRenderer.ungroupPrimitive(tre, true);
 	}	
 	
+
 }

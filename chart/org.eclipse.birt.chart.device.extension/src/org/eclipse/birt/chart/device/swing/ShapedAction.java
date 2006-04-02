@@ -17,6 +17,7 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
+import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.data.Action;
@@ -28,7 +29,7 @@ import org.eclipse.birt.chart.model.data.Action;
 public final class ShapedAction
 {
 
-	private final Object _oSource;
+	private final StructureSource _oSource;
 
 	private final Shape _sh;
 
@@ -41,7 +42,7 @@ public final class ShapedAction
 	 * @param loa
 	 * @param ac
 	 */
-	ShapedAction( Object oSource, Location[] loa, Action ac, Shape clipping )
+	ShapedAction( StructureSource oSource, Location[] loa, Action ac, Shape clipping )
 	{
 		_oSource = oSource;
 		final int[][] i2a = SwingRendererImpl.getCoordinatesAsInts( loa );
@@ -66,7 +67,7 @@ public final class ShapedAction
 	 * @param boEllipse
 	 * @param ac
 	 */
-	ShapedAction( Object oSource, Bounds boEllipse, Action ac, Shape clipping )
+	ShapedAction( StructureSource oSource, Bounds boEllipse, Action ac, Shape clipping )
 	{
 		_oSource = oSource;
 		if ( clipping != null )
@@ -99,7 +100,7 @@ public final class ShapedAction
 	 * @param iArcType
 	 * @param ac
 	 */
-	ShapedAction( Object oSource, Bounds boEllipse, double dStart,
+	ShapedAction( StructureSource oSource, Bounds boEllipse, double dStart,
 			double dExtent, int iArcType, Action ac, Shape clipping )
 	{
 		_oSource = oSource;
@@ -137,7 +138,7 @@ public final class ShapedAction
 	 * @param ac
 	 * 
 	 */
-	ShapedAction( Object oSource, Location[] loa, Action ac )
+	ShapedAction( StructureSource oSource, Location[] loa, Action ac )
 	{
 		this( oSource, loa, ac, null );
 	}
@@ -149,7 +150,7 @@ public final class ShapedAction
 	 * @param boEllipse
 	 * @param ac
 	 */
-	ShapedAction( Object oSource, Bounds boEllipse, Action ac )
+	ShapedAction( StructureSource oSource, Bounds boEllipse, Action ac )
 	{
 		this( oSource, boEllipse, ac, null );
 	}
@@ -164,7 +165,7 @@ public final class ShapedAction
 	 * @param iArcType
 	 * @param ac
 	 */
-	ShapedAction( Object oSource, Bounds boEllipse, double dStart,
+	ShapedAction( StructureSource oSource, Bounds boEllipse, double dStart,
 			double dExtent, int iArcType, Action ac )
 	{
 		this( oSource, boEllipse, dStart, dExtent, iArcType, ac, null );
@@ -195,7 +196,7 @@ public final class ShapedAction
 	 * 
 	 * @return
 	 */
-	public final Object getSource( )
+	public final StructureSource getSource( )
 	{
 		return _oSource;
 	}

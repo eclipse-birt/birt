@@ -187,7 +187,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		final Polygon3DRenderEvent pre = new Polygon3DRenderEvent( source );
+		final Polygon3DRenderEvent pre = new Polygon3DRenderEvent( (StructureSource)source );
 		if ( object3D != null )
 		{
 			pre.object3D = new Object3D( object3D );
@@ -221,7 +221,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		this.dBrightness = 1;
 		this.bBehind = false;
 		this.runtimeBackground = null;
-		super.reset( );
+		super.reset() ;
 	}
 
 	/*

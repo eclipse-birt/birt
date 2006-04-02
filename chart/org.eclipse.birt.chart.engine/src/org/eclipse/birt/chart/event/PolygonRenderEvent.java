@@ -114,7 +114,7 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		final PolygonRenderEvent pre = new PolygonRenderEvent( source );
+		final PolygonRenderEvent pre = new PolygonRenderEvent( (StructureSource)source );
 		if ( _loa != null )
 		{
 			final Location[] loa = new Location[this._loa.length];
@@ -157,5 +157,13 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 	public final void fill( IDeviceRenderer idr ) throws ChartException
 	{
 		idr.fillPolygon( this );
+	}
+
+	public void reset( )
+	{
+		this._ifBackground = null;
+		this._lia = null;
+		this._loa = null;
+		
 	}
 }

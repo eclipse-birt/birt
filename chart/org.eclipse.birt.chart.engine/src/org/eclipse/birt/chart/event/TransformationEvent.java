@@ -132,4 +132,7 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	{
 		return _dRotationInDegrees;
 	}
+
+	public void reset( )
+	{ }
 }

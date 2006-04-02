@@ -153,7 +153,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( ) throws ChartException
 	{
-		ImageRenderEvent ire = new ImageRenderEvent( source );
+		ImageRenderEvent ire = new ImageRenderEvent( (StructureSource)source );
 
 		if ( loc != null )
 		{
@@ -191,5 +191,11 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	public void draw( IDeviceRenderer idr ) throws ChartException
 	{
 		idr.drawImage( this );
+	}
+
+	public void reset( )
+	{
+		this.loc = null;
+		this.pos = null;
 	}
 }

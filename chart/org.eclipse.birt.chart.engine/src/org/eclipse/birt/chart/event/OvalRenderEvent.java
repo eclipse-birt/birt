@@ -101,7 +101,7 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		final OvalRenderEvent ore = new OvalRenderEvent( source );
+		final OvalRenderEvent ore = new OvalRenderEvent( (StructureSource)source );
 		if ( _bo != null )
 		{
 			ore.setBounds( BoundsImpl.copyInstance( _bo ) );
@@ -137,5 +137,13 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	public final void fill( IDeviceRenderer idr ) throws ChartException
 	{
 		idr.fillOval( this );
+	}
+
+	public void reset( )
+	{
+		this._bo = null;
+		this._ifBackground = null;
+		this._lia = null;
+		
 	}
 }

@@ -11,14 +11,12 @@
 
 package org.eclipse.birt.chart.event;
 
-import java.util.EventObject;
-
 import org.eclipse.birt.chart.model.layout.Block;
 
 /**
  * BlockGenerationEvent
  */
-public class BlockGenerationEvent extends EventObject
+public class BlockGenerationEvent extends ChartEvent
 {
 
     /**
@@ -41,5 +39,10 @@ public class BlockGenerationEvent extends EventObject
     public final void updateBlock(Block bl)
     {
         source = bl;
+    }
+    
+    public void reset()
+    {
+    	source = null;
     }
 }

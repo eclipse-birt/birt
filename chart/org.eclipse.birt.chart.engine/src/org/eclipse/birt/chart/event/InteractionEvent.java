@@ -22,7 +22,7 @@ import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 /**
  * InteractionEvent
  */
-public final class InteractionEvent extends PrimitiveRenderEvent
+public final class InteractionEvent extends ChartEvent
 {
 
 	/**
@@ -40,6 +40,13 @@ public final class InteractionEvent extends PrimitiveRenderEvent
 	public InteractionEvent( Object source )
 	{
 		super( source );
+		if ( ! ( source instanceof StructureSource ) )
+			throw new IllegalArgumentException( );
+	}
+	
+	public StructureSource getStructureSource( )
+	{
+		return (StructureSource)super.getSource();
 	}
 
 	/**
@@ -105,8 +112,6 @@ public final class InteractionEvent extends PrimitiveRenderEvent
 	 */
 	public void reset( )
 	{
-		super.reset( );
-
 		_pre = null;
 		_lhmTriggers.clear( );
 	}
@@ -114,7 +119,7 @@ public final class InteractionEvent extends PrimitiveRenderEvent
 	/**
 	 * @param oNewSource
 	 */
-	public final void reuse( Object oNewSource )
+	public final void reuse( StructureSource oNewSource )
 	{
 		source = oNewSource;
 		_lhmTriggers.clear( );

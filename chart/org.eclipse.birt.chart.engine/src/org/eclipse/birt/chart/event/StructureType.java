@@ -56,7 +56,7 @@ public class StructureType
 
 	/**
 	 * Indicates a Legend Entry structure type. The relevant source is a
-	 * <code>Label</code> type.
+	 * <code>LegendEntryRenderingHints</code> type.
 	 */
 	public static final StructureType LEGEND_ENTRY = new StructureType( "legendEntry" ); //$NON-NLS-1$
 

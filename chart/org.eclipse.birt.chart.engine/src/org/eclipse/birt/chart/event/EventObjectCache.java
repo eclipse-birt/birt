@@ -56,21 +56,21 @@ public class EventObjectCache
 	 * @return An instance of the requested event object that encapsulates
 	 *         rendering attributes
 	 */
-	public final PrimitiveRenderEvent getEventObject( Object oSource,
+	public final ChartEvent getEventObject( Object oSource,
 			Class cType )
 	{
-		PrimitiveRenderEvent pre = (PrimitiveRenderEvent) _htEvents.get( cType );
-		if ( pre == null )
+		ChartEvent event = (ChartEvent) _htEvents.get( cType );
+		if ( event == null )
 		{
 			try
 			{
 				final Constructor co = cType.getConstructor( new Class[]{
 					Object.class
 				} );
-				pre = (PrimitiveRenderEvent) co.newInstance( new Object[]{
+				event = (ChartEvent) co.newInstance( new Object[]{
 					oSource
 				} );
-				_htEvents.put( cType, pre );
+				_htEvents.put( cType, event );
 			}
 			catch ( NoSuchMethodException nsmex )
 			{
@@ -91,10 +91,10 @@ public class EventObjectCache
 		}
 		else
 		{
-			pre.setSourceObject( oSource );
-			pre.reset( );
+			event.setSourceObject( oSource );
+			event.reset( );
 		}
-		return pre;
+		return event;
 	}
 
 	/**

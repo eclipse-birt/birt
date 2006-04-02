@@ -52,4 +52,10 @@ public final class ClipRenderEvent extends PrimitiveRenderEvent
 	{
 		_loa = loa;
 	}
+
+	public void reset( )
+	{
+		this._loa = null;
+		
+	}
 }

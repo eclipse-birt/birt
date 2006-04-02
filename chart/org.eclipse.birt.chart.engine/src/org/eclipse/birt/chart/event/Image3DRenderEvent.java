@@ -62,7 +62,7 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		Image3DRenderEvent ire = new Image3DRenderEvent( source );
+		Image3DRenderEvent ire = new Image3DRenderEvent( (StructureSource)source );
 
 		if ( object3D != null )
 		{
@@ -99,4 +99,9 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 		setLocation( points[0] );
 	}
 
+	public void reset( )
+	{
+		this.object3D = null;
+		super.reset( );
+	}
 }

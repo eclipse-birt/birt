@@ -626,4 +626,12 @@ public final class DataSetIterator implements Iterator
 	{
 		return iDataType;
 	}
+	
+	/**
+	 * @return current index
+	 */
+	public final int getIndex( )
+	{
+		return iCursor;
+	}
 }

@@ -33,7 +33,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * DataPointHints
+ * Holds the information necessary to render a DataPoint Label
  */
 public final class DataPointHints
 {
@@ -63,16 +63,20 @@ public final class DataPointHints
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
 
 	/**
-	 * The constructor.
+	 * DataPointHints constructor.
 	 * 
-	 * @param _oBaseValue
-	 * @param _oOrthogonalValue
-	 * @param _sSeriesValue
-	 * @param _dp
-	 * @param _lo
-	 * @param _dSize
-	 * @param _lcl
-	 * @throws UndefinedValueException
+	 * @param _oBaseValue Category data
+	 * @param _oOrthogonalValue Value data
+	 * @param _sSeriesValue Value Series Name
+	 * @param _dp DataPoint for combined value retrieval
+	 * @param _fsBase Category Format Specifier
+	 * @param _fsOrthogonal Value Format Specifier
+	 * @param _fsSeries Value Series Name Format Specifier
+	 * @param _idx Category Series index
+	 * @param _lo Location
+	 * @param _dSize Size
+	 * @param _rtc Runtime Context
+	 * 
 	 */
 	public DataPointHints( Object _oBaseValue, Object _oOrthogonalValue,
 			Object _oSeriesValue, Object _oPercentileValue, DataPoint _dp,
@@ -81,13 +85,7 @@ public final class DataPointHints
 			Location _lo, double _dSize, RunTimeContext _rtc )
 			throws ChartException
 	{
-		if ( _dp == null )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.UNDEFINED_VALUE,
-					"exception.undefined.data.point", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, _rtc.getLocale( ) ) );
-		}
+
 		dp = _dp;
 		oBaseValue = _oBaseValue;
 		oOrthogonalValue = _oOrthogonalValue;
@@ -117,10 +115,10 @@ public final class DataPointHints
 	 * @param _fsBase
 	 * @param _fsOrthogonal
 	 * @param _fsSeries
+	 * @param _idx base Series index
 	 * @param _lo
 	 * @param _dSize
 	 * @param _rtc
-	 * @throws ChartException
 	 */
 	public DataPointHints( Object _oBaseValue, Object _oOrthogonalValue,
 			Object _oSeriesValue, Object _oPercentileValue, DataPoint _dp,
@@ -591,45 +589,53 @@ public final class DataPointHints
 	 */
 	public final String getDisplayValue( )
 	{
-		final EList el = dp.getComponents( );
 		final StringBuffer sb = new StringBuffer( );
-
-		if ( dp.getPrefix( ) != null )
+		
+		if ( dp == null )
 		{
-			sb.append( dp.getPrefix( ) );
+			// Show orthogonal value by default.
+			sb.append( getOrthogonalDisplayValue() );
 		}
-		DataPointComponent dpc;
-		DataPointComponentType dpct;
-
-		for ( int i = 0; i < el.size( ); i++ )
+		else 
 		{
-			dpc = (DataPointComponent) el.get( i );
-			dpct = dpc.getType( );
-			if ( dpct == DataPointComponentType.BASE_VALUE_LITERAL )
-			{
-				sb.append( getBaseDisplayValue( ) );
-			}
-			else if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL )
-			{
-				sb.append( getOrthogonalDisplayValue( ) );
-			}
-			else if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
-			{
-				sb.append( getSeriesDisplayValue( ) );
-			}
-			else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
-			{
-				sb.append( getPercentileOrthogonalDisplayValue( ) );
-			}
+			final EList el = dp.getComponents();
 
-			if ( i < el.size( ) - 1 )
+			if ( dp.getPrefix() != null )
 			{
-				sb.append( dp.getSeparator( ) );
+				sb.append( dp.getPrefix() );
 			}
-		}
-		if ( dp.getSuffix( ) != null )
-		{
-			sb.append( dp.getSuffix( ) );
+			DataPointComponent dpc;
+			DataPointComponentType dpct;
+
+			for ( int i = 0; i < el.size(); i++ )
+			{
+				dpc = (DataPointComponent) el.get( i );
+				dpct = dpc.getType();
+				if ( dpct == DataPointComponentType.BASE_VALUE_LITERAL )
+				{
+					sb.append( getBaseDisplayValue() );
+				}
+				else if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL )
+				{
+					sb.append( getOrthogonalDisplayValue() );
+				}
+				else if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
+				{
+					sb.append( getSeriesDisplayValue() );
+				}
+				else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
+				{
+					sb.append( getPercentileOrthogonalDisplayValue( ) );
+				}
+				if ( i < el.size() - 1 )
+				{
+					sb.append( dp.getSeparator() );
+				}
+			}
+			if ( dp.getSuffix() != null )
+			{
+				sb.append( dp.getSuffix() );
+			}
 		}
 		return sb.toString( );
 	}

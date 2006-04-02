@@ -115,7 +115,7 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 	 */
 	public final PrimitiveRenderEvent copy( )
 	{
-		final RectangleRenderEvent rre = new RectangleRenderEvent( source );
+		final RectangleRenderEvent rre = new RectangleRenderEvent( (StructureSource)source );
 		if ( _bo != null )
 		{
 			rre.setBounds( BoundsImpl.copyInstance( _bo ) );
@@ -151,5 +151,13 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 	public final void fill( IDeviceRenderer idr ) throws ChartException
 	{
 		idr.fillRectangle( this );
+	}
+
+	public void reset( )
+	{
+		this._bo = null;
+		this._ifBackground = null;
+		this._lia = null;
+		
 	}
 }

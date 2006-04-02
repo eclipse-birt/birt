@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
 import org.eclipse.birt.chart.computation.LegendItemHints;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.LegendLayoutHints;
@@ -293,8 +294,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Identifies the series sequence # in the list of series renders
+	 * @return The index of the Series being rendered
 	 */
 	public final int getSeriesIndex( )
 	{
@@ -532,6 +533,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		Bounds bo = lg.getBounds( ).scaledInstance( dScale );
 
 		Size sz = null;
+
+		/* --- Start bound computing --- */
+		
+		// TODO Refactoring: create function
+		
 		double dX, dY;
 		if ( lg.getPosition( ) != Position.INSIDE_LITERAL )
 		{
@@ -739,6 +745,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		dX = bo.getLeft( );
 		dY = bo.getTop( );
 
+		/* --- End of bounds computing --- */
+		
+		
 		final double dBaseX = dX;
 		final double dBaseY = dY;
 
@@ -992,7 +1001,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										+ 2
 										* insCA.getLeft( );
 							}
-
+							
 							renderLegendItem( ipr,
 									lg,
 									la,
@@ -1002,13 +1011,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									lih.getWidth( ),
 									dItemHeight,
 									lih.getHeight( ),
-									0,
+									0,	
 									columnWidth,
 									insCA.getLeft( ),
 									dHorizontalSpacing,
 									seBase,
 									fPaletteEntry,
-									lirh );
+									lirh,
+									i);
 						}
 					}
 				}
@@ -1091,7 +1101,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								dHorizontalSpacing,
 								seBase,
 								fPaletteEntry,
-								lirh );
+								lirh,
+								i);
 
 						dY += itm.getFullHeight( ) + insCA.getBottom( );
 					}
@@ -1136,7 +1147,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								dHorizontalSpacing,
 								seBase,
 								fPaletteEntry,
-								lirh );
+								lirh,
+								i);
 						dY += itm.getFullHeight( ) + insCA.getBottom( );
 					}
 				}
@@ -1208,20 +1220,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										dHorizontalSpacing,
 										seBase,
 										fPaletteEntry,
-										lirh );
+										lirh,
+										i);
 							}
 						}
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k];
+							lih = liha[k++];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
-								k++;
 								renderSeparator( ipr,
 										lg,
-										liSep,
+										lia,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										lih.getWidth( ),
@@ -1356,7 +1368,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									dHorizontalSpacing,
 									seBase,
 									fPaletteEntry,
-									lirh );
+									lirh,
+									i);
 							dY += dFHeight
 									+ insCA.getBottom( )
 									+ valueHeight
@@ -1444,20 +1457,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										dHorizontalSpacing,
 										seBase,
 										fPaletteEntry,
-										lirh );
+										lirh,
+										i);
 							}
 						}
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k];
+							lih = liha[k++];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
-								k++;
 								renderSeparator( ipr,
 										lg,
-										liSep,
+										lia,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										bo.getHeight( ),
@@ -1592,7 +1605,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									dHorizontalSpacing,
 									seBase,
 									fPaletteEntry,
-									lirh );
+									lirh,
+									i);
 							dY += dFHeight
 									+ insCA.getBottom( )
 									+ valueHeight
@@ -1723,7 +1737,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									dHorizontalSpacing,
 									seBase,
 									fPaletteEntry,
-									lirh );
+									lirh,
+									i);
 						}
 					}
 				}
@@ -1816,7 +1831,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								dHorizontalSpacing,
 								seBase,
 								fPaletteEntry,
-								lirh );
+								lirh,
+								i);
 						dX += dFullWidth
 								+ ( 3 * dItemHeight )
 								/ 2
@@ -1871,7 +1887,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								dHorizontalSpacing,
 								seBase,
 								fPaletteEntry,
-								lirh );
+								lirh,
+								i);
+
+						// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING
+						// + MAX ITEM WIDTH + RIGHT INSETS
 						dX += dFullWidth
 								+ ( 3 * dItemHeight )
 								/ 2
@@ -1936,20 +1956,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										dHorizontalSpacing,
 										seBase,
 										fPaletteEntry,
-										lirh );
+										lirh,
+										i);
 							}
 						}
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k];
+							lih = liha[k++];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
-								k++;
 								renderSeparator( ipr,
 										lg,
-										liSep,
+										lia,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										bo.getWidth( ),
@@ -2088,7 +2108,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									dHorizontalSpacing,
 									seBase,
 									fPaletteEntry,
-									lirh );
+									lirh,
+									i);
 
 							// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL
 							// SPACING
@@ -2182,20 +2203,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										dHorizontalSpacing,
 										seBase,
 										fPaletteEntry,
-										lirh );
+										lirh,
+										i);
 							}
 						}
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k];
+							lih = liha[k++];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
-								k++;
 								renderSeparator( ipr,
 										lg,
-										liSep,
+										lia,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										lih.getHeight( ),
@@ -2333,7 +2354,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									dHorizontalSpacing,
 									seBase,
 									fPaletteEntry,
-									lirh );
+									lirh,
+									i);
 
 							// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL
 							// SPACING
@@ -2351,7 +2373,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						{
 							renderSeparator( ipr,
 									lg,
-									liSep,
+									lia,
 									dX + dSeparatorThickness / 2,
 									dY,
 									dMaxH,
@@ -2534,6 +2556,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param se
 	 * @param fPaletteEntry
 	 * @param lirh
+	 * @param i data row index
 	 * 
 	 * @throws RenderingException
 	 */
@@ -2541,10 +2564,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Label la, Label valueLa, double dX, double dY, double dW,
 			double dItemHeight, double dFullHeight, double dExtraHeight,
 			double dColumnWidth, double dLeftInset, double dHorizontalSpacing,
-			Series se, Fill fPaletteEntry, LegendItemRenderingHints lirh )
+			Series se, Fill fPaletteEntry, LegendItemRenderingHints lirh, int dataIndex  )
 			throws ChartException
 	{
+		LegendEntryRenderingHints lerh = new LegendEntryRenderingHints(la, valueLa, dataIndex, fPaletteEntry );
 		ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		// TODO replace with LegendEntryRenderingHints
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY,
 				la,
@@ -2724,24 +2749,36 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 			if ( !elTriggers.isEmpty( ) || buildinTg != null )
 			{
-				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( se ),
+				final StructureSource source;
+				if ( this.cm.getLegend().getItemType() == LegendItemType.CATEGORIES_LITERAL )
+				{
+					final DataPointHints dph = new DataPointHints( la, null, null,
+							null, null, null, null,  null, null, dataIndex,null, 0, null );
+					source = WrappedStructureSource.createSeriesDataPoint( se, dph);
+				}
+				else
+				{
+					source = StructureSource.createSeries( se );
+				}
+				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( source ,
 						InteractionEvent.class );
+				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
 					tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
 					processTrigger( tg,
-							WrappedStructureSource.createLegendEntry( lg, la ) );
+							WrappedStructureSource.createLegendEntry( lg, lerh ) );
 					iev.addTrigger( tg );
 				}
 
 				if ( buildinTg != null )
 				{
 					processTrigger( buildinTg,
-							WrappedStructureSource.createLegendEntry( lg, la ) );
+							WrappedStructureSource.createLegendEntry( lg, lerh ) );
 					iev.addTrigger( buildinTg );
 				}
-
-				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
+				
+				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( source,
 						PolygonRenderEvent.class );
 				pre.setPoints( loaHotspot );
 				iev.setHotSpot( pre );
@@ -2758,9 +2795,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Renders the Plot
 	 * 
-	 * @param ipr
-	 * @param p
+	 * @param ipr The Primitive Renderer of a Device Renderer
+	 * @param p The Plot to render
 	 * 
 	 * @throws RenderingException
 	 */
@@ -3001,9 +3039,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Renders the Chart Title Block
 	 * 
-	 * @param ipr
-	 * @param b
+	 * @param ipr The Primitive Renderer of a Device Renderer
+	 * @param b The TitleBlock to render
 	 * 
 	 * @throws RenderingException
 	 */
@@ -3612,8 +3651,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/**
 	 * post-process the triggers.
 	 * 
-	 * @param tg
-	 * @param dph
+	 * @param tg The Trigger to modify
+	 * @param source The StructureSource associated with the Trigger 
 	 */
 	public void processTrigger( Trigger tg, StructureSource source )
 	{

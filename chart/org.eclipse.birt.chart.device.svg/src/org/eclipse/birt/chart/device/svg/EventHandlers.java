@@ -192,6 +192,7 @@ public final class EventHandlers
 		.append( "       var mainSvg = evt.target.ownerDocument;\n" ) //$NON-NLS-1$
 		.append( "    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
 			.append( "         var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
+			.append( "         if ( comp == null ) continue;\n")		//$NON-NLS-1$
 			.append( "         var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
 			.append( "        rVisibleExp=/visibility:[ ]*visible/g;\n" ) //$NON-NLS-1$
 			.append( "        rInheritExp=/visibility:[ ]*inherit/g;\n" ) //$NON-NLS-1$
@@ -220,6 +221,7 @@ public final class EventHandlers
 		.append( "       var isHidden = true;\n" ) //$NON-NLS-1$
 		.append( "    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
 			.append( "         var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
+			.append( "         if ( comp == null ) continue;\n")		//$NON-NLS-1$
 			.append( "         var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
 			.append( "        rVisibleExp=/visibility:[ ]*visible/g;\n" ) //$NON-NLS-1$
 			.append( "        rHiddenExp=/visibility:[ ]*hidden/g;\n" ) //$NON-NLS-1$
@@ -311,6 +313,7 @@ public final class EventHandlers
 
     	.append( "	    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
     	.append( "	    var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
+    	.append( "         if ( comp == null ) continue;\n")		//$NON-NLS-1$
     	.append( "	    var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
     	.append( "		   fillIndex = styleStr.search(\"fill:\");\n" ) //$NON-NLS-1$
     	.append( "		   if (fillIndex != -1){\n" ) //$NON-NLS-1$
@@ -393,12 +396,9 @@ public final class EventHandlers
     	.append( "        b = parseInt(b, 16);\n" )//$NON-NLS-1$
     	.append( "    var value = parseInt(r, 16);\n" )//$NON-NLS-1$
     	.append( "        if (highlight){\n" )//$NON-NLS-1$
-    	.append( "           r = r * 2 - 255;\n" )//$NON-NLS-1$
-    	.append( "           if (r < 0 ) r = 0;\n" )//$NON-NLS-1$
-    	.append( "           g = g * 2 - 255;\n" )//$NON-NLS-1$
-    	.append( "           if (g < 0 ) g = 0;\n" )//$NON-NLS-1$
-    	.append( "           b = b * 2 - 255;\n" )//$NON-NLS-1$
-    	.append( "           if (b < 0 ) b = 0;\n" )//$NON-NLS-1$
+    	.append( "           r = Math.ceil( (r + 255) / 2 );\n" )//$NON-NLS-1$
+    	.append( "           g = Math.ceil( (g + 255) / 2 );\n" )//$NON-NLS-1$
+    	.append( "           b = Math.ceil( (b + 255) / 2 );\n" )//$NON-NLS-1$
     	.append( "        }\n" )//$NON-NLS-1$
     	.append( "        rStr = r.toString(16);\n" )//$NON-NLS-1$		
     	.append( "        gStr = g.toString(16);\n" )//$NON-NLS-1$

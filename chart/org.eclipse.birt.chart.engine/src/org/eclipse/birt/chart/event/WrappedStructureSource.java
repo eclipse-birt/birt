@@ -12,12 +12,14 @@
 package org.eclipse.birt.chart.event;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.layout.Legend;
+
 
 /**
  * WrappedStructureSource
@@ -111,7 +113,7 @@ public class WrappedStructureSource extends StructureSource
 	 * @param title
 	 * @return
 	 */
-	public static StructureSource createLegendEntry( Legend lg, Label entry )
+	public static StructureSource createLegendEntry( Legend lg, LegendEntryRenderingHints entry )
 	{
 		return new WrappedStructureSource( lg,
 				StructureType.LEGEND,

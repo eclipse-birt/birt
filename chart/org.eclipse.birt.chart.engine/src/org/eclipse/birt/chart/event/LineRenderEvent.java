@@ -118,7 +118,7 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		LineRenderEvent lre = new LineRenderEvent( source );
+		LineRenderEvent lre = new LineRenderEvent( (StructureSource)source );
 		if ( lia != null )
 		{
 			lre.setLineAttributes( LineAttributesImpl.copyInstance( lia ) );
@@ -154,5 +154,13 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	public final void draw( IDeviceRenderer idr ) throws ChartException
 	{
 		idr.drawLine( this );
+	}
+
+	public void reset( )
+	{
+		this.loEnd = null;
+		this.loStart = null;
+		this.lia = null;
+		
 	}
 }

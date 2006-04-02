@@ -63,7 +63,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		final Oval3DRenderEvent ore = new Oval3DRenderEvent( source );
+		final Oval3DRenderEvent ore = new Oval3DRenderEvent( (StructureSource)source );
 		if ( object3D != null )
 		{
 			ore.object3D = new Object3D( object3D );
