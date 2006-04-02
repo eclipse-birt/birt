@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -57,6 +58,8 @@ public class SmartCache implements ResultSetCache
 	// open flag
 	private boolean isOpen = true;
 	
+	private IEventHandler eventHandler;
+	
 	/**
 	 * Retrieve data from ODA, used in normal query
 	 * 
@@ -73,6 +76,7 @@ public class SmartCache implements ResultSetCache
 		assert odaResultSet != null;
 		assert rsMeta != null;
 
+		this.eventHandler = cacheRequest.getEventHandler( );
 		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
 		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
@@ -93,6 +97,7 @@ public class SmartCache implements ResultSetCache
 		assert populator != null;
 		assert rsMeta != null;
 
+		this.eventHandler = cacheRequest.getEventHandler( );
 		OdiAdapter odiAdpater = new OdiAdapter( populator );
 		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
@@ -114,6 +119,7 @@ public class SmartCache implements ResultSetCache
 		assert odaCacheResultSet != null;
 		assert rsMeta != null;
 
+		this.eventHandler = cacheRequest.getEventHandler( );
 		OdiAdapter odiAdpater = new OdiAdapter( odaCacheResultSet );
 		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
@@ -134,6 +140,7 @@ public class SmartCache implements ResultSetCache
 		assert odaResultSet != null;
 		assert rsMeta != null;
 
+		this.eventHandler = cacheRequest.getEventHandler( );
 		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
 		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
@@ -153,6 +160,7 @@ public class SmartCache implements ResultSetCache
 		assert customDataSet != null;
 		assert rsMeta != null;
 
+		this.eventHandler = cacheRequest.getEventHandler( );
 		OdiAdapter odiAdpater = new OdiAdapter( customDataSet );
 		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
@@ -176,6 +184,7 @@ public class SmartCache implements ResultSetCache
 		assert resultCache != null;
 		assert rsMeta != null;
 
+		this.eventHandler = cacheRequest.getEventHandler( );
 		OdiAdapter odiAdpater = new OdiAdapter( resultCache );
 		initInstance2( cacheRequest,
 				resultCache,
@@ -200,7 +209,8 @@ public class SmartCache implements ResultSetCache
 	{
 		assert resultCache != null;
 		assert rsMeta != null;
-
+	
+		this.eventHandler = cacheRequest.getEventHandler( );
 		initInstance3( resultCache, rsMeta, orderingInfo );
 	}
 	
@@ -507,6 +517,8 @@ public class SmartCache implements ResultSetCache
 			return null;
 
 		final int[] sortKeyIndexes = sortSpec.sortKeyIndexes;
+		final String[] sortKeyColumns = sortSpec.sortKeyColumns;
+		
 		if ( sortKeyIndexes == null || sortKeyIndexes.length == 0 )
 			return null;
 
@@ -527,11 +539,27 @@ public class SmartCache implements ResultSetCache
 				for ( int i = 0; i < sortKeyIndexes.length; i++ )
 				{
 					int colIndex = sortKeyIndexes[i];
-				
+					String colName = sortKeyColumns[i];
 					try
 					{
-						Object colObj1 = row1.getFieldValue( colIndex );
-						Object colObj2 = row2.getFieldValue( colIndex );
+						Object colObj1 = null;
+						Object colObj2 = null;
+						
+						if ( eventHandler != null )
+						{
+							colObj1 = eventHandler.getValue( row1,
+									colIndex,
+									colName );
+							colObj2 = eventHandler.getValue( row2,
+									colIndex,
+									colName );
+						}
+						else
+						{
+							colObj1 = row1.getFieldValue( colIndex );
+							colObj2 = row2.getFieldValue( colIndex );
+						}
+						
 						int result = doCompare( colObj1, colObj2 );
 						if ( result != 0 )
 						{

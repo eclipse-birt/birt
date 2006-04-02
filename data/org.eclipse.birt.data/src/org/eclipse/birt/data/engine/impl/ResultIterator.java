@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
@@ -452,7 +453,11 @@ public class ResultIterator implements IResultIterator
 	 */
 	public Object getValue( String exprName ) throws BirtException
 	{
-		return null;
+		checkStarted( );
+		
+		Object exprValue = this.getValue( this.rService.getBaseExpression( exprName ) );
+		this.getRdSaveUtil( ).doSaveExpr( exprName, exprValue );
+		return exprValue;
 	}
 	
 	/*
@@ -737,8 +742,23 @@ public class ResultIterator implements IResultIterator
 				Object[] groupKeyValues, String[] columnNames, int i )
 				throws BirtException
 		{
-			Object fieldValue = odiResult.getCurrentResult( )
-					.getFieldValue( columnNames[i] );
+			Object fieldValue = null;
+			
+			if ( ModeManager.isOldMode( ) )
+			{
+				fieldValue = odiResult.getCurrentResult( )
+						.getFieldValue( columnNames[i] );
+			}
+			else
+			{
+				Context cx = Context.enter( );
+				fieldValue = ScriptEvalUtil.evalExpr( new ScriptExpression( columnNames[i] ),
+						cx,
+						ResultIterator.this.scope,
+						"Filter",
+						0 );
+				Context.exit( );
+			}
 
 			boolean retValue = false;
 			if ( fieldValue == groupKeyValues[i] )
@@ -904,6 +924,23 @@ public class ResultIterator implements IResultIterator
 			this.getRdSave( )
 					.saveExprValue( odiResult.getCurrentResultIndex( ),
 							dataExpr.getID( ),
+							value );
+		}
+		
+		/**
+		 * @param name
+		 * @param value
+		 * @throws DataException
+		 */
+		void doSaveExpr( String name, Object value )
+				throws DataException
+		{
+			if ( needsSaveToDoc( ) == false )
+				return;
+			
+			this.getRdSave( )
+					.saveExprValue( odiResult.getCurrentResultIndex( ),
+							name,
 							value );
 		}
 

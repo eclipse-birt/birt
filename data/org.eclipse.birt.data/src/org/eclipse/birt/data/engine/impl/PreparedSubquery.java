@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
@@ -186,14 +187,14 @@ class PreparedSubquery implements IPreparedQueryService
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		protected IResultIterator executeOdiQuery( ) 
+		protected IResultIterator executeOdiQuery( IEventHandler eventHandler ) 
 				throws DataException
 		{
 			assert parentIterator != null;
 	
 			ICandidateQuery cdQuery = (ICandidateQuery) odiQuery; 
 			cdQuery.setCandidates( parentIterator, groupLevel );
-			IResultIterator ret = cdQuery.execute();
+			IResultIterator ret = cdQuery.execute( eventHandler );
 			parentIterator = null;
 			
 			return ret;

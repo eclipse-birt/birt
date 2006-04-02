@@ -17,11 +17,14 @@ package org.eclipse.birt.data.engine.executor.cache;
 public class SortSpec
 {
 	int[] sortKeyIndexes;
+	String[] sortKeyColumns;
 	boolean[] sortAscending;
 
-	public SortSpec( int[] sortKeyIndexes, boolean[] sortAscending )
+	public SortSpec( int[] sortKeyIndexes, String[] sortKeyColumns,
+			boolean[] sortAscending )
 	{
 		this.sortKeyIndexes = sortKeyIndexes;
+		this.sortKeyColumns = sortKeyColumns;
 		this.sortAscending = sortAscending;
 	}
 }

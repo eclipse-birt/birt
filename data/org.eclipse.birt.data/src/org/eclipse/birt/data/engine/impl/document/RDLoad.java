@@ -195,6 +195,35 @@ class RDLoad
 	}
 
 	/**
+	 * @param name
+	 * @return
+	 * @throws DataException
+	 */
+	Object getValue( String name ) throws DataException
+	{
+		try
+		{
+			if ( readIndex < currPos )
+			{
+				this.skipTo( currPos - 1 );
+				this.loadCurrentRow( );
+			}
+			readIndex = currPos;
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+					e,
+					"Result Data" );
+		}
+
+		if ( exprValueMap.containsKey( name ) == false )
+			throw new DataException( ResourceConstants.RD_EXPR_INVALID_ERROR );
+
+		return exprValueMap.get( name );
+	}
+	
+	/**
 	 * @param rowIndex
 	 */
 	void moveTo( int rowIndex ) throws DataException

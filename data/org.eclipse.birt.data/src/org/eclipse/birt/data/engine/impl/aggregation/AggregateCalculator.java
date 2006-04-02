@@ -110,7 +110,7 @@ public class AggregateCalculator
 				AggregateTable.AggrExprInfo aggrInfo = aggrTable.getAggrInfo( i );
 			
 				// Initialize argument array for this aggregate expression
-				aggrArgs[i] = new Object[aggrInfo.func.getParameterDefn( ).length];
+				aggrArgs[i] = new Object[aggrInfo.aggregation.getParameterDefn( ).length];
 			}
 			accumulatorManagers = new AccumulatorManager[this.aggrTable.getCount()];
 		}
@@ -134,12 +134,12 @@ public class AggregateCalculator
 		for( int i = 0; i < this.aggrTable.getCount( ); i++)
 		{
 			validAggregations.add( new Integer(i));
-			if( this.aggrTable.getAggrInfo( i ).func instanceof Aggregation 
-					&& ((Aggregation) this.aggrTable.getAggrInfo( i ).func ).getNumberOfPasses( ) > 1)
+			if( this.aggrTable.getAggrInfo( i ).aggregation instanceof Aggregation 
+					&& ((Aggregation) this.aggrTable.getAggrInfo( i ).aggregation ).getNumberOfPasses( ) > 1)
 				populateAggrValue[i] = false;
 			else
 				populateAggrValue[i] = true;
-			accumulatorManagers[i] = new AccumulatorManager( this.aggrTable.getAggrInfo( i ).func );
+			accumulatorManagers[i] = new AccumulatorManager( this.aggrTable.getAggrInfo( i ).aggregation );
 		}
 		
 		while ( validAggregations.size( ) > 0 )
@@ -171,7 +171,7 @@ public class AggregateCalculator
 
 	/**
 	 * Make a pass to all aggregations. Iterator over entire result set. At each row, call
-	 * each aggregate function.
+	 * each aggregate aggregationtion.
 	 * 
 	 * @param scope
 	 * @param populateAggrValue
@@ -219,7 +219,7 @@ public class AggregateCalculator
 	{
 		assert invalidAggrMsg != null;
 
-		if ( aggrTable.getAggrInfo( index ).func.getType( ) == IAggregation.RUNNING_AGGR
+		if ( aggrTable.getAggrInfo( index ).aggregation.getType( ) == IAggregation.RUNNING_AGGR
 				|| endingGroupLevel <= aggrTable.getAggrInfo( index ).groupLevel )
 			aggrValues[index].add( invalidAggrMsg.get( new Integer( index ) ) );
 	}
@@ -236,7 +236,7 @@ public class AggregateCalculator
 		for ( int i = 0; i < this.aggrTable.getCount( ); i++ )
 		{
 			this.accumulatorManagers[i].restart();
-			IAggregation temp = this.aggrTable.getAggrInfo( i ).func;
+			IAggregation temp = this.aggrTable.getAggrInfo( i ).aggregation;
 			populateAggrValue[i] = false;
 			if ( temp instanceof Aggregation )
 			{
@@ -271,7 +271,7 @@ public class AggregateCalculator
 
 		if ( !hasOdiResultDataRows )
 		{
-			if ( ( aggrInfo.func  ).getName( ).equalsIgnoreCase( "COUNT" ) )
+			if ( ( aggrInfo.aggregation  ).getName( ).equalsIgnoreCase( "COUNT" ) )
 
 				return new Integer( 0 );
 			else
@@ -295,7 +295,7 @@ public class AggregateCalculator
 
 			int groupIndex;
 
-			if ( aggrInfo.func.getType( ) == IAggregation.SUMMARY_AGGR )
+			if ( aggrInfo.aggregation.getType( ) == IAggregation.SUMMARY_AGGR )
 			{
 				if ( aggrInfo.groupLevel == 0 )
 					// Aggregate on the whole list: there is only one group
@@ -394,8 +394,8 @@ public class AggregateCalculator
 
 		if ( accepted )
 		{
-			// Calculate arguments to the aggregate function
-			boolean[] argDefs = aggrInfo.func.getParameterDefn( );
+			// Calculate arguments to the aggregate aggregationtion
+			boolean[] argDefs = aggrInfo.aggregation.getParameterDefn( );
 			assert argDefs.length == aggrArgs[aggrIndex].length;
 			try
 			{
@@ -426,7 +426,7 @@ public class AggregateCalculator
 			}
 		}
 		// If this is a running aggregate, get value for current row
-		boolean isRunning = ( aggrInfo.func.getType( ) == IAggregation.RUNNING_AGGR );
+		boolean isRunning = ( aggrInfo.aggregation.getType( ) == IAggregation.RUNNING_AGGR );
 		if ( isRunning && populateValue )
 		{
 			Object value = acc.getValue( );

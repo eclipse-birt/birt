@@ -68,20 +68,23 @@ public interface ICandidateQuery extends IQuery
     public IResultClass getResultClass( ) throws DataException;
     
     /**
-	 * Executes this query applying the specified transforms on the 
-	 * candidate result instances, and returns a secondary iterator
-	 * of the result set. <p>
-	 * If the candidate result instances are specified through 
-	 * an IResultIterator, its <b>current</b> group state is applied
-	 * to identify the subset of candidate results 
-	 * for data transforms. <br>
-	 * In other words, this query could be executed multiple times,
-	 * each time applying to the current group of the result iterator.
-     * @return	An IResultIterator of query result instances which  
-     * 			the user can iterate to get results.
-     * @throws DataException	if query execution error(s) occur.
-     */
-    public IResultIterator execute( ) throws DataException;
+	 * Executes this query applying the specified transforms on the candidate
+	 * result instances, and returns a secondary iterator of the result set.
+	 * <p>
+	 * If the candidate result instances are specified through an
+	 * IResultIterator, its <b>current</b> group state is applied to identify
+	 * the subset of candidate results for data transforms. <br>
+	 * In other words, this query could be executed multiple times, each time
+	 * applying to the current group of the result iterator.
+	 * 
+	 * @param eventHandler
+	 * @return An IResultIterator of query result instances which the user can
+	 *         iterate to get results.
+	 * @throws DataException
+	 *             if query execution error(s) occur.
+	 */
+	public IResultIterator execute( IEventHandler eventHandler )
+			throws DataException;
 
     /**
      * Close the associated iterator and all resources of this query.

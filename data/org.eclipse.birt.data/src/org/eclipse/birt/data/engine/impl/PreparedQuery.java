@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -64,6 +65,8 @@ final class PreparedQuery
 	
 	private 	static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
+	private 	ExprManager 			exprManager;
+	
 	/**
 	 * @param engine
 	 * @param queryDefn
@@ -88,8 +91,10 @@ final class PreparedQuery
 		this.queryService = queryService;
 		this.appContext = appContext;
 		
+		this.exprManager = new ExprManager( );
 		this.subQueryMap = new HashMap( );
-		this.aggrTable = new AggregateTable( this.sharedScope, queryDefn );
+		this.aggrTable = new AggregateTable( this.sharedScope,
+				queryDefn.getGroups( ) );
 
 		logger.fine( "Start to prepare a PreparedQuery." );
 		prepare( );
@@ -162,6 +167,21 @@ final class PreparedQuery
 		prepareExpressions( trans.getAfterExpressions(), groupLevel, true, false,cx );
 		prepareExpressions( trans.getBeforeExpressions(), groupLevel, false, false, cx );
 		prepareExpressions( trans.getRowExpressions(),groupLevel, false, true, cx );
+		
+		Collection exprCol = new ArrayList( );
+		Map map = trans.getResultSetExpressions( );
+		if ( map != null )
+		{
+			Iterator it = map.keySet( ).iterator( );
+			while ( it.hasNext( ) )
+			{
+				exprCol.add( map.get( it.next( ) ) );
+				if ( ModeManager.isModeSet( ) == false )
+					ModeManager.setNewMode( );
+			}
+			prepareExpressions( exprCol, groupLevel, false, true, cx );
+		}
+		this.exprManager.addExpr( trans.getResultSetExpressions( ), groupLevel );
 		
 		// Prepare subqueries appearing in this group
 		Collection subQueries = trans.getSubqueries( );
@@ -327,7 +347,8 @@ final class PreparedQuery
 				dataSourceQuery,
 				queryService,
 				executor,
-				this.baseQueryDefn ),
+				this.baseQueryDefn,
+				this.exprManager ),
 				executor.getQueryScope( ),
 				executor.getNestedLevel( ) + 1 );
 	}

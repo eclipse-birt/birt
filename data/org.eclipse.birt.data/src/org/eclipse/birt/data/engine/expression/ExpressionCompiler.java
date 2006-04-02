@@ -252,7 +252,7 @@ public final class ExpressionCompiler
 
 		String str = rowName.getString( );
 		assert( str != null );
-		if ( ! str.equals( STRING_ROW ) )
+		if ( !( str.equals( STRING_ROW ) || str.equals( "dataSetRow" ) ) )
 			return null;
 
 		Node rowColumn = rowName.getNext( );

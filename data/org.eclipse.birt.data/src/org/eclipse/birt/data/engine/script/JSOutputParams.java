@@ -32,6 +32,8 @@ public class JSOutputParams extends ScriptableObject
 	// parameter value provider
 	PreparedOdaDSQuery.OdaDSQueryExecutor queryExecutor;
 	
+	private DataSetRuntime dataSet;
+	
 	/** */
 	private static final long serialVersionUID = 2535883419826794186L;
 	
@@ -45,6 +47,7 @@ public class JSOutputParams extends ScriptableObject
 		{
 			queryExecutor = (PreparedOdaDSQuery.OdaDSQueryExecutor)( 
 					dataSet.getQueryExecutor() );
+			this.dataSet = dataSet;
 		}
 	}
 	
@@ -89,7 +92,7 @@ public class JSOutputParams extends ScriptableObject
 		}
 		
 		return JavascriptEvalUtil.convertToJavascriptValue( paramValue,
-				queryExecutor.getSharedScope( ) );
+				dataSet.getSharedScope( ) );
 	}
 
 	/*
@@ -125,7 +128,7 @@ public class JSOutputParams extends ScriptableObject
 		}
 
 		return JavascriptEvalUtil.convertToJavascriptValue( paramValue,
-				queryExecutor.getSharedScope( ) );
+				dataSet.getSharedScope( ) );
 	}
 
 	/*

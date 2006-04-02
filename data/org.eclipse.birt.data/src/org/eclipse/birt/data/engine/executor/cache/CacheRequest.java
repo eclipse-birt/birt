@@ -12,6 +12,8 @@ package org.eclipse.birt.data.engine.executor.cache;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.odi.IEventHandler;
+
 /**
  * Wrap the data which is used for SmartCache
  */
@@ -20,17 +22,20 @@ public class CacheRequest
 	private int maxRow;
 	private List fetchEvents;
 	private SortSpec sortSpec;
+	private IEventHandler eventHandler;
 
 	/**
 	 * @param maxRow
 	 * @param fetchEvents
 	 * @param sortSpec
 	 */
-	public CacheRequest( int maxRow, List fetchEvents, SortSpec sortSpec )
+	public CacheRequest( int maxRow, List fetchEvents, SortSpec sortSpec,
+			IEventHandler eventHandler )
 	{
 		this.maxRow = maxRow;
 		this.fetchEvents = fetchEvents;
 		this.sortSpec = sortSpec;
+		this.eventHandler = eventHandler;
 	}
 
 	/**
@@ -63,6 +68,14 @@ public class CacheRequest
 	public SortSpec getSortSpec( )
 	{
 		return sortSpec;
+	}
+	
+	/**
+	 * @return
+	 */
+	public IEventHandler getEventHandler( )
+	{
+		return eventHandler;
 	}
 	
 }

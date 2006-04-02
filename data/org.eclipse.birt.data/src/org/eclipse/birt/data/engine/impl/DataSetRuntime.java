@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.script.DataRow;
 import org.eclipse.birt.data.engine.script.DataSetJSEventHandler;
 import org.eclipse.birt.data.engine.script.JSDataSetImpl;
 import org.eclipse.birt.data.engine.script.JSOutputParams;
+import org.eclipse.birt.data.engine.script.JSResultSetRow;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.JSRows;
 import org.eclipse.birt.data.engine.script.ScriptDataSetJSEventHandler;
@@ -302,6 +303,26 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		return jsDataSetObject;
 	}
 	
+	public Scriptable getJSDataSetRowObject( )
+	{
+		return this.getJSRowObject( );
+	}
+	
+	private JSResultSetRow resultSetRow;
+	
+	public void setJSResultSetRow( JSResultSetRow resultSetRow )
+	{
+		this.resultSetRow = resultSetRow;
+	}
+	
+	public Scriptable getJSResultRowObject()
+	{
+		if ( resultSetRow == null )
+			return this.getJSRowObject( );
+
+		return this.resultSetRow;
+	}
+		
 	/**
 	 * Gets the internal Javascript aggregate value object
 	 */

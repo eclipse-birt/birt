@@ -17,6 +17,7 @@ import org.eclipse.birt.data.engine.executor.cache.CacheRequest;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.SmartCache;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupProcessorManager;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 
@@ -55,13 +56,18 @@ public class ResultSetPopulator
 
 	/**
 	 * 
+	 */
+	private IEventHandler eventHandler;
+	
+	/**
+	 * 
 	 * @param query
 	 * @param rsMeta
 	 * @param ri
 	 * @throws DataException
 	 */
-	ResultSetPopulator( BaseQuery query, IResultClass rsMeta, IResultIterator ri )
-			throws DataException
+	private ResultSetPopulator( BaseQuery query, IResultClass rsMeta,
+			IResultIterator ri ) throws DataException
 	{
 		this.query = query;
 		this.rsMeta = rsMeta;
@@ -74,8 +80,32 @@ public class ResultSetPopulator
 		this.exprProcessor = query.getExprProcessor( );
 		// Set the query which is used by IExpressionProcessor
 		this.exprProcessor.setQuery( this.query );
+		this.exprProcessor.setResultSetPopulator(this);
 	}
 
+	/**
+	 * @param query
+	 * @param rsMeta
+	 * @param ri
+	 * @param eventHandler
+	 * @throws DataException
+	 */
+	ResultSetPopulator( BaseQuery query, IResultClass rsMeta,
+			IResultIterator ri, IEventHandler eventHandler )
+			throws DataException
+	{
+		this( query, rsMeta, ri );
+		this.eventHandler = eventHandler;
+	}
+	
+	/**
+	 * @return
+	 */
+	public IEventHandler getEventHandler( )
+	{
+		return this.eventHandler;
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -172,29 +202,7 @@ public class ResultSetPopulator
 	 */
 	public void populateResultSet( OdiResultSetWrapper odaResultSet ) throws DataException
 	{
-
-		Object[] fetchEventsList = ResultSetPopulatorUtil.getFetchEventListFromQuery( this );
-
-		// If there are aggregations in Computed Columns, then the group
-		// filtering should not
-		// be supported for that the aggregation result would be affected by
-		// group filtering.
-		
-		boolean hasAggregationInCC = !ResultSetPopulatorUtil.hasAggregationsInComputedColumns( fetchEventsList,
-				this );
-
-		// If there are some aggregations in computed columns, or there are some
-		// multipass filters
-		// then dealing with those aggregations/multipass filters. Else start
-		// population directly
-		boolean needMultipassRowProcessing = ( !hasAggregationInCC )
-				|| FilterUtil.hasMultiPassFilters( fetchEventsList );
-
-		RowProcessorFactory.getRowProcessor( this, needMultipassRowProcessing )
-				.pass( odaResultSet );
-
-		if ( query.getGrouping( ) != null )
-			groupProcessorManager.doGroupFilteringAndSorting( this.smartCache,exprProcessor );
+		new MultiPassRowProcessor( this ).pass( odaResultSet );
 	}
 
 	/**
@@ -223,7 +231,11 @@ public class ResultSetPopulator
 		this.getCache( ).next( );
 		this.setCache( new SmartCache( new CacheRequest( query.getMaxRows( ),
 				query.getFetchEvents( ),
-				null ), this.getCache( ), odInfo, this.rsMeta ) );
+				null,
+				this.getEventHandler( ) ),
+				this.getCache( ),
+				odInfo,
+				this.rsMeta ) );
 		this.groupProcessorManager.getGroupCalculationUtil( )
 				.setResultSetCache( this.getCache( ) );
 	}

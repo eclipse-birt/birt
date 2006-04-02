@@ -108,11 +108,13 @@ public interface IPreparedDSQuery
 	/**
 	 * Executes this prepared query applying the specified transforms,  
 	 * and returns an iterator of the result set. <p>
+	 * @param eventHandler 
      * @return	An IResultIterator of query result instances which  
      * 			the user can iterate to get results.
      * @throws DataException	if query execution error(s) occur.
      */
-    public IResultIterator execute( ) throws DataException;
+    public IResultIterator execute( IEventHandler eventHandler )
+			throws DataException;
 
     /** 
      * Closes this query, if executed, and any associated resources,  

@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -26,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.script.JSResultSetRow;
 import org.mozilla.javascript.Scriptable;
 
 /** 
@@ -143,7 +145,7 @@ class QueryResults implements IQueryResults
 					queryService.executeQuery( ),
 					this.queryScope );
 		}
-
+		
 		logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"getResultIterator",
@@ -295,6 +297,14 @@ class QueryResults implements IQueryResults
 			return queryResults.queryService.execSubquery( iterator,
 					subQueryName,
 					subScope );
+		}
+
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IResultService#getBaseExpression(java.lang.String)
+		 */
+		public IBaseExpression getBaseExpression( String exprName )
+		{
+			return queryResults.queryService.getBaseExpression( exprName );
 		}
 	}
 	

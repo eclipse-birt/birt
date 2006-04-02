@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -43,9 +44,13 @@ public class CachedResultSet implements IResultIterator
 	 * Constructs and intializes OdiResultSet based on data in a ODA result set
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
-			ResultSet odaResultSet ) throws DataException
+			ResultSet odaResultSet, IEventHandler eventHandler )
+			throws DataException
 	{
-		this.resultSetPopulator = new ResultSetPopulator( query, meta, this );
+		this.resultSetPopulator = new ResultSetPopulator( query,
+				meta,
+				this,
+				eventHandler );
 		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet) );
 	}
 
@@ -53,9 +58,13 @@ public class CachedResultSet implements IResultIterator
 	 * Constructs and intializes OdiResultSet based on data in an IJointDataSetPopulator
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
-			IDataSetPopulator odaResultSet ) throws DataException
+			IDataSetPopulator odaResultSet, IEventHandler eventHandler )
+			throws DataException
 	{
-		this.resultSetPopulator = new ResultSetPopulator( query, meta, this );
+		this.resultSetPopulator = new ResultSetPopulator( query,
+				meta,
+				this,
+				eventHandler );
 		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet) );
 	}
 	
@@ -66,9 +75,13 @@ public class CachedResultSet implements IResultIterator
 	 * @throws DataException
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
-			DataSetResultCache odaCacheResultSet ) throws DataException
+			DataSetResultCache odaCacheResultSet, IEventHandler eventHandler )
+			throws DataException
 	{
-		this.resultSetPopulator = new ResultSetPopulator( query, meta, this );
+		this.resultSetPopulator = new ResultSetPopulator( query,
+				meta,
+				this,
+				eventHandler );
 		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaCacheResultSet ));
 		odaCacheResultSet.close( );
 	}
@@ -78,13 +91,14 @@ public class CachedResultSet implements IResultIterator
 	 * @param customDataSet
 	 * @throws DataException
 	 */
-	public CachedResultSet( BaseQuery query, ICustomDataSet customDataSet )
-			throws DataException
+	public CachedResultSet( BaseQuery query, ICustomDataSet customDataSet,
+			IEventHandler eventHandler ) throws DataException
 	{
 		assert customDataSet != null;
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				customDataSet.getResultClass( ),
-				this );
+				this,
+				eventHandler );
 		resultSetPopulator.populateResultSet(new OdiResultSetWrapper( customDataSet));
 	}
 
@@ -105,7 +119,10 @@ public class CachedResultSet implements IResultIterator
 		// this.resultSetPopulator.getGroupCalculationUtil( ).setResultSetCache(
 		// parentResultSet.resultSetPopulator.getCache( ));
 		int[] groupInfo = parentResultSet.getCurrentGroupInfo( groupLevel );
-		this.resultSetPopulator = new ResultSetPopulator( query, meta, this );
+		this.resultSetPopulator = new ResultSetPopulator( query,
+				meta,
+				this,
+				null );
 		this.resultSetPopulator.populateResultSet( new OdiResultSetWrapper( new Object[]{
 				parentResultSet.resultSetPopulator.getCache( ), groupInfo
 		} ));

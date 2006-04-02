@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.SortSpec;
+import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -63,16 +64,20 @@ public class GroupCalculationUtil
 	 * 0,2 2: 1,4 1,3 3: 1,5 1,5 4: 2,6 5: 3,7
 	 */
 
+	private ResultSetPopulator resultPopoulator;
+	
 	/**
 	 * 
 	 * @param query
 	 * @param rsMeta
 	 */
-	GroupCalculationUtil( BaseQuery query, IResultClass rsMeta )
+	GroupCalculationUtil(BaseQuery query, IResultClass rsMeta,
+			ResultSetPopulator resultPopoulator)
 	{
 		this.query = query;
 		this.rsMeta = rsMeta;
 		groupInformationUtil = new GroupInformationUtil( this );
+		this.resultPopoulator = resultPopoulator;
 	}
 
 	/**
@@ -229,9 +234,10 @@ public class GroupCalculationUtil
 				int keyIndex = groupSpecs[i].getKeyIndex( );
 				String keyColumn = groupSpecs[i].getKeyColumn( );
 
-				if ( GroupUtil.isRowIdColumn( keyIndex, keyColumn ) )
-				{
-					groupDefs[i] = GroupBy.newInstanceForRowID( groupSpecs[i] );
+				if (resultPopoulator.getEventHandler() != null
+						&& resultPopoulator.getEventHandler().isRowID(keyIndex,
+								keyColumn)) {
+					groupDefs[i] = GroupBy.newInstanceForRowID(groupSpecs[i]);
 					continue;
 				}
 
@@ -248,6 +254,7 @@ public class GroupCalculationUtil
 				}
 				groupDefs[i] = GroupBy.newInstance( groupSpecs[i],
 						keyIndex,
+						keyColumn,
 						rsMeta.getFieldValueClass( keyIndex ) );
 			}
 		}
@@ -287,6 +294,7 @@ public class GroupCalculationUtil
 		}
 
 		int[] sortKeyIndexes = new int[groupCount + sortCount];
+		String[] sortKeyColumns = new String[groupCount + sortCount];
 		boolean[] sortAscending = new boolean[groupCount + sortCount];
 
 		for ( int i = 0; i < groupCount; i++ )
@@ -295,6 +303,7 @@ public class GroupCalculationUtil
 			if ( index >= 0 )
 			{
 				sortKeyIndexes[i] = groupDefs[i].getColumnIndex( );
+				sortKeyColumns[i] = groupDefs[i].getColumnName( );
 				sortAscending[i] = groupDefs[i].getGroupSpec( )
 						.getSortDirection( ) != IQuery.GroupSpec.SORT_DESC;
 			}
@@ -309,15 +318,16 @@ public class GroupCalculationUtil
 			if ( keyName != null )
 				keyIndex = rsMeta.getFieldIndex( keyName );
 
-			if ( keyIndex < 1 || keyIndex > rsMeta.getFieldCount( ) )
-				// Invalid sort key name
-				throw new DataException( ResourceConstants.INVALID_KEY_COLUMN,
-						keyName );
+//			if ( keyIndex < 1 || keyIndex > rsMeta.getFieldCount( ) )
+//				// Invalid sort key name
+//				throw new DataException( ResourceConstants.INVALID_KEY_COLUMN,
+//						keyName );
 			sortKeyIndexes[groupCount + i] = keyIndex;
+			sortKeyColumns[groupCount + i] = keyName;
 			sortAscending[groupCount + i] = query.getOrdering( )[i].isAscendingOrder( );
 		}
 
-		return new SortSpec( sortKeyIndexes, sortAscending );
+		return new SortSpec( sortKeyIndexes, sortKeyColumns, sortAscending );
 	}
 }
 

@@ -39,6 +39,7 @@ import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
@@ -253,7 +254,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		protected IResultIterator executeOdiQuery(  )
+		protected IResultIterator executeOdiQuery( IEventHandler eventHandler )
 				 throws DataException
 		{
 			dataSet.afterOpen();
@@ -261,7 +262,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			assert odaDataSet != null;
 			
 			assert odiPreparedQuery != null;
-			return odiPreparedQuery.execute( );			
+			return odiPreparedQuery.execute( eventHandler );			
 		}
 		
 		/*

@@ -38,8 +38,56 @@ public final class QueryExecutorUtil
 	 * @param src
 	 * @return
 	 * @throws DataException
+	 * @deprecated
 	 */
 	static IQuery.GroupSpec groupDefnToSpec( Context cx,
+			IGroupDefinition src, String columnName, int index )
+			throws DataException
+	{
+/*		int groupIndex = -1;
+		String groupKey = src.getKeyColumn();
+		boolean isComplexExpression = false;
+		if ( groupKey == null || groupKey.length() == 0 )
+		{
+			// Group key expressed as expression; convert it to column name
+			// TODO support key expression in the future by creating implicit
+			// computed columns
+			ColumnInfo groupKeyInfo = getColInfoFromJSExpr( cx,
+				src.getKeyExpression( ) );
+			//getColInfoFromJSExpr( cx,src.getKeyExpression( ) );
+			groupIndex = groupKeyInfo.getColumnIndex( );
+			groupKey = groupKeyInfo.getColumnName();
+		}
+		if ( groupKey == null && groupIndex < 0 )
+		{*/
+			ColumnInfo groupKeyInfo = new ColumnInfo(index, columnName );
+			int groupIndex = groupKeyInfo.getColumnIndex( );
+			String groupKey = groupKeyInfo.getColumnName();
+			boolean isComplexExpression = true;
+		//}
+		
+		IQuery.GroupSpec dest = new IQuery.GroupSpec( groupIndex, groupKey );
+		dest.setName( src.getName() );
+		dest.setInterval( src.getInterval());
+		dest.setIntervalRange( src.getIntervalRange());
+		dest.setIntervalStart( src.getIntervalStart());
+		dest.setSortDirection( src.getSortDirection());
+		dest.setFilters( src.getFilters());
+		dest.setSorts( src.getSorts() );
+		dest.setIsComplexExpression( isComplexExpression );
+		return dest;
+	}
+	
+	/**
+	 * Convert IGroupDefn to IQuery.GroupSpec
+	 * 
+	 * @param cx
+	 * @param src
+	 * @return
+	 * @throws DataException
+	 * @deprecated
+	 */
+	static IQuery.GroupSpec subQueryGroupDefnToSpec( Context cx,
 			IGroupDefinition src, String columnName, int index )
 			throws DataException
 	{
@@ -76,7 +124,6 @@ public final class QueryExecutorUtil
 		dest.setIsComplexExpression( isComplexExpression );
 		return dest;
 	}
-	
 	/**
 	 * @param groupSpecs
 	 * @param i

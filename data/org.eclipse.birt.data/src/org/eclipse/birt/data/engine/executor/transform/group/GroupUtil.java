@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.script.JSRowObject;
  * Provide two utility functions 1: check whether specified colum name is row id
  * name 2: inteval value determination function.
  */
-final class GroupUtil
+public final class GroupUtil
 {
 
 	final static int rowidIndex = 0;
@@ -40,7 +40,7 @@ final class GroupUtil
 	 * @param columnName
 	 * @return true, it is rowid column name
 	 */
-	static boolean isRowIdColumn( int columnIndex, String columnName )
+	public static boolean isRowIdColumn( int columnIndex, String columnName )
 	{
 		return rowidIndex == columnIndex
 				|| rowidName.equalsIgnoreCase( columnName );

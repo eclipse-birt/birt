@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -46,7 +45,7 @@ public class AggregateTable
 	/**
 	 * Array of AggrExprInfo objects to record all aggregates
 	 */
-	private ArrayList aggrTable = new ArrayList( );
+	private List aggrExprInfoList = new ArrayList( );
 
 	// log instance
 	protected static Logger logger = Logger.getLogger( AggregateTable.class.getName( ) );
@@ -57,20 +56,20 @@ public class AggregateTable
 	private static int BASE_QUERY = 2;
 	
 	private int groupCount;
-	private IBaseQueryDefinition queryDefn;
+	private List groupDefns;
 	private Scriptable scope;
 	
 	/**
 	 * construct the aggregateTable from preparedQuery
 	 * @param query
 	 */
-	public AggregateTable( Scriptable scope, IBaseQueryDefinition queryDefn )
+	public AggregateTable( Scriptable scope, List groupDefns )
 	{
 		logger.entering( AggregateTable.class.getName( ), "AggregateTable" );
 		logger.exiting( AggregateTable.class.getName( ), "AggregateTable" );
 		
-		this.queryDefn = queryDefn;
-		this.groupCount = queryDefn.getGroups( ).size( );		
+		this.groupDefns = groupDefns;
+		this.groupCount = groupDefns.size( );		
 		this.scope = scope;
 		
 		runStates = PREPARED_QUERY;
@@ -89,12 +88,11 @@ public class AggregateTable
 	private int getGroupIndexFromPreparedQuery( String groupText )
 	{
 		assert groupText != null;
-		assert queryDefn != null; 
+		assert groupDefns != null; 
 		
-		List groups = queryDefn.getGroups();
-		for ( int i = 0; i < groups.size(); i++)
+		for ( int i = 0; i < groupDefns.size(); i++)
 		{
-			IGroupDefinition group = (IGroupDefinition) groups.get(i);
+			IGroupDefinition group = (IGroupDefinition) groupDefns.get(i);
 			if ( groupText.equals( group.getName()) ||
 				 groupText.equals( group.getKeyColumn() ) ||
 				 groupText.equals( group.getKeyExpression()) )
@@ -147,7 +145,7 @@ public class AggregateTable
 	 */
 	AggrExprInfo getAggrInfo( int i )
 	{
-		return (AggrExprInfo) aggrTable.get( i );
+		return (AggrExprInfo) aggrExprInfoList.get( i );
 	}
 
 	/**
@@ -156,7 +154,7 @@ public class AggregateTable
 	 */
 	int getCount( )
 	{
-		return aggrTable.size( );
+		return aggrExprInfoList.size( );
 	}
 
 	/**
@@ -237,14 +235,14 @@ public class AggregateTable
 
 			// See if an existing aggregate expression is equivalent to this one
 			int id;
-			for ( id = 0; id < aggrTable.size( ); id++ )
+			for ( id = 0; id < aggrExprInfoList.size( ); id++ )
 			{
-				if ( info.equals( aggrTable.get( id ) ) )
+				if ( info.equals( aggrExprInfoList.get( id ) ) )
 					break;
 			}
 
-			if ( id == aggrTable.size( ) )
-				aggrTable.add( info );
+			if ( id == aggrExprInfoList.size( ) )
+				aggrExprInfoList.add( info );
 
 			expr.setRegId( id );
 
@@ -270,20 +268,20 @@ public class AggregateTable
 			assert expr != null;
 			assert currentGroupLevel >= 0;
 
-			aggr.func = expr.getAggregation( );
+			aggr.aggregation = expr.getAggregation( );
 			aggr.afterGroup = afterGroup;
 			List exprArgs = expr.getArguments( );
 
 			// Find out how many fixed arguments this aggregate function takes
 			// Optional filter and group arguments follow the fixed arguments
-			int nFixedArgs = aggr.func.getParameterDefn( ).length;
+			int nFixedArgs = aggr.aggregation.getParameterDefn( ).length;
 
 			// Verify that the expression has the right # of arguments
 			int nArgs = exprArgs.size( );
 			if ( nArgs < nFixedArgs || nArgs > nFixedArgs + 2 )
 			{
 				DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
-						aggr.func.getName( ) );
+						aggr.aggregation.getName( ) );
 				logger.logp( Level.FINE,
 						AggregateTable.class.getName( ),
 						"newAggrExprInfo",
@@ -303,7 +301,7 @@ public class AggregateTable
 
 				{
 					DataException e = new DataException( ResourceConstants.INVALID_AGGR_GROUP_EXPRESSION,
-							aggr.func.getName( ) );
+							aggr.aggregation.getName( ) );
 					logger.logp( Level.FINE,
 							AggregateTable.class.getName( ),
 							"newAggrExprInfo",
@@ -365,7 +363,7 @@ public class AggregateTable
 								: groupCount ) )
 				{
 					DataException e = new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
-							aggr.func.getName( ) );
+							aggr.aggregation.getName( ) );
 					logger.logp( Level.FINE,
 							AggregateTable.class.getName( ),
 							"newAggrExprInfo",
@@ -403,7 +401,7 @@ public class AggregateTable
 	class AggrExprInfo
 	{
 		// Aggregate function
-		IAggregation func;
+		IAggregation aggregation;
 		// Grouping level of the aggr expression. 0 = entire list, 1 = outermost
 		// group etc.
 		int groupLevel = -1;
@@ -422,7 +420,7 @@ public class AggregateTable
 			if ( other == null || !( other instanceof AggrExprInfo ) )
 				return false;
 			AggrExprInfo rhs = (AggrExprInfo) other;
-			if ( func != rhs.func
+			if ( aggregation != rhs.aggregation
 					|| groupLevel != rhs.groupLevel
 					|| args.length != rhs.args.length
 					|| afterGroup != rhs.afterGroup )

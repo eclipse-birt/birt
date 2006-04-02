@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor.transform;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -107,6 +108,15 @@ public interface IExpressionProcessor
 	 * @return
 	 */
 	public boolean hasAggregateExpr( List list ) throws DataException;
+	
+	/**
+	 * whether the expression list contains aggregate, if yes, return true. else
+	 * return false
+	 * 
+	 * @param IBaseExpression
+	 * @return
+	 */
+	public boolean hasAggregation(IBaseExpression expression) throws DataException;
 
 	/**
 	 * Set the result iterator against which the value of aggregations will be
@@ -136,4 +146,8 @@ public interface IExpressionProcessor
 	 * 
 	 */
 	public void clear( );
+	
+	public void prepareComputedColumns( IComputedColumnsState iccState );
+	
+	public void setResultSetPopulator( ResultSetPopulator rsPopulator );
 }

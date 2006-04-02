@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
+import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator;
@@ -64,17 +65,24 @@ public class ExpressionProcessor implements IExpressionProcessor
 	 * @param resultIterator
 	 * @param scope
 	 */
-	public ExpressionProcessor( IResultClass metaData,
-			IResultIterator resultIterator, DataSetRuntime dataSet, BaseQuery query )
-	{
-		helper = new ExpressionParseHelper( metaData , dataSet.getScriptScope() );
-		helper.setQuery( query );
+	public ExpressionProcessor(IResultClass metaData,
+			IResultIterator resultIterator, DataSetRuntime dataSet,
+			BaseQuery query ) {
+		helper = new ExpressionParseHelper(metaData, dataSet.getScriptScope());
+		helper.setQuery(query);
 		this.metaData = metaData;
 		this.query = query;
 		this.resultIterator = resultIterator;
 		this.dataSet = dataSet;
 	}
 
+	/*
+	 * @see org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor#setResultSetPopulator(org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator)
+	 */
+	public void setResultSetPopulator(ResultSetPopulator rsPopulator) {
+		helper.setResultSetPopulator(rsPopulator);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -127,8 +135,8 @@ public class ExpressionProcessor implements IExpressionProcessor
 	{
 		assert ( computedColumns != null );
 		this.computedColumnState = computedColumns;
-
-    	IScriptExpression cmptdColumn = null;
+		
+		IScriptExpression cmptdColumn = null;
 		String name = "",expression="";
 
 		Context context = Context.enter();
@@ -171,6 +179,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 						if ( exprType == GROUP_COLUMN_EXPR )
 						{
 							exprType = 0;
+							helper.setExpressionType( 0, 0 );
 							helper.resetPassLevel( );
 							return;
 						}
@@ -291,41 +300,62 @@ public class ExpressionProcessor implements IExpressionProcessor
 		helper.setAggregateStatus( hasAggregate );
 		
 		IBaseExpression baseExpression = null;
-		
-		Context context = Context.enter( );
-		try
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				baseExpression = (IBaseExpression) list.get( i );
-				if ( baseExpression instanceof IConditionalExpression )
-				{
-					IConditionalExpression condition = (IConditionalExpression) baseExpression;
-					IScriptExpression op = condition.getExpression( );
-					IScriptExpression op1 = condition.getOperand1( );
-					IScriptExpression op2 = condition.getOperand2( );
-					if ( op != null )
-						helper.compileExpression( op.getText( ), context );
-					if ( op1 != null )
-						helper.compileExpression( op1.getText( ), context );
-					if ( op2 != null )
-						helper.compileExpression( op2.getText( ), context );
-				}
-				else if ( baseExpression instanceof IScriptExpression )
-				{
-					IScriptExpression scriptExpr = (IScriptExpression) baseExpression;
-					helper.compileExpression( scriptExpr.getText( ), context );
-				}
-
-			}
-		}
-		finally
-		{
-			Context.exit();
+			baseExpression = (IBaseExpression)list.get( i );
+			compileBaseExpression(baseExpression);
 		}
 		hasAggregate = helper.getAggregateStatus( );
 		this.clear( );
 		return hasAggregate;
+	}
+	
+	/**
+	 * 
+	 * @param expression
+	 * @return
+	 */
+	public boolean hasAggregation(IBaseExpression expression) throws DataException
+	{
+		boolean hasAggregate = false;
+		IBaseExpression baseExpression = expression;
+		
+		compileBaseExpression(baseExpression);
+		
+		hasAggregate = helper.getAggregateStatus( );
+		this.clear( );
+		return hasAggregate;
+	}
+
+	/**
+	 * 
+	 * @param baseExpression
+	 * @throws DataException
+	 */
+	private void compileBaseExpression(IBaseExpression baseExpression ) throws DataException {
+		Context context = Context.enter();
+		try {
+		if (baseExpression instanceof IConditionalExpression)
+		{
+			IConditionalExpression condition = (IConditionalExpression) baseExpression;
+			IScriptExpression op = condition.getExpression();
+			IScriptExpression op1 = condition.getOperand1();
+			IScriptExpression op2 = condition.getOperand2();
+			if (op != null)
+				helper.compileExpression(op.getText(), context);
+			if (op1 != null)
+				helper.compileExpression(op1.getText(), context);
+			if (op2 != null)
+				helper.compileExpression(op2.getText(), context);
+		}
+		else if (baseExpression instanceof IScriptExpression)
+		{
+			IScriptExpression scriptExpr = (IScriptExpression) baseExpression;
+			helper.compileExpression(scriptExpr.getText(), context);
+		}}
+		 finally {
+			Context.exit();
+		}
 	}
 	
 	/**
@@ -467,7 +497,18 @@ public class ExpressionProcessor implements IExpressionProcessor
 	public void clear( )
 	{
 		tempRefactorCmpList = null;
+		exprType =  COMPUTED_COLUMN_EXPR;
 		if ( this.helper != null )
 			this.helper.clear( );
+	}
+
+	public void prepareComputedColumns( IComputedColumnsState iccState )
+	{
+		this.computedColumnState = iccState;
+		for( int i = 0; i < iccState.getCount(); i++ )
+		{
+			if( iccState.isValueAvailable( i ) )
+				helper.addAvailableCmpColumn( iccState.getName(i));
+		}
 	}
 }

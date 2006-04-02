@@ -33,12 +33,13 @@ import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
-import org.eclipse.birt.data.engine.impl.jointdataset.JoinConditionMatcher;
 import org.eclipse.birt.data.engine.impl.jointdataset.IJoinConditionMatcher;
+import org.eclipse.birt.data.engine.impl.jointdataset.JoinConditionMatcher;
 import org.eclipse.birt.data.engine.impl.jointdataset.JointDataSetPopulatorFactory;
 import org.eclipse.birt.data.engine.impl.jointdataset.JointResultMetadata;
-import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
+import org.eclipse.birt.data.engine.odi.IDataSource;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -54,6 +55,9 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private IDataSetPopulator populator;
 	private IResultClass resultClass;
 	
+	private DataEngineImpl dataEngine;
+	private IBaseDataSetDesign dataSetDesign;
+	private Map appContext;
 	/**
 	 * Constructor.
 	 * 
@@ -68,7 +72,9 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			Map appContext ) throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign, appContext );
-		initialize( dataEngine, dataSetDesign, appContext );
+		this.dataEngine = dataEngine;
+		this.dataSetDesign = dataSetDesign;
+		this.appContext = appContext;
 	}
 
 	/**
@@ -345,6 +351,34 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			return odiPreparedQuery;
 		}
 		
+/*		
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#populateOdiQuery()
+		 
+		protected void populateOdiQuery( ) throws DataException
+		{
+			super.populateOdiQuery( );
+			
+			
+			IDataSourceQuery odiDSQuery = (IDataSourceQuery) odiQuery;
+			assert odiDSQuery != null;
+		
+			// assign computed columns and projected columns
+			// declare computed columns as custom fields
+		    List ccList = dataSet.getComputedColumns( );
+			if ( ccList != null )
+			{
+				for ( int i = 0; i < ccList.size( ); i++ )
+				{
+					IComputedColumn cc = (IComputedColumn) ccList.get( i );
+					odiDSQuery.declareCustomField( cc.getName( ),
+							cc.getDataType( ) );
+				}
+			}
+				
+			// specify column projection, if any
+	        odiDSQuery.setResultProjection( getReportQueryDefn().getColumnProjection() );
+		}*/
+
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()
 		 */
@@ -365,12 +399,15 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		protected org.eclipse.birt.data.engine.odi.IResultIterator executeOdiQuery(  )
-				 throws DataException
+		protected org.eclipse.birt.data.engine.odi.IResultIterator executeOdiQuery(
+				IEventHandler eventHandler ) throws DataException
 		{
+			initialize( dataEngine, dataSetDesign, appContext );
+			
 			return new CachedResultSet( (BaseQuery) this.odiQuery,
 					resultClass,
-					populator );
+					populator,
+					eventHandler );
 		}
 	}
 }

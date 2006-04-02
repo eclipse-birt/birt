@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -22,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -35,7 +35,106 @@ import org.mozilla.javascript.Context;
  * Used to calculate the computed columns value in the time window
  * from fetching data to do grouping/sorting data.
  */
+
 public class ComputedColumnHelper implements IResultObjectEvent
+{
+	private ComputedColumnHelperInstance dataSetInstance;
+	private ComputedColumnHelperInstance resultSetInstance;
+	private int currentModel;
+	private List allCC;
+	
+	/**
+	 * 
+	 * @param dataSet
+	 * @param dataSetCCList
+	 * @param resultSetCCList
+	 */
+	ComputedColumnHelper( DataSetRuntime dataSet, List dataSetCCList, List resultSetCCList)
+	{
+		this.dataSetInstance = new ComputedColumnHelperInstance(dataSet,dataSetCCList);
+		this.resultSetInstance = new ComputedColumnHelperInstance(dataSet,resultSetCCList);
+		this.currentModel = TransformationConstants.DATA_SET_MODEL;
+		this.allCC = new ArrayList();
+		this.allCC.addAll(dataSetCCList);
+		this.allCC.addAll(resultSetCCList);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private ComputedColumnHelperInstance getCurrentInstance()
+	{
+		if( this.currentModel == TransformationConstants.DATA_SET_MODEL)
+			return this.dataSetInstance;
+		else if ( this.currentModel == TransformationConstants.RESULT_SET_MODEL)
+			return this.resultSetInstance;
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.data.engine.odi.IResultObject, int)
+	 */
+	public boolean process(IResultObject resultObject, int rowIndex) throws DataException 
+	{
+		if( this.getCurrentInstance()!=null)
+			return this.getCurrentInstance().process(resultObject, rowIndex);
+		else
+			return true;
+	}
+	
+	/**
+	 * Return whether the computed column set with given model exists
+	 * 
+	 * @param model
+	 * @return
+	 */
+	public boolean isComputedColumnExist( int model )
+	{
+		if( model == TransformationConstants.DATA_SET_MODEL )
+			return this.dataSetInstance.getComputedColumnList().size() > 0;
+		else if ( model == TransformationConstants.RESULT_SET_MODEL )
+			return this.resultSetInstance.getComputedColumnList().size() > 0;
+		else if ( model == TransformationConstants.ALL_MODEL )
+			return this.allCC.size() > 0;
+		return false;
+	}
+	
+	/**
+	 * Return a list of computed column of current instance.
+	 * 
+	 * @return
+	 */
+	public List getComputedColumnList( )
+	{
+		if ( this.getCurrentInstance()!= null )
+			return this.getCurrentInstance().getComputedColumnList();
+		else
+			return this.allCC;
+	}
+	
+	/**
+	 * 
+	 * @param rePrepare
+	 */
+	public void setRePrepare( boolean rePrepare)
+	{
+		if( this.getCurrentInstance()!= null)
+			this.getCurrentInstance().setRePrepare(rePrepare);
+	}
+	
+	/**
+	 * 
+	 * @param model
+	 */
+	public void setModel( int model )
+	{
+		this.currentModel = model;
+	}
+}
+
+class ComputedColumnHelperInstance
 {
 	private DataSetRuntime dataSet;
 	
@@ -50,23 +149,26 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	
 	// prepared flag
 	private boolean isPrepared;
-	
-	protected static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
 
-	ComputedColumnHelper( DataSetRuntime dataSet, List ccList)
+	protected static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
+	
+	
+	
+	public ComputedColumnHelperInstance(DataSetRuntime dataSet, List computedColumns) 
 	{
-		logger.log( Level.FINER, "ComputedColumnHelper starts up" );
-		assert ccList != null && ccList.size( ) > 0;
-		this.ccList = ccList;
+		//Do not change the assignment of array 
+		//TODO enhance.
+		this.ccList = new ArrayList();
+		for( int i = 0; i < computedColumns.size(); i++)
+			this.ccList.add(computedColumns.get(i));
 		this.isPrepared = false;
 		this.dataSet = dataSet;
 	}
-
+	
 	public List getComputedColumnList()
 	{
 		return this.ccList;
 	}
-	
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.data.engine.odi.IResultObject)
 	 */
@@ -102,6 +204,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				if ( columnExprArray[i] != null )
 				{
 					Object value = null;
+				
 					if ( columnExprArray[i].getHandle() != null)
 						value = ((CompiledExpression)columnExprArray[i].getHandle()).evaluate(cx,
 									dataSet.getScriptScope() );
@@ -111,6 +214,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 								((IScriptExpression)columnExprArray[i]).getText(),
 								"ComputedColumn",
 								0 );
+				
 					try
 					{
 						value = DataTypeUtil.convert( value,

@@ -110,26 +110,23 @@ public final class FilterUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static boolean hasMultiPassFilters( Object[] fetchEventsList )
+	public static boolean hasMultiPassFilters( FilterByRow filterByRow )
 			throws DataException
 	{
-		for ( int i = 0; i < fetchEventsList.length; i++ )
-		{
-			if ( fetchEventsList[i] instanceof FilterByRow )
+		if( filterByRow == null )
+			return false;
+		if( filterByRow.isFilterSetExist(FilterByRow.GROUP_FILTER))
+			return true;
+		if( filterByRow.isFilterSetExist(FilterByRow.QUERY_FILTER))
+			return true;
+		List list = filterByRow.getFilterList( FilterByRow.ALL_ROW_FILTER );
+		if ( list == null )
+			return false;
+			for ( int j = 0; j < list.size( ); j++ )
 			{
-				if( ( (FilterByRow) fetchEventsList[i] ).isFilterSetExist(FilterByRow.GROUP_FILTER))
+				if ( FilterUtil.isFilterNeedMultiPass( (IFilterDefinition) ( list.get( j ) ) ) )
 					return true;
-				List list = ( (FilterByRow) fetchEventsList[i] ).getFilterList( FilterByRow.ALL_ROW_FILTER );
-				if ( list == null )
-					return false;
-				for ( int j = 0; j < list.size( ); j++ )
-				{
-					if ( FilterUtil.isFilterNeedMultiPass( (IFilterDefinition) ( list.get( j ) ) ) )
-						return true;
-				}
-
 			}
-		}
 		return false;
 	}
 

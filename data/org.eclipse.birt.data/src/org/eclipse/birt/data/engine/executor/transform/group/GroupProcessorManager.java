@@ -54,8 +54,8 @@ public class GroupProcessorManager
 			throws DataException
 	{
 		this.populator = populator;
-		this.groupCalculationUtil = new GroupCalculationUtil( query,
-				populator.getResultSetMetadata( ) );
+		this.groupCalculationUtil = new GroupCalculationUtil(query, populator
+				.getResultSetMetadata(), this.populator);
 	}
 
 	/**

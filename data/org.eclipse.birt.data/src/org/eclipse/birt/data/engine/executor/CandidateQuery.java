@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor;
 
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -68,24 +69,27 @@ class CandidateQuery extends BaseQuery implements ICandidateQuery
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#execute()
 	 */
-	public IResultIterator execute( ) throws DataException
+	public IResultIterator execute( IEventHandler eventHandler )
+			throws DataException
 	{
-		if ( customDataSet == null )
+		if ( customDataSet == null ) // sub query
 		{
 			// resultObjsIterator
+			// for sub query, the event handler is no use
 			return new CachedResultSet( this,
 					resultMetadata,
 					resultObjsIterator,
 					groupingLevel );
 		}
-		else
+		else // scripted query
 		{
 			if ( DataSetCacheManager.getInstance( ).doesSaveToCache( ) == false )
-				return new CachedResultSet( this, customDataSet );
+				return new CachedResultSet( this, customDataSet, eventHandler );
 			else
 				return new CachedResultSet( this,
 						resultMetadata,
-						new DataSetResultCache( customDataSet, resultMetadata ) );
+						new DataSetResultCache( customDataSet, resultMetadata ),
+						eventHandler );
 			
 		}
 	}

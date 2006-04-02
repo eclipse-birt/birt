@@ -24,23 +24,23 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
  */
 public final class AggregateExpression extends BytecodeExpression
 {
-	private IAggregation m_aggregation;
-    private ArrayList m_arguments;
+	private IAggregation aggregation;
+    private List arguments;
     private int m_id;		// Id of this expression in the aggregate registry
 
 	AggregateExpression( IAggregation aggregation )
     {
 		logger.entering( AggregateExpression.class.getName( ),
 				"AggregateExpression" );
-    	m_aggregation = aggregation;
-    	m_arguments = new ArrayList();
+    	this.aggregation = aggregation;
+    	this.arguments = new ArrayList();
 		logger.exiting( AggregateExpression.class.getName( ),
 				"AggregateExpression" );
     }
     
     public IAggregation getAggregation()
     {
-    	return m_aggregation;
+    	return aggregation;
     }
     
     /*
@@ -53,14 +53,14 @@ public final class AggregateExpression extends BytecodeExpression
 
 		AggregateExpression expr2 = (AggregateExpression) other;
 
-		if ( !m_aggregation.getName( ).equals( expr2.getAggregation( )
+		if ( !aggregation.getName( ).equals( expr2.getAggregation( )
 				.getName( ) ) )
 			return false;
-		if ( m_arguments.size( ) != expr2.getArguments( ).size( ) )
+		if ( arguments.size( ) != expr2.getArguments( ).size( ) )
 			return false;
-		for ( int i = 0; i < m_arguments.size( ); i++ )
+		for ( int i = 0; i < arguments.size( ); i++ )
 		{
-			if ( !m_arguments.get( i ).equals( expr2.getArguments( ).get( i ) ) )
+			if ( !arguments.get( i ).equals( expr2.getArguments( ).get( i ) ) )
 				return false;
 		}
 		return true;
@@ -73,7 +73,7 @@ public final class AggregateExpression extends BytecodeExpression
      */
     public List getArguments()
     {
-    	return m_arguments;
+    	return arguments;
     }
     
     /**
@@ -85,7 +85,7 @@ public final class AggregateExpression extends BytecodeExpression
     void addArgument( CompiledExpression expr )
     {
     	assert( expr != null );
-    	m_arguments.add( expr );
+    	arguments.add( expr );
     }
     
     public int getType()

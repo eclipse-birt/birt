@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -56,15 +57,19 @@ import org.mozilla.javascript.Scriptable;
  * 
  */
 abstract class QueryExecutor implements IQueryExecutor
-{	
-	private 	Scriptable 				sharedScope;	
+{
 	private 	IBaseQueryDefinition 	baseQueryDefn;
 	private 	AggregateTable 			aggrTable;
 	private 	AggregateCalculator		aggregates;
-	private		Scriptable				queryScope;
-	
+
+	// from PreparedQuery->PreparedDataSourceQuery->DataEngineImpl
+	private 	Scriptable 				sharedScope;
 	/** Externally provided query scope; can be null */
+	// from PreparedQuery->PreparedDataSourceQuery
 	private		Scriptable				parentScope;
+	
+	// for query execution
+	private		Scriptable				queryScope;
 
 	private 	boolean 				isPrepared = false;
 	private 	boolean					isExecuted = false;
@@ -84,6 +89,7 @@ abstract class QueryExecutor implements IQueryExecutor
 	protected	QueryResults			outerResults;	
 	private 	IResultIterator			odiResult;
 	
+	private List temporaryComputedColumns = new ArrayList();
 	private static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
 	/**
@@ -141,11 +147,12 @@ abstract class QueryExecutor implements IQueryExecutor
 	
 	/**
 	 * Executes the ODI query to reproduce a ODI result set
+	 * @param eventHandler 
 	 * 
 	 * @return
 	 */
-	abstract protected IResultIterator executeOdiQuery( )
-			throws DataException;
+	abstract protected IResultIterator executeOdiQuery(
+			IEventHandler eventHandler ) throws DataException;
 		
 	/**
 	 * @param context
@@ -153,48 +160,6 @@ abstract class QueryExecutor implements IQueryExecutor
 	void setAppContext( Map context )
 	{
 	    queryAppContext = context;
-	}
-	
-	/**
-	 * Gets the Javascript scope for evaluating expressions for this query
-	 * 
-	 * @return
-	 */
-	Scriptable getQueryScope()
-	{
-		if ( queryScope == null )
-		{
-			// Set up a query scope. All expressions are evaluated against the 
-			// Data set JS object as the prototype (so that it has access to all
-			// data set properties). It uses a subscope of the externally provided
-			// parent scope, or the global shared scope
-			queryScope = newSubScope( parentScope );
-			queryScope.setPrototype( dataSet.getJSDataSetObject() );
-		}
-		return queryScope;
-	}
-	
-	/**
-	 * Creates a subscope within parent scope
-	 * @param parentScope parent scope. If null, the shared top-level scope is used as parent
-	 */
-	Scriptable newSubScope( Scriptable parentScope )
-	{
-		if ( parentScope == null )
-			parentScope = sharedScope;
-		
-		Context cx = Context.enter( );
-		try
-		{
-			Scriptable scope = cx.newObject( parentScope );
-			scope.setParentScope( parentScope );
-			scope.setPrototype( parentScope );
-			return scope;
-		}
-		finally
-		{
-			Context.exit( );
-		}
 	}
 	
 	/**
@@ -307,8 +272,6 @@ abstract class QueryExecutor implements IQueryExecutor
 		Context cx = Context.enter();
 		try
 		{
-			List temporaryComputedColumns = new ArrayList();
-			
 			// Set grouping
 			List groups = this.baseQueryDefn.getGroups();
 			if ( groups != null && ! groups.isEmpty() )
@@ -323,19 +286,29 @@ abstract class QueryExecutor implements IQueryExecutor
 						(src.getKeyExpression( ) == null || src.getKeyExpression( ).trim( ).length( ) == 0)	)
 						throw new DataException( ResourceConstants.BAD_GROUP_EXPRESSION );
 					//TODO does the index of column significant?
-					IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
+					IQuery.GroupSpec dest = this.dataSet.getComputedColumns() == null? 
+						QueryExecutorUtil.subQueryGroupDefnToSpec( cx,
+								src,
+								"_{$TEMP_GROUP_" + i + "$}_",
+								-1 ):
+						QueryExecutorUtil.groupDefnToSpec( cx,
 							src,
 							"_{$TEMP_GROUP_" + i + "$}_",
 							-1 );
 					groupSpecs[i] = dest;
-					
-					if( groupSpecs[i].isCompleteExpression() )
+					String expr = src.getKeyColumn();
+					if( expr == null )
 					{
-						temporaryComputedColumns.add( new ComputedColumn( "_{$TEMP_GROUP_"
-								+ i + "$}_",
-								src.getKeyExpression( ),
-								QueryExecutorUtil.getTempComputedColumnType( groupSpecs[i].getInterval( ) ) ) );
+						expr = src.getKeyExpression();
+					}else
+					{
+						expr = getColumnRefExpression(expr);
 					}
+					
+					temporaryComputedColumns.add( new ComputedColumn( "_{$TEMP_GROUP_"
+						+ i + "$}_",
+						expr,
+						QueryExecutorUtil.getTempComputedColumnType( groupSpecs[i].getInterval( ) ) ) );
 				}
 				odiQuery.setGrouping( Arrays.asList( groupSpecs));
 			}		
@@ -350,23 +323,16 @@ abstract class QueryExecutor implements IQueryExecutor
 					ISortDefinition src = (ISortDefinition) it.next();
 					int sortIndex = -1;
 					String sortKey = src.getColumn();
-					if ( sortKey == null || sortKey.length() == 0 )
-					{ 
-						//Firstly try to treat sort key as a column reference expression
-						ColumnInfo columnInfo = QueryExecutorUtil.getColInfoFromJSExpr( cx,
-								src.getExpression( ).getText( ) );
-													
-						sortIndex = columnInfo.getColumnIndex(); 
-						sortKey = columnInfo.getColumnName( );
-					}
-					if ( sortKey == null && sortIndex < 0 )
+					if( sortKey == null )
+						sortKey = src.getExpression().getText();
+					else 
 					{
-						//If failed to treate sort key as a column reference expression
-						//then treat it as a computed column expression
-						temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_SORT_"+i+"$}_", src.getExpression().getText(), DataType.ANY_TYPE));
-						sortIndex = -1; 
-						sortKey = String.valueOf("_{$TEMP_SORT_"+i+"$}_");
+						sortKey = getColumnRefExpression(sortKey);
 					}
+
+					temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_SORT_"+i+"$}_", sortKey, DataType.ANY_TYPE));
+					sortIndex = -1; 
+					sortKey = String.valueOf("_{$TEMP_SORT_"+i+"$}_");
 					
 					IQuery.SortSpec dest = new IQuery.SortSpec( sortIndex,
 							sortKey,
@@ -396,15 +362,15 @@ abstract class QueryExecutor implements IQueryExecutor
 		    List computedColumns = null;
 		    // set computed column event
 			computedColumns = this.dataSet.getComputedColumns( );
-			if ( computedColumns != null )
+			if ( computedColumns == null )
+				computedColumns = new ArrayList();
+			if ( computedColumns.size() > 0 || temporaryComputedColumns.size( ) > 0 )
 			{
-				computedColumns.addAll( temporaryComputedColumns );
-			}
-			if ( (computedColumns != null && computedColumns.size() > 0)|| temporaryComputedColumns.size( ) > 0 )
-			{
-				IResultObjectEvent objectEvent = new ComputedColumnHelper( this.dataSet,
-						(computedColumns == null&&computedColumns.size()>0) ? temporaryComputedColumns : computedColumns );
-				odiQuery.addOnFetchEvent( objectEvent );
+				if( this.dataSet.getComputedColumns() != null ){
+					IResultObjectEvent objectEvent = new ComputedColumnHelper( this.dataSet, computedColumns, temporaryComputedColumns);
+					odiQuery.addOnFetchEvent( objectEvent );
+					this.dataSet.getComputedColumns().addAll(temporaryComputedColumns);
+				}
 			}
 	    	if ( dataSet.getEventHandler() != null )
 	    	{
@@ -426,6 +392,20 @@ abstract class QueryExecutor implements IQueryExecutor
 		{
 			Context.exit();
 		}
+	}
+
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	private String getColumnRefExpression(String expr) 
+	{
+		if(ModeManager.isOldMode())
+			expr = "row[\""+ expr + "\"]";
+		else
+			expr = "resultSetRow[\""+ expr + "\"]";
+		return expr;
 	}
 	
 	/**
@@ -541,7 +521,7 @@ abstract class QueryExecutor implements IQueryExecutor
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#execute()
 	 */
-	public void execute( ) throws DataException
+	public void execute( IEventHandler eventHandler ) throws DataException
 	{
 		logger.logp( Level.FINER,
 				QueryExecutor.class.getName( ),
@@ -552,8 +532,9 @@ abstract class QueryExecutor implements IQueryExecutor
 			return;
 
 		// Execute the query
-		odiResult = executeOdiQuery( );
-
+		odiResult = executeOdiQuery( eventHandler );
+		
+		resetComputedColumns();
 		// Bind the row object to the odi result set
 		this.dataSet.setResultSet( odiResult, false );
 			
@@ -571,6 +552,12 @@ abstract class QueryExecutor implements IQueryExecutor
 				"Finish executing" );
 	}
 	
+	private void resetComputedColumns() {
+		List l = this.getDataSet().getComputedColumns();
+		if( l!= null)
+			l.removeAll( this.temporaryComputedColumns );
+	}
+
 	/*
 	 * Closes the executor; release all odi resources
 	 * 
@@ -664,6 +651,48 @@ abstract class QueryExecutor implements IQueryExecutor
 	public Scriptable getSharedScope( )
 	{
 		return this.sharedScope;
+	}
+	
+	/**
+	 * Gets the Javascript scope for evaluating expressions for this query
+	 * 
+	 * @return
+	 */
+	public Scriptable getQueryScope( )
+	{
+		if ( queryScope == null )
+		{
+			// Set up a query scope. All expressions are evaluated against the 
+			// Data set JS object as the prototype (so that it has access to all
+			// data set properties). It uses a subscope of the externally provided
+			// parent scope, or the global shared scope
+			queryScope = newSubScope( parentScope );
+			queryScope.setPrototype( dataSet.getJSDataSetObject() );
+		}
+		return queryScope;
+	}
+	
+	/**
+	 * Creates a subscope within parent scope
+	 * @param parentAndProtoScope parent scope. If null, the shared top-level scope is used as parent
+	 */
+	private Scriptable newSubScope( Scriptable parentAndProtoScope )
+	{
+		if ( parentAndProtoScope == null )
+			parentAndProtoScope = sharedScope;
+		
+		Context cx = Context.enter( );
+		try
+		{
+			Scriptable scope = cx.newObject( parentAndProtoScope );
+			scope.setParentScope( parentAndProtoScope );
+			scope.setPrototype( parentAndProtoScope );
+			return scope;
+		}
+		finally
+		{
+			Context.exit( );
+		}
 	}
 	
 	/*

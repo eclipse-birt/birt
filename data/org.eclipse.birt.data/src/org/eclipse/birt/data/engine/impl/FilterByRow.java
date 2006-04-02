@@ -101,6 +101,7 @@ public class FilterByRow implements IResultObjectEvent
 	 * 2. DATASET_FILTER
 	 * 3. QUERY_FILTER
 	 * 4. NO_FILTER
+	 * 5. GROUP_FILTER
 	 * 
 	 * @param filterSetType
 	 * @throws DataException
@@ -109,6 +110,16 @@ public class FilterByRow implements IResultObjectEvent
 	{
 		this.validateFilterType( filterSetType );
 		this.currentWorkingFilters = filterSetType;
+	}
+	
+	/**
+	 * Return the working filter set.
+	 * 
+	 * @throws DataException
+	 */
+	public int getWorkingFilterSet( ) throws DataException
+	{
+		return this.currentWorkingFilters;
 	}
 	
 	/**

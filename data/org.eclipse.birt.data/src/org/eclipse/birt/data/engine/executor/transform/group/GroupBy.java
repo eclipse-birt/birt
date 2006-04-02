@@ -27,6 +27,7 @@ public abstract class GroupBy
 {
 
 	private int columnIndex;
+	private String columnName;
 	private GroupSpec groupSpec;
 
 	/**
@@ -39,7 +40,7 @@ public abstract class GroupBy
 	 * @return GroupBy
 	 * @throws DataException
 	 */
-	static GroupBy newInstance( GroupSpec groupDefn, int columnIndex,
+	static GroupBy newInstance( GroupSpec groupDefn, int columnIndex, String columnName,
 			Class columnType ) throws DataException
 	{
 		assert groupDefn != null;
@@ -81,6 +82,7 @@ public abstract class GroupBy
 
 		groupBy.groupSpec = groupDefn;
 		groupBy.columnIndex = columnIndex;
+		groupBy.columnName = columnName;
 
 		return groupBy;
 	}
@@ -184,6 +186,11 @@ public abstract class GroupBy
 	int getColumnIndex( )
 	{
 		return columnIndex;
+	}
+	
+	String getColumnName( )
+	{
+		return columnName;
 	}
 
 	/**

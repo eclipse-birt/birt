@@ -449,7 +449,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	public Object getValue( String name ) throws BirtException
 	{
-		return null;
+		return this.getValueLoader( ).getValue( name );
 	}
 	
 	/*

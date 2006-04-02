@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -537,8 +538,9 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	 *  (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#execute()
 	 */
-    public IResultIterator execute( ) throws DataException
-    {
+    public IResultIterator execute( IEventHandler eventHandler )
+			throws DataException
+	{
     	assert odaStatement != null;
 
     	this.setInputParameterBinding();
@@ -557,11 +559,12 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		
 		// Initialize CachedResultSet using the ODA result set
 		if ( DataSetCacheManager.getInstance( ).doesSaveToCache( ) == false )
-			return new CachedResultSet( this, resultMetadata, rs );
+			return new CachedResultSet( this, resultMetadata, rs, eventHandler );
 		else
 			return new CachedResultSet( this,
 					resultMetadata,
-					new DataSetResultCache( rs, resultMetadata ) );
+					new DataSetResultCache( rs, resultMetadata ),
+					eventHandler );
     }
     
 	/*

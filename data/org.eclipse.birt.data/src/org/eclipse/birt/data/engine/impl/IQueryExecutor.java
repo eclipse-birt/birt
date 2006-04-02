@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.impl;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
@@ -23,16 +24,22 @@ public interface IQueryExecutor
 {
 	/**
 	 * Execute query
+	 * @param eventHandler 
 	 * 
 	 * @throws DataException
 	 */
-	void execute( ) throws DataException;
+	void execute( IEventHandler eventHandler ) throws DataException;
 
 	/**
 	 * @return shard scope
 	 */
+	Scriptable getQueryScope( );
+	
+	/**
+	 * @return shard scope
+	 */
 	Scriptable getSharedScope( );
-
+	
 	/**
 	 * @return scope of JS aggregation object
 	 */

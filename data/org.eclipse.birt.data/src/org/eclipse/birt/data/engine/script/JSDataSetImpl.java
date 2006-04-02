@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IJavascriptContext;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
+import org.eclipse.birt.data.engine.impl.ModeManager;
 import org.eclipse.birt.data.engine.impl.ScriptDataSetRuntime;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -146,9 +147,30 @@ public class JSDataSetImpl
 	 */
 	public Scriptable getRow()
 	{
-		return dataSet.getJSRowObject();
+		if ( ModeManager.isOldMode( ) )
+			return dataSet.getJSRowObject( );
+		else
+			return dataSet.getJSResultRowObject( );
 	}
 
+	/**
+	 * @return
+	 * @throws BirtException
+	 */
+	public Scriptable getDataSetRow( ) throws BirtException
+	{
+		return dataSet.getJSDataSetRowObject( );
+	}
+	
+	/**
+	 * @return
+	 * @throws BirtException
+	 */
+	public Scriptable getResultSetRow( ) throws BirtException
+	{
+		return dataSet.getJSResultRowObject();
+	}
+	
 	/**
 	 * Implements DataSet.rows
 	 */

@@ -20,7 +20,6 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
  */
 public interface IComputedColumnsState
 {
-
 	/**
 	 * Whether the value of expression with given index is available or not.
 	 * 
@@ -67,4 +66,11 @@ public interface IComputedColumnsState
 	 * @return
 	 */
 	public IComputedColumn getComputedColumn( int index );
+	
+	/**
+	 * Set the model to be used by current computed columns
+	 * 
+	 * @param status
+	 */
+	public void setModel( int model );
 }

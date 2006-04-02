@@ -16,6 +16,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -133,11 +134,12 @@ public class DataSourceQuery extends BaseQuery
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#execute()
 	 */
-	public IResultIterator execute( ) throws DataException
+	public IResultIterator execute( IEventHandler eventHandler ) throws DataException
 	{
 		return new CachedResultSet( this,
 				getOdaCacheResultSet( ).getResultClass( ),
-				getOdaCacheResultSet( ) );
+				getOdaCacheResultSet( ),
+				eventHandler );
 	}
 
 	/*

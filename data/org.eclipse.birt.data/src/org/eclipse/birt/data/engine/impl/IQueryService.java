@@ -11,6 +11,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -49,6 +50,8 @@ public interface IQueryService
 	 * @return
 	 */
 	public DataSetRuntime[] getDataSetRuntimes( int count );
+	
+	public DataSetRuntime getDataSetRuntime( );
 
 	/**
 	 * 
@@ -77,5 +80,16 @@ public interface IQueryService
 	 * 
 	 */
 	public void close( );
+
+	/**
+	 * @param exprName
+	 * @return
+	 */
+	public IBaseExpression getBaseExpression( String exprName );
+
+	/**
+	 * @return
+	 */
+	public ExprManager getExprManager( );
 	
 }
