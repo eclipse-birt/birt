@@ -462,7 +462,8 @@ public class JDBCSelectionPageHelper
 
 			public void modifyText( ModifyEvent e )
 			{
-				if ( !jdbcUrl.isFocusControl( ) )
+				if ( !jdbcUrl.isFocusControl( )
+						&& jdbcUrl.getText( ).trim( ).length( ) == 0 )
 				{
 					return;
 				}
