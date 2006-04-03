@@ -18,6 +18,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CellPa
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CellPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CommentsPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.DataPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.DataSetPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.DataSourcePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.DescriptionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ExpressionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FontPage;
@@ -48,6 +50,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ca
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.CategoryProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
 /**
@@ -394,5 +399,28 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 			} );
 		}
 		return super.getCategoryProvider( elementName );
+	}
+
+	public ICategoryProvider getCategoryProvider( DesignElementHandle handle )
+	{
+
+		if ( handle instanceof DataSourceHandle )
+		{
+			return new CategoryProvider( new String[]{
+					"DataSourcePageGenerator.List.General", "ReportPageGenerator.List.EventHandler"},//$NON-NLS-1$
+					new Class[]{
+							DataSourcePage.class, HandlerPage.class
+					} );
+		}
+		if ( handle instanceof DataSetHandle )
+		{
+			return new CategoryProvider( new String[]{
+					"DataSetPageGenerator.List.General", "ReportPageGenerator.List.EventHandler"}, //$NON-NLS-1$
+					new Class[]{
+							DataSetPage.class, HandlerPage.class
+					} );
+		}
+
+		return super.getCategoryProvider( handle );
 	}
 }
