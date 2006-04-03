@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.1 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <data-sources>
+        <extended-data-source name="extendedDataSource"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="ds1">
+            <property name="dataSource">extendedDataSource</property>
+            <method name="queryScript"><![CDATA[query script1]]></method>
+        </oda-data-set>
+        <oda-data-set name="ds2">
+            <property name="dataSource">extendedDataSource</property>
+            <method name="queryScript"><![CDATA[query script2]]></method>
+        </oda-data-set>
+        <joint-data-set name="JointDataSet">
+            <list-property name="joinConditions">
+                <structure>
+                    <property name="joinType">inner</property>
+                    <property name="joinOperator">eq</property>
+                    <property name="leftDataSet">leftDataSet</property>
+                    <property name="rightDataSet">rightDataSet</property>
+                    <property name="leftExpression">leftExpression</property>
+                    <property name="rightExpression">rightExpression</property>
+                </structure>
+             </list-property>
+        </joint-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>	
+</report>

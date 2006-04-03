@@ -34,6 +34,7 @@ from account</property>
             <property name="dataSet">Data Set</property>
             <column>
                 <property name="width">100pt</property>
+                <property name="suppressDuplicates">false</property>
             </column>
             <column>
                 <property name="width">100pt</property>
