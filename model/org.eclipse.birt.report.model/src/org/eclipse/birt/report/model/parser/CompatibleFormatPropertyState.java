@@ -14,9 +14,9 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.xml.sax.SAXException;
@@ -28,28 +28,28 @@ import org.xml.sax.SAXException;
  * Can translate the obsolete format
  * 
  * <pre>
- *    
- *    Old design file:
- *    
- *       &lt;property name=&quot;dateTimeFormat&quot;&gt;:yyyy/mm/dd&lt;/property&gt;
- *       &lt;property name=&quot;numberFormat&quot;&gt;:&lt;/property&gt;
- *       &lt;property name=&quot;stringFormat&quot;&gt;noformat:&lt;/property&gt;
- *       
- *    New design file:
- *    
- *    	&lt;structure name=&quot;dateTimeFormat&quot;&gt;
- *    	  &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
- *    	  &lt;property name=&quot;pattern&quot;&gt;yyyy/mm/dd&lt;/property&gt;
- *    	&lt;/structure&gt;
- *    	&lt;structure name=&quot;numberFormat&quot;&gt;
- *    	  &lt;property name=&quot;category&quot;&gt;Currency&lt;/property&gt;
- *    	  &lt;property name=&quot;pattern&quot;&gt;$###,###.##&lt;/property&gt;
- *    	&lt;/structure&gt;
- *    	&lt;structure name=&quot;stringFormat&quot;&gt;
- *    	  &lt;property name=&quot;category&quot;&gt;noformat&lt;/property&gt;
- *    	  &lt;property name=&quot;pattern&quot;&gt;***&lt;/property&gt;
- *    	&lt;/structure&gt;
- *    
+ *        
+ *        Old design file:
+ *        
+ *           &lt;property name=&quot;dateTimeFormat&quot;&gt;:yyyy/mm/dd&lt;/property&gt;
+ *           &lt;property name=&quot;numberFormat&quot;&gt;:&lt;/property&gt;
+ *           &lt;property name=&quot;stringFormat&quot;&gt;noformat:&lt;/property&gt;
+ *           
+ *        New design file:
+ *        
+ *        	&lt;structure name=&quot;dateTimeFormat&quot;&gt;
+ *        	  &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
+ *        	  &lt;property name=&quot;pattern&quot;&gt;yyyy/mm/dd&lt;/property&gt;
+ *        	&lt;/structure&gt;
+ *        	&lt;structure name=&quot;numberFormat&quot;&gt;
+ *        	  &lt;property name=&quot;category&quot;&gt;Currency&lt;/property&gt;
+ *        	  &lt;property name=&quot;pattern&quot;&gt;$###,###.##&lt;/property&gt;
+ *        	&lt;/structure&gt;
+ *        	&lt;structure name=&quot;stringFormat&quot;&gt;
+ *        	  &lt;property name=&quot;category&quot;&gt;noformat&lt;/property&gt;
+ *        	  &lt;property name=&quot;pattern&quot;&gt;***&lt;/property&gt;
+ *        	&lt;/structure&gt;
+ *        
  * </pre>
  */
 
@@ -100,20 +100,42 @@ public class CompatibleFormatPropertyState extends PropertyState
 		assert struct != null;
 
 		String category = null;
-		String pattern = null;
+		String pattern = value;
+		MetaDataDictionary dict = MetaDataDictionary.getInstance( );
+
 		int index = value.indexOf( ':' );
 		if ( index != -1 )
 		{
 			category = value.substring( 0, index );
-			pattern = value.substring( index + 1 );
+
+			if ( category.trim( ).length( ) == 0
+					|| dict.getChoiceSet(
+							DesignChoiceConstants.CHOICE_DATETIME_FORMAT_TYPE )
+							.contains( category )
+					|| dict.getChoiceSet(
+							DesignChoiceConstants.CHOICE_STRING_FORMAT_TYPE )
+							.contains( category )
+					|| dict.getChoiceSet(
+							DesignChoiceConstants.CHOICE_NUMBER_FORMAT_TYPE )
+							.contains( category ) )
+			{
+				pattern = value.substring( index + 1 );
+			}
+			else
+				category = null;
 		}
 		else
 		{
-			if ( ParameterFormatValue.FORMAT_VALUE_STRUCT
-					.equalsIgnoreCase( propDefn.getStructDefn( ).getName( ) ) )
-				category = value;
-			else
-				pattern = value;
+			if ( dict.getChoiceSet(
+					DesignChoiceConstants.CHOICE_DATETIME_FORMAT_TYPE )
+					.contains( pattern )
+					|| dict.getChoiceSet(
+							DesignChoiceConstants.CHOICE_STRING_FORMAT_TYPE )
+							.contains( pattern )
+					|| dict.getChoiceSet(
+							DesignChoiceConstants.CHOICE_NUMBER_FORMAT_TYPE )
+							.contains( pattern ) )
+				category = pattern;
 		}
 
 		if ( StringUtil.isBlank( category ) )
