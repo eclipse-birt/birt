@@ -46,11 +46,15 @@ public final class ExpressionCompiler
     private CompilerEnvirons m_compilerEnv;
     
 	private final static String STRING_ROW = "row";
+	private final static String STRING_DATASETROW = "dataSetRow";
 	private final static String TOTAL = "Total";
 	public final static String AGGR_VALUE = "_aggr_value";
 
 	protected static Logger logger = Logger.getLogger( ExpressionCompiler.class.getName() );
 	
+	private String rowIndicator = STRING_ROW;
+
+	private boolean isDataSetMode = false;
 	/**
 	 * Compiles a Javascript expression to produce a subclass of CompileExpression, which
 	 * contains the compiled form of the JS expression, after suitable replacement
@@ -252,7 +256,7 @@ public final class ExpressionCompiler
 
 		String str = rowName.getString( );
 		assert( str != null );
-		if ( !( str.equals( STRING_ROW ) || str.equals( "dataSetRow" ) ) )
+		if (!str.equals(rowIndicator))
 			return null;
 
 		Node rowColumn = rowName.getNext( );
@@ -260,14 +264,20 @@ public final class ExpressionCompiler
 		
 		if( refNode.getType() == Token.GETPROP &&
 			rowColumn.getType() == Token.STRING )
-			return new ColumnReferenceExpression( rowColumn.getString() );
+			return new ColumnReferenceExpression(
+					this.isDataSetMode ? STRING_ROW : STRING_DATASETROW,
+					rowColumn.getString());
 		
 		if( refNode.getType() == Token.GETELEM )
 		{
 			if( rowColumn.getType() == Token.NUMBER )
-				return new ColumnReferenceExpression( (int) rowColumn.getDouble() );
+				return new ColumnReferenceExpression(
+						this.isDataSetMode ? STRING_ROW : STRING_DATASETROW,
+						(int) rowColumn.getDouble());
 			else if( rowColumn.getType() == Token.STRING )
-				return new ColumnReferenceExpression( rowColumn.getString() );
+				return new ColumnReferenceExpression(
+						this.isDataSetMode ? STRING_ROW : STRING_DATASETROW,
+						rowColumn.getString());
 		}		
 		
 		// right side is not a STRING or a NUMBER, which is what is needed for 
@@ -497,4 +507,15 @@ public final class ExpressionCompiler
 		return m_compilerEnv;
 	}
 	
+	public void setDataSetMode( boolean isDataSetMode )
+	{
+		this.isDataSetMode  = isDataSetMode;
+		if( isDataSetMode )
+		{
+			this.rowIndicator = STRING_ROW;
+		}else
+		{
+			this.rowIndicator = STRING_DATASETROW;
+		}
+	}
 }

@@ -116,6 +116,13 @@ final class PreparedQuery
 			// definitions that of invalid or duplicate group name, then throw
 			// exceptions.
 			
+			if( this.baseQueryDefn.getResultSetExpressions()!= null &&
+				this.baseQueryDefn.getResultSetExpressions().size()>0	)
+			{
+				if ( ModeManager.isModeSet( ) == false )
+					ModeManager.setNewMode( );
+				this.expressionCompiler.setDataSetMode( ModeManager.isNewMode()?false:true);
+			}
 			List groups = baseQueryDefn.getGroups( );
 			IGroupDefinition group;
 			for ( int i = 0; i < groups.size( ); i++ )
@@ -176,8 +183,8 @@ final class PreparedQuery
 			while ( it.hasNext( ) )
 			{
 				exprCol.add( map.get( it.next( ) ) );
-				if ( ModeManager.isModeSet( ) == false )
-					ModeManager.setNewMode( );
+				/*if ( ModeManager.isModeSet( ) == false )
+					ModeManager.setNewMode( );*/
 			}
 			prepareExpressions( exprCol, groupLevel, false, true, cx );
 		}

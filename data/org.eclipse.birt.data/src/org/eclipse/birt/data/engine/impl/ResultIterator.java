@@ -698,7 +698,7 @@ public class ResultIterator implements IResultIterator
 			{
 				group = (GroupDefinition) groups.get( i );
 
-				columnNames[i] = getGroupKeyColumnName( group );
+				columnNames[i] = getGroupKeyExpression( group );
 			}
 
 			// Return to first row.
@@ -732,33 +732,25 @@ public class ResultIterator implements IResultIterator
 
 		/**
 		 * @param groupKeyValues
-		 * @param columnNames
+		 * @param columnExprs
 		 * @param i
 		 * @return
 		 * @throws BirtException
 		 */
 		private boolean groupKeyValuesEqual(
 				org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
-				Object[] groupKeyValues, String[] columnNames, int i )
+				Object[] groupKeyValues, String[] columnExprs, int i )
 				throws BirtException
 		{
 			Object fieldValue = null;
 			
-			if ( ModeManager.isOldMode( ) )
-			{
-				fieldValue = odiResult.getCurrentResult( )
-						.getFieldValue( columnNames[i] );
-			}
-			else
-			{
-				Context cx = Context.enter( );
-				fieldValue = ScriptEvalUtil.evalExpr( new ScriptExpression( columnNames[i] ),
-						cx,
-						ResultIterator.this.scope,
-						"Filter",
-						0 );
-				Context.exit( );
-			}
+			Context cx = Context.enter( );
+			fieldValue = ScriptEvalUtil.evalExpr( new ScriptExpression( columnExprs[i] ),
+					cx,
+					ResultIterator.this.scope,
+					"Filter",
+					0 );
+			Context.exit( );
 
 			boolean retValue = false;
 			if ( fieldValue == groupKeyValues[i] )
@@ -803,42 +795,18 @@ public class ResultIterator implements IResultIterator
 		 * @param group
 		 * @return
 		 */
-		private String getGroupKeyColumnName( GroupDefinition group )
+		private String getGroupKeyExpression( GroupDefinition group )
 		{
 			String columnName;
 			if ( group.getKeyColumn( ) != null )
 			{
-				columnName = group.getKeyColumn( );
+				columnName = "row[\"" + group.getKeyColumn( ) +"\"]";
 			}
 			else
 			{
 				columnName = group.getKeyExpression( );
-
-				if ( columnName.trim( ).toUpperCase( ).startsWith( "ROW" ) )
-				{
-					String temp = columnName.trim( ).substring( 3 ).trim();
-					if ( temp.startsWith( "." ) )
-						columnName = temp.replaceFirst( "\\Q.\\E", "" );
-					else if ( temp.startsWith( "[" ) )
-					{
-						columnName = temp.replaceFirst( "\\Q[\\E", "" );
-						columnName = columnName.trim( ).substring( 0,
-								columnName.length( ) - 1 ).trim( );
-					}
-				}
-				if ( columnName != null
-						&& columnName.matches( "\\Q\"\\E.*\\Q\"\\E" ) )
-					columnName = columnName.substring( 1,
-							columnName.length( ) - 1 );
-			}
-			// Dealing with columnNames enclosed by double quotation mark.
-			if ( columnName.startsWith( "\\\"" )
-					&& columnName.endsWith( "\\\"" ) )
-			{
-				columnName = "\""
-						+ columnName.substring( 2, columnName.length( ) - 2 )
-						+ "\"";
-			}
+			}	
+		
 			return columnName;
 		}
 	}

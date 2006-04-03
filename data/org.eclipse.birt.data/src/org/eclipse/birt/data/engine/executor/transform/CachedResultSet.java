@@ -14,13 +14,19 @@ package org.eclipse.birt.data.engine.executor.transform;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -116,6 +122,40 @@ public class CachedResultSet implements IResultIterator
 		assert parentResultIterator instanceof CachedResultSet;
 		CachedResultSet parentResultSet = (CachedResultSet) parentResultIterator;
 
+		List projectedColumns = new ArrayList();
+	
+		for ( int i = 0; i < meta.getFieldCount(); i++)
+		{
+			projectedColumns.add(new ResultFieldMetadata(i,
+					meta.getFieldName(i+1),
+					meta.getFieldLabel(i+1), 
+					meta.getFieldValueClass(i+1), 
+					meta.getFieldNativeTypeName(i+1),
+					false));
+		}
+		for( int j = 0; j < query.getFetchEvents().size(); j++)
+		{
+			if( query.getFetchEvents().get(j) instanceof ComputedColumnHelper )
+			{
+				ComputedColumnHelper helper = (ComputedColumnHelper) query
+						.getFetchEvents().get(j);
+				helper.setModel( TransformationConstants.RESULT_SET_MODEL );
+				for ( int i = 0; i < helper.getComputedColumnList().size(); i++ )
+				{
+					projectedColumns.add(new ResultFieldMetadata(i + 1
+							+ meta.getFieldCount(), ((IComputedColumn) helper
+							.getComputedColumnList().get(i)).getName(),
+							((IComputedColumn) helper.getComputedColumnList()
+									.get(i)).getName(), DataType
+									.getClass(((IComputedColumn) helper
+											.getComputedColumnList().get(i))
+											.getDataType()), null, true));
+				}
+			}
+			meta = new ResultClass( projectedColumns);
+		}
+		
+		
 		// this.resultSetPopulator.getGroupCalculationUtil( ).setResultSetCache(
 		// parentResultSet.resultSetPopulator.getCache( ));
 		int[] groupInfo = parentResultSet.getCurrentGroupInfo( groupLevel );

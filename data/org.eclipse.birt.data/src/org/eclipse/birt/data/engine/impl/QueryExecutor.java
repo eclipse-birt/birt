@@ -286,12 +286,7 @@ abstract class QueryExecutor implements IQueryExecutor
 						(src.getKeyExpression( ) == null || src.getKeyExpression( ).trim( ).length( ) == 0)	)
 						throw new DataException( ResourceConstants.BAD_GROUP_EXPRESSION );
 					//TODO does the index of column significant?
-					IQuery.GroupSpec dest = this.dataSet.getComputedColumns() == null? 
-						QueryExecutorUtil.subQueryGroupDefnToSpec( cx,
-								src,
-								"_{$TEMP_GROUP_" + i + "$}_",
-								-1 ):
-						QueryExecutorUtil.groupDefnToSpec( cx,
+					IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
 							src,
 							"_{$TEMP_GROUP_" + i + "$}_",
 							-1 );
@@ -366,11 +361,9 @@ abstract class QueryExecutor implements IQueryExecutor
 				computedColumns = new ArrayList();
 			if ( computedColumns.size() > 0 || temporaryComputedColumns.size( ) > 0 )
 			{
-				if( this.dataSet.getComputedColumns() != null ){
-					IResultObjectEvent objectEvent = new ComputedColumnHelper( this.dataSet, computedColumns, temporaryComputedColumns);
-					odiQuery.addOnFetchEvent( objectEvent );
-					this.dataSet.getComputedColumns().addAll(temporaryComputedColumns);
-				}
+				IResultObjectEvent objectEvent = new ComputedColumnHelper( this.dataSet, computedColumns, temporaryComputedColumns);
+				odiQuery.addOnFetchEvent( objectEvent );
+				this.dataSet.getComputedColumns().addAll(temporaryComputedColumns);
 			}
 	    	if ( dataSet.getEventHandler() != null )
 	    	{
@@ -401,11 +394,7 @@ abstract class QueryExecutor implements IQueryExecutor
 	 */
 	private String getColumnRefExpression(String expr) 
 	{
-		if(ModeManager.isOldMode())
-			expr = "row[\""+ expr + "\"]";
-		else
-			expr = "resultSetRow[\""+ expr + "\"]";
-		return expr;
+		return "row[\""+ expr + "\"]";
 	}
 	
 	/**
@@ -457,7 +446,7 @@ abstract class QueryExecutor implements IQueryExecutor
 						it.remove();
 						result.add(new FilterDefinition(
 								new ConditionalExpression(new ScriptExpression(
-										String.valueOf("row[\"_{$TEMP_FILTER_" + i
+										String.valueOf("dataSetRow[\"_{$TEMP_FILTER_" + i
 												+ "$}_\"]")), ce.getOperator(), ce
 										.getOperand1(), ce.getOperand2())));
 					}

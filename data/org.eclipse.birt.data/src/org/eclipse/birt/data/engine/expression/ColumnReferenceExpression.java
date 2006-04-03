@@ -15,6 +15,7 @@ package org.eclipse.birt.data.engine.expression;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.ModeManager;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -27,26 +28,29 @@ public final class ColumnReferenceExpression extends CompiledExpression
 	//Field name of the Rowset
 	private String 	m_columnName;
 	private int 	m_columnIndex;
+	private String rowIndicator = "row";
 	protected static Logger logger = Logger.getLogger( ColumnReferenceExpression.class.getName( ) );
-
-	ColumnReferenceExpression( String columnName )
+	
+	ColumnReferenceExpression( String rowInd, String columnName )
 	{
 		logger.entering( ColumnReferenceExpression.class.getName( ),
 				"ColumnReferenceExpression" ,columnName);
 		assert( columnName != null || columnName.length() == 0 );
 		m_columnName = columnName;
 		m_columnIndex = -1;
+		rowIndicator = rowInd; 
 		logger.exiting( ColumnReferenceExpression.class.getName( ),
 				"ColumnReferenceExpression" );
 	}
 	
-	ColumnReferenceExpression( int columnIndex )
+	ColumnReferenceExpression( String rowInd, int columnIndex )
 	{
 		logger.entering( ColumnReferenceExpression.class.getName( ),
 				"ColumnReferenceExpression",
 				new Integer( columnIndex ) );
 		assert( columnIndex >= 0 );
 		m_columnIndex = columnIndex;
+		rowIndicator = rowInd;
 		logger.exiting( ColumnReferenceExpression.class.getName( ),
 				"ColumnReferenceExpression" );
 	}
@@ -102,7 +106,7 @@ public final class ColumnReferenceExpression extends CompiledExpression
 		
 		// Assume the JS "row" variable has been correctly set up in scope. 
 		// Evaluate the expression row[index] or row["name"]
-		StringBuffer expr = new StringBuffer( "row[");
+		StringBuffer expr = new StringBuffer( this.rowIndicator+"[");
 		if ( isIndexed() )
 		{
 			expr.append(m_columnIndex);

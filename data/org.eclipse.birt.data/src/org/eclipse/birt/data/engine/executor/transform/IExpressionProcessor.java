@@ -150,4 +150,6 @@ public interface IExpressionProcessor
 	public void prepareComputedColumns( IComputedColumnsState iccState );
 	
 	public void setResultSetPopulator( ResultSetPopulator rsPopulator );
+	
+	public void setDataSetMode( boolean isDataSetMode );
 }

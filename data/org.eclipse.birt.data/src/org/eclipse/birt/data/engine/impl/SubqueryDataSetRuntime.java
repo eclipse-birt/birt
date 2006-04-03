@@ -13,6 +13,9 @@
  */ 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 
 /**
@@ -22,6 +25,7 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
  */
 public class SubqueryDataSetRuntime extends DataSetRuntime
 {
+	private List computedColumns = new ArrayList();
 	/**
 	 * Constructor.
 	 * @param executor Subquery executor
@@ -44,6 +48,11 @@ public class SubqueryDataSetRuntime extends DataSetRuntime
 	public String getExtensionID()
 	{
 		return "";
+	}
+	
+	public List getComputedColumns()
+	{
+		return this.computedColumns;
 	}
 
 

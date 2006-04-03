@@ -59,7 +59,8 @@ public class ExpressionProcessor implements IExpressionProcessor
 	//The expression's current group level
 	private int currentGroupLevel;
 	private DataSetRuntime dataSet;
-
+	private boolean isDataSetMode = true;
+	private ResultSetPopulator rsPopulator;
 	/**
 	 * @param resultSetMetaData
 	 * @param resultIterator
@@ -80,6 +81,8 @@ public class ExpressionProcessor implements IExpressionProcessor
 	 * @see org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor#setResultSetPopulator(org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator)
 	 */
 	public void setResultSetPopulator(ResultSetPopulator rsPopulator) {
+		this.rsPopulator  = rsPopulator;
+		
 		helper.setResultSetPopulator(rsPopulator);
 	}
 	
@@ -229,6 +232,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 		IScriptExpression operator = null;
 		FilterExpressionParser parser = new FilterExpressionParser( metaData,
 				computedColumns );
+		parser.setResultSetPopulator( this.rsPopulator );
 
 		for ( int i = 0; i < filters.size( ); i++ )
 		{
@@ -510,5 +514,10 @@ public class ExpressionProcessor implements IExpressionProcessor
 			if( iccState.isValueAvailable( i ) )
 				helper.addAvailableCmpColumn( iccState.getName(i));
 		}
+	}
+	
+	public void setDataSetMode( boolean isDataSetMode )
+	{
+		this.helper.setDataSetMode( isDataSetMode );
 	}
 }

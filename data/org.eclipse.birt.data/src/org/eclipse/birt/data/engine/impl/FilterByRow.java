@@ -67,8 +67,10 @@ public class FilterByRow implements IResultObjectEvent
 	 */
 	FilterByRow( List dataSetFilters, List queryFilters, List groupFilters, DataSetRuntime dataSet ) throws DataException
 	{
+		
 		isLegal( dataSetFilters );
 		isLegal( queryFilters);
+		
 		this.dataSet = dataSet;
 		
 		
@@ -165,7 +167,9 @@ public class FilterByRow implements IResultObjectEvent
 	 */
 	private void isLegal( List filters ) throws DataException
 	{
-		Iterator filterIt = filters.iterator( );
+		return;
+		//		TODO add sanity check.
+		/*Iterator filterIt = filters.iterator( );
 		while ( filterIt.hasNext( ) )
 		{
 			IFilterDefinition filter = (IFilterDefinition) filterIt.next( );
@@ -187,7 +191,7 @@ public class FilterByRow implements IResultObjectEvent
 							} );
 				}
 			}
-		}
+		}*/
 	}
 	
 	/*
