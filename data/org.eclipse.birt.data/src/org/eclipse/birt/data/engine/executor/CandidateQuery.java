@@ -79,7 +79,8 @@ class CandidateQuery extends BaseQuery implements ICandidateQuery
 			return new CachedResultSet( this,
 					resultMetadata,
 					resultObjsIterator,
-					groupingLevel );
+					groupingLevel,
+					eventHandler);
 		}
 		else // scripted query
 		{

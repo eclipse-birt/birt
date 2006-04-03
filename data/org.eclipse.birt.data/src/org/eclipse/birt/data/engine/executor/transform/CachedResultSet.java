@@ -115,57 +115,59 @@ public class CachedResultSet implements IResultIterator
 	 * @throws DataException
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
-			IResultIterator parentResultIterator, int groupLevel )
+			IResultIterator parentResultIterator, int groupLevel, IEventHandler eventHandler )
 			throws DataException
 	{
 
 		assert parentResultIterator instanceof CachedResultSet;
 		CachedResultSet parentResultSet = (CachedResultSet) parentResultIterator;
 
-		List projectedColumns = new ArrayList();
-	
-		for ( int i = 0; i < meta.getFieldCount(); i++)
-		{
-			projectedColumns.add(new ResultFieldMetadata(i,
-					meta.getFieldName(i+1),
-					meta.getFieldLabel(i+1), 
-					meta.getFieldValueClass(i+1), 
-					meta.getFieldNativeTypeName(i+1),
-					false));
-		}
-		for( int j = 0; j < query.getFetchEvents().size(); j++)
-		{
-			if( query.getFetchEvents().get(j) instanceof ComputedColumnHelper )
-			{
-				ComputedColumnHelper helper = (ComputedColumnHelper) query
-						.getFetchEvents().get(j);
-				helper.setModel( TransformationConstants.RESULT_SET_MODEL );
-				for ( int i = 0; i < helper.getComputedColumnList().size(); i++ )
-				{
-					projectedColumns.add(new ResultFieldMetadata(i + 1
-							+ meta.getFieldCount(), ((IComputedColumn) helper
-							.getComputedColumnList().get(i)).getName(),
-							((IComputedColumn) helper.getComputedColumnList()
-									.get(i)).getName(), DataType
-									.getClass(((IComputedColumn) helper
-											.getComputedColumnList().get(i))
-											.getDataType()), null, true));
-				}
-			}
-			meta = new ResultClass( projectedColumns);
-		}
-		
-		
 		// this.resultSetPopulator.getGroupCalculationUtil( ).setResultSetCache(
 		// parentResultSet.resultSetPopulator.getCache( ));
 		int[] groupInfo = parentResultSet.getCurrentGroupInfo( groupLevel );
 		this.resultSetPopulator = new ResultSetPopulator( query,
-				meta,
+				createCustomDataSetMetaData(query, meta ),
 				this,
-				null );
+				eventHandler );
 		this.resultSetPopulator.populateResultSet( new OdiResultSetWrapper( new Object[]{
 				parentResultSet.resultSetPopulator.getCache( ), groupInfo
 		} ));
+	}
+
+	private IResultClass createCustomDataSetMetaData(BaseQuery query,
+			IResultClass meta) throws DataException 
+	{
+
+		List projectedColumns = new ArrayList();
+		if (query.getFetchEvents() != null) {
+			for (int i = 0; i < meta.getFieldCount(); i++) {
+				projectedColumns.add(new ResultFieldMetadata(i, meta
+						.getFieldName(i + 1), meta.getFieldLabel(i + 1), meta
+						.getFieldValueClass(i + 1), meta
+						.getFieldNativeTypeName(i + 1), false));
+			}
+			for (int j = 0; j < query.getFetchEvents().size(); j++) {
+				if (query.getFetchEvents().get(j) instanceof ComputedColumnHelper) {
+					ComputedColumnHelper helper = (ComputedColumnHelper) query
+							.getFetchEvents().get(j);
+					helper.setModel(TransformationConstants.RESULT_SET_MODEL);
+					for (int i = 0; i < helper.getComputedColumnList().size(); i++) {
+						projectedColumns.add(new ResultFieldMetadata(i + 1
+								+ meta.getFieldCount(),
+								((IComputedColumn) helper
+										.getComputedColumnList().get(i))
+										.getName(), ((IComputedColumn) helper
+										.getComputedColumnList().get(i))
+										.getName(),
+								DataType.getClass(((IComputedColumn) helper
+										.getComputedColumnList().get(i))
+										.getDataType()), null, true));
+					}
+				}
+				meta = new ResultClass(projectedColumns);
+			}
+		}
+		return meta;
 	}
 
 	/**

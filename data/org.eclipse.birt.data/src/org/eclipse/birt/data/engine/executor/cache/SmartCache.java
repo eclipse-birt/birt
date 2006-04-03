@@ -313,7 +313,10 @@ public class SmartCache implements ResultSetCache
 				Object[] obs = new Object[rsMeta.getFieldCount()];
 				for(int i = 1; i <= rsMeta.getFieldCount(); i++)
 				{
-					obs[i-1] = odaObject.getFieldValue( rsMeta.getFieldName(i));
+					if( i <= odaObject.getResultClass().getFieldCount() )
+						obs[i-1] = odaObject.getFieldValue( rsMeta.getFieldName(i));
+					else
+						obs[i-1] = null;
 				}
 				resultObjectsList.add( new ResultObject( rsMeta, obs) );
 			}

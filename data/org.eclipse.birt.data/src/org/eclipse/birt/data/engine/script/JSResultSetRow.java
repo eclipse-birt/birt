@@ -192,7 +192,8 @@ public class JSResultSetRow extends ScriptableObject
 	{	
 		Object exprValue = null;
 
-		Object handle = dataExpr.getHandle( );
+		// TODO: find reasons
+		Object handle = dataExpr == null ? null:dataExpr.getHandle( );
 		if ( handle instanceof CompiledExpression )
 		{
 			CompiledExpression expr = (CompiledExpression) handle;
