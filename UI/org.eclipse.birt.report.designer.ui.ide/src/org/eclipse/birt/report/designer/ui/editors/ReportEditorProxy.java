@@ -113,11 +113,6 @@ public class ReportEditorProxy extends EditorPart implements
 		return this.title;
 	}
 
-	public Image getTitleImage( )
-	{
-		return instance.getTitleImage( );
-	}
-
 	public String getTitleToolTip( )
 	{
 		return instance.getTitleToolTip( );
