@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -513,6 +514,24 @@ public class GetParameterDefinitionTask extends EngineTask
 		if ( parameterGroup == null )
 			return;
 
+		//If a IResultIterator with the same name has already existed in the dataCache,
+		//this IResultIterator and its IQueryResults should be closed.
+		IResultIterator iterOld = (IResultIterator) dataCache.get( parameterGroup.getName( ) );
+		if ( iterOld != null )
+		{
+			dataCache.remove( parameterGroup.getName( ) );
+			try
+			{
+				IQueryResults iresultOld = iterOld.getQueryResults();
+				iterOld.close( );
+				iresultOld.close( );
+			}
+			catch ( BirtException ex )
+			{
+				log.log( Level.WARNING, ex.getMessage( ) );
+			}
+		}
+		
 		DataSetHandle dataSet = parameterGroup.getDataSet( );
 		if ( dataSet != null )
 		{
@@ -728,5 +747,31 @@ public class GetParameterDefinitionTask extends EngineTask
 		{
 			return this.value;
 		}
+	}
+	
+	public void close( )
+	{
+		if ( dataCache != null )
+		{
+			Iterator it = dataCache.entrySet( ).iterator( );
+	        while (it.hasNext())
+	        {
+	            Map.Entry entry = (Map.Entry)it.next();
+	            IResultIterator iter = (IResultIterator) entry.getValue();
+	            try
+				{
+					IQueryResults iresult = iter.getQueryResults();
+					iter.close( );
+					iresult.close( );
+				}
+				catch ( BirtException ex )
+				{
+					log.log( Level.WARNING, ex.getMessage( ) );
+				}
+	        }
+			dataCache.clear( );
+			dataCache = null;
+		}
+		super.close( );
 	}
 }
