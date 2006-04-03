@@ -17,8 +17,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,6 +32,7 @@ import junit.framework.TestCase;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.framework.IPlatformContext;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.PlatformFileContext;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -43,11 +42,18 @@ import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.ReportRunner;
+import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
+
+/**
+ * Base class for Engine test.
+ * 
+ */
 
 public abstract class EngineCase extends TestCase
 {
@@ -71,15 +77,12 @@ public abstract class EngineCase extends TestCase
 	protected static final String INPUT_FOLDER = "input"; //$NON-NLS-1$
 	protected static final String GOLDEN_FOLDER = "golden"; //$NON-NLS-1$
 
-	protected ReportEngine engine = null;
+	protected IReportEngine engine = null;
 
 	private static final String FORMAT_HTML = "html"; //$NON-NLS-1$
 	private static final String ENCODING_UTF8 = "UTF-8"; //$NON-NLS-1$
+	private static final String IMAGE_DIR = "image"; //$NON-NLS-1$
 
-	public static void main( String[] args )
-	{
-		junit.awtui.TestRunner.run( EngineCase.class );
-	}
 
 	/*
 	 * @see TestCase#setUp()
@@ -88,20 +91,22 @@ public abstract class EngineCase extends TestCase
 	{
 		super.setUp( );
 
-		EngineConfig config = new EngineConfig( );
+		
+		// IPlatformContext context = new PlatformFileContext( );
+		// config.setEngineContext( context );
+
+		// this.engine = new ReportEngine( config );
+		
 		IPlatformContext context = new PlatformFileContext( );
-		config.setEngineContext( context );
-
-		this.engine = new ReportEngine( config );
+		EngineConfig config = new EngineConfig( );
+		
+		Platform.startup(  context );
+		
+		IReportEngineFactory factory = new ReportEngineFactory( );
+		this.engine = factory.createReportEngine(  config );
+		
 	}
 
-	/*
-	 * @see TestCase#tearDown()
-	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
 
 	/**
 	 * Constructor.
@@ -155,31 +160,6 @@ public abstract class EngineCase extends TestCase
 		ReportRunner.main( args );
 	}
 
-	/**
-	 * Add below three methods to test RunTask
-	 */
-
-	public void copyStream( String source, String target )
-	{
-		InputStream in = getClass( ).getClassLoader( ).getResourceAsStream(
-				source );
-		assertTrue( in != null );
-		try
-		{
-			int size = in.available( );
-			byte[] buffer = new byte[size];
-			in.read( buffer );
-			OutputStream out = new FileOutputStream( target );
-			out.write( buffer );
-			out.close( );
-			in.close( );
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
-			fail( );
-		}
-	}
 
 	/**
 	 * Make a copy of a given file to the target file.
@@ -358,6 +338,9 @@ public abstract class EngineCase extends TestCase
 
 		IReportRunnable runnable = engine.openReportDesign( inputFile );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
+		
+		
+		
 		if ( paramValues != null )
 		{
 			Iterator keys = paramValues.keySet( ).iterator( );
@@ -374,7 +357,7 @@ public abstract class EngineCase extends TestCase
 		options.setOutputFileName( outputFile );
 
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
-		renderContext.setImageDirectory( "image" ); //$NON-NLS-1$
+		renderContext.setImageDirectory( IMAGE_DIR ); 
 		HashMap appContext = new HashMap( );
 		appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 				renderContext );
@@ -395,7 +378,8 @@ public abstract class EngineCase extends TestCase
 	 * @throws EngineException
 	 */
 
-	protected final void run( String input, String output ) throws EngineException
+	protected final void run( String input, String output )
+			throws EngineException
 	{
 		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
 				+ "/" + output; //$NON-NLS-1$
@@ -450,7 +434,7 @@ public abstract class EngineCase extends TestCase
 		options.setOutputFileName( outputFile );
 
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
-		renderContext.setImageDirectory( "image" );
+		renderContext.setImageDirectory( IMAGE_DIR );
 		HashMap appContext = new HashMap( );
 		appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 				renderContext );
@@ -470,15 +454,16 @@ public abstract class EngineCase extends TestCase
 	 * Run the input design, generate a report document, and then render the
 	 * report document into a html file, <code>pageRange</code> specified the
 	 * page(s) to render.
-	 * @throws IOException 
-	 * @throws EngineException 
+	 * 
+	 * @throws IOException
+	 * @throws EngineException
 	 */
 
 	protected final void runAndThenRender( String input, String output,
 			String pageRange ) throws Exception
 	{
 		String tempDoc = "temp_123aaabbbccc789.rptdocument"; //$NON-NLS-1$
-		
+
 		run( input, tempDoc );
 
 		String from = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
@@ -486,11 +471,10 @@ public abstract class EngineCase extends TestCase
 		String temp = this.getClassFolder( )
 				+ "/" + INPUT_FOLDER + "/" + tempDoc; //$NON-NLS-1$//$NON-NLS-2$
 
-	
 		try
 		{
 			copyFile( from, temp );
-			render_HTML( tempDoc, output, pageRange ); 
+			render_HTML( tempDoc, output, pageRange );
 		}
 		catch ( Exception e )
 		{
@@ -500,7 +484,7 @@ public abstract class EngineCase extends TestCase
 		{
 			// remove the temp file on exit.
 			File tempFile = new File( temp );
-			if( tempFile.exists( ) )
+			if ( tempFile.exists( ) )
 				tempFile.delete( );
 		}
 	}
@@ -535,6 +519,8 @@ public abstract class EngineCase extends TestCase
 			String strB = lineReaderB.readLine( ).trim( );
 			while ( strA != null )
 			{
+				// filter the random part of the page.
+
 				String filterA = this.filterLine( strA );
 				String filterB = this.filterLine( strB );
 
@@ -588,18 +574,28 @@ public abstract class EngineCase extends TestCase
 		return same;
 	}
 
+	private final static Pattern PATTERN_ID_AUTOBOOKMARK = Pattern
+			.compile( "id[\\s]*=[\\s]*\"AUTOGENBOOKMARK_[\\d]+\"" ); //$NON-NLS-1$
+	private final static Pattern PATTERN_NAME_AUTOBOOKMARK = Pattern
+			.compile( "name[\\s]*=[\\s]*\"AUTOGENBOOKMARK_[\\d]+\"" ); //$NON-NLS-1$
+	private final static Pattern PATTERN_IID = Pattern
+			.compile( "iid[\\s]*=[\\s]*\"/.*(.*)\"" ); //$NON-NLS-1$
+	private final static Pattern PATTERN_BG_IMAGE = Pattern
+			.compile( "background-image[\\s]*: url[(]'" + IMAGE_DIR + "/.*'[)]" ); //$NON-NLS-1$ //$NON-NLS-2$
+	private final static Pattern PATTERN_IMAGE_SOURCE = Pattern.compile( "src=\"" + IMAGE_DIR + "/design[\\d]+\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+
 	/**
 	 * Normalize some seeding values, lines that matches certain patterns will
 	 * be repalced by a replacement.
 	 */
 
-	static String[][] FILTER_PATTERNS = {
-			{
-					"id[\\s]*=[\\s]*\"AUTOGENBOOKMARK_[\\d]+\"", "id=\"AUTOGENBOOKMARK_000\""}, //$NON-NLS-1$ //$NON-NLS-2$
-			{
-					"name[\\s]*=[\\s]*\"AUTOGENBOOKMARK_[\\d]+\"", "name=\"AUTOGENBOOKMARK_000\""}, //$NON-NLS-1$//$NON-NLS-2$
-
-			{"iid[\\s]*=[\\s]*\"/.*(.*)\"", "iid=\"000\""}}; //$NON-NLS-1$//$NON-NLS-2$
+	private static Object[][] FILTER_PATTERNS = {
+			{PATTERN_ID_AUTOBOOKMARK, "REPLACEMENT_ID_AUTOBOOKMARK"}, //$NON-NLS-1$
+			{PATTERN_NAME_AUTOBOOKMARK, "REPLACEMENT_NAME_AUTOBOOKMARK"}, //$NON-NLS-1$
+			{PATTERN_IID, "REPLACEMENT_IID"}, //$NON-NLS-1$
+			{PATTERN_BG_IMAGE, "REPLACEMENT_BG_IMAGE"}, //$NON-NLS-1$
+			{PATTERN_IMAGE_SOURCE, "REPLACEMENT_IMAGE_SOURCE"} //$NON-NLS-1$
+	};
 
 	/**
 	 * Replace the given string with a replacement if it matches a certain
@@ -616,10 +612,9 @@ public abstract class EngineCase extends TestCase
 
 		for ( int i = 0; i < FILTER_PATTERNS.length; i++ )
 		{
-			String regExpr = FILTER_PATTERNS[i][0];
-			String replacement = FILTER_PATTERNS[i][1];
+			Pattern pattern = (Pattern) FILTER_PATTERNS[i][0];
+			String replacement = (String) FILTER_PATTERNS[i][1];
 
-			Pattern pattern = Pattern.compile( regExpr );
 			Matcher matcher = pattern.matcher( result );
 			result = matcher.replaceAll( replacement );
 		}
@@ -636,7 +631,7 @@ public abstract class EngineCase extends TestCase
 	{
 
 		String className = getClass( ).getName( );
-		int lastDotIndex = className.lastIndexOf( "." );
+		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
 		className = className.substring( 0, lastDotIndex );
 		return PLUGIN_PATH + className.replace( '.', '/' );
 	}
