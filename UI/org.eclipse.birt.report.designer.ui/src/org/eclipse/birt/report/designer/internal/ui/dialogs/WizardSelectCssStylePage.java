@@ -277,7 +277,7 @@ public class WizardSelectCssStylePage extends WizardPage
 	{
 		String file = getFileName( );
 
-		if ( file != null && !file.equals( fileName ) )
+		if ( file != null )
 		{
 			initiate( );
 		}
