@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -30,18 +29,14 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
-import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
-import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
-import org.eclipse.birt.data.engine.expression.CompiledExpression;
+import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.RDSave;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
-import org.eclipse.birt.data.engine.script.DataExceptionMocker;
-import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -235,63 +230,6 @@ public class ResultIterator implements IResultIterator
 			this.next( );
 	}
 	
-	/**
-	 * @param expr
-	 * @param odiResult
-	 * @param scope
-	 * @return
-	 * @throws DataException
-	 */
-	public static Object evaluateCompiledExpression( CompiledExpression expr,
-			org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
-			Scriptable scope ) throws DataException
-	{
-		// Special case for DirectColRefExpr: it's faster to directly access
-		// column value using the Odi IResultIterator.
-		if ( expr instanceof ColumnReferenceExpression )
-		{
-			// Direct column reference
-			ColumnReferenceExpression colref = (ColumnReferenceExpression) expr;
-			if ( colref.isIndexed( ) )
-			{
-				int idx = colref.getColumnindex( );
-				// Special case: row[0] refers to internal rowID
-				if ( idx == 0 )
-					return new Integer( odiResult.getCurrentResultIndex( ) );
-				else if ( odiResult.getCurrentResult( ) != null )
-					return odiResult.getCurrentResult( )
-							.getFieldValue( idx );
-				else
-					return null;
-			}
-			else
-			{
-				String name = colref.getColumnName( );
-				// Special case: row._rowPosition refers to internal rowID
-				if ( JSRowObject.ROW_POSITION.equals( name ) )
-					return new Integer( odiResult.getCurrentResultIndex( ) );
-				else if ( odiResult.getCurrentResult( ) != null )
-					return odiResult.getCurrentResult( )
-							.getFieldValue( name );
-				else
-					return null;
-			}
-		}
-		else
-		{
-			Context cx = Context.enter();
-			try
-			{
-				return  expr.evaluate( cx, scope );
-			}
-			finally
-			{
-				Context.exit();
-			}
-		}
-
-	}
-	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getValue(org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
@@ -303,61 +241,10 @@ public class ResultIterator implements IResultIterator
 				"get of value IBaseExpression: " + LogUtil.toString( dataExpr ) );
 		checkStarted( );
 
-		Object exprValue = null;
-		
-		Object handle = dataExpr.getHandle( );
-		if ( handle instanceof CompiledExpression )
-		{
-			CompiledExpression expr = (CompiledExpression) handle;
-			Object value = evaluateCompiledExpression( expr, odiResult, scope );
-			
-			try
-			{
-				exprValue = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
-			}
-			catch ( BirtException e )
-			{
-				throw new DataException( ResourceConstants.INCONVERTIBLE_DATATYPE,
-						new Object[]{
-								value,
-								value.getClass( ),
-								DataType.getClass( dataExpr.getDataType( ) )
-						} );
-			}
-		}
-		else if ( handle instanceof ConditionalExpression )
-		{
-			ConditionalExpression ce = (ConditionalExpression) handle;
-			Object resultExpr = getValue( ce.getExpression( ) );
-			Object resultOp1 = ce.getOperand1( ) != null
-					? getValue( ce.getOperand1( ) ) : null;
-			Object resultOp2 = ce.getOperand2( ) != null
-					? getValue( ce.getOperand2( ) ) : null;
-			String op1Text = ce.getOperand1( ) != null ? ce.getOperand1( )
-					.getText( ) : null;
-			String op2Text = ce.getOperand2( ) != null ? ce.getOperand2( )
-					.getText( ) : null;
-			exprValue = ScriptEvalUtil.evalConditionalExpr( resultExpr,
-					ce.getOperator( ),
-					ScriptEvalUtil.newExprInfo( op1Text, resultOp1 ),
-					ScriptEvalUtil.newExprInfo( op2Text, resultOp2 ) );
-		}
-		else
-		{
-			DataException e = new DataException( ResourceConstants.INVALID_EXPR_HANDLE );
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getValue",
-					"Invalid expression handle.",
-					e );
-			throw e;
-		}
-		
-		//the result might be a DataExceptionMocker.
-		if ( exprValue instanceof DataExceptionMocker )
-		{
-			throw ((DataExceptionMocker) exprValue ).getCause( );
-		}
+		Object exprValue = ExprEvaluateUtil.evaluateExpression( dataExpr,
+				odiResult,
+				scope,
+				logger );
 		
 		this.getRdSaveUtil( ).doSaveExpr( dataExpr, exprValue );
 		

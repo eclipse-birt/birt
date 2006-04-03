@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.api.aggregation.Aggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
+import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.ResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -367,7 +368,7 @@ public class AggregateCalculator
 		{
 			try
 			{
-				Object filterResult = ResultIterator.evaluateCompiledExpression( aggrInfo.filter,
+				Object filterResult = ExprEvaluateUtil.evaluateCompiledExpression( aggrInfo.filter,
 						odiResult,
 						scope );
 				if ( filterResult == null )
@@ -408,7 +409,7 @@ public class AggregateCalculator
 					if ( argDefs[i] || newGroup )
 					{
 						CompiledExpression argExpr = aggrInfo.args[i];
-						aggrArgs[aggrIndex][i] = ResultIterator.evaluateCompiledExpression( argExpr,
+						aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateCompiledExpression( argExpr,
 								odiResult,
 								scope );
 					}
