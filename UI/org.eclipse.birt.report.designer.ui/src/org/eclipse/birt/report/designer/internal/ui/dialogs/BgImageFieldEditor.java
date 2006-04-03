@@ -188,11 +188,12 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 					FileDialog fd = new FileDialog( parent.getShell( ),
 							SWT.OPEN );
 					fd.setFilterExtensions( new String[]{
-						"*.gif", "*.jpg", "*.png", "*.ico", "*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-						} );
-//					fd.setFilterNames( new String[]{
-//						"SWT image" + " (gif, jpeg, png, ico, bmp)" //$NON-NLS-1$ //$NON-NLS-2$
-//					} );
+						"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+					} );
+					// fd.setFilterNames( new String[]{
+					// "SWT image" + " (gif, jpeg, png, ico, bmp)" //$NON-NLS-1$
+					// //$NON-NLS-2$
+					// } );
 
 					String file = fd.open( );
 					if ( file != null )

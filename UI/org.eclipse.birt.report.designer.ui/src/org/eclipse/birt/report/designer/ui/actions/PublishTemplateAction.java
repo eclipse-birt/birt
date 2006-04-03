@@ -207,7 +207,7 @@ class PublishPage extends WizardPage
 						.getActiveShell( ) );
 				dialog.setText( BROWSE_TITLE );
 				dialog.setFilterExtensions( new String[]{
-						"*.gif", "*.jpg", "*.png", "*.ico", "*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+						"*.gif;*.jpg;*.png;*.ico;*.bmp"  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 				} );
 				String fileName = dialog.open( );
 				if ( fileName == null )
