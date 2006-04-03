@@ -81,9 +81,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 	private transient int angleType;
 
 	/**
-	 * 
-	 * @param parent
-	 *            parent composite
+	 * @param title
+	 *            popup title
 	 * @param context
 	 *            wizard context
 	 * @param axis
@@ -92,13 +91,12 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 	 *            indicate axis type, value is AngleType.X or AngleType.Y or
 	 *            AngleType.Z
 	 */
-	public AxisGridLinesSheet( Composite parent, ChartWizardContext context,
+	public AxisGridLinesSheet( String title, ChartWizardContext context,
 			Axis axis, int angleType )
 	{
-		super( parent, context, false );
+		super( title, context, false );
 		this.axis = axis;
 		this.angleType = angleType;
-		cmpTop = getComponent( parent );
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -158,7 +156,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 		cbCategory.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
 		cbCategory.setSelection( axis.isCategoryAxis( ) );
 		cbCategory.addSelectionListener( this );
-		cbCategory.setEnabled( ScatterChart.TYPE_LITERAL.equals( chart.getType( ) ) );
+		cbCategory.setEnabled( ScatterChart.TYPE_LITERAL.equals( getChart( ).getType( ) ) );
 		cbCategory.setVisible( angleType == AngleType.X );
 
 		// Axis Line Color

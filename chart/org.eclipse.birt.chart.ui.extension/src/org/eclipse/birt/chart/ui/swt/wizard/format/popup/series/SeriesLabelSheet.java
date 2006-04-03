@@ -123,12 +123,11 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 
 	private transient Group grpOutline;
 
-	public SeriesLabelSheet( Composite parent, ChartWizardContext context,
+	public SeriesLabelSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
-		super( parent, context, false );
+		super( title, context, false );
 		this.seriesDefn = seriesDefn;
-		cmpTop = getComponent( parent );
 	}
 
 	/*
@@ -203,8 +202,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 		icInsets = new InsetsComposite( cmpRight,
 				SWT.NONE,
 				getSeriesForProcessing( ).getLabel( ).getInsets( ),
-				chart.getUnits( ),
-				serviceprovider );
+				getChart( ).getUnits( ),
+				getContext( ).getUIServiceProvider( ) );
 		{
 			GridData gdICInsets = new GridData( GridData.FILL_HORIZONTAL );
 			gdICInsets.heightHint = icInsets.getPreferredSize( ).y;

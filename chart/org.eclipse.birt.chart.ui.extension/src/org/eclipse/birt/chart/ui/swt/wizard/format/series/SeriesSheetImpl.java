@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
-import org.eclipse.birt.chart.ui.swt.wizard.TreeCompoundTask;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -500,17 +499,13 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 		private void switchTo( int index )
 		{
-			if ( getParentTask( ) instanceof TreeCompoundTask )
+			TreeItem currentItem = getParentTask( ).getNavigatorTree( )
+					.getSelection( )[0];
+			TreeItem[] children = currentItem.getItems( );
+			if ( index < children.length )
 			{
-				TreeCompoundTask compoundTask = (TreeCompoundTask) getParentTask( );
-				TreeItem currentItem = compoundTask.getNavigatorTree( )
-						.getSelection( )[0];
-				TreeItem[] children = currentItem.getItems( );
-				if ( index < children.length )
-				{
-					// Switch to specified subtask
-					compoundTask.switchToTreeItem( children[index] );
-				}
+				// Switch to specified subtask
+				getParentTask( ).switchToTreeItem( children[index] );
 			}
 		}
 

@@ -66,8 +66,6 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	private transient ChartPreviewPainter previewPainter = null;
 
-	private transient Composite cmpTask;
-
 	private transient Canvas previewCanvas;
 
 	private transient Label lblNodeTitle;
@@ -133,7 +131,7 @@ public class TaskFormatChart extends TreeCompoundTask
 	{
 		super( Messages.getString( "TaskFormatChart.TaskExp" ) ); //$NON-NLS-1$
 	}
-	
+
 	public String getDescription( ULocale locale )
 	{
 		return Messages.getString( "TaskFormatChart.Task.Description" ); //$NON-NLS-1$
@@ -453,7 +451,7 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	protected Composite createContainer( Composite parent )
 	{
-		cmpTask = new Composite( parent, SWT.NONE );
+		Composite cmpTask = new Composite( parent, SWT.NONE );
 		{
 			GridLayout layout = new GridLayout( );
 			layout.marginWidth = 10;
@@ -461,7 +459,7 @@ public class TaskFormatChart extends TreeCompoundTask
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			cmpTask.setLayoutData( gridData );
 		}
-		createPreviewArea( );
+		createPreviewArea( cmpTask );
 
 		lblNodeTitle = new Label( cmpTask, SWT.NONE );
 		{
@@ -478,15 +476,15 @@ public class TaskFormatChart extends TreeCompoundTask
 		return cmpTask;
 	}
 
-	private void createPreviewArea( )
+	private void createPreviewArea( Composite parent )
 	{
-		Label label = new Label( cmpTask, SWT.NONE );
+		Label label = new Label( parent, SWT.NONE );
 		{
 			label.setFont( JFaceResources.getBannerFont( ) );
 			label.setText( Messages.getString( "TaskFormatChart.Label.Preview" ) ); //$NON-NLS-1$
 		}
 
-		previewCanvas = new Canvas( cmpTask, SWT.BORDER );
+		previewCanvas = new Canvas( parent, SWT.BORDER );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.heightHint = 250;
@@ -714,7 +712,6 @@ public class TaskFormatChart extends TreeCompoundTask
 		htVisibleDisplayName.clear( );
 		htSheetCollections.clear( );
 
-		cmpTask = null;
 		previewCanvas = null;
 		if ( previewPainter != null )
 		{

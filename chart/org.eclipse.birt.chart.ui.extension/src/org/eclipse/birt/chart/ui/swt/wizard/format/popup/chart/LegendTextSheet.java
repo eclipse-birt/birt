@@ -57,10 +57,9 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 	private transient InsetsComposite icText;
 
-	public LegendTextSheet( Composite parent, ChartWizardContext context )
+	public LegendTextSheet( String title, ChartWizardContext context )
 	{
-		super( parent, context, true );
-		cmpTop = getComponent( parent );
+		super( title, context, true );
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -80,10 +79,10 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
 				getLegend( ).getTitlePosition( ),
 				getLegend( ).getTitle( ),
-				chart.getUnits( ),
+				getChart( ).getUnits( ),
 				true,
 				false,
-				serviceprovider,
+				getContext( ).getUIServiceProvider( ),
 				LabelAttributesComposite.ALLOW_VERTICAL_POSITION
 						| LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION,
 				false );
@@ -152,8 +151,8 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		icText = new InsetsComposite( grpTxtArea,
 				SWT.NONE,
 				getLegend( ).getClientArea( ).getInsets( ),
-				chart.getUnits( ),
-				serviceprovider );
+				getChart( ).getUnits( ),
+				getContext( ).getUIServiceProvider( ) );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		gdInsets.horizontalSpan = 2;
 		icText.setLayoutData( gdInsets );
@@ -309,7 +308,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 	private Legend getLegend( )
 	{
-		return chart.getLegend( );
+		return getChart( ).getLegend( );
 	}
 
 }

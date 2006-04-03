@@ -20,5 +20,9 @@ import org.eclipse.swt.widgets.Composite;
 public interface ITaskPopupSheet
 {
 
-	public void refreshComponent( Composite parent );
+	void refreshComponent( Composite parent );
+
+	Composite getUI( Composite parent );
+
+	String getTitle( );
 }

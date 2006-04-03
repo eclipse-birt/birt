@@ -104,18 +104,17 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 
 	private transient LineAttributesComposite liacMarkerRange = null;
 
-//	private transient LabelAttributesComposite lacLabel = null;
+	// private transient LabelAttributesComposite lacLabel = null;
 
 	private transient int iRangeCount = 0;
 
 	private transient SeriesDefinition seriesDefn;
 
-	public SeriesRegionSheet( Composite parent, ChartWizardContext context,
+	public SeriesRegionSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
-		super( parent, context, false );
+		super( title, context, false );
 		this.seriesDefn = seriesDefn;
-		cmpTop = getComponent( parent );
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -319,20 +318,22 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		liacMarkerRange.addListener( this );
 
 		// Label Properties
-//		lacLabel = new LabelAttributesComposite( cmpContent,
-//				SWT.NONE,
-//				Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.DialLabelProperties" ), //$NON-NLS-1$
-//				LabelImpl.create( ),
-//				chart.getUnits( ),
-//				false,
-//				false,
-//				serviceprovider,
-//				false,
-//				false );
-//		GridData gdLACLabel = new GridData( GridData.FILL_BOTH );
-//		lacLabel.setLayoutData( gdLACLabel );
-//		lacLabel.addListener( this );
-//		lacLabel.setEnabled( false );
+		// lacLabel = new LabelAttributesComposite( cmpContent,
+		// SWT.NONE,
+		// Messages.getString(
+		// "BaseAxisMarkerAttributeSheetImpl.Lbl.DialLabelProperties" ),
+		// //$NON-NLS-1$
+		// LabelImpl.create( ),
+		// chart.getUnits( ),
+		// false,
+		// false,
+		// serviceprovider,
+		// false,
+		// false );
+		// GridData gdLACLabel = new GridData( GridData.FILL_BOTH );
+		// lacLabel.setLayoutData( gdLACLabel );
+		// lacLabel.addListener( this );
+		// lacLabel.setEnabled( false );
 
 		populateLists( );
 
@@ -348,40 +349,40 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 	 */
 	public void handleEvent( Event event )
 	{
-//		if ( event.widget.equals( lacLabel ) )
-//		{
-//			if ( this.lstMarkers.getSelection( ).length != 0 )
-//			{
-//				switch ( event.type )
-//				{
-//					case LabelAttributesComposite.FONT_CHANGED_EVENT :
-//						getSelectedMarkerLabel( ).getCaption( )
-//								.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
-//						getSelectedMarkerLabel( ).getCaption( )
-//								.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
-//						break;
-//					case LabelAttributesComposite.BACKGROUND_CHANGED_EVENT :
-//						getSelectedMarkerLabel( ).setBackground( (Fill) event.data );
-//						break;
-//					case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-//						getSelectedMarkerLabel( ).getOutline( )
-//								.setStyle( (LineStyle) event.data );
-//						break;
-//					case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-//						getSelectedMarkerLabel( ).getOutline( )
-//								.setThickness( ( (Integer) event.data ).intValue( ) );
-//						break;
-//					case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
-//						getSelectedMarkerLabel( ).getOutline( )
-//								.setColor( (ColorDefinition) event.data );
-//						break;
-//					case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-//						getSelectedMarkerLabel( ).getOutline( )
-//								.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-//						break;
-//				}
-//			}
-//		}
+		// if ( event.widget.equals( lacLabel ) )
+		// {
+		// if ( this.lstMarkers.getSelection( ).length != 0 )
+		// {
+		// switch ( event.type )
+		// {
+		// case LabelAttributesComposite.FONT_CHANGED_EVENT :
+		// getSelectedMarkerLabel( ).getCaption( )
+		// .setFont( (FontDefinition) ( (Object[]) event.data )[0] );
+		// getSelectedMarkerLabel( ).getCaption( )
+		// .setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
+		// break;
+		// case LabelAttributesComposite.BACKGROUND_CHANGED_EVENT :
+		// getSelectedMarkerLabel( ).setBackground( (Fill) event.data );
+		// break;
+		// case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
+		// getSelectedMarkerLabel( ).getOutline( )
+		// .setStyle( (LineStyle) event.data );
+		// break;
+		// case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
+		// getSelectedMarkerLabel( ).getOutline( )
+		// .setThickness( ( (Integer) event.data ).intValue( ) );
+		// break;
+		// case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
+		// getSelectedMarkerLabel( ).getOutline( )
+		// .setColor( (ColorDefinition) event.data );
+		// break;
+		// case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
+		// getSelectedMarkerLabel( ).getOutline( )
+		// .setVisible( ( (Boolean) event.data ).booleanValue( ) );
+		// break;
+		// }
+		// }
+		// }
 		if ( event.widget.equals( fccRange ) )
 		{
 			( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setFill( (Fill) event.data );
@@ -442,7 +443,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 	{
 		if ( e.getSource( ).equals( btnAddRange ) )
 		{
-			DialRegion range = DialRegionImpl.create( ); 
+			DialRegion range = DialRegionImpl.create( );
 			range.setStartValue( getTypedDataElement( "" ) ); //$NON-NLS-1$
 			range.setEndValue( getTypedDataElement( "" ) ); //$NON-NLS-1$
 			getDialForProcessing( ).getDialRegions( ).add( range );
@@ -603,8 +604,8 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		// Update the Line attribute fields
 		liacMarkerRange.setLineAttributes( range.getOutline( ) );
 
-//		// Update the Label attribute fields
-//		lacLabel.setLabel( range.getLabel( ), chart.getUnits( ) );
+		// // Update the Label attribute fields
+		// lacLabel.setLabel( range.getLabel( ), chart.getUnits( ) );
 	}
 
 	private void populateLists( )
@@ -635,7 +636,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		lblOuterRadius.setEnabled( bState );
 		txtOuterRadius.setEnabled( bState );
 		liacMarkerRange.setEnabled( bState );
-//		lacLabel.setEnabled( bState );
+		// lacLabel.setEnabled( bState );
 		lblRangeFill.setEnabled( bState );
 		fccRange.setEnabled( bState );
 
@@ -652,15 +653,17 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		fccRange.setFill( null );
 		liacMarkerRange.setLineAttributes( null );
 		liacMarkerRange.layout( );
-//		lacLabel.setLabel( LabelImpl.create( ), chart.getUnits( ) );
-//		lacLabel.layout( );
+		// lacLabel.setLabel( LabelImpl.create( ), chart.getUnits( ) );
+		// lacLabel.layout( );
 	}
 
-//	private org.eclipse.birt.chart.model.component.Label getSelectedMarkerLabel( )
-//	{
-//		int iMarkerIndex = getMarkerIndex( );
-//		return ( (DialRegion) ( getDialForProcessing( ).getDialRegions( ).get( iMarkerIndex ) ) ).getLabel( );
-//	}
+	// private org.eclipse.birt.chart.model.component.Label
+	// getSelectedMarkerLabel( )
+	// {
+	// int iMarkerIndex = getMarkerIndex( );
+	// return ( (DialRegion) ( getDialForProcessing( ).getDialRegions( ).get(
+	// iMarkerIndex ) ) ).getLabel( );
+	// }
 
 	private DataElement getTypedDataElement( String strDataElement )
 	{

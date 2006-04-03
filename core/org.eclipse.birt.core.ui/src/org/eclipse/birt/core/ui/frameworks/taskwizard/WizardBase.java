@@ -335,6 +335,13 @@ public class WizardBase
 		// Clear errorHints
 		errorHints = null;
 
+		// Set the description for each task
+		String strDesc = getCurrentTask( ).getDescription( ULocale.getDefault( ) );
+		if ( strDesc != null )
+		{
+			lblHeader.setText( strDesc );
+		}
+		
 		// Update or create UI
 		if ( cmpTaskContainer.getSelectionIndex( ) < 0 )
 		{
@@ -347,13 +354,6 @@ public class WizardBase
 			currentItem.setControl( cmpTask );
 		}
 		cmpTask.layout( );
-
-		// Set the description for each task
-		String strDesc = getCurrentTask( ).getDescription( ULocale.getDefault( ) );
-		if ( strDesc != null )
-		{
-			lblHeader.setText( strDesc );
-		}
 
 		// Pack every task to show as much as possible
 		packWizard( );
@@ -395,8 +395,6 @@ public class WizardBase
 	 */
 	public void attachPopup( String sPopupTitle, int iWidth, int iHeight )
 	{
-		// Replace accelerator key if it's used
-		sPopupTitle = sPopupTitle.replace( '&', ' ' );
 		shellPopup.setText( sPopupTitle );
 		// IF PREFERRED SIZE IS SPECIFIED USE IT...ELSE USE PACK
 		if ( iWidth != -1 && iHeight != -1 )

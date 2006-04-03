@@ -11,14 +11,16 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.swt.SheetPlaceHolder;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.swt.wizard.TreeCompoundTask;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.CompoundTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -60,15 +62,19 @@ public class SubtaskSheetImpl
 
 	private transient WizardBase wizard;
 
-	protected transient Shell popupShell;
+	private transient Shell popupShell;
 
-	protected transient ITaskPopupSheet popupSheet;
+	private transient ITaskPopupSheet popupSheet;
 
 	private transient ITask parentTask;
 
 	private static boolean POPUP_ATTACHING = false;
 
-	private transient List buttonRegistry = new ArrayList( 4 );
+	private transient Map popupButtonRegistry = new HashMap( 5 );
+
+	private transient Map popupSheetRegistry = new HashMap( 5 );
+
+	private transient String lastPopup;
 
 	public SubtaskSheetImpl( )
 	{
@@ -100,7 +106,8 @@ public class SubtaskSheetImpl
 	{
 		detachPopup( );
 		cmpContent.dispose( );
-		buttonRegistry.clear( );
+		popupButtonRegistry.clear( );
+		popupSheetRegistry.clear( );
 		return getContext( );
 	}
 
@@ -141,7 +148,8 @@ public class SubtaskSheetImpl
 	}
 
 	/**
-	 * Detaches the popup dialogue if the name is same with the widget
+	 * Detaches the popup dialogue if the name is same with the widget. Called
+	 * when clicking buttons manually.
 	 * 
 	 * @param widget
 	 *            the button widget
@@ -155,17 +163,16 @@ public class SubtaskSheetImpl
 		{
 			getWizard( ).detachPopup( popupShell );
 			popupShell = null;
+
+			// Clear selection if user unselected the button.
+			lastPopup = null;
+			getParentTask( ).setPopupSelection( null );
 			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * Forces the popup dialogue detached.
-	 * 
-	 * @return detach result
-	 */
-	protected boolean detachPopup( )
+	public boolean detachPopup( )
 	{
 		if ( popupShell != null && !popupShell.isDisposed( ) )
 		{
@@ -195,17 +202,35 @@ public class SubtaskSheetImpl
 	 */
 	final protected void selectAllButtons( boolean isSelected )
 	{
-		for ( int i = 0; i < buttonRegistry.size( ); i++ )
+		Iterator buttons = popupButtonRegistry.values( ).iterator( );
+		while ( buttons.hasNext( ) )
 		{
-			( (Button) buttonRegistry.get( i ) ).setSelection( isSelected );
+			( (Button) buttons.next( ) ).setSelection( isSelected );
 		}
 	}
 
 	private boolean isButtonSelected( )
 	{
-		for ( int i = 0; i < buttonRegistry.size( ); i++ )
+		Iterator buttons = popupButtonRegistry.values( ).iterator( );
+		while ( buttons.hasNext( ) )
 		{
-			if ( ( (Button) buttonRegistry.get( i ) ).getSelection( ) )
+			if ( ( (Button) buttons.next( ) ).getSelection( ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Checks whether the specified widget is registered in current subtask
+	 */
+	protected boolean isRegistered( Widget widget )
+	{
+		Iterator buttons = popupButtonRegistry.values( ).iterator( );
+		while ( buttons.hasNext( ) )
+		{
+			if ( ( (Button) buttons.next( ) ).equals( widget ) )
 			{
 				return true;
 			}
@@ -264,19 +289,41 @@ public class SubtaskSheetImpl
 		GridData gd = new GridData( );
 		gd.widthHint = width;
 		button.setLayoutData( gd );
-		
-		buttonRegistry.add( button );
+
+		popupButtonRegistry.put( text, button );
+		return button;
+	}
+
+	protected Button createToggleButton( Composite parent, String popupName,
+			ITaskPopupSheet popupSheet )
+	{
+		Button button = new Button( parent, SWT.TOGGLE );
+		button.setText( popupName );
+
+		// Use GC to calculate the button width
+		GC gc = new GC( parent );
+		int width = Math.max( 80, gc.textExtent( popupName ).x );
+		gc.dispose( );
+
+		GridData gd = new GridData( );
+		gd.widthHint = width;
+		button.setLayoutData( gd );
+
+		popupButtonRegistry.put( popupName, button );
+		popupSheetRegistry.put( popupName, popupSheet );
+
 		return button;
 	}
 
 	public void setParentTask( ITask parentTask )
 	{
+		assert parentTask instanceof TreeCompoundTask;
 		this.parentTask = parentTask;
 	}
 
-	protected ITask getParentTask( )
+	protected TreeCompoundTask getParentTask( )
 	{
-		return parentTask;
+		return (TreeCompoundTask) parentTask;
 	}
 
 	protected void switchTo( String subtaskPath )
@@ -329,5 +376,52 @@ public class SubtaskSheetImpl
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	public boolean attachPopup( String popupName )
+	{
+		// If general selection is null or not existent, to open subtask
+		// selection.
+		boolean affectTaskSelection = true;
+		if ( popupName == null || !popupSheetRegistry.containsKey( popupName ) )
+		{
+			popupName = lastPopup;
+			// Keep task selection since user doesn't change it
+			affectTaskSelection = false;
+		}
+
+		// If subtask selection is null, do nothing.
+		if ( popupName == null )
+		{
+			return false;
+		}
+
+		detachPopup( );
+
+		if ( popupSheetRegistry.containsKey( popupName ) )
+		{
+			// Select the button
+			selectAllButtons( false );
+			( (Button) popupButtonRegistry.get( popupName ) ).setSelection( true );
+
+			// Store last popup selection
+			lastPopup = popupName;
+			if ( affectTaskSelection )
+			{
+				getParentTask( ).setPopupSelection( popupName );
+			}
+
+			// Open the popup
+			popupShell = createPopupShell( );
+			popupSheet = (ITaskPopupSheet) popupSheetRegistry.get( popupName );
+			popupSheet.getUI( popupShell );
+
+			// Replace accelerator key if it's used
+			String title = popupSheet.getTitle( ).replace( '&', ' ' );
+			getWizard( ).attachPopup( title, -1, -1 );
+
+			return true;
+		}
+		return false;
 	}
 }

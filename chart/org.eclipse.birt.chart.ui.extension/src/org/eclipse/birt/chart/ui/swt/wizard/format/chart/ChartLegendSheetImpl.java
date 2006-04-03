@@ -17,10 +17,11 @@ import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.LegendTextSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.LegendLayoutSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.LegendTextSheet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -172,27 +173,32 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		}
 
 		// Text
+		ITaskPopupSheet popup = new LegendLayoutSheet( Messages.getString( "ChartLegendSheetImpl.Title.LayoutLegend" ), getContext( ) ); //$NON-NLS-1$
 		btnLegendText = createToggleButton( cmp,
-				Messages.getString( "ChartLegendSheetImpl.Label.TextFormat" ) ); //$NON-NLS-1$
+				Messages.getString( "ChartLegendSheetImpl.Label.TextFormat" ), popup ); //$NON-NLS-1$
 		btnLegendText.addSelectionListener( this );
 
 		// Layout
+		popup = new LegendTextSheet( Messages.getString( "ChartLegendSheetImpl.Title.FormatLegendText" ), getContext( ) ); //$NON-NLS-1$
 		btnAreaProp = createToggleButton( cmp,
-				Messages.getString( "ChartLegendSheetImpl.Label.Layout" ) ); //$NON-NLS-1$
+				Messages.getString( "ChartLegendSheetImpl.Label.Layout" ), popup ); //$NON-NLS-1$
 		btnAreaProp.addSelectionListener( this );
 
 		// Interactivity
-		btnInteractivity = createToggleButton( cmp,
-				Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+				getContext( ),
+				getChart( ).getLegend( ).getTriggers( ),
+				false,
+				true );
+		btnInteractivity = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnInteractivity.addSelectionListener( this );
 		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
-	}
+	} /*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+		 */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
-	 */
 	public void handleEvent( Event event )
 	{
 		if ( event.widget.equals( txtTitle ) )
@@ -216,17 +222,15 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 	public void widgetSelected( SelectionEvent e )
 	{
-		// detach popup dialogue
+		// Detach popup dialog if there's selected button.
 		if ( detachPopup( e.widget ) )
 		{
 			return;
 		}
-		if ( e.widget instanceof Button
-				&& ( ( (Button) e.widget ).getStyle( ) & SWT.TOGGLE ) == SWT.TOGGLE
-				&& ( (Button) e.widget ).getSelection( ) )
+
+		if ( isRegistered( e.widget ) )
 		{
-			selectAllButtons( false );
-			( (Button) e.widget ).setSelection( true );
+			attachPopup( ( (Button) e.widget ).getText( ) );
 		}
 
 		if ( e.widget.equals( btnTitleVisible ) )
@@ -244,29 +248,6 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			getChart( ).getLegend( )
 					.setShowValue( ( (Button) e.widget ).getSelection( ) );
 		}
-		else if ( e.widget.equals( btnAreaProp ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new LegendLayoutSheet( popupShell, getContext( ) );
-			getWizard( ).attachPopup( Messages.getString( "ChartLegendSheetImpl.Title.LayoutLegend" ), -1, -1 ); //$NON-NLS-1$
-		}
-		else if ( e.widget.equals( btnLegendText ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new LegendTextSheet( popupShell, getContext( ) );
-			getWizard( ).attachPopup( Messages.getString( "ChartLegendSheetImpl.Title.FormatLegendText" ), -1, -1 ); //$NON-NLS-1$
-		}
-		else if ( e.widget.equals( btnInteractivity ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new InteractivitySheet( popupShell,
-					getContext( ),
-					getChart( ).getLegend( ).getTriggers( ),
-					false,
-					true );
-			getWizard( ).attachPopup( btnInteractivity.getText( ), -1, -1 );
-		}
-
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )

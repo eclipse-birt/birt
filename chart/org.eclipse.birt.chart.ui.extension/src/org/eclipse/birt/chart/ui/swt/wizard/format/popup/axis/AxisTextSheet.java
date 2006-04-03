@@ -60,13 +60,12 @@ public class AxisTextSheet extends AbstractPopupSheet
 
 	private transient int axisType;
 
-	public AxisTextSheet( Composite parent, ChartWizardContext context,
-			Axis axis, int axisType )
+	public AxisTextSheet( String title, ChartWizardContext context, Axis axis,
+			int axisType )
 	{
-		super( parent, context, true );
+		super( title, context, true );
 		this.axis = axis;
 		this.axisType = axisType;
-		cmpTop = getComponent( parent );
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -89,10 +88,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 					Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
 					getAxisForProcessing( ).getTitlePosition( ),
 					getAxisForProcessing( ).getTitle( ),
-					chart.getUnits( ),
+					getChart( ).getUnits( ),
 					false,
 					true,
-					serviceprovider,
+					getContext( ).getUIServiceProvider( ),
 					true );
 		}
 		else
@@ -102,10 +101,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 					Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
 					getAxisForProcessing( ).getTitlePosition( ),
 					getAxisForProcessing( ).getTitle( ),
-					chart.getUnits( ),
+					getChart( ).getUnits( ),
 					true,
 					true,
-					serviceprovider,
+					getContext( ).getUIServiceProvider( ),
 					getPositionScope( ),
 					true );
 		}
@@ -137,10 +136,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 					// composite
 					getAxisForProcessing( ).getLabelPosition( ),
 					getAxisForProcessing( ).getLabel( ),
-					chart.getUnits( ),
+					getChart( ).getUnits( ),
 					false,
 					false,
-					serviceprovider,
+					getContext( ).getUIServiceProvider( ),
 					false );
 		}
 		else
@@ -151,10 +150,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 					// composite
 					getAxisForProcessing( ).getLabelPosition( ),
 					getAxisForProcessing( ).getLabel( ),
-					chart.getUnits( ),
+					getChart( ).getUnits( ),
 					true,
 					false,
-					serviceprovider,
+					getContext( ).getUIServiceProvider( ),
 					getPositionScope( ),
 					false );
 		}

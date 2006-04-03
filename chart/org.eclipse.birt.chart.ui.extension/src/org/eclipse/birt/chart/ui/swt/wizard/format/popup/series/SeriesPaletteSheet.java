@@ -30,18 +30,13 @@ import org.eclipse.swt.widgets.Group;
 public class SeriesPaletteSheet extends AbstractPopupSheet
 {
 
-	private transient Composite cmpContent = null;
-
-	private transient Group grpPalette = null;
-
 	private transient SeriesDefinition seriesDefn = null;
 
-	public SeriesPaletteSheet( Composite parent, ChartWizardContext context,
+	public SeriesPaletteSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
-		super( parent, context, false );
+		super( title, context, false );
 		this.seriesDefn = seriesDefn;
-		cmpTop = getComponent( parent );
 	}
 
 	/*
@@ -52,7 +47,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 	public Composite getComponent( Composite parent )
 	{
 		// Sheet content composite
-		cmpContent = new Composite( parent, SWT.NONE );
+		Composite cmpContent = new Composite( parent, SWT.NONE );
 		{
 			// Layout for the content composite
 			GridLayout glContent = new GridLayout( );
@@ -62,7 +57,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 		}
 
 		// Palete composite
-		grpPalette = new Group( cmpContent, SWT.NONE );
+		Group grpPalette = new Group( cmpContent, SWT.NONE );
 		GridData gdGRPPalette = new GridData( GridData.FILL_HORIZONTAL );
 		gdGRPPalette.heightHint = 300;
 		grpPalette.setLayoutData( gdGRPPalette );

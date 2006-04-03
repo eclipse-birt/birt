@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerEditorDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.BlockPropertiesSheet;
@@ -269,21 +270,26 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnTitleProp = createToggleButton( cmp,
-				Messages.getString( "ChartSheetImpl.Text.TitleFormat" ) ); //$NON-NLS-1$
+		ITaskPopupSheet popup;
+		popup = new TitlePropertiesSheet( Messages.getString( "ChartSheetImpl.Text.TitleFormat" ), //$NON-NLS-1$
+				getContext( ) );
+		btnTitleProp = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnTitleProp.addSelectionListener( this );
 		btnTitleProp.setEnabled( getChart( ).getTitle( ).isVisible( ) );
 
-		btnBlockProp = createToggleButton( cmp,
-				Messages.getString( "ChartSheetImpl.Text.Outline" ) ); //$NON-NLS-1$
+		popup = new BlockPropertiesSheet( Messages.getString( "ChartSheetImpl.Text.Outline" ), //$NON-NLS-1$
+				getContext( ) );
+		btnBlockProp = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnBlockProp.addSelectionListener( this );
 
-		btnGeneralProp = createToggleButton( cmp,
-				Messages.getString( "ChartSheetImpl.Text.GeneralProperties" ) ); //$NON-NLS-1$
+		popup = new MoreOptionsChartSheet( Messages.getString( "ChartSheetImpl.Text.GeneralProperties" ), //$NON-NLS-1$
+				getContext( ) );
+		btnGeneralProp = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnGeneralProp.addSelectionListener( this );
 
-		btnCustomProp = createToggleButton( cmp,
-				Messages.getString( "ChartSheetImpl.Text.CustomProperties" ) ); //$NON-NLS-1$
+		popup = new CustomPropertiesSheet( Messages.getString( "ChartSheetImpl.Text.CustomProperties" ), //$NON-NLS-1$
+				getContext( ) );
+		btnCustomProp = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnCustomProp.addSelectionListener( this );
 	}
 
@@ -310,42 +316,15 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	public void widgetSelected( SelectionEvent e )
 	{
-		// detach popup dialogue
+		// Detach popup dialog if there's selected popup button.
 		if ( detachPopup( e.widget ) )
 		{
 			return;
 		}
-		if ( e.widget instanceof Button
-				&& ( ( (Button) e.widget ).getStyle( ) & SWT.TOGGLE ) == SWT.TOGGLE
-				&& ( (Button) e.widget ).getSelection( ) )
-		{
-			selectAllButtons( false );
-			( (Button) e.widget ).setSelection( true );
-		}
 
-		if ( e.widget.equals( btnTitleProp ) )
+		if ( isRegistered( e.widget ) )
 		{
-			popupShell = createPopupShell( );
-			popupSheet = new TitlePropertiesSheet( popupShell, getContext( ) );
-			getWizard( ).attachPopup( btnTitleProp.getText( ), -1, -1 );
-		}
-		else if ( e.widget.equals( btnBlockProp ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new BlockPropertiesSheet( popupShell, getContext( ) );
-			getWizard( ).attachPopup( btnBlockProp.getText( ), -1, -1 );
-		}
-		else if ( e.widget.equals( btnGeneralProp ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new MoreOptionsChartSheet( popupShell, getContext( ) );
-			getWizard( ).attachPopup( btnGeneralProp.getText( ), -1, -1 );
-		}
-		else if ( e.widget.equals( btnCustomProp ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new CustomPropertiesSheet( popupShell, getContext( ) );
-			getWizard( ).attachPopup( btnCustomProp.getText( ), -1, -1 );
+			attachPopup( ( (Button) e.widget ).getText( ) );
 		}
 
 		if ( e.widget.equals( btnVisible ) )

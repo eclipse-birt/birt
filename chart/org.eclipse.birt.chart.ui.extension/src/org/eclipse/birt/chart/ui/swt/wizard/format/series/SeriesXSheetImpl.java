@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.SeriesGroupingComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -131,8 +132,10 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnSeriesPal = createToggleButton( cmp,
-				Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ) ); //$NON-NLS-1$
+		ITaskPopupSheet popup = new SeriesPaletteSheet( Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
+				getContext( ),
+				getSeriesDefinitionForProcessing( ) );
+		btnSeriesPal = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnSeriesPal.addSelectionListener( this );
 	}
 
@@ -274,26 +277,15 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 
 	public void widgetSelected( SelectionEvent e )
 	{
-		// detach popup dialogue
+		// Detach popup dialog if there's selected popup button.
 		if ( detachPopup( e.widget ) )
 		{
 			return;
 		}
-		if ( e.widget instanceof Button
-				&& ( ( (Button) e.widget ).getStyle( ) & SWT.TOGGLE ) == SWT.TOGGLE
-				&& ( (Button) e.widget ).getSelection( ) )
-		{
-			selectAllButtons( false );
-			( (Button) e.widget ).setSelection( true );
-		}
 
-		if ( e.widget.equals( btnSeriesPal ) )
+		if ( isRegistered( e.widget ) )
 		{
-			popupShell = createPopupShell( );
-			popupSheet = new SeriesPaletteSheet( popupShell,
-					getContext( ),
-					getSeriesDefinitionForProcessing( ) );
-			getWizard( ).attachPopup( btnSeriesPal.getText( ), -1, -1 );
+			attachPopup( ( (Button) e.widget ).getText( ) );
 		}
 
 		if ( e.getSource( ).equals( cmbSorting ) )

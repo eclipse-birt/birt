@@ -13,6 +13,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.PlotClientAreaSheet;
 import org.eclipse.jface.resource.JFaceResources;
@@ -152,8 +153,9 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnArea = createToggleButton( cmp,
-				Messages.getString( "ChartPlotSheetImpl.Label.AreaFormat" ) ); //$NON-NLS-1$
+		ITaskPopupSheet popup = new PlotClientAreaSheet( Messages.getString( "ChartPlotSheetImpl.Label.AreaFormat" ), //$NON-NLS-1$
+				getContext( ) );
+		btnArea = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnArea.addSelectionListener( this );
 	}
 
@@ -184,17 +186,15 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 
 	public void widgetSelected( SelectionEvent e )
 	{
-		// detach popup dialogue
+		// Detach popup dialog if there's selected popup button.
 		if ( detachPopup( e.widget ) )
 		{
 			return;
 		}
-		if ( e.widget instanceof Button
-				&& ( ( (Button) e.widget ).getStyle( ) & SWT.TOGGLE ) == SWT.TOGGLE
-				&& ( (Button) e.widget ).getSelection( ) )
+
+		if ( isRegistered( e.widget ) )
 		{
-			selectAllButtons( false );
-			( (Button) e.widget ).setSelection( true );
+			attachPopup( ( (Button) e.widget ).getText( ) );
 		}
 
 		if ( e.widget.equals( btnIncludingVisible ) )
@@ -211,12 +211,6 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 					.getOutline( )
 					.setVisible( ( (Button) e.widget ).getSelection( ) );
 			refreshPopupSheet( );
-		}
-		else if ( e.widget.equals( btnArea ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new PlotClientAreaSheet( popupShell, getContext( ) );
-			getWizard( ).attachPopup( btnArea.getText( ), -1, -1 );
 		}
 
 	}

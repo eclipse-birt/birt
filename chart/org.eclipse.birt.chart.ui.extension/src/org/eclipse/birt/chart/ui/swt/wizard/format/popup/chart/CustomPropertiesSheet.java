@@ -26,22 +26,19 @@ import org.eclipse.swt.widgets.Composite;
 public class CustomPropertiesSheet extends AbstractPopupSheet
 {
 
-	private transient Composite cmpContent;
-
-	public CustomPropertiesSheet( Composite parent, ChartWizardContext context )
+	public CustomPropertiesSheet( String title, ChartWizardContext context )
 	{
-		super( parent, context, false );
-		cmpTop = getComponent( parent );
+		super( title, context, false );
 	}
 
 	/*
-	 * (non-Javadoc) k
+	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
 	 */
-	public Composite getComponent( Composite parent )
+	protected Composite getComponent( Composite parent )
 	{
-		cmpContent = new Composite( parent, SWT.NONE );
+		Composite cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( );
 			glContent.horizontalSpacing = 5;
@@ -53,7 +50,7 @@ public class CustomPropertiesSheet extends AbstractPopupSheet
 
 		Composite cmpExtenedComposite = new ExtendedPropertyEditorComposite( cmpContent,
 				SWT.NONE,
-				chart );
+				getChart( ) );
 		{
 			GridData gd = new GridData( );
 			gd.heightHint = 300;

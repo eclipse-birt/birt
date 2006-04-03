@@ -51,10 +51,9 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 
 	private transient InsetsComposite ic;
 
-	public BlockPropertiesSheet( Composite parent, ChartWizardContext context )
+	public BlockPropertiesSheet( String title, ChartWizardContext context )
 	{
-		super( parent, context, true );
-		cmpTop = getComponent( parent );
+		super( title, context, true );
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -70,8 +69,8 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 		ic = new InsetsComposite( cmpContent,
 				SWT.NONE,
 				getBlockForProcessing( ).getInsets( ),
-				chart.getUnits( ),
-				serviceprovider );
+				getChart( ).getUnits( ),
+				getContext( ).getUIServiceProvider( ) );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		gdInsets.widthHint = 300;
 		ic.setLayoutData( gdInsets );
@@ -149,7 +148,7 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 
 	private Block getBlockForProcessing( )
 	{
-		return chart.getBlock( );
+		return getChart( ).getBlock( );
 	}
 
 }

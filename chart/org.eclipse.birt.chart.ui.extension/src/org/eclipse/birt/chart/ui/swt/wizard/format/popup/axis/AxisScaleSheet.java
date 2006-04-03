@@ -73,12 +73,10 @@ public class AxisScaleSheet extends AbstractPopupSheet
 
 	private transient Axis axis;
 
-	public AxisScaleSheet( Composite parent, ChartWizardContext context,
-			Axis axis )
+	public AxisScaleSheet( String title, ChartWizardContext context, Axis axis )
 	{
-		super( parent, context, true );
+		super( title, context, true );
 		this.axis = axis;
-		cmpTop = getComponent( parent );
 	}
 
 	/*

@@ -28,15 +28,14 @@ public class InteractivitySheet extends AbstractPopupSheet
 	private transient boolean bEnableURLParameters = false;
 	private transient boolean bEnableShowTooltipValue = false;
 
-	public InteractivitySheet( Composite parent, ChartWizardContext context,
+	public InteractivitySheet( String title, ChartWizardContext context,
 			EList triggers, boolean bEnableURLParameters,
 			boolean bEnableShowTooltipValue )
 	{
-		super( parent, context, false );
+		super( title, context, false );
 		this.triggers = triggers;
 		this.bEnableURLParameters = bEnableURLParameters;
 		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
-		cmpTop = getComponent( parent );
 	}
 
 	protected Composite getComponent( Composite parent )

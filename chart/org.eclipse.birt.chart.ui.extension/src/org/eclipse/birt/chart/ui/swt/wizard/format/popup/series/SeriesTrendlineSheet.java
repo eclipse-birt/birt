@@ -75,12 +75,11 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 	private transient Label lblValue;
 	private transient Label lblAnchor;
 
-	public SeriesTrendlineSheet( Composite parent, ChartWizardContext context,
+	public SeriesTrendlineSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
-		super( parent, context, false );
+		super( title, context, false );
 		this.seriesDefn = seriesDefn;
-		cmpTop = getComponent( parent );
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -109,9 +108,9 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 		}
 
 		List keys = null;
-		if ( serviceprovider != null )
+		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
-			keys = serviceprovider.getRegisteredKeys( );
+			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
 		}
 
 		txtValue = new ExternalizedTextEditorComposite( cmpLeft,
@@ -119,7 +118,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 				-1,
 				-1,
 				keys,
-				serviceprovider,
+				getContext( ).getUIServiceProvider( ),
 				getTrendline( ).getLabel( ).getCaption( ).getValue( ) );
 		{
 			GridData gd = new GridData( );
@@ -265,8 +264,8 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 				SWT.NONE,
 				1,
 				getTrendline( ).getLabel( ).getInsets( ),
-				chart.getUnits( ),
-				serviceprovider );
+				getChart( ).getUnits( ),
+				getContext( ).getUIServiceProvider( ) );
 		GridData gdICBlock = new GridData( GridData.FILL_HORIZONTAL );
 		gdICBlock.horizontalSpan = 2;
 		icLabel.setLayoutData( gdICBlock );

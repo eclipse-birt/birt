@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.widgets.Composite;
@@ -27,30 +26,29 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet
 
 	private transient ChartWizardContext context;
 
-	protected transient IUIServiceProvider serviceprovider;
-
-	protected transient Chart chart = null;
-
 	protected transient Composite cmpTop = null;
 
 	private boolean needRefresh = false;
 
-	public AbstractPopupSheet( Composite parent, ChartWizardContext context,
+	private String strTitle;
+
+	public AbstractPopupSheet( String title, ChartWizardContext context,
 			boolean needRefresh )
 	{
 		super( );
+		this.strTitle = title;
 		this.context = context;
-		this.chart = context.getModel( );
-		serviceprovider = context.getUIServiceProvider( );
 		this.needRefresh = needRefresh;
 	}
 
-	public AbstractPopupSheet( )
-	{
-		super( );
-	}
-
 	abstract protected Composite getComponent( Composite parent );
+
+	public Composite getUI( Composite parent )
+	{
+		// Cache the top composite for refresh later
+		cmpTop = getComponent( parent );
+		return cmpTop;
+	}
 
 	public void refreshComponent( Composite parent )
 	{
@@ -73,5 +71,20 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet
 	protected ChartWizardContext getContext( )
 	{
 		return context;
+	}
+
+	protected Chart getChart( )
+	{
+		return getContext( ).getModel( );
+	}
+
+	protected void setTitle( String title )
+	{
+		this.strTitle = title;
+	}
+
+	public String getTitle( )
+	{
+		return strTitle;
 	}
 }

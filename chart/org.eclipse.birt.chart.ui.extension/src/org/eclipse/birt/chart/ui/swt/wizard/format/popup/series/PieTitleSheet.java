@@ -44,12 +44,11 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener
 
 	private transient SeriesDefinition seriesDefn = null;
 
-	public PieTitleSheet( Composite parent, ChartWizardContext context,
+	public PieTitleSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
-		super( parent, context, false );
+		super( title, context, false );
 		this.seriesDefn = seriesDefn;
-		cmpTop = getComponent( parent );
 	}
 
 	/*
@@ -70,12 +69,12 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener
 		lacTitle = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
 				Messages.getString( "OrthogonalSeriesLabelAttributeSheetImpl.Lbl.Title" ), getSeriesForProcessing( ) //$NON-NLS-1$
-						.getTitlePosition( ),
+				.getTitlePosition( ),
 				getLabel( ),
-				chart.getUnits( ),
+				getChart( ).getUnits( ),
 				true,
 				true,
-				serviceprovider,
+				getContext( ).getUIServiceProvider( ),
 				LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION
 						| LabelAttributesComposite.ALLOW_VERTICAL_POSITION,
 				false );

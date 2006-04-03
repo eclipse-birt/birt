@@ -166,12 +166,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 
 	private transient Axis axis;
 
-	public AxisMarkersSheet( Composite parent, ChartWizardContext context,
-			Axis axis )
+	public AxisMarkersSheet( String title, ChartWizardContext context, Axis axis )
 	{
-		super( parent, context, false );
+		super( title, context, false );
 		this.axis = axis;
-		cmpTop = getComponent( parent );
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -517,10 +515,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 				Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties" ), //$NON-NLS-1$
 				Position.ABOVE_LITERAL,
 				LabelImpl.create( ),
-				chart.getUnits( ),
+				getChart( ).getUnits( ),
 				false,
 				true,
-				serviceprovider,
+				getContext( ).getUIServiceProvider( ),
 				true );
 		GridData gdLACLabel = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
 				| GridData.FILL_HORIZONTAL );
@@ -1001,7 +999,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			liacMarkerLine.setLineAttributes( line.getLineAttributes( ) );
 
 			// Update the Label attribute fields
-			lacLabel.setLabel( line.getLabel( ), chart.getUnits( ) );
+			lacLabel.setLabel( line.getLabel( ), getChart( ).getUnits( ) );
 		}
 		else
 		{
@@ -1029,7 +1027,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			liacMarkerRange.setLineAttributes( range.getOutline( ) );
 
 			// Update the Label attribute fields
-			lacLabel.setLabel( range.getLabel( ), chart.getUnits( ) );
+			lacLabel.setLabel( range.getLabel( ), getChart( ).getUnits( ) );
 		}
 	}
 
@@ -1104,7 +1102,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		fccRange.setFill( null );
 		liacMarkerRange.setLineAttributes( null );
 		liacMarkerRange.layout( );
-		lacLabel.setLabel( LabelImpl.create( ), chart.getUnits( ) );
+		lacLabel.setLabel( LabelImpl.create( ), getChart( ).getUnits( ) );
 		lacLabel.layout( );
 	}
 

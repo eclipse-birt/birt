@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
@@ -120,16 +121,26 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnAxisTitle = createToggleButton( cmp,
-				Messages.getString( "AxisZSheetImpl.Label.TextFormat" ) );//$NON-NLS-1$
+		ITaskPopupSheet popup = new AxisTextSheet( Messages.getString( "AxisZSheetImpl.Label.TextFormat" ), //$NON-NLS-1$
+				getContext( ),
+				getAxisForProcessing( ),
+				AngleType.Z );
+		btnAxisTitle = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnAxisTitle.addSelectionListener( this );
 
-		btnGridlines = createToggleButton( cmp,
-				Messages.getString( "AxisZSheetImpl.Label.Gridlines" ) );//$NON-NLS-1$
+		popup = new AxisGridLinesSheet( Messages.getString( "AxisZSheetImpl.Label.Gridlines" ), //$NON-NLS-1$
+				getContext( ),
+				getAxisForProcessing( ),
+				AngleType.Z );
+		btnGridlines = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnGridlines.addSelectionListener( this );
 
-		btnInteractivity = createToggleButton( cmp,
-				Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+				getContext( ),
+				getAxisForProcessing( ).getTriggers( ),
+				false,
+				true );
+		btnInteractivity = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnInteractivity.addSelectionListener( this );
 		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 	}
@@ -151,46 +162,15 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 
 	public void widgetSelected( SelectionEvent e )
 	{
-		// detach popup dialogue
+		// Detach popup dialog if there's selected popup button.
 		if ( detachPopup( e.widget ) )
 		{
 			return;
 		}
-		if ( e.widget instanceof Button
-				&& ( ( (Button) e.widget ).getStyle( ) & SWT.TOGGLE ) == SWT.TOGGLE
-				&& ( (Button) e.widget ).getSelection( ) )
-		{
-			selectAllButtons( false );
-			( (Button) e.widget ).setSelection( true );
-		}
 
-		if ( e.widget.equals( btnAxisTitle ) )
+		if ( isRegistered( e.widget ) )
 		{
-			popupShell = createPopupShell( );
-			popupSheet = new AxisTextSheet( popupShell,
-					getContext( ),
-					getAxisForProcessing( ),
-					AngleType.Z );
-			getWizard( ).attachPopup( btnAxisTitle.getText( ), -1, -1 );
-		}
-		else if ( e.widget.equals( btnGridlines ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new AxisGridLinesSheet( popupShell,
-					getContext( ),
-					getAxisForProcessing( ),
-					AngleType.Z );
-			getWizard( ).attachPopup( btnGridlines.getText( ), -1, -1 );
-		}
-		else if ( e.widget.equals( btnInteractivity ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new InteractivitySheet( popupShell,
-					getContext( ),
-					getAxisForProcessing( ).getTriggers( ),
-					false,
-					true );
-			getWizard( ).attachPopup( btnInteractivity.getText( ), -1, -1 );
+			attachPopup( ( (Button) e.widget ).getText( ) );
 		}
 
 		if ( e.widget.equals( btnVisible ) )

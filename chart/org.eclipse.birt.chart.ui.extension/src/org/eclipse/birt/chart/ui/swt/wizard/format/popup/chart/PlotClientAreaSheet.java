@@ -75,10 +75,9 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 	private transient FillChooserComposite fccShadow;
 
-	public PlotClientAreaSheet( Composite parent, ChartWizardContext context )
+	public PlotClientAreaSheet( String title, ChartWizardContext context )
 	{
-		super( parent, context, true );
-		cmpTop = getComponent( parent );
+		super( title, context, true );
 	}
 
 	/*
@@ -96,7 +95,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 			grpAreaIncluding.setLayout( new GridLayout( 4, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			grpAreaIncluding.setLayoutData( gd );
-			grpAreaIncluding.setText( chart instanceof ChartWithAxes
+			grpAreaIncluding.setText( getChart( ) instanceof ChartWithAxes
 					? Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.PlotArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
@@ -174,8 +173,8 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 		icIncluding = new InsetsComposite( grpAreaIncluding,
 				SWT.NONE,
 				getBlockForProcessing( ).getInsets( ),
-				chart.getUnits( ),
-				serviceprovider );
+				getChart( ).getUnits( ),
+				getContext( ).getUIServiceProvider( ) );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		gdInsets.horizontalSpan = 2;
 		gdInsets.verticalSpan = 3;
@@ -200,7 +199,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 			grpAreaWithin.setLayout( new GridLayout( 4, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			grpAreaWithin.setLayoutData( gd );
-			grpAreaWithin.setText( chart instanceof ChartWithAxes
+			grpAreaWithin.setText( getChart( ) instanceof ChartWithAxes
 					? Messages.getString( "ChartPlotSheetImpl.Label.AreaWithinAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
@@ -245,8 +244,8 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 		icWithin = new InsetsComposite( grpAreaWithin,
 				SWT.NONE,
 				getBlockForProcessing( ).getClientArea( ).getInsets( ),
-				chart.getUnits( ),
-				serviceprovider );
+				getChart( ).getUnits( ),
+				getContext( ).getUIServiceProvider( ) );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		gdInsets.horizontalSpan = 2;
 		icWithin.setLayoutData( gdInsets );
@@ -399,6 +398,6 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 	private Plot getBlockForProcessing( )
 	{
-		return chart.getPlot( );
+		return getChart( ).getPlot( );
 	}
 }

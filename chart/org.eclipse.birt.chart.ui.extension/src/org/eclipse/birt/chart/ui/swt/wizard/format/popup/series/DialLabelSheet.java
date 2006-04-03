@@ -53,12 +53,11 @@ public class DialLabelSheet extends AbstractPopupSheet
 
 	private transient SeriesDefinition seriesDefn = null;
 
-	public DialLabelSheet( Composite parent, ChartWizardContext context,
+	public DialLabelSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
-		super( parent, context, false );
+		super( title, context, false );
 		this.seriesDefn = seriesDefn;
-		cmpTop = getComponent( parent );
 	}
 
 	/*
@@ -103,10 +102,10 @@ public class DialLabelSheet extends AbstractPopupSheet
 				SWT.NONE,
 				null,
 				getSeriesForProcessing( ).getDial( ).getLabel( ),
-				chart.getUnits( ),
+				getChart( ).getUnits( ),
 				false,
 				true,
-				serviceprovider,
+				getContext( ).getUIServiceProvider( ),
 				true,
 				true,
 				false );

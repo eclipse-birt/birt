@@ -44,4 +44,24 @@ public interface ISubtaskSheet extends Cloneable
 
 	void setNodePath( String nodePath );
 
+	/**
+	 * Attaches specified popup. If task-level popup is null or not existent in
+	 * current subtask, to open subtask-level popup. If subtask-level popup is
+	 * still null, do nothing.
+	 * 
+	 * @param popupName
+	 *            task-level popup key which is registered in the subtask.
+	 * @return whether the popup is attached successfully.
+	 * @since 2.1
+	 */
+	boolean attachPopup( String popupName );
+
+	/**
+	 * Forces the popup dialogue detached.
+	 * 
+	 * @return detach result
+	 * @since 2.1
+	 */
+	boolean detachPopup( );
+
 }

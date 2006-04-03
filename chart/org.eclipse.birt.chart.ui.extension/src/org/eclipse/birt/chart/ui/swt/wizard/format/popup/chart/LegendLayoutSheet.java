@@ -54,8 +54,6 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 			SelectionListener
 {
 
-	private transient Composite cmpContent;
-
 	private transient Combo cmbAnchor;
 
 	private transient Combo cmbStretch;
@@ -100,10 +98,9 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 	private boolean bEnableUI = true;
 
-	public LegendLayoutSheet( Composite parent, ChartWizardContext context )
+	public LegendLayoutSheet( String title, ChartWizardContext context )
 	{
-		super( parent, context, true );
-		cmpTop = getComponent( parent );
+		super( title, context, true );
 	}
 
 	/*
@@ -115,7 +112,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	{
 		bEnableUI = getBlockForProcessing( ).isVisible( );
 
-		cmpContent = new Composite( parent, SWT.NONE );
+		Composite cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( new GridLayout( ) );
 
 		Group grpLegendArea = new Group( cmpContent, SWT.NONE );
@@ -290,8 +287,8 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		icLegend = new InsetsComposite( cmpLegRight,
 				SWT.NONE,
 				getBlockForProcessing( ).getInsets( ),
-				chart.getUnits( ),
-				serviceprovider );
+				getChart( ).getUnits( ),
+				getContext( ).getUIServiceProvider( ) );
 		GridData gdICBlock = new GridData( GridData.FILL_HORIZONTAL );
 		icLegend.setLayoutData( gdICBlock );
 		icLegend.addListener( this );
@@ -463,6 +460,6 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 	private Legend getBlockForProcessing( )
 	{
-		return chart.getLegend( );
+		return getChart( ).getLegend( );
 	}
 }

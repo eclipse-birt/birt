@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
@@ -247,27 +248,41 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnScale = createToggleButton( cmp,
-				Messages.getString( "AxisYSheetImpl.Label.Scale" ) ); //$NON-NLS-1$
+		ITaskPopupSheet popup = new AxisScaleSheet( Messages.getString( "AxisYSheetImpl.Label.Scale" ), //$NON-NLS-1$
+				getContext( ),
+				getAxisForProcessing( ) );
+		btnScale = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnScale.addSelectionListener( this );
 
-		btnAxisTitle = createToggleButton( cmp,
-				Messages.getString( "AxisYSheetImpl.Label.TextFormat" ) ); //$NON-NLS-1$
+		popup = new AxisTextSheet( Messages.getString( "AxisYSheetImpl.Label.TextFormat" ), //$NON-NLS-1$
+				getContext( ),
+				getAxisForProcessing( ),
+				getAxisAngleType( ) );
+		btnAxisTitle = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnAxisTitle.addSelectionListener( this );
 
-		btnGridlines = createToggleButton( cmp,
-				Messages.getString( "AxisYSheetImpl.Label.Gridlines" ) ); //$NON-NLS-1$
+		popup = new AxisGridLinesSheet( Messages.getString( "AxisYSheetImpl.Label.Gridlines" ), //$NON-NLS-1$
+				getContext( ),
+				getAxisForProcessing( ),
+				getAxisAngleType( ) );
+		btnGridlines = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnGridlines.addSelectionListener( this );
 
-		btnMarkers = createToggleButton( cmp,
-				Messages.getString( "AxisYSheetImpl.Label.Markers" ) ); //$NON-NLS-1$
-		btnMarkers.addSelectionListener( this );
 		// Marker is not supported for 3D
+		popup = new AxisMarkersSheet( Messages.getString( "AxisYSheetImpl.Label.Markers" ), //$NON-NLS-1$
+				getContext( ),
+				getAxisForProcessing( ) );
+		btnMarkers = createToggleButton( cmp, popup.getTitle( ), popup );
+		btnMarkers.addSelectionListener( this );
 		btnMarkers.setEnabled( !ChartUIUtil.is3DType( getChart( ) ) );
 
 		// Interactivity
-		btnInteractivity = createToggleButton( cmp,
-				Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+				getContext( ),
+				getAxisForProcessing( ).getTriggers( ),
+				false,
+				true );
+		btnInteractivity = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnInteractivity.addSelectionListener( this );
 		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 	}
@@ -364,62 +379,15 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 	public void widgetSelected( SelectionEvent e )
 	{
-		// detach popup dialogue
+		// Detach popup dialog if there's selected button.
 		if ( detachPopup( e.widget ) )
 		{
 			return;
 		}
-		if ( e.widget instanceof Button
-				&& ( ( (Button) e.widget ).getStyle( ) & SWT.TOGGLE ) == SWT.TOGGLE
-				&& ( (Button) e.widget ).getSelection( ) )
-		{
-			selectAllButtons( false );
-			( (Button) e.widget ).setSelection( true );
-		}
 
-		if ( e.widget.equals( btnAxisTitle ) )
+		if ( isRegistered( e.widget ) )
 		{
-			popupShell = createPopupShell( );
-			popupSheet = new AxisTextSheet( popupShell,
-					getContext( ),
-					getAxisForProcessing( ),
-					getAxisAngleType( ) );
-			getWizard( ).attachPopup( btnAxisTitle.getText( ), -1, -1 );
-		}
-		else if ( e.widget.equals( btnGridlines ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new AxisGridLinesSheet( popupShell,
-					getContext( ),
-					getAxisForProcessing( ),
-					getAxisAngleType( ) );
-			getWizard( ).attachPopup( btnGridlines.getText( ), -1, -1 );
-		}
-		else if ( e.widget.equals( btnMarkers ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new AxisMarkersSheet( popupShell,
-					getContext( ),
-					getAxisForProcessing( ) );
-			getWizard( ).attachPopup( btnMarkers.getText( ), -1, -1 );
-		}
-		else if ( e.widget.equals( btnScale ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new AxisScaleSheet( popupShell,
-					getContext( ),
-					getAxisForProcessing( ) );
-			getWizard( ).attachPopup( btnScale.getText( ), -1, -1 );
-		}
-		else if ( e.widget.equals( btnInteractivity ) )
-		{
-			popupShell = createPopupShell( );
-			popupSheet = new InteractivitySheet( popupShell,
-					getContext( ),
-					getAxisForProcessing( ).getTriggers( ),
-					false,
-					true );
-			getWizard( ).attachPopup( btnInteractivity.getText( ), -1, -1 );
+			attachPopup( ( (Button) e.widget ).getText( ) );
 		}
 
 		if ( e.widget.equals( cmbTypes ) )

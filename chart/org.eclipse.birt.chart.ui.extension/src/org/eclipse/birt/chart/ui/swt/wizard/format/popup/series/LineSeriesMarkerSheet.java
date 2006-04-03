@@ -97,12 +97,11 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 	/** Holds the starting row of marker list */
 	private transient int iStartRow = 0;
 
-	public LineSeriesMarkerSheet( Composite parent, ChartWizardContext context,
+	public LineSeriesMarkerSheet( String title, ChartWizardContext context,
 			LineSeries series )
 	{
-		super( parent, context, false );
+		super( title, context, false );
 		this.series = series;
-		cmpTop = getComponent( parent );
 	}
 
 	protected Composite getComponent( Composite parent )
