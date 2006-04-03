@@ -274,10 +274,10 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 		}
 
 		final Size sz = SizeImpl.create( bb.getWidth( ), bb.getHeight( ) );
+		sz.scale( 72d / xs.getDpiResolution( ) );
 		final Insets ins = getInsets( );
 		sz.setHeight( sz.getHeight( ) + ins.getTop( ) + ins.getBottom( ) );
-		sz.setWidth( sz.getWidth( ) + ins.getLeft( ) + ins.getRight( ) );
-		sz.scale( 72d / xs.getDpiResolution( ) );
+		sz.setWidth( sz.getWidth( ) + ins.getLeft( ) + ins.getRight( ) );		
 		return sz;
 	}
 } // LabelBlockImpl
