@@ -29,7 +29,7 @@ import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.24 $ $Date: 2005/12/03 05:34:28 $
+ * @version $Revision: 1.25 $ $Date: 2006/02/27 07:36:00 $
  */
 public class DataItemExecutor extends QueryItemExecutor
 {
@@ -89,6 +89,12 @@ public class DataItemExecutor extends QueryItemExecutor
 		processStyle( item, dataObj );
 		processVisibility( item, dataObj );
 
+		if ( context.isInFactory( ) )
+		{
+			DataItemScriptExecutor.handleOnCreate( (DataContent) dataObj,
+					context );
+		}
+		
 		Object value = context.evaluate( dataItem.getValue( ) );
 		// should we suppress the duplicate
 		boolean duplicated = false;
@@ -116,12 +122,6 @@ public class DataItemExecutor extends QueryItemExecutor
 
 		// get the mapping value
 		processMappingValue( dataItem, dataObj );
-
-		if ( context.isInFactory( ) )
-		{
-			DataItemScriptExecutor.handleOnCreate( (DataContent) dataObj,
-					context );
-		}
 
 		if ( !duplicated )
 		{

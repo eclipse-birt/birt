@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.28 $ $Date: 2005/12/03 02:01:49 $
+ * @version $Revision: 1.29 $ $Date: 2005/12/03 05:34:28 $
  */
 public class TextItemExecutor extends QueryItemExecutor
 {
@@ -104,6 +104,12 @@ public class TextItemExecutor extends QueryItemExecutor
 		processStyle( design, content );
 		processVisibility( design, content );
 
+		if ( context.isInFactory( ) )
+		{
+			TextItemScriptExecutor.handleOnCreate( (ForeignContent) content,
+					context );
+		}
+		
 		HashMap exprs = design.getExpressions( );
 		if ( exprs != null && !exprs.isEmpty( ) )
 		{
@@ -119,12 +125,6 @@ public class TextItemExecutor extends QueryItemExecutor
 			content.setRawValue( results );
 		}
 		content.setRawType( IForeignContent.TEMPLATE_TYPE );
-
-		if ( context.isInFactory( ) )
-		{
-			TextItemScriptExecutor.handleOnCreate( (ForeignContent) content,
-					context );
-		}
 
 		startTOCEntry( content );
 		if ( emitter != null )
