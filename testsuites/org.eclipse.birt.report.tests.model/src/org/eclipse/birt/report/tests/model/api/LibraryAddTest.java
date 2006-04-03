@@ -15,7 +15,7 @@ public class LibraryAddTest extends BaseTestCase
 
     private String outFileName = "Library_Addin_Test_out.xml"; 
 	private String goldenFileName = "Library_Addin_Test_golden.xml"; 
-	String LibFile=PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER + inputLibraryName;
+	String LibFile= inputLibraryName;
 	String LibFileError1 = PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER + "LibY.xml";
 
 	public LibraryAddTest(String name) 

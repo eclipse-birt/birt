@@ -15,6 +15,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.ColumnHandle;
+import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
@@ -72,6 +74,20 @@ public class ColumnHandleTest extends BaseTestCase
 		DimensionHandle dh = column.getWidth();
     assertEquals(100, dh.getMeasure(),0);
     assertEquals("pt",dh.getUnits());
-
+        
+        //suppressDuplicates Property
+        assertFalse(column.suppressDuplicates());
+        column.setSuppressDuplicates(true);
+        assertTrue(column.suppressDuplicates());
+        designHandle.getCommandStack().undo();
+        assertFalse(column.suppressDuplicates());
+        designHandle.getCommandStack().redo();
+        assertTrue(column.suppressDuplicates());
+        
+        ElementFactory factory = new ElementFactory(designHandle.getModule());
+        GridHandle grid = factory.newGridItem("mygrid",3,3);
+        ColumnHandle gridcolumn = (ColumnHandle) grid.getColumns().get(0);
+        assertFalse(gridcolumn.suppressDuplicates());
+    
  }
 }

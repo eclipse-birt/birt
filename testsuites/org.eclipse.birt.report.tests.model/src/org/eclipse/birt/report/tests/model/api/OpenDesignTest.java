@@ -16,7 +16,7 @@ public class OpenDesignTest extends BaseTestCase
 
 	private String nofileName = "NoExisting.xml"; //$NON-NLS-1$
 	
-	String noexistingFileName= PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + nofileName;
+	String noexistingFileName= getClassFolder() + INPUT_FOLDER + nofileName;
 
 	
 	public OpenDesignTest(String name) 
@@ -38,12 +38,12 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign1( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File( PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName );
+		File file = new File(getClassFolder( ) + INPUT_FOLDER + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
 		
-		String s1 = PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName;
+		String s1 = getClassFolder( ) + INPUT_FOLDER + fileName;
 		sessionHandle.openDesign( s1, is );
 	}
 	
@@ -55,7 +55,7 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign2( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File( PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName );
+		File file = new File( getClassFolder( ) + INPUT_FOLDER + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
@@ -71,11 +71,11 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign3( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File( PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName );
+		File file = new File( getClassFolder( ) + INPUT_FOLDER + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
-		String s3 = "file:///" + PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName; //$NON-NLS-1$
+		String s3 = "file:///" + getClassFolder( ) + INPUT_FOLDER + fileName; //$NON-NLS-1$
 		openDesign( s3 , is );
 	}
 	
@@ -88,12 +88,12 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign4( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File( PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName );
+		File file = new File( getClassFolder( ) + INPUT_FOLDER + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
 		
-		String s4 = PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + noexistingFileName;
+		String s4 = getClassFolder( ) + INPUT_FOLDER + noexistingFileName;
 		try
 		{
 			openDesign( s4 , is );
@@ -111,7 +111,7 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign5( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File( PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName );
+		File file = new File( getClassFolder( ) + INPUT_FOLDER + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
@@ -138,12 +138,12 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign6( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File( PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName );
+		File file = new File( getClassFolder( ) + INPUT_FOLDER + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
 		
-		String s6 = "file:///" + PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + noexistingFileName; //$NON-NLS-1$
+		String s6 = "file:///" + getClassFolder( ) + INPUT_FOLDER + noexistingFileName; //$NON-NLS-1$
 		try
 		{
 			openDesign( s6 , is );
@@ -164,12 +164,12 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign7() throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File ( PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName );
+		File file = new File ( getClassFolder( ) + INPUT_FOLDER + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
 		
-		String s7 = PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER;
+		String s7 = getClassFolder( ) + INPUT_FOLDER;
 		openDesign( s7 , is );
 	}
 	
@@ -182,12 +182,12 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign8() throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File ( PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName );
+		File file = new File ( getClassFolder( ) + INPUT_FOLDER + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
 		
-		String s8 = "file:///" + PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER; //$NON-NLS-1$
+		String s8 = "file:///" + getClassFolder( ) + INPUT_FOLDER; //$NON-NLS-1$
 		openDesign( s8 , is );
 	}
 	
@@ -200,7 +200,7 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign9() throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File ( PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName );
+		File file = new File ( getClassFolder( ) + INPUT_FOLDER + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );

@@ -39,9 +39,9 @@ public class LibraryIncludeLibraryTest extends BaseTestCase
 	}
 	public void testIncludeLibrary( ) throws Exception
 	{
-		openLibrary( LibFile2 );
+		openLibrary( inputLibraryName2 );
 		
-		libraryHandle.includeLibrary( LibFile1, "LibA" );
+		libraryHandle.includeLibrary( inputLibraryName1, "LibA" );
 		LibraryHandle libHandle = libraryHandle.getLibrary( "LibA" );
 		
 		TableHandle tableLibHandle = (TableHandle)libHandle.findElement( "tableA" );

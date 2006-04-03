@@ -23,7 +23,7 @@ public class LibraryImportTest extends BaseTestCase
 	private String inputLibraryName = "LibraryCreatLib.xml";
     private String outputFileName = "Library_Import_Dpt.xml"; 
 	private String goldenFileName = "LibraryImportDpt_golden.xml"; 
-	String LibFile= PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + inputLibraryName;
+
 	
 	public LibraryImportTest(String name) 
 	{	
@@ -42,7 +42,7 @@ public class LibraryImportTest extends BaseTestCase
 	{
 				
 		openDesign(fileName);
-		designHandle.includeLibrary( LibFile, "LibA" );
+		designHandle.includeLibrary( inputLibraryName, "LibA" );
 		LibraryHandle libHandle = designHandle.getLibrary( "LibA" );
 		
 		TextItemHandle textLibHandle = (TextItemHandle)libHandle.findElement( "myText" );

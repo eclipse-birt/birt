@@ -1,22 +1,22 @@
 package org.eclipse.birt.report.tests.model.api;
 
-import java.util.Locale;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 public class LibraryCreateTest extends BaseTestCase
 {
@@ -63,7 +63,7 @@ public class LibraryCreateTest extends BaseTestCase
 		assertNotNull("Data should not be null", dataHandle);
 		
 //		Create a Library
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH);
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH);
 		libraryHandle = sessionHandle.createLibrary();
 		
 //		Import the element into Library
@@ -93,7 +93,7 @@ public class LibraryCreateTest extends BaseTestCase
 		designHandle.getBody().add( textHandle ); 
 		
 //		Create a Library
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH);
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH);
 		libraryHandle = sessionHandle.createLibrary();
 		
 //		Import the text into Library
@@ -116,7 +116,7 @@ public class LibraryCreateTest extends BaseTestCase
 		LabelHandle labelHandle = (LabelHandle)designHandle.getElementFactory().newLabel("");
 		designHandle.getBody().add( labelHandle );
 		
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH);
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH);
 		libraryHandle = sessionHandle.createLibrary();
 		
 //		Import the label into Library
@@ -139,7 +139,7 @@ public class LibraryCreateTest extends BaseTestCase
 		TableHandle tableHandle = (TableHandle)designHandle.getElementFactory().newTableItem("");
 		designHandle.getBody().add( tableHandle );
 		
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH);
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH);
 		libraryHandle = sessionHandle.createLibrary();
 		
 //		Import the table into Library
@@ -162,7 +162,7 @@ public class LibraryCreateTest extends BaseTestCase
 		StyleHandle styleHandle = (StyleHandle)designHandle.getElementFactory().newStyle("");
 		designHandle.getStyles().add( styleHandle );
 		
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH);
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH);
 		libraryHandle = sessionHandle.createLibrary();
 		
 //		Import the style into Library
@@ -184,7 +184,7 @@ public class LibraryCreateTest extends BaseTestCase
 		DataItemHandle dataHandle = (DataItemHandle)designHandle.getElementFactory().newDataItem("");
 		designHandle.getBody().add( dataHandle );
 		
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH);
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH);
 		libraryHandle = sessionHandle.createLibrary();
 		
 //		Import the data into Library
@@ -207,7 +207,7 @@ public class LibraryCreateTest extends BaseTestCase
 		ImageHandle imageHandle = (ImageHandle)designHandle.getElementFactory().newImage("");
 		designHandle.getBody().add( imageHandle );
 		
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH);
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH);
 		libraryHandle = sessionHandle.createLibrary();
 		
 //		Import the image into Library
@@ -229,7 +229,7 @@ public class LibraryCreateTest extends BaseTestCase
 		LabelHandle labelHandle = (LabelHandle)designHandle.getElementFactory().newLabel("label1");
 		designHandle.getBody().add( labelHandle );
 		
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH);
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH);
 		libraryHandle = sessionHandle.createLibrary();
 		
 		ElementExportUtil.exportElement( labelHandle, libraryHandle, false );

@@ -113,22 +113,27 @@ import com.ibm.icu.util.ULocale;
  * 
  * </table>
  * 
- *  
+ * 
  */
 public class ReportDesignHandleTest extends BaseTestCase
 {
 
-//	protected static final String pluginpath = System.getProperty("eclipse.home")+"/plugins/"+ PLUGIN_NAME +"/bin/";
+	// protected static final String pluginpath =
+	// System.getProperty("eclipse.home")+"/plugins/"+ PLUGIN_NAME +"/bin/";
 	/**
 	 * @param name
 	 */
-	public ReportDesignHandleTest(String name) {
-		super(name);
+	public ReportDesignHandleTest( String name )
+	{
+		super( name );
 		// TODO Auto-generated constructor stub
 	}
-	public static Test suite(){
-		return new TestSuite(ReportDesignHandleTest.class);	
+
+	public static Test suite( )
+	{
+		return new TestSuite( ReportDesignHandleTest.class );
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -242,33 +247,6 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		assertTrue( designHandle.getDesignHandle( ) != null );
 
-		// error for master page size
-
-		List list = designHandle.getErrorList( );
-		assertEquals( 1, list.size( ) );
-		assertEquals( SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_PAGE_SIZE,
-				( (ErrorDetail) list.get( 0 ) ).getErrorCode( ) );
-		// assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION,
-		// ( (ErrorDetail) list.get( 1 ) ).getErrorCode( ) );
-		// assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION,
-		// ( (ErrorDetail) list.get( 2 ) ).getErrorCode( ) );
-
-		designHandle.semanticCheck( );
-
-		// should keep the same errors and warnings.
-
-		// error for master page size
-
-		list = designHandle.getErrorList( );
-		assertEquals( 1, list.size( ) );
-		assertEquals( SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_PAGE_SIZE,
-				( (ErrorDetail) list.get( 0 ) ).getErrorCode( ) );
-		// oda data set and data source can have no extension
-		// assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION,
-		// ( (ErrorDetail) list.get( 1 ) ).getErrorCode( ) );
-		// assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION,
-		// ( (ErrorDetail) list.get( 2 ) ).getErrorCode( ) );
-
 		ParameterHandle paramHandle = designHandle.findParameter( "Param 2" ); //$NON-NLS-1$
 		assertNotNull( paramHandle );
 	}
@@ -328,7 +306,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// get properties.
 
 		assertEquals( "c:\\", designHandle.getBase( ) ); //$NON-NLS-1$
-		assertEquals( PLUGIN_PATH.replace('/','\\')+ getClassFolder( ).replace('/','\\') + INPUT_FOLDER.replace('/','\\')
+		assertEquals( getClassFolder( ) + INPUT_FOLDER
 				+ "ReportDesignHandleTest.xml", designHandle.getFileName( ) ); //$NON-NLS-1$
 
 		// sets properties.
@@ -405,8 +383,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 	public void testNeedsSave( ) throws Exception
 	{
-
-		String outputPath = PLUGIN_PATH +getClassFolder( ) + OUTPUT_FOLDER; //$NON-NLS-1$
+		String outputPath = getClassFolder( ) + OUTPUT_FOLDER; //$NON-NLS-1$
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
@@ -648,12 +625,13 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// uses the file path to find, file exists
 
-		String filePath = PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER
+		String filePath = getClassFolder( ) + INPUT_FOLDER
 				+ "ReportDesignHandleTest.xml"; //$NON-NLS-1$
 
 		designHandle.getModule( ).setSystemId( null );
 		designHandle.setFileName( filePath );
-		URL url = designHandle.findResource( "ReportDesignHandleTest.xml",IResourceLocator.LIBRARY );
+		URL url = designHandle.findResource( "ReportDesignHandleTest.xml",
+				IResourceLocator.LIBRARY );
 		assertNotNull( url );
 
 		// a file not existed.
@@ -664,8 +642,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// resources with relative uri file path
 
-		designHandle.setFileName( PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER
-				+ "NoExistedDesign.xml" ); //$NON-NLS-1$
+		designHandle.setFileName(  getClassFolder( )
+				+ INPUT_FOLDER + "NoExistedDesign.xml" ); //$NON-NLS-1$
 
 		url = designHandle.findResource( "ReportDesignHandleTest.xml", //$NON-NLS-1$
 				IResourceLocator.LIBRARY );
@@ -749,24 +727,25 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertEquals( "file:/C:/reports", designHandle.getModule( ) //$NON-NLS-1$
 				.getSystemId( ).toString( ) );
 	}
-	
+
 	/**
 	 * Tests the copy-rename-add methods about the embedded images.
+	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testCopyAndPasteEmbeddedImage( ) throws Exception
 	{
 		openDesign( "EmbeddedImageTest.xml" ); //$NON-NLS-1$
-		
+
 		EmbeddedImage image = designHandle.findImage( "image one" ); //$NON-NLS-1$
 		assertNotNull( image );
-		
-		EmbeddedImage newImage = (EmbeddedImage)image.copy( );
+
+		EmbeddedImage newImage = (EmbeddedImage) image.copy( );
 		assertNotNull( newImage );
 		assertEquals( image.getName( ), newImage.getName( ) );
 		designHandle.rename( newImage );
-		assertEquals( image.getName() + "1", newImage.getName( ) ); //$NON-NLS-1$
+		assertEquals( image.getName( ) + "1", newImage.getName( ) ); //$NON-NLS-1$
 		designHandle.addImage( newImage );
 		assertEquals( newImage, designHandle.findImage( image.getName( ) + "1" ) ); //$NON-NLS-1$
 	}
@@ -811,31 +790,34 @@ public class ReportDesignHandleTest extends BaseTestCase
 		}
 
 	}
-	
+
 	/**
-	 * @throws DesignFileException 
+	 * @throws DesignFileException
 	 * 
-	 *
+	 * 
 	 */
-	
-	public void testCascadingParameters() throws DesignFileException
+
+	public void testCascadingParameters( ) throws DesignFileException
 	{
 		openDesign( "ReportDesignHandleTest2.xml" ); //$NON-NLS-1$
-		CascadingParameterGroupHandle group1 = designHandle.findCascadingParameterGroup( "Country-State-City" ); //$NON-NLS-1$
-		assertNotNull(group1);
-		assertEquals( 3, group1.getParameters().getCount() );
-		
-		CascadingParameterGroupHandle group2 = designHandle.findCascadingParameterGroup( "group2" ); //$NON-NLS-1$
-		assertNotNull(group2);
-		assertEquals( "Group2 displayName", group2.getDisplayName() ); //$NON-NLS-1$
-		
-		CascadingParameterGroupHandle group3 = designHandle.findCascadingParameterGroup( "group3" ); //$NON-NLS-1$
-		assertNotNull(group3);
-		assertEquals( "Group3 displayName", group3.getDisplayName() ); //$NON-NLS-1$
-		
-		CascadingParameterGroupHandle group4 = designHandle.findCascadingParameterGroup( "non-exsit-group" ); //$NON-NLS-1$
-		assertNull(group4);
-	}
+		CascadingParameterGroupHandle group1 = designHandle
+				.findCascadingParameterGroup( "Country-State-City" ); //$NON-NLS-1$
+		assertNotNull( group1 );
+		assertEquals( 3, group1.getParameters( ).getCount( ) );
 
+		CascadingParameterGroupHandle group2 = designHandle
+				.findCascadingParameterGroup( "group2" ); //$NON-NLS-1$
+		assertNotNull( group2 );
+		assertEquals( "Group2 displayName", group2.getDisplayName( ) ); //$NON-NLS-1$
+
+		CascadingParameterGroupHandle group3 = designHandle
+				.findCascadingParameterGroup( "group3" ); //$NON-NLS-1$
+		assertNotNull( group3 );
+		assertEquals( "Group3 displayName", group3.getDisplayName( ) ); //$NON-NLS-1$
+
+		CascadingParameterGroupHandle group4 = designHandle
+				.findCascadingParameterGroup( "non-exsit-group" ); //$NON-NLS-1$
+		assertNull( group4 );
+	}
 
 }

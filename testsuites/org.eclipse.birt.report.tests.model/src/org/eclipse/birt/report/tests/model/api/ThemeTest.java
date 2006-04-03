@@ -30,10 +30,10 @@ public class ThemeTest extends BaseTestCase
    private SharedStyleHandle style2 = null;
    private TableHandle table = null;
    private LabelHandle label = null;
-   private String LibA= PLUGIN_PATH + getFullQualifiedClassName() + INPUT_FOLDER + "LibraryAIncludeTheme.xml";
-   private String LibB= PLUGIN_PATH + getFullQualifiedClassName() + INPUT_FOLDER + "LibraryBIncludeTheme.xml";
-   private String LibC= PLUGIN_PATH + getFullQualifiedClassName() + INPUT_FOLDER + "LibraryCIncludeTheme.xml";
-   private String LibC1 = PLUGIN_PATH + getFullQualifiedClassName() + INPUT_FOLDER + "LibraryCIncludeTheme_1.xml";
+   private String LibA=  "LibraryAIncludeTheme.xml";
+   private String LibB=  "LibraryBIncludeTheme.xml";
+   private String LibC="LibraryCIncludeTheme.xml";
+   private String LibC1 ="LibraryCIncludeTheme_1.xml";
    
 	public ThemeTest(String name) {
 		super(name);
@@ -123,8 +123,8 @@ public class ThemeTest extends BaseTestCase
 	       //LibC has a theme with four styles:
 			  //custom styles: mytable, mylabel
 			  //selector styles: table, label
-		       openLibrary(LibC);
-		       libraryHandle.saveAs(LibC1);
+		       openLibrary("LibraryCIncludeTheme.xml");
+		       libraryHandle.saveAs(getClassFolder()+INPUT_FOLDER+LibC1);
 		       StyleHandle LCS1 = libraryHandle.findTheme("theme1").findStyle("mytable");
 		       StyleHandle LCS2 = libraryHandle.findTheme("theme1").findStyle("mylabel");
 		       StyleHandle LSS1 = libraryHandle.findTheme("theme1").findStyle("table");
@@ -148,7 +148,7 @@ public class ThemeTest extends BaseTestCase
 		   designHandle.getStyles().drop(RCS2);
 		   assertEquals("100%",table.getStringProperty(Style.FONT_SIZE_PROP));
 		   assertEquals("aqua",label.getStringProperty(Style.BACKGROUND_COLOR_PROP));
-		   designHandle.saveAs(PLUGIN_PATH + getFullQualifiedClassName() + INPUT_FOLDER+"ThemeTest2_1.xml");
+		   designHandle.saveAs(getClassFolder()+ INPUT_FOLDER+"ThemeTest2_1.xml");
 		       
 	       //drop custom styles in library
 	       libraryHandle.findTheme("theme1").getStyles().drop(LCS1);
@@ -166,7 +166,7 @@ public class ThemeTest extends BaseTestCase
 	       designHandle.save();
 	       
 	       //drop selector styles in library
-	       openLibrary(LibC1);
+	       openLibrary("LibraryCIncludeTheme_1.xml");
 	       libraryHandle.findTheme("theme1").findStyle("table").drop();
 	       libraryHandle.findTheme("theme1").findStyle("label").drop();
 	       libraryHandle.save();
@@ -175,7 +175,7 @@ public class ThemeTest extends BaseTestCase
 	       assertNull(designHandle.findElement("mylabel").getStringProperty(Style.BACKGROUND_COLOR_PROP));
 	       
 	       //drop theme in library
-	       openLibrary(LibC1);
+	       openLibrary("LibraryCIncludeTheme_1.xml");
 	       libraryHandle.findTheme("theme1").drop();
 	       assertNull(libraryHandle.findTheme("LibC1.theme1"));
 		  

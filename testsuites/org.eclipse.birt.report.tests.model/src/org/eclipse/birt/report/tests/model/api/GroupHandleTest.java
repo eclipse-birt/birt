@@ -15,9 +15,11 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -94,7 +96,19 @@ public class GroupHandleTest extends BaseTestCase
         assertEquals( null, group //$NON-NLS-1$
                 .getDisplayLabel( DesignElement.USER_LABEL ) );
         
+        //hideDetail property
+        assertFalse(group.hideDetail());
+        group.setHideDetail( true );
+		assertTrue( group.hideDetail( ) );
+		designHandle.getCommandStack().undo();
+		assertFalse(group.hideDetail());
+		designHandle.getCommandStack().redo();
+		assertTrue( group.hideDetail( ) );
 
+		ElementFactory factory = new ElementFactory(designHandle.getModule());
+		TableGroupHandle tablegroup = factory.newTableGroup();
+		assertFalse(tablegroup.hideDetail());
+		
 		// group filter
 
 		group.setInterval( DesignChoiceConstants.INTERVAL_PREFIX );

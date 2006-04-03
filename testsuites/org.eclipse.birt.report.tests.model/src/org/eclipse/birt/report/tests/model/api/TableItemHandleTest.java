@@ -20,7 +20,10 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
@@ -263,6 +266,23 @@ public class TableItemHandleTest extends BaseTestCase
 
 	}
 
+	public void testSuppressDuplicatesProp( ) throws Exception
+	{
+		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
+		designHandle = session.createDesign( );
+		design = (ReportDesign) designHandle.getModule( );
+
+		RowHandle row = designHandle.getElementFactory( ).newTableRow(3);
+		assertFalse(row.suppressDuplicates());
+		row.setSuppressDuplicates(true);
+	    assertTrue(row.suppressDuplicates());
+	    designHandle.getCommandStack().undo();
+	    assertFalse(row.suppressDuplicates());
+	    designHandle.getCommandStack().redo();
+	    assertTrue(row.suppressDuplicates());
+		
+	}
+	
 	/**
 	 * Returns a newly created the table group with the given header row number,
 	 * footer row number and the column number.

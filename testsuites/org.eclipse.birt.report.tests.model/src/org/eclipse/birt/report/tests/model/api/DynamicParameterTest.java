@@ -91,7 +91,7 @@ public class DynamicParameterTest extends BaseTestCase
 			assertFalse(handle.allowBlank());
 			assertTrue(handle.allowNull());
 			assertEquals(DesignChoiceConstants.SCALAR_PARAM_ALIGN_LEFT,handle.getAlignment());
-			assertEquals("##,###.##",handle.getFormat());
+			assertEquals("##,###.##",handle.getFormat( ));
 			assertEquals(5,handle.getListlimit());
 			
 			//test on params on duplicated name

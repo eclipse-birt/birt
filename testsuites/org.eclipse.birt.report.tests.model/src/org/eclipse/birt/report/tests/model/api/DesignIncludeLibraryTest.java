@@ -24,12 +24,12 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 
 	private String inputLibraryName = "LibA.xml"; //$NON-NLS-1$
 
-	private String outFileName = PLUGIN_PATH + getClassFolder() + OUTPUT_FOLDER + "DesignIncludeLibraryDpt.xml"; //$NON-NLS-1$
+	private String outFileName = "DesignIncludeLibraryDpt.xml"; //$NON-NLS-1$
 
 	private String goldenFileName = "DesignIncludeLibraryDpt_golden.xml"; //$NON-NLS-1$
 
-	String inputLibrary = PLUGIN_PATH + getClassFolder() + INPUT_FOLDER
-			+ inputLibraryName;
+//	String inputLibrary = PLUGIN_PATH+ getClassFolder()+ INPUT_FOLDER
+//			+ inputLibraryName;
 
 	public DesignIncludeLibraryTest(String name) {
 		super(name);
@@ -49,7 +49,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 		openDesign(fileName);
 
 		// Inclued LibA
-		designHandle.includeLibrary(inputLibrary, "LibA"); //$NON-NLS-1$
+		designHandle.includeLibrary(inputLibraryName, "LibA"); //$NON-NLS-1$
 		LibraryHandle libAHandle = designHandle.getLibrary("LibA"); //$NON-NLS-1$
 
 		// Find element in LibA
@@ -152,7 +152,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 		assertEquals(null, labelDesignHandle
 				.getStringProperty("backgroundColor"));
 
-		designHandle.saveAs(outFileName); //$NON-NLS-1$
+		super.saveAs(outFileName); //$NON-NLS-1$
 
 	}
 
@@ -161,7 +161,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 		openDesign(fileName);
 
 		// Inclued LibA
-		designHandle.includeLibrary(inputLibrary, "LibA"); //$NON-NLS-1$
+		designHandle.includeLibrary(inputLibraryName, "LibA"); //$NON-NLS-1$
 		LibraryHandle libAHandle = designHandle.getLibrary("LibA"); //$NON-NLS-1$
 
 		// Find element in LibA
@@ -208,7 +208,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 		openDesign(fileName);
 
 		// Inclued LibA
-		designHandle.includeLibrary(inputLibrary, "LibA"); //$NON-NLS-1$
+		designHandle.includeLibrary(inputLibraryName, "LibA"); //$NON-NLS-1$
 		LibraryHandle libAHandle = designHandle.getLibrary("LibA"); //$NON-NLS-1$
 
 		DataSourceHandle dataSourceLibA = (DataSourceHandle) libAHandle

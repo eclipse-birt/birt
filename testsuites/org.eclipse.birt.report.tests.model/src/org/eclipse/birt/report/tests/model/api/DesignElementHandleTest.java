@@ -1,36 +1,33 @@
 package org.eclipse.birt.report.tests.model.api;
 
 import java.util.Locale;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
-import org.eclipse.birt.report.model.api.TableGroupHandle;
-import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.ImageHandle;
-import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.ListItem;
@@ -38,6 +35,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
+
 
 public class DesignElementHandleTest extends BaseTestCase
 {

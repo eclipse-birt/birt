@@ -20,14 +20,14 @@ public class MoveLibraryTest extends BaseTestCase
 	String fileName = "BlankReport.xml";
 	
 //	protected static final String PLUGIN_PATH =System.getProperty("user.dir")+ "\\plugins\\"+BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC.indexOf("/")+1) + "bin/";
-	private String LibA = PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + "LibA.xml";
-	private String LibB = PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + "LibB.xml";
-	private String LibC = PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + "LibC.xml";
-	private String LibD = PLUGIN_PATH + getClassFolder() + OUTPUT_FOLDER + "LibD.xml";
+	private String LibA = getClassFolder() + INPUT_FOLDER + "LibA.xml";
+	private String LibB = getClassFolder() + INPUT_FOLDER + "LibB.xml";
+	private String LibC = getClassFolder() + INPUT_FOLDER + "LibC.xml";
+	private String LibD = getClassFolder() + OUTPUT_FOLDER + "LibD.xml";
 	
-	private String outLibA = PLUGIN_PATH + getClassFolder() + GOLDEN_FOLDER + "LibA.xml";
-	private String outLibB = PLUGIN_PATH + getClassFolder() + GOLDEN_FOLDER + "LibB.xml";
-	private String outLibC = PLUGIN_PATH + getClassFolder() + GOLDEN_FOLDER + "LibC.xml";
+	private String outLibA = getClassFolder() + GOLDEN_FOLDER + "LibA.xml";
+	private String outLibB = getClassFolder() + GOLDEN_FOLDER + "LibB.xml";
+	private String outLibC = getClassFolder() + GOLDEN_FOLDER + "LibC.xml";
 	
 	public MoveLibraryTest(String name) 
 	{	
@@ -79,7 +79,7 @@ public class MoveLibraryTest extends BaseTestCase
 		
 		File deleteLibD = new File(LibD);
 		deleteLibD.delete();
-		designHandle.saveAs(PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + "SavedReport.xml");
+		designHandle.saveAs(getClassFolder() + INPUT_FOLDER + "SavedReport.xml");
 		
 		openDesign("SavedReport.xml");
 		assertNotNull((TextItemHandle)designHandle.findElement("text1"));
