@@ -69,6 +69,7 @@ import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
@@ -88,7 +89,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.84 $ $Date: 2006/03/27 03:20:17 $
+ * @version $Revision: 1.85 $ $Date: 2006/03/30 10:04:23 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -724,7 +725,25 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			IContent pageBody = page.getPageBody( );
 			IStyle bodyStyle = pageBody.getStyle( );
 			String bodyStyleName = pageBody.getStyleClass( );
-			handlePageStyle( bodyStyleName, bodyStyle );
+			
+			Object genBy = page.getGenerateBy( );
+			if ( genBy instanceof MasterPageDesign )
+			{
+				MasterPageDesign masterPage = (MasterPageDesign) genBy;
+				StringBuffer styleBuffer = new StringBuffer( );
+				if ( isEmbeddable )
+				{
+					AttributeBuilder.buildStyle( styleBuffer, bodyStyle, this );
+				}
+				else
+				{
+					setStyleName( bodyStyleName );
+				}
+				AttributeBuilder.buildSize( styleBuffer,
+						HTMLTags.ATTR_HEIGHT,
+						masterPage.getPageHeight( ) );
+				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+			}
 		}
 	}
 
