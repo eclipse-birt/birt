@@ -15,9 +15,6 @@
 			 name="adminPassword"
 			 value="admin"/>
 		<parameter
-			 name="attachments.Directory"
-			 value="J:\Projects\WR\WRM\WEB-INF\attachments"/>
-		<parameter
 			 name="sendMultiRefs"
 			 value="true"/>
 		<parameter
