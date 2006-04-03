@@ -243,49 +243,51 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	public void doPost( HttpServletRequest request, HttpServletResponse response )
 			throws ServletException, IOException
 	{
-		String requestType = request
-				.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
+		ReportEngineService.getInstance( ).setEngineContext(
+				getServletContext( ), request );
+		BirtContext context = new BirtContext( request );
 
-		if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
-				.equalsIgnoreCase( requestType ) )
+		if ( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
 		{
-			ReportEngineService.getInstance( ).setEngineContext(
-					getServletContext( ), request );
-			BirtContext context = new BirtContext( request );
-
-			if ( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
+			if ( context.getBean( ).getException( ) != null )
 			{
-				if ( context.getBean( ).getException( ) != null )
-				{
-					context.finalize( );
-					displayException( request, response, context.getBean( )
-							.getException( ) );
-				}
-				else
-				{
-					try
-					{
-						engine.service( request, response );
-					}
-					catch ( BirtException e )
-					{
-						displayException( request, response, e );
-					}
-					finally
-					{
-						context.finalize( );
-					}
-				}
+				context.finalize( );
+				displayException( request, response, context.getBean( )
+						.getException( ) );
 			}
 			else
 			{
-				super.doPost( request, response );
-				context.finalize( );
+				try
+				{
+					engine.service( request, response );
+				}
+				catch ( BirtException e )
+				{
+					displayException( request, response, e );
+				}
+				finally
+				{
+					context.finalize( );
+				}
 			}
 		}
 		else
 		{
-			doGet( request, response );
+			String requestType = request
+					.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
+
+			if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
+					.equalsIgnoreCase( requestType ) )
+			{
+				super.doPost( request, response );
+				context.finalize( );
+
+			}
+			else
+			{
+				doGet( request, response );
+				context.finalize( );
+			}
 		}
 
 	}
