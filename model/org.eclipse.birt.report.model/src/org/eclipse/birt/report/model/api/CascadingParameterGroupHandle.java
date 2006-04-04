@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.ICascadingParameterGroupModel;
 
 /**
@@ -58,9 +57,7 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 				.getDataSetElement( module );
 		if ( dataSet == null )
 			return null;
-
-		assert dataSet instanceof SimpleDataSet;
-
+		
 		return (DataSetHandle) dataSet.getHandle( dataSet.getRoot( ) );
 	}
 
