@@ -2172,9 +2172,7 @@ public abstract class PlotWithAxes extends Methods
 						{
 							double dAMin_AMax = da[1] - da[0];
 							double dX2_AMax = dY - da[0];
-							dEnd = da[1]
-									- ( dX2_X1 / dX2_AMax )
-									* dAMin_AMax;
+							dEnd = da[1] - ( dX2_X1 / dX2_AMax ) * dAMin_AMax;
 							dStart = da[0];
 
 							if ( dEnd > dBlockY + dBlockHeight )
@@ -2187,16 +2185,14 @@ public abstract class PlotWithAxes extends Methods
 						{
 							double dAMin_AMax = da[0] - da[1];
 							double dX2_AMax = dY - da[1];
-							dStart = da[0]
-									- ( dX2_X1 / dX2_AMax )
-									* dAMin_AMax;
+							dStart = da[0] - ( dX2_X1 / dX2_AMax ) * dAMin_AMax;
 							dEnd = da[1];
 
 							if ( dStart > dBlockY + dBlockHeight )
 							{
 								dStart = dBlockY + dBlockHeight;
 								bForceBreak = true; // ADJUST THE TOP EDGE OF
-													// THE
+								// THE
 								// Y-AXIS SCALE TO THE TOP EDGE
 								// OF THE PLOT BLOCK
 							}
@@ -2294,6 +2290,14 @@ public abstract class PlotWithAxes extends Methods
 			{
 				po = Position.RIGHT_LITERAL;
 			}
+			else if ( po == Position.ABOVE_LITERAL )
+			{
+				po = Position.BELOW_LITERAL;
+			}
+			else if ( po == Position.BELOW_LITERAL )
+			{
+				po = Position.ABOVE_LITERAL;
+			}
 		}
 		return po;
 	}
@@ -2351,7 +2355,7 @@ public abstract class PlotWithAxes extends Methods
 
 	protected IntersectionValue switchIntersection( IntersectionValue iv )
 	{
-		if ( !cwa.isTransposed( ) && isRightToLeft( ) )
+		if ( isRightToLeft( ) )
 		{
 			if ( iv.getType( ) == IntersectionValue.MAX )
 			{

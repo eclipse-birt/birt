@@ -1744,7 +1744,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				for ( int j = 0; j < da.length - 1; j++ )
 				{
 					x = da[j];
-					vnext = da[j+1];
+					vnext = da[j + 1];
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 					{
 						x += pwa.getSeriesThickness( );
@@ -1785,8 +1785,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					for ( int j = 0; j < da.length - 1; j++ )
 					{
-						y = da[j] - pwa.getSeriesThickness( ) ;
-						vnext = da[j+1] - pwa.getSeriesThickness( );
+						y = da[j] - pwa.getSeriesThickness( );
+						vnext = da[j + 1] - pwa.getSeriesThickness( );
 						for ( int k = 0; k < doaMinor.length; k++ )
 						{
 							if ( ( iDirection == 1 && y + doaMinor[k] >= vnext )
@@ -1815,7 +1815,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				for ( int j = 0; j < da.length - 1; j++ )
 				{
 					y = da[j];
-					vnext = da[j+1];
+					vnext = da[j + 1];
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 					{
 						y -= pwa.getSeriesThickness( );
@@ -4102,7 +4102,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 			if ( iv != null
 					&& iDimension == IConstants.TWO_5_D
-					&& ( ( bTransposed && isRightToLeft( ) && iv.getType( ) == IntersectionValue.MIN ) || ( !bTransposed && iv.getType( ) == IntersectionValue.MAX ) ) )
+					&& ( ( bTransposed && isRightToLeft( ) && iv.getType( ) == IntersectionValue.MIN ) || ( !isRightToLeft( ) && iv.getType( ) == IntersectionValue.MAX ) ) )
 			{
 				trae.setTransform( TransformationEvent.TRANSLATE );
 				trae.setTranslation( dSeriesThickness, -dSeriesThickness );
@@ -5342,7 +5342,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 			if ( iv != null
 					&& iDimension == IConstants.TWO_5_D
-					&& ( ( bTransposed && isRightToLeft( ) && iv.getType( ) == IntersectionValue.MIN ) || ( !bTransposed && iv.getType( ) == IntersectionValue.MAX ) ) )
+					&& ( ( bTransposed && isRightToLeft( ) && iv.getType( ) == IntersectionValue.MIN ) || ( !isRightToLeft( ) && iv.getType( ) == IntersectionValue.MAX ) ) )
 			{
 				trae.setTranslation( -dSeriesThickness, dSeriesThickness );
 				ipr.applyTransformation( trae );
