@@ -425,6 +425,9 @@ public class FormatSpecifierComposite extends Composite
 				cpWrapAdvancedNumber.setEnabled( false );
 				cpWrapFractionNumber.setEnabled( false );
 			}
+
+			cmpFractionNumberDetails.setVisible( true );
+			btnFraction.setVisible( true );
 		}
 		else
 		{
@@ -451,6 +454,10 @@ public class FormatSpecifierComposite extends Composite
 
 				cpWrapAdvancedDate.setEnabled( false );
 			}
+
+			// Hide UI which is not existent in Date type
+			cmpFractionNumberDetails.setVisible( false );
+			btnFraction.setVisible( false );
 		}
 	}
 
@@ -479,15 +486,11 @@ public class FormatSpecifierComposite extends Composite
 			{
 				slStandardDetails.topControl = cmpStandardNumberDetails;
 				slAdvancedDetails.topControl = cmpAdvancedNumberDetails;
-				cmpFractionNumberDetails.setVisible( true );
-				btnFraction.setVisible( true );
 			}
 			else
 			{
 				slStandardDetails.topControl = cmpStandardDateDetails;
 				slAdvancedDetails.topControl = cmpAdvancedDateDetails;
-				cmpFractionNumberDetails.setVisible( false );
-				btnFraction.setVisible( false );
 
 				// Select the default value when the current selection is
 				// invalid
@@ -1259,9 +1262,11 @@ public class FormatSpecifierComposite extends Composite
 			if ( getFormatSpecifier( ).getNumerator( ) > 0 )
 			{
 				this.btnUseNumerator.setSelection( true );
+				this.btnUseDenorminator.setSelection( false );
 			}
 			else
 			{
+				this.btnUseNumerator.setSelection( false );
 				this.btnUseDenorminator.setSelection( true );
 			}
 
