@@ -40,7 +40,41 @@ public interface IRenderTask extends IEngineTask
 	 */
 	public abstract void setEmitterID(String id);
 
-	/**
+    /**
+     * Sets number of the page to be rendered.
+     *
+     * @param pageNumber number of the page.
+	 * @throws EngineException if <code>pageNumber</code> is invalid.
+     */
+    public abstract void setPageNumber(long pageNumber) throws EngineException;
+
+    /**
+     * Sets id of instance. If instance id is set, render method will render 
+     * the page which contains this instance.
+     *
+     * @param iid id of the instance.
+	 * @throws EngineException if <code>iid</code> is invalid.
+     */
+    public abstract void setInstanceID(InstanceID iid) throws EngineException;
+
+    /**
+     * Sets range of the pages to be rendered.
+     *
+     * @param pageRange range of the pages.
+	 * @throws EngineException if <code>pageRange</code> is invalid.
+     */
+    public abstract void setPageRange(String pageRange) throws EngineException;
+
+    /**
+     * Sets bookmark. If bookmark is set, render method will render 
+     * the page which contains this bookmark.
+     *
+     * @param bookmark the bookmark.
+	 * @throws EngineException if <code>bookmark</code> is invalid.
+     */
+    public abstract void setBookmark(String bookmark) throws EngineException;
+
+    /**
 	 * render the whole report document or an output format
 	 * 
 	 * @throws EngineException if rendering fails
@@ -50,7 +84,10 @@ public interface IRenderTask extends IEngineTask
 	/**
 	 * @param pageNumber
 	 * @throws EngineException
-	 */
+	 * @deprecated A page with speicfic page number can be rendered like this:<br>
+	 * 				&nbsp;&nbsp;&nbsp;&nbsp;<code>setPageNumber( pageNumber );</code><br>
+	 * 				&nbsp;&nbsp;&nbsp;&nbsp;<code>render( );</code>
+ 	 */
 	public abstract void render( long pageNumber ) throws EngineException;
 
 	/**
@@ -58,6 +95,9 @@ public interface IRenderTask extends IEngineTask
 	 * Doucment to an output format.
 	 * 
 	 * @throws EngineException
+	 * @deprecated A range of pages can be rendered like this:<br>
+	 * 				&nbsp;&nbsp;&nbsp;&nbsp;<code>setPageRange( pageRange );</code><br>
+	 * 				&nbsp;&nbsp;&nbsp;&nbsp;<code>render( );</code>
 	 */
 	public abstract void render(String pageRange) throws EngineException;
 	
@@ -68,6 +108,9 @@ public interface IRenderTask extends IEngineTask
 	 * @param itemInstanceID
 	 *            the report iteminstance to be rendered
 	 * @throws EngineException
+	 * @deprecated A page which contains the instance can be rendered like this:<br>
+	 * 				&nbsp;&nbsp;&nbsp;&nbsp;<code>setInstanceID( instanceID );</code><br>
+	 * 				&nbsp;&nbsp;&nbsp;&nbsp;<code>render( );</code>
 	 */
 	public abstract void render( InstanceID iid ) throws EngineException;
 }

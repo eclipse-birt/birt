@@ -37,6 +37,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 	String emitterID;
 	boolean bodyOnly;
 
+	private InnerRender innerRender;
+
 	/**
 	 * @param engine
 	 *            the report engine
@@ -58,6 +60,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		// open the report document
 		openReportDocument( reportDoc );
+		innerRender = new PageRangeRender( new long[]{1, this.reportDoc.getPageCount( )} );
 	}
 
 	protected void openReportDocument( ReportDocumentReader reportDoc )
@@ -83,20 +86,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	public void render( long pageNumber ) throws EngineException
 	{
-		long totalPage = reportDoc.getPageCount( );
-		if ( pageNumber <= 0 || pageNumber > totalPage )
-		{
-			throw new EngineException( "Can't find page hints :{0}", new Long( //$NON-NLS-1$
-					pageNumber ) );
-		}
-
-		if ( renderOptions == null )
-		{
-			throw new EngineException(
-					"Render options have to be specified to render a report." ); //$NON-NLS-1$
-		}
-
-		doRender( pageNumber );
+		setPageNumber( pageNumber );
+		render( );
 	}
 
 	protected IContentEmitter createContentEmitter( ReportExecutor executor )
@@ -270,15 +261,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void render( String pageRange ) throws EngineException
 	{
-		long totalPage = reportDoc.getPageCount( );
-		if ( renderOptions == null )
-		{
-			throw new EngineException(
-					"Render options have to be specified to render a report." ); //$NON-NLS-1$
-		}
-		List ps = parsePageSequence( pageRange, totalPage );
-		doRender( ps );
-
+		setPageRange( pageRange );
+		render( );
 	}
 
 	private List parsePageSequence( String pageRange, long totalPage )
@@ -387,15 +371,109 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render(org.eclipse.birt.report.engine.api.InstanceID)
 	 */
 	public void render(InstanceID iid) throws EngineException {
-		// TODO Auto-generated method stub
-		
+		setInstanceID( iid );
+		render( );
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render()
 	 */
 	public void render() throws EngineException {
-		// TODO Auto-generated method stub
-		
+		if ( renderOptions == null )
+		{
+			throw new EngineException(
+					"Render options have to be specified to render a report." ); //$NON-NLS-1$
+		}
+		innerRender.render( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render()
+	 */
+	public void setPageNumber( long pageNumber ) throws EngineException
+	{
+		long totalPage = reportDoc.getPageCount( );
+		if ( pageNumber <= 0 || pageNumber > totalPage )
+		{
+			throw new EngineException( "Can't find page hints :{0}", new Long( //$NON-NLS-1$
+					pageNumber ) );
+		}
+		innerRender = new PageRender( pageNumber);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setInstanceID( InstanceID iid )
+	 */
+	public void setInstanceID( InstanceID iid ) throws EngineException
+	{
+		//TODO: replace the default implementation.
+		innerRender = new PageRangeRender( new long[]{1, this.reportDoc.getPageCount( )} );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setPageRange( String pageRange )
+	 */
+	public void setPageRange( String pageRange ) throws EngineException
+	{
+		innerRender = new PageRangeRender( parsePageSequence( pageRange, reportDoc.getPageCount( )) );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setBookmark( String bookmark )
+	 */
+	public void setBookmark( String bookmark ) throws EngineException
+	{
+		long pageNumber = reportDoc.getBookmark( bookmark );
+		if ( pageNumber == 0 ) {
+			throw new EngineException( "Can't find bookmark :{0}", bookmark ); //$NON-NLS-1$
+		}
+		innerRender = new PageRender( pageNumber );
+	}
+
+	private interface InnerRender
+	{
+		void render() throws EngineException;
+	}
+
+	/**
+	 * Renders a page with a page number. 
+	 */
+	private class PageRender implements InnerRender
+	{
+		private long pageNumber;
+
+		public PageRender( long pageNumber )
+		{
+			this.pageNumber = pageNumber;
+		}
+
+		public void render( ) throws EngineException
+		{
+			RenderTask.this.doRender( pageNumber );
+		}
+	}
+
+	/**
+	 * Renders a range of pages. 
+	 */
+	private class PageRangeRender implements InnerRender
+	{
+		private List pageRange;
+
+		public PageRangeRender( long[] arrayRange )
+		{
+			this.pageRange = new ArrayList();
+			pageRange.add( arrayRange );
+		}
+
+		public PageRangeRender( List pageRange )
+		{
+			this.pageRange = pageRange;
+		}
+
+		public void render( ) throws EngineException
+		{
+			RenderTask.this.doRender( pageRange );
+		}
 	}
 }
