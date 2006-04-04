@@ -229,9 +229,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 			else
 			{
-				DataSetHandle dataset = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findDataSet( datasetName );
+				DataSetHandle dataset = getReportDesignHandle( ).findDataSet( datasetName );
 				if ( itemHandle.getDataSet( ) != dataset )
 				{
 					// Clear parameters and filters binding if dataset changed
@@ -362,9 +360,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	private SharedStyleHandle getStyle( String styleName )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.findStyle( styleName );
+		return getReportDesignHandle( ).findStyle( styleName );
 	}
 
 	public final Object[] getDataForColumns( String[] sExpressions,
@@ -390,7 +386,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public void dispose( )
 	{
-		ChartDataSetManager.getCurrentInstance( ).dispose( );
+		// TODO DataEngine should be disposed when closing report design, rather
+		// than when closing chart wizard. Currently, do nothing at this time.
+
+		// ChartDataSetManager.getCurrentInstance( ).dispose( );
 	}
 
 	private int getMaxRow( )
