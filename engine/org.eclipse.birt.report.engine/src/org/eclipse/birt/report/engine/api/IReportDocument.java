@@ -115,6 +115,15 @@ public interface IReportDocument
 	public abstract TOCNode findTOC( String tocNodeId );
 	
 	/**
+	 * Gets the TOCNodes with the given name.
+	 * 
+	 * @param tocName
+	 *            the name of the toc.
+	 * @return List of all tocs with the name.
+	 */
+	public abstract List findTOCByName( String tocName );
+	
+	/**
 	 * @return a map for all the global variables defined in JavaScript or Java
 	 */
 	public abstract Map getGlobalVariables( String option);

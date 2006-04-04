@@ -53,7 +53,9 @@ public class ReportDocumentReader
 	/** root TOC, id is "/" */
 	private TOCNode tocRoot;
 	/** tocId, TOCNode map */
-	private HashMap tocMap;
+	private HashMap tocMapByID;
+	/** Map from TOC name to a list of TOCNodes */
+	private HashMap tocMapByName;
 
 	public ReportDocumentReader( IReportEngine engine, IDocArchiveReader archive )
 	{
@@ -274,7 +276,25 @@ public class ReportDocumentReader
 		{
 			return tocRoot;
 		}
-		return (TOCNode) tocMap.get( tocNodeId );
+		return (TOCNode) tocMapByID.get( tocNodeId );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IReportDocument#findTOCByName(java.lang.String)
+	 */
+	public List findTOCByName(String tocName)
+	{
+		if ( tocName == null )
+		{
+			return null;
+		}
+		if ( tocRoot == null )
+		{
+			loadTOC( );
+		}
+		return (List) tocMapByName.get( tocName );
 	}
 
 	/*
@@ -325,8 +345,9 @@ public class ReportDocumentReader
 				}
 			}
 		}
-		tocMap = new HashMap( );
-		addTOCEntry( tocRoot, tocMap );
+		tocMapByID = new HashMap( );
+		tocMapByName = new HashMap( );
+		generateTOCIndex( tocRoot );
 	}
 
 	/**
@@ -335,17 +356,35 @@ public class ReportDocumentReader
 	 * @param node
 	 *            TOC cache.
 	 * @param map
-	 *            map contains the (name, TOC) pair.
+	 *            map contains the (id, TOC) pair.
 	 */
-	private void addTOCEntry( TOCNode node, HashMap map )
+	private void generateTOCIndex( TOCNode node )
 	{
-		map.put( node.getNodeID( ), node );
+		tocMapByID.put( node.getNodeID( ), node );
+		addTOCNameEntry( node, tocMapByName);
 		Iterator iter = node.getChildren( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			TOCNode child = (TOCNode) iter.next( );
-			addTOCEntry( child, map );
+			generateTOCIndex( child );
 		}
+	}
+
+	/**
+	 * Add a toc node into the map which cache the map from toc display string to nodes.
+	 *
+	 * @param node the node.
+	 * @param map the map.
+	 */
+	private void addTOCNameEntry( TOCNode node, HashMap map )
+	{
+		List tocs = ( List ) map.get( node.getDisplayString( ) );
+		if ( tocs == null)
+		{
+			tocs = new ArrayList();
+			map.put( node.getDisplayString( ), tocs );
+		}
+		tocs.add( node );
 	}
 
 	private void loadBookmarks( )
