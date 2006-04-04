@@ -213,8 +213,8 @@ public class ResultIterator implements IResultIterator
 		checkStarted( );
 		
 		if ( state == BEFORE_FIRST_ROW )
-			throw new DataException( ResourceConstants.START_ERROR );
-		
+			state = ON_ROW;
+
 		int currRowIndex = odiResult.getCurrentResultIndex( );
 		
 		if ( rowIndex < 0 || rowIndex >= this.odiResult.getRowCount( ) )

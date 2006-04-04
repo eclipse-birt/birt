@@ -63,6 +63,9 @@ class RDLoad
 	
 	private int version;
 	
+	// whether needed operation is done
+	private boolean isPrepared;
+	
 	// expression value map
 	private Map exprValueMap = new HashMap( );
 
@@ -114,7 +117,7 @@ class RDLoad
 	/**
 	 * @throws DataException
 	 */
-	private void initNext( ) throws DataException
+	private void prepare( ) throws DataException
 	{
 		if ( rowDis == null )
 		{
@@ -149,6 +152,8 @@ class RDLoad
 			{
 				// ignore it
 			}
+			
+			this.isPrepared = true;
 		}
 	}
 	
@@ -158,7 +163,11 @@ class RDLoad
 	 */
 	boolean next( ) throws DataException
 	{
-		initNext( );
+		if ( this.isPrepared == false )
+		{
+			this.prepare( );
+			this.isPrepared = true;
+		}
 		
 		boolean hasNext = currPos++ < rowCount;
 		this.rdGroupUtil.next( hasNext );
@@ -228,6 +237,12 @@ class RDLoad
 	 */
 	void moveTo( int rowIndex ) throws DataException
 	{
+		if ( this.isPrepared == false )
+		{
+			this.prepare( );
+			this.isPrepared = true;
+		}
+		
 		int currIndex = this.getCurrentIndex( );
 
 		if ( rowIndex < 0 || rowIndex >= this.rowCount )
