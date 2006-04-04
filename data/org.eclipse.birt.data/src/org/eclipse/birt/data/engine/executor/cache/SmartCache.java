@@ -226,7 +226,7 @@ public class SmartCache implements ResultSetCache
 	private void initInstance( CacheRequest cacheRequest,
 			OdiAdapter odiAdpater, IResultClass rsMeta ) throws DataException
 	{	
-		RowResultSet rowResultSet = new RowResultSet( cacheRequest.getMaxRow( ),
+		IRowResultSet rowResultSet = new ExpandableRowResultSet( cacheRequest.getMaxRow( ),
 				cacheRequest.getFetchEvents( ),
 				odiAdpater,
 				rsMeta );

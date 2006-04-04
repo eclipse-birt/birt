@@ -17,7 +17,10 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -159,8 +162,7 @@ public class ResultObjectUtil
 					obs[j] = new Timestamp( dis.readLong( ) );
 				else if ( fieldType.equals( Boolean.class ) )
 					obs[j] = new Boolean( dis.readBoolean( ) );
-				else if ( fieldType.equals( String.class )
-						|| fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+				else if ( fieldType.equals( String.class ) )
 					obs[j] = dis.readUTF( );
 				else if ( fieldType.equals( IClob.class ) )
 					obs[j] = dis.readUTF( );
@@ -177,6 +179,19 @@ public class ResultObjectUtil
 						dis.read( bytes );
 						obs[j] = bytes;
 					}
+				}
+				else if ( fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+				{
+					ObjectInputStream ois = new ObjectInputStream( dis );
+					try
+					{
+						obs[j] = ois.readObject( );
+					}
+					catch ( Exception e )
+					{
+						// impossible
+					}
+					ois.close( );
 				}
 			}
 			rowDatas[i] = newResultObject( obs );
@@ -257,8 +272,7 @@ public class ResultObjectUtil
 				dos.writeLong( ( (Timestamp) fieldValue ).getTime( ) );
 			else if ( fieldType.equals( Boolean.class ) )
 				dos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
-			else if ( fieldType.equals( String.class )
-					|| fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+			else if ( fieldType.equals( String.class ) )
 				dos.writeUTF( fieldValue.toString( ) );
 			else if ( fieldType.equals( IClob.class ) )
 				dos.writeUTF( fieldValue.toString( ) );
@@ -274,6 +288,15 @@ public class ResultObjectUtil
 					IOUtil.writeInt( dos, bytes.length );
 					dos.write( (byte[]) fieldValue );
 				}
+			}
+			else if ( fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+			{
+				if ( !( fieldValue instanceof Serializable ) )
+					fieldValue = fieldValue.toString( );
+
+				ObjectOutputStream oo = new ObjectOutputStream( dos );
+				oo.writeObject( fieldValue );
+				oo.close( );
 			}
 		}
 		dos.flush( );

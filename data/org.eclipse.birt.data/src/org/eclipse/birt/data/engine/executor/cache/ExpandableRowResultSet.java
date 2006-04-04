@@ -1,0 +1,79 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.birt.data.engine.executor.cache;
+
+import java.util.List;
+
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.ResultObject;
+import org.eclipse.birt.data.engine.odi.IResultClass;
+import org.eclipse.birt.data.engine.odi.IResultObject;
+
+/**
+ * This class implements IRowResultSet and delegate the behavior of class
+ * RowResultSet, besides that it can adjust the IResultObject instance return
+ * by its "next()" method according to the given metadata in a limited way.
+ */
+class ExpandableRowResultSet implements IRowResultSet
+{
+	// result meta data
+	private IResultClass resultClass;
+	
+	// 
+	private RowResultSet rowResultSet;
+
+	/**
+	 * Construction
+	 * 
+	 * @param query
+	 * @param odaResultSet
+	 * @param resultClass
+	 */
+	ExpandableRowResultSet( int maxRow, List eventList, OdiAdapter odiAdpater,
+			IResultClass resultClass )
+	{
+		this.resultClass = resultClass;
+		
+		this.rowResultSet = new RowResultSet( maxRow, eventList, odiAdpater, resultClass);
+		
+	}
+
+	/**
+	 * @return result meta data
+	 */
+	public IResultClass getMetaData( )
+	{
+		return resultClass;
+	}
+	
+	/**
+	 * Notice the return value of this function is IResultObject. The null value
+	 * indicates the cursor exceeds the end of result set.
+	 * 
+	 * @return next result data
+	 * @throws DataException
+	 */
+	public IResultObject next( ) throws DataException
+	{
+		IResultObject ro = this.rowResultSet.next( );
+		if( ro == null )
+			return null;
+		Object[] objs = new Object[this.resultClass.getFieldCount( )];
+		for( int i = 0; i < objs.length; i++)
+		{
+			if( i+1 <= ro.getResultClass( ).getFieldCount( ) )
+				objs[i] = ro.getFieldValue( i+1 );
+			else
+				objs[i] = null;
+		}
+		return new ResultObject( resultClass, objs);
+	}
+}
