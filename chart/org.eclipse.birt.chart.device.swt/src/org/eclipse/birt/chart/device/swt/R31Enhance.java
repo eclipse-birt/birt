@@ -37,18 +37,19 @@ final class R31Enhance
 	static
 	{
 		R31_AVAILABLE = SWT.getVersion( ) >= 3100
-				&& !"off".equalsIgnoreCase( System.getProperty( "R31ENHANCE" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				&& !"off".equalsIgnoreCase( System.getProperty( "R31ENHANCE" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+				&& !"false".equalsIgnoreCase( System.getProperty( "R31ENHANCE" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		if ( R31_AVAILABLE )
 		{
 			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.swt.advanced.enabled", //$NON-NLS-1$
+					Messages.getString( "R31Enhance.info.advanced.enabled", //$NON-NLS-1$
 							ULocale.getDefault( ) ) );
 		}
 		else
 		{
 			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.swt.advanced.disabled", //$NON-NLS-1$
+					Messages.getString( "R31Enhance.info.advanced.disabled", //$NON-NLS-1$
 							ULocale.getDefault( ) ) );
 		}
 	}

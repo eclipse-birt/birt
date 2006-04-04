@@ -68,7 +68,7 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 				throw e;
 			}
 			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.use.custom.image.writer", //$NON-NLS-1$
+					Messages.getString( "BmpRendererImpl.info.use.custom.image.writer", //$NON-NLS-1$
 							new Object[]{
 									getFormat( ), BmpWriter.class.getName( )
 							},
@@ -112,7 +112,7 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 			{
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
-						"exception.unable.write.output.identifier", //$NON-NLS-1$
+						"BmpRendererImpl.exception.unable.write.output.identifier", //$NON-NLS-1$
 						new Object[]{
 							_oOutputIdentifier
 						},

@@ -164,14 +164,14 @@ public final class SwingEventHandler implements
 			if ( p == null || sh.contains( p ) )
 			{
 				ac = sa.getAction( );
-				final StructureSource src = (StructureSource) sa.getSource( );
+				final StructureSource src = sa.getSource( );
 
 				switch ( ac.getType( ).getValue( ) )
 				{
 					case ActionType.URL_REDIRECT :
 						final URLValue uv = (URLValue) ac.getValue( );
 						logger.log( ILogger.INFORMATION,
-								Messages.getString( "info.redirect.url", lcl ) //$NON-NLS-1$
+								Messages.getString( "SwingEventHandler.info.redirect.url", lcl ) //$NON-NLS-1$
 										+ uv.getBaseUrl( ) );
 						DeviceUtil.openURL( uv.getBaseUrl( ) );
 						break LOOP;
@@ -202,7 +202,7 @@ public final class SwingEventHandler implements
 										.getSource( );
 							}
 							logger.log( ILogger.INFORMATION,
-									Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
+									Messages.getString( "SwingEventHandler.info.toggle.visibility", //$NON-NLS-1$
 											lcl )
 											+ seRT );
 							Series seDT = null;
@@ -236,7 +236,7 @@ public final class SwingEventHandler implements
 										.getSource( );
 							}
 							logger.log( ILogger.INFORMATION,
-									Messages.getString( "info.toggle.datapoint.visibility", //$NON-NLS-1$
+									Messages.getString( "SwingEventHandler.info.toggle.datapoint.visibility", //$NON-NLS-1$
 											lcl )
 											+ seRT );
 							Series seDT = null;
@@ -289,7 +289,7 @@ public final class SwingEventHandler implements
 						else
 						{
 							logger.log( ILogger.WARNING,
-									Messages.getString( "info.improper.callback.notifier", //$NON-NLS-1$
+									Messages.getString( "SwingEventHandler.info.improper.callback.notifier", //$NON-NLS-1$
 											new Object[]{
 												iun
 											},
@@ -420,7 +420,7 @@ public final class SwingEventHandler implements
 			{
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.OUT_OF_SYNC,
-						"info.cannot.find.series", //$NON-NLS-1$
+						"SwingEventHandler.info.cannot.find.series", //$NON-NLS-1$
 						new Object[]{
 							seRT
 						},
@@ -506,7 +506,7 @@ public final class SwingEventHandler implements
 			{
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.OUT_OF_SYNC,
-						"info.cannot.find.series", //$NON-NLS-1$
+						"SwingEventHandler.info.cannot.find.series", //$NON-NLS-1$
 						new Object[]{
 							seRT
 						},
@@ -734,7 +734,7 @@ public final class SwingEventHandler implements
 						.getSource( );
 			}
 			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
+					Messages.getString( "SwingEventHandler.info.toggle.visibility", //$NON-NLS-1$
 							lcl ) + seRT );
 			Series seDT = null;
 			SeriesDefinition sdDT = null;

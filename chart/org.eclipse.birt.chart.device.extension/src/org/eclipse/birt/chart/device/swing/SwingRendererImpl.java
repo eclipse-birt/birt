@@ -217,7 +217,7 @@ public class SwingRendererImpl extends DeviceAdapter
 
 			// _frc = new FontRenderContext(new AffineTransform(), true, false);
 			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.using.graphics.context", //$NON-NLS-1$
+					Messages.getString( "SwingRendererImpl.info.using.graphics.context", //$NON-NLS-1$
 							new Object[]{
 								_g2d
 							},
@@ -484,7 +484,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
-						"exception.gradient.angle",//$NON-NLS-1$
+						"SwingRendererImpl.exception.gradient.angle",//$NON-NLS-1$
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
@@ -744,7 +744,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
-						"exception.gradient.angle",//$NON-NLS-1$
+						"SwingRendererImpl.exception.gradient.angle",//$NON-NLS-1$
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
@@ -1071,7 +1071,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
-						"exception.gradient.angle",//$NON-NLS-1$
+						"SwingRendererImpl.exception.gradient.angle",//$NON-NLS-1$
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
@@ -1445,7 +1445,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
-						"exception.gradient.angle",//$NON-NLS-1$
+						"SwingRendererImpl.exception.gradient.angle",//$NON-NLS-1$
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
@@ -1515,7 +1515,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			case TextRenderEvent.UNDEFINED :
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
-						"exception.missing.text.render.action", //$NON-NLS-1$
+						"SwingRendererImpl.exception.missing.text.render.action", //$NON-NLS-1$
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
 								getLocale( ) ) );
 
@@ -1552,7 +1552,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		if ( _iun == null )
 		{
 			logger.log( ILogger.WARNING,
-					Messages.getString( "exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
+					Messages.getString( "SwingRendererImpl.exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
 			return;
 		}
 
@@ -1871,7 +1871,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
-						"exception.gradient.angle",//$NON-NLS-1$
+						"SwingRendererImpl.exception.gradient.angle",//$NON-NLS-1$
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},

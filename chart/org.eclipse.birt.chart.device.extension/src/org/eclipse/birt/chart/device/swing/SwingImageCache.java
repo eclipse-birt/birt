@@ -71,7 +71,7 @@ public final class SwingImageCache
 		if ( img != null )
 		{
 			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.using.swing.cached.image",//$NON-NLS-1$
+					Messages.getString( "SwingImageCache.info.using.swing.cached.image",//$NON-NLS-1$
 							new Object[]{
 								url
 							}, idsSWING.getULocale( ) ) );
@@ -79,7 +79,7 @@ public final class SwingImageCache
 		else
 		{
 			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.loading.swing.image",//$NON-NLS-1$
+					Messages.getString( "SwingImageCache.info.loading.swing.image",//$NON-NLS-1$
 							new Object[]{
 								url
 							}, idsSWING.getULocale( ) ) );
@@ -106,7 +106,7 @@ public final class SwingImageCache
 					sb.append( ']' );
 					throw new ChartException( ChartDeviceExtensionPlugin.ID,
 							ChartException.IMAGE_LOADING,
-							"exception.media.tracker", //$NON-NLS-1$
+							"SwingImageCache.exception.media.tracker", //$NON-NLS-1$
 							new Object[]{
 								sb.toString( )
 							},
@@ -144,7 +144,7 @@ public final class SwingImageCache
 		}
 		htCache.clear( );
 		logger.log( ILogger.INFORMATION,
-				Messages.getString( "info.flushed.swing.images",//$NON-NLS-1$
+				Messages.getString( "SwingImageCache.info.flushed.swing.images",//$NON-NLS-1$
 						new Object[]{
 							new Integer( n )
 						}, idsSWING.getULocale( ) ) );

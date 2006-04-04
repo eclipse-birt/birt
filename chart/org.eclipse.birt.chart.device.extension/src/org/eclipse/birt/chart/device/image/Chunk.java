@@ -43,7 +43,7 @@ class Chunk
 		this.type = type;
 		if ( type == null || type.length( ) != 4 )
 		{
-			throw new IllegalArgumentException( Messages.getString( "exception.invalid.png.chunk", new Object[]{type}, ULocale.getDefault( ) ) ); //$NON-NLS-1$
+			throw new IllegalArgumentException( Messages.getString( "Chunk.exception.invalid.png.chunk", new Object[]{type}, ULocale.getDefault( ) ) ); //$NON-NLS-1$
 		}
 		this.data = new ByteArrayOutputStream( );
 	}

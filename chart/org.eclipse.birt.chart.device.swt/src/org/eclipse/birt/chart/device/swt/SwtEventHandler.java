@@ -169,14 +169,14 @@ class SwtEventHandler implements
 			if ( p == null || ra.contains( p, _gc ) )
 			{
 				ac = ra.getAction( );
-				final StructureSource src = (StructureSource) ra.getSource( );
+				final StructureSource src = ra.getSource( );
 
 				switch ( ac.getType( ).getValue( ) )
 				{
 					case ActionType.URL_REDIRECT :
 						final URLValue uv = (URLValue) ac.getValue( );
 						logger.log( ILogger.INFORMATION,
-								Messages.getString( "info.redirect.url", lcl ) //$NON-NLS-1$
+								Messages.getString( "SwtEventHandler.info.redirect.url", lcl ) //$NON-NLS-1$
 										+ uv.getBaseUrl( ) );
 						SwtUtil.openURL( uv.getBaseUrl( ) );
 						break LOOP;
@@ -207,7 +207,7 @@ class SwtEventHandler implements
 										.getSource( );
 							}
 							logger.log( ILogger.INFORMATION,
-									Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
+									Messages.getString( "SwtEventHandler.info.toggle.visibility", //$NON-NLS-1$
 											lcl )
 											+ seRT );
 							Series seDT = null;
@@ -241,7 +241,7 @@ class SwtEventHandler implements
 										.getSource( );
 							}
 							logger.log( ILogger.INFORMATION,
-									Messages.getString( "info.toggle.datapoint.visibility", //$NON-NLS-1$
+									Messages.getString( "SwtEventHandler.info.toggle.datapoint.visibility", //$NON-NLS-1$
 											lcl )
 											+ seRT );
 							Series seDT = null;
@@ -294,7 +294,7 @@ class SwtEventHandler implements
 						else
 						{
 							logger.log( ILogger.WARNING,
-									Messages.getString( "info.improper.callback.notifier", //$NON-NLS-1$
+									Messages.getString( "SwtEventHandler.info.improper.callback.notifier", //$NON-NLS-1$
 											new Object[]{
 												iun
 											},
@@ -423,7 +423,7 @@ class SwtEventHandler implements
 			{
 				throw new ChartException( ChartDeviceSwtActivator.ID,
 						ChartException.OUT_OF_SYNC,
-						"info.cannot.find.series", //$NON-NLS-1$
+						"SwtEventHandler.info.cannot.find.series", //$NON-NLS-1$
 						new Object[]{
 							seRT
 						},
@@ -509,7 +509,7 @@ class SwtEventHandler implements
 			{
 				throw new ChartException( ChartDeviceSwtActivator.ID,
 						ChartException.OUT_OF_SYNC,
-						"info.cannot.find.series", //$NON-NLS-1$
+						"SwtEventHandler.info.cannot.find.series", //$NON-NLS-1$
 						new Object[]{
 							seRT
 						},
@@ -704,7 +704,7 @@ class SwtEventHandler implements
 			return;
 		}
 
-		final StructureSource src = (StructureSource) ra.getSource( );
+		final StructureSource src = ra.getSource( );
 
 		if ( src.getType( ) == StructureType.SERIES
 				|| src.getType( ) == StructureType.SERIES_DATA_POINT )
@@ -720,7 +720,7 @@ class SwtEventHandler implements
 						.getSource( );
 			}
 			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
+					Messages.getString( "SwtEventHandler.info.toggle.visibility", //$NON-NLS-1$
 							lcl ) + seRT );
 			Series seDT = null;
 			SeriesDefinition sdDT = null;

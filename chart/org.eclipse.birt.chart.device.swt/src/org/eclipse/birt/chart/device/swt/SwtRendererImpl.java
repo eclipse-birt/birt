@@ -418,7 +418,7 @@ public class SwtRendererImpl extends DeviceAdapter
 			{
 				throw new ChartException( ChartDeviceSwtActivator.ID,
 						ChartException.RENDERING,
-						"exception.gradient.angle", //$NON-NLS-1$
+						"SwtRendererImpl.exception.gradient.angle", //$NON-NLS-1$
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
@@ -1193,7 +1193,7 @@ public class SwtRendererImpl extends DeviceAdapter
 		if ( _iun == null )
 		{
 			logger.log( ILogger.WARNING,
-					Messages.getString( "exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
+					Messages.getString( "SwtRendererImpl.exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
 			return;
 		}
 
@@ -1665,7 +1665,7 @@ public class SwtRendererImpl extends DeviceAdapter
 			case TextRenderEvent.UNDEFINED :
 				throw new ChartException( ChartDeviceSwtActivator.ID,
 						ChartException.RENDERING,
-						"exception.unspecified.text.rendering.action",//$NON-NLS-1$
+						"SwtRendererImpl.exception.unspecified.text.rendering.action",//$NON-NLS-1$
 						ResourceBundle.getBundle( Messages.DEVICE_SWT,
 								getLocale( ) ) );
 
@@ -1903,7 +1903,7 @@ public class SwtRendererImpl extends DeviceAdapter
 			}
 
 			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.swt.graphics.context",//$NON-NLS-1$
+					Messages.getString( "SwtRendererImpl.info.graphics.context",//$NON-NLS-1$
 							new Object[]{
 									_gc.getClass( ).getName( ), _gc
 							},

@@ -81,7 +81,7 @@ public final class SwtDisplayServer extends DisplayAdapter
 		{
 			logger.log( ex );
 			logger.log( ILogger.FATAL,
-					Messages.getString( "exception.swt.display.server", getULocale( ) ) ); //$NON-NLS-1$
+					Messages.getString( "SwtDisplayServer.exception.display.server", getULocale( ) ) ); //$NON-NLS-1$
 		}
 		String sOS = System.getProperty( "os.name" ).toLowerCase( ); //$NON-NLS-1$
 		if ( sOS.indexOf( "windows" ) >= 0 ) //$NON-NLS-1$
@@ -93,7 +93,7 @@ public final class SwtDisplayServer extends DisplayAdapter
 			iOS = OTHER;
 		}
 		logger.log( ILogger.INFORMATION,
-				Messages.getString( "info.swt.display.server", //$NON-NLS-1$
+				Messages.getString( "SwtDisplayServer.info.display.server", //$NON-NLS-1$
 						new Object[]{
 								SWT.getPlatform( ),
 								new Integer( SWT.getVersion( ) )

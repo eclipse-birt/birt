@@ -108,7 +108,7 @@ final class SwingTextRenderer implements IConstants
 		{
 			throw new ChartException( ChartDeviceExtensionPlugin.ID,
 					ChartException.RENDERING,
-					"exception.undefined.shadow.color", //$NON-NLS-1$
+					"SwingTextMetrics.exception.undefined.shadow.color", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
 							_sxs.getLocale( ) ) );
 		}
@@ -156,7 +156,7 @@ final class SwingTextRenderer implements IConstants
 		{
 			throw new ChartException( ChartDeviceExtensionPlugin.ID,
 					ChartException.RENDERING,
-					"exception.undefined.text.color", //$NON-NLS-1$
+					"SwingTextMetrics.exception.undefined.text.color", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
 							_sxs.getLocale( ) ) );
 		}
@@ -220,7 +220,7 @@ final class SwingTextRenderer implements IConstants
 		{
 			throw new ChartException( ChartDeviceExtensionPlugin.ID,
 					ChartException.RENDERING,
-					"exception.undefined.text.color", //$NON-NLS-1$
+					"SwingTextMetrics.exception.undefined.text.color", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
 							_sxs.getLocale( ) ) );
 		}

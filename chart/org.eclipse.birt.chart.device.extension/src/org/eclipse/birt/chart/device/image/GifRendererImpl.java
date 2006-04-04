@@ -73,7 +73,7 @@ public final class GifRendererImpl extends JavaxImageIOWriter
 		else
 		{
 			logger.log( ILogger.INFORMATION, Messages.getString(
-					"info.use.custom.image.writer", //$NON-NLS-1$
+					"BmpRendererImpl.info.use.custom.image.writer", //$NON-NLS-1$
 					new Object[]
 					{ getFormat(), GifWriter.class.getName() }, getULocale() ) );
 
@@ -114,7 +114,7 @@ public final class GifRendererImpl extends JavaxImageIOWriter
 			{
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
-						"exception.unable.write.gif.identifier", //$NON-NLS-1$
+						"GifRendererImpl.exception.unable.write.gif.identifier", //$NON-NLS-1$
 						new Object[]
 						{ _oOutputIdentifier }, ResourceBundle.getBundle(
 								Messages.DEVICE_EXTENSION, getLocale() ) );

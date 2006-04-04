@@ -127,7 +127,7 @@ final class SwtTextRenderer implements IConstants
 		{
 			throw new ChartException( ChartDeviceSwtActivator.ID,
 					ChartException.RENDERING,
-					"exception.undefined.shadow.color", //$NON-NLS-1$
+					"SwtTextRenderer.exception.undefined.shadow.color", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.DEVICE_SWT,
 							_sxs.getLocale( ) ) );
 		}
@@ -469,7 +469,7 @@ final class SwtTextRenderer implements IConstants
 		{
 			throw new ChartException( ChartDeviceSwtActivator.ID,
 					ChartException.RENDERING,
-					"exception.undefined.text.color", //$NON-NLS-1$
+					"SwtTextRenderer.exception.undefined.text.color", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.DEVICE_SWT,
 							_sxs.getLocale( ) ) );
 		}
