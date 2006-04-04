@@ -286,11 +286,7 @@ abstract class QueryExecutor implements IQueryExecutor
 						(src.getKeyExpression( ) == null || src.getKeyExpression( ).trim( ).length( ) == 0)	)
 						throw new DataException( ResourceConstants.BAD_GROUP_EXPRESSION );
 					//TODO does the index of column significant?
-					IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
-							src,
-							"_{$TEMP_GROUP_" + i + "$}_",
-							-1 );
-					groupSpecs[i] = dest;
+
 					String expr = src.getKeyColumn();
 					if( expr == null )
 					{
@@ -299,9 +295,24 @@ abstract class QueryExecutor implements IQueryExecutor
 					{
 						expr = getColumnRefExpression(expr);
 					}
+					String groupName = "";
+					if( expr.trim().equalsIgnoreCase("row[0]")
+						|| expr.trim().equalsIgnoreCase("row._rowPosition")
+						|| expr.trim().equalsIgnoreCase("dataSetRow[0]")
+						|| expr.trim().equalsIgnoreCase("dataSetRow._rowPosition"))
+					{
+						groupName = "_{$TEMP_GROUP_" + i + "ROWID$}_";
+					}else
+					{
+						groupName = "_{$TEMP_GROUP_" + i + "$}_";
+					}
+					IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
+							src,
+							groupName,
+							-1 );
+					groupSpecs[i] = dest;
 					
-					temporaryComputedColumns.add( new ComputedColumn( "_{$TEMP_GROUP_"
-						+ i + "$}_",
+					temporaryComputedColumns.add( new ComputedColumn( groupName,
 						expr,
 						QueryExecutorUtil.getTempComputedColumnType( groupSpecs[i].getInterval( ) ) ) );
 				}

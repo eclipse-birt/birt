@@ -43,7 +43,7 @@ public final class GroupUtil
 	public static boolean isRowIdColumn( int columnIndex, String columnName )
 	{
 		return rowidIndex == columnIndex
-				|| rowidName.equalsIgnoreCase( columnName );
+				|| columnName.matches( "\\Q_{$TEMP_GROUP_\\E.*\\QROWID$}_\\E" );
 	}
 
 	/**
