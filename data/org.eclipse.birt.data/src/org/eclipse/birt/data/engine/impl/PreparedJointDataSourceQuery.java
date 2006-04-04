@@ -54,10 +54,15 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private IJointDataSetDesign dataSet;
 	private IDataSetPopulator populator;
 	private IResultClass resultClass;
+	private ResultIterator left;
+	private ResultIterator right;
+	private IJoinConditionMatcher matcher;
+	private int joinType;
 	
 	private DataEngineImpl dataEngine;
 	private IBaseDataSetDesign dataSetDesign;
 	private Map appContext;
+	
 	/**
 	 * Constructor.
 	 * 
@@ -75,6 +80,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		this.dataEngine = dataEngine;
 		this.dataSetDesign = dataSetDesign;
 		this.appContext = appContext;
+		initialize( dataEngine, dataSetDesign, appContext );
 	}
 
 	/**
@@ -103,7 +109,10 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				dataSet.getJoinConditions( ),
 				false );
 
-		IJoinConditionMatcher matcher = new JoinConditionMatcher( left.getOdiResult( ),
+		this.left = left;
+		this.right = right;
+		this.joinType = dataSet.getJoinType( ); 
+		this.matcher = new JoinConditionMatcher( left.getOdiResult( ),
 				right.getOdiResult( ),
 				left.getScope( ),
 				right.getScope( ),
@@ -113,11 +122,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 
 		resultClass = meta.getResultClass( );
 
-		populator = JointDataSetPopulatorFactory.getBinaryTreeDataSetPopulator( left.getOdiResult( ),
-				right.getOdiResult( ),
-				meta,
-				matcher,
-				dataSet.getJoinType( ) );
+
 	}
 
 	/**
@@ -392,9 +397,15 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		 */
 		protected IQuery createOdiQuery( ) throws DataException
 		{
+			
 			return new JointDataSetQuery( resultClass );
 	 	}
 		
+		protected void populateOdiQuery( ) throws DataException
+		{
+			super.populateOdiQuery( );
+
+		}
 		
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
@@ -402,8 +413,14 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		protected org.eclipse.birt.data.engine.odi.IResultIterator executeOdiQuery(
 				IEventHandler eventHandler ) throws DataException
 		{
-			initialize( dataEngine, dataSetDesign, appContext );
-			
+			JointResultMetadata jrm = getJointResultMetadata( left, right );
+			resultClass = jrm.getResultClass( );
+			populator = JointDataSetPopulatorFactory.getBinaryTreeDataSetPopulator( left.getOdiResult( ),
+					right.getOdiResult( ),
+					jrm,
+					matcher,
+					joinType );
+
 			return new CachedResultSet( (BaseQuery) this.odiQuery,
 					resultClass,
 					populator,
