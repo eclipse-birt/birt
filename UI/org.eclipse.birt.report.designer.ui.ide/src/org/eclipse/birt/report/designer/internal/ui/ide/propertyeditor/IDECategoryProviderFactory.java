@@ -293,7 +293,6 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					// "RowPageGenerator.List.CellPadding" //$NON-NLS-1$
 					"RowPageGenerator.List.Font", //$NON-NLS-1$
 					// "RowPageGenerator.List.Borders", //$NON-NLS-1$
-					"TablePageGenerator.List.Section", //$NON-NLS-1$
 					"RowPageGenerator.List.Bookmark", //$NON-NLS-1$
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
@@ -303,7 +302,6 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					// CellPaddingPage.class,
 					FontPage.class,
 					// BordersPage.class,
-					SectionPage.class,
 					BookMarkExpressionPage.class,
 					UserPropertiesPage.class,
 					NamedExpressionsPage.class,
