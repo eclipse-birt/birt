@@ -29,11 +29,11 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -58,13 +58,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		super( );
 		this.itemHandle = itemHandle;
+		ChartDataSetManager.initCurrentInstance( getReportDesignHandle( ) );
+	}
+
+	private ModuleHandle getReportDesignHandle( )
+	{
+		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
 	}
 
 	public String[] getAllDataSets( )
 	{
-		List list = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getVisibleDataSets( );
+		List list = getReportDesignHandle( ).getVisibleDataSets( );
 		String[] names = new String[list.size( )];
 		for ( int i = 0; i < names.length; i++ )
 		{
@@ -93,7 +97,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		DataSetItemModel[] headers = null;
 		try
 		{
-			headers = DataSetManager.getCurrentInstance( )
+			headers = ChartDataSetManager.getCurrentInstance( )
 					.getCacheMetaData( getDataSetFromHandle( ),
 							itemHandle.getPropertyHandle( ExtendedItemHandle.PARAM_BINDINGS_PROP )
 									.iterator( ) );
@@ -116,7 +120,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			int rowCount, boolean isStringType ) throws ChartException
 	{
 		ArrayList dataList = new ArrayList( );
-		
+
 		// Set thread context class loader so Rhino can find POJOs in workspace
 		// projects
 		ClassLoader oldContextLoader = Thread.currentThread( )
@@ -124,13 +128,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		ClassLoader parentLoader = oldContextLoader;
 		if ( parentLoader == null )
 			parentLoader = this.getClass( ).getClassLoader( );
-		ClassLoader newContextLoader = DataSetManager.getCustomScriptClassLoader( parentLoader );
+		ClassLoader newContextLoader = ChartDataSetManager.getCustomScriptClassLoader( parentLoader );
 		Thread.currentThread( ).setContextClassLoader( newContextLoader );
-		
+
 		try
 		{
 			DataSetHandle datasetHandle = getDataSetFromHandle( );
-			IQueryResults actualResultSet = DataSetManager.getCurrentInstance( )
+			IQueryResults actualResultSet = ChartDataSetManager.getCurrentInstance( )
 					.getCacheResult( datasetHandle,
 							itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
 									.iterator( ),
@@ -179,7 +183,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
 		}
-		
+
 		return dataList;
 	}
 
@@ -308,9 +312,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	public String[] getAllStyles( )
 	{
-		List list = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getAllStyles( );
+		List list = getReportDesignHandle( ).getAllStyles( );
 		String[] names = new String[list.size( )];
 		for ( int i = 0; i < names.length; i++ )
 		{
@@ -388,7 +390,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public void dispose( )
 	{
-		// Do nothing
+		ChartDataSetManager.getCurrentInstance( ).dispose( );
 	}
 
 	private int getMaxRow( )
