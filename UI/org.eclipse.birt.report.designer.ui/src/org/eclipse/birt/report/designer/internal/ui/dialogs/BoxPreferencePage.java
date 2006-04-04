@@ -120,16 +120,7 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 				gpPadding );
 		paddingTop.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PADDING_TOP_PROP )
 				.getDefaultUnit( ) );
-
-		paddingRight = new ComboBoxMeasureFieldEditor( StyleHandle.PADDING_RIGHT_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PADDING_RIGHT_PROP )
-						.getDefn( )
-						.getDisplayNameID( ) ),
-				getMeasureChoiceArray( StyleHandle.PADDING_RIGHT_PROP ),
-				gpPadding );
-		paddingRight.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PADDING_RIGHT_PROP )
-				.getDefaultUnit( ) );
-
+		
 		paddingBottom = new ComboBoxMeasureFieldEditor( StyleHandle.PADDING_BOTTOM_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PADDING_BOTTOM_PROP )
 						.getDefn( )
@@ -147,6 +138,17 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 				gpPadding );
 		paddingLeft.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PADDING_LEFT_PROP )
 				.getDefaultUnit( ) );
+		
+		paddingRight = new ComboBoxMeasureFieldEditor( StyleHandle.PADDING_RIGHT_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PADDING_RIGHT_PROP )
+						.getDefn( )
+						.getDisplayNameID( ) ),
+				getMeasureChoiceArray( StyleHandle.PADDING_RIGHT_PROP ),
+				gpPadding );
+		paddingRight.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PADDING_RIGHT_PROP )
+				.getDefaultUnit( ) );
+
+
 
 		gpMargin = new Group( getFieldEditorParent( ), 0 );
 		gpMargin.setText( Messages.getString( "BoxPreferencePage.text.Margin" ) ); //$NON-NLS-1$
@@ -164,16 +166,6 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 				getMeasureChoiceArray( StyleHandle.MARGIN_TOP_PROP ),
 				gpMargin );
 		marginTop.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.MARGIN_TOP_PROP )
-				.getDefaultUnit( ) );
-
-		marginRight = new ComboBoxMeasureFieldEditor( StyleHandle.MARGIN_RIGHT_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.MARGIN_RIGHT_PROP )
-						.getDefn( )
-						.getDisplayNameID( ) ),
-				getChoiceArray( StyleHandle.MARGIN_RIGHT_PROP ),
-				getMeasureChoiceArray( StyleHandle.MARGIN_RIGHT_PROP ),
-				gpMargin );
-		marginRight.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.MARGIN_RIGHT_PROP )
 				.getDefaultUnit( ) );
 
 		marginBottom = new ComboBoxMeasureFieldEditor( StyleHandle.MARGIN_BOTTOM_PROP,
@@ -195,16 +187,27 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 				gpMargin );
 		marginLeft.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.MARGIN_LEFT_PROP )
 				.getDefaultUnit( ) );
+		
+		marginRight = new ComboBoxMeasureFieldEditor( StyleHandle.MARGIN_RIGHT_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.MARGIN_RIGHT_PROP )
+						.getDefn( )
+						.getDisplayNameID( ) ),
+				getChoiceArray( StyleHandle.MARGIN_RIGHT_PROP ),
+				getMeasureChoiceArray( StyleHandle.MARGIN_RIGHT_PROP ),
+				gpMargin );
+		marginRight.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.MARGIN_RIGHT_PROP )
+				.getDefaultUnit( ) );
+
 
 		addField( paddingTop );
-		addField( paddingRight );
 		addField( paddingBottom );
 		addField( paddingLeft );
-
+		addField( paddingRight );
+		
 		addField( marginTop );
-		addField( marginRight );
 		addField( marginBottom );
 		addField( marginLeft );
+		addField( marginRight );
 	}
 
 	private String[][] getChoiceArray( String propName )
