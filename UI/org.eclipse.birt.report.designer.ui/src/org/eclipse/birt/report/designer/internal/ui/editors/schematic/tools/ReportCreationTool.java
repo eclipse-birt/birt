@@ -28,6 +28,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.tools.CreationTool;
@@ -151,6 +152,13 @@ public class ReportCreationTool extends CreationTool
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.tools.TargetingTool#getTargetRequest()
+	 */
+	public Request getTargetRequest( )
+	{
+		return super.getTargetRequest( );
+	}
 	/**Gets the new Object from request
 	 * @return
 	 */

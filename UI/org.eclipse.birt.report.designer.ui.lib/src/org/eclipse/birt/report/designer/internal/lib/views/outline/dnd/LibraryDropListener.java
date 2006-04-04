@@ -15,9 +15,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
+import org.eclipse.birt.report.designer.internal.lib.editparts.LibraryReportDesignEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
@@ -31,6 +33,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.gef.EditDomain;
+import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 
@@ -171,11 +174,22 @@ public class LibraryDropListener extends DesignerDropListener
 					.getEditDomain( );
 			tool.setEditDomain( domain );
 			tool.setViewer( UIUtil.getLayoutEditPartViewer( ) );
-			tool.performCreation( UIUtil.getCurrentEditPart( ) );
+			tool.getTargetRequest( ).getExtendedData( ).put( DesignerConstants.DIRECT_CREATEITEM, new Boolean(true));
+			tool.performCreation( getLibrartReportEditPart( ));
 			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(tool.getNewObjectFromRequest());
 			command.execute();
 			return true;
 		}
 		return super.moveData( transfer, target );
+	}
+	
+	private EditPart getLibrartReportEditPart()
+	{
+		EditPart retValue = UIUtil.getCurrentEditPart( );
+		while (retValue != null && !(retValue instanceof LibraryReportDesignEditPart))
+		{
+			retValue = retValue.getParent( );
+		}
+		return retValue;
 	}
 }

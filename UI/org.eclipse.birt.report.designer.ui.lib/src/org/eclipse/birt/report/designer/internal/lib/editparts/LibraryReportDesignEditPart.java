@@ -15,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.commands.CreateCommand;
 import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
@@ -244,8 +245,11 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 							CreateRequest request )
 					{
 						List list = getHost( ).getChildren( );
+						Boolean direct = (Boolean) request.getExtendedData( ).get( DesignerConstants.DIRECT_CREATEITEM );
 						if ( list.size( ) != 0
-								&& !( list.get( 0 ) instanceof EmptyEditPart ) )
+								&& !( list.get( 0 ) instanceof EmptyEditPart ) 
+								&&  (direct == null || 
+									 !direct.booleanValue( )))
 						{
 							return UnexecutableCommand.INSTANCE;
 						}
