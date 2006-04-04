@@ -47,7 +47,7 @@ abstract class PreparedDataSourceQuery
 	 * @return PreparedReportQuery
 	 * @throws DataException 
 	 */
-	static PreparedDataSourceQuery newInstance( DataEngineImpl dataEngine,
+	static IPreparedQuery newInstance( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, Map appContext ) throws DataException
 	{
 		assert dataEngine != null;
@@ -56,15 +56,13 @@ abstract class PreparedDataSourceQuery
 		IBaseDataSetDesign dset = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
 		if ( dset == null )
 		{
-			DataException e = new DataException( ResourceConstants.UNDEFINED_DATA_SET,
-					queryDefn.getDataSetName( ) );
-			logger.logp( Level.WARNING,
-					PreparedDataSourceQuery.class.getName( ),
-					"newInstance",
-					"Data set {"
-							+ queryDefn.getDataSetName( ) + "} is not defined",
-					e );
-			throw e;
+			// In new column binding feature, when ther is no data set,
+			// it is indicated that a dummy data set needs to be created
+			// internally. But using the dummy one, the binding expression only
+			// can refer to row object and no other object can be refered such
+			// as rows.
+			return new PreparedDummyQuery( queryDefn,
+					dataEngine.getSharedScope( ) );
 		}
 
 		PreparedDataSourceQuery preparedQuery;

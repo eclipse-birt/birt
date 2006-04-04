@@ -16,7 +16,10 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -163,7 +166,59 @@ public class ExprEvaluateUtil
 				Context.exit();
 			}
 		}
-
+	}
+	
+	/**
+	 * Evaluate non-compiled expression
+	 * 
+	 * @param dataExpr
+	 * @param scope
+	 * @return value of dataExpr
+	 * @throws BirtException
+	 */
+	public static Object evaluateRawExpression( IBaseExpression dataExpr,
+			Scriptable scope ) throws BirtException
+	{
+		if ( dataExpr == null )
+			return null;
+		
+		try
+		{
+			Context cx = Context.enter( );
+			if ( dataExpr instanceof IScriptExpression )
+			{
+				Object value = JavascriptEvalUtil.evaluateScript( cx,
+						scope,
+						( (IScriptExpression) dataExpr ).getText( ),
+						"source",
+						0 );
+				value = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+				return value;
+			}
+			else if ( dataExpr instanceof IConditionalExpression )
+			{
+				IScriptExpression opr = ( (IConditionalExpression) dataExpr ).getExpression( );
+				int oper = ( (IConditionalExpression) dataExpr ).getOperator( );
+				IScriptExpression operand1 = ( (IConditionalExpression) dataExpr ).getOperand1( );
+				IScriptExpression operand2 = ( (IConditionalExpression) dataExpr ).getOperand2( );
+				
+				return ScriptEvalUtil.evalConditionalExpr( evaluateRawExpression( opr,
+						scope ),
+						oper,
+						evaluateRawExpression( operand1, scope ),
+						evaluateRawExpression( operand2, scope ) );
+			}
+			else
+			{
+				assert false;
+				return null;
+			}
+			
+		}
+		finally
+		{
+			Context.exit( );
+		}
 	}
 	
 }

@@ -400,7 +400,8 @@ public class DataEngineImpl extends DataEngine
 	/**
 	 * @param appContext
 	 */
-	private void configureDataSetCache( IQueryDefinition querySpec, Map appContext )
+	private void configureDataSetCache( IQueryDefinition querySpec,
+			Map appContext )
 	{
 		if ( querySpec == null )
 			return;
@@ -408,9 +409,13 @@ public class DataEngineImpl extends DataEngine
 		String dataSetName = querySpec.getDataSetName( );
 		IBaseDataSetDesign dataSetDesign = this.getDataSetDesign( dataSetName );
 		
+		if ( dataSetDesign == null )
+			return;
+		
 		IBaseDataSourceDesign dataSourceDesign = null;
-		if(this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) )!= null)
-				dataSourceDesign = this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ).getDesign( );
+		if ( this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) != null )
+			dataSourceDesign = this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) )
+					.getDesign( );
 		DataSetCacheManager.getInstance( )
 				.setDataSourceAndDataSet( dataSourceDesign,
 						dataSetDesign,
