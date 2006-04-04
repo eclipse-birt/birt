@@ -746,7 +746,8 @@ public final class AutoScale extends Methods implements Cloneable
 			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
 					ChartException.COMPUTATION,
 					"exception.tick.computations", //$NON-NLS-1$ 
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( )
+							.toLocale( ) ) ) );
 		}
 		daTickCoordinates = da;
 	}
@@ -976,7 +977,8 @@ public final class AutoScale extends Methods implements Cloneable
 			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
 					ChartException.COMPUTATION,
 					"exception.unit.size.failure", //$NON-NLS-1$ 
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( )
+							.toLocale( ) ) ) );
 		}
 		return Math.abs( daTickCoordinates[1] - daTickCoordinates[0] );
 	}
@@ -1131,7 +1133,8 @@ public final class AutoScale extends Methods implements Cloneable
 					new Object[]{
 						oValue
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( )
+							.toLocale( ) ) );
 		}
 		return null;
 	}
@@ -1348,6 +1351,9 @@ public final class AutoScale extends Methods implements Cloneable
 
 			for ( int i = 0; i < da.length; i++ )
 			{
+				// TODO special logic for last datapoint in non-equal scale unit
+				// case.
+
 				nde.setValue( dAxisValue );
 				try
 				{
@@ -2428,6 +2434,7 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		int nTicks = 0;
 		double dLength = 0;
+		double dTickGap = 0;
 		int iDirection = ( iScaleDirection == AUTO ) ? ( ( iOrientation == HORIZONTAL ) ? FORWARD
 				: BACKWARD )
 				: iScaleDirection;
@@ -2469,10 +2476,25 @@ public final class AutoScale extends Methods implements Cloneable
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
 					"exception.unknown.axis.type.tick.computations", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( )
+							.toLocale( ) ) );
 		}
 
-		final double dTickGap = dLength / ( nTicks - 1 ) * iDirection;
+		if ( ( iType & NUMERICAL ) == NUMERICAL && ( iType & LINEAR ) == LINEAR )
+		{
+			double dMax = asDouble( oMaximum ).doubleValue( );
+			double dMin = asDouble( oMinimum ).doubleValue( );
+			double dStep = asDouble( oStep ).doubleValue( );
+
+			dTickGap = Math.min( Math.abs( dStep / ( dMax - dMin ) * dLength ),
+					dLength )
+					* iDirection;
+		}
+		else
+		{
+			dTickGap = dLength / ( nTicks - 1 ) * iDirection;
+		}
+
 		double d = dStart + dTickGap;
 		final double[] da = new double[nTicks];
 
@@ -3009,7 +3031,8 @@ public final class AutoScale extends Methods implements Cloneable
 					new Object[]{
 						la.getCaption( ).getValue( )
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( )
+							.toLocale( ) ) );
 		}
 
 		if ( !la.isVisible( ) )
@@ -3328,7 +3351,8 @@ public final class AutoScale extends Methods implements Cloneable
 					new Object[]{
 						la.getCaption( ).getValue( )
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( )
+							.toLocale( ) ) );
 		}
 
 		if ( !la.isVisible( ) || !isAxisLabelStaggered( ) )

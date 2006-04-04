@@ -174,9 +174,11 @@ public class Methods implements IConstants
 		{
 			double dValue = iv.getValueAsDouble( sc );
 			double dMinimum = asDouble( sc.getMinimum( ) ).doubleValue( );
-			double dStep = asDouble( sc.getStep( ) ).doubleValue( );
-			return da[0]
-					- ( ( ( dValue - dMinimum ) / dStep ) * ( da[0] - da[1] ) );
+			double dMaximum = asDouble( sc.getMaximum( ) ).doubleValue( );
+			double[] ea = sc.getEndPoints( );
+
+			return ea[0]
+					- ( ( ( dValue - dMinimum ) / ( dMaximum - dMinimum ) ) * ( ea[0] - ea[1] ) );
 		}
 	}
 
@@ -268,11 +270,11 @@ public class Methods implements IConstants
 		else if ( ( sc.getType( ) & IConstants.LINEAR ) == IConstants.LINEAR )
 		{
 			double dMinimum = asDouble( sc.getMinimum( ) ).doubleValue( );
-			double dStep = asDouble( sc.getStep( ) ).doubleValue( );
-			double[] da = sc.getTickCordinates( );
+			double dMaximum = asDouble( sc.getMaximum( ) ).doubleValue( );
+			double[] da = sc.getEndPoints( );
 
 			return da[0]
-					- ( ( ( dValue - dMinimum ) / dStep ) * ( da[0] - da[1] ) );
+					- ( ( ( dValue - dMinimum ) / ( dMaximum - dMinimum ) ) * ( da[0] - da[1] ) );
 		}
 		else if ( ( sc.getType( ) & IConstants.LOGARITHMIC ) == IConstants.LOGARITHMIC )
 		{
