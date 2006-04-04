@@ -22,17 +22,15 @@
 	<property name="export.dir" location="export" />
 
 	<property name="dtp.home" location=".." />
-
-
 	<property name="core.dir" location="../org.eclipse.birt.core" />
 	<property name="data.dir" location="../org.eclipse.birt.data" />
-	<property name="birt.oda.dir" location="../org.eclipse.birt.data.oda" />
+	<property name="data.oda.dir" location="../org.eclipse.birt.data.oda" />
 	<property name="dtp.oda.dir" location="${dtp.home}/org.eclipse.datatools.connectivity.oda" />
 	<property name="oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
 	<property name="engine.dir" location="../org.eclipse.birt.report.engine" />
 	<property name="js.dir" location="../org.mozilla.rhino" />
 	<property name="module.name" value="org.eclipse.birt.tests.data" />
-	<property name="src" location="src" />
+
 	<property name="testOdaDriver.dir" location="test/org\eclipse\birt\data\engine\odaconsumer\testdriver" />
 	<property name="testOdaDriver.plugin.name" value="org.eclipse.birt.data.engine.odaconsumer.testdriver" />
 	<property name="testBirtOdaDriver.dir" location="test/org\eclipse\birt\data\engine\odaconsumer\birtdriver" />
@@ -62,7 +60,7 @@
 			<include name="oda.jar" />
 			<include name="odaconsumer-helper.jar" />
 		</fileset>
-		<fileset dir="${birt.oda.dir}">
+		<fileset dir="${data.oda.dir}">
 			<include name="oda.jar" />
 		</fileset>
 		<fileset dir="${oda.jdbc.dir}">
@@ -92,7 +90,7 @@
 	 -->
 	<target name="Export">
 		<copy todir="${export.dir}/${module.name}_${plugin.version}" failonerror="false">
-			<fileset dir="." includes="model.jar,plugin.xml,about.html,.options,lib/**,schema/**" />
+			<fileset dir="." includes="plugin.xml,about.html,.options,lib/**,schema/**" />
 		</copy>
 		<copy todir="${export.dir}/${module.name}_${plugin.version}/romdoc" failonerror="false">
 			<fileset dir="./romdoc/gen" includes="**/*.*" />
@@ -163,16 +161,6 @@
 		</junitreport>
 	</target>
 
-	<!-- Clean the build environment -->
-	<target name="Clean">
-		<delete dir="${test.build.dir}" />
-		<delete dir="${tes.report.dir}" />
-		<delete dir="${test.javadoc.dir}" />
-		<delete dir="${export.dir}" />
-		<delete file="model.jar" />
-	</target>
-
-
 	<!-- Generate the JavaDocs for public APIs. 
 			 Parameters:
 			 		- ${api.javadoc.dir} target directory to put the java document
@@ -180,9 +168,7 @@
 	<target name="APIJavadoc">
 		<delete dir="${test.javadoc.dir}" failonerror="false" />
 		<mkdir dir="${test.javadoc.dir}" />
-
 		<javadoc destdir="${test.javadoc.dir}" author="true" version="true" use="true" windowtitle="BIRT Data API Tester- Provisional" doctitle="BIRT Data API Tester(Provisional)" source="1.4" packagenames="${testmodule.name}.*">
-
 			<packageset dir="${test.src.dir}" defaultexcludes="yes">
 				<include name="org/eclipse/birt/tests/data/**" />
 			</packageset>
@@ -215,16 +201,15 @@
 			<property name="eclipse.home" value="${eclipse.home}" />
 			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
-		<echo message="end call Jar task in ${data.oda.dir}" level="info" />
+		<echo message="end call Jar task in ${dtp.oda.dir}" level="info" />
 
 		<!-- Building BIRT ODA triggers building of DTP ODA jar -->
 		<echo message="start call Jar task in ${data.oda.dir}" level="info" />
-		<echo message="dtp.home= ${dtp.home}" />
-		<ant dir="${birt.oda.dir}" antfile="BuildOda.xml" target="Jar" inheritall="false">
+		<ant dir="${data.oda.dir}" antfile="BuildOda.xml" target="Jar" inheritall="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
 			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
-		<echo message="end call Jar task in ${birt.oda.dir}" level="info" />
+		<echo message="end call Jar task in ${data.oda.dir}" level="info" />
 
 
 	</target>
