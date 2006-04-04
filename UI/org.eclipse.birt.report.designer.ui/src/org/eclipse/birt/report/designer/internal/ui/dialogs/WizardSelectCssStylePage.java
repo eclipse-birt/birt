@@ -287,6 +287,7 @@ public class WizardSelectCssStylePage extends WizardPage
 	{
 		styleMap.clear( );
 		styleNames.clear( );
+		unSupportedStyleNames.clear( );
 		fileName = null;
 
 		TableItem[] ch = stylesTable.getItems( );
