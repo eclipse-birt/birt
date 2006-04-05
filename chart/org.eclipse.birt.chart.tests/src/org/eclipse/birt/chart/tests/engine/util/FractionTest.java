@@ -119,14 +119,14 @@ public class FractionTest extends TestCase
 		assertEquals( f.toString( ":" ), "2:100" ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( f.toString( ), "2/100" ); //$NON-NLS-1$
 		f = new Fraction( 5, 1 );
-		assertEquals( f.toString(), "5" );
+		assertEquals( f.toString(), "5" );//$NON-NLS-1$
 		
 		f = new Fraction( -2, 3 );
-		assertEquals( f.toString(), "-2/3" );
+		assertEquals( f.toString(), "-2/3" );//$NON-NLS-1$
 		f = new Fraction( 2, -3 );
-		assertEquals( f.toString(), "-2/3" );
+		assertEquals( f.toString(), "-2/3" );//$NON-NLS-1$
 		f = new Fraction( -2, -3 );
-		assertEquals( f.toString(), "2/3" );
+		assertEquals( f.toString(), "2/3" );//$NON-NLS-1$
 	}
 
 	/*public void testEvaluate( )

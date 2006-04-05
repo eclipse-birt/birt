@@ -24,12 +24,13 @@ Export-Package: org.eclipse.birt.chart.tests,
  org.eclipse.birt.chart.tests.engine.model.attribute,
  org.eclipse.birt.chart.tests.engine.util,
  org.eclipse.birt.chart.tests.i18n,
- org.eclipse.birt.chart.tests.reportitem,
  org.eclipse.birt.chart.tests.util
-Require-Bundle: org.eclipse.birt.chart.device.extension,
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.birt.chart.device.extension,
  org.eclipse.birt.chart.device.svg,
  org.eclipse.birt.chart.engine,
  org.eclipse.birt.chart.engine.extension,
- org.eclipse.birt.chart.reportitem,
+ org.eclipse.birt.core,
+ org.eclipse.emf.ecore,
  org.junit
 Eclipse-LazyStart: true

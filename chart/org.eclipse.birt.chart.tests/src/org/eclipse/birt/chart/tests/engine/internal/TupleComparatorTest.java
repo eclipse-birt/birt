@@ -17,8 +17,6 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.chart.internal.factory.TupleComparator;
 
-import com.ibm.icu.util.Calendar;
-
 /**
  * Test class for checking the correctness of compareObjects() method 
  * in TupleComparator.java class.
@@ -45,12 +43,5 @@ public class TupleComparatorTest extends TestCase {
 		Date b = new Date((long)7E9);	
 		assertEquals(-1, TupleComparator.compareObjects(a, b, null) );
 		assertEquals(1, TupleComparator.compareObjects(b, a, null) );
-		
-        Calendar c1 = Calendar.getInstance();
-        c1.set(1999,2,5);
-        Calendar c2 = Calendar.getInstance();
-        c2.set(2000,1,23);
-		assertEquals(-1, TupleComparator.compareObjects(c1, c2, null) );
-		assertEquals(1, TupleComparator.compareObjects(c2, c1, null) );
 	}
 }

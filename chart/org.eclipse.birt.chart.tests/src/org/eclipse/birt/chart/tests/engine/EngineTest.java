@@ -20,12 +20,16 @@ import org.eclipse.birt.chart.tests.engine.computation.VectorTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.DataSetProcessorImplTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.ResultSetDataSetTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.ResultSetWrapperTest;
+import org.eclipse.birt.chart.tests.engine.datafeed.StockDataSetProcessorImplTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.StockEntryTest;
+import org.eclipse.birt.chart.tests.engine.internal.MatrixTest;
+import org.eclipse.birt.chart.tests.engine.internal.PolygonTest;
+import org.eclipse.birt.chart.tests.engine.internal.SortKeyTest;
 import org.eclipse.birt.chart.tests.engine.internal.TupleComparatorTest;
 import org.eclipse.birt.chart.tests.engine.model.ModelAttributeTest;
-import org.eclipse.birt.chart.tests.engine.util.CDateTimeTest;
 import org.eclipse.birt.chart.tests.engine.util.ChartUtilTest;
 import org.eclipse.birt.chart.tests.engine.util.FittingCalculatorTest;
+import org.eclipse.birt.chart.tests.engine.util.FractionTest;
 import org.eclipse.birt.chart.tests.engine.util.LiteralHelperTest;
 import org.eclipse.birt.chart.tests.engine.util.NameSetTest;
 
@@ -49,15 +53,19 @@ public class EngineTest
 		suite.addTestSuite( ResultSetDataSetTest.class );
 		suite.addTestSuite( ResultSetWrapperTest.class );
 		suite.addTestSuite( StockEntryTest.class );
+		suite.addTestSuite( StockDataSetProcessorImplTest.class );
 		
 		suite.addTestSuite(TupleComparatorTest.class);
+		suite.addTestSuite(SortKeyTest.class);
+		suite.addTestSuite(PolygonTest.class);		
+		suite.addTestSuite(MatrixTest.class);
 
 		suite.addTest( ModelAttributeTest.suite( ) );
 
-		suite.addTestSuite( CDateTimeTest.class );
 		suite.addTestSuite( ChartUtilTest.class );
 		suite.addTestSuite( LiteralHelperTest.class );
 		suite.addTestSuite( FittingCalculatorTest.class );
+		suite.addTestSuite( FractionTest.class );
 		suite.addTestSuite( NameSetTest.class );
 
 		// $JUnit-END$

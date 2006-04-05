@@ -27,7 +27,7 @@ public class MessagesTest extends TestCase
 	//org.eclipse.birt.chart.device.extension
 	public void testDeviceGetString( )
 	{
-		assertEquals("Message:", org.eclipse.birt.chart.device.extension.i18n.Messages.getString( "message.caption", new ULocale("en") ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		assertEquals("Message:", org.eclipse.birt.chart.device.extension.i18n.Messages.getString( "JavaxImageIOWriter.message.caption", new ULocale("en") ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		assertEquals("!chart!", org.eclipse.birt.chart.device.extension.i18n.Messages.getString( "chart", new ULocale("en") ) ); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 	}
 	
@@ -43,12 +43,5 @@ public class MessagesTest extends TestCase
 	{
 		assertEquals("Empty dataset found", org.eclipse.birt.chart.engine.extension.i18n.Messages.getString( "exception.empty.dataset", new ULocale("en") ) );//$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 		assertEquals("!chart!", org.eclipse.birt.chart.engine.extension.i18n.Messages.getString( "chart", new ULocale("en") ) );//$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
-	}
-	
-	//org.eclipse.birt.chart.reportitem
-	public void testItemGetString( )
-	{
-		assertEquals("Value", org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "ChartDataBindingPage.Lbl.Value" ) );//$NON-NLS-1$//$NON-NLS-2$
-		assertEquals("!chart!", org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "chart") );//$NON-NLS-1$//$NON-NLS-2$
 	}
 }

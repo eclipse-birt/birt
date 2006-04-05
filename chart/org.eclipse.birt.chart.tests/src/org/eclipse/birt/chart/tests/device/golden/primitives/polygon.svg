@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="533.0" height="333.0"><g style="fill:none;stroke:none"><defs/><script><![CDATA[function BuildHelper(tag, attrList, text) {
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="533.0" height="333.0"><g id="outerG" style="fill:none;stroke:none"><defs/><script><![CDATA[function BuildHelper(tag, attrList, text) {
 	this.tag = tag;
 	this.attrList = attrList;
 	this.text       = text;
@@ -71,42 +71,82 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 	}	
 	}	
 		
-	TM.show = function TooltiplManager_showTooltip(evt){	
-	var text = TM.getText(TM.getTitleElement(evt));	
-	x = evt.clientX;	
-	y = evt.clientY;	
-	if (typeof this.group == 'undefined'){	
-	this.height = 15;	
-	this.xPadding = 5;	
-	   this.yPadding = -20;
-	   var mainSvg = evt.target.ownerDocument.documentElement;
-	   var off = mainSvg.currentTranslate;
-	   var scl = mainSvg.currentScale;
-	   this.group = new BuildHelper("g",
-	     {
-	     transform:"translate("+(((x+20))/scl)+","+(((y+20))/scl)+")"
-	 } );
-	   this.group.addToParent(mainSvg);
-	   this.rectangle = new BuildHelper("rect",
-	     {id:"test",
-	      x: 0,
-	      y: this.yPadding,
-	      height: this.height,
-	      classType: "tooltip"
-	 } );
-	   this.rectangle.addToParent(this.group.element);
-	   var textObj = new BuildHelper("text",
-	     {id:"tooltip",
-	      x: this.xPadding,
-	      y: (this.height/2+4+this.yPadding),
-	      classType: "tooltip text"
-	 },text);
-	   textObj.addToParent(this.group.element);
-	   var itemlength = textObj.element.getComputedTextLength();
-	   this.rectangle.element.setAttributeNS(null, "width", (itemlength+2*this.xPadding));
-	  }
-	}
-		
+			TM.show = function TooltiplManager_showTooltip(evt){	
+		var text = TM.getText(TM.getTitleElement(evt));	
+		x = evt.clientX;	
+		y = evt.clientY;	
+		update = true;
+	    if (this.oldX != 'undefined'){
+	      diffX = (x - this.oldX);
+	      if (diffX < 0) diffX= diffX*(-1);
+	      diffY = (y - this.oldY);
+	      if (diffY < 0) diffY= diffY*(-1);
+	      if ((diffY > 5) || (diffX > 5))
+	        update = true;
+	    }
+	    if (update)
+	       TM.remove();			
+		if (typeof this.group == 'undefined'){	
+	           this.oldX = x;
+	           this.oldY = y;		
+	   	   this.height = 15;	
+	 	   this.xPadding = 5;	
+		   this.yPadding = 20;
+		   var mainSvg = evt.target.ownerDocument.documentElement;
+		   var off = mainSvg.currentTranslate;
+		   var scl = mainSvg.currentScale;
+	           var adjustedX = (x-off.x)/scl;
+	           var adjustedY = (y-off.y)/scl;
+		   this.group = new BuildHelper("g",
+		     {
+	             opacity:0.8,
+	  	     display: "inline",
+		     transform:"translate("+(adjustedX + (10/scl))+","+(adjustedY + (10/scl))+")"
+		 } );
+		   this.group.addToParent(mainSvg);
+		   this.rectangle = new BuildHelper("rect",
+		     {id:"test",
+		      x: 0,
+		      y: 5,
+		      transform:"scale("+(1/scl)+","+(1/scl)+")",
+	              rx: 2,
+	              ry: 2,
+	              stroke: "black",
+		      height: this.height,
+		      classType: "tooltip"
+		 } );
+		   this.rectangle.addToParent(this.group.element);
+		   var textObj = new BuildHelper("text",
+		     {id:"tooltip",
+		      x: this.xPadding,
+		      y: (this.yPadding),
+		      transform:"scale("+(1/scl)+","+(1/scl)+")",
+		      classType: "tooltip text"
+		 });
+		   textObj.addToParent(this.group.element);
+	           TM.setContent(textObj, text);
+	           var outline = textObj.element.getBBox();
+		   this.rectangle.element.setAttributeNS(null, "width", (outline.width+2*this.xPadding));
+		   this.rectangle.element.setAttributeNS(null, "height", (outline.height+6));
+		  }
+		}
+		TM.setContent = function TooltipManager_setContent(textElement, text){
+		    var multiLine = text.split(/\\n/);
+		    for (var x=0; x<multiLine.length; x++){
+			if (x == 0){
+	 	         textObj = new BuildHelper("tspan",
+	   	             {x: 5
+		             },multiLine[x]);
+	                 }
+	                 else{
+	 	         textObj = new BuildHelper("tspan",
+	   	             {x: 5,
+	                      dy:17
+		             },multiLine[x]);
+	                 }
+		      textObj.addToParent(textElement.element);
+	            }
+	        }
 		
 	TM.getTitleElement = function TM_getTitleElement(evt){
 	    var elem = evt.currentTarget;
@@ -126,15 +166,18 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 		  return childs.item(x).nodeValue;
 	   return "";
 	}
-	        function toggleVisibility(evt, id, compList){
+	        function toggleLabelsVisibility(evt, id, compList, labelList){
        var mainSvg = evt.target.ownerDocument;
     for (i = 0; i < compList.length; i=i+1){
          var comp = mainSvg.getElementById(id+'_'+compList[i]);
+         if ( comp == null ) continue;
          var styleStr = comp.getAttribute("style");
-        rVisibleExp=/visibility:visible/g;
-        rHiddenExp=/visibility:hidden/g;
+        rVisibleExp=/visibility:[ ]*visible/g;
+        rInheritExp=/visibility:[ ]*inherit/g;
+        rHiddenExp=/visibility:[ ]*hidden/g;
         results = styleStr.search(rVisibleExp);
-        if (results == -1){
+        inResults = styleStr.search(rInheritExp);
+        if ((results == -1) && (inResults == -1)){
            results = styleStr.search(rHiddenExp);
             if (results == -1)
                 styleStr = styleStr + "visibility:hidden;";
@@ -142,10 +185,74 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
                 styleStr = styleStr.replace(rHiddenExp,"visibility:visible");
          }
          else{
+         if (inResults == -1){
+                styleStr = styleStr.replace(rVisibleExp,"visibility:hidden");
+         }else{
+                styleStr = styleStr.replace(rInheritExp,"visibility:hidden");
+         }
+         }
+         comp.setAttributeNS(null, "style", styleStr);
+     }
+	}
+	        function toggleVisibility(evt, id, compList, labelList){
+       var mainSvg = evt.target.ownerDocument;
+       var isHidden = true;
+    for (i = 0; i < compList.length; i=i+1){
+         var comp = mainSvg.getElementById(id+'_'+compList[i]);
+         if ( comp == null ) continue;
+         var styleStr = comp.getAttribute("style");
+        rVisibleExp=/visibility:[ ]*visible/g;
+        rHiddenExp=/visibility:[ ]*hidden/g;
+        results = styleStr.search(rVisibleExp);
+        if (results == -1){
+           results = styleStr.search(rHiddenExp);
+            if (results == -1)
+                styleStr = styleStr + "visibility:hidden;";
+            else{
+                styleStr = styleStr.replace(rHiddenExp,"visibility:visible");
+                isHidden = false;
+         }
+         }
+         else{
                 styleStr = styleStr.replace(rVisibleExp,"visibility:hidden");
          }
          comp.setAttributeNS(null, "style", styleStr);
      }
+        if (labelList != null){
+    for (i = 0; i < labelList.length; i=i+1){
+         var comp = mainSvg.getElementById(id+'_'+labelList[i]+'_g');
+         var styleStr = comp.getAttribute("style");
+        if (isHidden){
+                styleStr = styleStr + "visibility:hidden;";
+         toggleLabelVisibility(evt, id+'_'+labelList[i], 'inherit');
+            }else{
+                styleStr = styleStr.replace(rHiddenExp,"visibility:visible");
+         }
+         comp.setAttributeNS(null, "style", styleStr);
+     }
+     }
+     }			
+        function toggleLabelVisibility(evt, id, property){
+	      var mainSvg = evt.target.ownerDocument;
+	        var comp = mainSvg.getElementById(id);
+	        var styleStr = comp.getAttribute("style");
+	       rVisibleExp=/visibility:[ ]*visible/g;
+	       rInheritExp=/visibility:[ ]*inherit/g;
+	       rHiddenExp=/visibility:[ ]*hidden/g;
+	       results = styleStr.search(rVisibleExp);
+	       inResults = styleStr.search(rInheritExp);
+	       if ((results == -1) && (inResults == -1)){
+	          results = styleStr.search(rHiddenExp);
+	           if (results == -1)
+	               styleStr = styleStr + "visibility:"+property+";";
+	        }
+	        else{
+	            if (inResults == -1)
+	               styleStr = styleStr.replace(rVisibleExp,"visibility:"+property);
+        else
+            styleStr = styleStr.replace(rInheritExp,"visibility:"+property);
+     }
+     comp.setAttributeNS(null, "style", styleStr);
      }			
    		function toHex(val)
 	{
@@ -162,51 +269,104 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 	}		
 	var oldCompId = null;
 	var oldCompList = null;
+    var fillToColor = new Array(); 
+    var strokeToColor = new Array();	
    function highlight(evt, id, compList){
-       highlightElement(evt, oldCompId, oldCompList);
+       highlightElement(evt, oldCompId, oldCompList, false);
        if (id != oldCompId){
-           highlightElement(evt, id, compList);
+           highlightElement(evt, id, compList, true);
            oldCompId = id;
           oldCompList = compList;
         }
         else{
            oldCompId = null;
            oldCompList = null;
+       	fillToColor = new Array();
+      strokeToColor = new Array();
         }
      }
-    	function highlightElement(evt, id, compList){
+    	function highlightElement(evt, id, compList, highlight){
 		   if ((id == null) || (compList == null)) return;
 	       var mainSvg = evt.target.ownerDocument;
 	    for (i = 0; i < compList.length; i=i+1){
 	    var comp = mainSvg.getElementById(id+'_'+compList[i]);
+         if ( comp == null ) continue;
 	    var styleStr = comp.getAttribute("style");
 		   fillIndex = styleStr.search("fill:");
 		   if (fillIndex != -1){
-	              styleStr = getNewStyle(styleStr, fillIndex, "fill:");
+	              styleStr = getNewStyle(styleStr, fillIndex, "fill:", highlight, fillToColor, compList[i]);
 		   }
 		   strokeIndex = styleStr.search("stroke:");
 		   if (strokeIndex != -1){
-	              styleStr = getNewStyle(styleStr, strokeIndex, "stroke:");
+	              styleStr = getNewStyle(styleStr, strokeIndex, "stroke:", highlight, strokeToColor, compList[i]);
 		   }
 	   comp.setAttributeNS(null, "style", styleStr);
 	     }
 	     }
-	function getNewStyle(style, index, styleAttr){
+	function getNewStyle(style, index, styleAttr, highlight, lookUpTable, id){
 	     color = style.substring(index+styleAttr.length, style.length );
 	     rgbIndex = color.search("rgb");
 	     if (rgbIndex == -1){
 	        hexColor = color.substring(1, 7);
-	        hc = getXorColor(hexColor);
+	        hc = getHighlight(hexColor, highlight, lookUpTable, id);
 	        return style.replace(styleAttr+"#"+hexColor,styleAttr+hc);
 	     }
 	     else{
 	        bracketIndex = color.search("\\)");
 	        color = color.substring(0, bracketIndex);
 	        hexColor = getHexFromRGB(color);
-	        hc = getXorColor(hexColor);
+	        hc = getHighlight(hexColor, highlight, lookUpTable, id);
 	        return style.substring(0, index) + styleAttr+hc+ style.substring(index+bracketIndex+styleAttr.length+1, style.length);
 	   }    
 	}
+	function isIE(){
+   var agt=parent.navigator.userAgent.toLowerCase();
+   return (agt.indexOf("msie")!=-1);
+}  
+	function resizeSVG(e){
+    if(isIE()){
+       var root=e.target.ownerDocument.documentElement;
+       var hotSpot = e.target.ownerDocument.getElementById('hotSpots');
+       var g = e.target.ownerDocument.getElementById('outerG');
+       var xScale = (innerWidth) / root.getAttribute('width');
+       var yScale = (innerHeight) / root.getAttribute('height');
+       g.setAttributeNS(null, 'transform', 'scale('+xScale+','+yScale+')');
+       hotSpot.setAttributeNS(null, 'transform', 'scale('+xScale+','+yScale+')');
+     }
+  }
+        function getHighlight(color, highlight, lookupTable, id){
+        if (!(highlight)){
+            color = lookupTable[id];
+        }
+        else{
+            lookupTable[id] = color;
+        }
+        r = color.substring(0, 2);
+        r = parseInt(r, 16);
+        g = color.substring(2, 4);
+        g = parseInt(g, 16);
+        b = color.substring(4, 6);
+        b = parseInt(b, 16);
+    var value = parseInt(r, 16);
+        if (highlight){
+           r = Math.ceil( (r + 255) / 2 );
+           g = Math.ceil( (g + 255) / 2 );
+           b = Math.ceil( (b + 255) / 2 );
+        }
+        rStr = r.toString(16);
+        gStr = g.toString(16);
+    bStr = b.toString(16);
+    while (rStr.length < 2){
+        rStr = "0"+rStr;
+    }
+    while (gStr.length < 2){
+        gStr = "0"+gStr;
+    }
+    while (bStr.length < 2){
+        bStr = "0"+bStr;
+    }
+return "#"+rStr+gStr+bStr;
+}
 	function getHexFromRGB(color){
 	        findThem = /\d{1,3}/g;
 	        listOfnum = color.match(findThem);
@@ -224,4 +384,4 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 	        }
 		return r+g+b;
 	}
-]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M5.0 5.0 L45.0 45.0 L5.0 45.0 L45.0 5.0 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M45.0 5.0 L85.0 45.0 L45.0 45.0 L85.0 5.0 Z" style="fill-opacity:1.0;fill:#df0a37;"/><path d=" M182.0 58.0 L232.0 93.0 L182.0 127.0 L182.0 96.0 L127.0 96.0 L83.0 128.0 L26.0 128.0 L75.0 93.0 L26.0 58.0 L83.0 58.0 L127.0 89.0 L182.0 89.0 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M182.0 58.0 L232.0 93.0 L182.0 127.0 L182.0 96.0 L127.0 96.0 L83.0 128.0 L26.0 128.0 L75.0 93.0 L26.0 58.0 L83.0 58.0 L127.0 89.0 L182.0 89.0 Z" style="fill-opacity:0.4117647058823529;fill:#170a37;"/></g><g style="fill-opacity:0.01;fill:#FFFFFF;"/></svg>
+]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M5.0 5.0 L45.0 45.0 L5.0 45.0 L45.0 5.0 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M45.0 5.0 L85.0 45.0 L45.0 45.0 L85.0 5.0 Z" style="fill-opacity:1.0;fill:#df0a37;"/><path d=" M182.0 58.0 L232.0 93.0 L182.0 127.0 L182.0 96.0 L127.0 96.0 L83.0 128.0 L26.0 128.0 L75.0 93.0 L26.0 58.0 L83.0 58.0 L127.0 89.0 L182.0 89.0 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M182.0 58.0 L232.0 93.0 L182.0 127.0 L182.0 96.0 L127.0 96.0 L83.0 128.0 L26.0 128.0 L75.0 93.0 L26.0 58.0 L83.0 58.0 L127.0 89.0 L182.0 89.0 Z" style="fill-opacity:0.4117647058823529;fill:#170a37;"/></g><g id="hotSpots" style="fill-opacity:0.01;fill:#FFFFFF;"/></svg>
