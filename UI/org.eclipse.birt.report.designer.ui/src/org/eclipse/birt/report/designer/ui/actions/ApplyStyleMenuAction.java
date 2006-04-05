@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ApplyStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
@@ -58,10 +59,10 @@ public class ApplyStyleMenuAction extends MenuUpdateAction
 		reset.setSelection( getSelection( ) );
 		reset.setChecked( currentStyle == null );
 		actionList.add( reset );
-		actionList.add( null );//Adds separator
+		actionList.add( null );// Adds separator
 
-		Iterator iterator = DEUtil.getStyles();
-		if(iterator!=null)
+		Iterator iterator = DEUtil.getStyles( );
+		if ( iterator != null )
 		{
 			while ( iterator.hasNext( ) )
 			{
@@ -80,17 +81,20 @@ public class ApplyStyleMenuAction extends MenuUpdateAction
 
 	private StyleHandle getStyleHandle( )
 	{
-		IStructuredSelection selection = InsertInLayoutUtil.editPart2Model( getSelection( ) );
+		IStructuredSelection selection = InsertInLayoutUtil
+				.editPart2Model( getSelection( ) );
 		if ( !selection.isEmpty( )
 				&& selection.getFirstElement( ) instanceof DesignElementHandle )
 		{
-			if((DesignElementHandle) selection.getFirstElement( ) instanceof RowHandle)
+			if ( selection.getFirstElement( ) instanceof RowHandle
+					|| selection.getFirstElement( ) instanceof ColumnHandle )
 			{
-				selection = InsertInLayoutUtil.editPart2Model(TableUtil.filletCellInSelectionEditorpart(getSelection( )) );
+				selection = InsertInLayoutUtil.editPart2Model( TableUtil
+						.filletCellInSelectionEditorpart( getSelection( ) ) );
 			}
-			
-			
-			SharedStyleHandle style = ( (DesignElementHandle) selection.getFirstElement( ) ).getStyle( );
+
+			SharedStyleHandle style = ( (DesignElementHandle) selection
+					.getFirstElement( ) ).getStyle( );
 			for ( Iterator iterator = selection.iterator( ); iterator.hasNext( ); )
 			{
 				Object obj = iterator.next( );
