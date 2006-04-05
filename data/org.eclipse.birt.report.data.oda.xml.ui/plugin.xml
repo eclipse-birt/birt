@@ -58,9 +58,11 @@
                pageTitle="%wizard.data.source.page.title"
                windowTitle="%wizard.window.title"/>
       </dataSourceUI>
-      <dataSetUI id="org.eclipse.birt.report.data.oda.xml.dataSet"
-                 initialPageId="org.eclipse.datatools.connectivity.oda.design.ui1"
-                 hasParameterDefinition="false">
+      <dataSetUI
+            id="org.eclipse.birt.report.data.oda.xml.dataSet"
+            initialPageId="org.eclipse.datatools.connectivity.oda.design.ui1"
+            supportsInParameters="false"
+            supportsOutParameters="false">
             <dataSetWizard class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizard"/>
             <dataSetPage
                   id="org.eclipse.datatools.connectivity.oda.design.ui1"
