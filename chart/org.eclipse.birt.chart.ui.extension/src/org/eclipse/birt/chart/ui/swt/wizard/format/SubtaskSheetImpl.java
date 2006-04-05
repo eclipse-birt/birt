@@ -27,8 +27,6 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.GC;
@@ -45,11 +43,7 @@ import org.eclipse.swt.widgets.Widget;
  * @author Actuate Corporation
  * 
  */
-public class SubtaskSheetImpl
-		implements
-			ISubtaskSheet,
-			DisposeListener,
-			ShellListener
+public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 {
 
 	private transient String sNodePath = ""; //$NON-NLS-1$
@@ -70,6 +64,8 @@ public class SubtaskSheetImpl
 
 	private static boolean POPUP_ATTACHING = false;
 
+	private static boolean POPUP_CLOSING_BY_USER = true;
+
 	private transient Map popupButtonRegistry = new HashMap( 5 );
 
 	private transient Map popupSheetRegistry = new HashMap( 5 );
@@ -79,17 +75,6 @@ public class SubtaskSheetImpl
 	public SubtaskSheetImpl( )
 	{
 		super( );
-	}
-
-	/**
-	 * 
-	 */
-	public SubtaskSheetImpl( String sNodePath, String sIdentifier )
-	{
-		// if ( sNodePath != null )
-		// {
-		// this.sNodePath = sNodePath;
-		// }
 	}
 
 	/*
@@ -104,7 +89,11 @@ public class SubtaskSheetImpl
 
 	public Object onHide( )
 	{
+		// No need to clear popup selection because it's closed automatically
+		POPUP_CLOSING_BY_USER = false;
 		detachPopup( );
+		POPUP_CLOSING_BY_USER = true;
+
 		cmpContent.dispose( );
 		popupButtonRegistry.clear( );
 		popupSheetRegistry.clear( );
@@ -187,7 +176,6 @@ public class SubtaskSheetImpl
 	{
 		POPUP_ATTACHING = true;
 		Shell shell = getWizard( ).createPopupContainer( );
-		shell.addDisposeListener( this );
 		shell.addShellListener( this );
 		shell.setImage( UIHelper.getImage( "icons/obj16/chartbuilder.gif" ) ); //$NON-NLS-1$
 		POPUP_ATTACHING = false;
@@ -230,23 +218,12 @@ public class SubtaskSheetImpl
 		Iterator buttons = popupButtonRegistry.values( ).iterator( );
 		while ( buttons.hasNext( ) )
 		{
-			if ( ( (Button) buttons.next( ) ).equals( widget ) )
+			if ( buttons.next( ).equals( widget ) )
 			{
 				return true;
 			}
 		}
 		return false;
-	}
-
-	public void widgetDisposed( DisposeEvent e )
-	{
-		if ( e.widget.equals( popupShell ) )
-		{
-			if ( !POPUP_ATTACHING )
-			{
-				selectAllButtons( false );
-			}
-		}
 	}
 
 	protected void refreshPopupSheet( )
@@ -357,6 +334,21 @@ public class SubtaskSheetImpl
 		{
 			// Focus saving the text by focus out
 			focusControl.notifyListeners( SWT.FocusOut, null );
+		}
+
+		if ( e.widget.equals( popupShell ) )
+		{
+			if ( !POPUP_ATTACHING )
+			{
+				selectAllButtons( false );
+			}
+
+			if ( POPUP_CLOSING_BY_USER )
+			{
+				// Clear selection if user closed the popup.
+				lastPopup = null;
+				getParentTask( ).setPopupSelection( null );
+			}
 		}
 	}
 
