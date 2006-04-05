@@ -49,7 +49,7 @@ public final class ExpressionUtil
 	 * @param oldExpression
 	 * @return
 	 */	
-	public static String translateOldExpression( String oldExpression )
+	public static String toNewExpression( String oldExpression )
 	{
 		if( oldExpression == null )
 			return null;
@@ -119,7 +119,7 @@ public final class ExpressionUtil
 							if(chars[i] == ' '||chars[i] == '.'||chars[i]=='[')
 							{
 								String firstPart = oldExpression.substring( 0, i-retrieveSize-3 );
-								String secondPart = translateOldExpression( oldExpression.substring( i-retrieveSize ));
+								String secondPart = toNewExpression( oldExpression.substring( i-retrieveSize ));
 								return firstPart+"dataSetRow"+ secondPart;
 							}
 						}
