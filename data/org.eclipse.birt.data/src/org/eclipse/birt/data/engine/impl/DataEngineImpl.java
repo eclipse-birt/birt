@@ -406,6 +406,10 @@ public class DataEngineImpl extends DataEngine
 		if ( querySpec == null )
 			return;
 		
+		String queryResultID = querySpec.getQueryResultsID( );
+		if ( queryResultID != null )
+			return;
+		
 		String dataSetName = querySpec.getDataSetName( );
 		IBaseDataSetDesign dataSetDesign = this.getDataSetDesign( dataSetName );
 		
