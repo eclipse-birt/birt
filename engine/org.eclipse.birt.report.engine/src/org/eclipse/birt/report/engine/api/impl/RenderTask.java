@@ -28,8 +28,8 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.document.ReportContentLoader;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
-import org.eclipse.birt.report.engine.presentation.ReportContentLoader;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
@@ -55,11 +55,12 @@ public class RenderTask extends EngineTask implements IRenderTask
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
 
+		// open the report document
+		openReportDocument( reportDoc );
+		
 		// load report design
 		loadDesign( );
 
-		// open the report document
-		openReportDocument( reportDoc );
 		innerRender = new PageRangeRender( new long[]{1, this.reportDoc.getPageCount( )} );
 	}
 
@@ -76,7 +77,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	protected void closeReportDocument( )
 	{
-		reportDoc.close( );
+		//the report document is shared by mutiple render task, 
+		//it is open by the caller, it should be closed by the caller.
+		//reportDoc.close( );
 	}
 
 	/*
@@ -232,6 +235,43 @@ public class RenderTask extends EngineTask implements IRenderTask
 			throw err;
 		}
 	}
+	
+	/**
+	 * @param pageNumber
+	 *            the page to be rendered
+	 * @throws EngineException
+	 *             throws exception if there is a rendering error
+	 */
+	protected void doRender( InstanceID iid) throws EngineException
+	{
+		try
+		{
+			long offset = reportDoc.getInstanceOffset( iid );
+			if (offset != -1)
+			{
+				// start the render
+				ReportContentLoader loader = new ReportContentLoader(
+						executionContext );
+				ReportExecutor executor = new ReportExecutor( executionContext );
+				executionContext.setExecutor( executor );
+				IContentEmitter emitter = createContentEmitter( executor );
+				startRender( );
+				loader.loadReportlet(offset, emitter );
+				closeRender( );
+			}
+		}
+		catch ( Exception ex )
+		{
+			log.log( Level.SEVERE,
+					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
+		}
+		catch ( OutOfMemoryError err )
+		{
+			log.log( Level.SEVERE,
+					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
+			throw err;
+		}
+	}	
 
 	/*
 	 * (non-Javadoc)
@@ -407,7 +447,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	public void setInstanceID( InstanceID iid ) throws EngineException
 	{
 		//TODO: replace the default implementation.
-		innerRender = new PageRangeRender( new long[]{1, this.reportDoc.getPageCount( )} );
+		innerRender = new ReportletRender( iid );
 	}
 
 	/* (non-Javadoc)
@@ -474,6 +514,20 @@ public class RenderTask extends EngineTask implements IRenderTask
 		public void render( ) throws EngineException
 		{
 			RenderTask.this.doRender( pageRange );
+		}
+	}
+	
+	private class ReportletRender implements InnerRender
+	{
+		private InstanceID iid;
+		ReportletRender(InstanceID iid)
+		{
+			this.iid = iid;
+		}
+		
+		public void render( ) throws EngineException
+		{
+			RenderTask.this.doRender( iid );
 		}
 	}
 }

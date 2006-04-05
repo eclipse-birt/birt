@@ -12,5 +12,5 @@ public interface IPageHandler
 	 * @param checkpoint whether the page indexed by pageNumber is ready for 
 	 * viewing
 	 */
-	public void onPage( int pageNumber, boolean checkpoint );
+	public void onPage( int pageNumber, boolean checkpoint, IReportDocumentInfo doc );
 }

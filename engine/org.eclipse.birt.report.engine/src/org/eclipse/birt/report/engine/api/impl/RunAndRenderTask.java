@@ -26,7 +26,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.presentation.DefaultPaginationEmitter;
+import org.eclipse.birt.report.engine.presentation.HTMLPaginationBuilder;
 import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -132,13 +132,10 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			}
 			if ( paginate )
 			{
-				emitter = new HTMLPaginationEmitter( executor, null, emitter );
+				HTMLPaginationBuilder paginationBuilder = new HTMLPaginationBuilder(executor);
+				paginationBuilder.setOutputEmitter( emitter );
+				emitter = paginationBuilder.getInputEmitter( );
 			}
-		}
-		else if ( format.equalsIgnoreCase( "fo" ) //$NON-NLS-1$
-				|| format.equalsIgnoreCase( "fop" ) ) //$NON-NLS-1$
-		{
-			emitter = new DefaultPaginationEmitter( executor, null, emitter );
 		}
 
 		// emitter is not null

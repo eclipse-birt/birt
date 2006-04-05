@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * the content of report document.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/12/07 07:21:33 $
+ * @version $Revision: 1.5 $ $Date: 2006/01/11 06:29:04 $
  */
 public interface IContent extends IElement, CSSStylableElement
 {
@@ -41,13 +41,51 @@ public interface IContent extends IElement, CSSStylableElement
 	final static int TABLE_CONTENT = 10;
 	final static int TEXT_CONTENT = 11;	
 
+	/**
+	 * the content type, must be one of the predefines.
+	 * @return
+	 */
 	int getContentType();
+
+	/**
+	 * get the instance id of the content.
+	 * the instance id is the unique id of the content.
+	 * @return
+	 */
 	InstanceID getInstanceID();
 	
+	/**
+	 * set the instace id of the content.
+	 * the instance id can only be set by the content
+	 * generator.
+	 * @param id
+	 */
 	void setInstanceID(InstanceID id);
 	
+	/**
+	 * if the report is saved into the report document,
+	 * return the offset of that content.
+	 * It may be -1 if it was not saved.
+	 * @return
+	 */
+	long getOffset();
+	/**
+	 * the offset can only be setted by the content writer
+	 * or content loader
+	 * @param offset
+	 */
+	void setOffset(long offset);
+	
+	/**
+	 * return the report which contains/create this content.
+	 * @return
+	 */
 	IReportContent getReportContent( );
 	
+	/**
+	 * set the report content.
+	 * @param report
+	 */
 	void setReportContent(IReportContent report);
 
 	/**

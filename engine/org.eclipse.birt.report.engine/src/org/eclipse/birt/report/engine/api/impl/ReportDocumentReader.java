@@ -29,8 +29,12 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
-import org.eclipse.birt.report.engine.presentation.PageHint;
+import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
+import org.eclipse.birt.report.engine.internal.document.v1.PageHintReaderV1;
+import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
+import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 
 public class ReportDocumentReader
@@ -42,6 +46,7 @@ public class ReportDocumentReader
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
 
+	private String version;
 	private IReportEngine engine;
 	private IDocArchiveReader archive;
 	private String designName;
@@ -49,13 +54,15 @@ public class ReportDocumentReader
 	private HashMap parameters;
 	private HashMap globalVariables;
 	private HashMap bookmarks;
-	private List pageHints;
+	private IPageHintReader pageHintReader;
 	/** root TOC, id is "/" */
 	private TOCNode tocRoot;
 	/** tocId, TOCNode map */
 	private HashMap tocMapByID;
 	/** Map from TOC name to a list of TOCNodes */
 	private HashMap tocMapByName;
+	/** Map from the id to offset */
+	private HashMap reportlets;
 
 	public ReportDocumentReader( IReportEngine engine, IDocArchiveReader archive )
 	{
@@ -75,6 +82,11 @@ public class ReportDocumentReader
 	public IDocArchiveReader getArchive( )
 	{
 		return this.archive;
+	}
+
+	public String getVersion( )
+	{
+		return version;
 	}
 
 	protected void loadCoreStream( ) throws Exception
@@ -107,9 +119,10 @@ public class ReportDocumentReader
 	protected void checkVersion( DataInputStream di ) throws IOException
 	{
 		String tag = IOUtil.readString( di );
-		String version = IOUtil.readString( di );
+		version = IOUtil.readString( di );
 		if ( !REPORT_DOCUMENT_TAG.equals( tag )
-				|| !REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) )
+				|| !( REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) || REPORT_DOCUMENT_VERSION_1_2_1
+						.equals( version ) ) )
 		{
 			logger
 					.log(
@@ -122,6 +135,11 @@ public class ReportDocumentReader
 	{
 		try
 		{
+			if ( pageHintReader != null )
+			{
+				pageHintReader.close( );
+			}
+			pageHintReader = null;
 			archive.close( );
 		}
 		catch ( IOException e )
@@ -154,7 +172,6 @@ public class ReportDocumentReader
 				try
 				{
 					reportRunnable = engine.openReportDesign( name, stream );
-
 				}
 				catch ( Exception ex )
 				{
@@ -184,27 +201,20 @@ public class ReportDocumentReader
 
 	public long getPageCount( )
 	{
-		if ( pageHints == null )
+		if ( pageHintReader == null )
 		{
-			loadPageHintStream( );
+			createPageHintReader( );
 		}
-		return pageHints.size( );
+		return pageHintReader.getTotalPage( );
 	}
 
-	public PageHint getPageHint( long pageNumber )
+	public IPageHint getPageHint( long pageNumber )
 	{
-		if ( pageHints == null )
+		if ( pageHintReader == null )
 		{
-			loadPageHintStream( );
+			createPageHintReader( );
 		}
-		if ( pageHints != null )
-		{
-			if ( pageNumber >= 1 && pageNumber <= pageHints.size( ) )
-			{
-				return (PageHint) pageHints.get( (int) ( pageNumber - 1 ) );
-			}
-		}
-		return null;
+		return pageHintReader.getPageHint( pageNumber );
 	}
 
 	/*
@@ -427,40 +437,28 @@ public class ReportDocumentReader
 		}
 	}
 
-	private void loadPageHintStream( )
+	private void createPageHintReader( )
 	{
-		RAInputStream in = null;
+		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) )
+		{
+			pageHintReader = new PageHintReaderV1( this );
+		}
+		else
+		{
+			pageHintReader = new PageHintReaderV2( this );
+		}
 		try
 		{
-			pageHints = new ArrayList( );
-			in = archive.getStream( PAGEHINT_STREAM );
-			DataInputStream di = new DataInputStream( new BufferedInputStream(
-					in ) );
-			long pageCount = IOUtil.readLong( di );
-			for ( long i = 0; i < pageCount; i++ )
-			{
-				PageHint hint = new PageHint( );
-				hint.readObject( di );
-				pageHints.add( hint );
-			}
-			in.close( );
+			pageHintReader.open( );
 		}
-		catch ( Exception ex )
+		catch ( IOException ex )
 		{
-			logger.log( Level.SEVERE, "Failed to load the page hints", ex ); //$NON-NLS-1$
-		}
-		finally
-		{
-			if ( in != null )
+			logger.log( Level.SEVERE, "can't open the page hint stream", ex );
+			if ( pageHintReader != null )
 			{
-				try
-				{
-					in.close( );
-				}
-				catch ( Exception ex )
-				{
-				};
+				pageHintReader.close( );
 			}
+			pageHintReader = null;
 		}
 	}
 
@@ -487,6 +485,81 @@ public class ReportDocumentReader
 	public Map getGlobalVariables( String option )
 	{
 		return globalVariables;
+	}
+
+	public long getPageNumber( InstanceID iid )
+	{
+		// version 1.0.0 don't support this feature
+		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) )
+		{
+			return -1;
+		}
+		long offset = getInstanceOffset( iid );
+		if ( offset != -1 )
+		{
+			if ( pageHintReader == null )
+			{
+				createPageHintReader( );
+			}
+			return pageHintReader.findPage( offset );
+		}
+		return -1;
+	}
+
+	public long getInstanceOffset( InstanceID iid )
+	{
+		// version 1.0.0 don't support this feature
+		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) )
+		{
+			return -1;
+		}
+		if ( reportlets == null )
+		{
+			loadReportletStream( );
+		}
+		Long offset = (Long) reportlets.get( iid.toString( ) );
+		if ( offset != null )
+		{
+			return offset.longValue( );
+		}
+		return -1;
+	}
+
+	private void loadReportletStream( )
+	{
+		RAInputStream in = null;
+		try
+		{
+			reportlets = new HashMap( );
+			in = archive.getStream( REPORTLET_STREAM );
+			DataInputStream di = new DataInputStream( new BufferedInputStream(
+					in ) );
+			long count = IOUtil.readLong( di );
+			for ( long i = 0; i < count; i++ )
+			{
+				String instance = IOUtil.readString( di );
+				long offset = IOUtil.readLong( di );
+				reportlets.put( instance, new Long( offset ) );
+			}
+			in.close( );
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE, "Failed to load the reportlet stream", ex ); //$NON-NLS-1$
+		}
+		finally
+		{
+			if ( in != null )
+			{
+				try
+				{
+					in.close( );
+				}
+				catch ( Exception ex )
+				{
+				};
+			}
+		}
 	}
 
 }

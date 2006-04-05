@@ -70,6 +70,8 @@ abstract public class AbstractContent extends AbstractElement
 	protected InstanceID instanceId;
 
 	protected String toc;
+	
+	transient protected long offset = -1;
 
 	public AbstractContent( IReportContent report )
 	{
@@ -364,6 +366,15 @@ abstract public class AbstractContent extends AbstractElement
 		return toc;
 	}
 
+	public long getOffset()
+	{
+		return offset;
+	}
+	
+	public void setOffset(long offset)
+	{
+		this.offset = offset;
+	}
 	/**
 	 * object document version
 	 */

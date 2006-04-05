@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.engine.content.IElement;
 
-class AbstractElement implements IElement {
+public class AbstractElement implements IElement {
 
 	final static List EMPTY_CHILDREN_LIST = new ArrayList();
 	transient protected IElement parent;

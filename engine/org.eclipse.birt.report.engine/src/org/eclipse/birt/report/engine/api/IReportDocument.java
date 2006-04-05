@@ -36,6 +36,8 @@ public interface IReportDocument
 	 */
 	public abstract void close();
 
+	public String getVersion();
+	
 	/**
 	 * @return the report document (archive) name
 	 */
@@ -81,8 +83,18 @@ public interface IReportDocument
 	 *            report item instance id
 	 * @return the page number that the instance appears first
 	 */
-	// public abstract long getPageNumber( InstanceID iid );
+	public long getPageNumber( InstanceID iid );
 
+	/**
+	 * Given a report item instance idD, returns the offset of the report content
+	 * (to support Reportlet).
+	 * 
+	 * @param iid
+	 *            report item instance id
+	 * @return the offset in the content stream
+	 */
+	public long getInstanceOffset(InstanceID iid);
+	
 	/**
 	 * Given a bookmark in a report, find the (first) page that the bookmark
 	 * appears in (for hyperlinks to a bookmark)

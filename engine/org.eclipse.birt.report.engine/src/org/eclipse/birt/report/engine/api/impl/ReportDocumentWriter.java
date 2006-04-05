@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.util.DocumentUtil;
 
 /**
  * 
@@ -39,10 +40,9 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			.getName( ) );
 
 	private IDocArchiveWriter archive;
-	private DataOutputStream coreStream;
 	private String designName;
-	private HashMap paramters;
-	private HashMap globalVariables;
+	private HashMap paramters = new HashMap( );
+	private HashMap globalVariables = new HashMap( );
 
 	public ReportDocumentWriter( IDocArchiveWriter archive )
 	{
@@ -50,20 +50,12 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		try
 		{
 			archive.initialize( );
-			RAOutputStream out = archive.createRandomAccessStream( CORE_STREAM );
-			coreStream = new DataOutputStream( new BufferedOutputStream( out ) );
-			writeVersion( );
+			saveCoreStreams( );
 		}
 		catch ( IOException e )
 		{
 			logger.log( Level.SEVERE, "Failed in initializing the archive", e );
 		}
-	}
-
-	protected void writeVersion( ) throws IOException
-	{
-		IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );
-		IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION_1_0_0 );
 	}
 
 	public IDocArchiveWriter getArchive( )
@@ -75,27 +67,8 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	{
 		try
 		{
-			if ( coreStream != null )
-			{
-				try
-				{
-					IOUtil.writeString( coreStream, designName );
-					IOUtil.writeMap( coreStream, paramters );
-					IOUtil.writeMap( coreStream, globalVariables );
-				}
-				finally
-				{
-					try
-					{
-						coreStream.close( );
-					}
-					catch ( Exception ex )
-					{
-					}
-				}
-			}
-			
-			archive.setStreamSorter( new ReportDocumentStreamSorter() );
+			saveCoreStreams( );
+			archive.setStreamSorter( new ReportDocumentStreamSorter( ) );
 			archive.finish( );
 		}
 		catch ( IOException e )
@@ -125,8 +98,8 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		try
 		{
 			out = archive.createRandomAccessStream( TOC_STREAM );
-			DataOutputStream output = new DataOutputStream(out);
-			TOCBuilder.write(node, output );
+			DataOutputStream output = new DataOutputStream( out );
+			TOCBuilder.write( node, output );
 		}
 		catch ( Exception ex )
 		{
@@ -254,7 +227,8 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		try
 		{
 			out = archive.createRandomAccessStream( DESIGN_STREAM );
-			design.serialize( out );
+			DocumentUtil.serialize( design, out );
+			//design.serialize( out );
 			designName = design.getFileName( );
 		}
 		catch ( Exception ex )
@@ -268,7 +242,6 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 				try
 				{
 					out.close( );
-
 				}
 				catch ( Exception ex )
 				{
@@ -294,17 +267,61 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		globalVariables = new HashMap( );
 		globalVariables.putAll( map );
 	}
-	
-	public void saveReportlets(Map map)
+
+	public void saveCoreStreams( )
 	{
-		
+		RAOutputStream out;
+		DataOutputStream coreStream = null;
+		try
+		{
+			out = archive.createRandomAccessStream( CORE_STREAM );
+			coreStream = new DataOutputStream( new BufferedOutputStream( out ) );
+			IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );
+			IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION_1_2_1 );
+			IOUtil.writeString( coreStream, designName );
+			IOUtil.writeMap( coreStream, paramters );
+			IOUtil.writeMap( coreStream, globalVariables );
+		}
+		catch ( IOException ex )
+		{
+			logger.log( Level.SEVERE, "Failed to save the core stream!", ex );
+		}
+		finally
+		{
+			if ( coreStream != null )
+			{
+				try
+				{
+					coreStream.flush( );
+					coreStream.close( );
+				}
+				catch ( Exception ex )
+				{
+				}
+			}
+		}
+	}
+
+	public void saveReportlets( Map map )
+	{
+
 		RAOutputStream out = null;
 		try
 		{
 			out = archive.createRandomAccessStream( REPORTLET_STREAM );
-			DataOutputStream output = new DataOutputStream(out);
-			IOUtil.writeMap(output, map);
-			output.flush();
+			DataOutputStream output = new DataOutputStream( out );
+			IOUtil.writeLong( output, map.size( ) );
+			Iterator iter = map.entrySet( ).iterator( );
+			while (iter.hasNext( ))
+			{
+				Map.Entry entry = (Map.Entry)iter.next( );
+				String instance = (String)entry.getKey( );
+				Long offset = (Long)entry.getValue( );
+				IOUtil.writeString( output, instance);
+				IOUtil.writeLong( output, offset.longValue( ));
+				
+			}
+			output.flush( );
 		}
 		catch ( Exception ex )
 		{

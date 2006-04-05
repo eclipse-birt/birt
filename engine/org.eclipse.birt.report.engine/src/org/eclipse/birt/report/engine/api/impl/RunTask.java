@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -26,12 +25,14 @@ import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
+import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
-import org.eclipse.birt.report.engine.presentation.ReportDocumentEmitter;
+import org.eclipse.birt.report.engine.presentation.CompositePageHandler;
+import org.eclipse.birt.report.engine.presentation.HTMLPaginationBuilder;
+import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -84,9 +85,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			{
 				archive = new FolderArchiveWriter( reportDocName );
 			}
-			else 
+			else
 			{
-			archive = new FileArchiveWriter( reportDocName );
+				archive = new FileArchiveWriter( reportDocName );
 			}
 		}
 		catch ( IOException e )
@@ -147,9 +148,24 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		services.setRenderContext( appContext );
 		services.setReportRunnable( runnable );
 
-		IContentEmitter emitter = new HTMLPaginationEmitter( executor,
-				pageHandler, new ReportDocumentEmitter( writer ) );
+		ReportDocumentBuilder documentBuilder = new ReportDocumentBuilder(
+				writer );
 
+		HTMLPaginationBuilder paginationBuilder = new HTMLPaginationBuilder(
+				executor );
+		paginationBuilder.setOutputEmitter( documentBuilder.getPageEmitter( ) );
+
+		CompositePageHandler pageHandlers = new CompositePageHandler( );
+		pageHandlers.addHandler( documentBuilder.getPageHandler( ) );
+		if ( pageHandler != null )
+		{
+			pageHandlers.addHandler( pageHandler );
+		}
+		paginationBuilder.setPageHandler( pageHandlers );
+
+		CompositeContentEmitter emitter = new CompositeContentEmitter( );
+		emitter.addEmitter( documentBuilder.getContentEmitter( ) );
+		emitter.addEmitter( paginationBuilder.getInputEmitter( ) );
 		// emitter is not null
 		emitter.initialize( services );
 
@@ -179,6 +195,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		openReportDocument( );
 		try
 		{
+			writer.saveDesign( reportDesign );
+			writer.saveParamters( inputValues );
+			
 			ReportExecutor executor = new ReportExecutor( executionContext );
 			executionContext.setExecutor( executor );
 			IContentEmitter emitter = createContentEmitter( executor );
@@ -187,12 +206,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			executor.execute( reportDesign, emitter );
 			executionContext.closeDataEngine( );
 
-			writer.saveDesign( reportDesign );
-			writer.saveParamters( inputValues );
 			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );
 
-			closeReportDocument( );
-			closeFactory( );
 		}
 		catch ( Exception ex )
 		{
@@ -207,6 +222,11 @@ public class RunTask extends AbstractRunTask implements IRunTask
 					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
 			throw err;
 		}
+		finally
+		{
+			closeReportDocument();
+			closeFactory();
+		}
 	}
 
 	public void close( )
@@ -214,16 +234,18 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		super.close( );
 	}
 
-	public void cancel() {
+	public void cancel( )
+	{
 		cancelled = true;
 	}
-	
-	public boolean isCancelled()
+
+	public boolean isCancelled( )
 	{
 		return cancelled;
 	}
 
-	public void run(FolderArchive fArchive) throws EngineException {
+	public void run( FolderArchive fArchive ) throws EngineException
+	{
 		// TODO Auto-generated method stub
 	}
 }

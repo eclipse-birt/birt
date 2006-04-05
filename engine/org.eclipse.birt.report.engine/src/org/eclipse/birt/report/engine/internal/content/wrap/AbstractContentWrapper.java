@@ -1,0 +1,447 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.engine.internal.content.wrap;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.content.IBounds;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.content.IElement;
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
+import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.impl.AbstractElement;
+import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.ir.DimensionType;
+
+abstract public class AbstractContentWrapper extends AbstractElement
+		implements
+			IContent
+{
+
+	protected IContent content;
+
+	public AbstractContentWrapper( IContent content )
+	{
+		this.content = content;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor,
+	 *      java.lang.Object)
+	 */
+	public void accept( IContentVisitor visitor, Object value )
+	{
+		content.accept( visitor, value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getBookmark()
+	 */
+	public String getBookmark( )
+	{
+		return content.getBookmark( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getBounds()
+	 */
+	public IBounds getBounds( )
+	{
+		return content.getBounds( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.css.engine.CSSStylableElement#getComputedStyle()
+	 */
+	public IStyle getComputedStyle( )
+	{
+		return content.getComputedStyle( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getContentType()
+	 */
+	public int getContentType( )
+	{
+		return content.getContentType( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.css.engine.CSSStylableElement#getCSSEngine()
+	 */
+	public CSSEngine getCSSEngine( )
+	{
+		return content.getCSSEngine( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getGenerateBy()
+	 */
+	public Object getGenerateBy( )
+	{
+		return content.getGenerateBy( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getHeight()
+	 */
+	public DimensionType getHeight( )
+	{
+		return content.getHeight( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getHelpText()
+	 */
+	public String getHelpText( )
+	{
+		return content.getHelpText( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getHyperlinkAction()
+	 */
+	public IHyperlinkAction getHyperlinkAction( )
+	{
+		return content.getHyperlinkAction( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getInlineStyle()
+	 */
+	public IStyle getInlineStyle( )
+	{
+		return content.getInlineStyle( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getInstanceID()
+	 */
+	public InstanceID getInstanceID( )
+	{
+		return content.getInstanceID( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getName()
+	 */
+	public String getName( )
+	{
+		return content.getName( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IElement#getParent()
+	 */
+	public IElement getParent( )
+	{
+		return content.getParent( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getReportContent()
+	 */
+	public IReportContent getReportContent( )
+	{
+		return content.getReportContent( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.css.engine.CSSStylableElement#getStyle()
+	 */
+	public IStyle getStyle( )
+	{
+		return content.getStyle( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getStyleClass()
+	 */
+	public String getStyleClass( )
+	{
+		return content.getStyleClass( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getTOC()
+	 */
+	public String getTOC( )
+	{
+		return content.getTOC( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getWidth()
+	 */
+	public DimensionType getWidth( )
+	{
+		return content.getWidth( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getX()
+	 */
+	public DimensionType getX( )
+	{
+		return content.getX( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getY()
+	 */
+	public DimensionType getY( )
+	{
+		return content.getY( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#readContent(java.io.DataInputStream)
+	 */
+	public void readContent( DataInputStream in ) throws IOException
+	{
+		throw new IOException( "Not supported" );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setBookmark(java.lang.String)
+	 */
+	public void setBookmark( String bookmark )
+	{
+		content.setBookmark( bookmark );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setBounds(org.eclipse.birt.report.engine.content.IBounds)
+	 */
+	public void setBounds( IBounds bounds )
+	{
+		content.setBounds( bounds );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setGenerateBy(java.lang.Object)
+	 */
+	public void setGenerateBy( Object generateBy )
+	{
+		content.setGenerateBy( generateBy );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setHeight(org.eclipse.birt.report.engine.ir.DimensionType)
+	 */
+	public void setHeight( DimensionType height )
+	{
+		content.setHeight( height );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setHelpText(java.lang.String)
+	 */
+	public void setHelpText( String help )
+	{
+		content.setHelpText( help );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setHyperlinkAction(org.eclipse.birt.report.engine.content.IHyperlinkAction)
+	 */
+	public void setHyperlinkAction( IHyperlinkAction hyperlink )
+	{
+		content.setHyperlinkAction( hyperlink );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setInlineStyle(org.eclipse.birt.report.engine.content.IStyle)
+	 */
+	public void setInlineStyle( IStyle style )
+	{
+		content.setInlineStyle( style );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setInstanceID(org.eclipse.birt.report.engine.api.InstanceID)
+	 */
+	public void setInstanceID( InstanceID id )
+	{
+		content.setInstanceID( id );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setName(java.lang.String)
+	 */
+	public void setName( String name )
+	{
+		content.setName( name );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IElement#setParent(org.eclipse.birt.report.engine.content.IElement)
+	 */
+	public void setParent( IElement parent )
+	{
+		content.setParent( parent );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setReportContent(org.eclipse.birt.report.engine.content.IReportContent)
+	 */
+	public void setReportContent( IReportContent report )
+	{
+		content.setReportContent( report );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setStyleClass(java.lang.String)
+	 */
+	public void setStyleClass( String styleClass )
+	{
+		content.setStyleClass( styleClass );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setTOC(java.lang.String)
+	 */
+	public void setTOC( String toc )
+	{
+		content.setTOC( toc );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setWidth(org.eclipse.birt.report.engine.ir.DimensionType)
+	 */
+	public void setWidth( DimensionType width )
+	{
+		content.setWidth( width );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setX(org.eclipse.birt.report.engine.ir.DimensionType)
+	 */
+	public void setX( DimensionType x )
+	{
+		content.setX( x );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setY(org.eclipse.birt.report.engine.ir.DimensionType)
+	 */
+	public void setY( DimensionType y )
+	{
+		content.setY( y );
+	}
+
+	public void setOffset( long offset )
+	{
+		content.setOffset( offset );
+	}
+
+	public long getOffset( )
+	{
+		return content.getOffset( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#writeContent(java.io.DataOutputStream)
+	 */
+	public void writeContent( DataOutputStream out ) throws IOException
+	{
+		throw new IOException( "not supported" );
+	}
+
+	protected void throwUnsupportedException( )
+	{
+		throw new UnsupportedOperationException( "Unsupported Exception" );
+	}
+}
