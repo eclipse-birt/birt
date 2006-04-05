@@ -662,6 +662,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			lgTitle = LabelImpl.copyInstance( lgTitle );
 
+			// handle external resource string
+			final String sPreviousValue = lgTitle.getCaption( ).getValue( );
+			lgTitle.getCaption( )
+					.setValue( rtc.externalizedMessage( sPreviousValue ) );
 			if ( lilh != null )
 			{
 				// use cached value
@@ -672,10 +676,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			else
 			{
-				// handle external resource string
-				final String sPreviousValue = lgTitle.getCaption( ).getValue( );
-				lgTitle.getCaption( )
-						.setValue( rtc.externalizedMessage( sPreviousValue ) );
+
 
 				BoundingBox bb = null;
 				try
