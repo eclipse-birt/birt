@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.data.engine.odaconsumer.testdriver"
+   name="BIRT DtE ODA Consumer Driver Tester Plug-in"
+   version="2.0.0"
+   provider-name="Eclipse.org"
+   >
+   <runtime>
+      <library name="testDriver.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.datatools.connectivity.oda"/>
+   </requires>
+   <extension
+         id="org.eclipse.birt.data.engine.odaconsumer.testdriver"
+         point="org.eclipse.datatools.connectivity.oda.dataSource">
+      <dataSource
+            odaVersion="3.0"
+            driverClass="org.eclipse.birt.data.engine.odaconsumer.testdriver.TestDriverImpl"
+            setThreadContextClassLoader="false"
+            id="org.eclipse.birt.data.engine.odaconsumer.testdriver"/>
+      <dataSet id="org.eclipse.birt.data.engine.odaconsumer.testdriver.dataSet">
+         <dataTypeMapping
+               nativeDataType="String"
+               nativeDataTypeCode="12"
+               odaScalarDataType="String"/>
+         <dataTypeMapping
+               nativeDataType="Date"
+               nativeDataTypeCode="91"
+               odaScalarDataType="Date"/>
+      </dataSet>
+   </extension>
+   
+</plugin>

@@ -36,7 +36,7 @@
 	<property name="testBirtOdaDriver.dir" location="test/org\eclipse\birt\data\engine\odaconsumer\birtdriver" />
 	<property name="testBirtOdaDriver.plugin.name" value="org.eclipse.birt.data.engine.odaconsumer.birtdriver" />
 
-	<property name="test.src.dir" location="test" />
+	<property name="test.src.dir" location="src" />
 	<property name="test.build.dir" location="bin" />
 
 

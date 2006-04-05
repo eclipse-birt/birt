@@ -1,0 +1,10 @@
+*****A new Report Start!*****
+S:0 E:2 CHINA    7000    
+S:2 E:2 CHINA    100    
+S:2 E:2 CHINA    100    
+S:2 E:1 CHINA    400    
+S:1 E:2 US    100    
+S:2 E:2 US    700    
+S:2 E:2 US    100    
+S:2 E:0 US    400    
+
