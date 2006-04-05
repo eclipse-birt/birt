@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
@@ -285,8 +287,9 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	}
 
 	/**
-	 * Sets the operator of the highlight. The input value is defined in
-	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * Sets the operator of the highlight and if the operator is not between and
+	 * not between , delete value2 element in xml file . The input value is
+	 * defined in <code>DesignChoiceConstants</code> and can be one of:
 	 * 
 	 * @param value
 	 *            the new operator
@@ -297,7 +300,28 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 	public void setOperator( String value ) throws SemanticException
 	{
-		setProperty( HighlightRule.OPERATOR_MEMBER, value );
+		ActivityStack stack = getModule( ).getActivityStack( );
+		stack.startTrans( );
+		try
+		{
+			setProperty( HighlightRule.OPERATOR_MEMBER, value );
+			if ( ( DesignChoiceConstants.MAP_OPERATOR_EQ.equals( value ) )
+					|| ( DesignChoiceConstants.MAP_OPERATOR_GE.equals( value ) )
+					|| ( DesignChoiceConstants.MAP_OPERATOR_NE.equals( value ) )
+					|| ( DesignChoiceConstants.MAP_OPERATOR_LT.equals( value ) )
+					|| ( DesignChoiceConstants.MAP_OPERATOR_LE.equals( value ) )
+					|| ( DesignChoiceConstants.MAP_OPERATOR_GT.equals( value ) ) )
+			{
+				setValue2( null );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
 	}
 
 	/**
@@ -367,10 +391,10 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * sets the test expression for this hilghtlight rule.
 	 * 
 	 * @param expression
-	 * 				the expression  
+	 *            the expression
 	 */
-	
-	public void setTestExpression( String expression ) 
+
+	public void setTestExpression( String expression )
 	{
 		setPropertySilently( HighlightRule.TEST_EXPR_MEMBER, expression );
 	}
