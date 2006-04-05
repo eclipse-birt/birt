@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -41,6 +42,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
@@ -108,6 +110,16 @@ public class IDEFileReportProvider implements IReportProvider
 			IProgressMonitor monitor )
 	{
 		// TODO
+		
+		if(file.exists( ) && file.isReadOnly( ))
+		{
+			MessageDialog.openError( UIUtil.getDefaultShell( ),
+					Messages.getString( "IDEFileReportProvider.ReadOnlyEncounter.Title" ),
+					Messages.getFormattedString( "IDEFileReportProvider.ReadOnlyEncounter.Message",
+							new Object[]{file.getFullPath( )
+							} ) );
+			return;
+		}
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public synchronized final void run( IProgressMonitor monitor )
