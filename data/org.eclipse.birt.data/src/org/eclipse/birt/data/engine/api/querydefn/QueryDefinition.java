@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 public class QueryDefinition extends BaseQueryDefinition implements IQueryDefinition 
 {
 	protected String 			dataSetName;
+	private   String            queryResultsID;
 	protected List 				bindings = new ArrayList();
 	protected String[]			projectedColumns;
 	
@@ -60,6 +61,22 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	public void setDataSetName(String dataSetName) 
 	{
 		this.dataSetName = dataSetName;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IQueryDefinition#getQueryResultID()
+	 */
+	public String getQueryResultsID( )
+	{
+		return this.queryResultsID;
+	}
+	
+	/**
+	 * @param queryResultID
+	 */
+	public void setQueryResultsID( String queryResultsID )
+	{
+		this.queryResultsID = queryResultsID;
 	}
 	
 	/**

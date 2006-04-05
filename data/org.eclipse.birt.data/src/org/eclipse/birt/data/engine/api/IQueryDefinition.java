@@ -32,6 +32,14 @@ public interface IQueryDefinition extends IBaseQueryDefinition
 	 * Gets the name of the data set used by this query
 	 */
 	public String getDataSetName( );
+	
+	/**
+	 * When this value is not null, the data set name will not be used, since it
+	 * indicates query is running on the data of report document.
+	 * 
+	 * @return associated queryResultID in query on report document
+	 */
+	public String getQueryResultsID( );
 		
 	/**
 	 * Returns the set of input parameter bindings as an unordered collection

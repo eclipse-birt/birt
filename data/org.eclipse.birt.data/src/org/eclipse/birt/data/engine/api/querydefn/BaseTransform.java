@@ -121,6 +121,7 @@ abstract public class BaseTransform implements IBaseTransform
 	 * <code>BEFORE_FIRST_ROW</code>: expression is evaluated at the start of the iteration over the row set for this gorup/list <br>
 	 * <code>AFTER_LAST_ROW</code>: expression is evaluated at the end of the iteration<br>
 	 * <code>ON_EACH_ROW</code>: expression is evaluated with each detail row within the group/list <br>  
+	 * @deprecated use addResultSetExpression( ) instead
 	 */
 	public void addExpression(IBaseExpression expression, int expressionTiming ) 
 	{
@@ -142,6 +143,7 @@ abstract public class BaseTransform implements IBaseTransform
 	/**
 	 * Gets the expressions that needs to be calculated per detail row, as an unordered
 	 * collection of <code>IBaseExpression</code> objects
+	 * @deprecated use getResultSetExpressions( ) instead
 	 */
 	public Collection getRowExpressions() 
 	{
@@ -151,6 +153,7 @@ abstract public class BaseTransform implements IBaseTransform
 	/**
 	 * Gets the expressions that needs to be available at the end of the group/list, as an unordered
 	 * collection of <code>IBaseExpression</code> objects.
+	 * @deprecated use getResultSetExpressions( ) instead
 	 */
 	public Collection getAfterExpressions() 
 	{
@@ -160,12 +163,17 @@ abstract public class BaseTransform implements IBaseTransform
 	/**
 	 * Gets the expressions that needs to be available at the beginning of the group/list, as an unordered
 	 * collection of <code>IBaseExpression</code> objects.
+	 * @deprecated use getResultSetExpressions( ) instead
 	 */
 	public Collection getBeforeExpressions() 
 	{
 		return beforeExpressions;
 	}
-
+	
+	/**
+	 * @param name
+	 * @param expression
+	 */
 	public void addResultSetExpression( String name, IBaseExpression expression )
 	{
 		this.resultExprsMap.put( name, expression );
