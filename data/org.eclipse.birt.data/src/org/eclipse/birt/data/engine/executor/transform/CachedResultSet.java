@@ -194,10 +194,12 @@ public class CachedResultSet implements IResultIterator
 	 * @throws DataException
 	 */
 	public void doSave( OutputStream resultClassStream,
-			OutputStream groupInfoStream, boolean isSubQuery )
-			throws DataException
+			OutputStream dataSetDataStream, OutputStream groupInfoStream,
+			boolean isSubQuery ) throws DataException
 	{
 		assert groupInfoStream != null;
+		
+		// save group info
 		BufferedOutputStream giBos = new BufferedOutputStream( groupInfoStream );
 		this.resultSetPopulator.getGroupProcessorManager( )
 				.getGroupCalculationUtil( )
@@ -210,7 +212,8 @@ public class CachedResultSet implements IResultIterator
 		{
 			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
 		}
-
+		
+		// save result class
 		if ( isSubQuery == false )
 		{
 			assert resultClassStream != null;
@@ -219,6 +222,22 @@ public class CachedResultSet implements IResultIterator
 			try
 			{
 				rcBos.close( );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
+			}
+		}
+		
+		// TODO: temp logic
+		if ( dataSetDataStream != null )
+		{
+			// save data
+			BufferedOutputStream dataBos = new BufferedOutputStream( dataSetDataStream );
+			this.resultSetPopulator.getCache( ).doSave( dataBos );
+			try
+			{
+				dataBos.close( );
 			}
 			catch ( IOException e )
 			{

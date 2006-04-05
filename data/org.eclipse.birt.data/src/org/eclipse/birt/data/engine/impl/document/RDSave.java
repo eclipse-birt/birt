@@ -269,6 +269,13 @@ public class RDSave
 				OutputStream streamForGroupInfo = context.getOutputStream( queryResultID,
 						subQueryID,
 						DataEngineContext.GROUP_INFO_STREAM );
+				OutputStream streamForResultData = null;
+				
+				// TODO: temp logic
+//				streamForResultData = context.getOutputStream( queryResultID,
+//							subQueryID,
+//							DataEngineContext.DATASET_DATA_STREAM );
+				
 				if ( isSubQuery == false )
 				{
 					streamForResultClass = context.getOutputStream( queryResultID,
@@ -277,6 +284,7 @@ public class RDSave
 				}
 
 				odiResult.doSave( streamForResultClass,
+						streamForResultData,
 						streamForGroupInfo,
 						isSubQuery );
 

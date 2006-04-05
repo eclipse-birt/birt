@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.data.engine.executor.cache;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
@@ -330,7 +328,7 @@ public class SmartCache implements ResultSetCache
 						odaObject,
 						rowResultSet,
 						rsMeta,
-						getComparator( sortSpec ),
+						CacheUtil.getComparator( sortSpec, eventHandler ),
 						memoryCacheRowCount );
 				break;
 			}
@@ -344,7 +342,7 @@ public class SmartCache implements ResultSetCache
 			
 			resultSetCache = new MemoryCache( resultObjects,
 					rsMeta,
-					getComparator( sortSpec ) );
+					CacheUtil.getComparator( sortSpec, eventHandler ) );
 		}
 		
 		odaObject = null;
@@ -374,47 +372,12 @@ public class SmartCache implements ResultSetCache
 			{
 				if ( MemoryCacheSize == 0 )
 				{
-					MemoryCacheSize = 10; // default minimum value is 10M.
-					String memcachesize = System.getProperty( "birt.data.engine.memcachesize" );
-					if ( memcachesize != null )
-					{
-						try
-						{
-							MemoryCacheSize = Integer.parseInt( memcachesize );
-						}
-						catch ( Exception e )
-						{
-							// ignore it
-						}
-						
-						if ( MemoryCacheSize < 10 )
-						{
-							throw new IllegalArgumentException( "the value of memcachesize should be at least 10" );
-						}
-					}
+					MemoryCacheSize = CacheUtil.computeCacheRowCount( );
 				}
 			}
 		}
 
-		return computeCacheRowCount( MemoryCacheSize, rsMeta );
-	}
-
-	/**
-	 * @param cacheSize,
-	 *            the size of cache
-	 * @param rsMeta,
-	 *            the meta data of result set
-	 * @return row count of memory cached
-	 */
-	private int computeCacheRowCount( int cacheSize, IResultClass rsMeta )
-	{
-		// below code only for unit test
-		String memcachesizeOfTest = System.getProperty( "birt.data.engine.test.memcachesize" );
-		if ( memcachesizeOfTest != null )
-			return Integer.parseInt( memcachesizeOfTest );
-
-		// here a simple assumption, that 1M memory can accomondate 2000 rows
-		return cacheSize * 2000;
+		return MemoryCacheSize;
 	}
 	
 	/*
@@ -508,161 +471,13 @@ public class SmartCache implements ResultSetCache
 		if ( isOpen == false )
 			throw new DataException( ResourceConstants.RESULT_CLOSED );
 	}
-
-	/**
-	 * @param sortSpec
-	 * @return Comparator based on specified sortSpec, null indicates there is
-	 *         no need to do sorting
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
-	private Comparator getComparator( SortSpec sortSpec )
+	public void doSave( OutputStream outputStream ) throws DataException
 	{
-		if ( sortSpec == null )
-			return null;
-
-		final int[] sortKeyIndexes = sortSpec.sortKeyIndexes;
-		final String[] sortKeyColumns = sortSpec.sortKeyColumns;
-		
-		if ( sortKeyIndexes == null || sortKeyIndexes.length == 0 )
-			return null;
-
-		final boolean[] sortAscending = sortSpec.sortAscending;
-
-		Comparator comparator = new Comparator( ) {
-
-			/**
-			 * compares two row indexes, actually compares two rows pointed by
-			 * the two row indexes
-			 */
-			public int compare( Object obj1, Object obj2 )
-			{
-				IResultObject row1 = (IResultObject) obj1;
-				IResultObject row2 = (IResultObject) obj2;
-
-				// compare group keys first
-				for ( int i = 0; i < sortKeyIndexes.length; i++ )
-				{
-					int colIndex = sortKeyIndexes[i];
-					String colName = sortKeyColumns[i];
-					try
-					{
-						Object colObj1 = null;
-						Object colObj2 = null;
-						
-						if ( eventHandler != null )
-						{
-							colObj1 = eventHandler.getValue( row1,
-									colIndex,
-									colName );
-							colObj2 = eventHandler.getValue( row2,
-									colIndex,
-									colName );
-						}
-						else
-						{
-							colObj1 = row1.getFieldValue( colIndex );
-							colObj2 = row2.getFieldValue( colIndex );
-						}
-						
-						int result = doCompare( colObj1, colObj2 );
-						if ( result != 0 )
-						{
-							return sortAscending[i] ? result : -result;
-						}
-					}
-					catch ( DataException e )
-					{
-						// Should never get here
-						// colIndex is always valid
-					}
-				}
-
-				// all equal, so return 0
-				return 0;
-			}
-
-			/**
-			 * Compare two objects
-			 * 
-			 * @param colObj1
-			 * @param colObj2
-			 * @return true colObj1 equals colObj2
-			 */
-			private int doCompare( Object colObj1, Object colObj2 )
-			{
-				// default value is 0
-				int result = 0;
-
-				// 1: the case of reference is the same
-				if ( colObj1 == colObj2 )
-				{
-					return result;
-				}
-
-				// 2: the case of one of two object is null
-				if ( colObj1 == null || colObj2 == null )
-				{
-					// keep null value at the first position in ascending order
-					if ( colObj1 == null )
-					{
-						result = -1;
-					}
-					else
-					{
-						result = 1;
-					}
-					return result;
-				}
-
-				// 3: other cases
-				if ( colObj1.equals( colObj2 ) )
-				{
-					return result;
-				}
-				else if ( colObj1 instanceof Comparable
-						&& colObj2 instanceof Comparable )
-				{
-					Comparable comp1 = (Comparable) colObj1;
-					Comparable comp2 = (Comparable) colObj2;
-					
-					// Integer can not be compared with Double.
- 					if ( colObj1.getClass( ) != colObj2.getClass( )
-							&& colObj1 instanceof Number
-							&& colObj2 instanceof Number )
-					{
-						try
-						{
-							comp1 = (Comparable) DataTypeUtil.toDouble( colObj1 );
-							comp2 = (Comparable) DataTypeUtil.toDouble( colObj2 );
-						}
-						catch ( BirtException ex )
-						{
-							// impossible
-						}
-					}
- 					
- 					result = comp1.compareTo( comp2 );					
-				}
-				else if ( colObj1 instanceof Boolean
-						&& colObj2 instanceof Boolean )
-				{
-					// false is less than true
-					Boolean bool = (Boolean) colObj1;
-					if ( bool.equals( Boolean.TRUE ) )
-						result = 1;
-					else
-						result = -1;
-				}
-				else
-				{
-					// Should never get here
-					//throw new UnsupportedOperationException( );
-				}
-
-				return result;
-			}
-		};
-
-		return comparator;
+		this.resultSetCache.doSave( outputStream );
 	}
 	
 }

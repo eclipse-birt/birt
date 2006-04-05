@@ -68,6 +68,7 @@ public class DataEngineContext
 	
 	public final static int VERSION_INFO_STREAM = 21;
 	public final static int ROWLENGTH_INFO_STREAM = 22;
+	public final static int DATASET_DATA_STREAM = 23;
 
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
@@ -291,6 +292,9 @@ public class DataEngineContext
 				break;
 			case ROWLENGTH_INFO_STREAM :
 				relativePath = streamRoot + "RowLengthInfo";
+				break;
+			case DATASET_DATA_STREAM :
+				relativePath = streamRoot + "DataSetData";
 				break;
 			default :
 				assert false;

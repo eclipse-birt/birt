@@ -198,7 +198,7 @@ public class ResultObject implements IResultObject
 		{
 			if ( i > 0 )
 				buf.append( ',' );
-			buf.append( m_fields[i].toString( ) );
+			buf.append( m_fields[i] == null ? "null" : m_fields[i].toString( ) );
 		}
 		return buf.toString( );
 	}
