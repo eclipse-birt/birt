@@ -89,7 +89,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.85 $ $Date: 2006/03/30 10:04:23 $
+ * @version $Revision: 1.86 $ $Date: 2006/04/03 11:35:57 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1137,9 +1137,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			StringBuffer styleBuffer = new StringBuffer( );
 			IStyle mergedStyle = cell.getStyle( );
 			String vAlign = null;
+			String textAlign = null;
 			if ( mergedStyle != null )
 			{
 				vAlign = mergedStyle.getVerticalAlign( );
+				textAlign = mergedStyle.getTextAlign( );
 			}
 			if ( vAlign == null )
 			{
@@ -1149,6 +1151,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				styleBuffer.append( vAlign );
 				styleBuffer.append( ";" );
 			}
+			if ( textAlign == null )
+			{
+				IStyle cs = cell.getComputedStyle( );
+				textAlign = cs.getTextAlign( );
+				styleBuffer.append( "text-align: " );
+				styleBuffer.append( textAlign );
+				styleBuffer.append( ";" );
+			}
+
 			handleStyle( cell, styleBuffer );
 		}
 		else
