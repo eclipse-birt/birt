@@ -70,7 +70,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 
 	private transient Map popupSheetRegistry = new HashMap( 5 );
 
-	private transient String lastPopup;
+	private transient Map lastPopupRegistry = new HashMap( 3 );
 
 	public SubtaskSheetImpl( )
 	{
@@ -154,7 +154,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 			popupShell = null;
 
 			// Clear selection if user unselected the button.
-			lastPopup = null;
+			setCurrentPopupSelection( null );
 			getParentTask( ).setPopupSelection( null );
 			return true;
 		}
@@ -346,7 +346,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 			if ( POPUP_CLOSING_BY_USER )
 			{
 				// Clear selection if user closed the popup.
-				lastPopup = null;
+				setCurrentPopupSelection( null );
 				getParentTask( ).setPopupSelection( null );
 			}
 		}
@@ -377,7 +377,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		boolean affectTaskSelection = true;
 		if ( popupName == null || !popupSheetRegistry.containsKey( popupName ) )
 		{
-			popupName = lastPopup;
+			popupName = getCurrentPopupSelection( );
 			// Keep task selection since user doesn't change it
 			affectTaskSelection = false;
 		}
@@ -397,7 +397,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 			( (Button) popupButtonRegistry.get( popupName ) ).setSelection( true );
 
 			// Store last popup selection
-			lastPopup = popupName;
+			setCurrentPopupSelection( popupName );
 			if ( affectTaskSelection )
 			{
 				getParentTask( ).setPopupSelection( popupName );
@@ -415,5 +415,15 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 			return true;
 		}
 		return false;
+	}
+
+	private String getCurrentPopupSelection( )
+	{
+		return (String) lastPopupRegistry.get( getContext( ).getWizardID( ) );
+	}
+
+	private void setCurrentPopupSelection( String lastPopup )
+	{
+		lastPopupRegistry.put( getContext( ).getWizardID( ), lastPopup );
 	}
 }
