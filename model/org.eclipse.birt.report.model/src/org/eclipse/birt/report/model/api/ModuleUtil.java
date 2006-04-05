@@ -55,19 +55,19 @@ public class ModuleUtil
 	/**
 	 * The library type.
 	 */
-	
+
 	public final static int LIBRARY = 0;
 
 	/**
 	 * The report design type.
 	 */
-	
+
 	public final static int REPORT_DESIGN = 1;
 
 	/**
 	 * The invalid module.
 	 */
-	
+
 	public final static int INVALID_MODULE = 2;
 
 	/**
@@ -206,8 +206,18 @@ public class ModuleUtil
 		InputStream is = null;
 		strData = StringUtil.trimString( strData );
 		if ( strData != null )
-			is = new ByteArrayInputStream( strData.getBytes( ) );
+		{
+			try
+			{
+				is = new ByteArrayInputStream( strData
+						.getBytes( UnicodeUtil.SIGNATURE_UTF_8 ) );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				assert false;
+			}
 
+		}
 		return deserializeAction( is );
 	}
 
@@ -267,7 +277,7 @@ public class ModuleUtil
 		public void write( OutputStream os, Action action ) throws IOException
 		{
 			writer = new SectionXMLWriter( os, UnicodeUtil.SIGNATURE_UTF_8 );
-			writeAction( action, ImageItem.ACTION_PROP ); //$NON-NLS-1$
+			writeAction( action, ImageItem.ACTION_PROP ); 
 		}
 
 		protected Module getModule( )
@@ -364,8 +374,6 @@ public class ModuleUtil
 			return INVALID_MODULE;
 		}
 
-		return rtnModule instanceof Library
-				? LIBRARY
-				: REPORT_DESIGN;
+		return rtnModule instanceof Library ? LIBRARY : REPORT_DESIGN;
 	}
 }
