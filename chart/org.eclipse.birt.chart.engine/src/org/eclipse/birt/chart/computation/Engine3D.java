@@ -705,9 +705,9 @@ public final class Engine3D implements IConstants
 		{
 			Area3DRenderEvent a3dre = (Area3DRenderEvent) obj;
 
-			for ( int i = 0; i < a3dre.getElementCount( ); i++ )
+			for ( Iterator itr = a3dre.iterator( ); itr.hasNext( ); )
 			{
-				PrimitiveRenderEvent pre = a3dre.getElement( i );
+				PrimitiveRenderEvent pre = (PrimitiveRenderEvent)itr.next( );
 
 				if ( pre instanceof I3DRenderEvent )
 				{
@@ -721,6 +721,12 @@ public final class Engine3D implements IConstants
 						object3D.prepareZSort( );
 
 						object3D.clip( this );
+						
+						if ( object3D.getVectors( ).length < 1 )
+						{
+							itr.remove( );
+							continue;
+						}
 
 						object3D.perspective( PERSPECTIVE_VALUE );
 						object3D.transform( V2C_MATRIX );

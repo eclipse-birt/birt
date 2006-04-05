@@ -83,6 +83,15 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Returns the iterator for the subordinate event list.
+	 * @return
+	 */
+	public final Iterator iterator( )
+	{
+		return alLinesAndArcs.iterator( );
+	}
+
+	/**
 	 * 
 	 * @param i
 	 * @return
@@ -213,7 +222,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 
 		return are;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
