@@ -1970,6 +1970,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * Reloads the library with the given library file path. If the library
 	 * already is included, reload it. If the library is not included, exception
 	 * will be thrown.
+	 * <p>
+	 * Call this method cautiously ONLY on the condition that the library file
+	 * is REALLY changed outside. After reload successfully, the command stack
+	 * is cleared.
 	 * 
 	 * @param libraryToReload
 	 *            the library instance
