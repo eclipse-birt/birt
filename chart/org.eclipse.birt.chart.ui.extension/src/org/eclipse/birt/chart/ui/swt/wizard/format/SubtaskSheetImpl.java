@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.swt.SheetPlaceHolder;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.TreeCompoundTask;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -64,8 +65,6 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 
 	private static boolean POPUP_ATTACHING = false;
 
-	private static boolean POPUP_CLOSING_BY_USER = true;
-
 	private transient Map popupButtonRegistry = new HashMap( 5 );
 
 	private transient Map popupSheetRegistry = new HashMap( 5 );
@@ -90,9 +89,9 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 	public Object onHide( )
 	{
 		// No need to clear popup selection because it's closed automatically
-		POPUP_CLOSING_BY_USER = false;
+		ChartWizard.POPUP_CLOSING_BY_USER = false;
 		detachPopup( );
-		POPUP_CLOSING_BY_USER = true;
+		ChartWizard.POPUP_CLOSING_BY_USER = true;
 
 		cmpContent.dispose( );
 		popupButtonRegistry.clear( );
@@ -150,7 +149,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 				&& popupShell != null && !popupShell.isDisposed( )
 				&& !isButtonSelected( ) )
 		{
-			getWizard( ).detachPopup( popupShell );
+			getWizard( ).detachPopup( );
 			popupShell = null;
 
 			// Clear selection if user unselected the button.
@@ -165,7 +164,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 	{
 		if ( popupShell != null && !popupShell.isDisposed( ) )
 		{
-			getWizard( ).detachPopup( popupShell );
+			getWizard( ).detachPopup( );
 			popupShell = null;
 			return true;
 		}
@@ -343,7 +342,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 				selectAllButtons( false );
 			}
 
-			if ( POPUP_CLOSING_BY_USER )
+			if ( ChartWizard.POPUP_CLOSING_BY_USER )
 			{
 				// Clear selection if user closed the popup.
 				setCurrentPopupSelection( null );

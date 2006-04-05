@@ -50,8 +50,8 @@ public class ChartWizardContext implements IWizardContext
 	 */
 	public String getWizardID( )
 	{
-		// return ChartWizard.WIZARD_ID;
-		return getExtendedItem( ).toString( );
+		return getExtendedItem( ) == null ? ChartWizard.WIZARD_ID
+				: getExtendedItem( ).toString( );
 	}
 
 	public Chart getModel( )

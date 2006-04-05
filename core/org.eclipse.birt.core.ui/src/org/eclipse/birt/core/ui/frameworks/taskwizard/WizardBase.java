@@ -317,10 +317,7 @@ public class WizardBase
 			this.context = getCurrentTask( ).getContext( );
 		}
 		// Clear any existing popup
-		if ( shellPopup != null && !shellPopup.isDisposed( ) )
-		{
-			shellPopup.close( );
-		}
+		detachPopup( );
 
 		// Update current active task ID
 		sCurrentActiveTask = sTaskID;
@@ -409,9 +406,12 @@ public class WizardBase
 		shellPopup.open( );
 	}
 
-	public void detachPopup( Shell parent )
+	public void detachPopup( )
 	{
-		shellPopup.close( );
+		if ( shellPopup != null && !shellPopup.isDisposed( ) )
+		{
+			shellPopup.close( );
+		}
 	}
 
 	public void updateContext( IWizardContext wizardcontext )

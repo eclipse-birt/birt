@@ -48,6 +48,11 @@ public class ChartWizard extends WizardBase
 
 	public static final double DEFAULT_CHART_WITHOUT_AXIS_BLOCK_WIDTH = 212;
 
+	/**
+	 * Indicates whether the popup is being closed by users
+	 */
+	public static boolean POPUP_CLOSING_BY_USER = true;
+
 	private ChartAdapter adapter = null;
 
 	public ChartWizard( )
@@ -174,5 +179,12 @@ public class ChartWizard extends WizardBase
 			chart.eAdapters( ).add( adapter );
 		}
 		return super.open( sTasks, topTaskId, initialContext );
+	}
+
+	public void detachPopup( )
+	{
+		POPUP_CLOSING_BY_USER = false;
+		super.detachPopup( );
+		POPUP_CLOSING_BY_USER = true;
 	}
 }
