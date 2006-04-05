@@ -130,6 +130,38 @@ public class RAFileInputStream extends RAInputStream
 	}
 	
     /**
+     * Reads a signed 64-bit integer from this file. This method reads eight
+     * bytes from the file, starting at the current file pointer. 
+     * If the bytes read, in order, are 
+     * <code>b1</code>, <code>b2</code>, <code>b3</code>, 
+     * <code>b4</code>, <code>b5</code>, <code>b6</code>, 
+     * <code>b7</code>, and <code>b8,</code> where:
+     * <blockquote><pre>
+     *     0 &lt;= b1, b2, b3, b4, b5, b6, b7, b8 &lt;=255,
+     * </pre></blockquote>
+     * <p>
+     * then the result is equal to:
+     * <p><blockquote><pre>
+     *     ((long)b1 &lt;&lt; 56) + ((long)b2 &lt;&lt; 48)
+     *     + ((long)b3 &lt;&lt; 40) + ((long)b4 &lt;&lt; 32)
+     *     + ((long)b5 &lt;&lt; 24) + ((long)b6 &lt;&lt; 16)
+     *     + ((long)b7 &lt;&lt; 8) + b8
+     * </pre></blockquote>
+     * <p>
+     * This method blocks until the eight bytes are read, the end of the 
+     * stream is detected, or an exception is thrown. 
+     *
+     * @return     the next eight bytes of this file, interpreted as a
+     *             <code>long</code>.
+     * @exception  EOFException  if this file reaches the end before reading
+     *               eight bytes.
+     * @exception  IOException   if an I/O error occurs.
+     */
+    public final long readLong( ) throws IOException
+	{
+		return ( (long) ( readInt( ) ) << 32 ) + ( readInt( ) & 0xFFFFFFFFL );
+	}
+    /**
      * The same behavior as RandomAccessFile.readFully(byte b[], int off, int len)
      * Reads exactly <code>len</code> bytes from this file into the byte 
      * array, starting at the current file pointer. This method reads 
@@ -175,6 +207,11 @@ public class RAFileInputStream extends RAInputStream
 
 		seekParent( localPos );
 		cur = localPos;
+	}
+	
+	public long getOffset() throws IOException
+	{
+		return cur;
 	}
 
 	/**

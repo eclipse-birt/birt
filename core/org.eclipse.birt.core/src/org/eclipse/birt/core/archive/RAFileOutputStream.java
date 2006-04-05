@@ -123,6 +123,30 @@ public class RAFileOutputStream extends RAOutputStream
 		cur += len; // since we write a byte, the pointer (in bytes) should be increased by 1    	
     }
 
+    private byte writeBuffer[] = new byte[8];
+
+    public void writeInt(int v) throws IOException
+    {
+    	writeBuffer[0] = (byte)(v >>> 24);
+    	writeBuffer[1] = (byte)(v >>> 16);
+    	writeBuffer[2] = (byte)(v >>> 8);
+    	writeBuffer[3] = (byte)(v >>> 0);
+        write( writeBuffer, 0, 4);
+    }
+    
+    public void writeLong(long v) throws IOException
+    {
+        writeBuffer[0] = (byte)(v >>> 56);
+        writeBuffer[1] = (byte)(v >>> 48);
+        writeBuffer[2] = (byte)(v >>> 40);
+        writeBuffer[3] = (byte)(v >>> 32);
+        writeBuffer[4] = (byte)(v >>> 24);
+        writeBuffer[5] = (byte)(v >>> 16);
+        writeBuffer[6] = (byte)(v >>>  8);
+        writeBuffer[7] = (byte)(v >>>  0);
+        write( writeBuffer, 0, 8);
+    }
+    
 	/**
 	 * Same behavior as the seek in RandomAccessFile. <br>
 	 * Sets the file-pointer offset, measured from the beginning of this 
@@ -139,6 +163,11 @@ public class RAFileOutputStream extends RAOutputStream
 	{		
 		seekParent( localPos );
 		cur = localPos;		
+	}
+	
+	public long getOffset() throws IOException
+	{
+		return cur;
 	}
 
 	/**

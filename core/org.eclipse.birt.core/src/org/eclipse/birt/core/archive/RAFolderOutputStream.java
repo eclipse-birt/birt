@@ -83,6 +83,21 @@ public class RAFolderOutputStream extends RAOutputStream
     {
 		randomFile.write( b, off, len );		
     }
+    
+    public void writeInt(int v) throws IOException
+    {
+    	randomFile.writeInt( v );
+    }
+    
+    public void writeLong(long v) throws IOException
+    {
+    	randomFile.writeLong( v );
+    }
+    
+    public long getOffset() throws IOException
+    {
+    	return randomFile.getFilePointer( );
+    }
 
 	/**
 	 * Same behavior as the seek in RandomAccessFile. <br>

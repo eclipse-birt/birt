@@ -22,11 +22,14 @@ public abstract class RAInputStream extends InputStream
 	 */
 	public abstract void seek( long localPos ) throws IOException;
 	
+	public abstract long getOffset() throws IOException;
     /**
      * @return
      * @throws IOException
      */
-    public abstract int readInt() throws IOException;    
+    public abstract int readInt() throws IOException;   
+    
+    public abstract long readLong() throws IOException;
 
 	public abstract void readFully( byte b[], int off, int len ) throws IOException;
 }

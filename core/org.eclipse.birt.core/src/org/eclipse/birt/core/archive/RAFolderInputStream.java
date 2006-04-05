@@ -84,12 +84,17 @@ public class RAFolderInputStream extends RAInputStream
 	public int readInt() throws IOException 
 	{
 		byte ch[] = new byte[4];
-		this.readFully(ch, 0, 4);
+		randomFile.readFully(ch, 0, 4);
 		
 		int ret = 0;
 		for ( int i = 0; i < ch.length; i++ )
 		    ret = ((ret << 8) & 0xFFFFFF00) | (ch[i] & 0x000000FF);
 		return ret;		
+	}
+	
+	public long readLong() throws IOException
+	{
+		return randomFile.readLong( );
 	}
 	
     /**
@@ -128,6 +133,11 @@ public class RAFolderInputStream extends RAInputStream
 	public void seek( long localPos ) throws IOException 
 	{
 		randomFile.seek( localPos );
+	}
+	
+	public long getOffset() throws IOException
+	{
+		return randomFile.getFilePointer( );
 	}
 	
 	/**
