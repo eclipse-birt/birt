@@ -17,6 +17,7 @@ package org.eclipse.birt.core.data;
  */
 public final class ExpressionUtil
 {
+	/** prefix for row */
 	private static final String ROW_INDICATOR = "row";
 	
 	/**
@@ -51,48 +52,37 @@ public final class ExpressionUtil
 	 */	
 	public static String toNewExpression( String oldExpression )
 	{
-		if( oldExpression == null )
+		if ( oldExpression == null )
 			return null;
-		char[] chars = oldExpression.toCharArray( );
 		
-		//5 is the minium length of expression that can cantain a row expression
-		if( chars.length < 5)
+		char[] chars = oldExpression.toCharArray( );
+
+		// 5 is the minium length of expression that can cantain a row
+		// expression
+		if ( chars.length < 5 )
 			return oldExpression;
 		else
 		{
-			boolean candidateKey = true;
+			//candidateKey1 is used to mark the status of double quote
+			boolean candidateKey1 = true;
+			//candidateKey2 is used to mark the status of 
+			boolean candidateKey2 = true;
+			
 			boolean omitNextQuote = false;
 			int retrieveSize = 0;
-			for( int i = 0; i < chars.length; i++ )
+			for ( int i = 0; i < chars.length; i++ )
 			{
-				if( chars[i] == '/')
+				retrieveSize = 0;
+				if ( chars[i] == '/' )
 				{
-					if( i > 0 && chars[i-1] == '/')
+					if ( i > 0 && chars[i - 1] == '/' )
 					{
 						retrieveSize++;
-						while( i < chars.length )
+						while ( i < chars.length )
 						{
 							i++;
 							retrieveSize++;
-							if( chars[i]=='\n')
-							{
-								break;
-							}	
-						}
-						retrieveSize++;
-						i++;
-					}
-				}else if( chars[i] == '*'  )
-				{
-					if( i > 0 && chars[i-1] == '/' )
-					{
-						i++;
-						retrieveSize = retrieveSize+2;
-						while( i < chars.length )
-						{
-							i++;
-							retrieveSize++;
-							if( chars[i-1] == '*' && chars[i] == '/')
+							if ( chars[i] == '\n' )
 							{
 								break;
 							}
@@ -101,36 +91,81 @@ public final class ExpressionUtil
 						i++;
 					}
 				}
-				
-				if( (!omitNextQuote) && chars[i] == '"')
-					candidateKey = !candidateKey;
-				if( chars[i] == '\\')
+				else if ( chars[i] == '*' )
+				{
+					if ( i > 0 && chars[i - 1] == '/' )
+					{
+						i++;
+						retrieveSize = retrieveSize + 2;
+						while ( i < chars.length )
+						{
+							i++;
+							retrieveSize++;
+							if ( chars[i - 1] == '*' && chars[i] == '/' )
+							{
+								break;
+							}
+						}
+						retrieveSize++;
+						i++;
+					}
+				}
+
+				if ( ( !omitNextQuote ) && chars[i] == '"' )
+				{
+					candidateKey1 = !candidateKey1;
+					if( candidateKey1 )
+						candidateKey2 = true;
+				}
+				if ( ( !omitNextQuote ) && chars[i] == '\'')
+				{	
+					candidateKey2 = !candidateKey2;
+					if( candidateKey2)
+						candidateKey1 = true;
+				}
+				if ( chars[i] == '\\' )
 					omitNextQuote = true;
 				else
 					omitNextQuote = false;
-				if( i >= retrieveSize + 3 ){
-					if ( candidateKey
+				if ( i >= retrieveSize + 3 )
+				{
+					if ( candidateKey1
 							&& chars[i - retrieveSize - 3] == 'r'
 							&& chars[i - retrieveSize - 2] == 'o'
 							&& chars[i - retrieveSize - 1] == 'w' )
 					{
-						if( i-retrieveSize-4 <=0 || isValidProceeding(chars[i - retrieveSize - 4]))
+						if ( i - retrieveSize - 4 <= 0
+								|| isValidProceeding( chars[i
+										- retrieveSize - 4] ) )
 						{
-							if(chars[i] == ' '||chars[i] == '.'||chars[i]=='[')
+							if ( chars[i] == ' '
+									|| chars[i] == '.' || chars[i] == '[' )
 							{
-								String firstPart = oldExpression.substring( 0, i-retrieveSize-3 );
-								String secondPart = toNewExpression( oldExpression.substring( i-retrieveSize ));
-								return firstPart+"dataSetRow"+ secondPart;
+								String firstPart = oldExpression.substring( 0,
+										i - retrieveSize - 3 );
+								String secondPart = toNewExpression( oldExpression.substring( i
+										- retrieveSize ) );
+								String newExpression = firstPart
+										+ "dataSetRow" + secondPart;
+								return newExpression;
 							}
 						}
 					}
 				}
 			}
+			
 		}
+		
 		return oldExpression;
 	}
 	
-	//Test whether the char immediately before the candidate "row" key is valid.
+	/**
+	 * Test whether the char immediately before the candidate "row" key is
+	 * valid.
+	 * 
+	 * @param operator
+	 * @return
+	 */
 	private static boolean isValidProceeding( char operator )
 	{
 		if ( (operator >= 'A' && operator <= 'Z')
@@ -140,4 +175,5 @@ public final class ExpressionUtil
 		
 		return true;
 	}
+	
 }
