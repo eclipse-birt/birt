@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.impl.document;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -28,11 +29,11 @@ public final class RDUtil
 	 * @throws DataException
 	 */
 	public static RDSave newSave( DataEngineContext context,
-			String queryResultID, int rowCount, String subQueryName,
-			int subQueryIndex )
-			throws DataException
+			IBaseQueryDefinition queryDefn, String queryResultID, int rowCount,
+			String subQueryName, int subQueryIndex ) throws DataException
 	{
 		return new RDSave( context,
+				queryDefn,
 				queryResultID,
 				rowCount,
 				subQueryName,

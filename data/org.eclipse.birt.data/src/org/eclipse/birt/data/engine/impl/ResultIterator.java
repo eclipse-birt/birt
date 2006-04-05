@@ -259,6 +259,7 @@ public class ResultIterator implements IResultIterator
 		if ( this.rdSaveUtil == null )
 		{
 			rdSaveUtil = new RDSaveUtil( this.context,
+					this.rService.getQueryDefn( ),
 					this.rService.getQueryResults( ).getID( ),
 					this.odiResult );
 		}
@@ -706,6 +707,7 @@ public class ResultIterator implements IResultIterator
 		// context info
 		private DataEngineContext context;
 		private String queryResultID;
+		private IBaseQueryDefinition queryDefn;
 
 		// report document save and load instance
 		private RDSave rdSave;
@@ -727,10 +729,18 @@ public class ResultIterator implements IResultIterator
 		 * @param queryResultID
 		 * @param odiResult
 		 */
-		public RDSaveUtil( DataEngineContext context, String queryResultID,
+		public RDSaveUtil( DataEngineContext context,
+				IBaseQueryDefinition queryDefn, String queryResultID,
 				org.eclipse.birt.data.engine.odi.IResultIterator odiResult )
 		{
-			this( context, queryResultID, odiResult, null, -1, -1, null );
+			this( context,
+					queryDefn,
+					queryResultID,
+					odiResult,
+					null,
+					-1,
+					-1,
+					null );
 		}
 
 		/**
@@ -741,11 +751,14 @@ public class ResultIterator implements IResultIterator
 		 * @param subQueryIndex
 		 * @param subQueryInfo
 		 */
-		RDSaveUtil( DataEngineContext context, String queryResultID,
+		RDSaveUtil( DataEngineContext context, IBaseQueryDefinition queryDefn,
+				String queryResultID,
 				org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
-				String subQueryName, int groupLevel, int subQueryIndex, int[] subQueryInfo )
+				String subQueryName, int groupLevel, int subQueryIndex,
+				int[] subQueryInfo )
 		{
 			this.context = context;
+			this.queryDefn = queryDefn;
 			this.queryResultID = queryResultID;
 			this.odiResult = odiResult;
 			this.subQueryName = subQueryName;
@@ -837,6 +850,7 @@ public class ResultIterator implements IResultIterator
 
 			// init RDSave util of sub query
 			resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
+					resultIt.rService.getQueryDefn( ),
 					resultIt.getQueryResults( ).getID( ),
 					resultIt.odiResult,
 					subQueryName,
@@ -867,6 +881,7 @@ public class ResultIterator implements IResultIterator
 			if ( rdSave == null )
 			{
 				rdSave = RDUtil.newSave( this.context,
+						this.queryDefn,
 						this.queryResultID,
 						( (CachedResultSet) odiResult ).getRowCount( ),
 						this.subQueryName,

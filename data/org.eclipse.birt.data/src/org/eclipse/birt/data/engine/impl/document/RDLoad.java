@@ -21,10 +21,14 @@ import java.util.Map;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
+import org.eclipse.birt.data.engine.impl.document.viewing.TransformUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -143,6 +147,11 @@ class RDLoad
 			BufferedInputStream groupBis = new BufferedInputStream( groupIs );
 			rdGroupUtil = new RDGroupUtil( groupBis,
 					new CacheProviderImpl( this ) );
+			
+			// TODO: temp logic
+			if( false )
+				this.loadForIV( );
+			
 			try
 			{
 				groupBis.close( );
@@ -154,6 +163,63 @@ class RDLoad
 			}
 			
 			this.isPrepared = true;
+		}
+	}
+	
+	/**
+	 * @throws DataException
+	 */
+	private void loadForIV( ) throws DataException
+	{
+		this.loadExprMetadata( );
+		this.loadTransform( );
+	}
+	
+	/**
+	 * @throws DataException
+	 */
+	private void loadExprMetadata( ) throws DataException
+	{
+		InputStream inputStream = context.getInputStream( queryResultID,
+				subQueryID,
+				DataEngineContext.EXPR_META_STREAM );
+		BufferedInputStream bis = new BufferedInputStream( inputStream );
+
+		ExprMetaInfo[] exprMetas = ExprMetaUtil.loadExprMetaInfo( bis );
+		System.out.println( exprMetas );
+
+		try
+		{
+			bis.close( );
+			inputStream.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
+		}
+	}
+	
+	/**
+	 * @throws DataException
+	 */
+	private void loadTransform( ) throws DataException
+	{
+		InputStream inputStream = context.getInputStream( queryResultID,
+				subQueryID,
+				DataEngineContext.TRANSFORM_INFO_STREAM );
+		BufferedInputStream bis = new BufferedInputStream( inputStream );
+
+		IBaseQueryDefinition queryDefn = TransformUtil.loadBaseQuery( bis );
+		System.out.println( queryDefn );
+
+		try
+		{
+			bis.close( );
+			inputStream.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
 		}
 	}
 	

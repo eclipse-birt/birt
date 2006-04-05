@@ -21,9 +21,12 @@ import java.util.Set;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
+import org.eclipse.birt.data.engine.impl.document.viewing.TransformUtil;
 
 /**
  * Save expression value of every row into report document. The output format in
@@ -59,6 +62,8 @@ public class RDSave
 	private byte[] zeroBytes;
 	private int currentOffset;
 	
+	private IBaseQueryDefinition queryDefn;
+	
 	//
 	private Map exprValueMap = new HashMap( );
 	
@@ -69,12 +74,14 @@ public class RDSave
 	 * @param subQueryIndex
 	 * @throws DataException
 	 */
-	public RDSave( DataEngineContext context, String queryResultID,
-			int rowCount, String subQueryName, int subQueryIndex )
+	public RDSave( DataEngineContext context, IBaseQueryDefinition queryDefn,
+			String queryResultID, int rowCount, String subQueryName,
+			int subQueryIndex )
 			throws DataException
 	{
 		this.context = context;
 		this.queryResultID = queryResultID;
+		this.queryDefn = queryDefn;
 		this.subQueryName = subQueryName;
 		this.rowCount = rowCount;
 		
@@ -164,6 +171,11 @@ public class RDSave
 			lenDos.close( );
 			lenBos.close( );
 			lenOs.close( );
+			
+			// save expression metadata and transformation info
+			// TODO: temp logic
+			if( false )
+				this.saveForIV( );
 		}
 		catch ( IOException e )
 		{
@@ -322,6 +334,61 @@ public class RDSave
 						e,
 						"Result Set" );
 			}
+		}
+	}
+	
+	/**
+	 * @throws DataException
+	 */
+	private void saveForIV( ) throws DataException
+	{
+		this.saveExprMetadata( );
+		this.saveTransform( );
+	}
+	
+	/**
+	 * @throws DataException
+	 */
+	private void saveExprMetadata( ) throws DataException
+	{
+		OutputStream outputStream = context.getOutputStream( queryResultID,
+				subQueryID,
+				DataEngineContext.EXPR_META_STREAM );
+		BufferedOutputStream bos = new BufferedOutputStream( outputStream );
+
+		ExprMetaUtil.saveExprMetaInfo( queryDefn, bos );
+
+		try
+		{
+			bos.close( );
+			outputStream.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
+		}
+	}
+	
+	/**
+	 * @throws DataException
+	 */
+	private void saveTransform( ) throws DataException
+	{
+		OutputStream outputStream = context.getOutputStream( queryResultID,
+				subQueryID,
+				DataEngineContext.TRANSFORM_INFO_STREAM );
+		BufferedOutputStream bos = new BufferedOutputStream( outputStream );
+
+		TransformUtil.saveBaseQuery( queryDefn, bos );
+
+		try
+		{
+			bos.close( );
+			outputStream.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
 		}
 	}
 	

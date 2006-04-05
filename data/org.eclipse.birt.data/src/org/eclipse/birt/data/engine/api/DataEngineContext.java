@@ -69,6 +69,9 @@ public class DataEngineContext
 	public final static int VERSION_INFO_STREAM = 21;
 	public final static int ROWLENGTH_INFO_STREAM = 22;
 	public final static int DATASET_DATA_STREAM = 23;
+	
+	public final static int EXPR_META_STREAM = 24;
+	public final static int TRANSFORM_INFO_STREAM = 25;
 
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
@@ -271,37 +274,40 @@ public class DataEngineContext
 			return "/DataEngine/VesionInfo";
 		
 		String relativePath = null;
+		switch ( streamType )
+		{
+			case EXPR_VALUE_STREAM :
+				relativePath = "ExprValue";
+				break;
+			case RESULTCLASS_STREAM :
+				relativePath = "ResultClass";
+				break;
+			case GROUP_INFO_STREAM :
+				relativePath = "GroupInfo";
+				break;
+			case SUBQUERY_INFO_STREAM :
+				relativePath = "SubQueryInfo";
+				break;
+			case ROWLENGTH_INFO_STREAM :
+				relativePath = "RowLengthInfo";
+				break;
+			case DATASET_DATA_STREAM :
+				relativePath = "DataSetData";
+				break;
+			case EXPR_META_STREAM :
+				relativePath = "ExprMetaInfo";
+				break;
+			case TRANSFORM_INFO_STREAM :
+				relativePath = "TransformInfo";
+				break;
+			default :
+				assert false; // impossible
+		}
 		
 		String streamRoot = "/" + streamID + "/";
 		if ( subStreamID != null )
 			streamRoot += subStreamID + "/";
-
-		switch ( streamType )
-		{
-			case EXPR_VALUE_STREAM :
-				relativePath = streamRoot + "ExprValue";
-				break;
-			case RESULTCLASS_STREAM :
-				relativePath = streamRoot + "ResultClass";
-				break;
-			case GROUP_INFO_STREAM :
-				relativePath = streamRoot + "GroupInfo";
-				break;
-			case SUBQUERY_INFO_STREAM :
-				relativePath = streamRoot + "SubQueryInfo";
-				break;
-			case ROWLENGTH_INFO_STREAM :
-				relativePath = streamRoot + "RowLengthInfo";
-				break;
-			case DATASET_DATA_STREAM :
-				relativePath = streamRoot + "DataSetData";
-				break;
-			default :
-				assert false;
-		}
-
-		return relativePath;
-	}
-	
+		return streamRoot + relativePath;
+	}	
 
 }

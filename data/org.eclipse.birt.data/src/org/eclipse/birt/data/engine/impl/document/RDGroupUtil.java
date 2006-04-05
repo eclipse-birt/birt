@@ -321,27 +321,3 @@ final class GroupInfo
 	 */
 	int firstChild = -1;
 }
-
-/**
- * This GroupUtil class do only know the information service of CacheProvider.
- */
-interface CacheProvider
-{
-	/**
-	 * @return total row count
-	 */
-	public int getCount( );
-
-	/**
-	 * @return current result index
-	 */
-	public int getCurrentIndex( );
-
-	/**
-	 * Move current result cursor to a specified index
-	 * @param destIndex
-	 * @throws DataException
-	 */
-	public void moveTo( int destIndex ) throws DataException;
-	
-}
