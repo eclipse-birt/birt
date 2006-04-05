@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
@@ -211,6 +212,24 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 						DataType.getClass( cc.getDataType( ) ),
 						null,
 						true ) );
+			}
+		}
+		if ( dataSet.getResultSetHints( ) != null )
+		{
+			List hintList = dataSet.getResultSetHints( );
+			for ( int i = 0; i < hintList.size( ); i++ )
+			{
+				IColumnDefinition columnDefinition = (IColumnDefinition) hintList.get( i );
+				for ( int j = 0; j < projectedColumns.size( ); j++ )
+				{
+					ResultFieldMetadata resultFieldMetadata = (ResultFieldMetadata) projectedColumns.get( j );
+					if ( columnDefinition.getColumnName( )
+							.equals( resultFieldMetadata.getName( ) ) )
+					{
+						resultFieldMetadata.setAlias( columnDefinition.getAlias( ) );
+						break;
+					}
+				}
 			}
 		}
 		ResultClass resultClass = new ResultClass( projectedColumns );
