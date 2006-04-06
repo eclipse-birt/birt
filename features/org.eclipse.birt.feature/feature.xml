@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.birt"
+      label="org.eclipse.birt.feature"
+      version="2.1.0.qualifier"
+      provider-name="Eclipse.org">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <includes
+         id="org.eclipse.birt.report.designer"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.report.runtime"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.chart.designer"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.chart.runtime"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.birt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.reportitem"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.reportitem.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

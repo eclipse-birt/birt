@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.birt.example"
+      label="org.eclipse.birt.example.feature"
+      version="2.1.0.qualifier"
+      provider-name="Eclipse.org">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.birt.chart.engine.extension"/>
+      <import plugin="org.eclipse.birt.chart.device.extension"/>
+      <import plugin="org.eclipse.birt.chart.device.svg"/>
+      <import plugin="org.eclipse.birt.chart.device.swt"/>
+      <import plugin="org.eclipse.birt.chart.ui"/>
+      <import plugin="org.eclipse.birt.chart.ui.extension"/>
+      <import plugin="org.eclipse.birt.chart.reportitem"/>
+      <import plugin="org.eclipse.birt.chart.reportitem.ui"/>
+      <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.birt.report.engine"/>
+      <import plugin="org.eclipse.tomcat"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.birt.report.designer.ui"/>
+      <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.birt.report.data.oda.jdbc"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda.design.ui"/>
+      <import plugin="org.eclipse.birt.report.data.oda.jdbc.ui"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.birt.chart.examples"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.sample.reportitem.rotatedtext"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.designer.example.samplereport"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.sampledb"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.sampledb.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

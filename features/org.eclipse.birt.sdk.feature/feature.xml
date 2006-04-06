@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.birt.sdk"
+      label="org.eclipse.birt.sdk.feature"
+      version="2.1.0.qualifier"
+      provider-name="Eclipse.org">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <includes
+         id="org.eclipse.birt.chart.designer.source.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.chart.runtime.source.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.doc.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.example.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.report.designer.source.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.report.runtime.source.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.source.feature"
+         version="0.0.0"/>
+
+   <requires>
+      <import plugin="org.junit"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.birt.report.designer.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
