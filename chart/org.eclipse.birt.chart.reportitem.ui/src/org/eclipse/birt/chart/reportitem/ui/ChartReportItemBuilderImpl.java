@@ -279,9 +279,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 	public String invoke( String sExpression, Object oContext, String sTitle )
 	{
 		final ExpressionBuilder eb = new ExpressionBuilder( sExpression );
-		eb.setExpressionProvier( new ExpressionProvider( SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ),
-				DEUtil.getDataSetList( (ExtendedItemHandle) oContext ) ) );
+		eb.setExpressionProvier( new ExpressionProvider( (ExtendedItemHandle) oContext ) );
 		if ( sTitle != null )
 		{
 			eb.setDialogTitle( eb.getDialogTitle( ) + " - " + sTitle ); //$NON-NLS-1$
@@ -435,9 +433,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 		{
 			case IUIServiceProvider.COMMAND_EXPRESSION :
 				eb = new ExpressionBuilder( value );
-				eb.setExpressionProvier( new ExpressionProvider( SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ),
-						DEUtil.getDataSetList( (ExtendedItemHandle) context ) ) );
+				eb.setExpressionProvier( new ExpressionProvider( (ExtendedItemHandle) context ) );
 				if ( sTitle != null )
 				{
 					eb.setDialogTitle( eb.getDialogTitle( ) + " - " + sTitle ); //$NON-NLS-1$

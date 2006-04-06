@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.reportitem.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
@@ -22,15 +22,15 @@ import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
+import org.eclipse.birt.report.designer.ui.dialogs.BindingColumnDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -79,41 +79,32 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public final String[] getPreviewHeader( ) throws ChartException
 	{
-		DataSetItemModel[] columnsModel = getPreviewHeaderModel( );
-		if ( columnsModel == null )
+		Iterator iterator = itemHandle.getColumnBindings( ).iterator( );
+		ArrayList list = new ArrayList( );
+		while ( iterator.hasNext( ) )
 		{
-			return null;
+			list.add( ( (ComputedColumnHandle) iterator.next( ) ).getName( ) );
 		}
-		String[] header = new String[columnsModel.length];
-		for ( int i = 0; i < header.length; i++ )
-		{
-			header[i] = columnsModel[i].getDisplayName( );
-		}
-		return header;
-	}
-
-	protected DataSetItemModel[] getPreviewHeaderModel( )
-	{
-		DataSetItemModel[] headers = null;
-		try
-		{
-			headers = ChartDataSetManager.getCurrentInstance( )
-					.getCacheMetaData( getDataSetFromHandle( ),
-							itemHandle.getPropertyHandle( ExtendedItemHandle.PARAM_BINDINGS_PROP )
-									.iterator( ) );
-			isErrorFound = false;
-		}
-		catch ( BirtException e )
-		{
-			WizardBase.displayException( e );
-			isErrorFound = true;
-		}
-		return headers;
+		return (String[]) list.toArray( new String[0] );
 	}
 
 	public final List getPreviewData( ) throws ChartException
 	{
-		return getPreviewRowData( null, -1, true );
+		return getPreviewRowData( getPreviewHeader( true ), -1, true );
+	}
+
+	private String[] getPreviewHeader( boolean isExpression )
+			throws ChartException
+	{
+		String[] exps = getPreviewHeader( );
+		if ( isExpression )
+		{
+			for ( int i = 0; i < exps.length; i++ )
+			{
+				exps[i] = ChartUIUtil.getExpressionString( exps[i] );
+			}
+		}
+		return exps;
 	}
 
 	protected final List getPreviewRowData( String[] columnExpression,
@@ -140,11 +131,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 									.iterator( ),
 							itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
 									.iterator( ),
+							itemHandle.getColumnBindings( ).iterator( ),
 							columnExpression,
 							rowCount <= 0 ? getMaxRow( ) : rowCount );
 			if ( actualResultSet != null )
 			{
-				IBaseExpression[] expressions = extractExpressions( actualResultSet );
+				String[] expressions = columnExpression;// extractExpressionNames(
+				// actualResultSet );
 				int columnCount = expressions.length;
 				IResultIterator iter = actualResultSet.getResultIterator( );
 				while ( iter.next( ) )
@@ -187,14 +180,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return dataList;
 	}
 
-	private IBaseExpression[] extractExpressions( IQueryResults qr )
-	{
-		Collection col = qr.getPreparedQuery( )
-				.getReportQueryDefn( )
-				.getRowExpressions( );
-		return (IBaseExpression[]) col.toArray( new IBaseExpression[col.size( )] );
-	}
-
 	public String getBoundDataSet( )
 	{
 		if ( itemHandle.getDataSet( ) == null )
@@ -221,6 +206,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public void setDataSet( String datasetName )
 	{
+		boolean needClean = true;
 		try
 		{
 			if ( datasetName == null )
@@ -230,15 +216,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			else
 			{
 				DataSetHandle dataset = getReportDesignHandle( ).findDataSet( datasetName );
-				if ( itemHandle.getDataSet( ) != dataset )
+				if ( itemHandle.getDataSet( ) == dataset )
 				{
-					// Clear parameters and filters binding if dataset changed
-					itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-							.clearValue( );
-					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-							.clearValue( );
-					itemHandle.setDataSet( dataset );
+					needClean = false;
 				}
+				itemHandle.setDataSet( dataset );
+			}
+			if ( needClean )
+			{
+				// Clear parameters and filters, binding if dataset changed
+				itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+						.clearValue( );
+				itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
+						.clearValue( );
+				itemHandle.getColumnBindings( ).clearValue( );
 			}
 		}
 		catch ( SemanticException e )
@@ -281,6 +272,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			return invokeEditParameter( );
 		}
+		else if ( command == COMMAND_EDIT_BINDING )
+		{
+			return invokeDataBinding( );
+		}
 		return Window.CANCEL;
 	}
 
@@ -300,6 +295,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	protected int invokeEditParameter( )
 	{
 		ReportItemParametersDialog page = new ReportItemParametersDialog( itemHandle );
+		return page.open( );
+	}
+
+	protected int invokeDataBinding( )
+	{
+		BindingColumnDialog page = new BindingColumnDialog( false );
+		page.setInput( itemHandle );
 		return page.open( );
 	}
 

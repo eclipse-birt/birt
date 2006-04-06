@@ -11,10 +11,9 @@
 
 package org.eclipse.birt.chart.reportitem.ui.dialogs;
 
-import java.util.List;
-
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.swt.widgets.Composite;
@@ -27,7 +26,7 @@ import org.eclipse.swt.widgets.Control;
 public class ExpressionDialogCellEditor extends DialogCellEditor
 {
 
-	private List dataSetList;
+	private ReportItemHandle itemHandle;
 
 	/**
 	 * 
@@ -64,7 +63,7 @@ public class ExpressionDialogCellEditor extends DialogCellEditor
 		String oldValue = (String) getValue( );
 		ExpressionBuilder dialog = new ExpressionBuilder( cellEditorWindow.getShell( ),
 				oldValue );
-		dialog.setExpressionProvier( new ExpressionProvider( dataSetList ) );
+		dialog.setExpressionProvier( new ExpressionProvider( itemHandle ) );
 
 		if ( dialog.open( ) == Dialog.OK )
 		{
@@ -77,8 +76,8 @@ public class ExpressionDialogCellEditor extends DialogCellEditor
 		return null;
 	}
 
-	public void setDataSetList( List list )
+	public void setItemHandle( ReportItemHandle handle )
 	{
-		dataSetList = list;
+		itemHandle = handle;
 	}
 }

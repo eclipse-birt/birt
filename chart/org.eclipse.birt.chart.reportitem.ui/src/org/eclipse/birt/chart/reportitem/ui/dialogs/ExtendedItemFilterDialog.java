@@ -27,6 +27,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ComboBoxExpressionCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ExpressionValueCellEditor;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -189,8 +191,8 @@ public class ExtendedItemFilterDialog extends BaseDialog
 		}
 		columnNameEditor = new ComboBoxExpressionCellEditor( viewer.getViewer( )
 				.getTable( ), columnExpressions, SWT.NONE );
-		List dataSets = DEUtil.getDataSetList( reportItemHandle );
-		columnNameEditor.setDataSetList( dataSets );
+		IExpressionProvider expressionProvider = new ExpressionProvider(reportItemHandle);
+		columnNameEditor.setExpressionProvider( expressionProvider );
 		// columnNameEditor.addFilter( new DataSetExpressionFilter( ) );
 
 		editors[1] = columnNameEditor;
@@ -200,12 +202,12 @@ public class ExtendedItemFilterDialog extends BaseDialog
 
 		ExpressionValueCellEditor editor = new ExpressionValueCellEditor( viewer.getViewer( )
 				.getTable( ) );
-		editor.setDataSetList( dataSets );
+		editor.setExpressionProvider( expressionProvider );
 		// editor.addFilter( new DataSetExpressionFilter( ) );
 		editor.setReportElement( reportItemHandle );
 		editors[3] = editor;
 		editor = new ExpressionValueCellEditor( viewer.getViewer( ).getTable( ) );
-		editor.setDataSetList( dataSets );
+		editor.setExpressionProvider( expressionProvider );
 		// editor.addFilter( new DataSetExpressionFilter( ) );
 		editor.setReportElement( reportItemHandle );
 		editors[4] = editor;

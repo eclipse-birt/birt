@@ -93,6 +93,7 @@ public class TaskSelectData extends SimpleTask
 	private transient CustomPreviewTable tablePreview = null;
 	private transient Button btnFilters = null;
 	private transient Button btnParameters = null;
+	private transient Button btnBinding = null;
 
 	private transient SelectDataDynamicArea dynamicArea;
 
@@ -333,8 +334,7 @@ public class TaskSelectData extends SimpleTask
 		btnFilters = new Button( composite, SWT.NONE );
 		{
 			btnFilters.setAlignment( SWT.CENTER );
-			GridData gridData = new GridData( );
-			gridData.widthHint = 80;
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			btnFilters.setLayoutData( gridData );
 			btnFilters.setText( Messages.getString( "TaskSelectData.Label.Filters" ) ); //$NON-NLS-1$
 			btnFilters.addSelectionListener( this );
@@ -343,11 +343,19 @@ public class TaskSelectData extends SimpleTask
 		btnParameters = new Button( composite, SWT.NONE );
 		{
 			btnParameters.setAlignment( SWT.CENTER );
-			GridData gridData = new GridData( );
-			gridData.widthHint = 80;
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			btnParameters.setLayoutData( gridData );
 			btnParameters.setText( Messages.getString( "TaskSelectData.Label.Parameters" ) ); //$NON-NLS-1$
 			btnParameters.addSelectionListener( this );
+		}
+
+		btnBinding = new Button( composite, SWT.NONE );
+		{
+			btnBinding.setAlignment( SWT.CENTER );
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			btnBinding.setLayoutData( gridData );
+			btnBinding.setText( Messages.getString( "TaskSelectData.Label.DataBinding" ) ); //$NON-NLS-1$
+			btnBinding.addSelectionListener( this );
 		}
 	}
 
@@ -375,6 +383,8 @@ public class TaskSelectData extends SimpleTask
 		btnFilters.setEnabled( hasDataSet( )
 				&& getDataServiceProvider( ).isInvokingSupported( ) );
 		btnParameters.setEnabled( hasDataSet( )
+				&& getDataServiceProvider( ).isInvokingSupported( ) );
+		btnBinding.setEnabled( hasDataSet( )
 				&& getDataServiceProvider( ).isInvokingSupported( ) );
 	}
 
@@ -455,10 +465,24 @@ public class TaskSelectData extends SimpleTask
 
 	private void switchDataSet( String datasetName ) throws ChartException
 	{
+		if ( getDataServiceProvider( ).getBoundDataSet( ) != null
+				&& getDataServiceProvider( ).getBoundDataSet( )
+						.equals( datasetName ) )
+		{
+			return;
+		}
 		try
 		{
+			// Clear old dataset and preview data
 			getDataServiceProvider( ).setDataSet( datasetName );
 			tablePreview.clearContents( );
+
+			// Popup data binding
+			if ( getDataServiceProvider( ).getBoundDataSet( ) != null
+					|| getDataServiceProvider( ).getReportDataSet( ) != null )
+			{
+				getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_BINDING );
+			}
 
 			// Try to get report data set
 			if ( datasetName == null )
@@ -510,6 +534,8 @@ public class TaskSelectData extends SimpleTask
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 			btnParameters.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
+			btnBinding.setEnabled( hasDataSet( )
+					&& getDataServiceProvider( ).isInvokingSupported( ) );
 		}
 		else if ( e.getSource( ).equals( btnUseDataSet ) )
 		{
@@ -539,6 +565,8 @@ public class TaskSelectData extends SimpleTask
 			btnFilters.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 			btnParameters.setEnabled( hasDataSet( )
+					&& getDataServiceProvider( ).isInvokingSupported( ) );
+			btnBinding.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 		}
 		else if ( e.getSource( ).equals( cmbDataSet ) )
@@ -581,6 +609,8 @@ public class TaskSelectData extends SimpleTask
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 			btnParameters.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
+			btnBinding.setEnabled( hasDataSet( )
+					&& getDataServiceProvider( ).isInvokingSupported( ) );
 		}
 		else if ( e.getSource( ).equals( btnFilters ) )
 		{
@@ -593,6 +623,14 @@ public class TaskSelectData extends SimpleTask
 		else if ( e.getSource( ).equals( btnParameters ) )
 		{
 			if ( getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_PARAMETER ) == Window.OK )
+			{
+				refreshTablePreview( );
+				doLivePreview( );
+			}
+		}
+		else if ( e.getSource( ).equals( btnBinding ) )
+		{
+			if ( getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_BINDING ) == Window.OK )
 			{
 				refreshTablePreview( );
 				doLivePreview( );

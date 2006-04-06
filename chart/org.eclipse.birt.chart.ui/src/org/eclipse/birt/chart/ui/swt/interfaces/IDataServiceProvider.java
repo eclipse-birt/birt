@@ -25,6 +25,7 @@ public interface IDataServiceProvider
 	public static final int COMMAND_NEW_DATASET = 0;
 	public static final int COMMAND_EDIT_FILTER = 1;
 	public static final int COMMAND_EDIT_PARAMETER = 2;
+	public static final int COMMAND_EDIT_BINDING = 3;
 
 	/**
 	 * Returns all available datasets to choose.

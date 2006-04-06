@@ -216,7 +216,7 @@ public class ReportItemParametersDialog extends BaseDialog
 		// reportItemHandle.getDataSet();
 		tableViewer.setInput( reportItemHandle );
 		// tableViewer.refresh( );
-		expressionCellEditor.setDataSetList( DEUtil.getDataSetList( reportItemHandle ) );
+		expressionCellEditor.setItemHandle( reportItemHandle );
 	}
 
 	/**
