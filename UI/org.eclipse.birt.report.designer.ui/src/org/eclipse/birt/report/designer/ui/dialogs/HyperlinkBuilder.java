@@ -62,6 +62,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
@@ -70,6 +71,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -110,7 +112,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private static final String COLUMN_PARAMETER = Messages.getString( "HyperlinkBuilder.Column.Parameters" ); //$NON-NLS-1$
 	private static final String COLUMN_VALUE = Messages.getString( "HyperlinkBuilder.Column.Values" ); //$NON-NLS-1$
-	private static final String COLUMN_REQUIRED = Messages.getString("HyperlinkBuilder.ParameterRequired"); //$NON-NLS-1$
+	private static final String COLUMN_REQUIRED = Messages.getString( "HyperlinkBuilder.ParameterRequired" ); //$NON-NLS-1$
 
 	private static final Image IMAGE_OPEN_FILE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_OPEN_FILE );
 
@@ -361,7 +363,7 @@ public class HyperlinkBuilder extends BaseDialog
 		createSelectionArea( composite );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		displayArea = new Composite( composite, SWT.NONE );
-		displayArea.setLayoutData( new GridData( 450, 490 ) );
+		displayArea.setLayoutData( new GridData( 500, 490 ) );
 		displayArea.setLayout( new GridLayout( 3, false ) );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		return composite;
@@ -409,6 +411,8 @@ public class HyperlinkBuilder extends BaseDialog
 		clearArea( );
 		closeTargetReport( );
 
+		displayArea.setLayout( new GridLayout( 3, false ) );
+		
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( type ) )
 		{
 			switchToURI( );
@@ -483,28 +487,36 @@ public class HyperlinkBuilder extends BaseDialog
 		// createTargetBar( );
 		// createFormatBar( );
 
-		displayArea.setLayout( new GridLayout( ) );
-		messageLine = new CLabel( displayArea, SWT.NONE );
-		messageLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		createDrillthroughSelectTargetReport( );
-		createDrillthroughSelectTargetAnchor( );
-		createDrillthroughCreateLinkExpression( );
-		createDrillthroughSelectShowTarget( );
-		createDrillthroughSelectFormat( );
+		displayArea.setLayout( new FillLayout( ) );
+		final ScrolledComposite scrolledContainer = new ScrolledComposite( displayArea,
+				SWT.H_SCROLL | SWT.V_SCROLL );
 
+		final Composite container = new Composite( scrolledContainer, SWT.NONE );
+		container.setLayout( new GridLayout( ) );
+		scrolledContainer.setContent( container );
+
+		messageLine = new CLabel( container, SWT.NONE );
+		messageLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		createDrillthroughSelectTargetReport( container );
+		createDrillthroughSelectTargetAnchor( container );
+		createDrillthroughCreateLinkExpression( container );
+		createDrillthroughSelectShowTarget( container );
+		createDrillthroughSelectFormat( container );
+
+		container.setSize( container.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
 	}
 
-	private void createDrillthroughSelectTargetReport( )
+	private void createDrillthroughSelectTargetReport( Composite container )
 	{
-		targetGroup = new Group( displayArea, SWT.NONE );
+		targetGroup = new Group( container, SWT.NONE );
 		targetGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		targetGroup.setText( Messages.getString("HyperlinkBuilder.DrillThroughStep1") ); //$NON-NLS-1$
+		targetGroup.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep1" ) ); //$NON-NLS-1$
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 3;
 		targetGroup.setLayout( layout );
 
 		reportDesignButton = new Button( targetGroup, SWT.RADIO );
-		reportDesignButton.setText( Messages.getString("HyperlinkBuilder.ReportDesignButton") ); //$NON-NLS-1$
+		reportDesignButton.setText( Messages.getString( "HyperlinkBuilder.ReportDesignButton" ) ); //$NON-NLS-1$
 		reportDesignButton.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -539,7 +551,7 @@ public class HyperlinkBuilder extends BaseDialog
 		createBindingTable( targetGroup );
 
 		reportDocumentButton = new Button( targetGroup, SWT.RADIO );
-		reportDocumentButton.setText( Messages.getString("HyperlinkBuilder.ReportDocumentButton") ); //$NON-NLS-1$
+		reportDocumentButton.setText( Messages.getString( "HyperlinkBuilder.ReportDocumentButton" ) ); //$NON-NLS-1$
 
 		reportDocumentButton.addSelectionListener( new SelectionListener( ) {
 
@@ -576,15 +588,15 @@ public class HyperlinkBuilder extends BaseDialog
 
 	}
 
-	private void createDrillthroughSelectTargetAnchor( )
+	private void createDrillthroughSelectTargetAnchor( Composite container )
 	{
-		final Group group = new Group( displayArea, SWT.NONE );
+		final Group group = new Group( container, SWT.NONE );
 		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		group.setText( Messages.getString("HyperlinkBuilder.DrillThroughStep2") ); //$NON-NLS-1$
+		group.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep2" ) ); //$NON-NLS-1$
 		group.setLayout( new GridLayout( ) );
 
 		targetBookmarkButton = new Button( group, SWT.RADIO );
-		targetBookmarkButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughTargetBookmark") ); //$NON-NLS-1$
+		targetBookmarkButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughTargetBookmark" ) ); //$NON-NLS-1$
 		targetBookmarkButton.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -598,7 +610,7 @@ public class HyperlinkBuilder extends BaseDialog
 		} );
 
 		tocButton = new Button( group, SWT.RADIO );
-		tocButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughTargetToc") ); //$NON-NLS-1$
+		tocButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughTargetToc" ) ); //$NON-NLS-1$
 
 		tocButton.addSelectionListener( new SelectionListener( ) {
 
@@ -626,48 +638,48 @@ public class HyperlinkBuilder extends BaseDialog
 
 	}
 
-	private void createDrillthroughCreateLinkExpression( )
+	private void createDrillthroughCreateLinkExpression( Composite container )
 	{
-		Group group = new Group( displayArea, SWT.NONE );
+		Group group = new Group( container, SWT.NONE );
 		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		group.setText( Messages.getString("HyperlinkBuilder.DrillThroughStep3") ); //$NON-NLS-1$
+		group.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep3" ) ); //$NON-NLS-1$
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 3;
 		group.setLayout( layout );
-		new Label( group, SWT.NONE ).setText( Messages.getString("HyperlinkBuilder.DrillThroughLinkExpression") ); //$NON-NLS-1$
+		new Label( group, SWT.NONE ).setText( Messages.getString( "HyperlinkBuilder.DrillThroughLinkExpression" ) ); //$NON-NLS-1$
 
 		bookmarkEditor = new Text( group, SWT.BORDER | SWT.READ_ONLY );
 		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createExpressionButton( group, bookmarkEditor );
 	}
 
-	private void createDrillthroughSelectShowTarget( )
+	private void createDrillthroughSelectShowTarget( Composite container )
 	{
-		Group group = new Group( displayArea, SWT.NONE );
+		Group group = new Group( container, SWT.NONE );
 		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		group.setText( Messages.getString("HyperlinkBuilder.DrillThroughStep4") ); //$NON-NLS-1$
+		group.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep4" ) ); //$NON-NLS-1$
 		group.setLayout( new GridLayout( ) );
 
 		sameWindowButton = new Button( group, SWT.RADIO );
-		sameWindowButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughSamewindow") ); //$NON-NLS-1$
+		sameWindowButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughSamewindow" ) ); //$NON-NLS-1$
 
 		newWindowButton = new Button( group, SWT.RADIO );
-		newWindowButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughNewWindow") ); //$NON-NLS-1$
+		newWindowButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughNewWindow" ) ); //$NON-NLS-1$
 
 	}
 
-	private void createDrillthroughSelectFormat( )
+	private void createDrillthroughSelectFormat( Composite container )
 	{
-		Group group = new Group( displayArea, SWT.NONE );
+		Group group = new Group( container, SWT.NONE );
 		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		group.setText( Messages.getString("HyperlinkBuilder.DrillThroughStep5") ); //$NON-NLS-1$
+		group.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep5" ) ); //$NON-NLS-1$
 		group.setLayout( new GridLayout( ) );
 
 		htmlButton = new Button( group, SWT.RADIO );
-		htmlButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughHtml") ); //$NON-NLS-1$
+		htmlButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughHtml" ) ); //$NON-NLS-1$
 
 		pdfButton = new Button( group, SWT.RADIO );
-		pdfButton.setText( Messages.getString("HyperlinkBuilder.DrillThroughPdf") ); //$NON-NLS-1$
+		pdfButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughPdf" ) ); //$NON-NLS-1$
 
 	}
 
