@@ -100,15 +100,11 @@
 	    <or>
 	       <and>
 	          <objectClass name="org.eclipse.core.resources.IFile"/>
-	          <objectState
-	                name="extension"
-	                value="rptdesign"/>
+	          <objectState name="extension" value="rptdesign"/>
 	       </and>
 	       <and>
 	          <objectClass name="org.eclipse.core.resources.IFile"/>
-	          <objectState
-	                name="extension"
-	                value="rptdocument"/>
+	          <objectState name="extension" value="rptdocument"/>
 	       </and>
 	    </or>
 	 </visibility>
@@ -128,9 +124,7 @@
 	      <visibility>
 	         <and>
 	            <objectClass name="org.eclipse.core.resources.IFile"/>
-	            <objectState
-	                  name="extension"
-	                  value="rptdesign"/>
+	            <objectState name="extension" value="rptdesign"/>
 	         </and>
 	      </visibility>
 	   </viewerContribution>
@@ -147,9 +141,7 @@
 	      <visibility>
 	         <and>
 	            <objectClass name="org.eclipse.core.resources.IFile"/>
-	            <objectState
-	                  name="extension"
-	                  value="rptdocument"/>
+	            <objectState name="extension" value="rptdocument"/>
 	         </and>
 	      </visibility>
 	   </viewerContribution>
