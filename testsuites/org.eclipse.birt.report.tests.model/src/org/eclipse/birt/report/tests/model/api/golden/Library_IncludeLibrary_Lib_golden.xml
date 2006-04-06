@@ -15,6 +15,7 @@
             <property name="defaultValue">"abc"</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
+                 <property name="pattern">Unformatted</property>
             </structure>
         </scalar-parameter>
     </parameters>
