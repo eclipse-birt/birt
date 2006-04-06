@@ -89,7 +89,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.87 $ $Date: 2006/04/05 07:00:53 $
+ * @version $Revision: 1.88 $ $Date: 2006/04/05 13:22:14 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -740,7 +740,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					setStyleName( bodyStyleName );
 				}
 				AttributeBuilder.buildSize( styleBuffer,
-						HTMLTags.ATTR_HEIGHT,
+						HTMLTags.ATTR_MIN_HEIGHT,
 						masterPage.getPageHeight( ) );
 				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			}
@@ -1284,7 +1284,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		DimensionType width = text.getWidth( );
 		DimensionType height = text.getHeight( );
 		String textValue = text.getText( );
-
+		if (textValue == null || textValue == "" ) //$NON-NLS-1$
+		{
+			textValue = " "; //$NON-NLS-1$
+		}
+		
 		int display;
 		// If the item is multi-line, we should check if it can be inline-block
 		if ( textValue != null && textValue.indexOf( '\n' ) >= 0 )
