@@ -321,7 +321,7 @@ public class JDBCSelectionPageHelper
 	{
         if( userName == null )
             return EMPTY_STRING;
-		return userName.getText( );
+		return getTrimedString(userName.getText( ));
 	}
 
     /**
@@ -332,7 +332,7 @@ public class JDBCSelectionPageHelper
 	{
         if( password == null )
             return EMPTY_STRING;
-		return password.getText( );
+		return getTrimedString(password.getText( ));
 	}
 
 	/**
@@ -343,7 +343,7 @@ public class JDBCSelectionPageHelper
 	{
         if( jdbcUrl == null )
             return EMPTY_STRING;
-		return jdbcUrl.getText( );
+		return getTrimedString(jdbcUrl.getText( ));
 	}
 
 	/**
@@ -354,9 +354,20 @@ public class JDBCSelectionPageHelper
 	{
 		if ( driverChooserCombo == null )
 			return EMPTY_STRING;
-		return getSelectedDriverClassName( );
+		return getTrimedString(getSelectedDriverClassName( ));
 	}
 	
+	/**
+	 * 
+	 * @param tobeTrimed
+	 * @return
+	 */
+	private String getTrimedString( String tobeTrimed )
+	{
+		if( tobeTrimed!= null )
+			tobeTrimed = tobeTrimed.trim( );
+		return tobeTrimed;
+	}
 	/**
 	 * sort the driver list with ascending order
 	 * 
