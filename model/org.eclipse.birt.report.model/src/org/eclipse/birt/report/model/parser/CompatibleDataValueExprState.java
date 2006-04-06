@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.xml.sax.SAXException;
@@ -50,8 +49,6 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 
 		if ( StringUtil.isBlank( value ) )
 			return;
-	
-		value = ExpressionUtil.toNewExpression( value );
 		
 		String newColumnName = setupBoundDataColumn( value, value );
 

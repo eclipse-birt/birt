@@ -399,6 +399,8 @@ public class ModuleUtil
 	 * @throws SemanticException
 	 *             if values in result set columns are not valid in data bound
 	 *             columns.
+	 * @deprecated temporarily since another way to implement this feature.
+	 * 
 	 */
 
 	public static void updateBoundDataColumns( ModuleHandle module )
