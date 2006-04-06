@@ -71,7 +71,7 @@ public final class ExpressionUtil
 	 * @param xmlString
 	 * @return
 	 */
-	public static List extractColumnExpressionsFromXML( String xmlString )
+	public static List extractColumnNamesFromXML( String xmlString )
 	{
 		List result = new ArrayList( );
 		if ( xmlString == null )
