@@ -334,7 +334,7 @@ public class ModelDteApiAdapter
 					Object url = source.getModuleHandle( )
 							.findResource( (String) propValue,
 									IResourceLocator.LIBRARY );
-					propValue = url == null ? "" : url.toString( );
+					propValue = url == null ? propValue : url.toString( );
 				}	
 				dteSource.addPublicProperty( propName, propValue );
 			}
