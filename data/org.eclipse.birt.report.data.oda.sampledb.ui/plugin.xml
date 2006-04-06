@@ -5,8 +5,7 @@
      <extension
          point="org.eclipse.datatools.connectivity.connectionProfile">
       <category
-            id="%oda.parent.category.id"
-            name="%oda.parent.category.name"/>
+            id="%oda.parent.category.id"/>
       <category
             id="%oda.data.source.id"
             name="%oda.data.source.name"

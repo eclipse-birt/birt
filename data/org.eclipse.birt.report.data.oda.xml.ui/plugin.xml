@@ -4,8 +4,7 @@
      <extension
          point="org.eclipse.datatools.connectivity.connectionProfile">
       <category
-            id="%oda.parent.category.id"
-            name="%oda.parent.category.name"/>
+            id="%oda.parent.category.id"/>
       <category
             id="%oda.data.source.id"
             name="%oda.data.source.name"
@@ -65,17 +64,17 @@
             supportsOutParameters="false">
             <dataSetWizard class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizard"/>
             <dataSetPage
-                  id="org.eclipse.datatools.connectivity.oda.design.ui1"
+                  id="org.eclipse.birt.report.data.oda.xml.ui.dataset.ui1"
                   wizardPageClass="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetSelectionPage"
                   path="/"
                   displayName="%oda.xml.dataset"/>
             <dataSetPage
-                  id="org.eclipse.datatools.connectivity.oda.design.ui2"
+                  id="org.eclipse.birt.report.data.oda.xml.ui.dataset.ui2"
                   wizardPageClass="org.eclipse.birt.report.data.oda.xml.ui.wizards.XPathChoosePage"
                   path="/"
                   displayName="%oda.xml.tablemapping"/>
             <dataSetPage
-                  id="org.eclipse.datatools.connectivity.oda.design.ui3"
+                  id="org.eclipse.birt.report.data.oda.xml.ui.dataset.ui3"
                   wizardPageClass="org.eclipse.birt.report.data.oda.xml.ui.wizards.ColumnMappingPage"
                   path="/"
                   displayName="%oda.xml.columnmapping"/>     
