@@ -92,7 +92,11 @@ public class HandlerPage extends AttributePage
 							.getPropertyHandle( ReportDesignHandle.EVENT_HANDLER_CLASS_PROP );
 					try
 					{
-						handle.setStringValue( finder.getFinderClassName( ) );
+						String finderClassName = finder.getFinderClassName( );
+						if(finderClassName != null && finderClassName.trim( ).length( ) > 0)
+						{
+							handle.setStringValue( finderClassName.trim( ) );
+						}						
 					}
 					catch ( SemanticException e1 )
 					{
