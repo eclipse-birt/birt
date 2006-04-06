@@ -144,6 +144,7 @@
 	   			<include name="${manifest}"/>				
 				<include name="plugin.xml"/>
 				<include name=".options"/>
+				<include name="about.html"/>				
 			</fileset>
 			<fileset dir="${build.dir}/">
 				<include name="*/**"/>
