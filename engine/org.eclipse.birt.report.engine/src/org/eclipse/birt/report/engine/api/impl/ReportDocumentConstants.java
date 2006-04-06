@@ -66,6 +66,12 @@ public interface ReportDocumentConstants
 	static final String PAGE_STREAM = "/content/page.dat";
 	
 	/**
+	 * the relationships of the result sets, only one copy for each
+	 * report document. 
+	 */
+	static final String DATA_META_STREAM = "/Data/hierarchy";
+	
+	/**
 	 * report document tag. exist in the header of the
 	 * core stream.
 	 */

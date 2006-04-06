@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.89 $ $Date: 2006/03/27 11:15:41 $
+ * @version $Revision: 1.90 $ $Date: 2006/03/31 09:54:23 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -713,9 +713,15 @@ class EngineIRVisitor extends DesignVisitor
 		DataItemDesign data = new DataItemDesign( );
 		setupReportItem( data, handle );
 		data.setName( handle.getName( ) );
-		// Fill in data expression
-		String expr = handle.getValueExpr( );
-		data.setValue( createExpression( expr ) );
+
+		// Fill in data expression, 
+		//String expr = handle.getValueExpr( );
+		String expr = handle.getResultSetColumn( );
+		if (expr != null && expr.trim( ).length( ) > 0)
+		{
+			expr = "row[\"" + expr.replaceAll( "\"", "\\\"") + "\"]";
+			data.setValue( expr );
+		}
 		// Handle Action
 		ActionHandle action = handle.getActionHandle( );
 		if ( action != null )
@@ -799,8 +805,8 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			String valueExpr = handle.getValueExpression( );
 			String typeExpr = handle.getTypeExpression( );
-			Expression imageValue = createExpression( valueExpr );
-			Expression imageType = createExpression( typeExpr );
+			String imageValue = createExpression( valueExpr );
+			String imageType = createExpression( typeExpr );
 			image.setImageExpression( imageValue, imageType );
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_EMBED.equals( imageSrc ) )
@@ -1103,7 +1109,7 @@ class EngineIRVisitor extends DesignVisitor
 			{
 				ReportItemDesign item = (ReportItemDesign) header
 						.getContent( 0 );
-				item.setTOC( new Expression( tocExpr ) );
+				item.setTOC( createExpression( tocExpr ) );
 			}
 		}
 
@@ -1139,7 +1145,7 @@ class EngineIRVisitor extends DesignVisitor
 			if ( header.getRowCount( ) > 0 )
 			{
 				RowDesign row = header.getRow( 0 );
-				row.setTOC( new Expression( toc ) );
+				row.setTOC( createExpression( toc ) );
 			}
 		}
 
@@ -1355,11 +1361,11 @@ class EngineIRVisitor extends DesignVisitor
 		setupElementIDMap( element );
 	}
 
-	protected Expression createExpression( String expr )
+	protected String createExpression( String expr )
 	{
 		if ( expr != null && !expr.trim( ).equals( "" ) )
 		{
-			return new Expression( expr );
+			return expr;
 		}
 		return null;
 	}

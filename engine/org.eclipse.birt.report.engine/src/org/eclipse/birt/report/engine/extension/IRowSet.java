@@ -71,7 +71,9 @@ public interface IRowSet {
 	 * @param expr expression, must be prepared in DTE.prepared().
 	 * @return result of the expression.
 	 */
-	Object evaluate(IBaseExpression expr);
+	Object evaluate( String expr );
+	
+	Object evaluate( IBaseExpression expr );
 	
 	/**
 	 * clse the row set

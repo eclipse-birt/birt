@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * reference to report design schema.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/17 16:50:43 $
+ * @version $Revision: 1.9 $ $Date: 2006/02/27 07:35:59 $
  */
 public class DataItemDesign extends ReportItemDesign
 {
@@ -24,7 +24,7 @@ public class DataItemDesign extends ReportItemDesign
 	/**
 	 * Data expression
 	 */
-	protected Expression value = new Expression( );
+	protected String value;
 
 	/**
 	 * help text
@@ -48,7 +48,7 @@ public class DataItemDesign extends ReportItemDesign
 	 * 
 	 * @return value expression
 	 */
-	public Expression getValue( )
+	public String getValue( )
 	{
 		return this.value;
 	}
@@ -59,7 +59,7 @@ public class DataItemDesign extends ReportItemDesign
 	 * @param value
 	 *            value expression
 	 */
-	public void setValue( Expression value )
+	public void setValue( String value )
 	{
 		this.value = value;
 	}

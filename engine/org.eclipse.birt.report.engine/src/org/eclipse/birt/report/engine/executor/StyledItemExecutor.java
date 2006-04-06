@@ -37,7 +37,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.21 $ $Date: 2005/11/22 03:03:05 $
+ * @version $Revision: 1.22 $ $Date: 2005/12/23 06:37:24 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -100,7 +100,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			HighlightRuleDesign rule = highlight.getRule( i );
 			if ( rule != null )
 			{
-				Object value = context.evaluate( rule.getConditionExpr( ) );
+				Object value = context.evaluateCondExpr( rule.getConditionExpr( ) );
 				if ( ( value != null ) && ( value instanceof Boolean )
 						&& ( ( (Boolean) value ).booleanValue( ) ) )
 				{
@@ -145,7 +145,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				MapRuleDesign rule = map.getRule( i );
 				if ( rule != null )
 				{
-					Object value = context.evaluate( rule.getConditionExpr( ) );
+					Object value = context.evaluateCondExpr( rule.getConditionExpr( ) );
 					if ( ( value != null ) && ( value instanceof Boolean )
 							&& ( ( (Boolean) value ).booleanValue( ) ) )
 					{
@@ -202,7 +202,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			for ( int i = 0; i < visibility.count( ); i++ )
 			{
 				VisibilityRuleDesign rule = visibility.getRule( i );
-				Expression expr = rule.getExpression( );
+				String expr = rule.getExpression( );
 				Object result = null;
 				if ( expr != null )
 				{
@@ -214,7 +214,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 							.log(
 									Level.WARNING,
 									"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
-									rule.getExpression( ).getExpr( ) );
+									rule.getExpression( ) );
 					continue;
 				}
 				boolean isHidden = ( (Boolean) result ).booleanValue( );

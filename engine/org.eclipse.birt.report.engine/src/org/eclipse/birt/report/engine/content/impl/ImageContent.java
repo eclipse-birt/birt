@@ -256,7 +256,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 		return MIMEType;
 	}
 
-	public Expression getExpression( )
+	public String getExpression( )
 	{
 		if ( generateBy instanceof ImageItemDesign )
 		{

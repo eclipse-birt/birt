@@ -612,18 +612,11 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			DataContent data = (DataContent) content;
 			if ( design.getMap( ) == null )
 			{
-				Expression valueExpr = design.getValue( );
+				String valueExpr = design.getValue( );
 				if ( valueExpr != null )
 				{
-					if ( resultSets.size( ) > 0 )
-					{
-						IResultSet rset = (IResultSet) resultSets.peek( );
-						if ( rset != null )
-						{
-							Object value = rset.evaluate( valueExpr );
-							data.setValue( value );
-						}
-					}
+					Object value = context.evaluate( valueExpr );
+					data.setValue( value );
 				}
 			}
 		}

@@ -18,7 +18,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 /**
  * Report Item
  * 
- * @version $Revision: 1.10 $ $Date: 2005/11/17 16:50:43 $
+ * @version $Revision: 1.11 $ $Date: 2006/02/27 07:35:59 $
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {
@@ -47,16 +47,16 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * book-mark associated with this element.
 	 */
-	protected Expression bookmark;
+	protected String bookmark;
 	/**
 	 * TOC expression
 	 */
-	protected Expression toc;
+	protected String toc;
 	
 	/**
 	 * scripted called while on created
 	 */
-	protected Expression onCreate;
+	protected String onCreate;
 	
 	/**
 	 * script called while on render
@@ -155,26 +155,26 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	abstract public Object accept( IReportItemVisitor visitor , Object value);
 
 	
-	public Expression getTOC()
+	public String getTOC()
 	{
 		return toc;
 	}
 	
-	public void setTOC(Expression expr)
+	public void setTOC( String expr )
 	{
 		this.toc = expr;
 	}
 	/**
 	 * @return Returns the boo-kmark.
 	 */
-	public Expression getBookmark( )
+	public String getBookmark( )
 	{
 		return bookmark;
 	}
 	/**
 	 * @param bookmark The book-mark to set.
 	 */
-	public void setBookmark( Expression bookmark )
+	public void setBookmark( String bookmark )
 	{
 		this.bookmark = bookmark;
 	}
@@ -207,14 +207,14 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the onCreate.
 	 */
-	public Expression getOnCreate( )
+	public String getOnCreate( )
 	{
 		return onCreate;
 	}
 	/**
 	 * @param onCreate The onCreate to set.
 	 */
-	public void setOnCreate( Expression onCreate )
+	public void setOnCreate( String onCreate )
 	{
 		this.onCreate = onCreate;
 	}

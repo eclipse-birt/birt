@@ -64,7 +64,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.39 $ $Date: 2006/01/26 04:34:38 $
+ * @version $Revision: 1.40 $ $Date: 2006/03/27 11:15:39 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -170,7 +170,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.39 $ $Date: 2006/01/26 04:34:38 $
+	 * @version $Revision: 1.40 $ $Date: 2006/03/27 11:15:39 $
 	 */
 	private static class TABLEINFO
 	{
@@ -657,12 +657,12 @@ public class TableItemExecutor extends ListingElementExecutor
 					ReportItemDesign item = cell.getContent( m );
 					if ( item instanceof DataItemDesign )
 					{
-						Expression valueExpr = ( ( DataItemDesign ) item )
+						String valueExpr = ( ( DataItemDesign ) item )
 								.getValue( );
 						ret.add( valueExpr );
 					} else if ( item instanceof MultiLineItemDesign )
 					{
-						Expression valueExpr = ( ( MultiLineItemDesign ) item )
+						String valueExpr = ( ( MultiLineItemDesign ) item )
 								.getContent( );
 						ret.add( valueExpr );
 					}

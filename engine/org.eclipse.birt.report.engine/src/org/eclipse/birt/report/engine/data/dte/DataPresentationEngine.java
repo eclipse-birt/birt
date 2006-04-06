@@ -12,13 +12,9 @@
 package org.eclipse.birt.report.engine.data.dte;
 
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -27,91 +23,94 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.mozilla.javascript.Scriptable;
 
 public class DataPresentationEngine extends AbstractDataEngine
 {
 
 	private IDocArchiveReader reader;
 
+	/*
+	 * store relations of various query ResultSet. Such as relations between
+	 * parent ResultSet and nested query ResultSet.
+	 * 
+	 * The user use
+	 * 
+	 * ParentResultId.rowId.queryName to access the result set id.
+	 */
+	protected HashMap rsetRelations = new HashMap( );
+
 	public DataPresentationEngine( ExecutionContext ctx,
 			IDocArchiveReader reader )
 	{
-		context = ctx;
-		this.reader = reader;
-		// fd = getRandomAccessFile();
 
-		loadDteMetaInfo( );
+		context = ctx;
 
 		try
 		{
+			Scriptable scope = context.getScope( );
+			// register a js row object into the execution context, so
+			// we can use row["colName"] to get the column values
+			context.registerBean( "row", new NativeRowObject( scope, rsets ) );
+
+			// create the DteData engine.
 			DataEngineContext dteContext = DataEngineContext.newInstance(
 					DataEngineContext.MODE_PRESENTATION, ctx.getSharedScope( ),
 					reader, null );
-			dataEngine = DataEngine.newDataEngine( dteContext );
+			dteEngine = DataEngine.newDataEngine( dteContext );
+
 		}
-		catch ( BirtException ex )
+		catch ( Exception ex )
 		{
-			context.addException( ex );
-			logger.log( Level.SEVERE, ex.getMessage( ), ex );
+			logger.log( Level.SEVERE, "can't create the DTE data engine", ex );
+			ex.printStackTrace( );
 		}
+		this.reader = reader;
 	}
 
-	public void prepare( Report report, Map appContext )
+	protected void doPrepareQuery( Report report, Map appContext )
 	{
-		// build report queries
-		new ReportQueryBuilder( ).build( report, context );
-
-		doPrepareQueryID( report, appContext );
-
+		// prepare report queries
+		queryIDMap.putAll( report.getQueryIDs( ) );
+		loadDteMetaInfo( );
 	}
 
 	private void loadDteMetaInfo( )
 	{
+		DataInputStream dis = null;
 		try
 		{
-			DataInputStream dis = new DataInputStream( reader
-					.getStream( DATA_META_STREAM ) );
-			mapQueryIDToResultSetIDs = new HashMap( );
-			int size = IOUtil.readInt( dis );
-			for ( int i = 0; i < size; i++ )
+			dis = new DataInputStream( reader.getStream( ReportDocumentConstants.DATA_META_STREAM ) );
+
+			StringBuffer buffer = new StringBuffer( );
+			while ( true )
 			{
+				String pRsetId = IOUtil.readString( dis );
+				long rowId = IOUtil.readLong( dis );
 				String queryId = IOUtil.readString( dis );
-				LinkedList ridList = new LinkedList( );
-				readStringList( dis, ridList );
-				mapQueryIDToResultSetIDs.put( queryId, ridList );
-			}
+				String rsetId = IOUtil.readString( dis );
 
-			size = IOUtil.readInt( dis );
-			queryResultRelations = new ArrayList( );
-			for ( int i = 0; i < size; i++ )
-			{
-				String parentRSID = IOUtil.readString( dis );
-				String rowid = IOUtil.readString( dis );
-				String qid = IOUtil.readString( dis );
-				String resultSetID = IOUtil.readString( dis );
-				Key key = new Key( parentRSID, rowid, qid, resultSetID );
-				queryResultRelations.add( key );
-			}
+				buffer.setLength( 0 );
+				buffer.append( pRsetId );
+				buffer.append( "." );
+				buffer.append( rowId );
+				buffer.append( "." );
+				buffer.append( queryId );
 
-			size = IOUtil.readInt( dis );
-			queryExpressionIDs = new ArrayList( );
-			for ( int i = 0; i < size; i++ )
-			{
-				QueryID queryId = new QueryID( );
-				readQueryID( dis, queryId );
-				queryExpressionIDs.add( queryId );
+				rsetRelations.put( buffer.toString( ), rsetId );
 			}
-			dis.close( );
+		}
+		catch ( EOFException eofe )
+		{
+			// we expect that there should be an EOFexception
 		}
 		catch ( IOException ioe )
 		{
@@ -119,128 +118,36 @@ public class DataPresentationEngine extends AbstractDataEngine
 					"Can't load the data in report document", ioe ) );
 			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
 		}
-	}
-
-	private void readQueryID( DataInputStream dis, QueryID queryId )
-			throws IOException
-	{
-		readStringList( dis, queryId.beforeExpressionIDs );
-		readStringList( dis, queryId.afterExpressionIDs );
-		readStringList( dis, queryId.rowExpressionIDs );
-
-		int size = IOUtil.readInt( dis );
-		for ( int i = 0; i < size; i++ )
+		finally
 		{
-			QueryID qid = new QueryID( );
-			readQueryID( dis, qid );
-			queryId.groupIDs.add( qid );
-		}
-
-		size = IOUtil.readInt( dis );
-		for ( int i = 0; i < size; i++ )
-		{
-			QueryID subQid = new QueryID( );
-			readQueryID( dis, subQid );
-			queryId.subqueryIDs.add( subQid );
-		}
-	}
-
-	private void readStringList( DataInputStream dis, List list )
-			throws IOException
-	{
-		int size = IOUtil.readInt( dis );
-		for ( int i = 0; i < size; i++ )
-		{
-			String str = IOUtil.readString( dis );
-			list.add( str );
-		}
-	}
-
-	protected void doPrepareQueryID( Report report, Map appContext )
-	{
-		// prepare report queries
-		queryIDMap.putAll( report.getQueryIDs( ) );
-		if ( queryExpressionIDs.size( ) != report.getQueries( ).size( ) )
-		{
-			EngineException ex = new EngineException(
-					"Data in report document is not couple with report design" );
-			context.addException( ex );
-			logger.log( Level.SEVERE, ex.getMessage( ), ex );
-			return;
-		}
-		for ( int i = 0; i < report.getQueries( ).size( ); i++ )
-		{
-			IQueryDefinition queryDef = (IQueryDefinition) report.getQueries( )
-					.get( i );
-			QueryID queryID = (QueryID) queryExpressionIDs.get( i );
-			setQueryIDs( queryDef, queryID );
-		}
-	}
-
-	private void setQueryIDs( IBaseQueryDefinition query, QueryID queryID )
-	{
-		setExpressionID( queryID.beforeExpressionIDs, query
-				.getBeforeExpressions( ) );
-		setExpressionID( queryID.afterExpressionIDs, query
-				.getAfterExpressions( ) );
-		setExpressionID( queryID.rowExpressionIDs, query.getRowExpressions( ) );
-
-		Iterator subIter = query.getSubqueries( ).iterator( );
-		Iterator subIDIter = queryID.subqueryIDs.iterator( );
-		while ( subIter.hasNext( ) && subIDIter.hasNext( ) )
-		{
-			ISubqueryDefinition subquery = (ISubqueryDefinition) subIter.next( );
-			QueryID subID = (QueryID) subIDIter.next( );
-			setQueryIDs( subquery, subID );
-		}
-
-		Iterator grpIter = query.getGroups( ).iterator( );
-		Iterator grpIDIter = queryID.groupIDs.iterator( );
-		while ( grpIter.hasNext( ) && grpIDIter.hasNext( ) )
-		{
-			IGroupDefinition group = (IGroupDefinition) grpIter.next( );
-
-			QueryID groupID = (QueryID) grpIDIter.next( );
-			setExpressionID( groupID.beforeExpressionIDs, group
-					.getBeforeExpressions( ) );
-			setExpressionID( groupID.afterExpressionIDs, group
-					.getAfterExpressions( ) );
-			setExpressionID( groupID.rowExpressionIDs, group
-					.getRowExpressions( ) );
-
-			Iterator grpSubIter = group.getSubqueries( ).iterator( );
-			Iterator grpIDSubIter = groupID.subqueryIDs.iterator( );
-			while ( grpSubIter.hasNext( ) && grpIDSubIter.hasNext( ) )
+			if ( dis != null )
 			{
-				ISubqueryDefinition grpSubquery = (ISubqueryDefinition) grpSubIter
-						.next( );
-				QueryID grpSubID = (QueryID) grpIDSubIter.next( );
-				setQueryIDs( grpSubquery, grpSubID );
+				try
+				{
+					dis.close( );
+				}
+				catch ( IOException ex )
+				{
+
+				}
 			}
 		}
 	}
 
-	private void setExpressionID( Collection idArray, Collection exprArray )
+	private StringBuffer keyBuffer = new StringBuffer( );
+
+	protected String getResultID( String pRsetId, long rowId, String queryId )
 	{
-		if ( idArray.size( ) != exprArray.size( ) )
-		{
-			EngineException ex = new EngineException(
-					"Data in report document is not couple with report design" );
-			context.addException( ex );
-			logger.log( Level.SEVERE, ex.getMessage( ), ex );
-			return;
-		}
-		Iterator idIter = idArray.iterator( );
-		Iterator exprIter = exprArray.iterator( );
-		while ( idIter.hasNext( ) )
-		{
-			String id = (String) idIter.next( );
-			IBaseExpression expr = (IBaseExpression) exprIter.next( );
-			expr.setID( id );
-		}
+		keyBuffer.setLength( 0 );
+		keyBuffer.append( pRsetId );
+		keyBuffer.append( "." );
+		keyBuffer.append( rowId );
+		keyBuffer.append( "." );
+		keyBuffer.append( queryId );
+		return (String) rsetRelations.get( keyBuffer.toString( ) );
 	}
 
-	protected IResultSet doExecute( IBaseQueryDefinition query )
+	protected IResultSet doExecuteQuery( IBaseQueryDefinition query )
 	{
 		assert query instanceof IQueryDefinition;
 
@@ -249,41 +156,37 @@ public class DataPresentationEngine extends AbstractDataEngine
 		try
 		{
 			IQueryResults queryResults = null;
-			DteResultSet parentResult = (DteResultSet) getParentResultSet( );
+			DteResultSet parentResult = (DteResultSet) getResultSet( );
 			if ( parentResult != null )
 			{
 				queryResults = parentResult.getQueryResults( );
 			}
-			DteResultSet resultSet = null;
+
 			String resultSetID = null;
 
 			if ( queryResults == null )
 			{
-				List resultSetIDs = (List) mapQueryIDToResultSetIDs
-						.get( queryID );
-				if ( resultSetIDs != null && !resultSetIDs.isEmpty( ) )
-				{
-					resultSetID = (String) resultSetIDs.get( 0 );
-				}
+				resultSetID = getResultID( null, -1, queryID );
 			}
 			else
 			{
-				String rowid = Long.toString( parentResult
-						.getCurrentPosition( ) );
+				String pRsetId = queryResults.getID( );
+				long rowid = parentResult.getCurrentPosition( );
 
-				resultSetID = getResultID( queryResults.getID( ), rowid,
-						queryID );
+				resultSetID = getResultID( pRsetId, rowid, queryID );
 			}
 			if ( resultSetID == null )
 			{
 				logger.log( Level.SEVERE, "Can't load the report query" );
 				return null;
 			}
-			queryResults = dataEngine.getQueryResults( resultSetID );
-			validateQueryResult( queryResults );
-			resultSet = new DteResultSet( queryResults, this, context );
 
-			queryResultStack.addLast( resultSet );
+			queryResults = dteEngine.getQueryResults( resultSetID );
+
+			DteResultSet resultSet = new DteResultSet( queryResults, this,
+					context );
+
+			rsets.addFirst( resultSet );
 
 			return resultSet;
 		}
@@ -293,19 +196,5 @@ public class DataPresentationEngine extends AbstractDataEngine
 			context.addException( be );
 			return null;
 		}
-	}
-
-	public void close( )
-	{
-		if ( queryResultStack.size( ) > 0 )
-		{
-			queryResultStack.removeLast( );
-		}
-	}
-
-	public void shutdown( )
-	{
-		assert ( queryResultStack.size( ) == 0 );
-		dataEngine.shutdown( );
 	}
 }

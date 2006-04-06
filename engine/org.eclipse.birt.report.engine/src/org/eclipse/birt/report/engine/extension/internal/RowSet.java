@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
 /**
  * 
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/11 06:26:49 $
+ * @version $Revision: 1.9 $ $Date: 2005/11/17 16:50:51 $
  */
 public class RowSet implements IRowSet
 {
@@ -89,6 +89,15 @@ public class RowSet implements IRowSet
 			return rset.next( );
 		}
 		return false;
+	}
+
+	public Object evaluate( String expr )
+	{
+		if ( rset != null )
+		{
+			return rset.evaluate( expr );
+		}
+		return null;
 	}
 
 	public Object evaluate( IBaseExpression expr )

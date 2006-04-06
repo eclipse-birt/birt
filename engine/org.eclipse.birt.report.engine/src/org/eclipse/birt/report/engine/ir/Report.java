@@ -33,7 +33,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.30 $ $Date: 2006/01/20 14:55:40 $
+ * @version $Revision: 1.31 $ $Date: 2006/02/28 03:53:14 $
  */
 public class Report
 {
@@ -162,7 +162,7 @@ public class Report
 
 	/**
 	 * return the map from query to value expressions
-	 * 
+	 * @deprecated 
 	 * @return the map from query to value expressions;
 	 */
 	public HashMap getQueryToValueExprMap( )

@@ -15,25 +15,25 @@ package org.eclipse.birt.report.engine.ir;
  *  Visibility Rule Design
  * 
  * 
- * @version $Revision: 1.2 $  $Date: 2005/09/20 07:55:31 $
+ * @version $Revision: 1.6 $  $Date: 2005/11/11 06:26:41 $
  */
 public class VisibilityRuleDesign
 {
 	/** expression */
-	protected Expression expression;
+	protected String expression;
 	/** format */
 	protected String format;
 	/**
 	 * @return Returns the expression.
 	 */
-	public Expression getExpression( )
+	public String getExpression( )
 	{
 		return expression;
 	}
 	/**
 	 * @param expression The expression to set.
 	 */
-	public void setExpression( Expression expression )
+	public void setExpression( String expression )
 	{
 		this.expression = expression;
 	}

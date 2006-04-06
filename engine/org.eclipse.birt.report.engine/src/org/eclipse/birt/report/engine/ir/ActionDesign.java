@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Action. Action include: hyperlink, drill through and bookmark.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
  */
 public class ActionDesign
 {
@@ -39,11 +39,11 @@ public class ActionDesign
 	/**
 	 * hyper link
 	 */
-	protected Expression hyperlink;
+	protected String hyperlink;
 	/**
 	 * bookmark.
 	 */
-	protected Expression bookmark;
+	protected String bookmark;
 
 	/**
 	 * drill through
@@ -58,7 +58,7 @@ public class ActionDesign
 	/**
 	 * @return Returns the bookmark.
 	 */
-	public Expression getBookmark( )
+	public String getBookmark( )
 	{
 		assert this.actionType == ACTION_BOOKMARK;
 		return bookmark;
@@ -68,7 +68,7 @@ public class ActionDesign
 	 * @param bookmark
 	 *            The bookmark to set.
 	 */
-	public void setBookmark( Expression bookmark )
+	public void setBookmark( String bookmark )
 	{
 		this.actionType = ActionDesign.ACTION_BOOKMARK;
 		this.bookmark = bookmark;
@@ -77,7 +77,7 @@ public class ActionDesign
 	/**
 	 * @return Returns the hyperlink.
 	 */
-	public Expression getHyperlink( )
+	public String getHyperlink( )
 	{
 		assert this.actionType == ACTION_HYPERLINK;
 		return hyperlink;
@@ -87,7 +87,7 @@ public class ActionDesign
 	 * @param hyperlink
 	 *            The hyperlink to set.
 	 */
-	public void setHyperlink( Expression hyperlink )
+	public void setHyperlink( String hyperlink )
 	{
 		this.hyperlink = hyperlink;
 		this.actionType = ActionDesign.ACTION_HYPERLINK;

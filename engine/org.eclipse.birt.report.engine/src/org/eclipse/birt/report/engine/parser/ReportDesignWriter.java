@@ -48,7 +48,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.13 $ $Date: 2005/11/24 07:25:15 $
+ * @version $Revision: 1.14 $ $Date: 2006/02/22 06:44:01 $
  */
 class ReportDesignWriter
 {
@@ -397,7 +397,7 @@ class ReportDesignWriter
 			text( multiLine.getContentType( ) );
 			popTag( );
 			pushTag( "content" ); //$NON-NLS-1$
-			text( multiLine.getContent( ).getExpr( ) );
+			text( multiLine.getContent( ) );
 			popTag( );
 			popTag( );
 
@@ -430,7 +430,7 @@ class ReportDesignWriter
 		{
 			pushTag( "data" ); //$NON-NLS-1$
 			writeReportItem( data );
-			text( data.getValue( ).getExpr( ) );
+			text( data.getValue( ) );
 			popTag( );
 		}
 
@@ -546,12 +546,12 @@ class ReportDesignWriter
 					break;
 				case ImageItemDesign.IMAGE_URI :
 					pushTag( "uri" ); //$NON-NLS-1$
-					text( image.getImageUri( ).getExpression() );
+					text( image.getImageUri( ) );
 					popTag( );
 					break;
 				case ImageItemDesign.IMAGE_FILE :
 					pushTag( "uri" ); //$NON-NLS-1$
-					text( image.getImageUri().getExpression() );
+					text( image.getImageUri() );
 					popTag( );
 					break;
 				case ImageItemDesign.IMAGE_EXPRESSION :
@@ -573,12 +573,12 @@ class ReportDesignWriter
 			{
 				case ActionDesign.ACTION_BOOKMARK :
 					pushTag( "bookmark-link" ); //$NON-NLS-1$
-					text( action.getBookmark( ).getExpr( ) );
+					text( action.getBookmark( ) );
 					popTag( );
 					break;
 				case ActionDesign.ACTION_HYPERLINK :
 					pushTag( "hyperlink" ); //$NON-NLS-1$
-					text( action.getHyperlink( ).getExpr( ) );
+					text( action.getHyperlink( ) );
 					popTag( );
 					break;
 				case ActionDesign.ACTION_DRILLTHROUGH :

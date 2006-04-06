@@ -8,145 +8,94 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 
-
 public class ResultMetaData implements IResultMetaData
 {
-	// protected IResultMetaData resultMeta;
-	protected String[] selectedColumns;
-	protected HashMap columnsMap;
-	protected DataExtractionHelper helper;
-	
-	ResultMetaData ( DataExtractionHelper helper, String[] selectedColumns )
-	{
-		this.selectedColumns = selectedColumns;
-		this.helper = helper;
-		populateColumnsMap( );
-	}
-	
-	private void populateColumnsMap( )
-	{
-		if( helper == null )
-			return ;
-		if ( this.selectedColumns == null )
-		{
-			ArrayList aColMeta = helper.validatedColMetas;
-			this.selectedColumns = new String[aColMeta.size( )];
-			for( int i=0; i<aColMeta.size( ); i++ )
-			{
-				ExprMetaData meta = (ExprMetaData)aColMeta.get( i );
-				this.selectedColumns[i] = meta.getName( );
-			}
-		}
-		
-		ArrayList validateColsMeta = helper.validatedColMetas;
-		for( int i=0; i<selectedColumns.length; i++)
-		{
-			for( int j=0; j<validateColsMeta.size( ); j++)
-			{
-				ExprMetaData meta = (ExprMetaData) validateColsMeta.get( j );
-				String colName = meta.getName( );
 
-				if ( selectedColumns[i].equalsIgnoreCase( colName ) )
-				{
-					if ( columnsMap == null )
-						columnsMap = new HashMap( );
-					columnsMap.put( new Integer( i ), new Integer( j ) );
-					break;
-				}
-			}
-		}
-	}
-	
-	private int getMappedIndex( int index )
+	protected IResultMetaData metaData;
+	protected String[] selectedColumns;
+
+	ResultMetaData( IResultMetaData metaData, String[] selectedColumns )
 	{
-		if( columnsMap != null )
-		{
-			Integer mappedIndex = (Integer)columnsMap.get(new Integer( index ));
-			if( mappedIndex != null)
-				return mappedIndex.intValue();
-		}
-		return -1;
+		this.metaData = metaData;
+		this.selectedColumns = selectedColumns;
 	}
-	
-	private void validateIndex( int index )
+
+	ResultMetaData( IResultMetaData metaData )
 	{
-		assert index >=0 && index < selectedColumns.length; 
+		this.metaData = metaData;
+		this.selectedColumns = null;
 	}
+
 	public int getColumnCount( )
 	{
-		return selectedColumns.length;
+		if ( selectedColumns != null )
+		{
+			return selectedColumns.length;
+		}
+		return metaData.getColumnCount( );
 	}
 
-	private ExprMetaData getMeta( int index )
-	{
-		return (ExprMetaData)helper.validatedColMetas.get( index );
-	}
 	public String getColumnName( int index ) throws BirtException
 	{
-		validateIndex( index );
-		return selectedColumns[index];
+		index = getColumnIndex( index );
+		return metaData.getColumnName( index  );
 	}
 
 	public String getColumnAlias( int index ) throws BirtException
 	{
-		validateIndex( index );
-		int mappedIndex = getMappedIndex( index );
-		if( mappedIndex != -1)
-			return getMeta(mappedIndex).metaAlias;
-		return null;
+		index = getColumnIndex( index );
+		return metaData.getColumnAlias( index );
 	}
 
 	public int getColumnType( int index ) throws BirtException
 	{
-		validateIndex( index );
-		int mappedIndex = getMappedIndex( index );
-		if( mappedIndex != -1)
-			return getMeta(mappedIndex).metaType;
-		return DataType.UNKNOWN_TYPE;
+		index = getColumnIndex( index );
+		return metaData.getColumnType( index );
 	}
 
 	public String getColumnTypeName( int index ) throws BirtException
 	{
-		validateIndex( index );
-		int mappedIndex = getMappedIndex( index );
-		if( mappedIndex != -1)
-			return getMeta(mappedIndex).metaTypeName;
-		return null;
+		index = getColumnIndex( index );
+		return metaData.getColumnTypeName( index );
 	}
 
 	public String getColumnNativeTypeName( int index ) throws BirtException
 	{
-		validateIndex( index );
-		int mappedIndex = getMappedIndex( index );
-		if( mappedIndex != -1)
-			return getMeta( mappedIndex ).metaNativeTypeName;
-		return null;
+		index = getColumnIndex( index );
+		return metaData.getColumnNativeTypeName( index );
 	}
 
 	public String getColumnLabel( int index ) throws BirtException
 	{
-		validateIndex( index );
-		int mappedIndex = getMappedIndex( index );
-		if( mappedIndex != -1)
-			return getMeta( mappedIndex ).metaLabel;
-		return null;
+		index = getColumnIndex( index );
+		return metaData.getColumnLabel( index );
 	}
 
 	public boolean isComputedColumn( int index ) throws BirtException
 	{
-		validateIndex( index );
-		int mappedIndex = getMappedIndex( index );
-		if( mappedIndex != -1)
-			return getMeta( mappedIndex ).isMetaComputedColumn;
 		return false;
+	}
+
+	private int getColumnIndex( int index ) throws BirtException
+	{
+		if ( selectedColumns == null )
+		{
+			return index + 1;
+		}
+		String name = selectedColumns[index];
+		for ( int i = 0; i < metaData.getColumnCount( ); i++ )
+		{
+			if ( name.equals( metaData.getColumnName( i ) ) )
+			{
+				return i + 1;
+			}
+		}
+		return -1;
 	}
 }

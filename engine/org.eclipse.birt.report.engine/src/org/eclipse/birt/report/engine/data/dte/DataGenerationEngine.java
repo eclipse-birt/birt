@@ -13,12 +13,8 @@ package org.eclipse.birt.report.engine.data.dte;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
@@ -26,13 +22,11 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -41,32 +35,53 @@ import org.mozilla.javascript.Scriptable;
 public class DataGenerationEngine extends AbstractDataEngine
 {
 
-	private IDocArchiveWriter writer;
+	/*
+	 * need not be stored in report document.
+	 */
+	protected HashMap queryMap = new HashMap( );
+
+	/**
+	 * output stream used to save the resultset relations
+	 */
+	private DataOutputStream dos;
 
 	public DataGenerationEngine( ExecutionContext ctx, IDocArchiveWriter writer )
 	{
 		context = ctx;
-		this.writer = writer;
 
 		try
 		{
+			Scriptable scope = context.getScope( );
+			// register a js row object into the execution context, so
+			// we can use row["colName"] to get the column values
+			context.registerBean( "row", new NativeRowObject( scope, rsets ) );
+
+			// create the DteData engine.
 			DataEngineContext dteContext = DataEngineContext.newInstance(
 					DataEngineContext.MODE_GENERATION, ctx.getSharedScope( ),
 					null, writer );
-			dataEngine = DataEngine.newDataEngine( dteContext );
+
+			dteEngine = DataEngine.newDataEngine( dteContext );
 		}
-		catch ( BirtException ex )
+		catch ( Exception ex )
 		{
+			logger.log( Level.SEVERE, "can't create the DTE data engine", ex );
 			ex.printStackTrace( );
 		}
+
+		try
+		{
+			dos = new DataOutputStream( writer
+					.createRandomAccessStream( ReportDocumentConstants.DATA_META_STREAM ) );
+		}
+		catch ( IOException e )
+		{
+			logger.log( Level.SEVERE, e.getMessage( ) );
+			e.printStackTrace( );
+		}
 	}
 
-	public void prepare( Report report )
-	{
-		prepare( report, null );
-	}
-
-	protected void doPrepareQueryID( Report report, Map appContext )
+	protected void doPrepareQuery( Report report, Map appContext )
 	{
 		// prepare report queries
 		queryIDMap.putAll( report.getQueryIDs( ) );
@@ -76,12 +91,9 @@ public class DataGenerationEngine extends AbstractDataEngine
 					.get( i );
 			try
 			{
-				IPreparedQuery preparedQuery = dataEngine.prepare( queryDef,
+				IPreparedQuery preparedQuery = dteEngine.prepare( queryDef,
 						appContext );
-				mapQueryToPreparedQuery.put( queryDef, preparedQuery );
-
-				QueryID qid = getQueryIDs( queryDef );
-				queryExpressionIDs.add( qid );
+				queryMap.put( queryDef, preparedQuery );
 			}
 			catch ( BirtException be )
 			{
@@ -91,218 +103,98 @@ public class DataGenerationEngine extends AbstractDataEngine
 		}
 	}
 
-	private QueryID getQueryIDs( IBaseQueryDefinition query )
-	{
-		QueryID queryID = new QueryID( );
-		addIDToExpression( queryID.beforeExpressionIDs, query
-				.getBeforeExpressions( ).iterator( ) );
-		addIDToExpression( queryID.afterExpressionIDs, query
-				.getAfterExpressions( ).iterator( ) );
-		addIDToExpression( queryID.rowExpressionIDs, query.getRowExpressions( )
-				.iterator( ) );
-
-		Iterator subIter = query.getSubqueries( ).iterator( );
-		while ( subIter.hasNext( ) )
-		{
-			ISubqueryDefinition subquery = (ISubqueryDefinition) subIter.next( );
-			QueryID qid = getQueryIDs( subquery );
-			queryID.subqueryIDs.add( qid );
-		}
-
-		Iterator grpIter = query.getGroups( ).iterator( );
-		while ( grpIter.hasNext( ) )
-		{
-			IGroupDefinition group = (IGroupDefinition) grpIter.next( );
-			QueryID groupID = new QueryID( );
-			addIDToExpression( groupID.beforeExpressionIDs, group
-					.getBeforeExpressions( ).iterator( ) );
-			addIDToExpression( groupID.afterExpressionIDs, group
-					.getAfterExpressions( ).iterator( ) );
-			addIDToExpression( groupID.rowExpressionIDs, group
-					.getRowExpressions( ).iterator( ) );
-
-			Iterator grpSubIter = group.getSubqueries( ).iterator( );
-			while ( grpSubIter.hasNext( ) )
-			{
-				ISubqueryDefinition grpSubquery = (ISubqueryDefinition) grpSubIter
-						.next( );
-				QueryID qid = getQueryIDs( grpSubquery );
-				groupID.subqueryIDs.add( qid );
-			}
-			queryID.groupIDs.add( groupID );
-		}
-		return queryID;
-	}
-
-	private void addIDToExpression( Collection idArray, Iterator iter )
-	{
-		while ( iter.hasNext( ) )
-		{
-			IBaseExpression expr = (IBaseExpression) iter.next( );
-			idArray.add( expr.getID( ) );
-		}
-	}
-
-	protected IResultSet doExecute( IBaseQueryDefinition query )
+	protected IResultSet doExecuteQuery( IBaseQueryDefinition query )
 	{
 		assert query instanceof IQueryDefinition;
 
-		IPreparedQuery preparedQuery = (IPreparedQuery) mapQueryToPreparedQuery
-				.get( query );
-		if ( preparedQuery == null )
+		IPreparedQuery pQuery = (IPreparedQuery) queryMap.get( query );
+		if ( pQuery == null )
 		{
 			return null;
 		}
-		String queryID = (String) queryIDMap.get( query );
-		assert preparedQuery != null;
-		Scriptable queryScope = context.getSharedScope( );
 
-		IQueryResults queryResults = null;
-		DteResultSet parentResult = (DteResultSet) getParentResultSet( );
-		if ( parentResult != null )
-		{
-			queryResults = parentResult.getQueryResults( );
-		}
-
-		DteResultSet resultSet = null;
 		try
 		{
+			String queryID = (String) queryIDMap.get( query );
+			Scriptable scope = context.getSharedScope( );
 
-			if ( queryResults == null )
+			DteResultSet resultSet = (DteResultSet) getResultSet( );
+			String pRsetId = null; // id of the parent query restuls
+			long rowId = -1; // row id of the parent query results
+			IQueryResults dteResults; // the dteResults of this query
+			if ( resultSet == null )
 			{
-				queryResults = preparedQuery.execute( queryScope );
-				validateQueryResult( queryResults );
-				resultSet = new DteResultSet( queryResults, this, context );
+				// this is the root query
+				dteResults = pQuery.execute( scope );
 			}
 			else
-			{ // the query is NestedQuery
-				String parentRSID = queryResults.getID( );
-				String rowid = Long
-						.toString( parentResult.getCurrentPosition( ) );
-
-				queryResults = preparedQuery.execute( queryResults, queryScope );
-				validateQueryResult( queryResults );
-
-				String childRSID = queryResults.getID( );
-				Key key = new Key( parentRSID, rowid, queryID, childRSID );
-				queryResultRelations.add( key );
-
-				resultSet = new DteResultSet( queryResults, this, context );
-			}
-
-			queryResultStack.addLast( resultSet );
-			LinkedList qidList = (LinkedList) mapQueryIDToResultSetIDs
-					.get( queryID );
-			if ( qidList == null )
 			{
-				qidList = new LinkedList( );
+				pRsetId = resultSet.getQueryResults( ).getID( );
+				rowId = resultSet.getCurrentPosition( );
+
+				// this is the nest query, execute the query in the
+				// parent results
+				dteResults = pQuery.execute( resultSet.getQueryResults( ),
+						scope );
 			}
-			qidList.add( queryResults.getID( ) );
-			mapQueryIDToResultSetIDs.put( queryID, qidList );
+
+			resultSet = new DteResultSet( dteResults, this, context );
+			rsets.addFirst( resultSet );
+
+			// save the
+			storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
+
+			return resultSet;
 		}
 		catch ( BirtException be )
 		{
 			logger.log( Level.SEVERE, be.getMessage( ) );
 			context.addException( be );
 		}
-		return resultSet;
-	}
 
-	public void close( )
-	{
-		if ( queryResultStack.size( ) > 0 )
-		{
-			queryResultStack.removeLast( );
-		}
+		return null;
 	}
 
 	public void shutdown( )
 	{
-		assert ( queryResultStack.size( ) == 0 );
-		// store meta data of DtE
-		storeDteMetaInfo( );
-		dataEngine.shutdown( );
+		rsets.clear( );
+
+		if ( null != dos )
+		{
+			try
+			{
+				dos.close( );
+			}
+			catch ( IOException e )
+			{
+			}
+			dos = null;
+		}
+		dteEngine.shutdown( );
 	}
 
-	private void storeDteMetaInfo( )
+	/**
+	 * save the metadata into the streams.
+	 * 
+	 * @param key
+	 */
+	private void storeDteMetaInfo( String pRsetId, long rowId, String queryId,
+			String rsetId )
 	{
-		try
+		if ( null != dos )
 		{
-			DataOutputStream dos = new DataOutputStream( writer
-					.createRandomAccessStream( DATA_META_STREAM ) );
-
-			int size = mapQueryIDToResultSetIDs.size( );
-			IOUtil.writeInt( dos, size );
-			Set keySet = mapQueryIDToResultSetIDs.keySet( );
-			Iterator keyIter = keySet.iterator( );
-			while ( keyIter.hasNext( ) )
+			try
 			{
-				String queryId = (String) keyIter.next( );
+				IOUtil.writeString( dos, pRsetId );
+				IOUtil.writeLong( dos, rowId );
 				IOUtil.writeString( dos, queryId );
-				LinkedList resultList = (LinkedList) mapQueryIDToResultSetIDs
-						.get( queryId );
-				writeStringList( dos, resultList );
+				IOUtil.writeString( dos, rsetId );
 			}
-
-			size = queryResultRelations.size( );
-			IOUtil.writeInt( dos, size );
-			for ( int i = 0; i < size; i++ )
+			catch ( IOException e )
 			{
-				Key key = (Key) queryResultRelations.get( i );
-				IOUtil.writeString( dos, key.parentRSID );
-				IOUtil.writeString( dos, key.rowid );
-				IOUtil.writeString( dos, key.queryId );
-				IOUtil.writeString( dos, key.resultSetID );
+				logger.log( Level.SEVERE, e.getMessage( ) );
+				e.printStackTrace( );
 			}
-
-			size = queryExpressionIDs.size( );
-			IOUtil.writeInt( dos, size );
-			for ( int i = 0; i < size; i++ )
-			{
-				QueryID queryId = (QueryID) queryExpressionIDs.get( i );
-				writeQueryID( dos, queryId );
-			}
-			dos.close( );
-		}
-		catch ( IOException e )
-		{
-			e.printStackTrace( );
-		}
-	}
-
-	private void writeQueryID( DataOutputStream dos, QueryID queryId )
-			throws IOException
-	{
-		writeStringList( dos, queryId.beforeExpressionIDs );
-		writeStringList( dos, queryId.afterExpressionIDs );
-		writeStringList( dos, queryId.rowExpressionIDs );
-
-		int size = queryId.groupIDs.size( );
-		IOUtil.writeInt( dos, size );
-		for ( int i = 0; i < size; i++ )
-		{
-			QueryID qid = (QueryID) queryId.groupIDs.get( i );
-			writeQueryID( dos, qid );
-		}
-
-		size = queryId.subqueryIDs.size( );
-		IOUtil.writeInt( dos, size );
-		for ( int i = 0; i < size; i++ )
-		{
-			QueryID subQid = (QueryID) queryId.subqueryIDs.get( i );
-			writeQueryID( dos, subQid );
-		}
-	}
-
-	private void writeStringList( DataOutputStream dos, List list )
-			throws IOException
-	{
-		int size = list.size( );
-		IOUtil.writeInt( dos, size );
-		for ( int i = 0; i < size; i++ )
-		{
-			String str = (String) list.get( i );
-			IOUtil.writeObject( dos, str );
 		}
 	}
 }

@@ -66,7 +66,7 @@ public class ScriptExecutor
 				if ( js instanceof String )
 					result = context.evaluate( ( String ) js );
 				else if ( js instanceof Expression )
-					result = context.evaluate( ( Expression ) js );
+					result = context.evaluate( ( ( Expression ) js ).getExpression( ) );
 				return new JSScriptStatus( true, result );
 			} finally
 			{

@@ -15,12 +15,12 @@ import java.util.Map;
 
 /**
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.7 $ $Date: 2005/12/20 06:48:34 $
  */
 public class DrillThroughActionDesign
 {
 	protected String reportName;
-	protected Expression bookmark;
+	protected String bookmark;
 	protected String format;
 
 	protected Map parameters;
@@ -30,7 +30,7 @@ public class DrillThroughActionDesign
 	/**
 	 * @return Returns the bookmark.
 	 */
-	public Expression getBookmark( )
+	public String getBookmark( )
 	{
 		return bookmark;
 	}
@@ -39,7 +39,7 @@ public class DrillThroughActionDesign
 	 * @param bookmark
 	 *            The bookmark to set.
 	 */
-	public void setBookmark( Expression bookmark )
+	public void setBookmark( String bookmark )
 	{
 		this.bookmark = bookmark;
 	}

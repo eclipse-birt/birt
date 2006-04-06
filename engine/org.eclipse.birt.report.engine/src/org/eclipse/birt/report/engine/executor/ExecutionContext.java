@@ -77,7 +77,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.62 $ $Date: 2006/02/24 12:46:04 $
+ * @version $Revision: 1.63 $ $Date: 2006/03/21 23:23:18 $
  */
 public class ExecutionContext
 {
@@ -522,29 +522,7 @@ public class ExecutionContext
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * @param expr
-	 *            an expression handle used to evaluate DtE expression
-	 * @return the evaluated result of the expression
-	 */
-	public Object evaluate( IBaseExpression expr )
-	{
-		assert expr != null;
-		try
-		{
-			return getDataEngine( ).evaluate( expr );
-		}
-		catch ( Throwable t )
-		{
-			// May throw the run-time exception etc.
-			log.log( Level.SEVERE, t.getMessage( ), t );
-			addException( new EngineException(
-					MessageConstants.INVALID_EXPRESSION_ERROR, expr, t ) ); //$NON-NLS-1$
-		}
-		return null;
-	}
+	}	
 
 	/**
 	 * evaluate conditional expression. A conditional expression can have an
@@ -611,22 +589,7 @@ public class ExecutionContext
 		{
 			evaluate( script );
 		}
-	}
-
-	/**
-	 * execute script. call evaluate to evaluate the script and drop the return
-	 * value
-	 * 
-	 * @param script
-	 *            script to be executed.
-	 */
-	public void execute( IBaseExpression script )
-	{
-		if ( script != null )
-		{
-			evaluate( script );
-		}
-	}
+	}	
 
 	/**
 	 * execute the script. Simply evaluate the script, then drop the return

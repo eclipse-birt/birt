@@ -48,7 +48,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.26 $ $Date: 2006/01/09 10:51:59 $
+ * @version $Revision: 1.27 $ $Date: 2006/02/07 10:05:53 $
  */
 public abstract class ReportItemExecutor
 {
@@ -127,7 +127,7 @@ public abstract class ReportItemExecutor
 	 */
 	protected void processBookmark( ReportItemDesign item, IContent itemContent )
 	{
-		Expression bookmark = item.getBookmark( );
+		String bookmark = item.getBookmark( );
 		if ( bookmark != null )
 		{
 			Object tmp = context.evaluate( bookmark );
@@ -136,7 +136,7 @@ public abstract class ReportItemExecutor
 				itemContent.setBookmark( tmp.toString( ) );
 			}
 		}
-		Expression toc = item.getTOC( );
+		String toc = item.getTOC( );
 		if ( toc != null )
 		{
 			Object tmp = context.evaluate( toc );
@@ -210,7 +210,7 @@ public abstract class ReportItemExecutor
 					assert action.getDrillThrough( ) != null;
 					DrillThroughActionDesign drill = action.getDrillThrough( );
 					String bookmark = null;
-					Expression bookmarkExpr = drill.getBookmark( );
+					String bookmarkExpr = drill.getBookmark( );
 					if ( bookmarkExpr != null )
 					{
 						value = context.evaluate( drill.getBookmark( ) );
@@ -229,8 +229,7 @@ public abstract class ReportItemExecutor
 						{
 							Map.Entry entry = (Map.Entry) paramsDesignIte
 									.next( );
-							Expression valueExpr = (Expression) entry
-									.getValue( );
+							String valueExpr = entry.getValue( ).toString( );
 							if ( valueExpr != null )
 							{
 								Object paramValue = context

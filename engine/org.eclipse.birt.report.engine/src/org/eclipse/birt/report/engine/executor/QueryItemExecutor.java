@@ -77,7 +77,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 		IResultSet curRset = rset;
 		if (curRset == null)
 		{
-			curRset = context.getDataEngine().getCurrentRS();
+			curRset = context.getDataEngine().getResultSet();
 		}
 		if ( curRset != null )
 		{

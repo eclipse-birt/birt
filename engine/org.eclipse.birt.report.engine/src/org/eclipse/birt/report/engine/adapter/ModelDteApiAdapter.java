@@ -810,7 +810,7 @@ public class ModelDteApiAdapter
 		return null;
 	}
 
-	int toDteDataType( String modelDataType )
+	public static int toDteDataType( String modelDataType )
 	{
 		if ( modelDataType == null )
 			return DataType.UNKNOWN_TYPE;

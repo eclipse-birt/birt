@@ -8,59 +8,55 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.util.Collection;
-import java.util.HashMap;
-
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 
-
 public class ExtractionResults implements IExtractionResults
 {
+
 	protected String[] selectedColumns;
-	protected Collection expressions;
-	protected DataIterator currentDataIterator;
-	protected HashMap exprMeta;
-	protected DataExtractionHelper helper;
-		
-	ExtractionResults ( String[] selectedColumns, DataExtractionHelper helper )
+	protected IQueryResults queryResults;
+	protected IResultMetaData metaData;
+	protected IDataIterator iterator;
+
+	ExtractionResults( IQueryResults queryResults, String[] selectedColumns )
 	{
 		this.selectedColumns = selectedColumns;
-		this.helper = helper;
+		this.queryResults = queryResults;
+		this.metaData = new ResultMetaData( metaData );
 	}
-	
+
 	public IResultMetaData getResultMetaData( ) throws BirtException
 	{
-		if( currentDataIterator == null )
+		if ( iterator != null )
 		{
-			currentDataIterator = (DataIterator)nextResultIterator( );
+			nextResultIterator( );
 		}
-		
-		if( currentDataIterator == null )
-		{
-			return null;
-		}
-		
-		return currentDataIterator.getResultMetaData();
+		return iterator.getResultMetaData( );
 	}
 
 	public IDataIterator nextResultIterator( ) throws BirtException
 	{
-		if (currentDataIterator == null || currentDataIterator.isAdvanced() == false)
+		if ( iterator == null )
 		{
-			currentDataIterator = new DataIterator( this, this.selectedColumns, 
-					this.helper );
+			this.iterator = new DataIterator( this, queryResults
+					.getResultIterator( ), selectedColumns );
 		}
-		
-		return this.currentDataIterator;
+		return iterator;
 	}
 
 	public void close( )
 	{
-		this.currentDataIterator.close( );
+		if ( iterator != null )
+		{
+			iterator.close( );
+		}
+		iterator = null;
 	}
 }

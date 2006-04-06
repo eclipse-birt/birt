@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Image Item definition.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.9 $ $Date: 2005/11/17 16:50:43 $
  */
 public class ImageItemDesign extends ReportItemDesign
 {
@@ -45,7 +45,7 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * image uri, used if source type URI
 	 */
-	protected Expression imageUri;
+	protected String imageUri;
 	/**
 	 * image name, used if source type NAME
 	 */
@@ -53,11 +53,11 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * image expression, used if source type EXPR
 	 */
-	protected Expression imageExpression;
+	protected String imageExpression;
 	/**
 	 * image type, used if source type EXPR.
 	 */
-	protected Expression imageFormat;
+	protected String imageFormat;
 
 	/**
 	 * Action associated with this item.
@@ -109,7 +109,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * @param imageType
 	 *            the image type.
 	 */
-	public void setImageExpression( Expression imageExpr, Expression imageType )
+	public void setImageExpression( String imageExpr, String imageType )
 	{
 		this.imageSource = IMAGE_EXPRESSION;
 		this.imageExpression = imageExpr;
@@ -119,7 +119,7 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the imageExpr.
 	 */
-	public Expression getImageExpression( )
+	public String getImageExpression( )
 	{
 		assert this.imageSource == IMAGE_EXPRESSION;
 		return imageExpression;
@@ -128,7 +128,7 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the imageType.
 	 */
-	public Expression getImageFormat( )
+	public String getImageFormat( )
 	{
 		assert this.imageSource == IMAGE_EXPRESSION;
 		return imageFormat;
@@ -157,7 +157,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * @param imageUri
 	 *            The imageUri to set.
 	 */
-	public void setImageUri( Expression imageUri )
+	public void setImageUri( String imageUri )
 	{
 		this.imageSource = IMAGE_URI;
 		this.imageUri = imageUri;
@@ -166,13 +166,13 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the imageUri.
 	 */
-	public Expression getImageUri( )
+	public String getImageUri( )
 	{
 		assert imageSource == IMAGE_URI;
 		return imageUri;
 	}
 	
-	public void setImageFile(Expression file)
+	public void setImageFile(String file)
 	{
 		imageSource = IMAGE_FILE;
 		imageUri = file;

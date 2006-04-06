@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -57,7 +56,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.31 $ $Date: 2005/12/28 07:25:07 $
+ * @version $Revision: 1.32 $ $Date: 2006/04/03 06:15:17 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -140,7 +139,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		switch ( imageDesign.getImageSource( ) )
 		{
 			case ImageItemDesign.IMAGE_URI : // URI
-				Expression imageExpr = imageDesign.getImageUri( );
+				String imageExpr = imageDesign.getImageUri( );
 				if ( imageExpr != null )
 				{
 					handleURIImage( imageExpr, imageContent );
@@ -148,9 +147,9 @@ public class ImageItemExecutor extends QueryItemExecutor
 				break;
 
 			case ImageItemDesign.IMAGE_FILE : // File
-				Expression fileExpr = imageDesign.getImageUri( );
+				String fileExpr = imageDesign.getImageUri( );
 				assert fileExpr != null;
-				handleFileImage( fileExpr, imageContent );
+				handleFileExpressionImage( fileExpr, imageContent );
 				break;
 
 			case ImageItemDesign.IMAGE_NAME : // embedded image
@@ -163,8 +162,8 @@ public class ImageItemExecutor extends QueryItemExecutor
 			case ImageItemDesign.IMAGE_EXPRESSION : // get image from
 				// database
 
-				Expression imgExpr = imageDesign.getImageExpression( );
-				Expression fmtExpr = imageDesign.getImageFormat( );
+				String imgExpr = imageDesign.getImageExpression( );
+				String fmtExpr = imageDesign.getImageFormat( );
 				assert imgExpr != null;
 
 				handleValueImage( imgExpr, fmtExpr, imageContent );
@@ -180,7 +179,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		}
 	}
 
-	protected void handleURIImage( Expression uriExpr,
+	protected void handleURIImage( String uriExpr,
 			IImageContent imageContent )
 	{
 		// the expression is an expression, but UI may use
@@ -196,10 +195,9 @@ public class ImageItemExecutor extends QueryItemExecutor
 		{
 			strUri = uriObj.toString( );
 		}
-		else if ( uriExpr.getExpression( ) != null
-				&& uriExpr.getExpression( ).length( ) > 0 )
+		else if ( uriExpr != null && uriExpr.length( ) > 0 )
 		{
-			strUri = uriExpr.getExpression( ).toString( );
+			strUri = uriExpr;
 		}
 		URL uri = null;
 		try
@@ -250,7 +248,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 
 	}
 
-	protected void handleValueImage( Expression imgExpr, Expression fmtExpr,
+	protected void handleValueImage( String imgExpr, String fmtExpr,
 			IImageContent imageContent )
 	{
 		byte[] imgData = null;
@@ -281,7 +279,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		}
 	}
 
-	protected void handleFileImage( Expression fileExpr,
+	protected void handleFileExpressionImage( String fileExpr,
 			IImageContent imageContent )
 	{
 		String imageFile = "";
@@ -290,10 +288,9 @@ public class ImageItemExecutor extends QueryItemExecutor
 		{
 			imageFile = file.toString( );
 		}
-		else if ( fileExpr.getExpression( ) != null
-				&& fileExpr.getExpression( ).length( ) > 0 )
+		else if ( fileExpr != null && fileExpr.length( ) > 0 )
 		{
-			imageFile = fileExpr.getExpression( ).toString( );
+			imageFile = fileExpr;
 		}
 		handleFileImage( imageFile, imageContent );
 	}

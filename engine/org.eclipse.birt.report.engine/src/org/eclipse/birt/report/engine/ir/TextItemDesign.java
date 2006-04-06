@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.executor.template.TextTemplate;
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.14 $ $Date: 2005/11/28 09:05:49 $
+ * @version $Revision: 1.15 $ $Date: 2006/02/23 07:38:23 $
  */
 public class TextItemDesign extends ReportItemDesign
 {
@@ -82,7 +82,7 @@ public class TextItemDesign extends ReportItemDesign
 					
 					if( expression != null && !expression.trim( ).equals( "" ) )
 					{
-						exprs.put( expression, new Expression( expression ) );
+						exprs.put( expression, expression );
 						expression = null;
 					}
 				}

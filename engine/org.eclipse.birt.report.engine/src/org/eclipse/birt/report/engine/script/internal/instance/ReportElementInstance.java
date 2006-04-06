@@ -61,7 +61,7 @@ public class ReportElementInstance implements IReportElementInstance
 		{
 			ReportElementDesign design = ( ReportElementDesign ) generatedBy;
 			Map m = design.getNamedExpressions( );
-			Expression expr = ( Expression ) m.get( name );
+			String expr = ( String ) m.get( name );
 			if ( expr == null )
 				return null;
 			context.newScope( this );

@@ -556,7 +556,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.24 $ $Date: 2006/03/30 08:10:03 $
+	 * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:54 $
 	 */
 	protected class GenerateIDMapVisitor implements IReportItemVisitor
 	{
@@ -819,18 +819,11 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			DataContent data = (DataContent) content;
 			if ( design.getMap( ) == null )
 			{
-				Expression valueExpr = design.getValue( );
+				String valueExpr = design.getValue( );
 				if ( valueExpr != null )
 				{
-					if ( resultSets.size( ) > 0 )
-					{
-						IResultSet rset = (IResultSet) resultSets.peek( );
-						if ( rset != null )
-						{
-							Object value = rset.evaluate( valueExpr );
-							data.setValue( value );
-						}
-					}
+					Object value = context.evaluate( valueExpr );
+					data.setValue( value );
 				}
 			}
 		}

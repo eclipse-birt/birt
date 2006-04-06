@@ -20,7 +20,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
 
 public class DataContent extends TextContent implements IDataContent
 {
@@ -128,11 +127,7 @@ public class DataContent extends TextContent implements IDataContent
 				DataItemDesign design = (DataItemDesign) generateBy;
 				if ( design.getMap( ) == null )
 				{
-					Expression expr = design.getValue( );
-					if ( expr != null && expr.getID( ) != null )
-					{
-						needSave = false;
-					}
+					needSave = false;
 				}
 			}
 			if ( needSave )
