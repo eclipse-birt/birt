@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.core.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.core.exception.BirtException;
+
 /**
  *	This class help to manipulate expressions. 
  *
@@ -41,6 +46,20 @@ public final class ExpressionUtil
 	public static String createRowExpression( int index )
 	{
 		return ROW_INDICATOR + "[" + index + "]";
+	}
+	
+	/**
+	 * @param oldExpression
+	 * @return
+	 * @throws BirtException
+	 */
+	public static List extractColumnExpressions( String oldExpression )
+			throws BirtException
+	{
+		if ( oldExpression == null )
+			return new ArrayList( );
+
+		return ExpressionParserUtility.compileColumnExpression( oldExpression );
 	}
 	
 	/**
