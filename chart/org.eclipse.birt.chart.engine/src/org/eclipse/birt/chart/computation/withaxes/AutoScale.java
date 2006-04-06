@@ -2480,7 +2480,9 @@ public final class AutoScale extends Methods implements Cloneable
 							.toLocale( ) ) );
 		}
 
-		if ( ( iType & NUMERICAL ) == NUMERICAL && ( iType & LINEAR ) == LINEAR )
+		if ( !bCategoryScale
+				&& ( iType & NUMERICAL ) == NUMERICAL
+				&& ( iType & LINEAR ) == LINEAR )
 		{
 			double dMax = asDouble( oMaximum ).doubleValue( );
 			double dMin = asDouble( oMinimum ).doubleValue( );
