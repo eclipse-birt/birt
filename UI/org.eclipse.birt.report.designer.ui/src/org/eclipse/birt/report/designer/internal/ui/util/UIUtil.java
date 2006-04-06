@@ -36,18 +36,25 @@ import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -423,7 +430,7 @@ public class UIUtil
 			{// If data set can be found or a blank group will be inserted.
 				GroupDialog dialog = new GroupDialog( getDefaultShell( ),
 						GroupDialog.GROUP_DLG_TITLE_NEW );
-				dialog.setDataSetList( DEUtil.getDataSetList( parent ) );
+				// dialog.setDataSetList( DEUtil.getDataSetList( parent ) );
 				dialog.setInput( groupHandle );
 				if ( dialog.open( ) == Window.CANCEL )
 				{// Cancel the action
@@ -467,7 +474,7 @@ public class UIUtil
 		AbstractMultiPageEditor reportEditor = null;
 		if ( part instanceof AbstractMultiPageEditor )
 		{
-			reportEditor = (AbstractMultiPageEditor)part;
+			reportEditor = (AbstractMultiPageEditor) part;
 		}
 		else if ( part instanceof IReportEditor )
 		{
@@ -1098,15 +1105,16 @@ public class UIUtil
 		}
 		return namespace;
 	}
-	
-	public static ThemeHandle themeInModuleHandle(ThemeHandle handle, ModuleHandle moduleHandle)
+
+	public static ThemeHandle themeInModuleHandle( ThemeHandle handle,
+			ModuleHandle moduleHandle )
 	{
-		
+
 		String themeName = handle.getName( ).trim( );
 		String themeFileName = handle.getModuleHandle( ).getFileName( );
 
-		LibraryHandle libHandle = moduleHandle.findLibrary(themeFileName);
-		if(libHandle == null)
+		LibraryHandle libHandle = moduleHandle.findLibrary( themeFileName );
+		if ( libHandle == null )
 		{
 			return null;
 		}
@@ -1117,24 +1125,24 @@ public class UIUtil
 			while ( iterator.hasNext( ) )
 			{
 				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				
-				
-				if(elementHandle.getName( ).trim( ).equals( themeName ) 
-				&& elementHandle.getRoot( ) == libHandle)								
-				{			
-					return (ThemeHandle)elementHandle;
+
+				if ( elementHandle.getName( ).trim( ).equals( themeName )
+						&& elementHandle.getRoot( ) == libHandle )
+				{
+					return (ThemeHandle) elementHandle;
 				}
-				
+
 			}
-		}		
-			
+		}
+
 		return null;
 	}
-	
-	public static ThemeHandle applyTheme(ThemeHandle handle, ModuleHandle moduleHandle, LibraryHandle library)
+
+	public static ThemeHandle applyTheme( ThemeHandle handle,
+			ModuleHandle moduleHandle, LibraryHandle library )
 	{
-		
-		if(handle.getRoot( ) == moduleHandle)
+
+		if ( handle.getRoot( ) == moduleHandle )
 		{
 			try
 			{
@@ -1143,13 +1151,14 @@ public class UIUtil
 			catch ( SemanticException e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e.printStackTrace( );
 			}
 			return handle;
 		}
-			
-		ThemeHandle applyThemeHandle = themeInModuleHandle(handle,moduleHandle);
-		if(applyThemeHandle != null)
+
+		ThemeHandle applyThemeHandle = themeInModuleHandle( handle,
+				moduleHandle );
+		if ( applyThemeHandle != null )
 		{
 			try
 			{
@@ -1161,11 +1170,70 @@ public class UIUtil
 						e,
 						"Library.DND.messages.cannotApplyTheme" );//$NON-NLS-1$
 				ExceptionHandler.handle( exception );
-				e.printStackTrace();
-				
+				e.printStackTrace( );
+
 			}
 		}
 		return applyThemeHandle;
-		
+
+	}
+
+	/**
+	 * Gets the columns list from the data set
+	 * 
+	 * @param handle
+	 *            the handle of the data set
+	 * @return the list of the columns
+	 */
+	public static List getColumnList( DataSetHandle handle )
+	{
+		CachedMetaDataHandle meta = handle.getCachedMetaDataHandle( );
+		if ( meta == null )
+		{
+			DataSetManager.getCurrentInstance( ).refresh( handle );
+		}
+		MemberHandle resultSet = meta.getResultSet( );
+		List result = new ArrayList( );
+		for ( int i = 0; i < resultSet.getListValue( ).size( ); i++ )
+		{
+			result.add( resultSet.getAt( i ) );
+		}
+		return result;
+	}
+
+	/**
+	 * Generate computed columns for the given report item with the closest data
+	 * set available.
+	 * 
+	 * @param handle
+	 *            the handle of the report item
+	 * 
+	 * @return true if succeed,or fail if no column generated.
+	 */
+	public static boolean generateComputedColumns( ReportItemHandle handle )
+			throws SemanticException
+	{
+		Assert.isNotNull( handle );
+		DataSetHandle dataSetHandle = DEUtil.getAvaliableDataSet( handle );
+		if ( dataSetHandle != null )
+		{
+			List resultSetColumnList = getColumnList( dataSetHandle );
+			DesignElementHandle holder = DEUtil.getBindingHolder( handle );
+			if ( resultSetColumnList.isEmpty( ) )
+			{
+				return false;
+			}
+			for ( Iterator iter = resultSetColumnList.iterator( ); iter.hasNext( ); )
+			{
+				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iter.next( );
+				ComputedColumn column = StructureFactory.createComputedColumn( );
+				column.setName( resultSetColumn.getColumnName( ) );
+				column.setDataType( resultSetColumn.getDataType( ) );
+				column.setExpression( DEUtil.getExpression( resultSetColumn ) );
+				DEUtil.addColumn( holder, column, false );
+			}
+			return true;
+		}
+		return false;
 	}
 }

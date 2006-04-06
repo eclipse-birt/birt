@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
@@ -6,7 +7,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -14,30 +14,29 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.PlatformUI;
 
-
 public class TextDataEditPart extends LabelEditPart
 {
+
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "TextDataEditPart.Figure.Dafault" ); //$NON-NLS-1$
 
 	public TextDataEditPart( Object model )
 	{
 		super( model );
 	}
-	
+
 	/**
 	 * Popup the builder for Data element
 	 */
 	public void performDirectEdit( )
 	{
 		TextDataHandle handle = (TextDataHandle) getModel( );
-		
+
 		ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ),
 				handle.getValueExpr( ) );
-		
-		dialog.setExpressionProvier( ( new ExpressionProvider( handle.getModuleHandle( ),
-				DEUtil.getDataSetList( handle ) ) ) );
+
+		dialog.setExpressionProvier( new ExpressionProvider( handle ) );
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			try
@@ -61,22 +60,23 @@ public class TextDataEditPart extends LabelEditPart
 	protected String getText( )
 	{
 		TextDataHandle handle = (TextDataHandle) getModel( );
-		String text = handle.getValueExpr();
+		String text = handle.getValueExpr( );
 		if ( text == null || text.length( ) == 0 )
 		{
 			text = FIGURE_DEFAULT_TEXT; //$NON-NLS-1$
 		}
-//		else
-//		{
-//			if ( text.length( ) > TRUNCATE_LENGTH
-//					&& DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML.equals( handle.getContentType( ) ) )
-//			{
-//				text = text.substring( 0, TRUNCATE_LENGTH - 2 ) + ELLIPSIS;
-//			}
-//		}
+		// else
+		// {
+		// if ( text.length( ) > TRUNCATE_LENGTH
+		// && DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML.equals(
+		// handle.getContentType( ) ) )
+		// {
+		// text = text.substring( 0, TRUNCATE_LENGTH - 2 ) + ELLIPSIS;
+		// }
+		// }
 		return text;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -84,13 +84,13 @@ public class TextDataEditPart extends LabelEditPart
 	 */
 	protected boolean hasText( )
 	{
-		if ( StringUtil.isBlank( ( (TextDataHandle) getModel( ) ).getValueExpr() ) )
+		if ( StringUtil.isBlank( ( (TextDataHandle) getModel( ) ).getValueExpr( ) ) )
 		{
 			return false;
 		}
 		return true;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -101,7 +101,7 @@ public class TextDataEditPart extends LabelEditPart
 		TextFigure text = new TextFigure( );
 		return text;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -111,6 +111,6 @@ public class TextDataEditPart extends LabelEditPart
 	{
 		super.refreshFigure( );
 
-		( (LabelFigure) getFigure( ) ).setToolTipText( ( (TextDataHandle) getModel( ) ).getValueExpr());
+		( (LabelFigure) getFigure( ) ).setToolTipText( ( (TextDataHandle) getModel( ) ).getValueExpr( ) );
 	}
 }

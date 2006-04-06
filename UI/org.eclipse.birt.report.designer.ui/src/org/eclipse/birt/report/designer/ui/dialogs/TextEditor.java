@@ -20,7 +20,6 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -150,7 +149,7 @@ public class TextEditor extends BaseDialog
 	private static final String TOOL_TIP_TEXT_COPY = Messages.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
 
 	public static final String DLG_TITLE_NEW = "New Text Item";
-	
+
 	public static final String DLG_TITLE_EDIT = "Edit Text Item";
 
 	private static final int FORMAT_CHOICE_INDEX_FORMATTING = 0;
@@ -333,7 +332,7 @@ public class TextEditor extends BaseDialog
 				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 		textTypeChoicer.setItems( new String[]{
 				Messages.getString( "TextEditDialog.choice.plainText" ), Messages.getString( "TextEditDialog.choice.HTML" ) //$NON-NLS-1$ //$NON-NLS-2$
-				} );
+		} );
 
 		textTypeChoicer.select( handle.getContentType( )
 				.equals( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML ) ? 1 : 0 );
@@ -392,7 +391,7 @@ public class TextEditor extends BaseDialog
 		formatChoicer.setItems( new String[]{
 				Messages.getString( "TextEditDialog.formatChoice.formatting" ), Messages.getString( "TextEditDialog.formatChoice.layout" ), Messages.getString( "TextEditDialog.formatChoice.content" ), Messages.getString( "TextEditDialog.formatChoice.lists" ), Messages.getString( "TextEditDialog.formatChoice.dynamicText" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
-				} );
+		} );
 
 		formatChoicer.select( 0 );
 		formatChoicer.setEnabled( textTypeChoicer.getSelectionIndex( ) == 1 );
@@ -629,8 +628,7 @@ public class TextEditor extends BaseDialog
 					{
 						ExpressionBuilder eb = new ExpressionBuilder( textEditor.getSelectionText( ) ); //$NON-NLS-1$
 
-						eb.setExpressionProvier( new ExpressionProvider( handle.getModuleHandle( ),
-								DEUtil.getDataSetList( handle ) ) );
+						eb.setExpressionProvier( new ExpressionProvider( handle ) );
 
 						if ( eb.open( ) == OK )
 						{
@@ -793,9 +791,9 @@ public class TextEditor extends BaseDialog
 				createToolItemWithHTMLTag( toolBar, tag );
 				break;
 			}
-			// Creates tags of layout.
+				// Creates tags of layout.
 			case FORMAT_CHOICE_INDEX_LAYOUT :
-			// case 1 :
+				// case 1 :
 			{
 				tag = new HTMLTag( "<CENTER>", true ); //$NON-NLS-1$
 				tag.setToolTipText( TOOL_TIP_TAG_CENTER );
@@ -818,8 +816,8 @@ public class TextEditor extends BaseDialog
 				createToolItemWithHTMLTag( toolBar, tag );
 				break;
 			}
-			// Creates tags of content.
-			// case 2 :
+				// Creates tags of content.
+				// case 2 :
 			case FORMAT_CHOICE_INDEX_CONTENT :
 			{
 				tag = new HTMLTag( "<IMG>", false ); //$NON-NLS-1$
@@ -852,9 +850,9 @@ public class TextEditor extends BaseDialog
 				createToolItemWithHTMLTag( toolBar, tag );
 				break;
 			}
-			// Creates tags of list.
+				// Creates tags of list.
 			case FORMAT_CHOICE_INDEX_LISTS :
-			// case 3 :
+				// case 3 :
 			{
 				tag = new HTMLTag( "<DL>", true ); //$NON-NLS-1$
 				tag.setToolTipText( TOOL_TIP_TAG_DL );
@@ -877,8 +875,8 @@ public class TextEditor extends BaseDialog
 				createToolItemWithHTMLTag( toolBar, tag );
 				break;
 			}
-			// Creates tags for Dynamic Text.
-			// case 4 :
+				// Creates tags for Dynamic Text.
+				// case 4 :
 			case FORMAT_CHOICE_INDEX_DYNAMIC_TEXT :
 			{
 				final ToolItem value = new ToolItem( toolBar, SWT.NONE );
@@ -890,8 +888,7 @@ public class TextEditor extends BaseDialog
 					{
 						ExpressionBuilder expressionBuilder = new ExpressionBuilder( "" ); //$NON-NLS-1$
 
-						expressionBuilder.setExpressionProvier( new ExpressionProvider( handle.getModuleHandle( ),
-								DEUtil.getDataSetList( handle ) ) );
+						expressionBuilder.setExpressionProvier( new ExpressionProvider( handle ) );
 
 						if ( expressionBuilder.open( ) == OK )
 						{

@@ -226,7 +226,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	private Label messageLine;
 
 	private String title;
-
+	
 	/**
 	 * Create an expression builder under the given parent shell with the given
 	 * initial expression

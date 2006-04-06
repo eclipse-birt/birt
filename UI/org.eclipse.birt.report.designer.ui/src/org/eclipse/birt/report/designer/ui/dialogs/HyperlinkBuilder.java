@@ -739,7 +739,7 @@ public class HyperlinkBuilder extends BaseDialog
 				new String[0],
 				SWT.READ_ONLY );
 		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table );
-		valueEditor.setDataSetList( dataSetList );
+		valueEditor.setExpressionProvider( new ExpressionProvider( inputHandle.getElementHandle( ) ) );
 		paramBindingTable.setCellEditors( new CellEditor[]{
 				parameterChooser, null, valueEditor
 		} );
@@ -769,7 +769,7 @@ public class HyperlinkBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				ExpressionBuilder builder = new ExpressionBuilder( text.getText( ) );
-				builder.setExpressionProvier( new ExpressionProvider( dataSetList ) );
+				builder.setExpressionProvier( new ExpressionProvider( inputHandle.getElementHandle( ) ) );
 				if ( builder.open( ) == Dialog.OK )
 				{
 					text.setText( builder.getResult( ) );

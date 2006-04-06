@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
@@ -128,7 +127,7 @@ public class UserPropertyBuilder extends BaseDialog
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		messageLine.setLayoutData( gd );
-		
+
 		switch ( style )
 		{
 			case USER_PROPERTY :
@@ -181,8 +180,7 @@ public class UserPropertyBuilder extends BaseDialog
 					{
 						ExpressionBuilder builder = new ExpressionBuilder( UIUtil.getDefaultShell( ),
 								defaultValueEditor.getText( ) );
-						builder.setExpressionProvier( new ExpressionProvider( input.getModuleHandle( ),
-								DEUtil.getDataSetList( input ) ) );
+						builder.setExpressionProvier( new ExpressionProvider( input ) );
 
 						if ( builder.open( ) == OK )
 						{
@@ -235,10 +233,10 @@ public class UserPropertyBuilder extends BaseDialog
 			errorMessage = ERROR_MSG_NAME_DUPLICATED;
 			messageLine.setImage( ERROR_ICON );
 		}
-		
+
 		if ( errorMessage != null )
 		{
-			messageLine.setText( errorMessage );			
+			messageLine.setText( errorMessage );
 		}
 		else
 		{

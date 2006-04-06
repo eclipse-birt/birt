@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -108,7 +109,7 @@ public class GroupDialog extends BaseDialog
 
 	public static final String GROUP_DLG_TITLE_EDIT = Messages.getString( "GroupDialog.Title.Edit" ); //$NON-NLS-1$
 
-	public static final String GROUP_DLG_HIDE_DETAIL = Messages.getString(  "GroupDialog.buttion.HideDetail" );
+	public static final String GROUP_DLG_HIDE_DETAIL = Messages.getString( "GroupDialog.buttion.HideDetail" );
 	private List dataSetList = null, columnList;
 
 	private GroupHandle inputGroup;
@@ -138,7 +139,7 @@ public class GroupDialog extends BaseDialog
 	private Button intervalBaseButton;
 
 	private Text intervalBaseText;
-	
+
 	private Button hideDetail;
 
 	private Text tocEditor;
@@ -239,7 +240,7 @@ public class GroupDialog extends BaseDialog
 			public void widgetSelected( SelectionEvent event )
 			{
 				ExpressionBuilder expressionBuilder = new ExpressionBuilder( tocEditor.getText( ) );
-				expressionBuilder.setExpressionProvier( new ExpressionProvider( dataSetList ) );
+				expressionBuilder.setExpressionProvier( new ExpressionProvider( inputGroup ) );
 
 				if ( expressionBuilder.open( ) == OK )
 				{
@@ -340,7 +341,7 @@ public class GroupDialog extends BaseDialog
 			{
 
 				ExpressionBuilder expressionBuilder = new ExpressionBuilder( getKeyExpression( ) );
-				expressionBuilder.setExpressionProvier( new ExpressionProvider( dataSetList ) );
+				expressionBuilder.setExpressionProvier( new ExpressionProvider( inputGroup ) );
 
 				if ( expressionBuilder.open( ) == OK )
 				{
@@ -411,12 +412,11 @@ public class GroupDialog extends BaseDialog
 
 		intervalBaseText = new Text( composite, SWT.SINGLE | SWT.BORDER );
 		intervalBaseText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		
-		hideDetail = new Button(composite, SWT.CHECK);
-		hideDetail.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+
+		hideDetail = new Button( composite, SWT.CHECK );
+		hideDetail.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		hideDetail.setText( GROUP_DLG_HIDE_DETAIL );
 	}
-	
 
 	/**
 	 * Creates the group area
@@ -468,13 +468,13 @@ public class GroupDialog extends BaseDialog
 
 		Group pagebreakGroup = new Group( composite, SWT.NONE );
 		// TODO i18n
-		pagebreakGroup.setText( Messages.getString("GroupDialog.PageBreak") ); //$NON-NLS-1$
+		pagebreakGroup.setText( Messages.getString( "GroupDialog.PageBreak" ) ); //$NON-NLS-1$
 		pagebreakGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 2;
 		pagebreakGroup.setLayout( layout );
 		// TODO i18n
-		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString("GroupDialog.PageBreakBefore") ); //$NON-NLS-1$
+		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString( "GroupDialog.PageBreakBefore" ) ); //$NON-NLS-1$
 		pagebreakBeforeCombo = new Combo( pagebreakGroup, SWT.NONE );
 		for ( int i = 0; i < pagebreakBeforeChoicesAll.length; i++ )
 		{
@@ -482,7 +482,7 @@ public class GroupDialog extends BaseDialog
 		}
 		pagebreakBeforeCombo.setData( pagebreakBeforeChoicesAll );
 
-		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString("GroupDialog.PageBreakAfter") ); //$NON-NLS-1$
+		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString( "GroupDialog.PageBreakAfter" ) ); //$NON-NLS-1$
 		pagebreakAfterCombo = new Combo( pagebreakGroup, SWT.NONE );
 		for ( int i = 0; i < pagebreakAfterChoicesAll.length; i++ )
 		{
@@ -491,7 +491,7 @@ public class GroupDialog extends BaseDialog
 		pagebreakAfterCombo.setData( pagebreakAfterChoicesAll );
 
 		repeatHeaderButton = new Button( pagebreakGroup, SWT.CHECK );
-		repeatHeaderButton.setText( Messages.getString("GroupDialog.RepeatHeader") ); //$NON-NLS-1$
+		repeatHeaderButton.setText( Messages.getString( "GroupDialog.RepeatHeader" ) ); //$NON-NLS-1$
 		GridData data = new GridData( );
 		data.horizontalSpan = 2;
 		repeatHeaderButton.setLayoutData( data );
@@ -559,12 +559,11 @@ public class GroupDialog extends BaseDialog
 		{
 			nameEditor.setText( inputGroup.getName( ) );
 		}
-		columnList = DataSetManager.getCurrentInstance( )
-				.getColumns( dataSetList );
+		columnList = DEUtil.getBingdingColumnList( inputGroup );
 		Iterator itor = columnList.iterator( );
 		while ( itor.hasNext( ) )
 		{
-			keyChooser.add( ( (DataSetItemModel) itor.next( ) ).getDisplayName( ) );
+			keyChooser.add( ( (ComputedColumnHandle) itor.next( ) ).getName( ) );
 		}
 		setKeyExpression( inputGroup.getKeyExpr( ) );
 
@@ -633,7 +632,7 @@ public class GroupDialog extends BaseDialog
 			repeatHeaderButton.setSelection( true );
 		}
 
-		hideDetail.setSelection( inputGroup.hideDetail( ) );		
+		hideDetail.setSelection( inputGroup.hideDetail( ) );
 		return true;
 	}
 
@@ -682,11 +681,10 @@ public class GroupDialog extends BaseDialog
 	 * 
 	 * @param dataSetList
 	 */
-	public void setDataSetList( List dataSetList )
-	{
-		this.dataSetList = dataSetList;
-	}
-
+	// public void setDataSetList( List dataSetList )
+	// {
+	// this.dataSetList = dataSetList;
+	// }
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -712,9 +710,11 @@ public class GroupDialog extends BaseDialog
 			int index = keyChooser.getSelectionIndex( );
 			String oldKeyExpr = inputGroup.getKeyExpr( );
 			String newKeyExpr = getKeyExpression( );
-			
+
 			inputGroup.setKeyExpr( newKeyExpr );
-			if ( newKeyExpr != null && newKeyExpr.length( ) != 0 && !newKeyExpr.equals( oldKeyExpr ) )
+			if ( newKeyExpr != null
+					&& newKeyExpr.length( ) != 0
+					&& !newKeyExpr.equals( oldKeyExpr ) )
 			{
 				SlotHandle slotHandle = null;
 				if ( inputGroup instanceof ListGroupHandle )

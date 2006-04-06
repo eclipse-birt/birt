@@ -1,14 +1,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
+import org.eclipse.birt.report.designer.ui.dialogs.BindingColumnDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ImageBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.TextEditor;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 
@@ -52,19 +53,14 @@ public class ElementBuilderFactory
 			ExpressionBuilder dialog = new ExpressionBuilder( UIUtil.getDefaultShell( ),
 					( (TextDataHandle) handle ).getValueExpr( ) );
 
-			dialog.setExpressionProvier( ( new ExpressionProvider( handle.getModuleHandle( ),
-					DEUtil.getDataSetList( handle ) ) ) );
+			dialog.setExpressionProvier( new ExpressionProvider( handle ) );
 
 			return ( dialog );
 		}
 		if ( handle instanceof DataItemHandle )
 		{
-			ExpressionBuilder dialog = new ExpressionBuilder( UIUtil.getDefaultShell( ),
-					( (DataItemHandle) handle ).getValueExpr( ) );
-
-			dialog.setExpressionProvier( ( new ExpressionProvider( handle.getModuleHandle( ),
-					DEUtil.getDataSetList( handle ) ) ) );
-
+			BindingColumnDialog dialog = new BindingColumnDialog( );
+			dialog.setInput( (ReportItemHandle) handle );
 			return ( dialog );
 		}
 		if ( handle instanceof ImageHandle )
@@ -77,5 +73,4 @@ public class ElementBuilderFactory
 
 		return null;
 	}
-
 }

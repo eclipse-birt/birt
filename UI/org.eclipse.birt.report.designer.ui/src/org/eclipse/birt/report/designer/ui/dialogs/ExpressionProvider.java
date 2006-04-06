@@ -13,29 +13,30 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -81,11 +82,13 @@ public class ExpressionProvider implements IExpressionProvider
 			"-", //$NON-NLS-1$
 			"*", //$NON-NLS-1$
 			"/", //$NON-NLS-1$
-			OPERATOR_SEPARATOR, "!", //$NON-NLS-1$
+			OPERATOR_SEPARATOR,
+			"!", //$NON-NLS-1$
 			"=", //$NON-NLS-1$
 			"<", //$NON-NLS-1$
 			">", //$NON-NLS-1$
-			OPERATOR_SEPARATOR, "&", //$NON-NLS-1$
+			OPERATOR_SEPARATOR,
+			"&", //$NON-NLS-1$
 			"|", //$NON-NLS-1$
 			"(", //$NON-NLS-1$
 			")" //$NON-NLS-1$
@@ -140,64 +143,59 @@ public class ExpressionProvider implements IExpressionProvider
 	private static final Image IMAGE_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER );
 	private static final Image IMAGE_STATIC_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER );
 
-	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$ 
-	public static final String DATASETS = Messages.getString( "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
+	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
+	public static final String BINDING_COLUMNS = "Available binding columns"; //$NON-NLS-1$
+	// public static final String DATASETS = Messages.getString(
+	// "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
 	public static final String PARAMETERS = Messages.getString( "ExpressionProvider.Category.Parameters" ); //$NON-NLS-1$
 	public static final String NATIVE_OBJECTS = Messages.getString( "ExpressionProvider.Category.NativeObjects" );//$NON-NLS-1$
 	public static final String BIRT_OBJECTS = Messages.getString( "ExpressionProvider.Category.BirtObjects" );//$NON-NLS-1$
 
 	private static final String ALL = Messages.getString( "ExpressionProvider.Label.All" ); //$NON-NLS-1$
 
-	private List dataSetList;
-	private ModuleHandle moduleHandle;
+	protected DesignElementHandle elementHandle;
 
 	private List filterList;
 
-	/**
-	 * Create a new expression provider with the given module
-	 * 
-	 * @param moduleHandle
-	 *            the handle of the module
-	 */
-	public ExpressionProvider( ModuleHandle moduleHandle )
-	{
-		Assert.isNotNull( moduleHandle );
-		this.moduleHandle = moduleHandle;
-	}
-
-	/**
-	 * Create a new expression provider with the given module and dataset list
-	 * 
-	 * @param moduleHandle
-	 *            the handle of the module
-	 * @param dataSetList
-	 *            the list of the data set
-	 */
-	public ExpressionProvider( ModuleHandle moduleHandle, List dataSetList )
-	{
-		this( moduleHandle );
-		this.dataSetList = dataSetList;
-	}
+	private boolean includeSelf;
 
 	/**
 	 * Create a new expression provider with the current module
 	 */
 	public ExpressionProvider( )
 	{
-		this( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+		this( null );
 	}
 
 	/**
-	 * Create a new expression provider with the current module and the given
-	 * dataset list
+	 * Create a new expression provider with the given element
 	 * 
-	 * @param dataSetList
-	 *            the list of the data set
+	 * @param handle
+	 *            the handle of the element
 	 */
-	public ExpressionProvider( List dataSetList )
+	public ExpressionProvider( DesignElementHandle handle )
 	{
-		this( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ),
-				dataSetList );
+		this( handle, true );
+	}
+
+	/**
+	 * Create a new expression provider with the given element
+	 * 
+	 * @param handle
+	 *            the handle of the element
+	 */
+	public ExpressionProvider( DesignElementHandle handle, boolean includeSelf )
+	{
+		if ( handle == null )
+		{
+			elementHandle = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
+		}
+		else
+		{
+			elementHandle = handle;
+		}
+		this.includeSelf = includeSelf;
 	}
 
 	/*
@@ -217,19 +215,7 @@ public class ExpressionProvider implements IExpressionProvider
 	 */
 	public Object[] getCategory( )
 	{
-		ArrayList categoryList = new ArrayList( 5 );
-		if ( dataSetList != null && !dataSetList.isEmpty( ) )
-		{
-			categoryList.add( DATASETS );
-		}
-		if ( moduleHandle.getParameters( ).getCount( ) != 0 )
-		{
-			categoryList.add( PARAMETERS );
-		}
-		categoryList.add( NATIVE_OBJECTS );
-		categoryList.add( BIRT_OBJECTS );
-		categoryList.add( OPERATORS );
-		Object[] category = categoryList.toArray( );
+		Object[] category = getCategoryList( ).toArray( );
 		if ( filterList != null && !filterList.isEmpty( ) )
 		{
 			for ( Iterator iter = filterList.iterator( ); iter.hasNext( ); )
@@ -237,12 +223,29 @@ public class ExpressionProvider implements IExpressionProvider
 				Object obj = iter.next( );
 				if ( obj instanceof ExpressionFilter )
 				{
-					category = ( (ExpressionFilter) obj ).filter( null,
+					category = ( (ExpressionFilter) obj ).filter( ExpressionFilter.CATEGORY,
 							category );
 				}
 			}
 		}
 		return category;
+	}
+
+	protected List getCategoryList( )
+	{
+		ArrayList categoryList = new ArrayList( 5 );
+		if ( !DEUtil.getBingdingColumnList( elementHandle ).isEmpty( ) )
+		{
+			categoryList.add( BINDING_COLUMNS );
+		}
+		if ( elementHandle.getModuleHandle( ).getParameters( ).getCount( ) != 0 )
+		{
+			categoryList.add( PARAMETERS );
+		}
+		categoryList.add( NATIVE_OBJECTS );
+		categoryList.add( BIRT_OBJECTS );
+		categoryList.add( OPERATORS );
+		return categoryList;
 	}
 
 	/*
@@ -252,13 +255,31 @@ public class ExpressionProvider implements IExpressionProvider
 	 */
 	public Object[] getChildren( Object parent )
 	{
+		Object[] children = getChildrenList( parent ).toArray( );
+		if ( filterList != null && !filterList.isEmpty( ) )
+		{
+			for ( Iterator iter = filterList.iterator( ); iter.hasNext( ); )
+			{
+				Object obj = iter.next( );
+				if ( obj instanceof ExpressionFilter )
+				{
+					children = ( (ExpressionFilter) obj ).filter( parent,
+							children );
+				}
+			}
+		}
+		return children;
+	}
+
+	protected List getChildrenList( Object parent )
+	{
 		ArrayList childrenList = new ArrayList( );
 		if ( parent instanceof Object[] )
 		{
 			Object[] array = (Object[]) parent;
 			if ( array instanceof Operator[] )
 			{
-				return array;
+				return Arrays.asList( array );
 			}
 			for ( int i = 0; i < array.length; i++ )
 			{
@@ -271,7 +292,9 @@ public class ExpressionProvider implements IExpressionProvider
 			if ( PARAMETERS.equals( parent ) )
 			{
 				childrenList.add( ALL );
-				for ( Iterator iter = moduleHandle.getParameters( ).iterator( ); iter.hasNext( ); )
+				for ( Iterator iter = elementHandle.getModuleHandle( )
+						.getParameters( )
+						.iterator( ); iter.hasNext( ); )
 				{
 					Object obj = iter.next( );
 					if ( obj instanceof ParameterGroupHandle )
@@ -282,7 +305,9 @@ public class ExpressionProvider implements IExpressionProvider
 			}
 			else if ( ALL.equals( parent ) )
 			{
-				for ( Iterator iter = moduleHandle.getParameters( ).iterator( ); iter.hasNext( ); )
+				for ( Iterator iter = elementHandle.getModuleHandle( )
+						.getParameters( )
+						.iterator( ); iter.hasNext( ); )
 				{
 					Object obj = iter.next( );
 					if ( obj instanceof ParameterHandle )
@@ -293,10 +318,20 @@ public class ExpressionProvider implements IExpressionProvider
 			}
 			else
 			{
-				if ( DATASETS.equals( parent ) )
+				if ( BINDING_COLUMNS.equals( parent ) )
 				{
-					childrenList.addAll( dataSetList );
-					childrenList.add( 0, childrenList.toArray( ) );
+					List bindingList = DEUtil.getBingdingColumnList( elementHandle,
+							includeSelf );
+					// The list is from top to bottom,reverse it
+					Collections.reverse( bindingList );
+					for ( Iterator iter = bindingList.iterator( ); iter.hasNext( ); )
+					{
+						ComputedColumnHandle handle = (ComputedColumnHandle) iter.next( );
+						if ( !childrenList.contains( handle.getElementHandle( ) ) )
+						{
+							childrenList.add( handle.getElementHandle( ) );
+						}
+					}
 				}
 				else if ( BIRT_OBJECTS.equals( parent ) )
 				{
@@ -332,31 +367,29 @@ public class ExpressionProvider implements IExpressionProvider
 				} );
 			}
 		}
-		else if ( parent instanceof DataSetHandle )
-		{
-			DataSetItemModel[] models = DataSetManager.getCurrentInstance( )
-					.getColumns( ( (DataSetHandle) parent ), false );
-			childrenList.addAll( Arrays.asList( models ) );
-		}
 		else if ( parent instanceof ParameterGroupHandle )
 		{
 			childrenList.addAll( ( (ParameterGroupHandle) parent ).getParameters( )
 					.getContents( ) );
 		}
-		Object[] children = childrenList.toArray( );
-		if ( filterList != null && !filterList.isEmpty( ) )
+		else if ( parent instanceof ReportItemHandle
+				|| parent instanceof GroupHandle )
 		{
-			for ( Iterator iter = filterList.iterator( ); iter.hasNext( ); )
+			Iterator iter;
+			if ( parent instanceof ReportItemHandle )
 			{
-				Object obj = iter.next( );
-				if ( obj instanceof ExpressionFilter )
-				{
-					children = ( (ExpressionFilter) obj ).filter( parent,
-							children );
-				}
+				iter = ( (ReportItemHandle) parent ).columnBindingsIterator( );
+			}
+			else
+			{
+				iter = ( (GroupHandle) parent ).columnBindingsIterator( );
+			}
+			while ( iter.hasNext( ) )
+			{
+				childrenList.add( iter.next( ) );
 			}
 		}
-		return children;
+		return childrenList;
 	}
 
 	/*
@@ -443,11 +476,11 @@ public class ExpressionProvider implements IExpressionProvider
 		}
 		else if ( element instanceof DesignElementHandle )
 		{
-			return ( (DesignElementHandle) element ).getQualifiedName( );
+			return DEUtil.getDisplayLabel( element, false );
 		}
-		else if ( element instanceof DataSetItemModel )
+		else if ( element instanceof ComputedColumnHandle )
 		{
-			return ( (DataSetItemModel) element ).getDisplayName( );
+			return ( (ComputedColumnHandle) element ).getName( );
 		}
 		return element.toString( );
 	}
@@ -466,6 +499,10 @@ public class ExpressionProvider implements IExpressionProvider
 		else if ( element instanceof ILocalizableInfo[] )
 		{
 			return ( (ILocalizableInfo[]) element )[1].getToolTip( );
+		}
+		else if ( element instanceof ComputedColumnHandle )
+		{
+			return ( (ComputedColumnHandle) element ).getExpression( );
 		}
 		return getDisplayText( element );
 	}
@@ -501,7 +538,9 @@ public class ExpressionProvider implements IExpressionProvider
 				return IMAGE_MEMBER;
 			}
 		}
-		else if ( element instanceof DataSetItemModel )
+		else if ( element instanceof ComputedColumnHandle
+				|| element instanceof ResultSetColumnHandle
+				|| element instanceof DataSetItemModel )
 		{
 			return IMAGE_COLUMN;
 		}
@@ -549,7 +588,7 @@ public class ExpressionProvider implements IExpressionProvider
 			}
 			return insertText.toString( );
 		}
-		else if ( element instanceof DataSetItemModel
+		else if ( element instanceof ComputedColumnHandle
 				|| element instanceof ParameterHandle )
 		{
 			return DEUtil.getExpression( element );

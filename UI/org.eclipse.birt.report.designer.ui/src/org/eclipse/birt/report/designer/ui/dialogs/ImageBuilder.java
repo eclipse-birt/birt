@@ -686,7 +686,7 @@ public class ImageBuilder extends BaseDialog
 		// dataSetList.add( inputImage.getDataSet( ) );
 
 		unionDataSets( );
-		ExpressionProvider provider = new ExpressionProvider( dataSetList );
+		ExpressionProvider provider = new ExpressionProvider( inputImage );
 		expressionBuilder.setExpressionProvier( provider );
 		// }
 		if ( expressionBuilder.open( ) == OK )

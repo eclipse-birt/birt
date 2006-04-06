@@ -15,11 +15,13 @@ import java.util.ArrayList;
 
 /**
  * A filter is used by a structure to extract a subset of elements
- *  
+ * 
  */
 
 public abstract class ExpressionFilter
 {
+
+	public static final String CATEGORY = "Category"; //$NON-NLS-1$
 
 	/**
 	 * Creates a new filter.
@@ -63,7 +65,8 @@ public abstract class ExpressionFilter
 	 * Returns whether the given element makes it through this filter.
 	 * 
 	 * @param parentElement
-	 *            the parent element
+	 *            the parent element,or CATEGORY if want to filter the categroy
+	 *            list
 	 * @param element
 	 *            the element
 	 * @return <code>true</code> if element is included in the filtered set,

@@ -54,15 +54,17 @@ public interface IReportElementConstants
 	
 	public static final String REPORT_ELEMENT_EXTENDED = "Extended";//$NON-NLS-1$
 
-	public static final String DATA_COLUMN_PREFIX = "row";//$NON-NLS-1$
+	public static final String BINDING_COLUMN_PREFIX = "row";//$NON-NLS-1$
+	
+	public static final String RESULTSET_COLUMN_PREFIX = "dataSetRow";//$NON-NLS-1$
 
 	public static final String DATA_SET_PREFIX = "dataSets";//$NON-NLS-1$
 
 	public static final String PARAMETER_PREFIX = "params";//$NON-NLS-1$
 	
-	public static final String TEMPLATE_FILE_EXTENSION = "rpttemplate";
+	public static final String TEMPLATE_FILE_EXTENSION = "rpttemplate"; //$NON-NLS-1$
 	
-	public static final String LIBRARY_FILE_EXTENSION = "rptlibrary";
+	public static final String LIBRARY_FILE_EXTENSION = "rptlibrary"; //$NON-NLS-1$
 	
-	public static final String DESIGN_FILE_EXTENSION = "rptdesign";
+	public static final String DESIGN_FILE_EXTENSION = "rptdesign"; //$NON-NLS-1$
 }

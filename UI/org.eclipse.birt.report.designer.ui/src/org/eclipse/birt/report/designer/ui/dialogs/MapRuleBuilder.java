@@ -443,7 +443,7 @@ public class MapRuleBuilder extends BaseDialog
 		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
 				10,
 				SWT.BOLD ) );
-		label.setText( getTitle() ); //$NON-NLS-1$
+		label.setText( getTitle( ) ); //$NON-NLS-1$
 
 		return titleArea;
 	}
@@ -702,8 +702,7 @@ public class MapRuleBuilder extends BaseDialog
 
 		if ( designHandle != null )
 		{
-			expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle.getModuleHandle( ),
-					DEUtil.getDataSetList( designHandle ) ) );
+			expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
 		}
 
 		if ( expressionBuilder.open( ) == OK )

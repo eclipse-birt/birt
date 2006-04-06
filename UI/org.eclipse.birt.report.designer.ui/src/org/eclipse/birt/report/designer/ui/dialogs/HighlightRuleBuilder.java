@@ -1230,8 +1230,7 @@ public class HighlightRuleBuilder extends BaseDialog
 
 		if ( designHandle != null )
 		{
-			expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle.getModuleHandle( ),
-					DEUtil.getDataSetList( designHandle ) ) );
+			expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
 		}
 
 		if ( expressionBuilder.open( ) == OK )

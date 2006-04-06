@@ -82,7 +82,6 @@ public class EditGroupAction extends DynamicItemAction
 				.getDisplay( )
 				.getActiveShell( ), GroupDialog.GROUP_DLG_TITLE_EDIT );
 		dialog.setInput( handle );
-		dialog.setDataSetList( DEUtil.getDataSetList( handle ) );
 
 		if ( dialog.open( ) == Window.OK )
 		{
