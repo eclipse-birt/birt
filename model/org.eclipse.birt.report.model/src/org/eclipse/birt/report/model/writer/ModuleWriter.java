@@ -1304,7 +1304,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitDataItem( obj );
 
-		property( obj, DataItem.VALUE_EXPR_PROP );
+		property( obj, DataItem.RESULT_SET_COLUMN_PROP );
 
 		resourceKey( obj, DataItem.HELP_TEXT_KEY_PROP, DataItem.HELP_TEXT_PROP );
 
@@ -2430,6 +2430,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeStructureList( obj, ReportItem.VISIBILITY_PROP );
 		writeStructureList( obj, ReportItem.PARAM_BINDINGS_PROP );
+		writeStructureList( obj, ReportItem.BOUND_DATA_COLUMNS_PROP );
 
 		property( obj, ReportItem.BOOKMARK_PROP );
 		property( obj, ReportItem.TOC_PROP );
@@ -2552,6 +2553,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeStructureList( obj, GroupElement.SORT_PROP );
 		writeStructureList( obj, GroupElement.FILTER_PROP );
+		writeStructureList( obj, GroupElement.BOUND_DATA_COLUMNS_PROP );
 	}
 
 	/*

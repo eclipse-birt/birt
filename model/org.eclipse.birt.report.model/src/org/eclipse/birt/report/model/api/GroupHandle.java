@@ -12,14 +12,17 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 
 /**
  * Represents both list and table groups in the design. Groups provide a way of
@@ -598,5 +601,75 @@ public abstract class GroupHandle extends ReportElementHandle
 	public void setOnPageBreak( String script ) throws SemanticException
 	{
 		setProperty( ON_PAGE_BREAK_METHOD, script );
+	}
+
+	/**
+	 * Returns the bound columns that binds the data set columns. The item in
+	 * the iterator is the corresponding <code>ComputedColumnHandle</code>.
+	 * 
+	 * @return a list containing the bound columns.
+	 */
+
+	public Iterator columnBindingsIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( ReportItemHandle.BOUND_DATA_COLUMNS_PROP );
+		return propHandle.iterator( );
+	}
+
+	/**
+	 * Get a handle to deal with the bound column.
+	 * 
+	 * @return a handle to deal with the boudn data column.
+	 */
+
+	public PropertyHandle getColumnBindings( )
+	{
+		return getPropertyHandle( BOUND_DATA_COLUMNS_PROP );
+	}
+
+	/**
+	 * Adds a bound column to the list.
+	 * 
+	 * @param addColumn
+	 *            the bound column to add
+	 * @param inForce
+	 *            <code>true</code> the column is added to the list regardless
+	 *            of duplicate expression. <code>false</code> do not add the
+	 *            column if the expression already exist
+	 * @param column
+	 *            the bound column
+	 * @return the newly created <code>ComputedColumnHandle</code> or the
+	 *         existed <code>ComputedColumnHandle</code> in the list
+	 * @throws SemanticException
+	 *             if expression is not duplicate but the name duplicates the
+	 *             exsiting bound column. Or, if the both name/expression are
+	 *             duplicate, but <code>inForce</code> is <code>true</code>.
+	 * 
+	 */
+
+	public ComputedColumnHandle addColumnBinding( ComputedColumn addColumn,
+			boolean inForce ) throws SemanticException
+	{
+		if ( addColumn == null )
+			return null;
+
+		String expr = addColumn.getExpression( );
+		if ( expr == null )
+			return null;
+
+		List columns = (List) getProperty( BOUND_DATA_COLUMNS_PROP );
+		if ( columns == null )
+			return (ComputedColumnHandle) getPropertyHandle(
+					BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
+
+		ComputedColumn column = DataBoundColumnUtil.getColumn( columns, expr );
+		if ( column != null && !inForce )
+		{
+			return (ComputedColumnHandle) column.handle(
+					getPropertyHandle( BOUND_DATA_COLUMNS_PROP ), columns
+							.indexOf( column ) );
+		}
+		return (ComputedColumnHandle) getPropertyHandle(
+				BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
 	}
 }

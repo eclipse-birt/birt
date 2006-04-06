@@ -281,6 +281,15 @@ public class StringUtil
 
 	public static int compareVersion( String versionA, String versionB )
 	{
+		if ( versionA == null && versionB == null )
+			return 0;
+
+		if ( versionA == null && versionB != null )
+			return -1;
+
+		if ( versionA != null && versionB == null )
+			return 1;
+
 		String[] stringsA = versionA.split( "\\." ); //$NON-NLS-1$
 		String[] stringsB = versionB.split( "\\." ); //$NON-NLS-1$
 
@@ -335,9 +344,9 @@ public class StringUtil
 
 	public static String extractFileName( String filePathName )
 	{
-		if( filePathName == null )
+		if ( filePathName == null )
 			return null;
-		
+
 		int dotPos = filePathName.lastIndexOf( '.' );
 		int slashPos = filePathName.lastIndexOf( '\\' );
 		if ( slashPos == -1 )
@@ -351,10 +360,10 @@ public class StringUtil
 
 		return filePathName.substring( slashPos > 0 ? slashPos + 1 : 0 );
 	}
-	
+
 	/**
-	 * Extract file name (without path but with suffix) from file name with path and
-	 * suffix.
+	 * Extract file name (without path but with suffix) from file name with path
+	 * and suffix.
 	 * <p>
 	 * For example:
 	 * <p>
@@ -372,9 +381,9 @@ public class StringUtil
 
 	public static String extractFileNameWithSuffix( String filePathName )
 	{
-		if( filePathName == null )
+		if ( filePathName == null )
 			return null;
-		
+
 		int slashPos = filePathName.lastIndexOf( '\\' );
 		if ( slashPos == -1 )
 			slashPos = filePathName.lastIndexOf( '/' );
@@ -397,9 +406,9 @@ public class StringUtil
 
 	public static String extractNamespace( String qualifiedName )
 	{
-		if( qualifiedName == null )
+		if ( qualifiedName == null )
 			return null;
-		
+
 		int pos = qualifiedName.indexOf( '.' );
 		if ( pos == -1 )
 			return null;
@@ -423,9 +432,9 @@ public class StringUtil
 	 */
 	public static String extractName( String qualifiedName )
 	{
-		if( qualifiedName == null )
+		if ( qualifiedName == null )
 			return null;
-		
+
 		int pos = qualifiedName.indexOf( '.' );
 		if ( pos == -1 )
 			return qualifiedName;
@@ -434,22 +443,22 @@ public class StringUtil
 	}
 
 	/**
-	 * Builds the qualified reference value. 
+	 * Builds the qualified reference value.
 	 * <p>
 	 * For example,
 	 * <ul>
 	 * <li>("LibA", "style1") => "LibA.style1"
-	 * <li>("  ", "style1) => "style1"
+	 * <li>(" ", "style1) => "style1"
 	 * </ul>
 	 * 
 	 * @param namespace
-	 *            the library namespace to indicate which library the reference is
-	 *            using.
+	 *            the library namespace to indicate which library the reference
+	 *            is using.
 	 * @param value
 	 *            the actual reference value
 	 * @return the qualified reference value
 	 */
-	
+
 	public static String buildQualifiedReference( String namespace, String value )
 	{
 		if ( StringUtil.isBlank( namespace ) )

@@ -104,7 +104,15 @@ class PropertyState extends AbstractPropertyState
 	public void end( ) throws SAXException
 	{
 		String value = text.toString( );
+		doEnd( value );
+	}
 
+	/**
+	 * @param value
+	 */
+
+	protected void doEnd( String value )
+	{
 		if ( struct != null )
 		{
 			setMember( struct, propDefn.getName( ), name, value );
@@ -131,6 +139,7 @@ class PropertyState extends AbstractPropertyState
 		{
 			setProperty( name, value );
 		}
+
 	}
 
 	public AbstractParseState jumpTo( )
@@ -182,10 +191,10 @@ class PropertyState extends AbstractPropertyState
 									.getName( ) )
 					|| StringFormatValue.FORMAT_VALUE_STRUCT
 							.equalsIgnoreCase( jmpDefn.getStructDefn( )
-									.getName( ) ) 
+									.getName( ) )
 					|| ParameterFormatValue.FORMAT_VALUE_STRUCT
-									.equalsIgnoreCase( jmpDefn.getStructDefn( )
-											.getName( ) ) )
+							.equalsIgnoreCase( jmpDefn.getStructDefn( )
+									.getName( ) ) )
 			{
 				CompatibleFormatPropertyState state = new CompatibleFormatPropertyState(
 						handler, element, propDefn, struct );
@@ -238,6 +247,17 @@ class PropertyState extends AbstractPropertyState
 				state.setName( name );
 				return state;
 			}
+
+		// if ( ICellModel.ON_CREATE_METHOD.equalsIgnoreCase( name )
+		// || ITableRowModel.ON_CREATE_METHOD.equalsIgnoreCase( name )
+		// || IReportItemModel.ON_CREATE_METHOD.equalsIgnoreCase( name ) )
+		// {
+		// CompatibleMiscExpressionState state = new
+		// CompatibleMiscExpressionState(
+		// handler, element );
+		// state.setName( name );
+		// return state;
+		//		}
 
 		return super.jumpTo( );
 	}

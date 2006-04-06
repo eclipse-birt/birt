@@ -12,12 +12,13 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
+import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
@@ -62,6 +63,44 @@ class ExpressionState extends PropertyState
 		if ( "mapTestExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$
 			return new CompatibleTestExpreState( handler, element,
 					Style.MAP_RULES_PROP );
+
+		if ( element instanceof DataItem
+				&& ( "valueExpr" ).equalsIgnoreCase( name ) //$NON-NLS-1$
+				&& StringUtil.compareVersion( handler.getVersion( ), "3.1.0" ) < 0 ) //$NON-NLS-1$
+
+		{
+			CompatibleDataValueExprState state = new CompatibleDataValueExprState(
+					handler, element );
+			state.setName( IDataItemModel.RESULT_SET_COLUMN_PROP );
+			return state;
+		}
+
+		if ( propDefn == null )
+			propDefn = element.getPropertyDefn( name );
+
+		if ( propDefn != null
+				&& propDefn.getValueType( ) == IPropertyDefn.USER_PROPERTY
+				&& StringUtil.compareVersion( handler.getVersion( ), "3.1.0" ) < 0 ) //$NON-NLS-1$
+		{
+			CompatibleUserExpressionState state = new CompatibleUserExpressionState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
+
+		// TODO for any other expression
+
+		// if ( StringUtil.compareVersion( handler.getVersion( ), "3.1.0" ) < 0
+		// ) //$NON-NLS-1$
+		// {
+		// CompatibleMiscExpressionState state = new
+		// CompatibleMiscExpressionState(
+		// handler, element );
+		// state.setName( name );
+		// state.struct = struct;
+		// state.propDefn = propDefn;
+		// return state;
+		// }
 
 		return super.jumpTo( );
 	}

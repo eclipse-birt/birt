@@ -268,6 +268,12 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_DATA_SET_MISSED_IN_JOINT_DATA_SET = MessageConstants.SEMANTIC_ERROR_DATA_SET_MISSED_IN_JOINT_DATA_SET;
 
 	/**
+	 * Column name of the data item has no corresponding data bindging.
+	 */
+
+	public static final String DESIGN_EXCEPTION_MISSING_COLUMN_BINDING = MessageConstants.SEMANTIC_ERROR_MISSING_COLUMN_BINDING;
+	
+	/**
 	 * The constant for the semantic error.
 	 */
 
@@ -378,7 +384,8 @@ public class SemanticError extends SemanticException
 					(String) oaMessageArguments[1]} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_DUPLICATE_GROUP_NAME
-				|| sResourceKey == DESIGN_EXCEPTION_EXTENSION_NOT_FOUND )
+				|| sResourceKey == DESIGN_EXCEPTION_EXTENSION_NOT_FOUND
+				|| sResourceKey == DESIGN_EXCEPTION_MISSING_COLUMN_BINDING )
 		{
 			assert oaMessageArguments != null;
 

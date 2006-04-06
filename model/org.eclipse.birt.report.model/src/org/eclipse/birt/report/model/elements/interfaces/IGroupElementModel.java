@@ -140,4 +140,11 @@ public interface IGroupElementModel
 	 */
 
 	public static final String ON_PAGE_BREAK_METHOD = "onPageBreak"; //$NON-NLS-1$
+	
+	/**
+	 * The property name of the bound columns that bind the report element
+	 * with the data set columns.
+	 */
+
+	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
 }

@@ -1390,6 +1390,7 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageContextContainmentValidator" modules="design, library" name="MasterPageContextContainmentValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ElementExtendsValidator" modules="design, library" name="ElementExtendsValidator" />
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.SimpleListValidator" modules="design, library" name="SimpleListValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataColumnNameValidator" modules="design, library" name="DataColumnNameValidator"/>	  	  
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
@@ -1546,7 +1547,7 @@
     <Member displayNameID="Structure.ResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />
   </Structure>
   <Structure displayNameID="Structure.ComputedColumn" name="ComputedColumn" since="1.0">
-    <Member displayNameID="Structure.ComputedColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
+    <Member displayNameID="Structure.ComputedColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="name" valueRequired="true"/>
     <Member context="factory" displayNameID="Structure.ComputedColumn.expression" isIntrinsic="true" name="expression" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
   	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.0" type="choice">
 		<Default>any</Default>
@@ -2296,6 +2297,7 @@
     <Property detailType="HideRule" displayNameID="Element.ReportItem.visibility" isList="true" name="visibility" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
 	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.ReportItem.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
+    <Property detailType="ComputedColumn" displayNameID="Element.ReportItem.boundDataColumns" name="boundDataColumns" since="2.1" isList="true" type="structure"/>
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>       
@@ -2393,7 +2395,9 @@
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Data" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.DataItem" name="Data" selector="number,string,date" since="1.0" xmlName="data">
-    <Property context="element" displayNameID="Element.Data.valueExpr" name="valueExpr" returnType="any" since="1.0" type="expression"/>
+    <Property displayNameID="Element.Data.resultSetColumn" name="resultSetColumn" returnType="any" since="2.1" type="string" >  
+		<Trigger validator="DataColumnNameValidator"/>
+	</Property>
     <Property displayNameID="Element.Data.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Data.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
     <Property detailType="Action" displayNameID="Element.Data.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
@@ -2543,6 +2547,7 @@
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ListingGroup" hasStyle="false" isAbstract="true" name="ListingGroup" nameSpace="none" >
     <Property displayNameID="Element.ListingGroup.keyExpr" name="keyExpr" returnType="any" since="1.0" type="expression" valueRequired="true"/>
+    <Property detailType="ComputedColumn" displayNameID="Element.ListingGroup.boundDataColumns" name="boundDataColumns" since="2.1" isList="true" type="structure"/>
     <Property detailType="SortKey" displayNameID="Element.ListingGroup.sort" isList="true" name="sort" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.ListingGroup.filter" isList="true" name="filter" runtimeSettable="false" since="reserved" type="structure"/>
     <Property displayNameID="Element.ListingGroup.toc" name="toc" returnType="string" runtimeSettable="false" since="2.0" type="expression"/>

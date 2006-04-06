@@ -54,7 +54,7 @@ public class IndentableXMLWriter extends XMLWriter
 	 * The name of the tag that is being written.
 	 */
 
-	private String currentTagName = null;
+	private String lastTagName = null;
 
 	/**
 	 * Constructor.
@@ -104,7 +104,7 @@ public class IndentableXMLWriter extends XMLWriter
 	{
 		// Record the current tag name for endDocument()
 
-		currentTagName = tagName;
+		lastTagName = tagName;
 
 		literal( getIndent( elementStack.size( ) ) );
 
@@ -124,21 +124,23 @@ public class IndentableXMLWriter extends XMLWriter
 		// Get the tag name from the top of stack
 
 		if ( !elementStack.isEmpty( ) )
-			tagName = (String) elementStack.get( elementStack.size( ) - 1 );
+			tagName = (String) elementStack.peek( );
 
 		// No indent for the leaf nodes on the desing tree. Like <property
 		// name="height">x</property>, <freeform name="freeform1"/>
 
 		if ( !elementStack.isEmpty( )
-				&& !tagName.equalsIgnoreCase( currentTagName )
-				&& pendingElementStack.isEmpty( ) )
+				&& !tagName.equalsIgnoreCase( lastTagName )
+				&& ( pendingElementStack.isEmpty( ) || ( !pendingElementStack
+						.isEmpty( ) && !tagName.equals( pendingElementStack
+						.peek( ) ) ) ) )
 			literal( getIndent( elementStack.size( ) - 1 ) );
 
 		// currentTagName is the last tag that was written to the output stream.
 		// It is a trick to set the currentTagName before the
 		// super.endElement(). So that it can show all tabs correctly.
 
-		currentTagName = tagName;
+		lastTagName = tagName;
 
 		super.endElement( );
 	}

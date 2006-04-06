@@ -25,7 +25,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -33,6 +37,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.parser.ActionStructureState;
 import org.eclipse.birt.report.model.parser.DesignReader;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
@@ -40,6 +46,8 @@ import org.eclipse.birt.report.model.parser.GenericModuleReader;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.parser.ModuleParserHandler;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.writer.IndentableXMLWriter;
 import org.eclipse.birt.report.model.writer.ModuleWriter;
 import org.xml.sax.InputSource;
@@ -277,7 +285,7 @@ public class ModuleUtil
 		public void write( OutputStream os, Action action ) throws IOException
 		{
 			writer = new SectionXMLWriter( os, UnicodeUtil.SIGNATURE_UTF_8 );
-			writeAction( action, ImageItem.ACTION_PROP ); 
+			writeAction( action, ImageItem.ACTION_PROP );
 		}
 
 		protected Module getModule( )
@@ -376,4 +384,131 @@ public class ModuleUtil
 
 		return rtnModule instanceof Library ? LIBRARY : REPORT_DESIGN;
 	}
+
+	/**
+	 * Finds the result columns on DataSet and update the bound column with the
+	 * element that uses this data set. Operations are in persistent
+	 * transaction. Hence, operations in the method can not undo/redo.
+	 * 
+	 * Parts of migration work from BIRT 2.1M5 to BIRT 2.1.0 for bound data
+	 * columns.
+	 * 
+	 * @param module
+	 *            the libray/report instance
+	 * 
+	 * @throws SemanticException
+	 *             if values in result set columns are not valid in data bound
+	 *             columns.
+	 */
+
+	public static void updateBoundDataColumns( ModuleHandle module )
+			throws SemanticException
+	{
+		ContentIterator contentIter = new ContentIterator( module.getElement( ) );
+		if ( !contentIter.hasNext( ) )
+			return;
+
+		CommandStack cmdStack = module.getCommandStack( );
+		cmdStack.startPersistentTrans( null );
+
+		try
+		{
+			while ( contentIter.hasNext( ) )
+			{
+				DesignElement element = (DesignElement) contentIter.next( );
+				if ( !( element instanceof ReportItem ) )
+					continue;
+
+				ReportItemHandle reportItem = (ReportItemHandle) element
+						.getHandle( module.getModule( ) );
+
+				DataSetHandle dataSet = reportItem.getDataSet( );
+				if ( dataSet == null )
+					continue;
+
+				setupBoundDataColumns( dataSet, reportItem );
+			}
+
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
+	}
+
+	/**
+	 * Creates data bound columns from result set columns of the given data set
+	 * for the given report item.
+	 * 
+	 * @param dataSet
+	 *            the data set cached result set columns.
+	 * @param reportItem
+	 *            the target report item.
+	 */
+
+	private static void setupBoundDataColumns( DataSetHandle dataSet,
+			ReportItemHandle reportItem ) throws SemanticException
+	{
+		CachedMetaDataHandle cachedMetaData = dataSet.getCachedMetaDataHandle( );
+		if ( cachedMetaData == null )
+			return;
+
+		List columns = cachedMetaData.getResultSet( ).getListValue( );
+		if ( columns == null || columns.isEmpty( ) )
+			return;
+
+		for ( int i = 0; i < columns.size( ); i++ )
+		{
+			ResultSetColumn setColumn = (ResultSetColumn) columns.get( i );
+			String name = setColumn.getColumnName( );
+			String dataType = setColumn.getDataType( );
+
+			createDataBinding( reportItem, ExpressionUtil
+					.createRowExpression( name ), dataType );
+		}
+	}
+
+	/**
+	 * Creates a data binding on the target element.
+	 * 
+	 * @param target
+	 *            the element
+	 * @param value
+	 *            the column expression. In default, it is also the column name.
+	 */
+
+	private static void createDataBinding( ReportItemHandle target,
+			String expression, String dataType ) throws SemanticException
+	{
+		List columns = (List) target
+				.getListProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+
+		ComputedColumn column = DataBoundColumnUtil.getColumn( columns,
+				expression );
+		if ( column == null )
+		{
+			column = StructureFactory.createComputedColumn( );
+			String newName = DataBoundColumnUtil.handleDuplicateName( columns );
+			column.setName( newName );
+			column.setDataType( dataType );
+			column.setExpression( expression );
+
+			target.addColumnBinding( column, false );
+		}
+		else
+		{
+			ComputedColumnHandle columnHandle = (ComputedColumnHandle) column
+					.handle(
+							target
+									.getPropertyHandle( IReportItemModel.BOUND_DATA_COLUMNS_PROP ),
+							columns.indexOf( column ) );
+			columnHandle.setDataType( dataType );
+		}
+
+		return;
+	}
+
 }

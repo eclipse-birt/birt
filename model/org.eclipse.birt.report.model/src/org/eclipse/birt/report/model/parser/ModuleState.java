@@ -77,7 +77,7 @@ public abstract class ModuleState extends DesignParseState
 				result = StringUtil.compareVersion(
 						DesignSchemaConstants.REPORT_VERSION, version );
 			}
-			catch ( Exception ex )
+			catch ( NumberFormatException ex )
 			{
 				// The format of version string is invalid.
 

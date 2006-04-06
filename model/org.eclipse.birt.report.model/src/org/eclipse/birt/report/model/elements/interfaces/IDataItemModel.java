@@ -19,6 +19,8 @@ public interface IDataItemModel
 
 	/**
 	 * Name of the value expression property.
+	 * 
+	 * @deprecated As of BIRT version 2.1,0, replaced by RESULT_SET_COLUMN_PROP
 	 */
 
 	public static final String VALUE_EXPR_PROP = "valueExpr"; //$NON-NLS-1$
@@ -40,5 +42,11 @@ public interface IDataItemModel
 	 */
 
 	public static final String ACTION_PROP = "action"; //$NON-NLS-1$
+
+	/**
+	 * Name the data column name proeprty.
+	 */
+
+	public static final String RESULT_SET_COLUMN_PROP = "resultSetColumn"; //$NON-NLS-1$
 
 }

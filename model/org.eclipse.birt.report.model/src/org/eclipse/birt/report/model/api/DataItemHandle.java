@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -157,11 +159,15 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 	 * Returns the expression that gives the value that the data item displays.
 	 * 
 	 * @return the value expression
+	 * 
+	 * @deprecated As of BIRT version 2.1.0, replaced by getResultSetColumn( )
+	 * @see {@link #getResultSetExpression()} for the shortcut function to get
+	 *      the value expression
 	 */
 
 	public String getValueExpr( )
 	{
-		return getStringProperty( DataItem.VALUE_EXPR_PROP );
+		return null;
 	}
 
 	/**
@@ -171,11 +177,13 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 	 *            the expression to set
 	 * @throws SemanticException
 	 *             If the property is locked.
+	 * @deprecated As of BIRT version 2.1.0, replaced by
+	 *             setResultSetColumn(String columnName)
+	 * @throws SemanticException
 	 */
 
 	public void setValueExpr( String expr ) throws SemanticException
 	{
-		setProperty( DataItem.VALUE_EXPR_PROP, expr );
 	}
 
 	/**
@@ -230,4 +238,57 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 		setStringProperty( DataItem.HELP_TEXT_KEY_PROP, value );
 	}
 
+	/**
+	 * Looks the column name from the data binding element that is nearest to
+	 * this data item. Iterate the column name expression list to see if there
+	 * is a column name is equals with the value of the
+	 * DataItemHandle.DATA_COLUMN_NAME_PROP on this data item. If yes, return
+	 * the expression value.
+	 * 
+	 * @return the expression value.
+	 * @throws SemanticException
+	 */
+
+	public String getResultSetExpression( )
+	{
+		String columnName = getResultSetColumn( );
+		if ( columnName == null )
+			return null;
+
+		Iterator columnBindings = columnBindingsIterator( );
+
+		while ( columnBindings.hasNext( ) )
+		{
+			ComputedColumnHandle column = (ComputedColumnHandle) columnBindings
+					.next( );
+			if ( columnName.equals( column.getName( ) ) )
+				return column.getExpression( );
+		}
+		return null;
+	}
+
+	/**
+	 * Gets the value of the result set column name property on this data item.
+	 * 
+	 * @return the value of the property.
+	 */
+
+	public String getResultSetColumn( )
+	{
+		return getStringProperty( DataItemHandle.RESULT_SET_COLUMN_PROP );
+	}
+
+	/**
+	 * Sets the value of the column name property.
+	 * 
+	 * @param columnName
+	 *            the value to set.
+	 * @throws SemanticException
+	 */
+
+	public void setResultSetColumn( String columnName )
+			throws SemanticException
+	{
+		setStringProperty( DataItemHandle.RESULT_SET_COLUMN_PROP, columnName );
+	}
 }
