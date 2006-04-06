@@ -588,7 +588,10 @@ public class LibraryCommand extends AbstractElementCommand
 			if ( !namespace.equals( includeLibrary.getNamespace( ) ) )
 				continue;
 
-			if ( !fileName.endsWith( includeLibrary.getFileName( ) ) )
+			if ( !fileName
+					.endsWith( StringUtil
+							.extractFileNameWithSuffix( includeLibrary
+									.getFileName( ) ) ) )
 				continue;
 
 			ElementPropertyDefn propDefn = module
