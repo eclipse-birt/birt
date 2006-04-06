@@ -177,8 +177,14 @@ public class Methods implements IConstants
 			double dMaximum = asDouble( sc.getMaximum( ) ).doubleValue( );
 			double[] ea = sc.getEndPoints( );
 
-			return ea[0]
-					- ( ( ( dValue - dMinimum ) / ( dMaximum - dMinimum ) ) * ( ea[0] - ea[1] ) );
+			if ( dMaximum == dMinimum )
+			{
+				return ea[0];
+			}
+			{
+				return ea[0]
+						- ( ( ( dValue - dMinimum ) / ( dMaximum - dMinimum ) ) * ( ea[0] - ea[1] ) );
+			}
 		}
 	}
 
@@ -273,8 +279,15 @@ public class Methods implements IConstants
 			double dMaximum = asDouble( sc.getMaximum( ) ).doubleValue( );
 			double[] da = sc.getEndPoints( );
 
-			return da[0]
-					- ( ( ( dValue - dMinimum ) / ( dMaximum - dMinimum ) ) * ( da[0] - da[1] ) );
+			if ( dMaximum == dMinimum )
+			{
+				return da[0];
+			}
+			else
+			{
+				return da[0]
+						- ( ( ( dValue - dMinimum ) / ( dMaximum - dMinimum ) ) * ( da[0] - da[1] ) );
+			}
 		}
 		else if ( ( sc.getType( ) & IConstants.LOGARITHMIC ) == IConstants.LOGARITHMIC )
 		{

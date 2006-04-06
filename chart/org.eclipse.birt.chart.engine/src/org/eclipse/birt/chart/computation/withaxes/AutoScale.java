@@ -1226,7 +1226,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					dMinAxis = -( dMinAxis + dStep );
 				}
-				else if ( dMinAxis == dMinValue && dMinAxis != 0 )
+				else if ( dMinAxis >= dMinValue && dMinAxis != 0 )
 				{
 					dMinAxis -= dStep;
 				}
