@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.BindingColumnDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -79,7 +80,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public final String[] getPreviewHeader( ) throws ChartException
 	{
-		Iterator iterator = itemHandle.getColumnBindings( ).iterator( );
+		Iterator iterator = getColumnDataBindings( );
 		ArrayList list = new ArrayList( );
 		while ( iterator.hasNext( ) )
 		{
@@ -107,6 +108,36 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return exps;
 	}
 
+	/**
+	 * Returns column bindings of current handle or the combination with nearest
+	 * container
+	 * 
+	 */
+	private Iterator getColumnDataBindings( )
+	{
+		if ( getBoundDataSet( ) != null )
+		{
+			return itemHandle.columnBindingsIterator( );
+		}
+		DesignElementHandle handle = DEUtil.getBindingHolder( itemHandle );
+		if ( handle instanceof ReportItemHandle )
+		{
+			ArrayList list = new ArrayList( );
+			Iterator i = ( (ReportItemHandle) handle ).columnBindingsIterator( );
+			while ( i.hasNext( ) )
+			{
+				list.add( i.next( ) );
+			}
+			i = itemHandle.columnBindingsIterator( );
+			while ( i.hasNext( ) )
+			{
+				list.add( i.next( ) );
+			}
+			return list.iterator( );
+		}
+		return itemHandle.columnBindingsIterator( );
+	}
+
 	protected final List getPreviewRowData( String[] columnExpression,
 			int rowCount, boolean isStringType ) throws ChartException
 	{
@@ -131,7 +162,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 									.iterator( ),
 							itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
 									.iterator( ),
-							itemHandle.getColumnBindings( ).iterator( ),
+							getColumnDataBindings( ),
 							columnExpression,
 							rowCount <= 0 ? getMaxRow( ) : rowCount );
 			if ( actualResultSet != null )
