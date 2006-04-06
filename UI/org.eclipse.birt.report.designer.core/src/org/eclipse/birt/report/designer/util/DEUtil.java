@@ -44,7 +44,6 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -1834,11 +1833,29 @@ public class DEUtil
 	}
 
 	/**
-	 * Returns the closet data set available for the given handle.
+	 * Returns the closest data set available for the given handle.
 	 * 
 	 * @return the data set or null if no data set can be used.
 	 */
 	public static DataSetHandle getAvaliableDataSet( DesignElementHandle handle )
+	{
+		ReportItemHandle holder = getBindingHolder( handle );
+		if ( holder != null )
+		{
+			return holder.getDataSet( );
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the element handle which can save binding columns the given
+	 * element
+	 * 
+	 * @param handle
+	 *            the handle of the element which needs binding columns
+	 * @return the holder for the element,or null if no holder available
+	 */
+	public static ReportItemHandle getBindingHolder( DesignElementHandle handle )
 	{
 		if ( handle instanceof ReportElementHandle )
 		{
@@ -1846,33 +1863,34 @@ public class DEUtil
 			{
 				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null )
 				{
-					return ( (ReportItemHandle) handle ).getDataSet( );
+					return (ReportItemHandle) handle;
 				}
-				return getAvaliableDataSet( handle.getContainer( ) );
+				ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
+				if ( result == null )
+				{
+					return (ReportItemHandle) handle;
+				}
+				return result;
 			}
+			return getBindingHolder( handle.getContainer( ) );
 		}
 		return null;
 	}
 
-	public static DesignElementHandle getBindingHolder(
-			DesignElementHandle handle )
-	{
-		if ( handle instanceof GroupHandle || handle instanceof ListingHandle )
-		{
-			return handle;
-		}
-		if ( handle instanceof ReportItemHandle )
-		{
-			DesignElementHandle result = getBindingHolder( handle.getContainer( ) );
-			if ( result == null )
-			{
-				return handle;
-			}
-			return result;
-		}
-		return null;
-	}
-
+	/**
+	 * Add a binding column on the given element
+	 * 
+	 * @param handle
+	 *            the handle of the elementIt should be a ReportItemHandle or a
+	 *            GroupHandle
+	 * @param column
+	 *            the column to add
+	 * @param inForce
+	 *            true to add the column with duplicated expression,or false not
+	 *            to do
+	 * 
+	 * @return the handle of the binding column,or null if failed
+	 */
 	public static ComputedColumnHandle addColumn( DesignElementHandle handle,
 			ComputedColumn column, boolean inForce ) throws SemanticException
 	{
@@ -1885,6 +1903,14 @@ public class DEUtil
 		return ( (ReportItemHandle) handle ).addColumnBinding( column, inForce );
 	}
 
+	/**
+	 * Returns the binding column iterator of the given element
+	 * 
+	 * @param handle
+	 *            the handle of the element. It should be a ReportItemHandle or
+	 *            a GroupHandle
+	 * @return the iterator of binding columns
+	 */
 	public static Iterator getBindingColumnIterator( DesignElementHandle handle )
 	{
 		Assert.isLegal( handle instanceof ReportItemHandle
