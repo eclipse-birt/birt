@@ -17,7 +17,7 @@ Export-Package: org.eclipse.birt.data.engine.api,
  org.eclipse.birt.data.engine.script
 Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.birt.core,
- org.eclipse.datatools.connectivity.oda,
+ org.eclipse.datatools.connectivity.oda.consumer,
  com.ibm.icu,
  org.mozilla.rhino
 Eclipse-LazyStart: true

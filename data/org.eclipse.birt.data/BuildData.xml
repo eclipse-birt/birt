@@ -79,6 +79,7 @@
 	
 	<property name="core.dir" location="../org.eclipse.birt.core" />
 	<property name="dtp.oda.dir" location="${dtp.home}/org.eclipse.datatools.connectivity.oda" />
+	<property name="dtp.oda.consumer.dir" location="${dtp.home}/org.eclipse.datatools.connectivity.oda.consumer" />
 	<property name="oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
 	<property name="js.dir" location="../org.mozilla.rhino" />
 	<property name="module.name" value = "org.eclipse.birt.data" />
@@ -102,6 +103,8 @@
 		</fileset>
 		<fileset dir="${dtp.oda.dir}">
 			<include name="oda.jar"/>
+		</fileset>
+		<fileset dir="${dtp.oda.consumer.dir}">
 			<include name="odaconsumer-helper.jar"/>
 		</fileset>
 		<fileset dir="${birt.oda.dir}">
@@ -424,6 +427,13 @@
 			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
 		<echo message="${module.name} end call Jar task in ${dtp.oda.dir}"/>
+		
+		<echo message="${module.name} start call Jar task in ${dtp.oda.consumer.dir}"/>
+		<ant dir="${dtp.oda.consumer.dir}" antfile ="build.xml" target="build.jars" inheritAll="false">
+			<property name="eclipse.home" value="${eclipse.home}" />
+			<property name="dtp.home" value="${dtp.home}" />
+		</ant>
+		<echo message="${module.name} end call Jar task in ${dtp.oda.consumer.dir}"/>
 	</target>
 	
 	<target name="testDependency">
