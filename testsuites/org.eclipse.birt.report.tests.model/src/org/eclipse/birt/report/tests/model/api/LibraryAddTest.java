@@ -4,8 +4,12 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.tests.model.BaseTestCase;
+import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.tests.model.BaseTestCase;
 ;
 
 public class LibraryAddTest extends BaseTestCase
@@ -36,7 +40,7 @@ public class LibraryAddTest extends BaseTestCase
 		openDesign( "../input/Library_Import_test.xml" );
 		designHandle.includeLibrary( LibFile, "LibB" );
 		designHandle.includeLibrary( "../input/LibA.xml" , "");
-	    super.saveAs( outFileName );
+		saveAs( outFileName );
 	    assertTrue( compareTextFile( goldenFileName, outFileName ) );
 	    
 	    try
@@ -74,6 +78,22 @@ public class LibraryAddTest extends BaseTestCase
 	    }
 	    
 	    
-	    
+	    	}
+	public void testRemoveLibrary( ) throws Exception
+	{
+		openDesign( "../input/Library_Import_test.xml" );
+		designHandle.includeLibrary( LibFile, "LibB" );
+		designHandle.includeLibrary( "../input/LibA.xml" , "");
+		LibraryHandle lib1 = designHandle.findLibrary( "LibraryCreatLib.xml" );
+		LibraryHandle lib2 = designHandle.findLibrary( "../input/LibA.xml" );
+		assertNotNull(lib1);
+		assertNotNull(lib2);
+		
+		designHandle.dropLibrary(lib1);
+		assertEquals(1,designHandle.getListProperty( ReportDesign.LIBRARIES_PROP).size( ));
+		
+		designHandle.dropLibrary( lib2 );
+		assertEquals(0,designHandle.getListProperty( ReportDesign.LIBRARIES_PROP).size( ));
+		
 	}
 }

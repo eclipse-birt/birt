@@ -64,8 +64,8 @@ public class DynamicParameterTest extends BaseTestCase
 			handle.setDefaultValue("10/15/2005");
 			assertEquals("10/15/2005",handle.getDefaultValue());
 			
-			handle.setFormat(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE);
-			assertEquals(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,handle.getFormat());
+			handle.setCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE);
+			assertEquals(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,handle.getCategory( ));
 			
 			handle.setListlimit(20);
 			assertEquals(20,handle.getListlimit());
@@ -91,7 +91,7 @@ public class DynamicParameterTest extends BaseTestCase
 			assertFalse(handle.allowBlank());
 			assertTrue(handle.allowNull());
 			assertEquals(DesignChoiceConstants.SCALAR_PARAM_ALIGN_LEFT,handle.getAlignment());
-			assertEquals("##,###.##",handle.getFormat( ));
+			assertEquals("##,###.##",handle.getPattern( ));
 			assertEquals(5,handle.getListlimit());
 			
 			//test on params on duplicated name

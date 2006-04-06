@@ -76,8 +76,7 @@ public class LibraryCreateTest extends BaseTestCase
 		ElementExportUtil.exportElement( parameterHandle, libraryHandle, false );
 		ElementExportUtil.exportElement( imageHandle, libraryHandle, false );
 		ElementExportUtil.exportElement( dataHandle, libraryHandle, false );
-	
-		super.saveLibraryAs(outFileName);
+	  	super.saveLibraryAs(outFileName);
 		assertTrue( compareTextFile( goldenFileName, outFileName ) );
 		
 	}

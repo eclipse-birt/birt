@@ -21,6 +21,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.URL;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
 import java.util.Iterator;
 import java.util.List;
 import com.ibm.icu.util.ULocale;
@@ -250,6 +252,7 @@ public abstract class BaseTestCase extends TestCase
 	protected void openLibrary( String fileName, ULocale locale )
 			throws DesignFileException
 	{
+		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
 		sessionHandle = DesignEngine.newSession( locale );
 		assertNotNull( sessionHandle );
 
@@ -705,7 +708,7 @@ public abstract class BaseTestCase extends TestCase
 	{
 		if ( libraryHandle == null )
 			return;
-		String outputPath = PLUGIN_PATH + getClassFolder( ) + OUTPUT_FOLDER;
+		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
@@ -749,10 +752,30 @@ public abstract class BaseTestCase extends TestCase
 
 	protected String getClassFolder( )
 	{
+		
+		String pathBase = null;
+
+		ProtectionDomain domain = this.getClass( ).getProtectionDomain( );
+		if ( domain != null )
+		{
+			CodeSource source = domain.getCodeSource( );
+			if ( source != null )
+			{
+				URL url = source.getLocation( );
+				pathBase = url.getPath( );
+
+				if ( pathBase.endsWith( "bin/" ) ) //$NON-NLS-1$
+					pathBase = pathBase.substring( 0, pathBase.length( ) - 4 );
+				if ( pathBase.endsWith( "bin" ) ) //$NON-NLS-1$
+					pathBase = pathBase.substring( 0, pathBase.length( ) - 3 );
+			}
+		}
+
+		pathBase = pathBase + TEST_FOLDER;
 		String className = this.getClass( ).getName( );
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
 		className = className.substring( 0, lastDotIndex );
-		className = TEST_FOLDER + className.replace( '.', '/' );
+		className = pathBase + className.replace( '.', '/' );
 
 		return className;
 	}
