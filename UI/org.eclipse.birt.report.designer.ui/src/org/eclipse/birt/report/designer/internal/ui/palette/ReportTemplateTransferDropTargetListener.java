@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.gef.EditPart;
@@ -42,9 +43,8 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 /**
  * Drag&Drop listener
  */
-public class ReportTemplateTransferDropTargetListener
-		extends
-			TemplateTransferDropTargetListener
+public class ReportTemplateTransferDropTargetListener extends
+		TemplateTransferDropTargetListener
 {
 
 	private static final String TRANS_LABEL_CREATE_ELEMENT = Messages.getString( "ReportTemplateTransferDropTargetListener.transLabel.createElement" ); //$NON-NLS-1$
@@ -108,7 +108,8 @@ public class ReportTemplateTransferDropTargetListener
 			{
 				preHandle = new DataSetToolExtends( );
 			}
-			else if ( objectType instanceof DataSetItemModel )
+			else if ( objectType instanceof DataSetItemModel
+					|| objectType instanceof ResultSetColumnHandle )
 			{
 				preHandle = new DataSetColumnToolExtends( );
 			}
@@ -144,29 +145,28 @@ public class ReportTemplateTransferDropTargetListener
 				}
 			}
 			boolean isTheme = false;
-			if(preHandle instanceof LibraryElementsToolHandleExtends
-			&&	template instanceof Object[])
+			if ( preHandle instanceof LibraryElementsToolHandleExtends
+					&& template instanceof Object[] )
 			{
-				Object[] objs = (Object[])template;
-				if(objs.length == 1
-				&& objs[0] instanceof ThemeHandle)
+				Object[] objs = (Object[]) template;
+				if ( objs.length == 1 && objs[0] instanceof ThemeHandle )
 				{
 					isTheme = true;
 				}
 			}
-				
-			if(isTheme == false)
+
+			if ( isTheme == false )
 			{
 				super.handleDrop( );
 			}
-			
+
 			SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
 					.getCommandStack( )
 					.commit( );
-			if(isTheme == false)
+			if ( isTheme == false )
 			{
-			selectAddedObject( );
+				selectAddedObject( );
 			}
 		}
 
@@ -247,7 +247,8 @@ public class ReportTemplateTransferDropTargetListener
 				{
 					if ( ( (ReportElementHandle) dragObj ).getRoot( ) instanceof LibraryHandle )
 					{
-						//enable DataSetHandle,ParameterHandle to drag in lib explorer view.
+						// enable DataSetHandle,ParameterHandle to drag in lib
+						// explorer view.
 						if ( dragObj instanceof DataSetHandle
 								|| dragObj instanceof ParameterHandle )
 							return true;

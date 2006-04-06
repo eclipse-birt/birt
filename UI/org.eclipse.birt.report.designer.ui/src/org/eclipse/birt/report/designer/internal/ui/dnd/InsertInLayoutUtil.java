@@ -13,19 +13,20 @@ package org.eclipse.birt.report.designer.internal.ui.dnd;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -38,14 +39,17 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
@@ -220,7 +224,9 @@ public class InsertInLayoutUtil
 						.getCellHandleAdapter( firstCell )
 						.getRowNumber( );
 				int columnDiff = currentColumn
-						+ items.length - tableAdapter.getColumnCount( ) - 1;
+						+ items.length
+						- tableAdapter.getColumnCount( )
+						- 1;
 
 				// Insert columns if table can not contain all items
 				if ( columnDiff > 0 )
@@ -294,9 +300,10 @@ public class InsertInLayoutUtil
 	{
 
 		private Object container;
-		private DataSetItemModel dataSetColumn;
+		private ResultSetColumnHandle dataSetColumn;
 
-		public GroupKeySetRule( Object container, DataSetItemModel dataSetColumn )
+		public GroupKeySetRule( Object container,
+				ResultSetColumnHandle dataSetColumn )
 		{
 			this.container = container;
 			this.dataSetColumn = dataSetColumn;
@@ -331,15 +338,17 @@ public class InsertInLayoutUtil
 		 */
 		public void insert( Object object ) throws SemanticException
 		{
-			Assert.isTrue( object instanceof DataSetItemModel );
+			Assert.isTrue( object instanceof ResultSetColumnHandle );
 			Assert.isTrue( object == dataSetColumn || object == null );
+
 			getGroupContainer( container ).setDataSet( getDataSetHandle( dataSetColumn ) );
 			getGroupHandle( container ).setKeyExpr( DEUtil.getExpression( dataSetColumn ) );
+
 		}
 
-		protected DataSetHandle getDataSetHandle( DataSetItemModel model )
+		protected DataSetHandle getDataSetHandle( ResultSetColumnHandle model )
 		{
-			return (DataSetHandle) model.getParent( );
+			return (DataSetHandle) model.getElementHandle( );
 		}
 
 		protected GroupHandle getGroupHandle( Object target )
@@ -392,9 +401,9 @@ public class InsertInLayoutUtil
 		{
 			return performInsertDataSet( (DataSetHandle) insertObj );
 		}
-		else if ( insertObj instanceof DataSetItemModel )
+		else if ( insertObj instanceof ResultSetColumnHandle )
 		{
-			return performInsertDataSetColumn( (DataSetItemModel) insertObj,
+			return performInsertDataSetColumn( (ResultSetColumnHandle) insertObj,
 					target,
 					targetParent );
 		}
@@ -516,7 +525,7 @@ public class InsertInLayoutUtil
 	 * @throws SemanticException
 	 */
 	protected static DataItemHandle performInsertDataSetColumn(
-			DataSetItemModel model, Object target, Object targetParent )
+			ResultSetColumnHandle model, Object target, Object targetParent )
 			throws SemanticException
 	{
 		// DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
@@ -525,9 +534,10 @@ public class InsertInLayoutUtil
 		// .newDataItem( null );
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
-		DataSetHandle dataSet = (DataSetHandle) model.getParent( );
+		DataSetHandle dataSet = (DataSetHandle) model.getElementHandle( );
 
-		dataHandle.setValueExpr( DEUtil.getExpression( model ) );
+		// FIXME set expression or name?
+		dataHandle.setResultSetColumn( model.getColumnName( ) );
 
 		if ( targetParent instanceof ReportItemHandle )
 		{
@@ -538,6 +548,26 @@ public class InsertInLayoutUtil
 				{
 					container.setDataSet( dataSet );
 				}
+			}
+			GroupHandle groupHandle = getGroupHandle( target );
+			if ( groupHandle != null )
+			{
+				ComputedColumn bindingColumn = StructureFactory.createComputedColumn( );
+				// bindingColumn.setColumnName( model.getColumnName( ) );
+				bindingColumn.setDataType( model.getDataType( ) );
+				bindingColumn.setExpression( DEUtil.getExpression( model ) );
+				bindingColumn.setName( model.getColumnName( ) );
+
+				groupHandle.addColumnBinding( bindingColumn, false );
+			}
+			else
+			{
+				ComputedColumn bindingColumn = StructureFactory.createComputedColumn( );
+				// bindingColumn.setColumnName( model.getColumnName( ) );
+				bindingColumn.setDataType( model.getDataType( ) );
+				bindingColumn.setExpression( DEUtil.getExpression( model ) );
+				bindingColumn.setName( model.getColumnName( ) );
+				container.addColumnBinding( bindingColumn, false );
 			}
 		}
 		else
@@ -555,7 +585,7 @@ public class InsertInLayoutUtil
 			// .newLabel( null );
 			LabelHandle label = DesignElementFactory.getInstance( )
 					.newLabel( null );
-			label.setText( model.getDisplayName( ) );
+			label.setText( model.getColumnName( ) );
 			rule.insert( label );
 		}
 
@@ -566,6 +596,25 @@ public class InsertInLayoutUtil
 		}
 
 		return dataHandle;
+	}
+
+	private static GroupHandle getGroupHandle( Object target )
+	{
+		DesignElementHandle handle = null;
+		if ( target instanceof CellHandle )
+		{
+			handle = ( (CellHandle) target ).getContainer( ).getContainer( );
+		}
+		else if ( target instanceof ListBandProxy )
+		{
+			handle = ( (ListBandProxy) target ).getElemtHandle( );
+		}
+
+		if ( handle instanceof GroupHandle )
+		{
+			return (GroupHandle) handle;
+		}
+		return null;
 	}
 
 	/**
@@ -608,25 +657,35 @@ public class InsertInLayoutUtil
 	protected static TableHandle performInsertDataSet( DataSetHandle model )
 			throws SemanticException
 	{
-		DataSetItemModel[] columns = DataSetManager.getCurrentInstance( )
-				.getColumns( model, false );
-		if ( columns == null || columns.length == 0 )
+		// DataSetItemModel[] columns = DataSetManager.getCurrentInstance( )
+		// .getColumns( model, false );
+		// if ( columns == null || columns.length == 0 )
+		// {
+		// return null;
+		// }
+		// // TableHandle tableHandle = SessionHandleAdapter.getInstance( )
+		// // .getReportDesignHandle( )
+		// // .getElementFactory( )
+		// // .newTableItem( null, columns.length );
+		CachedMetaDataHandle cachedMetadata = DataSetUIUtil.getCachedMetaDataHandle( model );
+		List columList = new ArrayList( );
+		for ( Iterator iter = cachedMetadata.getResultSet( ).iterator( ); iter.hasNext( ); )
 		{
-			return null;
+			ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
+			columList.add( element );
 		}
-		// TableHandle tableHandle = SessionHandleAdapter.getInstance( )
-		// .getReportDesignHandle( )
-		// .getElementFactory( )
-		// .newTableItem( null, columns.length );
+		ResultSetColumnHandle[] columns = (ResultSetColumnHandle[]) columList.toArray( new ResultSetColumnHandle[columList.size( )] );
+
 		TableHandle tableHandle = DesignElementFactory.getInstance( )
 				.newTableItem( null, columns.length );
 
 		setInitWidth( tableHandle );
-		insertToCell( tableHandle.getHeader( ), columns, true );
-		insertToCell( tableHandle.getDetail( ), columns, false );
+		insertToCell( tableHandle, tableHandle.getHeader( ), columns, true );
+		insertToCell( tableHandle, tableHandle.getDetail( ), columns, false );
 
 		tableHandle.setDataSet( model );
 		return tableHandle;
+
 	}
 
 	/**
@@ -675,9 +734,9 @@ public class InsertInLayoutUtil
 						&& ( (DataSetHandle) insertObj ).getDataSource( ) != null
 						&& handleValidateDataSet( targetPart );
 		}
-		else if ( insertObj instanceof DataSetItemModel )
+		else if ( insertObj instanceof ResultSetColumnHandle )
 		{
-			return handleValidateDataSetColumn( (DataSetItemModel) insertObj,
+			return handleValidateDataSetColumn( (ResultSetColumnHandle) insertObj,
 					targetPart );
 		}
 		else if ( insertObj instanceof ScalarParameterHandle )
@@ -703,9 +762,9 @@ public class InsertInLayoutUtil
 		Object dataSet = null;
 		for ( int i = 0; i < array.length; i++ )
 		{
-			if ( array[i] instanceof DataSetItemModel )
+			if ( array[i] instanceof ResultSetColumnHandle )
 			{
-				Object currDataSet = ( (DataSetItemModel) array[i] ).getParent( );
+				Object currDataSet = ( (ResultSetColumnHandle) array[i] ).getElementHandle( );
 				if ( currDataSet == null )
 				{
 					return false;
@@ -805,7 +864,7 @@ public class InsertInLayoutUtil
 	 * @return validate result
 	 */
 	protected static boolean handleValidateDataSetColumn(
-			DataSetItemModel insertObj, EditPart target )
+			ResultSetColumnHandle insertObj, EditPart target )
 	{
 		if ( handleValidateDataSetColumnDropContainer( target )
 				&& DNDUtil.handleValidateTargetCanContainType( target.getModel( ),
@@ -825,7 +884,7 @@ public class InsertInLayoutUtil
 				return true;
 			}
 			return DEUtil.getDataSetList( handle )
-					.contains( insertObj.getParent( ) );
+					.contains( insertObj.getElementHandle( ) );
 		}
 		return false;
 	}
@@ -852,7 +911,7 @@ public class InsertInLayoutUtil
 		if ( insertObj instanceof Object[] )
 		{
 			Object[] array = (Object[]) insertObj;
-			if(array.length == 0)
+			if ( array.length == 0 )
 			{
 				return false;
 			}
@@ -867,18 +926,19 @@ public class InsertInLayoutUtil
 		{
 			return handleValidateInsert( ( (IStructuredSelection) insertObj ).toArray( ) );
 		}
-//		else if ( insertObj instanceof ParameterHandle )
-//		{
-//			if ( ( (ParameterHandle) insertObj ).getRoot( ) instanceof LibraryHandle )
-//				return false;
-//		}
+		// else if ( insertObj instanceof ParameterHandle )
+		// {
+		// if ( ( (ParameterHandle) insertObj ).getRoot( ) instanceof
+		// LibraryHandle )
+		// return false;
+		// }
 		return insertObj instanceof DataSetHandle
-				|| insertObj instanceof DataSetItemModel
+				|| insertObj instanceof ResultSetColumnHandle
 				|| insertObj instanceof ScalarParameterHandle;
 	}
 
-	protected static void insertToCell( SlotHandle slot,
-			DataSetItemModel[] columns, boolean isLabel )
+	protected static void insertToCell( TableHandle tableHandle,
+			SlotHandle slot, ResultSetColumnHandle[] columns, boolean isLabel )
 	{
 		for ( int i = 0; i < slot.getCount( ); i++ )
 		{
@@ -891,27 +951,35 @@ public class InsertInLayoutUtil
 				{
 					if ( isLabel )
 					{
-						 LabelHandle labelItemHandle =
-						 SessionHandleAdapter.getInstance( )
-						 .getReportDesignHandle( )
-						 .getElementFactory( )
-						 .newLabel( null );
-//						LabelHandle labelItemHandle = DesignElementFactory.getInstance( )
-//								.newLabel( null );
-						labelItemHandle.setText( columns[j].getDisplayName( ) );
+						LabelHandle labelItemHandle = SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( )
+								.getElementFactory( )
+								.newLabel( null );
+						// LabelHandle labelItemHandle =
+						// DesignElementFactory.getInstance( )
+						// .newLabel( null );
+						labelItemHandle.setText( columns[j].getColumnName( ) );
 						cell.addElement( labelItemHandle, cells.getSlotID( ) );
 					}
 					else
 					{
-						 DataItemHandle dataHandle =
-						 SessionHandleAdapter.getInstance( )
-						 .getReportDesignHandle( )
-						 .getElementFactory( )
-						 .newDataItem( null );
-//						DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-//								.newDataItem( null );
-						dataHandle.setValueExpr( DEUtil.getExpression( columns[j] ) );
+						DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( )
+								.getElementFactory( )
+								.newDataItem( null );
+						// DataItemHandle dataHandle =
+						// DesignElementFactory.getInstance( )
+						// .newDataItem( null );
+						dataHandle.setResultSetColumn( columns[j].getColumnName( ) );
+
 						cell.addElement( dataHandle, cells.getSlotID( ) );
+
+						// add data binding to table.
+						ComputedColumn bindingColumn = StructureFactory.createComputedColumn( );
+						bindingColumn.setDataType( columns[j].getDataType( ) );
+						bindingColumn.setExpression( DEUtil.getExpression( columns[j] ) );
+						bindingColumn.setName( columns[j].getColumnName( ) );
+						tableHandle.addColumnBinding( bindingColumn, false );
 					}
 				}
 				catch ( Exception e )

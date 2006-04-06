@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.data.providers.DataSou
 import org.eclipse.birt.report.designer.internal.ui.views.data.providers.ParameterGroupNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.providers.ParameterNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.providers.ParametersNodeProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.data.providers.ResultSetColumnProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.BodyNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.CellProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.ComponentsProvider;
@@ -71,11 +72,13 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 
 /**
@@ -264,6 +267,10 @@ public class ProviderFactory
 		else if ( object instanceof DataSetItemModel )
 		{
 			return new DataSetColumnProvider( );
+		}
+		else if ( object instanceof ResultSetColumnHandle )
+		{
+			return new ResultSetColumnProvider( );
 		}
 		else if ( object instanceof DataSetParameterHandle )
 		{

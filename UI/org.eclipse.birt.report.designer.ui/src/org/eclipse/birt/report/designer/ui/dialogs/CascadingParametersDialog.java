@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
-import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.format.DateFormatter;
@@ -24,6 +23,7 @@ import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -34,9 +34,11 @@ import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
@@ -81,6 +83,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Cascading Parameter Dialog.
@@ -1058,12 +1062,12 @@ public class CascadingParametersDialog extends BaseDialog
 
 			try
 			{
-				saveParameterProperties();
+				saveParameterProperties( );
 			}
 			catch ( SemanticException e1 )
 			{
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e1.printStackTrace( );
 			}
 			if ( COLUMN_NAME.equals( property ) )
 			{
@@ -1503,18 +1507,39 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private String getColumnName( String value )
 	{
-		DataSetItemModel[] models = DataSetManager.getCurrentInstance( )
-				.getColumns( dataSet, true );
-		if ( value != null )
+		// DataSetItemModel[] models = DataSetManager.getCurrentInstance( )
+		// .getColumns( dataSet, true );
+		// if ( value != null )
+		// {
+		// for ( int i = 0; i < models.length; i++ )
+		// {
+		// if ( value.equalsIgnoreCase( DEUtil.getColumnExpression(
+		// models[i].getName( ) ) ) )
+		// {
+		// return models[i].getName( );
+		// }
+		// }
+		// }
+		CachedMetaDataHandle cmdh;
+		try
 		{
-			for ( int i = 0; i < models.length; i++ )
+			cmdh = DataSetUIUtil.getCachedMetaDataHandle( dataSet );
+		}
+		catch ( SemanticException e )
+		{
+		}
+		if ( cmdh != null )
+		{
+			for ( Iterator iter = cmdh.getResultSet( ).iterator( ); iter.hasNext( ); )
 			{
-				if ( value.equalsIgnoreCase( DEUtil.getColumnExpression( models[i].getName( ) ) ) )
+				ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
+				if ( value.equalsIgnoreCase( DEUtil.getColumnExpression( element.getColumnName( ) ) ) )
 				{
-					return models[i].getName( );
+					return element.getColumnName( );
 				}
 			}
 		}
+
 		return null;
 	}
 

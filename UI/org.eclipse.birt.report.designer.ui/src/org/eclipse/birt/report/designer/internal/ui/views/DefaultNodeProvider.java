@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -150,7 +151,7 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( copyAction.isEnabled( ) )
 			menu.add( copyAction );
 
-		if ( !( object instanceof DataSetItemModel ) )
+		if ( !( object instanceof DataSetItemModel ) || !( object instanceof ResultSetColumnHandle ))
 		{
 			menu.add( new PasteAction( object ) );
 		}

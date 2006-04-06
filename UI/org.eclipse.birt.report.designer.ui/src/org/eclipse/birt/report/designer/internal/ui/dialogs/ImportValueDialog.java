@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.util.Assert;
@@ -400,6 +401,9 @@ public class ImportValueDialog extends BaseDialog
 		refreshValues( );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	private boolean matchType( DataSetItemModel model )
 	{
 		if ( model.getDataType( ) == DataType.UNKNOWN_TYPE )
@@ -428,6 +432,11 @@ public class ImportValueDialog extends BaseDialog
 		return false;
 	}
 
+	private boolean matchType( ResultSetColumnHandle model )
+	{
+		return style.equals( model.getDataType( ) );
+	}
+	
 	private void refreshValues( )
 	{
 		resultList.clear( );

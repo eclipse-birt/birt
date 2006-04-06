@@ -17,18 +17,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
@@ -392,16 +394,34 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 					DEUtil.getDisplayLabel( handle, false ),
 					ReportPlatformUIImages.getImage( handle ),
 					true );
-			DataSetItemModel[] columns = DataSetManager.getCurrentInstance( )
-					.getColumns( handle, false );
-			for ( int i = 0; i < columns.length; i++ )
+//			DataSetItemModel[] columns = DataSetManager.getCurrentInstance( )
+//					.getColumns( handle, false );
+//			for ( int i = 0; i < columns.length; i++ )
+//			{
+//				createSubTreeItem( dataSetItem,
+//						columns[i].getDisplayName( ),
+//						IMAGE_COLUMN,
+//						DEUtil.getExpression( columns[i] ),
+//						columns[i].getHelpText( ),
+//						true );
+//			}
+			
+			try
 			{
-				createSubTreeItem( dataSetItem,
-						columns[i].getDisplayName( ),
-						IMAGE_COLUMN,
-						DEUtil.getExpression( columns[i] ),
-						columns[i].getHelpText( ),
-						true );
+				CachedMetaDataHandle cachedMetadata = DataSetUIUtil.getCachedMetaDataHandle( handle );
+				for ( Iterator iter = cachedMetadata.getResultSet( ).iterator( ); iter.hasNext( ); )
+				{
+					ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
+					createSubTreeItem( dataSetItem,
+							element.getColumnName( ),
+							IMAGE_COLUMN,
+							DEUtil.getExpression( element ),
+							element.getColumnName( ),
+							true );
+				}
+			}
+			catch ( SemanticException e )
+			{
 			}
 		}
 	}

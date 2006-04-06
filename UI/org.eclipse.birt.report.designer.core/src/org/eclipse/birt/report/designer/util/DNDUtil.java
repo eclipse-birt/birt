@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -58,6 +59,7 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -531,7 +533,8 @@ public class DNDUtil
 				|| selection instanceof ThemeHandle
 				|| selection instanceof EmbeddedImageHandle
 				|| selection instanceof TemplateElementHandle
-				|| selection instanceof DataSetItemModel;
+				|| selection instanceof DataSetItemModel
+				|| selection instanceof ResultSetColumnHandle;
 	}
 
 	/**

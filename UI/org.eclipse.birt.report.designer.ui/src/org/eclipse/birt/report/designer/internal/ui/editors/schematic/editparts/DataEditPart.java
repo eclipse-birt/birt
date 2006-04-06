@@ -89,7 +89,7 @@ public class DataEditPart extends LabelEditPart
 	 */
 	protected String getText( )
 	{
-		String text = ( (DataItemHandle) getModel( ) ).getValueExpr( );
+		String text = ( (DataItemHandle) getModel( ) ).getResultSetColumn( );
 		if ( text == null || text.length( ) == 0 )
 		{
 			text = FIGURE_DEFAULT_TEXT;
