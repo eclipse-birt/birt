@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -94,10 +93,12 @@ public class DataExtractionTask extends EngineTask
 	 */
 	protected HashMap queryId2NameMapping = new HashMap( );
 
+	protected HashMap queryId2QueryMapping = new HashMap( );
+
 	/**
 	 * list contains all the resultsets each entry is a
 	 */
-	protected ArrayList resultMetaList;
+	protected ArrayList resultMetaList = new ArrayList( );
 	/**
 	 * the logger
 	 */
@@ -149,6 +150,8 @@ public class DataExtractionTask extends EngineTask
 				queryName = "ELEMENT_" + item.getID( );
 			}
 			queryId2NameMapping.put( queryId, queryName );
+			queryId2QueryMapping.put( queryId, query );;
+
 		}
 
 		try
@@ -172,6 +175,17 @@ public class DataExtractionTask extends EngineTask
 	private String getQueryName( String queryId )
 	{
 		return (String) queryId2NameMapping.get( queryId );
+	}
+
+	/**
+	 * get the query defintion from the query id
+	 * 
+	 * @param queryId
+	 * @return
+	 */
+	private IQueryDefinition getQuery( String queryId )
+	{
+		return (IQueryDefinition) queryId2QueryMapping.get( queryId );
 	}
 
 	/**
@@ -207,8 +221,14 @@ public class DataExtractionTask extends EngineTask
 				count++;
 				String rsetName = getQueryName( queryId ) + "_" + count;
 				queryCounts.put( queryId, new Integer( count ) );
-
 				rsetName2IdMapping.put( rsetName, rsetId );
+
+				IQueryDefinition query = getQuery( queryId );
+				ResultMetaData metaData = new ResultMetaData( query );
+				IResultSetItem resultItem = new ResultSetItem( rsetName,
+						metaData );
+
+				resultMetaList.add( resultItem );
 			}
 		}
 		catch ( EOFException eofe )
@@ -258,45 +278,28 @@ public class DataExtractionTask extends EngineTask
 
 	public List getResultSetList( ) throws EngineException
 	{
-		if ( resultMetaList == null )
-		{
-			prepareMetaData( );
-			resultMetaList = new ArrayList( );
-			Set rsetNames = rsetName2IdMapping.keySet( );
-			Iterator iter = rsetNames.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				String rsetName = (String) iter.next( );
-				addToResultSetList( rsetName );
-			}
-		}
+		prepareMetaData( );
 		return resultMetaList;
 	}
 
-	/*
-	 * create IResultSetItem using display name and IResultMetaData
+	/**
+	 * get the metadata of a result set.
+	 * 
+	 * @param rsetName
+	 * @return
 	 */
-	private void addToResultSetList( String rsetName )
+	protected IResultMetaData getResultMetaData( String rsetName )
 	{
-		String rsetId = (String) rsetName2IdMapping.get( rsetName );
-
-		DataEngine dataEngine = executionContext.getDataEngine( )
-				.getDataEngine( );
-		try
+		Iterator iter = resultMetaList.iterator( );
+		while ( iter.hasNext( ) )
 		{
-			IQueryResults results = dataEngine.getQueryResults( rsetId );
-			IResultMetaData resultMetaData = results.getResultMetaData( );
-			ResultMetaData metaData = new ResultMetaData( resultMetaData );
-			results.close( );
-
-			IResultSetItem resultItem = new ResultSetItem( rsetName, metaData );
-
-			resultMetaList.add( resultItem );
+			IResultSetItem rsetItem = (IResultSetItem) iter.next( );
+			if ( rsetItem.getResultSetName( ).equals( rsetName ) )
+			{
+				return rsetItem.getResultMetaData( );
+			}
 		}
-		catch ( BirtException ex )
-		{
-
-		}
+		return null;
 	}
 
 	public void selectColumns( String[] columnNames )
@@ -334,9 +337,9 @@ public class DataExtractionTask extends EngineTask
 			String rsetId = (String) rsetName2IdMapping.get( resultSetName );
 			if ( rsetId != null )
 			{
-				IQueryResults results = dataEngine
-						.getQueryResults( rsetId );
-				currentResult = new ExtractionResults( results,
+				IQueryResults results = dataEngine.getQueryResults( rsetId );
+				IResultMetaData metaData = getResultMetaData( resultSetName );
+				currentResult = new ExtractionResults( results, metaData,
 						this.selectedColumns );
 				return currentResult;
 			}

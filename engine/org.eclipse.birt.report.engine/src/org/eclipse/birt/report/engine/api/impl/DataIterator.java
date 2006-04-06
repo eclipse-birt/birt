@@ -23,7 +23,6 @@ public class DataIterator implements IDataIterator
 	protected IExtractionResults results;
 	protected IResultIterator iterator;
 	protected String[] selectedColumns;
-	protected IResultMetaData metaData;
 
 	DataIterator( IExtractionResults results, IResultIterator iterator,
 			String[] selectedColumns )
@@ -40,12 +39,7 @@ public class DataIterator implements IDataIterator
 
 	public IResultMetaData getResultMetaData( ) throws BirtException
 	{
-		if ( metaData == null )
-		{
-			metaData = new ResultMetaData( iterator.getResultMetaData( ),
-					selectedColumns );
-		}
-		return metaData;
+		return results.getResultMetaData( );
 	}
 
 	public boolean next( ) throws BirtException

@@ -11,25 +11,79 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseTransform;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.report.engine.api.EngineException;
 
 public class ResultMetaData implements IResultMetaData
 {
 
-	protected IResultMetaData metaData;
 	protected String[] selectedColumns;
 
-	ResultMetaData( IResultMetaData metaData, String[] selectedColumns )
+	ResultMetaData( IQueryDefinition query, String[] selectedColumns )
 	{
-		this.metaData = metaData;
+		initializeMetaData( query );
 		this.selectedColumns = selectedColumns;
 	}
 
-	ResultMetaData( IResultMetaData metaData )
+	ResultMetaData( IQueryDefinition query )
 	{
-		this.metaData = metaData;
+		initializeMetaData( query );
 		this.selectedColumns = null;
+	}
+
+	protected void initializeMetaData( IQueryDefinition query )
+	{
+		appendMetaData( query );
+
+		List groups = query.getGroups( );
+		if ( groups != null )
+		{
+			Iterator iter = groups.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				IBaseTransform group = (IBaseTransform) iter.next( );
+				appendMetaData( group );
+			}
+		}
+	}
+
+	private ArrayList metaEntries = new ArrayList( );
+
+	private class MetaDataEntry
+	{
+
+		String name;
+		int type;
+
+		MetaDataEntry( String name, int type )
+		{
+			this.name = name;
+			this.type = type;
+		}
+	}
+
+	protected void appendMetaData( IBaseTransform query )
+	{
+		Map bindings = query.getResultSetExpressions( );
+		Iterator iter = bindings.entrySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iter.next( );
+			String name = (String) entry.getKey( );
+			IBaseExpression expr = (IBaseExpression) entry.getValue( );
+			int type = expr.getDataType( );
+			metaEntries.add( new MetaDataEntry( name, type ) );
+		}
 	}
 
 	public int getColumnCount( )
@@ -38,43 +92,42 @@ public class ResultMetaData implements IResultMetaData
 		{
 			return selectedColumns.length;
 		}
-		return metaData.getColumnCount( );
+		return metaEntries.size( );
 	}
 
 	public String getColumnName( int index ) throws BirtException
 	{
 		index = getColumnIndex( index );
-		return metaData.getColumnName( index  );
+		MetaDataEntry entry = (MetaDataEntry) metaEntries.get( index );
+		return entry.name;
 	}
 
 	public String getColumnAlias( int index ) throws BirtException
 	{
-		index = getColumnIndex( index );
-		return metaData.getColumnAlias( index );
+		return getColumnName( index );
 	}
 
 	public int getColumnType( int index ) throws BirtException
 	{
 		index = getColumnIndex( index );
-		return metaData.getColumnType( index );
+		MetaDataEntry entry = (MetaDataEntry) metaEntries.get( index );
+		return entry.type;
 	}
 
 	public String getColumnTypeName( int index ) throws BirtException
 	{
-		index = getColumnIndex( index );
-		return metaData.getColumnTypeName( index );
+		int type = getColumnType( index );
+		return DataType.getName( type );
 	}
 
 	public String getColumnNativeTypeName( int index ) throws BirtException
 	{
-		index = getColumnIndex( index );
-		return metaData.getColumnNativeTypeName( index );
+		return getColumnTypeName( index );
 	}
 
 	public String getColumnLabel( int index ) throws BirtException
 	{
-		index = getColumnIndex( index );
-		return metaData.getColumnLabel( index );
+		return getColumnName( index );
 	}
 
 	public boolean isComputedColumn( int index ) throws BirtException
@@ -86,16 +139,19 @@ public class ResultMetaData implements IResultMetaData
 	{
 		if ( selectedColumns == null )
 		{
-			return index + 1;
+			return index;
 		}
+
 		String name = selectedColumns[index];
-		for ( int i = 0; i < metaData.getColumnCount( ); i++ )
+		for ( int i = 0; i < metaEntries.size( ); i++ )
 		{
-			if ( name.equals( metaData.getColumnName( i ) ) )
+			MetaDataEntry entry = (MetaDataEntry) metaEntries.get( i );
+			if ( entry.name.equals( name ) )
 			{
-				return i + 1;
+				return i;
 			}
 		}
-		return -1;
+		throw new EngineException( "Invalid Column Index" );
 	}
+
 }

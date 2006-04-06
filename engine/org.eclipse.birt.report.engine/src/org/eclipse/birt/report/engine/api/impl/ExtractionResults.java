@@ -25,20 +25,16 @@ public class ExtractionResults implements IExtractionResults
 	protected IResultMetaData metaData;
 	protected IDataIterator iterator;
 
-	ExtractionResults( IQueryResults queryResults, String[] selectedColumns )
+	ExtractionResults( IQueryResults queryResults, IResultMetaData metaData, String[] selectedColumns )
 	{
 		this.selectedColumns = selectedColumns;
 		this.queryResults = queryResults;
-		this.metaData = new ResultMetaData( metaData );
+		this.metaData = metaData;
 	}
 
 	public IResultMetaData getResultMetaData( ) throws BirtException
 	{
-		if ( iterator != null )
-		{
-			nextResultIterator( );
-		}
-		return iterator.getResultMetaData( );
+		return metaData;
 	}
 
 	public IDataIterator nextResultIterator( ) throws BirtException
