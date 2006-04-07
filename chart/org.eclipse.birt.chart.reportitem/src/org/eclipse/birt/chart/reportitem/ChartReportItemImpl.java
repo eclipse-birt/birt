@@ -19,6 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -33,6 +35,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
+import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -43,7 +46,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * ChartReportItemImpl
  */
-public final class ChartReportItemImpl extends ReportItem
+public final class ChartReportItemImpl extends ReportItem implements
+		ICompatibleReportItem
 {
 
 	private Chart cm = null;
@@ -505,4 +509,22 @@ public final class ChartReportItemImpl extends ReportItem
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#getRowExpressions()
+	 */
+	public List getRowExpressions( )
+	{
+		try
+		{
+			return Generator.instance( ).getRowExpressions( cm,
+					new BIRTActionEvaluator( ) );
+		}
+		catch ( ChartException e )
+		{
+			logger.log( e );
+		}
+		return null;
+	}
 }
