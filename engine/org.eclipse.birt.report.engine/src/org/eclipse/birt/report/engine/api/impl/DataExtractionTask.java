@@ -29,6 +29,8 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.report.engine.api.DataID;
+import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
@@ -255,20 +257,85 @@ public class DataExtractionTask extends EngineTask
 		}
 	}
 
+	/**
+	 * get the result set name used by the instance.
+	 * 
+	 * @param iid
+	 *            instance id
+	 * @return result set name.
+	 */
+	protected String instanceId2RsetName( InstanceID iid )
+	{
+		DataID dataId = iid.getDataID( );
+		if ( dataId != null )
+		{
+			DataSetID dataSetId = dataId.getDataSetID( );
+			if ( dataSetId != null )
+			{
+				String rsetId = dataSetId.getDataSetName( );
+				if ( rsetId != null )
+				{
+					return rsetId2Name( rsetId );
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * get the rset id from the rset name.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	protected String rsetId2Name( String id )
+	{
+		// search the name/Id mapping
+		Iterator iter = rsetName2IdMapping.entrySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iter.next( );
+			String rsetId = (String) entry.getValue( );
+			String rsetName = (String) entry.getKey( );
+			if ( rsetId.equals( id ) )
+			{
+				return rsetName;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * get the rset name from the rset id.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	protected String rsetName2Id( String name )
+	{
+		return (String) rsetName2IdMapping.get( name );
+	}
+
 	public void setInstanceID( InstanceID iid )
 	{
+		assert iid != null;
+
+		prepareMetaData( );
+
 		instanceId = iid;
-		currentResult = null;
+		resultSetName = null;
+		selectedColumns = null;
 	}
 
 	public void selectResultSet( String displayName )
 	{
 		assert displayName != null;
+
 		prepareMetaData( );
 
 		resultSetName = displayName;
+		instanceId = null;
 		selectedColumns = null;
-		currentResult = null;
 	}
 
 	public List getMetaData( ) throws EngineException
@@ -279,6 +346,21 @@ public class DataExtractionTask extends EngineTask
 	public List getResultSetList( ) throws EngineException
 	{
 		prepareMetaData( );
+		if ( instanceId != null )
+		{
+			ArrayList rsetList = new ArrayList( );
+			String rsetName = instanceId2RsetName( instanceId );
+			if ( rsetName != null )
+			{
+				IResultMetaData metaData = getResultMetaData( rsetName );
+				if ( metaData != null )
+				{
+					rsetList.add( new ResultSetItem( rsetName, metaData ) );
+				}
+			}
+			return rsetList;
+
+		}
 		return resultMetaList;
 	}
 
@@ -305,17 +387,21 @@ public class DataExtractionTask extends EngineTask
 	public void selectColumns( String[] columnNames )
 	{
 		selectedColumns = columnNames;
-		currentResult = null;
 	}
 
 	public IExtractionResults extract( ) throws EngineException
 	{
-		if ( currentResult != null )
-			return currentResult;
-
-		if ( resultSetName != null )
+		String rsetName = resultSetName;
+		if ( rsetName == null )
 		{
-			return extractByResultSetName( );
+			if ( instanceId != null )
+			{
+				rsetName = instanceId2RsetName( instanceId );
+			}
+		}
+		if ( rsetName != null )
+		{
+			return extractByResultSetName( rsetName );
 		}
 		return null;
 	}
@@ -323,9 +409,10 @@ public class DataExtractionTask extends EngineTask
 	/*
 	 * export result directly from result set name
 	 */
-	private IExtractionResults extractByResultSetName( ) throws EngineException
+	private IExtractionResults extractByResultSetName( String rsetName )
+			throws EngineException
 	{
-		assert resultSetName != null;
+		assert rsetName != null;
 		assert executionContext.getDataEngine( ) != null;
 
 		prepareMetaData( );
@@ -334,14 +421,13 @@ public class DataExtractionTask extends EngineTask
 				.getDataEngine( );
 		try
 		{
-			String rsetId = (String) rsetName2IdMapping.get( resultSetName );
+			String rsetId = rsetName2Id( rsetName );
 			if ( rsetId != null )
 			{
 				IQueryResults results = dataEngine.getQueryResults( rsetId );
-				IResultMetaData metaData = getResultMetaData( resultSetName );
-				currentResult = new ExtractionResults( results, metaData,
+				IResultMetaData metaData = getResultMetaData( rsetName );
+				return new ExtractionResults( results, metaData,
 						this.selectedColumns );
-				return currentResult;
 			}
 		}
 		catch ( BirtException e )
