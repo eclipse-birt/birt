@@ -1228,10 +1228,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k++];
+							lih = liha[k];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
+								k++;
 								renderSeparator( ipr,
 										lg,
 										lia,
@@ -1465,10 +1466,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k++];
+							lih = liha[k];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
+								k++;
 								renderSeparator( ipr,
 										lg,
 										lia,
@@ -1964,10 +1966,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k++];
+							lih = liha[k];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
+								k++;
 								renderSeparator( ipr,
 										lg,
 										lia,
@@ -2211,10 +2214,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k++];
+							lih = liha[k];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
+								k++;
 								renderSeparator( ipr,
 										lg,
 										lia,
