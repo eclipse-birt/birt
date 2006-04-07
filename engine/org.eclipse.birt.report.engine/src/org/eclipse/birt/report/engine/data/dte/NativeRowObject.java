@@ -23,7 +23,7 @@ import org.mozilla.javascript.Scriptable;
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/14 10:54:03 $
+ * @version $Revision: 1.1 $ $Date: 2006/04/06 12:35:24 $
  */
 public class NativeRowObject implements Scriptable
 {
@@ -68,6 +68,9 @@ public class NativeRowObject implements Scriptable
 
 	public Object get( int index, Scriptable start )
 	{
+		return get( String.valueOf( index ), start );
+		
+		/*
 		if ( !rsets.isEmpty( ) )
 		{
 			IResultSet rset = (IResultSet) rsets.getFirst( );
@@ -86,6 +89,7 @@ public class NativeRowObject implements Scriptable
 		}
 
 		return NOT_FOUND;
+		*/
 	}
 
 	public boolean has( String name, Scriptable start )
