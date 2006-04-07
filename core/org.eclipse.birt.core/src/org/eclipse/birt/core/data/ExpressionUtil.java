@@ -111,7 +111,7 @@ public final class ExpressionUtil
 					if ( i > 0 && chars[i - 1] == '/' )
 					{
 						retrieveSize++;
-						while ( i < chars.length )
+						while ( i < chars.length - 2 )
 						{
 							i++;
 							retrieveSize++;
@@ -130,7 +130,7 @@ public final class ExpressionUtil
 					{
 						i++;
 						retrieveSize = retrieveSize + 2;
-						while ( i < chars.length )
+						while ( i < chars.length - 2 )
 						{
 							i++;
 							retrieveSize++;
@@ -143,7 +143,7 @@ public final class ExpressionUtil
 						i++;
 					}
 				}
-
+									
 				if ( ( !omitNextQuote ) && chars[i] == '"' )
 				{
 					candidateKey1 = !candidateKey1;
@@ -219,7 +219,7 @@ public final class ExpressionUtil
 				{
 					i++;
 					retrieveSize = retrieveSize + 3;
-					while ( i < chars.length )
+					while ( i < chars.length - 1 )
 					{
 						i++;
 						retrieveSize++;
