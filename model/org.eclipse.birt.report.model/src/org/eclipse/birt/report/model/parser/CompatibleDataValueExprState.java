@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.xml.sax.SAXException;
 
@@ -47,8 +46,8 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 	{
 		String value = text.toString( );
 
-		if ( StringUtil.isBlank( value ) )
-			return;
+		if ( value == null )
+			return;		
 		
 		String newColumnName = setupBoundDataColumn( value, value );
 

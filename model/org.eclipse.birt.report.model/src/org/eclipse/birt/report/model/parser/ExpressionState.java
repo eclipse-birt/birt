@@ -66,6 +66,7 @@ class ExpressionState extends PropertyState
 
 		if ( element instanceof DataItem
 				&& ( "valueExpr" ).equalsIgnoreCase( name ) //$NON-NLS-1$
+				&& struct == null
 				&& StringUtil.compareVersion( handler.getVersion( ), "3.1.0" ) < 0 ) //$NON-NLS-1$
 
 		{
