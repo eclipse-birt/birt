@@ -17,18 +17,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.ResourceBundle;
 
-import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
-import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * Jar file information and related action like add jar, delelte jar, check jar
@@ -67,11 +60,6 @@ public class JarFile implements Serializable
 	 */
 	private transient boolean hasRestored;
 
-	/**
-	 * The key for BIRT viewer drivers path property in plugin.properties.
-	 */
-	private static final String VIEWER_DRIVER_PATH_KEY = "birt-viewer-driver-path"; //$NON-NLS-1$
-	
 	public static final String FILE_HAS_BEEN_RESOTRED = "+"; //$NON-NLS-1$
 	public static final String ODA_FILE_NOT_EXIST_TOKEN = "x"; //$NON-NLS-1$
 	public static final String ORIGINAL_FILE_NOT_EXIST_TOKEN = "*"; //$NON-NLS-1$
@@ -126,9 +114,8 @@ public class JarFile implements Serializable
 		File source = new File( filePath );
 
 		File odaDir = getDriverLocation( );
-		File viewDir = getViewerDriverLocation( );
 
-		File dest1 = null, dest2 = null;
+		File dest1 = null;
 
 		if ( odaDir != null )
 		{
@@ -136,16 +123,10 @@ public class JarFile implements Serializable
 					+ File.separator
 					+ source.getName( ) );
 		}
-		if ( viewDir != null )
-		{
-			dest2 = new File( viewDir.getAbsolutePath( )
-					+ File.separator
-					+ source.getName( ) );
-		}
 
 		if ( source.exists( ) )
 		{
-			FileChannel in = null, out1 = null, out2 = null;
+			FileChannel in = null, out1 = null;
 			try
 			{
 				if ( dest1 != null )
@@ -153,17 +134,6 @@ public class JarFile implements Serializable
 					try
 					{
 						out1 = new FileOutputStream( dest1 ).getChannel( );
-					}
-					catch ( FileNotFoundException e )
-					{
-						//does nothing.
-					}
-				}
-				if ( dest2 != null )
-				{
-					try
-					{
-						out2 = new FileOutputStream( dest2 ).getChannel( );
 					}
 					catch ( FileNotFoundException e )
 					{
@@ -192,17 +162,6 @@ public class JarFile implements Serializable
 				{
 					//does nothing.
 				}
-				
-				if ( out2 != null )
-				{
-					in = new FileInputStream( source ).getChannel( );
-					long size = in.size( );
-					MappedByteBuffer buf = in.map( FileChannel.MapMode.READ_ONLY,
-							0,
-							size );
-					out2.write( buf );
-				}
-
 			}
 			catch ( FileNotFoundException e )
 			{
@@ -224,10 +183,6 @@ public class JarFile implements Serializable
 					{
 						out1.close( );
 					}
-					if ( out2 != null )
-					{
-						out2.close( );
-					}
 				}
 				catch ( IOException e1 )
 				{
@@ -248,9 +203,8 @@ public class JarFile implements Serializable
 		File source = new File( filePath );
 
 		File odaDir = getDriverLocation( );
-		File viewDir = getViewerDriverLocation( );
 
-		File dest1 = null, dest2 = null;
+		File dest1 = null;
 
 		if ( odaDir != null )
 		{
@@ -263,19 +217,6 @@ public class JarFile implements Serializable
 				if ( !dest1.delete( ) )
 				{
 					dest1.deleteOnExit( );
-				}
-			}
-		}
-		if ( viewDir != null )
-		{
-			dest2 = new File( viewDir.getAbsolutePath( )
-					+ File.separator
-					+ source.getName( ) );
-			if ( dest2.exists( ) )
-			{
-				if ( !dest2.delete( ) )
-				{
-					dest2.deleteOnExit( );
 				}
 			}
 		}
@@ -345,53 +286,6 @@ public class JarFile implements Serializable
 		File ff = new File( odaPath + File.separator + f.getName( ) );
 
 		return ff.exists( );
-	}
-	
-	/**
-	 * Returns the viewer drivers directory path. <br>
-	 * TODO: may change if viewer plugin provide more convenient api.
-	 * 
-	 * @return directory path indicate DriverLocation in Viewer
-	 */
-	private File getViewerDriverLocation( )
-	{
-		//get the driver path under viewer plug-in.
-		Bundle viewerBundle = Platform.getBundle( "org.eclipse.birt.report.viewer" ); //$NON-NLS-1$
-		if ( viewerBundle != null )
-		{
-			ResourceBundle resBundle = Platform.getResourceBundle( JdbcPlugin.getDefault( )
-					.getBundle( ) );
-			if ( resBundle != null )
-			{
-				String viewerLocation = null;
-				try
-				{
-					URL url = Platform.asLocalURL( viewerBundle.getEntry( "/" ) );
-					try
-					{
-						URI uri = new URI( url.toString( ) );
-						viewerLocation = uri.getPath( );
-					}
-					catch ( URISyntaxException e )
-					{
-						viewerLocation = url.getFile( );
-					}
-				}
-				catch ( Exception e )
-				{
-					viewerLocation = viewerBundle.getLocation( ).substring( 7 );
-				}
-				String driverPath = viewerLocation
-						+ resBundle.getString( JarFile.VIEWER_DRIVER_PATH_KEY );
-				
-				File driverLoc = new File( driverPath );
-				if ( driverLoc.exists( ) == false )
-					driverLoc.mkdir( );
-				
-				return driverLoc;
-			}
-		}
-		return null;
 	}
 
 }
