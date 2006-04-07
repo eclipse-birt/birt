@@ -15,8 +15,6 @@ import java.util.List;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.QueryExecutorUtil;
-import org.eclipse.birt.data.engine.impl.QueryExecutorUtil.ColumnInfo;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -61,16 +59,7 @@ public class JoinConditionMatcher implements IJoinConditionMatcher
 	 */
 	private void populateJoinUnit( IScriptExpression expr, Context cx, int i, JoinConditionMatchUnit[] toArray, IResultIterator ri, Scriptable scope)
 	{
-		ColumnInfo ci;
-		
-		if( (ci = QueryExecutorUtil.getColInfoFromJSExpr( cx, expr.getText( ) ))!= null )
-		{
-			toArray[i] = new JoinConditionMatchUnit(ri, ci.getColumnName( ));
-		}
-		else
-		{
-			toArray[i] = new JoinConditionMatchUnit( expr, scope );
-		}
+		toArray[i] = new JoinConditionMatchUnit( expr, scope );
 	}
 	
 	/*

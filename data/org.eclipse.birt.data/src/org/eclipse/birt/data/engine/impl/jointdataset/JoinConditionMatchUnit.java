@@ -12,7 +12,6 @@ package org.eclipse.birt.data.engine.impl.jointdataset;
 
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -22,25 +21,9 @@ import org.mozilla.javascript.Scriptable;
  */
 public class JoinConditionMatchUnit
 {
-	//
-	private String columnName = null;
-	private IResultIterator ri = null;
 	private IScriptExpression expr = null;
 	private Scriptable scope = null;
-	private boolean isColumnReference = false;
-	
-	/**
-	 * Constructor 
-	 * 
-	 * @param ri
-	 * @param columnName
-	 */
-	public JoinConditionMatchUnit( IResultIterator ri, String columnName )
-	{
-		this.columnName = columnName;
-		this.ri = ri;
-		this.isColumnReference = true;
-	}
+
 	
 	/**
 	 * Constructor
@@ -52,7 +35,6 @@ public class JoinConditionMatchUnit
 	{
 		this.expr = expr;
 		this.scope = scope;
-		this.isColumnReference = false;
 	}
 	
 	/**
@@ -63,25 +45,20 @@ public class JoinConditionMatchUnit
 	 */
 	public Object getColumnValue() throws DataException
 	{
-		if( this.isColumnReference )
-			return ri.getCurrentResult( ).getFieldValue( this.columnName );
-		else
+		Context cx = Context.enter( );
+		try
 		{
-			Context cx = Context.enter( );
-			try
-			{
-				Object leftValue = ScriptEvalUtil.evalExpr( this.expr,
-						cx,
-						this.scope,
-						"JOINDATASET",
-						0 );
+			Object leftValue = ScriptEvalUtil.evalExpr( this.expr,
+					cx,
+					this.scope,
+					"JOINDATASET",
+					0 );
 				
-				return leftValue;
-			}	
-			finally
-			{
-				Context.exit( );
-			}
+			return leftValue;
+		}	
+		finally
+		{
+			Context.exit( );
 		}
 	}
 }
