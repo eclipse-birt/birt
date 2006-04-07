@@ -105,6 +105,22 @@ public class ExpressionUtility
 		compiledExprCache.put( expression, Boolean.valueOf( isColumn ) );
 		return isColumn;
 	}
+	
+	/**
+	 * replace the row[], row.xx with dataSetRow[],dataSetRow.xx
+	 * 
+	 * @param refNode
+	 * @return
+	 */
+	public static String getReplacedColRefExpr( String columnStr )
+	{
+		if ( isColumnExpression( columnStr ) )
+		{
+			return columnStr.replaceAll( "\\Qrow\\E", "dataSetRow" );
+		}
+		else
+			return columnStr;
+	}
 
 	/**
 	 * if the Node is row Node, return true
