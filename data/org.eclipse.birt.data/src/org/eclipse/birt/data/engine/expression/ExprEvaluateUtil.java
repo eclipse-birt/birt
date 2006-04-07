@@ -50,7 +50,13 @@ public class ExprEvaluateUtil
 			throws BirtException
 	{
 		Object exprValue = null;
-
+		
+		//TODO here the dataExpr should not be null.
+		//This is only a temporary solution.
+		
+		if( dataExpr == null )
+			throw new DataException(ResourceConstants.BAD_DATA_EXPRESSION);
+		
 		Object handle = dataExpr.getHandle( );
 		if ( handle instanceof CompiledExpression )
 		{
