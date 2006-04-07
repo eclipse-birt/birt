@@ -12,13 +12,8 @@ package org.eclipse.birt.chart.reportitem;
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 
-import java.util.HashMap;
-import java.util.Iterator;
-
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 
 /**
@@ -29,10 +24,6 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 
 	private IRowSet set;
 
-	private HashMap map;
-
-	private HashMap globalMap;
-
 	/**
 	 * The constructor.
 	 * 
@@ -42,24 +33,6 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	public BIRTDataRowEvaluator( IRowSet set, IBaseQueryDefinition definition )
 	{
 		this.set = set;
-		this.map = new HashMap( );
-		this.globalMap = new HashMap( );
-		for ( Iterator iter = definition.getRowExpressions( ).iterator( ); iter.hasNext( ); )
-		{
-			IScriptExpression exp = (IScriptExpression) iter.next( );
-			map.put( exp.getText( ), exp );
-		}
-		for ( Iterator iter = definition.getBeforeExpressions( ).iterator( ); iter.hasNext( ); )
-		{
-			IScriptExpression exp = (IScriptExpression) iter.next( );
-			globalMap.put( exp.getText( ), exp );
-		}
-		for ( Iterator iter = definition.getAfterExpressions( ).iterator( ); iter.hasNext( ); )
-		{
-			IScriptExpression exp = (IScriptExpression) iter.next( );
-			globalMap.put( exp.getText( ), exp );
-		}
-
 	}
 
 	/*
@@ -69,12 +42,7 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 */
 	public Object evaluate( String expression )
 	{
-		IBaseExpression ibe = (IBaseExpression) map.get( expression );
-		if ( ibe == null )
-		{
-			return null;
-		}
-		return set.evaluate( ibe );
+		return set.evaluate( expression );
 	}
 
 	/*
@@ -84,12 +52,7 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 */
 	public Object evaluateGlobal( String expression )
 	{
-		IBaseExpression ibe = (IBaseExpression) globalMap.get( expression );
-		if ( ibe == null )
-		{
-			return null;
-		}
-		return set.evaluate( ibe );
+		return evaluate( expression );
 	}
 
 	/*
