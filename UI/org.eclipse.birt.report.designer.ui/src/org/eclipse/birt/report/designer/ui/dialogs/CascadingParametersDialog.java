@@ -1520,7 +1520,7 @@ public class CascadingParametersDialog extends BaseDialog
 		// }
 		// }
 		// }
-		CachedMetaDataHandle cmdh;
+		CachedMetaDataHandle cmdh=null;
 		try
 		{
 			cmdh = DataSetUIUtil.getCachedMetaDataHandle( dataSet );
