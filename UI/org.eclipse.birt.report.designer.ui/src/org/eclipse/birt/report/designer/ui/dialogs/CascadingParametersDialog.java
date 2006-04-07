@@ -739,16 +739,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private String[] getDataSets( )
 	{
-		ArrayList dataSetList = new ArrayList( );
-		for ( Iterator iter = DEUtil.getDataSets( ).iterator( ); iter.hasNext( ); )
-		{
-			DataSetHandle dataSet = (DataSetHandle) iter.next( );
-			if ( !dataSet.paramBindingsIterator( ).hasNext( ) )
-			{
-				dataSetList.add( dataSet.getQualifiedName( ) );
-			}
-		}
-		return (String[]) dataSetList.toArray( new String[dataSetList.size( )] );
+		return (String[]) DEUtil.getDataSets( ).toArray( new String[0] );
 	}
 
 	private DataSetHandle getDataSet( String name )
@@ -1520,7 +1511,7 @@ public class CascadingParametersDialog extends BaseDialog
 		// }
 		// }
 		// }
-		CachedMetaDataHandle cmdh=null;
+		CachedMetaDataHandle cmdh = null;
 		try
 		{
 			cmdh = DataSetUIUtil.getCachedMetaDataHandle( dataSet );

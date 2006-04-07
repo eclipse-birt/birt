@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import com.ibm.icu.util.ULocale;
+import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -38,7 +38,6 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -87,6 +86,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * The dialog used to create or edit a parameter
@@ -668,9 +669,9 @@ public class ParameterDialog extends BaseDialog
 		limitArea.setLayoutData( data );
 
 		listLimit = new Text( limitArea, SWT.BORDER );
-		data =  new GridData( );
+		data = new GridData( );
 		data.widthHint = 80;
-		listLimit.setLayoutData(data );
+		listLimit.setLayoutData( data );
 		listLimit.addVerifyListener( new VerifyListener( ) {
 
 			public void verifyText( VerifyEvent e )
@@ -846,7 +847,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		else
 		{
-			if ( !loading || inputParameter.getFormat( ) == null )
+			if ( !loading || inputParameter.getFormat( ) == null ) 
 			{
 				if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
 				{
@@ -969,18 +970,9 @@ public class ParameterDialog extends BaseDialog
 	{
 		String selectedDataSetName = dataSetChooser.getText( );
 		String[] oldList = dataSetChooser.getItems( );
-		ArrayList avaiableList = new ArrayList( );
-		for ( Iterator iter = SessionHandleAdapter.getInstance( )
+		List avaiableList = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getVisibleDataSets( )
-				.iterator( ); iter.hasNext( ); )
-		{
-			DataSetHandle dataSet = (DataSetHandle) iter.next( );
-			if ( !dataSet.parametersIterator( ).hasNext( ) )
-			{
-				avaiableList.add( dataSet.getQualifiedName( ) );
-			}
-		}
+				.getVisibleDataSets( );
 		String[] newList = (String[]) avaiableList.toArray( new String[]{} );
 
 		if ( oldList.length != newList.length )
