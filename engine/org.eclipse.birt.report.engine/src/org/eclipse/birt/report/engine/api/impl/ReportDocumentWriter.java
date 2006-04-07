@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.presentation.PageHint;
@@ -77,7 +78,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		}
 	}
 
-	public String getReportDocumentName( )
+	public String getName( )
 	{
 		return archive.getName( );
 	}
@@ -228,7 +229,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		{
 			out = archive.createRandomAccessStream( DESIGN_STREAM );
 			DocumentUtil.serialize( design, out );
-			//design.serialize( out );
+			// design.serialize( out );
 			designName = design.getFileName( );
 		}
 		catch ( Exception ex )
@@ -268,38 +269,66 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		globalVariables.putAll( map );
 	}
 
+	protected void lock( ) throws BirtException
+	{
+		ReportDocumentLockManager.getInstance( ).lock( getName( ), true );
+	}
+
+	protected void unlock( )
+	{
+		ReportDocumentLockManager.getInstance( ).unlock( getName( ), true );
+	}
+
 	public void saveCoreStreams( )
 	{
-		RAOutputStream out;
-		DataOutputStream coreStream = null;
+		// create a mutex named with the system
+		// lock the mutex
 		try
 		{
-			out = archive.createRandomAccessStream( CORE_STREAM );
-			coreStream = new DataOutputStream( new BufferedOutputStream( out ) );
-			IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );
-			IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION_1_2_1 );
-			IOUtil.writeString( coreStream, designName );
-			IOUtil.writeMap( coreStream, paramters );
-			IOUtil.writeMap( coreStream, globalVariables );
-		}
-		catch ( IOException ex )
-		{
-			logger.log( Level.SEVERE, "Failed to save the core stream!", ex );
-		}
-		finally
-		{
-			if ( coreStream != null )
+			lock( );
+			RAOutputStream out;
+			DataOutputStream coreStream = null;
+			try
 			{
-				try
+				out = archive.createRandomAccessStream( CORE_STREAM );
+				coreStream = new DataOutputStream( new BufferedOutputStream(
+						out ) );
+				IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );
+				IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION_1_2_1 );
+				IOUtil.writeString( coreStream, designName );
+				IOUtil.writeMap( coreStream, paramters );
+				IOUtil.writeMap( coreStream, globalVariables );
+			}
+			catch ( IOException ex )
+			{
+				logger
+						.log( Level.SEVERE, "Failed to save the core stream!",
+								ex );
+			}
+			finally
+			{
+				if ( coreStream != null )
 				{
-					coreStream.flush( );
-					coreStream.close( );
-				}
-				catch ( Exception ex )
-				{
+					try
+					{
+						coreStream.flush( );
+						coreStream.close( );
+					}
+					catch ( Exception ex )
+					{
+					}
 				}
 			}
 		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE, "Failed to lock the core stream!", ex );
+		}
+		finally
+		{
+			unlock( );
+		}
+
 	}
 
 	public void saveReportlets( Map map )
@@ -312,14 +341,14 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			DataOutputStream output = new DataOutputStream( out );
 			IOUtil.writeLong( output, map.size( ) );
 			Iterator iter = map.entrySet( ).iterator( );
-			while (iter.hasNext( ))
+			while ( iter.hasNext( ) )
 			{
-				Map.Entry entry = (Map.Entry)iter.next( );
-				String instance = (String)entry.getKey( );
-				Long offset = (Long)entry.getValue( );
-				IOUtil.writeString( output, instance);
-				IOUtil.writeLong( output, offset.longValue( ));
-				
+				Map.Entry entry = (Map.Entry) iter.next( );
+				String instance = (String) entry.getKey( );
+				Long offset = (Long) entry.getValue( );
+				IOUtil.writeString( output, instance );
+				IOUtil.writeLong( output, offset.longValue( ) );
+
 			}
 			output.flush( );
 		}

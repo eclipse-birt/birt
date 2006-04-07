@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -89,30 +90,48 @@ public class ReportDocumentReader
 		return version;
 	}
 
+	protected void lock( ) throws BirtException
+	{
+		ReportDocumentLockManager.getInstance( ).lock( getName( ), false );
+	}
+
+	protected void unlock( )
+	{
+		ReportDocumentLockManager.getInstance( ).unlock( getName( ), false );
+	}
+
 	protected void loadCoreStream( ) throws Exception
 	{
-		RAInputStream in = archive.getStream( CORE_STREAM );
 		try
 		{
-			DataInputStream di = new DataInputStream( new BufferedInputStream(
-					in ) );
+			lock( );
+			RAInputStream in = archive.getStream( CORE_STREAM );
+			try
+			{
+				DataInputStream di = new DataInputStream(
+						new BufferedInputStream( in ) );
 
-			// check the design name
-			checkVersion( di );
+				// check the design name
+				checkVersion( di );
 
-			// load the report design name
-			designName = IOUtil.readString( di );
-			// load the report paramters
-			parameters = (HashMap) IOUtil.readMap( di );
-			// load the persistence object
-			globalVariables = (HashMap) IOUtil.readMap( di );
+				// load the report design name
+				designName = IOUtil.readString( di );
+				// load the report paramters
+				parameters = (HashMap) IOUtil.readMap( di );
+				// load the persistence object
+				globalVariables = (HashMap) IOUtil.readMap( di );
+			}
+			finally
+			{
+				if ( in != null )
+				{
+					in.close( );
+				}
+			}
 		}
 		finally
 		{
-			if ( in != null )
-			{
-				in.close( );
-			}
+			unlock();
 		}
 	}
 
@@ -294,7 +313,7 @@ public class ReportDocumentReader
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.IReportDocument#findTOCByName(java.lang.String)
 	 */
-	public List findTOCByName(String tocName)
+	public List findTOCByName( String tocName )
 	{
 		if ( tocName == null )
 		{
@@ -371,7 +390,7 @@ public class ReportDocumentReader
 	private void generateTOCIndex( TOCNode node )
 	{
 		tocMapByID.put( node.getNodeID( ), node );
-		addTOCNameEntry( node, tocMapByName);
+		addTOCNameEntry( node, tocMapByName );
 		Iterator iter = node.getChildren( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -381,17 +400,20 @@ public class ReportDocumentReader
 	}
 
 	/**
-	 * Add a toc node into the map which cache the map from toc display string to nodes.
-	 *
-	 * @param node the node.
-	 * @param map the map.
+	 * Add a toc node into the map which cache the map from toc display string
+	 * to nodes.
+	 * 
+	 * @param node
+	 *            the node.
+	 * @param map
+	 *            the map.
 	 */
 	private void addTOCNameEntry( TOCNode node, HashMap map )
 	{
-		List tocs = ( List ) map.get( node.getDisplayString( ) );
-		if ( tocs == null)
+		List tocs = (List) map.get( node.getDisplayString( ) );
+		if ( tocs == null )
 		{
-			tocs = new ArrayList();
+			tocs = new ArrayList( );
 			map.put( node.getDisplayString( ), tocs );
 		}
 		tocs.add( node );
@@ -545,7 +567,9 @@ public class ReportDocumentReader
 		}
 		catch ( Exception ex )
 		{
-			logger.log( Level.SEVERE, "Failed to load the reportlet stream", ex ); //$NON-NLS-1$
+			logger
+					.log( Level.SEVERE,
+							"Failed to load the reportlet stream", ex ); //$NON-NLS-1$
 		}
 		finally
 		{
