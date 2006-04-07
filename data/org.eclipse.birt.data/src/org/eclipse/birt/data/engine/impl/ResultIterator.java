@@ -235,20 +235,28 @@ public class ResultIterator implements IResultIterator
 	 */
 	public Object getValue( IBaseExpression dataExpr ) throws BirtException
 	{
+		Object exprValue = doGetValue( dataExpr );		
+		this.getRdSaveUtil( ).doSaveExpr( dataExpr, exprValue );		
+		return exprValue;
+	}
+	
+	/**
+	 * @param dataExpr
+	 * @return value of expression
+	 * @throws BirtException
+	 */
+	private Object doGetValue( IBaseExpression dataExpr ) throws BirtException
+	{
 		logger.logp( Level.FINE,
 				ResultIterator.class.getName( ),
 				"getValue",
 				"get of value IBaseExpression: " + LogUtil.toString( dataExpr ) );
 		checkStarted( );
 
-		Object exprValue = ExprEvaluateUtil.evaluateExpression( dataExpr,
+		return ExprEvaluateUtil.evaluateExpression( dataExpr,
 				odiResult,
 				scope,
 				logger );
-		
-		this.getRdSaveUtil( ).doSaveExpr( dataExpr, exprValue );
-		
-		return exprValue;
 	}
 	
 	/**
@@ -343,7 +351,7 @@ public class ResultIterator implements IResultIterator
 	{
 		checkStarted( );
 		
-		Object exprValue = this.getValue( this.rService.getBaseExpression( exprName ) );
+		Object exprValue = this.doGetValue( this.rService.getBaseExpression( exprName ) );
 		this.getRdSaveUtil( ).doSaveExpr( exprName, exprValue );
 		return exprValue;
 	}

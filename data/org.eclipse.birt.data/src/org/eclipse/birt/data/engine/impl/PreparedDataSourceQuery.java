@@ -61,8 +61,11 @@ abstract class PreparedDataSourceQuery
 			// internally. But using the dummy one, the binding expression only
 			// can refer to row object and no other object can be refered such
 			// as rows.
-			return new PreparedDummyQuery( queryDefn,
-					dataEngine.getSharedScope( ) );
+			if ( queryDefn.getQueryResultsID( ) == null )
+				return new PreparedDummyQuery( queryDefn,
+						dataEngine.getSharedScope( ) );
+			else
+				return new PreparedIVQuery( dataEngine, queryDefn );
 		}
 
 		PreparedDataSourceQuery preparedQuery;

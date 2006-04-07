@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.util.IOUtil;
@@ -37,14 +38,17 @@ public class ExprMetaUtil
 {
 	private static ExprMetaUtil instance = new ExprMetaUtil( );
 	
+	private Set nameSet;
+	
 	/**
 	 * @throws DataException
 	 * @throws DataException
 	 * @throws IOException
 	 */
 	public static void saveExprMetaInfo( IBaseQueryDefinition queryDefn,
-			OutputStream outputStream ) throws DataException
+			Set nameSet, OutputStream outputStream ) throws DataException
 	{
+		instance.nameSet = nameSet;
 		List exprMetaList = instance.prepareQueryDefn( queryDefn );
 
 		DataOutputStream dos = new DataOutputStream( outputStream );
@@ -113,6 +117,9 @@ public class ExprMetaUtil
 		while ( it.hasNext( ) )
 		{
 			String exprName = (String) it.next( );
+			if ( nameSet.contains( exprName ) == false )
+				continue;
+			
 			IBaseExpression baseExpr = (IBaseExpression) exprMap.get( exprName );
 
 			ExprMetaInfo exprMeta = new ExprMetaInfo( );

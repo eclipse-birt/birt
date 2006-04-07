@@ -15,27 +15,30 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprDataResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
-import org.eclipse.birt.data.engine.impl.document.viewing.TransformUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
  * Load data from input stream and it simulates the behavior of the
  * IResultIterator of odiLayer.
  */
-class RDLoad
+public class RDLoad
 {
 	//	 
 	private DataEngineContext context;
@@ -148,10 +151,6 @@ class RDLoad
 			rdGroupUtil = new RDGroupUtil( groupBis,
 					new CacheProviderImpl( this ) );
 			
-			// TODO: temp logic
-			if( false )
-				this.loadForIV( );
-			
 			try
 			{
 				groupBis.close( );
@@ -167,18 +166,46 @@ class RDLoad
 	}
 	
 	/**
+	 * @return
 	 * @throws DataException
 	 */
-	private void loadForIV( ) throws DataException
+	public ExprDataResultSet loadExprDataResultSet( ) throws DataException
 	{
-		this.loadExprMetadata( );
-		this.loadTransform( );
+		if ( this.version == VersionManager.VERSION_2_0 )
+			throw new DataException( "Not supported in earlier version" );
+		
+		ExprMetaInfo[] exprMetas = loadExprMetadata( );
+
+		List newProjectedColumns = new ArrayList( );
+		for ( int i = 0; i < exprMetas.length; i++ )
+		{
+			String name = exprMetas[i].getName( );
+			Class clazz = DataType.getClass( exprMetas[i].getDataType( ) );
+			ResultFieldMetadata metaData = new ResultFieldMetadata( 0,
+					name,
+					name,
+					clazz,
+					clazz == null ? null : clazz.toString( ),
+					i == exprMetas.length - 1 ? true : false );
+			newProjectedColumns.add( metaData );
+		}
+		
+		InputStream inputStream = context.getInputStream( queryResultID,
+				subQueryID,
+				DataEngineContext.EXPR_VALUE_STREAM );
+		BufferedInputStream bis = new BufferedInputStream( inputStream );
+		
+		ExprDataResultSet exprDataResultSet = new ExprDataResultSet( bis,
+				exprMetas,
+				new ResultClass( newProjectedColumns ) );
+				
+		return exprDataResultSet;
 	}
 	
 	/**
 	 * @throws DataException
 	 */
-	private void loadExprMetadata( ) throws DataException
+	private ExprMetaInfo[] loadExprMetadata( ) throws DataException
 	{
 		InputStream inputStream = context.getInputStream( queryResultID,
 				subQueryID,
@@ -186,8 +213,7 @@ class RDLoad
 		BufferedInputStream bis = new BufferedInputStream( inputStream );
 
 		ExprMetaInfo[] exprMetas = ExprMetaUtil.loadExprMetaInfo( bis );
-		System.out.println( exprMetas );
-
+		
 		try
 		{
 			bis.close( );
@@ -195,32 +221,37 @@ class RDLoad
 		}
 		catch ( IOException e )
 		{
-			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
+			// ignore
 		}
+		
+		return exprMetas;
 	}
 	
 	/**
+	 * @return
 	 * @throws DataException
 	 */
-	private void loadTransform( ) throws DataException
+	public RDGroupUtil loadGroupUtil( ) throws DataException
 	{
-		InputStream inputStream = context.getInputStream( queryResultID,
-				subQueryID,
-				DataEngineContext.TRANSFORM_INFO_STREAM );
-		BufferedInputStream bis = new BufferedInputStream( inputStream );
-
-		IBaseQueryDefinition queryDefn = TransformUtil.loadBaseQuery( bis );
-		System.out.println( queryDefn );
-
-		try
+		if ( this.rdGroupUtil == null )
 		{
-			bis.close( );
-			inputStream.close( );
+			InputStream stream = context.getInputStream( queryResultID,
+					subQueryID,
+					DataEngineContext.GROUP_INFO_STREAM );
+			BufferedInputStream bis2 = new BufferedInputStream( stream );
+			rdGroupUtil = new RDGroupUtil( bis2 );
+			try
+			{
+				bis2.close( );
+				stream.close( );
+			}
+			catch ( IOException e )
+			{
+				// ignore it
+			}
 		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
-		}
+		
+		return this.rdGroupUtil;
 	}
 	
 	/**

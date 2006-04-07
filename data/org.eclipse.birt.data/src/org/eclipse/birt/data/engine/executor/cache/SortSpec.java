@@ -20,6 +20,11 @@ public class SortSpec
 	String[] sortKeyColumns;
 	boolean[] sortAscending;
 
+	/**
+	 * @param sortKeyIndexes
+	 * @param sortKeyColumns
+	 * @param sortAscending
+	 */
 	public SortSpec( int[] sortKeyIndexes, String[] sortKeyColumns,
 			boolean[] sortAscending )
 	{
@@ -27,4 +32,16 @@ public class SortSpec
 		this.sortKeyColumns = sortKeyColumns;
 		this.sortAscending = sortAscending;
 	}
+	
+	/**
+	 * @return
+	 */
+	public int length( )
+	{
+		if ( sortAscending != null )
+			return sortAscending.length;
+		else
+			return 0;
+	}
+	
 }

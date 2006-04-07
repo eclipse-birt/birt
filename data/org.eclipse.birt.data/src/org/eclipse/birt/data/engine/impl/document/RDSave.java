@@ -15,6 +15,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -23,7 +25,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
-import org.eclipse.birt.data.engine.impl.document.viewing.TransformUtil;
 
 /**
  * Save expression value of every row into report document. The output format in
@@ -58,6 +59,8 @@ public class RDSave
 	private int currentOffset;
 	
 	private IBaseQueryDefinition queryDefn;
+	
+	private Set nameSet = new HashSet( );
 	
 	public final static int columnSeparator = 1;
 	public final static int rowSeparator = 2;
@@ -196,6 +199,8 @@ public class RDSave
 					e,
 					"Result Data" );
 		}
+		
+		nameSet.add( exprID );
 	}
 
 	/**
@@ -216,9 +221,7 @@ public class RDSave
 			lenOs.close( );
 			
 			// save expression metadata and transformation info
-			// TODO: temp logic
-			if( false )
-				this.saveForIV( );
+			this.saveForIV( );
 		}
 		catch ( IOException e )
 		{
@@ -364,7 +367,6 @@ public class RDSave
 	private void saveForIV( ) throws DataException
 	{
 		this.saveExprMetadata( );
-		this.saveTransform( );
 	}
 	
 	/**
@@ -376,28 +378,7 @@ public class RDSave
 				subQueryID,
 				DataEngineContext.EXPR_META_STREAM );
 
-		ExprMetaUtil.saveExprMetaInfo( queryDefn, outputStream );
-
-		try
-		{
-			outputStream.close( );
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
-		}
-	}
-	
-	/**
-	 * @throws DataException
-	 */
-	private void saveTransform( ) throws DataException
-	{
-		OutputStream outputStream = context.getOutputStream( queryResultID,
-				subQueryID,
-				DataEngineContext.TRANSFORM_INFO_STREAM );
-
-		TransformUtil.saveBaseQuery( queryDefn, outputStream );
+		ExprMetaUtil.saveExprMetaInfo( queryDefn, nameSet, outputStream );
 
 		try
 		{

@@ -14,7 +14,6 @@ package org.eclipse.birt.data.engine.executor.transform.group;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 
 /**
@@ -92,8 +91,8 @@ public final class GroupUtil
 	 * @return rowIndex
 	 * @throws DataException
 	 */
-	static int getGroupFirstRowIndex( int groupLevel, int groupIndex,
-			List[] groups, ResultSetCache smartCache ) throws DataException
+	public static int getGroupFirstRowIndex( int groupLevel, int groupIndex,
+			List[] groups, int count )
 	{
 		int rowIndex;
 
@@ -109,7 +108,7 @@ public final class GroupUtil
 		}
 		else
 		{
-			rowIndex = smartCache.getCount( );
+			rowIndex = count;
 		}
 
 		return rowIndex;

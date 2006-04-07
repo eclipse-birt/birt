@@ -17,13 +17,15 @@ import java.util.List;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.transform.group.GroupInfo;
+import org.eclipse.birt.data.engine.executor.transform.group.GroupUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * This class is read-only part of complete GroupUtil. Its group information
  * data will be loaded from external stream, not generated from a SmartCache.
  */
-class RDGroupUtil
+public final class RDGroupUtil
 {
 	/*
 	 * groups[level] is an ArrayList of GroupInfo objects at the specified level.
@@ -96,6 +98,24 @@ class RDGroupUtil
 		this.cacheProvider = cacheProvider;
 	}
 	
+	/**
+	 * @param inputStream
+	 * @param cacheProvider
+	 * @throws DataException
+	 */
+	RDGroupUtil( InputStream inputStream ) throws DataException
+	{
+		this( inputStream, null );
+	}
+	
+	/**
+	 * @param cacheProvider
+	 */
+	public void setCacheProvider( CacheProvider cacheProvider )
+	{
+		this. cacheProvider = cacheProvider;
+	}
+	
 	// Helper function to find information about a group, given the group level
 	// and the group index at that level. Returns null if groupIndex exceeds
 	// max group index
@@ -133,7 +153,7 @@ class RDGroupUtil
 	 * 			the current row is the last row;
 	 * 			(N+1) if the current row is not at the end of any group;
 	 */
-	int getEndingGroupLevel( ) throws DataException
+	public int getEndingGroupLevel( ) throws DataException
 	{
 		checkHasCurrentRow( );
 
@@ -182,7 +202,7 @@ class RDGroupUtil
 	 * 			the current row is the first row;
 	 * 			(N+1) if the current row is not at the start of any group;
 	 */
-	int getStartingGroupLevel( ) throws DataException
+	public int getStartingGroupLevel( ) throws DataException
 	{
 		checkHasCurrentRow( );
 
@@ -236,7 +256,7 @@ class RDGroupUtil
 	 *            the specified group level that will be skipped, 1 indicate the
 	 *            highest level. 0 indicates whole list.
 	 */
-	void last( int groupLevel ) throws DataException
+	public void last( int groupLevel ) throws DataException
 	{
 		if ( groupLevel > groups.length || groupLevel < 0 )
 			throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
@@ -300,24 +320,83 @@ class RDGroupUtil
 		}
 	}
 	
-}
-
-/**
- * Structure to hold information about a group instance at a particular grouping
- * level.
- */
-final class GroupInfo
-{
-
 	/**
-	 * Index of the the parent group, i.e., the immediate outer group that this
-	 * group belongs to
+	 * @return
 	 */
-	int parent = -1;
-
+	public int getGroupLevel( )
+	{
+		return this.groups.length;
+	}
+	
 	/**
-	 * Index of the first child group. If the current group is the innermost
-	 * group, this is the ID of the first data row in the group
+	 * Gets the index of the current group at the specified group level.
+	 * The index starts at 0  
 	 */
-	int firstChild = -1;
+	public int getCurrentGroupIndex( int groupLevel ) throws DataException
+	{
+		checkHasCurrentRow( );
+		if ( groupLevel < 0 || groupLevel > groups.length )
+			throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
+					new Integer( groupLevel ) );
+
+		int currentGroupIdx = leafGroupIdx;
+		int level;
+		for ( level = groups.length - 1; level > groupLevel - 1; level-- )
+		{
+			GroupInfo currentGroup = findGroup( level, currentGroupIdx );
+			currentGroupIdx = currentGroup.parent;
+		}
+		return currentGroupIdx;
+	}
+	
+	/**
+	 * For a particual group level, it might consists of several group units.
+	 * For each group unit, it has its start row index and end row index, and
+	 * then the total index will be the group unit number*2.
+	 * 
+	 * @param groupLevel
+	 * @return int[]
+	 */
+	public int[] getGroupStartAndEndIndex( int groupLevel )
+	{
+		if ( groupLevel == 0 )
+		{
+			return new int[]{
+					0,
+					cacheProvider.getCount( )
+			};
+		}
+
+		int unitCountInOneGroup = this.groups[groupLevel - 1].size( );
+		if ( unitCountInOneGroup == 1 )
+		{
+			return new int[]{
+					0,
+					cacheProvider.getCount( )
+			};
+		}
+		else
+		{
+			int[] unitInfo = new int[unitCountInOneGroup * 2];
+			for ( int i = 0; i < unitCountInOneGroup; i++ )
+			{
+				int startIndex = i;
+				int endIndex = startIndex + 1;
+
+				startIndex = GroupUtil.getGroupFirstRowIndex( groupLevel,
+						startIndex,
+						this.groups,
+						this.cacheProvider.getCount( ) );
+				endIndex = GroupUtil.getGroupFirstRowIndex( groupLevel,
+						endIndex,
+						this.groups,
+						this.cacheProvider.getCount( ) );
+
+				unitInfo[i * 2] = startIndex;
+				unitInfo[i * 2 + 1] = endIndex;
+			}
+			return unitInfo;
+		}
+	}
+	
 }

@@ -15,7 +15,7 @@ package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +53,8 @@ abstract public class BaseTransform implements IBaseTransform
 	protected 	List beforeExpressions = new ArrayList();
 	protected 	List afterExpressions = new ArrayList();
 	
-	private 	Map resultExprsMap = new HashMap( );
+	// order might be sensitive, use LinkedHashMap instead of HashMap
+	private 	Map resultExprsMap = new LinkedHashMap( );
 	
 	/**
 	 * Returns the filters defined in this transform, as an ordered list of 

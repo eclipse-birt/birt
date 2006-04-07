@@ -392,11 +392,11 @@ public class GroupInformationUtil
 				startIndex = GroupUtil.getGroupFirstRowIndex( groupLevel,
 						startIndex,
 						this.groups,
-						this.groupCalculationUtil.getResultSetCache( ) );
+						this.groupCalculationUtil.getResultSetCache( ).getCount( ) );
 				endIndex = GroupUtil.getGroupFirstRowIndex( groupLevel,
 						endIndex,
 						this.groups,
-						this.groupCalculationUtil.getResultSetCache( ) );
+						this.groupCalculationUtil.getResultSetCache( ).getCount( ) );
 
 				unitInfo[i * 2] = startIndex;
 				unitInfo[i * 2 + 1] = endIndex;
@@ -594,11 +594,11 @@ public class GroupInformationUtil
 		startIndex = GroupUtil.getGroupFirstRowIndex( groupLevel,
 				startIndex,
 				groups,
-				this.groupCalculationUtil.getResultSetCache( ) );
+				this.groupCalculationUtil.getResultSetCache( ).getCount( ) );
 		endIndex = GroupUtil.getGroupFirstRowIndex( groupLevel,
 				endIndex,
 				groups,
-				this.groupCalculationUtil.getResultSetCache( ) );
+				this.groupCalculationUtil.getResultSetCache( ).getCount( ) );
 
 		// finally we get data between startIndex to endIndex - 1 in dataRows
 		return new int[]{
@@ -689,14 +689,14 @@ public class GroupInformationUtil
 		int startIdx = GroupUtil.getGroupFirstRowIndex( groupLevel,
 				groupIndex,
 				groups,
-				this.groupCalculationUtil.getResultSetCache( ) );
+				this.groupCalculationUtil.getResultSetCache( ).getCount( ) );
 		int endIdx = this.groupCalculationUtil.getResultSetCache( ).getCount( ) - 1;
 		if ( groupIndex < groups[groupLevel - 1].size( ) - 1 )
 		{
 			endIdx = GroupUtil.getGroupFirstRowIndex( groupLevel,
 					groupIndex + 1,
 					groups,
-					this.groupCalculationUtil.getResultSetCache( ) ) - 1;
+					this.groupCalculationUtil.getResultSetCache( ).getCount( ) ) - 1;
 		}
 		assert startIdx >= 0;
 		assert endIdx >= 0;

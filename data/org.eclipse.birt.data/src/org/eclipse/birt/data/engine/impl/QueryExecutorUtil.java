@@ -172,30 +172,4 @@ public final class QueryExecutorUtil
 		return new ColumnInfo( colIndex, colName );
 	}
 	
-	/**
-	 * Simple wrapper of colum information, including column index and column
-	 * name.
-	 */
-	public static class ColumnInfo
-	{
-		private int columnIndex;
-		private String columnName;
-
-		ColumnInfo( int columnIndex, String columnName )
-		{
-			this.columnIndex = columnIndex;
-			this.columnName = columnName;
-		}
-
-		public int getColumnIndex( )
-		{
-			return columnIndex;
-		}
-
-		public String getColumnName( )
-		{
-			return columnName;
-		}
-	}
-	
 }

@@ -39,7 +39,6 @@ import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.expression.FilterExpressionParser;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.QueryExecutorUtil.ColumnInfo;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
@@ -56,7 +55,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * 
  */
-abstract class QueryExecutor implements IQueryExecutor
+public abstract class QueryExecutor implements IQueryExecutor
 {
 	private 	IBaseQueryDefinition 	baseQueryDefn;
 	private 	AggregateTable 			aggrTable;

@@ -332,26 +332,6 @@ public class GroupCalculationUtil
 }
 
 /**
- * Structure to hold information about a group instance at a particular grouping
- * level.
- */
-final class GroupInfo
-{
-
-	/**
-	 * Index of the the parent group, i.e., the immediate outer group that this
-	 * group belongs to
-	 */
-	int parent = -1;
-
-	/**
-	 * Index of the first child group. If the current group is the innermost
-	 * group, this is the ID of the first data row in the group
-	 */
-	int firstChild = -1;
-}
-
-/**
  * Structure to hold a group instance with its startIndex, endIndex, filter
  * result, sortKeys and Sort directions.
  * 

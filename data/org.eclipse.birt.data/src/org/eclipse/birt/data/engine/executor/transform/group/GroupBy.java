@@ -40,7 +40,7 @@ public abstract class GroupBy
 	 * @return GroupBy
 	 * @throws DataException
 	 */
-	static GroupBy newInstance( GroupSpec groupDefn, int columnIndex, String columnName,
+	public static GroupBy newInstance( GroupSpec groupDefn, int columnIndex, String columnName,
 			Class columnType ) throws DataException
 	{
 		assert groupDefn != null;
@@ -95,7 +95,7 @@ public abstract class GroupBy
 	 * @return GroupBy
 	 * @throws DataException
 	 */
-	static GroupBy newInstanceForRowID( GroupSpec groupDefn )
+	public static GroupBy newInstanceForRowID( GroupSpec groupDefn )
 			throws DataException
 	{
 		assert groupDefn != null;
