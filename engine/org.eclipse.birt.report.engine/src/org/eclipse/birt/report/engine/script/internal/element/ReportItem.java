@@ -11,12 +11,20 @@
 
 package org.eclipse.birt.report.engine.script.internal.element;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IReportItem;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 public class ReportItem extends ReportElement implements IReportItem
 {
@@ -34,7 +42,7 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public DataSetHandle getDataSet( )
 	{
-		return ( ( ReportItemHandle ) handle ).getDataSet( );
+		return ( (ReportItemHandle) handle ).getDataSet( );
 	}
 
 	/*
@@ -47,8 +55,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		try
 		{
-			( ( ReportItemHandle ) handle ).setDataSet( dataSet );
-		} catch ( SemanticException e )
+			( (ReportItemHandle) handle ).setDataSet( dataSet );
+		}
+		catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -62,7 +71,7 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public String getX( )
 	{
-		DimensionHandle x = ( ( ReportItemHandle ) handle ).getX( );
+		DimensionHandle x = ( (ReportItemHandle) handle ).getX( );
 		return ( x == null ? null : x.getStringValue( ) );
 	}
 
@@ -74,7 +83,7 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public String getY( )
 	{
-		DimensionHandle y = ( ( ReportItemHandle ) handle ).getY( );
+		DimensionHandle y = ( (ReportItemHandle) handle ).getY( );
 		return ( y == null ? null : y.getStringValue( ) );
 	}
 
@@ -88,8 +97,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		try
 		{
-			( ( ReportItemHandle ) handle ).setX( dimension );
-		} catch ( SemanticException e )
+			( (ReportItemHandle) handle ).setX( dimension );
+		}
+		catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -105,8 +115,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		try
 		{
-			( ( ReportItemHandle ) handle ).setX( dimension );
-		} catch ( SemanticException e )
+			( (ReportItemHandle) handle ).setX( dimension );
+		}
+		catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -122,8 +133,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		try
 		{
-			( ( ReportItemHandle ) handle ).setY( dimension );
-		} catch ( SemanticException e )
+			( (ReportItemHandle) handle ).setY( dimension );
+		}
+		catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -139,8 +151,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		try
 		{
-			( ( ReportItemHandle ) handle ).setY( dimension );
-		} catch ( SemanticException e )
+			( (ReportItemHandle) handle ).setY( dimension );
+		}
+		catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -156,8 +169,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		try
 		{
-			( ( ReportItemHandle ) handle ).setHeight( dimension );
-		} catch ( SemanticException e )
+			( (ReportItemHandle) handle ).setHeight( dimension );
+		}
+		catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -173,8 +187,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		try
 		{
-			( ( ReportItemHandle ) handle ).setHeight( dimension );
-		} catch ( SemanticException e )
+			( (ReportItemHandle) handle ).setHeight( dimension );
+		}
+		catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -190,8 +205,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		try
 		{
-			( ( ReportItemHandle ) handle ).setWidth( dimension );
-		} catch ( SemanticException e )
+			( (ReportItemHandle) handle ).setWidth( dimension );
+		}
+		catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -207,8 +223,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		try
 		{
-			( ( ReportItemHandle ) handle ).setWidth( dimension );
-		} catch ( SemanticException e )
+			( (ReportItemHandle) handle ).setWidth( dimension );
+		}
+		catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -222,7 +239,7 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public String getWidth( )
 	{
-		return ( ( ReportItemHandle ) handle ).getWidth( ).getDisplayValue( );
+		return ( (ReportItemHandle) handle ).getWidth( ).getDisplayValue( );
 	}
 
 	/*
@@ -232,7 +249,7 @@ public class ReportItem extends ReportElement implements IReportItem
 	 */
 	public String getHeight( )
 	{
-		return ( ( ReportItemHandle ) handle ).getHeight( ).getDisplayValue( );
+		return ( (ReportItemHandle) handle ).getHeight( ).getDisplayValue( );
 	}
 
 	/*
@@ -243,7 +260,7 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public String getBookmark( )
 	{
-		return ( ( ReportItemHandle ) handle ).getBookmark( );
+		return ( (ReportItemHandle) handle ).getBookmark( );
 	}
 
 	/*
@@ -256,8 +273,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		try
 		{
-			( ( ReportItemHandle ) handle ).setBookmark( value );
-		} catch ( SemanticException e )
+			( (ReportItemHandle) handle ).setBookmark( value );
+		}
+		catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -273,8 +291,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		try
 		{
-			( ( ReportItemHandle ) handle ).setTocExpression( expression );
-		} catch ( SemanticException e )
+			( (ReportItemHandle) handle ).setTocExpression( expression );
+		}
+		catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -288,7 +307,65 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public String getTocExpression( )
 	{
-		return ( ( ReportItemHandle ) handle ).getTocExpression( );
+		return ( (ReportItemHandle) handle ).getTocExpression( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getBoundDataColumns()
+	 */
+
+	public List getBoundDataColumns( )
+	{
+		Iterator columns = ( (GroupHandle) handle ).columnBindingsIterator( );
+		List list = new ArrayList( );
+		while ( columns.hasNext( ) )
+			list.add( columns.next( ) );
+
+		return Collections.unmodifiableList( list );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setBoundDataColumns(java.util.List)
+	 */
+
+	public void setBoundDataColumns( List boundColumns ) throws ScriptException
+	{
+		if ( boundColumns == null )
+		{
+			try
+			{
+				( (GroupHandle) handle ).getColumnBindings( ).clearValue( );
+			}
+			catch ( SemanticException e )
+			{
+				throw new ScriptException( e.getLocalizedMessage( ) );
+			}
+
+			return;
+		}
+
+		CommandStack cmdStack = handle.getModuleHandle( ).getCommandStack( );
+		cmdStack.startTrans( null );
+		try
+		{
+			( (GroupHandle) handle ).getColumnBindings( ).clearValue( );
+
+			for ( int i = 0; i < boundColumns.size( ); i++ )
+			{
+				ComputedColumn column = (ComputedColumn) boundColumns.get( i );
+				( (GroupHandle) handle ).addColumnBinding( column, true );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+
+		cmdStack.commit( );
+	}
 }
