@@ -107,7 +107,8 @@ public class RDSave
 			
 			try
 			{
-				IOUtil.writeInt( rowDos, rowCount );
+				// TODO: enhance me
+				IOUtil.writeInt( rowDos, rowCount == 0 ? 1 : rowCount );
 			}
 			catch ( IOException e )
 			{
