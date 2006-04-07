@@ -11,10 +11,23 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * This class parses the Extended Item (extended item) tag.
@@ -56,9 +69,9 @@ public class ExtendedItemState extends ReportItemState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		element = new ExtendedItem( );
-		
+
 		parseExtensionName( attrs, true );
-		
+
 		initElement( attrs );
 
 	}
@@ -72,5 +85,87 @@ public class ExtendedItemState extends ReportItemState
 	public DesignElement getElement( )
 	{
 		return element;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.ReportItemState#end()
+	 */
+
+	public void end( ) throws SAXException
+	{
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.1.0" ) >= 0 ) //$NON-NLS-1$
+		{
+			super.end( ); 
+			return;			
+		}
+		
+		try
+		{
+			element.initializeReportItem( handler.module );
+		}
+		catch ( ExtendedElementException e )
+		{
+			return;
+		}
+				
+		Object reportItem = element.getExtendedElement( );
+
+		if ( reportItem != null && reportItem instanceof ICompatibleReportItem )
+		{
+			List jsExprs = ( (ICompatibleReportItem) reportItem )
+					.getRowExpressions( );
+			handleJavaExpression( jsExprs );
+		}
+
+		super.end( );
+	}
+
+	/**
+	 * Does backward compatiblility work for the extended item from BIRT 2.1M5 to
+	 * BIRT 2.1.0.
+	 * 
+	 * @param jsExprs
+	 */
+
+	private void handleJavaExpression( List jsExprs )
+	{
+		Set exprs = new HashSet( );
+
+		for ( int i = 0; i < jsExprs.size( ); i++ )
+		{
+			String jsExpr = (String) jsExprs.get( i );
+
+			List tmpExprs = null;
+
+			try
+			{
+				tmpExprs = ExpressionUtil.extractColumnExpressions( jsExpr );
+			}
+			catch ( BirtException e )
+			{
+				tmpExprs = null;
+			}
+
+			if ( tmpExprs == null || tmpExprs.isEmpty( ) )
+				continue;
+
+			for ( int j = 0; j < tmpExprs.size( ); j++ )
+			{
+				if ( !exprs.contains( tmpExprs.get( j ) ) )
+					exprs.add( tmpExprs.get( j ) );
+			}
+
+		}
+
+		List expressions = new ArrayList( );
+
+		Iterator iter1 = exprs.iterator( );
+		while ( iter1.hasNext( ) )
+			expressions.add( iter1.next( ) );
+
+		DataBoundColumnUtil.setupBoundDataColumns( element, expressions,
+				handler.getModule( ) );
 	}
 }

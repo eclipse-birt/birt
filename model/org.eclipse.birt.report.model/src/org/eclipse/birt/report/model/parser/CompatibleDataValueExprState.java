@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -47,9 +48,10 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 		String value = text.toString( );
 
 		if ( value == null )
-			return;		
-		
-		String newColumnName = setupBoundDataColumn( value, value );
+			return;
+
+		String newColumnName = DataBoundColumnUtil.setupBoundDataColumn(
+				element, value, value, handler.getModule( ) );
 
 		// set the property for the result set column property of DataItem.
 
