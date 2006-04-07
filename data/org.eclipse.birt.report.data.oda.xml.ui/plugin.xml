@@ -4,8 +4,6 @@
      <extension
          point="org.eclipse.datatools.connectivity.connectionProfile">
       <category
-            id="%oda.parent.category.id"/>
-      <category
             id="%oda.data.source.id"
             name="%oda.data.source.name"
             parentCategory="%oda.parent.category.id"/>
@@ -59,7 +57,7 @@
       </dataSourceUI>
       <dataSetUI
             id="org.eclipse.birt.report.data.oda.xml.dataSet"
-            initialPageId="org.eclipse.datatools.connectivity.oda.design.ui1"
+            initialPageId="org.eclipse.birt.report.data.oda.xml.ui.dataset.ui1"
             supportsInParameters="false"
             supportsOutParameters="false">
             <dataSetWizard class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizard"/>
