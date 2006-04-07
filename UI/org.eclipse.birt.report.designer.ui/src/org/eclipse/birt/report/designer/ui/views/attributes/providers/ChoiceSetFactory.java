@@ -619,7 +619,7 @@ public class ChoiceSetFactory
 
 		ModuleHandle handle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
-		Iterator iterator = handle.getAllThemes( ).iterator( );
+		Iterator iterator = handle.getVisibleThemes( ).iterator( );
 
 		if ( iterator != null )
 		{
