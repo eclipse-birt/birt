@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.birt.doc"
-      label="Birt Doc"
+      label="Eclipse BIRT Doc"
       version="2.1.0.qualifier"
       provider-name="Eclipse.org">
 
