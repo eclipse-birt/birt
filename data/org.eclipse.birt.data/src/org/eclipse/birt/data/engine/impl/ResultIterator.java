@@ -724,6 +724,8 @@ public class ResultIterator implements IResultIterator
 		// odi result
 		private org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
 
+		private boolean isBasicSaved;
+		
 		/**
 		 * @param context
 		 * @param queryResultID
@@ -789,6 +791,15 @@ public class ResultIterator implements IResultIterator
 			if ( needsSaveToDoc( ) == false )
 				return;
 
+			if ( isBasicSaved == false )
+			{
+				isBasicSaved = true;
+				this.getRdSave( )
+						.saveResultIterator( (CachedResultSet) this.odiResult,
+								this.groupLevel,
+								this.subQueryInfo );
+			}
+			
 			this.getRdSave( )
 					.saveExprValue( odiResult.getCurrentResultIndex( ),
 							dataExpr.getID( ),
@@ -806,6 +817,15 @@ public class ResultIterator implements IResultIterator
 			if ( needsSaveToDoc( ) == false )
 				return;
 			
+			if ( isBasicSaved == false )
+			{
+				isBasicSaved = true;
+				this.getRdSave( )
+						.saveResultIterator( (CachedResultSet) this.odiResult,
+								this.groupLevel,
+								this.subQueryInfo );
+			}
+			
 			this.getRdSave( )
 					.saveExprValue( odiResult.getCurrentResultIndex( ),
 							name,
@@ -820,10 +840,14 @@ public class ResultIterator implements IResultIterator
 			if ( needsSaveToDoc( ) == false )
 				return;
 
-			this.getRdSave( )
-					.saveResultIterator( (CachedResultSet) this.odiResult,
-							this.groupLevel,
-							this.subQueryInfo );
+			if ( isBasicSaved == false )
+			{
+				isBasicSaved = true;
+				this.getRdSave( )
+						.saveResultIterator( (CachedResultSet) this.odiResult,
+								this.groupLevel,
+								this.subQueryInfo );
+			}
 
 			this.getRdSave( ).saveFinish( odiResult.getCurrentResultIndex( ) );
 		}

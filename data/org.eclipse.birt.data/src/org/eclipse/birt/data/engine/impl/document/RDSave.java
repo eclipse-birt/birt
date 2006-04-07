@@ -15,9 +15,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -53,19 +50,17 @@ public class RDSave
 
 	//
 	private OutputStream rowOs;
-	private BufferedOutputStream rowBos;
 	private DataOutputStream rowDos;
 	
 	private OutputStream lenOs;
-	private BufferedOutputStream lenBos;
 	private DataOutputStream lenDos;
 	private byte[] zeroBytes;
 	private int currentOffset;
 	
 	private IBaseQueryDefinition queryDefn;
 	
-	//
-	private Map exprValueMap = new HashMap( );
+	public final static int columnSeparator = 1;
+	public final static int rowSeparator = 2;
 	
 	/**
 	 * @param context
@@ -103,14 +98,12 @@ public class RDSave
 			rowOs = context.getOutputStream( queryResultID,
 					subQueryID,
 					DataEngineContext.EXPR_VALUE_STREAM );
-			rowBos = new BufferedOutputStream( rowOs );
-			rowDos = new DataOutputStream( rowBos );
+			rowDos = new DataOutputStream( rowOs );
 
 			lenOs = context.getOutputStream( queryResultID,
 					subQueryID,
 					DataEngineContext.ROWLENGTH_INFO_STREAM );
-			lenBos = new BufferedOutputStream( lenOs );
-			lenDos = new DataOutputStream( lenBos );
+			lenDos = new DataOutputStream( lenOs );
 			
 			try
 			{
@@ -122,6 +115,9 @@ public class RDSave
 			}
 		}
 	}
+	
+	private int currRowBytes = 0;
+	private boolean rowStart = true;
 	
 	/**
 	 * @param currIndex
@@ -137,7 +133,10 @@ public class RDSave
 		{
 			try
 			{
-				saveExprOfCurrRow( lastRowIndex, currIndex );
+				if ( currIndex > 0 )
+					this.currRowBytes += 4;
+				
+				saveEndOfCurrRow( lastRowIndex, currIndex );
 			}
 			catch ( IOException e )
 			{
@@ -146,11 +145,50 @@ public class RDSave
 						"Result Data" );
 			}
 
-			exprValueMap.clear( );
 			lastRowIndex = currIndex;
 		}
+		
+		ByteArrayOutputStream tempBaos = new ByteArrayOutputStream( );
+		BufferedOutputStream tempBos = new BufferedOutputStream( tempBaos );
+		DataOutputStream tempDos = new DataOutputStream( tempBos );
+		
+		try
+		{
+			if ( rowStart == true )
+			{
+				if ( currIndex > 0 )
+					IOUtil.writeInt( rowDos, rowSeparator );
+				
+				IOUtil.writeInt( tempDos, columnSeparator );				
+			}
+			else
+			{
+				IOUtil.writeInt( tempDos, columnSeparator );
+			}
+			
+			IOUtil.writeString( tempDos, exprID );
+			IOUtil.writeObject( tempDos, exprValue );
+			
+			tempDos.flush( );
+			tempBos.flush( );
+			tempBaos.flush( );
+			
+			byte[] bytes = tempBaos.toByteArray( );
+			currRowBytes += bytes.length;
+			IOUtil.writeRawBytes( rowDos, bytes );
 
-		exprValueMap.put( exprID, exprValue );
+			tempBaos = null;
+			tempBos = null;
+			tempDos = null;
+			
+			rowStart = false;
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR,
+					e,
+					"Result Data" );
+		}
 	}
 
 	/**
@@ -162,14 +200,12 @@ public class RDSave
 		
 		try
 		{
-			saveExprOfCurrRow( lastRowIndex, currIndex );
+			saveEndOfCurrRow( lastRowIndex, currIndex );
 			
 			rowDos.close( );
-			rowBos.close( );
 			rowOs.close( );
 			
 			lenDos.close( );
-			lenBos.close( );
 			lenOs.close( );
 			
 			// save expression metadata and transformation info
@@ -189,39 +225,17 @@ public class RDSave
 	 * @param rowIndex
 	 * @throws IOException
 	 */
-	private void saveExprOfCurrRow( int lastRowIndex, int currIndex )
+	private void saveEndOfCurrRow( int lastRowIndex, int currIndex )
 			throws IOException
 	{
-		Set keySet = exprValueMap.keySet( );
-		String[] exprIDs = (String[]) keySet.toArray( new String[0] );
-		
-		ByteArrayOutputStream tempBaos = new ByteArrayOutputStream( );
-		BufferedOutputStream tempBos = new BufferedOutputStream( tempBaos );
-		DataOutputStream tempDos = new DataOutputStream( tempBos );
-		
-		int size = exprIDs.length;
-		IOUtil.writeInt( tempDos, size );
-		for ( int i = 0; i < size; i++ )
-		{
-			String exprID = exprIDs[i];
-			Object exprValue = exprValueMap.get( exprID );
-
-			IOUtil.writeString( tempDos, exprID );
-			IOUtil.writeObject( tempDos, exprValue );
-		}
-		tempDos.flush( );
-		
-		byte[] bytes = tempBaos.toByteArray( );
-		IOUtil.writeRawBytes( rowDos, bytes );
 		IOUtil.writeInt( lenDos, currentOffset );
-		currentOffset += bytes.length;
-		
-		tempBaos = null;
-		tempBos = null;
-		tempDos = null;
-		
+		currentOffset += currRowBytes;
+		this.rowStart = true;
+		this.currRowBytes = 0;
+				
 		saveNullRowsBetween( lastRowIndex, currIndex );
 	}
+	
 	/**
 	 * @param lastRowIndex
 	 * @param currIndex
@@ -251,8 +265,8 @@ public class RDSave
 			ByteArrayOutputStream tempBaos = new ByteArrayOutputStream( );
 			BufferedOutputStream tempBos = new BufferedOutputStream( tempBaos );
 			DataOutputStream tempDos = new DataOutputStream( tempBos );
-
-			IOUtil.writeInt( tempDos, 0 );
+			
+			IOUtil.writeInt( tempDos, rowSeparator );
 			tempDos.flush( );
 
 			this.zeroBytes = tempBaos.toByteArray( );
@@ -354,13 +368,11 @@ public class RDSave
 		OutputStream outputStream = context.getOutputStream( queryResultID,
 				subQueryID,
 				DataEngineContext.EXPR_META_STREAM );
-		BufferedOutputStream bos = new BufferedOutputStream( outputStream );
 
-		ExprMetaUtil.saveExprMetaInfo( queryDefn, bos );
+		ExprMetaUtil.saveExprMetaInfo( queryDefn, outputStream );
 
 		try
 		{
-			bos.close( );
 			outputStream.close( );
 		}
 		catch ( IOException e )
@@ -377,13 +389,11 @@ public class RDSave
 		OutputStream outputStream = context.getOutputStream( queryResultID,
 				subQueryID,
 				DataEngineContext.TRANSFORM_INFO_STREAM );
-		BufferedOutputStream bos = new BufferedOutputStream( outputStream );
 
-		TransformUtil.saveBaseQuery( queryDefn, bos );
+		TransformUtil.saveBaseQuery( queryDefn, outputStream );
 
 		try
 		{
-			bos.close( );
 			outputStream.close( );
 		}
 		catch ( IOException e )

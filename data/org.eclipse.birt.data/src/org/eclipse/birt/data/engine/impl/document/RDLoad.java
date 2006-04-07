@@ -252,7 +252,7 @@ class RDLoad
 			if ( readIndex < currPos )
 			{
 				this.skipTo( currPos - 1 );
-				this.loadCurrentRow( );
+				this.initCurrentRow( );
 			}
 			readIndex = currPos;
 		}
@@ -281,7 +281,7 @@ class RDLoad
 			if ( readIndex < currPos )
 			{
 				this.skipTo( currPos - 1 );
-				this.loadCurrentRow( );
+				this.initCurrentRow( );
 			}
 			readIndex = currPos;
 		}
@@ -391,15 +391,37 @@ class RDLoad
 	/**
 	 * @throws IOException
 	 */
-	private void loadCurrentRow( ) throws IOException
+	private void initCurrentRow( ) throws IOException
 	{
 		exprValueMap.clear( );
-		int exprCount = IOUtil.readInt( rowDis );
-		for ( int i = 0; i < exprCount; i++ )
+		if ( version == VersionManager.VERSION_2_0 )
 		{
-			String exprID = IOUtil.readString( rowDis );
-			Object exprValue = IOUtil.readObject( rowDis );
-			exprValueMap.put( exprID, exprValue );
+			int exprCount = IOUtil.readInt( rowDis );
+			for ( int i = 0; i < exprCount; i++ )
+			{
+				String exprID = IOUtil.readString( rowDis );
+				Object exprValue = IOUtil.readObject( rowDis );
+				exprValueMap.put( exprID, exprValue );
+			}
+		}
+		else
+		{
+			if ( rowDis.available( ) > 0 )
+			{
+				while ( true )
+				{
+					if ( IOUtil.readInt( rowDis ) == RDSave.columnSeparator )
+					{
+						String exprID = IOUtil.readString( rowDis );
+						Object exprValue = IOUtil.readObject( rowDis );
+						exprValueMap.put( exprID, exprValue );
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
 		}
 	}
 	

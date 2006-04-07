@@ -200,49 +200,22 @@ public class CachedResultSet implements IResultIterator
 		assert groupInfoStream != null;
 		
 		// save group info
-		BufferedOutputStream giBos = new BufferedOutputStream( groupInfoStream );
 		this.resultSetPopulator.getGroupProcessorManager( )
 				.getGroupCalculationUtil( )
-				.doSave( giBos );
-		try
-		{
-			giBos.close( );
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
-		}
+				.doSave( groupInfoStream );
 		
 		// save result class
 		if ( isSubQuery == false )
 		{
 			assert resultClassStream != null;
-			BufferedOutputStream rcBos = new BufferedOutputStream( resultClassStream );
-			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( rcBos );
-			try
-			{
-				rcBos.close( );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
-			}
+			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( resultClassStream );
 		}
 		
 		// TODO: temp logic
 		if ( dataSetDataStream != null )
 		{
 			// save data
-			BufferedOutputStream dataBos = new BufferedOutputStream( dataSetDataStream );
-			this.resultSetPopulator.getCache( ).doSave( dataBos );
-			try
-			{
-				dataBos.close( );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
-			}
+			this.resultSetPopulator.getCache( ).doSave( dataSetDataStream );
 		}
 	}
 	

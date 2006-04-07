@@ -100,16 +100,14 @@ public class RDSubQueryUtil
 
 		try
 		{
-			BufferedOutputStream bos = new BufferedOutputStream( stream );
+			IOUtil.writeInt( stream, groupLevel );
 
-			IOUtil.writeInt( bos, groupLevel );
-			
 			int size = subQueryInfo.length;
-			IOUtil.writeInt( bos, size );
+			IOUtil.writeInt( stream, size );
 			for ( int i = 0; i < size; i++ )
-				IOUtil.writeInt( bos, subQueryInfo[i] );
+				IOUtil.writeInt( stream, subQueryInfo[i] );
 
-			bos.close( );
+			stream.close( );
 		}
 		catch ( IOException e )
 		{
