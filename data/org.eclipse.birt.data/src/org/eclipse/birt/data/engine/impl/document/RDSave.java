@@ -89,7 +89,7 @@ public class RDSave
 	/**
 	 * init save environment
 	 */
-	private void initSave( ) throws DataException
+	private void initSave( boolean finish ) throws DataException
 	{
 		if ( rowDos == null )
 		{
@@ -107,8 +107,14 @@ public class RDSave
 			
 			try
 			{
+				int totalRowCount = 0;
+				if ( finish == true )
+					totalRowCount = rowCount;
+				else
+					totalRowCount = rowCount == 0 ? 1 : rowCount;
+				
 				// TODO: enhance me
-				IOUtil.writeInt( rowDos, rowCount == 0 ? 1 : rowCount );
+				IOUtil.writeInt( rowDos, totalRowCount );
 			}
 			catch ( IOException e )
 			{
@@ -128,7 +134,7 @@ public class RDSave
 	public void saveExprValue( int currIndex, String exprID, Object exprValue )
 			throws DataException
 	{
-		initSave( );
+		initSave( false );
 
 		if ( currIndex != lastRowIndex )
 		{
@@ -197,7 +203,7 @@ public class RDSave
 	 */
 	public void saveFinish( int currIndex ) throws DataException
 	{
-		initSave( );
+		initSave( true );
 		
 		try
 		{
