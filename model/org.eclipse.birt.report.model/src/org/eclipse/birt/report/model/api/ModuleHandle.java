@@ -1655,6 +1655,20 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		return generateHandleList( elementList );
 	}
+	
+	/**
+	 * Returns all theme element handles that this module contain.
+	 * 
+	 * @return all theme element handles that this module contain.
+	 */
+
+	public List getVisibleThemes( )
+	{
+		List elementList = module.getModuleNameSpace( Module.THEME_NAME_SPACE )
+				.getElements( IModuleNameSpace.NATIVE_LEVEL );
+
+		return generateHandleList( elementList );
+	}
 
 	/**
 	 * Returns all data source handles that this modules and the included
