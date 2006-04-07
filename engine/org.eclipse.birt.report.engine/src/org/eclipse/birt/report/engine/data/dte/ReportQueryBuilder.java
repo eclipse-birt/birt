@@ -85,7 +85,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.51 $ $Date: 2006/03/31 09:54:22 $
+ * @version $Revision: 1.52 $ $Date: 2006/04/06 12:35:24 $
  */
 public class ReportQueryBuilder
 {
@@ -733,6 +733,14 @@ public class ReportQueryBuilder
 			}
 
 			item.setQuery( query );
+			
+			if ( item instanceof ListingDesign )
+			{
+				query.getSorts( )
+						.addAll( createSorts( (ListingDesign) item ) );
+				query.getFilters( )
+						.addAll( createFilters( (ListingDesign) item ) );
+			}
 			return query;
 		}
 
@@ -748,7 +756,7 @@ public class ReportQueryBuilder
 				// no parent query exits, so create a empty query for it.
 				query = new QueryDefinition( getParentQuery( ) );
 				this.queryIDs.put( query, String.valueOf( item.getID( ) ) );
-				this.queries.add( query );
+				this.queries.add( query );				
 			}
 			else
 			{
@@ -765,6 +773,14 @@ public class ReportQueryBuilder
 				ComputedColumnHandle binding = (ComputedColumnHandle) iter
 						.next( );
 				addColumBinding( query, binding );
+			}
+			
+			if ( item instanceof ListingDesign )
+			{
+				query.getSorts( )
+						.addAll( createSorts( (ListingDesign) item ) );
+				query.getFilters( )
+						.addAll( createFilters( (ListingDesign) item ) );
 			}
 
 			return query;
