@@ -2754,6 +2754,7 @@
     <Property displayNameID="Element.Column.suppressDuplicates" name="suppressDuplicates" since="2.1" type="boolean">
       <Default>false</Default>
     </Property>
+    <Property detailType="HideRule" displayNameID="Element.Column.visibility" isList="true" name="visibility" since="2.1" type="structure"/>	  
     <StyleProperty name="fontFamily"/>
     <StyleProperty name="fontSize"/>
     <StyleProperty name="fontStyle"/>

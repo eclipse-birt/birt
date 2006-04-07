@@ -1547,7 +1547,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, TableColumn.WIDTH_PROP );
 		property( obj, TableColumn.REPEAT_PROP );
 		property( obj, TableColumn.SUPPRESS_DUPLICATES_PROP );
-
+		writeStructureList( obj, TableColumn.VISIBILITY_PROP );
+		
 		writeStyle( obj );
 
 		writer.endElement( );

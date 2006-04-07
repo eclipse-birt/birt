@@ -31,7 +31,7 @@ public interface ITableColumnModel
 	 */
 
 	public static final String WIDTH_PROP = "width"; //$NON-NLS-1$
-	
+
 	/**
 	 * Property name for the reference to the shared style.
 	 */
@@ -43,5 +43,12 @@ public interface ITableColumnModel
 	 */
 
 	public static final String SUPPRESS_DUPLICATES_PROP = "suppressDuplicates"; //$NON-NLS-1$
+
+	/**
+	 * Name of the visibility property. That is used to hide/how one column for
+	 * different outputs.
+	 */
+
+	public static final String VISIBILITY_PROP = "visibility"; //$NON-NLS-1$
 
 }

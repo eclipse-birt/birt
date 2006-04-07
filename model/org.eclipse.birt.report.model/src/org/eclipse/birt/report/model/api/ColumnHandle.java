@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.TableColumn;
+import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
 /**
@@ -149,5 +152,22 @@ public class ColumnHandle extends ReportElementHandle
 		{
 			assert false;
 		}
+	}
+	
+	/**
+	 * Returns visibility rules defined on the table column. The element in the
+	 * iterator is the corresponding <code>StructureHandle</code> that deal
+	 * with a <code>HideRuleHandle</code> in the list.
+	 * 
+	 * @return the iterator for visibility rules.
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.HideRule
+	 */
+
+	public Iterator visibilityRulesIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( TableRow.VISIBILITY_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
 	}
 }
