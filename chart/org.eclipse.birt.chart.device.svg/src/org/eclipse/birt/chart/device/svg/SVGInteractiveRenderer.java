@@ -801,12 +801,14 @@ public class SVGInteractiveRenderer
 				{
 					iter = components.iterator( );
 					appendArguments( sb, iter );	
+					if ( includeLabels && labelComponents != null )
+					{
+						sb.append( "), new Array(" ); //$NON-NLS-1$
+					}
 				}
 				// Apply action to labels 
 				if ( includeLabels && labelComponents != null)
 				{
-					if ( components.size( ) > 0 && labelComponents.size( ) > 0 && includeGraphics)
-						sb.append( "," ); //$NON-NLS-1$
 					iter = labelComponents.iterator( );
 					appendArguments( sb, iter );
 				}

@@ -243,6 +243,7 @@ public final class EventHandlers
 			.append( "        if (labelList != null){\n" ) //$NON-NLS-1$
 		.append( "    for (i = 0; i < labelList.length; i=i+1){\n" ) //$NON-NLS-1$
 			.append( "         var comp = mainSvg.getElementById(id+'_'+labelList[i]+'_g');\n" ) //$NON-NLS-1$
+			.append( "         if ( comp == null ) continue;\n")		//$NON-NLS-1$			
 			.append( "         var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
 			.append( "        if (isHidden){\n" ) //$NON-NLS-1$
 			.append( "                styleStr = styleStr + \"visibility:hidden;\";\n" ) //$NON-NLS-1$
