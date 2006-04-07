@@ -533,8 +533,8 @@ public class JDBCSelectionPageHelper
 						}
 					} );
 				}
-
-				testButton.setEnabled( true );
+				
+				updateTestButton( );
 				manageButton.setEnabled( true );
 			}
 		} );
