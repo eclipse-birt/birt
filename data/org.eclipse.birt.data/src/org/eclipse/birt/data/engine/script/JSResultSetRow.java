@@ -74,7 +74,7 @@ public class JSResultSetRow extends ScriptableObject
 	 */
 	public boolean has( int index, Scriptable start )
 	{
-		throw new IllegalArgumentException( "Put value on result set row is not supported." );
+		return this.has( String.valueOf( index ), start );
 	}
 
 	/*
@@ -92,7 +92,7 @@ public class JSResultSetRow extends ScriptableObject
 	 */
 	public Object get( int index, Scriptable start )
 	{
-		throw new IllegalArgumentException( "Put value on result set row is not supported." );
+		return this.get( String.valueOf( index ), start );
 	}
 
 	/**
