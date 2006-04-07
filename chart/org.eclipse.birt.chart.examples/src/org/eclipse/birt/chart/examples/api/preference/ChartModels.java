@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.chart.examples.api.preference;
 
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -59,7 +60,6 @@ public class ChartModels
 
 		// Legend
 		Legend lg = cwaBar.getLegend( );
-		lg.getText( ).getFont( ).setSize( 16 );
 		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
 
 		// X-Axis

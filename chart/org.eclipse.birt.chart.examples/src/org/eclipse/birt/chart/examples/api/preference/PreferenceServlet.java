@@ -10,11 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.chart.examples.api.preference;
 
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Enumeration;
+
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,7 +30,6 @@ import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -39,6 +40,16 @@ public class PreferenceServlet extends HttpServlet
 	private static final long serialVersionUID = 1L;
 
 	private Chart cm = null;
+	
+	private String fontName = null;
+	
+	private float size = (float)0.0;
+	
+	private boolean bBold = true;
+	
+	private boolean bItalic = false;
+	
+	private ColorDefinition cd = null;
 
 	private IDeviceRenderer idr = null;
 
@@ -68,38 +79,36 @@ public class PreferenceServlet extends HttpServlet
 		}
 
 		cm = ChartModels.createBarChart( );
-
+		
 		Enumeration en = request.getParameterNames( );
 		while ( en.hasMoreElements( ) )
 		{
 			String name = (String) en.nextElement( );
 			String value = request.getParameterValues( name )[0];
 
-			Text text = cm.getTitle( ).getLabel( ).getCaption( );
 			if ( name.equals( "fonts" ) )//$NON-NLS-1$
 			{
-				text.getFont( ).setName( value );
+				fontName = value;
 			}
 			else if ( name.equals( "style" ) )//$NON-NLS-1$
 			{
 				if ( value.equals( "Bold" ) )//$NON-NLS-1$
 				{
-					text.getFont( ).setBold( true );
+					bBold = true;
+					bItalic = false;
 				}
 				else if ( value.equals( "Italic" ) )//$NON-NLS-1$
 				{
-					text.getFont( ).setBold( false );
-					text.getFont( ).setItalic( true );
+					bBold = false;
+					bItalic = true;
 				}
 			}
 			else if ( name.equals( "size" ) )//$NON-NLS-1$
 			{
-				float size = Float.parseFloat( value );
-				text.getFont( ).setSize( size );
+				size = Float.parseFloat( value );				
 			}
 			else if ( name.equals( "color" ) )//$NON-NLS-1$
 			{
-				ColorDefinition cd = null;
 				if ( value.equals( "Black" ) ) //$NON-NLS-1$
 				{
 					cd = ColorDefinitionImpl.BLACK( );
@@ -112,8 +121,8 @@ public class PreferenceServlet extends HttpServlet
 				{
 					cd = ColorDefinitionImpl.BLUE( );
 				}
-				text.setColor( cd );
 			}
+
 		}
 
 		response.setHeader( "Cache-Control", "no-store" ); //$NON-NLS-1$//$NON-NLS-2$
@@ -158,7 +167,7 @@ public class PreferenceServlet extends HttpServlet
 					bo,
 					null,
 					null,
-					null ) );
+					new LabelStyleProcessor( fontName, size, bBold, bItalic, cd ) ) );
 		}
 		catch ( ChartException ex )
 		{
