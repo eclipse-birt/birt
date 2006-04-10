@@ -19,12 +19,12 @@ import java.util.List;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.DataSetColumnBindingsFormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SortingHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.Spinner;
@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -42,7 +43,10 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -78,7 +82,7 @@ import org.eclipse.swt.widgets.Text;
  * Group Properties Dialog
  */
 
-public class GroupDialog extends BaseDialog
+public class GroupDialog extends BaseDialog implements Listener
 {
 
 	private static final String GROUP_DLG_GROUP_FILTER_SORTING = Messages.getString( "GroupDialog.Label.FilterSorting" ); //$NON-NLS-1$
@@ -91,9 +95,11 @@ public class GroupDialog extends BaseDialog
 
 	private static final String GROUP_DLG_GROUP_NAME_LABEL = Messages.getString( "GroupDialog.Label.Name" ); //$NON-NLS-1$
 
+	private static final String TAB_BINDING = Messages.getString( "GroupDialog.Tab.Binding" ); //$NON-NLS-1$
+
 	private static final String TAB_SORTING = Messages.getString( "GroupDialog.Tab.Sorting" ); //$NON-NLS-1$
 
-	private static final String TAB_FILTER = Messages.getString( "GroupDialog.Tab.Filter" ); //$NON-NLS-1$
+	private static final String TAB_FILTER = Messages.getString( "GroupDialog.Tab.Filter" ); //$NON-NLS-1$	
 
 	private static final String GROUP_DLG_INCLUDE_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.IncludeFooter" ); //$NON-NLS-1$
 
@@ -101,7 +107,7 @@ public class GroupDialog extends BaseDialog
 
 	private static final String GROUP_DLG_HEADER_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.HeaderFooter" ); //$NON-NLS-1$
 
-	public static final String GROUP_DLG_INTERVAL_BASE_LABEL = Messages.getString( "GroupDialog.Label.IntervalBase" ); //$NON-NLS-1$
+	private static final String GROUP_DLG_INTERVAL_BASE_LABEL = Messages.getString( "GroupDialog.Label.IntervalBase" ); //$NON-NLS-1$
 
 	private static final String GROUP_DLG_AREA_MSG = Messages.getString( "GroupDialog.Dialog.GroupDetail" ); //$NON-NLS-1$
 
@@ -110,7 +116,7 @@ public class GroupDialog extends BaseDialog
 	public static final String GROUP_DLG_TITLE_EDIT = Messages.getString( "GroupDialog.Title.Edit" ); //$NON-NLS-1$
 
 	public static final String GROUP_DLG_HIDE_DETAIL = Messages.getString( "GroupDialog.buttion.HideDetail" );
-	private List dataSetList = null, columnList;
+	private List columnList;
 
 	private GroupHandle inputGroup;
 
@@ -128,8 +134,6 @@ public class GroupDialog extends BaseDialog
 	 * The spinner to choose interval range;
 	 */
 	private Spinner intervalRange;
-
-	private FormPage filterPage, sortPage;
 
 	/**
 	 * The include check box and sorting direction radio box
@@ -196,7 +200,7 @@ public class GroupDialog extends BaseDialog
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
-		Assert.isNotNull( dataSetList );
+		// Assert.isNotNull( dataSetList );
 
 		Composite topComposite = (Composite) super.createDialogArea( parent );
 		createTitleArea( topComposite );
@@ -318,11 +322,7 @@ public class GroupDialog extends BaseDialog
 		new Label( composite, SWT.NONE ).setText( GROUP_DLG_GROUP_KEY_LABEL );
 
 		// Creates group key chooser
-		Composite keyArea = new Composite( composite, SWT.NONE );
-		keyArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		keyArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
-
-		keyChooser = new Combo( keyArea, SWT.DROP_DOWN );
+		keyChooser = new Combo( composite, SWT.DROP_DOWN | SWT.READ_ONLY );
 		keyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		keyChooser.addModifyListener( new ModifyListener( ) {
 
@@ -332,22 +332,6 @@ public class GroupDialog extends BaseDialog
 					resetInterval( );
 			}
 
-		} );
-		Button exprButton = new Button( keyArea, SWT.PUSH );
-		exprButton.setText( "..." ); //$NON-NLS-1$
-		exprButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent event )
-			{
-
-				ExpressionBuilder expressionBuilder = new ExpressionBuilder( getKeyExpression( ) );
-				expressionBuilder.setExpressionProvier( new ExpressionProvider( inputGroup ) );
-
-				if ( expressionBuilder.open( ) == OK )
-				{
-					setKeyExpression( expressionBuilder.getResult( ).trim( ) );
-				}
-			}
 		} );
 
 		// Creates intervalRange area
@@ -515,8 +499,15 @@ public class GroupDialog extends BaseDialog
 		TabFolder tab = new TabFolder( group, SWT.TOP );
 		tab.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
+		TabItem bindingItem = new TabItem( tab, SWT.NONE );
+		FormPage bindingPage = new DataSetColumnBindingsFormPage( tab,
+				new DataSetColumnBindingsFormHandleProvider( ) );
+		bindingPage.setInput( list );
+		bindingItem.setText( TAB_BINDING );
+		bindingItem.setControl( bindingPage );
+
 		TabItem filterItem = new TabItem( tab, SWT.NONE );
-		filterPage = new FormPage( tab,
+		FormPage filterPage = new FormPage( tab,
 				FormPage.NORMAL_FUNCTION,
 				new FilterHandleProvider( ) {
 
@@ -532,7 +523,7 @@ public class GroupDialog extends BaseDialog
 		filterItem.setControl( filterPage );
 
 		TabItem sortItem = new TabItem( tab, SWT.NONE );
-		sortPage = new FormPage( tab,
+		FormPage sortPage = new FormPage( tab,
 				FormPage.NORMAL_FUNCTION,
 				new SortingHandleProvider( ) {
 
@@ -559,12 +550,7 @@ public class GroupDialog extends BaseDialog
 		{
 			nameEditor.setText( inputGroup.getName( ) );
 		}
-		columnList = DEUtil.getBingdingColumnList( inputGroup );
-		Iterator itor = columnList.iterator( );
-		while ( itor.hasNext( ) )
-		{
-			keyChooser.add( ( (ComputedColumnHandle) itor.next( ) ).getName( ) );
-		}
+		refreshColumnList( );
 		setKeyExpression( inputGroup.getKeyExpr( ) );
 
 		int index = getIntervalTypeIndex( inputGroup.getInterval( ) );
@@ -633,7 +619,19 @@ public class GroupDialog extends BaseDialog
 		}
 
 		hideDetail.setSelection( inputGroup.hideDetail( ) );
+
+		inputGroup.addListener( this );
 		return true;
+	}
+
+	private void refreshColumnList( )
+	{
+		columnList = DEUtil.getBingdingColumnList( inputGroup );
+		Iterator itor = columnList.iterator( );
+		while ( itor.hasNext( ) )
+		{
+			keyChooser.add( ( (ComputedColumnHandle) itor.next( ) ).getName( ) );
+		}
 	}
 
 	private int getPagebreakAfterIndex( String pageBreakAfter )
@@ -709,7 +707,7 @@ public class GroupDialog extends BaseDialog
 
 			int index = keyChooser.getSelectionIndex( );
 			String oldKeyExpr = inputGroup.getKeyExpr( );
-			String newKeyExpr = getKeyExpression( );
+			String newKeyExpr = keyChooser.getText( );
 
 			inputGroup.setKeyExpr( newKeyExpr );
 			if ( newKeyExpr != null
@@ -717,9 +715,12 @@ public class GroupDialog extends BaseDialog
 					&& !newKeyExpr.equals( oldKeyExpr ) )
 			{
 				SlotHandle slotHandle = null;
+				// SlotHandle headerHandle = null;
 				if ( inputGroup instanceof ListGroupHandle )
 				{
 					slotHandle = inputGroup.getHeader( );
+					// headerHandle = ( (ListHandle) inputGroup.getContainer( )
+					// ).getHeader( );
 				}
 				else if ( inputGroup instanceof TableGroupHandle )
 				{
@@ -731,21 +732,24 @@ public class GroupDialog extends BaseDialog
 								.get( 0 );
 						slotHandle = cellHandle.getContent( );
 					}
+					// headerHandle = ( (TableHandle) inputGroup.getContainer( )
+					// ).getHeader( );
+					// if ( headerHandle.getCount( ) != 0 )
+					// {
+					// headerHandle = ( (RowHandle) headerHandle.get( 0 )
+					// ).getCells( );
+					// if ( headerHandle.getCount( ) != 0 )
+					// {
+					// headerHandle = ( (CellHandle) headerHandle.get( 0 )
+					// ).getContent( );
+					// }
+					// }
 				}
-				if ( slotHandle != null )
+				if ( slotHandle != null && index != -1 )
 				{
-					Object insertObject;
-					if ( index == -1 )
-					{
-						insertObject = newKeyExpr.trim( );
-					}
-					else
-					{
-						insertObject = columnList.get( index );
-					}
-					DesignElementHandle dataItemHandle = InsertInLayoutUtil.performInsert( insertObject,
-							slotHandle,
-							inputGroup.getContainer( ) );
+					DataItemHandle dataItemHandle = inputGroup.getElementFactory( )
+							.newDataItem( null );
+					dataItemHandle.setResultSetColumn( ( (ComputedColumnHandle) columnList.get( index ) ).getName( ) );
 					slotHandle.add( dataItemHandle );
 				}
 			}
@@ -862,30 +866,8 @@ public class GroupDialog extends BaseDialog
 			keyChooser.setText( "" ); //$NON-NLS-1$
 
 			return;
-		}
-		for ( int i = 0; i < columnList.size( ); i++ )
-		{
-			if ( key.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
-			{
-				keyChooser.select( i );
-				return;
-			}
-		}
+		}		
 		keyChooser.setText( key );
-	}
-
-	private String getKeyExpression( )
-	{
-		String exp = null;
-		if ( keyChooser.getSelectionIndex( ) != -1 )
-		{
-			exp = DEUtil.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ) );
-		}
-		else
-		{
-			exp = keyChooser.getText( ).trim( );
-		}
-		return exp;
 	}
 
 	/**
@@ -894,7 +876,7 @@ public class GroupDialog extends BaseDialog
 	 */
 	private void resetInterval( )
 	{
-		String currentKeyExpression = getKeyExpression( ).trim( );
+		String currentKeyExpression = keyChooser.getText( );
 		if ( previoiusKeyExpression.equals( currentKeyExpression ) )
 			return;
 
@@ -1062,6 +1044,24 @@ public class GroupDialog extends BaseDialog
 		intervalRange.setEnabled( bool );
 		intervalBaseButton.setEnabled( bool );
 		intervalBaseText.setEnabled( bool );
+	}
+
+	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+	{
+		if ( ev instanceof PropertyEvent )
+		{
+			if ( GroupHandle.BOUND_DATA_COLUMNS_PROP.equals( ( (PropertyEvent) ev ).getPropertyName( ) ) )
+			{
+				refreshColumnList( );
+			}
+		}
+
+	}
+
+	public boolean close( )
+	{
+		inputGroup.removeListener( this );
+		return super.close( );
 	}
 
 }
