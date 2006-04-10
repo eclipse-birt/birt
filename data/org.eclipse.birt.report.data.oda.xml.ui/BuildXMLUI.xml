@@ -75,7 +75,7 @@
 		<fileset dir="${oda.xml.dir}">
 			<include name="${oda.xml.jar}"/>
 		</fileset>
-		<fileset dir="${oda.designer.ui.dir}">
+<!--	<fileset dir="${oda.designer.ui.dir}">
 			<include name="${oda.designer.ui.jar}"/>
 		</fileset>
 		<fileset dir="${oda.connectivity.ui.dir}">
@@ -84,7 +84,7 @@
 		<fileset dir="${oda.designer.dir}">
 			<include name="${oda.designer.jar}" />
 		</fileset>
-		<!-- dependend on eclipse due to Plugin class -->
+-->		<!-- dependend on eclipse due to Plugin class -->
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>

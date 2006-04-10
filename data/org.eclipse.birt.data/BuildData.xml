@@ -101,13 +101,13 @@
 		<fileset dir="${core.dir}/lib">
 			<include name="*.jar"/>
 		</fileset>
-		<fileset dir="${dtp.oda.dir}">
+<!--	<fileset dir="${dtp.oda.dir}">
 			<include name="oda.jar"/>
 		</fileset>
 		<fileset dir="${dtp.oda.consumer.dir}">
 			<include name="odaconsumer-helper.jar"/>
 		</fileset>
-		<fileset dir="${birt.oda.dir}">
+-->		<fileset dir="${birt.oda.dir}">
 			<include name="oda.jar"/>
 		</fileset>	
 		<fileset dir="${oda.jdbc.dir}">

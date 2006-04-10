@@ -75,7 +75,7 @@
 		<fileset dir="${oda.jdbc.dir}">
 			<include name="${oda.jdbc.jar}"/>
 		</fileset>
-		<fileset dir="${oda.connectivity.ui.dir}">
+<!--	<fileset dir="${oda.connectivity.ui.dir}">
 			<include name="${oda.connectivity.ui.jar}" />
 		</fileset>
 		<fileset dir="${oda.designer.dir}">
@@ -84,7 +84,7 @@
 		<fileset dir="${oda.designer.ui.dir}">
 			<include name="${oda.designer.ui.jar}" />
 		</fileset>
-		<fileset dir="${org.apache.commons.codec.dir}">
+-->		<fileset dir="${org.apache.commons.codec.dir}">
 			<include name="*/*.jar"/>
 		</fileset>
 

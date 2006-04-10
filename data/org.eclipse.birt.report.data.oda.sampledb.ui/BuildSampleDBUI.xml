@@ -81,7 +81,7 @@
 		<fileset dir="${sampledb.dir}">
 			<include name="${sampledb.jar}"/>
 		</fileset>
-		<fileset dir="${oda.designer.ui.dir}">
+<!--	<fileset dir="${oda.designer.ui.dir}">
 			<include name="${oda.designer.ui.jar}"/>
 		</fileset>
 		<fileset dir="${oda.connectivity.ui.dir}">
@@ -90,7 +90,7 @@
 		<fileset dir="${oda.designer.dir}">
 			<include name="${oda.designer.jar}" />
 		</fileset>
-		<fileset dir="${eclipse.home}/plugins">
+-->		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.swt*/**/swt.jar" /> 
 			<include name="org.eclipse.swt*.jar" /> 
 		</fileset>

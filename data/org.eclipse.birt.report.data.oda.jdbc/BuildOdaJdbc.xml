@@ -95,10 +95,10 @@
 			<include name="core.jar"/>
 			<include name="lib/*.jar"/>
 		</fileset>
-		<fileset dir="${dtp.oda.dir}">
+<!--	<fileset dir="${dtp.oda.dir}">
 			<include name="oda.jar"/>
 		</fileset>
-		<fileset dir=".">
+-->		<fileset dir=".">
 			<include name="*.jar"/>
 		</fileset>
 
