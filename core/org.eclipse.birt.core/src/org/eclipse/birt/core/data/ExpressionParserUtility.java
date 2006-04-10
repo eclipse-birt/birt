@@ -195,21 +195,25 @@ class ExpressionParserUtility
 		if ( refNode.getType( ) == Token.GETPROP
 				&& rowColumn.getType( ) == Token.STRING )
 		{
-			columnExprList.add( DATASETROW_INDICATOR
-					+ "[\"" + rowColumn.getString( ) + "\"]" );
+			ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
+					DATASETROW_INDICATOR
+							+ "[\"" + rowColumn.getString( ) + "\"]" );
+			columnExprList.add( binding );
 		}
 
 		if ( refNode.getType( ) == Token.GETELEM )
 		{
 			if ( rowColumn.getType( ) == Token.NUMBER )
 			{
-				columnExprList.add( DATASETROW_INDICATOR
-						+ "[" + (int) rowColumn.getDouble( ) + "]" );
+//				columnExprList.add( DATASETROW_INDICATOR
+//						+ "[" + (int) rowColumn.getDouble( ) + "]" );
 			}
 			else if ( rowColumn.getType( ) == Token.STRING )
 			{
-				columnExprList.add( DATASETROW_INDICATOR
-						+ "[\"" + rowColumn.getString( ) + "\"]" );
+				ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
+						DATASETROW_INDICATOR
+								+ "[\"" + rowColumn.getString( ) + "\"]" );
+				columnExprList.add( binding );
 			}
 		}
 	}
