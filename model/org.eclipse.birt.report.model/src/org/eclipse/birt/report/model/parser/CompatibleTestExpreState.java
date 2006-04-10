@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.xml.sax.SAXException;
@@ -23,81 +24,81 @@ import org.xml.sax.SAXException;
  * old design file:
  * 
  * <pre>
- *        
- *         
- *          &lt;expression name=&quot;highlightTestExpr&quot;&gt;[this]&lt;/expression&gt;
- *          &lt;list-property name=&quot;highlightRules&quot;&gt;
- *          &lt;structure&gt;
- *          &lt;property name=&quot;operator&quot;&gt;is-null&lt;/property&gt;
- *          &lt;structure name=&quot;dateTimeFormat&quot;&gt;
- *          &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
- *          &lt;property name=&quot;pattern&quot;&gt;yyyy/mm/dd&lt;/property&gt;
- *          &lt;/structure&gt;
- *          &lt;structure name=&quot;numberFormat&quot;&gt;
- *          &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
- *          &lt;/structure&gt;
- *          &lt;structure name=&quot;stringFormat&quot;&gt;
- *          &lt;property name=&quot;category&quot;&gt;noformat&lt;/property&gt;
- *          &lt;/structure&gt;
- *          &lt;expression name=&quot;value1&quot;&gt;&quot;10&quot;&lt;/expression&gt;
- *          &lt;expression name=&quot;value2&quot;&gt;&quot;20&quot;&lt;/expression&gt;         
- *          &lt;/structure&gt;
- *          &lt;structure&gt;
- *          &lt;property name=&quot;operator&quot;&gt;is-null&lt;/property&gt;         
- *          &lt;/structure&gt;
- *          &lt;structure&gt;
- *          &lt;property name=&quot;operator&quot;&gt;is-not-null&lt;/property&gt;                   
- *          &lt;/structure&gt;
- *          &lt;structure&gt;
- *          &lt;property name=&quot;operator&quot;&gt;is-true&lt;/property&gt;                  
- *          &lt;/structure&gt;
- *          &lt;structure&gt;
- *          &lt;property name=&quot;operator&quot;&gt;is-false&lt;/property&gt;                
- *          &lt;/structure&gt;
- *          &lt;/list-property&gt;
  *          
- *         
+ *           
+ *            &lt;expression name=&quot;highlightTestExpr&quot;&gt;[this]&lt;/expression&gt;
+ *            &lt;list-property name=&quot;highlightRules&quot;&gt;
+ *            &lt;structure&gt;
+ *            &lt;property name=&quot;operator&quot;&gt;is-null&lt;/property&gt;
+ *            &lt;structure name=&quot;dateTimeFormat&quot;&gt;
+ *            &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
+ *            &lt;property name=&quot;pattern&quot;&gt;yyyy/mm/dd&lt;/property&gt;
+ *            &lt;/structure&gt;
+ *            &lt;structure name=&quot;numberFormat&quot;&gt;
+ *            &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
+ *            &lt;/structure&gt;
+ *            &lt;structure name=&quot;stringFormat&quot;&gt;
+ *            &lt;property name=&quot;category&quot;&gt;noformat&lt;/property&gt;
+ *            &lt;/structure&gt;
+ *            &lt;expression name=&quot;value1&quot;&gt;&quot;10&quot;&lt;/expression&gt;
+ *            &lt;expression name=&quot;value2&quot;&gt;&quot;20&quot;&lt;/expression&gt;         
+ *            &lt;/structure&gt;
+ *            &lt;structure&gt;
+ *            &lt;property name=&quot;operator&quot;&gt;is-null&lt;/property&gt;         
+ *            &lt;/structure&gt;
+ *            &lt;structure&gt;
+ *            &lt;property name=&quot;operator&quot;&gt;is-not-null&lt;/property&gt;                   
+ *            &lt;/structure&gt;
+ *            &lt;structure&gt;
+ *            &lt;property name=&quot;operator&quot;&gt;is-true&lt;/property&gt;                  
+ *            &lt;/structure&gt;
+ *            &lt;structure&gt;
+ *            &lt;property name=&quot;operator&quot;&gt;is-false&lt;/property&gt;                
+ *            &lt;/structure&gt;
+ *            &lt;/list-property&gt;
+ *            
+ *           
  * </pre>
  * 
  * new design file:
  * 
  * <pre>
- *        
- *          &lt;list-property name=&quot;highlightRules&quot;&gt;
- *         &lt;structure&gt;
- *         &lt;property name=&quot;operator&quot;&gt;is-null&lt;/property&gt;
- *         &lt;structure name=&quot;dateTimeFormat&quot;&gt;
- *         &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
- *         &lt;property name=&quot;pattern&quot;&gt;yyyy/mm/dd&lt;/property&gt;
- *         &lt;/structure&gt;
- *         &lt;structure name=&quot;numberFormat&quot;&gt;
- *         &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
- *         &lt;/structure&gt;
- *         &lt;structure name=&quot;stringFormat&quot;&gt;
- *         &lt;property name=&quot;category&quot;&gt;noformat&lt;/property&gt;
- *         &lt;/structure&gt;
- *         &lt;expression name=&quot;testExpr&quot;&gt;[this]&lt;/expression&gt;
- *         &lt;expression name=&quot;value1&quot;&gt;&quot;10&quot;&lt;/expression&gt;
- *         &lt;expression name=&quot;value2&quot;&gt;&quot;20&quot;&lt;/expression&gt;
- *         &lt;/structure&gt;
- *         &lt;structure&gt;
- *         &lt;property name=&quot;operator&quot;&gt;is-null&lt;/property&gt;
- *         &lt;expression name=&quot;testExpr&quot;&gt;[this]&lt;/expression&gt;
- *         &lt;/structure&gt;
- *         &lt;structure&gt;
- *         &lt;property name=&quot;operator&quot;&gt;is-not-null&lt;/property&gt;
- *         &lt;expression name=&quot;testExpr&quot;&gt;[this]&lt;/expression&gt;
- *         &lt;/structure&gt;
- *         &lt;structure&gt;
- *         &lt;property name=&quot;operator&quot;&gt;is-true&lt;/property&gt;
- *         &lt;expression name=&quot;testExpr&quot;&gt;[this]&lt;/expression&gt;
- *         &lt;/structure&gt;
- *         &lt;structure&gt;
- *         &lt;property name=&quot;operator&quot;&gt;is-false&lt;/property&gt;
- *         &lt;expression name=&quot;testExpr&quot;&gt;[this]&lt;/expression&gt;
- *         &lt;/structure&gt;
- *         &lt;/list-property&gt;
- *         
+ *          
+ *            &lt;list-property name=&quot;highlightRules&quot;&gt;
+ *           &lt;structure&gt;
+ *           &lt;property name=&quot;operator&quot;&gt;is-null&lt;/property&gt;
+ *           &lt;structure name=&quot;dateTimeFormat&quot;&gt;
+ *           &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
+ *           &lt;property name=&quot;pattern&quot;&gt;yyyy/mm/dd&lt;/property&gt;
+ *           &lt;/structure&gt;
+ *           &lt;structure name=&quot;numberFormat&quot;&gt;
+ *           &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
+ *           &lt;/structure&gt;
+ *           &lt;structure name=&quot;stringFormat&quot;&gt;
+ *           &lt;property name=&quot;category&quot;&gt;noformat&lt;/property&gt;
+ *           &lt;/structure&gt;
+ *           &lt;expression name=&quot;testExpr&quot;&gt;[this]&lt;/expression&gt;
+ *           &lt;expression name=&quot;value1&quot;&gt;&quot;10&quot;&lt;/expression&gt;
+ *           &lt;expression name=&quot;value2&quot;&gt;&quot;20&quot;&lt;/expression&gt;
+ *           &lt;/structure&gt;
+ *           &lt;structure&gt;
+ *           &lt;property name=&quot;operator&quot;&gt;is-null&lt;/property&gt;
+ *           &lt;expression name=&quot;testExpr&quot;&gt;[this]&lt;/expression&gt;
+ *           &lt;/structure&gt;
+ *           &lt;structure&gt;
+ *           &lt;property name=&quot;operator&quot;&gt;is-not-null&lt;/property&gt;
+ *           &lt;expression name=&quot;testExpr&quot;&gt;[this]&lt;/expression&gt;
+ *           &lt;/structure&gt;
+ *           &lt;structure&gt;
+ *           &lt;property name=&quot;operator&quot;&gt;is-true&lt;/property&gt;
+ *           &lt;expression name=&quot;testExpr&quot;&gt;[this]&lt;/expression&gt;
+ *           &lt;/structure&gt;
+ *           &lt;structure&gt;
+ *           &lt;property name=&quot;operator&quot;&gt;is-false&lt;/property&gt;
+ *           &lt;expression name=&quot;testExpr&quot;&gt;[this]&lt;/expression&gt;
+ *           &lt;/structure&gt;
+ *           &lt;/list-property&gt;
+ *           
  * </pre>
  * 
  */
@@ -127,6 +128,12 @@ public class CompatibleTestExpreState extends CompatibleMiscExpressionState
 	{
 		String value = text.toString( );
 
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) >= 0 ) //$NON-NLS-1$
+		{
+			handler.tempValue.put( tempVeluekey, value );
+			return;
+		}
+
 		IColumnBinding boundColumn = ExpressionUtil.getColumnBinding( value );
 		if ( boundColumn == null )
 		{
@@ -138,8 +145,11 @@ public class CompatibleTestExpreState extends CompatibleMiscExpressionState
 				boundColumn.getResultSetColumnName( ), boundColumn
 						.getBoundExpression( ), handler.getModule( ) );
 
-		handler.tempValue.put( tempVeluekey, ExpressionUtil
-				.createRowExpression( newName ) );
+		if ( newName != null )
+			handler.tempValue.put( tempVeluekey, ExpressionUtil
+					.createRowExpression( newName ) );
+		else
+			handler.tempValue.put( tempVeluekey, value );
 	}
 
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -161,21 +162,25 @@ public class ActionStructureState extends StructureState
 				CompatibleMiscExpressionState
 	{
 
+		public void end( ) throws SAXException
+		{
+			if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ) //$NON-NLS-1$
+				super.end( );
+			else 
+			{
+				String value = text.toString( );
+
+				if ( StringUtil.isBlank( value ) )
+					return;
+
+				doEnd( value );
+			}
+		}
+
 		CompatibleActionExpressionState( ModuleParserHandler theHandler,
 				DesignElement element, PropertyDefn propDefn, IStructure struct )
 		{
 			super( theHandler, element, propDefn, struct );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.parser.ExpressionState#jumpTo()
-		 */
-
-		public AbstractParseState jumpTo( )
-		{
-			return null;
 		}
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException

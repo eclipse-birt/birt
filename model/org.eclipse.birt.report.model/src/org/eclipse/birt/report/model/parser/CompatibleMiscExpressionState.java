@@ -90,7 +90,10 @@ class CompatibleMiscExpressionState extends ExpressionState
 
 		// set the property for the result set column property of DataItem.
 
-		doEnd( ExpressionUtil.createRowExpression( newName ) );
+		if ( newName != null )
+			doEnd( ExpressionUtil.createRowExpression( newName ) );
+		else
+			doEnd( value );
 
 	}
 }

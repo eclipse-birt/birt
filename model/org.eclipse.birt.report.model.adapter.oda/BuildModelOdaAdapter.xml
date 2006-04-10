@@ -73,15 +73,13 @@
 	<property name="export.dir" location="export" />
 	
 	<property name="eclipse.home" location="." />
-	<property name="dtp.home" location=".." />
+	<property name="dtp.home" location="${eclipse.home}/plugins" />
 	
 	<property name="manifest" value="META-INF/MANIFEST.MF" />
 	
 	<property name="core.dir" value="../org.eclipse.birt.core" />
 	<property name="model.dir" value="../org.eclipse.birt.report.model" />
 	<property name="data.oda.dir" value="../org.eclipse.birt.data.oda" />	
-	<property name="datatools.connectivity.oda.dir" value="${dtp.home}/org.eclipse.datatools.connectivity.oda" />		
-	<property name="datatools.connectivity.oda.design.dir" value="${dtp.home}/org.eclipse.datatools.connectivity.oda.design" />	
 	<property name="module.name" value = "org.eclipse.birt.report.model.adapter.oda" />
 	
 	<property name="src.dir" value="src" />
@@ -93,12 +91,8 @@
 	<path id="class.path">
 		<pathelement path="${build.dir}" />
 		<pathelement path="${core.dir}\core.jar" />
-		<pathelement path="${core.dir}\lib\junit.jar" />		
-		<pathelement path="${core.dir}\lib\commons-codec-1.3.jar" />		
 		<pathelement path="${model.dir}\model.jar" />
 		<pathelement path="${data.oda.dir}\oda.jar" />		
-		<pathelement path="${datatools.connectivity.oda.dir}\oda.jar" />		
-		<pathelement path="${datatools.connectivity.oda.design.dir}\odadesign.jar" />
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*.jar"/>
 			<include name="org.eclipse.emf.ecore_*.jar"/>
@@ -106,7 +100,9 @@
 			<include name="org.eclipse.osgi_*/*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>			
 	        <include name="org.junit_*/*.jar"/>	
-			<include name="com.ibm.icu_*.jar"/>					
+			<include name="com.ibm.icu_*.jar"/>	
+            <include name="org.eclipse.datatools.connectivity*.jar"/>
+            <include name="org.eclipse.datatools.connectivity*/*.jar"/>							
 		</fileset>		
 	</path>
 
@@ -247,14 +243,6 @@
 		</ant>
 		<echo message="end call Jar task in ${model.dir}" level="info" />
 		
-		<!-- Building BIRT ODA Design triggers building of DTP ODA Design jar -->
-		<echo message="start call Jar task in ${datatools.connectivity.oda.design.dir}" level="info"/>
-		<echo message="dtp.home= ${dtp.home}"/>
-		<ant dir="${datatools.connectivity.oda.design.dir}" antfile="build.xml" target="odadesign.jar" inheritall="false">
-		 	<property name="eclipse.home" value="${eclipse.home}" />
-			<property name="dtp.home" value="${dtp.home}" />
-		</ant>
-		<echo message="end call Jar task in ${datatools.connectivity.oda.design.dir}" level="info" />
 	</target>
 		
 	<!-- Compile Model Source Files -->
