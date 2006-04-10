@@ -16,11 +16,12 @@ import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.XMLParserException;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
- * Parses the action structure, provide compatability for the following 
- * members:
+ * Parses the action structure, provide compatability for the following members:
  * <p>
  * <table border="1">
  * <tr>
@@ -55,11 +56,12 @@ import org.xml.sax.SAXException;
  * <td>uri</td>
  * </tr>
  * </table>
- *  
+ * 
  */
 
 public class ActionStructureState extends StructureState
 {
+
 	final static String DRILLTHROUGH_REPORT_NAME_MEMBER = "drillThroughReportName"; //$NON-NLS-1$
 	final static String DRILLTHROUGH_BOOKMARK_LINK_MEMBER = "drillThroughBookmarkLink"; //$NON-NLS-1$
 	final static String BOOKMARK_LINK_MEMBER = "bookmarkLink"; //$NON-NLS-1$
@@ -67,7 +69,8 @@ public class ActionStructureState extends StructureState
 	final static String DRILLTHROUGH_SEARCH_MEMBER = "drillThroughSearch"; //$NON-NLS-1$
 	final static String DRILLTHROUGH_PARAM_BINDINGS_MEMBER = "drillThroughParamBindings"; //$NON-NLS-1$
 
-	public ActionStructureState( ModuleParserHandler theHandler, DesignElement element )
+	public ActionStructureState( ModuleParserHandler theHandler,
+			DesignElement element )
 	{
 		super( theHandler, element );
 		struct = new Action( );
@@ -153,7 +156,9 @@ public class ActionStructureState extends StructureState
 	 * <li>bookmarkLink/drillThroughBookmarkLink => targetBookmark
 	 */
 
-	static class CompatibleActionExpressionState extends ExpressionState
+	static class CompatibleActionExpressionState
+			extends
+				CompatibleMiscExpressionState
 	{
 
 		CompatibleActionExpressionState( ModuleParserHandler theHandler,
@@ -165,35 +170,32 @@ public class ActionStructureState extends StructureState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+		 * @see org.eclipse.birt.report.model.parser.ExpressionState#jumpTo()
 		 */
 
-		public void end( ) throws SAXException
+		public AbstractParseState jumpTo( )
 		{
-			String value = text.toString( );
+			return null;
+		}
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			super.parseAttrs( attrs );
+
 			if ( DRILLTHROUGH_REPORT_NAME_MEMBER.equalsIgnoreCase( name ) )
 			{
-				setMember( struct, propDefn.getName( ),
-						Action.REPORT_NAME_MEMBER, value );
-				return;
+				name = Action.REPORT_NAME_MEMBER;
 			}
 			else if ( BOOKMARK_LINK_MEMBER.equalsIgnoreCase( name )
 					|| DRILLTHROUGH_BOOKMARK_LINK_MEMBER
 							.equalsIgnoreCase( name ) )
 			{
-				setMember( struct, propDefn.getName( ),
-						Action.TARGET_BOOKMARK_MEMBER, value );
-				return;
+				name = Action.TARGET_BOOKMARK_MEMBER;
 			}
 			else if ( HYPERLINK_MEMBER.equalsIgnoreCase( name ) )
 			{
-				setMember( struct, propDefn.getName( ), Action.URI_MEMBER,
-						value );
-				return;
+				name = Action.URI_MEMBER;
 			}
-
-			//the value of the expression is set in the super class.
-			super.end( );
 		}
 	}
 }

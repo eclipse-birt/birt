@@ -12,13 +12,10 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -97,10 +94,10 @@ public class ExtendedItemState extends ReportItemState
 	{
 		if ( StringUtil.compareVersion( handler.getVersion( ), "3.1.0" ) >= 0 ) //$NON-NLS-1$
 		{
-			super.end( ); 
-			return;			
+			super.end( );
+			return;
 		}
-		
+
 		try
 		{
 			element.initializeReportItem( handler.module );
@@ -109,7 +106,7 @@ public class ExtendedItemState extends ReportItemState
 		{
 			return;
 		}
-				
+
 		Object reportItem = element.getExtendedElement( );
 
 		if ( reportItem != null && reportItem instanceof ICompatibleReportItem )
@@ -123,49 +120,30 @@ public class ExtendedItemState extends ReportItemState
 	}
 
 	/**
-	 * Does backward compatiblility work for the extended item from BIRT 2.1M5 to
-	 * BIRT 2.1.0.
+	 * Does backward compatiblility work for the extended item from BIRT 2.1M5
+	 * to BIRT 2.1.0.
 	 * 
 	 * @param jsExprs
 	 */
 
 	private void handleJavaExpression( List jsExprs )
 	{
-		Set exprs = new HashSet( );
+		List columns = new ArrayList( );
 
 		for ( int i = 0; i < jsExprs.size( ); i++ )
 		{
 			String jsExpr = (String) jsExprs.get( i );
 
-			List tmpExprs = null;
+			IColumnBinding boundColumn = ExpressionUtil
+					.getColumnBinding( jsExpr );
 
-			try
-			{
-				tmpExprs = ExpressionUtil.extractColumnExpressions( jsExpr );
-			}
-			catch ( BirtException e )
-			{
-				tmpExprs = null;
-			}
-
-			if ( tmpExprs == null || tmpExprs.isEmpty( ) )
+			if ( boundColumn == null )
 				continue;
 
-			for ( int j = 0; j < tmpExprs.size( ); j++ )
-			{
-				if ( !exprs.contains( tmpExprs.get( j ) ) )
-					exprs.add( tmpExprs.get( j ) );
-			}
-
+			columns.add( boundColumn );
 		}
 
-		List expressions = new ArrayList( );
-
-		Iterator iter1 = exprs.iterator( );
-		while ( iter1.hasNext( ) )
-			expressions.add( iter1.next( ) );
-
-		DataBoundColumnUtil.setupBoundDataColumns( element, expressions,
-				handler.getModule( ) );
+		DataBoundColumnUtil.setupBoundDataColumns( element, columns, handler
+				.getModule( ) );
 	}
 }

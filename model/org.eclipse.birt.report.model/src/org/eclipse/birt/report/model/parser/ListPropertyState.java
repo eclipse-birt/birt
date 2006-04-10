@@ -19,7 +19,10 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
+import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -266,7 +269,7 @@ public class ListPropertyState extends AbstractPropertyState
 			{
 				AbstractPropertyState state = new IncludedLibrariesStructureListState(
 						handler, element );
-				state.setName(Module.LIBRARIES_PROP);
+				state.setName( Module.LIBRARIES_PROP );
 				return state;
 			}
 
@@ -287,6 +290,18 @@ public class ListPropertyState extends AbstractPropertyState
 					return state;
 				}
 			}
+		}
+
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 //$NON-NLS-1$
+				&& ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
+						|| ScalarParameter.BOUND_DATA_COLUMNS_PROP
+								.equalsIgnoreCase( name ) || GroupElement.BOUND_DATA_COLUMNS_PROP
+						.equalsIgnoreCase( name ) ) )
+		{
+			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
+					handler, element );
+			state.setName( name );
+			return state;
 		}
 
 		return super.jumpTo( );

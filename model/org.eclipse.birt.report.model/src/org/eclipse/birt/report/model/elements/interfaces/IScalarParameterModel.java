@@ -116,4 +116,12 @@ public interface IScalarParameterModel
 	 * Name of the Limited-list property
 	 */
 	public static final String LIST_LIMIT_PROP = "listLimit"; //$NON-NLS-1$
+	
+	/**
+	 * The property name of the bound columns that bind the report element
+	 * with the data set columns.
+	 */
+
+	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
+	
 }

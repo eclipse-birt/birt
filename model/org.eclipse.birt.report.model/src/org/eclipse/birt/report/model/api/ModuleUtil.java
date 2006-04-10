@@ -485,7 +485,7 @@ public class ModuleUtil
 	private static void createDataBinding( ReportItemHandle target,
 			String expression, String dataType ) throws SemanticException
 	{
-		List columns = (List) target
+		List columns = target
 				.getListProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 		ComputedColumn column = DataBoundColumnUtil.getColumn( columns,

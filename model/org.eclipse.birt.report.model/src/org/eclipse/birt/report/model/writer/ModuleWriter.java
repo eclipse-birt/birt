@@ -1782,7 +1782,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeStructure( obj, ScalarParameter.FORMAT_PROP );
 		writeStructureList( obj, ScalarParameter.SELECTION_LIST_PROP );
-
+		writeStructureList( obj, ReportItem.BOUND_DATA_COLUMNS_PROP );
+		
 		writer.endElement( );
 	}
 

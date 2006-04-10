@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.xml.sax.SAXException;
@@ -50,12 +52,21 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 		if ( value == null )
 			return;
 
-		String newColumnName = DataBoundColumnUtil.setupBoundDataColumn(
-				element, value, value, handler.getModule( ) );
+		IColumnBinding boundColumn = ExpressionUtil.getColumnBinding( value );
+		if ( boundColumn == null )
+		{
+			// set the property for the result set column property of DataItem.
+
+			doEnd( value );
+		}
+
+		String newName = DataBoundColumnUtil.setupBoundDataColumn( element,
+				boundColumn.getResultSetColumnName( ), boundColumn
+						.getBoundExpression( ), handler.getModule( ) );
 
 		// set the property for the result set column property of DataItem.
 
-		doEnd( newColumnName );
+		doEnd( newName );
 	}
 
 }

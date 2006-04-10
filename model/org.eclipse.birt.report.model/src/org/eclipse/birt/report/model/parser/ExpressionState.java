@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -83,25 +84,25 @@ class ExpressionState extends PropertyState
 				&& propDefn.getValueType( ) == IPropertyDefn.USER_PROPERTY
 				&& StringUtil.compareVersion( handler.getVersion( ), "3.1.0" ) < 0 ) //$NON-NLS-1$
 		{
-			CompatibleUserExpressionState state = new CompatibleUserExpressionState(
+			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
 					handler, element );
 			state.setName( name );
 			return state;
 		}
 
-		// TODO for any other expression
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ) //$NON-NLS-1$
+		{
+			if ( struct instanceof ComputedColumn
+					&& element instanceof DataItem )
+				return super.jumpTo( );
 
-		// if ( StringUtil.compareVersion( handler.getVersion( ), "3.1.0" ) < 0
-		// ) //$NON-NLS-1$
-		// {
-		// CompatibleMiscExpressionState state = new
-		// CompatibleMiscExpressionState(
-		// handler, element );
-		// state.setName( name );
-		// state.struct = struct;
-		// state.propDefn = propDefn;
-		// return state;
-		// }
+			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
+					handler, element );
+			state.setName( name );
+			state.struct = struct;
+			state.propDefn = propDefn;
+			return state;
+		}
 
 		return super.jumpTo( );
 	}

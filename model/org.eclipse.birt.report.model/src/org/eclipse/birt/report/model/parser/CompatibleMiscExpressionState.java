@@ -11,12 +11,13 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.List;
-
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -45,6 +46,21 @@ class CompatibleMiscExpressionState extends ExpressionState
 		super( theHandler, element );
 	}
 
+	/**
+	 * Constructs a compatible state.
+	 * 
+	 * @param theHandler
+	 *            the handler to parse the design file.
+	 * @param element
+	 *            the data item
+	 */
+
+	CompatibleMiscExpressionState( ModuleParserHandler theHandler,
+			DesignElement element, PropertyDefn propDefn, IStructure struct )
+	{
+		super( theHandler, element, propDefn, struct );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -58,22 +74,23 @@ class CompatibleMiscExpressionState extends ExpressionState
 		if ( StringUtil.isBlank( value ) )
 			return;
 
-		List exprs = null;
+		IColumnBinding boundColumn = null;
 
-		try
+		boundColumn = ExpressionUtil.getColumnBinding( value );
+		if ( boundColumn == null )
 		{
-			exprs = ExpressionUtil.extractColumnExpressions( value );
-		}
-		catch ( BirtException e )
-		{
-			exprs = null;
+			// set the property for the result set column property of DataItem.
+
+			doEnd( value );
 		}
 
-		// setupBoundDataColumns( exprs );
+		String newName = DataBoundColumnUtil.setupBoundDataColumn( element,
+				boundColumn.getResultSetColumnName( ), boundColumn
+						.getBoundExpression( ), handler.getModule( ) );
 
 		// set the property for the result set column property of DataItem.
 
-		doEnd( value );
-	}
+		doEnd( ExpressionUtil.createRowExpression( newName ) );
 
+	}
 }

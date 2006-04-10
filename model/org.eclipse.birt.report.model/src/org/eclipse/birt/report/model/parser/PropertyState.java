@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
@@ -28,8 +29,11 @@ import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
@@ -248,16 +252,16 @@ class PropertyState extends AbstractPropertyState
 				return state;
 			}
 
-		// if ( ICellModel.ON_CREATE_METHOD.equalsIgnoreCase( name )
-		// || ITableRowModel.ON_CREATE_METHOD.equalsIgnoreCase( name )
-		// || IReportItemModel.ON_CREATE_METHOD.equalsIgnoreCase( name ) )
-		// {
-		// CompatibleMiscExpressionState state = new
-		// CompatibleMiscExpressionState(
-		// handler, element );
-		// state.setName( name );
-		// return state;
-		//		}
+		if ( ( ICellModel.ON_CREATE_METHOD.equalsIgnoreCase( name )
+				|| ITableRowModel.ON_CREATE_METHOD.equalsIgnoreCase( name ) || IReportItemModel.ON_CREATE_METHOD
+				.equalsIgnoreCase( name ) )
+				&& StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ) //$NON-NLS-1$
+		{
+			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
 
 		return super.jumpTo( );
 	}
