@@ -154,7 +154,7 @@
 	    <antcall target = "engineJavadoc"/>
 	    <antcall target = "engineScriptJavadoc"/>
     	<antcall target = "modelJavadoc"/>
-	    <antcall target = "odaJavadoc"/>
+	    <!--antcall target = "odaJavadoc"/-->
 	    <antcall target = "odaoldJavadoc"/>
     	<antcall target = "dataJavadoc"/>
     	<antcall target = "chartJavadoc"/>
@@ -213,14 +213,14 @@
 		</ant>
   </target>
 	
-	<target name="odaJavadoc">
+	<!--target name="odaJavadoc">
 		<delete dir="${oda.javadoc.dir}"/>
 		<ant dir="${oda.dir}" antfile="build.xml" target="javadoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 	    	<property name="build.result.dir" value="../${module.name}" />
 	    	<property name="javadoc.dir" value="${oda.javadoc.dir}" />
 		</ant>
-  </target>
+  </target-->
 	
 	<target name="odaoldJavadoc">
 		<delete dir="${oda.old.javadoc.dir}"/>
