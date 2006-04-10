@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -969,11 +968,8 @@ public class ParameterDialog extends BaseDialog
 	private void refreshDataSets( )
 	{
 		String selectedDataSetName = dataSetChooser.getText( );
-		String[] oldList = dataSetChooser.getItems( );
-		List avaiableList = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getVisibleDataSets( );
-		String[] newList = (String[]) avaiableList.toArray( new String[]{} );
+		String[] oldList = dataSetChooser.getItems( );		
+		String[] newList = ChoiceSetFactory.getDataSets( );
 
 		if ( oldList.length != newList.length )
 		{
