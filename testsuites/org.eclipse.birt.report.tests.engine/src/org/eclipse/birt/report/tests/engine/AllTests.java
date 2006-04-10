@@ -1,23 +1,21 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine;
 
 import java.util.Locale;
 
-//import org.eclipse.birt.report.model.elements.ReportDesign;
-//import org.eclipse.birt.report.model.i18n.ThreadResources;
-//import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-//import org.eclipse.birt.report.model.metadata.MetaDataParserException;
-//import org.eclipse.birt.report.model.metadata.MetaDataReader;
+// import org.eclipse.birt.report.model.elements.ReportDesign;
+// import org.eclipse.birt.report.model.i18n.ThreadResources;
+// import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+// import org.eclipse.birt.report.model.metadata.MetaDataParserException;
+// import org.eclipse.birt.report.model.metadata.MetaDataReader;
 
 import org.eclipse.birt.report.tests.engine.api.Bug128854PrompttextTest;
 import org.eclipse.birt.report.tests.engine.api.DefaultStatusHandlerTest;
@@ -42,20 +40,20 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-
-
 /**
- *  Put your comments  
- *
- * @ @version $Revision: 1.9 $Date: 2005-6-27 
+ * Put your comments
+ *  
+ * @version $Revision: 1.10 $Date: 2005-6-27
  */
-public class AllTests extends TestCase{
+public class AllTests extends TestCase
+{
 
-	public AllTests(String name){
-		super(name);
+	public AllTests( String name )
+	{
+		super( name );
 	}
-	
-	protected void setUp( ) 
+
+	protected void setUp( )
 	{
 
 	}
@@ -65,36 +63,37 @@ public class AllTests extends TestCase{
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	protected void tearDown( ) 
+	protected void tearDown( )
 	{
 
 	}
 
-	public static Test suite() {
+	public static Test suite( )
+	{
 		TestSuite suite = new TestSuite(
-				"Test for org.eclipse.birt.report.tests.engine");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(DefaultStatusHandlerTest.class);
-		suite.addTestSuite(EngineConfigTest.class);
-		//suite.addTestSuite(HTMLActionHandlerTest.class);
-		suite.addTestSuite(HTMLCompleteImageHandlerTest.class);
-		suite.addTestSuite(HTMLEmitterConfigTest.class);
-		suite.addTestSuite(HTMLRenderContextTest.class);
-		suite.addTestSuite(HTMLRenderOptionTest.class);
-		suite.addTestSuite(HTMLServerImageHandlerTest.class);
-		suite.addTestSuite(RenderOptionBaseTest.class);
-		suite.addTestSuite(ReportEngineTest.class);
-		suite.addTestSuite(ReportParameterConverterTest.class);
-		suite.addTestSuite(RunAndRenderTaskTest.class);
-		//added 12/27
-		suite.addTestSuite(DataPreviewTaskTest.class);
-		suite.addTestSuite(RunTaskTest.class);
-		suite.addTestSuite(ReportDocumentTest.class);
-		suite.addTestSuite(RenderFolderDocumentTest.class);
-		suite.addTestSuite(RenderTaskTest.class);
-		//added 06/02/28
-		suite.addTestSuite(Bug128854PrompttextTest.class);
-		//$JUnit-END$
+				"Test for org.eclipse.birt.report.tests.engine" );
+		// $JUnit-BEGIN$
+		suite.addTestSuite( DefaultStatusHandlerTest.class );
+		suite.addTestSuite( EngineConfigTest.class );
+		// suite.addTestSuite(HTMLActionHandlerTest.class);
+		suite.addTestSuite( HTMLCompleteImageHandlerTest.class );
+		suite.addTestSuite( HTMLEmitterConfigTest.class );
+		suite.addTestSuite( HTMLRenderContextTest.class );
+		suite.addTestSuite( HTMLRenderOptionTest.class );
+		suite.addTestSuite( HTMLServerImageHandlerTest.class );
+		suite.addTestSuite( RenderOptionBaseTest.class );
+		suite.addTestSuite( ReportEngineTest.class );
+		suite.addTestSuite( ReportParameterConverterTest.class );
+		suite.addTestSuite( RunAndRenderTaskTest.class );
+		// added 12/27
+		suite.addTestSuite( DataPreviewTaskTest.class );
+		suite.addTestSuite( RunTaskTest.class );
+		suite.addTestSuite( ReportDocumentTest.class );
+		suite.addTestSuite( RenderFolderDocumentTest.class );
+		suite.addTestSuite( RenderTaskTest.class );
+		// added 06/02/28
+		suite.addTestSuite( Bug128854PrompttextTest.class );
+		// $JUnit-END$
 		return suite;
 	}
 }

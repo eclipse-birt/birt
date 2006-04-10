@@ -48,7 +48,6 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ReportRunner;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 
 /**
  * Base class for Engine test.
@@ -83,7 +82,6 @@ public abstract class EngineCase extends TestCase
 	private static final String ENCODING_UTF8 = "UTF-8"; //$NON-NLS-1$
 	private static final String IMAGE_DIR = "image"; //$NON-NLS-1$
 
-
 	/*
 	 * @see TestCase#setUp()
 	 */
@@ -91,22 +89,19 @@ public abstract class EngineCase extends TestCase
 	{
 		super.setUp( );
 
-		
 		// IPlatformContext context = new PlatformFileContext( );
 		// config.setEngineContext( context );
-
 		// this.engine = new ReportEngine( config );
-		
+
 		IPlatformContext context = new PlatformFileContext( );
 		EngineConfig config = new EngineConfig( );
-		
-		Platform.startup(  context );
-		
-		IReportEngineFactory factory = new ReportEngineFactory( );
-		this.engine = factory.createReportEngine(  config );
-		
-	}
 
+		Platform.startup( context );
+		IReportEngineFactory factory = (IReportEngineFactory) Platform
+				.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
+
+		this.engine = factory.createReportEngine( config );
+	}
 
 	/**
 	 * Constructor.
@@ -159,7 +154,6 @@ public abstract class EngineCase extends TestCase
 		args = (String[]) runArgs.toArray( new String[runArgs.size( )] );
 		ReportRunner.main( args );
 	}
-
 
 	/**
 	 * Make a copy of a given file to the target file.
@@ -338,9 +332,7 @@ public abstract class EngineCase extends TestCase
 
 		IReportRunnable runnable = engine.openReportDesign( inputFile );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
-		
-		
-		
+
 		if ( paramValues != null )
 		{
 			Iterator keys = paramValues.keySet( ).iterator( );
@@ -357,7 +349,7 @@ public abstract class EngineCase extends TestCase
 		options.setOutputFileName( outputFile );
 
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
-		renderContext.setImageDirectory( IMAGE_DIR ); 
+		renderContext.setImageDirectory( IMAGE_DIR );
 		HashMap appContext = new HashMap( );
 		appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 				renderContext );
@@ -421,7 +413,7 @@ public abstract class EngineCase extends TestCase
 		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
 				+ "/" + output; //$NON-NLS-1$
 		String inputFile = this.getClassFolder( )
-				+ "/" + INPUT_FOLDER + "/" + doc; //$NON-NLS-1$
+				+ "/" + INPUT_FOLDER + "/" + doc; //$NON-NLS-1$ //$NON-NLS-2$
 
 		String format = "html"; //$NON-NLS-1$
 		String encoding = "UTF-8"; //$NON-NLS-1$
@@ -445,8 +437,8 @@ public abstract class EngineCase extends TestCase
 
 		task.setRenderOption( options );
 
-		// TODO: changed to task.render when Engine has fix the render().
-		task.render( pageRange ); //$NON-NLS-1$
+		task.setPageRange( pageRange ); //$NON-NLS-1$
+		task.render( );
 		task.close( );
 	}
 
@@ -574,6 +566,11 @@ public abstract class EngineCase extends TestCase
 		return same;
 	}
 
+	/**
+	 * All kinds of filter-pattern pairs that will be filtered and replace
+	 * during comparasion.
+	 */
+
 	private final static Pattern PATTERN_ID_AUTOBOOKMARK = Pattern
 			.compile( "id[\\s]*=[\\s]*\"AUTOGENBOOKMARK_[\\d]+\"" ); //$NON-NLS-1$
 	private final static Pattern PATTERN_NAME_AUTOBOOKMARK = Pattern
@@ -582,7 +579,8 @@ public abstract class EngineCase extends TestCase
 			.compile( "iid[\\s]*=[\\s]*\"/.*(.*)\"" ); //$NON-NLS-1$
 	private final static Pattern PATTERN_BG_IMAGE = Pattern
 			.compile( "background-image[\\s]*: url[(]'" + IMAGE_DIR + "/.*'[)]" ); //$NON-NLS-1$ //$NON-NLS-2$
-	private final static Pattern PATTERN_IMAGE_SOURCE = Pattern.compile( "src=\"" + IMAGE_DIR + "/design[\\d]+\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+	private final static Pattern PATTERN_IMAGE_SOURCE = Pattern
+			.compile( "src=\"" + IMAGE_DIR + "/design[\\d]+\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * Normalize some seeding values, lines that matches certain patterns will
