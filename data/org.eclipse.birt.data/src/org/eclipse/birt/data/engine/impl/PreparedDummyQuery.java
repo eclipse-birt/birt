@@ -21,6 +21,7 @@ import java.util.Date;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -575,9 +576,13 @@ public class PreparedDummyQuery implements IPreparedQuery
 		public Object get( String name, Scriptable start )
 		{
 			IBaseExpression baseExpr = exprManager.getExpr( name );
+
 			try
 			{
-				return ExprEvaluateUtil.evaluateRawExpression( baseExpr, scope );
+				Object value = ExprEvaluateUtil.evaluateRawExpression( baseExpr,
+						scope );
+				return JavascriptEvalUtil.convertToJavascriptValue( value,
+						scope );
 			}
 			catch ( BirtException e )
 			{
