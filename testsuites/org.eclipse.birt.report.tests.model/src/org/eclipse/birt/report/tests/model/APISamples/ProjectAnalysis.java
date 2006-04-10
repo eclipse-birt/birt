@@ -10,7 +10,6 @@
 package org.eclipse.birt.report.tests.model.APISamples;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -49,7 +48,6 @@ import com.ibm.icu.util.ULocale;
  * pure Model APIs.
  * 
  * 
- * @author Rock Yu
  */
 
 public class ProjectAnalysis
