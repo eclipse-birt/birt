@@ -572,8 +572,11 @@ public class InsertInLayoutUtil
 		}
 		else
 		{
-			// Adds dataset to the single query in the top level of the report
-			dataHandle.setDataSet( dataSet );
+			ComputedColumn bindingColumn = StructureFactory.createComputedColumn( );
+			bindingColumn.setDataType( model.getDataType( ) );
+			bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			bindingColumn.setName( model.getColumnName( ) );
+			dataHandle.addColumnBinding( bindingColumn, false );
 		}
 
 		InsertInLayoutRule rule = new LabelAddRule( target );
