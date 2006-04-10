@@ -93,14 +93,30 @@ public abstract class EngineCase extends TestCase
 		// config.setEngineContext( context );
 		// this.engine = new ReportEngine( config );
 
-		IPlatformContext context = new PlatformFileContext( );
 		EngineConfig config = new EngineConfig( );
+		this.engine = createReportEngine( config );
+	}
 
-		Platform.startup( context );
-		IReportEngineFactory factory = (IReportEngineFactory) Platform
+	/**
+	 * Create a report engine instance.
+	 */
+	public IReportEngine createReportEngine( EngineConfig config )
+	{
+		if ( config == null )
+		{
+			config = new EngineConfig( );
+		}
+
+		Platform.initialize( new PlatformFileContext( ) );
+		// assume we has in the platform
+		Object factory = Platform
 				.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
-
-		this.engine = factory.createReportEngine( config );
+		if ( factory instanceof IReportEngineFactory )
+		{
+			return ( (IReportEngineFactory) factory )
+					.createReportEngine( config );
+		}
+		return null;
 	}
 
 	/**
@@ -410,12 +426,31 @@ public abstract class EngineCase extends TestCase
 	protected void render_HTML( String doc, String output, String pageRange )
 			throws EngineException
 	{
+		render( "html", doc, output, pageRange ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Render a report document into PDF file.
+	 * 
+	 * @param doc
+	 * @param output
+	 * @param pageRange
+	 * @throws EngineException 
+	 */
+
+	protected void render_PDF( String doc, String output, String pageRange ) throws EngineException
+	{
+		render( "pdf", doc, output, pageRange ); //$NON-NLS-1$
+	}
+
+	private void render( String format, String doc, String output,
+			String pageRange ) throws EngineException
+	{
 		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
 				+ "/" + output; //$NON-NLS-1$
 		String inputFile = this.getClassFolder( )
 				+ "/" + INPUT_FOLDER + "/" + doc; //$NON-NLS-1$ //$NON-NLS-2$
 
-		String format = "html"; //$NON-NLS-1$
 		String encoding = "UTF-8"; //$NON-NLS-1$
 
 		IReportDocument document = engine.openReportDocument( inputFile );
@@ -424,20 +459,20 @@ public abstract class EngineCase extends TestCase
 
 		IRenderOption options = new HTMLRenderOption( );
 		options.setOutputFileName( outputFile );
+		options.setOutputFormat( format );
+		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
+				encoding );
 
+		
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( IMAGE_DIR );
 		HashMap appContext = new HashMap( );
 		appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 				renderContext );
 		task.setAppContext( appContext );
-		options.setOutputFormat( format );
-		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
-				encoding );
-
 		task.setRenderOption( options );
 
-		task.setPageRange( pageRange ); //$NON-NLS-1$
+		task.setPageRange( pageRange ); 
 		task.render( );
 		task.close( );
 	}
