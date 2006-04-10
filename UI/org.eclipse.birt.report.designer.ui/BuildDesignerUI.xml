@@ -83,9 +83,7 @@
 	<property name="engine.dir" value="../org.eclipse.birt.report.engine" />
 	<property name="designer.core.dir" value="../org.eclipse.birt.report.designer.core" />	
 	<property name="viewer.dir" value="../org.eclipse.birt.report.viewer" />
-	<property name="dtp.oda.design.ui" value="${dtp.home}/org.eclipse.datatools.connectivity.oda.design.ui" />
     <property name="model.oda.adapter" value="../org.eclipse.birt.report.model.adapter.oda" />
-	<property name="dtp.oda.design" value="${dtp.home}/org.eclipse.datatools.connectivity.oda.design" />
 	<property name="jar.name" value="ui.jar"/>
 	
 	<property name="arch" value="x86" />	
@@ -114,16 +112,9 @@
 		<fileset dir="${designer.core.dir}">
 			<include name="*.jar" />
 		</fileset>
-		<fileset dir="${dtp.oda.design.ui}">
-			<include name="*.jar" />
-		</fileset>
 		<fileset dir="${model.oda.adapter}">
 			<include name="*.jar" />
 		</fileset>
-		<fileset dir="${dtp.oda.design}">
-			<include name="*.jar" />
-		</fileset>
-	
 	</path>
 	
 	
@@ -261,14 +252,8 @@
 			<property name="ws" value="${ws}"/>
 			<property name="arch" value="${arch}"/>
 		</ant>
-		<ant dir="${dtp.oda.design.ui}" antfile="build.xml" target="build.jars" inheritAll="false">
-			<property name="dtp.home" value="${dtp.home}"/>
-		</ant>
 		<ant dir="${model.oda.adapter}" antfile="BuildModelOdaAdapter.xml" target="Jar" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}"/>
-		</ant>
-		<ant dir="${dtp.oda.design}" antfile="build.xml" target="build.jars" inheritAll="false">
-			<property name="dtp.home" value="${dtp.home}"/>
 		</ant>
 	</target>	
 	
