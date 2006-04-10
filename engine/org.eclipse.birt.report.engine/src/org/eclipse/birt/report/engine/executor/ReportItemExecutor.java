@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
@@ -48,7 +49,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.27 $ $Date: 2006/02/07 10:05:53 $
+ * @version $Revision: 1.28 $ $Date: 2006/04/06 12:35:24 $
  */
 public abstract class ReportItemExecutor
 {
@@ -271,6 +272,11 @@ public abstract class ReportItemExecutor
 
 	protected DataID getDataID( )
 	{
+		IResultSet curRset = context.getDataEngine( ).getResultSet( );
+		if ( curRset != null )
+		{
+			return new DataID( curRset.getID( ), curRset.getCurrentPosition( ) );
+		}
 		return null;
 	}
 
