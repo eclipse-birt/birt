@@ -1126,6 +1126,18 @@ public class PropertyCommand extends AbstractElementCommand
 		SimplePropertyListRecord record = new SimplePropertyListRecord(
 				element, prop, list, value, list.size( ) );
 		stack.execute( record );
+
+		if ( value instanceof ElementRefValue )
+		{
+			ElementRefValue refValue = (ElementRefValue) value;
+			if ( refValue.isResolved( ) )
+			{
+				ElementRefRecord refRecord = new ElementRefRecord( element,
+						refValue.getTargetElement( ), prop.getName( ), true );
+				stack.execute( refRecord );
+			}
+		}
+
 		stack.commit( );
 	}
 
@@ -1153,8 +1165,8 @@ public class PropertyCommand extends AbstractElementCommand
 	 *            reference to a list.
 	 * @param item
 	 *            the item to check
-	 * @throws SemanticError 
-	 *            if element reference is invalid.
+	 * @throws SemanticError
+	 *             if element reference is invalid.
 	 * @throws PropertyValueException
 	 *             if the item has any member with invalid value or if the given
 	 *             structure is not of a valid type that can be contained in the
@@ -1271,7 +1283,9 @@ public class PropertyCommand extends AbstractElementCommand
 			throw new IndexOutOfBoundsException(
 					"Posn: " + posn + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
 
-		doRemoveItem( prop, posn );
+		Object obj = list.get( posn );
+
+		doRemoveItem( prop, posn, obj );
 	}
 
 	/**
@@ -1327,7 +1341,7 @@ public class PropertyCommand extends AbstractElementCommand
 			throw new PropertyValueException( element, prop.getName( ), null,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
-		doRemoveItem( prop, posn );
+		doRemoveItem( prop, posn, value );
 	}
 
 	/**
@@ -1337,7 +1351,7 @@ public class PropertyCommand extends AbstractElementCommand
 	 *            reference to the item to remove
 	 */
 
-	private void doRemoveItem( ElementPropertyDefn prop, int posn )
+	private void doRemoveItem( ElementPropertyDefn prop, int posn, Object item )
 	{
 		String label = ModelMessages
 				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
@@ -1352,6 +1366,19 @@ public class PropertyCommand extends AbstractElementCommand
 		SimplePropertyListRecord record = new SimplePropertyListRecord(
 				element, prop, list, posn );
 		stack.execute( record );
+
+		if ( item instanceof ElementRefValue )
+		{
+			ElementRefValue refValue = (ElementRefValue) item;
+			if ( refValue.isResolved( ) )
+			{
+				ElementRefRecord refRecord = new ElementRefRecord( element,
+						refValue.getTargetElement( ), prop.getName( ), false );
+				stack.execute( refRecord );
+
+			}
+		}
+
 		stack.commit( );
 	}
 

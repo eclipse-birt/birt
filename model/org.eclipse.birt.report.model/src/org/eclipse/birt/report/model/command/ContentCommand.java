@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -451,6 +453,7 @@ public class ContentCommand extends AbstractElementCommand
 		ActivityStack stack = getActivityStack( );
 
 		stack.startFilterEventTrans( dropRecord.getLabel( ) );
+		
 		try
 		{
 			doDelectAction( content, unresolveReference );
@@ -630,7 +633,7 @@ public class ContentCommand extends AbstractElementCommand
 								PropertyCommand cmd = new PropertyCommand(
 										module, element );
 								cmd.removeItem( (ElementPropertyDefn) propDefn,
-										item );
+										item.getElement( ) );
 							}
 							catch ( SemanticException e )
 							{

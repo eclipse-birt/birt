@@ -14,9 +14,12 @@ package org.eclipse.birt.report.model.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -107,10 +110,35 @@ public class SimplePropertyListState extends AbstractPropertyState
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
+	
 	public void end( ) throws SAXException
 	{
 		if ( values != null )
-			setProperty( name, values );
+		{
+			setProperty( name, values );	
+			
+			PropertyDefn defn = element.getPropertyDefn( name );
+			if ( defn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+			{
+				List propList = (List) element.getProperty( element.getRoot( ), name );
+				if( propList != null )
+				{
+					for ( int i = 0; i < propList.size( ); i++ )
+					{
+						Object obj = propList.get(  i );
+						if ( obj instanceof ElementRefValue )
+						{
+							ElementRefValue refValue = (ElementRefValue) obj;
+							if ( refValue.isResolved( ) )
+							{
+								ReferenceableElement referred = refValue.getTargetElement( );
+								referred.addClient( element, name );
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/*
