@@ -116,7 +116,7 @@ public class ExpressionUtility
 	{
 		if ( isColumnExpression( columnStr ) )
 		{
-			return columnStr.replaceAll( "\\Qrow\\E", "dataSetRow" );
+			return columnStr.replaceFirst( "\\Qrow\\E", "dataSetRow" );
 		}
 		else
 			return columnStr;
