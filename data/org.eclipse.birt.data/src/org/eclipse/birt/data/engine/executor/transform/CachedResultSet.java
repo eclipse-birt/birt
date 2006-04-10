@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.data.engine.executor.transform;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +44,14 @@ public class CachedResultSet implements IResultIterator
 
 	private ResultSetPopulator resultSetPopulator;
 
+	/**
+	 * Nothing, only for new an instance, needs to be used with care. Currently
+	 * it is only used in report document saving when there is no data set.
+	 */
+	public CachedResultSet( )
+	{
+	}
+	
 	/**
 	 * Constructs and intializes OdiResultSet based on data in a ODA result set
 	 */

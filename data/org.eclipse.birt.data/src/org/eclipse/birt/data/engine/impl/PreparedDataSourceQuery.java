@@ -62,7 +62,8 @@ abstract class PreparedDataSourceQuery
 			// can refer to row object and no other object can be refered such
 			// as rows.
 			if ( queryDefn.getQueryResultsID( ) == null )
-				return new PreparedDummyQuery( queryDefn,
+				return new PreparedDummyQuery( dataEngine.getContext( ),
+						queryDefn,
 						dataEngine.getSharedScope( ) );
 			else
 				return new PreparedIVQuery( dataEngine, queryDefn );

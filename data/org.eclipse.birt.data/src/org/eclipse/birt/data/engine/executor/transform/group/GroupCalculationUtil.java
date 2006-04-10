@@ -115,8 +115,9 @@ public class GroupCalculationUtil
 
 	/**
 	 * @param inputStream
+	 * @throws DataException 
 	 */
-	public void doSave( OutputStream outputStream )
+	public void doSave( OutputStream outputStream ) throws DataException
 	{
 		try
 		{
@@ -124,7 +125,9 @@ public class GroupCalculationUtil
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace( );
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR,
+					e,
+					"Group Information" );
 		}
 	}
 

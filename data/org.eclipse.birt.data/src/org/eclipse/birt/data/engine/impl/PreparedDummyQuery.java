@@ -11,21 +11,32 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.RDSave;
+import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -35,17 +46,21 @@ import org.mozilla.javascript.ScriptableObject;
  */
 public class PreparedDummyQuery implements IPreparedQuery
 {
+	private DataEngineContext context;
 	private IQueryDefinition queryDefn;
 	private ExprManager exprManager;
 	private Scriptable sharedScope;
 
 	/**
+	 * @param context 
 	 * @param queryDefn
 	 */
-	PreparedDummyQuery( IQueryDefinition queryDefn, Scriptable sharedScope )
+	PreparedDummyQuery( DataEngineContext context, IQueryDefinition queryDefn,
+			Scriptable sharedScope )
 	{
 		assert queryDefn != null;
 		
+		this.context = context;
 		this.queryDefn = queryDefn;
 		this.sharedScope = sharedScope;
 		this.exprManager = new ExprManager( );
@@ -116,7 +131,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 	/**
 	 * 
 	 */
-	private static class QueryResults implements IQueryResults
+	private class QueryResults implements IQueryResults
 	{
 
 		private IPreparedQuery preparedQuery;
@@ -177,13 +192,14 @@ public class PreparedDummyQuery implements IPreparedQuery
 	/**
 	 * 
 	 */
-	private static class ResultIterator implements IResultIterator
+	private class ResultIterator implements IResultIterator
 	{
-
 		private IQueryResults queryResults;
 		private ExprManager exprManager;
 		private Scriptable queryScope;
 
+		private RDSaveUtil rdSaveUtil;
+		
 		private final static int NOT_START = 0;
 		private final static int IN_ROW = 1;
 		private final static int ENDED = 2;
@@ -236,7 +252,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		 */
 		public IResultMetaData getResultMetaData( ) throws BirtException
 		{
-			return null;
+			return new ResultMetaData( new ResultClass( new ArrayList( ) ) );
 		}
 
 		/*
@@ -288,7 +304,10 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			checkOpened( );
 
-			return ExprEvaluateUtil.evaluateRawExpression( dataExpr, queryScope );
+			Object value = ExprEvaluateUtil.evaluateRawExpression( dataExpr,
+					queryScope );
+			this.getRdSaveUtil( ).doSaveExpr( dataExpr.getID( ), value );
+			return value;
 		}
 
 		/*
@@ -367,8 +386,10 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			checkOpened( );
 
-			return ExprEvaluateUtil.evaluateRawExpression( this.exprManager.getExpr( name ),
+			Object value = ExprEvaluateUtil.evaluateRawExpression( this.exprManager.getExpr( name ),
 					queryScope );
+			this.getRdSaveUtil( ).doSaveExpr( name, value );
+			return value;
 		}
 
 		/*
@@ -483,6 +504,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		public void close( ) throws BirtException
 		{
 			this.openStatus = ENDED;
+			this.getRdSaveUtil( ).doSaveFinish( );
 		}
 
 		/*
@@ -495,6 +517,22 @@ public class PreparedDummyQuery implements IPreparedQuery
 
 			return false;
 		}
+		
+		/**
+		 * @return
+		 */
+		private RDSaveUtil getRdSaveUtil( )
+		{
+			if ( this.rdSaveUtil == null )
+			{
+				rdSaveUtil = new RDSaveUtil( context,
+						queryDefn,
+						queryDefn.getQueryResultsID( ) );
+			}
+
+			return this.rdSaveUtil;
+		}
+		
 	}
 
 	/**
@@ -502,7 +540,6 @@ public class PreparedDummyQuery implements IPreparedQuery
 	 */
 	private static class JSTempRowObject extends ScriptableObject
 	{
-
 		private ExprManager exprManager;
 		private Scriptable scope;
 
@@ -541,6 +578,136 @@ public class PreparedDummyQuery implements IPreparedQuery
 			catch ( BirtException e )
 			{
 				return null;
+			}
+		}
+	}
+	
+	/**
+	 *
+	 */
+	private class RDSaveUtil
+	{
+		// context info
+		private DataEngineContext context;
+		private String queryResultID;
+		private IBaseQueryDefinition queryDefn;
+
+		// report document save and load instance
+		private RDSave rdSave;
+		
+		private boolean isBasicSaved;
+		
+		/**
+		 * @param context
+		 * @param queryDefn
+		 * @param queryResultID
+		 */
+		RDSaveUtil( DataEngineContext context, IBaseQueryDefinition queryDefn,
+				String queryResultID )
+		{
+			this.context = context;
+			this.queryDefn = queryDefn;
+			this.queryResultID = queryResultID;
+		}
+		
+		/**
+		 * @param name
+		 * @param value
+		 * @throws DataException
+		 */
+		void doSaveExpr( String name, Object value ) throws DataException
+		{
+			if ( needsSaveToDoc( ) == false )
+				return;
+
+			if ( isBasicSaved == false )
+			{
+				isBasicSaved = true;
+				this.getRdSave( )
+						.saveResultIterator( new DummyCachedResult( ),
+						-1,
+						null );
+			}
+
+			this.getRdSave( ).saveExprValue( 0, name, value );
+		}
+		
+		/**
+		 * @throws DataException
+		 */
+		void doSaveFinish( ) throws DataException
+		{
+			if ( needsSaveToDoc( ) == false )
+				return;
+
+			if ( isBasicSaved == false )
+			{
+				isBasicSaved = true;
+				this.getRdSave( ).saveResultIterator( new DummyCachedResult( ),
+						-1,
+						null );
+			}
+
+			this.getRdSave( ).saveFinish( 0 );
+		}
+		
+		/**
+		 * @return
+		 */
+		private boolean needsSaveToDoc( )
+		{
+			if ( context == null
+					|| context.getMode( ) != DataEngineContext.MODE_GENERATION )
+				return false;
+
+			return true;
+		}
+		
+		/**
+		 * @return
+		 * @throws DataException
+		 */
+		private RDSave getRdSave( ) throws DataException
+		{
+			if ( rdSave == null )
+			{
+				rdSave = RDUtil.newSave( this.context,
+						this.queryDefn,
+						this.queryResultID,
+						1,
+						null,
+						-1 );
+			}
+
+			return rdSave;
+		}		
+	}
+	
+	/**
+	 *
+	 */
+	private class DummyCachedResult extends CachedResultSet
+	{
+		/*
+		 * @see org.eclipse.birt.data.engine.executor.transform.CachedResultSet#doSave(java.io.OutputStream,
+		 *      java.io.OutputStream, java.io.OutputStream, boolean)
+		 */
+		public void doSave( OutputStream resultClassStream,
+				OutputStream dataSetDataStream, OutputStream groupInfoStream,
+				boolean isSubQuery ) throws DataException
+		{
+			try
+			{
+				IOUtil.writeInt( resultClassStream, 0 );
+				if ( dataSetDataStream != null )
+					IOUtil.writeInt( dataSetDataStream, 0 );
+				IOUtil.writeInt( groupInfoStream, 0 );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.RD_SAVE_ERROR,
+						e,
+						"Result Class" );
 			}
 		}
 	}
