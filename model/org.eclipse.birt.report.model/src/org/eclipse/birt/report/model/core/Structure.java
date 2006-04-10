@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
@@ -25,17 +26,51 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 /**
  * Base class for property structures. Implements the two "boiler-plate" methods
  * from the IStructure interface.
- *  
+ * 
  */
 
 public abstract class Structure implements IStructure
 {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+
+	public boolean equals( Object obj )
+	{
+		if ( !( obj instanceof Structure ) )
+			return false;
+
+		Structure struct = (Structure) obj;
+		if ( struct.getDefn( ) != getDefn( ) )
+			return false;
+
+		Iterator iter = getDefn( ).getPropertyIterator( );
+		while ( iter.hasNext( ) )
+		{
+			PropertyDefn defn = (PropertyDefn) iter.next( );
+			Object value = getLocalProperty( null, defn );
+			if ( value == null )
+			{
+				if ( struct.getLocalProperty( null, defn ) != null )
+					return false;
+			}
+			else
+			{
+				if ( !value.equals( struct.getLocalProperty( null, defn ) ) )
+					return false;
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * Gets a copy of this structure.
 	 * 
 	 * @return the copied structure.
-	 *  
+	 * 
 	 */
 
 	public final IStructure copy( )
@@ -67,7 +102,7 @@ public abstract class Structure implements IStructure
 	 * Gets the object definition of this structure.
 	 * 
 	 * @return the structure definition returned.
-	 *  
+	 * 
 	 */
 
 	public IObjectDefn getObjectDefn( )
@@ -132,7 +167,7 @@ public abstract class Structure implements IStructure
 			return getIntrinsicProperty( propDefn.getName( ) );
 		return null;
 	}
-	
+
 	/**
 	 * Gets the locale value of a property.
 	 * 
@@ -293,20 +328,23 @@ public abstract class Structure implements IStructure
 		return handle( valueHandle, posn );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#isReferencable()
 	 */
-	
+
 	public boolean isReferencable( )
 	{
 		return false;
-	}	
-	
+	}
+
 	/**
 	 * Gets the value of the referencable member.
+	 * 
 	 * @return the value of the referencable member
 	 */
-	
+
 	public String getReferencableProperty( )
 	{
 		return null;

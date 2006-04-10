@@ -12,10 +12,12 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -92,7 +94,7 @@ public class ExtendedItemState extends ReportItemState
 
 	public void end( ) throws SAXException
 	{
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.1.0" ) >= 0 ) //$NON-NLS-1$
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) > 0 ) //$NON-NLS-1$
 		{
 			super.end( );
 			return;
@@ -129,19 +131,33 @@ public class ExtendedItemState extends ReportItemState
 	private void handleJavaExpression( List jsExprs )
 	{
 		List columns = new ArrayList( );
+		Set uniqueColumns = new LinkedHashSet( );
 
 		for ( int i = 0; i < jsExprs.size( ); i++ )
 		{
 			String jsExpr = (String) jsExprs.get( i );
 
-			IColumnBinding boundColumn = ExpressionUtil
-					.getColumnBinding( jsExpr );
+			List boundColumns = null;
 
-			if ( boundColumn == null )
+			try
+			{
+				boundColumns = ExpressionUtil.extractColumnExpressions( jsExpr );
+			}
+			catch ( BirtException e )
+			{
+				continue;
+			}
+
+			if ( boundColumns == null || boundColumns.isEmpty( ) )
 				continue;
 
-			columns.add( boundColumn );
+			for ( int j = 0; j < boundColumns.size( ); j++ )
+			{
+				uniqueColumns.add( boundColumns.get( j ) );
+			}
 		}
+
+		columns.addAll( uniqueColumns );
 
 		DataBoundColumnUtil.setupBoundDataColumns( element, columns, handler
 				.getModule( ) );

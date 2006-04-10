@@ -52,8 +52,20 @@ public abstract class PropertyStructure extends Structure
 		if ( propDefn.isIntrinsic( ) )
 			return getIntrinsicProperty( propDefn.getName( ) );
 		return propValues.get( propDefn.getName( ) );
-	}
+	}	
+	
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Structure#getLocalProperty(org.eclipse.birt.report.model.core.Module, java.lang.String)
+	 */
+	
+	public Object getLocalProperty( Module module, String memberName )
+	{
+		PropertyDefn prop = (PropertyDefn) getDefn( ).getMember( memberName );
+		if ( prop == null )
+			return null;
+		return getLocalProperty( module, prop );
+	}
 
 	/**
 	 * Sets the value of the property.
