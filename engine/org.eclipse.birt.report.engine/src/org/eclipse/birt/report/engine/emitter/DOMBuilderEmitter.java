@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.content.IContent;
  * receive the input and construct the DOM strcuture 
  * of the received contents.
  *
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:48 $
  */
 public class DOMBuilderEmitter extends ContentEmitterAdapter
 {
@@ -45,7 +45,7 @@ public class DOMBuilderEmitter extends ContentEmitterAdapter
 		{
 			children = parent.getChildren( );
 		}
-		if ( children.contains( content ) )
+		if ( !children.contains( content ) )
 		{
 			children.add( content );
 		}
