@@ -844,13 +844,17 @@ public class ModelOdaAdapter
 	 *            the ODA data source design
 	 * @param setHandle
 	 *            the Model handle
+	 * @param isSourceChanged
+	 *            <code>true</code> if the data source of the given design has
+	 *            been changed. Otherwise <code>false</code>.
 	 * @throws SemanticException
 	 *             if any of <code>sourceDesign</code> property values is not
 	 *             valid.
 	 */
 
 	public void updateDataSetHandle( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle ) throws SemanticException
+			OdaDataSetHandle setHandle, boolean isSourceChanged )
+			throws SemanticException
 	{
 		if ( setDesign == null || setHandle == null )
 			return;
@@ -931,9 +935,26 @@ public class ModelOdaAdapter
 			DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
 			if ( sourceDesign != null )
 			{
-				setHandle.setDataSource( sourceDesign.getName( ) );
-				updateDataSourceHandle( sourceDesign,
-						(OdaDataSourceHandle) setHandle.getDataSource( ) );
+				OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) setHandle
+						.getDataSource( );
+
+				// only the local data source can be used.
+
+				if ( isSourceChanged && sourceHandle != null 
+						&& !sourceHandle.getModuleHandle( ).isReadOnly( ) )
+				{
+					setHandle.setDataSource( sourceDesign.getName( ) );
+					updateDataSourceHandle( sourceDesign, sourceHandle );
+				}
+				
+				// if the source is not changed, and it is not in the included
+				// library, then we can update it.
+
+				if ( !isSourceChanged && sourceHandle != null 
+						&& !sourceHandle.getModuleHandle( ).isReadOnly( ) )
+				{
+					updateDataSourceHandle( sourceDesign, sourceHandle );
+				}
 			}
 			else
 				setHandle.setDataSource( null );
@@ -982,8 +1003,7 @@ public class ModelOdaAdapter
 
 	public DesignerState newOdaDesignerState( OdaDataSetHandle setHandle )
 	{
-		OdaDesignerStateHandle designerState = setHandle
-				.getDesignerState( );
+		OdaDesignerStateHandle designerState = setHandle.getDesignerState( );
 
 		return DesignerStateAdapter.createOdaDesignState( designerState );
 	}
@@ -1018,8 +1038,7 @@ public class ModelOdaAdapter
 
 	public DesignerState newOdaDesignerState( OdaDataSourceHandle sourceHandle )
 	{
-		OdaDesignerStateHandle designerState = sourceHandle
-				.getDesignerState( );
+		OdaDesignerStateHandle designerState = sourceHandle.getDesignerState( );
 
 		return DesignerStateAdapter.createOdaDesignState( designerState );
 	}
