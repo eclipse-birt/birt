@@ -99,7 +99,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		{
 			return new CategoryProvider( new String[]{
 					"DataPageGenerator.List.General", //$NON-NLS-1$
-					"DataPageGenerator.List.Expression", //$NON-NLS-1$
+			//		"DataPageGenerator.List.Expression", //$NON-NLS-1$
 					"DataPageGenerator.List.Padding", //$NON-NLS-1$
 					"DataPageGenerator.List.Borders", //$NON-NLS-1$
 					"DataPageGenerator.List.Margin", //$NON-NLS-1$
@@ -116,7 +116,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.EventHandler" //$NON-NLS-1$
 			}, new Class[]{
 					DataPage.class,
-					ExpressionPage.class,
+			//		ExpressionPage.class,
 					CellPaddingPage.class,
 					BordersPage.class,
 					ItemMarginPage.class,
