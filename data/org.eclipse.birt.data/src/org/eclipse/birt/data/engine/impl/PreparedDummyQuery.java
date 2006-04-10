@@ -133,10 +133,11 @@ public class PreparedDummyQuery implements IPreparedQuery
 	 */
 	private class QueryResults implements IQueryResults
 	{
-
 		private IPreparedQuery preparedQuery;
 		private ExprManager exprManager;
 		private Scriptable queryScope;
+		
+		private String queryResultID;
 
 		/**
 		 * @param preparedQuery
@@ -154,7 +155,10 @@ public class PreparedDummyQuery implements IPreparedQuery
 		 */
 		public String getID( )
 		{
-			return IDUtil.nextQursID( );
+			if ( queryResultID == null )
+				queryResultID = IDUtil.nextQursID( );
+			
+			return queryResultID;
 		}
 
 		/*
@@ -194,7 +198,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 	 */
 	private class ResultIterator implements IResultIterator
 	{
-		private IQueryResults queryResults;
+		private QueryResults queryResults;
 		private ExprManager exprManager;
 		private Scriptable queryScope;
 
@@ -219,7 +223,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		 * @param queryResults
 		 * @param queryScope
 		 */
-		private ResultIterator( IQueryResults queryResults,
+		private ResultIterator( QueryResults queryResults,
 				ExprManager exprManager, Scriptable queryScope )
 		{
 			this.queryResults = queryResults;
@@ -527,7 +531,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 			{
 				rdSaveUtil = new RDSaveUtil( context,
 						queryDefn,
-						queryDefn.getQueryResultsID( ) );
+						queryResults.getID( ) );
 			}
 
 			return this.rdSaveUtil;
