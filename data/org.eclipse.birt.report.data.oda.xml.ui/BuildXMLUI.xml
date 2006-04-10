@@ -93,8 +93,8 @@
 			<include name="org.eclipse.ui*.jar"/>
 			<include name="org.eclipse.jface_*.jar"/>
 			<include name="org.eclipse.swt*.jar" />
-			<include name="org.eclipse.datatools.connectivity.*.jar"/>
-            <include name="org.eclipse.datatools.connectivity.*/*.jar"/>
+			<include name="org.eclipse.datatools.connectivity*.jar"/>
+            <include name="org.eclipse.datatools.connectivity*/*.jar"/>
 		</fileset>
 
 	</path>

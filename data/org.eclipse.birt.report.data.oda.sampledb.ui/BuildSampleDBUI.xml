@@ -108,6 +108,8 @@
 			<include name="org.eclipse.ui*.jar"/>
 			<include name="org.eclipse.emf.ecore*.jar"/>
 			<include name="org.eclipse.emf.common*.jar"/>
+			<include name="org.eclipse.datatools.connectivity*.jar"/>
+            <include name="org.eclipse.datatools.connectivity*/*.jar"/>
 		</fileset>
 		
 	</path>
@@ -236,7 +238,7 @@
 		</ant>
 		<echo message="end call Jar task in ${sampledb.dir}"/>
 
-		<echo message="start call Jar task in ${oda.designer.ui.dir}"/>
+<!--	<echo message="start call Jar task in ${oda.designer.ui.dir}"/>
 		<ant dir="${oda.designer.ui.dir}" antfile="build.xml" target="build.jars" inheritAll="false">
 			<property name="dtp.home" value="${dtp.home}"/>
 		</ant>
@@ -247,7 +249,7 @@
 			<property name="dtp.home" value="${dtp.home}"/>
 		</ant>
 		<echo message="end call Jar task in ${oda.designer.dir}"/>
-	</target>
+-->	</target>
 	
 	<target name="compileSource" depends="buildDependency" description="compile the source ">
 		<mkdir dir="${dir.bin}" />

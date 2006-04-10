@@ -110,6 +110,8 @@
 			<include name="org.eclipse.osgi*.jar"/>
 			<include name="org.junit_*/*.jar"/>
 			<include name="com.ibm.icu*.jar"/>
+			<include name="org.eclipse.datatools.connectivity*.jar"/>
+            <include name="org.eclipse.datatools.connectivity*/*.jar"/>
 		</fileset>
 		
 	</path>
@@ -224,11 +226,11 @@
 	
 	<target name="buildDependency">
 		<echo message="start call Jar task in ${dtp.oda.dir}"/>
-		<ant dir="${dtp.oda.dir}" antfile="build.xml" target="build.jars" inheritAll="false">
+<!--	<ant dir="${dtp.oda.dir}" antfile="build.xml" target="build.jars" inheritAll="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>				
 		<echo message="end call Jar task in ${dtp.oda.dir}"/>
-	</target>
+-->	</target>
 	
 	<target name="compileSource" depends="buildDependency" description="compile the source ">
 		<mkdir dir="${dir.bin}" />
