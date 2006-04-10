@@ -18,7 +18,7 @@
    </license>
 
    <includes
-         id="org.eclipse.birt.chart.designer.source"
+         id="org.eclipse.birt.chart.source"
          version="0.0.0"/>
 
    <includes

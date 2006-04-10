@@ -26,11 +26,11 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.birt.chart.designer"
+         id="org.eclipse.birt.chart.runtime"
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.birt.chart.runtime"
+         id="org.eclipse.birt.chart"
          version="0.0.0"/>
 
    <plugin

@@ -23,7 +23,7 @@
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.datatools.connectivity.oda"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.design.ui"/>
-      <import feature="org.eclipse.birt.chart.designer" version="2.1.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.birt.chart" version="2.1.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.birt.chart.runtime" version="2.1.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.birt.report.designer" version="2.1.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.birt.report.runtime" version="2.1.0" match="greaterOrEqual"/>
