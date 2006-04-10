@@ -125,6 +125,8 @@
 			<include name="org.eclipse.osgi*.jar"/>
 			<include name="org.junit_*/*.jar"/>
 			<include name="com.ibm.icu*.jar"/>
+			<include name="org.eclipse.datatools.connectivity*.jar"/>
+            <include name="org.eclipse.datatools.connectivity*/*.jar"/>
 		</fileset>
 		
 	</path>
@@ -421,7 +423,7 @@
 		</ant>
 		<echo message="${module.name} end call Jar task in ${core.dir}"/>
 		
-		<echo message="${module.name} start call Jar task in ${dtp.oda.dir}"/>
+<!--	<echo message="${module.name} start call Jar task in ${dtp.oda.dir}"/>
 		<ant dir="${dtp.oda.dir}" antfile ="build.xml" target="build.jars" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
 			<property name="dtp.home" value="${dtp.home}" />
@@ -434,7 +436,7 @@
 			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
 		<echo message="${module.name} end call Jar task in ${dtp.oda.consumer.dir}"/>
-	</target>
+-->	</target>
 	
 	<target name="testDependency">
 		<echo message="${module.name} start call Jar task in ${birt.oda.dir}"/>		
