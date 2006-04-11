@@ -78,6 +78,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Item;
@@ -87,6 +88,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * The builder for hyper link
@@ -363,7 +366,13 @@ public class HyperlinkBuilder extends BaseDialog
 		createSelectionArea( composite );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		displayArea = new Composite( composite, SWT.NONE );
-		displayArea.setLayoutData( new GridData( 500, 490 ) );
+		Shell shell = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( )
+				.getShell( );
+
+		displayArea.setLayoutData( new GridData( 500,
+				shell.getBounds( ).height < 490+200 ? shell.getBounds( ).height-200
+						: 490 ) );
 		displayArea.setLayout( new GridLayout( 3, false ) );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		return composite;
@@ -372,7 +381,7 @@ public class HyperlinkBuilder extends BaseDialog
 	private void createSelectionArea( Composite parent )
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		composite.setLayout( new GridLayout( 2, false ) );
 
 		new Label( composite, SWT.NONE ).setText( LABEL_SELECT_TYPE );
@@ -412,7 +421,7 @@ public class HyperlinkBuilder extends BaseDialog
 		closeTargetReport( );
 
 		displayArea.setLayout( new GridLayout( 3, false ) );
-		
+
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( type ) )
 		{
 			switchToURI( );
