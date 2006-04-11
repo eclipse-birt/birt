@@ -3367,6 +3367,20 @@ public abstract class DesignElement
 					: current.getExtendsElement( );
 		}
 
+		// clear text-property of displayName
+
+		if ( element.propValues.get( DesignElement.DISPLAY_NAME_PROP ) != null )
+		{
+			element.propValues.remove( DesignElement.DISPLAY_NAME_PROP );
+		}
+
+		// clear text-property of displayNameID
+
+		if ( element.propValues.get( DesignElement.DISPLAY_NAME_ID_PROP ) != null )
+		{
+			element.propValues.remove( DesignElement.DISPLAY_NAME_ID_PROP );
+		}
+
 		return element;
 	}
 
