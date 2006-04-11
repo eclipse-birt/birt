@@ -577,6 +577,7 @@ public class InsertInLayoutUtil
 			bindingColumn.setExpression( DEUtil.getExpression( model ) );
 			bindingColumn.setName( model.getColumnName( ) );
 			dataHandle.addColumnBinding( bindingColumn, false );
+			dataHandle.setDataSet( dataSet );
 		}
 
 		InsertInLayoutRule rule = new LabelAddRule( target );

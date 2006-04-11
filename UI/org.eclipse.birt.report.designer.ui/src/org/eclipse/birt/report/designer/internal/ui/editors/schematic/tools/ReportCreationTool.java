@@ -209,7 +209,7 @@ public class ReportCreationTool extends CreationTool
 					}
 					else if ( handle instanceof DataItemHandle )
 					{
-						if ( ( (DataItemHandle) handle ).getValueExpr( ) != null )
+						if ( ( (DataItemHandle) handle ).getResultSetColumn( ) != null )
 							return;
 					}
 					else if ( handle instanceof LabelHandle )
