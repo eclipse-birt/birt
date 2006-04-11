@@ -204,12 +204,12 @@ public class ExtendedItemFilterDialog extends BaseDialog
 				.getTable( ) );
 		editor.setExpressionProvider( expressionProvider );
 		// editor.addFilter( new DataSetExpressionFilter( ) );
-		editor.setReportElement( reportItemHandle );
+		editor.setReportElement( getDataSetFromHandle( ) );
 		editors[3] = editor;
 		editor = new ExpressionValueCellEditor( viewer.getViewer( ).getTable( ) );
 		editor.setExpressionProvider( expressionProvider );
 		// editor.addFilter( new DataSetExpressionFilter( ) );
-		editor.setReportElement( reportItemHandle );
+		editor.setReportElement( getDataSetFromHandle( ) );
 		editors[4] = editor;
 
 		viewer.getViewer( ).setCellEditors( editors );
