@@ -322,7 +322,11 @@ public class GroupDialog extends BaseDialog implements Listener
 		new Label( composite, SWT.NONE ).setText( GROUP_DLG_GROUP_KEY_LABEL );
 
 		// Creates group key chooser
-		keyChooser = new Combo( composite, SWT.DROP_DOWN | SWT.READ_ONLY );
+		Composite keyArea = new Composite( composite, SWT.NONE );
+		keyArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		keyArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
+
+		keyChooser = new Combo( keyArea, SWT.DROP_DOWN );
 		keyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		keyChooser.addModifyListener( new ModifyListener( ) {
 
@@ -332,6 +336,23 @@ public class GroupDialog extends BaseDialog implements Listener
 					resetInterval( );
 			}
 
+		} );
+
+		Button exprButton = new Button( keyArea, SWT.PUSH );
+		exprButton.setText( "..." ); //$NON-NLS-1$
+		exprButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+
+				ExpressionBuilder expressionBuilder = new ExpressionBuilder( getKeyExpression( ) );
+				expressionBuilder.setExpressionProvier( new ExpressionProvider( inputGroup ) );
+
+				if ( expressionBuilder.open( ) == OK )
+				{
+					setKeyExpression( expressionBuilder.getResult( ).trim( ) );
+				}
+			}
 		} );
 
 		// Creates intervalRange area
@@ -707,12 +728,13 @@ public class GroupDialog extends BaseDialog implements Listener
 
 			int index = keyChooser.getSelectionIndex( );
 			String oldKeyExpr = inputGroup.getKeyExpr( );
-			String newKeyExpr = keyChooser.getText( );
+			String newKeyExpr = getKeyExpression( );
 
 			inputGroup.setKeyExpr( newKeyExpr );
 			if ( newKeyExpr != null
 					&& newKeyExpr.length( ) != 0
-					&& !newKeyExpr.equals( oldKeyExpr ) )
+					&& !newKeyExpr.equals( oldKeyExpr )
+					&& index != -1 )
 			{
 				SlotHandle slotHandle = null;
 				// SlotHandle headerHandle = null;
@@ -745,7 +767,7 @@ public class GroupDialog extends BaseDialog implements Listener
 					// }
 					// }
 				}
-				if ( slotHandle != null && index != -1 )
+				if ( slotHandle != null )
 				{
 					DataItemHandle dataItemHandle = inputGroup.getElementFactory( )
 							.newDataItem( null );
@@ -861,12 +883,20 @@ public class GroupDialog extends BaseDialog implements Listener
 	private void setKeyExpression( String key )
 	{
 		keyChooser.deselectAll( );
+		key = StringUtil.trimString( key );
 		if ( StringUtil.isBlank( key ) )
 		{
 			keyChooser.setText( "" ); //$NON-NLS-1$
-
 			return;
-		}		
+		}
+		for ( int i = 0; i < columnList.size( ); i++ )
+		{
+			if ( key.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
+			{
+				keyChooser.select( i );
+				return;
+			}
+		}
 		keyChooser.setText( key );
 	}
 
@@ -1062,6 +1092,20 @@ public class GroupDialog extends BaseDialog implements Listener
 	{
 		inputGroup.removeListener( this );
 		return super.close( );
+	}
+
+	private String getKeyExpression( )
+	{
+		String exp = null;
+		if ( keyChooser.getSelectionIndex( ) != -1 )
+		{
+			exp = DEUtil.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ) );
+		}
+		else
+		{
+			exp = keyChooser.getText( ).trim( );
+		}
+		return exp;
 	}
 
 }
