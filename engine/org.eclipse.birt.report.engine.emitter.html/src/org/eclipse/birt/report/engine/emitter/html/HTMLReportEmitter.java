@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,7 +88,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.88 $ $Date: 2006/04/05 13:22:14 $
+ * @version $Revision: 1.89 $ $Date: 2006/04/06 04:03:07 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -221,8 +220,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * content visitor that is used to handle page header/footer
 	 */
 	protected ContentEmitterVisitor contentVisitor;
-
-	protected Random random;
 
 	/**
 	 * the constructor
@@ -2359,16 +2356,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 
+	protected int bookmarkId = 0;
 	protected String generateUniqueID( )
 	{
-		if ( random == null )
-		{
-			random = new Random( );
-		}
-		String randLong = "" + random.nextLong( );
-		randLong = randLong.replaceAll( "-", "" );
-
-		return "AUTOGENBOOKMARK_" + randLong;
+		bookmarkId ++;
+		return "AUTOGENBOOKMARK_" + bookmarkId;
 	}
 	
 	/**
