@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
@@ -85,6 +86,16 @@ class ExpressionState extends PropertyState
 				&& StringUtil.compareVersion( handler.getVersion( ), "3.1.0" ) < 0 ) //$NON-NLS-1$
 		{
 			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
+
+		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) < 0 ) //$NON-NLS-1$
+				&& element instanceof ImageItem
+				&& ImageItem.URI_PROP.equalsIgnoreCase( name ) )
+		{
+			CompatibleImageURIState state = new CompatibleImageURIState(
 					handler, element );
 			state.setName( name );
 			return state;

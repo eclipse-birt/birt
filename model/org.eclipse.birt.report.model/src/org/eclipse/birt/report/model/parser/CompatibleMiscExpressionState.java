@@ -82,6 +82,7 @@ class CompatibleMiscExpressionState extends ExpressionState
 			// set the property for the result set column property of DataItem.
 
 			doEnd( value );
+			return;
 		}
 
 		String newName = DataBoundColumnUtil.setupBoundDataColumn( element,
