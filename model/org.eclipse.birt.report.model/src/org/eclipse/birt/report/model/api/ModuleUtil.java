@@ -98,6 +98,8 @@ public class ModuleUtil
 			super( null, null );
 			this.element = element;
 			module = new ReportDesign( null );
+			
+			setVersion( DesignSchemaConstants.REPORT_VERSION );
 		}
 
 		public AbstractParseState createStartState( )

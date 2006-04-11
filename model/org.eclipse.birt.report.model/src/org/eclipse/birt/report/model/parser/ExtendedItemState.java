@@ -150,7 +150,8 @@ public class ExtendedItemState extends ReportItemState
 			if ( !columns.contains( boundColumn ) )
 				columns.add( boundColumn );
 
-			retMap.put( jsExpr, boundColumn.getBoundExpression( ) );
+			retMap.put( jsExpr, ExpressionUtil.createRowExpression( boundColumn
+					.getResultSetColumnName( ) ) );
 		}
 
 		DataBoundColumnUtil.setupBoundDataColumns( element, columns, handler

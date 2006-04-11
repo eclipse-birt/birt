@@ -109,7 +109,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 *            The version to set.
 	 */
 
-	void setVersion( String version )
+	protected void setVersion( String version )
 	{
 		this.version = version;
 	}
