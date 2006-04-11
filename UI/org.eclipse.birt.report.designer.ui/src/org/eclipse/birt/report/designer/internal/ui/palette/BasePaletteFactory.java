@@ -26,20 +26,17 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.dialogs.BindingColumnDialog;
-import org.eclipse.birt.report.designer.ui.dialogs.ImageBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -48,7 +45,6 @@ import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteGroup;
@@ -184,12 +180,15 @@ public class BasePaletteFactory
 				DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 						.newDataItem( null );
 				setModel( dataHandle );
-				BindingColumnDialog dialog = new BindingColumnDialog( true );
-				dialog.setInput( dataHandle );
-				if ( dialog.open( ) == Window.OK )
-				{
-					return super.preHandleMouseUp( );
-				}
+				// disable this dialog
+				// dialog will pop-up after image is create
+				// see ReportCreationTool.selectAddedObject()
+				// BindingColumnDialog dialog = new BindingColumnDialog( true );
+				// dialog.setInput( dataHandle );
+				// if ( dialog.open( ) == Window.OK )
+				// {
+				return super.preHandleMouseUp( );
+				// }
 			}
 			return false;
 		}
@@ -244,27 +243,34 @@ public class BasePaletteFactory
 		 */
 		public boolean preHandleMouseUp( )
 		{
-			CreateRequest request = getRequest( );
-
-			DesignElementHandle desginElementHandle = getDesignElementHandle( );
-			dataSetList = DEUtil.getDataSetList( desginElementHandle );
-
-			if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
-			{
-				// Open the builder for new image
-				ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell( ),
-						ImageBuilder.DLG_TITLE_NEW,
-						dataSetList );
-				if ( Window.OK == dialog.open( ) )
-				{
-					setModel( dialog.getResult( ) );
-
-					// If the dialog popup, mouse up event will not be called
-					// automatically, call it explicit
-					return super.preHandleMouseUp( );
-				}
-			}
-			return false;
+			// CreateRequest request = getRequest( );
+			//
+			// DesignElementHandle desginElementHandle = getDesignElementHandle(
+			// );
+			// dataSetList = DEUtil.getDataSetList( desginElementHandle );
+			//
+			// if (
+			// IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase(
+			// (String) request.getNewObjectType( ) ) )
+			// {
+			// // Open the builder for new image
+			// ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell(
+			// ),
+			// ImageBuilder.DLG_TITLE_NEW,
+			// dataSetList );
+			// if ( Window.OK == dialog.open( ) )
+			// {
+			// setModel( dialog.getResult( ) );
+			//
+			// // If the dialog popup, mouse up event will not be called
+			// // automatically, call it explicit
+			// return super.preHandleMouseUp( );
+			// }
+			// }
+			// return false;
+			ImageHandle dataHandle = DesignElementFactory.getInstance( ).newImage( null );
+			setModel( dataHandle );
+			return super.preHandleMouseUp( );
 		}
 
 		/*

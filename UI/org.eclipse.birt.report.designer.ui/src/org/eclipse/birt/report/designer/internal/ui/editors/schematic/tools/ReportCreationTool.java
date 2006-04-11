@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ImageEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -43,7 +44,7 @@ public class ReportCreationTool extends CreationTool
 	private static final String MODEL_CREATE_ELEMENT_TRANS = Messages.getString( "ReportCreationTool.ModelTrans.CreateElement" ); //$NON-NLS-1$
 
 	private AbstractToolHandleExtends preHandle;
-	
+
 	private boolean isCreating = false;
 
 	/**
@@ -83,8 +84,8 @@ public class ReportCreationTool extends CreationTool
 				{
 					if ( !preHandle.preHandleMouseUp( ) )
 					{
-						//if a popup dialog was cancelled.
-						//All create logic should be finished there.
+						// if a popup dialog was cancelled.
+						// All create logic should be finished there.
 						SessionHandleAdapter.getInstance( )
 								.getReportDesignHandle( )
 								.getCommandStack( )
@@ -106,7 +107,8 @@ public class ReportCreationTool extends CreationTool
 	}
 
 	/**
-	 * Performs the creation. Runs the creation via simulating the mouse move event.
+	 * Performs the creation. Runs the creation via simulating the mouse move
+	 * event.
 	 * 
 	 * @param editPart
 	 *            the current EditPart
@@ -120,14 +122,14 @@ public class ReportCreationTool extends CreationTool
 				getTargetEditPart( ) );
 		if ( !validateCurr )
 		{
-			//Validates the parent part
+			// Validates the parent part
 			setTargetEditPart( editPart.getParent( ) );
 		}
 		if ( validateCurr
 				|| handleValidatePalette( getFactory( ).getObjectType( ),
 						getTargetEditPart( ) ) )
 		{
-			//Sets the insertion point
+			// Sets the insertion point
 			IFigure figure = ( (GraphicalEditPart) editPart ).getFigure( );
 			Rectangle rect = figure.getBounds( ).getCopy( );
 			figure.translateToAbsolute( rect );
@@ -146,27 +148,32 @@ public class ReportCreationTool extends CreationTool
 	 */
 	private void selectAddedObject( )
 	{
-		final Object model = getNewObjectFromRequest();
+		final Object model = getNewObjectFromRequest( );
 		final EditPartViewer viewer = getCurrentViewer( );
 		selectAddedObject( model, viewer );
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.tools.TargetingTool#getTargetRequest()
 	 */
 	public Request getTargetRequest( )
 	{
 		return super.getTargetRequest( );
 	}
-	/**Gets the new Object from request
+
+	/**
+	 * Gets the new Object from request
+	 * 
 	 * @return
 	 */
-	public Object getNewObjectFromRequest()
+	public Object getNewObjectFromRequest( )
 	{
 		return getCreateRequest( ).getExtendedData( )
-		.get( DesignerConstants.KEY_NEWOBJECT );
+				.get( DesignerConstants.KEY_NEWOBJECT );
 	}
+
 	/**
 	 * Selects or clicks added object
 	 * 
@@ -213,7 +220,12 @@ public class ReportCreationTool extends CreationTool
 
 					( (LabelEditPart) editpart ).performDirectEdit( );
 				}
-				if (editpart != null)
+				else if ( editpart instanceof ImageEditPart )
+				{
+					( (ImageEditPart) editpart ).performDirectEdit( );
+				}
+
+				if ( editpart != null )
 				{
 					viewer.reveal( (EditPart) editpart );
 				}
@@ -303,17 +315,17 @@ public class ReportCreationTool extends CreationTool
 	protected boolean handleMove( )
 	{
 		boolean validateTrue = false;
-		if (isCreating)
+		if ( isCreating )
 		{
 			return true;
 		}
 		updateTargetUnderMouse( );
-		
-		if (getTargetEditPart().getModel() instanceof LibraryHandle)
+
+		if ( getTargetEditPart( ).getModel( ) instanceof LibraryHandle )
 		{
-			//return true;
+			// return true;
 		}
-		
+
 		if ( getTargetEditPart( ) != null )
 		{
 			validateTrue = handleValidatePalette( getFactory( ).getObjectType( ),

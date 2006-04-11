@@ -212,7 +212,7 @@ public class ImageEditPart extends ReportElementEditPart
 	/**
 	 * 
 	 */
-	private void performDirectEdit( )
+	public void performDirectEdit( )
 	{
 //		List dataSetList = DEUtil.getDataSetList( (DesignElementHandle) getModel( ) );
 		List dataSetList = DEUtil.getDataSetListExcludeSelf( (DesignElementHandle) getModel( ) );

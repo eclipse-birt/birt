@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ImageEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -198,7 +199,12 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 								{
 									( (LabelEditPart) cpart ).performDirectEdit( );
 								}
-							}		
+								else if ( edit
+										&& cpart instanceof ImageEditPart )
+								{
+									( (ImageEditPart) cpart ).performDirectEdit( );
+								}
+							}
 						}
 					}
 				}
