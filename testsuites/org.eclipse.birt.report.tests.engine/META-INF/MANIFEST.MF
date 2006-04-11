@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Engine Test
+Bundle-SymbolicName: org.eclipse.birt.report.tests.engine; singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.birt.report.tests.engine.plugin.EnginePlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.report.tests.engine,
+ org.eclipse.birt.report.tests.engine.api,
+ org.eclipse.birt.report.tests.engine.regression,
+ org.eclipse.birt.report.tests.engine.compatibility.reportdoc
+Require-Bundle: org.eclipse.birt.core,
+ org.eclipse.birt.data,
+ org.eclipse.birt.report.model,
+ org.eclipse.birt.report.engine
+Eclipse-LazyStart: true

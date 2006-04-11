@@ -18,6 +18,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URL;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -252,7 +255,7 @@ public abstract class EngineCase extends TestCase
 	 * @return the path name where the test java source file locates.
 	 */
 
-	protected String getClassFolder( )
+/*	protected String getClassFolder( )
 	{
 		String className = this.getClass( ).getName( );
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
@@ -260,8 +263,37 @@ public abstract class EngineCase extends TestCase
 		className = TEST_FOLDER + className.replace( '.', '/' );
 
 		return className;
-	}
+	}*/
 
+	protected String getClassFolder( )
+	{
+		String pathBase = null;
+
+		ProtectionDomain domain = this.getClass( ).getProtectionDomain( );
+		if ( domain != null )
+		{
+			CodeSource source = domain.getCodeSource( );
+			if ( source != null )
+			{
+				URL url = source.getLocation( );
+				pathBase = url.getPath( );
+
+				if ( pathBase.endsWith( "bin/" ) ) //$NON-NLS-1$
+					pathBase = pathBase.substring( 0, pathBase.length( ) - 4 );
+				if ( pathBase.endsWith( "bin" ) ) //$NON-NLS-1$
+					pathBase = pathBase.substring( 0, pathBase.length( ) - 3 );
+			}
+		}
+
+		pathBase = pathBase + TEST_FOLDER;
+		String className = this.getClass( ).getName( );
+		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
+		className = className.substring( 0, lastDotIndex );
+		className = pathBase + className.replace( '.', '/' );
+
+		return className;
+	}
+	
 	/**
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
@@ -662,7 +694,6 @@ public abstract class EngineCase extends TestCase
 	 */
 	protected String getBaseFolder( )
 	{
-
 		String className = getClass( ).getName( );
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
 		className = className.substring( 0, lastDotIndex );
