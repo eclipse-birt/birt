@@ -25,6 +25,7 @@ import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdScriptableObject;
+import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
@@ -38,6 +39,9 @@ import org.mozilla.javascript.Undefined;
  */
 public class JavascriptEvalUtil
 {
+    // shared scope for conversion to Java Script value
+	private static Scriptable sharedScope;
+	
 	private static Logger logger = Logger.getLogger( JavascriptEvalUtil.class.getName( ) );
 
 	/*
@@ -50,23 +54,30 @@ public class JavascriptEvalUtil
 	static protected Map compiledScriptCache = Collections.synchronizedMap( 
 		new LinkedHashMap( SCRIPT_CACHE_SIZE, (float)0.75, true)
 		{
+			/** */
+			private static final long serialVersionUID = 5787175209573500620L;
+			
+			/*
+			 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
+			 */
 			protected boolean removeEldestEntry(Map.Entry eldest) {
 	         return size() > SCRIPT_CACHE_SIZE;
 	      }		
 		} );
 	
-	
-	/** Evaluates Javascript expression and return its result, doing the necessary
-	 *  Javascript -> Java data type conversion if necessary
-	 * @param cx Javascript context. If null, current thread's context is used
-	 * @param scope Javascript scope to evaluate script in
-	 * @param scriptText text of Javascript expression
-	 * @param source descriptive text of script source (for error reporting)
-	 * @param lineNo line number of script in it source
-	 * @return Evaluation result. 
-	 * @throws BirtException If evaluation failed
+	/**
+	 * This method will not convert the data of return value, so it might the
+	 * Java data type or that of Java Script.
+	 * 
+	 * @param cx
+	 * @param scope
+	 * @param scriptText
+	 * @param source
+	 * @param lineNo
+	 * @return the evaluated value
+	 * @throws BirtException
 	 */
-	public static Object evaluateScript(Context cx, Scriptable scope,
+	public static Object evaluateRawScript(Context cx, Scriptable scope,
 			String scriptText, String source, int lineNo)
 			throws BirtException
 	{
@@ -99,6 +110,34 @@ public class JavascriptEvalUtil
 		}
 		
 		return convertJavascriptValue(result);
+	}
+	
+	/**
+	 * Evaluates Javascript expression and return its result, doing the
+	 * necessary Javascript -> Java data type conversion if necessary
+	 * 
+	 * @param cx
+	 *            Javascript context. If null, current thread's context is used
+	 * @param scope
+	 *            Javascript scope to evaluate script in
+	 * @param scriptText
+	 *            text of Javascript expression
+	 * @param source
+	 *            descriptive text of script source (for error reporting)
+	 * @param lineNo
+	 *            line number of script in it source
+	 * @return Evaluation result.
+	 * @throws BirtException
+	 *             If evaluation failed
+	 */
+	public static Object evaluateScript( Context cx, Scriptable scope,
+			String scriptText, String source, int lineNo ) throws BirtException
+	{
+		return convertJavascriptValue( evaluateRawScript( cx,
+				scope,
+				scriptText,
+				source,
+				lineNo ) );
 	}
 	
 	/**
@@ -148,6 +187,27 @@ public class JavascriptEvalUtil
     	else
     		return value;
     }
+    
+	/**
+	 * If caller does not have a scope for evaluation, the caller can use this
+	 * method to evaluate expression. But if caller has its own scope which can
+	 * be used, the better way is call the method of convertToJavascriptValue(
+	 * Object value, Scriptable scope ).
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static Object convertToJavascriptValue( Object value )
+	{
+		if ( sharedScope == null )
+		{
+			Context cx = Context.enter( );
+			sharedScope = new ImporterTopLevel( cx );
+			Context.exit( );
+		}
+
+		return convertToJavascriptValue( value, sharedScope );
+	}
     
 	/**
 	 * Handles a Rhino script evaluation result, converting Javascript native objects

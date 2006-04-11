@@ -33,6 +33,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.mozilla.javascript.IdScriptableObject;
 
 /**
  * A util class to read or write primitive Java data type. Please notice, every
@@ -216,6 +218,8 @@ public class IOUtil
 	private static final int TYPE_LIST = 11;
 	private static final int TYPE_MAP = 12;
 	private static final int TYPE_SERIALIZABLE = 13;
+	
+	private static final int TYPE_JSObject = 14;
 
 	static
 	{
@@ -234,6 +238,8 @@ public class IOUtil
 		type2IndexMap.put( Map.class, new Integer( TYPE_MAP ) );
 		type2IndexMap.put( Serializable.class, new Integer( TYPE_SERIALIZABLE ) );
 		type2IndexMap.put( null, new Integer( TYPE_NULL ) );
+		
+		type2IndexMap.put( IdScriptableObject.class, new Integer( TYPE_JSObject ) );
 	}
 
 	/**
@@ -257,6 +263,10 @@ public class IOUtil
 			if ( obValue instanceof List )
 			{
 				return TYPE_LIST;
+			}
+			if ( obValue instanceof IdScriptableObject )
+			{
+				return TYPE_JSObject;
 			}
 			if ( obValue instanceof Serializable )
 			{
@@ -342,6 +352,10 @@ public class IOUtil
 					{
 					}
 				}
+				break;
+			case TYPE_JSObject :
+				Object ob = IOUtil.readObject( dis );
+				obValue = JavascriptEvalUtil.convertToJavascriptValue( ob );
 				break;
 			default :
 				assert false;
@@ -439,6 +453,19 @@ public class IOUtil
 				{
 					writeInt( dos, bytes.length );
 					dos.write( bytes );
+				}
+				break;
+			case TYPE_JSObject :
+				IdScriptableObject jsObject = ( (IdScriptableObject) obValue );
+				if ( jsObject.getClassName( ).equals( "Date" ) )
+				{
+					Date date = (Date) JavascriptEvalUtil.convertJavascriptValue( obValue );
+					writeObject( dos, date );
+				}
+				else
+				{
+					// other data types are not supported yet.
+					writeObject( dos, null );
 				}
 				break;
 			default :
