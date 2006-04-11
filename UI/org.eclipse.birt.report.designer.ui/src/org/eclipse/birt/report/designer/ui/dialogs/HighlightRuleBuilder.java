@@ -273,7 +273,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
 						&& designHandle instanceof DataItemHandle )
 				{
-					expression.setText( DEUtil.resolveNull( ( (DataItemHandle) designHandle ).getValueExpr( ) ) );
+					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getName( ) ) );
 				}
 				updateButtons( );
 			}
