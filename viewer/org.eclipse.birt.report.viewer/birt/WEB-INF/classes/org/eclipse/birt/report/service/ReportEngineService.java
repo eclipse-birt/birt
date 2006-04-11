@@ -618,7 +618,7 @@ public class ReportEngineService
 		setting.setInstanceIDs( activeIds );
 		setting.setMasterPageContent( masterPage );
 		setting.setActionHandle( new ViewerHTMLActionHandler( reportDocument,
-				pageNumber ) );
+				pageNumber, locale ) );
 
 		renderTask.setRenderOption( setting );
 		renderTask.setLocale( locale );

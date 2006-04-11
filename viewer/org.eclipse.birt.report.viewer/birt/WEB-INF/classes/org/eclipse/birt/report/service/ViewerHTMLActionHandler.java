@@ -14,10 +14,10 @@ package org.eclipse.birt.report.service;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
@@ -30,10 +30,28 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 class ViewerHTMLActionHandler implements IHTMLActionHandler
 {
 
-	protected Logger log = Logger
-			.getLogger( HTMLActionHandler.class.getName( ) );
+	/**
+	 * Logger for this handler.
+	 */
+
+	protected Logger log = Logger.getLogger( ViewerHTMLActionHandler.class
+			.getName( ) );
+
+	/**
+	 * Document instance.
+	 */
 
 	protected IReportDocument document = null;
+
+	/**
+	 * Locale of the requester.
+	 */
+
+	protected Locale locale = null;
+
+	/**
+	 * Page number of the action requester.
+	 */
 
 	protected long page = -1;
 
@@ -46,11 +64,18 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param document
+	 * @param page
+	 * @param locale
 	 */
-	public ViewerHTMLActionHandler( IReportDocument document, long page )
+
+	public ViewerHTMLActionHandler( IReportDocument document, long page,
+			Locale locale )
 	{
 		this.document = document;
 		this.page = page;
+		this.locale = locale;
 	}
 
 	/**
@@ -86,17 +111,19 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	 * 
 	 * @param action
 	 * @param context
-	 * @return
+	 * @return the bookmark url
 	 */
+
 	protected String buildBookmarkAction( IAction action, Object context )
 	{
 		StringBuffer link = new StringBuffer( );
-		
+
 		boolean realBookmark = false;
-		
+
 		if ( this.document != null )
 		{
-			long pageNumber = this.document.getPageNumber( action.getBookmark( ) );
+			long pageNumber = this.document
+					.getPageNumber( action.getBookmark( ) );
 			realBookmark = pageNumber == this.page;
 		}
 
@@ -112,8 +139,14 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 
 		if ( realBookmark )
 		{
-			link.append( "#" );
-			link.append( bookmark ); //$NON-NLS-1$
+			link.append( "#" ); //$NON-NLS-1$
+			link.append( bookmark );
+			if ( locale != null )
+			{
+				link.append( "&__locale=" ); //$NON-NLS-1$
+				link.append( locale.toString( ) );
+			}
+
 		}
 		else
 		{
@@ -122,21 +155,26 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 			{
 				baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
 			}
-			link.append( baseURL ); //$NON-NLS-1$ //$NON-NLS-2$
+			link.append( baseURL );
 
-			link.append( "?__document=" ); //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+			link.append( "?__document=" ); //$NON-NLS-1$
 			String documentName = document.getName( );
 			try
 			{
-				documentName = URLEncoder.encode( documentName, "UTF-8" );
+				documentName = URLEncoder.encode( documentName, "UTF-8" ); //$NON-NLS-1$
 			}
 			catch ( UnsupportedEncodingException e )
 			{
 				// Does nothing
 			}
 			link.append( documentName );
-			link.append( "&__bookmark=" ); //$NON-NLS-1$ //$NON-NLS-2$
+			link.append( "&__bookmark=" ); //$NON-NLS-1$
 			link.append( bookmark );
+			if ( locale != null )
+			{
+				link.append( "&__locale=" ); //$NON-NLS-1$
+				link.append( locale.toString( ) );
+			}
 		}
 
 		return link.toString( );
@@ -174,8 +212,9 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 				link.append( baseURL );
 			}
 
-			link.append( reportName.toLowerCase( )
-					.endsWith( ".rptdocument" ) ? "?__document=" : "?__report=" ); //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+			link
+					.append( reportName.toLowerCase( )
+							.endsWith( ".rptdocument" ) ? "?__document=" : "?__report=" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			try
 			{
@@ -207,7 +246,8 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 						if ( valueObj != null )
 						{
 							String value = valueObj.toString( );
-							link.append( "&" + URLEncoder.encode( key, "UTF-8" ) //$NON-NLS-1$ //$NON-NLS-2$
+							link
+									.append( "&" + URLEncoder.encode( key, "UTF-8" ) //$NON-NLS-1$ //$NON-NLS-2$
 											+ "=" + URLEncoder.encode( value, "UTF-8" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 						}
 					}
@@ -225,11 +265,12 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 			if ( !ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format )
 					&& action.getBookmark( ) != null )
 			{
-				
+
 				try
 				{
 					link.append( "&__bookmark=" ); //$NON-NLS-1$
-					link.append( URLEncoder.encode( action.getBookmark( ), "UTF-8" ) ); //$NON-NLS-1$
+					link.append( URLEncoder.encode( action.getBookmark( ),
+							"UTF-8" ) ); //$NON-NLS-1$
 				}
 				catch ( UnsupportedEncodingException e )
 				{
