@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
+import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.script.FilterPassController;
 import org.eclipse.birt.data.engine.script.NEvaluator;
 
@@ -71,7 +72,7 @@ public final class FilterUtil
 	 * @param expr
 	 */
 	public static void prepareFilterExpression( IBaseExpression expr,
-			FilterPassController filterPass ) throws DataException
+			FilterPassController filterPass, IExecutorHelper helper ) throws DataException
 	{
 		// Check if this is a top/bottom(n) expressions
 		if ( expr instanceof IConditionalExpression )
@@ -96,7 +97,7 @@ public final class FilterUtil
 				NEvaluator evaluator = NEvaluator.newInstance( operator,
 						ce.getExpression( ),
 						ce.getOperand1( ),
-						filterPass );
+						filterPass, helper );
 				expr.setHandle( evaluator );
 			}
 		}

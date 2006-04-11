@@ -16,6 +16,7 @@ package org.eclipse.birt.data.engine.odi;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
+import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 
 /**
  * An iterator that an user can iterate to get 
@@ -147,4 +148,9 @@ public interface IResultIterator
 	 */
 	public int getRowCount( ) throws DataException;
 
+	/**
+	 * Return the ExecutorHelper instance bound to this ResultIterator.
+	 * @return
+	 */
+	public IExecutorHelper getExecutorHelper();
 }

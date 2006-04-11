@@ -340,9 +340,11 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 				try
 				{
 					evaluateScope = outerResults.getQueryScope( );
-					if (iParamBind.getExpr().getHandle() != null)
-						evaluateResult = outerResults
-								.getResultIterator().getValue(iParamBind.getExpr());
+					evaluateResult = ( (ResultIterator) outerResults.getResultIterator( ) ).getOdiResult( )
+							.getExecutorHelper( )
+							.evaluate( iParamBind.getExpr( ) );
+/*					if (iParamBind.getExpr().getHandle() != null)
+						evaluateResult = outerResults.getResultIterator().getValue(iParamBind.getExpr());*/
 				}
 				catch (BirtException e)
 				{

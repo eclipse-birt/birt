@@ -322,7 +322,7 @@ public class GroupInstanceFilter
 			throws DataException
 	{
 		IBaseExpression expr = filter.getExpression( );
-		FilterUtil.prepareFilterExpression( expr, filterPass );
+		FilterUtil.prepareFilterExpression( expr, filterPass, this.populator.getEventHandler( ).getExecutorHelper( ) );
 
 		Object result = ScriptEvalUtil.evalExpr( expr,
 				cx,

@@ -70,6 +70,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 			IResultIterator resultIterator, DataSetRuntime dataSet,
 			BaseQuery query ) {
 		helper = new ExpressionParseHelper(metaData, dataSet.getScriptScope());
+		helper.setDataSetMode( this.isDataSetMode );
 		helper.setQuery(query);
 		this.metaData = metaData;
 		this.query = query;
@@ -232,6 +233,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 		IScriptExpression operator = null;
 		FilterExpressionParser parser = new FilterExpressionParser( metaData,
 				computedColumns );
+		parser.setDataSetMode( this.isDataSetMode );
 		parser.setResultSetPopulator( this.rsPopulator );
 
 		for ( int i = 0; i < filters.size( ); i++ )
@@ -518,6 +520,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 	
 	public void setDataSetMode( boolean isDataSetMode )
 	{
+		this.isDataSetMode = isDataSetMode;
 		this.helper.setDataSetMode( isDataSetMode );
 	}
 }

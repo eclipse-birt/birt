@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.impl.ResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.eclipse.birt.data.engine.script.JSRowObject;
+import org.eclipse.birt.data.engine.script.NEvaluator;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -203,6 +204,9 @@ public class ExprEvaluateUtil
 			}
 			else if ( dataExpr instanceof IConditionalExpression )
 			{
+				if( dataExpr.getHandle( )!= null )
+					return new Boolean(((NEvaluator)dataExpr.getHandle( )).evaluate( cx, scope ));
+				
 				IScriptExpression opr = ( (IConditionalExpression) dataExpr ).getExpression( );
 				int oper = ( (IConditionalExpression) dataExpr ).getOperator( );
 				IScriptExpression operand1 = ( (IConditionalExpression) dataExpr ).getOperand1( );

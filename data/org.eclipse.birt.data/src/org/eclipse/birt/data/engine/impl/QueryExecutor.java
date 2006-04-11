@@ -87,6 +87,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	/** Outer query's results; null if this query is not nested */
 	protected	QueryResults			outerResults;	
 	private 	IResultIterator			odiResult;
+	private 	IExecutorHelper			parentHelper;
 	
 	private List temporaryComputedColumns = new ArrayList();
 	private static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
@@ -184,6 +185,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 				throw new DataException( ResourceConstants.RESULT_CLOSED );
 			}
 			this.nestedLevel = outerResults.getNestedLevel( );
+			this.setParentExecutorHelper(((ResultIterator)outerResults.getResultIterator( )).odiResult.getExecutorHelper( ));
 		}
 		
 		// Create the data set runtime
@@ -407,6 +409,11 @@ public abstract class QueryExecutor implements IQueryExecutor
 		return "row[\""+ expr + "\"]";
 	}
 	
+	void setParentExecutorHelper( IExecutorHelper helper )
+	{
+		this.parentHelper = helper;
+	}
+	
 	/**
 	 * 
 	 * @param cx
@@ -530,8 +537,13 @@ public abstract class QueryExecutor implements IQueryExecutor
 		if(this.isExecuted)
 			return;
 
+		IExecutorHelper helper = new ExecutorHelper( this.odiResult, this.queryScope );
+		helper.setParent( this.parentHelper );
+		eventHandler.setExecutorHelper( helper );
+		
 		// Execute the query
 		odiResult = executeOdiQuery( eventHandler );
+		//helper.setResultIterator( odiResult );
 		
 		resetComputedColumns();
 		// Bind the row object to the odi result set

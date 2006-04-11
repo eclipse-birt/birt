@@ -144,6 +144,7 @@ class PreparedSubquery implements IPreparedQueryService
 					preparedQuery.getAggrTable( ) );
 			
 			this.parentIterator = parentIterator;
+			this.setParentExecutorHelper( parentIterator.getExecutorHelper( ) );
 		}
 		
 		/*

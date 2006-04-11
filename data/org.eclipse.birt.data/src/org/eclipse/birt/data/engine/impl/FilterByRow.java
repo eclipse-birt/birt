@@ -20,12 +20,9 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.expression.FilterExpressionParser;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.FilterUtil;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -53,7 +50,7 @@ public class FilterByRow implements IResultObjectEvent
 	private List groupFilters;
 	private List allFilters;
 	private int currentWorkingFilters;
-	
+	private IExecutorHelper helper;
 
 	
 	protected static Logger logger = Logger.getLogger( FilterByRow.class.getName( ) );
@@ -83,6 +80,10 @@ public class FilterByRow implements IResultObjectEvent
 		logger.log( Level.FINER, "FilterByRow starts up" );
 	}
 
+	public void setExecutorHelper( IExecutorHelper helper )
+	{
+		this.helper = helper;
+	}
 	/**
 	 * @param dataSetFilters
 	 * @param queryFilters
@@ -214,8 +215,19 @@ public class FilterByRow implements IResultObjectEvent
 				IFilterDefinition filter = (IFilterDefinition) filterIt.next( );
 				IBaseExpression expr = filter.getExpression( );
 	
-				Object result = ScriptEvalUtil.evalExpr( expr, cx, 
-							dataSet.getScriptScope(), "Filter", 0 );
+				Object result = null;
+				try
+				{
+					if ( ModeManager.isNewMode( ) && helper!= null)
+						result = helper.evaluate( expr );
+					else
+						result = ScriptEvalUtil.evalExpr( expr, cx,dataSet.getScriptScope(), "Filter", 0 ); 
+				}
+				catch ( BirtException e2 )
+				{
+					throw new DataException( e2.getLocalizedMessage( ) );
+				}
+				
 				if ( result == null )
 				{
 					Object info = null;

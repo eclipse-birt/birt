@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.odi;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 
 /**
  * Event handler for ODI layer. In ODI layer, since higher caller sometimes
@@ -73,4 +74,17 @@ public interface IEventHandler
 	 */
 	IBaseExpression getBaseExpr( String name );
 
+	/**
+	 * Get the ExecutorHelper instance bound to this IEventHandler.
+	 * 
+	 * @return
+	 */
+	IExecutorHelper getExecutorHelper();
+	
+	/**
+	 * Bound an ExcutorHelper to this IEventHandler.
+	 * 
+	 * @param helper
+	 */
+	void setExecutorHelper( IExecutorHelper helper );
 }

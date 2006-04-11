@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ExprManager;
+import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.ModeManager;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -41,7 +42,7 @@ public class JSResultSetRow extends ScriptableObject
 	
 	private int currRowIndex;
 	private Map valueCacheMap;
-
+	private IExecutorHelper helper;
 	private Scriptable scope;
 	
 	/** */
@@ -50,14 +51,14 @@ public class JSResultSetRow extends ScriptableObject
 	/**
 	 * @param dataSet
 	 */
-	public JSResultSetRow( ExprManager exprManager, IResultIterator odiResult,
-			Scriptable scope )
+	public JSResultSetRow( IExecutorHelper helper )
 	{
-		this.exprManager = exprManager;
-		this.odiResult = odiResult;
+		this.exprManager = helper.getExprManager( );
+		this.odiResult = helper.getOdiResult( );
 		this.currRowIndex = -1;
 		this.valueCacheMap = new HashMap( );
-		this.scope = scope;
+		this.scope = helper.getScope( );
+		this.helper = helper;
 	}
 
 	/*
@@ -142,6 +143,13 @@ public class JSResultSetRow extends ScriptableObject
 	 */
 	public Object get( String name, Scriptable start )
 	{
+		if( "_outer".equalsIgnoreCase( name ))
+		{
+			if( this.helper.getParent( )!= null)
+				return new JSResultSetRow( this.helper.getParent( ) );
+			else
+				return null;
+		}
 		int rowIndex = -1;
 		try
 		{
@@ -162,6 +170,10 @@ public class JSResultSetRow extends ScriptableObject
 			try
 			{
 				IBaseExpression dataExpr = this.exprManager.getExpr( name );
+				if( dataExpr == null )
+				{
+					return null;
+				}
 				value = evaluateValue( dataExpr,
 						this.odiResult.getCurrentResultIndex( ),
 						this.odiResult.getCurrentResult( ),

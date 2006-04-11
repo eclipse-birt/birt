@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
+import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -43,7 +44,7 @@ public class CachedResultSet implements IResultIterator
 {
 
 	private ResultSetPopulator resultSetPopulator;
-
+	private IEventHandler handler;
 	/**
 	 * Nothing, only for new an instance, needs to be used with care. Currently
 	 * it is only used in report document saving when there is no data set.
@@ -59,6 +60,7 @@ public class CachedResultSet implements IResultIterator
 			ResultSet odaResultSet, IEventHandler eventHandler )
 			throws DataException
 	{
+		this.handler = eventHandler;
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				meta,
 				this,
@@ -73,6 +75,7 @@ public class CachedResultSet implements IResultIterator
 			IDataSetPopulator odaResultSet, IEventHandler eventHandler )
 			throws DataException
 	{
+		this.handler = eventHandler;
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				meta,
 				this,
@@ -90,6 +93,7 @@ public class CachedResultSet implements IResultIterator
 			DataSetResultCache odaCacheResultSet, IEventHandler eventHandler )
 			throws DataException
 	{
+		this.handler = eventHandler;
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				meta,
 				this,
@@ -106,6 +110,7 @@ public class CachedResultSet implements IResultIterator
 	public CachedResultSet( BaseQuery query, ICustomDataSet customDataSet,
 			IEventHandler eventHandler ) throws DataException
 	{
+		this.handler = eventHandler;
 		assert customDataSet != null;
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				customDataSet.getResultClass( ),
@@ -124,7 +129,7 @@ public class CachedResultSet implements IResultIterator
 			IResultIterator parentResultIterator, int groupLevel, IEventHandler eventHandler )
 			throws DataException
 	{
-
+		this.handler = eventHandler;
 		assert parentResultIterator instanceof CachedResultSet;
 		CachedResultSet parentResultSet = (CachedResultSet) parentResultIterator;
 
@@ -361,6 +366,18 @@ public class CachedResultSet implements IResultIterator
 	public ResultSetCache getResultSetCache( )
 	{
 		return this.resultSetPopulator.getCache( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getExecutorHelper()
+	 */
+	public IExecutorHelper getExecutorHelper( )
+	{
+		if( handler!= null )
+			return this.handler.getExecutorHelper( );
+		else
+			return null;
 	}
 
 }

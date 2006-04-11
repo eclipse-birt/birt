@@ -6,6 +6,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -22,7 +23,7 @@ public abstract class NEvaluator
 	private int firstPassRowNumberCounter = 0;
 	private int secondPassRowNumberCounter = 0;
 	private int qualifiedRowCounter = 0;
-	
+	private IExecutorHelper helper;
 	//The "N" of topN/bottomN.
 	private int N = -1;
 	
@@ -45,7 +46,7 @@ public abstract class NEvaluator
 	 * @return
 	 */
 	public static NEvaluator newInstance( int operator, IScriptExpression op_expr, 
-			IScriptExpression n_expr, FilterPassController filterPassController  )
+			IScriptExpression n_expr, FilterPassController filterPassController, IExecutorHelper helper  )
 	 	throws DataException
 	{
 		NEvaluator instance = null;
@@ -75,6 +76,7 @@ public abstract class NEvaluator
 		instance.op_expr = op_expr;
 		instance.n_expr = n_expr;
 		instance.filterPassController = filterPassController;
+		instance.helper = helper;
 		return instance;
 	}
 	
@@ -98,7 +100,20 @@ public abstract class NEvaluator
 		{
 			// Create a new evaluator
 			// Evaluate N (which is operand1) at this time
-			Object n_object = ScriptEvalUtil.evalExpr( n_expr, cx, scope, "Filter", 0 );
+			Object n_object = null;
+			if( helper != null )
+			{
+				try
+				{
+					n_object = helper.evaluate( n_expr );
+				}
+				catch ( BirtException e1 )
+				{
+					throw new DataException( e1.getLocalizedMessage( ) );
+				}
+			}
+			else
+				ScriptEvalUtil.evalExpr( n_expr, cx, scope, "Filter", 0 );
 			double n_value = -1;
 			try
 			{

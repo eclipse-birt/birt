@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.impl.document.viewing;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -53,6 +54,26 @@ public class DummyEventHandler implements IEventHandler
 	public IBaseExpression getBaseExpr( String name )
 	{
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getExecutorHelper()
+	 */
+	public IExecutorHelper getExecutorHelper( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#setExecutorHelper(org.eclipse.birt.data.engine.impl.ExecutorHelper)
+	 */
+	public void setExecutorHelper( IExecutorHelper helper )
+	{
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
