@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.core.Module;
 
 abstract class ColumnBandAdapter
 {
+
 	/**
 	 * Returns the element where the copy/paste operation occurs.
 	 * 
@@ -116,16 +117,36 @@ abstract class ColumnBandAdapter
 	/**
 	 * Returns the position where the cell resides in the row.
 	 * 
-	 * @param cell
-	 *            the cell handle
-	 * @return the position indexing from 0
+	 * @param row
+	 *            the row handle
+	 * @param columnToInsert
+	 *            the column number to insert, count from 1
+	 * @param insert
+	 *            whether insert mode
+	 * @return the position indexing from 1
 	 */
 
-	protected static int findCellPosition( CellHandle cell )
+	protected int findCellPosition( RowHandle row, int columnToInsert,
+			boolean insert )
 	{
-		RowHandle row = (RowHandle) cell.getContainer( );
-		assert row != null;
-		return row.getCells( ).findPosn( cell ) + 1;
+		SlotHandle cells = row.getCells( );
+
+		for ( int i = 0; i < cells.getCount( ); i++ )
+		{
+			CellHandle cell = (CellHandle) cells.get( i );
+			int cellPos = getCellPosition( cell );
+
+			// found the cell
+			if ( columnToInsert == cellPos )
+				return insert ? ( i + 1 ) : i;
+			// there was no corresponding cell on this row, should paste/insert
+			// on this position.
+			else if ( columnToInsert < cellPos )
+				return i;
+		}
+
+		// not return yet, paste/insert to the end of this row.
+		return -1;
 	}
 
 	/**

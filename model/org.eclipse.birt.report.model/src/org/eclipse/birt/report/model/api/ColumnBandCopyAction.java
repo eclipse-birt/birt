@@ -149,19 +149,19 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 	}
 
 	/**
-	 * Returns insert positions of <code>copiedCells</code>. Each element in
-	 * the return value is an integer, which can be
+	 * Returns insert positions of <code>copiedCells</code> if the cells are
+	 * inserted to the beginning of row or at the end of the row. Each element
+	 * in the return value is an integer, which can be
 	 * 
 	 * <ul>
 	 * <li>0 -- insert to the beginning of row
-	 * <li>an integer between 0 and the maximal position
 	 * <li>-1 -- insert to the end of the row
 	 * </ul>
 	 * 
-	 * @param copiedCells
-	 *            a list containing cells that is to be inserted.
-	 * @param originalCells
-	 *            a list containing cells that is to be deleted.
+	 * And for other cases, the position is not calculated here.
+	 * 
+	 * @param size
+	 *            the size of the array to be return.
 	 * @param columnIndex
 	 *            the column index where copied cells are pasted
 	 * @param isInsert
@@ -171,8 +171,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 	 * @return an array containing insert positions
 	 */
 
-	private int[] getInsertPosition( List copiedCells, List originalCells,
-			int columnIndex, boolean isInsert )
+	private int[] getInsertPosition( int size, int columnIndex, boolean isInsert )
 	{
 		// insert column index that is from 1.
 
@@ -181,42 +180,12 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 		int columnCount = adapter.getColumnCount( );
 		if ( isInsert && ( columnIndex == 0 || columnIndex == columnCount - 1 ) )
 		{
-			insertPosition = new int[copiedCells.size( )];
+			insertPosition = new int[size];
 
 			if ( columnIndex == 0 )
 				Arrays.fill( insertPosition, 0 );
 			else
 				Arrays.fill( insertPosition, -1 );
-		}
-		else
-		{
-			int[] copiedRowSpans = new int[copiedCells.size( )];
-			int[] originalPositions = new int[originalCells.size( )];
-			int[] originalRowSpans = new int[originalCells.size( )];
-
-			// remove cells first.
-
-			for ( int i = 0; i < originalCells.size( ); i++ )
-			{
-				CellContextInfo contextInfo = (CellContextInfo) originalCells
-						.get( i );
-				CellHandle cell = contextInfo.getCell( ).handle(
-						adapter.getModule( ) );
-
-				originalPositions[i] = ColumnBandAdapter
-						.findCellPosition( cell );
-				originalRowSpans[i] = contextInfo.getRowSpan( );
-			}
-
-			for ( int i = 0; i < copiedCells.size( ); i++ )
-			{
-				CellContextInfo contextInfo = (CellContextInfo) copiedCells
-						.get( i );
-				copiedRowSpans[i] = contextInfo.getRowSpan( );
-			}
-
-			insertPosition = getIndexToAdd( originalPositions,
-					originalRowSpans, copiedRowSpans );
 		}
 
 		return insertPosition;
@@ -245,10 +214,10 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 			int columnIndex, boolean isInsert ) throws SemanticException
 	{
 
-		// insert column index that is from 1. this must happen before removing
-		// operation.
+		// get the insertion positions if the column is inserted to the head or
+		// the end of the table.
 
-		int[] insertPosition = getInsertPosition( copiedCells, originalCells,
+		int[] insertPosition = getInsertPosition( copiedCells.size( ),
 				columnIndex, isInsert );
 
 		// remove cells first.
@@ -277,68 +246,26 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 
 			assert row != null;
 
-			int pos = insertPosition[i];
-			CellHandle cell = contextInfo.getCell( ).handle(
-					adapter.getModule( ) );
+			// get correct insertion position information
+			
+			int pos;
+			if ( insertPosition == null )
+				pos = adapter.findCellPosition( row, columnIndex, isInsert );
+			else
+				pos = insertPosition[i];
 
 			// to avoid duplicate names in the same name space, rename nested
 			// elements here.
 
+			CellHandle cell = contextInfo.getCell( ).handle(
+					adapter.getModule( ) );
 			adapter.getModule( ).getModuleHandle( ).rename( cell );
-
-			// if this is only paste operation, then paste it to the old
-			// position. Otherwise, append it to the next available position.
-
-			if ( !isInsert )
-				pos--;
 
 			if ( pos != -1 )
 				row.addElement( cell, TableRow.CONTENT_SLOT, pos );
 			else
 				row.addElement( cell, TableRow.CONTENT_SLOT );
 		}
-	}
-
-	/**
-	 * Calculates and returns a list containing insert positions of copied
-	 * cells.
-	 * 
-	 * @param originalPositions
-	 *            positions of to be replaced cells
-	 * @param originalRowSpans
-	 *            row spans of to be replaced cells
-	 * @param copiedRowSpans
-	 *            row spans of copied cells
-	 * 
-	 * @return a list containing insert positions of copied cells.
-	 */
-
-	private static int[] getIndexToAdd( int[] originalPositions,
-			int[] originalRowSpans, int[] copiedRowSpans )
-	{
-		int[] retValue = new int[copiedRowSpans.length];
-
-		int copiedIndex = 0;
-		int originalIndex = 0;
-
-		while ( copiedIndex < copiedRowSpans.length )
-		{
-			int copiedRowSpan = copiedRowSpans[copiedIndex];
-			assert originalIndex < originalRowSpans.length;
-
-			retValue[copiedIndex] = originalPositions[originalIndex];
-
-			int originalRowSpan = originalRowSpans[originalIndex];
-			while ( copiedRowSpan < originalRowSpan )
-			{
-				copiedIndex++;
-				copiedRowSpan += copiedRowSpans[copiedIndex];
-				originalIndex++;
-			}
-			copiedIndex++;
-		}
-
-		return retValue;
 	}
 
 	/**

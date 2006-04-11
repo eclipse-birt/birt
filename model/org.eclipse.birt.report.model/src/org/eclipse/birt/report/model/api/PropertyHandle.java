@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -212,7 +213,7 @@ public class PropertyHandle extends SimpleValueHandle
 			return ( (ReportDesignHandle) moduleHandle ).getAllStyles( );
 		else if ( ReportDesignConstants.THEME_ITEM.equals( elementDefn
 				.getName( ) ) )
-			return moduleHandle.getAllThemes( );
+			return moduleHandle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 
 		return list;
 	}

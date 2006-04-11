@@ -198,7 +198,7 @@ public abstract class ReferencableStructure extends Structure
 				// .getLibraryNamespace( ) );
 
 				Library lib = module.getLibraryWithNamespace( libReference
-						.getLibraryNamespace( ), IModuleNameSpace.ONE_LEVEL );
+						.getLibraryNamespace( ), IModuleNameSpace.DIRECTLY_INCLUDED_LEVEL );
 
 				Module root = lib == null ? module : lib;
 				value = refStruct.getProperty( root, propDefn );

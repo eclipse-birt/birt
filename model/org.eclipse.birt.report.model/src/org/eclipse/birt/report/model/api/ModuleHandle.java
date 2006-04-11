@@ -1646,26 +1646,46 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 * @return all theme element handles that this modules and the included
 	 *         modules contain.
+	 * @deprecated from BIRT 2.1.0. Replaced by {@link #getVisibleThemes(int)}
 	 */
 
 	public List getAllThemes( )
 	{
 		List elementList = module.getModuleNameSpace( Module.THEME_NAME_SPACE )
-				.getElements( IModuleNameSpace.ONE_LEVEL );
+				.getElements( IModuleNameSpace.DIRECTLY_INCLUDED_LEVEL );
 
 		return generateHandleList( elementList );
 	}
-	
+
 	/**
 	 * Returns all theme element handles that this module contain.
 	 * 
 	 * @return all theme element handles that this module contain.
+	 * @deprecated from BIRT 2.1.0. Replaced by {@link #getVisibleThemes(int)}
 	 */
 
 	public List getVisibleThemes( )
 	{
 		List elementList = module.getModuleNameSpace( Module.THEME_NAME_SPACE )
 				.getElements( IModuleNameSpace.NATIVE_LEVEL );
+
+		return generateHandleList( elementList );
+	}
+
+	/**
+	 * Returns theme handles according the input level.
+	 * 
+	 * @param level
+	 *            an <code>int</code> value, which should be the one defined
+	 *            in <code>IVisibleLevelControl</code>.
+	 * 
+	 * @return theme handles according the input level
+	 */
+
+	public List getVisibleThemes( int level )
+	{
+		List elementList = module.getModuleNameSpace( Module.THEME_NAME_SPACE )
+				.getElements( level );
 
 		return generateHandleList( elementList );
 	}
@@ -1843,7 +1863,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getLibraries( )
 	{
-		return getLibraries( IModuleNameSpace.ONE_LEVEL );
+		return getLibraries( IModuleNameSpace.DIRECTLY_INCLUDED_LEVEL );
 	}
 
 	/**
@@ -1857,7 +1877,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public LibraryHandle getLibrary( String namespace )
 	{
 		Module library = module.getLibraryWithNamespace( namespace,
-				IModuleNameSpace.ONE_LEVEL );
+				IModuleNameSpace.DIRECTLY_INCLUDED_LEVEL );
 		if ( library == null )
 			return null;
 

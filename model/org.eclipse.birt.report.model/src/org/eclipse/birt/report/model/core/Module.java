@@ -1616,7 +1616,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getLibraries( )
 	{
-		return getLibraries( IModuleNameSpace.ONE_LEVEL );
+		return getLibraries( IModuleNameSpace.DIRECTLY_INCLUDED_LEVEL );
 	}
 
 	/**
