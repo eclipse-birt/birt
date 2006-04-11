@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.Generator;
@@ -526,5 +527,15 @@ public final class ChartReportItemImpl extends ReportItem implements
 			logger.log( e );
 		}
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#updateRowExpressions(java.util.Map)
+	 */
+	public void updateRowExpressions( Map newExpressions )
+	{
+		CompatibleExpressionUpdater.update( cm, newExpressions );
 	}
 }
