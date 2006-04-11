@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.extension;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents an instance of a extended report element that can work with the
@@ -35,5 +36,16 @@ public interface ICompatibleReportItem
 	 */
 
 	public List getRowExpressions( );
+
+	/**
+	 * Updates existed expresssions with the given expressions. The keys in
+	 * <code>newExpressions</code> are existed expressions, while, the values
+	 * are the new expressions to replace existed ones.
+	 * 
+	 * @param newExpressions
+	 *            a map containing the updated expressions.
+	 */
+
+	public void updateRowExpressions( Map newExpressions );
 
 }

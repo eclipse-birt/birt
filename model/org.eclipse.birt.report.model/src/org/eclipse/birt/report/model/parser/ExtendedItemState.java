@@ -12,12 +12,12 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -94,7 +94,7 @@ public class ExtendedItemState extends ReportItemState
 
 	public void end( ) throws SAXException
 	{
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) > 0 ) //$NON-NLS-1$
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) >= 0 ) //$NON-NLS-1$
 		{
 			super.end( );
 			return;
@@ -115,7 +115,9 @@ public class ExtendedItemState extends ReportItemState
 		{
 			List jsExprs = ( (ICompatibleReportItem) reportItem )
 					.getRowExpressions( );
-			handleJavaExpression( jsExprs );
+			Map updatedExprs = handleJavaExpression( jsExprs );
+			( (ICompatibleReportItem) reportItem )
+					.updateRowExpressions( updatedExprs );
 		}
 
 		super.end( );
@@ -126,40 +128,33 @@ public class ExtendedItemState extends ReportItemState
 	 * to BIRT 2.1.0.
 	 * 
 	 * @param jsExprs
+	 *            the expression from the extended item.
+	 * @return a map containing updated expressions.
 	 */
 
-	private void handleJavaExpression( List jsExprs )
+	private Map handleJavaExpression( List jsExprs )
 	{
 		List columns = new ArrayList( );
-		Set uniqueColumns = new LinkedHashSet( );
+		Map retMap = new HashMap( );
 
 		for ( int i = 0; i < jsExprs.size( ); i++ )
 		{
 			String jsExpr = (String) jsExprs.get( i );
 
-			List boundColumns = null;
+			IColumnBinding boundColumn = ExpressionUtil
+					.getColumnBinding( jsExpr );
 
-			try
-			{
-				boundColumns = ExpressionUtil.extractColumnExpressions( jsExpr );
-			}
-			catch ( BirtException e )
-			{
-				continue;
-			}
-
-			if ( boundColumns == null || boundColumns.isEmpty( ) )
+			if ( boundColumn == null )
 				continue;
 
-			for ( int j = 0; j < boundColumns.size( ); j++ )
-			{
-				uniqueColumns.add( boundColumns.get( j ) );
-			}
+			if ( !columns.contains( boundColumn ) )
+				columns.add( boundColumn );
+
+			retMap.put( jsExpr, boundColumn.getBoundExpression( ) );
 		}
-
-		columns.addAll( uniqueColumns );
 
 		DataBoundColumnUtil.setupBoundDataColumns( element, columns, handler
 				.getModule( ) );
+		return retMap;
 	}
 }
