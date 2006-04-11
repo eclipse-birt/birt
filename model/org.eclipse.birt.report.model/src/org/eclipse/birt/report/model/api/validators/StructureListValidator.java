@@ -306,4 +306,59 @@ public class StructureListValidator extends AbstractPropertyValidator
 
 		return errorList;
 	}
+
+	/**
+	 * Validates whether a structure can be renamed to the given name.
+	 * 
+	 * @param element
+	 *            the element holding the structure list
+	 * @param propDefn
+	 *            definition of the list property
+	 * @param list
+	 *            the structure list
+	 * @param toRenamed
+	 *            the structure to rename
+	 * @param memberDefn
+	 *            the member definition
+	 * @param newName
+	 *            the new name
+	 * @return error list, each of which is the instance of
+	 *         <code>SemanticException</code>.
+	 */
+
+	public List validateForRenaming( DesignElementHandle element,
+			IPropertyDefn propDefn, List list, IStructure toRenamed,
+			IPropertyDefn memberDefn, String newName )
+	{
+		List errorList = new ArrayList( );
+
+		if ( list == null || list.size( ) == 0 )
+			return errorList;
+
+		assert propDefn != null;
+		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
+		assert memberDefn != null;
+
+		// Check whether there two structure has the same value of
+		// the unique member.
+
+		Module module = element.getModule( );
+
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Structure struct = (Structure) list.get( i );
+			String value = (String) struct.getProperty( module,
+					(PropertyDefn) memberDefn );
+
+			if ( value.equals( newName ) && struct != toRenamed )
+			{
+				errorList.add( new PropertyValueException(
+						element.getElement( ), propDefn, value,
+						PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS ) );
+				break;
+			}
+		}
+
+		return errorList;
+	}
 }

@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
  * Represents the handle of computed column. A computed column is a ¡°virtual¡±
  * column produced as an expression of other columns within the data set. It
  * includes the column name and the expression used to define a computed column.
- *  
+ * 
  */
 
 public class ComputedColumnHandle extends StructureHandle
@@ -42,52 +42,52 @@ public class ComputedColumnHandle extends StructureHandle
 	 * Returns the column name.
 	 * 
 	 * @return the column name
-     * @deprecated using {@link #getName()} instead.
+	 * @deprecated using {@link #getName()} instead.
 	 */
 
 	public String getColumnName( )
 	{
-		return getName();
+		return getName( );
 	}
 
-    /**
-     * Returns the column name.
-     * 
-     * @return the column name
-     */
+	/**
+	 * Returns the column name.
+	 * 
+	 * @return the column name
+	 */
 
-    
-    public String getName()
-    {
-        return getStringProperty( ComputedColumn.NAME_MEMBER );
-    }
-    
-    
+	public String getName( )
+	{
+		return getStringProperty( ComputedColumn.NAME_MEMBER );
+	}
+
 	/**
 	 * Sets the column name.
 	 * 
 	 * @param columnName
 	 *            the column name to set
-     * @deprecated using {@link #setName(String)} instead.
+	 * @deprecated using {@link #setName(String)} instead.
 	 */
 
 	public void setColumnName( String columnName )
 	{
-        setName( columnName );
 	}
 
-    /**
-     * Sets the column name.
-     * @param columnName
-     *              the column name to set.
-     */
-    
-    public void setName( String columnName )
-    {
-    	setPropertySilently( ComputedColumn.NAME_MEMBER, columnName );
-    }
-    
-    
+	/**
+	 * Sets the column name.
+	 * 
+	 * @param columnName
+	 *            the column name to set.
+	 * @throws SemanticException
+	 *             if the new column name duplicates with the existed ones.
+	 * 
+	 */
+
+	public void setName( String columnName ) throws SemanticException
+	{
+		setProperty( ComputedColumn.NAME_MEMBER, columnName );
+	}
+
 	/**
 	 * Returns the expression used to define this computed column.
 	 * 
@@ -108,13 +108,13 @@ public class ComputedColumnHandle extends StructureHandle
 
 	public void setExpression( String expression )
 	{
-        setPropertySilently( ComputedColumn.EXPRESSION_MEMBER, expression );
+		setPropertySilently( ComputedColumn.EXPRESSION_MEMBER, expression );
 	}
-	
+
 	/**
 	 * Returns the data type of this column. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -136,8 +136,8 @@ public class ComputedColumnHandle extends StructureHandle
 
 	/**
 	 * Sets the data type of this column. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER

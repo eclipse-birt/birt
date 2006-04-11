@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
@@ -35,6 +37,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.validators.DataColumnNameValidator;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -400,6 +403,61 @@ public class StructureFactory
 				.getName( ), targetModule );
 		targetModule.rename( newImage );
 		return newImage;
+	}
+
+	/**
+	 * Creates a bound data column name with the unique column name. The new
+	 * name is given as "newName_[number]".
+	 * <p>
+	 * For example, if the <code>newName</code> is "column" and this is
+	 * duplicate, then the name of return column is: "column_1".
+	 * 
+	 * @param columns
+	 *            the bound columns in the binding data
+	 * @return a bound data column. If the <code>newName</code> is unique, the
+	 *         name in the return value is <code>newName</code>. Otherwise
+	 *         the newly created name follows the above schema. It can also be
+	 *         <code>null</code> if the given element do not support bound
+	 *         data column property.
+	 * @throws IllegalArgumentException
+	 *             if the <code>newName</code> is <code>null</code>.
+	 */
+
+	public static ComputedColumn newComputedColumn(
+			DesignElementHandle element, String newName )
+	{
+		if ( newName == null )
+			throw new IllegalArgumentException(
+					"The new column name must not be empty" ); //$NON-NLS-1$
+
+		if ( !( element instanceof ReportItemHandle
+				|| element instanceof ScalarParameterHandle || element instanceof GroupHandle ) )
+			return null;
+
+		String propName = null;
+
+		if ( element instanceof ReportItemHandle )
+			propName = ReportItemHandle.BOUND_DATA_COLUMNS_PROP;
+		if ( element instanceof ScalarParameterHandle )
+			propName = ScalarParameterHandle.BOUND_DATA_COLUMNS_PROP;
+		if ( element instanceof GroupHandle )
+			propName = GroupHandle.BOUND_DATA_COLUMNS_PROP;
+
+		List columns = element.getListProperty( propName );
+		int index = 1;
+
+		String retName = newName;
+
+		while ( DataColumnNameValidator.exists( columns, retName ) )
+		{			
+			retName = newName + '_' + index;
+			index++;
+		}
+
+		ComputedColumn column = new ComputedColumn( );
+		column.setName( retName );
+
+		return column;
 	}
 
 }

@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -421,6 +422,12 @@ public class PropertyCommand extends AbstractElementCommand
 
 		assert memberDefn != null;
 		value = memberDefn.validateValue( module, value );
+
+		// if set the value to the name of a structure, must ensure this
+		// would not create duplicates.
+
+		if ( memberDefn.getTypeCode( ) == PropertyType.NAME_TYPE )
+			checkItemName( ref, (String) value );
 
 		// Ignore duplicate values, even if the current value is not local.
 		// This avoids making local copies if the user enters the existing
@@ -1380,6 +1387,37 @@ public class PropertyCommand extends AbstractElementCommand
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Validates the values of the item members.
+	 * 
+	 * @param ref
+	 *            reference to a list.
+	 * @param item
+	 *            the item to check
+	 * @throws SemanticException
+	 *             if the item has any member with invalid value or if the given
+	 *             structure is not of a valid type that can be contained in the
+	 *             list.
+	 */
+
+	private void checkItemName( MemberRef memberRef, String newName )
+			throws SemanticException
+	{
+		PropertyDefn propDefn = memberRef.getPropDefn( );
+
+		Structure structure = memberRef.getStructure( module, element );
+
+		List errors = StructureListValidator.getInstance( )
+				.validateForRenaming( element.getHandle( module ), propDefn,
+						memberRef.getList( module, element ), structure,
+						memberRef.getMemberDefn( ), newName );
+
+		if ( errors.size( ) > 0 )
+		{
+			throw (PropertyValueException) errors.get( 0 );
+		}
 	}
 
 }
