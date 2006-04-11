@@ -109,7 +109,7 @@ public class JavascriptEvalUtil
 				Context.exit();
 		}
 		
-		return convertJavascriptValue(result);
+		return result;
 	}
 	
 	/**
