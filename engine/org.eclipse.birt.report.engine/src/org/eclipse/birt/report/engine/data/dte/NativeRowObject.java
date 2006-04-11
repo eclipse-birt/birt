@@ -17,13 +17,14 @@ import java.util.LinkedList;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.data.IResultSet;
+import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Scriptable;
 
 /**
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/06 12:35:24 $
+ * @version $Revision: 1.2 $ $Date: 2006/04/07 10:20:15 $
  */
 public class NativeRowObject implements Scriptable
 {
@@ -63,7 +64,7 @@ public class NativeRowObject implements Scriptable
 			{
 			}
 		}
-		return NOT_FOUND;
+		throw new EvaluatorException("Can't find the column: " + name);
 	}
 
 	public Object get( int index, Scriptable start )
