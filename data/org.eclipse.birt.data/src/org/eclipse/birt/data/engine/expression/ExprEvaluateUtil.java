@@ -194,7 +194,7 @@ public class ExprEvaluateUtil
 			Context cx = Context.enter( );
 			if ( dataExpr instanceof IScriptExpression )
 			{
-				Object value = JavascriptEvalUtil.evaluateScript( cx,
+				Object value = JavascriptEvalUtil.evaluateRawScript( cx,
 						scope,
 						( (IScriptExpression) dataExpr ).getText( ),
 						"source",
