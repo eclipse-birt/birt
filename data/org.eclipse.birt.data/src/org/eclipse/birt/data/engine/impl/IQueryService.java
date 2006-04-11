@@ -15,6 +15,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
@@ -86,10 +87,22 @@ public interface IQueryService
 	 * @return
 	 */
 	public IBaseExpression getBaseExpression( String exprName );
-
+	
 	/**
 	 * @return
 	 */
-	public ExprManager getExprManager( );
+	public boolean supportAutoBinding( );
+	
+	/**
+	 * @param exprName
+	 * @param baseExpr
+	 */
+	public void addAutoBindingExpr( String exprName, IBaseExpression baseExpr );
+	
+	/**
+	 * @param exprName
+	 * @return
+	 */
+	public IScriptExpression getAutoBindingExpr( String exprName );
 	
 }

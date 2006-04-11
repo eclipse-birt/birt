@@ -91,6 +91,9 @@ public class ResourceConstants
 	public final static String INVALID_JOIN_TYPE="data.engine.InvalidJoinType";
 	public final static String INVALID_JOIN_OPERATOR="data.engine.InvalidJoinOperator";
 	
+	// column binding
+	public final static String INVALID_BOUND_COLUMN_NAME = "data.engine.InvalidBoundColumnName";
+	
 	// computed column value
 	public final static String EXPR_INVALID_COMPUTED_COLUMN= "data.engine.BadCompColExpr";
 	// Data Type of computed column is not correct

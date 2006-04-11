@@ -25,9 +25,10 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.script.JSResultSetRow;
 import org.mozilla.javascript.Scriptable;
 
 /** 
@@ -144,6 +145,9 @@ class QueryResults implements IQueryResults
 			iterator = new ResultIterator( new ResultService( context, this ),
 					queryService.executeQuery( ),
 					this.queryScope );
+            
+			// data row binding
+			this.initAutoBinding( );
 		}
 		
 		logger.logp( Level.FINE,
@@ -152,7 +156,37 @@ class QueryResults implements IQueryResults
 				"finished" );
 		return iterator;
 	}
-		
+	
+	/**
+	 * @throws BirtException
+	 */
+	private void initAutoBinding( ) throws DataException
+	{
+		if ( this.queryService.supportAutoBinding( ) == false )
+			return;
+
+		IResultMetaData metaData = queryService.getResultMetaData( );
+		int columnCount = metaData.getColumnCount( );
+		for ( int i = 0; i < columnCount; i++ )
+		{
+			int colIndex = i + 1;
+			try
+			{
+				String colName = metaData.getColumnAlias( colIndex );
+				if ( colName == null )
+					colName = metaData.getColumnName( colIndex );
+				
+				this.queryService.addAutoBindingExpr( colName,
+						new ScriptExpression( "dataSetRow[\"" + colName + "\"]",
+								metaData.getColumnType( colIndex ) ) );
+			}
+			catch ( BirtException e )
+			{
+				// impossible, ignore
+			}
+		}
+	}
+	
 	/*
 	 * Closes all query result set(s) associated with this object; provides a
 	 * hint to the query that it can safely release all associated resources.
@@ -305,6 +339,14 @@ class QueryResults implements IQueryResults
 		public IBaseExpression getBaseExpression( String exprName )
 		{
 			return queryResults.queryService.getBaseExpression( exprName );
+		}
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IResultService#getAutoBindingExpr(java.lang.String)
+		 */
+		public IScriptExpression getAutoBindingExpr( String exprName )
+		{
+			return queryResults.queryService.getAutoBindingExpr( exprName );
 		}
 	}
 	

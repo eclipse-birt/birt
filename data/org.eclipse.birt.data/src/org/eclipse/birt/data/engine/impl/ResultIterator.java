@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -351,7 +352,22 @@ public class ResultIterator implements IResultIterator
 	{
 		checkStarted( );
 		
-		Object exprValue = this.doGetValue( this.rService.getBaseExpression( exprName ) );
+		Object exprValue = null;
+		Object exprObject = this.rService.getBaseExpression( exprName );
+		if ( exprObject != null )
+		{
+			exprValue = this.doGetValue( (IBaseExpression) exprObject );
+		}
+		else
+		{
+			IScriptExpression scriptExpr = this.rService.getAutoBindingExpr( exprName );
+			if ( scriptExpr != null )
+				exprValue = ExprEvaluateUtil.evaluateRawExpression( scriptExpr, scope );
+			else
+				throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
+						exprName );
+		}
+		
 		this.getRdSaveUtil( ).doSaveExpr( exprName, exprValue );
 		return exprValue;
 	}

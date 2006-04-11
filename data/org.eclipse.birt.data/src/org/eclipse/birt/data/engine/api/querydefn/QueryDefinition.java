@@ -31,6 +31,8 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	protected List 				bindings = new ArrayList();
 	protected String[]			projectedColumns;
 	
+	private   boolean           autoBinding = false;
+	
 	/** Constructs an empty query definition */
 	public QueryDefinition( )
 	{
@@ -61,6 +63,22 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	public void setDataSetName(String dataSetName) 
 	{
 		this.dataSetName = dataSetName;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IQueryDefinition#isAutoBinding()
+	 */
+	public boolean supportAutoBinding( )
+	{
+		return this.autoBinding;
+	}
+	
+	/**
+	 * @param autoBinding
+	 */
+	public void setAutoBinding( boolean autoBinding )
+	{
+		this.autoBinding = autoBinding;
 	}
 	
 	/*

@@ -163,15 +163,6 @@ public class JSDataSetImpl
 	}
 	
 	/**
-	 * @return
-	 * @throws BirtException
-	 */
-	public Scriptable getResultSetRow( ) throws BirtException
-	{
-		return dataSet.getJSResultRowObject();
-	}
-	
-	/**
 	 * Implements DataSet.rows
 	 */
 	public Scriptable getRows() throws BirtException

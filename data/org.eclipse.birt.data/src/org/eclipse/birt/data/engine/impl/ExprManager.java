@@ -14,22 +14,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 
 /**
  * 
  */
 public class ExprManager
 {
-	//private Map exprsMap;
-	private Map allExprsMap;
+	private Map allExprsMap;	
+	private Map autoBindingExprMap;
 	
 	/**
 	 *
 	 */
 	ExprManager( )
 	{
-		//exprsMap = new HashMap( );
 		allExprsMap = new HashMap( );
+		autoBindingExprMap = new HashMap( );
 	}
 	
 	/**
@@ -38,19 +39,35 @@ public class ExprManager
 	 */
 	void addExpr( Map resultsExprMap, int groupLevel )
 	{
-		//exprsMap.put( new Integer( groupLevel ), resultsExprMap );
-		
 		if ( resultsExprMap != null )
-			allExprsMap.putAll( resultsExprMap );	
+			allExprsMap.putAll( resultsExprMap );
 	}
 	
 	/**
 	 * @param name
-	 * @return
+	 * @param baseExpr
+	 */
+	void addAutoBindingExpr( String name, IBaseExpression baseExpr )
+	{
+		autoBindingExprMap.put( name, baseExpr );
+	}
+	
+	/**
+	 * @param name
+	 * @return expression for specified name
 	 */
 	public IBaseExpression getExpr( String name )
 	{
 		return (IBaseExpression) allExprsMap.get( name );
+	}
+	
+	/**
+	 * @param name
+	 * @return auto binding expression for specified name
+	 */
+	public IScriptExpression getAutoBindingExpr( String name )
+	{
+		return (IScriptExpression) this.autoBindingExprMap.get( name );
 	}
 	
 }
