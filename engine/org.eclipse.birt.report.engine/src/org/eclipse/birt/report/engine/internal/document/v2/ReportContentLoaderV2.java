@@ -46,7 +46,6 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
@@ -567,19 +566,57 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	protected void openQuery( IContent content )
 	{
 		Object generateBy = content.getGenerateBy( );
+		//open the query associated with the current report item
 		if ( generateBy instanceof ReportItemDesign )
 		{
 			if ( !( generateBy instanceof ExtendedItemDesign ) )
 			{
+				InstanceID iid = content.getInstanceID( );
+				if ( iid != null )
+				{
+					// To the current report item,
+					// if the dataId exist and it's deteSet id is not null, 
+					// and we can find it has parent,
+					// we'll try to skip to the current row of the parent query.
+					DataID dataId = iid.getDataID( );
+					if (dataId != null)
+					{
+						DataSetID dataSetId = dataId.getDataSetID( );
+						if (dataSetId != null)
+						{
+							DataSetID parentSetId = dataSetId.getParentID( );
+							long parentRowId = dataSetId.getRowID( );
+							if (parentSetId != null && parentRowId != -1)
+							{
+								// the parent exist.
+								if ( !resultSets.isEmpty( ) )
+								{
+									IResultSet rset = (IResultSet) resultSets.peek( );
+									if ( rset != null )
+									{
+										// the parent query's result set is not null,
+										// skip to the right row according row id. 
+										if ( parentRowId != rset.getCurrentPosition( ) )
+										{
+											rset.skipTo( parentRowId );
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 				ReportItemDesign design = (ReportItemDesign) generateBy;
 				IBaseQueryDefinition query = design.getQuery( );
 				if ( query != null )
 				{
+					// execute query
 					IResultSet rset = dataEngine.execute( query );
 					resultSets.push( rset );
 				}
 			}
 		}
+		//locate the row position to the current position
 		InstanceID iid = content.getInstanceID( );
 		if ( iid != null )
 		{
