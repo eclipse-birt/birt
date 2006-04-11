@@ -507,7 +507,14 @@ public class InsertInLayoutUtil
 		// .newDataItem( null );
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
-		dataHandle.setValueExpr( DEUtil.getExpression( model ) );
+
+		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
+				model.getName( ) );
+		bindingColumn.setDataType( model.getDataType( ) );
+		bindingColumn.setExpression( DEUtil.getExpression( model ) );
+
+		dataHandle.addColumnBinding( bindingColumn, false );
+		dataHandle.setResultSetColumn( bindingColumn.getColumnName( ) );
 		return dataHandle;
 	}
 
@@ -552,30 +559,30 @@ public class InsertInLayoutUtil
 			GroupHandle groupHandle = getGroupHandle( target );
 			if ( groupHandle != null )
 			{
-				ComputedColumn bindingColumn = StructureFactory.createComputedColumn( );
+				ComputedColumn bindingColumn = StructureFactory.newComputedColumn( groupHandle,
+						model.getColumnName( ) );
 				// bindingColumn.setColumnName( model.getColumnName( ) );
 				bindingColumn.setDataType( model.getDataType( ) );
 				bindingColumn.setExpression( DEUtil.getExpression( model ) );
-				bindingColumn.setName( model.getColumnName( ) );
 
 				groupHandle.addColumnBinding( bindingColumn, false );
 			}
 			else
 			{
-				ComputedColumn bindingColumn = StructureFactory.createComputedColumn( );
+				ComputedColumn bindingColumn = StructureFactory.newComputedColumn( container,
+						model.getColumnName( ) );
 				// bindingColumn.setColumnName( model.getColumnName( ) );
 				bindingColumn.setDataType( model.getDataType( ) );
 				bindingColumn.setExpression( DEUtil.getExpression( model ) );
-				bindingColumn.setName( model.getColumnName( ) );
 				container.addColumnBinding( bindingColumn, false );
 			}
 		}
 		else
 		{
-			ComputedColumn bindingColumn = StructureFactory.createComputedColumn( );
+			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
+					model.getColumnName( ) );
 			bindingColumn.setDataType( model.getDataType( ) );
 			bindingColumn.setExpression( DEUtil.getExpression( model ) );
-			bindingColumn.setName( model.getColumnName( ) );
 			dataHandle.addColumnBinding( bindingColumn, false );
 			dataHandle.setDataSet( dataSet );
 		}
@@ -979,10 +986,10 @@ public class InsertInLayoutUtil
 						cell.addElement( dataHandle, cells.getSlotID( ) );
 
 						// add data binding to table.
-						ComputedColumn bindingColumn = StructureFactory.createComputedColumn( );
+						ComputedColumn bindingColumn = StructureFactory.newComputedColumn( tableHandle,
+								columns[j].getColumnName( ) );
 						bindingColumn.setDataType( columns[j].getDataType( ) );
 						bindingColumn.setExpression( DEUtil.getExpression( columns[j] ) );
-						bindingColumn.setName( columns[j].getColumnName( ) );
 						tableHandle.addColumnBinding( bindingColumn, false );
 					}
 				}
