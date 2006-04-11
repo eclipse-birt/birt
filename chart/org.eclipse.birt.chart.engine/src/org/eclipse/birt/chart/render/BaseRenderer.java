@@ -1235,7 +1235,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								k++;
 								renderSeparator( ipr,
 										lg,
-										lia,
+										liSep,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										lih.getWidth( ),
@@ -1473,7 +1473,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								k++;
 								renderSeparator( ipr,
 										lg,
-										lia,
+										liSep,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										bo.getHeight( ),
@@ -1973,7 +1973,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								k++;
 								renderSeparator( ipr,
 										lg,
-										lia,
+										liSep,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										bo.getWidth( ),
@@ -2221,7 +2221,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								k++;
 								renderSeparator( ipr,
 										lg,
-										lia,
+										liSep,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										lih.getHeight( ),
@@ -2378,7 +2378,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						{
 							renderSeparator( ipr,
 									lg,
-									lia,
+									liSep,
 									dX + dSeparatorThickness / 2,
 									dY,
 									dMaxH,
