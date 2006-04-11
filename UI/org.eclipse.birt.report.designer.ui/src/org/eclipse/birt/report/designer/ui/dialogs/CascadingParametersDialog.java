@@ -739,7 +739,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private String[] getDataSets( )
 	{
-		return (String[]) DEUtil.getDataSets( ).toArray( new String[0] );
+		return ChoiceSetFactory.getDataSets( );
 	}
 
 	private DataSetHandle getDataSet( String name )
@@ -1524,7 +1524,8 @@ public class CascadingParametersDialog extends BaseDialog
 			for ( Iterator iter = cmdh.getResultSet( ).iterator( ); iter.hasNext( ); )
 			{
 				ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
-				if ( value.equalsIgnoreCase( DEUtil.getColumnExpression( element.getColumnName( ) ) ) )
+				if ( DEUtil.getColumnExpression( element.getColumnName( ) )
+						.equalsIgnoreCase( value ) )
 				{
 					return element.getColumnName( );
 				}
