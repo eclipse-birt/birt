@@ -22,9 +22,9 @@ import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.16 $ $Date: 2005/12/03 02:01:49 $
+ * @version $Revision: 1.17 $ $Date: 2005/12/03 05:34:28 $
  */
-public class LabelItemExecutor extends StyledItemExecutor
+public class LabelItemExecutor extends QueryItemExecutor
 {
 
 	/**
@@ -62,6 +62,9 @@ public class LabelItemExecutor extends StyledItemExecutor
 
 		context.pushContent( labelObj );
 
+		openResultSet( item );
+		accessQuery( item, emitter );
+		
 		initializeContent( parent, item, labelObj );
 
 		processAction( item, labelObj );
@@ -81,6 +84,8 @@ public class LabelItemExecutor extends StyledItemExecutor
 			emitter.startLabel( labelObj );
 		}
 		finishTOCEntry( );
+		
+		closeResultSet( );
 		context.popContent( );
 	}
 }
