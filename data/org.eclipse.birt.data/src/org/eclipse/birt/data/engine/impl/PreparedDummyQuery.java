@@ -391,7 +391,12 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			checkOpened( );
 
-			Object value = ExprEvaluateUtil.evaluateRawExpression( this.exprManager.getExpr( name ),
+			IBaseExpression exprObject = this.exprManager.getExpr( name );
+			if ( exprObject == null )
+				throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
+						name );
+			
+			Object value = ExprEvaluateUtil.evaluateRawExpression( exprObject,
 					queryScope );
 			this.getRdSaveUtil( ).doSaveExpr( name, value );
 			return value;
