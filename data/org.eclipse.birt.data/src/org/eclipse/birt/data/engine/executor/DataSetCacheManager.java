@@ -179,7 +179,7 @@ public class DataSetCacheManager
 	 */
 	private boolean basicCache( )
 	{
-		if ( dataSourceDesign == null || dataSetDesign == null )
+		if ( dataSetDesign == null )
 			return false;
 
 		if ( this.cacheOption == DISABLE )

@@ -24,6 +24,8 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
+import org.eclipse.birt.data.engine.api.IJoinCondition;
+import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
@@ -44,11 +46,11 @@ public class DataSourceAndDataSet
 	private IBaseDataSetDesign dataSetDesign;
 	private Collection parameterBindings;
 	private int cacheCount;
-	
+
 	private final static int B_FALSE = 0;
 	private final static int B_UNKNOWN = 1;
 	private final static int B_TRUE = 2;
-	
+
 	/**
 	 * @param dataSourceDesign
 	 * @param dataSetDesign
@@ -94,7 +96,7 @@ public class DataSourceAndDataSet
 		IBaseDataSetDesign dataSetDesign2 = ( (DataSourceAndDataSet) obj ).dataSetDesign;
 		Collection parameterBindings2 = ( (DataSourceAndDataSet) obj ).parameterBindings;
 		int cacheCount2 = ( (DataSourceAndDataSet) obj ).cacheCount;
-		
+
 		if ( this.dataSourceDesign == dataSourceDesign2 )
 		{
 			if ( this.dataSetDesign == dataSetDesign2 )
@@ -118,117 +120,23 @@ public class DataSourceAndDataSet
 					&& ( this.dataSetDesign == null || dataSetDesign2 == null ) )
 				return false;
 		}
-		
+
 		// data source compare
-		if ( isEqualString( dataSourceDesign.getBeforeOpenScript( ),
-				dataSourceDesign2.getBeforeOpenScript( ) ) == false
-				|| isEqualString( dataSourceDesign.getAfterOpenScript( ),
-						dataSourceDesign2.getAfterOpenScript( ) ) == false
-				|| isEqualString( dataSourceDesign.getBeforeCloseScript( ),
-						dataSourceDesign2.getBeforeCloseScript( ) ) == false
-				|| isEqualString( dataSourceDesign.getAfterCloseScript( ),
-						dataSourceDesign2.getAfterCloseScript( ) ) == false )
+		if ( isEqualDataSourceDesign( dataSourceDesign, dataSourceDesign2 ) == false )
 			return false;
-
-		if ( dataSourceDesign instanceof IOdaDataSourceDesign
-				&& dataSourceDesign2 instanceof IOdaDataSourceDesign )
-		{
-			IOdaDataSourceDesign dataSource = (IOdaDataSourceDesign) dataSourceDesign;
-			IOdaDataSourceDesign dataSource2 = (IOdaDataSourceDesign) dataSourceDesign2;
-
-			if ( isEqualString( dataSource.getExtensionID( ),
-					dataSource2.getExtensionID( ) ) == false )
-				return false;
-
-			if ( isEqualProps( dataSource.getPublicProperties( ),
-					dataSource2.getPublicProperties( ) ) == false
-					|| isEqualProps( dataSource.getPrivateProperties( ),
-							dataSource2.getPrivateProperties( ) ) == false )
-				return false;
-		}
-		else if ( dataSourceDesign instanceof IScriptDataSourceDesign
-				&& dataSourceDesign2 instanceof IScriptDataSourceDesign )
-		{
-			IScriptDataSourceDesign dataSource = (IScriptDataSourceDesign) dataSourceDesign;
-			IScriptDataSourceDesign dataSource2 = (IScriptDataSourceDesign) dataSourceDesign2;
-
-			if ( isEqualString( dataSource.getOpenScript( ),
-					dataSource2.getOpenScript( ) ) == false
-					|| isEqualString( dataSource.getCloseScript( ),
-							dataSource2.getCloseScript( ) ) == false )
-				return false;
-		}
 
 		// data set compare
-		if ( isEqualString( dataSetDesign.getBeforeOpenScript( ),
-				dataSetDesign2.getBeforeOpenScript( ) ) == false
-				|| isEqualString( dataSetDesign.getAfterOpenScript( ),
-						dataSetDesign2.getAfterOpenScript( ) ) == false
-				|| isEqualString( dataSetDesign.getBeforeCloseScript( ),
-						dataSetDesign2.getBeforeCloseScript( ) ) == false
-				|| isEqualString( dataSetDesign.getAfterCloseScript( ),
-						dataSetDesign2.getAfterCloseScript( ) ) == false )
+		if ( isEqualDataSetDesign( dataSetDesign, dataSetDesign2 ) == false )
 			return false;
 
-		if ( isEqualComputedColumns( dataSetDesign.getComputedColumns( ),
-				dataSetDesign2.getComputedColumns( ) ) == false
-				|| isEqualFilters( dataSetDesign.getFilters( ),
-						dataSetDesign2.getFilters( ) ) == false
-				|| isEqualParameterBindings( dataSetDesign.getInputParamBindings( ),
-						dataSetDesign2.getInputParamBindings( ) ) == false
-				|| isEqualParameters( dataSetDesign.getParameters( ),
-						dataSetDesign2.getParameters( ) ) == false
-				|| isEqualResultHints( dataSetDesign.getResultSetHints( ),
-						dataSetDesign2.getResultSetHints( ) ) == false )
-			return false;
-
-		if ( dataSetDesign instanceof IOdaDataSetDesign
-				&& dataSetDesign2 instanceof IOdaDataSetDesign )
-		{
-			IOdaDataSetDesign dataSet = (IOdaDataSetDesign) dataSetDesign;
-			IOdaDataSetDesign dataSet2 = (IOdaDataSetDesign) dataSetDesign2;
-
-			if ( isEqualString( dataSet.getQueryText( ),
-					dataSet2.getQueryText( ) ) == false
-					|| isEqualString( dataSet.getExtensionID( ),
-							dataSet2.getExtensionID( ) ) == false
-					|| isEqualString( dataSet.getPrimaryResultSetName( ),
-							dataSet2.getPrimaryResultSetName( ) ) == false
-					|| isEqualProps( dataSet.getPublicProperties( ),
-							dataSet2.getPublicProperties( ) ) == false
-					|| isEqualProps( dataSet.getPrivateProperties( ),
-							dataSet2.getPrivateProperties( ) ) == false )
-				return false;
-		}
-		else if ( dataSetDesign instanceof IScriptDataSetDesign
-				&& dataSetDesign2 instanceof IScriptDataSetDesign )
-		{
-			IScriptDataSetDesign dataSet = (IScriptDataSetDesign) dataSetDesign;
-			IScriptDataSetDesign dataSet2 = (IScriptDataSetDesign) dataSetDesign2;
-
-			if ( isEqualString( dataSet.getOpenScript( ),
-					dataSet2.getOpenScript( ) ) == false
-					|| isEqualString( dataSet.getFetchScript( ),
-							dataSet2.getFetchScript( ) ) == false
-					|| isEqualString( dataSet.getCloseScript( ),
-							dataSet2.getCloseScript( ) ) == false
-					|| isEqualString( dataSet.getDescribeScript( ),
-							dataSet2.getDescribeScript( ) ) == false )
-				return false;
-		}
-		else
-		{
-			return false;
-		}
-				
 		// parameter bindings compare
 		if ( this.isEqualParameterBindings( this.parameterBindings,
 				parameterBindings2 ) == false )
 			return false;
-		
+
 		if ( this.cacheCount != cacheCount2 )
 			return false;
-		
+
 		return true;
 	}
 
@@ -248,7 +156,7 @@ public class DataSourceAndDataSet
 
 		return ob1.equals( ob2 );
 	}
-	
+
 	/**
 	 * @param str1
 	 * @param str2
@@ -343,7 +251,7 @@ public class DataSourceAndDataSet
 				return B_FALSE;
 		}
 	}
-	
+
 	/**
 	 * Filter does not affect the raw data and metadata
 	 * @param filter1
@@ -390,7 +298,7 @@ public class DataSourceAndDataSet
 
 		return false;
 	}
-	
+
 	/**
 	 * @param se
 	 * @param se2
@@ -403,11 +311,159 @@ public class DataSourceAndDataSet
 			return true;
 		else if ( se == null || se2 == null )
 			return false;
-		
+
 		return se.getDataType( ) == se2.getDataType( )
 				&& isEqualString( se.getText( ), se2.getText( ) );
 	}
-	
+
+	/**
+	 * compare data source design
+	 * @param dataSourceDesign
+	 * @param dataSourceDesign2
+	 * @return
+	 */
+	private boolean isEqualDataSourceDesign(
+			IBaseDataSourceDesign dataSourceDesign,
+			IBaseDataSourceDesign dataSourceDesign2 )
+	{
+		if ( dataSourceDesign == dataSourceDesign2 )
+			return true;
+
+		if ( dataSourceDesign == null || dataSourceDesign2 == null )
+			return false;
+		if ( isEqualString( dataSourceDesign.getBeforeOpenScript( ),
+				dataSourceDesign2.getBeforeOpenScript( ) ) == false
+				|| isEqualString( dataSourceDesign.getAfterOpenScript( ),
+						dataSourceDesign2.getAfterOpenScript( ) ) == false
+				|| isEqualString( dataSourceDesign.getBeforeCloseScript( ),
+						dataSourceDesign2.getBeforeCloseScript( ) ) == false
+				|| isEqualString( dataSourceDesign.getAfterCloseScript( ),
+						dataSourceDesign2.getAfterCloseScript( ) ) == false )
+			return false;
+
+		if ( dataSourceDesign instanceof IOdaDataSourceDesign
+				&& dataSourceDesign2 instanceof IOdaDataSourceDesign )
+		{
+			IOdaDataSourceDesign dataSource = (IOdaDataSourceDesign) dataSourceDesign;
+			IOdaDataSourceDesign dataSource2 = (IOdaDataSourceDesign) dataSourceDesign2;
+
+			if ( isEqualString( dataSource.getExtensionID( ),
+					dataSource2.getExtensionID( ) ) == false )
+				return false;
+
+			if ( isEqualProps( dataSource.getPublicProperties( ),
+					dataSource2.getPublicProperties( ) ) == false
+					|| isEqualProps( dataSource.getPrivateProperties( ),
+							dataSource2.getPrivateProperties( ) ) == false )
+				return false;
+		}
+		else if ( dataSourceDesign instanceof IScriptDataSourceDesign
+				&& dataSourceDesign2 instanceof IScriptDataSourceDesign )
+		{
+			IScriptDataSourceDesign dataSource = (IScriptDataSourceDesign) dataSourceDesign;
+			IScriptDataSourceDesign dataSource2 = (IScriptDataSourceDesign) dataSourceDesign2;
+
+			if ( isEqualString( dataSource.getOpenScript( ),
+					dataSource2.getOpenScript( ) ) == false
+					|| isEqualString( dataSource.getCloseScript( ),
+							dataSource2.getCloseScript( ) ) == false )
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * compare data set design
+	 * @param dataSetDesign
+	 * @param dataSetDesign2
+	 * @return
+	 */
+	private boolean isEqualDataSetDesign( IBaseDataSetDesign dataSetDesign,
+			IBaseDataSetDesign dataSetDesign2 )
+	{
+		if ( dataSetDesign == dataSetDesign2 )
+			return true;
+
+		if ( dataSetDesign == null || dataSetDesign2 == null )
+			return false;
+
+		if ( isEqualString( dataSetDesign.getBeforeOpenScript( ),
+				dataSetDesign2.getBeforeOpenScript( ) ) == false
+				|| isEqualString( dataSetDesign.getAfterOpenScript( ),
+						dataSetDesign2.getAfterOpenScript( ) ) == false
+				|| isEqualString( dataSetDesign.getBeforeCloseScript( ),
+						dataSetDesign2.getBeforeCloseScript( ) ) == false
+				|| isEqualString( dataSetDesign.getAfterCloseScript( ),
+						dataSetDesign2.getAfterCloseScript( ) ) == false )
+			return false;
+
+		if ( isEqualComputedColumns( dataSetDesign.getComputedColumns( ),
+				dataSetDesign2.getComputedColumns( ) ) == false
+				|| isEqualFilters( dataSetDesign.getFilters( ),
+						dataSetDesign2.getFilters( ) ) == false
+				|| isEqualParameterBindings( dataSetDesign.getInputParamBindings( ),
+						dataSetDesign2.getInputParamBindings( ) ) == false
+				|| isEqualParameters( dataSetDesign.getParameters( ),
+						dataSetDesign2.getParameters( ) ) == false
+				|| isEqualResultHints( dataSetDesign.getResultSetHints( ),
+						dataSetDesign2.getResultSetHints( ) ) == false )
+			return false;
+
+		if ( dataSetDesign instanceof IOdaDataSetDesign
+				&& dataSetDesign2 instanceof IOdaDataSetDesign )
+		{
+			IOdaDataSetDesign dataSet = (IOdaDataSetDesign) dataSetDesign;
+			IOdaDataSetDesign dataSet2 = (IOdaDataSetDesign) dataSetDesign2;
+
+			if ( isEqualString( dataSet.getQueryText( ),
+					dataSet2.getQueryText( ) ) == false
+					|| isEqualString( dataSet.getExtensionID( ),
+							dataSet2.getExtensionID( ) ) == false
+					|| isEqualString( dataSet.getPrimaryResultSetName( ),
+							dataSet2.getPrimaryResultSetName( ) ) == false
+					|| isEqualProps( dataSet.getPublicProperties( ),
+							dataSet2.getPublicProperties( ) ) == false
+					|| isEqualProps( dataSet.getPrivateProperties( ),
+							dataSet2.getPrivateProperties( ) ) == false )
+				return false;
+		}
+		else if ( dataSetDesign instanceof IScriptDataSetDesign
+				&& dataSetDesign2 instanceof IScriptDataSetDesign )
+		{
+			IScriptDataSetDesign dataSet = (IScriptDataSetDesign) dataSetDesign;
+			IScriptDataSetDesign dataSet2 = (IScriptDataSetDesign) dataSetDesign2;
+
+			if ( isEqualString( dataSet.getOpenScript( ),
+					dataSet2.getOpenScript( ) ) == false
+					|| isEqualString( dataSet.getFetchScript( ),
+							dataSet2.getFetchScript( ) ) == false
+					|| isEqualString( dataSet.getCloseScript( ),
+							dataSet2.getCloseScript( ) ) == false
+					|| isEqualString( dataSet.getDescribeScript( ),
+							dataSet2.getDescribeScript( ) ) == false )
+				return false;
+		}
+		else if ( dataSetDesign instanceof IJointDataSetDesign
+				&& dataSetDesign2 instanceof IJointDataSetDesign )
+		{
+			IJointDataSetDesign design1 = (IJointDataSetDesign) dataSetDesign;
+			IJointDataSetDesign design2 = (IJointDataSetDesign) dataSetDesign2;
+			if ( isEqualString( design1.getLeftDataSetDesignName( ),
+					design2.getLeftDataSetDesignName( ) ) == false
+					|| isEqualString( design1.getRightDataSetDesignName( ),
+							design2.getRightDataSetDesignName( ) ) == false
+					|| design1.getJoinType( ) != design2.getJoinType( )
+					|| isEqualJointCondition( design1.getJoinConditions( ),
+							design2.getJoinConditions( ) ) == false )
+				return false;
+		}
+		else
+		{
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * @param computedCol1
 	 * @param computedCol2
@@ -464,7 +520,7 @@ public class DataSourceAndDataSet
 			return true;
 		else if ( basicCol == B_FALSE )
 			return false;
-		
+
 		Iterator it = params1.iterator( );
 		Iterator it2 = params2.iterator( );
 		while ( it.hasNext( ) )
@@ -581,13 +637,63 @@ public class DataSourceAndDataSet
 			return true;
 		else if ( cd == null || cd2 == null )
 			return false;
-		
+
 		return cd.getColumnPosition( ) == cd2.getColumnPosition( )
 				&& cd.getDataType( ) == cd2.getDataType( )
 				&& cd.getExportHint( ) == cd2.getExportHint( )
 				&& cd.getSearchHint( ) == cd2.getSearchHint( )
 				&& isEqualString( cd.getAlias( ), cd2.getAlias( ) )
-				&& isEqualString( cd.getColumnName( ), cd2.getColumnName( ) );		
+				&& isEqualString( cd.getColumnName( ), cd2.getColumnName( ) );
 	}
-	
+
+	/**
+	 * compare joint condition
+	 * @param joinConditions1
+	 * @param joinConditions2
+	 * @return
+	 */
+	private boolean isEqualJointCondition( List joinConditions1,
+			List joinConditions2 )
+	{
+		if ( joinConditions1 == joinConditions2 )
+			return true;
+		int basicCol = isEqualBasicCol( joinConditions1, joinConditions2 );
+		if ( basicCol == B_TRUE )
+			return true;
+		else if ( basicCol == B_FALSE )
+			return false;
+
+		Iterator it = joinConditions1.iterator( );
+		Iterator it2 = joinConditions2.iterator( );
+
+		while ( it.hasNext( ) || it2.hasNext( ) )
+		{
+			IJoinCondition cc = (IJoinCondition) it.next( );
+			IJoinCondition cc2 = (IJoinCondition) it2.next( );
+			if ( isEqualJointConditionItem( cc, cc2 ) == false )
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * compare 
+	 * @param cc1
+	 * @param cc2
+	 * @return
+	 */
+	private boolean isEqualJointConditionItem( IJoinCondition cc1,
+			IJoinCondition cc2 )
+	{
+		if ( cc1 == cc2 )
+			return true;
+		else if ( cc1 == null || cc2 == null )
+			return false;
+
+		return isEqualExpression2( cc1.getLeftExpression( ),
+				cc2.getLeftExpression( ) )
+				&& isEqualExpression2( cc1.getRightExpression( ),
+						cc2.getRightExpression( ) )
+				&& cc1.getOperator( ) == cc2.getOperator( );
+	}
 }
