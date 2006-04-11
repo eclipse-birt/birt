@@ -39,7 +39,7 @@ import org.eclipse.birt.report.engine.content.impl.TextContent;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.8 $ $Date: 2006/03/26 09:15:06 $
+ * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:46 $
  */
 public class ReportContentReaderV2
 {
@@ -171,6 +171,10 @@ public class ReportContentReaderV2
 	 */
 	public IContent readContent( ) throws IOException
 	{
+		if ( offset >= stream.length( ) )
+		{
+			return null;
+		}
 		stream.seek( offset );
 		long parentOffset = stream.readLong( );
 		int size = stream.readInt( );

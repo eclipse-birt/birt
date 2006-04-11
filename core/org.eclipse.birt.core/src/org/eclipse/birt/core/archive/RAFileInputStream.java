@@ -214,6 +214,10 @@ public class RAFileInputStream extends RAInputStream
 		return cur;
 	}
 
+	public long length() throws IOException
+	{
+		return getStreamLength( );
+	}
 	/**
 	 * Convert the local position to global position.
 	 * @param localPos - the local postion which starts from 0

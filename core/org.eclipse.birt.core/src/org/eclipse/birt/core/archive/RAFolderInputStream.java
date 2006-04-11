@@ -140,6 +140,11 @@ public class RAFolderInputStream extends RAInputStream
 		return randomFile.getFilePointer( );
 	}
 	
+	public long length() throws IOException
+	{
+		return getStreamLength();
+	}
+	
 	/**
 	 * Close the stream
 	 */

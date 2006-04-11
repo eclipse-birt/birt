@@ -23,6 +23,8 @@ public abstract class RAInputStream extends InputStream
 	public abstract void seek( long localPos ) throws IOException;
 	
 	public abstract long getOffset() throws IOException;
+	
+	public abstract long length() throws IOException;
     /**
      * @return
      * @throws IOException
