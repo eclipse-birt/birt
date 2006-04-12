@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -1118,7 +1119,7 @@ public class UIUtil
 		{
 			return null;
 		}
-		Iterator iterator = moduleHandle.getAllThemes( ).iterator( );
+		Iterator iterator = moduleHandle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL ).iterator( );
 
 		if ( iterator != null )
 		{

@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -1591,7 +1592,7 @@ public class DEUtil
 	{
 		List themes = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getAllThemes( );
+				.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 
 		Object[] themesArray = themes.toArray( );
 

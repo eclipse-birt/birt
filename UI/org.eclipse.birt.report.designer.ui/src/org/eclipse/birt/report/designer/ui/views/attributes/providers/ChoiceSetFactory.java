@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
@@ -619,7 +620,7 @@ public class ChoiceSetFactory
 
 		ModuleHandle handle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
-		Iterator iterator = handle.getVisibleThemes( ).iterator( );
+		Iterator iterator = handle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL ).iterator( );
 
 		if ( iterator != null )
 		{
