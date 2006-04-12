@@ -64,6 +64,7 @@ public class RDSave
 	
 	public final static int columnSeparator = 1;
 	public final static int rowSeparator = 2;
+	public final static int endSeparator = 3;
 	
 	/**
 	 * @param context

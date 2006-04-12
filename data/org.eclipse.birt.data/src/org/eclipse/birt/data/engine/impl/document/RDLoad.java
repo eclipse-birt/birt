@@ -437,23 +437,37 @@ public class RDLoad
 		}
 		else
 		{
-			if ( rowDis.available( ) > 0 )
+			while ( true )
 			{
-				while ( true )
+				if ( getSeperator( rowDis ) == RDSave.columnSeparator )
 				{
-					if ( IOUtil.readInt( rowDis ) == RDSave.columnSeparator )
-					{
-						String exprID = IOUtil.readString( rowDis );
-						Object exprValue = IOUtil.readObject( rowDis );
-						exprValueMap.put( exprID, exprValue );
-					}
-					else
-					{
-						break;
-					}
+					String exprID = IOUtil.readString( rowDis );
+					Object exprValue = IOUtil.readObject( rowDis );
+					exprValueMap.put( exprID, exprValue );
+				}
+				else
+				{
+					break;
 				}
 			}
 		}
+	}
+	
+	/**
+	 * @param inputStream
+	 * @return
+	 * @throws IOException
+	 */
+	private static int getSeperator( InputStream inputStream ) throws IOException
+	{
+		byte[] bytes = new byte[4];
+		int len = inputStream.read( bytes );
+		if ( len == -1 )
+			return RDSave.endSeparator;
+		else if ( len < 4 )
+			throw new IOException( "read error for result set data" );
+
+		return IOUtil.getInt( bytes );
 	}
 	
 	/**

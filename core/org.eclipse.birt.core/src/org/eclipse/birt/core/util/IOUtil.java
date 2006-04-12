@@ -80,6 +80,25 @@ public class IOUtil
 		outputStream.write( ( value >>> 8 ) & 0xFF );
 		outputStream.write( ( value >>> 0 ) & 0xFF );
 	}
+	
+	/**
+	 * Assemble four bytes to an int value, make sure that the passed bytes
+	 * length is 4.
+	 * 
+	 * @param bytes
+	 * @return int value of bytes
+	 */
+	public final static int getInt( byte[] bytes )
+	{
+		assert bytes.length == 4;
+		
+		int ch1 = bytes[0];
+		int ch2 = bytes[1];
+		int ch3 = bytes[2];
+		int ch4 = bytes[3];
+		
+		return ( ( ch1 << 24 ) + ( ch2 << 16 ) + ( ch3 << 8 ) + ( ch4 << 0 ) );
+	}
 
 	/**
 	 * Read a bool value from an input stream
