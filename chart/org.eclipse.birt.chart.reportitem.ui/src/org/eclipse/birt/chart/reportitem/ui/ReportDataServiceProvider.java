@@ -28,7 +28,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
-import org.eclipse.birt.report.designer.ui.dialogs.BindingColumnDialog;
+import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -375,7 +375,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	protected int invokeDataBinding( )
 	{
-		BindingColumnDialog page = new BindingColumnDialog( false );
+		ColumnBindingDialog page = new ColumnBindingDialog( false );
 		page.setInput( itemHandle );
 		return page.open( );
 	}
