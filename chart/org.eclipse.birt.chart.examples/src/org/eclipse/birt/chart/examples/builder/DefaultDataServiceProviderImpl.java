@@ -191,4 +191,22 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#afterTransaction()
+	 */
+	public void afterTransaction( )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#beforeTransaction()
+	 */
+	public void beforeTransaction( )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }
