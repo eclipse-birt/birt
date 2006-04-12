@@ -261,7 +261,8 @@ class ComputedColumnHelperInstance
 									new Object[]{
 											resultClass.getFieldValueClass( columnIndexArray[i] )
 													.getName( ),
-											value == null? value:value.toString( ),
+											value == null ? value
+													: value.toString( ),
 									} );
 						}
 						// Data Type of computed column is not correct
@@ -270,7 +271,8 @@ class ComputedColumnHelperInstance
 										resultClass.getFieldName( columnIndexArray[i] ),
 										resultClass.getFieldValueClass( columnIndexArray[i] )
 												.getName( ),
-										value.toString( ),
+										value == null ? value
+												: value.toString( ),
 								} );
 					}
 					resultObject.setCustomFieldValue( columnIndexArray[i],
