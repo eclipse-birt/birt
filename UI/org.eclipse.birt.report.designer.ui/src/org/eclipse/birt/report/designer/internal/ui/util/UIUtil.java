@@ -1215,11 +1215,24 @@ public class UIUtil
 			throws SemanticException
 	{
 		Assert.isNotNull( handle );
-		DataSetHandle dataSetHandle = DEUtil.getAvaliableDataSet( handle );
+		DesignElementHandle holder = null;
+		DataSetHandle dataSetHandle = handle.getDataSet( );
+		if ( dataSetHandle != null )
+		{
+			holder = handle;
+		}
+		else
+		{
+			dataSetHandle = DEUtil.getBindingHolder( handle ).getDataSet( );
+			if ( dataSetHandle != null )
+			{
+				holder = DEUtil.getBindingHolder( handle );
+			}
+		}
 		if ( dataSetHandle != null )
 		{
 			List resultSetColumnList = getColumnList( dataSetHandle );
-			DesignElementHandle holder = DEUtil.getBindingHolder( handle );
+			DEUtil.getBindingHolder( handle );
 			if ( resultSetColumnList.isEmpty( ) )
 			{
 				return false;

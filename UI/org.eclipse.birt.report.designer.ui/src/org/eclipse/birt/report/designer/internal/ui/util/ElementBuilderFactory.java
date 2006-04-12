@@ -1,7 +1,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
-import org.eclipse.birt.report.designer.ui.dialogs.BindingColumnDialog;
+import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ImageBuilder;
@@ -59,7 +59,7 @@ public class ElementBuilderFactory
 		}
 		if ( handle instanceof DataItemHandle )
 		{
-			BindingColumnDialog dialog = new BindingColumnDialog( true );
+			ColumnBindingDialog dialog = new ColumnBindingDialog( true );
 			dialog.setInput( (ReportItemHandle) handle );
 			return ( dialog );
 		}

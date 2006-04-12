@@ -144,7 +144,7 @@ public class ExpressionProvider implements IExpressionProvider
 	private static final Image IMAGE_STATIC_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER );
 
 	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
-	public static final String BINDING_COLUMNS = "Available binding columns"; //$NON-NLS-1$
+	public static final String COLUMN_BINDINGS = Messages.getString("ExpressionProvider.Category.ColumnBinding");  //$NON-NLS-1$
 	// public static final String DATASETS = Messages.getString(
 	// "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
 	public static final String PARAMETERS = Messages.getString( "ExpressionProvider.Category.Parameters" ); //$NON-NLS-1$
@@ -153,6 +153,8 @@ public class ExpressionProvider implements IExpressionProvider
 
 	private static final String ALL = Messages.getString( "ExpressionProvider.Label.All" ); //$NON-NLS-1$
 
+	private static final String TOOLTIP_BINDING_PREFIX = Messages.getString( "ExpressionProvider.Tooltip.ColumnBinding" ); //$NON-NLS-1$
+	
 	protected DesignElementHandle elementHandle;
 
 	private List filterList;
@@ -234,9 +236,9 @@ public class ExpressionProvider implements IExpressionProvider
 	protected List getCategoryList( )
 	{
 		ArrayList categoryList = new ArrayList( 5 );
-		if ( !DEUtil.getBingdingColumnList( elementHandle ).isEmpty( ) )
+		if ( !DEUtil.getAllColumnBindingList( elementHandle ).isEmpty( ) )
 		{
-			categoryList.add( BINDING_COLUMNS );
+			categoryList.add( COLUMN_BINDINGS );
 		}
 		if ( elementHandle.getModuleHandle( ).getParameters( ).getCount( ) != 0 )
 		{
@@ -318,9 +320,9 @@ public class ExpressionProvider implements IExpressionProvider
 			}
 			else
 			{
-				if ( BINDING_COLUMNS.equals( parent ) )
+				if ( COLUMN_BINDINGS.equals( parent ) )
 				{
-					List bindingList = DEUtil.getBingdingColumnList( elementHandle,
+					List bindingList = DEUtil.getAllColumnBindingList( elementHandle,
 							includeSelf );
 					// The list is from top to bottom,reverse it
 					Collections.reverse( bindingList );
@@ -502,7 +504,8 @@ public class ExpressionProvider implements IExpressionProvider
 		}
 		else if ( element instanceof ComputedColumnHandle )
 		{
-			return "Refers to " + ( (ComputedColumnHandle) element ).getExpression( );
+			return TOOLTIP_BINDING_PREFIX
+					+ ( (ComputedColumnHandle) element ).getExpression( ); //$NON-NLS-1$
 		}
 		return getDisplayText( element );
 	}
@@ -588,10 +591,14 @@ public class ExpressionProvider implements IExpressionProvider
 			}
 			return insertText.toString( );
 		}
-		else if ( element instanceof ComputedColumnHandle
-				|| element instanceof ParameterHandle )
+		else if ( element instanceof ParameterHandle )
 		{
 			return DEUtil.getExpression( element );
+		}
+		else if ( element instanceof ComputedColumnHandle )
+		{
+			return DEUtil.getBindingexpression( elementHandle,
+					(ComputedColumnHandle) element );
 		}
 		return null;
 	}

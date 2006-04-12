@@ -56,6 +56,8 @@ public interface IReportElementConstants
 
 	public static final String BINDING_COLUMN_PREFIX = "row";//$NON-NLS-1$
 	
+	public static final String OUTER_BINDING_COLUMN_PREFIX = "._outer";//$NON-NLS-1$
+	
 	public static final String RESULTSET_COLUMN_PREFIX = "dataSetRow";//$NON-NLS-1$
 
 	public static final String DATA_SET_PREFIX = "dataSets";//$NON-NLS-1$

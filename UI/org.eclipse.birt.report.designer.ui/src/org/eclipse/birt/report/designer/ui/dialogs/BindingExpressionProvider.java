@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -18,6 +19,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 
 /**
@@ -29,18 +31,21 @@ public class BindingExpressionProvider extends ExpressionProvider
 
 	public static final String DATASETS = Messages.getString( "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
 
-	private List dataSetList;
+	private DataSetHandle dataSetHandle = null;
 
 	public BindingExpressionProvider( DesignElementHandle handle )
 	{
 		super( handle );
-		dataSetList = DEUtil.getDataSetList( handle );
+		if ( handle instanceof ReportItemHandle )
+		{
+			dataSetHandle = ( (ReportItemHandle) handle ).getDataSet( );
+		}
 	}
 
 	protected List getCategoryList( )
 	{
 		List categoryList = super.getCategoryList( );
-		if ( dataSetList != null && !dataSetList.isEmpty( ) )
+		if ( dataSetHandle != null )
 		{
 			categoryList.add( DATASETS );
 		}
@@ -51,7 +56,9 @@ public class BindingExpressionProvider extends ExpressionProvider
 	{
 		if ( DATASETS.equals( parent ) )
 		{
-			return dataSetList;
+			List dataSeList = new ArrayList( );
+			dataSeList.add( dataSetHandle );
+			return dataSeList;
 		}
 		if ( parent instanceof DataSetHandle )
 		{

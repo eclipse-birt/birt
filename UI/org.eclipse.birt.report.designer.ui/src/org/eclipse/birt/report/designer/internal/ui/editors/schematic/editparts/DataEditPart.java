@@ -11,7 +11,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.dialogs.BindingColumnDialog;
+import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.StackLayout;
@@ -56,7 +56,7 @@ public class DataEditPart extends LabelEditPart
 	{
 		DataItemHandle handle = (DataItemHandle) getModel( );
 		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
-		BindingColumnDialog dialog = new BindingColumnDialog( true );
+		ColumnBindingDialog dialog = new ColumnBindingDialog( true );
 		dialog.setInput( handle );
 		if ( dialog.open( ) == Dialog.OK )
 		{

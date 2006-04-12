@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -1782,70 +1783,93 @@ public class DEUtil
 	}
 
 	/**
-	 * Returns all available binding column for the given element
+	 * Returns all available column bindings for the given element
 	 * 
 	 * @param handle
 	 *            the handle of the element
-	 * @return the list of all binding column available.
+	 * @return the list of all column bindings available.The list order is from
+	 *         the top to the given element
 	 */
-	public static List getBingdingColumnList( DesignElementHandle handle )
+	public static List getAllColumnBindingList( DesignElementHandle handle )
 	{
-		return getBingdingColumnList( handle, true );
+		return getAllColumnBindingList( handle, true );
 	}
 
 	/**
-	 * Returns all available binding column for the given element.
+	 * Returns all available column bindings for the given element.
 	 * 
 	 * @param handle
 	 *            the handle of the element
 	 * @param includeSelf
 	 *            true if includes the element itself, or false only includes
-	 *            binding column in the containers
-	 * @return the list of all binding column available.
+	 *            bindings in the containers
+	 * @return the list of all column bindings available.The list order is from
+	 *         the top to the given element
 	 */
 
-	public static List getBingdingColumnList( DesignElementHandle handle,
+	public static List getAllColumnBindingList( DesignElementHandle handle,
 			boolean includeSelf )
 	{
 		List bindingList = new ArrayList( );
 		if ( handle instanceof ReportElementHandle )
 		{
-			if ( ( handle instanceof ReportItemHandle || handle instanceof GroupHandle )
-					&& includeSelf )
+			Iterator iterator = getBindingColumnIterator( handle );
+			while ( iterator.hasNext( ) )
 			{
-				Iterator iterator = null;
-				if ( handle instanceof ReportItemHandle )
-				{
-					iterator = ( (ReportItemHandle) handle ).columnBindingsIterator( );
-				}
-				else
-				{
-					iterator = ( (GroupHandle) handle ).columnBindingsIterator( );
-				}
-				while ( iterator.hasNext( ) )
-				{
-					bindingList.add( iterator.next( ) );
-				}
+				bindingList.add( iterator.next( ) );
 			}
 			bindingList.addAll( 0,
-					getBingdingColumnList( handle.getContainer( ), true ) );
+					getAllColumnBindingList( handle.getContainer( ), true ) );
 		}
 		return bindingList;
 	}
 
 	/**
-	 * Returns the closest data set available for the given handle.
+	 * Returns all visible column bindings in the holder scope for the given
+	 * element
 	 * 
-	 * @return the data set or null if no data set can be used.
+	 * @param handle
+	 *            the handle of the element
+	 * @return the list of all visible column bindings.The list order is from
+	 *         the top to the given element
 	 */
-	public static DataSetHandle getAvaliableDataSet( DesignElementHandle handle )
+	public static List getVisiableColumnBindingsList( DesignElementHandle handle )
 	{
-		ReportItemHandle holder = getBindingHolder( handle );
-		if ( holder != null )
+		return getVisiableColumnBindingsList( handle, true );
+	}
+
+	/**
+	 * Returns all visible column bindings for the given element
+	 * 
+	 * @param handle
+	 *            the handle of the element
+	 * @return the list of all visible column bindings.The list order is from
+	 *         the top to the given element
+	 */
+	public static List getVisiableColumnBindingsList(
+			DesignElementHandle handle, boolean includeSelf )
+	{
+		List bindingList = new ArrayList( );
+		if ( includeSelf )
 		{
-			return holder.getDataSet( );
+			Iterator iterator = getBindingColumnIterator( handle );
+			while ( iterator.hasNext( ) )
+			{
+				bindingList.add( iterator.next( ) );
+			}
 		}
-		return null;
+		ReportItemHandle holder = getBindingHolder( handle );
+		for ( DesignElementHandle elementHandle = handle.getContainer( ); elementHandle != holder.getContainer( ); elementHandle = elementHandle.getContainer( ) )
+		{
+			List subBindingList = new ArrayList( );
+			Iterator iterator = getBindingColumnIterator( elementHandle );
+			while ( iterator.hasNext( ) )
+			{
+				subBindingList.add( iterator.next( ) );
+			}
+			bindingList.addAll( 0, subBindingList );
+		}
+		return bindingList;
 	}
 
 	/**
@@ -1854,26 +1878,23 @@ public class DEUtil
 	 * 
 	 * @param handle
 	 *            the handle of the element which needs binding columns
-	 * @return the holder for the element,or null if no holder available
+	 * @return the holder for the element,or itself if no holder available
 	 */
 	public static ReportItemHandle getBindingHolder( DesignElementHandle handle )
 	{
 		if ( handle instanceof ReportElementHandle )
 		{
-			if ( handle instanceof ReportItemHandle )
+			if ( handle instanceof ListingHandle
+					|| handle instanceof GridHandle )
 			{
-				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null )
-				{
-					return (ReportItemHandle) handle;
-				}
-				ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
-				if ( result == null )
-				{
-					return (ReportItemHandle) handle;
-				}
-				return result;
+				return (ReportItemHandle) handle;
 			}
-			return getBindingHolder( handle.getContainer( ) );
+			ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
+			if ( result == null )
+			{
+				result = (ReportItemHandle) handle;
+			}
+			return result;
 		}
 		return null;
 	}
@@ -1909,17 +1930,67 @@ public class DEUtil
 	 * 
 	 * @param handle
 	 *            the handle of the element. It should be a ReportItemHandle or
-	 *            a GroupHandle
+	 *            a GroupHandle,or an empty iterator will be returned.
 	 * @return the iterator of binding columns
 	 */
 	public static Iterator getBindingColumnIterator( DesignElementHandle handle )
 	{
-		Assert.isLegal( handle instanceof ReportItemHandle
-				|| handle instanceof GroupHandle );
 		if ( handle instanceof GroupHandle )
 		{
 			return ( (GroupHandle) handle ).columnBindingsIterator( );
 		}
-		return ( (ReportItemHandle) handle ).columnBindingsIterator( );
+		else if ( handle instanceof ReportItemHandle )
+		{
+			return ( (ReportItemHandle) handle ).columnBindingsIterator( );
+		}
+		return Collections.EMPTY_LIST.iterator( );
+	}
+
+	/**
+	 * Return the expression for the given binding column based on the given
+	 * element
+	 * 
+	 * @param baseElement
+	 *            the base element
+	 * @param column
+	 *            the binding column
+	 * @return the expression for the column
+	 */
+	public static String getBindingexpression( DesignElementHandle baseElement,
+			ComputedColumnHandle column )
+	{
+		String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
+		for ( int i = 0; i < getBindingLevel( column.getElementHandle( ),
+				baseElement ); i++ )
+		{
+			exp += IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX;
+		}
+		exp += "[\"" + DEUtil.escape( column.getName( ) ) + "\"]";
+		return exp;
+	}
+
+	/**
+	 * Returns the level between the holder and the given handle
+	 * 
+	 * @param holder
+	 *            the handle of the holder
+	 * @param baseElement
+	 *            the handle of the base element
+	 * 
+	 * @return the level between the holder and the base element, or -1 if the
+	 *         element is not a children of the holder
+	 */
+	public static int getBindingLevel( DesignElementHandle holder,
+			DesignElementHandle baseElement )
+	{
+		int level = 0;
+		for ( DesignElementHandle elementHandle = baseElement; elementHandle.getContainer( ) != null; elementHandle = getBindingHolder( elementHandle ).getContainer( ), level++ )
+		{
+			if ( getBindingHolder( elementHandle ) == holder )
+			{
+				return level;
+			}
+		}
+		return -1;
 	}
 }

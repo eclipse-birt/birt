@@ -647,7 +647,8 @@ public class GroupDialog extends BaseDialog implements Listener
 
 	private void refreshColumnList( )
 	{
-		columnList = DEUtil.getBingdingColumnList( inputGroup );
+		keyChooser.removeAll( );
+		columnList = DEUtil.getVisiableColumnBindingsList( inputGroup );
 		Iterator itor = columnList.iterator( );
 		while ( itor.hasNext( ) )
 		{
