@@ -1,0 +1,190 @@
+options
+{
+    /** The default package for this parser kit */
+    NODE_PACKAGE="org.eclipse.birt.core.template";
+
+    /** A source file will be generated for each non-terminal */
+    MULTI=true;
+
+    /**
+     * Each node will have access to the parser, I did this so
+     * some global information can be shared via the parser. I
+     * think this will come in handly keeping track of
+     * context, and being able to push changes back into
+     * the context when nodes make modifications to the
+     * context by setting properties, variables and
+     * what not.
+     */
+    NODE_USES_PARSER=true;
+
+    /**
+     * The parser must be non-static in order for the
+     * above option to work, otherwise the parser value
+     * is passed in as null, which isn't all the useful ;)
+     */
+    STATIC=false;
+
+    /**
+     * Enables the use of a visitor that each of nodes
+     * will accept. This way we can separate the logic
+     * of node processing in a visitor and out of the
+     * nodes themselves. If processing changes then
+     * the nothing has to change in the node code.
+     */
+    VISITOR=true;
+
+    /**
+     * Declare that we are accepting unicode input and
+     * that we are using a custom character stream class
+     * Note that the char stream class is really a slightly
+     * modified ASCII_CharStream, as it appears we are safe
+     * because we only deal with pre-encoding-converted
+     * Readers rather than raw input streams.
+     */
+    UNICODE_INPUT=true;
+
+    /**
+     *  for debugging purposes.  Keep false
+     */
+    DEBUG_PARSER=false;
+    DEBUG_TOKEN_MANAGER=false;
+}
+
+PARSER_BEGIN(Parser)
+
+package org.eclipse.birt.core.template;
+
+import java.io.*;
+import java.util.*;
+
+public class Parser
+{
+    public Parser()
+    {
+		this((Reader)null);
+    }
+
+    public ASTTemplate parse( Reader reader )
+        throws ParseException
+    {
+    	ReInit(reader);
+    	Template();
+    	return (ASTTemplate)jjtree.rootNode();
+    }
+}
+PARSER_END(Parser)
+
+
+
+/* ------------------------------------------------------------------------
+ *
+ * Tokens
+ *
+ *  Note : we now have another state, REFMODIFIER.  This is sort of a
+ *  type of REFERENCE state, simply use to use the DIRECTIVE token
+ *  set when we are processing a $foo.bar() construct
+ *
+ * ------------------------------------------------------------------------- */
+SKIP :
+{
+	<		( " " | "\t" | "\n" | "\r" )+	>
+|	<		"<!" ( ~[">"] )* ">"		>
+}
+
+TOKEN [IGNORE_CASE] :
+{
+	<START_VALUEOF:		"<value-of"			>	: ATTLIST
+|	<END_VALUEOF:		"</value-of"		>	: ATTLIST
+|	<START_IMAGE:		"<image"			>	: ATTLIST
+|	<END_IMAGE:			"</image"			>	: ATTLIST
+|	<TEXT:				( ~["<"] )+	| "<"	>
+}
+
+<ATTLIST> SKIP :
+{
+	<		" " | "\t" | "\n" | "\r" 	>
+|	<		"--" 				>	: ATTCOMM
+}
+
+<ATTLIST> TOKEN :
+{
+	<TAGC:		">"				>	: DEFAULT
+|   <ELEMENTC:  "/>"            >   : DEFAULT
+|	<A_EQ:		"="				>	: ATTRVAL
+
+|	<#ALPHA:	["a"-"z","A"-"Z","_","-","."]	>
+|	<#NUM:		["0"-"9"]			>
+|	<#ALPHANUM:	<ALPHA> | <NUM>			>
+|	<A_NAME:	<ALPHA> ( <ALPHANUM> )*		>
+
+}
+
+<ATTRVAL> TOKEN :
+{
+	<CDATA:		"'" ( ~["'"] )* "'"
+		|	"\"" ( ~["\""] )* "\""
+		| ( ~[">", "\"", "'", " ", "\t", "\n", "\r"] )+
+							>	: ATTLIST
+}
+
+<ATTCOMM> SKIP :
+{
+	<		( ~["-"] )+			>
+|	<		"-" ( ~["-"] )+		>
+|	<		"--"				>	: ATTLIST
+}
+
+void Attribute() :
+{
+	Token n, v;
+}
+{
+	n=<A_NAME> <A_EQ> v=<CDATA>
+	{
+		jjtThis.setName(n.image);
+		jjtThis.setValue(v.image);
+	}
+}
+
+void Ebody_content() : {}
+{
+	(	Text( )	)*
+}
+
+void Image() : {}
+{
+	<START_IMAGE> ( Attribute() )* 
+		(<ELEMENTC>
+		| 
+		( <TAGC>
+			Ebody_content()
+			<END_IMAGE> <TAGC>))
+}
+
+void ValueOf() : {}
+{
+	<START_VALUEOF> ( Attribute() )* <TAGC>
+	Ebody_content()
+	<END_VALUEOF> <TAGC>
+}
+
+void Text() : 
+{
+	Token text;
+}
+{
+	text = <TEXT>
+	{
+		jjtThis.appendContent(text.image);
+	}
+}
+
+void Template() : {}
+{
+	( LOOKAHEAD(2)
+		(	LOOKAHEAD(9) ValueOf()
+|			LOOKAHEAD(6) Image()
+|			LOOKAHEAD(2) Text()
+		)
+	) *
+}
