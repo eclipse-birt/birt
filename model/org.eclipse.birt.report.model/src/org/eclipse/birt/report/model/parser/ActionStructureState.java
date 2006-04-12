@@ -162,11 +162,27 @@ public class ActionStructureState extends StructureState
 				CompatibleMiscExpressionState
 	{
 
+		public AbstractParseState jumpTo( )
+		{
+			if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) < 0 ) //$NON-NLS-1$
+					&& Action.URI_MEMBER.equalsIgnoreCase( name ) )
+			{
+				CompatibleURIState state = new CompatibleURIState( handler,
+						element );
+				state.setName( name );
+				state.struct = struct;
+				state.propDefn = propDefn;
+				return state;
+			}
+
+			return null;
+		}
+
 		public void end( ) throws SAXException
 		{
 			if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ) //$NON-NLS-1$
 				super.end( );
-			else 
+			else
 			{
 				String value = text.toString( );
 

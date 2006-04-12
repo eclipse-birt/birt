@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -93,10 +94,10 @@ class ExpressionState extends PropertyState
 
 		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) < 0 ) //$NON-NLS-1$
 				&& element instanceof ImageItem
+				&& struct != null
 				&& ImageItem.URI_PROP.equalsIgnoreCase( name ) )
 		{
-			CompatibleImageURIState state = new CompatibleImageURIState(
-					handler, element );
+			CompatibleURIState state = new CompatibleURIState( handler, element );
 			state.setName( name );
 			return state;
 		}
