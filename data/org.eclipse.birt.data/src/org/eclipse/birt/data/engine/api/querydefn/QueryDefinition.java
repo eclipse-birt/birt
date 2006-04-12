@@ -66,22 +66,6 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	}
 	
 	/*
-	 * @see org.eclipse.birt.data.engine.api.IQueryDefinition#needAutoBinding()
-	 */
-	public boolean needAutoBinding( )
-	{
-		return this.autoBinding;
-	}
-	
-	/**
-	 * @param autoBinding
-	 */
-	public void setAutoBinding( boolean autoBinding )
-	{
-		this.autoBinding = autoBinding;
-	}
-	
-	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryDefinition#getQueryResultID()
 	 */
 	public String getQueryResultsID( )
