@@ -180,11 +180,35 @@ public class ExprEvaluateUtil
 	 * 
 	 * @param dataExpr
 	 * @param scope
-	 * @return value of dataExpr
+	 * @return the value of raw data type, Java or Java Script
 	 * @throws BirtException
 	 */
 	public static Object evaluateRawExpression( IBaseExpression dataExpr,
 			Scriptable scope ) throws BirtException
+	{
+		return doEvaluateRawExpression( dataExpr, scope, false );
+	}
+	
+	/**
+	 * @param dataExpr
+	 * @param scope
+	 * @return the value of Java data type
+	 * @throws BirtException
+	 */
+	public static Object evaluateRawExpression2( IBaseExpression dataExpr,
+			Scriptable scope ) throws BirtException
+	{
+		return doEvaluateRawExpression( dataExpr, scope, true );
+	}
+	
+	/**
+	 * @param dataExpr
+	 * @param scope
+	 * @return
+	 * @throws BirtException
+	 */
+	private static Object doEvaluateRawExpression( IBaseExpression dataExpr,
+			Scriptable scope, boolean jsType ) throws BirtException
 	{
 		if ( dataExpr == null )
 			return null;
@@ -199,8 +223,10 @@ public class ExprEvaluateUtil
 						( (IScriptExpression) dataExpr ).getText( ),
 						"source",
 						0 );
-				value = DataTypeUtil.convert( JavascriptEvalUtil.convertJavascriptValue( value ),
-						dataExpr.getDataType( ) );
+				value = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+				if ( jsType == true )
+					value = JavascriptEvalUtil.convertJavascriptValue( value );
+				
 				return value;
 			}
 			else if ( dataExpr instanceof IConditionalExpression )
@@ -213,11 +239,12 @@ public class ExprEvaluateUtil
 				IScriptExpression operand1 = ( (IConditionalExpression) dataExpr ).getOperand1( );
 				IScriptExpression operand2 = ( (IConditionalExpression) dataExpr ).getOperand2( );
 				
-				return ScriptEvalUtil.evalConditionalExpr( evaluateRawExpression( opr,
-						scope ),
+				return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
+						scope,
+						jsType ),
 						oper,
-						evaluateRawExpression( operand1, scope ),
-						evaluateRawExpression( operand2, scope ) );
+						doEvaluateRawExpression( operand1, scope, jsType ),
+						doEvaluateRawExpression( operand2, scope, jsType ) );
 			}
 			else
 			{

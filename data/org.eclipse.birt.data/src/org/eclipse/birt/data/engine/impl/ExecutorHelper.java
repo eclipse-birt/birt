@@ -38,7 +38,7 @@ public class ExecutorHelper implements IExecutorHelper
 	 */
 	public Object evaluate( IBaseExpression expr ) throws BirtException
 	{
-		return ExprEvaluateUtil.evaluateRawExpression( expr, scope);
+		return ExprEvaluateUtil.evaluateRawExpression2( expr, scope);
 	}
 	
 	/* (non-Javadoc)
