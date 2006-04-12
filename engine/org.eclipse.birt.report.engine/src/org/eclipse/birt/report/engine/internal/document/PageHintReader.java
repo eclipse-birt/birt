@@ -13,8 +13,8 @@ package org.eclipse.birt.report.engine.internal.document;
 
 import java.io.IOException;
 
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
 import org.eclipse.birt.report.engine.internal.document.v1.PageHintReaderV1;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
@@ -24,14 +24,14 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
  * 
  * It can support mutiple versions.
  * 
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:51 $
  */
 public class PageHintReader implements IPageHintReader
 {
 
 	IPageHintReader reader;
 
-	public PageHintReader( ReportDocumentReader document )
+	public PageHintReader( IReportDocument document )
 	{
 		if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_1_0_0
 				.equals( document.getVersion( ) ) )

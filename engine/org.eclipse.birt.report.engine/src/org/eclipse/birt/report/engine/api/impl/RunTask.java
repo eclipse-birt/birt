@@ -30,7 +30,6 @@ import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.presentation.CompositePageHandler;
 import org.eclipse.birt.report.engine.presentation.HTMLPaginationBuilder;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -118,7 +117,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		try
 		{
 			archive.initialize( );
-			writer = new ReportDocumentWriter( archive );
+			writer = new ReportDocumentWriter( engine, archive );
 			executionContext.setReportDocWriter( writer );
 		}
 		catch ( IOException ex )
@@ -149,19 +148,17 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		services.setReportRunnable( runnable );
 
 		ReportDocumentBuilder documentBuilder = new ReportDocumentBuilder(
-				writer );
+				executionContext, writer );
+		if ( pageHandler != null )
+		{
+			documentBuilder.setPageHandler( pageHandler );
+		}
 
 		HTMLPaginationBuilder paginationBuilder = new HTMLPaginationBuilder(
 				executor );
 		paginationBuilder.setOutputEmitter( documentBuilder.getPageEmitter( ) );
-
-		CompositePageHandler pageHandlers = new CompositePageHandler( );
-		pageHandlers.addHandler( documentBuilder.getPageHandler( ) );
-		if ( pageHandler != null )
-		{
-			pageHandlers.addHandler( pageHandler );
-		}
-		paginationBuilder.setPageHandler( pageHandlers );
+		paginationBuilder.setLayoutPageHandler( documentBuilder
+				.getLayoutPageHandler( ) );
 
 		CompositeContentEmitter emitter = new CompositeContentEmitter( );
 		emitter.addEmitter( documentBuilder.getContentEmitter( ) );

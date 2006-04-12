@@ -16,8 +16,8 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.PageHint;
@@ -25,12 +25,12 @@ import org.eclipse.birt.report.engine.presentation.PageHint;
 public class PageHintReaderV2 implements IPageHintReader
 {
 
-	protected ReportDocumentReader document;
+	protected IReportDocument document;
 	protected RAInputStream indexStream;
 	protected RAInputStream hintsStream;
 	protected long totalPage = -1;
 
-	public PageHintReaderV2( ReportDocumentReader reader )
+	public PageHintReaderV2( IReportDocument reader )
 	{
 		document = reader;
 	}

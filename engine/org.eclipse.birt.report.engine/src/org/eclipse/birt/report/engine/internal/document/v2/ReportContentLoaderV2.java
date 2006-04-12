@@ -20,9 +20,9 @@ import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -41,6 +41,7 @@ import org.eclipse.birt.report.engine.content.impl.DataContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.emitter.ContentDOMVisitor;
 import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -67,8 +68,9 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	protected IContentEmitter emitter;
 	protected ReportContentReaderV2 reader;
 	protected ReportContentReaderV2 pageReader;
+	protected PageHintReaderV2 hintReader;
 	protected Report report;
-	protected ReportDocumentReader reportDoc;
+	protected IReportDocument reportDoc;
 	protected ReportContent reportContent;
 	/**
 	 * the offset of current read object. The object has been read out, setted
@@ -90,7 +92,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 				.createReportContent( report );
 		context.setReportContent( reportContent );
 
-		reportDoc = (ReportDocumentReader) context.getReportDocument( );
+		reportDoc = context.getReportDocument( );
 		dataEngine.prepare( report, context.getAppContext( ) );
 	}
 
@@ -102,6 +104,8 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			reader.open( ReportDocumentConstants.CONTENT_STREAM );
 			pageReader = new ReportContentReaderV2( reportContent, reportDoc );
 			pageReader.open( ReportDocumentConstants.PAGE_STREAM );
+			hintReader = new PageHintReaderV2( reportDoc );
+			hintReader.open( );
 		}
 		catch ( IOException ex )
 		{
@@ -122,7 +126,11 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			pageReader.close( );
 			pageReader = null;
 		}
-
+		if ( hintReader != null )
+		{
+			hintReader.close( );
+			hintReader = null;
+		}
 	}
 
 	/**
@@ -190,7 +198,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 */
 	private void excutePage( long pageNumber, boolean bodyOnly )
 	{
-		IPageHint pageHint = reportDoc.getPageHint( pageNumber );
+		IPageHint pageHint = hintReader.getPageHint( pageNumber );
 		IPageContent pageContent = null;
 		if ( !bodyOnly )
 		{
@@ -272,8 +280,12 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		try
 		{
 			reader.setOffset( offset );
+
+			// FIXME We needn't output the parent of the reportlet.
+
 			// start all the parent of the content
 			IContent root = reader.readContent( );
+
 			IContent parent = (IContent) root.getParent( );
 			if ( parent != null )
 			{
@@ -381,6 +393,18 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		initializeContent( content );
 		startContent( content, emitter );
 		contents.push( content );
+		if ( content instanceof ITableContent )
+		{
+			ITableContent table = (ITableContent) content;
+			if ( table.isHeaderRepeat( ) )
+			{
+				ITableBandContent header = table.getHeader( );
+				if ( header != null )
+				{
+					new ContentDOMVisitor( ).emit( header, emitter );
+				}
+			}
+		}
 	}
 
 	/**
@@ -566,57 +590,61 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	protected void openQuery( IContent content )
 	{
 		Object generateBy = content.getGenerateBy( );
-		//open the query associated with the current report item
+		// open the query associated with the current report item
 		if ( generateBy instanceof ReportItemDesign )
 		{
 			if ( !( generateBy instanceof ExtendedItemDesign ) )
 			{
-				InstanceID iid = content.getInstanceID( );
-				if ( iid != null )
+				ReportItemDesign design = (ReportItemDesign) generateBy;
+				IBaseQueryDefinition query = design.getQuery( );
+				if ( query != null )
 				{
-					// To the current report item,
-					// if the dataId exist and it's deteSet id is not null, 
-					// and we can find it has parent,
-					// we'll try to skip to the current row of the parent query.
-					DataID dataId = iid.getDataID( );
-					if (dataId != null)
+					InstanceID iid = content.getInstanceID( );
+					if ( iid != null )
 					{
-						DataSetID dataSetId = dataId.getDataSetID( );
-						if (dataSetId != null)
+						// To the current report item,
+						// if the dataId exist and it's deteSet id is not null,
+						// and we can find it has parent,
+						// we'll try to skip to the current row of the parent
+						// query.
+						DataID dataId = iid.getDataID( );
+						if ( dataId != null )
 						{
-							DataSetID parentSetId = dataSetId.getParentID( );
-							long parentRowId = dataSetId.getRowID( );
-							if (parentSetId != null && parentRowId != -1)
+							DataSetID dataSetId = dataId.getDataSetID( );
+							if ( dataSetId != null )
 							{
-								// the parent exist.
-								if ( !resultSets.isEmpty( ) )
+								DataSetID parentSetId = dataSetId.getParentID( );
+								long parentRowId = dataSetId.getRowID( );
+								if ( parentSetId != null && parentRowId != -1 )
 								{
-									IResultSet rset = (IResultSet) resultSets.peek( );
-									if ( rset != null )
+									// the parent exist.
+									if ( !resultSets.isEmpty( ) )
 									{
-										// the parent query's result set is not null,
-										// skip to the right row according row id. 
-										if ( parentRowId != rset.getCurrentPosition( ) )
+										IResultSet rset = (IResultSet) resultSets
+												.peek( );
+										if ( rset != null )
 										{
-											rset.skipTo( parentRowId );
+											// the parent query's result set is
+											// not null, skip to the right row
+											// according row id.
+											if ( parentRowId != rset
+													.getCurrentPosition( ) )
+											{
+												rset.skipTo( parentRowId );
+											}
 										}
 									}
 								}
 							}
 						}
 					}
-				}
-				ReportItemDesign design = (ReportItemDesign) generateBy;
-				IBaseQueryDefinition query = design.getQuery( );
-				if ( query != null )
-				{
 					// execute query
 					IResultSet rset = dataEngine.execute( query );
 					resultSets.push( rset );
 				}
 			}
 		}
-		//locate the row position to the current position
+		// locate the row position to the current position
 		InstanceID iid = content.getInstanceID( );
 		if ( iid != null )
 		{

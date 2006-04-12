@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
+import org.eclipse.birt.report.engine.emitter.ContentDOMVisitor;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
 public class PageRegion extends WrappedEmitter
@@ -72,11 +72,11 @@ public class PageRegion extends WrappedEmitter
 	private ArrayList getAncestors( IContent content )
 	{
 		ArrayList list = new ArrayList( );
-		//Top level content is a virtual element, not a real ancestor.
+		// Top level content is a virtual element, not a real ancestor.
 		while ( content.getParent( ) != null )
 		{
 			list.add( content );
-			content = (IContent)content.getParent( ) ;
+			content = (IContent) content.getParent( );
 		}
 		return list;
 	}
@@ -139,6 +139,15 @@ public class PageRegion extends WrappedEmitter
 		public void visitTable( ITableContent table, Object value )
 		{
 			emitter.startTable( table );
+			if ( table.isHeaderRepeat( ) )
+			{
+				// output the table header
+				ITableBandContent header = table.getHeader( );
+				if ( header != null )
+				{
+					new ContentDOMVisitor( ).emit( table.getHeader( ), emitter );
+				}
+			}
 		}
 
 		public void visitTableBand( ITableBandContent tableBand, Object value )
@@ -217,34 +226,5 @@ public class PageRegion extends WrappedEmitter
 			}
 		}
 
-	}
-
-	private class DOMBuildingEmitter extends ContentEmitterAdapter
-	{
-
-		private IContent parent;
-
-		public DOMBuildingEmitter( )
-		{
-		}
-
-		public void startContent( IContent content )
-		{
-			if ( parent != null )
-			{
-				parent.getChildren( ).add( content );
-				parent = content;
-			}
-			openContent( content );
-		}
-
-		public void endContent( IContent content )
-		{
-			if ( parent != null )
-			{
-				parent = (IContent) parent.getParent( );
-			}
-			closeContent( content );
-		}
 	}
 }

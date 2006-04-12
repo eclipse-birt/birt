@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
@@ -22,10 +23,10 @@ public class PageHintReaderV1 implements IPageHintReader
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
 
-	protected ReportDocumentReader document;
+	protected IReportDocument document;
 	ArrayList pageHints = new ArrayList( );
 
-	public PageHintReaderV1( ReportDocumentReader document )
+	public PageHintReaderV1( IReportDocument document )
 	{
 		this.document = document;
 	}

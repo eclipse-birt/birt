@@ -27,7 +27,10 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportDocumentLock;
+import org.eclipse.birt.report.engine.api.IReportDocumentLockManager;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -47,14 +50,23 @@ public class ReportDocumentReader
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
 
-	private String version;
 	private IReportEngine engine;
 	private IDocArchiveReader archive;
-	private String designName;
 	private IReportRunnable reportRunnable;
+	/*
+	 * version, paramters, globalVariables are loaded from core stream.
+	 */
+	private boolean coreStreamLoaded;
+	private String version;
 	private HashMap parameters;
 	private HashMap globalVariables;
+	/**
+	 * bookmark is loadded from bookmark stream.
+	 */
 	private HashMap bookmarks;
+	/**
+	 * used to load the page hints
+	 */
 	private IPageHintReader pageHintReader;
 	/** root TOC, id is "/" */
 	private TOCNode tocRoot;
@@ -72,7 +84,6 @@ public class ReportDocumentReader
 		try
 		{
 			archive.open( );
-			loadCoreStream( );
 		}
 		catch ( Exception e )
 		{
@@ -87,51 +98,77 @@ public class ReportDocumentReader
 
 	public String getVersion( )
 	{
+		loadCoreStream( );
 		return version;
 	}
 
-	protected void lock( ) throws BirtException
+	/**
+	 * create a locker used to lock the report document
+	 * 
+	 * @return
+	 * @throws BirtException
+	 */
+	protected IReportDocumentLock lock( String documentName )
+			throws BirtException
 	{
-		ReportDocumentLockManager.getInstance( ).lock( getName( ), false );
-	}
-
-	protected void unlock( )
-	{
-		ReportDocumentLockManager.getInstance( ).unlock( getName( ), false );
-	}
-
-	protected void loadCoreStream( ) throws Exception
-	{
-		try
+		IReportDocumentLockManager manager = null;
+		if ( engine != null )
 		{
-			lock( );
-			RAInputStream in = archive.getStream( CORE_STREAM );
-			try
+			EngineConfig config = engine.getConfig( );
+			if ( config != null )
 			{
-				DataInputStream di = new DataInputStream(
-						new BufferedInputStream( in ) );
-
-				// check the design name
-				checkVersion( di );
-
-				// load the report design name
-				designName = IOUtil.readString( di );
-				// load the report paramters
-				parameters = (HashMap) IOUtil.readMap( di );
-				// load the persistence object
-				globalVariables = (HashMap) IOUtil.readMap( di );
-			}
-			finally
-			{
-				if ( in != null )
-				{
-					in.close( );
-				}
+				manager = config.getReportDocumentLockManager( );
 			}
 		}
-		finally
+		if ( manager == null )
 		{
-			unlock();
+			manager = ReportDocumentLockManager.getInstance( );
+		}
+		return manager.lock( documentName );
+	}
+
+	protected void loadCoreStream( )
+	{
+		if ( coreStreamLoaded )
+		{
+			return;
+		}
+
+		try
+		{
+			IReportDocumentLock lock = lock( getName( ) );
+			synchronized ( lock )
+			{
+				RAInputStream in = archive.getStream( CORE_STREAM );
+				try
+				{
+					DataInputStream di = new DataInputStream(
+							new BufferedInputStream( in ) );
+
+					// check the design name
+					checkVersion( di );
+
+					// load the report design name, never used
+					IOUtil.readString( di );
+					// load the report paramters
+					parameters = (HashMap) IOUtil.readMap( di );
+					// load the persistence object
+					globalVariables = (HashMap) IOUtil.readMap( di );
+					coreStreamLoaded = true;
+				}
+				finally
+				{
+					if ( in != null )
+					{
+						in.close( );
+					}
+				}
+				lock.unlock( );
+			}
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE, "load cores tream failed", ex );
 		}
 	}
 
@@ -215,6 +252,7 @@ public class ReportDocumentReader
 
 	public Map getParameterValues( )
 	{
+		loadCoreStream( );
 		return parameters;
 	}
 
@@ -461,7 +499,7 @@ public class ReportDocumentReader
 
 	private void createPageHintReader( )
 	{
-		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) )
+		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( getVersion( ) ) )
 		{
 			pageHintReader = new PageHintReaderV1( this );
 		}
@@ -494,11 +532,6 @@ public class ReportDocumentReader
 		return archive.getName( );
 	}
 
-	public String getDesignName( )
-	{
-		return designName;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -506,13 +539,14 @@ public class ReportDocumentReader
 	 */
 	public Map getGlobalVariables( String option )
 	{
+		loadCoreStream( );
 		return globalVariables;
 	}
 
 	public long getPageNumber( InstanceID iid )
 	{
 		// version 1.0.0 don't support this feature
-		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) )
+		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( getVersion( ) ) )
 		{
 			return -1;
 		}
@@ -531,7 +565,7 @@ public class ReportDocumentReader
 	public long getInstanceOffset( InstanceID iid )
 	{
 		// version 1.0.0 don't support this feature
-		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) )
+		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( getVersion( ) ) )
 		{
 			return -1;
 		}

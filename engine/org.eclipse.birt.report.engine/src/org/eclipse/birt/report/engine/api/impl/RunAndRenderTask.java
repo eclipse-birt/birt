@@ -27,7 +27,6 @@ import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.presentation.HTMLPaginationBuilder;
-import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 

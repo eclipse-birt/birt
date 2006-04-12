@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
@@ -49,7 +50,6 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -88,8 +88,9 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	protected IContentEmitter emitter;
 	protected ReportContentReaderV1 reader;
 	protected ReportContentReaderV1 pageReader;
+	protected PageHintReaderV1 hintReader;
 	protected Report report;
-	protected ReportDocumentReader reportDoc;
+	protected IReportDocument reportDoc;
 	protected ReportContent reportContent;
 	/**
 	 * the offset of current read object. The object has been read out, setted
@@ -123,6 +124,8 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			reader.open( ReportDocumentConstants.CONTENT_STREAM );
 			pageReader = new ReportContentReaderV1( reportContent, reportDoc );
 			pageReader.open( ReportDocumentConstants.PAGE_STREAM );
+			hintReader = new PageHintReaderV1( reportDoc );
+			hintReader.open( );
 		}
 		catch ( IOException ex )
 		{
@@ -143,6 +146,11 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			pageReader.close( );
 			pageReader = null;
 		}
+		if ( hintReader != null )
+		{
+			hintReader.close( );
+			hintReader = null;
+		}
 
 	}
 
@@ -152,7 +160,8 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * @param pageNumber
 	 * @param emitter
 	 */
-	public void loadPage( long pageNumber, boolean bodyOnly, IContentEmitter emitter )
+	public void loadPage( long pageNumber, boolean bodyOnly,
+			IContentEmitter emitter )
 	{
 		emitter.start( reportContent );
 		this.emitter = emitter;
@@ -172,7 +181,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			closeReaders( );
 		}
 	}
-	
+
 	public void loadReportlet( long offset, IContentEmitter emitter )
 	{
 		emitter.start( reportContent );
@@ -180,7 +189,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 		try
 		{
 			openReaders( );
-			//we don't support this feature for V1
+			// we don't support this feature for V1
 		}
 		catch ( Exception ex )
 		{
@@ -193,10 +202,10 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			closeReaders( );
 		}
 	}
-	
+
 	private void excutePage( long pageNumber, boolean bodyOnly )
 	{
-		IPageHint pageHint = reportDoc.getPageHint( pageNumber );
+		IPageHint pageHint = hintReader.getPageHint( pageNumber );
 		IPageContent pageContent = null;
 		if ( !bodyOnly )
 		{
@@ -255,7 +264,8 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * @param pageNumber
 	 * @param emitter
 	 */
-	public void loadPageRange( List pageList, boolean bodyOnly, IContentEmitter emitter )
+	public void loadPageRange( List pageList, boolean bodyOnly,
+			IContentEmitter emitter )
 	{
 		emitter.start( reportContent );
 		this.emitter = emitter;
@@ -267,7 +277,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 				long[] ps = (long[]) pageList.get( m );
 				for ( long i = ps[0]; i <= ps[1]; i++ )
 				{
-					excutePage( i , bodyOnly );
+					excutePage( i, bodyOnly );
 				}
 			}
 		}
@@ -476,9 +486,9 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 				initializeContent( content );
 				return content;
 			}
-			catch(IOException ex)
+			catch ( IOException ex )
 			{
-				logger.log( Level.SEVERE, "load content failed", ex);
+				logger.log( Level.SEVERE, "load content failed", ex );
 			}
 		}
 		return null;
@@ -506,12 +516,12 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 					content.setHeight( design.getHeight( ) );
 					content.setStyleClass( design.getStyleName( ) );
 				}
-				if (generateBy instanceof TemplateDesign)
+				if ( generateBy instanceof TemplateDesign )
 				{
-					TemplateDesign design = (TemplateDesign)generateBy;
-					if (content instanceof ILabelContent)
+					TemplateDesign design = (TemplateDesign) generateBy;
+					if ( content instanceof ILabelContent )
 					{
-						ILabelContent labelContent = (ILabelContent)content;
+						ILabelContent labelContent = (ILabelContent) content;
 						labelContent.setLabelKey( design.getPromptTextKey( ) );
 						labelContent.setLabelText( design.getPromptText( ) );
 					}
@@ -556,7 +566,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:54 $
+	 * @version $Revision: 1.2 $ $Date: 2006/04/06 12:35:27 $
 	 */
 	protected class GenerateIDMapVisitor implements IReportItemVisitor
 	{

@@ -11,14 +11,16 @@
 
 package org.eclipse.birt.report.engine.api;
 
-import org.eclipse.birt.core.exception.BirtException;
-
 /**
- * the interface used to access the traisent informations of a report document.
- * 
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:49 $
+ * lock used to lock the report document.
+ *
+ * @version $Revision:$ $Date:$
  */
-public interface IReportDocumentInfo
+public interface IReportDocumentLock
 {
-	IReportDocument openReportDocument() throws BirtException;
+
+	/**
+	 * release this lock
+	 */
+	void unlock( );
 }

@@ -325,8 +325,7 @@ public class ReportEngineHelper
 	{
 		IReportRunnable runnable = reportDoc.getReportRunnable( );
 
-		return new RenderTask( engine, runnable,
-				(ReportDocumentReader) reportDoc );
+		return new RenderTask( engine, runnable, reportDoc );
 	}
 
 	public IDataExtractionTask createDataExtractionTask(
@@ -336,8 +335,7 @@ public class ReportEngineHelper
 		{
 			IReportRunnable runnable = engine.openReportDesign( reportDoc
 					.getDesignStream( ) );
-			return new DataExtractionTask( engine, runnable,
-					(ReportDocumentReader) reportDoc );
+			return new DataExtractionTask( engine, runnable, reportDoc );
 		}
 		catch ( EngineException ex )
 		{

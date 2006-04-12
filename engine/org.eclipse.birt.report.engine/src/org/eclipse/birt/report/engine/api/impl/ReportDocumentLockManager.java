@@ -11,14 +11,18 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.HashMap;
+
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IReportDocumentLock;
+import org.eclipse.birt.report.engine.api.IReportDocumentLockManager;
 
 /**
  * The locker manager used by the system.
  * 
  * The user should register the lock mangager to the report engine.
  * 
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2006/04/07 10:49:16 $
  */
 public class ReportDocumentLockManager implements IReportDocumentLockManager
 {
@@ -35,18 +39,7 @@ public class ReportDocumentLockManager implements IReportDocumentLockManager
 		{
 			if ( instance == null )
 			{
-				instance = new IReportDocumentLockManager( ) {
-
-					public void lock( String document, boolean share )
-							throws BirtException
-					{
-					}
-
-					public void unlock( String document, boolean share )
-					{
-					}
-
-				};
+				instance = new InternalLockManager( );
 			}
 		}
 		return instance;
@@ -56,12 +49,52 @@ public class ReportDocumentLockManager implements IReportDocumentLockManager
 	{
 	}
 
-	public void lock( String document, boolean share ) throws BirtException
+	public IReportDocumentLock lock( String document ) throws BirtException
 	{
+		return null;
 	}
 
-	public void unlock( String document, boolean share )
+	private static class InternalLock implements IReportDocumentLock
 	{
+
+		String document;
+
+		InternalLock( String document )
+		{
+			this.document = document;
+		}
+
+		public void unlock( )
+		{
+		}
+	}
+
+	private static class InternalLockManager
+			implements
+				IReportDocumentLockManager
+	{
+
+		private HashMap locks = new HashMap( );
+
+		InternalLockManager()
+		{
+		}
+		
+		public IReportDocumentLock lock( String document ) throws BirtException
+		{
+			synchronized ( this )
+			{
+				IReportDocumentLock lock = (IReportDocumentLock) locks
+						.get( document );
+				if ( lock == null )
+				{
+					lock = new InternalLock( document );
+					// first time, we must accquire a lock
+					locks.put( document, lock );
+				}
+				return lock;
+			}
+		}
 	}
 
 }

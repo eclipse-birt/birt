@@ -10,6 +10,7 @@ import java.util.Map;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.report.engine.api.HTMLCompleteImageHandler;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;

@@ -14,13 +14,13 @@ package org.eclipse.birt.report.engine.ir;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.engine.executor.template.TemplateParser;
-import org.eclipse.birt.report.engine.executor.template.TextTemplate;
+import org.eclipse.birt.core.template.TemplateParser;
+import org.eclipse.birt.core.template.TextTemplate;
 
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.15 $ $Date: 2006/02/23 07:38:23 $
+ * @version $Revision: 1.16 $ $Date: 2006/04/06 12:35:25 $
  */
 public class TextItemDesign extends ReportItemDesign
 {

@@ -26,10 +26,12 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintWriterV2;
 import org.eclipse.birt.report.engine.internal.document.v2.ReportContentWriterV2;
+import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
@@ -40,6 +42,10 @@ public class ReportDocumentBuilder
 	protected static Logger logger = Logger
 			.getLogger( ReportDocumentBuilder.class.getName( ) );
 
+	/**
+	 * execution context used to execute the report
+	 */
+	protected ExecutionContext executionContext;
 	/**
 	 * current page number
 	 */
@@ -76,14 +82,24 @@ public class ReportDocumentBuilder
 	 */
 	protected IPageHintWriter pageHintWriter;
 
+	/**
+	 * page handler used to recevie the document page events.
+	 */
 	protected IPageHandler pageHandler;
 
-	public ReportDocumentBuilder( ReportDocumentWriter document )
+	/**
+	 * handle used to recive the layout page events
+	 */
+	protected ILayoutPageHandler layoutPageHandler;
+
+	public ReportDocumentBuilder( ExecutionContext context,
+			ReportDocumentWriter document )
 	{
+		this.executionContext = context;
 		this.document = document;
 		contentEmitter = new ContentEmitter( );
 		pageEmitter = new PageEmitter( );
-		pageHandler = new PageHandler( );
+		layoutPageHandler = new LayoutPageHandler( );
 	}
 
 	public IContentEmitter getContentEmitter( )
@@ -96,15 +112,20 @@ public class ReportDocumentBuilder
 		return pageEmitter;
 	}
 
-	public IPageHandler getPageHandler( )
+	public ILayoutPageHandler getLayoutPageHandler( )
 	{
-		return pageHandler;
+		return layoutPageHandler;
+	}
+
+	public void setPageHandler( IPageHandler handler )
+	{
+		pageHandler = handler;
 	}
 
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision:$ $Date:$
+	 * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:51 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -187,7 +208,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision:$ $Date:$
+	 * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:51 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{
@@ -265,12 +286,12 @@ public class ReportDocumentBuilder
 		}
 	}
 
-	class PageHandler implements IPageHandler
+	class LayoutPageHandler implements ILayoutPageHandler
 	{
 
 		IPageHintWriter writer;
 
-		PageHandler( )
+		LayoutPageHandler( )
 		{
 		}
 
@@ -313,7 +334,8 @@ public class ReportDocumentBuilder
 				}
 				catch ( IOException ex )
 				{
-					logger.log( Level.SEVERE, "Can't save the page number", ex );
+					logger.log( Level.SEVERE, "Failed to save the page number",
+							ex );
 					close( );
 				}
 			}
@@ -329,25 +351,38 @@ public class ReportDocumentBuilder
 				}
 				catch ( IOException ex )
 				{
-					logger.log( Level.SEVERE, "Can't save the page hint", ex );
+					logger.log( Level.SEVERE, "Failed to save the page hint",
+							ex );
 					close( );
 				}
 			}
 		}
 
-		public void onPage( int pageNumber, boolean checkpoint,
-				IReportDocumentInfo docInfo )
+		public void onPage( int pageNumber, Object context )
 		{
-			if ( docInfo instanceof ReportDocumentInfo )
+
+			if ( context instanceof DefaultPaginationEmitter.LayoutContext )
 			{
-				ReportDocumentInfo info = (ReportDocumentInfo) docInfo;
-				long startOffset = info.getStart( );
-				long endOffset = info.getEnd( );
-				boolean reportFinished = info.isFinsihed( );
+				DefaultPaginationEmitter.LayoutContext layoutContext = (DefaultPaginationEmitter.LayoutContext) context;
+
+				boolean checkpoint = false;
+				// check points for page 1, 10, 50, 100, 200 ...
+				// the end of report should also be check point.
+				if ( pageNumber == 1 || pageNumber == 10 || pageNumber == 50
+						|| pageNumber % 100 == 0 )
+				{
+					checkpoint = true;
+				}
+
+				long startOffset = layoutContext.startOffset;
+				long endOffset = layoutContext.endOffset;
+
+				boolean reportFinished = layoutContext.finished;
 				if ( reportFinished )
 				{
 					writeTotalPage( pageNumber );
 					close( );
+					checkpoint = true;
 				}
 				else
 				{
@@ -359,10 +394,26 @@ public class ReportDocumentBuilder
 						writeTotalPage( pageNumber );
 					}
 				}
-			}
-			if ( checkpoint )
-			{
-				document.saveCoreStreams( );
+
+				if ( checkpoint )
+				{
+					try
+					{
+						document.saveCoreStreams( );
+					}
+					catch ( Exception ex )
+					{
+						logger.log( Level.SEVERE,
+								"Failed to save the report document", ex );
+					}
+				}
+				// notify the page handler
+				if ( pageHandler != null )
+				{
+					IReportDocumentInfo docInfo = new ReportDocumentInfo(
+							executionContext, pageNumber, reportFinished );
+					pageHandler.onPage( pageNumber, checkpoint, docInfo );
+				}
 			}
 		}
 	}

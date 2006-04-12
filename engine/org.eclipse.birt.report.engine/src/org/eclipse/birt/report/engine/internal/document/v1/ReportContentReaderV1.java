@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
@@ -39,7 +39,7 @@ import org.eclipse.birt.report.engine.internal.document.IReportContentReader;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.8 $ $Date: 2006/03/26 09:15:06 $
+ * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:54 $
  */
 class ReportContentReaderV1 implements IReportContentReader
 {
@@ -47,13 +47,13 @@ class ReportContentReaderV1 implements IReportContentReader
 	protected static Logger logger = Logger
 			.getLogger( ReportContentReaderV1.class.getName( ) );
 
-	protected ReportDocumentReader document;
+	protected IReportDocument document;
 	protected ReportContent reportContent;
 	protected RAInputStream stream;
 	protected long offset;
 
 	public ReportContentReaderV1( ReportContent reportContent,
-			ReportDocumentReader document )
+			IReportDocument document )
 	{
 		this.reportContent = reportContent;
 		this.document = document;

@@ -30,7 +30,9 @@ import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.emitter.BufferedReportEmitter;
+import org.eclipse.birt.report.engine.emitter.ContentDOMVisitor;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
+import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.buffermgr.Cell;
 import org.eclipse.birt.report.engine.executor.buffermgr.Row;
@@ -64,7 +66,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.40 $ $Date: 2006/03/27 11:15:39 $
+ * @version $Revision: 1.41 $ $Date: 2006/04/06 12:35:24 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -170,7 +172,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.40 $ $Date: 2006/03/27 11:15:39 $
+	 * @version $Revision: 1.41 $ $Date: 2006/04/06 12:35:24 $
 	 */
 	private static class TABLEINFO
 	{
@@ -346,15 +348,13 @@ public class TableItemExecutor extends ListingElementExecutor
 			ITableBandContent header = report.createTableHeader( );
 			context.pushContent( header );
 			initializeContent( tableContent, bandDesign, header );
-			if ( emitter != null )
-			{
-				emitter.startTableHeader( header );
-			}
+			tableContent.getChildren( ).add( header );
+			IContentEmitter domEmitter = new DOMBuilderEmitter( header );
 			bandDesign.setBandType( TableBandDesign.TABLE_HEADER );
-			accessTableBand( bandDesign, emitter, rsIterator );
+			accessTableBand( bandDesign, domEmitter, rsIterator );
 			if ( emitter != null )
 			{
-				emitter.endTableHeader( header );
+				new ContentDOMVisitor( ).emit( header, emitter );
 			}
 			context.popContent( );
 		}

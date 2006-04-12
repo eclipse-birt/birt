@@ -25,6 +25,10 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.IReportDocumentLock;
+import org.eclipse.birt.report.engine.api.IReportDocumentLockManager;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
@@ -37,23 +41,25 @@ import org.eclipse.birt.report.model.api.util.DocumentUtil;
 public class ReportDocumentWriter implements ReportDocumentConstants
 {
 
-	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
+	static private Logger logger = Logger.getLogger( ReportDocumentWriter.class
 			.getName( ) );
 
+	private IReportEngine engine;
 	private IDocArchiveWriter archive;
 	private String designName;
 	private HashMap paramters = new HashMap( );
 	private HashMap globalVariables = new HashMap( );
 
-	public ReportDocumentWriter( IDocArchiveWriter archive )
+	public ReportDocumentWriter( IReportEngine engine, IDocArchiveWriter archive )
 	{
+		this.engine = engine;
 		this.archive = archive;
 		try
 		{
 			archive.initialize( );
 			saveCoreStreams( );
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			logger.log( Level.SEVERE, "Failed in initializing the archive", e );
 		}
@@ -72,7 +78,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			archive.setStreamSorter( new ReportDocumentStreamSorter( ) );
 			archive.finish( );
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			logger.log( Level.SEVERE, "Failed in close the archive", e );
 		}
@@ -268,24 +274,38 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		globalVariables = new HashMap( );
 		globalVariables.putAll( map );
 	}
-
-	protected void lock( ) throws BirtException
+	/**
+	 * create a locker used to lock the report document
+	 * @return
+	 * @throws BirtException
+	 */
+	protected IReportDocumentLock lock( String documentName )
+			throws BirtException
 	{
-		ReportDocumentLockManager.getInstance( ).lock( getName( ), true );
+		IReportDocumentLockManager manager = null;
+		if ( engine != null )
+		{
+			EngineConfig config = engine.getConfig( );
+			if ( config != null )
+			{
+				manager = config.getReportDocumentLockManager( );
+			}
+		}
+		if ( manager == null )
+		{
+			manager = ReportDocumentLockManager.getInstance( );
+		}
+		return manager.lock( documentName );
 	}
 
-	protected void unlock( )
-	{
-		ReportDocumentLockManager.getInstance( ).unlock( getName( ), true );
-	}
-
-	public void saveCoreStreams( )
+	public void saveCoreStreams( )  throws Exception
 	{
 		// create a mutex named with the system
 		// lock the mutex
-		try
+		IReportDocumentLock lock = lock( getName( ) );
+		synchronized ( lock )
 		{
-			lock( );
+
 			RAOutputStream out;
 			DataOutputStream coreStream = null;
 			try
@@ -318,17 +338,9 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 					{
 					}
 				}
+				lock.unlock( );
 			}
 		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed to lock the core stream!", ex );
-		}
-		finally
-		{
-			unlock( );
-		}
-
 	}
 
 	public void saveReportlets( Map map )

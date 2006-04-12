@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IRenderTask;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -33,7 +34,7 @@ import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
-	ReportDocumentReader reportDoc;
+	IReportDocument reportDoc;
 	String emitterID;
 	boolean bodyOnly;
 
@@ -48,7 +49,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 *            the report document instance
 	 */
 	public RenderTask( IReportEngine engine, IReportRunnable runnable,
-			ReportDocumentReader reportDoc )
+			IReportDocument reportDoc )
 	{
 		super( engine, runnable );
 
@@ -64,7 +65,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		innerRender = new PageRangeRender( new long[]{1, this.reportDoc.getPageCount( )} );
 	}
 
-	protected void openReportDocument( ReportDocumentReader reportDoc )
+	protected void openReportDocument( IReportDocument reportDoc )
 	{
 		this.reportDoc = reportDoc;
 		executionContext.setReportDocument( reportDoc );
@@ -463,7 +464,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	public void setBookmark( String bookmark ) throws EngineException
 	{
-		long pageNumber = reportDoc.getBookmark( bookmark );
+		long pageNumber = reportDoc.getPageNumber( bookmark );
 		if ( pageNumber == 0 ) {
 			throw new EngineException( "Can't find bookmark :{0}", bookmark ); //$NON-NLS-1$
 		}
