@@ -165,7 +165,8 @@ public class ActionStructureState extends StructureState
 		public AbstractParseState jumpTo( )
 		{
 			if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) < 0 ) //$NON-NLS-1$
-					&& Action.URI_MEMBER.equalsIgnoreCase( name ) )
+					&& ( Action.URI_MEMBER.equalsIgnoreCase( name ) || Action.TARGET_BOOKMARK_MEMBER
+							.equalsIgnoreCase( name ) ) )
 			{
 				CompatibleURIState state = new CompatibleURIState( handler,
 						element );

@@ -41,14 +41,25 @@ final class CompatibleBoundColumnState extends ListPropertyState
 			DesignElement element )
 	{
 		super( theHandler, element );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.ListPropertyState#setName(java.lang.String)
+	 */
+
+	protected void setName( String name )
+	{
+		super.setName( name );
 
 		assert element instanceof ReportItem
 				|| element instanceof ScalarParameter
 				|| element instanceof GroupElement;
 
-		List tmpList = (List) element.getLocalProperty(
-				theHandler.getModule( ), name );
-		
+		List tmpList = (List) element.getLocalProperty( handler.getModule( ),
+				name );
+
 		if ( tmpList != null )
 			list = (ArrayList) tmpList;
 	}
