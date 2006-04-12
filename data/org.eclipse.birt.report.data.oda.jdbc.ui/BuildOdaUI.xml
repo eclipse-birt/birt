@@ -215,7 +215,7 @@
 
 	<target name="buildDependency">
 		<echo message="start call Jar task in ${oda.jdbc.dir}"/>
-		<ant dir="${oda.jdbc.dir}" antfile="buildOdaJdbc.xml" target="Jar" inheritAll="false">
+		<ant dir="${oda.jdbc.dir}" antfile="BuildOdaJdbc.xml" target="Jar" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="end call Jar task in ${oda.jdbc.dir}"/>
