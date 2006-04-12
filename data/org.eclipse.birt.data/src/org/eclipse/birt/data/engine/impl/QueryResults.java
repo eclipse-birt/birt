@@ -162,7 +162,7 @@ class QueryResults implements IQueryResults
 	 */
 	private void initAutoBinding( ) throws DataException
 	{
-		if ( this.queryService.supportAutoBinding( ) == false )
+		if ( this.queryService.needAutoBinding( ) == false )
 			return;
 
 		IResultMetaData metaData = queryService.getResultMetaData( );

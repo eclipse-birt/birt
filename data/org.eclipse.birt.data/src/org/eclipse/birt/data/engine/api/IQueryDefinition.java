@@ -58,7 +58,7 @@ public interface IQueryDefinition extends IBaseQueryDefinition
 	 * @return true, auto binding needs to be supported. false, auto binding is
 	 *         not supported, this is default behavior.
 	 */
-	public boolean supportAutoBinding( ); 
+	public boolean needAutoBinding( ); 
 	
 	/**
 	 * Returns the set of input parameter bindings as an unordered collection

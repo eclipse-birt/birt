@@ -91,7 +91,7 @@ public interface IQueryService
 	/**
 	 * @return
 	 */
-	public boolean supportAutoBinding( );
+	public boolean needAutoBinding( );
 	
 	/**
 	 * @param exprName
