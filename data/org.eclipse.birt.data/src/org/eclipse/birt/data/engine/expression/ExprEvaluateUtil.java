@@ -199,7 +199,8 @@ public class ExprEvaluateUtil
 						( (IScriptExpression) dataExpr ).getText( ),
 						"source",
 						0 );
-				value = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+				value = DataTypeUtil.convert( JavascriptEvalUtil.convertJavascriptValue( value ),
+						dataExpr.getDataType( ) );
 				return value;
 			}
 			else if ( dataExpr instanceof IConditionalExpression )
