@@ -502,7 +502,7 @@ public class ExpressionProvider implements IExpressionProvider
 		}
 		else if ( element instanceof ComputedColumnHandle )
 		{
-			return ( (ComputedColumnHandle) element ).getExpression( );
+			return "Refers to " + ( (ComputedColumnHandle) element ).getExpression( );
 		}
 		return getDisplayText( element );
 	}
