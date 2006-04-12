@@ -2275,11 +2275,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public ThemeHandle getTheme( )
 	{
-		Theme theme = getModule( ).getTheme( );
+		Theme theme = getModule( ).getTheme( module );
 		if ( theme == null )
 			return null;
 
-		return (ThemeHandle) theme.getHandle( getModule( ) );
+		return (ThemeHandle) theme.getHandle( theme.getRoot( ) );
 	}
 
 	/**
