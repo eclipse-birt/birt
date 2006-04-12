@@ -33,7 +33,7 @@ public class DataItem extends ReportItem implements IDataItem
 
 	public String getValueExpr( )
 	{
-		return ( ( DataItemHandle ) handle ).getValueExpr( );
+		return ( ( DataItemHandle ) handle ).getResultSetColumn( );
 	}
 
 	/*
@@ -46,7 +46,7 @@ public class DataItem extends ReportItem implements IDataItem
 	{
 		try
 		{
-			( ( DataItemHandle ) handle ).setValueExpr( expr );
+			( ( DataItemHandle ) handle ).setResultSetColumn( expr );
 		} catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
