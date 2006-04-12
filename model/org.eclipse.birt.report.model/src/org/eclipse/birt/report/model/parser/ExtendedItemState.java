@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -137,6 +138,9 @@ public class ExtendedItemState extends ReportItemState
 		List columns = new ArrayList( );
 		Map retMap = new HashMap( );
 
+		List boundColumns = (List) element.getLocalProperty( handler
+				.getModule( ), ReportItem.BOUND_DATA_COLUMNS_PROP );
+
 		for ( int i = 0; i < jsExprs.size( ); i++ )
 		{
 			String jsExpr = (String) jsExprs.get( i );
@@ -147,11 +151,20 @@ public class ExtendedItemState extends ReportItemState
 			if ( boundColumn == null )
 				continue;
 
-			if ( !columns.contains( boundColumn ) )
+			String columnName = DataBoundColumnUtil.getColumnName(
+					boundColumns, boundColumn.getBoundExpression( ) );
+
+			// if the expression already exists, do not add it.
+
+			if ( !columns.contains( boundColumn ) && columnName == null )
 				columns.add( boundColumn );
 
-			retMap.put( jsExpr, ExpressionUtil.createRowExpression( boundColumn
-					.getResultSetColumnName( ) ) );
+			if ( columnName == null )
+				columnName = boundColumn.getResultSetColumnName( );
+
+			retMap
+					.put( jsExpr, ExpressionUtil
+							.createRowExpression( columnName ) );
 		}
 
 		DataBoundColumnUtil.setupBoundDataColumns( element, columns, handler
