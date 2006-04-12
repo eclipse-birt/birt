@@ -1203,7 +1203,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitOdaDataSource( obj );
 
 		writeOdaDesignerState( obj, OdaDataSource.DESIGNER_STATE_PROP );
-		
+
 		List properties = (List) obj.getLocalProperty( getModule( ),
 				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
@@ -1548,7 +1548,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, TableColumn.REPEAT_PROP );
 		property( obj, TableColumn.SUPPRESS_DUPLICATES_PROP );
 		writeStructureList( obj, TableColumn.VISIBILITY_PROP );
-		
+
 		writeStyle( obj );
 
 		writer.endElement( );
@@ -1783,7 +1783,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructure( obj, ScalarParameter.FORMAT_PROP );
 		writeStructureList( obj, ScalarParameter.SELECTION_LIST_PROP );
 		writeStructureList( obj, ReportItem.BOUND_DATA_COLUMNS_PROP );
-		
+
 		writer.endElement( );
 	}
 
@@ -1824,23 +1824,20 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitTemplateParameterDefinition(
 			TemplateParameterDefinition obj )
 	{
-		if ( obj.hasReferences( ) )
-		{
-			writer
-					.startElement( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG );
-			attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
-					DesignElement.NAME_PROP );
-			writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-					.getID( ) ).toString( ) );
+		writer
+				.startElement( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG );
+		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
+				DesignElement.NAME_PROP );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
 
-			property( obj, TemplateParameterDefinition.ALLOWED_TYPE_PROP );
-			resourceKey( obj, TemplateParameterDefinition.DESCRIPTION_ID_PROP,
-					TemplateParameterDefinition.DESCRIPTION_PROP );
+		property( obj, TemplateParameterDefinition.ALLOWED_TYPE_PROP );
+		resourceKey( obj, TemplateParameterDefinition.DESCRIPTION_ID_PROP,
+				TemplateParameterDefinition.DESCRIPTION_PROP );
 
-			writeContents( obj, TemplateParameterDefinition.DEFAULT_SLOT,
-					DesignSchemaConstants.DEFAULT_TAG );
-			writer.endElement( );
-		}
+		writeContents( obj, TemplateParameterDefinition.DEFAULT_SLOT,
+				DesignSchemaConstants.DEFAULT_TAG );
+		writer.endElement( );
 	}
 
 	/*
@@ -2336,7 +2333,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructureList( obj, DataSet.COMPUTED_COLUMNS_PROP );
 		writeStructureList( obj, DataSet.COLUMN_HINTS_PROP );
 		writeStructureList( obj, DataSet.FILTER_PROP );
-		
+
 		CachedMetaData metadata = (CachedMetaData) obj.getLocalProperty(
 				getModule( ), DataSet.CACHED_METADATA_PROP );
 		if ( metadata != null )

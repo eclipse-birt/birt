@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -38,8 +37,6 @@ import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
-import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
-import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -209,17 +206,6 @@ public class ContentCommand extends AbstractElementCommand
 					content,
 					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
 
-		// do some checks about the template issues
-
-		TemplateCommand cmd = new TemplateCommand( module, element );
-		TemplateParameterDefinition templateParam = cmd.checkAdd( content,
-				slotID );
-		ContentRecord addTemplateParam = null;
-		if ( templateParam != null )
-			addTemplateParam = new ContentRecord( module, module,
-					ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT,
-					templateParam, true );
-
 		// Add the item to the container.
 
 		ContentRecord addRecord;
@@ -241,8 +227,8 @@ public class ContentCommand extends AbstractElementCommand
 		{
 			// add the template parameter definition first
 
-			if ( addTemplateParam != null )
-				stack.execute( addTemplateParam );
+			TemplateCommand cmd = new TemplateCommand( module, element );
+			cmd.checkAdd( content, slotID );
 
 			// add the element
 
@@ -453,7 +439,7 @@ public class ContentCommand extends AbstractElementCommand
 		ActivityStack stack = getActivityStack( );
 
 		stack.startFilterEventTrans( dropRecord.getLabel( ) );
-		
+
 		try
 		{
 			doDelectAction( content, unresolveReference );
@@ -1139,17 +1125,6 @@ public class ContentCommand extends AbstractElementCommand
 					ContentException.DESIGN_EXCEPTION_HAS_DESCENDENTS );
 		}
 
-		// do some checks about the template issues
-
-		TemplateCommand cmd = new TemplateCommand( module, element );
-		TemplateParameterDefinition templateParam = cmd.checkAdd( newElement,
-				slotID );
-		ContentRecord addTemplateParam = null;
-		if ( templateParam != null )
-			addTemplateParam = new ContentRecord( module, module,
-					ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT,
-					templateParam, true );
-
 		// Prepare the transaction.
 
 		ContentReplaceRecord replaceRecord = new TemplateTransformRecord(
@@ -1158,27 +1133,33 @@ public class ContentCommand extends AbstractElementCommand
 		ActivityStack stack = getActivityStack( );
 
 		stack.startFilterEventTrans( replaceRecord.getLabel( ) );
+
 		try
 		{
 			doDelectAction( oldElement, unresolveReference );
-		}
-		catch ( SemanticException ex )
-		{
-			stack.rollback( );
-			throw ex;
-		}
 
-		if ( addTemplateParam != null )
-			stack.execute( addTemplateParam );
+			// do some checks about the template issues
 
-		// Remove the element itself.
+			TemplateCommand cmd = new TemplateCommand( module, element );
+			cmd.checkAdd( newElement, slotID );
 
-		stack.execute( replaceRecord );
-		try
-		{
+			// Remove the element itself.
+
+			stack.execute( replaceRecord );
+
 			addElementNames( newElement );
 		}
+		catch ( ContentException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
 		catch ( NameException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+		catch ( SemanticException e )
 		{
 			stack.rollback( );
 			throw e;

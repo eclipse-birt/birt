@@ -2567,14 +2567,10 @@ public abstract class DesignElement
 
 	public int findSlotOf( DesignElement content )
 	{
-		IElementDefn defn = getDefn( );
-		int count = defn.getSlotCount( );
-		for ( int i = 0; i < count; i++ )
-		{
-			if ( getSlot( i ).contains( content ) )
-				return i;
-		}
-		return -1;
+		if ( content == null || content.getContainer( ) != this )
+			return NO_SLOT;
+		return content.getContainerSlot( );
+		
 	}
 
 	/**

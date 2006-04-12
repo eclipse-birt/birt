@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This class replaces a template element with a report item or data set,
@@ -175,15 +176,14 @@ public class TemplateCommand extends AbstractElementCommand
 	 * 
 	 * @param content
 	 * @param slotID
-	 * @return a template parameter definition to add, otherwise null
 	 * @throws ContentException
 	 *             if the value of property
 	 *             <code>REF_TEMPLATE_PARAMETER_PROP</code> in template
 	 *             element is null, or an un-resolved value
 	 */
 
-	public TemplateParameterDefinition checkAdd( DesignElement content,
-			int slotID ) throws ContentException
+	public void checkAdd( DesignElement content, int slotID )
+			throws ContentException
 	{
 		// if this element is a template element, check the template parameter
 		// definition and add it first if the definition is not defined in the
@@ -193,7 +193,7 @@ public class TemplateCommand extends AbstractElementCommand
 			ElementRefValue templateParam = (ElementRefValue) content
 					.getProperty( module,
 							DesignElement.REF_TEMPLATE_PARAMETER_PROP );
-			if ( templateParam == null )
+			if ( templateParam == null || templateParam.getElement( ) == null )
 			{
 				throw new ContentException(
 						element,
@@ -201,56 +201,39 @@ public class TemplateCommand extends AbstractElementCommand
 						content,
 						ContentException.DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT );
 			}
-			else if ( templateParam.getElement( ) == null )
+			// the template parameter reference is resolved and the
+			// definition is not inserted to the module, then clone it and
+			// add the cloned definition into module
+
+			TemplateParameterDefinition definition = (TemplateParameterDefinition) templateParam
+					.getElement( );
+			if ( module.findTemplateParameterDefinition( templateParam
+					.getName( ) ) != definition )
 			{
-				// try to resolve the unresolved value and finally the referred
-				// template definition does not exsit in the module, fire an
-				// error
-
-				// ElementRefValue refValue =
-				// resolveTemplateParameterDefinition(
-				// module, templateParam.getName( ) );
-
-				TemplateParameterDefinition templateDefn = resolveTemplateParameterDefinition(
-						module, templateParam.getName( ) );
-
-				if ( templateDefn == null )
+				try
 				{
-					throw new ContentException(
-							element,
-							slotID,
-							content,
-							ContentException.DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT );
+					DesignElement copyTemplateParam = ModelUtil
+							.getCopy( definition );
+					module.makeUniqueName( copyTemplateParam );
+					ContentCommand cmd = new ContentCommand( module, module );
+					cmd.add( copyTemplateParam,
+							ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+					PropertyCommand propertyCmd = new PropertyCommand( module,
+							content );
+					propertyCmd.setProperty(
+							TemplateElement.REF_TEMPLATE_PARAMETER_PROP,
+							copyTemplateParam );
 				}
-			}
-			else
-			{
-				// the template parameter reference is resolved and the
-				// definition is not inserted to the module, then clone it and
-				// add the cloned definition into module
-
-				TemplateParameterDefinition definition = (TemplateParameterDefinition) templateParam
-						.getElement( );
-				if ( module.findTemplateParameterDefinition( templateParam
-						.getName( ) ) != definition )
+				catch ( NameException e )
 				{
-					try
-					{
-						definition = (TemplateParameterDefinition) definition
-								.clone( );
-					}
-					catch ( CloneNotSupportedException e )
-					{
-						assert false;
-					}
-					module.makeUniqueName( definition );
-					return definition;
+					assert false;
 				}
-
+				catch( SemanticException e )
+				{
+					assert false;
+				}
 			}
 		}
-
-		return null;
 	}
 
 	/**
@@ -381,7 +364,7 @@ public class TemplateCommand extends AbstractElementCommand
 				propertyCmd = new PropertyCommand( module, base );
 				propertyCmd.setProperty(
 						IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP, null );
-				
+
 				if ( !temp.hasReferences( ) )
 				{
 					contentCmd = new ContentCommand( module, module );

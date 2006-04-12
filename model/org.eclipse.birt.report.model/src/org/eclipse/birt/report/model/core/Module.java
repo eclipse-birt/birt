@@ -53,6 +53,7 @@ import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameScopeFactory;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
@@ -700,6 +701,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 			}
 		}
 
+		// call semantic check
+
+		module.semanticCheck( module );
+
 		return module;
 	}
 
@@ -717,6 +722,18 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( module == null || element == null )
 			return;
 		assert !( element instanceof Module );
+
+		if ( element instanceof TemplateElement )
+		{
+			TemplateParameterDefinition templateParam = element
+					.getTemplateParameterElement( module );
+			if ( templateParam != null && templateParam.getRoot( ) != module )
+			{
+				element.setProperty(
+						TemplateElement.REF_TEMPLATE_PARAMETER_PROP,
+						new ElementRefValue( null, templateParam.getName( ) ) );
+			}
+		}
 
 		ElementDefn defn = (ElementDefn) element.getDefn( );
 
@@ -1467,7 +1484,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		}
 		catch ( IOException e )
 		{
-		    return null;
+			return null;
 		}
 
 		URL url = getSession( ).getResourceLocator( ).findResource(
@@ -2192,7 +2209,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	/**
 	 * @param namespace
-	 * @return
+	 * @return the included library structure with the given namespace
 	 */
 
 	public IncludedLibrary findIncludedLibrary( String namespace )
