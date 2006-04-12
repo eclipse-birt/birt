@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.jface.window.Window;
 
 /**
@@ -48,6 +49,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 {
 
 	private ExtendedItemHandle itemHandle;
+	private DataSetHandle dsHandle;
+	private ArrayList bindingList;
 
 	/**
 	 * This flag indicates whether the error is found when fetching data. This
@@ -65,6 +68,47 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private ModuleHandle getReportDesignHandle( )
 	{
 		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#afterTransaction()
+	 */
+	public void afterTransaction( )
+	{
+		try
+		{
+			itemHandle.setDataSet( dsHandle );
+			itemHandle.getColumnBindings( ).clearValue( );
+
+			for ( int i = 0; i < bindingList.size( ); i++ )
+			{
+				itemHandle.addColumnBinding( (ComputedColumn) bindingList.get( i ),
+						true );
+			}
+		}
+		catch ( SemanticException se )
+		{
+			se.printStackTrace( );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#beforeTransaction()
+	 */
+	public void beforeTransaction( )
+	{
+		dsHandle = itemHandle.getDataSet( );
+
+		bindingList = new ArrayList( );
+		Iterator columnBindingIterator = itemHandle.columnBindingsIterator( );
+		while ( columnBindingIterator.hasNext( ) )
+		{
+			bindingList.add( ( (ComputedColumnHandle) columnBindingIterator.next( ) ).getStructure( ) );
+		}
 	}
 
 	public String[] getAllDataSets( )

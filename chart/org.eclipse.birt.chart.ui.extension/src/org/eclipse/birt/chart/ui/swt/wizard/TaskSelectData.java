@@ -69,12 +69,11 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class TaskSelectData extends SimpleTask
-		implements
-			SelectionListener,
-			DisposeListener,
-			ITaskChangeListener,
-			Listener
+public class TaskSelectData extends SimpleTask implements
+		SelectionListener,
+		DisposeListener,
+		ITaskChangeListener,
+		Listener
 {
 
 	private final static int CENTER_WIDTH_HINT = 400;
@@ -96,6 +95,8 @@ public class TaskSelectData extends SimpleTask
 	private transient Button btnBinding = null;
 
 	private transient SelectDataDynamicArea dynamicArea;
+	
+	private transient int bCancel;
 
 	// private SampleData oldSample = null;
 
@@ -311,7 +312,9 @@ public class TaskSelectData extends SimpleTask
 		}
 
 		tablePreview = new CustomPreviewTable( composite, SWT.SINGLE
-				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
+				| SWT.FULL_SELECTION );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.widthHint = CENTER_WIDTH_HINT;
@@ -368,7 +371,7 @@ public class TaskSelectData extends SimpleTask
 			cmbDataSet.setItems( getDataServiceProvider( ).getAllDataSets( ) );
 			cmbDataSet.setText( currentDataSet );
 			useReportDataSet( false );
-			switchDataTable( cmbDataSet.getText( ) );
+			switchDataTable( );
 		}
 		else
 		{
@@ -376,7 +379,7 @@ public class TaskSelectData extends SimpleTask
 			String reportDataSet = getDataServiceProvider( ).getReportDataSet( );
 			if ( reportDataSet != null )
 			{
-				switchDataTable( reportDataSet );
+				switchDataTable( );
 			}
 		}
 
@@ -409,7 +412,7 @@ public class TaskSelectData extends SimpleTask
 		}
 	}
 
-	private void switchDataTable( String datasetName )
+	private void switchDataTable( )
 	{
 		try
 		{
@@ -473,6 +476,10 @@ public class TaskSelectData extends SimpleTask
 		}
 		try
 		{
+			bCancel = Window.OK;
+			String oldDataSetName = getDataServiceProvider( ).getBoundDataSet( );
+			getDataServiceProvider( ).beforeTransaction( );
+
 			// Clear old dataset and preview data
 			getDataServiceProvider( ).setDataSet( datasetName );
 			tablePreview.clearContents( );
@@ -481,7 +488,13 @@ public class TaskSelectData extends SimpleTask
 			if ( getDataServiceProvider( ).getBoundDataSet( ) != null
 					|| getDataServiceProvider( ).getReportDataSet( ) != null )
 			{
-				getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_BINDING );
+				bCancel = getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_BINDING );
+			}
+
+			if ( bCancel == Window.CANCEL )
+			{
+				getDataServiceProvider( ).afterTransaction( );
+				datasetName = oldDataSetName;
 			}
 
 			// Try to get report data set
@@ -492,7 +505,7 @@ public class TaskSelectData extends SimpleTask
 
 			if ( datasetName != null )
 			{
-				switchDataTable( datasetName );
+				switchDataTable( );
 			}
 			else
 			{
@@ -554,6 +567,12 @@ public class TaskSelectData extends SimpleTask
 				try
 				{
 					switchDataSet( cmbDataSet.getText( ) );
+					if ( bCancel == Window.CANCEL )
+					{
+						btnUseReportData.setSelection( true );
+						btnUseDataSet.setSelection( false );
+						return;
+					}
 				}
 				catch ( ChartException e1 )
 				{
@@ -575,6 +594,19 @@ public class TaskSelectData extends SimpleTask
 			{
 				ColorPalette.getInstance( ).restore( );
 				switchDataSet( cmbDataSet.getText( ) );
+				if ( bCancel == Window.CANCEL )
+				{
+					String[] datasetNames = cmbDataSet.getItems( );
+					for ( int i = 0; i < datasetNames.length; i++ )
+					{
+						if ( datasetNames[i].equals( getDataServiceProvider( ).getBoundDataSet( ) ) )
+						{
+							cmbDataSet.select( i );
+							return;
+						}
+					}
+					
+				}
 			}
 			catch ( ChartException e1 )
 			{
@@ -582,35 +614,25 @@ public class TaskSelectData extends SimpleTask
 			}
 		}
 		else if ( e.getSource( ).equals( btnNewData ) )
-		{
+		{			
 			// Bring up the dialog to create a dataset
 			int result = getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_NEW_DATASET );
 			if ( result == Window.CANCEL )
 			{
 				return;
 			}
-			String[] sAllDS = getDataServiceProvider( ).getAllDataSets( );
-			cmbDataSet.setItems( sAllDS );
 
-			if ( sAllDS != null && sAllDS.length > 0 )
+			String[] sAllDS = getDataServiceProvider( ).getAllDataSets( );
+			if ( sAllDS.length == cmbDataSet.getItemCount( ) )
 			{
-				// Bind the last dataset in the list
-				cmbDataSet.select( sAllDS.length - 1 );
-				try
-				{
-					switchDataSet( cmbDataSet.getText( ) );
-				}
-				catch ( ChartException e1 )
-				{
-					ChartWizard.displayException( e1 );
-				}
+				return;
 			}
-			btnFilters.setEnabled( hasDataSet( )
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			btnParameters.setEnabled( hasDataSet( )
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			btnBinding.setEnabled( hasDataSet( )
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
+			else
+			{
+				String currentDataSet = cmbDataSet.getText( );
+				cmbDataSet.setItems( sAllDS );
+				cmbDataSet.setText( currentDataSet );
+			}
 		}
 		else if ( e.getSource( ).equals( btnFilters ) )
 		{
@@ -650,7 +672,7 @@ public class TaskSelectData extends SimpleTask
 		tablePreview.clearContents( );
 		if ( cmbDataSet.getText( ) != null )
 		{
-			switchDataTable( cmbDataSet.getText( ) );
+			switchDataTable( );
 		}
 		tablePreview.layout( );
 	}
@@ -905,7 +927,8 @@ public class TaskSelectData extends SimpleTask
 			}
 		}
 		sb.append( Messages.getString( "TaskSelectData.Label.Series" ) //$NON-NLS-1$
-				+ ( seriesIndex + 1 ) + " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( seriesIndex + 1 )
+				+ " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString( );
 	}
 

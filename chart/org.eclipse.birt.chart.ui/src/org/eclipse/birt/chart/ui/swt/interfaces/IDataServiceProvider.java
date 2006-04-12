@@ -109,5 +109,18 @@ public interface IDataServiceProvider
 	 * @since 2.1
 	 */
 	public boolean isInvokingSupported( );
+	
+	/**
+	 * Save the DataSetHandle and DataSetColumnBinding information.
+	 *@since 2.1
+	 */
+	public void beforeTransaction( );
+	
+	/**
+	 * Restore the DataSetHandle and DataSetColumnBinding information if
+	 * the new binding action is cancelled.
+	 *@since 2.1
+	 */
+	public void afterTransaction( );
 
 }
