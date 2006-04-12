@@ -59,7 +59,7 @@ public class ElementBuilderFactory
 		}
 		if ( handle instanceof DataItemHandle )
 		{
-			BindingColumnDialog dialog = new BindingColumnDialog( );
+			BindingColumnDialog dialog = new BindingColumnDialog( true );
 			dialog.setInput( (ReportItemHandle) handle );
 			return ( dialog );
 		}
