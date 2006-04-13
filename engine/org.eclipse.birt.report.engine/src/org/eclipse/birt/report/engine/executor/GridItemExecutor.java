@@ -11,18 +11,15 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.impl.TableContent;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
-import org.eclipse.birt.report.engine.data.dte.DteResultSet;
+import org.eclipse.birt.report.engine.content.impl.RowContent;
+import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
@@ -32,13 +29,12 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.RowData;
 import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.28 $ $Date: 2006/01/17 20:10:42 $
+ * @version $Revision: 1.29 $ $Date: 2006/01/18 02:13:54 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -180,18 +176,10 @@ public class GridItemExecutor extends QueryItemExecutor
 		processStyle( row, rowContent );
 		processVisibility( row, rowContent );
 
-		IRowData rowData = null;
 		if ( context.isInFactory( ) )
-		{
-			if ( rset != null )
-			{
-				IResultIterator rsIterator = ( ( DteResultSet ) rset )
-						.getResultIterator( );
-				rowData = new RowData( rsIterator, TableItemExecutor
-						.getValueExpressions( row ) );
-			}
+		{			
 			RowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
-					rowData, context );
+					context );
 		}
 
 		startTOCEntry( rowContent );
@@ -205,7 +193,7 @@ public class GridItemExecutor extends QueryItemExecutor
 			CellDesign cell = row.getCell( j );
 			if ( cell != null )
 			{
-				executeCell( rowContent, cell, emitter, rowData );
+				executeCell( rowContent, cell, emitter );
 			}
 		}
 		if ( emitter != null )
@@ -236,7 +224,7 @@ public class GridItemExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	private void executeCell( IRowContent rowContent, CellDesign cell,
-			IContentEmitter emitter, IRowData rowData )
+			IContentEmitter emitter )
 	{
 		ICellContent cellContent = report.createCellContent( );
 		assert ( cellContent instanceof CellContent );
@@ -256,7 +244,7 @@ public class GridItemExecutor extends QueryItemExecutor
 		if ( context.isInFactory( ) )
 		{
 			CellScriptExecutor.handleOnCreate( ( CellContent ) cellContent,
-					rowData, context, true );
+					context, true );
 		}
 
 		startTOCEntry( cellContent );

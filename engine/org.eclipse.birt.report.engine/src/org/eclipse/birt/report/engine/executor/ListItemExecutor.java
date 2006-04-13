@@ -13,10 +13,10 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.logging.Level;
 
-import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
+import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.33 $ $Date: 2006/01/19 14:23:03 $
+ * @version $Revision: 1.34 $ $Date: 2006/01/20 08:00:54 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -125,7 +125,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	 *            true if it is detail band
 	 */
 	private void accessListBand( ListBandDesign band, IContentEmitter emitter,
-			IResultIterator rsIterator )
+			IResultSet resultSet )
 	{
 		if ( band != null && band.getContentCount( ) > 0 )
 		{
@@ -160,10 +160,10 @@ public class ListItemExecutor extends ListingElementExecutor
 	 *      org.eclipse.birt.report.engine.api.script.ExpressionRow)
 	 */
 	protected void accessDetail( ListingDesign list, IContentEmitter emitter,
-			IResultIterator rsIterator )
+			IResultSet resultSet )
 	{
 		accessListBand( ( ( ListItemDesign ) list ).getDetail( ), emitter,
-				rsIterator );
+				resultSet );
 	}
 
 	/*
@@ -173,10 +173,10 @@ public class ListItemExecutor extends ListingElementExecutor
 	 *      org.eclipse.birt.report.engine.emitter.IContentEmitter)
 	 */
 	protected void accessFooter( ListingDesign list, IContentEmitter emitter,
-			IResultIterator rsIterator )
+			IResultSet resultSet )
 	{
 		accessListBand( ( ( ListItemDesign ) list ).getFooter( ), emitter,
-				rsIterator );
+				resultSet );
 	}
 
 	/*
@@ -212,9 +212,9 @@ public class ListItemExecutor extends ListingElementExecutor
 	 *      org.eclipse.birt.report.engine.emitter.IContentEmitter)
 	 */
 	protected void accessHeader( ListingDesign list, IContentEmitter emitter,
-			IResultIterator rsIterator )
+			IResultSet resultSet )
 	{
 		accessListBand( ( ( ListItemDesign ) list ).getHeader( ), emitter,
-				rsIterator );
+				resultSet );
 	}
 }

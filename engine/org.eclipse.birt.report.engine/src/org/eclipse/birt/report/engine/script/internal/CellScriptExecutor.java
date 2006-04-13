@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.element.ICell;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ICellEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
@@ -42,7 +41,7 @@ public class CellScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( CellContent content, IRowData rowData,
+	public static void handleOnCreate( CellContent content,
 			ExecutionContext context, boolean fromGrid )
 	{
 		try
@@ -53,7 +52,7 @@ public class CellScriptExecutor extends ScriptExecutor
 				return;
 			}
 			ReportItemDesign cellDesign = ( ReportItemDesign ) generateBy;
-			ICellInstance cell = new CellInstance( content, rowData, context,
+			ICellInstance cell = new CellInstance( content, context,
 					fromGrid );
 			if ( handleJS( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
 				return;
@@ -80,7 +79,7 @@ public class CellScriptExecutor extends ScriptExecutor
 			ReportItemDesign cellDesign = ( ReportItemDesign ) generateBy; 
 			
 			//fromGrid doesn't matter here since row data is null
-			ICellInstance cell = new CellInstance( content, null, context,
+			ICellInstance cell = new CellInstance( content, context,
 					false );
 			if ( handleJS( cell, cellDesign.getOnRender( ), context ).didRun( ) )
 				return;

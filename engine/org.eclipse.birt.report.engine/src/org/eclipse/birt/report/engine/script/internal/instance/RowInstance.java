@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal.instance;
 
-import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -25,13 +24,10 @@ public class RowInstance extends ReportElementInstance implements IRowInstance
 
 	private RowContent row;
 
-	private IRowData data;
-
-	public RowInstance( RowContent row, IRowData data, ExecutionContext context )
+	public RowInstance( RowContent row, ExecutionContext context )
 	{
 		super( row, context );
-		this.data = data;
-		this.row = ( RowContent ) content;
+		this.row = row;
 	}
 
 	/*
@@ -76,8 +72,10 @@ public class RowInstance extends ReportElementInstance implements IRowInstance
 		row.setHeight( DimensionType.parserUnit( height ) );
 	}
 
+	/*
 	public IRowData getRowData( )
 	{
 		return data;
 	}
+	*/
 }

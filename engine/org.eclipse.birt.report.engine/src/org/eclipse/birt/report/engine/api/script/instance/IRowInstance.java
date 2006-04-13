@@ -31,6 +31,8 @@ public interface IRowInstance extends IReportElementInstance
 	 * Get the evaluated expressions for this row
 	 * 
 	 */
+	/*
 	IRowData getRowData( );
+	*/
 
 }

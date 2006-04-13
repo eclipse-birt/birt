@@ -73,7 +73,7 @@ public class ElementUtil
 
 		// No row data available, fromGrid doesn't matter
 		if ( element instanceof CellContent )
-			return new CellInstance( ( CellContent ) element, null, context, false );
+			return new CellInstance( ( CellContent ) element, context, false );
 
 		if ( element instanceof DataContent )
 			return new DataItemInstance( ( DataContent ) element, context );
@@ -89,7 +89,7 @@ public class ElementUtil
 
 		// No row data available
 		if ( element instanceof RowContent )
-			return new RowInstance( ( RowContent ) element, null, context );
+			return new RowInstance( ( RowContent ) element, context );
 
 		if ( element instanceof TableContent )
 		{

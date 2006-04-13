@@ -11,17 +11,19 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
  * A class representing expression results. Can be used to get values of
@@ -36,20 +38,48 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 public class RowData implements IRowData
 {
-	private IResultIterator rsIterator;
 
-	private List valueExpressions;
+	private IResultSet rset;
+	private ArrayList bindingNames = new ArrayList( );
 
-	private static final Pattern rowWithIndex = Pattern.compile(
-			"(row\\[\\d+\\])", Pattern.CASE_INSENSITIVE );
+	private static final Pattern rowWithIndex = Pattern.compile( "(row\\[\\d+\\])",
+			Pattern.CASE_INSENSITIVE );
 
-	private static final Pattern rowWithWord = Pattern.compile(
-			"(row\\[\\w+\\])", Pattern.CASE_INSENSITIVE );
+	private static final Pattern rowWithWord = Pattern.compile( "(row\\[\\w+\\])",
+			Pattern.CASE_INSENSITIVE );
 
-	public RowData( IResultIterator rsIterator, List valueExpressions )
+	public RowData( IResultSet rset, ReportItemHandle element )
 	{
-		this.rsIterator = rsIterator;
-		this.valueExpressions = valueExpressions;
+		this.rset = rset;
+		// intialize the bindings and bindingNames
+		if ( element != null )
+		{
+			addColumnBindings( element.columnBindingsIterator( ) );
+
+			if ( element instanceof ListingHandle )
+			{
+				// add the bindings in the group
+				ListingHandle list = (ListingHandle) element;
+				Iterator groupIter = list.getGroups( ).iterator( );
+				while ( groupIter.hasNext( ) )
+				{
+					GroupHandle group = (GroupHandle) groupIter.next( );
+					addColumnBindings( group.columnBindingsIterator( ) );
+				}
+			}
+		}
+	}
+
+	private void addColumnBindings( Iterator bindingIter )
+	{
+		if ( bindingIter != null )
+		{
+			while ( bindingIter.hasNext( ) )
+			{
+				ComputedColumnHandle binding = (ComputedColumnHandle) bindingIter.next( );
+				bindingNames.add( binding.getName( ) );
+			}
+		}
 	}
 
 	/**
@@ -61,6 +91,7 @@ public class RowData implements IRowData
 	 * find things to replace is: row\\[\\w+\\], Pattern.CASE_INSENSITIVE minus
 	 * row\\[\\d+\\], Pattern.CASE_INSENSITIVE.
 	 * 
+	 * @deprecated
 	 * @param expression
 	 * @return the evaluated value of the provided expression
 	 * @throws ScriptException
@@ -69,26 +100,18 @@ public class RowData implements IRowData
 			throws ScriptException
 	{
 		expression = process( expression );
-		return eval( expression );
+		return rset.evaluate( expression );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public Object getExpressionValue( int index ) throws ScriptException
 	{
-		if (valueExpressions == null || rsIterator == null)
-			return null;
-		if ( index <= valueExpressions.size( ) )
+		String name = getColumnName( index );
+		if ( name != null )
 		{
-			IBaseExpression expr = ( IBaseExpression ) valueExpressions
-					.get( index - 1 );
-			if (expr == null)
-				return null;
-			try
-			{
-				return rsIterator.getValue( expr );
-			} catch ( BirtException e )
-			{
-				throw new ScriptException( e.getLocalizedMessage( ) );
-			}
+			return getColumnValue( name );
 		}
 		return null;
 	}
@@ -119,36 +142,54 @@ public class RowData implements IRowData
 		return sb.toString( );
 	}
 
-	private Object eval( String expression ) throws ScriptException
+	public int getExpressionCount( )
 	{
-		if ( valueExpressions == null || rsIterator == null)
-			return null;
-		Iterator exprIt = valueExpressions.iterator( );
-		while ( exprIt.hasNext( ) )
+		return getColumnCount( );
+	}
+
+	public Object getColumnValue( String name ) throws ScriptException
+	{
+		try
 		{
-			IBaseExpression expr = ( IBaseExpression ) exprIt.next( );
-			if ( !( expr instanceof IScriptExpression ) )
-				continue;
-			String rowExpr = ( ( IScriptExpression ) expr ).getText( );
-			if ( expression.equals( rowExpr ) )
-			{
-				try
-				{
-					return rsIterator.getValue( expr );
-				} catch ( BirtException e )
-				{
-					throw new ScriptException( e.getLocalizedMessage( ) );
-				}
-			}
+			return rset.getValue( name );
+		}
+		catch ( BirtException e )
+		{
+			e.printStackTrace( );
 		}
 		return null;
 	}
 
-	public int getExpressionCount( )
+	/**
+	 * get column value by index
+	 * index start from 0
+	 */
+	public Object getColumnValue( int index ) throws ScriptException
 	{
-		if ( valueExpressions == null )
-			return 0;
-		return valueExpressions.size( );
+		String name = getColumnName( index );
+		if ( name != null )
+		{
+			return getColumnValue( name );
+		}
+		return null;
+	}
+
+	/**
+	 * get column name by index
+	 * index start from 0
+	 */
+	public String getColumnName( int index )
+	{
+		if ( index < bindingNames.size( ) )
+		{
+			return (String) bindingNames.get( index );
+		}
+		return null;
+	}
+
+	public int getColumnCount( )
+	{
+		return bindingNames.size( );
 	}
 
 }

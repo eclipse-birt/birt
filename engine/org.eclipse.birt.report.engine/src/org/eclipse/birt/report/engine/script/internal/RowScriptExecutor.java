@@ -42,14 +42,14 @@ public class RowScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( RowContent content, IRowData rowData,
+	public static void handleOnCreate( RowContent content,
 			ExecutionContext context )
 	{
 		try
 		{
 			ReportItemDesign rowDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IRowInstance row = new RowInstance( content, rowData, context );
+			IRowInstance row = new RowInstance( content,  context );
 			if ( handleJS( row, rowDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			IRowEventHandler eh = getEventHandler( rowDesign, context );
@@ -68,7 +68,7 @@ public class RowScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign rowDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IRowInstance row = new RowInstance( content, null, context );
+			IRowInstance row = new RowInstance( content, context );
 			if ( handleJS( row, rowDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			IRowEventHandler eh = getEventHandler( rowDesign, context );

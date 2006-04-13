@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.script.instance;
 
+import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 public interface IReportElementInstance
@@ -84,5 +85,11 @@ public interface IReportElementInstance
 	 * 
 	 */
 	IReportElementInstance getParent( );
+	
+	/**
+	 * Get the row data used to create the instance. 
+	 * The row data is defined by the column binding.
+	 */
+	IRowData getRowData( );
 
 }

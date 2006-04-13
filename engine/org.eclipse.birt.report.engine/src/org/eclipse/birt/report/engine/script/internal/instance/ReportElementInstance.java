@@ -8,20 +8,25 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import java.util.Map;
 
+import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
+import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.ElementUtil;
+import org.eclipse.birt.report.engine.script.internal.RowData;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
@@ -31,6 +36,8 @@ public class ReportElementInstance implements IReportElementInstance
 	protected AbstractContent content;
 
 	private ExecutionContext context;
+
+	private RowData rowData;
 
 	public ReportElementInstance( AbstractContent content,
 			ExecutionContext context )
@@ -59,16 +66,17 @@ public class ReportElementInstance implements IReportElementInstance
 		Object generatedBy = content.getGenerateBy( );
 		if ( generatedBy instanceof ReportElementDesign )
 		{
-			ReportElementDesign design = ( ReportElementDesign ) generatedBy;
+			ReportElementDesign design = (ReportElementDesign) generatedBy;
 			Map m = design.getNamedExpressions( );
-			String expr = ( String ) m.get( name );
+			String expr = (String) m.get( name );
 			if ( expr == null )
 				return null;
 			context.newScope( this );
 			try
 			{
 				return context.evaluate( expr );
-			} finally
+			}
+			finally
 			{
 				context.exitScope( );
 			}
@@ -81,10 +89,9 @@ public class ReportElementInstance implements IReportElementInstance
 		Object generatedBy = content.getGenerateBy( );
 		if ( generatedBy instanceof ReportElementDesign )
 		{
-			ReportElementDesign design = ( ReportElementDesign ) generatedBy;
+			ReportElementDesign design = (ReportElementDesign) generatedBy;
 			DesignElementHandle handle = design.getHandle( );
-			UserPropertyDefnHandle prop = handle
-					.getUserPropertyDefnHandle( name );
+			UserPropertyDefnHandle prop = handle.getUserPropertyDefnHandle( name );
 			if ( prop != null )
 				return handle.getProperty( prop.getName( ) );
 		}
@@ -97,16 +104,16 @@ public class ReportElementInstance implements IReportElementInstance
 		Object generatedBy = content.getGenerateBy( );
 		if ( generatedBy instanceof ReportElementDesign )
 		{
-			ReportElementDesign design = ( ReportElementDesign ) generatedBy;
+			ReportElementDesign design = (ReportElementDesign) generatedBy;
 			DesignElementHandle handle = design.getHandle( );
-			UserPropertyDefnHandle prop = handle
-					.getUserPropertyDefnHandle( name );
+			UserPropertyDefnHandle prop = handle.getUserPropertyDefnHandle( name );
 			if ( prop != null )
 			{
 				try
 				{
 					handle.setProperty( prop.getName( ), value );
-				} catch ( SemanticException e )
+				}
+				catch ( SemanticException e )
 				{
 					throw new ScriptException( e.getLocalizedMessage( ) );
 				}
@@ -168,7 +175,7 @@ public class ReportElementInstance implements IReportElementInstance
 	{
 		content.setWidth( DimensionType.parserUnit( width ) );
 	}
-	
+
 	public String getHeight( )
 	{
 		return content.getHeight( ).toString( );
@@ -179,5 +186,29 @@ public class ReportElementInstance implements IReportElementInstance
 		content.setHeight( DimensionType.parserUnit( height ) );
 	}
 
-
+	public IRowData getRowData( )
+	{
+		if ( rowData == null )
+		{
+			// see if the report element has query
+			Object objGen = content.getGenerateBy( );
+			if ( objGen instanceof ReportItemDesign )
+			{
+				ReportItemDesign design = (ReportItemDesign) objGen;
+				if ( design.getQuery( ) != null )
+				{
+					DesignElementHandle handle = design.getHandle( );
+					if ( handle instanceof ReportItemHandle )
+					{
+						// get the current data set
+						IResultSet rset = context.getDataEngine( )
+								.getResultSet( );
+						// using the handle and the rste to create the row data.
+						rowData = new RowData( rset, (ReportItemHandle) handle );
+					}
+				}
+			}
+		}
+		return rowData;
+	}
 }

@@ -44,6 +44,8 @@ public interface ICellInstance extends IReportElementInstance
 	 * Get the evaluated expression for this cell
 	 * @throws ScriptException 
 	 */
+	/*
 	Object getData( ) throws ScriptException;
+	*/
 
 }

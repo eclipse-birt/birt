@@ -17,8 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.BirtTimer;
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -29,6 +27,7 @@ import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
+import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.BufferedReportEmitter;
 import org.eclipse.birt.report.engine.emitter.ContentDOMVisitor;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
@@ -40,7 +39,6 @@ import org.eclipse.birt.report.engine.executor.buffermgr.Table;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
@@ -50,7 +48,6 @@ import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.RowData;
 import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -66,7 +63,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.41 $ $Date: 2006/04/06 12:35:24 $
+ * @version $Revision: 1.42 $ $Date: 2006/04/12 05:40:31 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -172,7 +169,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.41 $ $Date: 2006/04/06 12:35:24 $
+	 * @version $Revision: 1.42 $ $Date: 2006/04/12 05:40:31 $
 	 */
 	private static class TABLEINFO
 	{
@@ -337,7 +334,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	 * @see org.eclipse.birt.report.engine.executor.ListingExecutor#accessHeader()
 	 */
 	protected void accessHeader( ListingDesign list, IContentEmitter emitter,
-			IResultIterator rsIterator )
+			IResultSet resultSet )
 	{
 		ITableContent tableContent = ( ITableContent ) context.getContent( );
 
@@ -351,7 +348,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			tableContent.getChildren( ).add( header );
 			IContentEmitter domEmitter = new DOMBuilderEmitter( header );
 			bandDesign.setBandType( TableBandDesign.TABLE_HEADER );
-			accessTableBand( bandDesign, domEmitter, rsIterator );
+			accessTableBand( bandDesign, domEmitter, resultSet );
 			if ( emitter != null )
 			{
 				new ContentDOMVisitor( ).emit( header, emitter );
@@ -371,7 +368,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	}
 
 	protected void accessFooter( ListingDesign list, IContentEmitter emitter,
-			IResultIterator rsIterator )
+			IResultSet resultSet )
 	{
 		if ( layoutEmitter != null )
 		{
@@ -402,7 +399,7 @@ public class TableItemExecutor extends ListingElementExecutor
 				emitter.startTableFooter( footer );
 			}
 			bandDesign.setBandType( TableBandDesign.TABLE_FOOTER );
-			accessTableBand( bandDesign, emitter, rsIterator );
+			accessTableBand( bandDesign, emitter, resultSet );
 			if ( emitter != null )
 			{
 				emitter.endTableFooter( footer );
@@ -416,10 +413,10 @@ public class TableItemExecutor extends ListingElementExecutor
 	 * 
 	 */
 	protected void accessDetail( ListingDesign list, IContentEmitter emitter,
-			IResultIterator rsIterator )
+			IResultSet resultSet )
 	{
 		accessTableBand( ( ( TableItemDesign ) list ).getDetail( ), emitter,
-				rsIterator );
+				resultSet );
 	}
 
 	protected void accessGroupHeader( ListingDesign list, int index,
@@ -493,7 +490,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	}
 
 	protected void accessTableBand( TableBandDesign band,
-			IContentEmitter emitter, IResultIterator rsIterator )
+			IContentEmitter emitter, IResultSet resultSet )
 	{
 		if ( band != null )
 		{
@@ -502,7 +499,7 @@ public class TableItemExecutor extends ListingElementExecutor
 				RowDesign rowDesign = band.getRow( i );
 				rowDesign.setBandType( band.getBandType( ) );
 				rowDesign.setGroupLevel( band.getBandLevel( ) );
-				accessRow( rowDesign, emitter, rsIterator );
+				accessRow( rowDesign, emitter, resultSet );
 			}
 		}
 	}
@@ -525,14 +522,8 @@ public class TableItemExecutor extends ListingElementExecutor
 	 *            output emitter
 	 */
 	protected void accessRow( RowDesign row, IContentEmitter emitter,
-			IResultIterator rsIterator )
+			IResultSet resultSet )
 	{
-		IRowData rowData = null;
-		if ( context.isInFactory( ) )
-		{
-			rowData = new RowData( rsIterator, getValueExpressions( row ) );
-		}
-
 		if ( rowClosed )
 		{
 			IRowContent rowContent = report.createRowContent( );
@@ -558,7 +549,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			if ( context.isInFactory( ) )
 			{
 				RowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
-						rowData, context );
+						context );
 			}
 
 			startTOCEntry( rowContent );
@@ -592,7 +583,7 @@ public class TableItemExecutor extends ListingElementExecutor
 				if ( context.isInFactory( ) )
 				{
 					CellScriptExecutor.handleOnCreate(
-							( CellContent ) cellContent, rowData, context,
+							( CellContent ) cellContent,  context,
 							false );
 				}
 

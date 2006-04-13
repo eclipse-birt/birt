@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal.instance;
 
-import org.eclipse.birt.report.engine.api.script.IRowData;
-import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -20,22 +18,20 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 /**
  * A class representing the runtime state of a cell
  */
-public class CellInstance extends ReportElementInstance implements
-		ICellInstance
+public class CellInstance extends ReportElementInstance
+		implements
+			ICellInstance
 {
 
 	private CellContent cell;
 
-	private IRowData data;
-
 	private boolean fromGrid;
 
-	public CellInstance( CellContent cell, IRowData data,
-			ExecutionContext context, boolean fromGrid )
+	public CellInstance( CellContent cell, ExecutionContext context,
+			boolean fromGrid )
 	{
 		super( cell, context );
-		this.data = data;
-		this.cell = ( CellContent ) content;
+		this.cell = cell;
 		this.fromGrid = fromGrid;
 	}
 
@@ -94,16 +90,13 @@ public class CellInstance extends ReportElementInstance implements
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.ICellInstance#getData()
 	 */
-	public Object getData( ) throws ScriptException
-	{
-		if (data == null)
-			return null;
-		//TODO bug124760: getColumn both the first cell both in a grid and in a table return 0
-		//not the follows:
-		////TODO: This is beacuse getColumn from the first cell in a grid returns 0
-		////and getColumn in the first cell in a table returns 1
-		if ( fromGrid )
-			return data.getExpressionValue( getColumn( ) + 1 );
-		return data.getExpressionValue( getColumn( ) + 1 );
-	}
+	/*
+	 * bug 135790 public Object getData( ) throws ScriptException { if (data ==
+	 * null) return null; //TODO bug124760: getColumn both the first cell both
+	 * in a grid and in a table return 0 //not the follows: ////TODO: This is
+	 * beacuse getColumn from the first cell in a grid returns 0 ////and
+	 * getColumn in the first cell in a table returns 1 if ( fromGrid ) return
+	 * data.getExpressionValue( getColumn( ) + 1 ); return
+	 * data.getExpressionValue( getColumn( ) + 1 ); }
+	 */
 }

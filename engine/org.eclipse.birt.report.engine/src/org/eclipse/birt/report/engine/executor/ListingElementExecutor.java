@@ -13,8 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.ArrayList;
 
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.report.engine.data.dte.DteResultSet;
+import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -110,11 +109,11 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			return;
 		}
 
-		IResultIterator rsIterator = ( (DteResultSet) rset )
-				.getResultIterator( );
+//		IResultIterator rsIterator = ( (DteResultSet) rset )
+//				.getResultIterator( );
 
 		startTOCEntry( null );
-		accessHeader( listing, outputEmitter, rsIterator );
+		accessHeader( listing, outputEmitter, rset );
 		finishTOCEntry( );
 		if ( groupCount == 0 )
 		{
@@ -123,7 +122,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			{
 				rsetCursor++;
 				startTOCEntry( null );
-				accessDetail( listing, outputEmitter, rsIterator );
+				accessDetail( listing, outputEmitter, rset );
 				finishTOCEntry( );
 				if ( pageBreakInterval > 0 )
 				{
@@ -138,7 +137,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 					// the last row
 					needPageBreak = false;
 					startTOCEntry( null );
-					accessFooter( listing, outputEmitter, rsIterator );
+					accessFooter( listing, outputEmitter, rset );
 					finishTOCEntry( );
 				}
 			} while ( rset.next( ) );
@@ -194,7 +193,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 			if ( !hideDetail )
 			{
-				accessDetail( listing, outputEmitter, rsIterator );
+				accessDetail( listing, outputEmitter, rset );
 			}
 
 			finishGroupTOCEntry( );
@@ -240,7 +239,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				// the last row
 				//needPageBreak = false;
 				startTOCEntry( null );
-				accessFooter( listing, outputEmitter, rsIterator );
+				accessFooter( listing, outputEmitter, rset );
 				finishTOCEntry( );
 			}
 		} while ( rset.next( ) );
@@ -282,7 +281,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessDetail( ListingDesign list,
-			IContentEmitter emitter, IResultIterator rsIterator );
+			IContentEmitter emitter, IResultSet resultSet );
 
 	/**
 	 * create the header band
@@ -293,7 +292,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessHeader( ListingDesign list,
-			IContentEmitter emitter, IResultIterator rsIterator );
+			IContentEmitter emitter, IResultSet resultSet );
 
 	/**
 	 * create the footer band.
@@ -304,7 +303,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessFooter( ListingDesign list,
-			IContentEmitter emitter, IResultIterator rsIterator );
+			IContentEmitter emitter, IResultSet resultSet );
 
 	public void reset( )
 	{
