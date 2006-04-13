@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.List;
+
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
@@ -71,30 +73,46 @@ class CompatibleMiscExpressionState extends ExpressionState
 	{
 		String value = text.toString( );
 
-		if ( StringUtil.isBlank( value ) )
+		if ( value == null )
 			return;
 
-		IColumnBinding boundColumn = null;
+		setupBoundDataColumns( value );
 
-		boundColumn = ExpressionUtil.getColumnBinding( value );
-		if ( boundColumn == null )
+		// keep the expression as same.
+
+		doEnd( value );
+	}
+
+	protected void setupBoundDataColumns( String value )
+	{
+		if ( value == null )
+			return;
+
+		List newExprs = null;
+
+		try
 		{
-			// set the property for the result set column property of DataItem.
+			newExprs = ExpressionUtil.extractColumnExpressions( value );
+		}
+		catch ( BirtException e )
+		{
+			newExprs = null;
+		}
 
-			doEnd( value );
+		if ( newExprs == null || newExprs.isEmpty( ) )
+		{
 			return;
 		}
 
-		String newName = DataBoundColumnUtil.setupBoundDataColumn( element,
-				boundColumn.getResultSetColumnName( ), boundColumn
-						.getBoundExpression( ), handler.getModule( ) );
+		for ( int i = 0; i < newExprs.size( ); i++ )
+		{
+			IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
+			String newExpression = boundColumn.getBoundExpression( );
+			if ( newExpression == null )
+				continue;
 
-		// set the property for the result set column property of DataItem.
-
-		if ( newName != null )
-			doEnd( ExpressionUtil.createRowExpression( newName ) );
-		else
-			doEnd( value );
-
+			DataBoundColumnUtil.setupBoundDataColumn( element, boundColumn
+					.getResultSetColumnName( ), newExpression, handler.module );
+		}
 	}
 }

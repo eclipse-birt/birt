@@ -11,19 +11,18 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -135,40 +134,50 @@ public class ExtendedItemState extends ReportItemState
 
 	private Map handleJavaExpression( List jsExprs )
 	{
-		List columns = new ArrayList( );
 		Map retMap = new HashMap( );
-
-		List boundColumns = (List) element.getLocalProperty( handler
-				.getModule( ), ReportItem.BOUND_DATA_COLUMNS_PROP );
 
 		for ( int i = 0; i < jsExprs.size( ); i++ )
 		{
 			String jsExpr = (String) jsExprs.get( i );
 
-			IColumnBinding boundColumn = ExpressionUtil
-					.getColumnBinding( jsExpr );
+			List newExprs = null;
 
-			if ( boundColumn == null )
+			try
+			{
+				newExprs = ExpressionUtil.extractColumnExpressions( jsExpr );
+			}
+			catch ( BirtException e )
+			{
+				newExprs = null;
+			}
+
+			if ( newExprs == null || newExprs.isEmpty( ) )
 				continue;
 
-			String columnName = DataBoundColumnUtil.getColumnName(
-					boundColumns, boundColumn.getBoundExpression( ) );
+			for ( int j = 0; j < newExprs.size( ); j++ )
+			{
+				IColumnBinding boundColumn = (IColumnBinding) newExprs.get( j );
+				DesignElement tmpElement = DataBoundColumnUtil
+						.findTargetOfBoundColumns( element, boundColumn
+								.getBoundExpression( ), handler.module );
 
-			// if the expression already exists, do not add it.
+				String columnName = boundColumn.getResultSetColumnName( );
 
-			if ( !columns.contains( boundColumn ) && columnName == null )
-				columns.add( boundColumn );
+				if ( tmpElement != null )
+				{
+					String tmpName = DataBoundColumnUtil
+							.createBoundDataColumn( tmpElement, columnName,
+									boundColumn.getBoundExpression( ), handler
+											.getModule( ) );
+					if ( tmpName != null )
+						columnName = tmpName;
+				}
 
-			if ( columnName == null )
-				columnName = boundColumn.getResultSetColumnName( );
-
-			retMap
-					.put( jsExpr, ExpressionUtil
-							.createRowExpression( columnName ) );
+				retMap.put( jsExpr, ExpressionUtil
+						.createRowExpression( columnName ) );
+			}
 		}
 
-		DataBoundColumnUtil.setupBoundDataColumns( element, columns, handler
-				.getModule( ) );
 		return retMap;
 	}
 }

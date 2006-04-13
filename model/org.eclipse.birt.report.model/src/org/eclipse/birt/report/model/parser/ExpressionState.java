@@ -101,6 +101,16 @@ class ExpressionState extends PropertyState
 			return state;
 		}
 
+		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) < 0 ) //$NON-NLS-1$
+				&& element instanceof ImageItem
+				&& struct == null
+				&& ImageItem.IMAGE_NAME_PROP.equalsIgnoreCase( name ) )
+		{
+			PropertyState state = new PropertyState( handler, element );
+			state.setName( name );
+			return state;
+		}
+
 		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ) //$NON-NLS-1$
 		{
 			if ( struct instanceof ComputedColumn

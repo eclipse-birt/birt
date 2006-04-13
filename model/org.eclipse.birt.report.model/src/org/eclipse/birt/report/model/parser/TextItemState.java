@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.template.TemplateParser;
 import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -121,7 +122,6 @@ public class TextItemState extends ReportItemState
 
 	private Map handleJavaExpression( List jsExprs )
 	{
-		List columns = new ArrayList( );
 		Map retMap = new HashMap( );
 
 		Iterator exprsIter = jsExprs.iterator( );
@@ -130,21 +130,43 @@ public class TextItemState extends ReportItemState
 		{
 			String jsExpr = (String) exprsIter.next( );
 
-			IColumnBinding boundColumn = ExpressionUtil
-					.getColumnBinding( jsExpr );
+			List newExprs = null;
+			try
+			{
+				newExprs = ExpressionUtil.extractColumnExpressions( jsExpr );
+			}
+			catch ( BirtException e )
+			{
+				newExprs = null;
+			}
 
-			if ( boundColumn == null )
+			if ( newExprs == null || newExprs.isEmpty( ) )
 				continue;
 
-			if ( !columns.contains( boundColumn ) )
-				columns.add( boundColumn );
+			for ( int j = 0; j < newExprs.size( ); j++ )
+			{
+				IColumnBinding boundColumn = (IColumnBinding) newExprs.get( j );
+				DesignElement tmpElement = DataBoundColumnUtil
+						.findTargetOfBoundColumns( element, boundColumn
+								.getBoundExpression( ), handler.module );
 
-			retMap.put( jsExpr, ExpressionUtil.createRowExpression( boundColumn
-					.getResultSetColumnName( ) ) );
+				String columnName = boundColumn.getResultSetColumnName( );
+
+				if ( tmpElement != null )
+				{
+					String tmpName = DataBoundColumnUtil
+							.createBoundDataColumn( tmpElement, columnName,
+									boundColumn.getBoundExpression( ), handler
+											.getModule( ) );
+					if ( tmpName != null )
+						columnName = tmpName;
+				}
+
+				retMap.put( jsExpr, ExpressionUtil
+						.createRowExpression( columnName ) );
+			}
 		}
 
-		DataBoundColumnUtil.setupBoundDataColumns( element, columns, handler
-				.getModule( ) );
 		return retMap;
 	}
 

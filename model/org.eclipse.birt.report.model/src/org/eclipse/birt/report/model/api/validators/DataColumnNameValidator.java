@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -112,28 +113,16 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	private static boolean hasCorrespondingColumnBinding( Module module,
 			DesignElement target, String columnBindingName )
 	{
-		DesignElement tmpElement = target;
-		while ( tmpElement != null )
-		{
-			if ( !( tmpElement instanceof IReportItemModel ) )
-			{
-				tmpElement = tmpElement.getContainer( );
-				continue;
-			}
+		DesignElement tmpElement = DataBoundColumnUtil
+				.findTargetOfBoundColumns( target, null, module );
 
-			List columns = (List) tmpElement.getProperty( module,
-					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-			if ( columns == null )
-			{
-				tmpElement = tmpElement.getContainer( );
-				continue;
-			}
+		List columns = (List) tmpElement.getProperty( module,
+				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
-			if ( exists( columns, columnBindingName ) )
-				return true;
+		if ( exists( columns, columnBindingName ) )
+			return true;
 
-			tmpElement = tmpElement.getContainer( );
-		}
+		tmpElement = tmpElement.getContainer( );
 
 		return false;
 
