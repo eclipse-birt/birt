@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.internal.document.v2;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,7 +38,7 @@ import org.eclipse.birt.report.engine.content.impl.TextContent;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.2 $ $Date: 2006/04/11 06:18:12 $
+ * @version $Revision: 1.3 $ $Date: 2006/04/12 05:40:30 $
  */
 public class ReportContentReaderV2
 {
@@ -175,6 +174,16 @@ public class ReportContentReaderV2
 		{
 			return null;
 		}
+
+		ContentTreeCache.TreeEntry entry = contentCache.getEntry( offset );
+		if ( entry != null )
+		{
+			stream.seek( offset + 8);
+			int size = stream.readInt( );
+			offset = offset + 12 + size;
+			return (IContent) entry.value;
+		}
+		
 		stream.seek( offset );
 		long parentOffset = stream.readLong( );
 		int size = stream.readInt( );
@@ -190,11 +199,12 @@ public class ReportContentReaderV2
 			content.setParent( parent );
 		}
 		offset = offset + 12 + size;
-		contents.push( content );
+		contentCache.addEntry( new ContentTreeCache.TreeEntry( content
+				.getOffset( ), parentOffset, offset, content ) );
 		return content;
 	}
 
-	protected Stack contents = new Stack( );
+	protected ContentTreeCache contentCache = new ContentTreeCache( );
 
 	/**
 	 * read the content object from the reader at offset. After this action, the
@@ -206,15 +216,10 @@ public class ReportContentReaderV2
 	 */
 	private IContent loadContent( long offset ) throws IOException
 	{
-		// try to load the content from the stack
-		while ( !contents.isEmpty( ) )
+		ContentTreeCache.TreeEntry entry = contentCache.getEntry( offset );
+		if ( entry != null )
 		{
-			IContent content = (IContent) contents.peek( );
-			if ( content.getOffset( ) == offset )
-			{
-				return content;
-			}
-			contents.pop( );
+			return (IContent) entry.value;
 		}
 
 		// then try to read the parent form the streams
@@ -233,7 +238,9 @@ public class ReportContentReaderV2
 			parent = loadContent( parentOffset );
 		}
 		content.setParent( parent );
-		contents.push( content );
+		offset = offset + 12 + size;
+		contentCache.addEntry( new ContentTreeCache.TreeEntry( content
+				.getOffset( ), parentOffset, offset, content ) );
 		return content;
 	}
 

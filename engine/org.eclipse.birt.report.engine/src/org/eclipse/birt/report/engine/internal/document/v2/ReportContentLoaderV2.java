@@ -364,11 +364,13 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			// output all the ancestor of this content
 			if ( contents.isEmpty( ) )
 			{
+				long curOffset = reader.getOffset( );
 				IContent parent = (IContent) content.getParent( );
 				if ( parent != null )
 				{
 					outputParent( parent );
 				}
+				reader.setOffset( curOffset );
 			}
 			// now the contents contains the parent of this content.
 			initializeContent( content );
@@ -383,7 +385,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 * 
 	 * @param content
 	 */
-	private void outputParent( IContent content )
+	private void outputParent( IContent content ) throws IOException
 	{
 		IContent parent = (IContent) content.getParent( );
 		if ( parent != null )
@@ -399,6 +401,21 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			if ( table.isHeaderRepeat( ) )
 			{
 				ITableBandContent header = table.getHeader( );
+				if (header == null)
+				{
+					//try to load the header content
+					reader.setOffset( table.getOffset( ) );
+					//skip the table object
+					reader.readContent( );
+					//read the header object
+					IContent headerContent = reader.readContent( );
+					//read the contents in the header
+					loadFullContent( headerContent, reader);
+					//add the header into the table
+					table.getChildren( ).add( headerContent );
+					header = table.getHeader( );
+				}
+				//output the table header
 				if ( header != null )
 				{
 					new ContentDOMVisitor( ).emit( header, emitter );
