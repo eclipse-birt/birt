@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 
@@ -39,6 +40,10 @@ public class BindingExpressionProvider extends ExpressionProvider
 		if ( handle instanceof ReportItemHandle )
 		{
 			dataSetHandle = ( (ReportItemHandle) handle ).getDataSet( );
+		}
+		else if ( handle instanceof GroupHandle )
+		{
+			dataSetHandle = ( (ReportItemHandle) ( (GroupHandle) handle ).getContainer( ) ).getDataSet( );
 		}
 	}
 

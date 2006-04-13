@@ -28,6 +28,8 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -543,41 +545,78 @@ public class InsertInLayoutUtil
 				.newDataItem( null );
 		DataSetHandle dataSet = (DataSetHandle) model.getElementHandle( );
 
-		// FIXME set expression or name?
 		dataHandle.setResultSetColumn( model.getColumnName( ) );
+
+		boolean bindingExist = false;
 
 		if ( targetParent instanceof ReportItemHandle )
 		{
+			// if ( !DEUtil.getDataSetList( container ).contains( dataSet ) )
+			// {
+			// if ( container.getDataSet( ) == null )
+			// {
+			// container.setDataSet( dataSet );
+			// }
+			// }
+			// GroupHandle groupHandle = getGroupHandle( target );
+			// if ( groupHandle != null )
+			// {
+			// ComputedColumn bindingColumn =
+			// StructureFactory.newComputedColumn( groupHandle,
+			// model.getColumnName( ) );
+			// // bindingColumn.setColumnName( model.getColumnName( ) );
+			// bindingColumn.setDataType( model.getDataType( ) );
+			// bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			//
+			// groupHandle.addColumnBinding( bindingColumn, false );
+			// }
+			// else
+			// {
+			// ComputedColumn bindingColumn =
+			// StructureFactory.newComputedColumn( container,
+			// model.getColumnName( ) );
+			// // bindingColumn.setColumnName( model.getColumnName( ) );
+			// bindingColumn.setDataType( model.getDataType( ) );
+			// bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			// container.addColumnBinding( bindingColumn, false );
+			// }
+			ComputedColumn bindingColumn = StructureFactory.createComputedColumn( );
+			bindingColumn.setName( model.getColumnName( ) );
+			bindingColumn.setDataType( model.getDataType( ) );
+			bindingColumn.setExpression( DEUtil.getExpression( model ) );
+
 			ReportItemHandle container = (ReportItemHandle) targetParent;
-			if ( !DEUtil.getDataSetList( container ).contains( dataSet ) )
-			{
-				if ( container.getDataSet( ) == null )
-				{
-					container.setDataSet( dataSet );
-				}
-			}
 			GroupHandle groupHandle = getGroupHandle( target );
+
 			if ( groupHandle != null )
 			{
-				ComputedColumn bindingColumn = StructureFactory.newComputedColumn( groupHandle,
-						model.getColumnName( ) );
-				// bindingColumn.setColumnName( model.getColumnName( ) );
-				bindingColumn.setDataType( model.getDataType( ) );
-				bindingColumn.setExpression( DEUtil.getExpression( model ) );
-
-				groupHandle.addColumnBinding( bindingColumn, false );
+				for ( Iterator iter = groupHandle.getColumnBindings( )
+						.iterator( ); iter.hasNext( ); )
+				{
+					ComputedColumnHandle element = (ComputedColumnHandle) iter.next( );
+					if ( element.getStructure( ).equals( bindingColumn ) )
+					{
+						bindingExist = true;
+						break;
+					}
+				}
 			}
 			else
 			{
-				ComputedColumn bindingColumn = StructureFactory.newComputedColumn( container,
-						model.getColumnName( ) );
-				// bindingColumn.setColumnName( model.getColumnName( ) );
-				bindingColumn.setDataType( model.getDataType( ) );
-				bindingColumn.setExpression( DEUtil.getExpression( model ) );
-				container.addColumnBinding( bindingColumn, false );
+				for ( Iterator iter = container.getColumnBindings( ).iterator( ); iter.hasNext( ); )
+				{
+					ComputedColumnHandle element = (ComputedColumnHandle) iter.next( );
+					if ( element.getStructure( ).equals( bindingColumn ) )
+					{
+						bindingExist = true;
+						break;
+					}
+				}
+
 			}
 		}
-		else
+
+		if ( !bindingExist )
 		{
 			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
 					model.getColumnName( ) );
@@ -691,8 +730,16 @@ public class InsertInLayoutUtil
 				.newTableItem( null, columns.length );
 
 		setInitWidth( tableHandle );
-		insertToCell( tableHandle, tableHandle.getHeader( ), columns, true );
-		insertToCell( tableHandle, tableHandle.getDetail( ), columns, false );
+		insertToCell( model,
+				tableHandle,
+				tableHandle.getHeader( ),
+				columns,
+				true );
+		insertToCell( model,
+				tableHandle,
+				tableHandle.getDetail( ),
+				columns,
+				false );
 
 		tableHandle.setDataSet( model );
 		return tableHandle;
@@ -948,8 +995,9 @@ public class InsertInLayoutUtil
 				|| insertObj instanceof ScalarParameterHandle;
 	}
 
-	protected static void insertToCell( TableHandle tableHandle,
-			SlotHandle slot, ResultSetColumnHandle[] columns, boolean isLabel )
+	protected static void insertToCell( DataSetHandle model,
+			TableHandle tableHandle, SlotHandle slot,
+			ResultSetColumnHandle[] columns, boolean isLabel )
 	{
 		for ( int i = 0; i < slot.getCount( ); i++ )
 		{
@@ -969,7 +1017,25 @@ public class InsertInLayoutUtil
 						// LabelHandle labelItemHandle =
 						// DesignElementFactory.getInstance( )
 						// .newLabel( null );
-						labelItemHandle.setText( columns[j].getColumnName( ) );
+						if ( columns[j].getColumnName( ) != null )
+						{
+							boolean hasDisplayName = false;
+							for ( Iterator iter = model.columnHintsIterator( ); iter.hasNext( ); )
+							{
+								ColumnHintHandle hint = (ColumnHintHandle) iter.next( );
+								if ( columns[j].getColumnName( )
+										.equals( hint.getColumnName( ) ) )
+								{
+									labelItemHandle.setText( hint.getDisplayName( ) );
+									hasDisplayName = true;
+									break;
+								}
+							}
+							if ( !hasDisplayName )
+							{
+								labelItemHandle.setText( columns[j].getColumnName( ) );
+							}
+						}
 						cell.addElement( labelItemHandle, cells.getSlotID( ) );
 					}
 					else
