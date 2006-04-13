@@ -15,10 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -48,12 +46,11 @@ public class FilterModelProvider
 	 */
 	private IChoiceSet choiceSet;
 
+	private List columnList;
 	/**
 	 * Constant, represents empty String array.
 	 */
 	private static final String[] EMPTY = new String[0];
-
-	private DataSetItemModel[] models;
 
 	/**
 	 * Gets the display names of the given property keys.
@@ -203,13 +200,11 @@ public class FilterModelProvider
 					key );
 			return ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
 		}
-		if ( item instanceof GroupHandle )
+		if ( !( item instanceof DesignElementHandle ) )
 		{
-			item = ( (GroupHandle) item ).getContainer( );
-		}
-		if ( !( item instanceof ReportItemHandle ) )
 			return EMPTY;
-		return getDataSetColumns( (ReportItemHandle) item );
+		}
+		return getDataSetColumns( (DesignElementHandle) item );
 	}
 
 	/**
@@ -219,32 +214,34 @@ public class FilterModelProvider
 	 *            ReportItem object
 	 * @return Columns array.
 	 */
-	private String[] getDataSetColumns( ReportItemHandle handle )
+	private String[] getDataSetColumns( DesignElementHandle handle )
 	{
-		DataSetHandle dataSet = handle.getDataSet( );
-		if ( dataSet == null )
-			return EMPTY;
-		models = DataSetManager.getCurrentInstance( ).getColumns( dataSet,
-				false );
-		if ( models == null )
-			return EMPTY;
-		String[] values = new String[models.length];
-		for ( int i = 0; i < models.length; i++ )
+		columnList = DEUtil.getVisiableColumnBindingsList( handle );
+		if ( columnList.isEmpty( ) )
 		{
-			values[i] = models[i].getDisplayName( );
+			return EMPTY;
+		}
+		String[] values = new String[columnList.size( )];
+		for ( int i = 0; i < columnList.size( ); i++ )
+		{
+			values[i] = ( (ComputedColumnHandle) columnList.get( i ) ).getName( );
 		}
 		return values;
 	}
 
 	private Object getResultSetColumn( String name )
 	{
-		if ( models == null )
-			return null;
-		for ( int i = 0; i < models.length; i++ )
+		if ( columnList.isEmpty( ) )
 		{
-			DataSetItemModel model = models[i];
-			if ( model.getDisplayName( ).equals( name ) )
-				return model;
+			return null;
+		}
+		for ( int i = 0; i < columnList.size( ); i++ )
+		{
+			ComputedColumnHandle column = (ComputedColumnHandle) columnList.get( i );
+			if ( column.getName( ).equals( name ) )
+			{
+				return column;
+			}
 		}
 		return null;
 	}
