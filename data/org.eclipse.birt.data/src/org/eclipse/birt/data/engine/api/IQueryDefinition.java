@@ -42,6 +42,25 @@ public interface IQueryDefinition extends IBaseQueryDefinition
 	public String getQueryResultsID( );
 	
 	/**
+	 * When user knows which columns are in data set and user likes to get the
+	 * column value without explicitly binding a name to a data set row
+	 * expression, this flag can be set as true to indicate it.
+	 * 
+	 * For example, there is one column, COUNTRY. When this flag is false, if
+	 * user wants to get the value of COUNTRY, user first needs to add a binding
+	 * like <COUNTRY, dataSetRow.COUNTRY>, and then user can get the value by
+	 * the name of COUNTRY. But if this flag is set, user does not need to add
+	 * the binding, and then user can get the value directly.
+	 * 
+	 * Currently only when there is data set defined, this flag will have
+	 * effect.
+	 * 
+	 * @return true, auto binding needs to be supported. false, auto binding is
+	 *         not supported, this is default behavior.
+	 */
+	public boolean needAutoBinding( ); 
+	
+	/**
 	 * Returns the set of input parameter bindings as an unordered collection
 	 * of {@link org.eclipse.birt.data.engine.api.IInputParameterBinding} objects.
 	 * 

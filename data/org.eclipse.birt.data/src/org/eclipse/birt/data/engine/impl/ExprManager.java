@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
  */
 public class ExprManager
 {
-	private Map allExprsMap;	
+	private Map bindingExprsMap;	
 	private Map autoBindingExprMap;
 	
 	/**
@@ -29,7 +29,7 @@ public class ExprManager
 	 */
 	ExprManager( )
 	{
-		allExprsMap = new HashMap( );
+		bindingExprsMap = new HashMap( );
 		autoBindingExprMap = new HashMap( );
 	}
 	
@@ -37,10 +37,10 @@ public class ExprManager
 	 * @param resultsExprMap
 	 * @param groupLevel
 	 */
-	void addExpr( Map resultsExprMap, int groupLevel )
+	void addBindingExpr( Map resultsExprMap, int groupLevel )
 	{
 		if ( resultsExprMap != null )
-			allExprsMap.putAll( resultsExprMap );
+			bindingExprsMap.putAll( resultsExprMap );
 	}
 	
 	/**
@@ -58,7 +58,20 @@ public class ExprManager
 	 */
 	public IBaseExpression getExpr( String name )
 	{
-		return (IBaseExpression) allExprsMap.get( name );
+		IBaseExpression baseExpr = getBindingExpr( name );
+		if ( baseExpr == null )
+			baseExpr = getAutoBindingExpr( name );
+		
+		return baseExpr;
+	}
+	
+	/**
+	 * @param name
+	 * @return
+	 */
+	public IBaseExpression getBindingExpr( String name )
+	{
+		return (IBaseExpression) bindingExprsMap.get( name );
 	}
 	
 	/**

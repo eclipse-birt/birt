@@ -188,7 +188,7 @@ final class PreparedQuery
 			}
 			prepareExpressions( exprCol, groupLevel, false, true, cx );
 		}
-		this.exprManager.addExpr( trans.getResultSetExpressions( ), groupLevel );
+		this.exprManager.addBindingExpr( trans.getResultSetExpressions( ), groupLevel );
 		
 		// Prepare subqueries appearing in this group
 		Collection subQueries = trans.getSubqueries( );

@@ -28,7 +28,10 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.CompiledExpression;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /** 
@@ -142,12 +145,12 @@ class QueryResults implements IQueryResults
 
 		if ( iterator == null )
 		{
+			// data row binding
+			this.initAutoBinding( );
+			
 			iterator = new ResultIterator( new ResultService( context, this ),
 					queryService.executeQuery( ),
 					this.queryScope );
-            
-			// data row binding
-			this.initAutoBinding( );
 		}
 		
 		logger.logp( Level.FINE,
@@ -165,6 +168,8 @@ class QueryResults implements IQueryResults
 		if ( this.queryService.needAutoBinding( ) == false )
 			return;
 
+		Context cx = Context.enter( );
+		
 		IResultMetaData metaData = queryService.getResultMetaData( );
 		int columnCount = metaData.getColumnCount( );
 		for ( int i = 0; i < columnCount; i++ )
@@ -176,15 +181,21 @@ class QueryResults implements IQueryResults
 				if ( colName == null )
 					colName = metaData.getColumnName( colIndex );
 				
-				this.queryService.addAutoBindingExpr( colName,
-						new ScriptExpression( "dataSetRow[\"" + colName + "\"]",
-								metaData.getColumnType( colIndex ) ) );
+				ScriptExpression baseExpr = new ScriptExpression( "dataSetRow[\""
+						+ colName + "\"]",
+						metaData.getColumnType( colIndex ) );
+				CompiledExpression compiledExpr = ExpressionCompilerUtil.compile( baseExpr.getText( ),
+						cx );
+				baseExpr.setHandle( compiledExpr );
+				this.queryService.addAutoBindingExpr( colName, baseExpr );
 			}
 			catch ( BirtException e )
 			{
 				// impossible, ignore
 			}
 		}
+		
+		Context.exit( );
 	}
 	
 	/*
