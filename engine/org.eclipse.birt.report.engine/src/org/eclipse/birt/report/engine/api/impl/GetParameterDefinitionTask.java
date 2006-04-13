@@ -459,6 +459,8 @@ public class GetParameterDefinitionTask extends EngineTask
 				GroupDefinition groupDef = new GroupDefinition( );
 				groupDef.setKeyExpression( valueStmt );
 				queryDefn.addGroup( groupDef );
+				
+				queryDefn.setAutoBinding( true );
 
 				IPreparedQuery query = dataEngine.prepare( queryDefn );
 
@@ -599,6 +601,8 @@ public class GetParameterDefinitionTask extends EngineTask
 					}
 				}
 
+				queryDefn.setAutoBinding( true );
+				
 				IPreparedQuery query = dataEngine.prepare( queryDefn );
 				IQueryResults result = query.execute( executionContext
 						.getSharedScope( ) );
