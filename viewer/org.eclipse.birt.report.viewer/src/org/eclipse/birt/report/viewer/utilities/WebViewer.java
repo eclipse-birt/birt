@@ -16,6 +16,9 @@ import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.TreeMap;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.eclipse.birt.report.utility.ParameterAccessor;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserAccessor;
 import org.eclipse.core.runtime.CoreException;
@@ -23,16 +26,18 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.browser.Browser;
 
 /**
- * Static accessor to display an arbitary url. It serves as an entry point to integrate viewer.
+ * Static accessor to display an arbitary url. It serves as an entry point to
+ * integrate viewer.
  * <p>
  */
 public class WebViewer
 {
+
 	/**
 	 * HTML format name
 	 */
 	final public static String HTML = "html"; //$NON-NLS-1$
-	
+
 	/**
 	 * PDF format name
 	 */
@@ -44,7 +49,7 @@ public class WebViewer
 	final public static String WebAppPlugin = ViewerPlugin.PLUGIN_ID;
 
 	/**
-	 * locale preference name 
+	 * locale preference name
 	 */
 	final public static String USER_LOCALE = "user_locale"; //$NON-NLS-1$
 
@@ -58,6 +63,8 @@ public class WebViewer
 	 */
 	final public static String MASTER_PAGE_CONTENT = "master_page_content"; //$NON-NLS-1$
 
+	private static final String DOCUMENTS_DIR = "Documents";//$NON-NLS-1$
+
 	/**
 	 * locale mapping. Save some time.
 	 */
@@ -66,8 +73,8 @@ public class WebViewer
 	static
 	{
 		// Initialize the locale mapping table
-		LocaleTable = new TreeMap(); 
-		Locale[] locales = Locale.getAvailableLocales();
+		LocaleTable = new TreeMap( );
+		Locale[] locales = Locale.getAvailableLocales( );
 		if ( locales != null )
 		{
 			for ( int i = 0; i < locales.length; i++ )
@@ -75,7 +82,9 @@ public class WebViewer
 				Locale locale = locales[i];
 				if ( locale != null )
 				{
-					LocaleTable.put( locale.getDisplayName( ), locale.getLanguage( ) + "_" + locale.getCountry( ) ); //$NON-NLS-1$
+					LocaleTable.put( locale.getDisplayName( ), locale
+							.getLanguage( )
+							+ "_" + locale.getCountry( ) ); //$NON-NLS-1$
 				}
 			}
 		}
@@ -89,22 +98,26 @@ public class WebViewer
 	private static String getBaseURL( )
 	{
 		return "http://" + WebappAccessor.getHost( ) + ":" //$NON-NLS-1$ //$NON-NLS-2$
-			+ WebappAccessor.getPort( )	+ "/viewer/"; //$NON-NLS-1$
+				+ WebappAccessor.getPort( ) + "/viewer/"; //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Create web viewer url to run the report.
 	 * 
-	 * @param servletName servlet name to viewer report
-	 * @param report report file name 
-	 * @param format report format
+	 * @param servletName
+	 *            servlet name to viewer report
+	 * @param report
+	 *            report file name
+	 * @param format
+	 *            report format
 	 * @return valid web viewer url
 	 */
-	private static String createURL( String servletName, String report, String format )
+	private static String createURL( String servletName, String report,
+			String format )
 	{
 		String encodedReportName = null;
 		String encodedDocumentName = null;
-		
+
 		try
 		{
 			encodedReportName = URLEncoder.encode( report, "utf-8" ); //$NON-NLS-1$
@@ -113,39 +126,42 @@ public class WebViewer
 		{
 			// Do nothing
 		}
-		
+
 		if ( encodedReportName != null && encodedReportName.length( ) > 0 )
 		{
-			encodedDocumentName = encodedReportName.substring( 0, encodedReportName.lastIndexOf( "." ) ) + ".rptdocument"; //$NON-NLS-1$
+			encodedDocumentName = encodedReportName.substring( 0,
+					encodedReportName.lastIndexOf( "." ) ) + ".rptdocument"; //$NON-NLS-1$
 		}
-		
-		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( USER_LOCALE );
-		
-		String svgFlag = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( SVG_FLAG );
+
+		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( )
+				.getString( USER_LOCALE );
+
+		String svgFlag = ViewerPlugin.getDefault( ).getPluginPreferences( )
+				.getString( SVG_FLAG );
 		boolean bSVGFlag = false;
 		if ( "true".equalsIgnoreCase( svgFlag ) ) //$NON-NLS-1$
 		{
 			bSVGFlag = true;
 		}
 
-		String masterPageContent = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( MASTER_PAGE_CONTENT );
+		String masterPageContent = ViewerPlugin.getDefault( )
+				.getPluginPreferences( ).getString( MASTER_PAGE_CONTENT );
 		boolean bMasterPageContent = true;
 		if ( "false".equalsIgnoreCase( masterPageContent ) ) //$NON-NLS-1$
 		{
 			bMasterPageContent = false;
 		}
 
-		// So far, only report name is encoded as utf-8 format 
-		return getBaseURL( )
-			+ servletName + "?" //$NON-NLS-1$
-			+ "__report=" + encodedReportName //$NON-NLS-1$
-			+  ( "run".equalsIgnoreCase( servletName )? "" : "&__document=" + encodedDocumentName )  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			+ "&__format=" + format //$NON-NLS-1$
-			+ "&__svg=" +  String.valueOf( bSVGFlag ) //$NON-NLS-1$
-			+ ( LocaleTable.containsKey( locale )? "&__locale=" + LocaleTable.get( locale ) : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-			+ "&__designer=true" //$NON-NLS-1$
-			+ "&__masterpage=" + String.valueOf( bMasterPageContent ); //$NON-NLS-1$
-		
+		// So far, only report name is encoded as utf-8 format
+		return getBaseURL( ) + servletName
+				+ "?" //$NON-NLS-1$
+				+ "__report=" + encodedReportName //$NON-NLS-1$
+				+ "&__format=" + format //$NON-NLS-1$
+				+ "&__svg=" + String.valueOf( bSVGFlag ) //$NON-NLS-1$
+				+ ( LocaleTable.containsKey( locale )
+						? "&__locale=" + LocaleTable.get( locale ) : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+				+ "&__designer=true" //$NON-NLS-1$
+				+ "&__masterpage=" + String.valueOf( bMasterPageContent ); //$NON-NLS-1$
 	}
 
 	/**
@@ -162,11 +178,12 @@ public class WebViewer
 			// Do nothing
 		}
 	}
-	
+
 	/**
 	 * Initiate the tomcat.
 	 * 
-	 * @param browser SWT browser
+	 * @param browser
+	 *            SWT browser
 	 */
 	public static void startup( Browser browser )
 	{
@@ -176,8 +193,10 @@ public class WebViewer
 	/**
 	 * Displays the specified url.
 	 * 
-	 * @param report report report
-	 * @param format report format
+	 * @param report
+	 *            report report
+	 * @param format
+	 *            report format
 	 */
 	public static void display( String report, String format )
 	{
@@ -218,14 +237,18 @@ public class WebViewer
 	/**
 	 * Displays the specified url useing eclipse SWT browser.
 	 * 
-	 * @param report report report
-	 * @param format report format
-	 * @param browser SWT browser instance
+	 * @param report
+	 *            report report
+	 * @param format
+	 *            report format
+	 * @param browser
+	 *            SWT browser instance
 	 */
 	public static void display( String report, String format, Browser browser )
 	{
 		startWebApp( );
 		browser.setUrl( createURL( "run", report, format ) ); //$NON-NLS-1$
+		browser.refresh( );
 	}
 
 }

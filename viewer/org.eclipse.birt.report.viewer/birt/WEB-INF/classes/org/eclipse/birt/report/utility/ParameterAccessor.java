@@ -26,6 +26,13 @@ import java.util.Set;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.namespace.QName;
+
+import org.apache.axis.AxisFault;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 
 /**
  * Utilites class for all types of URl related operatnios.
@@ -38,7 +45,7 @@ public class ParameterAccessor
 	/**
 	 * URL parameter names.
 	 */
-	
+
 	public static final String PARAM_REPORT = "__report"; //$NON-NLS-1$
 	public static final String PARAM_REPORT_DOCUMENT = "__document"; //$NON-NLS-1$
 	public static final String PARAM_FORMAT = "__format"; //$NON-NLS-1$
@@ -53,18 +60,18 @@ public class ParameterAccessor
 	public static final String PARAM_OVERWRITE = "__overwrite"; //$NON-NLS-1$
 	public static final String PARAM_IMAGEID = "__imageID"; //$NON-NLS-1$
 	public static final String PARAM_BOOKMARK = "__bookmark"; //$NON-NLS-1$
-	
+
 	/**
 	 * Custom request headers.
 	 */
-	
+
 	public static final String HEADER_REQUEST_TYPE = "request-type"; //$NON-NLS-1$
 	public static final String HEADER_REQUEST_TYPE_SOAP = "soap"; //$NON-NLS-1$
 
 	/**
 	 * Parametrer passed over by export data form.
 	 */
-	
+
 	public static final String PARAM_IID = "iid"; //$NON-NLS-1$
 	public static final String PARAM_RESULTSETNAME = "ResultSetName"; //$NON-NLS-1$
 	public static final String PARAM_SELECTEDCOLUMNNUMBER = "SelectedColumnNumber"; //$NON-NLS-1$
@@ -73,7 +80,7 @@ public class ParameterAccessor
 	/**
 	 * Servlet configuration parameter names.
 	 */
-	
+
 	public static final String INIT_PARAM_LOCALE = "BIRT_VIEWER_LOCALE"; //$NON-NLS-1$
 	public static final String INIT_PARAM_REPORT_DIR = "BIRT_VIEWER_WORKING_FOLDER"; //$NON-NLS-1$
 	public static final String INIT_PARAM_IMAGE_DIR = "BIRT_VIEWER_IMAGE_DIR"; //$NON-NLS-1$
@@ -85,18 +92,20 @@ public class ParameterAccessor
 	/**
 	 * Suffix of report document.
 	 */
-	
+
 	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
+
+	private static final String DOCUMENTS_DIR = "Documents";//$NON-NLS-1$
 	/**
 	 * Report working folder.
 	 */
-	
-	private static String workingFolder = null;
+
+	public static String workingFolder = null;
 
 	/**
 	 * Current web application locale.
 	 */
-	
+
 	private static Locale webAppLocale = null;
 
 	/**
@@ -111,7 +120,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
-	
+
 	public static String getBookmark( HttpServletRequest request )
 	{
 		int page = getParameterAsInt( request, PARAM_PAGE );
@@ -131,7 +140,7 @@ public class ParameterAccessor
 	 *            default parameter value
 	 * @return new query string with new parameter value
 	 */
-	
+
 	public static String getEncodedQueryString( HttpServletRequest request,
 			String name, String value )
 	{
@@ -226,7 +235,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
-	
+
 	public static String getIId( HttpServletRequest request )
 	{
 		return getReportParameter( request, PARAM_IID, null );
@@ -239,7 +248,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return report locale
 	 */
-	
+
 	public static Locale getLocale( HttpServletRequest request )
 	{
 		return getLocaleFromString( getParameter( request, PARAM_LOCALE ) );
@@ -252,7 +261,7 @@ public class ParameterAccessor
 	 *            locale string
 	 * @return report locale
 	 */
-	
+
 	public static Locale getLocaleFromString( String locale )
 	{
 		if ( locale == null || locale.length( ) <= 0 )
@@ -279,7 +288,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return report String
 	 */
-	
+
 	public static String getLocaleString( HttpServletRequest request )
 	{
 		return getParameter( request, PARAM_LOCALE );
@@ -292,7 +301,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return report locale
 	 */
-	
+
 	public static int getPage( HttpServletRequest request )
 	{
 		int page = getParameterAsInt( request, PARAM_PAGE );
@@ -309,7 +318,7 @@ public class ParameterAccessor
 	 *            parameter name in UTF-8 format
 	 * @return
 	 */
-	
+
 	public static Set getParameterValues( HttpServletRequest request,
 			String parameterName )
 	{
@@ -323,7 +332,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return report file name
 	 */
-	
+
 	public static String getReport( HttpServletRequest request )
 	{
 		String filePath = getParameter( request, PARAM_REPORT );
@@ -338,8 +347,9 @@ public class ParameterAccessor
 	 * @param request
 	 *            http request
 	 * @return report file name
+	 * @throws AxisFault
 	 */
-	
+
 	public static String getReportDocument( HttpServletRequest request )
 	{
 		String filePath = getParameter( request, PARAM_REPORT_DOCUMENT );
@@ -349,13 +359,86 @@ public class ParameterAccessor
 		if ( "".equals( filePath ) ) //$NON-NLS-1$
 		{
 			filePath = generateDocumentFromReport( request );
-		}
-		else
-		{
-			filePath = createAbsolutePath( filePath );
+			filePath = createDocumentPath( filePath, request );
 		}
 
 		return filePath;
+
+	}
+
+	/**
+	 * Create the file path of the the document. The document will be put under
+	 * the working folder birt document directory based on different session id.
+	 * 
+	 * @param filePath
+	 *            the document path cretaed from the report design file.
+	 * @param request
+	 *            Http request, used to get the session Id.
+	 * @return
+	 * @throws AxisFault
+	 */
+private static String createDocumentPath( String filePath,
+			HttpServletRequest request )
+	{
+		if ( ( filePath == null ) || ( filePath.length( ) == 0 ) )
+			return "";
+
+		String sessionId = request.getSession( ).getId( );
+		String fileSeparator = "\\";
+		
+		if( filePath.lastIndexOf( fileSeparator ) == -1)
+			fileSeparator = "/";
+		
+		String temp = filePath.substring( 0, filePath.lastIndexOf( fileSeparator  ) );
+		String projectName = temp.substring( temp.lastIndexOf( fileSeparator ), temp
+				.length( ) );
+	
+		String documentFolder = workingFolder + DOCUMENTS_DIR + fileSeparator 
+				+ sessionId + projectName;
+
+		String documentPath = documentFolder
+				+ filePath.substring( filePath.lastIndexOf( fileSeparator ) );
+
+		return documentPath;
+
+	}
+	/**
+	 * Clears the report document files which had been created last time the
+	 * server starts up.
+	 */
+	private static void clearDocuments( )
+	{
+		String documentFolder = workingFolder + DOCUMENTS_DIR;
+		File file = new File( documentFolder );
+
+		boolean success = file.delete( );
+		if ( !success )
+			deleteDir( file );
+
+	}
+
+	/**
+	 * Deletes all files and subdirectories under dir. Returns true if all
+	 * deletions were successful. If a deletion fails, the method stops
+	 * attempting to delete and returns false.
+	 */
+
+	private static boolean deleteDir( File dir )
+	{
+		if ( dir.isDirectory( ) )
+		{
+			String[] children = dir.list( );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				boolean success = deleteDir( new File( dir, children[i] ) );
+				if ( !success )
+				{
+					return false;
+				}
+			}
+		}
+		// The directory is now empty so delete it
+		return dir.delete( );
 	}
 
 	/**
@@ -369,7 +452,7 @@ public class ParameterAccessor
 	 *            default parameter value
 	 * @return parameter value
 	 */
-	
+
 	public static String getReportParameter( HttpServletRequest request,
 			String name, String defaultValue )
 	{
@@ -410,7 +493,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
-	
+
 	public static String getResultSetName( HttpServletRequest request )
 	{
 		return getReportParameter( request, PARAM_RESULTSETNAME, null );
@@ -422,7 +505,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
-	
+
 	public static Collection getSelectedColumns( HttpServletRequest request )
 	{
 		ArrayList columns = new ArrayList( );
@@ -446,7 +529,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return whether or not render content toolbar
 	 */
-	
+
 	public static boolean getSVGFlag( HttpServletRequest request )
 	{
 		boolean svg = false;
@@ -464,7 +547,7 @@ public class ParameterAccessor
 	 * 
 	 * @return report locale
 	 */
-	
+
 	public static Locale getWebAppLocale( )
 	{
 		return webAppLocale;
@@ -475,7 +558,7 @@ public class ParameterAccessor
 	 * 
 	 * @return Returns the workingFolder.
 	 */
-	
+
 	public static String getWorkingFolder( )
 	{
 		return workingFolder;
@@ -489,7 +572,7 @@ public class ParameterAccessor
 	 * @param s
 	 * @return String
 	 */
-	
+
 	public static final String htmlEncode( String s )
 	{
 		String sHtmlEncoded = ""; //$NON-NLS-1$
@@ -554,7 +637,7 @@ public class ParameterAccessor
 	 * @param config
 	 *            Servlet configuration
 	 */
-	
+
 	public synchronized static void initParameters( ServletConfig config )
 	{
 		// Report root.in the web.xml has higher priority.
@@ -584,6 +667,8 @@ public class ParameterAccessor
 						context
 								.getInitParameter( INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY ) )
 				.booleanValue( );
+
+		clearDocuments( );
 	}
 
 	/**
@@ -592,7 +677,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
-	
+
 	public static boolean isDesigner( HttpServletRequest request )
 	{
 		boolean inDEsigner = false;
@@ -616,7 +701,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return is get image or not
 	 */
-	
+
 	public static boolean isGetImageOperator( HttpServletRequest request )
 	{
 		String imageName = getParameter( request, PARAM_IMAGEID );
@@ -629,7 +714,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
-	
+
 	public static boolean isMasterPageContent( HttpServletRequest request )
 	{
 		boolean isMasterPageContent = true;
@@ -648,7 +733,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
-	
+
 	public static boolean isOverwrite( HttpServletRequest request )
 	{
 		boolean overwrite = false;
@@ -673,7 +758,7 @@ public class ParameterAccessor
 	 * @return A <code>boolean</code> value indicating if the file name is a
 	 *         relative path or not.
 	 */
-	
+
 	public static boolean isRelativePath( String fileName )
 	{
 		return !new File( fileName ).isAbsolute( );
@@ -688,7 +773,7 @@ public class ParameterAccessor
 	 *            parameter name
 	 * @return whether report parameter exists in the url
 	 */
-	
+
 	public static boolean isReportParameterExist( HttpServletRequest request,
 			String name )
 	{
@@ -722,7 +807,7 @@ public class ParameterAccessor
 	 * @param file
 	 * @return
 	 */
-	
+
 	private static String createAbsolutePath( String filePath )
 	{
 		if ( isWorkingFolderAccessOnly || isRelativePath( filePath ) )
@@ -738,7 +823,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return document name.
 	 */
-	
+
 	private static String generateDocumentFromReport( HttpServletRequest request )
 	{
 		String fileName = getReport( request );
@@ -750,7 +835,9 @@ public class ParameterAccessor
 		else
 		{
 			fileName = fileName + SUFFIX_REPORT_DOCUMENT;
+
 		}
+
 		return fileName;
 	}
 
@@ -764,7 +851,7 @@ public class ParameterAccessor
 	 *            parameter name in UTF-8 format
 	 * @return
 	 */
-	
+
 	private static String getParameter( HttpServletRequest request,
 			String parameterName )
 	{
@@ -783,7 +870,7 @@ public class ParameterAccessor
 	 *            is parameter in UTF-8 formator not
 	 * @return
 	 */
-	
+
 	private static String getParameter( HttpServletRequest request,
 			String parameterName, boolean isUTF )
 	{
@@ -801,7 +888,7 @@ public class ParameterAccessor
 	 * @param parameterName
 	 * @return
 	 */
-	
+
 	private static int getParameterAsInt( HttpServletRequest request,
 			String parameterName )
 	{
@@ -834,7 +921,7 @@ public class ParameterAccessor
 	 *            is parameter in UTF-8 formator not
 	 * @return
 	 */
-	
+
 	private static Set getParameterValues( HttpServletRequest request,
 			String parameterName, boolean isUTF )
 	{
@@ -878,7 +965,7 @@ public class ParameterAccessor
 	 *            UTF-8 string
 	 * @return
 	 */
-	
+
 	private static String toISOString( String s )
 	{
 		String ISOString = s;
@@ -905,7 +992,7 @@ public class ParameterAccessor
 	 *            ISO-8895-1 string
 	 * @return
 	 */
-	
+
 	private static String toUTFString( String s )
 	{
 		String UTFString = s;
@@ -934,7 +1021,7 @@ public class ParameterAccessor
 	 *            encoding format.
 	 * @return
 	 */
-	
+
 	private static String urlEncode( String s, String format )
 	{
 		assert "ISO-8859-1".equalsIgnoreCase( format ) || "UTF-8".equalsIgnoreCase( format ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -954,4 +1041,40 @@ public class ParameterAccessor
 
 		return encodedString;
 	}
+
+	public static boolean needRunAndRenderReport( HttpServletRequest request )
+	{
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+				.getAttribute( "attributeBean" ); //$NON-NLS-1$
+		assert attrBean != null;
+
+		ReportDocumentReader document = (ReportDocumentReader) attrBean
+				.getReportDocumentInstance( );
+		if ( document == null )
+			return false;
+
+		Map documentParameters = document.getParameterValues( );
+
+		Iterator itr = documentParameters.keySet( ).iterator( );
+
+		itr = documentParameters.keySet( ).iterator( );
+		while ( itr.hasNext( ) )
+		{
+			String parameterName = (String) itr.next( );
+			String newValue = getParameter( request, parameterName, true );
+
+			if ( newValue != null )
+			{
+				if ( !newValue.equals( documentParameters.get( parameterName ) ) )
+				{
+					return true;
+				}
+
+			}
+		}
+		return false;
+		// return document.parameters;
+
+	}
+
 }

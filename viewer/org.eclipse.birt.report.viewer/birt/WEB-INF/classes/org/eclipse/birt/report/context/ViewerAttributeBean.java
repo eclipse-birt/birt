@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -122,8 +123,9 @@ public class ViewerAttributeBean
 
 	/**
 	 * Constructor.
+	 * @throws AxisFault 
 	 */
-	public ViewerAttributeBean( HttpServletRequest request )
+	public ViewerAttributeBean( HttpServletRequest request ) 
 	{
 		this.init( request );
 	}
@@ -132,9 +134,10 @@ public class ViewerAttributeBean
 	 * Init the bean.
 	 * 
 	 * @param request
+	 * @throws AxisFault 
 	 * @throws Exception
 	 */
-	public void init( HttpServletRequest request )
+	public void init( HttpServletRequest request ) 
 	{
 		String servletPath = request.getServletPath( );
 		if ( servletPath.indexOf( "/wr" ) != -1 ) //$NON-NLS-1$
@@ -155,7 +158,8 @@ public class ViewerAttributeBean
 
 		// Determine the report design and doc 's timestamp
 		this.reportDocumentName = ParameterAccessor.getReportDocument( request );
-		File reportDocFile = new File( this.reportDocumentName );
+
+		File reportDocFile = new File( reportDocumentName );
 
 		String reportDesignName = ParameterAccessor.getReport( request );
 		File reportDesignDocFile = new File( reportDesignName );
@@ -174,8 +178,8 @@ public class ViewerAttributeBean
 			}
 		}
 
-		// bug129777 add fold document
-		if ( reportDocFile.exists( ) && ( reportDocFile.isFile( ) || reportDocFile.isDirectory( ) ) )
+		if ( reportDocFile.exists( )
+				&& ( reportDocFile.isFile( ) || reportDocFile.isDirectory( ) ) )
 		{
 			this.reportDocumentInstance = ReportEngineService.getInstance( )
 					.openReportDocument( this.reportDocumentName );
