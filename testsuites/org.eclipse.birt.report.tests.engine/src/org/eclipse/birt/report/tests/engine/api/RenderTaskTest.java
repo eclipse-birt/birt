@@ -73,7 +73,9 @@ public class RenderTaskTest extends EngineCase
 	public void testRender( )
 	{
 
-		// Test render(long) //renderReport("case1","no"); //Test render()
+		// Test render(long) 
+		//renderReport("case1","no"); 
+/*		//Test render()
 		renderReport( "case1", "All" );
 		renderReport( "table_pages", "All" );
 		renderReport( "long_text", "All" );
@@ -84,7 +86,7 @@ public class RenderTaskTest extends EngineCase
 		renderReport( "javascript-support-data", "All" );
 		renderReport( "master_page", "All" );
 		renderReport( "chart", "All" );
-		//renderReport("complex_report","All");
+		renderReport("complex_report","All");
 		renderReport( "area3dChart", "All" );
 		renderReport( "MeterChart", "All" );
 		renderReport( "image_in_DB", "All" );
@@ -101,13 +103,14 @@ public class RenderTaskTest extends EngineCase
 		renderReport( "pages9", "0-100" );
 		renderReport( "pages9", "0" );
 		renderReport( "pages9", "abc" );
+*/
 	}
 
 	public void testRenderBookmark( )
 	{
-/*
+
 		renderReport( "items_bookmark", "bookmark_label" );
-		renderReport( "items_bookmark", "bookmark_text" );
+		/*		renderReport( "items_bookmark", "bookmark_text" );
 		renderReport( "items_bookmark", "bookmark_image" );
 		renderReport( "items_bookmark", "bookmark_gridrow" );
 		renderReport( "items_bookmark", "bookmark_chart" );
@@ -121,7 +124,7 @@ public class RenderTaskTest extends EngineCase
 
 	public void testRenderReportlet( )
 	{
-		InstanceID iid;
+/*		InstanceID iid;
 		iid = findIid( "iid_reportlet", "LIST" );
 		renderReportlet( "iid_reportlet", iid, "LIST" );
 
@@ -130,7 +133,7 @@ public class RenderTaskTest extends EngineCase
 
 		iid = findIid( "iid_reportlet", "EXTENDED" );
 		renderReportlet( "iid_reportlet", iid, "EXTENDED" );
-
+*/
 	}
 
 	/*

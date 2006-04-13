@@ -8,6 +8,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.core.archive.FolderArchiveReader;
+import org.eclipse.birt.core.archive.FolderArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
@@ -15,6 +16,8 @@ import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
 /**
@@ -25,8 +28,8 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 public class RenderFolderDocumentTest extends EngineCase {
 	
 	private String separator =System.getProperty("file.separator");
-	private String INPUT = getBaseFolder( ) + separator + INPUT_FOLDER + separator ;
-	private String OUTPUT = getBaseFolder( ) + separator + OUTPUT_FOLDER + separator ;
+	private String INPUT = getClassFolder( ) + separator + INPUT_FOLDER + separator ;
+	private String OUTPUT = getClassFolder( ) + separator + OUTPUT_FOLDER + separator ;
 	private String folderArchive, htmlOutput;
 	private IReportDocument reportDoc;
 	private IRenderTask renderTask;
@@ -49,8 +52,7 @@ public class RenderFolderDocumentTest extends EngineCase {
 
 	public void test1(){
 		String renderDoc="folderdocument_case1";
-		renderFolderDocument(renderDoc);
-		
+		renderFolderDocument(renderDoc);		
 	}
 	
 
@@ -59,7 +61,7 @@ public class RenderFolderDocumentTest extends EngineCase {
 		renderFolderDocument(renderDoc);
 		
 	}
-	
+		
 
 	public void test3(){
 		String renderDoc="folderdocument_master_page";
@@ -98,10 +100,19 @@ public class RenderFolderDocumentTest extends EngineCase {
 
 	private void renderFolderDocument(String docName){
 		
+		IRunTask runTask;
+		String designName, report_design;
+		designName=docName.substring( 15 );
+		report_design=INPUT+designName+".rptdesign";
+
 		folderArchive=INPUT+docName+separator;
 		htmlOutput=OUTPUT+docName+".html";
-		
 		try{
+			FolderArchiveWriter writer=new FolderArchiveWriter(folderArchive);
+			IReportRunnable runnable=engine.openReportDesign( report_design );
+			runTask=engine.createRunTask( runnable );
+			runTask.run( writer );
+			
 			FolderArchiveReader reader=new FolderArchiveReader(folderArchive);
 			reportDoc=engine.openReportDocument(folderArchive);
 			renderTask=engine.createRenderTask(reportDoc);
@@ -115,7 +126,8 @@ public class RenderFolderDocumentTest extends EngineCase {
 			renderTask.setRenderOption(htmlOption);
 			renderTask.setAppContext( appContext );
 			renderTask.setLocale( Locale.ENGLISH );
-			renderTask.render("All");
+			renderTask.setPageRange( "All" );
+			renderTask.render();
 			renderTask.close();
 			
 			assertNotNull(docName+".html failed to render from folder-based document",htmlOutput);

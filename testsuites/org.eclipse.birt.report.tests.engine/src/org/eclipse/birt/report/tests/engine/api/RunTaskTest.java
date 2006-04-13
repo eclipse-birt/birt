@@ -18,8 +18,8 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 public class RunTaskTest extends EngineCase {
 
 	private String separator=System.getProperty("file.separator");
-	private String INPUT=getBaseFolder()+separator+INPUT_FOLDER + separator ;
-	private String OUTPUT=getBaseFolder()+separator+OUTPUT_FOLDER + separator ;
+	private String INPUT=getClassFolder()+separator+INPUT_FOLDER + separator ;
+	private String OUTPUT=getClassFolder()+separator+OUTPUT_FOLDER + separator ;
 	private String report_design, report_document,name;
 	private IReportRunnable runnable;
 	public RunTaskTest(String name) {
@@ -34,17 +34,37 @@ public class RunTaskTest extends EngineCase {
 	 * Test two Run method with different argument. 
 	 *
 	 */
-	public void testRun(){
+	public void test1(){
 		runReport("case1");
+	}
+	public void test2(){
 		runReport("long_text");
+	}
+	public void test3(){
 		runReport("master_page");
+	}
+	public void test4(){
 		runReport("multiple_datasets");
+	}
+	public void test5(){
 		runReport("pages9");
+	}
+	public void test6(){
 		runReport("table_nest_pages");
+	}
+	public void test7(){
 		runReport("chart");
+	}
+	public void test8(){
 		runReport("complex_report");
+	}
+	public void test9(){
 		runReport("area3dChart");
+	}
+	public void test10(){
 		runReport("image_in_DB");
+	}
+	public void test11(){
 		runReport("MeterChart");
 	}
 	

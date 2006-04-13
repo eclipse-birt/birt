@@ -30,10 +30,8 @@ public class RunAndRenderTaskTest extends EngineCase
 	 */
 	public void testRunAndRenderTask( ) throws EngineException
 	{
-		EngineConfig config = new EngineConfig( );
-		ReportEngine engine = new ReportEngine( config );
 
-		String input = getBaseFolder( ) + System.getProperty( "file.separator" )
+		String input = getClassFolder( ) + System.getProperty( "file.separator" )
 				+ INPUT_FOLDER + System.getProperty( "file.separator" )
 				+ "report_engine.rptdesign";
 

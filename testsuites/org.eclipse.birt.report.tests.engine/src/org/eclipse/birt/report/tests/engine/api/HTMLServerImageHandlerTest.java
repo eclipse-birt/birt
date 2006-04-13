@@ -54,7 +54,7 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 						+System.getProperty("file.separator")+"EmbedImage.txt";
 			String path=plug_path+System.getProperty("file.separator")+file_path;
 */
-			String path=getBaseFolder()+System.getProperty("file.separator")
+			String path=getClassFolder()+System.getProperty("file.separator")
 			+ INPUT_FOLDER+System.getProperty("file.separator")
 			+"EmbedImage.txt";
 			
@@ -125,7 +125,7 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 						+System.getProperty("file.separator")+"EmbedImage.txt";
 			String path=plug_path+System.getProperty("file.separator")+file_path;
 */
-			String path=getBaseFolder()+System.getProperty("file.separator")
+			String path=getClassFolder()+System.getProperty("file.separator")
 			+ INPUT_FOLDER+System.getProperty("file.separator")
 			+"EmbedImage.txt";
 			

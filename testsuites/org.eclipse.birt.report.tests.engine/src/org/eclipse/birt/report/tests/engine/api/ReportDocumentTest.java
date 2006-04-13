@@ -26,7 +26,6 @@ import junit.framework.TestSuite;
 
 public class ReportDocumentTest extends EngineCase {
 
-	protected ReportEngine engine;
 	protected IReportRunnable reportRunnable;
 /*	protected String path="D:/TEMP/workspace3.1/org.eclipse.birt.report.tests.engine/";
 	protected String input="input",output="output",report_design,report_document;
@@ -44,7 +43,6 @@ public class ReportDocumentTest extends EngineCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		engine=new ReportEngine(new EngineConfig());
 	}
 	
 	
@@ -53,25 +51,10 @@ public class ReportDocumentTest extends EngineCase {
 	 */
 	public void testReportDocument(){
 
-/*		String designName="report_document.rptdesign",reportDocName="report_document";
-		String plug_path=EngineCase.PLUGIN_PATH;
-		String file_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_INPUT")
-					+System.getProperty("file.separator");
-		String document_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_OUTPUT")
-		+System.getProperty("file.separator");
-		
-		String report_design=plug_path+file_path+designName;
-		String report_document=plug_path+document_path+reportDocName;		
-*/		
-		String path=getBaseFolder()+System.getProperty("file.separator");
+		String path=getClassFolder()+System.getProperty("file.separator");
 		String report_design=path+INPUT_FOLDER+System.getProperty("file.separator")+"report_document.rptdesign";
 		String report_document=path+OUTPUT_FOLDER+System.getProperty("file.separator")+"report_document";
 
-/*		
-		String report_design="D:/TEMP/workspace3.1/org.eclipse.birt.report.tests.engine/input/report_document.rptdesign";
-		String report_document="D:/TEMP/workspace3.1/org.eclipse.birt.report.tests.engine/output/report_document";
-*/		
-		
 		try{
 			createReportDocument1(report_design,report_document);
 			IDocArchiveReader archive=new FileArchiveReader(report_document);
@@ -196,17 +179,7 @@ public class ReportDocumentTest extends EngineCase {
 	 * test abnormal input arguments
 	 */
 	public void testReportDocumentAbnormal(){
-/*		String designName="report_document.rptdesign",reportDocName="report_document";
-		String plug_path=EngineCase.PLUGIN_PATH;
-		String file_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_INPUT")
-					+System.getProperty("file.separator");
-		String document_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_OUTPUT")
-		+System.getProperty("file.separator");
-		
-		String report_design=plug_path+file_path+designName;
-		String report_document=plug_path+document_path+reportDocName;		
-*/
-		String path=getBaseFolder()+System.getProperty("file.separator");
+		String path=getClassFolder()+System.getProperty("file.separator");
 		String report_design=path+INPUT_FOLDER+System.getProperty("file.separator")+"report_document.rptdesign";
 		String report_document=path+OUTPUT_FOLDER+System.getProperty("file.separator")+"report_document";
 
