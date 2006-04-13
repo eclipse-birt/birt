@@ -784,36 +784,19 @@ public class ReportEngineService
 			result = dataTask.extract( );
 			if ( result != null )
 			{
-				IResultMetaData iMetaData = result.getResultMetaData( );
 				iData = result.nextResultIterator( );
 
-				if ( iData != null && iMetaData != null )
+				if ( iData != null && columnNames.length > 0 )
 				{
 					StringBuffer buf = new StringBuffer( );
 
 					// Captions
-					String caption = iMetaData.getColumnLabel( 0 );
-					if ( caption != null )
-					{
-						buf.append( caption );
-					}
-					else
-					{
-						buf.append( iMetaData.getColumnName( 0 ) );
-					}
+					buf.append( columnNames[0] );
 
 					for ( int i = 1; i < columnNames.length; i++ )
 					{
-						buf.append( ',' ); //$NON-NLS-1$
-						caption = iMetaData.getColumnLabel( i );
-						if ( caption != null )
-						{
-							buf.append( caption );
-						}
-						else
-						{
-							buf.append( iMetaData.getColumnName( i ) );
-						}
+						buf.append( ',' );
+						buf.append( columnNames[i] );
 					}
 
 					outputStream.println( buf.toString( ) );
@@ -842,7 +825,7 @@ public class ReportEngineService
 
 						for ( int i = 1; i < columnNames.length; i++ )
 						{
-							buf.append( ',' ); //$NON-NLS-1$
+							buf.append( ',' );
 
 							try
 							{
