@@ -26,13 +26,8 @@ import java.util.Set;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.namespace.QName;
 
 import org.apache.axis.AxisFault;
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 
 /**
  * Utilites class for all types of URl related operatnios.
@@ -1040,41 +1035,6 @@ private static String createDocumentPath( String filePath,
 		}
 
 		return encodedString;
-	}
-
-	public static boolean needRunAndRenderReport( HttpServletRequest request )
-	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
-				.getAttribute( "attributeBean" ); //$NON-NLS-1$
-		assert attrBean != null;
-
-		ReportDocumentReader document = (ReportDocumentReader) attrBean
-				.getReportDocumentInstance( );
-		if ( document == null )
-			return false;
-
-		Map documentParameters = document.getParameterValues( );
-
-		Iterator itr = documentParameters.keySet( ).iterator( );
-
-		itr = documentParameters.keySet( ).iterator( );
-		while ( itr.hasNext( ) )
-		{
-			String parameterName = (String) itr.next( );
-			String newValue = getParameter( request, parameterName, true );
-
-			if ( newValue != null )
-			{
-				if ( !newValue.equals( documentParameters.get( parameterName ) ) )
-				{
-					return true;
-				}
-
-			}
-		}
-		return false;
-		// return document.parameters;
-
 	}
 
 }
