@@ -16,9 +16,6 @@ import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.TreeMap;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.eclipse.birt.report.utility.ParameterAccessor;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserAccessor;
 import org.eclipse.core.runtime.CoreException;
@@ -62,8 +59,6 @@ public class WebViewer
 	 * Preference key for master page content flag.
 	 */
 	final public static String MASTER_PAGE_CONTENT = "master_page_content"; //$NON-NLS-1$
-
-	private static final String DOCUMENTS_DIR = "Documents";//$NON-NLS-1$
 
 	/**
 	 * locale mapping. Save some time.
@@ -116,7 +111,6 @@ public class WebViewer
 			String format )
 	{
 		String encodedReportName = null;
-		String encodedDocumentName = null;
 
 		try
 		{
@@ -125,12 +119,6 @@ public class WebViewer
 		catch ( UnsupportedEncodingException e )
 		{
 			// Do nothing
-		}
-
-		if ( encodedReportName != null && encodedReportName.length( ) > 0 )
-		{
-			encodedDocumentName = encodedReportName.substring( 0,
-					encodedReportName.lastIndexOf( "." ) ) + ".rptdocument"; //$NON-NLS-1$
 		}
 
 		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( )
