@@ -183,8 +183,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 			queryResults = dteEngine.getQueryResults( resultSetID );
 
-			DteResultSet resultSet = new DteResultSet( queryResults, this,
-					context );
+			DteResultSet resultSet = new DteResultSet( queryResults.getID( ),
+					queryResults.getResultIterator( ), this, context );
 
 			rsets.addFirst( resultSet );
 

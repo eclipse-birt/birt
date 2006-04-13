@@ -32,7 +32,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.36 $ $Date: 2006/01/20 08:00:55 $
+ * @version $Revision: 1.37 $ $Date: 2006/04/06 12:35:24 $
  */
 public class DteDataEngine extends AbstractDataEngine
 {
@@ -128,7 +128,8 @@ public class DteDataEngine extends AbstractDataEngine
 						scope );
 			}
 
-			resultSet = new DteResultSet( dteResults, this, context );
+			resultSet = new DteResultSet( dteResults.getID(),
+					dteResults.getResultIterator( ), this, context );
 			rsets.addFirst( resultSet );
 
 			return resultSet;

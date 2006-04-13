@@ -138,7 +138,8 @@ public class DataGenerationEngine extends AbstractDataEngine
 						scope );
 			}
 
-			resultSet = new DteResultSet( dteResults, this, context );
+			resultSet = new DteResultSet( dteResults.getID( ),
+					dteResults.getResultIterator( ), this, context );
 			rsets.addFirst( resultSet );
 
 			// save the
