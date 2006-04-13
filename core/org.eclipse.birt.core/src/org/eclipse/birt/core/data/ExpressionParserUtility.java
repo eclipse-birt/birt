@@ -230,7 +230,22 @@ class ExpressionParserUtility
 			ScriptOrFnNode tree, List columnExprList ) throws BirtException
 	{
 		assert ( callNode.getType( ) == Token.CALL );
+		compileAggregationFunction( callNode, tree, columnExprList );
 		extractArguments( callNode, tree, columnExprList );
+	}
+
+	/**
+	 * 
+	 * @param callNode
+	 * @param tree
+	 * @param columnExprList
+	 * @throws BirtException
+	 */
+	private void compileAggregationFunction( Node callNode,
+			ScriptOrFnNode tree, List columnExprList ) throws BirtException
+	{
+		Node firstChild = callNode.getFirstChild( );
+		compileComplexExpr( firstChild, tree, columnExprList );
 	}
 
 	/**
