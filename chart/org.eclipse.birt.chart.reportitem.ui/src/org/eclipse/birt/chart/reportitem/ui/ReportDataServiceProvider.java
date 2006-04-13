@@ -73,9 +73,26 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#afterTransaction()
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#startDataBinding()
 	 */
-	public void afterTransaction( )
+	public void startDataBinding( )
+	{
+		dsHandle = itemHandle.getDataSet( );
+
+		bindingList = new ArrayList( );
+		Iterator columnBindingIterator = itemHandle.columnBindingsIterator( );
+		while ( columnBindingIterator.hasNext( ) )
+		{
+			bindingList.add( ( (ComputedColumnHandle) columnBindingIterator.next( ) ).getStructure( ) );
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#rollbackDataBinding()
+	 */
+	public void rollbackDataBinding( )
 	{
 		try
 		{
@@ -92,23 +109,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			se.printStackTrace( );
 		}
+		
+		dsHandle = null;
+		bindingList = null;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#beforeTransaction()
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#commitDataBinding()
 	 */
-	public void beforeTransaction( )
+	public void commitDataBinding( )
 	{
-		dsHandle = itemHandle.getDataSet( );
-
-		bindingList = new ArrayList( );
-		Iterator columnBindingIterator = itemHandle.columnBindingsIterator( );
-		while ( columnBindingIterator.hasNext( ) )
-		{
-			bindingList.add( ( (ComputedColumnHandle) columnBindingIterator.next( ) ).getStructure( ) );
-		}
+		dsHandle = null;
+		bindingList = null;		
 	}
 
 	public String[] getAllDataSets( )

@@ -95,8 +95,6 @@ public class TaskSelectData extends SimpleTask implements
 	private transient Button btnBinding = null;
 
 	private transient SelectDataDynamicArea dynamicArea;
-	
-	private transient int bCancel;
 
 	// private SampleData oldSample = null;
 
@@ -466,19 +464,20 @@ public class TaskSelectData extends SimpleTask implements
 		return ( (ChartWizardContext) getContext( ) ).getModel( );
 	}
 
-	private void switchDataSet( String datasetName ) throws ChartException
+	private int switchDataSet( String datasetName ) throws ChartException
 	{
+		int bCancel = Window.OK;
 		if ( getDataServiceProvider( ).getBoundDataSet( ) != null
 				&& getDataServiceProvider( ).getBoundDataSet( )
 						.equals( datasetName ) )
 		{
-			return;
+			return bCancel;
 		}
+		
 		try
 		{
-			bCancel = Window.OK;
 			String oldDataSetName = getDataServiceProvider( ).getBoundDataSet( );
-			getDataServiceProvider( ).beforeTransaction( );
+			getDataServiceProvider( ).startDataBinding( );
 
 			// Clear old dataset and preview data
 			getDataServiceProvider( ).setDataSet( datasetName );
@@ -493,8 +492,12 @@ public class TaskSelectData extends SimpleTask implements
 
 			if ( bCancel == Window.CANCEL )
 			{
-				getDataServiceProvider( ).afterTransaction( );
+				getDataServiceProvider( ).rollbackDataBinding( );
 				datasetName = oldDataSetName;
+			}
+			else
+			{
+				getDataServiceProvider( ).commitDataBinding( );
 			}
 
 			// Try to get report data set
@@ -522,6 +525,7 @@ public class TaskSelectData extends SimpleTask implements
 
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
 		doLivePreview( );
+		return bCancel;
 	}
 
 	public void widgetSelected( SelectionEvent e )
@@ -566,7 +570,7 @@ public class TaskSelectData extends SimpleTask implements
 			{
 				try
 				{
-					switchDataSet( cmbDataSet.getText( ) );
+					int bCancel = switchDataSet( cmbDataSet.getText( ) );
 					if ( bCancel == Window.CANCEL )
 					{
 						btnUseReportData.setSelection( true );
@@ -593,7 +597,7 @@ public class TaskSelectData extends SimpleTask implements
 			try
 			{
 				ColorPalette.getInstance( ).restore( );
-				switchDataSet( cmbDataSet.getText( ) );
+				int bCancel = switchDataSet( cmbDataSet.getText( ) );
 				if ( bCancel == Window.CANCEL )
 				{
 					String[] datasetNames = cmbDataSet.getItems( );

@@ -192,21 +192,31 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#afterTransaction()
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#commitDataBinding()
 	 */
-	public void afterTransaction( )
+	public void commitDataBinding( )
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#beforeTransaction()
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#rollbackDataBinding()
 	 */
-	public void beforeTransaction( )
+	public void rollbackDataBinding( )
 	{
 		// TODO Auto-generated method stub
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#startDataBinding()
+	 */
+	public void startDataBinding( )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
