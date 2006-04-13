@@ -418,8 +418,11 @@ public class GetParameterDefinitionTask extends EngineTask
 						executionContext, executionContext.getSharedScope( ) );
 				try
 				{
-					dataEngine.defineDataSource( adaptor
-							.createDataSourceDesign( dataSource ) );
+					if ( dataSource != null )
+					{
+						dataEngine.defineDataSource( adaptor
+								.createDataSourceDesign( dataSource ) );
+					}
 					dataEngine.defineDataSet( adaptor
 							.createDataSetDesign( dataSet ) );
 				}
@@ -546,8 +549,11 @@ public class GetParameterDefinitionTask extends EngineTask
 						executionContext, executionContext.getSharedScope( ) );
 				try
 				{
-					dataEngine.defineDataSource( adaptor
-							.createDataSourceDesign( dataSource ) );
+					if ( dataSource != null )
+					{
+						dataEngine.defineDataSource( adaptor
+								.createDataSourceDesign( dataSource ) );
+					}
 					dataEngine.defineDataSet( adaptor
 							.createDataSetDesign( dataSet ) );
 				}
