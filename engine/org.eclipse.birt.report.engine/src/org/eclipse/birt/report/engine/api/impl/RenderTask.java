@@ -465,7 +465,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	public void setBookmark( String bookmark ) throws EngineException
 	{
 		long pageNumber = reportDoc.getPageNumber( bookmark );
-		if ( pageNumber == 0 ) {
+		if ( pageNumber <= 0 ) {
 			throw new EngineException( "Can't find bookmark :{0}", bookmark ); //$NON-NLS-1$
 		}
 		innerRender = new PageRender( pageNumber );
