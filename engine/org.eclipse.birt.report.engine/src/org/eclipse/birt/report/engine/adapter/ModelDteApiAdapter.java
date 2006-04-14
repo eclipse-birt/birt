@@ -832,14 +832,6 @@ public class ModelDteApiAdapter
 				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT ) )
 			return DataType.DOUBLE_TYPE;
 
-		// types that are not yet supported, model should have checked
-		if ( modelDataType
-				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRUCTURE )
-				|| modelDataType
-						.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TABLE ) )
-		{
-			assert false;
-		}
 		return DataType.UNKNOWN_TYPE;
 	}
 

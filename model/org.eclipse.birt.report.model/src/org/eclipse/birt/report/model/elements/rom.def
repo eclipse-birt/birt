@@ -366,8 +366,10 @@
     <Choice displayNameID="Choices.columnDataType.date-time" name="date-time"/>
     <Choice displayNameID="Choices.columnDataType.decimal" name="decimal"/>
     <Choice displayNameID="Choices.columnDataType.float" name="float"/>
+    <!-- not supported now
     <Choice displayNameID="Choices.columnDataType.structure" name="structure"/>
     <Choice displayNameID="Choices.columnDataType.table" name="table"/>
+    -->
   </ChoiceType>
   <ChoiceType name="searchType">
     <Choice displayNameID="Choices.searchType.any" name="any"/>
@@ -1604,10 +1606,6 @@
     <Member detailType="DataSetParam" displayNameID="Structure.CachedMetaData.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Member detailType="ResultSetColumn" displayNameID="Structure.CachedMetaData.resultSet" isList="true" name="resultSet" since="1.0" type="structure"/>		
   </Structure>   
-  <Structure displayNameID="Structure.DataSourceParamBinding" name="DataSourceParamBinding" since="2.0">
-    <Member displayNameID="Structure.DataSourceParamBinding.dataSourceName" name="dataSourceName" since="2.0" type="string"/>
-    <Member detailType="ParamBinding" displayNameID="Structure.DataSourceParamBinding.paramBindings" isList="true" name="paramBindings" since="2.0" type="structure" />
-  </Structure>
   <Structure displayNameID="Structure.PropertyBinding" name="PropertyBinding" since="2.0">
   	<Member displayNameID="Structure.PropertyBinding.name" isIntrinsic="true" name="name" since="2.0" type="name"/>                             
   	<Member displayNameID="Structure.PropertyBinding.id" isIntrinsic="true" name="id" since="20." type="number"/> 
@@ -1689,7 +1687,6 @@
       <Default>0</Default>
     </Property>
     <Property displayNameID="Element.ReportDesign.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
-    <Property detailType="DataSourceParamBinding" displayNameID="Element.ReportDesign.dataSourceBindings" name="dataSourceBindings" isList="true" runtimeSettable="false" since="2.0" type="structure"/>
     <Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>  

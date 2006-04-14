@@ -1641,38 +1641,6 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Returns all theme element handles that this modules and the included
-	 * modules contain.
-	 * 
-	 * @return all theme element handles that this modules and the included
-	 *         modules contain.
-	 * @deprecated from BIRT 2.1.0. Replaced by {@link #getVisibleThemes(int)}
-	 */
-
-	public List getAllThemes( )
-	{
-		List elementList = module.getModuleNameSpace( Module.THEME_NAME_SPACE )
-				.getElements( IModuleNameSpace.DIRECTLY_INCLUDED_LEVEL );
-
-		return generateHandleList( elementList );
-	}
-
-	/**
-	 * Returns all theme element handles that this module contain.
-	 * 
-	 * @return all theme element handles that this module contain.
-	 * @deprecated from BIRT 2.1.0. Replaced by {@link #getVisibleThemes(int)}
-	 */
-
-	public List getVisibleThemes( )
-	{
-		List elementList = module.getModuleNameSpace( Module.THEME_NAME_SPACE )
-				.getElements( IModuleNameSpace.NATIVE_LEVEL );
-
-		return generateHandleList( elementList );
-	}
-
-	/**
 	 * Returns theme handles according the input level.
 	 * 
 	 * @param level

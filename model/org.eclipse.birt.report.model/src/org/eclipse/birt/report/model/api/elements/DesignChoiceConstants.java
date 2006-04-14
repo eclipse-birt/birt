@@ -24,9 +24,9 @@ public interface DesignChoiceConstants
 	// fontFamily
 
 	public static final String CHOICE_FONT_FAMILY = "fontFamily"; //$NON-NLS-1$
-	public static final String FONT_FAMILY_SERIF = "serif"; //$NON-NLS-1$ //$NON-NLS-1$
-	public static final String FONT_FAMILY_SANS_SERIF = "sans-serif"; //$NON-NLS-1$ //$NON-NLS-1$
-	public static final String FONT_FAMILY_CURSIVE = "cursive"; //$NON-NLS-1$ //$NON-NLS-1$
+	public static final String FONT_FAMILY_SERIF = "serif"; //$NON-NLS-1$ 
+	public static final String FONT_FAMILY_SANS_SERIF = "sans-serif"; //$NON-NLS-1$ 
+	public static final String FONT_FAMILY_CURSIVE = "cursive"; //$NON-NLS-1$ 
 	public static final String FONT_FAMILY_FANTASY = "fantasy"; //$NON-NLS-1$
 	public static final String FONT_FAMILY_MONOSPACE = "monospace"; //$NON-NLS-1$
 
@@ -458,8 +458,6 @@ public interface DesignChoiceConstants
 	public static final String COLUMN_DATA_TYPE_DATETIME = "date-time"; //$NON-NLS-1$
 	public static final String COLUMN_DATA_TYPE_DECIMAL = "decimal"; //$NON-NLS-1$
 	public static final String COLUMN_DATA_TYPE_FLOAT = "float"; //$NON-NLS-1$
-	public static final String COLUMN_DATA_TYPE_STRUCTURE = "structure"; //$NON-NLS-1$
-	public static final String COLUMN_DATA_TYPE_TABLE = "table"; //$NON-NLS-1$
 
 	/**
 	 * searchType -- The search type for column hint The first constant is the

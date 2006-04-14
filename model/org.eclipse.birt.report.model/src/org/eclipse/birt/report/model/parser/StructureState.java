@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
-import org.eclipse.birt.report.model.api.elements.structures.DataSourceParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
@@ -51,7 +50,6 @@ import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -466,9 +464,6 @@ public class StructureState extends AbstractPropertyState
 		structDict.put(
 				ParameterFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				ParameterFormatValue.class );
-
-		structDict.put( DataSourceParamBinding.STRUCT_NAME.toLowerCase( ),
-				DataSourceParamBinding.class );
 
 		structDict.put( PropertyBinding.PROPERTY_BINDING_STRUCT.toLowerCase( ),
 				PropertyBinding.class );

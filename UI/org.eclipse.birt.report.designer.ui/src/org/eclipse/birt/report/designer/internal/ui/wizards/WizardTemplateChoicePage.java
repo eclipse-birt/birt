@@ -138,7 +138,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			}
 
 			picturePath = reportDesign.getIconFile( ) == null ? "" : reportDesign.getIconFile( );//$NON-NLS-1$
-			cheatSheetId = reportDesign.getCheetSheet( ) == null ? "" : reportDesign.getCheetSheet( );//$NON-NLS-1$
+			cheatSheetId = reportDesign.getCheatSheet( ) == null ? "" : reportDesign.getCheatSheet( );//$NON-NLS-1$
 			this.reportPath = reportPath;
 
 		}

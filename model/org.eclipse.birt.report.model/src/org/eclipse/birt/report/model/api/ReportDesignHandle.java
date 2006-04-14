@@ -23,8 +23,8 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
@@ -120,21 +120,21 @@ import org.eclipse.birt.report.model.util.LevelContentIterator;
  * </ul>
  * 
  * <pre>
- *                                                              // Include one library
- *                                                              
- *                                                              ReportDesignHandle designHandle = ...;
- *                                                              designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *                                                              LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
- *                                                               
- *                                                              // Create one label based on the one in library
- *                                                             
- *                                                              LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *                                                              LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *                                                             
- *                                                              // Add the new label into design file
- *                                                             
- *                                                              designHandle.getBody().add(myLabelHandle);
- *                                                           
+ *            // Include one library
+ *            
+ *            ReportDesignHandle designHandle = ...;
+ *            designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *            LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *             
+ *            // Create one label based on the one in library
+ *           
+ *            LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *            LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *           
+ *            // Add the new label into design file
+ *           
+ *            designHandle.getBody().add(myLabelHandle);
+ *         
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -160,19 +160,6 @@ public class ReportDesignHandle extends ModuleHandle
 	}
 
 	/**
-	 * Returns the script called just after closing the report document file in
-	 * the Factory.
-	 * 
-	 * @return the script
-	 * @deprecated
-	 */
-
-	public String getAfterCloseDoc( )
-	{
-		return ""; //$NON-NLS-1$
-	}
-
-	/**
 	 * Returns the script called at the end of the Factory after closing the
 	 * report document (if any). This is the last method called in the Factory.
 	 * 
@@ -182,19 +169,6 @@ public class ReportDesignHandle extends ModuleHandle
 	public String getAfterFactory( )
 	{
 		return getStringProperty( AFTER_FACTORY_METHOD );
-	}
-
-	/**
-	 * Returns the script called just after opening the report document in the
-	 * Factory.
-	 * 
-	 * @return the script
-	 * @deprecated
-	 */
-
-	public String getAfterOpenDoc( )
-	{
-		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -221,19 +195,6 @@ public class ReportDesignHandle extends ModuleHandle
 	}
 
 	/**
-	 * Returns the script called just before closing the report document file in
-	 * the Factory.
-	 * 
-	 * @return the script
-	 * @deprecated
-	 */
-
-	public String getBeforeCloseDoc( )
-	{
-		return ""; //$NON-NLS-1$
-	}
-
-	/**
 	 * Returns the script called at the start of the Factory after the
 	 * initialize( ) method and before opening the report document (if any).
 	 * 
@@ -243,19 +204,6 @@ public class ReportDesignHandle extends ModuleHandle
 	public String getBeforeFactory( )
 	{
 		return getStringProperty( BEFORE_FACTORY_METHOD );
-	}
-
-	/**
-	 * Returns the script called just before opening the report document in the
-	 * Factory.
-	 * 
-	 * @return the script
-	 * @deprecated
-	 */
-
-	public String getBeforeOpenDoc( )
-	{
-		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -321,42 +269,6 @@ public class ReportDesignHandle extends ModuleHandle
 	}
 
 	/**
-	 * Returns the iterator over all data source bindings. Each one is the
-	 * instance of <code>DataSourceParamBindingHandle</code>
-	 * 
-	 * @return the iterator over all data source bindings.
-	 * @see DataSourceParamBindingHandle
-	 */
-
-	public Iterator dataSourceBindingsIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( DATA_SOURCE_BINDINGS_PROP );
-		assert propHandle != null;
-		return propHandle.iterator( );
-	}
-
-	/**
-	 * Sets the script called just after closing the report document file in the
-	 * Factory.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 * @deprecated
-	 */
-
-	public void setAfterCloseDoc( String value )
-	{
-		// try
-		// {
-		// setStringProperty( AFTER_CLOSE_DOC_METHOD, value );
-		// }
-		// catch ( SemanticException e )
-		// {
-		// assert false;
-		// }
-	}
-
-	/**
 	 * Sets the script called at the end of the Factory after closing the report
 	 * document (if any). This is the last method called in the Factory.
 	 * 
@@ -374,27 +286,6 @@ public class ReportDesignHandle extends ModuleHandle
 		{
 			assert false;
 		}
-	}
-
-	/**
-	 * Sets the script called just after opening the report document in the
-	 * Factory.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 * @deprecated
-	 */
-
-	public void setAfterOpenDoc( String value )
-	{
-		// try
-		// {
-		// setStringProperty( AFTER_OPEN_DOC_METHOD, value );
-		// }
-		// catch ( SemanticException e )
-		// {
-		// assert false;
-		// }
 	}
 
 	/**
@@ -437,27 +328,6 @@ public class ReportDesignHandle extends ModuleHandle
 	}
 
 	/**
-	 * Sets the script called just before closing the report document file in
-	 * the Factory.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 * @deprecated
-	 */
-
-	public void setBeforeCloseDoc( String value )
-	{
-		// try
-		// {
-		// setStringProperty( BEFORE_CLOSE_DOC_METHOD, value );
-		// }
-		// catch ( SemanticException e )
-		// {
-		// assert false;
-		// }
-	}
-
-	/**
 	 * Sets the script called at the start of the Factory after the initialize( )
 	 * method and before opening the report document (if any).
 	 * 
@@ -475,27 +345,6 @@ public class ReportDesignHandle extends ModuleHandle
 		{
 			assert false;
 		}
-	}
-
-	/**
-	 * Sets the script called just before opening the report document in the
-	 * Factory.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 * @deprecated
-	 */
-
-	public void setBeforeOpenDoc( String value )
-	{
-		// try
-		// {
-		// setStringProperty( BEFORE_OPEN_DOC_METHOD, value );
-		// }
-		// catch ( SemanticException e )
-		// {
-		// assert false;
-		// }
 	}
 
 	/**
@@ -597,7 +446,7 @@ public class ReportDesignHandle extends ModuleHandle
 	public void setDisplayNameKey( String displayNameKey )
 			throws SemanticException
 	{
-		setStringProperty( DesignElement.DISPLAY_NAME_ID_PROP, displayNameKey );
+		setStringProperty( DISPLAY_NAME_ID_PROP, displayNameKey );
 	}
 
 	/**
@@ -608,7 +457,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public String getDisplayNameKey( )
 	{
-		return getStringProperty( DesignElement.DISPLAY_NAME_ID_PROP );
+		return getStringProperty( DISPLAY_NAME_ID_PROP );
 	}
 
 	/**
@@ -623,7 +472,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setDisplayName( String displayName ) throws SemanticException
 	{
-		setStringProperty( DesignElement.DISPLAY_NAME_PROP, displayName );
+		setStringProperty( DISPLAY_NAME_PROP, displayName );
 	}
 
 	/**
@@ -634,7 +483,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public String getDisplayName( )
 	{
-		return getStringProperty( DesignElement.DISPLAY_NAME_PROP );
+		return getStringProperty( DISPLAY_NAME_PROP );
 	}
 
 	/**
@@ -648,7 +497,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setIconFile( String iconFile ) throws SemanticException
 	{
-		setStringProperty( ReportDesign.ICON_FILE_PROP, iconFile );
+		setStringProperty( ICON_FILE_PROP, iconFile );
 	}
 
 	/**
@@ -659,23 +508,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public String getIconFile( )
 	{
-		return getStringProperty( ReportDesign.ICON_FILE_PROP );
-	}
-
-	/**
-	 * Sets the design cheat sheet file path.
-	 * 
-	 * @param cheatSheet
-	 *            the design cheat sheet file path to set
-	 * @throws SemanticException
-	 *             if the property is locked or not defined on this design.
-	 * 
-	 * @deprecated by {@link #setCheatSheet(String)}
-	 */
-
-	public void setCheetSheet( String cheatSheet ) throws SemanticException
-	{
-		setCheatSheet( cheatSheet );
+		return getStringProperty( ICON_FILE_PROP );
 	}
 
 	/**
@@ -689,20 +522,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setCheatSheet( String cheatSheet ) throws SemanticException
 	{
-		setStringProperty( ReportDesign.CHEAT_SHEET_PROP, cheatSheet );
-	}
-
-	/**
-	 * Gets the design cheat sheet file path.
-	 * 
-	 * @return the design cheat sheet file path
-	 * 
-	 * @deprecated by {@link #getCheatSheet()}
-	 */
-
-	public String getCheetSheet( )
-	{
-		return getCheatSheet( );
+		setStringProperty( CHEAT_SHEET_PROP, cheatSheet );
 	}
 
 	/**
@@ -713,7 +533,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public String getCheatSheet( )
 	{
-		return getStringProperty( ReportDesign.CHEAT_SHEET_PROP );
+		return getStringProperty( CHEAT_SHEET_PROP );
 	}
 
 	/**
@@ -725,7 +545,7 @@ public class ReportDesignHandle extends ModuleHandle
 	public List getAllBookmarks( )
 	{
 		return ( (ReportDesign) module ).collectPropValues( BODY_SLOT,
-				ReportItem.BOOKMARK_PROP );
+				IReportItemModel.BOOKMARK_PROP );
 	}
 
 	/**
@@ -737,7 +557,7 @@ public class ReportDesignHandle extends ModuleHandle
 	public List getAllTocs( )
 	{
 		return ( (ReportDesign) module ).collectPropValues( BODY_SLOT,
-				ReportItem.TOC_PROP );
+				IReportItemModel.TOC_PROP );
 	}
 
 	/**

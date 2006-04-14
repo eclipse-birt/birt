@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.report.model.writer;
 
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.api.elements.structures.DataSourceParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -77,12 +74,6 @@ public class DesignWriter extends ModuleWriter
 		property( obj, Module.INITIALIZE_METHOD );
 		property( obj, ReportDesign.BEFORE_FACTORY_METHOD );
 		property( obj, ReportDesign.AFTER_FACTORY_METHOD );
-
-		// property( obj, ReportDesign.BEFORE_OPEN_DOC_METHOD );
-		// property( obj, ReportDesign.AFTER_OPEN_DOC_METHOD );
-		// property( obj, ReportDesign.BEFORE_CLOSE_DOC_METHOD );
-		// property( obj, ReportDesign.AFTER_CLOSE_DOC_METHOD );
-
 		property( obj, ReportDesign.BEFORE_RENDER_METHOD );
 		property( obj, ReportDesign.AFTER_RENDER_METHOD );
 		property( obj, IModuleModel.THEME_PROP );
@@ -115,10 +106,6 @@ public class DesignWriter extends ModuleWriter
 
 		writeCustomColors( obj );
 
-		// Data bindings property
-
-		writeDataSourceBinding( obj );
-
 		// Translations. ( Custom-defined messages )
 
 		writeTranslations( obj );
@@ -150,44 +137,5 @@ public class DesignWriter extends ModuleWriter
 	protected Module getModule( )
 	{
 		return design;
-	}
-
-	/**
-	 * Visits the data source parameter bindings of the module.
-	 * 
-	 * @param obj
-	 *            the module to traverse
-	 */
-
-	protected void writeDataSourceBinding( Module obj )
-	{
-		List list = (List) obj.getLocalProperty( obj,
-				ReportDesign.DATA_SOURCE_BINDINGS_PROP );
-
-		if ( list != null && list.size( ) > 0 )
-		{
-			writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
-			writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
-					ReportDesign.DATA_SOURCE_BINDINGS_PROP );
-
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				DataSourceParamBinding dataSourceBinding = (DataSourceParamBinding) list
-						.get( i );
-
-				writer
-						.conditionalStartElement( DesignSchemaConstants.STRUCTURE_TAG );
-
-				property( dataSourceBinding,
-						DataSourceParamBinding.DATASOURCE_NAME_MEMBER );
-
-				writeStructureList( dataSourceBinding,
-						DataSourceParamBinding.PARAMETER_BINDINGS_MEMBER );
-
-				writer.endElement( );
-			}
-
-			writer.endElement( );
-		}
 	}
 }

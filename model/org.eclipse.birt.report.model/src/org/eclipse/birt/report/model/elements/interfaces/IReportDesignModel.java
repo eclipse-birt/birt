@@ -39,38 +39,6 @@ public interface IReportDesignModel
 	public static final String AFTER_FACTORY_METHOD = "afterFactory"; //$NON-NLS-1$
 
 	/**
-	 * Name of the method called just before opening the report document in the
-	 * Factory.
-	 * @deprecated
-	 */
-
-	public static final String BEFORE_OPEN_DOC_METHOD = "beforeOpenDoc"; //$NON-NLS-1$
-
-	/**
-	 * Name of the method called just after opening the report document in the
-	 * Factory.
-	 * @deprecated
-	 */
-
-	public static final String AFTER_OPEN_DOC_METHOD = "afterOpenDoc"; //$NON-NLS-1$
-
-	/**
-	 * Name of the method called just before closing the report document file in
-	 * the Factory.
-	 * @deprecated
-	 */
-
-	public static final String BEFORE_CLOSE_DOC_METHOD = "beforeCloseDoc"; //$NON-NLS-1$
-
-	/**
-	 * Name of the method called just after closing the report document file in
-	 * the Factory.
-	 * @deprecated
-	 */
-
-	public static final String AFTER_CLOSE_DOC_METHOD = "afterCloseDoc"; //$NON-NLS-1$
-
-	/**
 	 * Name of the method called before starting a presentation time action.
 	 */
 
@@ -81,12 +49,6 @@ public interface IReportDesignModel
 	 */
 
 	public static final String AFTER_RENDER_METHOD = "afterRender"; //$NON-NLS-1$
-	
-	/**
-	 * Name of the data source bindings property.
-	 */
-
-	public static final String DATA_SOURCE_BINDINGS_PROP = "dataSourceBindings"; //$NON-NLS-1$
 	
 	/**
 	 * Name of the property to store report design icon/thumbnail file path.
