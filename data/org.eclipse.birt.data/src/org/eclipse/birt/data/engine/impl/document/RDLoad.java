@@ -465,7 +465,14 @@ public class RDLoad
 		if ( len == -1 )
 			return RDSave.endSeparator;
 		else if ( len < 4 )
-			throw new IOException( "read error for result set data" );
+		{
+			for ( int i = len; i < 4; i++ )
+			{
+				bytes[i] = (byte) inputStream.read( );
+				if ( bytes[i] == -1 )
+					throw new IOException( "there is an error in reading result set" );
+			}
+		}
 
 		return IOUtil.getInt( bytes );
 	}
