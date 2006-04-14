@@ -53,30 +53,10 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 		setupBoundDataColumns( value );
 
 		String newName = DataBoundColumnUtil.setupBoundDataColumn( element,
-				createUniqueColumnName( ), value, handler.getModule( ) );
+				value, value, handler.getModule( ) );
 
 		// set the property for the result set column property of DataItem.
 
 		doEnd( newName );
 	}
-
-	/**
-	 * Returns a unique bound data column name. The name is unique in the whole
-	 * design.
-	 * 
-	 * @return a unique column name
-	 */
-
-	protected String createUniqueColumnName( )
-	{
-		Integer index = (Integer) handler.tempValue.get( handler.module );
-		if ( index == null )
-			index = new Integer( 1 );
-		else
-			index = new Integer( index.intValue( ) + 1 );
-
-		handler.tempValue.put( handler.module, index );
-		return DataBoundColumnUtil.createParsingUniqueName( index.intValue( ) );
-	}
-
 }
