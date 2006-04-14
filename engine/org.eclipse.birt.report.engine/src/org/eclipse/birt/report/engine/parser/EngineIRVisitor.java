@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.91 $ $Date: 2006/04/06 12:35:26 $
+ * @version $Revision: 1.92 $ $Date: 2006/04/13 08:10:26 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -719,7 +719,7 @@ class EngineIRVisitor extends DesignVisitor
 		String expr = handle.getResultSetColumn( );
 		if (expr != null && expr.trim( ).length( ) > 0)
 		{
-			expr = "row[\"" + expr.replaceAll( "\"", "\\\"") + "\"]";
+			expr = "row[\"" + expr.replaceAll( "\"", "\\\\\"") + "\"]";
 			data.setValue( expr );
 		}
 		// Handle Action
