@@ -153,4 +153,28 @@ public class DataColumnNameValidator extends AbstractElementValidator
 		}
 		return false;
 	}
+
+	/**
+	 * Gets the column with the given expression bound the given list.
+	 * 
+	 * @param columns
+	 *            the binding columns
+	 * @param expression
+	 *            the old value expression in BIRT 2.1M5
+	 * @return the bound column
+	 */
+
+	public static ComputedColumn getColumn( List columns, String name )
+	{
+		if ( ( columns == null ) || ( columns.size( ) == 0 ) || name == null )
+			return null;
+
+		for ( int i = 0; i < columns.size( ); i++ )
+		{
+			ComputedColumn column = (ComputedColumn) columns.get( i );
+			if ( name.equals( column.getName( ) ) )
+				return column;
+		}
+		return null;
+	}
 }

@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
@@ -37,11 +35,11 @@ import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
-import org.eclipse.birt.report.model.api.validators.DataColumnNameValidator;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 
 /**
  * Provides the factory method to create empty structures.
@@ -434,28 +432,11 @@ public class StructureFactory
 				|| element instanceof ScalarParameterHandle || element instanceof GroupHandle ) )
 			return null;
 
-		String propName = null;
-
-		if ( element instanceof ReportItemHandle )
-			propName = ReportItemHandle.BOUND_DATA_COLUMNS_PROP;
-		if ( element instanceof ScalarParameterHandle )
-			propName = ScalarParameterHandle.BOUND_DATA_COLUMNS_PROP;
-		if ( element instanceof GroupHandle )
-			propName = GroupHandle.BOUND_DATA_COLUMNS_PROP;
-
-		List columns = element.getListProperty( propName );
-		int index = 1;
-
-		String retName = newName;
-
-		while ( DataColumnNameValidator.exists( columns, retName ) )
-		{			
-			retName = newName + '_' + index;
-			index++;
-		}
+		String tmpName = DataBoundColumnUtil.makeUniqueName( element, newName,
+				null );
 
 		ComputedColumn column = new ComputedColumn( );
-		column.setName( retName );
+		column.setName( tmpName );
 
 		return column;
 	}
