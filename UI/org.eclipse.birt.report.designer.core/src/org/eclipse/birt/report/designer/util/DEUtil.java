@@ -1859,15 +1859,18 @@ public class DEUtil
 			}
 		}
 		ReportItemHandle holder = getBindingHolder( handle );
-		for ( DesignElementHandle elementHandle = handle.getContainer( ); elementHandle != holder.getContainer( ); elementHandle = elementHandle.getContainer( ) )
+		if ( holder != null )
 		{
-			List subBindingList = new ArrayList( );
-			Iterator iterator = getBindingColumnIterator( elementHandle );
-			while ( iterator.hasNext( ) )
+			for ( DesignElementHandle elementHandle = handle.getContainer( ); elementHandle != holder.getContainer( ); elementHandle = elementHandle.getContainer( ) )
 			{
-				subBindingList.add( iterator.next( ) );
+				List subBindingList = new ArrayList( );
+				Iterator iterator = getBindingColumnIterator( elementHandle );
+				while ( iterator.hasNext( ) )
+				{
+					subBindingList.add( iterator.next( ) );
+				}
+				bindingList.addAll( 0, subBindingList );
 			}
-			bindingList.addAll( 0, subBindingList );
 		}
 		return bindingList;
 	}
@@ -1890,7 +1893,7 @@ public class DEUtil
 				return (ReportItemHandle) handle;
 			}
 			ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
-			if ( result == null )
+			if ( result == null && handle instanceof ReportItemHandle )
 			{
 				result = (ReportItemHandle) handle;
 			}
