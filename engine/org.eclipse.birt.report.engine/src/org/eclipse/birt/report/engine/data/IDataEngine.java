@@ -16,14 +16,24 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 
 /**
  * Defines a set of data-related functions that engine needs from a data engine
  * 
- * @version $Revision: 1.12 $ $Date: 2006/01/20 08:00:55 $
+ * @version $Revision: 1.13 $ $Date: 2006/04/06 12:35:25 $
  */
 public interface IDataEngine
 {
+
+	/**
+	 * define the dataset and the associated datasource in the data engine.
+	 * 
+	 * This API is only used by the GetParamterTask/DataPreviewTask.
+	 * 
+	 * @param dataSet dataset to be defined.
+	 */
+	void defineDataSet(DataSetHandle dataSet);
 
 	/**
 	 * Prepare all the information that data engine needs to successfully obtain

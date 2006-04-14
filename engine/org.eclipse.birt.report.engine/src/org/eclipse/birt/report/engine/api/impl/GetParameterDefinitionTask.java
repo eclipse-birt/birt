@@ -26,16 +26,15 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -410,26 +409,10 @@ public class GetParameterDefinitionTask extends EngineTask
 		{
 			try
 			{
-				DataEngine dataEngine = getDataEngine( );
-
+				IDataEngine dataEngine = executionContext.getDataEngine( );
+				DataEngine dteDataEngine = getDataEngine();
 				// Define data source and data set
-				DataSourceHandle dataSource = dataSet.getDataSource( );
-				ModelDteApiAdapter adaptor = new ModelDteApiAdapter(
-						executionContext, executionContext.getSharedScope( ) );
-				try
-				{
-					if ( dataSource != null )
-					{
-						dataEngine.defineDataSource( adaptor
-								.createDataSourceDesign( dataSource ) );
-					}
-					dataEngine.defineDataSet( adaptor
-							.createDataSetDesign( dataSet ) );
-				}
-				catch ( BirtException e )
-				{
-					log.log( Level.SEVERE, e.getMessage( ) );
-				}
+				dataEngine.defineDataSet(dataSet);
 				ScriptExpression labelExpr = null;
 				if ( labelStmt != null && labelStmt.length( ) > 0 )
 				{
@@ -465,7 +448,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				
 				queryDefn.setAutoBinding( true );
 
-				IPreparedQuery query = dataEngine.prepare( queryDefn );
+				IPreparedQuery query = dteDataEngine.prepare( queryDefn );
 
 				IQueryResults result = query.execute( executionContext
 						.getSharedScope( ) );
@@ -487,7 +470,6 @@ public class GetParameterDefinitionTask extends EngineTask
 						break;
 					}
 					iter.skipToEnd( 1 ); // Skip all of the duplicate values
-
 				}
 			}
 			catch ( BirtException ex )
@@ -543,24 +525,9 @@ public class GetParameterDefinitionTask extends EngineTask
 			try
 			{
 				// Handle data source and data set
-				DataEngine dataEngine = getDataEngine( );
-				DataSourceHandle dataSource = dataSet.getDataSource( );
-				ModelDteApiAdapter adaptor = new ModelDteApiAdapter(
-						executionContext, executionContext.getSharedScope( ) );
-				try
-				{
-					if ( dataSource != null )
-					{
-						dataEngine.defineDataSource( adaptor
-								.createDataSourceDesign( dataSource ) );
-					}
-					dataEngine.defineDataSet( adaptor
-							.createDataSetDesign( dataSet ) );
-				}
-				catch ( BirtException e )
-				{
-					log.log( Level.SEVERE, e.getMessage( ) );
-				}
+				DataEngine dteDataEngine = getDataEngine( );
+				IDataEngine dataEngine = executionContext.getDataEngine( );
+				dataEngine.defineDataSet( dataSet );
 
 				QueryDefinition queryDefn = new QueryDefinition( );
 				queryDefn.setDataSetName( dataSet.getQualifiedName( ) );
@@ -609,7 +576,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 				queryDefn.setAutoBinding( true );
 				
-				IPreparedQuery query = dataEngine.prepare( queryDefn );
+				IPreparedQuery query = dteDataEngine.prepare( queryDefn );
 				IQueryResults result = query.execute( executionContext
 						.getSharedScope( ) );
 				IResultIterator resultIter = result.getResultIterator( );

@@ -32,7 +32,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.37 $ $Date: 2006/04/06 12:35:24 $
+ * @version $Revision: 1.38 $ $Date: 2006/04/13 11:04:45 $
  */
 public class DteDataEngine extends AbstractDataEngine
 {
@@ -55,15 +55,10 @@ public class DteDataEngine extends AbstractDataEngine
 	 */
 	public DteDataEngine( ExecutionContext context )
 	{
-		this.context = context;
+		super( context );
 
 		try
 		{
-			Scriptable scope = context.getScope( );
-			// register a js row object into the execution context, so
-			// we can use row["colName"] to get the column values
-			context.registerBean( "row", new NativeRowObject( scope, rsets ) );
-
 			// create the DteData engine.
 			DataEngineContext dteContext = DataEngineContext.newInstance(
 					DataEngineContext.DIRECT_PRESENTATION, context

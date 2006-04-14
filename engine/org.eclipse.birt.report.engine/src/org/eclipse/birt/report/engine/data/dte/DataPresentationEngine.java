@@ -48,22 +48,15 @@ public class DataPresentationEngine extends AbstractDataEngine
 	 */
 	protected HashMap rsetRelations = new HashMap( );
 
-	public DataPresentationEngine( ExecutionContext ctx,
+	public DataPresentationEngine( ExecutionContext context,
 			IDocArchiveReader reader )
 	{
-
-		context = ctx;
-
+		super( context );
 		try
 		{
-			Scriptable scope = context.getScope( );
-			// register a js row object into the execution context, so
-			// we can use row["colName"] to get the column values
-			context.registerBean( "row", new NativeRowObject( scope, rsets ) );
-
 			// create the DteData engine.
 			DataEngineContext dteContext = DataEngineContext.newInstance(
-					DataEngineContext.MODE_PRESENTATION, ctx.getSharedScope( ),
+					DataEngineContext.MODE_PRESENTATION, context.getSharedScope( ),
 					reader, null );
 			dteEngine = DataEngine.newDataEngine( dteContext );
 

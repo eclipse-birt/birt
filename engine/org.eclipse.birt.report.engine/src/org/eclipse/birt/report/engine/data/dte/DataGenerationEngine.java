@@ -45,20 +45,15 @@ public class DataGenerationEngine extends AbstractDataEngine
 	 */
 	private DataOutputStream dos;
 
-	public DataGenerationEngine( ExecutionContext ctx, IDocArchiveWriter writer )
+	public DataGenerationEngine( ExecutionContext context, IDocArchiveWriter writer )
 	{
-		context = ctx;
+		super( context );
 
 		try
 		{
-			Scriptable scope = context.getScope( );
-			// register a js row object into the execution context, so
-			// we can use row["colName"] to get the column values
-			context.registerBean( "row", new NativeRowObject( scope, rsets ) );
-
 			// create the DteData engine.
 			DataEngineContext dteContext = DataEngineContext.newInstance(
-					DataEngineContext.MODE_GENERATION, ctx.getSharedScope( ),
+					DataEngineContext.MODE_GENERATION, context.getSharedScope( ),
 					null, writer );
 
 			dteEngine = DataEngine.newDataEngine( dteContext );

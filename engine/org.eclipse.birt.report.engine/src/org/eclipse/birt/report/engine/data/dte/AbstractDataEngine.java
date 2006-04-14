@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.data.dte;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,10 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.mozilla.javascript.Scriptable;
 
 public abstract class AbstractDataEngine implements IDataEngine
 {
@@ -55,6 +59,79 @@ public abstract class AbstractDataEngine implements IDataEngine
 	protected static Logger logger = Logger.getLogger( IDataEngine.class
 			.getName( ) );
 
+	public AbstractDataEngine( ExecutionContext context )
+	{
+		this.context = context;
+		try
+		{
+			Scriptable scope = context.getScope( );
+			// register a js row object into the execution context, so
+			// we can use row["colName"] to get the column values
+			context.registerBean( "row", new NativeRowObject( scope, rsets ) );
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE, "can't register row object", ex );
+			ex.printStackTrace( );
+		}
+	}
+	
+	public void defineDataSet( DataSetHandle dataSet )
+	{
+		// Define data source and data set
+		DataSourceHandle dataSource = dataSet.getDataSource( );
+		ModelDteApiAdapter adaptor = new ModelDteApiAdapter( context, context
+				.getSharedScope( ) );
+		try
+		{
+			if ( dataSource != null )
+			{
+				doDefineDataSource( adaptor, dataSource );
+			}
+			doDefineDataSet( adaptor, dataSet );
+		}
+		catch ( BirtException e )
+		{
+			logger.log( Level.SEVERE, e.getMessage( ) );
+		}
+	}
+
+	protected void doDefineDataSource( ModelDteApiAdapter adaptor,
+			DataSourceHandle dataSource ) throws BirtException
+	{
+		dteEngine
+				.defineDataSource( adaptor.createDataSourceDesign( dataSource ) );
+	}
+
+	protected void doDefineDataSet( ModelDteApiAdapter adaptor,
+			DataSetHandle dataSet ) throws BirtException
+	{
+		if ( dataSet instanceof JointDataSetHandle )
+		{
+			JointDataSetHandle jointDataSet = (JointDataSetHandle) dataSet;
+			List dataSetNames = jointDataSet.getDataSetNames( );
+			ModuleHandle report = dataSet.getModuleHandle( );
+			Iterator iter = dataSetNames.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				String dataSetName = (String) iter.next( );
+				DataSetHandle childDataSet = report.findDataSet( dataSetName );
+				if ( childDataSet != null )
+				{
+					DataSourceHandle childDataSource = childDataSet
+							.getDataSource( );
+					if (childDataSource != null)
+					{
+						doDefineDataSource( adaptor, childDataSource );
+					}
+					doDefineDataSet( adaptor, childDataSet );
+				}
+			}
+
+		}
+		dteEngine.defineDataSet( adaptor.createDataSetDesign( dataSet ) );
+	}
+	
 	/**
 	 * prepare the queries defined in the report.
 	 */
