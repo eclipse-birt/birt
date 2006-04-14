@@ -375,6 +375,11 @@ public class ParameterAccessor
 	private static String createDocumentPath( String filePath,
 			HttpServletRequest request )
 	{
+
+		String temp = null;
+		String projectName = null;
+		String documentName = null;
+
 		if ( ( filePath == null ) || ( filePath.length( ) == 0 ) )
 			return "";
 
@@ -384,16 +389,27 @@ public class ParameterAccessor
 		if ( filePath.lastIndexOf( fileSeparator ) == -1 )
 			fileSeparator = "/";
 
-		String temp = filePath.substring( 0, filePath
-				.lastIndexOf( fileSeparator ) );
-		String projectName = temp.substring( temp.lastIndexOf( fileSeparator ),
-				temp.length( ) );
+		if ( filePath.lastIndexOf( fileSeparator ) != -1 )
+		{
+
+			documentName = filePath.substring( filePath
+					.lastIndexOf( fileSeparator ) );
+			temp = filePath
+					.substring( 0, filePath.lastIndexOf( fileSeparator ) );
+
+			if ( temp.lastIndexOf( fileSeparator ) != -1 )
+				projectName = temp
+						.substring( temp.lastIndexOf( fileSeparator ) );
+			else
+				projectName = temp;
+		}
+		else
+			documentName = filePath;
 
 		String documentFolder = workingFolder + fileSeparator + DOCUMENTS_DIR
 				+ fileSeparator + sessionId + projectName;
 
-		String documentPath = documentFolder
-				+ filePath.substring( filePath.lastIndexOf( fileSeparator ) );
+		String documentPath = documentFolder + documentName;
 
 		return documentPath;
 
