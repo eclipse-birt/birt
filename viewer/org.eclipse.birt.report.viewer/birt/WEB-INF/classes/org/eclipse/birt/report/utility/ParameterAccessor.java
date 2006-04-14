@@ -372,7 +372,7 @@ public class ParameterAccessor
 	 * @return
 	 * @throws AxisFault
 	 */
-private static String createDocumentPath( String filePath,
+	private static String createDocumentPath( String filePath,
 			HttpServletRequest request )
 	{
 		if ( ( filePath == null ) || ( filePath.length( ) == 0 ) )
@@ -380,16 +380,17 @@ private static String createDocumentPath( String filePath,
 
 		String sessionId = request.getSession( ).getId( );
 		String fileSeparator = "\\";
-		
-		if( filePath.lastIndexOf( fileSeparator ) == -1)
+
+		if ( filePath.lastIndexOf( fileSeparator ) == -1 )
 			fileSeparator = "/";
-		
-		String temp = filePath.substring( 0, filePath.lastIndexOf( fileSeparator  ) );
-		String projectName = temp.substring( temp.lastIndexOf( fileSeparator ), temp
-				.length( ) );
-	
-		String documentFolder = workingFolder + DOCUMENTS_DIR + fileSeparator 
-				+ sessionId + projectName;
+
+		String temp = filePath.substring( 0, filePath
+				.lastIndexOf( fileSeparator ) );
+		String projectName = temp.substring( temp.lastIndexOf( fileSeparator ),
+				temp.length( ) );
+
+		String documentFolder = workingFolder + fileSeparator + DOCUMENTS_DIR
+				+ fileSeparator + sessionId + projectName;
 
 		String documentPath = documentFolder
 				+ filePath.substring( filePath.lastIndexOf( fileSeparator ) );
@@ -397,6 +398,7 @@ private static String createDocumentPath( String filePath,
 		return documentPath;
 
 	}
+
 	/**
 	 * Clears the report document files which had been created last time the
 	 * server starts up.
