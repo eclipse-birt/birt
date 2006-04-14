@@ -15,19 +15,16 @@ import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.resource.BirtResources;
-import org.eclipse.birt.report.resource.MessageConstants;
 import org.eclipse.birt.report.service.ReportEngineService;
-import org.eclipse.birt.report.servlet.ViewerServlet;
-import org.eclipse.birt.report.utility.MessageUtility;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -77,11 +74,6 @@ public class ViewerAttributeBean
 	private HashMap parameters = null;
 
 	/**
-	 * Whether missing parameters.
-	 */
-	private boolean missingParameter = false;
-
-	/**
 	 * scalar parameter bean.
 	 */
 	private ParameterAttributeBean parameterBean = null;
@@ -123,9 +115,8 @@ public class ViewerAttributeBean
 
 	/**
 	 * Constructor.
-	 * @throws AxisFault 
 	 */
-	public ViewerAttributeBean( HttpServletRequest request ) 
+	public ViewerAttributeBean( HttpServletRequest request )
 	{
 		this.init( request );
 	}
@@ -134,10 +125,9 @@ public class ViewerAttributeBean
 	 * Init the bean.
 	 * 
 	 * @param request
-	 * @throws AxisFault 
 	 * @throws Exception
 	 */
-	public void init( HttpServletRequest request ) 
+	public void init( HttpServletRequest request )
 	{
 		String servletPath = request.getServletPath( );
 		if ( servletPath.indexOf( "/wr" ) != -1 ) //$NON-NLS-1$
@@ -248,9 +238,6 @@ public class ViewerAttributeBean
 		this.parameters = ReportEngineService.getInstance( ).parseParameters(
 				request, this.parameterTask,
 				this.reportRunnable.getTestConfig( ), this.locale );
-
-		this.missingParameter = ReportEngineService.getInstance( )
-				.validateParameters( this.parameterTask, this.parameters );
 	}
 
 	/**
@@ -468,8 +455,14 @@ public class ViewerAttributeBean
 	 * @return Returns the missingParameter.
 	 */
 	public boolean isMissingParameter( )
-	{
-		return missingParameter;
+	{ 	
+		Map values = null;
+		if ( reportDocumentInstance != null )
+			values = reportDocumentInstance.getParameterValues( );		
+		else
+			values = this.parameters;
+		return ReportEngineService.getInstance( ).validateParameters(
+				this.parameterTask, values );
 	}
 
 	/**
