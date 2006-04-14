@@ -30,7 +30,6 @@ import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
-import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IParameterMetaData;
@@ -159,32 +158,8 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         this.queryText = queryText;
         this.queryType = queryType;
     }
-    
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getDataSource()
-     */
-    public IDataSource getDataSource()
-    {
-        return dataSource;
-    }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getQueryText()
-     */
-    public String getQueryText()
-    {
-        return queryText;
-    }
-
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getQueryType()
-     */
-    public String getQueryType()
-    {
-        return queryType;
-    }
-
-    /* (non-Javadoc)
+    /*
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setResultHints(java.util.Collection)
      */
     public void setResultHints(Collection columnDefns)
@@ -192,15 +167,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         resultHints = columnDefns;
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getResultHints()
-     */
-    public Collection getResultHints()
-    {
-        return resultHints;
-    }
-
-    /* (non-Javadoc)
+    /*
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setResultProjection(java.lang.String[])
      */
     public void setResultProjection(String[] fieldNames) throws DataException
@@ -209,17 +176,8 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
             return;		// nothing to set
         this.projectedFields = fieldNames;
     }
-
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getResultProjection()
-     */
-    public String[] getResultProjection()
-    {
-    	return projectedFields;
-    }
     
     /*
-     *  (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setParameterDefnAndDeftValBindings(java.util.Collection)
      */
 	public void setParameterDefnAndValBindings( Collection collection )
@@ -231,7 +189,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		this.paramDefnAndValBindings = collection;
 	}
 
-    /* (non-Javadoc)
+    /*
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#addProperty(java.lang.String, java.lang.String)
      */
     public void addProperty(String name, String value ) throws DataException
@@ -254,7 +212,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
    		propValues.add( value );
     }
 
-    /* (non-Javadoc)
+    /*
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#declareCustomField(java.lang.String, int)
      */
     public void declareCustomField( String fieldName, int dataType ) throws DataException
@@ -280,15 +238,6 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         }
         
         customFields.add( new CustomField( fieldName, dataType ) );
-    }
-    
-    /**
-     * Gets the customer columns as a Collection of CustomColumnDefn objects.
-     *
-     */
-    public Collection getCustomFields() 
-    {
-        return customFields;
     }
 
     /* (non-Javadoc)
@@ -413,9 +362,10 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		return parameterPosition > 0;
 	}
 	
-	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#setInputParamValue(java.lang.String, java.lang.Object)
+	/**
+	 * @param inputParamName
+	 * @param paramValue
+	 * @throws DataException
 	 */
 	private void setInputParamValue( String inputParamName, Object paramValue )
 			throws DataException
@@ -425,9 +375,10 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		getInputParamValues().add( pb );
 	}
 
-	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#setInputParamValue(int, java.lang.Object)
+	/**
+	 * @param inputParamPos
+	 * @param paramValue
+	 * @throws DataException
 	 */
 	private void setInputParamValue( int inputParamPos, Object paramValue )
 			throws DataException
@@ -486,7 +437,6 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	}
        
 	/*
-	 *  (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getResultClass()
 	 */
     public IResultClass getResultClass() 
@@ -496,7 +446,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         return resultMetadata;
     }
 
-    /* (non-Javadoc)
+    /*
      * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getParameterMetaData()
      */
     public Collection getParameterMetaData()
@@ -535,7 +485,6 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	}
 
 	/*
-	 *  (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#execute()
 	 */
     public IResultIterator execute( IEventHandler eventHandler )
@@ -565,6 +514,24 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 					resultMetadata,
 					new DataSetResultCache( rs, resultMetadata ),
 					eventHandler );
+    }
+    
+    /**
+     *  set input parameter bindings
+     */
+    private void setInputParameterBinding() throws DataException{
+		//		 set input parameter bindings
+		Iterator inputParamValueslist = getInputParamValues().iterator( );
+		while ( inputParamValueslist.hasNext( ) )
+		{
+			ParameterBinding paramBind = (ParameterBinding) inputParamValueslist.next( );
+			if ( isParameterPositionValid(paramBind.getPosition( )) )
+				odaStatement.setParameterValue( paramBind.getPosition( ),
+						paramBind.getValue() );
+			else
+				odaStatement.setParameterValue( paramBind.getName( ),
+						paramBind.getValue() );
+		}
     }
     
 	/*
@@ -684,7 +651,6 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     }
     
     /*
-     *  (non-Javadoc)
      * @see java.lang.Object#finalize()
      */
     public void finalize()
@@ -694,25 +660,6 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     	{
     		close();
     	}
-    }
-    
-    /**
-     *  set input parameter bindings
-     *  
-     */
-    private void setInputParameterBinding() throws DataException{
-		//		 set input parameter bindings
-		Iterator inputParamValueslist = getInputParamValues().iterator( );
-		while ( inputParamValueslist.hasNext( ) )
-		{
-			ParameterBinding paramBind = (ParameterBinding) inputParamValueslist.next( );
-			if ( isParameterPositionValid(paramBind.getPosition( )) )
-				odaStatement.setParameterValue( paramBind.getPosition( ),
-						paramBind.getValue() );
-			else
-				odaStatement.setParameterValue( paramBind.getName( ),
-						paramBind.getValue() );
-		}
     }
     
     /**
@@ -771,4 +718,5 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 					} );
 		}
 	}
+    
 }

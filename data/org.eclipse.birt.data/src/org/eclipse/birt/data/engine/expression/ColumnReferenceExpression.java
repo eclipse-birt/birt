@@ -15,7 +15,6 @@ package org.eclipse.birt.data.engine.expression;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.ModeManager;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;

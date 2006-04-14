@@ -35,18 +35,10 @@ import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
  */
 class DataSource implements IDataSource
 {
-	private static String className = DataSource.class.getName();
-	private static Logger logger = Logger.getLogger( className ); 
-    protected String 		driverName;
+	private String 		driverName;
+    private Map			appContext;
+    private Properties	connectionProps = new Properties();
     
-    // Information about an open oda connection 
-    static private final class OpenConnection
-	{
-    	Connection connection;
-    	int maxStatements = Integer.MAX_VALUE;		// max # of supported concurrent statements
-    	int currentStatements = 0;	// # of currently active statements
-	};
-	
     // A pool of open odaconsumer.Connection. Since each connection may support a limited
 	// # of statements, we may need to use more than one connection to handle concurrent statements
 	// This is a set of OpenConnection
@@ -55,8 +47,8 @@ class DataSource implements IDataSource
 	// Currently active oda Statements. This is a map from PreparedStatement to OpenConnection
 	private HashMap statementMap = new HashMap();
 	
-    protected Properties	connectionProps = new Properties();
-    private Map appContext;
+	private static String className = DataSource.class.getName();
+	private static Logger logger = Logger.getLogger( className ); 
 
     /**
      * @param driverName
@@ -68,30 +60,16 @@ class DataSource implements IDataSource
     	if ( connProperties != null )
     		this.connectionProps.putAll( connProperties );
 	}
-
-    /**
-     * @see org.eclipse.birt.data.engine.odi.IDataSource#getDriverName()
-     */
-    public String getDriverName()
-    {
-        return driverName;
-    }
-
-    /**
-     * @see org.eclipse.birt.data.engine.odi.IDataSource#getProperties()
-     */
-    public Map getProperties()
-    {
-        return connectionProps;
-    }
-
+    
     /**
      * @see org.eclipse.birt.data.engine.odi.IDataSource#addProperty(java.lang.String, java.lang.String)
      */
     public void addProperty(String name, String value) throws DataException
     {
         // Cannot change connection properties if connection is open
-        checkState( false );
+    	if ( isOpen( ) )
+			throw new DataException( ResourceConstants.DS_HAS_OPENED );
+    	
         connectionProps.put( name, value );
     }
 
@@ -103,25 +81,7 @@ class DataSource implements IDataSource
 	    appContext = context;
 	}
 
-    /**
-     * @see org.eclipse.birt.data.engine.odi.IDataSource#newQuery(java.lang.String, java.lang.String)
-     */
-    public IDataSourceQuery newQuery(String queryType, String queryText) throws DataException
-    {
-    	// Allow a query to be created on an unopened data source
-        return new DataSourceQuery(this, queryType, queryText);
-    }
-
-    /**
-     * @see org.eclipse.birt.data.engine.odi.IDataSource#newCandidateQuery()
-     */
-    public ICandidateQuery newCandidateQuery()
-    {
-       	// Allow a query to be created on an unopened data source
-		return new CandidateQuery( );
-    }
-
-    /**
+    /*
      * @see org.eclipse.birt.data.engine.odi.IDataSource#isOpen()
      */
     public boolean isOpen()
@@ -129,31 +89,37 @@ class DataSource implements IDataSource
         return odaConnections.size() > 0;
     }
 
-    /**
+    /*
      * @see org.eclipse.birt.data.engine.odi.IDataSource#open()
      */
-    public void open() throws DataException
-    {
-        // No op if we are already open
-        if ( isOpen() )
-            return;
-        
-        // If no driver name is specified, this is an empty data source used soley for
-        // processing candidate queries. Open() is a no-op.
-        if ( driverName == null || driverName.length() == 0 )
-        	return;
-        
-        // Create first open connection
-        newConnection();
-    }
+    public void open( ) throws DataException
+	{
+		// No op if we are already open
+		if ( isOpen( ) )
+			return;
+
+		// If no driver name is specified, this is an empty data source used
+		// soley for
+		// processing candidate queries. Open() is a no-op.
+		if ( driverName == null || driverName.length( ) == 0 )
+			return;
+
+		// Create first open connection
+		newConnection( );
+	}
     
-    /** Opens a new Connection and add it to the pool */
-    private OpenConnection newConnection() throws DataException
+    /**
+     * Opens a new Connection and add it to the pool
+     * 
+     * @return
+     * @throws DataException
+     */
+    private CacheConnection newConnection() throws DataException
     {
-    	OpenConnection conn = new OpenConnection();
-    	conn.connection = ConnectionManager.getInstance().openConnection( 
+    	CacheConnection conn = new CacheConnection();
+    	conn.odaConn = ConnectionManager.getInstance().openConnection( 
     			driverName, connectionProps, appContext );
-    	int max = conn.connection.getMaxQueries();
+    	int max = conn.odaConn.getMaxQueries();
     	if ( max != 0 )		//	0 means no limit
     		conn.maxStatements = max;
     	this.odaConnections.add( conn );
@@ -164,12 +130,12 @@ class DataSource implements IDataSource
      * Find a connection available for new statements in the pool, or create
      * a new one if none available 
      */
-    private OpenConnection getAvailableConnection() throws DataException
+    private CacheConnection getAvailableConnection() throws DataException
 	{
     	Iterator it = odaConnections.iterator();
     	while ( it.hasNext() )
     	{
-    		OpenConnection c = (OpenConnection) (it.next());
+    		CacheConnection c = (CacheConnection) (it.next());
     		if ( c.currentStatements < c.maxStatements )
     			return c;
     	}
@@ -178,6 +144,24 @@ class DataSource implements IDataSource
     	return newConnection();
 	}
 
+    /*
+     * @see org.eclipse.birt.data.engine.odi.IDataSource#newQuery(java.lang.String, java.lang.String)
+     */
+    public IDataSourceQuery newQuery(String queryType, String queryText) throws DataException
+    {
+    	// Allow a query to be created on an unopened data source
+        return new DataSourceQuery(this, queryType, queryText);
+    }
+
+    /*
+     * @see org.eclipse.birt.data.engine.odi.IDataSource#newCandidateQuery()
+     */
+    public ICandidateQuery newCandidateQuery()
+    {
+       	// Allow a query to be created on an unopened data source
+		return new CandidateQuery( );
+    }
+    
     /**
      * Prepares an ODA Statement. May use an existing Connection from the pool
      * which has free active statements, or a new connection if all connections
@@ -188,10 +172,10 @@ class DataSource implements IDataSource
     	throws DataException
     {
         assert isOpen();
-        OpenConnection conn = getAvailableConnection();
+        CacheConnection conn = getAvailableConnection();
         assert conn.currentStatements < conn.maxStatements;
         ++ conn.currentStatements;
-        PreparedStatement stmt = conn.connection.prepareStatement( queryText, dataSetType );
+        PreparedStatement stmt = conn.odaConn.prepareStatement( queryText, dataSetType );
         
         // Map statement to the open connection, so we can release the connection
         // when statement is closed
@@ -207,7 +191,7 @@ class DataSource implements IDataSource
     {
     	assert stmt != null;
     	// Find the associated connection
-    	OpenConnection conn = (OpenConnection) statementMap.remove( stmt );
+    	CacheConnection conn = (CacheConnection) statementMap.remove( stmt );
     	if ( conn == null )
     	{
     		// unexpected error: stmt not created by us
@@ -234,9 +218,8 @@ class DataSource implements IDataSource
     					"Exception at PreparedStatement.close()", e );
         }
     }
-    
-    
-    /**
+        
+    /*
      * @see org.eclipse.birt.data.engine.odi.IDataSource#close()
      */
     public void close()
@@ -256,11 +239,11 @@ class DataSource implements IDataSource
     	Iterator it = odaConnections.iterator();
     	while ( it.hasNext() )
     	{
-    		OpenConnection c = (OpenConnection) (it.next());
+    		CacheConnection c = (CacheConnection) (it.next());
     		
     		try
 			{
-    			c.connection.close();
+    			c.odaConn.close();
 			}
     		catch ( DataException e ) 
 			{
@@ -270,16 +253,10 @@ class DataSource implements IDataSource
     	}
         odaConnections.clear();        
     }
-
-    // Checks the open state 
-    private void checkState( boolean checkOpen ) throws DataException
-    {
-        if ( ! checkOpen && isOpen() )
-            throw new DataException( ResourceConstants.DS_HAS_OPENED );
-        else if ( checkOpen && ! isOpen() )
-            throw new DataException( ResourceConstants.DS_NOT_OPEN );
-    }
     
+    /*
+     * @see java.lang.Object#finalize()
+     */
     public void finalize()
     {
     	// Makes sure no connection is leaked
@@ -288,5 +265,14 @@ class DataSource implements IDataSource
     		close();
     	}
     }
+    
+    //  Information about an open oda connection 
+	static private final class CacheConnection
+	{
+
+		Connection odaConn;
+		int maxStatements = Integer.MAX_VALUE; // max # of supported concurrent statements
+		int currentStatements = 0; // # of currently active statements
+	};
    
 }

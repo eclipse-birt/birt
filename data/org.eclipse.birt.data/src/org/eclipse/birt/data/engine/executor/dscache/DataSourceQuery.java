@@ -93,7 +93,6 @@ public class DataSourceQuery extends BaseQuery
 	 */
 	public Collection getParameterMetaData( ) throws DataException
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -102,7 +101,6 @@ public class DataSourceQuery extends BaseQuery
 	 */
 	public Object getOutputParameterValue( int index ) throws DataException
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -111,26 +109,9 @@ public class DataSourceQuery extends BaseQuery
 	 */
 	public Object getOutputParameterValue( String name ) throws DataException
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
-/*
-	
-	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#setInputParamValue(java.lang.String, java.lang.Object)
-	 
-	public void setInputParamValue( String inputParamName, Object paramValue ) throws DataException
-	{
-		// do nothing		
-	}
 
-	
-	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#setInputParamValue(int, java.lang.Object)
-	 
-	public void setInputParamValue( int inputParamPos, Object paramValue ) throws DataException
-	{
-		// do nothing
-	}
-*/
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#execute()
 	 */

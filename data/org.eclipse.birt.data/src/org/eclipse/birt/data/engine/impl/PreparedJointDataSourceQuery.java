@@ -60,10 +60,6 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private IJoinConditionMatcher matcher;
 	private int joinType;
 	
-	private DataEngineImpl dataEngine;
-	private IBaseDataSetDesign dataSetDesign;
-	private Map appContext;
-	
 	/**
 	 * Constructor.
 	 * 
@@ -78,9 +74,6 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			Map appContext ) throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign, appContext );
-		this.dataEngine = dataEngine;
-		this.dataSetDesign = dataSetDesign;
-		this.appContext = appContext;
 		initialize( dataEngine, dataSetDesign, appContext );
 	}
 
