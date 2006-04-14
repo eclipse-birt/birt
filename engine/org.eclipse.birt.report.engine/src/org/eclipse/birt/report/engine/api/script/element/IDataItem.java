@@ -19,23 +19,6 @@ public interface IDataItem extends IReportItem
 	IAction getAction( );
 
 	/**
-	 * Returns the expression that gives the value that the data item displays.
-	 * 
-	 * @return the value expression
-	 */
-	String getValueExpr( );
-
-	/**
-	 * Sets the expression for the value that the data item is to display.
-	 * 
-	 * @param expr
-	 *            the expression to set
-	 * @throws ScriptException
-	 *             If the property is locked.
-	 */
-	void setValueExpr( String expr ) throws ScriptException;
-
-	/**
 	 * Returns the help text of this data item.
 	 * 
 	 * @return the help text

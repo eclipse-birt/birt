@@ -1,8 +1,6 @@
 
 package org.eclipse.birt.report.engine.api.script.element;
 
-import java.util.List;
-
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
@@ -199,26 +197,4 @@ public interface IReportItem extends IReportElement
 	 */
 
 	String getTocExpression( );
-
-	/**
-	 * Returns the bound data columns list. Each item in the list is
-	 * <code>ComputedColumnHandle</code>.
-	 * 
-	 * @return a list containing bound data columns.
-	 */
-
-	List getBoundDataColumns( );
-
-	/**
-	 * Sets the bound data columns list. Each item in the list is
-	 * <code>ComputedColumnHandle</code>.
-	 * 
-	 * @param boundColumns
-	 *            a list containing bound data columns.
-	 * @throws ScriptException
-	 *             if the Data binding property is locked by the property mask,
-	 *             or values of bound columns are invalid.
-	 */
-
-	void setBoundDataColumns( List boundColumns ) throws ScriptException;
 }

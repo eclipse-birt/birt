@@ -31,34 +31,6 @@ public class DataItem extends ReportItem implements IDataItem
 	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#getValueExpr()
 	 */
 
-	public String getValueExpr( )
-	{
-		return ( ( DataItemHandle ) handle ).getResultSetColumn( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#setValueExpr(java.lang.String)
-	 */
-
-	public void setValueExpr( String expr ) throws ScriptException
-	{
-		try
-		{
-			( ( DataItemHandle ) handle ).setResultSetColumn( expr );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#getHelpText()
-	 */
-
 	public String getHelpText( )
 	{
 		return ( ( DataItemHandle ) handle ).getHelpText( );
