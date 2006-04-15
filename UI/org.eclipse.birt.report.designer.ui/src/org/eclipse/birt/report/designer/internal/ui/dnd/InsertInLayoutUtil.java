@@ -344,7 +344,7 @@ public class InsertInLayoutUtil
 			Assert.isTrue( object == dataSetColumn || object == null );
 
 			getGroupContainer( container ).setDataSet( getDataSetHandle( dataSetColumn ) );
-			getGroupHandle( container ).setKeyExpr( DEUtil.getExpression( dataSetColumn ) );
+			getGroupHandle( container ).setKeyExpr( DEUtil.getColumnExpression( dataSetColumn.getColumnName( ) ) );
 
 		}
 
@@ -536,27 +536,41 @@ public class InsertInLayoutUtil
 			ResultSetColumnHandle model, Object target, Object targetParent )
 			throws SemanticException
 	{
-		// DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
-		// .getReportDesignHandle( )
-		// .getElementFactory( )
-		// .newDataItem( null );
+		/*
+		 * search the target container, if container has the same dataset, add
+		 * the column binding if it does not exist in the container. If the
+		 * container's dataset is not the dragged dataset column's dataset,
+		 * column binding will be added to the new dataitem, and set dataitem's
+		 * dataset with the dragged dataset column's dataset.
+		 */
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
 		DataSetHandle dataSet = (DataSetHandle) model.getElementHandle( );
 
 		dataHandle.setResultSetColumn( model.getColumnName( ) );
 
-		boolean bindingExist = false;
+		boolean bindingExist = true;
 
 		if ( targetParent instanceof ReportItemHandle )
 		{
-			// if ( !DEUtil.getDataSetList( container ).contains( dataSet ) )
-			// {
-			// if ( container.getDataSet( ) == null )
-			// {
-			// container.setDataSet( dataSet );
-			// }
-			// }
+			ReportItemHandle container = (ReportItemHandle) targetParent;
+			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
+					model.getColumnName( ) );
+			bindingColumn.setDataType( model.getDataType( ) );
+			bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			if ( container.getDataSet( ) == null )
+			{
+				container.setDataSet( dataSet );
+			}
+			if ( DEUtil.getDataSetList( container ).contains( dataSet ) )
+			{
+				container.addColumnBinding( bindingColumn, false );
+			}
+			else
+			{
+				dataHandle.setDataSet( dataSet );
+				dataHandle.addColumnBinding( bindingColumn, false );
+			}
 			// GroupHandle groupHandle = getGroupHandle( target );
 			// if ( groupHandle != null )
 			// {
@@ -574,56 +588,59 @@ public class InsertInLayoutUtil
 			// ComputedColumn bindingColumn =
 			// StructureFactory.newComputedColumn( container,
 			// model.getColumnName( ) );
-			// // bindingColumn.setColumnName( model.getColumnName( ) );
 			// bindingColumn.setDataType( model.getDataType( ) );
 			// bindingColumn.setExpression( DEUtil.getExpression( model ) );
 			// container.addColumnBinding( bindingColumn, false );
 			// }
-			ComputedColumn bindingColumn = StructureFactory.createComputedColumn( );
-			bindingColumn.setName( model.getColumnName( ) );
-			bindingColumn.setDataType( model.getDataType( ) );
-			bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			// ComputedColumn bindingColumn =
+			// StructureFactory.createComputedColumn( );
+			// bindingColumn.setName( model.getColumnName( ) );
+			// bindingColumn.setDataType( model.getDataType( ) );
+			// bindingColumn.setExpression( DEUtil.getExpression( model ) );
 
-			ReportItemHandle container = (ReportItemHandle) targetParent;
-			GroupHandle groupHandle = getGroupHandle( target );
-
-			if ( groupHandle != null )
-			{
-				for ( Iterator iter = groupHandle.getColumnBindings( )
-						.iterator( ); iter.hasNext( ); )
-				{
-					ComputedColumnHandle element = (ComputedColumnHandle) iter.next( );
-					if ( element.getStructure( ).equals( bindingColumn ) )
-					{
-						bindingExist = true;
-						break;
-					}
-				}
-			}
-			else
-			{
-				for ( Iterator iter = container.getColumnBindings( ).iterator( ); iter.hasNext( ); )
-				{
-					ComputedColumnHandle element = (ComputedColumnHandle) iter.next( );
-					if ( element.getStructure( ).equals( bindingColumn ) )
-					{
-						bindingExist = true;
-						break;
-					}
-				}
-
-			}
+			// GroupHandle groupHandle = getGroupHandle( target );
+			//
+			// if ( groupHandle != null )
+			// {
+			// for ( Iterator iter = groupHandle.getColumnBindings( )
+			// .iterator( ); iter.hasNext( ); )
+			// {
+			// ComputedColumnHandle element = (ComputedColumnHandle) iter.next(
+			// );
+			// if ( element.getStructure( ).equals( bindingColumn ) )
+			// {
+			// bindingExist = true;
+			// break;
+			// }
+			// }
+			// }
+			// else
+			// {
+			// for ( Iterator iter = container.getColumnBindings( ).iterator( );
+			// iter.hasNext( ); )
+			// {
+			// ComputedColumnHandle element = (ComputedColumnHandle) iter.next(
+			// );
+			// if ( element.getStructure( ).equals( bindingColumn ) )
+			// {
+			// bindingExist = true;
+			// break;
+			// }
+			// }
+			//
+			// }
 		}
 
-		if ( !bindingExist )
-		{
-			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
-					model.getColumnName( ) );
-			bindingColumn.setDataType( model.getDataType( ) );
-			bindingColumn.setExpression( DEUtil.getExpression( model ) );
-			dataHandle.addColumnBinding( bindingColumn, false );
-			dataHandle.setDataSet( dataSet );
-		}
+		// if ( !bindingExist )
+		// {
+		// ComputedColumn bindingColumn = StructureFactory.newComputedColumn(
+		// dataHandle,
+		// model.getColumnName( ) );
+		// bindingColumn.setDataType( model.getDataType( ) );
+		// bindingColumn.setExpression( DEUtil.getExpression( model ) );
+		// dataHandle.addColumnBinding( bindingColumn, false );
+		// dataHandle.setDataSet( dataSet );
+		// }
 
 		InsertInLayoutRule rule = new LabelAddRule( target );
 		if ( rule.canInsert( ) )
