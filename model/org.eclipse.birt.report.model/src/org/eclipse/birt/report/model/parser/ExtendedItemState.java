@@ -135,6 +135,9 @@ public class ExtendedItemState extends ReportItemState
 	private Map handleJavaExpression( List jsExprs )
 	{
 		Map retMap = new HashMap( );
+				
+		if (jsExprs == null || jsExprs.isEmpty( ) )
+			return retMap;
 
 		for ( int i = 0; i < jsExprs.size( ); i++ )
 		{
