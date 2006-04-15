@@ -630,6 +630,15 @@ public class InsertInLayoutUtil
 			//
 			// }
 		}
+		else
+		{
+			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
+					model.getColumnName( ) );
+			bindingColumn.setDataType( model.getDataType( ) );
+			bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			dataHandle.addColumnBinding( bindingColumn, false );
+			dataHandle.setDataSet( dataSet );
+		}
 
 		// if ( !bindingExist )
 		// {
