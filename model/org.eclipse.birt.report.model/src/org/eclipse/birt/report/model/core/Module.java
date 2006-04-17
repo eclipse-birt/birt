@@ -2386,4 +2386,51 @@ public abstract class Module extends DesignElement implements IModuleModel
 		}
 		return result;
 	}
+
+	/**
+	 * Checks the name of the embedded image in this report. If duplicate, get a
+	 * unique name and rename it.
+	 * 
+	 * @param image
+	 *            the embedded image whose name is need to check
+	 */
+
+	public void rename( EmbeddedImage image )
+	{
+		if ( image == null )
+			return;
+		if ( StringUtil.isBlank( image.getName( ) ) )
+			return;
+
+		List images = getListProperty( this, Module.IMAGES_PROP );
+		if ( images == null )
+			return;
+
+		// build the embedded image names
+
+		List names = new ArrayList( );
+		for ( int i = 0; i < images.size( ); i++ )
+		{
+			EmbeddedImage theImage = (EmbeddedImage) images.get( i );
+			String name = theImage.getName( );
+			assert !names.contains( name );
+			names.add( name );
+		}
+
+		// the name of the image to add is not duplicate
+
+		if ( !names.contains( image.getName( ) ) )
+			return;
+
+		// Add a numeric suffix that makes the name unique.
+
+		int index = 0;
+		String name = image.getName( );
+		String baseName = image.getName( );
+		while ( names.contains( name ) )
+		{
+			name = baseName + ++index;
+		}
+		image.setName( name.trim( ) );
+	}
 }

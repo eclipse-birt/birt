@@ -19,12 +19,14 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
+import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -34,9 +36,13 @@ import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StructureRefUtil;
 
 /**
  * Utility class for the serialize a report design in which all the elements
@@ -203,6 +209,11 @@ public class DocumentUtil
 		}
 		else if ( source instanceof ReportItem )
 		{
+			if ( source instanceof ImageItem )
+			{
+				resolveImageItem( targetDesign, sourceDesign, target, source );
+			}
+
 			resolveDataSet( targetDesign, sourceDesign, target, source );
 			resolveStyle( targetDesign, target, source );
 		}
@@ -210,6 +221,83 @@ public class DocumentUtil
 		{
 			resolveStyle( targetDesign, target, source );
 		}
+
+	}
+
+
+	/**
+	 * if the image item reference a library image, which uses a library
+	 * embedded image, copy the embedded image into the target design.
+	 * 
+	 * @param targetDesign
+	 *            the target design to add the copied embedded image
+	 * @param sourceDesign
+	 *            the source design from which to get the copy
+	 * @param target
+	 *            the target element to resolve the embedded image
+	 * @param source
+	 *            the source element
+	 */
+
+	static void resolveImageItem( ReportDesign targetDesign,
+			ReportDesign sourceDesign, DesignElement target,
+			DesignElement source )
+	{
+		assert targetDesign != null && target != null && source != null;
+		assert source instanceof ImageItem;
+		assert target instanceof ImageItem;
+
+		StructRefValue embeddedImage = (StructRefValue) source.getProperty(
+				sourceDesign, ImageItem.IMAGE_NAME_PROP );
+
+		if ( embeddedImage == null || !embeddedImage.isResolved( ) )
+			return;
+
+		if ( !isLocalImage( embeddedImage.getName( ), sourceDesign ) )
+		{
+
+			EmbeddedImage targetEmbeddedImage = (EmbeddedImage) embeddedImage
+					.getTargetStructure( ).copy( );
+
+			targetDesign.rename( targetEmbeddedImage );
+
+			List images = targetDesign.getListProperty(
+					targetDesign.getRoot( ), ReportDesign.IMAGES_PROP );
+
+			if ( images == null )
+			{
+				images = new ArrayList( );
+				targetDesign.setProperty( ReportDesign.IMAGES_PROP, images );
+			}
+			// add the embedded image into the target report deisgn.
+			images.add( targetEmbeddedImage );
+
+			StructRefValue structRef = new StructRefValue( null,
+					targetEmbeddedImage.getName( ) );
+
+			target.setProperty( ImageItem.IMAGE_NAME_PROP, structRef );
+		}
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param imageName
+	 * @param sourceDesign
+	 * @return
+	 */
+	private static boolean isLocalImage( String imageName,
+			ReportDesign sourceDesign )
+	{
+		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
+				.getStructure( EmbeddedImage.EMBEDDED_IMAGE_STRUCT );
+
+		if ( StructureRefUtil.findNativeStructure( sourceDesign, defn,
+				imageName ) != null )
+			return true;
+
+		return false;
+
 	}
 
 	/**

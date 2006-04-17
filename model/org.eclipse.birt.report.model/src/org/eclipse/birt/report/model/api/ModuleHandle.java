@@ -220,41 +220,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void rename( EmbeddedImage image )
 	{
-		if ( image == null )
-			return;
-		if ( StringUtil.isBlank( image.getName( ) ) )
-			return;
-
-		List images = getListProperty( Module.IMAGES_PROP );
-		if ( images == null )
-			return;
-
-		// build the embedded image names
-
-		List names = new ArrayList( );
-		for ( int i = 0; i < images.size( ); i++ )
-		{
-			EmbeddedImage theImage = (EmbeddedImage) images.get( i );
-			String name = theImage.getName( );
-			assert !names.contains( name );
-			names.add( name );
-		}
-
-		// the name of the image to add is not duplicate
-
-		if ( !names.contains( image.getName( ) ) )
-			return;
-
-		// Add a numeric suffix that makes the name unique.
-
-		int index = 0;
-		String name = image.getName( );
-		String baseName = image.getName( );
-		while ( names.contains( name ) )
-		{
-			name = baseName + ++index;
-		}
-		image.setName( name.trim( ) );
+		this.module.rename( image );
 	}
 
 	/**
