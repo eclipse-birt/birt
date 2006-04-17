@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
@@ -1748,7 +1749,15 @@ public class ParameterDialog extends BaseDialog
 		{
 			gd.verticalAlignment = GridData.BEGINNING;
 		}
-		gd.widthHint = 100;
+		
+		if(Platform.getOS( ).equals( Platform.OS_LINUX ))
+		{
+			gd.widthHint = 125;
+		}else
+		{
+			gd.widthHint = 100;
+		}		
+		
 		if ( ULocale.getDefault( ).getLanguage( ).equals( "es" ) ) //$NON-NLS-1$
 		{
 			gd.widthHint += 15;
