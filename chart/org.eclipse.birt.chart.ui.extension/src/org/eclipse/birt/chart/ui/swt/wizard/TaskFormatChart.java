@@ -478,17 +478,22 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	private void createPreviewArea( Composite parent )
 	{
-		Label label = new Label( parent, SWT.NONE );
+		Composite cmpPreview = new Composite( parent, SWT.NONE );
+		cmpPreview.setLayout( new GridLayout( ) );
+
+		GridData gridData = new GridData( GridData.FILL_BOTH );
+		gridData.heightHint = 250;
+		cmpPreview.setLayoutData( gridData );
+		
+		Label label = new Label( cmpPreview, SWT.NONE );
 		{
 			label.setFont( JFaceResources.getBannerFont( ) );
 			label.setText( Messages.getString( "TaskFormatChart.Label.Preview" ) ); //$NON-NLS-1$
 		}
 
-		previewCanvas = new Canvas( parent, SWT.BORDER );
+		previewCanvas = new Canvas( cmpPreview, SWT.BORDER );
 		{
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			gridData.heightHint = 250;
-			previewCanvas.setLayoutData( gridData );
+			previewCanvas.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 			previewCanvas.setBackground( Display.getDefault( )
 					.getSystemColor( SWT.COLOR_WHITE ) );
 		}

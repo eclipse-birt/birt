@@ -198,7 +198,6 @@ public class TaskSelectType extends SimpleTask
 		cmpPreview.setLayout( new GridLayout( ) );
 
 		GridData gridData = new GridData( GridData.FILL_BOTH );
-		gridData.heightHint = 500;
 		gridData.heightHint = 250;
 		cmpPreview.setLayoutData( gridData );
 
