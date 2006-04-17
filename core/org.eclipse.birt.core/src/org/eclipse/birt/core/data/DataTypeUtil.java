@@ -26,6 +26,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.i18n.ResourceHandle;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.util.ULocale;
@@ -74,6 +75,8 @@ public final class DataTypeUtil
 		// here we assume the efficiency of if else is higher than switch case
 		if ( toType == DataType.UNKNOWN_TYPE || toType == DataType.ANY_TYPE )
 			return source;
+		
+		source = JavascriptEvalUtil.convertJavascriptValue( source );
 		
 		switch ( toType )
 		{
