@@ -115,6 +115,11 @@ public interface IDataSource
 	 */
     public void open() throws DataException;
 	
+    /**
+     * @return
+     */
+    public boolean canClose();
+    
 	/**
      * Closes the data source and any associated resources.  
      * The data source and its query instances can no longer be used.

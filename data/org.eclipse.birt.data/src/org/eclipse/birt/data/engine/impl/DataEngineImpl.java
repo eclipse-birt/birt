@@ -62,6 +62,7 @@ public class DataEngineImpl extends DataEngine
 
 	// data engine context
 	private DataEngineContext context;
+	private DataSourceManager dataSourceManager;
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
@@ -93,7 +94,8 @@ public class DataEngineImpl extends DataEngine
 		new CoreJavaScriptInitializer( ).initialize( cx, sharedScope );
 		Context.exit( );
 				
-		compiler = new ExpressionCompiler( );
+		compiler = new ExpressionCompiler( );		
+		dataSourceManager = new DataSourceManager( logger );
 		
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
 		logger.log( Level.INFO, "Data Engine starts up" );
@@ -117,7 +119,7 @@ public class DataEngineImpl extends DataEngine
 
 		return new QueryResults( this.context, queryResultID );
 	}
-
+	
 	/**
 	 * Provides the definition of a data source to Data Engine. A data source
 	 * must be defined using this method prior to preparing any report query
@@ -175,9 +177,7 @@ public class DataEngineImpl extends DataEngine
 		// See if this data source is already defined; if so update its design
 		Object existingDefn = dataSources.get( dataSource.getName( ) );
 		if ( existingDefn != null )
-		{
-			( (DataSourceRuntime) existingDefn ).closeOdiDataSource( );
-		}
+			this.dataSourceManager.addDataSource( (DataSourceRuntime) existingDefn );
 		
 		// Create a corresponding runtime for the data source and add it to
 		// the map
@@ -526,6 +526,9 @@ public class DataEngineImpl extends DataEngine
 		return compiler;
 	}
 
+	/*
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#shutdown()
+	 */
 	public void shutdown( )
 	{
 		logger.entering( "DataEngineImpl", "shutdown" );
@@ -552,7 +555,9 @@ public class DataEngineImpl extends DataEngine
 							+ ds + ") fails to shut down", e );
 			}
 		}
-
+		
+		this.dataSourceManager.close( );
+		
 		logger.logp( Level.INFO,
 				DataEngineImpl.class.getName( ),
 				"shutdown",

@@ -84,14 +84,14 @@ class DataSource implements IDataSource
     /*
      * @see org.eclipse.birt.data.engine.odi.IDataSource#isOpen()
      */
-    public boolean isOpen()
-    {
-        return odaConnections.size() > 0;
-    }
+    public boolean isOpen( )
+	{
+		return odaConnections.size( ) > 0;
+	}
 
     /*
-     * @see org.eclipse.birt.data.engine.odi.IDataSource#open()
-     */
+	 * @see org.eclipse.birt.data.engine.odi.IDataSource#open()
+	 */
     public void open( ) throws DataException
 	{
 		// No op if we are already open
@@ -194,6 +194,7 @@ class DataSource implements IDataSource
     	CacheConnection conn = (CacheConnection) statementMap.remove( stmt );
     	if ( conn == null )
     	{
+    		System.out.println( "d" );
     		// unexpected error: stmt not created by us
     		logger.logp( Level.WARNING, className, "closeStatement",
     				"statement not found");
@@ -218,22 +219,47 @@ class DataSource implements IDataSource
     					"Exception at PreparedStatement.close()", e );
         }
     }
-        
+    
     /*
+     * @see org.eclipse.birt.data.engine.odi.IDataSource#canClose()
+     */
+    public boolean canClose( )
+	{
+		return statementMap.size( ) == 0;
+	};
+    
+    /*
+     * force to close all statements and connections
+     * 
      * @see org.eclipse.birt.data.engine.odi.IDataSource#close()
      */
-    public void close()
-    {
-    	// At this time all statements should have been closed
-    	// Any remaining statement indicate resource leak, or obnormal shtudown
-    	if ( statementMap.size() > 0 )
-    	{
-    		logger.logp( Level.WARNING, className, "close",
-    				statementMap.size() + " statements still active.");
-
-    		statementMap.clear();
-    	}
-
+    public void close( )
+	{
+    	// in normal case, canClose needs to be called to make sure there is no
+		// statement which is under use. but in the end of service of data engine, all
+    	// statemens or connections needs to be forced to close.
+    	if ( statementMap.size( ) > 0 )
+		{
+    		Iterator keySet = statementMap.keySet( ).iterator( );
+			while ( keySet.hasNext( ) )
+			{
+				PreparedStatement stmt = (PreparedStatement) keySet.next( );
+				try
+				{
+					stmt.close( );
+				}
+				catch ( DataException e )
+				{
+					logger.logp( Level.FINE,
+							className,
+							"close",
+							"Exception at PreparedStatement.close()",
+							e );
+				}
+			}
+			
+			statementMap.clear( );
+		}
 
     	// Close all open connections
     	Iterator it = odaConnections.iterator();
@@ -257,22 +283,21 @@ class DataSource implements IDataSource
     /*
      * @see java.lang.Object#finalize()
      */
-    public void finalize()
-    {
-    	// Makes sure no connection is leaked
-    	if ( isOpen() )
-    	{
-    		close();
-    	}
-    }
+    public void finalize( )
+	{
+		// Makes sure no connection is leaked
+		if ( isOpen( ) )
+		{
+			close( );
+		}
+	}
     
-    //  Information about an open oda connection 
+    // Information about an open oda connection
 	static private final class CacheConnection
 	{
-
 		Connection odaConn;
 		int maxStatements = Integer.MAX_VALUE; // max # of supported concurrent statements
 		int currentStatements = 0; // # of currently active statements
-	};
+	}
    
 }

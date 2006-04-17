@@ -208,6 +208,18 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 	}
 	
 	/**
+	 * @return
+	 * @throws DataException
+	 */
+	public boolean canClose( )
+	{
+		if ( odiDataSource != null )
+			return odiDataSource.canClose( );
+
+		return true;
+	}
+	
+	/**
 	 * Closes the associated odiDataSource. Event scripts associated with this data source
 	 * are NOT runt in this method
 	 */

@@ -650,18 +650,6 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         // TODO: close all CachedResultSets created by us
     }
     
-    /*
-     * @see java.lang.Object#finalize()
-     */
-    public void finalize()
-    {
-    	// Makes sure no statement is leaked
-    	if ( odaStatement != null )
-    	{
-    		close();
-    	}
-    }
-    
     /**
      * convert the String value to Object according to it's datatype.
      *  

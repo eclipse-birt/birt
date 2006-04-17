@@ -21,7 +21,6 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
-import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.DataSourceRuntime;
 import org.eclipse.birt.data.engine.impl.QueryExecutor;
@@ -30,6 +29,7 @@ import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * 
@@ -93,6 +93,14 @@ public class NewInstanceHelper
 			}
 
 			/*
+			 * @see org.eclipse.birt.data.engine.odi.IDataSource#canClose()
+			 */
+			public boolean canClose( )
+			{
+				return true;
+			}
+			
+			/*
 			 * @see org.eclipse.birt.data.engine.odi.IDataSource#close()
 			 */
 			public void close( )
@@ -106,9 +114,9 @@ public class NewInstanceHelper
 	 * @return
 	 */
 	public static DataSourceRuntime newDataSourceRuntime(
-			DataEngineImpl dataEngine )
+			Scriptable queryScope )
 	{
-		return new DataSourceRuntime( newBaseDataSourceDesign( ), dataEngine.getSharedScope( ) ) {
+		return new DataSourceRuntime( newBaseDataSourceDesign( ), queryScope ) {
 
 			/*
 			 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getExtensionID()
