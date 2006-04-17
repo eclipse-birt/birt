@@ -91,6 +91,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	public static final String TABLE_GROUP_HEADER = "gh"; //$NON-NLS-1$
 	public static final String TABLE_GROUP_FOOTER = "gf"; //$NON-NLS-1$
 
+	public static final String DEFAULT_WIDTH = "100.0" + DesignChoiceConstants.UNITS_PERCENTAGE;
 	/* the name model should support */
 	private HashMap rowInfo = new HashMap( );
 	private List rows = new ArrayList( );
@@ -655,7 +656,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 		if ( handle.getUnits( ) == null || handle.getUnits( ).length( ) == 0 )
 		{
-			return null;
+			//TODO The default value is 100.0% to fix the bug 124051, but it is a temp solution.
+			//default value is 100.0%
+			return DEFAULT_WIDTH;
+			//return null;
 		}
 		else if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle
 				.getUnits( ) ) )
