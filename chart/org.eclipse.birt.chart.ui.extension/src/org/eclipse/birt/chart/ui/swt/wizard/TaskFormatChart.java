@@ -437,12 +437,12 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	public Composite getUI( Composite parent )
 	{
+		manipulateCompatible( );
 		Composite cmp = super.getUI( parent );
 		if ( previewPainter == null )
 		{
 			// Invoke this only once
-			createPreviewPainter( );
-			manipulateCompatible( );
+			createPreviewPainter( );			
 		}
 		doLivePreviewWithoutRenderModel( );
 		previewPainter.renderModel( getCurrentModelState( ) );
