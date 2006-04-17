@@ -27,8 +27,8 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableItem;
-import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -238,19 +238,15 @@ class PropertyState extends AbstractPropertyState
 				return new CompatibleIgnorePropertyState( handler, element );
 		}
 
-		if ( element instanceof TableRow )
-			if ( IStyleModel.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase( name )
-					|| IStyleModel.PAGE_BREAK_AFTER_PROP
-							.equalsIgnoreCase( name )
-					|| IStyleModel.PAGE_BREAK_INSIDE_PROP
-							.equalsIgnoreCase( name ) )
-
-			{
-				CompatiblePageBreakPropState state = new CompatiblePageBreakPropState(
-						handler, element );
-				state.setName( name );
-				return state;
-			}
+		if ( IStyleModel.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase( name )
+				|| IStyleModel.PAGE_BREAK_AFTER_PROP.equalsIgnoreCase( name )
+				|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equalsIgnoreCase( name ) )
+		{
+			CompatiblePageBreakPropState state = new CompatiblePageBreakPropState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
 
 		if ( ( ICellModel.ON_CREATE_METHOD.equalsIgnoreCase( name )
 				|| ITableRowModel.ON_CREATE_METHOD.equalsIgnoreCase( name ) || IReportItemModel.ON_CREATE_METHOD
