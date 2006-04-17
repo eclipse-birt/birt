@@ -164,16 +164,19 @@ class LibraryRecord extends AbstractLibraryRecord
 	 * During the resolving procedure, cached overridden values are also
 	 * distributed.
 	 */
-	
+
 	protected void resolveAllElementDescendants( )
 	{
-		if ( module instanceof ReportDesign )
-			resolveElementDescendantsInSlot( ReportDesign.BODY_SLOT );
+		for ( int i = 0; i < module.getDefn( ).getSlotCount( ); i++ )
+		{
+			int slotId = i;
+			if ( slotId == ReportDesign.STYLE_SLOT
+					|| slotId == Library.THEMES_SLOT
+					|| slotId == ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT )
+				continue;
 
-		resolveElementDescendantsInSlot( Module.COMPONENT_SLOT );
-		resolveElementDescendantsInSlot( Module.DATA_SOURCE_SLOT );
-		resolveElementDescendantsInSlot( Module.DATA_SET_SLOT );
-		resolveElementDescendantsInSlot( Module.PARAMETER_SLOT );
+			resolveElementDescendantsInSlot( slotId );
+		}
 	}
 
 	/**
@@ -183,7 +186,7 @@ class LibraryRecord extends AbstractLibraryRecord
 	 * @param slotId
 	 *            the slot id
 	 */
-	
+
 	private void resolveElementDescendantsInSlot( int slotId )
 	{
 		ContentIterator contentIter = new ContentIterator( module, slotId );

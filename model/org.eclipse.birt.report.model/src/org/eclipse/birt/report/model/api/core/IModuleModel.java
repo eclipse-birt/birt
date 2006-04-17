@@ -160,17 +160,4 @@ public interface IModuleModel
 	 */
 	
 	public static final String PROPERTY_BINDINGS_PROP = "propertyBindings"; //$NON-NLS-1$
-
-	// Design slots
-	// See constants defined in the module class.
-
-	/**
-	 * Identifier of the slot that holds styles.
-	 * 
-	 * @deprecated use IReportDesignModel.STYLE_SLOT and
-	 *             ILibraryModel.THEMES_SLOT instead
-	 */
-
-	public static final int STYLE_SLOT = 0;
-
 }
