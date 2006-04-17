@@ -13,10 +13,12 @@ package org.eclipse.birt.report.designer.ui.editors.pages;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.xml.XMLEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -349,6 +351,17 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			refreshDocument( );
 			markPageStale( IPageStaleType.NONE );
 		}
+		//ser the attribute view disedit.
+		ReportRequest request = new ReportRequest( ReportXMLSourceEditorFormPage.this );
+		List list = new ArrayList( );
+		
+		request.setSelectionObject( list );
+		request.setType( ReportRequest.SELECTION );
+
+		// SessionHandleAdapter.getInstance().getMediator().pushState();
+		SessionHandleAdapter.getInstance( )
+				.getMediator( )
+				.notifyRequest( request );
 		return true;
 	}
 
