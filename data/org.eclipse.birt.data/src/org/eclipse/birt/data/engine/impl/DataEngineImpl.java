@@ -177,7 +177,6 @@ public class DataEngineImpl extends DataEngine
 		if ( existingDefn != null )
 		{
 			( (DataSourceRuntime) existingDefn ).closeOdiDataSource( );
-			( (DataSourceRuntime) existingDefn ).setDesign( dataSource );
 		}
 		
 		// Create a corresponding runtime for the data source and add it to
