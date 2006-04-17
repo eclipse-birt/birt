@@ -123,7 +123,7 @@ public class ReportDesignEditPart extends ReportElementEditPart
 	protected List getModelChildren( )
 	{
 		return HandleAdapterFactory.getInstance( )
-				.getReportDesignHandleAdapter( ).getChildren( );
+		.getReportDesignHandleAdapter( getModel( )).getChildren( );
 	}
 
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
