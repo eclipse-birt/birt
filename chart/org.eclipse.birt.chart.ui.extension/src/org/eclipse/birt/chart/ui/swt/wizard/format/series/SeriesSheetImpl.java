@@ -21,11 +21,15 @@ import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
+import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -295,6 +299,11 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				cmbTypes.setLayoutData( gd );
 				cmbTypes.addSelectionListener( this );
+				//Disable the conversion of the first series
+				if ( iSeriesDefinitionIndex == 0 )
+				{
+					cmbTypes.setEnabled( false );
+				}
 			}
 
 			if ( !series.getClass( ).isAssignableFrom( SeriesImpl.class ) )
@@ -354,6 +363,14 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 							series );
 					newSeries.eAdapters( ).addAll( seriesDefn.eAdapters( ) );
 					seriesDefn.getSeries( ).set( 0, newSeries );
+
+					// Refresh UI
+					btnVisible.setSelection( newSeries.isVisible( ) );
+					btnStack.setEnabled( newSeries.canBeStacked( ) );
+					btnStack.setSelection( newSeries.isStacked( ) );
+					btnTranslucent.setSelection( newSeries.isTranslucent( ) );
+					txtTitle.setText( newSeries.getSeriesIdentifier( )
+							.toString( ) );
 				}
 			}
 			else if ( e.getSource( ).equals( btnVisible ) )
@@ -370,24 +387,42 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			}
 		}
 
-		private Series getNewSeries( String sSeriesName, Series oldSeries )
+		private Series getNewSeries( String sSeriesName, final Series oldSeries )
 		{
 			try
 			{
-				Class seriesClass = Class.forName( (String) htSeriesNames.get( sSeriesName ) );
-				Method createMethod = seriesClass.getDeclaredMethod( "create", new Class[]{} ); //$NON-NLS-1$
-				Series series = (Series) createMethod.invoke( seriesClass,
-						new Object[]{} );
-				setIgnoreNotifications( true );
-				series.translateFrom( oldSeries,
-						iSeriesDefinitionIndex,
-						getChart( ) );
-				setIgnoreNotifications( false );
+				// Cache old series
+				ChartCacheManager.getInstance( )
+						.cacheSeries( iSeriesDefinitionIndex, oldSeries );
+				// Find new series
+				Series series = ChartCacheManager.getInstance( )
+						.findSeries( (String) htSeriesNames.get( sSeriesName ),
+								iSeriesDefinitionIndex );
+				if ( series == null )
+				{
+					Class seriesClass = Class.forName( (String) htSeriesNames.get( sSeriesName ) );
+					Method createMethod = seriesClass.getDeclaredMethod( "create", new Class[]{} ); //$NON-NLS-1$
+					final Series newSeries = (Series) createMethod.invoke( seriesClass,
+							new Object[]{} );
+					ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
+
+						public Object run( )
+						{
+							ChartUIUtil.copyGeneralSeriesAttributes( oldSeries,
+									newSeries );
+							// newSeries.translateFrom( oldSeries,
+							// iSeriesDefinitionIndex,
+							// getChart( ) );
+							return null;
+						}
+					} );
+					series = newSeries;
+				}
 				return series;
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( );
+				WizardBase.displayException( e );
 			}
 			return null;
 		}

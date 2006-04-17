@@ -18,14 +18,10 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
-import org.eclipse.birt.chart.model.attribute.Marker;
-import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -36,11 +32,7 @@ import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
-import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
-import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
-import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
@@ -51,6 +43,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
@@ -245,6 +238,9 @@ public class ScatterChart extends DefaultChartTypeImpl
 			Orientation newOrientation, String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
+		// Cache series to keep attributes during conversion
+		ChartCacheManager.getInstance( )
+				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
@@ -294,14 +290,14 @@ public class ScatterChart extends DefaultChartTypeImpl
 						.setValue( CHART_TITLE );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
-				for ( int i = 0; i < axes.size( ); i++ )
+				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
 					( (Axis) axes.get( i ) ).setPercent( false );
 					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-						series = getConvertedSeries( series );
+						series = getConvertedSeries( series, seriesIndex++ );
 						series.setStacked( false );
 						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
 								.clear( );
@@ -381,7 +377,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 				// Update the base series
 				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
-				series = getConvertedSeries( series );
+				// series = getConvertedSeries( series );
 
 				// Clear existing series
 				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -399,7 +395,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-					series = getConvertedSeries( series );
+					series = getConvertedSeries( series, j );
 					series.setStacked( false );
 					// Clear any existing series
 					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
@@ -434,64 +430,24 @@ public class ScatterChart extends DefaultChartTypeImpl
 		return currentChart;
 	}
 
-	private Series getConvertedSeries( Series series )
+	private Series getConvertedSeries( Series series, int seriesIndex )
 	{
 		// Do not convert base series
-		if ( series.getClass( )
-				.getName( )
-				.equals( "org.eclipse.birt.chart.model.component.impl.SeriesImpl" ) ) //$NON-NLS-1$
+		if ( series.getClass( ).getName( ).equals( SeriesImpl.class.getName( ) ) )
 		{
 			return series;
 		}
-		ScatterSeries scatterseries = (ScatterSeries) ScatterSeriesImpl.create( );
-		scatterseries.getLineAttributes( ).setVisible( false );
-		if ( series instanceof LineSeries )
+
+		ScatterSeries scatterseries = (ScatterSeries) ChartCacheManager.getInstance( )
+				.findSeries( ScatterSeriesImpl.class.getName( ), seriesIndex );
+		if ( scatterseries == null )
 		{
-			scatterseries.getMarkers( )
-					.addAll( ( (LineSeries) series ).getMarkers( ) );
-		}
-		else if ( series instanceof BarSeries
-				|| series instanceof PieSeries
-				|| series instanceof StockSeries )
-		{
-			// Use the default marker
-		}
-		else
-		{
-			scatterseries.getMarkers( ).clear( );
-			Marker marker = AttributeFactory.eINSTANCE.createMarker( );
-			marker.setSize( 5 );
-			marker.setType( MarkerType.BOX_LITERAL );
-			marker.setVisible( true );
-			scatterseries.getMarkers( ).add( marker );
+			scatterseries = (ScatterSeries) ScatterSeriesImpl.create( );
 		}
 
 		// Copy generic series properties
 		ChartUIUtil.copyGeneralSeriesAttributes( series, scatterseries );
 
-		// Copy series specific properties
-		if ( series instanceof BarSeries )
-		{
-			scatterseries.getLineAttributes( )
-					.setColor( ( (BarSeries) series ).getRiserOutline( ) );
-		}
-		else if ( series instanceof PieSeries )
-		{
-			scatterseries.getLineAttributes( )
-					.setColor( ( (PieSeries) series ).getSliceOutline( ) );
-		}
-		else if ( series instanceof StockSeries )
-		{
-			scatterseries.getLineAttributes( )
-					.setColor( ( (StockSeries) series ).getLineAttributes( )
-							.getColor( ) );
-		}
-
-		if ( scatterseries.getLineAttributes( ).getColor( ) == null )
-		{
-			scatterseries.getLineAttributes( )
-					.setColor( ColorDefinitionImpl.BLACK( ) );
-		}
 		return scatterseries;
 	}
 

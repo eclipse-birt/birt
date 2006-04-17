@@ -11,11 +11,15 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
+import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TasksManager;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -52,6 +56,11 @@ public class ChartWizard extends WizardBase
 	 * Indicates whether the popup is being closed by users
 	 */
 	public static boolean POPUP_CLOSING_BY_USER = true;
+
+	/**
+	 * Caches last opened task of each wizard
+	 */
+	private static Map lastTask = new HashMap( 3 );
 
 	private ChartAdapter adapter = null;
 
@@ -142,6 +151,9 @@ public class ChartWizard extends WizardBase
 
 				// Remove all adapters
 				removeAllAdapters( chart );
+
+				// Remove cache data
+				ChartCacheManager.getInstance( ).dispose( );
 			}
 		}
 		super.widgetDisposed( e );
@@ -178,6 +190,11 @@ public class ChartWizard extends WizardBase
 			// Add adapters to chart model
 			chart.eAdapters( ).add( adapter );
 		}
+		if ( topTaskId == null )
+		{
+			// Try to get last opened task if no task specified
+			topTaskId = (String) lastTask.get( initialContext.getWizardID( ) );
+		}
 		return super.open( sTasks, topTaskId, initialContext );
 	}
 
@@ -186,5 +203,11 @@ public class ChartWizard extends WizardBase
 		POPUP_CLOSING_BY_USER = false;
 		super.detachPopup( );
 		POPUP_CLOSING_BY_USER = true;
+	}
+
+	public void switchTo( String sTaskID )
+	{
+		lastTask.put( getContext( ).getWizardID( ), sTaskID );
+		super.switchTo( sTaskID );
 	}
 }

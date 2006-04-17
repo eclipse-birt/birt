@@ -12,20 +12,17 @@
 package org.eclipse.birt.chart.ui.swt.type;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Marker;
-import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
@@ -44,8 +41,6 @@ import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.AreaSeries;
-import org.eclipse.birt.chart.model.type.ScatterSeries;
-import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
@@ -56,6 +51,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
@@ -388,6 +384,9 @@ public class AreaChart extends DefaultChartTypeImpl
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
 		ChartDimension oldDimension = currentChart.getDimension( );
+		// Cache series to keep attributes during conversion
+		ChartCacheManager.getInstance( )
+				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
@@ -452,7 +451,7 @@ public class AreaChart extends DefaultChartTypeImpl
 						.setValue( CHART_TITLE );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
-				for ( int i = 0; i < axes.size( ); i++ )
+				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
 					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 					{
@@ -466,7 +465,7 @@ public class AreaChart extends DefaultChartTypeImpl
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-						series = getConvertedSeries( series );
+						series = getConvertedSeries( series, seriesIndex++ );
 						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 						{
 							series.setStacked( true );
@@ -551,7 +550,7 @@ public class AreaChart extends DefaultChartTypeImpl
 				// Update the base series
 				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
-				series = getConvertedSeries( series );
+				// series = getConvertedSeries( series );
 
 				// Clear existing series
 				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -569,7 +568,7 @@ public class AreaChart extends DefaultChartTypeImpl
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-					series = getConvertedSeries( series );
+					series = getConvertedSeries( series, j );
 					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 					{
 						series.setStacked( true );
@@ -658,50 +657,24 @@ public class AreaChart extends DefaultChartTypeImpl
 		return currentChart;
 	}
 
-	private Series getConvertedSeries( Series series )
+	private Series getConvertedSeries( Series series, int seriesIndex )
 	{
 		// Do not convert base series
-		if ( series.getClass( )
-				.getName( )
-				.equals( "org.eclipse.birt.chart.model.component.impl.SeriesImpl" ) ) //$NON-NLS-1$
+		if ( series.getClass( ).getName( ).equals( SeriesImpl.class.getName( ) ) )
 		{
 			return series;
 		}
-		AreaSeries areaseries = (AreaSeries) AreaSeriesImpl.create( );
-		areaseries.getLineAttributes( ).setVisible( true );
-		areaseries.getLineAttributes( ).setColor( ColorDefinitionImpl.BLACK( ) );
-		if ( !( series instanceof ScatterSeries ) )
-		{
-			areaseries.getMarkers( ).clear( );
-			Marker marker = AttributeFactory.eINSTANCE.createMarker( );
-			marker.setSize( 5 );
-			marker.setType( MarkerType.BOX_LITERAL );
-			marker.setVisible( false );
-			areaseries.getMarkers( ).add( marker );
-		}
-		else
-		{
-			areaseries.getMarkers( ).clear( );
-			areaseries.getMarkers( )
-					.addAll( ( (ScatterSeries) series ).getMarkers( ) );
 
-			for ( Iterator itr = areaseries.getMarkers( ).iterator( ); itr.hasNext( ); )
-			{
-				Marker mk = (Marker) itr.next( );
-				mk.setVisible( false );
-			}
+		AreaSeries areaseries = (AreaSeries) ChartCacheManager.getInstance( )
+				.findSeries( AreaSeriesImpl.class.getName( ), seriesIndex );
+		if ( areaseries == null )
+		{
+			areaseries = (AreaSeries) AreaSeriesImpl.create( );
 		}
 
 		// Copy generic series properties
 		ChartUIUtil.copyGeneralSeriesAttributes( series, areaseries );
 
-		// Copy series specific properties
-		if ( series instanceof StockSeries )
-		{
-			areaseries.getLineAttributes( )
-					.setColor( ( (StockSeries) series ).getLineAttributes( )
-							.getColor( ) );
-		}
 		return areaseries;
 	}
 

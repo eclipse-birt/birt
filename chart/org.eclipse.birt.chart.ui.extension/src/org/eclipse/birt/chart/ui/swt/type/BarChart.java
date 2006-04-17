@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -39,9 +38,6 @@ import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
-import org.eclipse.birt.chart.model.type.PieSeries;
-import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
@@ -52,6 +48,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
@@ -396,6 +393,9 @@ public class BarChart extends DefaultChartTypeImpl
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
 		ChartDimension oldDimension = currentChart.getDimension( );
+		// Cache series to keep attributes during conversion
+		ChartCacheManager.getInstance( )
+				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
@@ -460,7 +460,7 @@ public class BarChart extends DefaultChartTypeImpl
 						.setValue( CHART_TITLE );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
-				for ( int i = 0; i < axes.size( ); i++ )
+				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
 					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 					{
@@ -474,7 +474,7 @@ public class BarChart extends DefaultChartTypeImpl
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-						series = getConvertedSeries( series );
+						series = getConvertedSeries( series, seriesIndex++ );
 						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 						{
 							series.setStacked( true );
@@ -559,7 +559,7 @@ public class BarChart extends DefaultChartTypeImpl
 				// Update the base series
 				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
-				series = getConvertedSeries( series );
+				// series = getConvertedSeries( series );
 
 				// Clear existing series
 				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -577,7 +577,7 @@ public class BarChart extends DefaultChartTypeImpl
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-					series = getConvertedSeries( series );
+					series = getConvertedSeries( series, j );
 					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 					{
 						series.setStacked( true );
@@ -650,7 +650,7 @@ public class BarChart extends DefaultChartTypeImpl
 			sdZ.getSeriesPalette( ).update( 0 );
 			sdZ.getSeries( ).add( SeriesImpl.create( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
-			
+
 			if ( currentChart.getSampleData( )
 					.getAncillarySampleData( )
 					.isEmpty( ) )
@@ -660,7 +660,7 @@ public class BarChart extends DefaultChartTypeImpl
 				currentChart.getSampleData( )
 						.getAncillarySampleData( )
 						.add( sdAncillary );
-			}		
+			}
 
 			Series series = null;
 			EList seriesdefinitions = ( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -668,47 +668,35 @@ public class BarChart extends DefaultChartTypeImpl
 			for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 			{
 				series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-				if ( ( series instanceof BarSeries) && 
-						( series.getLabelPosition( ) != Position.OUTSIDE_LITERAL ) )
+				if ( ( series instanceof BarSeries )
+						&& ( series.getLabelPosition( ) != Position.OUTSIDE_LITERAL ) )
 				{
 					series.setLabelPosition( Position.OUTSIDE_LITERAL );
 				}
-			}		
+			}
 		}
 
 		return currentChart;
 	}
 
-	private Series getConvertedSeries( Series series )
+	private Series getConvertedSeries( Series series, int seriesIndex )
 	{
 		// Do not convert base series
-		if ( series.getClass( )
-				.getName( )
-				.equals( "org.eclipse.birt.chart.model.component.impl.SeriesImpl" ) ) //$NON-NLS-1$
+		if ( series.getClass( ).getName( ).equals( SeriesImpl.class.getName( ) ) )
 		{
 			return series;
 		}
-		BarSeries barseries = (BarSeries) BarSeriesImpl.create( );
-		barseries.setRiser( RiserType.RECTANGLE_LITERAL );
+
+		BarSeries barseries = (BarSeries) ChartCacheManager.getInstance( )
+				.findSeries( BarSeriesImpl.class.getName( ), seriesIndex );
+		if ( barseries == null )
+		{
+			barseries = (BarSeries) BarSeriesImpl.create( );
+		}
 
 		// Copy generic series properties
 		ChartUIUtil.copyGeneralSeriesAttributes( series, barseries );
 
-		// Copy series specific properties
-		if ( series instanceof LineSeries )
-		{
-			barseries.setRiserOutline( ( (LineSeries) series ).getLineAttributes( )
-					.getColor( ) );
-		}
-		else if ( series instanceof PieSeries )
-		{
-			barseries.setRiserOutline( ( (PieSeries) series ).getSliceOutline( ) );
-		}
-		else if ( series instanceof StockSeries )
-		{
-			barseries.setRiserOutline( ( (StockSeries) series ).getLineAttributes( )
-					.getColor( ) );
-		}
 		return barseries;
 	}
 
@@ -874,7 +862,9 @@ public class BarChart extends DefaultChartTypeImpl
 				sTitle );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
 	public String getDisplayName( )

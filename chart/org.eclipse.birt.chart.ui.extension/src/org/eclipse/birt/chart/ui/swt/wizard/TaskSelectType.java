@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
@@ -144,7 +145,7 @@ public class TaskSelectType extends SimpleTask
 		}
 		htTypes = new LinkedHashMap( );
 	}
-	
+
 	public String getDescription( ULocale locale )
 	{
 		return Messages.getString( "TaskSelectType.Task.Description" ); //$NON-NLS-1$
@@ -265,7 +266,7 @@ public class TaskSelectType extends SimpleTask
 					Messages.getString( "TaskSelectType.Selection.None" ), //$NON-NLS-1$
 					Messages.getString( "TaskSelectType.Selection.SecondaryAxis" ), //$NON-NLS-1$
 					Messages.getString( "TaskSelectType.Selection.MoreAxes" ) //$NON-NLS-1$
-					} );
+			} );
 			cbMultipleY.addSelectionListener( this );
 
 			int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
@@ -584,6 +585,8 @@ public class TaskSelectType extends SimpleTask
 						}
 					}
 					sSubType = getSubtypeFromButton( btn );
+					ChartCacheManager.getInstance( ).cacheSubtype( sType,
+							sSubType );
 				}
 				else
 				{
@@ -600,7 +603,7 @@ public class TaskSelectType extends SimpleTask
 		}
 		else if ( oSelected.getClass( ).equals( Table.class ) )
 		{
-			sType = ((String)( (TableItem) e.item ).getData( )).trim( );
+			sType = ( (String) ( (TableItem) e.item ).getData( ) ).trim( );
 			if ( !chartModel.getType( ).equals( sType ) )
 			{
 				sSubType = null;
@@ -888,8 +891,16 @@ public class TaskSelectType extends SimpleTask
 	{
 		if ( sSubType == null )
 		{
+			// Try to get cached subtype
+			sSubType = ChartCacheManager.getInstance( ).findSubtype( sType );
+		}
+
+		if ( sSubType == null )
+		{
+			// Get the default subtype
 			( (Button) cmpTypeButtons.getChildren( )[0] ).setSelection( true );
 			sSubType = getSubtypeFromButton( cmpTypeButtons.getChildren( )[0] );
+			ChartCacheManager.getInstance( ).cacheSubtype( sType, sSubType );
 		}
 		else
 		{
@@ -909,8 +920,10 @@ public class TaskSelectType extends SimpleTask
 			{
 				( (Button) cmpTypeButtons.getChildren( )[0] ).setSelection( true );
 				sSubType = getSubtypeFromButton( cmpTypeButtons.getChildren( )[0] );
+				ChartCacheManager.getInstance( ).cacheSubtype( sType, sSubType );
 			}
 		}
+
 		cmpTypeButtons.redraw( );
 	}
 
@@ -1027,7 +1040,7 @@ public class TaskSelectType extends SimpleTask
 		{
 			cbMultipleY.select( 0 );
 			( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( false );
-			
+
 			lblMultipleY.setEnabled( false );
 			cbMultipleY.setEnabled( false );
 			lblSeriesType.setEnabled( false );

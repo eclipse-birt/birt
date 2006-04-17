@@ -20,10 +20,8 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -34,8 +32,6 @@ import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
-import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -47,13 +43,13 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
-import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.StringTokenizer;
@@ -234,7 +230,9 @@ public class StockChart extends DefaultChartTypeImpl
 
 		// Create Orthogonal Sample Data (with simulation count of 2)
 		OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		oSample.setDataSetRepresentation( "H5.3 L1.3 O4.5 C3.4,H4.2 L3.1 O3.4 C4.1" ); //$NON-NLS-1$
+		oSample.setDataSetRepresentation( "5,4,12" ); //$NON-NLS-1$
+		// oSample.setDataSetRepresentation( "H5.3 L1.3 O4.5 C3.4,H4.2 L3.1 O3.4
+		// C4.1" ); //$NON-NLS-1$
 		oSample.setSeriesDefinitionIndex( 0 );
 		sd.getOrthogonalSampleData( ).add( oSample );
 
@@ -245,6 +243,9 @@ public class StockChart extends DefaultChartTypeImpl
 			Orientation newOrientation, String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
+		// Cache series to keep attributes during conversion
+		ChartCacheManager.getInstance( )
+				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
 			// Original chart is of this type (StockChart)
@@ -264,7 +265,10 @@ public class StockChart extends DefaultChartTypeImpl
 						{
 							Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 							series.setStacked( false );
-							( (StockSeries) series ).setShowAsBarStick( BAR_STICK_SUBTYPE_LITERAL.equals( currentChart.getSubType( ) ) );
+							if ( series instanceof StockSeries )
+							{
+								( (StockSeries) series ).setShowAsBarStick( BAR_STICK_SUBTYPE_LITERAL.equals( currentChart.getSubType( ) ) );
+							}
 						}
 					}
 				}
@@ -293,7 +297,7 @@ public class StockChart extends DefaultChartTypeImpl
 				currentChart.setSubType( sNewSubType );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
-				for ( int i = 0; i < axes.size( ); i++ )
+				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
 					( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 					( (Axis) axes.get( i ) ).setPercent( false );
@@ -301,7 +305,7 @@ public class StockChart extends DefaultChartTypeImpl
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-						series = getConvertedSeries( series );
+						series = getConvertedSeries( series, seriesIndex++ );
 						series.setStacked( false );
 						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
 								.clear( );
@@ -380,7 +384,7 @@ public class StockChart extends DefaultChartTypeImpl
 				// Update the base series
 				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
-				series = getConvertedSeries( series );
+				// series = getConvertedSeries( series );
 
 				// Clear existing series
 				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -398,7 +402,7 @@ public class StockChart extends DefaultChartTypeImpl
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-					series = getConvertedSeries( series );
+					series = getConvertedSeries( series, j );
 					series.setStacked( false );
 					// Clear any existing series
 					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
@@ -433,38 +437,23 @@ public class StockChart extends DefaultChartTypeImpl
 		return currentChart;
 	}
 
-	private Series getConvertedSeries( Series series )
+	private Series getConvertedSeries( Series series, int seriesIndex )
 	{
 		// Do not convert base series
-		if ( series.getClass( )
-				.getName( )
-				.equals( "org.eclipse.birt.chart.model.component.impl.SeriesImpl" ) ) //$NON-NLS-1$
+		if ( series.getClass( ).getName( ).equals( SeriesImpl.class.getName( ) ) )
 		{
 			return series;
 		}
-		StockSeries stockseries = (StockSeries) StockSeriesImpl.create( );
-		stockseries.getLineAttributes( )
-				.setColor( ColorDefinitionImpl.BLACK( ) );
+
+		StockSeries stockseries = (StockSeries) ChartCacheManager.getInstance( )
+				.findSeries( StockSeriesImpl.class.getName( ), seriesIndex );
+		if ( stockseries == null )
+		{
+			stockseries = (StockSeries) StockSeriesImpl.create( );
+		}
 
 		// Copy generic series properties
 		ChartUIUtil.copyGeneralSeriesAttributes( series, stockseries );
-
-		// Copy series specific properties
-		if ( series instanceof BarSeries )
-		{
-			// Stock series with transparent fillCandle cannot display
-			// propertly. Fix it during conversion if needed.
-			ColorDefinition colorDefinition = ( (BarSeries) series ).getRiserOutline( );
-			if ( colorDefinition != null
-					&& ( !colorDefinition.isSetTransparency( ) || colorDefinition.getTransparency( ) != 255 ) )
-				stockseries.getLineAttributes( ).setColor( colorDefinition );
-		}
-		else if ( series instanceof LineSeries )
-		{
-			stockseries.setLineAttributes( ( (LineSeries) series ).getLineAttributes( ) );
-		}
-
-		stockseries.getLineAttributes( ).setVisible( true );
 
 		return stockseries;
 	}
@@ -549,42 +538,46 @@ public class StockChart extends DefaultChartTypeImpl
 	private String getConvertedOrthogonalSampleDataRepresentation(
 			String sOldRepresentation )
 	{
-		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
-		NumberFormat nf = NumberFormat.getNumberInstance( );
-		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		int iValueCount = 0;
-		while ( strtok.hasMoreTokens( ) )
-		{
-			String sElement = strtok.nextToken( ).trim( );
-			double value;
-			try
-			{
-				value = nf.parse( sElement ).doubleValue( );
-			}
-			catch ( ParseException e )
-			{
-				value = 4.0 + iValueCount;
-				iValueCount++;
-			}
-
-			sbNewRepresentation.append( "H" ); //$NON-NLS-1$
-			sbNewRepresentation.append( String.valueOf( value ) );
-			sbNewRepresentation.append( " " ); //$NON-NLS-1$
-
-			sbNewRepresentation.append( " L" ); //$NON-NLS-1$
-			sbNewRepresentation.append( String.valueOf( value - 3 ) );
-			sbNewRepresentation.append( " " ); //$NON-NLS-1$
-
-			sbNewRepresentation.append( " O" ); //$NON-NLS-1$
-			sbNewRepresentation.append( String.valueOf( value - 2 ) );
-			sbNewRepresentation.append( " " ); //$NON-NLS-1$
-
-			sbNewRepresentation.append( " C" ); //$NON-NLS-1$
-			sbNewRepresentation.append( String.valueOf( value - 1 ) );
-			sbNewRepresentation.append( "," ); //$NON-NLS-1$
-		}
-		return sbNewRepresentation.toString( ).substring( 0,
-				sbNewRepresentation.length( ) - 1 );
+		// Use general sample data instead. No need to convert
+		return sOldRepresentation;
+		// StringTokenizer strtok = new StringTokenizer( sOldRepresentation, ","
+		// ); //$NON-NLS-1$
+		// NumberFormat nf = NumberFormat.getNumberInstance( );
+		// StringBuffer sbNewRepresentation = new StringBuffer( "" );
+		// //$NON-NLS-1$
+		// int iValueCount = 0;
+		// while ( strtok.hasMoreTokens( ) )
+		// {
+		// String sElement = strtok.nextToken( ).trim( );
+		// double value;
+		// try
+		// {
+		// value = nf.parse( sElement ).doubleValue( );
+		// }
+		// catch ( ParseException e )
+		// {
+		// value = 4.0 + iValueCount;
+		// iValueCount++;
+		// }
+		//
+		// sbNewRepresentation.append( "H" ); //$NON-NLS-1$
+		// sbNewRepresentation.append( String.valueOf( value ) );
+		// sbNewRepresentation.append( " " ); //$NON-NLS-1$
+		//
+		// sbNewRepresentation.append( " L" ); //$NON-NLS-1$
+		// sbNewRepresentation.append( String.valueOf( value - 3 ) );
+		// sbNewRepresentation.append( " " ); //$NON-NLS-1$
+		//
+		// sbNewRepresentation.append( " O" ); //$NON-NLS-1$
+		// sbNewRepresentation.append( String.valueOf( value - 2 ) );
+		// sbNewRepresentation.append( " " ); //$NON-NLS-1$
+		//
+		// sbNewRepresentation.append( " C" ); //$NON-NLS-1$
+		// sbNewRepresentation.append( String.valueOf( value - 1 ) );
+		// sbNewRepresentation.append( "," ); //$NON-NLS-1$
+		// }
+		// return sbNewRepresentation.toString( ).substring( 0,
+		// sbNewRepresentation.length( ) - 1 );
 	}
 
 	/*

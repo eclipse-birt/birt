@@ -15,6 +15,7 @@ import java.util.Vector;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.notify.Notification;
@@ -78,6 +79,23 @@ public class ChartAdapter extends EContentAdapter
 	public static boolean isNotificationIgnored( )
 	{
 		return ChartAdapter.bIgnoreNotifications;
+	}
+
+	/**
+	 * Changes chart model without notification
+	 * 
+	 * @param runable
+	 *            Chart model change
+	 * @return context data
+	 */
+	public static Object changeChartWithoutNotification(
+			IChangeWithoutNotification runable )
+	{
+		boolean status = bIgnoreNotifications;
+		bIgnoreNotifications = true;
+		Object context = runable.run( );
+		bIgnoreNotifications = status;
+		return context;
 	}
 
 	public void addListener( ITaskChangeListener listener )

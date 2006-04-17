@@ -20,9 +20,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -34,8 +32,6 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.DialChartImpl;
 import org.eclipse.birt.chart.model.type.DialSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
-import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
@@ -46,6 +42,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
@@ -228,6 +225,9 @@ public class MeterChart extends DefaultChartTypeImpl
 			String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
+		// Cache series to keep attributes during conversion
+		ChartCacheManager.getInstance( )
+				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( currentChart instanceof ChartWithAxes )
 		{
 			// Create a new instance of the correct type and set initial
@@ -284,7 +284,7 @@ public class MeterChart extends DefaultChartTypeImpl
 				SeriesDefinition sd = (SeriesDefinition) osd.get( j );
 				Series series = sd.getDesignTimeSeries( );
 				sd.getSeries( ).clear( );
-				sd.getSeries( ).add( getConvertedSeries( series ) );
+				sd.getSeries( ).add( getConvertedSeries( series, j ) );
 				vOSD.add( sd );
 			}
 
@@ -353,13 +353,10 @@ public class MeterChart extends DefaultChartTypeImpl
 				// Update the series
 				EList seriesdefinitions = ( (SeriesDefinition) ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
 						.get( 0 ) ).getSeriesDefinitions( );
-
-				Series series;
-
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
-					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-					series = getConvertedSeries( series );
+					Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+					series = getConvertedSeries( series, j );
 
 					// Clear any existing series
 					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
@@ -384,45 +381,24 @@ public class MeterChart extends DefaultChartTypeImpl
 		return currentChart;
 	}
 
-	private Series getConvertedSeries( Series series )
+	private Series getConvertedSeries( Series series, int seriesIndex )
 	{
 		// Do not convert base series
-		if ( series.getClass( )
-				.getName( )
-				.equals( "org.eclipse.birt.chart.model.component.impl.SeriesImpl" ) ) //$NON-NLS-1$
+		if ( series.getClass( ).getName( ).equals( SeriesImpl.class.getName( ) ) )
 		{
 			return series;
 		}
 
-		DialSeries dialseries = (DialSeries) DialSeriesImpl.create( );
+		DialSeries dialseries = (DialSeries) ChartCacheManager.getInstance( )
+				.findSeries( DialSeriesImpl.class.getName( ), seriesIndex );
+		if ( dialseries == null )
+		{
+			dialseries = (DialSeries) DialSeriesImpl.create( );
+		}
 
 		// Copy generic series properties
 		ChartUIUtil.copyGeneralSeriesAttributes( series, dialseries );
 
-		// Copy series specific properties
-		if ( series instanceof LineSeries )
-		{
-			dialseries.getDial( )
-					.setLineAttributes( ( (LineSeries) series ).getLineAttributes( ) );
-		}
-		else if ( series instanceof StockSeries )
-		{
-			dialseries.getDial( )
-					.setLineAttributes( ( (StockSeries) series ).getLineAttributes( ) );
-		}
-		
-		if ( dialseries.getDial( ).getLineAttributes( ) == null )
-		{
-			dialseries.getDial( )
-					.getLineAttributes( )
-					.setColor( ColorDefinitionImpl.BLACK( ) );
-			dialseries.getDial( )
-					.getLineAttributes( )
-					.setStyle( LineStyle.SOLID_LITERAL );
-			dialseries.getDial( ).getLineAttributes( ).setThickness( 1 );
-		}
-		dialseries.getDial( ).getLineAttributes( ).setVisible( true );
-		
 		return dialseries;
 	}
 
@@ -568,8 +544,10 @@ public class MeterChart extends DefaultChartTypeImpl
 		component.setTooltipWhenBlank( Messages.getString( "MeterChart.Tooltip.InputExpression" ) ); //$NON-NLS-1$
 		return component;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
 	public String getDisplayName( )
