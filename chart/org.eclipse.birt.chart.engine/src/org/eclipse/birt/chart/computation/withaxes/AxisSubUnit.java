@@ -25,6 +25,8 @@ public final class AxisSubUnit
 
 	private double dNegativeTotal = 0;
 
+	private double dLastValue = 0;
+
 	AxisSubUnit( )
 	{
 	}
@@ -33,6 +35,17 @@ public final class AxisSubUnit
 	{
 		dValueMax = 0;
 		dValueMin = 0;
+		dLastValue = 0;
+	}
+
+	public final double getLastValue( )
+	{
+		return dLastValue;
+	}
+
+	public final void setLastValue( double dLastValue )
+	{
+		this.dLastValue = dLastValue;
 	}
 
 	/**
@@ -112,6 +125,10 @@ public final class AxisSubUnit
 	 */
 	public final double valuePercentage( double dValue )
 	{
+		if ( dPositiveTotal - dNegativeTotal == 0 )
+		{
+			return 0;
+		}
 		return ( dValue * 100d ) / ( dPositiveTotal - dNegativeTotal );
 	}
 }
