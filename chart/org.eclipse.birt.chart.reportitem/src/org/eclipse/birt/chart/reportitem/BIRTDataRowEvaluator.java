@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.reportitem;
  ***********************************************************************/
 
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 
 /**
@@ -30,7 +29,7 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 * @param set
 	 * @param definition
 	 */
-	public BIRTDataRowEvaluator( IRowSet set, IBaseQueryDefinition definition )
+	public BIRTDataRowEvaluator( IRowSet set )
 	{
 		this.set = set;
 	}

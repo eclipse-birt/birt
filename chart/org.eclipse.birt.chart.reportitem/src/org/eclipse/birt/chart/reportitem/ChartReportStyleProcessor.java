@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import java.net.URL;
+
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -65,6 +69,8 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	private boolean useCache;
 
 	private SimpleStyle cache = null;
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	/**
 	 * The constructor. Default not using cache.
@@ -173,7 +179,28 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			if ( style.getBackgroundImage( ) != null
 					&& style.getBackgroundImage( ).length( ) > 0 )
 			{
-				ss.setBackgroundImage( ImageImpl.create( style.getBackgroundImage( ) ) );
+				String urlString = style.getBackgroundImage( );
+				try
+				{
+					new URL( urlString );
+
+					ss.setBackgroundImage( ImageImpl.create( urlString ) );
+				}
+				catch ( Exception _ )
+				{
+					// try with "file" prefix
+					urlString = "file:///" + urlString; //$NON-NLS-1$
+
+					try
+					{
+						new URL( urlString );
+						ss.setBackgroundImage( ImageImpl.create( urlString ) );
+					}
+					catch ( Exception __ )
+					{
+						logger.log( _ );
+					}
+				}
 			}
 
 			double pt = convertToPixel( style.getPaddingTop( ) );

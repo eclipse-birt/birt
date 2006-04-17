@@ -36,7 +36,6 @@ import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
@@ -71,8 +70,6 @@ public final class ChartReportItemPresentationImpl extends
 	private ExtendedItemHandle handle;
 
 	private RunTimeContext rtc = null;
-
-	private IBaseQueryDefinition[] ibqda = null;
 
 	private List registeredDevices = null;
 
@@ -359,16 +356,6 @@ public final class ChartReportItemPresentationImpl extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setReportQueries(org.eclipse.birt.data.engine.api.IBaseQueryDefinition[])
-	 */
-	public void setReportQueries( IBaseQueryDefinition[] ibqda )
-	{
-		this.ibqda = ibqda;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#onRowSets(org.eclipse.birt.report.engine.extension.IRowSet[])
 	 */
 	public Object onRowSets( IRowSet[] irsa ) throws BirtException
@@ -376,8 +363,6 @@ public final class ChartReportItemPresentationImpl extends
 		// BIND RESULTSET TO CHART DATASETS
 		if ( irsa == null
 				|| irsa.length != 1
-				|| ibqda == null
-				|| ibqda.length != 1
 				|| irsa[0] == null )
 		{
 			// if the Data rows are null/empty, just log the error and returns
@@ -402,8 +387,7 @@ public final class ChartReportItemPresentationImpl extends
 				cm.setScript( javaHandlerClass );
 			}
 
-			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator( irsa[0],
-					ibqda[0] );
+			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator( irsa[0] );
 			Generator.instance( ).bindData( rowAdapter,
 					new BIRTActionEvaluator( ),
 					cm,
