@@ -15,6 +15,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
+import org.mozilla.javascript.Scriptable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,68 +26,76 @@ import java.util.logging.Level;
  */
 public class OdaDataSourceRuntime extends DataSourceRuntime
 {
-	private	Map			publicProperties;
 	private String		extensionID;
+	private	Map			publicProperties;
 	
-    OdaDataSourceRuntime( IOdaDataSourceDesign dataSource, DataEngineImpl dataEngine )
-    {
-        super( dataSource, dataEngine);
-        
-    	// Copy updatable properties
-        publicProperties = new HashMap();
-        publicProperties.putAll( dataSource.getPublicProperties() );
-        
-        extensionID = dataSource.getExtensionID();
-		logger.log(Level.FINER,"OdaDataSourceRuntime starts up");
-   }
-
-    public IOdaDataSourceDesign getSubdesign()
+    OdaDataSourceRuntime( IOdaDataSourceDesign dataSource,
+			Scriptable sharedScope )
 	{
-		return (IOdaDataSourceDesign) getDesign();
-	}
+		super( dataSource, sharedScope );
 
-    public String getExtensionID()
-	{
-	    return extensionID;
-	}
-    
-    /** Sets the extensionID */
-    public void setExtensionID( String exensionID )
-    {
-    	this.extensionID = exensionID;
-    }
+		// Copy updatable properties
+		publicProperties = new HashMap( );
+		publicProperties.putAll( dataSource.getPublicProperties( ) );
 
-    public Map getPublicProperties( ) 
-	{
-    	// Return runtime copy of public properties, which may have been updated
-    	return this.publicProperties;
-	}
-
-	public Map getPrivateProperties( ) 
-	{
-	    return getSubdesign().getPrivateProperties();
+		extensionID = dataSource.getExtensionID( );
+		logger.log( Level.FINER, "OdaDataSourceRuntime starts up" );
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getAllExtensionProperties()
+	 * 
 	 */
-	public Map getAllExtensionProperties()
+	public IOdaDataSourceDesign getSubdesign( )
 	{
+		return (IOdaDataSourceDesign) getDesign( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getExtensionID()
+	 */
+	public String getExtensionID( )
+	{
+		return extensionID;
+	}
+
+	/**
+	 * @return
+	 */
+	public Map getPublicProperties( )
+	{
+		// Return runtime copy of public properties, which may have been updated
 		return this.publicProperties;
 	}
 
 	/**
+	 * @return
+	 */
+	public Map getPrivateProperties( )
+	{
+		return getSubdesign( ).getPrivateProperties( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getAllExtensionProperties()
+	 */
+	public Map getAllExtensionProperties( )
+	{
+		return this.publicProperties;
+	}
+
+	/*
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getExtensionProperty(java.lang.String)
 	 */
-	public String getExtensionProperty(String name)
+	public String getExtensionProperty( String name )
 	{
 		return (String) publicProperties.get( name );
 	}
 
-	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#setExtensionProperty(java.lang.String, java.lang.String)
+	/*
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#setExtensionProperty(java.lang.String,
+	 *      java.lang.String)
 	 */
-	public void setExtensionProperty(String name, String value)
+	public void setExtensionProperty( String name, String value )
 	{
 		publicProperties.put( name, value );
 	}

@@ -108,7 +108,7 @@ public class NewInstanceHelper
 	public static DataSourceRuntime newDataSourceRuntime(
 			DataEngineImpl dataEngine )
 	{
-		return new DataSourceRuntime( newBaseDataSourceDesign( ), dataEngine ) {
+		return new DataSourceRuntime( newBaseDataSourceDesign( ), dataEngine.getSharedScope( ) ) {
 
 			/*
 			 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getExtensionID()

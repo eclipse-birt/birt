@@ -36,96 +36,142 @@ import org.mozilla.javascript.Scriptable;
  * properties are updatable by scripts at runtime. Value of those properties are retained
  * by this class. Value for non-modifiable properties are delegated to the design object
  */
-public abstract class  DataSourceRuntime implements IDataSourceInstanceHandle
+public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 {
 	/** Associated data source design */
 	private IBaseDataSourceDesign	design;
+	private IBaseDataSourceEventHandler eventHandler;
+	
+	/** top scope */
+	private Scriptable 				sharedScope;
 	
 	/** Javascript DataSource object that wraps this data source */
 	private Scriptable				jsDataSourceObject;
 
 	/** An open OdiDataSource associated with this data source
 	   If null, this data source is not open */
-	private IDataSource				odiDataSource = null;
+	private IDataSource				odiDataSource;
 	
-	protected DataEngineImpl		dataEngine;
-	
+	/** log instance */
 	protected static Logger logger = Logger.getLogger( DataSourceRuntime.class.getName( ) );
+		
+	/**
+	 * Creates an instance of the appropriate subclass based on a specified
+	 * design-time data source definition
+	 * 
+	 * @param dataSetDefn
+	 *            Design-time data source definition.
+	 */
+	public static DataSourceRuntime newInstance(
+			IBaseDataSourceDesign dataSource, DataEngineImpl dataEngine )
+			throws DataException
+	{
+		if ( dataSource instanceof IOdaDataSourceDesign )
+		{
+			return new OdaDataSourceRuntime( (IOdaDataSourceDesign) dataSource,
+					dataEngine.getSharedScope( ) );
+		}
+		else if ( dataSource instanceof IScriptDataSourceDesign )
+		{
+			return new ScriptDataSourceRuntime( (IScriptDataSourceDesign) dataSource,
+					dataEngine.getSharedScope( ) );
+		}
+		else
+		{
+			throw new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE,
+					dataSource.getName( ) );
+		}
+	}
 	
-	private IBaseDataSourceEventHandler eventHandler;
-	
-	protected DataSourceRuntime( IBaseDataSourceDesign dataSourceDesign, DataEngineImpl dataEngine )
+	/**
+	 * @param dataSourceDesign
+	 * @param dataEngine
+	 */
+	protected DataSourceRuntime( IBaseDataSourceDesign dataSourceDesign,
+			Scriptable sharedScope )
 	{
 		assert dataSourceDesign != null;
-		design = dataSourceDesign;
-		this.dataEngine = dataEngine;
-		eventHandler = dataSourceDesign.getEventHandler();
 		
+		this.design = dataSourceDesign;
+		this.sharedScope = sharedScope;
+		this.eventHandler = dataSourceDesign.getEventHandler( );
+
 		/*
-		 * TODO: TEMPORARY the follow code is temporary. It will be removed once Engine takes over
-		 * script execution from DtE
+		 * TODO: TEMPORARY the follow code is temporary. It will be removed once
+		 * Engine takes over script execution from DtE
 		 */
 		if ( eventHandler == null )
 		{
 			if ( dataSourceDesign instanceof IScriptDataSourceDesign )
-				eventHandler = new ScriptDataSourceJSEventHandler( 
-						(IScriptDataSourceDesign) dataSourceDesign );
+				eventHandler = new ScriptDataSourceJSEventHandler( (IScriptDataSourceDesign) dataSourceDesign );
 			else
 				eventHandler = new DataSourceJSEventHandler( dataSourceDesign );
 		}
 		/*
-		 * END Temporary 
+		 * END Temporary
 		 */
 	}
-	
-	protected IBaseDataSourceEventHandler getEventHandler()
-	{
-		return eventHandler;
-	}
-	
+		
 	/**
-	 * Gets the IBaseDataSourceDesign object which defines the design time properties
-	 * associated with this data source
+	 * Gets the IBaseDataSourceDesign object which defines the design time
+	 * properties associated with this data source
+	 * @return IBaseDataSourceDesign
 	 */
-	public IBaseDataSourceDesign getDesign()
+	public IBaseDataSourceDesign getDesign( )
 	{
 		return design;
-	}
-
-	public void setDesign( IBaseDataSourceDesign design )
-	{
-		this.design = design;
 	}
 	
 	/**
 	 * Gets the name of the design time properties
 	 * associated with this data source
+	 * @param name
 	 */
-	public String getName()
+	public String getName( )
 	{
-		return design.getName();
+		return design.getName( );
+	}
+	
+	/**
+	 * @return
+	 */
+	protected IBaseDataSourceEventHandler getEventHandler()
+	{
+		return eventHandler;
+	}
+	
+	/*
+	 * Data source event handlers are executed as methods on the DataSet object
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.script.IJavascriptContext#getScriptScope()
+	 */
+	public Scriptable getScriptScope( )
+	{ 
+		return getJSDataSourceObject( );
 	}
 	
 	/**
 	 * Gets a ROM Script DataSource object wrapper for this object
+	 * 
+	 * @return Scriptable
 	 */
-	public Scriptable getJSDataSourceObject( )
+	private Scriptable getJSDataSourceObject( )
 	{
 		// Script object is created on demand
 		if ( jsDataSourceObject == null )
 		{
-			Scriptable topScope = this.dataEngine.getSharedScope();
-			Context.enter();
+			Scriptable topScope = this.sharedScope;
+			Context.enter( );
 			try
 			{
-				jsDataSourceObject = (Scriptable) Context.javaToJS( 
-							new JSDataSourceImpl( this ), topScope );
+				jsDataSourceObject = (Scriptable) Context.javaToJS( new JSDataSourceImpl( this ),
+						topScope );
 				jsDataSourceObject.setParentScope( topScope );
 				jsDataSourceObject.setPrototype( topScope );
 			}
 			finally
 			{
-				Context.exit();
+				Context.exit( );
 			}
 		}
 
@@ -133,21 +179,31 @@ public abstract class  DataSourceRuntime implements IDataSourceInstanceHandle
 	}
 	
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IJavascriptContext#getScriptScope()
+	 * Returns true if data source is currently open.
 	 */
-	public Scriptable getScriptScope()
+	public boolean isOpen( )
 	{
-		// Data source event handlers are executed as methods on the DataSet object
-		return getJSDataSourceObject();
+		// A data source is open if it has an associated odi data source
+		return odiDataSource != null;
 	}
 	
 	/**
-	 * Opens the specified odiDataSource and associate it with this data source runtime.
-	 * Event scripts associated with this data source are NOT run in this method
+	 * Gets the associated odi data source. If null, data source is not open 
 	 */
-	public void openOdiDataSource( IDataSource odiDataSource ) throws DataException
+	public IDataSource getOdiDataSource( )
 	{
-		odiDataSource.open();
+		return this.odiDataSource;
+	}
+	
+	/**
+	 * Opens the specified odiDataSource and associate it with this data source
+	 * runtime. Event scripts associated with this data source are NOT run in
+	 * this method
+	 */
+	public void openOdiDataSource( IDataSource odiDataSource )
+			throws DataException
+	{
+		odiDataSource.open( );
 		this.odiDataSource = odiDataSource;
 	}
 	
@@ -164,49 +220,8 @@ public abstract class  DataSourceRuntime implements IDataSourceInstanceHandle
 		}
 	}
 	
-	/**
-	 * Gets the associated odi data source. If null, data source is not open 
-	 */
-	public IDataSource getOdiDataSource( )
-	{
-		return this.odiDataSource;
-	}
-	
-	/**
-	 * Creates an instance of the appropriate subclass based on a specified
-	 * design-time data source definition
-	 * @param dataSetDefn Design-time data source definition.
-	 */
-	public static DataSourceRuntime newInstance( IBaseDataSourceDesign dataSource, DataEngineImpl dataEngine ) 
-			throws DataException
-	{
-		if ( dataSource instanceof IOdaDataSourceDesign )
-		{
-			return new OdaDataSourceRuntime( (IOdaDataSourceDesign) dataSource,
-						dataEngine);
-		}
-		else if ( dataSource instanceof IScriptDataSourceDesign )
-		{
-			return new ScriptDataSourceRuntime( (IScriptDataSourceDesign) dataSource, dataEngine );
-		}
-		else
-		{
-			throw new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE,
-					dataSource.getName() );
-		}
-	}
-	
-	/**
-	 * Returns true if data source is currently open. 
-	 */
-	public boolean isOpen()
-	{
-		// A data source is open if it has an associated odi data source
-		return odiDataSource != null;
-	}
-	
 	/** Executes the beforeOpen script associated with the data source */
-	public void beforeOpen() throws DataException
+	public void beforeOpen( ) throws DataException
 	{
 		if ( eventHandler != null )
 		{
@@ -214,31 +229,15 @@ public abstract class  DataSourceRuntime implements IDataSourceInstanceHandle
 			{
 				eventHandler.handleBeforeOpen( this );
 			}
-			catch (BirtException e)
+			catch ( BirtException e )
 			{
-				throw DataException.wrap(e);
-			}
-		}
-	}
-	
-	/** Executes the beforeClose script associated with the data source */
-	public void beforeClose() throws DataException
-	{
-		if ( eventHandler != null )
-		{
-			try
-			{
-				eventHandler.handleBeforeClose( this );
-			}
-			catch (BirtException e)
-			{
-				throw DataException.wrap(e);
+				throw DataException.wrap( e );
 			}
 		}
 	}
 	
 	/** Executes the afterOpen script associated with the data source */
-	public void afterOpen() throws DataException
+	public void afterOpen( ) throws DataException
 	{
 		if ( eventHandler != null )
 		{
@@ -246,15 +245,31 @@ public abstract class  DataSourceRuntime implements IDataSourceInstanceHandle
 			{
 				eventHandler.handleAfterOpen( this );
 			}
-			catch (BirtException e)
+			catch ( BirtException e )
 			{
-				throw DataException.wrap(e);
+				throw DataException.wrap( e );
+			}
+		}
+	}
+	
+	/** Executes the beforeClose script associated with the data source */
+	public void beforeClose( ) throws DataException
+	{
+		if ( eventHandler != null )
+		{
+			try
+			{
+				eventHandler.handleBeforeClose( this );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
 			}
 		}
 	}
 	
 	/** Executes the afterClose script associated with the data source */
-	public void afterClose() throws DataException
+	public void afterClose( ) throws DataException
 	{
 		if ( eventHandler != null )
 		{
@@ -262,9 +277,9 @@ public abstract class  DataSourceRuntime implements IDataSourceInstanceHandle
 			{
 				eventHandler.handleAfterClose( this );
 			}
-			catch (BirtException e)
+			catch ( BirtException e )
 			{
-				throw DataException.wrap(e);
+				throw DataException.wrap( e );
 			}
 		}
 	}
