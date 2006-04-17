@@ -60,6 +60,10 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private IJoinConditionMatcher matcher;
 	private int joinType;
 	
+	private DataEngineImpl dataEngine;
+	private IBaseDataSetDesign dataSetDesign;
+	private Map appContext;
+	
 	/**
 	 * Constructor.
 	 * 
@@ -74,7 +78,9 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			Map appContext ) throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign, appContext );
-		initialize( dataEngine, dataSetDesign, appContext );
+		this.dataEngine = dataEngine;
+		this.dataSetDesign = dataSetDesign;
+		this.appContext = appContext;
 	}
 
 	/**
@@ -409,7 +415,12 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		 */
 		protected IQuery createOdiQuery( ) throws DataException
 		{
-			
+			//Lazzily initialize the PreparedJointDataSourceQuery here.
+			//The creation of JointDataSetQuery need IResultClass instance
+			//as input argment.We have to create ResultIterator instance 
+			//in method "initialize()" for this is the only way to acquire
+			//IResultClass instances.
+			initialize( dataEngine, dataSetDesign, appContext );
 			return new JointDataSetQuery( resultClass );
 	 	}
 		
