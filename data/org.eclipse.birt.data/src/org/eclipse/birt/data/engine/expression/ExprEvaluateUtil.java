@@ -208,7 +208,7 @@ public class ExprEvaluateUtil
 	 * @throws BirtException
 	 */
 	private static Object doEvaluateRawExpression( IBaseExpression dataExpr,
-			Scriptable scope, boolean jsType ) throws BirtException
+			Scriptable scope, boolean javaType ) throws BirtException
 	{
 		if ( dataExpr == null )
 			return null;
@@ -223,9 +223,11 @@ public class ExprEvaluateUtil
 						( (IScriptExpression) dataExpr ).getText( ),
 						"source",
 						0 );
-				value = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
-				if ( jsType == true )
+				
+				if ( javaType == true )
 					value = JavascriptEvalUtil.convertJavascriptValue( value );
+				
+				value = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
 				
 				return value;
 			}
@@ -241,10 +243,10 @@ public class ExprEvaluateUtil
 				
 				return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
 						scope,
-						jsType ),
+						javaType ),
 						oper,
-						doEvaluateRawExpression( operand1, scope, jsType ),
-						doEvaluateRawExpression( operand2, scope, jsType ) );
+						doEvaluateRawExpression( operand1, scope, javaType ),
+						doEvaluateRawExpression( operand2, scope, javaType ) );
 			}
 			else
 			{
