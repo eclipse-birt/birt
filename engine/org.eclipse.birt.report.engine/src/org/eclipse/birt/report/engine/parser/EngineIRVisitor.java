@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.92 $ $Date: 2006/04/13 08:10:26 $
+ * @version $Revision: 1.93 $ $Date: 2006/04/14 09:34:38 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -719,7 +719,7 @@ class EngineIRVisitor extends DesignVisitor
 		String expr = handle.getResultSetColumn( );
 		if (expr != null && expr.trim( ).length( ) > 0)
 		{
-			expr = "row[\"" + expr.replaceAll( "\"", "\\\\\"") + "\"]";
+			expr = "row[\"" + this.transformToJsConstants( expr ) + "\"]";
 			data.setValue( expr );
 		}
 		// Handle Action
@@ -2272,5 +2272,43 @@ class EngineIRVisitor extends DesignVisitor
 	private void setupElementIDMap( ReportElementDesign rptElement )
 	{
 		report.setReportItemInstanceID( rptElement.getID( ), rptElement );
+	}
+	
+	/**
+	 * This method transforms a string to JS string constants.
+	 * 
+	 * @param s
+	 * @return
+	 */
+	private String transformToJsConstants( String s )
+	{
+		if( s == null )
+			return null;
+		
+		String[] patterns = new String[]{
+				"\\\\",
+				"\b",
+				"\t",
+				"\n",
+				"\f",
+				"\r",
+				"\""
+		};
+		
+		String[] replacements = new String[]{
+				"\\\\\\\\",
+				"\\\\b",
+				"\\\\t",
+				"\\\\n",
+				"\\\\f",
+				"\\\\r",
+				"\\\\\""
+		};
+		
+		for( int i=0; i< patterns.length;i++)
+		{
+			s = s.replaceAll( patterns[i], replacements[i] );
+		}
+		return s;
 	}
 }
