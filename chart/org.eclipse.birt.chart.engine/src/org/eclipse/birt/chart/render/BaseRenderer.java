@@ -113,8 +113,6 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * Provides a generic framework that initiates the rendering sequence of the
  * various chart components. Series type extensions could subclass this class if
@@ -1313,7 +1311,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										{
 											lgtext = ValueFormatter.format( obj,
 													fs,
-													ULocale.getDefault( ),
+													rtc.getULocale( ),
 													null );
 										}
 										catch ( ChartException e )
@@ -1551,7 +1549,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										{
 											lgtext = ValueFormatter.format( obj,
 													fs,
-													ULocale.getDefault( ),
+													rtc.getULocale( ),
 													null );
 										}
 										catch ( ChartException e )
@@ -2051,7 +2049,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										{
 											lgtext = ValueFormatter.format( obj,
 													fs,
-													ULocale.getDefault( ),
+													rtc.getULocale( ),
 													null );
 										}
 										catch ( ChartException e )
@@ -2298,7 +2296,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										{
 											lgtext = ValueFormatter.format( obj,
 													fs,
-													ULocale.getDefault( ),
+													rtc.getULocale( ),
 													null );
 										}
 										catch ( ChartException e )

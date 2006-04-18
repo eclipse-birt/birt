@@ -47,8 +47,6 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * A helper class for Legend computation.
  */
@@ -327,7 +325,7 @@ public final class LegendBuilder implements IConstants
 						{
 							lgtext = ValueFormatter.format( obj,
 									fs,
-									ULocale.getDefault( ),
+									rtc.getULocale( ),
 									null );
 						}
 						catch ( ChartException e )
@@ -439,7 +437,7 @@ public final class LegendBuilder implements IConstants
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										ULocale.getDefault( ),
+										rtc.getULocale( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -485,7 +483,7 @@ public final class LegendBuilder implements IConstants
 									{
 										lgtext = ValueFormatter.format( obj,
 												fs,
-												ULocale.getDefault( ),
+												rtc.getULocale( ),
 												null );
 									}
 									catch ( ChartException e )
@@ -589,7 +587,7 @@ public final class LegendBuilder implements IConstants
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										ULocale.getDefault( ),
+										rtc.getULocale( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -635,7 +633,7 @@ public final class LegendBuilder implements IConstants
 									{
 										lgtext = ValueFormatter.format( obj,
 												fs,
-												ULocale.getDefault( ),
+												rtc.getULocale( ),
 												null );
 									}
 									catch ( ChartException e )
@@ -812,7 +810,7 @@ public final class LegendBuilder implements IConstants
 						{
 							lgtext = ValueFormatter.format( obj,
 									fs,
-									ULocale.getDefault( ),
+									rtc.getULocale( ),
 									null );
 						}
 						catch ( ChartException e )
@@ -923,7 +921,7 @@ public final class LegendBuilder implements IConstants
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										ULocale.getDefault( ),
+										rtc.getULocale( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -973,7 +971,7 @@ public final class LegendBuilder implements IConstants
 									{
 										lgtext = ValueFormatter.format( obj,
 												fs,
-												ULocale.getDefault( ),
+												rtc.getULocale( ),
 												null );
 									}
 									catch ( ChartException e )
@@ -1073,7 +1071,7 @@ public final class LegendBuilder implements IConstants
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										ULocale.getDefault( ),
+										rtc.getULocale( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -1123,7 +1121,7 @@ public final class LegendBuilder implements IConstants
 									{
 										lgtext = ValueFormatter.format( obj,
 												fs,
-												ULocale.getDefault( ),
+												rtc.getULocale( ),
 												null );
 									}
 									catch ( ChartException e )
