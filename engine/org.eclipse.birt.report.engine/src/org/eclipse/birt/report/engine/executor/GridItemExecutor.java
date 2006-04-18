@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.29 $ $Date: 2006/01/18 02:13:54 $
+ * @version $Revision: 1.30 $ $Date: 2006/04/13 08:10:25 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -121,6 +121,10 @@ public class GridItemExecutor extends QueryItemExecutor
 			RowDesign row = gridItem.getRow( i );
 			if ( row != null )
 			{
+				if ( context.isCanceled( ) )
+				{
+					break;
+				}
 				executeRow( i, body, row, emitter );
 			}
 		}
@@ -190,6 +194,10 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		for ( int j = 0; j < row.getCellCount( ); j++ )
 		{
+			if ( context.isCanceled( ) )
+			{
+				break;
+			}
 			CellDesign cell = row.getCell( j );
 			if ( cell != null )
 			{
@@ -255,6 +263,10 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		for ( int m = 0; m < cell.getContentCount( ); m++ )
 		{
+			if ( context.isCanceled( ) )
+			{
+				break;
+			}
 			ReportItemDesign ri = cell.getContent( m );
 			if ( ri != null )
 			{

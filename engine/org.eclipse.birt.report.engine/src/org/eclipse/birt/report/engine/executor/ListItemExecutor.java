@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.34 $ $Date: 2006/01/20 08:00:54 $
+ * @version $Revision: 1.35 $ $Date: 2006/04/13 08:10:25 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -131,6 +131,10 @@ public class ListItemExecutor extends ListingElementExecutor
 		{
 			for ( int i = 0; i < band.getContentCount( ); i++ )
 			{
+				if ( context.isCanceled( ) )
+				{
+					break;
+				}
 				ReportItemDesign item = band.getContent( i );
 				if ( context.isInFactory( ) )
 				{

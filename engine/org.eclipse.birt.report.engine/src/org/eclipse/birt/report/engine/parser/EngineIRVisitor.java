@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.93 $ $Date: 2006/04/14 09:34:38 $
+ * @version $Revision: 1.94 $ $Date: 2006/04/17 07:14:00 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -2282,33 +2282,41 @@ class EngineIRVisitor extends DesignVisitor
 	 */
 	private String transformToJsConstants( String s )
 	{
-		if( s == null )
+		if ( s == null )
 			return null;
-		
-		String[] patterns = new String[]{
-				"\\\\",
-				"\b",
-				"\t",
-				"\n",
-				"\f",
-				"\r",
-				"\""
-		};
-		
-		String[] replacements = new String[]{
-				"\\\\\\\\",
-				"\\\\b",
-				"\\\\t",
-				"\\\\n",
-				"\\\\f",
-				"\\\\r",
-				"\\\\\""
-		};
-		
-		for( int i=0; i< patterns.length;i++)
+
+		StringBuffer buffer = new StringBuffer( );
+		int length = s.length( );
+		for ( int i = 0; i < length; i++ )
 		{
-			s = s.replaceAll( patterns[i], replacements[i] );
+			char c = s.charAt( i );
+			switch ( c )
+			{
+				case '\\' :
+					buffer.append( "\\\\" );
+					break;
+				case '\b' :
+					buffer.append( "\\b" );
+					break;
+				case '\t' :
+					buffer.append( "\\t" );
+					break;
+				case '\n' :
+					buffer.append( "\\n" );
+					break;
+				case '\f' :
+					buffer.append( "\\f" );
+					break;
+				case '\r' :
+					buffer.append( "\\r" );
+					break;
+				case '"' :
+					buffer.append( "\\\"" );
+					break;
+				default :
+					buffer.append( c );
+			}
 		}
-		return s;
+		return buffer.toString( );
 	}
 }

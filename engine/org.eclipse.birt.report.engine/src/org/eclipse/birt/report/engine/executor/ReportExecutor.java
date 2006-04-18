@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.33 $ $Date: 2006/01/19 04:31:08 $
+ * @version $Revision: 1.34 $ $Date: 2006/03/23 09:28:37 $
  */
 public class ReportExecutor
 {
@@ -122,6 +122,10 @@ public class ReportExecutor
 		{
 			for ( int i = 0; i < report.getContentCount( ); i++ )
 			{
+				if ( context.isCanceled( ) )
+				{
+					break;
+				}
 				report.getContent( i ).accept( builder, emitter );
 			}
 		}

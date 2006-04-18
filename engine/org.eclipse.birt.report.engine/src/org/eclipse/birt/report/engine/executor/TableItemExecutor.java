@@ -63,7 +63,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.42 $ $Date: 2006/04/12 05:40:31 $
+ * @version $Revision: 1.43 $ $Date: 2006/04/13 08:10:25 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -169,7 +169,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.42 $ $Date: 2006/04/12 05:40:31 $
+	 * @version $Revision: 1.43 $ $Date: 2006/04/13 08:10:25 $
 	 */
 	private static class TABLEINFO
 	{
@@ -496,6 +496,10 @@ public class TableItemExecutor extends ListingElementExecutor
 		{
 			for ( int i = 0; i < band.getRowCount( ); i++ )
 			{
+				if ( context.isCanceled( ) )
+				{
+					break;
+				}
 				RowDesign rowDesign = band.getRow( i );
 				rowDesign.setBandType( band.getBandType( ) );
 				rowDesign.setGroupLevel( band.getBandLevel( ) );
@@ -562,6 +566,10 @@ public class TableItemExecutor extends ListingElementExecutor
 
 		for ( int j = 0; j < row.getCellCount( ); j++ )
 		{
+			if ( context.isCanceled( ) )
+			{
+				break;
+			}
 			CellDesign cell = row.getCell( j );
 			if ( cell != null )
 			{
@@ -594,6 +602,10 @@ public class TableItemExecutor extends ListingElementExecutor
 				}
 				for ( int m = 0; m < cell.getContentCount( ); m++ )
 				{
+					if ( context.isCanceled( ) )
+					{
+						break;
+					}
 					ReportItemDesign item = cell.getContent( m );
 					if ( item != null )
 					{

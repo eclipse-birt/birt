@@ -499,10 +499,20 @@ public abstract class EngineTask implements IEngineTask
 		return inputValues.get( name );
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IEngineTask#cancel()
+	 */
+	public void cancel( )
+	{
+		executionContext.cancel( );
+	}
+
+
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.33 $ $Date: 2006/03/22 03:01:43 $
+	 * @version $Revision: 1.34 $ $Date: 2006/03/23 04:44:55 $
 	 */
 	static abstract class ParameterVisitor
 	{

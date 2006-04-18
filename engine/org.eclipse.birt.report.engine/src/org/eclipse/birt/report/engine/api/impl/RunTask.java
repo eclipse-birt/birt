@@ -43,7 +43,6 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	private IDocArchiveWriter archive;
 	private ReportDocumentWriter writer;
 	private IPageHandler pageHandler;
-	private boolean cancelled;
 
 	/**
 	 * @param engine
@@ -229,16 +228,6 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	public void close( )
 	{
 		super.close( );
-	}
-
-	public void cancel( )
-	{
-		cancelled = true;
-	}
-
-	public boolean isCancelled( )
-	{
-		return cancelled;
 	}
 
 	public void run( FolderArchive fArchive ) throws EngineException

@@ -85,7 +85,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.53 $ $Date: 2006/04/07 09:32:50 $
+ * @version $Revision: 1.54 $ $Date: 2006/04/13 08:10:35 $
  */
 public class ReportQueryBuilder
 {
@@ -128,11 +128,6 @@ public class ReportQueryBuilder
 		 * Needed because we could have nested queries
 		 */
 		protected LinkedList queryStack = new LinkedList( );
-
-		/**
-		 * the total number of queries created in this report
-		 */
-		protected int queryCount = 0;
 
 		/*
 		 * report item query stack
@@ -328,6 +323,7 @@ public class ReportQueryBuilder
 										.valueOf( item.getID( ) )
 										+ "_" + String.valueOf( i ) );
 								this.queries.add( queries[i] );
+								registerQueryAndElement( queries[i], item );
 							}
 							else if ( queries[i] instanceof ISubqueryDefinition )
 							{
@@ -338,7 +334,6 @@ public class ReportQueryBuilder
 											queries[i] );
 								}
 							}
-							registerQueryAndElement( queries[i], item );
 						}
 					}
 				}
@@ -382,7 +377,6 @@ public class ReportQueryBuilder
 				popReportItemQuery( );
 			}
 			finishVisit( query );
-			registerQueryAndElement( query, list );
 			return value;
 		}
 
@@ -435,7 +429,6 @@ public class ReportQueryBuilder
 				popReportItemQuery( );
 			}
 			finishVisit( query );
-			registerQueryAndElement( query, table );
 			return value;
 		}
 
@@ -654,15 +647,6 @@ public class ReportQueryBuilder
 
 		}
 
-		/**
-		 * @return a unique query name, based on a simple integer counter
-		 */
-		protected String createUniqueQueryName( )
-		{
-			queryCount++;
-			return String.valueOf( queryCount );
-		}
-
 		protected void addColumBinding( IBaseTransform transfer,
 				ComputedColumnHandle binding )
 		{
@@ -726,6 +710,7 @@ public class ReportQueryBuilder
 
 			this.queryIDs.put( query, String.valueOf( item.getID( ) ) );
 			this.queries.add( query );
+			registerQueryAndElement( query, item );
 
 			Iterator iter = designHandle.columnBindingsIterator( );
 			while ( iter.hasNext( ) )
@@ -758,12 +743,13 @@ public class ReportQueryBuilder
 				// no parent query exits, so create a empty query for it.
 				query = new QueryDefinition( getParentQuery( ) );
 				this.queryIDs.put( query, String.valueOf( item.getID( ) ) );
-				this.queries.add( query );				
+				this.queries.add( query );	
+				registerQueryAndElement( query, item );
 			}
 			else
 			{
 				// create a sub query
-				String name = createUniqueQueryName( );
+				String name = String.valueOf( item.getID( ) );
 				query = new SubqueryDefinition( name );
 				parentQuery.getSubqueries( ).add( query );
 			}

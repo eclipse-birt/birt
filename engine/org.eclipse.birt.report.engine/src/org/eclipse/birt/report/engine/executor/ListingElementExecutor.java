@@ -120,6 +120,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			// no group tables
 			do
 			{
+				if ( context.isCanceled( ) )
+				{
+					break;
+				}
 				rsetCursor++;
 				startTOCEntry( null );
 				accessDetail( listing, outputEmitter, rset );
@@ -152,6 +156,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		int hideGroupStartIndex = -1;
 		do
 		{
+			if ( context.isCanceled( ) )
+			{
+				break;
+			}
 			rsetCursor++;
 			int startGroup = rset.getStartingGroupLevel( );
 

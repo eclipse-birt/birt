@@ -77,7 +77,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.63 $ $Date: 2006/03/21 23:23:18 $
+ * @version $Revision: 1.64 $ $Date: 2006/04/06 12:35:24 $
  */
 public class ExecutionContext
 {
@@ -214,6 +214,11 @@ public class ExecutionContext
 	 */
 	private List onPrepareErrors = new ArrayList( );
 
+	/**
+	 * Flag to indicate whether task is canceled.
+	 */
+	private boolean isCancelled = false;
+	
 	/**
 	 * utilities used in the report execution.
 	 */
@@ -1393,5 +1398,18 @@ public class ExecutionContext
 			ClassLoader parent )
 	{
 		return getCustomClassLoader( classPathKey, classLoaderCache, parent );
+	}
+
+	/**
+	 * Set the cancel flag.
+	 */
+	public void cancel( )
+	{
+		isCancelled = true;
+	}
+
+	public boolean isCanceled( )
+	{
+		return isCancelled;
 	}
 }

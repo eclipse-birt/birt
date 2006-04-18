@@ -48,9 +48,4 @@ public interface IRunTask extends IEngineTask
 	 * @throws EngineException throws exception when running report fails
 	 */
 	public abstract void run( FolderArchive fArchive) throws EngineException;
-	
-	/**
-	 * cancelling a report generation
-	 */
-	public abstract void cancel();
 }

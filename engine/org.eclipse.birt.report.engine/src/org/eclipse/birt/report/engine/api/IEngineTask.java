@@ -112,6 +112,11 @@ public interface IEngineTask {
 	 * @return whether the parameter validation succeeds <br>
 	 */
 	public boolean validateParameters( );
+	
+	/**
+	 * Cancels the task.
+	 */
+	public void cancel();
 
 	/**
 	 * close the task, relese any resources. 
