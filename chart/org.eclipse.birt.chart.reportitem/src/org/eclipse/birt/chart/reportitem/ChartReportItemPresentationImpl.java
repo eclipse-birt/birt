@@ -139,8 +139,8 @@ public final class ChartReportItemPresentationImpl extends
 			}
 		}
 
-		// GIF as default.
-		return "GIF"; //$NON-NLS-1$
+		// PNG as default.
+		return "PNG"; //$NON-NLS-1$
 	}
 
 	/*
@@ -214,6 +214,13 @@ public final class ChartReportItemPresentationImpl extends
 			if ( isOutputRendererSupported( outputFormat ) )
 			{
 				sExtension = outputFormat;
+			}
+			else if ( 	outputFormat != null && 
+						outputFormat.toUpperCase( ).equals( "GIF" )  && //$NON-NLS-1$ 
+						isOutputRendererSupported( "PNG" ) ) //$NON-NLS-1$
+			{
+				// render old GIF charts as PNG
+				sExtension = "PNG"; //$NON-NLS-1$
 			}
 			else if ( isOutputRendererSupported( "SVG" ) ) //$NON-NLS-1$
 			{

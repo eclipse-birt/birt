@@ -66,7 +66,7 @@
          <attribute name="format" type="string">
             <annotation>
                <documentation>
-                  @Since 2.0. The format attribute indicates a file format which this device renderer can generate, such as &quot;BMP&quot;, &quot;JPG&quot;, &quot;GIF&quot;, etc.
+                  @Since 2.0. The format attribute indicates a file format which this device renderer can generate, such as &quot;BMP&quot;, &quot;JPG&quot;, &quot;PNG&quot;, etc.
                </documentation>
             </annotation>
          </attribute>
@@ -103,10 +103,10 @@
             device=&quot;org.eclipse.birt.chart.device.swt.SwtRendererImpl&quot;
             name=&quot;dv.SWT&quot;/&gt;
       &lt;deviceRenderer
-            device=&quot;org.eclipse.birt.chart.device.image.PngRendererImplOld&quot;
+            device=&quot;org.eclipse.birt.chart.device.image.PngRendererImpl&quot;
             name=&quot;dv.PNG24&quot;/&gt;
       &lt;deviceRenderer
-            device=&quot;org.eclipse.birt.chart.device.image.GifRendererImplOld&quot;
+            device=&quot;org.eclipse.birt.chart.device.image.GifRendererImpl&quot;
             name=&quot;dv.GIF8&quot;/&gt;
       &lt;deviceRenderer
             device=&quot;org.eclipse.birt.chart.device.image.PngRendererImpl&quot;

@@ -443,10 +443,14 @@ public class TaskSelectType extends SimpleTask
 		cbOutput.setItems( getOutputFormats( ) );
 
 		String sCurrentFormat = ( (ChartWizardContext) getContext( ) ).getOutputFormat( );
+		int index = cbOutput.indexOf( sCurrentFormat );
+		if ( index == -1 )
+		{
+			index = cbOutput.indexOf( ( (ChartWizardContext) getContext( ) ).getDefaultOutputFormat( ) ) ;
+		}
+		cbOutput.select( index );
 
-		cbOutput.setText( ( sCurrentFormat == null )
-				? ( (ChartWizardContext) getContext( ) ).getDefaultOutputFormat( )
-				: sCurrentFormat );
+		
 	}
 
 	private String[] getOutputFormats( )

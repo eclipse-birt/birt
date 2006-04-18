@@ -203,7 +203,13 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 				Object of = eih.getProperty( "outputFormat" ); //$NON-NLS-1$
 				if ( of instanceof String )
 				{
-					context.setOutputFormat( (String) of );
+					// GIF is deprecated in favor of PNG. Automatically update model
+					if (of.equals( "GIF" ))
+					{
+						context.setOutputFormat( "PNG" );
+					}
+					else
+						context.setOutputFormat( (String) of );
 				}
 				context.setExtendedItem( eih );
 				context.setProcessor( new ChartReportStyleProcessor( eih, false ) );

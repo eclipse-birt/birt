@@ -8,10 +8,12 @@
             device="org.eclipse.birt.chart.device.swing.SwingRendererImpl"
             name="dv.SWING"/>
       <deviceRenderer
-            device="org.eclipse.birt.chart.device.image.PngRendererImplOld"
+            description="Deprecated, use PNG instead"
+            device="org.eclipse.birt.chart.device.image.PngRendererImpl"
             name="dv.PNG24"/>
       <deviceRenderer
-            device="org.eclipse.birt.chart.device.image.GifRendererImplOld"
+            description="Deprecated, use PNG instead"
+            device="org.eclipse.birt.chart.device.image.GifRendererImpl"
             name="dv.GIF8"/>
       <deviceRenderer
             device="org.eclipse.birt.chart.device.image.PngRendererImpl"
@@ -19,9 +21,9 @@
             format="PNG"
             description="Portable Network Graphics"/>
       <deviceRenderer
+            description="Deprecated, use PNG instead"
             device="org.eclipse.birt.chart.device.image.GifRendererImpl"
-            name="dv.GIF"
-            format="GIF"/>
+            name="dv.GIF"/>
       <deviceRenderer
             device="org.eclipse.birt.chart.device.image.JpegRendererImpl"
             name="dv.JPEG"/>

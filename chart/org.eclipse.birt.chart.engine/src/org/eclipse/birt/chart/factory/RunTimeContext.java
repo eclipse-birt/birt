@@ -310,6 +310,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return The locale associated with this runtime context.
 	 * @deprecated
+	 * @see #getULocale()
 	 */
 	public Locale getLocale( )
 	{

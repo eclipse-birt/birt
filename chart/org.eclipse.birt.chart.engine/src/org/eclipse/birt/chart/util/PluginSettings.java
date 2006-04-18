@@ -119,12 +119,12 @@ public final class PluginSettings
 					null, null
 			}, {
 					"dv.PNG24", //$NON-NLS-1$
-					"org.eclipse.birt.chart.device.image.PngRendererImplOld", //$NON-NLS-1$
-					null, null
+					"org.eclipse.birt.chart.device.image.PngRendererImpl", //$NON-NLS-1$
+					null, "Deprecated, use PNG instead" //$NON-NLS-1$
 			}, {
 					"dv.GIF8", //$NON-NLS-1$
-					"org.eclipse.birt.chart.device.image.GifRendererImplOld", //$NON-NLS-1$
-					null, null
+					"org.eclipse.birt.chart.device.image.GifRendererImpl", //$NON-NLS-1$
+					null, "Deprecated, use PNG instead" //$NON-NLS-1$
 			}, {
 					"dv.PNG", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.image.PngRendererImpl", //$NON-NLS-1$
@@ -133,8 +133,8 @@ public final class PluginSettings
 			}, {
 					"dv.GIF", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.image.GifRendererImpl", //$NON-NLS-1$
-					"GIF", //$NON-NLS-1$
-					null
+					null, //$NON-NLS-1$
+					"Deprecated, use PNG instead" //$NON-NLS-1$
 			}, {
 					"dv.JPEG", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.image.JpegRendererImpl", //$NON-NLS-1$
@@ -350,7 +350,7 @@ public final class PluginSettings
 	 * @param sName
 	 *            The name of the device renderer. Values registered in the
 	 *            default distribution are dv.SWT, dv.SWING, dv.PNG, dv.JPEG,
-	 *            dv.BMP and dv.GIF
+	 *            dv.BMP 
 	 * 
 	 * @return An newly initialized instance of the requested device renderer
 	 * 

@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 /**
  *
  */
-public final class PngRendererImpl extends JavaxImageIOWriter
+public class PngRendererImpl extends JavaxImageIOWriter
 {
 
     /* (non-Javadoc)
