@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.List;
+
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.xml.sax.SAXException;
@@ -50,33 +55,49 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 		if ( value == null )
 			return;
 
-		setupBoundDataColumns( value );
+		List newExprs = null;
+
+		try
+		{
+			newExprs = ExpressionUtil.extractColumnExpressions( value );
+		}
+		catch ( BirtException e )
+		{
+			newExprs = null;
+		}
+
+		if ( newExprs != null && newExprs.size( ) == 1 )
+		{
+			IColumnBinding column = (IColumnBinding) newExprs.get( 0 );
+
+			if ( value.equals( ExpressionUtil.createRowExpression( column
+					.getResultSetColumnName( ) ) ) )
+			{
+				String newName = DataBoundColumnUtil.setupBoundDataColumn(
+						element, value, column.getBoundExpression( ), handler
+								.getModule( ) );
+
+				// set the property for the result set column property of
+				// DataItem.
+
+				doEnd( newName );
+
+				return;
+			}
+			else
+				setupBoundDataColumns( value );
+		}
+
+		if ( newExprs != null && newExprs.size( ) > 1 )
+		{
+			setupBoundDataColumns( value );
+		}
 
 		String newName = DataBoundColumnUtil.setupBoundDataColumn( element,
-				createUniqueColumnName( ), value, handler.getModule( ) );
+				value, value, handler.getModule( ) );
 
 		// set the property for the result set column property of DataItem.
 
 		doEnd( newName );
 	}
-
-	/**
-	 * Returns a unique bound data column name. The name is unique in the whole
-	 * design.
-	 * 
-	 * @return a unique column name
-	 */
-
-	protected String createUniqueColumnName( )
-	{
-		Integer index = (Integer) handler.tempValue.get( handler.module );
-		if ( index == null )
-			index = new Integer( 1 );
-		else
-			index = new Integer( index.intValue( ) + 1 );
-
-		handler.tempValue.put( handler.module, index );
-		return DataBoundColumnUtil.createParsingUniqueName( index.intValue( ) );
-	}
-
 }
