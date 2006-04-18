@@ -18,6 +18,7 @@ public class PlatformFileContext implements IPlatformContext
 {	
 	protected String root;
 	
+	protected String[] launchArgs;
 	
 	public PlatformFileContext()
 	{
@@ -37,6 +38,16 @@ public class PlatformFileContext implements IPlatformContext
 	public String getPlatform()
 	{
 		return root;
+	}
+	
+	public String[] getLaunchArguments( )
+	{
+		return this.launchArgs;
+	}
+
+	public void setLaunchArguments( String[] launchArgs )
+	{
+		this.launchArgs = launchArgs;
 	}
 	
 }

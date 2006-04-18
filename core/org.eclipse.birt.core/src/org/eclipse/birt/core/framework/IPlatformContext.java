@@ -21,12 +21,20 @@ package org.eclipse.birt.core.framework;
  * 			plugins in the framework
  * 			osgi.jar 
  */
-public interface IPlatformContext 
-{	
+public interface IPlatformContext
+{
+
 	/**
 	 * return the folder of the platform.
 	 * 
 	 * @return the folder represent the root of the platform.
 	 */
-	public String getPlatform();
+	public String getPlatform( );
+
+	/**
+	 * return the Launch Arguments
+	 * 
+	 * @return the Launch Arguments
+	 */
+	public String[] getLaunchArguments( );
 }

@@ -33,10 +33,10 @@ public class PlatformServletContext implements IPlatformContext
 	static protected Logger log = Logger
 			.getLogger( PlatformServletContext.class.getName( ) );
 
-	public ServletContext context = null; // the ServletContext.
-	public String platform;
 	private static final String RESOURCE_BASE = "/WEB-INF/platform/"; //$NON-NLS-1$
-
+	private ServletContext context = null; // the ServletContext.
+	private String platform;
+	private String[] launchArgs;
 	/**
 	 * @param context
 	 * @param urlLeadingString
@@ -50,6 +50,16 @@ public class PlatformServletContext implements IPlatformContext
 	public PlatformServletContext( ServletContext context )
 	{
 		this.context = context;
+	}
+	
+	public void setLaunchArguments( String[] launchArgs )
+	{
+		this.launchArgs = launchArgs;
+	}
+
+	public String[] getLaunchArguments( )
+	{
+		return launchArgs;
 	}
 
 	public String getPlatform( )

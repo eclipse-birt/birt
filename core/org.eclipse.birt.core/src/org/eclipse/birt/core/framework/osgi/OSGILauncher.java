@@ -84,8 +84,13 @@ public class OSGILauncher
 		}
 
 		final String framework = new File( path ).getAbsolutePath( );
-		final String[] args = {"-nosplash"}; //$NON-NLS-1$
-
+		String[] args = context.getLaunchArguments( );
+		if ( args == null )
+		{
+			args = new String[]{};
+		}
+		
+		
 		ClassLoader original = Thread.currentThread( ).getContextClassLoader( );
 		try
 		{
