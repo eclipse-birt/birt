@@ -102,13 +102,24 @@ public class DataSetCacheManager
 		cacheOption = DEFAULT;
 		alwaysCacheRowCount = 0;
 	}
-
+	
 	/**
 	 * Enable cache on data set
+	 * @param cacheOption
 	 */
 	public void setCacheOption( int cacheOption )
 	{
 		this.cacheOption = cacheOption;
+	}
+	
+	/**
+	 * @return
+	 */
+	public int suspendCache( )
+	{
+		int lastCacheOption = this.cacheOption;
+		this.setCacheOption( DataSetCacheManager.DISABLE );
+		return lastCacheOption;
 	}
 
 	/**

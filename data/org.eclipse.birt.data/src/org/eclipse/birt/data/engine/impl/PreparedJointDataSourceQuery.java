@@ -30,10 +30,14 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
+import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSourceQuery;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
+import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.impl.jointdataset.IJoinConditionMatcher;
 import org.eclipse.birt.data.engine.impl.jointdataset.JoinConditionMatcher;
 import org.eclipse.birt.data.engine.impl.jointdataset.JointDataSetPopulatorFactory;
@@ -82,7 +86,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		this.dataSetDesign = dataSetDesign;
 		this.appContext = appContext;
 	}
-
+	
 	/**
 	 * Initialize the instance.
 	 * 
@@ -91,12 +95,10 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @param appContext
 	 * @throws DataException
 	 */
-	private void initialize( DataEngineImpl dataEngine,
-			IBaseDataSetDesign dataSetDesign, Map appContext )
+	private void initialize( DataEngineImpl dataEngine, Map appContext )
 			throws DataException
 	{
-		// assign the dataSet.
-		dataSet = (IJointDataSetDesign) dataSetDesign;
+		int savedCacheOption = DataSetCacheManager.getInstance( ).suspendCache( );
 
 		ResultIterator left = getSortedResultIterator( dataEngine,
 				dataSet.getLeftDataSetDesignName( ),
@@ -108,10 +110,12 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				appContext,
 				dataSet.getJoinConditions( ),
 				false );
+		
+		DataSetCacheManager.getInstance( ).setCacheOption( savedCacheOption );
 
 		this.left = left;
 		this.right = right;
-		this.joinType = dataSet.getJoinType( ); 
+		this.joinType = dataSet.getJoinType( );
 		this.matcher = new JoinConditionMatcher( left.getOdiResult( ),
 				right.getOdiResult( ),
 				left.getScope( ),
@@ -121,10 +125,16 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		JointResultMetadata meta = getJointResultMetadata( left, right );
 
 		resultClass = meta.getResultClass( );
-
-
 	}
 
+	/**
+	 * @param dataSetDesign
+	 */
+	private void setCurrentDataSet( IBaseDataSetDesign dataSetDesign )
+	{
+		dataSet = (IJointDataSetDesign) dataSetDesign;
+	}
+	
 	/**
 	 * Return an instance of JointResultMeta.
 	 * 
@@ -233,46 +243,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		}
 		ResultClass resultClass = new ResultClass( projectedColumns );
 		return new JointResultMetadata( resultClass, columnSource, index );
-
 	}
 	
-/*	*//**
-	 * Return the ResultClass. The result class consists of fields from JointDataSetMeta and 
-	 * the computed columns.
-	 * @param jointResultClass
-	 * @return
-	 * @throws DataException
-	 *//*
-	private IResultClass getPreparedResultClass( IResultClass jointResultClass )
-			throws DataException
-	{
-		List projectedColumns = new ArrayList( );
-		int i;
-		for ( i = 1; i <= jointResultClass.getFieldCount( ); i++ )
-		{
-			projectedColumns.add( new ResultFieldMetadata( i,
-					jointResultClass.getFieldName( i ),
-					jointResultClass.getFieldName( i ),
-					jointResultClass.getFieldValueClass( i ),
-					jointResultClass.getFieldNativeTypeName( i ),
-					false ) );
-		}
-
-		for ( int j = 0; j < dataSet.getComputedColumns( ).size( ); j++ )
-		{
-			i++;
-			IComputedColumn cc = (IComputedColumn) dataSet.getComputedColumns( )
-					.get( j );
-			projectedColumns.add( new ResultFieldMetadata( i,
-					cc.getName( ),
-					cc.getName( ),
-					DataType.getClass( cc.getDataType( ) ),
-					null,
-					true ) );
-		}
-		return new ResultClass( projectedColumns );
-	}*/
-
 	/**
 	 * Return the ResultIterator which is sorted using expression in join condition.
 	 * @param dataEngine
@@ -344,7 +316,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 */
 	protected QueryExecutor newExecutor( )
 	{
-		return new JointDataSetQueryExecutor();
+		return new JointDataSetQueryExecutor( );
 	}
 
 	/*
@@ -374,34 +346,6 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			return odiPreparedQuery;
 		}
 		
-/*		
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#populateOdiQuery()
-		 
-		protected void populateOdiQuery( ) throws DataException
-		{
-			super.populateOdiQuery( );
-			
-			
-			IDataSourceQuery odiDSQuery = (IDataSourceQuery) odiQuery;
-			assert odiDSQuery != null;
-		
-			// assign computed columns and projected columns
-			// declare computed columns as custom fields
-		    List ccList = dataSet.getComputedColumns( );
-			if ( ccList != null )
-			{
-				for ( int i = 0; i < ccList.size( ); i++ )
-				{
-					IComputedColumn cc = (IComputedColumn) ccList.get( i );
-					odiDSQuery.declareCustomField( cc.getName( ),
-							cc.getDataType( ) );
-				}
-			}
-				
-			// specify column projection, if any
-	        odiDSQuery.setResultProjection( getReportQueryDefn().getColumnProjection() );
-		}*/
-
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()
 		 */
@@ -415,19 +359,16 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		 */
 		protected IQuery createOdiQuery( ) throws DataException
 		{
-			//Lazzily initialize the PreparedJointDataSourceQuery here.
-			//The creation of JointDataSetQuery need IResultClass instance
-			//as input argment.We have to create ResultIterator instance 
-			//in method "initialize()" for this is the only way to acquire
-			//IResultClass instances.
-			initialize( dataEngine, dataSetDesign, appContext );
+			setCurrentDataSet( dataSetDesign );
+			
+			// Lazzily initialize the PreparedJointDataSourceQuery here.
+			// The creation of JointDataSetQuery need IResultClass instance
+			// as input argment.We have to create ResultIterator instance
+			// in method "initialize()" for this is the only way to acquire
+			// IResultClass instances.
+			if ( doesLoadFromCache( ) == false )
+				initialize( dataEngine, appContext );
 			return new JointDataSetQuery( resultClass );
-	 	}
-		
-		protected void populateOdiQuery( ) throws DataException
-		{
-			super.populateOdiQuery( );
-
 		}
 		
 		/*
@@ -436,6 +377,16 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		protected org.eclipse.birt.data.engine.odi.IResultIterator executeOdiQuery(
 				IEventHandler eventHandler ) throws DataException
 		{
+			if ( doesLoadFromCache( ) == true )
+			{
+				DataSourceQuery dsQuery = new DataSourceQuery( );
+				dsQuery.setExprProcessor( new ExpressionProcessor( null,
+						null,
+						dataSet,
+						null ) );
+				return dsQuery.execute( eventHandler );
+			}
+			
 			JointResultMetadata jrm = getJointResultMetadata( left, right );
 			resultClass = jrm.getResultClass( );
 			populator = JointDataSetPopulatorFactory.getBinaryTreeDataSetPopulator( left.getOdiResult( ),
@@ -443,11 +394,34 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 					jrm,
 					matcher,
 					joinType );
-
-			return new CachedResultSet( (BaseQuery) this.odiQuery,
-					resultClass,
-					populator,
-					eventHandler );
+			
+			if ( doesSaveToCache( ) == false )
+				return new CachedResultSet( (BaseQuery) this.odiQuery,
+						resultClass,
+						populator,
+						eventHandler );
+			else
+				return new CachedResultSet( (BaseQuery) this.odiQuery,
+						resultClass,
+						new DataSetResultCache( populator, resultClass ),
+						eventHandler );
+		}
+		
+		/**
+		 * @return
+		 */
+		private boolean doesLoadFromCache( )
+		{
+			return DataSetCacheManager.getInstance( ).doesLoadFromCache( );
+		}
+		
+		/**
+		 * @return
+		 */
+		private boolean doesSaveToCache( )
+		{
+			return DataSetCacheManager.getInstance( ).doesSaveToCache( );
 		}
 	}
+	
 }
