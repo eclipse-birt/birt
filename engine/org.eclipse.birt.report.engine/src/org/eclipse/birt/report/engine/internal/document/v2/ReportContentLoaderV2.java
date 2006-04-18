@@ -519,6 +519,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		IContent parent = root;
 
 		initializeContent( root );
+		openQuery(root);
 		try
 		{
 			IContent next = reader.readContent( );
@@ -535,6 +536,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 				{
 					if ( parent == root )
 					{
+						closeQuery(root);
 						return next;
 					}
 					endContent( parent, emitter );
@@ -551,6 +553,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			endContent( parent, emitter );
 			parent = (IContent) parent.getParent( );
 		}
+		closeQuery(root);
 
 		return null;
 	}
