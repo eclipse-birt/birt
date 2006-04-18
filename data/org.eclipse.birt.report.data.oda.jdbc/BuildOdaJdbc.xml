@@ -133,8 +133,8 @@
 				<include name="**/*.properties" />
 				<exclude name="**/*Test.class" />
 			</fileset>
-			<zipfileset src="${dtp.oda.dir}/oda.jar" excludes="**/*.MF"/>
-		</jar>
+<!--		<zipfileset src="${dtp.oda.dir}/oda.jar" excludes="**/*.MF"/>
+-->		</jar>
 	</target>
 	
 	<!-- Export the project, for instance, jar files are copied to a designated folder
