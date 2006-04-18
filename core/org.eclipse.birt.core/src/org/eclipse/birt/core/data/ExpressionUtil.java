@@ -25,8 +25,12 @@ public final class ExpressionUtil
 	/** prefix for row */
 	private static final String ROW_INDICATOR = "row";
 	
+	/** prefix for dataset row */
+	private static final String DATASET_ROW_INDICATOR = "dataSetRow";
+	
 	private static String PREFIX = "COLUMN_";
 	private static int suffix = 0;
+	
 	/**
 	 * Return a row expression text according to given row name.
 	 * 
@@ -39,11 +43,23 @@ public final class ExpressionUtil
 	}
 	
 	/**
+	 * Return a dataSetRow expression text according to given row name.
+	 * 
+	 * @param rowName
+	 * @return
+	 */
+	public static String createDataSetRowExpression( String rowName )
+	{
+		return DATASET_ROW_INDICATOR + "[\"" + rowName + "\"]";
+	}
+	
+	/**
 	 * Return a row expression text according to given row index, which
 	 * is 1-based.
 	 * 
 	 * @param index
 	 * @return
+	 * @deprecated
 	 */
 	public static String createRowExpression( int index )
 	{
