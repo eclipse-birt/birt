@@ -28,11 +28,14 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.JointDataSet;
+import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
+import org.eclipse.birt.report.model.elements.TextDataItem;
+import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -209,6 +212,11 @@ public class DocumentUtil
 		}
 		else if ( source instanceof ReportItem )
 		{
+			if ( source instanceof Label || source instanceof TextItem )
+			{
+				localizeExternalStringProperty( sourceDesign, target, source );
+			}
+
 			if ( source instanceof ImageItem )
 			{
 				resolveImageItem( targetDesign, sourceDesign, target, source );
@@ -224,6 +232,53 @@ public class DocumentUtil
 
 	}
 
+	/**
+	 * if there is external resource file set for the report, localized all
+	 * display property value when serialize the report.
+	 * 
+	 * @param sourceDesign
+	 *            the source design from which to get the copy
+	 * @param target
+	 *            the target element to resolve the embedded image
+	 * @param source
+	 *            the source element
+	 */
+
+	static void localizeExternalStringProperty( ReportDesign sourceDesign,
+			DesignElement target, DesignElement source )
+	{
+		assert sourceDesign != null && target != null && source != null;
+
+		if ( sourceDesign.getProperty( sourceDesign.getRoot( ),
+				ReportDesign.INCLUDE_RESOURCE_PROP ) == null )
+			return;
+
+		if ( source instanceof Label )
+		{
+			String resourcekey = source.getStringProperty( sourceDesign,
+					Label.TEXT_ID_PROP );
+			if ( resourcekey == null )
+				return;
+
+			String displayValue = sourceDesign.getMessage( resourcekey );
+
+			target.setProperty( Label.TEXT_PROP, displayValue );
+			target.setProperty( Label.TEXT_ID_PROP, null );
+		}
+		else if ( source instanceof TextItem )
+		{
+			String resourcekey = source.getStringProperty( sourceDesign,
+					TextItem.CONTENT_RESOURCE_KEY_PROP );
+			if ( resourcekey == null )
+				return;
+
+			String displayValue = sourceDesign.getMessage( resourcekey );
+
+			target.setProperty( TextItem.CONTENT_PROP, displayValue );
+			target.setProperty( TextItem.CONTENT_RESOURCE_KEY_PROP, null );
+		}
+
+	}
 
 	/**
 	 * if the image item reference a library image, which uses a library
