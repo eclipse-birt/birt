@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -47,7 +48,6 @@ import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
@@ -269,6 +269,8 @@ public class ParameterDialog extends BaseDialog
 	private Composite valueArea;
 
 	private DataSetItemModel[] cachedColumns;
+	
+	private int maxStrLengthinPixels;
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
@@ -290,6 +292,27 @@ public class ParameterDialog extends BaseDialog
 		}
 	};
 
+	
+	private int getMaxPixels(Control control)
+	{
+		 List stringList = new ArrayList();
+		 stringList.add(LABEL_NAME);
+		 stringList.add( LABEL_PROMPT_TEXT ); 
+		 stringList.add( LABEL_DISPALY_TYPE ); 
+		 stringList.add( LABEL_DEFAULT_VALUE ); 
+		 stringList.add( LABEL_HELP_TEXT ); 
+		 stringList.add( LABEL_LIST_OF_VALUE ); 
+		 stringList.add( LABEL_VALUES ); 
+		 stringList.add( LABEL_FORMAT ); 
+		 stringList.add( LABEL_NULL ); 
+		 stringList.add( LABEL_SELECT_DISPLAY_TEXT ); 
+		 stringList.add( LABEL_SELECT_VALUE_COLUMN ); 
+		 stringList.add( LABEL_SELECT_DATA_SET ); 
+	  
+		 int len = UIUtil.getMaxStringWidth((String [])(stringList.toArray(new String[0])),control);
+		 return len;		 
+	}
+	
 	private ITableLabelProvider labelProvider = new ITableLabelProvider( ) {
 
 		public Image getColumnImage( Object element, int columnIndex )
@@ -337,7 +360,7 @@ public class ParameterDialog extends BaseDialog
 				if ( text == null )
 				{
 					text = format( choice.getValue( ) );
-				}
+				}	
 			}
 			if ( text == null )
 			{
@@ -515,6 +538,7 @@ public class ParameterDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
+		maxStrLengthinPixels = getMaxPixels(parent);
 		Composite composite = (Composite) super.createDialogArea( parent );
 		createPropertiesSection( composite );
 		createMoreOptionSection( composite );
@@ -1748,21 +1772,10 @@ public class ParameterDialog extends BaseDialog
 		if ( label.getText( ).equals( LABEL_VALUES ) )
 		{
 			gd.verticalAlignment = GridData.BEGINNING;
-		}
-		
-		if(Platform.getOS( ).equals( Platform.OS_LINUX ))
-		{
-			gd.widthHint = 125;
-		}else
-		{
-			gd.widthHint = 100;
-		}		
-		
-		if ( ULocale.getDefault( ).getLanguage( ).equals( "es" ) ) //$NON-NLS-1$
-		{
-			gd.widthHint += 15;
-		}
+		}	
+		gd.widthHint = maxStrLengthinPixels;
 		label.setLayoutData( gd );
+		
 	}
 
 	private void addCheckBoxListener( final Button checkBox, final String key )

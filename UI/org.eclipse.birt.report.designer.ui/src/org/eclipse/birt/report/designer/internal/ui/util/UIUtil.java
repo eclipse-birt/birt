@@ -81,6 +81,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -109,6 +110,40 @@ public class UIUtil
 
 	private static final String MSG_DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Title.ImportSuccessfully" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_MSG = Messages.getString( "ImportLibraryAction.Message.ImportSuccessfully" ); //$NON-NLS-1$
+
+	/**
+	 * Returns the length in pixels of given string in a control.
+	 * 
+	 * @return the length in pixels
+	 */
+	public static int getStringWidth( String string, Control control )
+	{
+		int width = 0;
+		GC gc = new GC( control );
+		for ( int i = 0; i < string.length( ); i++ )
+		{
+			char c = string.charAt( i );
+			width += gc.getAdvanceWidth( c );
+		}
+		gc.dispose( );
+		return width;
+	}
+
+	/**
+	 * Returns the maxinum length in pixels of given strings in a control.
+	 * 
+	 * @return the length in pixels
+	 */
+	public static int getMaxStringWidth( String[] strArray, Control control )
+	{
+		int maxWidth = 0;
+		for ( int i = 0; i < strArray.length; i++ )
+		{
+			int width = getStringWidth( strArray[i], control );
+			maxWidth = maxWidth >= width ? maxWidth : width;
+		}
+		return maxWidth;
+	}
 
 	/**
 	 * Returns if current active editor is reportEditor.
@@ -1119,7 +1154,8 @@ public class UIUtil
 		{
 			return null;
 		}
-		Iterator iterator = moduleHandle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL ).iterator( );
+		Iterator iterator = moduleHandle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL )
+				.iterator( );
 
 		if ( iterator != null )
 		{
