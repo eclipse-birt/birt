@@ -9,6 +9,7 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.model,
  org.eclipse.birt.report.engine,
+ org.eclipse.birt.report.engine.fonts,
  com.lowagie.itext
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.pdf.plugin.PDFEmitterPlugin

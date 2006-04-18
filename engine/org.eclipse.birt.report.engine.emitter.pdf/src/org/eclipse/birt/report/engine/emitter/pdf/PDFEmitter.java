@@ -98,7 +98,7 @@ public class PDFEmitter implements IAreaVisitor
 	/**
 	 * The ratio of layout measure to iText measure
 	 */
-	public static final int LAYOUT_TO_PDF_RATIO = 1000;
+	public static final float LAYOUT_TO_PDF_RATIO = 1000f;
 	
 	/**
 	 * the pdf Document object created by iText
@@ -217,9 +217,6 @@ public class PDFEmitter implements IAreaVisitor
 				}
 			}
 		}
-		
-		//register the font files.
-		FontHandler.prepareFonts();
 	}
 	
 	/**
@@ -903,10 +900,11 @@ public class PDFEmitter implements IAreaVisitor
 				else
 				{
 					PdfTemplate templateWhole = cbUnder.createTemplate(
-							width-absPosX>img.scaledWidth() ? img.scaledWidth() : width-absPosX, height-positionY);
+							width-absPosX>img.scaledWidth() ? img.scaledWidth() : width-absPosX, 
+							absPosY>0 ? height-absPosY: height );
 					templateWhole.addImage(img, img.scaledWidth(), 0, 0, img.scaledHeight(), 
 							0, -img.scaledHeight()+height-absPosY);
-					cbUnder.addTemplate(templateWhole, x+absPosX, y-absPosY-img.scaledHeight());
+					cbUnder.addTemplate(templateWhole, x+absPosX, y-height);
 				}
 			}
 			//"repeat-x":
