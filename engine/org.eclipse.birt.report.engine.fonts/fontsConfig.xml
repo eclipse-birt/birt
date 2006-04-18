@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- The default behavior:
+	PDF emitter will load the fonts from the system defined font folder, and then try to use the
+	font specified in design-time to render the pdf.
+	If the font can not be built, it will be mapped directly to default type1 font "Times-Roman". 
+	If the font is a generic family, it will be mapped to a PDF embeded type1 font. 	
+	"serif" to "Times-Roman" 
+	"sans-serif" to "Helvetica"
+	"monospace" to "Courier"
+	"fantasy" to "ZapfDingbats"
+-->
+
+<font>
+<!--
+	In <font-mappings> section, you can:
+	a. Define a mapping from a generic family to a font family.
+		for example: the following defines a mapping from generic family "serif" to a Type1 font
+		family "Times-Roman".
+			<mapping name="serif" font-family="Times-Roman"/>
+			
+	b. Define a mapping from a font family to another font family.
+		This is useful if you want to use a font for PDF rendering which differs from the font used
+	in design-time. 
+		for example: the following defines to replace "simsun" with "Arial Unicode MS".
+			<mapping name="simsun" font-family="Arial Unicode MS"/>
+	
+	c. Define a default mapping if no suitable font can be found.
+		for example: We set "Arial Unicode MS" as the default font family.
+			<mapping name="default" font-family="Arial Unicode MS"/>
+		We recommend you to use a font family supporting most charsets here.
+-->
+	<font-mappings>
+		<mapping name="default" font-family="Times-Roman"/>
+		<mapping name="serif" font-family="Times-Roman"/>
+		<mapping name="sans-serif" font-family="Helvetica"/>
+		<mapping name="sansserif" font-family="Helvetica"/>
+		<mapping name="monospace" font-family="Courier"/>
+		<mapping name="monospaced" font-family="Courier"/>
+		<mapping name="fantasy" font-family="ZapfDingbats"/>
+		<mapping name="cursive" font-family="Times-Roman"/>
+		<mapping name="dialog" font-family="Helvetica"/>
+	</font-mappings>
+	
+<!--
+	For <font-paths> section, If you just need to use the system defined font folder, you can simply
+	ignore this. 
+	In this section, you can add the font path you want PDF emitter to read, ranging from one font
+	file to a whole font folder.
+		for example: 
+		add a font folder
+		<path path="c:/windows/fonts"/>
+		add a font file
+		<path path="/usr/X11R6/lib/X11/fonts/TTF/arial.ttf"/>
+
+	But please NOTE:
+ 		If this section is set, PDF emitter will ONLY load the font files in these paths and ignore
+	the system defined font folder. If you want to use the system font folder as well, please include
+	it in this section. 
+ 	
+ 	On some systems, BIRT PDF emitter may not recognize the system defined font folder. If you encounter
+	this issue, please add the font path to this section.
+-->
+	<font-paths>
+		<path path=""/>
+	</font-paths>
+<!--
+	For <font-encodings> section,
+	In most cases, you need not use this section, unless you are trying to use a non true-type font for
+	PDF rendering.
+-->
+	<font-encodings>
+		<encoding font-family="Times-Roman" encoding="Cp1252"/>
+		<encoding font-family="Helvetica" encoding="Cp1252"/>
+		<encoding font-family="Courier" encoding="Cp1252"/>
+		<encoding font-family="Zapfdingbats" encoding="Cp1252"/>
+		<encoding font-family="Symbol" encoding="Cp1252"/>
+		<encoding font-family="Times-Roman" encoding="Cp1252"/>	
+	</font-encodings>
+</font>
