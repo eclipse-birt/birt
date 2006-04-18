@@ -19,7 +19,9 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -49,6 +51,7 @@ public final class DataTypeUtil
 	public static ResourceBundle resourceBundle = ( new ResourceHandle( ULocale
 			.getDefault( ) ) ).getResourceBundle( );
 
+	public static long count = 0;
 	private final static String pluginId = "org.eclipse.birt.core";
 	
 	/**
@@ -417,7 +420,7 @@ public final class DataTypeUtil
 		{
 			for ( int j = DEFAULT_DATE_STYLE; j <= DateFormat.SHORT; j++ )
 			{
-				dateFormat = DateFormat.getDateTimeInstance( i, j, locale );
+				dateFormat = DateFormatHolder.getDateTimeInstance( i, j, locale );
 				try
 				{
 					resultDate = dateFormat.parse( source );
@@ -429,7 +432,7 @@ public final class DataTypeUtil
 			}
 			
 			// only Date, no Time 
-			dateFormat = DateFormat.getDateInstance( i, locale );
+			dateFormat = DateFormatHolder.getDateInstance( i, locale );
 			try
 			{
 				resultDate = dateFormat.parse( source );
@@ -488,7 +491,7 @@ public final class DataTypeUtil
 	public static Date toDateWithCheck( String source, ULocale locale )
 			throws BirtException
 	{
-		DateFormat dateFormat = DateFormat.getDateInstance( DateFormat.SHORT,
+		DateFormat dateFormat = DateFormatHolder.getDateInstance( DateFormat.SHORT,
 				locale );
 		Date resultDate = null;
 		try
@@ -869,7 +872,7 @@ public final class DataTypeUtil
 		catch ( BirtException e )
 		{
 			//format the String for Locale.US
-			return toDate( source, DEFAULT_LOCALE );
+			return  toDate( source, DEFAULT_LOCALE );
 		}
 	}
 
@@ -1012,5 +1015,61 @@ public final class DataTypeUtil
 
         return odaType;
     }
-	
 }
+
+/**
+ * 
+ *
+ */
+class DateFormatHolder
+{
+	//
+	private static Map dateTimeholder = new HashMap();
+	private static Map dateHolder = new HashMap();
+	
+	/**
+	 * 
+	 *
+	 */
+	private DateFormatHolder(){}
+	
+	/**
+	 * 
+	 * @param dateStyle
+	 * @param timeStyle
+	 * @param locale
+	 * @return
+	 */
+	public static DateFormat getDateTimeInstance( int dateStyle, int timeStyle, ULocale locale )
+	{
+		//DateFormatIdentifier key = new DateFormatIdentifier(dateStyle,timeStyle,locale) ;
+		String key = String.valueOf( dateStyle ) +":"+ String.valueOf( timeStyle ) +":"+locale.getName( ) ;
+		DateFormat result = (DateFormat)dateTimeholder.get( key );
+		if( result == null )
+		{
+			result = DateFormat.getDateTimeInstance( dateStyle, timeStyle, locale );
+			dateTimeholder.put( key, result );
+		}
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param dateStyle
+	 * @param locale
+	 * @return
+	 */
+	public static DateFormat getDateInstance( int dateStyle, ULocale locale )
+	{
+		String key = String.valueOf( dateStyle ) +":"+locale.getName( );
+		//DateFormatIdentifier key = new DateFormatIdentifier(dateStyle,0,locale) ;
+		DateFormat result = (DateFormat)dateHolder.get( key );
+		if( result == null )
+		{
+			result = DateFormat.getDateInstance( dateStyle, locale );
+			dateHolder.put( key, result );
+		}
+		return result;
+	}
+}
+
