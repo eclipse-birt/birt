@@ -11,14 +11,11 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
-import java.text.MessageFormat;
 import java.text.ParseException;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Dial;
 import org.eclipse.birt.chart.model.component.DialRegion;
 import org.eclipse.birt.chart.model.component.impl.DialRegionImpl;
@@ -28,14 +25,11 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
-import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -82,13 +76,9 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 
 	private transient TextEditorComposite txtStartValue = null;
 
-	private transient Button btnStartFormatSpecifier = null;
-
 	private transient Label lblEndValue = null;
 
 	private transient TextEditorComposite txtEndValue = null;
-
-	private transient Button btnEndFormatSpecifier = null;
 
 	private transient Label lblInnerRadius = null;
 
@@ -221,18 +211,9 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		txtStartValue = new TextEditorComposite( cmpRangeValue, SWT.BORDER
 				| SWT.SINGLE );
 		GridData gdTXTStartValue = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTStartValue.horizontalSpan = 2;
 		txtStartValue.setLayoutData( gdTXTStartValue );
 		txtStartValue.addListener( this );
-
-		btnStartFormatSpecifier = new Button( cmpRangeValue, SWT.PUSH );
-		GridData gdBTNStartFormatSpecifier = new GridData( );
-		gdBTNStartFormatSpecifier.heightHint = 18;
-		gdBTNStartFormatSpecifier.widthHint = 18;
-		btnStartFormatSpecifier.setLayoutData( gdBTNStartFormatSpecifier );
-		btnStartFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
-		btnStartFormatSpecifier.addSelectionListener( this );
-		btnStartFormatSpecifier.getImage( )
-				.setBackground( btnStartFormatSpecifier.getBackground( ) );
 
 		lblEndValue = new Label( cmpRangeValue, SWT.NONE );
 		GridData gdLBLEndValue = new GridData( );
@@ -243,18 +224,9 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		txtEndValue = new TextEditorComposite( cmpRangeValue, SWT.BORDER
 				| SWT.SINGLE );
 		GridData gdTXTEndValue = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTEndValue.horizontalSpan = 2;
 		txtEndValue.setLayoutData( gdTXTEndValue );
 		txtEndValue.addListener( this );
-
-		btnEndFormatSpecifier = new Button( cmpRangeValue, SWT.PUSH );
-		GridData gdBTNEndFormatSpecifier = new GridData( );
-		gdBTNEndFormatSpecifier.heightHint = 18;
-		gdBTNEndFormatSpecifier.widthHint = 18;
-		btnEndFormatSpecifier.setLayoutData( gdBTNEndFormatSpecifier );
-		btnEndFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
-		btnEndFormatSpecifier.addSelectionListener( this );
-		btnEndFormatSpecifier.getImage( )
-				.setBackground( btnEndFormatSpecifier.getBackground( ) );
 
 		// Radius
 		lblInnerRadius = new Label( cmpRangeValue, SWT.NONE );
@@ -490,52 +462,6 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 			updateUIForSelection( );
 			refreshButtons( );
 		}
-		else if ( e.getSource( ).equals( btnStartFormatSpecifier )
-				|| e.getSource( ).equals( btnEndFormatSpecifier ) )
-		{
-			String sAxisTitle = ""; //$NON-NLS-1$
-			try
-			{
-				String sTitleString = getDialForProcessing( ).getLabel( )
-						.getCaption( )
-						.getValue( );
-				int iSeparatorIndex = sTitleString.indexOf( ExternalizedTextEditorComposite.SEPARATOR );
-				if ( iSeparatorIndex > 0 )
-				{
-					sTitleString = sTitleString.substring( iSeparatorIndex );
-				}
-				else if ( iSeparatorIndex == 0 )
-				{
-					sTitleString = sTitleString.substring( ExternalizedTextEditorComposite.SEPARATOR.length( ) );
-				}
-				sAxisTitle = new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis" ) ).format( new Object[]{sTitleString} ); //$NON-NLS-1$ 
-			}
-			catch ( NullPointerException e1 )
-			{
-			}
-
-			FormatSpecifier formatspecifier = null;
-			if ( ( (DialRegion) getDialForProcessing( ).getDialRegions( )
-					.get( getMarkerIndex( ) ) ).getFormatSpecifier( ) != null )
-			{
-				formatspecifier = ( (DialRegion) getDialForProcessing( ).getDialRegions( )
-						.get( getMarkerIndex( ) ) ).getFormatSpecifier( );
-			}
-			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					formatspecifier,
-					new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange" ) ).format( new Object[]{new Integer( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
-			if ( !editor.wasCancelled( ) )
-			{
-				if ( editor.getFormatSpecifier( ) == null )
-				{
-					( (DialRegion) getDialForProcessing( ).getDialRegions( )
-							.get( getMarkerIndex( ) ) ).eUnset( ComponentPackage.eINSTANCE.getMarkerRange_FormatSpecifier( ) );
-					return;
-				}
-				( (DialRegion) getDialForProcessing( ).getDialRegions( )
-						.get( getMarkerIndex( ) ) ).setFormatSpecifier( editor.getFormatSpecifier( ) );
-			}
-		}
 	}
 
 	/*
@@ -625,8 +551,6 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 
 	private void setState( boolean bState )
 	{
-		btnStartFormatSpecifier.setEnabled( bState );
-		btnEndFormatSpecifier.setEnabled( bState );
 		lblStartValue.setEnabled( bState );
 		txtStartValue.setEnabled( bState );
 		lblEndValue.setEnabled( bState );
