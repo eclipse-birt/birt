@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ReportMetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="0.01" xsi:noNamespaceSchemaLocation="..\metadata\metadata.xsd">
+  <ChoiceType name="autoTextType">
+    <Choice displayNameID="Choices.autoTextType.page-number" name="page-number"/>
+    <Choice displayNameID="Choices.autoTextType.total-page" name="total-page"/>
+  </ChoiceType>
   <ChoiceType name="colors">
     <Choice displayNameID="Choices.colors.maroon" name="maroon"/>
     <Choice displayNameID="Choices.colors.red" name="red"/>
@@ -2265,6 +2269,7 @@
       <Type name="Image"/>
       <Type name="Label"/>
       <Type name="TextData"/>
+      <Type name="AutoText"/>
       <Type name="TemplateReportItem"/>
       <Trigger targetElement="MasterPage" validator="MasterPageContextContainmentValidator"/>
     </Slot>
@@ -2276,6 +2281,7 @@
       <Type name="Image"/>
       <Type name="Label"/>
       <Type name="TextData"/>
+      <Type name="AutoText"/>
       <Type name="TemplateReportItem"/>
       <Trigger targetElement="MasterPage" validator="MasterPageContextContainmentValidator"/>
     </Slot>
@@ -2299,6 +2305,59 @@
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>       
+  </Element>
+  <Element canExtend="true" displayNameID="Element.AutoText" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.AutoText"  name="AutoText" since="2.1" xmlName="auto-text">
+    <Property detailType="autoTextType"  displayNameID="Element.AutoText.type" name="type" since="2.1" type="choice" />
+  	<StyleProperty name="backgroundColor"/>
+    <StyleProperty name="backgroundImage"/>
+    <StyleProperty name="backgroundRepeat"/>
+    <StyleProperty name="backgroundAttachment"/>
+    <StyleProperty name="backgroundPositionX"/>
+    <StyleProperty name="backgroundPositionY"/>
+    <StyleProperty name="borderTopWidth"/>
+    <StyleProperty name="borderTopStyle"/>
+    <StyleProperty name="borderTopColor"/>
+    <StyleProperty name="borderBottomWidth"/>
+    <StyleProperty name="borderBottomStyle"/>
+    <StyleProperty name="borderBottomColor"/>
+    <StyleProperty name="borderLeftWidth"/>
+    <StyleProperty name="borderLeftStyle"/>
+    <StyleProperty name="borderLeftColor"/>
+    <StyleProperty name="borderRightWidth"/>
+    <StyleProperty name="borderRightStyle"/>
+    <StyleProperty name="borderRightColor"/>
+    <StyleProperty name="canShrink"/>
+    <StyleProperty name="color"/>
+    <StyleProperty name="display"/>
+    <StyleProperty name="fontFamily"/>
+    <StyleProperty name="fontSize"/>
+    <StyleProperty name="fontWeight"/>
+    <StyleProperty name="fontStyle"/>
+    <StyleProperty name="fontVariant"/>
+    <StyleProperty name="highlightRules"/>
+    <StyleProperty name="letterSpacing"/>
+    <StyleProperty name="lineHeight"/>
+    <StyleProperty name="marginTop"/>
+    <StyleProperty name="marginBottom"/>
+    <StyleProperty name="marginLeft"/>
+    <StyleProperty name="marginRight"/>
+    <StyleProperty name="masterPage"/>
+    <StyleProperty name="numberFormat"/>
+    <StyleProperty name="paddingTop"/>
+    <StyleProperty name="paddingLeft"/>
+    <StyleProperty name="paddingBottom"/>
+    <StyleProperty name="paddingRight"/>
+    <StyleProperty name="pageBreakAfter"/>
+    <StyleProperty name="pageBreakBefore"/>
+    <StyleProperty name="showIfBlank"/>
+    <StyleProperty name="textAlign"/>
+    <StyleProperty name="textUnderline"/>
+    <StyleProperty name="textOverline"/>
+    <StyleProperty name="textLineThrough"/>
+    <StyleProperty name="textTransform"/>
+    <StyleProperty name="verticalAlign"/>
+    <StyleProperty name="whiteSpace"/>
+    <StyleProperty name="wordSpacing"/>
   </Element>
   <Element canExtend="true" displayNameID="Element.Label" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Label" name="Label" selector="label" since="1.0" xmlName="label">
     <Property displayNameID="Element.Label.text" name="text" runtimeSettable="false" since="1.0" type="string"/>

@@ -73,6 +73,7 @@ import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
+import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
@@ -1424,7 +1425,25 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writer.endElement( );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitLabel(org.eclipse.birt.report.model.design.elements.Label)
+	 */
 
+	public void visitAutoText( AutoText obj )
+	{
+		writer.startElement( DesignSchemaConstants.AUTO_TEXT_TAG );
+
+		super.visitAutoText( obj );
+
+		property( obj, AutoText.AUTOTEXT_TYPE );
+		
+		writer.endElement( );
+		
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -2469,6 +2488,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, MasterPage.LEFT_MARGIN_PROP );
 		property( obj, MasterPage.BOTTOM_MARGIN_PROP );
 		property( obj, MasterPage.RIGHT_MARGIN_PROP );
+		
+		property( obj, MasterPage.AUTO_TEXT_PROP );
 
 		writeStyle( obj );
 		writeOverridenPropertyValues( obj );

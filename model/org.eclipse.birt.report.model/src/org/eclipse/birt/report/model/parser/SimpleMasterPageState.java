@@ -129,6 +129,8 @@ public class SimpleMasterPageState extends MasterPageState
 				return new TextDataItemState( handler, element, page );
 			else if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
 				return new TemplateReportItemState( handler, element, page );
+			else if ( tagName.equalsIgnoreCase( DesignSchemaConstants.AUTO_TEXT_TAG ) )
+				return new AutoTextState( handler, element, page );
 			return super.startElement( tagName );
 		}
 	}

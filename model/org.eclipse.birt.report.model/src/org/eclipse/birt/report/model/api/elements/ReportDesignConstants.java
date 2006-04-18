@@ -64,6 +64,7 @@ public interface ReportDesignConstants
 	String TEMPLATE_REPORT_ITEM = "TemplateReportItem"; //$NON-NLS-1$
 	String TEMPLATE_DATA_SET = "TemplateDataSet"; //$NON-NLS-1$
 	String JOINT_DATA_SET = "JointDataSet"; //$NON-NLS-1$
+	String AUTOTEXT_ITEM = "AutoText";//$NON-NLS-1$
 
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}

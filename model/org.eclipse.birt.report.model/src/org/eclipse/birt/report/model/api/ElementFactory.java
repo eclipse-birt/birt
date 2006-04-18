@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
+import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
@@ -218,6 +219,21 @@ public class ElementFactory
 	public LabelHandle newLabel( String name )
 	{
 		Label element = new Label( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+	
+	/**
+	 * Creates a new specialfield item.
+	 * 
+	 * @param name
+	 *            the optional data item name. Can be <code>null</code>.
+	 * @return a handle to the data item
+	 */
+
+	public AutoTextHandle newAutoText( String name )
+	{
+		AutoText element = new AutoText( name );
 		module.makeUniqueName( element );
 		return element.handle( module );
 	}

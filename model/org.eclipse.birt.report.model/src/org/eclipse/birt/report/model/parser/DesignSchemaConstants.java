@@ -188,7 +188,7 @@ public interface DesignSchemaConstants
 	static final String VERSION_ATTRIB							= "version";					//$NON-NLS-1$
 	static final String XML_PROPERTY_TAG						= "xml-property"; 				//$NON-NLS-1$
 	static final String XMLNS_ATTRIB							= "xmlns";						//$NON-NLS-1$
-	
+	static final String AUTO_TEXT_TAG 						    = "auto-text"; 				//$NON-NLS-1$
 	/**
 	 * @deprecated by the {@link #TEXT_DATA_TAG}
 	 */

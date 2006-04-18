@@ -668,4 +668,11 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_ACTION_BOOKMARK_TYPE = "actionBookmarkType"; //$NON-NLS-1$
 	public static final String ACTION_BOOKMARK_TYPE_BOOKMARK = "bookmark"; //$NON-NLS-1$
 	public static final String ACTION_BOOKMARK_TYPE_TOC = "toc"; //$NON-NLS-1$
+	
+	/**
+	 * autotextType -- type of auto text
+	 */
+
+	public static final String PAGE_NUMBER = "page-number"; //$NON-NLS-1$
+	public static final String TOTAL_PAGE = "total-page"; //$NON-NLS-1$
 }

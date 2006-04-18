@@ -112,6 +112,16 @@ public class ElementVisitor
 	{
 		visitReportItem( obj );
 	}
+	/**
+	 * Visits the special field element.
+	 * 
+	 * @param obj
+	 *            the label to traverse
+	 */
+	public void visitAutoText( AutoText obj )
+	{
+		visitReportItem( obj );
+	}
 
 	/**
 	 * Visits the data item element.
@@ -592,4 +602,5 @@ public class ElementVisitor
 	{
 		visitDataSet( obj );
 	}
+
 }

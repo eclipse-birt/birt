@@ -16,6 +16,11 @@ package org.eclipse.birt.report.model.elements.interfaces;
  */
 public interface IMasterPageModel
 {
+	
+	/**
+	 * Specail field stands for total page count
+	 */
+	public static final String AUTO_TEXT_PROP = "autoText"; //$NON-NLS-1$
 
 	/**
 	 * Name of the page type property. This gives a name to the page size such
