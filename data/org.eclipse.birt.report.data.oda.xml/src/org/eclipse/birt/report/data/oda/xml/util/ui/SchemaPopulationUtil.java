@@ -53,13 +53,13 @@ public class SchemaPopulationUtil
 	 * @throws MalformedURLException 
 	 * @throws URISyntaxException 
 	 */
-	public static ATreeNode getSchemaTree( String fileName, boolean includeAttribute )
+	public static ATreeNode getSchemaTree( String fileName, boolean includeAttribute, int numberOfElementsAccessiable )
 			throws OdaException, MalformedURLException, URISyntaxException
 	{
 		if ( fileName.toUpperCase( ).endsWith( ".XSD" ) )
 			return XSDFileSchemaTreePopulator.getSchemaTree( fileName,includeAttribute );
 		else
-			return new XMLFileSchemaTreePopulator( ).getSchemaTree( fileName,includeAttribute );
+			return new XMLFileSchemaTreePopulator( numberOfElementsAccessiable ).getSchemaTree( fileName,includeAttribute );
 	}
 }
 
@@ -75,17 +75,20 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 	private ATreeNode root;
 	private SaxParser sp;
 	private boolean includeAttribute = true;
+	private int numberOfElementsAccessiable;
 	Thread spThread;
 
 	/**
 	 * 
 	 * 
 	 */
-	XMLFileSchemaTreePopulator( )
+	XMLFileSchemaTreePopulator( int numberOfElementsAccessiable )
 	{
-		rowCount = 0;
-		root = new ATreeNode( );
-		root.setValue( "ROOT" );
+		this.rowCount = 0;
+		this.root = new ATreeNode( );
+		this.root.setValue( "ROOT" );
+		this.numberOfElementsAccessiable = numberOfElementsAccessiable == 0
+				? Integer.MAX_VALUE : numberOfElementsAccessiable;
 	}
 
 	/*
@@ -115,7 +118,7 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 		}
 
 		// Only parser the first 10000 elements
-		if ( rowCount > 10000 )
+		if ( rowCount > numberOfElementsAccessiable )
 		{
 			assert sp != null;
 			sp.setStart( false );

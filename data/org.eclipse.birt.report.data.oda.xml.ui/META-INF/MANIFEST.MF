@@ -15,4 +15,5 @@ Require-Bundle: org.eclipse.ui,
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.birt.report.data.oda.xml.ui,
  org.eclipse.birt.report.data.oda.xml.ui.utils,
- org.eclipse.birt.report.data.oda.xml.ui.wizards
+ org.eclipse.birt.report.data.oda.xml.ui.wizards,
+ org.eclipse.birt.report.data.oda.xml.ui.preference
