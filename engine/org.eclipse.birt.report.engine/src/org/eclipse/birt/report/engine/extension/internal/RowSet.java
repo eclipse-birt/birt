@@ -14,24 +14,32 @@ package org.eclipse.birt.report.engine.extension.internal;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.api.DataSetID;
-import org.eclipse.birt.report.engine.data.dte.DteResultSet;
+import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.extension.IRowMetaData;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 
 /**
  * 
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/17 16:50:51 $
+ * @version $Revision: 1.10 $ $Date: 2006/04/06 12:35:25 $
  */
 public class RowSet implements IRowSet
 {
 
-	protected DteResultSet rset;
+	protected IResultSet rset;
 	protected IRowMetaData metaData;
 	protected boolean closed;
+	private boolean isOutterResultSet;
+	private boolean isFirstRecord = true;
 
-	public RowSet( DteResultSet rset )
+	public RowSet( IResultSet rset )
 	{
+		this( rset, false );
+	}
+
+	public RowSet( IResultSet rset, boolean isOutterResultSet )
+	{
+		this.isOutterResultSet = isOutterResultSet;
 		closed = false;
 		this.rset = rset;
 		metaData = new IRowMetaData( ) {
@@ -54,10 +62,9 @@ public class RowSet implements IRowSet
 
 		try
 		{
-			if ( rset != null && rset.getQueryResults( ) != null )
+			if ( rset != null)
 			{
-				metaData = new RowMetaData( rset.getQueryResults( )
-						.getResultMetaData( ) );
+				metaData = new RowMetaData( rset.getResultMetaData( ) );
 			}
 		}
 		catch ( BirtException ex )
@@ -86,6 +93,15 @@ public class RowSet implements IRowSet
 	{
 		if ( rset != null )
 		{
+			if ( isFirstRecord )
+			{
+				isFirstRecord = false;
+				if ( isOutterResultSet )
+				{
+					return true;
+				}
+			}
+
 			return rset.next( );
 		}
 		return false;
@@ -149,6 +165,11 @@ public class RowSet implements IRowSet
 
 	public void close( )
 	{
+		// If the result set is from extended item, it should be closed outside.
+		if ( isOutterResultSet )
+		{
+			return;
+		}
 		if ( closed == false )
 		{
 			closed = true;

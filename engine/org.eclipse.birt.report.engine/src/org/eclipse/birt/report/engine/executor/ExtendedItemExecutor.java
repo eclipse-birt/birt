@@ -39,7 +39,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 /**
  * Processes an extended item.
  */
-public class ExtendedItemExecutor extends StyledItemExecutor
+public class ExtendedItemExecutor extends QueryItemExecutor
 {
 
 	protected static Logger logger = Logger
@@ -79,6 +79,9 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 
 		IContent parent = context.getContent( );
 		context.pushContent( content );
+		
+		openResultSet( item );
+		accessQuery( item, emitter );
 
 		initializeContent( parent, item, content );
 
@@ -100,6 +103,8 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			emitter.startForeign( content );
 		}
 		finishTOCEntry( );
+		
+		closeResultSet( );
 
 		context.popContent( );
 	}
@@ -195,13 +200,17 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				IResultSet rset = context.getDataEngine( ).execute( queries[i] );
 				if ( rset != null )
 				{
-					rowSets[i] = new RowSet( (DteResultSet) rset );
+					rowSets[i] = new RowSet( rset );
 				}
 				else
 				{
 					rowSets[i] = null;
 				}
 			}
+		}
+		if (rowSets == null && rset != null)
+		{
+			rowSets = new IRowSet[]{ new RowSet( rset, true ) };
 		}
 		return rowSets;
 	}

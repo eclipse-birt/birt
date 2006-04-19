@@ -613,55 +613,52 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		// open the query associated with the current report item
 		if ( generateBy instanceof ReportItemDesign )
 		{
-			if ( !( generateBy instanceof ExtendedItemDesign ) )
+			ReportItemDesign design = (ReportItemDesign) generateBy;
+			IBaseQueryDefinition query = design.getQuery( );
+			if ( query != null )
 			{
-				ReportItemDesign design = (ReportItemDesign) generateBy;
-				IBaseQueryDefinition query = design.getQuery( );
-				if ( query != null )
+				InstanceID iid = content.getInstanceID( );
+				if ( iid != null )
 				{
-					InstanceID iid = content.getInstanceID( );
-					if ( iid != null )
+					// To the current report item,
+					// if the dataId exist and it's deteSet id is not null,
+					// and we can find it has parent,
+					// we'll try to skip to the current row of the parent
+					// query.
+					DataID dataId = iid.getDataID( );
+					if ( dataId != null )
 					{
-						// To the current report item,
-						// if the dataId exist and it's deteSet id is not null,
-						// and we can find it has parent,
-						// we'll try to skip to the current row of the parent
-						// query.
-						DataID dataId = iid.getDataID( );
-						if ( dataId != null )
+						DataSetID dataSetId = dataId.getDataSetID( );
+						if ( dataSetId != null )
 						{
-							DataSetID dataSetId = dataId.getDataSetID( );
-							if ( dataSetId != null )
+							DataSetID parentSetId = dataSetId.getParentID( );
+							long parentRowId = dataSetId.getRowID( );
+							if ( parentSetId != null && parentRowId != -1 )
 							{
-								DataSetID parentSetId = dataSetId.getParentID( );
-								long parentRowId = dataSetId.getRowID( );
-								if ( parentSetId != null && parentRowId != -1 )
+								// the parent exist.
+								if ( !resultSets.isEmpty( ) )
 								{
-									// the parent exist.
-									if ( !resultSets.isEmpty( ) )
+									IResultSet rset = (IResultSet) resultSets
+											.peek( );
+									if ( rset != null )
 									{
-										IResultSet rset = (IResultSet) resultSets
-												.peek( );
-										if ( rset != null )
+										// the parent query's result set is
+										// not null, skip to the right row
+										// according row id.
+										if ( parentRowId != rset
+												.getCurrentPosition( ) )
 										{
-											// the parent query's result set is
-											// not null, skip to the right row
-											// according row id.
-											if ( parentRowId != rset
-													.getCurrentPosition( ) )
-											{
-												rset.skipTo( parentRowId );
-											}
+											rset.skipTo( parentRowId );
 										}
 									}
 								}
 							}
 						}
 					}
-					// execute query
-					IResultSet rset = dataEngine.execute( query );
-					resultSets.push( rset );
 				}
+				// execute query
+				IResultSet rset = dataEngine.execute( query );
+				resultSets.push( rset );
 			}
 		}
 		// locate the row position to the current position
