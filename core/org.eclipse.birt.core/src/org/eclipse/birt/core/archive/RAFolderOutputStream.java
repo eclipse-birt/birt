@@ -18,7 +18,6 @@ import java.io.RandomAccessFile;
 
 /**
  * RAOutputStream implementation for folder based report archive  
- * The implementation is based on Java random acess file.
  */
 public class RAFolderOutputStream extends RAOutputStream
 {
