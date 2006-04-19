@@ -82,11 +82,7 @@ public class FontCanvas extends Canvas implements PaintListener
 
 	public void setColor( ColorDefinition cdSelected )
 	{
-		this.cdCurrent = null;
 		this.cdCurrent = cdSelected;
-		this.cdCurrent.set( cdSelected.getRed( ),
-				cdSelected.getGreen( ),
-				cdSelected.getBlue( ) );
 	}
 
 	/*
@@ -150,7 +146,7 @@ public class FontCanvas extends Canvas implements PaintListener
 			{
 				fCurrent = new Font( this.getDisplay( ),
 						ChartUIUtil.getFontName( fdCurrent ),
-						ChartUIUtil.getFontSize( fdCurrent ),
+						fdCurrent.isSetSize( ) ? (int) fdCurrent.getSize( ) : 9,
 						iStyle );
 			}
 			gc.setFont( fCurrent );
@@ -178,7 +174,7 @@ public class FontCanvas extends Canvas implements PaintListener
 						.equals( HorizontalAlignment.RIGHT_LITERAL ) )
 				{
 					iStartX = this.getSize( ).x
-							- getStringWidth( gc, sFontName ).x;
+							- getStringWidth( gc, sFontName ).x - 5;
 				}
 				if ( ChartUIUtil.getFontTextAlignment( fdCurrent )
 						.getVerticalAlignment( )
@@ -207,7 +203,7 @@ public class FontCanvas extends Canvas implements PaintListener
 					iStartY = this.getSize( ).y;
 					if ( bUseSize )
 					{
-						iStartY -= ( getStringWidth( gc, sFontName ).y );
+						iStartY -= ( getStringWidth( gc, sFontName ).y ) + 5;
 					}
 					else
 					{
@@ -244,7 +240,7 @@ public class FontCanvas extends Canvas implements PaintListener
 						"Sans-Serif", fOld.getFontData( )[0].getHeight( ), SWT.NORMAL ); //$NON-NLS-1$
 				gc.setFont( fSize );
 
-				String sizeString = "(" + String.valueOf( ChartUIUtil.getFontSize( fdCurrent ) ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+				String sizeString = "(" + ( fdCurrent.isSetSize( ) ? String.valueOf( (int) fdCurrent.getSize( ) ) : "Auto" ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				Point pt = gc.textExtent( sizeString );
 				gc.drawText( sizeString,
 						this.getSize( ).x - pt.x - this.getBorderWidth( ) - 2,

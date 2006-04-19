@@ -267,11 +267,6 @@ public class ChartUIUtil
 		return chart.getDimension( ).getValue( ) == ChartDimension.THREE_DIMENSIONAL;
 	}
 
-	public static int getFontSize( FontDefinition font )
-	{
-		return font.isSetSize( ) ? (int) font.getSize( ) : 9;
-	}
-
 	public static int getFontRotation( FontDefinition font )
 	{
 		return font.isSetRotation( ) ? (int) font.getRotation( ) : 0;
@@ -279,7 +274,7 @@ public class ChartUIUtil
 
 	public static String getFontName( FontDefinition font )
 	{
-		return font.getName( ) == null ? "Default" : font.getName( ); //$NON-NLS-1$
+		return font.getName( ) == null ? "Auto" : font.getName( ); //$NON-NLS-1$
 	}
 
 	public static TextAlignment getFontTextAlignment( FontDefinition font )

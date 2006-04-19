@@ -61,12 +61,13 @@ import org.eclipse.swt.widgets.Slider;
 /**
  * FillChooserComposite
  */
-public class FillChooserComposite extends Composite implements
-		SelectionListener,
-		MouseListener,
-		DisposeListener,
-		KeyListener,
-		FocusListener
+public class FillChooserComposite extends Composite
+		implements
+			SelectionListener,
+			MouseListener,
+			DisposeListener,
+			KeyListener,
+			FocusListener
 {
 
 	private transient Composite cmpContentInner = null;
@@ -93,11 +94,15 @@ public class FillChooserComposite extends Composite implements
 
 	private transient Button btnReset = null;
 
+	private transient Button btnAuto = null;
+
 	private static Color[] colorArray = null;
 
 	private transient boolean bGradientEnabled = true;
 
 	private transient boolean bImageEnabled = true;
+
+	private transient boolean bAutoEnabled = false;
 
 	private transient Fill fCurrent = null;
 
@@ -149,6 +154,7 @@ public class FillChooserComposite extends Composite implements
 	 * @param style
 	 * @param adapters
 	 * @param fCurrent
+	 *            If null, create a Fill using adapters
 	 * @param bEnableGradient
 	 * @param bEnableImage
 	 */
@@ -170,6 +176,7 @@ public class FillChooserComposite extends Composite implements
 	 * @param style
 	 * @param wizardContext
 	 * @param fCurrent
+	 *            If null, create a Fill using adapters from wizard context
 	 * @param bEnableGradient
 	 * @param bEnableImage
 	 */
@@ -184,6 +191,11 @@ public class FillChooserComposite extends Composite implements
 		this.adapters = wizardContext.getModel( ).eAdapters( );
 		init( );
 		placeComponents( );
+	}
+
+	public void setAutoEnabled( boolean isEnabled )
+	{
+		this.bAutoEnabled = isEnabled;
 	}
 
 	/**
@@ -312,16 +324,20 @@ public class FillChooserComposite extends Composite implements
 		{
 			return;
 		}
-		int iShellHeight = 256;
+		int iShellHeight = 200;
 		int iShellWidth = 160;
 		// Reduce the height based on which buttons are to be shown.
-		if ( !bGradientEnabled )
+		if ( bGradientEnabled )
 		{
-			iShellHeight = iShellHeight - 30;
+			iShellHeight += 30;
 		}
-		if ( !bImageEnabled )
+		if ( bImageEnabled )
 		{
-			iShellHeight = iShellHeight - 30;
+			iShellHeight += 30;
+		}
+		if ( bAutoEnabled )
+		{
+			iShellHeight += 30;
 		}
 		Shell shell = new Shell( this.getShell( ), SWT.NONE );
 		shell.setLayout( new FillLayout( ) );
@@ -440,8 +456,19 @@ public class FillChooserComposite extends Composite implements
 		gdReset.heightHint = 26;
 		gdReset.horizontalSpan = 2;
 		btnReset.setLayoutData( gdReset );
-		btnReset.setText( Messages.getString( "FillChooserComposite.Lbl.Reset" ) ); //$NON-NLS-1$
+		btnReset.setText( Messages.getString( "FillChooserComposite.Lbl.Transparent" ) ); //$NON-NLS-1$
 		btnReset.addSelectionListener( this );
+
+		if ( this.bAutoEnabled )
+		{
+			btnAuto = new Button( cmpButtons, SWT.NONE );
+			GridData gdGradient = new GridData( GridData.FILL_BOTH );
+			gdGradient.heightHint = 26;
+			gdGradient.horizontalSpan = 2;
+			btnAuto.setLayoutData( gdGradient );
+			btnAuto.setText( Messages.getString( "FillChooserComposite.Lbl.Auto" ) ); //$NON-NLS-1$
+			btnAuto.addSelectionListener( this );
+		}
 
 		if ( this.bGradientEnabled )
 		{
@@ -485,11 +512,11 @@ public class FillChooserComposite extends Composite implements
 
 	public Fill getFill( )
 	{
-		if ( fCurrent == null
-				|| fCurrent.equals( ColorDefinitionImpl.TRANSPARENT( ) ) )
-		{
-			return null;
-		}
+		// if ( fCurrent == null
+		// || fCurrent.equals( ColorDefinitionImpl.TRANSPARENT( ) ) )
+		// {
+		// return null;
+		// }
 		return this.fCurrent;
 	}
 
@@ -527,13 +554,11 @@ public class FillChooserComposite extends Composite implements
 		}
 
 		if ( cmpDropDown == null
-				|| cmpDropDown.isDisposed( )
-				|| !cmpDropDown.isVisible( ) )
+				|| cmpDropDown.isDisposed( ) || !cmpDropDown.isVisible( ) )
 		{
 			Point pLoc = UIHelper.getScreenLocation( cnvSelection );
 			createDropDownComponent( pLoc.x, pLoc.y
-					+ cnvSelection.getSize( ).y
-					+ 1 );
+					+ cnvSelection.getSize( ).y + 1 );
 		}
 		else
 		{
@@ -576,6 +601,20 @@ public class FillChooserComposite extends Composite implements
 			fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 			cmpDropDown.getShell( ).dispose( );
 		}
+		else if ( oSource.equals( this.btnAuto ) )
+		{
+			if ( fCurrent instanceof ColorDefinition )
+			{
+				ColorDefinition color = (ColorDefinition) fCurrent;
+				color.unsetBlue( );
+				color.unsetGreen( );
+				color.unsetRed( );
+				color.unsetTransparency( );
+			}
+			setFill( fCurrent );
+			fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
+			cmpDropDown.getShell( ).dispose( );
+		}
 		else if ( oSource.equals( this.btnCustom ) )
 		{
 			ColorDialog cDlg = new ColorDialog( this.getShell( ), SWT.NONE );
@@ -596,8 +635,8 @@ public class FillChooserComposite extends Composite implements
 			{
 				ColorDefinition cdNew = AttributeFactory.eINSTANCE.createColorDefinition( );
 				cdNew.set( rgb.red, rgb.green, rgb.blue );
-				cdNew.setTransparency( ( bTransparencyChanged ) ? this.iTransparency
-						: iTrans );
+				cdNew.setTransparency( ( bTransparencyChanged )
+						? this.iTransparency : iTrans );
 				addAdapters( cdNew );
 				this.setFill( cdNew );
 				fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
@@ -813,6 +852,7 @@ public class FillChooserComposite extends Composite implements
 				if ( cTmp.equals( btnGradient )
 						|| cTmp.equals( btnCustom )
 						|| cTmp.equals( btnReset )
+						|| cTmp.equals( btnAuto )
 						|| cTmp.equals( btnImage )
 						|| ( e.getSource( ).equals( cmpDropDown ) && cTmp.equals( srTransparency ) ) )
 				{

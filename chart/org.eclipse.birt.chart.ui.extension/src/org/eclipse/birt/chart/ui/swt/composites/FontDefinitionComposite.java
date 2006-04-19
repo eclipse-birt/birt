@@ -115,7 +115,7 @@ public class FontDefinitionComposite extends Composite
 				fdCurrent,
 				cdCurrent,
 				false,
-				false,
+				true,
 				false );
 		GridData gdCNVSelection = new GridData( GridData.FILL_HORIZONTAL );
 		gdCNVSelection.heightHint = iSize;
@@ -191,6 +191,7 @@ public class FontDefinitionComposite extends Composite
 				fdCurrent = fontDlg.getFontDefinition( );
 				cdCurrent = fontDlg.getFontColor( );
 				cnvSelection.setFontDefinition( fdCurrent );
+				cnvSelection.setColor( cdCurrent );
 				cnvSelection.redraw( );
 				fireEvent( );
 			}

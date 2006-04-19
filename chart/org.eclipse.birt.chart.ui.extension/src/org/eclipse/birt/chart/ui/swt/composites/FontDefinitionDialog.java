@@ -26,6 +26,8 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -44,15 +46,13 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  * 
  */
-public class FontDefinitionDialog implements
-		SelectionListener,
-		Listener,
-		IAngleChangeListener
+public class FontDefinitionDialog
+		implements
+			SelectionListener,
+			Listener,
+			IAngleChangeListener,
+			FocusListener
 {
-
-	public static final int MIN_FONT_SIZE = 1;
-
-	public static final int MAX_FONT_SIZE = 7200;
 
 	private transient FontDefinition fdCurrent = null;
 
@@ -68,8 +68,7 @@ public class FontDefinitionDialog implements
 
 	private transient Combo cmbFontNames = null;
 
-	// Should this be a float spin control ?
-	private transient IntegerSpinControl iscFontSizes = null;
+	private transient Combo cmbFontSizes = null;
 
 	private transient FillChooserComposite fccColor = null;
 
@@ -97,7 +96,7 @@ public class FontDefinitionDialog implements
 
 	private transient Button btnUnderline = null;
 
-	private transient Button cbStrikethru = null;
+	private transient Button btnStrikethru = null;
 
 	private transient Button cbWrap = null;
 
@@ -119,6 +118,12 @@ public class FontDefinitionDialog implements
 
 	private transient List listAlighmentButtons = new ArrayList( 9 );
 
+	private static final String FONT_AUTO = "Auto"; //$NON-NLS-1$
+
+	private static final String[] FONT_SIZE = new String[]{
+			FONT_AUTO, "9", "10", "12", "14", "16", "18", "24", "36" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+	};
+
 	public FontDefinitionDialog( Shell shellParent, FontDefinition fdCurrent,
 			ColorDefinition cdCurrent )
 	{
@@ -137,14 +142,12 @@ public class FontDefinitionDialog implements
 		this.fdBackup = (FontDefinition) EcoreUtil.copy( this.fdCurrent );
 		this.cdBackup = (ColorDefinition) EcoreUtil.copy( this.cdCurrent );
 		shell = new Shell( shellParent, SWT.DIALOG_TRIM
-				| SWT.RESIZE
-				| SWT.APPLICATION_MODAL );
+				| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		shell.setLayout( new FillLayout( ) );
 		placeComponents( );
 		populateLists( );
 		shell.setText( Messages.getString( "FontDefinitionDialog.Title.FontDescriptor" ) ); //$NON-NLS-1$
 		shell.setSize( 450, isAlignmentEnabled ? 360 : 320 );
-		shell.setDefaultButton( btnAccept );
 		UIHelper.centerOnScreen( shell );
 		shell.layout( );
 		shell.open( );
@@ -187,15 +190,17 @@ public class FontDefinitionDialog implements
 		lblSize.setLayoutData( gdLSize );
 		lblSize.setText( Messages.getString( "FontDefinitionDialog.Lbl.Size" ) ); //$NON-NLS-1$
 
-		iscFontSizes = new IntegerSpinControl( cmpContent,
-				SWT.NONE,
-				ChartUIUtil.getFontSize( fdCurrent ) );
-		GridData gdISCFontSizes = new GridData( GridData.FILL_HORIZONTAL );
-		gdISCFontSizes.horizontalSpan = 3;
-		iscFontSizes.setLayoutData( gdISCFontSizes );
-		iscFontSizes.setMinimum( MIN_FONT_SIZE );
-		iscFontSizes.setMaximum( MAX_FONT_SIZE );
-		iscFontSizes.addListener( this );
+		cmbFontSizes = new Combo( cmpContent, SWT.NONE );
+		{
+			cmbFontSizes.setItems( FONT_SIZE );
+			cmbFontSizes.setText( fdCurrent.isSetSize( )
+					? String.valueOf( (int) fdCurrent.getSize( ) ) : FONT_AUTO );
+			GridData gdISCFontSizes = new GridData( GridData.FILL_HORIZONTAL );
+			gdISCFontSizes.horizontalSpan = 3;
+			cmbFontSizes.setLayoutData( gdISCFontSizes );
+			cmbFontSizes.addSelectionListener( this );
+			cmbFontSizes.addFocusListener( this );
+		}
 
 		Label lblForeground = new Label( cmpContent, SWT.NONE );
 		GridData gdLForeground = new GridData( );
@@ -209,35 +214,15 @@ public class FontDefinitionDialog implements
 				cdCurrent,
 				false,
 				false );
-		GridData gdFCCColor = new GridData( GridData.FILL_HORIZONTAL );
-		gdFCCColor.horizontalSpan = 3;
-		fccColor.setLayoutData( gdFCCColor );
-		fccColor.addListener( this );
-
-		createFontStylePanel( );
-
-		Label lblFormat = new Label( cmpContent, SWT.NONE );
-		GridData gdLFormat = new GridData( );
-		gdLFormat.horizontalSpan = 2;
-		gdLFormat.horizontalIndent = 40;
-		lblFormat.setLayoutData( gdLFormat );
-		lblFormat.setText( Messages.getString( "FontDefinitionDialog.Lbl.Format" ) ); //$NON-NLS-1$
-
-		Composite cmpFormat = new Composite( cmpContent, SWT.NONE );
 		{
-			GridLayout layout = new GridLayout( 2, false );
-			layout.marginHeight = 0;
-			cmpFormat.setLayout( layout );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = 3;
-			cmpFormat.setLayoutData( gd );
+			fccColor.setAutoEnabled( true );
+			GridData gdFCCColor = new GridData( GridData.FILL_HORIZONTAL );
+			gdFCCColor.horizontalSpan = 3;
+			fccColor.setLayoutData( gdFCCColor );
+			fccColor.addListener( this );
 		}
 
-		cbStrikethru = new Button( cmpFormat, SWT.CHECK );
-		cbStrikethru.addSelectionListener( this );
-		cbStrikethru.setText( Messages.getString( "FontDefinitionDialog.Lbl.Strikethrough" ) ); //$NON-NLS-1$
-		cbStrikethru.setSelection( fdCurrent.isSetStrikethrough( )
-				&& fdCurrent.isStrikethrough( ) );
+		createFontStylePanel( );
 
 		// cbWrap = new Button( cmpFormat, SWT.CHECK );
 		// cbWrap.addSelectionListener( this );
@@ -286,12 +271,12 @@ public class FontDefinitionDialog implements
 
 		Composite cmpFontStyle = new Composite( cmpContent, SWT.NONE );
 		{
-			GridLayout layout = new GridLayout( 3, false );
+			GridLayout layout = new GridLayout( 4, false );
 			layout.marginWidth = 0;
 			layout.marginHeight = 0;
 			cmpFontStyle.setLayout( layout );
 			GridData gd = new GridData( );
-			gd.horizontalSpan = 3;
+			gd.horizontalSpan = 8;
 			cmpFontStyle.setLayoutData( gd );
 		}
 
@@ -320,6 +305,15 @@ public class FontDefinitionDialog implements
 		btnUnderline.addSelectionListener( this );
 		btnUnderline.setSelection( fdCurrent.isSetUnderline( )
 				&& fdCurrent.isUnderline( ) );
+
+		btnStrikethru = new Button( cmpFontStyle, SWT.TOGGLE );
+		{
+			btnStrikethru.setText( "&s" ); //$NON-NLS-1$
+			btnStrikethru.setImage( UIHelper.getImage( "icons/obj16/fnt_style_Sthrough.gif" ) ); //$NON-NLS-1$
+			btnStrikethru.addSelectionListener( this );
+			btnStrikethru.setSelection( fdCurrent.isSetStrikethrough( )
+					&& fdCurrent.isStrikethrough( ) );
+		}
 
 	}
 
@@ -503,10 +497,16 @@ public class FontDefinitionDialog implements
 		// Populate font names list
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
 		String[] saFontNames = ge.getAvailableFontFamilyNames( );
+		String currentFont = ChartUIUtil.getFontName( fdCurrent );
+		cmbFontNames.add( FONT_AUTO );
+		if ( FONT_AUTO.equals( currentFont ) )
+		{
+			cmbFontNames.select( 0 );
+		}
 		for ( int iC = 0; iC < saFontNames.length; iC++ )
 		{
 			cmbFontNames.add( saFontNames[iC] );
-			if ( saFontNames[iC].equalsIgnoreCase( ChartUIUtil.getFontName( fdCurrent ) ) )
+			if ( saFontNames[iC].equalsIgnoreCase( currentFont ) )
 			{
 				cmbFontNames.select( iC );
 			}
@@ -517,7 +517,10 @@ public class FontDefinitionDialog implements
 		}
 
 		// Select alignment button
-		if ( isAlignmentEnabled && fdCurrent.getAlignment( ) != null )
+		if ( isAlignmentEnabled
+				&& fdCurrent.getAlignment( ) != null
+				&& fdCurrent.getAlignment( ).isSetHorizontalAlignment( )
+				&& fdCurrent.getAlignment( ).isSetVerticalAlignment( ) )
 		{
 			HorizontalAlignment ha = fdCurrent.getAlignment( )
 					.getHorizontalAlignment( );
@@ -611,7 +614,10 @@ public class FontDefinitionDialog implements
 			if ( !( (Button) oSource ).getSelection( ) )
 			{
 				// Keep the selection to restrict at least one selection
-				( (Button) oSource ).setSelection( true );
+				// ( (Button) oSource ).setSelection( true );
+				fdCurrent.getAlignment( ).unsetHorizontalAlignment( );
+				fdCurrent.getAlignment( ).unsetVerticalAlignment( );
+				updatePreview( );
 				return;
 			}
 			selectAllToggleButtons( false );
@@ -620,22 +626,50 @@ public class FontDefinitionDialog implements
 
 		if ( oSource.equals( btnBold ) )
 		{
-			fdCurrent.setBold( btnBold.getSelection( ) );
+			if ( btnBold.getSelection( ) )
+			{
+				fdCurrent.setBold( btnBold.getSelection( ) );
+			}
+			else
+			{
+				fdCurrent.unsetBold( );
+			}
 			updatePreview( );
 		}
 		else if ( oSource.equals( btnItalic ) )
 		{
-			fdCurrent.setItalic( btnItalic.getSelection( ) );
+			if ( btnItalic.getSelection( ) )
+			{
+				fdCurrent.setItalic( btnItalic.getSelection( ) );
+			}
+			else
+			{
+				fdCurrent.unsetItalic( );
+			}
 			updatePreview( );
 		}
 		else if ( oSource.equals( btnUnderline ) )
 		{
-			fdCurrent.setUnderline( btnUnderline.getSelection( ) );
+			if ( btnUnderline.getSelection( ) )
+			{
+				fdCurrent.setUnderline( btnUnderline.getSelection( ) );
+			}
+			else
+			{
+				fdCurrent.unsetUnderline( );
+			}
 			updatePreview( );
 		}
-		else if ( oSource.equals( cbStrikethru ) )
+		else if ( oSource.equals( btnStrikethru ) )
 		{
-			fdCurrent.setStrikethrough( cbStrikethru.getSelection( ) );
+			if ( btnStrikethru.getSelection( ) )
+			{
+				fdCurrent.setStrikethrough( btnStrikethru.getSelection( ) );
+			}
+			else
+			{
+				fdCurrent.unsetStrikethrough( );
+			}
 			updatePreview( );
 		}
 		else if ( oSource.equals( cbWrap ) )
@@ -645,8 +679,19 @@ public class FontDefinitionDialog implements
 		}
 		else if ( oSource.equals( cmbFontNames ) )
 		{
-			fdCurrent.setName( cmbFontNames.getText( ) );
+			if ( cmbFontNames.getText( ).equals( FONT_AUTO ) )
+			{
+				fdCurrent.setName( null );
+			}
+			else
+			{
+				fdCurrent.setName( cmbFontNames.getText( ) );
+			}
 			updatePreview( );
+		}
+		else if ( oSource.equals( cmbFontSizes ) )
+		{
+			handleFontSize( );
 		}
 		else if ( oSource.equals( btnAccept ) )
 		{
@@ -735,12 +780,7 @@ public class FontDefinitionDialog implements
 
 	public void handleEvent( Event e )
 	{
-		if ( e.widget.equals( iscFontSizes ) )
-		{
-			fdCurrent.setSize( iscFontSizes.getValue( ) );
-			updatePreview( );
-		}
-		else if ( e.widget.equals( iscRotation ) )
+		if ( e.widget.equals( iscRotation ) )
 		{
 			fdCurrent.setRotation( iscRotation.getValue( ) );
 			ascRotation.setAngle( iscRotation.getValue( ) );
@@ -751,13 +791,16 @@ public class FontDefinitionDialog implements
 		}
 		else if ( e.widget.equals( fccColor ) )
 		{
-			cdCurrent = (ColorDefinition) fccColor.getFill( );
-			if ( cdCurrent == null )
+			if ( e.type == FillChooserComposite.FILL_CHANGED_EVENT )
 			{
-				cdCurrent = ColorDefinitionImpl.TRANSPARENT( );
+				cdCurrent = (ColorDefinition) fccColor.getFill( );
+				if ( cdCurrent == null )
+				{
+					cdCurrent = ColorDefinitionImpl.TRANSPARENT( );
+				}
+				fcPreview.setColor( cdCurrent );
+				fcPreview.redraw( );
 			}
-			fcPreview.setColor( cdCurrent );
-			fcPreview.redraw( );
 		}
 	}
 
@@ -768,6 +811,47 @@ public class FontDefinitionDialog implements
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
+		if ( e.widget.equals( cmbFontSizes ) )
+		{
+			handleFontSize( );
+		}
+	}
+
+	private void handleFontSize( )
+	{
+		if ( cmbFontSizes.getText( ).equals( FONT_AUTO ) )
+		{
+			fdCurrent.unsetSize( );
+		}
+		else
+		{
+			boolean oldIsset = fdCurrent.isSetSize( );
+			float oldValue = fdCurrent.getSize( );
+			boolean isCorrect = true;
+			int value = 0;
+			try
+			{
+				value = Integer.valueOf( cmbFontSizes.getText( ) ).intValue( );
+				if ( value <= 0 || value > 7200 )
+				{
+					isCorrect = false;
+				}
+			}
+			catch ( NumberFormatException e )
+			{
+				isCorrect = false;
+			}
+			if ( !isCorrect )
+			{
+				cmbFontSizes.setText( oldIsset
+						? String.valueOf( (int) oldValue ) : FONT_AUTO );
+			}
+			else
+			{
+				fdCurrent.setSize( value );
+			}
+		}
+		updatePreview( );
 	}
 
 	/*
@@ -779,5 +863,21 @@ public class FontDefinitionDialog implements
 	{
 		iscRotation.setValue( iNewAngle );
 		fdCurrent.setRotation( iNewAngle );
+	}
+
+	public void focusGained( FocusEvent e )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void focusLost( FocusEvent e )
+	{
+		if ( e.widget.equals( cmbFontSizes ) )
+		{
+			// Notify selectionListener to save values
+			cmbFontSizes.notifyListeners( SWT.DefaultSelection, null );
+		}
+
 	}
 }
