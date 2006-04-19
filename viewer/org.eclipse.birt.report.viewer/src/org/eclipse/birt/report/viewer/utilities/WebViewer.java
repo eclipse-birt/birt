@@ -14,6 +14,7 @@ package org.eclipse.birt.report.viewer.utilities;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TreeMap;
 
 import org.eclipse.birt.report.viewer.ViewerPlugin;
@@ -235,8 +236,9 @@ public class WebViewer
 	public static void display( String report, String format, Browser browser )
 	{
 		startWebApp( );
-		browser.setUrl( createURL( "run", report, format ) ); //$NON-NLS-1$
-		browser.refresh( );
+		browser
+				.setUrl( createURL( "run", report, format ) + new Random( ).nextInt( ) ); //$NON-NLS-1$
+
 	}
 
 }
