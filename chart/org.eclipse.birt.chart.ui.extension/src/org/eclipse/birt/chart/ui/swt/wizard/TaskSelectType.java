@@ -938,14 +938,14 @@ public class TaskSelectType extends SimpleTask
 			if ( sType == null )
 			{
 				table.select( 0 );
-				sType = ( table.getSelection( )[0] ).getText( ).trim( );
+				sType = (String) ( table.getSelection( )[0] ).getData( );
 			}
 			else
 			{
 				TableItem[] tiAll = table.getItems( );
 				for ( int iTI = 0; iTI < tiAll.length; iTI++ )
 				{
-					if ( tiAll[iTI].getText( ).trim( ).equals( sType ) )
+					if ( tiAll[iTI].getData( ).equals( sType ) )
 					{
 						table.select( iTI );
 						break;
