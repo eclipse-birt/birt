@@ -355,9 +355,7 @@ public class LibraryCommand extends AbstractElementCommand
 
 		ActivityStack activityStack = getActivityStack( );
 
-		// TODO only send the library reload event in the end.
-
-		activityStack.startFilterEventTrans( null );
+		activityStack.startSilentTrans( );
 
 		try
 		{
@@ -524,6 +522,10 @@ public class LibraryCommand extends AbstractElementCommand
 
 		// remove virtual elements in the element
 
+		ActivityStack activityStack = getActivityStack( );
+
+		activityStack.startSilentTrans( );
+		
 		LevelContentIterator contentIter = new LevelContentIterator( child, 1 );
 		while ( contentIter.hasNext( ) )
 		{
@@ -533,6 +535,8 @@ public class LibraryCommand extends AbstractElementCommand
 					true );
 		}
 
+		activityStack.commit( );
+		
 		// unresolves the extends child
 
 		parent.dropDerived( child );
@@ -544,15 +548,15 @@ public class LibraryCommand extends AbstractElementCommand
 	/**
 	 * Recursively collect all the descendents of the given element.
 	 * 
-	 * @param element
+	 * @param tmpElement
 	 *            a given element.
 	 * @param results
 	 *            the result list containing all the childs.
 	 */
 
-	private void getAllDescdents( DesignElement element, List results )
+	private void getAllDescdents( DesignElement tmpElement, List results )
 	{
-		List descends = element.getDerived( );
+		List descends = tmpElement.getDerived( );
 		results.addAll( descends );
 
 		for ( int i = 0; i < descends.size( ); i++ )

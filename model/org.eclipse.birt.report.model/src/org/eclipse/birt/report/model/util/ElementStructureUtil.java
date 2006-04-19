@@ -110,12 +110,18 @@ public class ElementStructureUtil
 	public static void distributeValues( DesignElement element,
 			Map overriddenValues )
 	{
+		if ( element == null )
+			return;
+
 		ContentIterator contentIterator = new ContentIterator( element );
 
 		while ( contentIterator.hasNext( ) )
 		{
 			DesignElement content = (DesignElement) contentIterator.next( );
 			Long baseId = new Long( content.getID( ) );
+
+			if ( overriddenValues == null || overriddenValues.isEmpty( ) )
+				continue;
 
 			List values = (List) overriddenValues.get( baseId );
 			if ( values == null || values.isEmpty( ) )

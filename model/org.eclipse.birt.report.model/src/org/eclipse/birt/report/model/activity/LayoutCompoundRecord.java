@@ -55,8 +55,6 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 			RecordTask subTask = (RecordTask) tasks.get( i );
 			subTask.doTask( this, transStack );
 		}
-
-		super.performPostTasks( transStack );
 	}
 
 	/**
