@@ -2230,15 +2230,15 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		if ( bLastInSequence )
 		{
-			final Bounds boPlot = getPlotBounds( );
+			final Location panningOffset = getPanningOffset( );
 
 			try
 			{
 				if ( isDimension3D( ) )
 				{
 					getDeferredCache( ).process3DEvent( get3DEngine( ),
-							boPlot.getLeft( ),
-							boPlot.getTop( ) );
+							panningOffset.getX( ),
+							panningOffset.getY( ) );
 				}
 				getDeferredCache( ).flush( ); // FLUSH DEFERRED CACHE
 			}
@@ -2282,8 +2282,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				if ( isDimension3D( ) )
 				{
 					getDeferredCache( ).process3DEvent( get3DEngine( ),
-							boPlot.getLeft( ),
-							boPlot.getTop( ) );
+							panningOffset.getX( ),
+							panningOffset.getY( ) );
 				}
 				getDeferredCache( ).flush( ); // FLUSH DEFERRED CACHE
 			}
@@ -2829,7 +2829,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		final DeferredCache dc = getDeferredCache( );
 		final int axisType = ax.getAxisType( );
-		final Bounds boPlot = getPlotBounds( );
+		final Location panningOffset = getPanningOffset( );
 		final boolean bTransposed = ( (ChartWithAxes) getModel( ) ).isTransposed( );
 
 		double[] daEndPoints3D = null;
@@ -2956,8 +2956,8 @@ public abstract class AxesRenderer extends BaseRenderer
 							pre3d.setDoubleSided( true );
 
 							if ( get3DEngine( ).processEvent( pre3d,
-									boPlot.getLeft( ),
-									boPlot.getTop( ) ) != null )
+									panningOffset.getX( ),
+									panningOffset.getY( ) ) != null )
 							{
 								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
@@ -3000,8 +3000,8 @@ public abstract class AxesRenderer extends BaseRenderer
 							pre3d.setDoubleSided( true );
 
 							if ( get3DEngine( ).processEvent( pre3d,
-									boPlot.getLeft( ),
-									boPlot.getTop( ) ) != null )
+									panningOffset.getX( ),
+									panningOffset.getY( ) ) != null )
 							{
 								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
@@ -3060,8 +3060,8 @@ public abstract class AxesRenderer extends BaseRenderer
 							pre3d.setDoubleSided( true );
 
 							if ( get3DEngine( ).processEvent( pre3d,
-									boPlot.getLeft( ),
-									boPlot.getTop( ) ) != null )
+									panningOffset.getX( ),
+									panningOffset.getY( ) ) != null )
 							{
 								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
@@ -4144,8 +4144,8 @@ public abstract class AxesRenderer extends BaseRenderer
 							pre3d.setDoubleSided( true );
 
 							if ( get3DEngine( ).processEvent( pre3d,
-									boPlot.getLeft( ),
-									boPlot.getTop( ) ) != null )
+									panningOffset.getX( ),
+									panningOffset.getY( ) ) != null )
 							{
 								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
@@ -4198,8 +4198,8 @@ public abstract class AxesRenderer extends BaseRenderer
 							pre3d.setDoubleSided( true );
 
 							if ( get3DEngine( ).processEvent( pre3d,
-									boPlot.getLeft( ),
-									boPlot.getTop( ) ) != null )
+									panningOffset.getX( ),
+									panningOffset.getY( ) ) != null )
 							{
 								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
@@ -5420,12 +5420,29 @@ public abstract class AxesRenderer extends BaseRenderer
 			// Use a fixed light direction here.
 			Vector lightDirection = new Vector( -1, 1, -1, false );
 			// Vector lightDirection = new Vector( 0, 0, -1, false );
-			Bounds bo = getPlotBounds( );
+			final Bounds bo = getPlotBounds( );
+
+			double width = bo.getWidth( );
+			double height = bo.getHeight( );
+
+			// TODO read from custom panning setting
+
+			// automatically adjust panning offset
+			if ( width > height && width != 0 )
+			{
+				// decrease y-offset
+				height += ( width - height ) * ( height / width ) / 4;
+			}
+			else if ( width < height && height != 0 )
+			{
+				// increase y-offset
+				height += ( height - width ) * ( width / height ) / 4;
+			}
 
 			engine = new Engine3D( cwa.getRotation( ),
 					lightDirection,
-					bo.getWidth( ),
-					bo.getHeight( ),
+					width,
+					height,
 					500,
 					1500,
 					10,
@@ -5434,6 +5451,31 @@ public abstract class AxesRenderer extends BaseRenderer
 		}
 
 		return engine;
+	}
+
+	protected Location getPanningOffset( )
+	{
+		Bounds bo = getPlotBounds( );
+		double xOff = bo.getLeft( );
+		double yOff = bo.getTop( );
+		double width = bo.getWidth( );
+		double height = bo.getHeight( );
+
+		// TODO read from custom panning setting
+
+		// automatically adjust panning offset
+		if ( width > height && width != 0 )
+		{
+			// decrease y-offset
+			yOff -= ( width - height ) * ( height / width ) / 4;
+		}
+		else if ( width < height && height != 0 )
+		{
+			// increase y-offset
+			yOff += ( height - width ) * ( width / height ) / 4;
+		}
+
+		return LocationImpl.create( xOff, yOff );
 	}
 
 	/*

@@ -34,7 +34,6 @@ import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
-import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
@@ -83,14 +82,14 @@ public final class MarkerRenderer
 
 	private PrimitiveRenderEvent preCopy;
 
-	private Bounds boPlot;
+	private Location panningOffset;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine.extension/render" ); //$NON-NLS-1$
 
 	public MarkerRenderer( IDeviceRenderer _render, Object _oSource,
 			Location _lo, LineAttributes _la, Fill _paletteEntry, Marker _m,
 			int _markerSize, DeferredCache _dc, boolean _bDeferred,
-			boolean _bTransposed, Engine3D _engine3d, Bounds _boPlot )
+			boolean _bTransposed, Engine3D _engine3d, Location _panningOffset )
 	{
 		this.iRender = _render;
 		paletteEntry = _paletteEntry;
@@ -101,7 +100,7 @@ public final class MarkerRenderer
 		engine3d = _engine3d;
 		m = _m;
 		bTransposed = _bTransposed;
-		boPlot = _boPlot;
+		panningOffset = _panningOffset;
 		iSize = ( _markerSize < 0 ) ? m.getSize( ) : _markerSize;
 
 		bRendering3D = _lo instanceof Location3D;
@@ -953,7 +952,9 @@ public final class MarkerRenderer
 			lre.setStart3D( lo3d );
 			lre.setEnd3D( lo3d );
 			lre.setLineAttributes( la );
-			engine3d.processEvent( lre, boPlot.getLeft( ), boPlot.getTop( ) );
+			engine3d.processEvent( lre,
+					panningOffset.getX( ),
+					panningOffset.getY( ) );
 
 			Location loa = lre.getStart( );
 
@@ -1020,8 +1021,10 @@ public final class MarkerRenderer
 			areR.setStartAngle( 270.0 );
 			areR.setEndAngle( 180.0 );
 			areR.setStyle( ArcRenderEvent.OPEN );
-			areR.setBounds( BoundsImpl.create( lo.getX( ), lo.getY( )
-					- offset, iSize, iSize ) );
+			areR.setBounds( BoundsImpl.create( lo.getX( ),
+					lo.getY( ) - offset,
+					iSize,
+					iSize ) );
 
 			final LineRenderEvent lreU = new LineRenderEvent( oSource );
 			lreU.setStart( LocationImpl.create( lo.getX( ) + offset, lo.getY( )

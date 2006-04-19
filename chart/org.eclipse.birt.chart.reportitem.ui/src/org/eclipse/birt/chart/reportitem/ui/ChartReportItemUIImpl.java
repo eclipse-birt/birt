@@ -93,6 +93,12 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			double dOriginalWidth = dhWidth.getMeasure( );
 			String sWidthUnits = dhWidth.getUnits( );
 
+			if ( sHeightUnits == null || sWidthUnits == null )
+			{
+				// check invalid case
+				return;
+			}
+
 			// USE THE SWT DISPLAY SERVER TO CONVERT POINTS TO PIXELS
 			final IDisplayServer idsSWT = ChartDlg.getDisplayServer( ); // REUSE
 			// Convert from pixels to points first...since DimensionUtil does

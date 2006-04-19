@@ -110,8 +110,9 @@ public class PlotWith3DAxes extends PlotWithAxes
 		// MAINTAIN IN LOCAL VARIABLES FOR PERFORMANCE/CONVENIENCE
 		// TODO initial bounding box constraint, may compute as per the rotation
 		// angle.
-		double dX = bo.getLeft( ) + insCA.getLeft( );
-		double dY = bo.getTop( ) + insCA.getTop( );
+		// Always use zero as start point.
+		double dX = 0;// bo.getLeft( ) + insCA.getLeft( );
+		double dY = 0;// bo.getTop( ) + insCA.getTop( );
 		double dW = bo.getWidth( ) - insCA.getLeft( ) - insCA.getRight( );
 		double dH = bo.getHeight( ) - insCA.getTop( ) - insCA.getBottom( );
 
