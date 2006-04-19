@@ -41,6 +41,12 @@
                label="%publish.template"
                menubarPath="file/export"
                style="push"/>
+         <action
+               class="org.eclipse.birt.report.designer.ui.actions.PublishLibraryAction"
+               id="org.eclipse.birt.report.designer.ui.LibraryPublisAction"
+               label="%publish.library"
+               menubarPath="file/export"
+               style="push"/>
       </actionSet>
    </extension>
    
@@ -48,7 +54,7 @@
 
    <!-- Preference pages --> 
    <extension
-         point="org.eclipse.ui.preferencePages">        
+         point="org.eclipse.ui.preferencePages">
       <page
             class="org.eclipse.birt.report.designer.ui.preferences.GeneralPreferencePage"
             name="%preference.birt"
@@ -63,16 +69,21 @@
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.library"
             id="org.eclipse.birt.report.designer.ui.preferences.LibraryPreferencePage"/>
-      <page
+       <page
             class="org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage"
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.template"
-            id="org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage"/>           
-      <page
+            id="org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage"/>
+       <page
+             category="org.eclipse.birt.report.designer.ui.preferences"
+             class="org.eclipse.birt.report.designer.ui.preferences.ResourcePreferencePage"
+             id="org.eclipse.birt.report.designer.ui.preferences.ResourcePreferencePage"
+             name="%preference.resource"/>           
+       <page
             class="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.datasetpreview"
-            id="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"/>      
+            id="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"/>            
    </extension>
 
    <!-- Preview browsers -->
@@ -147,6 +158,7 @@
       </actionSetPartAssociation>
       <actionSetPartAssociation targetID="org.eclipse.birt.report.designer.ui.publishActionSet">
          <part id="org.eclipse.birt.report.designer.ui.editors.TemplateEditor"/>
+         <part id="org.eclipse.birt.report.designer.ui.editors.LibraryEditor"/>
       </actionSetPartAssociation>
    </extension>
 </plugin>
