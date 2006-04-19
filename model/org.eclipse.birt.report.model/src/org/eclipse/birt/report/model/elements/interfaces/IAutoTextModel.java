@@ -12,13 +12,16 @@
 package org.eclipse.birt.report.model.elements.interfaces;
 
 /**
- * The interface for specailfield element to store the constants.
+ * The interface for autotext element to store the constants.
  */
 public interface IAutoTextModel
 {
+
 	/**
-	 * choice type of AutoText element
+	 * Name of the autotext type property that supports page number and total
+	 * page
 	 */
-	public static final String AUTOTEXT_TYPE = "type"; //$NON-NLS-1$
 	
+	public static final String AUTOTEXT_TYPE_PROP = "type"; //$NON-NLS-1$
+
 }

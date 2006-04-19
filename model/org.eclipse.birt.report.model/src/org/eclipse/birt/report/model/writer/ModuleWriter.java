@@ -1438,7 +1438,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitAutoText( obj );
 
-		property( obj, AutoText.AUTOTEXT_TYPE );
+		property( obj, AutoText.AUTOTEXT_TYPE_PROP );
 		
 		writer.endElement( );
 		

@@ -16,19 +16,23 @@ import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
-
+/**
+ * This class parses a autotext item.
+ * 
+ */
 
 public class AutoTextState extends ReportItemState
 {
+
 	/**
-	 * The label being created.
+	 * The autotext being created.
 	 */
 
 	protected AutoText element;
-	
+
 	/**
-	 * Constructs the label state with the design parser handler, the container
-	 * element and the container slot of the label.
+	 * Constructs the autotext state with the design parser handler, the
+	 * container element and the container slot of the autotext.
 	 * 
 	 * @param handler
 	 *            the module parser handler
@@ -38,8 +42,8 @@ public class AutoTextState extends ReportItemState
 	 *            the slot in which this element appears
 	 */
 
-	public AutoTextState( ModuleParserHandler handler, DesignElement theContainer,
-			int slot )
+	public AutoTextState( ModuleParserHandler handler,
+			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );
 	}

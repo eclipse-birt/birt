@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
 
+
 public class AutoText extends ReportItem implements IAutoTextModel
 {
 
@@ -30,7 +31,7 @@ public class AutoText extends ReportItem implements IAutoTextModel
 	}
 
 	/**
-	 * Constructs the specialfield item with an optional name.
+	 * Constructs the autotext item with an optional name.
 	 * 
 	 * @param theName
 	 *            the optional name

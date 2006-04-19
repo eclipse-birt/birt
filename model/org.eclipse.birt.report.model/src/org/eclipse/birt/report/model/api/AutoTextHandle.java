@@ -17,8 +17,28 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
 
+/**
+ * Represents a autotext report item. A autotext item supports page number and
+ * total page . The autotext has the following properties:
+ * 
+ * <ul>
+ * <li>An autotext choice type counts the page number or total page number
+ * </ul>
+ */
+
 public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 {
+
+	/**
+	 * Constructs a autotext handle with the given design and the element. The
+	 * application generally does not create handles directly. Instead, it uses
+	 * one of the navigation methods available on other element handles.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param element
+	 *            the model representation of the element
+	 */
 
 	public AutoTextHandle( Module module, DesignElement element )
 	{
@@ -43,7 +63,7 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 	 */
 	public String getAutoTextType( )
 	{
-		return getStringProperty( AutoText.AUTOTEXT_TYPE );
+		return getStringProperty( AutoText.AUTOTEXT_TYPE_PROP );
 	}
 
 	/**
@@ -67,7 +87,7 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 
 	public void setAutoTextType( String type ) throws SemanticException
 	{
-		setStringProperty( AutoText.AUTOTEXT_TYPE, type );
+		setStringProperty( AutoText.AUTOTEXT_TYPE_PROP, type );
 	}
 
 }
