@@ -210,7 +210,7 @@ public class WebViewer
 		}
 		else
 		{
-			root = createURL( allowPage ? "frameset" : "run", report, format ); //$NON-NLS-1$ //$NON-NLS-2$
+			root = createURL( allowPage ? "frameset" : "run", report, format ) + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		try

@@ -356,7 +356,11 @@ public class ParameterAccessor
 			filePath = generateDocumentFromReport( request );
 			filePath = createDocumentPath( filePath, request );
 		}
-
+		else
+		{
+			filePath = createAbsolutePath( filePath );
+		}
+		
 		return filePath;
 
 	}
