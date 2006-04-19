@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
@@ -99,6 +100,18 @@ public class DesignVisitor
 	 */
 
 	protected void visitFreeForm( FreeFormHandle obj )
+	{
+		visitReportItem( obj );
+	}
+
+	/**
+	 * Visits auto text element
+	 * 
+	 * @param obj
+     *
+	 */
+
+	protected void visitAutoText( AutoTextHandle obj )
 	{
 		visitReportItem( obj );
 	}
@@ -691,6 +704,18 @@ public class DesignVisitor
 		public void visitLabel( Label obj )
 		{
 			DesignVisitor.this.visitLabel( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the auto text element
+		 * 
+		 * @param obj
+		 *            auto text to traverse
+		 */
+		
+		public void visitAutoText( AutoText obj )
+		{
+			DesignVisitor.this.visitAutoText( obj.handle( module ) );
 		}
 
 		/**

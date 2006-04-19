@@ -2488,8 +2488,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, MasterPage.LEFT_MARGIN_PROP );
 		property( obj, MasterPage.BOTTOM_MARGIN_PROP );
 		property( obj, MasterPage.RIGHT_MARGIN_PROP );
-		
-		property( obj, MasterPage.AUTO_TEXT_PROP );
 
 		writeStyle( obj );
 		writeOverridenPropertyValues( obj );
