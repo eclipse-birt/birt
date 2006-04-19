@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -105,6 +106,10 @@ public class HandleAdapterFactory
 		if ( obj instanceof ListHandle )
 		{
 			return getListHandleAdapter( obj, mark );
+		}
+		if ( obj instanceof AutoTextHandle )
+		{
+			return getAutoTextHandleAdapter( obj, mark );
 		}
 		if ( obj instanceof LabelHandle )
 		{
@@ -564,6 +569,26 @@ public class HandleAdapterFactory
 		return retValue;
 	}
 
+	/**
+	 * Get AutoText Handle Adapter
+	 * 
+	 * @param obj
+	 *            AutoTextHandle instance
+	 * @param mark
+	 *            Helper instance
+	 * @return AutoTextHandle Adapter
+	 */
+	public AutoTextHandleAdapter getAutoTextHandleAdapter( Object obj,
+			IModelAdapterHelper mark )
+	{
+		AutoTextHandleAdapter retValue = (AutoTextHandleAdapter) map.get( obj );
+		if ( retValue == null )
+		{
+			retValue = new AutoTextHandleAdapter( (AutoTextHandle) obj, mark );
+			map.put( obj, retValue );
+		}
+		return retValue;
+	}
 	/**
 	 * Get Lable Handle Adapter
 	 * 

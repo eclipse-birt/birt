@@ -13,6 +13,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.IExtension;
+import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -82,7 +83,10 @@ public class GraphicalPartFactory implements EditPartFactory
 		{
 			return new TableCellEditPart( model );
 		}
-
+		if ( model instanceof AutoTextHandle )
+		{
+			return new AutoTextEditPart( model );
+		}
 		if ( model instanceof LabelHandle )
 		{
 			return new LabelEditPart( model );
