@@ -48,7 +48,7 @@
 
    <!-- Preference pages --> 
    <extension
-         point="org.eclipse.ui.preferencePages">
+         point="org.eclipse.ui.preferencePages">        
       <page
             class="org.eclipse.birt.report.designer.ui.preferences.GeneralPreferencePage"
             name="%preference.birt"
@@ -63,12 +63,16 @@
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.library"
             id="org.eclipse.birt.report.designer.ui.preferences.LibraryPreferencePage"/>
-       <page
+      <page
             class="org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage"
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.template"
             id="org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage"/>           
-            
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.datasetpreview"
+            id="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"/>      
    </extension>
 
    <!-- Preview browsers -->

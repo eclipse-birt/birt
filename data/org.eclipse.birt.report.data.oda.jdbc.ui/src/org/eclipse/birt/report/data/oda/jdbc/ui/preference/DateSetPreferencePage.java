@@ -39,12 +39,8 @@ public class DateSetPreferencePage extends PreferencePage
 		implements IWorkbenchPreferencePage
 {
 
-	private IntegerFieldEditor maxRowEditor;
 	private IntegerFieldEditor maxDisplaySchemaEditor;
 	private IntegerFieldEditor maxDisplayTableEditor;
-	
-	/** default value of max number */
-	public static final int DEFAULT_MAX_ROW = 500;
 	
 	/** default value of max schema number*/
 	public static final int DEFAULT_MAX_NUM_OF_SCHEMA = 20;
@@ -142,45 +138,6 @@ public class DateSetPreferencePage extends PreferencePage
 		}
 		maxDisplayTableEditor.setStringValue( defaultMaxTable );
 		
-		Group previewPageGroup = new Group( mainComposite, SWT.NONE );
-
-		previewPageGroup.setLayout( new GridLayout() );
-		
-		previewPageGroup.setText( JdbcPlugin.getResourceString( "designer.preview.preference.resultset.previewpage.group.title" ) );
-		previewPageGroup.setLayoutData( data );
-
-		previewPageGroup.setEnabled( true );
-		
-		
-		//Set up the maximum number of rows to be previewed in ResultSetPreviewPage.
-		
-		maxRowEditor = new IntegerFieldEditor( USER_MAXROW, "", previewPageGroup ); 
-
-		Label lab2 = maxRowEditor.getLabelControl( previewPageGroup );
-        lab2.setText(JdbcPlugin.getResourceString( "designer.preview.preference.resultset.maxrow.description" ));
-
-		
-		maxRowEditor.setPage(this);
-		maxRowEditor.setTextLimit( Integer.toString( MAX_MAX_ROW ).length( ) );
-		maxRowEditor.setErrorMessage( JdbcPlugin.getFormattedString( "designer.preview.preference.resultset.maxrow.errormessage",
-				new Object[]{new Integer( MAX_MAX_ROW )	} ) );
-        maxRowEditor.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-        maxRowEditor.setValidRange(1, MAX_MAX_ROW);
-        maxRowEditor.setPropertyChangeListener(new IPropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent event) {
-                if (event.getProperty().equals(FieldEditor.IS_VALID))
-                        setValid(maxRowEditor.isValid());
-            }
-        });
-        
-		String defaultMaxRow = JdbcPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( USER_MAXROW );
-		if ( defaultMaxRow == null || defaultMaxRow.trim( ).length( ) <= 0 )
-		{
-			defaultMaxRow = String.valueOf( DEFAULT_MAX_ROW );
-		}
-		maxRowEditor.setStringValue( defaultMaxRow );
 		return mainComposite;
 	}
 
@@ -197,7 +154,6 @@ public class DateSetPreferencePage extends PreferencePage
 	 */
 	protected void performDefaults( )
 	{
-		maxRowEditor.setStringValue( String.valueOf( DEFAULT_MAX_ROW ) );
 		maxDisplaySchemaEditor.setStringValue( String.valueOf( DEFAULT_MAX_NUM_OF_SCHEMA ));
 		maxDisplayTableEditor.setStringValue( String.valueOf( DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA));
 		super.performDefaults( );
@@ -208,9 +164,6 @@ public class DateSetPreferencePage extends PreferencePage
 	 */
 	public boolean performOk( )
 	{
-		JdbcPlugin.getDefault( )
-				.getPluginPreferences( )
-				.setValue( USER_MAXROW, maxRowEditor.getStringValue( ) );
 		JdbcPlugin.getDefault( )
 				.getPluginPreferences( )
 				.setValue( USER_MAX_NUM_OF_SCHEMA, maxDisplaySchemaEditor.getStringValue( ) );

@@ -41,17 +41,9 @@ public class DateSetPreferencePage extends PreferencePage
 {
 
 	private IntegerFieldEditor maxRowEditor;
-	private IntegerFieldEditor maxDisplaySchemaEditor;
-	private IntegerFieldEditor maxDisplayTableEditor;
 	
 	/** default value of max number */
 	public static final int DEFAULT_MAX_ROW = 500;
-	
-	/** default value of max schema number*/
-	public static final int DEFAULT_MAX_NUM_OF_SCHEMA = 20;
-	
-	/** default value of max table number each schema*/
-	public static final int DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA = 100;
 	
 	private static final int MAX_MAX_ROW = Integer.MAX_VALUE;
 	
@@ -73,76 +65,6 @@ public class DateSetPreferencePage extends PreferencePage
 		GridLayout layout = new GridLayout();
 		mainComposite.setLayout( layout );
 
-		Group sqlDataSetGroup = new Group( mainComposite, SWT.NONE );
-
-		sqlDataSetGroup.setLayout( layout );
-		sqlDataSetGroup.setText( Messages.getString( "designer.preview.preference.resultset.sqldatasetpage.group.title" ) );
-		sqlDataSetGroup.setLayoutData( data );
-
-		sqlDataSetGroup.setEnabled( true );
-
-		//Set up the maximum number of schemas to be fetched in SQLDataSetPage.
-		maxDisplaySchemaEditor = new IntegerFieldEditor( USER_MAX_NUM_OF_SCHEMA, "", sqlDataSetGroup ); 
-		
-		Label lab = maxDisplaySchemaEditor.getLabelControl( sqlDataSetGroup );
-        lab.setText(Messages.getString( "designer.preview.preference.resultset.maxNoOfSchema.description" ));
-		
-		maxDisplaySchemaEditor.setPage(this);
-		maxDisplaySchemaEditor.setTextLimit( Integer.toString( MAX_MAX_ROW ).length( ) );
-		
-		maxDisplaySchemaEditor.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		maxDisplaySchemaEditor.setValidRange(0, MAX_MAX_ROW);
-		
-		maxDisplaySchemaEditor.setPropertyChangeListener(new IPropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent event) {
-                if (event.getProperty().equals(FieldEditor.IS_VALID))
-                        setValid(maxDisplaySchemaEditor.isValid());
-            }
-        });
-		
-		maxDisplaySchemaEditor.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxNoOfSchema.errormessage",
-				new Object[]{new Integer( MAX_MAX_ROW )	} ) );
-		
-		String defaultMaxSchema = ReportPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( USER_MAX_NUM_OF_SCHEMA );
-		if ( defaultMaxSchema == null || defaultMaxSchema.trim( ).length( ) <= 0 )
-		{
-			defaultMaxSchema = String.valueOf( DEFAULT_MAX_NUM_OF_SCHEMA );
-		}
-		maxDisplaySchemaEditor.setStringValue( defaultMaxSchema );
-		
-		//Set up the maximum number of tables in each schema
-		maxDisplayTableEditor = new IntegerFieldEditor( USER_MAX_NUM_OF_TABLE_EACH_SCHEMA, "", sqlDataSetGroup ); 
-		
-		lab = maxDisplayTableEditor.getLabelControl( sqlDataSetGroup );
-        lab.setText(Messages.getString( "designer.preview.preference.resultset.maxNoOfTable.description" ));
-		
-		maxDisplayTableEditor.setPage(this);
-		maxDisplayTableEditor.setTextLimit( Integer.toString( MAX_MAX_ROW ).length( ) );
-		
-		maxDisplayTableEditor.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		maxDisplayTableEditor.setValidRange(0, MAX_MAX_ROW);
-		
-		maxDisplayTableEditor.setPropertyChangeListener(new IPropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent event) {
-                if (event.getProperty().equals(FieldEditor.IS_VALID))
-                        setValid(maxDisplayTableEditor.isValid());
-            }
-        });
-		
-		maxDisplayTableEditor.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxNoOfTable.errormessage",
-				new Object[]{new Integer( MAX_MAX_ROW )	} ) );
-		
-		String defaultMaxTable = ReportPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( USER_MAX_NUM_OF_TABLE_EACH_SCHEMA );
-		if ( defaultMaxTable == null || defaultMaxTable.trim( ).length( ) <= 0 )
-		{
-			defaultMaxTable = String.valueOf( DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA );
-		}
-		maxDisplayTableEditor.setStringValue( defaultMaxTable );
-		
 		Group previewPageGroup = new Group( mainComposite, SWT.NONE );
 
 		previewPageGroup.setLayout( new GridLayout() );
@@ -199,8 +121,6 @@ public class DateSetPreferencePage extends PreferencePage
 	protected void performDefaults( )
 	{
 		maxRowEditor.setStringValue( String.valueOf( DEFAULT_MAX_ROW ) );
-		maxDisplaySchemaEditor.setStringValue( String.valueOf( DEFAULT_MAX_NUM_OF_SCHEMA ));
-		maxDisplayTableEditor.setStringValue( String.valueOf( DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA));
 		super.performDefaults( );
 	}
 
@@ -212,12 +132,6 @@ public class DateSetPreferencePage extends PreferencePage
 		ReportPlugin.getDefault( )
 				.getPluginPreferences( )
 				.setValue( USER_MAXROW, maxRowEditor.getStringValue( ) );
-		ReportPlugin.getDefault( )
-				.getPluginPreferences( )
-				.setValue( USER_MAX_NUM_OF_SCHEMA, maxDisplaySchemaEditor.getStringValue( ) );
-		ReportPlugin.getDefault( )
-			.getPluginPreferences( )
-			.setValue( USER_MAX_NUM_OF_TABLE_EACH_SCHEMA, maxDisplayTableEditor.getStringValue( ) );
 		ReportPlugin.getDefault( ).savePluginPreferences( );
 		
 		return true;
