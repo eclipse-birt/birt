@@ -95,6 +95,7 @@ public class TaskSelectData extends SimpleTask implements
 	private transient Button btnBinding = null;
 
 	private transient SelectDataDynamicArea dynamicArea;
+	private transient String BLANK_DATASET = ""; //$NON-NLS-1$
 
 	// private SampleData oldSample = null;
 
@@ -367,9 +368,13 @@ public class TaskSelectData extends SimpleTask implements
 		if ( currentDataSet != null )
 		{
 			cmbDataSet.setItems( getDataServiceProvider( ).getAllDataSets( ) );
-			cmbDataSet.setText( currentDataSet );
+			cmbDataSet.setText( ( currentDataSet == null ) ? BLANK_DATASET
+					: currentDataSet );
 			useReportDataSet( false );
-			switchDataTable( );
+			if ( currentDataSet != null )
+			{
+				switchDataTable( );
+			}
 		}
 		else
 		{
@@ -473,7 +478,7 @@ public class TaskSelectData extends SimpleTask implements
 		{
 			return bCancel;
 		}
-		
+
 		try
 		{
 			String oldDataSetName = getDataServiceProvider( ).getBoundDataSet( );
@@ -545,6 +550,8 @@ public class TaskSelectData extends SimpleTask implements
 			{
 				ChartWizard.displayException( e1 );
 			}
+			cmbDataSet.add( BLANK_DATASET, 0 );
+			cmbDataSet.select( 0 );
 			cmbDataSet.setEnabled( false );
 			btnNewData.setEnabled( false );
 			btnFilters.setEnabled( hasDataSet( )
@@ -561,29 +568,58 @@ public class TaskSelectData extends SimpleTask implements
 			{
 				return;
 			}
-			if ( cmbDataSet.getText( ).length( ) == 0 )
+
+			cmbDataSet.removeAll( );
+			cmbDataSet.add( BLANK_DATASET, 0 );
+
+			String[] dataSets = getDataServiceProvider( ).getAllDataSets( );
+			if ( dataSets != null )
+				for ( int i = 0; i < dataSets.length; i++ )
+				{
+					cmbDataSet.add( dataSets[i], i + 1 );
+				}
+			cmbDataSet.select( 0 );
+			cmbDataSet.setEnabled( true );
+			btnNewData.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
+		}
+		else if ( e.getSource( ).equals( cmbDataSet ) )
+		{
+			try
 			{
-				cmbDataSet.setItems( getDataServiceProvider( ).getAllDataSets( ) );
-				cmbDataSet.select( 0 );
-			}
-			if ( cmbDataSet.getText( ).length( ) != 0 )
-			{
-				try
+				ColorPalette.getInstance( ).restore( );
+				if ( !cmbDataSet.getText( ).equals( BLANK_DATASET ) )
 				{
 					int bCancel = switchDataSet( cmbDataSet.getText( ) );
-					if ( bCancel == Window.CANCEL )
+					if ( bCancel == Window.OK
+							&& cmbDataSet.getItem( 0 ).equals( BLANK_DATASET ) )
 					{
-						btnUseReportData.setSelection( true );
-						btnUseDataSet.setSelection( false );
-						return;
+						cmbDataSet.remove( BLANK_DATASET );
+					}
+					else if ( bCancel == Window.CANCEL )
+					{
+						String[] datasetNames = cmbDataSet.getItems( );
+						for ( int i = 0; i < datasetNames.length; i++ )
+						{
+							if ( datasetNames[i].equals( getDataServiceProvider( ).getBoundDataSet( ) ) )
+							{
+								cmbDataSet.select( i );
+								if ( cmbDataSet.getItem( 0 )
+										.equals( BLANK_DATASET ) )
+								{
+									cmbDataSet.remove( BLANK_DATASET );
+								}
+								return;
+							}
+						}
+						cmbDataSet.select( 0 );
 					}
 				}
-				catch ( ChartException e1 )
-				{
-					ChartWizard.displayException( e1 );
-				}
 			}
-			cmbDataSet.setEnabled( true );
+			catch ( ChartException e1 )
+			{
+				ChartWizard.displayException( e1 );
+			}
+
 			btnNewData.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
 			btnFilters.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
@@ -592,33 +628,8 @@ public class TaskSelectData extends SimpleTask implements
 			btnBinding.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 		}
-		else if ( e.getSource( ).equals( cmbDataSet ) )
-		{
-			try
-			{
-				ColorPalette.getInstance( ).restore( );
-				int bCancel = switchDataSet( cmbDataSet.getText( ) );
-				if ( bCancel == Window.CANCEL )
-				{
-					String[] datasetNames = cmbDataSet.getItems( );
-					for ( int i = 0; i < datasetNames.length; i++ )
-					{
-						if ( datasetNames[i].equals( getDataServiceProvider( ).getBoundDataSet( ) ) )
-						{
-							cmbDataSet.select( i );
-							return;
-						}
-					}
-					
-				}
-			}
-			catch ( ChartException e1 )
-			{
-				ChartWizard.displayException( e1 );
-			}
-		}
 		else if ( e.getSource( ).equals( btnNewData ) )
-		{			
+		{
 			// Bring up the dialog to create a dataset
 			int result = getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_NEW_DATASET );
 			if ( result == Window.CANCEL )
@@ -627,14 +638,34 @@ public class TaskSelectData extends SimpleTask implements
 			}
 
 			String[] sAllDS = getDataServiceProvider( ).getAllDataSets( );
-			if ( sAllDS.length == cmbDataSet.getItemCount( ) )
+
+			String currentDataSet = cmbDataSet.getText( );
+			int dataSetCount = cmbDataSet.getItemCount( );
+			if ( currentDataSet.equals( BLANK_DATASET ) )
+			{
+				dataSetCount = dataSetCount - 1;
+			}
+
+			if ( sAllDS.length == dataSetCount )
 			{
 				return;
 			}
 			else
 			{
-				String currentDataSet = cmbDataSet.getText( );
-				cmbDataSet.setItems( sAllDS );
+				if ( currentDataSet.equals( BLANK_DATASET ) )
+				{
+					cmbDataSet.removeAll( );
+					cmbDataSet.add( BLANK_DATASET, 0 );
+
+					for ( int i = 0; i < sAllDS.length; i++ )
+					{
+						cmbDataSet.add( sAllDS[i], i + 1 );
+					}
+				}
+				else
+				{
+					cmbDataSet.setItems( sAllDS );
+				}
 				cmbDataSet.setText( currentDataSet );
 			}
 		}
