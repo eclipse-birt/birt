@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,6 +39,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.SelectionRequest;
@@ -151,8 +153,38 @@ public class ReportDesignEditPart extends ReportElementEditPart
 				this.markDirty( true );
 				break;
 			}
+			case NotificationEvent.LIBRARY_EVENT :
+			{
+				reloadTheChildren(  );
+			}
 		}
-	} /*
+	} 
+	/*
+	 * 
+	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
+	 */
+
+	private void reloadTheChildren(  )
+	{
+		List list = new ArrayList(getChildren( ));
+		int size = list.size( );
+		
+		for ( int i = 0; i < size; i++ )
+		{		
+			EditPart part = (EditPart) list.get( i );
+			
+			removeChild( part );		
+		}
+		
+		list = getModelChildren( );
+		size = list.size( );
+		for ( int i = 0; i < size; i++ )
+		{		
+			Object model =  list.get( i );
+			addChild( createChild( model ), i );			
+		}
+	}
+	/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
