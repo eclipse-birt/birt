@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.preferences;
 
 import java.io.File;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -204,40 +205,9 @@ public class ResourcePreferencePage extends PreferencePage implements
 	 */
 	public boolean performOk( )
 	{
-		String path = resourceText.getText( );
-		File targetFolder = new File( path );
-//		if ( !targetFolder.isDirectory( ) )
-//		{
-//			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishLibraryAction.wizard.errorTitle" ), //$NON-NLS-1$
-//					Messages.getString( "PublishLibraryAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
-//			return true;
-//		}
-		if ( !targetFolder.exists( ) )
-		{
-			String[] buttons = new String[]{
-					IDialogConstants.YES_LABEL,
-					IDialogConstants.NO_LABEL
-			};
-			String question = Messages.getFormattedString( "DirectoryDialog.createQuestion", //$NON-NLS-1$
-					new Object[]{
-					path
-					} );
-			MessageDialog d = new MessageDialog( getShell( ),
-					Messages.getString( "DirectoryDialog.Question" ), //$NON-NLS-1$
-					null,
-					question,
-					MessageDialog.QUESTION,
-					buttons,
-					0 );
-			int ret = d.open( );
-			if(ret == Window.OK)
-			{
-				targetFolder.mkdirs( );
-			}
-		}
 		
 		ReportPlugin.getDefault( )
-				.setResourcePreference( path );
+				.setResourcePreference( resourceText.getText( ) );
 		return super.performOk( );
 	}
 
