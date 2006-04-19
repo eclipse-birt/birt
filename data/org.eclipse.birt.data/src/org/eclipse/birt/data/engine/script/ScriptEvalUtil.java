@@ -32,12 +32,15 @@ import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import com.ibm.icu.text.Collator;
 
 /**
  * Static utility methods to help evaluating Javascript expressions 
  */
 public class ScriptEvalUtil
-{	
+{
+	private static Collator myCollator = Collator.getInstance( );
+	
 	private static Logger logger = Logger.getLogger( ScriptEvalUtil.class.getName( ) );
 	
 	/**
@@ -240,12 +243,19 @@ public class ScriptEvalUtil
 				}
 				else if ( obj1 instanceof Comparable )
 				{
-					return ( (Comparable) obj1 ).compareTo( obj2 );
+					if ( obj1 instanceof String )
+					{
+						return myCollator.compare( obj1, obj2 );
+					}
+					else
+					{
+						return ( (Comparable) obj1 ).compareTo( obj2 );
+					}
 				}
 				// most judgements should end here
 				else
 				{
-					return obj1.toString( ).compareTo( obj2.toString( ) );
+					return myCollator.compare( obj1.toString( ), obj2.toString( ) );
 				}
 			}
 			else if ( MiscUtil.isNumericOrString( obj1 ) && MiscUtil.isNumericOrString( obj2 ) )
