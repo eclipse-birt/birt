@@ -128,7 +128,6 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		}
 
 		String bookmark = action.getBookmark( );
-		
 		try
 		{
 			bookmark = URLEncoder.encode( bookmark, "UTF-8" ); //$NON-NLS-1$
@@ -137,50 +136,44 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		{
 			// Does nothing
 		}
-		
+
 		String baseURL = null;
 		if ( context != null && context instanceof HTMLRenderContext )
 		{
 			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
 		}
+
+		link.append( baseURL );
+		link.append( "?__document=" ); //$NON-NLS-1$
+		String documentName = document.getName( );
+
+		try
+		{
+			documentName = URLEncoder.encode( documentName, "UTF-8" ); //$NON-NLS-1$
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			// Does nothing
+		}
+		link.append( documentName );
+		
+		
 		if ( realBookmark )
 		{
-			//TODO: duplicated local parameter
-			if ( locale != null )
-			{
-				link.append( "&__locale=" ); //$NON-NLS-1$
-				link.append( locale.toString( ) );
-			}
-			link.append( "#" ); //$NON-NLS-1$
+			link.append( "&#" ); //$NON-NLS-1$
 			link.append( bookmark );
-
 		}
 		else
 		{
-			
-			link.append( baseURL );
-
-			link.append( "?__document=" ); //$NON-NLS-1$
-			String documentName = document.getName( );
-			try
-			{
-				documentName = URLEncoder.encode( documentName, "UTF-8" ); //$NON-NLS-1$
-			}
-			catch ( UnsupportedEncodingException e )
-			{
-				// Does nothing
-			}
-			
-			if ( locale != null )
-			{
-				link.append( "&__locale=" ); //$NON-NLS-1$
-				link.append( locale.toString( ) );
-			}
-			link.append( documentName );
 			link.append( "&__bookmark=" ); //$NON-NLS-1$
 			link.append( bookmark );
-
 		}
+		if ( locale != null )
+		{
+			link.append( "&__locale=" ); //$NON-NLS-1$
+			link.append( locale.toString( ) );
+		}
+
 
 		return link.toString( );
 	}
