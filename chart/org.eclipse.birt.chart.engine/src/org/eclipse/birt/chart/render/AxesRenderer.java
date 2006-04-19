@@ -679,23 +679,6 @@ public abstract class AxesRenderer extends BaseRenderer
 				lb.getCaption( )
 						.setValue( getRunTimeContext( ).externalizedMessage( sPreviousValue ) );
 
-				if ( isTransposed )
-				{
-					// transpose text angel.
-					double rot = lb.getCaption( ).getFont( ).getRotation( );
-
-					if ( rot >= 0 && rot <= 90 )
-					{
-						rot = -( 90 - rot );
-					}
-					else if ( rot < 0 && rot >= -90 )
-					{
-						rot = ( rot + 90 );
-					}
-
-					lb.getCaption( ).getFont( ).setRotation( rot );
-				}
-
 				BoundingBox bb = Methods.computeBox( getXServer( ),
 						IConstants.LEFT/* DONT-CARE */,
 						lb,
@@ -747,29 +730,35 @@ public abstract class AxesRenderer extends BaseRenderer
 						break;
 				}
 
-				double xc, yc;
+				double xs, ys;
 
 				if ( isTransposed )
 				{
 					if ( horizontal == IConstants.LEFT )
 					{
-						yc = orthogonalArray[orthogonalArray.length - 1]
+						ys = orthogonalArray[orthogonalArray.length - 1]
 								- bb.getHeight( );
+						// switch left/right
+						horizontal = IConstants.RIGHT;
 					}
 					else if ( horizontal == IConstants.RIGHT )
 					{
-						yc = orthogonalArray[0] + bb.getHeight( ) / 2d;
+						ys = orthogonalArray[0];
+						// switch left/right
+						horizontal = IConstants.LEFT;
 					}
 					else
 					{
-						yc = orthogonalArray[0]
+						ys = orthogonalArray[0]
 								+ ( orthogonalArray[orthogonalArray.length - 1] - orthogonalArray[0] )
+								/ 2d
+								- bb.getHeight( )
 								/ 2d;
 					}
 
-					xc = getFitYPosition( orthogonalArray,
+					xs = getFitYPosition( orthogonalArray,
 							baseArray,
-							yc,
+							horizontal,
 							bb.getHeight( ),
 							bb.getWidth( ),
 							vertical == IConstants.BELOW );
@@ -778,29 +767,31 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					if ( horizontal == IConstants.LEFT )
 					{
-						xc = xArray[0];
+						xs = xArray[0];
 					}
 					else if ( horizontal == IConstants.RIGHT )
 					{
-						xc = xArray[xArray.length - 1] - bb.getWidth( );
+						xs = xArray[xArray.length - 1] - bb.getWidth( );
 					}
 					else
 					{
-						xc = xArray[0]
+						xs = xArray[0]
 								+ ( xArray[xArray.length - 1] - xArray[0] )
+								/ 2d
+								- bb.getWidth( )
 								/ 2d;
 					}
 
-					yc = getFitYPosition( xArray,
+					ys = getFitYPosition( xArray,
 							fitYarray,
-							xc,
+							horizontal,
 							bb.getWidth( ),
 							bb.getHeight( ),
 							vertical == IConstants.ABOVE );
 				}
 
-				bb.setLeft( xc );
-				bb.setTop( yc );
+				bb.setLeft( xs );
+				bb.setTop( ys );
 
 				if ( ChartUtil.isShadowDefined( lb ) )
 				{
@@ -847,36 +838,35 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * @param width
 	 * @param height
 	 */
-	private double getFitYPosition( double[] xa, double[] ya, double center,
+	private double getFitYPosition( double[] xa, double[] ya, int align,
 			double width, double height, boolean above )
 	{
 		int gap = 10;
-		int startX = 0, endX = xa.length - 1;
-		for ( int i = 0; i < xa.length; i++ )
+
+		double rt = 0;
+
+		if ( align == IConstants.LEFT )
 		{
-			if ( xa[i] >= center - width / 2d )
+			rt = ya[0];
+		}
+		else if ( align == IConstants.RIGHT )
+		{
+			rt = ya[ya.length - 1];
+		}
+		else
+		{
+			if ( ya.length % 2 == 1 )
 			{
-				startX = ( i > 0 ) ? ( i - 1 ) : 0;
-				break;
+				rt = ya[ya.length / 2];
+			}
+			else
+			{
+				int x = ya.length / 2;
+				rt = ( ya[x] + ya[x - 1] ) / 2;
 			}
 		}
 
-		for ( int i = 0; i < xa.length; i++ )
-		{
-			if ( xa[i] >= center + width / 2d )
-			{
-				endX = i;
-				break;
-			}
-		}
-
-		double yc = above ? Double.MAX_VALUE : 0;
-		for ( int i = startX; i <= endX; i++ )
-		{
-			yc = above ? Math.min( yc, ya[i] ) : Math.max( yc, ya[i] );
-		}
-
-		return above ? ( yc - height - gap ) : ( yc + gap );
+		return above ? ( rt - height - gap ) : ( rt + gap );
 	}
 
 	/**
