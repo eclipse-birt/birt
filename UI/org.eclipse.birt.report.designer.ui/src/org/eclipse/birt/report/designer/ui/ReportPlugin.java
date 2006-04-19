@@ -28,12 +28,16 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.core.internal.resources.Workspace;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.core.runtime.adaptor.LocationManager;
 import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -79,6 +83,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String DESCRIPTION_PREFERENCE = "designer.preview.preference.elementname.description.preferencestore"; //$NON-NLS-1$
 	public static final String LIBRARY_PREFERENCE = "designer.library.preference.libraries.description.preferencestore"; //$NON-NLS-1$
 	public static final String TEMPLATE_PREFERENCE = "designer.preview.preference.template.description.preferencestore"; //$NON-NLS-1$
+	public static final String RESOURCE_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.resourcestore"; //$NON-NLS-1$
 
 	private int nameCount = 0;
 
@@ -117,6 +122,9 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		// set default Template
 		setDefaultTemplatePreference( );
+		
+		// set default Resource
+		setDefaultResourcePreference();
 
 		// Biding default short cut services
 		// Using 3.0 compatible api
@@ -759,6 +767,47 @@ public class ReportPlugin extends AbstractUIPlugin
 		getPreferenceStore( ).setValue( TEMPLATE_PREFERENCE, preference ); //$NON-NLS-1$
 	}
 
+	
+	/**
+	 * set default resource preference
+	 * 
+	 */
+	public void setDefaultResourcePreference( )
+	{
+		String metaPath = Platform.getStateLocation( ReportPlugin.getDefault( ).getBundle( )).toOSString( );
+		getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, metaPath ); //$NON-NLS-1$		
+	}
+	
+	
+	/**
+	 * Return default resouce preference
+	 * 
+	 * @return String The String of default resource preference
+	 */
+	public String getDefaultResourcePreference( )
+	{ 
+		return getPreferenceStore( ).getDefaultString( RESOURCE_PREFERENCE );	
+	}
+	
+	/**
+	 * Return resource preference
+	 * 
+	 * @return String The string of resource preference
+	 */
+	public String getResourcePreference( )
+	{
+		return getPreferenceStore( ).getString( RESOURCE_PREFERENCE );
+	}
+
+	/**
+	 * set resource preference
+	 * 
+	 */
+	public void setResourcePreference( String preference )
+	{
+		getPreferenceStore( ).setValue( RESOURCE_PREFERENCE, preference ); //$NON-NLS-1$
+	}
+	
 	/**
 	 * @param str
 	 */
