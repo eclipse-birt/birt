@@ -283,4 +283,50 @@ public class JavascriptEvalUtil
 				},
 				e);
 	}
+	
+	/**
+	 * This method transforms a string to JS string constants.
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String transformToJsConstants( String s )
+	{
+		if ( s == null )
+			return null;
+
+		StringBuffer buffer = new StringBuffer( );
+		int length = s.length( );
+		for ( int i = 0; i < length; i++ )
+		{
+			char c = s.charAt( i );
+			switch ( c )
+			{
+				case '\\' :
+					buffer.append( "\\\\" );
+					break;
+				case '\b' :
+					buffer.append( "\\b" );
+					break;
+				case '\t' :
+					buffer.append( "\\t" );
+					break;
+				case '\n' :
+					buffer.append( "\\n" );
+					break;
+				case '\f' :
+					buffer.append( "\\f" );
+					break;
+				case '\r' :
+					buffer.append( "\\r" );
+					break;
+				case '"' :
+					buffer.append( "\\\"" );
+					break;
+				default :
+					buffer.append( c );
+			}
+		}
+		return buffer.toString( );
+	}
 }

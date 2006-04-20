@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
@@ -36,7 +37,6 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GraphicMasterPageDesign;
@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.94 $ $Date: 2006/04/17 07:14:00 $
+ * @version $Revision: 1.95 $ $Date: 2006/04/18 07:08:30 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -719,7 +719,7 @@ class EngineIRVisitor extends DesignVisitor
 		String expr = handle.getResultSetColumn( );
 		if (expr != null && expr.trim( ).length( ) > 0)
 		{
-			expr = "row[\"" + this.transformToJsConstants( expr ) + "\"]";
+			expr = "row[\"" + JavascriptEvalUtil.transformToJsConstants( expr ) + "\"]";
 			data.setValue( expr );
 		}
 		// Handle Action
@@ -2272,51 +2272,5 @@ class EngineIRVisitor extends DesignVisitor
 	private void setupElementIDMap( ReportElementDesign rptElement )
 	{
 		report.setReportItemInstanceID( rptElement.getID( ), rptElement );
-	}
-	
-	/**
-	 * This method transforms a string to JS string constants.
-	 * 
-	 * @param s
-	 * @return
-	 */
-	private String transformToJsConstants( String s )
-	{
-		if ( s == null )
-			return null;
-
-		StringBuffer buffer = new StringBuffer( );
-		int length = s.length( );
-		for ( int i = 0; i < length; i++ )
-		{
-			char c = s.charAt( i );
-			switch ( c )
-			{
-				case '\\' :
-					buffer.append( "\\\\" );
-					break;
-				case '\b' :
-					buffer.append( "\\b" );
-					break;
-				case '\t' :
-					buffer.append( "\\t" );
-					break;
-				case '\n' :
-					buffer.append( "\\n" );
-					break;
-				case '\f' :
-					buffer.append( "\\f" );
-					break;
-				case '\r' :
-					buffer.append( "\\r" );
-					break;
-				case '"' :
-					buffer.append( "\\\"" );
-					break;
-				default :
-					buffer.append( c );
-			}
-		}
-		return buffer.toString( );
 	}
 }
