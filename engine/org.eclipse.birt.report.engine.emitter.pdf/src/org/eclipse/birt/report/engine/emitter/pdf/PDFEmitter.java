@@ -46,6 +46,7 @@ import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.layout.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.util.PropertyUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
