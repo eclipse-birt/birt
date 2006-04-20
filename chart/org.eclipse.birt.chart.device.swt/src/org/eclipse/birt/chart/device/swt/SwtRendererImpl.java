@@ -284,13 +284,13 @@ public class SwtRendererImpl extends DeviceAdapter
 		int iLineStyle = SWT.LINE_SOLID;
 		switch ( lia.getStyle( ).getValue( ) )
 		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DOT;
 				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DASHDOT;
 				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DASHED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DASH;
 				break;
 		}
@@ -341,13 +341,13 @@ public class SwtRendererImpl extends DeviceAdapter
 		int iLineStyle = SWT.LINE_SOLID;
 		switch ( lia.getStyle( ).getValue( ) )
 		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DOT;
 				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DASHDOT;
 				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DASHED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DASH;
 				break;
 		}
@@ -551,13 +551,13 @@ public class SwtRendererImpl extends DeviceAdapter
 		int iLineStyle = SWT.LINE_SOLID;
 		switch ( lia.getStyle( ).getValue( ) )
 		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DOT;
 				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DASHDOT;
 				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DASHED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DASH;
 				break;
 		}
@@ -957,7 +957,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				final ColorDefinition cd = (ColorDefinition) flBackground;
 
 				// skip full transparency for optimization.
-				if ( cd.isSetTransparency( ) && cd.getTransparency( ) > 0 )
+				if ( !( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 ) )
 				{
 					final Color cBG = (Color) _ids.getColor( cd );
 					final Color cPreviousBG = _gc.getBackground( );
@@ -1017,7 +1017,7 @@ public class SwtRendererImpl extends DeviceAdapter
 					final ColorDefinition cd = (ColorDefinition) flBackground;
 
 					// skip full transparency for optimization.
-					if ( cd.isSetTransparency( ) && cd.getTransparency( ) > 0 )
+					if ( !( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 ) )
 					{
 						final Color cBG = (Color) _ids.getColor( cd );
 						final Color cPreviousBG = _gc.getBackground( );
@@ -1133,7 +1133,7 @@ public class SwtRendererImpl extends DeviceAdapter
 					final ColorDefinition cd = (ColorDefinition) flBackground;
 
 					// skip full transparency for optimization.
-					if ( cd.isSetTransparency( ) && cd.getTransparency( ) > 0 )
+					if ( !( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 ) )
 					{
 						final Color cBG = (Color) _ids.getColor( cd );
 						final Color cPreviousBG = _gc.getBackground( );
@@ -1394,13 +1394,13 @@ public class SwtRendererImpl extends DeviceAdapter
 		int iLineStyle = SWT.LINE_SOLID;
 		switch ( lia.getStyle( ).getValue( ) )
 		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DOT;
 				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DASHDOT;
 				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DASHED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DASH;
 				break;
 		}
@@ -1480,7 +1480,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				final ColorDefinition cd = (ColorDefinition) flBackground;
 
 				// skip full transparency for optimization.
-				if ( cd.isSetTransparency( ) && cd.getTransparency( ) > 0 )
+				if ( !( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 ) )
 				{
 					final Color cBG = (Color) _ids.getColor( cd );
 					final Color cPreviousBG = _gc.getBackground( );
@@ -1556,13 +1556,13 @@ public class SwtRendererImpl extends DeviceAdapter
 		int iLineStyle = SWT.LINE_SOLID;
 		switch ( lia.getStyle( ).getValue( ) )
 		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DOT;
 				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DASHDOT;
 				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                           ) :
+			case ( LineStyle.DASHED                                                                                                                                                                                                                                                            ) :
 				iLineStyle = SWT.LINE_DASH;
 				break;
 		}
