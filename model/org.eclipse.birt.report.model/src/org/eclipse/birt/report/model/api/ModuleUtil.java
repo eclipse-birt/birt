@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.api;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,10 +41,14 @@ import org.eclipse.birt.report.model.parser.DesignReader;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.parser.GenericModuleReader;
 import org.eclipse.birt.report.model.parser.LibraryReader;
+import org.eclipse.birt.report.model.parser.ModuleParserErrorHandler;
 import org.eclipse.birt.report.model.parser.ModuleParserHandler;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.XMLParserException;
+import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.eclipse.birt.report.model.writer.IndentableXMLWriter;
 import org.eclipse.birt.report.model.writer.ModuleWriter;
+import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -91,7 +97,7 @@ public class ModuleUtil
 			super( null, null );
 			this.element = element;
 			module = new ReportDesign( null );
-			
+
 			setVersion( DesignSchemaConstants.REPORT_VERSION );
 		}
 
@@ -151,7 +157,27 @@ public class ModuleUtil
 			streamData = new BufferedInputStream( streamData );
 
 		assert streamData.markSupported( );
+		parse( handler, streamData );
 
+		ImageHandle imageHandle = (ImageHandle) image.getHandle( handler
+				.getModule( ) );
+		return imageHandle.getActionHandle( );
+	}
+
+	/**
+	 * Auxiliary method to help parse the input stream.
+	 * 
+	 * @param handler
+	 *            the parse handler
+	 * @param streamData
+	 *            the input stream
+	 * @throws DesignFileException
+	 *             any exception if error happens
+	 */
+
+	private static void parse( XMLParserHandler handler, InputStream streamData )
+			throws DesignFileException
+	{
 		try
 		{
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
@@ -185,10 +211,6 @@ public class ModuleUtil
 			throw new DesignFileException( null, handler.getErrorHandler( )
 					.getErrors( ), e );
 		}
-
-		ImageHandle imageHandle = (ImageHandle) image.getHandle( handler
-				.getModule( ) );
-		return imageHandle.getActionHandle( );
 	}
 
 	/**
@@ -207,12 +229,12 @@ public class ModuleUtil
 			throws DesignFileException
 	{
 		InputStream is = null;
-		strData = StringUtil.trimString( strData );
-		if ( strData != null )
+		String streamToOpen = StringUtil.trimString( strData );
+		if ( streamToOpen != null )
 		{
 			try
 			{
-				is = new ByteArrayInputStream( strData
+				is = new ByteArrayInputStream( streamToOpen
 						.getBytes( UnicodeUtil.SIGNATURE_UTF_8 ) );
 			}
 			catch ( UnsupportedEncodingException e )
@@ -401,5 +423,109 @@ public class ModuleUtil
 	public static void updateBoundDataColumns( ModuleHandle module )
 			throws SemanticException
 	{
+	}
+
+	/**
+	 * Parser handler used to parse only the version attribute of the module.
+	 * The existing report and library state is reused.
+	 */
+
+	private static class VersionParserHandler extends XMLParserHandler
+	{
+
+		String version = null;
+
+		public VersionParserHandler( )
+		{
+			super( new ModuleParserErrorHandler( ) );
+		}
+
+		public AbstractParseState createStartState( )
+		{
+			return new StartState( );
+		}
+
+		/**
+		 * Recognizes the top-level tags: Report or Library
+		 */
+
+		class StartState extends InnerParseState
+		{
+
+			public AbstractParseState startElement( String tagName )
+			{
+				if ( DesignSchemaConstants.REPORT_TAG
+						.equalsIgnoreCase( tagName )
+						|| DesignSchemaConstants.LIBRARY_TAG
+								.equalsIgnoreCase( tagName ) )
+					return new VersionState( );
+				return super.startElement( tagName );
+			}
+		}
+
+		/**
+		 * Recognizes the top-level tags: Report or Library
+		 */
+
+		class VersionState extends InnerParseState
+		{
+
+			public void parseAttrs( Attributes attrs )
+					throws XMLParserException
+			{
+				String version = attrs
+						.getValue( DesignSchemaConstants.VERSION_ATTRIB );
+				VersionParserHandler.this.version = version;
+			}
+
+			public void end( ) throws SAXException
+			{
+			}
+		}
+	}
+
+	/**
+	 * Checks if the version of a design file is of old version.
+	 * 
+	 * @param streamData
+	 *            the input stream
+	 * @return <code>-1</code> if the version of given file is lower than
+	 *         current version; <code>0</code> if they are equal; otherwise,
+	 *         return <code>1</code>.
+	 * @throws DesignFileException
+	 *             if any exception happens
+	 */
+
+	public static int checkVersion( InputStream streamData )
+			throws DesignFileException
+	{
+		VersionParserHandler handler = new VersionParserHandler( );
+
+		InputStream inputStreamToParse = streamData;
+		if ( !inputStreamToParse.markSupported( ) )
+			inputStreamToParse = new BufferedInputStream( streamData );
+
+		parse( handler, inputStreamToParse );
+		return StringUtil.compareVersion( handler.version, DesignSchemaConstants.REPORT_VERSION );
+	}
+
+	/**
+	 * Checks if the version of a design file is of old version.
+	 * 
+	 * @param fileName
+	 *            the file name with full path of the design file
+	 * @return <code>-1</code> if the version of given file is lower than
+	 *         current version; <code>0</code> if they are equal; otherwise,
+	 *         return <code>1</code>.
+	 * @throws DesignFileException
+	 *             if any exception happens
+	 * @throws FileNotFoundException
+	 */
+
+	public static int checkVersion( String fileName )
+			throws DesignFileException, FileNotFoundException
+	{
+		return checkVersion( new BufferedInputStream( new FileInputStream(
+				fileName ) ) );
 	}
 }
