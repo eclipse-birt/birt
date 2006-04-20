@@ -56,6 +56,7 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -1818,6 +1819,18 @@ public class DEUtil
 			{
 				bindingList.add( iterator.next( ) );
 			}
+			if ( handle instanceof ListingHandle )
+			{
+				SlotHandle groupSlotHandle = ( (ListingHandle) handle ).getGroups( );
+				for ( Iterator iter = groupSlotHandle.iterator( ); iter.hasNext( ); )
+				{
+					GroupHandle group = (GroupHandle) iter.next( );
+					for ( Iterator columnIter = group.columnBindingsIterator( ); columnIter.hasNext( ); )
+					{
+						bindingList.add( columnIter.next( ) );
+					}
+				}
+			}
 			bindingList.addAll( 0,
 					getAllColumnBindingList( handle.getContainer( ), true ) );
 		}
@@ -1861,6 +1874,19 @@ public class DEUtil
 		ReportItemHandle holder = getBindingHolder( handle );
 		if ( holder != null )
 		{
+			if ( holder instanceof ListingHandle
+					&& ( (ListingHandle) holder ).getDetail( ) == handle.getContainerSlotHandle( ) )
+			{
+				SlotHandle groupSlotHandle = ( (ListingHandle) holder ).getGroups( );
+				for ( Iterator iter = groupSlotHandle.iterator( ); iter.hasNext( ); )
+				{
+					GroupHandle group = (GroupHandle) iter.next( );
+					for ( Iterator columnIter = group.columnBindingsIterator( ); columnIter.hasNext( ); )
+					{
+						bindingList.add( columnIter.next( ) );
+					}
+				}
+			}
 			for ( DesignElementHandle elementHandle = handle.getContainer( ); elementHandle != holder.getContainer( ); elementHandle = elementHandle.getContainer( ) )
 			{
 				List subBindingList = new ArrayList( );
@@ -1887,10 +1913,18 @@ public class DEUtil
 	{
 		if ( handle instanceof ReportElementHandle )
 		{
-			if ( handle instanceof ListingHandle
-					|| handle instanceof GridHandle )
+			if ( handle instanceof ListingHandle )
 			{
 				return (ReportItemHandle) handle;
+			}
+			if ( handle instanceof ReportItemHandle )
+			{
+				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
+						&& ( (ReportItemHandle) handle ).columnBindingsIterator( )
+								.hasNext( ) )
+				{
+					return (ReportItemHandle) handle;
+				}
 			}
 			ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
 			if ( result == null && handle instanceof ReportItemHandle )
@@ -1989,11 +2023,34 @@ public class DEUtil
 		int level = 0;
 		for ( DesignElementHandle elementHandle = baseElement; elementHandle.getContainer( ) != null; elementHandle = getBindingHolder( elementHandle ).getContainer( ), level++ )
 		{
-			if ( getBindingHolder( elementHandle ) == holder )
+			DesignElementHandle bindingHolder = getBindingHolder( elementHandle );
+			if ( bindingHolder == holder )
+			{
+				return level;
+			}
+			if ( holder instanceof GroupHandle
+					&& bindingHolder == holder.getContainer( ) )
 			{
 				return level;
 			}
 		}
 		return -1;
+	}
+
+	/**
+	 * Check if the given element is linked from a library or not.
+	 * 
+	 * @param handle
+	 *            the handle of the element to check
+	 * @return true if it is linked from a library ,or false if else;
+	 * 
+	 */
+	public static boolean isLinked( DesignElementHandle handle )
+	{
+		if ( handle.getExtends( ) != null )
+		{
+			return handle.getExtends( ).getRoot( ) instanceof LibraryHandle;
+		}
+		return false;
 	}
 }
