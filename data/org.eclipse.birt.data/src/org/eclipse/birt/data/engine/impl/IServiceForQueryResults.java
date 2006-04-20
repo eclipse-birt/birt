@@ -105,4 +105,10 @@ public interface IServiceForQueryResults
 	 */
 	public IScriptExpression getAutoBindingExpr( String exprName );
 	
+	/**
+	 * 
+	 * @return
+	 * @throws DataException 
+	 */
+	public void validateQueryColumBinding() throws DataException;
 }

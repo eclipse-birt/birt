@@ -64,7 +64,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		this.queryDefn = queryDefn;
 		this.sharedScope = sharedScope;
 		this.exprManager = new ExprManager( );
-		this.exprManager.addBindingExpr( queryDefn.getResultSetExpressions( ),
+		this.exprManager.addBindingExpr( null, queryDefn.getResultSetExpressions( ),
 				0 );
 	}
 

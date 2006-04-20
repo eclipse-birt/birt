@@ -10,37 +10,69 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
+import org.eclipse.birt.data.engine.expression.CompiledExpression;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.mozilla.javascript.Context;
 
 /**
  * 
  */
 public class ExprManager
 {
-	private Map bindingExprsMap;	
+	public static int OVERALL_GROUP = 0;
+	private List bindingExprs;	
 	private Map autoBindingExprMap;
+	private int entryLevel;
 	
 	/**
 	 *
 	 */
 	ExprManager( )
 	{
-		bindingExprsMap = new HashMap( );
+		bindingExprs = new ArrayList( );
 		autoBindingExprMap = new HashMap( );
+		entryLevel = OVERALL_GROUP;
 	}
 	
 	/**
 	 * @param resultsExprMap
 	 * @param groupLevel
 	 */
-	void addBindingExpr( Map resultsExprMap, int groupLevel )
+	void addBindingExpr( String groupKey, Map resultsExprMap, int groupLevel )
 	{
-		if ( resultsExprMap != null )
-			bindingExprsMap.putAll( resultsExprMap );
+		Context cx = Context.enter( );
+		try
+		{
+			if ( groupKey != null )
+			{
+				CompiledExpression ce = ExpressionCompilerUtil.compile( groupKey,
+						cx );
+				if ( ce instanceof ColumnReferenceExpression )
+				{
+					ColumnReferenceExpression cre = ( (ColumnReferenceExpression) ce );
+
+					groupKey = cre.getColumnName( );
+				}
+			}
+
+			if ( resultsExprMap != null )
+				bindingExprs.add( new GroupColumnBinding( groupKey,
+						resultsExprMap,
+						groupLevel ) );
+		}
+		finally
+		{
+			Context.exit( );
+		}
 	}
 	
 	/**
@@ -69,18 +101,146 @@ public class ExprManager
 	 * @param name
 	 * @return
 	 */
-	public IBaseExpression getBindingExpr( String name )
+	IBaseExpression getBindingExpr( String name )
 	{
-		return (IBaseExpression) bindingExprsMap.get( name );
+		for( int i = 0; i < bindingExprs.size( ); i++ )
+		{
+			GroupColumnBinding gcb = (GroupColumnBinding) bindingExprs.get( i );
+			if( entryLevel != OVERALL_GROUP )
+			{
+				if( gcb.getGroupLevel( ) > entryLevel )
+					continue;
+			}
+			Object o = gcb.getExpression( name );
+			if( o != null)
+				return (IBaseExpression)o; 
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 */
+	int getGroupLevel( String name )
+	{
+		for( int i = 0; i < bindingExprs.size( ); i++ )
+		{
+			Object o = ( (GroupColumnBinding) bindingExprs.get( i ) ).getExpression( name );
+			if( o != null)
+				return ((GroupColumnBinding) bindingExprs.get( i ) ).getGroupLevel( ); 
+		}
+		return 0;
 	}
 	
 	/**
 	 * @param name
 	 * @return auto binding expression for specified name
 	 */
-	public IScriptExpression getAutoBindingExpr( String name )
+	IScriptExpression getAutoBindingExpr( String name )
 	{
 		return (IScriptExpression) this.autoBindingExprMap.get( name );
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	List getColumnNames()
+	{
+		List l = new ArrayList();
+		l.addAll( this.autoBindingExprMap.keySet( ) );
+		for( int i = 0; i < bindingExprs.size( ); i++ )
+		{
+			l.addAll( ((GroupColumnBinding)bindingExprs.get( i )).getKeySet( ) );
+		}
+		return l;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	HashMap getGroupKeys()
+	{
+		HashMap l = new HashMap();
+		for( int i = 0; i < bindingExprs.size( ); i++ )
+		{
+			String key = ((GroupColumnBinding)bindingExprs.get( i )).getGroupKey();
+			Integer groupLevel = new Integer( ((GroupColumnBinding)bindingExprs.get( i )).getGroupLevel( ));
+			if( key!= null )
+				l.put( groupLevel, key );
+		}
+		return l;
+	}
+	
+	/**
+	 * Set the entry group level of the expr manager. The column bindings of groups
+	 * with group level greater than the given key will not be visible to outside.
+	 * @param i
+	 */
+	void setEntryGroupLevel( int i )
+	{
+		this.entryLevel = i;
+	}
+	/**
+	 * 
+	 */
+	private class GroupColumnBinding
+	{
+		//
+		private int groupLevel;
+		private String groupKey;
+		private Map bindings;
+		
+		
+		/**
+		 * 
+		 * @param bindings
+		 * @param groupLevel
+		 */
+		GroupColumnBinding( String groupKey, Map bindings, int groupLevel )
+		{
+			this.groupKey = groupKey;
+			this.groupLevel = groupLevel;
+			this.bindings = bindings;
+		}
+		
+		/**
+		 * 
+		 * @param name
+		 * @return
+		 */
+		public IBaseExpression getExpression( String name )
+		{
+			return (IBaseExpression) this.bindings.get( name );
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public int getGroupLevel()
+		{
+			return this.groupLevel;
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public Set getKeySet()
+		{
+			return this.bindings.keySet( );
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public String getGroupKey()
+		{
+			return this.groupKey;
+		}
+		
+	}
 }

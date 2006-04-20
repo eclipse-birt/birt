@@ -307,5 +307,14 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	public IScriptExpression getAutoBindingExpr( String exprName )
 	{
 		return this.exprManager.getAutoBindingExpr( exprName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#validateQueryColumBinding()
+	 */
+	public void validateQueryColumBinding( ) throws DataException
+	{
+		ExprManagerUtil.validateColumnBinding( this.exprManager );
 	}	
 }

@@ -262,12 +262,15 @@ public final class ExpressionCompiler
 		Node rowColumn = rowName.getNext( );
 		assert( rowColumn != null );
 		
-		if( refNode.getType() == Token.GETPROP &&
-			rowColumn.getType() == Token.STRING )
-			return new ColumnReferenceExpression(
-					this.isDataSetMode ? STRING_ROW : STRING_DATASETROW,
-					rowColumn.getString());
-		
+		if ( refNode.getType( ) == Token.GETPROP
+				&& rowColumn.getType( ) == Token.STRING )
+		{
+			if ( "_outer".equals( rowColumn.getString( ) ) )
+				return null;
+
+			return new ColumnReferenceExpression( this.isDataSetMode
+					? STRING_ROW : STRING_DATASETROW, rowColumn.getString( ) );
+		}
 		if( refNode.getType() == Token.GETELEM )
 		{
 			if( rowColumn.getType() == Token.NUMBER )

@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.expression;
 
+import java.util.Iterator;
+
+import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.mozilla.javascript.Context;
 
 /**
@@ -28,6 +32,95 @@ public class ExpressionCompilerUtil
 	public static CompiledExpression compile( String expr, Context cx )
 	{
 		return expressionCompiler.compile( expr, null, cx );
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @param exprManager
+	 * @param scope
+	 * @return
+	 */
+	public static boolean hasColumnRow( String name, ExprManager exprManager )
+	{
+		IScriptExpression expr = ( (IScriptExpression) exprManager.getExpr( name ));
+		if( expr == null )
+			return false;
+		
+		String expression = expr.getText( );
+		return compile( expression, exprManager );
+
+	}
+
+	private static boolean compile( String expression, ExprManager exprManager )
+	{
+		Context context = Context.enter( );
+		try
+		{
+			CompiledExpression expr = expressionCompiler.compile( expression,
+					null,
+					context );
+			return flattenExpression( expr, exprManager );
+		}
+		finally
+		{
+			Context.exit( );
+		}
+	}
+
+	/**
+	 * 
+	 * @param expr
+	 */
+	private static boolean flattenExpression( CompiledExpression expr,
+			ExprManager exprManager )
+	{
+		int type = expr.getType( );
+		switch ( type )
+		{
+			case CompiledExpression.TYPE_COMPLEX_EXPR :
+			{
+				Iterator col = ( (ComplexExpression) expr ).getSubExpressions( )
+						.iterator( );
+				while ( col.hasNext( ) )
+				{
+					if ( !flattenExpression( (CompiledExpression) col.next( ),
+							exprManager ) )
+						return false;
+				}
+				break;
+			}
+			case CompiledExpression.TYPE_DIRECT_COL_REF :
+			{
+				String columnName = ( (ColumnReferenceExpression) expr ).getColumnName( );
+				if ( exprManager.getExpr( columnName )!=null )
+				{
+					String expression = ( (IScriptExpression) exprManager.getExpr( columnName ) ).getText( );
+					return compile( expression, exprManager );
+				}
+				else
+				{
+					return false;
+				}
+			}
+			case CompiledExpression.TYPE_SINGLE_AGGREGATE :
+			{
+				Iterator args = ( (AggregateExpression) expr ).getArguments( )
+						.iterator( );
+				while ( args.hasNext( ) )
+				{
+					if ( !flattenExpression( (CompiledExpression) args.next( ),
+							exprManager ) )
+						return false;
+				}
+			}
+			case CompiledExpression.TYPE_CONSTANT_EXPR :
+			case CompiledExpression.TYPE_INVALID_EXPR :
+			{
+				return true;
+			}
+		}
+		return true;
 	}
 
 }

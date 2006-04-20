@@ -188,7 +188,14 @@ final class PreparedQuery
 			}
 			prepareExpressions( exprCol, groupLevel, false, true, cx );
 		}
-		this.exprManager.addBindingExpr( trans.getResultSetExpressions( ), groupLevel );
+		
+		String key = null;
+		if( trans instanceof IGroupDefinition )
+		{
+			IGroupDefinition gd = (IGroupDefinition)trans;
+			key = gd.getKeyColumn( ) != null ? gd.getKeyColumn( ):gd.getKeyExpression( );
+		}
+		this.exprManager.addBindingExpr( key, trans.getResultSetExpressions( ), groupLevel );
 		
 		// Prepare subqueries appearing in this group
 		Collection subQueries = trans.getSubqueries( );
