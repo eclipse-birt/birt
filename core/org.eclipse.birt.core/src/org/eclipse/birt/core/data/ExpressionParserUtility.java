@@ -182,6 +182,7 @@ class ExpressionParserUtility
 		if ( rowName.getType( ) != Token.NAME )
 		{
 			compileComplexExpr( refNode, tree, columnExprList );
+			return;
 		}
 
 		String str = rowName.getString( );
