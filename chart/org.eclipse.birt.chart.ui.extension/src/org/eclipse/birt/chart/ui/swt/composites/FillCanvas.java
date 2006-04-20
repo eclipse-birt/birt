@@ -82,7 +82,15 @@ class FillCanvas extends Canvas implements PaintListener
 							0,
 							this.getSize( ).x,
 							this.getSize( ).y );
-					gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2, 2 ); //$NON-NLS-1$
+					if ( fCurrent == null
+							|| ( (ColorDefinition) fCurrent ).isSetTransparency( ) )
+					{
+						gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2, 2 ); //$NON-NLS-1$
+					}
+					else
+					{
+						gc.drawText( Messages.getString( "FillCanvas.Auto" ), 2, 2 ); //$NON-NLS-1$
+					}
 				}
 				else
 				{
@@ -110,7 +118,15 @@ class FillCanvas extends Canvas implements PaintListener
 							this.getSize( ).y );
 					Color cText = new Color( this.getDisplay( ), 0, 0, 0 );
 					gc.setForeground( cText );
-					gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2, 2 ); //$NON-NLS-1$
+					if ( fCurrent == null
+							|| ( (ColorDefinition) fCurrent ).isSetTransparency( ) )
+					{
+						gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2, 2 ); //$NON-NLS-1$
+					}
+					else
+					{
+						gc.drawText( Messages.getString( "FillCanvas.Auto" ), 2, 2 ); //$NON-NLS-1$
+					}
 					cText.dispose( );
 				}
 				else

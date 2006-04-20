@@ -603,6 +603,10 @@ public class FillChooserComposite extends Composite
 		}
 		else if ( oSource.equals( this.btnAuto ) )
 		{
+			if ( fCurrent == null )
+			{
+				fCurrent = ColorDefinitionImpl.TRANSPARENT( );
+			}
 			if ( fCurrent instanceof ColorDefinition )
 			{
 				ColorDefinition color = (ColorDefinition) fCurrent;
