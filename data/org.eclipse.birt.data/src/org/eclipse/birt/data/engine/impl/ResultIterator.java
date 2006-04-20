@@ -49,32 +49,34 @@ import org.mozilla.javascript.Scriptable;
  */
 public class ResultIterator implements IResultIterator
 {
-	protected org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
-	protected Scriptable scope;
-	
-	protected static final int NOT_STARTED = 0;
-	protected static final int BEFORE_FIRST_ROW = 1;
-	protected static final int ON_ROW = 2;
-	protected static final int AFTER_LAST_ROW = 3;
-	protected static final int CLOSED = -1;
-	
-	protected int state = NOT_STARTED;
-
-	// used in (usesDetails == false)
-	protected boolean useDetails;
-	protected int lowestGroupLevel;
-	private int savedStartingGroupLevel;
-
 	// context of data engine
-	private DataEngineContext context;
-	private RDSaveUtil rdSaveUtil;
+	private DataEngineContext 		context;
+	private RDSaveUtil 				rdSaveUtil;
+	private Scriptable 				scope;
 	
-	private IResultService rService;
+	org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
+	
+	// needed service
+	private IServiceForResultSet 	resultService;
 	
 	// util to findGroup
-	private GroupUtil groupUtil;
+	private GroupUtil 				groupUtil;
 	
-	protected static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
+	// used in (usesDetails == false)
+	private boolean 				useDetails;
+	private int 					lowestGroupLevel;
+	private int 					savedStartingGroupLevel;
+	
+	private int state = NOT_STARTED;
+	
+	private static final int NOT_STARTED = 0;
+	private static final int BEFORE_FIRST_ROW = 1;
+	private static final int ON_ROW = 2;
+	private static final int AFTER_LAST_ROW = 3;
+	private static final int CLOSED = -1;
+	
+	// log instance
+	private static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
 
 	/**
 	 * Constructor for report query (which produces a QueryResults)
@@ -86,7 +88,7 @@ public class ResultIterator implements IResultIterator
 	 * @param scope
 	 * @throws DataException
 	 */
-	ResultIterator( IResultService rService,
+	ResultIterator( IServiceForResultSet rService,
 			org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
 			Scriptable scope ) throws DataException
 	{
@@ -94,7 +96,7 @@ public class ResultIterator implements IResultIterator
 				&& rService.getQueryResults( ) != null && odiResult != null
 				&& scope != null;
 
-		this.rService = rService;
+		this.resultService = rService;
 		this.odiResult = odiResult;
 		this.scope = scope;
 
@@ -158,7 +160,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	public IQueryResults getQueryResults( )
 	{
-		return rService.getQueryResults( );
+		return resultService.getQueryResults( );
 	}
 	
 	/*
@@ -268,8 +270,8 @@ public class ResultIterator implements IResultIterator
 		if ( this.rdSaveUtil == null )
 		{
 			rdSaveUtil = new RDSaveUtil( this.context,
-					this.rService.getQueryDefn( ),
-					this.rService.getQueryResults( ).getID( ),
+					this.resultService.getQueryDefn( ),
+					this.resultService.getQueryResults( ).getID( ),
 					this.odiResult );
 		}
 		
@@ -353,14 +355,14 @@ public class ResultIterator implements IResultIterator
 		checkStarted( );
 		
 		Object exprValue = null;
-		Object exprObject = this.rService.getBaseExpression( exprName );
+		Object exprObject = this.resultService.getBaseExpression( exprName );
 		if ( exprObject != null )
 		{
 			exprValue = this.doGetValue( (IBaseExpression) exprObject );
 		}
 		else
 		{
-			IScriptExpression scriptExpr = this.rService.getAutoBindingExpr( exprName );
+			IScriptExpression scriptExpr = this.resultService.getAutoBindingExpr( exprName );
 			if ( scriptExpr != null )
 				exprValue = ExprEvaluateUtil.evaluateRawExpression( scriptExpr, scope );
 			else
@@ -491,7 +493,7 @@ public class ResultIterator implements IResultIterator
 	{
 		checkStarted( );
 		
-		QueryResults results = rService.execSubquery( odiResult,
+		QueryResults results = resultService.execSubquery( odiResult,
 				subQueryName,
 				subScope );
 		logger.logp( Level.FINE,
@@ -539,7 +541,7 @@ public class ResultIterator implements IResultIterator
 				odiResult.close( );
 
 		odiResult = null;
-		rService = null;
+		resultService = null;
 		state = CLOSED;
 		logger.logp( Level.FINE,
 				ResultIterator.class.getName( ),
@@ -563,7 +565,7 @@ public class ResultIterator implements IResultIterator
 	public boolean findGroup( Object[] groupKeyValues ) throws BirtException
 	{
 		if ( groupUtil == null )
-			groupUtil = new GroupUtil( this.rService.getQueryDefn( ), this );
+			groupUtil = new GroupUtil( this.resultService.getQueryDefn( ), this );
 		return groupUtil.findGroup( groupKeyValues );
 	}
 
@@ -898,7 +900,7 @@ public class ResultIterator implements IResultIterator
 
 			// init RDSave util of sub query
 			resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
-					resultIt.rService.getQueryDefn( ),
+					resultIt.resultService.getQueryDefn( ),
 					resultIt.getQueryResults( ).getID( ),
 					resultIt.odiResult,
 					subQueryName,

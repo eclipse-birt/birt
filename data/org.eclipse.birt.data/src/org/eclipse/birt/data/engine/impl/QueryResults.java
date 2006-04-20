@@ -52,7 +52,7 @@ class QueryResults implements IQueryResults
 	private String 						queryResultID;
 
 	// query service instance
-	private IQueryService 				queryService;
+	private IServiceForQueryResults 	queryService;
 	private ResultIterator				iterator;
 		
 	private static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
@@ -62,7 +62,7 @@ class QueryResults implements IQueryResults
 	 * @param queryScope
 	 * @param nestedLevel
 	 */
-	QueryResults( IQueryService queryService, Scriptable queryScope,
+	QueryResults( IServiceForQueryResults queryService, Scriptable queryScope,
 			int nestedLevel )
 	{
 		assert queryService != null;
@@ -291,7 +291,7 @@ class QueryResults implements IQueryResults
 	/**
 	 * 
 	 */
-	private static class ResultService implements IResultService
+	private static class ResultService implements IServiceForResultSet
 	{
 		/** */
 		private DataEngineContext context;
