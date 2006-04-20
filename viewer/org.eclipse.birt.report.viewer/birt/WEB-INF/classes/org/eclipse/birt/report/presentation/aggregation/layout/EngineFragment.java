@@ -97,7 +97,7 @@ public class EngineFragment extends BaseFragment
 			}
 			else
 			{
-				ReportEngineService.getInstance( ).runAndRenderReport( request, attrBean.getReportRunnable( ), out,
+				ReportEngineService.getInstance( ).runAndRenderReport( request, attrBean.getReportBaseRunnable( ), out,
 						ParameterAccessor.getFormat( request ), attrBean.getLocale( ), attrBean.getParameters( ),
 						attrBean.isMasterPageContent( ), ParameterAccessor.getSVGFlag( request ) );
 			}

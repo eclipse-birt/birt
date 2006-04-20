@@ -59,6 +59,12 @@ public class ViewerAttributeBean
 	private IReportRunnable reportRunnable = null;
 
 	/**
+	 * the report runnable created by the report design file but not the one
+	 * cached in the documetn.
+	 */
+	private IReportRunnable reportBaseRunnable = null;
+
+	/**
 	 * Report document.
 	 */
 	private IReportDocument reportDocumentInstance = null;
@@ -238,6 +244,17 @@ public class ViewerAttributeBean
 		this.parameters = ReportEngineService.getInstance( ).parseParameters(
 				request, this.parameterTask,
 				this.reportRunnable.getTestConfig( ), this.locale );
+
+		try
+		{
+			reportBaseRunnable = ReportEngineService.getInstance( )
+					.openReportDesign( ParameterAccessor.getReport( request ) );
+		}
+		catch ( EngineException e )
+		{
+			this.exception = e;
+			return;
+		}
 	}
 
 	/**
@@ -286,6 +303,17 @@ public class ViewerAttributeBean
 	public IReportRunnable getReportRunnable( )
 	{
 		return reportRunnable;
+	}
+
+	/**
+	 * return the report runable which is always created by the latest report
+	 * design file but not the one cached by the document.
+	 * 
+	 * @return the report runnable
+	 */
+	public IReportRunnable getReportBaseRunnable( )
+	{
+		return reportBaseRunnable;
 	}
 
 	/**
@@ -455,10 +483,10 @@ public class ViewerAttributeBean
 	 * @return Returns the missingParameter.
 	 */
 	public boolean isMissingParameter( )
-	{ 	
+	{
 		Map values = null;
 		if ( reportDocumentInstance != null )
-			values = reportDocumentInstance.getParameterValues( );		
+			values = reportDocumentInstance.getParameterValues( );
 		else
 			values = this.parameters;
 		return ReportEngineService.getInstance( ).validateParameters(
