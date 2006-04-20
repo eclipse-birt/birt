@@ -11,13 +11,19 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileContentProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileLabelProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -35,6 +41,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -114,9 +121,10 @@ public class ImageBuilder extends BaseDialog
 
 	private int selectedType = -1;
 
-	private java.util.List dataSetList = new ArrayList();
+	private java.util.List dataSetList = new ArrayList( );
 
-	private java.util.List inputDataSetList =  new ArrayList();
+	private java.util.List inputDataSetList = new ArrayList( );
+
 	/**
 	 * The constructor.
 	 * 
@@ -137,7 +145,7 @@ public class ImageBuilder extends BaseDialog
 	{
 		super( parentShell, title, false );
 		this.inputDataSetList = dataSetList;
-		this.dataSetList = new ArrayList(inputDataSetList);
+		this.dataSetList = new ArrayList( inputDataSetList );
 	}
 
 	private ModuleHandle getModuleHandle( )
@@ -299,10 +307,19 @@ public class ImageBuilder extends BaseDialog
 		}
 		else
 		{
-			innerComp.setLayout( new GridLayout( 2, false ) );
+			innerComp.setLayout( new GridLayout( 3, false ) );
 			title.setText( DLG_ENTER_URI_LABEL );
-		}
+			Button inputButton = new Button( innerComp, SWT.PUSH );
+			inputButton.setText( Messages.getString( "ImageBuilder.ButtonBrowser" ) ); //$NON-NLS-1$
+			inputButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+			inputButton.addSelectionListener( new SelectionAdapter( ) {
 
+				public void widgetSelected( SelectionEvent event )
+				{
+					openResourceBrowser( );
+				}
+			} );
+		}
 		Button inputButton = new Button( innerComp, SWT.PUSH );
 		inputButton.setText( Messages.getString( "ImageBuilder.Label.Open" ) ); //$NON-NLS-1$
 		inputButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
@@ -350,6 +367,36 @@ public class ImageBuilder extends BaseDialog
 		initURIEditor( );
 	}
 
+	protected void openResourceBrowser( )
+	{
+		// SelectResourceDialog dialog = new SelectResourceDialog( false );
+		// if ( dialog.open( ) == Window.OK )
+		// {
+		// uriEditor.setText( dialog.getPath( ) );
+		// }
+
+		ResourceFileLabelProvider labelProvider = new ResourceFileLabelProvider( );
+		ResourceFileContentProvider contentProvider = new ResourceFileContentProvider( new String[]{
+			".jpg" //$NON-NLS-1$
+		} );
+		ResourceSelectionValidator validator = new ResourceSelectionValidator( new String[]{
+			".jpg" //$NON-NLS-1$
+		} );
+
+		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( UIUtil.getDefaultShell( ),
+				labelProvider,
+				contentProvider );
+		dialog.setTitle( Messages.getString( "ImageBuilder.BrowserResourceDialog.Title" ) ); //$NON-NLS-1$
+		dialog.setMessage( Messages.getString( "ImageBuilder.BrowserResourceDialog.Message" ) ); //$NON-NLS-1$
+		dialog.setValidator( validator );
+		dialog.setInput( ReportPlugin.getDefault( ).getResourcePreference( ) );
+
+		if ( dialog.open( ) == Window.OK )
+		{
+			uriEditor.setText( dialog.getPath( ) );
+		}
+	}
+
 	/**
 	 * @param value
 	 * @return
@@ -357,7 +404,8 @@ public class ImageBuilder extends BaseDialog
 	private String removeQuoteString( String value )
 	{
 		if ( value != null
-				&& value.length( ) > 1 && value.charAt( 0 ) == '\"'
+				&& value.length( ) > 1
+				&& value.charAt( 0 ) == '\"'
 				&& value.charAt( value.length( ) - 1 ) == '\"' )
 		{
 			return value.substring( 1, value.length( ) - 1 );
@@ -368,7 +416,10 @@ public class ImageBuilder extends BaseDialog
 	private void swtichToEmbeddedType( )
 	{
 		embeddedImageList = new List( inputArea, SWT.NONE
-				| SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL );
+				| SWT.SINGLE
+				| SWT.BORDER
+				| SWT.V_SCROLL
+				| SWT.H_SCROLL );
 		embeddedImageList.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		embeddedImageList.addSelectionListener( new SelectionAdapter( ) {
 
@@ -393,7 +444,7 @@ public class ImageBuilder extends BaseDialog
 				FileDialog fileChooser = new FileDialog( getShell( ), SWT.OPEN );
 				fileChooser.setText( Messages.getString( "ImageBuilder.Chooser.Title" ) ); //$NON-NLS-1$
 				fileChooser.setFilterExtensions( new String[]{
-						"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+					"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 				} );
 				try
 				{
@@ -686,7 +737,7 @@ public class ImageBuilder extends BaseDialog
 		// dataSetList.add( inputImage.getDataSet( ) );
 
 		unionDataSets( );
-		ExpressionProvider provider = new ExpressionProvider( inputImage );
+		ExpressionProvider provider = new BindingExpressionProvider( inputImage );
 		expressionBuilder.setExpressionProvier( provider );
 		// }
 		if ( expressionBuilder.open( ) == OK )
@@ -705,9 +756,7 @@ public class ImageBuilder extends BaseDialog
 				.getDisplay( )
 				.getActiveShell( ),
 				handle );
-		
-		
-		
+
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			stack.commit( );
@@ -720,7 +769,7 @@ public class ImageBuilder extends BaseDialog
 
 	private java.util.List unionDataSets( )
 	{
-		dataSetList = new ArrayList(inputDataSetList);
+		dataSetList = new ArrayList( inputDataSetList );
 		if ( inputImage == null || inputImage.getDataSet( ) == null )
 		{
 			return dataSetList;

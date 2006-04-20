@@ -38,6 +38,8 @@ import org.eclipse.ui.IPathEditorInput;
  * Implement of ILibraryProvider Return libraries defined in preference and
  * libraries in the same folder(and sub folders) with the report file.
  * Used in when editor input is no workspace resource.
+ * 
+ * @deprecated
  */
 
 public class LibraryProvider implements ILibraryProvider

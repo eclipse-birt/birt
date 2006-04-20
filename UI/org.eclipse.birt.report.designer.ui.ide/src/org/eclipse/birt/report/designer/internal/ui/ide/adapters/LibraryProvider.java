@@ -37,6 +37,8 @@ import org.eclipse.ui.IFileEditorInput;
 /**
  * Implement of ILibraryProvider Return libraries defined in preference and
  * libraries in the same project with the report file.
+ * 
+ * @deprecated
  */
 
 public class LibraryProvider implements ILibraryProvider

@@ -5,8 +5,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.La
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TextFigure;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -36,7 +36,7 @@ public class TextDataEditPart extends LabelEditPart
 				.getActiveShell( ),
 				handle.getValueExpr( ) );
 
-		dialog.setExpressionProvier( new ExpressionProvider( handle ) );
+		dialog.setExpressionProvier( new BindingExpressionProvider( handle ) );
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			try

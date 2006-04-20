@@ -11,14 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -29,16 +22,7 @@ import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.PageBookView;
 
 /**
- * Attribute view shows the attributes of the selected control. If no control is
- * selected, it will show no attributes and a sentence describing there is
- * nothing to show for the selected object.
- * </p>
- * Multi-selection of control of the same type will normally show the same UI as
- * if only one control was selected. Some of the values may be gray or blank if
- * the selected controls have different attributes. If the controls have
- * different type, nothing will be shown in the attributes view.
- * </P>
- * 
+ * LibraryExplorerView display all library files in BIRT resource folder.
  * 
  */
 public class LibraryExplorerView extends PageBookView
@@ -51,7 +35,9 @@ public class LibraryExplorerView extends PageBookView
 
 	private String defaultText = Messages.getString( "LibraryExplorerView.defaultText.notAvailable" ); //$NON-NLS-1$
 
-	private Map pageMap = new HashMap( );
+//	private Map pageMap = new HashMap( );
+
+	private LibraryExplorerTreeViewPage treeViewPage;
 
 	/**
 	 * default constructor
@@ -60,6 +46,7 @@ public class LibraryExplorerView extends PageBookView
 	{
 		super( );
 	}
+
 
 	/**
 	 * Creates and returns the default page for this view.
@@ -89,46 +76,53 @@ public class LibraryExplorerView extends PageBookView
 	 */
 	protected PageRec doCreatePage( IWorkbenchPart part )
 	{
-//		if ( part instanceof AbstractMultiPageEditor )
-//		{
-			IEditorPart editor = UIUtil.getActiveEditor( true );
-			if ( editor != null )
-			{
-				Object fileAdapter = editor.getEditorInput( )
-						.getAdapter( IFile.class );
-				LibraryExplorerTreeViewPage page = getPage( fileAdapter, editor );
-				initPage( page );
-				page.createControl( getPageBook( ) );
-				return new PageRec( part, page );
-			}
-//		}
-		return null;
+		// // if ( part instanceof AbstractMultiPageEditor )
+		// // {
+		// IEditorPart editor = UIUtil.getActiveEditor( true );
+		// if ( editor != null )
+		// {
+		// Object fileAdapter = editor.getEditorInput( )
+		// .getAdapter( IFile.class );
+		// LibraryExplorerTreeViewPage page = getPage( fileAdapter, editor );
+		// initPage( page );
+		// page.createControl( getPageBook( ) );
+		// return new PageRec( part, page );
+		// }
+		// // }
+		// return null;
+		if ( treeViewPage == null )
+		{
+			treeViewPage = new LibraryExplorerTreeViewPage( );
+			initPage( treeViewPage );
+			treeViewPage.createControl( getPageBook( ) );
+		}
+		return new PageRec( part, treeViewPage );
 	}
 
-	private LibraryExplorerTreeViewPage getPage( Object fileAdapter,
-			IEditorPart editor )
-	{
-		LibraryExplorerTreeViewPage page;
-		if ( fileAdapter != null
-				&& pageMap.containsKey( ( (IFile) fileAdapter ).getProject( ) ) )
-		{
-			page = (LibraryExplorerTreeViewPage) pageMap.get( ( (IFile) fileAdapter ).getProject( ) );
-		}
-		else
-		{
-			page = new LibraryExplorerTreeViewPage( );
-			ILibraryProvider provider = (ILibraryProvider) editor.getAdapter( ILibraryProvider.class );
-			if ( provider != null )
-			{
-				page.setLibraryProvider( provider );
-				if ( fileAdapter != null )
-				{
-					pageMap.put( ( (IFile) fileAdapter ).getProject( ), page );
-				}
-			}
-		}
-		return page;
-	}
+//	private LibraryExplorerTreeViewPage getPage( Object fileAdapter,
+//			IEditorPart editor )
+//	{
+//		LibraryExplorerTreeViewPage page;
+//		if ( fileAdapter != null
+//				&& pageMap.containsKey( ( (IFile) fileAdapter ).getProject( ) ) )
+//		{
+//			page = (LibraryExplorerTreeViewPage) pageMap.get( ( (IFile) fileAdapter ).getProject( ) );
+//		}
+//		else
+//		{
+//			page = new LibraryExplorerTreeViewPage( );
+//			ILibraryProvider provider = (ILibraryProvider) editor.getAdapter( ILibraryProvider.class );
+//			if ( provider != null )
+//			{
+//				page.setLibraryProvider( provider );
+//				if ( fileAdapter != null )
+//				{
+//					pageMap.put( ( (IFile) fileAdapter ).getProject( ), page );
+//				}
+//			}
+//		}
+//		return page;
+//	}
 
 	/**
 	 * Destroys a page in the pagebook for a particular part. This page was

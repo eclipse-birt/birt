@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
+import java.io.File;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.jface.action.Action;
@@ -42,9 +45,9 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 	{
 		LibraryHandle library = getSelectedLibrary( );
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-		.getReportDesignHandle( );
+				.getReportDesignHandle( );
 
-		if ( library != null  && moduleHandle!=null)
+		if ( library != null && moduleHandle != null )
 		{
 			return !moduleHandle.isInclude( library );
 		}
@@ -71,9 +74,19 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
 		if ( selection != null )
 		{
-			if ( selection.getFirstElement( ) instanceof LibraryHandle )
+			if ( selection.getFirstElement( ) instanceof File )
 			{
-				return (LibraryHandle) selection.getFirstElement( );
+				File file = (File) selection.getFirstElement( );
+				try
+				{
+					return SessionHandleAdapter.getInstance( )
+							.getSessionHandle( )
+							.openLibrary( file.getAbsolutePath( ) );
+				}
+				catch ( DesignFileException e )
+				{
+					return null;
+				}
 			}
 		}
 		return null;

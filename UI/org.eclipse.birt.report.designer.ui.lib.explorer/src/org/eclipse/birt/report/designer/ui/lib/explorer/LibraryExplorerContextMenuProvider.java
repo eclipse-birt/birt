@@ -11,17 +11,15 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
+import java.io.File;
+
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.ContextMenuProvider;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddLibraryAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddSelectedLibToCurrentReportDesignAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
-import org.eclipse.birt.report.designer.ui.lib.explorer.action.RemoveLibraryAction;
-import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -35,6 +33,10 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 {
 
+	private RefreshLibExplorerAction refreshExplorerAction;
+	private AddLibraryAction addLibraryAction;
+	private AddSelectedLibToCurrentReportDesignAction useLibraryAction;
+
 	/**
 	 * constructor
 	 * 
@@ -43,9 +45,12 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	 * @param registry
 	 *            the registry
 	 */
-	public LibraryExplorerContextMenuProvider( ISelectionProvider viewer )
+	public LibraryExplorerContextMenuProvider( TreeViewer viewer )
 	{
 		super( viewer );
+		refreshExplorerAction = new RefreshLibExplorerAction( viewer );
+		addLibraryAction = new AddLibraryAction( viewer );
+		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( viewer );
 	}
 
 	/**
@@ -58,63 +63,44 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	 */
 	public void buildContextMenu( IMenuManager menu )
 	{
-		TreeViewer treeViewer = (TreeViewer) getViewer( );
-
 		if ( Policy.TRACING_MENU_SHOW )
 		{
 			System.out.println( "Menu(for Views) >> Shows for library" ); //$NON-NLS-1$
 		}
 
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
-		
-		ISelectionProvider struViewer = (ISelectionProvider) getViewer( );
-		IStructuredSelection selection = (IStructuredSelection) struViewer.getSelection( );
-		LibraryHandle library = getSelectedLibrary( );
-		if ( selection == null || selection.getFirstElement( ) == null )
-		{
-			IAction refreshAction = new RefreshLibExplorerAction( treeViewer );
-			if ( refreshAction.isEnabled( ) )
-			{
-				menu.add( refreshAction );
-			}
 
-			IAction addLibraryAction = new AddLibraryAction( );
-			menu.add( addLibraryAction );
-
-		} // else if something is selected, but not library
-		else if ( library != null )
+		IStructuredSelection selection = (IStructuredSelection) getViewer( ).getSelection( );
+		if ( selection != null && selection.getFirstElement( ) != null )
 		{
-			IAction addAction = new AddSelectedLibToCurrentReportDesignAction( treeViewer );
-			if ( addAction.isEnabled( ) )
-			{
-				menu.add( addAction );
-			}
-			IAction removeLibraryAction = new RemoveLibraryAction( treeViewer );
-			if ( removeLibraryAction.isEnabled( ) )
-			{
-				menu.add( removeLibraryAction );
-			}
+			Object selected = selection.getFirstElement( );
+
+			refreshExplorerAction.setSelectedElement( selected );
+			menu.add( refreshExplorerAction );
 			menu.add( new Separator( ) );
-			IAction refreshAction = new RefreshLibExplorerAction( treeViewer );
-			if ( refreshAction.isEnabled( ) )
+
+			if ( selected instanceof File )
 			{
-				menu.add( refreshAction );
+				if ( ( (File) selected ).isDirectory( ) )
+				{
+					addLibraryAction.setFolder( (File) selected );
+					menu.add( addLibraryAction );
+				}
+				else
+				{
+					addLibraryAction.setFolder( ( (File) selected ).getParentFile( ) );
+					menu.add( addLibraryAction );
+					if ( useLibraryAction.isEnabled( ) )
+					{
+						menu.add( useLibraryAction );
+					}
+				}
 			}
 		}
-	}
-
-	private LibraryHandle getSelectedLibrary( )
-	{
-
-		ISelectionProvider struViewer = (ISelectionProvider) getViewer( );
-		IStructuredSelection selection = (IStructuredSelection) struViewer.getSelection( );
-		if ( selection != null )
+		else
 		{
-			if ( selection.getFirstElement( ) instanceof LibraryHandle )
-			{
-				return (LibraryHandle) selection.getFirstElement( );
-			}
+			refreshExplorerAction.setSelectedElement( null );
+			menu.add( refreshExplorerAction );
 		}
-		return null;
 	}
 }

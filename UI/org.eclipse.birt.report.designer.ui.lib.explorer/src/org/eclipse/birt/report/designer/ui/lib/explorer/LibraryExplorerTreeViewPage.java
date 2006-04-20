@@ -11,12 +11,13 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
+import java.io.File;
+
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -41,9 +42,10 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -64,7 +66,12 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	// private static final String LABEL_DOUBLE_CLICK = Messages.getString(
 	// "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
+
+	/**
+	 * @deprecated
+	 */
 	private ILibraryProvider libraryProvider;
+
 	private IEclipsePreferences reportPreferenceNode;
 	private TreeViewer treeViewer;
 
@@ -90,28 +97,12 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	protected void configTreeViewer( )
 	{
 
-		ViewsTreeProvider provider = new ViewsTreeProvider( ) {
+		ViewsTreeProvider provider = new LibraryExplorerProvider( );
 
-			public Image getImage( Object element )
-			{
-				if ( element instanceof LibraryHandle )
-				{
-					Image image = libraryProvider.getDisplayIcon( (LibraryHandle) element );
-					if ( image == null )
-					{
-						image = ReportPlatformUIImages.getImage( element );
-					}
-					return image;
-				}
-				return super.getImage( element );
-			}
-		};
 		treeViewer.setContentProvider( provider );
 		treeViewer.setLabelProvider( provider );
 
 		refreshRoot( );
-
-		// add inline renaming support
 
 		// Adds drag and drop support
 		int ops = DND.DROP_COPY;
@@ -122,6 +113,21 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 				transfers,
 				new LibraryDragListener( treeViewer ) );
 
+		treeViewer.getControl( ).addKeyListener( new KeyListener( ) {
+
+			public void keyPressed( KeyEvent e )
+			{
+
+			}
+
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.keyCode == SWT.F5 )
+				{
+					treeViewer.refresh( );
+				}
+			}
+		} );
 	}
 
 	/**
@@ -176,7 +182,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		Menu menu = menuManager.createContextMenu( treeViewer.getControl( ) );
 
-		treeViewer.getControl( ).setMenu( menu );				
+		treeViewer.getControl( ).setMenu( menu );
 		getSite( ).registerContextMenu( "#Pop up", menuManager, //$NON-NLS-1$
 				getSite( ).getSelectionProvider( ) );
 	}
@@ -192,12 +198,12 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 					|| object instanceof ParameterGroupHandle
 					|| object instanceof EmbeddedImageHandle )
 			{
-				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDrapOutline" );
+				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDrapOutline" ); //$NON-NLS-1$
 			}
 			else if ( object instanceof ReportItemHandle
 					|| object instanceof ThemeHandle )
 			{
-				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDrapLayout" );
+				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDrapLayout" ); //$NON-NLS-1$
 			}
 			if ( object instanceof LibraryHandle )
 			{
@@ -213,7 +219,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * already been disposed). Disposes the visitor of the element
 	 */
 	public void dispose( )
-	{		
+	{
 		if ( reportPreferenceNode != null )
 			reportPreferenceNode.removePreferenceChangeListener( this );
 
@@ -240,9 +246,13 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	private void refreshRoot( )
 	{
-		treeViewer.setInput( libraryProvider.getLibraries( ) );
+		treeViewer.setInput( new File( ReportPlugin.getDefault( )
+				.getResourcePreference( ) ) );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void setLibraryProvider( ILibraryProvider provider )
 	{
 		this.libraryProvider = provider;
@@ -250,7 +260,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	public void preferenceChange( PreferenceChangeEvent event )
 	{
-		if ( ReportPlugin.LIBRARY_PREFERENCE.equals( event.getKey( ) ) )
+		if ( ReportPlugin.RESOURCE_PREFERENCE.equals( event.getKey( ) ) )
 			Display.getDefault( ).asyncExec( new Runnable( ) {
 
 				public void run( )
