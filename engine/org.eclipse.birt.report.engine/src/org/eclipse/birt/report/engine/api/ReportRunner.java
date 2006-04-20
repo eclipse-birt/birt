@@ -40,7 +40,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.19 $ $Date: 2006/03/23 04:44:55 $
+ * @version $Revision: 1.20 $ $Date: 2006/03/26 09:15:05 $
  */
 public class ReportRunner
 {
@@ -376,7 +376,7 @@ public class ReportRunner
 		System.out.println( "\t we should add it in the end<design file>" ); //$NON-NLS-1$
 		System.out.println( "\t --format/-f [ HTML | PDF ]" ); //$NON-NLS-1$
 		System.out.println( "\t --output/-o <target file>" ); //$NON-NLS-1$
-		System.out.println( "\t --htmltype/-t < HTML | ReportletNoCSS >" ); //$NON-NLS-1$
+		System.out.println( "\t --type/-t < HTML | ReportletNoCSS >" ); //$NON-NLS-1$
 		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$
 		System.out.println( "\t --parameter/-p <parameterName=parameterValue>" ); //$NON-NLS-1$
 		System.out.println( "\t --file/-F <parameter file>" ); //$NON-NLS-1$
