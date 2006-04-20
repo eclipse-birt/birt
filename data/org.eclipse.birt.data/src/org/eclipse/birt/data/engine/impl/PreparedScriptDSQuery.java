@@ -153,6 +153,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 							null /* nativeTypeName */, 
 							true );
 					columnsList.add( columnMetaData );
+					columnMetaData.setAlias( columnDefn.getAlias( ) );
 				}
 			}
 			
