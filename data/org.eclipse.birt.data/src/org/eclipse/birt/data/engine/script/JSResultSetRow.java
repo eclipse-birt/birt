@@ -37,30 +37,35 @@ import org.mozilla.javascript.ScriptableObject;
  */
 public class JSResultSetRow extends ScriptableObject
 {
-	private ExprManager exprManager;
 	private IResultIterator odiResult;
+	private ExprManager exprManager;	
+	private Scriptable scope;
+	private IExecutorHelper helper;
 	
 	private int currRowIndex;
 	private Map valueCacheMap;
-	private IExecutorHelper helper;
-	private Scriptable scope;
 	
 	/** */
 	private static final long serialVersionUID = 649424371394281464L;
 
 	/**
-	 * @param dataSet
+	 * @param odiResult
+	 * @param exprManager
+	 * @param scope
+	 * @param helper
 	 */
-	public JSResultSetRow( IExecutorHelper helper )
+	public JSResultSetRow( IResultIterator odiResult, ExprManager exprManager,
+			Scriptable scope, IExecutorHelper helper )
 	{
-		this.exprManager = helper.getExprManager( );
-		this.odiResult = helper.getOdiResult( );
+		this.odiResult = odiResult;
+		this.exprManager = exprManager;
+		this.scope = scope;
+		this.helper = helper;
+		
 		this.currRowIndex = -1;
 		this.valueCacheMap = new HashMap( );
-		this.scope = helper.getScope( );
-		this.helper = helper;
 	}
-
+	
 	/*
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
@@ -146,7 +151,7 @@ public class JSResultSetRow extends ScriptableObject
 		if( "_outer".equalsIgnoreCase( name ))
 		{
 			if( this.helper.getParent( )!= null)
-				return new JSResultSetRow( this.helper.getParent( ) );
+				return helper.getParent( ).getJSRowObject( );
 			else
 				return null;
 		}

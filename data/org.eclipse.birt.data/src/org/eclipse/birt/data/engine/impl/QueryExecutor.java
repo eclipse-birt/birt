@@ -85,7 +85,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	protected 	IQuery					odiQuery;
 	
 	/** Outer query's results; null if this query is not nested */
-	protected	QueryResults			outerResults;	
+	protected	IQueryService			outerResults;	
 	private 	IResultIterator			odiResult;
 	private 	IExecutorHelper			parentHelper;
 	
@@ -178,14 +178,14 @@ public abstract class QueryExecutor implements IQueryExecutor
 
 		if ( outerRts != null )
 		{
-			outerResults = ((QueryResults) outerRts );
+			outerResults = ( (IQueryService) outerRts );
 			if ( outerResults.isClosed( ) )
 			{
 				// Outer result is closed; invalid
 				throw new DataException( ResourceConstants.RESULT_CLOSED );
 			}
 			this.nestedLevel = outerResults.getNestedLevel( );
-			this.setParentExecutorHelper(((ResultIterator)outerResults.getResultIterator( )).odiResult.getExecutorHelper( ));
+			this.setParentExecutorHelper(outerResults.getExecutorHelper( ));
 		}
 		
 		// Create the data set runtime
@@ -537,13 +537,15 @@ public abstract class QueryExecutor implements IQueryExecutor
 		if(this.isExecuted)
 			return;
 
-		IExecutorHelper helper = new ExecutorHelper( this.odiResult, this.queryScope );
+		ExecutorHelper helper = new ExecutorHelper( this.queryScope );
 		helper.setParent( this.parentHelper );
 		eventHandler.setExecutorHelper( helper );
 		
 		// Execute the query
 		odiResult = executeOdiQuery( eventHandler );
 		//helper.setResultIterator( odiResult );
+		
+		helper.setJSRowObject( this.dataSet.getJSResultRowObject( ) );
 		
 		resetComputedColumns();
 		// Bind the row object to the odi result set

@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.impl;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
-import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -22,66 +21,21 @@ import org.mozilla.javascript.Scriptable;
 public class ExecutorHelper implements IExecutorHelper
 {
 	//
+	private Scriptable scope;	
+	private Scriptable jsRowObject;
+
+	//
 	private IExecutorHelper parent;
-	private IResultIterator odiResult;
-	private Scriptable scope;
-	private ExprManager exprManager;
 	
-	public ExecutorHelper( IResultIterator it, Scriptable scope )
+	/**
+	 * @param scope
+	 */
+	public ExecutorHelper( Scriptable scope )
 	{
-		this.odiResult = it;
 		this.scope = scope;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#evaluate(org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public Object evaluate( IBaseExpression expr ) throws BirtException
-	{
-		return ExprEvaluateUtil.evaluateRawExpression2( expr, scope);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#setParent(org.eclipse.birt.data.engine.impl.IExecutorHelper)
-	 */
-	public void setParent( IExecutorHelper parent )
-	{
-		this.parent = parent;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getParent()
-	 */
-	public IExecutorHelper getParent( )
-	{
-		return this.parent;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#setResultIterator(org.eclipse.birt.data.engine.odi.IResultIterator)
-	 */
-	public void setResultIterator( IResultIterator it )
-	{
-		this.odiResult = it;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#setExprManager(org.eclipse.birt.data.engine.impl.ExprManager)
-	 */
-	public void setExprManager( ExprManager expr )
-	{
-		this.exprManager = expr;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getExprManager()
-	 */
-	public ExprManager getExprManager( )
-	{
-		return this.exprManager;
-	}
-	
-	/* (non-Javadoc)
+	/*
 	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getScope()
 	 */
 	public Scriptable getScope()
@@ -89,11 +43,44 @@ public class ExecutorHelper implements IExecutorHelper
 		return this.scope;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getOdiResult()
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getParent()
 	 */
-	public IResultIterator getOdiResult()
+	public IExecutorHelper getParent( )
 	{
-		return this.odiResult;
+		return this.parent;
 	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getJSRowObject()
+	 */
+	public Scriptable getJSRowObject( )
+	{
+		return jsRowObject;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#evaluate(org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public Object evaluate( IBaseExpression expr ) throws BirtException
+	{
+		return ExprEvaluateUtil.evaluateRawExpression2( expr, scope);
+	}
+	
+	/**
+	 * @param parent
+	 */
+	public void setParent( IExecutorHelper parent )
+	{
+		this.parent = parent;
+	}
+	
+	/**
+	 * @param jsRowObject
+	 */
+	public void setJSRowObject( Scriptable jsRowObject )
+	{
+		this.jsRowObject = jsRowObject;		
+	}
+	
 }

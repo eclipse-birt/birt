@@ -350,7 +350,7 @@ final class PreparedQuery
 		executor.prepareExecution( outerResults, scope );
 		logger.finer( "Finish preparing the execution." );
 		
-	    return new QueryResults( new QueryService( this.dataEngineContext,
+	    return new QueryResults( new ServiceForQueryResults( this.dataEngineContext,
 				dataSourceQuery,
 				queryService,
 				executor,

@@ -42,7 +42,7 @@ import org.mozilla.javascript.Scriptable;
  * Beyond Release 1, this would include methods to save and restore
  * results in a persisted Report Document.
  */
-class QueryResults implements IQueryResults
+class QueryResults implements IQueryResults, IQueryService
 {
 	// context of data engine
 	private DataEngineContext 			context;
@@ -233,19 +233,15 @@ class QueryResults implements IQueryResults
 	}
 	
 	/**
-	 * @return
+	 * Set current queryresult ID for sub query. Sub query result ID can not be
+	 * generated independently, and it is needs to be attached with its parent
+	 * query.
+	 * 
+	 * @param queryResultID
 	 */
-	boolean isClosed( )
+	void setID( String queryResultID )
 	{
-		return queryService == null;
-	}
-
-	/**
-	 * @return
-	 */
-	Scriptable getQueryScope( )
-	{
-		return this.queryScope;
+		this.queryResultID = queryResultID;
 	}
 	
 	/**
@@ -259,33 +255,44 @@ class QueryResults implements IQueryResults
 		return queryService.getGroupLevel( );
 	}
 	
-	/**
-	 * @return
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryService#isClosed()
 	 */
-	int getNestedLevel( )
+	public boolean isClosed( )
+	{
+		return queryService == null;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getNestedLevel()
+	 */
+	public int getNestedLevel( )
 	{
 		return this.nestedLevel;
 	}
-	
-	/**
-	 * @param count
-	 * @return
+
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getQueryScope()
 	 */
-	DataSetRuntime[] getDataSetRuntime( int count )
+	public Scriptable getQueryScope( )
 	{
-		return this.queryService.getDataSetRuntimes( count );
+		return this.queryScope;
 	}
 	
-	/**
-	 * Set current queryresult ID for sub query. Sub query result ID can not be
-	 * generated independently, and it is needs to be attached with its parent
-	 * query.
-	 * 
-	 * @param queryResultID
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getExecutorHelper()
 	 */
-	void setID( String queryResultID )
+	public IExecutorHelper getExecutorHelper( ) throws DataException
 	{
-		this.queryResultID = queryResultID;
+		return ( (ResultIterator) this.getResultIterator( ) ).odiResult.getExecutorHelper( );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getDataSetRuntime(int)
+	 */
+	public DataSetRuntime[] getDataSetRuntime( int count )
+	{
+		return this.queryService.getDataSetRuntimes( count );
 	}
 
 	/**

@@ -1,0 +1,84 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.birt.data.engine.script;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
+import org.eclipse.birt.data.engine.impl.ExprManager;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+
+/**
+ * 
+ */
+public class JSDummyRowObject extends ScriptableObject
+{
+	private ExprManager exprManager;
+	private Scriptable scope;
+
+	private Map valueCacheMap;
+
+	/** */
+	private static final long serialVersionUID = -7841512175200620757L;
+
+	/**
+	 * @param exprManager
+	 * @param scope
+	 */
+	public JSDummyRowObject( ExprManager exprManager, Scriptable scope )
+	{
+		this.exprManager = exprManager;
+		this.scope = scope;
+		
+		this.valueCacheMap = new HashMap( );
+	}
+
+	/*
+	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
+	 */
+	public String getClassName( )
+	{
+		return "row";
+	}
+
+	/*
+	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
+	 *      org.mozilla.javascript.Scriptable)
+	 */
+	public Object get( String name, Scriptable start )
+	{
+		if ( valueCacheMap.containsKey( name ) )
+			return valueCacheMap.get( name );
+
+		IBaseExpression baseExpr = exprManager.getExpr( name );
+
+		try
+		{
+			Object value = ExprEvaluateUtil.evaluateRawExpression( baseExpr,
+					scope );
+			Object obValue = JavascriptEvalUtil.convertToJavascriptValue( value,
+					scope );
+			valueCacheMap.put( name, obValue );
+
+			return obValue;
+		}
+		catch ( BirtException e )
+		{
+			return null;
+		}
+	}
+	
+}

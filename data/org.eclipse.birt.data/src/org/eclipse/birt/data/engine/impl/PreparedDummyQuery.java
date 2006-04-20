@@ -21,7 +21,6 @@ import java.util.Date;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -38,9 +37,9 @@ import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.RDSave;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
+import org.eclipse.birt.data.engine.script.JSDummyRowObject;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 
 /**
  * When there is no data set, this instance will be created.
@@ -53,19 +52,20 @@ public class PreparedDummyQuery implements IPreparedQuery
 	private Scriptable sharedScope;
 
 	/**
-	 * @param context 
+	 * @param context
 	 * @param queryDefn
 	 */
 	PreparedDummyQuery( DataEngineContext context, IQueryDefinition queryDefn,
 			Scriptable sharedScope )
 	{
 		assert queryDefn != null;
-		
+
 		this.context = context;
 		this.queryDefn = queryDefn;
 		this.sharedScope = sharedScope;
 		this.exprManager = new ExprManager( );
-		this.exprManager.addBindingExpr( queryDefn.getResultSetExpressions( ), 0 );
+		this.exprManager.addBindingExpr( queryDefn.getResultSetExpressions( ),
+				0 );
 	}
 
 	/*
@@ -93,12 +93,12 @@ public class PreparedDummyQuery implements IPreparedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.eclipse.birt.data.engine.api.IQueryResults, org.mozilla.javascript.Scriptable)
+	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.eclipse.birt.data.engine.api.IQueryResults,
+	 *      org.mozilla.javascript.Scriptable)
 	 */
 	public IQueryResults execute( IQueryResults outerResults,
 			Scriptable queryScope ) throws BirtException
 	{
-		
 		return new QueryResults( this, exprManager, getScope( queryScope ) );
 	}
 
@@ -128,17 +128,21 @@ public class PreparedDummyQuery implements IPreparedQuery
 		}
 		return executionScope;
 	}
-	
+
 	/**
 	 * 
 	 */
-	private class QueryResults implements IQueryResults
+	private class QueryResults implements IQueryResults, IQueryService
 	{
 		private IPreparedQuery preparedQuery;
 		private ExprManager exprManager;
 		private Scriptable queryScope;
 		
+		private ResultIterator resultIterator;
+
 		private String queryResultID;
+
+		private boolean isClosed;
 
 		/**
 		 * @param preparedQuery
@@ -149,6 +153,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 			this.preparedQuery = preparedQuery;
 			this.exprManager = exprManager;
 			this.queryScope = queryScope;
+			this.isClosed = false;
 		}
 
 		/*
@@ -158,7 +163,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			if ( queryResultID == null )
 				queryResultID = IDUtil.nextQursID( );
-			
+
 			return queryResultID;
 		}
 
@@ -183,7 +188,12 @@ public class PreparedDummyQuery implements IPreparedQuery
 		 */
 		public IResultIterator getResultIterator( ) throws BirtException
 		{
-			return new ResultIterator( this, exprManager, queryScope );
+			if ( resultIterator == null )
+				resultIterator = new ResultIterator( this,
+						exprManager,
+						queryScope );
+			
+			return resultIterator;
 		}
 
 		/*
@@ -191,6 +201,87 @@ public class PreparedDummyQuery implements IPreparedQuery
 		 */
 		public void close( ) throws BirtException
 		{
+			this.isClosed = true;
+		}
+
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IQueryService#isClosed()
+		 */
+		public boolean isClosed( )
+		{
+			return isClosed;
+		}
+
+		/*
+		 * Dummy query only can be the most outer query.
+		 * 
+		 * @see org.eclipse.birt.data.engine.impl.IQueryService#getNestedLevel()
+		 */
+		public int getNestedLevel( )
+		{
+			return 0;
+		}
+
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IQueryService#getQueryScope()
+		 */
+		public Scriptable getQueryScope( )
+		{
+			return queryScope;
+		}
+
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IQueryService#getExecutorHelper()
+		 */
+		public IExecutorHelper getExecutorHelper( ) throws DataException
+		{
+			return new IExecutorHelper( ) {
+				
+				/**
+				 * @param IBaseExpression
+				 */
+				public Object evaluate( IBaseExpression expr )
+						throws BirtException
+				{
+					return ExprEvaluateUtil.evaluateRawExpression2( expr,
+							queryScope );
+				}
+
+				/*
+				 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getParent()
+				 */
+				public IExecutorHelper getParent( )
+				{
+					return null;
+				}
+
+				/*
+				 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getScope()
+				 */
+				public Scriptable getScope( )
+				{
+					return queryScope;
+				}
+				
+				/*
+				 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getJSRowObject()
+				 */
+				public Scriptable getJSRowObject( )
+				{
+					return resultIterator.getJSDummyRowObject( );
+				}
+			};
+		}
+
+		/*
+		 * This can be not implemented, since it is only used for rows JS
+		 * object.
+		 * 
+		 * @see org.eclipse.birt.data.engine.impl.IQueryService#getDataSetRuntime(int)
+		 */
+		public DataSetRuntime[] getDataSetRuntime( int nestedCount )
+		{
+			return null;
 		}
 	}
 
@@ -202,15 +293,17 @@ public class PreparedDummyQuery implements IPreparedQuery
 		private QueryResults queryResults;
 		private ExprManager exprManager;
 		private Scriptable queryScope;
+		
+		private Scriptable jsDummyRowObject;
 
 		private RDSaveUtil rdSaveUtil;
-		
+
 		private final static int NOT_START = 0;
 		private final static int IN_ROW = 1;
 		private final static int ENDED = 2;
 
 		private int openStatus = NOT_START;
-
+		
 		/**
 		 * @throws BirtException
 		 */
@@ -230,12 +323,19 @@ public class PreparedDummyQuery implements IPreparedQuery
 			this.queryResults = queryResults;
 			this.exprManager = exprManager;
 			this.queryScope = queryScope;
-
-			queryScope.put( "row",
-					queryScope,
-					new JSTempRowObject( exprManager, queryScope ) );
+			this.jsDummyRowObject = new JSDummyRowObject( exprManager, queryScope );
+			
+			queryScope.put( "row", queryScope, jsDummyRowObject );
 		}
 
+		/**
+		 * @return
+		 */
+		private Scriptable getJSDummyRowObject( )
+		{
+			return this.jsDummyRowObject;
+		}
+		
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getQueryResults()
 		 */
@@ -395,7 +495,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 			if ( exprObject == null )
 				throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
 						name );
-			
+
 			Object value = ExprEvaluateUtil.evaluateRawExpression( exprObject,
 					queryScope );
 			this.getRdSaveUtil( ).doSaveExpr( name, value );
@@ -498,7 +598,8 @@ public class PreparedDummyQuery implements IPreparedQuery
 		}
 
 		/*
-		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getSecondaryIterator(java.lang.String, org.mozilla.javascript.Scriptable)
+		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getSecondaryIterator(java.lang.String,
+		 *      org.mozilla.javascript.Scriptable)
 		 */
 		public IResultIterator getSecondaryIterator( String subQueryName,
 				Scriptable scope ) throws BirtException
@@ -527,7 +628,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 
 			return false;
 		}
-		
+
 		/**
 		 * @return
 		 */
@@ -542,65 +643,15 @@ public class PreparedDummyQuery implements IPreparedQuery
 
 			return this.rdSaveUtil;
 		}
-		
+
 	}
 
 	/**
-	 *
-	 */
-	private static class JSTempRowObject extends ScriptableObject
-	{
-		private ExprManager exprManager;
-		private Scriptable scope;
-
-		/** */
-		private static final long serialVersionUID = -7841512175200620757L;
-
-		/**
-		 * @param exprManager
-		 * @param scope
-		 */
-		private JSTempRowObject( ExprManager exprManager, Scriptable scope )
-		{
-			this.exprManager = exprManager;
-			this.scope = scope;
-		}
-
-		/*
-		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
-		 */
-		public String getClassName( )
-		{
-			return "row";
-		}
-
-		/*
-		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
-		 *      org.mozilla.javascript.Scriptable)
-		 */
-		public Object get( String name, Scriptable start )
-		{
-			IBaseExpression baseExpr = exprManager.getExpr( name );
-
-			try
-			{
-				Object value = ExprEvaluateUtil.evaluateRawExpression( baseExpr,
-						scope );
-				return JavascriptEvalUtil.convertToJavascriptValue( value,
-						scope );
-			}
-			catch ( BirtException e )
-			{
-				return null;
-			}
-		}
-	}
-	
-	/**
-	 *
+	 * 
 	 */
 	private class RDSaveUtil
 	{
+
 		// context info
 		private DataEngineContext context;
 		private String queryResultID;
@@ -608,9 +659,9 @@ public class PreparedDummyQuery implements IPreparedQuery
 
 		// report document save and load instance
 		private RDSave rdSave;
-		
+
 		private boolean isBasicSaved;
-		
+
 		/**
 		 * @param context
 		 * @param queryDefn
@@ -623,7 +674,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 			this.queryDefn = queryDefn;
 			this.queryResultID = queryResultID;
 		}
-		
+
 		/**
 		 * @param name
 		 * @param value
@@ -637,15 +688,14 @@ public class PreparedDummyQuery implements IPreparedQuery
 			if ( isBasicSaved == false )
 			{
 				isBasicSaved = true;
-				this.getRdSave( )
-						.saveResultIterator( new DummyCachedResult( ),
+				this.getRdSave( ).saveResultIterator( new DummyCachedResult( ),
 						-1,
 						null );
 			}
 
 			this.getRdSave( ).saveExprValue( 0, name, value );
 		}
-		
+
 		/**
 		 * @throws DataException
 		 */
@@ -664,7 +714,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 
 			this.getRdSave( ).saveFinish( 0 );
 		}
-		
+
 		/**
 		 * @return
 		 */
@@ -676,7 +726,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 
 			return true;
 		}
-		
+
 		/**
 		 * @return
 		 * @throws DataException
@@ -694,11 +744,11 @@ public class PreparedDummyQuery implements IPreparedQuery
 			}
 
 			return rdSave;
-		}		
+		}
 	}
-	
+
 	/**
-	 *
+	 * 
 	 */
 	private class DummyCachedResult extends CachedResultSet
 	{

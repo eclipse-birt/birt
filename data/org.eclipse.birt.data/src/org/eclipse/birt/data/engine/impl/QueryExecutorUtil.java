@@ -38,7 +38,6 @@ public final class QueryExecutorUtil
 	 * @param src
 	 * @return
 	 * @throws DataException
-	 * @deprecated
 	 */
 	static IQuery.GroupSpec groupDefnToSpec( Context cx,
 			IGroupDefinition src, String columnName, int index )
