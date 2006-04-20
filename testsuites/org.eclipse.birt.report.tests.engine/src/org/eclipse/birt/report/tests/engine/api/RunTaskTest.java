@@ -10,6 +10,10 @@ import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IPageHandler;
+import org.eclipse.birt.report.engine.api.IRenderTask;
+import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -69,6 +73,38 @@ public class RunTaskTest extends EngineCase {
 	}
 	
 
+	public void testCancel(){
+		report_design=INPUT+"pages9.rptdesign";
+		String fileDocument=OUTPUT+"cancel_pages9.rptdocument";
+		long bTime,eTime,timeSpan1,timeSpan2;
+		try{
+			runnable=engine.openReportDesign(report_design);
+			IRunTask task=engine.createRunTask(runnable);
+			CancelTask cancelThread=new CancelTask("cancelThread",task);
+			cancelThread.start( );
+			bTime=System.currentTimeMillis( );
+			task.run(fileDocument);
+			eTime=System.currentTimeMillis( );
+			task.close();
+			timeSpan1=eTime-bTime;
+			
+			task=engine.createRunTask(runnable);
+			bTime=System.currentTimeMillis( );
+			task.run(fileDocument);
+			eTime=System.currentTimeMillis( );
+			task.close( );
+			timeSpan2=eTime-bTime;
+			
+			removeFile(fileDocument);
+			
+			assertTrue("RunTask.cancel() failed!",(timeSpan2>timeSpan1));
+			
+		}catch(EngineException ee){
+			ee.printStackTrace();
+			//assertTrue("Failed to generate document for "+ee.getLocalizedMessage(),false);
+		}
+	}
+
 	private void runReport(String report){
 		report_design=INPUT+report+".rptdesign";
 		String fileDocument=OUTPUT+report+".rptdocument";
@@ -91,5 +127,34 @@ public class RunTaskTest extends EngineCase {
 		super.setUp();
 	}
 
+	/*
+	 * A new thread to cancel existed runTask
+	 */
+	private class CancelTask extends Thread
+	{
+		
+		private IRunTask runTask;
+		
+		public CancelTask( String threadName, IRunTask task){
+			super(threadName);
+			runTask=task;
+		}
+
+		public void run( )
+		{
+			try{
+				System.out.print( "cancel started waiting" );
+				Thread.currentThread( ).sleep( 100 );
+				System.out.print( "cancel stop waiting" );
+				runTask.cancel( );
+				System.out.print( "cancel done" );
+			}catch(Exception e){
+				e.printStackTrace( );
+				fail("RunTask.cancel() failed");
+			}
+		}
+
+		
+	}
 	
 }
