@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.views.data.providers.ResultSetColumnProvider;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -660,7 +661,7 @@ public class InsertInLayoutUtil
 			// .newLabel( null );
 			LabelHandle label = DesignElementFactory.getInstance( )
 					.newLabel( null );
-			label.setText( model.getColumnName( ) );
+			label.setText( ResultSetColumnProvider.getDisplayName( model ) );
 			rule.insert( label );
 		}
 
