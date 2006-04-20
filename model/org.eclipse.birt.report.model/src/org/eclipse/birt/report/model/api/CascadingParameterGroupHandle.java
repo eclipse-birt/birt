@@ -57,7 +57,7 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 				.getDataSetElement( module );
 		if ( dataSet == null )
 			return null;
-		
+
 		return (DataSetHandle) dataSet.getHandle( dataSet.getRoot( ) );
 	}
 
@@ -92,4 +92,30 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 		}
 	}
 
+	/**
+	 * Set the value for the display prompt context.
+	 * 
+	 * @param promptValue
+	 *            The display prompt context.
+	 * 
+	 * @throws SemanticException
+	 * 
+	 */
+
+	public void setPromptText( String promptValue ) throws SemanticException
+	{
+		setStringProperty( PROMPT_TEXT_PROP, promptValue );
+	}
+
+	/**
+	 * get the display prompt text.
+	 * 
+	 * @return the display prompt.
+	 * 
+	 */
+
+	public String getPromptText( )
+	{
+		return getStringProperty( PROMPT_TEXT_PROP );
+	}
 }

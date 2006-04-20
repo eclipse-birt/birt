@@ -1983,6 +1983,7 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.CascadingParameterGroup" extends="ParameterGroup" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.CascadingParameterGroup" name="CascadingParameterGroup" since="2.0" xmlName="cascading-parameter-group">
     <Property detailType="DataSet" displayNameID="Element.Element.CascadingParameterGroup.dataSet" name="dataSet" runtimeSettable="false" since="2.0" type="element" />
+    <Property displayNameID="Element.CascadingParameterGroup.promptText" name="promptText" runtimeSettable="false" since="2.1" type="string"/>	  
     <Slot displayNameID="Element.CascadingParameterGroup.slot.parameters" multipleCardinality="true" name="parameters" since="2.0" xmlName="parameters">
       <Type name="Parameter"/>
       <Trigger validator="CascadingParameterTypeValidator"/>
