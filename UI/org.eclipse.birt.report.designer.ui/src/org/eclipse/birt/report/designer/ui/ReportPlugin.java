@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -85,6 +86,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String TEMPLATE_PREFERENCE = "designer.preview.preference.template.description.preferencestore"; //$NON-NLS-1$
 	public static final String RESOURCE_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.resourcestore"; //$NON-NLS-1$
 
+	public static final String BIRT_RESOURCE = "BIRTResource";
+	
 	private int nameCount = 0;
 
 	/**
@@ -775,6 +778,16 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setDefaultResourcePreference( )
 	{
 		String metaPath = Platform.getStateLocation( ReportPlugin.getDefault( ).getBundle( )).toOSString( );
+		if(! metaPath.endsWith( File.separator ))
+		{
+			metaPath = metaPath + File.separator;			
+		}
+		metaPath = metaPath + BIRT_RESOURCE;
+		File targetFolder = new File( metaPath );
+		if(!targetFolder.exists( ))
+		{
+			targetFolder.mkdirs( );
+		}
 		getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, metaPath ); //$NON-NLS-1$		
 	}
 	
