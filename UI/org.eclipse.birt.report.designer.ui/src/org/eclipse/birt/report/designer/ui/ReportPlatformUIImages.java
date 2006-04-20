@@ -60,6 +60,7 @@ public class ReportPlatformUIImages
 	public final static String MISC_PATH = "misc/";//$NON-NLS-1$
 	public final static String WIZBAN_PATH = "wizban/";//$NON-NLS-1$
 	public final static String LINK_PATH = "lib/";//$NON-NLS-1$
+	public final static String DATA_PATH = "data/";
 
 	static
 	{
@@ -446,6 +447,16 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_WIZARDPAGE_DATASETSELECTION,
 				ICONS_PATH + WIZBAN_PATH + "dataset_wizard_table.gif" ); //$NON-NLS-1$
+		
+		// DataSetEditor History ToolBar
+		declareImage( IReportGraphicConstants.ICON_HISTORYTOOLBAR_BACKWARDDISABLED,
+				ICONS_PATH + DATA_PATH + "backward_disabled.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_HISTORYTOOLBAR_BACKWARDENABLED,
+				ICONS_PATH + DATA_PATH + "backward_enabled.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_HISTORYTOOLBAR_FORWARDDISABLED,
+				ICONS_PATH + DATA_PATH + "forward_disabled.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_HISTORYTOOLBAR_FORWARDENABLED,
+				ICONS_PATH + DATA_PATH + "forward_enabled.gif" ); //$NON-NLS-1$
 
 		// ///////////////////attribute image
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_FONT_WIDTH,

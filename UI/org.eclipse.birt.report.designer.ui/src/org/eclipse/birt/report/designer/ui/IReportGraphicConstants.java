@@ -241,6 +241,14 @@ public interface IReportGraphicConstants
 	public final static String ICON_WIZARD_DATASET = "DataSetBasePage";//$NON-NLS-1$
 
 	public final static String ICON_WIZARDPAGE_DATASETSELECTION = "DataSetSelectionPage";//$NON-NLS-1$
+	
+	public final static String ICON_HISTORYTOOLBAR_BACKWARDDISABLED = "BackwardDisabled";//$NON-NLS-1$
+
+	public final static String ICON_HISTORYTOOLBAR_BACKWARDENABLED = "BackwardEnabled";//$NON-NLS-1$
+
+	public final static String ICON_HISTORYTOOLBAR_FORWARDDISABLED = "ForwardDisabled";//$NON-NLS-1$
+
+	public final static String ICON_HISTORYTOOLBAR_FORWARDENABLED = "ForwardEnabled";//$NON-NLS-1$
 
 	// attribute icon constants
 	public final static String DIS = "DIS";//$NON-NLS-1$	
