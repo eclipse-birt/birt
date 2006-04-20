@@ -18,6 +18,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
@@ -34,6 +35,7 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 	protected Locale locale;
 	protected IBaseQueryDefinition[] queries;
 	protected IHTMLActionHandler ah = null;
+	protected IStyle style = null;
 
 	/**
 	 * Constructor that does nothing
@@ -164,5 +166,13 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 	 */
 	public void setActionHandler(IHTMLActionHandler ah) {
 		this.ah = ah;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setDynamicStyle(org.eclipse.birt.report.engine.content.IStyle)
+	 */
+	public void setDynamicStyle( IStyle style )
+	{
+		this.style = style;
 	}
 }

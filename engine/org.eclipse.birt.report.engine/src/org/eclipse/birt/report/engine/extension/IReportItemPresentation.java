@@ -18,6 +18,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
@@ -164,4 +165,9 @@ public interface IReportItemPresentation
 	 * Performs clean up work
 	 */
 	public void finish( );
+
+	/**
+	 * Set dynamic style.
+	 */
+	public void setDynamicStyle( IStyle style );
 }
