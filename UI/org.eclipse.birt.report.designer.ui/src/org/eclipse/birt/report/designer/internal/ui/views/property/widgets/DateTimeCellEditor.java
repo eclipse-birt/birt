@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.eclipse.swt.widgets.Composite;
@@ -55,23 +57,37 @@ public class DateTimeCellEditor extends CDialogCellEditor
 	protected Object openDialogBox( Control cellEditorWindow )
 	{
 		TimeOptionDialog dialog = new TimeOptionDialog( cellEditorWindow.getShell( ) );
-		Date value = (Date) getValue( );
-
-		if ( value != null )
-		{
-			TimeDialogInfo time = new TimeDialogInfo( );
-			time.setTime( value.getTime( ) );
-			dialog.setInfo( time );
+		Object value =  getValue( );
+		Date dateValue = new Date( );
+		try {
+			if ( value != null )
+			{
+				TimeDialogInfo time = new TimeDialogInfo( );
+				if( value instanceof String && !value.toString().trim().equals("") )
+				{
+					dateValue  = new SimpleDateFormat( time.getFormat()).parse(value.toString() );
+				}
+				else if( value instanceof Date )
+				{
+					dateValue  = (Date)value;
+				}
+				time.setTime( dateValue.getTime( ) );
+				dialog.setInfo( time );
+			}
+		} catch ( Exception e ) {
+				e.printStackTrace();
 		}
+		
 		dialog.open( );
 		if ( dialog.getReturnCode( ) == SelectionDialog.OK )
 		{
-			TimeDialogInfo result = (TimeDialogInfo) dialog.getInfo( );
-			return new Date( result.getTime( ) );
+			TimeDialogInfo result = ( TimeDialogInfo ) dialog.getInfo( );
+			dateValue = new Date( result.getTime( ) );
 		}
-
-		return value;
+		return dateValue;
 	}
+	
+	
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.property.widgets.CDialogCellEditor#doValueChanged()

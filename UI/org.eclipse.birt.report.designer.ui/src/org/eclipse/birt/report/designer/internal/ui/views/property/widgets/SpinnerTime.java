@@ -221,7 +221,7 @@ public class SpinnerTime extends Composite implements
 				.getSystemColor( SWT.COLOR_WHITE ) );
 
 		//added by gao 2004.07.08
-		font.dispose( );
+		//font.dispose( );
 	}
 
 	private void initActions( )
@@ -450,6 +450,7 @@ class SpinnerTimeText extends Text
 		//		Font font = new Font( Display.getCurrent( ), "Dialog", 10, SWT.BOLD
 		// ); //$NON-NLS-1$
 		//		setFont( font );
+		
 		setFont( FontManager.getFont( "Dialog", 10, SWT.BOLD ) ); //$NON-NLS-1$
 
 		addFocusListener( new FocusAdapter( ) {
