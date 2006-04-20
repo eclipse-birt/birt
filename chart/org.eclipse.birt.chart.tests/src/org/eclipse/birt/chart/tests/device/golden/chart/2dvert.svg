@@ -131,6 +131,7 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 		  }
 		}
 		TM.setContent = function TooltipManager_setContent(textElement, text){
+		    text = text.replace(/\n/g, "\\n");
 		    var multiLine = text.split(/\\n/);
 		    for (var x=0; x<multiLine.length; x++){
 			if (x == 0){
@@ -221,6 +222,7 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
         if (labelList != null){
     for (i = 0; i < labelList.length; i=i+1){
          var comp = mainSvg.getElementById(id+'_'+labelList[i]+'_g');
+         if ( comp == null ) continue;
          var styleStr = comp.getAttribute("style");
         if (isHidden){
                 styleStr = styleStr + "visibility:hidden;";
