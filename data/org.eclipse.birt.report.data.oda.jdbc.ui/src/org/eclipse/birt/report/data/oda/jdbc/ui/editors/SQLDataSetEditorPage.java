@@ -71,6 +71,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TypedEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -91,7 +92,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.40 $ $Date: 2006/03/15 11:10:17 $
+ * @version $Revision: 1.41 $ $Date: 2006/03/28 10:43:48 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -293,7 +294,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		availableDbObjectsTree.addMouseListener(new MouseAdapter() {
 			public void mouseDoubleClick(MouseEvent e) 
 			{
-				//addTable();
+				populateEventData( e );
+				insertText( (String) e.data );
 			}
 		});
 		availableDbObjectsTree.addSelectionListener(new SelectionAdapter() {
@@ -1381,32 +1383,37 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 
 			public void dragSetData( DragSourceEvent event )
 			{
-				if ( TextTransfer.getInstance( ).isSupportedType(
-						event.dataType ) )
+				if ( TextTransfer.getInstance( )
+						.isSupportedType( event.dataType ) )
 				{
-					TreeItem[] selection = availableDbObjectsTree.getSelection( );
-					if ( selection.length > 0 )
-					{
-						Object obj = selection[0].getData( );
-						// table 
-						if ( obj instanceof DbObject )
-						{
-							event.data = getDnDString( ( (DbObject) obj ).getName( ) );
-						}
-						// stored procedure
-						else if ( obj instanceof Procedure )
-						{
-							event.data = getDnDString( ( (Procedure) obj ).getProcedureNameWithSchema( ) );
-						}
-						// column
-						else
-						{
-							event.data = getDnDString( selection[0].getData( ) );
-						}
-					}
+					populateEventData( event );
 				}
 			}
 		} );
+	}
+	
+	private void populateEventData( TypedEvent event )
+	{
+		TreeItem[] selection = availableDbObjectsTree.getSelection( );
+		if ( selection.length > 0 )
+		{
+			Object obj = selection[0].getData( );
+			// table
+			if ( obj instanceof DbObject )
+			{
+				event.data = getDnDString( ( (DbObject) obj ).getName( ) );
+			}
+			// stored procedure
+			else if ( obj instanceof Procedure )
+			{
+				event.data = getDnDString( ( (Procedure) obj ).getProcedureNameWithSchema( ) );
+			}
+			// column
+			else
+			{
+				event.data = getDnDString( selection[0].getData( ) );
+			}
+		}
 	}
 	
 	/**
