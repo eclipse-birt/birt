@@ -28,7 +28,8 @@ public class JSDummyRowObject extends ScriptableObject
 {
 	private ExprManager exprManager;
 	private Scriptable scope;
-
+	private Scriptable parent;
+	
 	private Map valueCacheMap;
 
 	/** */
@@ -38,10 +39,12 @@ public class JSDummyRowObject extends ScriptableObject
 	 * @param exprManager
 	 * @param scope
 	 */
-	public JSDummyRowObject( ExprManager exprManager, Scriptable scope )
+	public JSDummyRowObject( ExprManager exprManager, Scriptable scope,
+			Scriptable parent )
 	{
 		this.exprManager = exprManager;
 		this.scope = scope;
+		this.parent = parent;
 		
 		this.valueCacheMap = new HashMap( );
 	}
@@ -60,6 +63,11 @@ public class JSDummyRowObject extends ScriptableObject
 	 */
 	public Object get( String name, Scriptable start )
 	{
+		if ( "_outer".equalsIgnoreCase( name ) )
+		{
+			return parent;
+		}
+		
 		if ( valueCacheMap.containsKey( name ) )
 			return valueCacheMap.get( name );
 

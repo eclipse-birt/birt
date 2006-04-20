@@ -18,6 +18,9 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -30,6 +33,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
@@ -47,21 +51,49 @@ import org.mozilla.javascript.Scriptable;
 public class PreparedDummyQuery implements IPreparedQuery
 {
 	private DataEngineContext context;
-	private IQueryDefinition queryDefn;
 	private ExprManager exprManager;
 	private Scriptable sharedScope;
 
+	private IQueryDefinition queryDefn;
+	private ISubqueryDefinition subQueryDefn;
+	
+	private Map subQueryMap;
+	
 	/**
 	 * @param context
 	 * @param queryDefn
+	 * @param sharedScope
 	 */
 	PreparedDummyQuery( DataEngineContext context, IQueryDefinition queryDefn,
+			Scriptable sharedScope )
+	{
+		this.queryDefn = queryDefn;
+		init( context, queryDefn, sharedScope );
+	}
+
+	/**
+	 * @param context
+	 * @param subQueryDefn
+	 * @param sharedScope
+	 */
+	private PreparedDummyQuery( DataEngineContext context,
+			ISubqueryDefinition subQueryDefn, Scriptable sharedScope )
+	{
+		this.subQueryDefn = subQueryDefn;
+		init( context, subQueryDefn, sharedScope );
+	}
+	
+	/**
+	 * @param context
+	 * @param queryDefn
+	 * @param sharedScope
+	 */
+	void init( DataEngineContext context, IBaseQueryDefinition queryDefn,
 			Scriptable sharedScope )
 	{
 		assert queryDefn != null;
 
 		this.context = context;
-		this.queryDefn = queryDefn;
 		this.sharedScope = sharedScope;
 		this.exprManager = new ExprManager( );
 		this.exprManager.addBindingExpr( null, queryDefn.getResultSetExpressions( ),
@@ -99,9 +131,46 @@ public class PreparedDummyQuery implements IPreparedQuery
 	public IQueryResults execute( IQueryResults outerResults,
 			Scriptable queryScope ) throws BirtException
 	{
-		return new QueryResults( this, exprManager, getScope( queryScope ) );
+		return executeQuery( queryScope, null );
 	}
 
+	/**
+	 * @param queryScope
+	 * @param parentScope
+	 * @return
+	 * @throws BirtException
+	 */
+	private IQueryResults executeQuery( Scriptable queryScope, Scriptable parentScope )
+			throws BirtException
+	{
+		processSubQuery( );		
+		return new QueryResults( this, exprManager, getScope( queryScope ), parentScope );
+	}
+	
+	/**
+	 *
+	 */
+	private void processSubQuery( )
+	{
+		IBaseQueryDefinition queryDefn2 = null;
+		if ( queryDefn != null )
+			queryDefn2 = queryDefn;
+		else
+			queryDefn2 = subQueryDefn;
+
+		subQueryMap = new HashMap( );
+		Collection subQueryDefns = queryDefn2.getSubqueries( );
+		if ( subQueryDefns != null )
+		{
+			Iterator it = subQueryDefns.iterator( );
+			while ( it.hasNext( ) )
+			{
+				ISubqueryDefinition subQueryDefn = (ISubqueryDefinition) it.next( );
+				subQueryMap.put( subQueryDefn.getName( ), subQueryDefn );
+			}
+		}
+	}
+	
 	/**
 	 * @param queryScope
 	 * @return
@@ -126,7 +195,26 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			Context.exit( );
 		}
+		
 		return executionScope;
+	}
+	
+	/**
+	 * @return
+	 * @throws BirtException 
+	 */
+	private IResultIterator execSubQuery( String name, Scriptable scope,
+			Scriptable parentScope ) throws BirtException
+	{
+		Object ob = subQueryMap.get( name );
+		if ( ob == null )
+			return null;
+		
+		PreparedDummyQuery preparedQuery = new PreparedDummyQuery( context,
+				(ISubqueryDefinition) ob,
+				scope );
+		return preparedQuery.executeQuery( scope, parentScope )
+				.getResultIterator( );
 	}
 
 	/**
@@ -134,9 +222,10 @@ public class PreparedDummyQuery implements IPreparedQuery
 	 */
 	private class QueryResults implements IQueryResults, IQueryService
 	{
-		private IPreparedQuery preparedQuery;
+		private PreparedDummyQuery preparedQuery;
 		private ExprManager exprManager;
 		private Scriptable queryScope;
+		private Scriptable parentScope;
 		
 		private ResultIterator resultIterator;
 
@@ -147,12 +236,14 @@ public class PreparedDummyQuery implements IPreparedQuery
 		/**
 		 * @param preparedQuery
 		 */
-		private QueryResults( IPreparedQuery preparedQuery,
-				ExprManager exprManager, Scriptable queryScope )
+		private QueryResults( PreparedDummyQuery preparedQuery,
+				ExprManager exprManager, Scriptable queryScope,
+				Scriptable parentScope )
 		{
 			this.preparedQuery = preparedQuery;
 			this.exprManager = exprManager;
 			this.queryScope = queryScope;
+			this.parentScope = parentScope;
 			this.isClosed = false;
 		}
 
@@ -191,7 +282,8 @@ public class PreparedDummyQuery implements IPreparedQuery
 			if ( resultIterator == null )
 				resultIterator = new ResultIterator( this,
 						exprManager,
-						queryScope );
+						queryScope,
+						parentScope );
 			
 			return resultIterator;
 		}
@@ -318,12 +410,15 @@ public class PreparedDummyQuery implements IPreparedQuery
 		 * @param queryScope
 		 */
 		private ResultIterator( QueryResults queryResults,
-				ExprManager exprManager, Scriptable queryScope )
+				ExprManager exprManager, Scriptable queryScope,
+				Scriptable parentScope )
 		{
 			this.queryResults = queryResults;
 			this.exprManager = exprManager;
 			this.queryScope = queryScope;
-			this.jsDummyRowObject = new JSDummyRowObject( exprManager, queryScope );
+			this.jsDummyRowObject = new JSDummyRowObject( exprManager,
+					queryScope,
+					parentScope );
 			
 			queryScope.put( "row", queryScope, jsDummyRowObject );
 		}
@@ -606,7 +701,9 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			this.checkOpened( );
 
-			return null;
+			return queryResults.preparedQuery.execSubQuery( subQueryName,
+					scope != null ? scope : queryScope,
+					this.jsDummyRowObject );
 		}
 
 		/*
