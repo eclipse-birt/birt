@@ -8,10 +8,10 @@ Bundle-Activator: org.eclipse.birt.report.data.oda.xml.ui.UiPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
- org.eclipse.birt.core,
  org.eclipse.birt.report.data.oda.xml,
  org.eclipse.datatools.connectivity.oda.design.ui,
- org.eclipse.datatools.connectivity.oda.design
+ org.eclipse.datatools.connectivity.oda.design,
+ org.eclipse.core.runtime
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.birt.report.data.oda.xml.ui,
  org.eclipse.birt.report.data.oda.xml.ui.utils,
