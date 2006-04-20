@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+
+Contains all of the class for creating a property dialog with a navigation tree on the left
+and property panes on the right. Each node is an instance of {@link #org.eclipse.birt.report.designer.ui.dialogs.properties.PropertyNode PropertyNode}
+and each page added should be an implementation of {@link #org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage IPropertyPage}.
+The dialog maintains an instance of a model object which can be used by all the pages 
+and all derived classes.
+<br/>
+<br/>
+When a node is selected the dialog first calls the {@link #org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage.canLeave() canLeave} method.
+At this point the page can also perform any model updations as required.
+If this returns true then the page is changed to the page associated with the selected node.
+The {@link #org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage.pageActivated() pageActivated} method is called to indicate to the page
+that it is the currently visible page. At this point the page can refresh its contents if needed.
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>
