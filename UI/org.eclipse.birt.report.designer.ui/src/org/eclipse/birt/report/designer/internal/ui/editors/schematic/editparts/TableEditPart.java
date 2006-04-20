@@ -83,7 +83,7 @@ import org.eclipse.swt.widgets.Display;
  * <p>
  * Table EditPart,control the UI & model of table
  * </p>
- *  
+ * 
  */
 public class TableEditPart extends ReportElementEditPart implements
 		LayerConstants,
@@ -148,18 +148,18 @@ public class TableEditPart extends ReportElementEditPart implements
 		super.deactivate( );
 		removeRowListener( );
 		removeColumnListener( );
-		removeGroupListener();
+		removeGroupListener( );
 
 	}
 
 	private void removeGroupListener( )
 	{
-		if(getModel() instanceof ListingHandle)
+		if ( getModel( ) instanceof ListingHandle )
 		{
 			for ( Iterator it = ( (ListingHandle) getModel( ) ).getGroups( )
 					.iterator( ); it.hasNext( ); )
 			{
-				( (DesignElementHandle) it.next( ) ).removeListener(  this );
+				( (DesignElementHandle) it.next( ) ).removeListener( this );
 			}
 		}
 	}
@@ -191,8 +191,8 @@ public class TableEditPart extends ReportElementEditPart implements
 				new ReportComponentEditPolicy( ) );
 		installEditPolicy( EditPolicy.CONTAINER_ROLE,
 				new ReportContainerEditPolicy( ) );
-		//should add highlight policy
-		//installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new
+		// should add highlight policy
+		// installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new
 		// ContainerHighlightEditPolicy());
 		installEditPolicy( EditPolicy.LAYOUT_ROLE,
 				new TableXYLayoutEditPolicy( (XYLayout) getContentPane( ).getLayoutManager( ) ) );
@@ -599,6 +599,16 @@ public class TableEditPart extends ReportElementEditPart implements
 	 */
 	public void selectColumn( int[] numbers )
 	{
+		selectColumn( numbers, true );
+	}
+
+	/**
+	 * Selects the columns
+	 * 
+	 * @param numbers
+	 */
+	public void selectColumn( int[] numbers, boolean notofyToMedia )
+	{
 		if ( numbers == null || numbers.length == 0 )
 		{
 			return;
@@ -639,7 +649,17 @@ public class TableEditPart extends ReportElementEditPart implements
 				TableUtil.getTableContentsHeight( this ) );
 
 		setSelectRowAndColumnRect( rect );
-		getViewer( ).setSelection( new StructuredSelection( list ) );
+		if ( notofyToMedia )
+		{
+			getViewer( ).setSelection( new StructuredSelection( list ) );
+		}
+		else
+		{
+			if ( getViewer( ) instanceof DeferredGraphicalViewer )
+				( (DeferredGraphicalViewer) getViewer( ) ).setSelection( new StructuredSelection( list ),
+						notofyToMedia );
+		}
+
 		setSelectRowAndColumnRect( null );
 	}
 
@@ -674,12 +694,17 @@ public class TableEditPart extends ReportElementEditPart implements
 		}
 	}
 
+	public void selectRow( int[] numbers )
+	{
+		selectRow( numbers, true );
+	}
+
 	/**
 	 * Selects rows
 	 * 
 	 * @param numbers
 	 */
-	public void selectRow( int[] numbers )
+	public void selectRow( int[] numbers, boolean notofyToMedia )
 	{
 		if ( numbers == null || numbers.length == 0 )
 		{
@@ -725,7 +750,16 @@ public class TableEditPart extends ReportElementEditPart implements
 				height );
 
 		setSelectRowAndColumnRect( rect );
-		getViewer( ).setSelection( new StructuredSelection( list ) );
+		if ( notofyToMedia )
+		{
+			getViewer( ).setSelection( new StructuredSelection( list ) );
+		}
+		else
+		{
+			if ( getViewer( ) instanceof DeferredGraphicalViewer )
+				( (DeferredGraphicalViewer) getViewer( ) ).setSelection( new StructuredSelection( list ),
+						notofyToMedia );
+		}
 		setSelectRowAndColumnRect( null );
 	}
 

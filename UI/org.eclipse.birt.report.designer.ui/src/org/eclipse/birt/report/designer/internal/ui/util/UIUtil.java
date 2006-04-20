@@ -926,11 +926,11 @@ public class UIUtil
 
 			if ( selectionType == 0 )
 			{
-				part.selectRow( selectContents );
+				part.selectRow( selectContents, notofyToMedia );
 			}
 			else if ( selectionType == 1 )
 			{
-				part.selectColumn( selectContents );
+				part.selectColumn( selectContents, notofyToMedia );
 			}
 
 		}

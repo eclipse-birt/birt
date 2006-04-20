@@ -63,7 +63,7 @@ public class PublishLibraryAction implements
 
 	private boolean publishiLibrary()
 	{
-		// copy to template folder
+		// copy to library folder
 		String libraryFolderPath = ReportPlugin.getDefault( )
 				.getResourcePreference( );
 
