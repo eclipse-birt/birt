@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -147,9 +148,9 @@ class QueryResults implements IQueryResults, IQueryService
 		{
 			// data row binding
 			this.initAutoBinding( );
-			/*if ( ModeManager.isNewMode( )
+			if ( ModeManager.isNewMode( )
 					&& !( queryService.getPreparedQuery( ) instanceof PreparedIVQuery ) )
-				this.queryService.validateQueryColumBinding( );*/
+				this.queryService.validateQueryColumBinding( );
 			iterator = new ResultIterator( new ResultService( context, this ),
 					queryService.executeQuery( ),
 					this.queryScope );
@@ -184,7 +185,7 @@ class QueryResults implements IQueryResults, IQueryService
 					colName = metaData.getColumnName( colIndex );
 				
 				ScriptExpression baseExpr = new ScriptExpression( "dataSetRow[\""
-						+ colName + "\"]",
+						+ JavascriptEvalUtil.transformToJsConstants( colName )+ "\"]",
 						metaData.getColumnType( colIndex ) );
 				CompiledExpression compiledExpr = ExpressionCompilerUtil.compile( baseExpr.getText( ),
 						cx );
