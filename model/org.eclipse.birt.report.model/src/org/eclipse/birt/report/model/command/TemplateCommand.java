@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -22,9 +24,9 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.TemplateDataSet;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateFactory;
@@ -182,56 +184,89 @@ public class TemplateCommand extends AbstractElementCommand
 	 *             element is null, or an un-resolved value
 	 */
 
-	public void checkAdd( DesignElement content, int slotID )
-			throws ContentException
+	public void checkAdd( Object content, int slotID ) throws ContentException
 	{
-		// if this element is a template element, check the template parameter
-		// definition and add it first if the definition is not defined in the
-
-		if ( content instanceof TemplateElement )
+		Object obj = null;
+		if ( content instanceof DesignElement )
 		{
-			ElementRefValue templateParam = (ElementRefValue) content
-					.getProperty( module,
-							DesignElement.REF_TEMPLATE_PARAMETER_PROP );
-			if ( templateParam == null || templateParam.getElement( ) == null )
+			DesignElement element = (DesignElement) content;
+			obj = element.getProperty( module,
+					DesignElement.REF_TEMPLATE_PARAMETER_PROP );
+			if ( obj == null )
 			{
-				throw new ContentException(
-						element,
-						slotID,
-						content,
-						ContentException.DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT );
+				int count = ( (DesignElement) content ).getDefn( )
+						.getSlotCount( );
+				for ( int i = 0; i < count; ++i )
+				{
+					ContainerSlot slot = ( (DesignElement) content )
+							.getSlot( i );
+					Iterator iter = slot.iterator( );
+					while ( iter.hasNext( ) )
+					{
+						Object eleObj = iter.next( );
+						checkAdd( eleObj, slotID );
+					}
+				}
 			}
-			// the template parameter reference is resolved and the
-			// definition is not inserted to the module, then clone it and
-			// add the cloned definition into module
-
-			TemplateParameterDefinition definition = (TemplateParameterDefinition) templateParam
-					.getElement( );
-			if ( module.findTemplateParameterDefinition( templateParam
-					.getName( ) ) != definition )
+			else
 			{
-				try
-				{
-					DesignElement copyTemplateParam = ModelUtil
-							.getCopy( definition );
-					module.makeUniqueName( copyTemplateParam );
-					ContentCommand cmd = new ContentCommand( module, module );
-					cmd.add( copyTemplateParam,
-							ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
-					PropertyCommand propertyCmd = new PropertyCommand( module,
-							content );
-					propertyCmd.setProperty(
-							TemplateElement.REF_TEMPLATE_PARAMETER_PROP,
-							copyTemplateParam );
-				}
-				catch ( NameException e )
-				{
-					assert false;
-				}
-				catch( SemanticException e )
-				{
-					assert false;
-				}
+				addTemplateParameterDefinition( obj, (DesignElement) content,
+						slotID );
+			}
+		}
+	}
+
+	/**
+	 * If the template parameter reference is resolved and the definition is not
+	 * inserted to the module, then clone it and add the cloned definition into
+	 * module
+	 * 
+	 * @param obj
+	 * @param content
+	 * @param slotID
+	 * @throws ContentException
+	 */
+
+	private void addTemplateParameterDefinition( Object obj,
+			DesignElement content, int slotID ) throws ContentException
+	{
+		ElementRefValue templateParam = (ElementRefValue) obj;
+		if ( templateParam == null || templateParam.getElement( ) == null )
+		{
+			throw new ContentException( element, slotID, content,
+					ContentException.DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT );
+		}
+
+		if ( !templateParam.isResolved( ) )
+		{
+			return;
+		}
+		TemplateParameterDefinition definition = (TemplateParameterDefinition) templateParam
+				.getElement( );
+		if ( module.findTemplateParameterDefinition( templateParam.getName( ) ) != definition )
+		{
+			try
+			{
+				DesignElement copyTemplateParam = ModelUtil
+						.getCopy( definition );
+				module.makeUniqueName( copyTemplateParam );
+				ContentCommand cmd = new ContentCommand( module, module );
+				cmd.add( copyTemplateParam,
+						ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+				PropertyCommand propertyCmd = new PropertyCommand( module,
+						content );
+				propertyCmd.setProperty(
+						TemplateElement.REF_TEMPLATE_PARAMETER_PROP,
+						copyTemplateParam );
+
+			}
+			catch ( NameException e )
+			{
+				assert false;
+			}
+			catch ( SemanticException e )
+			{
+				assert false;
 			}
 		}
 	}
