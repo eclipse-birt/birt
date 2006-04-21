@@ -63,6 +63,7 @@ import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.servlet.ViewerServlet;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.ParameterAccessor;
@@ -614,11 +615,17 @@ public class ReportEngineService
 		HTMLRenderOption setting = new HTMLRenderOption( );
 		setting.setOutputStream( out );
 		setting.setOutputFormat( IBirtConstants.RENDERFORMAT );
-		setting.setEmbeddable( true );
+	
+		boolean isEmbeddable = false;
+		if ( ViewerServlet.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
+				.getServletPath( ) ) )
+			isEmbeddable = true;
+		setting.setEmbeddable( isEmbeddable );
+	
 		setting.setInstanceIDs( activeIds );
 		setting.setMasterPageContent( masterPage );
 		setting.setActionHandle( new ViewerHTMLActionHandler( reportDocument,
-				pageNumber, locale ) );
+				pageNumber, locale, isEmbeddable ) );
 
 		renderTask.setRenderOption( setting );
 		renderTask.setLocale( locale );

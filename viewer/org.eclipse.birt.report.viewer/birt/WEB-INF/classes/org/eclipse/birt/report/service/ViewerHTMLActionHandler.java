@@ -48,6 +48,8 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	 */
 
 	protected Locale locale = null;
+	
+	protected boolean isEmbeddable = false;
 
 	/**
 	 * Page number of the action requester.
@@ -71,11 +73,12 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	 */
 
 	public ViewerHTMLActionHandler( IReportDocument document, long page,
-			Locale locale )
+			Locale locale, boolean isEmbeddable )
 	{
 		this.document = document;
 		this.page = page;
 		this.locale = locale;
+		this.isEmbeddable = isEmbeddable;
 	}
 
 	/**
@@ -124,7 +127,7 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		{
 			long pageNumber = this.document
 					.getPageNumber( action.getBookmark( ) );
-			realBookmark = pageNumber == this.page;
+			realBookmark = ( pageNumber == this.page && !isEmbeddable ) ;
 		}
 
 		String bookmark = action.getBookmark( );
@@ -157,10 +160,15 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		}
 		link.append( documentName );
 		
+		if ( locale != null )
+		{
+			link.append( "&__locale=" ); //$NON-NLS-1$
+			link.append( locale.toString( ) );
+		}
 		
 		if ( realBookmark )
 		{
-			link.append( "&#" ); //$NON-NLS-1$
+			link.append( "#" ); //$NON-NLS-1$
 			link.append( bookmark );
 		}
 		else
@@ -168,13 +176,8 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 			link.append( "&__bookmark=" ); //$NON-NLS-1$
 			link.append( bookmark );
 		}
-		if ( locale != null )
-		{
-			link.append( "&__locale=" ); //$NON-NLS-1$
-			link.append( locale.toString( ) );
-		}
-
-
+	
+		
 		return link.toString( );
 	}
 

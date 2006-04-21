@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.utility.ParameterAccessor;
@@ -33,6 +34,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  */
 public class EngineFragment extends BaseFragment
 {
+
 	/**
 	 * Anything before do service.
 	 * 
@@ -46,12 +48,14 @@ public class EngineFragment extends BaseFragment
 	protected void doPreService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		if( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
+		if ( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
 		{
 			response.setContentType( "application/csv;charset=utf-8" ); //$NON-NLS-1$
-			response.setHeader ("Content-Disposition","inline; filename=exportdata.csv"); //$NON-NLS-1$ //$NON-NLS-2$
+			response.setHeader(
+					"Content-Disposition", "inline; filename=exportdata.csv" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		else if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( ParameterAccessor.getFormat( request ) ) )
+		else if ( ParameterAccessor.PARAM_FORMAT_PDF
+				.equalsIgnoreCase( ParameterAccessor.getFormat( request ) ) )
 		{
 			response.setContentType( "application/pdf" ); //$NON-NLS-1$
 		}
@@ -72,39 +76,46 @@ public class EngineFragment extends BaseFragment
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	protected void doService( HttpServletRequest request, HttpServletResponse response )
-		throws ServletException, IOException
+	protected void doService( HttpServletRequest request,
+			HttpServletResponse response ) throws ServletException, IOException
 	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request.getAttribute( "attributeBean" ); //$NON-NLS-1$
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+				.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		assert attrBean != null;
-		
+
 		ServletOutputStream out = response.getOutputStream( );
-		
+
 		try
 		{
-			if( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
+			if ( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
 			{
-				ReportEngineService.getInstance( ).extractData( attrBean.getReportDocumentInstance( ),
-						ParameterAccessor.getResultSetName( request ), ParameterAccessor.getSelectedColumns( request ),
+				ReportEngineService.getInstance( ).extractData(
+						attrBean.getReportDocumentInstance( ),
+						ParameterAccessor.getResultSetName( request ),
+						ParameterAccessor.getSelectedColumns( request ),
 						attrBean.getLocale( ), out );
 			}
 			else if ( ParameterAccessor.isGetImageOperator( request ) )
 			{
 				response.setContentType( "image" ); //$NON-NLS-1$
-				String imageId = request.getParameter( ParameterAccessor.PARAM_IMAGEID );
-				
+				String imageId = request
+						.getParameter( ParameterAccessor.PARAM_IMAGEID );
+
 				ReportEngineService.getInstance( ).renderImage( imageId, out );
 			}
 			else
 			{
-				ReportEngineService.getInstance( ).runAndRenderReport( request, attrBean.getReportRunnable( ), out,
-						ParameterAccessor.getFormat( request ), attrBean.getLocale( ), attrBean.getParameters( ),
-						attrBean.isMasterPageContent( ), ParameterAccessor.getSVGFlag( request ) );
+				ReportEngineService.getInstance( ).runAndRenderReport( request,
+						attrBean.getReportRunnable( ), out,
+						ParameterAccessor.getFormat( request ),
+						attrBean.getLocale( ), attrBean.getParameters( ),
+						attrBean.isMasterPageContent( ),
+						ParameterAccessor.getSVGFlag( request ) );
 			}
 		}
 		catch ( RemoteException e )
 		{
-			AxisFault fault = ( AxisFault ) e;
+			AxisFault fault = (AxisFault) e;
 			// Special handle since servlet output stream has been
 			// retrieved.
 			// Any include and forward throws exception.

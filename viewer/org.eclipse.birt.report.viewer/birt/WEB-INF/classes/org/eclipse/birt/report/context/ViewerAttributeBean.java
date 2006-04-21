@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.ReportEngineService;
+import org.eclipse.birt.report.servlet.ViewerServlet;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -113,6 +114,8 @@ public class ViewerAttributeBean
 	 */
 	private String bookmark = null;
 
+	private String servletPath = null;
+
 	/**
 	 * Constructor.
 	 */
@@ -129,7 +132,7 @@ public class ViewerAttributeBean
 	 */
 	public void init( HttpServletRequest request )
 	{
-		String servletPath = request.getServletPath( );
+		this.servletPath = request.getServletPath( );
 		if ( servletPath.indexOf( "/wr" ) != -1 ) //$NON-NLS-1$
 		{
 			this.category = "ERNI"; //$NON-NLS-1$
@@ -169,7 +172,9 @@ public class ViewerAttributeBean
 		}
 
 		if ( reportDocFile.exists( )
-				&& ( reportDocFile.isFile( ) || reportDocFile.isDirectory( ) ) )
+				&& ( reportDocFile.isFile( ) || reportDocFile.isDirectory( ) )
+				&& !ViewerServlet.SERVLET_PATH_RUN
+						.equalsIgnoreCase( servletPath ) )
 		{
 			this.reportDocumentInstance = ReportEngineService.getInstance( )
 					.openReportDocument( this.reportDocumentName );
@@ -288,7 +293,6 @@ public class ViewerAttributeBean
 	{
 		return reportRunnable;
 	}
-
 
 	/**
 	 * @param reportRunnable
