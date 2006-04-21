@@ -19,7 +19,6 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -124,18 +123,20 @@ public class ImageContent extends AbstractContent implements IImageContent
 
 	public byte[] getData( )
 	{
-		if ( data == null && sourceType == IImageContent.IMAGE_NAME )
+		if ( sourceType == IImageContent.IMAGE_NAME )
 		{
 			Report reportDesign = report.getDesign( );
 			if ( reportDesign != null )
 			{
 				ReportDesignHandle design = reportDesign.getReportDesign( );
-				EmbeddedImage embeddedImage = design.findImage( uri );
+				String imageName = getImageName( );
+				EmbeddedImage embeddedImage = design.findImage( imageName );
 				if ( embeddedImage != null )
 				{
-					data = embeddedImage.getData( design.getModule( ) );
+					return embeddedImage.getData( design.getModule( ) );
 				}
 			}
+			return null;
 		}
 		return data;
 	}
@@ -152,6 +153,10 @@ public class ImageContent extends AbstractContent implements IImageContent
 
 	public String getURI( )
 	{
+		if (sourceType == IMAGE_NAME)
+		{
+			return getImageName();
+		}
 		return uri;
 	}
 
@@ -169,26 +174,32 @@ public class ImageContent extends AbstractContent implements IImageContent
 		this.altText = altText;
 	}
 
-	public void setImageName( String name )
+	private void setImageName( String name )
 	{
-		sourceType = IMAGE_NAME;
+		assert ( sourceType == IMAGE_NAME );
 		uri = name;
+		if ( uri != null )
+		{
+			if ( generateBy instanceof ImageItemDesign )
+			{
+				if ( uri.equals( ( (ImageItemDesign) generateBy ).getImageName( ) ) )
+				{
+					uri = null;
+				}
+			}
+		}
 		data = null;
 	}
 
-	public String getImageName( )
+	private String getImageName( )
 	{
-		if ( sourceType == IMAGE_NAME )
+		assert sourceType == IMAGE_NAME;
+		if ( uri == null )
 		{
-			if ( uri == null )
-			{
-				if ( generateBy instanceof ImageItemDesign )
-					return ( (ImageItemDesign) generateBy ).getImageName( );
-			}
-			return uri;
+			if ( generateBy instanceof ImageItemDesign )
+				return ( (ImageItemDesign) generateBy ).getImageName( );
 		}
-		return null;
-
+		return uri;
 	}
 
 	/**
@@ -215,7 +226,14 @@ public class ImageContent extends AbstractContent implements IImageContent
 	 */
 	public void setURI( String uri )
 	{
-		this.uri = uri;
+		if ( sourceType == IMAGE_NAME )
+		{
+			setImageName( uri );
+		}
+		else
+		{
+			this.uri = uri;
+		}
 	}
 
 	/**
@@ -254,15 +272,6 @@ public class ImageContent extends AbstractContent implements IImageContent
 	public String getMIMEType( )
 	{
 		return MIMEType;
-	}
-
-	public String getExpression( )
-	{
-		if ( generateBy instanceof ImageItemDesign )
-		{
-			return ( (ImageItemDesign) generateBy ).getImageExpression( );
-		}
-		return null;
 	}
 
 	static final protected int FIELD_ALTTEXT = 500;

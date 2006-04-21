@@ -113,7 +113,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public String getImageName( )
 	{
-		return ( ( ImageContent ) content ).getImageName( );
+		return ( ( ImageContent ) content ).getURI( );
 	}
 
 	/*
@@ -123,7 +123,8 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public void setImageName( String imageName )
 	{
-		( ( ImageContent ) content ).setImageName( imageName );
+		( ( ImageContent ) content ).setImageSource( ImageContent.IMAGE_NAME );
+		( ( ImageContent ) content ).setURI( imageName );
 	}
 
 	/*
