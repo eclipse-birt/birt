@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.core.model.schematic;
 
+import java.io.File;
+
+import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -51,18 +54,20 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equalsIgnoreCase( imageSource ) )
 		{
 			return ImageManager.getInstance( )
-					.getImage( getImageHandle( ).getModuleHandle(),
+					.getImage( getImageHandle( ).getModuleHandle( ),
 							getImageHandle( ).getImageName( ) );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( imageSource )
 				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
 		{
 			return ImageManager.getInstance( )
-					.getImage(removeQuoteString( getImageHandle( ).getURI( )) );
+					.getImage( CorePlugin.RESOURCE_FOLDER
+							+ File.separator
+							+ removeQuoteString( getImageHandle( ).getURI( ) ) );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase( imageSource ) )
 		{
-			//TODO: connection database to get the data
+			// TODO: connection database to get the data
 		}
 		return null;
 	}
@@ -73,14 +78,16 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	private String removeQuoteString( String value )
 	{
-		if ( value != null && value.length( ) > 1 && value.charAt( 0 ) == '\"'
+		if ( value != null
+				&& value.length( ) > 1
+				&& value.charAt( 0 ) == '\"'
 				&& value.charAt( value.length( ) - 1 ) == '\"' )
 		{
 			return value.substring( 1, value.length( ) - 1 );
 		}
 		return value;
 	}
-	
+
 	private ImageHandle getImageHandle( )
 	{
 		return (ImageHandle) getHandle( );

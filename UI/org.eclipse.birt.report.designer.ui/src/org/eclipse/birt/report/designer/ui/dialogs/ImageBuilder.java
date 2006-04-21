@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -357,7 +358,9 @@ public class ImageBuilder extends BaseDialog
 				{
 					case URI_TYPE :
 						uriEditor.setText( uriEditor.getText( ).trim( ) );
-						preview( removeQuoteString( uriEditor.getText( ) ) );
+						preview( CorePlugin.RESOURCE_FOLDER
+								+ File.separator
+								+ removeQuoteString( uriEditor.getText( ) ) );
 						break;
 				}
 

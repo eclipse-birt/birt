@@ -20,6 +20,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import com.ibm.icu.util.StringTokenizer;
 
+import org.eclipse.birt.report.designer.core.CorePlugin;
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage;
@@ -57,9 +59,9 @@ import org.osgi.framework.BundleContext;
  */
 public class ReportPlugin extends AbstractUIPlugin
 {
-	
-	//Add the static String list, remeber thr ignore view for the selection
-	private List ignore = new ArrayList();
+
+	// Add the static String list, remeber thr ignore view for the selection
+	private List ignore = new ArrayList( );
 	/**
 	 * The Report UI plugin ID.
 	 */
@@ -87,7 +89,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String RESOURCE_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.resourcestore"; //$NON-NLS-1$
 
 	public static final String BIRT_RESOURCE = "BIRTResource";
-	
+
 	private int nameCount = 0;
 
 	/**
@@ -125,22 +127,25 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		// set default Template
 		setDefaultTemplatePreference( );
-		
+
 		// set default Resource
-		setDefaultResourcePreference();
+		setDefaultResourcePreference( );
 
 		// Biding default short cut services
 		// Using 3.0 compatible api
 		PlatformUI.getWorkbench( )
 				.getContextSupport( )
 				.setKeyFilterEnabled( true );
-		
-		addIgnoreViewID("org.eclipse.birt.report.designer.ui.editors.ReportEditor");
-		addIgnoreViewID("org.eclipse.birt.report.designer.ui.editors.TemplateEditor");
-		addIgnoreViewID(IPageLayout.ID_OUTLINE);
-		addIgnoreViewID(AttributeView.ID);
-		addIgnoreViewID(PaletteView.ID);
-		addIgnoreViewID(DataView.ID);
+
+		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.ReportEditor" );
+		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.TemplateEditor" );
+		addIgnoreViewID( IPageLayout.ID_OUTLINE );
+		addIgnoreViewID( AttributeView.ID );
+		addIgnoreViewID( PaletteView.ID );
+		addIgnoreViewID( DataView.ID );
+
+		// set resource folder in DesignerConstants for use in Core plugin
+		CorePlugin.RESOURCE_FOLDER = getResourcePreference( );
 	}
 
 	/**
@@ -281,11 +286,11 @@ public class ReportPlugin extends AbstractUIPlugin
 		if ( image == null )
 		{
 			URL url = ReportPlugin.getDefault( ).find( new Path( key ) );
-			if(url==null)
+			if ( url == null )
 			{
 				try
 				{
-					url = new URL("file:///" + key);
+					url = new URL( "file:///" + key );
 				}
 				catch ( MalformedURLException e )
 				{
@@ -302,7 +307,7 @@ public class ReportPlugin extends AbstractUIPlugin
 				image = ImageDescriptor.getMissingImageDescriptor( )
 						.createImage( );
 			}
-			
+
 			imageRegistry.put( key, image );
 		}
 
@@ -558,7 +563,8 @@ public class ReportPlugin extends AbstractUIPlugin
 		String replaceString = new String( PREFERENCE_DELIMITER )
 				+ new String( PREFERENCE_DELIMITER );
 		String regrex = new String( PREFERENCE_DELIMITER )
-				+ SPACE + new String( PREFERENCE_DELIMITER );
+				+ SPACE
+				+ new String( PREFERENCE_DELIMITER );
 		while ( preferenceValueCopy.indexOf( replaceString ) != -1 )
 		{
 			preferenceValueCopy = preferenceValueCopy.replaceFirst( replaceString,
@@ -770,38 +776,37 @@ public class ReportPlugin extends AbstractUIPlugin
 		getPreferenceStore( ).setValue( TEMPLATE_PREFERENCE, preference ); //$NON-NLS-1$
 	}
 
-	
 	/**
 	 * set default resource preference
 	 * 
 	 */
 	public void setDefaultResourcePreference( )
 	{
-		String metaPath = Platform.getStateLocation( ReportPlugin.getDefault( ).getBundle( )).toOSString( );
-		if(! metaPath.endsWith( File.separator ))
+		String metaPath = Platform.getStateLocation( ReportPlugin.getDefault( )
+				.getBundle( ) ).toOSString( );
+		if ( !metaPath.endsWith( File.separator ) )
 		{
-			metaPath = metaPath + File.separator;			
+			metaPath = metaPath + File.separator;
 		}
 		metaPath = metaPath + BIRT_RESOURCE;
 		File targetFolder = new File( metaPath );
-		if(!targetFolder.exists( ))
+		if ( !targetFolder.exists( ) )
 		{
 			targetFolder.mkdirs( );
 		}
 		getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, metaPath ); //$NON-NLS-1$		
 	}
-	
-	
+
 	/**
 	 * Return default resouce preference
 	 * 
 	 * @return String The String of default resource preference
 	 */
 	public String getDefaultResourcePreference( )
-	{ 
-		return getPreferenceStore( ).getDefaultString( RESOURCE_PREFERENCE );	
+	{
+		return getPreferenceStore( ).getDefaultString( RESOURCE_PREFERENCE );
 	}
-	
+
 	/**
 	 * Return resource preference
 	 * 
@@ -819,29 +824,31 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setResourcePreference( String preference )
 	{
 		getPreferenceStore( ).setValue( RESOURCE_PREFERENCE, preference ); //$NON-NLS-1$
+		CorePlugin.RESOURCE_FOLDER = preference;
 	}
-	
+
 	/**
 	 * @param str
 	 */
-	public void addIgnoreViewID(String str)
+	public void addIgnoreViewID( String str )
 	{
-		ignore.add(str);
+		ignore.add( str );
 	}
-	
+
 	/**
 	 * @param str
 	 */
-	public void removeIgnoreViewID(String str)
+	public void removeIgnoreViewID( String str )
 	{
-		ignore.remove(str);
+		ignore.remove( str );
 	}
+
 	/**
 	 * @param str
 	 * @return
 	 */
-	public boolean containIgnoreViewID(String str)
+	public boolean containIgnoreViewID( String str )
 	{
-		return ignore.contains(str);
+		return ignore.contains( str );
 	}
 }

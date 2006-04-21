@@ -37,6 +37,8 @@ public class CorePlugin extends AbstractUIPlugin
 	// Resource bundle.
 	private ResourceBundle resourceBundle;
 
+	public static String RESOURCE_FOLDER;
+
 	/**
 	 * The constructor.
 	 */
