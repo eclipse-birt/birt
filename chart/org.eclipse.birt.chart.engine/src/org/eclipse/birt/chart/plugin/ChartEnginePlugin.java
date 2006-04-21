@@ -11,13 +11,12 @@
 
 package org.eclipse.birt.chart.plugin;
 
-import org.eclipse.core.runtime.Plugin;
 
 /**
- * Plugin class for Chart Engine.
+ * Plugin class for Chart Engine. Holds the plugin ID
  */
 
-public class ChartEnginePlugin extends Plugin
+public class ChartEnginePlugin
 {
 
 	/**
