@@ -52,8 +52,8 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 	 * <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PAGE_NUMBER</code>
-	 * <li><code>TOTAL_PAGE</code>
+	 * <li><code>AUTO_TEXT_PAGE_NUMBER</code>
+	 * <li><code>AUTO_TEXT_TOTAL_PAGE</code>
 	 * </ul>
 	 * 
 	 * @return the type for the parameter
@@ -61,6 +61,7 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 	 * @see #setAutoTextType(String)
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
+
 	public String getAutoTextType( )
 	{
 		return getStringProperty( AutoText.AUTOTEXT_TYPE_PROP );
@@ -72,8 +73,8 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 	 * <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PAGE_NUMBER</code>
-	 * <li><code>TOTAL_PAGE</code>
+	 * <li><code>AUTO_TEXT_PAGE_NUMBER</code>
+	 * <li><code>AUTO_TEXT_TOTAL_PAGE</code>
 	 * </ul>
 	 * 
 	 * @param type

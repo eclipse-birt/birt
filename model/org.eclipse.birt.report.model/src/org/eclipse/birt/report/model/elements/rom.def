@@ -2950,6 +2950,7 @@
       <Type name="Line"/>
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
+      <Type name="AutoText"/>		
       <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>      
       <Trigger targetElement="MasterPage" validator="MasterPageContextContainmentValidator"/>

@@ -674,8 +674,8 @@ public interface DesignChoiceConstants
 	 */
 
 	public static final String CHOICE_AUTO_TEXT_TYPE = "autoTextType"; //$NON-NLS-1$
-	public static final String PAGE_NUMBER = "page-number"; //$NON-NLS-1$
-	public static final String TOTAL_PAGE = "total-page"; //$NON-NLS-1$
+	public static final String AUTO_TEXT_PAGE_NUMBER = "page-number"; //$NON-NLS-1$
+	public static final String AUTO_TEXT_TOTAL_PAGE = "total-page"; //$NON-NLS-1$
 	
 	/**
 	 * dataSetMode -- the mode to support data sets. Can be single data set and 
