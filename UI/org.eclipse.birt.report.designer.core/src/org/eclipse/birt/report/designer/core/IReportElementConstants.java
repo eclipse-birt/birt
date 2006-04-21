@@ -18,6 +18,8 @@ public interface IReportElementConstants
 
 	public final static String AUTOTEXT_PAGE = "Page"; //$NON-NLS-1$
 
+	public final static String AUTOTEXT_TOTAL_PAGE_COUNT = "TotalPageCount"; //$NON-NLS-1$
+	
 	public final static String AUTOTEXT_DATE = "Date"; //$NON-NLS-1$
 
 	public final static String AUTOTEXT_CREATEDON = "Created on"; //$NON-NLS-1$

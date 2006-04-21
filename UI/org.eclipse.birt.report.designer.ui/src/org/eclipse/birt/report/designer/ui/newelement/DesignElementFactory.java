@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.newelement;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -139,6 +140,20 @@ public class DesignElementFactory extends ElementFactory
 	}
 
 	/**
+	 * Creates a new autotext item.
+	 * 
+	 * @param name
+	 *            the optional autotext name. Can be <code>null</code>.
+	 * @return a handle to the autotext
+	 */
+
+	public AutoTextHandle newAutoText( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.AUTOTEXT_ITEM, name );
+		return factory.newAutoText( newName );
+	}
+
+	/**
 	 * Creates a new label item.
 	 * 
 	 * @param name
@@ -151,7 +166,7 @@ public class DesignElementFactory extends ElementFactory
 		String newName = getNewName( ReportDesignConstants.LABEL_ITEM, name );
 		return factory.newLabel( newName );
 	}
-
+	
 	/**
 	 * Creates a new image item.
 	 * 

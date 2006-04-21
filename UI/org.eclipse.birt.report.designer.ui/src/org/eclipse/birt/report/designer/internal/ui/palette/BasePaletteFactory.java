@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -66,6 +67,7 @@ public class BasePaletteFactory
 	private static final String TOOL_TIP_RECTANGLE_SELECT = Messages.getString( "BasePaletteFactory.toolTip.RectangleSelect" );//$NON-NLS-1$
 	private static final String PALETTE_GROUP_TEXT = Messages.getString( "BasePaletteFactory.Group.Items" ); //$NON-NLS-1$
 	private static final String AUTOTEXT_LABEL_PAGE_X_OF_Y = Messages.getString( "BasePaletteFactory.AutoTextLabel.PageXofY" ); //$NON-NLS-1$
+	private static final String AUTOTEXT_LABEL_PAGE_COUNT = Messages.getString( "BasePaletteFactory.AutoTextLabel.PageCount" ); //$NON-NLS-1$
 	private static final String AUTOTEXT_LABEL_LAST_PRINTED = Messages.getString( "BasePaletteFactory.AutoTextLabel.LastPrinted" ); //$NON-NLS-1$
 	private static final String AUTOTEXT_LABEL_FILENAME = Messages.getString( "BasePaletteFactory.AutoTextLabel.Filename" ); //$NON-NLS-1$
 	private static final String AUTOTEXT_LABEL_CREATE_BY = Messages.getString( "BasePaletteFactory.AutoTextLabel.CreatedBy" ); //$NON-NLS-1$
@@ -268,7 +270,8 @@ public class BasePaletteFactory
 			// }
 			// }
 			// return false;
-			ImageHandle dataHandle = DesignElementFactory.getInstance( ).newImage( null );
+			ImageHandle dataHandle = DesignElementFactory.getInstance( )
+					.newImage( null );
 			setModel( dataHandle );
 			return super.preHandleMouseUp( );
 		}
@@ -281,6 +284,47 @@ public class BasePaletteFactory
 		public boolean preHandleMouseDown( )
 		{
 			// TODO Auto-generated method stub
+			return false;
+		}
+	}
+
+	public static class AutoTextToolExtends extends AbstractToolHandleExtends
+	{
+
+		public boolean preHandleMouseUp( )
+		{
+			CreateRequest request = getRequest( );
+
+			AutoTextHandle autoTextItemHandle = DesignElementFactory.getInstance( )
+					.newAutoText( null );
+			try
+			{
+				if ( IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
+				{
+					autoTextItemHandle.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER );
+				}
+				else if ( IReportElementConstants.AUTOTEXT_TOTAL_PAGE_COUNT.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
+				{
+					autoTextItemHandle.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE );
+				}
+
+			}
+			catch ( SemanticException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace( );
+			}
+			setModel( autoTextItemHandle );
+			return super.preHandleMouseUp( );
+
+		} /*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+			 */
+
+		public boolean preHandleMouseDown( )
+		{
 			return false;
 		}
 	}
@@ -315,14 +359,14 @@ public class BasePaletteFactory
 					.newTextItem( null );
 			try
 			{
-				if ( IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( type ) )
-				{
-					text = AUTOTEXT_LABEL_PAGE
-							+ "<value-of>pageNumber</value-of>"; //$NON-NLS-1$
-					textItemHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
-
-				}
-				else if ( IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( type ) )
+//				if ( IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( type ) )
+//				{
+//					text = AUTOTEXT_LABEL_PAGE
+//							+ "<value-of>pageNumber</value-of>"; //$NON-NLS-1$
+//					textItemHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
+//
+//				}else 
+				if ( IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( type ) )
 				{
 					text = "<value-of>new Date()</value-of>"; //$NON-NLS-1$
 					textItemHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
@@ -361,10 +405,21 @@ public class BasePaletteFactory
 							+ "<value-of>new Date()</value-of>"; //$NON-NLS-1$
 					textItemHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
 				}
-				else if ( IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase( type ) )
-				{
-					text = AUTOTEXT_LABEL_PAGE_X_OF_Y;
-				}
+//				else if ( IReportElementConstants.AUTOTEXT_TOTAL_PAGE_COUNT.equalsIgnoreCase( type ) )
+//				{
+//					text = AUTOTEXT_LABEL_PAGE_COUNT
+//							+ "<value-of>pageNumber</value-of>"
+//							+ " of"
+//							+ "<value-of>pageNumber</value-of>";
+//				}
+//				else if ( IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase( type ) )
+//				{
+//					text = AUTOTEXT_LABEL_PAGE_X_OF_Y
+//							+ "Page "
+//							+ "<value-of>pageNumber</value-of>"
+//							+ " of"
+//							+ "<value-of>pageNumber</value-of>";
+//				}
 				else if ( !IReportElementConstants.REPORT_ELEMENT_TEXT.equalsIgnoreCase( type ) )
 				{
 					return false;
@@ -541,7 +596,39 @@ public class BasePaletteFactory
 			String type = (String) getRequest( ).getNewObjectType( );
 			GridHandle grid = null;
 
-			if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equals( type ) )
+			if ( IReportElementConstants.AUTOTEXT_PAGEXOFY.equals( type ) )
+			{
+				grid = factory.newGridItem( null, 3, 1 );
+				try
+				{
+					List cellList = ( (RowHandle) grid.getRows( ).get( 0 ) ).getCells( )
+							.getContents( );
+
+					AutoTextHandle autoTextHandle = factory.newAutoText( null );
+
+					autoTextHandle.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER );
+
+					( (CellHandle) cellList.get( 0 ) ).getContent( )
+							.add( autoTextHandle );
+
+					TextItemHandle textHandle = factory.newTextItem( null );
+					textHandle.setContent( "/" ); //$NON-NLS-1$
+					textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_PLAIN );
+					( (CellHandle) cellList.get( 1 ) ).getContent( )
+							.add( textHandle );
+
+					autoTextHandle = factory.newAutoText( null );
+					autoTextHandle.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE );
+					( (CellHandle) cellList.get( 2 ) ).getContent( )
+							.add( autoTextHandle );
+
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+			else if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equals( type ) )
 			{
 				grid = factory.newGridItem( null, 3, 1 );
 				try
@@ -863,15 +950,20 @@ public class BasePaletteFactory
 
 		}
 		else if ( IReportElementConstants.REPORT_ELEMENT_TEXT.equalsIgnoreCase( template )
-				|| IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_CREATEDON.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_CREATEDBY.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_FILENAME.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_LASTPRINTED.equalsIgnoreCase( template )
-				|| IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase( template ) )
+
+		)
 		{
 			preHandle = new TextToolExtends( );
+		}
+		else if ( IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_TOTAL_PAGE_COUNT.equalsIgnoreCase( template ) )
+		{
+			preHandle = new AutoTextToolExtends( );
 		}
 		else if ( IReportElementConstants.REPORT_ELEMENT_TEXTDATA.equalsIgnoreCase( template ) )
 		{
@@ -879,7 +971,8 @@ public class BasePaletteFactory
 		}
 		else if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equalsIgnoreCase( template )
-				|| IReportElementConstants.REPORT_ELEMENT_GRID.equalsIgnoreCase( template ) )
+				|| IReportElementConstants.REPORT_ELEMENT_GRID.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase( template ) )
 		{
 			preHandle = new GridToolExtends( );
 		}

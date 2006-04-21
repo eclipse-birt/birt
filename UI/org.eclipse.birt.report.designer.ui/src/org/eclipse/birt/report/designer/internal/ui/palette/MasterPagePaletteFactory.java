@@ -34,9 +34,11 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 
 	private static final String AUTOTEXT_TOOLTIP_CONFIDENTIAL_PAGE = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.ConfidentialPage" ); //$NON-NLS-1$
 
+	private static final String AUTOTEXT_TOOLTIP_TOTAL_PAGE_COUNT = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.TotalPageCount" ); //$NON-NLS-1$
+
 	private static final String AUTOTEXT_TOOLTIP_AUTHOR_PAGE_DATE = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.AuthorPageDate" ); //$NON-NLS-1$
 
-//	private static final String AUTOTEXT_TOOLTIP_PAGE_X_OF_Y = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.PageXofY" ); //$NON-NLS-1$
+	private static final String AUTOTEXT_TOOLTIP_PAGE_X_OF_Y = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.PageXofY" ); //$NON-NLS-1$
 
 	private static final String AUTOTEXT_TOOLTIP_LAST_PRINTED = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.LastPrinted" ); //$NON-NLS-1$
 
@@ -52,7 +54,9 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 
 	private static final String AUTOTEXT_LABEL = Messages.getString( "MasterPagePaletteFactory.Autotext.Label" ); //$NON-NLS-1$
 
-//	private static final String AUTOTEXT_PAGE_X_OF_Y = Messages.getString( "MasterPagePaletteFactory.Autotext.PageXofY" ); //$NON-NLS-1$
+	private static final String AUTOTEXT_PAGE_X_OF_Y = Messages.getString( "MasterPagePaletteFactory.Autotext.PageXofY" ); //$NON-NLS-1$
+
+	private static final String AUTOTEXT_TOTAL_PAGE_COUNT = Messages.getString( "MasterPagePaletteFactory.Autotext.TotalPageCount" ); //$NON-NLS-1$
 
 	private static final String AUTOTEXT_LAST_PRINTED = Messages.getString( "MasterPagePaletteFactory.Autotext.LastPrinted" ); //$NON-NLS-1$
 
@@ -109,6 +113,16 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 		combined = createAutoText( AUTOTEXT_PAGE,
 				AUTOTEXT_TOOLTIP_PAGE,
 				IReportElementConstants.AUTOTEXT_PAGE );
+		entries.add( combined );
+		
+		combined = createAutoText( AUTOTEXT_TOTAL_PAGE_COUNT,
+				AUTOTEXT_TOOLTIP_TOTAL_PAGE_COUNT,
+				IReportElementConstants.AUTOTEXT_TOTAL_PAGE_COUNT );
+		entries.add( combined );
+		
+		combined = createAutoText( AUTOTEXT_PAGE_X_OF_Y,
+		AUTOTEXT_TOOLTIP_PAGE_X_OF_Y,
+		IReportElementConstants.AUTOTEXT_PAGEXOFY );
 		entries.add( combined );
 
 		combined = createAutoText( AUTOTEXT_AUTHOR_PAGE_DATE,

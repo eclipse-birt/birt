@@ -250,19 +250,23 @@ public class ReportCreationTool extends CreationTool
 		}
 
 		else if ( IReportElementConstants.REPORT_ELEMENT_TEXT.equalsIgnoreCase( template )
-				|| IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_CREATEDON.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_CREATEDBY.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_FILENAME.equalsIgnoreCase( template )
-				|| IReportElementConstants.AUTOTEXT_LASTPRINTED.equalsIgnoreCase( template )
-				|| IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase( template ) )
+				|| IReportElementConstants.AUTOTEXT_LASTPRINTED.equalsIgnoreCase( template ))
 		{
 			type = ReportDesignConstants.TEXT_ITEM;
 		}
+		else if ( IReportElementConstants.AUTOTEXT_TOTAL_PAGE_COUNT.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( template ) )
+		{
+			type = ReportDesignConstants.AUTOTEXT_ITEM;
+		}
 		else if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equalsIgnoreCase( template )
-				|| IReportElementConstants.REPORT_ELEMENT_GRID.equalsIgnoreCase( template ) )
+				|| IReportElementConstants.REPORT_ELEMENT_GRID.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase( template ) )
 		{
 			type = ReportDesignConstants.GRID_ITEM;
 		}
