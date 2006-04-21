@@ -110,7 +110,8 @@ public class FontCanvas extends Canvas implements PaintListener
 		{
 			cBack = Display.getCurrent( )
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
-			if ( cdCurrent != null && bUseColor )
+			if ( cdCurrent != null
+					&& bUseColor && cdCurrent.getTransparency( ) > 0 )
 			{
 				cFore = new Color( this.getDisplay( ),
 						cdCurrent.getRed( ),

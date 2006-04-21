@@ -259,6 +259,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 
 		gacMajor = new GridAttributesComposite( grpMajor,
 				SWT.NONE,
+				getContext( ),
 				axis.getMajorGrid( ),
 				axis.getOrientation( ).getValue( ) );
 		gacMajor.addListener( this );
@@ -274,6 +275,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 
 		gacMinor = new GridAttributesComposite( grpMinor,
 				SWT.NONE,
+				getContext( ),
 				axis.getMinorGrid( ),
 				axis.getOrientation( ).getValue( ) );
 		gacMinor.addListener( this );

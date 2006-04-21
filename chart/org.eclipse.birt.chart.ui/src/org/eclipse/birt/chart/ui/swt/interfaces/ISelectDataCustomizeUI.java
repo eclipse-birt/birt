@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -66,14 +67,13 @@ public interface ISelectDataCustomizeUI
 	 *            <code>ORTHOGONAL_SERIES</code>,
 	 *            <code>GROUPING_SERIES</code>
 	 * @param seriesdefinition
-	 * @param builder
-	 * @param oContext
+	 * @param context
 	 * @param sTitle
 	 * @return UI component
 	 */
 	ISelectDataComponent getAreaComponent( int areaType,
-			SeriesDefinition seriesdefinition, IUIServiceProvider builder,
-			Object oContext, String sTitle );
+			SeriesDefinition seriesdefinition, ChartWizardContext context,
+			String sTitle );
 
 	/**
 	 * Gets custom preview table which is used for data preview

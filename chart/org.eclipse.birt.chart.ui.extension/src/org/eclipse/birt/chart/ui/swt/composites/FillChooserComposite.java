@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -102,6 +101,8 @@ public class FillChooserComposite extends Composite
 
 	private transient boolean bImageEnabled = true;
 
+	private transient boolean bTransparentEnabled = true;
+
 	private transient boolean bAutoEnabled = false;
 
 	private transient Fill fCurrent = null;
@@ -122,53 +123,7 @@ public class FillChooserComposite extends Composite
 
 	private boolean bJustFocusLost = false;
 
-	private transient EList adapters;
-
-	/**
-	 * Using this constructor needs to pay attention to new EObject created
-	 * without adapters if Fill is null.
-	 * 
-	 * @param parent
-	 * @param style
-	 * @param fCurrent
-	 *            if null, create a default Fill
-	 * @param bEnableGradient
-	 * @param bEnableImage
-	 * @deprecated
-	 */
-	public FillChooserComposite( Composite parent, int style, Fill fCurrent,
-			boolean bEnableGradient, boolean bEnableImage )
-	{
-		super( parent, style );
-		this.fCurrent = fCurrent;
-		this.bGradientEnabled = bEnableGradient;
-		this.bImageEnabled = bEnableImage;
-		this.adapters = fCurrent != null ? fCurrent.eAdapters( ) : null;
-		init( );
-		placeComponents( );
-	}
-
-	/**
-	 * 
-	 * @param parent
-	 * @param style
-	 * @param adapters
-	 * @param fCurrent
-	 *            If null, create a Fill using adapters
-	 * @param bEnableGradient
-	 * @param bEnableImage
-	 */
-	public FillChooserComposite( Composite parent, int style, EList adapters,
-			Fill fCurrent, boolean bEnableGradient, boolean bEnableImage )
-	{
-		super( parent, style );
-		this.fCurrent = fCurrent;
-		this.bGradientEnabled = bEnableGradient;
-		this.bImageEnabled = bEnableImage;
-		this.adapters = adapters;
-		init( );
-		placeComponents( );
-	}
+	private transient ChartWizardContext wizardContext;
 
 	/**
 	 * 
@@ -182,20 +137,43 @@ public class FillChooserComposite extends Composite
 	 */
 	public FillChooserComposite( Composite parent, int style,
 			ChartWizardContext wizardContext, Fill fCurrent,
+			boolean bEnableGradient, boolean bEnableImage, boolean bEnableAuto )
+	{
+		super( parent, style );
+		this.fCurrent = fCurrent;
+		this.bGradientEnabled = bEnableGradient;
+		this.bImageEnabled = bEnableImage;
+		this.bAutoEnabled = bEnableAuto;
+		// If auto selection is enabled, transparent must be disabled
+		this.bTransparentEnabled = !bAutoEnabled;
+		this.wizardContext = wizardContext;
+		init( );
+		placeComponents( );
+	}
+
+	/**
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param wizardContext
+	 * @param fCurrent
+	 *            If null, create a Fill using adapters from wizard context
+	 * @param bEnableGradient
+	 * @param bEnableImage
+	 * @param bEnableAuto
+	 *            If true, null fill means auto, rather than transparent
+	 */
+	public FillChooserComposite( Composite parent, int style,
+			ChartWizardContext wizardContext, Fill fCurrent,
 			boolean bEnableGradient, boolean bEnableImage )
 	{
 		super( parent, style );
 		this.fCurrent = fCurrent;
 		this.bGradientEnabled = bEnableGradient;
 		this.bImageEnabled = bEnableImage;
-		this.adapters = wizardContext.getModel( ).eAdapters( );
+		this.wizardContext = wizardContext;
 		init( );
 		placeComponents( );
-	}
-
-	public void setAutoEnabled( boolean isEnabled )
-	{
-		this.bAutoEnabled = isEnabled;
 	}
 
 	/**
@@ -246,7 +224,9 @@ public class FillChooserComposite extends Composite
 		cmpContentInner.setLayoutData( gdContentInner );
 
 		// THE CANVAS
-		cnvSelection = new FillCanvas( cmpContentInner, SWT.NONE );
+		cnvSelection = new FillCanvas( cmpContentInner,
+				SWT.NONE,
+				this.bAutoEnabled );
 		GridData gdCNVSelection = new GridData( GridData.FILL_BOTH );
 		gdCNVSelection.heightHint = iSize;
 		cnvSelection.setLayoutData( gdCNVSelection );
@@ -324,7 +304,7 @@ public class FillChooserComposite extends Composite
 		{
 			return;
 		}
-		int iShellHeight = 200;
+		int iShellHeight = 170;
 		int iShellWidth = 160;
 		// Reduce the height based on which buttons are to be shown.
 		if ( bGradientEnabled )
@@ -336,6 +316,10 @@ public class FillChooserComposite extends Composite
 			iShellHeight += 30;
 		}
 		if ( bAutoEnabled )
+		{
+			iShellHeight += 30;
+		}
+		if ( bTransparentEnabled )
 		{
 			iShellHeight += 30;
 		}
@@ -451,13 +435,16 @@ public class FillChooserComposite extends Composite
 		srTransparency.addSelectionListener( this );
 		srTransparency.addFocusListener( this );
 
-		btnReset = new Button( cmpButtons, SWT.NONE );
-		GridData gdReset = new GridData( GridData.FILL_BOTH );
-		gdReset.heightHint = 26;
-		gdReset.horizontalSpan = 2;
-		btnReset.setLayoutData( gdReset );
-		btnReset.setText( Messages.getString( "FillChooserComposite.Lbl.Transparent" ) ); //$NON-NLS-1$
-		btnReset.addSelectionListener( this );
+		if ( this.bTransparentEnabled )
+		{
+			btnReset = new Button( cmpButtons, SWT.NONE );
+			GridData gdReset = new GridData( GridData.FILL_BOTH );
+			gdReset.heightHint = 26;
+			gdReset.horizontalSpan = 2;
+			btnReset.setLayoutData( gdReset );
+			btnReset.setText( Messages.getString( "FillChooserComposite.Lbl.Transparent" ) ); //$NON-NLS-1$
+			btnReset.addSelectionListener( this );
+		}
 
 		if ( this.bAutoEnabled )
 		{
@@ -512,11 +499,11 @@ public class FillChooserComposite extends Composite
 
 	public Fill getFill( )
 	{
-		// if ( fCurrent == null
-		// || fCurrent.equals( ColorDefinitionImpl.TRANSPARENT( ) ) )
-		// {
-		// return null;
-		// }
+		if ( fCurrent == null
+				|| fCurrent.equals( ColorDefinitionImpl.TRANSPARENT( ) ) )
+		{
+			return null;
+		}
 		return this.fCurrent;
 	}
 
@@ -603,19 +590,7 @@ public class FillChooserComposite extends Composite
 		}
 		else if ( oSource.equals( this.btnAuto ) )
 		{
-			if ( fCurrent == null )
-			{
-				fCurrent = ColorDefinitionImpl.TRANSPARENT( );
-			}
-			if ( fCurrent instanceof ColorDefinition )
-			{
-				ColorDefinition color = (ColorDefinition) fCurrent;
-				color.unsetBlue( );
-				color.unsetGreen( );
-				color.unsetRed( );
-				color.unsetTransparency( );
-			}
-			setFill( fCurrent );
+			setFill( null );
 			fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 			cmpDropDown.getShell( ).dispose( );
 		}
@@ -639,7 +614,7 @@ public class FillChooserComposite extends Composite
 			{
 				ColorDefinition cdNew = AttributeFactory.eINSTANCE.createColorDefinition( );
 				cdNew.set( rgb.red, rgb.green, rgb.blue );
-				cdNew.setTransparency( ( bTransparencyChanged )
+				cdNew.setTransparency( bTransparencyChanged
 						? this.iTransparency : iTrans );
 				addAdapters( cdNew );
 				this.setFill( cdNew );
@@ -654,17 +629,23 @@ public class FillChooserComposite extends Composite
 			if ( fCurrent instanceof Gradient )
 			{
 				ged = new GradientEditorDialog( this.getShell( ),
+						wizardContext,
 						(Gradient) fCurrent );
 			}
 			else if ( fCurrent instanceof ColorDefinition )
 			{
 				ColorDefinition newCD = (ColorDefinition) EcoreUtil.copy( fCurrent );
 				newCD.eAdapters( ).addAll( fCurrent.eAdapters( ) );
-				ged = new GradientEditorDialog( this.getShell( ), null, newCD );
+				ged = new GradientEditorDialog( this.getShell( ),
+						wizardContext,
+						null,
+						newCD );
 			}
 			else
 			{
-				ged = new GradientEditorDialog( this.getShell( ), null );
+				ged = new GradientEditorDialog( this.getShell( ),
+						wizardContext,
+						null );
 			}
 			if ( ged.getGradient( ) != null )
 			{
@@ -693,6 +674,7 @@ public class FillChooserComposite extends Composite
 			setFill( fCurrent );
 
 			bTransparencyChanged = true;
+			fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 		}
 	}
 
@@ -876,9 +858,10 @@ public class FillChooserComposite extends Composite
 
 	private void addAdapters( Notifier notifier )
 	{
-		if ( adapters != null )
+		if ( wizardContext != null )
 		{
-			notifier.eAdapters( ).addAll( adapters );
+			notifier.eAdapters( )
+					.addAll( wizardContext.getModel( ).eAdapters( ) );
 		}
 	}
 }

@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -47,9 +48,10 @@ import org.eclipse.swt.widgets.Spinner;
  * @author Actuate Corporation
  * 
  */
-public class PieSeriesAttributeComposite extends Composite implements
-		Listener,
-		SelectionListener
+public class PieSeriesAttributeComposite extends Composite
+		implements
+			Listener,
+			SelectionListener
 {
 
 	private transient Group grpLeaderLine = null;
@@ -66,8 +68,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private static final int MAX_LEADER_LENGTH = 200;
 
-	private transient IUIServiceProvider serviceprovider;
-	private transient Object oContext;
+	private transient ChartWizardContext context;
 
 	private transient TextEditorComposite txtExplode;
 	private transient Button btnBuilder;
@@ -89,11 +90,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 	 * @param style
 	 */
 	public PieSeriesAttributeComposite( Composite parent, int style,
-			Series series, IUIServiceProvider builder, Object oContext )
+			Series series, ChartWizardContext context )
 	{
 		super( parent, style );
-		this.serviceprovider = builder;
-		this.oContext = oContext;
+		this.context = context;
 		if ( !( series instanceof PieSeries ) )
 		{
 			try
@@ -148,6 +148,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 		// LeaderLine Attributes composite
 		liacLeaderLine = new LineAttributesComposite( grpLeaderLine,
 				SWT.NONE,
+				context,
 				series.getLeaderLineAttributes( ),
 				true,
 				true,
@@ -205,7 +206,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 		fccSliceOutline = new FillChooserComposite( cmpBottomBindingArea,
 				SWT.NONE,
-				series.eAdapters( ),
+				context,
 				series.getSliceOutline( ),
 				false,
 				false );
@@ -243,7 +244,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 			btnBuilder.addSelectionListener( this );
 			btnBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
 			btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
-			if ( serviceprovider == null )
+			if ( context.getUIServiceProvider( ) == null )
 			{
 				btnBuilder.setEnabled( false );
 			}
@@ -366,10 +367,11 @@ public class PieSeriesAttributeComposite extends Composite implements
 		{
 			try
 			{
-				String sExpr = serviceprovider.invoke( IUIServiceProvider.COMMAND_CHART_EXPRESSION,
-						txtExplode.getText( ),
-						oContext,
-						Messages.getString( "PieBaseSeriesComponent.Text.SpecifyExplodeSlice" ) //$NON-NLS-1$
+				String sExpr = context.getUIServiceProvider( )
+						.invoke( IUIServiceProvider.COMMAND_CHART_EXPRESSION,
+								txtExplode.getText( ),
+								context.getExtendedItem( ),
+								Messages.getString( "PieBaseSeriesComponent.Text.SpecifyExplodeSlice" ) //$NON-NLS-1$
 						);
 				txtExplode.setText( sExpr );
 				txtExplode.setToolTipText( sExpr );

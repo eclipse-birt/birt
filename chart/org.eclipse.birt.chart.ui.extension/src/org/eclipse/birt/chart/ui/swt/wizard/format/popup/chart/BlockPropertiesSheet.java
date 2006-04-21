@@ -83,6 +83,7 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 
 		liacOutline = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				getContext( ),
 				getBlockForProcessing( ).getOutline( ),
 				true,
 				true,

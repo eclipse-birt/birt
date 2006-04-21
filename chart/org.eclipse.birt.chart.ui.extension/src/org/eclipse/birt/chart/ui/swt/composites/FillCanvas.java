@@ -47,10 +47,25 @@ class FillCanvas extends Canvas implements PaintListener
 
 	Fill fCurrent = null;
 
+	private boolean isAutoEnabled = false;
+
 	public FillCanvas( Composite parent, int iStyle )
 	{
 		super( parent, iStyle );
 		this.addPaintListener( this );
+	}
+
+	/**
+	 * 
+	 * @param parent
+	 * @param iStyle
+	 * @param isAutoEnabled
+	 *            If true, null color means auto, rather than transparent
+	 */
+	public FillCanvas( Composite parent, int iStyle, boolean isAutoEnabled )
+	{
+		this( parent, iStyle );
+		this.isAutoEnabled = isAutoEnabled;
 	}
 
 	public void setFill( Fill fill )
@@ -82,8 +97,7 @@ class FillCanvas extends Canvas implements PaintListener
 							0,
 							this.getSize( ).x,
 							this.getSize( ).y );
-					if ( fCurrent == null
-							|| ( (ColorDefinition) fCurrent ).isSetTransparency( ) )
+					if ( !isAutoEnabled )
 					{
 						gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2, 2 ); //$NON-NLS-1$
 					}
@@ -118,8 +132,7 @@ class FillCanvas extends Canvas implements PaintListener
 							this.getSize( ).y );
 					Color cText = new Color( this.getDisplay( ), 0, 0, 0 );
 					gc.setForeground( cText );
-					if ( fCurrent == null
-							|| ( (ColorDefinition) fCurrent ).isSetTransparency( ) )
+					if ( !isAutoEnabled )
 					{
 						gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2, 2 ); //$NON-NLS-1$
 					}

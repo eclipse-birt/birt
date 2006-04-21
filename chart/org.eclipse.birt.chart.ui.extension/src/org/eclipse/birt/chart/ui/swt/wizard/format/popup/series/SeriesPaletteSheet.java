@@ -65,7 +65,9 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 		grpPalette.setText( Messages.getString( "BaseSeriesAttributeSheetImpl.Lbl.Palette" ) ); //$NON-NLS-1$
 
 		// Palette list
-		new PaletteEditorComposite( grpPalette, seriesDefn.getSeriesPalette( ) );
+		new PaletteEditorComposite( grpPalette,
+				getContext( ),
+				seriesDefn.getSeriesPalette( ) );
 
 		return cmpContent;
 	}

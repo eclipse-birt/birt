@@ -20,7 +20,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -129,8 +129,6 @@ public class LabelAttributesComposite extends Composite
 
 	private transient boolean bVisibilityEnabled = true;
 
-	private transient IUIServiceProvider serviceprovider = null;
-
 	private transient boolean bEnabled = true;
 
 	private int positionScope = 0;
@@ -141,30 +139,7 @@ public class LabelAttributesComposite extends Composite
 
 	private transient boolean isAlignmentEnabled = true;
 
-	/**
-	 * Please use LabelAttributesComposite(Composite, int, String, Position,
-	 * Label, String, boolean, boolean, IUIServiceProvider, boolean)
-	 * 
-	 * @deprecated
-	 */
-	public LabelAttributesComposite( Composite parent, int style,
-			String sGroupName, Position lpCurrent,
-			org.eclipse.birt.chart.model.component.Label lblCurrent,
-			String sUnits, boolean bPositionEnabled,
-			boolean bVisibilityEnabled, IUIServiceProvider serviceprovider )
-	{
-		this( parent,
-				style,
-				sGroupName,
-				lpCurrent,
-				lblCurrent,
-				sUnits,
-				bPositionEnabled,
-				bVisibilityEnabled,
-				serviceprovider,
-				0,
-				true );
-	}
+	private transient ChartWizardContext wizardContext;
 
 	/**
 	 * 
@@ -184,7 +159,7 @@ public class LabelAttributesComposite extends Composite
 			String sGroupName, Position lpCurrent,
 			org.eclipse.birt.chart.model.component.Label lblCurrent,
 			String sUnits, boolean bPositionEnabled,
-			boolean bVisibilityEnabled, IUIServiceProvider serviceprovider,
+			boolean bVisibilityEnabled, ChartWizardContext wizardContext,
 			boolean isAlignmentEnabled )
 	{
 		this( parent,
@@ -195,42 +170,16 @@ public class LabelAttributesComposite extends Composite
 				sUnits,
 				bPositionEnabled,
 				bVisibilityEnabled,
-				serviceprovider,
+				wizardContext,
 				0,
 				isAlignmentEnabled );
 	}
 
-	/**
-	 * Please use LabelAttributesComposite(Composite, int, String, Position,
-	 * Label, String, boolean, boolean, IUIServiceProvider, int, boolean)
-	 * 
-	 * @deprecated
-	 */
 	public LabelAttributesComposite( Composite parent, int style,
 			String sGroupName, Position lpCurrent,
 			org.eclipse.birt.chart.model.component.Label lblCurrent,
 			String sUnits, boolean bPositionEnabled,
-			boolean bVisibilityEnabled, IUIServiceProvider serviceprovider,
-			int positionScope )
-	{
-		this( parent,
-				style,
-				sGroupName,
-				lpCurrent,
-				lblCurrent,
-				sUnits,
-				bPositionEnabled,
-				bVisibilityEnabled,
-				serviceprovider,
-				positionScope,
-				true );
-	}
-
-	public LabelAttributesComposite( Composite parent, int style,
-			String sGroupName, Position lpCurrent,
-			org.eclipse.birt.chart.model.component.Label lblCurrent,
-			String sUnits, boolean bPositionEnabled,
-			boolean bVisibilityEnabled, IUIServiceProvider serviceprovider,
+			boolean bVisibilityEnabled, ChartWizardContext wizardContext,
 			int positionScope, boolean isAlignmentEnabled )
 	{
 		super( parent, style );
@@ -246,41 +195,9 @@ public class LabelAttributesComposite extends Composite
 		this.insets = lblCurrent.getInsets( );
 		this.bPositionEnabled = bPositionEnabled;
 		this.bVisibilityEnabled = bVisibilityEnabled;
-		this.serviceprovider = serviceprovider;
+		this.wizardContext = wizardContext;
 		this.positionScope = positionScope;
 		this.isAlignmentEnabled = isAlignmentEnabled;
-		init( );
-		placeComponents( );
-	}
-	
-	/**
-	 * Please use LabelAttributesComposite(Composite, int, String, Label, 
-	 * String, boolean, boolean, IUIServiceProvider, boolean, boolean, boolean)
-	 * 
-	 * @deprecated
-	 */
-	public LabelAttributesComposite( Composite parent, int style,
-			String sGroupName,
-			org.eclipse.birt.chart.model.component.Label lblCurrent,
-			String sUnits, boolean bPositionEnabled,
-			boolean bVisibilityEnabled, IUIServiceProvider serviceprovider,
-			boolean bInsetsEnabled, boolean bShadowEnabled )
-	{
-		super( parent, style );
-		this.sGroupName = sGroupName;
-		this.lblCurrent = lblCurrent;
-		this.sUnits = sUnits;
-		this.fdCurrent = lblCurrent.getCaption( ).getFont( );
-		this.cdFont = lblCurrent.getCaption( ).getColor( );
-		this.fBackground = lblCurrent.getBackground( );
-		this.cdShadow = lblCurrent.getShadowColor( );
-		this.laCurrent = lblCurrent.getOutline( );
-		this.insets = lblCurrent.getInsets( );
-		this.bPositionEnabled = bPositionEnabled;
-		this.bVisibilityEnabled = bVisibilityEnabled;
-		this.serviceprovider = serviceprovider;
-		this.bInsetsEnabled = bInsetsEnabled;
-		this.bShadowEnabled = bShadowEnabled;
 		init( );
 		placeComponents( );
 	}
@@ -289,8 +206,9 @@ public class LabelAttributesComposite extends Composite
 			String sGroupName,
 			org.eclipse.birt.chart.model.component.Label lblCurrent,
 			String sUnits, boolean bPositionEnabled,
-			boolean bVisibilityEnabled, IUIServiceProvider serviceprovider,
-			boolean bInsetsEnabled, boolean bShadowEnabled, boolean isAlignmentEnabled )
+			boolean bVisibilityEnabled, ChartWizardContext wizardContext,
+			boolean bInsetsEnabled, boolean bShadowEnabled,
+			boolean isAlignmentEnabled )
 	{
 		super( parent, style );
 		this.sGroupName = sGroupName;
@@ -304,7 +222,7 @@ public class LabelAttributesComposite extends Composite
 		this.insets = lblCurrent.getInsets( );
 		this.bPositionEnabled = bPositionEnabled;
 		this.bVisibilityEnabled = bVisibilityEnabled;
-		this.serviceprovider = serviceprovider;
+		this.wizardContext = wizardContext;
 		this.bInsetsEnabled = bInsetsEnabled;
 		this.bShadowEnabled = bShadowEnabled;
 		this.isAlignmentEnabled = isAlignmentEnabled;
@@ -401,6 +319,7 @@ public class LabelAttributesComposite extends Composite
 
 		fdcFont = new FontDefinitionComposite( cmpGeneral,
 				SWT.NONE,
+				wizardContext,
 				this.fdCurrent,
 				this.cdFont,
 				this.isAlignmentEnabled );
@@ -420,7 +339,7 @@ public class LabelAttributesComposite extends Composite
 
 		fccBackground = new FillChooserComposite( cmpGeneral,
 				SWT.NONE,
-				lblCurrent.eAdapters( ),
+				wizardContext,
 				fBackground,
 				false,
 				false );
@@ -440,7 +359,7 @@ public class LabelAttributesComposite extends Composite
 
 			fccShadow = new FillChooserComposite( cmpGeneral,
 					SWT.NONE,
-					lblCurrent.eAdapters( ),
+					wizardContext,
 					cdShadow,
 					false,
 					false );
@@ -460,6 +379,7 @@ public class LabelAttributesComposite extends Composite
 
 		liacOutline = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				wizardContext,
 				laCurrent,
 				true,
 				true,
@@ -473,7 +393,7 @@ public class LabelAttributesComposite extends Composite
 					SWT.NONE,
 					insets,
 					sUnits,
-					serviceprovider );
+					wizardContext.getUIServiceProvider( ) );
 			GridData gdICInsets = new GridData( GridData.FILL_HORIZONTAL );
 			gdICInsets.heightHint = icInsets.getPreferredSize( ).y;
 			gdICInsets.grabExcessVerticalSpace = false;

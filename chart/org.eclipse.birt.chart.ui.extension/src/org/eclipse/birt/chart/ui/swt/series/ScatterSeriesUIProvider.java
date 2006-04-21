@@ -11,18 +11,13 @@
 
 package org.eclipse.birt.chart.ui.swt.series;
 
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.impl.QueryImpl;
-import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
-import org.eclipse.birt.chart.ui.swt.composites.DataDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
@@ -46,66 +41,12 @@ public class ScatterSeriesUIProvider extends DefaultSeriesUIProvider
 	}
 
 	public Composite getSeriesAttributeSheet( Composite parent, Series series,
-			IUIServiceProvider builder, Object oContext )
+			ChartWizardContext context )
 	{
-		return new LineSeriesAttributeComposite( parent, SWT.NONE, series );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesDataSheet(org.eclipse.swt.widgets.Composite)
-	 */
-	public Composite getSeriesDataSheet( Composite parent,
-			SeriesDefinition seriesdefinition, IUIServiceProvider builder,
-			Object oContext )
-	{
-		Query query = null;
-		if ( seriesdefinition.getDesignTimeSeries( )
-				.getDataDefinition( )
-				.size( ) > 0 )
-		{
-			query = ( (Query) seriesdefinition.getDesignTimeSeries( )
-					.getDataDefinition( )
-					.get( 0 ) );
-		}
-		else
-		{
-			query = QueryImpl.create( "" ); //$NON-NLS-1$
-			seriesdefinition.getDesignTimeSeries( )
-					.getDataDefinition( )
-					.add( query );
-		}
-
-		String sPrefix = ""; //$NON-NLS-1$
-		// If container of container is chart, it is a base series
-		if ( seriesdefinition.eContainer( ).eContainer( ) instanceof Chart )
-		{
-			sPrefix = "X "; //$NON-NLS-1$
-		}
-		else
-		{
-			sPrefix = "Y "; //$NON-NLS-1$
-		}
-
-		String sTitle = query.getDefinition( );
-		if ( sTitle == null || "".equals( sTitle ) ) //$NON-NLS-1$
-		{
-			sTitle = sPrefix
-					+ Messages.getString( "ScatterSeriesUIProvider.Lbl.SeriesDefinition" ); //$NON-NLS-1$
-		}
-		else
-		{
-			sTitle = sPrefix + "Series Definition (" + sTitle + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-		}
-
-		return new DataDefinitionComposite( parent,
+		return new LineSeriesAttributeComposite( parent,
 				SWT.NONE,
-				query,
-				seriesdefinition,
-				builder,
-				oContext,
-				sTitle );
+				context,
+				series );
 	}
 
 	/*
@@ -119,23 +60,21 @@ public class ScatterSeriesUIProvider extends DefaultSeriesUIProvider
 	}
 
 	public ISelectDataComponent getSeriesDataComponent( int seriesType,
-			SeriesDefinition seriesDefn, IUIServiceProvider builder,
-			Object oContext, String sTitle )
+			SeriesDefinition seriesDefn, ChartWizardContext context,
+			String sTitle )
 	{
 		if ( seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES )
 		{
 			return new BaseDataDefinitionComponent( seriesDefn,
 					ChartUIUtil.getDataQuery( seriesDefn, 0 ),
-					builder,
-					oContext,
+					context,
 					sTitle );
 		}
 		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
 		{
 			BaseDataDefinitionComponent ddc = new BaseDataDefinitionComponent( seriesDefn,
 					seriesDefn.getQuery( ),
-					builder,
-					oContext,
+					context,
 					sTitle );
 			ddc.setFormatSpecifierEnabled( false );
 			return ddc;

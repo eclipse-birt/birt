@@ -582,8 +582,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 	{
 		ISelectDataComponent sdc = selectDataUI.getAreaComponent( areaType,
 				seriesDefn,
-				wizardContext.getUIServiceProvider( ),
-				wizardContext.getExtendedItem( ),
+				wizardContext,
 				sTitle );
 		if ( sdc instanceof BaseDataDefinitionComponent )
 		{

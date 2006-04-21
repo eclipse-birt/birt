@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -65,6 +66,8 @@ public class LineSeriesAttributeComposite extends Composite
 
 	private transient Series series = null;
 
+	private transient ChartWizardContext context;
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
 	/**
@@ -72,7 +75,7 @@ public class LineSeriesAttributeComposite extends Composite
 	 * @param style
 	 */
 	public LineSeriesAttributeComposite( Composite parent, int style,
-			Series series )
+			ChartWizardContext context, Series series )
 	{
 		super( parent, style );
 		if ( !( series instanceof LineSeriesImpl ) )
@@ -90,7 +93,7 @@ public class LineSeriesAttributeComposite extends Composite
 			}
 		}
 		this.series = series;
-
+		this.context = context;
 		init( );
 		placeComponents( );
 	}
@@ -122,6 +125,7 @@ public class LineSeriesAttributeComposite extends Composite
 
 		liacLine = new LineAttributesComposite( grpLine,
 				SWT.NONE,
+				context,
 				( (LineSeries) series ).getLineAttributes( ),
 				true,
 				true,
@@ -137,7 +141,7 @@ public class LineSeriesAttributeComposite extends Composite
 
 			fccShadow = new FillChooserComposite( this,
 					SWT.NONE,
-					series.eAdapters( ),
+					context,
 					( (LineSeries) series ).getShadowColor( ),
 					false,
 					false );

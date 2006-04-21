@@ -82,7 +82,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				getChart( ).getUnits( ),
 				true,
 				false,
-				getContext( ).getUIServiceProvider( ),
+				getContext( ),
 				LabelAttributesComposite.ALLOW_VERTICAL_POSITION
 						| LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION,
 				false );
@@ -108,6 +108,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 		fdcFont = new FontDefinitionComposite( grpTxtArea,
 				SWT.NONE,
+				getContext( ),
 				getLegend( ).getText( ).getFont( ),
 				getLegend( ).getText( ).getColor( ),
 				false );
@@ -142,6 +143,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 		outlineText = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				getContext( ),
 				getLegend( ).getClientArea( ).getOutline( ),
 				true,
 				true,
@@ -170,6 +172,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 		lineSeparator = new LineAttributesComposite( grpSeparator,
 				SWT.NONE,
+				getContext( ),
 				getLegend( ).getSeparator( ),
 				true,
 				true,

@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.RuleEditorDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataTextDropListener;
@@ -77,11 +78,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private transient SeriesDefinition seriesdefinition = null;
 
-	private transient IUIServiceProvider serviceprovider = null;
+	private transient ChartWizardContext context = null;
 
 	private transient String sTitle = null;
-
-	private transient Object oContext = null;
 
 	private transient String description = ""; //$NON-NLS-1$
 
@@ -92,15 +91,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	private transient boolean isFormatSpecifiedEnabled = true;
 
 	public BaseDataDefinitionComponent( SeriesDefinition seriesdefinition,
-			Query query, IUIServiceProvider builder, Object oContext,
-			String sTitle )
+			Query query, ChartWizardContext context, String sTitle )
 	{
 		super( );
 		assert query != null;
 		this.query = query;
 		this.seriesdefinition = seriesdefinition;
-		this.serviceprovider = builder;
-		this.oContext = oContext;
+		this.context = context;
 		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 )
 				? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
 				: sTitle;
@@ -174,7 +171,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			btnBuilder.addSelectionListener( this );
 			btnBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
 			btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
-			btnBuilder.setEnabled( serviceprovider.isInvokingSupported( ) );
+			btnBuilder.setEnabled( context.getUIServiceProvider( )
+					.isInvokingSupported( ) );
 		}
 
 		if ( isFormatSpecifiedEnabled )
@@ -237,10 +235,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			try
 			{
-				String sExpr = serviceprovider.invoke( IUIServiceProvider.COMMAND_EXPRESSION,
-						txtDefinition.getText( ),
-						oContext,
-						sTitle );
+				String sExpr = context.getUIServiceProvider( )
+						.invoke( IUIServiceProvider.COMMAND_EXPRESSION,
+								txtDefinition.getText( ),
+								context.getExtendedItem( ),
+								sTitle );
 				txtDefinition.setText( sExpr );
 				query.setDefinition( sExpr );
 			}

@@ -154,6 +154,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 
 		trendLineText = new LineAttributesComposite( cmpRight,
 				SWT.NONE,
+				getContext( ),
 				getTrendline( ).getLineAttributes( ),
 				true,
 				true,
@@ -206,6 +207,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 
 		fdcFont = new FontDefinitionComposite( cmpLabelInner,
 				SWT.NONE,
+				getContext( ),
 				getTrendline( ).getLabel( ).getCaption( ).getFont( ),
 				getTrendline( ).getLabel( ).getCaption( ).getColor( ),
 				false );
@@ -254,6 +256,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 
 		outlineText = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				getContext( ),
 				getTrendline( ).getLabel( ).getOutline( ),
 				true,
 				true,

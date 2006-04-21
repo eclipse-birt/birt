@@ -120,6 +120,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 		outlineIncluding = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				getContext( ),
 				getBlockForProcessing( ).getOutline( ),
 				true,
 				true,
@@ -235,6 +236,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 		outlineWithin = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				getContext( ),
 				getBlockForProcessing( ).getClientArea( ).getOutline( ),
 				true,
 				true,

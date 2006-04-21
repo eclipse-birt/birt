@@ -19,9 +19,9 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -118,29 +118,27 @@ public class FontDefinitionDialog
 
 	private transient List listAlighmentButtons = new ArrayList( 9 );
 
+	private transient ChartWizardContext wizardContext;
+
 	private static final String FONT_AUTO = "Auto"; //$NON-NLS-1$
 
 	private static final String[] FONT_SIZE = new String[]{
 			FONT_AUTO, "9", "10", "12", "14", "16", "18", "24", "36" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 	};
 
-	public FontDefinitionDialog( Shell shellParent, FontDefinition fdCurrent,
-			ColorDefinition cdCurrent )
-	{
-		this( shellParent, fdCurrent, cdCurrent, true );
-	}
-
-	public FontDefinitionDialog( Shell shellParent, FontDefinition fdCurrent,
+	public FontDefinitionDialog( Shell shellParent,
+			ChartWizardContext wizardContext, FontDefinition fdCurrent,
 			ColorDefinition cdCurrent, boolean isAlignmentEnabled )
 	{
 		this.isAlignmentEnabled = isAlignmentEnabled;
+		this.wizardContext = wizardContext;
 		this.fdCurrent = fdCurrent == null ? FontDefinitionImpl.createEmpty( )
 				: (FontDefinition) EcoreUtil.copy( fdCurrent );
-		this.cdCurrent = cdCurrent == null ? ColorDefinitionImpl.create( 0,
-				0,
-				0 ) : (ColorDefinition) EcoreUtil.copy( cdCurrent );
+		this.cdCurrent = cdCurrent == null ? null
+				: (ColorDefinition) EcoreUtil.copy( cdCurrent );
 		this.fdBackup = (FontDefinition) EcoreUtil.copy( this.fdCurrent );
-		this.cdBackup = (ColorDefinition) EcoreUtil.copy( this.cdCurrent );
+		this.cdBackup = this.cdCurrent == null ? null
+				: (ColorDefinition) EcoreUtil.copy( this.cdCurrent );
 		shell = new Shell( shellParent, SWT.DIALOG_TRIM
 				| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		shell.setLayout( new FillLayout( ) );
@@ -211,11 +209,12 @@ public class FontDefinitionDialog
 
 		fccColor = new FillChooserComposite( cmpContent,
 				SWT.NONE,
+				wizardContext,
 				cdCurrent,
 				false,
-				false );
+				false,
+				true );
 		{
-			fccColor.setAutoEnabled( true );
 			GridData gdFCCColor = new GridData( GridData.FILL_HORIZONTAL );
 			gdFCCColor.horizontalSpan = 3;
 			fccColor.setLayoutData( gdFCCColor );
@@ -587,7 +586,9 @@ public class FontDefinitionDialog
 
 	public ColorDefinition getFontColor( )
 	{
-		return this.cdCurrent;
+		return cdCurrent == null
+				|| cdCurrent.isSetTransparency( )
+				&& cdCurrent.getTransparency( ) == 0 ? null : cdCurrent;
 	}
 
 	/**
@@ -794,10 +795,10 @@ public class FontDefinitionDialog
 			if ( e.type == FillChooserComposite.FILL_CHANGED_EVENT )
 			{
 				cdCurrent = (ColorDefinition) fccColor.getFill( );
-				if ( cdCurrent == null )
-				{
-					cdCurrent = ColorDefinitionImpl.TRANSPARENT( );
-				}
+				// if ( cdCurrent == null )
+				// {
+				// cdCurrent = ColorDefinitionImpl.TRANSPARENT( );
+				// }
 				fcPreview.setColor( cdCurrent );
 				fcPreview.redraw( );
 			}

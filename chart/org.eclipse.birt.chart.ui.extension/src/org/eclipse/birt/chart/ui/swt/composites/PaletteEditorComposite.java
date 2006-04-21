@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -57,13 +58,14 @@ import org.eclipse.swt.widgets.ScrollBar;
  * of fill definitions. Entries may be updated, new entries added at the end or
  * the existing fill entries may be removed.
  */
-public final class PaletteEditorComposite extends Composite implements
-		PaintListener,
-		ControlListener,
-		DisposeListener,
-		SelectionListener,
-		MouseListener,
-		Listener
+public final class PaletteEditorComposite extends Composite
+		implements
+			PaintListener,
+			ControlListener,
+			DisposeListener,
+			SelectionListener,
+			MouseListener,
+			Listener
 {
 
 	/**
@@ -124,6 +126,8 @@ public final class PaletteEditorComposite extends Composite implements
 	 */
 	private IDeviceRenderer idrSWT = null;
 
+	private ChartWizardContext wizardContext;
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.composites" ); //$NON-NLS-1$
 
 	/**
@@ -136,9 +140,11 @@ public final class PaletteEditorComposite extends Composite implements
 	 * @param coParent
 	 * @param alFills
 	 */
-	public PaletteEditorComposite( Composite coParent, Palette pa )
+	public PaletteEditorComposite( Composite coParent,
+			ChartWizardContext wizardContext, Palette pa )
 	{
 		super( coParent, SWT.NONE );
+		this.wizardContext = wizardContext;
 		GridLayout gl = new GridLayout( );
 		gl.numColumns = 1;
 		gl.makeColumnsEqualWidth = true;
@@ -164,6 +170,7 @@ public final class PaletteEditorComposite extends Composite implements
 		btnAdd.addSelectionListener( this );
 		fccNewEntry = new FillChooserComposite( coControlPanel,
 				SWT.NONE,
+				wizardContext,
 				ColorDefinitionImpl.WHITE( ),
 				true,
 				true );
@@ -214,7 +221,12 @@ public final class PaletteEditorComposite extends Composite implements
 		Rectangle rCA = coPaletteEntries.getClientArea( );
 		if ( coEditor == null )
 		{
-			coEditor = new FillChooserComposite( co, SWT.NONE, null, true, true );
+			coEditor = new FillChooserComposite( co,
+					SWT.NONE,
+					wizardContext,
+					null,
+					true,
+					true );
 			coEditor.setBounds( 3, 3, rCA.width - 6, iItemHeight - 6 );
 			( (FillChooserComposite) coEditor ).addListener( this );
 		}
@@ -336,8 +348,7 @@ public final class PaletteEditorComposite extends Composite implements
 		{
 			// ADJUST LOWER END IF WE GO BEYOND
 			int iY = ( iIndex - iStartIndex )
-					* iItemHeight
-					- ( iViewY % iItemHeight );
+					* iItemHeight - ( iViewY % iItemHeight );
 			if ( iY + iItemHeight > iViewHeight ) // BELOW THE LOWER EDGE
 			{
 				iViewY += iY + iItemHeight - iViewHeight;
@@ -460,7 +471,6 @@ public final class PaletteEditorComposite extends Composite implements
 	/**
 	 * Returns the index of the currently selected fill in the palette list
 	 * 
-	 * @return
 	 */
 	public final int getSelectedIndex( )
 	{
@@ -470,7 +480,6 @@ public final class PaletteEditorComposite extends Composite implements
 	/**
 	 * Returns the currently selected fill
 	 * 
-	 * @return
 	 */
 	public final ColorDefinitionImpl getSelectedFill( )
 	{

@@ -346,6 +346,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 
 		liacMarkerLine = new LineAttributesComposite( grpMarkerLine,
 				SWT.NONE,
+				getContext( ),
 				null,
 				true,
 				true,
@@ -495,6 +496,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 
 		liacMarkerRange = new LineAttributesComposite( grpMarkerRange,
 				SWT.NONE,
+				getContext( ),
 				null,
 				true,
 				true,
@@ -518,7 +520,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 				getChart( ).getUnits( ),
 				false,
 				true,
-				getContext( ).getUIServiceProvider( ),
+				getContext( ),
 				true );
 		GridData gdLACLabel = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
 				| GridData.FILL_HORIZONTAL );

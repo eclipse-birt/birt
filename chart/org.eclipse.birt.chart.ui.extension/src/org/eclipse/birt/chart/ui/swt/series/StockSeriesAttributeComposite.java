@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -48,6 +49,8 @@ public class StockSeriesAttributeComposite extends Composite
 
 	private StockSeries series = null;
 
+	private transient ChartWizardContext context;
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
 	/**
@@ -55,7 +58,7 @@ public class StockSeriesAttributeComposite extends Composite
 	 * @param style
 	 */
 	public StockSeriesAttributeComposite( Composite parent, int style,
-			Series series )
+			ChartWizardContext context, Series series )
 	{
 		super( parent, style );
 		if ( !( series instanceof StockSeries ) )
@@ -73,6 +76,7 @@ public class StockSeriesAttributeComposite extends Composite
 			}
 		}
 		this.series = (StockSeries) series;
+		this.context = context;
 		init( );
 		placeComponents( );
 	}
@@ -112,6 +116,7 @@ public class StockSeriesAttributeComposite extends Composite
 		// Line Attributes composite
 		liacStock = new LineAttributesComposite( this,
 				SWT.NONE,
+				context,
 				series.getLineAttributes( ),
 				true,
 				true,

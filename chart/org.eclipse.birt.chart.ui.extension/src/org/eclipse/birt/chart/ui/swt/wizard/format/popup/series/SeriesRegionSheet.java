@@ -283,6 +283,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 
 		liacMarkerRange = new LineAttributesComposite( grpMarkerRange,
 				SWT.NONE,
+				getContext( ),
 				null,
 				true,
 				true,

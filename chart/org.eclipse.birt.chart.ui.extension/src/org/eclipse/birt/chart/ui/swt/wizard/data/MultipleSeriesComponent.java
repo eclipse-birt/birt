@@ -18,7 +18,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -43,11 +43,9 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 
 	private transient EList[] seriesDefnsArray;
 
-	private transient IUIServiceProvider serviceprovider = null;
+	private transient ChartWizardContext context = null;
 
 	private transient String sTitle = null;
-
-	private transient Object oContext = null;
 
 	private static final String LABEL_GROUPING_YSERIES = Messages.getString( "MultipleSeriesComponent.Label.OptionalYSeriesGrouping" ); //$NON-NLS-1$
 	private static final String LABEL_GROUPING_OVERLAY = Messages.getString( "MultipleSeriesComponent.Label.OptionalOverlayGrouping" ); //$NON-NLS-1$
@@ -64,24 +62,23 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 	private transient boolean useFirstOnly = true;
 
 	public MultipleSeriesComponent( EList[] seriesDefnsArray,
-			IUIServiceProvider builder, Object oContext, String sTitle,
+			ChartWizardContext context, String sTitle,
 			ISelectDataCustomizeUI selectDataUI )
 	{
 		super( );
 		this.seriesDefnsArray = seriesDefnsArray;
-		this.serviceprovider = builder;
-		this.oContext = oContext;
+		this.context = context;
 		this.sTitle = sTitle;
 		this.selectDataUI = selectDataUI;
 	}
 
 	public MultipleSeriesComponent( EList seriesDefns,
-			IUIServiceProvider builder, Object oContext, String sTitle,
+			ChartWizardContext context, String sTitle,
 			ISelectDataCustomizeUI selectDataUI )
 	{
 		this( new EList[]{
 			seriesDefns
-		}, builder, oContext, sTitle, selectDataUI );
+		}, context, sTitle, selectDataUI );
 		isSingle = true;
 	}
 
@@ -151,8 +148,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 					// Only display current selected series
 					ISelectDataComponent subUI = selectDataUI.getAreaComponent( ISelectDataCustomizeUI.GROUPING_SERIES,
 							( (SeriesDefinition) seriesDefn.get( selectedSeriesIndex ) ),
-							serviceprovider,
-							oContext,
+							context,
 							sTitle );
 					subUI.addListener( MultipleSeriesComponent.this );
 					subUI.createArea( cmpGroup );

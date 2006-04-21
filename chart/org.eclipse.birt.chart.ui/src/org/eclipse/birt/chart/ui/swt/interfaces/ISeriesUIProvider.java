@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -41,10 +42,10 @@ public interface ISeriesUIProvider
 	 *            container for the series attribute composite series the series
 	 *            for which this attribute composite is being provided
 	 * @return the series attribute composite
-	 * @since 2.0
+	 * @since 2.1
 	 */
 	public Composite getSeriesAttributeSheet( Composite parent, Series series,
-			IUIServiceProvider builder, Object oContext );
+			ChartWizardContext context );
 
 	/**
 	 * Fetches the composite used to set data properties for a series.
@@ -53,6 +54,9 @@ public interface ISeriesUIProvider
 	 *            container for the series data composite series the series for
 	 *            which this data composite is being provided
 	 * @return the series data composite
+	 * @deprecated
+	 * @see #getSeriesDataComponent(int, SeriesDefinition, ChartWizardContext,
+	 *      String)
 	 */
 	public Composite getSeriesDataSheet( Composite parent,
 			SeriesDefinition seriesdefinition, IUIServiceProvider builder,
@@ -68,6 +72,6 @@ public interface ISeriesUIProvider
 	public String getSeriesClass( );
 
 	public ISelectDataComponent getSeriesDataComponent( int seriesType,
-			SeriesDefinition seriesDefn, IUIServiceProvider builder,
-			Object oContext, String sTitle );
+			SeriesDefinition seriesDefn, ChartWizardContext context,
+			String sTitle );
 }

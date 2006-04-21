@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -31,7 +32,7 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 	}
 
 	public Composite getSeriesAttributeSheet( Composite parent, Series series,
-			IUIServiceProvider builder, Object oContext )
+			ChartWizardContext context )
 	{
 		return null;
 	}
@@ -49,9 +50,10 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 	}
 
 	public ISelectDataComponent getSeriesDataComponent( int seriesType,
-			SeriesDefinition seriesDefn, IUIServiceProvider builder,
-			Object oContext, String sTitle )
+			SeriesDefinition seriesDefn, ChartWizardContext context,
+			String sTitle )
 	{
+		// TODO Auto-generated method stub
 		return null;
 	}
 

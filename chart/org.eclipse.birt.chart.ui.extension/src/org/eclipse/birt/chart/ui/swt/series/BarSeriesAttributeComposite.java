@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
@@ -39,9 +40,10 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class BarSeriesAttributeComposite extends Composite implements
-		SelectionListener,
-		Listener
+public class BarSeriesAttributeComposite extends Composite
+		implements
+			SelectionListener,
+			Listener
 {
 
 	Composite cmpContent = null;
@@ -52,6 +54,8 @@ public class BarSeriesAttributeComposite extends Composite implements
 
 	Series series = null;
 
+	ChartWizardContext context;
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
 	/**
@@ -59,7 +63,7 @@ public class BarSeriesAttributeComposite extends Composite implements
 	 * @param style
 	 */
 	public BarSeriesAttributeComposite( Composite parent, int style,
-			Series series )
+			ChartWizardContext context, Series series )
 	{
 		super( parent, style );
 		if ( !( series instanceof BarSeries ) )
@@ -77,6 +81,7 @@ public class BarSeriesAttributeComposite extends Composite implements
 			}
 		}
 		this.series = series;
+		this.context = context;
 		init( );
 		placeComponents( );
 	}
@@ -117,7 +122,7 @@ public class BarSeriesAttributeComposite extends Composite implements
 
 		this.fccRiserOutline = new FillChooserComposite( this,
 				SWT.NONE,
-				series.eAdapters( ),
+				context,
 				( (BarSeries) series ).getRiserOutline( ),
 				false,
 				false );

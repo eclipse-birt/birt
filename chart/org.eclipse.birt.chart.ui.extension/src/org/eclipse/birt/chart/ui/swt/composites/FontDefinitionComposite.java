@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -61,17 +62,14 @@ public class FontDefinitionComposite extends Composite
 
 	private transient boolean isAlignmentEnabled = true;
 
-	public FontDefinitionComposite( Composite parent, int style,
-			FontDefinition fdSelected, ColorDefinition cdSelected )
-	{
-		this( parent, style, fdSelected, cdSelected, true );
-	}
+	private transient ChartWizardContext wizardContext;
 
 	public FontDefinitionComposite( Composite parent, int style,
-			FontDefinition fdSelected, ColorDefinition cdSelected,
-			boolean isAlignmentEnabled )
+			ChartWizardContext wizardContext, FontDefinition fdSelected,
+			ColorDefinition cdSelected, boolean isAlignmentEnabled )
 	{
 		super( parent, style );
+		this.wizardContext = wizardContext;
 		this.fdCurrent = fdSelected;
 		this.cdCurrent = cdSelected;
 		this.isAlignmentEnabled = isAlignmentEnabled;
@@ -183,6 +181,7 @@ public class FontDefinitionComposite extends Composite
 		{
 			// Launch the font selection dialog
 			FontDefinitionDialog fontDlg = new FontDefinitionDialog( this.getShell( ),
+					wizardContext,
 					fdCurrent,
 					cdCurrent,
 					isAlignmentEnabled );

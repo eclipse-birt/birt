@@ -69,11 +69,12 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class TaskSelectData extends SimpleTask implements
-		SelectionListener,
-		DisposeListener,
-		ITaskChangeListener,
-		Listener
+public class TaskSelectData extends SimpleTask
+		implements
+			SelectionListener,
+			DisposeListener,
+			ITaskChangeListener,
+			Listener
 {
 
 	private final static int CENTER_WIDTH_HINT = 400;
@@ -311,9 +312,7 @@ public class TaskSelectData extends SimpleTask implements
 		}
 
 		tablePreview = new CustomPreviewTable( composite, SWT.SINGLE
-				| SWT.H_SCROLL
-				| SWT.V_SCROLL
-				| SWT.FULL_SELECTION );
+				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.widthHint = CENTER_WIDTH_HINT;
@@ -650,24 +649,21 @@ public class TaskSelectData extends SimpleTask implements
 			{
 				return;
 			}
+			if ( currentDataSet.equals( BLANK_DATASET ) )
+			{
+				cmbDataSet.removeAll( );
+				cmbDataSet.add( BLANK_DATASET, 0 );
+
+				for ( int i = 0; i < sAllDS.length; i++ )
+				{
+					cmbDataSet.add( sAllDS[i], i + 1 );
+				}
+			}
 			else
 			{
-				if ( currentDataSet.equals( BLANK_DATASET ) )
-				{
-					cmbDataSet.removeAll( );
-					cmbDataSet.add( BLANK_DATASET, 0 );
-
-					for ( int i = 0; i < sAllDS.length; i++ )
-					{
-						cmbDataSet.add( sAllDS[i], i + 1 );
-					}
-				}
-				else
-				{
-					cmbDataSet.setItems( sAllDS );
-				}
-				cmbDataSet.setText( currentDataSet );
+				cmbDataSet.setItems( sAllDS );
 			}
+			cmbDataSet.setText( currentDataSet );
 		}
 		else if ( e.getSource( ).equals( btnFilters ) )
 		{
@@ -962,8 +958,7 @@ public class TaskSelectData extends SimpleTask implements
 			}
 		}
 		sb.append( Messages.getString( "TaskSelectData.Label.Series" ) //$NON-NLS-1$
-				+ ( seriesIndex + 1 )
-				+ " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( seriesIndex + 1 ) + " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString( );
 	}
 

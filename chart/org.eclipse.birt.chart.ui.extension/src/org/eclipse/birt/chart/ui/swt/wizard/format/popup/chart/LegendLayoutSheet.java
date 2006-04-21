@@ -275,6 +275,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 		outlineLegend = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				getContext( ),
 				getBlockForProcessing( ).getOutline( ),
 				true,
 				true,

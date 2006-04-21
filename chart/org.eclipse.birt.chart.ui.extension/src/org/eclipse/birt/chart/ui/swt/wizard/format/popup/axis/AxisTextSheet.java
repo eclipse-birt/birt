@@ -91,7 +91,7 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getChart( ).getUnits( ),
 					false,
 					true,
-					getContext( ).getUIServiceProvider( ),
+					getContext( ),
 					true );
 		}
 		else
@@ -104,7 +104,7 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getChart( ).getUnits( ),
 					true,
 					true,
-					getContext( ).getUIServiceProvider( ),
+					getContext( ),
 					getPositionScope( ),
 					true );
 		}
@@ -139,7 +139,7 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getChart( ).getUnits( ),
 					false,
 					false,
-					getContext( ).getUIServiceProvider( ),
+					getContext( ),
 					false );
 		}
 		else
@@ -153,7 +153,7 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getChart( ).getUnits( ),
 					true,
 					false,
-					getContext( ).getUIServiceProvider( ),
+					getContext( ),
 					getPositionScope( ),
 					false );
 		}

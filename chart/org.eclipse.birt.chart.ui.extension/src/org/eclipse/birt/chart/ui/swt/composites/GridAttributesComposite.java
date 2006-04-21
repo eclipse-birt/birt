@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Grid;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -37,9 +38,10 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class GridAttributesComposite extends Composite implements
-		SelectionListener,
-		Listener
+public class GridAttributesComposite extends Composite
+		implements
+			SelectionListener,
+			Listener
 {
 
 	private transient Group grpTicks = null;
@@ -61,8 +63,10 @@ public class GridAttributesComposite extends Composite implements
 	private transient Vector vListeners = null;
 
 	private int orientation;
-	
+
 	private transient boolean bLineGroupEnabled = true;
+
+	private transient ChartWizardContext context;
 
 	// Grid Attribute Change Events
 	public static final int LINE_STYLE_CHANGED_EVENT = 1;
@@ -83,20 +87,22 @@ public class GridAttributesComposite extends Composite implements
 	 * @param parent
 	 * @param style
 	 */
-	public GridAttributesComposite( Composite parent, int style, Grid grid,
-			int orientation )
+	public GridAttributesComposite( Composite parent, int style,
+			ChartWizardContext context, Grid grid, int orientation )
 	{
 		super( parent, style );
 		this.orientation = orientation;
+		this.context = context;
 		init( grid );
 		placeComponents( );
 	}
-	
-	public GridAttributesComposite(Composite parent, int style, Grid grid, 
-			boolean bLineGroupEnabled)
+
+	public GridAttributesComposite( Composite parent, int style,
+			ChartWizardContext context, Grid grid, boolean bLineGroupEnabled )
 	{
 		super( parent, style );
 		this.bLineGroupEnabled = bLineGroupEnabled;
+		this.context = context;
 		init( grid );
 		placeComponents( );
 	}
@@ -145,28 +151,29 @@ public class GridAttributesComposite extends Composite implements
 		cmpContent.setLayout( glContent );
 
 		// Grid Lines group
-		
-		if (bLineGroupEnabled)
-		{
-		// Layout for Grid Lines group
-		FillLayout flLines = new FillLayout( );
-		flLines.marginHeight = 1;
-		flLines.marginWidth = 1;
-		
-		cmpLines = new Composite( cmpContent, SWT.NONE );
-		GridData gdCMPLines = new GridData( GridData.FILL_BOTH );
-		gdCMPLines.horizontalSpan = 2;
-		cmpLines.setLayoutData( gdCMPLines );
-		cmpLines.setLayout( flLines );
 
-		// Line Attributes for Grid Lines
-		liacLines = new LineAttributesComposite( cmpLines,
-				SWT.NONE,
-				grid.getLineAttributes( ),
-				true,
-				true,
-				true );
-		liacLines.addListener( this );
+		if ( bLineGroupEnabled )
+		{
+			// Layout for Grid Lines group
+			FillLayout flLines = new FillLayout( );
+			flLines.marginHeight = 1;
+			flLines.marginWidth = 1;
+
+			cmpLines = new Composite( cmpContent, SWT.NONE );
+			GridData gdCMPLines = new GridData( GridData.FILL_BOTH );
+			gdCMPLines.horizontalSpan = 2;
+			cmpLines.setLayoutData( gdCMPLines );
+			cmpLines.setLayout( flLines );
+
+			// Line Attributes for Grid Lines
+			liacLines = new LineAttributesComposite( cmpLines,
+					SWT.NONE,
+					context,
+					grid.getLineAttributes( ),
+					true,
+					true,
+					true );
+			liacLines.addListener( this );
 		}
 
 		// Ticks group
@@ -180,6 +187,7 @@ public class GridAttributesComposite extends Composite implements
 		// Line Attributes for Ticks
 		liacTicks = new LineAttributesComposite( grpTicks,
 				SWT.NONE,
+				context,
 				grid.getTickAttributes( ),
 				false,
 				false,

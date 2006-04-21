@@ -232,8 +232,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		( (ISeriesUIProvider) htSeriesAttributeUIProviders.get( series.getClass( )
 				.getName( ) ) ).getSeriesAttributeSheet( parent,
 				series,
-				getContext( ).getUIServiceProvider( ),
-				getContext( ).getExtendedItem( ) );
+				getContext( ) );
 	}
 
 	private void getSeriesAttributeUIProviders( )

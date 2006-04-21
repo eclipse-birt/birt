@@ -15,7 +15,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -34,7 +34,7 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 
 	private transient SeriesDefinition seriesDefn;
 
-	private transient IUIServiceProvider serviceprovider = null;
+	private transient ChartWizardContext context = null;
 
 	private transient String sTitle = null;
 
@@ -42,17 +42,14 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 
 	private transient String tooltipWhenBlank = null;
 
-	private transient Object oContext = null;
-
 	private transient ISelectDataComponent comData;
 
 	public DefaultBaseSeriesComponent( SeriesDefinition seriesDefn,
-			IUIServiceProvider builder, Object oContext, String sTitle )
+			ChartWizardContext context, String sTitle )
 	{
 		super( );
 		this.seriesDefn = seriesDefn;
-		this.serviceprovider = builder;
-		this.oContext = oContext;
+		this.context = context;
 		this.sTitle = sTitle;
 	}
 
@@ -79,8 +76,7 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 
 		comData = new BaseDataDefinitionComponent( seriesDefn,
 				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
-				serviceprovider,
-				oContext,
+				context,
 				sTitle );
 		( (BaseDataDefinitionComponent) comData ).setDescription( labelText );
 		if ( tooltipWhenBlank != null )

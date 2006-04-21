@@ -27,7 +27,6 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -115,8 +114,8 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 	}
 
 	public ISelectDataComponent getAreaComponent( int areaType,
-			SeriesDefinition seriesdefinition, IUIServiceProvider builder,
-			Object oContext, String sTitle )
+			SeriesDefinition seriesdefinition, ChartWizardContext context,
+			String sTitle )
 	{
 		if ( this.htSeriesUIProviders == null )
 		{
@@ -127,8 +126,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 				.getClass( )
 				.getName( ) ) ).getSeriesDataComponent( areaType,
 				seriesdefinition,
-				builder,
-				oContext,
+				context,
 				sTitle );
 	}
 
@@ -242,8 +240,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 				}
 			}
 			ISelectDataComponent component = new MultipleSeriesComponent( seriesDefnArray,
-					getContext( ).getUIServiceProvider( ),
-					getContext( ).getExtendedItem( ),
+					getContext( ),
 					Messages.getString( "AbstractSelectDataCustomizeUI.Label.SeriesGrouping" ), this ); //$NON-NLS-1$
 			component.addListener( this );
 			subRightAreas.add( component );
@@ -252,8 +249,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 		else
 		{
 			ISelectDataComponent component = new MultipleSeriesComponent( getValueSeriesDefinitionForProcessing( ),
-					getContext( ).getUIServiceProvider( ),
-					getContext( ).getExtendedItem( ),
+					getContext( ),
 					Messages.getString( "AbstractSelectDataCustomizeUI.Label.SeriesGrouping" ), this ); //$NON-NLS-1$
 			component.addListener( this );
 			subRightAreas.add( component );
@@ -271,8 +267,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 	{
 		bottomArea = getContext( ).getChartType( ).getBaseUI( getChartModel( ),
 				this,
-				getContext( ).getUIServiceProvider( ),
-				getContext( ).getExtendedItem( ),
+				getContext( ),
 				"" ); //$NON-NLS-1$
 		cmpBottomArea = bottomArea.createArea( parent );
 	}

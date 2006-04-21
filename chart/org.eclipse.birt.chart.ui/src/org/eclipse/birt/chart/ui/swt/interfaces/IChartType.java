@@ -15,6 +15,7 @@ import java.util.Hashtable;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -143,12 +144,10 @@ public interface IChartType
 	 * 
 	 * @param chart
 	 * @param selectDataUI
-	 * @param builder
-	 * @param oContext
+	 * @param context
 	 * @param sTitle
 	 * @return UI componnet
 	 */
 	public ISelectDataComponent getBaseUI( Chart chart,
-			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
-			Object oContext, String sTitle );
+			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context, String sTitle );
 }

@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.ui.swt.series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
@@ -39,19 +39,17 @@ public class StockDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private transient SeriesDefinition seriesDefn = null;
 
-	private transient IUIServiceProvider serviceprovider = null;
+	private transient ChartWizardContext context = null;
 
 	private transient String sTitle = null;
 
-	private transient Object oContext = null;
 
 	public StockDataDefinitionComponent( SeriesDefinition seriesDefn,
-			IUIServiceProvider builder, Object oContext, String sTitle )
+			ChartWizardContext context, String sTitle )
 	{
 		super( );
 		this.seriesDefn = seriesDefn;
-		this.serviceprovider = builder;
-		this.oContext = oContext;
+		this.context = context;
 		this.sTitle = sTitle;
 
 		init( );
@@ -66,8 +64,7 @@ public class StockDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			dataComArray[i] = new BaseDataDefinitionComponent( seriesDefn,
 					ChartUIUtil.getDataQuery( seriesDefn, i ),
-					serviceprovider,
-					oContext,
+					context,
 					sTitle );
 		}
 	}

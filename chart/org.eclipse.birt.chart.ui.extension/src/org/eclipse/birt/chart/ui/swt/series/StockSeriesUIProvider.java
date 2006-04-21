@@ -15,10 +15,9 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
-import org.eclipse.birt.chart.ui.swt.composites.StockSeriesDataDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -41,25 +40,12 @@ public class StockSeriesUIProvider extends DefaultSeriesUIProvider
 	}
 
 	public Composite getSeriesAttributeSheet( Composite parent, Series series,
-			IUIServiceProvider builder, Object oContext )
+			ChartWizardContext context )
 	{
-		return new StockSeriesAttributeComposite( parent, SWT.NONE, series );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesDataSheet(org.eclipse.swt.widgets.Composite)
-	 */
-	public Composite getSeriesDataSheet( Composite parent,
-			SeriesDefinition seriesdefinition, IUIServiceProvider builder,
-			Object oContext )
-	{
-		return new StockSeriesDataDefinitionComposite( parent,
+		return new StockSeriesAttributeComposite( parent,
 				SWT.NONE,
-				seriesdefinition,
-				builder,
-				oContext );
+				context,
+				series );
 	}
 
 	/*
@@ -73,22 +59,20 @@ public class StockSeriesUIProvider extends DefaultSeriesUIProvider
 	}
 
 	public ISelectDataComponent getSeriesDataComponent( int seriesType,
-			SeriesDefinition seriesDefn, IUIServiceProvider builder,
-			Object oContext, String sTitle )
+			SeriesDefinition seriesDefn, ChartWizardContext context,
+			String sTitle )
 	{
 		if ( seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES )
 		{
 			return new StockDataDefinitionComponent( seriesDefn,
-					builder,
-					oContext,
+					context,
 					sTitle );
 		}
 		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
 		{
 			BaseDataDefinitionComponent ddc = new BaseDataDefinitionComponent( seriesDefn,
 					seriesDefn.getQuery( ),
-					builder,
-					oContext,
+					context,
 					sTitle );
 			ddc.setFormatSpecifierEnabled( false );
 			return ddc;

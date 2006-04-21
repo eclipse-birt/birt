@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.ui.swt.composites.HeadStyleAttributeComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -70,6 +71,8 @@ public class MeterSeriesAttributeComposite extends Composite
 
 	private transient HeadStyleAttributeComposite cmbHeadStyle = null;
 
+	private transient ChartWizardContext wizardContext;
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
 	/**
@@ -78,7 +81,7 @@ public class MeterSeriesAttributeComposite extends Composite
 	 * @param series
 	 */
 	public MeterSeriesAttributeComposite( Composite parent, int style,
-			Series series )
+			ChartWizardContext wizardContext, Series series )
 	{
 		super( parent, style );
 		if ( !( series instanceof DialSeriesImpl ) )
@@ -96,6 +99,7 @@ public class MeterSeriesAttributeComposite extends Composite
 			}
 		}
 		this.series = (DialSeries) series;
+		this.wizardContext = wizardContext;
 		init( );
 		placeComponents( );
 	}
@@ -201,6 +205,7 @@ public class MeterSeriesAttributeComposite extends Composite
 
 		liacNeedle = new LineAttributesComposite( grpNeedle,
 				SWT.NONE,
+				wizardContext,
 				series.getNeedle( ).getLineAttributes( ),
 				true,
 				true,
@@ -275,6 +280,7 @@ public class MeterSeriesAttributeComposite extends Composite
 		if ( e.widget.equals( btnTicks ) )
 		{
 			DialTicksDialog ticksDialog = new DialTicksDialog( this.getShell( ),
+					wizardContext,
 					series );
 			series.setDial( ticksDialog.getDialForProcessing( ) );
 		}

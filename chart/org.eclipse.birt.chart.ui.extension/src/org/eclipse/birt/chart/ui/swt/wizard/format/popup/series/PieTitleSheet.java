@@ -74,7 +74,7 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener
 				getChart( ).getUnits( ),
 				true,
 				true,
-				getContext( ).getUIServiceProvider( ),
+				getContext( ),
 				LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION
 						| LabelAttributesComposite.ALLOW_VERTICAL_POSITION,
 				false );

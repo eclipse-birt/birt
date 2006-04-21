@@ -105,7 +105,7 @@ public class DialLabelSheet extends AbstractPopupSheet
 				getChart( ).getUnits( ),
 				false,
 				true,
-				getContext( ).getUIServiceProvider( ),
+				getContext( ),
 				true,
 				true,
 				false );

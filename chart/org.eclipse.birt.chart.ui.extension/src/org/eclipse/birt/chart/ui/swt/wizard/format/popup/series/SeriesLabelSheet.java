@@ -189,6 +189,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 
 		liacOutline = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				getContext( ),
 				getSeriesForProcessing( ).getLabel( ).getOutline( ),
 				true,
 				true,
@@ -341,6 +342,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 
 		fdcFont = new FontDefinitionComposite( grpAttributes,
 				SWT.NONE,
+				getContext( ),
 				getSeriesForProcessing( ).getLabel( ).getCaption( ).getFont( ),
 				getSeriesForProcessing( ).getLabel( ).getCaption( ).getColor( ),
 				false );
@@ -676,7 +678,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 		DataPointComponent dpc = (DataPointComponent) getSeriesForProcessing( ).getDataPoint( )
 				.getComponents( )
 				.get( iComponentIndex );
-		FormatSpecifier formatspecifier = formatspecifier = dpc.getFormatSpecifier( );
+		FormatSpecifier formatspecifier = dpc.getFormatSpecifier( );
 
 		String sContext = new MessageFormat( Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPointComponent" ) ).format( new Object[]{dpc.getType( ).getName( )} ); //$NON-NLS-1$
 		if ( sContext == null )

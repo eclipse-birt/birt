@@ -21,7 +21,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -30,12 +30,14 @@ import org.eclipse.swt.graphics.Image;
 public class DefaultChartTypeImpl implements IChartType
 {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDisplayName()
 	 */
-	public String getDisplayName() 
+	public String getDisplayName( )
 	{
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	/*
@@ -147,8 +149,8 @@ public class DefaultChartTypeImpl implements IChartType
 	}
 
 	public ISelectDataComponent getBaseUI( Chart chart,
-			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
-			Object oContext, String sTitle )
+			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
+			String sTitle )
 	{
 		return new DefaultSelectDataComponent( );
 	}
