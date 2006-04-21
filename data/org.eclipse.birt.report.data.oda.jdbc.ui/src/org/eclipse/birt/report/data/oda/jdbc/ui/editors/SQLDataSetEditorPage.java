@@ -92,7 +92,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.41 $ $Date: 2006/03/28 10:43:48 $
+ * @version $Revision: 1.42 $ $Date: 2006/04/20 09:27:27 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -201,7 +201,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	 */
 	protected DataSetDesign collectDataSetDesign( DataSetDesign design )
 	{
-		if ( design != null )
+		if ( design != null && doc != null )
 			design.setQueryText( doc.get( ) );
 		return design;
 	}
@@ -1746,16 +1746,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		return lines;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#getName()
-	 */
-	public String getName( )
-	{
-		return JdbcPlugin.getResourceString( "dataset.editor.page.query" );//$NON-NLS-1$
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#cleanup()
