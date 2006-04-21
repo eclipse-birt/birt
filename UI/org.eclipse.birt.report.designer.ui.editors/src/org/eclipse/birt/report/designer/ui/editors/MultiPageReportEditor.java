@@ -312,7 +312,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 					.setFileName( getProvider( ).getInputPath( getEditorInput( ) )
 							.toOSString( ) );
 		}
-
+		
+		updateRelatedViews( );
 	}
 
 	/*
