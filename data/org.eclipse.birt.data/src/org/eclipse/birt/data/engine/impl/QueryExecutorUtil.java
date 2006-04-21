@@ -10,8 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
@@ -40,7 +45,7 @@ public final class QueryExecutorUtil
 	 * @throws DataException
 	 */
 	static IQuery.GroupSpec groupDefnToSpec( Context cx,
-			IGroupDefinition src, String columnName, int index )
+			IGroupDefinition src, String expr, String columnName, int index )
 			throws DataException
 	{
 /*		int groupIndex = -1;
@@ -70,9 +75,22 @@ public final class QueryExecutorUtil
 		dest.setInterval( src.getInterval());
 		dest.setIntervalRange( src.getIntervalRange());
 		dest.setIntervalStart( src.getIntervalStart());
-		dest.setSortDirection( src.getSortDirection());
+		
+		//	dest.setSortDirection( src.getSortDirection());
 		dest.setFilters( src.getFilters());
-		dest.setSorts( src.getSorts() );
+		if( src.getSorts( ).size( ) == 0)
+		{
+			List sorts = new ArrayList();
+			SortDefinition sd = new SortDefinition();
+			sd.setExpression( expr );
+			sd.setSortDirection( src.getSortDirection( ) != ISortDefinition.SORT_DESC? 
+								 ISortDefinition.SORT_ASC:ISortDefinition.SORT_DESC );
+			sorts.add( sd );
+			dest.setSorts( sorts  );
+		}else
+		{
+			dest.setSorts( src.getSorts() );
+		}
 		dest.setIsComplexExpression( isComplexExpression );
 		return dest;
 	}

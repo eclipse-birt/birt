@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -288,14 +289,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 						throw new DataException( ResourceConstants.BAD_GROUP_EXPRESSION );
 					//TODO does the index of column significant?
 
-					String expr = src.getKeyColumn();
-					if( expr == null )
-					{
-						expr = src.getKeyExpression();
-					}else
-					{
-						expr = getColumnRefExpression(expr);
-					}
+					String expr = getGroupKeyExpression( src );
 					String groupName = "";
 					if( expr.trim().equalsIgnoreCase("row[0]")
 						|| expr.trim().equalsIgnoreCase("row._rowPosition")
@@ -309,6 +303,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 					}
 					IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
 							src,
+							expr,
 							groupName,
 							-1 );
 					groupSpecs[i] = dest;
@@ -400,13 +395,30 @@ public abstract class QueryExecutor implements IQueryExecutor
 	}
 
 	/**
+	 * @param src
+	 * @return
+	 */
+	private String getGroupKeyExpression( IGroupDefinition src )
+	{
+		String expr = src.getKeyColumn();
+		if( expr == null )
+		{
+			expr = src.getKeyExpression();
+		}else
+		{
+			expr = getColumnRefExpression(expr);
+		}
+		return expr;
+	}
+
+	/**
 	 * 
 	 * @param expr
 	 * @return
 	 */
 	private String getColumnRefExpression(String expr) 
 	{
-		return "row[\""+ expr + "\"]";
+		return "row[\""+ JavascriptEvalUtil.transformToJsConstants( expr )+ "\"]";
 	}
 	
 	void setParentExecutorHelper( IExecutorHelper helper )

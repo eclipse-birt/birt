@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.expression;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -113,7 +114,7 @@ public final class ColumnReferenceExpression extends CompiledExpression
 		else
 		{
 			expr.append('"');
-			expr.append( m_columnName );
+			expr.append( JavascriptEvalUtil.transformToJsConstants( m_columnName ) );
 			expr.append('"');
 		}
 		expr.append(']');
