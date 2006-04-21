@@ -37,7 +37,6 @@ import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSourceQuery;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
-import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.impl.jointdataset.IJoinConditionMatcher;
 import org.eclipse.birt.data.engine.impl.jointdataset.JoinConditionMatcher;
 import org.eclipse.birt.data.engine.impl.jointdataset.JointDataSetPopulatorFactory;
@@ -48,6 +47,7 @@ import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
+import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 
 /**
  * This is an extension of PreparedDataSourceQuery. It is used to provide joint data set service.
@@ -380,10 +380,17 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			if ( doesLoadFromCache( ) == true )
 			{
 				DataSourceQuery dsQuery = new DataSourceQuery( );
-				dsQuery.setExprProcessor( new ExpressionProcessor( null,
-						null,
-						dataSet,
-						null ) );
+				
+				JointDataSetQuery jointQuery = (JointDataSetQuery) odiQuery;
+				dsQuery.setExprProcessor( jointQuery.getExprProcessor( ) );
+				List fetchEvents = jointQuery.getFetchEvents( );
+				if ( fetchEvents != null )
+					for ( int i = 0; i < fetchEvents.size( ); i++ )
+						dsQuery.addOnFetchEvent( (IResultObjectEvent) fetchEvents.get( i ) );
+				dsQuery.setMaxRows( jointQuery.getMaxRows( ) );
+				dsQuery.setOrdering( toList( jointQuery.getOrdering( ) ) );
+				dsQuery.setGrouping( toList( jointQuery.getGrouping( ) ) );
+				
 				return dsQuery.execute( eventHandler );
 			}
 			
@@ -405,6 +412,22 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 						resultClass,
 						new DataSetResultCache( populator, resultClass ),
 						eventHandler );
+		}
+		
+		/**
+		 * @param obs
+		 * @return
+		 */
+		private List toList( Object[] obs )
+		{
+			if ( obs == null )
+				return null;
+
+			List obList = new ArrayList( );
+			for ( int i = 0; i < obs.length; i++ )
+				obList.add( obs[i] );
+
+			return obList;
 		}
 		
 		/**
