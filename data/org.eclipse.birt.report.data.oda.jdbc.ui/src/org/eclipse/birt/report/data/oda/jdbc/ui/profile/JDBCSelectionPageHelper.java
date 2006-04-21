@@ -74,8 +74,7 @@ public class JDBCSelectionPageHelper
 	// Button of manage driver and test connection
 	private Button manageButton, testButton;
 	
-    static final String DEFAULT_MESSAGE = 
-    	 JdbcPlugin.getResourceString( "wizard.message.createDataSource" ); //$NON-NLS-1$
+    private String DEFAULT_MESSAGE; //$NON-NLS-1$
 
 	// constant string
 	final private static String EMPTY_URL = JdbcPlugin.getResourceString( "error.emptyDatabaseUrl" );//$NON-NLS-1$
@@ -83,14 +82,16 @@ public class JDBCSelectionPageHelper
 	private final String JDBC_EXTENSION_ID="org.eclipse.birt.report.data.oda.jdbc";
     
     JDBCSelectionPageHelper( WizardPage page )
-    {
-        m_wizardPage = page;
-    }
+	{
+		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "wizard.message.createDataSource" );
+		m_wizardPage = page;
+	}
 
-    JDBCSelectionPageHelper( PreferencePage page )
-    {
-        m_propertyPage = page;
-    }
+	JDBCSelectionPageHelper( PreferencePage page )
+	{
+		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "wizard.message.editDataSource" );
+		m_propertyPage = page;
+	}
 
     void createCustomControl( Composite parent )
     {
@@ -725,6 +726,10 @@ public class JDBCSelectionPageHelper
 			m_propertyPage.setMessage( message, type );
 	}
 
+	public void setDefaultMessage( String message )
+	{
+		this.DEFAULT_MESSAGE = message;	
+	}
 	
 }
     

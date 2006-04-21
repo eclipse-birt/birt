@@ -35,7 +35,6 @@ public class JDBCSelectionWizardPage extends DataSourceWizardPage
     public JDBCSelectionWizardPage( String pageName )
     {
         super( pageName );
-        setMessage( JDBCSelectionPageHelper.DEFAULT_MESSAGE );
         // page title is specified in extension manifest
     }
 
