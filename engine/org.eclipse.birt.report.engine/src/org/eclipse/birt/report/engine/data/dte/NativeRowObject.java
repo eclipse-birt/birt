@@ -24,7 +24,7 @@ import org.mozilla.javascript.Scriptable;
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.2 $ $Date: 2006/04/07 10:20:15 $
+ * @version $Revision: 1.3 $ $Date: 2006/04/11 09:28:27 $
  */
 public class NativeRowObject implements Scriptable
 {
@@ -51,17 +51,28 @@ public class NativeRowObject implements Scriptable
 	}
 
 	public Object get( String name, Scriptable start )
-	{
+	{		
 		Iterator iter = rsets.iterator( );
-		while ( iter.hasNext( ) )
+		if ( "__rownum".equals( name ) )
 		{
-			IResultSet rset = (IResultSet) iter.next( );
-			try
+			if ( iter.hasNext( ) )
 			{
-				return rset.getValue( name );
+				IResultSet rset = (IResultSet) iter.next( );
+				return new Long( rset.getCurrentPosition( ) );
 			}
-			catch ( BirtException ex )
+		}
+		else
+		{
+			while ( iter.hasNext( ) )
 			{
+				IResultSet rset = (IResultSet) iter.next( );
+				try
+				{
+					return rset.getValue( name );
+				}
+				catch ( BirtException ex )
+				{
+				}
 			}
 		}
 		throw new EvaluatorException("Can't find the column: " + name);
@@ -69,6 +80,10 @@ public class NativeRowObject implements Scriptable
 
 	public Object get( int index, Scriptable start )
 	{
+		if ( index == 0 )
+		{
+			return get( "__rownum",start );
+		}
 		return get( String.valueOf( index ), start );
 		
 		/*
