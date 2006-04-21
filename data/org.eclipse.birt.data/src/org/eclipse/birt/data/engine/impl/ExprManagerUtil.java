@@ -69,6 +69,7 @@ public class ExprManagerUtil
 				throw new DataException( ResourceConstants.INVALID_GROUP_KEY, new Object[]{ map.get( level ).toString( ), level});
 			}
 		}
+		exprManager.setEntryGroupLevel( ExprManager.OVERALL_GROUP );
 	}
 	
 	/**
