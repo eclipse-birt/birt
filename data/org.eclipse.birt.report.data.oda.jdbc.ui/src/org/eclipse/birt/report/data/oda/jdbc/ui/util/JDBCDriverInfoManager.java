@@ -13,9 +13,9 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
 import java.util.ArrayList;
 
-import org.eclipse.birt.core.framework.IConfigurationElement;
-import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 
 /**
  * The JDBCDriverInfoManager manage the information of jdbc drivers read from the 

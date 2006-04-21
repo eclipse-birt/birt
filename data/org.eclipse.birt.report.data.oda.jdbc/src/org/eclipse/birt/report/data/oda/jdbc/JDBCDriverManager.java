@@ -25,15 +25,15 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.framework.FrameworkException;
-import org.eclipse.birt.core.framework.IBundle;
-import org.eclipse.birt.core.framework.IConfigurationElement;
-import org.eclipse.birt.core.framework.IExtension;
-import org.eclipse.birt.core.framework.IExtensionPoint;
-import org.eclipse.birt.core.framework.IExtensionRegistry;
-import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 /**
  * Utility classs that manages the JDBC drivers available to this bridge driver.
@@ -169,24 +169,28 @@ public class JDBCDriverManager
 			if ( driverInfo instanceof IConfigurationElement )
 			{
 				// connectionFactory not yet created; do it now
-				String factoryClass = ((IConfigurationElement) driverInfo).getAttribute(
-						OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_CONNFACTORY);
+				String factoryClass = ( (IConfigurationElement) driverInfo ).getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_CONNFACTORY );
 				try
 				{
-					factory = (IConnectionFactory)
-						((IConfigurationElement) driverInfo).createExecutableExtension(
-							OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_CONNFACTORY );
-					logger.fine( "Created connection factory class " + factoryClass + " for driverClass " + driverClass);
+					factory = (IConnectionFactory) ( (IConfigurationElement) driverInfo ).createExecutableExtension( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_CONNFACTORY );
+
+					logger.fine( "Created connection factory class "
+							+ factoryClass + " for driverClass " + driverClass );
 				}
-				catch ( FrameworkException e )
+				catch ( CoreException e )
 				{
 					JDBCException ex = new JDBCException( ResourceConstants.CANNOT_INSTANTIATE_FACTORY,
-							null, new Object[] { factoryClass, driverClass } );
-					logger.log( Level.WARNING, 
-							"Failed to instantiate connection factory for driverClass " + driverClass, ex);
+							null,
+							new Object[]{
+									factoryClass, driverClass
+							} );
+					logger.log( Level.WARNING,
+							"Failed to instantiate connection factory for driverClass "
+									+ driverClass,
+							ex );
 					throw ex;
 				}
-				assert (factory != null);
+				assert ( factory != null );
 				// Cache factory instance
 				driverExtensions.put( driverClass, factory);
 			}
@@ -521,7 +525,7 @@ public class JDBCDriverManager
 	
 	private static class DriverClassLoader extends URLClassLoader
 	{
-		private IBundle bundle;
+		private Bundle bundle;
 		private HashSet fileSet = new HashSet();
 		
 		public DriverClassLoader( ) 

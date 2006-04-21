@@ -69,9 +69,7 @@
 
 	<path id="class.path">
 		<pathelement path="${dir.bin}" />
-		<fileset dir="${birt.core.dir}">
-			<include name="${birt.core.jar}"/>
-		</fileset>
+
 		<fileset dir="${oda.jdbc.dir}">
 			<include name="${oda.jdbc.jar}"/>
 		</fileset>
@@ -81,7 +79,10 @@
 		<fileset dir="${sampledb.dir}">
 			<include name="${sampledb.jar}"/>
 		</fileset>
-<!--	<fileset dir="${oda.designer.ui.dir}">
+<!--	<fileset dir="${birt.core.dir}">
+			<include name="${birt.core.jar}"/>
+		</fileset>
+        <fileset dir="${oda.designer.ui.dir}">
 			<include name="${oda.designer.ui.jar}"/>
 		</fileset>
 		<fileset dir="${oda.connectivity.ui.dir}">

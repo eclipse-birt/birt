@@ -26,9 +26,9 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.framework.IBundle;
-import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.osgi.framework.Bundle;
 
 /**
  * Wrap the constants used in SampleDB.
@@ -113,7 +113,7 @@ public class SampleDBConstants
 	private static File getDBDir( ) throws IOException
 	{
 		String driverHome = null;
-		IBundle bundle = Platform.getBundle( SampleDBConstants.PLUGIN_ID );
+		Bundle bundle = Platform.getBundle( SampleDBConstants.PLUGIN_ID );
 		URL pluginHomeUrl = bundle.getEntry( "/" );
 		pluginHomeUrl = Platform.asLocalURL( pluginHomeUrl );
 		try
@@ -138,7 +138,7 @@ public class SampleDBConstants
 	{
 		File newFile = null;
 
-		IBundle bundle = Platform.getBundle( SampleDBConstants.PLUGIN_ID );
+		Bundle bundle = Platform.getBundle( SampleDBConstants.PLUGIN_ID );
 		Enumeration files = bundle.getEntryPaths( SAMPLE_DB_HOME_DIR );
 		if ( files != null && files.hasMoreElements( ) )
 		{

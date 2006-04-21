@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.plugin;
 
-import org.eclipse.birt.core.plugin.BIRTPlugin;
+import org.eclipse.core.runtime.Plugin;
 
 
 /**
- * Obtain support from BIRTPlugin
+ * Obtain support from Plugin
  */
-public class OdaJdbcPlugin extends BIRTPlugin
+public class OdaJdbcPlugin extends Plugin
 {
 
 }

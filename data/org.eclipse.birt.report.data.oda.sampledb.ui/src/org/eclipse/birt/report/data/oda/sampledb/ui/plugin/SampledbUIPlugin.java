@@ -10,13 +10,12 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.sampledb.ui.plugin;
 
-import org.eclipse.birt.core.plugin.BIRTPlugin;
-
+import org.eclipse.core.runtime.Plugin;
 
 /**
  *
  */
-public class SampledbUIPlugin extends BIRTPlugin
+public class SampledbUIPlugin extends Plugin
 {
 
 }

@@ -9,7 +9,6 @@ Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.birt.core,
  org.eclipse.datatools.connectivity.oda.design.ui,
  org.eclipse.core.resources,
  org.eclipse.draw2d,
