@@ -53,6 +53,8 @@ import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.TransformationEvent;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.internal.factory.DateFormatWrapperFactory;
+import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.internal.model.FittingCalculator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -105,7 +107,6 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.text.DecimalFormat;
-import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * Provides a base framework for custom series rendering extensions that are
@@ -3784,10 +3785,10 @@ public abstract class AxesRenderer extends BaseRenderer
 				CDateTime cdt, cdtAxisValue = Methods.asDateTime( sc.getMinimum( ) );
 				final int iUnit = Methods.asInteger( sc.getUnit( ) );
 				final int iStep = Methods.asInteger( sc.getStep( ) );
-				SimpleDateFormat sdf = null;
+				IDateFormatWrapper sdf = null;
 				if ( fs == null )
 				{
-					sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iUnit ) );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
 				}
 				cdt = cdtAxisValue;
 
@@ -5009,11 +5010,11 @@ public abstract class AxesRenderer extends BaseRenderer
 				CDateTime cdt, cdtAxisValue = Methods.asDateTime( sc.getMinimum( ) );
 				final int iUnit = Methods.asInteger( sc.getUnit( ) );
 				final int iStep = Methods.asInteger( sc.getStep( ) );
-				SimpleDateFormat sdf = null;
+				IDateFormatWrapper sdf = null;
 
 				if ( fs == null )
 				{
-					sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iUnit ) );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
 				}
 				cdt = cdtAxisValue;
 

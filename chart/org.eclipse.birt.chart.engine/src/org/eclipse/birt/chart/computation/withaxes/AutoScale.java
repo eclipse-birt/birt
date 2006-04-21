@@ -25,6 +25,8 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.internal.factory.DateFormatWrapperFactory;
+import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
@@ -39,7 +41,6 @@ import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.DecimalFormatSymbols;
-import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 
 /**
@@ -1499,7 +1500,7 @@ public final class AutoScale extends Methods implements Cloneable
 			CDateTime cdt, cdtAxisValue = asDateTime( oMinimum );
 			final int iUnit = asInteger( oUnit );
 			final int iStep = asInteger( oStep );
-			final SimpleDateFormat sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iUnit ) );
+			final IDateFormatWrapper sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
 
 			String sText;
 			cdt = cdtAxisValue;
@@ -2537,11 +2538,11 @@ public final class AutoScale extends Methods implements Cloneable
 		else if ( iType == IConstants.DATE_TIME )
 		{
 			final Calendar ca = (Calendar) oValue;
-			SimpleDateFormat sdf = null;
+			IDateFormatWrapper sdf = null;
 			if ( fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
 			// ISN'T DEFINED
 			{
-				sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iDateTimeUnit ) );
+				sdf = DateFormatWrapperFactory.getPreferredDateFormat( iDateTimeUnit );
 			}
 
 			// ADJUST THE START POSITION
@@ -2946,13 +2947,13 @@ public final class AutoScale extends Methods implements Cloneable
 			// START/END OF X-AXIS
 			CDateTime cdt = asDateTime( getMinimum( ) );
 			final int iUnit = asInteger( oUnit );
-			SimpleDateFormat sdf = null;
+			IDateFormatWrapper sdf = null;
 			String sText = null;
 
 			if ( fs != null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
 			// ISN'T DEFINED
 			{
-				sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iUnit ) );
+				sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
 			}
 
 			// ADJUST THE START POSITION
@@ -3155,10 +3156,10 @@ public final class AutoScale extends Methods implements Cloneable
 				CDateTime cdtAxisValue = asDateTime( getMinimum( ) );
 				int iStep = asInteger( getStep( ) );
 				int iUnit = asInteger( getUnit( ) );
-				SimpleDateFormat sdf = null;
+				IDateFormatWrapper sdf = null;
 				if ( fs == null )
 				{
-					sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iUnit ) );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{
@@ -3298,10 +3299,10 @@ public final class AutoScale extends Methods implements Cloneable
 				CDateTime cdtAxisValue = asDateTime( getMinimum( ) );
 				final int iStep = asInteger( getStep( ) );
 				final int iUnit = asInteger( getUnit( ) );
-				SimpleDateFormat sdf = null;
+				IDateFormatWrapper sdf = null;
 				if ( fs == null )
 				{
-					sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iUnit ) );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{
@@ -3475,10 +3476,10 @@ public final class AutoScale extends Methods implements Cloneable
 				CDateTime cdtAxisValue = asDateTime( getMinimum( ) );
 				int iStep = asInteger( getStep( ) );
 				int iUnit = asInteger( getUnit( ) );
-				SimpleDateFormat sdf = null;
+				IDateFormatWrapper sdf = null;
 				if ( fs == null )
 				{
-					sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iUnit ) );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{
@@ -3622,10 +3623,10 @@ public final class AutoScale extends Methods implements Cloneable
 				CDateTime cdtAxisValue = asDateTime( getMinimum( ) );
 				final int iStep = asInteger( getStep( ) );
 				final int iUnit = asInteger( getUnit( ) );
-				SimpleDateFormat sdf = null;
+				IDateFormatWrapper sdf = null;
 				if ( fs == null )
 				{
-					sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iUnit ) );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{

@@ -743,6 +743,35 @@ public final class Generator
 
 		}, rtc, externalProcessor );
 	}
+	
+	/**
+	 * Builds and computes preferred sizes of various chart components offscreen
+	 * using the provided display server.
+	 * 
+	 * @param ids
+	 *            A display server using which the chart may be built.
+	 * @param cmDesignTime
+	 *            The design time chart model (bound to a dataset).
+	 * @param externalContext
+	 *            An external context object.
+	 * @param bo
+	 *            The bounds associated with the chart being built.
+	 * @param rtc
+	 *            Encapsulates the runtime environment for the build process.
+	 * @param externalProcessor
+	 *            An external style processor. If it's null, an implicit
+	 *            processor will be used.
+	 * @return An instance of a generated chart state that encapsulates built
+	 *         chart information that may be subsequently rendered.
+	 * 
+	 * @throws GenerationException
+	 */
+	public final GeneratedChartState build( IDisplayServer ids,
+			Chart cmDesignTime, Bounds bo, IExternalContext externalContext,
+			RunTimeContext rtc ) throws ChartException
+	{
+		return build( ids, cmDesignTime, bo, externalContext, rtc, null );
+	}
 
 	/**
 	 * Builds and computes preferred sizes of various chart components offscreen

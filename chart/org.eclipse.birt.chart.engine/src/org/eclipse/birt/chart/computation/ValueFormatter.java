@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
@@ -87,9 +88,9 @@ public final class ValueFormatter
 				}
 				else if ( oValue instanceof Calendar )
 				{
-					if ( oCachedJavaFormatter instanceof DateFormat )
+					if ( oCachedJavaFormatter instanceof IDateFormatWrapper )
 					{
-						return ( (DateFormat) oCachedJavaFormatter ).format( ( (Calendar) oValue ).getTime( ) );
+						return ( (IDateFormatWrapper) oCachedJavaFormatter ).format( ( (Calendar) oValue ).getTime( ) );
 					}
 				}
 				else if ( oValue instanceof DateTimeDataElement )
