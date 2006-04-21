@@ -1425,7 +1425,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writer.endElement( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1439,11 +1439,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitAutoText( obj );
 
 		property( obj, AutoText.AUTOTEXT_TYPE_PROP );
-		
+
 		writer.endElement( );
-		
+
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1764,7 +1764,8 @@ public abstract class ModuleWriter extends ElementVisitor
 				CascadingParameterGroup.HELP_TEXT_PROP );
 		property( obj, CascadingParameterGroup.DATA_SET_PROP );
 		property( obj, CascadingParameterGroup.PROMPT_TEXT_PROP );
-		
+		property( obj, CascadingParameterGroup.DATA_SET_MODE_PROP );
+
 		writeContents( obj, CascadingParameterGroup.PARAMETERS_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
 		writeOverridenPropertyValues( obj );

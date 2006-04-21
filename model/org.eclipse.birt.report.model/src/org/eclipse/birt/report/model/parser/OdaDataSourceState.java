@@ -29,6 +29,18 @@ public class OdaDataSourceState extends DataSourceState
 {
 
 	/**
+	 * Old extension id of flat file in BIRT 1.0 or before.
+	 */
+
+	private static final String OBSOLETE_FLAT_FILE_ID = "org.eclipse.birt.report.data.oda.flatfile"; //$NON-NLS-1$
+
+	/**
+	 * Extension id of flat file in BIRT 2.0.
+	 */
+
+	private static final String NEW_FLAT_FILE_ID = "org.eclipse.datatools.connectivity.oda.flatfile"; //$NON-NLS-1$
+
+	/**
 	 * Constructs the oda data source state with the design parser handler, the
 	 * container element and the container slot of the oda data source.
 	 * 
@@ -100,6 +112,12 @@ public class OdaDataSourceState extends DataSourceState
 		}
 		else
 		{
+			if ( StringUtil.compareVersion( handler.getVersion( ), "3" ) < 0 ) //$NON-NLS-1$
+			{
+				if ( OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase( extensionID ) )
+					extensionID = NEW_FLAT_FILE_ID;
+			}
+
 			if ( ODAProviderFactory.getInstance( ).createODAProvider( element,
 					extensionID ) == null )
 				return;
@@ -116,5 +134,4 @@ public class OdaDataSourceState extends DataSourceState
 
 		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
 	}
-
 }

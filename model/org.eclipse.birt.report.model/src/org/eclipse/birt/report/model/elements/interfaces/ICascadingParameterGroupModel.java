@@ -33,4 +33,11 @@ public interface ICascadingParameterGroupModel
 
 	public static final String PROMPT_TEXT_PROP = "promptText"; //$NON-NLS-1$
 
+	/**
+	 * Name of the data set mode property. The group can be in single data set
+	 * or multiple data set.
+	 */
+
+	public static final String DATA_SET_MODE_PROP = "dataSetMode"; //$NON-NLS-1$
+
 }

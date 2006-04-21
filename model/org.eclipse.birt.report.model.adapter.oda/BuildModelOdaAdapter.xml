@@ -185,24 +185,14 @@
 	<target name="UnitTest" depends="compileTest">
 		<delete dir="${utest.report.dir}" />
 		<mkdir dir="${utest.report.dir}"/>
-		<junit printsummary="on" 
-			   fork="true" 
-			   dir="."
-			   haltonfailure="false" 
-			   failureproperty="test.failed"
-		       showoutput="true">
 
-			<jvmarg value="-DBIRT_HOME=${eclipse.home}" />
-			<jvmarg value="-ea"/>
-			<classpath refid="class.path" />
-			<formatter type="xml" usefile="true" />
-
-			<batchtest todir="${utest.report.dir}">
-				<fileset dir="${test.src.dir}">
-					<include name="**/*Test.java" />				
-				</fileset>
-			</batchtest>
-		</junit>
+		<ant dir="../org.eclipse.birt.core" antfile="BuildCore.xml" target="UnitTest" inheritAll="false" inheritRefs="false">			
+			<property name="dir.utest" value="utest" />
+			<property name="utest.report.dir" value="${utest.report.dir}" />
+			<property name="module.name" value="${module.name}" />
+			<property name="classname" value="org.eclipse.birt.report.model.adapter.oda.AllTests" />
+		</ant>
+		
 	</target>
 	
 	<!-- Clean the build environment -->

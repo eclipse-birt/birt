@@ -673,6 +673,15 @@ public interface DesignChoiceConstants
 	 * autotextType -- type of auto text
 	 */
 
+	public static final String CHOICE_AUTO_TEXT_TYPE = "autoTextType"; //$NON-NLS-1$
 	public static final String PAGE_NUMBER = "page-number"; //$NON-NLS-1$
 	public static final String TOTAL_PAGE = "total-page"; //$NON-NLS-1$
+	
+	/**
+	 * dataSetMode -- the mode to support data sets. Can be single data set and 
+	 */
+
+	public static final String CHOICE_DATA_SET_MODE_TYPE = "dataSetMode"; //$NON-NLS-1$
+	public static final String DATA_SET_MODE_SINGLE = "single"; //$NON-NLS-1$
+	public static final String DATA_SET_MODE_MULTIPLE = "multiple"; //$NON-NLS-1$
 }

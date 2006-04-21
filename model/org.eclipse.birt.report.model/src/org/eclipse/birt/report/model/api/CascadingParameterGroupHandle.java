@@ -93,7 +93,7 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 	}
 
 	/**
-	 * Set the value for the display prompt context.
+	 * Sets the value for the display prompt context.
 	 * 
 	 * @param promptValue
 	 *            The display prompt context.
@@ -108,7 +108,7 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 	}
 
 	/**
-	 * get the display prompt text.
+	 * Gets the display prompt text.
 	 * 
 	 * @return the display prompt.
 	 * 
@@ -117,5 +117,42 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 	public String getPromptText( )
 	{
 		return getStringProperty( PROMPT_TEXT_PROP );
+	}
+
+	/**
+	 * Sets the mode for data set support. It can be one of the following
+	 * values:
+	 * 
+	 * <ul>
+	 * <li> <code>DesignChoiceConstants.SINGLE_MODE</code>
+	 * <code>DesignChoiceConstants.MULTIPLE_MODE</code>
+	 * <li>
+	 * </ul>
+	 * 
+	 * @param mode
+	 *            either the single data set or multiple data set.
+	 * 
+	 * @throws SemanticException
+	 *             if the input value is not one of above values.
+	 * 
+	 */
+
+	public void setDataSetMode( String mode ) throws SemanticException
+	{
+		setStringProperty( DATA_SET_MODE_PROP, mode );
+	}
+
+	/**
+	 * Gets the mode for data set support.
+	 * 
+	 * @return the mode for data set support.
+	 * 
+	 * @see #setDataSetMode(String)
+	 * 
+	 */
+
+	public String getDataSetMode( )
+	{
+		return getStringProperty( DATA_SET_MODE_PROP );
 	}
 }

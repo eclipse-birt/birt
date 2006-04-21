@@ -29,7 +29,19 @@ import org.xml.sax.Attributes;
 
 public class OdaDataSetState extends SimpleDataSetState
 {
+	/**
+	 * Old extension id of flat file in BIRT 1.0 or before.
+	 */
 
+	private static final String OBSOLETE_FLAT_FILE_ID = "org.eclipse.birt.report.data.oda.flatfile.dataSet"; //$NON-NLS-1$
+
+	/**
+	 * Extension id of flat file in BIRT 2.0.
+	 */
+
+	private static final String NEW_FLAT_FILE_ID = "org.eclipse.datatools.connectivity.oda.flatfile.dataSet"; //$NON-NLS-1$
+
+	
 	/**
 	 * Constructs the oda data set with the design file parser handler.
 	 * 
@@ -131,6 +143,12 @@ public class OdaDataSetState extends SimpleDataSetState
 		}
 		else
 		{
+			if ( StringUtil.compareVersion( handler.getVersion( ), "3" ) < 0 ) //$NON-NLS-1$
+			{
+				if ( OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase( extensionID ) )
+					extensionID = NEW_FLAT_FILE_ID;
+			}
+			
 			if ( ODAProviderFactory.getInstance( ).createODAProvider( element,
 					extensionID ) == null )
 				return;

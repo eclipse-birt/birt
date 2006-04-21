@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ReportMetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="0.01" xsi:noNamespaceSchemaLocation="..\metadata\metadata.xsd">
-  <ChoiceType name="autoTextType">
-    <Choice displayNameID="Choices.autoTextType.page-number" name="page-number"/>
-    <Choice displayNameID="Choices.autoTextType.total-page" name="total-page"/>
-  </ChoiceType>
   <ChoiceType name="colors">
     <Choice displayNameID="Choices.colors.maroon" name="maroon"/>
     <Choice displayNameID="Choices.colors.red" name="red"/>
@@ -460,6 +456,14 @@
   <ChoiceType name="joinOperator">
     <Choice displayNameID="Choices.joinOperator.equals" name="eq"/>
   </ChoiceType>
+  <ChoiceType name="autoTextType">
+    <Choice displayNameID="Choices.autoTextType.page-number" name="page-number"/>
+    <Choice displayNameID="Choices.autoTextType.total-page" name="total-page"/>
+  </ChoiceType>	
+  <ChoiceType name="dataSetMode">
+    <Choice displayNameID="Choices.dataSetMode.single" name="single"/>
+    <Choice displayNameID="Choices.dataSetMode.multiple" name="multiple"/>	  
+  </ChoiceType>	
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -1984,6 +1988,9 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.CascadingParameterGroup" extends="ParameterGroup" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.CascadingParameterGroup" name="CascadingParameterGroup" since="2.0" xmlName="cascading-parameter-group">
     <Property detailType="DataSet" displayNameID="Element.Element.CascadingParameterGroup.dataSet" name="dataSet" runtimeSettable="false" since="2.0" type="element" />
     <Property displayNameID="Element.CascadingParameterGroup.promptText" name="promptText" runtimeSettable="false" since="2.1" type="string"/>	  
+    <Property detailType="dataSetMode" displayNameID="Element.CascadingParameterGroup.dataSetMode" name="dataSetMode" runtimeSettable="false" since="2.1" type="choice" >	  	  
+		<Default>single</Default>
+	</Property>		
     <Slot displayNameID="Element.CascadingParameterGroup.slot.parameters" multipleCardinality="true" name="parameters" since="2.0" xmlName="parameters">
       <Type name="Parameter"/>
       <Trigger validator="CascadingParameterTypeValidator"/>
