@@ -782,7 +782,8 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			if ( handle == null || matchDataType( handle, models[i] ) )
 			{
-				valueList.add( models[i].getName( ) );
+				valueList.add( models[i].getAlias( ) == null
+						? models[i].getName( ) : models[i].getAlias( ) );
 			}
 		}
 		return (String[]) valueList.toArray( new String[0] );
