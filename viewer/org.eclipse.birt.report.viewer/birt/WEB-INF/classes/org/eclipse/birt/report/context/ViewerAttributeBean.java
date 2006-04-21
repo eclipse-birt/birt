@@ -59,12 +59,6 @@ public class ViewerAttributeBean
 	private IReportRunnable reportRunnable = null;
 
 	/**
-	 * the report runnable created by the report design file but not the one
-	 * cached in the documetn.
-	 */
-	private IReportRunnable reportBaseRunnable = null;
-
-	/**
 	 * Report document.
 	 */
 	private IReportDocument reportDocumentInstance = null;
@@ -245,16 +239,6 @@ public class ViewerAttributeBean
 				request, this.parameterTask,
 				this.reportRunnable.getTestConfig( ), this.locale );
 
-		try
-		{
-			reportBaseRunnable = ReportEngineService.getInstance( )
-					.openReportDesign( ParameterAccessor.getReport( request ) );
-		}
-		catch ( EngineException e )
-		{
-			this.exception = e;
-			return;
-		}
 	}
 
 	/**
@@ -305,16 +289,6 @@ public class ViewerAttributeBean
 		return reportRunnable;
 	}
 
-	/**
-	 * return the report runable which is always created by the latest report
-	 * design file but not the one cached by the document.
-	 * 
-	 * @return the report runnable
-	 */
-	public IReportRunnable getReportBaseRunnable( )
-	{
-		return reportBaseRunnable;
-	}
 
 	/**
 	 * @param reportRunnable
