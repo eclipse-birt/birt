@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.impl.ExprManager;
+import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.mozilla.javascript.Context;
 
 /**
@@ -55,10 +56,19 @@ public class ExpressionCompilerUtil
 	private static boolean compile( String expression, ExprManager exprManager )
 	{
 		Context context = Context.enter( );
+
+		// fake a registry to register the aggragation.
+		AggregateRegistry aggrReg = new AggregateRegistry( ) {
+
+			public int register( AggregateExpression aggregationExpr )
+			{
+				return -1;
+			}
+		};
 		try
 		{
 			CompiledExpression expr = expressionCompiler.compile( expression,
-					null,
+					aggrReg,
 					context );
 			return flattenExpression( expr, exprManager );
 		}
