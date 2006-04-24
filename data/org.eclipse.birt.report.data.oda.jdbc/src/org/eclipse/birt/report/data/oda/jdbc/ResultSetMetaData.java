@@ -145,13 +145,9 @@ public class ResultSetMetaData implements IResultSetMetaData
 		assertNotNull( rsMetadata );
 		try
 		{
-			// There is a special case for oracle14 JDBC driver. When getting
-			// the data type of one column, it returns java.sql.Types.Date for
-			// Timestamp type. So here we have to handle such a case manually.
-			// Notice, if in future, this kind of case becomes more and more, we
-			// need to add a method to handle it.
-			if ( "java.sql.Timestamp".equals( rsMetadata.getColumnClassName( index ) ) )
-				return Types.TIMESTAMP;
+			int reType = getColumnTypeForSpecialJDBCDriver( index );
+			if ( reType != Types.OTHER )
+				return reType;
 			
 			/* redirect the call to JDBC ResultSetMetaData.getColumnType(int) */
 			return rsMetadata.getColumnType( index );
@@ -162,6 +158,30 @@ public class ResultSetMetaData implements IResultSetMetaData
 					e );
 		}
 
+	}
+	
+	/**
+	 * There are special cases for some JDBC drivers. When getting the data type
+	 * of one column, the getColumnType() return wrong value. This method handle
+	 * these cases manually.
+	 * @param index
+	 * @return int; column data type
+	 */
+	public int getColumnTypeForSpecialJDBCDriver( int index ) throws SQLException
+	{
+		// For oracle14 JDBC driver when getting
+		// the data type of one column, it returns java.sql.Types.Date for
+		// Timestamp type.
+		if ( "java.sql.Timestamp".equals( rsMetadata.getColumnClassName( index ) ) )
+			return Types.TIMESTAMP;
+		
+		// For mysql3.1.10 or 3.1.12 JDBC driver when getting
+		// the date type of one column, it may returns
+		// java.sql.Types.getColumnTypeForSpecialCases for varchar type.
+		if ( "java.lang.String".equals( rsMetadata.getColumnClassName( index ) ) )
+			return Types.VARCHAR;
+		
+		return Types.OTHER;
 	}
 
 	/*
