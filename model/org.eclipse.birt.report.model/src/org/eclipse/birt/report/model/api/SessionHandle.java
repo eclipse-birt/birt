@@ -53,11 +53,34 @@ public class SessionHandle
 	protected DesignSession session;
 
 	/**
+	 * Sets resource path.
+	 * 
+	 * @param path
+	 *            the resource path to set. It must be an absolute path based on
+	 *            file system and must present a dictory.
+	 */
+
+	public static void setBirtResourcePath( String resourcePath )
+	{
+		DesignSession.setBirtResourcePath( resourcePath );
+	}
+
+	/**
+	 * Gets resource path.
+	 * {@link #setBirtResourcePath(String)}
+	 */
+
+	public static String getBirtResourcePath( )
+	{
+		return DesignSession.getBirtResourcePath( );
+	}
+
+	/**
 	 * Constructs a handle for the session with the given locale.
 	 * 
 	 * @param locale
 	 *            the user's locale. If null, then the system locale is assumed.
-	 *       
+	 * 
 	 * @deprecated to use ICU4J, this method is replaced by:
 	 *             SessionHandle(ULocale locale)
 	 */
@@ -527,4 +550,5 @@ public class SessionHandle
 	{
 		return this.session;
 	}
+
 }

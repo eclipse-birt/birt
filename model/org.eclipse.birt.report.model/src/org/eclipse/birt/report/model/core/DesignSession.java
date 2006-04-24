@@ -66,6 +66,35 @@ public class DesignSession
 {
 
 	/**
+	 * Resource path.
+	 */
+
+	public static String resourcePath = null;
+
+	/**
+	 * Sets resource path.
+	 * 
+	 * @param path
+	 *            the resource path to set. It must be an absolute path based on
+	 *            file system and must present a dictory.
+	 */
+
+	public static void setBirtResourcePath( String path )
+	{
+		resourcePath = path;
+	}
+
+	/**
+	 * Gets resource path.
+	 * {@link #setBirtResourcePath(String)}
+	 */
+
+	public static String getBirtResourcePath( )
+	{
+		return resourcePath;
+	}
+
+	/**
 	 * The algorithm of how to search a file.
 	 */
 
@@ -133,7 +162,7 @@ public class DesignSession
 		locale = theLocale;
 		if ( locale == null )
 			locale = ULocale.getDefault( );
-		
+
 		activate( );
 	}
 
@@ -734,17 +763,17 @@ public class DesignSession
 	{
 		return locale;
 	}
-//
-//	/**
-//	 * Returns the locale of the current session.
-//	 * 
-//	 * @return the locale of the current session
-//	 * @deprecated to support ICU4J, this method is replaced by:
-//	 *             getULocale
-//	 */
-//
-//	public Locale getLocale( )
-//	{
-//		return Locale.getDefault( );
-//	}
+	//
+	// /**
+	// * Returns the locale of the current session.
+	// *
+	// * @return the locale of the current session
+	// * @deprecated to support ICU4J, this method is replaced by:
+	// * getULocale
+	// */
+	//
+	// public Locale getLocale( )
+	// {
+	// return Locale.getDefault( );
+	// }
 }

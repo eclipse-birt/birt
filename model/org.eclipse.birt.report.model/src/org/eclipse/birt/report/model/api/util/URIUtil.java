@@ -333,9 +333,9 @@ public class URIUtil
 	 * <li>C:\\hello\..\
 	 * <li>/C:/../hello/
 	 * </ul>
-	 * The spearator in the return path is platform-indepedent "/". Please note that
-	 * the <code>/</code> in the end of directory will be striped
-	 * in the return value.
+	 * The spearator in the return path is platform-indepedent "/". Please note
+	 * that the <code>/</code> in the end of directory will be striped in the
+	 * return value.
 	 * 
 	 * @param base
 	 *            the base directory
@@ -488,6 +488,26 @@ public class URIUtil
 				&& ( ( matchedPos < resourceDir.length( ) && resourceDir
 						.charAt( matchedPos ) == File.separatorChar ) || matchedPos == resourceDir
 						.length( ) ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Tests whether the input string is a valid resource directory.
+	 * 
+	 * @param resourceDir
+	 *            the resource directory
+	 * @return <code>true</code> if the input string is a valid resource directory,
+	 *         <code>false</code> otherwise.
+	 */
+
+	public static boolean isValidResourcePath( String resourceDir )
+	{
+		if (resourceDir == null)
+			return false;
+		File f = new File( resourceDir );
+		if ( f.isAbsolute( ) && f.exists( ) && f.isDirectory( ) )
 			return true;
 
 		return false;

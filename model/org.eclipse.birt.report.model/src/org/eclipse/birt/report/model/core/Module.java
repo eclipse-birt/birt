@@ -939,7 +939,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( baseName == null )
 			return ""; //$NON-NLS-1$
 
-		File msgFolder = getModuleFolder( );
+		File msgFolder = DesignSession.getBirtResourcePath( ) == null
+				? getModuleFolder( )
+				: new File( DesignSession.getBirtResourcePath( ) );
 		if ( msgFolder == null )
 			return ""; //$NON-NLS-1$
 
@@ -953,6 +955,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * 
 	 * @return the folder in which the design file is located. Return
 	 *         <code>null</code> if the folder can not be found.
+	 * @deprecated since BIRT 2.1. find the message in resource path.
 	 */
 
 	private File getModuleFolder( )
@@ -1468,12 +1471,13 @@ public abstract class Module extends DesignElement implements IModuleModel
 		{
 			File f = new File( fileName );
 			if ( f.isAbsolute( ) )
-				return f.exists( ) ? f.getCanonicalFile( ).toURL( ) : null;
+				return f.exists( ) && f.isFile( ) ? f.getCanonicalFile( )
+						.toURL( ) : null;
 
-			String base = getStringProperty( this, BASE_PROP );
-			if ( base != null )
+			String resourcePath = DesignSession.getBirtResourcePath( );
+			if ( resourcePath != null )
 			{
-				f = new File( base, fileName );
+				f = new File( resourcePath, fileName );
 				if ( f.exists( ) && f.isFile( ) )
 					return f.getCanonicalFile( ).toURL( );
 			}
@@ -1886,7 +1890,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( baseName == null )
 			return new ArrayList( keys );
 
-		File msgFolder = getModuleFolder( );
+		File msgFolder = DesignSession.getBirtResourcePath( ) == null
+				? getModuleFolder( )
+				: new File( DesignSession.getBirtResourcePath( ) );
 		if ( msgFolder == null )
 			return new ArrayList( keys );
 
