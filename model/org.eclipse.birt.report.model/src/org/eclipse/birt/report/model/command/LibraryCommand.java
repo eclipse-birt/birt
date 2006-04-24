@@ -25,8 +25,8 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.LibraryEvent;
 import org.eclipse.birt.report.model.api.command.LibraryException;
+import org.eclipse.birt.report.model.api.command.LibraryReloadedEvent;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -384,8 +384,8 @@ public class LibraryCommand extends AbstractElementCommand
 
 		activityStack.flush( );
 
-		LibraryEvent event = new LibraryEvent( module
-				.getLibraryByLocation( location ), LibraryEvent.RELOAD );
+		LibraryReloadedEvent event = new LibraryReloadedEvent( module
+				.getLibraryByLocation( location ) );
 
 		module.broadcast( event );
 	}
@@ -525,7 +525,7 @@ public class LibraryCommand extends AbstractElementCommand
 		ActivityStack activityStack = getActivityStack( );
 
 		activityStack.startSilentTrans( );
-		
+
 		LevelContentIterator contentIter = new LevelContentIterator( child, 1 );
 		while ( contentIter.hasNext( ) )
 		{
@@ -536,7 +536,7 @@ public class LibraryCommand extends AbstractElementCommand
 		}
 
 		activityStack.commit( );
-		
+
 		// unresolves the extends child
 
 		parent.dropDerived( child );

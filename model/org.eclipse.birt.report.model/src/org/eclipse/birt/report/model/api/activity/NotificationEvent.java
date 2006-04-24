@@ -150,6 +150,11 @@ public abstract class NotificationEvent
 	
 	public static final int ELEMENT_LOCALIZE_EVENT = 18;
 
+	/**
+	 * The event type of LIBRARY_RELOADED_EVENT
+	 */
+	
+	public static final int LIBRARY_RELOADED_EVENT = 19;
 	
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.

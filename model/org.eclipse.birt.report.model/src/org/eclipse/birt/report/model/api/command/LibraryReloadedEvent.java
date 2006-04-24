@@ -15,43 +15,11 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.elements.Library;
 
 /**
- * Indicates that the library is added, dropped or shifted.
+ * Events indicating that the library is reloaded.
  */
 
-public class LibraryEvent extends NotificationEvent
+public class LibraryReloadedEvent extends NotificationEvent
 {
-
-	/**
-	 * New library is added.
-	 */
-
-	public static final int ADD = 1;
-
-	/**
-	 * Library is dropped.
-	 */
-
-	public static final int DROP = 2;
-
-	/**
-	 * The library is shifted downwards or forwards.
-	 */
-	
-	public static final int SHIFT = 3;
-
-	/**
-	 * The library is shifted downwards or forwards.
-	 * 
-	 * @deprecated by LibraryLoadedEvent
-	 */
-	
-	public static final int RELOAD = 4;
-	
-	/**
-	 * The type of change. One of {@link #ADD}, or {@link #DROP}.
-	 */
-
-	private int action;
 
 	/**
 	 * The library causing the event.
@@ -60,18 +28,16 @@ public class LibraryEvent extends NotificationEvent
 	private Library library;
 
 	/**
-	 * Constructs the event with the added or dropped library and action.
+	 * Constructor.
 	 * 
-	 * @param library
-	 *            the library causing this event
-	 * @param action
-	 *            th etype of change
+	 * @param obj
+	 *            the element that is to reload library.
 	 */
 
-	public LibraryEvent( Library library, int action )
+	public LibraryReloadedEvent( Library library )
 	{
+		super( library.getHost( ) );
 		this.library = library;
-		this.action = action;
 	}
 
 	/*
@@ -82,18 +48,7 @@ public class LibraryEvent extends NotificationEvent
 
 	public int getEventType( )
 	{
-		return LIBRARY_EVENT;
-	}
-
-	/**
-	 * Returns the type of change.
-	 * 
-	 * @return the type of change.
-	 */
-
-	public int getAction( )
-	{
-		return action;
+		return LIBRARY_RELOADED_EVENT;
 	}
 
 	/**
@@ -106,4 +61,5 @@ public class LibraryEvent extends NotificationEvent
 	{
 		return library;
 	}
+
 }
