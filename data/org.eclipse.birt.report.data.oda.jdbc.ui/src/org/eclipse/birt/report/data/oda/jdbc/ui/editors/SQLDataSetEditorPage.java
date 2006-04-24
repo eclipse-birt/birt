@@ -92,7 +92,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.42 $ $Date: 2006/04/20 09:27:27 $
+ * @version $Revision: 1.43 $ $Date: 2006/04/21 10:02:54 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -205,11 +205,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 			design.setQueryText( doc.get( ) );
 		return design;
 	}
-	    
-	/*
-	 * (non-Javadoc)
+
+	/**
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#createPageControl(org.eclipse.swt.widgets.Composite)
+	 * @param parent
+	 * @return
 	 */
 	public Control createPageControl( Composite parent )
 	{
@@ -633,9 +633,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		rootNode.setText(dataSourceHandle.getName());
 	}
 	
-	private void RemoveAllAvailableDbObjects()
+	private void RemoveAllAvailableDbObjects( )
 	{
-		availableDbObjectsTree.removeAll();
+		if ( availableDbObjectsTree != null )
+			availableDbObjectsTree.removeAll( );
 	}
 	
 	/**

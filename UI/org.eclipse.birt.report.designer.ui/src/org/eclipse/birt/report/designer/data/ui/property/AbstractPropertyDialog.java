@@ -54,7 +54,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.18 $ $Date: 2006/04/20 09:29:16 $
+ * @version $Revision: 1.1 $ $Date: 2006/04/20 10:57:45 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -450,6 +450,15 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	protected Composite getPropertyPane( )
+	{
+		return this.propertyPane;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
