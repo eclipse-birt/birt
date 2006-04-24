@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -35,6 +36,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -317,13 +319,15 @@ public class GetParameterDefinitionTask extends EngineTask
 		if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
 				.equals( selectionType ) )
 		{
-			String dataSetName = parameter.getDataSetName( );
-			String valueExpr = parameter.getValueExpr( );
-			String labelExpr = parameter.getLabelExpr( );
-			int limit = parameter.getListlimit( );
-
-			return createDynamicSelectionChoices( dataSetName, labelExpr,
-					valueExpr, dataType, limit, fixedOrder );
+			if ( parameter.getDataSetName( ) != null )
+			{
+				return getChoicesFromParameterQuery( parameter );
+			}
+			else if ( isCascadingParameter( parameter ))
+			{
+				Object[] parameterValuesAhead =  getParameterValuesAhead( parameter );
+				return getChoicesFromParameterGroup ( parameter, parameterValuesAhead );
+			}
 		}
 		else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC
 				.equals( selectionType ) )
@@ -621,40 +625,52 @@ public class GetParameterDefinitionTask extends EngineTask
 		if ( parameterGroup == null )
 			return Collections.EMPTY_LIST;
 
-		IResultIterator iter = (IResultIterator) dataCache.get( parameterGroup
-				.getName( ) );
-		if ( iter == null )
-			return Collections.EMPTY_LIST;
-
 		SlotHandle slotHandle = parameterGroup.getParameters( );
-		assert ( groupKeyValues.length < slotHandle.getCount( ) );
-		int skipLevel = groupKeyValues.length + 1;
+		if ( groupKeyValues.length >= slotHandle.getCount( ) )
+		{
+			return Collections.EMPTY_LIST;
+		}
+
+		for ( int i = 0; i < groupKeyValues.length; i++ )
+		{
+			String parameterName = (( ScalarParameterHandle ) slotHandle.get( i )).getName( );
+			setParameterValue( parameterName, groupKeyValues[ i ] );
+		}
 
 		ScalarParameterHandle requestedParam = (ScalarParameterHandle) slotHandle
 				.get( groupKeyValues.length ); // The parameters in
 		// parameterGroup must be scalar
 		// parameters.
-		int listLimit = requestedParam.getListlimit( );
-		boolean fixedOrder = requestedParam.isFixedOrder( );
-		// String valueType = requestedParam.getDataType();
-		// We need to cache the expression object in function evaluateQuery and
-		// use the cached object here instead of creating a new one because
-		// according to DtE API for IResultIterator.getString,
-		// the expression object must be the same object created at the time of
-		// preparation.
-		// Actually, the prepare process will modify the expression object ,
-		// only after which
-		// the expression object can be used to get the real value from the
-		// result set.
-		// If we create a new expression object here, it won't work.
-		ScriptExpression labelExpr = (ScriptExpression) labelMap
-				.get( parameterGroup.getName( ) + "_"
-						+ requestedParam.getName( ) );
-		ScriptExpression valueExpr = (ScriptExpression) valueMap
-				.get( parameterGroup.getName( ) + "_"
-						+ requestedParam.getName( ) );
+		if ( requestedParam == null )
+		{
+			return Collections.EMPTY_LIST;
+		}
+		return this.getSelectionList( requestedParam.getName( ) );
+	}
 
+	private Collection getChoicesFromParameterGroup( ScalarParameterHandle parameter, Object[] groupKeyValues )
+	{
+		assert isCascadingParameter( parameter );
+		CascadingParameterGroupHandle parameterGroup = getCascadingGroup( parameter );
+		String parameterGroupName = parameterGroup.getName( );
+			evaluateQuery( parameterGroupName );
+		IResultIterator iter = (IResultIterator) dataCache.get( parameterGroupName );
+		if ( iter == null )
+		{
+			evaluateQuery( parameterGroupName );
+			if ( iter == null )
+			{
+				return Collections.EMPTY_LIST;
+			}
+		}
+
+		ScriptExpression labelExpr = (ScriptExpression) labelMap
+			.get( parameterGroupName + "_" + parameter.getName( ) );
+		ScriptExpression valueExpr = (ScriptExpression) valueMap
+			.get( parameterGroupName + "_" + parameter.getName( ) );
+		int listLimit = parameter.getListlimit( );
 		ArrayList choices = new ArrayList( );
+		int skipLevel = groupKeyValues.length + 1;
 		try
 		{
 			if ( skipLevel > 1 )
@@ -688,7 +704,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		{
 			e.printStackTrace( );
 		}
-		if ( !fixedOrder )
+		if ( !parameter.isFixedOrder( ) )
 			Collections.sort( choices, new SelectionChoiceComparator( true ) );
 		return choices;
 	}
@@ -750,5 +766,49 @@ public class GetParameterDefinitionTask extends EngineTask
 			dataCache = null;
 		}
 		super.close( );
+	}
+
+	private boolean isCascadingParameter( ScalarParameterHandle parameter )
+	{
+		return parameter.getContainer( ) instanceof CascadingParameterGroupHandle;
+	}
+
+	private Object[] getParameterValuesAhead( ScalarParameterHandle parameter )
+	{
+		assert isCascadingParameter( parameter );
+		CascadingParameterGroupHandle parameterGroup = getCascadingGroup( parameter );
+		SlotHandle parameters = parameterGroup.getParameters( );
+		List values = new ArrayList( );
+		for ( int i = 0; i < parameters.getCount( ); i++ )
+		{
+			ScalarParameterHandle tempParameter = ( ScalarParameterHandle ) parameters.get( i );
+			if ( tempParameter == parameter )
+			{
+				break;
+			}
+			values.add( getParameterValue( tempParameter.getName( ) ) );
+		}
+		return values.toArray( );
+	}
+
+	private CascadingParameterGroupHandle getCascadingGroup( ScalarParameterHandle parameter )
+	{
+		DesignElementHandle handle = parameter.getContainer( );
+		assert handle instanceof CascadingParameterGroupHandle;
+		CascadingParameterGroupHandle parameterGroup = ( CascadingParameterGroupHandle ) handle;
+		return parameterGroup;
+	}
+
+	private Collection getChoicesFromParameterQuery( ScalarParameterHandle parameter)
+	{
+		String dataType = parameter.getDataType( );
+		boolean fixedOrder = parameter.isFixedOrder( );
+		String dataSetName = parameter.getDataSetName( );
+		String valueExpr = parameter.getValueExpr( );
+		String labelExpr = parameter.getLabelExpr( );
+		int limit = parameter.getListlimit( );
+
+		return createDynamicSelectionChoices( dataSetName, labelExpr,
+				valueExpr, dataType, limit, fixedOrder );
 	}
 }
