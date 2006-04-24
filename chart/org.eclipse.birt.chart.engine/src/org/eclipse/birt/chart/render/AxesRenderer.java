@@ -3292,12 +3292,12 @@ public abstract class AxesRenderer extends BaseRenderer
 							if ( iLabelLocation == IConstants.LEFT )
 							{
 								sx -= dStaggeredLabelOffset;
-								sx2 -= dStaggeredLabelOffset;
+								sx2 += dStaggeredLabelOffset;
 							}
 							else
 							{
 								sx += dStaggeredLabelOffset;
-								sx2 += dStaggeredLabelOffset;
+								sx2 -= dStaggeredLabelOffset;
 							}
 						}
 
@@ -3376,196 +3376,6 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 				}
 				itmText.dispose( );// DISPOSED
-			}
-			else if ( ( sc.getType( ) & IConstants.LOGARITHMIC ) == IConstants.LOGARITHMIC )
-			{
-				double dAxisValue = Methods.asDouble( sc.getMinimum( ) )
-						.doubleValue( );
-				final double dAxisStep = Methods.asDouble( sc.getStep( ) )
-						.doubleValue( );
-
-				dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( ); // RESET
-				double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 - 1
-						: dXTick2 + 1;
-				for ( int i = 0; i < da.length; i++ )
-				{
-					if ( bRenderAxisLabels ) // PERFORM COMPUTATIONS ONLY IF
-					// AXIS LABEL IS VISIBLE
-					{
-						if ( fs == null )
-						{
-							df = new DecimalFormat( sc.getNumericPattern( dAxisValue ) );
-						}
-						nde.setValue( dAxisValue );
-						try
-						{
-							sText = ValueFormatter.format( nde,
-									fs,
-									ax.getRunTimeContext( ).getULocale( ),
-									df );
-						}
-						catch ( ChartException dfex )
-						{
-							logger.log( dfex );
-							sText = IConstants.NULL_STRING;
-						}
-					}
-
-					y = (int) da[i];
-					if ( bRendering3D )
-					{
-						y3d = (int) da3D[i];
-					}
-					if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
-					{
-						double dXMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? ( dX - IConstants.TICK_SIZE )
-								: dX;
-						double dXMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? dX
-								+ IConstants.TICK_SIZE
-								: dX;
-						if ( dXMinorTick1 != dXMinorTick2 )
-						{
-							// RENDER THE MINOR TICKS FIRST (For ALL but the
-							// last Major tick)
-							if ( i != da.length - 1 )
-							{
-								if ( bRenderOrthogonal3DAxis )
-								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( dXMinorTick1,
-												y3d + daMinor[k],
-												dZ ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( dXMinorTick2,
-												y3d + daMinor[k],
-												dZ ) );
-										dc.addLine( l3dreMinor );
-									}
-								}
-								else
-								{
-									LineRenderEvent lreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												LineRenderEvent.class );
-										lreMinor.setLineAttributes( liaMinorTick );
-										lreMinor.setStart( LocationImpl.create( dXMinorTick1,
-												y + iDirection * daMinor[k] ) );
-										lreMinor.setEnd( LocationImpl.create( dXMinorTick2,
-												y + iDirection * daMinor[k] ) );
-										ipr.drawLine( lreMinor );
-									}
-								}
-							}
-						}
-
-						if ( dXTick1 != dXTick2 )
-						{
-							if ( bRenderOrthogonal3DAxis )
-							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( dXTick1, y3d, dZ );
-								l3dre.setEnd3D( dXTick2, y3d, dZ );
-								dc.addLine( l3dre );
-							}
-							else
-							{
-								lre.setLineAttributes( liaMajorTick );
-								lre.getStart( ).set( dXTick1, y );
-								lre.getEnd( ).set( dXTick2, y );
-								ipr.drawLine( lre );
-							}
-
-							if ( iv != null
-									&& iDimension == IConstants.TWO_5_D
-									&& iv.getType( ) == IntersectionValue.VALUE )
-							{
-								lre.setLineAttributes( lia );
-								lre.setStart( LocationImpl.create( dX, y ) );
-								lre.setEnd( LocationImpl.create( dX
-										+ dSeriesThickness, y
-										- dSeriesThickness ) );
-								ipr.drawLine( lre );
-							}
-						}
-					}
-
-					// RENDER LABELS ONLY IF REQUESTED
-					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
-					{
-						double sx = x;
-						double sx2 = dXEnd;
-						if ( bAxisLabelStaggered && sc.isTickLabelStaggered( i ) )
-						{
-							if ( iLabelLocation == IConstants.LEFT )
-							{
-								sx -= dStaggeredLabelOffset;
-								sx2 -= dStaggeredLabelOffset;
-							}
-							else
-							{
-								sx += dStaggeredLabelOffset;
-								sx2 += dStaggeredLabelOffset;
-							}
-						}
-						ScriptHandler.callFunction( sh,
-								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
-								axModel,
-								la,
-								getRunTimeContext( ).getScriptContext( ) );
-						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
-								la );
-						if ( ax.getLabel( ).isVisible( ) )
-						{
-							if ( bRendering3D )
-							{
-								// Left wall
-								lo3d.set( sx
-										- pwa.getHorizontalSpacingInPixels( ),
-										y3d,
-										dZEnd
-												+ pwa.getHorizontalSpacingInPixels( ) );
-								la.getCaption( ).setValue( sText );
-								t3dre.setLocation3D( lo3d );
-								t3dre.setTextPosition( TextRenderEvent.LEFT );
-								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-								dc.addLabel( t3dre );
-
-								// Right wall
-								lo3d.set( sx2
-										+ pwa.getHorizontalSpacingInPixels( ),
-										y3d,
-										dZ - pwa.getHorizontalSpacingInPixels( ) );
-								la.getCaption( ).setValue( sText );
-								t3dre.setLocation3D( lo3d );
-								t3dre.setTextPosition( TextRenderEvent.RIGHT );
-								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-								dc.addLabel( t3dre );
-							}
-							else
-							{
-								lo.set( sx, y );
-								la.getCaption( ).setValue( sText );
-								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-								ipr.drawText( tre );
-
-							}
-						}
-						ScriptHandler.callFunction( sh,
-								ScriptHandler.AFTER_DRAW_AXIS_LABEL,
-								axModel,
-								la,
-								getRunTimeContext( ).getScriptContext( ) );
-						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL,
-								la );
-					}
-					dAxisValue *= dAxisStep;
-				}
 			}
 			else if ( ( sc.getType( ) & IConstants.LINEAR ) == IConstants.LINEAR )
 			{
@@ -3706,12 +3516,12 @@ public abstract class AxesRenderer extends BaseRenderer
 							if ( iLabelLocation == IConstants.LEFT )
 							{
 								sx -= dStaggeredLabelOffset;
-								sx2 -= dStaggeredLabelOffset;
+								sx2 += dStaggeredLabelOffset;
 							}
 							else
 							{
 								sx += dStaggeredLabelOffset;
-								sx2 += dStaggeredLabelOffset;
+								sx2 -= dStaggeredLabelOffset;
 							}
 						}
 						ScriptHandler.callFunction( sh,
@@ -3778,6 +3588,196 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						dAxisValue += dAxisStep;
 					}
+				}
+			}
+			else if ( ( sc.getType( ) & IConstants.LOGARITHMIC ) == IConstants.LOGARITHMIC )
+			{
+				double dAxisValue = Methods.asDouble( sc.getMinimum( ) )
+						.doubleValue( );
+				final double dAxisStep = Methods.asDouble( sc.getStep( ) )
+						.doubleValue( );
+
+				dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( ); // RESET
+				double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 - 1
+						: dXTick2 + 1;
+				for ( int i = 0; i < da.length; i++ )
+				{
+					if ( bRenderAxisLabels ) // PERFORM COMPUTATIONS ONLY IF
+					// AXIS LABEL IS VISIBLE
+					{
+						if ( fs == null )
+						{
+							df = new DecimalFormat( sc.getNumericPattern( dAxisValue ) );
+						}
+						nde.setValue( dAxisValue );
+						try
+						{
+							sText = ValueFormatter.format( nde,
+									fs,
+									ax.getRunTimeContext( ).getULocale( ),
+									df );
+						}
+						catch ( ChartException dfex )
+						{
+							logger.log( dfex );
+							sText = IConstants.NULL_STRING;
+						}
+					}
+
+					y = (int) da[i];
+					if ( bRendering3D )
+					{
+						y3d = (int) da3D[i];
+					}
+					if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
+					{
+						double dXMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? ( dX - IConstants.TICK_SIZE )
+								: dX;
+						double dXMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? dX
+								+ IConstants.TICK_SIZE
+								: dX;
+						if ( dXMinorTick1 != dXMinorTick2 )
+						{
+							// RENDER THE MINOR TICKS FIRST (For ALL but the
+							// last Major tick)
+							if ( i != da.length - 1 )
+							{
+								if ( bRenderOrthogonal3DAxis )
+								{
+									Line3DRenderEvent l3dreMinor = null;
+									for ( int k = 0; k < daMinor.length - 1; k++ )
+									{
+										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+												Line3DRenderEvent.class );
+										l3dreMinor.setLineAttributes( liaMinorTick );
+										l3dreMinor.setStart3D( Location3DImpl.create( dXMinorTick1,
+												y3d + daMinor[k],
+												dZ ) );
+										l3dreMinor.setEnd3D( Location3DImpl.create( dXMinorTick2,
+												y3d + daMinor[k],
+												dZ ) );
+										dc.addLine( l3dreMinor );
+									}
+								}
+								else
+								{
+									LineRenderEvent lreMinor = null;
+									for ( int k = 0; k < daMinor.length - 1; k++ )
+									{
+										lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+												LineRenderEvent.class );
+										lreMinor.setLineAttributes( liaMinorTick );
+										lreMinor.setStart( LocationImpl.create( dXMinorTick1,
+												y + iDirection * daMinor[k] ) );
+										lreMinor.setEnd( LocationImpl.create( dXMinorTick2,
+												y + iDirection * daMinor[k] ) );
+										ipr.drawLine( lreMinor );
+									}
+								}
+							}
+						}
+
+						if ( dXTick1 != dXTick2 )
+						{
+							if ( bRenderOrthogonal3DAxis )
+							{
+								l3dre.setLineAttributes( liaMajorTick );
+								l3dre.setStart3D( dXTick1, y3d, dZ );
+								l3dre.setEnd3D( dXTick2, y3d, dZ );
+								dc.addLine( l3dre );
+							}
+							else
+							{
+								lre.setLineAttributes( liaMajorTick );
+								lre.getStart( ).set( dXTick1, y );
+								lre.getEnd( ).set( dXTick2, y );
+								ipr.drawLine( lre );
+							}
+
+							if ( iv != null
+									&& iDimension == IConstants.TWO_5_D
+									&& iv.getType( ) == IntersectionValue.VALUE )
+							{
+								lre.setLineAttributes( lia );
+								lre.setStart( LocationImpl.create( dX, y ) );
+								lre.setEnd( LocationImpl.create( dX
+										+ dSeriesThickness, y
+										- dSeriesThickness ) );
+								ipr.drawLine( lre );
+							}
+						}
+					}
+
+					// RENDER LABELS ONLY IF REQUESTED
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
+					{
+						double sx = x;
+						double sx2 = dXEnd;
+						if ( bAxisLabelStaggered && sc.isTickLabelStaggered( i ) )
+						{
+							if ( iLabelLocation == IConstants.LEFT )
+							{
+								sx -= dStaggeredLabelOffset;
+								sx2 += dStaggeredLabelOffset;
+							}
+							else
+							{
+								sx += dStaggeredLabelOffset;
+								sx2 -= dStaggeredLabelOffset;
+							}
+						}
+						ScriptHandler.callFunction( sh,
+								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
+								axModel,
+								la,
+								getRunTimeContext( ).getScriptContext( ) );
+						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
+								la );
+						if ( ax.getLabel( ).isVisible( ) )
+						{
+							if ( bRendering3D )
+							{
+								// Left wall
+								lo3d.set( sx
+										- pwa.getHorizontalSpacingInPixels( ),
+										y3d,
+										dZEnd
+												+ pwa.getHorizontalSpacingInPixels( ) );
+								la.getCaption( ).setValue( sText );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setTextPosition( TextRenderEvent.LEFT );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
+
+								// Right wall
+								lo3d.set( sx2
+										+ pwa.getHorizontalSpacingInPixels( ),
+										y3d,
+										dZ - pwa.getHorizontalSpacingInPixels( ) );
+								la.getCaption( ).setValue( sText );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setTextPosition( TextRenderEvent.RIGHT );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
+							}
+							else
+							{
+								lo.set( sx, y );
+								la.getCaption( ).setValue( sText );
+								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								ipr.drawText( tre );
+
+							}
+						}
+						ScriptHandler.callFunction( sh,
+								ScriptHandler.AFTER_DRAW_AXIS_LABEL,
+								axModel,
+								la,
+								getRunTimeContext( ).getScriptContext( ) );
+						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL,
+								la );
+					}
+					dAxisValue *= dAxisStep;
 				}
 			}
 			else if ( ( sc.getType( ) & IConstants.DATE_TIME ) == IConstants.DATE_TIME )
@@ -3900,12 +3900,12 @@ public abstract class AxesRenderer extends BaseRenderer
 							if ( iLabelLocation == IConstants.LEFT )
 							{
 								sx -= dStaggeredLabelOffset;
-								sx2 -= dStaggeredLabelOffset;
+								sx2 += dStaggeredLabelOffset;
 							}
 							else
 							{
 								sx += dStaggeredLabelOffset;
-								sx2 += dStaggeredLabelOffset;
+								sx2 -= dStaggeredLabelOffset;
 							}
 						}
 
