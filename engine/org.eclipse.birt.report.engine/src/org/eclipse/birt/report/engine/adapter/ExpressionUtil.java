@@ -56,6 +56,9 @@ public final class ExpressionUtil
 			else if ( key instanceof IConditionalExpression )
 			{
 				addConditionalExprBindings( result, key, l );
+			}else if ( key == null )
+			{
+				result.addNewExpression( null );
 			}
 		}
 		return result;
