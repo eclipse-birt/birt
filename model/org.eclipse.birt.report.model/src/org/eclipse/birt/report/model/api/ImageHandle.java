@@ -143,8 +143,8 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	}
 
 	/**
-	 * Returns the image source type. This is one of the following options
-	 * defined in <code>DesignChoiceConstants</code>:
+	 * Sets the image source type. This is one of the following options defined
+	 * in <code>DesignChoiceConstants</code>:
 	 * <p>
 	 * <ul>
 	 * <li><code>IMAGE_REF_TYPE_NONE</code>
@@ -366,9 +366,9 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	}
 
 	/**
-	 * Sets the image uri property. The source type is automatically set in this
-	 * method. Whether <code>IMAGE_REF_TYPE_FILE</code> or
-	 * <code>IMAGE_REF_TYPE_URL</code> depends on the uri to set.
+	 * Sets the image uri property. The source type is
+	 * <code>IMAGE_REF_TYPE_URL</code>, and will automatically set in this
+	 * method.
 	 * 
 	 * @param uri
 	 *            the uri to be set.
@@ -380,12 +380,47 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		String source = DesignChoiceConstants.IMAGE_REF_TYPE_URL;
 
+		setURIProperty( uri, source );
+	}
+
+	/**
+	 * Sets the image uri property. The source type is
+	 * <code>IMAGE_REF_TYPE_FILE</code>, and will automatically set in this
+	 * method.
+	 * 
+	 * @param file
+	 *            the file to be set.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setFile( String file ) throws SemanticException
+	{
+		String source = DesignChoiceConstants.IMAGE_REF_TYPE_FILE;
+
+		setURIProperty( file, source );
+	}
+
+	/**
+	 * Sets the image uri property. The source type is
+	 * <code>IMAGE_REF_TYPE_FILE</code> or <code>IMAGE_REF_TYPE_FILE</code>.
+	 * 
+	 * @param prop
+	 *            uri property
+	 * @param source
+	 *            image reference property
+	 * @throws SemanticException
+	 */
+
+	private void setURIProperty( String prop, String source )
+			throws SemanticException
+	{
 		try
 		{
 			module.getActivityStack( ).startTrans( );
 
 			setProperty( ImageItem.SOURCE_PROP, source );
-			setProperty( ImageItem.URI_PROP, uri );
+			setProperty( ImageItem.URI_PROP, prop );
 		}
 		catch ( SemanticException e )
 		{
@@ -583,4 +618,5 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		setStringProperty( ImageItem.HELP_TEXT_ID_PROP, helpTextKey );
 	}
+
 }
