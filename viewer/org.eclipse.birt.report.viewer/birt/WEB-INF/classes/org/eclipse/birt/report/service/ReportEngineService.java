@@ -287,7 +287,7 @@ public class ReportEngineService
 
 			try
 			{
-				Platform.startup( platformContext );
+				Platform.startup( null );
 			}
 			catch ( BirtException e )
 			{
