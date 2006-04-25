@@ -215,9 +215,9 @@ public final class ChartReportItemPresentationImpl extends
 			{
 				sExtension = outputFormat;
 			}
-			else if ( 	outputFormat != null && 
-						outputFormat.toUpperCase( ).equals( "GIF" )  && //$NON-NLS-1$ 
-						isOutputRendererSupported( "PNG" ) ) //$NON-NLS-1$
+			else if ( outputFormat != null
+					&& outputFormat.toUpperCase( ).equals( "GIF" ) && //$NON-NLS-1$ 
+					isOutputRendererSupported( "PNG" ) ) //$NON-NLS-1$
 			{
 				// render old GIF charts as PNG
 				sExtension = "PNG"; //$NON-NLS-1$
@@ -368,9 +368,7 @@ public final class ChartReportItemPresentationImpl extends
 	public Object onRowSets( IRowSet[] irsa ) throws BirtException
 	{
 		// BIND RESULTSET TO CHART DATASETS
-		if ( irsa == null
-				|| irsa.length != 1
-				|| irsa[0] == null )
+		if ( irsa == null || irsa.length != 1 || irsa[0] == null )
 		{
 			// if the Data rows are null/empty, just log the error and returns
 			// null gracefully.
@@ -454,7 +452,7 @@ public final class ChartReportItemPresentationImpl extends
 					bo,
 					new BIRTExternalContext( context ),
 					rtc,
-					new ChartReportStyleProcessor( handle ) );
+					new ChartReportStyleProcessor( handle, this.style ) );
 
 			// WRITE TO THE IMAGE FILE
 			logger.log( ILogger.INFORMATION,
@@ -609,5 +607,4 @@ public final class ChartReportItemPresentationImpl extends
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemPresentationImpl.log.finishEnd" ) ); //$NON-NLS-1$
 	}
-
 }

@@ -68,6 +68,8 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 
 	private boolean useCache;
 
+	private org.eclipse.birt.report.engine.content.IStyle dstyle;
+
 	private SimpleStyle cache = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
@@ -79,7 +81,19 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	 */
 	public ChartReportStyleProcessor( DesignElementHandle handle )
 	{
-		this( handle, false );
+		this( handle, false, null );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param handle
+	 * @param style
+	 */
+	public ChartReportStyleProcessor( DesignElementHandle handle,
+			org.eclipse.birt.report.engine.content.IStyle style )
+	{
+		this( handle, false, style );
 	}
 
 	/**
@@ -92,8 +106,24 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	public ChartReportStyleProcessor( DesignElementHandle handle,
 			boolean useCache )
 	{
+		this( handle, useCache, null );
+	}
+
+	/**
+	 * The constructor. Default not using cache.
+	 * 
+	 * @param handle
+	 * @param useCache
+	 *            specify if use cache.
+	 * @param style
+	 */
+	public ChartReportStyleProcessor( DesignElementHandle handle,
+			boolean useCache,
+			org.eclipse.birt.report.engine.content.IStyle dstyle )
+	{
 		this.handle = handle;
 		this.useCache = useCache;
+		this.dstyle = dstyle;
 	}
 
 	/*
@@ -117,6 +147,16 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			boolean fitalic = DesignChoiceConstants.FONT_STYLE_ITALIC.equals( style.getFontStyle( ) );
 			boolean funder = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( style.getTextUnderline( ) );
 			boolean fstrike = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( style.getTextLineThrough( ) );
+
+			if ( dstyle != null )
+			{
+				fname = dstyle.getFontFamily( );
+				fsize = Math.round( Float.parseFloat( dstyle.getFontSize( ) ) / 1000 );
+				fbold = getFontWeight( dstyle.getFontWeight( ) ) >= 700;
+				fitalic = DesignChoiceConstants.FONT_STYLE_ITALIC.equals( dstyle.getFontStyle( ) );
+				funder = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( dstyle.getTextUnderline( ) );
+				fstrike = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( dstyle.getTextLineThrough( ) );
+			}
 
 			HorizontalAlignment ha = HorizontalAlignment.LEFT_LITERAL;
 			if ( DesignChoiceConstants.TEXT_ALIGN_CENTER.equals( style.getTextAlign( ) ) )
@@ -153,7 +193,16 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			ss.setFont( fd );
 
 			ColorHandle ch = style.getColor( );
-			if ( ch != null && ch.getRGB( ) != -1 )
+			if ( dstyle != null )
+			{
+				String color = dstyle.getColor( );
+				int r = Integer.valueOf( color.substring( 4,
+						color.indexOf( "," ) ).trim( ) ).intValue( ); //$NON-NLS-1$
+				int g = Integer.valueOf( color.substring( color.indexOf( "," ) + 1, color.indexOf( ",", color.indexOf( "," ) + 1 ) ).trim( ) ).intValue( ); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				int b = Integer.valueOf( color.substring( color.lastIndexOf( "," ) + 1, color.length( ) - 1 ).trim( ) ).intValue( );//$NON-NLS-1$
+				ss.setColor( ColorDefinitionImpl.create( r, g, b ) );
+			}
+			else if ( ch != null && ch.getRGB( ) != -1 )
 			{
 				int rgb = ch.getRGB( );
 				ColorDefinition cd = ColorDefinitionImpl.create( ( rgb >> 16 ) & 0xff,
@@ -167,7 +216,16 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			}
 
 			ch = style.getBackgroundColor( );
-			if ( ch != null && ch.getRGB( ) != -1 )
+			if ( dstyle != null )
+			{
+				String color = dstyle.getBackgroundColor( );
+				int r = Integer.valueOf( color.substring( 4,
+						color.indexOf( "," ) ).trim( ) ).intValue( ); //$NON-NLS-1$
+				int g = Integer.valueOf( color.substring( color.indexOf( "," ) + 1, color.indexOf( ",", color.indexOf( "," ) + 1 ) ).trim( ) ).intValue( ); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				int b = Integer.valueOf( color.substring( color.lastIndexOf( "," ) + 1, color.length( ) - 1 ).trim( ) ).intValue( );//$NON-NLS-1$
+				ss.setBackgroundColor( ColorDefinitionImpl.create( r, g, b ) );
+			}
+			else if ( ch != null && ch.getRGB( ) != -1 )
 			{
 				int rgb = ch.getRGB( );
 				ColorDefinition cd = ColorDefinitionImpl.create( ( rgb >> 16 ) & 0xff,
