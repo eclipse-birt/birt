@@ -34,10 +34,10 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
-import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -539,6 +539,10 @@ public class DocumentUtil
 
 		if ( style != null && style.getRoot( ) != sourceModule )
 		{
+			// clear the style reference of the target element
+
+			( (StyledElement) target ).setStyle( null );
+
 			Module root = style.getRoot( );
 			assert root != null;
 
@@ -555,15 +559,11 @@ public class DocumentUtil
 					// only handle values that not set in the target element
 
 					if ( target.getPropertyDefn( prop.getName( ) ) != null
-							&& target
-									.getProperty( targetDesign, prop.getName( ) ) == null )
+							&& target.getLocalProperty( targetDesign,
+									(ElementPropertyDefn) prop ) == null )
 						target.setProperty( prop.getName( ), value );
 				}
 			}
-
-			// clear the style reference of the target element
-
-			( (StyledElement) target ).setStyle( null );
 		}
 	}
 

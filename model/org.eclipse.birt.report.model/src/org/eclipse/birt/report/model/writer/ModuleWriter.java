@@ -1834,7 +1834,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 
-		property( obj, TemplateElement.REF_TEMPLATE_PARAMETER_PROP );
+		property( obj, TemplateElement.REF_TEMPLATE_PARAMETER_PROP );	
 	}
 
 	/*
@@ -1874,6 +1874,9 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeStructureList( obj, TemplateReportItem.VISIBILITY_PROP );
 
+		writeUserPropertyDefns( obj );
+		writeUserPropertyValues( obj );
+		
 		writer.endElement( );
 	}
 
