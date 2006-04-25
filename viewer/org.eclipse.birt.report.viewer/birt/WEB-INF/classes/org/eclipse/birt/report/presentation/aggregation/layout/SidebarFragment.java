@@ -11,18 +11,18 @@
 
 package org.eclipse.birt.report.presentation.aggregation.layout;
 
-import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
+import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.control.TocFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.DialogContainerFragment;
-import org.eclipse.birt.report.presentation.aggregation.dialog.SimpleExportDataDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.ParameterDialogFragment;
+import org.eclipse.birt.report.presentation.aggregation.dialog.SimpleExportDataDialogFragment;
 
 /**
  * Navigation fragment.
  * <p>
  * @see BaseFragment
  */
-public class SidebarFragment extends BaseFragment
+public class SidebarFragment extends BirtBaseFragment
 {
 	/**
 	 * Build fragment by adding navigation fragment root.
@@ -30,14 +30,7 @@ public class SidebarFragment extends BaseFragment
 	protected void build( )
 	{
 		addChild( new TocFragment( ) );
-		
-//		addChild( new ContextMenuFragment( ) );
-		
 		addChild( new DialogContainerFragment( new ParameterDialogFragment( ) ) );
-//		addChild( new DialogContainerFragment( new PrintDialogFragment( ) ) );
-//		addChild( new DialogContainerFragment( new FontDialogFragment( ) ) );
-//		addChild( new DialogContainerFragment( new ExportReportDialogFragment( ) ) );
-//		addChild( new DialogContainerFragment( new ExportDataDialogFragment( ) ) );
 		addChild( new DialogContainerFragment( new SimpleExportDataDialogFragment( ) ) );
 	}
 }

@@ -16,7 +16,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 /**
  * Fragment help rendering scalar parameter.
  * <p>
- * @see org.eclipse.birt.report.viewer.aggregation.BaseFragment
+ * @see org.eclipse.birt.report.presentation.aggregation.BaseFragment
  */
 public class CheckboxParameterFragment extends ScalarParameterFragment
 {

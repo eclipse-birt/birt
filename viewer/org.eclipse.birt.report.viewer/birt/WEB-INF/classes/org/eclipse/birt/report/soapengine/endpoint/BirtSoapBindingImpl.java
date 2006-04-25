@@ -11,12 +11,13 @@ import javax.xml.namespace.QName;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BirtContext;
+import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjects;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.processor.BaseProcessorFactory;
 import org.eclipse.birt.report.soapengine.processor.IComponentProcessor;
-import org.eclipse.birt.report.soapengine.processor.api.IProcessorFactory;
+import org.eclipse.birt.report.soapengine.processor.IProcessorFactory;
 
 public class BirtSoapBindingImpl implements BirtSoapPort
 {
@@ -27,7 +28,7 @@ public class BirtSoapBindingImpl implements BirtSoapPort
     	GetUpdatedObjectsResponse response = new GetUpdatedObjectsResponse( );
     	Operation[] ops = request.getOperation( );
     	
-    	BirtContext context =  BirtContext.get( );
+    	IContext context =  BirtContext.getInstance( );
     	if ( context.getBean( ).getException( ) != null )
     	{
 			AxisFault fault = new AxisFault( );

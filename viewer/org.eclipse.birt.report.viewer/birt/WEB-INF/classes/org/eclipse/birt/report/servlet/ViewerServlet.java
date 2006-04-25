@@ -20,12 +20,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.service.BirtReportServiceFactory;
+import org.eclipse.birt.report.service.BirtViewerReportService;
+import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.servlet.BirtSoapMessageDispatcherServlet;
 import org.eclipse.birt.report.context.BirtContext;
+import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
+import org.eclipse.birt.report.presentation.aggregation.layout.EngineFragment;
 import org.eclipse.birt.report.presentation.aggregation.layout.FramesetFragment;
-import org.eclipse.birt.report.resource.BirtResources;
-import org.eclipse.birt.report.service.ReportEngineService;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Servlet implementation of BIRT Web Viewer.
@@ -100,74 +103,44 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  */
 public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 {
-
 	/**
-	 * Comment for <code>serialVersionUID</code>.
+	 * TODO: what's this?
 	 */
-
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Viewer fragment references.
-	 */
-
-	private IFragment viewer = null;
-	private IFragment preview = null;
-	private IFragment engine = null;
-	private IFragment parameter = null;
-
-	/**
-	 * Servlet path for parameter model.
-	 */
-	public static final String SERVLET_PATH_PARAMETER = "/parameter"; //$NON-NLS-1$
-
-	/**
-	 * Servlet path for preview model.
-	 */
-	public static final String SERVLET_PATH_PREVIEW = "/preview"; //$NON-NLS-1$
-
-	/**
-	 * Servlet path for frameset model.
-	 */
-	public static final String SERVLET_PATH_FRAMESET = "/frameset"; //$NON-NLS-1$
-
-	/**
-	 * Servlet path for running model.
-	 */
-	public static final String SERVLET_PATH_RUN = "/run"; //$NON-NLS-1$
-
-	/**
-	 * The error page.
-	 */
-	private static final String EORROR_PAGE = "pages/common/Error.jsp";
-
-	/**
-	 * Servlet initialization. Initialize engine, parameter, resources, and
-	 * viewer fragment. Birt viewer uses a composite of fragments to control the
-	 * layout renderring. The Composite is initialized here and will be shared
-	 * by all incoming servlet requests. Four fragment references are stored as
-	 * properties of servlet instance. Each fragments is read only.
+	 * Local initialization.
 	 * 
-	 * @see org.eclipse.birt.report.viewer.aggregation.BaseFragment
-	 * @param config
-	 *            servlet configuration
+	 * @return
 	 */
-
-	public void init( ServletConfig config ) throws ServletException
+	protected void __init( ServletConfig config )
 	{
-		super.init( config );
+		BirtReportServiceFactory.init( new BirtViewerReportService( config ) );
 
-		ParameterAccessor.initParameters( config );
-		BirtResources.initResource( ParameterAccessor.getWebAppLocale( ) );
-
-		viewer = FramesetFragment.getFramesetFragment( );
-		preview = FramesetFragment.getPreviewFragment( );
-		engine = FramesetFragment.getEngineFragment( );
-		parameter = FramesetFragment.getParameterFragment( );
+		viewer = new FramesetFragment( );
+		viewer.buildComposite( );
+		engine = new EngineFragment( );
 	}
 
 	/**
-	 * Process http request with GET method
+	 * Init context.
+	 * 
+	 * @param request
+	 *            incoming http request
+	 * @return
+	 */
+	protected IContext __getContext( HttpServletRequest request,
+			HttpServletResponse response )
+	{
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, request );
+		BirtReportServiceFactory.getReportService( ).setContext(
+				getServletContext( ), options );
+		return new BirtContext( request, response );
+	}
+
+	/**
+	 * Local process http request with GET method.
 	 * 
 	 * @param request
 	 *            incoming http request
@@ -175,62 +148,32 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	 *            http response
 	 * @exception ServletException
 	 * @exception IOException
+	 * @return
 	 */
-
-	public void doGet( HttpServletRequest request, HttpServletResponse response )
-			throws ServletException, IOException
+	protected void __doGet( IContext context ) throws ServletException,
+			IOException, BirtException
 	{
-		ReportEngineService.getInstance( ).setEngineContext(
-				getServletContext( ), request );
-
-		// Exception happened during context init.
-		BirtContext context = new BirtContext( request );
-		if ( context.getBean( ).getException( ) != null )
+		IFragment activeFragment = null;
+		String servletPath = context.getRequest( ).getServletPath( );
+		if ( "/frameset".equalsIgnoreCase( servletPath ) ) //$NON-NLS-1$
 		{
-			context.finalize( );
-			displayException( request, response, context.getBean( )
-					.getException( ) );
+			activeFragment = viewer;
 		}
-		else
+		else if ( "/run".equalsIgnoreCase( servletPath ) ) //$NON-NLS-1$
 		{
-			try
-			{
-				if ( SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
-						.getServletPath( ) ) )
-				{
-					viewer.service( request, response );
-				}
-				else if ( SERVLET_PATH_PREVIEW.equalsIgnoreCase( request
-						.getServletPath( ) ) )
-				{
-					preview.service( request, response );
-				}
-				else if ( SERVLET_PATH_RUN.equalsIgnoreCase( request
-						.getServletPath( ) ) )
-				{
-					engine.service( request, response );
-				}
-				else if ( SERVLET_PATH_PARAMETER.equalsIgnoreCase( request
-						.getServletPath( ) ) )
-				{
-					parameter.service( request, response );
-				}
-			}
-			catch ( BirtException e )
-			{
-				displayException( request, response, e );
-			}
-			finally
-			{
-				context.finalize( );
-			}
+			activeFragment = engine;
+		}
+		else if ( "/parameter".equalsIgnoreCase( servletPath ) ) //$NON-NLS-1$
+		{
+			activeFragment = parameter;
 		}
 
+		activeFragment.service( context.getRequest( ), context.getResponse( ) );
 	}
 
 	/**
-	 * Process http request with POST method. Four different servlet paths are
-	 * expected: "/frameset", "/navigation", "/toolbar", and "/run".
+	 * Locale process http request with POST method. Four different servlet
+	 * paths are expected: "/frameset", "/navigation", "/toolbar", and "/run".
 	 * 
 	 * @param request
 	 *            incoming http request
@@ -238,81 +181,49 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	 *            http response
 	 * @exception ServletException
 	 * @exception IOException
+	 * @return
 	 */
-
-	public void doPost( HttpServletRequest request, HttpServletResponse response )
-			throws ServletException, IOException
+	protected boolean __doPost( IContext context ) throws ServletException,
+			IOException, BirtException
 	{
-		ReportEngineService.getInstance( ).setEngineContext(
-				getServletContext( ), request );
-		BirtContext context = new BirtContext( request );
-
-		if ( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
+		if ( "/download".equalsIgnoreCase( context.getRequest( ).getServletPath( ) ) ) //$NON-NLS-1$
 		{
-			if ( context.getBean( ).getException( ) != null )
-			{
-				context.finalize( );
-				displayException( request, response, context.getBean( )
-						.getException( ) );
-			}
-			else
-			{
-				try
-				{
-					engine.service( request, response );
-				}
-				catch ( BirtException e )
-				{
-					displayException( request, response, e );
-				}
-				finally
-				{
-					context.finalize( );
-				}
-			}
+			engine.service( context.getRequest( ), context.getResponse( ) );
+			return false;
 		}
-		else
-		{
-			String requestType = request
-					.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
-
-			if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
-					.equalsIgnoreCase( requestType ) )
-			{
-				super.doPost( request, response );
-				context.finalize( );
-
-			}
-			else
-			{
-				doGet( request, response );
-				context.finalize( );
-			}
-		}
-
+		return true;
 	}
 
 	/**
-	 * Display exception.
+	 * Local authentication. Alwasy returns true.
 	 * 
 	 * @param request
-	 *            the request.
+	 *            incoming http request
 	 * @param response
-	 *            the response.
+	 *            http response
+	 * @return
+	 */
+	protected boolean __authenticate( HttpServletRequest request,
+			HttpServletResponse response )
+	{
+		return true;
+	}
+
+	/**
+	 * Process exception for non soap request.
+	 * 
+	 * @param context
 	 * @param exception
-	 *            the exception to display.
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-
-	private void displayException( HttpServletRequest request,
-			HttpServletResponse response, Exception exception )
-			throws ServletException, IOException
+	protected void __handleNonSoapException( IContext context,
+			Exception exception ) throws ServletException, IOException
 	{
-		String target = EORROR_PAGE;
-		request.setAttribute( "error", exception ); //$NON-NLS-1$
-		RequestDispatcher rd = request.getRequestDispatcher( target );
-		rd.include( request, response );
+		String target = "iportal/birt/pages/common/Error.jsp"; //$NON-NLS-1$
+		context.getRequest( ).setAttribute( "error", exception ); //$NON-NLS-1$
+		RequestDispatcher rd = context.getRequest( ).getRequestDispatcher(
+				target );
+		rd.include( context.getRequest( ), context.getResponse( ) );
 	}
-
 }

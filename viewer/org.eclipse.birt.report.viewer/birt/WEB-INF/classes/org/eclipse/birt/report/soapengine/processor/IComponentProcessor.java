@@ -13,11 +13,19 @@ package org.eclipse.birt.report.soapengine.processor;
 
 import java.rmi.RemoteException;
 
-import org.eclipse.birt.report.context.BirtContext;
+import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 
 public interface IComponentProcessor
 {
-	public void process( BirtContext context, Operation op, GetUpdatedObjectsResponse response ) throws RemoteException;
+	/**
+	 * Processor entry point.
+	 * 
+	 * @param context
+	 * @param op
+	 * @param response
+	 * @throws RemoteException
+	 */
+	public void process( IContext context, Operation op, GetUpdatedObjectsResponse response ) throws RemoteException;
 }

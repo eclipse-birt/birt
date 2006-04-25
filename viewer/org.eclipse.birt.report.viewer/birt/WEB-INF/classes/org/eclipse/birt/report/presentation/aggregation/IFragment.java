@@ -40,7 +40,7 @@ public interface IFragment
 	 * @return id
 	 */
 	public String getClientName( );
-
+	
 	/**
      * Is called to render the fragment. This may be a page, column or 
      * even a portlet.

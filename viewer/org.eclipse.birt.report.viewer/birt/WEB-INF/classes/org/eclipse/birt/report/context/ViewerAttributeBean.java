@@ -12,20 +12,20 @@
 package org.eclipse.birt.report.context;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
-import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
+import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.ReportEngineService;
-import org.eclipse.birt.report.servlet.ViewerServlet;
+import org.eclipse.birt.report.service.api.IViewerReportService;
+import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -41,87 +41,16 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * In current implementation, ViewerAttributeBean uses request scope.
  * <p>
  */
-public class ViewerAttributeBean
+public class ViewerAttributeBean extends BaseAttributeBean
 {
-
-	/**
-	 * Identify the incoming request category.
-	 */
-	private String category = "BIRT"; //$NON-NLS-1$
-
-	/**
-	 * Need to store the exception.
-	 */
-	private Exception exception = null;
-
-	/**
-	 * Report runnable.
-	 */
-	private IReportRunnable reportRunnable = null;
-
-	/**
-	 * Report document.
-	 */
-	private IReportDocument reportDocumentInstance = null;
-
-	/**
-	 * Get report parameter task.
-	 */
-	private IGetParameterDefinitionTask parameterTask = null;
-
-	/**
-	 * Get report parameters passed in by URL.
-	 */
-	private HashMap parameters = null;
-
-	/**
-	 * scalar parameter bean.
-	 */
-	private ParameterAttributeBean parameterBean = null;
-
-	/**
-	 * Report document name.
-	 */
-	private String reportDocumentName = null;
-
-	/**
-	 * Report title.
-	 */
-	private String reportTitle = null;
-
-	/**
-	 * Report page number.
-	 */
-	private String reportPage = null;
-
-	/**
-	 * Current locale.
-	 */
-	private Locale locale = null;
-
-	/**
-	 * Enable master page content.
-	 */
-	private boolean masterPageContent = true;
-
-	/**
-	 * In designer context.
-	 */
-	private boolean isDesigner = false;
-
-	/**
-	 * Bookmark.
-	 */
-	private String bookmark = null;
-
-	private String servletPath = null;
-
 	/**
 	 * Constructor.
+	 * 
+	 * @param request
 	 */
 	public ViewerAttributeBean( HttpServletRequest request )
 	{
-		this.init( request );
+		super( request );
 	}
 
 	/**
@@ -130,34 +59,55 @@ public class ViewerAttributeBean
 	 * @param request
 	 * @throws Exception
 	 */
-	public void init( HttpServletRequest request )
+	protected void __init( HttpServletRequest request ) throws Exception
 	{
-		this.servletPath = request.getServletPath( );
-		if ( servletPath.indexOf( "/wr" ) != -1 ) //$NON-NLS-1$
-		{
-			this.category = "ERNI"; //$NON-NLS-1$
-		}
-
 		if ( ParameterAccessor.isGetImageOperator( request ) )
 		{
 			return;
 		}
 
+		this.category = "BIRT"; //$NON-NLS-1$
 		this.masterPageContent = ParameterAccessor
 				.isMasterPageContent( request );
-
-		// Is in designer?
 		this.isDesigner = ParameterAccessor.isDesigner( request );
-
-		// Determine the report design and doc 's timestamp
+		this.bookmark = ParameterAccessor.getBookmark( request );
+		this.reportPage = String.valueOf( ParameterAccessor.getPage( request ) );
 		this.reportDocumentName = ParameterAccessor.getReportDocument( request );
+		this.reportDesignName = ParameterAccessor.getReport( request );
 
-		File reportDocFile = new File( reportDocumentName );
+		/**
+		 * Determine the report design and doc 's timestamp
+		 */
+		processReport( request );
 
-		String reportDesignName = ParameterAccessor.getReport( request );
+		/**
+		 * Report title.
+		 */
+		String title = null;
+		// if ( this.reportRunnable != null )
+		// {
+		// title = ( String ) this.reportRunnable.getProperty( "title" );
+		// //$NON-NLS-1$
+		// }
+		if ( title == null || title.trim( ).length( ) <= 0 )
+		{
+			title = BirtResources.getString( "birt.viewer.title" ); //$NON-NLS-1$
+		}
+		this.reportTitle = ParameterAccessor.htmlEncode( title );
+	}
+
+	/**
+	 * Determine the report design and doc 's timestamp
+	 * 
+	 * @param request
+	 * @throws Exception
+	 */
+	protected void processReport( HttpServletRequest request ) throws Exception
+	{
+		File reportDocFile = new File( this.reportDocumentName );
+		// String reportDesignName = ParameterAccessor.getReport( request );
 		File reportDesignDocFile = new File( reportDesignName );
 
-		// If it is in designer and refresh the browser.
 		if ( reportDesignDocFile != null && reportDesignDocFile.exists( )
 				&& reportDesignDocFile.isFile( ) && reportDocFile != null
 				&& reportDocFile.exists( ) && reportDocFile.isFile( )
@@ -170,312 +120,58 @@ public class ViewerAttributeBean
 				reportDocFile.delete( );
 			}
 		}
-
-		if ( reportDocFile.exists( )
-				&& ( reportDocFile.isFile( ) || reportDocFile.isDirectory( ) )
-				&& !ViewerServlet.SERVLET_PATH_RUN
-						.equalsIgnoreCase( servletPath ) )
-		{
-			this.reportDocumentInstance = ReportEngineService.getInstance( )
-					.openReportDocument( this.reportDocumentName );
-			if ( this.reportDocumentInstance == null )
-			{
-				this.exception = new Exception( "Can not open report doc from " //$NON-NLS-1$
-						+ ParameterAccessor.getReportDocument( request ) );
-				return;
-			}
-
-			this.reportRunnable = this.reportDocumentInstance
-					.getReportRunnable( );
-		}
-		else
-		{
-			try
-			{
-				this.reportRunnable = ReportEngineService.getInstance( )
-						.openReportDesign(
-								ParameterAccessor.getReport( request ) );
-			}
-			catch ( EngineException e )
-			{
-				this.exception = e;
-				return;
-			}
-		}
-
-		// Double check the runnable.
-		if ( this.reportRunnable == null )
-		{
-			this.exception = new Exception( "Can not get report runnable" ); //$NON-NLS-1$
-			return;
-		}
-
-		// Report locale.
-		this.locale = ParameterAccessor.getLocale( request );
-
-		// Report page.
-		this.reportPage = String.valueOf( ParameterAccessor.getPage( request ) );
-
-		// Report title.
-		String title = null;
-		if ( this.reportRunnable != null )
-		{
-			title = (String) this.reportRunnable.getProperty( "title" ); //$NON-NLS-1$
-		}
-		if ( title == null || title.trim( ).length( ) <= 0 )
-		{
-			title = BirtResources.getString( "birt.viewer.title" ); //$NON-NLS-1$
-		}
-		this.reportTitle = ParameterAccessor.htmlEncode( title );
-
-		// Bookmark.
-		this.bookmark = ParameterAccessor.getBookmark( request );
-
-		// Prameter task.
-		this.parameterTask = ReportEngineService.getInstance( )
-				.createGetParameterDefinitionTask( this.reportRunnable );
-		if ( this.parameterTask != null )
-		{
-			this.parameterTask.setLocale( this.locale );
-		}
-
-		// Prepare the report parameters
-		this.parameters = ReportEngineService.getInstance( ).parseParameters(
-				request, this.parameterTask,
-				this.reportRunnable.getTestConfig( ), this.locale );
-
 	}
 
 	/**
-	 * Finalize the instance.
+	 * Get report service instance.
 	 */
-	public void finalize( )
+	protected IViewerReportService getReportService( )
 	{
-		if ( this.parameterTask != null )
-		{
-			this.parameterTask.close( );
-			this.parameterTask = null;
-		}
-
-		if ( this.reportDocumentInstance != null )
-		{
-			this.reportDocumentInstance.close( );
-			this.reportDocumentInstance = null;
-		}
-
-		if ( this.reportRunnable != null )
-		{
-			this.reportRunnable = null;
-		}
+		return BirtReportServiceFactory.getReportService( );
 	}
 
 	/**
-	 * @return Returns the parameterTask.
-	 */
-	public IGetParameterDefinitionTask getParameterTask( )
-	{
-		return parameterTask;
-	}
-
-	/**
-	 * @param parameterTask
-	 *            The parameterTask to set.
-	 */
-	public void setParameterTask( IGetParameterDefinitionTask parameterTask )
-	{
-		this.parameterTask = parameterTask;
-	}
-
-	/**
-	 * @return Returns the reportRunnable.
-	 */
-	public IReportRunnable getReportRunnable( )
-	{
-		return reportRunnable;
-	}
-
-	/**
-	 * @param reportRunnable
-	 *            The reportRunnable to set.
-	 */
-	public void setReportRunnable( IReportRunnable reportRunnable )
-	{
-		this.reportRunnable = reportRunnable;
-	}
-
-	/**
-	 * @return Returns the parameterBean.
-	 */
-	public ParameterAttributeBean getParameterBean( )
-	{
-		return parameterBean;
-	}
-
-	/**
-	 * @param parameterBean
-	 *            The parameterBean to set.
-	 */
-	public void setParameterBean( ParameterAttributeBean parameterBean )
-	{
-		this.parameterBean = parameterBean;
-	}
-
-	/**
-	 * Get report parameters.
+	 * Clear our resources.
 	 * 
-	 * @return collection of report parameter definition.
+	 * @exception Throwable
+	 * @return
 	 */
-	public Collection getReportParameters( )
+	protected void __finalize( ) throws Throwable
 	{
-		if ( parameterTask != null )
+	}
+
+	protected Object getParamValueObject( HttpServletRequest request,
+			IScalarParameterDefn parameterObj ) throws ReportServiceException
+	{
+		String paramName = parameterObj.getName( );
+		String format = parameterObj.getDisplayFormat( );
+		Object paramValueObj = super
+				.getParamValueObject( request, parameterObj );
+		if ( paramValueObj != null )
+			return paramValueObj;
+		
+		//Get config map
+		IReportRunnable runnable;
+		try
 		{
-			return parameterTask.getParameters( ).getContents( );
+			runnable = ReportEngineService.getInstance( ).openReportDesign(
+					reportDesignName );
 		}
-		return null;
-
-	}
-
-	/**
-	 * Get report test config variables.
-	 * 
-	 * @return hash map of test config variables
-	 */
-	public HashMap getReportTestConfig( )
-	{
-		if ( reportRunnable != null )
+		catch ( EngineException e )
 		{
-			return reportRunnable.getTestConfig( );
+			throw new ReportServiceException( e.getLocalizedMessage( ) );
 		}
-
-		return null;
-	}
-
-	/**
-	 * @return Returns the reportTitle.
-	 */
-	public String getReportTitle( )
-	{
-		return reportTitle;
-	}
-
-	/**
-	 * @param reportTitle
-	 *            The reportTitle to set.
-	 */
-	public void setReportTitle( String reportTitle )
-	{
-		this.reportTitle = reportTitle;
-	}
-
-	/**
-	 * @return Returns the reportPage.
-	 */
-	public String getReportPage( )
-	{
-		return reportPage;
-	}
-
-	/**
-	 * @param reportPage
-	 *            The reportPage to set.
-	 */
-	public void setReportPage( String reportPage )
-	{
-		this.reportPage = reportPage;
-	}
-
-	/**
-	 * @return Returns the locale.
-	 */
-	public Locale getLocale( )
-	{
-		return locale;
-	}
-
-	/**
-	 * @param locale
-	 *            The locale to set.
-	 */
-	public void setLocale( Locale locale )
-	{
-		this.locale = locale;
-	}
-
-	/**
-	 * @return Returns the useTestConfig.
-	 */
-	public boolean isDesigner( )
-	{
-		return isDesigner;
-	}
-
-	/**
-	 * @return Returns the exception.
-	 */
-	public Exception getException( )
-	{
-		return exception;
-	}
-
-	/**
-	 * @return Returns the reportDocumentName.
-	 */
-	public String getReportDocumentName( )
-	{
-		return reportDocumentName;
-	}
-
-	/**
-	 * @return Returns the reportDocumentInstance.
-	 */
-	public IReportDocument getReportDocumentInstance( )
-	{
-		return reportDocumentInstance;
-	}
-
-	/**
-	 * @return Returns the bookmark.
-	 */
-	public String getBookmark( )
-	{
-		return bookmark;
-	}
-
-	/**
-	 * @return Returns the parameters.
-	 */
-	public HashMap getParameters( )
-	{
-		return parameters;
-	}
-
-	/**
-	 * @return Returns the masterPageContent.
-	 */
-	public boolean isMasterPageContent( )
-	{
-		return masterPageContent;
-	}
-
-	/**
-	 * @return Returns the missingParameter.
-	 */
-	public boolean isMissingParameter( )
-	{
-		Map values = null;
-		if ( reportDocumentInstance != null )
-			values = reportDocumentInstance.getParameterValues( );
-		else
-			values = this.parameters;
-		return ReportEngineService.getInstance( ).validateParameters(
-				this.parameterTask, values );
-	}
-
-	/**
-	 * @return Returns incoming request's category.
-	 */
-	public String getCategory( )
-	{
-		return category;
+		Map configMap = runnable.getTestConfig( );
+		if ( ParameterAccessor.isDesigner( request )
+				&& configMap.containsKey( paramName ) )
+		{
+			// Get value from test config
+			String configValue = ( String ) configMap.get( paramName );
+			ReportParameterConverter cfgConverter = new ReportParameterConverter(
+					format, Locale.US );
+			return cfgConverter
+					.parse( configValue, parameterObj.getDataType( ) );
+		} else
+			return super.getParamValueObject( request, parameterObj );
 	}
 }

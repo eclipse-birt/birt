@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.presentation.aggregation.control;
 
-import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
-
 /**
  * Navigation fragment.
  * <p>

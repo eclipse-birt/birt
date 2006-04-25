@@ -90,7 +90,8 @@ public class ParameterAccessor
 
 	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
 
-	private static final String DOCUMENTS_DIR = "Documents";//$NON-NLS-1$
+	protected static final String DOCUMENTS_DIR = "Documents";//$NON-NLS-1$
+	
 	/**
 	 * Report working folder.
 	 */
@@ -101,13 +102,13 @@ public class ParameterAccessor
 	 * Current web application locale.
 	 */
 
-	private static Locale webAppLocale = null;
+	protected static Locale webAppLocale = null;
 
 	/**
 	 * Flag indicating that if user can only access the file in working folder.
 	 */
 
-	private static boolean isWorkingFolderAccessOnly = true;
+	protected static boolean isWorkingFolderAccessOnly = true;
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -115,7 +116,6 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
-
 	public static String getBookmark( HttpServletRequest request )
 	{
 		int page = getParameterAsInt( request, PARAM_PAGE );
@@ -194,14 +194,16 @@ public class ParameterAccessor
 			}
 		}
 
-		if ( getParameter( request, name ) == null )
+		if ( name != null && name.length( ) > 0 ) // Only handle valid name.
 		{
-			String paramValue = value;
-			paramValue = urlEncode( paramValue, "UTF-8" ); //$NON-NLS-1$
-			queryString += ( isFirst ? "" : "&" ) + name + "=" + paramValue; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			isFirst = false;
+			if ( getParameter( request, name ) == null )
+			{
+				String paramValue = value;
+				paramValue = urlEncode( paramValue, "UTF-8" ); //$NON-NLS-1$
+				queryString += ( isFirst ? "" : "&" ) + name + "=" + paramValue; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				isFirst = false;
+			}
 		}
-
 		return queryString;
 	}
 
@@ -356,11 +358,7 @@ public class ParameterAccessor
 			filePath = generateDocumentFromReport( request );
 			filePath = createDocumentPath( filePath, request );
 		}
-		else
-		{
-			filePath = createAbsolutePath( filePath );
-		}
-		
+
 		return filePath;
 
 	}
@@ -376,7 +374,7 @@ public class ParameterAccessor
 	 * @return
 	 * @throws AxisFault
 	 */
-	private static String createDocumentPath( String filePath,
+	protected static String createDocumentPath( String filePath,
 			HttpServletRequest request )
 	{
 
@@ -423,7 +421,7 @@ public class ParameterAccessor
 	 * Clears the report document files which had been created last time the
 	 * server starts up.
 	 */
-	private static void clearDocuments( )
+	protected static void clearDocuments( )
 	{
 		String documentFolder = workingFolder + DOCUMENTS_DIR;
 		File file = new File( documentFolder );
@@ -440,7 +438,7 @@ public class ParameterAccessor
 	 * attempting to delete and returns false.
 	 */
 
-	private static boolean deleteDir( File dir )
+	protected static boolean deleteDir( File dir )
 	{
 		if ( dir.isDirectory( ) )
 		{
@@ -764,7 +762,7 @@ public class ParameterAccessor
 	}
 
 	/***************************************************************************
-	 * Private routines
+	 * protected routines
 	 **************************************************************************/
 
 	/**
@@ -825,7 +823,7 @@ public class ParameterAccessor
 	 * @return
 	 */
 
-	private static String createAbsolutePath( String filePath )
+	protected static String createAbsolutePath( String filePath )
 	{
 		if ( isWorkingFolderAccessOnly || isRelativePath( filePath ) )
 		{
@@ -841,7 +839,7 @@ public class ParameterAccessor
 	 * @return document name.
 	 */
 
-	private static String generateDocumentFromReport( HttpServletRequest request )
+	protected static String generateDocumentFromReport( HttpServletRequest request )
 	{
 		String fileName = getReport( request );
 		if ( fileName.indexOf( '.' ) >= 0 )
@@ -869,7 +867,7 @@ public class ParameterAccessor
 	 * @return
 	 */
 
-	private static String getParameter( HttpServletRequest request,
+	protected static String getParameter( HttpServletRequest request,
 			String parameterName )
 	{
 		return getParameter( request, parameterName, true );
@@ -888,7 +886,7 @@ public class ParameterAccessor
 	 * @return
 	 */
 
-	private static String getParameter( HttpServletRequest request,
+	protected static String getParameter( HttpServletRequest request,
 			String parameterName, boolean isUTF )
 	{
 		String ISOParameterName = ( isUTF )
@@ -906,7 +904,7 @@ public class ParameterAccessor
 	 * @return
 	 */
 
-	private static int getParameterAsInt( HttpServletRequest request,
+	protected static int getParameterAsInt( HttpServletRequest request,
 			String parameterName )
 	{
 		int iValue = -1;
@@ -939,7 +937,7 @@ public class ParameterAccessor
 	 * @return
 	 */
 
-	private static Set getParameterValues( HttpServletRequest request,
+	protected static Set getParameterValues( HttpServletRequest request,
 			String parameterName, boolean isUTF )
 	{
 		HashSet parameterValues = null;
@@ -970,7 +968,7 @@ public class ParameterAccessor
 	 * @return a string which is not null and without excessive spaces.
 	 */
 
-	private static String preProcess( String string )
+	protected static String preProcess( String string )
 	{
 		return string == null ? "" : string.trim( ); //$NON-NLS-1$
 	}
@@ -983,7 +981,7 @@ public class ParameterAccessor
 	 * @return
 	 */
 
-	private static String toISOString( String s )
+	protected static String toISOString( String s )
 	{
 		String ISOString = s;
 
@@ -1010,7 +1008,7 @@ public class ParameterAccessor
 	 * @return
 	 */
 
-	private static String toUTFString( String s )
+	protected static String toUTFString( String s )
 	{
 		String UTFString = s;
 
@@ -1039,7 +1037,7 @@ public class ParameterAccessor
 	 * @return
 	 */
 
-	private static String urlEncode( String s, String format )
+	protected static String urlEncode( String s, String format )
 	{
 		assert "ISO-8859-1".equalsIgnoreCase( format ) || "UTF-8".equalsIgnoreCase( format ); //$NON-NLS-1$ //$NON-NLS-2$
 		String encodedString = s;

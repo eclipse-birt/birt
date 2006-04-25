@@ -4,7 +4,7 @@ Bundle-Name: BIRT Web Viewer
 Bundle-SymbolicName: org.eclipse.birt.report.viewer; singleton:=true
 Bundle-Version: 2.1.0.qualifier
 Bundle-ClassPath: viewer.jar,
- birt/WEB-INF/lib/viewservlets.jar
+ birt1/WEB-INF/lib/viewservlets.jar
 Bundle-Activator: org.eclipse.birt.report.viewer.ViewerPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
@@ -17,12 +17,12 @@ Export-Package: org.eclipse.birt.report,
  org.eclipse.birt.report.presentation.aggregation.parameter,
  org.eclipse.birt.report.resource,
  org.eclipse.birt.report.service,
+ org.eclipse.birt.report.service.actionhandler,
+ org.eclipse.birt.report.service.api,
  org.eclipse.birt.report.servlet,
- org.eclipse.birt.report.soapengine,
  org.eclipse.birt.report.soapengine.api,
  org.eclipse.birt.report.soapengine.endpoint,
  org.eclipse.birt.report.soapengine.processor,
- org.eclipse.birt.report.soapengine.processor.api,
  org.eclipse.birt.report.utility,
  org.eclipse.birt.report.viewer,
  org.eclipse.birt.report.viewer.browsers,

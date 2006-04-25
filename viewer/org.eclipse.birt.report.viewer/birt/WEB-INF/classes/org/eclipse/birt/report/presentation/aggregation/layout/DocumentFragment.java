@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.presentation.aggregation.layout;
 
-import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
+import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.control.ProgressBarFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.DialogContainerFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.ExceptionDialogFragment;
@@ -21,14 +21,13 @@ import org.eclipse.birt.report.presentation.aggregation.dialog.ExceptionDialogFr
  * <p>
  * @see BaseFragment
  */
-public class DocumentFragment extends BaseFragment
+public class DocumentFragment extends BirtBaseFragment
 {
 	/**
 	 * Build fragment by adding engine fragment as child.
 	 */
 	protected void build( )
 	{
-		engineFragment = new EngineFragment( );
 		addChild( new ProgressBarFragment( ) );
 		addChild( new DialogContainerFragment( new ExceptionDialogFragment( ) ) );
 	}

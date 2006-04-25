@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.presentation.aggregation.layout;
 
-import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
+import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.control.ToolbarFragment;
 
 /**
@@ -19,7 +19,7 @@ import org.eclipse.birt.report.presentation.aggregation.control.ToolbarFragment;
  * <p>
  * @see BaseFragment
  */
-public class FramesetFragment extends BaseFragment
+public class FramesetFragment extends BirtBaseFragment
 {
 	/**
 	 * Override build method.

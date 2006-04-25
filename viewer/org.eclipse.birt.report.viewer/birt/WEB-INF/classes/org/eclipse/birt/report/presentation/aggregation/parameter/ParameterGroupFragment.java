@@ -20,14 +20,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.birt.report.context.ParameterGroupBean;
-import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.utility.ParameterAccessor;
-import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
+import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
+import org.eclipse.birt.report.context.ParameterGroupBean;
+import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Fragment help rendering parameter group.
@@ -35,7 +35,7 @@ import org.eclipse.birt.report.presentation.aggregation.IFragment;
  * 
  * @see BaseFragment
  */
-public class ParameterGroupFragment extends BaseFragment
+public class ParameterGroupFragment extends BirtBaseFragment
 {
 
 	/**
@@ -138,6 +138,6 @@ public class ParameterGroupFragment extends BaseFragment
 	{
 		String className = getClass( ).getName( )
 				.substring( getClass( ).getName( ).lastIndexOf( '.' ) + 1 );
-		return "/pages/parameter/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
+		return "/iportal/birt" + "/pages/parameter/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
 	}
 }

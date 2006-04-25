@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.presentation.aggregation.layout;
 
-import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
+import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.control.NavigationbarFragment;
 
 /**
@@ -19,7 +19,7 @@ import org.eclipse.birt.report.presentation.aggregation.control.NavigationbarFra
  * <p>
  * @see BaseFragment
  */
-public class ReportContentFragment extends BaseFragment
+public class ReportContentFragment extends BirtBaseFragment
 {
 	/**
 	 * Build fragment by adding engine fragment as child.

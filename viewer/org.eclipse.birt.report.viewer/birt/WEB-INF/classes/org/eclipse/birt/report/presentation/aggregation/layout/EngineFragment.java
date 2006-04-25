@@ -20,10 +20,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.axis.AxisFault;
+import org.eclipse.birt.report.context.BirtContext;
+import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
-import org.eclipse.birt.report.service.ReportEngineService;
+import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
+import org.eclipse.birt.report.service.actionhandler.BirtExtractDataActionHandler;
+import org.eclipse.birt.report.service.actionhandler.BirtRenderImageActionHandler;
+import org.eclipse.birt.report.service.actionhandler.BirtRunAndRenderActionHandler;
+import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
+import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -32,9 +37,8 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * 
  * @see FramesetFragment
  */
-public class EngineFragment extends BaseFragment
+public class EngineFragment extends BirtBaseFragment
 {
-
 	/**
 	 * Anything before do service.
 	 * 
@@ -53,13 +57,11 @@ public class EngineFragment extends BaseFragment
 			response.setContentType( "application/csv;charset=utf-8" ); //$NON-NLS-1$
 			response.setHeader(
 					"Content-Disposition", "inline; filename=exportdata.csv" ); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		else if ( ParameterAccessor.PARAM_FORMAT_PDF
+		} else if ( ParameterAccessor.PARAM_FORMAT_PDF
 				.equalsIgnoreCase( ParameterAccessor.getFormat( request ) ) )
 		{
 			response.setContentType( "application/pdf" ); //$NON-NLS-1$
-		}
-		else
+		} else
 		{
 			response.setContentType( "text/html;charset=utf-8" ); //$NON-NLS-1$
 			response.setHeader( "cache-control", "no-cache" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -79,43 +81,36 @@ public class EngineFragment extends BaseFragment
 	protected void doService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+		ViewerAttributeBean attrBean = ( ViewerAttributeBean ) request
 				.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		assert attrBean != null;
 
 		ServletOutputStream out = response.getOutputStream( );
-
+		GetUpdatedObjectsResponse upResponse = new GetUpdatedObjectsResponse( );
+		IContext context = new BirtContext( request, response );
+		Operation op = null;
 		try
 		{
 			if ( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
 			{
-				ReportEngineService.getInstance( ).extractData(
-						attrBean.getReportDocumentInstance( ),
-						ParameterAccessor.getResultSetName( request ),
-						ParameterAccessor.getSelectedColumns( request ),
-						attrBean.getLocale( ), out );
-			}
-			else if ( ParameterAccessor.isGetImageOperator( request ) )
+				BirtExtractDataActionHandler extractDataHandler = new BirtExtractDataActionHandler(
+						context, op, upResponse );
+				extractDataHandler.execute( );
+			} else if ( ParameterAccessor.isGetImageOperator( request ) )
 			{
-				response.setContentType( "image" ); //$NON-NLS-1$
-				String imageId = request
-						.getParameter( ParameterAccessor.PARAM_IMAGEID );
-
-				ReportEngineService.getInstance( ).renderImage( imageId, out );
-			}
-			else
+				BirtRenderImageActionHandler renderImageHandler = new BirtRenderImageActionHandler(
+						context, op, upResponse );
+				renderImageHandler.execute( );
+			} else
 			{
-				ReportEngineService.getInstance( ).runAndRenderReport( request,
-						attrBean.getReportRunnable( ), out,
-						ParameterAccessor.getFormat( request ),
-						attrBean.getLocale( ), attrBean.getParameters( ),
-						attrBean.isMasterPageContent( ),
-						ParameterAccessor.getSVGFlag( request ) );
+				BirtRunAndRenderActionHandler runAndRenderHandler = new BirtRunAndRenderActionHandler(
+						context, op, upResponse );
+				runAndRenderHandler.execute( );
 			}
 		}
 		catch ( RemoteException e )
 		{
-			AxisFault fault = (AxisFault) e;
+			AxisFault fault = ( AxisFault ) e;
 			// Special handle since servlet output stream has been
 			// retrieved.
 			// Any include and forward throws exception.

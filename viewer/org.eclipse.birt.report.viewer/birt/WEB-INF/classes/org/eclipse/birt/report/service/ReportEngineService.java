@@ -14,6 +14,8 @@ package org.eclipse.birt.report.service;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,11 +24,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 
@@ -62,15 +64,12 @@ import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.servlet.ViewerServlet;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class ReportEngineService
 {
-
 	private static ReportEngineService instance;
 
 	/**
@@ -107,10 +106,8 @@ public class ReportEngineService
 	 * Constructor.
 	 * 
 	 * @param config
-	 * @throws BirtException
 	 */
-	private ReportEngineService( ServletConfig servletConfig )
-			throws BirtException
+	public ReportEngineService( ServletConfig servletConfig )
 	{
 		System.setProperty( "RUN_UNDER_ECLIPSE", "false" ); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -160,32 +157,25 @@ public class ReportEngineService
 		if ( "SEVERE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.SEVERE;
-		}
-		else if ( "WARNING".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		} else if ( "WARNING".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.WARNING;
-		}
-		else if ( "INFO".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		} else if ( "INFO".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.INFO;
-		}
-		else if ( "CONFIG".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		} else if ( "CONFIG".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.CONFIG;
-		}
-		else if ( "FINE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		} else if ( "FINE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.FINE;
-		}
-		else if ( "FINER".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		} else if ( "FINER".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.FINER;
-		}
-		else if ( "FINEST".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		} else if ( "FINEST".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.FINEST;
-		}
-		else if ( "OFF".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		} else if ( "OFF".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.OFF;
 		}
@@ -211,7 +201,7 @@ public class ReportEngineService
 		String scriptlibClassPath = ""; //$NON-NLS-1$
 		for ( int i = 0; i < jarFileList.size( ); i++ )
 			scriptlibClassPath += EngineConstants.PROPERTYSEPARATOR
-					+ ( (File) jarFileList.get( i ) ).getAbsolutePath( );
+					+ ( ( File ) jarFileList.get( i ) ).getAbsolutePath( );
 
 		if ( scriptlibClassPath.startsWith( EngineConstants.PROPERTYSEPARATOR ) )
 			scriptlibClassPath = scriptlibClassPath
@@ -221,7 +211,6 @@ public class ReportEngineService
 				scriptlibClassPath );
 
 		config.setEngineHome( "" ); //$NON-NLS-1$
-
 	}
 
 	/**
@@ -235,17 +224,17 @@ public class ReportEngineService
 	}
 
 	/**
-	 * Get engine instance. This method is not thread safe should be protected
-	 * by the caller.
+	 * Get engine instance.
 	 * 
 	 * @return engine instance
-	 * @throws BirtException
 	 */
 	public static void initEngineInstance( ServletConfig servletConfig )
 			throws BirtException
 	{
 		if ( ReportEngineService.instance != null )
+		{
 			return;
+		}
 		ReportEngineService.instance = new ReportEngineService( servletConfig );
 	}
 
@@ -273,8 +262,7 @@ public class ReportEngineService
 				{
 					if ( file.getName( ).endsWith( ".jar" ) ) //$NON-NLS-1$
 						fileList.add( file );
-				}
-				else if ( file.isDirectory( ) )
+				} else if ( file.isDirectory( ) )
 				{
 					getAllJarFiles( file, fileList );
 				}
@@ -288,11 +276,9 @@ public class ReportEngineService
 	 * @param servletContext
 	 * @param request
 	 */
-
 	synchronized public void setEngineContext( ServletContext servletContext,
 			HttpServletRequest request )
 	{
-
 		if ( engine == null )
 		{
 			IPlatformContext platformContext = new PlatformServletContext(
@@ -310,14 +296,12 @@ public class ReportEngineService
 				e.printStackTrace( );
 			}
 
-			IReportEngineFactory factory = (IReportEngineFactory) Platform
+			IReportEngineFactory factory = ( IReportEngineFactory ) Platform
 					.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 			engine = factory.createReportEngine( config );
 
 			contextPath = request.getContextPath( );
-
 		}
-
 	}
 
 	/**
@@ -326,10 +310,24 @@ public class ReportEngineService
 	 * @param report
 	 * @return
 	 */
-	public synchronized IReportRunnable openReportDesign( String report )
+	synchronized public IReportRunnable openReportDesign( String report )
 			throws EngineException
 	{
 		return engine.openReportDesign( report );
+	}
+
+	/**
+	 * Open report design by using the input stream
+	 * 
+	 * @param reportStream -
+	 *            the input stream
+	 * @return IReportRunnable
+	 * @throws EngineException
+	 */
+	synchronized public IReportRunnable openReportDesign(
+			InputStream reportStream ) throws EngineException
+	{
+		return engine.openReportDesign( reportStream );
 	}
 
 	/**
@@ -349,7 +347,6 @@ public class ReportEngineService
 			{
 				task = engine.createGetParameterDefinitionTask( runnable );
 			}
-
 		}
 		catch ( Exception e )
 		{
@@ -391,7 +388,7 @@ public class ReportEngineService
 	 * @param outputStream
 	 * @throws EngineException
 	 */
-	public void renderImage( String imageId, ServletOutputStream outputStream )
+	public void renderImage( String imageId, OutputStream outputStream )
 			throws RemoteException
 	{
 		assert ( this.imageHandler != null );
@@ -425,8 +422,8 @@ public class ReportEngineService
 		renderContext.setImageDirectory( imageDirectory );
 		renderContext.setBaseImageURL( contextPath + imageBaseUrl );
 		renderContext.setBaseURL( this.contextPath + "/frameset" ); //$NON-NLS-1$
-		renderContext.setSupportedImageFormats( svgFlag
-				? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
+		renderContext
+				.setSupportedImageFormats( svgFlag ? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return renderContext;
 	}
 
@@ -455,9 +452,39 @@ public class ReportEngineService
 	 * @throws IOException
 	 */
 	public void runAndRenderReport( HttpServletRequest request,
-			IReportRunnable runnable, ServletOutputStream outputStream,
-			String format, Locale locale, HashMap parameters,
-			boolean masterPage, boolean svgFlag ) throws RemoteException
+			IReportRunnable runnable, OutputStream outputStream, String format,
+			Locale locale, Map parameters, boolean masterPage, boolean svgFlag )
+			throws RemoteException
+	{
+		runAndRenderReport( request, runnable, outputStream, format, locale,
+				parameters, masterPage, svgFlag, null, null );
+	}
+
+	/**
+	 * Run and render a report,
+	 * 
+	 * @param runnable
+	 * @param outputStream
+	 * @param locale
+	 * @param parameters
+	 * @param svgFlag
+	 * @param activeIds
+	 * @throws IOException
+	 */
+	public void runAndRenderReport( HttpServletRequest request,
+			IReportRunnable runnable, ByteArrayOutputStream outputStream,
+			Locale locale, Map parameters, boolean masterPage, boolean svgFlag,
+			List activeIds ) throws RemoteException
+	{
+		runAndRenderReport( request, runnable, outputStream,
+				ParameterAccessor.PARAM_FORMAT_HTML, locale, parameters,
+				masterPage, svgFlag, Boolean.TRUE, activeIds );
+	}
+
+	synchronized private void runAndRenderReport( HttpServletRequest request,
+			IReportRunnable runnable, OutputStream outputStream, String format,
+			Locale locale, Map parameters, boolean masterPage, boolean svgFlag,
+			Boolean embeddable, List activeIds ) throws RemoteException
 	{
 		assert runnable != null;
 
@@ -467,6 +494,16 @@ public class ReportEngineService
 		option.setOutputFormat( format );
 		option.setMasterPageContent( masterPage );
 
+		if ( embeddable != null )
+		{
+			option.setEmbeddable( embeddable.booleanValue( ) );
+		}
+
+		if ( activeIds != null )
+		{
+			option.setInstanceIDs( activeIds );
+		}
+
 		IRunAndRenderTask runAndRenderTask = null;
 
 		synchronized ( this.getClass( ) )
@@ -475,7 +512,10 @@ public class ReportEngineService
 		}
 
 		runAndRenderTask.setLocale( locale );
-		runAndRenderTask.setParameterValues( parameters );
+		if ( parameters != null )
+		{
+			runAndRenderTask.setParameterValues( parameters );
+		}
 		runAndRenderTask.setRenderOption( option );
 
 		HashMap context = new HashMap( );
@@ -492,8 +532,7 @@ public class ReportEngineService
 		{
 			context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					createHTMLrenderContext( svgFlag ) );
-		}
-		else
+		} else
 		{
 			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
 					createPDFrenderContext( ) );
@@ -512,8 +551,7 @@ public class ReportEngineService
 					"ReportEngineService.runAndRenderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
-		}
-		finally
+		} finally
 		{
 			runAndRenderTask.close( );
 		}
@@ -541,7 +579,6 @@ public class ReportEngineService
 		{
 			runTask = engine.createRunTask( runnable );
 		}
-
 		runTask.setLocale( locale );
 		runTask.setParameterValues( parameters );
 
@@ -569,8 +606,7 @@ public class ReportEngineService
 							"ReportEngineService.runReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
-		}
-		finally
+		} finally
 		{
 			runTask.close( );
 		}
@@ -615,17 +651,11 @@ public class ReportEngineService
 		HTMLRenderOption setting = new HTMLRenderOption( );
 		setting.setOutputStream( out );
 		setting.setOutputFormat( IBirtConstants.RENDERFORMAT );
-	
-		boolean isEmbeddable = false;
-		if ( ViewerServlet.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
-				.getServletPath( ) ) )
-			isEmbeddable = true;
-		setting.setEmbeddable( isEmbeddable );
-	
+		setting.setEmbeddable( true );
 		setting.setInstanceIDs( activeIds );
 		setting.setMasterPageContent( masterPage );
 		setting.setActionHandle( new ViewerHTMLActionHandler( reportDocument,
-				pageNumber, locale, isEmbeddable ) );
+				pageNumber, locale ) );
 
 		renderTask.setRenderOption( setting );
 		renderTask.setLocale( locale );
@@ -633,7 +663,8 @@ public class ReportEngineService
 		// Render designated page.
 		try
 		{
-			renderTask.render( pageNumber );
+			renderTask.setPageNumber( pageNumber );
+			renderTask.render( );
 		}
 		catch ( BirtException e )
 		{
@@ -650,8 +681,7 @@ public class ReportEngineService
 					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
-		}
-		finally
+		} finally
 		{
 			renderTask.close( );
 		}
@@ -674,8 +704,7 @@ public class ReportEngineService
 		ResultSet[] resultSetArray = null;
 
 		IDataExtractionTask dataTask = null;
-
-		synchronized ( ReportEngineService.class )
+		synchronized ( this.getClass( ) )
 		{
 			dataTask = engine.createDataExtractionTask( document );
 		}
@@ -690,7 +719,7 @@ public class ReportEngineService
 				for ( int k = 0; k < resultSets.size( ); k++ )
 				{
 					resultSetArray[k] = new ResultSet( );
-					IResultSetItem resultSetItem = (IResultSetItem) resultSets
+					IResultSetItem resultSetItem = ( IResultSetItem ) resultSets
 							.get( k );
 					assert resultSetItem != null;
 
@@ -724,6 +753,7 @@ public class ReportEngineService
 		}
 		catch ( BirtException e )
 		{
+			e.printStackTrace( );
 			AxisFault fault = new AxisFault( );
 			fault
 					.setFaultCode( new QName(
@@ -733,14 +763,14 @@ public class ReportEngineService
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( );
 			AxisFault fault = new AxisFault( );
 			fault
 					.setFaultCode( new QName(
 							"ReportEngineService.getMetaData( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
-		}
-		finally
+		} finally
 		{
 			dataTask.close( );
 		}
@@ -760,7 +790,7 @@ public class ReportEngineService
 	 * @throws RemoteException
 	 */
 	public void extractData( IReportDocument document, String resultSetName,
-			Collection columns, Locale locale, ServletOutputStream outputStream )
+			Set columns, Locale locale, OutputStream outputStream )
 			throws RemoteException
 	{
 		assert document != null;
@@ -771,7 +801,7 @@ public class ReportEngineService
 		Iterator iSelectedColumns = columns.iterator( );
 		for ( int i = 0; iSelectedColumns.hasNext( ); i++ )
 		{
-			columnNames[i] = (String) iSelectedColumns.next( );
+			columnNames[i] = ( String ) iSelectedColumns.next( );
 		}
 
 		IDataExtractionTask dataTask = null;
@@ -783,7 +813,6 @@ public class ReportEngineService
 			{
 				dataTask = engine.createDataExtractionTask( document );
 			}
-
 			dataTask.selectResultSet( resultSetName );
 			dataTask.selectColumns( columnNames );
 			dataTask.setLocale( locale );
@@ -802,11 +831,13 @@ public class ReportEngineService
 
 					for ( int i = 1; i < columnNames.length; i++ )
 					{
-						buf.append( ',' );
+						buf.append( ',' ); //$NON-NLS-1$
 						buf.append( columnNames[i] );
 					}
 
-					outputStream.println( buf.toString( ) );
+					buf.append( '\n' );
+					outputStream.write( buf.toString( ).getBytes( ) );
+					
 					buf.delete( 0, buf.length( ) );
 
 					// Data
@@ -816,7 +847,7 @@ public class ReportEngineService
 
 						try
 						{
-							value = cvsConvertor( (String) DataTypeUtil
+							value = cvsConvertor( ( String ) DataTypeUtil
 									.convert( iData.getValue( columnNames[0] ),
 											DataType.STRING_TYPE ) );
 						}
@@ -832,11 +863,11 @@ public class ReportEngineService
 
 						for ( int i = 1; i < columnNames.length; i++ )
 						{
-							buf.append( ',' );
+							buf.append( ',' ); //$NON-NLS-1$
 
 							try
 							{
-								value = cvsConvertor( (String) DataTypeUtil
+								value = cvsConvertor( ( String ) DataTypeUtil
 										.convert( iData
 												.getValue( columnNames[i] ),
 												DataType.STRING_TYPE ) );
@@ -852,7 +883,8 @@ public class ReportEngineService
 							}
 						}
 
-						outputStream.println( buf.toString( ) );
+						buf.append('\n');
+						outputStream.write( buf.toString( ).getBytes( ) );
 						buf.delete( 0, buf.length( ) );
 					}
 				}
@@ -866,8 +898,7 @@ public class ReportEngineService
 							"ReportEngineService.extractData( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
-		}
-		finally
+		} finally
 		{
 			if ( iData != null )
 			{
@@ -938,14 +969,15 @@ public class ReportEngineService
 		Collection parameterList = task.getParameterDefns( false );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
+			IScalarParameterDefn parameterObj = ( IScalarParameterDefn ) iter
 					.next( );
 
 			String paramValue = null;
 			Object paramValueObj = null;
 
-			// ScalarParameterHandle paramHandle = (ScalarParameterHandle)
-			// parameterObj.getHandle( );
+			// ScalarParameterHandle paramHandle = ( ScalarParameterHandle )
+			// parameterObj
+			// .getHandle( );
 			String paramName = parameterObj.getName( );
 			String format = parameterObj.getDisplayFormat( );
 
@@ -960,18 +992,16 @@ public class ReportEngineService
 						paramName, paramValue );
 				paramValueObj = converter.parse( paramValue, parameterObj
 						.getDataType( ) );
-			}
-			else if ( ParameterAccessor.isDesigner( request )
+			} else if ( ParameterAccessor.isDesigner( request )
 					&& configVars.containsKey( paramName ) )
 			{
 				// Get value from test config
-				String configValue = (String) configVars.get( paramName );
+				String configValue = ( String ) configVars.get( paramName );
 				ReportParameterConverter cfgConverter = new ReportParameterConverter(
 						format, Locale.US );
 				paramValueObj = cfgConverter.parse( configValue, parameterObj
 						.getDataType( ) );
-			}
-			else
+			} else
 			{
 				paramValueObj = task.getDefaultValue( parameterObj.getName( ) );
 			}
@@ -1000,10 +1030,11 @@ public class ReportEngineService
 		Collection parameterList = task.getParameterDefns( false );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
+			IScalarParameterDefn parameterObj = ( IScalarParameterDefn ) iter
 					.next( );
-			// ScalarParameterHandle paramHandle = (ScalarParameterHandle)
-			// parameterObj.getHandle( );
+			// ScalarParameterHandle paramHandle = ( ScalarParameterHandle )
+			// parameterObj
+			// .getHandle( );
 
 			String parameterName = parameterObj.getName( );
 			Object parameterValue = parameters.get( parameterName );
@@ -1021,7 +1052,7 @@ public class ReportEngineService
 
 			if ( IScalarParameterDefn.TYPE_STRING == parameterObj.getDataType( ) )
 			{
-				String parameterStringValue = (String) parameterValue;
+				String parameterStringValue = ( String ) parameterValue;
 				if ( parameterStringValue != null
 						&& parameterStringValue.length( ) <= 0
 						&& !parameterObj.allowBlank( ) )
@@ -1033,36 +1064,5 @@ public class ReportEngineService
 		}
 
 		return missingParameter;
-	}
-
-	/**
-	 * Parameter typer convertion.
-	 * 
-	 * @param type
-	 * @return
-	 */
-	public int getEngineDataType( String type )
-	{
-		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
-		{
-			return IScalarParameterDefn.TYPE_BOOLEAN;
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
-		{
-			return IScalarParameterDefn.TYPE_DATE_TIME;
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
-		{
-			return IScalarParameterDefn.TYPE_DECIMAL;
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
-		{
-			return IScalarParameterDefn.TYPE_FLOAT;
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
-		{
-			return IScalarParameterDefn.TYPE_STRING;
-		}
-		return IScalarParameterDefn.TYPE_ANY;
 	}
 }

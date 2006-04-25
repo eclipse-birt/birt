@@ -20,54 +20,157 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.axis.transport.http.AxisServlet;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.service.ReportEngineService;
+import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.presentation.aggregation.IFragment;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
-public class BirtSoapMessageDispatcherServlet extends AxisServlet
+abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 {
+	/**
+	 * TODO: what's this?
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Versioning.
+	 */
+	protected static boolean openSource = true;
 
-	private static ReportEngineService reportEngineService = null;
+	/**
+	 * Viewer fragment references.
+	 */
+	protected IFragment viewer = null;
 
+	protected IFragment engine = null;
+
+	protected IFragment parameter = null;
+
+	/**
+	 * Abstract methods.
+	 */
+	abstract protected void __init( ServletConfig config );
+
+	abstract protected boolean __authenticate( HttpServletRequest request,
+			HttpServletResponse response );
+
+	abstract protected IContext __getContext( HttpServletRequest request,
+			HttpServletResponse response );
+
+	abstract protected void __doGet( IContext context )
+			throws ServletException, IOException, BirtException;
+
+	abstract protected boolean __doPost( IContext context )
+			throws ServletException, IOException, BirtException;
+
+	abstract protected void __handleNonSoapException( IContext context,
+			Exception exception ) throws ServletException, IOException;
+
+	/**
+	 * Check version.
+	 * 
+	 * @return
+	 */
+	public static boolean isOpenSource( )
+	{
+		return openSource;
+	}
+
+	/**
+	 * Servlet init.
+	 * 
+	 * @param config
+	 * @exception ServletException
+	 * @return
+	 */
 	public void init( ServletConfig config ) throws ServletException
 	{
 		super.init( config );
-		try
-		{
-			InitReportEngineService( config );
-		}
-		catch ( BirtException e )
-		{
-			throw new ServletException( );
-		}
+		ParameterAccessor.initParameters( config );
+		BirtResources.initResource( ParameterAccessor.getWebAppLocale( ) );
+		__init( config );
 	}
 
-	private void InitReportEngineService( ServletConfig config )
-			throws BirtException
-	{
-		if ( reportEngineService != null )
-		{
-			return;
-		}
-
-		synchronized ( this )
-		{
-			if ( reportEngineService != null )
-			{
-				return;
-			}
-			ReportEngineService.initEngineInstance( config );
-			reportEngineService = ReportEngineService.getInstance( );
-		}
-	}
-
+	/**
+	 * Handle HTTP GET method.
+	 * 
+	 * @param request
+	 *            incoming http request
+	 * @param response
+	 *            http response
+	 * @exception ServletException
+	 * @exception IOException
+	 * @return
+	 */
 	public void doGet( HttpServletRequest request, HttpServletResponse response )
 			throws ServletException, IOException
 	{
-		super.doGet( request, response );
+		if ( !__authenticate( request, response ) )
+		{
+			return;
+		}
+		
+		IContext context = __getContext( request, response );
+
+		if ( context.getBean( ).getException( ) != null )
+		{
+			__handleNonSoapException( context, context.getBean( )
+					.getException( ) );
+		}
+		else
+		{
+			try
+			{
+				__doGet( context );
+			}
+			catch ( BirtException e )
+			{
+				__handleNonSoapException( context, e );
+			}
+		}
 	}
 
+	/**
+	 * Handle HTTP POST method.
+	 * 
+	 * @param request
+	 *            incoming http request
+	 * @param response
+	 *            http response
+	 * @exception ServletException
+	 * @exception IOException
+	 * @return
+	 */
 	public void doPost( HttpServletRequest request, HttpServletResponse response )
 			throws ServletException, IOException
 	{
-		super.doPost( request, response );
+		if ( !__authenticate( request, response ) )
+		{
+			return;
+		}
+		
+		IContext context = __getContext( request, response );
+
+		try
+		{
+			if ( __doPost( context ) )
+			{
+				String requestType = request.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
+				if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP.equalsIgnoreCase( requestType ) )
+				{
+					super.doPost( request, response );
+				}
+				else
+				{
+					doGet( request, response );
+				}
+			}
+		}
+		catch ( BirtException e )
+		{
+			e.printStackTrace();
+			// Handle Birt exception.
+			// TODO: Raise axis fault
+		}
 	}
 }

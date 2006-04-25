@@ -12,43 +12,27 @@
 package org.eclipse.birt.report.context;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-
-
-public class BirtContext
+public class BirtContext extends BaseContext
 {
-	/**
-	 * Thread local.
-	 */
-	private static ThreadLocal contextTraker = new ThreadLocal( );
-
-    /**
-     * Reference to the viewer attribute bean.
-     */
-    private ViewerAttributeBean bean = null;
-    
-    /**
-     * Reference to the current session.
-     */
-    private HttpServletRequest request = null;
-    
-	/**
-	 * Static accessor.
-	 * 
-	 * @return
-	 */
-    public static BirtContext get( )
-    {
-        return ( ( BirtContext ) contextTraker.get( ) );
-    }
-
 	/**
 	 * Constructor.
 	 * 
 	 * @param request
 	 * @param response
 	 */
-	public BirtContext( HttpServletRequest request )
+	public BirtContext( HttpServletRequest request, HttpServletResponse response )
+	{
+		super( request, response );
+	}
+	
+	/**
+	 * Local init.
+	 * 
+	 * @return
+	 */
+	protected void __init( )
 	{
 		this.bean = ( ViewerAttributeBean ) request.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		if ( bean == null )
@@ -56,36 +40,5 @@ public class BirtContext
 			bean = new ViewerAttributeBean( request );
 		}
 		request.setAttribute( "attributeBean", bean ); //$NON-NLS-1$
-		
-		this.request = request;
-		
-		contextTraker.set( this );
-	}
-
-	/**
-	 * Finalize the instance.
-	 */
-	public void finalize( )
-	{
-		if ( bean != null )
-		{
-			bean.finalize( );
-		}
-	}
-
-	/**
-	 * @return Returns the bean.
-	 */
-	public ViewerAttributeBean getBean( )
-	{
-		return bean;
-	}
-	
-	/**
-	 * @return Returns the request.
-	 */
-	public HttpServletRequest getRequest( )
-	{
-		return request;
 	}
 }

@@ -18,17 +18,21 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.context.ScalarParameterBean;
-import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
+import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
+import org.eclipse.birt.report.service.api.IViewerReportService;
+import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Fragment help rendering scalar parameter.
  * <p>
  * 
- * @see org.eclipse.birt.report.viewer.aggregation.BaseFragment
+ * @see org.eclipse.birt.report.presentation.aggregation.BaseFragment
  */
 public class RadioButtonParameterFragment extends ScalarParameterFragment
 {
@@ -45,18 +49,29 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 	}
 
 	protected void prepareParameterBean( HttpServletRequest request,
-			IGetParameterDefinitionTask task, ScalarParameterBean parameterBean, String format, Locale locale )
+			IViewerReportService service, ScalarParameterBean parameterBean,
+			String format, Locale locale ) throws ReportServiceException
 	{
-		Collection selectionList = task.getSelectionList( parameter.getName( ) );
+		String reportDesignName = ParameterAccessor.getReport( request );
+		
+		//TODO: Content type?
+		IViewerReportDesignHandle designHandle = new BirtViewerReportDesignHandle(
+				null, reportDesignName );
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, request );
+
+		Collection selectionList = service.getParameterSelectionList(
+				designHandle, options, parameterBean.getName( ) );
 
 		if ( selectionList != null )
 		{
-			ReportParameterConverter converter = new ReportParameterConverter( format,
-					locale );
+			ReportParameterConverter converter = new ReportParameterConverter(
+					format, locale );
 
 			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 			{
-				IParameterSelectionChoice selectionItem = (IParameterSelectionChoice) iter.next( );
+				IParameterSelectionChoice selectionItem = ( IParameterSelectionChoice ) iter
+						.next( );
 
 				String value = converter.format( selectionItem.getValue( ) );
 				String label = selectionItem.getLabel( );

@@ -11,15 +11,14 @@
 
 package org.eclipse.birt.report.presentation.aggregation.layout;
 
-import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
-import org.eclipse.birt.report.presentation.aggregation.IFragment;
+import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 
 /**
  * Fragment for report. It contains report tool bar and content fragments.
  * <p>
  * @see BaseFragment
  */
-public class ReportFragment extends BaseFragment
+public class ReportFragment extends BirtBaseFragment
 {
 	/**
 	 * Build fragment by adding toolbar and content fragment as children.
@@ -27,11 +26,6 @@ public class ReportFragment extends BaseFragment
 	protected void build( )
 	{
 		addChild( new SidebarFragment( ) );
-
-		IFragment reportContentFragment = new ReportContentFragment( );
-		addChild( reportContentFragment );
-
-		previewFragment = new PreviewFragment( );
-		previewFragment.addChild( reportContentFragment );
+		addChild(  new ReportContentFragment( ) );
 	}
 }

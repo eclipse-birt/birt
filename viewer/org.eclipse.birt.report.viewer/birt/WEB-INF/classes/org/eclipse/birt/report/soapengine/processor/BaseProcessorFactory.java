@@ -16,7 +16,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.soapengine.api.ReportIdType;
-import org.eclipse.birt.report.soapengine.processor.api.IProcessorFactory;
+import org.eclipse.birt.report.soapengine.processor.IProcessorFactory;
 
 /**
  * Processor factory class.
@@ -46,7 +46,7 @@ public class BaseProcessorFactory implements IProcessorFactory
 		
 		try
 		{ 
-			instance = ( IProcessorFactory ) Class.forName( "" )
+			instance = ( IProcessorFactory ) Class.forName( "com.actuate.common.processor.ProcessorFactory" )
 				.newInstance( ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
@@ -82,11 +82,11 @@ public class BaseProcessorFactory implements IProcessorFactory
 		{
 			if ( ReportIdType._Document.equalsIgnoreCase( component.getValue( ) ) )
 			{
-				return new DocumentProcessor( );
+				return new BirtDocumentProcessor( );
 			}
 			else if ( ReportIdType._Table.equalsIgnoreCase( component.getValue( ) ) )
 			{
-				return new TableProcessor( );
+				return new BirtTableProcessor( );
 			}
 		}
 		

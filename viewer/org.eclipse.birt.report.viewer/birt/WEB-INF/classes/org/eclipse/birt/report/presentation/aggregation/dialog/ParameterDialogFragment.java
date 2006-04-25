@@ -20,18 +20,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
-import org.eclipse.birt.report.presentation.aggregation.dialog.BaseDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.CheckboxParameterFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.ComboBoxParameterFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.ParameterGroupFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.RadioButtonParameterFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.TextBoxParameterFragment;
+import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
+import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
+import org.eclipse.birt.report.service.api.IViewerReportService;
+import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.ReportServiceException;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Fragment help rendering parameter page in side bar.
@@ -48,7 +51,7 @@ public class ParameterDialogFragment extends BaseDialogFragment
 	 */
 	public String getClientId( )
 	{
-		return "parameterDialog";  //$NON-NLS-1$
+		return "parameterDialog"; //$NON-NLS-1$
 	}
 
 	/**
@@ -58,69 +61,88 @@ public class ParameterDialogFragment extends BaseDialogFragment
 	 */
 	public String getClientName( )
 	{
-		return "Parameter";  //$NON-NLS-1$
+		return "Parameter"; //$NON-NLS-1$
 	}
 
 	protected void doService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request.getAttribute( "attributeBean" ); //$NON-NLS-1$
-		assert attrBean != null;
-
 		Collection fragments = new ArrayList( );
-		Collection parameters = attrBean.getReportParameters( );
-		Iterator iParameters = parameters.iterator( );
-
-		while ( iParameters != null && iParameters.hasNext( ) )
+		IViewerReportService service = getReportService( );
+		String reportDesignName = ParameterAccessor.getReport( request );
+		Collection parameters = null;
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, request );
+		//TODO: Content type?
+		IViewerReportDesignHandle design = new BirtViewerReportDesignHandle(null, reportDesignName);
+		try
 		{
-			Object parameter = iParameters.next( );
-
-			if ( parameter == null )
+			parameters = service.getParameterHandles( design, options );
+		}
+		catch ( ReportServiceException e )
+		{
+			// TODO What to do here???
+			e.printStackTrace( );
+		}
+		
+		if ( parameters != null )
+		{
+			Iterator iParameters = parameters.iterator( );
+			while ( iParameters != null && iParameters.hasNext( ) )
 			{
-				continue;
-			}
-
-			IFragment fragment = null;
-
-			if ( parameter instanceof ParameterGroupHandle )
-			{
-				fragment = new ParameterGroupFragment( (ParameterGroupHandle) parameter );
-			}
-			else if ( parameter instanceof ScalarParameterHandle )
-			{
-				ScalarParameterHandle scalarParameter = (ScalarParameterHandle) parameter;
-
-				if ( !scalarParameter.isHidden( ) )
+				Object parameter = iParameters.next( );
+				if ( parameter == null )
 				{
-					switch ( getEngineControlType( scalarParameter.getControlType( ) ) )
+					continue;
+				}
+	
+				IFragment fragment = null;
+				if ( parameter instanceof ParameterGroupHandle )
+				{
+					fragment = new ParameterGroupFragment(
+							( ParameterGroupHandle ) parameter );
+				}
+				else if ( parameter instanceof ScalarParameterHandle )
+				{
+					ScalarParameterHandle scalarParameter = ( ScalarParameterHandle ) parameter;
+	
+					if ( !scalarParameter.isHidden( ) )
 					{
-						case IScalarParameterDefn.TEXT_BOX :
+						switch ( getEngineControlType( scalarParameter
+								.getControlType( ) ) )
 						{
-							fragment = new TextBoxParameterFragment( scalarParameter );
-							break;
-						}
-						case IScalarParameterDefn.LIST_BOX :
-						{
-							fragment = new ComboBoxParameterFragment( scalarParameter );
-							break;
-						}
-						case IScalarParameterDefn.RADIO_BUTTON :
-						{
-							fragment = new RadioButtonParameterFragment( scalarParameter );
-							break;
-						}
-						case IScalarParameterDefn.CHECK_BOX :
-						{
-							fragment = new CheckboxParameterFragment( scalarParameter );
-							break;
+							case IScalarParameterDefn.TEXT_BOX:
+							{
+								fragment = new TextBoxParameterFragment(
+										scalarParameter );
+								break;
+							}
+							case IScalarParameterDefn.LIST_BOX:
+							{
+								fragment = new ComboBoxParameterFragment(
+										scalarParameter );
+								break;
+							}
+							case IScalarParameterDefn.RADIO_BUTTON:
+							{
+								fragment = new RadioButtonParameterFragment(
+										scalarParameter );
+								break;
+							}
+							case IScalarParameterDefn.CHECK_BOX:
+							{
+								fragment = new CheckboxParameterFragment(
+										scalarParameter );
+								break;
+							}
 						}
 					}
 				}
-			}
-
-			if ( fragment != null )
-			{
-				fragments.add( fragment );
+	
+				if ( fragment != null )
+				{
+					fragments.add( fragment );
+				}
 			}
 		}
 

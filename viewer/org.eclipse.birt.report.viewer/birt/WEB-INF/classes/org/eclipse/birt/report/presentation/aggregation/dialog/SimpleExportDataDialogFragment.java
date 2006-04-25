@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.presentation.aggregation.dialog;
 
-import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
-
 /**
  * Fragment for report tool bar.
  * <p>

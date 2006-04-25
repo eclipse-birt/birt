@@ -12,26 +12,30 @@
 package org.eclipse.birt.report.presentation.aggregation.parameter;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
+import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
+import org.eclipse.birt.report.service.api.IViewerReportService;
+import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Fragment help rendering scalar parameter.
  * <p>
  * 
- * @see org.eclipse.birt.report.viewer.aggregation.BaseFragment
+ * @see org.eclipse.birt.report.presentation.aggregation.BaseFragment
  */
 public class ComboBoxParameterFragment extends ScalarParameterFragment
 {
@@ -48,37 +52,30 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 	}
 
 	protected void prepareParameterBean( HttpServletRequest request,
-			IGetParameterDefinitionTask task, ScalarParameterBean parameterBean, String format,
-			Locale locale )
+			IViewerReportService service, ScalarParameterBean parameterBean,
+			String format, Locale locale ) throws ReportServiceException
 	{
+		String reportDesignName = ParameterAccessor.getReport( request );
+
+		boolean cascade = parameterBean.getParameter( ).getContainer( ) instanceof CascadingParameterGroupHandle;
+
+		IViewerReportDesignHandle designHandle = new BirtViewerReportDesignHandle(
+				null, reportDesignName );
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, request );
+
 		Collection selectionList = null;
-		if ( parameterBean.getParameter( ).getContainer( ) instanceof CascadingParameterGroupHandle )
+
+		if ( cascade )
 		{
-			ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+			ViewerAttributeBean attrBean = ( ViewerAttributeBean ) request
 					.getAttribute( "attributeBean" ); //$NON-NLS-1$
-			HashMap paramValues = attrBean.getParameters( );
-			CascadingParameterGroupHandle group = (CascadingParameterGroupHandle) parameter
-					.getContainer( );
-			int index = group.getParameters( ).findPosn( parameter );
-			Object[] keyValue = new Object[index];
-			for ( int i = 0; i < index; i++ )
-			{
-				String parameterName = group.getParameters( ).get( i )
-						.getName( );
-				keyValue[i] = paramValues.get( parameterName );
-				if ( keyValue[i] == null )
-				{
-					keyValue[i] = task.getDefaultValue( parameterName );
-				}
-			}
-			task.evaluateQuery( group.getName( ) );
-			selectionList = task.getSelectionListForCascadingGroup( group
-					.getName( ), keyValue );
-		}
-		else
-		{
-			selectionList = task.getSelectionList( parameter.getName( ) );
-		}
+			Map paramValues = attrBean.getParameters( );
+			selectionList = getParameterSelectionListForCascadingGroup(
+					designHandle, service, paramValues );
+		} else
+			selectionList = service.getParameterSelectionList( designHandle,
+					options, parameter.getName( ) );
 
 		parameterBean.setValueInList( false );
 
@@ -89,13 +86,12 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 
 			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 			{
-				IParameterSelectionChoice selectionItem = (IParameterSelectionChoice) iter
+				IParameterSelectionChoice selectionItem = ( IParameterSelectionChoice ) iter
 						.next( );
 
 				String value = converter.format( selectionItem.getValue( ) );
 				String label = selectionItem.getLabel( );
-				label = ( label == null || label.length( ) <= 0 )
-						? value
+				label = ( label == null || label.length( ) <= 0 ) ? value
 						: label;
 				label = ParameterAccessor.htmlEncode( label );
 
@@ -111,5 +107,28 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 				}
 			}
 		}
+	}
+
+	private Collection getParameterSelectionListForCascadingGroup(
+			IViewerReportDesignHandle design, IViewerReportService service,
+			Map paramValues ) throws ReportServiceException
+	{
+		CascadingParameterGroupHandle group = ( CascadingParameterGroupHandle ) parameter
+				.getContainer( );
+		int index = group.getParameters( ).findPosn( parameter );
+		Object[] groupKeys = new Object[index];
+		InputOptions options = new InputOptions( );
+		for ( int i = 0; i < index; i++ )
+		{
+			String parameterName = group.getParameters( ).get( i ).getName( );
+			groupKeys[i] = paramValues.get( parameterName );
+			if ( groupKeys[i] == null )
+			{
+				groupKeys[i] = service.getParameterDefaultValue( design,
+						parameterName, options );
+			}
+		}
+		return service.getSelectionListForCascadingGroup( design, group
+				.getName( ), groupKeys );
 	}
 }
