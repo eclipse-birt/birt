@@ -36,59 +36,240 @@ import org.apache.axis.AxisFault;
 
 public class ParameterAccessor
 {
+	// servlet path constants
+	/**
+	 * Servlet path for parameter model.
+	 */
+	public static final String SERVLET_PATH_PARAMETER = "/parameter"; //$NON-NLS-1$
+	
+	/**
+	 * Servlet path for preview model.
+	 */
+	public static final String SERVLET_PATH_PREVIEW = "/preview"; //$NON-NLS-1$
+	
+	/**
+	 * Servlet path for frameset model.
+	 */
+	public static final String SERVLET_PATH_FRAMESET = "/frameset"; //$NON-NLS-1$
+	
+	/**
+	 * Servlet path for running model.
+	 */
+	public static final String SERVLET_PATH_RUN = "/run"; //$NON-NLS-1$
+	
+	/**
+	 * Servlet path for running model.
+	 */
+	public static final String SERVLET_PATH_DOWNLOAD = "/download"; //$NON-NLS-1$
+
+	// URL parameter constants	
+	/**
+	 * URL parameter name that gives the report design name.
+	 */
+	
+	public static final String PARAM_REPORT = "__report"; //$NON-NLS-1$
 
 	/**
-	 * URL parameter names.
+	 * URL parameter name that gives the report document name.
 	 */
-
-	public static final String PARAM_REPORT = "__report"; //$NON-NLS-1$
+	
 	public static final String PARAM_REPORT_DOCUMENT = "__document"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that gives the format to display the report, html or
+	 * pdf.
+	 */
+	
 	public static final String PARAM_FORMAT = "__format"; //$NON-NLS-1$
+
+	/**
+	 * Format parameter constants to display the report in html.
+	 */
+	
 	public static final String PARAM_FORMAT_HTML = "html"; //$NON-NLS-1$
+
+	/**
+	 * Format parameter constants to display the report in pdf.
+	 */
+	
 	public static final String PARAM_FORMAT_PDF = "pdf"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that gives the locale.
+	 */
+	
 	public static final String PARAM_LOCALE = "__locale"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that determins to support the SVG or not.
+	 */
+	
 	public static final String PARAM_SVG = "__svg"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that gives the page number to display the report.
+	 */
+	
 	public static final String PARAM_PAGE = "__page"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that gives the report design name.
+	 */
+	
 	public static final String PARAM_ISNULL = "__isnull"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that determines to support masterpage or not.
+	 */
+	
 	public static final String PARAM_MASTERPAGE = "__masterpage"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that determines whether the BIRT application is
+	 * running in the designer or standalone.
+	 */
+	
 	public static final String PARAM_DESIGNER = "__designer"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that determines whether to overwrite the document or
+	 * not.
+	 */
+	
 	public static final String PARAM_OVERWRITE = "__overwrite"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that gives the image ID to display.
+	 */
+	
 	public static final String PARAM_IMAGEID = "__imageID"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that gives the bookmark expression.
+	 */
+	
 	public static final String PARAM_BOOKMARK = "__bookmark"; //$NON-NLS-1$
 
 	/**
-	 * Custom request headers.
+	 * Custom request headers to identify the request is a normal HTTP request
+	 * or a soap request by AJAX.
 	 */
-
+	
 	public static final String HEADER_REQUEST_TYPE = "request-type"; //$NON-NLS-1$
+
+	/**
+	 * The request type of "soap".
+	 */
+	
 	public static final String HEADER_REQUEST_TYPE_SOAP = "soap"; //$NON-NLS-1$
 
 	/**
-	 * Parametrer passed over by export data form.
+	 * Parameter name that gives the IID of the export data form.
 	 */
-
+	
 	public static final String PARAM_IID = "iid"; //$NON-NLS-1$
+
+	/**
+	 * Parameter name that gives the result set names of the export data form.
+	 */
+	
 	public static final String PARAM_RESULTSETNAME = "ResultSetName"; //$NON-NLS-1$
+
+	/**
+	 * Parameter name that gives the selected column numbers of the export data
+	 * form.
+	 */
+	
 	public static final String PARAM_SELECTEDCOLUMNNUMBER = "SelectedColumnNumber"; //$NON-NLS-1$
+
+	/**
+	 * Parameter name that gives the selected column names of the export data
+	 * form.
+	 */
+	
 	public static final String PARAM_SELECTEDCOLUMN = "SelectedColumn"; //$NON-NLS-1$
 
 	/**
-	 * Servlet configuration parameter names.
+	 * Servlet parameter name that gives the default locale of the BIRT viewer.
 	 */
-
+	
 	public static final String INIT_PARAM_LOCALE = "BIRT_VIEWER_LOCALE"; //$NON-NLS-1$
+
+	/**
+	 * Servlet parameter name that gives the working folder of the local BIRT
+	 * viewer user.
+	 */
+	
 	public static final String INIT_PARAM_REPORT_DIR = "BIRT_VIEWER_WORKING_FOLDER"; //$NON-NLS-1$
+
+	/**
+	 * Servlet parameter name that gives the repository location of the image
+	 * files.
+	 */
+	
 	public static final String INIT_PARAM_IMAGE_DIR = "BIRT_VIEWER_IMAGE_DIR"; //$NON-NLS-1$
+
+	/**
+	 * Servlet parameter name that gives the repository location of the logging
+	 * files.
+	 */
+	
 	public static final String INIT_PARAM_LOG_DIR = "BIRT_VIEWER_LOG_DIR"; //$NON-NLS-1$
+
+	/**
+	 * Servlet parameter name that gives the logging level.
+	 */
+	
 	public static final String INIT_PARAM_LOG_LEVEL = "BIRT_VIEWER_LOG_LEVEL"; //$NON-NLS-1$
+
+	/**
+	 * Servlet parameter name that gives the repository location of the script
+	 * files to run reports.
+	 */
+	
 	public static final String INIT_PARAM_SCRIPTLIB_DIR = "BIRT_VIEWER_SCRIPTLIB_DIR"; //$NON-NLS-1$
+
+	/**
+	 * Servlet parameter name that determines the search strategy of searching
+	 * report resources. True if only search the working folder, otherwise
+	 * false.
+	 */
+	
 	public static final String INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY = "WORKING_FOLDER_ACCESS_ONLY"; //$NON-NLS-1$
+
+	/**
+	 * UTF-8 encode constants.
+	 */
+	
+	public static final String UTF_8_ENCODE = "UTF-8"; //$NON-NLS-1$
+
+	/**
+	 * ISO-8859-1 encode constants.
+	 */
+	
+	public static final String ISO_8859_1_ENCODE = "ISO-8859-1"; //$NON-NLS-1$
+
+	/**
+	 * Separator that connects the query parameter values.
+	 */
+	
+	public static final String PARAMETER_SEPARATOR = "&"; //$NON-NLS-1$
+
+	/**
+	 * Equals operator.
+	 */
+	
+	public static final String EQUALS_OPERATOR = "="; //$NON-NLS-1$
 
 	/**
 	 * Suffix of report document.
 	 */
-
+	
 	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
+	
+	/**
+	 * File package name to store the documents.
+	 */
 
 	protected static final String DOCUMENTS_DIR = "Documents";//$NON-NLS-1$
 	
@@ -114,8 +295,9 @@ public class ParameterAccessor
 	 * Get bookmark. If page exists, ignore bookmark.
 	 * 
 	 * @param request
-	 * @return
+	 * @return the bookemark
 	 */
+
 	public static String getBookmark( HttpServletRequest request )
 	{
 		int page = getParameterAsInt( request, PARAM_PAGE );
@@ -159,8 +341,8 @@ public class ParameterAccessor
 				// value is
 				// null.
 				{
-					paramName = urlEncode( paramName, "ISO-8859-1" ); //$NON-NLS-1$
-					queryString += ( isFirst ? "" : "&" ) + PARAM_ISNULL + "=" + paramName; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					paramName = urlEncode( paramName, ISO_8859_1_ENCODE );
+					queryString += ( isFirst ? "" : PARAMETER_SEPARATOR ) + PARAM_ISNULL + EQUALS_OPERATOR + paramName; //$NON-NLS-1$
 					isFirst = false;
 					continue;
 				}
@@ -170,9 +352,9 @@ public class ParameterAccessor
 					paramValue = value;
 				}
 
-				paramName = urlEncode( paramName, "ISO-8859-1" ); //$NON-NLS-1$
-				paramValue = urlEncode( paramValue, "UTF-8" ); //$NON-NLS-1$
-				queryString += ( isFirst ? "" : "&" ) + paramName + "=" + paramValue; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				paramName = urlEncode( paramName, ISO_8859_1_ENCODE );
+				paramValue = urlEncode( paramValue, UTF_8_ENCODE );
+				queryString += ( isFirst ? "" : PARAMETER_SEPARATOR ) + paramName + EQUALS_OPERATOR + paramValue; //$NON-NLS-1$
 				isFirst = false;
 			}
 		}
@@ -187,8 +369,8 @@ public class ParameterAccessor
 
 				if ( paramName != null && !paramName.equalsIgnoreCase( name ) )
 				{
-					paramName = urlEncode( paramName, "UTF-8" ); //$NON-NLS-1$
-					queryString += ( isFirst ? "" : "&" ) + PARAM_ISNULL + "=" + paramName; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					paramName = urlEncode( paramName, UTF_8_ENCODE );
+					queryString += ( isFirst ? "" : PARAMETER_SEPARATOR ) + PARAM_ISNULL + EQUALS_OPERATOR + paramName; //$NON-NLS-1$ 
 					isFirst = false;
 				}
 			}
@@ -199,8 +381,8 @@ public class ParameterAccessor
 			if ( getParameter( request, name ) == null )
 			{
 				String paramValue = value;
-				paramValue = urlEncode( paramValue, "UTF-8" ); //$NON-NLS-1$
-				queryString += ( isFirst ? "" : "&" ) + name + "=" + paramValue; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				paramValue = urlEncode( paramValue, UTF_8_ENCODE );
+				queryString += ( isFirst ? "" : PARAMETER_SEPARATOR ) + name + EQUALS_OPERATOR + paramValue; //$NON-NLS-1$
 				isFirst = false;
 			}
 		}
@@ -230,7 +412,7 @@ public class ParameterAccessor
 	 * Get report element's iid.
 	 * 
 	 * @param request
-	 * @return
+	 * @return report element's iid
 	 */
 
 	public static String getIId( HttpServletRequest request )
@@ -313,7 +495,7 @@ public class ParameterAccessor
 	 *            incoming http request
 	 * @param parameterName
 	 *            parameter name in UTF-8 format
-	 * @return
+	 * @return named parameters from http request
 	 */
 
 	public static Set getParameterValues( HttpServletRequest request,
@@ -383,13 +565,13 @@ public class ParameterAccessor
 		String documentName = null;
 
 		if ( ( filePath == null ) || ( filePath.length( ) == 0 ) )
-			return "";
+			return ""; //$NON-NLS-1$
 
 		String sessionId = request.getSession( ).getId( );
-		String fileSeparator = "\\";
+		String fileSeparator = "\\"; //$NON-NLS-1$
 
 		if ( filePath.lastIndexOf( fileSeparator ) == -1 )
-			fileSeparator = "/";
+			fileSeparator = "/"; //$NON-NLS-1$
 
 		if ( filePath.lastIndexOf( fileSeparator ) != -1 )
 		{
@@ -476,10 +658,7 @@ public class ParameterAccessor
 		String value = getParameter( request, name );
 
 		if ( value == null || ( (String) value ).trim( ).length( ) <= 0 ) // Treat
-		// it
-		// as
-		// blank
-		// value.
+		// it as blank value.
 		{
 			value = ""; //$NON-NLS-1$
 		}
@@ -989,7 +1168,8 @@ public class ParameterAccessor
 		{
 			try
 			{
-				ISOString = new String( s.getBytes( "UTF-8" ), "ISO-8859-1" ); //$NON-NLS-1$ //$NON-NLS-2$
+				ISOString = new String( s.getBytes( UTF_8_ENCODE ),
+						ISO_8859_1_ENCODE );
 			}
 			catch ( UnsupportedEncodingException e )
 			{
@@ -1016,7 +1196,20 @@ public class ParameterAccessor
 		{
 			try
 			{
-				UTFString = new String( s.getBytes( "ISO-8859-1" ), "UTF-8" ); //$NON-NLS-1$ //$NON-NLS-2$
+				UTFString = new String( s.getBytes( ISO_8859_1_ENCODE ),
+						UTF_8_ENCODE );
+
+				for ( int i = 0; i < UTFString.length( ); i++ )
+				{
+					// if the string contains character "?", then convert it to
+					// the original string
+
+					if ( UTFString.charAt( i ) == 0x3f )
+					{
+						UTFString = s;
+						break;
+					}
+				}
 			}
 			catch ( UnsupportedEncodingException e )
 			{
@@ -1039,7 +1232,7 @@ public class ParameterAccessor
 
 	protected static String urlEncode( String s, String format )
 	{
-		assert "ISO-8859-1".equalsIgnoreCase( format ) || "UTF-8".equalsIgnoreCase( format ); //$NON-NLS-1$ //$NON-NLS-2$
+		assert ISO_8859_1_ENCODE.equalsIgnoreCase( format ) || UTF_8_ENCODE.equalsIgnoreCase( format );
 		String encodedString = s;
 
 		if ( s != null )
