@@ -40,7 +40,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.21 $ $Date: 2006/04/20 03:43:10 $
+ * @version $Revision: 1.22 $ $Date: 2006/04/25 02:22:03 $
  */
 public class ReportRunner
 {
@@ -138,8 +138,7 @@ public class ReportRunner
 			if ( engine == null )
 			{
 				EngineConfig config = new EngineConfig( );
-				IPlatformContext context = new PlatformFileContext( );
-				Platform.startup( context );
+				Platform.startup( config );
 				IReportEngineFactory factory = (IReportEngineFactory) Platform
 						.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 				engine = factory.createReportEngine( config );

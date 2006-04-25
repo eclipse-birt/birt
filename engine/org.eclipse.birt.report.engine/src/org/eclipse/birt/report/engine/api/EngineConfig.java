@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.framework.IPlatformContext;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 /**
  * Wraps around configuration settings for report engine. Allows developers to
@@ -23,40 +24,8 @@ import org.eclipse.birt.core.framework.IPlatformContext;
  * engine). Also allows engine to provide customized implementations for image
  * handling, hyperlink handling and font handling, etc.
  */
-public class EngineConfig
+public class EngineConfig extends PlatformConfig implements IEngineConfig
 {
-
-	public static final String CONFIG_VAR_ENGINE_HOME = "BIRT_HOME"; //$NON-NLS-1$
-	protected static final String LOG_DESTINATION = "logDest"; //$NON-NLS-1$			
-	protected static final String LOG_LEVEL = "logLevel"; //$NON-NLS-1$
-	protected static final String TEMP_DIR = "tmpDir"; //$NON-NLS-1$
-	protected static final String REPORT_DOCUMENT_LOCK_MANAGER = "org.eclipse.birt.report.engine.api.IReportDocumentLockManager"; //$NON-NLS-1$
-
-	/**
-	 * stores various configuration objects
-	 */
-	protected HashMap configObjects = new HashMap( );
-
-	/**
-	 * stores app-wide, app-specific JS scriptable objects
-	 */
-	protected HashMap scriptObjects = new HashMap( );
-
-	/**
-	 * store emitter configuration
-	 */
-	protected HashMap emitterConfigs = new HashMap( );
-
-	/**
-	 * default status handler
-	 */
-	protected IStatusHandler statusHandler = new DefaultStatusHandler( );
-
-	/**
-	 * the context that the platform is running. It could be a file based
-	 * context or resource based context.
-	 */
-	protected IPlatformContext context = null;
 
 	/**
 	 * constructor
@@ -67,7 +36,7 @@ public class EngineConfig
 		HTMLEmitterConfig emitterConfig = new HTMLEmitterConfig( );
 		emitterConfig.setActionHandler( new HTMLActionHandler( ) );
 		emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
-		emitterConfigs.put( "html", emitterConfig ); //$NON-NLS-1$
+		getEmitterConfigs( ).put( "html", emitterConfig ); //$NON-NLS-1$
 	}
 
 	/**
@@ -78,7 +47,7 @@ public class EngineConfig
 	 */
 	public void setEngineHome( String birtHome )
 	{
-		System.setProperty( CONFIG_VAR_ENGINE_HOME, birtHome );
+		setProperty( BIRT_HOME, birtHome );
 	}
 
 	/**
@@ -92,7 +61,7 @@ public class EngineConfig
 	 */
 	public void setConfigurationVariable( String name, String value )
 	{
-		configObjects.put( name, value );
+		setProperty( name, value );
 	}
 
 	/**
@@ -102,67 +71,7 @@ public class EngineConfig
 	 */
 	public HashMap getConfigMap( )
 	{
-		return configObjects;
-	}
-
-	/**
-	 * returns a hash map that contains all the app-specific, app-wide
-	 * scriptable Java objects
-	 * 
-	 * @return a hash map with all the app-specific, app-wide scriptable Java
-	 *         objects
-	 */
-	public HashMap getScriptObjects( )
-	{
-		return scriptObjects;
-	}
-
-	/**
-	 * defines an additional Java object that is exposed to BIRT scripting
-	 * 
-	 * @param jsName
-	 *            the name that the object is referenced in JavaScript
-	 * @param obj
-	 *            the Java object that is wrapped and scripted
-	 */
-	public void addScriptableJavaObject( String jsName, Object obj )
-	{
-		scriptObjects.put( jsName, obj );
-	}
-
-	/**
-	 * sets configuration for a specific extension to engine, i.e., an emitter
-	 * extension
-	 * 
-	 * @param extensionID
-	 *            identifier for the emitter
-	 * @param extensionConfig
-	 *            configuration object for the emitter
-	 */
-	public void setEmitterConfiguration( String format, Object emitterConfig )
-	{
-		emitterConfigs.put( format, emitterConfig );
-	}
-
-	/**
-	 * sets the handler for reporting report running status.
-	 * 
-	 * @param handler
-	 *            status handler
-	 */
-	public void setStatusHandler( IStatusHandler handler )
-	{
-		statusHandler = handler;
-	}
-
-	/**
-	 * returns the status handler
-	 * 
-	 * @return the status handler
-	 */
-	public IStatusHandler getStatusHandler( )
-	{
-		return statusHandler;
+		return properties;
 	}
 
 	/**
@@ -177,18 +86,53 @@ public class EngineConfig
 	 */
 	public void setLogConfig( String directoryName, Level level )
 	{
-		configObjects.put( LOG_DESTINATION, directoryName );
-		configObjects.put( LOG_LEVEL, level );
+		setProperty( LOG_DESTINATION, directoryName );
+		setProperty( LOG_LEVEL, level );
 	}
 
-	public Level getLogLevel( )
+	/**
+	 * returns a hash map that contains all the app-specific, app-wide
+	 * scriptable Java objects
+	 * 
+	 * @return a hash map with all the app-specific, app-wide scriptable Java
+	 *         objects
+	 */
+	public HashMap getScriptObjects( )
 	{
-		return (Level) configObjects.get( LOG_LEVEL );
+		HashMap scriptObjects = (HashMap) getProperty( SCRIPT_OBJECTS );
+		if ( scriptObjects == null )
+		{
+			scriptObjects = new HashMap( );
+			setProperty( SCRIPT_OBJECTS, scriptObjects );
+		}
+		return scriptObjects;
 	}
 
-	public String getLogDirectory( )
+	/**
+	 * defines an additional Java object that is exposed to BIRT scripting
+	 * 
+	 * @param jsName
+	 *            the name that the object is referenced in JavaScript
+	 * @param obj
+	 *            the Java object that is wrapped and scripted
+	 */
+	public void addScriptableJavaObject( String jsName, Object obj )
 	{
-		return (String) configObjects.get( LOG_DESTINATION );
+		getScriptObjects( ).put( jsName, obj );
+	}
+
+	/**
+	 * sets configuration for a specific extension to engine, i.e., an emitter
+	 * extension
+	 * 
+	 * @param extensionID
+	 *            identifier for the emitter
+	 * @param extensionConfig
+	 *            configuration object for the emitter
+	 */
+	public void setEmitterConfiguration( String format, Object emitterConfig )
+	{
+		getEmitterConfigs( ).put( format, emitterConfig );
 	}
 
 	/**
@@ -198,7 +142,52 @@ public class EngineConfig
 	 */
 	public HashMap getEmitterConfigs( )
 	{
+		HashMap emitterConfigs = (HashMap) getProperty( EMITTER_CONFIGS );
+		if ( emitterConfigs == null )
+		{
+			emitterConfigs = new HashMap( );
+			setProperty( EMITTER_CONFIGS, emitterConfigs );
+		}
 		return emitterConfigs;
+	}
+
+	/**
+	 * returns the status handler
+	 * 
+	 * @return the status handler
+	 */
+	public IStatusHandler getStatusHandler( )
+	{
+		IStatusHandler statusHandler = (IStatusHandler) getProperty( STATUS_HANDLER );
+		if ( statusHandler == null )
+		{
+			statusHandler = new DefaultStatusHandler( );
+			setProperty( STATUS_HANDLER, statusHandler );
+		}
+		return statusHandler;
+	}
+
+	/**
+	 * sets the handler for reporting report running status.
+	 * 
+	 * @param handler
+	 *            status handler
+	 */
+	public void setStatusHandler( IStatusHandler handler )
+	{
+		setProperty( STATUS_HANDLER, handler );
+	}
+
+	public Level getLogLevel( )
+	{
+		Level level = (Level) getProperty( LOG_LEVEL );
+		return level;
+	}
+
+	public String getLogDirectory( )
+	{
+		String logDestination = (String) getProperty( LOG_DESTINATION );
+		return logDestination;
 	}
 
 	/**
@@ -209,7 +198,7 @@ public class EngineConfig
 	 */
 	public void setTempDir( String tmpDir )
 	{
-		configObjects.put( TEMP_DIR, tmpDir );
+		setProperty( TEMP_DIR, tmpDir );
 	}
 
 	/**
@@ -219,7 +208,8 @@ public class EngineConfig
 	 */
 	public String getTempDir( )
 	{
-		return (String) configObjects.get( TEMP_DIR );
+		String tempDir = (String) getProperty( TEMP_DIR );
+		return tempDir;
 	}
 
 	/**
@@ -230,7 +220,7 @@ public class EngineConfig
 	 */
 	public IReportDocumentLockManager getReportDocumentLockManager( )
 	{
-		Object manager = configObjects.get( REPORT_DOCUMENT_LOCK_MANAGER );
+		Object manager = getProperty( REPORT_DOCUMENT_LOCK_MANAGER );
 		if ( manager instanceof IReportDocumentLockManager )
 		{
 			return (IReportDocumentLockManager) manager;
@@ -240,7 +230,7 @@ public class EngineConfig
 
 	public void setReportDocumentLockManager( IReportDocumentLockManager manager )
 	{
-		configObjects.put( REPORT_DOCUMENT_LOCK_MANAGER, manager );
+		setProperty( REPORT_DOCUMENT_LOCK_MANAGER, manager );
 	}
 
 	/**
@@ -252,7 +242,7 @@ public class EngineConfig
 	 */
 	public void setEngineContext( IPlatformContext context )
 	{
-		this.context = context;
+		setPlatformContext( context );
 	}
 
 	/**
@@ -263,17 +253,6 @@ public class EngineConfig
 	 */
 	public IPlatformContext getServletContext( )
 	{
-		return context;
+		return getPlatformContext( );
 	}
-
-	public void setPlatformContext( IPlatformContext context )
-	{
-		this.context = context;
-	}
-
-	public IPlatformContext getPlatformContext( )
-	{
-		return this.context;
-	}
-
 }

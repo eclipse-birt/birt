@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,26 +8,26 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.birt.core.framework;
-
 
 /**
  * Defines an interface to access OSGi framework.
- * The OSGi framewok is a folder in the disk which has following strcutre:
- * platform
- * 		/configuration/config.ini
- * 		/plugins/
- * 			plugins in the framework
- * 			osgi.jar 
  */
-public interface IPlatformContext
+public interface IPlatformConfig
 {
-
 	/**
-	 * return the folder of the platform.
-	 * 
-	 * @return the folder represent the root of the platform.
+	 * the birt home defines the platform folder, the value is a string object
 	 */
-	public String getPlatform( );
+	static final String BIRT_HOME = "BIRT_HOME";
+	
+	/**
+	 * defines the platform context object used to startup the platform.
+	 * the value is a instance of IPlatformContext.
+	 */
+	static final String PLATFORM_CONTEXT = "PLATFORM_CONTEXT";
+	
+	/**
+	 * defines the launch argumengs to access OSGi framework
+	 */
+	static final String OSGI_ARGUMENTS = "OSGI_ARGUMENTS";
 }

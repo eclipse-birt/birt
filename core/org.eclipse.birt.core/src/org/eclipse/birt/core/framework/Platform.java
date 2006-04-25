@@ -25,7 +25,7 @@ import org.osgi.framework.BundleContext;
  * 
  * This class is a singleton.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/07/25 07:12:05 $
+ * @version $Revision: 1.13 $ $Date: 2006/03/21 23:21:58 $
  */
 public class Platform
 {
@@ -50,25 +50,32 @@ public class Platform
 	protected static OSGILauncher launcher;
 
 	/**
-	 * creates the appropriate platform object based on the platform type If not
-	 * running from Eclipse, this functions must be called before calling other
-	 * functions.
+	 * startup the platform. 
+	 * The PlatformContext is get from the config.
+	 * @param config PlatformConfig
 	 */
-	synchronized static public void startup( IPlatformContext context )
+	synchronized static public void startup( PlatformConfig config )
 			throws BirtException
 	{
-		if ( platform == null )
+		if( platform == null )
 		{
-			if ( context == null )
+			if (config == null)
 			{
-				context = new PlatformFileContext( );
+				config = new PlatformConfig();
+			}
+			IPlatformContext context = config.getPlatformContext( );
+			
+			if( context == null )
+			{
+				context = new PlatformFileContext( config );
+				config.setProperty( PlatformConfig.BIRT_HOME, context );
 			}
 			// start up the OSGI framework
 			try
 			{
 				launcher = new OSGILauncher( );
 				// startup the OSGi framework,
-				launcher.startup( context );
+				launcher.startup( config );
 				// the core plugins is loaded in the start up
 				// 1. platform should not be null any more.
 				// 2. the IFactoryService has been registed
@@ -85,7 +92,7 @@ public class Platform
 			}
 		}
 	}
-
+	
 	public synchronized static void shutdown( )
 	{
 		if ( launcher != null )
@@ -101,11 +108,11 @@ public class Platform
 	 * @see org.eclipse.birt.core.Platform.startup(IPlatformContext context)
 	 * @deprecated since BIRT 2.1
 	 */
-	synchronized static public void initialize( IPlatformContext context )
+	synchronized static public void initialize( PlatformConfig config )
 	{
 		try
 		{
-			startup( context );
+			startup( config );
 		}
 		catch ( BirtException ex )
 		{

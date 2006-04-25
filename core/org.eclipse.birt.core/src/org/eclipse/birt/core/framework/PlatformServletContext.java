@@ -36,7 +36,7 @@ public class PlatformServletContext implements IPlatformContext
 	private static final String RESOURCE_BASE = "/WEB-INF/platform/"; //$NON-NLS-1$
 	private ServletContext context = null; // the ServletContext.
 	private String platform;
-	private String[] launchArgs;
+	protected PlatformConfig platformConfig;
 	/**
 	 * @param context
 	 * @param urlLeadingString
@@ -52,16 +52,6 @@ public class PlatformServletContext implements IPlatformContext
 		this.context = context;
 	}
 	
-	public void setLaunchArguments( String[] launchArgs )
-	{
-		this.launchArgs = launchArgs;
-	}
-
-	public String[] getLaunchArguments( )
-	{
-		return launchArgs;
-	}
-
 	public String getPlatform( )
 	{
 		if ( platform == null )
@@ -145,5 +135,4 @@ public class PlatformServletContext implements IPlatformContext
 			}
 		}
 	}
-
 }

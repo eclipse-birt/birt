@@ -21,7 +21,6 @@ import org.eclipse.birt.core.framework.Platform;
  * The new user should use the IReportEngineFactory to create the IReportEngine
  * instead of use this class directly.
  * @see org.eclipes.birt.report.engine.api.ReportRunner
- * @deprecated BIRT 2.1
  */
 
 public class ReportEngine implements IReportEngine
@@ -44,7 +43,7 @@ public class ReportEngine implements IReportEngine
 	 */
 	public ReportEngine( EngineConfig config )
 	{
-		Platform.initialize( config.getPlatformContext( ) );
+		Platform.initialize( config );
 
 		Object factory = Platform
 				.createFactoryObject(  IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );

@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.IPlatformContext;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 public class OSGILauncher
 {
@@ -28,9 +29,14 @@ public class OSGILauncher
 
 	private Object bundleContext;
 
-	public void startup( IPlatformContext context ) throws BirtException
+	public void startup(PlatformConfig config ) throws BirtException
 	{
-
+		IPlatformContext context = config.getPlatformContext();
+		if ( context == null )
+		{
+			throw new BirtException(
+					"PlatformContext is not setted - {0}", new Object[]{"PlatformConfig"} ); //$NON-NLS-1$
+		}
 		String root = context.getPlatform( );
 		platformDirectory = new File( root );
 		if ( !platformDirectory.exists( ) || !platformDirectory.isDirectory( ) )
@@ -84,10 +90,10 @@ public class OSGILauncher
 		}
 
 		final String framework = new File( path ).getAbsolutePath( );
-		String[] args = context.getLaunchArguments( );
+		String[] args = config.getOSGiArguments( );
 		if ( args == null )
 		{
-			args = new String[]{};
+			args = new String[]{"-clean"};
 		}
 		
 		

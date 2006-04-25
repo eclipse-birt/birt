@@ -8,46 +8,58 @@
 
 package org.eclipse.birt.core.framework;
 
-
 /**
- * An platform context that is based on file operations.
- * Since in web environment WAR deployment, absolute file path is not available. In this case, user should NOT use this class.
- * In this case, user should use PlatformServletContext or develop his own PlatformContext to make sure reousce operation are used. 
+ * An platform context that is based on file operations. Since in web
+ * environment WAR deployment, absolute file path is not available. In this
+ * case, user should NOT use this class. In this case, user should use
+ * PlatformServletContext or develop his own PlatformContext to make sure
+ * reousce operation are used.
  */
 public class PlatformFileContext implements IPlatformContext
-{	
+{
+
 	protected String root;
-	
-	protected String[] launchArgs;
-	
-	public PlatformFileContext()
+
+	protected String[] arguments;
+
+	/**
+	 * PlatformFileContext Constructor
+	 * 
+	 */
+	public PlatformFileContext( )
 	{
 		root = System.getProperty( "BIRT_HOME" );
-		if (root == null)
+		if ( root == null )
 		{
 			root = ".";
 		}
+		arguments = null;
 	}
-	
-	public PlatformFileContext(String root)
+
+	/**
+	 * PlatformFileContext Constructor( String , IPlatformConfig )
+	 * 
+	 * @param root
+	 * @param platformConfig
+	 */
+	public PlatformFileContext( PlatformConfig config )
 	{
-		assert root != null;
-		this.root = root;
+		assert config != null;
+		root = config.getBIRTHome( );;
+		if ( root == null )
+		{
+			root = ".";
+		}
+		arguments = config.getOSGiArguments( );
 	}
-	
-	public String getPlatform()
+
+	public String getPlatform( )
 	{
 		return root;
 	}
-	
+
 	public String[] getLaunchArguments( )
 	{
-		return this.launchArgs;
+		return arguments;
 	}
-
-	public void setLaunchArguments( String[] launchArgs )
-	{
-		this.launchArgs = launchArgs;
-	}
-	
 }
