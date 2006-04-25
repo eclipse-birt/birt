@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.api.querydefn;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
@@ -33,13 +34,21 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	 * The join type of this JointDataSet. May one of inner join, left outer join
 	 * and right outer join.
 	 */
-	private int joinType;
+	private int joinType = IJointDataSetDesign.INNER_JOIN;
 	
 	/**
 	 * A list of join conditions.
 	 */
-	private List joinConditions;
+	private List joinConditions = new ArrayList();
 
+	/**
+	 * Constructor
+	 */
+	public JointDataSetDesign( String dataSetName)
+	{
+		super(dataSetName);
+	}
+	
 	/**
 	 * Constructor.
 	 * @throws DataException 
@@ -55,9 +64,10 @@ public class JointDataSetDesign extends BaseDataSetDesign
 		this.left = left;
 		this.joinType = joinType;
 		
-		this.joinConditions = joinConditions;
+		this.joinConditions.addAll(joinConditions);
 
 	}
+	
 
 	/**
 	 * @param joinType
@@ -81,6 +91,11 @@ public class JointDataSetDesign extends BaseDataSetDesign
 		return left;
 	}
 
+	public void setLeftDataSetDesignName( String dataSetName)
+	{
+		left = dataSetName;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -91,6 +106,11 @@ public class JointDataSetDesign extends BaseDataSetDesign
 		return right;
 	}
 
+	public void setRightDataSetDesignName( String dataSetName)
+	{
+		right = dataSetName;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -101,6 +121,11 @@ public class JointDataSetDesign extends BaseDataSetDesign
 		return joinType;
 	}
 
+	public void setJoinType( int joinType )
+	{
+		this.joinType = joinType;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -109,6 +134,11 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	public List getJoinConditions( )
 	{
 		return joinConditions;
+	}
+	
+	public void addJoinCondition( JoinCondition jc)
+	{
+		this.joinConditions.add( jc );
 	}
 
 }
