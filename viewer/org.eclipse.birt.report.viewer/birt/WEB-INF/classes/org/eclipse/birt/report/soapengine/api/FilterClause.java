@@ -2,14 +2,14 @@
  * FilterClause.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class FilterClause  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.ColumnDefinition column;
-    private org.eclipse.birt.report.soapengine.api.FilterOp filterOp;
+    private java.lang.String filterOp;
     private java.lang.String[] operand;
 
     public FilterClause() {
@@ -17,7 +17,7 @@ public class FilterClause  implements java.io.Serializable {
 
     public FilterClause(
            org.eclipse.birt.report.soapengine.api.ColumnDefinition column,
-           org.eclipse.birt.report.soapengine.api.FilterOp filterOp,
+           java.lang.String filterOp,
            java.lang.String[] operand) {
            this.column = column;
            this.filterOp = filterOp;
@@ -50,7 +50,7 @@ public class FilterClause  implements java.io.Serializable {
      * 
      * @return filterOp
      */
-    public org.eclipse.birt.report.soapengine.api.FilterOp getFilterOp() {
+    public java.lang.String getFilterOp() {
         return filterOp;
     }
 
@@ -60,7 +60,7 @@ public class FilterClause  implements java.io.Serializable {
      * 
      * @param filterOp
      */
-    public void setFilterOp(org.eclipse.birt.report.soapengine.api.FilterOp filterOp) {
+    public void setFilterOp(java.lang.String filterOp) {
         this.filterOp = filterOp;
     }
 
@@ -160,7 +160,7 @@ public class FilterClause  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("filterOp");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FilterOp"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FilterOp"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();

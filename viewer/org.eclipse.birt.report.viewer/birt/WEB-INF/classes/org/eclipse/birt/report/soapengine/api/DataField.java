@@ -2,26 +2,29 @@
  * DataField.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class DataField  implements java.io.Serializable {
     private java.lang.String name;
-    private java.lang.String displayName;
     private java.lang.String id;
+    private java.lang.String displayName;
+    private java.lang.String description;
 
     public DataField() {
     }
 
     public DataField(
            java.lang.String name,
+           java.lang.String id,
            java.lang.String displayName,
-           java.lang.String id) {
+           java.lang.String description) {
            this.name = name;
-           this.displayName = displayName;
            this.id = id;
+           this.displayName = displayName;
+           this.description = description;
     }
 
 
@@ -46,6 +49,26 @@ public class DataField  implements java.io.Serializable {
 
 
     /**
+     * Gets the id value for this DataField.
+     * 
+     * @return id
+     */
+    public java.lang.String getId() {
+        return id;
+    }
+
+
+    /**
+     * Sets the id value for this DataField.
+     * 
+     * @param id
+     */
+    public void setId(java.lang.String id) {
+        this.id = id;
+    }
+
+
+    /**
      * Gets the displayName value for this DataField.
      * 
      * @return displayName
@@ -66,22 +89,22 @@ public class DataField  implements java.io.Serializable {
 
 
     /**
-     * Gets the id value for this DataField.
+     * Gets the description value for this DataField.
      * 
-     * @return id
+     * @return description
      */
-    public java.lang.String getId() {
-        return id;
+    public java.lang.String getDescription() {
+        return description;
     }
 
 
     /**
-     * Sets the id value for this DataField.
+     * Sets the description value for this DataField.
      * 
-     * @param id
+     * @param description
      */
-    public void setId(java.lang.String id) {
-        this.id = id;
+    public void setDescription(java.lang.String description) {
+        this.description = description;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -99,12 +122,15 @@ public class DataField  implements java.io.Serializable {
             ((this.name==null && other.getName()==null) || 
              (this.name!=null &&
               this.name.equals(other.getName()))) &&
+            ((this.id==null && other.getId()==null) || 
+             (this.id!=null &&
+              this.id.equals(other.getId()))) &&
             ((this.displayName==null && other.getDisplayName()==null) || 
              (this.displayName!=null &&
               this.displayName.equals(other.getDisplayName()))) &&
-            ((this.id==null && other.getId()==null) || 
-             (this.id!=null &&
-              this.id.equals(other.getId())));
+            ((this.description==null && other.getDescription()==null) || 
+             (this.description!=null &&
+              this.description.equals(other.getDescription())));
         __equalsCalc = null;
         return _equals;
     }
@@ -119,11 +145,14 @@ public class DataField  implements java.io.Serializable {
         if (getName() != null) {
             _hashCode += getName().hashCode();
         }
+        if (getId() != null) {
+            _hashCode += getId().hashCode();
+        }
         if (getDisplayName() != null) {
             _hashCode += getDisplayName().hashCode();
         }
-        if (getId() != null) {
-            _hashCode += getId().hashCode();
+        if (getDescription() != null) {
+            _hashCode += getDescription().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -142,15 +171,23 @@ public class DataField  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("displayName");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DisplayName"));
+        elemField.setFieldName("id");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Id"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("id");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Id"));
+        elemField.setFieldName("displayName");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DisplayName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("description");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Description"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

@@ -2,35 +2,61 @@
  * DataSet.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class DataSet  implements java.io.Serializable {
-    private java.lang.String name;
     private long id;
+    private java.lang.String name;
+    private java.lang.String displayName;
+    private java.lang.String description;
     private boolean isDeletable;
     private boolean isModifiable;
-    private org.eclipse.birt.report.soapengine.api.DataSetDefinition[] definition;
+    private org.eclipse.birt.report.soapengine.api.DataSetDefinition definition;
     private org.eclipse.birt.report.soapengine.api.DataSource dataSource;
 
     public DataSet() {
     }
 
     public DataSet(
-           java.lang.String name,
            long id,
+           java.lang.String name,
+           java.lang.String displayName,
+           java.lang.String description,
            boolean isDeletable,
            boolean isModifiable,
-           org.eclipse.birt.report.soapengine.api.DataSetDefinition[] definition,
+           org.eclipse.birt.report.soapengine.api.DataSetDefinition definition,
            org.eclipse.birt.report.soapengine.api.DataSource dataSource) {
-           this.name = name;
            this.id = id;
+           this.name = name;
+           this.displayName = displayName;
+           this.description = description;
            this.isDeletable = isDeletable;
            this.isModifiable = isModifiable;
            this.definition = definition;
            this.dataSource = dataSource;
+    }
+
+
+    /**
+     * Gets the id value for this DataSet.
+     * 
+     * @return id
+     */
+    public long getId() {
+        return id;
+    }
+
+
+    /**
+     * Sets the id value for this DataSet.
+     * 
+     * @param id
+     */
+    public void setId(long id) {
+        this.id = id;
     }
 
 
@@ -55,22 +81,42 @@ public class DataSet  implements java.io.Serializable {
 
 
     /**
-     * Gets the id value for this DataSet.
+     * Gets the displayName value for this DataSet.
      * 
-     * @return id
+     * @return displayName
      */
-    public long getId() {
-        return id;
+    public java.lang.String getDisplayName() {
+        return displayName;
     }
 
 
     /**
-     * Sets the id value for this DataSet.
+     * Sets the displayName value for this DataSet.
      * 
-     * @param id
+     * @param displayName
      */
-    public void setId(long id) {
-        this.id = id;
+    public void setDisplayName(java.lang.String displayName) {
+        this.displayName = displayName;
+    }
+
+
+    /**
+     * Gets the description value for this DataSet.
+     * 
+     * @return description
+     */
+    public java.lang.String getDescription() {
+        return description;
+    }
+
+
+    /**
+     * Sets the description value for this DataSet.
+     * 
+     * @param description
+     */
+    public void setDescription(java.lang.String description) {
+        this.description = description;
     }
 
 
@@ -119,7 +165,7 @@ public class DataSet  implements java.io.Serializable {
      * 
      * @return definition
      */
-    public org.eclipse.birt.report.soapengine.api.DataSetDefinition[] getDefinition() {
+    public org.eclipse.birt.report.soapengine.api.DataSetDefinition getDefinition() {
         return definition;
     }
 
@@ -129,16 +175,8 @@ public class DataSet  implements java.io.Serializable {
      * 
      * @param definition
      */
-    public void setDefinition(org.eclipse.birt.report.soapengine.api.DataSetDefinition[] definition) {
+    public void setDefinition(org.eclipse.birt.report.soapengine.api.DataSetDefinition definition) {
         this.definition = definition;
-    }
-
-    public org.eclipse.birt.report.soapengine.api.DataSetDefinition getDefinition(int i) {
-        return this.definition[i];
-    }
-
-    public void setDefinition(int i, org.eclipse.birt.report.soapengine.api.DataSetDefinition _value) {
-        this.definition[i] = _value;
     }
 
 
@@ -173,15 +211,21 @@ public class DataSet  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
+            this.id == other.getId() &&
             ((this.name==null && other.getName()==null) || 
              (this.name!=null &&
               this.name.equals(other.getName()))) &&
-            this.id == other.getId() &&
+            ((this.displayName==null && other.getDisplayName()==null) || 
+             (this.displayName!=null &&
+              this.displayName.equals(other.getDisplayName()))) &&
+            ((this.description==null && other.getDescription()==null) || 
+             (this.description!=null &&
+              this.description.equals(other.getDescription()))) &&
             this.isDeletable == other.isIsDeletable() &&
             this.isModifiable == other.isIsModifiable() &&
             ((this.definition==null && other.getDefinition()==null) || 
              (this.definition!=null &&
-              java.util.Arrays.equals(this.definition, other.getDefinition()))) &&
+              this.definition.equals(other.getDefinition()))) &&
             ((this.dataSource==null && other.getDataSource()==null) || 
              (this.dataSource!=null &&
               this.dataSource.equals(other.getDataSource())));
@@ -196,22 +240,20 @@ public class DataSet  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
+        _hashCode += new Long(getId()).hashCode();
         if (getName() != null) {
             _hashCode += getName().hashCode();
         }
-        _hashCode += new Long(getId()).hashCode();
+        if (getDisplayName() != null) {
+            _hashCode += getDisplayName().hashCode();
+        }
+        if (getDescription() != null) {
+            _hashCode += getDescription().hashCode();
+        }
         _hashCode += (isIsDeletable() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         _hashCode += (isIsModifiable() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         if (getDefinition() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getDefinition());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getDefinition(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getDefinition().hashCode();
         }
         if (getDataSource() != null) {
             _hashCode += getDataSource().hashCode();
@@ -227,15 +269,30 @@ public class DataSet  implements java.io.Serializable {
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSet"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("name");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("id");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Id"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("name");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("displayName");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DisplayName"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("description");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Description"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
@@ -254,8 +311,8 @@ public class DataSet  implements java.io.Serializable {
         elemField.setFieldName("definition");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Definition"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetDefinition"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("dataSource");

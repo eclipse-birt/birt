@@ -2,7 +2,7 @@
  * ReportId.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -10,15 +10,18 @@ package org.eclipse.birt.report.soapengine.api;
 public class ReportId  implements java.io.Serializable {
     private java.lang.String id;
     private org.eclipse.birt.report.soapengine.api.ReportIdType type;
+    private java.lang.Long rptElementId;
 
     public ReportId() {
     }
 
     public ReportId(
            java.lang.String id,
-           org.eclipse.birt.report.soapengine.api.ReportIdType type) {
+           org.eclipse.birt.report.soapengine.api.ReportIdType type,
+           java.lang.Long rptElementId) {
            this.id = id;
            this.type = type;
+           this.rptElementId = rptElementId;
     }
 
 
@@ -61,6 +64,26 @@ public class ReportId  implements java.io.Serializable {
         this.type = type;
     }
 
+
+    /**
+     * Gets the rptElementId value for this ReportId.
+     * 
+     * @return rptElementId
+     */
+    public java.lang.Long getRptElementId() {
+        return rptElementId;
+    }
+
+
+    /**
+     * Sets the rptElementId value for this ReportId.
+     * 
+     * @param rptElementId
+     */
+    public void setRptElementId(java.lang.Long rptElementId) {
+        this.rptElementId = rptElementId;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof ReportId)) return false;
@@ -78,7 +101,10 @@ public class ReportId  implements java.io.Serializable {
               this.id.equals(other.getId()))) &&
             ((this.type==null && other.getType()==null) || 
              (this.type!=null &&
-              this.type.equals(other.getType())));
+              this.type.equals(other.getType()))) &&
+            ((this.rptElementId==null && other.getRptElementId()==null) || 
+             (this.rptElementId!=null &&
+              this.rptElementId.equals(other.getRptElementId())));
         __equalsCalc = null;
         return _equals;
     }
@@ -95,6 +121,9 @@ public class ReportId  implements java.io.Serializable {
         }
         if (getType() != null) {
             _hashCode += getType().hashCode();
+        }
+        if (getRptElementId() != null) {
+            _hashCode += getRptElementId().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -116,6 +145,13 @@ public class ReportId  implements java.io.Serializable {
         elemField.setFieldName("type");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Type"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", ">ReportId>Type"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("rptElementId");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "RptElementId"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

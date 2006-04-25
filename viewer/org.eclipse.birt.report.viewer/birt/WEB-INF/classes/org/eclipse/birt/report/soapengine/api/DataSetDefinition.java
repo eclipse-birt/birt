@@ -2,13 +2,14 @@
  * DataSetDefinition.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class DataSetDefinition  implements java.io.Serializable {
     private java.lang.String name;
+    private java.lang.String description;
     private org.eclipse.birt.report.soapengine.api.DataFieldFolder[] folder;
     private org.eclipse.birt.report.soapengine.api.DataField[] field;
 
@@ -17,9 +18,11 @@ public class DataSetDefinition  implements java.io.Serializable {
 
     public DataSetDefinition(
            java.lang.String name,
+           java.lang.String description,
            org.eclipse.birt.report.soapengine.api.DataFieldFolder[] folder,
            org.eclipse.birt.report.soapengine.api.DataField[] field) {
            this.name = name;
+           this.description = description;
            this.folder = folder;
            this.field = field;
     }
@@ -42,6 +45,26 @@ public class DataSetDefinition  implements java.io.Serializable {
      */
     public void setName(java.lang.String name) {
         this.name = name;
+    }
+
+
+    /**
+     * Gets the description value for this DataSetDefinition.
+     * 
+     * @return description
+     */
+    public java.lang.String getDescription() {
+        return description;
+    }
+
+
+    /**
+     * Sets the description value for this DataSetDefinition.
+     * 
+     * @param description
+     */
+    public void setDescription(java.lang.String description) {
+        this.description = description;
     }
 
 
@@ -115,6 +138,9 @@ public class DataSetDefinition  implements java.io.Serializable {
             ((this.name==null && other.getName()==null) || 
              (this.name!=null &&
               this.name.equals(other.getName()))) &&
+            ((this.description==null && other.getDescription()==null) || 
+             (this.description!=null &&
+              this.description.equals(other.getDescription()))) &&
             ((this.folder==null && other.getFolder()==null) || 
              (this.folder!=null &&
               java.util.Arrays.equals(this.folder, other.getFolder()))) &&
@@ -134,6 +160,9 @@ public class DataSetDefinition  implements java.io.Serializable {
         int _hashCode = 1;
         if (getName() != null) {
             _hashCode += getName().hashCode();
+        }
+        if (getDescription() != null) {
+            _hashCode += getDescription().hashCode();
         }
         if (getFolder() != null) {
             for (int i=0;
@@ -171,6 +200,13 @@ public class DataSetDefinition  implements java.io.Serializable {
         elemField.setFieldName("name");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("description");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Description"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();

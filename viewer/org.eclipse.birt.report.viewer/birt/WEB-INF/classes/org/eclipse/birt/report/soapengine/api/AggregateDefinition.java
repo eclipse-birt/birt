@@ -2,26 +2,29 @@
  * AggregateDefinition.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class AggregateDefinition  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.AggregateFunction func;
+    private java.lang.String func;
     private org.eclipse.birt.report.soapengine.api.AggregateSetting subTotal;
     private org.eclipse.birt.report.soapengine.api.AggregateSetting grandTotal;
+    private java.lang.Integer intParameter;
 
     public AggregateDefinition() {
     }
 
     public AggregateDefinition(
-           org.eclipse.birt.report.soapengine.api.AggregateFunction func,
+           java.lang.String func,
            org.eclipse.birt.report.soapengine.api.AggregateSetting subTotal,
-           org.eclipse.birt.report.soapengine.api.AggregateSetting grandTotal) {
+           org.eclipse.birt.report.soapengine.api.AggregateSetting grandTotal,
+           java.lang.Integer intParameter) {
            this.func = func;
            this.subTotal = subTotal;
            this.grandTotal = grandTotal;
+           this.intParameter = intParameter;
     }
 
 
@@ -30,7 +33,7 @@ public class AggregateDefinition  implements java.io.Serializable {
      * 
      * @return func
      */
-    public org.eclipse.birt.report.soapengine.api.AggregateFunction getFunc() {
+    public java.lang.String getFunc() {
         return func;
     }
 
@@ -40,7 +43,7 @@ public class AggregateDefinition  implements java.io.Serializable {
      * 
      * @param func
      */
-    public void setFunc(org.eclipse.birt.report.soapengine.api.AggregateFunction func) {
+    public void setFunc(java.lang.String func) {
         this.func = func;
     }
 
@@ -84,6 +87,26 @@ public class AggregateDefinition  implements java.io.Serializable {
         this.grandTotal = grandTotal;
     }
 
+
+    /**
+     * Gets the intParameter value for this AggregateDefinition.
+     * 
+     * @return intParameter
+     */
+    public java.lang.Integer getIntParameter() {
+        return intParameter;
+    }
+
+
+    /**
+     * Sets the intParameter value for this AggregateDefinition.
+     * 
+     * @param intParameter
+     */
+    public void setIntParameter(java.lang.Integer intParameter) {
+        this.intParameter = intParameter;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof AggregateDefinition)) return false;
@@ -104,7 +127,10 @@ public class AggregateDefinition  implements java.io.Serializable {
               this.subTotal.equals(other.getSubTotal()))) &&
             ((this.grandTotal==null && other.getGrandTotal()==null) || 
              (this.grandTotal!=null &&
-              this.grandTotal.equals(other.getGrandTotal())));
+              this.grandTotal.equals(other.getGrandTotal()))) &&
+            ((this.intParameter==null && other.getIntParameter()==null) || 
+             (this.intParameter!=null &&
+              this.intParameter.equals(other.getIntParameter())));
         __equalsCalc = null;
         return _equals;
     }
@@ -125,6 +151,9 @@ public class AggregateDefinition  implements java.io.Serializable {
         if (getGrandTotal() != null) {
             _hashCode += getGrandTotal().hashCode();
         }
+        if (getIntParameter() != null) {
+            _hashCode += getIntParameter().hashCode();
+        }
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -138,7 +167,7 @@ public class AggregateDefinition  implements java.io.Serializable {
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("func");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Func"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AggregateFunction"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
@@ -151,6 +180,13 @@ public class AggregateDefinition  implements java.io.Serializable {
         elemField.setFieldName("grandTotal");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "GrandTotal"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AggregateSetting"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("intParameter");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IntParameter"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

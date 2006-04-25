@@ -2,7 +2,7 @@
  * Data.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -26,6 +26,14 @@ public class Data  implements java.io.Serializable {
     private java.lang.String labelText;
     private org.eclipse.birt.report.soapengine.api.FileBrowsing fileBrowsing;
     private org.eclipse.birt.report.soapengine.api.DataSourceList dataSources;
+    private org.eclipse.birt.report.soapengine.api.BindingList bindingList;
+    private org.eclipse.birt.report.soapengine.api.DataSet dataSetDef;
+    private org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse;
+    private org.eclipse.birt.report.soapengine.api.DesignState designState;
+    private java.lang.String redirectURL;
+    private org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression;
+    private org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata;
+    private org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList;
 
     public Data() {
     }
@@ -48,7 +56,15 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.ChartProperties chart,
            java.lang.String labelText,
            org.eclipse.birt.report.soapengine.api.FileBrowsing fileBrowsing,
-           org.eclipse.birt.report.soapengine.api.DataSourceList dataSources) {
+           org.eclipse.birt.report.soapengine.api.DataSourceList dataSources,
+           org.eclipse.birt.report.soapengine.api.BindingList bindingList,
+           org.eclipse.birt.report.soapengine.api.DataSet dataSetDef,
+           org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse,
+           org.eclipse.birt.report.soapengine.api.DesignState designState,
+           java.lang.String redirectURL,
+           org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression,
+           org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata,
+           org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList) {
            this.font = font;
            this.resultSets = resultSets;
            this.format = format;
@@ -67,6 +83,14 @@ public class Data  implements java.io.Serializable {
            this.labelText = labelText;
            this.fileBrowsing = fileBrowsing;
            this.dataSources = dataSources;
+           this.bindingList = bindingList;
+           this.dataSetDef = dataSetDef;
+           this.dataSetsToUse = dataSetsToUse;
+           this.designState = designState;
+           this.redirectURL = redirectURL;
+           this.BRDExpression = BRDExpression;
+           this.joinMetadata = joinMetadata;
+           this.boundDataColumnList = boundDataColumnList;
     }
 
 
@@ -429,6 +453,166 @@ public class Data  implements java.io.Serializable {
         this.dataSources = dataSources;
     }
 
+
+    /**
+     * Gets the bindingList value for this Data.
+     * 
+     * @return bindingList
+     */
+    public org.eclipse.birt.report.soapengine.api.BindingList getBindingList() {
+        return bindingList;
+    }
+
+
+    /**
+     * Sets the bindingList value for this Data.
+     * 
+     * @param bindingList
+     */
+    public void setBindingList(org.eclipse.birt.report.soapengine.api.BindingList bindingList) {
+        this.bindingList = bindingList;
+    }
+
+
+    /**
+     * Gets the dataSetDef value for this Data.
+     * 
+     * @return dataSetDef
+     */
+    public org.eclipse.birt.report.soapengine.api.DataSet getDataSetDef() {
+        return dataSetDef;
+    }
+
+
+    /**
+     * Sets the dataSetDef value for this Data.
+     * 
+     * @param dataSetDef
+     */
+    public void setDataSetDef(org.eclipse.birt.report.soapengine.api.DataSet dataSetDef) {
+        this.dataSetDef = dataSetDef;
+    }
+
+
+    /**
+     * Gets the dataSetsToUse value for this Data.
+     * 
+     * @return dataSetsToUse
+     */
+    public org.eclipse.birt.report.soapengine.api.DataSetList getDataSetsToUse() {
+        return dataSetsToUse;
+    }
+
+
+    /**
+     * Sets the dataSetsToUse value for this Data.
+     * 
+     * @param dataSetsToUse
+     */
+    public void setDataSetsToUse(org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse) {
+        this.dataSetsToUse = dataSetsToUse;
+    }
+
+
+    /**
+     * Gets the designState value for this Data.
+     * 
+     * @return designState
+     */
+    public org.eclipse.birt.report.soapengine.api.DesignState getDesignState() {
+        return designState;
+    }
+
+
+    /**
+     * Sets the designState value for this Data.
+     * 
+     * @param designState
+     */
+    public void setDesignState(org.eclipse.birt.report.soapengine.api.DesignState designState) {
+        this.designState = designState;
+    }
+
+
+    /**
+     * Gets the redirectURL value for this Data.
+     * 
+     * @return redirectURL
+     */
+    public java.lang.String getRedirectURL() {
+        return redirectURL;
+    }
+
+
+    /**
+     * Sets the redirectURL value for this Data.
+     * 
+     * @param redirectURL
+     */
+    public void setRedirectURL(java.lang.String redirectURL) {
+        this.redirectURL = redirectURL;
+    }
+
+
+    /**
+     * Gets the BRDExpression value for this Data.
+     * 
+     * @return BRDExpression
+     */
+    public org.eclipse.birt.report.soapengine.api.BRDExpression getBRDExpression() {
+        return BRDExpression;
+    }
+
+
+    /**
+     * Sets the BRDExpression value for this Data.
+     * 
+     * @param BRDExpression
+     */
+    public void setBRDExpression(org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression) {
+        this.BRDExpression = BRDExpression;
+    }
+
+
+    /**
+     * Gets the joinMetadata value for this Data.
+     * 
+     * @return joinMetadata
+     */
+    public org.eclipse.birt.report.soapengine.api.JoinMetadata getJoinMetadata() {
+        return joinMetadata;
+    }
+
+
+    /**
+     * Sets the joinMetadata value for this Data.
+     * 
+     * @param joinMetadata
+     */
+    public void setJoinMetadata(org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata) {
+        this.joinMetadata = joinMetadata;
+    }
+
+
+    /**
+     * Gets the boundDataColumnList value for this Data.
+     * 
+     * @return boundDataColumnList
+     */
+    public org.eclipse.birt.report.soapengine.api.BoundDataColumnList getBoundDataColumnList() {
+        return boundDataColumnList;
+    }
+
+
+    /**
+     * Sets the boundDataColumnList value for this Data.
+     * 
+     * @param boundDataColumnList
+     */
+    public void setBoundDataColumnList(org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList) {
+        this.boundDataColumnList = boundDataColumnList;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Data)) return false;
@@ -494,7 +678,31 @@ public class Data  implements java.io.Serializable {
               this.fileBrowsing.equals(other.getFileBrowsing()))) &&
             ((this.dataSources==null && other.getDataSources()==null) || 
              (this.dataSources!=null &&
-              this.dataSources.equals(other.getDataSources())));
+              this.dataSources.equals(other.getDataSources()))) &&
+            ((this.bindingList==null && other.getBindingList()==null) || 
+             (this.bindingList!=null &&
+              this.bindingList.equals(other.getBindingList()))) &&
+            ((this.dataSetDef==null && other.getDataSetDef()==null) || 
+             (this.dataSetDef!=null &&
+              this.dataSetDef.equals(other.getDataSetDef()))) &&
+            ((this.dataSetsToUse==null && other.getDataSetsToUse()==null) || 
+             (this.dataSetsToUse!=null &&
+              this.dataSetsToUse.equals(other.getDataSetsToUse()))) &&
+            ((this.designState==null && other.getDesignState()==null) || 
+             (this.designState!=null &&
+              this.designState.equals(other.getDesignState()))) &&
+            ((this.redirectURL==null && other.getRedirectURL()==null) || 
+             (this.redirectURL!=null &&
+              this.redirectURL.equals(other.getRedirectURL()))) &&
+            ((this.BRDExpression==null && other.getBRDExpression()==null) || 
+             (this.BRDExpression!=null &&
+              this.BRDExpression.equals(other.getBRDExpression()))) &&
+            ((this.joinMetadata==null && other.getJoinMetadata()==null) || 
+             (this.joinMetadata!=null &&
+              this.joinMetadata.equals(other.getJoinMetadata()))) &&
+            ((this.boundDataColumnList==null && other.getBoundDataColumnList()==null) || 
+             (this.boundDataColumnList!=null &&
+              this.boundDataColumnList.equals(other.getBoundDataColumnList())));
         __equalsCalc = null;
         return _equals;
     }
@@ -559,6 +767,30 @@ public class Data  implements java.io.Serializable {
         }
         if (getDataSources() != null) {
             _hashCode += getDataSources().hashCode();
+        }
+        if (getBindingList() != null) {
+            _hashCode += getBindingList().hashCode();
+        }
+        if (getDataSetDef() != null) {
+            _hashCode += getDataSetDef().hashCode();
+        }
+        if (getDataSetsToUse() != null) {
+            _hashCode += getDataSetsToUse().hashCode();
+        }
+        if (getDesignState() != null) {
+            _hashCode += getDesignState().hashCode();
+        }
+        if (getRedirectURL() != null) {
+            _hashCode += getRedirectURL().hashCode();
+        }
+        if (getBRDExpression() != null) {
+            _hashCode += getBRDExpression().hashCode();
+        }
+        if (getJoinMetadata() != null) {
+            _hashCode += getJoinMetadata().hashCode();
+        }
+        if (getBoundDataColumnList() != null) {
+            _hashCode += getBoundDataColumnList().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -693,6 +925,62 @@ public class Data  implements java.io.Serializable {
         elemField.setFieldName("dataSources");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSources"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSourceList"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("bindingList");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BindingList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BindingList"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("dataSetDef");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetDef"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSet"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("dataSetsToUse");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetsToUse"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetList"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("designState");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DesignState"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DesignState"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("redirectURL");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "RedirectURL"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("BRDExpression");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BRDExpression"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BRDExpression"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("joinMetadata");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "JoinMetadata"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "JoinMetadata"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("boundDataColumnList");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumnList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumnList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

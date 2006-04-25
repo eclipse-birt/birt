@@ -2,7 +2,7 @@
  * ColumnDefinition.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -10,13 +10,17 @@ package org.eclipse.birt.report.soapengine.api;
 public class ColumnDefinition  implements java.io.Serializable {
     private int index;
     private java.lang.String header;
+    private java.lang.Integer dataType;
     private java.lang.String expr;
     private java.lang.Integer newIndex;
     private java.lang.Boolean isGrouped;
     private org.eclipse.birt.report.soapengine.api.SortingDirection sortDir;
-    private org.eclipse.birt.report.soapengine.api.AggregateDefinition aggregate;
+    private org.eclipse.birt.report.soapengine.api.AggregateDefinition[] aggregate;
     private org.eclipse.birt.report.soapengine.api.Font font;
     private org.eclipse.birt.report.soapengine.api.Format format;
+    private org.eclipse.birt.report.soapengine.api.ColumnProperties properties;
+    private org.eclipse.birt.report.soapengine.api.FormatRuleSet formatRuleSet;
+    private org.eclipse.birt.report.soapengine.api.BoundDataColumn boundDataColumn;
 
     public ColumnDefinition() {
     }
@@ -24,15 +28,20 @@ public class ColumnDefinition  implements java.io.Serializable {
     public ColumnDefinition(
            int index,
            java.lang.String header,
+           java.lang.Integer dataType,
            java.lang.String expr,
            java.lang.Integer newIndex,
            java.lang.Boolean isGrouped,
            org.eclipse.birt.report.soapengine.api.SortingDirection sortDir,
-           org.eclipse.birt.report.soapengine.api.AggregateDefinition aggregate,
+           org.eclipse.birt.report.soapengine.api.AggregateDefinition[] aggregate,
            org.eclipse.birt.report.soapengine.api.Font font,
-           org.eclipse.birt.report.soapengine.api.Format format) {
+           org.eclipse.birt.report.soapengine.api.Format format,
+           org.eclipse.birt.report.soapengine.api.ColumnProperties properties,
+           org.eclipse.birt.report.soapengine.api.FormatRuleSet formatRuleSet,
+           org.eclipse.birt.report.soapengine.api.BoundDataColumn boundDataColumn) {
            this.index = index;
            this.header = header;
+           this.dataType = dataType;
            this.expr = expr;
            this.newIndex = newIndex;
            this.isGrouped = isGrouped;
@@ -40,6 +49,9 @@ public class ColumnDefinition  implements java.io.Serializable {
            this.aggregate = aggregate;
            this.font = font;
            this.format = format;
+           this.properties = properties;
+           this.formatRuleSet = formatRuleSet;
+           this.boundDataColumn = boundDataColumn;
     }
 
 
@@ -80,6 +92,26 @@ public class ColumnDefinition  implements java.io.Serializable {
      */
     public void setHeader(java.lang.String header) {
         this.header = header;
+    }
+
+
+    /**
+     * Gets the dataType value for this ColumnDefinition.
+     * 
+     * @return dataType
+     */
+    public java.lang.Integer getDataType() {
+        return dataType;
+    }
+
+
+    /**
+     * Sets the dataType value for this ColumnDefinition.
+     * 
+     * @param dataType
+     */
+    public void setDataType(java.lang.Integer dataType) {
+        this.dataType = dataType;
     }
 
 
@@ -168,7 +200,7 @@ public class ColumnDefinition  implements java.io.Serializable {
      * 
      * @return aggregate
      */
-    public org.eclipse.birt.report.soapengine.api.AggregateDefinition getAggregate() {
+    public org.eclipse.birt.report.soapengine.api.AggregateDefinition[] getAggregate() {
         return aggregate;
     }
 
@@ -178,8 +210,16 @@ public class ColumnDefinition  implements java.io.Serializable {
      * 
      * @param aggregate
      */
-    public void setAggregate(org.eclipse.birt.report.soapengine.api.AggregateDefinition aggregate) {
+    public void setAggregate(org.eclipse.birt.report.soapengine.api.AggregateDefinition[] aggregate) {
         this.aggregate = aggregate;
+    }
+
+    public org.eclipse.birt.report.soapengine.api.AggregateDefinition getAggregate(int i) {
+        return this.aggregate[i];
+    }
+
+    public void setAggregate(int i, org.eclipse.birt.report.soapengine.api.AggregateDefinition _value) {
+        this.aggregate[i] = _value;
     }
 
 
@@ -222,6 +262,66 @@ public class ColumnDefinition  implements java.io.Serializable {
         this.format = format;
     }
 
+
+    /**
+     * Gets the properties value for this ColumnDefinition.
+     * 
+     * @return properties
+     */
+    public org.eclipse.birt.report.soapengine.api.ColumnProperties getProperties() {
+        return properties;
+    }
+
+
+    /**
+     * Sets the properties value for this ColumnDefinition.
+     * 
+     * @param properties
+     */
+    public void setProperties(org.eclipse.birt.report.soapengine.api.ColumnProperties properties) {
+        this.properties = properties;
+    }
+
+
+    /**
+     * Gets the formatRuleSet value for this ColumnDefinition.
+     * 
+     * @return formatRuleSet
+     */
+    public org.eclipse.birt.report.soapengine.api.FormatRuleSet getFormatRuleSet() {
+        return formatRuleSet;
+    }
+
+
+    /**
+     * Sets the formatRuleSet value for this ColumnDefinition.
+     * 
+     * @param formatRuleSet
+     */
+    public void setFormatRuleSet(org.eclipse.birt.report.soapengine.api.FormatRuleSet formatRuleSet) {
+        this.formatRuleSet = formatRuleSet;
+    }
+
+
+    /**
+     * Gets the boundDataColumn value for this ColumnDefinition.
+     * 
+     * @return boundDataColumn
+     */
+    public org.eclipse.birt.report.soapengine.api.BoundDataColumn getBoundDataColumn() {
+        return boundDataColumn;
+    }
+
+
+    /**
+     * Sets the boundDataColumn value for this ColumnDefinition.
+     * 
+     * @param boundDataColumn
+     */
+    public void setBoundDataColumn(org.eclipse.birt.report.soapengine.api.BoundDataColumn boundDataColumn) {
+        this.boundDataColumn = boundDataColumn;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof ColumnDefinition)) return false;
@@ -238,6 +338,9 @@ public class ColumnDefinition  implements java.io.Serializable {
             ((this.header==null && other.getHeader()==null) || 
              (this.header!=null &&
               this.header.equals(other.getHeader()))) &&
+            ((this.dataType==null && other.getDataType()==null) || 
+             (this.dataType!=null &&
+              this.dataType.equals(other.getDataType()))) &&
             ((this.expr==null && other.getExpr()==null) || 
              (this.expr!=null &&
               this.expr.equals(other.getExpr()))) &&
@@ -252,13 +355,22 @@ public class ColumnDefinition  implements java.io.Serializable {
               this.sortDir.equals(other.getSortDir()))) &&
             ((this.aggregate==null && other.getAggregate()==null) || 
              (this.aggregate!=null &&
-              this.aggregate.equals(other.getAggregate()))) &&
+              java.util.Arrays.equals(this.aggregate, other.getAggregate()))) &&
             ((this.font==null && other.getFont()==null) || 
              (this.font!=null &&
               this.font.equals(other.getFont()))) &&
             ((this.format==null && other.getFormat()==null) || 
              (this.format!=null &&
-              this.format.equals(other.getFormat())));
+              this.format.equals(other.getFormat()))) &&
+            ((this.properties==null && other.getProperties()==null) || 
+             (this.properties!=null &&
+              this.properties.equals(other.getProperties()))) &&
+            ((this.formatRuleSet==null && other.getFormatRuleSet()==null) || 
+             (this.formatRuleSet!=null &&
+              this.formatRuleSet.equals(other.getFormatRuleSet()))) &&
+            ((this.boundDataColumn==null && other.getBoundDataColumn()==null) || 
+             (this.boundDataColumn!=null &&
+              this.boundDataColumn.equals(other.getBoundDataColumn())));
         __equalsCalc = null;
         return _equals;
     }
@@ -274,6 +386,9 @@ public class ColumnDefinition  implements java.io.Serializable {
         if (getHeader() != null) {
             _hashCode += getHeader().hashCode();
         }
+        if (getDataType() != null) {
+            _hashCode += getDataType().hashCode();
+        }
         if (getExpr() != null) {
             _hashCode += getExpr().hashCode();
         }
@@ -287,13 +402,30 @@ public class ColumnDefinition  implements java.io.Serializable {
             _hashCode += getSortDir().hashCode();
         }
         if (getAggregate() != null) {
-            _hashCode += getAggregate().hashCode();
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getAggregate());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getAggregate(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
         }
         if (getFont() != null) {
             _hashCode += getFont().hashCode();
         }
         if (getFormat() != null) {
             _hashCode += getFormat().hashCode();
+        }
+        if (getProperties() != null) {
+            _hashCode += getProperties().hashCode();
+        }
+        if (getFormatRuleSet() != null) {
+            _hashCode += getFormatRuleSet().hashCode();
+        }
+        if (getBoundDataColumn() != null) {
+            _hashCode += getBoundDataColumn().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -315,6 +447,13 @@ public class ColumnDefinition  implements java.io.Serializable {
         elemField.setFieldName("header");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Header"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("dataType");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataType"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
@@ -352,6 +491,7 @@ public class ColumnDefinition  implements java.io.Serializable {
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AggregateDefinition"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
+        elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("font");
@@ -364,6 +504,27 @@ public class ColumnDefinition  implements java.io.Serializable {
         elemField.setFieldName("format");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Format"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Format"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("properties");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Properties"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnProperties"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("formatRuleSet");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FormatRuleSet"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FormatRuleSet"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("boundDataColumn");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumn"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumn"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
