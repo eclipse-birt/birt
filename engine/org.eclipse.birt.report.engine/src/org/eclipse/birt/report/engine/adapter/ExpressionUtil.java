@@ -73,7 +73,7 @@ public final class ExpressionUtil
 	 * @param ce
 	 * @return
 	 */
-	public IConditionalExpression transformConditionalExpression(
+	public static IConditionalExpression transformConditionalExpression(
 			IConditionalExpression ce )
 	{
 		String prefix = null;
