@@ -87,7 +87,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String LIBRARY_PREFERENCE = "designer.library.preference.libraries.description.preferencestore"; //$NON-NLS-1$
 	public static final String TEMPLATE_PREFERENCE = "designer.preview.preference.template.description.preferencestore"; //$NON-NLS-1$
 	public static final String RESOURCE_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.resourcestore"; //$NON-NLS-1$
-
+	public static final String COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.comment.description.preferencestore";
+	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore";
 	public static final String BIRT_RESOURCE = "BIRTResource";
 
 	private int nameCount = 0;
@@ -130,6 +131,12 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		// set default Resource
 		setDefaultResourcePreference( );
+		
+		// set default Preference 
+		setDefaultCommentPreference( );
+		
+		// set default enable comment preference
+		setDefaultEnableCommentPreference();
 
 		// Biding default short cut services
 		// Using 3.0 compatible api
@@ -850,5 +857,81 @@ public class ReportPlugin extends AbstractUIPlugin
 	public boolean containIgnoreViewID( String str )
 	{
 		return ignore.contains( str );
+	}
+	
+	/**
+	 * set default comment preference
+	 * 
+	 */
+	public void setDefaultCommentPreference(){
+	    getPreferenceStore( ).setDefault(COMMENT_PREFERENCE, Messages
+	    .getString( "org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment" ));	                 
+	}
+	
+	/**
+	 * Return default comment preference
+	 * 
+	 * @return String The string of default comment preference
+	 */
+	public String getDefaultCommentPreference( )
+	{
+	    return getPreferenceStore( ).getDefaultString( COMMENT_PREFERENCE );
+	}
+	
+	/**
+	 * Return comment preference
+	 * 
+	 * @return String The string of comment preference
+	 */
+	public String getCommentPreference( )
+	{
+		return getPreferenceStore( ).getString( COMMENT_PREFERENCE );
+	}
+
+	/**
+	 * set comment preference
+	 * 
+	 */
+	public void setCommentPreference( String preference )
+	{
+		getPreferenceStore( ).setValue( COMMENT_PREFERENCE, preference ); //$NON-NLS-1$
+	}
+	
+	/**
+	 * set enable default comment preference
+	 * 
+	 */
+	public void setDefaultEnableCommentPreference(){
+	    getPreferenceStore( ).setDefault(ENABLE_COMMENT_PREFERENCE,true);
+	}
+	
+	/**
+	 * Return default enable comment preference
+	 * 
+	 * @return boolean The bool value of default enable comment preference
+	 */
+	public boolean getDefaultEnabelCommentPreference( )
+	{
+	    return getPreferenceStore( ).getDefaultBoolean( ENABLE_COMMENT_PREFERENCE );
+	}
+	
+	/**
+	 * Return  enable comment preference
+	 * 
+	 * @return boolean The bool value of enable comment preference
+	 */
+	public boolean getEnableCommentPreference( )
+	{
+		return getPreferenceStore( ).getBoolean( ENABLE_COMMENT_PREFERENCE );
+	}
+	
+
+	/**
+	 * set enable comment preference
+	 * 
+	 */
+	public void setEnableCommentPreference( boolean preference )
+	{
+		getPreferenceStore( ).setValue( ENABLE_COMMENT_PREFERENCE, preference ); //$NON-NLS-1$
 	}
 }

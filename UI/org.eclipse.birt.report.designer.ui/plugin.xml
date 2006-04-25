@@ -83,7 +83,12 @@
             class="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.datasetpreview"
-            id="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"/>            
+            id="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"/>    
+       <page
+            class="org.eclipse.birt.report.designer.ui.preferences.CommentTemplatesPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.commenttemplates"
+            id="org.eclipse.birt.report.designer.ui.preferences.CommentTemplatesPreferencePage"/>                        
    </extension>
 
    <!-- Preview browsers -->

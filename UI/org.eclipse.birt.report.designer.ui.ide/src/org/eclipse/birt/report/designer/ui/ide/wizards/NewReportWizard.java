@@ -21,12 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -591,9 +593,16 @@ public class NewReportWizard extends Wizard implements
 				file.create( stream, true, monitor );
 			}
 			stream.close( );
-
+			if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
+			    fileName = file.getLocation( ).toOSString( );
+			    InputStream is = new FileInputStream(fileName);
+			    ModuleHandle model = SessionHandleAdapter.getInstance( ).init( fileName,is );
+			    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
+			    model.save();
+			    is.close( );
+			}
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 		}
 		monitor.worked( 1 );
