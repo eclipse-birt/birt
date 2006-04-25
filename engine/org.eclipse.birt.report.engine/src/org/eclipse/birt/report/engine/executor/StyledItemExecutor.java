@@ -12,13 +12,10 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.net.URL;
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
 import org.eclipse.birt.report.engine.ir.HighlightRuleDesign;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
@@ -26,8 +23,6 @@ import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
-import org.eclipse.birt.report.engine.ir.VisibilityDesign;
-import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -37,7 +32,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.22 $ $Date: 2005/12/23 06:37:24 $
+ * @version $Revision: 1.23 $ $Date: 2006/04/06 12:35:24 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -184,59 +179,6 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 		}
 	}
 
-	/**
-	 * Sets the visibility property for ReportItem.
-	 * 
-	 * @param design
-	 *            The <code>ReportItemDesign</code> object.
-	 * @param content
-	 *            The <code>ReportItemContent</code> object.
-	 */
-	protected void processVisibility( ReportItemDesign design, IContent content )
-	{
-		VisibilityDesign visibility = design.getVisibility( );
-		boolean isFirst = true;
-		if ( visibility != null )
-		{
-			StringBuffer buffer = new StringBuffer( );
-			for ( int i = 0; i < visibility.count( ); i++ )
-			{
-				VisibilityRuleDesign rule = visibility.getRule( i );
-				String expr = rule.getExpression( );
-				Object result = null;
-				if ( expr != null )
-				{
-					result = context.evaluate( expr );
-				}
-				if ( result == null || !( result instanceof Boolean ) )
-				{
-					logger
-							.log(
-									Level.WARNING,
-									"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
-									rule.getExpression( ) );
-					continue;
-				}
-				boolean isHidden = ( (Boolean) result ).booleanValue( );
-				// The report element appears by default and if the result is
-				// not hidden, then ignore it.
-				if ( !isHidden )
-				{
-					continue;
-				}
-				// we should use rule as the string as
-				if ( isFirst )
-				{
-					isFirst = false;
-				}
-				else
-				{
-					buffer.append( ", " ); //$NON-NLS-1$
-				}
-				buffer.append( rule.getFormat( ) );
-			}
-			content.getStyle( ).setVisibleFormat( buffer.toString( ) );
-		}
-	}
+	
 
 }

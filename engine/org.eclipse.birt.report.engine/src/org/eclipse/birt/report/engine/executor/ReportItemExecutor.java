@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.format.DateFormatter;
@@ -29,10 +30,11 @@ import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.ir.VisibilityDesign;
+import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -49,7 +51,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.28 $ $Date: 2006/04/06 12:35:24 $
+ * @version $Revision: 1.29 $ $Date: 2006/04/10 10:53:17 $
  */
 public abstract class ReportItemExecutor
 {
@@ -270,6 +272,61 @@ public abstract class ReportItemExecutor
 		}
 	}
 
+	/**
+	 * Sets the visibility property for ReportItem.
+	 * 
+	 * @param design
+	 *            The <code>ReportItemDesign</code> object.
+	 * @param content
+	 *            The <code>ReportItemContent</code> object.
+	 */
+	protected void processVisibility( ReportItemDesign design, IContent content )
+	{
+		VisibilityDesign visibility = design.getVisibility( );
+		boolean isFirst = true;
+		if ( visibility != null )
+		{
+			StringBuffer buffer = new StringBuffer( );
+			for ( int i = 0; i < visibility.count( ); i++ )
+			{
+				VisibilityRuleDesign rule = visibility.getRule( i );
+				String expr = rule.getExpression( );
+				Object result = null;
+				if ( expr != null )
+				{
+					result = context.evaluate( expr );
+				}
+				if ( result == null || !( result instanceof Boolean ) )
+				{
+					logger
+							.log(
+									Level.WARNING,
+									"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
+									rule.getExpression( ) );
+					continue;
+				}
+				boolean isHidden = ( (Boolean) result ).booleanValue( );
+				// The report element appears by default and if the result is
+				// not hidden, then ignore it.
+				if ( !isHidden )
+				{
+					continue;
+				}
+				// we should use rule as the string as
+				if ( isFirst )
+				{
+					isFirst = false;
+				}
+				else
+				{
+					buffer.append( ", " ); //$NON-NLS-1$
+				}
+				buffer.append( rule.getFormat( ) );
+			}
+			content.getStyle( ).setVisibleFormat( buffer.toString( ) );
+		}
+	}
+	
 	protected DataID getDataID( )
 	{
 		IResultSet curRset = context.getDataEngine( ).getResultSet( );

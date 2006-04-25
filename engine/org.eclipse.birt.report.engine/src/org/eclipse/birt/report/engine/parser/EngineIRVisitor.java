@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.95 $ $Date: 2006/04/18 07:08:30 $
+ * @version $Revision: 1.96 $ $Date: 2006/04/20 05:03:21 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1190,7 +1190,7 @@ class EngineIRVisitor extends DesignVisitor
 	public void visitTemplateReportItem( TemplateReportItemHandle obj )
 	{
 		TemplateDesign template = new TemplateDesign( );
-		setupReportElement( template, obj );
+		setupTemplateReportElement( template, obj );
 		template.setPromptText( obj.getDescription( ) );
 		template.setPromptTextKey( obj.getDescriptionKey( ) );
 		template.setAllowedType( obj.getAllowedType( ) );
@@ -1359,6 +1359,25 @@ class EngineIRVisitor extends DesignVisitor
 		setupNamedExpressions( handle, element.getNamedExpressions( ) );
 
 		setupElementIDMap( element );
+	}
+
+	/**
+	 * setup template report element attribute
+	 * 
+	 * @param elem
+	 *            engine's template report element
+	 * @param handle
+	 *            DE's report element
+	 */
+	private void setupTemplateReportElement( ReportItemDesign element,
+			TemplateReportItemHandle handle )
+	{
+		setupReportElement( element, handle );
+		
+		// Sets up the visibility
+		Iterator visibilityIter = handle.visibilityRulesIterator( );
+		VisibilityDesign visibility = createVisibility( visibilityIter );
+		element.setVisibility( visibility );
 	}
 
 	protected String createExpression( String expr )

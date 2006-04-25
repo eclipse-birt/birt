@@ -75,6 +75,8 @@ public class TemplateExecutor extends ReportItemExecutor
 		textObj.setLabelText( template.getPromptText( ) );
 		textObj.setLabelKey( template.getPromptTextKey( ) );
 
+		processVisibility( item, textObj );
+
 		if ( emitter != null )
 		{
 			emitter.startLabel( textObj );
