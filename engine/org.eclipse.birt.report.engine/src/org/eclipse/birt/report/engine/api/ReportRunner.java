@@ -40,7 +40,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.20 $ $Date: 2006/03/26 09:15:05 $
+ * @version $Revision: 1.21 $ $Date: 2006/04/20 03:43:10 $
  */
 public class ReportRunner
 {
@@ -376,7 +376,7 @@ public class ReportRunner
 		System.out.println( "\t we should add it in the end<design file>" ); //$NON-NLS-1$
 		System.out.println( "\t --format/-f [ HTML | PDF ]" ); //$NON-NLS-1$
 		System.out.println( "\t --output/-o <target file>" ); //$NON-NLS-1$
-		System.out.println( "\t --type/-t < HTML | ReportletNoCSS >" ); //$NON-NLS-1$
+		System.out.println( "\t --htmlType/-t < HTML | ReportletNoCSS >" ); //$NON-NLS-1$
 		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$
 		System.out.println( "\t --parameter/-p <parameterName=parameterValue>" ); //$NON-NLS-1$
 		System.out.println( "\t --file/-F <parameter file>" ); //$NON-NLS-1$
@@ -536,7 +536,7 @@ public class ReportRunner
 			option.addOption( "m", "mode", true, "RunAndRender" );
 			option.addOption( "o", "output", true, "" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			option.addOption( "f", "format", true, "html" ); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
-			option.addOption( "t", "type", true, "" ); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+			option.addOption( "t", "htmlType", true, "" ); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 			option.addOption( "l", "locale", true, "" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			option.addOption( "e", "encoding", true, "" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			option.addOption( "p", "parameter", true, "" );
