@@ -113,7 +113,7 @@ public class CommentTemplatesPreferencePage extends PreferencePage implements
 	protected void performDefaults( )
 	{
 		commentText.setText( ReportPlugin.getDefault( )
-				.getCommentPreference( ));
+				.getDefaultCommentPreference( ));
 		enableButton.setSelection( ReportPlugin.getDefault( )
 				.getDefaultEnabelCommentPreference( ) );
 		handleChangeCommentText( );
