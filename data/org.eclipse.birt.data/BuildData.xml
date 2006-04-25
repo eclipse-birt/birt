@@ -167,7 +167,11 @@
 		</jar>
 		<jar destfile="dteapi.jar">
 			<fileset dir="${bin}">
-				<include name="org/eclipse/birt/data/engine/api/IResultMetaData.class" />
+				<include name="org/eclipse/birt/data/engine/api/**/*.class" />
+				<exclude name="org/eclipse/birt/data/engine/api/**/*Test*.class" />
+				<include name="org/eclipse/birt/data/engine/core/DataException.class" />
+				<include name="org/eclipse/birt/data/engine/i18n/*.*" />
+				<exclude name="org/eclipse/birt/data/engine/i18n/package.html" />
 			</fileset>
 		</jar>
 	</target>

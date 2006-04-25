@@ -2,4 +2,12 @@
 <?eclipse version="3.0"?>
 <plugin>
      <extension-point id="aggregation" name="Custom Aggregation Extension" schema="schema/Aggregation.exsd"/>
+     
+     <extension
+         id="DataEngineFactory"
+         name="DataEngineFactory"
+         point="org.eclipse.birt.core.FactoryService">
+   		<factory class="org.eclipse.birt.data.engine.impl.DataEngineFactory"/>
+	 </extension>
+   
 </plugin>

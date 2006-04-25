@@ -115,6 +115,9 @@ public class ResourceConstants
 	public final static String WRITE_TEMPFILE_ERROR = "data.engine.WriteTempError";
 	public final static String READ_TEMPFILE_ERROR = "data.engine.ReadTempError";
 	
+	// data engine factory exception
+	public final static String LOAD_FACTORY_ERROR = "load.factory.error";
+	
 	// wrapped error
 	public final static String DATATYPEUTIL_ERROR = "data.engine.DataConversionError";
 	public final static String INVALID_TYPE_IN_EXPR = "data.engine.BadDataTypeCondExpr";
