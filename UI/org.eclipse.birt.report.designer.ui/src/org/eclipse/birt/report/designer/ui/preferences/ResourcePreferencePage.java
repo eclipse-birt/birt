@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.preferences;
 
 import java.io.File;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -38,7 +39,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
-
 /**
  * 
  */
@@ -55,6 +55,7 @@ public class ResourcePreferencePage extends PreferencePage implements
 	public static final String OPEN_DIALOG_TITLE = Messages.getString( "ResourecePreferencePage.openDialogTitle" ); //$NON-NLS-1$
 
 	public static final String DIRCTORY = "resource"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -92,7 +93,8 @@ public class ResourcePreferencePage extends PreferencePage implements
 		Composite mainComposite = new Composite( parent, SWT.NULL );
 
 		GridData data = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.FILL_VERTICAL | GridData.VERTICAL_ALIGN_BEGINNING );
+				| GridData.FILL_VERTICAL
+				| GridData.VERTICAL_ALIGN_BEGINNING );
 		data.grabExcessHorizontalSpace = true;
 		mainComposite.setLayoutData( data );
 
@@ -193,7 +195,7 @@ public class ResourcePreferencePage extends PreferencePage implements
 	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
 	 */
 	protected void performDefaults( )
-	{		
+	{
 		resourceText.setText( ReportPlugin.getDefault( )
 				.getDefaultResourcePreference( ) );
 	}
@@ -205,9 +207,12 @@ public class ResourcePreferencePage extends PreferencePage implements
 	 */
 	public boolean performOk( )
 	{
-		
+
 		ReportPlugin.getDefault( )
 				.setResourcePreference( resourceText.getText( ) );
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.setBirtResourcePath( resourceText.getText( ) );
 		return super.performOk( );
 	}
 

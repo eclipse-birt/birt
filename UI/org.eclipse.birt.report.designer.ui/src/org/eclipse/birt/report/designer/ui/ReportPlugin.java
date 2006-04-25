@@ -22,6 +22,7 @@ import com.ibm.icu.util.StringTokenizer;
 
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage;
@@ -131,12 +132,12 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		// set default Resource
 		setDefaultResourcePreference( );
-		
-		// set default Preference 
+
+		// set default Preference
 		setDefaultCommentPreference( );
-		
+
 		// set default enable comment preference
-		setDefaultEnableCommentPreference();
+		setDefaultEnableCommentPreference( );
 
 		// Biding default short cut services
 		// Using 3.0 compatible api
@@ -153,6 +154,10 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		// set resource folder in DesignerConstants for use in Core plugin
 		CorePlugin.RESOURCE_FOLDER = getResourcePreference( );
+
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.setBirtResourcePath( getResourcePreference( ) );
 	}
 
 	/**
@@ -858,16 +863,17 @@ public class ReportPlugin extends AbstractUIPlugin
 	{
 		return ignore.contains( str );
 	}
-	
+
 	/**
 	 * set default comment preference
 	 * 
 	 */
-	public void setDefaultCommentPreference(){
-	    getPreferenceStore( ).setDefault(COMMENT_PREFERENCE, Messages
-	    .getString( "org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment" ));	                 
+	public void setDefaultCommentPreference( )
+	{
+		getPreferenceStore( ).setDefault( COMMENT_PREFERENCE,
+				Messages.getString( "org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment" ) );
 	}
-	
+
 	/**
 	 * Return default comment preference
 	 * 
@@ -875,9 +881,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getDefaultCommentPreference( )
 	{
-	    return getPreferenceStore( ).getDefaultString( COMMENT_PREFERENCE );
+		return getPreferenceStore( ).getDefaultString( COMMENT_PREFERENCE );
 	}
-	
+
 	/**
 	 * Return comment preference
 	 * 
@@ -896,15 +902,16 @@ public class ReportPlugin extends AbstractUIPlugin
 	{
 		getPreferenceStore( ).setValue( COMMENT_PREFERENCE, preference ); //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * set enable default comment preference
 	 * 
 	 */
-	public void setDefaultEnableCommentPreference(){
-	    getPreferenceStore( ).setDefault(ENABLE_COMMENT_PREFERENCE,true);
+	public void setDefaultEnableCommentPreference( )
+	{
+		getPreferenceStore( ).setDefault( ENABLE_COMMENT_PREFERENCE, true );
 	}
-	
+
 	/**
 	 * Return default enable comment preference
 	 * 
@@ -912,11 +919,11 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public boolean getDefaultEnabelCommentPreference( )
 	{
-	    return getPreferenceStore( ).getDefaultBoolean( ENABLE_COMMENT_PREFERENCE );
+		return getPreferenceStore( ).getDefaultBoolean( ENABLE_COMMENT_PREFERENCE );
 	}
-	
+
 	/**
-	 * Return  enable comment preference
+	 * Return enable comment preference
 	 * 
 	 * @return boolean The bool value of enable comment preference
 	 */
@@ -924,7 +931,6 @@ public class ReportPlugin extends AbstractUIPlugin
 	{
 		return getPreferenceStore( ).getBoolean( ENABLE_COMMENT_PREFERENCE );
 	}
-	
 
 	/**
 	 * set enable comment preference
