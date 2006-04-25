@@ -20,12 +20,14 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
@@ -293,8 +295,16 @@ public class NewReportWizard extends Wizard implements
 			out.write( buff );
 			out.close( );
 			stream.close( );
+			
+			if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
+			    InputStream is = new FileInputStream(file);
+			    ModuleHandle model = SessionHandleAdapter.getInstance( ).init( file.getAbsolutePath( ),is );
+			    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
+			    model.save( );
+			    is.close( );
+			}
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}

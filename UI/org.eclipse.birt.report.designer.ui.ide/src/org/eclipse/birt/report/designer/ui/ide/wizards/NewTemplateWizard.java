@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.designer.ui.ide.wizards;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +14,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.resources.IContainer;
@@ -213,9 +215,17 @@ public class NewTemplateWizard extends NewReportWizard
 				file.create( stream, true, monitor );
 			}
 			stream.close( );
+			if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
+			    fileName = file.getLocation( ).toOSString( );
+			    InputStream is = new FileInputStream(fileName);
+			    ModuleHandle model = SessionHandleAdapter.getInstance( ).init( fileName,is );
+			    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
+			    model.save();
+			    is.close( );
+			}
 
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 		}
 		monitor.worked( 1 );

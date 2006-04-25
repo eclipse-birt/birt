@@ -12,19 +12,21 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
-import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -255,8 +257,16 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 			out.write( buff );
 			out.close( );
 			stream.close( );
+			
+			if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
+			    InputStream is = new FileInputStream(file);
+			    ModuleHandle model = SessionHandleAdapter.getInstance( ).init( file.getAbsolutePath( ),is );
+			    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
+			    model.save( );
+			    is.close( );
+			}
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}
