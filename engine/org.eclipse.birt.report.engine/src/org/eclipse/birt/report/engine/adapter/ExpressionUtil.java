@@ -55,7 +55,7 @@ public final class ExpressionUtil
 			}
 			else if ( key instanceof IConditionalExpression )
 			{
-				addConditionalExprBindings( result, key, l );
+				addConditionalExprBindings( result, (IConditionalExpression)key, l );
 			}else if ( key == null )
 			{
 				result.addNewExpression( null );
@@ -63,14 +63,54 @@ public final class ExpressionUtil
 		}
 		return result;
 	}
+	
+	/**
+	 * When a TopN/TopPercent/BottomN/BottomPercent ConditionalExpression is
+	 * set, transform it to
+	 * Total.TopN/Total.TopPercent/Total.BottomN/Total.BottomPercent
+	 * aggregations with "isTrue" operator.
+	 * 
+	 * @param ce
+	 * @return
+	 */
+	public IConditionalExpression transformConditionalExpression(
+			IConditionalExpression ce )
+	{
+		String prefix = null;
+		
+		switch ( ce.getOperator( ) )
+		{
+			case IConditionalExpression.OP_TOP_N :
+				prefix = "Total.isTopN";
+				break;
+			case IConditionalExpression.OP_TOP_PERCENT :
+				prefix = "Total.isTopNPercent";
+				break;
+			case IConditionalExpression.OP_BOTTOM_N :
+				prefix = "Total.isBottomN";
+				break;
+			case IConditionalExpression.OP_BOTTOM_PERCENT :
+				prefix = "Total.isBottomNPercent";
+				break;
+		}
+		
+		if( prefix != null )
+		{
+			ce = new ConditionalExpression( prefix+"("
+					+ ce.getExpression( ).getText( ) + ","
+					+ ce.getOperand1( ).getText( ) + ")",
+					IConditionalExpression.OP_TRUE );
+		}
+		return ce;
+	}
 
 	/**
 	 * @param result
 	 * @param key
 	 */
-	private static void addConditionalExprBindings( TotalExprBinding result, Object key, List bindings )
+	private static void addConditionalExprBindings( TotalExprBinding result, IConditionalExpression key, List bindings )
 	{
-		IConditionalExpression ce = (IConditionalExpression) key;
+		IConditionalExpression ce = key;
 
 		String expr = ce.getExpression( ) == null ? null
 				: ce.getExpression( ).getText( );
