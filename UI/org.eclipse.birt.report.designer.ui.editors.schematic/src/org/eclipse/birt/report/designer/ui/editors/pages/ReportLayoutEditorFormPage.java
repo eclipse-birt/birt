@@ -14,8 +14,6 @@ package org.eclipse.birt.report.designer.ui.editors.pages;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layout.ReportLayoutEditor;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
@@ -47,7 +45,6 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 
 	private int staleType;
 
-	private DataViewTreeViewerPage dataViewPage;
 
 	private ActivityStackListener commandStackListener = new ActivityStackListener( ) {
 
@@ -249,23 +246,6 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 		return staleType;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.ReportLayoutEditor#getAdapter(java.lang.Class)
-	 */
-	public Object getAdapter( Class adapter )
-	{
-		if ( adapter == DataViewPage.class )
-		{
-			if ( dataViewPage == null )
-			{
-				dataViewPage = new DataViewTreeViewerPage( getModel( ) );
-			}
-			return dataViewPage;
-		}
-		return super.getAdapter( adapter );
-	}
 
 	/*
 	 * (non-Javadoc)

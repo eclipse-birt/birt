@@ -88,7 +88,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 		{
 			Object oldModel = getModel( );
 
+			
 			getProvider( ).connect( model );
+			setModel( model );
 
 			rebuildReportDesign( oldModel );
 			if ( getModel( ) != null )
