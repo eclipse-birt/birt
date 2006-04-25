@@ -647,12 +647,22 @@ public class GroupDialog extends BaseDialog implements Listener
 
 	private void refreshColumnList( )
 	{
+		String selected = keyChooser.getText( );
 		keyChooser.removeAll( );
 		columnList = DEUtil.getVisiableColumnBindingsList( inputGroup );
 		Iterator itor = columnList.iterator( );
 		while ( itor.hasNext( ) )
 		{
 			keyChooser.add( ( (ComputedColumnHandle) itor.next( ) ).getName( ) );
+		}
+		int newIndex = keyChooser.indexOf( selected );
+		if ( newIndex != -1 )
+		{
+			keyChooser.select( newIndex );
+		}
+		else
+		{
+			keyChooser.setText( selected );
 		}
 	}
 
