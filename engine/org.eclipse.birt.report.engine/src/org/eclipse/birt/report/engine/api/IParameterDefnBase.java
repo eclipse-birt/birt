@@ -12,6 +12,8 @@ package org.eclipse.birt.report.engine.api;
 
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.ReportElementHandle;
+
 /**
  * Captures properties shared by all types of parameters and parameter group,
  * i.e., name, display name, help text and custom-defined properties.
@@ -77,6 +79,12 @@ public interface IParameterDefnBase
 	 * @return the value for a user-defined property
 	 */
 	public String getUserPropertyValue( String name );
+	
+	/**
+	 * returns the report element handle which is wrapped by this object.
+	 * @return the report element handle
+	 */
+	public ReportElementHandle getHandle( );
 	
 	
 }
