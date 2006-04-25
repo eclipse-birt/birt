@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.adapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
@@ -52,7 +51,7 @@ public final class ExpressionUtil
 				String expr = key == null ? null : key.toString( );
 				String newExpr = prepareTotalExpression( expr, l );
 				result.addColumnBindings( l );
-				result.addNewExpression( key, newExpr );
+				result.addNewExpression( newExpr );
 			}
 			else if ( key instanceof IConditionalExpression )
 			{
@@ -103,8 +102,7 @@ public final class ExpressionUtil
 		
 		result.addColumnBindings( allColumnBindings );
 		
-		result.addNewExpression( key,
-				"row[\""
+		result.addNewExpression( "row[\""
 						+ JavascriptEvalUtil.transformToJsConstants( bindingName )
 						+ "\"]" );
 	}
@@ -372,8 +370,6 @@ public final class ExpressionUtil
 
 /**
  * 
- * @author lzhu
- * 
  */
 class TotalExprBinding implements ITotalExprBindings
 {
@@ -381,12 +377,12 @@ class TotalExprBinding implements ITotalExprBindings
 	/**
 	 * 
 	 */
-	private HashMap newExprs;
+	private List newExprs;
 	private List columnBindings;
 
 	TotalExprBinding()
 	{
-		this.newExprs = new HashMap();
+		this.newExprs = new ArrayList();
 		this.columnBindings = new ArrayList();
 	}
 	/*
@@ -394,10 +390,9 @@ class TotalExprBinding implements ITotalExprBindings
 	 * 
 	 * @see org.eclipse.birt.core.data.ITotalExprBindings#getNewExpression()
 	 */
-	public String getNewExpression( Object key )
+	public List getNewExpression( )
 	{
-		Object result = this.newExprs.get( key ); 
-		return result == null?null:result.toString( );
+		return this.newExprs;
 	}
 
 	/*
@@ -415,9 +410,9 @@ class TotalExprBinding implements ITotalExprBindings
 		return result;
 	}
 	
-	public void addNewExpression( Object key, String expr )
+	public void addNewExpression( String expr )
 	{
-		this.newExprs.put( key, expr );
+		this.newExprs.add( expr );
 	}
 
 	public void addColumnBindings( List columnBindingList )
@@ -429,6 +424,11 @@ class TotalExprBinding implements ITotalExprBindings
 				this.columnBindings.add( columnBindingList.get( i ) );
 			}
 		}
+	}
+	public List getNewExpression( Object key )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

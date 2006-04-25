@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.adapter;
 
+import java.util.List;
+
 /**
  * The instance of this class define a data structure used by engine. 
  */
@@ -22,7 +24,7 @@ public interface ITotalExprBindings
 	 * 
 	 * @return
 	 */
-	public String getNewExpression( Object key );
+	public List getNewExpression( );
 	
 	/**
 	 * This method returns an array of IColumnBinding instance, the column names of which
