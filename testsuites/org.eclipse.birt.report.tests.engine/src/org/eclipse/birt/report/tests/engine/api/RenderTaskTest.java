@@ -68,74 +68,164 @@ public class RenderTaskTest extends EngineCase
 	}
 
 	/**
-	 * Test render(long pageNumber) method
+	 * Test RenderTask with different input design files
 	 */
-	public void testRender( )
+	public void testRender1( )
 	{
-
-		// Test render(long) 
-		//renderReport("case1","no"); 
-/*		//Test render()
 		renderReport( "case1", "All" );
+	}
+	public void testRender2( )
+	{
 		renderReport( "table_pages", "All" );
+	}
+	public void testRender3( )
+	{
 		renderReport( "long_text", "All" );
+	}
+	public void testRender4( )
+	{
 
 		renderReport( "multiple_datasets", "All" );
+	}
+	public void testRender5() 
+	{
 		renderReport( "table_nest_pages", "All" );
+	}
+	public void testRender6( )
+	{
 		renderReport( "oncreate-style-label", "All" );
+	}
+	public void testRender7( )
+	{
 		renderReport( "javascript-support-data", "All" );
+	}
+	public void testRender8( )
+	{
 		renderReport( "master_page", "All" );
+	}
+	public void testRender9( )
+	{
 		renderReport( "chart", "All" );
+	}
+	public void testRender10( )
+	{
 		renderReport("complex_report","All");
+	}
+	public void testRender11( )
+	{
 		renderReport( "area3dChart", "All" );
+	}
+	public void testRender12( )
+	{
 		renderReport( "MeterChart", "All" );
+	}
+	public void testRender13( )
+	{
 		renderReport( "image_in_DB", "All" );
+	}
+	public void testRender14( )
+	{
 		renderReport( "multiple_masterpage", "All" ); //
-		//renderReport( "report_from_library1", "All" );
-
-		// Test render(string) 
+	}
+	public void testRender15( )
+	{
+		renderReport( "report_from_library1", "All" );
+	}
+	
+	/*
+	 * Test RenderTask when set page range
+	 */
+	public void testRenderPageRange1( )
+	{
 		renderReport("pages9","All");
+	}
+	public void testRenderPageRange2( )
+	{
 		renderReport( "pages9", null );
+	}
+	public void testRenderPageRange3( )
+	{
 		renderReport( "pages9", "" );
+	}
+	public void testRenderPageRange4( )
+	{
 		renderReport( "pages9", "2" );
+	}
+	public void testRenderPageRange5( )
+	{
 		renderReport( "pages9", "3,5" );
+	}
+	public void testRenderPageRange6( )
+	{
 		renderReport( "pages9", "2-9" );
+	}
+	public void testRenderPageRange7( )
+	{
 		renderReport( "pages9", "0-100" );
+	}
+	public void testRenderPageRange8( )
+	{
 		renderReport( "pages9", "0" );
+	}
+	public void testRenderPageRange9( )
+	{
 		renderReport( "pages9", "abc" );
-*/
 	}
 
-	public void testRenderBookmark( )
+	/*
+	 * Test Rendertask when set bookmark
+	 */
+	public void testRenderBookmark_label( )
 	{
-
 		renderReport( "items_bookmark", "bookmark_label" );
-		/*		renderReport( "items_bookmark", "bookmark_text" );
-		renderReport( "items_bookmark", "bookmark_image" );
-		renderReport( "items_bookmark", "bookmark_gridrow" );
-		renderReport( "items_bookmark", "bookmark_chart" );
 		renderReport( "multiple_masterpage", "bookmark_label" );
+	}
+	public void testRenderBookmark_text( )
+	{
+		renderReport( "items_bookmark", "bookmark_text" );
 		renderReport( "multiple_masterpage", "bookmark_text" );
+	}
+	public void testRenderBookmark_image( )
+	{
+		renderReport( "items_bookmark", "bookmark_image" );
 		renderReport( "multiple_masterpage", "bookmark_image" );
+	}
+	public void testRenderBookmark_gridrow( )
+	{
+		renderReport( "items_bookmark", "bookmark_gridrow" );
 		renderReport( "multiple_masterpage", "bookmark_gridrow" );
+	}
+	public void testRenderBookmark_chart( )
+	{
+		renderReport( "items_bookmark", "bookmark_chart" );
 		renderReport( "multiple_masterpage", "bookmark_chart" );
-*/		
 	}
 
-	public void testRenderReportlet( )
+	/*
+	 * Test RenderTask when set instanceid
+	 */
+	public void testRenderReportlet_list( )
 	{
-/*		InstanceID iid;
+		InstanceID iid;
 		iid = findIid( "iid_reportlet", "LIST" );
 		renderReportlet( "iid_reportlet", iid, "LIST" );
-
-		iid = findIid( "iid_reportlet", "TABLE" );
-		renderReportlet( "iid_reportlet", iid, "TABLE" );
-
-		iid = findIid( "iid_reportlet", "EXTENDED" );
-		renderReportlet( "iid_reportlet", iid, "EXTENDED" );
-*/
 	}
 
+	public void testRenderReportlet_table( )
+	{
+		InstanceID iid;
+		iid = findIid( "iid_reportlet", "TABLE" );
+		renderReportlet( "iid_reportlet", iid, "TABLE" );
+	}
+
+	public void testRenderReportlet_chart( )
+	{
+		InstanceID iid;
+		iid = findIid( "iid_reportlet", "EXTENDED" );
+		renderReportlet( "iid_reportlet", iid, "EXTENDED" );
+	}
+	
+	
 	/*
 	 * Find instance id according to element type and design file.
 	 */
@@ -463,17 +553,17 @@ public class RenderTaskTest extends EngineCase
 		File fdir = new File( path + out + "/" + name + "/" );
 		if ( !fdir.mkdir( ) )
 		{
-			System.err.println( "Cannot create output directories" );
+//			System.err.println( "Cannot create output directories" );
 		}
 		fdir = new File( path + out + "/" + name + "/html/" );
 		if ( !fdir.mkdir( ) )
 		{
-			System.err.println( "Cannot create output html directories" );
+			//System.err.println( "Cannot create output html directories" );
 		}
 		fdir = new File( path + out + "/" + name + "/pdf/" );
 		if ( !fdir.mkdir( ) )
 		{
-			System.err.println( "Cannot create output pdf directories" );
+//			System.err.println( "Cannot create output pdf directories" );
 		}
 	}
 
