@@ -870,4 +870,30 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		}
 		return bool;
 	}
+	
+	/*
+	 * 
+	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
+	 */
+
+	protected void reloadTheChildren(  )
+	{
+		List list = new ArrayList(getChildren( ));
+		int size = list.size( );
+		
+		for ( int i = 0; i < size; i++ )
+		{		
+			EditPart part = (EditPart) list.get( i );
+			
+			removeChild( part );		
+		}
+		
+		list = getModelChildren( );
+		size = list.size( );
+		for ( int i = 0; i < size; i++ )
+		{		
+			Object model =  list.get( i );
+			addChild( createChild( model ), i );			
+		}
+	}
 }

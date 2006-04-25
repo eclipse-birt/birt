@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -52,6 +53,22 @@ public class MasterPageEditPart extends ReportElementEditPart
 	private static final Insets DEFAULT_CROP = new Insets( -3, -3, -2, -2 );
 
 	private List children = new ArrayList( );
+	
+	private Listener listener = new Listener()
+	{
+
+		public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+		{
+			switch ( ev.getEventType( ) )
+			{
+				case NotificationEvent.LIBRARY_RELOADED_EVENT :
+				{
+					reloadTheChildren( );
+				}
+			}
+		}
+		
+	};
 
 	/**
 	 * Constructor
@@ -102,7 +119,17 @@ public class MasterPageEditPart extends ReportElementEditPart
 	public void activate( )
 	{
 		super.activate( );
+		((DesignElementHandle)(getModel( ))).getContainer( ).addListener( listener );
 		getFigure().setFocusTraversable(false);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#deactivate()
+	 */
+	public void deactivate( )
+	{
+		super.deactivate( );
+		((DesignElementHandle)(getModel( ))).getContainer( ).removeListener( listener );
 	}
 	
 	/*
