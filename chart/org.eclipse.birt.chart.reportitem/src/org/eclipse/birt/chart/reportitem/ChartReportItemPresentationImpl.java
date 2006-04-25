@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.chart.reportitem;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -50,9 +51,7 @@ public final class ChartReportItemPresentationImpl extends
 		ReportItemPresentationBase
 {
 
-	private File fChartImage = null;
-
-	private FileInputStream fis = null;
+	private InputStream fis = null;
 
 	private String imageMap = null;
 
@@ -398,23 +397,6 @@ public final class ChartReportItemPresentationImpl extends
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsBuilding" ) ); //$NON-NLS-1$
 
-			// SETUP A TEMP FILE FOR STREAMING
-			try
-			{
-				fChartImage = File.createTempFile( "chart", "." + sExtension ); //$NON-NLS-1$ //$NON-NLS-2$
-				logger.log( ILogger.INFORMATION,
-						Messages.getString( "ChartReportItemPresentationImpl.log.WritingFile", //$NON-NLS-1$
-								new Object[]{
-										sExtension, fChartImage.getPath( )
-								} ) );
-			}
-			catch ( IOException ioex )
-			{
-				throw new ChartException( ChartReportItemPlugin.ID,
-						ChartException.GENERATION,
-						ioex );
-			}
-
 			// FETCH A HANDLE TO THE DEVICE RENDERER
 			idr = PluginSettings.instance( ).getDevice( "dv." //$NON-NLS-1$
 					+ sExtension.toUpperCase( Locale.US ) );
@@ -455,8 +437,12 @@ public final class ChartReportItemPresentationImpl extends
 			// WRITE TO THE IMAGE FILE
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsRendering" ) ); //$NON-NLS-1$
+
+			ByteArrayOutputStream baos = new ByteArrayOutputStream( );
+			BufferedOutputStream bos = new BufferedOutputStream( baos );
+
 			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER,
-					fChartImage.getPath( ) );
+					 bos);
 			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
 					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
@@ -468,9 +454,10 @@ public final class ChartReportItemPresentationImpl extends
 			// RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
 			try
 			{
-				fis = new FileInputStream( fChartImage.getPath( ) );
+				bos.close( );
+				fis = new ByteArrayInputStream( baos.toByteArray( ) );
 			}
-			catch ( IOException ioex )
+			catch ( Exception ioex )
 			{
 				throw new ChartException( ChartReportItemPlugin.ID,
 						ChartException.GENERATION,
@@ -582,26 +569,6 @@ public final class ChartReportItemPresentationImpl extends
 			logger.log( ioex );
 		}
 
-		// DELETE THE TEMP CHART IMAGE FILE CREATED
-		if ( fChartImage != null )
-		{
-			if ( !fChartImage.delete( ) )
-			{
-				logger.log( ILogger.ERROR,
-						Messages.getString( "ChartReportItemPresentationImpl.log.CouldNotDeleteTemp", //$NON-NLS-1$
-								new Object[]{
-										sExtension, fChartImage.getPath( )
-								} ) );
-			}
-			else
-			{
-				logger.log( ILogger.INFORMATION,
-						Messages.getString( "ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp", //$NON-NLS-1$
-								new Object[]{
-										sExtension, fChartImage.getPath( )
-								} ) );
-			}
-		}
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemPresentationImpl.log.finishEnd" ) ); //$NON-NLS-1$
 	}
