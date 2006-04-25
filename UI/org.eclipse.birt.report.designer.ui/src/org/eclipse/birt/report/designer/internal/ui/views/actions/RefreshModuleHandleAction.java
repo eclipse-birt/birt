@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -75,25 +77,40 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 		if ( obj instanceof ReportDesignHandle || obj instanceof LibraryHandle )
 		{
 			ModuleHandle moduleHandle = (ModuleHandle) obj;
-			IEditorPart editor = UIUtil.getActiveEditor( true );
-			ILibraryProvider provider = (ILibraryProvider) editor.getAdapter( ILibraryProvider.class );
-			LibraryHandle[] libraries = provider.getLibraries( );
-			for ( int i = 0; i < libraries.length; i++ )
+			// IEditorPart editor = UIUtil.getActiveEditor( true );
+			// ILibraryProvider provider = (ILibraryProvider) editor.getAdapter(
+			// ILibraryProvider.class );
+			// LibraryHandle[] libraries = provider.getLibraries( );
+			// for ( int i = 0; i < libraries.length; i++ )
+			// {
+			// try
+			// {
+			// if(moduleHandle.isInclude( libraries[i]))
+			// {
+			// moduleHandle.reloadLibrary( libraries[i] );
+			// }
+			// }
+			// catch ( SemanticException e )
+			// {
+			// e.printStackTrace( );
+			// }
+			// catch ( DesignFileException e )
+			// {
+			// e.printStackTrace( );
+			// }
+			// }
+			for ( Iterator iter = moduleHandle.getLibraries( ).iterator( ); iter.hasNext( ); )
 			{
+				LibraryHandle library = (LibraryHandle) iter.next( );
 				try
 				{
-					if(moduleHandle.isInclude( libraries[i]))
-					{
-						moduleHandle.reloadLibrary( libraries[i] );
-					}					
+					moduleHandle.reloadLibrary( library );
 				}
 				catch ( SemanticException e )
 				{
-					e.printStackTrace( );
 				}
 				catch ( DesignFileException e )
 				{
-					e.printStackTrace( );
 				}
 			}
 
