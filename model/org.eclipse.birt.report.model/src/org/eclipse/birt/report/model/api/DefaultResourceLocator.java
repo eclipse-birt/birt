@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.birt.report.model.core.DesignSession;
 
 /**
  * The default file search algorithm. It searches for a given file in the 'base'
@@ -49,27 +50,51 @@ public class DefaultResourceLocator implements IResourceLocator
 	public URL findResource( ModuleHandle moduleHandle, String fileName,
 			int type )
 	{
-		assert moduleHandle != null;
 		if ( fileName == null )
 			return null;
 
-		URL systemId = moduleHandle.getModule( ).getSystemId( );
-		if ( systemId == null )
-			return null;
+		try
+		{
+			// try absolute path search
+			
+			File f = new File( fileName );
+			if ( f.isAbsolute( ) )
+				return f.exists( ) && f.isFile( ) ? f.getCanonicalFile( )
+						.toURL( ) : null;
 
-		URL url = tryFileSearch( systemId, fileName );
-		if ( url != null )
-			return url;
+			// try file search based on resource path set on this session
+						
+			String resourcePath = DesignSession.getBirtResourcePath( );
+			if ( resourcePath != null )
+			{
+				f = new File( resourcePath, fileName );
+				if ( f.exists( ) && f.isFile( ) )
+					return f.getCanonicalFile( ).toURL( );
+			}
 
-		// if system id indicates a file protocol, it must have been checked
-		// in the tryFileSearch(). DO NOT call tryURISearch in these cases.
+			// try file search based on path of the input module
+			
+			if ( moduleHandle == null )
+				return null;
 
-		if ( systemId == null
-				|| URIUtil.FILE_SCHEMA
-						.equalsIgnoreCase( systemId.getProtocol( ) ) )
-			return null;
+			URL systemId = moduleHandle.getModule( ).getSystemId( );
+			if ( systemId == null )
+				return null;
 
-		return tryURLSearch( systemId, fileName );
+			if ( URIUtil.FILE_SCHEMA.equalsIgnoreCase( systemId.getProtocol( ) ) )
+				return tryFileSearch( systemId, fileName );
+			else
+				return new URL( systemId, URIUtil
+						.convertFileNameToURLString( fileName ) );
+		}
+		catch ( MalformedURLException e )
+		{
+		}
+		catch ( IOException e )
+		{
+		}
+
+		return null;
 	}
 
 	/**
@@ -82,13 +107,13 @@ public class DefaultResourceLocator implements IResourceLocator
 	 *            the file name
 	 * @return the <code>URL</code> object. <code>null</code> if the file
 	 *         can not be found.
+	 * @throws IOException
+	 * @throws MalformedURLException
 	 */
 
 	private URL tryFileSearch( URL systemId, String fileName )
+			throws MalformedURLException, IOException
 	{
-		if ( !URIUtil.FILE_SCHEMA.equalsIgnoreCase( systemId.getProtocol( ) ) )
-			return null;
-
 		File f = new File( systemId.getPath( ) );
 		if ( f.isDirectory( ) )
 			f = new File( f.getPath( ), fileName );
@@ -96,50 +121,9 @@ public class DefaultResourceLocator implements IResourceLocator
 			f = new File( f.getParent( ), fileName );
 
 		if ( f.isFile( ) && f.exists( ) )
-		{
-			try
-			{
-				return f.getCanonicalFile( ).toURL( );
-			}
-			catch ( MalformedURLException e )
-			{
-				return null;
-			}
-			catch ( IOException e )
-			{
-			    return null;
-			}
-		}
+			return f.getCanonicalFile( ).toURL( );
 
 		return null;
 	}
 
-	/**
-	 * Return a url with the given base <code>uri</code> and the
-	 * <code>fileName</code>.
-	 * 
-	 * @param systemId
-	 *            the URL systemID
-	 * @param fileName
-	 *            the file name
-	 * @return the <code>URL</code> object. <code>null</code> if the file
-	 *         can not be found.
-	 */
-
-	private URL tryURLSearch( URL systemId, String fileName )
-	{
-		assert systemId != null;
-
-		try
-		{
-			URL urlObj = new URL( systemId, URIUtil
-					.convertFileNameToURLString( fileName ) );
-			return urlObj;
-		}
-		catch ( MalformedURLException e )
-		{
-			return null;
-		}
-
-	}
 }

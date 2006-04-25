@@ -1467,30 +1467,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public URL findResource( String fileName, int fileType )
 	{
-		try
-		{
-			File f = new File( fileName );
-			if ( f.isAbsolute( ) )
-				return f.exists( ) && f.isFile( ) ? f.getCanonicalFile( )
-						.toURL( ) : null;
-
-			String resourcePath = DesignSession.getBirtResourcePath( );
-			if ( resourcePath != null )
-			{
-				f = new File( resourcePath, fileName );
-				if ( f.exists( ) && f.isFile( ) )
-					return f.getCanonicalFile( ).toURL( );
-			}
-		}
-		catch ( MalformedURLException e )
-		{
-			return null;
-		}
-		catch ( IOException e )
-		{
-			return null;
-		}
-
 		URL url = getSession( ).getResourceLocator( ).findResource(
 				(ModuleHandle) getHandle( this ), fileName, fileType );
 		return url;
