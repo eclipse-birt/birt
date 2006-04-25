@@ -611,13 +611,13 @@ final class SwtTextRenderer implements IConstants
 			int iLineStyle = SWT.LINE_SOLID;
 			switch ( lia.getStyle( ).getValue( ) )
 			{
-				case ( LineStyle.DOTTED       ) :
+				case ( LineStyle.DOTTED             ) :
 					iLineStyle = SWT.LINE_DOT;
 					break;
-				case ( LineStyle.DASH_DOTTED       ) :
+				case ( LineStyle.DASH_DOTTED             ) :
 					iLineStyle = SWT.LINE_DASHDOT;
 					break;
-				case ( LineStyle.DASHED       ) :
+				case ( LineStyle.DASHED             ) :
 					iLineStyle = SWT.LINE_DASH;
 					break;
 			}
@@ -666,11 +666,20 @@ final class SwtTextRenderer implements IConstants
 
 		Object tr = null;
 
+		// In Linux-Cairo environment, it uses a cascaded transform setting
+		// policy, not a overriding policy. So we must set a reverse tranforming
+		// again to restore to original state. see bugzilla 137654.
+
+		// This transform object records the reverse tranforming, which is used
+		// to restore original state.
+		Object rtr = null;
+
 		if ( R31Enhance.isR31Available( ) )
 		{
 			r = new Rectangle( 0, 0, (int) dFW, (int) dFH );
 
 			tr = R31Enhance.newTransform( _sxs.getDevice( ) );
+			rtr = R31Enhance.newTransform( _sxs.getDevice( ) );
 
 			if ( la.getCaption( ).getFont( ).getRotation( ) != 0 )
 			{
@@ -695,10 +704,18 @@ final class SwtTextRenderer implements IConstants
 						(float) ( dFH / 2 ) );
 				R31Enhance.translate( gc, tr, tTx, tTy );
 				R31Enhance.rotate( gc, tr, -rotate );
+
+				R31Enhance.rotate( gc, rtr, rotate );
+				R31Enhance.translate( gc, rtr, -tTx, -tTy );
+				R31Enhance.translate( gc,
+						rtr,
+						(float) ( -dFW / 2 ),
+						(float) ( -dFH / 2 ) );
 			}
 			else
 			{
 				R31Enhance.translate( gc, tr, (float) dX, (float) dY );
+				R31Enhance.translate( gc, rtr, (float) -dX, (float) -dY );
 			}
 
 			R31Enhance.setTransform( gc, tr );
@@ -785,7 +802,12 @@ final class SwtTextRenderer implements IConstants
 			}
 		}
 
+		// apply reverse tranforming.
+		R31Enhance.setTransform( gc, rtr );
+		// keep this null setting for other platforms.
 		R31Enhance.setTransform( gc, null );
+
+		R31Enhance.disposeTransform( rtr );
 		R31Enhance.disposeTransform( tr );
 
 		f.dispose( );
