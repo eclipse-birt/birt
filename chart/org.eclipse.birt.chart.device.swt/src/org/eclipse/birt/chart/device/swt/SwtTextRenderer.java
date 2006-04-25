@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.device.swt;
 
-import java.util.ResourceBundle;
-
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
@@ -128,8 +126,7 @@ final class SwtTextRenderer implements IConstants
 			throw new ChartException( ChartDeviceSwtActivator.ID,
 					ChartException.RENDERING,
 					"SwtTextRenderer.exception.undefined.shadow.color", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.DEVICE_SWT,
-							_sxs.getLocale( ) ) );
+					Messages.getResourceBundle( _sxs.getULocale( ) ) );
 		}
 
 		switch ( iLabelPosition )
@@ -470,8 +467,7 @@ final class SwtTextRenderer implements IConstants
 			throw new ChartException( ChartDeviceSwtActivator.ID,
 					ChartException.RENDERING,
 					"SwtTextRenderer.exception.undefined.text.color", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.DEVICE_SWT,
-							_sxs.getLocale( ) ) );
+					Messages.getResourceBundle( _sxs.getULocale( ) ) );
 		}
 		final GC gc = (GC) idr.getGraphicsContext( );
 		la.getCaption( ).setValue( sText );

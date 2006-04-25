@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
@@ -427,8 +426,7 @@ class SwtEventHandler implements
 						new Object[]{
 							seRT
 						},
-						ResourceBundle.getBundle( Messages.DEVICE_SWT,
-								lcl.toLocale( ) ) );
+						Messages.getResourceBundle( lcl ) );
 			}
 
 			// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME
@@ -513,8 +511,7 @@ class SwtEventHandler implements
 						new Object[]{
 							seRT
 						},
-						ResourceBundle.getBundle( Messages.DEVICE_SWT,
-								lcl.toLocale( ) ) );
+						Messages.getResourceBundle( lcl ) );
 			}
 
 			if ( i == -1 )

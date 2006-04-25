@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
@@ -1652,8 +1651,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						new Object[]{
 							d.getName( )
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
 		else if ( o.getValue( ) == Orientation.HORIZONTAL )
@@ -2394,8 +2392,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						new Object[]{
 							d.getName( )
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
 		else
@@ -2406,7 +2403,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					new Object[]{
 						o.getName( )
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 
 		// Render legend title if defined.
@@ -2891,8 +2888,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.RENDERING,
 						"exception.client.area.outline.visibility", //$NON-NLS-1$ 
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 			if ( ca.getOutline( ).isVisible( ) )
 			{
@@ -3250,8 +3246,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							new Object[]{
 								new Integer( alRuntimeSeries.size( ) )
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
 				se = (Series) alRuntimeSeries.get( 0 );
 				brna[iSI] = ( se.getClass( ) == SeriesImpl.class ) ? new EmptyWithoutAxes( )
@@ -3840,7 +3835,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.VALIDATION,
 					"exception.base.orthogonal.null.datapoint", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 	}
 
@@ -3859,7 +3854,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							new Integer( isrh.getBaseDataSet( ).size( ) ),
 							new Integer( isrh.getOrthogonalDataSet( ).size( ) )
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 	}
 

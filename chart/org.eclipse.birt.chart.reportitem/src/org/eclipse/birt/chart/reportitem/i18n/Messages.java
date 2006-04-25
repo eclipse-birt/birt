@@ -15,18 +15,35 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
+
 /**
  * Messages
  */
 public class Messages
 {
 
-	public static final String REPORT_ITEM = "org.eclipse.birt.chart.reportitem.i18n.messages";//$NON-NLS-1$
+	private static final String BUNDLE_NAME = "org.eclipse.birt.chart.reportitem.i18n.nls";//$NON-NLS-1$
 
-	private static final ResourceBundle REPORT_ITEM_BUNDLE = ResourceBundle.getBundle( REPORT_ITEM );
+	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance( BUNDLE_NAME,
+			ULocale.getDefault( ),
+			Messages.class.getClassLoader( ) );
 
 	private Messages( )
 	{
+	}
+
+	public static ResourceBundle getResourceBundle( )
+	{
+		return RESOURCE_BUNDLE;
+	}
+
+	public static ResourceBundle getResourceBundle( ULocale locale )
+	{
+		return UResourceBundle.getBundleInstance( BUNDLE_NAME,
+				locale,
+				Messages.class.getClassLoader( ) );
 	}
 
 	/**
@@ -37,7 +54,7 @@ public class Messages
 	{
 		try
 		{
-			return REPORT_ITEM_BUNDLE.getString( key );
+			return RESOURCE_BUNDLE.getString( key );
 		}
 		catch ( MissingResourceException e )
 		{
@@ -56,8 +73,7 @@ public class Messages
 	{
 		try
 		{
-			return MessageFormat.format( REPORT_ITEM_BUNDLE.getString( key ),
-					oas );
+			return MessageFormat.format( RESOURCE_BUNDLE.getString( key ), oas );
 		}
 		catch ( MissingResourceException e )
 		{
@@ -76,7 +92,7 @@ public class Messages
 	{
 		try
 		{
-			return MessageFormat.format( REPORT_ITEM_BUNDLE.getString( key ),
+			return MessageFormat.format( RESOURCE_BUNDLE.getString( key ),
 					new Object[]{
 						oa
 					} );

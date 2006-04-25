@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -450,8 +449,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.DATA_FORMAT,
 						"exception.unsupported.compare.text", //$NON-NLS-1$ 
-						ResourceBundle.getBundle( Messages.ENGINE,
-								getRunTimeContext( ).getULocale( ).toLocale( ) ) );
+						Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 			}
 			else
 			{
@@ -461,8 +459,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						new Object[]{
 								de1, de2
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								getRunTimeContext( ).getULocale( ).toLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+						Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
 			}
 		}
 		throw new ChartException( ChartEnginePlugin.ID,
@@ -471,8 +468,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				new Object[]{
 						de1, de2
 				},
-				ResourceBundle.getBundle( Messages.ENGINE,
-						getRunTimeContext( ).getULocale( ).toLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+				Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
 	}
 
 	/**
@@ -602,8 +598,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.RENDERING,
 					"exception.curve.line.visibility.not.defined", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE,
-							getRunTimeContext( ).getULocale( ).toLocale( ) ) );
+					Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 		}
 
 		boolean isTransposed = ( (ChartWithAxes) getModel( ) ).isTransposed( );
@@ -1493,8 +1488,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						new Object[]{
 							new Integer( iCount )
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								getRunTimeContext( ).getULocale( ).toLocale( ) ) );
+						Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 			}
 
 			AutoScale sc = oaxa[i].getScale( );
@@ -2366,9 +2360,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							new Object[]{
 								ml
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									getRunTimeContext( ).getULocale( )
-											.toLocale( ) ) );
+							Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 				}
 
 				// UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
@@ -2788,8 +2780,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.RENDERING,
 					"exception.unset.axis.visibility", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE,
-							getRunTimeContext( ).getULocale( ).toLocale( ) ) );
+					Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 		}
 		final boolean bRenderAxisLabels = ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS && la.isVisible( ) );
 		final boolean bRenderAxisTitle = ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS );

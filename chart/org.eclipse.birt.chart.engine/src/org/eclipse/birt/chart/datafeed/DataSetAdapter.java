@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.datafeed;
 
 import java.util.Date;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -131,7 +130,7 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.DATA_SET,
 					"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, getLocale( ) ) );
+					Messages.getResourceBundle( getULocale( ) ) );
 		}
 		StringBuffer buffer = new StringBuffer( );
 		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
@@ -168,7 +167,7 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.DATA_SET,
 					"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, getLocale( ) ) );
+					Messages.getResourceBundle( getULocale( ) ) );
 		}
 
 		// Generates a string reprensentation

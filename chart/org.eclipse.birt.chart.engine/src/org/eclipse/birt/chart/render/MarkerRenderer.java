@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.render;
 
-import java.util.ResourceBundle;
-
 import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
@@ -182,8 +180,7 @@ public final class MarkerRenderer
 					new Object[]{
 						paletteEntry
 					},
-					ResourceBundle.getBundle( Messages.ENGINE,
-							iRender.getLocale( ) ) );
+					Messages.getResourceBundle( iRender.getULocale( ) ) );
 		}
 		final ColorDefinition cd = (ColorDefinition) paletteEntry;
 		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.copyInstance( cd ),

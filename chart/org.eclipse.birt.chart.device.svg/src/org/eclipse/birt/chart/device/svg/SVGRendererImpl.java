@@ -21,7 +21,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -674,8 +673,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
 						"exception.missing.text.render.action", //$NON-NLS-1$
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 
 			case TextRenderEvent.RENDER_SHADOW_AT_LOCATION :
 				tr.renderShadowAtLocation( this,

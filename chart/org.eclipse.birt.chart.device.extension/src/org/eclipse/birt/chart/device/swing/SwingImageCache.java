@@ -16,7 +16,6 @@ import java.awt.MediaTracker;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
@@ -110,8 +109,7 @@ public final class SwingImageCache
 							new Object[]{
 								sb.toString( )
 							},
-							ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-									idsSWING.getLocale( ) ) );
+							Messages.getResourceBundle( idsSWING.getULocale( ) ) );
 				}
 			}
 			catch ( InterruptedException ex )

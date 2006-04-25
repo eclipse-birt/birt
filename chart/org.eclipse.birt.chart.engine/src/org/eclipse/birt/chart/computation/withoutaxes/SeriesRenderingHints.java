@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.computation.withoutaxes;
 
-import java.util.ResourceBundle;
-
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -114,8 +112,8 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 						new Object[]{
 							o
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								pwoa.getRunTimeContext( ).getLocale( ) ) );
+						Messages.getResourceBundle( pwoa.getRunTimeContext( )
+								.getULocale( ) ) );
 			}
 		}
 		return doa;
@@ -150,8 +148,8 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 						new Object[]{
 							o
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								pwoa.getRunTimeContext( ).getLocale( ) ) );
+						Messages.getResourceBundle( pwoa.getRunTimeContext( )
+								.getULocale( ) ) );
 			}
 		}
 		return doa;

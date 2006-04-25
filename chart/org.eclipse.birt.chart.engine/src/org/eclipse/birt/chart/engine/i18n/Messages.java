@@ -16,6 +16,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
 
 /**
  * Provides useful methods to retrieve localized text for the
@@ -27,10 +28,26 @@ public final class Messages
 	/**
 	 * Bundle name
 	 */
-	public static final String ENGINE = new String( "org.eclipse.birt.chart.engine.i18n.messages" ); //$NON-NLS-1$
+	private static final String ENGINE = new String( "org.eclipse.birt.chart.engine.i18n.nls" ); //$NON-NLS-1$
+
+	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance( ENGINE,
+			ULocale.getDefault( ),
+			Messages.class.getClassLoader( ) );
 
 	private Messages( )
 	{
+	}
+
+	public static ResourceBundle getResourceBundle( )
+	{
+		return RESOURCE_BUNDLE;
+	}
+
+	public static ResourceBundle getResourceBundle( ULocale locale )
+	{
+		return UResourceBundle.getBundleInstance( ENGINE,
+				locale,
+				Messages.class.getClassLoader( ) );
 	}
 
 	/**
@@ -47,11 +64,9 @@ public final class Messages
 	 */
 	public static String getString( String key, ULocale lcl )
 	{
-		final ResourceBundle rb = ResourceBundle.getBundle( ENGINE,
-				lcl.toLocale( ) );
 		try
 		{
-			return rb.getString( key );
+			return getResourceBundle( lcl ).getString( key );
 		}
 		catch ( MissingResourceException e )
 		{
@@ -80,11 +95,10 @@ public final class Messages
 	 */
 	public static String getString( String key, Object[] oa, ULocale lcl )
 	{
-		final ResourceBundle rb = ResourceBundle.getBundle( ENGINE,
-				lcl.toLocale( ) );
 		try
 		{
-			return MessageFormat.format( rb.getString( key ), oa );
+			return MessageFormat.format( getResourceBundle( lcl ).getString( key ),
+					oa );
 		}
 		catch ( MissingResourceException e )
 		{

@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.event;
 
 import java.util.Iterator;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -49,7 +48,7 @@ public class Area3DRenderEvent extends AreaRenderEvent implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE ) );
+				Messages.getResourceBundle( ) );
 	}
 	
 	/*

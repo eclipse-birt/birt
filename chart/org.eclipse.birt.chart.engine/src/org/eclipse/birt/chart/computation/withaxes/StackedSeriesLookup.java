@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -240,8 +239,8 @@ public final class StackedSeriesLookup
 						}
 						else if ( ssl.iCachedUnitCount != iDataSetCount )
 						{
-							throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) )
+							throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
+									rtc.getULocale( ) )
 									.getString( "exception.runtime.dataset.count.mismatch" ), //$NON-NLS-1$
 									new Object[]{
 											new Integer( ssl.iCachedUnitCount ),
@@ -260,8 +259,8 @@ public final class StackedSeriesLookup
 										new Object[]{
 											se
 										},
-										ResourceBundle.getBundle( Messages.ENGINE,
-												rtc.getLocale( ) ) );
+										Messages.getResourceBundle( 
+												rtc.getULocale( ) ) );
 							}
 							if ( se.canShareAxisUnit( ) )
 							{
@@ -269,8 +268,8 @@ public final class StackedSeriesLookup
 								{
 									if ( k > 0 && !bStackedSet )
 									{
-										throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-												rtc.getLocale( ) )
+										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
+												rtc.getULocale( ) )
 												.getString( "exception.stacked.unstacked.mix.series" ), //$NON-NLS-1$ 
 												new Object[]{
 													sd
@@ -294,8 +293,8 @@ public final class StackedSeriesLookup
 								{
 									if ( k > 0 && bStackedSet )
 									{
-										throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-												rtc.getLocale( ) )
+										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
+												rtc.getULocale( ) )
 												.getString( "exception.stacked.unstacked.mix.series" ), //$NON-NLS-1$ 
 												new Object[]{
 													sd
@@ -322,8 +321,8 @@ public final class StackedSeriesLookup
 								{
 									if ( k > 0 && !bStackedSet )
 									{
-										throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-												rtc.getLocale( ) )
+										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
+												rtc.getULocale( ) )
 												.getString( "exception.stacked.unstacked.mix.series" ), //$NON-NLS-1$ 
 												new Object[]{
 													sd
@@ -350,8 +349,8 @@ public final class StackedSeriesLookup
 								{
 									if ( k > 0 && bStackedSet )
 									{
-										throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-												rtc.getLocale( ) )
+										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
+												rtc.getULocale( ) )
 												.getString( "exception.stacked.unstacked.mix.series" ), //$NON-NLS-1$ 
 												new Object[]{
 													sd
@@ -398,8 +397,8 @@ public final class StackedSeriesLookup
 						}
 						else if ( ssl.iCachedUnitCount != iDataSetCount )
 						{
-							throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) )
+							throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
+									rtc.getULocale( ) )
 									.getString( "exception.runtime.dataset.count.mismatch" ), //$NON-NLS-1$
 									new Object[]{
 											new Integer( ssl.iCachedUnitCount ),

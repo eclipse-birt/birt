@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.computation.withoutaxes;
 
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -185,7 +184,7 @@ public final class PlotWithoutAxes
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.DATA_FORMAT,
 					"exception.cwoa.single.series.definition", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 		final SeriesDefinition sd = (SeriesDefinition) elCategories.get( 0 );
 		final ArrayList al = sd.getRunTimeSeries( );
@@ -194,7 +193,7 @@ public final class PlotWithoutAxes
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.DATA_FORMAT,
 					"exception.cwoa.single.runtime.series", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 		final Series seBase = (Series) al.get( 0 );
 		final DataSetIterator dsiBaseValues = new DataSetIterator( seBase.getDataSet( ) );

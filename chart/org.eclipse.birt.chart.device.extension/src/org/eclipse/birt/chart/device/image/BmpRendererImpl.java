@@ -4,7 +4,6 @@ package org.eclipse.birt.chart.device.image;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
@@ -116,8 +115,7 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 						new Object[]{
 							_oOutputIdentifier
 						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 			}
 		}
 

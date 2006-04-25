@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.computation.withaxes;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -296,8 +295,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				}
 				else
 				{
-					throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-							rtc.getLocale( ) )
+					throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 							.getString( "exception.unstackable.is.stacked" ), //$NON-NLS-1$
 							new Object[]{
 								sea[i]
@@ -388,8 +386,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			if ( ax.getType( ).getValue( ) == AxisType.DATE_TIME )
 			{
-				throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-						rtc.getLocale( ) )
+				throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 						.getString( "exception.stacked.datetime.axis.series" ), //$NON-NLS-1$
 						new Object[]{
 							ax
@@ -412,8 +409,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						new Object[]{
 							ax
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.processing.stacked.info", //$NON-NLS-1$
@@ -445,8 +441,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 								throw new ChartException( ChartEnginePlugin.ID,
 										ChartException.DATA_SET,
 										"exception.percent.stacked.non.numerical", //$NON-NLS-1$ 
-										ResourceBundle.getBundle( Messages.ENGINE,
-												rtc.getLocale( ) ) );
+										Messages.getResourceBundle( rtc.getULocale( ) ) );
 							}
 						}
 
@@ -474,8 +469,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 										throw new ChartException( ChartEnginePlugin.ID,
 												ChartException.DATA_SET,
 												"exception.percent.stacked.non.numerical", //$NON-NLS-1$ 
-												ResourceBundle.getBundle( Messages.ENGINE,
-														rtc.getLocale( ) ) );
+												Messages.getResourceBundle( rtc.getULocale( ) ) );
 									}
 								}
 							}
@@ -581,8 +575,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.DATA_SET,
 						"exception.numerical.data.datetime.axis", //$NON-NLS-1$ 
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 
 			}
 		}
@@ -600,8 +593,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.DATA_SET,
 						"exception.datetime.data.numerical.axis", //$NON-NLS-1$ 
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
 		return null;
@@ -745,7 +737,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.DATA_FORMAT,
 					"exception.orthogonal.axis.numerical.datetime", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 
 		dStart = ( aax.areAxesSwapped( ) ) ? dX : dY + dH;
@@ -1571,7 +1563,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					new Object[]{
 						seOrthogonal
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 		final OneAxis oaxBase = aax.getPrimaryBase( );
 		final SeriesDefinition sdBase = (SeriesDefinition) oaxBase.getModelAxis( )

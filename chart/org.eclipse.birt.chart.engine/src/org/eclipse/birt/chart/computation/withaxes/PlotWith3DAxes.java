@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.computation.withaxes;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -87,8 +86,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.COMPUTATION,
 					"exception.no.transposed.3D.chart", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE,
-							getRunTimeContext( ).getLocale( ) ) );
+					Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 		}
 
 		buildAxes( ); // CREATED ONCE
@@ -235,7 +233,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.DATA_FORMAT,
 					"exception.orthogonal.axis.numerical.datetime", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 
 		// TODO compute 3d start end point.
@@ -1633,8 +1631,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 			if ( sea[i].isStacked( ) )
 			{
 				// 3D chart can't be stacked.
-				throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-						rtc.getLocale( ) )
+				throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 						.getString( "exception.unstackable.is.stacked" ), //$NON-NLS-1$
 						new Object[]{
 							sea[i]
@@ -1723,8 +1720,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 		if ( ax.isPercent( ) )
 		{
 			// 3D Chart axis doesn't support Percent.
-			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-					rtc.getLocale( ) )
+			throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 					.getString( "exception.no.stack.percent.3D.chart" ), //$NON-NLS-1$
 					new Object[]{
 						ax
@@ -1773,8 +1769,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.DATA_SET,
 						"exception.numerical.data.datetime.axis", //$NON-NLS-1$ 
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 
 			}
 		}
@@ -1792,8 +1787,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.DATA_SET,
 						"exception.datetime.data.numerical.axis", //$NON-NLS-1$ 
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
 		return null;
@@ -1826,7 +1820,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 					new Object[]{
 						seOrthogonal
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 		final OneAxis oaxBase = aax.getPrimaryBase( );
 		final SeriesDefinition sdBase = (SeriesDefinition) oaxBase.getModelAxis( )
@@ -2090,8 +2084,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 					throw new ChartException( ChartEnginePlugin.ID,
 							ChartException.COMPUTATION,
 							"exception.scatter.3D.not.supported", //$NON-NLS-1$ 
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
 
 				lo3d = Location3DImpl.create( dX, dY, dZ );
@@ -2190,7 +2183,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.COMPUTATION,
 					"exception.multi.orthogonal.3D.not.supported", //$NON-NLS-1$ 
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 
 		aax = new AllAxes( cwa.getPlot( )

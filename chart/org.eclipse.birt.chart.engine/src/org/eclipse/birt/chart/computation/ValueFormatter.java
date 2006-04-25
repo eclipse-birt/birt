@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.computation;
 
-import java.util.ResourceBundle;
-
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
@@ -172,7 +170,7 @@ public final class ValueFormatter
 				new Object[]{
 					o
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, lcl.toLocale( ) ) );
+				Messages.getResourceBundle( lcl ) );
 	}
 
 	private static final Calendar asCalendar( Object o, ULocale lcl )
@@ -192,7 +190,7 @@ public final class ValueFormatter
 				new Object[]{
 					o
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, lcl.toLocale( ) ) );
+				Messages.getResourceBundle( lcl ) );
 	}
 
 	/**

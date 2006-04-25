@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.computation;
 
 import java.text.MessageFormat;
 import java.util.Date;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
 import org.eclipse.birt.chart.computation.withaxes.IntersectionValue;
@@ -200,8 +199,8 @@ public class Methods implements IConstants
 	{
 		if ( oValue == null )
 		{
-			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-					sc.getRunTimeContext( ).getLocale( ) )
+			throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( sc.getRunTimeContext( )
+					.getULocale( ) )
 					.getString( "exception.scale.null.location" ), //$NON-NLS-1$
 					new Object[]{
 						sc
@@ -297,13 +296,12 @@ public class Methods implements IConstants
 			}
 			if ( dValue < 0 )
 			{
-				throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-						sc.getRunTimeContext( ).getLocale( ) )
+				throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( sc.getRunTimeContext( )
+						.getULocale( ) )
 						.getString( "exception.zero.negative.logarithmic.scale" ), //$NON-NLS-1$
 						new Object[]{
 							sc
 						} )
-
 				);
 			}
 			double dMinimumLog = Math.log( asDouble( sc.getMinimum( ) ).doubleValue( ) )
@@ -672,13 +670,11 @@ public class Methods implements IConstants
 
 		if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 		{
-			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-					xs.getLocale( ) )
+			throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( xs.getULocale( ) )
 					.getString( "exception.illegal.rotation.angle.label" ), //$NON-NLS-1$
 					new Object[]{
 						la
 					} )
-
 			);
 		}
 
@@ -754,13 +750,11 @@ public class Methods implements IConstants
 		double dAngleInDegrees = la.getCaption( ).getFont( ).getRotation( );
 		if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 		{
-			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-					xs.getLocale( ) )
+			throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( xs.getULocale( ) )
 					.getString( "exception.illegal.rotation.angle.label" ), //$NON-NLS-1$
 					new Object[]{
 						la
 					} )
-
 			);
 		}
 		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );

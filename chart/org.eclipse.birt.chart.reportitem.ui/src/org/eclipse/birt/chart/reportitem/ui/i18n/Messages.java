@@ -15,23 +15,39 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
+
 /**
  * Messages
  */
 public class Messages
 {
 
-	public static final String REPORT_ITEM_UI = "org.eclipse.birt.chart.reportitem.ui.i18n.messages";//$NON-NLS-1$
+	private static final String REPORT_ITEM_UI = "org.eclipse.birt.chart.reportitem.ui.i18n.nls";//$NON-NLS-1$
 
-	private static final ResourceBundle REPORT_ITEM_BUNDLE = ResourceBundle.getBundle( REPORT_ITEM_UI );
+	private static final ResourceBundle REPORT_ITEM_BUNDLE = UResourceBundle.getBundleInstance( REPORT_ITEM_UI,
+			ULocale.getDefault( ),
+			Messages.class.getClassLoader( ) );
 
 	private Messages( )
 	{
 	}
 
+	public static ResourceBundle getResourceBundle( )
+	{
+		return REPORT_ITEM_BUNDLE;
+	}
+
+	public static ResourceBundle getResourceBundle( ULocale locale )
+	{
+		return UResourceBundle.getBundleInstance( REPORT_ITEM_UI,
+				locale,
+				Messages.class.getClassLoader( ) );
+	}
+
 	/**
 	 * @param key
-	 * @return
 	 */
 	public static String getString( String key )
 	{

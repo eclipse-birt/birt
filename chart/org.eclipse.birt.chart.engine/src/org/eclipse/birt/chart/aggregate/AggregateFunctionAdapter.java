@@ -133,8 +133,7 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 			}
 			if ( iExistingType != iDataType )
 			{
-				throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-						lcl.toLocale( ) )
+				throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( lcl )
 						.getString( "exception.mixed.data.types" ), //$NON-NLS-1$
 						new Object[]{
 							getClass( ).getName( )

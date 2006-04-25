@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Stack;
 
 import org.eclipse.birt.chart.computation.IConstants;
@@ -806,7 +805,7 @@ public final class Generator
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
 					"exception.illegal.null.value", //$NON-NLS-1$ 
-					ResourceBundle.getBundle( Messages.ENGINE ) );
+					Messages.getResourceBundle( ) );
 		}
 
 		// CREATE A RUNTIME CONTEXT IF NEEDED
@@ -941,7 +940,7 @@ public final class Generator
 					new Object[]{
 						cmRunTime
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 
 		// OBTAIN THE RENDERERS

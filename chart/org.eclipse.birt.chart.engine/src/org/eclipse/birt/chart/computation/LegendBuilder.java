@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextMetrics;
@@ -89,14 +88,14 @@ public final class LegendBuilder implements IConstants
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
 					"exception.legend.orientation.horzvert", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) );
+					Messages.getResourceBundle( xs.getULocale( ) ) );
 		}
 		if ( !lg.isSetDirection( ) )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
 					"exception.legend.direction.tblr", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) );
+					Messages.getResourceBundle( xs.getULocale( ) ) );
 		}
 
 		// INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
@@ -725,8 +724,7 @@ public final class LegendBuilder implements IConstants
 						new Object[]{
 							direction.getName( )
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								xs.getLocale( ) ) );
+						Messages.getResourceBundle( xs.getULocale( ) ) );
 			}
 		}
 		else if ( orientation.getValue( ) == Orientation.HORIZONTAL )
@@ -746,8 +744,7 @@ public final class LegendBuilder implements IConstants
 						throw new ChartException( ChartEnginePlugin.ID,
 								ChartException.GENERATION,
 								"exception.base.axis.no.series.definitions", //$NON-NLS-1$ 
-								ResourceBundle.getBundle( Messages.ENGINE,
-										xs.getLocale( ) ) );
+								Messages.getResourceBundle( xs.getULocale( ) ) );
 					}
 					// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 					sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
@@ -761,8 +758,7 @@ public final class LegendBuilder implements IConstants
 						throw new ChartException( ChartEnginePlugin.ID,
 								ChartException.GENERATION,
 								"exception.base.axis.no.series.definitions", //$NON-NLS-1$
-								ResourceBundle.getBundle( Messages.ENGINE,
-										xs.getLocale( ) ) );
+								Messages.getResourceBundle( xs.getULocale( ) ) );
 					}
 					// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 					sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
@@ -1202,8 +1198,7 @@ public final class LegendBuilder implements IConstants
 						new Object[]{
 							direction
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								xs.getLocale( ) ) );
+						Messages.getResourceBundle( xs.getULocale( ) ) );
 			}
 		}
 		else
@@ -1214,7 +1209,7 @@ public final class LegendBuilder implements IConstants
 					new Object[]{
 						orientation
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) );
+					Messages.getResourceBundle( xs.getULocale( ) ) );
 		}
 
 		// consider legend title size.

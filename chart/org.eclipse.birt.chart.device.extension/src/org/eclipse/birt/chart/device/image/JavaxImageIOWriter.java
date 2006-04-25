@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
@@ -489,8 +488,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
 						"JavaxImageIOWriter.exception.no.bounds", //$NON-NLS-1$
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 			}
 
 			if ( (int) _bo.getWidth( ) <= 0 || (int) _bo.getHeight( ) <= 0 )
@@ -498,8 +496,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.INVALID_IMAGE_SIZE,
 						"JavaxImageIOWriter.exception.invalid.image.size", //$NON-NLS-1$
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 			}
 
 			// CREATE THE IMAGE INSTANCE
@@ -549,8 +546,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 									getFormat( ),
 									getClass( ).getName( )
 							},
-							ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-									getLocale( ) ) );
+							Messages.getResourceBundle( getULocale( ) ) );
 				}
 				it = ImageIO.getImageWritersByMIMEType( s );
 				if ( !it.hasNext( ) )
@@ -561,8 +557,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							new Object[]{
 								getMimeType( )
 							},
-							ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-									getLocale( ) ) );
+							Messages.getResourceBundle( getULocale( ) ) );
 				}
 			}
 			final ImageWriter iw = (ImageWriter) it.next( );

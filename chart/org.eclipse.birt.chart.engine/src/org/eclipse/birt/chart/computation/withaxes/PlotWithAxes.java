@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.computation.withaxes;
 
 import java.text.MessageFormat;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -172,16 +171,15 @@ public abstract class PlotWithAxes extends Methods
 	{
 		int iTickStyle = TICK_NONE;
 
-		org.eclipse.birt.chart.model.component.Grid gr = ( iMajorOrMinor == MAJOR ) ? ax.getMajorGrid( )
-				: ax.getMinorGrid( );
+		org.eclipse.birt.chart.model.component.Grid gr = ( iMajorOrMinor == MAJOR )
+				? ax.getMajorGrid( ) : ax.getMinorGrid( );
 		if ( !gr.isSetTickStyle( ) )
 		{
 			return iTickStyle;
 		}
 		final LineAttributes lia = gr.getTickAttributes( );
 		if ( !lia.isSetStyle( )
-				|| !lia.isSetThickness( )
-				|| !lia.isSetVisible( )
+				|| !lia.isSetThickness( ) || !lia.isSetVisible( )
 				|| !lia.isVisible( ) )
 		{
 			return iTickStyle;
@@ -390,8 +388,7 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 								ax
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 		}
 
 		if ( !ax.getLabel( ).isSetVisible( ) )
@@ -404,8 +401,7 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 								ax
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 		}
 
 		if ( !ax.getTitle( ).isSetVisible( ) )
@@ -418,8 +414,7 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 								ax
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 		}
 
 		if ( !ax.isSetLabelPosition( ) && ax.getLabel( ).isVisible( ) )
@@ -432,8 +427,7 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 								ax
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 		}
 
 		if ( !ax.isSetTitlePosition( ) && ax.getTitle( ).isVisible( ) )
@@ -446,8 +440,8 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 								ax
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) );
+							Messages.getResourceBundle( 
+									rtc.getULocale( ) ) ) );
 		}
 
 		LineAttributes liaTicks = ax.getMajorGrid( ).getTickAttributes( );
@@ -461,8 +455,8 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 								ax
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) );
+							Messages.getResourceBundle( 
+									rtc.getULocale( ) ) ) );
 		}
 
 		liaTicks = ax.getMinorGrid( ).getTickAttributes( );
@@ -476,8 +470,8 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 								ax
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) );
+							Messages.getResourceBundle( 
+									rtc.getULocale( ) ) ) );
 		}
 
 		final int iOrientation = ax.getOrientation( ).getValue( );
@@ -495,8 +489,8 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 									ax.getLabelPosition( ).getName( ), ax
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+							Messages.getResourceBundle( 
+									rtc.getULocale( ) ) );
 				}
 			}
 			if ( ax.getTitle( ).isVisible( ) ) // LABEL POSITION (IF VISIBLE)
@@ -510,8 +504,8 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 									ax.getLabelPosition( ).getName( ), ax
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+							Messages.getResourceBundle( 
+									rtc.getULocale( ) ) );
 				}
 			}
 
@@ -527,8 +521,8 @@ public abstract class PlotWithAxes extends Methods
 								ax.getMajorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( 
+								rtc.getULocale( ) ) );
 			}
 			iTickStyle = ax.getMinorGrid( ).getTickStyle( ).getValue( );
 			if ( iTickStyle != TickStyle.ACROSS
@@ -542,8 +536,8 @@ public abstract class PlotWithAxes extends Methods
 								ax.getMinorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( 
+								rtc.getULocale( ) ) );
 			}
 		}
 		else if ( iOrientation == Orientation.HORIZONTAL )
@@ -560,8 +554,8 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 									ax.getLabelPosition( ).getName( ), ax
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+							Messages.getResourceBundle( 
+									rtc.getULocale( ) ) );
 				}
 			}
 			if ( ax.getTitle( ).isVisible( ) ) // LABEL POSITION (IF VISIBLE)
@@ -575,8 +569,8 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 									ax.getTitlePosition( ).getName( ), ax
 							},
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+							Messages.getResourceBundle( 
+									rtc.getULocale( ) ) );
 				}
 			}
 
@@ -592,8 +586,8 @@ public abstract class PlotWithAxes extends Methods
 								ax.getMajorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( 
+								rtc.getULocale( ) ) );
 			}
 			iTickStyle = ax.getMinorGrid( ).getTickStyle( ).getValue( );
 			if ( iTickStyle != TickStyle.ACROSS
@@ -607,8 +601,8 @@ public abstract class PlotWithAxes extends Methods
 								ax.getMinorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( 
+								rtc.getULocale( ) ) );
 			}
 		}
 	}
@@ -676,8 +670,7 @@ public abstract class PlotWithAxes extends Methods
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.DATA_SET,
 						"exception.text.data.numerical.datetime.axis", //$NON-NLS-1$ 
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
 
@@ -688,8 +681,7 @@ public abstract class PlotWithAxes extends Methods
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.DATA_SET,
 						"exception.numerical.data.datetime.axis", //$NON-NLS-1$ 
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
 
@@ -701,8 +693,7 @@ public abstract class PlotWithAxes extends Methods
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.DATA_SET,
 						"exception.datetime.data.numerical.axis", //$NON-NLS-1$ 
-						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
 
@@ -720,13 +711,13 @@ public abstract class PlotWithAxes extends Methods
 	{
 		if ( !cwa.isTransposed( ) )
 		{
-			return ( iBaseOrOrthogonal == IConstants.BASE || iBaseOrOrthogonal == IConstants.ANCILLARY_BASE ) ? IConstants.HORIZONTAL
-					: IConstants.VERTICAL;
+			return ( iBaseOrOrthogonal == IConstants.BASE || iBaseOrOrthogonal == IConstants.ANCILLARY_BASE )
+					? IConstants.HORIZONTAL : IConstants.VERTICAL;
 		}
 		else
 		{
-			return ( iBaseOrOrthogonal == IConstants.BASE || iBaseOrOrthogonal == IConstants.ANCILLARY_BASE ) ? IConstants.VERTICAL
-					: IConstants.HORIZONTAL;
+			return ( iBaseOrOrthogonal == IConstants.BASE || iBaseOrOrthogonal == IConstants.ANCILLARY_BASE )
+					? IConstants.VERTICAL : IConstants.HORIZONTAL;
 		}
 	}
 
@@ -791,8 +782,7 @@ public abstract class PlotWithAxes extends Methods
 					return Anchor.SOUTH_WEST_LITERAL;
 			}
 		}
-		throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-				rtc.getLocale( ) )
+		throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 				.getString( "exception.anchor.transpose" ), //$NON-NLS-1$ 
 				new Object[]{
 						an, or
@@ -819,8 +809,7 @@ public abstract class PlotWithAxes extends Methods
 		{
 			return ( dOriginalAngle + 90 );
 		}
-		throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-				rtc.getLocale( ) )
+		throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 				.getString( "exception.angle.range.transpose" ), //$NON-NLS-1$
 				new Object[]{
 					new Double( dOriginalAngle )
@@ -873,8 +862,7 @@ public abstract class PlotWithAxes extends Methods
 					return iOriginalPosition;
 			}
 		}
-		throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-				rtc.getLocale( ) )
+		throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 				.getString( "exception.combination.axis.label.position" ), //$NON-NLS-1$
 				new Object[]{
 						new Integer( iBaseOrOrthogonal ),
@@ -921,8 +909,7 @@ public abstract class PlotWithAxes extends Methods
 					return IConstants.TICK_ABOVE;
 			}
 		}
-		throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-				rtc.getLocale( ) )
+		throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 				.getString( "exception.combination.axis.tick.style" ), //$NON-NLS-1$
 				new Object[]{
 						new Integer( iBaseOrOrthogonal ),
@@ -964,8 +951,8 @@ public abstract class PlotWithAxes extends Methods
 		// AXIS-PLOT SPACING
 		final boolean bTicksLeft = ( iYTickStyle & TICK_LEFT ) == TICK_LEFT;
 		final boolean bTicksRight = ( iYTickStyle & TICK_RIGHT ) == TICK_RIGHT;
-		final double dAppliedYAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN ) ? dYAxisPlotSpacing
-				: 0;
+		final double dAppliedYAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN )
+				? dYAxisPlotSpacing : 0;
 
 		// UPDATE Y-AXIS ENDPOINTS DUE TO AXIS LABEL SHIFTS
 		double dStart = scY.getStart( ), dEnd = scY.getEnd( );
@@ -1748,8 +1735,8 @@ public abstract class PlotWithAxes extends Methods
 		double dY = getLocation( scY, iv ), dY1 = dY, dY2 = dY;
 		final boolean bTicksAbove = ( iXTickStyle & TICK_ABOVE ) == TICK_ABOVE;
 		final boolean bTicksBelow = ( iXTickStyle & TICK_BELOW ) == TICK_BELOW;
-		final double dAppliedXAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN ) ? dXAxisPlotSpacing
-				: 0;
+		final double dAppliedXAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN )
+				? dXAxisPlotSpacing : 0;
 		final boolean bForwardScale = scY.getDirection( ) == FORWARD;
 
 		// COMPUTE VALUES FOR y1, y, y2

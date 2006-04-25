@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.render;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -252,8 +251,7 @@ public final class CurveRenderer
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.RENDERING,
 					"exception.curve.visibility.unset",//$NON-NLS-1$ 
-					ResourceBundle.getBundle( Messages.ENGINE,
-							iRender.getRunTimeContext( ).getLocale( ) ) );
+					Messages.getResourceBundle( iRender.getRunTimeContext( ).getULocale( ) ) );
 		}
 
 		if ( !bFillArea && !lia.isVisible( ) )

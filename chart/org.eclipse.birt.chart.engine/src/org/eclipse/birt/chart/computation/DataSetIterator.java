@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.computation;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -182,7 +181,7 @@ public final class DataSetIterator implements Iterator
 
 		if ( iContentType == IConstants.UNDEFINED )
 		{
-			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE )
+			throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( )
 					.getString( "exception.process.content.type" ), //$NON-NLS-1$
 					new Object[]{
 							oContent, new Integer( iDataType )
@@ -287,7 +286,7 @@ public final class DataSetIterator implements Iterator
 
 		if ( iContentType == IConstants.UNDEFINED )
 		{
-			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE )
+			throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( )
 					.getString( "exception.process.content.dataset" ), //$NON-NLS-1$
 					new Object[]{
 							oContent, ds
@@ -449,7 +448,7 @@ public final class DataSetIterator implements Iterator
 			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
 					ChartException.COMPUTATION,
 					"exception.out.of.bounds", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE ) ) );
+					Messages.getResourceBundle( ) ) );
 		}
 
 		if ( it != null )

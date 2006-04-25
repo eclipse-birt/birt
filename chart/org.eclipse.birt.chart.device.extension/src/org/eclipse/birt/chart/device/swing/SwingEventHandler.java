@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.swing.JComponent;
 
@@ -424,8 +423,7 @@ public final class SwingEventHandler implements
 						new Object[]{
 							seRT
 						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								lcl.toLocale( ) ) );
+						Messages.getResourceBundle( lcl ) );
 			}
 
 			// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME
@@ -510,8 +508,7 @@ public final class SwingEventHandler implements
 						new Object[]{
 							seRT
 						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								lcl.toLocale( ) ) );
+						Messages.getResourceBundle( lcl ) );
 			}
 
 			if ( i == -1 )

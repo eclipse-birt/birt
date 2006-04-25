@@ -11,10 +11,6 @@
 
 package org.eclipse.birt.chart.event;
 
-import java.util.EventObject;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -64,7 +60,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
+				Messages.getResourceBundle( ) );
 	}
 
 	/**
@@ -82,7 +78,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
+				Messages.getResourceBundle( ) );
 	}
 
 	/**
@@ -205,8 +201,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 					new Object[]{
 						o
 					},
-					ResourceBundle.getBundle( Messages.ENGINE,
-							Locale.getDefault( ) ) ) );
+					Messages.getResourceBundle( ) ) );
 		}
 		/*
 		 * if (dDepth != pre.dDepth) { return (dDepth > pre.dDepth) ?
@@ -240,7 +235,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
+				Messages.getResourceBundle( ) );
 	}
 
 	/**
@@ -257,7 +252,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
+				Messages.getResourceBundle( ) );
 	}
 
 	/**

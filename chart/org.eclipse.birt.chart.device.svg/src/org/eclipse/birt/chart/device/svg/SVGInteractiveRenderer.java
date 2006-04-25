@@ -16,7 +16,6 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
@@ -535,8 +534,7 @@ public class SVGInteractiveRenderer
 						new Object[]{
 							seRT
 						},
-						ResourceBundle.getBundle( org.eclipse.birt.chart.device.extension.i18n.Messages.DEVICE_EXTENSION ,
-								getULocale( ).toLocale( ) ) );
+						org.eclipse.birt.chart.device.extension.i18n.Messages.getResourceBundle( getULocale( ) ) );
 			}
 
 			// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME
@@ -621,8 +619,7 @@ public class SVGInteractiveRenderer
 						new Object[]{
 							seRT
 						},
-						ResourceBundle.getBundle( org.eclipse.birt.chart.device.extension.i18n.Messages.DEVICE_EXTENSION ,
-								getULocale( ).toLocale( ) ) );
+						org.eclipse.birt.chart.device.extension.i18n.Messages.getResourceBundle( getULocale( ) ) );
 			}
 
 			if ( i == -1 )

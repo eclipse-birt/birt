@@ -15,6 +15,9 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
+
 /**
  * 
  */
@@ -22,9 +25,11 @@ import java.util.ResourceBundle;
 public class Messages
 {
 
-	private static final String BUNDLE_NAME = "org.eclipse.birt.core.ui.i18n.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "org.eclipse.birt.core.ui.i18n.nls"; //$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( BUNDLE_NAME );
+	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance( BUNDLE_NAME,
+			ULocale.getDefault( ),
+			Messages.class.getClassLoader( ) );
 
 	private Messages( )
 	{

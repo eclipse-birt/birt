@@ -19,7 +19,6 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
@@ -375,8 +374,7 @@ public final class ChartReportItemPresentationImpl extends
 			logger.log( new ChartException( ChartReportItemPlugin.ID,
 					ChartException.GENERATION,
 					"ChartReportItemPresentationImpl.error.NoData", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.REPORT_ITEM,
-							rtc.getLocale( ) ) ) );
+					Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 			return null;
 		}
 

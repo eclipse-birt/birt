@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -488,8 +487,7 @@ public class SwingRendererImpl extends DeviceAdapter
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -748,8 +746,7 @@ public class SwingRendererImpl extends DeviceAdapter
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -1075,8 +1072,7 @@ public class SwingRendererImpl extends DeviceAdapter
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -1449,8 +1445,7 @@ public class SwingRendererImpl extends DeviceAdapter
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -1516,8 +1511,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
 						"SwingRendererImpl.exception.missing.text.render.action", //$NON-NLS-1$
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 
 			case TextRenderEvent.RENDER_SHADOW_AT_LOCATION :
 				tr.renderShadowAtLocation( this,
@@ -1875,8 +1869,7 @@ public class SwingRendererImpl extends DeviceAdapter
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 			}
 
 			Point2D.Double p2dStart, p2dEnd;

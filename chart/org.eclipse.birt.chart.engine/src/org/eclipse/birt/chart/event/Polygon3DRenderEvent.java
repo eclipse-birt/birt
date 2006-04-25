@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.event;
 
-import java.util.ResourceBundle;
-
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -154,7 +152,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.RENDERING,
 					"exception.3D.points.length.less.than.3", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE ) );
+					Messages.getResourceBundle( ) );
 		}
 		object3D = new Object3D( loa );
 	}

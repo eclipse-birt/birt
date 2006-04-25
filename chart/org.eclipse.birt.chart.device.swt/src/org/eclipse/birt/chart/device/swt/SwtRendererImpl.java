@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.DeviceAdapter;
@@ -422,8 +421,7 @@ public class SwtRendererImpl extends DeviceAdapter
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
-						ResourceBundle.getBundle( Messages.DEVICE_SWT,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 			}
 
 			final Color cPreviousFG = _gc.getForeground( );
@@ -1668,8 +1666,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				throw new ChartException( ChartDeviceSwtActivator.ID,
 						ChartException.RENDERING,
 						"SwtRendererImpl.exception.unspecified.text.rendering.action",//$NON-NLS-1$
-						ResourceBundle.getBundle( Messages.DEVICE_SWT,
-								getLocale( ) ) );
+						Messages.getResourceBundle( getULocale( ) ) );
 
 			case TextRenderEvent.RENDER_SHADOW_AT_LOCATION :
 				Location lo = (Location) EcoreUtil.copy( tre.getLocation( ) );

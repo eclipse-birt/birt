@@ -15,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
@@ -744,7 +743,7 @@ public final class PluginSettings
 					new Object[]{
 							sLookupName, sXsdElementName, sXsdElementValue
 					},
-					ResourceBundle.getBundle( Messages.ENGINE ) );
+					Messages.getResourceBundle( ) );
 		}
 		final IExtension[] iea = iep.getExtensions( );
 		IConfigurationElement[] icea;
@@ -803,7 +802,7 @@ public final class PluginSettings
 					new Object[]{
 							sLookupName, sXsdElementName, sXsdElementValue
 					},
-					ResourceBundle.getBundle( Messages.ENGINE ) );
+					Messages.getResourceBundle( ) );
 		}
 		final IExtension[] iea = iep.getExtensions( );
 		IConfigurationElement[] icea;
@@ -853,7 +852,7 @@ public final class PluginSettings
 					new Object[]{
 							"", sXsdElementName, sXsdElementValue //$NON-NLS-1$
 					},
-					ResourceBundle.getBundle( Messages.ENGINE ) );
+					Messages.getResourceBundle( ) );
 		}
 		final IExtension[] iea = iep.getExtensions( );
 		IConfigurationElement[] icea;

@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.util;
 
 import java.util.Date;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -548,7 +547,7 @@ public class CDateTime extends GregorianCalendar
 					throw new ChartException( ChartEnginePlugin.ID,
 							ChartException.VALIDATION,
 							"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
-							ResourceBundle.getBundle( Messages.ENGINE ) );
+							Messages.getResourceBundle( ) );
 				}
 
 				if ( cdta[i].get( iaUnitTypes[k] ) != cdta[j].get( iaUnitTypes[k] ) )

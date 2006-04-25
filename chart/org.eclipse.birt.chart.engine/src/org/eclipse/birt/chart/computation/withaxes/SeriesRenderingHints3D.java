@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.computation.withaxes;
 
-import java.util.ResourceBundle;
-
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -305,8 +303,8 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 					new Object[]{
 						se
 					},
-					ResourceBundle.getBundle( Messages.ENGINE,
-							pwa.getRunTimeContext( ).getLocale( ) ) );
+					Messages.getResourceBundle( pwa.getRunTimeContext( )
+							.getULocale( ) ) );
 		}
 
 		final int iTransposed = pwa.transposeLabelPosition( IConstants.ORTHOGONAL,

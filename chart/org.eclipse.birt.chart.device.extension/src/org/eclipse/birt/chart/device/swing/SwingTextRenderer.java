@@ -18,7 +18,6 @@ import java.awt.Stroke;
 import java.awt.font.TextLayout;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -109,8 +108,7 @@ final class SwingTextRenderer implements IConstants
 			throw new ChartException( ChartDeviceExtensionPlugin.ID,
 					ChartException.RENDERING,
 					"SwingTextMetrics.exception.undefined.shadow.color", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-							_sxs.getLocale( ) ) );
+					Messages.getResourceBundle( _sxs.getULocale( ) ) );
 		}
 
 		final Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) idr ).getGraphicsContext( );
@@ -157,8 +155,7 @@ final class SwingTextRenderer implements IConstants
 			throw new ChartException( ChartDeviceExtensionPlugin.ID,
 					ChartException.RENDERING,
 					"SwingTextMetrics.exception.undefined.text.color", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-							_sxs.getLocale( ) ) );
+					Messages.getResourceBundle( _sxs.getULocale( ) ) );
 		}
 
 		final Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
@@ -221,8 +218,7 @@ final class SwingTextRenderer implements IConstants
 			throw new ChartException( ChartDeviceExtensionPlugin.ID,
 					ChartException.RENDERING,
 					"SwingTextMetrics.exception.undefined.text.color", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-							_sxs.getLocale( ) ) );
+					Messages.getResourceBundle( _sxs.getULocale( ) ) );
 		}
 		IDisplayServer xs = idr.getDisplayServer( );
 		Graphics2D g2d = (Graphics2D) idr.getGraphicsContext( );
