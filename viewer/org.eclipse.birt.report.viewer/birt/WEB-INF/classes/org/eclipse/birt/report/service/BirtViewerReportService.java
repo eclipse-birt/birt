@@ -32,9 +32,9 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.engine.api.TOCNode;
-import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.service.api.ExportedColumn;
 import org.eclipse.birt.report.service.api.ExportedResultSet;
@@ -68,10 +68,9 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IReportRunnable runnable;
 		String reportDesignName = design.getFileName( );
-		HttpServletRequest request = ( HttpServletRequest ) runOptions
+		HttpServletRequest request = (HttpServletRequest) runOptions
 				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = ( Locale ) runOptions
-				.getOption( InputOptions.OPT_LOCALE );
+		Locale locale = (Locale) runOptions.getOption( InputOptions.OPT_LOCALE );
 		try
 		{
 			runnable = ReportEngineService.getInstance( ).openReportDesign(
@@ -86,7 +85,7 @@ public class BirtViewerReportService implements IViewerReportService
 		try
 		{
 			ReportEngineService.getInstance( ).runReport( request, runnable,
-					outputDocName, locale, ( HashMap ) parsedParams );
+					outputDocName, locale, (HashMap) parsedParams );
 		}
 		catch ( RemoteException e )
 		{
@@ -115,13 +114,13 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( docName );
-		HttpServletRequest request = ( HttpServletRequest ) renderOptions
+		HttpServletRequest request = (HttpServletRequest) renderOptions
 				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = ( Locale ) renderOptions
+		Locale locale = (Locale) renderOptions
 				.getOption( InputOptions.OPT_LOCALE );
-		Boolean isMasterPageContent = ( Boolean ) renderOptions
+		Boolean isMasterPageContent = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		Boolean svgFlag = ( Boolean ) renderOptions
+		Boolean svgFlag = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		Long pageNum = Long.valueOf( pageID );
 		try
@@ -179,7 +178,7 @@ public class BirtViewerReportService implements IViewerReportService
 
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( docName );
-		Locale locale = ( Locale ) options.getOption( InputOptions.OPT_LOCALE );
+		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
 		// TODO: Filters are not used...
 		try
 		{
@@ -217,11 +216,11 @@ public class BirtViewerReportService implements IViewerReportService
 
 		return transformResultSetArray( resultSetArray );
 	}
-	
+
 	public List getResultSetsMetadata( String docName, String instanceId,
 			InputOptions options ) throws ReportServiceException
 	{
-		//TODO: Implement
+		// TODO: Implement
 		return null;
 	}
 
@@ -251,7 +250,8 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			node = doc.findTOC( tocId );
 
-		} else
+		}
+		else
 		{
 			node = doc.findTOC( null );
 		}
@@ -351,14 +351,14 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		// TODO: outputDocName is not used...
 		String reportDesignName = design.getFileName( );
-		HttpServletRequest request = ( HttpServletRequest ) options
+		HttpServletRequest request = (HttpServletRequest) options
 				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = ( Locale ) options.getOption( InputOptions.OPT_LOCALE );
-		Boolean isMasterPageContent = ( Boolean ) options
+		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+		Boolean isMasterPageContent = (Boolean) options
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		Boolean svgFlag = ( Boolean ) options
+		Boolean svgFlag = (Boolean) options
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		String format = ( String ) options
+		String format = (String) options
 				.getOption( InputOptions.OPT_RENDER_FORMAT );
 		try
 		{
@@ -419,9 +419,9 @@ public class BirtViewerReportService implements IViewerReportService
 
 	public void setContext( Object context, InputOptions options )
 	{
-		HttpServletRequest request = ( HttpServletRequest ) options
+		HttpServletRequest request = (HttpServletRequest) options
 				.getOption( InputOptions.OPT_REQUEST );
-		ServletContext servletContext = ( ServletContext ) context;
+		ServletContext servletContext = (ServletContext) context;
 		ReportEngineService.getInstance( ).setEngineContext( servletContext,
 				request );
 	}
@@ -430,12 +430,12 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions options, Map parameters )
 			throws ReportServiceException
 	{
-		Locale locale = ( Locale ) options.getOption( InputOptions.OPT_LOCALE );
+		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
 		Collection parameterList = getParameterDefinitions( design, options );
 		Map paramMap = new HashMap( );
 		IGetParameterDefinitionTask task = null;
 		Map configMap = null;
-		Boolean isDesignerBoolean = ( Boolean ) options
+		Boolean isDesignerBoolean = (Boolean) options
 				.getOption( InputOptions.OPT_IS_DESIGNER );
 		boolean isDesigner = ( isDesignerBoolean != null ? isDesignerBoolean
 				.booleanValue( ) : false );
@@ -452,28 +452,35 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			ScalarParameterDefn parameterObj = ( ScalarParameterDefn )iter.next( );
-			
+			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
+					.next( );
+
 			String paramValue = null;
 			Object paramValueObj = null;
 
-			ScalarParameterHandle paramHandle = ( ScalarParameterHandle ) parameterObj
+			ScalarParameterHandle paramHandle = (ScalarParameterHandle) parameterObj
 					.getHandle( );
 			String paramName = paramHandle.getName( );
 			String format = paramHandle.getPattern( );
 
 			ReportParameterConverter converter = new ReportParameterConverter(
 					format, locale );
-			Set paramNames = parameters.keySet( );
+
+			Set paramNames = null;
+			if ( parameters != null )
+			{
+				 paramNames = parameters.keySet( );
+			}
+
 			if ( parameters != null && paramName != null )
 			{
 				boolean found = false;
 				for ( Iterator it = paramNames.iterator( ); it.hasNext( ); )
 				{
-					String name = ( String ) it.next( );
+					String name = (String) it.next( );
 					if ( paramName.equals( name ) )
 					{
-						paramValue = ( String ) parameters.get( name );
+						paramValue = (String) parameters.get( name );
 						paramValueObj = converter.parse( paramValue,
 								ParameterDataTypeConverter
 										.getEngineDataType( paramHandle
@@ -486,12 +493,13 @@ public class BirtViewerReportService implements IViewerReportService
 				if ( !found && configMap.containsKey( paramName ) && isDesigner )
 				{
 					// Get value from test config
-					String configValue = ( String ) configMap.get( paramName );
+					String configValue = (String) configMap.get( paramName );
 					ReportParameterConverter cfgConverter = new ReportParameterConverter(
 							format, Locale.US );
 					paramValueObj = cfgConverter.parse( configValue,
 							parameterObj.getDataType( ) );
-				} else if ( !found )
+				}
+				else if ( !found )
 				{
 					// Get default value from task
 					paramValueObj = task.getDefaultValue( parameterObj
@@ -520,7 +528,7 @@ public class BirtViewerReportService implements IViewerReportService
 		Iterator it = children.iterator( );
 		while ( it.hasNext( ) )
 		{
-			TOCNode childNode = ( TOCNode ) it.next( );
+			TOCNode childNode = (TOCNode) it.next( );
 			ToC child = new ToC( childNode.getNodeID( ), childNode
 					.getDisplayString( ), childNode.getBookmark( ) );
 			// Recursion to transform all children etc...

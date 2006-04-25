@@ -28,8 +28,8 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
-import org.eclipse.birt.report.engine.api.impl.ParameterDefnBase;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
@@ -144,11 +144,11 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 		Collection paramDefs = getReportService( ).getParameterDefinitions(
 				design, options );
 
-		ParameterDefnBase paramDef = null;
+		IParameterDefnBase paramDef = null;
 
 		for ( Iterator it = paramDefs.iterator( ); it.hasNext( ); )
 		{
-			ParameterDefnBase temp = ( ParameterDefnBase ) it.next( );
+			IParameterDefnBase temp = ( IParameterDefnBase ) it.next( );
 			if ( temp.getName( ).equals( firstName ) )
 			{
 				paramDef = temp;
