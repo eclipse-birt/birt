@@ -52,6 +52,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BidiSegmentEvent;
+import org.eclipse.swt.custom.BidiSegmentListener;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyledText;
@@ -92,7 +94,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.43 $ $Date: 2006/04/21 10:02:54 $
+ * @version $Revision: 1.44 $ $Date: 2006/04/24 10:08:50 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -1504,11 +1506,51 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	 */
 	private void insertText( String text )
 	{
+		if ( text == null )
+			return;
+
 		StyledText textWidget = viewer.getTextWidget( );
 		int selectionStart = textWidget.getSelection( ).x;
 		textWidget.insert( text );
 		textWidget.setSelection( selectionStart + text.length( ) );
 		textWidget.setFocus( );
+	}
+	
+	/**
+	 * @param lineText
+	 * @return
+	 */
+	private int[] getBidiLineSegments( String lineText )
+	{
+		// store indexOf "."
+		int[] seg = null;
+		if ( lineText != null && lineText.length( ) > 0 )
+		{
+			seg = new int[( (String[]) lineText.split( "[.]" ) ).length + 1];
+			int index = 0;
+			
+			for ( int i = 0; i < seg.length; i++ )
+			{
+				if ( i == 0 )
+				{
+					seg[i] = index;
+				}
+				else
+				{
+					index = lineText.indexOf( ".", index == 0 ? index
+							: index + 1 );
+					seg[i] = index != -1 ? index : lineText.length( );
+				}
+			}
+		}
+		
+		if ( seg == null )
+		{
+			seg = new int[1];
+			seg[0] = 0;
+		}
+		
+		return seg;
 	}
 
 //	private boolean isValidConnection()
@@ -1552,6 +1594,16 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		doc.setDocumentPartitioner( partitioner );
 		viewer.setDocument( doc );
 		viewer.getTextWidget( ).setFont( JFaceResources.getTextFont( ) );
+		viewer.getTextWidget( )
+				.addBidiSegmentListener( new BidiSegmentListener( ) {
+					/*
+					 * @see org.eclipse.swt.custom.BidiSegmentListener#lineGetSegments(org.eclipse.swt.custom.BidiSegmentEvent)
+					 */
+					public void lineGetSegments( BidiSegmentEvent event )
+					{
+						event.segments = getBidiLineSegments( event.lineText );
+					}
+				} );
 		attachMenus( viewer );
         
         GridData data = new GridData(GridData.FILL_BOTH);
