@@ -16,13 +16,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.eclipse.birt.data.engine.expression.ExpressionParserUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
@@ -89,15 +89,21 @@ public class ExprManagerUtil
 			String name = it.next( ).toString( );
 			Node n = new Node( name );
 			IBaseExpression expr = exprManager.getExpr( name );
-			if ( expr instanceof IScriptExpression )
+			if ( expr != null  )
 			{
-				String exprText = ( (IScriptExpression) expr ).getText( );
 				try
 				{
-					List l = ExpressionUtil.extractColumnExpressions( exprText );
+					List l = null;
+					if( expr instanceof IScriptExpression )
+						l = ExpressionParserUtil.extractColumnExpression( (IScriptExpression)expr );
+					else if ( expr instanceof IConditionalExpression )
+						l = ExpressionParserUtil.extractColumnExpression( (IConditionalExpression)expr );
+					else
+						throw new DataException( ResourceConstants.BAD_DATA_EXPRESSION );
+					
 					for ( int j = 0; j < l.size( ); j++ )
 					{
-						n.addChild( new Node( ( (IColumnBinding) l.get( j ) ).getResultSetColumnName( ) ) );
+						n.addChild( new Node( l.get( j ) == null?null:l.get( j ).toString( ) ) );
 					}
 				}
 				catch ( BirtException e )
