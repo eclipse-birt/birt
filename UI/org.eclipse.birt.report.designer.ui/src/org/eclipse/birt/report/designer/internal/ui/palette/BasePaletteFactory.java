@@ -646,14 +646,11 @@ public class BasePaletteFactory
 					( (CellHandle) cellList.get( 0 ) ).getContent( )
 							.add( textHandle );
 
-					text = AUTOTEXT_LABEL_PAGE
-							+ "<value-of>pageNumber</value-of>"; //$NON-NLS-1$
-					textHandle = factory.newTextItem( null );
-					textHandle.setContent( text );
-					textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
+					AutoTextHandle autoTextHandle = factory.newAutoText( null );
+					autoTextHandle.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER );
 					( (CellHandle) cellList.get( 1 ) ).getContent( )
-							.add( textHandle );
-
+							.add( autoTextHandle );
+					
 					textHandle = factory.newTextItem( null );
 					textHandle.setContent( "<value-of>new Date()</value-of>" ); //$NON-NLS-1$
 					textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
@@ -679,13 +676,10 @@ public class BasePaletteFactory
 					( (CellHandle) cellList.get( 0 ) ).getContent( )
 							.add( textHandle );
 
-					String text = AUTOTEXT_LABEL_PAGE
-							+ "<value-of>pageNumber</value-of>"; //$NON-NLS-1$
-					textHandle = factory.newTextItem( null );
-					textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
-					textHandle.setContent( text );
+					AutoTextHandle autoTextHandle = factory.newAutoText( null );
+					autoTextHandle.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER );
 					( (CellHandle) cellList.get( 1 ) ).getContent( )
-							.add( textHandle );
+							.add( autoTextHandle );
 
 				}
 				catch ( SemanticException e )
