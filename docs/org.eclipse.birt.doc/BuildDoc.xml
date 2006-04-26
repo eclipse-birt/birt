@@ -122,7 +122,7 @@
 		<property file="META-INF/MANIFEST.MF" />
 		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />
 	  <copy todir="${export.dir}/${plugin.package}">
-	    <fileset dir="." includes="plugin.xml,.project,META-INF/MANIFEST.MF,*Toc.xml,doc.zip,about.html,notices.html"/>
+	    <fileset dir="." includes="plugin.xml,.project,META-INF/MANIFEST.MF,*Toc.xml,doc.zip,about.html,notices.html,about.ini,eclipse32.gif"/>
 	  </copy>
 	  <!-- Copy the BIRT examples plugins.
 	   -->
@@ -132,6 +132,31 @@
     <copy todir="${export.dir}/${plugin.package}/Samples/org.eclipse.birt.sample.reportitem.rotatedtext" failonerror="false">
       <fileset dir="${rotatedtextitem.dir}"/>
     </copy>
+		<tstamp>
+			<format property="TODAY" pattern="yyyyMMddHHmm" />
+		</tstamp>
+		<copy todir="${export.dir}/${module.name}_${Bundle-Version}" overwrite="true">
+			<fileset dir=".">
+				<include name="about.mappings" />
+			</fileset>
+			<filterchain>
+				<replacetokens>
+					<token key="Replace_By_Date" value="${TODAY}" />
+				</replacetokens>
+			</filterchain>
+
+		</copy>
+		<copy todir="${export.dir}/${module.name}_${Bundle-Version}" overwrite="true">
+			<fileset dir=".">
+				<include name="about.properties" />
+			</fileset>
+			<filterchain>
+				<replacetokens>
+					<token key="Replace_By_Version" value="${Bundle-Version}" />
+				</replacetokens>
+			</filterchain>
+
+		</copy>
 	</target>
 
 	<!-- Run Unit test.

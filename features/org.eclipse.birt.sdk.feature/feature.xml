@@ -20,7 +20,7 @@
 
    <url>
       <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site"/>
-      <discovery label="BIRT Home" url="http://www.eclipse.org/birt"/>
+      <discovery label="BIRT update site" url="http://download.eclipse.org/birt/update-site"/>
    </url>
 
    <includes
