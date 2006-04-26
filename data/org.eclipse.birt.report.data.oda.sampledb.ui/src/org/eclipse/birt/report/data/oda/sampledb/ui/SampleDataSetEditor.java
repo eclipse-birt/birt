@@ -13,10 +13,16 @@
  */ 
 package org.eclipse.birt.report.data.oda.sampledb.ui;
 
+import java.util.Properties;
+
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
+import org.eclipse.birt.report.data.oda.sampledb.SampleDBConstants;
 import org.eclipse.birt.report.data.oda.sampledb.ui.i18n.Messages;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -33,6 +39,8 @@ public class SampleDataSetEditor extends DataSetWizardPage
 
 	private DataSetDesign datasetDesign;
 	private DataSourceDesign dataSourceDesign;
+	private Properties props;
+	private static final String SAMPLE_DB_SCHEMA="ClassicModels";
 	
 	public SampleDataSetEditor( String pageName )
 	{
@@ -57,38 +65,62 @@ public class SampleDataSetEditor extends DataSetWizardPage
 	   dataSourceDesign = datasetDesign.getDataSourceDesign( );
 	}
 
-/**
+	/*
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#createPageControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createPageControl(Composite parent)
+	public Control createPageControl( Composite parent )
 	{
-		//create the composite to hold the widgets
+		// create the composite to hold the widgets
 		Composite content = new Composite( parent, SWT.NONE );
-		
-		FillLayout layout = new FillLayout();
+
+		FillLayout layout = new FillLayout( );
 		content.setLayout( layout );
 
 		Label txt = new Label( content, SWT.LEFT );
 		txt.setText( Messages.formatMessage( "datasource.upgrade.msg",
-				new Object[] { dataSourceDesign.getName( ) } ));
-		
+				new Object[]{
+					dataSourceDesign.getName( )
+				} ) );
+
 		return content;
 	}
 
     /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSetWizardPageCore#collectDataSetDesign(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
-     */
-    protected DataSetDesign collectDataSetDesign( DataSetDesign design )
+	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSetWizardPageCore#collectDataSetDesign(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
+	 */
+	protected DataSetDesign collectDataSetDesign( DataSetDesign design )
 	{
 		// default implementation does nothing;
 		// sub-class to override and update based on the given data set design
 		// Update the data source to a regular JDBC data source
-		// Note that since the data source extensionID is an intristic property we cannot simply 
-		// update it; we will instead drop the original data source and re-create one with 
+		// Note that since the data source extensionID is an intristic property
+		// we cannot simply
+		// update it; we will instead drop the original data source and
+		// re-create one with
 		// the same name
-		this.datasetDesign.getDataSourceDesign( )
+		if ( props == null )
+			props = new Properties( );
+
+		// set custom driver specific properties
+		props.setProperty( Constants.ODADriverClass,
+				SampleDBConstants.DRIVER_CLASS );
+		props.setProperty( Constants.ODAURL, SampleDBConstants.DRIVER_URL );
+		props.setProperty( Constants.ODAUser, SAMPLE_DB_SCHEMA );
+		props.setProperty( Constants.ODAPassword, "" );
+
+		design.getDataSourceDesign( )
 				.setOdaExtensionId( OdaJdbcDriver.Constants.DATA_SOURCE_ID );
-		this.datasetDesign.setQueryText( "" );
-		return this.datasetDesign;
+		try
+		{
+			design.getDataSourceDesign( )
+					.setPublicProperties( DesignSessionUtil.createDataSourcePublicProperties( OdaJdbcDriver.Constants.DATA_SOURCE_ID,
+							props ) );
+		}
+		catch ( OdaException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+		return design;
 	}
 }
