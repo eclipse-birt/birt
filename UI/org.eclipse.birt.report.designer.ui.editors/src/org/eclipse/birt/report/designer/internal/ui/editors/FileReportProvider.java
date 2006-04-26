@@ -76,7 +76,7 @@ public class FileReportProvider implements IReportProvider
 	public ModuleHandle getReportModuleHandle( Object element, boolean reset )
 	{
 
-		if ( model == null && element instanceof IPathEditorInput )
+		if ( (model == null && element instanceof IPathEditorInput) || reset )
 		{
 			IPath path = ( (IPathEditorInput) element ).getPath( );
 
