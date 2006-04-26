@@ -123,7 +123,11 @@ public abstract class BaseTestCase extends TestCase
 
 	protected static final ULocale TEST_LOCALE = new ULocale( "aa" ); //$NON-NLS-1$
 
-
+	public BaseTestCase()
+	{
+		this( null );
+	}
+	
 	public BaseTestCase( String name )
 	{
 		super( name );
