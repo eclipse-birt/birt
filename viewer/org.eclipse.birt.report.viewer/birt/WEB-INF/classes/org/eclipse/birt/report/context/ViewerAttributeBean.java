@@ -43,6 +43,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  */
 public class ViewerAttributeBean extends BaseAttributeBean
 {
+
 	/**
 	 * Constructor.
 	 * 
@@ -75,25 +76,20 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.reportDocumentName = ParameterAccessor.getReportDocument( request );
 		this.reportDesignName = ParameterAccessor.getReport( request );
 
-		/**
-		 * Determine the report design and doc 's timestamp
-		 */
+		// Determine the report design and doc 's timestamp
+
 		processReport( request );
 
-		/**
-		 * Report title.
-		 */
+		// Report title.
+
 		String title = null;
-		// if ( this.reportRunnable != null )
-		// {
-		// title = ( String ) this.reportRunnable.getProperty( "title" );
-		// //$NON-NLS-1$
-		// }
+
 		if ( title == null || title.trim( ).length( ) <= 0 )
 		{
 			title = BirtResources.getString( "birt.viewer.title" ); //$NON-NLS-1$
 		}
 		this.reportTitle = ParameterAccessor.htmlEncode( title );
+		this.__initParameters( request );
 	}
 
 	/**
@@ -149,8 +145,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				.getParamValueObject( request, parameterObj );
 		if ( paramValueObj != null )
 			return paramValueObj;
-		
-		//Get config map
+
+		// Get config map
 		IReportRunnable runnable;
 		try
 		{
@@ -166,12 +162,13 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				&& configMap.containsKey( paramName ) )
 		{
 			// Get value from test config
-			String configValue = ( String ) configMap.get( paramName );
+			String configValue = (String) configMap.get( paramName );
 			ReportParameterConverter cfgConverter = new ReportParameterConverter(
 					format, Locale.US );
 			return cfgConverter
 					.parse( configValue, parameterObj.getDataType( ) );
-		} else
+		}
+		else
 			return super.getParamValueObject( request, parameterObj );
 	}
 }
