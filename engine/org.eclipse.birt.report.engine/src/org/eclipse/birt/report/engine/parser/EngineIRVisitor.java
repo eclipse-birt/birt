@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.96 $ $Date: 2006/04/20 05:03:21 $
+ * @version $Revision: 1.97 $ $Date: 2006/04/25 11:34:01 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1507,11 +1507,6 @@ class EngineIRVisitor extends DesignVisitor
 			return null;
 		}
 		rule.setStyle( style );
-		ConditionalExpression condExpr = new ConditionalExpression( rule
-				.getTestExpression( ),
-				toDteFilterOperator( rule.getOperator( ) ), rule.getValue1( ),
-				rule.getValue2( ) );
-		rule.setConditionExpr( condExpr );
 		return rule;
 	}
 
@@ -1620,12 +1615,6 @@ class EngineIRVisitor extends DesignVisitor
 			// test expression is null
 			return null;
 		}
-
-		ConditionalExpression condExpr = new ConditionalExpression( rule
-				.getTestExpression( ),
-				toDteFilterOperator( rule.getOperator( ) ), rule.getValue1( ),
-				rule.getValue2( ) );
-		rule.setConditionExpr( condExpr );
 
 		return rule;
 	}
@@ -2068,58 +2057,6 @@ class EngineIRVisitor extends DesignVisitor
 		// listing.setOnStart( handle.getOnStart( ) );
 		// listing.setOnRow( handle.getOnRow( ) );
 		// listing.setOnFinish( handle.getOnFinish( ) );
-	}
-
-	// Convert model operator value to DtE IColumnFilter enum value
-	protected int toDteFilterOperator( String modelOpr )
-	{
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_EQ ) )
-			return IConditionalExpression.OP_EQ;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NE ) )
-			return IConditionalExpression.OP_NE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LT ) )
-			return IConditionalExpression.OP_LT;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LE ) )
-			return IConditionalExpression.OP_LE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GE ) )
-			return IConditionalExpression.OP_GE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GT ) )
-			return IConditionalExpression.OP_GT;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN ) )
-			return IConditionalExpression.OP_BETWEEN;
-		if ( modelOpr
-				.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN ) )
-			return IConditionalExpression.OP_NOT_BETWEEN;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NULL ) )
-			return IConditionalExpression.OP_NULL;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL ) )
-			return IConditionalExpression.OP_NOT_NULL;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TRUE ) )
-			return IConditionalExpression.OP_TRUE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_FALSE ) )
-			return IConditionalExpression.OP_FALSE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LIKE ) )
-			return IConditionalExpression.OP_LIKE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_N ) )
-			return IConditionalExpression.OP_TOP_N;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N ) )
-			return IConditionalExpression.OP_BOTTOM_N;
-		if ( modelOpr
-				.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT ) )
-			return IConditionalExpression.OP_TOP_PERCENT;
-		if ( modelOpr
-				.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT ) )
-			return IConditionalExpression.OP_BOTTOM_PERCENT;
-		
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_LIKE ))
-			return IConditionalExpression.OP_NOT_LIKE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH ))
-			return IConditionalExpression.OP_NOT_MATCH;
-		
-		/*	if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_ANY ) )
-			return IConditionalExpression.OP_ANY;*/
-
-		return IConditionalExpression.OP_NONE;
 	}
 
 	protected void addReportDefaultPropertyValue( String name,

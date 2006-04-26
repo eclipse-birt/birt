@@ -16,7 +16,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 
 /**
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.6 $ $Date: 2005/06/29 05:41:18 $
  */
 public abstract class RuleDesign
 {
@@ -25,7 +25,7 @@ public abstract class RuleDesign
 	protected String value1;
 	protected String value2;
 	protected String operator;
-	IConditionalExpression expr;
+	String expr;
 
 	public void setExpression( String operator, String value1, String value2 )
 	{
@@ -34,12 +34,12 @@ public abstract class RuleDesign
 		this.value2 = value2;
 	}
 	
-	public void setConditionExpr(IConditionalExpression expr)
+	public void setConditionExpr(String expr)
 	{
 		this.expr = expr;
 	}
 	
-	public IConditionalExpression getConditionExpr()
+	public String getConditionExpr()
 	{
 		return expr;
 	}

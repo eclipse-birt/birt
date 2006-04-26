@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.23 $ $Date: 2006/04/06 12:35:24 $
+ * @version $Revision: 1.24 $ $Date: 2006/04/25 11:34:01 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -95,7 +95,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			HighlightRuleDesign rule = highlight.getRule( i );
 			if ( rule != null )
 			{
-				Object value = context.evaluateCondExpr( rule.getConditionExpr( ) );
+				Object value = context.evaluate( rule.getConditionExpr( ) );
 				if ( ( value != null ) && ( value instanceof Boolean )
 						&& ( ( (Boolean) value ).booleanValue( ) ) )
 				{
@@ -140,7 +140,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				MapRuleDesign rule = map.getRule( i );
 				if ( rule != null )
 				{
-					Object value = context.evaluateCondExpr( rule.getConditionExpr( ) );
+					Object value = context.evaluate( rule.getConditionExpr( ) );
 					if ( ( value != null ) && ( value instanceof Boolean )
 							&& ( ( (Boolean) value ).booleanValue( ) ) )
 					{

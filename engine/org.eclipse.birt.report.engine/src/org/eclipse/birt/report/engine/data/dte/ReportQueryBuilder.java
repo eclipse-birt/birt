@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,6 +24,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
@@ -38,6 +40,9 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
+import org.eclipse.birt.report.engine.adapter.IColumnBinding;
+import org.eclipse.birt.report.engine.adapter.ITotalExprBindings;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -51,17 +56,20 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
+import org.eclipse.birt.report.engine.ir.HighlightDesign;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListGroupDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
+import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
+import org.eclipse.birt.report.engine.ir.RuleDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
@@ -85,7 +93,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.55 $ $Date: 2006/04/18 07:08:28 $
+ * @version $Revision: 1.56 $ $Date: 2006/04/19 08:20:25 $
  */
 public class ReportQueryBuilder
 {
@@ -203,6 +211,7 @@ public class ReportQueryBuilder
 			{
 				pushQuery( tempQuery );
 			}
+			transferExpressions( item );
 			return tempQuery;
 		}
 
@@ -571,6 +580,7 @@ public class ReportQueryBuilder
 		 */
 		protected void handleRow( RowDesign row, Object value )
 		{
+			transferExpressions( row );
 			for ( int i = 0; i < row.getCellCount( ); i++ )
 			{
 				CellDesign cell = row.getCell( i );
@@ -586,6 +596,7 @@ public class ReportQueryBuilder
 		 */
 		protected void handleCell( CellDesign cell, Object value )
 		{
+			transferExpressions( cell );
 			for ( int i = 0; i < cell.getContentCount( ); i++ )
 				cell.getContent( i ).accept( this, value );
 		}
@@ -1066,5 +1077,164 @@ public class ReportQueryBuilder
 			assert false;
 			return 0;
 		}
+
+		/**
+		 * Transfers old expressions to column bindings and new expression.
+		 * 
+		 * @param item
+		 *            the report design.
+		 */
+		private void transferExpressions( ReportItemDesign item )
+		{
+			IBaseTransform trans = getTransform();
+			if (trans != null)
+			{
+				ITotalExprBindings totalExpressionBindings = getNewExpressionBindings( item );
+				addNewColumnBindings( trans, totalExpressionBindings );
+				replaceOldExpressions( item, totalExpressionBindings );
+			}
+		}
+
+	}
+
+	private void replaceOldExpressions( ReportItemDesign item,
+			ITotalExprBindings totalExpressionBindings )
+	{
+		int expressionIndex = 0;
+
+		List newExpressions = totalExpressionBindings.getNewExpression( );
+		item.setTOC( (String) newExpressions.get( expressionIndex++ ) );
+		item.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
+		item.setOnCreate( (String) newExpressions.get( expressionIndex++ ) );
+		item.setOnRender( (String) newExpressions.get( expressionIndex++ ) );
+		HighlightDesign highlights = item.getHighlight( );
+		if ( highlights != null )
+		{
+			for ( int i = 0; i < highlights.getRuleCount( ); i++ )
+			{
+				highlights.getRule( i ).setConditionExpr(
+						(String) newExpressions.get( expressionIndex++ ) );
+			}
+		}
+		MapDesign maps = item.getMap( );
+
+		if ( maps != null )
+		{
+			for ( int i = 0; i < maps.getRuleCount( ); i++ )
+			{
+				maps.getRule( i ).setConditionExpr(
+						(String) newExpressions.get( expressionIndex++ ) );
+			}
+		}
+	}
+
+	private ITotalExprBindings getNewExpressionBindings( ReportItemDesign item )
+	{
+		List expressions = new ArrayList( );
+		expressions.add( item.getTOC( ) );
+		expressions.add( item.getBookmark( ) );
+		expressions.add( item.getOnCreate( ) );
+		expressions.add( item.getOnRender( ) );
+		HighlightDesign highlights = item.getHighlight( );
+		if ( highlights != null )
+		{
+			for ( int i = 0; i < highlights.getRuleCount( ); i++ )
+			{
+				expressions.add( createConditionalExpression( highlights
+						.getRule( i ) ) );
+			}
+		}
+		MapDesign maps = item.getMap( );
+		if ( maps != null )
+		{
+			for ( int i = 0; i < maps.getRuleCount( ); i++ )
+			{
+				expressions
+						.add( createConditionalExpression( maps.getRule( i ) ) );
+			}
+		}
+		ITotalExprBindings totalExpressionBindings = ExpressionUtil
+				.prepareTotalExpressions( expressions );
+		return totalExpressionBindings;
+	}
+
+	private void addNewColumnBindings( IBaseTransform query,
+			ITotalExprBindings totalExpressionBindings )
+	{
+		IColumnBinding[] bindings = totalExpressionBindings.getColumnBindings( );
+		if ( bindings != null )
+		{
+			for ( int i = 0; i < bindings.length; i++ )
+			{
+				addColumnBinding( query, bindings[i] );
+			}
+		}
+	}
+
+	private void addColumnBinding( IBaseTransform transfer,
+			IColumnBinding binding )
+	{
+		assert transfer != null;
+		transfer.getResultSetExpressions( )
+				.put( binding.getResultSetColumnName( ),
+						binding.getBoundExpression( ) );
+	}
+
+	private IConditionalExpression createConditionalExpression( RuleDesign rule )
+	{
+		ConditionalExpression expression = new ConditionalExpression( rule
+				.getTestExpression( ),
+				toDteFilterOperator( rule.getOperator( ) ), rule.getValue1( ),
+				rule.getValue2( ) );
+		return ExpressionUtil.transformConditionalExpression( expression );
+	}
+
+	// Convert model operator value to DtE IColumnFilter enum value
+	private int toDteFilterOperator( String modelOpr )
+	{
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_EQ ) )
+			return IConditionalExpression.OP_EQ;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NE ) )
+			return IConditionalExpression.OP_NE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LT ) )
+			return IConditionalExpression.OP_LT;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LE ) )
+			return IConditionalExpression.OP_LE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GE ) )
+			return IConditionalExpression.OP_GE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GT ) )
+			return IConditionalExpression.OP_GT;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN ) )
+			return IConditionalExpression.OP_BETWEEN;
+		if ( modelOpr
+				.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN ) )
+			return IConditionalExpression.OP_NOT_BETWEEN;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NULL ) )
+			return IConditionalExpression.OP_NULL;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL ) )
+			return IConditionalExpression.OP_NOT_NULL;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TRUE ) )
+			return IConditionalExpression.OP_TRUE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_FALSE ) )
+			return IConditionalExpression.OP_FALSE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LIKE ) )
+			return IConditionalExpression.OP_LIKE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_N ) )
+			return IConditionalExpression.OP_TOP_N;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N ) )
+			return IConditionalExpression.OP_BOTTOM_N;
+		if ( modelOpr
+				.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT ) )
+			return IConditionalExpression.OP_TOP_PERCENT;
+		if ( modelOpr
+				.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT ) )
+			return IConditionalExpression.OP_BOTTOM_PERCENT;
+
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_LIKE ) )
+			return IConditionalExpression.OP_NOT_LIKE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH ) )
+			return IConditionalExpression.OP_NOT_MATCH;
+
+		return IConditionalExpression.OP_NONE;
 	}
 }
