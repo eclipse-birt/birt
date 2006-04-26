@@ -47,7 +47,7 @@
          </properties>
       </dataSource>
       <dataSet
-            defaultDisplayName="SQL Select Query"
+            defaultDisplayName="%dataset.query.sqltype"
             id="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
          <dataTypeMapping
                nativeDataType="BIT"
@@ -150,7 +150,7 @@
          </properties>
       </dataSet>
       <dataSet
-            defaultDisplayName="SQL Stored Procedure Query"
+            defaultDisplayName="%dataset.query.sptype"
             id="org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet">
          <dataTypeMapping
                nativeDataType="BIT"
