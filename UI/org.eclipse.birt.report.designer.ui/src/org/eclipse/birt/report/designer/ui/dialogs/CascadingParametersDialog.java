@@ -13,24 +13,18 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ComboBoxCellEditor;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -93,63 +87,74 @@ import com.ibm.icu.util.ULocale;
 public class CascadingParametersDialog extends BaseDialog
 {
 
-	private static final String LABEL_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.label.promptText" ); //$NON-NLS-1$
+	private static final String LABEL_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.Label.promptText" ); //$NON-NLS-1$
 
-	private static final String LABEL_SELECT_DISPLAY_COLUMN = Messages.getString( "CascadingParametersDialog.label.select.displayColumn" ); //$NON-NLS-1$
+	private static final String LABEL_VALUES = Messages.getString( "CascadingParametersDialog.Label.values" ); //$NON-NLS-1$
 
-	private static final String LABEL_VALUES = Messages.getString( "CascadingParametersDialog.label.values" ); //$NON-NLS-1$
+	private static final String LABEL_LIST_LIMIT = Messages.getString( "CascadingParametersDialog.Label.listLimit" ); //$NON-NLS-1$
 
-	private static final String LABEL_LIST_LIMIT = Messages.getString( "CascadingParametersDialog.label.listLimit" ); //$NON-NLS-1$
+	private static final String LABEL_GROUP_GENERAL = Messages.getString( "CascadingParametersDialog.Label.group.general" ); //$NON-NLS-1$
 
-	private static final String LABEL_GROUP_GENERAL = Messages.getString( "CascadingParametersDialog.label.group.general" ); //$NON-NLS-1$
+	private static final String LABEL_CASCADING_PARAMETER_NAME = Messages.getString( "CascadingParametersDialog.Label.cascadingParam.name" ); //$NON-NLS-1$
 
-	private static final String LABEL_CASCADING_PARAMETER_NAME = Messages.getString( "CascadingParametersDialog.label.cascadingParam.name" ); //$NON-NLS-1$
+	// private static final String LABEL_GROUP_PROMPT_TEXT = Messages.getString(
+	// "CascadingParametersDialog.Label.promptText" ); //$NON-NLS-1$
 
-	private static final String LABEL_DATA_SETS = Messages.getString( "CascadingParametersDialog.label.dataSets" ); //$NON-NLS-1$
+	// private static final String LABEL_DATA_SETS = Messages.getString(
+	// "CascadingParametersDialog.Label.dataSets" ); //$NON-NLS-1$
 
-	private static final String LABEL_BUTTON_CREATE_NEW_DATASET = Messages.getString( "CascadingParametersDialog.label.button.createNew.dataset" ); //$NON-NLS-1$
+	// private static final String LABEL_BUTTON_CREATE_NEW_DATASET =
+	// Messages.getString(
+	// "CascadingParametersDialog.Label.button.createNew.dataset" );
+	// //$NON-NLS-1$
 
-	private static final String LABEL_PARAMETERS = Messages.getString( "CascadingParametersDialog.label.parameters" ); //$NON-NLS-1$
+	private static final String LABEL_PARAMETERS = Messages.getString( "CascadingParametersDialog.Label.parameters" ); //$NON-NLS-1$
 
-	private static final String LABEL_GROUP_PROPERTIES = Messages.getString( "CascadingParametersDialog.label.group.properties" ); //$NON-NLS-1$
+	private static final String LABEL_GROUP_PROPERTIES = Messages.getString( "CascadingParametersDialog.Label.group.properties" ); //$NON-NLS-1$
 
-	private static final String LABEL_PARAM_NAME = Messages.getString( "CascadingParametersDialog.label.param.name" ); //$NON-NLS-1$
+	private static final String LABEL_PARAM_NAME = Messages.getString( "CascadingParametersDialog.Label.param.name" ); //$NON-NLS-1$
 
-	private static final String LABEL_DATA_TYPE = Messages.getString( "CascadingParametersDialog.label.dataType" ); //$NON-NLS-1$
+	private static final String LABEL_DATA_TYPE = Messages.getString( "CascadingParametersDialog.Label.dataType" ); //$NON-NLS-1$
 
-	private static final String LABEL_DISPLAY_TYPE = Messages.getString( "CascadingParametersDialog.label.displayType" ); //$NON-NLS-1$
+	private static final String LABEL_DISPLAY_TYPE = Messages.getString( "CascadingParametersDialog.Label.displayType" ); //$NON-NLS-1$
 
-	private static final String LABEL_DEFAULT_VALUE = Messages.getString( "CascadingParametersDialog.label.defaultValue" ); //$NON-NLS-1$
+	private static final String LABEL_DEFAULT_VALUE = Messages.getString( "CascadingParametersDialog.Label.defaultValue" ); //$NON-NLS-1$
 
-	private static final String LABEL_GROUP_MORE_OPTIONS = Messages.getString( "CascadingParametersDialog.label.group.moreOptions" ); //$NON-NLS-1$
+	private static final String LABEL_GROUP_MORE_OPTIONS = Messages.getString( "CascadingParametersDialog.Label.group.moreOptions" ); //$NON-NLS-1$
 
-	private static final String LABEL_HELP_TEXT = Messages.getString( "CascadingParametersDialog.label.helpText" ); //$NON-NLS-1$
+	private static final String LABEL_HELP_TEXT = Messages.getString( "CascadingParametersDialog.Label.helpText" ); //$NON-NLS-1$
 
-	private static final String LABEL_FORMAT_AS = Messages.getString( "CascadingParametersDialog.label.formatAs" ); //$NON-NLS-1$
+	private static final String LABEL_FORMAT_AS = Messages.getString( "CascadingParametersDialog.Label.formatAs" ); //$NON-NLS-1$
 
-	private static final String LABEL_CHANGE_FORMAT_BUTTON = Messages.getString( "CascadingParametersDialog.label.button.changeFormat" ); //$NON-NLS-1$
+	private static final String LABEL_CHANGE_FORMAT_BUTTON = Messages.getString( "CascadingParametersDialog.Label.button.changeFormat" ); //$NON-NLS-1$
 
-	private static final String LABEL_PREVIEW_WITH_FORMAT = Messages.getString( "CascadingParametersDialog.label.preview" ); //$NON-NLS-1$
+	private static final String LABEL_PREVIEW_WITH_FORMAT = Messages.getString( "CascadingParametersDialog.Label.preview" ); //$NON-NLS-1$
 
-	private static final String LABEL_CREATE_NEW_PARAMETER = Messages.getString( "CascadingParametersDialog.label.createNewParam" ); //$NON-NLS-1$
+	private static final String LABEL_CREATE_NEW_PARAMETER = Messages.getString( "CascadingParametersDialog.Label.createNewParam" ); //$NON-NLS-1$
 
-	private static final String LABEL_SELECT_A_VALUE_COLUMN = Messages.getString( "CascadingParametersDialog.label.selecteValueColumn" ); //$NON-NLS-1$
+	private static final String LABEL_SELECT_DATA_SET = Messages.getString( "CascadingParametersDialog.Label.selectDataSet" ); //$NON-NLS-1$
+
+	private static final String LABEL_SELECT_DISPLAY_COLUMN = Messages.getString( "CascadingParametersDialog.Label.selectDisplayColumn" ); //$NON-NLS-1$
+
+	private static final String LABEL_SELECT_VALUE_COLUMN = Messages.getString( "CascadingParametersDialog.Label.selectValueColumn" ); //$NON-NLS-1$
 
 	private static final String LABEL_NO_COLUMN_AVAILABLE = Messages.getString( "CascadingParametersDialog.Label.NoColumnAvailable" ); //$NON-NLS-1$
 
 	private static final String BUTTON_ALLOW_NULL_VALUE = Messages.getString( "CascadingParametersDialog.Button.AllowNull" ); //$NON-NLS-1$
 
-	private static final String COLUMN_NAME = "Name"; //$NON-NLS-1$
+	private static final String LABEL_SELECT_DATA_SET_MODE = Messages.getString("CascadingParametersDialog.Label.SelectDataSetMode"); //$NON-NLS-1$
 
-	private static final String COLUMN_VALUE = "Value"; //$NON-NLS-1$
+	private static final String RADIO_SINGLE = Messages.getString( "CascadingParametersDialog.Radio.Single" ); //$NON-NLS-1$
 
-	private static final String COLUMN_DISPLAY_TEXT = "Display Text"; //$NON-NLS-1$
+	private static final String RADIO_MULTIPLE = Messages.getString( "CascadingParametersDialog.Radio.Mutli" ); //$NON-NLS-1$
 
-	private static final String COLUMN_NAME_LABEL = Messages.getString( "CascadingParametersDialog.label.column.name" ); //$NON-NLS-1$
+	private static final String COLUMN_NAME = Messages.getString( "CascadingParametersDialog.Label.column.name" ); //$NON-NLS-1$
 
-	private static final String COLUMN_VALUE_LABEL = Messages.getString( "CascadingParametersDialog.label.column.value" ); //$NON-NLS-1$
+	private static final String COLUMN_DATA_SET = Messages.getString( "CascadingParametersDialog.Label.column.dataSet" ); //$NON-NLS-1$
 
-	private static final String COLUMN_DISPLAY_TEXT_LABEL = Messages.getString( "CascadingParametersDialog.label.column.displayText" ); //$NON-NLS-1$
+	private static final String COLUMN_VALUE = Messages.getString( "CascadingParametersDialog.Label.column.value" ); //$NON-NLS-1$
+
+	private static final String COLUMN_DISPLAY_TEXT = Messages.getString( "CascadingParametersDialog.Label.column.displayText" ); //$NON-NLS-1$
 
 	private static final String PARAM_CONTROL_LIST = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX
 			+ "/List"; //$NON-NLS-1$
@@ -173,6 +178,7 @@ public class CascadingParametersDialog extends BaseDialog
 	private Group propertiesGroup;
 
 	private Text cascadingNameEditor;
+	private Text promptTextEditor;
 	private Text paramNameEditor;
 	private Text helpTextEditor;
 	private Text defaultValueEditor;
@@ -181,12 +187,12 @@ public class CascadingParametersDialog extends BaseDialog
 	private Text listLimit;
 	private Text promptText;
 
-	private Combo dataSetsCombo;
 	private Combo dataTypeChooser;
 	private Combo displayTypeChooser;
 
-	private Button createDSButton;
 	private Button changeFormat;
+
+	private Button singleDataSet, multiDataSet;
 
 	private Label previewLable;
 
@@ -198,8 +204,6 @@ public class CascadingParametersDialog extends BaseDialog
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE );
 
 	private CascadingParameterGroupHandle inputParameterGroup;
-
-	private DataSetHandle dataSet;
 
 	private ScalarParameterHandle selectedParameter;
 
@@ -243,10 +247,12 @@ public class CascadingParametersDialog extends BaseDialog
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
 		GridData data = new GridData( );
-		data.widthHint = 550;
+		data.widthHint = 600;
 		composite.setLayoutData( data );
 
 		createGeneralPart( composite );
+
+		createChoicePart( composite );
 
 		createDynamicParamsPart( composite );
 
@@ -264,64 +270,64 @@ public class CascadingParametersDialog extends BaseDialog
 		group.setLayout( new GridLayout( 2, false ) );
 		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		Label label = new Label( group, SWT.NULL );
-		label.setText( LABEL_CASCADING_PARAMETER_NAME );
+		new Label( group, SWT.NULL ).setText( LABEL_CASCADING_PARAMETER_NAME );
 
 		cascadingNameEditor = new Text( group, SWT.BORDER );
 		cascadingNameEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		new Label( group, SWT.NULL ).setText( LABEL_PROMPT_TEXT );
+		promptTextEditor = new Text( group, SWT.BORDER );
+		promptTextEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
 	}
 
-	private void createDynamicParamsPart( Composite parent )
+	private void createChoicePart( Composite parent )
 	{
-		Composite comp = new Composite( parent, SWT.NULL );
-		GridLayout layout = new GridLayout( 3, false );
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
-		comp.setLayout( layout );
-		comp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		Composite composite = new Composite( parent, SWT.NONE );
+		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		composite.setLayout( new GridLayout( 3, true ) );
 
-		createLabel( comp, LABEL_DATA_SETS );
-
-		dataSetsCombo = new Combo( comp, SWT.READ_ONLY );
-		GridData data = new GridData( );
-		data.widthHint = 120;
-		dataSetsCombo.setLayoutData( data );
-		dataSetsCombo.setItems( getDataSets( ) );
-		dataSetsCombo.addSelectionListener( new SelectionAdapter( ) {
+		new Label(composite,SWT.NONE).setText( LABEL_SELECT_DATA_SET_MODE );
+		
+		singleDataSet = new Button( composite, SWT.RADIO );
+		singleDataSet.setText( RADIO_SINGLE );
+		singleDataSet.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				dataSet = getDataSet( dataSetsCombo.getText( ) );
 				refreshValueTable( );
 				updateButtons( );
 			}
 		} );
 
-		createDSButton = new Button( comp, SWT.PUSH );
-		createDSButton.setText( LABEL_BUTTON_CREATE_NEW_DATASET );
-		createDSButton.addSelectionListener( new SelectionAdapter( ) {
+		multiDataSet = new Button( composite, SWT.RADIO );
+		multiDataSet.setText( RADIO_MULTIPLE );
+		multiDataSet.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				new NewDataSetAction( ).run( );
-				refreshDataSets( );
+				refreshValueTable( );
+				updateButtons( );
 			}
 		} );
 
+	}
+
+	private void createDynamicParamsPart( Composite parent )
+	{
+		Composite comp = new Composite( parent, SWT.NULL );
+		comp.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
+		comp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
 		Label label = new Label( comp, SWT.NULL );
 		label.setText( LABEL_PARAMETERS );
-		data = new GridData( );
-		data.horizontalSpan = 3;
-		label.setLayoutData( data );
 
 		table = new Table( comp, SWT.FULL_SELECTION
 				| SWT.HIDE_SELECTION
 				| SWT.BORDER );
 
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.horizontalSpan = 3;
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		data.heightHint = 100;
-		table.setLayoutData( data );
 		table.setLinesVisible( true );
 		table.setHeaderVisible( true );
 		table.addKeyListener( new KeyAdapter( ) {
@@ -337,34 +343,34 @@ public class CascadingParametersDialog extends BaseDialog
 		} );
 
 		int[] columnWidths = new int[]{
-				180, 145, 145,
+				160, 115, 135, 145,
 		};
-		String[] columnProps = new String[]{
-				COLUMN_NAME, COLUMN_VALUE, COLUMN_DISPLAY_TEXT
+		String[] columns = new String[]{
+				COLUMN_NAME, COLUMN_DATA_SET, COLUMN_VALUE, COLUMN_DISPLAY_TEXT
 		};
-		String[] columnLabels = new String[]{
-				COLUMN_NAME_LABEL,
-				COLUMN_VALUE_LABEL,
-				COLUMN_DISPLAY_TEXT_LABEL
-		};
+
 		cellEditors = new CellEditor[]{
 				new TextCellEditor( table ),
+				new ComboBoxCellEditor( table,
+						ChoiceSetFactory.getDataSets( ),
+						SWT.READ_ONLY ),
 				new ComboBoxCellEditor( table, new String[0], SWT.READ_ONLY ),
 				new ComboBoxCellEditor( table, new String[0], SWT.READ_ONLY ),
 		};
 
-		for ( int i = 0; i < columnProps.length; i++ )
+		for ( int i = 0; i < columns.length; i++ )
 		{
 			TableColumn column = new TableColumn( table, SWT.LEFT );
 			column.setResizable( true );
-			column.setText( columnLabels[i] );
+			column.setText( columns[i] );
 			column.setWidth( columnWidths[i] );
 		}
+		table.setLayoutData( data );
 
 		valueTable = new TableViewer( table );
 
 		valueTable.setCellEditors( cellEditors );
-		valueTable.setColumnProperties( columnProps );
+		valueTable.setColumnProperties( columns );
 		valueTable.setContentProvider( contentProvider );
 		valueTable.setLabelProvider( labelProvider );
 		valueTable.setCellModifier( cellModifier );
@@ -562,7 +568,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 			public void verifyText( VerifyEvent e )
 			{
-				e.doit = ( "0123456789\0\b\u007f".indexOf( e.character ) != -1 );
+				e.doit = ( "0123456789\0\b\u007f".indexOf( e.character ) != -1 ); //$NON-NLS-1$
 			}
 		} );
 		listLimit.addModifyListener( new ModifyListener( ) {
@@ -645,18 +651,17 @@ public class CascadingParametersDialog extends BaseDialog
 	// initiate dialog
 	protected boolean initDialog( )
 	{
-		dataSet = inputParameterGroup.getDataSet( );
+		cascadingNameEditor.setText( inputParameterGroup.getName( ) );
+		promptTextEditor.setText( UIUtil.convertToGUIString( inputParameterGroup.getPromptText( ) ) );
 
-		if ( dataSet != null )
+		if ( DesignChoiceConstants.DATA_SET_MODE_MULTIPLE.equals( inputParameterGroup.getDataSetMode( ) ) )
 		{
-			dataSetsCombo.setText( "" + dataSet.getName( ) ); //$NON-NLS-1$
+			multiDataSet.setSelection( true );
 		}
 		else
 		{
-			dataSetsCombo.select( 0 );
-			dataSet = getDataSet( dataSetsCombo.getText( ) );
+			singleDataSet.setSelection( true );
 		}
-		cascadingNameEditor.setText( inputParameterGroup.getName( ) );
 
 		valueTable.setInput( inputParameterGroup );
 
@@ -671,8 +676,18 @@ public class CascadingParametersDialog extends BaseDialog
 		try
 		{
 			saveParameterProperties( );
-			inputParameterGroup.setName( cascadingNameEditor.getText( ) );
-			inputParameterGroup.setDataSet( dataSet );
+			inputParameterGroup.setName( UIUtil.convertToModelString( cascadingNameEditor.getText( ),
+					true ) );
+			inputParameterGroup.setPromptText( promptTextEditor.getText( ) );
+
+			if ( isSingle( ) )
+			{
+				inputParameterGroup.setDataSetMode( DesignChoiceConstants.DATA_SET_MODE_SINGLE );
+			}
+			else
+			{
+				inputParameterGroup.setDataSetMode( DesignChoiceConstants.DATA_SET_MODE_MULTIPLE );
+			}
 		}
 		catch ( SemanticException e )
 		{
@@ -724,75 +739,63 @@ public class CascadingParametersDialog extends BaseDialog
 		valueTable.setSelection( selection );
 	}
 
-	private void refreshDataSets( )
+	private String[] getDataSetColumns( ScalarParameterHandle handle,
+			boolean needFilter )
 	{
-		String selectedDataSetName = dataSetsCombo.getText( );
-		String[] oldList = dataSetsCombo.getItems( );
-		String[] newDataSets = ChoiceSetFactory.getDataSets( );
-
-		if ( !Arrays.asList( oldList ).equals( Arrays.asList( newDataSets ) ) )
-		{
-			dataSetsCombo.setItems( newDataSets );
-			dataSetsCombo.setText( selectedDataSetName );
-		}
-	}
-
-	private String[] getDataSets( )
-	{
-		return ChoiceSetFactory.getDataSets( );
-	}
-
-	private DataSetHandle getDataSet( String name )
-	{
-		if ( name == null )
-		{
-			return null;
-		}
-		String value = name;
-
-		DataSetHandle dataSet = null;
-		if ( value != null )
-		{
-			dataSet = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.findDataSet( value );
-		}
-		return dataSet;
-	}
-
-	private String[] getDataSetColumns( )
-	{
-		return getDataSetColumns( null );
-	}
-
-	private String[] getDataSetColumns( ScalarParameterHandle handle )
-	{
+		DataSetHandle dataSet = getDataSet( handle );
 		if ( dataSet == null )
 		{
 			return new String[0];
 		}
-		DataSetItemModel[] models = DataSetManager.getCurrentInstance( )
-				.getColumns( dataSet, false );
-		if ( models == null )
+		CachedMetaDataHandle metaHandle = dataSet.getCachedMetaDataHandle( );
+		if ( metaHandle == null )
+		{
+			try
+			{
+				metaHandle = DataSetUIUtil.getCachedMetaDataHandle( dataSet );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+				return new String[0];
+			}
+		}
+		if ( metaHandle == null || metaHandle.getResultSet( ) == null )
 		{
 			return new String[0];
 		}
-		ArrayList valueList = new ArrayList( models.length );
-		for ( int i = 0; i < models.length; i++ )
+		ArrayList valueList = new ArrayList( );
+		for ( Iterator iter = metaHandle.getResultSet( ).iterator( ); iter.hasNext( ); )
 		{
-			if ( handle == null || matchDataType( handle, models[i] ) )
+			ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iter.next( );
+			if ( !needFilter || matchDataType( handle, columnHandle ) )
 			{
-				valueList.add( models[i].getAlias( ) == null
-						? models[i].getName( ) : models[i].getAlias( ) );
+				valueList.add( columnHandle.getColumnName( ) );
 			}
 		}
 		return (String[]) valueList.toArray( new String[0] );
 	}
 
+	private DataSetHandle getDataSet( ScalarParameterHandle handle )
+	{
+		if ( !isSingle( ) && handle.getDataSetName( ) != null )
+		{
+			return getDataSet( handle.getDataSetName( ) );
+		}
+		return inputParameterGroup.getDataSet( );
+	}
+
+	private DataSetHandle getDataSet( String name )
+	{
+		return inputParameterGroup.getModuleHandle( ).findDataSet( name );
+	}
+
 	private void setCellEditorItems( )
 	{
-		( (ComboBoxCellEditor) cellEditors[1] ).setItems( getDataSetColumns( selectedParameter ) );
-		( (ComboBoxCellEditor) cellEditors[2] ).setItems( getDataSetColumns( ) );
+		( (ComboBoxCellEditor) cellEditors[2] ).setItems( getDataSetColumns( selectedParameter,
+				true ) );
+		( (ComboBoxCellEditor) cellEditors[3] ).setItems( getDataSetColumns( selectedParameter,
+				false ) );
 	}
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
@@ -804,7 +807,8 @@ public class CascadingParametersDialog extends BaseDialog
 			for ( Iterator iter = elementsList.iterator( ); iter.hasNext( ); )
 			{
 				ScalarParameterHandle handle = (ScalarParameterHandle) iter.next( );
-				String[] columns = getDataSetColumns( handle );
+
+				String[] columns = getDataSetColumns( handle, false );
 				boolean found = false;
 				for ( int i = 0; i < columns.length; i++ )
 				{
@@ -881,7 +885,17 @@ public class CascadingParametersDialog extends BaseDialog
 				}
 				else if ( columnIndex == 1 )
 				{
-					value = LABEL_SELECT_A_VALUE_COLUMN;
+					if ( !isSingle( ) || paramHandle == getFirstParameter( ) )
+					{
+						value = LABEL_SELECT_DATA_SET;
+					}
+				}
+				else if ( columnIndex == 2 )
+				{
+					if ( isSingle( ) && paramHandle != getFirstParameter( ) )
+					{
+						value = LABEL_SELECT_VALUE_COLUMN;
+					}
 				}
 			}
 			else
@@ -907,13 +921,38 @@ public class CascadingParametersDialog extends BaseDialog
 					}
 					case 1 :
 					{
+						DataSetHandle dataSet = null;
+						if ( isSingle( ) )
+						{
+							if ( paramHandle != getFirstParameter( ) )
+							{
+								break;
+							}
+							dataSet = inputParameterGroup.getDataSet( );
+						}
+						else
+						{
+							dataSet = getDataSet( paramHandle );
+						}
+						if ( dataSet == null )
+						{
+							value = LABEL_SELECT_DATA_SET;
+						}
+						else
+						{
+							value = dataSet.getName( );
+						}
+						break;
+					}
+					case 2 :
+					{
 						if ( paramHandle.getValueExpr( ) != null )
 						{
-							value = getColumnName( paramHandle.getValueExpr( ) );
+							value = getColumnName( paramHandle, COLUMN_VALUE );
 						}
-						else if ( getDataSetColumns( paramHandle ).length > 0 )
+						else if ( getDataSetColumns( paramHandle, true ).length > 0 )
 						{
-							value = LABEL_SELECT_A_VALUE_COLUMN;
+							value = LABEL_SELECT_VALUE_COLUMN;
 						}
 						else
 						{
@@ -921,12 +960,12 @@ public class CascadingParametersDialog extends BaseDialog
 						}
 						break;
 					}
-					case 2 :
+					case 3 :
 					{
-						value = getColumnName( paramHandle.getLabelExpr( ) );
+						value = getColumnName( paramHandle, COLUMN_DISPLAY_TEXT );
 						if ( value == null )
 						{
-							if ( getDataSetColumns( ).length > 0 )
+							if ( getDataSetColumns( paramHandle, false ).length > 0 )
 							{
 								value = LABEL_SELECT_DISPLAY_COLUMN;
 							}
@@ -954,7 +993,7 @@ public class CascadingParametersDialog extends BaseDialog
 			int index = getTableIndex( element );
 			for ( int i = 0; i < index; i++ )
 			{
-				dummyText += "        "; //$NON-NLS-1$
+				dummyText += "    "; //$NON-NLS-1$
 			}
 
 			return dummyText;
@@ -983,24 +1022,44 @@ public class CascadingParametersDialog extends BaseDialog
 
 		public boolean canModify( Object element, String property )
 		{
-			if ( element != selectedParameter )
+			if ( element != selectedParameter || property.equals( COLUMN_NAME ) )
 			{
 				return false;
 			}
-			if ( element == newParameter )
+			if ( COLUMN_DATA_SET.equals( property ) )
 			{
-				if ( !property.equals( COLUMN_VALUE ) )
+				if ( isSingle( ) && getFirstParameter( ) != element )
 				{
 					return false;
 				}
 			}
-			else if ( property.equals( COLUMN_NAME ) )
+			if ( element == newParameter )
 			{
-				return false;
+				if ( isSingle( ) )
+				{
+					if ( element == getFirstParameter( ) )
+					{
+						if ( !COLUMN_DATA_SET.equals( property ) )
+						{
+							return false;
+						}
+					}
+					else
+					{
+						if ( !COLUMN_VALUE.equals( property ) )
+						{
+							return false;
+						}
+					}
+				}
+				else if ( !COLUMN_DATA_SET.equals( property ) )
+				{
+					return false;
+				}
 			}
-			if ( property.equals( COLUMN_VALUE ) )
+			if ( COLUMN_VALUE.equals( property ) )
 			{
-				if ( getDataSetColumns( (ScalarParameterHandle) element ).length == 0 )
+				if ( getDataSetColumns( (ScalarParameterHandle) element, true ).length == 0 )
 				{
 					return false;
 				}
@@ -1027,15 +1086,26 @@ public class CascadingParametersDialog extends BaseDialog
 						value = parameter.getName( );
 					}
 				}
+				else if ( COLUMN_DATA_SET.equals( property ) )
+				{
+					if ( isSingle( )
+							&& inputParameterGroup.getDataSet( ) != null )
+					{
+						value = inputParameterGroup.getDataSet( ).getName( );
+					}
+					else if ( getDataSet( parameter ) != null )
+					{
+						value = getDataSet( parameter ).getName( );
+					}
+				}
 				else if ( COLUMN_VALUE.equals( property ) )
 				{
-					value = getColumnName( parameter.getValueExpr( ) );
+					value = getColumnName( parameter, COLUMN_VALUE );
 
 				}
 				else if ( COLUMN_DISPLAY_TEXT.equals( property ) )
 				{
-					value = getColumnName( parameter.getLabelExpr( ) );
-
+					value = getColumnName( parameter, COLUMN_DISPLAY_TEXT );
 				}
 
 				if ( value == null )
@@ -1058,7 +1128,6 @@ public class CascadingParametersDialog extends BaseDialog
 			}
 			catch ( SemanticException e1 )
 			{
-				// TODO Auto-generated catch block
 				e1.printStackTrace( );
 			}
 			if ( COLUMN_NAME.equals( property ) )
@@ -1075,6 +1144,24 @@ public class CascadingParametersDialog extends BaseDialog
 					}
 				}
 				catch ( NameException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+			if ( COLUMN_DATA_SET.equals( property ) )
+			{
+				try
+				{
+					if ( isSingle( ) )
+					{
+						inputParameterGroup.setDataSet( getDataSet( (String) value ) );
+					}
+					else
+					{
+						( (ScalarParameterHandle) actualElement ).setDataSetName( (String) value );
+					}
+				}
+				catch ( SemanticException e )
 				{
 					ExceptionHandler.handle( e );
 				}
@@ -1104,8 +1191,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 			if ( actualElement == newParameter )
 			{
-				if ( newParameter.getValueExpr( ) != null
-						&& newParameter.getValueExpr( ).trim( ).length( ) > 0 )
+				if ( isSingle( ) || newParameter.getDataSetName( ) != null )
 				{
 					try
 					{
@@ -1266,7 +1352,8 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		else
 		{
-			if ( !loading || selectedParameter.getFormat( ) == null )
+			if ( !loading
+					|| ( selectedParameter.getCategory( ) == null && selectedParameter.getPattern( ) == null ) )
 			{
 				if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( selectedDataType ) )
 				{
@@ -1288,8 +1375,12 @@ public class CascadingParametersDialog extends BaseDialog
 			}
 			else
 			{
-				formatCategroy = getCategroy( selectedParameter.getFormat( ) );
-				formatPattern = getPattern( selectedParameter.getFormat( ) );
+				formatCategroy = selectedParameter.getCategory( );
+				if ( formatCategroy == null )
+				{// back compatible
+					formatCategroy = DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED;
+				}
+				formatPattern = selectedParameter.getPattern( );
 			}
 		}
 		updateFormatField( );
@@ -1433,22 +1524,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		if ( selectedParameter != null )
 		{
-			try
-			{
-				doPreview( formatPattern == null ? formatCategroy
-						: formatPattern );
-
-				String format = formatCategroy;
-				if ( formatPattern != null )
-				{
-					format += ":" + formatPattern; //$NON-NLS-1$
-				}
-				selectedParameter.setFormat( format );
-			}
-			catch ( SemanticException e1 )
-			{
-				ExceptionHandler.handle( e1 );
-			}
+			doPreview( formatPattern == null ? formatCategroy : formatPattern );
 		}
 	}
 
@@ -1497,28 +1573,29 @@ public class CascadingParametersDialog extends BaseDialog
 		return null;
 	}
 
-	private String getColumnName( String value )
+	private String getColumnName( ScalarParameterHandle handle, String column )
 	{
-		// DataSetItemModel[] models = DataSetManager.getCurrentInstance( )
-		// .getColumns( dataSet, true );
-		// if ( value != null )
-		// {
-		// for ( int i = 0; i < models.length; i++ )
-		// {
-		// if ( value.equalsIgnoreCase( DEUtil.getColumnExpression(
-		// models[i].getName( ) ) ) )
-		// {
-		// return models[i].getName( );
-		// }
-		// }
-		// }
 		CachedMetaDataHandle cmdh = null;
 		try
 		{
+			DataSetHandle dataSet = getDataSet( handle );
+			if ( dataSet == null )
+			{
+				return null;
+			}
 			cmdh = DataSetUIUtil.getCachedMetaDataHandle( dataSet );
 		}
 		catch ( SemanticException e )
 		{
+		}
+		String value = null;
+		if ( COLUMN_VALUE.equals( column ) )
+		{
+			value = handle.getValueExpr( );
+		}
+		else
+		{
+			value = handle.getLabelExpr( );
 		}
 		if ( cmdh != null )
 		{
@@ -1539,71 +1616,64 @@ public class CascadingParametersDialog extends BaseDialog
 	private void updateButtons( )
 	{
 		boolean okEnable = true;
-		if ( dataSet == null )
+
+		Iterator iter = inputParameterGroup.getParameters( ).iterator( );
+		if ( !iter.hasNext( ) )
 		{
 			okEnable = false;
 		}
 		else
 		{
-			Iterator iter = inputParameterGroup.getParameters( ).iterator( );
-			if ( !iter.hasNext( ) )
+			int count = 0;
+			while ( iter.hasNext( ) )
 			{
-				okEnable = false;
-			}
-			else
-			{
-				int count = 0;
-				while ( iter.hasNext( ) )
+				Object obj = iter.next( );
+				if ( obj instanceof ScalarParameterHandle )
 				{
-					Object obj = iter.next( );
-					if ( obj instanceof ScalarParameterHandle )
+					ScalarParameterHandle param = (ScalarParameterHandle) obj;
+					count++;
+					if ( !checkParameter( param ) )
 					{
-						ScalarParameterHandle param = (ScalarParameterHandle) obj;
-						count++;
-						if ( param.getValueExpr( ) == null )
-						{
-							okEnable = false;
-							break;
-						}
+						okEnable = false;
+						break;
 					}
 				}
-				okEnable &= ( count != 0 );
 			}
+			okEnable &= ( count != 0 );
 		}
+
 		getOkButton( ).setEnabled( okEnable );
 
 	}
 
 	private boolean matchDataType( ScalarParameterHandle handle,
-			DataSetItemModel column )
+			ResultSetColumnHandle columnHandle )
 	{
-		if ( column.getDataType( ) == DataType.UNKNOWN_TYPE )
-		{
-			return false;
-		}
 		String type = handle.getDataType( );
 		if ( handle == selectedParameter )
 		{
 			type = getSelectedDataType( );
 		}
-		if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( columnHandle.getDataType( ) ) )
 		{
 			return true;
 		}
-		switch ( column.getDataType( ) )
+		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
 		{
-			case DataType.BOOLEAN_TYPE :
-				return type.equals( DesignChoiceConstants.PARAM_TYPE_BOOLEAN );
-			case DataType.INTEGER_TYPE :
-				return type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
-						|| type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
-			case DataType.DATE_TYPE :
-				return type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME );
-			case DataType.DECIMAL_TYPE :
-				return type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
-						|| type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
-			case DataType.DOUBLE_TYPE :
-				return type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( columnHandle.getDataType( ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
+		{
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( columnHandle.getDataType( ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
+		{
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( columnHandle.getDataType( ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
+		{
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( columnHandle.getDataType( ) );
 		}
 		return false;
 	}
@@ -1630,7 +1700,35 @@ public class CascadingParametersDialog extends BaseDialog
 			selectedParameter.setAllowNull( allowNull.getSelection( ) );
 			selectedParameter.setName( UIUtil.convertToModelString( paramNameEditor.getText( ),
 					true ) );
+
+			selectedParameter.setCategory( formatCategroy );
+			selectedParameter.setPattern( formatPattern );
 			refreshValueTable( );
 		};
+	}
+
+	private boolean isSingle( )
+	{
+		return singleDataSet.getSelection( );
+	}
+
+	private ScalarParameterHandle getFirstParameter( )
+	{
+		if ( inputParameterGroup.getParameters( ).getCount( ) > 0 )
+		{
+			return (ScalarParameterHandle) inputParameterGroup.getParameters( )
+					.get( 0 );
+		}
+		return newParameter;
+	}
+
+	private boolean checkParameter( ScalarParameterHandle paramHandle )
+	{
+		if ( paramHandle.getValueExpr( ) == null
+				|| getColumnName( paramHandle, COLUMN_VALUE ) == null )
+		{
+			return false;
+		}
+		return true;
 	}
 }
