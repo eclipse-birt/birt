@@ -181,8 +181,9 @@ public class ExprManagerUtil
 			for ( int j = 0; j < l.size( ); j++ )
 			{
 				Node n = getMatchedNode( (Node) l.get( j ), result );
-				assert n != null;
-				result[i].addChild( n );
+				//If matched node found.
+				if( n!= null )
+					result[i].addChild( n );
 			}
 		}
 		return result;
