@@ -367,7 +367,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 					bl );
 			bge.updateBlock( bl );
-			renderChartBlock( idr, bl, StructureSource.createUnknown( bl ) );
+			renderChartBlock( idr, bl, StructureSource.createChartBlock( bl ) );
 			ScriptHandler.callFunction( sh,
 					ScriptHandler.AFTER_DRAW_BLOCK,
 					bl,

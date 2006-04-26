@@ -209,16 +209,20 @@ public class SVGInteractiveRenderer
 
 			}
 			else{
-				final Chart cmDT = _iun.getDesignTimeModel( );
 				Object designObject  = null;			
 				//check to see if this is the title block
 				if (getElementFromSource( sourceObject,	StructureType.TITLE ) != null){
-					designObject = cmDT.getTitle();
+					designObject = sourceObject.getSource();
 				}
 				else if (getElementFromSource( sourceObject,	StructureType.CHART_BLOCK ) != null){
-					designObject = cmDT.getBlock();
+					designObject = sourceObject.getSource();
 				}
-				
+				else if (getElementFromSource( sourceObject,	StructureType.PLOT ) != null){
+					designObject = sourceObject.getSource();
+				}
+				else if (getElementFromSource( sourceObject,	StructureType.AXIS ) != null){
+					designObject = sourceObject.getSource();
+				}
 				if (designObject != null){
 					String groupIdentifier = String.valueOf( designObject.hashCode( ) );
 					String id = Integer.toString( pre.hashCode( ) );
@@ -296,7 +300,9 @@ public class SVGInteractiveRenderer
 			else{
 				//check to see if this is the title block
 				if ((getElementFromSource( sourceObject,	StructureType.TITLE ) != null) ||
-					(getElementFromSource( sourceObject,	StructureType.CHART_BLOCK ) != null)){
+					(getElementFromSource( sourceObject,	StructureType.AXIS ) != null)||
+					(getElementFromSource( sourceObject,	StructureType.CHART_BLOCK ) != null)||
+					(getElementFromSource( sourceObject,	StructureType.PLOT ) != null)){
 					svg_g2d.setDeferStrokColor( null );
 					svg_g2d.popParent( );
 				}
@@ -891,14 +897,19 @@ public class SVGInteractiveRenderer
 		}
 		else{
 			//the source is not a series object.  It may be a title, plot area or axis
-			final Chart cmDT = _iun.getDesignTimeModel( );
 			Object designObject  = null;			
 			//check to see if this is the title block
 			if (getElementFromSource( src,	StructureType.TITLE ) != null){
-				designObject = cmDT.getTitle();
+				designObject = src.getSource();
+			}
+			else if (getElementFromSource( src,	StructureType.PLOT ) != null){
+				designObject = src.getSource();
 			}
 			else if (getElementFromSource( src,	StructureType.CHART_BLOCK ) != null){
-				designObject = cmDT.getBlock();
+				designObject = src.getSource();
+			}
+			else if (getElementFromSource( src,	StructureType.AXIS ) != null){
+				designObject = src.getSource();
 			}
 			if (designObject != null){
 				String jsFunction = null;
