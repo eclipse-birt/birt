@@ -44,7 +44,7 @@ public final class ExpressionUtil
 		{
 			
 			Object key = exprs.get( i );
-			
+
 			result.addColumnBindings( l );
 			if ( key instanceof String )
 			{
@@ -55,8 +55,11 @@ public final class ExpressionUtil
 			}
 			else if ( key instanceof IConditionalExpression )
 			{
-				addConditionalExprBindings( result, (IConditionalExpression)key, l );
-			}else if ( key == null )
+				addConditionalExprBindings( result,
+						(IConditionalExpression) key,
+						l );
+			}
+			else if ( key == null )
 			{
 				result.addNewExpression( null );
 			}
@@ -112,32 +115,11 @@ public final class ExpressionUtil
 	{
 		IConditionalExpression ce = key;
 
-		String expr = ce.getExpression( ) == null ? null
-				: ce.getExpression( ).getText( );
-		String operand1 = ce.getOperand1( ) == null ? null
-				: ce.getOperand1( ).getText( );
-		String operand2 = ce.getOperand2( ) == null ? null
-				: ce.getOperand2( ).getText( );
-
-		String newExpr = prepareTotalExpression( expr, bindings );
-		String newOperand1 = prepareTotalExpression( operand1,
-				bindings );
-		String newOperand2 = prepareTotalExpression( operand2,
-				bindings );
-
-		ConditionalExpression newCondExpr = new ConditionalExpression( newExpr == null
-				? null : new ScriptExpression( newExpr ),
-				ce.getOperator( ),
-				newOperand1 == null ? null
-						: new ScriptExpression( newOperand1 ),
-				newOperand2 == null ? null
-						: new ScriptExpression( newOperand2 ) );
-
 		String bindingName = TOTAL_PREFIX + totalColumnSuffix;
 		totalColumnSuffix++;
 
 		ColumnBinding columnBinding = new ColumnBinding( bindingName,
-				newCondExpr );
+				ce );
 
 		List allColumnBindings = new ArrayList( );
 
