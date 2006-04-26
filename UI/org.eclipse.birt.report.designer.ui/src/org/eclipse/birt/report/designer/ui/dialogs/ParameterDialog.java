@@ -269,7 +269,7 @@ public class ParameterDialog extends BaseDialog
 	private Composite valueArea;
 
 	private DataSetItemModel[] cachedColumns;
-	
+
 	private int maxStrLengthinPixels;
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
@@ -292,27 +292,27 @@ public class ParameterDialog extends BaseDialog
 		}
 	};
 
-	
-	private int getMaxPixels(Control control)
+	private int getMaxPixels( Control control )
 	{
-		 List stringList = new ArrayList();
-		 stringList.add(LABEL_NAME);
-		 stringList.add( LABEL_PROMPT_TEXT ); 
-		 stringList.add( LABEL_DISPALY_TYPE ); 
-		 stringList.add( LABEL_DEFAULT_VALUE ); 
-		 stringList.add( LABEL_HELP_TEXT ); 
-		 stringList.add( LABEL_LIST_OF_VALUE ); 
-		 stringList.add( LABEL_VALUES ); 
-		 stringList.add( LABEL_FORMAT ); 
-		 stringList.add( LABEL_NULL ); 
-		 stringList.add( LABEL_SELECT_DISPLAY_TEXT ); 
-		 stringList.add( LABEL_SELECT_VALUE_COLUMN ); 
-		 stringList.add( LABEL_SELECT_DATA_SET ); 
-	  
-		 int len = UIUtil.getMaxStringWidth((String [])(stringList.toArray(new String[0])),control);
-		 return len;		 
+		List stringList = new ArrayList( );
+		stringList.add( LABEL_NAME );
+		stringList.add( LABEL_PROMPT_TEXT );
+		stringList.add( LABEL_DISPALY_TYPE );
+		stringList.add( LABEL_DEFAULT_VALUE );
+		stringList.add( LABEL_HELP_TEXT );
+		stringList.add( LABEL_LIST_OF_VALUE );
+		stringList.add( LABEL_VALUES );
+		stringList.add( LABEL_FORMAT );
+		stringList.add( LABEL_NULL );
+		stringList.add( LABEL_SELECT_DISPLAY_TEXT );
+		stringList.add( LABEL_SELECT_VALUE_COLUMN );
+		stringList.add( LABEL_SELECT_DATA_SET );
+
+		int len = UIUtil.getMaxStringWidth( (String[]) ( stringList.toArray( new String[0] ) ),
+				control );
+		return len;
 	}
-	
+
 	private ITableLabelProvider labelProvider = new ITableLabelProvider( ) {
 
 		public Image getColumnImage( Object element, int columnIndex )
@@ -360,7 +360,7 @@ public class ParameterDialog extends BaseDialog
 				if ( text == null )
 				{
 					text = format( choice.getValue( ) );
-				}	
+				}
 			}
 			if ( text == null )
 			{
@@ -538,7 +538,7 @@ public class ParameterDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		maxStrLengthinPixels = getMaxPixels(parent);
+		maxStrLengthinPixels = getMaxPixels( parent );
 		Composite composite = (Composite) super.createDialogArea( parent );
 		createPropertiesSection( composite );
 		createMoreOptionSection( composite );
@@ -871,7 +871,8 @@ public class ParameterDialog extends BaseDialog
 		}
 		else
 		{
-			if ( !loading || inputParameter.getFormat( ) == null ) 
+			if ( !loading
+					|| ( ( inputParameter.getCategory( ) == null && inputParameter.getPattern( ) == null ) ) )
 			{
 				if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
 				{
@@ -893,8 +894,12 @@ public class ParameterDialog extends BaseDialog
 			}
 			else
 			{
-				formatCategroy = getCategroy( inputParameter.getFormat( ) );
-				formatPattern = getPattern( inputParameter.getFormat( ) );
+				formatCategroy = inputParameter.getCategory( );
+				if ( formatCategroy == null )
+				{
+					formatCategroy = DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED;
+				}
+				formatPattern = inputParameter.getPattern( );
 			}
 		}
 		updateFormatField( );
@@ -993,7 +998,7 @@ public class ParameterDialog extends BaseDialog
 	private void refreshDataSets( )
 	{
 		String selectedDataSetName = dataSetChooser.getText( );
-		String[] oldList = dataSetChooser.getItems( );		
+		String[] oldList = dataSetChooser.getItems( );
 		String[] newList = ChoiceSetFactory.getDataSets( );
 
 		if ( oldList.length != newList.length )
@@ -1658,12 +1663,9 @@ public class ParameterDialog extends BaseDialog
 					false ) );
 
 			// Save format
-			String format = formatCategroy;
-			if ( formatPattern != null )
-			{
-				format += ":" + formatPattern; //$NON-NLS-1$
-			}
-			inputParameter.setFormat( format );
+			inputParameter.setCategory( formatCategroy );
+			inputParameter.setPattern( formatPattern );
+
 			if ( isStatic( )
 					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) )
 					&& !containValue( null, defaultValue, COLUMN_VALUE ) )
@@ -1772,10 +1774,10 @@ public class ParameterDialog extends BaseDialog
 		if ( label.getText( ).equals( LABEL_VALUES ) )
 		{
 			gd.verticalAlignment = GridData.BEGINNING;
-		}	
+		}
 		gd.widthHint = maxStrLengthinPixels;
 		label.setLayoutData( gd );
-		
+
 	}
 
 	private void addCheckBoxListener( final Button checkBox, final String key )
@@ -2345,18 +2347,6 @@ public class ParameterDialog extends BaseDialog
 	private boolean isStatic( )
 	{
 		return staticRadio.getSelection( );
-	}
-
-	private String removeQuoteString( String value )
-	{
-		if ( value != null
-				&& value.length( ) > 1
-				&& value.charAt( 0 ) == '\"'
-				&& value.charAt( value.length( ) - 1 ) == '\"' )
-		{
-			return value.substring( 1, value.length( ) - 1 );
-		}
-		return value;
 	}
 
 	private String convertToStandardFormat( String string )
