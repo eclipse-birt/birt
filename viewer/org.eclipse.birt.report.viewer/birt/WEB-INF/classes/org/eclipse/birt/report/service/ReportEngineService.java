@@ -14,8 +14,8 @@ package org.eclipse.birt.report.service;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,8 +39,13 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.PlatformServletContext;
+import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -64,12 +69,15 @@ import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class ReportEngineService
 {
+
 	private static ReportEngineService instance;
 
 	/**
@@ -157,25 +165,32 @@ public class ReportEngineService
 		if ( "SEVERE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.SEVERE;
-		} else if ( "WARNING".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		}
+		else if ( "WARNING".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.WARNING;
-		} else if ( "INFO".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		}
+		else if ( "INFO".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.INFO;
-		} else if ( "CONFIG".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		}
+		else if ( "CONFIG".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.CONFIG;
-		} else if ( "FINE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		}
+		else if ( "FINE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.FINE;
-		} else if ( "FINER".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		}
+		else if ( "FINER".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.FINER;
-		} else if ( "FINEST".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		}
+		else if ( "FINEST".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.FINEST;
-		} else if ( "OFF".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
+		}
+		else if ( "OFF".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
 		{
 			level = Level.OFF;
 		}
@@ -201,7 +216,7 @@ public class ReportEngineService
 		String scriptlibClassPath = ""; //$NON-NLS-1$
 		for ( int i = 0; i < jarFileList.size( ); i++ )
 			scriptlibClassPath += EngineConstants.PROPERTYSEPARATOR
-					+ ( ( File ) jarFileList.get( i ) ).getAbsolutePath( );
+					+ ( (File) jarFileList.get( i ) ).getAbsolutePath( );
 
 		if ( scriptlibClassPath.startsWith( EngineConstants.PROPERTYSEPARATOR ) )
 			scriptlibClassPath = scriptlibClassPath
@@ -262,7 +277,8 @@ public class ReportEngineService
 				{
 					if ( file.getName( ).endsWith( ".jar" ) ) //$NON-NLS-1$
 						fileList.add( file );
-				} else if ( file.isDirectory( ) )
+				}
+				else if ( file.isDirectory( ) )
 				{
 					getAllJarFiles( file, fileList );
 				}
@@ -296,7 +312,7 @@ public class ReportEngineService
 				e.printStackTrace( );
 			}
 
-			IReportEngineFactory factory = ( IReportEngineFactory ) Platform
+			IReportEngineFactory factory = (IReportEngineFactory) Platform
 					.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 			engine = factory.createReportEngine( config );
 
@@ -422,8 +438,8 @@ public class ReportEngineService
 		renderContext.setImageDirectory( imageDirectory );
 		renderContext.setBaseImageURL( contextPath + imageBaseUrl );
 		renderContext.setBaseURL( this.contextPath + "/frameset" ); //$NON-NLS-1$
-		renderContext
-				.setSupportedImageFormats( svgFlag ? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
+		renderContext.setSupportedImageFormats( svgFlag
+				? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return renderContext;
 	}
 
@@ -532,7 +548,8 @@ public class ReportEngineService
 		{
 			context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					createHTMLrenderContext( svgFlag ) );
-		} else
+		}
+		else
 		{
 			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
 					createPDFrenderContext( ) );
@@ -551,7 +568,8 @@ public class ReportEngineService
 					"ReportEngineService.runAndRenderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
-		} finally
+		}
+		finally
 		{
 			runAndRenderTask.close( );
 		}
@@ -606,7 +624,8 @@ public class ReportEngineService
 							"ReportEngineService.runReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
-		} finally
+		}
+		finally
 		{
 			runTask.close( );
 		}
@@ -681,7 +700,8 @@ public class ReportEngineService
 					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
-		} finally
+		}
+		finally
 		{
 			renderTask.close( );
 		}
@@ -719,7 +739,7 @@ public class ReportEngineService
 				for ( int k = 0; k < resultSets.size( ); k++ )
 				{
 					resultSetArray[k] = new ResultSet( );
-					IResultSetItem resultSetItem = ( IResultSetItem ) resultSets
+					IResultSetItem resultSetItem = (IResultSetItem) resultSets
 							.get( k );
 					assert resultSetItem != null;
 
@@ -770,7 +790,8 @@ public class ReportEngineService
 							"ReportEngineService.getMetaData( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
-		} finally
+		}
+		finally
 		{
 			dataTask.close( );
 		}
@@ -801,7 +822,7 @@ public class ReportEngineService
 		Iterator iSelectedColumns = columns.iterator( );
 		for ( int i = 0; iSelectedColumns.hasNext( ); i++ )
 		{
-			columnNames[i] = ( String ) iSelectedColumns.next( );
+			columnNames[i] = (String) iSelectedColumns.next( );
 		}
 
 		IDataExtractionTask dataTask = null;
@@ -837,7 +858,7 @@ public class ReportEngineService
 
 					buf.append( '\n' );
 					outputStream.write( buf.toString( ).getBytes( ) );
-					
+
 					buf.delete( 0, buf.length( ) );
 
 					// Data
@@ -847,7 +868,7 @@ public class ReportEngineService
 
 						try
 						{
-							value = cvsConvertor( ( String ) DataTypeUtil
+							value = cvsConvertor( (String) DataTypeUtil
 									.convert( iData.getValue( columnNames[0] ),
 											DataType.STRING_TYPE ) );
 						}
@@ -867,7 +888,7 @@ public class ReportEngineService
 
 							try
 							{
-								value = cvsConvertor( ( String ) DataTypeUtil
+								value = cvsConvertor( (String) DataTypeUtil
 										.convert( iData
 												.getValue( columnNames[i] ),
 												DataType.STRING_TYPE ) );
@@ -883,7 +904,7 @@ public class ReportEngineService
 							}
 						}
 
-						buf.append('\n');
+						buf.append( '\n' );
 						outputStream.write( buf.toString( ).getBytes( ) );
 						buf.delete( 0, buf.length( ) );
 					}
@@ -898,7 +919,8 @@ public class ReportEngineService
 							"ReportEngineService.extractData( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
-		} finally
+		}
+		finally
 		{
 			if ( iData != null )
 			{
@@ -969,7 +991,7 @@ public class ReportEngineService
 		Collection parameterList = task.getParameterDefns( false );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = ( IScalarParameterDefn ) iter
+			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
 					.next( );
 
 			String paramValue = null;
@@ -992,16 +1014,18 @@ public class ReportEngineService
 						paramName, paramValue );
 				paramValueObj = converter.parse( paramValue, parameterObj
 						.getDataType( ) );
-			} else if ( ParameterAccessor.isDesigner( request )
+			}
+			else if ( ParameterAccessor.isDesigner( request )
 					&& configVars.containsKey( paramName ) )
 			{
 				// Get value from test config
-				String configValue = ( String ) configVars.get( paramName );
+				String configValue = (String) configVars.get( paramName );
 				ReportParameterConverter cfgConverter = new ReportParameterConverter(
 						format, Locale.US );
 				paramValueObj = cfgConverter.parse( configValue, parameterObj
 						.getDataType( ) );
-			} else
+			}
+			else
 			{
 				paramValueObj = task.getDefaultValue( parameterObj.getName( ) );
 			}
@@ -1030,7 +1054,7 @@ public class ReportEngineService
 		Collection parameterList = task.getParameterDefns( false );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = ( IScalarParameterDefn ) iter
+			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
 					.next( );
 			// ScalarParameterHandle paramHandle = ( ScalarParameterHandle )
 			// parameterObj
@@ -1052,7 +1076,7 @@ public class ReportEngineService
 
 			if ( IScalarParameterDefn.TYPE_STRING == parameterObj.getDataType( ) )
 			{
-				String parameterStringValue = ( String ) parameterValue;
+				String parameterStringValue = (String) parameterValue;
 				if ( parameterStringValue != null
 						&& parameterStringValue.length( ) <= 0
 						&& !parameterObj.allowBlank( ) )
@@ -1064,5 +1088,27 @@ public class ReportEngineService
 		}
 
 		return missingParameter;
+	}
+
+	/**
+	 * uses to clear the data cach.
+	 * 
+	 * @param dataSet
+	 * 				the dataset handle
+	 * @throws BirtException
+	 */
+	public void clearCache( DataSetHandle dataSet ) throws BirtException
+	{
+		DataSourceHandle dataSource = dataSet.getDataSource( );
+		IBaseDataSourceDesign sourceDesign = ModelDteApiAdapter.getInstance( )
+				.createDataSourceDesign( dataSource );
+		IBaseDataSetDesign dataSetDesign = ModelDteApiAdapter.getInstance( )
+				.createDataSetDesign( dataSet );
+
+		DataEngine dataEngine = DataEngine.newDataEngine( DataEngineContext
+				.newInstance( DataEngineContext.DIRECT_PRESENTATION, null,
+						null, null ) );
+		
+		dataEngine.clearCache( sourceDesign, dataSetDesign );
 	}
 }
