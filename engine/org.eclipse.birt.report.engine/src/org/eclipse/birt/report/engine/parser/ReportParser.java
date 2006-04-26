@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.parser;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
@@ -25,13 +24,15 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Report Parser.
  * 
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.11 $ $Date: 2005/10/31 05:49:31 $
+ * @version $Revision: 1.12 $ $Date: 2005/12/08 01:16:33 $
  */
 public class ReportParser
 {
@@ -82,7 +83,7 @@ public class ReportParser
 	public ReportDesignHandle getDesignHandle( String name, InputStream in )  throws DesignFileException
 	{
 		//	 Create new design session
-		SessionHandle sessionHandle = DesignEngine.newSession( Locale
+		SessionHandle sessionHandle = DesignEngine.newSession( ULocale
 				.getDefault( ) );
 
 		// Obtain design handle

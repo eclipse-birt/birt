@@ -12,8 +12,12 @@
 package org.eclipse.birt.report.model.api;
 
 import java.io.InputStream;
-import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
@@ -41,7 +45,7 @@ import com.ibm.icu.util.ULocale;
  * @see MetaLogManager
  */
 
-public final class DesignEngine
+public final class DesignEngine implements IDesignEngine
 {
 
 	/**
@@ -51,38 +55,11 @@ public final class DesignEngine
 	private static final String ROM_DEF_FILE_NAME = "rom.def"; //$NON-NLS-1$
 
 	/**
-	 * Initializes the meta-data system and loads all extensions which
-	 * implements the extension pointers the model defines. The application must
-	 * call this method once (and only once) before opening or creating a
-	 * design. It is the application's responsibility because the application
-	 * will choose the location to store the definition file, and that location
-	 * may differ for different applications.
-	 * 
-	 * @param defnFileName
-	 *            name and location of the "rom.def" file that provides the
-	 *            meta-data for the system
-	 * @throws MetaDataReaderException
-	 *             if error occurs during read the meta-data file.
+	 * The logger for errors.
 	 */
 
-	public static void initialize( String defnFileName )
-			throws MetaDataReaderException
-	{
-		try
-		{
-			MetaDataReader.read( defnFileName );
-
-			ExtensionManager.initialize( );
-
-			MetaLogManager.shutDown( );
-		}
-		catch ( MetaDataParserException e )
-		{
-			throw new MetaDataReaderException(
-					MetaDataReaderException.DESIGN_EXCEPTION_META_DATA_ERROR, e );
-		}
-
-	}
+	protected static Logger errorLogger = Logger.getLogger( DesignEngine.class
+			.getName( ) );
 
 	/**
 	 * Initializes the meta-data system and loads all extensions which
@@ -99,7 +76,7 @@ public final class DesignEngine
 	 *             if error occurs during read the meta-data file.
 	 */
 
-	public static void initialize( InputStream is )
+	private static void initialize( InputStream is )
 			throws MetaDataReaderException
 	{
 		try
@@ -127,28 +104,9 @@ public final class DesignEngine
 	 *            locale.
 	 * @return the design session handle
 	 * @see SessionHandle
-	 * @deprecated to support ICU4J, replaced by: SessionHandle newSession(
-	 *             ULocale locale )
 	 */
 
-	public static SessionHandle newSession( Locale locale )
-	{
-		return newSession( ULocale.forLocale( locale ) );
-	}
-
-	/**
-	 * Creates a new design session handle. The application uses the handle to
-	 * open, create and manage designs. The session also represents the user and
-	 * maintains the user's locale information.
-	 * 
-	 * @param locale
-	 *            the user's locale. If <code>null</code>, uses the system
-	 *            locale.
-	 * @return the design session handle
-	 * @see SessionHandle
-	 */
-
-	public static SessionHandle newSession( ULocale locale )
+	public SessionHandle newSession( ULocale locale, PlatformConfig config )
 	{
 		// meta-data ready.
 
@@ -164,14 +122,21 @@ public final class DesignEngine
 				return new SessionHandle( locale );
 
 			MetaDataDictionary.reset( );
+
 			try
 			{
+				Platform.startup( config );
 				initialize( ReportDesign.class
 						.getResourceAsStream( ROM_DEF_FILE_NAME ) );
 			}
 			catch ( MetaDataReaderException e )
 			{
 				// we provide logger, so do not assert.
+			}
+			catch ( BirtException e )
+			{
+				errorLogger.log( Level.INFO,
+						"Error occurs while start the platform", e ); //$NON-NLS-1$
 			}
 			finally
 			{
@@ -184,12 +149,32 @@ public final class DesignEngine
 	}
 
 	/**
-	 * Gets the meta-data dictionary of the design engine.
+	 * Creates a new design session handle. The application uses the handle to
+	 * open, create and manage designs. The session also represents the user and
+	 * maintains the user's locale information.
 	 * 
-	 * @return the meta-data dictionary of the design engine
+	 * @param locale
+	 *            the user's locale. If <code>null</code>, uses the system
+	 *            locale.
+	 * @return the design session handle
+	 * @see SessionHandle
+	 * 
+	 * @deprecated by {@link #newSession(ULocale, PlatformConfig)}
 	 */
 
-	public static IMetaDataDictionary getMetaDataDictionary( )
+	public static SessionHandle newSession( ULocale locale )
+	{
+		PlatformConfig config = new PlatformConfig( );
+		return new DesignEngine( ).newSession( locale, config );
+	}
+
+	/**
+	 * Gets the meta-data of the design engine.
+	 * 
+	 * @return the meta-data of the design engine.
+	 */
+
+	public IMetaDataDictionary getMetaData( )
 	{
 		// meta-data ready.
 
@@ -205,6 +190,7 @@ public final class DesignEngine
 				return MetaDataDictionary.getInstance( );
 
 			MetaDataDictionary.reset( );
+
 			try
 			{
 				initialize( ReportDesign.class
@@ -225,44 +211,16 @@ public final class DesignEngine
 	}
 
 	/**
-	 * Opens a design by the given file name.
+	 * Gets the meta-data dictionary of the design engine.
 	 * 
-	 * @param fileName
-	 *            the name of the file to open.
-	 * @return A handle to the report design.
-	 * @throws DesignFileException
-	 *             If the file is not found, or the file contains fatal errors.
-	 * @deprecated
+	 * @return the meta-data dictionary of the design engine
+	 * 
+	 * @deprecated by {@link #getMetaData()}
 	 */
 
-	public static ReportDesignHandle openDesign( String fileName )
-			throws DesignFileException
+	public static IMetaDataDictionary getMetaDataDictionary( )
 	{
-		SessionHandle session = newSession( (ULocale) null );
-		return session.openDesign( fileName );
-	}
-
-	/**
-	 * Opens a design by a given stream file name of the design. The file name
-	 * is used for error reporting, and when saving the design.
-	 * 
-	 * @param fileName
-	 *            the name of the file to open. If <code>null</code>, the
-	 *            design will be treated as a new design, and will be saved to a
-	 *            different file.
-	 * @param is
-	 *            the stream to read the design
-	 * @return a handle to the report design.
-	 * @throws DesignFileException
-	 *             If the file is not found, or the file contains fatal errors.
-	 * @deprecated
-	 */
-
-	public static ReportDesignHandle openDesign( String fileName, InputStream is )
-			throws DesignFileException
-	{
-		SessionHandle session = newSession( (ULocale) null );
-		return session.openDesign( fileName, is );
+		return new DesignEngine().getMetaData( );
 	}
 
 	/**
@@ -278,7 +236,7 @@ public final class DesignEngine
 	 * @see #removeMetaLogger(IMetaLogger)
 	 */
 
-	public static void registerMetaLogger( IMetaLogger newLogger )
+	public void registerMetaLogger( IMetaLogger newLogger )
 	{
 		MetaLogManager.registerLogger( newLogger );
 	}
@@ -298,7 +256,7 @@ public final class DesignEngine
 	 * @see #registerMetaLogger(IMetaLogger)
 	 */
 
-	public static boolean removeMetaLogger( IMetaLogger logger )
+	public boolean removeMetaLogger( IMetaLogger logger )
 	{
 		return MetaLogManager.removeLogger( logger );
 	}
