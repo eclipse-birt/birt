@@ -2084,9 +2084,11 @@
       </Property>
       <Property displayNameID="Element.Style.masterPage" isStyleProperty="true" name="masterPage" since="reserved" type="name"/>
       <Property canInherit="false" detailType="pageBreakBefore" displayNameID="Element.Style.pageBreakBefore" isStyleProperty="true" name="pageBreakBefore" since="1.0" type="choice">
+        <Allowed>auto,always,avoid</Allowed>
         <Default>auto</Default>
       </Property>
       <Property canInherit="false" detailType="pageBreakAfter" displayNameID="Element.Style.pageBreakAfter" isStyleProperty="true" name="pageBreakAfter" since="1.0" type="choice">
+        <Allowed>auto,always,avoid</Allowed>
         <Default>auto</Default>
       </Property>
       <Property detailType="pageBreakInside" displayNameID="Element.Style.pageBreakInside" isStyleProperty="true" name="pageBreakInside" since="1.0" type="choice">
@@ -2626,6 +2628,12 @@
 	</Property>
     <Property displayNameID="Element.ListingGroup.repeatHeader" name="repeatHeader" runtimeSettable="false" since="2.0" type="boolean">
       <Default>true</Default>
+    </Property>
+    <Property canInherit="false" detailType="pageBreakAfter" displayNameID="Element.ListingGroup.pageBreakAfter" name="pageBreakAfter" runtimeSettable="false" since="2.1" type="choice">
+      <Default>auto</Default>
+    </Property>
+    <Property canInherit="false" detailType="pageBreakBefore" displayNameID="Element.ListingGroup.pageBreakBefore" name="pageBreakBefore" runtimeSettable="false" since="2.1" type="choice">
+      <Default>auto</Default>
     </Property>
 	<PropertyGroup displayNameID="Element.ListingGroup.Interval">
 		<Property displayNameID="Element.ListingGroup.intervalBase" name="intervalBase" runtimeSettable="false" since="1.0" type="string" />

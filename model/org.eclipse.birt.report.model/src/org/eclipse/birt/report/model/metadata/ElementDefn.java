@@ -973,22 +973,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	private void addStyleProperties( ) throws MetaDataException
 	{
-		// deal with listing group element, it has no style. But must add two style properties to listingGroup.
-
-		if ( ReportDesignConstants.GROUP_ELEMENT.equalsIgnoreCase( name ) )
-		{
-			IElementDefn styleDefn = MetaDataDictionary.getInstance( )
-					.getStyle( );
-			IElementPropertyDefn pageBreakProp = styleDefn
-					.getProperty( Style.PAGE_BREAK_AFTER_PROP );
-			properties.put( pageBreakProp.getName( ), pageBreakProp );
-
-			pageBreakProp = styleDefn
-					.getProperty( Style.PAGE_BREAK_BEFORE_PROP );
-			properties.put( pageBreakProp.getName( ), pageBreakProp );
-			return;
-		}
-
 		if ( !hasStyle( ) )
 			return;
 
