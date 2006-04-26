@@ -13,8 +13,8 @@ public class CompatibilityTest extends BaseTestCase{
 	String fileName1 = "DynamicTextExampleBefore_2.0.1.xml";
 	String fileName2 = "GroupingExampleAfter_2.0.1.xml";
 	String fileName3 = "GroupingExampleBefore_2.0.1.xml";
-	String fileName4 = "HighlightExampleAfter_2.0.1.xml";
-	String fileName5 = "HighlightExampleBefore_2.0.1.xml";
+	String fileName4 = "HighlightingExampleAfter_2.0.1.xml";
+	String fileName5 = "HighlightingExampleBefore_2.0.1.xml";
 	String fileName6 = "HyperlinkingExampleBefore_2.0.1.xml";
 	String fileName7 = "ImageExample_2.0.1.xml";
 	String fileName8 = "ListingExampleAfter_2.0.1.xml";
