@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.reportitem;
 
 import java.net.URL;
+import java.util.logging.Level;
 
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -30,6 +31,11 @@ import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
+import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
+import org.eclipse.birt.report.engine.css.engine.value.StringValue;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.model.api.ColorHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -40,6 +46,9 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.w3c.dom.css.CSSPrimitiveValue;
+import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.css.CSSValueList;
 
 /**
  * ChartReportStyleProcessor
@@ -151,11 +160,11 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			if ( dstyle != null )
 			{
 				fname = dstyle.getFontFamily( );
-				fsize = Math.round( Float.parseFloat( dstyle.getFontSize( ) ) / 1000 );
-				fbold = getFontWeight( dstyle.getFontWeight( ) ) >= 700;
-				fitalic = DesignChoiceConstants.FONT_STYLE_ITALIC.equals( dstyle.getFontStyle( ) );
-				funder = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( dstyle.getTextUnderline( ) );
-				fstrike = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( dstyle.getTextLineThrough( ) );
+				fsize = getSize( dstyle.getProperty( StyleConstants.STYLE_FONT_SIZE ));				
+				fbold = isBoldFont( dstyle.getProperty( StyleConstants.STYLE_FONT_WEIGHT));
+				fitalic = isItalicFont( dstyle.getFontStyle( ) );
+				funder = CSSConstants.CSS_UNDERLINE_VALUE.equals( dstyle.getTextUnderline( ) );
+				fstrike = CSSConstants.CSS_LINE_THROUGH_VALUE.equals( dstyle.getTextLineThrough( ) );
 			}
 
 			HorizontalAlignment ha = HorizontalAlignment.LEFT_LITERAL;
@@ -195,19 +204,14 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			ColorHandle ch = style.getColor( );
 			if ( dstyle != null )
 			{
-				String color = dstyle.getColor( );
-				int r = Integer.valueOf( color.substring( 4,
-						color.indexOf( "," ) ).trim( ) ).intValue( ); //$NON-NLS-1$
-				int g = Integer.valueOf( color.substring( color.indexOf( "," ) + 1, color.indexOf( ",", color.indexOf( "," ) + 1 ) ).trim( ) ).intValue( ); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-				int b = Integer.valueOf( color.substring( color.lastIndexOf( "," ) + 1, color.length( ) - 1 ).trim( ) ).intValue( );//$NON-NLS-1$
-				ss.setColor( ColorDefinitionImpl.create( r, g, b ) );
+				ss.setColor( getColor( dstyle.getProperty( StyleConstants.STYLE_COLOR ) ) );
 			}
 			else if ( ch != null && ch.getRGB( ) != -1 )
 			{
-				int rgb = ch.getRGB( );
-				ColorDefinition cd = ColorDefinitionImpl.create( ( rgb >> 16 ) & 0xff,
-						( rgb >> 8 ) & 0xff,
-						rgb & 0xff );
+				int rgbValue = ch.getRGB( );
+				ColorDefinition cd = ColorDefinitionImpl.create( ( rgbValue >> 16 ) & 0xff,
+						( rgbValue >> 8 ) & 0xff,
+						rgbValue & 0xff );
 				ss.setColor( cd );
 			}
 			else
@@ -218,19 +222,14 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			ch = style.getBackgroundColor( );
 			if ( dstyle != null )
 			{
-				String color = dstyle.getBackgroundColor( );
-				int r = Integer.valueOf( color.substring( 4,
-						color.indexOf( "," ) ).trim( ) ).intValue( ); //$NON-NLS-1$
-				int g = Integer.valueOf( color.substring( color.indexOf( "," ) + 1, color.indexOf( ",", color.indexOf( "," ) + 1 ) ).trim( ) ).intValue( ); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-				int b = Integer.valueOf( color.substring( color.lastIndexOf( "," ) + 1, color.length( ) - 1 ).trim( ) ).intValue( );//$NON-NLS-1$
-				ss.setBackgroundColor( ColorDefinitionImpl.create( r, g, b ) );
+				ss.setBackgroundColor( getColor( dstyle.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) ) );
 			}
 			else if ( ch != null && ch.getRGB( ) != -1 )
 			{
-				int rgb = ch.getRGB( );
-				ColorDefinition cd = ColorDefinitionImpl.create( ( rgb >> 16 ) & 0xff,
-						( rgb >> 8 ) & 0xff,
-						rgb & 0xff );
+				int rgbValue = ch.getRGB( );
+				ColorDefinition cd = ColorDefinitionImpl.create( ( rgbValue >> 16 ) & 0xff,
+						( rgbValue >> 8 ) & 0xff,
+						rgbValue & 0xff );
 				ss.setBackgroundColor( cd );
 			}
 
@@ -634,4 +633,60 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 		return inchValue;
 	}
 
+	private ColorDefinition getColor( CSSValue value )
+	{
+		if ( value != null && value instanceof RGBColorValue )
+		{
+			RGBColorValue color = (RGBColorValue) value;
+			try
+			{
+				return ColorDefinitionImpl.create( Math.round( color.getRed( )
+						.getFloatValue( CSSPrimitiveValue.CSS_NUMBER ) ),
+						Math.round( color.getGreen( )
+								.getFloatValue( CSSPrimitiveValue.CSS_NUMBER ) ),
+						Math.round( color.getBlue( )
+								.getFloatValue( CSSPrimitiveValue.CSS_NUMBER ) ) );
+			}
+			catch ( RuntimeException ex )
+			{
+				logger.log( Level.WARNING.intValue( ),
+						"invalid color: {0}" + value.toString( ) ); //$NON-NLS-1$
+			}
+		}
+		return null;
+	}
+	
+    private int getSize( CSSValue value )
+	{
+		if ( value != null && ( value instanceof FloatValue ) )
+		{
+			return (int) ( ( (FloatValue) value ).getFloatValue( ) / 1000 );
+		}
+		return 0;
+	}
+	
+    private boolean isBoldFont(CSSValue value)
+    {
+    	if(value instanceof StringValue && value!=null)
+        {
+    		String weight = ((StringValue)value).getStringValue();
+    		if("bold".equals(weight.toLowerCase()) || "bolder".equals(weight.toLowerCase()) //$NON-NLS-1$ //$NON-NLS-2$
+    	            || "600".equals(weight) || "700".equals(weight)  //$NON-NLS-1$//$NON-NLS-2$
+    	            || "800".equals(weight) || "900".equals(weight))  //$NON-NLS-1$//$NON-NLS-2$
+    	        {
+    	            return true;
+    	        }
+        }
+    	return false;
+    }
+  
+    private boolean isItalicFont( String italic )
+    {
+    	if (CSSConstants.CSS_OBLIQUE_VALUE.equals( italic )
+                || CSSConstants.CSS_ITALIC_VALUE.equals(italic))
+        {
+        	return true;
+        }
+    	return false;
+    }
 }
