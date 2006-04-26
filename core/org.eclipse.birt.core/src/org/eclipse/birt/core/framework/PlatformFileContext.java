@@ -48,6 +48,10 @@ public class PlatformFileContext implements IPlatformContext
 		root = config.getBIRTHome( );;
 		if ( root == null )
 		{
+			root = System.getProperty( IPlatformConfig.BIRT_HOME );
+		}
+		if ( root == null )
+		{
 			root = ".";
 		}
 		arguments = config.getOSGiArguments( );

@@ -25,7 +25,7 @@ import org.osgi.framework.BundleContext;
  * 
  * This class is a singleton.
  * 
- * @version $Revision: 1.13 $ $Date: 2006/03/21 23:21:58 $
+ * @version $Revision: 1.14 $ $Date: 2006/04/25 08:17:33 $
  */
 public class Platform
 {
@@ -68,7 +68,7 @@ public class Platform
 			if( context == null )
 			{
 				context = new PlatformFileContext( config );
-				config.setProperty( PlatformConfig.BIRT_HOME, context );
+				config.setProperty( PlatformConfig.PLATFORM_CONTEXT, context );
 			}
 			// start up the OSGI framework
 			try
