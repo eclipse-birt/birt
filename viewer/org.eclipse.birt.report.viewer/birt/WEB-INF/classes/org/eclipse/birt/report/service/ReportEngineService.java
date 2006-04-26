@@ -430,14 +430,27 @@ public class ReportEngineService
 	 * Create HTML render context.
 	 * 
 	 * @param svgFlag
+	 * @param servletPath
 	 * @return
 	 */
-	private HTMLRenderContext createHTMLrenderContext( boolean svgFlag )
+	private HTMLRenderContext createHTMLrenderContext( boolean svgFlag,
+			String servletPath )
 	{
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( imageDirectory );
 		renderContext.setBaseImageURL( contextPath + imageBaseUrl );
-		renderContext.setBaseURL( this.contextPath + "/frameset" ); //$NON-NLS-1$
+		if ( servletPath != null
+				&& servletPath.length( ) > 0
+				&& !servletPath
+						.equalsIgnoreCase( IBirtConstants.SERVLET_PATH_PREVIEW ) )
+		{
+			renderContext.setBaseURL( this.contextPath + servletPath );
+		}
+		else
+		{
+			renderContext.setBaseURL( this.contextPath
+					+ IBirtConstants.SERVLET_PATH_FRAMESET );
+		}
 		renderContext.setSupportedImageFormats( svgFlag
 				? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return renderContext;
@@ -451,7 +464,8 @@ public class ReportEngineService
 	private PDFRenderContext createPDFrenderContext( )
 	{
 		PDFRenderContext renderContext = new PDFRenderContext( );
-		renderContext.setBaseURL( this.contextPath + "/frameset" ); //$NON-NLS-1$
+		renderContext.setBaseURL( this.contextPath
+				+ IBirtConstants.SERVLET_PATH_RUN );
 		renderContext.setSupportedImageFormats( "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$
 		return renderContext;
 	}
@@ -546,8 +560,10 @@ public class ReportEngineService
 
 		if ( !ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 		{
-			context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
-					createHTMLrenderContext( svgFlag ) );
+			context
+					.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+							createHTMLrenderContext( svgFlag, request
+									.getServletPath( ) ) );
 		}
 		else
 		{
@@ -659,7 +675,7 @@ public class ReportEngineService
 
 		HashMap context = new HashMap( );
 		context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
-				createHTMLrenderContext( svgFlag ) );
+				createHTMLrenderContext( svgFlag, request.getServletPath( ) ) );
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
@@ -1094,7 +1110,7 @@ public class ReportEngineService
 	 * uses to clear the data cach.
 	 * 
 	 * @param dataSet
-	 * 				the dataset handle
+	 *            the dataset handle
 	 * @throws BirtException
 	 */
 	public void clearCache( DataSetHandle dataSet ) throws BirtException
@@ -1108,7 +1124,7 @@ public class ReportEngineService
 		DataEngine dataEngine = DataEngine.newDataEngine( DataEngineContext
 				.newInstance( DataEngineContext.DIRECT_PRESENTATION, null,
 						null, null ) );
-		
+
 		dataEngine.clearCache( sourceDesign, dataSetDesign );
 	}
 }
