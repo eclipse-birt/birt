@@ -8,21 +8,15 @@
             id="%oda.data.source.id"
             name="%oda.data.source.name"
             parentCategory="%oda.parent.category.id"/>
-      <configurationType id="org.eclipse.datatools.connectivity.oda.profile.BIRTSampleDBConfig"/>
       <connectionProfile
             category="%oda.data.source.id"
-            configurationType="org.eclipse.datatools.connectivity.oda.profile.BIRTSampleDBConfig"
             icon="icons/file.gif"
             id="%oda.data.source.id"
-            name="%connection.profile.name"/>
+            name="%connection.profile.name"
+            pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"/>
       <connectionFactory
             id="org.eclipse.datatools.connectivity.oda.IConnection"
             name="%oda.connection.factory.name"
-            class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"
-            profile="%oda.data.source.id"/>
-      <connectionFactory
-            id="org.eclipse.datatools.connectivity.connectionFactory.pingFactory"
-            name="%ping.factory.name"
             class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"
             profile="%oda.data.source.id"/>
       <newWizard
