@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -32,7 +33,7 @@ import com.ibm.icu.util.ULocale;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.12 $ $Date: 2005/12/08 01:16:33 $
+ * @version $Revision: 1.13 $ $Date: 2006/04/26 06:48:00 $
  */
 public class ReportParser
 {
@@ -42,6 +43,8 @@ public class ReportParser
 	 */
 	static protected Logger logger = Logger.getLogger( ReportParser.class.getName() );
 
+	private IResourceLocator resourceLocator;
+
 	/**
 	 * constructor.
 	 */
@@ -49,6 +52,10 @@ public class ReportParser
 	{
 	}
 
+	public ReportParser( IResourceLocator resourceLocator )
+	{
+		this.resourceLocator = resourceLocator;
+	}
 	/**
 	 * parse the XML input stream.
 	 * 
@@ -86,6 +93,10 @@ public class ReportParser
 		SessionHandle sessionHandle = DesignEngine.newSession( ULocale
 				.getDefault( ) );
 
+		if ( resourceLocator != null )
+		{
+			sessionHandle.setResourceLocator( resourceLocator );
+		}
 		// Obtain design handle
 		ReportDesignHandle designHandle = null;
 		if ( in != null )

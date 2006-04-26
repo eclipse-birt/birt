@@ -189,6 +189,23 @@ public interface IReportEngine
 			throws EngineException;
 
 	/**
+	 * opens a report document and returns an IReportDocument object, from which
+	 * further information can be retrieved.
+	 * 
+	 * @param systemId
+	 *            the full path of the report design file
+	 * @param fileName
+	 *            the report document name. report document is an archive in
+	 *            BIRT.
+	 * @return A handle to the report document
+	 * @throws EngineException
+	 *             throwed when the report document archive does not exist, or
+	 *             the file is not a valud report document
+	 */
+	public IReportDocument openReportDocument( String systemId,
+			String fileName ) throws EngineException;
+
+	/**
 	 * creates a task that allows data extraction from a report document
 	 * 
 	 * @param reportDocument

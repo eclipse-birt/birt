@@ -401,4 +401,10 @@ public class ReportEngine implements IReportEngine
 	{
 
 	}
+
+	public IReportDocument openReportDocument( String systemId,
+			String fileName ) throws EngineException
+	{
+		return helper.openReportDocument( systemId, fileName );
+	}
 }

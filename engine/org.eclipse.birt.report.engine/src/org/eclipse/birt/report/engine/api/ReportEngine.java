@@ -281,4 +281,10 @@ public class ReportEngine implements IReportEngine
 	{
 		engine.shutdown( );
 	}
+
+	public IReportDocument openReportDocument( String systemId, String fileName )
+			throws EngineException
+	{
+		return engine.openReportDocument( systemId, fileName );
+	}
 }

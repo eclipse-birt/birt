@@ -16,6 +16,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.PlatformConfig;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 
 /**
  * Wraps around configuration settings for report engine. Allows developers to
@@ -254,5 +255,26 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	public IPlatformContext getServletContext( )
 	{
 		return getPlatformContext( );
+	}
+
+	/**
+	 * @return the resourceLocator
+	 */
+	public IResourceLocator getResourceLocator( )
+	{
+		Object locator = getProperty( RESOURCE_LOCATOR );
+		if ( locator instanceof IResourceLocator )
+		{
+			return (IResourceLocator) locator;
+		}
+		return null;
+	}
+	
+	/**
+	 * @param resourceLocator the resourceLocator to set
+	 */
+	public void setResourceLocator( IResourceLocator resourceLocator )
+	{
+		setProperty( RESOURCE_LOCATOR, resourceLocator );
 	}
 }

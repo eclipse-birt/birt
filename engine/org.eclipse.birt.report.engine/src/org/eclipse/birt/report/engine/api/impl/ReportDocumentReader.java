@@ -76,11 +76,19 @@ public class ReportDocumentReader
 	private HashMap tocMapByName;
 	/** Map from the id to offset */
 	private HashMap reportlets;
+	/** Design name */
+	private String designName;
 
 	public ReportDocumentReader( IReportEngine engine, IDocArchiveReader archive )
 	{
+		this( null, engine, archive );
+	}
+
+	public ReportDocumentReader( String designName, IReportEngine engine, IDocArchiveReader archive )
+	{
 		this.engine = engine;
 		this.archive = archive;
+		this.designName = designName;
 		try
 		{
 			archive.open( );
@@ -221,7 +229,15 @@ public class ReportDocumentReader
 	{
 		if ( reportRunnable == null )
 		{
-			String name = archive.getName( );
+			String name = null;
+			if ( designName == null )
+			{
+				name = archive.getName( );
+			}
+			else
+			{
+				name = designName;
+			}
 			InputStream stream = getDesignStream( );
 			if ( stream != null )
 			{

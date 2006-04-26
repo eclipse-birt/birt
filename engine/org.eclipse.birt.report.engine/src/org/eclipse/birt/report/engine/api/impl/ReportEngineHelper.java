@@ -33,7 +33,6 @@ import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.parser.ReportParser;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -286,30 +285,37 @@ public class ReportEngineHelper
 	public IReportDocument openReportDocument( String docArchiveName )
 			throws EngineException
 	{
+		return openReportDocument( null, docArchiveName );
+	}
+
+	public IReportDocument openReportDocument( String systemId,
+			String docArchiveName ) throws EngineException
+	{
 		IDocArchiveReader reader = null;
-		try 
+		try
 		{
-			if ( docArchiveName.endsWith( "\\" ) || docArchiveName.endsWith( "/" ) )
+			if ( docArchiveName.endsWith( "\\" )
+					|| docArchiveName.endsWith( "/" ) )
 			{
 				reader = new FolderArchiveReader( docArchiveName );
 			}
-			else 
+			else
 			{
-			reader = new FileArchiveReader( docArchiveName );
+				reader = new FileArchiveReader( docArchiveName );
 			}
-		} 
-		catch (IOException e) 
-		{
-			throw new EngineException( e.getLocalizedMessage() );
 		}
-		
-		return openReportDocument( reader );
+		catch ( IOException e )
+		{
+			throw new EngineException( e.getLocalizedMessage( ) );
+		}
+
+		return openReportDocument( systemId, reader );
 	}
 
-	private IReportDocument openReportDocument( IDocArchiveReader archive )
-			throws EngineException
+	private IReportDocument openReportDocument( String systemId,
+			IDocArchiveReader archive ) throws EngineException
 	{
-		return new ReportDocumentReader( engine, archive );
+		return new ReportDocumentReader( systemId, engine, archive );
 	}
 
 	public IRunTask createRunTask( IReportRunnable runnable )
