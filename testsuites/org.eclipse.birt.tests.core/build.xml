@@ -54,11 +54,8 @@
 				*/
 
 				currWorkspacePath = basedir.substring(0 , basedir.lastIndexOf("\\"));
-				System.out.println( currWorkspacePath );
 				currPluginAbsolutePath = currWorkspacePath + "\\" + moduleName;
-				System.out.println( currPluginAbsolutePath );
 				currConfAbsolutePath = currPluginAbsolutePath + "\\" + dirTests + "\\configuration";
-				System.out.println( currConfAbsolutePath );
 			
 				//1.create folder: configuration/
 				currConfFolder = new File(currConfAbsolutePath);
@@ -96,7 +93,6 @@
 					if(allPlugins[index].isDirectory())
 					{
 						tPluginName = allPlugins[index].getName( );
-						System.out.println( tPluginName );
 						if ( !tPluginName.startsWith( "." ) )
 						{
 							devPropWriter.write( tPluginName );
