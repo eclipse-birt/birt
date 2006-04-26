@@ -39,6 +39,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -295,14 +296,6 @@ public class NewReportWizard extends Wizard implements
 			out.write( buff );
 			out.close( );
 			stream.close( );
-			
-			if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
-			    InputStream is = new FileInputStream(file);
-			    ModuleHandle model = SessionHandleAdapter.getInstance( ).init( file.getAbsolutePath( ),is );
-			    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
-			    model.save( );
-			    is.close( );
-			}
 		}
 		catch ( Exception e )
 		{
@@ -328,9 +321,15 @@ public class NewReportWizard extends Wizard implements
 					}
 
 					// open the editor on the file
-					page.openEditor( new ReportEditorInput( file ),
+					IEditorPart editorPart = page.openEditor( new ReportEditorInput( file ),
 							IReportEditorContants.DESIGN_EDITOR_ID,
 							true );
+					ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+					if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
+					    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
+					    model.save( );
+					    editorPart.doSave( null );
+					}
 //					setReportSettings( ( (RCPReportEditor) editorPart ).getModel( ) );
 //					editorPart.doSave( null );
 

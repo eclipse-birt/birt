@@ -255,14 +255,6 @@ public class NewReportTemplateWizard extends Wizard implements
 			out.write( buff );
 			out.close( );
 			stream.close( );
-			
-			if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
-			    InputStream is = new FileInputStream(file);
-			    ModuleHandle model = SessionHandleAdapter.getInstance( ).init( file.getAbsolutePath( ),is );
-			    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
-			    model.save( );
-			    is.close( );
-			}
 		}
 		catch ( Exception e )
 		{
@@ -291,8 +283,12 @@ public class NewReportTemplateWizard extends Wizard implements
 					IEditorPart editorPart = page.openEditor( new ReportEditorInput( file ),
 							IReportEditorContants.TEMPLATE_EDITOR_ID,
 							true );
-					setReportSettings( SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( ) );
+					ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+					if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
+					    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
+					}
+					    
+					setReportSettings(model);
 					editorPart.doSave( null );
 
 				}

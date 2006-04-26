@@ -39,6 +39,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -189,16 +190,6 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 				file.create( stream, true, monitor );
 			}
 			stream.close( );
-			
-			if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
-			    fileName = file.getLocation( ).toOSString( );
-			    InputStream is = new FileInputStream(fileName);
-			    ModuleHandle model = SessionHandleAdapter.getInstance( ).init( fileName,is );
-			    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
-			    model.save();
-			    is.close( );
-			}
-
 		}
 		catch ( Exception e )
 		{
@@ -215,7 +206,13 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-					IDE.openEditor( page, file, true );
+					IEditorPart editorPart = IDE.openEditor( page, file, true );
+					ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+					if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
+					    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
+					    model.save( );
+					    editorPart.doSave( null );
+					}
 //					page.openEditor( new FileEditorInput( file ),
 //							LibraryReportEditor.EDITOR_ID,
 //							true );

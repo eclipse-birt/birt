@@ -37,6 +37,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -256,15 +257,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 			stream.read( buff );
 			out.write( buff );
 			out.close( );
-			stream.close( );
-			
-			if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
-			    InputStream is = new FileInputStream(file);
-			    ModuleHandle model = SessionHandleAdapter.getInstance( ).init( file.getAbsolutePath( ),is );
-			    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
-			    model.save( );
-			    is.close( );
-			}
+			stream.close( );	
 		}
 		catch ( Exception e )
 		{
@@ -283,9 +276,15 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-					page.openEditor( new ReportEditorInput( file ),
+				    	IEditorPart editorPart = page.openEditor( new ReportEditorInput( file ),
 							IReportEditorContants.LIBRARY_EDITOR_ID,
 							true );
+					ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+					if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
+					    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
+					    model.save( );
+					    editorPart.doSave( null );
+					}
 				}
 				catch ( Exception e )
 				{
