@@ -17,6 +17,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -166,8 +167,18 @@ public class ActionHandleTest extends BaseTestCase
 		MemberHandle memberHandle = actionHandle.getParamBindings( );
 		assertEquals( 1, memberHandle.getListValue( ).size( ) );
 		assertEquals(
-				"exp0", ( (ParamBindingHandle) memberHandle.getAt( 0 ) ).getExpression( ) ); //$NON-NLS-1$
-
+		"exp0", ( (ParamBindingHandle) memberHandle.getAt( 0 ) ).getExpression( ) ); //$NON-NLS-1$
+		
+//	    Iterator iter = imageHandle.getColumnBindings( ).iterator( );
+//	    while( iter.hasNext( ) )
+//	    {
+//	    	ComputedColumnHandle ccHandle = (ComputedColumnHandle) iter.next( );
+//	    	String expr = ccHandle.getExpression( );
+//	    	String colName = ccHandle.getName( );
+//	    	System.out.println( "Column name: [" + colName + "]	Expr: [" + expr + "]");
+//	    }
+//		
+		
 		memberHandle.removeItem( 0 );
 		assertEquals( 0, memberHandle.getListValue( ).size( ) );
 

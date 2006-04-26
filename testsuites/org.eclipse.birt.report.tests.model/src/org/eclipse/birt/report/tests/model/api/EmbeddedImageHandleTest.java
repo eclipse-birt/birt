@@ -1,7 +1,6 @@
 package org.eclipse.birt.report.tests.model.api;
 
 import java.util.List;
-import java.util.Locale;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -13,6 +12,8 @@ import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 public class EmbeddedImageHandleTest extends BaseTestCase
 {
@@ -34,7 +35,7 @@ public class EmbeddedImageHandleTest extends BaseTestCase
 		public void testDrop( ) throws Exception
 		{
 	
-			SessionHandle sessionHandle = DesignEngine.newSession( Locale.ENGLISH );
+			SessionHandle sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 			ReportDesignHandle designHandle = sessionHandle.openDesign(PLUGIN_PATH+getFullQualifiedClassName( ) + INPUT_FOLDER+filename);
 			
 			SimpleValueHandle propHandle = (SimpleValueHandle)designHandle.getPropertyHandle( ReportDesign.IMAGES_PROP );

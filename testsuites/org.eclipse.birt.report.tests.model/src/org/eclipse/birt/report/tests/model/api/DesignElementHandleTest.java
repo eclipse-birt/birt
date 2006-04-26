@@ -36,6 +36,8 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 
 public class DesignElementHandleTest extends BaseTestCase
 {
@@ -103,7 +105,7 @@ public class DesignElementHandleTest extends BaseTestCase
 	public void testcanContainTableHeader( ) throws SemanticException
 	{
 
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH );
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = sessionHandle.createDesign( );
 		design = (ReportDesign) designHandle.getModule();
 
@@ -232,7 +234,7 @@ public class DesignElementHandleTest extends BaseTestCase
 
 	public void testcanContainGroupName( ) throws SemanticException
 	{
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH );
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = sessionHandle.createDesign( );
 		design = (ReportDesign) designHandle.getModule();
 

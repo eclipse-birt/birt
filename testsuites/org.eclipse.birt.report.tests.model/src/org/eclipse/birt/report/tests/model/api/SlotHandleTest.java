@@ -13,7 +13,6 @@ package org.eclipse.birt.report.tests.model.api;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -42,6 +41,8 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Tests the paste and canContain methods in the SlotHandle.
@@ -105,7 +106,7 @@ public class SlotHandleTest extends BaseTestCase
 
 	protected void setUp( ) throws Exception
 	{
-		SessionHandle sessionHandle = DesignEngine.newSession( Locale.ENGLISH );
+		SessionHandle sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = sessionHandle.createDesign( );
 		design = designHandle.getDesign( );
 	}
@@ -136,7 +137,7 @@ public class SlotHandleTest extends BaseTestCase
 
 		// test on copy/paste for a datasource and a dataset
 
-		SessionHandle sessionHandle = DesignEngine.newSession( Locale.ENGLISH );
+		SessionHandle sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 		ReportDesignHandle newDesignHandle = sessionHandle.createDesign( );
 		ReportDesign newDesign = newDesignHandle.getDesign( );
 
@@ -208,7 +209,7 @@ public class SlotHandleTest extends BaseTestCase
 	public void testcanContainGroupName( ) throws SemanticException
 	{
 		
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH );
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = sessionHandle.createDesign( );
 		design = (ReportDesign) designHandle.getModule();
 

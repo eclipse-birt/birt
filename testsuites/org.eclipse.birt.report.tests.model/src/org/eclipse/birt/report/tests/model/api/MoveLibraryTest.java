@@ -1,18 +1,17 @@
 package org.eclipse.birt.report.tests.model.api;
 
+import java.io.File;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.SharedStyleHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
-import java.io.File;
-import java.util.Locale;
+
+import com.ibm.icu.util.ULocale;
 
 
 public class MoveLibraryTest extends BaseTestCase
@@ -44,7 +43,7 @@ public class MoveLibraryTest extends BaseTestCase
 	}
 	public void testCopyLibA( ) throws Exception
 	{
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH );
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 		assertNotNull( sessionHandle );
 
 		libraryHandle = sessionHandle.openLibrary( LibA);
