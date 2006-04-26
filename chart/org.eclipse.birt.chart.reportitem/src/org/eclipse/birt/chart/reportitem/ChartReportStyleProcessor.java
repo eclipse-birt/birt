@@ -159,7 +159,11 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 
 			if ( dstyle != null )
 			{
-				fname = dstyle.getFontFamily( );
+				CSSValueList valueList = (CSSValueList)dstyle.getProperty( StyleConstants.STYLE_FONT_FAMILY );
+				if ( valueList.getLength( ) > 0 )
+				{
+					fname = valueList.item( 0 ).getCssText( );
+				}
 				fsize = getSize( dstyle.getProperty( StyleConstants.STYLE_FONT_SIZE ));				
 				fbold = isBoldFont( dstyle.getProperty( StyleConstants.STYLE_FONT_WEIGHT));
 				fitalic = isItalicFont( dstyle.getFontStyle( ) );
