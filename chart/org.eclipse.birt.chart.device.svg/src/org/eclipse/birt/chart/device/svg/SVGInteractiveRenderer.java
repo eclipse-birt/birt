@@ -113,7 +113,8 @@ public class SVGInteractiveRenderer
 		// For now only group series elements
 		if ( pre.getSource( ) instanceof StructureSource )
 		{
-			Series seDT = (Series) getElementFromSource( (StructureSource)pre.getSource( ), StructureType.SERIES );
+			StructureSource sourceObject = (StructureSource) pre.getSource( );
+			Series seDT = (Series) getElementFromSource( sourceObject, StructureType.SERIES );
 			if ( seDT != null )
 			{
 				String groupIdentifier = null;
@@ -121,13 +122,13 @@ public class SVGInteractiveRenderer
 				{
 					// Depending on legend coloring, we group differently
 					if ( isColoredByCategories( )
-							&& getElementFromSource( (StructureSource) pre.getSource( ),
+							&& getElementFromSource( sourceObject,
 									StructureType.SERIES_DATA_POINT ) != null )
 					{
 						seDT = findCategorySeries( seDT );
 						groupIdentifier = String.valueOf( seDT.hashCode( ) );
 						// Group by categories
-						DataPointHints dph = (DataPointHints) getElementFromSource( (StructureSource) pre.getSource( ),
+						DataPointHints dph = (DataPointHints) getElementFromSource( sourceObject,
 								StructureType.SERIES_DATA_POINT );
 						groupIdentifier += "index"; // $NON-NLS-1$
 						groupIdentifier += ( (DataPointHints) dph ).getIndex( );
@@ -207,6 +208,51 @@ public class SVGInteractiveRenderer
 				}
 
 			}
+			else{
+				final Chart cmDT = _iun.getDesignTimeModel( );
+				Object designObject  = null;			
+				//check to see if this is the title block
+				if (getElementFromSource( sourceObject,	StructureType.TITLE ) != null){
+					designObject = cmDT.getTitle();
+				}
+				else if (getElementFromSource( sourceObject,	StructureType.CHART_BLOCK ) != null){
+					designObject = cmDT.getBlock();
+				}
+				
+				if (designObject != null){
+					String groupIdentifier = String.valueOf( designObject.hashCode( ) );
+					String id = Integer.toString( pre.hashCode( ) );
+					List components = (List) componentPrimitives.get( designObject );
+					if ( components == null )
+					{
+						components = new ArrayList( );
+						componentPrimitives.put( designObject, components );
+					}
+	
+					// May have to group drawing instructions that come from
+					// the same primitive render events.
+					String idTemp = id;
+					int counter = 1;
+					while ( components.contains( idTemp ) )
+					{
+						idTemp = id + "@" + counter; //$NON-NLS-1$
+						counter++;
+					}
+	
+					components.add( idTemp );
+	
+					// Create group element that will contain the drawing
+					// instructions that corresponds to the event
+					Element primGroup = svg_g2d.createElement( "g" ); //$NON-NLS-1$
+					svg_g2d.pushParent( primGroup );
+					primGroup.setAttribute( "id", groupIdentifier + "_" + idTemp ); //$NON-NLS-1$ //$NON-NLS-2$
+					primGroup.setAttribute( "style", "visibility:visible;" ); //$NON-NLS-1$ //$NON-NLS-2$	
+					svg_g2d.setDeferStrokColor( primGroup );
+	
+				}
+
+			}
+			
 		}
 	}
 
@@ -231,7 +277,8 @@ public class SVGInteractiveRenderer
 		// For now only ungroup series elements
 		if ( pre.getSource( ) instanceof StructureSource )
 		{
-			final Series series = (Series) getElementFromSource( (StructureSource) pre.getSource( ),
+			StructureSource sourceObject = (StructureSource) pre.getSource( );
+			final Series series = (Series) getElementFromSource( sourceObject,
 					StructureType.SERIES );
 			if ( series != null )
 			{
@@ -246,6 +293,15 @@ public class SVGInteractiveRenderer
 					svg_g2d.popParent( );
 				}
 			}
+			else{
+				//check to see if this is the title block
+				if ((getElementFromSource( sourceObject,	StructureType.TITLE ) != null) ||
+					(getElementFromSource( sourceObject,	StructureType.CHART_BLOCK ) != null)){
+					svg_g2d.setDeferStrokColor( null );
+					svg_g2d.popParent( );
+				}
+			}
+			
 		}
 	}
 
@@ -362,8 +418,13 @@ public class SVGInteractiveRenderer
 								Element title = svg_g2d.dom.createElement( "title" ); //$NON-NLS-1$
 								title.appendChild( svg_g2d.dom.createTextNode( tooltipText ) );
 								elm.appendChild( title );
-								elm.setAttribute( "onmouseout", "TM.remove()" ); //$NON-NLS-1$ //$NON-NLS-2$
-								elm.setAttribute( "onmousemove", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
+								//on mouse over is actually two events to show the tooltip
+								if (scriptEvent.equals("onmouseover")){//$NON-NLS-1$
+									elm.setAttribute( "onmouseout", "TM.remove()" ); //$NON-NLS-1$ //$NON-NLS-2$
+									elm.setAttribute( "onmousemove", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
+								}
+								else
+									elm.setAttribute( scriptEvent, "TM.show(evt)" ); //$NON-NLS-1$ 
 							}
 							break;
 						case ActionType.URL_REDIRECT :
@@ -827,6 +888,68 @@ public class SVGInteractiveRenderer
 				}
 				setCursor( elm );
 			}
+		}
+		else{
+			//the source is not a series object.  It may be a title, plot area or axis
+			final Chart cmDT = _iun.getDesignTimeModel( );
+			Object designObject  = null;			
+			//check to see if this is the title block
+			if (getElementFromSource( src,	StructureType.TITLE ) != null){
+				designObject = cmDT.getTitle();
+			}
+			else if (getElementFromSource( src,	StructureType.CHART_BLOCK ) != null){
+				designObject = cmDT.getBlock();
+			}
+			if (designObject != null){
+				String jsFunction = null;
+				switch( type )
+				{
+					case ActionType.TOGGLE_VISIBILITY:
+						jsFunction = "toggleVisibility(evt, ";
+						break;
+					case ActionType.HIGHLIGHT:
+						jsFunction = "highlight(evt, ";
+						break;
+				}
+				if ( jsFunction == null )
+				{
+					assert false;
+					return;
+				}
+
+				
+				List components = (List) componentPrimitives.get( designObject );	
+				
+				Iterator iter = null;
+				// Apply action to graphics
+				if ( components != null)
+				{
+					String groupIdentifier = String.valueOf( designObject.hashCode( ) );
+					StringBuffer sb = new StringBuffer( );
+					sb.append( groupIdentifier );
+					
+					sb.append( ",new Array(" ); //$NON-NLS-1$
+					iter = components.iterator( );
+					appendArguments( sb, iter );	
+					
+					sb.append( ")" ); //$NON-NLS-1$
+					
+					elm.setAttribute( scriptEvent, //$NON-NLS-1$
+									  jsFunction 
+									+ sb.toString( )
+									+ ")" ); //$NON-NLS-1$		
+					
+					if ( tg.getCondition( ).getValue( ) == TriggerCondition.ONMOUSEOVER )
+					{
+						elm.setAttribute( "onmouseout", //$NON-NLS-1$
+										jsFunction 
+										+ sb.toString( )
+										+ ")" ); //$NON-NLS-1$		
+					}
+					setCursor( elm );
+				}
+			}
+			
 		}
 	}
 	private void appendArguments( StringBuffer sb, Iterator iter )
