@@ -189,15 +189,11 @@ public class ReportEngineHelper
 	 *             throwed when the input stream is null, or the stream does not
 	 *             yield a valid report design
 	 */
-	public IReportRunnable openReportDesign( DesignElementHandle designHandle )
+	public IReportRunnable openReportDesign( ReportDesignHandle designHandle )
 			throws EngineException
 	{
-		assert ( designHandle instanceof ReportDesignHandle );
-		ReportRunnable ret = new ReportRunnable(
-				(ReportDesignHandle) designHandle );
-		ret
-				.setReportName( ( (ReportDesignHandle) designHandle )
-						.getFileName( ) );
+		ReportRunnable ret = new ReportRunnable( designHandle );
+		ret.setReportName( ( designHandle ).getFileName( ) );
 		ret.setReportEngine( engine );
 		return ret;
 	}

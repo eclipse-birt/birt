@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * This is a wrapper class for the IReportEngine. 
@@ -106,6 +107,22 @@ public class ReportEngine implements IReportEngine
 			throws EngineException
 	{
 		return engine.openReportDesign( designName );
+	}
+	
+	/**
+	 * opens a report designHandle and creates a report design runnable. From the
+	 * ReportRunnable object, embedded images and parameter definitions can be
+	 * retrieved. Constructing an engine task requires a report design runnable
+	 * object.
+	 * 
+	 * @param designHandle
+	 * @return a report design runnable object
+	 * @throws EngineException
+	 */
+	public IReportRunnable openReportDesign( ReportDesignHandle designHandle )
+			throws EngineException
+	{
+		return engine.openReportDesign( designHandle );
 	}
 
 	/**

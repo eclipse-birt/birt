@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IStatusHandler;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -216,6 +217,22 @@ public class ReportEngine implements IReportEngine
 			throws EngineException
 	{
 		return helper.openReportDesign( designName );
+	}
+	
+	/**
+	 * opens a report designHandle and creates a report design runnable. From the
+	 * ReportRunnable object, embedded images and parameter definitions can be
+	 * retrieved. Constructing an engine task requires a report design runnable
+	 * object.
+	 * 
+	 * @param designHandle
+	 * @return a report design runnable object
+	 * @throws EngineException
+	 */
+	public IReportRunnable openReportDesign( ReportDesignHandle designHandle )
+			throws EngineException
+	{
+		return helper.openReportDesign( designHandle );
 	}
 
 	/**

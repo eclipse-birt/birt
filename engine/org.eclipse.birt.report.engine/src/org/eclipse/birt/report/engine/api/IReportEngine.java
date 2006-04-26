@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.api;
 import java.io.InputStream;
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+
 
 /**
  * A report engine provides an entry point for reporting functionalities. It is
@@ -68,6 +70,19 @@ public interface IReportEngine
 	 *             invalid
 	 */
 	public IReportRunnable openReportDesign( String designName )
+			throws EngineException;
+	
+	/**
+	 * opens a report designHandle and creates a report design runnable. From the
+	 * ReportRunnable object, embedded images and parameter definitions can be
+	 * retrieved. Constructing an engine task requires a report design runnable
+	 * object.
+	 * 
+	 * @param designHandle
+	 * @return a report design runnable object
+	 * @throws EngineException
+	 */
+	public IReportRunnable openReportDesign( ReportDesignHandle designHandle )
 			throws EngineException;
 
 	/**
