@@ -38,15 +38,6 @@ public class ReportParameterConverter
 	public ReportParameterConverter( String format, Locale locale )
 	{
 		this.format = format;
-
-		if ( this.format != null )
-		{
-			if ( this.format.indexOf( ":" ) != -1 )
-			{
-				this.format = this.format.substring( this.format.indexOf( ":" ) + 1 );
-			}
-		}
-
 		this.locale = locale;
 	}
 	
