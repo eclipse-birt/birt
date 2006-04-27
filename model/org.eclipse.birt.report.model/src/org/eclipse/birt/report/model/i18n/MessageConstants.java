@@ -177,8 +177,9 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_INVALID_PROPERTY_BINDING_ID = "Error.SemanticError.INVALID_PROPERTY_BINDING_ID"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_PROPERTY_BINDING_FORBIDDEN = "Error.SemanticError.PROPERTY_BINDING_FORBIDDEN"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT = "Error.SemanticError.INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT"; //$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_DATA_SET_MISSED_IN_JOINT_DATA_SET = "Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET";	
+	public static final String SEMANTIC_ERROR_DATA_SET_MISSED_IN_JOINT_DATA_SET = "Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET";	 //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_MISSING_COLUMN_BINDING = "Error.SemanticError.MISSING_COLUMN_BINDING"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_COLUMN_INSERT_FORBIDDEN = "Error.SemanticError.COLUMN_INSERT_FORBIDDEN"; //$NON-NLS-1$
 	
 	// ThemeException
 	

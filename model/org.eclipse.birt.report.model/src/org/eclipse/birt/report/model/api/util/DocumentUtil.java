@@ -543,26 +543,54 @@ public class DocumentUtil
 
 			( (StyledElement) target ).setStyle( null );
 
-			Module root = style.getRoot( );
-			assert root != null;
+			localizeStyleProperties( target, style, targetDesign );
 
-			// copy all the local values in the style
+		}
 
-			IElementDefn defn = style.getDefn( );
-			Iterator iter = defn.getPropertyIterator( );
-			while ( iter.hasNext( ) )
+		// handle only when the style is not local one but a library resource
+
+		String selector = ( (ElementDefn) target.getDefn( ) ).getSelector( );
+		style = sourceModule.resolveElement( selector, Module.STYLE_NAME_SPACE,
+				null );
+		if ( style != null && style.getRoot( ) != sourceModule )
+		{
+			localizeStyleProperties( target, style, targetDesign );
+		}
+	}
+
+	/**
+	 * Copies properties from <code>style</code> to the <code>target</code>.
+	 * 
+	 * @param target
+	 *            the target element
+	 * @param style
+	 *            the style element
+	 * @param targetDesign
+	 *            the module of the target element
+	 */
+
+	private static void localizeStyleProperties( DesignElement target,
+			DesignElement style, Module targetDesign )
+	{
+		Module root = style.getRoot( );
+		assert root != null;
+
+		// copy all the local values in the style
+
+		IElementDefn defn = style.getDefn( );
+		Iterator iter = defn.getPropertyIterator( );
+		while ( iter.hasNext( ) )
+		{
+			PropertyDefn prop = (PropertyDefn) iter.next( );
+			Object value = style.getLocalProperty( root, prop.getName( ) );
+			if ( value != null )
 			{
-				PropertyDefn prop = (PropertyDefn) iter.next( );
-				Object value = style.getLocalProperty( root, prop.getName( ) );
-				if ( value != null )
-				{
-					// only handle values that not set in the target element
+				// only handle values that not set in the target element
 
-					if ( target.getPropertyDefn( prop.getName( ) ) != null
-							&& target.getLocalProperty( targetDesign,
-									(ElementPropertyDefn) prop ) == null )
-						target.setProperty( prop.getName( ), value );
-				}
+				if ( target.getPropertyDefn( prop.getName( ) ) != null
+						&& target.getLocalProperty( targetDesign,
+								(ElementPropertyDefn) prop ) == null )
+					target.setProperty( prop.getName( ), value );
 			}
 		}
 	}

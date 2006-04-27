@@ -154,7 +154,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 		if ( !canDone )
 			throw new SemanticError( adapter.getElementHandle( ).getElement( ),
 					new String[]{adapter.getElementHandle( ).getName( )},
-					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN );
+					SemanticError.DESIGN_EXCEPTION_COLUMN_INSERT_FORBIDDEN );
 
 		TableColumn column = bandData.getColumn( );
 		List cells = bandData.getCells( );

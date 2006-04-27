@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
@@ -122,10 +123,17 @@ public class DataColumnNameValidator extends AbstractElementValidator
 		if ( exists( columns, columnBindingName ) )
 			return true;
 
-		tmpElement = tmpElement.getContainer( );
+		if ( tmpElement instanceof GroupElement )
+		{
+			tmpElement = tmpElement.getContainer( );
+			columns = (List) tmpElement.getProperty( module,
+					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+
+			if ( exists( columns, columnBindingName ) )
+				return true;
+		}
 
 		return false;
-
 	}
 
 	/**

@@ -3,4 +3,11 @@
 <plugin>
      <extension-point id="reportItemModel" name="reportItemModel" schema="schema/reportItem.exsd"/>
    <extension-point id="encryptionHelper" name="encryptionHelper" schema="schema/encryptionHelper.exsd"/>
+	
+   <extension
+         id="DesignEngineFactory"
+         name="DesignEngineFactory"
+         point="org.eclipse.birt.core.FactoryService">
+      <factory class="org.eclipse.birt.report.model.api.DesignEngineFactory"/>
+   </extension>
 </plugin>

@@ -214,6 +214,13 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_COLUMN_PASTE_DIFFERENT_LAYOUT = MessageConstants.SEMANTIC_ERROR_COLUMN_PASTE_DIFFERENT_LAYOUT;
 
 	/**
+	 * Error code indicating to insert one column is forbidden.
+	 */
+
+	public static final String DESIGN_EXCEPTION_COLUMN_INSERT_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_COLUMN_INSERT_FORBIDDEN;
+
+	
+	/**
 	 * Error code indicating the a cascading parameter is not typed as
 	 * "dynamic".
 	 */
