@@ -276,13 +276,21 @@ public final class ExpressionCompiler
 		if( refNode.getType() == Token.GETELEM )
 		{
 			if( rowColumn.getType() == Token.NUMBER )
+			{	
+				if( 0 == rowColumn.getDouble())
+					return null;
 				return new ColumnReferenceExpression(
 						this.isDataSetMode ? STRING_ROW : STRING_DATASETROW,
 						(int) rowColumn.getDouble());
+			}	
 			else if( rowColumn.getType() == Token.STRING )
+			{
+				if("_rownum".equals( rowColumn.getString() ))
+					return null;
 				return new ColumnReferenceExpression(
 						this.isDataSetMode ? STRING_ROW : STRING_DATASETROW,
 						rowColumn.getString());
+			}	
 		}		
 		
 		// right side is not a STRING or a NUMBER, which is what is needed for 

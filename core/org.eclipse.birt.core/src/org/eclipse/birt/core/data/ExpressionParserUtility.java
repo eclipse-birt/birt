@@ -210,11 +210,15 @@ class ExpressionParserUtility
 		{
 			if ( rowColumn.getType( ) == Token.NUMBER )
 			{
+				if( 0 == rowColumn.getDouble())
+					return;
 //				columnExprList.add( DATASETROW_INDICATOR
 //						+ "[" + (int) rowColumn.getDouble( ) + "]" );
 			}
 			else if ( rowColumn.getType( ) == Token.STRING )
 			{
+				if("_rownum".equals( rowColumn.getString() ))
+					return;
 				ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
 						DATASETROW_INDICATOR
 								+ "[\"" + rowColumn.getString( ) + "\"]" );
