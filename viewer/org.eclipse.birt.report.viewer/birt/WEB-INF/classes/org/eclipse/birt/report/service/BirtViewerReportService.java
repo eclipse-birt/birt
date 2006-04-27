@@ -101,6 +101,7 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( docName );
 		String fileName = doc.getReportRunnable( ).getReportName( );
+		doc.close( );
 		// TODO: What is content type?
 		IViewerReportDesignHandle design = new BirtViewerReportDesignHandle(
 				null, fileName );
@@ -125,10 +126,13 @@ public class BirtViewerReportService implements IViewerReportService
 		Long pageNum = Long.valueOf( pageID );
 		try
 		{
-			return ReportEngineService.getInstance( ).renderReport( request,
-					doc, pageNum.longValue( ),
-					isMasterPageContent.booleanValue( ),
-					svgFlag.booleanValue( ), activeIds, locale );
+			ByteArrayOutputStream os = ReportEngineService.getInstance( )
+					.renderReport( request, doc, pageNum.longValue( ),
+							isMasterPageContent.booleanValue( ),
+							svgFlag.booleanValue( ), activeIds, locale );
+			doc.close( );
+			return os;
+
 		}
 		catch ( RemoteException e )
 		{
@@ -184,6 +188,7 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			ReportEngineService.getInstance( ).extractData( doc, resultSetId,
 					columns, locale, out );
+			doc.close( );
 		}
 		catch ( RemoteException e )
 		{
@@ -202,6 +207,7 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			resultSetArray = ReportEngineService.getInstance( ).getResultSets(
 					doc );
+			doc.close( );
 		}
 		catch ( RemoteException e )
 		{
@@ -211,7 +217,7 @@ public class BirtViewerReportService implements IViewerReportService
 		if ( resultSetArray == null || resultSetArray.length <= 0 )
 		{
 			throw new ReportServiceException(
-					"There is no result set available for extracting the data." );
+					"There is no result set available for extracting the data." ); //$NON-NLS-1$
 		}
 
 		return transformResultSetArray( resultSetArray );
@@ -258,8 +264,10 @@ public class BirtViewerReportService implements IViewerReportService
 
 		if ( node == null )
 		{
-			throw new ReportServiceException( "Invalid TOC query." );
+			throw new ReportServiceException( "Invalid TOC query." ); //$NON-NLS-1$
 		}
+		
+		doc.close( );
 		return transformTOCNode( node );
 	}
 
@@ -268,7 +276,9 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( docName );
-		return doc.getPageCount( );
+		long count = doc.getPageCount( );
+		doc.close( );
+		return count;
 	}
 
 	public Collection getParameterDefinitions(
@@ -291,7 +301,9 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( docName );
-		return doc.getParameterValues( );
+		Map paramValues = doc.getParameterValues( );
+		doc.close( );
+		return paramValues;
 	}
 
 	public Collection getSelectionListForCascadingGroup(
@@ -335,7 +347,9 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( docName );
-		return doc.getPageNumber( bookmark );
+		long pageNumber = doc.getPageNumber( bookmark );
+		doc.close( );
+		return pageNumber;
 	}
 
 	public long getPageNumberByObjectId( String docName, String objectId,
@@ -408,7 +422,7 @@ public class BirtViewerReportService implements IViewerReportService
 			IGetParameterDefinitionTask parameterTask = getParameterDefinitionTask( design
 					.getFileName( ) );
 			if ( parameterTask == null )
-				throw new ReportServiceException( "Can not get parameter task." );
+				throw new ReportServiceException( "Can not get parameter task." ); //$NON-NLS-1$
 			return parameterTask.getParameters( ).getContents( );
 		}
 		catch ( EngineException e )
@@ -469,7 +483,7 @@ public class BirtViewerReportService implements IViewerReportService
 			Set paramNames = null;
 			if ( parameters != null )
 			{
-				 paramNames = parameters.keySet( );
+				paramNames = parameters.keySet( );
 			}
 
 			if ( parameters != null && paramName != null )
