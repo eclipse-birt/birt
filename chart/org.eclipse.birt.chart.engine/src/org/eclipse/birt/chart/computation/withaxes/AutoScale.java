@@ -1495,7 +1495,8 @@ public final class AutoScale extends Methods implements Cloneable
 			CDateTime cdt, cdtAxisValue = asDateTime( oMinimum );
 			final int iUnit = asInteger( oUnit );
 			final int iStep = asInteger( oStep );
-			final IDateFormatWrapper sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
+			final IDateFormatWrapper sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
+					rtc.getULocale( ) );
 
 			String sText;
 			cdt = cdtAxisValue;
@@ -2529,7 +2530,8 @@ public final class AutoScale extends Methods implements Cloneable
 			if ( fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
 			// ISN'T DEFINED
 			{
-				sdf = DateFormatWrapperFactory.getPreferredDateFormat( iDateTimeUnit );
+				sdf = DateFormatWrapperFactory.getPreferredDateFormat( iDateTimeUnit,
+						rtc.getULocale( ) );
 			}
 
 			// ADJUST THE START POSITION
@@ -2939,7 +2941,8 @@ public final class AutoScale extends Methods implements Cloneable
 			if ( fs != null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
 			// ISN'T DEFINED
 			{
-				sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
+				sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
+						rtc.getULocale( ) );
 			}
 
 			// ADJUST THE START POSITION
@@ -3144,7 +3147,8 @@ public final class AutoScale extends Methods implements Cloneable
 				IDateFormatWrapper sdf = null;
 				if ( fs == null )
 				{
-					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
+							rtc.getULocale( ) );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{
@@ -3287,7 +3291,8 @@ public final class AutoScale extends Methods implements Cloneable
 				IDateFormatWrapper sdf = null;
 				if ( fs == null )
 				{
-					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
+							rtc.getULocale( ) );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{
@@ -3463,7 +3468,8 @@ public final class AutoScale extends Methods implements Cloneable
 				IDateFormatWrapper sdf = null;
 				if ( fs == null )
 				{
-					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
+							rtc.getULocale( ) );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{
@@ -3610,7 +3616,8 @@ public final class AutoScale extends Methods implements Cloneable
 				IDateFormatWrapper sdf = null;
 				if ( fs == null )
 				{
-					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
+							rtc.getULocale( ) );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{

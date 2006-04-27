@@ -3779,7 +3779,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				IDateFormatWrapper sdf = null;
 				if ( fs == null )
 				{
-					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
+							rtc.getULocale( ) );
 				}
 				cdt = cdtAxisValue;
 
@@ -5005,7 +5006,8 @@ public abstract class AxesRenderer extends BaseRenderer
 
 				if ( fs == null )
 				{
-					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit );
+					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
+							rtc.getULocale( ) );
 				}
 				cdt = cdtAxisValue;
 
