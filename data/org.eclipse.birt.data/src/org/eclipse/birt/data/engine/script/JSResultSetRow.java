@@ -165,6 +165,11 @@ public class JSResultSetRow extends ScriptableObject
 			// impossible, ignore
 		}
 		
+		if( "__rownum".equalsIgnoreCase( name )||"0".equalsIgnoreCase( name ))
+		{
+			return new Integer( rowIndex );
+		}
+		
 		if ( rowIndex == currRowIndex && valueCacheMap.containsKey( name ) )
 		{
 			return valueCacheMap.get( name );

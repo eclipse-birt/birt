@@ -196,6 +196,10 @@ class ExpressionParserUtility
 		if ( refNode.getType( ) == Token.GETPROP
 				&& rowColumn.getType( ) == Token.STRING )
 		{
+			if ( "_outer".equals( rowColumn.getString( ) ) 
+					 &&!"__rownum".equals( rowColumn.getString( ) ) 
+					 &&!"0".equals( rowColumn.getString( ) ))
+				return;
 			ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
 					DATASETROW_INDICATOR
 							+ "[\"" + rowColumn.getString( ) + "\"]" );
