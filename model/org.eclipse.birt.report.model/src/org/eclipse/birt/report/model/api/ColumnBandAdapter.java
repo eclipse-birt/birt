@@ -240,4 +240,12 @@ abstract class ColumnBandAdapter
 
 		return null;
 	}
+	
+	/**
+	 * Returns a list containing rows.
+	 * 
+	 * @return a list containing rows.
+	 */
+
+	abstract protected List getRowContainerSlots( );
 }

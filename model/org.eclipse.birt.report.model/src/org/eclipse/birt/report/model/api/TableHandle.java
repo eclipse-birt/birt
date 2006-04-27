@@ -327,4 +327,35 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	{
 		return new LayoutTableModel( this );
 	}
+
+	/**
+	 * Inserts a column to the table. This includes inserting a table column and
+	 * corresponding table cells to the table item.
+	 * <p>
+	 * The insert action cannot be finished succesfully for cases like this:
+	 * 
+	 * <pre>
+	 *   		&lt;cell colSpan=&quot;1/&gt;&lt;cell colSpan=&quot;1/&gt;
+	 *   		&lt;cell colSpan=&quot;2/&gt;
+	 * </pre> 
+	 * if the user want to insert a column with cells to the column 2.
+	 * 
+	 * @param columnNumber
+	 *            The 1-based column number.
+	 * @param positionFlag
+	 *            The column insert sign. 1 insert after position. -1 insert
+	 *            before position
+	 * @throws SemanticException
+	 *             if the given position is occupied by any cell with a column
+	 *             span equal or greater than 1.
+	 * 
+	 */
+
+	public void insertColumn( int columnNumber, int positionFlag )
+			throws SemanticException
+	{
+		ColumnBandInsertAction insertAction = new ColumnBandInsertAction(
+				new TableColumnBandAdapter( this ) );
+		insertAction.insertColumnBand( columnNumber, positionFlag );
+	}
 }

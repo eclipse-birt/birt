@@ -203,5 +203,24 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 		}
 		return false;
 	}
+	
+	protected List getRowContainerSlots( )
+	{
+		List list = new ArrayList( );
 
+		list.add( element.getHeader( ) );
+
+		SlotHandle groups = element.getGroups( );
+		for ( int i = 0; i < groups.getCount( ); i++ )
+		{
+			GroupHandle group = (GroupHandle) groups.get( i );
+			list.add( group.getHeader( ) );
+			list.add( group.getFooter( ) );
+		}
+
+		list.add( element.getDetail( ) );
+		list.add( element.getFooter( ) );
+
+		return list;
+	}
 }

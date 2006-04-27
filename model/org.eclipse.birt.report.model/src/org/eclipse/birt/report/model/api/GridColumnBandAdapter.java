@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.elements.Cell;
@@ -132,6 +133,14 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 	protected boolean hasDroppingCell( List cells )
 	{
 		return false;
+	}
+
+	protected List getRowContainerSlots( )
+	{
+		List list = new ArrayList( );
+		list.add( element.getRows( ) );
+
+		return list;
 	}
 
 }
