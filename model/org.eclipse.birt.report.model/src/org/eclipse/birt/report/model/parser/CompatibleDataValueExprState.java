@@ -74,8 +74,8 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 					.getResultSetColumnName( ) ) ) )
 			{
 				String newName = DataBoundColumnUtil.setupBoundDataColumn(
-						element, value, column.getBoundExpression( ), handler
-								.getModule( ) );
+						element, column.getResultSetColumnName( ), column
+								.getBoundExpression( ), handler.getModule( ) );
 
 				// set the property for the result set column property of
 				// DataItem.

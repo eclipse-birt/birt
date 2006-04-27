@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -107,6 +108,15 @@ class ExpressionState extends PropertyState
 				&& ImageItem.IMAGE_NAME_PROP.equalsIgnoreCase( name ) )
 		{
 			PropertyState state = new PropertyState( handler, element );
+			state.setName( name );
+			return state;
+		}
+
+		if ( struct instanceof ParamBinding
+				&& StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ) //$NON-NLS-1$
+		{
+			CompatibleParamBindingValueState state = new CompatibleParamBindingValueState(
+					handler, element, propDefn, struct );
 			state.setName( name );
 			return state;
 		}
