@@ -85,6 +85,8 @@ public class CellState extends ReportElementState
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
 			return new TextItemState( handler, element, Cell.CONTENT_SLOT );
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.AUTO_TEXT_TAG ) )
+			return new AutoTextState( handler, element, Cell.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
 			return new LabelState( handler, element, Cell.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
