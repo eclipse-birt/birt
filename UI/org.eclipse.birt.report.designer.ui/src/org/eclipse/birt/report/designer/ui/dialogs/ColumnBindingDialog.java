@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -109,7 +110,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 		public Object[] getElements( Object inputElement )
 		{
-			List elementsList = DEUtil.getVisiableColumnBindingsList( (DesignElementHandle) inputElement );
+			List elementsList = getBindingList( (DesignElementHandle) inputElement );
 			elementsList.add( dummyChoice );
 			return elementsList.toArray( );
 		}
@@ -243,12 +244,11 @@ public class ColumnBindingDialog extends BaseDialog
 						{
 							return;
 						}
+
 						ComputedColumn column = StructureFactory.createComputedColumn( );
 						column.setName( newName );
 						column.setExpression( "" ); //$NON-NLS-1$
-						DEUtil.addColumn( DEUtil.getBindingHolder( inputElement ),
-								column,
-								true );
+						addBinding( column );
 					}
 					else
 					{
@@ -522,8 +522,14 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private void generateBindingColumns( ) throws SemanticException
 	{
-		if ( UIUtil.generateComputedColumns( inputElement ) )
+
+		List columnList = UIUtil.generateComputedColumns( inputElement );
+		if ( columnList.size( ) > 0 )
 		{
+			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			{
+				addBinding( (ComputedColumn) iter.next( ) );
+			}
 			refreshBindingTable( );
 		}
 	}
@@ -578,4 +584,24 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 	}
 
+	protected void addBinding( ComputedColumn column )
+	{
+		try
+		{
+			DEUtil.addColumn( DEUtil.getBindingHolder( inputElement ),
+					column,
+					true );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+	
+	protected List getBindingList( DesignElementHandle inputElement )
+	{
+		return DEUtil.getVisiableColumnBindingsList( inputElement );
+	}
+
+	
 }

@@ -32,14 +32,6 @@
    <extension
          id="chart"
          name="The chart extension"
-         point="org.eclipse.birt.report.engine.reportitemQuery">
-      <reportItem
-            class="org.eclipse.birt.chart.reportitem.ChartReportItemQueryImpl"
-            name="Chart"/>
-   </extension>
-   <extension
-         id="chart"
-         name="The chart extension"
          point="org.eclipse.birt.report.engine.reportitemPresentation">
       <reportItem
             class="org.eclipse.birt.chart.reportitem.ChartReportItemPresentationImpl"

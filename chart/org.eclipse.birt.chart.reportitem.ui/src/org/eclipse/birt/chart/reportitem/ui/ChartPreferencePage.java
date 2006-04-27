@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
-import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
@@ -58,7 +57,7 @@ public class ChartPreferencePage extends PreferencePage implements
 			gd.horizontalSpan = 2;
 			btnEnableLivePreview.setLayoutData( gd );
 			btnEnableLivePreview.setText( Messages.getString( "ChartPreferencePage.Label.EnableLivePreview" ) ); //$NON-NLS-1$
-			btnEnableLivePreview.setSelection( ChartReportItemPlugin.getDefault( )
+			btnEnableLivePreview.setSelection( ChartReportItemUIActivator.getDefault( )
 					.getPluginPreferences( )
 					.getBoolean( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE ) );
 		}
@@ -73,7 +72,7 @@ public class ChartPreferencePage extends PreferencePage implements
 			txtMaxRow.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
 			txtMaxRow.setValidRange( 1, MAX_ROW_LIMIT );
 			txtMaxRow.setEmptyStringAllowed( false );
-			txtMaxRow.setStringValue( ChartReportItemPlugin.getDefault( )
+			txtMaxRow.setStringValue( ChartReportItemUIActivator.getDefault( )
 					.getPluginPreferences( )
 					.getString( ChartReportItemUIActivator.PREFERENCE_MAX_ROW ) );
 			txtMaxRow.setPage( this );
@@ -90,16 +89,16 @@ public class ChartPreferencePage extends PreferencePage implements
 
 	public static void init( )
 	{
-		int maxRow = ChartReportItemPlugin.getDefault( )
+		int maxRow = ChartReportItemUIActivator.getDefault( )
 				.getPluginPreferences( )
 				.getInt( ChartReportItemUIActivator.PREFERENCE_MAX_ROW );
 		if ( maxRow <= 0 )
 		{
-			ChartReportItemPlugin.getDefault( )
+			ChartReportItemUIActivator.getDefault( )
 					.getPluginPreferences( )
 					.setValue( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE,
 							true );
-			ChartReportItemPlugin.getDefault( )
+			ChartReportItemUIActivator.getDefault( )
 					.getPluginPreferences( )
 					.setValue( ChartReportItemUIActivator.PREFERENCE_MAX_ROW,
 							MAX_ROW_DEFAULT );
@@ -123,15 +122,15 @@ public class ChartPreferencePage extends PreferencePage implements
 
 	public boolean performOk( )
 	{
-		ChartReportItemPlugin.getDefault( )
+		ChartReportItemUIActivator.getDefault( )
 				.getPluginPreferences( )
 				.setValue( ChartReportItemUIActivator.PREFERENCE_MAX_ROW,
 						txtMaxRow.getIntValue( ) );
-		ChartReportItemPlugin.getDefault( )
+		ChartReportItemUIActivator.getDefault( )
 				.getPluginPreferences( )
 				.setValue( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE,
 						btnEnableLivePreview.getSelection( ) );
-		ChartReportItemPlugin.getDefault( ).savePluginPreferences( );
+		ChartReportItemUIActivator.getDefault( ).savePluginPreferences( );
 		return super.performOk( );
 	}
 

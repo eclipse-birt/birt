@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -1247,7 +1248,7 @@ public class UIUtil
 	 * 
 	 * @return true if succeed,or fail if no column generated.
 	 */
-	public static boolean generateComputedColumns( ReportItemHandle handle )
+	public static List generateComputedColumns( ReportItemHandle handle )
 			throws SemanticException
 	{
 		Assert.isNotNull( handle );
@@ -1268,11 +1269,7 @@ public class UIUtil
 		if ( dataSetHandle != null )
 		{
 			List resultSetColumnList = getColumnList( dataSetHandle );
-			DEUtil.getBindingHolder( handle );
-			if ( resultSetColumnList.isEmpty( ) )
-			{
-				return false;
-			}
+			ArrayList columnList = new ArrayList( );
 			for ( Iterator iter = resultSetColumnList.iterator( ); iter.hasNext( ); )
 			{
 				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iter.next( );
@@ -1280,10 +1277,10 @@ public class UIUtil
 				column.setName( resultSetColumn.getColumnName( ) );
 				column.setDataType( resultSetColumn.getDataType( ) );
 				column.setExpression( DEUtil.getExpression( resultSetColumn ) );
-				DEUtil.addColumn( holder, column, false );
+				columnList.add( column );
 			}
-			return true;
+			return columnList;
 		}
-		return false;
+		return Collections.EMPTY_LIST;
 	}
 }

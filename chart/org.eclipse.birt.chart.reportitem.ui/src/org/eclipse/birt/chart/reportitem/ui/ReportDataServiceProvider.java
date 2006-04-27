@@ -11,13 +11,16 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -26,6 +29,10 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.report.data.adaptor.api.DataRequestSession;
+import org.eclipse.birt.report.data.adaptor.api.DataSessionContext;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
@@ -62,7 +69,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		super( );
 		this.itemHandle = itemHandle;
-		ChartDataSetManager.initCurrentInstance( getReportDesignHandle( ) );
 	}
 
 	private ModuleHandle getReportDesignHandle( )
@@ -86,7 +92,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			bindingList.add( ( (ComputedColumnHandle) columnBindingIterator.next( ) ).getStructure( ) );
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -109,18 +115,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			se.printStackTrace( );
 		}
-		
+
 		dsHandle = null;
 		bindingList = null;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#commitDataBinding()
 	 */
 	public void commitDataBinding( )
 	{
 		dsHandle = null;
-		bindingList = null;		
+		bindingList = null;
 	}
 
 	public String[] getAllDataSets( )
@@ -171,26 +179,26 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	private Iterator getColumnDataBindings( )
 	{
-		if ( getBoundDataSet( ) != null )
-		{
-			return itemHandle.columnBindingsIterator( );
-		}
-		DesignElementHandle handle = DEUtil.getBindingHolder( itemHandle );
-		if ( handle instanceof ReportItemHandle )
-		{
-			ArrayList list = new ArrayList( );
-			Iterator i = ( (ReportItemHandle) handle ).columnBindingsIterator( );
-			while ( i.hasNext( ) )
-			{
-				list.add( i.next( ) );
-			}
-			i = itemHandle.columnBindingsIterator( );
-			while ( i.hasNext( ) )
-			{
-				list.add( i.next( ) );
-			}
-			return list.iterator( );
-		}
+		// if ( getBoundDataSet( ) != null )
+		// {
+		// return itemHandle.columnBindingsIterator( );
+		// }
+		// DesignElementHandle handle = DEUtil.getBindingHolder( itemHandle );
+		// if ( handle instanceof ReportItemHandle )
+		// {
+		// ArrayList list = new ArrayList( );
+		// Iterator i = ( (ReportItemHandle) handle ).columnBindingsIterator( );
+		// while ( i.hasNext( ) )
+		// {
+		// list.add( i.next( ) );
+		// }
+		// i = itemHandle.columnBindingsIterator( );
+		// while ( i.hasNext( ) )
+		// {
+		// list.add( i.next( ) );
+		// }
+		// return list.iterator( );
+		// }
 		return itemHandle.columnBindingsIterator( );
 	}
 
@@ -206,25 +214,32 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		ClassLoader parentLoader = oldContextLoader;
 		if ( parentLoader == null )
 			parentLoader = this.getClass( ).getClassLoader( );
-		ClassLoader newContextLoader = ChartDataSetManager.getCustomScriptClassLoader( parentLoader );
+		ClassLoader newContextLoader = getCustomScriptClassLoader( parentLoader );
 		Thread.currentThread( ).setContextClassLoader( newContextLoader );
 
 		try
 		{
-			DataSetHandle datasetHandle = getDataSetFromHandle( );
-			IQueryResults actualResultSet = ChartDataSetManager.getCurrentInstance( )
-					.getCacheResult( datasetHandle,
-							itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-									.iterator( ),
-							itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-									.iterator( ),
-							getColumnDataBindings( ),
-							columnExpression,
-							rowCount <= 0 ? getMaxRow( ) : rowCount );
+			QueryDefinition queryDefn = new QueryDefinition( );
+			queryDefn.setMaxRows( getMaxRow( ) );
+			queryDefn.setDataSetName( getDataSetFromHandle( ).getName( ) );
+
+			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.CACHE_USE_ALWAYS,
+					getReportDesignHandle( ) ) );
+			for ( int i = 0; i < columnExpression.length; i++ )
+			{
+				queryDefn.addResultSetExpression( columnExpression[i],
+						new ScriptExpression( columnExpression[i] ) );
+			}
+
+			IQueryResults actualResultSet = session.executeQuery( queryDefn,
+					itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+							.iterator( ),
+					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
+							.iterator( ),
+					getColumnDataBindings( ) );
 			if ( actualResultSet != null )
 			{
-				String[] expressions = columnExpression;// extractExpressionNames(
-				// actualResultSet );
+				String[] expressions = columnExpression;
 				int columnCount = expressions.length;
 				IResultIterator iter = actualResultSet.getResultIterator( );
 				while ( iter.next( ) )
@@ -254,7 +269,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( BirtException e )
 		{
-			throw new ChartException( ChartReportItemPlugin.ID,
+			throw new ChartException( ChartReportItemUIActivator.ID,
 					ChartException.DATA_BINDING,
 					e );
 		}
@@ -263,7 +278,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
 		}
-
 		return dataList;
 	}
 
@@ -387,7 +401,31 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	protected int invokeDataBinding( )
 	{
-		ColumnBindingDialog page = new ColumnBindingDialog( false );
+		ColumnBindingDialog page = new ColumnBindingDialog( false ) {
+
+			protected void addBinding( ComputedColumn column )
+			{
+				try
+				{
+					DEUtil.addColumn( itemHandle, column, true );
+				}
+				catch ( SemanticException e )
+				{
+					// WizardBase.displayException( e );
+				}
+			}
+
+			protected List getBindingList( DesignElementHandle inputElement )
+			{
+				Iterator iterator = getColumnDataBindings( );
+				List list = new ArrayList( );
+				while ( iterator.hasNext( ) )
+				{
+					list.add( iterator.next( ) );
+				}
+				return list;
+			}
+		};
 		page.setInput( itemHandle );
 		return page.open( );
 	}
@@ -483,7 +521,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	private int getMaxRow( )
 	{
-		return ChartReportItemPlugin.getDefault( )
+		return ChartReportItemUIActivator.getDefault( )
 				.getPluginPreferences( )
 				.getInt( ChartReportItemUIActivator.PREFERENCE_MAX_ROW );
 	}
@@ -491,7 +529,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	public boolean isLivePreviewEnabled( )
 	{
 		return !isErrorFound
-				&& ChartReportItemPlugin.getDefault( )
+				&& ChartReportItemUIActivator.getDefault( )
 						.getPluginPreferences( )
 						.getBoolean( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE );
 	}
@@ -499,6 +537,37 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	public boolean isInvokingSupported( )
 	{
 		return true;
+	}
+
+	private ClassLoader getCustomScriptClassLoader( ClassLoader parent )
+	{
+		// For Bugzilla 106580: in order for Data Set Preview to locate POJO, we
+		// need to set current thread's context class loader to a custom loader
+		// which has the following path:
+		// All workspace Java project's class path (this class path is already
+		// has already calculated byorg.eclipse.birt.report.debug.ui plugin, and
+		// set as system property "workspace.projectclasspath"
+		String classPath = System.getProperty( "workspace.projectclasspath" ); //$NON-NLS-1$
+		if ( classPath == null || classPath.length( ) == 0 )
+			return parent;
+
+		String[] classPathArray = classPath.split( ";", -1 ); //$NON-NLS-1$
+		int count = classPathArray.length;
+		URL[] urls = new URL[count];
+		for ( int i = 0; i < count; i++ )
+		{
+			File file = new File( classPathArray[i] );
+			try
+			{
+				urls[i] = file.toURL( );
+			}
+			catch ( MalformedURLException e )
+			{
+				urls[i] = null;
+			}
+		}
+
+		return new URLClassLoader( urls, parent );
 	}
 
 }
