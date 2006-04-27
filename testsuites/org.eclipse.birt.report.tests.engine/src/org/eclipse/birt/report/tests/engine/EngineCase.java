@@ -34,9 +34,9 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
-import org.eclipse.birt.core.framework.IPlatformContext;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.core.framework.PlatformFileContext;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -102,15 +102,16 @@ public abstract class EngineCase extends TestCase
 
 	/**
 	 * Create a report engine instance.
+	 * @throws BirtException 
 	 */
-	public IReportEngine createReportEngine( EngineConfig config )
+	public IReportEngine createReportEngine( EngineConfig config ) throws BirtException
 	{
 		if ( config == null )
 		{
 			config = new EngineConfig( );
 		}
 
-		Platform.initialize( new PlatformFileContext( ) );
+		Platform.startup( new PlatformConfig() );
 		// assume we has in the platform
 		Object factory = Platform
 				.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
