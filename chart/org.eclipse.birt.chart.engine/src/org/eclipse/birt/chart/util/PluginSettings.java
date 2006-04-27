@@ -27,12 +27,14 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 import com.ibm.icu.util.ULocale;
 
@@ -111,19 +113,23 @@ public final class PluginSettings
 			{
 					"dv.SWING", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.swing.SwingRendererImpl", //$NON-NLS-1$
-					null, null
+					null,
+					null
 			}, {
 					"dv.SWT", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.swt.SwtRendererImpl", //$NON-NLS-1$
-					null, null
+					null,
+					null
 			}, {
 					"dv.PNG24", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.image.PngRendererImpl", //$NON-NLS-1$
-					null, "Deprecated, use PNG instead" //$NON-NLS-1$
+					null,
+					"Deprecated, use PNG instead" //$NON-NLS-1$
 			}, {
 					"dv.GIF8", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.image.GifRendererImpl", //$NON-NLS-1$
-					null, "Deprecated, use PNG instead" //$NON-NLS-1$
+					null,
+					"Deprecated, use PNG instead" //$NON-NLS-1$
 			}, {
 					"dv.PNG", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.image.PngRendererImpl", //$NON-NLS-1$
@@ -132,12 +138,13 @@ public final class PluginSettings
 			}, {
 					"dv.GIF", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.image.GifRendererImpl", //$NON-NLS-1$
-					null, //$NON-NLS-1$
+					null,
 					"Deprecated, use PNG instead" //$NON-NLS-1$
 			}, {
 					"dv.JPEG", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.image.JpegRendererImpl", //$NON-NLS-1$
-					null, null
+					null,
+					null
 			}, {
 					"dv.JPG", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.image.JpegRendererImpl", //$NON-NLS-1$
@@ -147,6 +154,11 @@ public final class PluginSettings
 					"dv.BMP", //$NON-NLS-1$
 					"org.eclipse.birt.chart.device.image.BmpRendererImpl", //$NON-NLS-1$
 					"BMP", //$NON-NLS-1$
+					null
+			}, {
+					"dv.SVG", //$NON-NLS-1$
+					"org.eclipse.birt.chart.device.svg.SVGRendererImpl", //$NON-NLS-1$
+					"SVG", //$NON-NLS-1$
 					null
 			}
 	};
@@ -160,6 +172,9 @@ public final class PluginSettings
 			},
 			{
 					"ds.SWT", "org.eclipse.birt.chart.device.swt.SwtDisplayServer" //$NON-NLS-1$ //$NON-NLS-2$
+			},
+			{
+					"ds.SVG", "org.eclipse.birt.chart.device.svg.SVGDisplayServer" //$NON-NLS-1$ //$NON-NLS-2$
 			}
 	};
 
@@ -195,16 +210,40 @@ public final class PluginSettings
 	}
 
 	/**
-	 * Returns a singleton instance of the plugin settings framework
+	 * Returns a singleton instance of the plugin settings framework which uses
+	 * the default configuration.
 	 * 
 	 * @return A singleton instance of the plugin settings framework
 	 */
-	public static synchronized PluginSettings instance( )
+	public static PluginSettings instance( )
+	{
+		return instance( null );
+	}
+
+	/**
+	 * Returns a singleton instance of the plugin settings framework with
+	 * specific configuration.
+	 * 
+	 * @return A singleton instance of the plugin settings framework
+	 */
+	public static synchronized PluginSettings instance( PlatformConfig config )
 	{
 		if ( ps == null )
 		{
 			ps = new PluginSettings( );
 			ps.bStandalone = System.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
+
+			if ( !ps.bStandalone )
+			{
+				try
+				{
+					Platform.startup( config );
+				}
+				catch ( BirtException e )
+				{
+					logger.log( e );
+				}
+			}
 		}
 		return ps;
 	}
@@ -236,16 +275,18 @@ public final class PluginSettings
 						Messages.getString( "info.eclenv.creating.dsp", //$NON-NLS-1$
 								new Object[]{
 									oDSP.getClass( ).getName( )
-								}, ULocale.getDefault( ) // LOCALE?
-								) );
+								},
+								ULocale.getDefault( ) // LOCALE?
+						) );
 				return (IDataSetProcessor) oDSP;
 			}
 			logger.log( ILogger.FATAL,
 					Messages.getString( "error.eclenv.cannot.find.dsp", //$NON-NLS-1$
 							new Object[]{
 								sFQClassName
-							}, ULocale.getDefault( ) // LOCALE?
-							) );
+							},
+							ULocale.getDefault( ) // LOCALE?
+					) );
 		}
 		else
 		{
@@ -257,8 +298,9 @@ public final class PluginSettings
 							Messages.getString( "info.stdenv.creating.dsp", //$NON-NLS-1$
 									new Object[]{
 										saDataSetProcessors[i]
-									}, ULocale.getDefault( ) // LOCALE?
-									) );
+									},
+									ULocale.getDefault( ) // LOCALE?
+							) );
 					return (IDataSetProcessor) newInstance( saDataSetProcessors[i] );
 				}
 			}
@@ -266,8 +308,9 @@ public final class PluginSettings
 					Messages.getString( "error.stdenv.cannot.find.dsp", //$NON-NLS-1$ 
 							new Object[]{
 								sFQClassName
-							}, ULocale.getDefault( ) // LOCALE?
-							) );
+							},
+							ULocale.getDefault( ) // LOCALE?
+					) );
 		}
 		return null;
 	}
@@ -300,7 +343,7 @@ public final class PluginSettings
 									oSeriesRenderer.getClass( ).getName( )
 								},
 								ULocale.getDefault( ) // LOCALE?
-								) );
+						) );
 				return (BaseRenderer) oSeriesRenderer;
 			}
 			logger.log( ILogger.ERROR,
@@ -309,7 +352,7 @@ public final class PluginSettings
 								sFQClassName
 							},
 							ULocale.getDefault( ) // LOCALE?
-							) );
+					) );
 		}
 		else
 		{
@@ -327,7 +370,7 @@ public final class PluginSettings
 										saRenderers[i]
 									},
 									ULocale.getDefault( ) // LOCALE?
-									) );
+							) );
 					return (BaseRenderer) newInstance( saRenderers[i] );
 				}
 			}
@@ -337,7 +380,7 @@ public final class PluginSettings
 								sFQClassName
 							},
 							ULocale.getDefault( ) // LOCALE?
-							) );
+					) );
 		}
 		return null;
 	}
@@ -349,7 +392,7 @@ public final class PluginSettings
 	 * @param sName
 	 *            The name of the device renderer. Values registered in the
 	 *            default distribution are dv.SWT, dv.SWING, dv.PNG, dv.JPEG,
-	 *            dv.BMP 
+	 *            dv.BMP
 	 * 
 	 * @return An newly initialized instance of the requested device renderer
 	 * 
@@ -369,8 +412,9 @@ public final class PluginSettings
 								new Object[]{
 										sName,
 										oDeviceRenderer.getClass( ).getName( )
-								}, ULocale.getDefault( ) // LOCALE?
-								) );
+								},
+								ULocale.getDefault( ) // LOCALE?
+						) );
 
 				final String sFormat = getPluginXmlAttribute( "devicerenderers", "deviceRenderer", "name", "format", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 						sName );
@@ -385,8 +429,9 @@ public final class PluginSettings
 					Messages.getString( "error.eclenv.cannot.find.device", //$NON-NLS-1$
 							new Object[]{
 								sName
-							}, ULocale.getDefault( ) // LOCALE?
-							) );
+							},
+							ULocale.getDefault( ) // LOCALE?
+					) );
 		}
 		else
 		{
@@ -398,8 +443,9 @@ public final class PluginSettings
 							Messages.getString( "info.stdenv.creating.device", //$NON-NLS-1$
 									new Object[]{
 											sName, saDevices[i][1]
-									}, ULocale.getDefault( ) // LOCALE?
-									) );
+									},
+									ULocale.getDefault( ) // LOCALE?
+							) );
 					IDeviceRenderer idr = (IDeviceRenderer) newInstance( saDevices[i][1] );
 					if ( saDevices[i][2] != null
 							&& saDevices[i][2].length( ) > 0 )
@@ -414,8 +460,9 @@ public final class PluginSettings
 					Messages.getString( "error.stdenv.cannot.find.device", //$NON-NLS-1$
 							new Object[]{
 								sName
-							}, ULocale.getDefault( ) // LOCALE?
-							) );
+							},
+							ULocale.getDefault( ) // LOCALE?
+					) );
 		}
 		return null;
 	}
@@ -445,16 +492,18 @@ public final class PluginSettings
 								new Object[]{
 										sName,
 										oDisplayServer.getClass( ).getName( )
-								}, ULocale.getDefault( ) // LOCALE?
-								) );
+								},
+								ULocale.getDefault( ) // LOCALE?
+						) );
 				return (IDisplayServer) oDisplayServer;
 			}
 			logger.log( ILogger.FATAL,
 					Messages.getString( "error.eclenv.cannot.find.display", //$NON-NLS-1$
 							new Object[]{
 								sName
-							}, ULocale.getDefault( ) // LOCALE?
-							) );
+							},
+							ULocale.getDefault( ) // LOCALE?
+					) );
 		}
 		else
 		{
@@ -466,8 +515,9 @@ public final class PluginSettings
 							Messages.getString( "info.stdenv.creating.display", //$NON-NLS-1$
 									new Object[]{
 											sName, saDisplayServers[i][1]
-									}, ULocale.getDefault( ) // LOCALE?
-									) );
+									},
+									ULocale.getDefault( ) // LOCALE?
+							) );
 					return (IDisplayServer) newInstance( saDisplayServers[i][1] );
 				}
 			}
@@ -475,8 +525,9 @@ public final class PluginSettings
 					Messages.getString( "error.stdenv.cannot.find.display", //$NON-NLS-1$
 							new Object[]{
 								sName
-							}, ULocale.getDefault( ) // LOCALE?
-							) );
+							},
+							ULocale.getDefault( ) // LOCALE?
+					) );
 		}
 		return null;
 	}
@@ -508,16 +559,18 @@ public final class PluginSettings
 										sName,
 										oAggregateFunction.getClass( )
 												.getName( )
-								}, ULocale.getDefault( ) // LOCALE?
-								) );
+								},
+								ULocale.getDefault( ) // LOCALE?
+						) );
 				return (IAggregateFunction) oAggregateFunction;
 			}
 			logger.log( ILogger.FATAL,
 					Messages.getString( "error.eclenv.cannot.find.function", //$NON-NLS-1$
 							new Object[]{
 								sName
-							}, ULocale.getDefault( ) // LOCALE?
-							) );
+							},
+							ULocale.getDefault( ) // LOCALE?
+					) );
 		}
 		else
 		{
@@ -531,7 +584,7 @@ public final class PluginSettings
 											sName, saAggregateFunctions[i][1]
 									},
 									ULocale.getDefault( ) // LOCALE?
-									) );
+							) );
 					return (IAggregateFunction) newInstance( saAggregateFunctions[i][1] );
 				}
 			}
@@ -539,8 +592,9 @@ public final class PluginSettings
 					Messages.getString( "error.stdenv.cannot.find.function", //$NON-NLS-1$
 							new Object[]{
 								sName
-							}, ULocale.getDefault( ) // LOCALE?
-							) );
+							},
+							ULocale.getDefault( ) // LOCALE?
+					) );
 		}
 		return null;
 	}
