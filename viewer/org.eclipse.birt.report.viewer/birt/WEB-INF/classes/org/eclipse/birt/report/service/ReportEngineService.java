@@ -39,8 +39,13 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.PlatformServletContext;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.data.adaptor.api.DataRequestSession;
+import org.eclipse.birt.report.data.adaptor.api.DataSessionContext;
+import org.eclipse.birt.report.data.adaptor.api.IModelAdaptor;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -65,6 +70,7 @@ import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.ParameterAccessor;
@@ -1109,17 +1115,20 @@ public class ReportEngineService
 	 */
 	public void clearCache( DataSetHandle dataSet ) throws BirtException
 	{
-		//FIXME: remove this code to make the code pass
-/*		DataSourceHandle dataSource = dataSet.getDataSource( );
-		IBaseDataSourceDesign sourceDesign = ModelDteApiAdapter.getInstance( )
-				.createDataSourceDesign( dataSource );
-		IBaseDataSetDesign dataSetDesign = ModelDteApiAdapter.getInstance( )
-				.createDataSetDesign( dataSet );
+		DataSessionContext context = new DataSessionContext(
+				DataSessionContext.MODE_DIRECT_PRESENTATION, dataSet
+						.getModuleHandle( ), null );
 
-		DataEngine dataEngine = DataEngine.newDataEngine( DataEngineContext
-				.newInstance( DataEngineContext.DIRECT_PRESENTATION, null,
-						null, null ) );
+		DataRequestSession requestSession = DataRequestSession
+				.newSession( context );
 
-		dataEngine.clearCache( sourceDesign, dataSetDesign );*/
+		IModelAdaptor modelAdaptor = requestSession.getModelAdaptor( );
+		DataSourceHandle dataSource = dataSet.getDataSource( );
+
+		IBaseDataSourceDesign sourceDesign = modelAdaptor
+				.adaptDataSource( dataSource );
+		IBaseDataSetDesign dataSetDesign = modelAdaptor.adaptDataSet( dataSet );
+
+		requestSession.clearCache( sourceDesign, dataSetDesign );
 	}
 }
