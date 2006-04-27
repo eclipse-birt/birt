@@ -188,27 +188,36 @@ public class ReportElementInstance implements IReportElementInstance
 
 	public IRowData getRowData( )
 	{
-		if ( rowData == null )
+		if ( rowData != null )
 		{
-			// see if the report element has query
-			Object objGen = content.getGenerateBy( );
-			if ( objGen instanceof ReportItemDesign )
+			return rowData;
+		}
+		// see if the report element has query
+		Object objGen = content.getGenerateBy( );
+		if ( objGen instanceof ReportItemDesign )
+		{
+			ReportItemDesign design = (ReportItemDesign) objGen;
+			if ( design.getQuery( ) != null )
 			{
-				ReportItemDesign design = (ReportItemDesign) objGen;
-				if ( design.getQuery( ) != null )
+				DesignElementHandle handle = design.getHandle( );
+				if ( handle instanceof ReportItemHandle )
 				{
-					DesignElementHandle handle = design.getHandle( );
-					if ( handle instanceof ReportItemHandle )
-					{
-						// get the current data set
-						IResultSet rset = context.getDataEngine( )
-								.getResultSet( );
-						// using the handle and the rste to create the row data.
-						rowData = new RowData( rset, (ReportItemHandle) handle );
-					}
+					// get the current data set
+					IResultSet rset = context.getDataEngine( )
+							.getResultSet( );
+					// using the handle and the rste to create the row data.
+					rowData = new RowData( rset, (ReportItemHandle) handle );
+					return rowData;
 				}
 			}
 		}
-		return rowData;
+		//try to return the parnt's rowData
+		IReportElementInstance parent = this.getParent( );
+		if ( parent != null )
+		{
+			return parent.getRowData( );
+		}
+		//root element, return null
+		return null;
 	}
 }
