@@ -183,7 +183,7 @@ public class PropertyBinding extends Structure
 
 	public void setID( long id )
 	{
-		this.id = new BigDecimal( id );
+		this.id = new BigDecimal( (double)id );
 	}
 
 	/**
