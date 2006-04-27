@@ -69,6 +69,23 @@ import org.eclipse.ui.PlatformUI;
 public class ImageBuilder extends BaseDialog
 {
 
+	private static final String[] IMAGE_TYPES = new String[]{
+			".bmp",
+			".jpg",
+			".jpeg",
+			".jpe",
+			".jfif",
+			".gif",
+			".png",
+			".tif",
+			".tiff",
+			".ico"
+	};
+
+	private static final String[] IMAGE_FILEFILTERS = new String[]{
+		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico"
+	};
+
 	// private static final String DLG_REMOVE_BUTTON = Messages.getString(
 	// "ImageBuilder.Button.Remove" ); //$NON-NLS-1$
 
@@ -106,6 +123,8 @@ public class ImageBuilder extends BaseDialog
 
 	private Button embedded, uri, previewButton, dynamic, bindingButton;
 
+	private Button resource;
+
 	private Composite inputArea;
 
 	private ImageCanvas previewCanvas;
@@ -119,6 +138,8 @@ public class ImageBuilder extends BaseDialog
 	final private static int EMBEDDED_TYPE = 1;
 
 	final private static int BLOB_TYPE = 2;
+
+	final private static int FILE_TYPE = 3;
 
 	private int selectedType = -1;
 
@@ -228,6 +249,16 @@ public class ImageBuilder extends BaseDialog
 			}
 		} );
 
+		resource = new Button( selectionArea, SWT.RADIO );
+		resource.setText( Messages.getString( "ImageBuilder.ResourceFileType" ) ); //$NON-NLS-1$
+		resource.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				switchTo( FILE_TYPE );
+			}
+		} );
+
 	}
 
 	private void createInputArea( Composite parent )
@@ -278,9 +309,62 @@ public class ImageBuilder extends BaseDialog
 			case BLOB_TYPE :
 				swtichToExprType( );
 				break;
+			case FILE_TYPE :
+				swtichToResourceType( );
+				break;
 
 		}
 		inputArea.layout( );
+	}
+
+	/**
+	 * Switch to select file in BIRT resource folder.
+	 */
+	private void swtichToResourceType( )
+	{
+		Label title = new Label( inputArea, SWT.NONE );
+
+		uriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER );
+		uriEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		uriEditor.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				updateButtons( );
+			}
+		} );
+
+		Composite innerComp = new Composite( inputArea, SWT.NONE );
+		innerComp.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+
+		innerComp.setLayout( new GridLayout( 2, false ) );
+		title.setText( DLG_ENTER_URI_LABEL );
+		Button inputButton = new Button( innerComp, SWT.PUSH );
+		inputButton.setText( Messages.getString( "ImageBuilder.ButtonBrowser" ) ); //$NON-NLS-1$
+		inputButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+		inputButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+				openResourceBrowser( );
+			}
+		} );
+
+		previewButton = new Button( innerComp, SWT.PUSH );
+		previewButton.setText( DLG_PREVIEW_LABEL );
+		previewButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+		previewButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+				uriEditor.setText( uriEditor.getText( ).trim( ) );
+				preview( CorePlugin.RESOURCE_FOLDER
+						+ File.separator
+						+ removeQuoteString( uriEditor.getText( ) ) );
+			}
+		} );
+
+		initURIEditor( );
 	}
 
 	private void swtichToExprType( )
@@ -308,19 +392,10 @@ public class ImageBuilder extends BaseDialog
 		}
 		else
 		{
-			innerComp.setLayout( new GridLayout( 3, false ) );
+			innerComp.setLayout( new GridLayout( 2, false ) );
 			title.setText( DLG_ENTER_URI_LABEL );
-			Button inputButton = new Button( innerComp, SWT.PUSH );
-			inputButton.setText( Messages.getString( "ImageBuilder.ButtonBrowser" ) ); //$NON-NLS-1$
-			inputButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
-			inputButton.addSelectionListener( new SelectionAdapter( ) {
-
-				public void widgetSelected( SelectionEvent event )
-				{
-					openResourceBrowser( );
-				}
-			} );
 		}
+
 		Button inputButton = new Button( innerComp, SWT.PUSH );
 		inputButton.setText( Messages.getString( "ImageBuilder.Label.Open" ) ); //$NON-NLS-1$
 		inputButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
@@ -358,9 +433,7 @@ public class ImageBuilder extends BaseDialog
 				{
 					case URI_TYPE :
 						uriEditor.setText( uriEditor.getText( ).trim( ) );
-						preview( CorePlugin.RESOURCE_FOLDER
-								+ File.separator
-								+ removeQuoteString( uriEditor.getText( ) ) );
+						preview( removeQuoteString( uriEditor.getText( ) ) );
 						break;
 				}
 
@@ -379,12 +452,8 @@ public class ImageBuilder extends BaseDialog
 		// }
 
 		ResourceFileLabelProvider labelProvider = new ResourceFileLabelProvider( );
-		ResourceFileContentProvider contentProvider = new ResourceFileContentProvider( new String[]{
-			".jpg" //$NON-NLS-1$
-		} );
-		ResourceSelectionValidator validator = new ResourceSelectionValidator( new String[]{
-			".jpg" //$NON-NLS-1$
-		} );
+		ResourceFileContentProvider contentProvider = new ResourceFileContentProvider( IMAGE_TYPES );
+		ResourceSelectionValidator validator = new ResourceSelectionValidator( IMAGE_TYPES );
 
 		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( UIUtil.getDefaultShell( ),
 				labelProvider,
@@ -446,9 +515,7 @@ public class ImageBuilder extends BaseDialog
 			{
 				FileDialog fileChooser = new FileDialog( getShell( ), SWT.OPEN );
 				fileChooser.setText( Messages.getString( "ImageBuilder.Chooser.Title" ) ); //$NON-NLS-1$
-				fileChooser.setFilterExtensions( new String[]{
-					"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-				} );
+				fileChooser.setFilterExtensions( IMAGE_FILEFILTERS );
 				try
 				{
 					String fullPath = fileChooser.open( );
@@ -589,6 +656,9 @@ public class ImageBuilder extends BaseDialog
 		{
 			switch ( selectedType )
 			{
+				case FILE_TYPE :
+					inputImage.setFile( uriEditor.getText( ).trim( ) );
+					break;
 				case URI_TYPE :
 					inputImage.setURI( uriEditor.getText( ).trim( ) );
 					break;
@@ -634,6 +704,11 @@ public class ImageBuilder extends BaseDialog
 			dynamic.setSelection( true );
 			switchTo( BLOB_TYPE );
 		}
+		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equals( inputImage.getSource( ) ) )
+		{
+			resource.setSelection( true );
+			switchTo( FILE_TYPE );
+		}
 		else
 		{// initialize as URI mode by default
 			uri.setSelection( true );
@@ -646,10 +721,16 @@ public class ImageBuilder extends BaseDialog
 	private void initURIEditor( )
 	{
 		String uri = ""; //$NON-NLS-1$
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equals( inputImage.getSource( ) )
-				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equals( inputImage.getSource( ) ) )
+		if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equals( inputImage.getSource( ) ) )
 		{
 			if ( inputImage.getURI( ) != null && selectedType == URI_TYPE )
+			{
+				uri = inputImage.getURI( );
+			}
+		}
+		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equals( inputImage.getSource( ) ) )
+		{
+			if ( inputImage.getURI( ) != null && selectedType == FILE_TYPE )
 			{
 				uri = inputImage.getURI( );
 			}
@@ -724,6 +805,10 @@ public class ImageBuilder extends BaseDialog
 			case EMBEDDED_TYPE :
 				complete = ( embeddedImageList.getSelectionCount( ) > 0 );
 				// removeButton.setEnabled( complete );
+				break;
+			case FILE_TYPE :
+				complete = !StringUtil.isBlank( uriEditor.getText( ) );
+				previewButton.setEnabled( complete );
 				break;
 		}
 		getOkButton( ).setEnabled( complete );

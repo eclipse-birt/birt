@@ -35,7 +35,7 @@ public class LibraryExplorerView extends PageBookView
 
 	private String defaultText = Messages.getString( "LibraryExplorerView.defaultText.notAvailable" ); //$NON-NLS-1$
 
-//	private Map pageMap = new HashMap( );
+	// private Map pageMap = new HashMap( );
 
 	private LibraryExplorerTreeViewPage treeViewPage;
 
@@ -46,7 +46,6 @@ public class LibraryExplorerView extends PageBookView
 	{
 		super( );
 	}
-
 
 	/**
 	 * Creates and returns the default page for this view.
@@ -90,7 +89,7 @@ public class LibraryExplorerView extends PageBookView
 		// }
 		// // }
 		// return null;
-		if ( treeViewPage == null )
+		if ( treeViewPage == null || treeViewPage.isDisposed( ) )
 		{
 			treeViewPage = new LibraryExplorerTreeViewPage( );
 			initPage( treeViewPage );
@@ -99,30 +98,32 @@ public class LibraryExplorerView extends PageBookView
 		return new PageRec( part, treeViewPage );
 	}
 
-//	private LibraryExplorerTreeViewPage getPage( Object fileAdapter,
-//			IEditorPart editor )
-//	{
-//		LibraryExplorerTreeViewPage page;
-//		if ( fileAdapter != null
-//				&& pageMap.containsKey( ( (IFile) fileAdapter ).getProject( ) ) )
-//		{
-//			page = (LibraryExplorerTreeViewPage) pageMap.get( ( (IFile) fileAdapter ).getProject( ) );
-//		}
-//		else
-//		{
-//			page = new LibraryExplorerTreeViewPage( );
-//			ILibraryProvider provider = (ILibraryProvider) editor.getAdapter( ILibraryProvider.class );
-//			if ( provider != null )
-//			{
-//				page.setLibraryProvider( provider );
-//				if ( fileAdapter != null )
-//				{
-//					pageMap.put( ( (IFile) fileAdapter ).getProject( ), page );
-//				}
-//			}
-//		}
-//		return page;
-//	}
+	// private LibraryExplorerTreeViewPage getPage( Object fileAdapter,
+	// IEditorPart editor )
+	// {
+	// LibraryExplorerTreeViewPage page;
+	// if ( fileAdapter != null
+	// && pageMap.containsKey( ( (IFile) fileAdapter ).getProject( ) ) )
+	// {
+	// page = (LibraryExplorerTreeViewPage) pageMap.get( ( (IFile) fileAdapter
+	// ).getProject( ) );
+	// }
+	// else
+	// {
+	// page = new LibraryExplorerTreeViewPage( );
+	// ILibraryProvider provider = (ILibraryProvider) editor.getAdapter(
+	// ILibraryProvider.class );
+	// if ( provider != null )
+	// {
+	// page.setLibraryProvider( provider );
+	// if ( fileAdapter != null )
+	// {
+	// pageMap.put( ( (IFile) fileAdapter ).getProject( ), page );
+	// }
+	// }
+	// }
+	// return page;
+	// }
 
 	/**
 	 * Destroys a page in the pagebook for a particular part. This page was

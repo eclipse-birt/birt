@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.designer.core.model.schematic;
 
-import java.io.File;
-
-import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -22,6 +19,7 @@ import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Image;
 
@@ -61,9 +59,7 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
 		{
 			return ImageManager.getInstance( )
-					.getImage( CorePlugin.RESOURCE_FOLDER
-							+ File.separator
-							+ removeQuoteString( getImageHandle( ).getURI( ) ) );
+					.getImage( URIUtil.getLocalPath( getImageHandle( ).getURI( ) ) );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase( imageSource ) )
 		{

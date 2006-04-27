@@ -145,11 +145,10 @@ public class ResourceSelectionValidator implements ISelectionStatusValidator
 				if ( ext != null )
 				{
 					boolean isCorrectExt = false;
+					String fileName = file.getName( ).toLowerCase( );
 					for ( int j = 0; j < ext.length; j++ )
 					{
-						if ( file.getName( )
-								.toLowerCase( )
-								.endsWith( ext[i].toLowerCase( ) ) )
+						if ( fileName.endsWith( ext[j].toLowerCase( ) ) )
 						{
 							isCorrectExt = true;
 							break;

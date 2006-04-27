@@ -74,7 +74,7 @@ public class ResourceFileFolderSelectionDialog extends ElementTreeSelectionDialo
 		if ( selected.length > 0 && rootFile != null )
 		{
 			File file = (File) selected[0];
-			return rootFile.toURI( ).relativize( file.toURI( ) ).toString( );
+			return rootFile.toURI( ).relativize( file.toURI( ) ).getPath( );
 		}
 		return null;
 	}
