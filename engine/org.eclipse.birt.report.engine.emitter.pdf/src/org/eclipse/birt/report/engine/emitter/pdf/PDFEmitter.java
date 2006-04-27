@@ -44,6 +44,7 @@ import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
+import org.eclipse.birt.report.engine.layout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.layout.font.FontInfo;
@@ -110,6 +111,13 @@ public class PDFEmitter implements IAreaVisitor
 	 * the Pdf Writer
 	 */
 	private PdfWriter writer = null;
+	
+	/**
+	 * template for totalpage
+	 * */
+	private PdfTemplate tpl = null;
+	private int tplWidth =0;
+	private int tplHeight =0;
 
 	/**
 	 * contentByte layer for pdf;
@@ -230,6 +238,7 @@ public class PDFEmitter implements IAreaVisitor
 		try
 		{
 			writer = PdfWriter.getInstance( doc, new BufferedOutputStream(output) );
+			
 		}
 		catch( DocumentException de )
 		{
@@ -257,15 +266,53 @@ public class PDFEmitter implements IAreaVisitor
 		}
 		doc.close();
 	}
+	
+	public void setTotalPage(ITextArea totalPage)
+	{
+		drawTextAt(totalPage, 0, 0, tpl, tpl.getHeight());
+	}
 
 	public void visitText(ITextArea textArea)
 	{
-		drawText(textArea);
+		ContainerPosition curPos;
+		if ( !containerStack.isEmpty() )
+			curPos = (ContainerPosition)containerStack.peek();	
+		else 
+			curPos = new ContainerPosition(0, 0);
+		int x = curPos.x + textArea.getX();
+		int y = curPos.y + textArea.getY();
+		drawTextAt(textArea, x, y, cb, pageHeight);
+		//Check if itself is the destination of a bookmark.
+		//if so, make a bookmark; if not, do nothing
+		makeBookmark(textArea, curPos);
+		//handle hyper-link action
+		handleHyperlinkAction(textArea, curPos);
 	}
 
 	public void visitImage(IImageArea imageArea)
 	{
 		drawImage(imageArea);
+	}
+	
+	public void visitAutoText(ITemplateArea templateArea)
+	{
+		assert(cb!=null);
+		if (null == tpl)
+		{
+			tplWidth = templateArea.getWidth();
+			tplHeight = templateArea.getHeight();
+			tpl = cb.createTemplate(pdfMeasure(tplWidth), pdfMeasure(tplHeight));
+		}
+		cb.saveState();
+		ContainerPosition curPos;
+		if ( !containerStack.isEmpty() )
+			curPos = (ContainerPosition)containerStack.peek();	
+		else 
+			curPos = new ContainerPosition(0, 0);
+		float x = layoutAreaX2PDF(curPos.x + templateArea.getX());
+		float y = layoutAreaY2PDF(curPos.y + templateArea.getY(),  tplHeight);
+		cb.addTemplate(tpl, x, y);
+		cb.restoreState();
 	}
 
 	/**
@@ -465,48 +512,46 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * draw a chunk of text at the pdf
-	 * @param text				the textArea to be drawed
+	 * draw a chunk of text at the pdf.
+	 * @param text					the textArea to be drawed.
+	 * @param textX					the X position of the textArea relative to current page.
+	 * @param textY					the Y position of the textArea relative to current page.
+	 * @param contentByte			the content byte to draw the text.
+	 * @param contentByteHeight		the height of the content byte.
 	 */
-	protected void drawText( ITextArea text )
+	protected void drawTextAt( ITextArea text, int textX, int textY, 
+			PdfContentByte contentByte, float contentByteHeight )
 	{	 
 		IStyle style = text.getStyle();
 		assert style!=null; 
 		
 	    //style.getFontVariant();     	small-caps or normal
 	    //FIXME does NOT support small-caps now
-		ContainerPosition curPos;
-		if ( !containerStack.isEmpty() )
-			curPos = (ContainerPosition)containerStack.peek();	
-		else 
-			curPos = new ContainerPosition(0, 0);
-		int textX = curPos.x + text.getX();
-		int textY = curPos.y + text.getY();
 		float fontSize = text.getFontInfo().getFontSize();
 		float characterSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
 	        	style.getProperty(StyleConstants.STYLE_LETTER_SPACING)) );
 		float wordSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
 	        	style.getProperty(StyleConstants.STYLE_WORD_SPACING)) );
-		cb.saveState();
+		contentByte.saveState();
 		//start drawing the text content
-	    cb.beginText();
+		contentByte.beginText();
 	    
-	    cb.setFontAndSize(text.getFontInfo().getBaseFont(), fontSize); 
-		cb.setCharacterSpacing(characterSpacing);
-		cb.setWordSpacing(wordSpacing);
+		contentByte.setFontAndSize(text.getFontInfo().getBaseFont(), fontSize); 
+		contentByte.setCharacterSpacing(characterSpacing);
+		contentByte.setWordSpacing(wordSpacing);
 	       
-	    placeText(cb, text.getFontInfo(), layoutAreaX2PDF(textX), 
-	    		layoutAreaY2PDF(textY, text.getFontInfo().getBaseline()));
+	    placeText(contentByte, text.getFontInfo(), layoutAreaX2PDF(textX), 
+	    		layoutAreaY2PDFEx(textY, text.getFontInfo().getBaseline(), contentByteHeight));
 	    
 	    Color color = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR));
 	    if (null != color)
 	    {
-	    	cb.setColorFill(color);
+	    	contentByte.setColorFill(color);
 	    }
 	   
-		cb.showText(text.getText());
-		cb.endText();
-		cb.restoreState();
+	    contentByte.showText(text.getText());
+	    contentByte.endText();
+	    contentByte.restoreState();
 	        
 		//draw the overline,throughline or underline for the text if it has any. 
 	    	    
@@ -518,7 +563,7 @@ public class PDFEmitter implements IAreaVisitor
 	        		layoutPointY2PDF(textY + text.getFontInfo().getLineThroughPosition()), 
 	        		text.getFontInfo().getLineWidth(),
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),  
-	        		"solid", cb ); //$NON-NLS-1$
+	        		"solid", contentByte ); //$NON-NLS-1$
 	    }
 	    if ("overline".equalsIgnoreCase(style.getTextOverline())) //$NON-NLS-1$
 	    {	
@@ -528,7 +573,7 @@ public class PDFEmitter implements IAreaVisitor
 	        		layoutPointY2PDF(textY + text.getFontInfo().getOverlinePosition()),
 	        		text.getFontInfo().getLineWidth(), 
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),
-	        		"solid", cb ); //$NON-NLS-1$
+	        		"solid", contentByte ); //$NON-NLS-1$
 	    }
 		if ("underline".equalsIgnoreCase(style.getTextUnderline())) //$NON-NLS-1$
 	    {
@@ -538,14 +583,8 @@ public class PDFEmitter implements IAreaVisitor
 	        		layoutPointY2PDF(textY + text.getFontInfo().getUnderlinePosition()),
 	        		text.getFontInfo().getLineWidth(), 
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),
-	        		"solid", cb ); //$NON-NLS-1$
+	        		"solid", contentByte ); //$NON-NLS-1$
 	    } 
-	 
-		//Check if itself is the destination of a bookmark.
-		//if so, make a bookmark; if not, do nothing
-		makeBookmark(text, curPos);
-		//handle hyper-link action
-		handleHyperlinkAction(text, curPos);
 	}
 
 	/**
@@ -1166,7 +1205,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * convert the top Y coordinate of an Area from layout 
+	 * convert the top Y coordinate of an Area from layout to the start Y coordinate in pdf. 
 	 * to the bottom Y coordinate in PDF
 	 * @param layoutY 		the Y coordinate specified from layout
 	 * @param areaHeight	the height of the area whose coordinate need to be converted.
@@ -1177,6 +1216,21 @@ public class PDFEmitter implements IAreaVisitor
 	private float layoutAreaY2PDF (int layoutY, int areaHeight)
 	{
 		return pageHeight - pdfMeasure(layoutY) - pdfMeasure(areaHeight);
+	}
+	
+	/**
+	 * convert the top Y coordinate of an Area from layout to the start Y coordinate in pdf. 
+	 * to the bottom Y coordinate in PDF
+	 * @param layoutY 				the Y coordinate specified from layout
+	 * @param areaHeight			the height of the area whose coordinate need to be converted.
+	 * 								To text area, the height is from the top of the text to
+	 * 								the text's baseline.
+	 * @param containerHeight		the height of the area's container 
+	 * @return				the PDF Y coordinate
+	 */
+	private float layoutAreaY2PDFEx (int layoutY, int areaHeight, float containerHeight)
+	{
+		return containerHeight - pdfMeasure(layoutY) - pdfMeasure(areaHeight);
 	}
     
 	/**

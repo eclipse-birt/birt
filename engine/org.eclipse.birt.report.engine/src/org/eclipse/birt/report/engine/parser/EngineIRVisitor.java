@@ -19,8 +19,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.impl.CascadingParameterGroupDefn;
@@ -31,6 +29,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
+import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -70,6 +69,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
 import org.eclipse.birt.report.model.api.ActionHandle;
+import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.97 $ $Date: 2006/04/25 11:34:01 $
+ * @version $Revision: 1.98 $ $Date: 2006/04/26 07:33:48 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -705,6 +705,16 @@ class EngineIRVisitor extends DesignVisitor
 		labelItem.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );
 		
 		currentElement = labelItem;
+	}
+	
+	public void visitAutoText( AutoTextHandle handle )
+	{
+		AutoTextItemDesign autoTextItem = new AutoTextItemDesign( );
+		setupReportItem( autoTextItem, handle );
+
+		autoTextItem.setType(handle.getAutoTextType());
+		
+		currentElement = autoTextItem;
 	}
 
 	public void visitDataItem( DataItemHandle handle )

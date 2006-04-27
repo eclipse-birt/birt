@@ -52,6 +52,11 @@ public class ContentVisitorAdapter implements IContentVisitor
 	{
 		visitText(label, value);
 	}
+	
+	public void visitAutoText(IAutoTextContent autoText, Object value)
+	{
+		visitText(autoText, value);
+	}
 
 	public void visitData(IDataContent data, Object value)
 	{

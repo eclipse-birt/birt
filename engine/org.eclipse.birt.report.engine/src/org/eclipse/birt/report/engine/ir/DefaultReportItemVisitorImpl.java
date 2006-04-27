@@ -15,7 +15,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Default implementation for IReportItemVisitor interface
  * 
- * @version $Revision: 1.5 $ $Date: 2005/11/17 16:50:43 $
+ * @version $Revision: 1.6 $ $Date: 2006/02/27 07:35:59 $
  */
 public class DefaultReportItemVisitorImpl implements IReportItemVisitor
 {
@@ -50,6 +50,14 @@ public class DefaultReportItemVisitorImpl implements IReportItemVisitor
 	public Object visitLabelItem( LabelItemDesign label , Object value)
 	{
 		return visitReportItem(label, value);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitAutoTextItem(org.eclipse.birt.report.engine.ir.AutoTextItemDesign)
+	 */
+	public Object visitAutoTextItem( AutoTextItemDesign autoText , Object value)
+	{
+		return visitReportItem(autoText, value);
 	}
 
 	/* (non-Javadoc)

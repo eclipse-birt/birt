@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.engine.emitter;
 
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -133,6 +134,11 @@ public class ContentEmitterAdapter implements IContentEmitter
 	public void startLabel( ILabelContent label )
 	{
 		startText( label );
+	}
+	
+	public void startAutoText( IAutoTextContent autoText )
+	{
+		startText ( autoText );
 	}
 
 	public void startData( IDataContent data )

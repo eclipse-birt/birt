@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * the content of report document.
  * 
- * @version $Revision: 1.5 $ $Date: 2006/01/11 06:29:04 $
+ * @version $Revision: 1.6 $ $Date: 2006/04/05 13:22:52 $
  */
 public interface IContent extends IElement, CSSStylableElement
 {
@@ -40,6 +40,7 @@ public interface IContent extends IElement, CSSStylableElement
 	final static int TABLE_BAND_CONTENT = 9;
 	final static int TABLE_CONTENT = 10;
 	final static int TEXT_CONTENT = 11;	
+	final static int AUTOTEXT_CONTENT =12;
 
 	/**
 	 * the content type, must be one of the predefines.

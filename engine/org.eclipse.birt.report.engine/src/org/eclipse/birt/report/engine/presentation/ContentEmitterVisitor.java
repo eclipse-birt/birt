@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.presentation;
 
 import java.util.List;
 
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -124,6 +125,11 @@ public class ContentEmitterVisitor implements IContentVisitor
 	public void visitLabel( ILabelContent label, Object value )
 	{
 		emitter.startLabel( label );
+	}
+	
+	public void visitAutoText( IAutoTextContent autoText, Object value )
+	{
+		emitter.startAutoText( autoText );
 	}
 
 	public void visitData( IDataContent data, Object value )

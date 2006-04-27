@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * A visitor class against the report design.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/11/17 16:50:43 $
+ * @version $Revision: 1.6 $ $Date: 2006/02/27 07:35:59 $
  */
 public interface IReportItemVisitor {
 
@@ -49,6 +49,14 @@ public interface IReportItemVisitor {
 	 *            the label item to be visited
 	 */
 	Object visitLabelItem(LabelItemDesign label, Object value);
+	
+	/**
+	 * visit auto text item
+	 * 
+	 * @param autoText
+	 *            the auto text item to be visited
+	 */
+	Object visitAutoTextItem(AutoTextItemDesign autoText, Object value);
 
 	/**
 	 * visit data item

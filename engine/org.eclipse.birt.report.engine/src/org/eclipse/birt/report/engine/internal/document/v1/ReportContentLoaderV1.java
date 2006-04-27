@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
 import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -48,6 +49,7 @@ import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
+import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
@@ -566,7 +568,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.2 $ $Date: 2006/04/06 12:35:27 $
+	 * @version $Revision: 1.3 $ $Date: 2006/04/12 05:40:33 $
 	 */
 	protected class GenerateIDMapVisitor implements IReportItemVisitor
 	{
@@ -685,6 +687,11 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 		public Object visitLabelItem( LabelItemDesign label, Object value )
 		{
 			return visitReportItem( label, value );
+		}
+		
+		public Object visitAutoTextItem( AutoTextItemDesign autoText, Object value )
+		{
+			return visitReportItem( autoText, value );
 		}
 
 		public Object visitDataItem( DataItemDesign data, Object value )
@@ -994,6 +1001,12 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startLabel( label );
 		}
+		
+		public void visitAutoText( IAutoTextContent autoText, Object value )
+		{
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.startAutoText( autoText );
+		}
 
 		public void visitData( IDataContent data, Object value )
 		{
@@ -1083,6 +1096,10 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 		{
 		}
 
+		public void visitAutoText( IAutoTextContent autoText, Object value )
+		{
+		}
+		
 		public void visitData( IDataContent data, Object value )
 		{
 		}

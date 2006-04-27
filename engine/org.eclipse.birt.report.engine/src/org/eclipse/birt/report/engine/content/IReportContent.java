@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * The object represents the report content as a whole.
  * 
- * @version $Revision: 1.9 $ $Date: 2006/01/20 14:55:40 $
+ * @version $Revision: 1.10 $ $Date: 2006/03/26 09:15:06 $
  */
 public interface IReportContent
 {
@@ -201,6 +201,13 @@ public interface IReportContent
 	 * @return the label content.
 	 */
 	public ILabelContent createLabelContent( );
+	
+	/**
+	 * create the auto text content. the auto text can only be used in this report.
+	 * 
+	 * @return the auto text content.
+	 */
+	public IAutoTextContent createAutoTextContent( );
 
 	/**
 	 * create the label content, copy the properties from the template content.

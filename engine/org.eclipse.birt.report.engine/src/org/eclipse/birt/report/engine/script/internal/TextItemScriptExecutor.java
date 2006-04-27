@@ -127,10 +127,14 @@ public class TextItemScriptExecutor extends ScriptExecutor
 	private static ITextItemEventHandler getEventHandler(
 			ReportItemDesign design, ExecutionContext context )
 	{
-		TextItemHandle handle = ( TextItemHandle ) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		if (design.getHandle() instanceof TextItemHandle)
+		{
+			TextItemHandle handle = ( TextItemHandle ) design.getHandle( );
+			if ( handle == null )
+				return null;
+			return getEventHandler( handle, context );
+		}
+		return null;
 	}
 
 	private static ITextItemEventHandler getEventHandler(

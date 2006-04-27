@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter;
 
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -28,7 +29,7 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 /**
  * used to pass the content object to following process.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/11/02 10:36:12 $
+ * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:42 $
  */
 public interface IContentEmitter
 {
@@ -96,6 +97,8 @@ public interface IContentEmitter
 	void startData( IDataContent data );
 
 	void startLabel( ILabelContent label );
+	
+	void startAutoText ( IAutoTextContent autoText );
 
 	void startForeign( IForeignContent foreign );
 

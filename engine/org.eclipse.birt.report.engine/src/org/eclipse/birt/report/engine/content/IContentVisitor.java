@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Defines the visitor interface used mainly by a buffered emitter
  * 
- * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:46 $
+ * @version $Revision: 1.2 $ $Date: 2005/11/21 15:35:49 $
  */
 public interface IContentVisitor
 {
@@ -73,6 +73,8 @@ public interface IContentVisitor
 	void visitText( ITextContent text , Object value);
 	
 	void visitLabel(ILabelContent label, Object value);
+	
+	void visitAutoText(IAutoTextContent autoText, Object value);
 	
 	void visitData(IDataContent data, Object value);
 

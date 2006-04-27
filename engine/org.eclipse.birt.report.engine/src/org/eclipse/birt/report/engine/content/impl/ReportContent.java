@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -39,7 +40,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Report content is the result of report generation.
  * 
- * @version $Revision: 1.11 $ $Date: 2006/01/20 14:55:38 $
+ * @version $Revision: 1.12 $ $Date: 2006/03/26 09:15:07 $
  */
 public class ReportContent implements IReportContent
 {
@@ -193,6 +194,11 @@ public class ReportContent implements IReportContent
 	public ILabelContent createLabelContent( IContent content )
 	{
 		return new LabelContent( content );
+	}
+	
+	public IAutoTextContent createAutoTextContent( )
+	{
+		return new AutoTextContent( this );
 	}
 
 	public IForeignContent createForeignContent( )

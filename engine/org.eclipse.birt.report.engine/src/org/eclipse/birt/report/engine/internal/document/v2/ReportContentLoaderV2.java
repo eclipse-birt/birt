@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -859,6 +860,12 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startLabel( label );
 		}
+		
+		public void visitAutoText( IAutoTextContent autoText, Object value )
+		{
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.startAutoText( autoText );
+		}
 
 		public void visitData( IDataContent data, Object value )
 		{
@@ -945,6 +952,10 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public void visitLabel( ILabelContent label, Object value )
+		{
+		}
+		
+		public void visitAutoText( IAutoTextContent autoText, Object value )
 		{
 		}
 

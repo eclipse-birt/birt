@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
@@ -373,6 +374,11 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		}
 
 		public Object visitLabelItem( LabelItemDesign label, Object value )
+		{
+			return value;
+		}
+		
+		public Object visitAutoTextItem( AutoTextItemDesign autoText, Object value )
 		{
 			return value;
 		}
