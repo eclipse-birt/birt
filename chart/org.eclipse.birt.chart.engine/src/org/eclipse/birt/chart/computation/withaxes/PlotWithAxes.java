@@ -171,15 +171,16 @@ public abstract class PlotWithAxes extends Methods
 	{
 		int iTickStyle = TICK_NONE;
 
-		org.eclipse.birt.chart.model.component.Grid gr = ( iMajorOrMinor == MAJOR )
-				? ax.getMajorGrid( ) : ax.getMinorGrid( );
+		org.eclipse.birt.chart.model.component.Grid gr = ( iMajorOrMinor == MAJOR ) ? ax.getMajorGrid( )
+				: ax.getMinorGrid( );
 		if ( !gr.isSetTickStyle( ) )
 		{
 			return iTickStyle;
 		}
 		final LineAttributes lia = gr.getTickAttributes( );
 		if ( !lia.isSetStyle( )
-				|| !lia.isSetThickness( ) || !lia.isSetVisible( )
+				|| !lia.isSetThickness( )
+				|| !lia.isSetVisible( )
 				|| !lia.isVisible( ) )
 		{
 			return iTickStyle;
@@ -440,8 +441,7 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 								ax
 							},
-							Messages.getResourceBundle( 
-									rtc.getULocale( ) ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 		}
 
 		LineAttributes liaTicks = ax.getMajorGrid( ).getTickAttributes( );
@@ -455,8 +455,7 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 								ax
 							},
-							Messages.getResourceBundle( 
-									rtc.getULocale( ) ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 		}
 
 		liaTicks = ax.getMinorGrid( ).getTickAttributes( );
@@ -470,8 +469,7 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 								ax
 							},
-							Messages.getResourceBundle( 
-									rtc.getULocale( ) ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 		}
 
 		final int iOrientation = ax.getOrientation( ).getValue( );
@@ -489,8 +487,7 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 									ax.getLabelPosition( ).getName( ), ax
 							},
-							Messages.getResourceBundle( 
-									rtc.getULocale( ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
 			}
 			if ( ax.getTitle( ).isVisible( ) ) // LABEL POSITION (IF VISIBLE)
@@ -504,8 +501,7 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 									ax.getLabelPosition( ).getName( ), ax
 							},
-							Messages.getResourceBundle( 
-									rtc.getULocale( ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
 			}
 
@@ -521,8 +517,7 @@ public abstract class PlotWithAxes extends Methods
 								ax.getMajorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
-						Messages.getResourceBundle( 
-								rtc.getULocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 			iTickStyle = ax.getMinorGrid( ).getTickStyle( ).getValue( );
 			if ( iTickStyle != TickStyle.ACROSS
@@ -536,8 +531,7 @@ public abstract class PlotWithAxes extends Methods
 								ax.getMinorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
-						Messages.getResourceBundle( 
-								rtc.getULocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
 		else if ( iOrientation == Orientation.HORIZONTAL )
@@ -554,8 +548,7 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 									ax.getLabelPosition( ).getName( ), ax
 							},
-							Messages.getResourceBundle( 
-									rtc.getULocale( ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
 			}
 			if ( ax.getTitle( ).isVisible( ) ) // LABEL POSITION (IF VISIBLE)
@@ -569,8 +562,7 @@ public abstract class PlotWithAxes extends Methods
 							new Object[]{
 									ax.getTitlePosition( ).getName( ), ax
 							},
-							Messages.getResourceBundle( 
-									rtc.getULocale( ) ) );
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
 			}
 
@@ -586,8 +578,7 @@ public abstract class PlotWithAxes extends Methods
 								ax.getMajorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
-						Messages.getResourceBundle( 
-								rtc.getULocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 			iTickStyle = ax.getMinorGrid( ).getTickStyle( ).getValue( );
 			if ( iTickStyle != TickStyle.ACROSS
@@ -601,8 +592,7 @@ public abstract class PlotWithAxes extends Methods
 								ax.getMinorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
-						Messages.getResourceBundle( 
-								rtc.getULocale( ) ) );
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
 	}
@@ -711,13 +701,13 @@ public abstract class PlotWithAxes extends Methods
 	{
 		if ( !cwa.isTransposed( ) )
 		{
-			return ( iBaseOrOrthogonal == IConstants.BASE || iBaseOrOrthogonal == IConstants.ANCILLARY_BASE )
-					? IConstants.HORIZONTAL : IConstants.VERTICAL;
+			return ( iBaseOrOrthogonal == IConstants.BASE || iBaseOrOrthogonal == IConstants.ANCILLARY_BASE ) ? IConstants.HORIZONTAL
+					: IConstants.VERTICAL;
 		}
 		else
 		{
-			return ( iBaseOrOrthogonal == IConstants.BASE || iBaseOrOrthogonal == IConstants.ANCILLARY_BASE )
-					? IConstants.VERTICAL : IConstants.HORIZONTAL;
+			return ( iBaseOrOrthogonal == IConstants.BASE || iBaseOrOrthogonal == IConstants.ANCILLARY_BASE ) ? IConstants.VERTICAL
+					: IConstants.HORIZONTAL;
 		}
 	}
 
@@ -951,8 +941,8 @@ public abstract class PlotWithAxes extends Methods
 		// AXIS-PLOT SPACING
 		final boolean bTicksLeft = ( iYTickStyle & TICK_LEFT ) == TICK_LEFT;
 		final boolean bTicksRight = ( iYTickStyle & TICK_RIGHT ) == TICK_RIGHT;
-		final double dAppliedYAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN )
-				? dYAxisPlotSpacing : 0;
+		final double dAppliedYAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN ) ? dYAxisPlotSpacing
+				: 0;
 
 		// UPDATE Y-AXIS ENDPOINTS DUE TO AXIS LABEL SHIFTS
 		double dStart = scY.getStart( ), dEnd = scY.getEnd( );
@@ -1095,12 +1085,15 @@ public abstract class PlotWithAxes extends Methods
 					iXLabelLocation,
 					aax );
 
+			boolean startEndChanged = false;
+
 			if ( scX.getDirection( ) == BACKWARD )
 			{
 				if ( dYAxisLabelsThickness > scX.getEndShift( ) )
 				{
 					// REDUCE scX's STARTPOINT TO FIT THE Y-AXIS ON THE LEFT
 					dEnd = dX2 - scX.getEndShift( );
+					startEndChanged = true;
 				}
 				else
 				{
@@ -1114,6 +1107,7 @@ public abstract class PlotWithAxes extends Methods
 				{
 					// REDUCE scX's STARTPOINT TO FIT THE Y-AXIS ON THE LEFT
 					dStart = dX2 - scX.getStartShift( );
+					startEndChanged = true;
 				}
 				else
 				{
@@ -1121,60 +1115,67 @@ public abstract class PlotWithAxes extends Methods
 				}
 				dEnd = scX.getEnd( );
 			}
-			scX.resetShifts( );
 
-			// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS IF
-			// OVERLAPS OCCUR
-			scX.setEndPoints( dStart, dEnd );
-			scX.computeTicks( ids,
-					laXAxisLabels,
-					iXLabelLocation,
-					HORIZONTAL,
-					dStart,
-					dEnd,
-					true,
-					aax );
-
-			if ( !scX.isStepFixed( ) )
+			if ( startEndChanged )
 			{
-				final Object[] oaMinMax = scX.getMinMax( );
+				scX.resetShifts( );
 
-				while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
+				// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
+				// IF
+				// OVERLAPS OCCUR
+				scX.setEndPoints( dStart, dEnd );
+				scX.computeTicks( ids,
+						laXAxisLabels,
+						iXLabelLocation,
+						HORIZONTAL,
+						dStart,
+						dEnd,
+						true,
+						aax );
+
+				if ( !scX.isStepFixed( ) )
 				{
-					if ( !scX.zoomOut( ) )
+					final Object[] oaMinMax = scX.getMinMax( );
+
+					while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
 					{
-						break;
-					}
-					scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-					int tickCount = scX.computeTicks( ids,
-							laXAxisLabels,
-							iXLabelLocation,
-							HORIZONTAL,
-							dStart,
-							dEnd,
-							true,
-							aax );
-					if ( scX.getUnit( ) != null
-							&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
-							&& tickCount <= 3 )
-					{
-						break;
+						if ( !scX.zoomOut( ) )
+						{
+							break;
+						}
+						scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+						int tickCount = scX.computeTicks( ids,
+								laXAxisLabels,
+								iXLabelLocation,
+								HORIZONTAL,
+								dStart,
+								dEnd,
+								true,
+								aax );
+						if ( scX.getUnit( ) != null
+								&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
+								&& tickCount <= 3 )
+						{
+							break;
+						}
 					}
 				}
 			}
 
 			// MOVE THE Y-AXIS TO THE LEFT EDGE OF THE PLOT IF SLACK SPACE
-			// EXISTS
+			// EXISTS OR SCALE IS RECOMPUTED
 			if ( scX.getDirection( ) == BACKWARD )
 			{
-				if ( dYAxisLabelsThickness < scX.getEndShift( ) )
+				if ( startEndChanged
+						|| dYAxisLabelsThickness < scX.getEndShift( ) )
 				{
 					dX = scX.getEnd( ) - ( dX2 - dX );
 				}
 			}
 			else
 			{
-				if ( dYAxisLabelsThickness < scX.getStartShift( ) )
+				if ( startEndChanged
+						|| dYAxisLabelsThickness < scX.getStartShift( ) )
 				{
 					dX = scX.getStart( ) - ( dX2 - dX );
 				}
@@ -1252,12 +1253,15 @@ public abstract class PlotWithAxes extends Methods
 					iXLabelLocation,
 					aax );
 
+			boolean startEndChanged = false;
+
 			if ( scX.getDirection( ) == BACKWARD )
 			{
 				if ( dYAxisLabelsThickness > scX.getStartShift( ) )
 				{
 					// REDUCE scX's ENDPOINT TO FIT THE Y-AXIS ON THE RIGHT
 					dStart = dX1 + scX.getStartShift( );
+					startEndChanged = true;
 				}
 				else
 				{
@@ -1271,6 +1275,7 @@ public abstract class PlotWithAxes extends Methods
 				{
 					// REDUCE scX's ENDPOINT TO FIT THE Y-AXIS ON THE RIGHT
 					dEnd = dX1 + scX.getEndShift( );
+					startEndChanged = true;
 				}
 				else
 				{
@@ -1279,58 +1284,64 @@ public abstract class PlotWithAxes extends Methods
 				dStart = scX.getStart( );
 			}
 
-			scX.resetShifts( );
-
-			// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS IF
-			// OVERLAPS OCCUR
-			scX.setEndPoints( dStart, dEnd );
-			scX.computeTicks( ids,
-					laXAxisLabels,
-					iXLabelLocation,
-					HORIZONTAL,
-					dStart,
-					dEnd,
-					true,
-					aax );
-			if ( !scX.isStepFixed( ) )
+			if ( startEndChanged )
 			{
-				final Object[] oaMinMax = scX.getMinMax( );
-				while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
+				scX.resetShifts( );
+
+				// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
+				// IF
+				// OVERLAPS OCCUR
+				scX.setEndPoints( dStart, dEnd );
+				scX.computeTicks( ids,
+						laXAxisLabels,
+						iXLabelLocation,
+						HORIZONTAL,
+						dStart,
+						dEnd,
+						true,
+						aax );
+				if ( !scX.isStepFixed( ) )
 				{
-					if ( !scX.zoomOut( ) )
+					final Object[] oaMinMax = scX.getMinMax( );
+					while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
 					{
-						break;
-					}
-					scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-					int tickCount = scX.computeTicks( ids,
-							laXAxisLabels,
-							iXLabelLocation,
-							HORIZONTAL,
-							dStart,
-							dEnd,
-							true,
-							aax );
-					if ( scX.getUnit( ) != null
-							&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
-							&& tickCount <= 3 )
-					{
-						break;
+						if ( !scX.zoomOut( ) )
+						{
+							break;
+						}
+						scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+						int tickCount = scX.computeTicks( ids,
+								laXAxisLabels,
+								iXLabelLocation,
+								HORIZONTAL,
+								dStart,
+								dEnd,
+								true,
+								aax );
+						if ( scX.getUnit( ) != null
+								&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
+								&& tickCount <= 3 )
+						{
+							break;
+						}
 					}
 				}
 			}
 
 			// MOVE THE Y-AXIS TO THE LEFT EDGE OF THE PLOT IF SLACK SPACE
-			// EXISTS
+			// EXISTS OR SCALE IS RECOMPUTED
 			if ( scX.getDirection( ) == BACKWARD )
 			{
-				if ( dYAxisLabelsThickness < scX.getStartShift( ) )
+				if ( startEndChanged
+						|| dYAxisLabelsThickness < scX.getStartShift( ) )
 				{
 					dX = scX.getStart( ) - ( dX1 - dX );
 				}
 			}
 			else
 			{
-				if ( dYAxisLabelsThickness < scX.getEndShift( ) )
+				if ( startEndChanged
+						|| dYAxisLabelsThickness < scX.getEndShift( ) )
 				{
 					dX = scX.getEnd( ) - ( dX1 - dX );
 				}
@@ -1735,8 +1746,8 @@ public abstract class PlotWithAxes extends Methods
 		double dY = getLocation( scY, iv ), dY1 = dY, dY2 = dY;
 		final boolean bTicksAbove = ( iXTickStyle & TICK_ABOVE ) == TICK_ABOVE;
 		final boolean bTicksBelow = ( iXTickStyle & TICK_BELOW ) == TICK_BELOW;
-		final double dAppliedXAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN )
-				? dXAxisPlotSpacing : 0;
+		final double dAppliedXAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN ) ? dXAxisPlotSpacing
+				: 0;
 		final boolean bForwardScale = scY.getDirection( ) == FORWARD;
 
 		// COMPUTE VALUES FOR y1, y, y2
