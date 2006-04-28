@@ -20,6 +20,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -326,6 +327,25 @@ public class CacheUtil
 		file.mkdir( );
 
 		return sessionTempDirStr;
+	}
+		
+	/**
+	 * @param rsMeta
+	 * @return
+	 */
+	public static SortSpec getSortSpec( IResultClass rsMeta )
+	{
+		int fieldCount = rsMeta.getFieldCount( );
+		int[] sortKeyIndexs = new int[fieldCount];
+		String[] sortKeyNames = new String[fieldCount];
+		boolean[] ascending = new boolean[fieldCount];
+		for ( int i = 0; i < fieldCount; i++ )
+		{
+			sortKeyIndexs[i] = i;
+			ascending[i] = true;
+		}
+
+		return new SortSpec( sortKeyIndexs, sortKeyNames, ascending );
 	}
 	
 }

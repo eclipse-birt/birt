@@ -101,32 +101,13 @@ public class SmartCache implements ResultSetCache
 	{
 		SmartCache smartCache = new SmartCache( new CacheRequest( 0,
 				null,
-				getSortSpec( rsMeta ),
+				CacheUtil.getSortSpec( rsMeta ),
 				cacheRequest.getEventHandler( ),
 				true ), odaResultSet, rsMeta, false, false );
 
 		this.eventHandler = cacheRequest.getEventHandler( );
 		OdiAdapter odiAdpater = new OdiAdapter( smartCache );
 		initInstance( cacheRequest, odiAdpater, rsMeta );
-	}
-	
-	/**
-	 * @param rsMeta
-	 * @return
-	 */
-	private SortSpec getSortSpec( IResultClass rsMeta )
-	{
-		int fieldCount = rsMeta.getFieldCount( );
-		int[] sortKeyIndexs = new int[fieldCount];
-		String[] sortKeyNames = new String[fieldCount];
-		boolean[] ascending = new boolean[fieldCount];
-		for ( int i = 0; i < fieldCount; i++ )
-		{
-			sortKeyIndexs[i] = i;
-			ascending[i] = true;
-		}
-
-		return new SortSpec( sortKeyIndexs, sortKeyNames, ascending );
 	}
 	
 	/**
