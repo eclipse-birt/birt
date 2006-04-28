@@ -41,7 +41,12 @@ public interface IBaseDataSetDesign
     public abstract int getCacheRowCount( );
     
     /**
-	 * @return
+	 * When user wants to retrieve the distinct row, this flag needs to be set
+	 * as true. The distinct row means there is no two rows which will have the
+	 * same value on all columns.
+	 * 
+	 * @return true,  distinct row is required
+	 * 		   false, no distinct requirement on row
 	 */
 	public boolean needDistinctValue( );
 
