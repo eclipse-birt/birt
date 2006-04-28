@@ -266,8 +266,8 @@ public final class ExpressionCompiler
 				&& rowColumn.getType( ) == Token.STRING )
 		{
 			if ( "_outer".equals( rowColumn.getString( ) ) 
-				 &&!"__rownum".equals( rowColumn.getString( ) ) 
-				 &&!"0".equals( rowColumn.getString( ) ))
+				 &&"__rownum".equals( rowColumn.getString( ) ) 
+				 &&"0".equals( rowColumn.getString( ) ))
 				return null;
 
 			return new ColumnReferenceExpression( this.isDataSetMode
