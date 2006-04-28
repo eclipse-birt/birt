@@ -1075,7 +1075,9 @@ public class ParameterAccessor
 		String ISOParameterName = ( isUTF )
 				? toISOString( parameterName )
 				: parameterName;
-		return toUTFString( request.getParameter( ISOParameterName ) );
+		String value = request.getParameter( ISOParameterName );
+		String encoding = request.getCharacterEncoding( );
+		return toUTFString( value, encoding );
 	}
 
 	/**
@@ -1185,7 +1187,7 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Convert ISO-8895-1 string into UTF-8
+	 * Convert ISO-8895-1 string into UTF-8.
 	 * 
 	 * @param s
 	 *            ISO-8895-1 string
@@ -1202,18 +1204,6 @@ public class ParameterAccessor
 			{
 				UTFString = new String( s.getBytes( ISO_8859_1_ENCODE ),
 						UTF_8_ENCODE );
-
-				for ( int i = 0; i < UTFString.length( ); i++ )
-				{
-					// if the string contains character "?", then convert it to
-					// the original string
-
-					if ( UTFString.charAt( i ) == 0x3f )
-					{
-						UTFString = s;
-						break;
-					}
-				}
 			}
 			catch ( UnsupportedEncodingException e )
 			{
@@ -1223,7 +1213,41 @@ public class ParameterAccessor
 
 		return UTFString;
 	}
+	
+	/**
+	 * Convert the string with the given encoding into UTF-8.
+	 * 
+	 * @param s
+	 *            ISO-8895-1 string
+	 * @param encoding
+	 *  the current encoding of the string 
+	 * @return the converted UTF-8 string
+	 */
 
+	protected static String toUTFString( String s , String encoding)
+	{
+		String UTFString = s;
+		String sourceEncoding = encoding;
+
+		if ( s != null )
+		{
+			if ( sourceEncoding == null)
+			{
+				sourceEncoding = ISO_8859_1_ENCODE;
+			}
+			try
+			{
+				UTFString = new String( s.getBytes( sourceEncoding ),
+						UTF_8_ENCODE );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				UTFString = s;
+			}
+		}
+
+		return UTFString;
+	}
 	/**
 	 * URL encoding based on incoming encoding format.
 	 * 
