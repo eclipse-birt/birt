@@ -220,7 +220,7 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	protected void __handleNonSoapException( IContext context,
 			Exception exception ) throws ServletException, IOException
 	{
-		String target = "iportal/birt/pages/common/Error.jsp"; //$NON-NLS-1$
+		String target = "webcontent/birt/pages/common/Error.jsp"; //$NON-NLS-1$
 		context.getRequest( ).setAttribute( "error", exception ); //$NON-NLS-1$
 		RequestDispatcher rd = context.getRequest( ).getRequestDispatcher(
 				target );

@@ -112,7 +112,7 @@ public class BirtBaseFragment extends AbstractBaseFragment
 			HttpServletResponse response ) throws ServletException, IOException
 	{
 		String className = getClass( ).getName( ).substring( getClass( ).getName( ).lastIndexOf ( '.' ) + 1 );
-		return "/iportal/birt" + "/pages/layout/" + className + ".jsp"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "/webcontent/birt" + "/pages/layout/" + className + ".jsp"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
