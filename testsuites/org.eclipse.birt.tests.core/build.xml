@@ -7,6 +7,7 @@
 	<property name="confFilePath" value=""/>
 	<property name="module.name" value=""/>
 	<property name="className" value=""/>
+	<property name="otherArgs" value=""/>
 	
 	<!-- initialize, initialize BIRT plug-in testing framework -->
 	
@@ -302,6 +303,7 @@
 			<arg line="-configuration ${confFilePath}" />
 			<arg line="-testPluginName ${module.name}" />
 			<arg line="-className ${className}" />
+			<arg line="${otherArgs}"/>
 		</java>
 		<delete dir="../${module.name}/${tests.dir}" includeEmptyDirs="true"/>
 	</target>
