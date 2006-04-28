@@ -192,6 +192,11 @@ public class PDFEmitter implements IAreaVisitor
 			if( fd != null )
 			{
 				file = new File(fd.toString());
+				File parent = file.getParentFile( );
+				if ( parent != null && !parent.exists( ) )
+				{
+					parent.mkdirs( );
+				}
 				output = new FileOutputStream( file );
 			}
 		}
