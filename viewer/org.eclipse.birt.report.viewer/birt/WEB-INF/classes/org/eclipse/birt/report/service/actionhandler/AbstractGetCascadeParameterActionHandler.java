@@ -104,6 +104,7 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 				List selections = ( List ) cascParamMap.get( name );
 				Vector vector = getVectorFromList( selections );
 				selectionLists[i].setSelections( vector );
+				i++;
 			}
 			cascadeParameter.setSelectionList( selectionLists );
 		}
@@ -207,13 +208,19 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 
 					for ( i = 0; i < k; i++ )
 					{
-						keyValue[params.size( ) + i] = listArray[i].get( 0 );
+						if ( listArray[i].isEmpty( ) )
+						{
+							keyValue[params.size( ) + i] = null;
+						}
+						else
+						{
+							keyValue[params.size( ) + i] = listArray[i].get( 0 );
+						}
 					}
 
-					ret.put( remainingParamNames.get( k ),
-							doQueryCascadeParameterSelectionList( design,
-									groupName, keyValue ) );
-
+					listArray[k] = doQueryCascadeParameterSelectionList( design,
+							groupName, keyValue );
+					ret.put( remainingParamNames.get( k ), listArray[k] );
 				}
 			}
 		}
