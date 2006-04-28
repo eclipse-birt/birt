@@ -16,6 +16,7 @@ import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.cache.CacheRequest;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.SmartCache;
+import org.eclipse.birt.data.engine.executor.cache.SmartRowResultSet;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupProcessorManager;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -229,13 +230,14 @@ public class ResultSetPopulator
 	{
 		this.getCache( ).reset( );
 		this.getCache( ).next( );
+		
 		this.setCache( new SmartCache( new CacheRequest( query.getMaxRows( ),
 				query.getFetchEvents( ),
 				null,
 				this.getEventHandler( ) ),
-				this.getCache( ),
-				odInfo,
+				new SmartRowResultSet( this.getCache( ), rsMeta, odInfo ),
 				this.rsMeta ) );
+		
 		this.groupProcessorManager.getGroupCalculationUtil( )
 				.setResultSetCache( this.getCache( ) );
 	}

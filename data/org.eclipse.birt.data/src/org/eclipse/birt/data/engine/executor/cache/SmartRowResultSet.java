@@ -19,7 +19,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * This class is used by SmartCache for the purpose of generate a SmartCache instance
  * following the information in OrderInfo.
  */
-class SmartRowResultSet implements IRowResultSet
+public class SmartRowResultSet implements IRowResultSet
 {
 	private ResultSetCache rsCache;
 	private IResultClass rsMeta;
@@ -27,7 +27,7 @@ class SmartRowResultSet implements IRowResultSet
 	boolean startNewGroup = true;
 	int currentGroup = -1;
 	
-	SmartRowResultSet( ResultSetCache rsCache,
+	public SmartRowResultSet( ResultSetCache rsCache,
 			IResultClass rsMeta, OrderingInfo orderingInfo)
 	{
 		this.rsCache = rsCache;

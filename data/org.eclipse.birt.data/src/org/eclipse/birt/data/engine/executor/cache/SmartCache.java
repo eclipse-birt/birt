@@ -18,15 +18,10 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
-import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
-import org.eclipse.birt.data.engine.odi.ICustomDataSet;
-import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
-import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -139,91 +134,6 @@ public class SmartCache implements ResultSetCache
 	}
 	
 	/**
-	 * Retrieve data from ODI, used in candidate query, such as Scripted DataSet
-	 * 
-	 * @param customDataSet
-	 * @param query
-	 * @param rsMeta
-	 * @param sortSpec
-	 * @throws DataException
-	 */
-	public SmartCache( CacheRequest cacheRequest, ICustomDataSet customDataSet,
-			IResultClass rsMeta ) throws DataException
-	{
-		assert cacheRequest != null;
-		assert customDataSet != null;
-		assert rsMeta != null;
-
-		this.eventHandler = cacheRequest.getEventHandler( );
-		OdiAdapter odiAdpater = new OdiAdapter( customDataSet );
-		initInstance( cacheRequest, odiAdpater, rsMeta );
-	}
-	
-	/**
-	 * Retrieve data from IJointDataSetPopulator, used in joint data set.
-	 * 
-	 * @param odaResultSet
-	 * @param query
-	 * @param rsMeta
-	 * @param sortSpec
-	 * @throws DataException
-	 */
-	public SmartCache( CacheRequest cacheRequest, IDataSetPopulator populator,
-			IResultClass rsMeta ) throws DataException
-	{
-		assert cacheRequest != null;
-		assert populator != null;
-		assert rsMeta != null;
-
-		this.eventHandler = cacheRequest.getEventHandler( );
-		OdiAdapter odiAdpater = new OdiAdapter( populator );
-		initInstance( cacheRequest, odiAdpater, rsMeta );
-	}
-	
-	/**
-	 * Retrieve data from ODA cahce, used in normal query
-	 * 
-	 * @param odaResultSet
-	 * @param query
-	 * @param rsMeta
-	 * @param sortSpec
-	 * @throws DataException
-	 */
-	public SmartCache( CacheRequest cacheRequest,
-			DataSetResultCache odaCacheResultSet, IResultClass rsMeta )
-			throws DataException
-	{
-		assert cacheRequest != null;
-		assert odaCacheResultSet != null;
-		assert rsMeta != null;
-
-		this.eventHandler = cacheRequest.getEventHandler( );
-		OdiAdapter odiAdpater = new OdiAdapter( odaCacheResultSet );
-		initInstance( cacheRequest, odiAdpater, rsMeta );
-	}
-
-	/**
-	 * Retrieve data from ODI, used in multipass query
-	 * 
-	 * @param odaResultSet
-	 * @param query
-	 * @param rsMeta
-	 * @param sortSpec
-	 * @throws DataException
-	 */
-	public SmartCache( CacheRequest cacheRequest, IResultIterator odaResultSet,
-			IResultClass rsMeta ) throws DataException
-	{
-		assert cacheRequest != null;
-		assert odaResultSet != null;
-		assert rsMeta != null;
-
-		this.eventHandler = cacheRequest.getEventHandler( );
-		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
-		initInstance( cacheRequest, odiAdpater, rsMeta );
-	}
-
-	/**
 	 * Retrieve data from ODI, used in sub query
 	 * 
 	 * @param query
@@ -250,26 +160,6 @@ public class SmartCache implements ResultSetCache
 				startIndex,
 				endIndex,
 				rsMeta );
-	}
-	
-	/**
-	 * 
-	 * @param query
-	 * @param resultCache
-	 * @param orderingInfo
-	 * @param rsMeta
-	 * @param sortSpec
-	 * @throws DataException
-	 */
-	public SmartCache( CacheRequest cacheRequest, ResultSetCache resultCache,
-			OrderingInfo orderingInfo, IResultClass rsMeta )
-			throws DataException
-	{
-		assert resultCache != null;
-		assert rsMeta != null;
-	
-		this.eventHandler = cacheRequest.getEventHandler( );
-		initInstance3( resultCache, rsMeta, orderingInfo );
 	}
 	
 	/**
@@ -322,25 +212,36 @@ public class SmartCache implements ResultSetCache
 
 		resultCache.moveTo( oldIndex );
 	}
-
+		
 	/**
-	 * Re-generate the SmartCache using columns defined in OrderingInfo
-	 * 
-	 * @param rsCache
+	 * @param cacheRequest
+	 * @param odiAdapter
 	 * @param rsMeta
-	 * @param orderingInfo
 	 * @throws DataException
 	 */
-	private void initInstance3( ResultSetCache rsCache, IResultClass rsMeta,
-			OrderingInfo orderingInfo ) throws DataException
+	public SmartCache( CacheRequest cacheRequest, OdiAdapter odiAdapter,
+			IResultClass rsMeta ) throws DataException
 	{
-		SmartRowResultSet rowResultSet = new SmartRowResultSet( rsCache,
+		IRowResultSet rowResultSet = new ExpandableRowResultSet( new SmartCacheRequest( cacheRequest.getMaxRow( ),
+				cacheRequest.getFetchEvents( ),
+				odiAdapter,
 				rsMeta,
-				orderingInfo );
-
-		populateData( rsMeta, rowResultSet, null );
+				cacheRequest.getDistinctValueFlag( ) ) );
+		populateData( rsMeta, rowResultSet, cacheRequest.getSortSpec( ) );
 	}
 	
+	/**
+	 * @param cacheRequest
+	 * @param rowResultSet
+	 * @param rsMeta
+	 * @throws DataException
+	 */
+	public SmartCache( CacheRequest cacheRequest, IRowResultSet rowResultSet,
+			IResultClass rsMeta ) throws DataException
+	{
+		populateData( rsMeta, rowResultSet, cacheRequest.getSortSpec( ) );
+	}
+		
 	/**
 	 * Populate the smartCache.
 	 * @param rsMeta

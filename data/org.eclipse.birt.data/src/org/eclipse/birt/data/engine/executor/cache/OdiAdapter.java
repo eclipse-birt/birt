@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * Adapt Oda and Odi interface to a single class, which will provide a uniform
  * method to retrieve data.
  */
-class OdiAdapter
+public class OdiAdapter
 {
 	// from Oda
 	private ResultSet odaResultSet;
@@ -67,7 +67,7 @@ class OdiAdapter
 	 * 
 	 * @param datasetCacheResultSet
 	 */
-	OdiAdapter( DataSetResultCache datasetCache )
+	public OdiAdapter( DataSetResultCache datasetCache )
 	{
 		assert datasetCache != null;
 		this.datasetCache = datasetCache;
@@ -78,7 +78,7 @@ class OdiAdapter
 	 * 
 	 * @param customDataSet
 	 */
-	OdiAdapter( ICustomDataSet customDataSet )
+	public OdiAdapter( ICustomDataSet customDataSet )
 	{
 		assert customDataSet != null;
 		this.customDataSet = customDataSet;
@@ -100,7 +100,7 @@ class OdiAdapter
 	 * 
 	 * @param customDataSet
 	 */
-	OdiAdapter( IResultIterator resultSetCache )
+	public OdiAdapter( IResultIterator resultSetCache )
 	{
 		assert resultSetCache != null;
 		this.resultIterator = resultSetCache;
@@ -121,7 +121,7 @@ class OdiAdapter
 	 * Construction 
 	 * 
 	 */
-	OdiAdapter( IDataSetPopulator populator)
+	public OdiAdapter( IDataSetPopulator populator)
 	{
 		assert populator != null;
 		this.populator = populator;
