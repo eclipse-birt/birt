@@ -225,6 +225,16 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		return 0;
     }
     
+    /**
+	 * @return
+	 */
+	public boolean needDistinctValue( )
+	{
+		if ( dataSetDesign != null )
+			return dataSetDesign.needDistinctValue( );
+		return false;
+	}
+	
 	public String getDataSourceName()
 	{
 		if ( dataSetDesign != null)

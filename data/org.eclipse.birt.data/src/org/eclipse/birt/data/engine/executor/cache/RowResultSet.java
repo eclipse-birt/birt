@@ -38,6 +38,12 @@ class RowResultSet implements IRowResultSet
 	
 	// current row index
 	private int currIndex;
+	
+	// distinct value flag
+	private boolean distinctValueFlag;
+	
+	// result object
+	private IResultObject lastResultObject;
 
 	/**
 	 * Construction
@@ -46,16 +52,17 @@ class RowResultSet implements IRowResultSet
 	 * @param odaResultSet
 	 * @param resultClass
 	 */
-	RowResultSet( int maxRow, List eventList, OdiAdapter odiAdpater,
-			IResultClass resultClass )
+	RowResultSet( SmartCacheRequest smartCacheRequest )
 	{
-		this.eventList = eventList;
-		this.odiAdpater = odiAdpater;
-		this.resultClass = resultClass;
+		this.eventList = smartCacheRequest.getEventList( );
+		this.odiAdpater = smartCacheRequest.getOdiAdapter( );
+		this.resultClass = smartCacheRequest.getResultClass( );
 
-		this.maxRows = maxRow;
+		this.maxRows = smartCacheRequest.getMaxRow( );
 		if ( maxRows <= 0 )
 			maxRows = Integer.MAX_VALUE;
+		
+		this.distinctValueFlag = smartCacheRequest.getDistinctValueFlag( );		
 	}
 
 	/**
@@ -88,6 +95,10 @@ class RowResultSet implements IRowResultSet
 			}
 			else if ( processFetchEvent( odaObject, currIndex ) == true )
 			{
+				if ( this.distinctValueFlag == true
+						&& isDuplicatedObject( odaObject ) )
+					continue;
+				
 				currIndex++;
 				break;
 			}
@@ -126,6 +137,19 @@ class RowResultSet implements IRowResultSet
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * @param currRowObject
+	 * @return
+	 */
+	private boolean isDuplicatedObject( IResultObject currRowObject )
+	{
+		if ( currRowObject.equals( lastResultObject ) )
+			return true;
+		
+		lastResultObject = currRowObject;
+		return false;
 	}
 
 }

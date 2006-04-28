@@ -208,6 +208,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		// Let subclass create a new and empty intance of the appropriate
 		// odi IQuery
 		odiQuery = createOdiQuery( );
+		odiQuery.setDistinctValueFlag( dataSet.needDistinctValue( ) );
 		odiQuery.setExprProcessor( exprProcessor );
 		populateOdiQuery( );
 		prepareOdiQuery( );

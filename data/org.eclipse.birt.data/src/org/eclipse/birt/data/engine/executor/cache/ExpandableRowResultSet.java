@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.cache;
 
-import java.util.List;
-
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -37,13 +35,11 @@ class ExpandableRowResultSet implements IRowResultSet
 	 * @param odaResultSet
 	 * @param resultClass
 	 */
-	ExpandableRowResultSet( int maxRow, List eventList, OdiAdapter odiAdpater,
-			IResultClass resultClass )
+	ExpandableRowResultSet( SmartCacheRequest smartCacheRequest )
 	{
-		this.resultClass = resultClass;
-		
-		this.rowResultSet = new RowResultSet( maxRow, eventList, odiAdpater, resultClass);
-		
+		this.resultClass = smartCacheRequest.getResultClass( );
+
+		this.rowResultSet = new RowResultSet( smartCacheRequest );
 	}
 
 	/**

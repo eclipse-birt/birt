@@ -39,6 +39,11 @@ public interface IBaseDataSetDesign
 	 * @return cache row count
 	 */
     public abstract int getCacheRowCount( );
+    
+    /**
+	 * @return
+	 */
+	public boolean needDistinctValue( );
 
     /**
      * Returns the data source (connection) name for this data set. 

@@ -268,6 +268,11 @@ public class NewInstanceHelper
 			{
 				return null;
 			}
+
+			public boolean needDistinctValue( )
+			{
+				return false;
+			}
 		};
 	}
 	
@@ -319,6 +324,14 @@ public class NewInstanceHelper
 			public void setExprProcessor( IExpressionProcessor exprProcessor )
 			{				
 			}
+			
+			/*
+			 * @see org.eclipse.birt.data.engine.odi.IQuery#setDistinctValueFlag(boolean)
+			 */
+			public void setDistinctValueFlag( boolean distinctValueFlag )
+			{				
+			}
+			
 		};
 	}
 	

@@ -49,6 +49,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
     private IBaseDataSetEventHandler eventHandler;
 	
 	private int cacheRowCount;
+    private boolean distinctValue;
     
 	/**
 	 * Instantiates a data set with given name.
@@ -95,7 +96,23 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
     {
     	this.cacheRowCount = cacheRowCount;
     }
-
+    
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#useDistinctValue()
+	 */
+	public boolean needDistinctValue( )
+	{
+		return this.distinctValue;
+	}
+	
+	/**
+	 * @param distinctValue
+	 */
+	public void setDistinctValue( boolean distinctValue )
+	{
+		this.distinctValue = distinctValue;
+	}
+	
     /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getDataSourceName()
      */	

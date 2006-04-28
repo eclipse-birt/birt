@@ -23,6 +23,8 @@ public class CacheRequest
 	private List fetchEvents;
 	private SortSpec sortSpec;
 	private IEventHandler eventHandler;
+	
+	private boolean distinctValueFlag;
 
 	/**
 	 * @param maxRow
@@ -36,6 +38,20 @@ public class CacheRequest
 		this.fetchEvents = fetchEvents;
 		this.sortSpec = sortSpec;
 		this.eventHandler = eventHandler;
+	}
+	
+	/**
+	 * @param maxRow
+	 * @param fetchEvents
+	 * @param sortSpec
+	 * @param eventHandler
+	 * @param distinctValueFlag
+	 */
+	public CacheRequest( int maxRow, List fetchEvents, SortSpec sortSpec,
+			IEventHandler eventHandler, boolean distinctValueFlag )
+	{
+		this( maxRow, fetchEvents, sortSpec, eventHandler );
+		this.distinctValueFlag = distinctValueFlag;
 	}
 
 	/**
@@ -78,4 +94,20 @@ public class CacheRequest
 		return eventHandler;
 	}
 	
+	/**
+	 * @return
+	 */
+	public boolean getDistinctValueFlag( )
+	{
+		return distinctValueFlag;
+	}
+	
+	/**
+	 * @return
+	 */
+	public void setDistinctValueFlag( boolean distinctValueFlag )
+	{
+		this.distinctValueFlag = distinctValueFlag;
+	}
+		
 }

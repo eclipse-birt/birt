@@ -26,12 +26,14 @@ import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
  */
 public abstract class BaseQuery implements IQuery
 {
-    private SortSpec[] 	sorts;
+    private SortSpec[] 		sorts;
     private GroupSpec[] 	groups;
-    private int			maxRows = 0;
+    private int				maxRows = 0;
     private List 			fetchEventList;
     
     private IExpressionProcessor exprProcessor;
+    
+    private boolean distinctValueFlag;
     
     /**
      * @see org.eclipse.birt.data.engine.odi.IQuery#setOrdering(java.util.List)
@@ -116,6 +118,22 @@ public abstract class BaseQuery implements IQuery
 	public IExpressionProcessor getExprProcessor( )
 	{
 		return exprProcessor;
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean getDistinctValueFlag( )
+	{
+		return distinctValueFlag;
+	}
+
+	/**
+	 * @param distinctValueFlag
+	 */
+	public void setDistinctValueFlag( boolean distinctValueFlag )
+	{
+		this.distinctValueFlag = distinctValueFlag;
 	}
 	
 }

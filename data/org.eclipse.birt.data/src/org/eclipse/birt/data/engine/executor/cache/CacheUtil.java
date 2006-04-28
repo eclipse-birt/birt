@@ -25,7 +25,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 /**
  * 
  */
-class CacheUtil
+public class CacheUtil
 {
 	
 	//--------------------service for SmartCache----------------------
@@ -119,7 +119,7 @@ class CacheUtil
 							colObj2 = row2.getFieldValue( colIndex );
 						}
 						
-						int result = doCompare( colObj1, colObj2 );
+						int result = compareObjects( colObj1, colObj2 );
 						if ( result != 0 )
 						{
 							return sortAscending[i] ? result : -result;
@@ -135,92 +135,90 @@ class CacheUtil
 				// all equal, so return 0
 				return 0;
 			}
-
-			/**
-			 * Compare two objects
-			 * 
-			 * @param colObj1
-			 * @param colObj2
-			 * @return true colObj1 equals colObj2
-			 */
-			private int doCompare( Object colObj1, Object colObj2 )
-			{
-				// default value is 0
-				int result = 0;
-
-				// 1: the case of reference is the same
-				if ( colObj1 == colObj2 )
-				{
-					return result;
-				}
-
-				// 2: the case of one of two object is null
-				if ( colObj1 == null || colObj2 == null )
-				{
-					// keep null value at the first position in ascending order
-					if ( colObj1 == null )
-					{
-						result = -1;
-					}
-					else
-					{
-						result = 1;
-					}
-					return result;
-				}
-
-				// 3: other cases
-				if ( colObj1.equals( colObj2 ) )
-				{
-					return result;
-				}
-				else if ( colObj1 instanceof Comparable
-						&& colObj2 instanceof Comparable )
-				{
-					Comparable comp1 = (Comparable) colObj1;
-					Comparable comp2 = (Comparable) colObj2;
-					
-					// Integer can not be compared with Double.
- 					if ( colObj1.getClass( ) != colObj2.getClass( )
-							&& colObj1 instanceof Number
-							&& colObj2 instanceof Number )
-					{
-						try
-						{
-							comp1 = (Comparable) DataTypeUtil.toDouble( colObj1 );
-							comp2 = (Comparable) DataTypeUtil.toDouble( colObj2 );
-						}
-						catch ( BirtException ex )
-						{
-							// impossible
-						}
-					}
- 					
- 					result = comp1.compareTo( comp2 );					
-				}
-				else if ( colObj1 instanceof Boolean
-						&& colObj2 instanceof Boolean )
-				{
-					// false is less than true
-					Boolean bool = (Boolean) colObj1;
-					if ( bool.equals( Boolean.TRUE ) )
-						result = 1;
-					else
-						result = -1;
-				}
-				else
-				{
-					// Should never get here
-					//throw new UnsupportedOperationException( );
-				}
-
-				return result;
-			}
 		};
 
 		return comparator;
 	}
+	
+	/**
+	 * @param ob1
+	 * @param ob2
+	 * @return
+	 */
+	public static int compareObjects( Object ob1, Object ob2 )
+	{
+		// default value is 0
+		int result = 0;
 		
+		// 1: the case of reference is the same
+		if ( ob1 == ob2 )
+		{
+			return result;
+		}
+		
+		// 2: the case of one of two object is null
+		if ( ob1 == null || ob2 == null )
+		{
+			// keep null value at the first position in ascending order
+			if ( ob1 == null )
+			{
+				result = -1;
+			}
+			else
+			{
+				result = 1;
+			}
+			return result;
+		}
+		
+		// 3: other cases
+		if ( ob1.equals( ob2 ) )
+		{
+			return result;
+		}
+		else if ( ob1 instanceof Comparable
+				&& ob1 instanceof Comparable )
+		{
+			Comparable comp1 = (Comparable) ob1;
+			Comparable comp2 = (Comparable) ob2;
+			
+			// Integer can not be compared with Double.
+				if ( ob1.getClass( ) != ob2.getClass( )
+					&& ob1 instanceof Number
+					&& ob1 instanceof Number )
+			{
+				try
+				{
+					comp1 = (Comparable) DataTypeUtil.toDouble( ob1 );
+					comp2 = (Comparable) DataTypeUtil.toDouble( ob2 );
+				}
+				catch ( BirtException ex )
+				{
+					// impossible
+				}
+			}
+				
+				result = comp1.compareTo( comp2 );					
+		}
+		else if ( ob1 instanceof Boolean
+				&& ob2 instanceof Boolean )
+		{
+			// false is less than true
+			Boolean bool = (Boolean) ob1;
+			if ( bool.equals( Boolean.TRUE ) )
+				result = 1;
+			else
+				result = -1;
+		}
+		else
+		{
+			// Should never get here
+			//throw new UnsupportedOperationException( );
+		}
+
+		return result;
+	}
+	
 	//------------------------service for DiskCache-------------------------
 	
 	/**

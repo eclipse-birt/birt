@@ -83,6 +83,11 @@ public interface IQuery
      * @param exprProcessor
      */
     public void setExprProcessor( IExpressionProcessor exprProcessor );
+
+	/**
+	 * @param distinctValueFlag
+	 */
+	public void setDistinctValueFlag( boolean distinctValueFlag );
     
 	/**
 	 * Close all result iterators of execute(...) methods on this Query 

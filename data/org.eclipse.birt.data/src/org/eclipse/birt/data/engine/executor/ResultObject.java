@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.executor;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -201,6 +202,38 @@ public class ResultObject implements IResultObject
 			buf.append( m_fields[i] == null ? "null" : m_fields[i].toString( ) );
 		}
 		return buf.toString( );
+	}
+	
+	/*
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals( Object ob )
+	{
+		if ( ob instanceof IResultObject == false )
+			return false;
+
+		IResultObject ob2 = (IResultObject) ob;
+
+		int fieldCount = this.getResultClass( ).getFieldCount( );
+		if ( fieldCount != ob2.getResultClass( ).getFieldCount( ) )
+			return false;
+
+		for ( int i = 0; i < fieldCount; i++ )
+		{
+			try
+			{
+				Object value1 = this.getFieldValue( i + 1 );
+				Object value2 = ob2.getFieldValue( i + 1 );
+				if ( CacheUtil.compareObjects( value1, value2 ) != 0 )
+					return false;
+			}
+			catch ( DataException e )
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 }

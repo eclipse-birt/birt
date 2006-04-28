@@ -74,8 +74,107 @@ public class SmartCache implements ResultSetCache
 		assert odaResultSet != null;
 		assert rsMeta != null;
 
+		if ( cacheRequest.getDistinctValueFlag( ) == true )
+		{
+			SmartCache smartCache = new SmartCache( cacheRequest,
+					odaResultSet,
+					rsMeta, false );
+			
+			cacheRequest.setDistinctValueFlag( false );
+			initInstance( cacheRequest, new OdiAdapter( smartCache ), rsMeta );
+		}
+		else
+		{
+			init( cacheRequest, odaResultSet, rsMeta );
+		}
+	}
+	
+	/**
+	 * @param cacheRequest
+	 * @param odaResultSet
+	 * @param rsMeta
+	 * @param ob
+	 * @throws DataException
+	 */
+	private SmartCache( CacheRequest cacheRequest, ResultSet odaResultSet,
+			IResultClass rsMeta, boolean ob ) throws DataException
+	{
+		SmartCache smartCache = new SmartCache( new CacheRequest( 0,
+				null,
+				getSortSpec( rsMeta ),
+				cacheRequest.getEventHandler( ),
+				true ), odaResultSet, rsMeta, false, false );
+
+		this.eventHandler = cacheRequest.getEventHandler( );
+		OdiAdapter odiAdpater = new OdiAdapter( smartCache );
+		initInstance( cacheRequest, odiAdpater, rsMeta );
+	}
+	
+	/**
+	 * @param rsMeta
+	 * @return
+	 */
+	private SortSpec getSortSpec( IResultClass rsMeta )
+	{
+		int fieldCount = rsMeta.getFieldCount( );
+		int[] sortKeyIndexs = new int[fieldCount];
+		String[] sortKeyNames = new String[fieldCount];
+		boolean[] ascending = new boolean[fieldCount];
+		for ( int i = 0; i < fieldCount; i++ )
+		{
+			sortKeyIndexs[i] = i;
+			ascending[i] = true;
+		}
+
+		return new SortSpec( sortKeyIndexs, sortKeyNames, ascending );
+	}
+	
+	/**
+	 * @param cacheRequest
+	 * @param odaResultSet
+	 * @param rsMeta
+	 * @param ob
+	 * @param ob1
+	 * @throws DataException
+	 */
+	private SmartCache( CacheRequest cacheRequest, ResultSet odaResultSet,
+			IResultClass rsMeta, boolean ob, boolean ob1 ) throws DataException
+	{
+		init( cacheRequest, odaResultSet, rsMeta );
+	}
+	
+	/**
+	 * @param cacheRequest
+	 * @param odaResultSet
+	 * @param rsMeta
+	 * @throws DataException
+	 */
+	private void init( CacheRequest cacheRequest, ResultSet odaResultSet,
+			IResultClass rsMeta ) throws DataException
+	{
 		this.eventHandler = cacheRequest.getEventHandler( );
 		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
+		initInstance( cacheRequest, odiAdpater, rsMeta );
+	}
+	
+	/**
+	 * Retrieve data from ODI, used in candidate query, such as Scripted DataSet
+	 * 
+	 * @param customDataSet
+	 * @param query
+	 * @param rsMeta
+	 * @param sortSpec
+	 * @throws DataException
+	 */
+	public SmartCache( CacheRequest cacheRequest, ICustomDataSet customDataSet,
+			IResultClass rsMeta ) throws DataException
+	{
+		assert cacheRequest != null;
+		assert customDataSet != null;
+		assert rsMeta != null;
+
+		this.eventHandler = cacheRequest.getEventHandler( );
+		OdiAdapter odiAdpater = new OdiAdapter( customDataSet );
 		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
 	
@@ -142,26 +241,6 @@ public class SmartCache implements ResultSetCache
 		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
 		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
-	/**
-	 * Retrieve data from ODI, used in candidate query, such as Scripted DataSet
-	 * 
-	 * @param customDataSet
-	 * @param query
-	 * @param rsMeta
-	 * @param sortSpec
-	 * @throws DataException
-	 */
-	public SmartCache( CacheRequest cacheRequest, ICustomDataSet customDataSet,
-			IResultClass rsMeta ) throws DataException
-	{
-		assert cacheRequest != null;
-		assert customDataSet != null;
-		assert rsMeta != null;
-
-		this.eventHandler = cacheRequest.getEventHandler( );
-		OdiAdapter odiAdpater = new OdiAdapter( customDataSet );
-		initInstance( cacheRequest, odiAdpater, rsMeta );
-	}
 
 	/**
 	 * Retrieve data from ODI, used in sub query
@@ -223,11 +302,12 @@ public class SmartCache implements ResultSetCache
 	 */
 	private void initInstance( CacheRequest cacheRequest,
 			OdiAdapter odiAdpater, IResultClass rsMeta ) throws DataException
-	{	
-		IRowResultSet rowResultSet = new ExpandableRowResultSet( cacheRequest.getMaxRow( ),
+	{
+		IRowResultSet rowResultSet = new ExpandableRowResultSet( new SmartCacheRequest( cacheRequest.getMaxRow( ),
 				cacheRequest.getFetchEvents( ),
 				odiAdpater,
-				rsMeta );
+				rsMeta,
+				cacheRequest.getDistinctValueFlag( ) ) );
 		populateData( rsMeta, rowResultSet, cacheRequest.getSortSpec( ) );
 	}
 	
