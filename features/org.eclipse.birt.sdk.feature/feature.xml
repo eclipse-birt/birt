@@ -36,10 +36,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.birt.example"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.birt.report.designer.source"
          version="0.0.0"/>
 
@@ -56,7 +52,8 @@
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.junit"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui"/>
    </requires>
 
    <plugin
@@ -64,5 +61,12 @@
          download-size="0"
          install-size="0"
          version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.birt.sample.reportitem.rotatedtext"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

@@ -39,6 +39,10 @@
          id="org.eclipse.birt.chart"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.birt.example"
+         version="0.0.0"/>
+
    <plugin
          id="org.eclipse.birt"
          download-size="0"

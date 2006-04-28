@@ -24,11 +24,9 @@
    </url>
 
    <requires>
-      <import plugin="org.eclipse.tomcat"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.datatools.connectivity.oda"/>
-      <import plugin="org.eclipse.datatools.connectivity.oda.design.ui"/>
+      <import feature="org.eclipse.datatools.connectivity.oda.designer.feature" version="0.9.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.birt.chart" version="2.1.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.birt.chart.runtime" version="2.1.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.birt.report.designer" version="2.1.0" match="greaterOrEqual"/>
@@ -37,13 +35,6 @@
 
    <plugin
          id="org.eclipse.birt.chart.examples"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.sample.reportitem.rotatedtext"
          download-size="0"
          install-size="0"
          version="0.0.0"
