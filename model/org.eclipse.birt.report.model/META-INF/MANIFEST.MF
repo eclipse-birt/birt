@@ -23,6 +23,7 @@ Export-Package: org.eclipse.birt.report.model.api,
  org.eclipse.birt.report.model.core.namespace,
  org.eclipse.birt.report.model.elements,
  org.eclipse.birt.report.model.elements.interfaces,
+ org.eclipse.birt.report.model.i18n,
  org.eclipse.birt.report.model.metadata,
  org.eclipse.birt.report.model.parser
 Require-Bundle: org.eclipse.birt.core,

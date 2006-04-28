@@ -10,7 +10,6 @@
 package org.eclipse.birt.report.designer.core.model.schematic;
 
 import java.util.Iterator;
-import java.util.Locale;
 
 import junit.framework.TestCase;
 
@@ -21,6 +20,8 @@ import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
+
+import com.ibm.icu.util.ULocale;
 
 public class CellHandleAdapterTest extends TestCase
 {
@@ -35,7 +36,7 @@ public class CellHandleAdapterTest extends TestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		sessionHandle = DesignEngine.newSession( Locale.getDefault( ) );
+		sessionHandle = DesignEngine.newSession( ULocale.getDefault( ) );
 
 		designHandle = sessionHandle.createDesign( );
 

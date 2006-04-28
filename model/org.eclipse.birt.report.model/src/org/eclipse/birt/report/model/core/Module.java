@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.core;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -939,14 +938,26 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( baseName == null )
 			return ""; //$NON-NLS-1$
 
-		File msgFolder = DesignSession.getBirtResourcePath( ) == null
-				? getModuleFolder( )
-				: new File( DesignSession.getBirtResourcePath( ) );
-		if ( msgFolder == null )
-			return ""; //$NON-NLS-1$
+		// try the resource path first.
 
-		return BundleHelper.getHelper( msgFolder, baseName ).getMessage(
-				resourceKey, locale );
+		String resourcePath = DesignSession.getBirtResourcePath( );
+		if ( resourcePath != null )
+		{
+			File msgFolder = new File( DesignSession.getBirtResourcePath( ) );
+			msg = BundleHelper.getHelper( msgFolder, baseName ).getMessage(
+					resourceKey, locale );
+		}
+
+		// for the backward compatibility, has to try the module folder.
+
+		if ( msg == null || msg.length( ) == 0 )
+		{
+			File msgFolder = getModuleFolder( );
+			return BundleHelper.getHelper( msgFolder, baseName ).getMessage(
+					resourceKey, locale );
+		}
+
+		return msg;
 	}
 
 	/**
