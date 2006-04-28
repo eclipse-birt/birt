@@ -19,9 +19,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
+import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -43,6 +46,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  */
 abstract public class BaseAttributeBean
 {
+
 	/**
 	 * Identify the incoming request category.
 	 */
@@ -158,7 +162,23 @@ abstract public class BaseAttributeBean
 	protected void __initParameters( HttpServletRequest request )
 			throws Exception
 	{
-		IViewerReportDesignHandle design = getDesignHandle( request );
+		IViewerReportDesignHandle design = null;
+		IReportRunnable reportRunnable = null;
+
+		IReportDocument reportDocumentInstance = ReportEngineService
+				.getInstance( ).openReportDocument( this.reportDesignName,
+						this.reportDocumentName );
+
+		if ( reportDocumentInstance != null )
+		{
+			reportRunnable = reportDocumentInstance.getReportRunnable( );
+			reportDocumentInstance.close( );
+		}
+		if ( reportRunnable != null )
+			design = new BirtViewerReportDesignHandle( null, reportRunnable
+					.getReportName( ) );
+		else
+			design = getDesignHandle( request );
 
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
@@ -168,13 +188,13 @@ abstract public class BaseAttributeBean
 				.getParameterDefinitions( design, options );
 
 		// TODO: Change parameters to be Map, not HashMap
-		this.parameters = ( HashMap ) getParsedParameters( design,
-				parameterList, request, options );
+		this.parameters = (HashMap) getParsedParameters( design, parameterList,
+				request, options );
 
 		this.missingParameter = validateParameters( parameterList,
 				this.parameters );
 	}
-	
+
 	protected IViewerReportDesignHandle getDesignHandle(
 			HttpServletRequest request )
 	{
@@ -305,7 +325,8 @@ abstract public class BaseAttributeBean
 		try
 		{
 			__finalize( );
-		} finally
+		}
+		finally
 		{
 			super.finalize( );
 		}
@@ -327,7 +348,7 @@ abstract public class BaseAttributeBean
 
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = ( IScalarParameterDefn ) iter
+			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
 					.next( );
 
 			String parameterName = parameterObj.getName( );
@@ -346,7 +367,7 @@ abstract public class BaseAttributeBean
 
 			if ( IScalarParameterDefn.TYPE_STRING == parameterObj.getDataType( ) )
 			{
-				String parameterStringValue = ( String ) parameterValue;
+				String parameterStringValue = (String) parameterValue;
 				if ( parameterStringValue != null
 						&& parameterStringValue.length( ) <= 0
 						&& !parameterObj.allowBlank( ) )
@@ -367,7 +388,7 @@ abstract public class BaseAttributeBean
 		Map params = new HashMap( );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = ( IScalarParameterDefn ) iter
+			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
 					.next( );
 
 			String paramName = parameterObj.getName( );

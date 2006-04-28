@@ -133,6 +133,30 @@ public class ReportEngineService
 		emitterConfig.setImageHandler( imageHandler );
 		config.getEmitterConfigs( ).put( "html", emitterConfig ); //$NON-NLS-1$
 
+		// handle resource path
+
+		String resourcePath = servletConfig.getServletContext( )
+				.getInitParameter(
+						ParameterAccessor.INIT_PARAM_BIRT_RESOURCE_PATH );
+		if ( resourcePath == null || resourcePath.trim( ).length( ) <= 0
+				|| ParameterAccessor.isRelativePath( resourcePath ) )
+		{
+			resourcePath = servletConfig.getServletContext( ).getRealPath(
+					"/resource" ); //$NON-NLS-1$
+		}
+		File resourceFile = new File( resourcePath );
+		boolean isResourceOk = true;
+		if ( !resourceFile.exists( ) )
+		{
+			isResourceOk = resourceFile.mkdirs( );
+		}
+		if ( isResourceOk )
+		{
+			config.setProperty(
+					ParameterAccessor.INIT_PARAM_BIRT_RESOURCE_PATH,
+					resourcePath );
+		}
+
 		// Prepare image directory.
 		imageDirectory = servletConfig.getServletContext( ).getInitParameter(
 				ParameterAccessor.INIT_PARAM_IMAGE_DIR );
@@ -378,7 +402,7 @@ public class ReportEngineService
 	 *            the name of the report document
 	 * @return
 	 */
-	public IReportDocument openReportDocument( String docName )
+	public IReportDocument openReportDocument( String systemId, String docName )
 	{
 
 		IReportDocument document = null;
@@ -686,11 +710,17 @@ public class ReportEngineService
 		HTMLRenderOption setting = new HTMLRenderOption( );
 		setting.setOutputStream( out );
 		setting.setOutputFormat( IBirtConstants.RENDERFORMAT );
-		setting.setEmbeddable( true );
+
+		boolean isEmbeddable = false;
+		if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
+				.getServletPath( ) ) )
+			isEmbeddable = true;
+		setting.setEmbeddable( isEmbeddable );
+
 		setting.setInstanceIDs( activeIds );
 		setting.setMasterPageContent( masterPage );
 		setting.setActionHandle( new ViewerHTMLActionHandler( reportDocument,
-				pageNumber, locale ) );
+				pageNumber, locale, isEmbeddable ) );
 
 		renderTask.setRenderOption( setting );
 		renderTask.setLocale( locale );

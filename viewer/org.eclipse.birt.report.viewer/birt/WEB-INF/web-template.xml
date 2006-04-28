@@ -44,6 +44,12 @@
 		<param-name>BIRT_VIEWER_SCRIPTLIB_DIR</param-name>
 		<param-value></param-value>
 	</context-param>
+	
+	<!-- Absolute resource location directory. -->
+	<context-param>
+		<param-name>BIRT_RESOURCE_PATH</param-name>
+		<param-value></param-value>
+	</context-param>
 
 	<servlet>
 		<servlet-name>ViewerServlet</servlet-name>

@@ -28,6 +28,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -99,7 +100,7 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions options )
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( docName );
+				.openReportDocument( getReportDesignName( options ), docName );
 		String fileName = doc.getReportRunnable( ).getReportName( );
 		doc.close( );
 		// TODO: What is content type?
@@ -114,7 +115,8 @@ public class BirtViewerReportService implements IViewerReportService
 			throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( docName );
+				.openReportDocument( getReportDesignName( renderOptions ),
+						docName );
 		HttpServletRequest request = (HttpServletRequest) renderOptions
 				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) renderOptions
@@ -181,7 +183,7 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( docName );
+				.openReportDocument( getReportDesignName( options ), docName );
 		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
 		// TODO: Filters are not used...
 		try
@@ -200,7 +202,7 @@ public class BirtViewerReportService implements IViewerReportService
 			throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( docName );
+				.openReportDocument( getReportDesignName( options ), docName );
 
 		ResultSet[] resultSetArray;
 		try
@@ -249,7 +251,7 @@ public class BirtViewerReportService implements IViewerReportService
 			throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( docName );
+				.openReportDocument( getReportDesignName( options ), docName );
 
 		TOCNode node = null;
 		if ( tocId != null )
@@ -266,7 +268,7 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			throw new ReportServiceException( "Invalid TOC query." ); //$NON-NLS-1$
 		}
-		
+
 		doc.close( );
 		return transformTOCNode( node );
 	}
@@ -275,7 +277,7 @@ public class BirtViewerReportService implements IViewerReportService
 			throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( docName );
+				.openReportDocument( getReportDesignName( options ), docName );
 		long count = doc.getPageCount( );
 		doc.close( );
 		return count;
@@ -300,7 +302,7 @@ public class BirtViewerReportService implements IViewerReportService
 	public Map getParameterValues( String docName, InputOptions options )
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( docName );
+				.openReportDocument( getReportDesignName( options ), docName );
 		Map paramValues = doc.getParameterValues( );
 		doc.close( );
 		return paramValues;
@@ -346,7 +348,7 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions options ) throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( docName );
+				.openReportDocument( getReportDesignName( options ), docName );
 		long pageNumber = doc.getPageNumber( bookmark );
 		doc.close( );
 		return pageNumber;
@@ -494,7 +496,8 @@ public class BirtViewerReportService implements IViewerReportService
 					String name = (String) it.next( );
 					if ( paramName.equals( name ) )
 					{
-						paramValue = (String) parameters.get( name );
+						if ( parameters.get( name ) != null )
+							paramValue = parameters.get( name ).toString( );
 						paramValueObj = converter.parse( paramValue,
 								ParameterDataTypeConverter
 										.getEngineDataType( paramHandle
@@ -585,6 +588,43 @@ public class BirtViewerReportService implements IViewerReportService
 			ret.add( exportedResultSet );
 		}
 		return ret;
+	}
+
+	/**
+	 * Gets the report design name from the input options.
+	 * 
+	 * @param options
+	 *            the input options
+	 * @return the report design name if the request contains a valid name,
+	 *         otherwise null
+	 */
+
+	private String getReportDesignName( InputOptions options )
+	{
+		String reportDesignName = null;
+
+		if ( options != null )
+		{
+			HttpServletRequest request = (HttpServletRequest) options
+					.getOption( InputOptions.OPT_REQUEST );
+			if ( request != null )
+			{
+				ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+						.getAttribute( "attributeBean" ); //$NON-NLS-1$
+				assert attrBean != null;
+
+				reportDesignName = attrBean.getReportDesignName( );
+				if ( reportDesignName != null )
+				{
+					// if the report design name is not a valid file, then set
+					// it to null
+
+					if ( reportDesignName.endsWith( "\\" ) || reportDesignName.endsWith( "/" ) )
+						reportDesignName = null;
+				}
+			}
+		}
+		return reportDesignName;
 	}
 
 }

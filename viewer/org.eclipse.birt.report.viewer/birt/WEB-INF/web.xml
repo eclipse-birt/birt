@@ -44,6 +44,13 @@
 		<param-name>WORKING_FOLDER_ACCESS_ONLY</param-name>
 		<param-value>false</param-value>
 	</context-param>
+	
+	<!-- Absolute resource location directory. -->
+	<context-param>
+		<param-name>BIRT_RESOURCE_PATH</param-name>
+		<param-value></param-value>
+	</context-param>
+	
 
 	<servlet>
 		<servlet-name>ViewerServlet</servlet-name>

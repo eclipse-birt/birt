@@ -56,6 +56,11 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	protected long page = -1;
 
 	/**
+	 * if the page is embedded, the bookmark should always be a url to submit.
+	 */
+	protected boolean isEmbeddable = false;
+
+	/**
 	 * Constructor.
 	 */
 	public ViewerHTMLActionHandler( )
@@ -71,11 +76,12 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	 */
 
 	public ViewerHTMLActionHandler( IReportDocument document, long page,
-			Locale locale )
+			Locale locale, boolean isEmbeddable )
 	{
 		this.document = document;
 		this.page = page;
 		this.locale = locale;
+		this.isEmbeddable = isEmbeddable;
 	}
 
 	/**
@@ -124,7 +130,7 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		{
 			long pageNumber = this.document
 					.getPageNumber( action.getBookmark( ) );
-			realBookmark = pageNumber == this.page;
+			realBookmark = ( pageNumber == this.page && !isEmbeddable );
 		}
 
 		String bookmark = action.getBookmark( );
@@ -137,44 +143,41 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 			// Does nothing
 		}
 
+		String baseURL = null;
+		if ( context != null && context instanceof HTMLRenderContext )
+		{
+			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
+		}
+
+		link.append( baseURL );
+		link.append( "?__document=" ); //$NON-NLS-1$
+		String documentName = document.getName( );
+
+		try
+		{
+			documentName = URLEncoder.encode( documentName, "UTF-8" ); //$NON-NLS-1$
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			// Does nothing
+		}
+		link.append( documentName );
+
+		if ( locale != null )
+		{
+			link.append( "&__locale=" ); //$NON-NLS-1$
+			link.append( locale.toString( ) );
+		}
+
 		if ( realBookmark )
 		{
 			link.append( "#" ); //$NON-NLS-1$
 			link.append( bookmark );
-			if ( locale != null )
-			{
-				link.append( "&__locale=" ); //$NON-NLS-1$
-				link.append( locale.toString( ) );
-			}
-
 		}
 		else
 		{
-			String baseURL = null;
-			if ( context != null && context instanceof HTMLRenderContext )
-			{
-				baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
-			}
-			link.append( baseURL );
-
-			link.append( "?__document=" ); //$NON-NLS-1$
-			String documentName = document.getName( );
-			try
-			{
-				documentName = URLEncoder.encode( documentName, "UTF-8" ); //$NON-NLS-1$
-			}
-			catch ( UnsupportedEncodingException e )
-			{
-				// Does nothing
-			}
-			link.append( documentName );
 			link.append( "&__bookmark=" ); //$NON-NLS-1$
 			link.append( bookmark );
-			if ( locale != null )
-			{
-				link.append( "&__locale=" ); //$NON-NLS-1$
-				link.append( locale.toString( ) );
-			}
 		}
 
 		return link.toString( );
