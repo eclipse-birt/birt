@@ -79,7 +79,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.birt.report.model.adapter.oda,
  org.eclipse.datatools.connectivity.oda.design,
  org.eclipse.core.expressions,
- org.eclipse.birt.report.engine
+ org.eclipse.birt.report.engine,
+ org.eclipse.birt.report.data.adaptor
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.4
 Bundle-ClassPath: ui.jar

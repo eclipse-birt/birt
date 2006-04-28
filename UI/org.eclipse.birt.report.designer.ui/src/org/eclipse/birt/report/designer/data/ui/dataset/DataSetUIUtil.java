@@ -10,21 +10,26 @@
  *******************************************************************************/
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.report.data.adaptor.api.DataRequestSession;
+import org.eclipse.birt.report.data.adaptor.api.DataSessionContext;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 
 /**
  * The utility class.
  */
 public final class DataSetUIUtil
 {
+	// logger instance
+	private static Logger logger = Logger.getLogger( DataSetUIUtil.class.getName( ) );
+	
 	/**
 	 * Save the column meta data to data set handle.
 	 * 
@@ -32,33 +37,25 @@ public final class DataSetUIUtil
 	 * @param items
 	 * @throws SemanticException
 	 */
-	public static void updateColumnCache( DataSetHandle dataSetHandle ) throws SemanticException
+	public static void updateColumnCache( DataSetHandle dataSetHandle )
+			throws SemanticException
 	{
-		DataSetItemModel[] items = DataSetManager.getCurrentInstance( ).getColumns( dataSetHandle, true);
-		if ( items.length > 0 )
+		DataSessionContext context = null;
+		try
 		{
-			dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
-
-			for ( int i = 0; i < items.length; i++ )
-			{
-				ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
-				rsc.setColumnName( ( items[i].getAlias( ) == null || items[i].getAlias( )
-						.trim( )
-						.length( ) == 0 ) ? items[i].getDataSetColumnName( )
-						: items[i].getAlias( ) );
-				rsc.setDataType( toModelDataType( items[i].getDataType( ) ) );
-				rsc.setPosition( new Integer( items[i].getPosition( ) ) );
-
-				dataSetHandle
-						.getCachedMetaDataHandle( )
-						.getResultSet( )
-						.addItem( rsc );
-			}
+			context = new DataSessionContext( DataEngineContext.DIRECT_PRESENTATION,
+					dataSetHandle.getRoot( ),
+					null );
+			DataRequestSession drSession = DataRequestSession.newSession( context );
+			drSession.refreshMetaData( dataSetHandle );
 		}
-		else
+		catch ( BirtException e )
 		{
-			dataSetHandle
-					.setCachedMetaData( null );
+			logger.entering( DataSetUIUtil.class.getName( ),
+					"updateColumnCache",
+					new Object[]{
+						e
+					} );
 		}
 	}
 	
