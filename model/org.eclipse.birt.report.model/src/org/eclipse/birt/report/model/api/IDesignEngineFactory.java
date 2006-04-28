@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+
 /**
  * Factory class to create an instance of DesignEngine
  */
@@ -27,11 +28,13 @@ public interface IDesignEngineFactory
 	public static final String EXTENSION_DESIGN_ENGINE_FACTORY = "org.eclipse.birt.report.model.DesignEngineFactory"; //$NON-NLS-1$
 
 	/**
-	 * create a new designengine object.
+	 * Creates a new design engine object.
 	 * 
+	 * @param config
+	 *            the given design config
 	 * @return the design engine object
 	 */
 
-	IDesignEngine createDesignEngine( );
+	IDesignEngine createDesignEngine( DesignConfig config );
 
 }

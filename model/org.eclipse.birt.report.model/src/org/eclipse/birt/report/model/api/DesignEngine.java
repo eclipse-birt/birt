@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
@@ -60,6 +59,33 @@ public final class DesignEngine implements IDesignEngine
 
 	protected static Logger errorLogger = Logger.getLogger( DesignEngine.class
 			.getName( ) );
+
+	/**
+	 * The configuration for the design engine.
+	 */
+
+	private DesignConfig designConfig;
+
+	/**
+	 * Constructs a DesignEngine with the given platform config.
+	 * 
+	 * @param config
+	 *            the platform config.
+	 */
+
+	public DesignEngine( DesignConfig config )
+	{
+		designConfig = config;
+		try
+		{
+			Platform.startup( config );
+		}
+		catch ( BirtException e )
+		{
+			errorLogger.log( Level.INFO,
+					"Error occurs while start the platform", e ); //$NON-NLS-1$
+		}
+	}
 
 	/**
 	 * Initializes the meta-data system and loads all extensions which
@@ -106,7 +132,7 @@ public final class DesignEngine implements IDesignEngine
 	 * @see SessionHandle
 	 */
 
-	public SessionHandle newSession( ULocale locale, PlatformConfig config )
+	public SessionHandle newSessionHandle( ULocale locale )
 	{
 		// meta-data ready.
 
@@ -125,18 +151,12 @@ public final class DesignEngine implements IDesignEngine
 
 			try
 			{
-				Platform.startup( config );
 				initialize( ReportDesign.class
 						.getResourceAsStream( ROM_DEF_FILE_NAME ) );
 			}
 			catch ( MetaDataReaderException e )
 			{
 				// we provide logger, so do not assert.
-			}
-			catch ( BirtException e )
-			{
-				errorLogger.log( Level.INFO,
-						"Error occurs while start the platform", e ); //$NON-NLS-1$
 			}
 			finally
 			{
@@ -145,7 +165,15 @@ public final class DesignEngine implements IDesignEngine
 
 		}
 
-		return new SessionHandle( locale );
+		SessionHandle session = new SessionHandle( locale );
+		if ( designConfig != null )
+		{
+			IResourceLocator locator = designConfig.getResourceLocator( );
+			if ( locator != null )
+				session.setResourceLocator( locator );
+		}
+
+		return session;
 	}
 
 	/**
@@ -159,13 +187,12 @@ public final class DesignEngine implements IDesignEngine
 	 * @return the design session handle
 	 * @see SessionHandle
 	 * 
-	 * @deprecated by {@link #newSession(ULocale, PlatformConfig)}
 	 */
 
 	public static SessionHandle newSession( ULocale locale )
 	{
-		PlatformConfig config = new PlatformConfig( );
-		return new DesignEngine( ).newSession( locale, config );
+		DesignConfig config = new DesignConfig( );
+		return new DesignEngine( config ).newSessionHandle( locale );
 	}
 
 	/**
@@ -214,13 +241,12 @@ public final class DesignEngine implements IDesignEngine
 	 * Gets the meta-data dictionary of the design engine.
 	 * 
 	 * @return the meta-data dictionary of the design engine
-	 * 
-	 * @deprecated by {@link #getMetaData()}
 	 */
 
 	public static IMetaDataDictionary getMetaDataDictionary( )
 	{
-		return new DesignEngine().getMetaData( );
+		DesignConfig config = new DesignConfig( );
+		return new DesignEngine( config ).getMetaData( );
 	}
 
 	/**

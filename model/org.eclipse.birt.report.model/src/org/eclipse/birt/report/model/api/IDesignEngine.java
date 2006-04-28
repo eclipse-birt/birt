@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 
@@ -48,7 +47,7 @@ public interface IDesignEngine
 	 * @see SessionHandle
 	 */
 
-	public SessionHandle newSession( ULocale locale, PlatformConfig config );
+	public SessionHandle newSessionHandle( ULocale locale );
 
 	/**
 	 * Registers a <code>IMetaLogger</code> to record initialization errors.
