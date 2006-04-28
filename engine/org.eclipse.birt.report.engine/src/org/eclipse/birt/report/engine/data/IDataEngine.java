@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 /**
  * Defines a set of data-related functions that engine needs from a data engine
  * 
- * @version $Revision: 1.13 $ $Date: 2006/04/06 12:35:25 $
+ * @version $Revision: 1.14 $ $Date: 2006/04/14 03:56:51 $
  */
 public interface IDataEngine
 {
@@ -68,6 +68,14 @@ public interface IDataEngine
 	 * @return IResultSet object or null if the query is null
 	 */
 	IResultSet execute( IBaseQueryDefinition query );
+	
+	/**
+	 * execute the query in the parent result
+	 * @param parent parent result set.
+	 * @param query query to be executed
+	 * @return result.
+	 */
+	IResultSet execute (IResultSet parent, IBaseQueryDefinition query);
 
 	/**
 	 * close the IResultSet of the last executing operator

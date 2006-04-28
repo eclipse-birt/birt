@@ -23,8 +23,8 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.IResultSet;
-import org.eclipse.birt.report.engine.data.dte.DteResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IRowSet;
@@ -124,8 +124,16 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 		{
 			itemGeneration.setModelObject( handle );
 			itemGeneration.setScriptContext( context.getReportContext( ) );
-			itemGeneration.setReportQueries( ( (ExtendedItemDesign) item )
-					.getQueries( ) );
+			IBaseQueryDefinition[] queries = ( (ExtendedItemDesign) item )
+					.getQueries( );
+			if ( queries == null )
+			{
+				if ( item.getQuery( ) != null )
+				{
+					queries = new IBaseQueryDefinition[]{item.getQuery( )};
+				}
+			}
+			itemGeneration.setReportQueries( queries );
 			IRowSet[] rowSets = executeQueries( item );
 			try
 			{
@@ -190,6 +198,13 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 	{
 		assert item instanceof ExtendedItemDesign;
 		ExtendedItemDesign extItem = (ExtendedItemDesign) item;
+		IDataEngine dataEngine = context.getDataEngine( ); 
+		IResultSet parent = dataEngine.getResultSet( );
+		if ( rset != null && parent == rset)
+		{
+			parent = parent.getParent( );
+		}
+		
 		IRowSet[] rowSets = null;
 		IBaseQueryDefinition[] queries = extItem.getQueries( );
 		if ( queries != null )
@@ -197,7 +212,7 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 			rowSets = new IRowSet[queries.length];
 			for ( int i = 0; i < rowSets.length; i++ )
 			{
-				IResultSet rset = context.getDataEngine( ).execute( queries[i] );
+				IResultSet rset = dataEngine.execute( parent, queries[i] );
 				if ( rset != null )
 				{
 					rowSets[i] = new RowSet( rset );
@@ -210,7 +225,8 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 		}
 		if (rowSets == null && rset != null)
 		{
-			rowSets = new IRowSet[]{ new RowSet( rset, true ) };
+			IResultSet rset = dataEngine.execute( parent, item.getQuery( ) );
+			rowSets = new IRowSet[]{ new RowSet( rset ) };
 		}
 		return rowSets;
 	}

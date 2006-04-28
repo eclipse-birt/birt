@@ -140,7 +140,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 		return (String) rsetRelations.get( keyBuffer.toString( ) );
 	}
 
-	protected IResultSet doExecuteQuery( IBaseQueryDefinition query )
+	protected IResultSet doExecuteQuery( DteResultSet parentResult, IBaseQueryDefinition query )
 	{
 		assert query instanceof IQueryDefinition;
 
@@ -149,7 +149,6 @@ public class DataPresentationEngine extends AbstractDataEngine
 		try
 		{
 			IQueryResults queryResults = null;
-			DteResultSet parentResult = (DteResultSet) getResultSet( );
 			if ( parentResult != null )
 			{
 				queryResults = parentResult.getQueryResults( );

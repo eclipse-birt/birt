@@ -98,7 +98,7 @@ public class DataGenerationEngine extends AbstractDataEngine
 		}
 	}
 
-	protected IResultSet doExecuteQuery( IBaseQueryDefinition query )
+	protected IResultSet doExecuteQuery( DteResultSet resultSet, IBaseQueryDefinition query )
 	{
 		assert query instanceof IQueryDefinition;
 
@@ -113,7 +113,6 @@ public class DataGenerationEngine extends AbstractDataEngine
 			String queryID = (String) queryIDMap.get( query );
 			Scriptable scope = context.getSharedScope( );
 
-			DteResultSet resultSet = (DteResultSet) getResultSet( );
 			String pRsetId = null; // id of the parent query restuls
 			long rowId = -1; // row id of the parent query results
 			IQueryResults dteResults; // the dteResults of this query

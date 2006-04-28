@@ -196,18 +196,32 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 */
 	public IResultSet execute( IBaseQueryDefinition query )
 	{
+		IResultSet parent = null;
+		if ( !rsets.isEmpty( ) )
+		{
+			parent = (IResultSet) rsets.getFirst( );
+		}
+		return execute( parent, query );
+	}
+	
+	/**
+	 * 
+	 */
+	public IResultSet execute( IResultSet parent, IBaseQueryDefinition query )
+	{
 		if ( query instanceof IQueryDefinition )
 		{
-			return doExecuteQuery( query );
+			return doExecuteQuery( (DteResultSet) parent, query );
 		}
 		else if ( query instanceof ISubqueryDefinition )
 		{
-			return doExecuteSubQuery( query );
+			return doExecuteSubQuery( (DteResultSet) parent, query );
 		}
 		return null;
 	}
+	
 
-	abstract protected IResultSet doExecuteQuery( IBaseQueryDefinition query );
+	abstract protected IResultSet doExecuteQuery( DteResultSet parent, IBaseQueryDefinition query );
 
 	/**
 	 * get the sub query result from the current query.
@@ -215,7 +229,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 * @param query
 	 * @return
 	 */
-	protected IResultSet doExecuteSubQuery( IBaseQueryDefinition query )
+	protected IResultSet doExecuteSubQuery( DteResultSet parent, IBaseQueryDefinition query )
 	{
 		// Extension Item may used to create the query stack, so we must do
 		// error handling.
@@ -226,7 +240,6 @@ public abstract class AbstractDataEngine implements IDataEngine
 		DteResultSet resultSet;
 		try
 		{
-			DteResultSet parent = (DteResultSet) rsets.getFirst( );
 			ISubqueryDefinition subQuery = (ISubqueryDefinition) query;
 			String subQueryName = subQuery.getName( );
 			IResultIterator parentRI = parent.getResultIterator( );

@@ -719,17 +719,14 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		Object generateBy = content.getGenerateBy( );
 		if ( generateBy instanceof ReportItemDesign )
 		{
-			if ( !( generateBy instanceof ExtendedItemDesign ) )
+			ReportItemDesign design = (ReportItemDesign) generateBy;
+			IBaseQueryDefinition query = design.getQuery( );
+			if ( query != null )
 			{
-				ReportItemDesign design = (ReportItemDesign) generateBy;
-				IBaseQueryDefinition query = design.getQuery( );
-				if ( query != null )
+				IResultSet rset = (IResultSet) resultSets.pop( );
+				if ( rset != null )
 				{
-					IResultSet rset = (IResultSet) resultSets.pop( );
-					if ( rset != null )
-					{
-						rset.close( );
-					}
+					rset.close( );
 				}
 			}
 		}

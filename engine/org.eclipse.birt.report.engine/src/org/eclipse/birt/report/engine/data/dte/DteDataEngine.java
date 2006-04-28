@@ -32,7 +32,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.38 $ $Date: 2006/04/13 11:04:45 $
+ * @version $Revision: 1.39 $ $Date: 2006/04/14 03:56:50 $
  */
 public class DteDataEngine extends AbstractDataEngine
 {
@@ -94,7 +94,7 @@ public class DteDataEngine extends AbstractDataEngine
 		} // end of prepare
 	}
 
-	protected IResultSet doExecuteQuery( IBaseQueryDefinition query )
+	protected IResultSet doExecuteQuery( DteResultSet resultSet, IBaseQueryDefinition query )
 	{
 		assert query instanceof IQueryDefinition;
 
@@ -108,7 +108,6 @@ public class DteDataEngine extends AbstractDataEngine
 		{
 			Scriptable scope = context.getSharedScope( );
 
-			DteResultSet resultSet = (DteResultSet) getResultSet( );
 			IQueryResults dteResults; // the dteResults of this query
 			if ( resultSet == null )
 			{
