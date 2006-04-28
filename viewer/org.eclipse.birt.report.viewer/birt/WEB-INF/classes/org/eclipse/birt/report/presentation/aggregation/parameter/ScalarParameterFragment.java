@@ -92,7 +92,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 					request, parameterBean, parameter, locale, isDesigner );
 			// Prepare additional parameter properties.
 			prepareParameterBean( request, getReportService( ), parameterBean,
-					ParameterAccessor.getFormat( request ), locale );
+					locale );
 		}
 		catch ( ReportServiceException e )
 		{
@@ -218,7 +218,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 
 	protected void prepareParameterBean( HttpServletRequest request,
 			IViewerReportService service, ScalarParameterBean parameterBean,
-			String format, Locale locale ) throws ReportServiceException
+			Locale locale ) throws ReportServiceException
 	{
 	}
 }

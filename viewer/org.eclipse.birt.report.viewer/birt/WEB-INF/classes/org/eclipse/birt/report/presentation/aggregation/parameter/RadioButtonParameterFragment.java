@@ -50,7 +50,7 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 
 	protected void prepareParameterBean( HttpServletRequest request,
 			IViewerReportService service, ScalarParameterBean parameterBean,
-			String format, Locale locale ) throws ReportServiceException
+			Locale locale ) throws ReportServiceException
 	{
 		String reportDesignName = ParameterAccessor.getReport( request );
 		
@@ -66,7 +66,7 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 		if ( selectionList != null )
 		{
 			ReportParameterConverter converter = new ReportParameterConverter(
-					format, locale );
+					parameter.getPattern( ), locale );
 
 			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 			{
