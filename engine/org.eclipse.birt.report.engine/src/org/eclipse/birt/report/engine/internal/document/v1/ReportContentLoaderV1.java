@@ -568,7 +568,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.3 $ $Date: 2006/04/12 05:40:33 $
+	 * @version $Revision: 1.4 $ $Date: 2006/04/27 09:52:27 $
 	 */
 	protected class GenerateIDMapVisitor implements IReportItemVisitor
 	{
@@ -1005,6 +1005,10 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 		public void visitAutoText( IAutoTextContent autoText, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
+			if(autoText.getType()==IAutoTextContent.TOTAL_PAGE)
+			{
+				autoText.setText(String.valueOf(reportDoc.getPageCount()));	
+			}
 			emitter.startAutoText( autoText );
 		}
 

@@ -864,6 +864,10 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		public void visitAutoText( IAutoTextContent autoText, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
+			if ( autoText.getType() == IAutoTextContent.TOTAL_PAGE )
+			{
+				autoText.setText(String.valueOf(reportDoc.getPageCount()));	
+			}
 			emitter.startAutoText( autoText );
 		}
 

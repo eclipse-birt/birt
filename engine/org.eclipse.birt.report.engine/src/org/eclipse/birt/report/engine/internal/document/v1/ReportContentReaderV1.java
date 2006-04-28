@@ -22,6 +22,7 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.content.impl.DataContent;
@@ -39,7 +40,7 @@ import org.eclipse.birt.report.engine.internal.document.IReportContentReader;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:54 $
+ * @version $Revision: 1.2 $ $Date: 2006/04/12 05:40:33 $
  */
 class ReportContentReaderV1 implements IReportContentReader
 {
@@ -142,6 +143,11 @@ class ReportContentReaderV1 implements IReportContentReader
 				TextContent textContent = new TextContent( reportContent );
 				textContent.readContent( oi );
 				return textContent;
+				
+			case IContent.AUTOTEXT_CONTENT:
+				AutoTextContent autoText = new AutoTextContent( reportContent );
+				autoText.readContent( oi );
+				return autoText;
 
 			default :
 				throw new IOException( "No a valid content type: "

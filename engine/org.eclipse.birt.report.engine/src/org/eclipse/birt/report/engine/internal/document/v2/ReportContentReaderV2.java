@@ -22,6 +22,7 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.content.impl.DataContent;
@@ -38,7 +39,7 @@ import org.eclipse.birt.report.engine.content.impl.TextContent;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.3 $ $Date: 2006/04/12 05:40:30 $
+ * @version $Revision: 1.4 $ $Date: 2006/04/13 06:40:25 $
  */
 public class ReportContentReaderV2
 {
@@ -155,6 +156,11 @@ public class ReportContentReaderV2
 				TextContent textContent = new TextContent( reportContent );
 				textContent.readContent( oi );
 				object = textContent;
+				break;
+			case IContent.AUTOTEXT_CONTENT:
+				AutoTextContent autoText = new AutoTextContent( reportContent );
+				autoText.readContent( oi );
+				object = autoText;
 				break;
 		}
 		return object;
