@@ -1,7 +1,7 @@
 <project name="base build file" default="Start" basedir=".">
 	
 	<property name="eclipse.home" value=""/>
-	<property name="tests.dir" value=""/>
+	<property name="tests.dir" value="utest"/>
 	<property name="application" value=""/>
 	<property name="data.dir" value="../${module.name}/${tests.dir}/configuration/"/>
 	<property name="confFilePath" value=""/>
