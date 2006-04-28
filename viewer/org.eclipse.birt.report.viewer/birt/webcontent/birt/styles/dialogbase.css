@@ -1,0 +1,170 @@
+/* Copyright 1994-2006, Actuate Software Corp., All rights reserved. */
+
+@CHARSET "ISO-8859-1";
+
+/* Border around dialog */
+.dialogBorder
+{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #808080;
+}
+
+/* Title bar background area */
+.dialogTitleBar
+{
+	height: 20px;
+	background-color: #4682b4;
+	cursor: move;	
+}
+
+.dTitleBar
+{
+	padding-left: 7px;
+	padding-right: 7px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	position: relative;
+}
+
+/* Title text */
+.dialogTitleText
+{
+	font-size: 11px; 
+	font-weight: bold; 
+	font-family: tahoma, verdana, arial, sans-serif;
+	color: #000000;
+}
+
+.dTitleText
+{
+	vertical-align: middle; 
+	white-space: nowrap;
+	cursor: move;
+}
+
+.dTitleTextContainer
+{
+	float: left; 
+	position: relative;
+	height: 100%;	
+	width: 1px;
+}
+
+/* Close button - width should match those of .dialogCloseBtnContainer */
+.dialogCloseBtn
+{
+	background-image: url("../images/Close.gif");
+	width: 14px;
+	height: 14px;
+	background-color: #4682b4;
+	cursor: pointer;	 
+}
+
+.dCloseBtn
+{
+	vertical-align: middle; 
+	background-repeat: no-repeat;
+	background-position: center right; 
+}
+
+/* Close button container - width should match those of .dialogCloseBtn */
+.dialogCloseBtnContainer
+{		
+	width: 14px;
+}
+
+.dCloseBtnContainer
+{
+	height: 100%;
+	float: right;
+	position: relative;
+}
+
+/* Background of dialog below title bar */
+.dialogBackground
+{
+	background-color: #dbe4ee;
+}
+
+.dBackground
+{
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 4px;
+}
+
+/* Border style of content area for individual dialog content */
+.dialogContentContainer
+{
+	border-style: inset;
+	background-color: #F4F4F4; 
+}
+
+.dialogBtnBarContainer
+{
+	position: relative;
+	text-align: center;
+	padding-top: 4px;
+}
+
+/* Top divider line between dialog content area and button area */
+.dBtnBarDividerTop
+{
+	height: 1px;
+	background-color: #808080;
+	overflow: hidden;
+}
+
+/* Bottom divider line between dialog content area and button area */
+.dBtnBarDividerBottom
+{
+	height: 1px;
+	background-color: #ffffff;
+	overflow: hidden;	
+}
+
+/* Area that contains buttons - from bottom of divider bar to top of outer border */
+.dialogBtnBar
+{	
+	height: 30px;
+}
+
+.dBtnBarCell
+{
+	vertical-align: middle;
+	text-align: center; 
+	white-space: nowrap;
+}
+
+.dialogBtnActive
+{
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-style: outset;
+	padding-left: 1px;
+	padding-right: 1px;
+	background-color: #ffffff;
+	display: inline;
+	cursor: pointer;
+	font-size: 11px;  
+	font-family: tahoma, verdana, arial, sans-serif;
+	color: #000000;
+}
+
+.dialogBtnDisabled
+{
+	border-style: outset;
+	border-color: #cccccc;
+	border-width: 1px;
+	padding-left: 4px;
+	padding-right: 4px;
+	background-color: #808080;
+	display: inline;
+	cursor: default;
+}
+
+
+
