@@ -173,13 +173,13 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		}
 
 		// Text
-		ITaskPopupSheet popup = new LegendLayoutSheet( Messages.getString( "ChartLegendSheetImpl.Title.LayoutLegend" ), getContext( ) ); //$NON-NLS-1$
+		ITaskPopupSheet popup = new LegendTextSheet( Messages.getString( "ChartLegendSheetImpl.Title.FormatLegendText" ), getContext( ) ); //$NON-NLS-1$
 		btnLegendText = createToggleButton( cmp,
 				Messages.getString( "ChartLegendSheetImpl.Label.TextFormat" ), popup ); //$NON-NLS-1$
 		btnLegendText.addSelectionListener( this );
 
 		// Layout
-		popup = new LegendTextSheet( Messages.getString( "ChartLegendSheetImpl.Title.FormatLegendText" ), getContext( ) ); //$NON-NLS-1$
+		popup = new LegendLayoutSheet( Messages.getString( "ChartLegendSheetImpl.Title.LayoutLegend" ), getContext( ) ); //$NON-NLS-1$
 		btnAreaProp = createToggleButton( cmp,
 				Messages.getString( "ChartLegendSheetImpl.Label.Layout" ), popup ); //$NON-NLS-1$
 		btnAreaProp.addSelectionListener( this );
