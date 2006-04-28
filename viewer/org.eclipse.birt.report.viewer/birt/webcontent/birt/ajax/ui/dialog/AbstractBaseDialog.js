@@ -262,8 +262,9 @@ AbstractBaseDialog.prototype =
 	 ABSTRACT - Handle clicking on ok.
 	*/
 	__okPress: function( )
-	{
+	{		
 		//ABSTRACT - needs to be implemented by extending class
+		this.__l_hide( );
 	},
 
 	//TODO change so called once
