@@ -175,11 +175,14 @@ abstract public class BaseAttributeBean
 			reportDocumentInstance.close( );
 		}
 		if ( reportRunnable != null )
-			design = new BirtViewerReportDesignHandle( null, reportRunnable
-					.getReportName( ) );
+		{
+			design = new BirtViewerReportDesignHandle( reportRunnable );
+		}
 		else
+		{
 			design = getDesignHandle( request );
-
+		}
+		
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, locale );

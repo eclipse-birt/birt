@@ -2,19 +2,26 @@ package org.eclipse.birt.report.service;
 
 import java.io.ByteArrayOutputStream;
 
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 
 public class BirtViewerReportDesignHandle implements IViewerReportDesignHandle
 {
-
 	private String contentType;
 
 	private String fileName;
+	
+	private IReportRunnable runnable; // Report design name not always exists.
 
 	public BirtViewerReportDesignHandle( String contentType, String fileName )
 	{
 		this.contentType = contentType;
 		this.fileName = fileName;
+	}
+
+	public BirtViewerReportDesignHandle( IReportRunnable runnable )
+	{
+		this.runnable = runnable;
 	}
 
 	public String getContentType( )
@@ -34,14 +41,12 @@ public class BirtViewerReportDesignHandle implements IViewerReportDesignHandle
 
 	public Object getDesignObject( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return runnable;
 	}
 
 	public void setDesignObject( Object obj )
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	public ByteArrayOutputStream getObjectStream( )
@@ -49,5 +54,4 @@ public class BirtViewerReportDesignHandle implements IViewerReportDesignHandle
 		// TODO What to do here??
 		return null;
 	}
-
 }

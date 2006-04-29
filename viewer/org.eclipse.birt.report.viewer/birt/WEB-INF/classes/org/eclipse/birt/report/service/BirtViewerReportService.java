@@ -287,10 +287,9 @@ public class BirtViewerReportService implements IViewerReportService
 			IViewerReportDesignHandle design, InputOptions runOptions )
 			throws ReportServiceException
 	{
-		String reportDesignName = design.getFileName( );
 		try
 		{
-			IGetParameterDefinitionTask task = getParameterDefinitionTask( reportDesignName );
+			IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
 			return task.getParameterDefns( false );
 		}
 		catch ( EngineException e )
@@ -312,11 +311,9 @@ public class BirtViewerReportService implements IViewerReportService
 			IViewerReportDesignHandle design, String groupName,
 			Object[] groupKeys ) throws ReportServiceException
 	{
-		String reportDesignName = design.getFileName( );
-
 		try
 		{
-			IGetParameterDefinitionTask task = getParameterDefinitionTask( reportDesignName );
+			IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
 			task.evaluateQuery( groupName );
 			return task
 					.getSelectionListForCascadingGroup( groupName, groupKeys );
@@ -332,10 +329,9 @@ public class BirtViewerReportService implements IViewerReportService
 			IViewerReportDesignHandle design, InputOptions runOptions,
 			String paramName ) throws ReportServiceException
 	{
-		String reportDesignName = design.getFileName( );
 		try
 		{
-			IGetParameterDefinitionTask task = getParameterDefinitionTask( reportDesignName );
+			IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
 			return task.getSelectionList( paramName );
 		}
 		catch ( EngineException e )
@@ -406,8 +402,7 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		try
 		{
-			IGetParameterDefinitionTask task = getParameterDefinitionTask( design
-					.getFileName( ) );
+			IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
 			return task.getDefaultValue( parameterName );
 		}
 		catch ( EngineException e )
@@ -421,8 +416,7 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		try
 		{
-			IGetParameterDefinitionTask parameterTask = getParameterDefinitionTask( design
-					.getFileName( ) );
+			IGetParameterDefinitionTask parameterTask = getParameterDefinitionTask( design );
 			if ( parameterTask == null )
 				throw new ReportServiceException( "Can not get parameter task." ); //$NON-NLS-1$
 			return parameterTask.getParameters( ).getContents( );
@@ -457,7 +451,7 @@ public class BirtViewerReportService implements IViewerReportService
 				.booleanValue( ) : false );
 		try
 		{
-			task = getParameterDefinitionTask( design.getFileName( ) );
+			task = getParameterDefinitionTask( design );
 			IReportRunnable runnable = ReportEngineService.getInstance( )
 					.openReportDesign( design.getFileName( ) );
 			configMap = runnable.getTestConfig( );
@@ -556,11 +550,15 @@ public class BirtViewerReportService implements IViewerReportService
 	}
 
 	private IGetParameterDefinitionTask getParameterDefinitionTask(
-			String reportDesignName ) throws EngineException
+			IViewerReportDesignHandle design ) throws EngineException
 	{
-
-		IReportRunnable runnable = ReportEngineService.getInstance( )
-				.openReportDesign( reportDesignName );
+		IReportRunnable runnable = ( IReportRunnable ) design.getDesignObject( );
+		if ( runnable == null )
+		{
+			String reportDesignName = design.getFileName( );
+			runnable = ReportEngineService.getInstance( )
+					.openReportDesign( reportDesignName );
+		}
 		IGetParameterDefinitionTask paramTask = ReportEngineService
 				.getInstance( ).createGetParameterDefinitionTask( runnable );
 		return paramTask;
