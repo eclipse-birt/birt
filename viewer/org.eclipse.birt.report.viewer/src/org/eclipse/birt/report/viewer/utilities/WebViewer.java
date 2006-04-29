@@ -144,6 +144,9 @@ public class WebViewer
 			bMasterPageContent = false;
 		}
 
+		// Web viewer do not check test config.
+		boolean isDesigner = "run".equalsIgnoreCase( servletName ); //$NON-NLS-1$
+		
 		// So far, only report name is encoded as utf-8 format
 		return getBaseURL( )
 				+ servletName
@@ -162,7 +165,9 @@ public class WebViewer
 								+ ParameterAccessor.EQUALS_OPERATOR
 								+ LocaleTable.get( locale )
 						: "" ) //$NON-NLS-1$
-				+ "&__designer=true" + ParameterAccessor.PARAMETER_SEPARATOR//$NON-NLS-1$
+				+ "&__designer=" //$NON-NLS-1$
+					+ String.valueOf( isDesigner )
+					+ ParameterAccessor.PARAMETER_SEPARATOR
 				+ ParameterAccessor.PARAM_MASTERPAGE
 				+ ParameterAccessor.EQUALS_OPERATOR
 				+ String.valueOf( bMasterPageContent );
