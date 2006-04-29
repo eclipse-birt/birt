@@ -160,7 +160,7 @@ public interface IViewerReportService
 	 * @param out
 	 * @throws ReportServiceException
 	 */
-	void extractResultSet( String docName, String resultSetId, Set columns,
+	void extractResultSet( String docName, String resultSetId, Collection columns,
 			Set filters, InputOptions options, OutputStream out )
 			throws ReportServiceException;
 

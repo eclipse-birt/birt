@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 
 import javax.servlet.ServletConfig;
@@ -857,7 +856,7 @@ public class ReportEngineService
 	 * @throws RemoteException
 	 */
 	public void extractData( IReportDocument document, String resultSetName,
-			Set columns, Locale locale, OutputStream outputStream )
+			Collection columns, Locale locale, OutputStream outputStream )
 			throws RemoteException
 	{
 		assert document != null;
@@ -868,7 +867,7 @@ public class ReportEngineService
 		Iterator iSelectedColumns = columns.iterator( );
 		for ( int i = 0; iSelectedColumns.hasNext( ); i++ )
 		{
-			columnNames[i] = (String) iSelectedColumns.next( );
+			columnNames[i] = ( String ) iSelectedColumns.next( );
 		}
 
 		IDataExtractionTask dataTask = null;

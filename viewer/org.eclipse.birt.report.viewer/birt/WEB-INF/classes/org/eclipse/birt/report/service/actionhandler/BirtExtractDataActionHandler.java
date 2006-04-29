@@ -40,8 +40,6 @@ public class BirtExtractDataActionHandler extends AbstractBaseActionHandler
 				.getRequest( ) );
 		Collection columns = ParameterAccessor.getSelectedColumns( context
 				.getRequest( ) );
-		Set colSet = new HashSet( );
-		colSet.addAll( columns );
 		Set filters = Collections.EMPTY_SET;
 		Locale locale = attrBean.getLocale( );
 		InputOptions options = new InputOptions( );
@@ -51,7 +49,7 @@ public class BirtExtractDataActionHandler extends AbstractBaseActionHandler
 		{
 			ServletOutputStream out = context.getResponse( ).getOutputStream( );
 			getReportService( ).extractResultSet( docName, resultSetName,
-					colSet, filters, options, out );
+					columns, filters, options, out );
 		}
 		catch ( ReportServiceException e )
 		{

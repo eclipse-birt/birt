@@ -178,7 +178,7 @@ public class BirtViewerReportService implements IViewerReportService
 	}
 
 	public void extractResultSet( String docName, String resultSetId,
-			Set columns, Set filters, InputOptions options, OutputStream out )
+			Collection columns, Set filters, InputOptions options, OutputStream out )
 			throws ReportServiceException
 	{
 
