@@ -81,7 +81,7 @@ public class BirtChangeParameterActionHandler extends
 
 		// Update instruction for nav bar.
 		UpdateData updateData = new UpdateData( );
-		updateData.setTarget( "birtNavigationBar" ); //$NON-NLS-1$
+		updateData.setTarget( "navigationBar" ); //$NON-NLS-1$
 		Page pageObj = new Page( );
 		pageObj.setPageNumber( String.valueOf( pageNumber ) ); //$NON-NLS-1$
 		pageObj.setTotalPage( String.valueOf( getReportService( ).getPageCount(
