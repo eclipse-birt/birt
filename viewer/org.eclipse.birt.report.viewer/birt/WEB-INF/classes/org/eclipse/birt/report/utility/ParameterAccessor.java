@@ -262,6 +262,12 @@ public class ParameterAccessor
 	 */
 
 	public static final String PARAMETER_SEPARATOR = "&"; //$NON-NLS-1$
+	
+	/**
+	 * The character to start the query string in the url.
+	 */
+	
+	public static final String QUERY_CHAR = "?"; //$NON-NLS-1$
 
 	/**
 	 * Equals operator.

@@ -17,6 +17,8 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.TreeMap;
 
+import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserAccessor;
 import org.eclipse.core.runtime.CoreException;
@@ -115,7 +117,8 @@ public class WebViewer
 
 		try
 		{
-			encodedReportName = URLEncoder.encode( report, "utf-8" ); //$NON-NLS-1$
+			encodedReportName = URLEncoder.encode( report,
+					ParameterAccessor.UTF_8_ENCODE );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
@@ -142,15 +145,27 @@ public class WebViewer
 		}
 
 		// So far, only report name is encoded as utf-8 format
-		return getBaseURL( ) + servletName
-				+ "?" //$NON-NLS-1$
-				+ "__report=" + encodedReportName //$NON-NLS-1$
-				+ "&__format=" + format //$NON-NLS-1$
-				+ "&__svg=" + String.valueOf( bSVGFlag ) //$NON-NLS-1$
+		return getBaseURL( )
+				+ servletName
+				+ ParameterAccessor.QUERY_CHAR
+				+ ParameterAccessor.PARAM_REPORT
+				+ ParameterAccessor.EQUALS_OPERATOR
+				+ encodedReportName + ParameterAccessor.PARAMETER_SEPARATOR
+				+ ParameterAccessor.PARAM_FORMAT
+				+ ParameterAccessor.EQUALS_OPERATOR
+				+ format + ParameterAccessor.PARAMETER_SEPARATOR
+				+ ParameterAccessor.PARAM_SVG
+				+ ParameterAccessor.EQUALS_OPERATOR
+				+ String.valueOf( bSVGFlag ) + ParameterAccessor.PARAMETER_SEPARATOR
 				+ ( LocaleTable.containsKey( locale )
-						? "&__locale=" + LocaleTable.get( locale ) : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				+ "&__designer=true" //$NON-NLS-1$
-				+ "&__masterpage=" + String.valueOf( bMasterPageContent ); //$NON-NLS-1$
+						? ParameterAccessor.PARAM_LOCALE
+								+ ParameterAccessor.EQUALS_OPERATOR
+								+ LocaleTable.get( locale )
+						: "" ) //$NON-NLS-1$
+				+ "&__designer=true" + ParameterAccessor.PARAMETER_SEPARATOR//$NON-NLS-1$
+				+ ParameterAccessor.PARAM_MASTERPAGE
+				+ ParameterAccessor.EQUALS_OPERATOR
+				+ String.valueOf( bMasterPageContent );
 	}
 
 	/**
@@ -206,11 +221,15 @@ public class WebViewer
 
 		if ( WebViewer.PDF.equalsIgnoreCase( format ) )
 		{
-			root = createURL( "run", report, format ); //$NON-NLS-1$
+			root = createURL( IBirtConstants.VIEWER_RUN, report, format );
 		}
 		else
 		{
-			root = createURL( allowPage ? "frameset" : "run", report, format ) + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$
+			root = createURL( allowPage
+					? IBirtConstants.VIEWER_FRAMESET
+					: IBirtConstants.VIEWER_RUN, report, format )
+					+ ParameterAccessor.PARAMETER_SEPARATOR
+					+ new Random( ).nextInt( );
 		}
 
 		try
@@ -236,8 +255,9 @@ public class WebViewer
 	public static void display( String report, String format, Browser browser )
 	{
 		startWebApp( );
-		browser
-				.setUrl( createURL( "run", report, format ) + new Random( ).nextInt( ) ); //$NON-NLS-1$
+		browser.setUrl( createURL( IBirtConstants.VIEWER_RUN, report, format )
+				+ ParameterAccessor.PARAMETER_SEPARATOR
+				+ new Random( ).nextInt( ) );
 
 	}
 

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 import javax.servlet.ServletConfig;
@@ -137,17 +138,19 @@ public class ReportEngineService
 		String resourcePath = servletConfig.getServletContext( )
 				.getInitParameter(
 						ParameterAccessor.INIT_PARAM_BIRT_RESOURCE_PATH );
+		boolean isResourceOk = true;
 		if ( resourcePath == null || resourcePath.trim( ).length( ) <= 0
 				|| ParameterAccessor.isRelativePath( resourcePath ) )
 		{
-			resourcePath = servletConfig.getServletContext( ).getRealPath(
-					"/resource" ); //$NON-NLS-1$
+			isResourceOk = false;
 		}
-		File resourceFile = new File( resourcePath );
-		boolean isResourceOk = true;
-		if ( !resourceFile.exists( ) )
+		else
 		{
-			isResourceOk = resourceFile.mkdirs( );
+			File resourceFile = new File( resourcePath );
+			if ( !resourceFile.exists( ) )
+			{
+				isResourceOk = resourceFile.mkdirs( );
+			}
 		}
 		if ( isResourceOk )
 		{
@@ -397,10 +400,14 @@ public class ReportEngineService
 	/**
 	 * Open report document from archive,
 	 * 
-	 * @param docName -
+	 * @param docName
 	 *            the name of the report document
-	 * @return
+	 * @param systemId
+	 *            the system ID to search the resource in the document,
+	 *            generally it is the file name of the report design
+	 * @return the report docuement
 	 */
+
 	public IReportDocument openReportDocument( String systemId, String docName )
 	{
 
@@ -410,7 +417,7 @@ public class ReportEngineService
 		{
 			synchronized ( this.getClass( ) )
 			{
-				document = engine.openReportDocument( docName );
+				document = engine.openReportDocument( systemId, docName );
 			}
 		}
 		catch ( Exception e )
