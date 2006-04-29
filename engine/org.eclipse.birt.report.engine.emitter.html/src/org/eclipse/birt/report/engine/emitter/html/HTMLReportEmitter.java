@@ -88,7 +88,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.90 $ $Date: 2006/04/11 08:45:01 $
+ * @version $Revision: 1.91 $ $Date: 2006/04/12 08:56:50 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -2334,13 +2334,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	}
 
 	protected void exportElementID( IContent content, String bookmark,
-			String type )
+			String type, long componentID )
 	{
 		Object generateBy = content.getGenerateBy( );
 		if ( generateBy instanceof TableItemDesign
 				|| generateBy instanceof ListItemDesign
 				|| generateBy instanceof ExtendedItemDesign
-				|| generateBy instanceof LabelItemDesign )
+				|| generateBy instanceof LabelItemDesign
+				|| generateBy instanceof TemplateDesign )
 		{
 			if ( renderOption instanceof HTMLRenderOption )
 			{
@@ -2349,7 +2350,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				if ( htmlIds != null && bookmark != null )
 				{
 					assert type != null;
-					String newBookmark = bookmark + "," + type;
+					String newBookmark = bookmark + "," + type 
+							+ "," + new Long( componentID ).toString();
 					htmlIds.add( newBookmark );
 				}
 			}
@@ -2399,12 +2401,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		if (type != null)
 		{
-			// active id
-			exportElementID( content, content.getBookmark( ), type );
-			// type
-			writer.attribute( "element_type", type );
 			// Instance ID
 			InstanceID iid = content.getInstanceID( );
+			// active id
+			long componentID = ( iid != null ) ? iid.getComponentID() : 0;
+			exportElementID( content, content.getBookmark( ), type, componentID );
+			// type
+			writer.attribute( "element_type", type );
 			if ( iid != null )
 			{
 				writer.attribute( "iid", iid.toString( ) );
