@@ -8,6 +8,6 @@
          id="DesignEngineFactory"
          name="DesignEngineFactory"
          point="org.eclipse.birt.core.FactoryService">
-      <factory class="org.eclipse.birt.report.model.api.DesignEngineFactory"/>
+      <factory class="org.eclipse.birt.report.model.api.impl.DesignEngineFactory"/>
    </extension>
 </plugin>

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,12 +18,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
-import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
-import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.ExtensionManager;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataParserException;
-import org.eclipse.birt.report.model.metadata.MetaDataReader;
 import org.eclipse.birt.report.model.metadata.MetaLogManager;
 
 import com.ibm.icu.util.ULocale;
@@ -39,6 +32,10 @@ import com.ibm.icu.util.ULocale;
  * can create and register an instance of <code>IMetaLogger</code> before
  * creating or opening the first report design. The logger is most useful for
  * test suites.
+ * <p>
+ * This is a wrapper class for the IDesignEngine. The new user should use the
+ * IDesignEngineFactory to create the IDesignEngine instead of use this class
+ * directly.
  * 
  * @see IMetaLogger
  * @see MetaLogManager
@@ -48,12 +45,6 @@ public final class DesignEngine implements IDesignEngine
 {
 
 	/**
-	 * The file name of ROM.DEF
-	 */
-
-	private static final String ROM_DEF_FILE_NAME = "rom.def"; //$NON-NLS-1$
-
-	/**
 	 * The logger for errors.
 	 */
 
@@ -61,10 +52,10 @@ public final class DesignEngine implements IDesignEngine
 			.getName( ) );
 
 	/**
-	 * The configuration for the design engine.
+	 * The implementation of the design engine.
 	 */
 
-	private DesignConfig designConfig;
+	protected IDesignEngine engine;
 
 	/**
 	 * Constructs a DesignEngine with the given platform config.
@@ -75,7 +66,6 @@ public final class DesignEngine implements IDesignEngine
 
 	public DesignEngine( DesignConfig config )
 	{
-		designConfig = config;
 		try
 		{
 			Platform.startup( config );
@@ -85,38 +75,17 @@ public final class DesignEngine implements IDesignEngine
 			errorLogger.log( Level.INFO,
 					"Error occurs while start the platform", e ); //$NON-NLS-1$
 		}
-	}
 
-	/**
-	 * Initializes the meta-data system and loads all extensions which
-	 * implements the extension pointers the model defines. The application must
-	 * call this method once (and only once) before opening or creating a
-	 * design. It is the application's responsibility because the application
-	 * will choose the location to store the definition file, and that location
-	 * may differ for different applications.
-	 * 
-	 * @param is
-	 *            stream for reading the "rom.def" file that provides the
-	 *            meta-data for the system
-	 * @throws MetaDataReaderException
-	 *             if error occurs during read the meta-data file.
-	 */
-
-	private static void initialize( InputStream is )
-			throws MetaDataReaderException
-	{
-		try
+		Object factory = Platform
+				.createFactoryObject( IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY );
+		if ( factory instanceof IDesignEngineFactory )
 		{
-			MetaDataReader.read( is );
-
-			ExtensionManager.initialize( );
-
-			MetaLogManager.shutDown( );
+			engine = ( (IDesignEngineFactory) factory )
+					.createDesignEngine( config );
 		}
-		catch ( MetaDataParserException e )
+		if ( engine == null )
 		{
-			throw new MetaDataReaderException(
-					MetaDataReaderException.DESIGN_EXCEPTION_META_DATA_ERROR, e );
+			errorLogger.log( Level.INFO, "Can not start the design engine." ); //$NON-NLS-1$
 		}
 	}
 
@@ -134,46 +103,7 @@ public final class DesignEngine implements IDesignEngine
 
 	public SessionHandle newSessionHandle( ULocale locale )
 	{
-		// meta-data ready.
-
-		if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
-			return new SessionHandle( locale );
-
-		// Initialize the meta-data if this is the first request to get
-		// a new handle.
-
-		synchronized ( DesignEngine.class )
-		{
-			if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
-				return new SessionHandle( locale );
-
-			MetaDataDictionary.reset( );
-
-			try
-			{
-				initialize( ReportDesign.class
-						.getResourceAsStream( ROM_DEF_FILE_NAME ) );
-			}
-			catch ( MetaDataReaderException e )
-			{
-				// we provide logger, so do not assert.
-			}
-			finally
-			{
-				MetaLogManager.shutDown( );
-			}
-
-		}
-
-		SessionHandle session = new SessionHandle( locale );
-		if ( designConfig != null )
-		{
-			IResourceLocator locator = designConfig.getResourceLocator( );
-			if ( locator != null )
-				session.setResourceLocator( locator );
-		}
-
-		return session;
+		return engine.newSessionHandle( locale );
 	}
 
 	/**
@@ -191,8 +121,8 @@ public final class DesignEngine implements IDesignEngine
 
 	public static SessionHandle newSession( ULocale locale )
 	{
-		DesignConfig config = new DesignConfig( );
-		return new DesignEngine( config ).newSessionHandle( locale );
+		return new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( locale );
 	}
 
 	/**
@@ -203,38 +133,7 @@ public final class DesignEngine implements IDesignEngine
 
 	public IMetaDataDictionary getMetaData( )
 	{
-		// meta-data ready.
-
-		if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
-			return MetaDataDictionary.getInstance( );
-
-		// Initialize the meta-data if this is the first request to get
-		// a new handle.
-
-		synchronized ( DesignEngine.class )
-		{
-			if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
-				return MetaDataDictionary.getInstance( );
-
-			MetaDataDictionary.reset( );
-
-			try
-			{
-				initialize( ReportDesign.class
-						.getResourceAsStream( ROM_DEF_FILE_NAME ) );
-			}
-			catch ( MetaDataReaderException e )
-			{
-				// we provide logger, so do not assert.
-			}
-			finally
-			{
-				MetaLogManager.shutDown( );
-			}
-
-		}
-
-		return MetaDataDictionary.getInstance( );
+		return engine.getMetaData( );
 	}
 
 	/**
@@ -245,8 +144,7 @@ public final class DesignEngine implements IDesignEngine
 
 	public static IMetaDataDictionary getMetaDataDictionary( )
 	{
-		DesignConfig config = new DesignConfig( );
-		return new DesignEngine( config ).getMetaData( );
+		return new DesignEngine( new DesignConfig( ) ).getMetaData( );
 	}
 
 	/**
@@ -264,7 +162,7 @@ public final class DesignEngine implements IDesignEngine
 
 	public void registerMetaLogger( IMetaLogger newLogger )
 	{
-		MetaLogManager.registerLogger( newLogger );
+		engine.registerMetaLogger( newLogger );
 	}
 
 	/**
@@ -284,7 +182,7 @@ public final class DesignEngine implements IDesignEngine
 
 	public boolean removeMetaLogger( IMetaLogger logger )
 	{
-		return MetaLogManager.removeLogger( logger );
+		return engine.removeMetaLogger( logger );
 	}
 
 }
