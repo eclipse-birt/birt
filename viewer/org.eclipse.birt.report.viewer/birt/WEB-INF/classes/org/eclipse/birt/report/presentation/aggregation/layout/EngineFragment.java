@@ -14,12 +14,15 @@ package org.eclipse.birt.report.presentation.aggregation.layout;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.axis.AxisFault;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
@@ -39,6 +42,48 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  */
 public class EngineFragment extends BirtBaseFragment
 {
+	/*
+	 * Define ViewerAttributeBean from request
+	 */
+	private ViewerAttributeBean attrBean = null;
+	
+	/**
+	 * Service provided by the fragment. This is the entry point of engine
+	 * framgent. It generally includes a JSP page to render a certain part of
+	 * web viewer.
+	 * 
+	 * @param request
+	 *            incoming http request
+	 * @param response
+	 *            http response
+	 * @exception ServletException
+	 * @exception IOException
+	 */
+	public void service( HttpServletRequest request,
+			HttpServletResponse response ) throws ServletException,
+			IOException, BirtException
+	{
+		attrBean = (ViewerAttributeBean) request.getAttribute( "attributeBean" ); //$NON-NLS-1$
+		if ( attrBean != null && attrBean.isMissingParameter( ) )
+		{
+			super.doPreService( request, response );
+			super.doService( request, response );
+			String target = super.doPostService( request, response );
+
+			if ( target != null && target.length( ) > 0 )
+			{
+				RequestDispatcher rd = request.getRequestDispatcher( target );
+				rd.include( request, response );
+			}
+		}
+		else
+		{
+			this.doPreService( request, response );
+			this.doService( request, response );
+			this.doPostService( request, response );
+		}
+	}
+	
 	/**
 	 * Anything before do service.
 	 * 
@@ -52,7 +97,7 @@ public class EngineFragment extends BirtBaseFragment
 	protected void doPreService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		if ( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
+		if ( IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request.getServletPath( ) ) )
 		{
 			response.setContentType( "application/csv;charset=utf-8" ); //$NON-NLS-1$
 			response.setHeader(
@@ -81,8 +126,6 @@ public class EngineFragment extends BirtBaseFragment
 	protected void doService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		ViewerAttributeBean attrBean = ( ViewerAttributeBean ) request
-				.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		assert attrBean != null;
 
 		ServletOutputStream out = response.getOutputStream( );
@@ -91,7 +134,7 @@ public class EngineFragment extends BirtBaseFragment
 		Operation op = null;
 		try
 		{
-			if ( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
+			if ( IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request.getServletPath( ) ) )
 			{
 				BirtExtractDataActionHandler extractDataHandler = new BirtExtractDataActionHandler(
 						context, op, upResponse );
@@ -130,4 +173,13 @@ public class EngineFragment extends BirtBaseFragment
 	{
 		return null;
 	}
+	
+	/**
+	 * Override build method.
+	 */
+	protected void build( )
+	{
+		addChild( new SidebarFragment( ) );
+		addChild( new DocumentFragment( ) );
+	}	
 }

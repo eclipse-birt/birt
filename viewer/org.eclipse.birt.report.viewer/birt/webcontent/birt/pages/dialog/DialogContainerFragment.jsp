@@ -12,6 +12,7 @@
 <%@ page session="false" buffer="none" %>
 <%@ page import="org.eclipse.birt.report.presentation.aggregation.IFragment,
 				 org.eclipse.birt.report.context.BaseAttributeBean,
+				 org.eclipse.birt.report.IBirtConstants,
 				 org.eclipse.birt.report.resource.BirtResources" %>
 
 <%-----------------------------------------------------------------------------
@@ -68,7 +69,15 @@
 				<table style="width: 100%; height: 100%;">
 					<tr>
 						<td class="dBtnBarCell">
-							<input type='button' name='ok' value="<%= BirtResources.getString( "birt.viewer.dialog.ok" )%>" class="dialogBtnActive"></input>
+							<%	
+								String buttonName = "ok";								
+								if ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request.getServletPath() ) )
+								{
+									buttonName = "okRun";
+								}
+							%>
+						
+							<input type='button' name='<%=buttonName%>' value="<%= BirtResources.getString( "birt.viewer.dialog.ok" )%>" class="dialogBtnActive"></input>
 							<input type='button' name='cancel' value="<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>" class="dialogBtnActive"></input>
 						</td>
 					</tr>

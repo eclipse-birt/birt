@@ -119,7 +119,9 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 
 		viewer = new FramesetFragment( );
 		viewer.buildComposite( );
+		
 		engine = new EngineFragment( );
+		engine.buildComposite();
 	}
 
 	/**
