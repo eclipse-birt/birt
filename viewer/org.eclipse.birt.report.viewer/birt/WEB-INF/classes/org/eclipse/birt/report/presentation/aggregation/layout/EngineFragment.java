@@ -42,11 +42,12 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  */
 public class EngineFragment extends BirtBaseFragment
 {
+
 	/*
 	 * Define ViewerAttributeBean from request
 	 */
 	private ViewerAttributeBean attrBean = null;
-	
+
 	/**
 	 * Service provided by the fragment. This is the entry point of engine
 	 * framgent. It generally includes a JSP page to render a certain part of
@@ -64,7 +65,9 @@ public class EngineFragment extends BirtBaseFragment
 			IOException, BirtException
 	{
 		attrBean = (ViewerAttributeBean) request.getAttribute( "attributeBean" ); //$NON-NLS-1$
-		if ( attrBean != null && attrBean.isMissingParameter( ) )
+		if ( !IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request
+				.getServletPath( ) )
+				&& attrBean != null && attrBean.isMissingParameter( ) )
 		{
 			super.doPreService( request, response );
 			super.doService( request, response );
@@ -83,7 +86,7 @@ public class EngineFragment extends BirtBaseFragment
 			this.doPostService( request, response );
 		}
 	}
-	
+
 	/**
 	 * Anything before do service.
 	 * 
@@ -97,16 +100,19 @@ public class EngineFragment extends BirtBaseFragment
 	protected void doPreService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		if ( IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request.getServletPath( ) ) )
+		if ( IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request
+				.getServletPath( ) ) )
 		{
 			response.setContentType( "application/csv;charset=utf-8" ); //$NON-NLS-1$
 			response.setHeader(
 					"Content-Disposition", "inline; filename=exportdata.csv" ); //$NON-NLS-1$ //$NON-NLS-2$
-		} else if ( ParameterAccessor.PARAM_FORMAT_PDF
+		}
+		else if ( ParameterAccessor.PARAM_FORMAT_PDF
 				.equalsIgnoreCase( ParameterAccessor.getFormat( request ) ) )
 		{
 			response.setContentType( "application/pdf" ); //$NON-NLS-1$
-		} else
+		}
+		else
 		{
 			response.setContentType( "text/html;charset=utf-8" ); //$NON-NLS-1$
 			response.setHeader( "cache-control", "no-cache" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -134,17 +140,20 @@ public class EngineFragment extends BirtBaseFragment
 		Operation op = null;
 		try
 		{
-			if ( IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request.getServletPath( ) ) )
+			if ( IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request
+					.getServletPath( ) ) )
 			{
 				BirtExtractDataActionHandler extractDataHandler = new BirtExtractDataActionHandler(
 						context, op, upResponse );
 				extractDataHandler.execute( );
-			} else if ( ParameterAccessor.isGetImageOperator( request ) )
+			}
+			else if ( ParameterAccessor.isGetImageOperator( request ) )
 			{
 				BirtRenderImageActionHandler renderImageHandler = new BirtRenderImageActionHandler(
 						context, op, upResponse );
 				renderImageHandler.execute( );
-			} else
+			}
+			else
 			{
 				BirtRunAndRenderActionHandler runAndRenderHandler = new BirtRunAndRenderActionHandler(
 						context, op, upResponse );
@@ -153,7 +162,7 @@ public class EngineFragment extends BirtBaseFragment
 		}
 		catch ( RemoteException e )
 		{
-			AxisFault fault = ( AxisFault ) e;
+			AxisFault fault = (AxisFault) e;
 			// Special handle since servlet output stream has been
 			// retrieved.
 			// Any include and forward throws exception.
@@ -173,7 +182,7 @@ public class EngineFragment extends BirtBaseFragment
 	{
 		return null;
 	}
-	
+
 	/**
 	 * Override build method.
 	 */
@@ -181,5 +190,5 @@ public class EngineFragment extends BirtBaseFragment
 	{
 		addChild( new SidebarFragment( ) );
 		addChild( new DocumentFragment( ) );
-	}	
+	}
 }
