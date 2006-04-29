@@ -25,6 +25,9 @@ public interface IEngineConfig extends IPlatformConfig
 	static final String SCRIPT_OBJECTS = "org.eclipse.birt.report.engine.api.EngineConfig.scriptObjects";
 	static final String EMITTER_CONFIGS = "org.eclipse.birt.report.engine.api.EngineConfig.emitterConfigs";
 	static final String STATUS_HANDLER = "org.eclipse.birt.report.engine.api.EngineConfig.statusHandler";
+	/**
+	 * resource locator used by design engine
+	 */
 	static final String RESOURCE_LOCATOR = "resourceLocator";
 
 }

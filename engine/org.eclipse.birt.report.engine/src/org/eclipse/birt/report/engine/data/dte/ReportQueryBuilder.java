@@ -93,7 +93,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.56 $ $Date: 2006/04/19 08:20:25 $
+ * @version $Revision: 1.57 $ $Date: 2006/04/26 07:33:48 $
  */
 public class ReportQueryBuilder
 {
@@ -734,6 +734,12 @@ public class ReportQueryBuilder
 
 			item.setQuery( query );
 			
+			addSortAndFilter( item, query );
+			return query;
+		}
+
+		private void addSortAndFilter( ReportItemDesign item, BaseQueryDefinition query )
+		{
 			if ( item instanceof ListingDesign )
 			{
 				query.getSorts( )
@@ -741,7 +747,11 @@ public class ReportQueryBuilder
 				query.getFilters( )
 						.addAll( createFilters( (ListingDesign) item ) );
 			}
-			return query;
+			else if ( item instanceof ExtendedItemDesign )
+			{
+				query.getFilters( ).addAll(
+						createFilters( (ExtendedItemDesign) item ) );
+			}
 		}
 
 		protected BaseQueryDefinition createSubQuery( ReportItemDesign item )
@@ -776,14 +786,7 @@ public class ReportQueryBuilder
 				addColumBinding( query, binding );
 			}
 			
-			if ( item instanceof ListingDesign )
-			{
-				query.getSorts( )
-						.addAll( createSorts( (ListingDesign) item ) );
-				query.getFilters( )
-						.addAll( createFilters( (ListingDesign) item ) );
-			}
-
+			addSortAndFilter( item, query );
 			return query;
 		}
 
@@ -905,6 +908,19 @@ public class ReportQueryBuilder
 		public ArrayList createFilters( GroupHandle group )
 		{
 			return createFilters( group.filtersIterator( ) );
+		}
+
+		/**
+		 * create filter array given a ExtendedItemHandle
+		 * 
+		 * @param group
+		 *            the GroupHandle
+		 * @return filter array
+		 */
+		public ArrayList createFilters( ExtendedItemDesign extendedItem )
+		{
+			return createFilters( ( (ExtendedItemHandle) extendedItem
+					.getHandle( ) ).filtersIterator( ) );
 		}
 
 		/**
