@@ -2334,14 +2334,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	}
 
 	protected void exportElementID( IContent content, String bookmark,
-			String type, long componentID )
+			String type )
 	{
 		Object generateBy = content.getGenerateBy( );
 		if ( generateBy instanceof TableItemDesign
 				|| generateBy instanceof ListItemDesign
 				|| generateBy instanceof ExtendedItemDesign
-				|| generateBy instanceof LabelItemDesign
-				|| generateBy instanceof TemplateDesign )
+				|| generateBy instanceof LabelItemDesign )
 		{
 			if ( renderOption instanceof HTMLRenderOption )
 			{
@@ -2350,8 +2349,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				if ( htmlIds != null && bookmark != null )
 				{
 					assert type != null;
-					String newBookmark = bookmark + "," + type 
-							+ "," + new Long( componentID ).toString();
+					String newBookmark = bookmark + "," + type;
 					htmlIds.add( newBookmark );
 				}
 			}
@@ -2401,13 +2399,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		if (type != null)
 		{
-			// Instance ID
-			InstanceID iid = content.getInstanceID( );
 			// active id
-			long componentID = ( iid != null ) ? iid.getComponentID() : 0;
-			exportElementID( content, content.getBookmark( ), type, componentID );
+			exportElementID( content, content.getBookmark( ), type );
 			// type
 			writer.attribute( "element_type", type );
+			// Instance ID
+			InstanceID iid = content.getInstanceID( );
 			if ( iid != null )
 			{
 				writer.attribute( "iid", iid.toString( ) );
