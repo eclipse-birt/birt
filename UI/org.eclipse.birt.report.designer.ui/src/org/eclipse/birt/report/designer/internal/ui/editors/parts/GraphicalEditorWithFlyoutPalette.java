@@ -104,7 +104,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.27 $ $Date: 2006/03/13 03:54:50 $
+ * @version $Revision: 1.28 $ $Date: 2006/03/22 02:15:52 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -761,7 +761,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		}
 
 		final List list = request.getSelectionModelList( );
-		if ( list.size( ) != 1 || list.get( 0 ) instanceof ImageHandle )
+		if ( list.size( ) != 1 )
 		{
 			return;
 		}
