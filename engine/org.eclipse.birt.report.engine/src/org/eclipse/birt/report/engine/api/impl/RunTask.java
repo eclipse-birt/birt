@@ -232,6 +232,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 
 	public void run( FolderArchive fArchive ) throws EngineException
 	{
-		// TODO Auto-generated method stub
+		setDataSource( fArchive );
+		run( ( IDocArchiveWriter ) fArchive );
 	}
 }

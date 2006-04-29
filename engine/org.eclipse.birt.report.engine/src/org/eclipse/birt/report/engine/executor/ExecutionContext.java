@@ -29,6 +29,7 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
@@ -38,7 +39,6 @@ import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.core.script.CoreJavaScriptWrapper;
 import org.eclipse.birt.core.script.IJavascriptWrapper;
 import org.eclipse.birt.core.script.ScriptContext;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -77,7 +77,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.64 $ $Date: 2006/04/06 12:35:24 $
+ * @version $Revision: 1.65 $ $Date: 2006/04/18 07:08:29 $
  */
 public class ExecutionContext
 {
@@ -229,6 +229,11 @@ public class ExecutionContext
 	private HashMap dateFormatters = new HashMap( );
 
 	private Map classLoaderCache = new HashMap( );
+	
+	/**
+	 * 
+	 */
+	private IDocArchiveReader dataSource;
 
 	/**
 	 * create a new context. Call close to finish using the execution context
@@ -334,6 +339,18 @@ public class ExecutionContext
 	public void close( )
 	{
 		scriptContext.exit( );
+		if ( dataSource != null )
+		{
+			try
+			{
+				dataSource.close( );
+			}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, "Failed to close the data source", e );
+			}
+			dataSource = null;
+		}
 		if ( dataEngine != null )
 		{
 			dataEngine.shutdown( );
@@ -1412,4 +1429,23 @@ public class ExecutionContext
 	{
 		return isCancelled;
 	}
+	
+	public void setDataSource( IDocArchiveReader dataSource )
+	{
+		try
+		{
+			dataSource.open( );
+			this.dataSource = dataSource;
+		}
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, "Failed to open the data source", e ); //$NON-NLS-1$
+		}
+	}
+	
+	public IDocArchiveReader getDataSource()
+	{
+		return dataSource;
+	}
+	
 }

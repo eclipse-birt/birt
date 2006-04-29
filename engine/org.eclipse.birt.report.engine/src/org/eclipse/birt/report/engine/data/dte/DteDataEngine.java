@@ -19,7 +19,6 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -32,7 +31,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.39 $ $Date: 2006/04/14 03:56:50 $
+ * @version $Revision: 1.40 $ $Date: 2006/04/28 10:14:15 $
  */
 public class DteDataEngine extends AbstractDataEngine
 {
@@ -94,10 +93,8 @@ public class DteDataEngine extends AbstractDataEngine
 		} // end of prepare
 	}
 
-	protected IResultSet doExecuteQuery( DteResultSet resultSet, IBaseQueryDefinition query )
+	protected IResultSet doExecuteQuery( DteResultSet resultSet, IQueryDefinition query )
 	{
-		assert query instanceof IQueryDefinition;
-
 		IPreparedQuery pQuery = (IPreparedQuery) queryMap.get( query );
 		if ( pQuery == null )
 		{

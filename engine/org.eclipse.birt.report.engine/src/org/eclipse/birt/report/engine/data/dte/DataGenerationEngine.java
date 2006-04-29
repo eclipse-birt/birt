@@ -22,7 +22,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -98,7 +97,7 @@ public class DataGenerationEngine extends AbstractDataEngine
 		}
 	}
 
-	protected IResultSet doExecuteQuery( DteResultSet resultSet, IBaseQueryDefinition query )
+	protected IResultSet doExecuteQuery( DteResultSet resultSet, IQueryDefinition query )
 	{
 		assert query instanceof IQueryDefinition;
 

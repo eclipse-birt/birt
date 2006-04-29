@@ -1,5 +1,6 @@
+
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,7 +9,6 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.birt.report.engine.data.dte;
 
 import java.io.DataInputStream;
@@ -23,20 +23,30 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.mozilla.javascript.Scriptable;
 
-public class DataPresentationEngine extends AbstractDataEngine
+
+/**
+ * 
+ */
+
+public class DataInteractiveEngine extends AbstractDataEngine
 {
-
+	/**
+	 * data is geting from this archive.
+	 */
 	private IDocArchiveReader reader;
 
-	/*
+	/**
 	 * store relations of various query ResultSet. Such as relations between
 	 * parent ResultSet and nested query ResultSet.
 	 * 
@@ -46,7 +56,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 	 */
 	protected HashMap rsetRelations = new HashMap( );
 
-	public DataPresentationEngine( ExecutionContext context,
+	public DataInteractiveEngine( ExecutionContext context,
 			IDocArchiveReader reader )
 	{
 		super( context );
@@ -57,7 +67,6 @@ public class DataPresentationEngine extends AbstractDataEngine
 					DataEngineContext.MODE_PRESENTATION, context.getSharedScope( ),
 					reader, null );
 			dteEngine = DataEngine.newDataEngine( dteContext );
-
 		}
 		catch ( Exception ex )
 		{
@@ -66,14 +75,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 		}
 		this.reader = reader;
 	}
-
-	protected void doPrepareQuery( Report report, Map appContext )
-	{
-		// prepare report queries
-		queryIDMap.putAll( report.getQueryIDs( ) );
-		loadDteMetaInfo( );
-	}
-
+	
 	private void loadDteMetaInfo( )
 	{
 		DataInputStream dis = null;
@@ -138,42 +140,66 @@ public class DataPresentationEngine extends AbstractDataEngine
 		return (String) rsetRelations.get( keyBuffer.toString( ) );
 	}
 
-	protected IResultSet doExecuteQuery( DteResultSet parentResult, IQueryDefinition query )
+	protected void doPrepareQuery( Report report, Map appContext )
+	{
+		// prepare report queries
+		queryIDMap.putAll( report.getQueryIDs( ) );
+		loadDteMetaInfo( );
+	}
+	
+	protected IResultSet doExecuteQuery( DteResultSet parentResult,
+			IQueryDefinition query )
 	{
 		String queryID = (String) queryIDMap.get( query );
-
 		try
 		{
-			IQueryResults queryResults = null;
+			IQueryResults parentQueryResults = null;
 			if ( parentResult != null )
 			{
-				queryResults = parentResult.getQueryResults( );
+				parentQueryResults = parentResult.getQueryResults( );
 			}
 
 			String resultSetID = null;
-
-			if ( queryResults == null )
+			if ( parentQueryResults == null )
 			{
 				resultSetID = getResultID( null, -1, queryID );
 			}
 			else
 			{
-				String pRsetId = queryResults.getID( );
-				long rowid = parentResult.getCurrentPosition( );
+				String pRsetId = parentQueryResults.getID( );
+				long rowid = parentResult.getRawID( );
 
 				resultSetID = getResultID( pRsetId, rowid, queryID );
 			}
+			
 			if ( resultSetID == null )
 			{
 				logger.log( Level.SEVERE, "Can't load the report query" );
 				return null;
 			}
 
-			queryResults = dteEngine.getQueryResults( resultSetID );
+			//((QueryDefinition)query).setDataSetName( null );
+			((QueryDefinition)query).setQueryResultsID( resultSetID );
+			IPreparedQuery pQuery = dteEngine.prepare( query );
+			
+			Scriptable scope = context.getSharedScope( );
 
-			DteResultSet resultSet = new DteResultSet( queryResults.getID( ),
-					queryResults.getResultIterator( ), this, context );
+			IQueryResults dteResults; // the dteResults of this query
+			if ( parentQueryResults == null )
+			{
+				// this is the root query
+				dteResults = pQuery.execute( scope );
+			}
+			else
+			{
+				// this is the nest query, execute the query in the
+				// parent results
+				dteResults = pQuery.execute( parentQueryResults, scope );
+			}
 
+			DteResultSet resultSet = new DteResultSet( dteResults.getID( ),
+					dteResults.getResultIterator( ), this, context );
+			
 			rsets.addFirst( resultSet );
 
 			return resultSet;

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,6 +21,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -512,7 +514,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.34 $ $Date: 2006/03/23 04:44:55 $
+	 * @version $Revision: 1.35 $ $Date: 2006/04/18 07:08:29 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -717,5 +719,10 @@ public abstract class EngineTask implements IEngineTask
 	{
 		ReportDesignHandle reportDesign = executionContext.getDesign( );
 		ReportScriptExecutor.handleAfterRender( reportDesign, executionContext );
+	}
+	
+	public void setDataSource( IDocArchiveReader dataSource )
+	{
+		executionContext.setDataSource( dataSource );		
 	}
 }

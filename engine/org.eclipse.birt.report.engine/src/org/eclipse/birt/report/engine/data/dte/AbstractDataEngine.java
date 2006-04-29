@@ -211,7 +211,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	{
 		if ( query instanceof IQueryDefinition )
 		{
-			return doExecuteQuery( (DteResultSet) parent, query );
+			return doExecuteQuery( (DteResultSet) parent, (IQueryDefinition)query );
 		}
 		else if ( query instanceof ISubqueryDefinition )
 		{
@@ -221,7 +221,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	}
 	
 
-	abstract protected IResultSet doExecuteQuery( DteResultSet parent, IBaseQueryDefinition query );
+	abstract protected IResultSet doExecuteQuery( DteResultSet parent, IQueryDefinition query );
 
 	/**
 	 * get the sub query result from the current query.
