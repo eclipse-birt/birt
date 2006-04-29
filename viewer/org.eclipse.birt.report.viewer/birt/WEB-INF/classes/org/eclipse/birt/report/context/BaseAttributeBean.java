@@ -113,6 +113,12 @@ abstract public class BaseAttributeBean
 	protected String bookmark = null;
 
 	/**
+	 * Report format of the request.
+	 */
+	
+	protected String format = ParameterAccessor.PARAM_FORMAT_HTML;
+
+	/**
 	 * Abstract methods.
 	 */
 	abstract protected void __init( HttpServletRequest request )
@@ -182,7 +188,7 @@ abstract public class BaseAttributeBean
 		{
 			design = getDesignHandle( request );
 		}
-		
+
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
@@ -315,6 +321,15 @@ abstract public class BaseAttributeBean
 	public String getReportDesignName( )
 	{
 		return reportDesignName;
+	}
+	
+	/**
+	 * @return the format
+	 */
+	
+	public String getFormat( )
+	{
+		return format;
 	}
 
 	/**

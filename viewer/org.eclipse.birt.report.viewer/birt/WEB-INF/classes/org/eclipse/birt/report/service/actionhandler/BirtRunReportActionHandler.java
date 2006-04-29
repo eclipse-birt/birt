@@ -53,21 +53,23 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 	 */
 	protected void __execute( ) throws RemoteException
 	{
-		ViewerAttributeBean attrBean = ( ViewerAttributeBean ) context
-				.getBean( );
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		Map parameterMap = new HashMap( );
 
-		Oprand[] oprands = operation.getOprand( );
-		for ( int i = 0; i < oprands.length; i++ )
+		if ( operation != null )
 		{
-			String paramName = oprands[i].getName( );
-			String paramValue = oprands[i].getValue( );
-			parameterMap.put( paramName, paramValue );
+			Oprand[] oprands = operation.getOprand( );
+			for ( int i = 0; i < oprands.length; i++ )
+			{
+				String paramName = oprands[i].getName( );
+				String paramValue = oprands[i].getValue( );
+				parameterMap.put( paramName, paramValue );
+			}
 		}
 
 		String reportDesignName = attrBean.getReportDesignName( );
 		String docName = attrBean.getReportDocumentName( );
-		//TODO: Content type?
+		// TODO: Content type?
 		IViewerReportDesignHandle designHandle = new BirtViewerReportDesignHandle(
 				null, reportDesignName );
 		try
@@ -75,7 +77,8 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 			InputOptions options = new InputOptions( );
 			options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 			options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-			options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean(attrBean.isDesigner( )) );
+			options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean(
+					attrBean.isDesigner( ) ) );
 			getReportService( ).runReport( designHandle, docName, options,
 					parameterMap );
 		}

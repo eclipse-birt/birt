@@ -13,6 +13,7 @@
 <%@ page import="org.eclipse.birt.report.presentation.aggregation.IFragment,
 				 org.eclipse.birt.report.context.BaseAttributeBean,
 				 org.eclipse.birt.report.IBirtConstants,
+				 org.eclipse.birt.report.utility.ParameterAccessor,
 				 org.eclipse.birt.report.resource.BirtResources" %>
 
 <%-----------------------------------------------------------------------------
@@ -71,7 +72,9 @@
 						<td class="dBtnBarCell">
 							<%	
 								String buttonName = "ok";								
-								if ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request.getServletPath() ) )
+								if ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request.getServletPath() ) 
+								 	|| ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request.getServletPath() ) 
+										&& ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( attributeBean.getFormat() ) ) )
 								{
 									buttonName = "okRun";
 								}

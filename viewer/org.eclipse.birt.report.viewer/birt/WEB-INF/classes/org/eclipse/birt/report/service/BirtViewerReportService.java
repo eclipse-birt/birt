@@ -174,12 +174,43 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions renderOptions, OutputStream out )
 			throws ReportServiceException
 	{
-		// TODO: Implement
+		IReportDocument doc = ReportEngineService.getInstance( )
+				.openReportDocument( getReportDesignName( renderOptions ),
+						docName );
+		HttpServletRequest request = (HttpServletRequest) renderOptions
+				.getOption( InputOptions.OPT_REQUEST );
+		Locale locale = (Locale) renderOptions
+				.getOption( InputOptions.OPT_LOCALE );
+		Boolean isMasterPageContent = (Boolean) renderOptions
+				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+		boolean isMasterPage = isMasterPageContent == null
+				? false
+				: isMasterPageContent.booleanValue( );
+		Boolean svgFlag = (Boolean) renderOptions
+				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+		boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
+		Long pageNum = null;
+		if ( pageRange != null && pageRange.trim( ).length( ) >= 0 )
+			pageNum = Long.valueOf( pageRange );
+		long page = -1;
+		if ( pageNum != null )
+			page = pageNum.longValue( );
+		try
+		{
+			ReportEngineService.getInstance( ).renderReport( out, request, doc,
+					page, isMasterPage, isSvg, null, locale );
+			doc.close( );
+
+		}
+		catch ( RemoteException e )
+		{
+			throw new ReportServiceException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	public void extractResultSet( String docName, String resultSetId,
-			Collection columns, Set filters, InputOptions options, OutputStream out )
-			throws ReportServiceException
+			Collection columns, Set filters, InputOptions options,
+			OutputStream out ) throws ReportServiceException
 	{
 
 		IReportDocument doc = ReportEngineService.getInstance( )
@@ -552,12 +583,12 @@ public class BirtViewerReportService implements IViewerReportService
 	private IGetParameterDefinitionTask getParameterDefinitionTask(
 			IViewerReportDesignHandle design ) throws EngineException
 	{
-		IReportRunnable runnable = ( IReportRunnable ) design.getDesignObject( );
+		IReportRunnable runnable = (IReportRunnable) design.getDesignObject( );
 		if ( runnable == null )
 		{
 			String reportDesignName = design.getFileName( );
-			runnable = ReportEngineService.getInstance( )
-					.openReportDesign( reportDesignName );
+			runnable = ReportEngineService.getInstance( ).openReportDesign(
+					reportDesignName );
 		}
 		IGetParameterDefinitionTask paramTask = ReportEngineService
 				.getInstance( ).createGetParameterDefinitionTask( runnable );
@@ -617,7 +648,8 @@ public class BirtViewerReportService implements IViewerReportService
 					// if the report design name is not a valid file, then set
 					// it to null
 
-					if ( reportDesignName.endsWith( "\\" ) || reportDesignName.endsWith( "/" ) )
+					if ( reportDesignName.endsWith( "\\" )
+							|| reportDesignName.endsWith( "/" ) )
 						reportDesignName = null;
 				}
 			}

@@ -24,7 +24,8 @@ public interface IBirtConstants
 	static public final String OPRAND_IID = "iid"; //$NON-NLS-1$
 	
 	static public String MIME_TYPE = "text/xml"; //$NON-NLS-1$
-	static public String RENDERFORMAT = HTMLRenderOption.OUTPUT_FORMAT_HTML;
+	static public String HTML_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_HTML;
+	public static final String PDF_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_PDF;
 
 	// Servlet path for parameter model.
 	public static final String SERVLET_PATH_PARAMETER = "/parameter"; //$NON-NLS-1$
@@ -52,4 +53,5 @@ public interface IBirtConstants
 
 	// running viewer model.
 	public static final String VIEWER_RUN = "run"; //$NON-NLS-1$
+	
 }

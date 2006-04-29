@@ -75,6 +75,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.reportPage = String.valueOf( ParameterAccessor.getPage( request ) );
 		this.reportDocumentName = ParameterAccessor.getReportDocument( request );
 		this.reportDesignName = ParameterAccessor.getReport( request );
+		this.format = ParameterAccessor.getFormat( request );
 
 		// Determine the report design and doc 's timestamp
 
