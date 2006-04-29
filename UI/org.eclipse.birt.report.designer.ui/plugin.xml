@@ -64,11 +64,6 @@
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.elementnames"
             id="org.eclipse.birt.report.designer.ui.preferences.ElementNamesPreferencePage"/>
-      <page
-            class="org.eclipse.birt.report.designer.ui.preferences.LibraryPreferencePage"
-            category="org.eclipse.birt.report.designer.ui.preferences"
-            name="%preference.library"
-            id="org.eclipse.birt.report.designer.ui.preferences.LibraryPreferencePage"/>
        <page
             class="org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage"
             category="org.eclipse.birt.report.designer.ui.preferences"
