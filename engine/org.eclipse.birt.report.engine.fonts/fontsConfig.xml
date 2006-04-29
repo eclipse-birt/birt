@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<!-- The default behavior:
-	PDF emitter will load the fonts from the system defined font folder, and then try to use the
-	font specified in design-time to render the pdf.
-	If the font can not be built, it will be mapped directly to default type1 font "Times-Roman". 
-	If the font is a generic family, it will be mapped to a PDF embeded type1 font. 	
-	"serif" to "Times-Roman" 
-	"sans-serif" to "Helvetica"
-	"monospace" to "Courier"
-	"fantasy" to "ZapfDingbats"
+<!-- 
+	The default behavior:
+   	1. 	PDF emitter loads the font files from the fonts folder of the plug-in 
+   		"org.ecllipse.birt.report.engine.fonts". and then the system defined font
+    	folder. If the section <font-paths> is set in fontsConfig.xml, the system 
+    	defined font folder will be ignored, and the font files specified in section 
+		<font-paths> will be loaded instead.
+   
+   	2. 	PDF emitter tries to use the font specified in design-time to render the pdf. 
+   		If the font can not be built, it will be mapped to default type1 font "Times-Roman". 
+   		If the font is a generic family, it will be mapped to a PDF embeded type1 font. 	
+		"serif" to "Times-Roman" 
+		"sans-serif" to "Helvetica"
+		"monospace" to "Courier"
+		"fantasy" to "ZapfDingbats"
 -->
 
 <font>
