@@ -61,12 +61,12 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 			if ( URIUtil.isValidResourcePath( getImageHandle( ).getURI( ) ) )
 			{
 				return ImageManager.getInstance( )
-						.getImage( URIUtil.getLocalPath( getImageHandle( ).getURI( ) ) );
+						.getImage( URIUtil.getLocalPath( removeQuoteString( getImageHandle( ).getURI( ) ) ) );
 			}
 			else
 			{
 				return ImageManager.getInstance( )
-						.getImage( getImageHandle( ).getURI( ) );
+						.getImage( removeQuoteString( getImageHandle( ).getURI( ) ) );
 			}
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase( imageSource ) )
