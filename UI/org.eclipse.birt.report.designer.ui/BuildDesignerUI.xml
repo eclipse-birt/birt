@@ -67,36 +67,37 @@
 	-->
 
 	<property name="eclipse.home" location="." />
-	
+
 	<property name="export.dir" location="export" />
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="dtp.home" location=".." />
-	
+
 	<!--properties -->
 	<property name="dir.src" location="src" />
-	<property name="dir.bin" location="temp.folder"/>	
+	<property name="dir.bin" location="temp.folder"/>
 	<property name="module.name" value="org.eclipse.birt.report.designer.ui" />
 	<property name="core.dir" value="../org.eclipse.birt.core" />
 	<property name="model.dir" value="../org.eclipse.birt.report.model" />
 	<property name="data.dir" value="../org.eclipse.birt.data" />
 	<property name="engine.dir" value="../org.eclipse.birt.report.engine" />
-	<property name="designer.core.dir" value="../org.eclipse.birt.report.designer.core" />	
+	<property name="designer.core.dir" value="../org.eclipse.birt.report.designer.core" />
 	<property name="viewer.dir" value="../org.eclipse.birt.report.viewer" />
-    <property name="model.oda.adapter" value="../org.eclipse.birt.report.model.adapter.oda" />
+	<property name="model.oda.adapter.dir" value="../org.eclipse.birt.report.model.adapter.oda" />
+	<property name="data.adapter.dir" value="../org.eclipse.birt.report.data.adaptor" />
 	<property name="jar.name" value="ui.jar"/>
-	
-	<property name="arch" value="x86" />	
-	
+
+	<property name="arch" value="x86" />
+
 	<tstamp>
-    	<format property="TODAY" pattern="yyyyMMdd-hhmm"/>
+		<format property="TODAY" pattern="yyyyMMdd-hhmm"/>
 	</tstamp>
 
 	<!-- Class Path used to generate Javadoc-->
 	<path id="class.path">
 		<pathelement path="${build.dir}" />
 		<pathelement path="${viewer.dir}/viewer.jar"/>
-		
+
 		<fileset dir="${core.dir}">
 			<include name="*.jar" />
 		</fileset>
@@ -112,12 +113,12 @@
 		<fileset dir="${designer.core.dir}">
 			<include name="*.jar" />
 		</fileset>
-		<fileset dir="${model.oda.adapter}">
+		<fileset dir="${model.oda.adapter.dir}">
 			<include name="*.jar" />
 		</fileset>
 	</path>
-	
-	
+
+
 	<!-- set platform related properties-->
 	<condition property="ws" value="win32">
 		<os family="windows"/>
@@ -136,12 +137,12 @@
 			<os family="windows"/>
 		</not>
 	</condition>
-		
-	
-	<target name="checkBuildScript">		
-	   	<available file="build.xml" property="buildScript.available"/>
+
+
+	<target name="checkBuildScript">
+		<available file="build.xml" property="buildScript.available"/>
 	</target>
-					
+
 	<!-- Compile source code and generate jar for this projec.
 		 Input parameters:
 		 	eclipse.home
@@ -149,7 +150,7 @@
 	<target name="Jar">
 		<antcall target="build"/>
 	</target>
-	
+
 	<target name="build" depends="buildDependents,generateBuildScript">
 		<ant inheritAll="false">
 			<property name="javacFailOnError" value="true" />
@@ -157,7 +158,7 @@
 			<property name="javacTarget" value="1.4" />
 			<property name="os" value="${os}" />
 			<property name="ws" value="${ws}" />
-			<property name="arch" value="${arch}" />			
+			<property name="arch" value="${arch}" />
 		</ant>
 	</target>
 
@@ -168,22 +169,22 @@
 		 		- ${plugin.version} the version of plugin exported
 	 -->
 	<target name="Export">
-	   	<property file="META-INF/MANIFEST.MF" />
+		<property file="META-INF/MANIFEST.MF" />
 		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />
 		<copy todir="${export.dir}\${plugin.package}">
 			<fileset dir=".">
 				<exclude name="plugin*.properties"/>
-	 			<include name="${jar.name}"/>
-	 			<include name=".options"/>
- 				<include name="plugin*.*"/>
- 				<include name="META-INF\**"/>
- 				<include name="lib\*.jar"/>
+				<include name="${jar.name}"/>
+				<include name=".options"/>
+				<include name="plugin*.*"/>
+				<include name="META-INF\**"/>
+				<include name="lib\*.jar"/>
 				<include name="icons\**"/>
 				<include name="templates\**"/>
 				<include name="schema\*.exsd"/>
 				<include name="schema\doc\*.*"/>
 				<include name="about.html"/>
-				<include name="nl\**\*"/> 
+				<include name="nl\**\*"/>
 			</fileset>
 		</copy>
 		<copy todir="${export.dir}\${plugin.package}" overwrite="true">
@@ -191,7 +192,7 @@
 				<include name="plugin*.properties"/>
 			</fileset>
 			<filterset>
-		    	<filter token="BUILD" value="${BUILD_ID}"/>
+				<filter token="BUILD" value="${BUILD_ID}"/>
 			</filterset>
 		</copy>
 	</target>
@@ -204,7 +205,7 @@
 		<antcall target="cleanByScript"/>
 		<antcall target="exceptionalClean"/>
 	</target>
-	
+
 	<!-- Clean all objects by the script generated -->
 	<target name="cleanByScript" description="clean up by script generated" depends="checkBuildScript" if="buildScript.available">
 		<ant target="clean"/>
@@ -226,35 +227,38 @@
 			<packageset dir="${dir.src}" defaultexcludes="yes" />
 			<bottom>
 				<![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
-			<classpath refid="class.path" />
-		</javadoc>
-	</target>
-	
-	<target name="doGenerateBuildScript">
-		<eclipse.buildScript elements="plugin@${module.name}" workingDirectory="${eclipse.home}"/>
-	</target>
-	
-	
-	<target name="generateBuildScript">
-		<java classpath="${eclipse.home}/startup.jar" classname="org.eclipse.core.launcher.Main" fork="true" dir="." failonerror="true">
-			<arg line="-application org.eclipse.ant.core.antRunner -file BuildDesignerUI.xml doGenerateBuildScript -Declipse.home=${eclipse.home} -Dclean=true" />
-		</java>		
-		<delete dir="workspace"/>
-	</target>
-	
-	<target name="buildDependents">
-		<ant dir="${engine.dir}" antfile="BuildEngine.xml" target="Jar" inheritAll="false">
-			<property name="eclipse.home" value="${eclipse.home}"/>
-		</ant>
-		<ant dir="${designer.core.dir}" antfile="BuildDesignerCore.xml" target="build" inheritAll="false">
-			<property name="eclipse.home" value="${eclipse.home}"/>
-			<property name="os" value="${os}"/>
-			<property name="ws" value="${ws}"/>
-			<property name="arch" value="${arch}"/>
-		</ant>
-		<ant dir="${model.oda.adapter}" antfile="BuildModelOdaAdapter.xml" target="Jar" inheritAll="false">
-			<property name="eclipse.home" value="${eclipse.home}"/>
-		</ant>
-	</target>	
-	
+		<classpath refid="class.path" />
+	</javadoc>
+</target>
+
+<target name="doGenerateBuildScript">
+	<eclipse.buildScript elements="plugin@${module.name}" workingDirectory="${eclipse.home}"/>
+</target>
+
+
+<target name="generateBuildScript">
+	<java classpath="${eclipse.home}/startup.jar" classname="org.eclipse.core.launcher.Main" fork="true" dir="." failonerror="true">
+		<arg line="-application org.eclipse.ant.core.antRunner -file BuildDesignerUI.xml doGenerateBuildScript -Declipse.home=${eclipse.home} -Dclean=true" />
+	</java>
+	<delete dir="workspace"/>
+</target>
+
+<target name="buildDependents">
+	<ant dir="${engine.dir}" antfile="BuildEngine.xml" target="Jar" inheritAll="false">
+		<property name="eclipse.home" value="${eclipse.home}"/>
+	</ant>
+	<ant dir="${designer.core.dir}" antfile="BuildDesignerCore.xml" target="build" inheritAll="false">
+		<property name="eclipse.home" value="${eclipse.home}"/>
+		<property name="os" value="${os}"/>
+		<property name="ws" value="${ws}"/>
+		<property name="arch" value="${arch}"/>
+	</ant>
+	<ant dir="${model.oda.adapter.dir}" antfile="BuildModelOdaAdapter.xml" target="Jar" inheritAll="false">
+		<property name="eclipse.home" value="${eclipse.home}"/>
+	</ant>
+	<ant dir="${data.adapter.dir}" antfile="BuildDataAdapter.xml" target="Jar" inheritAll="false">
+		<property name="eclipse.home" value="${eclipse.home}"/>
+	</ant>
+</target>
+
 </project>
