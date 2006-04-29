@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.ReportItemGenerationBase;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -155,9 +156,14 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 		Map expressions = queries[0].getResultSetExpressions( );
 		while ( rowSet.next( ) )
 		{
-			for ( Iterator iter = expressions.keySet( ).iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = expressions.keySet( ).iterator( ); iter
+					.hasNext( ); )
 			{
-				rowSet.evaluate( ExpressionUtil.createRowExpression( (String) iter.next( ) ) );
+				String colName = (String) iter.next( );
+				String expr = ExpressionUtil
+						.createRowExpression( JavascriptEvalUtil
+								.transformToJsConstants( colName ) );
+				rowSet.evaluate( expr );
 			}
 		}
 	}
