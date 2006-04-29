@@ -53,6 +53,9 @@ abstract class PreparedDataSourceQuery
 		assert dataEngine != null;
 		assert queryDefn != null;
 		
+		if ( queryDefn.getQueryResultsID( ) != null )
+			return new PreparedIVQuery( dataEngine, queryDefn );
+		
 		IBaseDataSetDesign dset = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
 		if ( dset == null )
 		{
@@ -65,8 +68,6 @@ abstract class PreparedDataSourceQuery
 				return new PreparedDummyQuery( dataEngine.getContext( ),
 						queryDefn,
 						dataEngine.getSharedScope( ) );
-			else
-				return new PreparedIVQuery( dataEngine, queryDefn );
 		}
 
 		PreparedDataSourceQuery preparedQuery;
