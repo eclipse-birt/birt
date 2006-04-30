@@ -1043,24 +1043,10 @@ public class InsertInLayoutUtil
 						// LabelHandle labelItemHandle =
 						// DesignElementFactory.getInstance( )
 						// .newLabel( null );
-						if ( columns[j].getColumnName( ) != null )
+						String labelText = ResultSetColumnProvider.getDisplayName( columns[j] );
+						if ( labelText != null )
 						{
-							boolean hasDisplayName = false;
-							for ( Iterator iter = model.columnHintsIterator( ); iter.hasNext( ); )
-							{
-								ColumnHintHandle hint = (ColumnHintHandle) iter.next( );
-								if ( columns[j].getColumnName( )
-										.equals( hint.getColumnName( ) ) )
-								{
-									labelItemHandle.setText( hint.getDisplayName( ) );
-									hasDisplayName = true;
-									break;
-								}
-							}
-							if ( !hasDisplayName )
-							{
-								labelItemHandle.setText( columns[j].getColumnName( ) );
-							}
+							labelItemHandle.setText( labelText );
 						}
 						cell.addElement( labelItemHandle, cells.getSlotID( ) );
 					}
