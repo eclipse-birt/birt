@@ -663,7 +663,7 @@ public class ActivityStack implements CommandStack
 
 		if ( !transStack.isEmpty( )
 				&& transStack.peek( ) instanceof LayoutCompoundRecord )
-			startSilentTrans( label );
+			startSilentTrans( label, false );
 		else if ( !transStack.isEmpty( )
 				&& transStack.peek( ) instanceof FilterEventsCompoundRecord )
 			startFilterEventTrans( label );
@@ -870,7 +870,18 @@ public class ActivityStack implements CommandStack
 
 	public void startSilentTrans( )
 	{
-		startSilentTrans( null );
+		startSilentTrans( null, false );
+	}
+
+	/**
+	 * Starts a silent transaction. All events in the trasaction will not be
+	 * sent out.
+	 * 
+	 */
+
+	public void startSilentTrans( boolean filterAll )
+	{
+		startSilentTrans( null, filterAll );
 	}
 
 	/**
@@ -881,14 +892,15 @@ public class ActivityStack implements CommandStack
 	 *            localized label for the transaction
 	 */
 
-	public void startSilentTrans( String label )
+	protected void startSilentTrans( String label, boolean filterAll )
 	{
 		boolean outerMost = true;
 		if ( !transStack.isEmpty( )
 				&& transStack.peek( ) instanceof LayoutCompoundRecord )
 			outerMost = false;
 
-		transStack.push( new LayoutCompoundRecord( label, outerMost ) );
+		transStack
+				.push( new LayoutCompoundRecord( label, outerMost, filterAll ) );
 	}
 
 	/**
@@ -904,7 +916,7 @@ public class ActivityStack implements CommandStack
 	{
 		if ( !transStack.isEmpty( )
 				&& transStack.peek( ) instanceof LayoutCompoundRecord )
-			startSilentTrans( label );
+			startSilentTrans( label, false );
 		else
 		{
 			boolean outerMost = true;

@@ -355,7 +355,7 @@ public class LibraryCommand extends AbstractElementCommand
 
 		ActivityStack activityStack = getActivityStack( );
 
-		activityStack.startSilentTrans( );
+		activityStack.startSilentTrans( true );
 
 		try
 		{

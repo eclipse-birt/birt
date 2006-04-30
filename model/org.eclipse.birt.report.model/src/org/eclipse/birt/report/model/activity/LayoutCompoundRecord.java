@@ -24,17 +24,28 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 {
 
 	/**
+	 * <code>true</code> if do not send any notification except Layout event.
+	 */
+
+	private boolean filterAll = false;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param text
 	 *            the localized label text
 	 * @param isOutermostSilentTrans
 	 *            indicates if it is the outer most filter event transaction.
+	 * @param filterAll
+	 *            <code>true</code> if do not send any notification except
+	 *            Layout event.
 	 */
 
-	public LayoutCompoundRecord( String text, boolean isOutermostSilentTrans )
+	public LayoutCompoundRecord( String text, boolean isOutermostSilentTrans,
+			boolean filterAll )
 	{
 		super( text, isOutermostSilentTrans );
+		this.filterAll = filterAll;
 	}
 
 	/*
@@ -55,6 +66,9 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 			RecordTask subTask = (RecordTask) tasks.get( i );
 			subTask.doTask( this, transStack );
 		}
+
+		if ( !filterAll )
+			super.performPostTasks( transStack );
 	}
 
 	/**
