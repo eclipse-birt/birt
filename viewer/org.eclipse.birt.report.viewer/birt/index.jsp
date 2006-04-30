@@ -55,7 +55,7 @@
 						<p>Thank you for your choosing BIRT (Business Intelligence Reporting Tool).</p>
 						<p>Viewer Version : 2.0.0</p>
 						<p>Engine Version: 2.0.0</p>
-						<p><a href="<%= request.getContextPath( ) + "/frameset?__report=test.rptdesign&sample=my+parameter" %>">View Example</a>
+						<p><a href="<%= request.getContextPath( ) + "/frameset?__report=test.rptdesign" %>">View Example</a>
 					</TD>
 				</TR>
 			</TBODY>
