@@ -86,6 +86,13 @@ public final class EventHandlers
 			.append( "	this.mainSvg = mainSvg	\n" ) //$NON-NLS-1$
 			.append( "	}	\n" ) //$NON-NLS-1$
 			.append( "		\n" ) //$NON-NLS-1$
+			.append( "	TM.toggleToolTip = function TooltipManager_toggleToolTip(evt){	\n" ) //$NON-NLS-1$
+			.append( "	if (typeof this.group != 'undefined'){	\n" ) //$NON-NLS-1$
+			.append( "	  TM.remove();\n" ) //$NON-NLS-1$
+			.append( "	}else{	\n" ) //$NON-NLS-1$
+			.append( "	  TM.show(evt);\n" ) //$NON-NLS-1$
+			.append( "	}	\n" ) //$NON-NLS-1$
+			.append( "	}	\n" ) //$NON-NLS-1$
 			.append( "	TM.remove = function TooltipManager_removeTooltip(){	\n" ) //$NON-NLS-1$
 			.append( "	if (typeof this.group != 'undefined'){	\n" ) //$NON-NLS-1$
 			.append( "	  this.group.removeNode();\n" ) //$NON-NLS-1$

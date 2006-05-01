@@ -430,7 +430,7 @@ public class SVGInteractiveRenderer
 									elm.setAttribute( "onmousemove", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
 								}
 								else
-									elm.setAttribute( scriptEvent, "TM.show(evt)" ); //$NON-NLS-1$ 
+									elm.setAttribute( scriptEvent, "TM.toggleToolTip(evt)" ); //$NON-NLS-1$ 
 							}
 							break;
 						case ActionType.URL_REDIRECT :
