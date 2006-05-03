@@ -56,6 +56,11 @@
 		<servlet-class>org.eclipse.birt.report.servlet.ViewerServlet</servlet-class>
 	</servlet>
 
+	<servlet>
+		<servlet-name>EngineServlet</servlet-name>
+		<servlet-class>org.eclipse.birt.report.servlet.BirtEngineServlet</servlet-class>
+	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>ViewerServlet</servlet-name>
 		<url-pattern>/frameset</url-pattern>
@@ -67,12 +72,12 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>ViewerServlet</servlet-name>
+		<servlet-name>EngineServlet</servlet-name>
 		<url-pattern>/run</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>ViewerServlet</servlet-name>
+		<servlet-name>EngineServlet</servlet-name>
 		<url-pattern>/download</url-pattern>
 	</servlet-mapping>
 
