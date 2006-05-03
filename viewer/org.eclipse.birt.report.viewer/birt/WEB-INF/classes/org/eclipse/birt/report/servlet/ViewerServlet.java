@@ -27,7 +27,6 @@ import org.eclipse.birt.report.servlet.BirtSoapMessageDispatcherServlet;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
-import org.eclipse.birt.report.presentation.aggregation.layout.EngineFragment;
 import org.eclipse.birt.report.presentation.aggregation.layout.FramesetFragment;
 
 /**
@@ -119,9 +118,6 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 
 		viewer = new FramesetFragment( );
 		viewer.buildComposite( );
-		
-		engine = new EngineFragment( );
-		engine.buildComposite();
 	}
 
 	/**
@@ -161,10 +157,6 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 		{
 			activeFragment = viewer;
 		}
-		else if ( "/run".equalsIgnoreCase( servletPath ) ) //$NON-NLS-1$
-		{
-			activeFragment = engine;
-		}
 		else if ( "/parameter".equalsIgnoreCase( servletPath ) ) //$NON-NLS-1$
 		{
 			activeFragment = parameter;
@@ -185,15 +177,9 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	 * @exception IOException
 	 * @return
 	 */
-	protected boolean __doPost( IContext context ) throws ServletException,
+	protected void __doPost( IContext context ) throws ServletException,
 			IOException, BirtException
 	{
-		if ( "/download".equalsIgnoreCase( context.getRequest( ).getServletPath( ) ) ) //$NON-NLS-1$
-		{
-			engine.service( context.getRequest( ), context.getResponse( ) );
-			return false;
-		}
-		return true;
 	}
 
 	/**

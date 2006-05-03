@@ -21,6 +21,13 @@ public class InputOptions
 	
 	public static final String OPT_IS_DESIGNER = "isDesigner";
 
+	public static final String OPT_SRC_DOCUMENT = "sourceDocument";
+
+	public static final String OPT_REPORT_DESIGN = "reportDesign";
+
+	public static final String OPT_VERTICAL_BAR = "verticalBar";
+
+    public static final String OUTPUT_FILE_TYPE = "outputFileType";
 
 	// add options here that matches the common engine run or render options
 

@@ -19,12 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportService;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -138,7 +138,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	}
 
 	protected Object getParamValueObject( HttpServletRequest request,
-			IScalarParameterDefn parameterObj ) throws ReportServiceException
+			ParameterDefinition parameterObj ) throws ReportServiceException
 	{
 		String paramName = parameterObj.getName( );
 		String format = parameterObj.getDisplayFormat( );

@@ -23,7 +23,7 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 	 */
 	initialize : function( id )
 	{
-		this.__initBase( id, "550px" );
+		this.__initBase( id, "600px" );
 		this.__z_index = 300;
 	}
 } );

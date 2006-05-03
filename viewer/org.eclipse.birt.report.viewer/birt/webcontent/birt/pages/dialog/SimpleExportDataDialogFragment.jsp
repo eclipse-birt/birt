@@ -21,6 +21,9 @@
 <%-----------------------------------------------------------------------------
 	Export data dialog fragment
 -----------------------------------------------------------------------------%>
+<TABLE CELLSPACING="2" CELLPADDING="2" CLASS="birtviewer_dialog_body">
+<TR>
+<TD style="border-style:solid;border-color:#cccccc;background-color:#ffffef;border-width:1px">
 <TABLE ID="simpleExportDialogBody" CELLSPACING="2" CELLPADDING="2" CLASS="birtviewer_dialog_body">
 	<TR HEIGHT="5px"><TD></TD></TR>
 	<TR>
@@ -89,4 +92,7 @@
 		</TD>
 	</TR>
 	<TR HEIGHT="5px"><TD></TD></TR>
+</TABLE>
+</TD>
+</TR>
 </TABLE>

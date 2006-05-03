@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
 import org.eclipse.birt.report.service.ReportEngineService;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -182,7 +182,8 @@ abstract public class BaseAttributeBean
 		}
 		if ( reportRunnable != null )
 		{
-			design = new BirtViewerReportDesignHandle( reportRunnable );
+			design = new BirtViewerReportDesignHandle(
+					IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT, reportRunnable );
 		}
 		else
 		{
@@ -194,7 +195,7 @@ abstract public class BaseAttributeBean
 		options.setOption( InputOptions.OPT_LOCALE, locale );
 
 		Collection parameterList = this.getReportService( )
-				.getParameterDefinitions( design, options );
+				.getParameterDefinitions( design, options, false );
 
 		// TODO: Change parameters to be Map, not HashMap
 		this.parameters = (HashMap) getParsedParameters( design, parameterList,
@@ -366,7 +367,7 @@ abstract public class BaseAttributeBean
 
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
+			ParameterDefinition  parameterObj = (ParameterDefinition ) iter
 					.next( );
 
 			String parameterName = parameterObj.getName( );
@@ -383,7 +384,7 @@ abstract public class BaseAttributeBean
 				break;
 			}
 
-			if ( IScalarParameterDefn.TYPE_STRING == parameterObj.getDataType( ) )
+			if ( ParameterDefinition .TYPE_STRING == parameterObj.getDataType( ) )
 			{
 				String parameterStringValue = (String) parameterValue;
 				if ( parameterStringValue != null
@@ -406,7 +407,7 @@ abstract public class BaseAttributeBean
 		Map params = new HashMap( );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
+			ParameterDefinition  parameterObj = (ParameterDefinition ) iter
 					.next( );
 
 			String paramName = parameterObj.getName( );
@@ -423,7 +424,7 @@ abstract public class BaseAttributeBean
 	}
 
 	protected Object getParamValueObject( HttpServletRequest request,
-			IScalarParameterDefn parameterObj ) throws ReportServiceException
+			ParameterDefinition  parameterObj ) throws ReportServiceException
 	{
 		String paramName = parameterObj.getName( );
 		String format = parameterObj.getDisplayFormat( );

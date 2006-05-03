@@ -18,13 +18,13 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.context.ScalarParameterBean;
-import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
+import org.eclipse.birt.report.service.api.ParameterSelectionChoice;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -43,7 +43,7 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 	 * @param parameter
 	 *            parameter definition reference.
 	 */
-	public RadioButtonParameterFragment( ScalarParameterHandle parameter )
+	public RadioButtonParameterFragment( ParameterDefinition parameter )
 	{
 		super( parameter );
 	}
@@ -70,7 +70,7 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 
 			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 			{
-				IParameterSelectionChoice selectionItem = ( IParameterSelectionChoice ) iter
+				ParameterSelectionChoice selectionItem = ( ParameterSelectionChoice ) iter
 						.next( );
 
 				String value = converter.format( selectionItem.getValue( ) );

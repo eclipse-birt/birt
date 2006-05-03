@@ -52,10 +52,20 @@ public abstract class AbstractQueryExportActionHandler extends
 		List exportedResultSets;
 		try
 		{
+			String instanceID = operation.getTarget().getId();
+			String instanceType = operation.getTarget().getType().getValue();
+
 			InputOptions options = new InputOptions( );
 			options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-			exportedResultSets = getReportService( ).getResultSetsMetadata(
-					docName, options );
+			//exportedResultSets = getReportService( ).getResultSetsMetadata(
+				//	docName, options );
+			
+			if(instanceID.equals("Document"))
+				exportedResultSets = getReportService( ).getResultSetsMetadata(
+						docName, options );
+			else
+				exportedResultSets = getReportService( ).getResultSetsMetadata(
+						docName, instanceID, options ); 
 
 			if ( exportedResultSets == null )
 			{

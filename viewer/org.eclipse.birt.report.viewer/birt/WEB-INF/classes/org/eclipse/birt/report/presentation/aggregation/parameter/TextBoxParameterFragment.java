@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.presentation.aggregation.parameter;
 
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
 
 /**
  * Fragment help rendering scalar parameter.
@@ -25,7 +25,7 @@ public class TextBoxParameterFragment extends ScalarParameterFragment
 	 * 
 	 * @param parameter parameter definition reference.
 	 */
-	public TextBoxParameterFragment( ScalarParameterHandle parameter )
+	public TextBoxParameterFragment( ParameterDefinition parameter )
 	{
 		super( parameter );
 	}

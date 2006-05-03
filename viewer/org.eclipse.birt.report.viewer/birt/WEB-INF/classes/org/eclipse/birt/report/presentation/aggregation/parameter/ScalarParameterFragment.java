@@ -19,20 +19,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
-import org.eclipse.birt.report.service.ParameterDataTypeConverter;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -48,7 +46,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 	/**
 	 * Reference to the real parameter definition.
 	 */
-	protected ScalarParameterHandle parameter = null;
+	protected ParameterDefinition parameter = null;
 
 	/**
 	 * Protected constructor.
@@ -56,7 +54,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 	 * @param parameter
 	 *            parameter definition reference.
 	 */
-	protected ScalarParameterFragment( ScalarParameterHandle parameter )
+	protected ScalarParameterFragment( ParameterDefinition parameter )
 	{
 		this.parameter = parameter;
 	}
@@ -84,11 +82,14 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		attrBean.setParameterBean( parameterBean );
 
 		String reportDesignName = ParameterAccessor.getReport( request );
+		IViewerReportDesignHandle designHandle = new BirtViewerReportDesignHandle(
+				null, reportDesignName );
+
 		Locale locale = attrBean.getLocale( );
 		boolean isDesigner = attrBean.isDesigner( );
 		try
 		{
-			prepareParameterBean( reportDesignName, getReportService( ),
+			prepareParameterBean( designHandle, getReportService( ),
 					request, parameterBean, parameter, locale, isDesigner );
 			// Prepare additional parameter properties.
 			prepareParameterBean( request, getReportService( ), parameterBean,
@@ -112,9 +113,9 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		return "/webcontent/birt" + "/pages/parameter/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
 	}
 
-	public static void prepareParameterBean( String reportDesignName,
+	public static void prepareParameterBean( IViewerReportDesignHandle designHandle,
 			IViewerReportService service, HttpServletRequest request,
-			ScalarParameterBean parameterBean, ScalarParameterHandle parameter,
+			ScalarParameterBean parameterBean, ParameterDefinition parameter,
 			Locale locale, boolean isDesigner ) throws ReportServiceException
 	{
 		// Display name
@@ -130,49 +131,44 @@ public class ScalarParameterFragment extends BirtBaseFragment
 
 		// Default value.
 
-		IViewerReportDesignHandle designHandle = new BirtViewerReportDesignHandle(
-				null, reportDesignName );
-
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		Object paramDefaultValueObj = service.getParameterDefaultValue(
 				designHandle, parameterBean.getName( ), options );
 
 		// isRequired
-		switch ( ParameterDataTypeConverter.getEngineDataType( parameter
-				.getDataType( ) ) )
+		switch ( parameter.getDataType( ) )
 		{
-		case IScalarParameterDefn.TYPE_STRING:
-		{
-			assert paramDefaultValueObj instanceof String;
-
-			parameterBean.setRequired( false );
-
-			if ( paramDefaultValueObj == null && !parameter.allowNull( ) )
+			case ParameterDefinition.TYPE_STRING:
 			{
-				parameterBean.setRequired( true );
-			} else if ( paramDefaultValueObj != null
-					&& ( ( String ) paramDefaultValueObj ).length( ) <= 0
-					&& !parameter.allowBlank( ) )
-			{
-				parameterBean.setRequired( true );
+				assert paramDefaultValueObj instanceof String;
+	
+				parameterBean.setRequired( false );
+	
+				if ( paramDefaultValueObj == null && !parameter.allowNull( ) )
+				{
+					parameterBean.setRequired( true );
+				} else if ( paramDefaultValueObj != null
+						&& ( ( String ) paramDefaultValueObj ).length( ) <= 0
+						&& !parameter.allowBlank( ) )
+				{
+					parameterBean.setRequired( true );
+				}
+	
+				break;
 			}
-
-			break;
-		}
-		default:
-		{
-			parameterBean.setRequired( paramDefaultValueObj == null );
-			break;
-		}
+			default:
+			{
+				parameterBean.setRequired( paramDefaultValueObj == null );
+				break;
+			}
 		}
 
 		// Current value
 		String format = parameter.getPattern( );
 		ReportParameterConverter converter = new ReportParameterConverter(
 				format, locale );
-		String parameterDefaultValue = parameterDefaultValue = converter
-				.format( paramDefaultValueObj );
+		String parameterDefaultValue = converter.format( paramDefaultValueObj );
 
 		// Get value from test config
 		if ( isDesigner )
@@ -180,15 +176,23 @@ public class ScalarParameterFragment extends BirtBaseFragment
 			// It's ok to use ReportEngineService directly here since we know we
 			// are in the designer
 			Map configMap = null;
-			try
+			if ( designHandle.getContentType() == IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT )
 			{
-				IReportRunnable runnable = ReportEngineService.getInstance( )
-						.openReportDesign( reportDesignName );
+				IReportRunnable runnable = (IReportRunnable)designHandle.getDesignObject();
 				configMap = runnable.getTestConfig( );
 			}
-			catch ( EngineException e )
+			else
 			{
-				throw new ReportServiceException( e.getLocalizedMessage( ) );
+ 				try
+ 				{
+ 					IReportRunnable runnable = ReportEngineService.getInstance( )
+ 							.openReportDesign( designHandle.getFileName() );
+ 					configMap = runnable.getTestConfig( );
+ 				}
+ 				catch ( EngineException e )
+ 				{
+ 					throw new ReportServiceException( e.getLocalizedMessage( ) );
+ 				}
 			}
 
 			if ( configMap != null )
@@ -200,11 +204,8 @@ public class ScalarParameterFragment extends BirtBaseFragment
 				{
 					ReportParameterConverter cfgConverter = new ReportParameterConverter(
 							format, Locale.US );
-					Object configValueObj = cfgConverter
-							.parse( configValue,
-									ParameterDataTypeConverter
-											.getEngineDataType( parameter
-													.getDataType( ) ) );
+ 					Object configValueObj = cfgConverter.parse( configValue,
+							parameter.getDataType( ) );
 					parameterDefaultValue = converter.format( configValueObj );
 				}
 			}

@@ -73,7 +73,7 @@ Mask.prototype = {
 		this.__progressBarMask.marginHeight = '0px';
 		this.__progressBarMask.marginWidth = '0px';
 		this.__progressBarMask.style.display = 'none';
-		//this.__progressBarMask.style.cursor = "wait";
+		this.__progressBarMask.style.cursor = "move"; //cursor is set to a different value than desired so that change is trigged in IE
 		
 		this.__eh_resize_closure = this.__eh_resize.bindAsEventListener( this );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_RESIZE, "Mask", this.__eh_resize_closure );
@@ -116,7 +116,8 @@ Mask.prototype = {
 	*/
 	showProgressBarMask: function()
 	{		
-
+		this.__progressBarMask.style.cursor = "wait";
+		
 		Element.show( this.__progressBarMask );
 
 		this.__progressBarMask.style.zIndex = this.zIndexCurrent;
@@ -141,7 +142,9 @@ Mask.prototype = {
 	},
 	
 	hideProgressBarMask: function()
-	{		
+	{	
+		this.__progressBarMask.style.cursor = "move";
+			
 		Element.hide( this.__progressBarMask );
 	},
 	

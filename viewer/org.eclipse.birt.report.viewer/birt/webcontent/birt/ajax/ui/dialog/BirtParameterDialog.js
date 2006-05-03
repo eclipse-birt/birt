@@ -37,11 +37,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	{	
 		// OK and Cancel buttons
 		var oInputs = this.__instance.getElementsByTagName( 'input' );
-		if ( 'okRun' == oInputs[oInputs.length - 2].name )
+//		if ( 'okRun' == oInputs[oInputs.length - 2].name )
 		{
 			// reset event on okRun button
-			Event.stopObserving( oInputs[oInputs.length - 2], 'click', this.__neh_okay_closure , false );
-			Event.observe( oInputs[oInputs.length - 2], 'click', this.__neh_ok_run_closure , false );
+//			Event.stopObserving( oInputs[oInputs.length - 2], 'click', this.__neh_okay_closure , false );
+//			Event.observe( oInputs[oInputs.length - 2], 'click', this.__neh_ok_run_closure , false );
 		}
 	},
 

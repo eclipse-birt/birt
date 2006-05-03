@@ -30,10 +30,13 @@ public class Data  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.DataSet dataSetDef;
     private org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse;
     private org.eclipse.birt.report.soapengine.api.DesignState designState;
+    private org.eclipse.birt.report.soapengine.api.ToolbarState toolbarState;
     private java.lang.String redirectURL;
+    private java.lang.String popupURL;
     private org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression;
     private org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata;
     private org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList;
+    private org.eclipse.birt.report.soapengine.api.IOFieldList IOFieldList;
 
     public Data() {
     }
@@ -61,10 +64,13 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.DataSet dataSetDef,
            org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse,
            org.eclipse.birt.report.soapengine.api.DesignState designState,
+           org.eclipse.birt.report.soapengine.api.ToolbarState toolbarState,
            java.lang.String redirectURL,
+           java.lang.String popupURL,
            org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression,
            org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata,
-           org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList) {
+           org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList,
+           org.eclipse.birt.report.soapengine.api.IOFieldList IOFieldList) {
            this.font = font;
            this.resultSets = resultSets;
            this.format = format;
@@ -87,10 +93,13 @@ public class Data  implements java.io.Serializable {
            this.dataSetDef = dataSetDef;
            this.dataSetsToUse = dataSetsToUse;
            this.designState = designState;
+           this.toolbarState = toolbarState;
            this.redirectURL = redirectURL;
+           this.popupURL = popupURL;
            this.BRDExpression = BRDExpression;
            this.joinMetadata = joinMetadata;
            this.boundDataColumnList = boundDataColumnList;
+           this.IOFieldList = IOFieldList;
     }
 
 
@@ -535,6 +544,26 @@ public class Data  implements java.io.Serializable {
 
 
     /**
+     * Gets the toolbarState value for this Data.
+     * 
+     * @return toolbarState
+     */
+    public org.eclipse.birt.report.soapengine.api.ToolbarState getToolbarState() {
+        return toolbarState;
+    }
+
+
+    /**
+     * Sets the toolbarState value for this Data.
+     * 
+     * @param toolbarState
+     */
+    public void setToolbarState(org.eclipse.birt.report.soapengine.api.ToolbarState toolbarState) {
+        this.toolbarState = toolbarState;
+    }
+
+
+    /**
      * Gets the redirectURL value for this Data.
      * 
      * @return redirectURL
@@ -551,6 +580,26 @@ public class Data  implements java.io.Serializable {
      */
     public void setRedirectURL(java.lang.String redirectURL) {
         this.redirectURL = redirectURL;
+    }
+
+
+    /**
+     * Gets the popupURL value for this Data.
+     * 
+     * @return popupURL
+     */
+    public java.lang.String getPopupURL() {
+        return popupURL;
+    }
+
+
+    /**
+     * Sets the popupURL value for this Data.
+     * 
+     * @param popupURL
+     */
+    public void setPopupURL(java.lang.String popupURL) {
+        this.popupURL = popupURL;
     }
 
 
@@ -611,6 +660,26 @@ public class Data  implements java.io.Serializable {
      */
     public void setBoundDataColumnList(org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList) {
         this.boundDataColumnList = boundDataColumnList;
+    }
+
+
+    /**
+     * Gets the IOFieldList value for this Data.
+     * 
+     * @return IOFieldList
+     */
+    public org.eclipse.birt.report.soapengine.api.IOFieldList getIOFieldList() {
+        return IOFieldList;
+    }
+
+
+    /**
+     * Sets the IOFieldList value for this Data.
+     * 
+     * @param IOFieldList
+     */
+    public void setIOFieldList(org.eclipse.birt.report.soapengine.api.IOFieldList IOFieldList) {
+        this.IOFieldList = IOFieldList;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -691,9 +760,15 @@ public class Data  implements java.io.Serializable {
             ((this.designState==null && other.getDesignState()==null) || 
              (this.designState!=null &&
               this.designState.equals(other.getDesignState()))) &&
+            ((this.toolbarState==null && other.getToolbarState()==null) || 
+             (this.toolbarState!=null &&
+              this.toolbarState.equals(other.getToolbarState()))) &&
             ((this.redirectURL==null && other.getRedirectURL()==null) || 
              (this.redirectURL!=null &&
               this.redirectURL.equals(other.getRedirectURL()))) &&
+            ((this.popupURL==null && other.getPopupURL()==null) || 
+             (this.popupURL!=null &&
+              this.popupURL.equals(other.getPopupURL()))) &&
             ((this.BRDExpression==null && other.getBRDExpression()==null) || 
              (this.BRDExpression!=null &&
               this.BRDExpression.equals(other.getBRDExpression()))) &&
@@ -702,7 +777,10 @@ public class Data  implements java.io.Serializable {
               this.joinMetadata.equals(other.getJoinMetadata()))) &&
             ((this.boundDataColumnList==null && other.getBoundDataColumnList()==null) || 
              (this.boundDataColumnList!=null &&
-              this.boundDataColumnList.equals(other.getBoundDataColumnList())));
+              this.boundDataColumnList.equals(other.getBoundDataColumnList()))) &&
+            ((this.IOFieldList==null && other.getIOFieldList()==null) || 
+             (this.IOFieldList!=null &&
+              this.IOFieldList.equals(other.getIOFieldList())));
         __equalsCalc = null;
         return _equals;
     }
@@ -780,8 +858,14 @@ public class Data  implements java.io.Serializable {
         if (getDesignState() != null) {
             _hashCode += getDesignState().hashCode();
         }
+        if (getToolbarState() != null) {
+            _hashCode += getToolbarState().hashCode();
+        }
         if (getRedirectURL() != null) {
             _hashCode += getRedirectURL().hashCode();
+        }
+        if (getPopupURL() != null) {
+            _hashCode += getPopupURL().hashCode();
         }
         if (getBRDExpression() != null) {
             _hashCode += getBRDExpression().hashCode();
@@ -791,6 +875,9 @@ public class Data  implements java.io.Serializable {
         }
         if (getBoundDataColumnList() != null) {
             _hashCode += getBoundDataColumnList().hashCode();
+        }
+        if (getIOFieldList() != null) {
+            _hashCode += getIOFieldList().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -957,8 +1044,22 @@ public class Data  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("toolbarState");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ToolbarState"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ToolbarState"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("redirectURL");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "RedirectURL"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("popupURL");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "PopupURL"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
@@ -981,6 +1082,13 @@ public class Data  implements java.io.Serializable {
         elemField.setFieldName("boundDataColumnList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumnList"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumnList"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("IOFieldList");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOFieldList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOFieldList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

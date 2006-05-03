@@ -21,33 +21,35 @@
 	Exception dialog fragment
 -----------------------------------------------------------------------------%>
 <TABLE CELLSPACING="2" CELLPADDING="2" CLASS="birtviewer_dialog_body">
-	<TR HEIGHT="5px"><TD></TD></TR>
 	<TR>
-		<TD>
-			<TABLE CELLSPACING="0" CELLPADDING="0" style="font:verdana;font-size:8pt">
+		<TD style="border-style:solid;border-color:#cccccc;background-color:#ffffef;border-width:1px">
+			<TABLE CELLSPACING="2" CELLPADDING="2">
 				<TR>
 					<TD VALIGN="top"><IMG SRC="birt/images/Error.gif" /></TD>
-					<TD WIDTH="20px"></TD>
 					<TD>
-						<B><FONT STYLE='color:red'><SPAN ID='faultstring'></SPAN></FONT><B>
+						<TABLE CELLSPACING="2" CELLPADDING="4" style="border-left-style:solid;border-left-width:1px;border-left-color:#cccccc" >
+							<TR>
+								<TD>
+									<B><SPAN ID='faultstring'></SPAN><B>
+								</TD>
+							</TR>
+						
+							<TR>
+								<TD>
+									Stack Trace:<BR>
+								</TD>
+							</TR>
+							<TR>
+								<TD>
+									<DIV style="padding:2px;width:100%;overflow:auto;height:150px;border-top-color:#cccccc;border-top-style:solid;border-top-width:1px;font-size:8pt">
+										<SPAN ID='faultdetail'></SPAN>
+									</DIV>
+								</TD>
+							</TR>
+						</TABLE>
 					</TD>
 				</TR>
 			</TABLE>
 		</TD>
 	</TR>
-	<TR>
-		<TD>
-			<TABLE CELLSPACING="0" CELLPADDING="0" style="font:verdana;font-size:8pt">
-				<TR>
-					<TD COLSPAN=3>
-						<B>Stack Trace:</B><BR>
-						<DIV style="height:100%;overflow:auto;height:200px;border-style:inset;border-width:1px">
-							<FONT STYLE='color:red'><SPAN ID='faultdetail'></SPAN></FONT>
-						</DIV>
-					</TD>
-				</TR>
-			</TABLE>
-		</TD>
-	</TR>
-	<TR HEIGHT="5px"><TD></TD></TR>
 </TABLE>

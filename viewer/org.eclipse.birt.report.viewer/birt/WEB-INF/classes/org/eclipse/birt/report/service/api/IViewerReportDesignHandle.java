@@ -6,6 +6,7 @@ public interface IViewerReportDesignHandle
 {
 	
 	public final static String RPT_DESIGN_OBJECT = "rptDesignObject";
+ 	public final static String RPT_RUNNABLE_OBJECT = "rptRunnableObject";
 
     /**
 	 * Get the content type

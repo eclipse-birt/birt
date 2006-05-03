@@ -56,13 +56,14 @@
 					if ( !ViewerServlet.isOpenSource( ) )
 					{
 					%>
-						<A HREF="<%= ivUrl %>" style="color:#CCCCCC">
+						<A HREF="<%= ivUrl %>" style="color:#00868B">
 							<B><%= BirtResources.getString( "birt.viewer.toolbar.enableiv" )%></B>
 						</A>
 					<%
 					}
 					%>
 					</TD>
+					<TD WIDTH="6px"/>
 				</TR>
 			</TABLE>
 		</DIV>

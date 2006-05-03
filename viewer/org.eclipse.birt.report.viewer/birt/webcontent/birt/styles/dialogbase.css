@@ -5,9 +5,9 @@
 /* Border around dialog */
 .dialogBorder
 {
-	border-style: solid;
+	border-style: outset;
 	border-width: 1px;
-	border-color: #808080;
+	border-color: #CCCCCC;
 }
 
 /* Title bar background area */
@@ -33,7 +33,7 @@
 	font-size: 11px; 
 	font-weight: bold; 
 	font-family: tahoma, verdana, arial, sans-serif;
-	color: #000000;
+	color: #FFFFFF;
 }
 
 .dTitleText
@@ -101,11 +101,12 @@
 	background-color: #F4F4F4; 
 }
 
+/* Area from bottom of dialog content container to bottom border */
 .dialogBtnBarContainer
 {
 	position: relative;
 	text-align: center;
-	padding-top: 4px;
+	padding-top: 4px; /* distance from bottom of content area to top of divider bar*/
 }
 
 /* Top divider line between dialog content area and button area */
@@ -120,51 +121,126 @@
 .dBtnBarDividerBottom
 {
 	height: 1px;
-	background-color: #ffffff;
+	background-color: #fefefe;
 	overflow: hidden;	
 }
 
-/* Area that contains buttons - from bottom of divider bar to top of outer border */
+
+/* Area that contains OK and CANCEL buttons - from bottom of divider bar to top of outer border */
 .dialogBtnBar
 {	
 	height: 30px;
+	text-align: center;
 }
 
-.dBtnBarCell
+/* Area holding both OK and CANCEL buttons */
+.dialogBtnBarButtonContainer
 {
-	vertical-align: middle;
-	text-align: center; 
-	white-space: nowrap;
+	margin-left: auto; 
+	margin-right: auto; 
+	margin-top: 6px; 
+	margin-bottom: 7px; 
+	position: relative; 
+	width: 136px; 
+	height:22px;
 }
 
-.dialogBtnActive
+/* Space between OK and CANCEL */
+.dialogBtnBarDivider
 {
-	border-top-width: 1px;
-	border-left-width: 1px;
-	border-right-width: 2px;
-	border-bottom-width: 2px;
-	border-style: outset;
-	padding-left: 1px;
-	padding-right: 1px;
-	background-color: #ffffff;
-	display: inline;
+	width: 6px;
+	height: 1px;
+	float: left;
+}
+
+.dialogBtnBarButtonEnabled
+{
+	float: left;
 	cursor: pointer;
-	font-size: 11px;  
-	font-family: tahoma, verdana, arial, sans-serif;
-	color: #000000;
+	height: 22px;
+	width: 65px;
+	overflow: hidden;
+	color: #ffffff; /* Font color */
+	background-color: #215671;
+	background-image: url("../images/dialog/common/ok-cancel-button-center.gif");
+	background-repeat: repeat-x;
+	background-position: top left;
 }
 
-.dialogBtnDisabled
+.dialogBtnBarButtonDisabled
 {
-	border-style: outset;
-	border-color: #cccccc;
-	border-width: 1px;
-	padding-left: 4px;
-	padding-right: 4px;
-	background-color: #808080;
-	display: inline;
+	float: left;
 	cursor: default;
+	height: 22px;
+	width: 65px;
+	overflow: hidden;
+	color: #cccccc; /* Font color */
+	background-color: #215671;
+	background-image: url("../images/dialog/common/ok-cancel-button-center_disabled.gif");
+	background-repeat: repeat-x;
+	background-position: top left;
 }
 
+/* Left background image for OK and CANCEL buttons */
+.dialogBtnBarButtonLeftBackgroundEnabled
+{
+	background-color: #215671;
+	background-image: url("../images/dialog/common/ok-cancel-button-left.gif");
+	background-repeat: no-repeat;
+	background-position: top left;
+	position: relative;
+	width: 6px;
+	height: 22px;
+	float: left;
+}
 
+/* Left background image for OK and CANCEL buttons */
+.dialogBtnBarButtonLeftBackgroundDisabled
+{
+	background-color: #215671;
+	background-image: url("../images/dialog/common/ok-cancel-button-left_disabled.gif");
+	background-repeat: no-repeat;
+	background-position: top left;
+	position: relative;
+	width: 6px;
+	height: 22px;
+	float: left;
+}
 
+/* Right background image for OK and CANCEL buttons */
+.dialogBtnBarButtonRightBackgroundEnabled
+{
+	background-color: #215671;
+	background-image: url("../images/dialog/common/ok-cancel-button-right.gif");
+	background-repeat: no-repeat;
+	background-position: top right;
+	position: relative;
+	width: 6px;
+	height: 22px;
+	float: right;
+}
+
+/* Right background image for OK and CANCEL buttons */
+.dialogBtnBarButtonRightBackgroundDisabled
+{
+	background-color: #215671;
+	background-image: url("../images/dialog/common/ok-cancel-button-right_disabled.gif");
+	background-repeat: no-repeat;
+	background-position: top right;
+	position: relative;
+	width: 6px;
+	height: 22px;
+	float: right;
+}
+
+/* Text for OK and CANCEL buttons */
+.dialogBtnBarButtonText
+{
+	position: relative;
+	top: 0px;
+	float: clear;
+	font-weight: 600;
+	line-height: 23px; /* Setting line height 1 px larger moves text down 1px in Mozilla. Overflow in 
+							containing element is set to none to hide extra pixel. This allows text to be in
+							the same position relative to the top of its box in both Mozilla and IE. */
+}

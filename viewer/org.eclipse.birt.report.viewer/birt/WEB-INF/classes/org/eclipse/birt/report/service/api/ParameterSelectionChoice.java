@@ -9,24 +9,33 @@
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
 
-package org.eclipse.birt.report.presentation.aggregation.parameter;
-
-import org.eclipse.birt.report.service.api.ParameterDefinition;
+package org.eclipse.birt.report.service.api;
 
 /**
- * Fragment help rendering scalar parameter.
- * <p>
- * @see org.eclipse.birt.report.presentation.aggregation.BaseFragment
+ * Viewer representation of a parameter selection choice
+ * 
  */
-public class CheckboxParameterFragment extends ScalarParameterFragment
+public class ParameterSelectionChoice
 {
-	/**
-	 * Protected constructor.
-	 * 
-	 * @param parameter parameter definition reference.
-	 */
-	public CheckboxParameterFragment( ParameterDefinition parameter )
+
+	private Object value;
+
+	private String label;
+
+	public ParameterSelectionChoice( String label, Object value )
 	{
-		super( parameter );
+		this.label = label;
+		this.value = value;
 	}
+
+	public Object getValue( )
+	{
+		return value;
+	}
+
+	public String getLabel( )
+	{
+		return label;
+	}
+
 }

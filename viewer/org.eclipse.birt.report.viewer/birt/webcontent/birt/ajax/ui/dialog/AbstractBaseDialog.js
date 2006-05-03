@@ -27,7 +27,12 @@ AbstractBaseDialog.prototype =
 	{
 		this.__instance = $(htmlId);
 		this.htmlId = htmlId;
-		this.visisble = false;
+		this.visible = false;
+		
+			//references will be set for okay button so it can be enabled/disabled
+		this.okButton = null;
+		this.okButtonLeft = null;
+		this.okButtonRight = null;
 		
 			//Instance is given a location within screen to avoid
 			//extra scroll bar creation
@@ -68,12 +73,15 @@ AbstractBaseDialog.prototype =
 		Event.observe( closeBtn, 'click', this.__neh_cancel_closure, false );
 		Event.observe( closeBtn, 'mousedown', this.__neh_stopEvent.bindAsEventListener(this), false );
 		
-		// OK and Cancel buttons
-		//TODO change to get by id
-		var oInputs = this.__instance.getElementsByTagName( 'input' );
-		Event.observe( oInputs[oInputs.length - 2], 'click', this.__neh_okay_closure , false );
-		Event.observe( oInputs[oInputs.length - 1], 'click', this.__neh_cancel_closure , false );
-		
+		// OK and Cancel buttons		
+		this.okBtn = $(id + "okButton");
+		var cancelBtn = $(id + "cancelButton");
+		this.okBtnLeft = $(id + "okButtonLeft"); //left part of background image
+		this.okBtnRight = $(id + "okButtonRight"); //right part of background image
+			//set OK button to enabled as default
+		this.__setOKButtonState(true);		
+		Event.observe( cancelBtn, 'click', this.__neh_cancel_closure , false );
+			
 			//Drag and Drop
 		this.dragBarName = id + "dialogTitleBar";
 		var dragArea = $(this.dragBarName);	
@@ -185,7 +193,29 @@ AbstractBaseDialog.prototype =
 	*/
 	__preHide: function()
 	{
-		//implementation is left to extending clas
+		//implementation is left to extending class
+	},
+	
+	/**
+	Enables/disabled OK button
+	@param boolean enabled
+	*/
+	__setOKButtonState: function(enabled)
+	{
+		if(enabled)
+		{
+			this.okBtn.className = "dialogBtnBarButtonEnabled";
+			this.okBtnLeft.className = "dialogBtnBarButtonLeftBackgroundEnabled";
+			this.okBtnRight.className = "dialogBtnBarButtonRightBackgroundEnabled";
+			Event.observe( this.okBtn, 'click', this.__neh_okay_closure , false );
+		}
+		else
+		{
+			this.okBtn.className = "dialogBtnBarButtonDisabled";
+			this.okBtnLeft.className = "dialogBtnBarButtonLeftBackgroundDisabled";
+			this.okBtnRight.className = "dialogBtnBarButtonRightBackgroundDisabled";
+			Event.stopObserving( this.okBtn, 'click', this.__neh_okay_closure , false );
+		}
 	},
 	
 	/**
@@ -262,9 +292,8 @@ AbstractBaseDialog.prototype =
 	 ABSTRACT - Handle clicking on ok.
 	*/
 	__okPress: function( )
-	{		
+	{
 		//ABSTRACT - needs to be implemented by extending class
-		this.__l_hide( );
 	},
 
 	//TODO change so called once

@@ -33,18 +33,18 @@ public interface IViewerReportService
 	 */
 	void setContext( Object context, InputOptions options );
 
-	/**
-	 * Run a report
-	 * 
-	 * @param design
-	 * @param outputDocName
-	 * @param runOptions
-	 * @param parameters,
-	 *            a map of unparsed parameters (i.e. name (String) -> value
-	 *            (String))
-	 * @return
-	 * @throws ReportServiceException
-	 */
+ 	/**
+ 	 * Run a report
+ 	 * 
+ 	 * @param design
+ 	 * @param outputDocName
+ 	 * @param runOptions
+ 	 * @param parameters,
+ 	 *            a map of unparsed parameters (i.e. name (String) -> value
+ 	 *            (String))
+ 	 * @return
+ 	 * @throws ReportServiceException
+ 	 */
 	String runReport( IViewerReportDesignHandle design, String outputDocName,
 			InputOptions runOptions, Map parameters )
 			throws ReportServiceException;
@@ -231,7 +231,8 @@ public interface IViewerReportService
 	 * @throws ReportServiceException
 	 */
 	Collection getParameterDefinitions( IViewerReportDesignHandle design,
-			InputOptions runOptions ) throws ReportServiceException;
+			InputOptions runOptions, boolean includeGroups )
+			throws ReportServiceException;
 
 	/**
 	 * Get a map of parameter values (name (String) -> value (Object))
@@ -280,19 +281,6 @@ public interface IViewerReportService
 	Object getParameterDefaultValue( IViewerReportDesignHandle design,
 			String parameterName, InputOptions options )
 			throws ReportServiceException;
-
-	/**
-	 * Get a collection of parameter handles
-	 * 
-	 * @param design
-	 * @param options
-	 * @return a Collection of ParameterHandle
-	 * @throws ReportServiceException
-	 * @deprecated this method will be removed when the caller is changed to use
-	 *             getParmeterDefinitions instead
-	 */
-	Collection getParameterHandles( IViewerReportDesignHandle design,
-			InputOptions options ) throws ReportServiceException;
 
 	/**
 	 * Get the page number of the first page containing the bookmark

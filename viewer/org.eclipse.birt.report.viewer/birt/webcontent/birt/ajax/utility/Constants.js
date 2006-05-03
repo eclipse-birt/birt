@@ -38,6 +38,9 @@ var Constants = {
 	Table : "Table",
 	Chart : "Chart",
 	Label : "Label",
+	Table_T : "Table_T",	// template of table type
+	Chart_T : "Chart_T",	// template of chart type
+	Label_T : "Label_T",	// template of label type
 	
 	/** 
 	event.returnvalue indicating that event has already been handled

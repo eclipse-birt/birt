@@ -28,13 +28,12 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
-import org.eclipse.birt.report.engine.api.IParameterDefnBase;
-import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
-import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
+import org.eclipse.birt.report.service.api.ParameterGroupDefinition;
+import org.eclipse.birt.report.service.api.ParameterSelectionChoice;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.CascadeParameter;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
@@ -143,13 +142,13 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 		String firstName = ( String ) params.keySet( ).iterator( ).next( );
 
 		Collection paramDefs = getReportService( ).getParameterDefinitions(
-				design, options );
+				design, options, false );
 
-		IParameterDefnBase paramDef = null;
+		ParameterDefinition paramDef = null;
 
 		for ( Iterator it = paramDefs.iterator( ); it.hasNext( ); )
 		{
-			IParameterDefnBase temp = ( IParameterDefnBase ) it.next( );
+			ParameterDefinition temp = ( ParameterDefinition ) it.next( );
 			if ( temp.getName( ).equals( firstName ) )
 			{
 				paramDef = temp;
@@ -162,29 +161,20 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 			throw new ReportServiceException( "Invalid parameter: " + firstName );
 		}
 
-		String groupName = null;
-		ReportElementHandle element = paramDef.getHandle( );
-		assert element != null;
-		if ( element.getContainer( ) instanceof CascadingParameterGroupHandle )
+ 		ParameterGroupDefinition group = paramDef.getGroup( );
+
+ 		if ( group != null )
 		{
-			CascadingParameterGroupHandle groupHandle = ( CascadingParameterGroupHandle ) element
-					.getContainer( );
-			groupName = groupHandle.getName( );
-			if ( groupHandle.getParameters( ).getCount( ) > params.size( ) )
+			if ( group.getParameterCount( ) > params.size( ) )
 			{
-				int remainingParams = groupHandle.getParameters( ).getCount( )
+				int remainingParams = group.getParameterCount( )
 						- params.size( );
 				for ( int i = 0; i < remainingParams; i++ )
 				{
-					remainingParamNames.add( groupHandle.getParameters( ).get(
-							params.size( ) + i ).getName( ) );
+					ParameterDefinition def = ( ParameterDefinition ) group
+ 							.getParameters( ).get( params.size( ) + i );
+ 					remainingParamNames.add( def.getName( ) );
 				}
-			}
-
-			if ( groupName == null )
-			{
-				throw new ReportServiceException(
-						"Can not find cascade parameter group name." );
 			}
 		}
 		// Query all lists.
@@ -219,7 +209,7 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 					}
 
 					listArray[k] = doQueryCascadeParameterSelectionList( design,
-							groupName, keyValue );
+							group.getName( ), keyValue );
 					ret.put( remainingParamNames.get( k ), listArray[k] );
 				}
 			}
@@ -247,7 +237,7 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 			int index = 0;
 			while ( iList != null && iList.hasNext( ) )
 			{
-				IParameterSelectionChoice item = ( IParameterSelectionChoice ) iList
+				ParameterSelectionChoice item = ( ParameterSelectionChoice ) iList
 						.next( );
 				if ( item != null && item.getValue( ) != null )
 				{

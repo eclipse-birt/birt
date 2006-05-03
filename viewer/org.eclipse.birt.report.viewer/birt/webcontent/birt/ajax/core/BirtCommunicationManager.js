@@ -35,7 +35,10 @@ BirtCommunicationManager.prototype =
 	 */
 	connect: function( )
 	{
-		debug( "Connect to " + birtSoapRequest.getURL( )+ " message " + birtSoapRequest.getMessage( ) );
+		if(birtSoapRequest.__xml_document)
+		{
+			debug( birtSoapRequest.prettyPrintXML(birtSoapRequest.__xml_document), true);
+		}
 		
 		if ( !birtSoapRequest.getURL( ) ) return;
 
@@ -58,6 +61,9 @@ BirtCommunicationManager.prototype =
 	 */
 	responseHandler: function( request )
 	{
+		debug(request.responseText, true);
+		debug(birtSoapRequest.prettyPrintXML(request.responseXML.documentElement), true);
+		
 		if ( request.responseXML && request.responseXML.documentElement )
 		{
 			birtSoapResponse.process( request.responseXML.documentElement );

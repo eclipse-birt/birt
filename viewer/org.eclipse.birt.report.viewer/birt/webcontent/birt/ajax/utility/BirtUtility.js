@@ -196,9 +196,25 @@ BirtUtility.prototype =
 			{
 				return eval( 'birtReportTable' );
 			}
+			else if ( type.toUpperCase( ) == 'Table_T'.toUpperCase( ) )
+			{
+				return eval( 'birtReportTable_T' );
+			}
 			else if ( type.toUpperCase( ) == 'Chart'.toUpperCase( ) )
 			{
 				return eval( 'birtReportChart' );
+			}
+			else if ( type.toUpperCase( ) == 'Chart_T'.toUpperCase( ) )
+			{
+				return eval( 'birtReportChart' );
+			}
+			else if ( type.toUpperCase( ) == 'Label'.toUpperCase( ) )
+			{
+				return eval( 'birtReportLabel' );
+			}
+			else if ( type.toUpperCase( ) == 'Label_T'.toUpperCase( ) )
+			{
+				return eval( 'birtReportLabel_T' );
 			}
 			else if ( type.toUpperCase( ) == 'Document'.toUpperCase( ) )
 			{
@@ -210,7 +226,9 @@ BirtUtility.prototype =
 	},
 	
 	/**
-	 * Get a parameter specified in the URL.
+	 * Get a parameter specified in the URL. For example, if a URL is
+	 * http://localhost:8080/iportal/wr?__report=/16.webrptdesign&iPortalID=YPTDAGCNPOYSOS
+	 * getURLParameter(iPortalID) will return &iPortalID=YPTDAGCNPOYSOS
 	 */
 	getURLParameter: function ( url, parameterName )
 	{
@@ -231,6 +249,24 @@ BirtUtility.prototype =
 		return paramString;
 	},
 	
+	/**
+	 * Modify the URL to change to the new report identified by newReportPath. The original locale will be kept.
+	 * @param newReportPath - the path of the report to be opened, e.g., /iportal/bizRD/report1.webrptdesign
+	 */
+	changeReport: function ( newReportPath )
+	{
+		var url = document.location.href;
+		var parameterIndex = url.indexOf( "?" );
+	
+		if ( parameterIndex >= 0 )
+		{
+			localeString = this.getURLParameter( url, "__locale" );
+			iPortalIDString = this.getURLParameter( url, "iPortalID" );
+			url = url.substring( 0, parameterIndex ) + "?__report=" + newReportPath + localeString + iPortalIDString;
+			window.location = url;
+		}	
+	},
+
 	/**
 	 * Insert a string into the cursor position of a textarea.<b> 
 	 * textarea: DOM element of textarea to be inserted.

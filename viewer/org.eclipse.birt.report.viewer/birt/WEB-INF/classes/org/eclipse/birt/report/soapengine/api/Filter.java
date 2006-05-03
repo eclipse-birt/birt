@@ -10,15 +10,18 @@ package org.eclipse.birt.report.soapengine.api;
 public class Filter  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.FilterType type;
     private org.eclipse.birt.report.soapengine.api.FilterExpression expression;
+    private org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList;
 
     public Filter() {
     }
 
     public Filter(
            org.eclipse.birt.report.soapengine.api.FilterType type,
-           org.eclipse.birt.report.soapengine.api.FilterExpression expression) {
+           org.eclipse.birt.report.soapengine.api.FilterExpression expression,
+           org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList) {
            this.type = type;
            this.expression = expression;
+           this.reportParameterList = reportParameterList;
     }
 
 
@@ -61,6 +64,26 @@ public class Filter  implements java.io.Serializable {
         this.expression = expression;
     }
 
+
+    /**
+     * Gets the reportParameterList value for this Filter.
+     * 
+     * @return reportParameterList
+     */
+    public org.eclipse.birt.report.soapengine.api.ReportParameterList getReportParameterList() {
+        return reportParameterList;
+    }
+
+
+    /**
+     * Sets the reportParameterList value for this Filter.
+     * 
+     * @param reportParameterList
+     */
+    public void setReportParameterList(org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList) {
+        this.reportParameterList = reportParameterList;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Filter)) return false;
@@ -78,7 +101,10 @@ public class Filter  implements java.io.Serializable {
               this.type.equals(other.getType()))) &&
             ((this.expression==null && other.getExpression()==null) || 
              (this.expression!=null &&
-              this.expression.equals(other.getExpression())));
+              this.expression.equals(other.getExpression()))) &&
+            ((this.reportParameterList==null && other.getReportParameterList()==null) || 
+             (this.reportParameterList!=null &&
+              this.reportParameterList.equals(other.getReportParameterList())));
         __equalsCalc = null;
         return _equals;
     }
@@ -95,6 +121,9 @@ public class Filter  implements java.io.Serializable {
         }
         if (getExpression() != null) {
             _hashCode += getExpression().hashCode();
+        }
+        if (getReportParameterList() != null) {
+            _hashCode += getReportParameterList().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -116,6 +145,13 @@ public class Filter  implements java.io.Serializable {
         elemField.setFieldName("expression");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Expression"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FilterExpression"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("reportParameterList");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportParameterList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportParameterList"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

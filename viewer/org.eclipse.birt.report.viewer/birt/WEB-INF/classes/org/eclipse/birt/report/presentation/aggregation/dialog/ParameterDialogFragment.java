@@ -20,9 +20,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.model.api.ParameterGroupHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.CheckboxParameterFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.ComboBoxParameterFragment;
@@ -33,6 +30,8 @@ import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
+import org.eclipse.birt.report.service.api.ParameterGroupDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -74,10 +73,11 @@ public class ParameterDialogFragment extends BaseDialogFragment
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		//TODO: Content type?
-		IViewerReportDesignHandle design = new BirtViewerReportDesignHandle(null, reportDesignName);
+		IViewerReportDesignHandle design = new BirtViewerReportDesignHandle(
+				null, reportDesignName);
 		try
 		{
-			parameters = service.getParameterHandles( design, options );
+			parameters = service.getParameterDefinitions( design, options, true );
 		}
 		catch ( ReportServiceException e )
 		{
@@ -97,39 +97,38 @@ public class ParameterDialogFragment extends BaseDialogFragment
 				}
 	
 				IFragment fragment = null;
-				if ( parameter instanceof ParameterGroupHandle )
+				if ( parameter instanceof ParameterGroupDefinition )
 				{
 					fragment = new ParameterGroupFragment(
-							( ParameterGroupHandle ) parameter );
+							( ParameterGroupDefinition ) parameter );
 				}
-				else if ( parameter instanceof ScalarParameterHandle )
+				else if ( parameter instanceof ParameterDefinition )
 				{
-					ScalarParameterHandle scalarParameter = ( ScalarParameterHandle ) parameter;
+					ParameterDefinition scalarParameter = ( ParameterDefinition ) parameter;
 	
 					if ( !scalarParameter.isHidden( ) )
 					{
-						switch ( getEngineControlType( scalarParameter
-								.getControlType( ) ) )
+						switch ( scalarParameter.getControlType( ) )
 						{
-							case IScalarParameterDefn.TEXT_BOX:
+							case ParameterDefinition.TEXT_BOX:
 							{
 								fragment = new TextBoxParameterFragment(
 										scalarParameter );
 								break;
 							}
-							case IScalarParameterDefn.LIST_BOX:
+							case ParameterDefinition.LIST_BOX:
 							{
 								fragment = new ComboBoxParameterFragment(
 										scalarParameter );
 								break;
 							}
-							case IScalarParameterDefn.RADIO_BUTTON:
+							case ParameterDefinition.RADIO_BUTTON:
 							{
 								fragment = new RadioButtonParameterFragment(
 										scalarParameter );
 								break;
 							}
-							case IScalarParameterDefn.CHECK_BOX:
+							case ParameterDefinition.CHECK_BOX:
 							{
 								fragment = new CheckboxParameterFragment(
 										scalarParameter );

@@ -21,10 +21,16 @@ public class ReportIdType implements java.io.Serializable {
     public static final java.lang.String _Document = "Document";
     public static final java.lang.String _Label = "Label";
     public static final java.lang.String _Table = "Table";
+    public static final java.lang.String _Chart_T = "Chart_T";
+    public static final java.lang.String _Label_T = "Label_T";
+    public static final java.lang.String _Table_T = "Table_T";
     public static final ReportIdType Chart = new ReportIdType(_Chart);
     public static final ReportIdType Document = new ReportIdType(_Document);
     public static final ReportIdType Label = new ReportIdType(_Label);
     public static final ReportIdType Table = new ReportIdType(_Table);
+    public static final ReportIdType Chart_T = new ReportIdType(_Chart_T);
+    public static final ReportIdType Label_T = new ReportIdType(_Label_T);
+    public static final ReportIdType Table_T = new ReportIdType(_Table_T);
     public java.lang.String getValue() { return _value_;}
     public static ReportIdType fromValue(java.lang.String value)
           throws java.lang.IllegalArgumentException {

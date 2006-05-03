@@ -1,5 +1,5 @@
 /**
- * BoundDataColumn.java
+ * ReportParameter.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
@@ -7,26 +7,26 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
-public class BoundDataColumn  implements java.io.Serializable {
+public class ReportParameter  implements java.io.Serializable {
     private java.lang.String name;
-    private java.lang.String expression;
-    private java.lang.String type;
+    private java.lang.String promptString;
+    private java.lang.String defaultValue;
 
-    public BoundDataColumn() {
+    public ReportParameter() {
     }
 
-    public BoundDataColumn(
+    public ReportParameter(
            java.lang.String name,
-           java.lang.String expression,
-           java.lang.String type) {
+           java.lang.String promptString,
+           java.lang.String defaultValue) {
            this.name = name;
-           this.expression = expression;
-           this.type = type;
+           this.promptString = promptString;
+           this.defaultValue = defaultValue;
     }
 
 
     /**
-     * Gets the name value for this BoundDataColumn.
+     * Gets the name value for this ReportParameter.
      * 
      * @return name
      */
@@ -36,7 +36,7 @@ public class BoundDataColumn  implements java.io.Serializable {
 
 
     /**
-     * Sets the name value for this BoundDataColumn.
+     * Sets the name value for this ReportParameter.
      * 
      * @param name
      */
@@ -46,48 +46,48 @@ public class BoundDataColumn  implements java.io.Serializable {
 
 
     /**
-     * Gets the expression value for this BoundDataColumn.
+     * Gets the promptString value for this ReportParameter.
      * 
-     * @return expression
+     * @return promptString
      */
-    public java.lang.String getExpression() {
-        return expression;
+    public java.lang.String getPromptString() {
+        return promptString;
     }
 
 
     /**
-     * Sets the expression value for this BoundDataColumn.
+     * Sets the promptString value for this ReportParameter.
      * 
-     * @param expression
+     * @param promptString
      */
-    public void setExpression(java.lang.String expression) {
-        this.expression = expression;
+    public void setPromptString(java.lang.String promptString) {
+        this.promptString = promptString;
     }
 
 
     /**
-     * Gets the type value for this BoundDataColumn.
+     * Gets the defaultValue value for this ReportParameter.
      * 
-     * @return type
+     * @return defaultValue
      */
-    public java.lang.String getType() {
-        return type;
+    public java.lang.String getDefaultValue() {
+        return defaultValue;
     }
 
 
     /**
-     * Sets the type value for this BoundDataColumn.
+     * Sets the defaultValue value for this ReportParameter.
      * 
-     * @param type
+     * @param defaultValue
      */
-    public void setType(java.lang.String type) {
-        this.type = type;
+    public void setDefaultValue(java.lang.String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof BoundDataColumn)) return false;
-        BoundDataColumn other = (BoundDataColumn) obj;
+        if (!(obj instanceof ReportParameter)) return false;
+        ReportParameter other = (ReportParameter) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -99,12 +99,12 @@ public class BoundDataColumn  implements java.io.Serializable {
             ((this.name==null && other.getName()==null) || 
              (this.name!=null &&
               this.name.equals(other.getName()))) &&
-            ((this.expression==null && other.getExpression()==null) || 
-             (this.expression!=null &&
-              this.expression.equals(other.getExpression()))) &&
-            ((this.type==null && other.getType()==null) || 
-             (this.type!=null &&
-              this.type.equals(other.getType())));
+            ((this.promptString==null && other.getPromptString()==null) || 
+             (this.promptString!=null &&
+              this.promptString.equals(other.getPromptString()))) &&
+            ((this.defaultValue==null && other.getDefaultValue()==null) || 
+             (this.defaultValue!=null &&
+              this.defaultValue.equals(other.getDefaultValue())));
         __equalsCalc = null;
         return _equals;
     }
@@ -119,11 +119,11 @@ public class BoundDataColumn  implements java.io.Serializable {
         if (getName() != null) {
             _hashCode += getName().hashCode();
         }
-        if (getExpression() != null) {
-            _hashCode += getExpression().hashCode();
+        if (getPromptString() != null) {
+            _hashCode += getPromptString().hashCode();
         }
-        if (getType() != null) {
-            _hashCode += getType().hashCode();
+        if (getDefaultValue() != null) {
+            _hashCode += getDefaultValue().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -131,10 +131,10 @@ public class BoundDataColumn  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(BoundDataColumn.class, true);
+        new org.apache.axis.description.TypeDesc(ReportParameter.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumn"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportParameter"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("name");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
@@ -142,17 +142,15 @@ public class BoundDataColumn  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("expression");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Expression"));
+        elemField.setFieldName("promptString");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "PromptString"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("type");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Type"));
+        elemField.setFieldName("defaultValue");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DefaultValue"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

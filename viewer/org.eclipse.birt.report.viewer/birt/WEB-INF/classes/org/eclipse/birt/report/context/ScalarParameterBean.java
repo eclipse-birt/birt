@@ -14,7 +14,7 @@ package org.eclipse.birt.report.context;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -28,7 +28,7 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	/**
 	 * Parameter definition reference.
 	 */
-	private ScalarParameterHandle parameter = null;
+	private ParameterDefinition parameter = null;
 	
 	/**
 	 * Is parameter value required. 
@@ -60,7 +60,7 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	 * 
 	 * @param parameter
 	 */
-	public ScalarParameterBean( ScalarParameterHandle parameter )
+	public ScalarParameterBean( ParameterDefinition  parameter )
 	{
 		this.parameter = parameter;
 	}
@@ -107,7 +107,7 @@ public class ScalarParameterBean extends ParameterAttributeBean
 			return false;
 		}
 		
-		return !parameter.isMustMatch( );
+		return !parameter.mustMatch( );
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class ScalarParameterBean extends ParameterAttributeBean
 			return false;
 		}
 		
-		return parameter.isConcealValue( );
+		return parameter.concealValue( );
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	/**
 	 * @return Returns the parameter.
 	 */
-	public ScalarParameterHandle getParameter( )
+	public ParameterDefinition  getParameter( )
 	{
 		return parameter;
 	}
@@ -184,7 +184,7 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	/**
 	 * @param parameter The parameter to set.
 	 */
-	public void setParameter( ScalarParameterHandle parameter )
+	public void setParameter( ParameterDefinition  parameter )
 	{
 		this.parameter = parameter;
 	}

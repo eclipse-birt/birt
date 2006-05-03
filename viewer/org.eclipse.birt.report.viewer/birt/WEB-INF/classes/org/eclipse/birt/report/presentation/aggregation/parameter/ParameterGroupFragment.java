@@ -20,9 +20,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.model.api.ParameterGroupHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
+import org.eclipse.birt.report.service.api.ParameterGroupDefinition;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.context.ParameterGroupBean;
@@ -41,7 +40,7 @@ public class ParameterGroupFragment extends BirtBaseFragment
 	/**
 	 * Reference to the real parameter group definition.
 	 */
-	protected ParameterGroupHandle parameterGroup = null;
+	protected ParameterGroupDefinition parameterGroup = null;
 
 	/**
 	 * Protected constructor.
@@ -49,7 +48,7 @@ public class ParameterGroupFragment extends BirtBaseFragment
 	 * @param parameterGroup
 	 *            parameter group definition reference.
 	 */
-	public ParameterGroupFragment( ParameterGroupHandle parameterGroup )
+	public ParameterGroupFragment( ParameterGroupDefinition parameterGroup )
 	{
 		this.parameterGroup = parameterGroup;
 	}
@@ -68,16 +67,19 @@ public class ParameterGroupFragment extends BirtBaseFragment
 	protected void doService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request.getAttribute( "attributeBean" ); //$NON-NLS-1$
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+			.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		assert attrBean != null;
 
 		assert parameterGroup != null;
-		ParameterGroupBean parameterGroupBean = new ParameterGroupBean( parameterGroup );
+		ParameterGroupBean parameterGroupBean = new ParameterGroupBean(
+				parameterGroup );
 		attrBean.setParameterBean( parameterGroupBean );
 
 		// Display name.
 		String displayName = parameterGroup.getDisplayName( );
-		displayName = ( displayName == null || displayName.length( ) <= 0 ) ? parameterGroup.getName( )
+		displayName = ( displayName == null || displayName.length( ) <= 0 ) ? parameterGroup
+				.getName( )
 				: displayName;
 		displayName = ParameterAccessor.htmlEncode( displayName );
 		parameterGroupBean.setDisplayName( displayName );
@@ -86,33 +88,34 @@ public class ParameterGroupFragment extends BirtBaseFragment
 		Collection fragments = new ArrayList( );
 		IFragment fragment = null;
 
-		for ( Iterator iter = parameterGroup.getParameters( ).iterator( ); iter.hasNext( ); )
+		for ( Iterator iter = parameterGroup.getParameters( ).iterator( ); iter
+			.hasNext( ); )
 		{
 			Object obj = iter.next( );
-			if ( obj instanceof ScalarParameterHandle )
+			if ( obj instanceof ParameterDefinition )
 			{
-				ScalarParameterHandle scalarParameter = (ScalarParameterHandle) obj;
+				ParameterDefinition scalarParameter = (ParameterDefinition) obj;
 
 				if ( !scalarParameter.isHidden( ) )
 				{
-					switch ( getEngineControlType( scalarParameter.getControlType( ) ) )
+					switch ( scalarParameter.getControlType( ) )
 					{
-						case IScalarParameterDefn.TEXT_BOX :
+						case ParameterDefinition.TEXT_BOX :
 						{
 							fragment = new TextBoxParameterFragment( scalarParameter );
 							break;
 						}
-						case IScalarParameterDefn.LIST_BOX :
+						case ParameterDefinition.LIST_BOX :
 						{
 							fragment = new ComboBoxParameterFragment( scalarParameter );
 							break;
 						}
-						case IScalarParameterDefn.RADIO_BUTTON :
+						case ParameterDefinition.RADIO_BUTTON :
 						{
 							fragment = new RadioButtonParameterFragment( scalarParameter );
 							break;
 						}
-						case IScalarParameterDefn.CHECK_BOX :
+						case ParameterDefinition.CHECK_BOX :
 						{
 							fragment = new CheckboxParameterFragment( scalarParameter );
 							break;

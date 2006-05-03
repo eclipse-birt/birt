@@ -15,17 +15,17 @@ import java.io.IOException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.axis.transport.http.AxisServlet;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
-abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
+abstract public class BaseReportEngineServlet extends HttpServlet
 {
 	/**
 	 * TODO: what's this?
@@ -40,9 +40,7 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	/**
 	 * Viewer fragment references.
 	 */
-	protected IFragment viewer = null;
-
-	protected IFragment parameter = null;
+	protected IFragment engine = null;
 
 	/**
 	 * Abstract methods.
@@ -54,12 +52,6 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 
 	abstract protected IContext __getContext( HttpServletRequest request,
 			HttpServletResponse response );
-
-	abstract protected void __doGet( IContext context )
-			throws ServletException, IOException, BirtException;
-
-	abstract protected void __doPost( IContext context )
-			throws ServletException, IOException, BirtException;
 
 	abstract protected void __handleNonSoapException( IContext context,
 			Exception exception ) throws ServletException, IOException;
@@ -119,7 +111,7 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 		{
 			try
 			{
-				__doGet( context );
+				engine.service( context.getRequest( ), context.getResponse( ) );
 			}
 			catch ( BirtException e )
 			{
@@ -142,32 +134,6 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	public void doPost( HttpServletRequest request, HttpServletResponse response )
 			throws ServletException, IOException
 	{
-		if ( !__authenticate( request, response ) )
-		{
-			return;
-		}
-		
-		IContext context = __getContext( request, response );
-
-		try
-		{
-			__doPost( context );
-			
-			String requestType = request.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
-			if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP.equalsIgnoreCase( requestType ) )
-			{
-				super.doPost( request, response );
-			}
-			else
-			{
-				doGet( request, response );
-			}
-		}
-		catch ( BirtException e )
-		{
-			e.printStackTrace();
-			// Handle Birt exception.
-			// TODO: Raise axis fault
-		}
+		doGet( request, response );
 	}
 }

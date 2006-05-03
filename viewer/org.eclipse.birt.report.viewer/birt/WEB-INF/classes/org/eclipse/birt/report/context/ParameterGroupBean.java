@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.context;
 
-import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.service.api.ParameterGroupDefinition;
 
 /**
  * Parameter group bean object used by parameter group related jsp pages.
@@ -24,20 +24,20 @@ public class ParameterGroupBean extends ParameterAttributeBean
 	/**
 	 * Parameter group definition reference.
 	 */
-	private ParameterGroupHandle parameterGroup = null;
+	private ParameterGroupDefinition  parameterGroup = null;
 	
 	/**
 	 * Constructor.
 	 * 
 	 * @param parameterGroup
 	 */
-	public ParameterGroupBean( ParameterGroupHandle parameterGroup )
+	public ParameterGroupBean( ParameterGroupDefinition  parameterGroup )
 	{
 		this.parameterGroup = parameterGroup;
 	}
 	
 	/**
-	 * Adapt to IScalarParameterDefn's getName( ).
+	 * Adapt to ParameterGroupDefinition 's getName( ).
 	 * 
 	 * @return parameter name.
 	 */

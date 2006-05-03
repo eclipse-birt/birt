@@ -10,15 +10,19 @@ package org.eclipse.birt.report.soapengine.api;
 public class DesignState  implements java.io.Serializable {
     private boolean isBlank;
     private boolean editable;
+    /** can create a new report */
+    private boolean canNew;
 
     public DesignState() {
     }
 
     public DesignState(
            boolean isBlank,
-           boolean editable) {
+           boolean editable,
+           boolean canNew) {
            this.isBlank = isBlank;
            this.editable = editable;
+           this.canNew = canNew;
     }
 
 
@@ -61,6 +65,26 @@ public class DesignState  implements java.io.Serializable {
         this.editable = editable;
     }
 
+
+    /**
+     * Gets the canNew value for this DesignState.
+     * 
+     * @return canNew can create a new report
+     */
+    public boolean isCanNew() {
+        return canNew;
+    }
+
+
+    /**
+     * Sets the canNew value for this DesignState.
+     * 
+     * @param canNew can create a new report
+     */
+    public void setCanNew(boolean canNew) {
+        this.canNew = canNew;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof DesignState)) return false;
@@ -74,7 +98,8 @@ public class DesignState  implements java.io.Serializable {
         boolean _equals;
         _equals = true && 
             this.isBlank == other.isIsBlank() &&
-            this.editable == other.isEditable();
+            this.editable == other.isEditable() &&
+            this.canNew == other.isCanNew();
         __equalsCalc = null;
         return _equals;
     }
@@ -88,6 +113,7 @@ public class DesignState  implements java.io.Serializable {
         int _hashCode = 1;
         _hashCode += (isIsBlank() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         _hashCode += (isEditable() ? Boolean.TRUE : Boolean.FALSE).hashCode();
+        _hashCode += (isCanNew() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -107,6 +133,12 @@ public class DesignState  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("editable");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Editable"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("canNew");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CanNew"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

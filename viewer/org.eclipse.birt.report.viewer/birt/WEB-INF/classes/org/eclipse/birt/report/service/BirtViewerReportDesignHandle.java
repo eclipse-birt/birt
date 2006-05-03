@@ -19,8 +19,9 @@ public class BirtViewerReportDesignHandle implements IViewerReportDesignHandle
 		this.fileName = fileName;
 	}
 
-	public BirtViewerReportDesignHandle( IReportRunnable runnable )
+	public BirtViewerReportDesignHandle( String contentType, IReportRunnable runnable )
 	{
+		this.contentType = contentType;
 		this.runnable = runnable;
 	}
 

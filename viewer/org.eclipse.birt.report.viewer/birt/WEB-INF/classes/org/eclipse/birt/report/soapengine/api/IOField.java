@@ -1,5 +1,5 @@
 /**
- * BoundDataColumn.java
+ * IOField.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
@@ -7,26 +7,23 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
-public class BoundDataColumn  implements java.io.Serializable {
+public class IOField  implements java.io.Serializable {
     private java.lang.String name;
-    private java.lang.String expression;
-    private java.lang.String type;
+    private java.lang.String displayName;
 
-    public BoundDataColumn() {
+    public IOField() {
     }
 
-    public BoundDataColumn(
+    public IOField(
            java.lang.String name,
-           java.lang.String expression,
-           java.lang.String type) {
+           java.lang.String displayName) {
            this.name = name;
-           this.expression = expression;
-           this.type = type;
+           this.displayName = displayName;
     }
 
 
     /**
-     * Gets the name value for this BoundDataColumn.
+     * Gets the name value for this IOField.
      * 
      * @return name
      */
@@ -36,7 +33,7 @@ public class BoundDataColumn  implements java.io.Serializable {
 
 
     /**
-     * Sets the name value for this BoundDataColumn.
+     * Sets the name value for this IOField.
      * 
      * @param name
      */
@@ -46,48 +43,28 @@ public class BoundDataColumn  implements java.io.Serializable {
 
 
     /**
-     * Gets the expression value for this BoundDataColumn.
+     * Gets the displayName value for this IOField.
      * 
-     * @return expression
+     * @return displayName
      */
-    public java.lang.String getExpression() {
-        return expression;
+    public java.lang.String getDisplayName() {
+        return displayName;
     }
 
 
     /**
-     * Sets the expression value for this BoundDataColumn.
+     * Sets the displayName value for this IOField.
      * 
-     * @param expression
+     * @param displayName
      */
-    public void setExpression(java.lang.String expression) {
-        this.expression = expression;
-    }
-
-
-    /**
-     * Gets the type value for this BoundDataColumn.
-     * 
-     * @return type
-     */
-    public java.lang.String getType() {
-        return type;
-    }
-
-
-    /**
-     * Sets the type value for this BoundDataColumn.
-     * 
-     * @param type
-     */
-    public void setType(java.lang.String type) {
-        this.type = type;
+    public void setDisplayName(java.lang.String displayName) {
+        this.displayName = displayName;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof BoundDataColumn)) return false;
-        BoundDataColumn other = (BoundDataColumn) obj;
+        if (!(obj instanceof IOField)) return false;
+        IOField other = (IOField) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -99,12 +76,9 @@ public class BoundDataColumn  implements java.io.Serializable {
             ((this.name==null && other.getName()==null) || 
              (this.name!=null &&
               this.name.equals(other.getName()))) &&
-            ((this.expression==null && other.getExpression()==null) || 
-             (this.expression!=null &&
-              this.expression.equals(other.getExpression()))) &&
-            ((this.type==null && other.getType()==null) || 
-             (this.type!=null &&
-              this.type.equals(other.getType())));
+            ((this.displayName==null && other.getDisplayName()==null) || 
+             (this.displayName!=null &&
+              this.displayName.equals(other.getDisplayName())));
         __equalsCalc = null;
         return _equals;
     }
@@ -119,11 +93,8 @@ public class BoundDataColumn  implements java.io.Serializable {
         if (getName() != null) {
             _hashCode += getName().hashCode();
         }
-        if (getExpression() != null) {
-            _hashCode += getExpression().hashCode();
-        }
-        if (getType() != null) {
-            _hashCode += getType().hashCode();
+        if (getDisplayName() != null) {
+            _hashCode += getDisplayName().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -131,10 +102,10 @@ public class BoundDataColumn  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(BoundDataColumn.class, true);
+        new org.apache.axis.description.TypeDesc(IOField.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumn"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOField"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("name");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
@@ -142,17 +113,9 @@ public class BoundDataColumn  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("expression");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Expression"));
+        elemField.setFieldName("displayName");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DisplayName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("type");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Type"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
