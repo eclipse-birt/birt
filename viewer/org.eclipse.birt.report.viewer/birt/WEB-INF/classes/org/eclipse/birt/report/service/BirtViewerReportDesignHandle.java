@@ -47,7 +47,7 @@ public class BirtViewerReportDesignHandle implements IViewerReportDesignHandle
 
 	public void setDesignObject( Object obj )
 	{
-		// TODO Auto-generated method stub
+		runnable = ( IReportRunnable ) obj;
 	}
 
 	public ByteArrayOutputStream getObjectStream( )
