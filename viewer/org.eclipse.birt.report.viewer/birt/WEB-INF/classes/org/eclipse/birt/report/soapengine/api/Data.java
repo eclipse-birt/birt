@@ -37,6 +37,7 @@ public class Data  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata;
     private org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList;
     private org.eclipse.birt.report.soapengine.api.IOFieldList IOFieldList;
+    private org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu;
 
     public Data() {
     }
@@ -70,7 +71,8 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression,
            org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata,
            org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList,
-           org.eclipse.birt.report.soapengine.api.IOFieldList IOFieldList) {
+           org.eclipse.birt.report.soapengine.api.IOFieldList IOFieldList,
+           org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu) {
            this.font = font;
            this.resultSets = resultSets;
            this.format = format;
@@ -100,6 +102,7 @@ public class Data  implements java.io.Serializable {
            this.joinMetadata = joinMetadata;
            this.boundDataColumnList = boundDataColumnList;
            this.IOFieldList = IOFieldList;
+           this.tableColContextMenu = tableColContextMenu;
     }
 
 
@@ -682,6 +685,26 @@ public class Data  implements java.io.Serializable {
         this.IOFieldList = IOFieldList;
     }
 
+
+    /**
+     * Gets the tableColContextMenu value for this Data.
+     * 
+     * @return tableColContextMenu
+     */
+    public org.eclipse.birt.report.soapengine.api.TableColContextMenuState getTableColContextMenu() {
+        return tableColContextMenu;
+    }
+
+
+    /**
+     * Sets the tableColContextMenu value for this Data.
+     * 
+     * @param tableColContextMenu
+     */
+    public void setTableColContextMenu(org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu) {
+        this.tableColContextMenu = tableColContextMenu;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Data)) return false;
@@ -780,7 +803,10 @@ public class Data  implements java.io.Serializable {
               this.boundDataColumnList.equals(other.getBoundDataColumnList()))) &&
             ((this.IOFieldList==null && other.getIOFieldList()==null) || 
              (this.IOFieldList!=null &&
-              this.IOFieldList.equals(other.getIOFieldList())));
+              this.IOFieldList.equals(other.getIOFieldList()))) &&
+            ((this.tableColContextMenu==null && other.getTableColContextMenu()==null) || 
+             (this.tableColContextMenu!=null &&
+              this.tableColContextMenu.equals(other.getTableColContextMenu())));
         __equalsCalc = null;
         return _equals;
     }
@@ -878,6 +904,9 @@ public class Data  implements java.io.Serializable {
         }
         if (getIOFieldList() != null) {
             _hashCode += getIOFieldList().hashCode();
+        }
+        if (getTableColContextMenu() != null) {
+            _hashCode += getTableColContextMenu().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -1089,6 +1118,13 @@ public class Data  implements java.io.Serializable {
         elemField.setFieldName("IOFieldList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOFieldList"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOFieldList"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("tableColContextMenu");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableColContextMenu"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableColContextMenuState"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
