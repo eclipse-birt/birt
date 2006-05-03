@@ -1065,7 +1065,7 @@ public class ParameterAccessor
 	 * @return
 	 */
 
-	protected static String getParameter( HttpServletRequest request,
+	public static String getParameter( HttpServletRequest request,
 			String parameterName )
 	{
 		return getParameter( request, parameterName, true );
