@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 
 import javax.servlet.ServletConfig;
@@ -516,7 +515,7 @@ public class ReportEngineService
 			throws RemoteException
 	{
 		runAndRenderReport( request, runnable, outputStream, format, locale,
-				parameters, masterPage, svgFlag, null, null );
+				parameters, masterPage, svgFlag, null, null, null );
 	}
 
 	/**
@@ -533,17 +532,17 @@ public class ReportEngineService
 	public void runAndRenderReport( HttpServletRequest request,
 			IReportRunnable runnable, ByteArrayOutputStream outputStream,
 			Locale locale, Map parameters, boolean masterPage, boolean svgFlag,
-			List activeIds ) throws RemoteException
+			List activeIds, HTMLRenderContext htmlRenderContext ) throws RemoteException
 	{
 		runAndRenderReport( request, runnable, outputStream,
 				ParameterAccessor.PARAM_FORMAT_HTML, locale, parameters,
-				masterPage, svgFlag, Boolean.TRUE, activeIds );
+				masterPage, svgFlag, Boolean.TRUE, activeIds, htmlRenderContext );
 	}
 
 	synchronized private void runAndRenderReport( HttpServletRequest request,
 			IReportRunnable runnable, OutputStream outputStream, String format,
 			Locale locale, Map parameters, boolean masterPage, boolean svgFlag,
-			Boolean embeddable, List activeIds ) throws RemoteException
+			Boolean embeddable, List activeIds, HTMLRenderContext htmlRenderContext ) throws RemoteException
 	{
 		assert runnable != null;
 
@@ -587,18 +586,22 @@ public class ReportEngineService
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
 
-		if ( !ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
-		{
-			context
-					.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
-							createHTMLrenderContext( svgFlag, request
-									.getServletPath( ) ) );
-		}
+ 		if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
+   		{
+   			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
+   					createPDFrenderContext( ) );
+   		}
+ 		else if ( htmlRenderContext != null )
+ 		{
+			context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					htmlRenderContext );
+ 		}
 		else
-		{
-			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
-					createPDFrenderContext( ) );
-		}
+ 		{
+ 			context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					createHTMLrenderContext( svgFlag, request
+							.getServletPath( ) ) );
+ 		} 
 
 		runAndRenderTask.setAppContext( context );
 
@@ -779,7 +782,10 @@ public class ReportEngineService
 			if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
 				renderTask.render( );
 			else
-				renderTask.render( pageNumber );
+			{
+				renderTask.setPageNumber( pageNumber );
+				renderTask.render( );
+			}
 		}
 		catch ( BirtException e )
 		{
