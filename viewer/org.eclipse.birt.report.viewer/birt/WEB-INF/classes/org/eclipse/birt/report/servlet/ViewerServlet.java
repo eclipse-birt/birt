@@ -115,9 +115,10 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	protected void __init( ServletConfig config )
 	{
 		BirtReportServiceFactory.init( new BirtViewerReportService( config ) );
-
+		
 		viewer = new FramesetFragment( );
 		viewer.buildComposite( );
+		viewer.setJSPRootPath( "/webcontent/birt" ); //$NON-NLS-1$
 	}
 
 	/**

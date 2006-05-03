@@ -18,11 +18,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
+import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
 import org.eclipse.birt.report.service.ReportEngineService;
+import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
@@ -91,6 +94,34 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		}
 		this.reportTitle = ParameterAccessor.htmlEncode( title );
 		this.__initParameters( request );
+	}
+
+	protected IViewerReportDesignHandle getDesignHandle(
+			HttpServletRequest request )
+	{
+		IViewerReportDesignHandle design = null;
+		IReportRunnable reportRunnable = null;
+
+		IReportDocument reportDocumentInstance = ReportEngineService
+				.getInstance( ).openReportDocument( this.reportDesignName,
+						this.reportDocumentName );
+
+		if ( reportDocumentInstance != null )
+		{
+			reportRunnable = reportDocumentInstance.getReportRunnable( );
+			reportDocumentInstance.close( );
+		}
+		if ( reportRunnable != null )
+		{
+			design = new BirtViewerReportDesignHandle(
+					IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT, reportRunnable );
+		}
+		else
+		{
+			design = new BirtViewerReportDesignHandle( null, reportDesignName );
+		}
+
+		return design;
 	}
 
 	/**

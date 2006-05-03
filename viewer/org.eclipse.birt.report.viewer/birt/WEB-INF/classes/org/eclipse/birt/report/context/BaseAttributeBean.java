@@ -168,28 +168,7 @@ abstract public class BaseAttributeBean
 	protected void __initParameters( HttpServletRequest request )
 			throws Exception
 	{
-		IViewerReportDesignHandle design = null;
-		IReportRunnable reportRunnable = null;
-
-		IReportDocument reportDocumentInstance = ReportEngineService
-				.getInstance( ).openReportDocument( this.reportDesignName,
-						this.reportDocumentName );
-
-		if ( reportDocumentInstance != null )
-		{
-			reportRunnable = reportDocumentInstance.getReportRunnable( );
-			reportDocumentInstance.close( );
-		}
-		if ( reportRunnable != null )
-		{
-			design = new BirtViewerReportDesignHandle(
-					IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT, reportRunnable );
-		}
-		else
-		{
-			design = getDesignHandle( request );
-		}
-
+		IViewerReportDesignHandle design = getDesignHandle( request );
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, locale );

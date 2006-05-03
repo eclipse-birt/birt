@@ -23,9 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
-import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.control.ToolbarFragment;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderReportActionHandler;
@@ -42,7 +42,6 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  */
 public class FramesetFragment extends BirtBaseFragment
 {
-
 	/**
 	 * Override build method.
 	 */
@@ -68,7 +67,7 @@ public class FramesetFragment extends BirtBaseFragment
 			HttpServletResponse response ) throws ServletException,
 			IOException, BirtException
 	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+		BaseAttributeBean attrBean = (BaseAttributeBean) request
 				.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		if ( attrBean != null
 				&& !attrBean.isMissingParameter( )
@@ -128,7 +127,7 @@ public class FramesetFragment extends BirtBaseFragment
 		assert ParameterAccessor.PARAM_FORMAT_PDF
 				.equalsIgnoreCase( ParameterAccessor.getFormat( request ) );
 
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+		BaseAttributeBean attrBean = (BaseAttributeBean) request
 				.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		assert attrBean != null;
 

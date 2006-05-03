@@ -84,4 +84,18 @@ public interface IFragment
      * Building the web viewer composite.
      */
     public void buildComposite( );
+
+    /**
+	 * Set JSP page root.
+	 * 
+	 * @param rootPath
+	 */
+	public void setJSPRootPath( String rootPath );
+	
+	/**
+	 * Get jsp page root.
+	 * 
+	 * @return
+	 */
+	public String getJSPRootPath( );
 }

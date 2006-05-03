@@ -37,6 +37,6 @@ public class BaseControlFragment extends BirtBaseFragment
 	protected String doPostService( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
 		String className = getClass( ).getName( ).substring( getClass( ).getName( ).lastIndexOf ('.' ) + 1 );
-		return "/webcontent/birt" + "/pages/control/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
+		return JSPRootPath + "/pages/control/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
     }
 }

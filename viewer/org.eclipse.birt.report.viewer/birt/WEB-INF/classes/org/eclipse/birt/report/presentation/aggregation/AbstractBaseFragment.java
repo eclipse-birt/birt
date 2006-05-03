@@ -22,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 
 /**
@@ -31,6 +29,11 @@ import org.eclipse.birt.report.service.api.IViewerReportService;
  */
 abstract public class AbstractBaseFragment implements IFragment
 {
+	/**
+	 * Root path for JSP pages.
+	 */
+	protected String JSPRootPath = null;
+	
 	/**
 	 * Fragment's children.
 	 */
@@ -203,29 +206,28 @@ abstract public class AbstractBaseFragment implements IFragment
 	protected void build( ) { }
 
 	/**
-	 * TODO: need to move it elsewhere.
-	 * @param type
+	 * Propagate root path.
+	 */
+	public void setJSPRootPath( String rootPath )
+	{
+		JSPRootPath = rootPath;
+		if ( children != null )
+		{
+			Iterator i = children.iterator( );
+			while ( i.hasNext( ) )
+			{
+				( (IFragment) i.next( ) ).setJSPRootPath( rootPath );
+			}
+		}
+	}
+
+	/**
+	 * Accessor.
+	 * 
 	 * @return
 	 */
-	public static int getEngineControlType( String type )
+	public String getJSPRootPath( )
 	{
-		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( type ) )
-		{
-			return IScalarParameterDefn.TEXT_BOX;
-		}
-		else if ( DesignChoiceConstants.PARAM_CONTROL_LIST_BOX.equals( type ) )
-
-		{
-			return IScalarParameterDefn.LIST_BOX;
-		}
-		else if ( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( type ) )
-		{
-			return IScalarParameterDefn.RADIO_BUTTON;
-		}
-		else if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( type ) )
-		{
-			return IScalarParameterDefn.CHECK_BOX;
-		}
-		return 0;
+		return JSPRootPath;
 	}
 }

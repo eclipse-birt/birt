@@ -110,7 +110,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 	{
 		String className = getClass( ).getName( ).substring(
 				getClass( ).getName( ).lastIndexOf( '.' ) + 1 );
-		return "/webcontent/birt" + "/pages/parameter/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
+		return JSPRootPath + "/pages/parameter/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
 	}
 
 	public static void prepareParameterBean( IViewerReportDesignHandle designHandle,
