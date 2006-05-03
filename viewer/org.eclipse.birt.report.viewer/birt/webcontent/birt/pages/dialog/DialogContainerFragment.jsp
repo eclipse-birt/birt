@@ -67,24 +67,33 @@
 				</div>
 			</div>
 			<div class="dialogBtnBar">
-				<table style="width: 100%; height: 100%;">
-					<tr>
-						<td class="dBtnBarCell">
-							<%	
-								String buttonName = "ok";								
-								if ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request.getServletPath() ) 
-								 	|| ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request.getServletPath() ) 
-										&& ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( attributeBean.getFormat() ) ) )
-								{
-									buttonName = "okRun";
-								}
-							%>
+				<div id="<%= fragment.getClientId( ) %>dialogCustomButtonContainer" class="dialogBtnBarButtonContainer">
+					<div id="<%= fragment.getClientId( ) %>okButton" class="dialogBtnBarButtonEnabled">
+						<div id="<%= fragment.getClientId( ) %>okButtonLeft" class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
+						<div id="<%= fragment.getClientId( ) %>okButtonRight" class="dialogBtnBarButtonRightBackgroundEnabled"></div>
+						<span class="dialogBtnBarButtonText">
+						<%	
+							String buttonName = BirtResources.getString( "birt.viewer.dialog.ok" );								
+							if ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request.getServletPath() ) 
+							 	|| ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request.getServletPath() ) 
+									&& ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( attributeBean.getFormat() ) ) )
+							{
+								buttonName = "okRun";
+							}
+						%>
 						
-							<input type='button' name='<%=buttonName%>' value="<%= BirtResources.getString( "birt.viewer.dialog.ok" )%>" class="dialogBtnActive"></input>
-							<input type='button' name='cancel' value="<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>" class="dialogBtnActive"></input>
-						</td>
-					</tr>
-				</table>				
+							<%= buttonName %>
+						</span>
+					</div>
+					<div class="dialogBtnBarDivider"></div>
+					<div id="<%= fragment.getClientId( ) %>cancelButton" class="dialogBtnBarButtonEnabled">
+						<div class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
+						<div class="dialogBtnBarButtonRightBackgroundEnabled"></div>
+						<span class="dialogBtnBarButtonText">
+							<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>
+						</span>
+					</div> 
+				</div>							
 			</div>
 		</div>
 	</div>
