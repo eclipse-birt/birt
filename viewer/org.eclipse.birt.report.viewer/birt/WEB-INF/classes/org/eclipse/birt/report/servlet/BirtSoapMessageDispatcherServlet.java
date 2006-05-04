@@ -42,8 +42,6 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	 */
 	protected IFragment viewer = null;
 
-	protected IFragment parameter = null;
-
 	/**
 	 * Abstract methods.
 	 */

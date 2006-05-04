@@ -45,13 +45,25 @@ public interface IBirtConstants
 	// parameter viewer model.
 	public static final String VIEWER_PARAMETER = "parameter"; //$NON-NLS-1$
 
-	// preview viewer model.
-	public static final String VIEWER_PREVIEW = "preview"; //$NON-NLS-1$
-
 	// frameset viewer model.
 	public static final String VIEWER_FRAMESET = "frameset"; //$NON-NLS-1$
 
 	// running viewer model.
 	public static final String VIEWER_RUN = "run"; //$NON-NLS-1$
+
+//	 request GET method.
+	public static final String REQUEST_GET = "get"; //$NON-NLS-1$
+
+	// request POST method.
+	public static final String REQUEST_POST = "post"; //$NON-NLS-1$
+
+	// suffix of design file
+	public static final String SUFFIX_DESIGN_FILE = "rptdesign"; //$NON-NLS-1$
+	
+	// suffix of design document file
+	public static final String SUFFIX_DESIGN_DOCUMENT = "rptdocument"; //$NON-NLS-1$
+
+	// suffix of design config file
+	public static final String SUFFIX_DESIGN_CONFIG = "rptconfig"; //$NON-NLS-1$
 	
 }

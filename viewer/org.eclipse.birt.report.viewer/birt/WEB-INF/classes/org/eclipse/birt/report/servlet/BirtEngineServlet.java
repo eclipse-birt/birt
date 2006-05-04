@@ -19,9 +19,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.presentation.aggregation.layout.EngineFragment;
+import org.eclipse.birt.report.presentation.aggregation.layout.RequesterFragment;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportService;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -44,7 +48,12 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 	{
 		IViewerReportService instance = new BirtViewerReportService( config );
 		BirtReportServiceFactory.init( instance );
+
 		engine = new EngineFragment( );
+		
+		requester = new RequesterFragment( );
+		requester.buildComposite( );
+		requester.setJSPRootPath( "/webcontent/birt" ); //$NON-NLS-1$
 	}
 	
 	/**
@@ -72,6 +81,30 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 	protected boolean __authenticate( HttpServletRequest request, HttpServletResponse response )
 	{
 		return true;
+	}
+
+	/**
+	 * Local do get.
+	 */
+	protected void __doGet( IContext context ) throws ServletException, IOException, BirtException
+	{
+		ViewerAttributeBean bean = ( ViewerAttributeBean ) context.getBean( );
+//		if ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase(
+//				context.getRequest( ).getServletPath( ) )
+//				&& bean != null
+//				&& bean.isMissingParameter( ) )
+//		{
+//			requester.service( context.getRequest( ), context.getResponse( ) );
+//		}
+		if ( IBirtConstants.SERVLET_PATH_PARAMETER.equalsIgnoreCase(
+				context.getRequest( ).getServletPath( ) ) )
+		{
+			requester.service( context.getRequest( ), context.getResponse( ) );
+		}
+		else
+		{
+			engine.service( context.getRequest( ), context.getResponse( ) );
+		}
 	}
 
 	/**

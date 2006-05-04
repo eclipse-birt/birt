@@ -18,30 +18,43 @@ BirtParameterDialog = Class.create( );
 BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 {
 	/**
+	 *	Parameter dialog working state. Whether embedded inside
+	 *	designer dialog.
+	 */
+	__mode : 'frameset',
+	
+	/**
 	 *	Initialization routine required by "ProtoType" lib.
 	 *	@return, void
 	 */
-	initialize : function( id )
+	initialize : function( id, mode )
 	{
-		this.initializeBase(id);
+		this.initializeBase( id );
+		this.__mode = mode;
 		
-		// Initialize event handler closures	
-		this.__neh_ok_run_closure = this.__neh_ok_run.bind(this);		
-		this.__localext_installEventHandlers(id);
+		if ( this.__mode == 'parameter' )
+		{
+			// Hide dialog title bar if embedded in designer.
+			var paramDialogTitleBar = $( id + 'dialogTitleBar' );
+			paramDialogTitleBar.style.display = 'none';			
+		}
 	},
 
 	/**
-	Install event handlers based on Input Object Name.
-	*/
-	__localext_installEventHandlers : function( id )
-	{	
-		// OK and Cancel buttons
-		var oInputs = this.__instance.getElementsByTagName( 'input' );
-//		if ( 'okRun' == oInputs[oInputs.length - 2].name )
+	 *	Binding data to the dialog UI. Data includes zoom scaling factor.
+	 *	@data, data DOM tree (schema TBD)
+	 *	@return, void
+	 */
+	__bind : function( data )
+	{
+		if ( data )
 		{
-			// reset event on okRun button
-//			Event.stopObserving( oInputs[oInputs.length - 2], 'click', this.__neh_okay_closure , false );
-//			Event.observe( oInputs[oInputs.length - 2], 'click', this.__neh_ok_run_closure , false );
+			this.__propogateCascadeParameter( data );
+		}
+		else
+		{
+			// TODO: need a generic confirmation.
+			this.__close( );
 		}
 	},
 
@@ -51,39 +64,87 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	@event, incoming browser native event
 	 *	@return, void
 	 */
-	__neh_ok_run: function()
+	__okPress : function( )
 	{
 		if( birtParameterDialog.collect_parameter( ) )
 		{
-			this.__doSubmit( );
+			if ( this.__mode == 'parameter' )
+			{
+				birtEventDispatcher.broadcastEvent( birtEvent.__E_CACHE_PARAMETER );
+//				this.__close( );
+			}
+			else if ( this.__mode == 'run' )
+			{
+				this.__doSubmit( );
+			}
+			else
+			{
+				birtEventDispatcher.broadcastEvent( birtEvent.__E_CHANGE_PARAMETER );
+				this.__l_hide( );
+			}
+		}
+	},
+	
+	/**
+	 *	Override cancel button click.
+	 */
+	__neh_cancel : function( )
+	{
+		if ( this.__mode == 'parameter' )
+		{
+			document.location.reload( );
+		}
+		else if ( this.__mode == 'run' )
+		{
+			this.__close( );
+		}
+		else
+		{
+			this.__l_hide( );
 		}
 	},
 
-	__doSubmit: function()
+	/**
+	 *	Handle submit form with current parameters.
+	 *
+	 *	@return, void
+	 */
+	__doSubmit : function( )
 	{
-		var divObj = document.createElement("DIV");
+		var divObj = document.createElement( "DIV" );
 		document.body.appendChild( divObj );
 		divObj.style.display = "none";
 		
-		var formObj = document.createElement("FORM");
+		var formObj = document.createElement( "FORM" );
 		divObj.appendChild( formObj );
 		formObj.action = window.location.href;
 		formObj.method = "post";
 		
 		if ( this.__parameter != null )
 		{
-			for( var i = 0; i<this.__parameter.length; i++ )	
+			for( var i = 0; i < this.__parameter.length; i++ )	
 			{
-				var param = document.createElement("INPUT");
-				formObj.appendChild(param);
+				var param = document.createElement( "INPUT" );
+				formObj.appendChild( param );
 				param.TYPE = "HIDDEN";
 				param.name = this.__parameter[i].name;
 				param.value = this.__parameter[i].value;
 			}
 		}
-										
-		this.__l_hide( );				
 		
-		formObj.submit();		
+		this.__l_hide( );
+		formObj.submit( );		
+	},
+
+	/**
+	 *	Caching parameters success, close window.
+	 *
+	 *	@return, void
+	 */	
+	__close : function( )
+	{
+		window.opener = null;
+		window.close( );
 	}
-} );
+}
+);

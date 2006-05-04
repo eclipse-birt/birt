@@ -19,13 +19,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.axis.transport.http.AxisServlet;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
-abstract public class BaseReportEngineServlet extends HttpServlet
+abstract public class BaseReportEngineServlet extends AxisServlet
 {
 	/**
 	 * TODO: what's this?
@@ -42,6 +43,8 @@ abstract public class BaseReportEngineServlet extends HttpServlet
 	 */
 	protected IFragment engine = null;
 
+	protected IFragment requester = null;
+
 	/**
 	 * Abstract methods.
 	 */
@@ -52,6 +55,9 @@ abstract public class BaseReportEngineServlet extends HttpServlet
 
 	abstract protected IContext __getContext( HttpServletRequest request,
 			HttpServletResponse response );
+
+	abstract protected void __doGet( IContext context )
+			throws ServletException, IOException, BirtException;
 
 	abstract protected void __handleNonSoapException( IContext context,
 			Exception exception ) throws ServletException, IOException;
@@ -109,13 +115,23 @@ abstract public class BaseReportEngineServlet extends HttpServlet
 		}
 		else
 		{
-			try
+			String requestType = request.getHeader( 
+					ParameterAccessor.HEADER_REQUEST_TYPE );
+			if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP.equalsIgnoreCase(
+					requestType ) )
 			{
-				engine.service( context.getRequest( ), context.getResponse( ) );
+				super.doPost( request, response );
 			}
-			catch ( BirtException e )
+			else
 			{
-				__handleNonSoapException( context, e );
+				try
+				{
+					__doGet( context );
+				}
+				catch ( BirtException e )
+				{
+					__handleNonSoapException( context, e );
+				}
 			}
 		}
 	}

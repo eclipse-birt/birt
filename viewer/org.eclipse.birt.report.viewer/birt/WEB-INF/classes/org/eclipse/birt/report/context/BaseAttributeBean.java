@@ -19,11 +19,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.eclipse.birt.report.engine.api.IReportDocument;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
-import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -119,6 +116,16 @@ abstract public class BaseAttributeBean
 	protected String format = ParameterAccessor.PARAM_FORMAT_HTML;
 
 	/**
+	 * values from config file
+	 */
+	protected Map configMap = null;
+
+	/**
+	 * values from document file
+	 */
+	protected Map parameterMap = null;
+
+	/**
 	 * Abstract methods.
 	 */
 	abstract protected void __init( HttpServletRequest request )
@@ -160,28 +167,6 @@ abstract public class BaseAttributeBean
 	{
 		this.locale = ParameterAccessor.getLocale( request );
 		this.__init( request );
-	}
-
-	/*
-	 * Prepare the report parameters
-	 */
-	protected void __initParameters( HttpServletRequest request )
-			throws Exception
-	{
-		IViewerReportDesignHandle design = getDesignHandle( request );
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, request );
-		options.setOption( InputOptions.OPT_LOCALE, locale );
-
-		Collection parameterList = this.getReportService( )
-				.getParameterDefinitions( design, options, false );
-
-		// TODO: Change parameters to be Map, not HashMap
-		this.parameters = (HashMap) getParsedParameters( design, parameterList,
-				request, options );
-
-		this.missingParameter = validateParameters( parameterList,
-				this.parameters );
 	}
 
 	protected IViewerReportDesignHandle getDesignHandle(
@@ -379,7 +364,7 @@ abstract public class BaseAttributeBean
 		return missingParameter;
 	}
 
-	private Map getParsedParameters( IViewerReportDesignHandle design,
+	protected Map getParsedParameters( IViewerReportDesignHandle design,
 			Collection parameterList, HttpServletRequest request,
 			InputOptions options ) throws ReportServiceException
 	{
@@ -418,4 +403,5 @@ abstract public class BaseAttributeBean
 		}
 		return null;
 	}
+
 }

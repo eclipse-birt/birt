@@ -90,7 +90,12 @@ public class BirtViewerReportService implements IViewerReportService
 			throw new ReportServiceException( e.getLocalizedMessage( ) );
 		}
 
-		Map parsedParams = getParsedParameters( design, runOptions, parameters );
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+				.getAttribute( "attributeBean" ); //$NON-NLS-1$
+		Map parsedParams = attrBean.getParameters( );
+		parsedParams.putAll( this.getParsedParameters( design, runOptions,
+				parameters ) );
+
 		try
 		{
 			ReportEngineService.getInstance( ).runReport( request, runnable,

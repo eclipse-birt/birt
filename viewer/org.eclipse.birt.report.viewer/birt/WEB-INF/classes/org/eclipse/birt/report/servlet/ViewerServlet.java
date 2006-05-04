@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -154,13 +155,10 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	{
 		IFragment activeFragment = null;
 		String servletPath = context.getRequest( ).getServletPath( );
-		if ( "/frameset".equalsIgnoreCase( servletPath ) ) //$NON-NLS-1$
+		if ( IBirtConstants.SERVLET_PATH_FRAMESET
+				.equalsIgnoreCase( servletPath ) )
 		{
 			activeFragment = viewer;
-		}
-		else if ( "/parameter".equalsIgnoreCase( servletPath ) ) //$NON-NLS-1$
-		{
-			activeFragment = parameter;
 		}
 
 		activeFragment.service( context.getRequest( ), context.getResponse( ) );

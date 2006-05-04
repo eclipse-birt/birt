@@ -41,6 +41,16 @@ public interface IDocumentProcessor
 			GetUpdatedObjectsResponse response ) throws RemoteException;
 
 	/**
+	 * Handle cache parameter.
+	 * 
+	 * @param dsSession
+	 * @param op
+	 * @param response
+	 */
+	void handleCacheParameter( IContext context, Operation op,
+			GetUpdatedObjectsResponse response ) throws RemoteException;
+
+	/**
 	 * Handle getting cascade parameter selection list.
 	 * 
 	 * @param context

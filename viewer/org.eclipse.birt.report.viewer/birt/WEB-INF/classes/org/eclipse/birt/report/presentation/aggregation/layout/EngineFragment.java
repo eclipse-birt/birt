@@ -42,51 +42,6 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  */
 public class EngineFragment extends BirtBaseFragment
 {
-
-	/*
-	 * Define ViewerAttributeBean from request
-	 */
-	private ViewerAttributeBean attrBean = null;
-
-	/**
-	 * Service provided by the fragment. This is the entry point of engine
-	 * framgent. It generally includes a JSP page to render a certain part of
-	 * web viewer.
-	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
-	 * @exception ServletException
-	 * @exception IOException
-	 */
-	public void service( HttpServletRequest request,
-			HttpServletResponse response ) throws ServletException,
-			IOException, BirtException
-	{
-		attrBean = (ViewerAttributeBean) request.getAttribute( "attributeBean" ); //$NON-NLS-1$
-		if ( !IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request
-				.getServletPath( ) )
-				&& attrBean != null && attrBean.isMissingParameter( ) )
-		{
-			super.doPreService( request, response );
-			super.doService( request, response );
-			String target = super.doPostService( request, response );
-
-			if ( target != null && target.length( ) > 0 )
-			{
-				RequestDispatcher rd = request.getRequestDispatcher( target );
-				rd.include( request, response );
-			}
-		}
-		else
-		{
-			this.doPreService( request, response );
-			this.doService( request, response );
-			this.doPostService( request, response );
-		}
-	}
-
 	/**
 	 * Anything before do service.
 	 * 
@@ -132,8 +87,6 @@ public class EngineFragment extends BirtBaseFragment
 	protected void doService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		assert attrBean != null;
-
 		ServletOutputStream out = response.getOutputStream( );
 		GetUpdatedObjectsResponse upResponse = new GetUpdatedObjectsResponse( );
 		IContext context = new BirtContext( request, response );

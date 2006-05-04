@@ -33,7 +33,8 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		this.__beh_getPage_closure = this.__beh_getPage.bind( this );
 		this.__beh_changeParameter_closure = this.__beh_changeParameter.bind( this );
 		this.__beh_toc_closure = this.__beh_toc.bindAsEventListener( this );
-		
+		this.__beh_cacheParameter_closure = this.__beh_cacheParameter.bind( this );
+				
 		Event.observe( window, 'resize', this.__neh_resize_closure, false );
 		
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_GETPAGE, this.__instance.id, this.__beh_getPage_closure );
@@ -42,10 +43,30 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_CASCADING_PARAMETER, this.__instance.id, this.__beh_cascadingParameter );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_TOC, this.__instance.id, this.__beh_toc_closure );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_QUERY_EXPORT, this.__instance.id, this.__beh_export );
+		birtEventDispatcher.registerEventHandler( birtEvent.__E_CACHE_PARAMETER, this.__instance.id, this.__beh_cacheParameter_closure );
 		
   		birtGetUpdatedObjectsResponseHandler.addAssociation( "Docum", this );
   		
 		// TODO: rename it to birt event
 		this.__cb_installEventHandlers( id );
+	},
+
+	/**
+	 *	Birt event handler for "cache parameter" event.
+	 *
+	 *	@id, document id (optional since there's only one document instance)
+	 *	@return, true indicating server call
+	 */
+	__beh_cacheParameter : function( id )
+	{
+		if ( birtParameterDialog.__parameter > 0 )
+		{
+	        birtParameterDialog.__parameter.length = birtParameterDialog.__parameter.length - 1;
+		}
+        birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
+        							  "CacheParameter", null, birtParameterDialog.__parameter );
+		birtSoapRequest.setURL( document.location );
+		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
+		return true;
 	}
 });

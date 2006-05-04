@@ -39,7 +39,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	initializeBase : function( id )
 	{
-		this.__initBase(id, "500px");
+		this.__initBase( id, '500px' );
 		this.__z_index = 200;
 		
 	    this.__neh_click_radio_closure = this.__neh_click_radio.bindAsEventListener( this );
@@ -54,6 +54,16 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 *	@return, void
 	 */
 	__bind : function( data )
+	{
+		this.__propogateCascadeParameter( data );
+	},
+
+	/**
+	 *	Binding data to the dialog UI. Data includes zoom scaling factor.
+	 *	@data, data DOM tree (schema TBD)
+	 *	@return, void
+	 */
+	__propogateCascadeParameter : function( data )
 	{
 		if( data )
 		{

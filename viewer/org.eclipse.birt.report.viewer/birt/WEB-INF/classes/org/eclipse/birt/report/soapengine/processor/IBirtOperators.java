@@ -7,4 +7,5 @@ public interface IBirtOperators
 	static public final String Operator_GetPage_Literal = "GetPage"; //$NON-NLS-1$
 	static public final String Operator_GetCascadeParameter_Literal = "GetCascadingParameter"; //$NON-NLS-1$
 	static public final String Operator_ChangeParameter_Literal = "ChangeParameter"; //$NON-NLS-1$
+	static public final String Operator_CacheParameter_Literal = "CacheParameter"; //$NON-NLS-1$
 }

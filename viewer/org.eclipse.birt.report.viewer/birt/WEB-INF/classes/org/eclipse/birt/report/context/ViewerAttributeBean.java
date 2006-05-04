@@ -12,24 +12,35 @@
 package org.eclipse.birt.report.context;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
+import org.eclipse.birt.report.model.api.ConfigVariableHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
+import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Data bean for viewing request. Birt viewer distributes process logic into
@@ -94,6 +105,88 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		}
 		this.reportTitle = ParameterAccessor.htmlEncode( title );
 		this.__initParameters( request );
+	}
+
+	/*
+	 * Prepare the report parameters
+	 */
+	protected void __initParameters( HttpServletRequest request )
+			throws Exception
+	{
+		IViewerReportDesignHandle design = getDesignHandle( request );
+
+		// when in preview model, parse paramenters from config file
+		if ( isDesigner	)
+		{
+			this.parseConfigVars( request );
+		}
+
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, request );
+		options.setOption( InputOptions.OPT_LOCALE, locale );
+
+		Collection parameterList = this.getReportService( )
+				.getParameterDefinitions( design, options, false );
+
+		// TODO: Change parameters to be Map, not HashMap
+		this.parameters = (HashMap) getParsedParameters( design, parameterList,
+				request, options );
+
+		this.missingParameter = validateParameters( parameterList,
+				this.parameters );
+	}
+
+	/**
+	 * parse paramenters from config file.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	protected void parseConfigVars( HttpServletRequest request )
+	{
+		// get report config filename
+		String reportConfigName = this.reportDesignName.replaceFirst(
+				IBirtConstants.SUFFIX_DESIGN_FILE,
+				IBirtConstants.SUFFIX_DESIGN_CONFIG );
+
+		// Generate the session handle
+		SessionHandle sessionHandle = DesignEngine.newSession( ULocale
+				.getDefault( ) );
+
+		ReportDesignHandle handle = null;
+
+		try
+		{
+			this.configMap = new HashMap( );
+
+			// Open report config file
+			handle = sessionHandle.openDesign( reportConfigName );
+
+			// initial config map
+			Iterator configVars = handle.configVariablesIterator( );
+			while ( configVars.hasNext( ) )
+			{
+				ConfigVariableHandle configVar = (ConfigVariableHandle) configVars
+						.next( );
+				if ( configVar != null && configVar.getName( ) != null )
+				{
+					this.configMap.put( configVar.getName( ), configVar
+							.getValue( ) );
+				}
+			}
+
+			handle.close( );
+		}
+		catch ( Exception e )
+		{
+			try
+			{
+				handle.close( );
+			}
+			catch ( Exception err )
+			{
+			}
+		}
 	}
 
 	protected IViewerReportDesignHandle getDesignHandle(
@@ -168,6 +261,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	{
 	}
 
+	/**
+	 * get parameter object.
+	 * 
+	 * @param request
+	 * @param parameterObj
+	 * @exception Throwable
+	 * @return
+	 */
 	protected Object getParamValueObject( HttpServletRequest request,
 			ParameterDefinition parameterObj ) throws ReportServiceException
 	{

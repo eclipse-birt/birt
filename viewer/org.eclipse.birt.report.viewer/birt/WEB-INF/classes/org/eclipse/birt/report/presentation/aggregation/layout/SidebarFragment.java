@@ -14,6 +14,7 @@ package org.eclipse.birt.report.presentation.aggregation.layout;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.control.TocFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.DialogContainerFragment;
+import org.eclipse.birt.report.presentation.aggregation.dialog.ExceptionDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.ParameterDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.SimpleExportDataDialogFragment;
 
@@ -30,7 +31,8 @@ public class SidebarFragment extends BirtBaseFragment
 	protected void build( )
 	{
 		addChild( new TocFragment( ) );
-		addChild( new DialogContainerFragment( new ParameterDialogFragment( ) ) );
 		addChild( new DialogContainerFragment( new SimpleExportDataDialogFragment( ) ) );
+		addChild( new DialogContainerFragment( new ExceptionDialogFragment( ) ) );
+		addChild( new DialogContainerFragment( new ParameterDialogFragment( ) ) );
 	}
 }

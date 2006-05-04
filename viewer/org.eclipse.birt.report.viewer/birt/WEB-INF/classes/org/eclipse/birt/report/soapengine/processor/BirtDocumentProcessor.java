@@ -17,6 +17,7 @@ import java.util.Hashtable;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
+import org.eclipse.birt.report.service.actionhandler.BirtCacheParameterActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtChangeParameterActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetCascadeParameterActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetPageActionHandler;
@@ -33,7 +34,8 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 		IBirtOperators.Operator_GetToc_Literal,
 		IBirtOperators.Operator_GetCascadeParameter_Literal,
 		IBirtOperators.Operator_ChangeParameter_Literal,
-		IBirtOperators.Operator_QueryExport_Literal
+		IBirtOperators.Operator_QueryExport_Literal,
+		IBirtOperators.Operator_CacheParameter_Literal,
 	};
 	
 	/**
@@ -93,6 +95,19 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 		throws RemoteException
 	{
 		executeAction( new BirtChangeParameterActionHandler( context, op, response ), context, op, response );
+	}
+
+	/**
+	 * Handle cache parameter.
+	 * 
+	 * @param dsSession
+	 * @param op
+	 * @param response
+	 */
+	public void handleCacheParameter( IContext context, Operation op, GetUpdatedObjectsResponse response )
+		throws RemoteException
+	{
+		executeAction( new BirtCacheParameterActionHandler( context, op, response ), context, op, response );
 	}
 
 	/**

@@ -109,7 +109,7 @@ public class WebViewer
 	 * @return valid web viewer url
 	 */
 	private static String createURL( String servletName, String report,
-			String format )
+			String format, boolean inDesigner )
 	{
 		String encodedReportName = null;
 
@@ -141,11 +141,9 @@ public class WebViewer
 			bMasterPageContent = false;
 		}
 
-		// Web viewer do not check test config.
-		boolean isDesigner = "run".equalsIgnoreCase( servletName ); //$NON-NLS-1$
-		
 		// So far, only report name is encoded as utf-8 format
-		return getBaseURL( ) + servletName
+		return getBaseURL( )
+				+ servletName
 				+ "?" //$NON-NLS-1$
 				+ "__report=" + encodedReportName //$NON-NLS-1$
 				+ "&__format=" + format //$NON-NLS-1$
@@ -153,7 +151,7 @@ public class WebViewer
 				+ ( LocaleTable.containsKey( locale )
 						? "&__locale=" + LocaleTable.get( locale ) : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				+ "&__designer=" //$NON-NLS-1$
-					+ String.valueOf( isDesigner )
+				+ String.valueOf( inDesigner )
 				+ "&__masterpage=" + String.valueOf( bMasterPageContent ); //$NON-NLS-1$
 	}
 
@@ -210,11 +208,11 @@ public class WebViewer
 
 		if ( WebViewer.PDF.equalsIgnoreCase( format ) )
 		{
-			root = createURL( "run", report, format ); //$NON-NLS-1$
+			root = createURL( "run", report, format, false ); //$NON-NLS-1$
 		}
 		else
 		{
-			root = createURL( allowPage ? "frameset" : "run", report, format ) + "&" + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			root = createURL( allowPage ? "frameset" : "run", report, format, false ) + "&" + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		try
@@ -236,13 +234,34 @@ public class WebViewer
 	 *            report format
 	 * @param browser
 	 *            SWT browser instance
+	 * @deprecated
 	 */
 	public static void display( String report, String format, Browser browser )
 	{
 		startWebApp( );
 		browser
-				.setUrl( createURL( "run", report, format ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				.setUrl( createURL( "run", report, format, true ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
+	/**
+	 * Displays the specified url using eclipse SWT browser.
+	 * 
+	 * @param report
+	 *            report report
+	 * @param format
+	 *            report format
+	 * @param browser
+	 *            SWT browser instance
+	 * @param servletName
+	 *            servlet name to viewer report
+	 */
+	public static void display( String report, String format, Browser browser,
+			String servletName )
+	{
+		startWebApp( );
+		browser.setUrl( createURL( servletName, report, format, true )
+				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
+
+	}
 }
