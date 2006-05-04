@@ -169,6 +169,29 @@ abstract public class BaseAttributeBean
 		this.__init( request );
 	}
 
+	/*
+	 * Prepare the report parameters
+	 */
+	protected void __initParameters( HttpServletRequest request )
+			throws Exception
+	{
+		IViewerReportDesignHandle design = getDesignHandle( request );
+
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, request );
+		options.setOption( InputOptions.OPT_LOCALE, locale );
+
+		Collection parameterList = this.getReportService( )
+				.getParameterDefinitions( design, options, false );
+
+		// TODO: Change parameters to be Map, not HashMap
+		this.parameters = (HashMap) getParsedParameters( design, parameterList,
+				request, options );
+
+		this.missingParameter = validateParameters( parameterList,
+				this.parameters );
+	}
+
 	protected IViewerReportDesignHandle getDesignHandle(
 			HttpServletRequest request )
 	{

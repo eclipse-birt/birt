@@ -48,4 +48,15 @@ abstract public class AbstractBaseDocumentProcessor extends
 		}
 	}
 
+	/**
+	 * Handle cache parameter.
+	 * 
+	 * @param dsSession
+	 * @param op
+	 * @param response
+	 */
+	public void handleCacheParameter( IContext context, Operation op, GetUpdatedObjectsResponse response )
+		throws RemoteException
+	{
+	}
 }
