@@ -186,4 +186,19 @@ public class ParameterDefinition
 		return selectionList;
 	}
 
+	public boolean equals( Object obj )
+	{
+		if ( name == null || !( obj instanceof ParameterDefinition ) )
+			return false;
+		ParameterDefinition other = ( ParameterDefinition ) obj;
+		return name.equals( other.getName() );
+	}
+
+	public int hashCode( )
+	{
+		if ( name == null )
+			return 0;
+		return name.hashCode( );
+	}
+
 }

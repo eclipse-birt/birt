@@ -125,6 +125,7 @@ public class ParameterGroupFragment extends BirtBaseFragment
 
 				if ( fragment != null )
 				{
+					fragment.setJSPRootPath( JSPRootPath );
 					fragments.add( fragment );
 				}
 			}

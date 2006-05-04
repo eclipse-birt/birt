@@ -67,7 +67,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 		Collection selectionList = null;
 
  		ParameterDefinition paramDef = parameterBean.getParameter( );
- 		if ( paramDef.getGroup( ) != null )
+ 		if ( paramDef.getGroup( ) != null && paramDef.getGroup( ).cascade( ))
 		{
 			Map paramValues = attrBean.getParameters( );
 			selectionList = getParameterSelectionListForCascadingGroup( design,
@@ -112,6 +112,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 			IViewerReportDesignHandle design, IViewerReportService service,
 			Map paramValues ) throws ReportServiceException
 	{
+		
 		ParameterGroupDefinition group = ( ParameterGroupDefinition ) parameter
 				.getGroup( );
 		int index = group.getParameters( ).indexOf( parameter );

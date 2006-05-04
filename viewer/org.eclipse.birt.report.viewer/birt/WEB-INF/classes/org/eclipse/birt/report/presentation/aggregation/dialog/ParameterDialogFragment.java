@@ -140,6 +140,7 @@ public class ParameterDialogFragment extends BaseDialogFragment
 	
 				if ( fragment != null )
 				{
+					fragment.setJSPRootPath( JSPRootPath );
 					fragments.add( fragment );
 				}
 			}

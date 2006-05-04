@@ -28,12 +28,15 @@ public class ParameterGroupDefinition
 
 	private List parameters;
 
+	private boolean cascade;
+
 	public ParameterGroupDefinition( String name, String displayName,
-			List parameters )
+			List parameters, boolean cascade )
 	{
 		this.name = name;
 		this.displayName = displayName;
 		this.parameters = parameters;
+		this.cascade = cascade;
 	}
 
 	public String getName( )
@@ -51,11 +54,36 @@ public class ParameterGroupDefinition
 		return parameters;
 	}
 
+	public void setParameters( List parameters )
+	{
+		this.parameters = parameters;
+	}
+
 	public int getParameterCount( )
 	{
 		if ( parameters != null )
 			return parameters.size( );
 		return 0;
+	}
+
+	public boolean cascade( )
+	{
+		return cascade;
+	}
+
+	public boolean equals( Object obj )
+	{
+		if ( name == null || !( obj instanceof ParameterGroupDefinition ) )
+			return false;
+		ParameterGroupDefinition other = ( ParameterGroupDefinition ) obj;
+		return getName( ).equals( other.getName( ) );
+	}
+
+	public int hashCode( )
+	{
+		if ( name == null )
+			return 0;
+		return name.hashCode( );
 	}
 
 }

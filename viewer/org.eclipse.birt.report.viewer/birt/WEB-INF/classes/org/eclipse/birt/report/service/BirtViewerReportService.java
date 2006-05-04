@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.ICascadingParameterGroup;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
@@ -75,9 +76,10 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IReportRunnable runnable;
 		String reportDesignName = design.getFileName( );
-		HttpServletRequest request = (HttpServletRequest) runOptions
+		HttpServletRequest request = ( HttpServletRequest ) runOptions
 				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = (Locale) runOptions.getOption( InputOptions.OPT_LOCALE );
+		Locale locale = ( Locale ) runOptions
+				.getOption( InputOptions.OPT_LOCALE );
 		try
 		{
 			runnable = ReportEngineService.getInstance( ).openReportDesign(
@@ -92,7 +94,7 @@ public class BirtViewerReportService implements IViewerReportService
 		try
 		{
 			ReportEngineService.getInstance( ).runReport( request, runnable,
-					outputDocName, locale, (HashMap) parsedParams );
+					outputDocName, locale, ( HashMap ) parsedParams );
 		}
 		catch ( RemoteException e )
 		{
@@ -123,13 +125,13 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( renderOptions ),
 						docName );
-		HttpServletRequest request = (HttpServletRequest) renderOptions
+		HttpServletRequest request = ( HttpServletRequest ) renderOptions
 				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = (Locale) renderOptions
+		Locale locale = ( Locale ) renderOptions
 				.getOption( InputOptions.OPT_LOCALE );
-		Boolean isMasterPageContent = (Boolean) renderOptions
+		Boolean isMasterPageContent = ( Boolean ) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		Boolean svgFlag = (Boolean) renderOptions
+		Boolean svgFlag = ( Boolean ) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		Long pageNum = Long.valueOf( pageID );
 		try
@@ -183,16 +185,15 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( renderOptions ),
 						docName );
-		HttpServletRequest request = (HttpServletRequest) renderOptions
+		HttpServletRequest request = ( HttpServletRequest ) renderOptions
 				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = (Locale) renderOptions
+		Locale locale = ( Locale ) renderOptions
 				.getOption( InputOptions.OPT_LOCALE );
-		Boolean isMasterPageContent = (Boolean) renderOptions
+		Boolean isMasterPageContent = ( Boolean ) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		boolean isMasterPage = isMasterPageContent == null
-				? false
+		boolean isMasterPage = isMasterPageContent == null ? false
 				: isMasterPageContent.booleanValue( );
-		Boolean svgFlag = (Boolean) renderOptions
+		Boolean svgFlag = ( Boolean ) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
 		Long pageNum = null;
@@ -221,7 +222,7 @@ public class BirtViewerReportService implements IViewerReportService
 
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( options ), docName );
-		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+		Locale locale = ( Locale ) options.getOption( InputOptions.OPT_LOCALE );
 		// TODO: Filters are not used...
 		try
 		{
@@ -295,8 +296,7 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			node = doc.findTOC( tocId );
 
-		}
-		else
+		} else
 		{
 			node = doc.findTOC( null );
 		}
@@ -320,13 +320,13 @@ public class BirtViewerReportService implements IViewerReportService
 		return count;
 	}
 
-   	public Collection getParameterDefinitions(
-   			IViewerReportDesignHandle design, InputOptions runOptions,
-   			boolean includeGroups ) throws ReportServiceException
-   	{
- 		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
- 		return convertEngineParameters( task.getParameterDefns( true ),
-   					task, includeGroups );
+	public Collection getParameterDefinitions(
+			IViewerReportDesignHandle design, InputOptions runOptions,
+			boolean includeGroups ) throws ReportServiceException
+	{
+		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
+		return convertEngineParameters( task.getParameterDefns( true ), task,
+				includeGroups );
 	}
 
 	public Map getParameterValues( String docName, InputOptions options )
@@ -357,32 +357,32 @@ public class BirtViewerReportService implements IViewerReportService
 		Collection selectionList = task.getSelectionList( paramName );
 		return convertEngineParameterSelectionChoice( selectionList );
 	}
-	
- 	private IGetParameterDefinitionTask getParameterDefinitionTask(
+
+	private IGetParameterDefinitionTask getParameterDefinitionTask(
 			IViewerReportDesignHandle design ) throws ReportServiceException
 	{
 		IGetParameterDefinitionTask task;
- 		if ( design.getContentType( ) == IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT )
-  		{
+		if ( design.getContentType( ) == IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT )
+		{
 			// IReportRunnable is specified in IViewerReportDesignHandle.
- 			IReportRunnable runnable = ( IReportRunnable ) design
- 					.getDesignObject( );
- 			task = ReportEngineService.getInstance( )
- 					.createGetParameterDefinitionTask( runnable );
- 		} else
-   		{
- 			// report design name is specified in IViewerReportDesignHandle.
- 			try
- 			{
- 				task = getParameterDefinitionTask( design.getFileName( ) );
- 			}
- 			catch ( EngineException e )
- 			{
- 				throw new ReportServiceException( e.getLocalizedMessage( ) );
- 			}
-   		}
- 		return task;
-   	}
+			IReportRunnable runnable = ( IReportRunnable ) design
+					.getDesignObject( );
+			task = ReportEngineService.getInstance( )
+					.createGetParameterDefinitionTask( runnable );
+		} else
+		{
+			// report design name is specified in IViewerReportDesignHandle.
+			try
+			{
+				task = getParameterDefinitionTask( design.getFileName( ) );
+			}
+			catch ( EngineException e )
+			{
+				throw new ReportServiceException( e.getLocalizedMessage( ) );
+			}
+		}
+		return task;
+	}
 
 	public long getPageNumberByBookmark( String docName, String bookmark,
 			InputOptions options ) throws ReportServiceException
@@ -407,14 +407,14 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		// TODO: outputDocName is not used...
 		String reportDesignName = design.getFileName( );
-		HttpServletRequest request = (HttpServletRequest) options
+		HttpServletRequest request = ( HttpServletRequest ) options
 				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
-		Boolean isMasterPageContent = (Boolean) options
+		Locale locale = ( Locale ) options.getOption( InputOptions.OPT_LOCALE );
+		Boolean isMasterPageContent = ( Boolean ) options
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		Boolean svgFlag = (Boolean) options
+		Boolean svgFlag = ( Boolean ) options
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		String format = (String) options
+		String format = ( String ) options
 				.getOption( InputOptions.OPT_RENDER_FORMAT );
 		try
 		{
@@ -444,15 +444,15 @@ public class BirtViewerReportService implements IViewerReportService
 			String parameterName, InputOptions options )
 			throws ReportServiceException
 	{
- 		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
- 		return task.getDefaultValue( parameterName );
+		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
+		return task.getDefaultValue( parameterName );
 	}
 
 	public void setContext( Object context, InputOptions options )
 	{
-		HttpServletRequest request = (HttpServletRequest) options
+		HttpServletRequest request = ( HttpServletRequest ) options
 				.getOption( InputOptions.OPT_REQUEST );
-		ServletContext servletContext = (ServletContext) context;
+		ServletContext servletContext = ( ServletContext ) context;
 		ReportEngineService.getInstance( ).setEngineContext( servletContext,
 				request );
 	}
@@ -461,21 +461,22 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions options, Map parameters )
 			throws ReportServiceException
 	{
-		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
-		Collection parameterList = getParameterDefinitions( design, options, false );
+		Locale locale = ( Locale ) options.getOption( InputOptions.OPT_LOCALE );
+		Collection parameterList = getParameterDefinitions( design, options,
+				false );
 		Map paramMap = new HashMap( );
-		Boolean isDesignerBoolean = (Boolean) options
+		Boolean isDesignerBoolean = ( Boolean ) options
 				.getOption( InputOptions.OPT_IS_DESIGNER );
 		boolean isDesigner = ( isDesignerBoolean != null ? isDesignerBoolean
 				.booleanValue( ) : false );
-		
- 		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
- 		IReportRunnable runnable = getReportRunnable( design );
- 		Map configMap = runnable.getTestConfig( );
-		
+
+		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
+		IReportRunnable runnable = getReportRunnable( design );
+		Map configMap = runnable.getTestConfig( );
+
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			ParameterDefinition parameterObj = (ParameterDefinition) iter
+			ParameterDefinition parameterObj = ( ParameterDefinition ) iter
 					.next( );
 
 			String paramValue = null;
@@ -498,7 +499,7 @@ public class BirtViewerReportService implements IViewerReportService
 				boolean found = false;
 				for ( Iterator it = paramNames.iterator( ); it.hasNext( ); )
 				{
-					String name = (String) it.next( );
+					String name = ( String ) it.next( );
 					if ( paramName.equals( name ) )
 					{
 						if ( parameters.get( name ) != null )
@@ -513,13 +514,12 @@ public class BirtViewerReportService implements IViewerReportService
 				if ( !found && configMap.containsKey( paramName ) && isDesigner )
 				{
 					// Get value from test config
-					String configValue = (String) configMap.get( paramName );
+					String configValue = ( String ) configMap.get( paramName );
 					ReportParameterConverter cfgConverter = new ReportParameterConverter(
 							format, Locale.US );
 					paramValueObj = cfgConverter.parse( configValue,
 							parameterObj.getDataType( ) );
-				}
-				else if ( !found )
+				} else if ( !found )
 				{
 					// Get default value from task
 					paramValueObj = task.getDefaultValue( parameterObj
@@ -531,29 +531,29 @@ public class BirtViewerReportService implements IViewerReportService
 
 	}
 
- 	public IReportRunnable getReportRunnable( IViewerReportDesignHandle design )
- 			throws ReportServiceException
- 	{
- 		IReportRunnable runnable;
- 		if ( design.getContentType( ) == IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT )
- 		{
- 			// IReportRunnable is specified in IViewerReportDesignHandle.
- 			runnable = ( IReportRunnable ) design.getDesignObject( );
- 		} else
- 		{
- 			// report design name is specified in IViewerReportDesignHandle.
- 			try
- 			{
- 				runnable = ReportEngineService.getInstance( ).openReportDesign(
- 						design.getFileName( ) );
- 			}
- 			catch ( EngineException e )
- 			{
- 				throw new ReportServiceException( e.getLocalizedMessage( ) );
- 			}
- 		}
- 		return runnable;
- 	}
+	public IReportRunnable getReportRunnable( IViewerReportDesignHandle design )
+			throws ReportServiceException
+	{
+		IReportRunnable runnable;
+		if ( design.getContentType( ) == IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT )
+		{
+			// IReportRunnable is specified in IViewerReportDesignHandle.
+			runnable = ( IReportRunnable ) design.getDesignObject( );
+		} else
+		{
+			// report design name is specified in IViewerReportDesignHandle.
+			try
+			{
+				runnable = ReportEngineService.getInstance( ).openReportDesign(
+						design.getFileName( ) );
+			}
+			catch ( EngineException e )
+			{
+				throw new ReportServiceException( e.getLocalizedMessage( ) );
+			}
+		}
+		return runnable;
+	}
 
 	private static ToC transformTOCNode( TOCNode node )
 	{
@@ -572,7 +572,7 @@ public class BirtViewerReportService implements IViewerReportService
 		Iterator it = children.iterator( );
 		while ( it.hasNext( ) )
 		{
-			TOCNode childNode = (TOCNode) it.next( );
+			TOCNode childNode = ( TOCNode ) it.next( );
 			ToC child = new ToC( childNode.getNodeID( ), childNode
 					.getDisplayString( ), childNode.getBookmark( ) );
 			// Recursion to transform all children etc...
@@ -582,16 +582,16 @@ public class BirtViewerReportService implements IViewerReportService
 		return ret;
 	}
 
-   	private IGetParameterDefinitionTask getParameterDefinitionTask(
-   			String reportDesignName ) throws EngineException
-   	{
-   
-   		IReportRunnable runnable = ReportEngineService.getInstance( )
-   				.openReportDesign( reportDesignName );
-   		IGetParameterDefinitionTask paramTask = ReportEngineService
-   				.getInstance( ).createGetParameterDefinitionTask( runnable );
-   		return paramTask;
-   	}
+	private IGetParameterDefinitionTask getParameterDefinitionTask(
+			String reportDesignName ) throws EngineException
+	{
+
+		IReportRunnable runnable = ReportEngineService.getInstance( )
+				.openReportDesign( reportDesignName );
+		IGetParameterDefinitionTask paramTask = ReportEngineService
+				.getInstance( ).createGetParameterDefinitionTask( runnable );
+		return paramTask;
+	}
 
 	private List transformResultSetArray( ResultSet[] resultSetArray )
 	{
@@ -632,11 +632,11 @@ public class BirtViewerReportService implements IViewerReportService
 
 		if ( options != null )
 		{
-			HttpServletRequest request = (HttpServletRequest) options
+			HttpServletRequest request = ( HttpServletRequest ) options
 					.getOption( InputOptions.OPT_REQUEST );
 			if ( request != null )
 			{
-				ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+				ViewerAttributeBean attrBean = ( ViewerAttributeBean ) request
 						.getAttribute( "attributeBean" ); //$NON-NLS-1$
 				assert attrBean != null;
 
@@ -655,137 +655,166 @@ public class BirtViewerReportService implements IViewerReportService
 		return reportDesignName;
 	}
 
-   	/*
-   	 * Convert engine parameters (IScalarParameterDefn and IParameterGroupDefn)
-   	 * into service api parameters (ParameterDefinition and
-   	 * ParameterGroupDefinition)
-   	 * 
-   	 * @param params a Collection of IScalarParameterDefn or IParameterGroupDefn
-   	 * @param task the task to use to get selection list for a parameter @param
-   	 * includeGroups if true, include groups (ParameterGroupDefinition) in the
-   	 * result, otherwise flatten the result (i.e. include the contents of the
-   	 * groups in the result)
-   	 * 
-   	 * @return a Collection of ParameterDefinition and ParameterGroupDefinition
-   	 */
-   	private static Collection convertEngineParameters( Collection params,
-   			IGetParameterDefinitionTask task, boolean includeGroups )
-   	{
-   		if ( params == null )
-   			return Collections.EMPTY_LIST;
-   		List ret = new ArrayList( );
-   		List groups = new ArrayList( );
-   		for ( Iterator it = params.iterator( ); it.hasNext( ); )
-   		{
-   			Object o = it.next( );
-   			if ( o instanceof IParameterGroupDefn )
-   			{
-   				// If we do not want to include groups, i.e. we want a flattened
-   				// collection of parameters, find all group contents and add to
-   				// result
-   				if ( !includeGroups )
-   				{
-   					IParameterGroupDefn groupDef = ( IParameterGroupDefn ) o;
-   					List contents = new ArrayList( convertEngineParameters(
-   							groupDef.getContents( ), task, true ) );
-   					ret.addAll( contents );
-   
-   				}
-   				// Save all groups so we later can check if a parameter is
-   				// contained in a group
-   				groups.add( o );
-   			}
-   		}
-   		for ( Iterator it = params.iterator( ); it.hasNext( ); )
-   		{
-   			Object o = it.next( );
-   			if ( o instanceof IScalarParameterDefn )
-   			{
-   				IScalarParameterDefn engineParam = ( IScalarParameterDefn ) o;
-   				Object handle = engineParam.getHandle( );
-   				ScalarParameterHandle scalarParamHandle = null;
-   				if ( handle instanceof ScalarParameterHandle )
-   					scalarParamHandle = ( ScalarParameterHandle ) handle;
-   				String name = engineParam.getName( );
-   
-   				String pattern = scalarParamHandle == null ? ""
-   						: scalarParamHandle.getPattern( );
-   				String displayFormat = engineParam.getDisplayFormat( );
-   				String displayName = engineParam.getDisplayName( );
-   				String helpText = engineParam.getHelpText( );
-   				String promptText = engineParam.getPromptText( );
-   				int dataType = engineParam.getDataType( );
-   				int controlType = engineParam.getControlType( );
-   				boolean hidden = engineParam.isHidden( );
-   				boolean allowNull = engineParam.allowNull( );
-   				boolean allowBlank = engineParam.allowBlank( );
-   				boolean mustMatch = scalarParamHandle == null ? false
-   						: scalarParamHandle.isMustMatch( );
-   				boolean concealValue = engineParam.isValueConcealed( );
-   
-   				ParameterGroupDefinition group = null;
-   				// Find group in which current parameter is a part of
-   				for ( Iterator groupIt = groups.iterator( ); groupIt.hasNext( ); )
-   				{
-   					IParameterGroupDefn tempGroup = ( IParameterGroupDefn ) groupIt
-   							.next( );
-   					if ( tempGroup.getContents( ).contains( engineParam ) )
-   					{
-   						// Recursion should only be one level,
-   						// since groups cannot contain groups
-   						List contents = new ArrayList( convertEngineParameters(
-   								tempGroup.getContents( ), task, true ) );
-   						group = new ParameterGroupDefinition( tempGroup
-   								.getName( ), tempGroup.getDisplayName( ),
-   								contents );
-   						break;
-   					}
-   				}
-   
-   				// Convert selection list
-   				Collection selectionList = convertEngineParameterSelectionChoice( task
-   						.getSelectionList( name ) );
-   
-   				ParameterDefinition param = new ParameterDefinition( name,
-   						pattern, displayFormat, displayName, helpText,
-   						promptText, dataType, controlType, hidden, allowNull,
-   						allowBlank, mustMatch, concealValue, group,
-   						selectionList );
-   				ret.add( param );
-   			} else if ( o instanceof IParameterGroupDefn && includeGroups )
-   			{
-   				// If this parameter is a group and we are including groups in
-   				// the result...
-   				IParameterGroupDefn engineParam = ( IParameterGroupDefn ) o;
-   				// Need to convert contents. Recursion should only be one level,
-   				// since groups cannot contain groups
-   				List contents = new ArrayList( convertEngineParameters(
-   						engineParam.getContents( ), task, true ) );
-   				ParameterGroupDefinition paramGroup = new ParameterGroupDefinition(
-   						engineParam.getName( ), engineParam.getDisplayName( ),
-   						contents );
-   				ret.add( paramGroup );
-   			}
-   		}
-   		return ret;
-   	}
-   	
-   	// Convert collection of IParameterSelectionChoice to collection of
-   	// ParameterSelectionChoice
-   	private static Collection convertEngineParameterSelectionChoice(
-   			Collection params )
-   	{
-   		if ( params == null )
-   			return Collections.EMPTY_LIST;
-   		List ret = new ArrayList( );
-   		for ( Iterator it = params.iterator( ); it.hasNext( ); )
-   		{
-   			IParameterSelectionChoice engineChoice = ( IParameterSelectionChoice ) it
-   					.next( );
-   			ParameterSelectionChoice paramChoice = new ParameterSelectionChoice(
-   					engineChoice.getLabel( ), engineChoice.getValue( ) );
-   			ret.add( paramChoice );
-   		}
-   		return ret;
-   	}
+	/*
+	 * Convert engine parameters (IScalarParameterDefn and IParameterGroupDefn)
+	 * into service api parameters (ParameterDefinition and
+	 * ParameterGroupDefinition)
+	 * 
+	 * @param params a Collection of IScalarParameterDefn or IParameterGroupDefn
+	 * @param task the task to use to get selection list for a parameter @param
+	 * includeGroups if true, include groups (ParameterGroupDefinition) in the
+	 * result, otherwise flatten the result (i.e. include the contents of the
+	 * groups in the result)
+	 * 
+	 * @return a Collection of ParameterDefinition and ParameterGroupDefinition
+	 */
+	private static Collection convertEngineParameters( Collection params,
+			IGetParameterDefinitionTask task, boolean includeGroups )
+	{
+		if ( params == null )
+			return Collections.EMPTY_LIST;
+		List ret = new ArrayList( );
+		List groups = new ArrayList( );
+		for ( Iterator it = params.iterator( ); it.hasNext( ); )
+		{
+			Object o = it.next( );
+			if ( o instanceof IParameterGroupDefn )
+			{
+				// If we do not want to include groups, i.e. we want a flattened
+				// collection of parameters, find all group contents and add to
+				// result
+				if ( !includeGroups )
+				{
+					IParameterGroupDefn groupDef = ( IParameterGroupDefn ) o;
+					List contents = new ArrayList( convertEngineParameters(
+							groupDef.getContents( ), task, true ) );
+					ret.addAll( contents );
+
+				}
+				// Save all groups so we later can check if a parameter is
+				// contained in a group
+				groups.add( o );
+			}
+		}
+		for ( Iterator it = params.iterator( ); it.hasNext( ); )
+		{
+			Object o = it.next( );
+			if ( o instanceof IScalarParameterDefn )
+			{
+				IScalarParameterDefn engineParam = ( IScalarParameterDefn ) o;
+				ParameterGroupDefinition group = null;
+				// Find group in which current parameter is a part of
+				for ( Iterator groupIt = groups.iterator( ); groupIt.hasNext( ); )
+				{
+					IParameterGroupDefn tempGroup = ( IParameterGroupDefn ) groupIt
+							.next( );
+					boolean cascade = tempGroup instanceof ICascadingParameterGroup;
+					if ( tempGroup.getContents( ).contains( engineParam ) )
+					{
+						// Recursion should only be one level,
+						// since groups cannot contain groups
+						// TODO: Remove this recursion since it complicates
+						// things
+						List contents = new ArrayList( convertEngineParameters(
+								tempGroup.getContents( ), task, true ) );
+						group = new ParameterGroupDefinition( tempGroup
+								.getName( ), tempGroup.getDisplayName( ),
+								contents, cascade );
+						break;
+					}
+				}
+				ParameterDefinition param = convertScalarParameter(
+						engineParam, group, task );
+
+				ret.add( param );
+			} else if ( o instanceof IParameterGroupDefn && includeGroups )
+			{
+				// If this parameter is a group and we are including groups in
+				// the result...
+				IParameterGroupDefn engineParam = ( IParameterGroupDefn ) o;
+				// Need to convert contents.
+				boolean cascade = engineParam instanceof ICascadingParameterGroup;
+				ParameterGroupDefinition paramGroup = new ParameterGroupDefinition(
+						engineParam.getName( ), engineParam.getDisplayName( ),
+						null, cascade );
+				List contents = convertParametersInGroup( engineParam
+						.getContents( ), paramGroup, task );
+				paramGroup.setParameters( contents );
+
+				ret.add( paramGroup );
+			}
+		}
+		return ret;
+	}
+
+	private static List convertParametersInGroup( Collection scalarParameters,
+			ParameterGroupDefinition group, IGetParameterDefinitionTask task )
+	{
+		if ( scalarParameters == null )
+			return null;
+		List ret = new ArrayList( );
+		for ( Iterator it = scalarParameters.iterator( ); it.hasNext( ); )
+		{
+			IScalarParameterDefn engineParam = ( IScalarParameterDefn ) it
+					.next( );
+			ParameterDefinition param = convertScalarParameter( engineParam,
+					group, task );
+			ret.add( param );
+		}
+		return ret;
+	}
+
+	private static ParameterDefinition convertScalarParameter(
+			IScalarParameterDefn engineParam, ParameterGroupDefinition group,
+			IGetParameterDefinitionTask task )
+	{
+		Object handle = engineParam.getHandle( );
+		ScalarParameterHandle scalarParamHandle = null;
+		if ( handle instanceof ScalarParameterHandle )
+			scalarParamHandle = ( ScalarParameterHandle ) handle;
+		String name = engineParam.getName( );
+
+		String pattern = scalarParamHandle == null ? "" : scalarParamHandle
+				.getPattern( );
+		String displayFormat = engineParam.getDisplayFormat( );
+		String displayName = engineParam.getDisplayName( );
+		String helpText = engineParam.getHelpText( );
+		String promptText = engineParam.getPromptText( );
+		int dataType = engineParam.getDataType( );
+		int controlType = engineParam.getControlType( );
+		boolean hidden = engineParam.isHidden( );
+		boolean allowNull = engineParam.allowNull( );
+		boolean allowBlank = engineParam.allowBlank( );
+		boolean mustMatch = scalarParamHandle == null ? false
+				: scalarParamHandle.isMustMatch( );
+		boolean concealValue = engineParam.isValueConcealed( );
+		// Convert selection list
+		Collection selectionList = convertEngineParameterSelectionChoice( task
+				.getSelectionList( name ) );
+
+		ParameterDefinition param = new ParameterDefinition( name, pattern,
+				displayFormat, displayName, helpText, promptText, dataType,
+				controlType, hidden, allowNull, allowBlank, mustMatch,
+				concealValue, group, selectionList );
+		return param;
+	}
+
+	// Convert collection of IParameterSelectionChoice to collection of
+	// ParameterSelectionChoice
+	private static Collection convertEngineParameterSelectionChoice(
+			Collection params )
+	{
+		if ( params == null )
+			return Collections.EMPTY_LIST;
+		List ret = new ArrayList( );
+		for ( Iterator it = params.iterator( ); it.hasNext( ); )
+		{
+			IParameterSelectionChoice engineChoice = ( IParameterSelectionChoice ) it
+					.next( );
+			ParameterSelectionChoice paramChoice = new ParameterSelectionChoice(
+					engineChoice.getLabel( ), engineChoice.getValue( ) );
+			ret.add( paramChoice );
+		}
+		return ret;
+	}
 }
