@@ -47,13 +47,19 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 */
 	__bind : function( data )
 	{
-		if ( data )
+		if ( !data )
+		{
+			return;
+		}
+		
+		var cascadeParamObj = data.getElementsByTagName( 'CascadeParameter' );
+		var confirmObj = data.getElementsByTagName( 'Confirmation' );
+		if ( cascadeParamObj.length > 0 )
 		{
 			this.__propogateCascadeParameter( data );
 		}
-		else
+		else if ( confirmObj.length > 0 )
 		{
-			// TODO: need a generic confirmation.
 			this.__close( );
 		}
 	},

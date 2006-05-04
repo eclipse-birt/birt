@@ -109,7 +109,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 	protected void handleUpdate( )
 	{
 		Data data = new Data( );
-//		data.setCascadeParameter( cascadeParameter );
+		data.setConfirmation( "Parameter value saved." ); //$NON-NLS-1$
 
 		UpdateData updateData = new UpdateData( );
 		updateData.setTarget( "birtParameterDialog" ); //$NON-NLS-1$

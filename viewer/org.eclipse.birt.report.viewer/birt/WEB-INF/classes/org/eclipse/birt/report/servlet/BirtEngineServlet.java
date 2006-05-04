@@ -89,14 +89,14 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 	protected void __doGet( IContext context ) throws ServletException, IOException, BirtException
 	{
 		ViewerAttributeBean bean = ( ViewerAttributeBean ) context.getBean( );
-//		if ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase(
-//				context.getRequest( ).getServletPath( ) )
-//				&& bean != null
-//				&& bean.isMissingParameter( ) )
-//		{
-//			requester.service( context.getRequest( ), context.getResponse( ) );
-//		}
-		if ( IBirtConstants.SERVLET_PATH_PARAMETER.equalsIgnoreCase(
+		if ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase(
+				context.getRequest( ).getServletPath( ) )
+				&& bean != null
+				&& bean.isMissingParameter( ) )
+		{
+			requester.service( context.getRequest( ), context.getResponse( ) );
+		}
+		else if ( IBirtConstants.SERVLET_PATH_PARAMETER.equalsIgnoreCase(
 				context.getRequest( ).getServletPath( ) ) )
 		{
 			requester.service( context.getRequest( ), context.getResponse( ) );

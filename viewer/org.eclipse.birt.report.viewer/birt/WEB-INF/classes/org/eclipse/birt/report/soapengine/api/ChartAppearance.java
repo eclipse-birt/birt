@@ -11,6 +11,8 @@ public class ChartAppearance  implements java.io.Serializable {
     private java.lang.Boolean showLegend;
     private java.lang.Boolean showValues;
     private org.eclipse.birt.report.soapengine.api.ChartLocation location;
+    private java.lang.String width;
+    private java.lang.String height;
 
     public ChartAppearance() {
     }
@@ -18,10 +20,14 @@ public class ChartAppearance  implements java.io.Serializable {
     public ChartAppearance(
            java.lang.Boolean showLegend,
            java.lang.Boolean showValues,
-           org.eclipse.birt.report.soapengine.api.ChartLocation location) {
+           org.eclipse.birt.report.soapengine.api.ChartLocation location,
+           java.lang.String width,
+           java.lang.String height) {
            this.showLegend = showLegend;
            this.showValues = showValues;
            this.location = location;
+           this.width = width;
+           this.height = height;
     }
 
 
@@ -84,6 +90,46 @@ public class ChartAppearance  implements java.io.Serializable {
         this.location = location;
     }
 
+
+    /**
+     * Gets the width value for this ChartAppearance.
+     * 
+     * @return width
+     */
+    public java.lang.String getWidth() {
+        return width;
+    }
+
+
+    /**
+     * Sets the width value for this ChartAppearance.
+     * 
+     * @param width
+     */
+    public void setWidth(java.lang.String width) {
+        this.width = width;
+    }
+
+
+    /**
+     * Gets the height value for this ChartAppearance.
+     * 
+     * @return height
+     */
+    public java.lang.String getHeight() {
+        return height;
+    }
+
+
+    /**
+     * Sets the height value for this ChartAppearance.
+     * 
+     * @param height
+     */
+    public void setHeight(java.lang.String height) {
+        this.height = height;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof ChartAppearance)) return false;
@@ -104,7 +150,13 @@ public class ChartAppearance  implements java.io.Serializable {
               this.showValues.equals(other.getShowValues()))) &&
             ((this.location==null && other.getLocation()==null) || 
              (this.location!=null &&
-              this.location.equals(other.getLocation())));
+              this.location.equals(other.getLocation()))) &&
+            ((this.width==null && other.getWidth()==null) || 
+             (this.width!=null &&
+              this.width.equals(other.getWidth()))) &&
+            ((this.height==null && other.getHeight()==null) || 
+             (this.height!=null &&
+              this.height.equals(other.getHeight())));
         __equalsCalc = null;
         return _equals;
     }
@@ -124,6 +176,12 @@ public class ChartAppearance  implements java.io.Serializable {
         }
         if (getLocation() != null) {
             _hashCode += getLocation().hashCode();
+        }
+        if (getWidth() != null) {
+            _hashCode += getWidth().hashCode();
+        }
+        if (getHeight() != null) {
+            _hashCode += getHeight().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -154,6 +212,18 @@ public class ChartAppearance  implements java.io.Serializable {
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Location"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ChartLocation"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("width");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Width"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("height");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Height"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
