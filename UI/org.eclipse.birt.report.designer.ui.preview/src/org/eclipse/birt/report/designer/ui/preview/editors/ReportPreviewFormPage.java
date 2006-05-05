@@ -11,29 +11,40 @@
 
 package org.eclipse.birt.report.designer.ui.preview.editors;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterDialog;
+import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.model.api.ConfigVariableHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Preview page.
  */
-public class ReportPreviewFormPage extends ReportPreviewEditor implements
-		IReportEditorPage
+public class ReportPreviewFormPage extends ReportPreviewEditor
+		implements
+			IReportEditorPage
 {
 
 	public static final String ID = "BIRT.Preivew"; //$NON-NLS-1$
@@ -42,15 +53,25 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	private int staleType;
 
-
 	private FormEditor editor;
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
 	public boolean onBroughtToTop( IReportEditorPage prePage )
 	{
+		if ( this.isMissingParameter( ) )
+		{
+			if ( this.parameterDialog != null )
+			{
+				this.parameterDialog.open( );
+			}
+
+			return true;
+		}
+
 		if ( getEditorInput( ) != prePage.getEditorInput( ) )
 		{
 			setInput( prePage.getEditorInput( ) );
@@ -61,75 +82,15 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		}
 		if ( getBrowser( ) != null )
 		{
-			boolean showParameterDialog = false;
-			List parameters = ( (ModuleHandle) getModel( ) ).getFlattenParameters( );
-			if ( parameters != null )
-			{
-				for ( int i = 0; i < parameters.size( ); i++ )
-				{
-					if ( parameters.get( i ) instanceof ScalarParameterHandle )
-					{
-						ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters.get( i ) );
-
-						if ( parameter.isHidden( ) )
-						{
-							continue;
-						}
-
-						String paramValue = null;
-						ConfigVariable cfgVar = ( (ModuleHandle) getModel( ) ).findConfigVariable( parameter.getName( ) );
-
-						if ( cfgVar != null )
-						{
-							paramValue = cfgVar.getValue( );
-						}
-						else
-						{
-							paramValue = parameter.getDefaultValue( );
-						}
-
-						if ( paramValue == null && !parameter.allowNull( ) )
-						{
-							showParameterDialog = true;
-							break;
-						}
-
-						if ( paramValue != null
-								&& paramValue.trim( ).length( ) <= 0
-								&& !parameter.allowBlank( )
-								&& parameter.getDataType( )
-										.equalsIgnoreCase( DesignChoiceConstants.PARAM_TYPE_STRING ) )
-						{
-							showParameterDialog = true;
-							break;
-						}
-
-					}
-				}
-			}
-
-			if ( showParameterDialog )
-			{
-				InputParameterDialog dialog = new InputParameterDialog( Display.getCurrent( )
-						.getActiveShell( ),
-						InputParameterDialog.TITLE ); //$NON-NLS-1$
-				dialog.setInput( (ModuleHandle) getModel( ) );
-				if ( dialog.open( ) == Dialog.OK )
-				{
-					if ( ( (ModuleHandle) getModel( )).needsSave( ) )
-					{
-						this.doSave( null );
-					}
-				}
-			}
-
 			display( );
 		}
-		
+
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
 	public Control getPartControl( )
@@ -137,7 +98,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		return control;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
 	public String getId( )
@@ -156,8 +119,10 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		Control[] children = parent.getChildren( );
 		control = children[children.length - 1];
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(int)
 	 */
 	public void markPageStale( int type )
@@ -165,7 +130,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		staleType = type;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
 	 */
 	public int getStaleType( )
@@ -173,28 +140,32 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		return staleType;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
 	public boolean isDirty( )
 	{
 		return false;
 	}
-	
+
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider =  (IReportProvider) editor.getAdapter( IReportProvider.class );
-		
-		if(provider == null)
+		IReportProvider provider = (IReportProvider) editor
+				.getAdapter( IReportProvider.class );
+
+		if ( provider == null )
 		{
 			provider = super.getProvider( );
 		}
-		
-		return provider;
-	}	
 
-	/* (non-Javadoc)
+		return provider;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
 	public Object getAdapter( Class adapter )
@@ -209,7 +180,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	public void initialize( FormEditor editor )
 	{
 		this.editor = editor;
-		
+
 	}
 
 	public FormEditor getEditor( )
@@ -224,7 +195,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	public void setActive( boolean active )
 	{
-		
+
 	}
 
 	public boolean isActive( )
@@ -244,7 +215,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	public void setIndex( int index )
 	{
-		
+
 	}
 
 	public boolean isEditor( )
@@ -256,9 +227,116 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	{
 		return false;
 	}
-	
-	public void setInput(IEditorInput input)
+
+	public void setInput( IEditorInput input )
 	{
 		super.setInput( input );
+	}
+
+	private Map getConfigVars( )
+	{
+		HashMap configVars = new HashMap( );
+
+		String reportDesignName = this.getFileUri( );
+
+		// get design config file name
+		String configFileName = reportDesignName.replaceFirst(
+				IBirtConstants.SUFFIX_DESIGN_FILE,
+				IBirtConstants.SUFFIX_DESIGN_CONFIG );
+
+		try
+		{
+			// Generate the session handle
+			SessionHandle sessionHandle = DesignEngine.newSession( ULocale.getDefault( ) );
+
+			File configFile = new File( configFileName );
+
+			// if config file existed, then delete it
+			if ( configFile != null && configFile.exists( )
+					&& configFile.isFile( ) )
+			{
+				ReportDesignHandle handle = sessionHandle
+						.openDesign( configFileName );
+
+				Iterator it = handle.configVariablesIterator( );
+				while ( it.hasNext( ) )
+				{
+					ConfigVariableHandle configVar = (ConfigVariableHandle) it
+							.next( );
+					if ( configVar != null && configVar.getName( ) != null )
+					{
+						configVars.put( configVar.getName( ), configVar
+								.getValue( ) );
+					}
+				}
+			}
+		}
+		catch ( DesignFileException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+
+		return configVars;
+	}
+
+	public boolean isMissingParameter( )
+	{
+		boolean missingParameter = false;
+		ModuleHandle model = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		HashMap params = (HashMap) this.getConfigVars( );
+
+		List parameters = model.getFlattenParameters( );
+		if ( parameters != null )
+		{
+			for ( int i = 0; i < parameters.size( ); i++ )
+			{
+				if ( parameters.get( i ) instanceof ScalarParameterHandle )
+				{
+					ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters
+							.get( i ) );
+
+					if ( parameter.isHidden( ) )
+					{
+						continue;
+					}
+
+					String paramValue = null;
+
+					if ( params != null
+							&& params.containsKey( parameter.getName( ) ) )
+					{
+						Object curVal = params.get( parameter.getName( ) );
+						if ( curVal != null )
+							paramValue = curVal.toString( );
+					}
+					else
+					{
+						paramValue = parameter.getDefaultValue( );
+					}
+
+					if ( paramValue == null && !parameter.allowNull( ) )
+					{
+						missingParameter = true;
+						break;
+					}
+
+					if ( paramValue != null
+							&& paramValue.trim( ).length( ) <= 0
+							&& !parameter.allowBlank( )
+							&& parameter.getDataType( ).equalsIgnoreCase(
+									DesignChoiceConstants.PARAM_TYPE_STRING ) )
+					{
+						missingParameter = true;
+						break;
+					}
+
+				}
+			}
+		}
+
+		return missingParameter;
 	}
 }
