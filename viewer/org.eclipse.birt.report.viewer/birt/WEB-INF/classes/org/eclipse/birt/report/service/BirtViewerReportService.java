@@ -671,7 +671,8 @@ public class BirtViewerReportService implements IViewerReportService
 	 * result, otherwise flatten the result (i.e. include the contents of the
 	 * groups in the result)
 	 * 
-	 * @return a Collection of ParameterDefinition and ParameterGroupDefinition
+	 * @return a Collection of ParameterDefinition and ParameterGroupDefinition,
+	 * or a Collection of only ParameterDefinition if includeGroups == false
 	 */
 	private static Collection convertEngineParameters( Collection params,
 			IGetParameterDefinitionTask task, boolean includeGroups )
@@ -679,28 +680,6 @@ public class BirtViewerReportService implements IViewerReportService
 		if ( params == null )
 			return Collections.EMPTY_LIST;
 		List ret = new ArrayList( );
-		List groups = new ArrayList( );
-		for ( Iterator it = params.iterator( ); it.hasNext( ); )
-		{
-			Object o = it.next( );
-			if ( o instanceof IParameterGroupDefn )
-			{
-				// If we do not want to include groups, i.e. we want a flattened
-				// collection of parameters, find all group contents and add to
-				// result
-				if ( !includeGroups )
-				{
-					IParameterGroupDefn groupDef = ( IParameterGroupDefn ) o;
-					ParameterGroupDefinition groupParam = convertGroupParameter(
-							groupDef, task );
-					ret.addAll( groupParam.getParameters( ) );
-
-				}
-				// Save all groups so we later can check if a parameter is
-				// contained in a group
-				groups.add( o );
-			}
-		}
 		for ( Iterator it = params.iterator( ); it.hasNext( ); )
 		{
 			Object o = it.next( );
@@ -708,40 +687,42 @@ public class BirtViewerReportService implements IViewerReportService
 			{
 				IScalarParameterDefn engineParam = ( IScalarParameterDefn ) o;
 				ParameterGroupDefinition group = null;
-				// Find group in which current parameter is a part of
-				for ( Iterator groupIt = groups.iterator( ); groupIt.hasNext( ); )
-				{
-					IParameterGroupDefn tempGroup = ( IParameterGroupDefn ) groupIt
-							.next( );
-					boolean cascade = tempGroup instanceof ICascadingParameterGroup;
-					if ( tempGroup.getContents( ).contains( engineParam ) )
-					{
-						// Recursion should only be one level,
-						// since groups cannot contain groups
-						// TODO: Remove this recursion since it complicates
-						// things
-						List contents = new ArrayList( convertEngineParameters(
-								tempGroup.getContents( ), task, true ) );
-						group = new ParameterGroupDefinition( tempGroup
-								.getName( ), tempGroup.getDisplayName( ),
-								contents, cascade );
-						break;
-					}
-				}
 				ParameterDefinition param = convertScalarParameter(
 						engineParam, group, task );
 
 				ret.add( param );
-			} else if ( o instanceof IParameterGroupDefn && includeGroups )
+			} else if ( o instanceof IParameterGroupDefn )
 			{
-				// If this parameter is a group and we are including groups in
-				// the result...
 				IParameterGroupDefn engineParam = ( IParameterGroupDefn ) o;
-				ParameterGroupDefinition paramGroup = convertGroupParameter(
+				ParameterGroupDefinition paramGroup = convertParameterGroup(
 						engineParam, task );
 				ret.add( paramGroup );
 			}
 		}
+
+		if ( includeGroups )
+			return ret;
+		// If we are not including the groups, flatten the results
+		return flattenGroups( ret );
+	}
+
+	// Flatten the results
+	private static List flattenGroups( List params )
+	{
+		if ( params == null || params.size( ) == 0 )
+			return Collections.EMPTY_LIST;
+		List ret = new ArrayList( );
+		for ( Iterator it = params.iterator( ); it.hasNext( ); )
+		{
+			Object o = it.next( );
+			if ( o instanceof ParameterGroupDefinition )
+			{
+				ParameterGroupDefinition group = ( ParameterGroupDefinition ) o;
+				ret.addAll( group.getParameters( ) );
+			} else
+				ret.add( o );
+		}
+
 		return ret;
 	}
 
@@ -762,7 +743,7 @@ public class BirtViewerReportService implements IViewerReportService
 		return ret;
 	}
 
-	private static ParameterGroupDefinition convertGroupParameter(
+	private static ParameterGroupDefinition convertParameterGroup(
 			IParameterGroupDefn engineParam, IGetParameterDefinitionTask task )
 	{
 		boolean cascade = engineParam instanceof ICascadingParameterGroup;
