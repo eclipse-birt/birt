@@ -90,7 +90,7 @@ public class BirtViewerReportService implements IViewerReportService
 			throw new ReportServiceException( e.getLocalizedMessage( ) );
 		}
 
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+		ViewerAttributeBean attrBean = ( ViewerAttributeBean ) request
 				.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		Map parsedParams = attrBean.getParameters( );
 		parsedParams.putAll( this.getParsedParameters( design, runOptions,
@@ -691,9 +691,9 @@ public class BirtViewerReportService implements IViewerReportService
 				if ( !includeGroups )
 				{
 					IParameterGroupDefn groupDef = ( IParameterGroupDefn ) o;
-					List contents = new ArrayList( convertEngineParameters(
-							groupDef.getContents( ), task, true ) );
-					ret.addAll( contents );
+					ParameterGroupDefinition groupParam = convertGroupParameter(
+							groupDef, task );
+					ret.addAll( groupParam.getParameters( ) );
 
 				}
 				// Save all groups so we later can check if a parameter is
@@ -737,15 +737,8 @@ public class BirtViewerReportService implements IViewerReportService
 				// If this parameter is a group and we are including groups in
 				// the result...
 				IParameterGroupDefn engineParam = ( IParameterGroupDefn ) o;
-				// Need to convert contents.
-				boolean cascade = engineParam instanceof ICascadingParameterGroup;
-				ParameterGroupDefinition paramGroup = new ParameterGroupDefinition(
-						engineParam.getName( ), engineParam.getDisplayName( ),
-						null, cascade );
-				List contents = convertParametersInGroup( engineParam
-						.getContents( ), paramGroup, task );
-				paramGroup.setParameters( contents );
-
+				ParameterGroupDefinition paramGroup = convertGroupParameter(
+						engineParam, task );
 				ret.add( paramGroup );
 			}
 		}
@@ -767,6 +760,20 @@ public class BirtViewerReportService implements IViewerReportService
 			ret.add( param );
 		}
 		return ret;
+	}
+
+	private static ParameterGroupDefinition convertGroupParameter(
+			IParameterGroupDefn engineParam, IGetParameterDefinitionTask task )
+	{
+		boolean cascade = engineParam instanceof ICascadingParameterGroup;
+		ParameterGroupDefinition paramGroup = new ParameterGroupDefinition(
+				engineParam.getName( ), engineParam.getDisplayName( ), null,
+				cascade );
+		List contents = convertParametersInGroup( engineParam.getContents( ),
+				paramGroup, task );
+		paramGroup.setParameters( contents );
+
+		return paramGroup;
 	}
 
 	private static ParameterDefinition convertScalarParameter(
