@@ -55,4 +55,17 @@ public class BirtViewerReportDesignHandle implements IViewerReportDesignHandle
 		// TODO What to do here??
 		return null;
 	}
+
+    public String getDocumentName()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void setDocumentName( String documentName )
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

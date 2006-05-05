@@ -4,9 +4,9 @@ import java.io.ByteArrayOutputStream;
 
 public interface IViewerReportDesignHandle
 {
-	
 	public final static String RPT_DESIGN_OBJECT = "rptDesignObject";
- 	public final static String RPT_RUNNABLE_OBJECT = "rptRunnableObject";
+	public final static String RPT_DESIGN_FILE = "rptDesignFile";
+	public final static String RPT_RUNNABLE_OBJECT = "rptRunnableObject";
 
     /**
 	 * Get the content type
@@ -51,5 +51,19 @@ public interface IViewerReportDesignHandle
 	 * @return
 	 */
 	ByteArrayOutputStream getObjectStream( );
+    
+	/**
+	* Get the document name this design is extracted from
+	* 
+	* @return document name
+	*/
+	String getDocumentName();
+
+	/**
+	* set the document name this design is extracted from
+	* 
+	* @param document name
+	*/
+	public void setDocumentName( String documentName );
 
 }
