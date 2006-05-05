@@ -185,6 +185,14 @@
       />
       <typeMapping
         xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:TableLayout"
+        type="java:org.eclipse.birt.report.soapengine.api.TableLayout"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:AggregateSetting"
         type="java:org.eclipse.birt.report.soapengine.api.AggregateSetting"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
@@ -275,6 +283,14 @@
         xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:DataField"
         type="java:org.eclipse.birt.report.soapengine.api.DataField"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:TableGroups"
+        type="java:org.eclipse.birt.report.soapengine.api.TableGroups"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
         deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
         encodingStyle=""
@@ -417,6 +433,14 @@
       />
       <typeMapping
         xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:S_Info"
+        type="java:org.eclipse.birt.report.soapengine.api.S_Info"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:Oprand"
         type="java:org.eclipse.birt.report.soapengine.api.Oprand"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
@@ -451,6 +475,14 @@
         xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:ChartProperties"
         type="java:org.eclipse.birt.report.soapengine.api.ChartProperties"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:TableSections"
+        type="java:org.eclipse.birt.report.soapengine.api.TableSections"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
         deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
         encodingStyle=""
@@ -521,6 +553,14 @@
       />
       <typeMapping
         xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:TableRowInfo"
+        type="java:org.eclipse.birt.report.soapengine.api.TableRowInfo"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:JoinList"
         type="java:org.eclipse.birt.report.soapengine.api.JoinList"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
@@ -563,6 +603,14 @@
         xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:DataFieldFolder"
         type="java:org.eclipse.birt.report.soapengine.api.DataFieldFolder"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:G_Info"
+        type="java:org.eclipse.birt.report.soapengine.api.G_Info"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
         deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
         encodingStyle=""
@@ -619,6 +667,14 @@
         xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:Format"
         type="java:org.eclipse.birt.report.soapengine.api.Format"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:TableLayoutList"
+        type="java:org.eclipse.birt.report.soapengine.api.TableLayoutList"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
         deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
         encodingStyle=""

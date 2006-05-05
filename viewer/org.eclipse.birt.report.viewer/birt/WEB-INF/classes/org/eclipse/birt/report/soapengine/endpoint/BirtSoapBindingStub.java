@@ -401,6 +401,13 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "G_Info");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.G_Info.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "GetUpdatedObjects");
             cachedSerQNames.add(qName);
             cls = org.eclipse.birt.report.soapengine.api.GetUpdatedObjects.class;
@@ -569,6 +576,13 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "S_Info");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.S_Info.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SectionDefinition");
             cachedSerQNames.add(qName);
             cls = org.eclipse.birt.report.soapengine.api.SectionDefinition.class;
@@ -593,6 +607,41 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableColContextMenuState");
             cachedSerQNames.add(qName);
             cls = org.eclipse.birt.report.soapengine.api.TableColContextMenuState.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableGroups");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.TableGroups.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayout");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.TableLayout.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayoutList");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.TableLayoutList.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableRowInfo");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.TableRowInfo.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableSections");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.TableSections.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);

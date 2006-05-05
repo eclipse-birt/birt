@@ -39,6 +39,7 @@ public class Data  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.IOFieldList IOFieldList;
     private org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu;
     private java.lang.String confirmation;
+    private org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList;
 
     public Data() {
     }
@@ -74,7 +75,8 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList,
            org.eclipse.birt.report.soapengine.api.IOFieldList IOFieldList,
            org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu,
-           java.lang.String confirmation) {
+           java.lang.String confirmation,
+           org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList) {
            this.font = font;
            this.resultSets = resultSets;
            this.format = format;
@@ -106,6 +108,7 @@ public class Data  implements java.io.Serializable {
            this.IOFieldList = IOFieldList;
            this.tableColContextMenu = tableColContextMenu;
            this.confirmation = confirmation;
+           this.tableLayoutList = tableLayoutList;
     }
 
 
@@ -728,6 +731,26 @@ public class Data  implements java.io.Serializable {
         this.confirmation = confirmation;
     }
 
+
+    /**
+     * Gets the tableLayoutList value for this Data.
+     * 
+     * @return tableLayoutList
+     */
+    public org.eclipse.birt.report.soapengine.api.TableLayoutList getTableLayoutList() {
+        return tableLayoutList;
+    }
+
+
+    /**
+     * Sets the tableLayoutList value for this Data.
+     * 
+     * @param tableLayoutList
+     */
+    public void setTableLayoutList(org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList) {
+        this.tableLayoutList = tableLayoutList;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Data)) return false;
@@ -832,7 +855,10 @@ public class Data  implements java.io.Serializable {
               this.tableColContextMenu.equals(other.getTableColContextMenu()))) &&
             ((this.confirmation==null && other.getConfirmation()==null) || 
              (this.confirmation!=null &&
-              this.confirmation.equals(other.getConfirmation())));
+              this.confirmation.equals(other.getConfirmation()))) &&
+            ((this.tableLayoutList==null && other.getTableLayoutList()==null) || 
+             (this.tableLayoutList!=null &&
+              this.tableLayoutList.equals(other.getTableLayoutList())));
         __equalsCalc = null;
         return _equals;
     }
@@ -936,6 +962,9 @@ public class Data  implements java.io.Serializable {
         }
         if (getConfirmation() != null) {
             _hashCode += getConfirmation().hashCode();
+        }
+        if (getTableLayoutList() != null) {
+            _hashCode += getTableLayoutList().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -1161,6 +1190,13 @@ public class Data  implements java.io.Serializable {
         elemField.setFieldName("confirmation");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Confirmation"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("tableLayoutList");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayoutList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayoutList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
