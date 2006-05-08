@@ -25,5 +25,15 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 	{
 		this.__initBase( id, "600px" );
 		this.__z_index = 300;
+	},
+	
+	/**
+	*	Handle clicking on ok.
+	* 
+	* 	@return, void
+	*/
+	__okPress: function( )
+	{
+		this.__l_hide( );
 	}
 } );
