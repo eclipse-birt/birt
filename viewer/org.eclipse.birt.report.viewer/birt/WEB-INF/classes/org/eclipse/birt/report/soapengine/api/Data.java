@@ -36,7 +36,7 @@ public class Data  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression;
     private org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata;
     private org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList;
-    private org.eclipse.birt.report.soapengine.api.IOFieldList IOFieldList;
+    private org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList;
     private org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu;
     private java.lang.String confirmation;
     private org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList;
@@ -73,7 +73,7 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression,
            org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata,
            org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList,
-           org.eclipse.birt.report.soapengine.api.IOFieldList IOFieldList,
+           org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList,
            org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu,
            java.lang.String confirmation,
            org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList) {
@@ -105,7 +105,7 @@ public class Data  implements java.io.Serializable {
            this.BRDExpression = BRDExpression;
            this.joinMetadata = joinMetadata;
            this.boundDataColumnList = boundDataColumnList;
-           this.IOFieldList = IOFieldList;
+           this.IOInfoList = IOInfoList;
            this.tableColContextMenu = tableColContextMenu;
            this.confirmation = confirmation;
            this.tableLayoutList = tableLayoutList;
@@ -673,22 +673,22 @@ public class Data  implements java.io.Serializable {
 
 
     /**
-     * Gets the IOFieldList value for this Data.
+     * Gets the IOInfoList value for this Data.
      * 
-     * @return IOFieldList
+     * @return IOInfoList
      */
-    public org.eclipse.birt.report.soapengine.api.IOFieldList getIOFieldList() {
-        return IOFieldList;
+    public org.eclipse.birt.report.soapengine.api.IOInfoList getIOInfoList() {
+        return IOInfoList;
     }
 
 
     /**
-     * Sets the IOFieldList value for this Data.
+     * Sets the IOInfoList value for this Data.
      * 
-     * @param IOFieldList
+     * @param IOInfoList
      */
-    public void setIOFieldList(org.eclipse.birt.report.soapengine.api.IOFieldList IOFieldList) {
-        this.IOFieldList = IOFieldList;
+    public void setIOInfoList(org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList) {
+        this.IOInfoList = IOInfoList;
     }
 
 
@@ -847,9 +847,9 @@ public class Data  implements java.io.Serializable {
             ((this.boundDataColumnList==null && other.getBoundDataColumnList()==null) || 
              (this.boundDataColumnList!=null &&
               this.boundDataColumnList.equals(other.getBoundDataColumnList()))) &&
-            ((this.IOFieldList==null && other.getIOFieldList()==null) || 
-             (this.IOFieldList!=null &&
-              this.IOFieldList.equals(other.getIOFieldList()))) &&
+            ((this.IOInfoList==null && other.getIOInfoList()==null) || 
+             (this.IOInfoList!=null &&
+              this.IOInfoList.equals(other.getIOInfoList()))) &&
             ((this.tableColContextMenu==null && other.getTableColContextMenu()==null) || 
              (this.tableColContextMenu!=null &&
               this.tableColContextMenu.equals(other.getTableColContextMenu()))) &&
@@ -954,8 +954,8 @@ public class Data  implements java.io.Serializable {
         if (getBoundDataColumnList() != null) {
             _hashCode += getBoundDataColumnList().hashCode();
         }
-        if (getIOFieldList() != null) {
-            _hashCode += getIOFieldList().hashCode();
+        if (getIOInfoList() != null) {
+            _hashCode += getIOInfoList().hashCode();
         }
         if (getTableColContextMenu() != null) {
             _hashCode += getTableColContextMenu().hashCode();
@@ -1173,9 +1173,9 @@ public class Data  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("IOFieldList");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOFieldList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOFieldList"));
+        elemField.setFieldName("IOInfoList");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOInfoList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOInfoList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
