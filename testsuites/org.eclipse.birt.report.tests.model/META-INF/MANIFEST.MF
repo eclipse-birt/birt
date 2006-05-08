@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Model Tests Plug-in
+Bundle-SymbolicName: org.eclipse.birt.report.tests.model; singleton:=true
+Bundle-Version: 2.1.0
+Bundle-Activator: org.eclipse.birt.report.tests.model.plugin.ModelPlugin
+Bundle-ClassPath: .
+Bundle-Localization: plugin
+Require-Bundle: org.junit,
+ org.eclipse.birt.report.model,
+ org.eclipse.birt.core,
+ org.eclipse.birt.data.oda,
+ org.eclipse.datatools.connectivity.oda
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.birt.report.tests.model.acceptance,
+ org.eclipse.birt.report.tests.model.api,
+ org.eclipse.birt.report.tests.model.api.util,
+ org.eclipse.birt.report.tests.model.APISamples,
+ org.eclipse.birt.report.tests.model.compatibility,
+ org.eclipse.birt.report.tests.model.regression,
+ org.eclipse.birt.report.tests.model.reportItem,
+ org.eclipse.birt.report.tests.model.reportItem.test,
+ org.eclipse.birt.report.tests.model.smoke

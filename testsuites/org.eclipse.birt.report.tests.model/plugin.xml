@@ -1,30 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.report.tests.model"
-   name="Model Plug-in"
-   version="2.1.0"
-   provider-name=""
-   class="org.eclipse.birt.report.tests.model.ModelPlugin">
+<plugin>
 
-   <runtime>
-      <library name="model.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-
-   <requires>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.junit"/>
-      <import plugin="org.eclipse.jdt.debug"/>
-      <import plugin="org.eclipse.birt.report.model"/>    
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.data.oda"/>
-	  <import plugin="org.eclipse.datatools.connectivity.oda"/>
-   </requires>
-   <extension
+     <extension
          id="org.eclipse.birt.report.tests.model.reportItem"
          name="testItem"
          point="org.eclipse.birt.report.model.reportItemModel">
@@ -71,13 +49,6 @@
     				displayNameID="element.testingMatrix.test7"
 					name="test7"/>
 		  </propertyGroup>
- <!--
-		  <propertyVisibility name="bookmark" propertyVisibility="hide"/>
-		  <propertyVisibility name="InvalidProperty" propertyVisibility="hide"/>
-		  <propertyVisibility name="dataSet" propertyVisibility="readonly"/>
-		  <propertyVisibility name="test3" propertyVisibility="hide"/>
-  -->
-   
    </reportItem>      
     
    </extension>

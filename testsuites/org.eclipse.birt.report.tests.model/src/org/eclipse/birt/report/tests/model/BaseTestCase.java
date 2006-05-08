@@ -29,6 +29,7 @@ import com.ibm.icu.util.ULocale;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
@@ -222,7 +223,8 @@ public abstract class BaseTestCase extends TestCase
 	{
 
 		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
-		sessionHandle = DesignEngine.newSession( locale );
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+		.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
 		designHandle = sessionHandle.openDesign( fileName );
