@@ -124,6 +124,8 @@ public class ReportEngineHelper
 	 * be retrieved. Constructing an engine task requires a report design
 	 * runnableobject.
 	 * 
+	 * And the user must close the report design stream after get the IReportRunnable.
+	 * 
 	 * @param designStream
 	 *            the report design input stream
 	 * @return a report design runnable object
@@ -142,6 +144,8 @@ public class ReportEngineHelper
 	 * the ReportRunnable object, embedded images and parameter definitions can
 	 * be retrieved. Constructing an engine task requires a report design
 	 * runnableobject.
+	 * 
+	 * And the user must close the report design stream after get the IReportRunnable.
 	 * 
 	 * @param designName
 	 *            the stream's name
@@ -335,8 +339,7 @@ public class ReportEngineHelper
 	{
 		try
 		{
-			IReportRunnable runnable = engine.openReportDesign( reportDoc
-					.getDesignStream( ) );
+			IReportRunnable runnable = reportDoc.getReportRunnable( );
 			return new DataExtractionTask( engine, runnable, reportDoc );
 		}
 		catch ( EngineException ex )
