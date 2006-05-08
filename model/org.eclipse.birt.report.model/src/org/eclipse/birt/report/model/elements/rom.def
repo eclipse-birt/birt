@@ -1484,7 +1484,7 @@
   </Structure>
   <Structure displayNameID="Structure.ConfigVar" name="ConfigVar">
     <Member displayNameID="Structure.ConfigVar.name" isIntrinsic="true" name="name" since="1.0" type="name"/>
-    <Member displayNameID="Structure.ConfigVar.value" isIntrinsic="true" name="value" returnType="any" since="1.0" type="string"/>
+    <Member displayNameID="Structure.ConfigVar.value" isIntrinsic="true" name="value" returnType="any" since="1.0" type="literalString"/>
   </Structure>
   <Structure displayNameID="Structure.SortKey" name="SortKey" since="1.0">
     <Member displayNameID="Structure.SortKey.key" isIntrinsic="true" name="key" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
@@ -1910,7 +1910,7 @@
   </Element>
   <Element canExtend="true" displayNameID="Element.OdaDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
-    <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="string"/>
+    <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="literalString"/>
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
     <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
     <Property detailType="OdaDesignerState" displayNameID="Element.OdaDataSet.designerState" name="designerState" since="2.1" type="structure"/>    

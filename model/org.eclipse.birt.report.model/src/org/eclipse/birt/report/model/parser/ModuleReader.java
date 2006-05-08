@@ -168,7 +168,19 @@ public abstract class ModuleReader
 		}
 
 		assert inputStream.markSupported( );
-		return readModule( handler, inputStream );
+		Module module = readModule( handler, inputStream );
+
+		try
+		{
+			inputStream.close( );
+		}
+		catch ( IOException e )
+		{
+			// ignore this exception.
+		}
+		inputStream = null;
+
+		return module;
 	}
 
 	/**
@@ -186,8 +198,8 @@ public abstract class ModuleReader
 	 *             if the stream has unexpected encoding signature
 	 */
 
-	protected static String checkUTFSignature( InputStream inputStream, String fileName )
-			throws IOException, SAXException
+	protected static String checkUTFSignature( InputStream inputStream,
+			String fileName ) throws IOException, SAXException
 	{
 		// This may fail if there are a lot of space characters before the end
 		// of the encoding declaration

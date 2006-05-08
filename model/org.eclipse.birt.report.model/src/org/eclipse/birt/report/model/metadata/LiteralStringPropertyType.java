@@ -12,32 +12,31 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
- * String property type.
+ * Literal string property type.
  * <p>
- * All string values are valid. However, if the caller provides a type other
- * than a string, the value is converted to a string using default conversion
- * rules.
+ * All string values are valid. When <code>LiteralStringPropertyType</code>
+ * receives an empty string it will return an empty string. It is different from
+ * <code>StringPropertyType</code>
  * 
  */
 
-public class StringPropertyType extends PropertyType
+public class LiteralStringPropertyType extends PropertyType
 {
 
 	/**
 	 * Display name key.
 	 */
 
-	private static final String DISPLAY_NAME_KEY = "Property.string"; //$NON-NLS-1$
+	private static final String DISPLAY_NAME_KEY = "Property.literalString"; //$NON-NLS-1$
 
 	/**
 	 * Constructor.
 	 */
 
-	public StringPropertyType( )
+	public LiteralStringPropertyType( )
 	{
 		super( DISPLAY_NAME_KEY );
 	}
@@ -48,21 +47,16 @@ public class StringPropertyType extends PropertyType
 	 * value, it is converted to a string using the rules for the current
 	 * locale. Others are converted using the toString( ) method.
 	 * 
-	 * @return a <code>String</code> object or null
+	 * @return a <code>String</code> object or null or empty string
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
 
 		String stringValue = value.toString( );
-
-		// Model treats "" is as same as null.
-		
-		if ( StringUtil.isEmpty( stringValue ) )
-			return null;
 
 		return stringValue;
 	}
@@ -73,14 +67,9 @@ public class StringPropertyType extends PropertyType
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyValidator#validateXml(java.lang.String)
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateXml( Module module, PropertyDefn defn, String value )
+			throws PropertyValueException
 	{
-		// Model treats "" is as same as null.
-		
-		if ( StringUtil.isEmpty( value ) )
-			return null;
-
 		return value;
 	}
 
@@ -92,7 +81,7 @@ public class StringPropertyType extends PropertyType
 
 	public int getTypeCode( )
 	{
-		return STRING_TYPE;
+		return LITERAL_STRING_TYPE;
 	}
 
 	/*
@@ -103,7 +92,7 @@ public class StringPropertyType extends PropertyType
 
 	public String getName( )
 	{
-		return STRING_TYPE_NAME;
+		return LITERAL_STRING_TYPE_NAME;
 	}
 
 	/**

@@ -550,11 +550,14 @@ public class DocumentUtil
 		// handle only when the style is not local one but a library resource
 
 		String selector = ( (ElementDefn) target.getDefn( ) ).getSelector( );
-		style = sourceModule.resolveElement( selector, Module.STYLE_NAME_SPACE,
-				null );
-		if ( style != null && style.getRoot( ) != sourceModule )
+		if ( selector != null )
 		{
-			localizeStyleProperties( target, style, targetDesign );
+			style = sourceModule.resolveElement( selector,
+					Module.STYLE_NAME_SPACE, null );
+			if ( style != null && style.getRoot( ) != sourceModule )
+			{
+				localizeStyleProperties( target, style, targetDesign );
+			}
 		}
 	}
 

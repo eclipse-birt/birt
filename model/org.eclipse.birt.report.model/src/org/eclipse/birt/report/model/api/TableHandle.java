@@ -335,9 +335,10 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * The insert action cannot be finished succesfully for cases like this:
 	 * 
 	 * <pre>
-	 *   		&lt;cell colSpan=&quot;1/&gt;&lt;cell colSpan=&quot;1/&gt;
-	 *   		&lt;cell colSpan=&quot;2/&gt;
-	 * </pre> 
+	 *      		&lt;cell colSpan=&quot;1/&gt;&lt;cell colSpan=&quot;1/&gt;
+	 *      		&lt;cell colSpan=&quot;2/&gt;
+	 * </pre>
+	 * 
 	 * if the user want to insert a column with cells to the column 2.
 	 * 
 	 * @param columnNumber
@@ -358,4 +359,23 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 				new TableColumnBandAdapter( this ) );
 		insertAction.insertColumnBand( columnNumber, positionFlag );
 	}
+
+	/**
+	 * Gets the cell at the position where the given row and column intersect
+	 * regardless of slot information. The table is viewed as be constructed by
+	 * a set of flattened rows.
+	 * 
+	 * @param row
+	 *            the row position indexing from 1
+	 * @param column
+	 *            the column position indexing from 1
+	 * @return the cell handle at the position if the cell exists, otherwise
+	 *         <code>null</code>
+	 */
+
+	protected CellHandle getCell( int row, int column )
+	{
+		return getLayoutModel( ).getCell( row, column );
+	}
+
 }

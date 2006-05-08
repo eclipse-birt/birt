@@ -212,6 +212,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		// The meta-data file will provide additional information for these
 		// types.
 		addPropertyType( new StringPropertyType( ) );
+		addPropertyType( new LiteralStringPropertyType() );
 		addPropertyType( new NumberPropertyType( ) );
 		addPropertyType( new IntegerPropertyType( ) );
 		addPropertyType( new DimensionPropertyType( ) );

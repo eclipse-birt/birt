@@ -241,7 +241,10 @@ public class LayoutTable
 			int rowCount = slot.getRowCount( );
 
 			if ( rowNumber <= rowCount )
+			{
 				row = slot.getLayoutRow( rowNumber - 1 );
+				break;
+			}
 			else
 				rowNumber -= rowCount;
 		}

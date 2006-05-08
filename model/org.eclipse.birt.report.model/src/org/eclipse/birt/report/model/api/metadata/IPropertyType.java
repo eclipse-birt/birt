@@ -152,10 +152,18 @@ public interface IPropertyType
 	public static final int LIST_TYPE = 20;
 	
 	/**
+	 * Type code for the Literal String property type.
+	 */
+
+	public static final int LITERAL_STRING_TYPE = 21; 
+	
+	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 21;
+	public static final int TYPE_COUNT = 22;
+	
+	
 
 	/**
 	 * Name of the String property type.
@@ -289,6 +297,13 @@ public interface IPropertyType
 	 */
 	
 	public static final String LIST_TYPE_NAME = "list"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the Literal String property type.
+	 */
+
+	public static final String LITERAL_STRING_TYPE_NAME = "literalString"; //$NON-NLS-1$
+
 	
 	/**
 	 * Returns the localized display name.

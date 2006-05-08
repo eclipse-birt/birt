@@ -21,6 +21,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -95,6 +98,7 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 
 /**
  * Represents the module writer which writes an XML file following the BIRT
@@ -1044,6 +1048,86 @@ public abstract class ModuleWriter extends ElementVisitor
 		// write property bindings
 
 		writeStructureList( obj, Module.PROPERTY_BINDINGS_PROP );
+
+		List elements = getModule( ).getVersionManager( ).getCompatibleElement(
+				"3" ); //$NON-NLS-1$
+		if ( elements == null || elements.isEmpty( ) )
+			return;
+
+		for ( int i = 0; i < elements.size( ); i++ )
+		{
+			dealCompatibleValueExpr( (DataItem) elements.get( i ) );
+		}
+	}
+
+	/**
+	 * Converts the old value expression to the new result set column with
+	 * correspoding bound columns.
+	 * 
+	 * @param obj
+	 */
+
+	private void dealCompatibleValueExpr( DataItem obj )
+	{
+
+		String valueExpr = (String) obj.getLocalProperty( getModule( ),
+				DataItem.RESULT_SET_COLUMN_PROP );
+		if ( valueExpr == null )
+			return;
+
+		List newExprs = null;
+
+		try
+		{
+			newExprs = ExpressionUtil.extractColumnExpressions( valueExpr );
+		}
+		catch ( BirtException e )
+		{
+			newExprs = null;
+		}
+
+		if ( newExprs != null && newExprs.size( ) == 1 )
+		{
+			IColumnBinding column = (IColumnBinding) newExprs.get( 0 );
+
+			String newName = DataBoundColumnUtil.setupBoundDataColumn( obj,
+					column.getResultSetColumnName( ), column
+							.getBoundExpression( ), getModule( ) );
+
+			if ( valueExpr.equals( ExpressionUtil.createRowExpression( column
+					.getResultSetColumnName( ) ) ) )
+			{
+				// set the property for the result set column property of
+				// DataItem.
+
+				obj.setProperty( DataItem.RESULT_SET_COLUMN_PROP, newName );
+
+				return;
+			}
+		}
+
+		if ( newExprs != null && newExprs.size( ) > 1 )
+		{
+			for ( int i = 0; i < newExprs.size( ); i++ )
+			{
+				IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
+				String newExpression = boundColumn.getBoundExpression( );
+				if ( newExpression == null )
+					continue;
+
+				DataBoundColumnUtil
+						.setupBoundDataColumn( obj, boundColumn
+								.getResultSetColumnName( ), newExpression,
+								getModule( ) );
+			}
+		}
+
+		String newName = DataBoundColumnUtil.setupBoundDataColumn( obj,
+				valueExpr, valueExpr, getModule( ) );
+
+		// set the property for the result set column property of DataItem.
+
+		obj.setProperty( DataItem.RESULT_SET_COLUMN_PROP, newName );
 	}
 
 	/**
@@ -1834,7 +1918,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 
-		property( obj, TemplateElement.REF_TEMPLATE_PARAMETER_PROP );	
+		property( obj, TemplateElement.REF_TEMPLATE_PARAMETER_PROP );
 	}
 
 	/*
@@ -1876,7 +1960,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
-		
+
 		writer.endElement( );
 	}
 

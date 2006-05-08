@@ -69,6 +69,7 @@ import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.util.StructureRefUtil;
+import org.eclipse.birt.report.model.util.VersionControlMgr;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 import org.eclipse.birt.report.model.writer.ModuleWriter;
 
@@ -298,6 +299,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 	protected INameManager nameManager = null;
 
 	/**
+	 * The registered API backward compatibility manager of this module.
+	 */
+
+	protected VersionControlMgr versionMgr = null;
+
+	/**
 	 * Default constructor.
 	 * 
 	 * @param theSession
@@ -323,6 +330,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		// initialize the name manager
 
 		nameManager = new NameManager( this );
+		versionMgr = new VersionControlMgr( );
 	}
 
 	/**
@@ -2425,5 +2433,16 @@ public abstract class Module extends DesignElement implements IModuleModel
 			name = baseName + ++index;
 		}
 		image.setName( name.trim( ) );
+	}
+
+	/**
+	 * Returns the version manager for the API compatibility. 
+	 * 
+	 * @return the version manager
+	 */
+
+	public VersionControlMgr getVersionManager( )
+	{
+		return versionMgr;
 	}
 }

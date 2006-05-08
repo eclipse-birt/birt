@@ -403,6 +403,7 @@ class MetaDataHandler extends XMLParserHandler
 				case PropertyType.DIMENSION_TYPE :
 				case PropertyType.DATE_TIME_TYPE :
 				case PropertyType.STRING_TYPE :
+				case PropertyType.LITERAL_STRING_TYPE:
 				case PropertyType.FLOAT_TYPE :
 				case PropertyType.INTEGER_TYPE :
 				case PropertyType.NUMBER_TYPE :
@@ -763,6 +764,7 @@ class MetaDataHandler extends XMLParserHandler
 				case PropertyType.DIMENSION_TYPE :
 				case PropertyType.DATE_TIME_TYPE :
 				case PropertyType.STRING_TYPE :
+				case PropertyType.LITERAL_STRING_TYPE:
 				case PropertyType.FLOAT_TYPE :
 				case PropertyType.INTEGER_TYPE :
 				case PropertyType.NUMBER_TYPE :
