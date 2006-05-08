@@ -15,10 +15,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.designer.IBirtPreviewConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
@@ -241,8 +240,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 
 		// get design config file name
 		String configFileName = reportDesignName.replaceFirst(
-				IBirtConstants.SUFFIX_DESIGN_FILE,
-				IBirtConstants.SUFFIX_DESIGN_CONFIG );
+				IBirtPreviewConstants.SUFFIX_DESIGN_FILE,
+				IBirtPreviewConstants.SUFFIX_DESIGN_CONFIG );
 
 		try
 		{
