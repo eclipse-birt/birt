@@ -57,6 +57,9 @@ public class PreparedDummyQuery implements IPreparedQuery
 	private IQueryDefinition queryDefn;
 	private ISubqueryDefinition subQueryDefn;
 	
+	private String subQueryName;
+	private int subQueryIndex;
+	
 	private Map subQueryMap;
 	
 	/**
@@ -203,18 +206,24 @@ public class PreparedDummyQuery implements IPreparedQuery
 	 * @return
 	 * @throws BirtException 
 	 */
-	private IResultIterator execSubQuery( String name, Scriptable scope,
-			Scriptable parentScope ) throws BirtException
+	private IResultIterator execSubQuery( String parentQueryResultID, String name,
+			Scriptable scope, Scriptable parentScope ) throws BirtException
 	{
 		Object ob = subQueryMap.get( name );
 		if ( ob == null )
 			return null;
-		
+
 		PreparedDummyQuery preparedQuery = new PreparedDummyQuery( context,
 				(ISubqueryDefinition) ob,
 				scope );
-		return preparedQuery.executeQuery( scope, parentScope )
-				.getResultIterator( );
+		preparedQuery.subQueryName = name;
+		preparedQuery.subQueryIndex = 0;
+		
+		QueryResults queryResults = (QueryResults) preparedQuery.executeQuery( scope,
+				parentScope );
+		queryResults.setID( parentQueryResultID );		
+
+		return queryResults.getResultIterator( );
 	}
 
 	/**
@@ -256,6 +265,14 @@ public class PreparedDummyQuery implements IPreparedQuery
 				queryResultID = IDUtil.nextQursID( );
 
 			return queryResultID;
+		}
+		
+		/**
+		 * @param queryResultID
+		 */
+		private void setID( String queryResultID )
+		{
+			this.queryResultID = queryResultID;
 		}
 
 		/*
@@ -701,11 +718,24 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			this.checkOpened( );
 
-			return queryResults.preparedQuery.execSubQuery( subQueryName,
+			return queryResults.preparedQuery.execSubQuery( getQueryResultsID( ),
+					subQueryName,
 					scope != null ? scope : queryScope,
 					this.jsDummyRowObject );
 		}
-
+		
+		/**
+		 * @return
+		 */
+		private String getQueryResultsID( )
+		{
+			if ( subQueryName == null )
+				return this.queryResults.getID( );
+			else
+				return this.queryResults.getID( )
+						+ "/" + subQueryName + "/" + subQueryIndex;
+		}
+		
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#close()
 		 */
@@ -785,9 +815,26 @@ public class PreparedDummyQuery implements IPreparedQuery
 			if ( isBasicSaved == false )
 			{
 				isBasicSaved = true;
+				
+				int groupLevel;
+				int[] subQueryInfo;
+
+				if ( subQueryName == null )
+				{
+					groupLevel = -1;
+					subQueryInfo = null;
+				}
+				else
+				{
+					groupLevel = 1;
+					subQueryInfo = new int[]{
+							0, 1
+					};
+				}
+
 				this.getRdSave( ).saveResultIterator( new DummyCachedResult( ),
-						-1,
-						null );
+						groupLevel,
+						subQueryInfo );
 			}
 
 			this.getRdSave( ).saveExprValue( 0, name, value );
@@ -833,11 +880,11 @@ public class PreparedDummyQuery implements IPreparedQuery
 			if ( rdSave == null )
 			{
 				rdSave = RDUtil.newSave( this.context,
-						this.queryDefn,
+						this.queryDefn != null ? this.queryDefn : subQueryDefn,
 						this.queryResultID,
 						1,
-						null,
-						-1 );
+						subQueryName,
+						subQueryIndex );
 			}
 
 			return rdSave;
@@ -859,7 +906,8 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			try
 			{
-				IOUtil.writeInt( resultClassStream, 0 );
+				if ( resultClassStream != null )
+					IOUtil.writeInt( resultClassStream, 0 );
 				if ( dataSetDataStream != null )
 					IOUtil.writeInt( dataSetDataStream, 0 );
 				IOUtil.writeInt( groupInfoStream, 0 );
