@@ -360,7 +360,7 @@ public class ResourceEditDialog extends BaseDialog
 				FileInputStream fis = new FileInputStream( f );
 				content.load( fis );
 				fis.close( );
-				propFileName = f.getName( );
+				propFileName = fullBaseName;
 				return;
 			}
 			catch ( FileNotFoundException e )
@@ -387,7 +387,7 @@ public class ResourceEditDialog extends BaseDialog
 		{
 			try
 			{
-				File f = new File( folderName + File.separator + propFileName );
+				File f = new File( propFileName );
 
 				if ( !f.canWrite( ) )
 				{
@@ -395,9 +395,7 @@ public class ResourceEditDialog extends BaseDialog
 							Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ),
 							Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message",
 									new Object[]{
-										folderName
-												+ File.separator
-												+ propFileName
+										propFileName
 									} ) );
 					return;
 				}
