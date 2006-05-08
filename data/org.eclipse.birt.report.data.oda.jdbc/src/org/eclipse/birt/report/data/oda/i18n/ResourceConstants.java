@@ -47,6 +47,8 @@ public class ResourceConstants
 	public final static String CONN_CANNOT_GET_METADATA = "odajdbc.CannotGetConnMetaData";
 	public final static String CONN_CANNOT_GET = "odajdbc.CannotGetConn";
 	public final static String CONN_ROLLBACK_ERROR = "odajdbc.ConnRollbackError";
+	
+	public final static String CONN_GET_ERROR = "odajdbc.GetConnectionError";
 
 	public final static String MAX_STATEMENTS_CANNOT_GET = "odajdbc.CannotGetMaxStatements";
 	public final static String MAX_CONNECTION_CANNOT_GET = "odajdbc.CannotGetMaxConnections";

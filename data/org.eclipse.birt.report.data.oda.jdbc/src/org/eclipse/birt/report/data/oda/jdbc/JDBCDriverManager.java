@@ -145,7 +145,16 @@ public class JDBCDriverManager
 			loadAndRegisterDriver(driverClass);
 			if ( logger.isLoggable( Level.FINER ))
 				logger.finer( "Calling DriverManager.getConnection. url=" + url );
-			return DriverManager.getConnection( url.trim( ), connectionProperties );
+			try
+			{
+				return DriverManager.getConnection( url, connectionProperties );
+			}
+			catch ( RuntimeException e )
+			{
+				throw new JDBCException( ResourceConstants.CONN_GET_ERROR,
+						null,
+						e.getMessage( ) );
+			}
 		}
 	}
 	
