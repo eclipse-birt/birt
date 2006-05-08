@@ -355,7 +355,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 		    
 		    if ( this.baseQueryDefn.getFilters( ) != null )
 			{
-		    	queryFilters = this.baseQueryDefn.getFilters( );
+		    	for( int i = 0; i < this.baseQueryDefn.getFilters( ).size( ); i++ )
+		    	{	
+		    		queryFilters.add( this.baseQueryDefn.getFilters( ).get( i ));
+		    	}
 			}
 		    
 		    //When prepare filters, the temporaryComputedColumns would also be effect.
