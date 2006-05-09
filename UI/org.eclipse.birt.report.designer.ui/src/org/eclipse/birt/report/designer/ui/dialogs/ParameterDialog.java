@@ -715,7 +715,7 @@ public class ParameterDialog extends BaseDialog
 			}
 		} );
 		Label values = new Label( limitArea, SWT.NULL );
-		values.setText( Messages.getString( "ParameterDialog.Label.Values" ) ); //$NON-NLS-1$
+		values.setText( Messages.getString( "ParameterDialog.Label.values" ) ); //$NON-NLS-1$
 		values.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		// end
 
