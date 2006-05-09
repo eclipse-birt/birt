@@ -3,7 +3,7 @@
 	<property name="eclipse.home" value=""/>
 	<property name="tests.dir" value="utest"/>
 	<property name="application" value=""/>
-	<property name="data.dir" value="../${module.name}/${tests.dir}/configuration/"/>
+	<property name="data.dir" value="${data.path}/${module.name}/${tests.dir}/configuration/"/>
 	<property name="confFilePath" value=""/>
 	<property name="module.name" value=""/>
 	<property name="className" value=""/>
@@ -307,4 +307,5 @@
 		</java>
 		<delete dir="../${module.name}/${tests.dir}" includeEmptyDirs="true"/>
 	</target>
+	
 </project>
