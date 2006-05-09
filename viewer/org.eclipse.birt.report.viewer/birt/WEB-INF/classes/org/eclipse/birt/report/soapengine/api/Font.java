@@ -13,6 +13,7 @@ public class Font  implements java.io.Serializable {
     private java.lang.Integer size;
     private java.lang.String effect;
     private java.lang.String _super;
+    private java.lang.String weight;
 
     public Font() {
     }
@@ -22,12 +23,14 @@ public class Font  implements java.io.Serializable {
            java.lang.String style,
            java.lang.Integer size,
            java.lang.String effect,
-           java.lang.String _super) {
+           java.lang.String _super,
+           java.lang.String weight) {
            this.family = family;
            this.style = style;
            this.size = size;
            this.effect = effect;
            this._super = _super;
+           this.weight = weight;
     }
 
 
@@ -130,6 +133,26 @@ public class Font  implements java.io.Serializable {
         this._super = _super;
     }
 
+
+    /**
+     * Gets the weight value for this Font.
+     * 
+     * @return weight
+     */
+    public java.lang.String getWeight() {
+        return weight;
+    }
+
+
+    /**
+     * Sets the weight value for this Font.
+     * 
+     * @param weight
+     */
+    public void setWeight(java.lang.String weight) {
+        this.weight = weight;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Font)) return false;
@@ -156,7 +179,10 @@ public class Font  implements java.io.Serializable {
               this.effect.equals(other.getEffect()))) &&
             ((this._super==null && other.get_super()==null) || 
              (this._super!=null &&
-              this._super.equals(other.get_super())));
+              this._super.equals(other.get_super()))) &&
+            ((this.weight==null && other.getWeight()==null) || 
+             (this.weight!=null &&
+              this.weight.equals(other.getWeight())));
         __equalsCalc = null;
         return _equals;
     }
@@ -182,6 +208,9 @@ public class Font  implements java.io.Serializable {
         }
         if (get_super() != null) {
             _hashCode += get_super().hashCode();
+        }
+        if (getWeight() != null) {
+            _hashCode += getWeight().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -224,6 +253,13 @@ public class Font  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("_super");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Super"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("weight");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Weight"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
