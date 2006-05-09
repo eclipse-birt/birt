@@ -126,6 +126,11 @@ abstract public class BaseAttributeBean
 	protected Map parameterMap = null;
 
 	/**
+	 * Viewer report design handle 
+	 */	
+	protected IViewerReportDesignHandle reportDesignHandle = null;
+	
+	/**
 	 * Abstract methods.
 	 */
 	abstract protected void __init( HttpServletRequest request )
@@ -175,17 +180,17 @@ abstract public class BaseAttributeBean
 	protected void __initParameters( HttpServletRequest request )
 			throws Exception
 	{
-		IViewerReportDesignHandle design = getDesignHandle( request );
+		this.reportDesignHandle = getDesignHandle( request );
 
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
 
 		Collection parameterList = this.getReportService( )
-				.getParameterDefinitions( design, options, false );
+				.getParameterDefinitions( this.reportDesignHandle, options, false );
 
 		// TODO: Change parameters to be Map, not HashMap
-		this.parameters = (HashMap) getParsedParameters( design, parameterList,
+		this.parameters = (HashMap) getParsedParameters( this.reportDesignHandle, parameterList,
 				request, options );
 
 		this.missingParameter = validateParameters( parameterList,
@@ -426,5 +431,12 @@ abstract public class BaseAttributeBean
 		}
 		return null;
 	}
-
+	
+	/**
+	 * @return the reportDesignHandle
+	 */
+	public IViewerReportDesignHandle getReportDesignHandle( )
+	{
+		return this.reportDesignHandle;
+	}	
 }

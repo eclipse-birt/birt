@@ -55,12 +55,10 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 			IViewerReportService service, ScalarParameterBean parameterBean,
 			Locale locale ) throws ReportServiceException
 	{
-		String reportDesignName = ParameterAccessor.getReport( request );
  		ViewerAttributeBean attrBean = ( ViewerAttributeBean ) request
  				.getAttribute( "attributeBean" ); //$NON-NLS-1$
-
-		IViewerReportDesignHandle design = new BirtViewerReportDesignHandle(
-				null, reportDesignName );
+ 		assert attrBean != null;
+ 		
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 
@@ -70,10 +68,10 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
  		if ( paramDef.getGroup( ) != null && paramDef.getGroup( ).cascade( ))
 		{
 			Map paramValues = attrBean.getParameters( );
-			selectionList = getParameterSelectionListForCascadingGroup( design,
+			selectionList = getParameterSelectionListForCascadingGroup( attrBean.getReportDesignHandle( ),
 					service, paramValues );
 		} else
-			selectionList = service.getParameterSelectionList( design, options,
+			selectionList = service.getParameterSelectionList( attrBean.getReportDesignHandle( ), options,
 					parameter.getName( ) );
 
 		parameterBean.setValueInList( false );

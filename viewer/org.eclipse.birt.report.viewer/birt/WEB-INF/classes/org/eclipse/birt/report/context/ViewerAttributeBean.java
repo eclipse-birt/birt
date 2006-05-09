@@ -16,12 +16,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.IBirtConstants;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
@@ -113,10 +111,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	protected void __initParameters( HttpServletRequest request )
 			throws Exception
 	{
-		IViewerReportDesignHandle design = getDesignHandle( request );
+		this.reportDesignHandle = getDesignHandle( request );
 
 		// when in preview model, parse paramenters from config file
-		if ( isDesigner	)
+		if ( isDesigner )
 		{
 			this.parseConfigVars( request );
 		}
@@ -126,10 +124,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		options.setOption( InputOptions.OPT_LOCALE, locale );
 
 		Collection parameterList = this.getReportService( )
-				.getParameterDefinitions( design, options, false );
+				.getParameterDefinitions( reportDesignHandle, options, false );
 
 		// TODO: Change parameters to be Map, not HashMap
-		this.parameters = (HashMap) getParsedParameters( design, parameterList,
+		this.parameters = (HashMap) getParsedParameters( reportDesignHandle, parameterList,
 				request, options );
 
 		this.missingParameter = validateParameters( parameterList,
@@ -163,25 +161,29 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			handle = sessionHandle.openDesign( reportConfigName );
 
 			// initial config map
-			Iterator configVars = handle.configVariablesIterator( );
-			while ( configVars.hasNext( ) )
+			if ( handle != null )
 			{
-				ConfigVariableHandle configVar = (ConfigVariableHandle) configVars
-						.next( );
-				if ( configVar != null && configVar.getName( ) != null )
+				Iterator configVars = handle.configVariablesIterator( );
+				while ( configVars != null && configVars.hasNext( ) )
 				{
-					this.configMap.put( configVar.getName( ), configVar
-							.getValue( ) );
+					ConfigVariableHandle configVar = (ConfigVariableHandle) configVars
+							.next( );
+					if ( configVar != null && configVar.getName( ) != null )
+					{
+						this.configMap.put( configVar.getName( ), configVar
+								.getValue( ) );
+					}
 				}
-			}
 
-			handle.close( );
+				handle.close( );
+			}
 		}
 		catch ( Exception e )
 		{
 			try
 			{
-				handle.close( );
+				if ( handle != null )
+					handle.close( );
 			}
 			catch ( Exception err )
 			{
@@ -202,12 +204,19 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		if ( reportDocumentInstance != null )
 		{
 			reportRunnable = reportDocumentInstance.getReportRunnable( );
+			// in frameset mode, parse parameter values from document file
+			if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
+					.getServletPath( ) ) )
+			{
+				this.parameterMap = reportDocumentInstance.getParameterValues( );
+			}
 			reportDocumentInstance.close( );
 		}
 		if ( reportRunnable != null )
 		{
 			design = new BirtViewerReportDesignHandle(
-					IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT, reportRunnable );
+					IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT,
+					reportRunnable );
 		}
 		else
 		{
@@ -279,29 +288,29 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		if ( paramValueObj != null )
 			return paramValueObj;
 
-		// Get config map
-		IReportRunnable runnable;
-		try
+		if ( ParameterAccessor.isDesigner( request ) && this.configMap != null
+				&& this.configMap.containsKey( paramName ) )
 		{
-			runnable = ReportEngineService.getInstance( ).openReportDesign(
-					reportDesignName );
+			// Get value from config file
+			paramValueObj = this.configMap.get( paramName );
 		}
-		catch ( EngineException e )
+		else if ( this.parameterMap != null
+				&& this.parameterMap.containsKey( paramName ) )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
+			// Get value from document
+			paramValueObj = this.parameterMap.get( paramName );
 		}
-		Map configMap = runnable.getTestConfig( );
-		if ( ParameterAccessor.isDesigner( request )
-				&& configMap.containsKey( paramName ) )
+
+		if ( paramValueObj != null )
 		{
-			// Get value from test config
-			String configValue = (String) configMap.get( paramName );
 			ReportParameterConverter cfgConverter = new ReportParameterConverter(
 					format, Locale.US );
-			return cfgConverter
-					.parse( configValue, parameterObj.getDataType( ) );
+			return cfgConverter.parse( paramValueObj.toString( ), parameterObj
+					.getDataType( ) );
 		}
 		else
+		{
 			return super.getParamValueObject( request, parameterObj );
+		}
 	}
 }

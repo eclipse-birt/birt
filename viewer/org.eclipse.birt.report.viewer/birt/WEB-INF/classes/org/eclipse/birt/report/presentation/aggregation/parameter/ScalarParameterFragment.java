@@ -73,7 +73,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 	protected void doService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		ViewerAttributeBean attrBean = ( ViewerAttributeBean ) request
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
 				.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		assert attrBean != null;
 
@@ -81,16 +81,13 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		ScalarParameterBean parameterBean = new ScalarParameterBean( parameter );
 		attrBean.setParameterBean( parameterBean );
 
-		String reportDesignName = ParameterAccessor.getReport( request );
-		IViewerReportDesignHandle designHandle = new BirtViewerReportDesignHandle(
-				null, reportDesignName );
-
 		Locale locale = attrBean.getLocale( );
 		boolean isDesigner = attrBean.isDesigner( );
 		try
 		{
-			prepareParameterBean( designHandle, getReportService( ),
-					request, parameterBean, parameter, locale, isDesigner );
+			prepareParameterBean( attrBean.getReportDesignHandle( ),
+					getReportService( ), request, parameterBean, parameter,
+					locale, isDesigner );
 			// Prepare additional parameter properties.
 			prepareParameterBean( request, getReportService( ), parameterBean,
 					locale );
@@ -113,18 +110,19 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		return JSPRootPath + "/pages/parameter/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
 	}
 
-	public static void prepareParameterBean( IViewerReportDesignHandle designHandle,
+	public static void prepareParameterBean(
+			IViewerReportDesignHandle designHandle,
 			IViewerReportService service, HttpServletRequest request,
 			ScalarParameterBean parameterBean, ParameterDefinition parameter,
 			Locale locale, boolean isDesigner ) throws ReportServiceException
 	{
 		// Display name
 		String displayName = parameter.getPromptText( );
-		displayName = ( displayName == null || displayName.length( ) <= 0 ) ? parameter
-				.getDisplayName( )
+		displayName = ( displayName == null || displayName.length( ) <= 0 )
+				? parameter.getDisplayName( )
 				: displayName;
-		displayName = ( displayName == null || displayName.length( ) <= 0 ) ? parameter
-				.getName( )
+		displayName = ( displayName == null || displayName.length( ) <= 0 )
+				? parameter.getName( )
 				: displayName;
 		displayName = ParameterAccessor.htmlEncode( displayName );
 		parameterBean.setDisplayName( displayName );
@@ -139,25 +137,26 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		// isRequired
 		switch ( parameter.getDataType( ) )
 		{
-			case ParameterDefinition.TYPE_STRING:
+			case ParameterDefinition.TYPE_STRING :
 			{
 				assert paramDefaultValueObj instanceof String;
-	
+
 				parameterBean.setRequired( false );
-	
+
 				if ( paramDefaultValueObj == null && !parameter.allowNull( ) )
 				{
 					parameterBean.setRequired( true );
-				} else if ( paramDefaultValueObj != null
-						&& ( ( String ) paramDefaultValueObj ).length( ) <= 0
+				}
+				else if ( paramDefaultValueObj != null
+						&& ( (String) paramDefaultValueObj ).length( ) <= 0
 						&& !parameter.allowBlank( ) )
 				{
 					parameterBean.setRequired( true );
 				}
-	
+
 				break;
 			}
-			default:
+			default :
 			{
 				parameterBean.setRequired( paramDefaultValueObj == null );
 				break;
@@ -170,46 +169,30 @@ public class ScalarParameterFragment extends BirtBaseFragment
 				format, locale );
 		String parameterDefaultValue = converter.format( paramDefaultValueObj );
 
-		// Get value from test config
-		if ( isDesigner )
+		// Directly get parameter values from AttributeBean
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+				.getAttribute( "attributeBean" ); //$NON-NLS-1$
+
+		Map configMap = attrBean.getParameters( );
+
+		if ( configMap != null && configMap.containsKey( parameter.getName( ) ) )
 		{
-			// It's ok to use ReportEngineService directly here since we know we
-			// are in the designer
-			Map configMap = null;
-			if ( designHandle.getContentType() == IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT )
+			Object configObj = configMap.get( parameter.getName( ) );
+			String configValue = null;
+
+			if ( configObj != null )
 			{
-				IReportRunnable runnable = (IReportRunnable)designHandle.getDesignObject();
-				configMap = runnable.getTestConfig( );
-			}
-			else
-			{
- 				try
- 				{
- 					IReportRunnable runnable = ReportEngineService.getInstance( )
- 							.openReportDesign( designHandle.getFileName() );
- 					configMap = runnable.getTestConfig( );
- 				}
- 				catch ( EngineException e )
- 				{
- 					throw new ReportServiceException( e.getLocalizedMessage( ) );
- 				}
+				configValue = configObj.toString( );
 			}
 
-			if ( configMap != null )
+			if ( configValue != null && configValue.length( ) > 0 )
 			{
-				String configValue = ( String ) configMap.get( parameter
-						.getName( ) );
-
-				if ( configValue != null && configValue.length( ) > 0 )
-				{
-					ReportParameterConverter cfgConverter = new ReportParameterConverter(
-							format, Locale.US );
- 					Object configValueObj = cfgConverter.parse( configValue,
-							parameter.getDataType( ) );
-					parameterDefaultValue = converter.format( configValueObj );
-				}
+				ReportParameterConverter cfgConverter = new ReportParameterConverter(
+						format, Locale.US );
+				Object configValueObj = cfgConverter.parse( configValue,
+						parameter.getDataType( ) );
+				parameterDefaultValue = converter.format( configValueObj );
 			}
-
 		}
 
 		parameterBean.setValue( ParameterAccessor.getReportParameter( request,

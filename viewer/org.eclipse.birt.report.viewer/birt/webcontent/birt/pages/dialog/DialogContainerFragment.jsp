@@ -72,17 +72,7 @@
 						<div id="<%= fragment.getClientId( ) %>okButtonLeft" class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
 						<div id="<%= fragment.getClientId( ) %>okButtonRight" class="dialogBtnBarButtonRightBackgroundEnabled"></div>
 						<span class="dialogBtnBarButtonText">
-						<%	
-							String buttonName = BirtResources.getString( "birt.viewer.dialog.ok" );								
-							if ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request.getServletPath() ) 
-							 	|| ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request.getServletPath() ) 
-									&& ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( attributeBean.getFormat() ) ) )
-							{
-								buttonName = "okRun";
-							}
-						%>
-						
-							<%= buttonName %>
+						<%= BirtResources.getString( "birt.viewer.dialog.ok" ) %>
 						</span>
 					</div>
 					<div class="dialogBtnBarDivider"></div>

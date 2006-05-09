@@ -100,10 +100,6 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		{
 			document.location.reload( );
 		}
-		else if ( this.__mode == 'run' )
-		{
-			this.__close( );
-		}
 		else
 		{
 			this.__l_hide( );
