@@ -86,7 +86,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		this.context = context;
 		dataEngine = context.getDataEngine( );
 		ReportDesignHandle reportDesign = context.getDesign( );
-		report = new ReportParser( ).parse( reportDesign );
+		report = new ReportParser( context ).parse( reportDesign );
 		context.setReport( report );
 
 		reportContent = (ReportContent) ContentFactory

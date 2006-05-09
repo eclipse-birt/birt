@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
+import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -33,7 +35,7 @@ import com.ibm.icu.util.ULocale;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.13 $ $Date: 2006/04/26 06:48:00 $
+ * @version $Revision: 1.14 $ $Date: 2006/04/26 10:13:05 $
  */
 public class ReportParser
 {
@@ -50,6 +52,28 @@ public class ReportParser
 	 */
 	public ReportParser( )
 	{
+	}
+
+	public ReportParser(  IReportEngine engine )
+	{
+		IResourceLocator resourceLocator = null;
+		if ( engine != null && engine.getConfig( ) != null )
+		{
+			resourceLocator = engine.getConfig( ).getResourceLocator( );
+		}
+		this.resourceLocator = resourceLocator;
+	}
+
+	public ReportParser(  ExecutionContext context )
+	{
+		IResourceLocator resourceLocator = null;
+		if ( context != null && context.getEngine( ) != null
+				&& context.getEngine( ).getConfig( ) != null )
+		{
+			resourceLocator = context.getEngine( ).getConfig( )
+					.getResourceLocator( );
+		}
+		this.resourceLocator = resourceLocator;
 	}
 
 	public ReportParser( IResourceLocator resourceLocator )

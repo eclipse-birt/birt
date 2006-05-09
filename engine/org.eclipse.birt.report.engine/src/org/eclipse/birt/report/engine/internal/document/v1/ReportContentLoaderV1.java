@@ -107,7 +107,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 		this.context = context;
 		dataEngine = context.getDataEngine( );
 		ReportDesignHandle reportDesign = context.getDesign( );
-		report = new ReportParser( ).parse( reportDesign );
+		Report report = new ReportParser( context ).parse( reportDesign );
 		context.setReport( report );
 
 		reportContent = (ReportContent) ContentFactory
@@ -568,7 +568,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.4 $ $Date: 2006/04/27 09:52:27 $
+	 * @version $Revision: 1.5 $ $Date: 2006/04/28 06:44:28 $
 	 */
 	protected class GenerateIDMapVisitor implements IReportItemVisitor
 	{

@@ -100,8 +100,7 @@ public class ReportEngineHelper
 
 		try
 		{
-			designHandle = new ReportParser( ).getDesignHandle( designName,
-					null );
+			designHandle = new ReportParser( engine ).getDesignHandle( designName, null );
 		}
 		catch ( DesignFileException e )
 		{
@@ -162,8 +161,8 @@ public class ReportEngineHelper
 		ReportDesignHandle designHandle;
 		try
 		{
-			designHandle = new ReportParser( ).getDesignHandle( designName,
-					designStream );
+			designHandle = new ReportParser( engine ).getDesignHandle(
+					designName, designStream );
 		}
 		catch ( DesignFileException e )
 		{

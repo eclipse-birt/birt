@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.34 $ $Date: 2006/03/23 09:28:37 $
+ * @version $Revision: 1.35 $ $Date: 2006/04/18 07:08:29 $
  */
 public class ReportExecutor
 {
@@ -85,7 +85,7 @@ public class ReportExecutor
 	public void execute( ReportDesignHandle reportDesign,
 			IContentEmitter emitter )
 	{
-		Report report = new ReportParser( ).parse( reportDesign );
+		Report report = new ReportParser( context ).parse( reportDesign );
 		execute( report, emitter );
 	}
 

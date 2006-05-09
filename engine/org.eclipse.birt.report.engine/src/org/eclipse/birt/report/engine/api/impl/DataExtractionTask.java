@@ -121,7 +121,7 @@ public class DataExtractionTask extends EngineTask
 
 		ReportDesignHandle reportHandle = (ReportDesignHandle) runnable
 				.getDesignHandle( );
-		report = new ReportParser( ).parse( reportHandle );
+		report = new ReportParser( executionContext ).parse( reportHandle );
 
 		executionContext.setReport( report );
 

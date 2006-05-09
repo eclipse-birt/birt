@@ -138,7 +138,8 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	public Collection getParameterDefns(boolean includeParameterGroups)
 	{
-		ArrayList params = new ReportParser().getParameters( designHandle, includeParameterGroups );
+		ArrayList params = new ReportParser( engine ).getParameters( designHandle,
+				includeParameterGroups );
 		return params;
 	}
 
