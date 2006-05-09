@@ -11,7 +11,7 @@
    </description>
 
    <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+      %copyright
    </copyright>
 
    <license url="%licenseURL">
