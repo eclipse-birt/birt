@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.element.IRow;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IRowEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;

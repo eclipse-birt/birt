@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.data.IResultSet;
@@ -171,7 +172,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 			queryResults = dteEngine.getQueryResults( resultSetID );
 
-			DteResultSet resultSet = new DteResultSet( queryResults.getID( ),
+			DataSetID dataSetId = new DataSetID( queryResults.getID( ) );
+			DteResultSet resultSet = new DteResultSet( dataSetId, parentResult,
 					queryResults.getResultIterator( ), this, context );
 
 			rsets.addFirst( resultSet );

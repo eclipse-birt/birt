@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * the content of report document.
  * 
- * @version $Revision: 1.6 $ $Date: 2006/04/05 13:22:52 $
+ * @version $Revision: 1.7 $ $Date: 2006/04/27 09:52:25 $
  */
 public interface IContent extends IElement, CSSStylableElement
 {
@@ -106,16 +106,6 @@ public interface IContent extends IElement, CSSStylableElement
 	Object getGenerateBy( );
 
 	void setGenerateBy( Object generateBy );
-
-	/**
-	 * bound properties caculated by the layout manager. may be NULL for
-	 * unformated content.
-	 * 
-	 * @return
-	 */
-	IBounds getBounds( );
-
-	void setBounds( IBounds bounds );
 
 	/**
 	 * @return inline style

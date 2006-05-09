@@ -16,7 +16,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.content.IBounds;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IElement;
@@ -58,16 +57,6 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	public String getBookmark( )
 	{
 		return content.getBookmark( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#getBounds()
-	 */
-	public IBounds getBounds( )
-	{
-		return content.getBounds( );
 	}
 
 	/*
@@ -268,16 +257,6 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	public void setBookmark( String bookmark )
 	{
 		content.setBookmark( bookmark );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setBounds(org.eclipse.birt.report.engine.content.IBounds)
-	 */
-	public void setBounds( IBounds bounds )
-	{
-		content.setBounds( bounds );
 	}
 
 	/*

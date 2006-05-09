@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -31,7 +32,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.40 $ $Date: 2006/04/28 10:14:15 $
+ * @version $Revision: 1.41 $ $Date: 2006/04/29 07:40:13 $
  */
 public class DteDataEngine extends AbstractDataEngine
 {
@@ -119,8 +120,9 @@ public class DteDataEngine extends AbstractDataEngine
 						scope );
 			}
 
-			resultSet = new DteResultSet( dteResults.getID(),
-					dteResults.getResultIterator( ), this, context );
+			DataSetID dataSetId = new DataSetID( dteResults.getID( ) );
+			resultSet = new DteResultSet( dataSetId, resultSet, dteResults
+					.getResultIterator( ), this, context );
 			rsets.addFirst( resultSet );
 
 			return resultSet;

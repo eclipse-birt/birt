@@ -17,7 +17,6 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.content.IBounds;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
@@ -29,6 +28,7 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
 abstract public class AbstractContent extends AbstractElement
 		implements
@@ -40,8 +40,6 @@ abstract public class AbstractContent extends AbstractElement
 	transient protected CSSEngine cssEngine;
 
 	protected String name;
-
-	transient protected IBounds bounds;
 
 	protected DimensionType x;
 
@@ -89,7 +87,6 @@ abstract public class AbstractContent extends AbstractElement
 	{
 		this( content.getReportContent( ) );
 		this.name = content.getName( );
-		this.bounds = content.getBounds( );
 		this.x = content.getX( );
 		this.y = content.getY( );
 		this.width = content.getWidth( );
@@ -124,11 +121,6 @@ abstract public class AbstractContent extends AbstractElement
 		visitor.visitContent( this, value );
 	}
 
-	public IBounds getBounds( )
-	{
-		return bounds;
-	}
-
 	/**
 	 * @return the bookmark value
 	 */
@@ -150,7 +142,15 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public DimensionType getHeight( )
 	{
-		return height;
+		if ( height != null )
+		{
+			return height;
+		}
+		if ( generateBy instanceof ReportItemDesign )
+		{
+			return ( (ReportItemDesign) generateBy ).getHeight( );
+		}
+		return null;
 	}
 
 	/**
@@ -158,7 +158,16 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public DimensionType getWidth( )
 	{
-		return width;
+		if ( width != null )
+		{
+			return width;
+		}
+		if ( generateBy instanceof ReportItemDesign )
+		{
+			return ( (ReportItemDesign) generateBy ).getWidth( );
+		}
+		return null;
+
 	}
 
 	/**
@@ -166,7 +175,15 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public DimensionType getX( )
 	{
-		return x;
+		if ( x != null )
+		{
+			return x;
+		}
+		if ( generateBy instanceof ReportItemDesign )
+		{
+			return ( (ReportItemDesign) generateBy ).getX( );
+		}
+		return null;
 	}
 
 	/**
@@ -174,7 +191,15 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public DimensionType getY( )
 	{
-		return y;
+		if ( y != null )
+		{
+			return y;
+		}
+		if ( generateBy instanceof ReportItemDesign )
+		{
+			return ( (ReportItemDesign) generateBy ).getY( );
+		}
+		return null;
 	}
 
 	/**
@@ -234,15 +259,6 @@ abstract public class AbstractContent extends AbstractElement
 	public void setBookmark( String bookmark )
 	{
 		this.bookmark = bookmark;
-	}
-
-	/**
-	 * @param bounds
-	 *            The bounds to set.
-	 */
-	public void setBounds( IBounds bounds )
-	{
-		this.bounds = bounds;
 	}
 
 	/**
