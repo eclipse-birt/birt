@@ -15,7 +15,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
@@ -142,7 +141,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private static final String BUTTON_ALLOW_NULL_VALUE = Messages.getString( "CascadingParametersDialog.Button.AllowNull" ); //$NON-NLS-1$
 
-	private static final String LABEL_SELECT_DATA_SET_MODE = Messages.getString("CascadingParametersDialog.Label.SelectDataSetMode"); //$NON-NLS-1$
+	private static final String LABEL_SELECT_DATA_SET_MODE = Messages.getString( "CascadingParametersDialog.Label.SelectDataSetMode" ); //$NON-NLS-1$
 
 	private static final String RADIO_SINGLE = Messages.getString( "CascadingParametersDialog.Radio.Single" ); //$NON-NLS-1$
 
@@ -221,6 +220,28 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private Button allowNull;
 
+	private int maxStrLengthProperty;
+
+	private int maxStrLengthOption;
+
+	private String PROPERTY_LABEL_STRING[] = {
+			LABEL_PARAM_NAME,
+			LABEL_PROMPT_TEXT,
+			LABEL_DATA_TYPE,
+			LABEL_DISPLAY_TYPE,
+			LABEL_DEFAULT_VALUE
+	};
+
+	private String OPTION_LABEL_STRING[] = {
+			LABEL_HELP_TEXT, LABEL_FORMAT_AS, LABEL_LIST_LIMIT
+	};
+
+	protected int getMaxStrLength( String string[], Control control )
+	{
+		int len = UIUtil.getMaxStringWidth( string, control );
+		return len;
+	}
+
 	/**
 	 * 
 	 * Constructor.
@@ -248,6 +269,12 @@ public class CascadingParametersDialog extends BaseDialog
 		Composite composite = (Composite) super.createDialogArea( parent );
 		GridData data = new GridData( );
 		data.widthHint = 600;
+
+		maxStrLengthProperty = getMaxStrLength( PROPERTY_LABEL_STRING,
+				composite );
+
+		maxStrLengthOption = getMaxStrLength( OPTION_LABEL_STRING, composite );
+
 		composite.setLayoutData( data );
 
 		createGeneralPart( composite );
@@ -287,8 +314,8 @@ public class CascadingParametersDialog extends BaseDialog
 		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		composite.setLayout( new GridLayout( 3, true ) );
 
-		new Label(composite,SWT.NONE).setText( LABEL_SELECT_DATA_SET_MODE );
-		
+		new Label( composite, SWT.NONE ).setText( LABEL_SELECT_DATA_SET_MODE );
+
 		singleDataSet = new Button( composite, SWT.RADIO );
 		singleDataSet.setText( RADIO_SINGLE );
 		singleDataSet.addSelectionListener( new SelectionAdapter( ) {
@@ -410,7 +437,7 @@ public class CascadingParametersDialog extends BaseDialog
 		propertiesGroup.setLayout( new GridLayout( 2, false ) );
 		propertiesGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		createLabel( propertiesGroup, LABEL_PARAM_NAME );
+		createLabel( propertiesGroup, LABEL_PARAM_NAME, maxStrLengthProperty );
 
 		paramNameEditor = new Text( propertiesGroup, SWT.BORDER );
 		paramNameEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -423,12 +450,12 @@ public class CascadingParametersDialog extends BaseDialog
 
 		} );
 
-		createLabel( propertiesGroup, LABEL_PROMPT_TEXT );
+		createLabel( propertiesGroup, LABEL_PROMPT_TEXT, maxStrLengthProperty );
 
 		promptText = new Text( propertiesGroup, SWT.BORDER );
 		promptText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		createLabel( propertiesGroup, LABEL_DATA_TYPE );
+		createLabel( propertiesGroup, LABEL_DATA_TYPE, maxStrLengthProperty );
 		dataTypeChooser = new Combo( propertiesGroup, SWT.DROP_DOWN
 				| SWT.READ_ONLY );
 		dataTypeChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -455,7 +482,7 @@ public class CascadingParametersDialog extends BaseDialog
 			}
 		} );
 
-		createLabel( propertiesGroup, LABEL_DISPLAY_TYPE );
+		createLabel( propertiesGroup, LABEL_DISPLAY_TYPE, maxStrLengthProperty );
 		displayTypeChooser = new Combo( propertiesGroup, SWT.DROP_DOWN
 				| SWT.READ_ONLY );
 		displayTypeChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -497,7 +524,7 @@ public class CascadingParametersDialog extends BaseDialog
 			}
 		} );
 
-		createLabel( propertiesGroup, LABEL_DEFAULT_VALUE );
+		createLabel( propertiesGroup, LABEL_DEFAULT_VALUE, maxStrLengthProperty );
 		defaultValueEditor = new Text( propertiesGroup, SWT.BORDER );
 		defaultValueEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -510,7 +537,7 @@ public class CascadingParametersDialog extends BaseDialog
 		optionsGroup.setLayout( new GridLayout( 2, false ) );
 		optionsGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		createLabel( optionsGroup, LABEL_HELP_TEXT );
+		createLabel( optionsGroup, LABEL_HELP_TEXT, maxStrLengthOption );
 
 		helpTextEditor = new Text( optionsGroup, SWT.BORDER );
 		helpTextEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -549,7 +576,7 @@ public class CascadingParametersDialog extends BaseDialog
 		previewLable.setText( "" ); //$NON-NLS-1$
 		previewLable.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		createLabel( optionsGroup, LABEL_LIST_LIMIT );
+		createLabel( optionsGroup, LABEL_LIST_LIMIT, maxStrLengthOption );
 
 		Composite composite = new Composite( optionsGroup, SWT.NULL );
 		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, true ) );
@@ -623,20 +650,20 @@ public class CascadingParametersDialog extends BaseDialog
 		} );
 	}
 
-	private void createLabel( Composite parent, String content )
+	private void createLabel( Composite parent, String content, int width )
 	{
 		Label label = new Label( parent, SWT.NONE );
-		setLabelLayoutData( label );
+		setLabelLayoutData( label, width );
 		if ( content != null )
 		{
 			label.setText( content );
 		}
 	}
 
-	private void setLabelLayoutData( Control control )
+	private void setLabelLayoutData( Control control, int width )
 	{
 		GridData gd = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
-		gd.widthHint = 100;
+		gd.widthHint = width;
 		control.setLayoutData( gd );
 	}
 
