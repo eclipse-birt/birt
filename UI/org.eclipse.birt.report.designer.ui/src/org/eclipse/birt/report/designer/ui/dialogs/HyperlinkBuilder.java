@@ -947,15 +947,15 @@ public class HyperlinkBuilder extends BaseDialog
 				{
 					inputHandle.setTargetBookmark( bookmarkEditor.getText( )
 							.trim( ) );
-
-					if ( targetBookmarkButton.getSelection( ) )
-					{
-						inputHandle.setTargetBookmarkType( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK );
-					}
-					else if ( tocButton.getSelection( ) )
-					{
-						inputHandle.setTargetBookmarkType( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC );
-					}
+				}
+				
+				if ( targetBookmarkButton.getSelection( ) )
+				{
+					inputHandle.setTargetBookmarkType( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK );
+				}
+				else if ( tocButton.getSelection( ) )
+				{
+					inputHandle.setTargetBookmarkType( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC );
 				}
 
 				if ( sameWindowButton.getSelection( ) )
@@ -1252,6 +1252,17 @@ public class HyperlinkBuilder extends BaseDialog
 						.toArray( new String[0] ) );
 			}
 		}
+		
+		String bookmark = inputHandle.getTargetBookmark( );
+		String[] chooserValues = anchorChooser.getItems( );
+		if(bookmark!=null && chooserValues!=null){
+			for ( int i = 0; i < chooserValues.length; i++ )
+			{
+				if(bookmark.equals( chooserValues[i]))
+					anchorChooser.select( i );
+			}
+		}
+		
 		anchorChooser.setEnabled( anchorChooser.getItemCount( ) > 0 );
 		bookmarkEditor.setText( "" ); //$NON-NLS-1$
 	}
