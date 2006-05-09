@@ -46,6 +46,7 @@ import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.emf.common.util.EList;
@@ -982,6 +983,34 @@ public class ChartUIUtil
 				newSeries.getDataDefinition( ).add( query );
 			}
 		}
+	}
+
+	public static ChartDimension getDimensionType( String sDimension )
+	{
+		if ( sDimension == null
+				|| sDimension.equals( IChartType.TWO_DIMENSION_TYPE ) )
+		{
+			return ChartDimension.TWO_DIMENSIONAL_LITERAL;
+		}
+		if ( sDimension.equals( IChartType.THREE_DIMENSION_TYPE ) )
+		{
+			return ChartDimension.THREE_DIMENSIONAL_LITERAL;
+		}
+		return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
+	}
+
+	public static String getDimensionString( ChartDimension dimension )
+	{
+		if ( dimension == null
+				|| dimension == ChartDimension.TWO_DIMENSIONAL_LITERAL )
+		{
+			return IChartType.TWO_DIMENSION_TYPE;
+		}
+		if ( dimension == ChartDimension.THREE_DIMENSIONAL_LITERAL )
+		{
+			return IChartType.THREE_DIMENSION_TYPE;
+		}
+		return IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE;
 	}
 
 }

@@ -233,7 +233,7 @@ public class AreaChart extends DefaultChartTypeImpl
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setOrientation( orientation );
-		newChart.setDimension( getDimensionFor( sDimension ) );
+		newChart.setDimension( ChartUIUtil.getDimensionType( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
 		( (Axis) newChart.getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
@@ -495,7 +495,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+			currentChart.setDimension( ChartUIUtil.getDimensionType( sNewDimension ) );
 
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.TEXT_LITERAL );
@@ -603,13 +603,13 @@ public class AreaChart extends DefaultChartTypeImpl
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
 		}
 		if ( !currentChart.getDimension( )
-				.equals( getDimensionFor( sNewDimension ) ) )
+				.equals( ChartUIUtil.getDimensionType( sNewDimension ) ) )
 		{
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+			currentChart.setDimension( ChartUIUtil.getDimensionType( sNewDimension ) );
 		}
 
 		if ( sNewDimension.equals( THREE_DIMENSION_TYPE )
-				&& getDimensionFor( sNewDimension ) != oldDimension )
+				&& ChartUIUtil.getDimensionType( sNewDimension ) != oldDimension )
 		{
 			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.create( new Angle3D[]{
 				Angle3DImpl.create( -20, 45, 0 )
@@ -797,25 +797,12 @@ public class AreaChart extends DefaultChartTypeImpl
 	 */
 	public boolean supportsTransposition( String dimension )
 	{
-		if ( getDimensionFor( dimension ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
+		if ( ChartUIUtil.getDimensionType( dimension ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
 		{
 			return false;
 		}
 
 		return supportsTransposition( );
-	}
-
-	private ChartDimension getDimensionFor( String sDimension )
-	{
-		if ( sDimension == null || sDimension.equals( TWO_DIMENSION_TYPE ) )
-		{
-			return ChartDimension.TWO_DIMENSIONAL_LITERAL;
-		}
-		if ( sDimension.equals( THREE_DIMENSION_TYPE ) )
-		{
-			return ChartDimension.THREE_DIMENSIONAL_LITERAL;
-		}
-		return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
 	}
 
 	public ISelectDataComponent getBaseUI( Chart chart,
@@ -835,5 +822,21 @@ public class AreaChart extends DefaultChartTypeImpl
 	public String getDisplayName( )
 	{
 		return Messages.getString( "AreaChart.Txt.DisplayName" ); //$NON-NLS-1$
+	}
+	
+	public boolean isDimensionSupported( String dimensionType, int nbOfAxes,
+			int nbOfSeries )
+	{
+		boolean isSupported = super.isDimensionSupported( dimensionType,
+				nbOfAxes,
+				nbOfSeries );
+		if ( isSupported )
+		{
+			if ( TWO_DIMENSION_WITH_DEPTH_TYPE.equals( dimensionType ) )
+			{
+				isSupported = nbOfAxes <= 1;
+			}
+		}
+		return isSupported;
 	}
 }

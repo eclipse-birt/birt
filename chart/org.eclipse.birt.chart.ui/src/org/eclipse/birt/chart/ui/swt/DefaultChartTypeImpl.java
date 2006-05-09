@@ -155,4 +155,31 @@ public class DefaultChartTypeImpl implements IChartType
 		return new DefaultSelectDataComponent( );
 	}
 
+	public boolean isDimensionSupported( String dimensionType, int nbOfAxes,
+			int nbOfSeries )
+	{
+		boolean isSupported = false;
+		
+		//Check whether general dimension types include specified type
+		String[] supportedDimensions = getSupportedDimensions( );
+		for ( int i = 0; i < supportedDimensions.length; i++ )
+		{
+			if ( supportedDimensions[i].equals( dimensionType ) )
+			{
+				isSupported = true;
+				break;
+			}
+		}
+		
+		if ( isSupported )
+		{
+			if ( THREE_DIMENSION_TYPE.equals( dimensionType ) )
+			{
+				isSupported = nbOfAxes <= 1;
+			}
+		}
+
+		return isSupported;
+	}
+
 }

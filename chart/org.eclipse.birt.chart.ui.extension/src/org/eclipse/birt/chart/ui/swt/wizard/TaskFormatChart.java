@@ -479,7 +479,10 @@ public class TaskFormatChart extends TreeCompoundTask
 	private void createPreviewArea( Composite parent )
 	{
 		Composite cmpPreview = new Composite( parent, SWT.NONE );
-		cmpPreview.setLayout( new GridLayout( ) );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		cmpPreview.setLayout( layout );
 
 		GridData gridData = new GridData( GridData.FILL_BOTH );
 		gridData.heightHint = 250;

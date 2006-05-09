@@ -96,7 +96,6 @@ public interface IChartType
 	 * @param Orientation
 	 * @param Dimension
 	 * @param currentChart
-	 * @return
 	 */
 	public Chart getModel( String sType, Orientation Orientation,
 			String Dimension, Chart currentChart );
@@ -104,21 +103,18 @@ public interface IChartType
 	/**
 	 * Returns the dimension array this chart type supports.
 	 * 
-	 * @return
 	 */
 	public String[] getSupportedDimensions( );
 
 	/**
 	 * Returns the default dimension of this chart type.
 	 * 
-	 * @return
 	 */
 	public String getDefaultDimension( );
 
 	/**
 	 * Returns if this chart type supports transposition.
 	 * 
-	 * @return
 	 */
 	public boolean supportsTransposition( );
 
@@ -127,15 +123,12 @@ public interface IChartType
 	 * 
 	 * @since 2.0
 	 * 
-	 * @param dimension
-	 * @return
 	 */
 	public boolean supportsTransposition( String dimension );
 
 	/**
 	 * Returns the help information.
 	 * 
-	 * @return
 	 */
 	public IHelpContent getHelp( );
 	
@@ -147,7 +140,24 @@ public interface IChartType
 	 * @param context
 	 * @param sTitle
 	 * @return UI componnet
+	 * @since 2.0
 	 */
 	public ISelectDataComponent getBaseUI( Chart chart,
 			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context, String sTitle );
+	
+	/**
+	 * Checks whether the dimension is valid with specified number of axes or
+	 * series.
+	 * 
+	 * @param dimensionType
+	 *            dimension type
+	 * @param nbOfAxes
+	 *            number of axes
+	 * @param nbOfSeries
+	 *            number of series
+	 * @return dimension is valid or invalid
+	 * @since 2.1
+	 */
+	public boolean isDimensionSupported( String dimensionType, int nbOfAxes,
+			int nbOfSeries );
 }

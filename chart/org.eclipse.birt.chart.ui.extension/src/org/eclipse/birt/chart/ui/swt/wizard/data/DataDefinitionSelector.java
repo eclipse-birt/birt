@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -35,6 +36,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -391,6 +393,27 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 			// Check if needing to add a new series
 			if ( cmbAxisSelect.getSelectionIndex( ) == cmbAxisSelect.getItemCount( ) - 1 )
 			{
+				// Update dimension if it doesn't support multiple axes
+				ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
+
+					public Object run( )
+					{
+						String currentDimension = ChartUIUtil.getDimensionString( getChart( ).getDimension( ) );
+						boolean isDimensionSupported = wizardContext.getChartType( )
+								.isDimensionSupported( currentDimension,
+										cmbAxisSelect.getItemCount( ),
+										0 );
+						if ( !isDimensionSupported )
+						{
+							WizardBase.displayException( new RuntimeException( currentDimension
+									+ Messages.getString( "DataDefinitionSelector.Exception.NotSupportedForMultipleAxes" ) ) ); //$NON-NLS-1$
+							getChart( ).setDimension( ChartUIUtil.getDimensionType( wizardContext.getChartType( )
+									.getDefaultDimension( ) ) );
+						}
+						return null;
+					}
+				} );
+
 				// Update model
 				ChartUIUtil.addAxis( (ChartWithAxes) getChart( ) );
 

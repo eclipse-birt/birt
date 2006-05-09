@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -37,6 +38,7 @@ import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -168,6 +170,16 @@ public class TaskSelectType extends SimpleTask
 			}
 			placeComponents( );
 			updateAdapters( );
+		}
+
+		// Update dimension combo and related sub-types in case of axes changed
+		// outside
+		if ( ( (ChartWizardContext) getContext( ) ).isMoreAxesSupported( ) )
+		{
+			updateDimensionCombo( sType );
+			createAndDisplayTypesSheet( this.sType );
+			setDefaultSubtypeSelection( );
+			cmpMisc.layout( );
 		}
 		doLivePreview( );
 		return cmpTask;
@@ -446,11 +458,10 @@ public class TaskSelectType extends SimpleTask
 		int index = cbOutput.indexOf( sCurrentFormat );
 		if ( index == -1 )
 		{
-			index = cbOutput.indexOf( ( (ChartWizardContext) getContext( ) ).getDefaultOutputFormat( ) ) ;
+			index = cbOutput.indexOf( ( (ChartWizardContext) getContext( ) ).getDefaultOutputFormat( ) );
 		}
 		cbOutput.select( index );
 
-		
 	}
 
 	private String[] getOutputFormats( )
@@ -471,24 +482,6 @@ public class TaskSelectType extends SimpleTask
 			ChartWizard.displayException( e );
 		}
 		return new String[0];
-	}
-
-	/**
-	 * 
-	 */
-	private void populateDimensionCombo( String sSelectedType )
-	{
-		cbDimension.removeAll( );
-		String[] strArr = ( (IChartType) htTypes.get( sSelectedType ) ).getSupportedDimensions( );
-		cbDimension.setItems( strArr );
-		for ( int iD = 0; iD < strArr.length; iD++ )
-		{
-			if ( ( strArr[iD].equals( sDimension ) )
-					|| ( strArr[iD].equals( ( (IChartType) htTypes.get( this.sType ) ).getDefaultDimension( ) ) ) )
-			{
-				cbDimension.select( iD );
-			}
-		}
 	}
 
 	private void populateSeriesTypes( String[] allSeriesTypes, Series series )
@@ -628,38 +621,52 @@ public class TaskSelectType extends SimpleTask
 			cbSeriesType.setEnabled( isTwoAxesEnabled( ) );
 			( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( cbMultipleY.getSelectionIndex( ) == 2 );
 
-			int iAxisNumber = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
 			if ( chartModel instanceof ChartWithoutAxes )
 			{
 				throw new IllegalArgumentException( Messages.getString( "TaskSelectType.Exception.CannotSupportAxes" ) ); //$NON-NLS-1$
 			}
 
 			// Prevent notifications rendering preview
-			boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
-			ChartAdapter.ignoreNotifications( true );
-			if ( cbMultipleY.getSelectionIndex( ) == 0 )
+			ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
+
+				public Object run( )
+				{
+					int iAxisNumber = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
+					if ( cbMultipleY.getSelectionIndex( ) == 0 )
+					{
+						// Keeps one axis
+						if ( iAxisNumber > 1 )
+						{
+							ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
+									iAxisNumber - 1 );
+						}
+					}
+					else if ( cbMultipleY.getSelectionIndex( ) == 1 )
+					{
+						// Keeps two axes
+						if ( iAxisNumber == 1 )
+						{
+							ChartUIUtil.addAxis( (ChartWithAxes) chartModel );
+						}
+						else if ( iAxisNumber > 2 )
+						{
+							ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
+									iAxisNumber - 2 );
+						}
+					}
+					return null;
+				}
+			} );
+
+			// Update dimension combo and related sub-types
+			if ( updateDimensionCombo( sType ) )
 			{
-				// Keeps one axis
-				if ( iAxisNumber > 1 )
-				{
-					ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
-							iAxisNumber - 1 );
-				}
+				createAndDisplayTypesSheet( this.sType );
+				setDefaultSubtypeSelection( );
 			}
-			else if ( cbMultipleY.getSelectionIndex( ) == 1 )
-			{
-				// Keeps two axes
-				if ( iAxisNumber == 1 )
-				{
-					ChartUIUtil.addAxis( (ChartWithAxes) chartModel );
-				}
-				else if ( iAxisNumber > 2 )
-				{
-					ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
-							iAxisNumber - 2 );
-				}
-			}
-			ChartAdapter.ignoreNotifications( isNotificaionIgnored );
+
+			// Pack to display enough space for combo
+			cmpMisc.layout( );
 		}
 		else if ( oSelected.equals( cbDimension ) )
 		{
@@ -718,6 +725,49 @@ public class TaskSelectType extends SimpleTask
 				}
 			}
 		}
+	}
+
+	/**
+	 * Updates the dimension combo according to chart type and axes number
+	 * 
+	 * @param sSelectedType
+	 *            Chart type
+	 * @return whether the dimension is changed after updating
+	 */
+	private boolean updateDimensionCombo( String sSelectedType )
+	{
+		// Remember last selection
+		boolean isOldExist = false;
+
+		// Update valid dimension list
+		IChartType chartType = (IChartType) htTypes.get( sSelectedType );
+		String[] dimensionArray = chartType.getSupportedDimensions( );
+		int axesNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
+		cbDimension.removeAll( );
+		for ( int i = 0; i < dimensionArray.length; i++ )
+		{
+			boolean isSupported = chartType.isDimensionSupported( dimensionArray[i],
+					axesNum,
+					0 );
+			if ( isSupported )
+			{
+				cbDimension.add( dimensionArray[i] );
+			}
+			if ( !isOldExist && sDimension.equals( dimensionArray[i] ) )
+			{
+				isOldExist = isSupported;
+			}
+		}
+
+		// Select the previous selection or the default
+		if ( !isOldExist )
+		{
+			WizardBase.displayException( new RuntimeException( sDimension
+					+ Messages.getString( "TaskSelectType.Exception.NotSupportedForMultipleAxes" ) ) ); //$NON-NLS-1$
+			sDimension = chartType.getDefaultDimension( );
+		}
+		cbDimension.setText( sDimension );
+		return !isOldExist;
 	}
 
 	private boolean isTwoAxesEnabled( )
@@ -858,6 +908,9 @@ public class TaskSelectType extends SimpleTask
 		lblOrientation.setEnabled( chartType.supportsTransposition( )
 				&& !is3D( ) );
 		cbOrientation.setEnabled( chartType.supportsTransposition( ) && !is3D( ) );
+
+		// Update dimension
+		updateDimensionCombo( sSelectedType );
 		Vector vSubTypes = null;
 
 		// Show the subtypes for the selected type based on current selections
@@ -879,7 +932,6 @@ public class TaskSelectType extends SimpleTask
 
 		// Update the UI with information for selected type
 		createGroups( vSubTypes );
-		populateDimensionCombo( sSelectedType );
 		if ( orientationTmp == Orientation.HORIZONTAL_LITERAL )
 		{
 			this.cbOrientation.setSelection( true );

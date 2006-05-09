@@ -150,7 +150,7 @@ public class ErrorDialog implements SelectionListener
 
 		// MESSAGE LABEL
 		mcSheetHeading = new MessageComposite( cmpContainer,
-				"", sMessage, "", true ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				"", sMessage, "", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 		GridData gdMSGHeading = new GridData( GridData.FILL_HORIZONTAL );
 		gdMSGHeading.heightHint = 22;
 		gdMSGHeading.horizontalSpan = 3;
@@ -271,7 +271,9 @@ public class ErrorDialog implements SelectionListener
 		}
 		else
 		{
-			grpProblems.setText( Messages.getString( "ErrorDialog.text.Exception" ) ); //$NON-NLS-1$
+			// Commented out for the sake of clarity to users
+			// grpProblems.setText( Messages.getString(
+			// "ErrorDialog.text.Exception" ) ); //$NON-NLS-1$
 			txtProblems.setText( sExceptionMessage );
 			btnDetails.setText( Messages.getString( "ErrorDialog.text.ShowTrace" ) ); //$NON-NLS-1$
 			grpDetails.setText( Messages.getString( "ErrorDialog.text.StackTrace" ) ); //$NON-NLS-1$
