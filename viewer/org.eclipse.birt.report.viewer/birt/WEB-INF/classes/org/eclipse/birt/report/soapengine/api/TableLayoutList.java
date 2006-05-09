@@ -97,6 +97,7 @@ public class TableLayoutList  implements java.io.Serializable {
         elemField.setFieldName("tableLayout");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayout"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayout"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);

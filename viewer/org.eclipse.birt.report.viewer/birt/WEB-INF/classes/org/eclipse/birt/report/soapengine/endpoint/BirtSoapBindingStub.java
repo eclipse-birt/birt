@@ -618,6 +618,13 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableContextMenuState");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.TableContextMenuState.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableGroups");
             cachedSerQNames.add(qName);
             cls = org.eclipse.birt.report.soapengine.api.TableGroups.class;
@@ -642,6 +649,13 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableRowInfo");
             cachedSerQNames.add(qName);
             cls = org.eclipse.birt.report.soapengine.api.TableRowInfo.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableSectionContextMenuState");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);

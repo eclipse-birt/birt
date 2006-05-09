@@ -38,6 +38,8 @@ public class Data  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList;
     private org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList;
     private org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu;
+    private org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState tableSectContextMenu;
+    private org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu;
     private java.lang.String confirmation;
     private org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList;
 
@@ -75,6 +77,8 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList,
            org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList,
            org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu,
+           org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState tableSectContextMenu,
+           org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu,
            java.lang.String confirmation,
            org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList) {
            this.font = font;
@@ -107,6 +111,8 @@ public class Data  implements java.io.Serializable {
            this.boundDataColumnList = boundDataColumnList;
            this.IOInfoList = IOInfoList;
            this.tableColContextMenu = tableColContextMenu;
+           this.tableSectContextMenu = tableSectContextMenu;
+           this.tableContextMenu = tableContextMenu;
            this.confirmation = confirmation;
            this.tableLayoutList = tableLayoutList;
     }
@@ -713,6 +719,46 @@ public class Data  implements java.io.Serializable {
 
 
     /**
+     * Gets the tableSectContextMenu value for this Data.
+     * 
+     * @return tableSectContextMenu
+     */
+    public org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState getTableSectContextMenu() {
+        return tableSectContextMenu;
+    }
+
+
+    /**
+     * Sets the tableSectContextMenu value for this Data.
+     * 
+     * @param tableSectContextMenu
+     */
+    public void setTableSectContextMenu(org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState tableSectContextMenu) {
+        this.tableSectContextMenu = tableSectContextMenu;
+    }
+
+
+    /**
+     * Gets the tableContextMenu value for this Data.
+     * 
+     * @return tableContextMenu
+     */
+    public org.eclipse.birt.report.soapengine.api.TableContextMenuState getTableContextMenu() {
+        return tableContextMenu;
+    }
+
+
+    /**
+     * Sets the tableContextMenu value for this Data.
+     * 
+     * @param tableContextMenu
+     */
+    public void setTableContextMenu(org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu) {
+        this.tableContextMenu = tableContextMenu;
+    }
+
+
+    /**
      * Gets the confirmation value for this Data.
      * 
      * @return confirmation
@@ -853,6 +899,12 @@ public class Data  implements java.io.Serializable {
             ((this.tableColContextMenu==null && other.getTableColContextMenu()==null) || 
              (this.tableColContextMenu!=null &&
               this.tableColContextMenu.equals(other.getTableColContextMenu()))) &&
+            ((this.tableSectContextMenu==null && other.getTableSectContextMenu()==null) || 
+             (this.tableSectContextMenu!=null &&
+              this.tableSectContextMenu.equals(other.getTableSectContextMenu()))) &&
+            ((this.tableContextMenu==null && other.getTableContextMenu()==null) || 
+             (this.tableContextMenu!=null &&
+              this.tableContextMenu.equals(other.getTableContextMenu()))) &&
             ((this.confirmation==null && other.getConfirmation()==null) || 
              (this.confirmation!=null &&
               this.confirmation.equals(other.getConfirmation()))) &&
@@ -959,6 +1011,12 @@ public class Data  implements java.io.Serializable {
         }
         if (getTableColContextMenu() != null) {
             _hashCode += getTableColContextMenu().hashCode();
+        }
+        if (getTableSectContextMenu() != null) {
+            _hashCode += getTableSectContextMenu().hashCode();
+        }
+        if (getTableContextMenu() != null) {
+            _hashCode += getTableContextMenu().hashCode();
         }
         if (getConfirmation() != null) {
             _hashCode += getConfirmation().hashCode();
@@ -1183,6 +1241,20 @@ public class Data  implements java.io.Serializable {
         elemField.setFieldName("tableColContextMenu");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableColContextMenu"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableColContextMenuState"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("tableSectContextMenu");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableSectContextMenu"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableSectionContextMenuState"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("tableContextMenu");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableContextMenu"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableContextMenuState"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
