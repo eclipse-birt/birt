@@ -118,7 +118,7 @@ function addDebugButton(text)
 		
 	if(numTargets && msgTypeTxt.nodeValue == "testing--Response--")
 	{
-		var updateData = text.match(/UpdateData&gt[\w\s\.()"&/]*&lt\/UpdateData/g);
+		var updateData = text.match(/UpdateData&gt[\w\s\.()"&]*&lt\/UpdateData/g);
 		if(updateData)
 		{
 			for(var i = 0; i < updateData.length; i++)
