@@ -225,8 +225,7 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 		}
 		if (rowSets == null && rset != null)
 		{
-			IResultSet rset = dataEngine.execute( parent, item.getQuery( ) );
-			rowSets = new IRowSet[]{ new RowSet( rset ) };
+			rowSets = new IRowSet[]{ new RowSet( rset, true ) };
 		}
 		return rowSets;
 	}
