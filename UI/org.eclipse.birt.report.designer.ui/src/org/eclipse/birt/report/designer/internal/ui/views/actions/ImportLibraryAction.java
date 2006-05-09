@@ -12,6 +12,9 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -22,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IEditorPart;
@@ -62,7 +66,7 @@ public class ImportLibraryAction extends Action
 		FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ), SWT.OPEN );
 		dialog.setFilterExtensions( new String[]{
 			"*.rptlibrary" //$NON-NLS-1$
-			} );
+		} );
 		String filename;
 		try
 		{
@@ -74,28 +78,28 @@ public class ImportLibraryAction extends Action
 		}
 		if ( filename != null )
 		{
-			if( !(new File(filename).exists()))
+			if ( !( new File( filename ).exists( ) ) )
 			{
 				ExceptionHandler.openErrorMessageBox( Messages.getString( "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
 						Messages.getFormattedString( "AddLibraryAction.Error.FileNotFound", new String[]{filename} ) ); //$NON-NLS-1$
 				return;
 			}
-			if ( !(filename.endsWith( ".rptlibrary") ))
+			if ( !( filename.endsWith( ".rptlibrary" ) ) )
 			{
 				ExceptionHandler.openErrorMessageBox( Messages.getString( "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
-						Messages.getFormattedString( "AddLibraryAction.Error.FileIsNotLibrary", new String[]{filename,".rptlibrary"} ) ); //$NON-NLS-1$
+						Messages.getFormattedString( "AddLibraryAction.Error.FileIsNotLibrary", new String[]{filename, ".rptlibrary"} ) ); //$NON-NLS-1$
 				return;
-			}	
-			if ( !isInExplorer( filename ) )
-			{
-				addToPreference( filename );
 			}
 
-			ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
 			try
 			{
-				UIUtil.includeLibrary( moduleHandle, filename );
+				filename = copyToResourceFolder( filename );
+				if ( filename != null )
+				{
+					ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( );
+					UIUtil.includeLibrary( moduleHandle, filename );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -104,38 +108,45 @@ public class ImportLibraryAction extends Action
 		}
 	}
 
-	private boolean isInExplorer( String fileName )
+	private String copyToResourceFolder( String filename ) throws IOException
 	{
-		IEditorPart editor = UIUtil.getActiveEditor( true );
-		ILibraryProvider provider = (ILibraryProvider) editor.getAdapter( ILibraryProvider.class );
-		if ( provider != null )
+		File orgFile = new File( filename );
+		File resourceFolder = new File( ReportPlugin.getDefault( )
+				.getResourcePreference( ) );
+		if ( resourceFolder.exists( ) )
 		{
-			LibraryHandle[] libraries = provider.getLibraries( );
-			for ( int i = 0; i < libraries.length; i++ )
+			File targetFile = new File( resourceFolder, orgFile.getName( ) );
+			if ( targetFile.exists( ) )
 			{
-				if ( libraries[i].getFileName( ).equals( fileName ) )
-					return true;
+				if ( MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
+						Messages.getString( "UseLibraryAction.Error.Title" ), //$NON-NLS-1$
+						Messages.getFormattedString( "UseLibraryAction.Error.Message", //$NON-NLS-1$
+								new String[]{
+									targetFile.getName( )
+								} ) ) )
+					coypFile( orgFile, targetFile );
 			}
+			return targetFile.getAbsolutePath( );
 		}
-		return false;
+
+		return null;
 	}
 
-	private void addToPreference( String fileName )
+	private void coypFile( File org, File dest ) throws IOException
 	{
-		String[] libraries = ReportPlugin.getDefault( ).getLibraryPreference( );
-		String[] newLibraries = new String[libraries.length + 1];
-		System.arraycopy( libraries, 0, newLibraries, 0, libraries.length );
-		newLibraries[libraries.length] = fileName;
-		ReportPlugin.getDefault( ).setLibraryPreference( newLibraries );
+		if ( dest.exists( ) || dest.createNewFile( ) )
+		{
+			FileInputStream in = new FileInputStream( org );
+			FileOutputStream out = new FileOutputStream( dest );
+			byte[] bytes = new byte[64];
+			int length = 0;
+			while ( ( length = in.read( bytes ) ) != -1 )
+			{
+				out.write( bytes, 0, length );
+			}
+			in.close( );
+			out.close( );
+		}
 	}
 
-	// // copy from
-	// //
-	// org.eclipse.birt.report.designer.ui.lib.explorer.action.ImportLibraryAction
-	// private static String getRelativedPath( String base, String child )
-	// {
-	// URI baseUri = new File( base ).getParentFile( ).toURI( );
-	// URI childUri = new File( child ).toURI( );
-	// return baseUri.relativize( childUri ).getPath( );
-	// }
 }

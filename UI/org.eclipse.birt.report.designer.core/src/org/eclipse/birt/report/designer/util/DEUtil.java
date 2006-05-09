@@ -1500,7 +1500,12 @@ public class DEUtil
 	 */
 	public static String getRelativedPath( String basePath, String path )
 	{
-		return URIUtil.getRelativePath( new File( basePath ).getParent( ), path );
+		File baseFile = new File( basePath );
+		if ( baseFile.isFile( ) )
+		{
+			baseFile = baseFile.getParentFile( );
+		}
+		return URIUtil.getRelativePath( baseFile.getAbsolutePath( ), path );
 	}
 
 	/**

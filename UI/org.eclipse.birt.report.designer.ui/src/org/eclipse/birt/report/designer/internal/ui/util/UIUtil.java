@@ -1052,7 +1052,7 @@ public class UIUtil
 		String namespace = getLibraryNamespace( moduleHandle, libraryPath );
 		if ( namespace != null )
 		{
-			moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
+			moduleHandle.includeLibrary( DEUtil.getRelativedPath( ReportPlugin.getDefault( ).getResourcePreference( ),
 					libraryPath ),
 					namespace );
 			// ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
