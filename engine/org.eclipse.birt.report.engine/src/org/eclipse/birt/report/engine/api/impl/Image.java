@@ -146,6 +146,7 @@ public class Image extends ReportPart implements IImage
 				{
 					this.data = imgData;
 					this.source = IImage.CUSTOM_IMAGE;
+					this.id = content.getInstanceID( ).toString( );
 				}
 				break;
 			case IImageContent.IMAGE_URI :
