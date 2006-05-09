@@ -295,6 +295,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 			DOMSource source = new DOMSource( svgDocument );
 			StreamResult result = new StreamResult( writer );
 
+			//need to check if we should use sun's implementation of the transform factory.  This is needed to work with jdk1.4 and jdk1.5 with tomcat
+			checkForTransformFactoryImpl();
 			TransformerFactory transFactory = TransformerFactory.newInstance( );
 			Transformer transformer = transFactory.newTransformer( );
 
@@ -303,6 +305,18 @@ public class SVGRendererImpl extends SwingRendererImpl
 
 	}
 
+	/**
+	 * Check to see if we should change the implementation of the TransformFactory.
+	 *
+	 */
+	private void checkForTransformFactoryImpl(){
+		try {
+			Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
+		} catch (ClassNotFoundException e) {
+			//Force using sun's implementation
+			System.setProperty("javax.xml.transform.TransformerFactory", "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl");
+		}
+	}
 	/**
 	 * Creates an SVG document and assigns width and height to the root "svg"
 	 * element.
