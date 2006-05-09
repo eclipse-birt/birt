@@ -519,14 +519,17 @@ public class GroupDialog extends BaseDialog implements Listener
 
 		TabFolder tab = new TabFolder( group, SWT.TOP );
 		tab.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-
+		
+		//TODO:remove databinding page by cnfree on 4.28.2006
+		/*
 		TabItem bindingItem = new TabItem( tab, SWT.NONE );
 		FormPage bindingPage = new DataSetColumnBindingsFormPage( tab,
 				new DataSetColumnBindingsFormHandleProvider( ) );
 		bindingPage.setInput( list );
 		bindingItem.setText( TAB_BINDING );
 		bindingItem.setControl( bindingPage );
-
+		*/
+		
 		TabItem filterItem = new TabItem( tab, SWT.NONE );
 		FormPage filterPage = new FormPage( tab,
 				FormPage.NORMAL_FUNCTION,
