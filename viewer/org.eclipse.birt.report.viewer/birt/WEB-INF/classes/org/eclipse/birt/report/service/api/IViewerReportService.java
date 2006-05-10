@@ -33,18 +33,18 @@ public interface IViewerReportService
 	 */
 	void setContext( Object context, InputOptions options );
 
- 	/**
- 	 * Run a report
- 	 * 
- 	 * @param design
- 	 * @param outputDocName
- 	 * @param runOptions
- 	 * @param parameters,
- 	 *            a map of unparsed parameters (i.e. name (String) -> value
- 	 *            (String))
- 	 * @return
- 	 * @throws ReportServiceException
- 	 */
+	/**
+	 * Run a report
+	 * 
+	 * @param design
+	 * @param outputDocName
+	 * @param runOptions
+	 * @param parameters,
+	 *            a map of unparsed parameters (i.e. name (String) -> value
+	 *            (String))
+	 * @return
+	 * @throws ReportServiceException
+	 */
 	String runReport( IViewerReportDesignHandle design, String outputDocName,
 			InputOptions runOptions, Map parameters )
 			throws ReportServiceException;
@@ -160,9 +160,9 @@ public interface IViewerReportService
 	 * @param out
 	 * @throws ReportServiceException
 	 */
-	void extractResultSet( String docName, String resultSetId, Collection columns,
-			Set filters, InputOptions options, OutputStream out )
-			throws ReportServiceException;
+	void extractResultSet( String docName, String resultSetId,
+			Collection columns, Set filters, InputOptions options,
+			OutputStream out ) throws ReportServiceException;
 
 	/**
 	 * Get the metadata for the result sets
@@ -240,8 +240,10 @@ public interface IViewerReportService
 	 * @param docName
 	 * @param options
 	 * @return
+	 * @throws ReportServiceException
 	 */
-	Map getParameterValues( String docName, InputOptions options );
+	Map getParameterValues( String docName, InputOptions options )
+			throws ReportServiceException;
 
 	/**
 	 * Get parameter selection list for a cascading parameter group
@@ -249,12 +251,14 @@ public interface IViewerReportService
 	 * @param design
 	 * @param groupName
 	 * @param groupKeys
-	 * @return a Collection of IParameterSelectionChoice
+	 * @param options
+	 * @return a Collection of ParameterSelectionChoice
 	 * @throws ReportServiceException
 	 */
 	Collection getSelectionListForCascadingGroup(
 			IViewerReportDesignHandle design, String groupName,
-			Object[] groupKeys ) throws ReportServiceException;
+			Object[] groupKeys, InputOptions options )
+			throws ReportServiceException;
 
 	/**
 	 * Get parameter selection list

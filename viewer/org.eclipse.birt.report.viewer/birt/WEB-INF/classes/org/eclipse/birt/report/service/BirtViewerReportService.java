@@ -335,6 +335,7 @@ public class BirtViewerReportService implements IViewerReportService
 	}
 
 	public Map getParameterValues( String docName, InputOptions options )
+			throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( options ), docName );
@@ -345,7 +346,8 @@ public class BirtViewerReportService implements IViewerReportService
 
 	public Collection getSelectionListForCascadingGroup(
 			IViewerReportDesignHandle design, String groupName,
-			Object[] groupKeys ) throws ReportServiceException
+			Object[] groupKeys, InputOptions options )
+			throws ReportServiceException
 	{
 		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
 		task.evaluateQuery( groupName );

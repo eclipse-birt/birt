@@ -209,7 +209,7 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 					}
 
 					listArray[k] = doQueryCascadeParameterSelectionList( design,
-							group.getName( ), keyValue );
+							group.getName( ), keyValue, options );
 					ret.put( remainingParamNames.get( k ), listArray[k] );
 				}
 			}
@@ -223,13 +223,13 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 
 	private List doQueryCascadeParameterSelectionList(
 			IViewerReportDesignHandle design, String groupName,
-			Object[] groupKeys ) throws RemoteException, ReportServiceException
+			Object[] groupKeys, InputOptions options ) throws RemoteException, ReportServiceException
 	{
 		List selectionList = new ArrayList( );
 
 		Collection list = getReportService( )
 				.getSelectionListForCascadingGroup( design, groupName,
-						groupKeys );
+						groupKeys, options );
 
 		if ( list != null && list.size( ) > 0 )
 		{

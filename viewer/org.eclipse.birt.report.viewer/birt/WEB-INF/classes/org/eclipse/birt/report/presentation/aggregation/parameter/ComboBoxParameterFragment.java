@@ -69,7 +69,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 		{
 			Map paramValues = attrBean.getParameters( );
 			selectionList = getParameterSelectionListForCascadingGroup( attrBean.getReportDesignHandle( ),
-					service, paramValues );
+					service, paramValues, options );
 		} else
 			selectionList = service.getParameterSelectionList( attrBean.getReportDesignHandle( ), options,
 					parameter.getName( ) );
@@ -108,14 +108,13 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 
 	private Collection getParameterSelectionListForCascadingGroup(
 			IViewerReportDesignHandle design, IViewerReportService service,
-			Map paramValues ) throws ReportServiceException
+			Map paramValues, InputOptions options ) throws ReportServiceException
 	{
 		
 		ParameterGroupDefinition group = ( ParameterGroupDefinition ) parameter
 				.getGroup( );
 		int index = group.getParameters( ).indexOf( parameter );
 		Object[] groupKeys = new Object[index];
-		InputOptions options = new InputOptions( );
 		for ( int i = 0; i < index; i++ )
 		{
 			ParameterDefinition def = ( ParameterDefinition ) group
@@ -129,6 +128,6 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 			}
 		}
 		return service.getSelectionListForCascadingGroup( design, group
-				.getName( ), groupKeys );
+				.getName( ), groupKeys, options );
 	}
 }
