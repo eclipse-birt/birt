@@ -314,6 +314,15 @@ public abstract class ReportElementState extends DesignParseState
 									DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
 		}
 
+		// read view action
+
+		String viewAction = attrs
+				.getValue( DesignSchemaConstants.VIEW_ACTION_ATTRIB );
+		if ( !StringUtil.isBlank( viewAction ) )
+		{
+			setProperty( DesignElement.VIEW_ACTION_PROP, viewAction );
+		}
+
 		if ( !addToSlot( container, slotID, element ) )
 			return;
 

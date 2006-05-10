@@ -283,8 +283,8 @@ public class ModelUtil
 							.equals( propName )
 					|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName )
 					|| DesignElement.REF_TEMPLATE_PARAMETER_PROP
-							.equals( propName ) )
-
+							.equals( propName )
+					|| DesignElement.VIEW_ACTION_PROP.equals( propName ) )
 				continue;
 
 			ElementPropertyDefn propDefn = destination.getElement( )
@@ -446,7 +446,7 @@ public class ModelUtil
 	public static Object copyValue( IPropertyDefn propDefn, Object value )
 	{
 
-		if ( value == null )
+		if ( value == null || propDefn == null )
 			return null;
 
 		switch ( propDefn.getTypeCode( ) )
@@ -916,7 +916,7 @@ public class ModelUtil
 	 *            the element to copy
 	 * @return the copy of the element
 	 */
-	
+
 	public static DesignElement getCopy( DesignElement element )
 	{
 		if ( element == null )

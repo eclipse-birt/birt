@@ -452,7 +452,7 @@
     <Choice displayNameID="Choices.joinType.inner" name="inner"/>
     <Choice displayNameID="Choices.joinType.leftOut" name="left-out"/>
     <Choice displayNameID="Choices.joinType.rightOut" name="right-out"/>
-  </ChoiceType>
+  </ChoiceType>  
   <ChoiceType name="joinOperator">
     <Choice displayNameID="Choices.joinOperator.equals" name="eq"/>
   </ChoiceType>
@@ -463,7 +463,17 @@
   <ChoiceType name="dataSetMode">
     <Choice displayNameID="Choices.dataSetMode.single" name="single"/>
     <Choice displayNameID="Choices.dataSetMode.multiple" name="multiple"/>	  
-  </ChoiceType>	
+  </ChoiceType>
+  <ChoiceType name="filterTarget">
+  	<Choice displayNameID="Choices.filterTarget.DataSet" name="DataSet"/>
+  	<Choice displayNameID="Choices.filterTarget.ResultSet" name="ResultSet"/>
+  </ChoiceType>
+  <ChoiceType name="viewAction">
+  	<Choice displayNameID="Choices.viewAction.NoChange" name="NoChange"/>
+  	<Choice displayNameID="Choices.viewAction.Changed" name="Changed"/>
+  	<Choice displayNameID="Choices.viewAction.Added" name="Added"/>
+  	<Choice displayNameID="Choices.viewAction.Deleted" name="Deleted"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -1499,6 +1509,9 @@
     <Member displayNameID="Structure.FilterCondition.expr" isIntrinsic="true" name="expr" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
     <Member displayNameID="Structure.FilterCondition.value1" isIntrinsic="true" name="value1" returnType="any" runtimeSettable="false" since="1.0" type="expression"/>
     <Member displayNameID="Structure.FilterCondition.value2" isIntrinsic="true" name="value2" returnType="any" runtimeSettable="false" since="1.0" type="expression"/>
+    <Member detailType="filterTarget" displayNameID="Structure.FilterCondition.filterTarget" isIntrinsic="true" name="filterTarget" returnType="any" runtimeSettable="false" since="2.1" type="choice">
+    	<Default>DataSet</Default>
+    </Member>
   </Structure>
   <Structure displayNameID="Structure.HideRule" name="HideRule" since="1.0">
     <Member detailType="formatType" displayNameID="Structure.HideRule.format" isIntrinsic="true" name="format" since="1.0" type="choice">
@@ -1819,9 +1832,13 @@
     <Property displayNameID="Element.ReportElement.displayNameID" name="displayNameID" since="reserved" type="resourceKey"/>
     <Property displayNameID="Element.ReportElement.comments" name="comments" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.ReportElement.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Property canInherit="false" detailType="viewAction" displayNameID="Element.ReportElement.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
+    	<Default>NoChange</Default>
+    </Property>
     <PropertyVisibility name="extends" visibility="hide"/>        
     <PropertyVisibility name="displayName" visibility="hide"/>    
-    <PropertyVisibility name="displayNameID" visibility="hide"/>        
+    <PropertyVisibility name="displayNameID" visibility="hide"/>  
+    <PropertyVisibility name="viewAction" visibility="hide"/>      
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSource" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSource" nameSpace="dataSource" since="1.0" xmlName="data-source">
     <Method context="factory" displayNameID="Element.DataSource.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSource.beforeOpen.toolTip" >
@@ -2653,6 +2670,10 @@
       <Default>none</Default>
     </Property>
     <Property displayNameID="Element.ListingGroup.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Property canInherit="false" detailType="viewAction" displayNameID="Element.ListingGroup.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
+    	<Default>NoChange</Default>
+    </Property>
+    <PropertyVisibility name="viewAction" visibility="hide"/> 
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Listing" extends="ReportItem" isAbstract="true" name="Listing" nameSpace="none" since="1.0">
     <Property detailType="SortKey" displayNameID="Element.Listing.sorting" isList="true" name="sort" runtimeSettable="false" since="1.0" type="structure"/>
@@ -2832,6 +2853,9 @@
       <Default>false</Default>
     </Property>
     <Property detailType="HideRule" displayNameID="Element.Column.visibility" isList="true" name="visibility" since="2.1" type="structure"/>	  
+    <Property canInherit="false" detailType="viewAction" displayNameID="Element.Column.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
+    	<Default>NoChange</Default>
+    </Property>
     <StyleProperty name="fontFamily"/>
     <StyleProperty name="fontSize"/>
     <StyleProperty name="fontStyle"/>
@@ -2875,6 +2899,7 @@
     <StyleProperty name="marginBottom"/>
     <StyleProperty name="marginLeft"/>
     <StyleProperty name="marginRight"/>
+    <PropertyVisibility name="viewAction" visibility="hide"/> 
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Row" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableRow" name="Row" nameSpace="none" since="1.0" xmlName="row">
     <Property detailType="HideRule" displayNameID="Element.Row.visibility" isList="true" name="visibility" since="1.0" type="structure"/>
@@ -2883,6 +2908,9 @@
     <Property displayNameID="Element.Row.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
     <Property displayNameID="Element.Row.suppressDuplicates" name="suppressDuplicates" since="2.1" type="boolean">
       <Default>false</Default>
+    </Property>
+    <Property canInherit="false" detailType="viewAction" displayNameID="Element.Row.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
+    	<Default>NoChange</Default>
     </Property>
     <Method context="startup" displayNameID="Element.Row.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Row.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Row.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IRow"/>
@@ -2908,7 +2936,8 @@
     <PropertyVisibility name="borderRightWidth" visibility="hide"/>                  
     <PropertyVisibility name="borderBottomColor" visibility="hide"/>          
     <PropertyVisibility name="borderBottomStyle" visibility="hide"/>              
-    <PropertyVisibility name="borderBottomWidth" visibility="hide"/>                                                     
+    <PropertyVisibility name="borderBottomWidth" visibility="hide"/>
+    <PropertyVisibility name="viewAction" visibility="hide"/>                                                      
     <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" since="1.0" xmlName="cells">
       <Type name="Cell"/>
       <Trigger validator="CellOverlappingValidator"/>
@@ -2935,6 +2964,9 @@
     <Property displayNameID="Element.Cell.height" name="height" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Cell.width" name="width" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Cell.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Property canInherit="false" detailType="viewAction" displayNameID="Element.Cell.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
+    	<Default>NoChange</Default>
+    </Property>
     <Method context="startup" displayNameID="Element.Cell.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Cell.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Cell.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.ICell"/>
       <Argument name="reportContext" tagID="Element.Cell.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -2949,7 +2981,8 @@
     </Method>
     <PropertyVisibility name="column" visibility="hide"/>        
     <PropertyVisibility name="colSpan" visibility="readonly"/>        
-    <PropertyVisibility name="rowSpan" visibility="readonly"/>                   
+    <PropertyVisibility name="rowSpan" visibility="readonly"/>
+    <PropertyVisibility name="viewAction" visibility="hide"/>                    
     <Slot displayNameID="Element.Cell.slot.content" multipleCardinality="true" name="content" since="1.0" xmlName="content">
       <Type name="Label"/>
       <Type name="Data"/>

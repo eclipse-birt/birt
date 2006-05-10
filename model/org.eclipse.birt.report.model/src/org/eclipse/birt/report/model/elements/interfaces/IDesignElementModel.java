@@ -92,6 +92,12 @@ public interface IDesignElementModel
 	 */
 
 	public static final String REF_TEMPLATE_PARAMETER_PROP = "refTemplateParameter"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property that defines the view action in this element.
+	 */
+	
+	public static final String VIEW_ACTION_PROP = "viewAction"; //$NON-NLS-1$
 
 	/**
 	 * Marker to indicate that the element is not in a slot.

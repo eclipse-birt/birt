@@ -668,7 +668,7 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_ACTION_BOOKMARK_TYPE = "actionBookmarkType"; //$NON-NLS-1$
 	public static final String ACTION_BOOKMARK_TYPE_BOOKMARK = "bookmark"; //$NON-NLS-1$
 	public static final String ACTION_BOOKMARK_TYPE_TOC = "toc"; //$NON-NLS-1$
-	
+
 	/**
 	 * autotextType -- type of auto text
 	 */
@@ -684,4 +684,23 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_DATA_SET_MODE_TYPE = "dataSetMode"; //$NON-NLS-1$
 	public static final String DATA_SET_MODE_SINGLE = "single"; //$NON-NLS-1$
 	public static final String DATA_SET_MODE_MULTIPLE = "multiple"; //$NON-NLS-1$
-}
+	
+	/**
+	 * filterTarget -- filter target type.
+	 */
+
+	public static final String CHOICE_FILTER_TARGET = "filterTarget"; //$NON-NLS-1$
+	public static final String FILTER_TARGET_DATA_SET = "DataSet"; //$NON-NLS-1$
+	public static final String FILTER_TARGET_RESULT_SET = "ResultSet"; //$NON-NLS-1$
+
+	/**
+	 * View action --view action type.
+	 */
+
+	public static final String CHOICE_VIEW_ACTION = "viewAction"; //$NON-NLS-1$
+	public static final String VIEW_ACTION_NO_CHANGE = "NoChange"; //$NON-NLS-1$
+	public static final String VIEW_ACTION_CHANGED = "Changed"; //$NON-NLS-1$
+	public static final String VIEW_ACTION_ADDED = "Added"; //$NON-NLS-1$
+	public static final String VIEW_ACTION_DELETED = "Deleted"; //$NON-NLS-1$
+
+};

@@ -186,6 +186,7 @@ public interface DesignSchemaConstants
 	static final String	VALUE_TAG								= "value";						//$NON-NLS-1$
 	static final String	VERTICAL_ALIGN_ATTRIB					= "vertical-align";				//$NON-NLS-1$
 	static final String VERSION_ATTRIB							= "version";					//$NON-NLS-1$
+	static final String VIEW_ACTION_ATTRIB						= "viewAction";					//$NON-NLS-1$
 	static final String XML_PROPERTY_TAG						= "xml-property"; 				//$NON-NLS-1$
 	static final String XMLNS_ATTRIB							= "xmlns";						//$NON-NLS-1$
 	static final String AUTO_TEXT_TAG 						    = "auto-text"; 				//$NON-NLS-1$

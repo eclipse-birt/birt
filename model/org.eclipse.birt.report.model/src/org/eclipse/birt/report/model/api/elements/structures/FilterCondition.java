@@ -87,6 +87,12 @@ public class FilterCondition extends Structure
 	public static final String VALUE2_MEMBER = "value2"; //$NON-NLS-1$
 
 	/**
+	 * Name of the filter target member.
+	 */
+
+	public static final String FILTER_TARGET_MEMBER = "filterTarget"; //$NON-NLS-1$
+
+	/**
 	 * The filter operator.
 	 */
 
@@ -110,6 +116,13 @@ public class FilterCondition extends Structure
 
 	private String value2;
 
+	/**
+	 * Filter target. It can either <code>DataSet</code> or
+	 * <code>ResultSet</code>>.
+	 */
+
+	private String filterTarget;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -131,12 +144,14 @@ public class FilterCondition extends Structure
 	{
 		if ( OPERATOR_MEMBER.equals( propName ) )
 			return operator;
-		if ( EXPR_MEMBER.equals( propName ) )
+		else if ( EXPR_MEMBER.equals( propName ) )
 			return expr;
-		if ( VALUE1_MEMBER.equals( propName ) )
+		else if ( VALUE1_MEMBER.equals( propName ) )
 			return value1;
-		if ( VALUE2_MEMBER.equals( propName ) )
+		else if ( VALUE2_MEMBER.equals( propName ) )
 			return value2;
+		else if ( FILTER_TARGET_MEMBER.equals( propName ) )
+			return filterTarget;
 
 		assert false;
 		return null;
@@ -159,6 +174,8 @@ public class FilterCondition extends Structure
 			value1 = (String) value;
 		else if ( VALUE2_MEMBER.equals( propName ) )
 			value2 = (String) value;
+		else if ( FILTER_TARGET_MEMBER.equals( propName ) )
+			filterTarget = (String) value;
 		else
 			assert false;
 	}
@@ -304,7 +321,7 @@ public class FilterCondition extends Structure
 	 * <ul>
 	 * <li>The filter expression is required.</li>
 	 * </ul>
-	 *  
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
@@ -439,6 +456,41 @@ public class FilterCondition extends Structure
 	public void setValue2Expr( String value2Expr )
 	{
 		setValue2( value2Expr );
+	}
+
+	/**
+	 * Returns the filter target. The possible values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li><code>FILTER_TARGET_DATA_SET</code>
+	 * <li><code>FILTER_TARGET_RESULT_SET</code>
+	 * </ul>
+	 * 
+	 * @return the operator
+	 */
+
+	public String getFilterTarget( )
+	{
+		return (String) getProperty( null, FILTER_TARGET_MEMBER );
+	}
+
+	/**
+	 * Sets the filter target. The allowed values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li><code>FILTER_TARGET_DATA_SET</code>
+	 * <li><code>FILTER_TARGET_RESULT_SET</code>
+	 * </ul>
+	 * 
+	 * @param filterTarget
+	 *            the filter target to set
+	 */
+
+	public void setFilterTarget( String filterTarget )
+	{
+		setProperty( FILTER_TARGET_MEMBER, filterTarget );
 	}
 
 }

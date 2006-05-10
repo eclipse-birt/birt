@@ -1644,6 +1644,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.COLUMN_TAG );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
+		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
+				DesignElement.VIEW_ACTION_PROP );
 
 		super.visitColumn( obj );
 
@@ -1668,6 +1670,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.ROW_TAG );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
+		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
+				DesignElement.VIEW_ACTION_PROP );
 
 		super.visitRow( obj );
 
@@ -1704,6 +1708,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.CELL_TAG );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
+		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
+				DesignElement.VIEW_ACTION_PROP );
 
 		super.visitCell( obj );
 
@@ -2411,6 +2417,8 @@ public abstract class ModuleWriter extends ElementVisitor
 				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.EXTENDS_ATTRIB,
 				DesignElement.EXTENDS_PROP );
+		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
+				DesignElement.VIEW_ACTION_PROP );
 
 		property( obj, DesignElement.COMMENTS_PROP );
 		propertyCDATA( obj, DesignElement.CUSTOM_XML_PROP );
@@ -2633,6 +2641,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
+		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
+				DesignElement.VIEW_ACTION_PROP );
+		
 		super.visitGroup( obj );
 
 		property( obj, GroupElement.GROUP_NAME_PROP );
