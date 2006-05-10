@@ -90,6 +90,14 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 				if ( parameterDialog.getReturnCode( ) == InputParameterHtmlDialog.RETURN_CODE_BROWSER_CLOSED )
 				{
 					isDisplay = true;
+					// if miss parameter yet, can't preview report and scroll to
+					// the previous page.
+					if ( isMissingParameter( ) )
+					{
+						editor.setActivePage( prePage.getId( ) );
+						return false;
+					}
+
 				}
 			}
 		}
