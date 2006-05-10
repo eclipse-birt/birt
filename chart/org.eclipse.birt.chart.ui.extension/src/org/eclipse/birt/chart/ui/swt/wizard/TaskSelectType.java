@@ -743,6 +743,13 @@ public class TaskSelectType extends SimpleTask
 		IChartType chartType = (IChartType) htTypes.get( sSelectedType );
 		String[] dimensionArray = chartType.getSupportedDimensions( );
 		int axesNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
+
+		if ( sDimension == null )
+		{
+			// Initialize dimension
+			sDimension = chartType.getDefaultDimension( );
+			isOldExist = true;
+		}
 		cbDimension.removeAll( );
 		for ( int i = 0; i < dimensionArray.length; i++ )
 		{
