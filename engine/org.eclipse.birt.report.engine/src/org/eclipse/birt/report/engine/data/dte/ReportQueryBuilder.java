@@ -75,6 +75,7 @@ import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -93,7 +94,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.57 $ $Date: 2006/04/26 07:33:48 $
+ * @version $Revision: 1.58 $ $Date: 2006/04/29 04:07:42 $
  */
 public class ReportQueryBuilder
 {
@@ -1142,6 +1143,16 @@ public class ReportQueryBuilder
 						(String) newExpressions.get( expressionIndex++ ) );
 			}
 		}
+
+		VisibilityDesign visibilities = item.getVisibility( );
+		if ( visibilities != null )
+		{
+			for ( int i = 0; i < visibilities.count( ); i++ )
+			{
+				visibilities.getRule( i ).setExpression(
+						(String) newExpressions.get( expressionIndex++ ) );
+			}
+		}
 	}
 
 	private ITotalExprBindings getNewExpressionBindings( ReportItemDesign item )
@@ -1151,6 +1162,7 @@ public class ReportQueryBuilder
 		expressions.add( item.getBookmark( ) );
 		expressions.add( item.getOnCreate( ) );
 		expressions.add( item.getOnRender( ) );
+
 		HighlightDesign highlights = item.getHighlight( );
 		if ( highlights != null )
 		{
@@ -1160,6 +1172,7 @@ public class ReportQueryBuilder
 						.getRule( i ) ) );
 			}
 		}
+
 		MapDesign maps = item.getMap( );
 		if ( maps != null )
 		{
@@ -1169,6 +1182,17 @@ public class ReportQueryBuilder
 						.add( createConditionalExpression( maps.getRule( i ) ) );
 			}
 		}
+
+		VisibilityDesign visibilities = item.getVisibility( );
+		if ( visibilities != null )
+		{
+			for ( int i = 0; i < visibilities.count( ); i++ )
+			{
+				expressions
+						.add( visibilities.getRule( i ).getExpression( ) );
+			}
+		}
+
 		ITotalExprBindings totalExpressionBindings = ExpressionUtil
 				.prepareTotalExpressions( expressions );
 		return totalExpressionBindings;
