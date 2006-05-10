@@ -1972,6 +1972,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 			udsh.reset( );
 
 			double total = 0;
+			boolean isZeroValue = true;
 
 			// get total orthogonal value.
 			for ( int i = 0; i < iOrthogonalCount; i++ )
@@ -1980,10 +1981,18 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 				if ( v instanceof Number )
 				{
+					if ( ( (Number) v ).doubleValue( ) != 0.0 )
+					{
+						isZeroValue = false;
+					}
 					total += ( (Number) v ).doubleValue( );
 				}
 				else if ( v instanceof NumberDataElement )
 				{
+					if ( ( (NumberDataElement) v ).getValue( ) != 0.0 )
+					{
+						isZeroValue = false;
+					}
 					total += ( (NumberDataElement) v ).getValue( );
 				}
 			}
@@ -2108,6 +2117,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 						percentileValue = new Double( ( (NumberDataElement) oDataOrthogonal ).getValue( )
 								/ total );
 					}
+				}
+				else if ( isZeroValue == true )
+				{
+					percentileValue = new Double ( (double)1.0 / iOrthogonalCount );
 				}
 
 				dpa[i] = new DataPointHints( oDataBase,
