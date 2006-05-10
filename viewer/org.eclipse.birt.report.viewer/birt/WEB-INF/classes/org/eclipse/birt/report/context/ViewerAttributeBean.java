@@ -57,13 +57,25 @@ public class ViewerAttributeBean extends BaseAttributeBean
 {
 
 	/**
+	 * Viewer report design handle 
+	 */	
+	private IViewerReportDesignHandle reportDesignHandle = null;
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param request
 	 */
 	public ViewerAttributeBean( HttpServletRequest request )
 	{
-		super( request );
+		try
+		{
+			init( request );
+		}
+		catch ( Exception e )
+		{
+			this.exception = e;
+		}
 	}
 
 	/**
@@ -313,4 +325,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			return super.getParamValueObject( request, parameterObj );
 		}
 	}
+	
+	/**
+	 * @return the reportDesignHandle
+	 */
+	public IViewerReportDesignHandle getReportDesignHandle( )
+	{
+		return reportDesignHandle;
+	}	
 }
