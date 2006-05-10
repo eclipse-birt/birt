@@ -13,11 +13,11 @@
 			<TBODY>
 				<TR>
 					<TD width=116 bgColor=black><a href="http://www.eclipse.org/">
-						<IMG src="images/EclipseBannerPic.jpg" border=0 width="115" height="50">
+						<IMG src="webcontent/birt/images/EclipseBannerPic.jpg" border=0 width="115" height="50">
 						</a>
 					</TD>
 					<TD width=637>
-						<IMG height=53 src="images/gradient.jpg" width=282 border=0>
+						<IMG height=53 src="webcontent/birt/images/gradient.jpg" width=282 border=0>
 					</TD>
 					<TD vAlign=center align=right width=250>
 						<a class="birt" href="http://www.eclipse.org/birt">
@@ -43,7 +43,7 @@
 										<span class="indextop">BIRT viewer has been installed.</span><p>&nbsp;
 									</TD>
 									<TD class=jump style="PADDING-LEFT: 10px" align=right rowSpan=2>
-										<IMG src="images/Idea.jpg" width="120" height="86">
+										<IMG src="webcontent/birt/images/Idea.jpg" width="120" height="86">
 									</TD>
 								</TR>
 								<TR>
@@ -53,9 +53,9 @@
 						</TABLE>
 						<!-- Content area -->
 						<p>Thank you for your choosing BIRT (Business Intelligence Reporting Tool).</p>
-						<p>Viewer Version : 2.0.0</p>
-						<p>Engine Version: 2.0.0</p>
-						<p><a href="<%= request.getContextPath( ) + "/frameset?__report=test.rptdesign" %>">View Example</a>
+						<p>Viewer Version : 2.0.1</p>
+						<p>Engine Version: 2.0.1</p>
+						<p><a href="<%= request.getContextPath( ) + "/frameset?__report=test.rptdesign&sample=my+parameter" %>">View Example</a>
 					</TD>
 				</TR>
 			</TBODY>
