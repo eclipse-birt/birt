@@ -8,9 +8,11 @@
         </structure>
     </list-property>
     <data-sources>
-        <oda-data-source name="dsource" id="2" extends="lib.Data Source"/>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="dsource" id="2"
+ extends="lib.Data Source"/>
     </data-sources>
     <data-sets>
-        <oda-data-set name="dset" id="3" extends="lib.Data Set"/>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dset" id="3"
+ extends="lib.Data Set"/>
     </data-sets>
 </report>

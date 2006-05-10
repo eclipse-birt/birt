@@ -12,14 +12,8 @@
         <simple-master-page name="Simple MasterPage" id="2">
             <page-footer>
                 <text id="3">
-                    <list-property name="boundDataColumns">
-                        <structure>
-                            <property name="name">COLUMN_68</property>
-                            <expression name="expression">new Date()</expression>
-                        </structure>
-                    </list-property>
                     <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>row["COLUMN_68"]</value-of>]]></text-property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
                 </text>
             </page-footer>
         </simple-master-page>
