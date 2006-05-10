@@ -884,7 +884,7 @@ public class BasePaletteFactory
 								{
 									elementHandle = moduleHandle.getElementFactory( )
 											.newElementFrom( elementHandle,
-													null );
+													elementHandle.getName( ) );
 									moduleHandle.addElement( elementHandle,
 											ModuleHandle.PARAMETER_SLOT );
 								}
