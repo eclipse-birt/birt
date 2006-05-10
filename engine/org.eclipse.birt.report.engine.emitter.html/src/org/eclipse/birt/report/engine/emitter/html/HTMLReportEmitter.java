@@ -88,7 +88,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.93 $ $Date: 2006/04/29 08:49:13 $
+ * @version $Revision: 1.94 $ $Date: 2006/05/10 03:50:39 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -464,7 +464,25 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		this.report = report;
 		writer.open( out, "UTF-8" ); //$NON-NLS-1$
-
+		
+		// If it is the body style and htmlRtLFlag has been set true, 
+		// remove the text-align included in the style.
+		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		{
+			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
+			boolean htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
+			if ( htmlRtLFlag )
+			{
+				String reportStyleName = report == null ? null : report.getDesign( )
+						.getRootStyleName( );
+				if ( reportStyleName != null )
+				{
+					IStyle style =  report.findStyle( reportStyleName );
+					style.removeProperty( "text-align" );
+				}
+			}
+		}
+		
 		if ( isEmbeddable )
 		{
 			fixTransparentPNG( );
@@ -475,9 +493,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					.getRootStyleName( );
 			if ( reportStyleName != null )
 			{
+				IStyle style =  report.findStyle( reportStyleName );
 				StringBuffer styleBuffer = new StringBuffer( );
-				AttributeBuilder.buildStyle( styleBuffer, report
-						.findStyle( reportStyleName ), this, false );
+				AttributeBuilder.buildStyle( styleBuffer, style, this, false );
 				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			}
 
@@ -511,7 +529,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			for ( int n = 0; n < reportDesign.getStyleCount( ); n++ )
 			{
 				styleBuffer.delete( 0, styleBuffer.capacity( ) );
-				style = (IStyle) reportDesign.getStyle( n );
+				style = (IStyle) reportDesign.getStyle( n );	
 				AttributeBuilder.buildStyle( styleBuffer, style, this, true );
 				writer.style( Report.PREFIX_STYLE_NAME + n, styleBuffer
 						.toString( ), false );
@@ -693,8 +711,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// out put the page tag
 		writer.openTag( HTMLTags.TAG_DIV );
-			if ( pageNo > 1 )
+		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		{
+			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
+			boolean htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
+			if ( htmlRtLFlag )
 			{
+				writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
+			}
+		}
+		if ( pageNo > 1 )
+		{
 			writer.attribute( HTMLTags.ATTR_STYLE, "page-break-before: always;" );
 		}
 

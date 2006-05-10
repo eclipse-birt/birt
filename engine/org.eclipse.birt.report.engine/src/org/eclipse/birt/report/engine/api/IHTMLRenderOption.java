@@ -55,4 +55,10 @@ public interface IHTMLRenderOption
 	 * The value is an Boolean Object, the default is false.
 	 */
 	public static final String HTML_INCLUDE_SELECTION_HANDLE = "includeSelectionHandle"; //$NON-NLS-1$
+	/**
+	 * should we output HTML as RtL.
+	 * The action 
+	 * The value is an Boolean Object, the default is false.
+	 */
+	public static final String HTML_RTL_FLAG = "htmlRtLFlag"; //$NON-NLS-1$
 }

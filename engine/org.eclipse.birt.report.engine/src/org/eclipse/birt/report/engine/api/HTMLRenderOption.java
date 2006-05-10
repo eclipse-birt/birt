@@ -170,5 +170,19 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 		}
 		return false;
 	}
-	
+
+	public void setHtmlRtLFlag( boolean option )
+	{
+		options.put( HTML_RTL_FLAG, new Boolean( option ) );
+	}
+
+	public boolean getHtmlRtLFlag( )
+	{
+		Boolean value = (Boolean) options.get( HTML_RTL_FLAG );
+		if ( value != null )
+		{
+			return value.booleanValue( );
+		}
+		return false;
+	}
 }
