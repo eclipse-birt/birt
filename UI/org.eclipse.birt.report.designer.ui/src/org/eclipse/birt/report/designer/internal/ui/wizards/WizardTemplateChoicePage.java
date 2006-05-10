@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.wizards;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -411,10 +412,14 @@ public class WizardTemplateChoicePage extends WizardPage
 		String templateFolderPath = ReportPlugin.getDefault( )
 				.getTemplatePreference( );
 
-		File templateDirectory = new File( templateFolderPath );
+		File templateDirectory = new File( templateFolderPath, File.separator );
 
 		if ( templateDirectory.isDirectory( ) )
 		{
+			if ( !templateDirectory.exists( ) )
+			{
+				templateDirectory.mkdirs( );
+			}
 			File[] filesArray = templateDirectory.listFiles( new FilenameFilter( ) {
 
 				public boolean accept( File dir, String name )
