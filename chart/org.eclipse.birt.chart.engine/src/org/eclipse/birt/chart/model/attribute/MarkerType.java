@@ -139,19 +139,19 @@ public final class MarkerType extends AbstractEnumerator
 	public static final int FOUR_DIAMONDS = 7;
 
 	/**
-	 * The '<em><b>Button</b></em>' literal value.
+	 * The '<em><b>Ellipse</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Button</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Ellipse</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #BUTTON_LITERAL
-	 * @model name="Button"
+	 * @see #ELLIPSE_LITERAL
+	 * @model name="Ellipse"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int BUTTON = 8;
+	public static final int ELLIPSE = 8;
 
 	/**
 	 * The '<em><b>Semi Circle</b></em>' literal value.
@@ -350,15 +350,15 @@ public final class MarkerType extends AbstractEnumerator
 			"FourDiamonds", "Four_Diamonds" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
-	 * The '<em><b>Button</b></em>' literal object.
+	 * The '<em><b>Ellipse</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #BUTTON
+	 * @see #ELLIPSE
 	 * @generated
 	 * @ordered
 	 */
-	public static final MarkerType BUTTON_LITERAL = new MarkerType( BUTTON,
-			"Button", "Button" ); //$NON-NLS-1$ //$NON-NLS-2$
+	public static final MarkerType ELLIPSE_LITERAL = new MarkerType( ELLIPSE,
+			"Ellipse", "Ellipse" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * The '<em><b>Semi Circle</b></em>' literal object.
@@ -441,7 +441,7 @@ public final class MarkerType extends AbstractEnumerator
 			NABLA_LITERAL,
 			DIAMOND_LITERAL,
 			FOUR_DIAMONDS_LITERAL,
-			BUTTON_LITERAL,
+			ELLIPSE_LITERAL,
 			SEMI_CIRCLE_LITERAL,
 			HEXAGON_LITERAL,
 			RECTANGLE_LITERAL,
@@ -519,8 +519,8 @@ public final class MarkerType extends AbstractEnumerator
 				return DIAMOND_LITERAL;
 			case FOUR_DIAMONDS :
 				return FOUR_DIAMONDS_LITERAL;
-			case BUTTON :
-				return BUTTON_LITERAL;
+			case ELLIPSE :
+				return ELLIPSE_LITERAL;
 			case SEMI_CIRCLE :
 				return SEMI_CIRCLE_LITERAL;
 			case HEXAGON :

@@ -335,9 +335,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 				5,
 				null,
 				false,
-				false,
-				null,
-				null );
+				false );
 		try
 		{
 			mr.draw( idrSWT );

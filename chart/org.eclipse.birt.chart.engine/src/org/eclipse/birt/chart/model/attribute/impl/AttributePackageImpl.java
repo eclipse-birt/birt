@@ -3846,7 +3846,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( markerTypeEEnum, MarkerType.NABLA_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.DIAMOND_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.FOUR_DIAMONDS_LITERAL );
-		addEEnumLiteral( markerTypeEEnum, MarkerType.BUTTON_LITERAL );
+		addEEnumLiteral( markerTypeEEnum, MarkerType.ELLIPSE_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.SEMI_CIRCLE_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.HEXAGON_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.RECTANGLE_LITERAL );

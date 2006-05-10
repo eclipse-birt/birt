@@ -242,9 +242,7 @@ public class MarkerEditorComposite extends Composite
 				5,
 				null,
 				false,
-				false,
-				null,
-				null );
+				false );
 		try
 		{
 			mr.draw( idrSWT );

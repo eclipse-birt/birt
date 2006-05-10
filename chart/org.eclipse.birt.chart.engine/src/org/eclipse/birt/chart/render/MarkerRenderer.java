@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.render;
 
-import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -56,8 +55,6 @@ public final class MarkerRenderer
 
 	private final DeferredCache dc;
 
-	private final Engine3D engine3d;
-
 	private Fill paletteEntry;
 
 	private LineAttributes la;
@@ -80,14 +77,12 @@ public final class MarkerRenderer
 
 	private PrimitiveRenderEvent preCopy;
 
-	private Location panningOffset;
-
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine.extension/render" ); //$NON-NLS-1$
 
 	public MarkerRenderer( IDeviceRenderer _render, Object _oSource,
 			Location _lo, LineAttributes _la, Fill _paletteEntry, Marker _m,
 			int _markerSize, DeferredCache _dc, boolean _bDeferred,
-			boolean _bTransposed, Engine3D _engine3d, Location _panningOffset )
+			boolean _bTransposed )
 	{
 		this.iRender = _render;
 		paletteEntry = _paletteEntry;
@@ -95,10 +90,8 @@ public final class MarkerRenderer
 		dc = _dc;
 		bDeferred = _bDeferred;
 		oSource = _oSource;
-		engine3d = _engine3d;
 		m = _m;
 		bTransposed = _bTransposed;
-		panningOffset = _panningOffset;
 		iSize = ( _markerSize < 0 ) ? m.getSize( ) : _markerSize;
 
 		bRendering3D = _lo instanceof Location3D;
@@ -140,8 +133,8 @@ public final class MarkerRenderer
 			case MarkerType.FOUR_DIAMONDS :
 				drawFourDiamonds( ipr );
 				break;
-			case MarkerType.BUTTON :
-				drawButton( ipr );
+			case MarkerType.ELLIPSE :
+				drawEllipse( ipr );
 				break;
 			case MarkerType.SEMI_CIRCLE :
 				drawSemiCircle( ipr );
@@ -940,115 +933,50 @@ public final class MarkerRenderer
 		}
 	}
 
-	private void drawButton( IPrimitiveRenderer ipr ) throws ChartException
+	private void drawEllipse( IPrimitiveRenderer ipr ) throws ChartException
 	{
-		double offset = 0.5 * iSize;
 		if ( bRendering3D )
 		{
-			final Line3DRenderEvent lre = new Line3DRenderEvent( oSource );
-			lre.setStart3D( lo3d );
-			lre.setEnd3D( lo3d );
-			lre.setLineAttributes( la );
-			engine3d.processEvent( lre,
-					panningOffset.getX( ),
-					panningOffset.getY( ) );
+			final Oval3DRenderEvent ore = (Oval3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+					Oval3DRenderEvent.class );
+			ore.setBackground( paletteEntry );
+			ore.setOutline( la );
+			ore.setLocation3D( new Location3D[]{
+					Location3DImpl.create( lo3d.getX( ) - iSize, lo3d.getY( )
+							+ iSize / 2, lo3d.getZ( ) ),
+					Location3DImpl.create( lo3d.getX( ) - iSize, lo3d.getY( )
+							- iSize / 2, lo3d.getZ( ) ),
+					Location3DImpl.create( lo3d.getX( ) + iSize, lo3d.getY( )
+							- iSize / 2, lo3d.getZ( ) ),
+					Location3DImpl.create( lo3d.getX( ) + iSize, lo3d.getY( )
+							+ iSize / 2, lo3d.getZ( ) )
+			} );
 
-			Location loa = lre.getStart( );
-
-			final ArcRenderEvent areL = new ArcRenderEvent( oSource );
-			areL.setStartAngle( 90.0 );
-			areL.setEndAngle( 180.0 );
-			areL.setBounds( BoundsImpl.create( loa.getX( ) - iSize, loa.getY( )
-					- offset, iSize, iSize ) );
-
-			final LineRenderEvent lreL = new LineRenderEvent( oSource );
-			lreL.setStart( LocationImpl.create( loa.getX( ) - offset,
-					loa.getY( ) + offset ) );
-			lreL.setEnd( LocationImpl.create( loa.getX( ) + offset, loa.getY( )
-					+ offset ) );
-
-			final ArcRenderEvent areR = new ArcRenderEvent( oSource );
-			areR.setStartAngle( 270.0 );
-			areR.setEndAngle( 180.0 );
-			areR.setBounds( BoundsImpl.create( loa.getX( ), loa.getY( )
-					- offset, iSize, iSize ) );
-
-			final LineRenderEvent lreU = new LineRenderEvent( oSource );
-			lreU.setStart( LocationImpl.create( loa.getX( ) + offset,
-					loa.getY( ) - offset ) );
-			lreU.setEnd( LocationImpl.create( loa.getX( ) - offset, loa.getY( )
-					- offset ) );
-
-			final AreaRenderEvent area = new AreaRenderEvent( oSource );
-			area.add( areL );
-			area.add( lreL );
-			area.add( areR );
-			area.add( lreU );
-			area.setBackground( paletteEntry );
-			area.setOutline( la );
-
-			preCopy = area.copy( );
-			if ( bDeferred )
-			{
-				dc.addMarker( area, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
-			}
-			else
-			{
-				ipr.fillArea( area );
-				ipr.drawArea( area );
-			}
+			preCopy = ore.copy( );
+			dc.addPlane( ore, PrimitiveRenderEvent.FILL
+					| PrimitiveRenderEvent.DRAW );
 		}
 		else
 		{
-			final ArcRenderEvent areL = new ArcRenderEvent( oSource );
-			areL.setStartAngle( 90.0 );
-			areL.setEndAngle( 180.0 );
-			areL.setStyle( ArcRenderEvent.OPEN );
-			areL.setBounds( BoundsImpl.create( lo.getX( ) - iSize, lo.getY( )
-					- offset, iSize, iSize ) );
+			final OvalRenderEvent ore = (OvalRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+					OvalRenderEvent.class );
+			ore.setBackground( paletteEntry );
+			ore.setBounds( BoundsImpl.create( lo.getX( ) - iSize, lo.getY( )
+					- iSize / 2, iSize * 2, iSize ) );
+			ore.setOutline( la );
+			preCopy = ore.copy( );
 
-			final LineRenderEvent lreL = new LineRenderEvent( oSource );
-			lreL.setStart( LocationImpl.create( lo.getX( ) - offset, lo.getY( )
-					+ offset ) );
-			lreL.setEnd( LocationImpl.create( lo.getX( ) + offset, lo.getY( )
-					+ offset ) );
-
-			final ArcRenderEvent areR = new ArcRenderEvent( oSource );
-			areR.setStartAngle( 270.0 );
-			areR.setEndAngle( 180.0 );
-			areR.setStyle( ArcRenderEvent.OPEN );
-			areR.setBounds( BoundsImpl.create( lo.getX( ),
-					lo.getY( ) - offset,
-					iSize,
-					iSize ) );
-
-			final LineRenderEvent lreU = new LineRenderEvent( oSource );
-			lreU.setStart( LocationImpl.create( lo.getX( ) + offset, lo.getY( )
-					- offset ) );
-			lreU.setEnd( LocationImpl.create( lo.getX( ) - offset, lo.getY( )
-					- offset ) );
-
-			final AreaRenderEvent area = new AreaRenderEvent( oSource );
-			area.add( areL );
-			area.add( lreL );
-			area.add( areR );
-			area.add( lreU );
-
-			area.setBackground( paletteEntry );
-			area.setOutline( la );
-
-			preCopy = area.copy( );
 			if ( bDeferred )
 			{
-				dc.addMarker( area, PrimitiveRenderEvent.FILL
+				dc.addMarker( ore, PrimitiveRenderEvent.FILL
 						| PrimitiveRenderEvent.DRAW );
 			}
 			else
 			{
-				ipr.fillArea( area );
-				ipr.drawArea( area );
+				ipr.fillOval( ore );
+				ipr.drawOval( ore );
 			}
+
 		}
 	}
 

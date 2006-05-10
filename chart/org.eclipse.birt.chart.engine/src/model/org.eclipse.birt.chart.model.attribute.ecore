@@ -1317,7 +1317,7 @@
     <eLiterals name="Nabla" value="5"/>
     <eLiterals name="Diamond" value="6"/>
     <eLiterals name="FourDiamonds" value="7" literal="Four_Diamonds"/>
-    <eLiterals name="Button" value="8"/>
+    <eLiterals name="Ellipse" value="8" literal="Ellipse"/>
     <eLiterals name="SemiCircle" value="9" literal="Semi_Circle"/>
     <eLiterals name="Hexagon" value="10"/>
     <eLiterals name="Rectangle" value="11"/>
