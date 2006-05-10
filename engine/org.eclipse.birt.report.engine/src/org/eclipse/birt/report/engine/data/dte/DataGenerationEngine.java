@@ -25,7 +25,6 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -120,6 +119,7 @@ public class DataGenerationEngine extends AbstractDataEngine
 			{
 				// this is the root query
 				dteResults = pQuery.execute( scope );
+				resultSet = new DteResultSet( this, context, dteResults );
 			}
 			else
 			{
@@ -130,11 +130,8 @@ public class DataGenerationEngine extends AbstractDataEngine
 				// parent results
 				dteResults = pQuery.execute( resultSet.getQueryResults( ),
 						scope );
+				resultSet = new DteResultSet( resultSet, dteResults );
 			}
-
-			DataSetID dataSetId = new DataSetID( dteResults.getID( ) );
-			resultSet = new DteResultSet( dataSetId, resultSet, dteResults
-					.getResultIterator( ), this, context );
 			rsets.addFirst( resultSet );
 
 			// save the

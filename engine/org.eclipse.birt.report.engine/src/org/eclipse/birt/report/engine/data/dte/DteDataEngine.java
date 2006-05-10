@@ -22,7 +22,6 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -32,7 +31,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.41 $ $Date: 2006/04/29 07:40:13 $
+ * @version $Revision: 1.42 $ $Date: 2006/05/09 09:26:18 $
  */
 public class DteDataEngine extends AbstractDataEngine
 {
@@ -111,6 +110,7 @@ public class DteDataEngine extends AbstractDataEngine
 			{
 				// this is the root query
 				dteResults = pQuery.execute( scope );
+				resultSet = new DteResultSet( this, context, dteResults );
 			}
 			else
 			{
@@ -118,13 +118,10 @@ public class DteDataEngine extends AbstractDataEngine
 				// parent results
 				dteResults = pQuery.execute( resultSet.getQueryResults( ),
 						scope );
+				resultSet = new DteResultSet( resultSet, dteResults );
 			}
-
-			DataSetID dataSetId = new DataSetID( dteResults.getID( ) );
-			resultSet = new DteResultSet( dataSetId, resultSet, dteResults
-					.getResultIterator( ), this, context );
+			
 			rsets.addFirst( resultSet );
-
 			return resultSet;
 		}
 		catch ( BirtException be )

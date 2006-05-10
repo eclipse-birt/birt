@@ -27,7 +27,6 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
-import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.data.IResultSet;
@@ -186,22 +185,22 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			Scriptable scope = context.getSharedScope( );
 
 			IQueryResults dteResults; // the dteResults of this query
+			DteResultSet resultSet = null;
+			
 			if ( parentQueryResults == null )
 			{
 				// this is the root query
 				dteResults = pQuery.execute( scope );
+				resultSet = new DteResultSet( this, context, dteResults );
 			}
 			else
 			{
 				// this is the nest query, execute the query in the
 				// parent results
 				dteResults = pQuery.execute( parentQueryResults, scope );
+				resultSet = new DteResultSet( parentResult, dteResults );
 			}
-
-			DataSetID dataSetId = new DataSetID( dteResults.getID( ) );
-			DteResultSet resultSet = new DteResultSet( dataSetId, parentResult, dteResults
-					.getResultIterator( ), this, context );
-			
+		
 			rsets.addFirst( resultSet );
 
 			return resultSet;
