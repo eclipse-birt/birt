@@ -112,7 +112,7 @@ abstract public class BaseAttributeBean
 	/**
 	 * Report format of the request.
 	 */
-	
+
 	protected String format = ParameterAccessor.PARAM_FORMAT_HTML;
 
 	/**
@@ -125,11 +125,6 @@ abstract public class BaseAttributeBean
 	 */
 	protected Map parameterMap = null;
 
-	/**
-	 * Viewer report design handle 
-	 */	
-	protected IViewerReportDesignHandle reportDesignHandle = null;
-	
 	/**
 	 * Abstract methods.
 	 */
@@ -180,18 +175,18 @@ abstract public class BaseAttributeBean
 	protected void __initParameters( HttpServletRequest request )
 			throws Exception
 	{
-		this.reportDesignHandle = getDesignHandle( request );
+		IViewerReportDesignHandle reportDesignHandle = getDesignHandle( request );
 
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
 
 		Collection parameterList = this.getReportService( )
-				.getParameterDefinitions( this.reportDesignHandle, options, false );
+				.getParameterDefinitions( reportDesignHandle, options, false );
 
 		// TODO: Change parameters to be Map, not HashMap
-		this.parameters = (HashMap) getParsedParameters( this.reportDesignHandle, parameterList,
-				request, options );
+		this.parameters = (HashMap) getParsedParameters( reportDesignHandle,
+				parameterList, request, options );
 
 		this.missingParameter = validateParameters( parameterList,
 				this.parameters );
@@ -323,11 +318,11 @@ abstract public class BaseAttributeBean
 	{
 		return reportDesignName;
 	}
-	
+
 	/**
 	 * @return the format
 	 */
-	
+
 	public String getFormat( )
 	{
 		return format;
@@ -367,7 +362,7 @@ abstract public class BaseAttributeBean
 
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			ParameterDefinition  parameterObj = (ParameterDefinition ) iter
+			ParameterDefinition parameterObj = (ParameterDefinition) iter
 					.next( );
 
 			String parameterName = parameterObj.getName( );
@@ -384,7 +379,7 @@ abstract public class BaseAttributeBean
 				break;
 			}
 
-			if ( ParameterDefinition .TYPE_STRING == parameterObj.getDataType( ) )
+			if ( ParameterDefinition.TYPE_STRING == parameterObj.getDataType( ) )
 			{
 				String parameterStringValue = (String) parameterValue;
 				if ( parameterStringValue != null
@@ -407,7 +402,7 @@ abstract public class BaseAttributeBean
 		Map params = new HashMap( );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			ParameterDefinition  parameterObj = (ParameterDefinition ) iter
+			ParameterDefinition parameterObj = (ParameterDefinition) iter
 					.next( );
 
 			String paramName = parameterObj.getName( );
@@ -424,7 +419,7 @@ abstract public class BaseAttributeBean
 	}
 
 	protected Object getParamValueObject( HttpServletRequest request,
-			ParameterDefinition  parameterObj ) throws ReportServiceException
+			ParameterDefinition parameterObj ) throws ReportServiceException
 	{
 		String paramName = parameterObj.getName( );
 		String format = parameterObj.getDisplayFormat( );
@@ -439,12 +434,4 @@ abstract public class BaseAttributeBean
 		}
 		return null;
 	}
-	
-	/**
-	 * @return the reportDesignHandle
-	 */
-	public IViewerReportDesignHandle getReportDesignHandle( )
-	{
-		return this.reportDesignHandle;
-	}	
 }
