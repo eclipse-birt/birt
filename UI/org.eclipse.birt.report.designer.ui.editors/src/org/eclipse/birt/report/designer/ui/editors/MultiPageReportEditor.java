@@ -312,7 +312,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 					.setFileName( getProvider( ).getInputPath( getEditorInput( ) )
 							.toOSString( ) );
 		}
-		
+
 		updateRelatedViews( );
 	}
 
@@ -679,6 +679,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 						.setReportDesignHandle( getModel( ) );
 				DataSetManager.initCurrentInstance( getEditorInput( ) );
 			}
+
 		}
 
 	}
@@ -712,7 +713,6 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void partDeactivated( IWorkbenchPart part )
 	{
-
 	}
 
 	/*
@@ -879,22 +879,24 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	protected void handleOpenMasterPage( final ReportRequest request )
 	{
-		setActivePage( LayoutMasterPage_ID );
+		if ( this.getContainer( ).isVisible( ) )
+		{
+			setActivePage( LayoutMasterPage_ID );
 
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
+			Display.getCurrent( ).asyncExec( new Runnable( ) {
 
-			public void run( )
-			{
-				ReportRequest r = new ReportRequest( );
-				r.setType( ReportRequest.LOAD_MASTERPAGE );
+				public void run( )
+				{
+					ReportRequest r = new ReportRequest( );
+					r.setType( ReportRequest.LOAD_MASTERPAGE );
 
-				r.setSelectionObject( request.getSelectionModelList( ) );
-				SessionHandleAdapter.getInstance( )
-						.getMediator( )
-						.notifyRequest( r );
-			}
-		} );
-
+					r.setSelectionObject( request.getSelectionModelList( ) );
+					SessionHandleAdapter.getInstance( )
+							.getMediator( )
+							.notifyRequest( r );
+				}
+			} );
+		}
 	}
 
 }
