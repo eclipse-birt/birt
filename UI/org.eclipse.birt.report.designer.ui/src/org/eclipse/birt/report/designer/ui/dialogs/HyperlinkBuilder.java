@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -371,7 +372,7 @@ public class HyperlinkBuilder extends BaseDialog
 				.getShell( );
 
 		displayArea.setLayoutData( new GridData( 500,
-				shell.getBounds( ).height < 490+200 ? shell.getBounds( ).height-200
+				shell.getBounds( ).height < 490 + 200 ? shell.getBounds( ).height - 200
 						: 490 ) );
 		displayArea.setLayout( new GridLayout( 3, false ) );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -398,13 +399,16 @@ public class HyperlinkBuilder extends BaseDialog
 		addRadioListener( uriRadio,
 				DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK );
 
-		UIUtil.createBlankLabel( composite );
+		if ( !( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle ) )
+		{
 
-		bookmarkRadio = new Button( composite, SWT.RADIO );
-		bookmarkRadio.setText( RADIO_BOOKMARK );
-		addRadioListener( bookmarkRadio,
-				DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK );
+			UIUtil.createBlankLabel( composite );
 
+			bookmarkRadio = new Button( composite, SWT.RADIO );
+			bookmarkRadio.setText( RADIO_BOOKMARK );
+			addRadioListener( bookmarkRadio,
+					DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK );
+		}
 		UIUtil.createBlankLabel( composite );
 
 		drillRadio = new Button( composite, SWT.RADIO );
@@ -948,7 +952,7 @@ public class HyperlinkBuilder extends BaseDialog
 					inputHandle.setTargetBookmark( bookmarkEditor.getText( )
 							.trim( ) );
 				}
-				
+
 				if ( targetBookmarkButton.getSelection( ) )
 				{
 					inputHandle.setTargetBookmarkType( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK );
@@ -1252,17 +1256,18 @@ public class HyperlinkBuilder extends BaseDialog
 						.toArray( new String[0] ) );
 			}
 		}
-		
+
 		String bookmark = inputHandle.getTargetBookmark( );
 		String[] chooserValues = anchorChooser.getItems( );
-		if(bookmark!=null && chooserValues!=null){
+		if ( bookmark != null && chooserValues != null )
+		{
 			for ( int i = 0; i < chooserValues.length; i++ )
 			{
-				if(bookmark.equals( chooserValues[i]))
+				if ( bookmark.equals( chooserValues[i] ) )
 					anchorChooser.select( i );
 			}
 		}
-		
+
 		anchorChooser.setEnabled( anchorChooser.getItemCount( ) > 0 );
 		bookmarkEditor.setText( "" ); //$NON-NLS-1$
 	}
