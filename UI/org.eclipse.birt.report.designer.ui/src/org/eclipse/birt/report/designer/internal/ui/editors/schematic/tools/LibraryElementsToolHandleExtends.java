@@ -59,20 +59,23 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 				.getReportDesignHandle( );
 		LibraryHandle library = (LibraryHandle) elementHandle.getRoot( );
 		try
-		{					
+		{
 			if ( UIUtil.includeLibrary( moduleHandle, library ) )
 			{
-				if(elementHandle instanceof ThemeHandle)
+				if ( elementHandle instanceof ThemeHandle )
 				{
-					ThemeHandle model = UIUtil.applyTheme( (ThemeHandle)elementHandle,moduleHandle,library);
-					if(model != null)
+					ThemeHandle model = UIUtil.applyTheme( (ThemeHandle) elementHandle,
+							moduleHandle,
+							library );
+					if ( model != null )
 					{
-						setModel(elementHandle);
-					}					
-				}else
+						setModel( elementHandle );
+					}
+				}
+				else
 				{
-					setModel(  moduleHandle.getElementFactory( )
-						.newElementFrom( elementHandle, null ) );
+					setModel( moduleHandle.getElementFactory( )
+							.newElementFrom( elementHandle, elementHandle.getName( ) ) );
 				}
 			}
 		}
@@ -98,6 +101,6 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 	public boolean preHandleMouseDown( )
 	{
 		return false;
-	}		
+	}
 
 }

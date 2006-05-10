@@ -761,7 +761,7 @@ public class BasePaletteFactory
 							if ( UIUtil.includeLibrary( moduleHandle, library ) )
 							{
 								elementHandle = moduleHandle.getElementFactory( )
-										.newElementFrom( elementHandle, null );
+										.newElementFrom( elementHandle, elementHandle.getName( ) );
 								moduleHandle.addElement( elementHandle,
 										moduleHandle.getDataSets( ).getSlotID( ) );
 							}
