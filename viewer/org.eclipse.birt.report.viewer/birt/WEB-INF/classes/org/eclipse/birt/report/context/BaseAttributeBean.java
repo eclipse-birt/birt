@@ -303,6 +303,14 @@ abstract public class BaseAttributeBean
 	/**
 	 * @return Returns incoming request's category.
 	 */
+	public void setCategory( String category )
+	{
+		this.category = category;
+	}
+
+	/**
+	 * @return Returns incoming request's category.
+	 */
 	public String getCategory( )
 	{
 		return category;
