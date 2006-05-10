@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.executor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -465,6 +466,9 @@ public class DataSourceAndDataSet
 	}
 
 	/**
+	 * Very special for computed column, temp computed column can not be counted
+	 * as the real computed column
+	 * 
 	 * @param computedCol1
 	 * @param computedCol2
 	 * @return
@@ -474,14 +478,17 @@ public class DataSourceAndDataSet
 		if ( computedCol1 == computedCol2 )
 			return true;
 
-		int basicCol = isEqualBasicCol( computedCol1, computedCol2 );
+		List newComputedCol1 = getRealComputedColumn( computedCol1 );
+		List newComputedCol2 = getRealComputedColumn( computedCol2 );
+
+		int basicCol = isEqualBasicCol( newComputedCol1, newComputedCol2 );
 		if ( basicCol == B_TRUE )
 			return true;
 		else if ( basicCol == B_FALSE )
 			return false;
 
-		Iterator it = computedCol1.iterator( );
-		Iterator it2 = computedCol1.iterator( );
+		Iterator it = newComputedCol1.iterator( );
+		Iterator it2 = newComputedCol2.iterator( );
 		while ( it.hasNext( ) )
 		{
 			IComputedColumn cc = (IComputedColumn) it.next( );
@@ -493,6 +500,30 @@ public class DataSourceAndDataSet
 		return true;
 	}
 
+	/**
+	 * @param computedCols
+	 * @return
+	 */
+	private List getRealComputedColumn( List computedCols )
+	{
+		if ( computedCols == null )
+			return null;
+
+		List list = new ArrayList( );
+		for ( int i = 0; i < computedCols.size( ); i++ )
+		{
+			IComputedColumn cc = (IComputedColumn) computedCols.get( 0 );
+			if ( cc.getName( ).matches( "\\Q_{$TEMP_GROUP_\\E\\d*\\Q$}_\\E" )
+					|| cc.getName( ).matches( "\\Q_{$TEMP_SORT_\\E\\d*\\Q$}_\\E" )
+					|| cc.getName( ).matches( "\\Q_{$TEMP_FILTER_\\E\\d*\\Q$}_\\E" ))
+				continue;
+			else
+				list.add( cc );
+		}
+
+		return list;
+	}
+	
 	/**
 	 * @param cc
 	 * @param cc2
