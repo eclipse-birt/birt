@@ -324,7 +324,9 @@ public class ImageBuilder extends BaseDialog
 	{
 		Label title = new Label( inputArea, SWT.NONE );
 
-		uriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER );
+		uriEditor = new Text( inputArea, SWT.SINGLE
+				| SWT.BORDER
+				| SWT.READ_ONLY );
 		uriEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		uriEditor.addModifyListener( new ModifyListener( ) {
 
@@ -465,7 +467,7 @@ public class ImageBuilder extends BaseDialog
 
 		if ( dialog.open( ) == Window.OK )
 		{
-			uriEditor.setText( dialog.getPath( ) );
+			uriEditor.setText( "\"" + dialog.getPath( ) + "\"" );
 		}
 	}
 
