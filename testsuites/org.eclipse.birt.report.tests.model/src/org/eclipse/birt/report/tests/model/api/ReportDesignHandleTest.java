@@ -17,17 +17,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
-import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -38,13 +38,11 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TranslationHandle;
-import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
-import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -406,7 +404,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 		slot.dropAndClear( grid );
 		assertTrue( designHandle.needsSave( ) );
 
-		ActivityStack as = design.getActivityStack( );
+		CommandStack as = designHandle.getCommandStack( );
+		//ActivityStack as = design.getActivityStack( );
 		as.undo( );
 		assertTrue( designHandle.needsSave( ) );
 		as.undo( );
@@ -433,7 +432,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 		slotHandle.add( label );
 
 		assertTrue( designHandle.needsSave( ) );
-		design.getActivityStack( ).undo( );
+		designHandle.getCommandStack( ).undo( );
+		//design.getActivityStack( ).undo( );
 
 		assertFalse( designHandle.needsSave( ) );
 	}
@@ -565,11 +565,13 @@ public class ReportDesignHandleTest extends BaseTestCase
 		designHandle.dropImage( imageList );
 
 		// undo and test again
-		design.getActivityStack( ).undo( );
+		designHandle.getCommandStack( ).undo( );
+		//design.getActivityStack( ).undo( );
 		image1 = (EmbeddedImageHandle) images.getAt( 0 );
 		image2 = (EmbeddedImageHandle) images.getAt( 1 );
 
-		design.getActivityStack( ).redo( );
+		designHandle.getCommandStack( ).redo( );
+	 //	design.getActivityStack( ).redo( );
 		assertEquals( 0, images.getListValue( ).size( ) );
 		try
 		{
