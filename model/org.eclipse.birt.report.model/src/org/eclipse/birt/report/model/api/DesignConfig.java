@@ -83,22 +83,4 @@ public class DesignConfig extends PlatformConfig implements IDesignConfig
 		setProperty( RESOURCE_LOCATOR, resourceLocator );
 	}
 
-	/**
-	 * @return the resourcePath
-	 */
-
-	public String getResourcePath( )
-	{
-		return (String) getProperty( RESOURCE_PATH );
-	}
-
-	/**
-	 * @param resourcePath
-	 *            the resourcePath to set
-	 */
-
-	public void setResourcePath( String resourcePath )
-	{
-		setProperty( RESOURCE_PATH, resourcePath );
-	}
 }

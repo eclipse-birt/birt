@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api.impl;
 
 import java.io.InputStream;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.DesignConfig;
@@ -23,7 +22,6 @@ import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ExtensionManager;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -157,11 +155,6 @@ public class DesignEngineImpl implements IDesignEngine
 			if ( locator != null )
 				session.setResourceLocator( locator );
 
-			String resourcePath = designConfig.getResourcePath( );
-			if ( URIUtil.isValidResourcePath( resourcePath ) )
-				session.setBirtResourcePath( resourcePath );
-			else
-				errorLogger.log( Level.WARNING, "Invalid resource path." ); //$NON-NLS-1$
 		}
 
 		return session;

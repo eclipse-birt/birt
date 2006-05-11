@@ -25,9 +25,4 @@ public interface IDesignConfig extends IPlatformConfig
 	
 	static final String RESOURCE_LOCATOR = "resourceLocator"; //$NON-NLS-1$
 	
-	/**
-	 * config name of resource path
-	 */
-	
-	static final String RESOURCE_PATH = "resourcePath"; //$NON-NLS-1$
 }
