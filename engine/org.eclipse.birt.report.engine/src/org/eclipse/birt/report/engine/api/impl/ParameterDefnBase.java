@@ -37,6 +37,8 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	protected String 		helpTextKey;
 	protected String 		name;
 	
+	protected String promptText;
+	
 	protected Map customProperties = new HashMap();
 	
 	protected String 		typeName;
@@ -228,4 +230,21 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	public void setHandle(ReportElementHandle handle) {
 		this.handle = handle;
 	}
+	
+	/**
+	 * @return Returns the prompt text.
+	 */
+	public String getPromptText( )	{
+		
+		return promptText;		
+	}
+	
+	/**
+	 * @param promptText, The prompt text to set.
+	 */
+	public void setPromptText(String promptText)
+	{
+		this.promptText = promptText;
+	}
+	
 }

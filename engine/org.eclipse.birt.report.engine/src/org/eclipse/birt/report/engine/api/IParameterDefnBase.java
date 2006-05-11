@@ -86,5 +86,9 @@ public interface IParameterDefnBase
 	 */
 	public ReportElementHandle getHandle( );
 	
+	/**
+	 * @return prompt text
+	 */
+	public String getPromptText( );
 	
 }
