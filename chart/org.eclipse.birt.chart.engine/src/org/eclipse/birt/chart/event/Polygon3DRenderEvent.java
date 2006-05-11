@@ -129,6 +129,12 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 					(int) ( cdf.getGreen( ) * dBrightness ),
 					(int) ( cdf.getBlue( ) * dBrightness ) );
 
+			// Also copy transparency setting
+			if ( ( (ColorDefinition) _ifBackground ).isSetTransparency( ) )
+			{
+				cdf.setTransparency( ( (ColorDefinition) _ifBackground ).getTransparency( ) );
+			}
+
 			runtimeBackground = cdf;
 		}
 	}
@@ -185,7 +191,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		final Polygon3DRenderEvent pre = new Polygon3DRenderEvent( (StructureSource)source );
+		final Polygon3DRenderEvent pre = new Polygon3DRenderEvent( source );
 		if ( object3D != null )
 		{
 			pre.object3D = new Object3D( object3D );
@@ -219,7 +225,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		this.dBrightness = 1;
 		this.bBehind = false;
 		this.runtimeBackground = null;
-		super.reset() ;
+		super.reset( );
 	}
 
 	/*
