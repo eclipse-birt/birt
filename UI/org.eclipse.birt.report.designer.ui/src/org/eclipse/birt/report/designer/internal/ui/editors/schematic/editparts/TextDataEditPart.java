@@ -1,12 +1,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TextFigure;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -36,7 +39,8 @@ public class TextDataEditPart extends LabelEditPart
 				.getActiveShell( ),
 				handle.getValueExpr( ) );
 
-		dialog.setExpressionProvier( new BindingExpressionProvider( handle ) );
+		dialog.setExpressionProvier( new ExpressionProvider( handle ) );
+
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			try
