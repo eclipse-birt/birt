@@ -33,7 +33,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.31 $ $Date: 2006/02/28 03:53:14 $
+ * @version $Revision: 1.32 $ $Date: 2006/04/06 12:35:25 $
  */
 public class Report
 {
@@ -90,6 +90,11 @@ public class Report
 	 * use to find the query IDs.(query, string) pair.
 	 */
 	protected HashMap queryIDs = new HashMap( );
+	
+	/**
+	 * use to find the result MetaData.(query, ResultMetaData) pair.
+	 */
+	protected HashMap resultMetaData = new HashMap( );
 
 	/**
 	 * Page setup this report used
@@ -448,6 +453,11 @@ public class Report
 	public HashMap getQueryIDs( )
 	{
 		return this.queryIDs;
+	}
+	
+	public HashMap getResultMetaData( )
+	{
+		return this.resultMetaData;
 	}
 
 	/**

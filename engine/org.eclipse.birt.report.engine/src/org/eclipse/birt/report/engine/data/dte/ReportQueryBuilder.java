@@ -45,6 +45,7 @@ import org.eclipse.birt.report.engine.adapter.IColumnBinding;
 import org.eclipse.birt.report.engine.adapter.ITotalExprBindings;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.impl.ResultMetaData;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
@@ -94,7 +95,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.58 $ $Date: 2006/04/29 04:07:42 $
+ * @version $Revision: 1.59 $ $Date: 2006/05/10 02:29:28 $
  */
 public class ReportQueryBuilder
 {
@@ -127,6 +128,12 @@ public class ReportQueryBuilder
 		 * query and it's IDs
 		 */
 		protected HashMap queryIDs;
+		
+		/**
+		 * query and result metaData
+		 */
+		protected HashMap resultMetaData;
+		
 		/**
 		 * a collection of all the queries
 		 */
@@ -173,6 +180,9 @@ public class ReportQueryBuilder
 
 			queryIDs = report.getQueryIDs( );
 			queryIDs.clear( );
+			
+			resultMetaData = report.getResultMetaData( );
+			resultMetaData.clear( );
 
 			// visit master page
 			for ( int i = 0; i < report.getPageSetup( ).getMasterPageCount( ); i++ )
@@ -333,6 +343,8 @@ public class ReportQueryBuilder
 										.valueOf( item.getID( ) )
 										+ "_" + String.valueOf( i ) );
 								this.queries.add( queries[i] );
+								ResultMetaData metaData = new ResultMetaData( (IQueryDefinition)queries[i] );
+								resultMetaData.put( queries[i], metaData );
 								registerQueryAndElement( queries[i], item );
 							}
 							else if ( queries[i] instanceof ISubqueryDefinition )
@@ -736,6 +748,9 @@ public class ReportQueryBuilder
 			item.setQuery( query );
 			
 			addSortAndFilter( item, query );
+			
+			ResultMetaData metaData = new ResultMetaData( query );
+			resultMetaData.put( query, metaData );
 			return query;
 		}
 
@@ -788,6 +803,13 @@ public class ReportQueryBuilder
 			}
 			
 			addSortAndFilter( item, query );
+			
+			if ( query instanceof IQueryDefinition )
+			{
+				ResultMetaData metaData = new ResultMetaData( (IQueryDefinition)query );
+				resultMetaData.put( query, metaData );
+			}
+			
 			return query;
 		}
 

@@ -29,13 +29,13 @@ public class ResultMetaData implements IResultMetaData
 
 	protected String[] selectedColumns;
 
-	ResultMetaData( IQueryDefinition query, String[] selectedColumns )
+	public ResultMetaData( IQueryDefinition query, String[] selectedColumns )
 	{
 		initializeMetaData( query );
 		this.selectedColumns = selectedColumns;
 	}
 
-	ResultMetaData( IQueryDefinition query )
+	public ResultMetaData( IQueryDefinition query )
 	{
 		initializeMetaData( query );
 		this.selectedColumns = null;

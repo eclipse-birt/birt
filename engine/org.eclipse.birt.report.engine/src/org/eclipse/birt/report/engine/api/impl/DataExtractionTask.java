@@ -199,6 +199,7 @@ public class DataExtractionTask extends EngineTask
 		DataInputStream dis = null;
 		try
 		{
+			HashMap query2ResultMetaData = report.getResultMetaData( );
 			IDocArchiveReader reader = reportDocReader.getArchive( );
 			dis = new DataInputStream( reader
 					.getStream( ReportDocumentConstants.DATA_META_STREAM ) );
@@ -226,12 +227,14 @@ public class DataExtractionTask extends EngineTask
 				queryCounts.put( queryId, new Integer( count ) );
 				rsetName2IdMapping.put( rsetName, rsetId );
 
-				IQueryDefinition query = getQuery( queryId );
-				ResultMetaData metaData = new ResultMetaData( query );
-				IResultSetItem resultItem = new ResultSetItem( rsetName,
-						metaData );
-
-				resultMetaList.add( resultItem );
+				if( null != query2ResultMetaData )
+				{
+					IQueryDefinition query = getQuery( queryId );
+					ResultMetaData metaData = (ResultMetaData) query2ResultMetaData.get( query );
+					IResultSetItem resultItem = new ResultSetItem( rsetName,
+							metaData );
+					resultMetaList.add( resultItem );
+				}
 			}
 		}
 		catch ( EOFException eofe )
