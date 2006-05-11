@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -322,7 +323,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 					GridData gd = new GridData( );
 					gd.horizontalAlignment = SWT.CENTER;
 					btnStack.setLayoutData( gd );
-					btnStack.setEnabled( series.canBeStacked( ) );
+					btnStack.setEnabled( series.canBeStacked( )
+							&& getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL );
 					btnStack.setSelection( series.isStacked( ) );
 					btnStack.addSelectionListener( this );
 				}

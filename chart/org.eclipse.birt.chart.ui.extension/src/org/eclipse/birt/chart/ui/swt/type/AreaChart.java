@@ -652,6 +652,13 @@ public class AreaChart extends DefaultChartTypeImpl
 						.getAncillarySampleData( )
 						.add( sdAncillary );
 			}
+			
+			EList seriesdefinitions = ChartUIUtil.getOrthogonalSeriesDefinitions( currentChart, 0 );
+			for ( int j = 0; j < seriesdefinitions.size( ); j++ )
+			{
+				Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+				series.setStacked( false );// Stacked is unsupported in 3D
+			}
 		}
 
 		return currentChart;
