@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.xml.util;
 
-import java.io.InputStream;
-
 import org.eclipse.birt.report.data.oda.xml.Constants;
 import org.eclipse.birt.report.data.oda.xml.ResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -74,7 +72,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	 * @param tName
 	 * @throws OdaException
 	 */
-	public SaxParserConsumer( ResultSet rs, RelationInformation rinfo, InputStream is, String tName) throws OdaException
+	public SaxParserConsumer( ResultSet rs, RelationInformation rinfo, XMLDataInputStream is, String tName) throws OdaException
 	{
 		this.resultSet = rs;
 		                                 
@@ -98,7 +96,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		
 		this.namesOfColumns = relationInfo.getTableColumnNames( tableName );
 		
-		XMLDataInputStream xdis = (is instanceof XMLDataInputStream)?(XMLDataInputStream)is:new XMLDataInputStream(is);
+		XMLDataInputStream xdis = is;
 		
 		if( namesOfCachedComplexNestedColumns.length > 0)
 		{

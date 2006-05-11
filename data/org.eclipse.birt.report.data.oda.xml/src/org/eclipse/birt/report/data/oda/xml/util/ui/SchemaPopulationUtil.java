@@ -37,7 +37,7 @@ import org.apache.xerces.xs.XSParticle;
 import org.apache.xerces.xs.XSTypeDefinition;
 import org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer;
 import org.eclipse.birt.report.data.oda.xml.util.SaxParser;
-import org.eclipse.birt.report.data.oda.xml.util.XMLDataInputStream;
+import org.eclipse.birt.report.data.oda.xml.util.XMLDataInputStreamCreator;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 
@@ -159,7 +159,8 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 		this.includeAttribute = includeAttribute;
 		try
 		{
-			sp = new SaxParser( new XMLDataInputStream( fileName ), this );
+			sp = new SaxParser( XMLDataInputStreamCreator.getCreator( fileName )
+					.createXMLDataInputStream( ), this );
 
 			spThread = new Thread( sp );
 			spThread.start( );
