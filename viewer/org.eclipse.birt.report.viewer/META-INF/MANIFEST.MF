@@ -39,5 +39,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.birt.report.model,
  org.eclipse.birt.data,
- org.eclipse.birt.report.data.adaptor
+ org.eclipse.birt.report.data.adapter
 Eclipse-LazyStart: true
