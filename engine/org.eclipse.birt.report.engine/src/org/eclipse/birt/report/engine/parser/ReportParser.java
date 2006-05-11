@@ -35,7 +35,7 @@ import com.ibm.icu.util.ULocale;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.14 $ $Date: 2006/04/26 10:13:05 $
+ * @version $Revision: 1.15 $ $Date: 2006/05/09 08:41:50 $
  */
 public class ReportParser
 {
@@ -47,6 +47,7 @@ public class ReportParser
 
 	private IResourceLocator resourceLocator;
 
+	private String resourcePath;
 	/**
 	 * constructor.
 	 */
@@ -56,29 +57,28 @@ public class ReportParser
 
 	public ReportParser(  IReportEngine engine )
 	{
-		IResourceLocator resourceLocator = null;
 		if ( engine != null && engine.getConfig( ) != null )
 		{
-			resourceLocator = engine.getConfig( ).getResourceLocator( );
+			this.resourceLocator = engine.getConfig( ).getResourceLocator( );
+			this.resourcePath = engine.getConfig( ).getResourcePath( );
 		}
-		this.resourceLocator = resourceLocator;
 	}
 
 	public ReportParser(  ExecutionContext context )
 	{
-		IResourceLocator resourceLocator = null;
 		if ( context != null && context.getEngine( ) != null
 				&& context.getEngine( ).getConfig( ) != null )
 		{
-			resourceLocator = context.getEngine( ).getConfig( )
+			this.resourceLocator = context.getEngine( ).getConfig( )
 					.getResourceLocator( );
+			this.resourcePath = context.getEngine( ).getConfig( ).getResourcePath( );
 		}
-		this.resourceLocator = resourceLocator;
 	}
 
-	public ReportParser( IResourceLocator resourceLocator )
+	public ReportParser( IResourceLocator resourceLocator, String resourcePath )
 	{
 		this.resourceLocator = resourceLocator;
+		this.resourcePath = resourcePath;
 	}
 	/**
 	 * parse the XML input stream.
@@ -120,6 +120,10 @@ public class ReportParser
 		if ( resourceLocator != null )
 		{
 			sessionHandle.setResourceLocator( resourceLocator );
+		}
+		if ( resourcePath != null )
+		{
+			sessionHandle.setBirtResourcePath( resourcePath );
 		}
 		// Obtain design handle
 		ReportDesignHandle designHandle = null;

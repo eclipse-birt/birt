@@ -277,4 +277,25 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	{
 		setProperty( RESOURCE_LOCATOR, resourceLocator );
 	}
+
+	/**
+	 * @return the resourcePath
+	 */
+	public String getResourcePath( )
+	{
+		Object resourcePath = getProperty( RESOURCE_PATH );
+		if ( resourcePath instanceof String )
+		{
+			return (String) resourcePath;
+		}
+		return null;
+	}
+	
+	/**
+	 * @param resourcePath the resourcePath to set
+	 */
+	public void setResourcePath( String resourcePath )
+	{
+		setProperty( RESOURCE_PATH, resourcePath );
+	}
 }

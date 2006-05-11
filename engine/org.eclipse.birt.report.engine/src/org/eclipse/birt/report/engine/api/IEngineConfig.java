@@ -30,4 +30,8 @@ public interface IEngineConfig extends IPlatformConfig
 	 */
 	static final String RESOURCE_LOCATOR = "resourceLocator";
 
+	/**
+	 * resource path used by design engine
+	 */
+	static final String RESOURCE_PATH = "resourcePath";
 }
