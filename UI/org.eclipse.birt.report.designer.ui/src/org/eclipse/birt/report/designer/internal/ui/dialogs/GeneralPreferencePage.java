@@ -100,7 +100,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void createStyleNameControl( )
 	{
@@ -243,24 +243,20 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 	private boolean checkName( String name )
 	{
-		if ( ( (StyleHandle) model ).isPredefined( )
-				&& selectedType == TYPE_CUSTOM )
+		Iterator iterator = DEUtil.getStyles( );
+		while ( iterator.hasNext( ) )
 		{
-			Iterator iterator = DEUtil.getStyles( );
-			while ( iterator.hasNext( ) )
-			{
-				SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
+			SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
 
-				if ( handle.getName( ).equals( name ) )
-				{
-					ExceptionHandler.openErrorMessageBox( Messages.getString( "GeneralPreferencePage.errorMsg.duplicate.styleName" ), //$NON-NLS-1$
-							Messages.getString( "GeneralPreferencePage.label.styleName" ) //$NON-NLS-1$
-									+ ": \"" //$NON-NLS-1$
-									+ name
-									+ "\" " //$NON-NLS-1$
-									+ Messages.getString( "GeneralPreferencePage.label.choose.different.name" ) ); //$NON-NLS-1$
-					return false;
-				}
+			if ( handle.getQualifiedName( ).equals( name ) )
+			{
+				ExceptionHandler.openErrorMessageBox( Messages.getString( "GeneralPreferencePage.errorMsg.duplicate.styleName" ), //$NON-NLS-1$
+						Messages.getString( "GeneralPreferencePage.label.styleName" ) //$NON-NLS-1$
+								+ ": \"" //$NON-NLS-1$
+								+ name
+								+ "\" " //$NON-NLS-1$
+								+ Messages.getString( "GeneralPreferencePage.label.choose.different.name" ) ); //$NON-NLS-1$
+				return false;
 			}
 		}
 		return true;
