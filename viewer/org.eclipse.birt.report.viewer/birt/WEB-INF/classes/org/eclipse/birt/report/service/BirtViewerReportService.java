@@ -204,7 +204,7 @@ public class BirtViewerReportService implements IViewerReportService
 		Long pageNum = null;
 		if ( pageRange != null && pageRange.trim( ).length( ) >= 0 )
 			pageNum = Long.valueOf( pageRange );
-		long page = -1;
+		long page = 1;
 		if ( pageNum != null )
 			page = pageNum.longValue( );
 		try

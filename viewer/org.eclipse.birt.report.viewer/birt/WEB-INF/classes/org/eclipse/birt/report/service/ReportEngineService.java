@@ -716,7 +716,7 @@ public class ReportEngineService
 			throws RemoteException
 	{
 		assert reportDocument != null;
-		assert pageNumber > 0 && pageNumber < reportDocument.getPageCount( );
+		assert pageNumber > 0 && pageNumber <= reportDocument.getPageCount( );
 
 		OutputStream out = os;
 		if ( out == null )
