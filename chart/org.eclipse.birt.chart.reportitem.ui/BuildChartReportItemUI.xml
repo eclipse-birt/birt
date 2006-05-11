@@ -76,7 +76,7 @@
 	<property name="designer.core.dir" location="../org.eclipse.birt.report.designer.core"/>
 	<property name="designer.ui.dir" location="../org.eclipse.birt.report.designer.ui"/>
 	<property name="data.dir" location="../org.eclipse.birt.data"/>
-	<property name="data.adaptor.dir" location="../org.eclipse.birt.report.data.adaptor"/>
+	<property name="data.adapter.dir" location="../org.eclipse.birt.report.data.adapter"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
 	<property name="chart.reportitem.dir" location="../org.eclipse.birt.chart.reportitem"/>
 	<property name="chart.ui.dir" location="../org.eclipse.birt.chart.ui"/>
@@ -136,7 +136,7 @@
 		<fileset file="${engine.dir}/*.jar" />
 		<fileset file="${model.dir}/*.jar" />
 		<fileset file="${data.dir}/*.jar" />
-		<fileset file="${data.adaptor.dir}/*.jar" />
+		<fileset file="${data.adapter.dir}/*.jar" />
 		<fileset file="${designer.core.dir}/*.jar" />
 		<fileset file="${designer.ui.dir}/*.jar" />
 		<pathelement path="${chart.engine.dir}/org.eclipse.birt.chart.engine_${Bundle-Version}.jar"/>
@@ -247,11 +247,11 @@
 		</ant>
 		<echo message="End call Jar task in ${chart.engine.dir}"/>
 		
-		<echo message="Start call Jar task in ${data.adaptor.dir}"/>
-		<ant dir="${data.adaptor.dir}" antfile="BuildDataAdapter.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+		<echo message="Start call Jar task in ${data.adapter.dir}"/>
+		<ant dir="${data.adapter.dir}" antfile="BuildDataAdapter.xml" target="Jar" inheritAll="false" inheritRefs="false" >
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
-		<echo message="End call Jar task in ${data.adaptor.dir}"/>
+		<echo message="End call Jar task in ${data.adapter.dir}"/>
 			
 		<echo message="Start call Jar task in ${chart.reportitem.dir}"/>
 		<ant dir="${chart.reportitem.dir}" antfile="BuildChartReportItem.xml" target="Jar" inheritAll="false" inheritRefs="false" >

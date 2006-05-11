@@ -84,7 +84,7 @@
 	<property name="designer.core.dir" value="../org.eclipse.birt.report.designer.core" />
 	<property name="viewer.dir" value="../org.eclipse.birt.report.viewer" />
 	<property name="model.oda.adapter.dir" value="../org.eclipse.birt.report.model.adapter.oda" />
-	<property name="data.adapter.dir" value="../org.eclipse.birt.report.data.adaptor" />
+	<property name="data.adapter.dir" value="../org.eclipse.birt.report.data.adapter" />
 	<property name="jar.name" value="ui.jar"/>
 
 	<property name="arch" value="x86" />
