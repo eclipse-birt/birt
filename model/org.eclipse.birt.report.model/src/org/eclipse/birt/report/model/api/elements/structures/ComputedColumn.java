@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 
-
 /**
  * Represents one computed column. A computed column is a ¡°virtual¡± column
  * produced as an expression of other columns within the data set.
@@ -39,7 +38,7 @@ import org.eclipse.birt.report.model.core.Structure;
  * <dt><strong>Expression </strong></dt>
  * <dd>expression of the computation for the column.</dd>
  * </dl>
- *  
+ * 
  */
 
 public class ComputedColumn extends Structure
@@ -58,27 +57,31 @@ public class ComputedColumn extends Structure
 
 	public static final String NAME_MEMBER = "name"; //$NON-NLS-1$
 
-    
-    /**
-     * Name of the column name member.
-     * 
-     * @deprecated using {@link #NAME_MEMBER} instead.
-     */
+	/**
+	 * Name of the column name member.
+	 * 
+	 * @deprecated using {@link #NAME_MEMBER} instead.
+	 */
 
-    public static final String COLUMN_NAME_MEMBER = "columnName"; //$NON-NLS-1$
+	public static final String COLUMN_NAME_MEMBER = "columnName"; //$NON-NLS-1$
 
-    
 	/**
 	 * Name of the expression member.
 	 */
 
 	public static final String EXPRESSION_MEMBER = "expression"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the data-type member.
 	 */
-	
+
 	public static final String DATA_TYPE_MEMBER = "dataType"; //$NON-NLS-1$
+
+	/**
+	 * Name of the aggregrateOn member.
+	 */
+
+	public static final String AGGREGRATEON_MEMBER = "aggregrateOn"; //$NON-NLS-1$
 
 	/**
 	 * The column name.
@@ -91,7 +94,13 @@ public class ComputedColumn extends Structure
 	 */
 
 	private String expression = null;
-	
+
+	/**
+	 * The aggregrateOn expression for the computed column.
+	 */
+
+	private String aggregrateOn = null;
+
 	/**
 	 * The data type of this column.
 	 */
@@ -123,6 +132,8 @@ public class ComputedColumn extends Structure
 			return expression;
 		if ( DATA_TYPE_MEMBER.equals( memberName ) )
 			return dataType;
+		if ( AGGREGRATEON_MEMBER.equalsIgnoreCase( memberName ) )
+			return aggregrateOn;
 
 		assert false;
 		return null;
@@ -144,41 +155,41 @@ public class ComputedColumn extends Structure
 			expression = (String) value;
 		else if ( DATA_TYPE_MEMBER.equals( propName ) )
 			dataType = (String) value;
+		else if ( AGGREGRATEON_MEMBER.equals( propName ) )
+			aggregrateOn = (String) value;
 		else
 			assert false;
 	}
 
-    
 	/**
 	 * Returns the column name.
 	 * 
-	 * @return the column name 
-     * @deprecated using {@link #getName()} instead.
+	 * @return the column name
+	 * @deprecated using {@link #getName()} instead.
 	 */
 
 	public String getColumnName( )
 	{
-		return getName();
+		return getName( );
 	}
 
-    
-    /**
-     * Returns the column name.
-     * @return 
-     *      the column name 
-     */
-    
-    public String getName()
-    {
-    	return (String) getProperty( null, NAME_MEMBER );
-    }
-    
+	/**
+	 * Returns the column name.
+	 * 
+	 * @return the column name
+	 */
+
+	public String getName( )
+	{
+		return (String) getProperty( null, NAME_MEMBER );
+	}
+
 	/**
 	 * Sets the column name.
 	 * 
 	 * @param columnName
 	 *            the column name to set
-     * @deprecated using {@link #setName(String)} instead.
+	 * @deprecated using {@link #setName(String)} instead.
 	 */
 
 	public void setColumnName( String columnName )
@@ -186,19 +197,18 @@ public class ComputedColumn extends Structure
 		setName( columnName );
 	}
 
-    /**
-     * Sets the column name
-     * @param name
-     *          the column name to set.
-     */
-    
-    public void setName( String name )
-    {
-        setProperty( NAME_MEMBER, name );
-    }
-    
-    
-    
+	/**
+	 * Sets the column name
+	 * 
+	 * @param name
+	 *            the column name to set.
+	 */
+
+	public void setName( String name )
+	{
+		setProperty( NAME_MEMBER, name );
+	}
+
 	/**
 	 * Returns the expression to compute.
 	 * 
@@ -210,7 +220,6 @@ public class ComputedColumn extends Structure
 		return (String) getProperty( null, EXPRESSION_MEMBER );
 	}
 
-    
 	/**
 	 * Sets the expression.
 	 * 
@@ -259,11 +268,11 @@ public class ComputedColumn extends Structure
 
 		return list;
 	}
-	
+
 	/**
 	 * Returns the data type of this column. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -283,27 +292,50 @@ public class ComputedColumn extends Structure
 		return (String) getProperty( null, DATA_TYPE_MEMBER );
 	}
 
-    /**
-     * Sets the data type of this column. The allowed values are defined in
-     * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-     * are:
-     * <ul>
-     * <li>COLUMN_DATA_TYPE_ANY
-     * <li>COLUMN_DATA_TYPE_INTEGER
-     * <li>COLUMN_DATA_TYPE_STRING
-     * <li>COLUMN_DATA_TYPE_DATETIME
-     * <li>COLUMN_DATA_TYPE_DECIMAL
-     * <li>COLUMN_DATA_TYPE_FLOAT
-     * <li>COLUMN_DATA_TYPE_STRUCTURE
-     * <li>COLUMN_DATA_TYPE_TABLE
-     * </ul>
-     * 
-     * @param dataType
-     *            the data type to set
-     */
+	/**
+	 * Sets the data type of this column. The allowed values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li>COLUMN_DATA_TYPE_ANY
+	 * <li>COLUMN_DATA_TYPE_INTEGER
+	 * <li>COLUMN_DATA_TYPE_STRING
+	 * <li>COLUMN_DATA_TYPE_DATETIME
+	 * <li>COLUMN_DATA_TYPE_DECIMAL
+	 * <li>COLUMN_DATA_TYPE_FLOAT
+	 * <li>COLUMN_DATA_TYPE_STRUCTURE
+	 * <li>COLUMN_DATA_TYPE_TABLE
+	 * </ul>
+	 * 
+	 * @param dataType
+	 *            the data type to set
+	 */
 
-    public void setDataType( String dataType )
-    {
-        setProperty( DATA_TYPE_MEMBER, dataType );
-    }
+	public void setDataType( String dataType )
+	{
+		setProperty( DATA_TYPE_MEMBER, dataType );
+	}
+
+	/**
+	 * Returns the aggregrateOn expression to compute.
+	 * 
+	 * @return the aggregrateOn expression to compute.
+	 */
+
+	public String getAggregrateOn( )
+	{
+		return (String) getProperty( null, AGGREGRATEON_MEMBER );
+	}
+
+	/**
+	 * Sets the aggregrateOn expression.
+	 * 
+	 * @param aggregrateOn
+	 *            the aggregrateOn expression to set
+	 */
+
+	public void setAggregrateOn( String aggregrateOn )
+	{
+		setProperty( AGGREGRATEON_MEMBER, aggregrateOn );
+	}
 }

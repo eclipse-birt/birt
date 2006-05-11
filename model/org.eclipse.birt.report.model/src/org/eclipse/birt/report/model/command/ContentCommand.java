@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
@@ -238,6 +239,14 @@ public class ContentCommand extends AbstractElementCommand
 			// of them to the namespace
 
 			addElementNames( content );
+
+			// speical cases for the group name. Group name must be unique in
+			// the scope of its container table/list. Do not support undo/redo.
+
+			if ( content instanceof GroupElement )
+			{
+				module.makeUniqueName( content );
+			}
 		}
 		catch ( NameException e )
 		{

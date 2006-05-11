@@ -21,9 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.data.IColumnBinding;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -45,6 +42,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
@@ -76,7 +74,6 @@ import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
-import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
@@ -98,7 +95,6 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.util.ContentIterator;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 
 /**
  * Represents the module writer which writes an XML file following the BIRT
@@ -139,6 +135,12 @@ public abstract class ModuleWriter extends ElementVisitor
 	 */
 
 	protected static Base64 base = new Base64( );
+
+	/**
+	 * The compatibility to create bound columns.
+	 */
+
+	protected BoundColumnsMgr boundColumnsMgr = new BoundColumnsMgr( );
 
 	/**
 	 * Returns the module to write.
@@ -1051,83 +1053,9 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		List elements = getModule( ).getVersionManager( ).getCompatibleElement(
 				"3" ); //$NON-NLS-1$
-		if ( elements == null || elements.isEmpty( ) )
-			return;
 
-		for ( int i = 0; i < elements.size( ); i++ )
-		{
-			dealCompatibleValueExpr( (DataItem) elements.get( i ) );
-		}
-	}
+		boundColumnsMgr.dealCompatibleValueExpr( elements, getModule( ) );
 
-	/**
-	 * Converts the old value expression to the new result set column with
-	 * correspoding bound columns.
-	 * 
-	 * @param obj
-	 */
-
-	private void dealCompatibleValueExpr( DataItem obj )
-	{
-
-		String valueExpr = (String) obj.getLocalProperty( getModule( ),
-				DataItem.RESULT_SET_COLUMN_PROP );
-		if ( valueExpr == null )
-			return;
-
-		List newExprs = null;
-
-		try
-		{
-			newExprs = ExpressionUtil.extractColumnExpressions( valueExpr );
-		}
-		catch ( BirtException e )
-		{
-			newExprs = null;
-		}
-
-		if ( newExprs != null && newExprs.size( ) == 1 )
-		{
-			IColumnBinding column = (IColumnBinding) newExprs.get( 0 );
-
-			String newName = DataBoundColumnUtil.setupBoundDataColumn( obj,
-					column.getResultSetColumnName( ), column
-							.getBoundExpression( ), getModule( ) );
-
-			if ( valueExpr.equals( ExpressionUtil.createRowExpression( column
-					.getResultSetColumnName( ) ) ) )
-			{
-				// set the property for the result set column property of
-				// DataItem.
-
-				obj.setProperty( DataItem.RESULT_SET_COLUMN_PROP, newName );
-
-				return;
-			}
-		}
-
-		if ( newExprs != null && newExprs.size( ) > 1 )
-		{
-			for ( int i = 0; i < newExprs.size( ); i++ )
-			{
-				IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
-				String newExpression = boundColumn.getBoundExpression( );
-				if ( newExpression == null )
-					continue;
-
-				DataBoundColumnUtil
-						.setupBoundDataColumn( obj, boundColumn
-								.getResultSetColumnName( ), newExpression,
-								getModule( ) );
-			}
-		}
-
-		String newName = DataBoundColumnUtil.setupBoundDataColumn( obj,
-				valueExpr, valueExpr, getModule( ) );
-
-		// set the property for the result set column property of DataItem.
-
-		obj.setProperty( DataItem.RESULT_SET_COLUMN_PROP, newName );
 	}
 
 	/**
@@ -1406,6 +1334,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitTextDataItem( TextDataItem obj )
 	{
+		// provide bound column compatibility
+
+		boundColumnsMgr.dealTextData( obj, getModule( ) );
+		
 		writer.startElement( DesignSchemaConstants.TEXT_DATA_TAG );
 
 		super.visitTextDataItem( obj );
@@ -1424,6 +1356,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitExtendedItem( ExtendedItem obj )
 	{
+		// provide bound column compatibility 
+
+		boundColumnsMgr.dealExtendedItem( obj, getModule( ) );
+		
 		writer.startElement( DesignSchemaConstants.EXTENDED_ITEM_TAG );
 		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
 				ExtendedItem.EXTENSION_NAME_PROP );
@@ -1479,6 +1415,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitTextItem( TextItem obj )
 	{
+		// provide bound column compatibility
+
+		boundColumnsMgr.dealText( obj, getModule( ) );
+		
 		writer.startElement( DesignSchemaConstants.TEXT_TAG );
 
 		super.visitTextItem( obj );
@@ -1498,6 +1438,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitLabel( Label obj )
 	{
+		// provide bound column compatibility 
+
+		boundColumnsMgr.dealLabel( obj, getModule( ) );
+		
 		writer.startElement( DesignSchemaConstants.LABEL_TAG );
 
 		super.visitLabel( obj );
@@ -1536,6 +1480,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitList( ListItem obj )
 	{
+		// provide bound column compatibility for list
+
+		boundColumnsMgr.dealList( obj, getModule( ) );
+
 		writer.startElement( DesignSchemaConstants.LIST_TAG );
 
 		super.visitList( obj );
@@ -1583,6 +1531,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitTable( TableItem obj )
 	{
+		// provide bound column compatibility for table
+
+		boundColumnsMgr.dealTable( obj, getModule( ) );
+
 		writer.startElement( DesignSchemaConstants.TABLE_TAG );
 
 		super.visitTable( obj );
@@ -1739,6 +1691,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitGrid( GridItem obj )
 	{
+		// provide bound column compatibility 
+
+		boundColumnsMgr.dealGrid( obj, getModule( ) );
+		
 		writer.startElement( DesignSchemaConstants.GRID_TAG );
 
 		super.visitGrid( obj );
@@ -1871,6 +1827,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitScalarParameter( ScalarParameter obj )
 	{
+		// provide bound column compatibility 
+
+		boundColumnsMgr.dealScalarParameter( obj, getModule( ) );
+		
 		writer.startElement( DesignSchemaConstants.SCALAR_PARAMETER_TAG );
 
 		super.visitScalarParameter( obj );
@@ -1959,6 +1919,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitTemplateReportItem( TemplateReportItem obj )
 	{
+		// provide bound column compatibility
+
+		boundColumnsMgr.dealTemplateReportItem( obj, getModule( ) );
+		
 		writer.startElement( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG );
 		super.visitTemplateReportItem( obj );
 
@@ -2294,6 +2258,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitImage( ImageItem obj )
 	{
+		// provide bound column compatibility 
+
+		boundColumnsMgr.dealImage( obj, getModule( ) );
+		
 		writer.startElement( DesignSchemaConstants.IMAGE_TAG );
 
 		super.visitImage( obj );
@@ -2671,7 +2639,6 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeStructureList( obj, GroupElement.SORT_PROP );
 		writeStructureList( obj, GroupElement.FILTER_PROP );
-		writeStructureList( obj, GroupElement.BOUND_DATA_COLUMNS_PROP );
 	}
 
 	/*

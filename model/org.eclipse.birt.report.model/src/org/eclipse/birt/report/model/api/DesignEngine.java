@@ -110,6 +110,9 @@ public final class DesignEngine implements IDesignEngine
 	 * Creates a new design session handle. The application uses the handle to
 	 * open, create and manage designs. The session also represents the user and
 	 * maintains the user's locale information.
+	 * <p>
+	 * This method is not suggested to use. The user should use new
+	 * DesignEngine(config).newSessionHandle() to create the session.
 	 * 
 	 * @param locale
 	 *            the user's locale. If <code>null</code>, uses the system
@@ -117,6 +120,7 @@ public final class DesignEngine implements IDesignEngine
 	 * @return the design session handle
 	 * @see SessionHandle
 	 * 
+	 * @deprecated
 	 */
 
 	public static SessionHandle newSession( ULocale locale )
@@ -138,8 +142,13 @@ public final class DesignEngine implements IDesignEngine
 
 	/**
 	 * Gets the meta-data dictionary of the design engine.
+	 * <p>
+	 * This method is not suggested to use. The user should use new
+	 * DesignEngine(config).getMetaData() to get the metadata dictionary.
 	 * 
 	 * @return the meta-data dictionary of the design engine
+	 * 
+	 * @deprecated
 	 */
 
 	public static IMetaDataDictionary getMetaDataDictionary( )

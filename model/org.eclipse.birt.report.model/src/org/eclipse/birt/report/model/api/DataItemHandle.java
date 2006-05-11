@@ -171,7 +171,11 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 	}
 
 	/**
-	 * Sets the expression for the value that the data item is to display.
+	 * Sets the expression for the value that the data item is to display. This
+	 * method still can be used. However, if the user uses both this method and
+	 * setResultSetColumn(String columnName), the result is unexpectable. It is
+	 * strongly recommended to use ONLY one of two methods.
+	 * 
 	 * 
 	 * @param expr
 	 *            the expression to set

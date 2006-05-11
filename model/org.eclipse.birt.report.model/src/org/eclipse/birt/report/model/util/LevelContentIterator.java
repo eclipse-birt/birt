@@ -92,12 +92,12 @@ public class LevelContentIterator implements Iterator
 
 	private void buildContentsList( DesignElement element, int level )
 	{
-		if ( level <= 0 )
+		if ( level < 0 )
 			return;
 
 		for ( int i = 0; i < element.getDefn( ).getSlotCount( ); i++ )
 		{
-			buildContentsList( element, i, level - 1 );
+			buildContentsList( element, i, level );
 		}
 	}
 
@@ -113,6 +113,9 @@ public class LevelContentIterator implements Iterator
 
 	private void buildContentsList( DesignElement element, int slotId, int level )
 	{
+		if ( level <= 0 )
+			return;		
+		
 		ContainerSlot slot = element.getSlot( slotId );
 		assert slot != null;
 

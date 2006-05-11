@@ -18,11 +18,6 @@ import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.GridItem;
-import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.xml.sax.SAXException;
@@ -107,30 +102,8 @@ public class CompatibleParamBindingValueState
 
 	private DesignElement findTargetElement( )
 	{
-		DesignElement tmpElement = element.getContainer( );
-		while ( tmpElement != null )
-		{
-			if ( !( tmpElement instanceof ReportItem ) )
-			{
-				tmpElement = tmpElement.getContainer( );
-				continue;
-			}
+		return DataBoundColumnUtil.findTargetElementOfParamBinding( element,
+				handler.getModule( ) );
 
-			if ( tmpElement instanceof ListingElement )
-				break;
-
-			if ( tmpElement instanceof GridItem )
-			{
-				ElementRefValue dataSetRef = (ElementRefValue) tmpElement
-						.getProperty( handler.getModule( ),
-								IReportItemModel.DATA_SET_PROP );
-				if ( dataSetRef != null )
-					break;
-			}
-
-			tmpElement = tmpElement.getContainer( );
-		}
-
-		return tmpElement;
 	}
 }

@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 
 /**
  * Represents both list and table groups in the design. Groups provide a way of
@@ -608,23 +607,26 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * the iterator is the corresponding <code>ComputedColumnHandle</code>.
 	 * 
 	 * @return a list containing the bound columns.
+	 * 
+	 * @deprecated since BIRT 2.1 RC2
 	 */
 
 	public Iterator columnBindingsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ReportItemHandle.BOUND_DATA_COLUMNS_PROP );
-		return propHandle.iterator( );
+		return Collections.EMPTY_LIST.iterator( );
 	}
 
 	/**
 	 * Get a handle to deal with the bound column.
 	 * 
 	 * @return a handle to deal with the boudn data column.
+	 * 
+	 * @deprecated since BIRT 2.1 RC2
 	 */
 
 	public PropertyHandle getColumnBindings( )
 	{
-		return getPropertyHandle( BOUND_DATA_COLUMNS_PROP );
+		return null;
 	}
 
 	/**
@@ -645,31 +647,12 @@ public abstract class GroupHandle extends ReportElementHandle
 	 *             exsiting bound column. Or, if the both name/expression are
 	 *             duplicate, but <code>inForce</code> is <code>true</code>.
 	 * 
+	 * @deprecated since BIRT 2.1 RC2
 	 */
 
 	public ComputedColumnHandle addColumnBinding( ComputedColumn addColumn,
 			boolean inForce ) throws SemanticException
 	{
-		if ( addColumn == null )
-			return null;
-
-		String expr = addColumn.getExpression( );
-		if ( expr == null )
-			return null;
-
-		List columns = (List) getProperty( BOUND_DATA_COLUMNS_PROP );
-		if ( columns == null )
-			return (ComputedColumnHandle) getPropertyHandle(
-					BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
-
-		ComputedColumn column = DataBoundColumnUtil.getColumn( columns, expr );
-		if ( column != null && !inForce )
-		{
-			return (ComputedColumnHandle) column.handle(
-					getPropertyHandle( BOUND_DATA_COLUMNS_PROP ), columns
-							.indexOf( column ) );
-		}
-		return (ComputedColumnHandle) getPropertyHandle(
-				BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
+		return null;
 	}
 }

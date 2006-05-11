@@ -126,6 +126,29 @@ public class ComputedColumnHandle extends StructureHandle
 	{
 		setPropertySilently( ComputedColumn.EXPRESSION_MEMBER, expression );
 	}
+	
+	/**
+	 * Returns the aggregrateOn expression used to define this computed column.
+	 * 
+	 * @return the aggregrateOn expression used to define this computed column
+	 */
+
+	public String getAggregrateOn( )
+	{
+		return getStringProperty( ComputedColumn.AGGREGRATEON_MEMBER );
+	}
+
+	/**
+	 * Sets the aggregrateOn expression used to define this computed column.
+	 * 
+	 * @param aggregrateOn
+	 *            the aggregrateOn expression to set
+	 */
+
+	public void setAggregrateOn( String aggregrateOn )
+	{
+		setPropertySilently( ComputedColumn.AGGREGRATEON_MEMBER, aggregrateOn );
+	}
 
 	/**
 	 * Returns the data type of this column. The possible values are defined in

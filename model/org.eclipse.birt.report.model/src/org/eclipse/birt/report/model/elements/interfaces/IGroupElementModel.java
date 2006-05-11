@@ -144,6 +144,8 @@ public interface IGroupElementModel
 	/**
 	 * The property name of the bound columns that bind the report element
 	 * with the data set columns.
+	 * 
+	 * @deprecated
 	 */
 
 	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$

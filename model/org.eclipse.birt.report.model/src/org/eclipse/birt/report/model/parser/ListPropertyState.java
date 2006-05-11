@@ -222,6 +222,7 @@ public class ListPropertyState extends AbstractPropertyState
 			PropertyDefn memberDefn = (PropertyDefn) struct.getDefn( )
 					.getMember( name );
 			struct.setProperty( memberDefn, list );
+
 		}
 		else
 			element.setProperty( name, list );
@@ -234,6 +235,23 @@ public class ListPropertyState extends AbstractPropertyState
 	 */
 	public AbstractParseState jumpTo( )
 	{
+
+		// the property has been removed. It must be handled before checking the
+		// validation of <code>valid</code>.
+
+		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3" ) > 0 ) && //$NON-NLS-1$
+				( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) <= 0 ) //$NON-NLS-1$
+				&& ( "boundDataColumns".equals( name ) ) //$NON-NLS-1$ 
+				&& ( element instanceof GroupElement ) )
+		{
+
+			CompatibleGroupBoundColumnsState state = new CompatibleGroupBoundColumnsState(
+					handler, element.getContainer( ), (GroupElement) element );
+			state.setName( name );
+			return state;
+
+		}
+
 		if ( !valid )
 			return new AnyElementState( getHandler( ) );
 
@@ -295,7 +313,7 @@ public class ListPropertyState extends AbstractPropertyState
 		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 //$NON-NLS-1$
 				&& ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
 						|| ScalarParameter.BOUND_DATA_COLUMNS_PROP
-								.equalsIgnoreCase( name ) || GroupElement.BOUND_DATA_COLUMNS_PROP
+								.equalsIgnoreCase( name ) || "boundDataColumns" //$NON-NLS-1$
 						.equalsIgnoreCase( name ) ) )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(

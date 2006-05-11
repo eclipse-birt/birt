@@ -76,7 +76,7 @@ public class GroupNameValidator extends AbstractElementValidator
 
 		// Collect all groups in this element.
 
-		ListingElement targetElement = getListingElementWithDataSet( element
+		ListingElement targetElement = getListingElement( element
 				.getModule( ), (ListingElement) element.getElement( ) );
 		if ( targetElement == null )
 		{
@@ -128,7 +128,7 @@ public class GroupNameValidator extends AbstractElementValidator
 			return Collections.EMPTY_LIST;
 		}
 
-		ListingElement targetElement = getListingElementWithDataSet( element
+		ListingElement targetElement = getListingElement( element
 				.getModule( ), (ListingElement) element.getElement( ) );
 		if ( targetElement == null )
 			return Collections.EMPTY_LIST;
@@ -179,7 +179,7 @@ public class GroupNameValidator extends AbstractElementValidator
 	{
 		List list = new ArrayList( );
 
-		ListingElement targetElement = getListingElementWithDataSet( module,
+		ListingElement targetElement = getListingElement( module,
 				toValidate );
 		if ( targetElement == null )
 			targetElement = toValidate;
@@ -260,7 +260,7 @@ public class GroupNameValidator extends AbstractElementValidator
 	 *         such container is not found, return <code>null</code>.
 	 */
 
-	private ListingElement getListingElementWithDataSet( Module module,
+	private ListingElement getListingElement( Module module,
 			ListingElement element )
 	{
 		DesignElement container = element;
@@ -268,11 +268,7 @@ public class GroupNameValidator extends AbstractElementValidator
 		while ( container != null )
 		{
 			if ( container instanceof ListingElement )
-			{
-				if ( ( (ListingElement) container ).getProperty( module,
-						ListingElement.DATA_SET_PROP ) != null )
-					return (ListingElement) container;
-			}
+				return (ListingElement) container;
 
 			container = container.getContainer( );
 		}
@@ -334,33 +330,6 @@ public class GroupNameValidator extends AbstractElementValidator
 		if ( element instanceof ListingElement )
 			list.addAll( getGroups( module, (ListingElement) element ) );
 
-		// Get group names from contents of the given element.
-
-		int count = element.getDefn( ).getSlotCount( );
-		for ( int i = 0; i < count; i++ )
-		{
-			Iterator iter = element.getSlot( i ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				DesignElement e = (DesignElement) iter.next( );
-
-				if ( e instanceof ListingElement )
-				{
-					ListingElement listingElement = (ListingElement) e;
-					if ( listingElement.getProperty( module,
-							ListingElement.DATA_SET_PROP ) == null )
-					{
-						list.addAll( getGroupsWithContents( module,
-								listingElement ) );
-					}
-				}
-				else
-				{
-					list.addAll( getGroupsWithContents( module, e ) );
-				}
-			}
-		}
-
 		return list;
 	}
 
@@ -384,11 +353,11 @@ public class GroupNameValidator extends AbstractElementValidator
 		while ( iter.hasNext( ) )
 		{
 			GroupElement group = (GroupElement) iter.next( );
-			String name = group.getStringProperty( module,
+			String tmpName = group.getStringProperty( module,
 					GroupElement.GROUP_NAME_PROP );
-			assert name != null;
+			assert tmpName != null;
 
-			if ( name.equalsIgnoreCase( groupName ) )
+			if ( tmpName.equalsIgnoreCase( groupName ) )
 				return true;
 		}
 
