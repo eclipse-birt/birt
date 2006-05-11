@@ -6,11 +6,6 @@ Bundle-Version: 2.1.0
 Bundle-Activator: org.eclipse.birt.report.tests.model.plugin.ModelPlugin
 Bundle-ClassPath: .
 Bundle-Localization: plugin
-Require-Bundle: org.junit,
- org.eclipse.birt.report.model,
- org.eclipse.birt.core,
- org.eclipse.birt.data.oda,
- org.eclipse.datatools.connectivity.oda
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.birt.report.tests.model.acceptance,
  org.eclipse.birt.report.tests.model.api,
@@ -21,3 +16,8 @@ Export-Package: org.eclipse.birt.report.tests.model.acceptance,
  org.eclipse.birt.report.tests.model.reportItem,
  org.eclipse.birt.report.tests.model.reportItem.test,
  org.eclipse.birt.report.tests.model.smoke
+Require-Bundle: org.eclipse.birt.report.model,
+ org.junit,
+ com.ibm.icu,
+ org.eclipse.birt.core,
+ org.eclipse.birt.tests.core
