@@ -59,9 +59,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
-import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
@@ -77,6 +76,8 @@ public class SalesReport
 
 	IMetaDataDictionary dict = null;
 
+	ComputedColumn cs1, cs2, cs3 = null;
+
 	public static void main( String[] args ) throws SemanticException,
 			IOException
 	{
@@ -86,7 +87,8 @@ public class SalesReport
 	void createReport( ) throws SemanticException, IOException
 	{
 		// A session handle for all open reports
-		SessionHandle session = DesignEngine.newSession( (ULocale)null );
+		SessionHandle session = new DesignEngine( ).newSession( (ULocale) null,
+				null );
 
 		// Create a new report
 		reportDesignHandle = session.createDesign( );
@@ -94,7 +96,7 @@ public class SalesReport
 		// Element factory is used to create instances of BIRT elements.
 		elementFactory = reportDesignHandle.getElementFactory( );
 
-		dict = DesignEngine.getMetaDataDictionary( );
+		dict = new DesignEngine( ).getMetaData( );
 
 		createMasterPages( );
 		createDataSources( );
@@ -159,41 +161,26 @@ public class SalesReport
 				+ "i++;"//$NON-NLS-1$
 				+ "return true;}" + "else return false;" );//$NON-NLS-1$//$NON-NLS-2$
 
-		// Set Output Columns in Data Set
-		ColumnHint ch1 = StructureFactory.createColumnHint( );
-		ch1.setProperty( "columnName", "Month" );//$NON-NLS-1$//$NON-NLS-2$
+		// Set computed columns
+		cs1 = StructureFactory.createComputedColumn( );
+		cs1.setName( "Month" );//$NON-NLS-1$
+		cs1.setExpression( "row[\"Month\"]" );//$NON-NLS-1$
+		cs1.setDataType( "integer" );//$NON-NLS-1$
 
-		ColumnHint ch2 = StructureFactory.createColumnHint( );
-		ch2.setProperty( "columnName", "Product" );//$NON-NLS-1$//$NON-NLS-2$
+		cs2 = StructureFactory.createComputedColumn( );
+		cs2.setName( "Product" );//$NON-NLS-1$
+		cs2.setExpression( "row[\"Product\"]" );//$NON-NLS-1$
+		cs2.setDataType( "string" );//$NON-NLS-1$
 
-		ColumnHint ch3 = StructureFactory.createColumnHint( );
-		ch3.setProperty( "columnName", "Amount" );//$NON-NLS-1$//$NON-NLS-2$
+		cs3 = StructureFactory.createComputedColumn( );
+		cs3.setName( "Amount" );//$NON-NLS-1$
+		cs3.setExpression( "row[\"Amount\"]" );//$NON-NLS-1$
+		cs3.setDataType( "integer" );//$NON-NLS-1$
 
-		PropertyHandle columnHint = dataSetHandle.getPropertyHandle( ScriptDataSetHandle.COLUMN_HINTS_PROP );
-		columnHint.addItem( ch1 );
-		columnHint.addItem( ch2 );
-		columnHint.addItem( ch3 );
-
-		// Set Preview Results columns in Data Set
-		ResultSetColumn rs1 = StructureFactory.createResultSetColumn( );
-		rs1.setColumnName( "Month" );//$NON-NLS-1$
-		rs1.setPosition( new Integer( 1 ) );
-		rs1.setDataType( "integer" );//$NON-NLS-1$
-
-		ResultSetColumn rs2 = StructureFactory.createResultSetColumn( );
-		rs2.setColumnName( "Product" );//$NON-NLS-1$
-		rs2.setPosition( new Integer( 2 ) );
-		rs2.setDataType( "string" );//$NON-NLS-1$
-
-		ResultSetColumn rs3 = StructureFactory.createResultSetColumn( );
-		rs3.setColumnName( "Amount" );//$NON-NLS-1$
-		rs3.setPosition( new Integer( 3 ) );
-		rs3.setDataType( "integer" );//$NON-NLS-1$
-
-		PropertyHandle resultSet = dataSetHandle.getPropertyHandle( ScriptDataSetHandle.RESULT_SET_PROP );
-		resultSet.addItem( rs1 );
-		resultSet.addItem( rs2 );
-		resultSet.addItem( rs3 );
+		PropertyHandle computedSet = dataSetHandle.getPropertyHandle( ScriptDataSetHandle.COMPUTED_COLUMNS_PROP );
+		computedSet.addItem( cs1 );
+		computedSet.addItem( cs2 );
+		computedSet.addItem( cs3 );
 
 		reportDesignHandle.getDataSets( ).add( dataSetHandle );
 	}
@@ -337,6 +324,14 @@ public class SalesReport
 		table.setWidth( "80%" );//$NON-NLS-1$
 		table.setProperty( TableHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
 
+		PropertyHandle computedSet = table.getColumnBindings( );
+		cs1.setExpression( "dataSetRow[\"Month\"]" );//$NON-NLS-1$
+		computedSet.addItem( cs1 );
+		cs2.setExpression( "dataSetRow[\"Product\"]" );//$NON-NLS-1$
+		computedSet.addItem( cs2 );
+		cs3.setExpression( "dataSetRow[\"Amount\"]" );//$NON-NLS-1$
+		computedSet.addItem( cs3 );
+
 		// Table sorter
 		SortKey key = StructureFactory.createSortKey( );
 		key.setKey( "row[\"Month\"]" );//$NON-NLS-1$
@@ -375,7 +370,7 @@ public class SalesReport
 		tcell.setDrop( DesignChoiceConstants.DROP_TYPE_DETAIL );
 		DataItemHandle data = elementFactory.newDataItem( null );
 		data.setStyleName( "Data" );//$NON-NLS-1$
-		data.setValueExpr( "row[\"Product\"]" );//$NON-NLS-1$
+		data.setResultSetColumn( cs2.getName( ) );
 		tcell.getContent( ).add( data );
 		group.getHeader( ).add( groupHeader );
 
@@ -405,13 +400,13 @@ public class SalesReport
 		tcell = (CellHandle) detail.getCells( ).get( 1 );
 		data = elementFactory.newDataItem( null );
 		data.setStyleName( "Data" );//$NON-NLS-1$
-		data.setValueExpr( "row[\"Month\"]" );//$NON-NLS-1$
+		data.setResultSetColumn( cs1.getName( ) );
 		tcell.getContent( ).add( data );
 
 		tcell = (CellHandle) detail.getCells( ).get( 2 );
 		data = elementFactory.newDataItem( null );
 		data.setStyleName( "Data" );//$NON-NLS-1$
-		data.setValueExpr( "row[\"Amount\"]" );//$NON-NLS-1$
+		data.setResultSetColumn( cs3.getName( ) );
 		tcell.getContent( ).add( data );
 
 		cell.getContent( ).add( table );
@@ -431,6 +426,13 @@ public class SalesReport
 			eih.setHeight( "288pt" );//$NON-NLS-1$
 			eih.setWidth( "252pt" );//$NON-NLS-1$
 			eih.setProperty( ExtendedItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+			PropertyHandle computedSet = eih.getColumnBindings( );
+			cs1.setExpression( "dataSetRow[\"Month\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs1 );
+			cs2.setExpression( "dataSetRow[\"Product\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs2 );
+			cs3.setExpression( "dataSetRow[\"Amount\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs3 );
 		}
 		catch ( SemanticException e )
 		{

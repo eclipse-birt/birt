@@ -43,7 +43,6 @@ import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -63,8 +62,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
-import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 
@@ -80,6 +78,8 @@ public class StockReport
 	StructureFactory structFactory = null;
 
 	IMetaDataDictionary dict = null;
+	
+	ComputedColumn cs1, cs2, cs3, cs4, cs5, cs6 = null;
 
 	public static void main( String[] args ) throws SemanticException,
 			IOException
@@ -90,7 +90,8 @@ public class StockReport
 	void createReport( ) throws SemanticException, IOException
 	{
 		// A session handle for all open reports
-		SessionHandle session = DesignEngine.newSession( (ULocale) null );
+		SessionHandle session = new DesignEngine( ).newSession( (ULocale) null,
+				null );
 
 		// Create a new report
 		reportDesignHandle = session.createDesign( );
@@ -100,12 +101,11 @@ public class StockReport
 
 		structFactory = new StructureFactory( );
 
-		dict = DesignEngine.getMetaDataDictionary( );
+		dict = new DesignEngine( ).getMetaData( );
 
 		createMasterPages( );
 		createDataSources( );
 		createDataSets( );
-		createStyles( );
 		createBody( );
 
 		String outputPath = "output";//$NON-NLS-1$
@@ -203,73 +203,44 @@ public class StockReport
 				+ "row[\"Volume\"] = sourcedata[i][5];" + "i++;"//$NON-NLS-1$//$NON-NLS-2$
 				+ "return true;}" + "else return false;" );//$NON-NLS-1$//$NON-NLS-2$
 
-		// Set Output Columns in Data Set
-		ColumnHint ch1 = StructureFactory.createColumnHint( );
-		ch1.setProperty( "columnName", "Date" );//$NON-NLS-1$//$NON-NLS-2$
+		// Set computed columns
+		cs1 = StructureFactory.createComputedColumn( );
+		cs1.setName( "Date" );//$NON-NLS-1$
+		cs1.setExpression( "row[\"Date\"]" );//$NON-NLS-1$
+		cs1.setDataType( "date-time" );//$NON-NLS-1$
 
-		ColumnHint ch2 = StructureFactory.createColumnHint( );
-		ch2.setProperty( "columnName", "High" );//$NON-NLS-1$//$NON-NLS-2$
+		cs2 = StructureFactory.createComputedColumn( );
+		cs2.setName( "High" );//$NON-NLS-1$
+		cs2.setExpression( "row[\"High\"]" );//$NON-NLS-1$
+		cs2.setDataType( "float" );//$NON-NLS-1$
 
-		ColumnHint ch3 = StructureFactory.createColumnHint( );
-		ch3.setProperty( "columnName", "Close" );//$NON-NLS-1$//$NON-NLS-2$
+		cs3 = StructureFactory.createComputedColumn( );
+		cs3.setName( "Close" );//$NON-NLS-1$
+		cs3.setExpression( "row[\"Close\"]" );//$NON-NLS-1$
+		cs3.setDataType( "float" );//$NON-NLS-1$
+		
+		cs4 = StructureFactory.createComputedColumn( );
+		cs4.setName( "Low" );//$NON-NLS-1$
+		cs4.setExpression( "row[\"Low\"]" );//$NON-NLS-1$
+		cs4.setDataType( "float" );//$NON-NLS-1$
 
-		ColumnHint ch4 = StructureFactory.createColumnHint( );
-		ch4.setProperty( "columnName", "Low" );//$NON-NLS-1$//$NON-NLS-2$
+		cs5 = StructureFactory.createComputedColumn( );
+		cs5.setName( "Open" );//$NON-NLS-1$
+		cs5.setExpression( "row[\"Open\"]" );//$NON-NLS-1$
+		cs5.setDataType( "float" );//$NON-NLS-1$
 
-		ColumnHint ch5 = StructureFactory.createColumnHint( );
-		ch5.setProperty( "columnName", "Open" );//$NON-NLS-1$//$NON-NLS-2$
+		cs6 = StructureFactory.createComputedColumn( );
+		cs6.setName( "Volume" );//$NON-NLS-1$
+		cs6.setExpression( "row[\"Volume\"]" );//$NON-NLS-1$
+		cs6.setDataType( "integer" );//$NON-NLS-1$
 
-		ColumnHint ch6 = StructureFactory.createColumnHint( );
-		ch6.setProperty( "columnName", "Volume" );//$NON-NLS-1$//$NON-NLS-2$
-
-		PropertyHandle columnHint = dataSetHandle
-				.getPropertyHandle( ScriptDataSetHandle.COLUMN_HINTS_PROP );
-		columnHint.addItem( ch1 );
-		columnHint.addItem( ch2 );
-		columnHint.addItem( ch3 );
-		columnHint.addItem( ch4 );
-		columnHint.addItem( ch5 );
-		columnHint.addItem( ch6 );
-
-		// Set Preview Results columns in Data Set
-		ResultSetColumn rs1 = StructureFactory.createResultSetColumn( );
-		rs1.setColumnName( "Date" );//$NON-NLS-1$
-		rs1.setPosition( new Integer( 1 ) );
-		rs1.setDataType( "date-time" );//$NON-NLS-1$
-
-		ResultSetColumn rs2 = StructureFactory.createResultSetColumn( );
-		rs2.setColumnName( "High" );//$NON-NLS-1$
-		rs2.setPosition( new Integer( 2 ) );
-		rs2.setDataType( "float" );//$NON-NLS-1$
-
-		ResultSetColumn rs3 = StructureFactory.createResultSetColumn( );
-		rs3.setColumnName( "Close" );//$NON-NLS-1$
-		rs3.setPosition( new Integer( 3 ) );
-		rs3.setDataType( "float" );//$NON-NLS-1$
-
-		ResultSetColumn rs4 = StructureFactory.createResultSetColumn( );
-		rs4.setColumnName( "Low" );//$NON-NLS-1$
-		rs4.setPosition( new Integer( 4 ) );
-		rs4.setDataType( "float" );//$NON-NLS-1$
-
-		ResultSetColumn rs5 = StructureFactory.createResultSetColumn( );
-		rs5.setColumnName( "Open" );//$NON-NLS-1$
-		rs5.setPosition( new Integer( 5 ) );
-		rs5.setDataType( "float" );//$NON-NLS-1$
-
-		ResultSetColumn rs6 = StructureFactory.createResultSetColumn( );
-		rs6.setColumnName( "Volume" );//$NON-NLS-1$
-		rs6.setPosition( new Integer( 6 ) );
-		rs6.setDataType( "integer" );//$NON-NLS-1$
-
-		PropertyHandle resultSet = dataSetHandle
-				.getPropertyHandle( ScriptDataSetHandle.RESULT_SET_PROP );
-		resultSet.addItem( rs1 );
-		resultSet.addItem( rs2 );
-		resultSet.addItem( rs3 );
-		resultSet.addItem( rs4 );
-		resultSet.addItem( rs5 );
-		resultSet.addItem( rs6 );
+		PropertyHandle computedSet = dataSetHandle.getPropertyHandle( ScriptDataSetHandle.COMPUTED_COLUMNS_PROP );
+		computedSet.addItem( cs1 );
+		computedSet.addItem( cs2 );
+		computedSet.addItem( cs3 );
+		computedSet.addItem( cs4 );
+		computedSet.addItem( cs5 );
+		computedSet.addItem( cs6 );
 
 		reportDesignHandle.getDataSets( ).add( dataSetHandle );
 	}
@@ -292,44 +263,9 @@ public class StockReport
 		reportDesignHandle.getMasterPages( ).add( simpleMasterPage );
 	}
 
-	private void createStyles( ) throws SemanticException
-	{
-		StyleHandle borderStyle = elementFactory.newStyle( "Border" );//$NON-NLS-1$
-		borderStyle.setProperty( StyleHandle.BORDER_BOTTOM_STYLE_PROP,
-				DesignChoiceConstants.LINE_STYLE_SOLID );
-		borderStyle.setProperty( StyleHandle.BORDER_LEFT_STYLE_PROP,
-				DesignChoiceConstants.LINE_STYLE_SOLID );
-		borderStyle.setProperty( StyleHandle.BORDER_TOP_STYLE_PROP,
-				DesignChoiceConstants.LINE_STYLE_SOLID );
-		borderStyle.setProperty( StyleHandle.BORDER_RIGHT_STYLE_PROP,
-				DesignChoiceConstants.LINE_STYLE_SOLID );
-		borderStyle.setProperty( StyleHandle.BORDER_BOTTOM_WIDTH_PROP, "1px" );//$NON-NLS-1$
-		borderStyle.setProperty( StyleHandle.BORDER_LEFT_WIDTH_PROP, "1px" );//$NON-NLS-1$
-		borderStyle.setProperty( StyleHandle.BORDER_TOP_WIDTH_PROP, "1px" );//$NON-NLS-1$
-		borderStyle.setProperty( StyleHandle.BORDER_RIGHT_WIDTH_PROP, "1px" );//$NON-NLS-1$
-		borderStyle.setProperty( StyleHandle.BORDER_BOTTOM_COLOR_PROP,
-				"#808080" );//$NON-NLS-1$
-		borderStyle.setProperty( StyleHandle.BORDER_LEFT_COLOR_PROP, "#808080" );//$NON-NLS-1$
-		borderStyle
-				.setProperty( StyleHandle.BORDER_RIGHT_COLOR_PROP, "#808080" );//$NON-NLS-1$
-		borderStyle.setProperty( StyleHandle.BORDER_TOP_COLOR_PROP, "#808080" );//$NON-NLS-1$
-
-		StyleHandle textStyle = elementFactory.newStyle( "Text" );//$NON-NLS-1$
-		textStyle.setProperty( StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_BOLD );
-		textStyle.setProperty( StyleHandle.FONT_SIZE_PROP,
-				DesignChoiceConstants.FONT_SIZE_SMALL );
-		textStyle.setProperty( StyleHandle.COLOR_PROP, "#808080" );//$NON-NLS-1$
-		textStyle.setProperty( StyleHandle.TEXT_ALIGN_PROP,
-				DesignChoiceConstants.TEXT_ALIGN_CENTER );
-
-		reportDesignHandle.getStyles( ).add( borderStyle );
-		reportDesignHandle.getStyles( ).add( textStyle );
-	}
-
 	private void createBody( ) throws SemanticException
 	{
-		GridHandle mainGrid = elementFactory.newGridItem( "main", 2, 3 );//$NON-NLS-1$
+		GridHandle mainGrid = elementFactory.newGridItem( "main", 1, 3 );//$NON-NLS-1$
 		mainGrid.setWidth( "100%" );//$NON-NLS-1$
 		reportDesignHandle.getBody( ).add( mainGrid );
 
@@ -339,7 +275,6 @@ public class StockReport
 
 		// Cell (1st Row)
 		CellHandle row1Cell = (CellHandle) row1.getCells( ).get( 0 );
-		row1Cell.setColumnSpan( 2 );
 
 		// Title label
 		LabelHandle label = elementFactory.newLabel( null );
@@ -354,130 +289,11 @@ public class StockReport
 
 		row1Cell.getContent( ).add( label );
 
-		row1.getCells( ).drop( 1 );
-
 		// Second Grid Row
 		RowHandle row2 = (RowHandle) mainGrid.getRows( ).get( 1 );
 
-		// 1st Cell (2nd Row)
 		CellHandle row2Cell1 = (CellHandle) row2.getCells( ).get( 0 );
 		row2Cell1.getContent( ).add( createStockChart( ) );
-
-		// 2nd Cell (2nd Row)
-		CellHandle row2Cell2 = (CellHandle) row2.getCells( ).get( 1 );
-		row2Cell2.setProperty( StyleHandle.VERTICAL_ALIGN_PROP,
-				DesignChoiceConstants.VERTICAL_ALIGN_TOP );
-
-		// Stock Grid
-		GridHandle grid1 = elementFactory.newGridItem( "stock", 2, 5 );//$NON-NLS-1$
-		grid1.setWidth( "100%" );//$NON-NLS-1$
-
-		RowHandle grid1Row = (RowHandle) grid1.getRows( ).get( 0 );
-		CellHandle cell = (CellHandle) grid1Row.getCells( ).get( 0 );
-		cell.setColumnSpan( 2 );
-
-		label = elementFactory.newLabel( null );
-		label.setText( "Weekly Price Summary" );//$NON-NLS-1$
-		label.setStyleName( "Text" );//$NON-NLS-1$
-		label.setProperty( StyleHandle.FONT_SIZE_PROP,
-				DesignChoiceConstants.FONT_SIZE_MEDIUM );
-
-		cell.getContent( ).add( label );
-		grid1Row.getCells( ).drop( 1 );
-
-		grid1Row = (RowHandle) grid1.getRows( ).get( 1 );
-
-		cell = (CellHandle) grid1Row.getCells( ).get( 0 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		label = elementFactory.newLabel( null );
-		label.setText( "High:" );//$NON-NLS-1$
-		label.setStyleName( "Text" );//$NON-NLS-1$
-		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
-		cell.getContent( ).add( label );
-
-		cell = (CellHandle) grid1Row.getCells( ).get( 1 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
-		DataItemHandle data = elementFactory.newDataItem( null );
-		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
-		data.setValueExpr( "Total.max(row[\"High\"])" );//$NON-NLS-1$
-		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( ).setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
-		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
-		cell.getContent( ).add( data );
-
-		grid1Row = (RowHandle) grid1.getRows( ).get( 2 );
-
-		cell = (CellHandle) grid1Row.getCells( ).get( 0 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		label = elementFactory.newLabel( null );
-		label.setText( "Low:" );//$NON-NLS-1$
-		label.setStyleName( "Text" );//$NON-NLS-1$
-		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
-		cell.getContent( ).add( label );
-
-		cell = (CellHandle) grid1Row.getCells( ).get( 1 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
-		data = elementFactory.newDataItem( null );
-		data.setValueExpr( "Total.min(row[\"Low\"])" );//$NON-NLS-1$
-		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( ).setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
-		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
-		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
-		cell.getContent( ).add( data );
-
-		grid1Row = (RowHandle) grid1.getRows( ).get( 3 );
-
-		cell = (CellHandle) grid1Row.getCells( ).get( 0 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		label = elementFactory.newLabel( null );
-		label.setText( "Ave. Open" );//$NON-NLS-1$
-		label.setStyleName( "Text" );//$NON-NLS-1$
-		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
-		cell.getContent( ).add( label );
-
-		cell = (CellHandle) grid1Row.getCells( ).get( 1 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
-		data = elementFactory.newDataItem( null );
-		data.setValueExpr( "Total.Ave(row[\"Open\"])" );//$NON-NLS-1$
-		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( ).setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
-		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
-		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
-		cell.getContent( ).add( data );
-
-		grid1Row = (RowHandle) grid1.getRows( ).get( 4 );
-
-		cell = (CellHandle) grid1Row.getCells( ).get( 0 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		label = elementFactory.newLabel( null );
-		label.setText( "Ave. Close" );//$NON-NLS-1$
-		label.setStyleName( "Text" );//$NON-NLS-1$
-		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
-		cell.getContent( ).add( label );
-
-		cell = (CellHandle) grid1Row.getCells( ).get( 1 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
-		data = elementFactory.newDataItem( null );
-		data.setValueExpr( "Total.Ave(row[\"Close\"])" );//$NON-NLS-1$
-		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( ).setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
-		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
-		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
-		cell.getContent( ).add( data );
-
-		row2Cell2.getContent( ).add( grid1 );
 
 		// Third Grid Row
 		RowHandle row3 = (RowHandle) mainGrid.getRows( ).get( 2 );
@@ -485,121 +301,6 @@ public class StockReport
 		// 1st Cell (3nd Row)
 		CellHandle row3Cell1 = (CellHandle) row3.getCells( ).get( 0 );
 		row3Cell1.getContent( ).add( createVolumeChart( ) );
-
-		// 2nd Cell (3nd Row)
-		CellHandle row3Cell2 = (CellHandle) row3.getCells( ).get( 1 );
-		row3Cell2.setProperty( StyleHandle.VERTICAL_ALIGN_PROP,
-				DesignChoiceConstants.VERTICAL_ALIGN_TOP );
-
-		// Volume Grid
-		GridHandle grid2 = elementFactory.newGridItem( "volume", 2, 5 );//$NON-NLS-1$
-		grid2.setWidth( "100%" );//$NON-NLS-1$
-
-		RowHandle grid2Row = (RowHandle) grid2.getRows( ).get( 0 );
-		cell = (CellHandle) grid2Row.getCells( ).get( 0 );
-		cell.setColumnSpan( 2 );
-		label = elementFactory.newLabel( null );
-		label.setText( "Weekly Volume Summary" );//$NON-NLS-1$
-		label.setStyleName( "Text" );//$NON-NLS-1$
-		label.setProperty( StyleHandle.FONT_SIZE_PROP,
-				DesignChoiceConstants.FONT_SIZE_MEDIUM );
-		cell.getContent( ).add( label );
-		grid2Row.getCells( ).drop( 1 );
-
-		grid2Row = (RowHandle) grid2.getRows( ).get( 1 );
-
-		cell = (CellHandle) grid2Row.getCells( ).get( 0 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		label = elementFactory.newLabel( null );
-		label.setText( "High:" );//$NON-NLS-1$
-		label.setStyleName( "Text" );//$NON-NLS-1$
-		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
-		cell.getContent( ).add( label );
-
-		cell = (CellHandle) grid2Row.getCells( ).get( 1 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
-		data = elementFactory.newDataItem( null );
-		data.setValueExpr( "Total.max(row[\"Volume\"])" );//$NON-NLS-1$
-		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( ).setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
-		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
-		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
-		cell.getContent( ).add( data );
-
-		grid2Row = (RowHandle) grid2.getRows( ).get( 2 );
-
-		cell = (CellHandle) grid2Row.getCells( ).get( 0 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		label = elementFactory.newLabel( null );
-		label.setText( "Low:" );//$NON-NLS-1$
-		label.setStyleName( "Text" );//$NON-NLS-1$
-		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
-		cell.getContent( ).add( label );
-
-		cell = (CellHandle) grid2Row.getCells( ).get( 1 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
-		data = elementFactory.newDataItem( null );
-		data.setValueExpr( "Total.min(row[\"Volume\"])" );//$NON-NLS-1$
-		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( ).setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
-		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
-		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
-		cell.getContent( ).add( data );
-
-		grid2Row = (RowHandle) grid2.getRows( ).get( 3 );
-
-		cell = (CellHandle) grid2Row.getCells( ).get( 0 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		label = elementFactory.newLabel( null );
-		label.setText( "Total Volume:" );//$NON-NLS-1$
-		label.setStyleName( "Text" );//$NON-NLS-1$
-		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
-		cell.getContent( ).add( label );
-
-		cell = (CellHandle) grid2Row.getCells( ).get( 1 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
-		data = elementFactory.newDataItem( null );
-		data.setValueExpr( "Total.sum(row[\"Volume\"])" );//$NON-NLS-1$
-		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( ).setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
-		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
-		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
-		cell.getContent( ).add( data );
-
-		grid2Row = (RowHandle) grid2.getRows( ).get( 4 );
-
-		cell = (CellHandle) grid2Row.getCells( ).get( 0 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		label = elementFactory.newLabel( null );
-		label.setText( "Ave Volume:" );//$NON-NLS-1$
-		label.setStyleName( "Text" );//$NON-NLS-1$
-		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
-		cell.getContent( ).add( label );
-
-		cell = (CellHandle) grid2Row.getCells( ).get( 1 );
-		cell.setStyleName( "Border" );//$NON-NLS-1$
-		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
-		data = elementFactory.newDataItem( null );
-		data.setValueExpr( "Total.ave(row[\"Volume\"])" );//$NON-NLS-1$
-		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( ).setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
-		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
-		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
-		cell.getContent( ).add( data );
-
-		row3Cell2.getContent( ).add( grid2 );
-
 	}
 
 	private ExtendedItemHandle createStockChart( )
@@ -611,6 +312,19 @@ public class StockReport
 			eih.setHeight( "175pt" );//$NON-NLS-1$
 			eih.setWidth( "450pt" );//$NON-NLS-1$
 			eih.setProperty( ExtendedItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+			PropertyHandle computedSet = eih.getColumnBindings( );
+			cs1.setExpression( "dataSetRow[\"Date\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs1 );
+			cs2.setExpression( "dataSetRow[\"High\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs2 );
+			cs3.setExpression( "dataSetRow[\"Close\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs3 );
+			cs4.setExpression( "dataSetRow[\"Low\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs4 );
+			cs5.setExpression( "dataSetRow[\"Open\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs5 );
+			cs6.setExpression( "dataSetRow[\"Volume\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs6 );
 		}
 		catch ( SemanticException e )
 		{
@@ -716,6 +430,19 @@ public class StockReport
 			eih.setHeight( "175pt" );//$NON-NLS-1$
 			eih.setWidth( "450pt" );//$NON-NLS-1$
 			eih.setProperty( ExtendedItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+			PropertyHandle computedSet = eih.getColumnBindings( );
+			cs1.setExpression( "dataSetRow[\"Date\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs1 );
+			cs2.setExpression( "dataSetRow[\"High\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs2 );
+			cs3.setExpression( "dataSetRow[\"Close\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs3 );
+			cs4.setExpression( "dataSetRow[\"Low\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs4 );
+			cs5.setExpression( "dataSetRow[\"Open\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs5 );
+			cs6.setExpression( "dataSetRow[\"Volume\"]" );//$NON-NLS-1$
+			computedSet.addItem( cs6 );
 		}
 		catch ( SemanticException e )
 		{
