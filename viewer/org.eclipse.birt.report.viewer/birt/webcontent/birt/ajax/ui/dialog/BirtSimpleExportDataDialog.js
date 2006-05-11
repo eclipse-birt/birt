@@ -51,7 +51,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		
 		// Initialise exchange buttons
 		var oInputs = this.__instance.getElementsByTagName( 'input' );
-		for ( var i = 0; i < oInputs.length - 2; i++ )
+		for ( var i = 0; i < oInputs.length ; i++ )
 		{
 			Event.observe( oInputs[i], 'click', this.__neh_click_exchange_closure, false );
 		}
