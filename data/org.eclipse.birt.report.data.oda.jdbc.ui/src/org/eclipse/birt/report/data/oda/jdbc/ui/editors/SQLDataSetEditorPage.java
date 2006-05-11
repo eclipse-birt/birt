@@ -12,10 +12,12 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage;
@@ -94,7 +96,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.44 $ $Date: 2006/04/24 10:08:50 $
+ * @version $Revision: 1.45 $ $Date: 2006/04/25 09:35:48 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -1522,38 +1524,40 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	 */
 	private int[] getBidiLineSegments( String lineText )
 	{
-		// store indexOf "."
 		int[] seg = null;
-		if ( lineText != null && lineText.length( ) > 0 )
+		if ( lineText != null
+				&& lineText.length( ) > 0
+				&& !new Bidi( lineText, Bidi.DIRECTION_LEFT_TO_RIGHT ).isLeftToRight( ) )
 		{
-			seg = new int[( (String[]) lineText.split( "[.]" ) ).length + 1];
-			int index = 0;
-			
-			for ( int i = 0; i < seg.length; i++ )
+			List list = new ArrayList( );
+
+			// Punctuations will be regarded as delimiter so that different
+			// splits could be rendered separately.
+			Object[] splits = lineText.split( "\\p{Punct}" );
+
+			// !=, <> etc. leading to "" will be filtered to meet the rule that
+			// segments must not have duplicates.
+			for ( int i = 0; i < splits.length; i++ )
 			{
-				if ( i == 0 )
-				{
-					seg[i] = index;
-				}
-				else
-				{
-					index = lineText.indexOf( ".", index == 0 ? index
-							: index + 1 );
-					seg[i] = index != -1 ? index : lineText.length( );
-				}
+				if ( !splits[i].equals( "" ) )
+					list.add( splits[i] );
+			}
+			splits = list.toArray( );
+
+			// first segment must be 0
+			// last segment does not necessarily equal to line length
+			seg = new int[splits.length + 1];
+			for ( int i = 0; i < splits.length; i++ )
+			{
+				seg[i + 1] = lineText.indexOf( (String) splits[i], seg[i] )
+						+ ( (String) splits[i] ).length( );
 			}
 		}
-		
-		if ( seg == null )
-		{
-			seg = new int[1];
-			seg[0] = 0;
-		}
-		
+
 		return seg;
 	}
 
-//	private boolean isValidConnection()
+// private boolean isValidConnection()
 //	{
 //		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
 //		metaDataProvider = new JdbcMetaDataProvider(null);
