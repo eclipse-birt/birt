@@ -19,7 +19,15 @@ import org.eclipse.birt.core.framework.IPlatformConfig;
 
 public interface IDesignConfig extends IPlatformConfig
 {
-
+	/**
+	 * config name of resource locator
+	 */
+	
 	static final String RESOURCE_LOCATOR = "resourceLocator"; //$NON-NLS-1$
-
+	
+	/**
+	 * config name of resource path
+	 */
+	
+	static final String RESOURCE_PATH = "resourcePath"; //$NON-NLS-1$
 }

@@ -573,6 +573,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public void onSave( )
 	{
 		saveState = activityStack.getCurrentTransNo( );
+		nameManager.clear( );
 	}
 
 	/**
@@ -948,10 +949,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		// try the resource path first.
 
-		String resourcePath = DesignSession.getBirtResourcePath( );
+		String resourcePath = session.getBirtResourcePath( );
 		if ( resourcePath != null )
 		{
-			File msgFolder = new File( DesignSession.getBirtResourcePath( ) );
+			File msgFolder = new File( session.getBirtResourcePath( ) );
 			msg = BundleHelper.getHelper( msgFolder, baseName ).getMessage(
 					resourceKey, locale );
 		}
@@ -961,6 +962,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( msg == null || msg.length( ) == 0 )
 		{
 			File msgFolder = getModuleFolder( );
+			if ( msgFolder == null )
+				return ""; //$NON-NLS-1$
 			return BundleHelper.getHelper( msgFolder, baseName ).getMessage(
 					resourceKey, locale );
 		}
@@ -1885,15 +1888,28 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( baseName == null )
 			return new ArrayList( keys );
 
-		File msgFolder = DesignSession.getBirtResourcePath( ) == null
-				? getModuleFolder( )
-				: new File( DesignSession.getBirtResourcePath( ) );
+		String resourcePath = session.getBirtResourcePath( );
+		File msgFolder = null;
+		if ( resourcePath != null )
+		{
+			msgFolder = new File( session.getBirtResourcePath( ) );
+			Collection msgKeys = BundleHelper.getHelper( msgFolder, baseName )
+					.getMessageKeys( ThreadResources.getLocale( ) );
+			if ( msgKeys != null )
+			{
+				keys.addAll( msgKeys );
+				return new ArrayList( keys );
+			}
+		}
+
+		// for the backward compatibility, has to try the module folder.
+
+		msgFolder = getModuleFolder( );
 		if ( msgFolder == null )
 			return new ArrayList( keys );
 
-		Collection msgKeys = BundleHelper.getHelper( msgFolder, baseName )
-				.getMessageKeys( ThreadResources.getLocale( ) );
-		keys.addAll( msgKeys );
+		keys.addAll( BundleHelper.getHelper( msgFolder, baseName )
+				.getMessageKeys( ThreadResources.getLocale( ) ) );
 
 		return new ArrayList( keys );
 	}
@@ -2436,7 +2452,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
-	 * Returns the version manager for the API compatibility. 
+	 * Returns the version manager for the API compatibility.
 	 * 
 	 * @return the version manager
 	 */

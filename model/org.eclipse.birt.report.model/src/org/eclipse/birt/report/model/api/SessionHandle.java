@@ -60,19 +60,18 @@ public class SessionHandle
 	 *            file system and must present a dictory.
 	 */
 
-	public static void setBirtResourcePath( String resourcePath )
+	public void setBirtResourcePath( String resourcePath )
 	{
-		DesignSession.setBirtResourcePath( resourcePath );
+		session.setBirtResourcePath( resourcePath );
 	}
 
 	/**
-	 * Gets resource path.
-	 * {@link #setBirtResourcePath(String)}
+	 * Gets resource path. {@link #setBirtResourcePath(String)}
 	 */
 
-	public static String getBirtResourcePath( )
+	public String getBirtResourcePath( )
 	{
-		return DesignSession.getBirtResourcePath( );
+		return session.getBirtResourcePath( );
 	}
 
 	/**

@@ -42,7 +42,7 @@ public class DesignConfig extends PlatformConfig implements IDesignConfig
 	 * @param value
 	 *            configuration variable value
 	 */
-	
+
 	public void setConfigurationVariable( String name, String value )
 	{
 		setProperty( name, value );
@@ -53,7 +53,7 @@ public class DesignConfig extends PlatformConfig implements IDesignConfig
 	 * 
 	 * @return the configuration object map
 	 */
-	
+
 	public HashMap getConfigMap( )
 	{
 		return properties;
@@ -62,7 +62,7 @@ public class DesignConfig extends PlatformConfig implements IDesignConfig
 	/**
 	 * @return the resourceLocator
 	 */
-	
+
 	public IResourceLocator getResourceLocator( )
 	{
 		Object locator = getProperty( RESOURCE_LOCATOR );
@@ -81,5 +81,24 @@ public class DesignConfig extends PlatformConfig implements IDesignConfig
 	public void setResourceLocator( IResourceLocator resourceLocator )
 	{
 		setProperty( RESOURCE_LOCATOR, resourceLocator );
+	}
+
+	/**
+	 * @return the resourcePath
+	 */
+
+	public String getResourcePath( )
+	{
+		return (String) getProperty( RESOURCE_PATH );
+	}
+
+	/**
+	 * @param resourcePath
+	 *            the resourcePath to set
+	 */
+
+	public void setResourcePath( String resourcePath )
+	{
+		setProperty( RESOURCE_PATH, resourcePath );
 	}
 }

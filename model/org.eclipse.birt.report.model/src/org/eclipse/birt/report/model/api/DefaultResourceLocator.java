@@ -64,7 +64,7 @@ public class DefaultResourceLocator implements IResourceLocator
 
 			// try file search based on resource path set on this session
 						
-			String resourcePath = DesignSession.getBirtResourcePath( );
+			String resourcePath = moduleHandle.getModule( ).getSession( ).getBirtResourcePath( );
 			if ( resourcePath != null )
 			{
 				f = new File( resourcePath, fileName );

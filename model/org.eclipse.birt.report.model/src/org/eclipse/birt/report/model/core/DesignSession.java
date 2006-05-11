@@ -69,7 +69,7 @@ public class DesignSession
 	 * Resource path.
 	 */
 
-	public static String resourcePath = null;
+	private String resourcePath = null;
 
 	/**
 	 * Sets resource path.
@@ -79,7 +79,7 @@ public class DesignSession
 	 *            file system and must present a dictory.
 	 */
 
-	public static void setBirtResourcePath( String path )
+	public void setBirtResourcePath( String path )
 	{
 		resourcePath = path;
 	}
@@ -89,7 +89,7 @@ public class DesignSession
 	 * {@link #setBirtResourcePath(String)}
 	 */
 
-	public static String getBirtResourcePath( )
+	public String getBirtResourcePath( )
 	{
 		return resourcePath;
 	}
