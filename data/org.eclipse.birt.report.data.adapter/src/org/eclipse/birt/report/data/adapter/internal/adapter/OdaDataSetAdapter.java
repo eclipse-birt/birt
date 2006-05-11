@@ -1,0 +1,112 @@
+/*
+ *************************************************************************
+ * Copyright (c) 2006 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ */ 
+package org.eclipse.birt.report.data.adapter.internal.adapter;
+
+import java.util.Iterator;
+import java.util.Map;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
+import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.mozilla.javascript.Scriptable;
+
+/**
+ * Adapts a Model Oda Data Set definition handle
+ */
+public class OdaDataSetAdapter extends OdaDataSetDesign
+{
+
+	/**
+	 * Adapts a model oda data set handle
+	 * @param modelDataSet model handle
+	 * @param propBindingScope Javascript scope in which to evaluate property binding expressions.
+	 *    If null, property binding is not resolved
+	 * @throws BirtException
+	 */
+	public OdaDataSetAdapter( OdaDataSetHandle modelDataSet, Scriptable propBindingScope ) 
+		throws BirtException
+	{
+		super( modelDataSet.getQualifiedName( ) );
+
+		// TODO: event handler
+		
+		// Adapt base class properties
+		DataAdapterUtil.adaptBaseDataSet( modelDataSet, this );
+
+		// Adapt extended data set elements
+
+		// Set query text; if binding exists, use its result; otherwise
+		// use static design
+		String queryTextBinding = modelDataSet
+				.getPropertyBinding( OdaDataSet.QUERY_TEXT_PROP );
+		if ( propBindingScope != null && queryTextBinding != null
+				&& queryTextBinding.length( ) > 0 )
+		{
+			String queryText = JavascriptEvalUtil.evaluateScript( null, propBindingScope, 
+					queryTextBinding, "queryText binding", 0 ).toString();
+			setQueryText( queryText );
+		} else
+		{
+			setQueryText( modelDataSet.getQueryText( ) );
+		}
+
+		// type of extended data set
+		setExtensionID( modelDataSet.getExtensionID( ) );
+
+		// result set name
+		setPrimaryResultSetName( modelDataSet.getResultSetName( ) );
+
+		// static ROM properties defined by the ODA driver extension
+		Map staticProps = DataAdapterUtil.getExtensionProperties( modelDataSet, 
+				modelDataSet.getExtensionPropertyDefinitionList( ) );
+		if ( staticProps != null && !staticProps.isEmpty( ) )
+		{
+			Iterator propNamesItr = staticProps.keySet( ).iterator( );
+			while ( propNamesItr.hasNext( ) )
+			{
+				String propName = ( String ) propNamesItr.next( );
+				assert ( propName != null );
+				String propValue;
+				String bindingExpr = modelDataSet.getPropertyBinding( propName );
+				if ( propBindingScope != null && bindingExpr != null
+						&& bindingExpr.length( ) > 0 )
+				{
+					propValue =  JavascriptEvalUtil.evaluateScript( null, propBindingScope, 
+							bindingExpr, "property binding", 0 ).toString();
+				} else
+				{
+					propValue = ( String ) staticProps.get( propName );
+				}
+				addPublicProperty( ( String ) propName, propValue );
+			}
+		}
+
+		// private driver properties / private runtime data
+		Iterator elmtIter = modelDataSet.privateDriverPropertiesIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				ExtendedPropertyHandle modelProp = ( ExtendedPropertyHandle ) elmtIter
+						.next( );
+				addPrivateProperty( modelProp.getName( ), modelProp
+						.getValue( ) );
+			}
+		}
+	}
+
+}

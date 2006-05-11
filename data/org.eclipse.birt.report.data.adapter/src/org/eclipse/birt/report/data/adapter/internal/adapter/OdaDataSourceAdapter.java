@@ -1,0 +1,102 @@
+/*
+ *************************************************************************
+ * Copyright (c) 2006 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ */ 
+package org.eclipse.birt.report.data.adapter.internal.adapter;
+
+import java.util.Iterator;
+import java.util.Map;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
+import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
+import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
+import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.mozilla.javascript.Scriptable;
+
+/**
+ * Adapts a Model ODA data source handle to equivalent DtE 
+ * oda data source definition
+ */
+public class OdaDataSourceAdapter extends OdaDataSourceDesign
+{
+	private Scriptable bindingScope;
+	
+	/**
+	 * Creates adaptor based on Model OdaDataSourceHandle.
+	 * @param source model handle
+	 * @param propBindingScope Javascript scope in which to evaluate property bindings. If null,
+	 *   property bindings are not evaluated.
+	 */
+	public OdaDataSourceAdapter( OdaDataSourceHandle source, Scriptable propBindingScope) 
+		throws BirtException
+	{
+		super(source.getQualifiedName());
+		bindingScope = propBindingScope;
+
+		// Adapt base class properties
+		DataAdapterUtil.adaptBaseDataSource( source, this );
+
+		// Adapt extended data source elements
+		// validate that a required attribute is specified
+		String driverName = source.getExtensionID( );
+		if ( driverName == null || driverName.length( ) == 0 )
+		{
+			throw new AdapterException( ResourceConstants.DATASOURCE_EXID_ERROR,
+					source.getName( ) );
+		}
+		setExtensionID( driverName );
+
+		// static ROM properties defined by the ODA driver extension
+		Map staticProps = DataAdapterUtil.getExtensionProperties( 
+				source, source.getExtensionPropertyDefinitionList( ) );
+		if ( staticProps != null && !staticProps.isEmpty( ) )
+		{
+			Iterator propNamesItr = staticProps.keySet( ).iterator( );
+			while ( propNamesItr.hasNext( ) )
+			{
+				String propName = ( String ) propNamesItr.next( );
+				assert ( propName != null );
+	
+				String propValue;
+				// If property binding expression exists, use its evaluation
+				// result
+				String bindingExpr = source.getPropertyBinding( propName );
+				if ( bindingScope != null && bindingExpr != null
+						&& bindingExpr.length( ) > 0 )
+				{
+					propValue = JavascriptEvalUtil.evaluateScript( null, bindingScope, 
+							bindingExpr, "property binding", 0 ).toString();
+				} else
+				{
+					propValue = ( String ) staticProps.get( propName );
+				}
+				addPublicProperty( propName, propValue );
+			}
+		}
+
+		// private driver properties / private runtime data
+		Iterator elmtIter = source.privateDriverPropertiesIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				ExtendedPropertyHandle modelProp = ( ExtendedPropertyHandle ) elmtIter
+						.next( );
+				addPrivateProperty( modelProp.getName( ), modelProp
+						.getValue( ) );
+			}
+		}
+	}
+}
