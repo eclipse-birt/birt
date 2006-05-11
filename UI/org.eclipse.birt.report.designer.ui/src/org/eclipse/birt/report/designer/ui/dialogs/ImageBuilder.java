@@ -94,6 +94,8 @@ public class ImageBuilder extends BaseDialog
 	private static final String DLG_PREVIEW_LABEL = Messages.getString( "ImageBuilder.Button.Preview" ); //$NON-NLS-1$
 
 	private static final String DLG_ENTER_URI_LABEL = Messages.getString( "ImageBuilder.Label.EnterUri" ); //$NON-NLS-1$
+	
+	private static final String DLG_ENTER_RESOURCE_FILE_LABEL = Messages.getString( "ImageBuilder.Label.EnterResourceFile" ); //$NON-NLS-1$
 
 	private static final String DLG_EMBEDDED_IMAGE_LABEL = Messages.getString( "ImageBuilder.Label.EmbededImage" ); //$NON-NLS-1$
 
@@ -340,7 +342,8 @@ public class ImageBuilder extends BaseDialog
 		innerComp.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 
 		innerComp.setLayout( new GridLayout( 2, false ) );
-		title.setText( DLG_ENTER_URI_LABEL );
+		title.setText( DLG_ENTER_RESOURCE_FILE_LABEL );
+		
 		Button inputButton = new Button( innerComp, SWT.PUSH );
 		inputButton.setText( Messages.getString( "ImageBuilder.ButtonBrowser" ) ); //$NON-NLS-1$
 		inputButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
