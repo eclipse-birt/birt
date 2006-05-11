@@ -352,6 +352,33 @@ public final class EventHandlers
     	.append( "	   }    \n" ) //$NON-NLS-1$
     	.append( "	}\n" ) //$NON-NLS-1$
 		//////////////////////////////////////////////////////////////////
+		//    	 function: redirect
+		//    	 description: Redirects url to a certain target instance
+		//    	 inputs:
+		//    	   target - target instance
+    	//         url - url
+		////////////////////////////////////////////////////////////////    	
+    	.append( "	function redirect(target, url){\n" ) //$NON-NLS-1$
+    	.append( "		if (target =='_blank'){\n" ) //$NON-NLS-1$
+    	.append( "			open(url);\n" ) //$NON-NLS-1$
+    	.append( "		}\n" ) //$NON-NLS-1$
+    	.append( "		else if (target == '_top'){\n" ) //$NON-NLS-1$
+    	.append( "          window.top.location.href=url;\n" ) //$NON-NLS-1$									
+    	.append( "		}\n" ) //$NON-NLS-1$
+    	.append( "		else if (target == '_parent'){\n" ) //$NON-NLS-1$
+    	.append( "          parent.location.href=url;\n" ) //$NON-NLS-1$									
+    	.append( "		}\n" ) //$NON-NLS-1$
+    	.append( "		else if (target == '_self'){\n" ) //$NON-NLS-1$
+    	.append( "          parent.location.href=url;\n" ) //$NON-NLS-1$									
+    	.append( "		}\n" ) //$NON-NLS-1$    	
+    	.append( "		else if (target == '_self'){\n" ) //$NON-NLS-1$
+    	.append( "          parent.location.href=url;\n" ) //$NON-NLS-1$									
+    	.append( "		}\n" ) //$NON-NLS-1$    	
+    	.append( "		else{\n" ) //$NON-NLS-1$
+    	.append( "			open(url);\n" ) //$NON-NLS-1$
+    	.append( "		}\n" ) //$NON-NLS-1$
+    	.append( "	}\n" ) //$NON-NLS-1$    	    
+		//////////////////////////////////////////////////////////////////
 		//    	 function: scaleSVG
 		//    	 description: scales the svg document by a specified zoom factor
 		//    	 inputs:

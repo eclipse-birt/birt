@@ -446,13 +446,10 @@ public class SVGInteractiveRenderer
 							}
 							else
 							{
-								Element aLink = svg_g2d.createElement( "a" ); //$NON-NLS-1$
-								// TODO support any scriptEvent
-								aLink.setAttribute( "xlink:href", urlValue.getBaseUrl( ) ); //$NON-NLS-1$
-								if ( urlValue.getTarget( ) != null )
-									aLink.setAttribute( "target", urlValue.getTarget( ) ); //$NON-NLS-1$ 
-								aLink.appendChild( elm );
-								elm = aLink;
+								String target = urlValue.getTarget( );
+								if (target == null)
+									target="null"; //$NON-NLS-1$
+								elm.setAttribute( scriptEvent, "redirect('"+target+"','"+urlValue.getBaseUrl( )+"')" ); //$NON-NLS-1$ 
 							}
 							break;
 
