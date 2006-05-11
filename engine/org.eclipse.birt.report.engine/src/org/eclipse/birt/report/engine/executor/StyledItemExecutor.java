@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.24 $ $Date: 2006/04/25 11:34:01 $
+ * @version $Revision: 1.25 $ $Date: 2006/04/26 07:33:49 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -63,11 +63,6 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 */
 	protected void processStyle( ReportItemDesign design, IContent content )
 	{
-		content.setX( design.getX( ) );
-		content.setY( design.getY( ) );
-		content.setWidth( design.getWidth( ) );
-		content.setHeight( design.getHeight( ) );
-		content.setStyleClass( design.getStyleName( ) );
 		StyleDeclaration inlineStyle = createHighlightStyle( design
 				.getHighlight( ) );
 		content.setInlineStyle( inlineStyle );

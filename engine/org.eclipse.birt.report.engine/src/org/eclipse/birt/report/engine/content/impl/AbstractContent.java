@@ -315,7 +315,15 @@ abstract public class AbstractContent extends AbstractElement
 
 	public String getStyleClass( )
 	{
-		return this.styleClass;
+		if ( styleClass != null )
+		{
+			return styleClass;
+		}
+		if ( generateBy instanceof ReportItemDesign )
+		{
+			return ( (ReportItemDesign) generateBy ).getStyleName( );
+		}
+		return null;
 	}
 
 	/**

@@ -572,15 +572,6 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			{
 				Object generateBy = findReportItem( designId );
 				content.setGenerateBy( generateBy );
-				if ( generateBy instanceof ReportItemDesign )
-				{
-					ReportItemDesign design = (ReportItemDesign) generateBy;
-					content.setX( design.getX( ) );
-					content.setY( design.getY( ) );
-					content.setWidth( design.getWidth( ) );
-					content.setHeight( design.getHeight( ) );
-					content.setStyleClass( design.getStyleName( ) );
-				}
 				if ( generateBy instanceof TemplateDesign )
 				{
 					TemplateDesign design = (TemplateDesign) generateBy;
