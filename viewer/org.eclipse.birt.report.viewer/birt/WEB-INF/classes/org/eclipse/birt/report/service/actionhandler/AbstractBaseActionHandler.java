@@ -221,7 +221,8 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 			String type = id.substring( firstComma + 1, secondComma );
 			if ( ReportIdType._Document.equalsIgnoreCase( type )
 					|| ReportIdType._Table.equalsIgnoreCase( type )
-					|| ReportIdType._Chart.equalsIgnoreCase( type ) )
+					|| ReportIdType._Chart.equalsIgnoreCase( type )
+					|| ReportIdType._Extended.equalsIgnoreCase( type ) )
 			{
 				ReportId reportId = new ReportId( );
 				reportId.setId( id.substring( 0, id.indexOf( ',' ) ) ); //$NON-NLS-1$
@@ -229,10 +230,13 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 				if ( ReportIdType._Document.equalsIgnoreCase( type ) )
 				{
 					reportId.setType( ReportIdType.Document );
-				} else if ( ReportIdType._Table.equalsIgnoreCase( type ) )
+				}
+				else if ( ReportIdType._Table.equalsIgnoreCase( type ) )
 				{
 					reportId.setType( ReportIdType.Table );
-				} else if ( ReportIdType._Chart.equalsIgnoreCase( type ) )
+				}
+				else if ( ReportIdType._Chart.equalsIgnoreCase( type )
+						|| ReportIdType._Extended.equalsIgnoreCase( type ) )
 				{
 					reportId.setType( ReportIdType.Chart );
 				}
