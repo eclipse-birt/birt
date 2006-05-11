@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -65,7 +66,7 @@ import com.ibm.icu.util.TimeZone;
  * @author Actuate Corporation
  * 
  */
-public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
+abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		implements
 			Listener,
 			SelectionListener
@@ -80,16 +81,6 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	private transient Button btnFormatSpecifier;
 
 	private transient Button btnVisible;
-
-	private transient Button btnAxisTitle;
-
-	private transient Button btnGridlines;
-
-	private transient Button btnMarkers;
-
-	private transient Button btnScale;
-
-	private transient Button btnInteractivity;
 
 	private transient Label lblValue;
 
@@ -179,43 +170,48 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 					.setBackground( btnFormatSpecifier.getBackground( ) );
 		}
 
-		Label lblOrigin = new Label( cmpBasic, SWT.NONE );
-		lblOrigin.setText( Messages.getString( "OrthogonalAxisDataSheetImpl.Lbl.Origin" ) ); //$NON-NLS-1$
-
-		cmbOrigin = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
+		// Origin is not supported in 3D
+		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
 		{
-			GridData gd = new GridData( );
-			gd.widthHint = 200;
-			gd.horizontalSpan = 2;
-			cmbOrigin.setLayoutData( gd );
-			cmbOrigin.addSelectionListener( this );
-		}
+			Label lblOrigin = new Label( cmpBasic, SWT.NONE );
+			lblOrigin.setText( Messages.getString( "OrthogonalAxisDataSheetImpl.Lbl.Origin" ) ); //$NON-NLS-1$
 
-		boolean bValueOrigin = false;
-		if ( getAxisForProcessing( ).getOrigin( ) != null )
-		{
-			if ( getAxisForProcessing( ).getOrigin( )
-					.getType( )
-					.equals( IntersectionType.VALUE_LITERAL ) )
+			cmbOrigin = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
 			{
-				bValueOrigin = true;
+				GridData gd = new GridData( );
+				gd.widthHint = 200;
+				gd.horizontalSpan = 2;
+				cmbOrigin.setLayoutData( gd );
+				cmbOrigin.addSelectionListener( this );
 			}
-		}
 
-		lblValue = new Label( cmpBasic, SWT.NONE );
-		{
-			lblValue.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Value" ) ); //$NON-NLS-1$
-			lblValue.setEnabled( bValueOrigin );
-		}
+			boolean bValueOrigin = false;
+			if ( getAxisForProcessing( ).getOrigin( ) != null )
+			{
+				if ( getAxisForProcessing( ).getOrigin( )
+						.getType( )
+						.equals( IntersectionType.VALUE_LITERAL ) )
+				{
+					bValueOrigin = true;
+				}
+			}
 
-		txtValue = new TextEditorComposite( cmpBasic, SWT.BORDER | SWT.SINGLE );
-		{
-			GridData gd = new GridData( );
-			gd.widthHint = 225;
-			gd.horizontalSpan = 2;
-			txtValue.setLayoutData( gd );
-			txtValue.addListener( this );
-			txtValue.setEnabled( bValueOrigin );
+			lblValue = new Label( cmpBasic, SWT.NONE );
+			{
+				lblValue.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Value" ) ); //$NON-NLS-1$
+				lblValue.setEnabled( bValueOrigin );
+			}
+
+			txtValue = new TextEditorComposite( cmpBasic, SWT.BORDER
+					| SWT.SINGLE );
+			{
+				GridData gd = new GridData( );
+				gd.widthHint = 225;
+				gd.horizontalSpan = 2;
+				txtValue.setLayoutData( gd );
+				txtValue.addListener( this );
+				txtValue.setEnabled( bValueOrigin );
+			}
 		}
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "AxisYSheetImpl.Label.Labels" ) ); //$NON-NLS-1$
@@ -251,28 +247,28 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		ITaskPopupSheet popup = new AxisScaleSheet( Messages.getString( "AxisYSheetImpl.Label.Scale" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ) );
-		btnScale = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnScale = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnScale.addSelectionListener( this );
 
 		popup = new AxisTextSheet( Messages.getString( "AxisYSheetImpl.Label.TextFormat" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
 				getAxisAngleType( ) );
-		btnAxisTitle = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnAxisTitle = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnAxisTitle.addSelectionListener( this );
 
 		popup = new AxisGridLinesSheet( Messages.getString( "AxisYSheetImpl.Label.Gridlines" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
 				getAxisAngleType( ) );
-		btnGridlines = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnGridlines = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnGridlines.addSelectionListener( this );
 
 		// Marker is not supported for 3D
 		popup = new AxisMarkersSheet( Messages.getString( "AxisYSheetImpl.Label.Markers" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ) );
-		btnMarkers = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnMarkers = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnMarkers.addSelectionListener( this );
 		btnMarkers.setEnabled( !ChartUIUtil.is3DType( getChart( ) ) );
 
@@ -282,7 +278,9 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				getAxisForProcessing( ).getTriggers( ),
 				false,
 				true );
-		btnInteractivity = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnInteractivity = createToggleButton( cmp,
+				popup.getTitle( ),
+				popup );
 		btnInteractivity.addSelectionListener( this );
 		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 	}
@@ -296,11 +294,14 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				.getName( ) ) );
 
 		// Populate origin types combo
-		ns = LiteralHelper.intersectionTypeSet;
-		cmbOrigin.setItems( ns.getDisplayNames( ) );
-		cmbOrigin.select( ns.getSafeNameIndex( getAxisForProcessing( ).getOrigin( )
-				.getType( )
-				.getName( ) ) );
+		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
+		{
+			ns = LiteralHelper.intersectionTypeSet;
+			cmbOrigin.setItems( ns.getDisplayNames( ) );
+			cmbOrigin.select( ns.getSafeNameIndex( getAxisForProcessing( ).getOrigin( )
+					.getType( )
+					.getName( ) ) );
+		}
 
 		if ( getAxisForProcessing( ).getOrigin( )
 				.getType( )
