@@ -949,24 +949,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		// try the resource path first.
 
-		String resourcePath = session.getBirtResourcePath( );
-		if ( resourcePath != null )
-		{
-			File msgFolder = new File( session.getBirtResourcePath( ) );
-			msg = BundleHelper.getHelper( msgFolder, baseName ).getMessage(
-					resourceKey, locale );
-		}
-
-		// for the backward compatibility, has to try the module folder.
-
-		if ( msg == null || msg.length( ) == 0 )
-		{
-			File msgFolder = getModuleFolder( );
-			if ( msgFolder == null )
-				return ""; //$NON-NLS-1$
-			return BundleHelper.getHelper( msgFolder, baseName ).getMessage(
-					resourceKey, locale );
-		}
+		msg = BundleHelper.getHelper( this, baseName ).getMessage( resourceKey,
+				locale );
 
 		return msg;
 	}
@@ -1888,28 +1872,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( baseName == null )
 			return new ArrayList( keys );
 
-		String resourcePath = session.getBirtResourcePath( );
-		File msgFolder = null;
-		if ( resourcePath != null )
-		{
-			msgFolder = new File( session.getBirtResourcePath( ) );
-			Collection msgKeys = BundleHelper.getHelper( msgFolder, baseName )
-					.getMessageKeys( ThreadResources.getLocale( ) );
-			if ( msgKeys != null )
-			{
-				keys.addAll( msgKeys );
-				return new ArrayList( keys );
-			}
-		}
-
-		// for the backward compatibility, has to try the module folder.
-
-		msgFolder = getModuleFolder( );
-		if ( msgFolder == null )
-			return new ArrayList( keys );
-
-		keys.addAll( BundleHelper.getHelper( msgFolder, baseName )
-				.getMessageKeys( ThreadResources.getLocale( ) ) );
+		keys.addAll( BundleHelper.getHelper( this, baseName ).getMessageKeys(
+				ThreadResources.getLocale( ) ) );
 
 		return new ArrayList( keys );
 	}

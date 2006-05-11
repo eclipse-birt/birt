@@ -11,11 +11,10 @@
 
 package org.eclipse.birt.report.model.core;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -32,17 +31,17 @@ import com.ibm.icu.util.ULocale;
 /**
  * Helper class to deal with user-defined message files. The message files is
  * stored out of the design.
- *  
+ * 
  */
 
 class BundleHelper
 {
 
 	/**
-	 * directory where to locates the message files.
+	 * the module
 	 */
 
-	private File msgFolder = null;
+	private static Module module = null;
 
 	/**
 	 * base name of the resource bundle. The name is a common base name
@@ -54,42 +53,37 @@ class BundleHelper
 	 * Private constructor. Constructs a helper given the message folder and
 	 * common base name of the message bundles.
 	 * 
-	 * @param msgFolder
-	 *            directory where to locates the message files.
+	 * @param module
+	 *            the module
 	 * @param baseName
 	 *            base name of the resource bundle. The name is a common base
 	 *            name
-	 *  
+	 * 
 	 */
 
-	private BundleHelper( File msgFolder, String baseName )
+	private BundleHelper( Module module, String baseName )
 	{
-		assert msgFolder != null;
-		assert msgFolder.isDirectory( );
-
-		this.msgFolder = msgFolder;
+		this.module = module;
 		this.baseName = baseName;
 	}
 
 	/**
 	 * Gets a helper to deal with a bundle of message files.
 	 * 
-	 * @param msgFolder
-	 *            directory where to locates the message files.
+	 * @param module
+	 *            the module
 	 * @param baseName
 	 *            base name of the resource bundle. The name is a common base
 	 *            name
 	 * @return a correspondent helper instance. Return <code>null</code> if
 	 *         the <code>msgFolder</code> is null or not a directory.
-	 *  
+	 * 
 	 */
 
-	public static BundleHelper getHelper( File msgFolder, String baseName )
+	public static BundleHelper getHelper( Module module, String baseName )
 	{
-		if ( msgFolder == null || !msgFolder.isDirectory( ) )
-			return null;
-
-		return new BundleHelper( msgFolder, baseName );
+		assert module != null;
+		return new BundleHelper( module, baseName );
 	}
 
 	/**
@@ -112,7 +106,7 @@ class BundleHelper
 		{
 			PropertyResourceBundle bundle = (PropertyResourceBundle) bundleIter
 					.next( );
-			Enumeration enumeration  = bundle.getKeys( );
+			Enumeration enumeration = bundle.getKeys( );
 			while ( enumeration.hasMoreElements( ) )
 			{
 				keys.add( enumeration.nextElement( ) );
@@ -135,7 +129,7 @@ class BundleHelper
 	 * @return the corresponding locale-dependent messages. Return
 	 *         <code>""</code> if resoueceKey is blank or the message is not
 	 *         found.
-	 *  
+	 * 
 	 */
 
 	public String getMessage( String resourceKey, ULocale locale )
@@ -197,8 +191,7 @@ class BundleHelper
 			temp.append( country );
 			temp.append( ".properties" ); //$NON-NLS-1$
 
-			PropertyResourceBundle bundle = populateBundle( new File(
-					msgFolder, temp.toString( ) ) );
+			PropertyResourceBundle bundle = populateBundle( temp.toString( ) );
 			if ( bundle != null )
 				bundleHierarchy.add( bundle );
 
@@ -213,16 +206,15 @@ class BundleHelper
 			temp.append( language );
 			temp.append( ".properties" ); //$NON-NLS-1$
 
-			PropertyResourceBundle bundle = populateBundle( new File(
-					msgFolder, temp.toString( ) ) );
+			PropertyResourceBundle bundle = populateBundle( temp.toString( ) );
 			if ( bundle != null )
 				bundleHierarchy.add( bundle );
 		}
 
 		// default.
 
-		PropertyResourceBundle bundle = populateBundle( new File( msgFolder,
-				baseName + ".properties" ) ); //$NON-NLS-1$
+		PropertyResourceBundle bundle = populateBundle( baseName
+				+ ".properties" ); //$NON-NLS-1$
 		if ( bundle != null )
 			bundleHierarchy.add( bundle );
 
@@ -239,17 +231,18 @@ class BundleHelper
 	 *         occurred during I/O reading.
 	 */
 
-	private PropertyResourceBundle populateBundle( File file )
+	private PropertyResourceBundle populateBundle( String fileName )
 	{
-		assert file != null;
-
-		if ( !file.exists( ) )
-			return null;
+		assert fileName != null;
 
 		InputStream is = null;
 		try
 		{
-			is = new FileInputStream( file );
+			URL inputURL = module.getSession( ).getResourceLocator( )
+					.findResource( module.getModuleHandle( ), fileName, 0 );
+			if ( inputURL == null )
+				return null;
+			is = inputURL.openStream( );
 			PropertyResourceBundle bundle = new PropertyResourceBundle( is );
 			is.close( );
 			is = null;
