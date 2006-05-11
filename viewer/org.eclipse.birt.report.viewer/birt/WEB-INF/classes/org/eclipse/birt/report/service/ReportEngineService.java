@@ -42,9 +42,9 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.IBirtConstants;
-import org.eclipse.birt.report.data.adaptor.api.DataRequestSession;
-import org.eclipse.birt.report.data.adaptor.api.DataSessionContext;
-import org.eclipse.birt.report.data.adaptor.api.IModelAdaptor;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -1206,7 +1206,7 @@ public class ReportEngineService
 		DataRequestSession requestSession = DataRequestSession
 				.newSession( context );
 
-		IModelAdaptor modelAdaptor = requestSession.getModelAdaptor( );
+		IModelAdapter modelAdaptor = requestSession.getModelAdaptor( );
 		DataSourceHandle dataSource = dataSet.getDataSource( );
 
 		IBaseDataSourceDesign sourceDesign = modelAdaptor
