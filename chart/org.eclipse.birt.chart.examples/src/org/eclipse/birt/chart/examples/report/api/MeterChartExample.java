@@ -69,8 +69,7 @@ public class MeterChartExample
 	void createReport( ) throws SemanticException, IOException
 	{
 		// A session handle for all open reports
-		SessionHandle session = new DesignEngine( ).newSession( (ULocale) null,
-				null );
+		SessionHandle session = new DesignEngine( null ).newSessionHandle( (ULocale) null );
 
 		// Create a new report
 		reportDesignHandle = session.createDesign( );
@@ -78,7 +77,7 @@ public class MeterChartExample
 		// Element factory is used to create instances of BIRT elements.
 		elementFactory = reportDesignHandle.getElementFactory( );
 
-		dict = new DesignEngine( ).getMetaData( );
+		dict = new DesignEngine( null ).getMetaData( );
 
 		createMasterPages( );
 		createDataSources( );

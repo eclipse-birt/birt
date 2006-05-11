@@ -58,8 +58,7 @@ public class GroupOnYAxis
 	 */
 	void groupKey( )
 	{
-		SessionHandle sessionHandle = new DesignEngine( ).newSession( (ULocale) null,
-				null );
+		SessionHandle sessionHandle = new DesignEngine( null ).newSessionHandle( (ULocale) null );
 		ReportDesignHandle designHandle = null;
 
 		String path = "src/org/eclipse/birt/chart/examples/api/data/";//$NON-NLS-1$

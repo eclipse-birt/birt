@@ -90,8 +90,7 @@ public class StockReport
 	void createReport( ) throws SemanticException, IOException
 	{
 		// A session handle for all open reports
-		SessionHandle session = new DesignEngine( ).newSession( (ULocale) null,
-				null );
+		SessionHandle session = new DesignEngine( null ).newSessionHandle( (ULocale) null );
 
 		// Create a new report
 		reportDesignHandle = session.createDesign( );
@@ -101,7 +100,7 @@ public class StockReport
 
 		structFactory = new StructureFactory( );
 
-		dict = new DesignEngine( ).getMetaData( );
+		dict = new DesignEngine( null ).getMetaData( );
 
 		createMasterPages( );
 		createDataSources( );
