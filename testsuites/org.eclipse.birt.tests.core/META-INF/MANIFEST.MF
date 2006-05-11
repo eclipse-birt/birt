@@ -4,3 +4,5 @@ Bundle-Name: Tests Core Plug-in
 Bundle-SymbolicName: org.eclipse.birt.tests.core
 Bundle-Version: 1.0.0
 Bundle-Localization: plugin
+Require-Bundle: org.junit
+Export-Package: utility
