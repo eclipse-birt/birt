@@ -283,6 +283,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Returns the scale of current device against standard 72dpi (X/72).
+	 * 
+	 * @return
+	 */
+	public final double getDeviceScale( )
+	{
+		return xs.getDpiResolution( ) / 72d;
+	}
+
+	/**
 	 * @return
 	 */
 	public final SeriesDefinition getSeriesDefinition( )
@@ -527,7 +537,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		renderBlock( ipr, lg, StructureSource.createLegend( lg ) );
 		final IDisplayServer xs = getDevice( ).getDisplayServer( );
-		final double dScale = xs.getDpiResolution( ) / 72d;
+		final double dScale = getDeviceScale( );
 		Bounds bo = lg.getBounds( ).scaledInstance( dScale );
 
 		Size sz = null;
@@ -2870,8 +2880,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected void renderBackground( IPrimitiveRenderer ipr, Plot p )
 			throws ChartException
 	{
-		final double dScale = getDevice( ).getDisplayServer( )
-				.getDpiResolution( ) / 72d;
+		final double dScale = getDeviceScale( );
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 				RectangleRenderEvent.class );
 		rre.updateFrom( p, dScale ); // POINTS => PIXELS
@@ -2963,8 +2972,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected void renderBlock( IPrimitiveRenderer ipr, Block b, Object oSource )
 			throws ChartException
 	{
-		final double dScale = getDevice( ).getDisplayServer( )
-				.getDpiResolution( ) / 72d;
+		final double dScale = getDeviceScale( );
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				RectangleRenderEvent.class );
 		rre.updateFrom( b, dScale );
@@ -2982,8 +2990,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected void renderChartBlock( IPrimitiveRenderer ipr, Block b,
 			Object oSource ) throws ChartException
 	{
-		final double dScale = getDevice( ).getDisplayServer( )
-				.getDpiResolution( ) / 72d;
+		final double dScale = getDeviceScale( );
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				RectangleRenderEvent.class );
 		rre.updateFrom( b, dScale );
@@ -3041,8 +3048,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			return;
 		}
 		renderBlock( ipr, b, oSource );
-		final double dScale = getDevice( ).getDisplayServer( )
-				.getDpiResolution( ) / 72d;
+		final double dScale = getDeviceScale( );
 		final LabelBlock lb = (LabelBlock) b;
 		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				TextRenderEvent.class );
@@ -3086,8 +3092,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Trigger tg;
 			EList elTriggers = b.getTriggers( );
 			Location[] loaHotspot = new Location[4];
-			final double dScale = getDevice( ).getDisplayServer( )
-					.getDpiResolution( ) / 72d;
+			final double dScale = getDeviceScale( );
 			Bounds bo = b.getBounds( ).scaledInstance( dScale );
 			double dLeft = bo.getLeft( );
 			double dTop = bo.getTop( );

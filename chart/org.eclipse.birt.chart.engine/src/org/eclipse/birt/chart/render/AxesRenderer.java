@@ -5399,6 +5399,8 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		if ( engine == null )
 		{
+			double dScale = getDeviceScale( );
+
 			ChartWithAxes cwa = (ChartWithAxes) getModel( );
 
 			// Use a fixed light direction here.
@@ -5427,10 +5429,10 @@ public abstract class AxesRenderer extends BaseRenderer
 					lightDirection,
 					width,
 					height,
-					500,
-					1500,
-					10,
-					10000,
+					500 * dScale,
+					1500 * dScale,
+					10 * dScale,
+					10000 * dScale,
 					100 );
 		}
 

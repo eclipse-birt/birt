@@ -2120,7 +2120,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 				}
 				else if ( isZeroValue == true )
 				{
-					percentileValue = new Double ( (double)1.0 / iOrthogonalCount );
+					percentileValue = new Double ( 1d / iOrthogonalCount );
 				}
 
 				dpa[i] = new DataPointHints( oDataBase,
