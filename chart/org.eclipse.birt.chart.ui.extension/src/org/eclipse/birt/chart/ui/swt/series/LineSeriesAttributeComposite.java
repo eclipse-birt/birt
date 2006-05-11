@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.series;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
@@ -262,7 +263,8 @@ public class LineSeriesAttributeComposite extends Composite
 
 	private boolean isShadowNeeded( )
 	{
-		return !( series instanceof AreaSeries );
+		return !( series instanceof AreaSeries )
+				&& context.getModel( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL;
 	}
 
 	private void enableLineSettings( boolean isEnabled )
