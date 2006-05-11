@@ -154,7 +154,7 @@ public class ReportEngineService
 		}
 		if ( isResourceOk )
 		{
-			SessionHandle.setBirtResourcePath( resourcePath );
+			config.setResourcePath( resourcePath );
 		}
 
 		// Prepare image directory.
