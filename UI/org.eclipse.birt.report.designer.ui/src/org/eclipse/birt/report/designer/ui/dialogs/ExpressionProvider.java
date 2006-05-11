@@ -46,7 +46,7 @@ import org.eclipse.swt.graphics.Image;
 public class ExpressionProvider implements IExpressionProvider
 {
 
-	private static class Operator
+	protected static class Operator
 	{
 
 		/**
@@ -77,7 +77,7 @@ public class ExpressionProvider implements IExpressionProvider
 		}
 	}
 
-	private static final String[] OPERATORS_ON_BAR = new String[]{
+	protected static final String[] OPERATORS_ON_BAR = new String[]{
 			"+", //$NON-NLS-1$
 			"-", //$NON-NLS-1$
 			"*", //$NON-NLS-1$
@@ -95,7 +95,7 @@ public class ExpressionProvider implements IExpressionProvider
 	};
 
 	/** Arithmetic operators and their descriptions */
-	private static final Operator[] OPERATORS_ASSIGNMENT = new Operator[]{
+	protected static final Operator[] OPERATORS_ASSIGNMENT = new Operator[]{
 			new Operator( "=", "ExpressionProvider.Operator.Assign" ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "+=", "ExpressionProvider.Operator.AddTo" ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "-=", "ExpressionProvider.Operator.SubFrom" ), //$NON-NLS-1$ //$NON-NLS-2$
@@ -104,7 +104,7 @@ public class ExpressionProvider implements IExpressionProvider
 	};
 
 	/** Comparison operators and their descriptions */
-	private static Operator[] OPERATORS_COMPARISON = new Operator[]{
+	protected static Operator[] OPERATORS_COMPARISON = new Operator[]{
 			new Operator( "==", "ExpressionProvider.Operator.Equals" ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "<", "ExpressionProvider.Operator.Less" ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "<=", "ExpressionProvider.Operator.LessEqual" ), //$NON-NLS-1$ //$NON-NLS-2$ 
@@ -115,7 +115,7 @@ public class ExpressionProvider implements IExpressionProvider
 	};
 
 	/** Computational operators and their descriptions */
-	private static final Operator[] OPERATORS_COMPUTATIONAL = new Operator[]{
+	protected static final Operator[] OPERATORS_COMPUTATIONAL = new Operator[]{
 			new Operator( "+", "ExpressionProvider.Operator.Add" ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "-", "ExpressionProvider.Operator.Sub" ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "*", "ExpressionProvider.Operator.Mult" ), //$NON-NLS-1$ //$NON-NLS-2$
@@ -125,23 +125,23 @@ public class ExpressionProvider implements IExpressionProvider
 	};
 
 	/** Logical operators and their descriptions */
-	private static final Operator[] OPERATORS_LOGICAL = new Operator[]{
+	protected static final Operator[] OPERATORS_LOGICAL = new Operator[]{
 			new Operator( "&&", "ExpressionProvider.Operator.And" ), //$NON-NLS-1$ //$NON-NLS-2$ 
 			new Operator( "||", "ExpressionProvider.Operator.Or" ) //$NON-NLS-1$ //$NON-NLS-2$ 
 
 	};
 
-	private static final String DISPLAY_TEXT_ASSIGNMENT = Messages.getString( "ExpressionProvider.Operators.Assignment" ); //$NON-NLS-1$	
-	private static final String DISPLAY_TEXT_COMPARISON = Messages.getString( "ExpressionProvider.Operators.Comparison" ); //$NON-NLS-1$
-	private static final String DISPLAY_TEXT_COMPUTATIONAL = Messages.getString( "ExpressionProvider.Operators.Computational" ); //$NON-NLS-1$
-	private static final String DISPLAY_TEXT_LOGICAL = Messages.getString( "ExpressionProvider.Operators.Logical" ); //$NON-NLS-1$
+	protected static final String DISPLAY_TEXT_ASSIGNMENT = Messages.getString( "ExpressionProvider.Operators.Assignment" ); //$NON-NLS-1$	
+	protected static final String DISPLAY_TEXT_COMPARISON = Messages.getString( "ExpressionProvider.Operators.Comparison" ); //$NON-NLS-1$
+	protected static final String DISPLAY_TEXT_COMPUTATIONAL = Messages.getString( "ExpressionProvider.Operators.Computational" ); //$NON-NLS-1$
+	protected static final String DISPLAY_TEXT_LOGICAL = Messages.getString( "ExpressionProvider.Operators.Logical" ); //$NON-NLS-1$
 
-	private static final Image IMAGE_OPERATOR = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR );
-	private static final Image IMAGE_COLUMN = getIconImage( IReportGraphicConstants.ICON_DATA_COLUMN );
-	private static final Image IMAGE_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD );
-	private static final Image IMAGE_STATIC_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD );
-	private static final Image IMAGE_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER );
-	private static final Image IMAGE_STATIC_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER );
+	protected static final Image IMAGE_OPERATOR = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR );
+	protected static final Image IMAGE_COLUMN = getIconImage( IReportGraphicConstants.ICON_DATA_COLUMN );
+	protected static final Image IMAGE_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD );
+	protected static final Image IMAGE_STATIC_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD );
+	protected static final Image IMAGE_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER );
+	protected static final Image IMAGE_STATIC_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER );
 
 	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
 	public static final String COLUMN_BINDINGS = Messages.getString("ExpressionProvider.Category.ColumnBinding");  //$NON-NLS-1$
@@ -151,7 +151,7 @@ public class ExpressionProvider implements IExpressionProvider
 	public static final String NATIVE_OBJECTS = Messages.getString( "ExpressionProvider.Category.NativeObjects" );//$NON-NLS-1$
 	public static final String BIRT_OBJECTS = Messages.getString( "ExpressionProvider.Category.BirtObjects" );//$NON-NLS-1$
 
-	private static final String ALL = Messages.getString( "ExpressionProvider.Label.All" ); //$NON-NLS-1$
+	protected static final String ALL = Messages.getString( "ExpressionProvider.Label.All" ); //$NON-NLS-1$
 
 	private static final String TOOLTIP_BINDING_PREFIX = Messages.getString( "ExpressionProvider.Tooltip.ColumnBinding" ); //$NON-NLS-1$
 	
@@ -608,7 +608,7 @@ public class ExpressionProvider implements IExpressionProvider
 		return ReportPlatformUIImages.getImage( id );
 	}
 
-	private List getClassList( boolean isNative )
+	protected List getClassList( boolean isNative )
 	{
 		List list = DEUtil.getClasses( );
 		ArrayList resultList = new ArrayList( );

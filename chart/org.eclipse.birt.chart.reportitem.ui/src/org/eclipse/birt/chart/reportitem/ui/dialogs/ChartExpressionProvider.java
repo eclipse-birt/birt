@@ -14,14 +14,9 @@ package org.eclipse.birt.chart.reportitem.ui.dialogs;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.chart.script.ScriptHandler;
-import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
@@ -35,96 +30,9 @@ import org.eclipse.swt.graphics.Image;
 public class ChartExpressionProvider extends ExpressionProvider
 {
 
-	private static class Operator
-	{
-
-		/**
-		 * The tooltip of the operator
-		 */
-		public String tooltip;
-		/**
-		 * The symbol of the operator
-		 */
-		public String symbol;
-
-		/**
-		 * The text to insert into the source viewer
-		 */
-		public String insertText;
-
-		Operator( String symbol, String tooltipKey )
-		{
-			this.symbol = symbol;
-			insertText = symbol;
-			this.tooltip = Messages.getString( tooltipKey );
-		}
-
-		Operator( String symbol, String tooltipKey, String insertText )
-		{
-			this( symbol, tooltipKey );
-			this.insertText = insertText;
-		}
-	}
-
-	/** Arithmetic operators and their descriptions */
-	private static final Operator[] OPERATORS_ASSIGNMENT = new Operator[]{
-			new Operator( "=", "ExpressionProvider.Operator.Assign" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "+=", "ExpressionProvider.Operator.AddTo" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "-=", "ExpressionProvider.Operator.SubFrom" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "*=", "ExpressionProvider.Operator.MultTo" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "/=", "ExpressionProvider.Operator.DividingFrom" ), //$NON-NLS-1$ //$NON-NLS-2$
-	};
-
-	/** Comparison operators and their descriptions */
-	private static Operator[] OPERATORS_COMPARISON = new Operator[]{
-			new Operator( "==", "ExpressionProvider.Operator.Equals" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "<", "ExpressionProvider.Operator.Less" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "<=", "ExpressionProvider.Operator.LessEqual" ), //$NON-NLS-1$ //$NON-NLS-2$ 
-			new Operator( "!=", "ExpressionProvider.Operator.NotEqual" ), //$NON-NLS-1$ //$NON-NLS-2$ 
-			new Operator( ">", "ExpressionProvider.Operator.Greater" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( ">=", "ExpressionProvider.Operator.GreaterEquals" ), //$NON-NLS-1$ //$NON-NLS-2$
-
-	};
-
-	/** Computational operators and their descriptions */
-	private static final Operator[] OPERATORS_COMPUTATIONAL = new Operator[]{
-			new Operator( "+", "ExpressionProvider.Operator.Add" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "-", "ExpressionProvider.Operator.Sub" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "*", "ExpressionProvider.Operator.Mult" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "/", "ExpressionProvider.Operator.Dvides" ), //$NON-NLS-1$ //$NON-NLS-2$ 
-			new Operator( "++X ", "ExpressionProvider.Operator.Inc", "++@" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-			new Operator( "X++ ", "ExpressionProvider.Operator.ReturnInc", "@++" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			new Operator( "--X ", "ExpressionProvider.Operator.Dec", "--@" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			new Operator( "X-- ", "ExpressionProvider.Operator.ReturnDec", "@--" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
-	};
-
-	/** Logical operators and their descriptions */
-	private static final Operator[] OPERATORS_LOGICAL = new Operator[]{
-			new Operator( "&&", "ExpressionProvider.Operator.And" ), //$NON-NLS-1$ //$NON-NLS-2$ 
-			new Operator( "||", "ExpressionProvider.Operator.Or" ) //$NON-NLS-1$ //$NON-NLS-2$ 
-
-	};
-
-	private static final Image IMAGE_OPERATOR = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR );
-	private static final Image IMAGE_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD );
-	private static final Image IMAGE_STATIC_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD );
-	private static final Image IMAGE_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER );
-	private static final Image IMAGE_STATIC_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER );
-
-	private static final String DISPLAY_TEXT_ASSIGNMENT = Messages.getString( "ExpressionProvider.Operators.Assignment" ); //$NON-NLS-1$	
-	private static final String DISPLAY_TEXT_COMPARISON = Messages.getString( "ExpressionProvider.Operators.Comparison" ); //$NON-NLS-1$
-	private static final String DISPLAY_TEXT_COMPUTATIONAL = Messages.getString( "ExpressionProvider.Operators.Computational" ); //$NON-NLS-1$
-	private static final String DISPLAY_TEXT_LOGICAL = Messages.getString( "ExpressionProvider.Operators.Logical" ); //$NON-NLS-1$
-
-	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$ 
-	public static final String DATASETS = Messages.getString( "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
-	public static final String PARAMETERS = Messages.getString( "ExpressionProvider.Category.Parameters" ); //$NON-NLS-1$
-	public static final String NATIVE_OBJECTS = Messages.getString( "ExpressionProvider.Category.NativeObjects" );//$NON-NLS-1$
 	public static final String CHART_VARIABLES = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.Category.ChartVariables" );//$NON-NLS-1$
 
 	private static final String DATA_POINTS = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.ChartVariables.DataPoints" );//$NON-NLS-1$
-	private static final String ALL = Messages.getString( "ExpressionProvider.Label.All" ); //$NON-NLS-1$
 
 	public ChartExpressionProvider( )
 	{
@@ -213,21 +121,6 @@ public class ChartExpressionProvider extends ExpressionProvider
 		return childrenList.toArray( );
 	}
 
-	private List getClassList( boolean isNative )
-	{
-		List list = DesignEngine.getMetaDataDictionary( ).getClasses( );
-		ArrayList resultList = new ArrayList( );
-		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
-		{
-			IClassInfo classInfo = (IClassInfo) iter.next( );
-			if ( classInfo.isNative( ) == isNative )
-			{
-				resultList.add( classInfo );
-			}
-		}
-		return resultList;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -295,10 +188,6 @@ public class ChartExpressionProvider extends ExpressionProvider
 		return element.toString( );
 	}
 
-	private static Image getIconImage( String id )
-	{
-		return ReportPlatformUIImages.getImage( id );
-	}
 
 	/*
 	 * (non-Javadoc)

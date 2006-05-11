@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.ui.swt.ChartDlg;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
@@ -40,6 +41,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
@@ -202,9 +204,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 				if ( of instanceof String )
 				{
 					// GIF is deprecated in favor of PNG. Automatically update model
-					if (of.equals( "GIF" ))
+					if (of.equals( "GIF" )) //$NON-NLS-1$
 					{
-						context.setOutputFormat( "PNG" );
+						context.setOutputFormat( "PNG" ); //$NON-NLS-1$
 					}
 					else
 						context.setOutputFormat( (String) of );
@@ -362,9 +364,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 	{
 		String value = extendedHandle.getModuleHandle( ).getMessage( sKey );
 		if ( value == null || value.equals("" ) ) //$NON-NLS-1$
+		{
 			return sKey;
-		else
-			return value;
+		}
+		return value;
 	}
 
 	/*
@@ -437,7 +440,18 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 		{
 			case IUIServiceProvider.COMMAND_EXPRESSION :
 				eb = new ExpressionBuilder( value );
-				eb.setExpressionProvier( new ExpressionProvider( (ExtendedItemHandle) context ) );
+				ExpressionProvider ep = new ExpressionProvider( (ExtendedItemHandle) context );
+				ep.addFilter( new ExpressionFilter( ) {
+
+					public boolean select( Object parentElement, Object element )
+					{
+						// Remove unsupported expression. See bugzilla#132768
+						return !( parentElement.equals( ExpressionProvider.BIRT_OBJECTS )
+								&& element instanceof IClassInfo && ( (IClassInfo) element ).getName( )
+								.equals( "Total" ) ); //$NON-NLS-1$
+					}
+				} );
+				eb.setExpressionProvier( ep );
 				if ( sTitle != null )
 				{
 					eb.setDialogTitle( eb.getDialogTitle( ) + " - " + sTitle ); //$NON-NLS-1$
