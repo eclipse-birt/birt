@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -89,26 +88,34 @@ public class ExprManagerUtil
 			String name = it.next( ).toString( );
 			Node n = new Node( name );
 			IBaseExpression expr = exprManager.getExpr( name );
-			if ( expr != null  )
+			if ( expr != null )
 			{
+				if ( !( expr instanceof IScriptExpression || expr instanceof IConditionalExpression ) )
+				{
+					throw new DataException( ResourceConstants.BAD_DATA_EXPRESSION );
+				}
+
+				List l = null;
 				try
 				{
-					List l = null;
-					if( expr instanceof IScriptExpression )
-						l = ExpressionParserUtil.extractColumnExpression( (IScriptExpression)expr );
+					if ( expr instanceof IScriptExpression )
+						l = ExpressionParserUtil.extractColumnExpression( (IScriptExpression) expr );
 					else if ( expr instanceof IConditionalExpression )
-						l = ExpressionParserUtil.extractColumnExpression( (IConditionalExpression)expr );
-					else
-						throw new DataException( ResourceConstants.BAD_DATA_EXPRESSION );
-					
+						l = ExpressionParserUtil.extractColumnExpression( (IConditionalExpression) expr );
+				}
+				catch ( DataException e )
+				{
+					// Do nothing.The mal-formatted expression should not prevent
+					//other correct expression from being evaluated and displayed.
+				}
+				
+				if ( l != null )
+				{
 					for ( int j = 0; j < l.size( ); j++ )
 					{
-						n.addChild( new Node( l.get( j ) == null?null:l.get( j ).toString( ) ) );
+						n.addChild( new Node( l.get( j ) == null ? null
+								: l.get( j ).toString( ) ) );
 					}
-				}
-				catch ( BirtException e )
-				{
-					throw new DataException( e.getLocalizedMessage( ) );
 				}
 			}
 			result.add( n );
