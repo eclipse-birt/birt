@@ -559,16 +559,20 @@ public class InsertInLayoutUtil
 					model.getColumnName( ) );
 			bindingColumn.setDataType( model.getDataType( ) );
 			bindingColumn.setExpression( DEUtil.getExpression( model ) );
-			if ( container.getDataSet( ) == null )
+			DataSetHandle containerDataSet = DEUtil.getFirstDataSet( container );
+			container = DEUtil.getListingContainer( container );
+			if ( containerDataSet == null && container != null )
 			{
 				container.setDataSet( dataSet );
+				containerDataSet = dataSet;
 			}
-			if ( DEUtil.getDataSetList( container ).contains( dataSet ) )
+			if ( dataSet.equals( containerDataSet ) && container != null )
 			{
 				container.addColumnBinding( bindingColumn, false );
 			}
 			else
 			{
+				// should not happen
 				dataHandle.setDataSet( dataSet );
 				dataHandle.addColumnBinding( bindingColumn, false );
 			}
@@ -962,13 +966,16 @@ public class InsertInLayoutUtil
 			// Validates target's dataset is null or the same with the inserted
 			DesignElementHandle handle = (DesignElementHandle) target.getParent( )
 					.getModel( );
-			if ( handle instanceof ReportItemHandle
-					&& ( (ReportItemHandle) handle ).getDataSet( ) == null )
+			if ( handle instanceof ReportItemHandle )
 			{
-				return true;
+				ReportItemHandle bindingHolder = DEUtil.getListingContainer( handle );
+				DataSetHandle dataSet = DEUtil.getFirstDataSet( handle );
+				return dataSet == null
+						&& ( bindingHolder == null || !bindingHolder.getColumnBindings( )
+								.iterator( )
+								.hasNext( ) )
+						|| insertObj.getElementHandle( ).equals( dataSet );
 			}
-			return DEUtil.getDataSetList( handle )
-					.contains( insertObj.getElementHandle( ) );
 		}
 		return false;
 	}
