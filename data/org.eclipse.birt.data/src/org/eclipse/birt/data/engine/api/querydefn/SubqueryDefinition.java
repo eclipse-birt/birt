@@ -15,11 +15,9 @@ package org.eclipse.birt.data.engine.api.querydefn;
 
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 
-
 /**
  * Default implementation of the {@link org.eclipse.birt.data.engine.api.ISubqueryDefinition} interface.
  */
-
 public class SubqueryDefinition extends BaseQueryDefinition implements ISubqueryDefinition
 {
 	private String name;
@@ -54,8 +52,11 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 		return this.onGroup;
 	}
 	
-	/*
-	 * @see org.eclipse.birt.data.engine.api.ISubqueryDefinition#onGroup()
+	/**
+	 * Set the flag of whether this subquery is applied to the group or only one
+	 * row of parent query.
+	 * 
+	 * @param onGroup
 	 */
 	public void setApplyOnGroupFlag( boolean onGroup )
 	{
