@@ -3292,7 +3292,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							}
 						}
 
-						if ( ax.getLabel( ).isVisible( ) )
+						if ( ax.getLabel( ).isVisible( ) && la.isVisible( ) )
 						{
 							if ( bRendering3D )
 							{
@@ -3522,7 +3522,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
-						if ( ax.getLabel( ).isVisible( ) )
+						if ( ax.getLabel( ).isVisible( ) && la.isVisible( ) )
 						{
 							if ( bRendering3D )
 							{
@@ -3724,7 +3724,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
-						if ( ax.getLabel( ).isVisible( ) )
+						if ( ax.getLabel( ).isVisible( ) && la.isVisible( ) )
 						{
 							if ( bRendering3D )
 							{
@@ -3908,7 +3908,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
-						if ( ax.getLabel( ).isVisible( ) )
+						if ( ax.getLabel( ).isVisible( ) && la.isVisible( ) )
 						{
 							if ( bRendering3D )
 							{
@@ -3988,7 +3988,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							uiex );
 				}
 
-				if ( ax.getTitle( ).isVisible( ) )
+				if ( ax.getTitle( ).isVisible( ) && la.isVisible( ) )
 				{
 					if ( bRendering3D )
 					{
@@ -4448,7 +4448,7 @@ public abstract class AxesRenderer extends BaseRenderer
 									sy += dStaggeredLabelOffset;
 								}
 							}
-							if ( ax.getLabel( ).isVisible( ) )
+							if ( ax.getLabel( ).isVisible( ) && la.isVisible( ) )
 							{
 								if ( bRendering3D )
 								{
@@ -4725,7 +4725,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								sy += dStaggeredLabelOffset;
 							}
 						}
-						if ( ax.getLabel( ).isVisible( ) )
+						if ( ax.getLabel( ).isVisible( ) && la.isVisible( ) )
 						{
 							if ( bRendering3D )
 							{
@@ -4953,7 +4953,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								sy += dStaggeredLabelOffset;
 							}
 						}
-						if ( ax.getLabel( ).isVisible( ) )
+						if ( ax.getLabel( ).isVisible( ) && la.isVisible( ) )
 						{
 							if ( bRendering3D )
 							{
@@ -5170,7 +5170,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								sy += dStaggeredLabelOffset;
 							}
 						}
-						if ( ax.getLabel( ).isVisible( ) )
+						if ( ax.getLabel( ).isVisible( ) && la.isVisible( ) )
 						{
 							if ( bRendering3D )
 							{
@@ -5253,7 +5253,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							ChartException.RENDERING,
 							uiex );
 				}
-				if ( ax.getTitle( ).isVisible( ) )
+				if ( ax.getTitle( ).isVisible( ) && la.isVisible( ) )
 				{
 					if ( bRendering3D )
 					{
