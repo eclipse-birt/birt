@@ -132,24 +132,40 @@ public class DataSetMetaDataHelper
 	IResultMetaData refreshMetaData( DataSetHandle dataSetHandle )
 			throws BirtException
 	{
-		IResultMetaData rsMeta = this.getDataSetMetaData( dataSetHandle, false );
+		IResultMetaData rsMeta = null;
+		BirtException e = null;
+
+		try
+		{
+			rsMeta = this.getDataSetMetaData( dataSetHandle, false );
+		}
+		catch ( BirtException e1 )
+		{
+			e = e1;
+		}
 
 		if ( needsSetCachedMetaData( dataSetHandle, rsMeta ) )
 		{
 			dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
 
-			for ( int i = 1; i <= rsMeta.getColumnCount( ); i++ )
+			if ( rsMeta != null && rsMeta.getColumnCount( ) != 0 )
 			{
-				ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
-				rsc.setColumnName( getColumnName( rsMeta, i ) );
-				rsc.setDataType( toModelDataType( rsMeta.getColumnType( i ) ) );
-				rsc.setPosition( new Integer( i ) );
+				for ( int i = 1; i <= rsMeta.getColumnCount( ); i++ )
+				{
+					ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
+					rsc.setColumnName( getColumnName( rsMeta, i ) );
+					rsc.setDataType( toModelDataType( rsMeta.getColumnType( i ) ) );
+					rsc.setPosition( new Integer( i ) );
 
-				dataSetHandle.getCachedMetaDataHandle( )
-						.getResultSet( )
-						.addItem( rsc );
+					dataSetHandle.getCachedMetaDataHandle( )
+							.getResultSet( )
+							.addItem( rsc );
+				}
 			}
 		}
+
+		if ( e != null )
+			throw e;
 
 		return rsMeta;
 	}
@@ -164,6 +180,10 @@ public class DataSetMetaDataHelper
 	private boolean needsSetCachedMetaData( DataSetHandle dataSetHandle,
 			IResultMetaData rsMeta ) throws BirtException
 	{
+		if ( dataSetHandle.getCachedMetaDataHandle( ) == null
+				|| rsMeta == null || rsMeta.getColumnCount( ) == 0 )
+			return true;
+
 		List list = new ArrayList( );
 		for ( Iterator iter = dataSetHandle.getCachedMetaDataHandle( )
 				.getResultSet( )
