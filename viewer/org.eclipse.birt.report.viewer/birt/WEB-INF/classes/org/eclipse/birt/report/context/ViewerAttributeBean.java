@@ -238,8 +238,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		{
 			for ( int i = 0; i < parameters.size( ); i++ )
 			{
-				ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters
-						.get( i ) );
+				ScalarParameterHandle parameter = null;
+
+				if ( parameters.get( i ) instanceof ScalarParameterHandle )
+				{
+					parameter = ( (ScalarParameterHandle) parameters.get( i ) );
+				}
 
 				// get current name
 				String curName = null;
