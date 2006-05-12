@@ -12,6 +12,7 @@ public class UpdateContent  implements java.io.Serializable {
     private java.lang.String content;
     private org.eclipse.birt.report.soapengine.api.ReportId[] initializationId;
     private java.lang.String bookmark;
+    private java.lang.Boolean completed;
 
     public UpdateContent() {
     }
@@ -20,11 +21,13 @@ public class UpdateContent  implements java.io.Serializable {
            java.lang.String target,
            java.lang.String content,
            org.eclipse.birt.report.soapengine.api.ReportId[] initializationId,
-           java.lang.String bookmark) {
+           java.lang.String bookmark,
+           java.lang.Boolean completed) {
            this.target = target;
            this.content = content;
            this.initializationId = initializationId;
            this.bookmark = bookmark;
+           this.completed = completed;
     }
 
 
@@ -115,6 +118,26 @@ public class UpdateContent  implements java.io.Serializable {
         this.bookmark = bookmark;
     }
 
+
+    /**
+     * Gets the completed value for this UpdateContent.
+     * 
+     * @return completed
+     */
+    public java.lang.Boolean getCompleted() {
+        return completed;
+    }
+
+
+    /**
+     * Sets the completed value for this UpdateContent.
+     * 
+     * @param completed
+     */
+    public void setCompleted(java.lang.Boolean completed) {
+        this.completed = completed;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof UpdateContent)) return false;
@@ -138,7 +161,10 @@ public class UpdateContent  implements java.io.Serializable {
               java.util.Arrays.equals(this.initializationId, other.getInitializationId()))) &&
             ((this.bookmark==null && other.getBookmark()==null) || 
              (this.bookmark!=null &&
-              this.bookmark.equals(other.getBookmark())));
+              this.bookmark.equals(other.getBookmark()))) &&
+            ((this.completed==null && other.getCompleted()==null) || 
+             (this.completed!=null &&
+              this.completed.equals(other.getCompleted())));
         __equalsCalc = null;
         return _equals;
     }
@@ -169,6 +195,9 @@ public class UpdateContent  implements java.io.Serializable {
         }
         if (getBookmark() != null) {
             _hashCode += getBookmark().hashCode();
+        }
+        if (getCompleted() != null) {
+            _hashCode += getCompleted().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -204,6 +233,13 @@ public class UpdateContent  implements java.io.Serializable {
         elemField.setFieldName("bookmark");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Bookmark"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("completed");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Completed"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
