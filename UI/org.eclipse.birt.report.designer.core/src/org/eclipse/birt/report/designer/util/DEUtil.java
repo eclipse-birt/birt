@@ -1942,6 +1942,56 @@ public class DEUtil
 	}
 
 	/**
+	 * Return the first DataSetHandle for a report item.
+	 * 
+	 * If the report item has no DataSetHandle, search for it's container if
+	 * container is not a ListingHandle.
+	 * 
+	 * @param handle
+	 *            the ReportItemHandle
+	 * @return Available DataSetHandle
+	 */
+	public static DataSetHandle getFirstDataSet( DesignElementHandle handle )
+	{
+		DataSetHandle dataSetHandle = null;
+		if ( handle instanceof ReportItemHandle )
+		{
+			dataSetHandle = ( (ReportItemHandle) handle ).getDataSet( );
+		}
+		if ( dataSetHandle == null )
+		{
+			for ( DesignElementHandle elementHandle = handle; elementHandle != null; elementHandle = elementHandle.getContainer( ) )
+			{
+				if ( elementHandle instanceof ListingHandle
+						&& ( dataSetHandle = ( (ListingHandle) elementHandle ).getDataSet( ) ) != null )
+				{
+					return dataSetHandle;
+				}
+			}
+		}
+		return dataSetHandle;
+	}
+
+	/**
+	 * Get a container that is a ListingHandle that can hold dataset.
+	 * 
+	 * @param container
+	 * @return
+	 */
+	public static ListingHandle getListingContainer(
+			DesignElementHandle container )
+	{
+		for ( DesignElementHandle elementHandle = container; elementHandle != null; elementHandle = elementHandle.getContainer( ) )
+		{
+			if ( elementHandle instanceof ListingHandle )
+			{
+				return (ListingHandle) elementHandle;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Add a binding column on the given element
 	 * 
 	 * @param handle

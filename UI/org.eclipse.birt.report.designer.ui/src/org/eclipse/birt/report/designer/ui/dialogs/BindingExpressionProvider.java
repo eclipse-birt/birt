@@ -39,7 +39,7 @@ public class BindingExpressionProvider extends ExpressionProvider
 		super( handle );
 		if ( handle instanceof ReportItemHandle )
 		{
-			dataSetHandle = ( (ReportItemHandle) handle ).getDataSet( );
+			dataSetHandle = DEUtil.getFirstDataSet( handle );
 		}
 		else if ( handle instanceof GroupHandle )
 		{
