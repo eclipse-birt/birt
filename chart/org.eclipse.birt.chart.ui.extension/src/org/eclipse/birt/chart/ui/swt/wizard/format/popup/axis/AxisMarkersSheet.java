@@ -246,7 +246,6 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		grpGeneral = new Group( cmpContent, SWT.NONE );
 		GridData gdCMPGeneral = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
 				| GridData.FILL_HORIZONTAL );
-		gdCMPGeneral.widthHint = 180;
 		grpGeneral.setLayoutData( gdCMPGeneral );
 		grpGeneral.setLayout( slMarkers );
 		grpGeneral.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerProperties" ) ); //$NON-NLS-1$
@@ -268,9 +267,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		{
 			GridData gd = new GridData( );
 			gd.horizontalIndent = 5;
-			gd.widthHint = 38;
 			lblLineLabel.setLayoutData( gd );
-			lblLineLabel.setText( Messages.getString( "AxisMarkersSheet.Label.Label" ) ); //$NON-NLS-1$
+			lblLineLabel.setText( Messages.getString("AxisMarkersSheet.Label.Label")  ); //$NON-NLS-1$
 		}
 
 		txtLineEText = new ExternalizedTextEditorComposite( cmpLine,
@@ -287,35 +285,20 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			txtLineEText.addListener( this );
 		}
 
-		// Layout for Value composite
-		GridLayout glValue = new GridLayout( );
-		glValue.numColumns = 3;
-		glValue.horizontalSpacing = 5;
-		glValue.verticalSpacing = 5;
-		glValue.marginHeight = 0;
-		glValue.marginWidth = 0;
-
-		Composite cmpValue = new Composite( cmpLine, SWT.NONE );
-		GridData gdCMPValue = new GridData( GridData.FILL_HORIZONTAL );
-		gdCMPValue.horizontalSpan = 3;
-		cmpValue.setLayoutData( gdCMPValue );
-		cmpValue.setLayout( glValue );
-
-		lblValue = new Label( cmpValue, SWT.NONE );
+		lblValue = new Label( cmpLine, SWT.NONE );
 		GridData gdLBLValue = new GridData( );
 		gdLBLValue.horizontalIndent = 5;
-		gdLBLValue.widthHint = 38;
 		lblValue.setLayoutData( gdLBLValue );
 		lblValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.Value" ) ); //$NON-NLS-1$
 
-		txtValue = new TextEditorComposite( cmpValue,
+		txtValue = new TextEditorComposite( cmpLine,
 				SWT.BORDER | SWT.SINGLE,
 				true );
 		GridData gdTXTValue = new GridData( GridData.FILL_HORIZONTAL );
 		txtValue.setLayoutData( gdTXTValue );
 		txtValue.addListener( this );
 
-		btnLineFormatSpecifier = new Button( cmpValue, SWT.PUSH );
+		btnLineFormatSpecifier = new Button( cmpLine, SWT.PUSH );
 		GridData gdBTNLineFormatSpecifier = new GridData( );
 		gdBTNLineFormatSpecifier.heightHint = 18;
 		gdBTNLineFormatSpecifier.widthHint = 18;
@@ -379,9 +362,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		{
 			GridData gd = new GridData( );
 			gd.horizontalIndent = 5;
-			gd.widthHint = 38;
 			lblRangeLabel.setLayoutData( gd );
-			lblRangeLabel.setText( Messages.getString( "AxisMarkersSheet.Label.Label" ) ); //$NON-NLS-1$
+			lblRangeLabel.setText( Messages.getString("AxisMarkersSheet.Label.Label") ); //$NON-NLS-1$
 		}
 
 		txtRangeEText = new ExternalizedTextEditorComposite( cmpRange,
@@ -398,33 +380,19 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			txtRangeEText.addListener( this );
 		}
 
-		// Layout for Value composite
-		GridLayout glRangeValue = new GridLayout( );
-		glRangeValue.numColumns = 3;
-		glRangeValue.horizontalSpacing = 2;
-		glRangeValue.verticalSpacing = 5;
-		glRangeValue.marginHeight = 0;
-		glRangeValue.marginWidth = 0;
-
-		Composite cmpRangeValue = new Composite( cmpRange, SWT.NONE );
-		GridData gdCMPRangeValue = new GridData( GridData.FILL_HORIZONTAL );
-		gdCMPRangeValue.horizontalSpan = 3;
-		cmpRangeValue.setLayoutData( gdCMPRangeValue );
-		cmpRangeValue.setLayout( glRangeValue );
-
-		lblStartValue = new Label( cmpRangeValue, SWT.NONE );
+		lblStartValue = new Label( cmpRange, SWT.NONE );
 		GridData gdLBLStartValue = new GridData( );
 		gdLBLStartValue.horizontalIndent = 5;
 		lblStartValue.setLayoutData( gdLBLStartValue );
 		lblStartValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.StartValue" ) ); //$NON-NLS-1$
 
-		txtStartValue = new TextEditorComposite( cmpRangeValue, SWT.BORDER
+		txtStartValue = new TextEditorComposite( cmpRange, SWT.BORDER
 				| SWT.SINGLE, true );
 		GridData gdTXTStartValue = new GridData( GridData.FILL_HORIZONTAL );
 		txtStartValue.setLayoutData( gdTXTStartValue );
 		txtStartValue.addListener( this );
 
-		btnStartFormatSpecifier = new Button( cmpRangeValue, SWT.PUSH );
+		btnStartFormatSpecifier = new Button( cmpRange, SWT.PUSH );
 		GridData gdBTNStartFormatSpecifier = new GridData( );
 		gdBTNStartFormatSpecifier.heightHint = 18;
 		gdBTNStartFormatSpecifier.widthHint = 18;
@@ -434,19 +402,19 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		btnStartFormatSpecifier.getImage( )
 				.setBackground( btnStartFormatSpecifier.getBackground( ) );
 
-		lblEndValue = new Label( cmpRangeValue, SWT.NONE );
+		lblEndValue = new Label( cmpRange, SWT.NONE );
 		GridData gdLBLEndValue = new GridData( );
 		gdLBLEndValue.horizontalIndent = 5;
 		lblEndValue.setLayoutData( gdLBLEndValue );
 		lblEndValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.EndValue" ) ); //$NON-NLS-1$
 
-		txtEndValue = new TextEditorComposite( cmpRangeValue, SWT.BORDER
+		txtEndValue = new TextEditorComposite( cmpRange, SWT.BORDER
 				| SWT.SINGLE, true );
 		GridData gdTXTEndValue = new GridData( GridData.FILL_HORIZONTAL );
 		txtEndValue.setLayoutData( gdTXTEndValue );
 		txtEndValue.addListener( this );
 
-		btnEndFormatSpecifier = new Button( cmpRangeValue, SWT.PUSH );
+		btnEndFormatSpecifier = new Button( cmpRange, SWT.PUSH );
 		GridData gdBTNEndFormatSpecifier = new GridData( );
 		gdBTNEndFormatSpecifier.heightHint = 18;
 		gdBTNEndFormatSpecifier.widthHint = 18;
@@ -459,7 +427,6 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		lblRangeAnchor = new Label( cmpRange, SWT.NONE );
 		GridData gdLBLRangeAnchor = new GridData( );
 		gdLBLRangeAnchor.horizontalIndent = 5;
-		gdLBLRangeAnchor.widthHint = 54;
 		lblRangeAnchor.setLayoutData( gdLBLRangeAnchor );
 		lblRangeAnchor.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.Anchor" ) ); //$NON-NLS-1$
 
@@ -472,7 +439,6 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		lblRangeFill = new Label( cmpRange, SWT.NONE );
 		GridData gdLBLRangeFill = new GridData( );
 		gdLBLRangeFill.horizontalIndent = 5;
-		gdLBLRangeFill.widthHint = 54;
 		lblRangeFill.setLayoutData( gdLBLRangeFill );
 		lblRangeFill.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.Fill" ) ); //$NON-NLS-1$
 
