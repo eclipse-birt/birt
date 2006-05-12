@@ -52,87 +52,7 @@ public class SmartCache implements ResultSetCache
 	private boolean isOpen = true;
 	
 	private IEventHandler eventHandler;
-	
-	/**
-	 * Retrieve data from ODA, used in normal query
-	 * 
-	 * @param odaResultSet
-	 * @param query
-	 * @param rsMeta
-	 * @param sortSpec
-	 * @throws DataException
-	 */
-	public SmartCache( CacheRequest cacheRequest, ResultSet odaResultSet,
-			IResultClass rsMeta ) throws DataException
-	{
-		assert cacheRequest != null;
-		assert odaResultSet != null;
-		assert rsMeta != null;
-
-		if ( cacheRequest.getDistinctValueFlag( ) == true )
-		{
-			SmartCache smartCache = new SmartCache( cacheRequest,
-					odaResultSet,
-					rsMeta, false );
-			
-			cacheRequest.setDistinctValueFlag( false );
-			initInstance( cacheRequest, new OdiAdapter( smartCache ), rsMeta );
-		}
-		else
-		{
-			init( cacheRequest, odaResultSet, rsMeta );
-		}
-	}
-	
-	/**
-	 * @param cacheRequest
-	 * @param odaResultSet
-	 * @param rsMeta
-	 * @param ob
-	 * @throws DataException
-	 */
-	private SmartCache( CacheRequest cacheRequest, ResultSet odaResultSet,
-			IResultClass rsMeta, boolean ob ) throws DataException
-	{
-		SmartCache smartCache = new SmartCache( new CacheRequest( 0,
-				null,
-				CacheUtil.getSortSpec( rsMeta ),
-				cacheRequest.getEventHandler( ),
-				true ), odaResultSet, rsMeta, false, false );
-
-		this.eventHandler = cacheRequest.getEventHandler( );
-		OdiAdapter odiAdpater = new OdiAdapter( smartCache );
-		initInstance( cacheRequest, odiAdpater, rsMeta );
-	}
-	
-	/**
-	 * @param cacheRequest
-	 * @param odaResultSet
-	 * @param rsMeta
-	 * @param ob
-	 * @param ob1
-	 * @throws DataException
-	 */
-	private SmartCache( CacheRequest cacheRequest, ResultSet odaResultSet,
-			IResultClass rsMeta, boolean ob, boolean ob1 ) throws DataException
-	{
-		init( cacheRequest, odaResultSet, rsMeta );
-	}
-	
-	/**
-	 * @param cacheRequest
-	 * @param odaResultSet
-	 * @param rsMeta
-	 * @throws DataException
-	 */
-	private void init( CacheRequest cacheRequest, ResultSet odaResultSet,
-			IResultClass rsMeta ) throws DataException
-	{
-		this.eventHandler = cacheRequest.getEventHandler( );
-		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
-		initInstance( cacheRequest, odiAdpater, rsMeta );
-	}
-	
+		
 	/**
 	 * Retrieve data from ODI, used in sub query
 	 * 
@@ -221,13 +141,89 @@ public class SmartCache implements ResultSetCache
 	 */
 	public SmartCache( CacheRequest cacheRequest, OdiAdapter odiAdapter,
 			IResultClass rsMeta ) throws DataException
+	{		
+		initInstance( cacheRequest, odiAdapter, rsMeta );
+	}
+	
+
+	/**
+	 * Retrieve data from ODA, used in normal query
+	 * 
+	 * @param odaResultSet
+	 * @param query
+	 * @param rsMeta
+	 * @param sortSpec
+	 * @throws DataException
+	 */
+	public SmartCache( CacheRequest cacheRequest, ResultSet odaResultSet,
+			IResultClass rsMeta ) throws DataException
 	{
-		IRowResultSet rowResultSet = new ExpandableRowResultSet( new SmartCacheRequest( cacheRequest.getMaxRow( ),
-				cacheRequest.getFetchEvents( ),
-				odiAdapter,
-				rsMeta,
-				cacheRequest.getDistinctValueFlag( ) ) );
-		populateData( rsMeta, rowResultSet, cacheRequest.getSortSpec( ) );
+		assert cacheRequest != null;
+		assert odaResultSet != null;
+		assert rsMeta != null;
+
+		if ( cacheRequest.getDistinctValueFlag( ) == true )
+		{
+			SmartCache smartCache = new SmartCache( cacheRequest,
+					odaResultSet,
+					rsMeta, false );
+			
+			cacheRequest.setDistinctValueFlag( false );
+			initInstance( cacheRequest, new OdiAdapter( smartCache ), rsMeta );
+		}
+		else
+		{
+			init( cacheRequest, odaResultSet, rsMeta );
+		}
+	}
+	
+	/**
+	 * @param cacheRequest
+	 * @param odaResultSet
+	 * @param rsMeta
+	 * @param ob
+	 * @throws DataException
+	 */
+	private SmartCache( CacheRequest cacheRequest, ResultSet odaResultSet,
+			IResultClass rsMeta, boolean ob ) throws DataException
+	{
+		SmartCache smartCache = new SmartCache( new CacheRequest( 0,
+				null,
+				CacheUtil.getSortSpec( rsMeta ),
+				cacheRequest.getEventHandler( ),
+				true ), odaResultSet, rsMeta, false, false );
+
+		this.eventHandler = cacheRequest.getEventHandler( );
+		OdiAdapter odiAdpater = new OdiAdapter( smartCache );
+		initInstance( cacheRequest, odiAdpater, rsMeta );
+	}
+	
+	/**
+	 * @param cacheRequest
+	 * @param odaResultSet
+	 * @param rsMeta
+	 * @param ob
+	 * @param ob1
+	 * @throws DataException
+	 */
+	private SmartCache( CacheRequest cacheRequest, ResultSet odaResultSet,
+			IResultClass rsMeta, boolean ob, boolean ob1 ) throws DataException
+	{
+		init( cacheRequest, odaResultSet, rsMeta );
+	}
+	
+	/**
+	 * @param cacheRequest
+	 * @param odaResultSet
+	 * @param rsMeta
+	 * @throws DataException
+	 */
+	private void init( CacheRequest cacheRequest, ResultSet odaResultSet,
+			IResultClass rsMeta ) throws DataException
+	{
+		this.eventHandler = cacheRequest.getEventHandler( );
+		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
+		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
 	
 	/**

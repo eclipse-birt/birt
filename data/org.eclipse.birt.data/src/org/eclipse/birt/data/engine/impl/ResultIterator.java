@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -898,15 +899,43 @@ public class ResultIterator implements IResultIterator
 			else
 				results.setID( parentQueryID + "/" + this.getSubQueryID( ) );
 
-			// init RDSave util of sub query
-			resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
-					resultIt.resultService.getQueryDefn( ),
-					resultIt.getQueryResults( ).getID( ),
-					resultIt.odiResult,
-					subQueryName,
-					results.getGroupLevel( ),
-					odiResult.getCurrentGroupIndex( results.getGroupLevel( ) ),
-					odiResult.getGroupStartAndEndIndex( results.getGroupLevel( ) ) );
+			if ( ( (ISubqueryDefinition) resultIt.resultService.getQueryDefn( ) ).applyOnGroup( ) )
+				// init RDSave util of sub query
+				resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
+						resultIt.resultService.getQueryDefn( ),
+						resultIt.getQueryResults( ).getID( ),
+						resultIt.odiResult,
+						subQueryName,
+						results.getGroupLevel( ),
+						odiResult.getCurrentGroupIndex( results.getGroupLevel( ) ),
+						odiResult.getGroupStartAndEndIndex( results.getGroupLevel( ) ) );
+			else
+				resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
+						resultIt.resultService.getQueryDefn( ),
+						resultIt.getQueryResults( ).getID( ),
+						resultIt.odiResult,
+						subQueryName,
+						1,
+						odiResult.getCurrentResultIndex( ),
+						getSpecialSubQueryInfo( odiResult.getRowCount( ) ) );
+		}
+		
+		/**
+		 * Generate sub query definition for such a sub query which is applied
+		 * to each row of parent query.
+		 * 
+		 * @param count
+		 * @return [0, 1, 1, 2, 2, 3...]
+		 */
+		private int[] getSpecialSubQueryInfo( int count )
+		{
+			int[] subQueryInfo = new int[count * 2];
+			for ( int i = 0; i < count; i++ )
+			{
+				subQueryInfo[2 * i] = i;
+				subQueryInfo[2 * i + 1] = i + 1;
+			}
+			return subQueryInfo;
 		}
 		
 		/**

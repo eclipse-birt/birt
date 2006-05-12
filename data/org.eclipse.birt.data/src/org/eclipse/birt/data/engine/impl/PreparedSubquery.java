@@ -13,19 +13,29 @@
  */ 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
+import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
+import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IQuery;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -37,6 +47,8 @@ class PreparedSubquery implements IPreparedQueryService
 	private int groupLevel;
 	private PreparedQuery preparedQuery;
 	private IPreparedQueryService queryService;
+	
+	private boolean subQueryOnGroup;
 	
 	private static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
@@ -57,6 +69,8 @@ class PreparedSubquery implements IPreparedQueryService
 	{
 		this.groupLevel = groupLevel;
 		this.queryService = queryService;
+		this.subQueryOnGroup = subquery.applyOnGroup( );
+		
 		logger.logp( Level.FINER,
 				PreparedSubquery.class.getName( ),
 				"PreparedSubquery",
@@ -193,12 +207,113 @@ class PreparedSubquery implements IPreparedQueryService
 		{
 			assert parentIterator != null;
 	
-			ICandidateQuery cdQuery = (ICandidateQuery) odiQuery; 
-			cdQuery.setCandidates( parentIterator, groupLevel );
-			IResultIterator ret = cdQuery.execute( eventHandler );
-			parentIterator = null;
+			IResultIterator ret = null;
+			ICandidateQuery cdQuery = (ICandidateQuery) odiQuery;
+
+			if ( PreparedSubquery.this.subQueryOnGroup == true )
+				cdQuery.setCandidates( parentIterator, groupLevel );
+			else
+				cdQuery.setCandidates( new CustomDataSet( parentIterator,
+						getMergedResultClass( ) ) );
 			
+			ret = cdQuery.execute( eventHandler );
+			parentIterator = null;
 			return ret;
+		}
+		
+		/**
+		 * @return
+		 * @throws DataException
+		 */
+		private IResultClass getMergedResultClass( ) throws DataException
+		{
+			IResultClass parentResultClass = parentIterator.getResultClass( );
+
+			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
+			assert candidateQuery != null;
+
+			List computedColumns = dataSet.getComputedColumns( );
+			List columnsList = new ArrayList( );
+
+			for ( int i = 0; i < parentResultClass.getFieldCount( ); i++ )
+			{
+				ResultFieldMetadata columnMetaData = new ResultFieldMetadata( i + 1,
+						parentResultClass.getFieldName( i + 1 ),
+						parentResultClass.getFieldName( i + 1 ),
+						parentResultClass.getFieldValueClass( i + 1 ),
+						parentResultClass.getFieldNativeTypeName( i + 1 ),
+						parentResultClass.isCustomField( i + 1 ) );
+				columnsList.add( columnMetaData );
+				columnMetaData.setAlias( parentResultClass.getFieldAlias( i + 1 ) );
+			}
+
+			// Add computed columns
+			int count = columnsList.size( );
+			Iterator it = computedColumns.iterator( );
+			for ( int j = columnsList.size( ); it.hasNext( ); j++ )
+			{
+				IComputedColumn compColumn = (IComputedColumn) it.next( );
+				ResultFieldMetadata columnMetaData = new ResultFieldMetadata( ++count,
+						compColumn.getName( ),
+						compColumn.getName( ),
+						DataType.getClass( compColumn.getDataType( ) ),
+						null /* nativeTypeName */,
+						true );
+				columnsList.add( columnMetaData );
+			}
+
+			return new ResultClass( columnsList );
+		}
+	}
+	
+	/**
+	 *
+	 */
+	private final class CustomDataSet implements ICustomDataSet
+	{
+		private IResultIterator resultIterator;
+		private IResultClass resultClass;
+		
+		private boolean finished;
+
+		CustomDataSet( IResultIterator resultIterator, IResultClass resultClass )
+		{
+			this.resultIterator = resultIterator;
+			this.resultClass = resultClass;
+		}
+
+		/*
+		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#getResultClass()
+		 */
+		public IResultClass getResultClass( )
+		{
+			return resultClass;
+		}
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#open()
+		 */
+		public void open( ) throws DataException
+		{
+		}
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#fetc h()
+		 */
+		public IResultObject fetch( ) throws DataException
+		{
+			if ( finished )
+				return null;
+
+			finished = true;
+			return resultIterator.getCurrentResult( );
+		}
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#close()
+		 */
+		public void close( ) throws DataException
+		{
 		}
 	}
 	

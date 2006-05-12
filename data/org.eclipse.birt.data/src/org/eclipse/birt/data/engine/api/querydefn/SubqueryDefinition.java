@@ -22,25 +22,44 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 
 public class SubqueryDefinition extends BaseQueryDefinition implements ISubqueryDefinition
 {
-	protected String 	name;
+	private String name;
+	private boolean onGroup;
 
 	/**
-	 * Constructs a SubqueryDefn. A name must be provided that uniquely identifies the subquery
-	 * within the report query that contains it. 
+	 * Constructs a SubqueryDefn. A name must be provided that uniquely
+	 * identifies the subquery within the report query that contains it.
+	 * 
 	 * @param name
 	 */
 	public SubqueryDefinition( String name )
 	{
 		super( null );
 		this.name = name;
+		this.onGroup = true;
 	}
 	
-	/**
-	 * Gets the name of the subquery
-	 * @return Name of the subquery
+	/*
+	 * @see org.eclipse.birt.data.engine.api.ISubqueryDefinition#getName()
 	 */
 	public String getName() 
 	{
 		return name;
 	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.ISubqueryDefinition#onGroup()
+	 */
+	public boolean applyOnGroup( )
+	{
+		return this.onGroup;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.ISubqueryDefinition#onGroup()
+	 */
+	public void setApplyOnGroup( boolean onGroup )
+	{
+		this.onGroup = onGroup;
+	}
+	
 }

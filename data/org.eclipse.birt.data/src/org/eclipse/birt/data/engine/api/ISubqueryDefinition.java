@@ -26,4 +26,18 @@ public interface ISubqueryDefinition extends IBaseQueryDefinition
 	 * @return Name of the subquery
 	 */
 	public String getName();
+	
+	/**
+	 * Subquery can apply to the group in which the sub query is added, or to
+	 * the each row of current query definition. If it is the previous case, all
+	 * rows of current group will be the data source of sub query, but in latter
+	 * case, only the current row of parent query will be the data source. A
+	 * note is the false value will be valid when it is added into the query
+	 * definition, and it will have no any effect if it is on group.
+	 * 
+	 * @return true, sub query is applied on group, false, applied on current
+	 *         row of parent query
+	 */
+	public boolean applyOnGroup( );
+	
 }
