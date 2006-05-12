@@ -239,7 +239,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 		// if the group is in master page, property toc, bookmark, pagebreak
 		// should be set invisible.
 
-		return !isInvalidInMasterPage( propName );
+		return !needHide( propName );
 	}
 
 	/*
@@ -331,35 +331,53 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 		// if the group is in master page, property toc, bookmark, pagebreak
 		// should be set readonly.
 
-		return isInvalidInMasterPage( propName );
+		return needHide( propName );
 	}
 
 	/**
-	 * Returns if the property is invalid in Masterpage.
+	 * Returns if the property need to be hiden under some cases.
 	 * 
 	 * @param propName
 	 *            the property name to check
 	 * 
-	 * @return true if the property is invalid in Masterpage, false otherwise.
+	 * @return true if the property need to be hiden under some cases, false
+	 *         otherwise.
 	 */
 
-	private boolean isInvalidInMasterPage( String propName )
+	private boolean needHide( String propName )
 	{
+		if ( !( ReportItemHandle.BOOKMARK_PROP.equals( propName )
+				|| ReportItemHandle.TOC_PROP.equals( propName )
+				|| StyleHandle.PAGE_BREAK_AFTER_PROP.equals( propName )
+				|| StyleHandle.PAGE_BREAK_BEFORE_PROP.equals( propName ) || CellHandle.DROP_PROP
+				.equals( propName ) ) )
+			return false;
+
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
-			DesignElementHandle container = ( (DesignElementHandle) elements
-					.get( i ) ).getContainer( );
-			while ( container != null )
+			DesignElementHandle current = ( (DesignElementHandle) elements
+					.get( i ) );
+			DesignElementHandle container = current.getContainer( );
+
+			// hide "drop" property for all cells except cells in group
+			// element
+			if ( CellHandle.DROP_PROP.equals( propName ) )
 			{
-				if ( container instanceof MasterPageHandle )
-					if ( ReportItemHandle.BOOKMARK_PROP.equals( propName )
-							|| ReportItemHandle.TOC_PROP.equals( propName )
-							|| StyleHandle.PAGE_BREAK_AFTER_PROP
-									.equals( propName )
-							|| StyleHandle.PAGE_BREAK_BEFORE_PROP
-									.equals( propName ) )
+				if ( current instanceof CellHandle )
+				{
+					assert container instanceof RowHandle;
+					if ( !( container.getContainer( ) instanceof GroupHandle ) )
 						return true;
-				container = container.getContainer( );
+				}
+			}
+			else
+			{
+				while ( container != null )
+				{
+					if ( container instanceof MasterPageHandle )
+						return true;
+					container = container.getContainer( );
+				}
 			}
 		}
 
