@@ -116,13 +116,38 @@ public interface DesignChoiceConstants
 	// verticalAlign
 
 	public static final String CHOICE_VERTICAL_ALIGN = "verticalAlign"; //$NON-NLS-1$
+
+	/**
+	 * @deprecated Now Engine is not support it.
+	 */
+
 	public static final String VERTICAL_ALIGN_BASELINE = "baseline"; //$NON-NLS-1$
+
+	/**
+	 * @deprecated Now Engine is not support it.
+	 */
+
 	public static final String VERTICAL_ALIGN_SUB = "sub"; //$NON-NLS-1$
+
+	/**
+	 * @deprecated Now Engine is not support it.
+	 */
+
 	public static final String VERTICAL_ALIGN_SUPER = "super"; //$NON-NLS-1$
 	public static final String VERTICAL_ALIGN_TOP = "top"; //$NON-NLS-1$
+
+	/**
+	 * @deprecated Now Engine is not support it.
+	 */
+
 	public static final String VERTICAL_ALIGN_TEXT_TOP = "text-top"; //$NON-NLS-1$
 	public static final String VERTICAL_ALIGN_MIDDLE = "middle"; //$NON-NLS-1$
 	public static final String VERTICAL_ALIGN_BOTTOM = "bottom"; //$NON-NLS-1$
+
+	/**
+	 * @deprecated Now Engine is not support it.
+	 */
+
 	public static final String VERTICAL_ALIGN_TEXT_BOTTOM = "text-bottom"; //$NON-NLS-1$
 
 	// whiteSpace
@@ -146,7 +171,7 @@ public interface DesignChoiceConstants
 	public static final String PAGE_BREAK_AFTER_ALWAYS = "always"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_AFTER_AVOID = "avoid"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST = "always-excluding-last"; //$NON-NLS-1$
-	
+
 	// pageBreakBefore
 
 	public static final String CHOICE_PAGE_BREAK_BEFORE = "pageBreakBefore"; //$NON-NLS-1$
@@ -154,7 +179,7 @@ public interface DesignChoiceConstants
 	public static final String PAGE_BREAK_BEFORE_ALWAYS = "always"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_BEFORE_AVOID = "avoid"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST = "always-excluding-first"; //$NON-NLS-1$
-	
+
 	// pageBreakInside
 
 	public static final String CHOICE_PAGE_BREAK_INSIDE = "pageBreakInside"; //$NON-NLS-1$
@@ -300,12 +325,11 @@ public interface DesignChoiceConstants
 	public static final String MAP_OPERATOR_TRUE = "is-true"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_FALSE = "is-false"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_LIKE = "like"; //$NON-NLS-1$
-	public static final String MAP_OPERATOR_MATCH ="match"; //$NON-NLS-1$
-	public static final String MAP_OPERATOR_TOP_N ="top-n"; //$NON-NLS-1$
-	public static final String MAP_OPERATOR_BOTTOM_N ="bottom-n"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_MATCH = "match"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_TOP_N = "top-n"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_BOTTOM_N = "bottom-n"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_NOT_LIKE = "not-like"; //$NON-NLS-1$
-	public static final String MAP_OPERATOR_NOT_MATCH ="not-match"; //$NON-NLS-1$
-    
+	public static final String MAP_OPERATOR_NOT_MATCH = "not-match"; //$NON-NLS-1$
 
 	public static final String MAP_OPERATOR_ANY = "any"; //$NON-NLS-1$
 
@@ -518,16 +542,16 @@ public interface DesignChoiceConstants
 	public static final String FILTER_OPERATOR_BOTTOM_N = "bottom-n"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_TOP_PERCENT = "top-percent"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_BOTTOM_PERCENT = "bottom-percent"; //$NON-NLS-1$
-	
+
 	/**
-	 * @deprecated in BIRT 2.1. This operator is not supported. 
+	 * @deprecated in BIRT 2.1. This operator is not supported.
 	 */
-	
+
 	public static final String FILTER_OPERATOR_ANY = "any"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_MATCH = "match"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_NOT_LIKE = "not-like"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_NOT_MATCH = "not-match"; //$NON-NLS-1$
-	
+
 	/**
 	 * columnAlign -- The column alignment The first constant is the name of
 	 * columnAlign choice. The followed constants are valid choice values of
@@ -627,16 +651,16 @@ public interface DesignChoiceConstants
 	public static final String TEMPLATE_ELEMENT_TYPE_DATA_SET = "DataSet"; //$NON-NLS-1$
 
 	/**
-	 * sortType -- the sort type. The first constant is
-	 * the name of the sortType choice set. The followed constants
-	 * are valid choice values of the sortType.
+	 * sortType -- the sort type. The first constant is the name of the sortType
+	 * choice set. The followed constants are valid choice values of the
+	 * sortType.
 	 */
 
 	public static final String CHOICE_SORT_TYPE = "sortType"; //$NON-NLS-1$
 	public static final String SORT_TYPE_NONE = "none"; //$NON-NLS-1$
 	public static final String SORT_TYPE_SORT_ON_GROUP_KEY = "sortOnGroupkey"; //$NON-NLS-1$
 	public static final String SORT_TYPE_COMPLEX_SORT = "complexSort"; //$NON-NLS-1$
-	
+
 	/**
 	 * joinType -- join type of join condition.
 	 */
@@ -652,7 +676,7 @@ public interface DesignChoiceConstants
 
 	public static final String CHOICE_JOIN_OPERATOR = "joinOperator"; //$NON-NLS-1$
 	public static final String JOIN_OPERATOR_EQALS = "eq"; //$NON-NLS-1$
-	
+
 	/**
 	 * actionTargetFileType -- target type of the linked file
 	 */
@@ -660,7 +684,7 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_ACTION_TARGET_FILE_TYPE = "actionTargetFileType"; //$NON-NLS-1$
 	public static final String ACTION_TARGET_FILE_TYPE_REPORT_DESIGN = "report-design"; //$NON-NLS-1$
 	public static final String ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT = "report-document"; //$NON-NLS-1$
-	
+
 	/**
 	 * actionBookmarkType -- target bookmark type
 	 */
@@ -676,15 +700,15 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_AUTO_TEXT_TYPE = "autoTextType"; //$NON-NLS-1$
 	public static final String AUTO_TEXT_PAGE_NUMBER = "page-number"; //$NON-NLS-1$
 	public static final String AUTO_TEXT_TOTAL_PAGE = "total-page"; //$NON-NLS-1$
-	
+
 	/**
-	 * dataSetMode -- the mode to support data sets. Can be single data set and 
+	 * dataSetMode -- the mode to support data sets. Can be single data set and
 	 */
 
 	public static final String CHOICE_DATA_SET_MODE_TYPE = "dataSetMode"; //$NON-NLS-1$
 	public static final String DATA_SET_MODE_SINGLE = "single"; //$NON-NLS-1$
 	public static final String DATA_SET_MODE_MULTIPLE = "multiple"; //$NON-NLS-1$
-	
+
 	/**
 	 * filterTarget -- filter target type.
 	 */

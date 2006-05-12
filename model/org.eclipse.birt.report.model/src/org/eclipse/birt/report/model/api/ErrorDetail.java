@@ -19,6 +19,7 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.parser.DesignParserException;
@@ -155,6 +156,14 @@ public final class ErrorDetail
 	private String validationID;
 
 	/**
+	 * The reference to the editor.For example graphic editor, xml source
+	 * editor, script editor and so on.
+	 * 
+	 */
+	
+	private String sub_editer = null;
+
+	/**
 	 * The error description, which is used for <code>toString()</code>.
 	 * Generally, it's only used for debug purposes.
 	 */
@@ -168,7 +177,8 @@ public final class ErrorDetail
 	 *            the exception types that can be translated are
 	 *            <code>XMLParserException</code>,
 	 *            <code>DesignParserException</code>,
-	 *            <code>SemanticException</code> and <code>SAXException</code>.
+	 *            <code>SemanticException</code> , 
+	 *            <code>SAXException</code>.
 	 */
 
 	public ErrorDetail( Exception e )
@@ -203,6 +213,16 @@ public final class ErrorDetail
 			assert false;
 		}
 	}
+	
+	/**
+	 * The default constructor.
+	 * 
+	 */
+	
+	public ErrorDetail()
+	{
+		
+	}
 
 	/**
 	 * Translates <code>XMLParserException</code> to <code>ErrorDetail</code>.
@@ -225,7 +245,7 @@ public final class ErrorDetail
 		description.append( ") " ); //$NON-NLS-1$
 
 		if ( e.getErrorCode( ).equalsIgnoreCase(
-				XMLParserException.DESIGN_EXCEPTION_EXCEPTION ) ) //$NON-NLS-1$
+				XMLParserException.DESIGN_EXCEPTION_EXCEPTION ) )
 		{
 			if ( e.getException( ) instanceof DesignParserException )
 			{
@@ -441,7 +461,7 @@ public final class ErrorDetail
 
 	public String getErrorCode( )
 	{
-		return errorCode; //$NON-NLS-1$
+		return errorCode;
 	}
 
 	/**
@@ -580,6 +600,84 @@ public final class ErrorDetail
 			}
 		}
 		return retList;
+	}
+
+	/**
+	 * Sets the error type.
+	 * @param type
+	 *            The error type.
+	 */
+	 
+	public void setType( String type )
+	{
+		this.type = type;
+	}
+
+	/**
+	 * Sets the error code.
+	 * @param errorCode
+	 *            The error code.
+	 */
+	 
+	public void setErrorCode( String errorCode )
+	{
+		this.errorCode = errorCode;
+	}
+
+	/**
+	 * Sets line number.
+	 * @param lineNo
+	 *            The line number.
+	 */
+	 
+	public void setLineNo( int lineNo )
+	{
+		this.lineNo = lineNo;
+	}
+
+	/**
+	 * Sets the tag name.
+	 * @param tagName
+	 *            The tag name.
+	 */
+	 
+	public void setTagName( String tagName )
+	{
+		this.tagName = tagName;
+	}
+
+	/**
+	 * Returns the reference to the editor.
+	 * @return sub_editer
+	 * 			The reference to the editor.
+	 */
+	 
+	public String getSub_editer( )
+	{
+		return sub_editer;
+	}
+
+	/**
+	 * Sets the reference to the editor.
+	 * @param sub_editer
+	 *            The reference to the editor.
+	 */
+	 
+	public void setSub_editer( String sub_editer )
+	{
+		this.sub_editer = sub_editer;
+	}
+
+	
+	/**
+	 * Sets The element which causes error.
+	 * @param element
+	 *            The element which causes error.
+	 */
+	 
+	public void setElement( IDesignElement element )
+	{
+		this.element = (DesignElement)element;
 	}
 
 }

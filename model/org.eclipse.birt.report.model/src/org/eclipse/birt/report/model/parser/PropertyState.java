@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
@@ -150,6 +151,15 @@ class PropertyState extends AbstractPropertyState
 		if ( !valid )
 			return new AnyElementState( getHandler( ) );
 
+		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) < 0 ) //$NON-NLS-1$
+				&& ( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN.equals( name ) ) )
+		{
+			CompatibleVerticalAlignState state = new CompatibleVerticalAlignState(
+					handler, element );
+			state.setName( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN );
+			return state;
+		}
+
 		IPropertyDefn jmpDefn = null;
 		if ( struct != null )
 			jmpDefn = struct.getDefn( ).getMember( name );
@@ -206,6 +216,7 @@ class PropertyState extends AbstractPropertyState
 				return state;
 			}
 		}
+
 		if ( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT
 				.equalsIgnoreCase( element.getDefn( ).getName( ) )
 				&& ( name.equalsIgnoreCase( "headerHeight" ) || name //$NON-NLS-1$

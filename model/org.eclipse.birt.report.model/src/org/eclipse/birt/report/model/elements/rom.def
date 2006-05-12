@@ -91,14 +91,16 @@
     <Choice displayNameID="Choices.normal.normal" name="normal"/>
   </ChoiceType>
   <ChoiceType name="verticalAlign">
+    <Choice displayNameID="Choices.verticalAlign.top" name="top"/>
+    <Choice displayNameID="Choices.verticalAlign.middle" name="middle"/>
+    <Choice displayNameID="Choices.verticalAlign.bottom" name="bottom"/>
+    <!--
+	<Choice displayNameID="Choices.verticalAlign.text-top" name="text-top"/>
     <Choice displayNameID="Choices.verticalAlign.baseline" name="baseline"/>
     <Choice displayNameID="Choices.verticalAlign.sub" name="sub"/>
     <Choice displayNameID="Choices.verticalAlign.super" name="super"/>
-    <Choice displayNameID="Choices.verticalAlign.top" name="top"/>
-    <Choice displayNameID="Choices.verticalAlign.text-top" name="text-top"/>
-    <Choice displayNameID="Choices.verticalAlign.middle" name="middle"/>
-    <Choice displayNameID="Choices.verticalAlign.bottom" name="bottom"/>
     <Choice displayNameID="Choices.verticalAlign.text-bottom" name="text-bottom"/>
+	-->
   </ChoiceType>
   <ChoiceType name="whiteSpace">
     <Choice displayNameID="Choices.whiteSpace.normal" name="normal"/>
