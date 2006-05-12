@@ -18,17 +18,19 @@ public class ChartType implements java.io.Serializable {
     }
 
     public static final java.lang.String _VBar = "VBar";
-    public static final java.lang.String _HBar = "HBar";
-    public static final java.lang.String _BarLineOverlay = "BarLineOverlay";
     public static final java.lang.String _Pie = "Pie";
     public static final java.lang.String _Area = "Area";
     public static final java.lang.String _Line = "Line";
+    public static final java.lang.String _Scatter = "Scatter";
+    public static final java.lang.String _Meter = "Meter";
+    public static final java.lang.String _Stock = "Stock";
     public static final ChartType VBar = new ChartType(_VBar);
-    public static final ChartType HBar = new ChartType(_HBar);
-    public static final ChartType BarLineOverlay = new ChartType(_BarLineOverlay);
     public static final ChartType Pie = new ChartType(_Pie);
     public static final ChartType Area = new ChartType(_Area);
     public static final ChartType Line = new ChartType(_Line);
+    public static final ChartType Scatter = new ChartType(_Scatter);
+    public static final ChartType Meter = new ChartType(_Meter);
+    public static final ChartType Stock = new ChartType(_Stock);
     public java.lang.String getValue() { return _value_;}
     public static ChartType fromValue(java.lang.String value)
           throws java.lang.IllegalArgumentException {
