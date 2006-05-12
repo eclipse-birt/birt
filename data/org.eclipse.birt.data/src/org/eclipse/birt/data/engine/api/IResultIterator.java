@@ -62,6 +62,18 @@ public interface IResultIterator
      */
     public boolean next() throws BirtException;
     
+    /**
+	 * Each row has its an ID associated with it, and this id will never be
+	 * changed no matter when the query is running against a data set or against
+	 * a report document.
+	 * 
+	 * @since 2.1
+	 * @return row id of current row
+	 * @throws BirtException
+	 *             if error occurs in Data Engine
+	 */
+	public int getRowId( ) throws BirtException;
+	
 	/**
 	 * Each row has its own index, which indicates this row position in the
 	 * result set. This method retrieves current row index. The row index is 0

@@ -36,6 +36,9 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  */
 public class ExprMetaUtil
 {
+	//
+	public final static String POS_NAME = "_dte_inner_row_ori_position_";
+	
 	private static ExprMetaUtil instance = new ExprMetaUtil( );
 	
 	private Set nameSet;
@@ -160,8 +163,7 @@ public class ExprMetaUtil
 				exprMetas[i].setType( IOUtil.readInt( dis ) );
 				exprMetas[i].setJSText( IOUtil.readString( dis ) );
 			}
-
-			final String POS_NAME = "_dte_inner_row_ori_position_";
+			
 			final String FILTER_NAME = "_dte_inner_row_filter_";
 
 			exprMetas[size] = new ExprMetaInfo( );

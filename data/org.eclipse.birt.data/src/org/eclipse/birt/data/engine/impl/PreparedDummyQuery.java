@@ -492,7 +492,15 @@ public class PreparedDummyQuery implements IPreparedQuery
 				throw new DataException( "is ended" );
 			}
 		}
-
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowId()
+		 */
+		public int getRowId( ) throws BirtException
+		{
+			return getRowIndex( );
+		}
+		
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
 		 */

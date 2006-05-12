@@ -63,6 +63,9 @@ public class ResultIterator implements IResultIterator
 	// util to findGroup
 	private GroupUtil 				groupUtil;
 	
+	// util to get row id
+	private RowIDUtil 				rowIDUtil;
+	
 	// used in (usesDetails == false)
 	private boolean 				useDetails;
 	private int 					lowestGroupLevel;
@@ -198,6 +201,18 @@ public class ResultIterator implements IResultIterator
 			state = AFTER_LAST_ROW;
 		
 		return hasNext;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowId()
+	 */
+	public int getRowId( ) throws BirtException
+	{
+		checkStarted( );
+		
+		if ( rowIDUtil == null )
+			rowIDUtil = new RowIDUtil( );
+		return rowIDUtil.getRowID( this.odiResult );
 	}
 	
 	/*

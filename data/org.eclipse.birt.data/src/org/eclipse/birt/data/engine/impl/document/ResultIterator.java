@@ -158,6 +158,14 @@ public class ResultIterator implements IResultIterator
 	}
     
     /*
+     * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowId()
+     */
+	public int getRowId( ) throws BirtException
+	{
+		return this.getValueLoader( ).getCurrentId( );
+	}
+	
+    /*
      * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
      */
 	public int getRowIndex( ) throws BirtException

@@ -480,6 +480,14 @@ public class RDLoad
 	/**
 	 * @return
 	 */
+	int getCurrentId( )
+	{
+		return this.getCurrentIndex( );
+	}
+	
+	/**
+	 * @return
+	 */
 	int getCurrentIndex( )
 	{
 		return this.currPos - 1;
