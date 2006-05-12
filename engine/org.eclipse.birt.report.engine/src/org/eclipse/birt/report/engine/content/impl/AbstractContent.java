@@ -241,6 +241,7 @@ abstract public class AbstractContent extends AbstractElement
 			{
 				inlineStyle = report.createStyle( );
 			}
+			String styleClass = getStyleClass( );
 			IStyle classStyle = report.findStyle( styleClass );
 			style = new CompositeStyle( classStyle, inlineStyle );
 		}
