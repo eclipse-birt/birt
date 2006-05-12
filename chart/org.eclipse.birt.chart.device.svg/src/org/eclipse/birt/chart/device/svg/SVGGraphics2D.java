@@ -823,6 +823,20 @@ public class SVGGraphics2D extends Graphics2D
 	}
 	
 	/**
+	 * Adds no fill color and style information to the element passed in.
+	 * 
+	 * @param currentElement the element to add style information to.
+	 */
+	protected void setNoFillColor( Element currentElement)
+	{
+			//should set the fill color to none on the currentElement
+			String style = currentElement.getAttribute( "style" ); //$NON-NLS-1$
+			if ( style == null )
+				style = ""; //$NON-NLS-1$
+			currentElement.setAttribute( "style", style + "fill:none;" ); //$NON-NLS-1$ //$NON-NLS-2$			
+	}
+	
+	/**
 	 * Adds fill color and style information to the element passed in.
 	 * 
 	 * @param currentElement the element to add style information to.
@@ -1496,6 +1510,15 @@ public class SVGGraphics2D extends Graphics2D
 		return currentParent;
 	}
 
+
+	/**
+	 * @return Returns the currentElement.
+	 */
+	public Element getCurrentElement( )
+	{
+		return currentElement;
+	}
+	
 	public String getStyleClass() {
 		return styleClass;
 	}

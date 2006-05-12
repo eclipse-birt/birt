@@ -1784,7 +1784,7 @@ final class SVGTextRenderer implements IConstants
 	{
 		if ( lia != null && lia.isVisible( ) && lia.getColor( ) != null )
 		{
-			Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
+			SVGGraphics2D g2d = (SVGGraphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
 			Stroke sPrevious = null;
 			final ColorDefinition cd = lia.getColor( );
 			final Stroke sCurrent = ( (SVGRendererImpl) ipr ).getCachedStroke( lia );
@@ -1795,6 +1795,7 @@ final class SVGTextRenderer implements IConstants
 			}
 			g2d.setColor( (Color) _sxs.getColor( cd ) );
 			g2d.draw( r2d );
+			g2d.setNoFillColor(g2d.getCurrentElement());
 			if ( sPrevious != null ) // RESTORE PREVIOUS STROKE
 			{
 				g2d.setStroke( sPrevious );
