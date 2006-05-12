@@ -137,7 +137,7 @@ public class HTMLActionHandler implements IHTMLActionHandler
 					}
 				}
 			}
-			
+
 			// Adding overwrite.
 			link.append( "&__overwrite=true" ); //$NON-NLS-1$
 
@@ -148,7 +148,16 @@ public class HTMLActionHandler implements IHTMLActionHandler
 
 				try
 				{
-					link.append( "&__bookmark=" ); //$NON-NLS-1$
+					// In RUN mode, don't support bookmark as parameter
+					if ( baseURL.lastIndexOf( "run" ) > 0 )
+					{
+						link.append( "#" ); //$NON-NLS-1$
+					}
+					else
+					{
+						link.append( "&__bookmark=" ); //$NON-NLS-1$
+					}
+
 					link.append( URLEncoder.encode( action.getBookmark( ),
 							"UTF-8" ) ); //$NON-NLS-1$
 				}
