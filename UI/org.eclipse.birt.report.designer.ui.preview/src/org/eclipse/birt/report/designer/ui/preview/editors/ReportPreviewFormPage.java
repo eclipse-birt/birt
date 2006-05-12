@@ -300,8 +300,14 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 								.next( );
 						if ( configVar != null && configVar.getName( ) != null )
 						{
-							configVars.put( configVar.getName( ), configVar
-									.getValue( ) );
+							// check the parameter whether exist or not
+							String paramName = getParameterName( configVar
+									.getName( ) );
+							if ( paramName != null && paramName.length( ) > 0 )
+							{
+								configVars
+										.put( paramName, configVar.getValue( ) );
+							}
 						}
 					}
 					handle.close( );
@@ -326,6 +332,52 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 		}
 
 		return configVars;
+	}
+
+	/**
+	 * if parameter existed in config file, return the correct parameter name
+	 * 
+	 * @param configVarName
+	 * @return String
+	 */
+	private String getParameterName( String configVarName )
+	{
+		String paramName = null;
+		List parameters = null;
+
+		// get parameter list from design handle
+		ModuleHandle model = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		if ( model != null )
+		{
+			parameters = model.getFlattenParameters( );
+		}
+
+		if ( parameters != null )
+		{
+			for ( int i = 0; i < parameters.size( ); i++ )
+			{
+				ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters
+						.get( i ) );
+
+				// get current name
+				String curName = null;
+				if ( parameter != null && parameter.getName( ) != null )
+				{
+					curName = parameter.getName( ) + parameter.getID( );
+				}
+
+				// if find the parameter exist, return true
+				if ( curName != null
+						&& curName.equalsIgnoreCase( configVarName ) )
+				{
+					paramName = parameter.getName( );
+					break;
+				}
+			}
+		}
+
+		return paramName;
 	}
 
 	/**

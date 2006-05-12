@@ -15,17 +15,21 @@ import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
@@ -57,10 +61,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 {
 
 	/**
-	 * Viewer report design handle 
-	 */	
+	 * Viewer report design handle
+	 */
 	private IViewerReportDesignHandle reportDesignHandle = null;
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -139,8 +143,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				.getParameterDefinitions( reportDesignHandle, options, false );
 
 		// TODO: Change parameters to be Map, not HashMap
-		this.parameters = (HashMap) getParsedParameters( reportDesignHandle, parameterList,
-				request, options );
+		this.parameters = (HashMap) getParsedParameters( reportDesignHandle,
+				parameterList, request, options );
 
 		this.missingParameter = validateParameters( parameterList,
 				this.parameters );
@@ -182,8 +186,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							.next( );
 					if ( configVar != null && configVar.getName( ) != null )
 					{
-						this.configMap.put( configVar.getName( ), configVar
-								.getValue( ) );
+						// check the parameter whether exist or not
+						String paramName = getParameterName( configVar
+								.getName( ) );
+						if ( paramName != null && paramName.length( ) > 0 )
+						{
+							this.configMap
+									.put( paramName, configVar.getValue( ) );
+						}
 					}
 				}
 
@@ -201,6 +211,54 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			{
 			}
 		}
+	}
+
+	/**
+	 * if parameter existed in config file, return the correct parameter name
+	 * 
+	 * @param configVarName
+	 * @return String
+	 */
+	private String getParameterName( String configVarName )
+	{
+		String paramName = null;
+		List parameters = null;
+
+		// get parameter list from design handle
+		IReportRunnable runnable = (IReportRunnable) reportDesignHandle
+				.getDesignObject( );
+		ModuleHandle model = runnable.getDesignHandle( ).getModuleHandle( );
+
+		if ( model != null )
+		{
+			parameters = model.getFlattenParameters( );
+		}
+
+		if ( parameters != null )
+		{
+			for ( int i = 0; i < parameters.size( ); i++ )
+			{
+				ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters
+						.get( i ) );
+
+				// get current name
+				String curName = null;
+				if ( parameter != null && parameter.getName( ) != null )
+				{
+					curName = parameter.getName( ) + parameter.getID( );
+				}
+
+				// if find the parameter exist, return true
+				if ( curName != null
+						&& curName.equalsIgnoreCase( configVarName ) )
+				{
+					paramName = parameter.getName( );
+					break;
+				}
+			}
+		}
+
+		return paramName;
 	}
 
 	protected IViewerReportDesignHandle getDesignHandle(
@@ -224,6 +282,21 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			}
 			reportDocumentInstance.close( );
 		}
+
+		// if report runnable is null, then get it from design file
+		if ( reportRunnable == null )
+		{
+			try
+			{
+				reportRunnable = ReportEngineService.getInstance( )
+						.openReportDesign( this.reportDesignName );
+			}
+			catch ( EngineException e )
+			{
+				e.printStackTrace( );
+			}
+		}
+
 		if ( reportRunnable != null )
 		{
 			design = new BirtViewerReportDesignHandle(
@@ -325,12 +398,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			return super.getParamValueObject( request, parameterObj );
 		}
 	}
-	
+
 	/**
 	 * @return the reportDesignHandle
 	 */
 	public IViewerReportDesignHandle getReportDesignHandle( )
 	{
 		return reportDesignHandle;
-	}	
+	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.File;
 import java.rmi.RemoteException;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -20,7 +21,12 @@ import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
@@ -51,7 +57,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 
 	protected void __execute( ) throws RemoteException
 	{
-		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean( );
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 
 		try
 		{
@@ -63,7 +69,8 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 					IBirtConstants.SUFFIX_DESIGN_CONFIG );
 
 			// Generate the session handle
-			SessionHandle sessionHandle = DesignEngine.newSession( ULocale.getDefault( ) );
+			SessionHandle sessionHandle = DesignEngine.newSession( ULocale
+					.getDefault( ) );
 
 			File configFile = new File( configFileName );
 
@@ -77,6 +84,12 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 			// create a new config file
 			ReportDesignHandle handle = sessionHandle.createDesign( );
 
+			// get report runnable
+			IReportRunnable runnable = (IReportRunnable) attrBean
+					.getReportDesignHandle( ).getDesignObject( );
+
+			ModuleHandle model = runnable.getDesignHandle( ).getModuleHandle( );
+
 			// get parameters from operation
 			Oprand[] op = this.operation.getOprand( );
 			if ( op != null )
@@ -84,9 +97,17 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 				for ( int i = 0; i < op.length; i++ )
 				{
 					ConfigVariable configVar = new ConfigVariable( );
-					configVar.setName( op[i].getName( ) );
-					configVar.setValue( op[i].getValue( ) );
-					handle.addConfigVariable( configVar );
+
+					ParameterHandle parameterHandle = model
+							.findParameter( op[i].getName( ) );
+
+					if ( parameterHandle != null )
+					{
+						configVar.setName( op[i].getName( )
+								+ parameterHandle.getID( ) );
+						configVar.setValue( op[i].getValue( ) );
+						handle.addConfigVariable( configVar );
+					}
 				}
 			}
 
@@ -117,7 +138,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 
 		Update update = new Update( );
 		update.setUpdateData( updateData );
-		response.setUpdate( new Update[] { update } );
+		response.setUpdate( new Update[]{update} );
 	}
 
 	protected IViewerReportService getReportService( )
