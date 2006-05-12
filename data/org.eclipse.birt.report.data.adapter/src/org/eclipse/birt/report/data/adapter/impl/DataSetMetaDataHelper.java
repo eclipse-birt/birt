@@ -132,28 +132,78 @@ public class DataSetMetaDataHelper
 	IResultMetaData refreshMetaData( DataSetHandle dataSetHandle )
 			throws BirtException
 	{
-		dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
-
 		IResultMetaData rsMeta = this.getDataSetMetaData( dataSetHandle, false );
 
-		for ( int i = 1; i <= rsMeta.getColumnCount( ); i++ )
+		if ( needsSetCachedMetaData( dataSetHandle, rsMeta ) )
 		{
-			ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
-			rsc.setColumnName( ( rsMeta.getColumnAlias( i ) == null || rsMeta.getColumnAlias( i )
-					.trim( )
-					.length( ) == 0 ) ? rsMeta.getColumnName( i )
-					: rsMeta.getColumnAlias( i ) );
-			rsc.setDataType( toModelDataType( rsMeta.getColumnType( i ) ) );
-			rsc.setPosition( new Integer( i ) );
+			dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
 
-			dataSetHandle.getCachedMetaDataHandle( )
-					.getResultSet( )
-					.addItem( rsc );
+			for ( int i = 1; i <= rsMeta.getColumnCount( ); i++ )
+			{
+				ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
+				rsc.setColumnName( getColumnName( rsMeta, i ) );
+				rsc.setDataType( toModelDataType( rsMeta.getColumnType( i ) ) );
+				rsc.setPosition( new Integer( i ) );
+
+				dataSetHandle.getCachedMetaDataHandle( )
+						.getResultSet( )
+						.addItem( rsc );
+			}
 		}
 
 		return rsMeta;
 	}
 
+	/**
+	 * 
+	 * @param dataSetHandle
+	 * @param rsMeta
+	 * @return
+	 * @throws BirtException
+	 */
+	private boolean needsSetCachedMetaData( DataSetHandle dataSetHandle,
+			IResultMetaData rsMeta ) throws BirtException
+	{
+		List list = new ArrayList( );
+		for ( Iterator iter = dataSetHandle.getCachedMetaDataHandle( )
+				.getResultSet( )
+				.iterator( ); iter.hasNext( ); )
+		{
+			list.add( iter.next( ) );
+		}
+
+		if ( list.size( ) != rsMeta.getColumnCount( ) )
+			return true;
+
+		for ( int i = 1; i <= rsMeta.getColumnCount( ); i++ )
+		{
+			ResultSetColumnHandle handle = (ResultSetColumnHandle) list.get( i - 1 );
+
+			if ( !handle.getColumnName( ).equals( getColumnName( rsMeta, i ) )
+					|| !handle.getDataType( )
+							.equals( toModelDataType( rsMeta.getColumnType( i ) ) ) )
+				return true;
+		}
+
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param rsMeta
+	 * @param index
+	 * @return
+	 * @throws BirtException
+	 */
+	private String getColumnName( IResultMetaData rsMeta, int index )
+			throws BirtException
+	{
+		return ( rsMeta.getColumnAlias( index ) == null || rsMeta.getColumnAlias( index )
+				.trim( )
+				.length( ) == 0 ) ? rsMeta.getColumnName( index )
+				: rsMeta.getColumnAlias( index );
+	}
+	
 	/**
 	 * Map oda data type to model data type.
 	 * 
