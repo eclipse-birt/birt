@@ -21,7 +21,6 @@
                id="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenu">
          </action>
          <action
-               accelerator="Ctrl+Shift+T"
                class="org.eclipse.birt.report.designer.ui.actions.PreviewAction"
                disabledIcon="icons/dtool16/preview_pdf_disabled.gif"
                icon="icons/etool16/preview_pdf.gif"
@@ -31,7 +30,6 @@
                tooltip="%designer.preview.previewaction.label.pdf">
          </action>
          <action
-               accelerator="Ctrl+Shift+H"
                class="org.eclipse.birt.report.designer.ui.actions.PreviewAction"
                disabledIcon="icons/dtool16/preview_disabled.gif"
                icon="icons/etool16/preview.gif"
@@ -40,7 +38,6 @@
                menubarPath="file/preview"
                tooltip="%designer.preview.previewaction.label.html"/>
          <action
-               accelerator="Ctrl+Shift+E"
                class="org.eclipse.birt.report.designer.ui.actions.PreviewAction"
                disabledIcon="icons/dtool16/preview_disabled.gif"
                icon="icons/etool16/preview.gif"
