@@ -68,7 +68,7 @@ public class ParameterGroupFragment extends BirtBaseFragment
 			HttpServletResponse response ) throws ServletException, IOException
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
-			.getAttribute( "attributeBean" ); //$NON-NLS-1$
+				.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		assert attrBean != null;
 
 		assert parameterGroup != null;
@@ -77,9 +77,12 @@ public class ParameterGroupFragment extends BirtBaseFragment
 		attrBean.setParameterBean( parameterGroupBean );
 
 		// Display name.
-		String displayName = parameterGroup.getDisplayName( );
-		displayName = ( displayName == null || displayName.length( ) <= 0 ) ? parameterGroup
-				.getName( )
+		String displayName = parameterGroup.getPromptText( );
+		displayName = ( displayName == null || displayName.length( ) <= 0 )
+				? parameterGroup.getDisplayName( )
+				: displayName;
+		displayName = ( displayName == null || displayName.length( ) <= 0 )
+				? parameterGroup.getName( )
 				: displayName;
 		displayName = ParameterAccessor.htmlEncode( displayName );
 		parameterGroupBean.setDisplayName( displayName );
@@ -89,7 +92,7 @@ public class ParameterGroupFragment extends BirtBaseFragment
 		IFragment fragment = null;
 
 		for ( Iterator iter = parameterGroup.getParameters( ).iterator( ); iter
-			.hasNext( ); )
+				.hasNext( ); )
 		{
 			Object obj = iter.next( );
 			if ( obj instanceof ParameterDefinition )
@@ -102,22 +105,26 @@ public class ParameterGroupFragment extends BirtBaseFragment
 					{
 						case ParameterDefinition.TEXT_BOX :
 						{
-							fragment = new TextBoxParameterFragment( scalarParameter );
+							fragment = new TextBoxParameterFragment(
+									scalarParameter );
 							break;
 						}
 						case ParameterDefinition.LIST_BOX :
 						{
-							fragment = new ComboBoxParameterFragment( scalarParameter );
+							fragment = new ComboBoxParameterFragment(
+									scalarParameter );
 							break;
 						}
 						case ParameterDefinition.RADIO_BUTTON :
 						{
-							fragment = new RadioButtonParameterFragment( scalarParameter );
+							fragment = new RadioButtonParameterFragment(
+									scalarParameter );
 							break;
 						}
 						case ParameterDefinition.CHECK_BOX :
 						{
-							fragment = new CheckboxParameterFragment( scalarParameter );
+							fragment = new CheckboxParameterFragment(
+									scalarParameter );
 							break;
 						}
 					}
@@ -140,8 +147,8 @@ public class ParameterGroupFragment extends BirtBaseFragment
 	protected String doPostService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		String className = getClass( ).getName( )
-				.substring( getClass( ).getName( ).lastIndexOf( '.' ) + 1 );
+		String className = getClass( ).getName( ).substring(
+				getClass( ).getName( ).lastIndexOf( '.' ) + 1 );
 		return JSPRootPath + "/pages/parameter/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
 	}
 }

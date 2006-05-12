@@ -750,7 +750,7 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		boolean cascade = engineParam instanceof ICascadingParameterGroup;
 		ParameterGroupDefinition paramGroup = new ParameterGroupDefinition(
-				engineParam.getName( ), engineParam.getDisplayName( ), null,
+				engineParam.getName( ), engineParam.getDisplayName( ), engineParam.getPromptText( ), null,
 				cascade );
 		List contents = convertParametersInGroup( engineParam.getContents( ),
 				paramGroup, task );

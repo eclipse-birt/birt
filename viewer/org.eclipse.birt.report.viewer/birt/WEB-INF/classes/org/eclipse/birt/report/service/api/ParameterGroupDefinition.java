@@ -30,11 +30,14 @@ public class ParameterGroupDefinition
 
 	private boolean cascade;
 
+	private String promptText;
+
 	public ParameterGroupDefinition( String name, String displayName,
-			List parameters, boolean cascade )
+			String promptText, List parameters, boolean cascade )
 	{
 		this.name = name;
 		this.displayName = displayName;
+		this.promptText = promptText;
 		this.parameters = parameters;
 		this.cascade = cascade;
 	}
@@ -47,6 +50,11 @@ public class ParameterGroupDefinition
 	public String getDisplayName( )
 	{
 		return displayName;
+	}
+
+	public String getPromptText( )
+	{
+		return promptText;
 	}
 
 	public List getParameters( )
@@ -75,7 +83,7 @@ public class ParameterGroupDefinition
 	{
 		if ( name == null || !( obj instanceof ParameterGroupDefinition ) )
 			return false;
-		ParameterGroupDefinition other = ( ParameterGroupDefinition ) obj;
+		ParameterGroupDefinition other = (ParameterGroupDefinition) obj;
 		return getName( ).equals( other.getName( ) );
 	}
 
