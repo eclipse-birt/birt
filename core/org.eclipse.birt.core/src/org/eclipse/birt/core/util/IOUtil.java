@@ -35,6 +35,8 @@ import java.util.Set;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.mozilla.javascript.IdScriptableObject;
+import org.mozilla.javascript.NativeJavaObject;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * A util class to read or write primitive Java data type. Please notice, every
@@ -283,7 +285,7 @@ public class IOUtil
 			{
 				return TYPE_LIST;
 			}
-			if ( obValue instanceof IdScriptableObject )
+			if ( obValue instanceof Scriptable )
 			{
 				return TYPE_JSObject;
 			}
@@ -475,11 +477,24 @@ public class IOUtil
 				}
 				break;
 			case TYPE_JSObject :
-				IdScriptableObject jsObject = ( (IdScriptableObject) obValue );
-				if ( jsObject.getClassName( ).equals( "Date" ) )
+				if (obValue instanceof IdScriptableObject)
 				{
-					Date date = (Date) JavascriptEvalUtil.convertJavascriptValue( obValue );
-					writeObject( dos, date );
+					IdScriptableObject jsObject = ( (IdScriptableObject) obValue );
+					if ( jsObject.getClassName( ).equals( "Date" ) )
+					{
+						Date date = (Date) JavascriptEvalUtil.convertJavascriptValue( obValue );
+						writeObject( dos, date );
+					}
+					else
+					{
+						// other data types are not supported yet.
+						writeObject( dos, null );
+					}
+				}
+				else if (obValue instanceof NativeJavaObject)
+				{
+					obValue= JavascriptEvalUtil.convertJavascriptValue( obValue );
+					writeObject( dos, obValue );
 				}
 				else
 				{
