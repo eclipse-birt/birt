@@ -436,20 +436,23 @@ public class SVGInteractiveRenderer
 						case ActionType.URL_REDIRECT :
 							URLValue urlValue = ( (URLValue) tg.getAction( )
 									.getValue( ) );
-							// See if this is an internal anchor link
+							Element aLink = svg_g2d.createElement( "a" ); //$NON-NLS-1$
+							// Create empty href
+							aLink.setAttribute( "xlink:href", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+							aLink.appendChild( elm );
+							elm = aLink;
+							// See if this is an internal anchor link							
 							if ( urlValue.getBaseUrl( ).startsWith( "#" ) ) { //$NON-NLS-1$
-								Element aLink = svg_g2d.createElement( "g" ); //$NON-NLS-1$
-								aLink.setAttribute( scriptEvent, "top.document.location.hash='" + urlValue.getBaseUrl( ) + "';" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-								aLink.setAttribute( "style", "cursor:pointer" ); //$NON-NLS-1$ //$NON-NLS-2$
-								aLink.appendChild( elm );
-								elm = aLink;
+								elm.setAttribute( scriptEvent, "top.document.location.hash='" + urlValue.getBaseUrl( ) + "';" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+								elm.setAttribute( "style", "cursor:pointer" ); //$NON-NLS-1$ //$NON-NLS-2$
 							}
 							else
 							{
 								String target = urlValue.getTarget( );
 								if (target == null)
 									target="null"; //$NON-NLS-1$
-								elm.setAttribute( scriptEvent, "redirect('"+target+"','"+urlValue.getBaseUrl( )+"')" ); //$NON-NLS-1$ 
+								elm.setAttribute( scriptEvent, "redirect('"+target+"','"+urlValue.getBaseUrl( )+"')" ); //$NON-NLS-1$
+								
 							}
 							break;
 
