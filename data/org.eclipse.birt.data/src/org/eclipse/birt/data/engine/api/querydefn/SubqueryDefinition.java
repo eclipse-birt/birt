@@ -57,7 +57,7 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 	/*
 	 * @see org.eclipse.birt.data.engine.api.ISubqueryDefinition#onGroup()
 	 */
-	public void setApplyOnGroup( boolean onGroup )
+	public void setApplyOnGroupFlag( boolean onGroup )
 	{
 		this.onGroup = onGroup;
 	}
