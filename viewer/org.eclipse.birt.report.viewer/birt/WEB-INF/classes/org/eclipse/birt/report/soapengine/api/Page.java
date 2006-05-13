@@ -10,15 +10,18 @@ package org.eclipse.birt.report.soapengine.api;
 public class Page  implements java.io.Serializable {
     private java.lang.String pageNumber;
     private java.lang.String totalPage;
+    private java.lang.Boolean completed;
 
     public Page() {
     }
 
     public Page(
            java.lang.String pageNumber,
-           java.lang.String totalPage) {
+           java.lang.String totalPage,
+           java.lang.Boolean completed) {
            this.pageNumber = pageNumber;
            this.totalPage = totalPage;
+           this.completed = completed;
     }
 
 
@@ -61,6 +64,26 @@ public class Page  implements java.io.Serializable {
         this.totalPage = totalPage;
     }
 
+
+    /**
+     * Gets the completed value for this Page.
+     * 
+     * @return completed
+     */
+    public java.lang.Boolean getCompleted() {
+        return completed;
+    }
+
+
+    /**
+     * Sets the completed value for this Page.
+     * 
+     * @param completed
+     */
+    public void setCompleted(java.lang.Boolean completed) {
+        this.completed = completed;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Page)) return false;
@@ -78,7 +101,10 @@ public class Page  implements java.io.Serializable {
               this.pageNumber.equals(other.getPageNumber()))) &&
             ((this.totalPage==null && other.getTotalPage()==null) || 
              (this.totalPage!=null &&
-              this.totalPage.equals(other.getTotalPage())));
+              this.totalPage.equals(other.getTotalPage()))) &&
+            ((this.completed==null && other.getCompleted()==null) || 
+             (this.completed!=null &&
+              this.completed.equals(other.getCompleted())));
         __equalsCalc = null;
         return _equals;
     }
@@ -95,6 +121,9 @@ public class Page  implements java.io.Serializable {
         }
         if (getTotalPage() != null) {
             _hashCode += getTotalPage().hashCode();
+        }
+        if (getCompleted() != null) {
+            _hashCode += getCompleted().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -116,6 +145,13 @@ public class Page  implements java.io.Serializable {
         elemField.setFieldName("totalPage");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TotalPage"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("completed");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Completed"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
