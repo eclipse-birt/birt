@@ -315,6 +315,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	 */
 	public void validateQueryColumBinding( ) throws DataException
 	{
-		ExprManagerUtil.validateColumnBinding( this.exprManager );
-	}	
+		this.exprManager.validateColumnBinding( );
+	}
+	
 }

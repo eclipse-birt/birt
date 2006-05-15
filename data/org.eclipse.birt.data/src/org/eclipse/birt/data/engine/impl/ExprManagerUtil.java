@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -28,9 +29,16 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  * This is a utility class which is used to validate the colum bindings defined 
  * in ExprManager instance.
  */
-public class ExprManagerUtil
+class ExprManagerUtil
 {
-	private ExprManagerUtil(){}
+	private ExprManager exprManager;
+	
+	/**
+	 * No instance
+	 */
+	private ExprManagerUtil( )
+	{
+	}
 	
 	/**
 	 *	This method tests whether column bindings in ExprManager is valid or not.
@@ -42,8 +50,11 @@ public class ExprManagerUtil
 	public static void validateColumnBinding( ExprManager exprManager )
 			throws DataException
 	{
-		testDependencyCycle( exprManager ); 
-		testGroupNameValidation( exprManager);
+		ExprManagerUtil util = new ExprManagerUtil( );
+		
+		util.exprManager = exprManager;
+		util.checkDependencyCycle( ); 
+		util.checkGroupNameValidation( );
 	}
 
 	/**
@@ -53,9 +64,9 @@ public class ExprManagerUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	private static void testGroupNameValidation( ExprManager exprManager ) throws DataException
+	private void checkGroupNameValidation( ) throws DataException
 	{
-		HashMap map = exprManager.getGroupKeys( );
+		HashMap map = this.getGroupKeys( );
 		Iterator it = map.keySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
@@ -78,10 +89,10 @@ public class ExprManagerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static void testDependencyCycle( ExprManager exprManager ) throws DataException
+	private void checkDependencyCycle( ) throws DataException
 	{
 		List result = new ArrayList( );
-		Iterator it = exprManager.getColumnNames( ).iterator( );
+		Iterator it = this.getColumnNames( ).iterator( );
 
 		while ( it.hasNext( ) )
 		{
@@ -135,7 +146,7 @@ public class ExprManagerUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	private static void validateNodes( Node[] source ) throws DataException
+	private void validateNodes( Node[] source ) throws DataException
 	{
 		Node[] preparedNodes = populateNodeList( source );
 		for ( int i = 0; i < preparedNodes.length; i++ )
@@ -151,7 +162,7 @@ public class ExprManagerUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	private static void isValidNode( Node startNode, Node candidateNode ) throws DataException
+	private void isValidNode( Node startNode, Node candidateNode ) throws DataException
 	{
 		//boolean result = true;
 		Object[] nodes = startNode.getChildren( ).toArray( );
@@ -174,7 +185,7 @@ public class ExprManagerUtil
 	 * @param source
 	 * @return
 	 */
-	private static Node[] populateNodeList( Node[] source )
+	private Node[] populateNodeList( Node[] source )
 	{
 		Node[] result = new Node[source.length];
 		for ( int i = 0; i < result.length; i++ )
@@ -202,7 +213,7 @@ public class ExprManagerUtil
 	 * @param nodes
 	 * @return
 	 */
-	private static Node getMatchedNode( Node node, Node[] nodes )
+	private Node getMatchedNode( Node node, Node[] nodes )
 	{
 		for ( int i = 0; i < nodes.length; i++ )
 		{
@@ -212,11 +223,48 @@ public class ExprManagerUtil
 
 		return null;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private List getColumnNames( )
+	{
+		List bindingExprs = exprManager.getBindingExprs( );
+		Map autoBindingExprMap = exprManager.getAutoBindingExprMap( );
+
+		List l = new ArrayList( );
+		l.addAll( autoBindingExprMap.keySet( ) );
+		for ( int i = 0; i < bindingExprs.size( ); i++ )
+		{
+			l.addAll( ( (GroupColumnBinding) bindingExprs.get( i ) ).getKeySet( ) );
+		}
+		return l;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private HashMap getGroupKeys( )
+	{
+		List bindingExprs = exprManager.getBindingExprs( );
+
+		HashMap l = new HashMap( );
+		for ( int i = 0; i < bindingExprs.size( ); i++ )
+		{
+			String key = ( (GroupColumnBinding) bindingExprs.get( i ) ).getGroupKey( );
+			Integer groupLevel = new Integer( ( (GroupColumnBinding) bindingExprs.get( i ) ).getGroupLevel( ) );
+			if ( key != null )
+				l.put( groupLevel, key );
+		}
+		return l;
+	}
+	
 }
 
 /**
  * 
- *
  */
 class Node
 {
@@ -241,7 +289,7 @@ class Node
 	 * 
 	 * @return
 	 */
-	public String getValue( )
+	String getValue( )
 	{
 		return this.value;
 	}
@@ -250,7 +298,7 @@ class Node
 	 * 
 	 * @param n
 	 */
-	public void addChild( Node n )
+	void addChild( Node n )
 	{
 		this.children.add( n );
 	}
@@ -259,13 +307,13 @@ class Node
 	 * 
 	 * @return
 	 */
-	public List getChildren( )
+	List getChildren( )
 	{
 		return this.children;
 	}
 
 	/*
-	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals( Object o )
@@ -273,5 +321,5 @@ class Node
 		if ( ( o instanceof Node ) && ( (Node) o ).value.equals( this.value ) )
 			return true;
 		return false;
-	}
+	}		
 }
