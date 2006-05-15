@@ -652,7 +652,7 @@ public final class ErrorDetail
 	 * 			The reference to the editor.
 	 */
 	 
-	public String getSub_editer( )
+	public String getSubEditer( )
 	{
 		return sub_editer;
 	}
@@ -663,12 +663,11 @@ public final class ErrorDetail
 	 *            The reference to the editor.
 	 */
 	 
-	public void setSub_editer( String sub_editer )
+	public void setSubEditer( String sub_editer )
 	{
 		this.sub_editer = sub_editer;
 	}
 
-	
 	/**
 	 * Sets The element which causes error.
 	 * @param element
@@ -678,6 +677,70 @@ public final class ErrorDetail
 	public void setElement( IDesignElement element )
 	{
 		this.element = (DesignElement)element;
+	}
+	
+	/**
+	 * Sets the error description.
+	 * @param description 
+	 * 			The error description to set.
+	 */
+	public void setDescription( String description )
+	{
+		this.description = new StringBuffer();
+		this.description.append( description );
+	}
+	
+	/**
+	 * Sets the error description.
+	 * @param description 
+	 * 			The error description to set.
+	 */
+	public void setDescription( StringBuffer description )
+	{
+		this.description = description;
+	}
+
+	/**
+	 * Returns the error description.
+	 * @return the description
+	 * 			The error description.
+	 */
+	public String getDescription( )
+	{
+		return description.toString( );
+	}
+
+	
+	/**
+	 * Sets the element which causes error.
+	 * @param element
+	 * 		    The element which causes error.
+	 */
+	public void setElement( DesignElement element )
+	{
+		this.element = element;
+	}
+
+	
+	/**
+	 * Setsthe name of the exception class.
+	 * @param exceptionName 
+	 * 			The name of the exception class to set.
+	 */
+	public void setExceptionName( String exceptionName )
+	{
+		this.exceptionName = exceptionName;
+	}
+
+	
+	/**
+	 * Sets the localized error message.
+	 * @param message 
+	 * 			The localized error message to set.
+	 */
+	public void setMessage( String message )
+	{
+		this.message = message;
 	}
 
 }
