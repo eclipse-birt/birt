@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -63,12 +66,29 @@ public class WizardSaveAsPage extends WizardPage
 	private ResourceAndContainerGroup resourceGroup;
 	private IResource originalFile;
 	private String originalName;
+	private ModuleHandle model;
 
 	public WizardSaveAsPage( String pageName )
 	{
 		super( pageName );
 	}
 
+	public boolean canFlipToNextPage()
+	{
+		if(validatePage( ) == false)
+		{
+			return false;
+		}
+		
+		if(resourceGroup.getResource( ).endsWith( ".rpttemplate" ))
+		{
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
 	public void createControl( Composite parent )
 	{
 
@@ -150,6 +170,17 @@ public class WizardSaveAsPage extends WizardPage
 	}
 
 	/**
+	 * Sets the model to use.
+	 * 
+	 * @param ModuleHandle
+	 *            the original file
+	 */
+	public void setModel( ModuleHandle model )
+	{
+		this.model = model;
+	}
+	
+	/**
 	 * Returns whether this page's visual components all contain valid values.
 	 * 
 	 * @return <code>true</code> if valid, and <code>false</code> otherwise
@@ -166,6 +197,24 @@ public class WizardSaveAsPage extends WizardPage
 				setErrorMessage( resourceGroup.getProblemMessage( ) );
 			return false;
 		}
+		if(resourceGroup.getResource( ) != null && model instanceof LibraryHandle)
+		{
+			if(!resourceGroup.getResource( ).endsWith( ".rptlibrary" ))
+			{
+				setErrorMessage(Messages.getString( "WizardReportSettingPage.Error.Library" ));
+				return false;
+			}
+		}
+		
+		if(resourceGroup.getResource( ) != null && model instanceof ReportDesignHandle)
+		{
+			if(!(resourceGroup.getResource( ).endsWith( ".rptdesign" )||resourceGroup.getResource( ).endsWith( ".rpttemplate" )))
+			{
+				setErrorMessage(Messages.getString( "WizardReportSettingPage.Error.ReportorTemplate" ));
+				return false;
+			}
+		}
+		
 		return true;
 	}
 

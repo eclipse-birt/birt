@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.ide.wizards;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -50,9 +51,17 @@ public class SaveReportAsWizard extends Wizard
 	{
 
 		saveAsPage = new WizardSaveAsPage( "WizardSaveAsPage" ); //$NON-NLS-1$
+		saveAsPage.setModel( model );
 		saveAsPage.setOriginalFile( orginalFile );
 		saveAsPage.setTitle( Messages.getString( "SaveReportAsWizard.SaveAsPageTitle" ) ); //$NON-NLS-1$
-		saveAsPage.setDescription( Messages.getString( "SaveReportAsWizard.SaveAsPageMessage" ) ); //$NON-NLS-1$
+		if ( model instanceof ReportDesignHandle )
+		{
+			saveAsPage.setDescription( Messages.getString( "SaveReportAsWizard.SaveAsReportorTemplateMessage" ) ); //$NON-NLS-1$
+		}
+		else if ( model instanceof LibraryHandle )
+		{
+			saveAsPage.setDescription( Messages.getString( "SaveReportAsWizard.SaveAsLibraryMessage" ) ); //$NON-NLS-1$
+		}
 		// saveAsPage.setImageDescriptor(
 		// IDEInternalWorkbenchImages.getImageDescriptor(
 		// IDEInternalWorkbenchImages.IMG_DLGBAN_SAVEAS_DLG ) );
@@ -60,7 +69,7 @@ public class SaveReportAsWizard extends Wizard
 
 		if ( model instanceof ReportDesignHandle )
 		{
-			settingPage = new WizardReportSettingPage( (ReportDesignHandle)model );
+			settingPage = new WizardReportSettingPage( (ReportDesignHandle) model );
 			settingPage.setTitle( Messages.getFormattedString( "SaveReportAsWizard.SettingPage.title", new Object[]{Messages.getString( "NewReportWizard.wizardPageTitle.report" )} ) ); //$NON-NLS-1$
 			settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
 
@@ -84,7 +93,7 @@ public class SaveReportAsWizard extends Wizard
 
 		if ( saveAsPath != null && model instanceof ReportDesignHandle )
 		{
-			ReportDesignHandle reportHandle = (ReportDesignHandle)model;
+			ReportDesignHandle reportHandle = (ReportDesignHandle) model;
 			try
 			{
 				reportHandle.setDisplayName( settingPage.getDisplayName( ) );
