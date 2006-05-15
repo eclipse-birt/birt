@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Action. Action include: hyperlink, drill through and bookmark.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.7 $ $Date: 2006/04/06 12:35:25 $
  */
 public class ActionDesign
 {
@@ -44,6 +44,11 @@ public class ActionDesign
 	 * bookmark.
 	 */
 	protected String bookmark;
+
+	/**
+	 * Flag indicating if this is a bookmark. False means this is a TOC.
+	 */
+	protected boolean isBookmark;
 
 	/**
 	 * drill through
@@ -135,5 +140,15 @@ public class ActionDesign
 	public void setTargetWindow( String target )
 	{
 		this.target = target;
+	}
+
+	public void setBookmarkType( boolean isBookmark )
+	{
+		this.isBookmark = isBookmark;
+	}
+
+	public boolean isBookmark( )
+	{
+		return isBookmark;
 	}
 }

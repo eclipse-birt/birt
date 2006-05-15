@@ -15,12 +15,13 @@ import java.util.Map;
 
 /**
  * 
- * @version $Revision: 1.7 $ $Date: 2005/12/20 06:48:34 $
+ * @version $Revision: 1.8 $ $Date: 2006/04/06 12:35:25 $
  */
 public class DrillThroughActionDesign
 {
 	protected String reportName;
 	protected String bookmark;
+	protected boolean isBookmark;
 	protected String format;
 
 	protected Map parameters;
@@ -105,5 +106,15 @@ public class DrillThroughActionDesign
 	public void setFormat( String format )
 	{
 		this.format = format;
+	}
+
+	public void setBookmarkType( boolean isBookmark )
+	{
+		this.isBookmark = isBookmark;
+	}
+
+	public boolean isBookmark( )
+	{
+		return isBookmark;
 	}
 }

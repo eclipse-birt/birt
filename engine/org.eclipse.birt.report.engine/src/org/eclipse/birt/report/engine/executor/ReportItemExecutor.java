@@ -51,7 +51,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.29 $ $Date: 2006/04/10 10:53:17 $
+ * @version $Revision: 1.30 $ $Date: 2006/04/25 11:34:01 $
  */
 public abstract class ReportItemExecutor
 {
@@ -206,6 +206,7 @@ public abstract class ReportItemExecutor
 					{
 						IHyperlinkAction obj = report.createActionContent( );
 						obj.setBookmark( value.toString( ) );
+						obj.setBookmarkType( action.isBookmark( ) );
 						itemContent.setHyperlinkAction( obj );
 					}
 					break;
@@ -222,6 +223,7 @@ public abstract class ReportItemExecutor
 							bookmark = value.toString( );
 						}
 					}
+					boolean isBookmark = drill.isBookmark( );
 					Map paramsVal = new HashMap( );
 					Map params = drill.getParameters( );
 					if ( params != null )
@@ -260,7 +262,7 @@ public abstract class ReportItemExecutor
 					String format = drill.getFormat( );
 					// XXX Do not support Search criteria
 					IHyperlinkAction obj = report.createActionContent( );
-					obj.setDrillThrough( bookmark, reportName, paramsVal, null,
+					obj.setDrillThrough( bookmark, isBookmark, reportName, paramsVal, null,
 							action.getTargetWindow( ), format );
 
 					itemContent.setHyperlinkAction( obj );

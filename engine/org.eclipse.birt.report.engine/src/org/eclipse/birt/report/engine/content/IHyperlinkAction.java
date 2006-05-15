@@ -44,6 +44,7 @@ public interface IHyperlinkAction
 	 */
 	public int getType( );
 
+	public boolean isBookmark();
 	/**
 	 * @return the bookmark string (not the bookmark expression) when action
 	 *         type is bookmark or drillthrough, or null whe action type is
@@ -89,7 +90,9 @@ public interface IHyperlinkAction
 
 	public void setBookmark( String bookmark );
 
-	public void setDrillThrough( String bookmark, String reportName,
-			Map parameterBindings, Map searchCriteria, String target,
-			String format );
+	public void setBookmarkType( boolean isBookmark );
+
+	public void setDrillThrough( String bookmark, boolean isBookmark,
+			String reportName, Map parameterBindings, Map searchCriteria,
+			String target, String format );
 }

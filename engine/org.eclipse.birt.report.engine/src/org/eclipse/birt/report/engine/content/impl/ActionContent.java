@@ -37,6 +37,11 @@ public class ActionContent implements IHyperlinkAction
 	protected String bookmark;
 
 	/**
+	 * Flag indicating if this is a bookmark. False means this is a TOC.
+	 */
+	protected boolean isBookmark;
+
+	/**
 	 * action string. See base interface
 	 */
 	protected String hyperlink;
@@ -99,6 +104,8 @@ public class ActionContent implements IHyperlinkAction
 	 * 
 	 * @param bookmark
 	 *            the bookmark string
+	 * @param bookmarkType
+	 *            the bookmark type
 	 * @param reportName
 	 *            the report name navigated
 	 * @param parameterBindings
@@ -108,11 +115,12 @@ public class ActionContent implements IHyperlinkAction
 	 * @param target
 	 *            the target window
 	 */
-	public void setDrillThrough( String bookmark, String reportName,
-			Map parameterBindings, Map searchCriteria, String target,
-			String format )
+	public void setDrillThrough( String bookmark, boolean isBookmark,
+			String reportName, Map parameterBindings, Map searchCriteria,
+			String target, String format )
 	{
 		this.bookmark = bookmark;
+		this.isBookmark = isBookmark;
 		this.reportName = reportName;
 		this.parameterBindings = parameterBindings;
 		this.searchCriteria = searchCriteria;
@@ -208,6 +216,7 @@ public class ActionContent implements IHyperlinkAction
 	final static int FIELD_SEARCHCRITERIA = 5;
 	final static int FIELD_TARGET = 6;
 	final static int FIELD_FORMAT = 7;
+	final static int FIELD_ISBOOKMARK = 8;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -220,6 +229,11 @@ public class ActionContent implements IHyperlinkAction
 		{
 			IOUtil.writeInt( out, FIELD_BOOKMARK );
 			IOUtil.writeString( out, bookmark );
+		}
+		if ( isBookmark )
+		{
+			IOUtil.writeInt( out, FIELD_ISBOOKMARK );
+			IOUtil.writeBool( out, isBookmark );
 		}
 		if ( hyperlink != null )
 		{
@@ -283,6 +297,9 @@ public class ActionContent implements IHyperlinkAction
 			case FIELD_FORMAT :
 				format = IOUtil.readString( in );
 				break;
+			case FIELD_ISBOOKMARK:
+				isBookmark = IOUtil.readBool( in );
+				break;
 		}
 	}
 
@@ -309,4 +326,13 @@ public class ActionContent implements IHyperlinkAction
 		return format;
 	}
 
+	public void setBookmarkType( boolean isBookmark )
+	{
+		this.isBookmark = isBookmark;
+	}
+
+	public boolean isBookmark( )
+	{
+		return isBookmark;
+	}
 }
