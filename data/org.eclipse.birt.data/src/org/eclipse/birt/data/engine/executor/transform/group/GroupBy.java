@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.data.engine.executor.transform.group;
 
-import java.util.Date;
-
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
@@ -46,20 +44,11 @@ public abstract class GroupBy
 		assert groupDefn != null;
 
 		GroupBy groupBy = null;
-
+		
 		switch ( groupDefn.getInterval( ) )
 		{
 			case GroupSpec.NO_INTERVAL :
 				groupBy = new GroupByDistinctValue( );
-				break;
-			case GroupSpec.NUMERIC_INTERVAL :
-				if ( isNumber( columnType ) )
-					groupBy = new GroupByNumberRange( groupDefn );
-				else
-					throw new DataException( ResourceConstants.BAD_GROUP_INTERVAL_TYPE,
-							new Object[]{
-									"numeric", columnType.getName( )
-							} );
 				break;
 			case GroupSpec.STRING_PREFIX_INTERVAL :
 				if ( isString( columnType ) )
@@ -71,13 +60,8 @@ public abstract class GroupBy
 							} );
 				break;
 			default :
-				if ( isDate( columnType ) )
-					groupBy = new GroupByDateRange( groupDefn );
-				else
-					throw new DataException( ResourceConstants.BAD_GROUP_INTERVAL_TYPE,
-							new Object[]{
-									"date", columnType.getName( )
-							} );
+				groupBy = new GroupByNumberRange( groupDefn );
+				break;
 		}
 
 		groupBy.groupSpec = groupDefn;
@@ -201,19 +185,21 @@ public abstract class GroupBy
 		return groupSpec;
 	}
 
-	private static boolean isNumber( Class columnType )
+/*	private static boolean isNumber( Class columnType )
 	{
 		return Number.class.isAssignableFrom( columnType );
-	}
-
-	private static boolean isString( Class columnType )
-	{
-		return String.class.isAssignableFrom( columnType );
 	}
 
 	private static boolean isDate( Class columnType )
 	{
 		return Date.class.isAssignableFrom( columnType );
 	}
+*/	
+	private static boolean isString( Class columnType )
+	{
+		return String.class.isAssignableFrom( columnType );
+	}
+
+	
 
 }
