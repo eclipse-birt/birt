@@ -21,12 +21,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
@@ -43,6 +42,7 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -64,13 +64,12 @@ public final class DataSetProvider
 	// column hash table
 	private transient Hashtable htColumns = new Hashtable( 10 );
 	private static Hashtable htDataSourceExtensions = new Hashtable( 10 );
+	private transient Hashtable sessionTable = new Hashtable( 10 );
 
 	// constant value
 	private static final char RENAME_SEPARATOR = '_';
 
 	private static String UNNAME_PREFIX = "UNNAMED"; //$NON-NLS-1$
-	// data engine
-	private DataEngine engine = null;
 
 	/**
 	 * @return
@@ -476,6 +475,53 @@ public final class DataSetProvider
 	}
 
 	/**
+	 * @param dataSetDesign
+	 * @param bindingParams
+	 * @return
+	 */
+	public final QueryDefinition getQueryDefinition(
+			IBaseDataSetDesign dataSetDesign, ParamBindingHandle[] bindingParams )
+	{
+		return getQueryDefinition( dataSetDesign, bindingParams, -1 );
+	}
+	
+	/**
+	 * @param dataSetDesign
+	 * @param bindingParams
+	 * @param i
+	 * @return
+	 */
+	private QueryDefinition getQueryDefinition(
+			IBaseDataSetDesign dataSetDesign,
+			ParamBindingHandle[] bindingParams, int rowsToReturn )
+	{
+		if ( bindingParams == null || bindingParams.length == 0 )
+		{
+			return getQueryDefinition( dataSetDesign, rowsToReturn );
+		}
+		if ( dataSetDesign != null )
+		{
+			QueryDefinition defn = new QueryDefinition( null );
+			defn.setDataSetName( dataSetDesign.getName( ) );
+			if ( rowsToReturn > 0 )
+			{
+				defn.setMaxRows( rowsToReturn );
+			}
+
+			for ( int i = 0; i < bindingParams.length; i++ )
+			{
+				ParamBindingHandle param = bindingParams[i];
+				InputParameterBinding binding = new InputParameterBinding( param.getParamName( ),
+						new ScriptExpression( param.getExpression( ) ) );
+				defn.addInputParamBinding( binding );
+			}
+
+			return defn;
+		}
+		return null;
+	}
+
+	/**
 	 * 
 	 * @param orgColumnNameSet
 	 * @param newColumnNameSet
@@ -747,11 +793,11 @@ public final class DataSetProvider
 	{
 		if ( dataSet != null )
 		{
-			DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					dataSet.getModuleHandle( ) );
-			DataRequestSession session = DataRequestSession.newSession( context );
-			
-			IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( ).adaptDataSet( dataSet );
+			DataRequestSession session = getDataRequestSession( dataSet );
+
+			IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
+					.adaptDataSet( dataSet );
+
 			if ( !useColumnHints )
 			{
 				dataSetDesign.getResultSetHints( ).clear( );
@@ -764,14 +810,14 @@ public final class DataSetProvider
 			{
 				IBaseDataSourceDesign dataSourceDesign = session.getModelAdaptor( )
 						.adaptDataSource( dataSet.getDataSource( ) );
-				getEngine( ).defineDataSource( dataSourceDesign );
-				
+				session.defineDataSource( dataSourceDesign );
+
 			}
 			if ( dataSet instanceof JointDataSetHandle )
 			{
 				defineSourceDataSets( dataSet, dataSetDesign );
 			}
-			getEngine( ).defineDataSet( dataSetDesign );
+			session.defineDataSet( dataSetDesign );
 			return dataSetDesign;
 		}
 		return null;
@@ -783,57 +829,45 @@ public final class DataSetProvider
 	 * @param dataSetDesign
 	 * @throws BirtException
 	 */
-	private void defineSourceDataSets( DataSetHandle dataSet, IBaseDataSetDesign dataSetDesign ) throws BirtException
+	private void defineSourceDataSets( DataSetHandle dataSet,
+			IBaseDataSetDesign dataSetDesign ) throws BirtException
 	{
 		List dataSets = dataSet.getModuleHandle( ).getAllDataSets( );
-		for( int i = 0; i < dataSets.size( ); i++ )
+		for ( int i = 0; i < dataSets.size( ); i++ )
 		{
-			DataSetHandle dsHandle = (DataSetHandle)dataSets.get( i );
-			if( dsHandle.getName( )!= null)
+			DataSetHandle dsHandle = (DataSetHandle) dataSets.get( i );
+			if ( dsHandle.getName( ) != null )
 			{
-				if( dsHandle.getName( ).equals( ((IJointDataSetDesign)dataSetDesign).getLeftDataSetDesignName( ) )
-						||dsHandle.getName( ).equals( ((IJointDataSetDesign)dataSetDesign).getRightDataSetDesignName( ) ))
+				if ( dsHandle.getName( )
+						.equals( ( (IJointDataSetDesign) dataSetDesign ).getLeftDataSetDesignName( ) )
+						|| dsHandle.getName( )
+								.equals( ( (IJointDataSetDesign) dataSetDesign ).getRightDataSetDesignName( ) ) )
 				{
 					getDataSetDesign( dsHandle, true, true );
 				}
-			}	
+			}
 		}
 	}
-	
-	/**
-	 * @return
-	 */
-	public DataEngine getEngine( )
-	{
-		if ( engine == null )
-		{
-			instantiateEngine( );
-		}
-		return engine;
-	}
-	
+
 	/**
 	 * 
+	 * @param dataSet
+	 * @return
+	 * @throws BirtException
 	 */
-	private synchronized final void instantiateEngine( )
+	public DataRequestSession getDataRequestSession( DataSetHandle dataSet )
+			throws BirtException
 	{
-		// This check is needed if a second thread ends up here after one
-		// thread creates the instance
-		if ( engine == null )
+		if ( sessionTable.get( dataSet.getName( ) ) != null )
+			return (DataRequestSession) sessionTable.get( dataSet.getName( ) );
+		else
 		{
-			try
-			{
-				DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-						null,
-						null,
-						null );
-				engine = DataEngine.newDataEngine( context );
-			}
-			catch ( BirtException e )
-			{
-				// impossible here
-			}
+			DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+					dataSet.getModuleHandle( ) );
+			DataRequestSession session = DataRequestSession.newSession( context );
+			sessionTable.put( dataSet.getName( ), session );
 
+			return session;
 		}
 	}
 	
@@ -854,16 +888,16 @@ public final class DataSetProvider
 	 * @return
 	 * @throws BirtException
 	 */
-	public IPreparedQuery prepareQuery( DataSetHandle dataSet ) throws BirtException
+	public IPreparedQuery prepareQuery( DataSetHandle dataSet )
+			throws BirtException
 	{
-		DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				dataSet.getModuleHandle( ) );
-		DataRequestSession session = DataRequestSession.newSession( context );
+		DataRequestSession session = getDataRequestSession( dataSet );
 
-		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
-				.adaptDataSet( dataSet );
+		IBaseDataSetDesign dataSetDesign = getDataSetDesign( dataSet,
+				false,
+				false );
 
-		QueryDefinition queryDefn = getQueryDefinition( dataSetDesign, 1 );
+		QueryDefinition queryDefn = getQueryDefinition( dataSetDesign, -1 );
 		return session.prepare( queryDefn, null );
 	}
 	
@@ -874,15 +908,42 @@ public final class DataSetProvider
 	 * @throws BirtException
 	 */
 	public IPreparedQuery prepareQuery( DataSetHandle dataSet,
-			QueryDefinition queryDefn ) throws BirtException
+			IQueryDefinition query ) throws BirtException
 	{
-		DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				dataSet.getModuleHandle( ) );
-		DataRequestSession session = DataRequestSession.newSession( context );
+		DataRequestSession session = getDataRequestSession( dataSet );
 
-		return session.prepare( queryDefn, null );
+		getDataSetDesign( dataSet, true, true );
+		return session.prepare( query, null );
 	}
 	
+	/**
+	 * Gets prepared query, given Data set, Parameter binding, and
+	 * useColumnHints, useFilters information.
+	 * 
+	 * @param dataSet
+	 *            Given DataSet providing SQL query and parameters.
+	 * @param bindingParams
+	 *            Given Parameter bindings providing binded parameters, null if
+	 *            no binded parameters.
+	 * @param useColumnHints
+	 *            Using column hints flag.
+	 * @param useFilters
+	 *            Using filters flag.
+	 * @return IPreparedQeury
+	 * @throws BirtException
+	 */
+	public final IPreparedQuery prepareQuery( DataSetHandle dataSet,
+			ParamBindingHandle[] bindingParams, boolean useColumnHints,
+			boolean useFilters ) throws BirtException
+	{
+		IBaseDataSetDesign dataSetDesign = getDataSetDesign( dataSet,
+				useColumnHints,
+				useFilters );
+
+		return prepareQuery( dataSet, getQueryDefinition( dataSetDesign,
+				bindingParams ) );
+	}
+
 	/**
 	 * @param parent
 	 * @return
