@@ -829,6 +829,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 					if ( filename != null )
 					{
+						filename = new File(filename).toURL( ).toString( );
 						if ( needFilter )
 						{
 							filename = URIUtil.getRelativePath( getBasePath( ),
