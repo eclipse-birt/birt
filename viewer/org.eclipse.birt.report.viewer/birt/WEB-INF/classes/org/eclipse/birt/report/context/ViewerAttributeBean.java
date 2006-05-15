@@ -138,6 +138,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
+		options.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
 
 		Collection parameterList = this.getReportService( )
 				.getParameterDefinitions( reportDesignHandle, options, false );

@@ -77,6 +77,8 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 			InputOptions options = new InputOptions( );
 			options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 			options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
+			options.setOption( InputOptions.OPT_RTL, new Boolean( attrBean
+					.isRtl( ) ) );
 			options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean(
 					attrBean.isDesigner( ) ) );
 			getReportService( ).runReport( designHandle, docName, options,

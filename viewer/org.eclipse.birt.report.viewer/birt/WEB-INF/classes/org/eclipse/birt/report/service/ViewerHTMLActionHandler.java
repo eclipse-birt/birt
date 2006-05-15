@@ -61,6 +61,12 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	protected boolean isEmbeddable = false;
 
 	/**
+	 * RTL option setting by the command line or URL parameter.
+	 */
+
+	protected boolean isRtl = false;
+
+	/**
 	 * Constructor.
 	 */
 	public ViewerHTMLActionHandler( )
@@ -76,12 +82,13 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	 */
 
 	public ViewerHTMLActionHandler( IReportDocument document, long page,
-			Locale locale, boolean isEmbeddable )
+			Locale locale, boolean isEmbeddable, boolean isRtl )
 	{
 		this.document = document;
 		this.page = page;
 		this.locale = locale;
 		this.isEmbeddable = isEmbeddable;
+		this.isRtl = isRtl;
 	}
 
 	/**
@@ -136,7 +143,8 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		String bookmark = action.getBookmark( );
 		try
 		{
-			bookmark = URLEncoder.encode( bookmark, "UTF-8" ); //$NON-NLS-1$
+			bookmark = URLEncoder.encode( bookmark,
+					ParameterAccessor.UTF_8_ENCODE );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
@@ -150,12 +158,15 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		}
 
 		link.append( baseURL );
-		link.append( "?__document=" ); //$NON-NLS-1$
+		link.append( ParameterAccessor.QUERY_CHAR );
+		link.append( ParameterAccessor.PARAM_REPORT_DOCUMENT );
+		link.append( ParameterAccessor.EQUALS_OPERATOR );
 		String documentName = document.getName( );
 
 		try
 		{
-			documentName = URLEncoder.encode( documentName, "UTF-8" ); //$NON-NLS-1$
+			documentName = URLEncoder.encode( documentName,
+					ParameterAccessor.UTF_8_ENCODE );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
@@ -165,8 +176,13 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 
 		if ( locale != null )
 		{
-			link.append( "&__locale=" ); //$NON-NLS-1$
-			link.append( locale.toString( ) );
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_LOCALE, locale.toString( ) ) );
+		}
+		if ( isRtl )
+		{
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
 		}
 
 		if ( realBookmark )
@@ -176,8 +192,8 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		}
 		else
 		{
-			link.append( "&__bookmark=" ); //$NON-NLS-1$
-			link.append( bookmark );
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_BOOKMARK, bookmark ) );
 		}
 
 		return link.toString( );
@@ -221,7 +237,8 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 
 			try
 			{
-				link.append( URLEncoder.encode( reportName, "UTF-8" ) ); //$NON-NLS-1$
+				link.append( URLEncoder.encode( reportName,
+						ParameterAccessor.UTF_8_ENCODE ) );
 			}
 			catch ( UnsupportedEncodingException e1 )
 			{
@@ -231,7 +248,8 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 			// add format support
 			if ( format != null && format.length( ) > 0 )
 			{
-				link.append( "&__format=" + format ); //$NON-NLS-1$
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_FORMAT, format ) );
 			}
 
 			// Adds the parameters
@@ -250,8 +268,16 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 						{
 							String value = valueObj.toString( );
 							link
-									.append( "&" + URLEncoder.encode( key, "UTF-8" ) //$NON-NLS-1$ //$NON-NLS-2$
-											+ "=" + URLEncoder.encode( value, "UTF-8" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+									.append( ParameterAccessor
+											.getQueryParameterString(
+													URLEncoder
+															.encode(
+																	key,
+																	ParameterAccessor.UTF_8_ENCODE ),
+													URLEncoder
+															.encode(
+																	value,
+																	ParameterAccessor.UTF_8_ENCODE ) ) );
 						}
 					}
 					catch ( UnsupportedEncodingException e )
@@ -262,7 +288,10 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 			}
 
 			// Adding overwrite.
-			link.append( "&__overwrite=true" ); //$NON-NLS-1$
+			link
+					.append( ParameterAccessor.getQueryParameterString(
+							ParameterAccessor.PARAM_OVERWRITE, String
+									.valueOf( true ) ) );
 
 			// The search rules are not supported yet.
 			if ( !ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format )
@@ -271,15 +300,27 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 
 				try
 				{
-					link.append( "&__bookmark=" ); //$NON-NLS-1$
-					link.append( URLEncoder.encode( action.getBookmark( ),
-							"UTF-8" ) ); //$NON-NLS-1$
+					link.append( ParameterAccessor.getQueryParameterString(
+							ParameterAccessor.PARAM_BOOKMARK, URLEncoder
+									.encode( action.getBookmark( ),
+											ParameterAccessor.UTF_8_ENCODE ) ) );
 				}
 				catch ( UnsupportedEncodingException e )
 				{
 					// Does nothing
 				}
 			}
+		}
+		
+		if ( locale != null )
+		{
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_LOCALE, locale.toString( ) ) );
+		}
+		if ( isRtl )
+		{
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
 		}
 
 		return link.toString( );

@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.IOException;
@@ -20,19 +21,21 @@ import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
-public abstract class AbstractExtractResultSetActionHandler extends AbstractBaseActionHandler
+public abstract class AbstractExtractResultSetActionHandler
+		extends
+			AbstractBaseActionHandler
 {
 
-	public AbstractExtractResultSetActionHandler( IContext context, Operation operation,
-			GetUpdatedObjectsResponse response )
+	public AbstractExtractResultSetActionHandler( IContext context,
+			Operation operation, GetUpdatedObjectsResponse response )
 	{
 		super( context, operation, response );
 	}
 
 	protected void __execute( ) throws RemoteException
 	{
-		BaseAttributeBean attrBean = ( BaseAttributeBean ) context.getBean();
-		
+		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean( );
+
 		String docName = attrBean.getReportDocumentName( );
 		String resultSetName = ParameterAccessor.getResultSetName( context
 				.getRequest( ) );
@@ -45,6 +48,8 @@ public abstract class AbstractExtractResultSetActionHandler extends AbstractBase
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
+		options.setOption( InputOptions.OPT_RTL,
+				new Boolean( attrBean.isRtl( ) ) );
 		try
 		{
 			ServletOutputStream out = context.getResponse( ).getOutputStream( );
@@ -71,5 +76,4 @@ public abstract class AbstractExtractResultSetActionHandler extends AbstractBase
 		throw fault;
 	}
 
-	
 }

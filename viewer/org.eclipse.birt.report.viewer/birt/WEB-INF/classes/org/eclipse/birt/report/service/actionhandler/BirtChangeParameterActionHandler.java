@@ -29,9 +29,11 @@ import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateContent;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
 
-public class BirtChangeParameterActionHandler extends
-		AbstractChangeParameterActionHandler
+public class BirtChangeParameterActionHandler
+		extends
+			AbstractChangeParameterActionHandler
 {
+
 	/**
 	 * Constructor.
 	 * 
@@ -53,13 +55,14 @@ public class BirtChangeParameterActionHandler extends
 
 	protected void doRenderPage( String docName, long pageNumber,
 			boolean svgFlag, boolean isMasterContent, boolean useBookmark,
-			String bookmark, Locale locale ) throws ReportServiceException,
-			RemoteException
+			String bookmark, Locale locale, boolean isRtl )
+			throws ReportServiceException, RemoteException
 	{
 		ArrayList activeIds = new ArrayList( );
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
+		options.setOption( InputOptions.OPT_RTL, new Boolean( isRtl ) );
 		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
 				new Boolean( isMasterContent ) );
 		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( svgFlag ) );
@@ -92,7 +95,7 @@ public class BirtChangeParameterActionHandler extends
 		Update updateNavbar = new Update( );
 		updateNavbar.setUpdateData( updateData );
 
-		response.setUpdate( new Update[] { updateDocument, updateNavbar } );
+		response.setUpdate( new Update[]{updateDocument, updateNavbar} );
 	}
 
 	protected IViewerReportService getReportService( )

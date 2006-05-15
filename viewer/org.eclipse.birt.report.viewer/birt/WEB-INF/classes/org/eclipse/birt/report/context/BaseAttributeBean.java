@@ -126,6 +126,12 @@ abstract public class BaseAttributeBean
 	protected Map parameterMap = null;
 
 	/**
+	 * RTL option.
+	 */
+
+	protected boolean rtl = false;
+
+	/**
 	 * Abstract methods.
 	 */
 	abstract protected void __init( HttpServletRequest request )
@@ -166,6 +172,7 @@ abstract public class BaseAttributeBean
 	protected void init( HttpServletRequest request ) throws Exception
 	{
 		this.locale = ParameterAccessor.getLocale( request );
+		this.rtl = ParameterAccessor.isRtl( request );
 		this.__init( request );
 	}
 
@@ -180,6 +187,7 @@ abstract public class BaseAttributeBean
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
+		options.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
 
 		Collection parameterList = this.getReportService( )
 				.getParameterDefinitions( reportDesignHandle, options, false );
@@ -326,6 +334,14 @@ abstract public class BaseAttributeBean
 	public String getFormat( )
 	{
 		return format;
+	}
+
+	/**
+	 * @return the rtl
+	 */
+	public boolean isRtl( )
+	{
+		return rtl;
 	}
 
 	/**

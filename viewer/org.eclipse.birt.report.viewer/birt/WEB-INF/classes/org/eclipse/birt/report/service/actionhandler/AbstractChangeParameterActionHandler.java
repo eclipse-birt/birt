@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.rmi.RemoteException;
@@ -10,8 +11,9 @@ import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 
-public abstract class AbstractChangeParameterActionHandler extends
-		AbstractBaseActionHandler
+public abstract class AbstractChangeParameterActionHandler
+		extends
+			AbstractBaseActionHandler
 {
 
 	public AbstractChangeParameterActionHandler( IContext context,
@@ -22,7 +24,7 @@ public abstract class AbstractChangeParameterActionHandler extends
 
 	protected void __execute( ) throws RemoteException
 	{
-		BaseAttributeBean attrBean = ( BaseAttributeBean ) context.getBean( );
+		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean( );
 		boolean svgFlag = getSVGFlag( operation.getOprand( ) );
 
 		// First generate report document.
@@ -44,9 +46,10 @@ public abstract class AbstractChangeParameterActionHandler extends
 				if ( bookmark != null && bookmark.length( ) > 0 )
 				{
 					InputOptions options = new InputOptions( );
-					options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-					pageNumber = getReportService( ).getPageNumberByBookmark( docName, 
-							bookmark, options );
+					options.setOption( InputOptions.OPT_REQUEST, context
+							.getRequest( ) );
+					pageNumber = getReportService( ).getPageNumberByBookmark(
+							docName, bookmark, options );
 					useBookmark = true;
 				}
 				if ( !isValidPageNumber( context.getRequest( ), pageNumber,
@@ -59,7 +62,7 @@ public abstract class AbstractChangeParameterActionHandler extends
 
 			doRenderPage( docName, pageNumber, svgFlag, attrBean
 					.isMasterPageContent( ), useBookmark, bookmark, attrBean
-					.getLocale( ) );
+					.getLocale( ), attrBean.isRtl( ) );
 		}
 		catch ( ReportServiceException e )
 		{
@@ -73,6 +76,6 @@ public abstract class AbstractChangeParameterActionHandler extends
 
 	protected abstract void doRenderPage( String docName, long pageNumber,
 			boolean svgFlag, boolean isMasterContent, boolean useBookmark,
-			String bookmark, Locale locale ) throws ReportServiceException,
-			RemoteException;
+			String bookmark, Locale locale, boolean isRtl )
+			throws ReportServiceException, RemoteException;
 }

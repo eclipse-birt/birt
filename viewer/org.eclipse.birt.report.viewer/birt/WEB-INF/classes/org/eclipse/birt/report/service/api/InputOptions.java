@@ -5,29 +5,31 @@ import java.util.Map;
 
 public class InputOptions
 {
-	public static final String OPT_LOCALE = "locale";
+	public static final String OPT_LOCALE = "locale"; //$NON-NLS-1$
 
-	public static final String OPT_FORMAT = "format";
+	public static final String OPT_FORMAT = "format"; //$NON-NLS-1$
 
-	public static final String OPT_BASE_URL = "baseURL";
+	public static final String OPT_BASE_URL = "baseURL"; //$NON-NLS-1$
 
-	public static final String OPT_REQUEST = "request";
+	public static final String OPT_REQUEST = "request"; //$NON-NLS-1$
 	
-	public static final String OPT_IS_MASTER_PAGE_CONTENT = "isMasterPageContent";
+	public static final String OPT_IS_MASTER_PAGE_CONTENT = "isMasterPageContent"; //$NON-NLS-1$
 	
-	public static final String OPT_SVG_FLAG = "svgFlag";
+	public static final String OPT_SVG_FLAG = "svgFlag"; //$NON-NLS-1$
 	
-	public static final String OPT_RENDER_FORMAT = "format";
+	public static final String OPT_RENDER_FORMAT = "format"; //$NON-NLS-1$
 	
-	public static final String OPT_IS_DESIGNER = "isDesigner";
+	public static final String OPT_IS_DESIGNER = "isDesigner"; //$NON-NLS-1$
 
-	public static final String OPT_SRC_DOCUMENT = "sourceDocument";
+	public static final String OPT_SRC_DOCUMENT = "sourceDocument"; //$NON-NLS-1$
 
-	public static final String OPT_REPORT_DESIGN = "reportDesign";
+	public static final String OPT_REPORT_DESIGN = "reportDesign"; //$NON-NLS-1$
 
-	public static final String OPT_VERTICAL_BAR = "verticalBar";
+	public static final String OPT_VERTICAL_BAR = "verticalBar"; //$NON-NLS-1$
 
-    public static final String OUTPUT_FILE_TYPE = "outputFileType";
+    public static final String OUTPUT_FILE_TYPE = "outputFileType"; //$NON-NLS-1$
+    
+    public static final String OPT_RTL = "rtl"; //$NON-NLS-1$
 
 	// add options here that matches the common engine run or render options
 

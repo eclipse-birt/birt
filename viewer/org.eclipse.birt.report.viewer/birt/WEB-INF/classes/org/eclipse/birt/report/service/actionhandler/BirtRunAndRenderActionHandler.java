@@ -45,6 +45,7 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
+		options.setOption( InputOptions.OPT_RTL, new Boolean( attrBean.isRtl( ) ) );
 		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
 				new Boolean( master ) );
 		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( svgFlag ) );

@@ -16,6 +16,7 @@ import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserAccessor;
@@ -128,6 +129,28 @@ public class WebViewer
 		String svgFlag = ViewerPlugin.getDefault( ).getPluginPreferences( )
 				.getString( SVG_FLAG );
 		boolean bSVGFlag = false;
+
+		// get -dir rtl option
+
+		boolean rtl = false;
+		String eclipseCommands = System.getProperty( "eclipse.commands" ); //$NON-NLS-1$
+		if ( eclipseCommands != null )
+		{
+			String[] options = eclipseCommands.split( "-" ); //$NON-NLS-1$
+			String regex = "[\\s]*[dD][iI][rR][\\s]*[rR][tT][lL][\\s]*"; //$NON-NLS-1$
+			Pattern pattern = Pattern.compile( regex );
+			for ( int i = 0; i < options.length; i++ )
+			{
+				String option = options[ i ];
+				System.out.print( option );
+				if ( pattern.matcher( option ).matches( ) )
+				{
+					rtl = true;
+					break;
+				}
+			}
+		}
+
 		if ( "true".equalsIgnoreCase( svgFlag ) ) //$NON-NLS-1$
 		{
 			bSVGFlag = true;
@@ -152,7 +175,8 @@ public class WebViewer
 						? "&__locale=" + LocaleTable.get( locale ) : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				+ "&__designer=" //$NON-NLS-1$
 				+ String.valueOf( inDesigner )
-				+ "&__masterpage=" + String.valueOf( bMasterPageContent ); //$NON-NLS-1$
+				+ "&__masterpage=" + String.valueOf( bMasterPageContent ) //$NON-NLS-1$
+				+ "&__rtl=" + String.valueOf( rtl ); //$NON-NLS-1$
 	}
 
 	/**
@@ -212,7 +236,8 @@ public class WebViewer
 		}
 		else
 		{
-			root = createURL( allowPage ? "frameset" : "run", report, format, false ) + "&" + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			root = createURL(
+					allowPage ? "frameset" : "run", report, format, false ) + "&" + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		try

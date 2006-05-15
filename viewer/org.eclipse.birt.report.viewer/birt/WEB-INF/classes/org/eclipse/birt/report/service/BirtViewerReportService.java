@@ -76,10 +76,9 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IReportRunnable runnable;
 		String reportDesignName = design.getFileName( );
-		HttpServletRequest request = ( HttpServletRequest ) runOptions
+		HttpServletRequest request = (HttpServletRequest) runOptions
 				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = ( Locale ) runOptions
-				.getOption( InputOptions.OPT_LOCALE );
+		Locale locale = (Locale) runOptions.getOption( InputOptions.OPT_LOCALE );
 		try
 		{
 			runnable = ReportEngineService.getInstance( ).openReportDesign(
@@ -90,7 +89,7 @@ public class BirtViewerReportService implements IViewerReportService
 			throw new ReportServiceException( e.getLocalizedMessage( ) );
 		}
 
-		ViewerAttributeBean attrBean = ( ViewerAttributeBean ) request
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
 				.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		Map parsedParams = attrBean.getParameters( );
 		parsedParams.putAll( this.getParsedParameters( design, runOptions,
@@ -99,7 +98,7 @@ public class BirtViewerReportService implements IViewerReportService
 		try
 		{
 			ReportEngineService.getInstance( ).runReport( request, runnable,
-					outputDocName, locale, ( HashMap ) parsedParams );
+					outputDocName, locale, (HashMap) parsedParams );
 		}
 		catch ( RemoteException e )
 		{
@@ -130,21 +129,24 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( renderOptions ),
 						docName );
-		HttpServletRequest request = ( HttpServletRequest ) renderOptions
+		HttpServletRequest request = (HttpServletRequest) renderOptions
 				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = ( Locale ) renderOptions
+		Locale locale = (Locale) renderOptions
 				.getOption( InputOptions.OPT_LOCALE );
-		Boolean isMasterPageContent = ( Boolean ) renderOptions
+		Boolean isMasterPageContent = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		Boolean svgFlag = ( Boolean ) renderOptions
+		Boolean svgFlag = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		Long pageNum = Long.valueOf( pageID );
+		Boolean isRtl = (Boolean) renderOptions
+				.getOption( InputOptions.OPT_RTL );
 		try
 		{
 			ByteArrayOutputStream os = ReportEngineService.getInstance( )
 					.renderReport( request, doc, pageNum.longValue( ),
 							isMasterPageContent.booleanValue( ),
-							svgFlag.booleanValue( ), activeIds, locale );
+							svgFlag.booleanValue( ), activeIds, locale,
+							isRtl.booleanValue( ) );
 			doc.close( );
 			return os;
 
@@ -190,17 +192,20 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( renderOptions ),
 						docName );
-		HttpServletRequest request = ( HttpServletRequest ) renderOptions
+		HttpServletRequest request = (HttpServletRequest) renderOptions
 				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = ( Locale ) renderOptions
+		Locale locale = (Locale) renderOptions
 				.getOption( InputOptions.OPT_LOCALE );
-		Boolean isMasterPageContent = ( Boolean ) renderOptions
+		Boolean isMasterPageContent = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		boolean isMasterPage = isMasterPageContent == null ? false
+		boolean isMasterPage = isMasterPageContent == null
+				? false
 				: isMasterPageContent.booleanValue( );
-		Boolean svgFlag = ( Boolean ) renderOptions
+		Boolean svgFlag = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
+		Boolean isRtl = (Boolean) renderOptions
+				.getOption( InputOptions.OPT_RTL );
 		Long pageNum = null;
 		if ( pageRange != null && pageRange.trim( ).length( ) >= 0 )
 			pageNum = Long.valueOf( pageRange );
@@ -210,7 +215,8 @@ public class BirtViewerReportService implements IViewerReportService
 		try
 		{
 			ReportEngineService.getInstance( ).renderReport( out, request, doc,
-					page, isMasterPage, isSvg, null, locale );
+					page, isMasterPage, isSvg, null, locale,
+					isRtl.booleanValue( ) );
 			doc.close( );
 
 		}
@@ -227,7 +233,7 @@ public class BirtViewerReportService implements IViewerReportService
 
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( options ), docName );
-		Locale locale = ( Locale ) options.getOption( InputOptions.OPT_LOCALE );
+		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
 		// TODO: Filters are not used...
 		try
 		{
@@ -301,7 +307,8 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			node = doc.findTOC( tocId );
 
-		} else
+		}
+		else
 		{
 			node = doc.findTOC( null );
 		}
@@ -372,11 +379,12 @@ public class BirtViewerReportService implements IViewerReportService
 		if ( design.getContentType( ) == IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT )
 		{
 			// IReportRunnable is specified in IViewerReportDesignHandle.
-			IReportRunnable runnable = ( IReportRunnable ) design
+			IReportRunnable runnable = (IReportRunnable) design
 					.getDesignObject( );
 			task = ReportEngineService.getInstance( )
 					.createGetParameterDefinitionTask( runnable );
-		} else
+		}
+		else
 		{
 			// report design name is specified in IViewerReportDesignHandle.
 			try
@@ -414,15 +422,16 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		// TODO: outputDocName is not used...
 		String reportDesignName = design.getFileName( );
-		HttpServletRequest request = ( HttpServletRequest ) options
+		HttpServletRequest request = (HttpServletRequest) options
 				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = ( Locale ) options.getOption( InputOptions.OPT_LOCALE );
-		Boolean isMasterPageContent = ( Boolean ) options
+		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+		Boolean isMasterPageContent = (Boolean) options
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		Boolean svgFlag = ( Boolean ) options
+		Boolean svgFlag = (Boolean) options
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		String format = ( String ) options
+		String format = (String) options
 				.getOption( InputOptions.OPT_RENDER_FORMAT );
+		Boolean isRtl = (Boolean) options.getOption( InputOptions.OPT_RTL );
 		try
 		{
 			IReportRunnable runnable = ReportEngineService.getInstance( )
@@ -430,11 +439,10 @@ public class BirtViewerReportService implements IViewerReportService
 
 			Map parsedParams = getParsedParameters( design, options, parameters );
 
-			ReportEngineService.getInstance( )
-					.runAndRenderReport( request, runnable, out, format,
-							locale, parsedParams,
-							isMasterPageContent.booleanValue( ),
-							svgFlag.booleanValue( ) );
+			ReportEngineService.getInstance( ).runAndRenderReport( request,
+					runnable, out, format, locale, isRtl.booleanValue( ),
+					parsedParams, isMasterPageContent.booleanValue( ),
+					svgFlag.booleanValue( ) );
 		}
 		catch ( RemoteException e )
 		{
@@ -457,9 +465,9 @@ public class BirtViewerReportService implements IViewerReportService
 
 	public void setContext( Object context, InputOptions options )
 	{
-		HttpServletRequest request = ( HttpServletRequest ) options
+		HttpServletRequest request = (HttpServletRequest) options
 				.getOption( InputOptions.OPT_REQUEST );
-		ServletContext servletContext = ( ServletContext ) context;
+		ServletContext servletContext = (ServletContext) context;
 		ReportEngineService.getInstance( ).setEngineContext( servletContext,
 				request );
 	}
@@ -468,11 +476,11 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions options, Map parameters )
 			throws ReportServiceException
 	{
-		Locale locale = ( Locale ) options.getOption( InputOptions.OPT_LOCALE );
+		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
 		Collection parameterList = getParameterDefinitions( design, options,
 				false );
 		Map paramMap = new HashMap( );
-		Boolean isDesignerBoolean = ( Boolean ) options
+		Boolean isDesignerBoolean = (Boolean) options
 				.getOption( InputOptions.OPT_IS_DESIGNER );
 		boolean isDesigner = ( isDesignerBoolean != null ? isDesignerBoolean
 				.booleanValue( ) : false );
@@ -483,7 +491,7 @@ public class BirtViewerReportService implements IViewerReportService
 
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			ParameterDefinition parameterObj = ( ParameterDefinition ) iter
+			ParameterDefinition parameterObj = (ParameterDefinition) iter
 					.next( );
 
 			String paramValue = null;
@@ -506,7 +514,7 @@ public class BirtViewerReportService implements IViewerReportService
 				boolean found = false;
 				for ( Iterator it = paramNames.iterator( ); it.hasNext( ); )
 				{
-					String name = ( String ) it.next( );
+					String name = (String) it.next( );
 					if ( paramName.equals( name ) )
 					{
 						if ( parameters.get( name ) != null )
@@ -521,12 +529,13 @@ public class BirtViewerReportService implements IViewerReportService
 				if ( !found && configMap.containsKey( paramName ) && isDesigner )
 				{
 					// Get value from test config
-					String configValue = ( String ) configMap.get( paramName );
+					String configValue = (String) configMap.get( paramName );
 					ReportParameterConverter cfgConverter = new ReportParameterConverter(
 							format, Locale.US );
 					paramValueObj = cfgConverter.parse( configValue,
 							parameterObj.getDataType( ) );
-				} else if ( !found )
+				}
+				else if ( !found )
 				{
 					// Get default value from task
 					paramValueObj = task.getDefaultValue( parameterObj
@@ -545,8 +554,9 @@ public class BirtViewerReportService implements IViewerReportService
 		if ( design.getContentType( ) == IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT )
 		{
 			// IReportRunnable is specified in IViewerReportDesignHandle.
-			runnable = ( IReportRunnable ) design.getDesignObject( );
-		} else
+			runnable = (IReportRunnable) design.getDesignObject( );
+		}
+		else
 		{
 			// report design name is specified in IViewerReportDesignHandle.
 			try
@@ -579,7 +589,7 @@ public class BirtViewerReportService implements IViewerReportService
 		Iterator it = children.iterator( );
 		while ( it.hasNext( ) )
 		{
-			TOCNode childNode = ( TOCNode ) it.next( );
+			TOCNode childNode = (TOCNode) it.next( );
 			ToC child = new ToC( childNode.getNodeID( ), childNode
 					.getDisplayString( ), childNode.getBookmark( ) );
 			// Recursion to transform all children etc...
@@ -639,11 +649,11 @@ public class BirtViewerReportService implements IViewerReportService
 
 		if ( options != null )
 		{
-			HttpServletRequest request = ( HttpServletRequest ) options
+			HttpServletRequest request = (HttpServletRequest) options
 					.getOption( InputOptions.OPT_REQUEST );
 			if ( request != null )
 			{
-				ViewerAttributeBean attrBean = ( ViewerAttributeBean ) request
+				ViewerAttributeBean attrBean = (ViewerAttributeBean) request
 						.getAttribute( "attributeBean" ); //$NON-NLS-1$
 				assert attrBean != null;
 
@@ -687,15 +697,16 @@ public class BirtViewerReportService implements IViewerReportService
 			Object o = it.next( );
 			if ( o instanceof IScalarParameterDefn )
 			{
-				IScalarParameterDefn engineParam = ( IScalarParameterDefn ) o;
+				IScalarParameterDefn engineParam = (IScalarParameterDefn) o;
 				ParameterGroupDefinition group = null;
 				ParameterDefinition param = convertScalarParameter(
 						engineParam, group, task );
 
 				ret.add( param );
-			} else if ( o instanceof IParameterGroupDefn )
+			}
+			else if ( o instanceof IParameterGroupDefn )
 			{
-				IParameterGroupDefn engineParam = ( IParameterGroupDefn ) o;
+				IParameterGroupDefn engineParam = (IParameterGroupDefn) o;
 				ParameterGroupDefinition paramGroup = convertParameterGroup(
 						engineParam, task );
 				ret.add( paramGroup );
@@ -719,9 +730,10 @@ public class BirtViewerReportService implements IViewerReportService
 			Object o = it.next( );
 			if ( o instanceof ParameterGroupDefinition )
 			{
-				ParameterGroupDefinition group = ( ParameterGroupDefinition ) o;
+				ParameterGroupDefinition group = (ParameterGroupDefinition) o;
 				ret.addAll( group.getParameters( ) );
-			} else
+			}
+			else
 				ret.add( o );
 		}
 
@@ -736,8 +748,7 @@ public class BirtViewerReportService implements IViewerReportService
 		List ret = new ArrayList( );
 		for ( Iterator it = scalarParameters.iterator( ); it.hasNext( ); )
 		{
-			IScalarParameterDefn engineParam = ( IScalarParameterDefn ) it
-					.next( );
+			IScalarParameterDefn engineParam = (IScalarParameterDefn) it.next( );
 			ParameterDefinition param = convertScalarParameter( engineParam,
 					group, task );
 			ret.add( param );
@@ -750,8 +761,8 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		boolean cascade = engineParam instanceof ICascadingParameterGroup;
 		ParameterGroupDefinition paramGroup = new ParameterGroupDefinition(
-				engineParam.getName( ), engineParam.getDisplayName( ), engineParam.getPromptText( ), null,
-				cascade );
+				engineParam.getName( ), engineParam.getDisplayName( ),
+				engineParam.getPromptText( ), null, cascade );
 		List contents = convertParametersInGroup( engineParam.getContents( ),
 				paramGroup, task );
 		paramGroup.setParameters( contents );
@@ -766,7 +777,7 @@ public class BirtViewerReportService implements IViewerReportService
 		Object handle = engineParam.getHandle( );
 		ScalarParameterHandle scalarParamHandle = null;
 		if ( handle instanceof ScalarParameterHandle )
-			scalarParamHandle = ( ScalarParameterHandle ) handle;
+			scalarParamHandle = (ScalarParameterHandle) handle;
 		String name = engineParam.getName( );
 
 		String pattern = scalarParamHandle == null ? "" : scalarParamHandle
@@ -780,7 +791,8 @@ public class BirtViewerReportService implements IViewerReportService
 		boolean hidden = engineParam.isHidden( );
 		boolean allowNull = engineParam.allowNull( );
 		boolean allowBlank = engineParam.allowBlank( );
-		boolean mustMatch = scalarParamHandle == null ? false
+		boolean mustMatch = scalarParamHandle == null
+				? false
 				: scalarParamHandle.isMustMatch( );
 		boolean concealValue = engineParam.isValueConcealed( );
 		// Convert selection list
@@ -804,7 +816,7 @@ public class BirtViewerReportService implements IViewerReportService
 		List ret = new ArrayList( );
 		for ( Iterator it = params.iterator( ); it.hasNext( ); )
 		{
-			IParameterSelectionChoice engineChoice = ( IParameterSelectionChoice ) it
+			IParameterSelectionChoice engineChoice = (IParameterSelectionChoice) it
 					.next( );
 			ParameterSelectionChoice paramChoice = new ParameterSelectionChoice(
 					engineChoice.getLabel( ), engineChoice.getValue( ) );
