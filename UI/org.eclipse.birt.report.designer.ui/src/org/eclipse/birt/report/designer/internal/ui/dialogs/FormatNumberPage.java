@@ -72,7 +72,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final String LABEL_FIXED_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.fixed.settings" ); //$NON-NLS-1$
 	private static final String LABEL_PERCENT_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.percent.settings" ); //$NON-NLS-1$
 	private static final String LABEL_USE_1000S_SEPARATOR = Messages.getString( "FormatNumberPage.label.use1000sSeparator" ); //$NON-NLS-1$
-	//	private static final String LABEL_USE_LEADING_ZERO = Messages.getString(
+	// private static final String LABEL_USE_LEADING_ZERO = Messages.getString(
 	// "FormatNumberPage.label.useLeadingZero" ); //$NON-NLS-1$
 	private static final String LABEL_SYMBOL_POSITION = Messages.getString( "FormatNumberPage.label.symbol.position" ); //$NON-NLS-1$
 	private static final String LABEL_NEGATIVE_NUMBERS = Messages.getString( "FormatNumberPage.label.negative.numbers" ); //$NON-NLS-1$
@@ -106,7 +106,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( DEFAULT_PREVIEW_TEXT );
 
 	private static String[] symbols = {
-			// "none", "£¤","$", "?", "¡ê"
+			// "none", "ï¿½ï¿½","$", "?", "ï¿½ï¿½"
 			Messages.getString( "FormatNumberPage.currency.symbol.none" ), "\uffe5", "$", "\u20ac", "\uffe1" //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
 
@@ -216,7 +216,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	/**
 	 * Creates the contents of the page.
-	 *  
+	 * 
 	 */
 
 	protected void createContents( int pageAlignment )
@@ -493,8 +493,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		String pattern;
 		if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( category ) )
 		{
-			String sym = Currency.getInstance( ULocale.getDefault( ) )
-					.getSymbol( );
+			String sym = "\u00A4";// 'OX' currency symbol
+			Currency currency = Currency.getInstance( ULocale.getDefault( ) );
+			if ( currency != null )
+			{
+				sym = currency.getSymbol( );
+			}
 			pattern = sym + "###,##0.00"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED.equals( category ) )
@@ -823,7 +827,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		markDirty( hasLoaded );
 
 		if ( hasLoaded )
-		{// avoid setting pattern from controls when the typechoicer is selected
+		{// avoid setting pattern from controls when the typechoicer is
+			// selected
 			// before loading.
 			setFmtPatternFromControls( );
 		}
@@ -1029,7 +1034,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		fPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
 		fUseSep.setSelection( fmtPattern.getUseSep( ) );
-		//		fUseZero.setSelection( fmtPattern.getUseZero( ) );
+		// fUseZero.setSelection( fmtPattern.getUseZero( ) );
 		if ( fmtPattern.getUseBracket( ) )
 		{
 			fNegNumChoice.select( 1 );
@@ -1044,7 +1049,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		pPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
 		pUseSep.setSelection( fmtPattern.getUseSep( ) );
-		//		pUseZero.setSelection( fmtPattern.getUseZero( ) );
+		// pUseZero.setSelection( fmtPattern.getUseZero( ) );
 		pSymPosChoice.setText( fmtPattern.getSymPos( ) );
 		if ( fmtPattern.getUseBracket( ) )
 		{
@@ -1093,7 +1098,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
 					: 0 );
 			pattern.setUseSep( fUseSep.getSelection( ) );
-			//			pattern.setUseZero( fUseZero.getSelection( ) );
+			// pattern.setUseZero( fUseZero.getSelection( ) );
 			pattern.setUseBracket( fNegNumChoice.getSelectionIndex( ) == 1 );
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ) )
@@ -1103,7 +1108,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
 					: 0 );
 			pattern.setUseSep( pUseSep.getSelection( ) );
-			//			pattern.setUseZero( pUseZero.getSelection( ) );
+			// pattern.setUseZero( pUseZero.getSelection( ) );
 			pattern.setSymPos( pSymPosChoice.getText( ) );
 			pattern.setUseBracket( pNegNumChoice.getSelectionIndex( ) == 1 );
 		}
@@ -1373,7 +1378,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		new Label( setting, SWT.NONE ).setText( LABEL_SYMBOL_POSITION );
 		cSymPosChoice = new Combo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cSymPosChoice.setItems( new String[]{
-				FormatNumberPattern.SYMBOL_POSITION_AFTER, FormatNumberPattern.SYMBOL_POSITION_BEFORE
+				FormatNumberPattern.SYMBOL_POSITION_AFTER,
+				FormatNumberPattern.SYMBOL_POSITION_BEFORE
 		} );
 		cSymPosChoice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cSymPosChoice.addSelectionListener( mySelectionListener );
@@ -1427,12 +1433,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		fUseSep.setLayoutData( gData );
 		fUseSep.addSelectionListener( mySelectionListener );
 
-		//		fUseZero = new Button( setting, SWT.CHECK );
-		//		fUseZero.setText( LABEL_USE_LEADING_ZERO );
-		//		gData = new GridData( );
-		//		gData.horizontalSpan = 2;
-		//		fUseZero.setLayoutData( gData );
-		//		fUseZero.addSelectionListener( mySelectionListener );
+		// fUseZero = new Button( setting, SWT.CHECK );
+		// fUseZero.setText( LABEL_USE_LEADING_ZERO );
+		// gData = new GridData( );
+		// gData.horizontalSpan = 2;
+		// fUseZero.setLayoutData( gData );
+		// fUseZero.addSelectionListener( mySelectionListener );
 
 		label = new Label( setting, SWT.NONE );
 		label.setText( LABEL_NEGATIVE_NUMBERS );
@@ -1479,17 +1485,18 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		pUseSep.setLayoutData( gData );
 		pUseSep.addSelectionListener( mySelectionListener );
 
-		//		pUseZero = new Button( setting, SWT.CHECK );
-		//		pUseZero.setText( LABEL_USE_LEADING_ZERO );
-		//		gData = new GridData( );
-		//		gData.horizontalSpan = 2;
-		//		pUseZero.setLayoutData( gData );
-		//		pUseZero.addSelectionListener( mySelectionListener );
+		// pUseZero = new Button( setting, SWT.CHECK );
+		// pUseZero.setText( LABEL_USE_LEADING_ZERO );
+		// gData = new GridData( );
+		// gData.horizontalSpan = 2;
+		// pUseZero.setLayoutData( gData );
+		// pUseZero.addSelectionListener( mySelectionListener );
 
 		new Label( setting, SWT.NONE ).setText( LABEL_SYMBOL_POSITION );
 		pSymPosChoice = new Combo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
 		pSymPosChoice.setItems( new String[]{
-				FormatNumberPattern.SYMBOL_POSITION_AFTER, FormatNumberPattern.SYMBOL_POSITION_BEFORE
+				FormatNumberPattern.SYMBOL_POSITION_AFTER,
+				FormatNumberPattern.SYMBOL_POSITION_BEFORE
 		} );
 		pSymPosChoice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		pSymPosChoice.addSelectionListener( mySelectionListener );
@@ -1729,12 +1736,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 		fPlacesChoice.setEnabled( b );
 		fUseSep.setEnabled( b );
-		//		fUseZero.setEnabled( b );
+		// fUseZero.setEnabled( b );
 		fNegNumChoice.setEnabled( b );
 
 		pPlacesChoice.setEnabled( b );
 		pUseSep.setEnabled( b );
-		//		pUseZero.setEnabled( b );
+		// pUseZero.setEnabled( b );
 		pSymPosChoice.setEnabled( b );
 		pNegNumChoice.setEnabled( b );
 
