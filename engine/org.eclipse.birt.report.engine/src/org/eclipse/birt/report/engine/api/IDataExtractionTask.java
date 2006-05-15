@@ -1,6 +1,7 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.util.List;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 
 /**
  * an engine task that extracts data from a report. The task allows the return
@@ -77,7 +78,7 @@ public interface IDataExtractionTask extends IEngineTask
 	 *            expressions are supported for now, i.e., LHS must be a column
 	 *            name, only <, >, = and startWith is supported.
 	 */
-	// public void setFilters( Filter[] simpleFilterExpression );
+	public void setFilters( IFilterDefinition[] simpleFilterExpression );
 	
 	/**
 	 * @param columnNames

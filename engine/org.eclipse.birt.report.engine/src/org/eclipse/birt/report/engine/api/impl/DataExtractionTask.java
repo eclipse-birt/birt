@@ -26,9 +26,13 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -45,6 +49,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.mozilla.javascript.Scriptable;
 
 public class DataExtractionTask extends EngineTask
 		implements
@@ -79,6 +84,11 @@ public class DataExtractionTask extends EngineTask
 	 * current extaction results
 	 */
 	protected IExtractionResults currentResult = null;
+	
+	/**
+	 * simple filter expression
+	 */
+	protected IFilterDefinition[] filterExpressions = null;
 
 	/**
 	 * have the metadata be prepared. meta data means rsetName2IdMapping and
@@ -90,6 +100,11 @@ public class DataExtractionTask extends EngineTask
 	 * mapping, map the rest name to rset id.
 	 */
 	protected HashMap rsetName2IdMapping = new HashMap( );
+	
+	/**
+	 * mapping, map the rest name to rset id.
+	 */
+	protected HashMap rsetId2queryIdMapping = new HashMap( );
 
 	/**
 	 * mapping, map the query Id to query name.
@@ -215,6 +230,8 @@ public class DataExtractionTask extends EngineTask
 				String queryId = IOUtil.readString( dis );
 				// this is the rest id
 				String rsetId = IOUtil.readString( dis );
+				
+				rsetId2queryIdMapping.put( rsetId, queryId );
 
 				int count = -1;
 				Integer countObj = (Integer) queryCounts.get( queryId );
@@ -428,10 +445,42 @@ public class DataExtractionTask extends EngineTask
 			String rsetId = rsetName2Id( rsetName );
 			if ( rsetId != null )
 			{
-				IQueryResults results = dataEngine.getQueryResults( rsetId );
-				IResultMetaData metaData = getResultMetaData( rsetName );
-				return new ExtractionResults( results, metaData,
-						this.selectedColumns );
+				IQueryResults results = null;
+				if(null == filterExpressions)
+				{
+					results = dataEngine.getQueryResults( rsetId );
+				}
+				else
+				{
+					// creat new query
+					String queryId = (String) rsetId2queryIdMapping.get( rsetId );
+					QueryDefinition query = (QueryDefinition) getQuery( queryId );
+					QueryDefinition newQuery = queryCopy( query );
+					if( null == newQuery )
+					{
+						return null;
+					}
+					
+					// add filter
+					for(int iNum = 0; iNum < filterExpressions.length; iNum++)
+					{
+						newQuery.getFilters( ).add( filterExpressions[ iNum ] );
+					}
+					filterExpressions = null;
+					
+					// get new result
+					newQuery.setQueryResultsID( rsetId );
+					Scriptable scope = executionContext.getSharedScope( );
+					IPreparedQuery preparedQuery = dataEngine.prepare( newQuery);
+					results = preparedQuery.execute( scope );
+				}
+			
+				if ( null != results )
+				{
+					IResultMetaData metaData = getResultMetaData( rsetName );
+					return new ExtractionResults( results, metaData,
+							this.selectedColumns );
+				}
 			}
 		}
 		catch ( BirtException e )
@@ -440,5 +489,44 @@ public class DataExtractionTask extends EngineTask
 		}
 		return null;
 	}
+	
+	/**
+	 * copy a query.
+	 * 
+	 * @param query
+	 * @return
+	 */
+	private QueryDefinition queryCopy( QueryDefinition query )
+	{
+		if(null == query)
+			return null;
+		
+		QueryDefinition newQuery = new QueryDefinition( (BaseQueryDefinition) query.getParentQuery( ) );
+		
+		newQuery.getSorts( ).addAll( query.getSorts( ) );
+		newQuery.getFilters( ).addAll( query.getFilters( ) );
+		newQuery.getSubqueries( ).addAll( query.getSubqueries( ) );
+		newQuery.getResultSetExpressions( ).putAll( query.getResultSetExpressions( ) );
+		
+		newQuery.getGroups( ).addAll( query.getGroups( ) );
+		newQuery.setUsesDetails( query.usesDetails( ) );
+		newQuery.setMaxRows( query.getMaxRows( ) );
+		
+		newQuery.setDataSetName( query.getDataSetName( ) );
+		newQuery.setAutoBinding( query.needAutoBinding( ) );
+		newQuery.setColumnProjection( query.getColumnProjection( ) );
+		
+		return newQuery;
+	}
 
+	/**
+	 * @param simpleFilterExpression
+	 *            add one filter condition to the extraction. Only simple filter
+	 *            expressions are supported for now, i.e., LHS must be a column
+	 *            name, only <, >, = and startWith is supported.
+	 */
+	public void setFilters( IFilterDefinition[] simpleFilterExpression )
+	{
+		filterExpressions = simpleFilterExpression;
+	}
 }
