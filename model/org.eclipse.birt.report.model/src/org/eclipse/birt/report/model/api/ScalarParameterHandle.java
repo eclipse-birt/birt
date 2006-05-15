@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
 
 /**
  * Represents a scalar (single-value) report parameter. If the user enters no
@@ -840,7 +841,6 @@ public class ScalarParameterHandle extends ParameterHandle
 		return getIntProperty( IScalarParameterModel.LIST_LIMIT_PROP );
 	}
 
-
 	/**
 	 * Returns the bound columns that binds the data set columns. The item in
 	 * the iterator is the corresponding <code>ComputedColumnHandle</code>.
@@ -908,5 +908,18 @@ public class ScalarParameterHandle extends ParameterHandle
 		}
 		return (ComputedColumnHandle) getPropertyHandle(
 				BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
+	}
+
+	/**
+	 * Removed unused bound columns from the parameter. Bound columns of nested
+	 * elements will not be removed.
+	 * 
+	 * @throws SemanticException
+	 *             if bound column property is locked.
+	 */
+
+	public void removedUnusedBoundColumns( ) throws SemanticException
+	{
+		UnusedBoundColumnsMgr.removedUnusedBoundColumns( this );
 	}
 }

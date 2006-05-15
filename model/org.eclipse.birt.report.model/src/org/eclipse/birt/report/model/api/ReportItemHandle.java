@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
 
 /**
  * Represents a report item: any element that can appear within a section of the
@@ -561,4 +562,18 @@ public abstract class ReportItemHandle extends ReportElementHandle
 				BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
 	}
 
+	/**
+	 * Removed unused bound columns from the element. Bound columns of nested
+	 * elements will not be removed. For example, if calls this method for a
+	 * list thaat contains a text-data, unused bound columns on list are
+	 * removed. While, unused columns on text-data still are kept.
+	 * 
+	 * @throws SemanticException
+	 *             if bound column property is locked.
+	 */
+
+	public void removedUnusedBoundColumns( ) throws SemanticException
+	{
+		UnusedBoundColumnsMgr.removedUnusedBoundColumns( this );
+	}
 }

@@ -148,18 +148,12 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	 *         Otherwise, <code>false</code>.
 	 */
 
-	public static boolean exists( List columns, String columnName )
+	private static boolean exists( List columns, String columnName )
 	{
-		if ( ( columns == null ) || ( columns.size( ) == 0 ) )
+		if ( getColumn( columns, columnName ) == null )
 			return false;
 
-		for ( int i = 0; i < columns.size( ); i++ )
-		{
-			ComputedColumn column = (ComputedColumn) columns.get( i );
-			if ( columnName.equals( column.getName( ) ) )
-				return true;
-		}
-		return false;
+		return true;
 	}
 
 	/**
@@ -167,8 +161,8 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	 * 
 	 * @param columns
 	 *            the binding columns
-	 * @param expression
-	 *            the old value expression in BIRT 2.1M5
+	 * @param name
+	 *            the column binding name
 	 * @return the bound column
 	 */
 

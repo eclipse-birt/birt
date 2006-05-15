@@ -140,7 +140,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * The compatibility to create bound columns.
 	 */
 
-	protected BoundColumnsMgr boundColumnsMgr = new BoundColumnsMgr( );
+	protected BoundColumnsWriterMgr boundColumnsMgr = new BoundColumnsWriterMgr( );
 
 	/**
 	 * Returns the module to write.
@@ -1337,7 +1337,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		// provide bound column compatibility
 
 		boundColumnsMgr.dealTextData( obj, getModule( ) );
-		
+
 		writer.startElement( DesignSchemaConstants.TEXT_DATA_TAG );
 
 		super.visitTextDataItem( obj );
@@ -1356,10 +1356,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitExtendedItem( ExtendedItem obj )
 	{
-		// provide bound column compatibility 
+		// provide bound column compatibility
 
 		boundColumnsMgr.dealExtendedItem( obj, getModule( ) );
-		
+
 		writer.startElement( DesignSchemaConstants.EXTENDED_ITEM_TAG );
 		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
 				ExtendedItem.EXTENSION_NAME_PROP );
@@ -1418,7 +1418,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		// provide bound column compatibility
 
 		boundColumnsMgr.dealText( obj, getModule( ) );
-		
+
 		writer.startElement( DesignSchemaConstants.TEXT_TAG );
 
 		super.visitTextItem( obj );
@@ -1438,10 +1438,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitLabel( Label obj )
 	{
-		// provide bound column compatibility 
+		// provide bound column compatibility
 
 		boundColumnsMgr.dealLabel( obj, getModule( ) );
-		
+
 		writer.startElement( DesignSchemaConstants.LABEL_TAG );
 
 		super.visitLabel( obj );
@@ -1691,10 +1691,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitGrid( GridItem obj )
 	{
-		// provide bound column compatibility 
+		// provide bound column compatibility
 
 		boundColumnsMgr.dealGrid( obj, getModule( ) );
-		
+
 		writer.startElement( DesignSchemaConstants.GRID_TAG );
 
 		super.visitGrid( obj );
@@ -1827,10 +1827,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitScalarParameter( ScalarParameter obj )
 	{
-		// provide bound column compatibility 
+		// provide bound column compatibility
 
 		boundColumnsMgr.dealScalarParameter( obj, getModule( ) );
-		
+
 		writer.startElement( DesignSchemaConstants.SCALAR_PARAMETER_TAG );
 
 		super.visitScalarParameter( obj );
@@ -1922,7 +1922,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		// provide bound column compatibility
 
 		boundColumnsMgr.dealTemplateReportItem( obj, getModule( ) );
-		
+
 		writer.startElement( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG );
 		super.visitTemplateReportItem( obj );
 
@@ -2258,10 +2258,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitImage( ImageItem obj )
 	{
-		// provide bound column compatibility 
+		// provide bound column compatibility
 
 		boundColumnsMgr.dealImage( obj, getModule( ) );
-		
+
 		writer.startElement( DesignSchemaConstants.IMAGE_TAG );
 
 		super.visitImage( obj );
@@ -2611,7 +2611,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
 				DesignElement.VIEW_ACTION_PROP );
-		
+
 		super.visitGroup( obj );
 
 		property( obj, GroupElement.GROUP_NAME_PROP );
