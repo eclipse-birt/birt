@@ -22,10 +22,11 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 public abstract class BaseExpression implements IBaseExpression
 {
 	private String exprID;
-	
+		
     protected int			dataType;
     protected Object		handle;
-
+    private String groupName = GROUP_OVERALL;
+    
     /**
      * Constructs an instance with unknown data type
      */
@@ -90,4 +91,13 @@ public abstract class BaseExpression implements IBaseExpression
 		this.handle = handle;
 	}
 
+	public void setGroupName( String name )
+	{
+		this.groupName = name;
+	}
+	
+	public String getGroupName( )
+	{
+		return this.groupName;
+	}
 }

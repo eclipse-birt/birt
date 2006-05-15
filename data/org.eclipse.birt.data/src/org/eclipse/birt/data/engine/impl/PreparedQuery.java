@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
@@ -144,15 +145,7 @@ final class PreparedQuery
 			
 			for ( int i = 0; i <= groups.size( ); i++ )
 			{
-				// Group 0
-				IBaseTransform groupDefn;
-				if ( i == 0 )
-					groupDefn = baseQueryDefn;
-				else
-				{
-					groupDefn = (IGroupDefinition) groups.get( i - 1 );
-				}
-				prepareGroup( groupDefn, i, cx );
+				prepareGroup( baseQueryDefn, i, cx );
 			}
 		}
 		finally
@@ -167,27 +160,60 @@ final class PreparedQuery
 	 * @param cx
 	 * @throws DataException
 	 */
-	private void prepareGroup( IBaseTransform trans, int groupLevel, Context cx )
+	private void prepareGroup( IBaseQueryDefinition baseQuery, int groupLevel, Context cx )
 			throws DataException
 	{
-		// prepare expressions appearing in this group
+		IBaseTransform trans = baseQuery;
+		String groupName = IBaseExpression.GROUP_OVERALL;
+		
+		// Group 0
+		if ( groupLevel != 0 )
+		{	
+			IGroupDefinition igd = (IGroupDefinition) ( (IBaseQueryDefinition) trans ).getGroups( )
+					.get( groupLevel - 1 );
+			trans = igd;
+			groupName = igd.getName();
+		}
+		//TODO remove me 
+		//The earliest version.prepare expressions appearing in this group
 		prepareExpressions( trans.getAfterExpressions(), groupLevel, true, false,cx );
 		prepareExpressions( trans.getBeforeExpressions(), groupLevel, false, false, cx );
 		prepareExpressions( trans.getRowExpressions(),groupLevel, false, true, cx );
 		
 		Collection exprCol = new ArrayList( );
-		Map map = trans.getResultSetExpressions( );
-		if ( map != null )
-		{
-			Iterator it = map.keySet( ).iterator( );
-			while ( it.hasNext( ) )
-			{
-				exprCol.add( map.get( it.next( ) ) );
-				/*if ( ModeManager.isModeSet( ) == false )
-					ModeManager.setNewMode( );*/
+		Map resultSetExpressions = new HashMap();
+		
+		//TODO remove me
+		//The early column binding
+		Map map = trans.getResultSetExpressions();
+		if (map != null) {
+			Iterator it = map.keySet().iterator();
+			while (it.hasNext()) {
+				Object key = it.next();
+				exprCol.add(map.get(key));
+				resultSetExpressions.put(key, map.get(key));
 			}
-			prepareExpressions( exprCol, groupLevel, false, true, cx );
 		}
+	
+		// ///////////////////////
+		
+		//The latest column binding (AggregateOn introduced) 
+		map = baseQuery.getResultSetExpressions();
+		if (map != null) 
+		{
+			Iterator it = map.keySet().iterator();
+			while (it.hasNext()) {
+				Object key = it.next();
+				IBaseExpression icbe = (IBaseExpression)map.get(key);
+				if( icbe.getGroupName().equals(groupName))
+				{
+					exprCol.add( icbe );
+					resultSetExpressions.put(key, icbe);
+				}
+			}
+		}
+
+		prepareExpressions(exprCol, groupLevel, false, true, cx);
 		
 		String key = null;
 		if( trans instanceof IGroupDefinition )
@@ -195,7 +221,7 @@ final class PreparedQuery
 			IGroupDefinition gd = (IGroupDefinition)trans;
 			key = gd.getKeyColumn( ) != null ? gd.getKeyColumn( ):gd.getKeyExpression( );
 		}
-		this.exprManager.addBindingExpr( key, trans.getResultSetExpressions( ), groupLevel );
+		this.exprManager.addBindingExpr( key, resultSetExpressions, groupLevel );
 		
 		// Prepare subqueries appearing in this group
 		Collection subQueries = trans.getSubqueries( );

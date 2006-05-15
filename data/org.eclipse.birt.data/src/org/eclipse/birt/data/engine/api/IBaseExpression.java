@@ -20,7 +20,11 @@ package org.eclipse.birt.data.engine.api;
  */
 public interface IBaseExpression
 {
-
+	/**
+	 * The string value which stands for overall group.
+	 */
+	public static final String GROUP_OVERALL = "Total.OVERALL";
+	
 	/**
 	 * Every expression has its own unique id. A typical use case is in
 	 * presentation time. An expression id will be used as the key to retrieve
@@ -63,4 +67,16 @@ public interface IBaseExpression
      */
     public abstract void setHandle( Object handle );
 
+    /**
+     * Set the group name this expession belongs to.
+     *  
+     * @param name
+     */
+    public void setGroupName( String name );
+    
+    /**
+     * The group on which this expression should be evaluated.
+     * @return
+     */
+    public String getGroupName( );
 }
