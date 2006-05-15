@@ -46,8 +46,6 @@ public class DesignerConstants
 	public static final String DATA_SOURCE_SCRIPT = "script"; //$NON-NLS-1$
 
 	public static final String DATA_SET_SCRIPT = "ScriptSelectDataSet"; //$NON-NLS-1$
-
-	public static final String DATA_SOURCE_FLATFILE = "org.eclipse.birt.report.data.oda.flatfile"; //$NON-NLS-1$
 	
 	public static final String DATA_SOURCE_XMLFILE = "org.eclipse.birt.report.data.oda.xml"; //$NON-NLS-1$
 	
