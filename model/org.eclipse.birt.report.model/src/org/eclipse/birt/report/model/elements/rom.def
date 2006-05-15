@@ -1027,6 +1027,10 @@
 		<Argument name="filter" tagID="Class.Total.count.filter" type="String"/>			 
 		<Argument name="group" tagID="Class.Total.count.group" type="String"/>			 			
 	</Method>
+	<Method displayNameID="Class.Total.runningCount" isStatic="true" name="runningCount" returnType="number" toolTipID="Class.Total.runningCount.toolTip">
+		<Argument name="filter" tagID="Class.Total.runningCount.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.runningCount.group" type="String"/>			 			
+	</Method>
 	<Method displayNameID="Class.Total.countDistinct" isStatic="true" name="countDistinct" returnType="number" toolTipID="Class.Total.countDistinct.toolTip">
 		<Argument name="expr" tagID="Class.Total.countDistinct.expr" type="number"/>
 		<Argument name="filter" tagID="Class.Total.countDistinct.filter" type="String"/>			 
@@ -2161,19 +2165,19 @@
       <Property canInherit="false" displayNameID="Element.Style.border.right.color" isStyleProperty="true" name="borderRightColor" since="1.0" type="color">
         <Default>black</Default>
       </Property>
-      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.top" isStyleProperty="true" name="marginTop" since="1.0" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.top" isStyleProperty="true" name="marginTop" since="1.0" type="dimension" >
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.bottom" isStyleProperty="true" name="marginBottom" since="1.0" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.bottom" isStyleProperty="true" name="marginBottom" since="1.0" type="dimension" >
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.left" isStyleProperty="true" name="marginLeft" since="1.0" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.left" isStyleProperty="true" name="marginLeft" since="1.0" type="dimension" >
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.right" isStyleProperty="true" name="marginRight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.right" isStyleProperty="true" name="marginRight" since="1.0" type="dimension" >
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
