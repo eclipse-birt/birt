@@ -936,12 +936,13 @@ public final class DataSetProvider
 			ParamBindingHandle[] bindingParams, boolean useColumnHints,
 			boolean useFilters ) throws BirtException
 	{
+		DataRequestSession session = getDataRequestSession( dataSet );
 		IBaseDataSetDesign dataSetDesign = getDataSetDesign( dataSet,
 				useColumnHints,
 				useFilters );
 
-		return prepareQuery( dataSet, getQueryDefinition( dataSetDesign,
-				bindingParams ) );
+		return session.prepare( getQueryDefinition( dataSetDesign,
+				bindingParams ), null );
 	}
 
 	/**
