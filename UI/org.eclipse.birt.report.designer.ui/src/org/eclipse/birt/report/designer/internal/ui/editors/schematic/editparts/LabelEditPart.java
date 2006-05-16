@@ -31,8 +31,6 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.TextCellEditor;
@@ -105,16 +103,7 @@ public class LabelEditPart extends ReportElementEditPart
 		manager.show( );
 	}
 
-	/**
-	 * perform edit directly when the request is the corresponding type.
-	 */
-	public void performRequest( Request request )
-	{
-		if ( request.getType( ) == RequestConstants.REQ_OPEN )
-		{
-			performDirectEdit( );
-		}
-	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -226,5 +215,8 @@ public class LabelEditPart extends ReportElementEditPart
 		constraint.setDisplay( handle.getPrivateStyle( ).getDisplay( ) );
 		return constraint;
 	}
+
+	
+	
 
 }

@@ -120,6 +120,26 @@ public class LibraryLayoutEditor extends AbstractReportGraphicalEditorWithFlyout
 		}
 		super.handleSelectionChange( request );
 	}
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#handleCreateElement(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 */
+	protected void handleCreateElement( ReportRequest request )
+	{
+		List list = request.getSelectionModelList( );
+		// should be change the reuqest.getSource() interface, recode the source
+		// type.added by gao
+		
+		int size = list.size( );
+		Object obj = null;
+		if ( size != 0 )
+		{
+			obj = list.get( size - 1 );
+		}
+		SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( obj );
+		command.execute( );
+		
+		super.handleCreateElement( request );
+	}
 	
 	private boolean isInContainer( List list )
 	{

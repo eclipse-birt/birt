@@ -36,8 +36,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Font;
@@ -162,18 +160,6 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 	{
 		LabelFigure label = new LabelFigure( );
 		return label;
-	}
-
-	/**
-	 * perform edit directly when the request is the corresponding type.
-	 */
-	public void performRequest( Request request )
-
-	{
-		if ( request.getType( ) == RequestConstants.REQ_OPEN )
-		{
-			performDirectEdit( );
-		}
 	}
 
 	/**

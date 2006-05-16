@@ -37,6 +37,8 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.swt.widgets.Display;
@@ -153,7 +155,8 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 	 */
 	public void propertyChange( final PropertyChangeEvent evt )
 	{
-		if ( evt.getPropertyName( ).equals( LibraryHandleAdapter.CURRENTMODEL ) )
+		if ( LibraryHandleAdapter.CURRENTMODEL.equals(evt.getPropertyName( )  ) 
+				|| LibraryHandleAdapter.CREATE_ELEMENT.equals(evt.getPropertyName( )))
 		{
 
 			refresh( );
@@ -175,26 +178,14 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 					if ( editpart != null )
 					{
 						getViewer( ).reveal( (EditPart) editpart );
+						
+						if (LibraryHandleAdapter.CREATE_ELEMENT.equals(evt.getPropertyName( )))
+						{
+							Request request = new Request(RequestConstants.REQ_OPEN);
+							( (EditPart) editpart ).performRequest( request );
+						}
 					}
-					// final List mediatorSelection =
-					// SessionHandleAdapter.getInstance( )
-					// .getMediator( ).getCurrentState( )
-					// .getSelectionObject( );
-					// if ( mediatorSelection.size( ) == 1
-					// && mediatorSelection.get( 0 ) instanceof LibraryHandle )
-					// {
-					// return;
-					// }
-					// List list =getChildren( );
-					//
-					// EditPartViewer viewer = getViewer( );
-					// if ( viewer instanceof DeferredGraphicalViewer )
-					// {
-					// ( (DeferredGraphicalViewer) viewer ).setSelection(
-					// new StructuredSelection( list ), false );
-					// }
-					// // getViewer().setSelection(new
-					// StructuredSelection(list));
+					
 				}
 			} );
 		}
@@ -268,7 +259,7 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 											public void run( )
 											{
-												SetCurrentEditModelCommand c = new SetCurrentEditModelCommand( getNewObject() );
+												SetCurrentEditModelCommand c = new SetCurrentEditModelCommand( getNewObject(),LibraryHandleAdapter.CREATE_ELEMENT );
 												c.execute( );
 											}
 										} );

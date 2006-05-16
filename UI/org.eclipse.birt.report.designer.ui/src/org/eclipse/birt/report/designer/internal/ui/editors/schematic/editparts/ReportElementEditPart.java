@@ -54,6 +54,7 @@ import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.requests.SelectionRequest;
@@ -77,6 +78,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	private static final int DELAY_TIME = 1600;
 	private DesignElementHandleAdapter peer;
 	private AbstractGuideHandle guideHandle = null;
+	private boolean isEdited = false;
 
 	// private static boolean canDeleteGuide = true;
 
@@ -106,6 +108,39 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 				.getDesignElementHandleAdapter( getModel( ), this );
 	}
 
+	
+	/**
+	 * perform edit directly when the request is the corresponding type.
+	 */
+	public void performRequest( Request request )
+	{
+		if ( RequestConstants.REQ_OPEN.equals( request.getType( ) ))
+		{
+			if (isEdited( ))
+			{
+				return;
+			}
+			setEdited( true );
+			performDirectEdit( );
+			setEdited( false );
+		}
+	}
+	
+	public void performDirectEdit( )
+	{
+		//do nothing
+	}
+	
+	protected boolean isEdited( )
+	{
+		return isEdited;
+	}
+
+	
+	protected void setEdited( boolean isEdited )
+	{
+		this.isEdited = isEdited;
+	}
 	/**
 	 * Creates the guide handle, default get from parent.
 	 * 

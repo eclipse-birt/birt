@@ -14,14 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ImageEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
-import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -30,6 +25,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.tools.CreationTool;
@@ -192,6 +188,7 @@ public class ReportCreationTool extends CreationTool
 
 			public void run( )
 			{
+				//modify 
 				Object editpart = viewer.getEditPartRegistry( ).get( model );
 
 				if ( editpart instanceof EditPart )
@@ -199,32 +196,12 @@ public class ReportCreationTool extends CreationTool
 					viewer.flush( );
 					viewer.select( (EditPart) editpart );
 				}
-				if ( editpart instanceof LabelEditPart )
+				else
 				{
-					Object handle = ( (LabelEditPart) editpart ).getModel( );
-					if ( handle instanceof TextItemHandle )
-					{
-						if ( ( (TextItemHandle) handle ).getContent( ) != null )
-							return;
-					}
-					else if ( handle instanceof DataItemHandle )
-					{
-						if ( ( (DataItemHandle) handle ).getResultSetColumn( ) != null )
-							return;
-					}
-					else if ( handle instanceof LabelHandle )
-					{
-						if ( ( (LabelHandle) handle ).getText( ) != null )
-							return;
-					}
-
-					( (LabelEditPart) editpart ).performDirectEdit( );
+					return ;
 				}
-				else if ( editpart instanceof ImageEditPart )
-				{
-					( (ImageEditPart) editpart ).performDirectEdit( );
-				}
-
+				Request request = new Request(RequestConstants.REQ_OPEN);
+				( (EditPart) editpart ).performRequest( request );
 				if ( editpart != null )
 				{
 					viewer.reveal( (EditPart) editpart );

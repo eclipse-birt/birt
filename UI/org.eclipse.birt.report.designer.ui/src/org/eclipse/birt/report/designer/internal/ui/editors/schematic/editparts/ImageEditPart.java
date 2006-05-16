@@ -195,20 +195,6 @@ public class ImageEditPart extends ReportElementEditPart
 		return constraint;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.EditPart#performRequest(org.eclipse.gef.Request)
-	 */
-	public void performRequest( Request request )
-	{
-		if ( request.getType( ) == RequestConstants.REQ_OPEN )
-		{
-			performDirectEdit( );
-		}
-
-	}
-
 	/**
 	 * 
 	 */

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.lib.commands;
 
+import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.gef.commands.Command;
 
@@ -22,13 +23,21 @@ import org.eclipse.gef.commands.Command;
 public class SetCurrentEditModelCommand extends Command
 {
 	private Object currentModel;
+	private String type = "";
 	/**
 	 * @param model
 	 */
 	public SetCurrentEditModelCommand(Object model)
 	{
+		this(model, LibraryHandleAdapter.CURRENTMODEL);
+	}
+	/**
+	 * @param model
+	 */
+	public SetCurrentEditModelCommand(Object model, String type)
+	{
 		this.currentModel = model;
-		
+		setType(type);
 	}
 	/* The command donot refer the undo and redo, so it can be execute directly.
 	 * (non-Javadoc)
@@ -36,6 +45,22 @@ public class SetCurrentEditModelCommand extends Command
 	 */
 	public void execute( )
 	{
-		HandleAdapterFactory.getInstance().getLibraryHandleAdapter().setCurrentEditorModel(currentModel);
+		HandleAdapterFactory.getInstance().getLibraryHandleAdapter().setCurrentEditorModel(currentModel, getType( ));
+	}
+	
+	/**
+	 * @return
+	 */
+	public String getType( )
+	{
+		return type;
+	}
+	
+	/**
+	 * @param type
+	 */
+	public void setType( String type )
+	{
+		this.type = type;
 	}
 }

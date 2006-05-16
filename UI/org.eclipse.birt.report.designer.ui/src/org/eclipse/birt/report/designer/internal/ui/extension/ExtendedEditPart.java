@@ -29,8 +29,6 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.window.Window;
 
@@ -159,16 +157,6 @@ public class ExtendedEditPart extends ReportElementEditPart
 		}
 	}
 
-	/**
-     * perform edit directly when the request is the corresponding type.
-     */
-	public void performRequest( Request request )
-	{
-		if ( request.getType( ) == RequestConstants.REQ_OPEN )
-		{
-			performDirectEdit( );
-		}
-	}
 
 	public IReportItemFigureProvider getExtendedElementUI( )
 	{

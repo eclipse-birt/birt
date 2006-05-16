@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
+import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
 import org.eclipse.birt.report.designer.internal.lib.editparts.LibraryReportDesignEditPart;
@@ -176,7 +177,7 @@ public class LibraryDropListener extends DesignerDropListener
 			tool.setViewer( UIUtil.getLayoutEditPartViewer( ) );
 			tool.getTargetRequest( ).getExtendedData( ).put( DesignerConstants.DIRECT_CREATEITEM, new Boolean(true));
 			tool.performCreation( getLibrartReportEditPart( ));
-			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(tool.getNewObjectFromRequest());
+			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(tool.getNewObjectFromRequest(),LibraryHandleAdapter.CREATE_ELEMENT);
 			command.execute();
 			return true;
 		}

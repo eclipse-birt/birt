@@ -33,14 +33,13 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.jface.action.IAction;
 
 /**
  * List band proxy edit part
- *  
+ * 
  */
 public class ListBandEditPart extends ReportElementEditPart
 {
@@ -65,7 +64,7 @@ public class ListBandEditPart extends ReportElementEditPart
 	 */
 	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
 	{
-		//model is proxy node, so the listener do nothing
+		// model is proxy node, so the listener do nothing
 	}
 
 	/*
@@ -90,7 +89,7 @@ public class ListBandEditPart extends ReportElementEditPart
 	 */
 	public void refreshFigure( )
 	{
-		//TODO set edit part property
+		// TODO set edit part property
 	}
 
 	/*
@@ -115,7 +114,7 @@ public class ListBandEditPart extends ReportElementEditPart
 
 	/**
 	 * Creates the render figure
-	 *  
+	 * 
 	 */
 	private ListBandRenderFigure createRenderFigure( )
 	{
@@ -125,7 +124,7 @@ public class ListBandEditPart extends ReportElementEditPart
 
 	/**
 	 * Creates the control figure
-	 *  
+	 * 
 	 */
 	private ListBandControlFigure createControlFigure( )
 	{
@@ -137,7 +136,7 @@ public class ListBandEditPart extends ReportElementEditPart
 
 		controlFigure.add( new ListBandControlVisible( this ) );
 
-		//Sets the background
+		// Sets the background
 		for ( Iterator itr = controlFigure.getChildren( ).iterator( ); itr.hasNext( ); )
 		{
 			IFigure fig = (IFigure) itr.next( );
@@ -239,20 +238,18 @@ public class ListBandEditPart extends ReportElementEditPart
 	 * 
 	 * @see org.eclipse.gef.EditPart#performRequest(org.eclipse.gef.Request)
 	 */
-	public void performRequest( Request request )
+	public void performDirectEdit( )
 	{
-		if ( RequestConstants.REQ_OPEN.equals( request.getType( ) ) )
+		ListBandProxy listBand = (ListBandProxy) getModel( );
+		if ( listBand.getElemtHandle( ) instanceof ListGroupHandle )
 		{
-			ListBandProxy listBand = (ListBandProxy) getModel( );
-			if ( listBand.getElemtHandle( ) instanceof ListGroupHandle )
+			IAction action = new EditGroupAction( null,
+					(ListGroupHandle) listBand.getElemtHandle( ) );
+			if ( action.isEnabled( ) )
 			{
-				IAction action = new EditGroupAction( null,
-						(ListGroupHandle) listBand.getElemtHandle( ) );
-				if ( action.isEnabled( ) )
-				{
-					action.run( );
-				}
+				action.run( );
 			}
 		}
+
 	}
 }
