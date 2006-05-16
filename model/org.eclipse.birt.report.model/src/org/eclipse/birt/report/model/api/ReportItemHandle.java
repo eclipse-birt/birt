@@ -572,7 +572,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 *             if bound column property is locked.
 	 */
 
-	public void removedUnusedBoundColumns( ) throws SemanticException
+	public void removedUnusedColumnBindings( ) throws SemanticException
 	{
 		UnusedBoundColumnsMgr.removedUnusedBoundColumns( this );
 	}

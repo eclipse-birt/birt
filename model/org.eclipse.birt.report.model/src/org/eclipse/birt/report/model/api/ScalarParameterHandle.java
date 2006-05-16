@@ -918,7 +918,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 *             if bound column property is locked.
 	 */
 
-	public void removedUnusedBoundColumns( ) throws SemanticException
+	public void removedUnusedColumnBindings( ) throws SemanticException
 	{
 		UnusedBoundColumnsMgr.removedUnusedBoundColumns( this );
 	}
