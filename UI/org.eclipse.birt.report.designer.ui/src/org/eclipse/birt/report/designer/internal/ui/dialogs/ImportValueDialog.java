@@ -22,7 +22,6 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.BaseTransform;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
@@ -454,7 +453,13 @@ public class ImportValueDialog extends BaseDialog
 					if ( columns[i].getName( )
 							.equals( columnChooser.getText( ) ) )
 					{
-						queryExpr = DEUtil.getExpression( columns[i] );
+						String colName = ( columns[i] ).getAlias( );
+
+						if ( colName == null || colName.trim( ).length( ) == 0 )
+						{
+							colName = ( columns[i] ).getName( );
+						}
+						queryExpr = DEUtil.getResultSetColumnExpression( colName );
 						selectedColumn = columns[i];
 						break;
 					}
@@ -464,8 +469,9 @@ public class ImportValueDialog extends BaseDialog
 					return;
 				}
 				ScriptExpression expression = new ScriptExpression( queryExpr );
-
-				query.addExpression( expression, BaseTransform.ON_EACH_ROW );
+				String columnBindingName = "_$_COLUMNBINDINGNAME_$_";
+				query.addResultSetExpression( columnBindingName, expression );
+				//query.addExpression( expression, BaseTransform.ON_EACH_ROW );
 
 				IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
 						.getEngine( )
@@ -483,11 +489,11 @@ public class ImportValueDialog extends BaseDialog
 							if ( selectedColumn.getDataType( ) == DataType.DATE_TYPE )
 							{
 
-								result = formatter.format( iter.getDate( expression ) );
+								result = formatter.format( iter.getDate( columnBindingName ) );
 							}
 							else
 							{
-								result = iter.getString( expression );
+								result = iter.getString( columnBindingName );
 							}
 							if ( !StringUtil.isBlank( result )
 									&& !resultList.contains( result ) )
