@@ -894,8 +894,8 @@ public final class DataSetProvider
 		DataRequestSession session = getDataRequestSession( dataSet );
 
 		IBaseDataSetDesign dataSetDesign = getDataSetDesign( dataSet,
-				false,
-				false );
+				true,
+				true );
 
 		QueryDefinition queryDefn = getQueryDefinition( dataSetDesign, -1 );
 		return session.prepare( queryDefn, null );
@@ -913,6 +913,22 @@ public final class DataSetProvider
 		DataRequestSession session = getDataRequestSession( dataSet );
 
 		getDataSetDesign( dataSet, true, true );
+		return session.prepare( query, null );
+	}
+	
+	/**
+	 * 
+	 * @param dataSet
+	 * @return
+	 * @throws BirtException
+	 */
+	public IPreparedQuery prepareQuery( DataSetHandle dataSet,
+			IQueryDefinition query, boolean useColumnHints, boolean useFilters )
+			throws BirtException
+	{
+		DataRequestSession session = getDataRequestSession( dataSet );
+
+		getDataSetDesign( dataSet, useColumnHints, useFilters );
 		return session.prepare( query, null );
 	}
 	
