@@ -185,6 +185,14 @@
       />
       <typeMapping
         xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:FilterList"
+        type="java:org.eclipse.birt.report.soapengine.api.FilterList"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:SelectionList"
         type="java:org.eclipse.birt.report.soapengine.api.SelectionList"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
@@ -265,6 +273,14 @@
       />
       <typeMapping
         xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:ConditionLineList"
+        type="java:org.eclipse.birt.report.soapengine.api.ConditionLineList"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:DataSetDefinition"
         type="java:org.eclipse.birt.report.soapengine.api.DataSetDefinition"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
@@ -331,6 +347,14 @@
         xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:ExportCriteria"
         type="java:org.eclipse.birt.report.soapengine.api.ExportCriteria"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:ConditionLine"
+        type="java:org.eclipse.birt.report.soapengine.api.ConditionLine"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
         deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
         encodingStyle=""

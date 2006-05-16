@@ -15,6 +15,7 @@ public class Data  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.Export export;
     private org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter;
     private org.eclipse.birt.report.soapengine.api.Filter filter;
+    private org.eclipse.birt.report.soapengine.api.FilterList filterList;
     private org.eclipse.birt.report.soapengine.api.Vector columnValues;
     private org.eclipse.birt.report.soapengine.api.Page page;
     private org.eclipse.birt.report.soapengine.api.DataSetList dataSets;
@@ -54,6 +55,7 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.Export export,
            org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter,
            org.eclipse.birt.report.soapengine.api.Filter filter,
+           org.eclipse.birt.report.soapengine.api.FilterList filterList,
            org.eclipse.birt.report.soapengine.api.Vector columnValues,
            org.eclipse.birt.report.soapengine.api.Page page,
            org.eclipse.birt.report.soapengine.api.DataSetList dataSets,
@@ -88,6 +90,7 @@ public class Data  implements java.io.Serializable {
            this.export = export;
            this.cascadeParameter = cascadeParameter;
            this.filter = filter;
+           this.filterList = filterList;
            this.columnValues = columnValues;
            this.page = page;
            this.dataSets = dataSets;
@@ -255,6 +258,26 @@ public class Data  implements java.io.Serializable {
      */
     public void setFilter(org.eclipse.birt.report.soapengine.api.Filter filter) {
         this.filter = filter;
+    }
+
+
+    /**
+     * Gets the filterList value for this Data.
+     * 
+     * @return filterList
+     */
+    public org.eclipse.birt.report.soapengine.api.FilterList getFilterList() {
+        return filterList;
+    }
+
+
+    /**
+     * Sets the filterList value for this Data.
+     * 
+     * @param filterList
+     */
+    public void setFilterList(org.eclipse.birt.report.soapengine.api.FilterList filterList) {
+        this.filterList = filterList;
     }
 
 
@@ -830,6 +853,9 @@ public class Data  implements java.io.Serializable {
             ((this.filter==null && other.getFilter()==null) || 
              (this.filter!=null &&
               this.filter.equals(other.getFilter()))) &&
+            ((this.filterList==null && other.getFilterList()==null) || 
+             (this.filterList!=null &&
+              this.filterList.equals(other.getFilterList()))) &&
             ((this.columnValues==null && other.getColumnValues()==null) || 
              (this.columnValues!=null &&
               this.columnValues.equals(other.getColumnValues()))) &&
@@ -942,6 +968,9 @@ public class Data  implements java.io.Serializable {
         }
         if (getFilter() != null) {
             _hashCode += getFilter().hashCode();
+        }
+        if (getFilterList() != null) {
+            _hashCode += getFilterList().hashCode();
         }
         if (getColumnValues() != null) {
             _hashCode += getColumnValues().hashCode();
@@ -1080,6 +1109,13 @@ public class Data  implements java.io.Serializable {
         elemField.setFieldName("filter");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Filter"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Filter"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("filterList");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FilterList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FilterList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

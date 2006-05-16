@@ -18,9 +18,9 @@ public class FilterType implements java.io.Serializable {
     }
 
     public static final java.lang.String _Simple = "Simple";
-    public static final java.lang.String _Complex = "Complex";
+    public static final java.lang.String _Advanced = "Advanced";
     public static final FilterType Simple = new FilterType(_Simple);
-    public static final FilterType Complex = new FilterType(_Complex);
+    public static final FilterType Advanced = new FilterType(_Advanced);
     public java.lang.String getValue() { return _value_;}
     public static FilterType fromValue(java.lang.String value)
           throws java.lang.IllegalArgumentException {

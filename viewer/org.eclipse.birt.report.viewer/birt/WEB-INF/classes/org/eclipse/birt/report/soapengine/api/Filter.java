@@ -11,6 +11,7 @@ public class Filter  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.FilterType type;
     private org.eclipse.birt.report.soapengine.api.FilterExpression expression;
     private org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList;
+    private org.eclipse.birt.report.soapengine.api.ConditionLineList conditionLineList;
 
     public Filter() {
     }
@@ -18,10 +19,12 @@ public class Filter  implements java.io.Serializable {
     public Filter(
            org.eclipse.birt.report.soapengine.api.FilterType type,
            org.eclipse.birt.report.soapengine.api.FilterExpression expression,
-           org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList) {
+           org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList,
+           org.eclipse.birt.report.soapengine.api.ConditionLineList conditionLineList) {
            this.type = type;
            this.expression = expression;
            this.reportParameterList = reportParameterList;
+           this.conditionLineList = conditionLineList;
     }
 
 
@@ -84,6 +87,26 @@ public class Filter  implements java.io.Serializable {
         this.reportParameterList = reportParameterList;
     }
 
+
+    /**
+     * Gets the conditionLineList value for this Filter.
+     * 
+     * @return conditionLineList
+     */
+    public org.eclipse.birt.report.soapengine.api.ConditionLineList getConditionLineList() {
+        return conditionLineList;
+    }
+
+
+    /**
+     * Sets the conditionLineList value for this Filter.
+     * 
+     * @param conditionLineList
+     */
+    public void setConditionLineList(org.eclipse.birt.report.soapengine.api.ConditionLineList conditionLineList) {
+        this.conditionLineList = conditionLineList;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Filter)) return false;
@@ -104,7 +127,10 @@ public class Filter  implements java.io.Serializable {
               this.expression.equals(other.getExpression()))) &&
             ((this.reportParameterList==null && other.getReportParameterList()==null) || 
              (this.reportParameterList!=null &&
-              this.reportParameterList.equals(other.getReportParameterList())));
+              this.reportParameterList.equals(other.getReportParameterList()))) &&
+            ((this.conditionLineList==null && other.getConditionLineList()==null) || 
+             (this.conditionLineList!=null &&
+              this.conditionLineList.equals(other.getConditionLineList())));
         __equalsCalc = null;
         return _equals;
     }
@@ -124,6 +150,9 @@ public class Filter  implements java.io.Serializable {
         }
         if (getReportParameterList() != null) {
             _hashCode += getReportParameterList().hashCode();
+        }
+        if (getConditionLineList() != null) {
+            _hashCode += getConditionLineList().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -145,12 +174,20 @@ public class Filter  implements java.io.Serializable {
         elemField.setFieldName("expression");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Expression"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FilterExpression"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("reportParameterList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportParameterList"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportParameterList"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("conditionLineList");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ConditionLineList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ConditionLineList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
