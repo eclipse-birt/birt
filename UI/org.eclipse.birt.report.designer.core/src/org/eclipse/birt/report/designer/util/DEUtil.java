@@ -1627,6 +1627,7 @@ public class DEUtil
 		return GroupElementFactory.newGroupElement( SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( ),
 				modelList );
+
 	}
 
 	/**
@@ -2107,5 +2108,27 @@ public class DEUtil
 			return handle.getExtends( ).getRoot( ) instanceof LibraryHandle;
 		}
 		return false;
+	}
+
+	/**
+	 * Return the group list of the given element.
+	 * 
+	 * @param handle
+	 *            the handle of the element.
+	 * @return the group list of the given element.
+	 */
+	public static List getGroups( DesignElementHandle handle )
+	{
+		List groupList = new ArrayList( );
+		if ( handle instanceof ListingHandle )
+		{
+			SlotHandle groupSlotHandle = ( (ListingHandle) handle ).getGroups( );
+			for ( Iterator iter = groupSlotHandle.iterator( ); iter.hasNext( ); )
+			{
+				GroupHandle group = (GroupHandle) iter.next( );
+				groupList.add( group );
+			}
+		}
+		return groupList;
 	}
 }

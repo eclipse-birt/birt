@@ -189,7 +189,7 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_JOINT_DATA_SET,
 				ICONS_PATH + OBJ16_PATH + "data_set.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_GRID, ICONS_PATH
 				+ PAL_PATH
 				+ "grid.gif" ); //$NON-NLS-1$
@@ -447,7 +447,7 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_WIZARDPAGE_DATASETSELECTION,
 				ICONS_PATH + WIZBAN_PATH + "dataset_wizard_table.gif" ); //$NON-NLS-1$
-		
+
 		// DataSetEditor History ToolBar
 		declareImage( IReportGraphicConstants.ICON_HISTORYTOOLBAR_BACKWARDDISABLED,
 				ICONS_PATH + DATA_PATH + "backward_disabled.gif" ); //$NON-NLS-1$
@@ -560,8 +560,11 @@ public class ReportPlatformUIImages
 
 		declareImage( "TableRowSelector", ICONS_PATH + OBJ16_PATH + "tablerowselector.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
 
-		declareImage( IReportGraphicConstants.ICON_ENABLE_LOCAL_PROPERTIES,
-				ICONS_PATH + OBJ16_PATH + "property_reference.gif" );//$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_ENABLE_RESTORE_PROPERTIES,
+				ICONS_PATH + OBJ16_PATH + "property_restore.gif" );//$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_DISABLE_RESTORE_PROPERTIES,
+				ICONS_PATH + OBJ16_PATH + "property_restore_disabled.gif" );//$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_TEMPLATE_NO_PREVIEW,
 				ICONS_PATH + MISC_PATH + "no_preview.gif" ); //$NON-NLS-1$
@@ -671,9 +674,8 @@ public class ReportPlatformUIImages
 
 	private static boolean isLinkImg( DesignElementHandle handle )
 	{
-		if (!( handle.getRoot( ) instanceof LibraryHandle
-				|| ( handle.getExtends( ) != null && handle.getExtends( )
-						.getRoot( ) instanceof LibraryHandle ) ))
+		if ( !( handle.getRoot( ) instanceof LibraryHandle || ( handle.getExtends( ) != null && handle.getExtends( )
+				.getRoot( ) instanceof LibraryHandle ) ) )
 		{
 			return false;
 		}
