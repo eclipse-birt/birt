@@ -403,6 +403,29 @@ public class SVGInteractiveRenderer
 	{
 		if ( elm != null )
 		{
+			//Need to check if we have a url redirect trigger.   We handle the interaction differently
+			boolean redirect = false;
+			for ( int x = 0; x < triggers.length; x++ )
+			{
+				Trigger tg = triggers[x];
+				if ( tg.getAction( ).getType( ).getValue( ) == ActionType.URL_REDIRECT){
+					redirect = true;
+					break;
+				}
+			}
+			if (redirect){
+				Element aLink = svg_g2d.createElement( "a" ); //$NON-NLS-1$
+				Element group = svg_g2d.createElement( "g" ); //$NON-NLS-1$
+				group.appendChild( elm );
+				// Create empty href
+				aLink.setAttribute( "xlink:href", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+				aLink.appendChild( group );
+				elm = group;
+				hotspotLayer.appendChild( aLink );
+			}
+			else
+				hotspotLayer.appendChild( elm );
+			
 			for ( int x = 0; x < triggers.length; x++ )
 			{
 				Trigger tg = triggers[x];
@@ -436,11 +459,6 @@ public class SVGInteractiveRenderer
 						case ActionType.URL_REDIRECT :
 							URLValue urlValue = ( (URLValue) tg.getAction( )
 									.getValue( ) );
-							Element aLink = svg_g2d.createElement( "a" ); //$NON-NLS-1$
-							// Create empty href
-							aLink.setAttribute( "xlink:href", "" ); //$NON-NLS-1$ //$NON-NLS-2$
-							aLink.appendChild( elm );
-							elm = aLink;
 							// See if this is an internal anchor link							
 							if ( urlValue.getBaseUrl( ).startsWith( "#" ) ) { //$NON-NLS-1$
 								elm.setAttribute( scriptEvent, "top.document.location.hash='" + urlValue.getBaseUrl( ) + "';" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -506,7 +524,6 @@ public class SVGInteractiveRenderer
 				} 
 			}
 
-			hotspotLayer.appendChild( elm );
 		}
 
 	}
