@@ -23,6 +23,8 @@ import java.util.Properties;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -417,6 +419,17 @@ public class ResourceEditDialog extends BaseDialog
 			catch ( IOException e )
 			{
 				ExceptionHandler.handle( e );
+			}
+			//reset resource property
+			//if property not change, event will not broadcast,
+			//so, must clean and reset property.
+			try
+			{
+				SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).setStringProperty( ModuleHandle.INCLUDE_RESOURCE_PROP, "" );
+				SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).setStringProperty( ModuleHandle.INCLUDE_RESOURCE_PROP, baseName );
+			}
+			catch ( SemanticException e )
+			{
 			}
 		}
 	}
