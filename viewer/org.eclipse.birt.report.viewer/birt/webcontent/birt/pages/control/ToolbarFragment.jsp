@@ -51,6 +51,11 @@
 					   <IMG NAME='export' SRC="birt/images/ExportData.gif"
 					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.export" )%>" CLASS="birtviewer_clickable">
 					</TD>
+					<TD WIDTH="6px"/>
+					<TD WIDTH="15px">
+					   <IMG NAME='print' SRC="birt/images/Print.gif"
+					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.print" )%>" CLASS="birtviewer_clickable">
+					</TD>					
 					<TD ALIGN='right'>
 					<%
 					if ( !ViewerServlet.isOpenSource( ) )

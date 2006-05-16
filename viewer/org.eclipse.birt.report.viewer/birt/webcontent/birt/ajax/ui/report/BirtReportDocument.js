@@ -34,6 +34,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		this.__beh_changeParameter_closure = this.__beh_changeParameter.bind( this );
 		this.__beh_toc_closure = this.__beh_toc.bindAsEventListener( this );
 		this.__beh_cacheParameter_closure = this.__beh_cacheParameter.bind( this );
+		this.__beh_print_closure = this.__beh_print.bind( this );
 				
 		Event.observe( window, 'resize', this.__neh_resize_closure, false );
 		
@@ -44,7 +45,8 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_TOC, this.__instance.id, this.__beh_toc_closure );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_QUERY_EXPORT, this.__instance.id, this.__beh_export );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_CACHE_PARAMETER, this.__instance.id, this.__beh_cacheParameter_closure );
-		
+		birtEventDispatcher.registerEventHandler( birtEvent.__E_PRINT, this.__instance.id, this.__beh_print_closure );
+				
   		birtGetUpdatedObjectsResponseHandler.addAssociation( "Docum", this );
   		
 		// TODO: rename it to birt event
@@ -68,5 +70,16 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		birtSoapRequest.setURL( document.location );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
 		return true;
-	}
+	},
+
+	/**
+	 *	Birt event handler for "print" event.
+	 *
+	 *	@id, document id (optional since there's only one document instance)
+	 *	@return, true indicating server call
+	 */
+	__beh_print : function( id )
+	{
+		window.print();
+	}	
 });
