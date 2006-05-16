@@ -213,7 +213,8 @@ public class FontDefinitionDialog
 				cdCurrent,
 				false,
 				false,
-				true );
+				true,
+				false );
 		{
 			GridData gdFCCColor = new GridData( GridData.FILL_HORIZONTAL );
 			gdFCCColor.horizontalSpan = 3;

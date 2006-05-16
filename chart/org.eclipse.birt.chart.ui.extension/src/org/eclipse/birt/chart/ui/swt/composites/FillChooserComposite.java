@@ -134,18 +134,22 @@ public class FillChooserComposite extends Composite
 	 *            If null, create a Fill using adapters from wizard context
 	 * @param bEnableGradient
 	 * @param bEnableImage
+	 * @param bEnableAuto
+	 *            Indicates whether auto button will be displayed. 
+	 * @param bEnableTransparent
+	 *            Indicates whether transparent button will be displayed.
 	 */
 	public FillChooserComposite( Composite parent, int style,
 			ChartWizardContext wizardContext, Fill fCurrent,
-			boolean bEnableGradient, boolean bEnableImage, boolean bEnableAuto )
+			boolean bEnableGradient, boolean bEnableImage, boolean bEnableAuto,
+			boolean bEnableTransparent )
 	{
 		super( parent, style );
 		this.fCurrent = fCurrent;
 		this.bGradientEnabled = bEnableGradient;
 		this.bImageEnabled = bEnableImage;
 		this.bAutoEnabled = bEnableAuto;
-		// If auto selection is enabled, transparent must be disabled
-		this.bTransparentEnabled = !bAutoEnabled;
+		this.bTransparentEnabled = bEnableTransparent;
 		this.wizardContext = wizardContext;
 		init( );
 		placeComponents( );
@@ -160,8 +164,6 @@ public class FillChooserComposite extends Composite
 	 *            If null, create a Fill using adapters from wizard context
 	 * @param bEnableGradient
 	 * @param bEnableImage
-	 * @param bEnableAuto
-	 *            If true, null fill means auto, rather than transparent
 	 */
 	public FillChooserComposite( Composite parent, int style,
 			ChartWizardContext wizardContext, Fill fCurrent,
@@ -499,11 +501,6 @@ public class FillChooserComposite extends Composite
 
 	public Fill getFill( )
 	{
-		if ( fCurrent == null
-				|| fCurrent.equals( ColorDefinitionImpl.TRANSPARENT( ) ) )
-		{
-			return null;
-		}
 		return this.fCurrent;
 	}
 
@@ -584,7 +581,7 @@ public class FillChooserComposite extends Composite
 		}
 		else if ( oSource.equals( this.btnReset ) )
 		{
-			this.setFill( null );
+			this.setFill( ColorDefinitionImpl.TRANSPARENT( ) );
 			fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 			cmpDropDown.getShell( ).dispose( );
 		}
@@ -693,8 +690,7 @@ public class FillChooserComposite extends Composite
 		{
 			Event se = new Event( );
 			se.widget = this;
-			se.data = ( fCurrent != null ) ? fCurrent
-					: ColorDefinitionImpl.TRANSPARENT( );
+			se.data = fCurrent;
 			se.type = iType;
 			( (Listener) vListeners.get( iL ) ).handleEvent( se );
 		}

@@ -125,7 +125,9 @@ public class BarSeriesAttributeComposite extends Composite
 				context,
 				( (BarSeries) series ).getRiserOutline( ),
 				false,
-				false );
+				false,
+				true,
+				true );
 		GridData gdFCCRiserOutline = new GridData( GridData.FILL_HORIZONTAL );
 		fccRiserOutline.setLayoutData( gdFCCRiserOutline );
 		fccRiserOutline.addListener( this );
@@ -177,7 +179,10 @@ public class BarSeriesAttributeComposite extends Composite
 	{
 		if ( event.widget.equals( fccRiserOutline ) )
 		{
-			( (BarSeries) series ).setRiserOutline( (ColorDefinition) event.data );
+			if ( event.type == FillChooserComposite.FILL_CHANGED_EVENT )
+			{
+				( (BarSeries) series ).setRiserOutline( (ColorDefinition) event.data );
+			}
 		}
 	}
 }

@@ -97,7 +97,7 @@ class FillCanvas extends Canvas implements PaintListener
 							0,
 							this.getSize( ).x,
 							this.getSize( ).y );
-					if ( !isAutoEnabled )
+					if ( !isAutoEnabled || fCurrent != null )
 					{
 						gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2, 2 ); //$NON-NLS-1$
 					}
@@ -132,7 +132,7 @@ class FillCanvas extends Canvas implements PaintListener
 							this.getSize( ).y );
 					Color cText = new Color( this.getDisplay( ), 0, 0, 0 );
 					gc.setForeground( cText );
-					if ( !isAutoEnabled )
+					if ( !isAutoEnabled || fCurrent != null )
 					{
 						gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2, 2 ); //$NON-NLS-1$
 					}
