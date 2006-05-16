@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,9 +51,11 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
+import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -95,7 +98,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.59 $ $Date: 2006/05/10 02:29:28 $
+ * @version $Revision: 1.60 $ $Date: 2006/05/11 07:43:13 $
  */
 public class ReportQueryBuilder
 {
@@ -144,7 +147,14 @@ public class ReportQueryBuilder
 		 * Needed because we could have nested queries
 		 */
 		protected LinkedList queryStack = new LinkedList( );
-
+		
+		/**
+		 * the current condition stack which may be used in creating sub queries . 
+		 * The top stores true if the currently prepared is included in the group( header or footer ) 
+		 * or flase in the detail.
+		 */
+		protected LinkedList currentConditionStack = new LinkedList( );
+		
 		/*
 		 * report item query stack
 		 * 
@@ -247,6 +257,8 @@ public class ReportQueryBuilder
 		{
 			BaseQueryDefinition query = prepareVisit( container );
 
+			transferExpressions( container );
+
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 				container.getItem( i ).accept( this, value );
 
@@ -262,6 +274,8 @@ public class ReportQueryBuilder
 		public Object visitGridItem( GridItemDesign grid, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( grid );
+
+			transferExpressions( grid );
 
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
 				handleRow( grid.getRow( i ), value );
@@ -279,6 +293,20 @@ public class ReportQueryBuilder
 		{
 			BaseQueryDefinition query = prepareVisit( image );
 
+			transferExpressions( image );
+			if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
+			{
+				String newImageExpression = transferExpression( image.getImageExpression( ) );
+				String newImageFormat = transferExpression( image.getImageFormat( ) );
+				image.setImageExpression( newImageExpression, newImageFormat );
+			}
+			else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_URI
+					|| image.getImageSource( ) == ImageItemDesign.IMAGE_FILE )
+			{
+				String newImageUri = transferExpression( image.getImageUri( ) );
+				image.setImageUri( newImageUri );
+			}
+
 			finishVisit( query );
 			return value;
 		}
@@ -291,7 +319,7 @@ public class ReportQueryBuilder
 		public Object visitLabelItem( LabelItemDesign label, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( label );
-
+			transferExpressions( label );
 			finishVisit( query );
 			return value;
 		}
@@ -358,6 +386,14 @@ public class ReportQueryBuilder
 							}
 						}
 					}
+					if ( queries.length > 0 )
+					{
+						IBaseQueryDefinition query = queries[0];
+						if ( query != null )
+						{
+							transferExpressions( item );			
+						}
+					}
 				}
 			}
 			BaseQueryDefinition query = prepareVisit( item );
@@ -375,14 +411,21 @@ public class ReportQueryBuilder
 			BaseQueryDefinition query = prepareVisit( list );
 			if ( query == null )
 			{
+				pushCurrentCondition( true );
 				visitListBand( list.getHeader( ), value );
+				popCurrentCondition( );
+				
+				pushCurrentCondition( true );
 				visitListBand( list.getFooter( ), value );
+				popCurrentCondition( );
 			}
 			else
 			{
 				pushReportItemQuery( query );
+				transferExpressions( list );
+				pushCurrentCondition( true );
 				visitListBand( list.getHeader( ), value );
-
+				
 				SlotHandle groupsSlot = ( (ListHandle) list.getHandle( ) )
 						.getGroups( );
 
@@ -391,13 +434,19 @@ public class ReportQueryBuilder
 					handleListGroup( list.getGroup( i ),
 							(GroupHandle) groupsSlot.get( i ), value );
 				}
+				popCurrentCondition( );
 
 				if ( list.getDetail( ).getContentCount( ) != 0 )
 				{
 					query.setUsesDetails( true );
 				}
+				pushCurrentCondition( false );
 				visitListBand( list.getDetail( ), value );
+				popCurrentCondition( );
+				
+				pushCurrentCondition( true );
 				visitListBand( list.getFooter( ), value );
+				popCurrentCondition( );
 				popReportItemQuery( );
 			}
 			finishVisit( query );
@@ -412,6 +461,19 @@ public class ReportQueryBuilder
 		public Object visitTextItem( TextItemDesign text, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( text );
+			transferExpressions( text );
+			HashMap exprs = text.getExpressions( );
+			if ( exprs != null )
+			{
+				Iterator ite = exprs.entrySet( ).iterator( );
+				while ( ite.hasNext( ) )
+				{
+					Map.Entry entry = (Map.Entry) ite.next( );
+					assert entry.getValue( ) instanceof String;
+					String newExpr = transferExpression( entry.getValue( ).toString( ) );
+					entry.setValue( newExpr );
+				}				
+			}
 
 			finishVisit( query );
 			return value;
@@ -427,13 +489,20 @@ public class ReportQueryBuilder
 			BaseQueryDefinition query = prepareVisit( table );
 			if ( query == null )
 			{
+				pushCurrentCondition( true );
 				handleTableBand( table.getHeader( ), value );
+				popCurrentCondition( );
+				
+				pushCurrentCondition( true );
 				handleTableBand( table.getFooter( ), value );
+				popCurrentCondition( );				
 			}
 			else
 			{
-				pushReportItemQuery( query );
+				transferExpressions( table );
+				pushCurrentCondition( true );
 				handleTableBand( table.getHeader( ), value );
+				
 				SlotHandle groupsSlot = ( (TableHandle) table.getHandle( ) )
 						.getGroups( );
 
@@ -442,15 +511,20 @@ public class ReportQueryBuilder
 					handleTableGroup( table.getGroup( i ),
 							(GroupHandle) groupsSlot.get( i ), value );
 				}
+				popCurrentCondition( );
 
 				if ( table.getDetail( ).getRowCount( ) != 0 )
 				{
 					query.setUsesDetails( true );
 				}
+				
+				pushCurrentCondition( false );
 				handleTableBand( table.getDetail( ), value );
-
+				popCurrentCondition( );
+				
+				pushCurrentCondition( true );				
 				handleTableBand( table.getFooter( ), value );
-				popReportItemQuery( );
+				popCurrentCondition( );
 			}
 			finishVisit( query );
 			return value;
@@ -477,7 +551,9 @@ public class ReportQueryBuilder
 				Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( multiLine );
-
+			transferExpressions( multiLine );
+			String newContent = transferExpression( multiLine.getContent( ) );
+			multiLine.setContent( newContent );
 			finishVisit( query );
 			return value;
 		}
@@ -490,11 +566,13 @@ public class ReportQueryBuilder
 		public Object visitDataItem( DataItemDesign data, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( data );
-
+			transferExpressions( data );
+			String newValue = transferExpression( data.getValue( ) );
+			data.setValue( newValue );
 			finishVisit( query );
 			return value;
-		}
-
+		}	
+		
 		/**
 		 * @param band
 		 *            the list band
@@ -554,14 +632,6 @@ public class ReportQueryBuilder
 
 			getParentQuery( ).getGroups( ).add( groupDefn );
 
-			Iterator iter = handle.columnBindingsIterator( );
-			while ( iter.hasNext( ) )
-			{
-				ComputedColumnHandle binding = (ComputedColumnHandle) iter
-						.next( );
-				addColumBinding( groupDefn, binding );
-			}
-
 			return groupDefn;
 		}
 
@@ -586,8 +656,8 @@ public class ReportQueryBuilder
 
 			handleTableBand( group.getFooter( ), value );
 			popQuery( );
-		}
-
+		}		
+		
 		/**
 		 * visit content of a row
 		 */
@@ -612,7 +682,7 @@ public class ReportQueryBuilder
 			transferExpressions( cell );
 			for ( int i = 0; i < cell.getContentCount( ); i++ )
 				cell.getContent( i ).accept( this, value );
-		}
+		}		
 
 		protected void pushReportItemQuery( IBaseQueryDefinition query )
 		{
@@ -627,6 +697,33 @@ public class ReportQueryBuilder
 		{
 			assert this.reportItemQueryStack.isEmpty( ) == false;
 			this.reportItemQueryStack.removeLast( );
+		}
+		
+		/**
+		 * A helper function for adding a query to query stack
+		 */
+		protected void pushCurrentCondition( boolean currentCondition )
+		{
+			this.currentConditionStack.addLast( String.valueOf( currentCondition ) );
+		}
+
+		/**
+		 * A helper function for removing a query from query stack
+		 */
+		protected void popCurrentCondition( )
+		{
+			assert !currentConditionStack.isEmpty( );
+			currentConditionStack.removeLast( );
+		}
+
+		/**
+		 * @return topmost element on query stack
+		 */
+		protected String getCurrentCondition( )
+		{
+			if ( currentConditionStack.isEmpty( ) )
+				return String.valueOf( false );
+			return ( String ) currentConditionStack.getLast( );
 		}
 
 		/**
@@ -671,7 +768,7 @@ public class ReportQueryBuilder
 			}
 			return null;
 
-		}
+		}		
 
 		protected void addColumBinding( IBaseTransform transfer,
 				ComputedColumnHandle binding )
@@ -791,8 +888,19 @@ public class ReportQueryBuilder
 				String name = String.valueOf( item.getID( ) );
 				query = new SubqueryDefinition( name );
 				parentQuery.getSubqueries( ).add( query );
+				
+				String currentCondition = getCurrentCondition( );
+				
+				if ( currentCondition.equals( String.valueOf( true ) ) )
+				{
+					( (SubqueryDefinition)query ).setApplyOnGroupFlag( true );
+				}
+				else
+				{
+					( (SubqueryDefinition)query ).setApplyOnGroupFlag( false );
+				}
 			}
-
+			
 			item.setQuery( query );
 			Iterator iter = designHandle.columnBindingsIterator( );
 			while ( iter.hasNext( ) )
@@ -1133,8 +1241,36 @@ public class ReportQueryBuilder
 				replaceOldExpressions( item, totalExpressionBindings );
 			}
 		}
-
+		
+		/**
+		 * Transfer the old expression to column dataBinding and bind it to the Query.
+		 * And create a news expression to replace the old expression.
+		 * @param expr expression to be transfered.
+		 * return the transfered expression
+		 */
+		protected String transferExpression( String expr )
+		{
+			if ( expr == null )
+			{
+				return null;
+			}
+			IBaseTransform trans = getTransform();
+			if (trans != null)
+			{
+				List expressions = new ArrayList( );
+				expressions.add( expr );	
+				ITotalExprBindings totalExpressionBinding = ExpressionUtil
+					.prepareTotalExpressions( expressions );
+				
+				addNewColumnBindings( trans, totalExpressionBinding );
+				
+				List newExpressions = totalExpressionBinding.getNewExpression( );
+				return (String) newExpressions.get( 0 );
+			}
+			return null;
+		}		
 	}
+	
 
 	private void replaceOldExpressions( ReportItemDesign item,
 			ITotalExprBindings totalExpressionBindings )
@@ -1175,6 +1311,54 @@ public class ReportQueryBuilder
 						(String) newExpressions.get( expressionIndex++ ) );
 			}
 		}
+		
+		Map namedExpressions = item.getNamedExpressions( );
+		if ( namedExpressions != null )
+		{
+			Collection exprs = namedExpressions.entrySet( );
+			Iterator exprIter = exprs.iterator();
+			Map.Entry entry = null;
+			while( exprIter.hasNext( ) )
+			{
+				entry = ( Map.Entry ) exprIter.next( );				
+				entry.setValue( ( String ) newExpressions.get( expressionIndex++ ) );
+			}
+		}
+		
+		ActionDesign action = item.getAction( );
+		if ( action != null )
+		{
+			switch ( action.getActionType( ) )
+			{
+				case ActionDesign.ACTION_BOOKMARK :
+					action.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
+					break;
+				case ActionDesign.ACTION_DRILLTHROUGH :
+					DrillThroughActionDesign drillThrough = action
+							.getDrillThrough( );
+					if ( drillThrough != null )
+					{
+						drillThrough.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
+						if ( drillThrough.getParameters( ) != null )
+						{
+							Iterator ite = drillThrough.getParameters( )
+									.entrySet( ).iterator( );
+							while ( ite.hasNext( ) )
+							{
+								Map.Entry entry = (Map.Entry) ite.next( );
+								assert entry.getValue( ) instanceof String;
+								entry.setValue( ( String ) newExpressions.get( expressionIndex++ ) );
+							}
+						}
+					}
+					break;
+				case ActionDesign.ACTION_HYPERLINK :
+					action.setHyperlink( (String) newExpressions.get( expressionIndex++ ) );
+					break;
+				default :
+					assert false;
+			}
+		}
 	}
 
 	private ITotalExprBindings getNewExpressionBindings( ReportItemDesign item )
@@ -1213,8 +1397,56 @@ public class ReportQueryBuilder
 				expressions
 						.add( visibilities.getRule( i ).getExpression( ) );
 			}
-		}
+		}		
 
+		Map namedExpressions = item.getNamedExpressions( );
+		if ( namedExpressions != null )
+		{
+			Collection exprs = namedExpressions.entrySet( );
+			Iterator exprIter = exprs.iterator();
+			Map.Entry entry = null;
+			while( exprIter.hasNext( ) )
+			{
+				entry = ( Map.Entry ) exprIter.next( );
+				expressions.add( entry.getValue( ) );
+			}
+		}
+		
+		ActionDesign action = item.getAction( );
+		if ( action != null )
+		{
+			switch ( action.getActionType( ) )
+			{
+				case ActionDesign.ACTION_BOOKMARK :
+					expressions.add( action.getBookmark( ) );
+					break;
+				case ActionDesign.ACTION_DRILLTHROUGH :
+					DrillThroughActionDesign drillThrough = action
+							.getDrillThrough( );
+					if ( drillThrough != null )
+					{
+						expressions.add( drillThrough.getBookmark( ) );
+						if ( drillThrough.getParameters( ) != null )
+						{
+							Iterator ite = drillThrough.getParameters( )
+									.entrySet( ).iterator( );
+							while ( ite.hasNext( ) )
+							{
+								Map.Entry entry = (Map.Entry) ite.next( );
+								assert entry.getValue( ) instanceof String;
+								expressions.add( entry.getValue( ) );
+							}
+						}
+					}
+					break;
+				case ActionDesign.ACTION_HYPERLINK :
+					expressions.add( action.getHyperlink( ) );
+					break;
+				default :
+					assert false;
+			}
+		}
+		
 		ITotalExprBindings totalExpressionBindings = ExpressionUtil
 				.prepareTotalExpressions( expressions );
 		return totalExpressionBindings;
