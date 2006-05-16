@@ -1,0 +1,122 @@
+<project name="tests.engine build file" default="utest" basedir=".">
+	
+	<property name="eclipse.home" value=""/>
+	<property name="src.dir" location="src"/>
+	<property name="bin.dir" location="bin"/>
+	<property name="core.dir" value="../org.eclipse.birt.core"/>
+	<property name="data.dir" value="../org.eclipse.birt.data"/>
+	<property name="model.dir" value="../org.eclipse.birt.report.model"/>
+	<property name="engine.dir" value="../org.eclipse.birt.report.engine"/>
+	<property name="application" value="org.eclipse.test.coretestapplication"/>
+	<property name="curr.data.path" value=".."/> <!-- locate tests.engine -->
+	<property name="module.name" value="org.eclipse.birt.report.tests.engine"/>
+	<property name="tests.dir" value="report.tests.engine"/>
+	<property name="className" value="${module.name}.AllTests"/>
+	<property name="utest.report.dir" value="utestreports"/>
+	<property name="formatter" value="formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,&quot;${curr.data.path}/${module.name}/${utest.report.dir}/${module.name}.xml&quot;"/>
+	
+	<!-- classPath -->
+	
+	<path id="classPath">
+		<pathelement path="${bin.dir}"/>
+		<pathelement path="${core.dir}/core.jar"/>
+		<pathelement path="${data.dir}/data.jar"/>
+		<pathelement path="${model.dir}/model.jar"/>
+		<pathelement path="${engine.dir}/engine.jar"/>
+		<fileset dir="../org.mozilla.rhino">
+			<include name="lib/*.jar"/>
+		</fileset>
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
+			<include name="org.eclipse.core.runtime*.jar"/>
+			<include name="org.eclipse.osgi_*/*.jar"/>
+			<include name="org.eclipse.osgi*.jar"/>
+			<include name="org.junit_*/*.jar"/>
+			<include name="com.ibm.icu*.jar"/>
+		</fileset>
+	</path>
+	
+	<!-- build dependents, build dependent projects -->
+	
+	<target name="buildDependents" description="build dependent projects">
+		<echo message="start building core"/>
+		<ant dir="${core.dir}" target="Jar" antfile="BuildCore.xml" inheritAll="false" inheritrefs="false"/>
+		<echo message="end building core"/>
+		<echo message="start building data"/>
+		<ant dir="${data.dir}" target="Jar" antfile="BuildData.xml" inheritAll="false" inheritrefs="false"/>
+		<echo message="end building data"/>
+		<echo message="start building model"/>
+		<ant dir="${model.dir}" target="Jar" antfile="BuildModel.xml" inheritAll="false" inheritrefs="false"/>
+		<echo message="end building model"/>
+		<echo message="start building engine"/>
+		<ant dir="${engine.dir}" target="Jar" antfile="BuildEngine.xml" inheritAll="false" inheritrefs="false"/>
+		<echo message="end building engine"/>
+	</target>
+	
+	<!-- compile Test, compile this project -->
+	
+	<target name="compileTest" depends="buildDependents" description="compile this project">
+		<mkdir dir="${bin.dir}"/>
+		<copy todir="${bin.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/input/*.*"/>
+				<include name="**/output/*.*"/>
+			</fileset>
+		</copy>
+		<echo message="start compiling tests.engine"/>
+		<javac srcdir="${src.dir}" destdir="${bin.dir}" source="1.4" target="1.4" debug="true" encoding="utf-8" failonerror="true">
+			<classpath refid="classPath"/>
+		</javac>
+		<echo message="end compiling tests.engine"/>
+	</target>
+	
+	<!-- Unit Test, start executing unit test -->
+	
+	<!-- to run UnitTest, set following properties
+			-Declipse.home -> eclipse absolute path
+			-Dcurr.data.path -> workspace absolute path
+			-Dutest.report.dir -> output report direcotry
+	-->
+	
+	<target name="UnitTest" description="start executing unit test">
+		<delete dir="${utest.report.dir}"/>
+		<mkdir dir="${utest.report.dir}"/>
+		<echo message="start executing tests.engine"/>
+		<ant dir="../org.eclipse.birt.tests.core" antfile="build.xml" target="Start" inheritAll="false" inheritRefs="false">
+			<property name="application" value="${application}"/>
+			<property name="data.path" value="${curr.data.path}"/>
+			<property name="module.name" value="${module.name}"/>
+			<property name="tests.dir" value="${tests.dir}"/>
+			<property name="className" value="${className}"/>
+			<property name="otherArgs" value="${formatter}"/>
+		</ant>
+		<echo message="end executing tests.engine"/>
+	</target>
+
+	<!-- Report, create unit test report -->
+	
+	<target name="Report">
+		<junitreport todir="${utest.report.dir}">
+			<fileset dir="${utest.report.dir}">
+				<include name="*.xml" />
+				<!-- exclude default -->
+				<exclude name="*TestSuites.xml" />
+			</fileset>
+			<report format="noframes" todir="${utest.report.dir}" />
+		</junitreport>
+	</target>
+	
+	<!-- Clean, clean this project -->
+	
+	<target name="Clean" description="clean this project">
+		<delete dir="${bin}"/>
+		<delete dir="${utest.report.dir}"/>
+	</target>
+	
+	<!-- run unit test (develop purpose) -->
+	
+	<target name="utest" depends="compileTest,UnitTest,Report">
+		
+	</target>
+	
+</project>
