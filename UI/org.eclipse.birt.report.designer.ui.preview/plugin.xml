@@ -67,7 +67,7 @@
       <formPage
             class="org.eclipse.birt.report.designer.ui.preview.editors.ReportPreviewFormPage"
             displayName="%design.preview"
-            id="org.eclipse.birt.report.designer.ui.editors.design.preview"
+            id="org.eclipse.birt.report.designer.ui.editors.preview"
             position="right"
             relative="org.eclipse.birt.report.designer.ui.editors.design.xmlsource"
             visible="true"/>
@@ -76,7 +76,7 @@
       <formPage
             class="org.eclipse.birt.report.designer.ui.preview.editors.ReportPreviewFormPage"
             displayName="%template.preview"
-            id="org.eclipse.birt.report.designer.ui.editors.template.preview"
+            id="org.eclipse.birt.report.designer.ui.editors.preview"
             position="right"
             relative="org.eclipse.birt.report.designer.ui.editors.design.xmlsource"
             visible="true"/>

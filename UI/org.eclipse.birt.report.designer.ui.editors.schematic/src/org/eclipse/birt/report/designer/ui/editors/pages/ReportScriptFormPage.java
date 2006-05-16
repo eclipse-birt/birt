@@ -39,14 +39,13 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 public class ReportScriptFormPage extends ReportFormPage
 {
 
-	public static final String ID = "report.script"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.script"; //$NON-NLS-1$
 
 	private JSEditor jsEditor;
 

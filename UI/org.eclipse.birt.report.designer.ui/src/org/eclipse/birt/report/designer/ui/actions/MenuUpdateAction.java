@@ -40,6 +40,20 @@ public abstract class MenuUpdateAction extends SelectionAction
 	public static abstract class DynamicItemAction extends Action
 	{
 
+		protected DynamicItemAction( )
+		{
+
+		}
+
+		protected DynamicItemAction( String text )
+		{
+			super( text );
+		}
+
+		protected DynamicItemAction( String text, int style )
+		{
+			super( text, style );
+		}
 		private ISelection selection;
 
 		/**
@@ -91,7 +105,7 @@ public abstract class MenuUpdateAction extends SelectionAction
 	{
 		if ( Policy.TRACING_ACTIONS )
 		{
-			System.out.println( "Action [" + getClass() + "] >> Run ..." ); //$NON-NLS-1$ //$NON-NLS-2$
+			System.out.println( "Action [" + getClass( ) + "] >> Run ..." ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if ( menu != null )
 		{
@@ -128,6 +142,10 @@ public abstract class MenuUpdateAction extends SelectionAction
 	{
 		this.menu = menu;
 		run( );
+	}
+
+	public void update( )
+	{
 	}
 
 	/**

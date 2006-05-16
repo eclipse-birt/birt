@@ -115,6 +115,16 @@
                </restriction>
             </simpleType>
          </attribute>
+         <attribute name="pageAction" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.jface.action.IAction"/>
+               </appInfo>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

@@ -66,6 +66,10 @@ public class DesignerActionBarContributor extends
 		org.eclipse.gef.ui.actions.ActionBarContributor
 {
 
+	public static final String PAGE_SET_GROUP_END = "pageSetGroupEnd"; //$NON-NLS-1$
+
+	public static final String PAGE_SET_GROUP = "pageSetGroup"; //$NON-NLS-1$
+
 	static class RegisterActions
 	{
 
@@ -291,7 +295,7 @@ public class DesignerActionBarContributor extends
 		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, newMenu );
 
 		// Page Menu
-		buildPageMenu( menubar );
+		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, createPageMenu( ) );
 
 		// Insert Menu
 		newMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.insert" ) ); //$NON-NLS-1$
@@ -313,19 +317,20 @@ public class DesignerActionBarContributor extends
 		}
 	}
 
-	protected void buildPageMenu( IMenuManager menubar )
+	/**
+	 * Creates the page menu
+	 * 
+	 * @return the page menu
+	 */
+	protected IMenuManager createPageMenu( )
 	{
 		MenuManager newMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.page" ), "birtPage" ); //$NON-NLS-1$ //$NON-NLS-2$
-		newMenu.add( new Separator( "pageSetGroup" ) ); //$NON-NLS-1$
-		newMenu.add( new Separator( "pageSetGroupEnd" ) ); //$NON-NLS-1$
+		newMenu.add( new Separator( PAGE_SET_GROUP ) );
+		newMenu.add( new Separator( PAGE_SET_GROUP_END ) );
 		newMenu.add( getAction( GEFActionConstants.ZOOM_IN ) );
 		newMenu.add( getAction( GEFActionConstants.ZOOM_OUT ) );
 		newMenu.add( new Separator( ) );
-//		IAction rulerVisible = getAction( GEFActionConstants.TOGGLE_RULER_VISIBILITY );
-//		rulerVisible.setAccelerator( SWT.CTRL | 'R' );
-//		newMenu.add( rulerVisible );
-//		newMenu.add( getAction( ToggleMarginVisibilityAction.ID ) );
-		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, newMenu );
+		return newMenu;
 	}
 
 	private void contributeStyleMenu( MenuManager newMenu )

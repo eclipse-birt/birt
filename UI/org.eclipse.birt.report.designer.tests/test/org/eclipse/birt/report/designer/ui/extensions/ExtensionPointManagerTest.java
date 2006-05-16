@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
-import org.eclipse.birt.report.designer.internal.ui.extension.IExtensionConstants;
 import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.birt.report.designer.testutil.BaseTestCase;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;

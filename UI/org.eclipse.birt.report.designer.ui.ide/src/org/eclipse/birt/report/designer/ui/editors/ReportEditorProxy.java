@@ -41,9 +41,21 @@ public class ReportEditorProxy extends EditorPart implements
 		IReportEditor
 {
 
-    
+	/**
+	 * The ID of the Report Editor
+	 */
+	public static final String REPROT_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.ReportEditor"; //$NON-NLS-1$
+	/**
+	 * The ID of the Template Editor
+	 */
+	public static final String TEMPLATE_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.TemplateEditor"; //$NON-NLS-1$
+	/**
+	 * The ID of the Library Editor
+	 */
+	public static final String LIBRARY_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.LibraryEditor"; //$NON-NLS-1$
+
 	MultiPageReportEditor instance;
-	private String title = "";
+	private String title = ""; //$NON-NLS-1$
 
 	public IEditorInput getEditorInput( )
 	{
@@ -81,7 +93,6 @@ public class ReportEditorProxy extends EditorPart implements
 		getSite( ).getWorkbenchWindow( )
 				.getPartService( )
 				.addPartListener( this );
-
 
 	}
 
@@ -180,89 +191,97 @@ public class ReportEditorProxy extends EditorPart implements
 
 	public void partActivated( IWorkbenchPart part )
 	{
-		if(part instanceof ReportEditorProxy){
-			instance.partActivated( ((ReportEditorProxy)part).getEditorPart( ) );
+		if ( part instanceof ReportEditorProxy )
+		{
+			instance.partActivated( ( (ReportEditorProxy) part ).getEditorPart( ) );
 		}
 		else
 		{
 			instance.partActivated( part );
 		}
-//		if ( part != this )
-//		{
-//			if ( part instanceof PageBookView )
-//			{
-//				PageBookView view = (PageBookView) part;
-//				if ( view.getCurrentPage( ) instanceof DesignerOutlinePage )
-//				{
-//					ISelectionProvider provider = (ISelectionProvider) view.getCurrentPage( );
-//					ReportRequest request = new ReportRequest( view.getCurrentPage( ) );
-//					List list = new ArrayList( );
-//					if ( provider.getSelection( ) instanceof IStructuredSelection )
-//					{
-//						list = ( (IStructuredSelection) provider.getSelection( ) ).toList( );
-//					}
-//					request.setSelectionObject( list );
-//					request.setType( ReportRequest.SELECTION );
-//					// no convert
-//					// request.setRequestConvert(new
-//					// EditorReportRequestConvert());
-//					SessionHandleAdapter.getInstance( )
-//							.getMediator( )
-//							.notifyRequest( request );
-//					SessionHandleAdapter.getInstance( )
-//							.getMediator( )
-//							.pushState( );
-//				}
-//			}
-//			if ( instance.getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette )
-//			{
-//				if ( ( (GraphicalEditorWithFlyoutPalette) instance.getActiveEditor( ) ).getGraphicalViewer( )
-//						.getEditDomain( )
-//						.getPaletteViewer( ) != null )
-//				{
-//					GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) instance.getActiveEditor( );
-//					GraphicalViewer view = editor.getGraphicalViewer( );
-//					view.getEditDomain( ).loadDefaultTool( );
-//				}
-//
-//			}
-//			return;
-//		}
-//
-//		if ( part == this )
-//		{
-//			// use the asynchronized execution to ensure correct active page
-//			// index.
-//			Display.getCurrent( ).asyncExec( new Runnable( ) {
-//
-//				public void run( )
-//				{
-////					if ( instance.getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
-////					{
-////						GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) instance.getActivePageInstance( );
-////						GraphicalViewer view = editor.getGraphicalViewer( );
-////
-////						UIUtil.resetViewSelection( view, true );
-////					}
-//				};
-//
-//			} );
-//
-//			if ( getEditorInput( ).exists( ) )
-//			{
-//				instance.handleActivation( );
-//
-//				SessionHandleAdapter.getInstance( )
-//						.setReportDesignHandle( instance.getModel( ) );
-//				DataSetManager.initCurrentInstance( getEditorInput( ) );
-//			}
-//		}
+		// if ( part != this )
+		// {
+		// if ( part instanceof PageBookView )
+		// {
+		// PageBookView view = (PageBookView) part;
+		// if ( view.getCurrentPage( ) instanceof DesignerOutlinePage )
+		// {
+		// ISelectionProvider provider = (ISelectionProvider)
+		// view.getCurrentPage( );
+		// ReportRequest request = new ReportRequest( view.getCurrentPage( ) );
+		// List list = new ArrayList( );
+		// if ( provider.getSelection( ) instanceof IStructuredSelection )
+		// {
+		// list = ( (IStructuredSelection) provider.getSelection( ) ).toList( );
+		// }
+		// request.setSelectionObject( list );
+		// request.setType( ReportRequest.SELECTION );
+		// // no convert
+		// // request.setRequestConvert(new
+		// // EditorReportRequestConvert());
+		// SessionHandleAdapter.getInstance( )
+		// .getMediator( )
+		// .notifyRequest( request );
+		// SessionHandleAdapter.getInstance( )
+		// .getMediator( )
+		// .pushState( );
+		// }
+		// }
+		// if ( instance.getActiveEditor( ) instanceof
+		// GraphicalEditorWithFlyoutPalette )
+		// {
+		// if ( ( (GraphicalEditorWithFlyoutPalette) instance.getActiveEditor( )
+		// ).getGraphicalViewer( )
+		// .getEditDomain( )
+		// .getPaletteViewer( ) != null )
+		// {
+		// GraphicalEditorWithFlyoutPalette editor =
+		// (GraphicalEditorWithFlyoutPalette) instance.getActiveEditor( );
+		// GraphicalViewer view = editor.getGraphicalViewer( );
+		// view.getEditDomain( ).loadDefaultTool( );
+		// }
+		//
+		// }
+		// return;
+		// }
+		//
+		// if ( part == this )
+		// {
+		// // use the asynchronized execution to ensure correct active page
+		// // index.
+		// Display.getCurrent( ).asyncExec( new Runnable( ) {
+		//
+		// public void run( )
+		// {
+		// // if ( instance.getActivePageInstance( ) instanceof
+		// GraphicalEditorWithFlyoutPalette )
+		// // {
+		// // GraphicalEditorWithFlyoutPalette editor =
+		// (GraphicalEditorWithFlyoutPalette) instance.getActivePageInstance( );
+		// // GraphicalViewer view = editor.getGraphicalViewer( );
+		// //
+		// // UIUtil.resetViewSelection( view, true );
+		// // }
+		// };
+		//
+		// } );
+		//
+		// if ( getEditorInput( ).exists( ) )
+		// {
+		// instance.handleActivation( );
+		//
+		// SessionHandleAdapter.getInstance( )
+		// .setReportDesignHandle( instance.getModel( ) );
+		// DataSetManager.initCurrentInstance( getEditorInput( ) );
+		// }
+		// }
 	}
 
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
-		if(part instanceof ReportEditorProxy){
-			instance.partBroughtToTop( ((ReportEditorProxy)part).getEditorPart( ) );
+		if ( part instanceof ReportEditorProxy )
+		{
+			instance.partBroughtToTop( ( (ReportEditorProxy) part ).getEditorPart( ) );
 		}
 		else
 		{
@@ -272,8 +291,9 @@ public class ReportEditorProxy extends EditorPart implements
 
 	public void partClosed( IWorkbenchPart part )
 	{
-		if(part instanceof ReportEditorProxy){
-			instance.partClosed( ((ReportEditorProxy)part).getEditorPart( ) );
+		if ( part instanceof ReportEditorProxy )
+		{
+			instance.partClosed( ( (ReportEditorProxy) part ).getEditorPart( ) );
 		}
 		else
 		{
@@ -289,8 +309,9 @@ public class ReportEditorProxy extends EditorPart implements
 
 	public void partDeactivated( IWorkbenchPart part )
 	{
-		if(part instanceof ReportEditorProxy){
-			instance.partDeactivated( ((ReportEditorProxy)part).getEditorPart( ) );
+		if ( part instanceof ReportEditorProxy )
+		{
+			instance.partDeactivated( ( (ReportEditorProxy) part ).getEditorPart( ) );
 		}
 		else
 		{
@@ -300,8 +321,9 @@ public class ReportEditorProxy extends EditorPart implements
 
 	public void partOpened( IWorkbenchPart part )
 	{
-		if(part instanceof ReportEditorProxy){
-			instance.partOpened( ((ReportEditorProxy)part).getEditorPart( ) );
+		if ( part instanceof ReportEditorProxy )
+		{
+			instance.partOpened( ( (ReportEditorProxy) part ).getEditorPart( ) );
 		}
 		else
 		{
@@ -311,11 +333,11 @@ public class ReportEditorProxy extends EditorPart implements
 
 	public void propertyChanged( Object source, int propId )
 	{
-		if(propId == IWorkbenchPartConstants.PROP_PART_NAME )
+		if ( propId == IWorkbenchPartConstants.PROP_PART_NAME )
 		{
 			setPartName( instance.getPartName( ) );
 		}
-		
+
 		firePropertyChange( propId );
 	}
 

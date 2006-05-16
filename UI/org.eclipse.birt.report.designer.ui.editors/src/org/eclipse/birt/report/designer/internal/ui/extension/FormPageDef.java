@@ -13,8 +13,11 @@ package org.eclipse.birt.report.designer.internal.ui.extension;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
+import org.eclipse.birt.report.designer.ui.editors.actions.PageSetAction;
+import org.eclipse.birt.report.designer.ui.editors.extension.IExtensionConstants;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.jface.action.IAction;
 
 /**
  * 
@@ -32,6 +35,7 @@ public class FormPageDef implements IExtensionConstants
 	public boolean visible = true;
 	public String relative;
 	public int position;
+	public IAction pageAction;
 
 	FormPageDef( IConfigurationElement element )
 	{
@@ -42,6 +46,14 @@ public class FormPageDef implements IExtensionConstants
 		visible = loadBooleanAttribute( element, ATTRIBUTE_VISIBLE );
 		relative = loadStringAttribute( element, ATTRIBUTE_RELATIVE );
 		position = loadPosition( element, ATTRIBUTE_POSITION );
+		if ( loadStringAttribute( element, ATTRIBUTE_PAGE_ACTION ) != null )
+		{
+			pageAction = (IAction) loadClass( element, ATTRIBUTE_PAGE_ACTION );
+		}
+		if ( pageAction == null )
+		{
+			pageAction = new PageSetAction( displayName, id );
+		}
 	}
 
 	private int loadPosition( IConfigurationElement element,

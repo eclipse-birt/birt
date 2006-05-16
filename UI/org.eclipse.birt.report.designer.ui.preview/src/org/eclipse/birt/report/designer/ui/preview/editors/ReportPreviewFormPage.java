@@ -45,7 +45,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 			IReportEditorPage
 {
 
-	public static final String ID = "BIRT.Preivew"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.preview"; //$NON-NLS-1$
 
 	private Control control;
 

@@ -15,9 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
-import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
@@ -32,7 +30,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.nls.Messages;
-
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.runtime.IPath;
@@ -76,8 +73,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		IColleague
 {
 
-	public static final String LayoutMasterPage_ID = "BIRT.LayoutMasterPage";
-	public static final String LayoutEditor_ID = "BIRT.LayoutFormPage";
+	public static final String LayoutMasterPage_ID = "org.eclipse.birt.report.designer.ui.editors.masterpage";
+	public static final String LayoutEditor_ID = "org.eclipse.birt.report.designer.ui.editors.layout";
 	private ReportMultiBookPage fPalettePage;
 
 	private ReportMultiBookPage outlinePage;
@@ -221,7 +218,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( error )
 		{
-			setActivePage( "BIRT.XMLSourceFormPage" ); //$NON-NLS-1$
+			setActivePage( "org.eclipse.birt.report.designer.ui.editors.xmlsource" ); //$NON-NLS-1$
 		}
 
 	}

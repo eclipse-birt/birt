@@ -6,7 +6,7 @@
          point="org.eclipse.ui.editors">
       <editor
             class="org.eclipse.birt.report.designer.ui.editors.ReportEditorProxy"
-            contributorClass="org.eclipse.birt.report.designer.internal.ui.editors.DesignerActionBarContributor"
+            contributorClass="org.eclipse.birt.report.designer.ui.editors.ReportActionBarContributor"
             default="false"
             extensions="rptdesign"
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/report.gif"
@@ -14,7 +14,7 @@
             name="%ReportEditor"/>
       <editor
             class="org.eclipse.birt.report.designer.ui.editors.ReportEditorProxy"
-            contributorClass="org.eclipse.birt.report.designer.internal.ui.editors.DesignerActionBarContributor"
+            contributorClass="org.eclipse.birt.report.designer.ui.editors.TemplateActionBarContributor"
             default="false"
             extensions="rpttemplate"
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/template.gif"
@@ -22,7 +22,7 @@
             name="%TemplateEditor"/>
       <editor
             class="org.eclipse.birt.report.designer.ui.editors.ReportEditorProxy"
-            contributorClass="org.eclipse.birt.report.designer.internal.ui.editors.DesignerActionBarContributor"
+            contributorClass="org.eclipse.birt.report.designer.ui.editors.LibraryActionBarContributor"
             default="false"
             extensions="rptlibrary"
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/library.gif"

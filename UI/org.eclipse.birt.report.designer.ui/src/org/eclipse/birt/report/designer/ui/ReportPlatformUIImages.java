@@ -14,8 +14,8 @@ package org.eclipse.birt.report.designer.ui;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.eclipse.birt.report.designer.internal.ui.extension.IExtensionConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;

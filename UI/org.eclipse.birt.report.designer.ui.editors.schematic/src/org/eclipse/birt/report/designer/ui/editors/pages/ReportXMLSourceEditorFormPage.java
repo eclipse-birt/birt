@@ -51,7 +51,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		IReportEditorPage
 {
 
-	public static final String ID = "BIRT.XMLSourceFormPage"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.xmlsource"; //$NON-NLS-1$
 
 	private ActionRegistry registry;
 

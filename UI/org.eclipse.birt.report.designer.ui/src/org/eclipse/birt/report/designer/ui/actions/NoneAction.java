@@ -30,7 +30,7 @@ public class NoneAction extends Action
 	/**
 	 *  
 	 */
-	private NoneAction( )
+	public NoneAction( )
 	{
 		this( DISPLAY_TEXT );
 	}

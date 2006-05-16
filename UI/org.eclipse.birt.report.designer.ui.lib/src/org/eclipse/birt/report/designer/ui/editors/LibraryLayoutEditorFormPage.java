@@ -33,7 +33,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		IReportEditorPage
 {
 
-	private static final String ID = "BIRT.LibraryLayoutFormPage"; //$NON-NLS-1$
+	private static final String ID = "org.eclipse.birt.report.designer.ui.editors.library.layout"; //$NON-NLS-1$
 
 	private int index;
 
@@ -125,7 +125,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 	}
 
 	public String getId( )
-	{
+	{		
 		return ID;
 	}
 

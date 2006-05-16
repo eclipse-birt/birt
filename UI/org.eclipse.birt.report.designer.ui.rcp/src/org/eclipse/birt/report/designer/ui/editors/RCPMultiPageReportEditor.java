@@ -22,6 +22,19 @@ import org.eclipse.ui.PartInitException;
 public class RCPMultiPageReportEditor extends MultiPageReportEditor
 {
 
+	/**
+	 * The ID of the Report Editor
+	 */
+	public static final String REPROT_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.ReportEditor"; //$NON-NLS-1$
+	/**
+	 * The ID of the Template Editor
+	 */
+	public static final String TEMPLATE_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.TemplateEditor"; //$NON-NLS-1$
+	/**
+	 * The ID of the Library Editor
+	 */
+	public static final String LIBRARY_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.LibraryEditor"; //$NON-NLS-1$
+	
 	/*
 	 * (non-Javadoc)
 	 * 
