@@ -204,12 +204,12 @@ public class ExtendedItemFilterDialog extends BaseDialog
 				.getTable( ) );
 		editor.setExpressionProvider( expressionProvider );
 		// editor.addFilter( new DataSetExpressionFilter( ) );
-		editor.setReportElement( getDataSetFromHandle( ) );
+		editor.setReportElement( reportItemHandle );
 		editors[3] = editor;
 		editor = new ExpressionValueCellEditor( viewer.getViewer( ).getTable( ) );
 		editor.setExpressionProvider( expressionProvider );
 		// editor.addFilter( new DataSetExpressionFilter( ) );
-		editor.setReportElement( getDataSetFromHandle( ) );
+		editor.setReportElement( reportItemHandle );
 		editors[4] = editor;
 
 		viewer.getViewer( ).setCellEditors( editors );
@@ -261,10 +261,10 @@ public class ExtendedItemFilterDialog extends BaseDialog
 					return false;
 				}
 
-				( (ExpressionValueCellEditor) ( viewer.getViewer( )
-						.getCellEditors( )[3] ) ).setSelectValueExpression( expr );
-				( (ExpressionValueCellEditor) ( viewer.getViewer( )
-						.getCellEditors( )[4] ) ).setSelectValueExpression( expr );
+//				( (ExpressionValueCellEditor) ( viewer.getViewer( )
+//						.getCellEditors( )[3] ) ).setSelectValueExpression( expr );
+//				( (ExpressionValueCellEditor) ( viewer.getViewer( )
+//						.getCellEditors( )[4] ) ).setSelectValueExpression( expr );
 				return true;
 			}
 
