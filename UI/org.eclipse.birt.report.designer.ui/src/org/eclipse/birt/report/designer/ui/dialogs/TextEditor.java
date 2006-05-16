@@ -917,27 +917,14 @@ public class TextEditor extends BaseDialog
 	private void insertFormat( int style )
 	{
 		FormatBuilder dialog = new FormatBuilder( style );
-		if ( dialog.open( ) == OK )
+		if ( dialog.open( ) == OK
+				&& ( (String[]) dialog.getResult( ) )[1] != null )
 		{
 			String result = " format=\"" //$NON-NLS-1$
-					+ getFormatPattern( ( (String) dialog.getResult( ) ) )
+					+ ( (String[]) dialog.getResult( ) )[1]
 					+ "\""; //$NON-NLS-1$
 			textEditor.insert( result );
 		}
-	}
-
-	private String getFormatPattern( String formatString )
-	{
-		if ( formatString != null )
-		{
-			int index = formatString.indexOf( ':' ); // NON-NLS-1$
-			if ( index == -1 )
-			{
-				return formatString;
-			}
-			return formatString.substring( index + 1 );
-		}
-		return null;
 	}
 
 	/**

@@ -43,7 +43,7 @@ public class FormatBuilder extends BaseDialog
 	/** DateTime format constant */
 	public static final int DATETIME = 3;
 
-	private static final String DLG_TITLE = Messages.getString("FormatBuilder.Title"); //$NON-NLS-1$
+	private static final String DLG_TITLE = Messages.getString( "FormatBuilder.Title" ); //$NON-NLS-1$
 	private IFormatPage page;
 	private String formatCategory = null;
 	private String formatPattern = null;
@@ -56,7 +56,7 @@ public class FormatBuilder extends BaseDialog
 	 * 
 	 * @param style
 	 *            the style of the format builder
-	 *  
+	 * 
 	 */
 	public FormatBuilder( int style )
 	{
@@ -114,7 +114,9 @@ public class FormatBuilder extends BaseDialog
 		if ( page.isFormatModified( ) )
 		{
 
-			setResult( page.getFormatString( ) );
+			setResult( new String[]{
+					page.getCategory( ), page.getPattern( )
+			} );
 			super.okPressed( );
 		}
 		else

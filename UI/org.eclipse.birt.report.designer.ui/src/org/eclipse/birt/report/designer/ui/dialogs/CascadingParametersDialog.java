@@ -1520,8 +1520,8 @@ public class CascadingParametersDialog extends BaseDialog
 		// formatBuilder.setPreviewText( defaultValue );
 		if ( formatBuilder.open( ) == OK )
 		{
-			formatCategroy = getCategroy( (String) formatBuilder.getResult( ) );
-			formatPattern = getPattern( (String) formatBuilder.getResult( ) );
+			formatCategroy = ( (String[]) formatBuilder.getResult( ) )[0];
+			formatPattern = ( (String[]) formatBuilder.getResult( ) )[1];
 			updateFormatField( );
 		}
 	}
@@ -1541,7 +1541,7 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			displayFormat = choiceSet.findChoice( formatCategroy )
 					.getDisplayName( );
-			if ( formatPattern != null )
+			if ( formatCategroy != DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM )
 			{
 				displayFormat += ":  " + formatPattern; //$NON-NLS-1$
 			}
@@ -1551,7 +1551,8 @@ public class CascadingParametersDialog extends BaseDialog
 
 		if ( selectedParameter != null )
 		{
-			doPreview( formatPattern == null ? formatCategroy : formatPattern );
+			doPreview( formatCategroy != DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM ? formatCategroy
+					: formatPattern );
 		}
 	}
 

@@ -2151,25 +2151,27 @@ public class ParameterDialog extends BaseDialog
 			}
 			else
 			{
-				if ( formatPattern != null )
+				if ( formatCategroy == DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM
+						|| formatCategroy == DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM
+						|| formatCategroy == DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM )
 				{
 					displayFormat += ": " + formatPattern; //$NON-NLS-1$
 				}
 				if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
 				{
-					previewString = new DateFormatter( formatPattern == null ? formatCategroy
+					previewString = new DateFormatter( formatCategroy != DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM ? formatCategroy
 							: formatPattern,
 							ULocale.getDefault( ) ).format( new Date( ) );
 				}
 				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 				{
-					previewString = new StringFormatter( formatPattern == null ? formatCategroy
+					previewString = new StringFormatter( formatCategroy != DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM ? formatCategroy
 							: formatPattern,
 							ULocale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
 				}
 				else
 				{
-					previewString = new NumberFormatter( formatPattern == null ? formatCategroy
+					previewString = new NumberFormatter( formatCategroy != DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ? formatCategroy
 							: formatPattern,
 							ULocale.getDefault( ) ).format( 123456789.01234 );
 				}
@@ -2178,29 +2180,6 @@ public class ParameterDialog extends BaseDialog
 		formatField.setText( displayFormat );
 		previewLabel.setText( previewString );
 		changeFormat.setEnabled( choiceSet != null );
-	}
-
-	private String getCategroy( String formatString )
-	{
-		if ( formatString != null )
-		{
-			return formatString.split( ":" )[0]; // NON-NLS-1$ //$NON-NLS-1$
-		}
-		return null;
-	}
-
-	private String getPattern( String formatString )
-	{
-		if ( formatString != null )
-		{
-			int index = formatString.indexOf( ':' ); // NON-NLS-1$
-			if ( index == -1 )
-			{
-				return null;
-			}
-			return formatString.substring( index + 1 );
-		}
-		return null;
 	}
 
 	private boolean containValue( SelectionChoice selectedChoice,
@@ -2300,8 +2279,8 @@ public class ParameterDialog extends BaseDialog
 		formatBuilder.setPreviewText( defaultValue );
 		if ( formatBuilder.open( ) == OK )
 		{
-			formatCategroy = getCategroy( (String) formatBuilder.getResult( ) );
-			formatPattern = getPattern( (String) formatBuilder.getResult( ) );
+			formatCategroy = ( (String[]) formatBuilder.getResult( ) )[0];
+			formatPattern = ( (String[]) formatBuilder.getResult( ) )[1];
 			updateFormatField( );
 			if ( refresh )
 			{
