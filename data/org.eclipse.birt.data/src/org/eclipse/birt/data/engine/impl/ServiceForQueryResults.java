@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -316,6 +319,22 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	public void validateQueryColumBinding( ) throws DataException
 	{
 		this.exprManager.validateColumnBinding( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#getAllBindingExprs()
+	 */
+	public List getAllBindingExprs( )
+	{
+		return this.exprManager.getBindingExprs( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#getAllAutoBindingExprs()
+	 */
+	public Map getAllAutoBindingExprs( )
+	{
+		return this.exprManager.getAutoBindingExprMap( );
 	}
 	
 }

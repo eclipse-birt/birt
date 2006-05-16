@@ -74,7 +74,7 @@ public class ResultIterator implements IResultIterator
 	// used for evaluate binding column value
 	private int 					lastRowIndex = -1;
 	private Map 					boundColumnValueMap;
-	private BoundColumnsEvalUtil 	boundColumnsEvalUtil;
+	private BindingColumnsEvalUtil 	bindingColumnsEvalUtil;
 	
 	private int state = NOT_STARTED;
 	
@@ -378,16 +378,16 @@ public class ResultIterator implements IResultIterator
 		int currRowIndex = this.odiResult.getCurrentResultIndex( );
 		if ( lastRowIndex < currRowIndex )
 		{
-			if ( boundColumnsEvalUtil == null )
+			if ( bindingColumnsEvalUtil == null )
 			{
-				boundColumnsEvalUtil = new BoundColumnsEvalUtil( this.odiResult,
+				bindingColumnsEvalUtil = new BindingColumnsEvalUtil( this.odiResult,
 						this.scope,
 						this.getRdSaveUtil( ),
 						this.resultService );
 			}
 			
 			lastRowIndex = currRowIndex;
-			boundColumnValueMap = boundColumnsEvalUtil.getBoundColumnsValue( );
+			boundColumnValueMap = bindingColumnsEvalUtil.getColumnsValue( );
 		}
 		
 		Object exprValue = boundColumnValueMap.get( exprName );
