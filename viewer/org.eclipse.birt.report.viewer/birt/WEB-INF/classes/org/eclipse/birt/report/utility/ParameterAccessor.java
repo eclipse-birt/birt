@@ -152,6 +152,12 @@ public class ParameterAccessor
 	public static final String PARAM_BOOKMARK = "__bookmark"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name that gives that image rtl option.
+	 */
+
+	public static final String PARAM_RTL = "__rtl"; //$NON-NLS-1$
+
+	/**
 	 * Custom request headers to identify the request is a normal HTTP request
 	 * or a soap request by AJAX.
 	 */
@@ -262,11 +268,11 @@ public class ParameterAccessor
 	 */
 
 	public static final String PARAMETER_SEPARATOR = "&"; //$NON-NLS-1$
-	
+
 	/**
 	 * The character to start the query string in the url.
 	 */
-	
+
 	public static final String QUERY_CHAR = "?"; //$NON-NLS-1$
 
 	/**
@@ -402,6 +408,23 @@ public class ParameterAccessor
 		}
 		return queryString;
 	}
+	
+	/**
+	 * Gets the query parameter string with the give name and value.
+	 * @param paramName
+	 * @param value
+	 * @return
+	 */
+	
+	public static String getQueryParameterString( String paramName, String value )
+	{
+		StringBuffer b = new StringBuffer( );
+		b.append( PARAMETER_SEPARATOR );
+		b.append( paramName );
+		b.append( EQUALS_OPERATOR );
+		b.append( value );
+		return b.toString( );
+	}
 
 	/**
 	 * Get report format.
@@ -445,6 +468,25 @@ public class ParameterAccessor
 	public static Locale getLocale( HttpServletRequest request )
 	{
 		return getLocaleFromString( getParameter( request, PARAM_LOCALE ) );
+	}
+
+	/**
+	 * Check whether the viewer is set rtl option.
+	 * 
+	 * @param request
+	 * @return
+	 */
+
+	public static boolean isRtl( HttpServletRequest request )
+	{
+		boolean isRtl = false;
+
+		if ( "true".equalsIgnoreCase( getParameter( request, PARAM_RTL ) ) ) //$NON-NLS-1$
+		{
+			isRtl = true;
+		}
+
+		return isRtl;
 	}
 
 	/**

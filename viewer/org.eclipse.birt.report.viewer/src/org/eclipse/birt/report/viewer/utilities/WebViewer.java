@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.viewer.utilities;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Locale;
@@ -142,7 +143,6 @@ public class WebViewer
 			for ( int i = 0; i < options.length; i++ )
 			{
 				String option = options[ i ];
-				System.out.print( option );
 				if ( pattern.matcher( option ).matches( ) )
 				{
 					rtl = true;

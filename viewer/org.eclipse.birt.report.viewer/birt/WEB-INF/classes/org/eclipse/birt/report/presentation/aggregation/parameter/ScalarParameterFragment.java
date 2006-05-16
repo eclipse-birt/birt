@@ -139,7 +139,8 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		{
 			case ParameterDefinition.TYPE_STRING :
 			{
-				assert paramDefaultValueObj instanceof String;
+				// parame default value may be null if it allows "null" value
+				// assert paramDefaultValueObj instanceof String;
 
 				parameterBean.setRequired( false );
 
