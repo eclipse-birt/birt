@@ -229,7 +229,7 @@ public class ParameterBindingPage extends AttributePage
 	{
 		ReportItemHandle reportItemHandle = (ReportItemHandle) input.get( 0 );
 		tableViewer.refresh( );
-		expressionCellEditor.setExpressionProvider( new ExpressionProvider( reportItemHandle ) );
+		expressionCellEditor.setExpressionProvider( new ExpressionProvider( reportItemHandle.getContainer( ) ) );
 	}
 
 	/**
