@@ -17,7 +17,7 @@ import org.eclipse.birt.core.data.DataType;
 /**
  * Expression Type. see report design schema for reference.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/11 10:26:39 $
  */
 public class Expression
 		implements
@@ -26,6 +26,7 @@ public class Expression
 {
 
 	private String exprID;
+	private String groupName;
 	
 	String expression;
 	int dataType = DataType.ANY_TYPE;
@@ -161,6 +162,16 @@ public class Expression
 	public void setID( String exprID )
 	{
 		this.exprID = exprID;
+	}
+
+	public String getGroupName( )
+	{
+		return groupName;
+	}
+
+	public void setGroupName( String name )
+	{
+		this.groupName = name;
 	}
 	
 }
