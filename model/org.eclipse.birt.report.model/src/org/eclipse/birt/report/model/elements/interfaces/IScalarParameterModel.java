@@ -113,6 +113,14 @@ public interface IScalarParameterModel
 	public static final String PROMPT_TEXT_PROP = "promptText"; //$NON-NLS-1$
 	
 	/**
+	 * Name of the prompt text ID property. This property contains the message ID
+	 * used to localize property prompt text ID.
+	 */
+
+	public static final String PROMPT_TEXT_ID_PROP = "promptTextID"; //$NON-NLS-1$
+	
+	
+	/**
 	 * Name of the Limited-list property
 	 */
 	public static final String LIST_LIMIT_PROP = "listLimit"; //$NON-NLS-1$
@@ -123,5 +131,6 @@ public interface IScalarParameterModel
 	 */
 
 	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
+	
 	
 }

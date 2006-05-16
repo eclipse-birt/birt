@@ -2070,6 +2070,7 @@
     <Property detailType="ParameterFormatValue" displayNameID="Element.ScalarParameter.format" name="format" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="paramControl" displayNameID="Element.ScalarParameter.controlType" name="controlType" runtimeSettable="false" since="1.0" type="choice"/>
     <Property displayNameID="Element.ScalarParameter.promptText" name="promptText" runtimeSettable="false" since="2.0" type="string"/>
+    <Property displayNameID="Element.ScalarParameter.promptTextID" name="promptTextID" since="2.1" type="resourceKey"/>
     <Property displayNameID="Element.ScalarParameter.listLimit" name="listLimit" runtimeSettable="false" since="2.0" type="integer"/>
     <Property detailType="scalarParamAlign" displayNameID="Element.ScalarParameter.alignment" name="alignment" runtimeSettable="false" since="1.0" type="choice">
       <Default>auto</Default>

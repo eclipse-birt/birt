@@ -1837,7 +1837,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, ScalarParameter.VALUE_TYPE_PROP );
 		property( obj, ScalarParameter.DATA_TYPE_PROP );
-		property( obj, ScalarParameter.PROMPT_TEXT_PROP );
+		resourceKey( obj, ScalarParameter.PROMPT_TEXT_ID_PROP, ScalarParameter.PROMPT_TEXT_PROP );
 		property( obj, ScalarParameter.LIST_LIMIT_PROP );
 		property( obj, ScalarParameter.CONCEAL_VALUE_PROP );
 		property( obj, ScalarParameter.ALLOW_BLANK_PROP );
