@@ -20,7 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.CheckboxParameterFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.ComboBoxParameterFragment;
@@ -74,14 +74,14 @@ public class ParameterDialogFragment extends BaseDialogFragment
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+		BaseAttributeBean attrBean = (BaseAttributeBean) request
 				.getAttribute( "attributeBean" ); //$NON-NLS-1$		
 		assert attrBean != null;
 		
 		try
 		{
-			parameters = service
-					.getParameterDefinitions( attrBean.getReportDesignHandle( ), options, true );
+			parameters = service.getParameterDefinitions(
+					attrBean.getReportDesignHandle( request ), options, true );
 		}
 		catch ( ReportServiceException e )
 		{

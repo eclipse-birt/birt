@@ -60,8 +60,9 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 
-		Collection selectionList = service.getParameterSelectionList( attrBean
-				.getReportDesignHandle( ), options, parameterBean.getName( ) );
+		Collection selectionList = service.getParameterSelectionList(
+				attrBean.getReportDesignHandle( request ), options,
+				parameterBean.getName( ) );
 
 		if ( selectionList != null )
 		{

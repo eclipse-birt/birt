@@ -86,7 +86,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 
 			// get report runnable
 			IReportRunnable runnable = (IReportRunnable) attrBean
-					.getReportDesignHandle( ).getDesignObject( );
+					.getReportDesignHandle( context.getRequest( ) ).getDesignObject( );
 
 			ModuleHandle model = runnable.getDesignHandle( ).getModuleHandle( );
 

@@ -59,12 +59,6 @@ import com.ibm.icu.util.ULocale;
  */
 public class ViewerAttributeBean extends BaseAttributeBean
 {
-
-	/**
-	 * Viewer report design handle
-	 */
-	private IViewerReportDesignHandle reportDesignHandle = null;
-
 	/**
 	 * Constructor.
 	 * 
@@ -402,13 +396,5 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		{
 			return super.getParamValueObject( request, parameterObj );
 		}
-	}
-
-	/**
-	 * @return the reportDesignHandle
-	 */
-	public IViewerReportDesignHandle getReportDesignHandle( )
-	{
-		return reportDesignHandle;
 	}
 }

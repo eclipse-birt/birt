@@ -85,7 +85,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		boolean isDesigner = attrBean.isDesigner( );
 		try
 		{
-			prepareParameterBean( attrBean.getReportDesignHandle( ),
+			prepareParameterBean( attrBean.getReportDesignHandle( request ),
 					getReportService( ), request, parameterBean, parameter,
 					locale, isDesigner );
 			// Prepare additional parameter properties.

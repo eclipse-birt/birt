@@ -70,6 +70,11 @@ abstract public class BaseAttributeBean
 	protected ParameterAttributeBean parameterBean = null;
 
 	/**
+	 * Viewer report design handle
+	 */
+	protected IViewerReportDesignHandle reportDesignHandle = null;
+
+	/**
 	 * Report design name.
 	 */
 	protected String reportDesignName = null;
@@ -449,5 +454,14 @@ abstract public class BaseAttributeBean
 			return converter.parse( paramValue, parameterObj.getDataType( ) );
 		}
 		return null;
+	}
+	
+	/**
+	 * @return the reportDesignHandle
+	 */
+	public IViewerReportDesignHandle getReportDesignHandle(
+			HttpServletRequest request )
+	{
+		return reportDesignHandle;
 	}
 }
