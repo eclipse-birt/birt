@@ -383,7 +383,8 @@ public class ResultIterator implements IResultIterator
 				bindingColumnsEvalUtil = new BindingColumnsEvalUtil( this.odiResult,
 						this.scope,
 						this.getRdSaveUtil( ),
-						this.resultService );
+						this.resultService.getAllBindingExprs( ),
+						this.resultService.getAllAutoBindingExprs( ) );
 			}
 			
 			lastRowIndex = currRowIndex;

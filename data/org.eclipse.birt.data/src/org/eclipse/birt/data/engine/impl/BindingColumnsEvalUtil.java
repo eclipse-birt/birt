@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,11 +36,13 @@ class BindingColumnsEvalUtil
 	private IResultIterator odiResult;
 	private Scriptable scope;
 	private RDSaveUtil saveUtil;
-	private IServiceForResultSet serviceForResultSet;
-	
+
+	private List allManualBindingExprs;
+	private List allAutoBindingExprs;
+
 	private final static int MANUAL_BINDING = 1;
 	private final static int AUTO_BINDING = 2;
-	
+
 	/**
 	 * @param ri
 	 * @param scope
@@ -47,77 +50,134 @@ class BindingColumnsEvalUtil
 	 * @param serviceForResultSet
 	 */
 	BindingColumnsEvalUtil( IResultIterator ri, Scriptable scope,
-			RDSaveUtil saveUtil, IServiceForResultSet serviceForResultSet )
+			RDSaveUtil saveUtil, List manualBindingExprs, Map autoBindingExprs )
 	{
 		this.odiResult = ri;
 		this.scope = scope;
 		this.saveUtil = saveUtil;
-		this.serviceForResultSet = serviceForResultSet;
+
+		this.initBindingColumns( manualBindingExprs, autoBindingExprs );
 	}
 
 	/**
-	 * @return
-	 * @throws DataException save error
+	 * @param serviceForResultSet
 	 */
-	Map getColumnsValue( ) throws DataException
+	private void initBindingColumns( List manualBindingExprs,
+			Map autoBindingExprs )
 	{
-		Map exprValueMap = new HashMap( );
-
-		List groupBindingColsList = serviceForResultSet.getAllBindingExprs( );
-
-		for ( int i = 0; i < groupBindingColsList.size( ); i++ )
+		// put the expressions of array into a list
+		int size = manualBindingExprs.size( );
+		GroupBindingColumn[] groupBindingColumns = new GroupBindingColumn[size];
+		Iterator itr = manualBindingExprs.iterator( );
+		while ( itr.hasNext( ) )
 		{
-			GroupBindingColumn gbc = (GroupBindingColumn) groupBindingColsList.get( i );
-			Iterator it = gbc.getColumnNames( ).iterator( );
-			while ( it.hasNext( ) )
-			{
-				String exprName = (String) it.next( );
-				IBaseExpression baseExpr = gbc.getExpression( exprName );
-				evaluateValue( exprName, baseExpr, exprValueMap, MANUAL_BINDING );
-			}
+			GroupBindingColumn temp = (GroupBindingColumn) itr.next( );
+			groupBindingColumns[temp.getGroupLevel( )] = temp;
 		}
 
-		Map autoBindingExprs = serviceForResultSet.getAllAutoBindingExprs( );
-		Iterator itr = autoBindingExprs.entrySet( ).iterator( );
+		allManualBindingExprs = new ArrayList( );
+		for ( int i = 0; i < size; i++ )
+		{
+			List groupBindingExprs = new ArrayList( );
+			itr = groupBindingColumns[i].getColumnNames( ).iterator( );
+			while ( itr.hasNext( ) )
+			{
+				String exprName = (String) itr.next( );
+				IBaseExpression baseExpr = groupBindingColumns[i].getExpression( exprName );
+				groupBindingExprs.add( new BindingColumn( exprName, baseExpr ) );
+			}
+
+			allManualBindingExprs.add( groupBindingExprs );
+		}
+		
+		// put the auto binding expressions into a list
+		allAutoBindingExprs = new ArrayList( );
+		itr = autoBindingExprs.entrySet( ).iterator( );
 		while ( itr.hasNext( ) )
 		{
 			Map.Entry entry = (Entry) itr.next( );
 			String exprName = (String) entry.getKey( );
 			IBaseExpression baseExpr = (IBaseExpression) entry.getValue( );
-			evaluateValue( exprName, baseExpr, exprValueMap, AUTO_BINDING );
+			
+			allAutoBindingExprs.add( new BindingColumn( exprName, baseExpr ) );
+		}
+	}
+
+	/**
+	 * @return
+	 * @throws DataException
+	 *             save error
+	 */
+	Map getColumnsValue( ) throws DataException
+	{
+		Map exprValueMap = new HashMap( );
+
+		for ( int i = 0; i < allManualBindingExprs.size( ); i++ )
+		{
+			List list = (List) allManualBindingExprs.get( i );
+			Iterator it = list.iterator( );
+			while ( it.hasNext( ) )
+			{
+				BindingColumn bindingColumn = (BindingColumn) it.next( );
+				evaluateValue( bindingColumn, exprValueMap, MANUAL_BINDING );
+			}
+		}
+
+		Iterator itr = this.allAutoBindingExprs.iterator( );
+		while ( itr.hasNext( ) )
+		{
+			BindingColumn bindingColumn = (BindingColumn) itr.next( );
+			evaluateValue( bindingColumn, exprValueMap, AUTO_BINDING );
 		}
 
 		return exprValueMap;
 	}
-	
+
 	/**
 	 * @param baseExpr
 	 * @param exprType
 	 * @param valueMap
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	private void evaluateValue( String exprName, IBaseExpression baseExpr,
-			Map valueMap, int exprType ) throws DataException
+	private void evaluateValue( BindingColumn bindingColumn, Map valueMap,
+			int exprType ) throws DataException
 	{
 		Object exprValue;
 		try
 		{
 			if ( exprType == MANUAL_BINDING )
-				exprValue = ExprEvaluateUtil.evaluateExpression( baseExpr,
+				exprValue = ExprEvaluateUtil.evaluateExpression( bindingColumn.baseExpr,
 						odiResult,
 						scope );
 			else
-				exprValue = ExprEvaluateUtil.evaluateRawExpression( baseExpr,
+				exprValue = ExprEvaluateUtil.evaluateRawExpression( bindingColumn.baseExpr,
 						scope );
 		}
 		catch ( BirtException e )
 		{
 			exprValue = e;
 		}
-		valueMap.put( exprName, exprValue );
-		
+		valueMap.put( bindingColumn.columnName, exprValue );
+
 		if ( exprValue instanceof BirtException == false )
-			saveUtil.doSaveExpr( exprName, exprValue );
+			saveUtil.doSaveExpr( bindingColumn.columnName, exprValue );
 	}
-	
+
+	/**
+	 * A simple wrapper for binding column
+	 */
+	private class BindingColumn
+	{
+
+		//
+		private String columnName;
+		private IBaseExpression baseExpr;
+
+		private BindingColumn( String columnName, IBaseExpression baseExpr )
+		{
+			this.columnName = columnName;
+			this.baseExpr = baseExpr;
+		}
+	}
+
 }
