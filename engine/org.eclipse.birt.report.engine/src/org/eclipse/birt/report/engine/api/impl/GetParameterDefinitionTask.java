@@ -54,6 +54,10 @@ public class GetParameterDefinitionTask extends EngineTask
 			IGetParameterDefinitionTask
 {
 
+	private static final String VALUE_PREFIX = "__VALUE__";
+
+	private static final String LABEL_PREFIX = "__LABEL__";
+
 	// stores all parameter definitions. Each task clones the parameter
 	// definition information
 	// so that Engine IR (repor runnable) can keep a task-independent of the
@@ -62,10 +66,11 @@ public class GetParameterDefinitionTask extends EngineTask
 
 	protected HashMap dataCache = null;
 
-	protected HashMap labelMap = null;
+//	protected HashMap labelMap = null;
 
-	protected HashMap valueMap = null;
+//	protected HashMap valueMap = null;
 
+	private List labelColumnBindingNames = null;
 	/**
 	 * @param engine
 	 *            reference to the report engine
@@ -439,12 +444,17 @@ public class GetParameterDefinitionTask extends EngineTask
 							new InputParameterBinding( paramName,
 									new ScriptExpression( paramExpr ) ) );
 				}
+				
+				String labelColumnName = LABEL_PREFIX;;
+				String valueColumnName = VALUE_PREFIX;;
+				
 				if ( labelExpr != null )
 				{
-					queryDefn.getRowExpressions( ).add( labelExpr );
+					queryDefn.addResultSetExpression( labelColumnName, labelExpr );
 				}
-				queryDefn.getRowExpressions( ).add( valueExpr );
-
+				
+				queryDefn.addResultSetExpression( valueColumnName, valueExpr );
+				
 				// Create a group to skip all of the duplicate values
 				GroupDefinition groupDef = new GroupDefinition( );
 				groupDef.setKeyExpression( valueStmt );
@@ -463,9 +473,9 @@ public class GetParameterDefinitionTask extends EngineTask
 					String label = null;
 					if ( labelExpr != null )
 					{
-						label = iter.getString( labelExpr );
+						label = iter.getString( labelColumnName );
 					}
-					Object value = iter.getValue( valueExpr );
+					Object value = iter.getValue( valueColumnName );
 					choices.add( new SelectionChoice( label, convertToType(
 							value, dataType ) ) );
 					count++;
@@ -538,11 +548,14 @@ public class GetParameterDefinitionTask extends EngineTask
 				SlotHandle parameters = parameterGroup.getParameters( );
 				Iterator iter = parameters.iterator( );
 
-				if ( labelMap == null )
+/*				if ( labelMap == null )
 					labelMap = new HashMap( );
 				if ( valueMap == null )
-					valueMap = new HashMap( );
-
+					valueMap = new HashMap( );*/
+				
+				if ( labelColumnBindingNames == null )
+					labelColumnBindingNames = new ArrayList();
+				
 				while ( iter.hasNext( ) )
 				{
 					Object param = iter.next( );
@@ -550,12 +563,17 @@ public class GetParameterDefinitionTask extends EngineTask
 					{
 						String valueExpString = ( (ScalarParameterHandle) param )
 								.getValueExpr( );
-						Object valueExpObject = new ScriptExpression(
+						ScriptExpression valueExpObject = new ScriptExpression(
 								valueExpString );
-						valueMap.put( parameterGroup.getName( ) + "_"
-								+ ( (ScalarParameterHandle) param ).getName( ),
-								valueExpObject );
-						queryDefn.getRowExpressions( ).add( valueExpObject );
+						
+						String keyValue = VALUE_PREFIX+parameterGroup.getName( ) + "_"
+						+ ( (ScalarParameterHandle) param ).getName( );
+						
+	/*					valueMap.put( keyValue,
+								valueExpObject );*/
+						
+						queryDefn.addResultSetExpression( keyValue, valueExpObject );
+						//queryDefn.getRowExpressions( ).add( valueExpObject );
 
 						String labelExpString = ( (ScalarParameterHandle) param )
 								.getLabelExpr( );
@@ -563,13 +581,15 @@ public class GetParameterDefinitionTask extends EngineTask
 						if ( labelExpString != null
 								&& labelExpString.length( ) > 0 )
 						{
-							Object labelExpObject = new ScriptExpression(
+							ScriptExpression labelExpObject = new ScriptExpression(
 									labelExpString );
-							labelMap.put( parameterGroup.getName( )
-									+ "_"
-									+ ( (ScalarParameterHandle) param )
-											.getName( ), labelExpObject );
-							queryDefn.getRowExpressions( ).add( labelExpObject );
+							
+							String keyLabel = LABEL_PREFIX+parameterGroup.getName( ) + "_"
+							+ ( (ScalarParameterHandle) param ).getName( );
+	/*						labelMap.put( keyLabel, labelExpObject );
+							queryDefn.getRowExpressions( ).add( labelExpObject );*/
+							labelColumnBindingNames.add( keyLabel );
+							queryDefn.addResultSetExpression( keyLabel, labelExpObject );
 						}
 
 						GroupDefinition groupDef = new GroupDefinition( );
@@ -664,10 +684,9 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 		}
 
-		ScriptExpression labelExpr = (ScriptExpression) labelMap
-			.get( parameterGroupName + "_" + parameter.getName( ) );
-		ScriptExpression valueExpr = (ScriptExpression) valueMap
-			.get( parameterGroupName + "_" + parameter.getName( ) );
+		String labelColumnName = LABEL_PREFIX + parameterGroupName + "_" + parameter.getName( );
+		String valueColumnName = VALUE_PREFIX + parameterGroupName + "_" + parameter.getName( );
+			
 		int listLimit = parameter.getListlimit( );
 		ArrayList choices = new ArrayList( );
 		int skipLevel = groupKeyValues.length + 1;
@@ -681,10 +700,10 @@ public class GetParameterDefinitionTask extends EngineTask
 			while ( iter.next( ) )
 			{
 				// startGroupLevel = iter.getStartingGroupLevel();
-				String label = ( labelExpr != null
-						? iter.getString( labelExpr )
+				String label = (  labelColumnBindingNames.contains( labelColumnName )
+						? iter.getString( labelColumnName )
 						: null );
-				Object value = iter.getValue( valueExpr );
+				Object value = iter.getValue( valueColumnName );
 				// value = convertToType( value, valueType );
 				choices.add( new SelectionChoice( label, value ) );
 				count++;
