@@ -34,7 +34,7 @@ class ExprManagerUtil
 	private ExprManager exprManager;
 	
 	/**
-	 * No instance
+	 * No external instance
 	 */
 	private ExprManagerUtil( )
 	{
@@ -237,7 +237,7 @@ class ExprManagerUtil
 		l.addAll( autoBindingExprMap.keySet( ) );
 		for ( int i = 0; i < bindingExprs.size( ); i++ )
 		{
-			l.addAll( ( (GroupColumnBinding) bindingExprs.get( i ) ).getKeySet( ) );
+			l.addAll( ( (GroupBindingColumn) bindingExprs.get( i ) ).getColumnNames( ) );
 		}
 		return l;
 	}
@@ -253,73 +253,64 @@ class ExprManagerUtil
 		HashMap l = new HashMap( );
 		for ( int i = 0; i < bindingExprs.size( ); i++ )
 		{
-			String key = ( (GroupColumnBinding) bindingExprs.get( i ) ).getGroupKey( );
-			Integer groupLevel = new Integer( ( (GroupColumnBinding) bindingExprs.get( i ) ).getGroupLevel( ) );
+			String key = ( (GroupBindingColumn) bindingExprs.get( i ) ).getGroupKey( );
+			Integer groupLevel = new Integer( ( (GroupBindingColumn) bindingExprs.get( i ) ).getGroupLevel( ) );
 			if ( key != null )
 				l.put( groupLevel, key );
 		}
 		return l;
 	}
 	
-}
-
-/**
- * 
- */
-class Node
-{
-
 	/**
-	 * 
-	 */
-	private List children;
-	private String value;
-
-	/**
-	 * 
-	 * @param value
-	 */
-	Node( String value )
-	{
-		this.value = value;
-		this.children = new ArrayList( );
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	String getValue( )
-	{
-		return this.value;
-	}
-
-	/**
-	 * 
-	 * @param n
-	 */
-	void addChild( Node n )
-	{
-		this.children.add( n );
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	List getChildren( )
-	{
-		return this.children;
-	}
-
-	/*
 	 *
-	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals( Object o )
+	static class Node
 	{
-		if ( ( o instanceof Node ) && ( (Node) o ).value.equals( this.value ) )
-			return true;
-		return false;
-	}		
+		private List children;
+		private String value;
+
+		/**
+		 * @param value
+		 */
+		Node( String value )
+		{
+			this.value = value;
+			this.children = new ArrayList( );
+		}
+
+		/**
+		 * @return
+		 */
+		String getValue( )
+		{
+			return this.value;
+		}
+
+		/**
+		 * @param n
+		 */
+		void addChild( Node n )
+		{
+			this.children.add( n );
+		}
+
+		/** 
+		 * @return
+		 */
+		List getChildren( )
+		{
+			return this.children;
+		}
+
+		/*
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		public boolean equals( Object o )
+		{
+			if ( ( o instanceof Node ) && ( (Node) o ).value.equals( this.value ) )
+				return true;
+			return false;
+		}		
+	}
+	
 }

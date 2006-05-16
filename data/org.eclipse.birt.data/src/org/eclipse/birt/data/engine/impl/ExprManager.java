@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -53,6 +52,9 @@ public class ExprManager
 	 */
 	void addBindingExpr( String groupKey, Map resultsExprMap, int groupLevel )
 	{
+		if ( resultsExprMap == null )
+			return;
+		
 		Context cx = Context.enter( );
 		try
 		{
@@ -66,11 +68,10 @@ public class ExprManager
 					groupKey = cre.getColumnName( );
 				}
 			}
-
-			if ( resultsExprMap != null )
-				bindingExprs.add( new GroupColumnBinding( groupKey,
-						resultsExprMap,
-						groupLevel ) );
+			
+			bindingExprs.add( new GroupBindingColumn( groupKey,
+					groupLevel,
+					resultsExprMap ) );
 		}
 		finally
 		{
@@ -108,7 +109,7 @@ public class ExprManager
 	{
 		for ( int i = 0; i < bindingExprs.size( ); i++ )
 		{
-			GroupColumnBinding gcb = (GroupColumnBinding) bindingExprs.get( i );
+			GroupBindingColumn gcb = (GroupBindingColumn) bindingExprs.get( i );
 			if ( entryLevel != OVERALL_GROUP )
 			{
 				if ( gcb.getGroupLevel( ) > entryLevel )
@@ -128,14 +129,6 @@ public class ExprManager
 	IScriptExpression getAutoBindingExpr( String name )
 	{
 		return (IScriptExpression) this.autoBindingExprMap.get( name );
-	}
-	
-	/**
-	 * @throws DataException
-	 */
-	public void validateColumnBinding( ) throws DataException
-	{
-		ExprManagerUtil.validateColumnBinding( this );
 	}
 	
 	/**
@@ -169,66 +162,13 @@ public class ExprManager
 	{
 		this.entryLevel = i;
 	}
-
-}
-
-/**
- * 
- */
-class GroupColumnBinding
-{
-	//
-	private int groupLevel;
-	private String groupKey;
-	private Map bindings;
-	
 	
 	/**
-	 * 
-	 * @param bindings
-	 * @param groupLevel
+	 * @throws DataException
 	 */
-	GroupColumnBinding( String groupKey, Map bindings, int groupLevel )
+	public void validateColumnBinding( ) throws DataException
 	{
-		this.groupKey = groupKey;
-		this.groupLevel = groupLevel;
-		this.bindings = bindings;
+		ExprManagerUtil.validateColumnBinding( this );
 	}
 	
-	/**
-	 * 
-	 * @param name
-	 * @return
-	 */
-	public IBaseExpression getExpression( String name )
-	{
-		return (IBaseExpression) this.bindings.get( name );
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int getGroupLevel()
-	{
-		return this.groupLevel;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Set getKeySet()
-	{
-		return this.bindings.keySet( );
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getGroupKey()
-	{
-		return this.groupKey;
-	}		
 }
