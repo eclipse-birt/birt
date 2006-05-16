@@ -298,4 +298,27 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	{
 		setProperty( RESOURCE_PATH, resourcePath );
 	}
+	
+	/**
+	 * Set the max rows per query
+	 * @param maxRows: max rows
+	 */
+	public void setMaxRowsPerQuery( int maxRows )
+	{
+		setProperty( MAX_ROWS_PER_QUERY, new Integer(maxRows) );
+	}
+	
+	/**
+	 * Get the max rows per query
+	 * @return the max rows per query
+	 */
+	public int getMaxRowsPerQuery()
+	{
+		Object maxRows = getProperty( MAX_ROWS_PER_QUERY );
+		if ( maxRows instanceof Integer )
+		{
+			return ( (Integer) maxRows ).intValue( );
+		}
+		return 0;
+	}
 }

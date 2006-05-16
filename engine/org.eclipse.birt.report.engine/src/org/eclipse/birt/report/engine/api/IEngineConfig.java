@@ -34,4 +34,9 @@ public interface IEngineConfig extends IPlatformConfig
 	 * resource path used by design engine
 	 */
 	static final String RESOURCE_PATH = "resourcePath";
+	
+	/**
+	 * The max rows per query
+	 */
+	static final String MAX_ROWS_PER_QUERY = "maxRowsPerQuery";
 }

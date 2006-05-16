@@ -45,7 +45,9 @@ import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
 import org.eclipse.birt.report.engine.adapter.IColumnBinding;
 import org.eclipse.birt.report.engine.adapter.ITotalExprBindings;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
+import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ResultMetaData;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
@@ -98,7 +100,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.60 $ $Date: 2006/05/11 07:43:13 $
+ * @version $Revision: 1.61 $ $Date: 2006/05/16 02:33:00 $
  */
 public class ReportQueryBuilder
 {
@@ -169,6 +171,11 @@ public class ReportQueryBuilder
 		 * the execution context
 		 */
 		protected ExecutionContext context;
+		
+		/**
+		 * the max rows per query
+		 */
+		protected int maxRows = 0;
 
 		/**
 		 * create report query definitions for this report.
@@ -182,6 +189,21 @@ public class ReportQueryBuilder
 		{
 			this.report = report;
 			this.context = context;
+			
+			// get max rows per query
+			if( null != this.context )
+			{
+				IReportEngine engine = this.context.getEngine( );
+				if( null != engine)
+				{
+					EngineConfig engineConfig = engine.getConfig( );
+					if( null != engineConfig)
+					{
+						maxRows = engineConfig.getMaxRowsPerQuery( );
+					}
+				}
+				
+			}
 
 			queries = report.getQueries( );
 			// first clear the collection in case the caller call this function
@@ -830,6 +852,8 @@ public class ReportQueryBuilder
 			query.getInputParamBindings().addAll( 
 					createParamBindings( designHandle.paramBindingsIterator( ) ));
 			
+			// set max rows
+			query.setMaxRows( maxRows );
 
 			this.queryIDs.put( query, String.valueOf( item.getID( ) ) );
 			this.queries.add( query );
@@ -901,6 +925,9 @@ public class ReportQueryBuilder
 				}
 			}
 			
+			// set max rows
+			query.setMaxRows( maxRows );
+
 			item.setQuery( query );
 			Iterator iter = designHandle.columnBindingsIterator( );
 			while ( iter.hasNext( ) )
