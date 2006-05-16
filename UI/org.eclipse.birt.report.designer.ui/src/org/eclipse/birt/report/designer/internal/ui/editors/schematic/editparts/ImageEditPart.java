@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ImageHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ImageFigure;
@@ -93,7 +94,8 @@ public class ImageEditPart extends ReportElementEditPart
 					public boolean understandsRequest( Request request )
 					{
 						if ( RequestConstants.REQ_DIRECT_EDIT.equals( request.getType( ) )
-								|| RequestConstants.REQ_OPEN.equals( request.getType( ) ) )
+								|| RequestConstants.REQ_OPEN.equals( request.getType( ) ) 
+								|| ReportRequest.CREATE_ELEMENT.equals(request.getType()))
 							return true;
 						return super.understandsRequest( request );
 					}

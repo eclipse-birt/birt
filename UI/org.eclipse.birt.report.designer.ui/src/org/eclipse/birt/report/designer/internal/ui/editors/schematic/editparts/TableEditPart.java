@@ -186,9 +186,19 @@ public class TableEditPart extends ReportElementEditPart implements
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies( )
-	{
+	{		
 		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) );
+				new ReportComponentEditPolicy( ) {
+
+					public boolean understandsRequest( Request request )
+					{
+						if ( RequestConstants.REQ_DIRECT_EDIT.equals( request.getType( ) )
+								|| RequestConstants.REQ_OPEN.equals( request.getType( ) ) 
+								|| ReportRequest.CREATE_ELEMENT.equals(request.getType()))
+							return true;
+						return super.understandsRequest( request );
+					}
+				} );
 		installEditPolicy( EditPolicy.CONTAINER_ROLE,
 				new ReportContainerEditPolicy( ) );
 		// should add highlight policy

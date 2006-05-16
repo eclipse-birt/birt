@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
@@ -38,7 +39,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.swt.widgets.Display;
@@ -181,8 +181,11 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 						
 						if (LibraryHandleAdapter.CREATE_ELEMENT.equals(evt.getPropertyName( )))
 						{
-							Request request = new Request(RequestConstants.REQ_OPEN);
-							( (EditPart) editpart ).performRequest( request );
+							Request request = new Request(ReportRequest.CREATE_ELEMENT);
+							if ( ( (EditPart) editpart ).understandsRequest( request ) )
+							{
+								( (EditPart) editpart ).performRequest( request );
+							}
 						}
 					}
 					

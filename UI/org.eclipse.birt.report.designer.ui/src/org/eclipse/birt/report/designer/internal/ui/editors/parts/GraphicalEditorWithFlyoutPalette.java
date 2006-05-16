@@ -32,7 +32,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.Repo
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.draw2d.geometry.Point;
@@ -104,7 +103,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.28 $ $Date: 2006/03/22 02:15:52 $
+ * @version $Revision: 1.29 $ $Date: 2006/04/29 02:23:38 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -773,7 +772,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 				Object part = viewer.getEditPartRegistry( ).get( list.get( 0 ) );
 				if ( part instanceof EditPart )
 				{
-					Request directEditRequest = new Request( RequestConstants.REQ_OPEN );
+					Request directEditRequest = new Request( ReportRequest.CREATE_ELEMENT );
 					if ( ( (EditPart) part ).understandsRequest( directEditRequest ) )
 					{
 						( (EditPart) part ).performRequest( directEditRequest );

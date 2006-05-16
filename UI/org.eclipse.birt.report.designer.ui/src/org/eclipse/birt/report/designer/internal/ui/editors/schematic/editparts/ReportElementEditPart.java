@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
@@ -114,7 +115,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	public void performRequest( Request request )
 	{
-		if ( RequestConstants.REQ_OPEN.equals( request.getType( ) ))
+		if ( RequestConstants.REQ_OPEN.equals( request.getType( ) )
+				|| ReportRequest.CREATE_ELEMENT.equals( request.getType( )))
 		{
 			if (isEdited( ))
 			{

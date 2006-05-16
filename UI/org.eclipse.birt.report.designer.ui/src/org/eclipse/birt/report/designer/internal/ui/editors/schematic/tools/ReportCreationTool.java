@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -25,7 +26,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.tools.CreationTool;
@@ -200,8 +200,11 @@ public class ReportCreationTool extends CreationTool
 				{
 					return ;
 				}
-				Request request = new Request(RequestConstants.REQ_OPEN);
-				( (EditPart) editpart ).performRequest( request );
+				Request request = new Request(ReportRequest.CREATE_ELEMENT);
+				if ( ( (EditPart) editpart ).understandsRequest( request ) )
+				{
+					( (EditPart) editpart ).performRequest( request );
+				}
 				if ( editpart != null )
 				{
 					viewer.reveal( (EditPart) editpart );

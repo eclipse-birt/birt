@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.commands.SetPropertyCommand;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.PlaceHolderEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
@@ -75,7 +76,8 @@ public class LabelDirectEditPolicy extends DirectEditPolicy
 	
 	public boolean understandsRequest(Request request) {
 		if (RequestConstants.REQ_DIRECT_EDIT.equals(request.getType())
-				|| RequestConstants.REQ_OPEN.equals(request.getType()))
+				|| RequestConstants.REQ_OPEN.equals(request.getType())
+				|| ReportRequest.CREATE_ELEMENT.equals(request.getType()))
 			return true;
 		return super.understandsRequest(request);
 	}
