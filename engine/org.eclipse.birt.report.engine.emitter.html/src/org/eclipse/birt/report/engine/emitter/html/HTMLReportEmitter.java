@@ -78,6 +78,7 @@ import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -89,7 +90,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.95 $ $Date: 2006/05/10 10:56:42 $
+ * @version $Revision: 1.96 $ $Date: 2006/05/16 03:36:55 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -506,6 +507,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.startWriter( );
 		writer.openTag( HTMLTags.TAG_HTML );
 		writer.openTag( HTMLTags.TAG_HEAD );
+		
+		// write the title of the report in html.
+		Report reportDesign = null;	
+		if ( report != null )
+		{
+			reportDesign = report.getDesign( );	
+			ReportDesignHandle designHandle = reportDesign.getReportDesign( );
+			String title = designHandle.getStringProperty(  IModuleModel.TITLE_PROP );
+			if ( title != null )
+			{
+				writer.openTag( HTMLTags.TAG_TITLE );
+				writer.text( title );
+				writer.closeTag( HTMLTags.TAG_TITLE );
+			}
+		}
+				
 		writer.openTag( HTMLTags.TAG_META );
 		writer.attribute( HTMLTags.ATTR_HTTP_EQUIV, "Content-Type" ); //$NON-NLS-1$ 
 		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=UTF-8" ); //$NON-NLS-1$ 
@@ -526,7 +543,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
-			Report reportDesign = report.getDesign( );
 			for ( int n = 0; n < reportDesign.getStyleCount( ); n++ )
 			{
 				styleBuffer.delete( 0, styleBuffer.capacity( ) );
