@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -75,7 +76,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
-import org.eclipse.birt.report.engine.util.FileUtil;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -88,7 +89,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.94 $ $Date: 2006/05/10 03:50:39 $
+ * @version $Revision: 1.95 $ $Date: 2006/05/10 10:56:42 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -2234,47 +2235,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public String handleStyleImage( String uri )
 	{
-		String id = null;
-		if ( FileUtil.isLocalResource( uri ) && FileUtil.isRelativePath( uri ) )
+		ReportDesignHandle design = (ReportDesignHandle) runnable
+				.getDesignHandle( );
+		URL url = design.findResource( uri, IResourceLocator.IMAGE );
+		if ( url == null )
 		{
-			File path = null;
-			String base = (String) runnable
-					.getProperty( IReportRunnable.BASE_PROP );
-			if ( base != null && !"".equals( base ) ) //$NON-NLS-1$
-			{
-				path = new File( base, uri );
-			}
-			else
-			{
-				String reportName = runnable.getReportName( );
-				if ( reportName != null )
-				{
-					String parent = new File( new File( reportName )
-							.getAbsolutePath( ) ).getParent( );
-					path = new File( parent, uri );
-				}
-				else
-				{
-					// TO FIXME
-				}
-
-			}
-			if ( path == null || !path.exists( ) )
-			{
-				logger
-						.log(
-								Level.SEVERE,
-								"file {0} not found", path == null ? null : path.getAbsoluteFile( ) ); //$NON-NLS-1$ //$NON-NLS-2$
-				return null;
-			}
-
-			id = path.getAbsolutePath( );
+			return uri;
 		}
-		else
-		{
-			id = uri;
-		}
-		Image image = new Image( id );
+		Image image = new Image( uri );
 		image.setReportRunnable( runnable );
 		image.setRenderOption( renderOption );
 		String imgUri = null;
