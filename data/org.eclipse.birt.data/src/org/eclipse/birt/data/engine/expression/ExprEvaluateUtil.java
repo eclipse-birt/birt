@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.expression;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -23,7 +20,6 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.ResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.eclipse.birt.data.engine.script.JSRowObject;
@@ -47,7 +43,7 @@ public class ExprEvaluateUtil
 	 * @throws BirtException
 	 */
 	public static Object evaluateExpression( IBaseExpression dataExpr,
-			IResultIterator odiResult, Scriptable scope, Logger logger )
+			IResultIterator odiResult, Scriptable scope )
 			throws BirtException
 	{
 		Object exprValue = null;
@@ -83,13 +79,12 @@ public class ExprEvaluateUtil
 			ConditionalExpression ce = (ConditionalExpression) handle;
 			Object resultExpr = evaluateExpression( ce.getExpression( ),
 					odiResult,
-					scope,
-					logger );
+					scope );
 			Object resultOp1 = ce.getOperand1( ) != null
-					? evaluateExpression( ce.getOperand1( ), odiResult, scope, logger )
+					? evaluateExpression( ce.getOperand1( ), odiResult, scope )
 					: null;
 			Object resultOp2 = ce.getOperand2( ) != null
-					? evaluateExpression( ce.getOperand2( ), odiResult, scope, logger )
+					? evaluateExpression( ce.getOperand2( ), odiResult, scope )
 					: null;
 			String op1Text = ce.getOperand1( ) != null ? ce.getOperand1( )
 					.getText( ) : null;
@@ -103,11 +98,6 @@ public class ExprEvaluateUtil
 		else
 		{
 			DataException e = new DataException( ResourceConstants.INVALID_EXPR_HANDLE );
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getValue",
-					"Invalid expression handle.",
-					e );
 			throw e;
 		}
 

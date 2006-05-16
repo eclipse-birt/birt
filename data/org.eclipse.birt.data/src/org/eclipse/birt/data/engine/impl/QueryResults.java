@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -368,6 +370,22 @@ class QueryResults implements IQueryResults, IQueryService
 		public IScriptExpression getAutoBindingExpr( String exprName )
 		{
 			return queryResults.queryService.getAutoBindingExpr( exprName );
+		}
+
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IServiceForResultSet#getAllBindingExprs()
+		 */
+		public List getAllBindingExprs( )
+		{
+			return queryResults.queryService.getAllBindingExprs( );
+		}
+
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IServiceForResultSet#getAllAutoBindingExprs()
+		 */
+		public Map getAllAutoBindingExprs( )
+		{
+			return queryResults.queryService.getAllAutoBindingExprs( );
 		}
 	}
 	

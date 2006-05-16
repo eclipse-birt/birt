@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +30,6 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -70,6 +70,11 @@ public class ResultIterator implements IResultIterator
 	private boolean 				useDetails;
 	private int 					lowestGroupLevel;
 	private int 					savedStartingGroupLevel;
+	
+	// used for evaluate binding column value
+	private int 					lastRowIndex = -1;
+	private Map 					boundColumnValueMap;
+	private BoundColumnsEvalUtil 	boundColumnsEvalUtil;
 	
 	private int state = NOT_STARTED;
 	
@@ -254,28 +259,18 @@ public class ResultIterator implements IResultIterator
 	 */
 	public Object getValue( IBaseExpression dataExpr ) throws BirtException
 	{
-		Object exprValue = doGetValue( dataExpr );		
-		this.getRdSaveUtil( ).doSaveExpr( dataExpr, exprValue );		
-		return exprValue;
-	}
-	
-	/**
-	 * @param dataExpr
-	 * @return value of expression
-	 * @throws BirtException
-	 */
-	private Object doGetValue( IBaseExpression dataExpr ) throws BirtException
-	{
+		checkStarted( );
+		
 		logger.logp( Level.FINE,
 				ResultIterator.class.getName( ),
 				"getValue",
-				"get of value IBaseExpression: " + LogUtil.toString( dataExpr ) );
-		checkStarted( );
-
-		return ExprEvaluateUtil.evaluateExpression( dataExpr,
+				"get of value base expression: " + LogUtil.toString( dataExpr ) );
+		
+		Object exprValue = ExprEvaluateUtil.evaluateExpression( dataExpr,
 				odiResult,
-				scope,
-				logger );
+				scope );
+		this.getRdSaveUtil( ).doSaveExpr( dataExpr, exprValue );		
+		return exprValue;
 	}
 	
 	/**
@@ -362,7 +357,6 @@ public class ResultIterator implements IResultIterator
 	}
 	
 	//------new method for bound column name------
-	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getValue(java.lang.String)
 	 */
@@ -370,23 +364,36 @@ public class ResultIterator implements IResultIterator
 	{
 		checkStarted( );
 		
-		Object exprValue = null;
-		Object exprObject = this.resultService.getBaseExpression( exprName );
-		if ( exprObject != null )
+		logger.logp( Level.FINE,
+				ResultIterator.class.getName( ),
+				"getValue",
+				"get of value binding column: " + LogUtil.toString( exprName ) );
+		
+		if ( this.resultService.getBaseExpression( exprName ) == null
+				&& this.resultService.getAutoBindingExpr( exprName ) == null )
+			throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
+					exprName );
+		
+		// currRowIndex value will be changed driven by this.next method.
+		int currRowIndex = this.odiResult.getCurrentResultIndex( );
+		if ( lastRowIndex < currRowIndex )
 		{
-			exprValue = this.doGetValue( (IBaseExpression) exprObject );
-		}
-		else
-		{
-			IScriptExpression scriptExpr = this.resultService.getAutoBindingExpr( exprName );
-			if ( scriptExpr != null )
-				exprValue = ExprEvaluateUtil.evaluateRawExpression( scriptExpr, scope );
-			else
-				throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
-						exprName );
+			if ( boundColumnsEvalUtil == null )
+			{
+				boundColumnsEvalUtil = new BoundColumnsEvalUtil( this.odiResult,
+						this.scope,
+						this.getRdSaveUtil( ),
+						this.resultService );
+			}
+			
+			lastRowIndex = currRowIndex;
+			boundColumnValueMap = boundColumnsEvalUtil.getBoundColumnsValue( );
 		}
 		
-		this.getRdSaveUtil( ).doSaveExpr( exprName, exprValue );
+		Object exprValue = boundColumnValueMap.get( exprName );
+		if ( exprValue instanceof BirtException )
+			throw (BirtException) exprValue;
+
 		return exprValue;
 	}
 	
@@ -744,7 +751,7 @@ public class ResultIterator implements IResultIterator
 	/**
 	 * Util class to help ResultIterator to save data into report document
 	 */
-	private class RDSaveUtil
+	class RDSaveUtil
 	{
 		// context info
 		private DataEngineContext context;

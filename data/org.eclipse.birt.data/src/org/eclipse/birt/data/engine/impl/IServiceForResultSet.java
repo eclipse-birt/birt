@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -51,6 +54,20 @@ public interface IServiceForResultSet
 	 * @return
 	 */
 	public IScriptExpression getAutoBindingExpr( String exprName );
+	
+	/**
+	 * the element is GroupBindingColumn
+	 * 
+	 * @return
+	 */
+	public List getAllBindingExprs( );
+	
+	/**
+	 * map of bound column name with associated expression
+	 * 
+	 * @return
+	 */
+	public Map getAllAutoBindingExprs( );
 	
 	/**
 	 * @param iterator
