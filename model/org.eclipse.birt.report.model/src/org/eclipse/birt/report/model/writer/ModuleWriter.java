@@ -1386,17 +1386,13 @@ public abstract class ModuleWriter extends ElementVisitor
 				// the xml-property values are set locally or extended from
 				// parent.
 
-				Object value = obj.getLocalProperty( getModule( ), prop
-						.getName( ) );
-				if ( value != null )
-				{
-					if ( prop.getTypeCode( ) != PropertyType.XML_TYPE )
-						writeProperty( obj, getTagByPropertyType( prop ), prop
-								.getName( ), false );
-					else
-						writeProperty( obj, getTagByPropertyType( prop ), prop
-								.getName( ), true );
-				}
+				if ( prop.getTypeCode( ) != PropertyType.XML_TYPE )
+					writeProperty( obj, getTagByPropertyType( prop ), prop
+							.getName( ), false );
+				else
+					writeProperty( obj, getTagByPropertyType( prop ), prop
+							.getName( ), true );
+
 			}
 		}
 
@@ -2821,11 +2817,11 @@ public abstract class ModuleWriter extends ElementVisitor
 									.getName( ), cdata );
 			}
 
-			writer.endElement( ); // end ¡°ref-entry¡±
+			writer.endElement( ); // end ï¿½ï¿½ref-entryï¿½ï¿½
 
 		}
 
-		writer.endElement( ); // end ¡°Overridden-values¡±
+		writer.endElement( ); // end ï¿½ï¿½Overridden-valuesï¿½ï¿½
 
 	}
 
