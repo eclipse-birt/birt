@@ -18,7 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IBaseTransform;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -60,7 +60,7 @@ public class ResultMetaData implements IResultMetaData
 		}
 	}
 
-	protected void appendMetaData( IBaseTransform query )
+	protected void appendMetaData( IBaseQueryDefinition query )
 	{
 		Map bindings = query.getResultSetExpressions( );
 		Iterator iter = bindings.entrySet( ).iterator( );
