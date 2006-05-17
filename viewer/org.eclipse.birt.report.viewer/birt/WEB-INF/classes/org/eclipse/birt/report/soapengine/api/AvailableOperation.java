@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class AvailableOperation  implements java.io.Serializable {
-    private boolean sort;
+    private boolean sortAsc;
+    private boolean sortDsc;
     private boolean advancedSort;
     private boolean addGroup;
     private boolean deleteGroup;
@@ -25,7 +26,8 @@ public class AvailableOperation  implements java.io.Serializable {
     }
 
     public AvailableOperation(
-           boolean sort,
+           boolean sortAsc,
+           boolean sortDsc,
            boolean advancedSort,
            boolean addGroup,
            boolean deleteGroup,
@@ -37,7 +39,8 @@ public class AvailableOperation  implements java.io.Serializable {
            boolean aggregation,
            boolean changeFont,
            boolean format) {
-           this.sort = sort;
+           this.sortAsc = sortAsc;
+           this.sortDsc = sortDsc;
            this.advancedSort = advancedSort;
            this.addGroup = addGroup;
            this.deleteGroup = deleteGroup;
@@ -53,22 +56,42 @@ public class AvailableOperation  implements java.io.Serializable {
 
 
     /**
-     * Gets the sort value for this AvailableOperation.
+     * Gets the sortAsc value for this AvailableOperation.
      * 
-     * @return sort
+     * @return sortAsc
      */
-    public boolean isSort() {
-        return sort;
+    public boolean isSortAsc() {
+        return sortAsc;
     }
 
 
     /**
-     * Sets the sort value for this AvailableOperation.
+     * Sets the sortAsc value for this AvailableOperation.
      * 
-     * @param sort
+     * @param sortAsc
      */
-    public void setSort(boolean sort) {
-        this.sort = sort;
+    public void setSortAsc(boolean sortAsc) {
+        this.sortAsc = sortAsc;
+    }
+
+
+    /**
+     * Gets the sortDsc value for this AvailableOperation.
+     * 
+     * @return sortDsc
+     */
+    public boolean isSortDsc() {
+        return sortDsc;
+    }
+
+
+    /**
+     * Sets the sortDsc value for this AvailableOperation.
+     * 
+     * @param sortDsc
+     */
+    public void setSortDsc(boolean sortDsc) {
+        this.sortDsc = sortDsc;
     }
 
 
@@ -303,7 +326,8 @@ public class AvailableOperation  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            this.sort == other.isSort() &&
+            this.sortAsc == other.isSortAsc() &&
+            this.sortDsc == other.isSortDsc() &&
             this.advancedSort == other.isAdvancedSort() &&
             this.addGroup == other.isAddGroup() &&
             this.deleteGroup == other.isDeleteGroup() &&
@@ -326,7 +350,8 @@ public class AvailableOperation  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        _hashCode += (isSort() ? Boolean.TRUE : Boolean.FALSE).hashCode();
+        _hashCode += (isSortAsc() ? Boolean.TRUE : Boolean.FALSE).hashCode();
+        _hashCode += (isSortDsc() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         _hashCode += (isAdvancedSort() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         _hashCode += (isAddGroup() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         _hashCode += (isDeleteGroup() ? Boolean.TRUE : Boolean.FALSE).hashCode();
@@ -349,8 +374,14 @@ public class AvailableOperation  implements java.io.Serializable {
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AvailableOperation"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("sort");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Sort"));
+        elemField.setFieldName("sortAsc");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortAsc"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("sortDsc");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortDsc"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
