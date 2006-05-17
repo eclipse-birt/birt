@@ -22,31 +22,23 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.DataSetColumnBindingsFormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SortingHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.Spinner;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -82,7 +74,7 @@ import org.eclipse.swt.widgets.Text;
  * Group Properties Dialog
  */
 
-public class GroupDialog extends BaseDialog implements Listener
+public class GroupDialog extends BaseDialog
 {
 
 	private static final String GROUP_DLG_GROUP_FILTER_SORTING = Messages.getString( "GroupDialog.Label.FilterSorting" ); //$NON-NLS-1$
@@ -95,15 +87,15 @@ public class GroupDialog extends BaseDialog implements Listener
 
 	private static final String GROUP_DLG_GROUP_NAME_LABEL = Messages.getString( "GroupDialog.Label.Name" ); //$NON-NLS-1$
 
-	private static final String TAB_BINDING = Messages.getString( "GroupDialog.Tab.Binding" ); //$NON-NLS-1$
+//	private static final String TAB_BINDING = Messages.getString( "GroupDialog.Tab.Binding" ); //$NON-NLS-1$
 
 	private static final String TAB_SORTING = Messages.getString( "GroupDialog.Tab.Sorting" ); //$NON-NLS-1$
 
 	private static final String TAB_FILTER = Messages.getString( "GroupDialog.Tab.Filter" ); //$NON-NLS-1$	
 
-	private static final String GROUP_DLG_INCLUDE_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.IncludeFooter" ); //$NON-NLS-1$
+//	private static final String GROUP_DLG_INCLUDE_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.IncludeFooter" ); //$NON-NLS-1$
 
-	private static final String GROUP_DLG_INCLUDE_HEADER_LABEL = Messages.getString( "GroupDialog.Label.IncludeHeader" ); //$NON-NLS-1$;
+//	private static final String GROUP_DLG_INCLUDE_HEADER_LABEL = Messages.getString( "GroupDialog.Label.IncludeHeader" ); //$NON-NLS-1$;
 
 	private static final String GROUP_DLG_HEADER_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.HeaderFooter" ); //$NON-NLS-1$
 
@@ -115,7 +107,7 @@ public class GroupDialog extends BaseDialog implements Listener
 
 	public static final String GROUP_DLG_TITLE_EDIT = Messages.getString( "GroupDialog.Title.Edit" ); //$NON-NLS-1$
 
-	public static final String GROUP_DLG_HIDE_DETAIL = Messages.getString( "GroupDialog.buttion.HideDetail" );
+	public static final String GROUP_DLG_HIDE_DETAIL = Messages.getString( "GroupDialog.buttion.HideDetail" ); //$NON-NLS-1$
 	private List columnList;
 
 	private GroupHandle inputGroup;
@@ -138,7 +130,7 @@ public class GroupDialog extends BaseDialog implements Listener
 	/**
 	 * The include check box and sorting direction radio box
 	 */
-	private Button includeHeader, includeFooter, ascending, descending;
+	private Button ascending, descending;
 
 	private Button intervalBaseButton;
 
@@ -438,26 +430,6 @@ public class GroupDialog extends BaseDialog implements Listener
 		composite.setLayoutData( layoutData );
 		composite.setLayout( new GridLayout( ) );
 
-		Group includeGroup = new Group( composite, SWT.NONE );
-
-		includeGroup.setText( GROUP_DLG_HEADER_FOOTER_LABEL );
-		includeGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		includeGroup.setLayout( new FillLayout( SWT.VERTICAL ) );
-
-		Composite includeGroupComposite = new Composite( includeGroup, SWT.NONE );
-		includeGroupComposite.setLayout( new GridLayout( ) );
-
-		includeHeader = new Button( includeGroupComposite, SWT.CHECK );
-		includeHeader.setText( GROUP_DLG_INCLUDE_HEADER_LABEL );
-		includeFooter = new Button( includeGroupComposite, SWT.CHECK );
-		includeFooter.setText( GROUP_DLG_INCLUDE_FOOTER_LABEL );
-
-		if ( inputGroup instanceof ListGroupHandle )
-		{
-			includeGroup.setEnabled( false );
-			includeHeader.setEnabled( false );
-			includeFooter.setEnabled( false );
-		}
 		Group sortingGroup = new Group( composite, SWT.NONE );
 		sortingGroup.setText( SORT_GROUP_TITLE );
 		sortingGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -472,13 +444,13 @@ public class GroupDialog extends BaseDialog implements Listener
 		descending.setText( sortByDescending.getDisplayName( ) );
 
 		Group pagebreakGroup = new Group( composite, SWT.NONE );
-		// TODO i18n
+
 		pagebreakGroup.setText( Messages.getString( "GroupDialog.PageBreak" ) ); //$NON-NLS-1$
 		pagebreakGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 2;
 		pagebreakGroup.setLayout( layout );
-		// TODO i18n
+
 		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString( "GroupDialog.PageBreakBefore" ) ); //$NON-NLS-1$
 		pagebreakBeforeCombo = new Combo( pagebreakGroup, SWT.NONE );
 		for ( int i = 0; i < pagebreakBeforeChoicesAll.length; i++ )
@@ -606,17 +578,6 @@ public class GroupDialog extends BaseDialog implements Listener
 			}
 		}
 
-		if ( inputGroup instanceof TableGroupHandle )
-		{
-			includeHeader.setSelection( inputGroup.hasHeader( ) );
-			includeFooter.setSelection( inputGroup.hasFooter( ) );
-		}
-		else
-		{
-			includeHeader.setSelection( false );
-			includeFooter.setSelection( false );
-		}
-
 		if ( DesignChoiceConstants.SORT_DIRECTION_ASC.equals( inputGroup.getSortDirection( ) ) )
 		{
 			ascending.setSelection( true );
@@ -644,7 +605,6 @@ public class GroupDialog extends BaseDialog implements Listener
 
 		hideDetail.setSelection( inputGroup.hideDetail( ) );
 
-		inputGroup.addListener( this );
 		return true;
 	}
 
@@ -811,31 +771,6 @@ public class GroupDialog extends BaseDialog implements Listener
 			}
 
 			inputGroup.setHideDetail( hideDetail.getSelection( ) );
-			if ( inputGroup instanceof TableGroupHandle )
-			{
-				if ( includeHeader.getSelection( ) != inputGroup.hasHeader( ) )
-				{// the include header status changed
-					if ( includeHeader.getSelection( ) )
-					{// from unchecked to checked
-						inputGroup.getHeader( ).add( createRow( ) );
-					}
-					else
-					{// from checked to unchecked,clear the slot
-						inputGroup.clearContents( GroupHandle.HEADER_SLOT );
-					}
-				}
-				if ( includeFooter.getSelection( ) != inputGroup.hasFooter( ) )
-				{// the include footer status changed
-					if ( includeFooter.getSelection( ) )
-					{// from unchecked to checked
-						inputGroup.getFooter( ).add( createRow( ) );
-					}
-					else
-					{// from checked to unchecked,clear the slot
-						inputGroup.clearContents( GroupHandle.FOOTER_SLOT );
-					}
-				}
-			}
 			if ( ascending.getSelection( ) )
 			{
 				inputGroup.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
@@ -874,24 +809,6 @@ public class GroupDialog extends BaseDialog implements Listener
 			}
 		}
 		return index;
-	}
-
-	private DesignElementHandle createRow( ) throws SemanticException
-	{
-		// DesignElementHandle handle = inputGroup.getElementFactory( )
-		// .newTableRow( );
-		DesignElementHandle handle = DesignElementFactory.getInstance( inputGroup.getModuleHandle( ) )
-				.newTableRow( );
-		TableHandle table = (TableHandle) inputGroup.getContainer( );
-		for ( int i = 0; i < table.getColumnCount( ); i++ )
-		{
-			// handle.addElement( inputGroup.getElementFactory( ).newCell( ),
-			// RowHandle.CONTENT_SLOT );
-			handle.addElement( DesignElementFactory.getInstance( inputGroup.getModuleHandle( ) )
-					.newCell( ),
-					RowHandle.CONTENT_SLOT );
-		}
-		return handle;
 	}
 
 	private void setKeyExpression( String key )
@@ -1088,24 +1005,6 @@ public class GroupDialog extends BaseDialog implements Listener
 		intervalRange.setEnabled( bool );
 		intervalBaseButton.setEnabled( bool );
 		intervalBaseText.setEnabled( bool );
-	}
-
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( ev instanceof PropertyEvent )
-		{
-			if ( GroupHandle.BOUND_DATA_COLUMNS_PROP.equals( ( (PropertyEvent) ev ).getPropertyName( ) ) )
-			{
-				refreshColumnList( );
-			}
-		}
-
-	}
-
-	public boolean close( )
-	{
-		inputGroup.removeListener( this );
-		return super.close( );
 	}
 
 	private String getKeyExpression( )
