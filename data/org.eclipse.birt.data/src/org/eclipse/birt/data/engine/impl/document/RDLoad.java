@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.data.engine.impl.document;
 
-import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +23,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
@@ -40,30 +40,16 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  */
 public class RDLoad
 {
-	//	 
-	private DataEngineContext context;
-	private String queryResultID;
-
-	// sub query info
-	private String subQueryName;
-	private String subQueryID;
-	private RDSubQueryUtil subQueryUtil;
-
-	//
-	private RDGroupUtil rdGroupUtil;
-
 	//
 	private int rowCount;
 	private int readIndex = 0;
 	private int currPos = 0;
 
-	private InputStream rowIs;
-	private BufferedInputStream rowBis;
-	private DataInputStream rowDis;
+	private InputStream rowExprsIs;
+	private DataInputStream rowExprsDis;
 	
-	private InputStream lenIs;
-	private BufferedInputStream lenBis;
-	private DataInputStream lenDis;
+	private InputStream rowLenIs;
+	private DataInputStream rowLenDis;
 	
 	private int currSkipIndex;	
 	private int INT_LENGTH;
@@ -75,7 +61,16 @@ public class RDLoad
 	
 	// expression value map
 	private Map exprValueMap = new HashMap( );
-
+	
+	//
+	private RDGroupUtil rdGroupUtil;
+	//
+	private RDSubQueryUtil subQueryUtil;
+	//
+	private LoadUtilHelper loadUtilHelper;
+	//
+	private StreamManager streamManager;
+	
 	/**
 	 * @param context
 	 * @param queryResultID
@@ -86,172 +81,15 @@ public class RDLoad
 	RDLoad( DataEngineContext context, String queryResultID,
 			String subQueryName, int currParentIndex ) throws DataException
 	{
-		this.context = context;
-		this.queryResultID = queryResultID;
-		this.subQueryName = subQueryName;
 		this.version = VersionManager.getVersion( context );
 		this.INT_LENGTH = IOUtil.INT_LENGTH;
 		
-		if ( subQueryName != null )
-			this.subQueryID = subQueryName
-					+ "/" + getSubQueryIndex( currParentIndex );
-	}
-
-	/**
-	 * @return result meta data
-	 * @throws DataException
-	 */
-	ResultMetaData loadResultMetaData( ) throws DataException
-	{
-		InputStream stream = context.getInputStream( queryResultID,
+		loadUtilHelper = new LoadUtilHelper( );
+		subQueryUtil = new RDSubQueryUtil( context, queryResultID, subQueryName );
+		streamManager = new StreamManager( context,
+				queryResultID,
 				subQueryName,
-				DataEngineContext.RESULTCLASS_STREAM );
-		IResultClass resultClass = new ResultClass( stream );
-		try
-		{
-			stream.close( );
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-					e,
-					"Result Class" );
-		}
-
-		return new ResultMetaData( resultClass );
-	}
-	
-	/**
-	 * @throws DataException
-	 */
-	private void prepare( ) throws DataException
-	{
-		if ( rowDis == null )
-		{
-			rowIs = context.getInputStream( queryResultID,
-					subQueryID,
-					DataEngineContext.EXPR_VALUE_STREAM );
-			rowBis = new BufferedInputStream( rowIs );
-			try
-			{
-				rowDis = new DataInputStream( rowBis );
-				rowCount = IOUtil.readInt( rowDis );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-						e,
-						"result data" );
-			}
-			
-			InputStream groupIs = context.getInputStream( queryResultID,
-					subQueryID,
-					DataEngineContext.GROUP_INFO_STREAM );
-			BufferedInputStream groupBis = new BufferedInputStream( groupIs );
-			rdGroupUtil = new RDGroupUtil( groupBis,
-					new CacheProviderImpl( this ) );
-			
-			try
-			{
-				groupBis.close( );
-				groupIs.close( );
-			}
-			catch ( IOException e )
-			{
-				// ignore it
-			}
-			
-			this.isPrepared = true;
-		}
-	}
-	
-	/**
-	 * @return
-	 * @throws DataException
-	 */
-	public ExprDataResultSet loadExprDataResultSet( ) throws DataException
-	{
-		if ( this.version == VersionManager.VERSION_2_0 )
-			throw new DataException( "Not supported in earlier version" );
-		
-		ExprMetaInfo[] exprMetas = loadExprMetadata( );
-
-		List newProjectedColumns = new ArrayList( );
-		for ( int i = 0; i < exprMetas.length; i++ )
-		{
-			String name = exprMetas[i].getName( );
-			Class clazz = DataType.getClass( exprMetas[i].getDataType( ) );
-			ResultFieldMetadata metaData = new ResultFieldMetadata( 0,
-					name,
-					name,
-					clazz,
-					clazz == null ? null : clazz.toString( ),
-					i == exprMetas.length - 1 ? true : false );
-			newProjectedColumns.add( metaData );
-		}
-		
-		InputStream inputStream = context.getInputStream( queryResultID,
-				subQueryID,
-				DataEngineContext.EXPR_VALUE_STREAM );
-		BufferedInputStream bis = new BufferedInputStream( inputStream );
-		
-		ExprDataResultSet exprDataResultSet = new ExprDataResultSet( bis,
-				exprMetas,
-				new ResultClass( newProjectedColumns ) );
-				
-		return exprDataResultSet;
-	}
-	
-	/**
-	 * @throws DataException
-	 */
-	private ExprMetaInfo[] loadExprMetadata( ) throws DataException
-	{
-		InputStream inputStream = context.getInputStream( queryResultID,
-				subQueryID,
-				DataEngineContext.EXPR_META_STREAM );
-		BufferedInputStream bis = new BufferedInputStream( inputStream );
-
-		ExprMetaInfo[] exprMetas = ExprMetaUtil.loadExprMetaInfo( bis );
-		
-		try
-		{
-			bis.close( );
-			inputStream.close( );
-		}
-		catch ( IOException e )
-		{
-			// ignore
-		}
-		
-		return exprMetas;
-	}
-	
-	/**
-	 * @return
-	 * @throws DataException
-	 */
-	public RDGroupUtil loadGroupUtil( ) throws DataException
-	{
-		if ( this.rdGroupUtil == null )
-		{
-			InputStream stream = context.getInputStream( queryResultID,
-					subQueryID,
-					DataEngineContext.GROUP_INFO_STREAM );
-			BufferedInputStream bis2 = new BufferedInputStream( stream );
-			rdGroupUtil = new RDGroupUtil( bis2 );
-			try
-			{
-				bis2.close( );
-				stream.close( );
-			}
-			catch ( IOException e )
-			{
-				// ignore it
-			}
-		}
-		
-		return this.rdGroupUtil;
+				subQueryName == null ? 0 : getSubQueryIndex( currParentIndex ) );
 	}
 	
 	/**
@@ -270,6 +108,42 @@ public class RDLoad
 		this.rdGroupUtil.next( hasNext );
 		
 		return hasNext;
+	}
+	
+	/**
+	 * @throws DataException
+	 */
+	private void prepare( ) throws DataException
+	{
+		if ( rowExprsDis == null )
+		{
+			rowExprsIs = streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM );
+			rowExprsDis = new DataInputStream( rowExprsIs );
+			try
+			{	
+				rowCount = IOUtil.readInt( rowExprsDis );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+						e,
+						"result data" );
+			}
+			
+			InputStream groupIs = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM );
+			rdGroupUtil = new RDGroupUtil( groupIs,
+					new CacheProviderImpl( this ) );			
+			try
+			{
+				groupIs.close( );
+			}
+			catch ( IOException e )
+			{
+				// ignore it
+			}
+			
+			this.isPrepared = true;
+		}
 	}
 	
 	/**
@@ -371,11 +245,11 @@ public class RDLoad
 			int gapRows = absoluteIndex - readIndex;
 			for ( int j = 0; j < gapRows; j++ )
 			{
-				exprCount = IOUtil.readInt( rowDis );
+				exprCount = IOUtil.readInt( rowExprsDis );
 				for ( int i = 0; i < exprCount; i++ )
 				{
-					IOUtil.readString( rowDis );
-					IOUtil.readObject( rowDis );
+					IOUtil.readString( rowExprsDis );
+					IOUtil.readObject( rowExprsDis );
 				}
 			}
 		}
@@ -385,20 +259,20 @@ public class RDLoad
 
 			int gapRow = readIndex - currSkipIndex;
 			if ( gapRow > 0 )
-				this.lenDis.skipBytes( gapRow * INT_LENGTH );
-			int rowOffsetRead = IOUtil.readInt( lenDis );
+				this.rowLenDis.skipBytes( gapRow * INT_LENGTH );
+			int rowOffsetRead = IOUtil.readInt( rowLenDis );
 			currSkipIndex = readIndex + 1;
 			
 			gapRow = absoluteIndex - currSkipIndex;
 			if ( gapRow > 0 )
-				this.lenDis.skipBytes( gapRow * INT_LENGTH );
-			int rowOffsetAbsolute = IOUtil.readInt( lenDis );
+				this.rowLenDis.skipBytes( gapRow * INT_LENGTH );
+			int rowOffsetAbsolute = IOUtil.readInt( rowLenDis );
 			currSkipIndex = absoluteIndex + 1;
 			
 			int skipBytesLen = rowOffsetAbsolute - rowOffsetRead;
 
 			if ( skipBytesLen > 0 )
-				this.rowDis.skipBytes( skipBytesLen );
+				this.rowExprsDis.skipBytes( skipBytesLen );
 
 			readIndex = absoluteIndex;
 		}
@@ -409,14 +283,11 @@ public class RDLoad
 	 */
 	private void initSkipData( ) throws DataException
 	{
-		if ( this.lenDis != null )
+		if ( this.rowLenDis != null )
 			return;
 		
-		lenIs = context.getInputStream( queryResultID,
-				subQueryID,
-				DataEngineContext.ROWLENGTH_INFO_STREAM );
-		lenBis = new BufferedInputStream( lenIs );
-		lenDis = new DataInputStream( lenBis );
+		rowLenIs = streamManager.getInStream( DataEngineContext.ROWLENGTH_INFO_STREAM );
+		rowLenDis = new DataInputStream( rowLenIs );
 	}
 	
 	/**
@@ -427,11 +298,11 @@ public class RDLoad
 		exprValueMap.clear( );
 		if ( version == VersionManager.VERSION_2_0 )
 		{
-			int exprCount = IOUtil.readInt( rowDis );
+			int exprCount = IOUtil.readInt( rowExprsDis );
 			for ( int i = 0; i < exprCount; i++ )
 			{
-				String exprID = IOUtil.readString( rowDis );
-				Object exprValue = IOUtil.readObject( rowDis );
+				String exprID = IOUtil.readString( rowExprsDis );
+				Object exprValue = IOUtil.readObject( rowExprsDis );
 				exprValueMap.put( exprID, exprValue );
 			}
 		}
@@ -439,10 +310,10 @@ public class RDLoad
 		{
 			while ( true )
 			{
-				if ( getSeperator( rowDis ) == RDSave.columnSeparator )
+				if ( RDIOUtil.getSeperator( rowExprsDis ) == RDIOUtil.ColumnSeparator )
 				{
-					String exprID = IOUtil.readString( rowDis );
-					Object exprValue = IOUtil.readObject( rowDis );
+					String exprID = IOUtil.readString( rowExprsDis );
+					Object exprValue = IOUtil.readObject( rowExprsDis );
 					exprValueMap.put( exprID, exprValue );
 				}
 				else
@@ -451,30 +322,6 @@ public class RDLoad
 				}
 			}
 		}
-	}
-	
-	/**
-	 * @param inputStream
-	 * @return
-	 * @throws IOException
-	 */
-	private static int getSeperator( InputStream inputStream ) throws IOException
-	{
-		byte[] bytes = new byte[4];
-		int len = inputStream.read( bytes );
-		if ( len == -1 )
-			return RDSave.endSeparator;
-		else if ( len < 4 )
-		{
-			for ( int i = len; i < 4; i++ )
-			{
-				bytes[i] = (byte) inputStream.read( );
-				if ( bytes[i] == -1 )
-					throw new IOException( "there is an error in reading result set" );
-			}
-		}
-
-		return IOUtil.getInt( bytes );
 	}
 	
 	/**
@@ -493,18 +340,6 @@ public class RDLoad
 		return this.currPos - 1;
 	}
 	
-	/**
-	 * @return
-	 * @throws DataException
-	 */
-	int getSubQueryIndex( int currParentIndex ) throws DataException
-	{
-		subQueryUtil = new RDSubQueryUtil( this.context,
-				this.queryResultID,
-				this.subQueryName );
-		return subQueryUtil.getSubQueryIndex( currParentIndex );
-	}
-
 	/**
 	 * @param groupLevel
 	 * @throws DataException
@@ -539,17 +374,15 @@ public class RDLoad
 	{
 		try
 		{
-			if ( rowDis != null )
+			if ( rowExprsDis != null )
 			{
-				rowDis.close( );
-				rowBis.close( );
-				rowIs.close( );
+				rowExprsDis.close( );
+				rowExprsIs.close( );
 				
-				if ( lenDis != null )
+				if ( rowLenDis != null )
 				{
-					lenDis.close( );
-					lenBis.close( );
-					lenIs.close( );
+					rowLenDis.close( );
+					rowLenIs.close( );
 				}
 			}
 		}
@@ -558,7 +391,149 @@ public class RDLoad
 			// ignore throw new DataException( "error in close" );
 		}
 	}
+	
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	public RDGroupUtil loadGroupUtil( ) throws DataException
+	{
+		if ( this.rdGroupUtil == null )
+			rdGroupUtil = loadUtilHelper.loadGroupUtil( );
+		
+		return this.rdGroupUtil;
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	public IResultMetaData loadResultMetaData( ) throws DataException
+	{
+		return loadUtilHelper.loadResultMetaData( );
+	}
 
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	public ExprDataResultSet loadExprDataResultSet( ) throws DataException
+	{
+		return loadUtilHelper.loadExprDataResultSet( );
+	}
+
+	/**
+	 * @param currParentIndex
+	 * @return
+	 * @throws DataException
+	 */
+	public int getSubQueryIndex( int currParentIndex ) throws DataException
+	{
+		return subQueryUtil.getSubQueryIndex( currParentIndex );
+	}
+
+	/**
+	 *
+	 */
+	private class LoadUtilHelper
+	{
+		/**
+		 * @return result meta data
+		 * @throws DataException
+		 */
+		ResultMetaData loadResultMetaData( ) throws DataException
+		{
+			InputStream stream = streamManager.getSubInStream( DataEngineContext.RESULTCLASS_STREAM );
+			IResultClass resultClass = new ResultClass( stream );
+			try
+			{
+				stream.close( );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+						e,
+						"Result Class" );
+			}
+
+			return new ResultMetaData( resultClass );
+		}
+		
+		/**
+		 * @return
+		 * @throws DataException
+		 */
+		public ExprDataResultSet loadExprDataResultSet( ) throws DataException
+		{
+			if ( version == VersionManager.VERSION_2_0 )
+				throw new DataException( "Not supported in earlier version" );
+			
+			ExprMetaInfo[] exprMetas = loadExprMetadata( );
+
+			List newProjectedColumns = new ArrayList( );
+			for ( int i = 0; i < exprMetas.length; i++ )
+			{
+				String name = exprMetas[i].getName( );
+				Class clazz = DataType.getClass( exprMetas[i].getDataType( ) );
+				ResultFieldMetadata metaData = new ResultFieldMetadata( 0,
+						name,
+						name,
+						clazz,
+						clazz == null ? null : clazz.toString( ),
+						i == exprMetas.length - 1 ? true : false );
+				newProjectedColumns.add( metaData );
+			}
+			
+			InputStream inputStream = streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM );
+			ExprDataResultSet exprDataResultSet = new ExprDataResultSet( inputStream,
+					exprMetas,
+					new ResultClass( newProjectedColumns ) );
+					
+			return exprDataResultSet;
+		}
+		
+		/**
+		 * @throws DataException
+		 */
+		private ExprMetaInfo[] loadExprMetadata( ) throws DataException
+		{
+			InputStream inputStream = streamManager.getInStream( DataEngineContext.EXPR_META_STREAM );
+			ExprMetaInfo[] exprMetas = ExprMetaUtil.loadExprMetaInfo( inputStream );
+			
+			try
+			{
+				inputStream.close( );
+			}
+			catch ( IOException e )
+			{
+				// ignore
+			}
+			
+			return exprMetas;
+		}
+		
+		/**
+		 * @return
+		 * @throws DataException
+		 */
+		public RDGroupUtil loadGroupUtil( ) throws DataException
+		{
+			InputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM );
+			RDGroupUtil rdGroupUtil = new RDGroupUtil( stream );
+			try
+			{
+				stream.close( );
+			}
+			catch ( IOException e )
+			{
+				// ignore it
+			}
+
+			return rdGroupUtil;
+		}
+		
+	}
+	
 	/**
 	 * Provider group info function for RDLoad
 	 */
@@ -606,5 +581,5 @@ public class RDLoad
 				rdLoader.next( );
 		}
 	}
-
+	
 }
