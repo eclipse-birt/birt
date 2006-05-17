@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -56,8 +57,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 {
 
 	private ExtendedItemHandle itemHandle;
-	private DataSetHandle dsHandle;
-	private ArrayList bindingList;
 
 	/**
 	 * This flag indicates whether the error is found when fetching data. This
@@ -74,61 +73,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private ModuleHandle getReportDesignHandle( )
 	{
 		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#startDataBinding()
-	 */
-	public void startDataBinding( )
-	{
-		dsHandle = itemHandle.getDataSet( );
-
-		bindingList = new ArrayList( );
-		Iterator columnBindingIterator = itemHandle.columnBindingsIterator( );
-		while ( columnBindingIterator.hasNext( ) )
-		{
-			bindingList.add( ( (ComputedColumnHandle) columnBindingIterator.next( ) ).getStructure( ) );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#rollbackDataBinding()
-	 */
-	public void rollbackDataBinding( )
-	{
-		try
-		{
-			itemHandle.setDataSet( dsHandle );
-			itemHandle.getColumnBindings( ).clearValue( );
-
-			for ( int i = 0; i < bindingList.size( ); i++ )
-			{
-				itemHandle.addColumnBinding( (ComputedColumn) bindingList.get( i ),
-						true );
-			}
-		}
-		catch ( SemanticException se )
-		{
-			se.printStackTrace( );
-		}
-
-		dsHandle = null;
-		bindingList = null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#commitDataBinding()
-	 */
-	public void commitDataBinding( )
-	{
-		dsHandle = null;
-		bindingList = null;
 	}
 
 	public String[] getAllDataSets( )
@@ -312,7 +256,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			if ( datasetName == null )
 			{
-				itemHandle.setDataSet( null );
+				// Do nothing if column bindings from container exist or no
+				// inheritance in initialization
+				if ( getBoundDataSet( ) == null
+						&& ( getReportDataSet( ) == null || itemHandle.columnBindingsIterator( )
+								.hasNext( ) ) )
+				{
+					needClean = false;
+				}
+				else
+				{
+					itemHandle.setDataSet( null );
+				}
 			}
 			else
 			{
@@ -321,7 +276,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				{
 					needClean = false;
 				}
-				itemHandle.setDataSet( dataset );
+				else
+				{
+					itemHandle.setDataSet( dataset );
+				}
 			}
 			if ( needClean )
 			{
@@ -331,6 +289,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
 						.clearValue( );
 				itemHandle.getColumnBindings( ).clearValue( );
+
+				List columnList = DataUtil.generateComputedColumns( itemHandle );
+				if ( columnList.size( ) > 0 )
+				{
+					for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+					{
+						DEUtil.addColumn( itemHandle,
+								(ComputedColumn) iter.next( ),
+								false );
+					}
+				}
 			}
 		}
 		catch ( SemanticException e )

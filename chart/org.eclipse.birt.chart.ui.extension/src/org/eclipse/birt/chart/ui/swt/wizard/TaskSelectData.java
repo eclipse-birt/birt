@@ -401,6 +401,12 @@ public class TaskSelectData extends SimpleTask
 		cmbDataSet.setEnabled( !bDS );
 		btnNewData.setEnabled( !bDS
 				&& getDataServiceProvider( ).isInvokingSupported( ) );
+		
+		if ( bDS )
+		{
+			// Initializes column bindings from container
+			getDataServiceProvider( ).setDataSet( null );
+		}
 	}
 
 	private void refreshTableColor( )
@@ -480,29 +486,9 @@ public class TaskSelectData extends SimpleTask
 
 		try
 		{
-			String oldDataSetName = getDataServiceProvider( ).getBoundDataSet( );
-			getDataServiceProvider( ).startDataBinding( );
-
 			// Clear old dataset and preview data
 			getDataServiceProvider( ).setDataSet( datasetName );
 			tablePreview.clearContents( );
-
-			// Popup data binding
-			if ( getDataServiceProvider( ).getBoundDataSet( ) != null
-					|| getDataServiceProvider( ).getReportDataSet( ) != null )
-			{
-				bCancel = getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_BINDING );
-			}
-
-			if ( bCancel == Window.CANCEL )
-			{
-				getDataServiceProvider( ).rollbackDataBinding( );
-				datasetName = oldDataSetName;
-			}
-			else
-			{
-				getDataServiceProvider( ).commitDataBinding( );
-			}
 
 			// Try to get report data set
 			if ( datasetName == null )

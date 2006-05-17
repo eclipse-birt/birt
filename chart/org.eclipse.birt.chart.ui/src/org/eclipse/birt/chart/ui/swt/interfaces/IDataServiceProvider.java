@@ -53,6 +53,13 @@ public interface IDataServiceProvider
 
 	public void setContext( Object context );
 
+	/**
+	 * Binds dataset for chart, and updates related settings, such as column
+	 * bindings, filters, parameters.
+	 * 
+	 * @param datasetName
+	 *            Dataset name. Null means inheriting from container. 
+	 */
 	public void setDataSet( String datasetName );
 
 	public void setStyle( String styleName );
@@ -109,28 +116,5 @@ public interface IDataServiceProvider
 	 * @since 2.1
 	 */
 	public boolean isInvokingSupported( );
-	
-	/**
-	 * Save the DataSetHandle and DataSetColumnBinding information.
-	 * 
-	 * @since 2.1
-	 */
-	public void startDataBinding( );
-	
-	/**
-	 * Restore the DataSetHandle and DataSetColumnBinding information if
-	 * the new binding action is cancelled.
-	 * 
-	 * @since 2.1
-	 */
-	public void rollbackDataBinding( );
-	
-	/**
-	 * Clean the DataSetHandle and DataSetColumnBinding information if
-	 * the new binding action is committed.
-	 * 
-	 * @since 2.1
-	 */
-	public void commitDataBinding( );
 
 }

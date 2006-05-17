@@ -366,8 +366,6 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 	};
 
-	private CCombo combo;
-
 	public ColumnBindingDialog( )
 	{
 		this( DEFAULT_DLG_TITLE, false );
@@ -398,81 +396,86 @@ public class ColumnBindingDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite parentComposite = (Composite) super.createDialogArea( parent );
-		/**
-		 * Label & button
-		 */
-		Composite composite = new Composite( parentComposite, SWT.NONE );
-		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
+		
+		if ( this.canSelect )
+		{
+			/**
+			 * Label & button
+			 */
+			Composite composite = new Composite( parentComposite, SWT.NONE );
+			composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 
-		CLabel warnLabel = new CLabel( composite, SWT.NONE );
-		warnLabel.setImage( PlatformUI.getWorkbench( )
-				.getSharedImages( )
-				.getImage( ISharedImages.IMG_OBJS_WARN_TSK ) );
-		warnLabel.setText( WARN_COLUMN_BINDINGS );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
-		warnLabel.setLayoutData( gd );
+			CLabel warnLabel = new CLabel( composite, SWT.NONE );
+			warnLabel.setImage( PlatformUI.getWorkbench( )
+					.getSharedImages( )
+					.getImage( ISharedImages.IMG_OBJS_WARN_TSK ) );
+			warnLabel.setText( WARN_COLUMN_BINDINGS );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			warnLabel.setLayoutData( gd );
 
-		Label label = new Label( composite, SWT.NONE );
-		label.setText( LABEL_COLUMN_BINDINGS );
-		label.setLayoutData( new GridData( GridData.BEGINNING ) );
+			Label label = new Label( composite, SWT.NONE );
+			label.setText( LABEL_COLUMN_BINDINGS );
+			label.setLayoutData( new GridData( GridData.BEGINNING ) );
 
-		// add data set combo selection.
-		combo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
-		combo.setBackground( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
-		String[] dataSets = ChoiceSetFactory.getDataSets( );
-		String[] newList = new String[dataSets.length + 1];
-		newList[0] = NONE;
-		System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
-		combo.setItems( newList );
-		String dataSetName = getDataSetName( );
-		combo.deselectAll( );
-		combo.setText( dataSetName );
-		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		gd = new GridData( );
-		gd.widthHint = 250;
-		combo.setLayoutData( gd );
-		combo.addSelectionListener( new SelectionAdapter( ) {
+			// add data set combo selection.
+			final CCombo combo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
+			combo.setBackground( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+			String[] dataSets = ChoiceSetFactory.getDataSets( );
+			String[] newList = new String[dataSets.length + 1];
+			newList[0] = NONE;
+			System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
+			combo.setItems( newList );
+			String dataSetName = getDataSetName( );
+			combo.deselectAll( );
+			combo.setText( dataSetName );
+			combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			gd = new GridData( );
+			gd.widthHint = 250;
+			combo.setLayoutData( gd );
+			combo.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent event )
-			{
-				String value = combo.getText( );
-				if ( value.equals( NONE ) )
+				public void widgetSelected( SelectionEvent event )
 				{
-					value = null;
-				}
-				if ( canChangeDataSet( value ) )
-				{
-					try
+					String value = combo.getText( );
+					if ( value.equals( NONE ) )
 					{
-						startTrans( "" ); //$NON-NLS-1$
-						DataSetHandle dataSet = null;
-						if ( value != null )
+						value = null;
+					}
+					if ( canChangeDataSet( value ) )
+					{
+						try
 						{
-							dataSet = SessionHandleAdapter.getInstance( )
-									.getReportDesignHandle( )
-									.findDataSet( value );
+							startTrans( "" ); //$NON-NLS-1$
+							DataSetHandle dataSet = null;
+							if ( value != null )
+							{
+								dataSet = SessionHandleAdapter.getInstance( )
+										.getReportDesignHandle( )
+										.findDataSet( value );
+							}
+							inputElement.setDataSet( dataSet );
+							generateBindingColumns( );
+							getPropertyHandle( ).setStringValue( null );
+							commit( );
 						}
-						inputElement.setDataSet( dataSet );
-						generateBindingColumns( );
-						getPropertyHandle( ).setStringValue( null );
-						commit( );
+						catch ( SemanticException e )
+						{
+							rollback( );
+							ExceptionHandler.handle( e );
+						}
 					}
-					catch ( SemanticException e )
+					else
 					{
-						rollback( );
-						ExceptionHandler.handle( e );
+						combo.setText( getDataSetName( ) );
 					}
 				}
-				else
-				{
-					combo.setText( getDataSetName( ) );
-				}
-			}
-		} );
+			} );
+		}
+		
 		/*
 		 * generateButton = new Button( composite, SWT.PUSH );
 		 * generateButton.setText( BUTTON_GENERATE );
@@ -491,7 +494,7 @@ public class ColumnBindingDialog extends BaseDialog
 				| SWT.FULL_SELECTION
 				| SWT.BORDER
 				| ( canSelect ? SWT.CHECK : 0 ) );
-		gd = new GridData( GridData.FILL_BOTH );
+		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 200;
 		table.setLayoutData( gd );
 		table.setLinesVisible( true );
