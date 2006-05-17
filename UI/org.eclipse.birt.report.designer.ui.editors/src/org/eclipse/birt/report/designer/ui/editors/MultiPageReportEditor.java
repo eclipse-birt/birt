@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEdito
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportMultiBookPage;
 import org.eclipse.birt.report.designer.internal.ui.extension.EditorContributorManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
@@ -674,7 +673,6 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 				SessionHandleAdapter.getInstance( )
 						.setReportDesignHandle( getModel( ) );
-				DataSetManager.initCurrentInstance( getEditorInput( ) );
 			}
 
 		}
@@ -826,8 +824,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	{
 		// getSite( ).getWorkbenchWindow( )
 		// .getPartService( )
-		// .removePartListener( this );
-		DataSetManager.removeInstance( this.getEditorInput( ) );
+		// .removePartListener( this );		
 
 		if ( fPalettePage != null )
 		{
