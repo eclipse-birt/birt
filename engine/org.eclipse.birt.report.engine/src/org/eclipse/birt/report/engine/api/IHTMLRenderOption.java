@@ -61,4 +61,8 @@ public interface IHTMLRenderOption
 	 * The value is an Boolean Object, the default is false.
 	 */
 	public static final String HTML_RTL_FLAG = "htmlRtLFlag"; //$NON-NLS-1$
+	/**
+	 * output the HTML default title.
+	 */
+	public static final String HTML_TITLE = "htmlTitle"; //$NON-NLS-1$
 }

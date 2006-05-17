@@ -185,4 +185,20 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 		}
 		return false;
 	}
+	
+	/**
+	 * @param htmlTile
+	 */
+	public void setHtmlTitle( String htmlTile )
+	{
+		options.put( HTML_TITLE, htmlTile );
+	}
+
+	/**
+	 * @return the default html title
+	 */
+	public String getHtmlTitle( )
+	{
+		return (String) options.get( HTML_TITLE );
+	}
 }
