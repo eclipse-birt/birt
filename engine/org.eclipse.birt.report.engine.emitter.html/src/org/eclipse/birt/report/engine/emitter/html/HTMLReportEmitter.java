@@ -91,7 +91,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.97 $ $Date: 2006/05/16 03:57:30 $
+ * @version $Revision: 1.98 $ $Date: 2006/05/17 05:42:35 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1263,7 +1263,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// colspan
 			if ( colSpan > 1 )
 			{
-				writer.attribute( HTMLTags.ATTR_COLSPAN, cell.getColSpan( ) );
+				writer.attribute( HTMLTags.ATTR_COLSPAN, colSpan );
 			}
 
 			// rowspan
