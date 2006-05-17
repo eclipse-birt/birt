@@ -71,6 +71,7 @@ import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.ParameterAccessor;
@@ -553,7 +554,9 @@ public class ReportEngineService
 		option.setOutputStream( outputStream );
 		option.setOutputFormat( format );
 		option.setMasterPageContent( masterPage );
-		option.setHtmlRtLFlag( rtl );
+		option.setHtmlRtLFlag( rtl );		
+		// set a default title for the html page
+		option.setHtmlTitle( BirtResources.getString( "birt.viewer.title" ) ); //$NON-NLS-1$
 
 		if ( embeddable != null )
 		{
@@ -941,7 +944,7 @@ public class ReportEngineService
 			dataTask.selectResultSet( resultSetName );
 			dataTask.selectColumns( columnNames );
 			dataTask.setLocale( locale );
-			
+
 			result = dataTask.extract( );
 			if ( result != null )
 			{

@@ -59,6 +59,7 @@ import com.ibm.icu.util.ULocale;
  */
 public class ViewerAttributeBean extends BaseAttributeBean
 {
+
 	/**
 	 * Constructor.
 	 * 
@@ -397,4 +398,29 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			return super.getParamValueObject( request, parameterObj );
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.context.BaseAttributeBean#getReportTitle()
+	 */
+	
+	public String getReportTitle( )
+	{
+		String title = reportTitle;
+		if ( reportDesignHandle != null )
+		{
+			Object design = reportDesignHandle.getDesignObject( );
+			if ( design instanceof IReportRunnable )
+			{
+				IReportRunnable runnable = (IReportRunnable) design;
+				String designTitle = (String) runnable
+						.getProperty( IReportRunnable.TITLE );
+				if ( designTitle != null && designTitle.trim( ).length( ) > 0 )
+					title = designTitle;
+			}
+		}
+		return title;
+	}
+
 }
