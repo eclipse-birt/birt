@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
@@ -44,17 +43,6 @@ public class ResultMetaData implements IResultMetaData
 	protected void initializeMetaData( IQueryDefinition query )
 	{
 		appendMetaData( query );
-
-		List groups = query.getGroups( );
-		if ( groups != null )
-		{
-			Iterator iter = groups.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				IBaseTransform group = (IBaseTransform) iter.next( );
-				appendMetaData( group );
-			}
-		}
 	}
 
 	private ArrayList metaEntries = new ArrayList( );

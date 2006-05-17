@@ -101,7 +101,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.63 $ $Date: 2006/05/17 01:38:17 $
+ * @version $Revision: 1.64 $ $Date: 2006/05/17 05:42:08 $
  */
 public class ReportQueryBuilder
 {
@@ -808,8 +808,39 @@ public class ReportQueryBuilder
 			return null;
 
 		}		
+		
+		/**
+		 * @return the current group which the current report item be included
+		 */
+		protected GroupDefinition getCurrentGroup( )
+		{
+			if ( queryStack.isEmpty( ) )
+				return null;
 
-		protected void addColumBinding( IBaseTransform transfer,
+			for ( int i = queryStack.size( ) - 1; i >= 0; i-- )
+			{
+				if ( queryStack.get( i ) instanceof GroupDefinition )
+					return (GroupDefinition) queryStack.get( i );
+			}
+			return null;
+
+		}	
+		
+		/**
+		 * @return the name of the current group 
+		 * which the current report item be included
+		 */
+		protected String getCurrentGroupName( )
+		{
+			GroupDefinition group = getCurrentGroup( );
+			if ( group != null )
+			{
+				return group.getName( );
+			}
+			return null;
+		}
+
+		protected void addColumBinding( IBaseQueryDefinition transfer,
 				ComputedColumnHandle binding )
 		{
 			String name = binding.getName( );
@@ -1277,11 +1308,11 @@ public class ReportQueryBuilder
 		 */
 		private void transferExpressions( ReportItemDesign item )
 		{
-			IBaseTransform trans = getTransform();
-			if (trans != null)
+			IBaseQueryDefinition query = getParentQuery( );
+			if ( query != null )
 			{
 				ITotalExprBindings totalExpressionBindings = getNewExpressionBindings( item );
-				addNewColumnBindings( trans, totalExpressionBindings );
+				addNewColumnBindings( query, totalExpressionBindings );
 				replaceOldExpressions( item, totalExpressionBindings );
 			}
 		}
@@ -1298,15 +1329,15 @@ public class ReportQueryBuilder
 			{
 				return null;
 			}
-			IBaseTransform trans = getTransform();
-			if (trans != null)
+			IBaseQueryDefinition query = getParentQuery( );
+			if ( query != null )
 			{
 				List expressions = new ArrayList( );
 				expressions.add( expr );	
 				ITotalExprBindings totalExpressionBinding = ExpressionUtil
-					.prepareTotalExpressions( expressions );
+					.prepareTotalExpressions( expressions, getCurrentGroupName( ) );
 				
-				addNewColumnBindings( trans, totalExpressionBinding );
+				addNewColumnBindings( query, totalExpressionBinding );
 				
 				List newExpressions = totalExpressionBinding.getNewExpression( );
 				return (String) newExpressions.get( 0 );
@@ -1320,8 +1351,8 @@ public class ReportQueryBuilder
 		 */
 		private void transferVisibility( ColumnDesign column )
 		{
-			IBaseTransform trans = getTransform();
-			if (trans == null)
+			IBaseQueryDefinition query = getParentQuery( );
+			if ( query != null )
 			{
 				return;
 			}
@@ -1337,10 +1368,10 @@ public class ReportQueryBuilder
 							.add( visibilities.getRule( i ).getExpression( ) );
 				}
 				ITotalExprBindings totalExpressionBindings = ExpressionUtil
-					.prepareTotalExpressions( expressions );
+					.prepareTotalExpressions( expressions, getCurrentGroupName( ) );
 				
 				// add new column bindings to the query 
-				addNewColumnBindings( trans, totalExpressionBindings );
+				addNewColumnBindings( query, totalExpressionBindings );
 				
 				// replace old expressions
 				int expressionIndex = 0;
@@ -1352,218 +1383,219 @@ public class ReportQueryBuilder
 				}
 			}
 		}	
-	}
-	
-
-	private void replaceOldExpressions( ReportItemDesign item,
-			ITotalExprBindings totalExpressionBindings )
-	{
-		int expressionIndex = 0;
-
-		List newExpressions = totalExpressionBindings.getNewExpression( );
-		item.setTOC( (String) newExpressions.get( expressionIndex++ ) );
-		item.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
-		item.setOnCreate( (String) newExpressions.get( expressionIndex++ ) );
-		item.setOnRender( (String) newExpressions.get( expressionIndex++ ) );
-		HighlightDesign highlights = item.getHighlight( );
-		if ( highlights != null )
-		{
-			for ( int i = 0; i < highlights.getRuleCount( ); i++ )
-			{
-				highlights.getRule( i ).setConditionExpr(
-						(String) newExpressions.get( expressionIndex++ ) );
-			}
-		}
-		MapDesign maps = item.getMap( );
-
-		if ( maps != null )
-		{
-			for ( int i = 0; i < maps.getRuleCount( ); i++ )
-			{
-				maps.getRule( i ).setConditionExpr(
-						(String) newExpressions.get( expressionIndex++ ) );
-			}
-		}
-
-		VisibilityDesign visibilities = item.getVisibility( );
-		if ( visibilities != null )
-		{
-			for ( int i = 0; i < visibilities.count( ); i++ )
-			{
-				visibilities.getRule( i ).setExpression(
-						(String) newExpressions.get( expressionIndex++ ) );
-			}
-		}
 		
-		Map namedExpressions = item.getNamedExpressions( );
-		if ( namedExpressions != null )
-		{
-			Collection exprs = namedExpressions.entrySet( );
-			Iterator exprIter = exprs.iterator();
-			Map.Entry entry = null;
-			while( exprIter.hasNext( ) )
-			{
-				entry = ( Map.Entry ) exprIter.next( );				
-				entry.setValue( ( String ) newExpressions.get( expressionIndex++ ) );
-			}
-		}
 		
-		ActionDesign action = item.getAction( );
-		if ( action != null )
+
+		private void replaceOldExpressions( ReportItemDesign item,
+				ITotalExprBindings totalExpressionBindings )
 		{
-			switch ( action.getActionType( ) )
+			int expressionIndex = 0;
+
+			List newExpressions = totalExpressionBindings.getNewExpression( );
+			item.setTOC( (String) newExpressions.get( expressionIndex++ ) );
+			item.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
+			item.setOnCreate( (String) newExpressions.get( expressionIndex++ ) );
+			item.setOnRender( (String) newExpressions.get( expressionIndex++ ) );
+			HighlightDesign highlights = item.getHighlight( );
+			if ( highlights != null )
 			{
-				case ActionDesign.ACTION_BOOKMARK :
-					action.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
-					break;
-				case ActionDesign.ACTION_DRILLTHROUGH :
-					DrillThroughActionDesign drillThrough = action
-							.getDrillThrough( );
-					if ( drillThrough != null )
-					{
-						drillThrough.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
-						if ( drillThrough.getParameters( ) != null )
+				for ( int i = 0; i < highlights.getRuleCount( ); i++ )
+				{
+					highlights.getRule( i ).setConditionExpr(
+							(String) newExpressions.get( expressionIndex++ ) );
+				}
+			}
+			MapDesign maps = item.getMap( );
+
+			if ( maps != null )
+			{
+				for ( int i = 0; i < maps.getRuleCount( ); i++ )
+				{
+					maps.getRule( i ).setConditionExpr(
+							(String) newExpressions.get( expressionIndex++ ) );
+				}
+			}
+
+			VisibilityDesign visibilities = item.getVisibility( );
+			if ( visibilities != null )
+			{
+				for ( int i = 0; i < visibilities.count( ); i++ )
+				{
+					visibilities.getRule( i ).setExpression(
+							(String) newExpressions.get( expressionIndex++ ) );
+				}
+			}
+			
+			Map namedExpressions = item.getNamedExpressions( );
+			if ( namedExpressions != null )
+			{
+				Collection exprs = namedExpressions.entrySet( );
+				Iterator exprIter = exprs.iterator();
+				Map.Entry entry = null;
+				while( exprIter.hasNext( ) )
+				{
+					entry = ( Map.Entry ) exprIter.next( );				
+					entry.setValue( ( String ) newExpressions.get( expressionIndex++ ) );
+				}
+			}
+			
+			ActionDesign action = item.getAction( );
+			if ( action != null )
+			{
+				switch ( action.getActionType( ) )
+				{
+					case ActionDesign.ACTION_BOOKMARK :
+						action.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
+						break;
+					case ActionDesign.ACTION_DRILLTHROUGH :
+						DrillThroughActionDesign drillThrough = action
+								.getDrillThrough( );
+						if ( drillThrough != null )
 						{
-							Iterator ite = drillThrough.getParameters( )
-									.entrySet( ).iterator( );
-							while ( ite.hasNext( ) )
+							drillThrough.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
+							if ( drillThrough.getParameters( ) != null )
 							{
-								Map.Entry entry = (Map.Entry) ite.next( );
-								assert entry.getValue( ) instanceof String;
-								entry.setValue( ( String ) newExpressions.get( expressionIndex++ ) );
+								Iterator ite = drillThrough.getParameters( )
+										.entrySet( ).iterator( );
+								while ( ite.hasNext( ) )
+								{
+									Map.Entry entry = (Map.Entry) ite.next( );
+									assert entry.getValue( ) instanceof String;
+									entry.setValue( ( String ) newExpressions.get( expressionIndex++ ) );
+								}
 							}
 						}
-					}
-					break;
-				case ActionDesign.ACTION_HYPERLINK :
-					action.setHyperlink( (String) newExpressions.get( expressionIndex++ ) );
-					break;
-				default :
-					assert false;
-			}
-		}
-	}
-
-	private ITotalExprBindings getNewExpressionBindings( ReportItemDesign item )
-	{
-		List expressions = new ArrayList( );
-		expressions.add( item.getTOC( ) );
-		expressions.add( item.getBookmark( ) );
-		expressions.add( item.getOnCreate( ) );
-		expressions.add( item.getOnRender( ) );
-
-		HighlightDesign highlights = item.getHighlight( );
-		if ( highlights != null )
-		{
-			for ( int i = 0; i < highlights.getRuleCount( ); i++ )
-			{
-				expressions.add( createConditionalExpression( highlights
-						.getRule( i ) ) );
+						break;
+					case ActionDesign.ACTION_HYPERLINK :
+						action.setHyperlink( (String) newExpressions.get( expressionIndex++ ) );
+						break;
+					default :
+						assert false;
+				}
 			}
 		}
 
-		MapDesign maps = item.getMap( );
-		if ( maps != null )
+		private ITotalExprBindings getNewExpressionBindings( ReportItemDesign item )
 		{
-			for ( int i = 0; i < maps.getRuleCount( ); i++ )
-			{
-				expressions
-						.add( createConditionalExpression( maps.getRule( i ) ) );
-			}
-		}
+			List expressions = new ArrayList( );
+			expressions.add( item.getTOC( ) );
+			expressions.add( item.getBookmark( ) );
+			expressions.add( item.getOnCreate( ) );
+			expressions.add( item.getOnRender( ) );
 
-		VisibilityDesign visibilities = item.getVisibility( );
-		if ( visibilities != null )
-		{
-			for ( int i = 0; i < visibilities.count( ); i++ )
+			HighlightDesign highlights = item.getHighlight( );
+			if ( highlights != null )
 			{
-				expressions
-						.add( visibilities.getRule( i ).getExpression( ) );
+				for ( int i = 0; i < highlights.getRuleCount( ); i++ )
+				{
+					expressions.add( createConditionalExpression( highlights
+							.getRule( i ) ) );
+				}
 			}
-		}		
 
-		Map namedExpressions = item.getNamedExpressions( );
-		if ( namedExpressions != null )
-		{
-			Collection exprs = namedExpressions.entrySet( );
-			Iterator exprIter = exprs.iterator();
-			Map.Entry entry = null;
-			while( exprIter.hasNext( ) )
+			MapDesign maps = item.getMap( );
+			if ( maps != null )
 			{
-				entry = ( Map.Entry ) exprIter.next( );
-				expressions.add( entry.getValue( ) );
+				for ( int i = 0; i < maps.getRuleCount( ); i++ )
+				{
+					expressions
+							.add( createConditionalExpression( maps.getRule( i ) ) );
+				}
 			}
-		}
-		
-		ActionDesign action = item.getAction( );
-		if ( action != null )
-		{
-			switch ( action.getActionType( ) )
+
+			VisibilityDesign visibilities = item.getVisibility( );
+			if ( visibilities != null )
 			{
-				case ActionDesign.ACTION_BOOKMARK :
-					expressions.add( action.getBookmark( ) );
-					break;
-				case ActionDesign.ACTION_DRILLTHROUGH :
-					DrillThroughActionDesign drillThrough = action
-							.getDrillThrough( );
-					if ( drillThrough != null )
-					{
-						expressions.add( drillThrough.getBookmark( ) );
-						if ( drillThrough.getParameters( ) != null )
+				for ( int i = 0; i < visibilities.count( ); i++ )
+				{
+					expressions
+							.add( visibilities.getRule( i ).getExpression( ) );
+				}
+			}		
+
+			Map namedExpressions = item.getNamedExpressions( );
+			if ( namedExpressions != null )
+			{
+				Collection exprs = namedExpressions.entrySet( );
+				Iterator exprIter = exprs.iterator();
+				Map.Entry entry = null;
+				while( exprIter.hasNext( ) )
+				{
+					entry = ( Map.Entry ) exprIter.next( );
+					expressions.add( entry.getValue( ) );
+				}
+			}
+			
+			ActionDesign action = item.getAction( );
+			if ( action != null )
+			{
+				switch ( action.getActionType( ) )
+				{
+					case ActionDesign.ACTION_BOOKMARK :
+						expressions.add( action.getBookmark( ) );
+						break;
+					case ActionDesign.ACTION_DRILLTHROUGH :
+						DrillThroughActionDesign drillThrough = action
+								.getDrillThrough( );
+						if ( drillThrough != null )
 						{
-							Iterator ite = drillThrough.getParameters( )
-									.entrySet( ).iterator( );
-							while ( ite.hasNext( ) )
+							expressions.add( drillThrough.getBookmark( ) );
+							if ( drillThrough.getParameters( ) != null )
 							{
-								Map.Entry entry = (Map.Entry) ite.next( );
-								assert entry.getValue( ) instanceof String;
-								expressions.add( entry.getValue( ) );
+								Iterator ite = drillThrough.getParameters( )
+										.entrySet( ).iterator( );
+								while ( ite.hasNext( ) )
+								{
+									Map.Entry entry = (Map.Entry) ite.next( );
+									assert entry.getValue( ) instanceof String;
+									expressions.add( entry.getValue( ) );
+								}
 							}
 						}
-					}
-					break;
-				case ActionDesign.ACTION_HYPERLINK :
-					expressions.add( action.getHyperlink( ) );
-					break;
-				default :
-					assert false;
+						break;
+					case ActionDesign.ACTION_HYPERLINK :
+						expressions.add( action.getHyperlink( ) );
+						break;
+					default :
+						assert false;
+				}
 			}
+			
+			ITotalExprBindings totalExpressionBindings = ExpressionUtil
+					.prepareTotalExpressions( expressions, getCurrentGroupName( ) );
+			return totalExpressionBindings;
 		}
-		
-		ITotalExprBindings totalExpressionBindings = ExpressionUtil
-				.prepareTotalExpressions( expressions );
-		return totalExpressionBindings;
-	}
 
-	private void addNewColumnBindings( IBaseTransform query,
-			ITotalExprBindings totalExpressionBindings )
-	{
-		IColumnBinding[] bindings = totalExpressionBindings.getColumnBindings( );
-		if ( bindings != null )
+		private void addNewColumnBindings( IBaseQueryDefinition query,
+				ITotalExprBindings totalExpressionBindings )
 		{
-			for ( int i = 0; i < bindings.length; i++ )
+			IColumnBinding[] bindings = totalExpressionBindings.getColumnBindings( );
+			if ( bindings != null )
 			{
-				addColumnBinding( query, bindings[i] );
+				for ( int i = 0; i < bindings.length; i++ )
+				{
+					addColumnBinding( query, bindings[i] );
+				}
 			}
 		}
-	}
 
-	private void addColumnBinding( IBaseTransform transfer,
-			IColumnBinding binding )
-	{
-		assert transfer != null;
-		transfer.getResultSetExpressions( )
-				.put( binding.getResultSetColumnName( ),
-						binding.getBoundExpression( ) );
-	}
+		private void addColumnBinding( IBaseQueryDefinition transfer,
+				IColumnBinding binding )
+		{
+			assert transfer != null;
+			transfer.getResultSetExpressions( )
+					.put( binding.getResultSetColumnName( ),
+							binding.getBoundExpression( ));
+		}
 
-	private IConditionalExpression createConditionalExpression( RuleDesign rule )
-	{
-		ConditionalExpression expression = new ConditionalExpression( rule
-				.getTestExpression( ),
-				toDteFilterOperator( rule.getOperator( ) ), rule.getValue1( ),
-				rule.getValue2( ) );
-		return ExpressionUtil.transformConditionalExpression( expression );
+		private IConditionalExpression createConditionalExpression( RuleDesign rule )
+		{
+			ConditionalExpression expression = new ConditionalExpression( rule
+					.getTestExpression( ),
+					toDteFilterOperator( rule.getOperator( ) ), rule.getValue1( ),
+					rule.getValue2( ) );
+			return ExpressionUtil.transformConditionalExpression( expression );
+		}
 	}
 
 	// Convert model operator value to DtE IColumnFilter enum value
