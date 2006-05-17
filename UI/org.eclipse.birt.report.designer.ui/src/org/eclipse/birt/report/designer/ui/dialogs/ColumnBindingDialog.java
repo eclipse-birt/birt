@@ -234,12 +234,6 @@ public class ColumnBindingDialog extends BaseDialog
 				column.setName( DEFAULT_COLUMN_NAME );
 				column.setExpression( "" ); //$NON-NLS-1$
 				addBinding( column );
-				bindingTable.refresh( );
-				bindingTable.getTable( ).getItem( bindingTable.getTable( )
-						.getSelectionIndex( ) - 1 ).setForeground( 1,
-						Display.getDefault( ).getSystemColor( SWT.COLOR_BLUE ) );
-				bindingTable.getTable( ).setSelection( bindingTable.getTable( )
-						.getSelectionIndex( ) - 1 );
 				return ""; //$NON-NLS-1$
 			}
 			ComputedColumnHandle handle = ( (ComputedColumnHandle) element );
@@ -421,7 +415,7 @@ public class ColumnBindingDialog extends BaseDialog
 		label.setText( LABEL_COLUMN_BINDINGS );
 		label.setLayoutData( new GridData( GridData.BEGINNING ) );
 
-		//add data set combo selection. 
+		// add data set combo selection.
 		combo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
 		combo.setBackground( PlatformUI.getWorkbench( )
 				.getDisplay( )
@@ -599,6 +593,7 @@ public class ColumnBindingDialog extends BaseDialog
 		bindingTable.setLabelProvider( labelProvider );
 		bindingTable.setCellModifier( cellModifier );
 		bindingTable.setInput( inputElement );
+
 		bindingTable.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
 			public void selectionChanged( SelectionChangedEvent event )
@@ -607,8 +602,22 @@ public class ColumnBindingDialog extends BaseDialog
 				if ( !bindingTable.getSelection( ).isEmpty( ) )
 				{
 					Object obj = ( (IStructuredSelection) bindingTable.getSelection( ) ).getFirstElement( );
-					if ( obj instanceof ComputedColumnHandle )
+					if ( obj == dummyChoice && !existDefaultColumn( ) )
 					{
+						bindingTable.refresh( );
+						bindingTable.getTable( )
+								.getItem( bindingTable.getTable( )
+										.getSelectionIndex( ) - 1 )
+								.setForeground( 1,
+										Display.getDefault( )
+												.getSystemColor( SWT.COLOR_BLUE ) );
+						bindingTable.getTable( )
+								.setSelection( bindingTable.getTable( )
+										.getSelectionIndex( ) - 1 );
+					}
+					else if ( obj instanceof ComputedColumnHandle )
+					{
+
 						ComputedColumnHandle column = (ComputedColumnHandle) obj;
 						BindingExpressionProvider provider = new BindingExpressionProvider( column.getElementHandle( ) );
 						provider.addFilter( new ComputedColumnExpressionFilter( bindingTable ) );
@@ -622,6 +631,18 @@ public class ColumnBindingDialog extends BaseDialog
 		initTableCellColor( );
 
 		return parentComposite;
+	}
+
+	private boolean existDefaultColumn( )
+	{
+
+		for ( int i = 0; i < bindingTable.getTable( ).getItemCount( ); i++ )
+		{
+			TableItem item = bindingTable.getTable( ).getItem( i );
+			if ( item.getText( 1 ).equals( DEFAULT_COLUMN_NAME ) )
+				return true;
+		}
+		return false;
 	}
 
 	private void initTableCellColor( )
