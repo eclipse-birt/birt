@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,11 +13,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.core.archive.FileArchiveWriter;
-import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
-import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -27,10 +23,6 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.api.ReportEngine;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
 public class RenderTaskTest extends EngineCase
@@ -38,7 +30,6 @@ public class RenderTaskTest extends EngineCase
 
 	private String report_design;
 	private String report_document;
-	private IDocArchiveReader archive;
 	private IReportDocument reportDoc;
 	private String outputFileName;
 	private String separator = System.getProperty( "file.separator" );
@@ -66,7 +57,11 @@ public class RenderTaskTest extends EngineCase
 	{
 		super.setUp( );
 	}
-
+	public void testRender0( )
+	{
+		renderReport( "OrderReport", "All" );
+	}
+	
 	/**
 	 * Test RenderTask with different input design files
 	 */
@@ -74,99 +69,121 @@ public class RenderTaskTest extends EngineCase
 	{
 		renderReport( "case1", "All" );
 	}
+
 	public void testRender2( )
 	{
 		renderReport( "table_pages", "All" );
 	}
+
 	public void testRender3( )
 	{
 		renderReport( "long_text", "All" );
 	}
+
 	public void testRender4( )
 	{
 
 		renderReport( "multiple_datasets", "All" );
 	}
-	public void testRender5() 
+
+	public void testRender5( )
 	{
 		renderReport( "table_nest_pages", "All" );
 	}
+
 	public void testRender6( )
 	{
 		renderReport( "oncreate-style-label", "All" );
 	}
+
 	public void testRender7( )
 	{
 		renderReport( "javascript-support-data", "All" );
 	}
+
 	public void testRender8( )
 	{
 		renderReport( "master_page", "All" );
 	}
+
 	public void testRender9( )
 	{
 		renderReport( "chart", "All" );
 	}
+
 	public void testRender10( )
 	{
-		renderReport("complex_report","All");
+		renderReport( "complex_report", "All" );
 	}
+
 	public void testRender11( )
 	{
 		renderReport( "area3dChart", "All" );
 	}
+
 	public void testRender12( )
 	{
 		renderReport( "MeterChart", "All" );
 	}
+
 	public void testRender13( )
 	{
 		renderReport( "image_in_DB", "All" );
 	}
+
 	public void testRender14( )
 	{
-		renderReport( "multiple_masterpage", "All" ); //
+		renderReport( "multiple_masterpage", "All" ); 
 	}
+
 	public void testRender15( )
 	{
 		renderReport( "report_from_library1", "All" );
 	}
-	
+
 	/*
 	 * Test RenderTask when set page range
 	 */
 	public void testRenderPageRange1( )
 	{
-		renderReport("pages9","All");
+		renderReport( "pages9", "All" );
 	}
+
 	public void testRenderPageRange2( )
 	{
 		renderReport( "pages9", null );
 	}
+
 	public void testRenderPageRange3( )
 	{
 		renderReport( "pages9", "" );
 	}
+
 	public void testRenderPageRange4( )
 	{
 		renderReport( "pages9", "2" );
 	}
+
 	public void testRenderPageRange5( )
 	{
 		renderReport( "pages9", "3,5" );
 	}
+
 	public void testRenderPageRange6( )
 	{
 		renderReport( "pages9", "2-9" );
 	}
+
 	public void testRenderPageRange7( )
 	{
 		renderReport( "pages9", "0-100" );
 	}
+
 	public void testRenderPageRange8( )
 	{
 		renderReport( "pages9", "0" );
 	}
+
 	public void testRenderPageRange9( )
 	{
 		renderReport( "pages9", "abc" );
@@ -180,21 +197,25 @@ public class RenderTaskTest extends EngineCase
 		renderReport( "items_bookmark", "bookmark_label" );
 		renderReport( "multiple_masterpage", "bookmark_label" );
 	}
+
 	public void testRenderBookmark_text( )
 	{
 		renderReport( "items_bookmark", "bookmark_text" );
 		renderReport( "multiple_masterpage", "bookmark_text" );
 	}
+
 	public void testRenderBookmark_image( )
 	{
 		renderReport( "items_bookmark", "bookmark_image" );
 		renderReport( "multiple_masterpage", "bookmark_image" );
 	}
+
 	public void testRenderBookmark_gridrow( )
 	{
 		renderReport( "items_bookmark", "bookmark_gridrow" );
 		renderReport( "multiple_masterpage", "bookmark_gridrow" );
 	}
+
 	public void testRenderBookmark_chart( )
 	{
 		renderReport( "items_bookmark", "bookmark_chart" );
@@ -224,6 +245,57 @@ public class RenderTaskTest extends EngineCase
 		iid = findIid( "iid_reportlet", "EXTENDED" );
 		renderReportlet( "iid_reportlet", iid, "EXTENDED" );
 	}
+
+	/*
+	 * This case is for bug 137817
+	 * NPE when generated pdf because target folder doesn't exist
+	 */
+	public void testRenderPDFNPE(){
+			report_design = inputPath + "case1.rptdesign";
+			report_document = outputPath + "pdfbug_reportdocument";
+
+			IRenderTask task;
+			try
+			{
+				createReportDocument( report_design, report_document );
+				reportDoc = engine.openReportDocument( report_document );
+
+				// Set IRenderOption
+				IRenderOption pdfRenderOptions = new HTMLRenderOption( );
+				HTMLRenderContext renderContext = new HTMLRenderContext( );
+				renderContext.setImageDirectory( "image" );
+				HashMap appContext = new HashMap( );
+				appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+						renderContext );
+
+				pdfRenderOptions.setOutputFormat( "pdf" );
+				pdfRenderOptions.getOutputSetting( ).put(
+						HTMLRenderOption.URL_ENCODING, "UTF-8" );
+
+				outputFileName = outputPath + "pdfbug/pdf/page1"
+						+ ".pdf";
+				removeFile( outputFileName );
+				pdfRenderOptions.setOutputFileName( outputFileName );
+				task = engine.createRenderTask( reportDoc );
+				task.setLocale( Locale.ENGLISH );
+				task.setAppContext( appContext );
+				task.setRenderOption( pdfRenderOptions );
+				task.render( );
+				task.close( );
+				File pdfFile = new File( outputFileName );
+				assertTrue( "Render pdf failed when target path doesn't exist",
+						pdfFile.exists( ) );
+				assertTrue( "Render pdf failed when target path doesn't exist",
+						pdfFile.length( ) != 0 );
+			}catch(Exception e){
+				e.printStackTrace( );
+				fail("Render pdf failed when target path doesn't exist");
+			}
+
+	}
+	
+	
+	
 	
 	
 	/*
@@ -315,7 +387,6 @@ public class RenderTaskTest extends EngineCase
 				task.setInstanceID( iid );
 				task.render( );
 				task.close( );
-
 			}
 			catch ( Exception e )
 			{
@@ -326,6 +397,7 @@ public class RenderTaskTest extends EngineCase
 		}
 	}
 
+	
 	protected void renderReport( String fileName, String pageRange )
 	{
 		report_design = inputPath + fileName + ".rptdesign";
@@ -358,9 +430,10 @@ public class RenderTaskTest extends EngineCase
 			pdfRenderOptions.getOutputSetting( ).put(
 					HTMLRenderOption.URL_ENCODING, "UTF-8" );
 
-			int i_bookmark =-1;
-			if(pageRange !=null){
-				i_bookmark=pageRange.indexOf( "bookmark_" );
+			int i_bookmark = -1;
+			if ( pageRange != null )
+			{
+				i_bookmark = pageRange.indexOf( "bookmark_" );
 			}
 			if ( i_bookmark == -1 )
 			{
@@ -464,7 +537,6 @@ public class RenderTaskTest extends EngineCase
 						assertTrue( "Render " + fileName + " to pdf failed. "
 								+ pageRange, pdfFile.length( ) != 0 );
 					}
-
 				}
 			}
 			else
@@ -519,9 +591,11 @@ public class RenderTaskTest extends EngineCase
 			assertTrue( "Render " + fileName + " failed. "
 					+ e.getLocalizedMessage( ), false );
 		}
-
 	}
 
+	
+	
+	
 	/**
 	 * create the report document.
 	 * 
@@ -543,6 +617,7 @@ public class RenderTaskTest extends EngineCase
 		runTask.close( );
 	}
 
+
 	/**
 	 * create need directory creat html and pdf directory under the need
 	 * directory
@@ -553,17 +628,17 @@ public class RenderTaskTest extends EngineCase
 		File fdir = new File( path + out + "/" + name + "/" );
 		if ( !fdir.mkdir( ) )
 		{
-//			System.err.println( "Cannot create output directories" );
+			// System.err.println( "Cannot create output directories" );
 		}
 		fdir = new File( path + out + "/" + name + "/html/" );
 		if ( !fdir.mkdir( ) )
 		{
-			//System.err.println( "Cannot create output html directories" );
+			// System.err.println( "Cannot create output html directories" );
 		}
 		fdir = new File( path + out + "/" + name + "/pdf/" );
 		if ( !fdir.mkdir( ) )
 		{
-//			System.err.println( "Cannot create output pdf directories" );
+			// System.err.println( "Cannot create output pdf directories" );
 		}
 	}
 
