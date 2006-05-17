@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Vector;
 
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
@@ -43,8 +44,6 @@ public class GridAttributesComposite extends Composite
 			SelectionListener,
 			Listener
 {
-
-	private transient Group grpTicks = null;
 
 	private transient LineAttributesComposite liacLines = null;
 
@@ -176,13 +175,20 @@ public class GridAttributesComposite extends Composite
 			liacLines.addListener( this );
 		}
 
-		// Ticks group
-		grpTicks = new Group( cmpContent, SWT.NONE );
-		GridData gdGRPTicks = new GridData( GridData.FILL_BOTH );
-		gdGRPTicks.horizontalSpan = 2;
-		grpTicks.setLayoutData( gdGRPTicks );
-		grpTicks.setLayout( glTicks );
-		grpTicks.setText( Messages.getString( "GridAttributesComposite.Lbl.Ticks" ) ); //$NON-NLS-1$
+		// Ticks group (unsupported in 3D)
+		boolean bTicksEnabled = this.context.getModel( )
+				.getDimension( )
+				.getValue( ) != ChartDimension.THREE_DIMENSIONAL;
+
+		Group grpTicks = new Group( cmpContent, SWT.NONE );
+		{
+			GridData gdGRPTicks = new GridData( GridData.FILL_BOTH );
+			gdGRPTicks.horizontalSpan = 2;
+			grpTicks.setLayoutData( gdGRPTicks );
+			grpTicks.setLayout( glTicks );
+			grpTicks.setText( Messages.getString( "GridAttributesComposite.Lbl.Ticks" ) ); //$NON-NLS-1$
+			grpTicks.setEnabled( bTicksEnabled );
+		}
 
 		// Line Attributes for Ticks
 		liacTicks = new LineAttributesComposite( grpTicks,
@@ -192,24 +198,31 @@ public class GridAttributesComposite extends Composite
 				false,
 				false,
 				true );
-		GridData gdLIACTicks = new GridData( GridData.FILL_HORIZONTAL );
-		gdLIACTicks.horizontalSpan = 2;
-		liacTicks.setLayoutData( gdLIACTicks );
-		liacTicks.addListener( this );
+		{
+			GridData gdLIACTicks = new GridData( GridData.FILL_HORIZONTAL );
+			gdLIACTicks.horizontalSpan = 2;
+			liacTicks.setLayoutData( gdLIACTicks );
+			liacTicks.addListener( this );
+			liacTicks.setEnabled( bTicksEnabled );
+		}
 
 		// Tick Styles
 		lblStyle = new Label( grpTicks, SWT.NONE );
-		GridData gdLBLStyle = new GridData( );
-		gdLBLStyle.horizontalIndent = 4;
-		lblStyle.setLayoutData( gdLBLStyle );
-		lblStyle.setText( Messages.getString( "GridAttributesComposite.Lbl.Style" ) ); //$NON-NLS-1$
-		lblStyle.setEnabled( grid.getTickAttributes( ).isVisible( ) );
+		{
+			GridData gdLBLStyle = new GridData( );
+			gdLBLStyle.horizontalIndent = 4;
+			lblStyle.setLayoutData( gdLBLStyle );
+			lblStyle.setText( Messages.getString( "GridAttributesComposite.Lbl.Style" ) ); //$NON-NLS-1$
+			lblStyle.setEnabled( bTicksEnabled && grid.getTickAttributes( ).isVisible( ) );
+		}
 
 		cmbTickStyle = new Combo( grpTicks, SWT.DROP_DOWN | SWT.READ_ONLY );
-		GridData gdCMBTickStyle = new GridData( GridData.FILL_HORIZONTAL );
-		cmbTickStyle.setLayoutData( gdCMBTickStyle );
-		cmbTickStyle.addSelectionListener( this );
-		cmbTickStyle.setEnabled( grid.getTickAttributes( ).isVisible( ) );
+		{
+			GridData gdCMBTickStyle = new GridData( GridData.FILL_HORIZONTAL );
+			cmbTickStyle.setLayoutData( gdCMBTickStyle );
+			cmbTickStyle.addSelectionListener( this );
+			cmbTickStyle.setEnabled( bTicksEnabled && grid.getTickAttributes( ).isVisible( ) );
+		}
 
 		populateLists( );
 		setDefaultSelections( );

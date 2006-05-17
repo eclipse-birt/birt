@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.reportitem.ui.dialogs;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -31,7 +30,6 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -261,10 +259,20 @@ public class ExtendedItemFilterDialog extends BaseDialog
 					return false;
 				}
 
-//				( (ExpressionValueCellEditor) ( viewer.getViewer( )
-//						.getCellEditors( )[3] ) ).setSelectValueExpression( expr );
-//				( (ExpressionValueCellEditor) ( viewer.getViewer( )
-//						.getCellEditors( )[4] ) ).setSelectValueExpression( expr );
+				String bindingName = null;
+				for ( int i = 0; i < columnExpressions.length; i++ )
+				{
+					if ( DEUtil.getColumnExpression( columnExpressions[i] )
+							.equals( expr ) )
+					{
+						bindingName = columnExpressions[i];
+						break;
+					}
+				}
+				( (ExpressionValueCellEditor) ( viewer.getViewer( )
+						.getCellEditors( )[3] ) ).setBindingName( bindingName );
+				( (ExpressionValueCellEditor) ( viewer.getViewer( )
+						.getCellEditors( )[4] ) ).setBindingName( bindingName );
 				return true;
 			}
 
@@ -682,25 +690,4 @@ public class ExtendedItemFilterDialog extends BaseDialog
 		// TODO Auto-generated method stub
 		setPageProperties( );
 	}
-
-	/**
-	 * Gets dataset from ReportItemHandle at first. If null, get dataset from
-	 * its container.
-	 * 
-	 * @return direct dataset
-	 */
-	protected DataSetHandle getDataSetFromHandle( )
-	{
-		if ( reportItemHandle.getDataSet( ) != null )
-		{
-			return reportItemHandle.getDataSet( );
-		}
-		List datasetList = DEUtil.getDataSetList( reportItemHandle.getContainer( ) );
-		if ( datasetList.size( ) > 0 )
-		{
-			return (DataSetHandle) datasetList.get( 0 );
-		}
-		return null;
-	}
-
 }
