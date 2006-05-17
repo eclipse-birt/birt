@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -153,7 +154,18 @@ public class MasterPageContextContainmentValidator
 						ReportDesignConstants.LISTING_ITEM ) )
 			isAddListing = true;
 
-		return doValidate( module, element, isAddListing );
+		List errors = doValidate( module, element, isAddListing );
+		if ( !errors.isEmpty( ) )
+		{
+			errors.clear( );
+			errors
+					.add( new ContentException(
+							element,
+							slotId,
+							toAdd,
+							ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT ) );
+		}
+		return errors;
 	}
 
 	/**
@@ -176,7 +188,7 @@ public class MasterPageContextContainmentValidator
 	{
 		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
 				ReportDesignConstants.LISTING_ITEM );
-		boolean isAddListing = defn.isKindOf( toAdd );
+		boolean isAddListing = defn.isKindOf( toAdd );		
 		return doValidate( module, element, isAddListing );
 	}
 }

@@ -18,7 +18,10 @@ import java.util.List;
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -27,6 +30,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -38,6 +42,7 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -172,6 +177,14 @@ public class PropertyCommand extends AbstractElementCommand
 		}
 
 		value = validateValue( prop, value );
+
+		if ( element instanceof GroupElement
+				&& GroupElement.GROUP_NAME_PROP.equals( prop.getName( ) ) )
+		{
+			if ( !isGroupNameValidInContext( (String) value ) )
+				throw new NameException( element, (String) value,
+						NameException.DESIGN_EXCEPTION_DUPLICATE );
+		}
 
 		// Set the property.
 
@@ -385,6 +398,39 @@ public class PropertyCommand extends AbstractElementCommand
 
 			assert false;
 		}
+	}
+
+	/**
+	 * Checks whether the name is valid in the context.
+	 * 
+	 * @param name
+	 *            the new name
+	 * @return <code>true</code> if the name is valid. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	private boolean isGroupNameValidInContext( String groupName )
+	{
+		assert element instanceof GroupElement;
+
+		if ( groupName == null )
+			return true;
+
+		if ( element.getContainer( ) != null )
+		{
+			DesignElement tmpContainer = element.getContainer( );
+
+			List errors = GroupNameValidator.getInstance( )
+					.validateForRenamingGroup(
+							(ListingHandle) tmpContainer.getHandle( module ),
+							(GroupHandle) element.getHandle( module ),
+							groupName );
+
+			if ( !errors.isEmpty( ) )
+				return false;
+		}
+
+		return true;
 	}
 
 	/**

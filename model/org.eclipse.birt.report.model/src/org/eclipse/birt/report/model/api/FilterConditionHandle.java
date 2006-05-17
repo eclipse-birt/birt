@@ -41,7 +41,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
  * <dd>a filter condition has an optional value 2 expression of the second
  * comparison value for trinary operators(between, not between).</dd>
  * </dl>
- *  
+ * 
  */
 
 public class FilterConditionHandle extends StructureHandle
@@ -86,7 +86,8 @@ public class FilterConditionHandle extends StructureHandle
 
 	/**
 	 * Returns the operator of this filter condition. The possible values are
-	 * defined in {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
 	 * <li><code>FILTER_OPERATOR_EQ</code>
@@ -119,7 +120,8 @@ public class FilterConditionHandle extends StructureHandle
 
 	/**
 	 * Sets the operator of this filter condition. The allowed values are
-	 * defined in {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
 	 * <li><code>FILTER_OPERATOR_EQ</code>
@@ -219,7 +221,7 @@ public class FilterConditionHandle extends StructureHandle
 	 *            the column name to set
 	 * 
 	 * @deprecated This property has been removed.
-	 *  
+	 * 
 	 */
 	public void setColumn( String column )
 	{
@@ -304,5 +306,43 @@ public class FilterConditionHandle extends StructureHandle
 	public void setValue2Expr( String value2Expr )
 	{
 		setValue2( value2Expr );
+	}
+
+	/**
+	 * Returns the filter target. The possible values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li><code>FILTER_TARGET_DATA_SET</code>
+	 * <li><code>FILTER_TARGET_RESULT_SET</code>
+	 * </ul>
+	 * 
+	 * @return the target type
+	 */
+
+	public String getFilterTarget( )
+	{
+		return (String) getProperty( FilterCondition.FILTER_TARGET_MEMBER );
+	}
+
+	/**
+	 * Sets the filter target. The allowed values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li><code>FILTER_TARGET_DATA_SET</code>
+	 * <li><code>FILTER_TARGET_RESULT_SET</code>
+	 * </ul>
+	 * 
+	 * @param filterTarget
+	 *            the filter target to set
+	 * 
+	 * @throws SemanticException
+	 *             if the value is not one of the above.
+	 */
+
+	public void setFilterTarget( String filterTarget ) throws SemanticException
+	{
+		setProperty( FilterCondition.FILTER_TARGET_MEMBER, filterTarget );
 	}
 }

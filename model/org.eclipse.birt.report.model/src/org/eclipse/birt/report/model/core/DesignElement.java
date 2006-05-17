@@ -24,6 +24,7 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
@@ -2570,7 +2571,7 @@ public abstract class DesignElement
 		if ( content == null || content.getContainer( ) != this )
 			return NO_SLOT;
 		return content.getContainerSlot( );
-		
+
 	}
 
 	/**
@@ -2640,16 +2641,44 @@ public abstract class DesignElement
 	 *            the slot id
 	 * @param element
 	 *            the element to insert
-	 * @return <code>true</code> if the current element can contain the
-	 *         <code>element</code>, otherwise <code>false</code>.
+	 * @return a list containing exceptions.
 	 */
 
 	public final boolean canContain( Module module, int slotId,
 			DesignElement element )
 	{
-		boolean retValue = canContainInRom( slotId, element.getDefn( ) );
-		if ( !retValue )
+		List errors = checkContainmentContext( module, slotId, element );
+		if ( !errors.isEmpty( ) )
 			return false;
+
+		return true;
+	}
+
+	/**
+	 * Determines if the slot can contain a given element.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param slotId
+	 *            the slot id
+	 * @param element
+	 *            the element to insert
+	 * @return a list containing exceptions.
+	 */
+
+	public final List checkContainmentContext( Module module, int slotId,
+			DesignElement element )
+	{
+		boolean retValue = canContainInRom( slotId, element.getDefn( ) );
+		ContentException e = new ContentException( this, slotId, element,
+				ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
+
+		List errors = new ArrayList( );
+		if ( !retValue )
+		{
+			errors.add( e );
+			return errors;
+		}
 
 		// if this element can not be contained in the module, return false;
 		// such
@@ -2658,19 +2687,28 @@ public abstract class DesignElement
 		// cell of it can never be contained in a libraries
 
 		if ( !canContainTemplateElement( module, slotId, element ) )
-			return false;
+		{
+			errors.add( e );
+			return errors;
+		}
 
 		// if the root of element is included by report/library. Do not allow
 		// drop.
 
 		if ( isRootIncludedByModule( ) )
-			return false;
+		{
+			errors.add( e );
+			return errors;
+		}
 
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
 
 		if ( isVirtualElement( ) || getExtendsName( ) != null )
-			return false;
+		{
+			errors.add( e );
+			return errors;
+		}
 
 		// special cases check table header containment.
 
@@ -2681,15 +2719,16 @@ public abstract class DesignElement
 					|| tmpContainer instanceof Theme
 					|| tmpContainer instanceof MasterPage )
 			{
-				List errors = tmpContainer.checkContent( module, this, slotId,
+				errors = tmpContainer.checkContent( module, this, slotId,
 						element );
-				return errors.isEmpty( );
+
+				return errors;
 			}
 
 			tmpContainer = tmpContainer.getContainer( );
 		}
 
-		return retValue;
+		return Collections.EMPTY_LIST;
 	}
 
 	/**
@@ -2911,8 +2950,7 @@ public abstract class DesignElement
 	 *            the slot id of the container element
 	 * @param content
 	 *            the target element to be inserted
-	 * @return <code>true</code> if this insertion is valid. Otherwise
-	 *         <code>false</code>.
+	 * @return a list containing exceptions.
 	 */
 
 	protected List checkContent( Module module, DesignElement container,
@@ -2934,8 +2972,7 @@ public abstract class DesignElement
 	 *            the slot id of the container element
 	 * @param defn
 	 *            the element definition
-	 * @return <code>true</code> if this insertion is valid. Otherwise
-	 *         <code>false</code>.
+	 * @return a list containing exceptions.
 	 */
 
 	protected List checkContent( Module module, DesignElement container,

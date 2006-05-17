@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -112,22 +113,25 @@ public abstract class GroupHandle extends ReportElementHandle
 	 *            the group name to set
 	 */
 
-	public void setName( String theName )
+	public void setName( String theName ) throws NameException
 	{
+
+		// trim the name, have the same behavior as Name property.
+
 		try
 		{
-			// trim the name, have the same behavior as Name property.
-
 			setProperty( GroupElement.GROUP_NAME_PROP, StringUtil
 					.trimString( theName ) );
 		}
+		catch ( NameException e )
+		{
+			throw e;
+		}
 		catch ( SemanticException e )
 		{
-			// TODO: if the validation is called with the command, then
-			// some exception will be thrown about GroupNameValidator.
-
 			assert false;
 		}
+
 	}
 
 	/**

@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -39,7 +40,7 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * 
  * <h3>Applicability</h3>
  * This validator is only applied to <code>ListingElement</code>.
- *  
+ * 
  */
 
 public class GroupNameValidator extends AbstractElementValidator
@@ -76,8 +77,8 @@ public class GroupNameValidator extends AbstractElementValidator
 
 		// Collect all groups in this element.
 
-		ListingElement targetElement = getListingElement( element
-				.getModule( ), (ListingElement) element.getElement( ) );
+		ListingElement targetElement = getListingElement( element.getModule( ),
+				(ListingElement) element.getElement( ) );
 		if ( targetElement == null )
 		{
 			targetElement = (ListingElement) element.getElement( );
@@ -96,9 +97,8 @@ public class GroupNameValidator extends AbstractElementValidator
 
 		if ( isDuplicateGroupName( element.getModule( ), groupList, groupName ) )
 		{
-			list.add( new SemanticError( targetElement,
-					new String[]{groupName},
-					SemanticError.DESIGN_EXCEPTION_DUPLICATE_GROUP_NAME ) );
+			list.add( new NameException( targetElement, groupName,
+					NameException.DESIGN_EXCEPTION_DUPLICATE ) );
 
 			return list;
 		}
@@ -128,8 +128,8 @@ public class GroupNameValidator extends AbstractElementValidator
 			return Collections.EMPTY_LIST;
 		}
 
-		ListingElement targetElement = getListingElement( element
-				.getModule( ), (ListingElement) element.getElement( ) );
+		ListingElement targetElement = getListingElement( element.getModule( ),
+				(ListingElement) element.getElement( ) );
 		if ( targetElement == null )
 			return Collections.EMPTY_LIST;
 
@@ -144,9 +144,8 @@ public class GroupNameValidator extends AbstractElementValidator
 
 		if ( isDuplicateGroupName( element.getModule( ), groupList, groupName ) )
 		{
-			list.add( new SemanticError( targetElement,
-					new String[]{groupName},
-					SemanticError.DESIGN_EXCEPTION_DUPLICATE_GROUP_NAME ) );
+			list.add( new NameException( targetElement, groupName,
+					NameException.DESIGN_EXCEPTION_DUPLICATE ) );
 
 			return list;
 		}
@@ -179,8 +178,7 @@ public class GroupNameValidator extends AbstractElementValidator
 	{
 		List list = new ArrayList( );
 
-		ListingElement targetElement = getListingElement( module,
-				toValidate );
+		ListingElement targetElement = getListingElement( module, toValidate );
 		if ( targetElement == null )
 			targetElement = toValidate;
 
@@ -320,8 +318,7 @@ public class GroupNameValidator extends AbstractElementValidator
 	 * @return list of group names.
 	 */
 
-	private List getGroupsWithContents( Module module,
-			DesignElement element )
+	private List getGroupsWithContents( Module module, DesignElement element )
 	{
 		List list = new ArrayList( );
 
@@ -346,8 +343,8 @@ public class GroupNameValidator extends AbstractElementValidator
 	 *         Otherwise, return <code>false</code>.
 	 */
 
-	private boolean isDuplicateGroupName( Module module,
-			List groupNameList, String groupName )
+	private boolean isDuplicateGroupName( Module module, List groupNameList,
+			String groupName )
 	{
 		Iterator iter = groupNameList.iterator( );
 		while ( iter.hasNext( ) )

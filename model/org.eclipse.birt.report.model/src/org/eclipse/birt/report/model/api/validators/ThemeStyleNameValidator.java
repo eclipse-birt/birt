@@ -102,7 +102,14 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 				|| ( styleName != null && styleName.equals( style.getName( ) ) ) )
 			return Collections.EMPTY_LIST;
 
-		return validateForAddingStyle( theme, styleName );
+		List list = new ArrayList( );
+		StyleHandle tmpStyle = theme.findStyle( styleName );
+		if ( tmpStyle != null && style != tmpStyle )
+		{
+			list.add( new NameException( theme.getElement( ), styleName,
+					NameException.DESIGN_EXCEPTION_DUPLICATE ) );
+		}
+		return list;
 	}
 
 	/*

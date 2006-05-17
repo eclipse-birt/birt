@@ -200,12 +200,7 @@ public class ContentCommand extends AbstractElementCommand
 						ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED );
 		}
 
-		if ( !element.canContain( module, slotID, content ) )
-			throw new ContentException(
-					element,
-					slotID,
-					content,
-					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
+		checkContainmentContext( slotID, content );
 
 		// Add the item to the container.
 
@@ -255,6 +250,37 @@ public class ContentCommand extends AbstractElementCommand
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Determines if the slot can contain a given element with considering the
+	 * context.
+	 * 
+	 * @param slotId
+	 *            the slot id
+	 * @param element
+	 *            the element to insert
+	 * @throws NameException
+	 *             if name duplicate occurs
+	 * @throws ContentException
+	 *             the slot cannot contain the given element.
+	 */
+
+	private void checkContainmentContext( int slotId, DesignElement content )
+			throws NameException, ContentException
+	{
+		List errors = element.checkContainmentContext( module, slotId, content );
+		if ( !errors.isEmpty( ) )
+		{
+			SemanticException e = (SemanticException) errors.get( 0 );
+			assert e instanceof NameException || e instanceof ContentException;
+
+			if ( e instanceof NameException )
+				throw (NameException) e;
+
+			if ( e instanceof ContentException )
+				throw (ContentException) e;
+		}
 	}
 
 	/**

@@ -11,13 +11,20 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 
@@ -115,9 +122,13 @@ public class NameCommand extends AbstractElementCommand
 		}
 		else
 		{
+			if ( !isNameValidInContext( name ) )
+				throw new NameException( element, name,
+						NameException.DESIGN_EXCEPTION_DUPLICATE );
+			
 			// Cannot set the name of an element when the name is not allowed.
 
-			if ( metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
+			if (  metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
 
@@ -132,7 +143,10 @@ public class NameCommand extends AbstractElementCommand
 			// check whether the name is duplicate
 
 			if ( !element.isManagedByNameSpace( ) )
+			{
 				return;
+			}
+
 			int ns = metaData.getNameSpaceID( );
 
 			// first found the element with the given name. Since the library
@@ -150,6 +164,7 @@ public class NameCommand extends AbstractElementCommand
 			if ( existedElement != null )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_DUPLICATE );
+
 		}
 	}
 
@@ -249,5 +264,34 @@ public class NameCommand extends AbstractElementCommand
 					getModule( ), element, oldName, element.getName( ) );
 			getActivityStack( ).execute( record );
 		}
+	}
+
+	/**
+	 * Checks whether the name is valid in the context.
+	 * 
+	 * @param name
+	 *            the new name
+	 * @return <code>true</code> if the name is valid. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	private boolean isNameValidInContext( String name )
+	{
+		if ( element instanceof Style )
+		{
+			DesignElement tmpContainer = element.getContainer( );
+			if ( tmpContainer instanceof Theme )
+			{
+				List errors = ThemeStyleNameValidator.getInstance( )
+						.validateForRenamingStyle(
+								(ThemeHandle) tmpContainer.getHandle( module ),
+								(StyleHandle) element.getHandle( module ),
+								(String) name );
+				if ( !errors.isEmpty( ) )
+					return false;
+			}
+		}
+
+		return true;
 	}
 }
