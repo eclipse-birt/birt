@@ -51,9 +51,11 @@ public interface IGroup extends IReportElement
 	 * 
 	 * @param theName
 	 *            the group name to set
+	 * @throws ScriptException
+	 *             if the name is duplicate or the property is locked.            
 	 */
 
-	void setName( String name );
+	void setName( String name ) throws ScriptException;
 
 	/**
 	 * Return the interval base property value of this group.

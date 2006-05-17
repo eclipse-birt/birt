@@ -46,9 +46,16 @@ public class Group extends ReportElement implements IGroup
 		return ( (GroupHandle) handle ).getName( );
 	}
 
-	public void setName( String name )
+	public void setName( String name ) throws ScriptException
 	{
+		try
+		{
 		( (GroupHandle) handle ).setName( name );
+		}
+		catch (SemanticException e)
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	public String getIntervalBase( )
