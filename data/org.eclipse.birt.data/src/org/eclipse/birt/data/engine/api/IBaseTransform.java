@@ -15,7 +15,6 @@ package org.eclipse.birt.data.engine.api;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Base class to define set of transforms that are common to queries, 
@@ -51,34 +50,5 @@ public interface IBaseTransform
 	 * @return the sort criteria
 	 */
 	public List getSorts( );
-		
-	/**
-	 * Gets the expressions that needs to be calculated per detail row, as an unordered
-	 * collection of {@link org.eclipse.birt.data.engine.api.IBaseExpression} objects
-	 * @deprecated
-	 */
-	public Collection getRowExpressions();
-	
-	/**
-	 * Gets the expressions that needs to be available at the end of the group/list, as an unordered
-	 * collection of {@link org.eclipse.birt.data.engine.api.IBaseExpression} objects.
-	 * @deprecated
-	 */
-	public Collection getAfterExpressions(); 
-	
-	/**
-	 * Gets the expressions that needs to be available at the beginning of the group/list, as an unordered
-	 * collection of {@link org.eclipse.birt.data.engine.api.IBaseExpression} objects.
-	 * @deprecated
-	 */
-	public Collection getBeforeExpressions();
-	
-	/**
-	 * Gets the expressions that needs to be available at the group/list, as an
-	 * Map of bound colum name to {@link org.eclipse.birt.data.engine.api.IBaseExpression} objects.
-	 * 
-	 * @return
-	 */
-	public Map getResultSetExpressions( );
 	
 }

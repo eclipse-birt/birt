@@ -15,11 +15,8 @@ package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 
@@ -52,9 +49,6 @@ abstract public class BaseTransform implements IBaseTransform
 	protected 	List rowExpressions = new ArrayList();
 	protected 	List beforeExpressions = new ArrayList();
 	protected 	List afterExpressions = new ArrayList();
-	
-	// order might be sensitive, use LinkedHashMap instead of HashMap
-	private 	Map resultExprsMap = new LinkedHashMap( );
 	
 	/**
 	 * Returns the filters defined in this transform, as an ordered list of 
@@ -114,78 +108,4 @@ abstract public class BaseTransform implements IBaseTransform
 	{
 		sorts.add(sort);
 	}
-
-	/**
-	 * Add one Javascript expression to the list of expressions that needs evaluation as part 
-	 * of this transform. 
-	 * expressionTiming can be <br>
-	 * <code>BEFORE_FIRST_ROW</code>: expression is evaluated at the start of the iteration over the row set for this gorup/list <br>
-	 * <code>AFTER_LAST_ROW</code>: expression is evaluated at the end of the iteration<br>
-	 * <code>ON_EACH_ROW</code>: expression is evaluated with each detail row within the group/list <br>  
-	 * @deprecated use addResultSetExpression( ) instead
-	 */
-	public void addExpression(IBaseExpression expression, int expressionTiming ) 
-	{
-	    if ( expressionTiming == BEFORE_FIRST_ROW )
-	    {
-	        beforeExpressions.add( expression );
-	    }
-	    else if ( expressionTiming == AFTER_LAST_ROW )
-	    {
-	        afterExpressions.add( expression );
-	    }
-	    else 
-	    {
-	        rowExpressions.add( expression );
-	    }
-	}
-	
-	
-	/**
-	 * Gets the expressions that needs to be calculated per detail row, as an unordered
-	 * collection of <code>IBaseExpression</code> objects
-	 * @deprecated use getResultSetExpressions( ) instead
-	 */
-	public Collection getRowExpressions() 
-	{
-		return rowExpressions;
-	}
-	
-	/**
-	 * Gets the expressions that needs to be available at the end of the group/list, as an unordered
-	 * collection of <code>IBaseExpression</code> objects.
-	 * @deprecated use getResultSetExpressions( ) instead
-	 */
-	public Collection getAfterExpressions() 
-	{
-		return afterExpressions;
-	}
-	
-	/**
-	 * Gets the expressions that needs to be available at the beginning of the group/list, as an unordered
-	 * collection of <code>IBaseExpression</code> objects.
-	 * @deprecated use getResultSetExpressions( ) instead
-	 */
-	public Collection getBeforeExpressions() 
-	{
-		return beforeExpressions;
-	}
-	
-	/**
-	 * @param name
-	 * @param expression
-	 */
-	public void addResultSetExpression( String name, IBaseExpression expression )
-	{
-		this.resultExprsMap.put( name, expression );
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IBaseTransform#getResultSetExpressions()
-	 */
-	public Map getResultSetExpressions( )
-	{
-		return this.resultExprsMap;
-	}
-	
 }

@@ -25,7 +25,6 @@ import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
-import org.eclipse.birt.data.engine.impl.ModeManager;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.mozilla.javascript.Context;
@@ -111,9 +110,6 @@ public class JSResultSetRow extends ScriptableObject
 	public Object getValue( IResultObject rsObject, int index, String name )
 			throws DataException
 	{
-		if ( ModeManager.isOldMode( ) )
-			return rsObject.getFieldValue( index );
-		
 		Object value = null;
 		if ( name.startsWith( "_{" ) )
 		{

@@ -14,8 +14,11 @@
 package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 
 
@@ -32,6 +35,9 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	protected BaseQueryDefinition 	parentQuery;
 	protected int				maxRowCount = 0;
 	
+	//	 order might be sensitive, use LinkedHashMap instead of HashMap
+	private 	Map resultExprsMap = new LinkedHashMap( );
+		
 	/**
 	 * Constructs an instance with parent set to the specified <code>BaseQueryDefinition</code>
 	 */
@@ -108,5 +114,23 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	public void setMaxRows( int maxRows ) 
 	{
 	    maxRowCount = maxRows;
+	}
+	
+	
+	/**
+	 * @param name
+	 * @param expression
+	 */
+	public void addResultSetExpression( String name, IBaseExpression expression )
+	{
+		this.resultExprsMap.put( name, expression );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IBaseTransform#getResultSetExpressions()
+	 */
+	public Map getResultSetExpressions( )
+	{
+		return this.resultExprsMap;
 	}
 }

@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.api;
 
 import java.util.List;
+import java.util.Map;
 
 /**
 /**
@@ -54,4 +55,12 @@ public interface IBaseQueryDefinition extends IBaseTransform
 	 * @return Maximum number of rows. If 0, there is no limit on how many rows this query can retrieve.
 	 */
 	public int getMaxRows( );
+	
+	/**
+	 * Gets the expressions that needs to be available at the group/list, as an
+	 * Map of bound colum name to {@link org.eclipse.birt.data.engine.api.IBaseExpression} objects.
+	 * 
+	 * @return
+	 */
+	public Map getResultSetExpressions( );
 }

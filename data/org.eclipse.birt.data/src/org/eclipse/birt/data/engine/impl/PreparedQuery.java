@@ -32,7 +32,6 @@ import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
@@ -120,9 +119,7 @@ final class PreparedQuery
 			if( this.baseQueryDefn.getResultSetExpressions()!= null &&
 				this.baseQueryDefn.getResultSetExpressions().size()>0	)
 			{
-				if ( ModeManager.isModeSet( ) == false )
-					ModeManager.setNewMode( );
-				this.expressionCompiler.setDataSetMode( ModeManager.isNewMode()?false:true);
+				this.expressionCompiler.setDataSetMode( false );
 			}
 			List groups = baseQueryDefn.getGroups( );
 			IGroupDefinition group;
@@ -174,31 +171,12 @@ final class PreparedQuery
 			trans = igd;
 			groupName = igd.getName();
 		}
-		//TODO remove me 
-		//The earliest version.prepare expressions appearing in this group
-		prepareExpressions( trans.getAfterExpressions(), groupLevel, true, false,cx );
-		prepareExpressions( trans.getBeforeExpressions(), groupLevel, false, false, cx );
-		prepareExpressions( trans.getRowExpressions(),groupLevel, false, true, cx );
 		
 		Collection exprCol = new ArrayList( );
 		Map resultSetExpressions = new HashMap();
 		
-		//TODO remove me
-		//The early column binding
-		Map map = trans.getResultSetExpressions();
-		if (map != null) {
-			Iterator it = map.keySet().iterator();
-			while (it.hasNext()) {
-				Object key = it.next();
-				exprCol.add(map.get(key));
-				resultSetExpressions.put(key, map.get(key));
-			}
-		}
-	
-		// ///////////////////////
-		
 		//The latest column binding (AggregateOn introduced) 
-		map = baseQuery.getResultSetExpressions();
+		Map map = baseQuery.getResultSetExpressions();
 		if (map != null) 
 		{
 			Iterator it = map.keySet().iterator();

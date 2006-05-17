@@ -21,7 +21,6 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.transform.group.GroupUtil;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -192,33 +191,27 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 */
 		public boolean isRowID( int index, String name )
 		{
-			if ( ModeManager.isOldMode( ) )
+			IBaseExpression baseExpr = exprManager.getExpr(name);
+			if (baseExpr instanceof IScriptExpression) 
 			{
-				return GroupUtil.isRowIdColumn( index, name );
-			}
-			else
-			{
-				IBaseExpression baseExpr = exprManager.getExpr( name );
-				if ( baseExpr instanceof IScriptExpression )
-				{
-					String exprText = ( (IScriptExpression) baseExpr ).getText( );
-					if ( exprText == null )
-						return false;
-					else if ( exprText.trim( )
-							.equalsIgnoreCase( "dataSetRow[0]" )
-							|| exprText.trim( )
-									.equalsIgnoreCase( "dataSetRow._rowPosition" ) )
+				String exprText = ((IScriptExpression) baseExpr).getText();
+				if (exprText == null)
+					return false;
+				else if (exprText.trim().equalsIgnoreCase("dataSetRow[0]")
+						|| exprText.trim().equalsIgnoreCase(
+								"dataSetRow._rowPosition"))
 
-						return true;
-					else
-						return false;
-				}
-				return false;
+					return true;
+				else
+					return false;
 			}
+			return false;
+		
 		}
 		
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getBaseExpr(java.lang.String)
 		 */
 		public IBaseExpression getBaseExpr(String name) {

@@ -150,15 +150,6 @@ public final class LogUtil
 
 		stringBuffer.append( "SortDirection : " + group.getSortDirection( )+", " );
 		
-		if ( !isEmpty( group.getAfterExpressions( ) ) )
-			stringBuffer.append( "AfterExpressions : " + toString(group.getAfterExpressions( ))+", " );
-		
-		if ( !isEmpty( group.getBeforeExpressions( ) ) )
-			stringBuffer.append( "BeforeExpressions : " + toString(group.getBeforeExpressions( ))+", " );
-		
-		if ( !isEmpty( group.getRowExpressions( ) ) )
-			stringBuffer.append( "RowExpressions : " + toString(group.getRowExpressions( ))+", " );
-		
 		stringBuffer.append( "Interval : " + group.getInterval( )+", " );
 		stringBuffer.append( "IntervalRange : " + group.getIntervalRange( )+", " );
 		
@@ -180,14 +171,8 @@ public final class LogUtil
 		QueryDefinition querySpec = (QueryDefinition)source;
 		StringBuffer stringBuffer = new StringBuffer("QueryDefinition(");
 		stringBuffer.append( "DataSetName : "+querySpec.getDataSetName()+"\r\n" );
-		if ( !isEmpty( querySpec.getAfterExpressions( ) ) )
-			stringBuffer.append( "AfterExpressions : " + LogUtil.toString( querySpec.getAfterExpressions( ) )	+ "\r\n" );
-		
-		if ( !isEmpty( querySpec.getBeforeExpressions( ) ) )
-			stringBuffer.append( "BeforeExpressions : "+LogUtil.toString(querySpec.getBeforeExpressions())+"\r\n" );
-		
-		if ( !isEmpty( querySpec.getRowExpressions( ) ) )
-			stringBuffer.append( "RowExpressions : "+LogUtil.toString(querySpec.getRowExpressions())+"\r\n" );
+		if ( !isEmpty( querySpec.getResultSetExpressions( ) ) )
+			stringBuffer.append( "ResultSetExpressions : " + LogUtil.toString( querySpec.getResultSetExpressions( ) )	+ "\r\n" );
 		
 		if ( !isEmpty( querySpec.getParentQuery( ) ) )
 			stringBuffer.append( "ParentQuery : "+LogUtil.toString(querySpec.getParentQuery())+"\r\n" );

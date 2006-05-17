@@ -327,6 +327,9 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	
 	public Scriptable getJSResultRowObject()
 	{
+		if ( !isOpen )
+			return null;
+		
 		if ( resultSetRow == null )
 			return this.getJSRowObject( );
 

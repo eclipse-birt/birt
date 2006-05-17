@@ -150,8 +150,7 @@ class QueryResults implements IQueryResults, IQueryService
 		{
 			// data row binding
 			this.initAutoBinding( );
-			if ( ModeManager.isNewMode( )
-					&& !( queryService.getPreparedQuery( ) instanceof PreparedIVQuery ) )
+			if ( !( queryService.getPreparedQuery( ) instanceof PreparedIVQuery ) )
 				this.queryService.validateQueryColumBinding( );
 			iterator = new ResultIterator( new ResultService( context, this ),
 					queryService.executeQuery( ),

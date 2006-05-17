@@ -218,7 +218,7 @@ public class FilterByRow implements IResultObjectEvent
 				Object result = null;
 				try
 				{
-					if ( ModeManager.isNewMode( ) && helper!= null)
+					if ( helper!= null)
 						result = helper.evaluate( expr );
 					else
 						result = ScriptEvalUtil.evalExpr( expr, cx,dataSet.getScriptScope(), "Filter", 0 ); 

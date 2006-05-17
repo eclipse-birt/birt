@@ -35,7 +35,6 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
-import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.RDSave;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
@@ -254,25 +253,6 @@ public class ResultIterator implements IResultIterator
 			this.next( );
 	}
 	
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getValue(org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public Object getValue( IBaseExpression dataExpr ) throws BirtException
-	{
-		checkStarted( );
-		
-		logger.logp( Level.FINE,
-				ResultIterator.class.getName( ),
-				"getValue",
-				"get of value base expression: " + LogUtil.toString( dataExpr ) );
-		
-		Object exprValue = ExprEvaluateUtil.evaluateExpression( dataExpr,
-				odiResult,
-				scope );
-		this.getRdSaveUtil( ).doSaveExpr( dataExpr, exprValue );		
-		return exprValue;
-	}
-	
 	/**
 	 * @return save util used in report document GENERATION time
 	 */
@@ -287,73 +267,6 @@ public class ResultIterator implements IResultIterator
 		}
 		
 		return this.rdSaveUtil;
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBoolean(org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public Boolean getBoolean( IBaseExpression dataExpr ) throws BirtException
-	{
-		return DataTypeUtil.toBoolean( getValue( dataExpr ) );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getInteger(org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public Integer getInteger( IBaseExpression dataExpr ) throws BirtException
-	{
-		return DataTypeUtil.toInteger( getValue( dataExpr ) );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getDouble(org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public Double getDouble( IBaseExpression dataExpr ) throws BirtException
-	{
-		return DataTypeUtil.toDouble( getValue( dataExpr ) );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getString(org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public String getString( IBaseExpression dataExpr ) throws BirtException
-	{
-		return DataTypeUtil.toString( getValue( dataExpr ) );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBigDecimal(org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public BigDecimal getBigDecimal( IBaseExpression dataExpr )
-			throws BirtException
-	{
-		return DataTypeUtil.toBigDecimal( getValue( dataExpr ) );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getDate(org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public Date getDate( IBaseExpression dataExpr ) throws BirtException
-	{
-		return DataTypeUtil.toDate( getValue( dataExpr ) );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBlob(org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public Blob getBlob( IBaseExpression dataExpr ) throws BirtException
-	{
-		return DataTypeUtil.toBlob( getValue( dataExpr ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBytes(org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public byte[] getBytes( IBaseExpression dataExpr ) throws BirtException
-	{
-		return DataTypeUtil.toBytes( getValue( dataExpr ) );
 	}
 	
 	//------new method for bound column name------

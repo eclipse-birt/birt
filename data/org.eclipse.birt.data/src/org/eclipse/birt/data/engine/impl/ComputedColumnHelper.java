@@ -231,7 +231,7 @@ class ComputedColumnHelperInstance
 									dataSet.getScriptScope( ) );
 						else
 						{
-							if ( ModeManager.isNewMode( ) && helper != null )
+							if ( helper != null )
 								value = helper.evaluate( columnExprArray[i] );
 							else
 								value = ScriptEvalUtil.evalExpr( columnExprArray[i],

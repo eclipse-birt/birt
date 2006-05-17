@@ -25,8 +25,6 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IBaseTransform;
-import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -87,18 +85,8 @@ public class ExprMetaUtil
 	{
 		List exprMetaList = new ArrayList( );
 
-		List groups = queryDefn.getGroups( );
-		IBaseTransform groupDefn = null;
-		for ( int level = 0; level <= groups.size( ); level++ )
-		{
-			if ( level == 0 )
-				groupDefn = queryDefn;
-			else
-				groupDefn = (IGroupDefinition) groups.get( level - 1 );
-
-			prepareGroup( groupDefn, level, exprMetaList );
-		}
-
+		prepareGroup( queryDefn, exprMetaList );
+	
 		return exprMetaList;
 	}
 	
@@ -110,7 +98,7 @@ public class ExprMetaUtil
 	 * @param exprMetaList
 	 * @throws DataException
 	 */
-	private void prepareGroup( IBaseTransform trans, int groupLevel, List exprMetaList )
+	private void prepareGroup( IBaseQueryDefinition trans, List exprMetaList )
 	{
 		Map exprMap = trans.getResultSetExpressions( );
 		if ( exprMap == null )
@@ -127,7 +115,7 @@ public class ExprMetaUtil
 
 			ExprMetaInfo exprMeta = new ExprMetaInfo( );
 			exprMeta.setDataType( baseExpr.getDataType( ) );
-			exprMeta.setGroupLevel( groupLevel );
+			exprMeta.setGroupLevel( 0 );
 			exprMeta.setName( exprName );
 			
 			if ( baseExpr instanceof IScriptExpression )
