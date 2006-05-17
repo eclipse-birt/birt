@@ -51,7 +51,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.30 $ $Date: 2006/04/25 11:34:01 $
+ * @version $Revision: 1.31 $ $Date: 2006/05/15 11:27:35 $
  */
 public abstract class ReportItemExecutor
 {
@@ -234,13 +234,14 @@ public abstract class ReportItemExecutor
 						{
 							Map.Entry entry = (Map.Entry) paramsDesignIte
 									.next( );
-							String valueExpr = entry.getValue( ).toString( );
-							if ( valueExpr != null )
+							Object valueObj = entry.getValue( );
+							Object paramValue = null;
+							if ( valueObj != null )
 							{
-								Object paramValue = context
-										.evaluate( valueExpr );
-								paramsVal.put( entry.getKey( ), paramValue );
+								String valueExpr = valueObj.toString( );
+								paramValue = context.evaluate( valueExpr );
 							}
+							paramsVal.put( entry.getKey( ), paramValue );
 						}
 					}
 
