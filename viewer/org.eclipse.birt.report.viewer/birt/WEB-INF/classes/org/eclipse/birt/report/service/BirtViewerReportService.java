@@ -253,6 +253,13 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( options ), docName );
 
+		// if doucment file doesn't exist, throw exception
+		if ( doc == null )
+		{
+			throw new ReportServiceException(
+					"There is no document file available for extracting the data." ); //$NON-NLS-1$
+		}
+
 		ResultSet[] resultSetArray;
 		try
 		{
