@@ -1,0 +1,8 @@
+*.bak
+*.bom
+*.log
+*.opt
+output
+doc.zip
+*_toc.xml
+*.chm
