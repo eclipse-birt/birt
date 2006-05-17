@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.core.script;
 
+import org.eclipse.birt.core.script.bre.NativeBirtComp;
+import org.eclipse.birt.core.script.bre.NativeBirtDateTime;
+import org.eclipse.birt.core.script.bre.NativeBirtMath;
+import org.eclipse.birt.core.script.bre.NativeBirtStr;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -24,6 +28,10 @@ public class CoreJavaScriptInitializer implements IJavascriptInitializer
 		{
 			ScriptableObject.defineClass( scope, NativeFinance.class );
 			ScriptableObject.defineClass( scope, NativeDateTimeSpan.class );
+			ScriptableObject.defineClass( scope, NativeBirtDateTime.class );
+			ScriptableObject.defineClass( scope, NativeBirtMath.class );
+			ScriptableObject.defineClass( scope, NativeBirtStr.class );
+			ScriptableObject.defineClass( scope, NativeBirtComp.class );
 		}
 		catch ( Exception ex )
 		{
