@@ -665,6 +665,14 @@
       />
       <typeMapping
         xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:AvailableOperation"
+        type="java:org.eclipse.birt.report.soapengine.api.AvailableOperation"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:DesignState"
         type="java:org.eclipse.birt.report.soapengine.api.DesignState"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"

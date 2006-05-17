@@ -43,6 +43,7 @@ public class Data  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu;
     private java.lang.String confirmation;
     private org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList;
+    private org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation;
 
     public Data() {
     }
@@ -82,7 +83,8 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState tableSectContextMenu,
            org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu,
            java.lang.String confirmation,
-           org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList) {
+           org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList,
+           org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation) {
            this.font = font;
            this.resultSets = resultSets;
            this.format = format;
@@ -118,6 +120,7 @@ public class Data  implements java.io.Serializable {
            this.tableContextMenu = tableContextMenu;
            this.confirmation = confirmation;
            this.tableLayoutList = tableLayoutList;
+           this.availableOperation = availableOperation;
     }
 
 
@@ -820,6 +823,26 @@ public class Data  implements java.io.Serializable {
         this.tableLayoutList = tableLayoutList;
     }
 
+
+    /**
+     * Gets the availableOperation value for this Data.
+     * 
+     * @return availableOperation
+     */
+    public org.eclipse.birt.report.soapengine.api.AvailableOperation getAvailableOperation() {
+        return availableOperation;
+    }
+
+
+    /**
+     * Sets the availableOperation value for this Data.
+     * 
+     * @param availableOperation
+     */
+    public void setAvailableOperation(org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation) {
+        this.availableOperation = availableOperation;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Data)) return false;
@@ -936,7 +959,10 @@ public class Data  implements java.io.Serializable {
               this.confirmation.equals(other.getConfirmation()))) &&
             ((this.tableLayoutList==null && other.getTableLayoutList()==null) || 
              (this.tableLayoutList!=null &&
-              this.tableLayoutList.equals(other.getTableLayoutList())));
+              this.tableLayoutList.equals(other.getTableLayoutList()))) &&
+            ((this.availableOperation==null && other.getAvailableOperation()==null) || 
+             (this.availableOperation!=null &&
+              this.availableOperation.equals(other.getAvailableOperation())));
         __equalsCalc = null;
         return _equals;
     }
@@ -1052,6 +1078,9 @@ public class Data  implements java.io.Serializable {
         }
         if (getTableLayoutList() != null) {
             _hashCode += getTableLayoutList().hashCode();
+        }
+        if (getAvailableOperation() != null) {
+            _hashCode += getAvailableOperation().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -1305,6 +1334,13 @@ public class Data  implements java.io.Serializable {
         elemField.setFieldName("tableLayoutList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayoutList"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayoutList"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("availableOperation");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AvailableOperation"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AvailableOperation"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

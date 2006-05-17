@@ -93,6 +93,13 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             cachedSerFactories.add(enumsf);
             cachedDeserFactories.add(enumdf);
 
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AvailableOperation");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.AvailableOperation.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AxisDataBinding");
             cachedSerQNames.add(qName);
             cls = org.eclipse.birt.report.soapengine.api.AxisDataBinding.class;
