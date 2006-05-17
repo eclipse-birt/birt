@@ -31,7 +31,6 @@ Export-Package: org.eclipse.birt.report,
  org.eclipse.birt.report.viewer.browsers.system,
  org.eclipse.birt.report.viewer.utilities
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.tomcat,
  org.eclipse.birt.core,
  org.eclipse.birt.report.engine,
  org.eclipse.help.base,
@@ -39,5 +38,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.birt.report.model,
  org.eclipse.birt.data,
- org.eclipse.birt.report.data.adapter
+ org.eclipse.birt.report.data.adapter,
+ org.eclipse.equinox.servlet.api
 Eclipse-LazyStart: true
