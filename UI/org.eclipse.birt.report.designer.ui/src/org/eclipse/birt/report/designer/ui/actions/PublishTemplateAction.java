@@ -94,7 +94,11 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 		IEditorPart editor = UIUtil.getActiveEditor( true );
 		if ( editor != null )
 		{
-			return ( editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" ) ); //$NON-NLS-1$
+			if ( editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" )
+			|| editor.getEditorInput( ).getName( ).endsWith( ".rptdesign" ))
+			{
+				return true;
+			}
 		}
 		return false;
 

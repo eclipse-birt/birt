@@ -13,18 +13,22 @@ package org.eclipse.birt.report.designer.internal.ui.editors;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnLeftAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnRightAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.MergeAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.RevertToReportItemPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditGroupMenuAction;
@@ -33,9 +37,11 @@ import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
+import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.DeleteRetargetAction;
@@ -127,6 +133,11 @@ public class DesignerActionBarContributor extends
 			new RegisterActions( SplitAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.split" ) ), //$NON-NLS-1$
 			null,
+			new RegisterActions( CreatePlaceHolderPartAction.ID,
+					Messages.getString( "CreatePlaceHolderAction.text" ) ),
+			new RegisterActions( RevertToReportItemPartAction.ID,
+					Messages.getString( "RevertToReportItemAction.text" ) ),
+			null,
 			new RegisterActions( AddGroupAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.group" ) ), //$NON-NLS-1$,
 	};
@@ -136,6 +147,16 @@ public class DesignerActionBarContributor extends
 					Messages.getString( "designerActionBarContributor.menu.data-newdatasource" ) ),//$NON-NLS-1$
 			new RegisterActions( NewDataSetAction.ID,
 					Messages.getString( "designerActionBarContributor.menu.data-newdataset" ) ),//$NON-NLS-1$
+
+	};
+
+	private static final RegisterActions[] parameterActions = new RegisterActions[]{
+			new RegisterActions( NewParameterAction.INSERT_SCALAR_PARAMETER,
+					Messages.getString( "ParametersNodeProvider.menu.text.parameter" ) ),//$NON-NLS-1$
+			new RegisterActions( NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
+					Messages.getString( "ParametersNodeProvider.menu.text.cascadingParameter" ) ),//$NON-NLS-1$
+			new RegisterActions( NewParameterAction.INSERT_PARAMETER_GROUP,
+					Messages.getString( "ParametersNodeProvider.menu.text.group" ) ),//$NON-NLS-1$
 
 	};
 
@@ -182,6 +203,7 @@ public class DesignerActionBarContributor extends
 
 		addRetargetAction( new RetargetAction( ImportLibraryAction.ID,
 				ImportLibraryAction.ACTION_TEXT ) );
+		registerActions( parameterActions );
 
 	}
 
@@ -271,13 +293,19 @@ public class DesignerActionBarContributor extends
 		MenuManager newMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data" ) ); //$NON-NLS-1$
 		newMenu.add( getAction( dataActions[0].id ) );
 		newMenu.add( getAction( dataActions[1].id ) );
+		MenuManager editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) ); //$NON-NLS-1$
+		contributeActionsToMenu( editGroupMenu, parameterActions );
+
+		// Add new parameter action
+
+		newMenu.add( editGroupMenu );
 
 		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, newMenu );
 
 		// Element Menu
 		newMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element" ) ); //$NON-NLS-1$
 		contributeActionsToMenu( newMenu, elementActions );
-		MenuManager editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element-EditGroup" ) ); //$NON-NLS-1$
+		editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element-EditGroup" ) ); //$NON-NLS-1$
 		editGroupMenu.add( NoneAction.getInstance( ) );
 		editGroupMenu.addMenuListener( new IMenuListener( ) {
 
@@ -290,8 +318,6 @@ public class DesignerActionBarContributor extends
 		newMenu.add( new Separator( ) );
 		contributeStyleMenu( newMenu );
 
-		newMenu.add( getAction( ImportLibraryAction.ID ) );
-
 		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, newMenu );
 
 		// Page Menu
@@ -300,6 +326,8 @@ public class DesignerActionBarContributor extends
 		// Insert Menu
 		newMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.insert" ) ); //$NON-NLS-1$
 		contributeActionsToMenu( newMenu, getInsertElementActions( ) );
+		newMenu.add( new Separator( ) );
+		newMenu.add( getAction( ImportLibraryAction.ID ) );
 		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, newMenu );
 
 		menubar.update( );

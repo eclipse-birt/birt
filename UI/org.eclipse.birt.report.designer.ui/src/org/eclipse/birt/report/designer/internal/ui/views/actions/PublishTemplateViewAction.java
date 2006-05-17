@@ -54,7 +54,8 @@ public class PublishTemplateViewAction extends AbstractViewAction
 			return false;
 		}
 		ReportDesignHandle report = (ReportDesignHandle)object;
-		if(report.getModuleHandle( ).getFileName( ).endsWith( TEMPLATE_SUFFIX ))
+		if(report.getModuleHandle( ).getFileName( ).endsWith( TEMPLATE_SUFFIX )
+		|| report.getModuleHandle( ).getFileName( ).endsWith( ".rptdesign" ))
 		{
 			return true;
 		}

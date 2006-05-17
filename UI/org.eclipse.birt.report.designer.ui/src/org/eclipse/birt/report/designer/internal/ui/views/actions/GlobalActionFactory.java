@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
+import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -61,6 +62,13 @@ public class GlobalActionFactory
 			GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID,
 	};
 
+	public final static String[] GLOBAL_PARAMETER_ACTIONS =
+	{
+		NewParameterAction.INSERT_SCALAR_PARAMETER,
+		NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
+		NewParameterAction.INSERT_PARAMETER_GROUP,		
+	};
+	
 	public final static String[] GLOBAL_ELEMENT_ACTIONS = {
 		InsertRowAboveAction.ID,
 		InsertRowBelowAction.ID,
@@ -139,6 +147,27 @@ public class GlobalActionFactory
 		else if ( InsertRowBelowAction.ID.equals( id ) )
 		{
 			return new GlobalInsertRowAction( provider, id, InsertAction.BELOW );
+		}
+		else if (NewParameterAction.INSERT_SCALAR_PARAMETER.equals( id ))
+		{
+		//	elementType = ReportDesignConstants.SCALAR_PARAMETER_ELEMENT;
+			return new NewParameterAction(id,
+					ReportDesignConstants.SCALAR_PARAMETER_ELEMENT	
+			);
+		}
+		else if (NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP.equals( id ))
+		{
+		//	elementType = ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT;
+			return new NewParameterAction(id,
+					ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT	
+			);
+		}
+		else if (NewParameterAction.INSERT_PARAMETER_GROUP.equals( id ))
+		{
+			//elementType = ReportDesignConstants.PARAMETER_GROUP_ELEMENT;
+			return new NewParameterAction(id,
+					ReportDesignConstants.PARAMETER_GROUP_ELEMENT	
+			);
 		}
 		else
 		{

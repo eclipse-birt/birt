@@ -74,6 +74,7 @@ import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -121,6 +122,68 @@ public class ProviderFactory
 		if ( object instanceof LibraryHandle )
 		{
 			return new LibraryNodeProvider( );
+		}
+		else if (object instanceof SlotHandle)
+		{
+			SlotHandle slotHandle = (SlotHandle)object;
+			DesignElementHandle handle = slotHandle.getElementHandle( );
+			if ( handle instanceof ModuleHandle )
+			{
+				switch ( slotHandle.getSlotID( ) )
+				{
+					case ReportDesignHandle.BODY_SLOT :
+						return new BodyNodeProvider( );
+					case ModuleHandle.COMPONENT_SLOT :
+						return new ComponentsProvider( );
+					case ILibraryModel.THEMES_SLOT :
+					{
+						if ( slotHandle.getElementHandle( ) instanceof LibraryHandle )
+						{
+							ThemesNodeProvider themesProvider = new ThemesNodeProvider( );
+							themesProvider.setSorter( new AlphabeticallyComparator( ) );
+							return themesProvider;
+						}
+						StylesNodeProvider provider = new StylesNodeProvider( );
+						provider.setSorter( new AlphabeticallyComparator( ) );
+						return provider;
+
+					}
+					case ModuleHandle.PAGE_SLOT :
+						return new MasterPagesNodeProvider( );
+					case ModuleHandle.DATA_SOURCE_SLOT :
+						return new DataSourcesNodeProvider( );
+					case ModuleHandle.PARAMETER_SLOT :
+						return new ParametersNodeProvider( );
+					case ModuleHandle.DATA_SET_SLOT :
+						return new DataSetsNodeProvider( );
+				}
+			}
+			else if ( handle instanceof TableHandle
+					|| handle instanceof TableGroupHandle )
+			{
+				return new TableBandProvider( );
+			}
+			else if ( handle instanceof ListHandle
+					|| handle instanceof ListGroupHandle )
+			{
+				return new ListBandProvider( );
+			}
+			else if ( handle instanceof MasterPageHandle )
+			{
+				return new MasterPageBandProvider( );
+			}
+			/*
+			 * TableItem - TableItem.HEADER_SLOT, TableItem.FOOTER_SLOT,
+			 * TableItem.DETAIL_SLOT, TableItem.GROUP_SLOT,
+			 * TableItem.COLUMN_SLOT TableRow - TableRow.CONTENT_SLOT
+			 * TableColumn TableGroup - TableGroup.HEADER_SLOT,
+			 * TableGroup.FOOTER_SLOT Cell - Cell.CONTENT_SLOT ListItem -
+			 * ListItem.HEADER_SLOT, ListItem.FOOTER_SLOT, ListItem.DETAIL_SLOT,
+			 * ListItem.GROUP_SLOT ListGroup - TableGroup.HEADER_SLOT,
+			 * TableGroup.FOOTER_SLOT
+			 * 
+			 * GridItem - GridItem.ROW_SLOT, GridItem.COLUMN_SLOT
+			 */
 		}
 		else if ( object instanceof ReportElementModel )
 		{

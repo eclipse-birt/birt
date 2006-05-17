@@ -54,6 +54,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshModuleHandleAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.ApplyThemeMenuAction;
@@ -218,6 +219,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 			if ( isRootElementHandleClass( multiSelection ) )
 			{
+				Action action = new RefreshModuleHandleAction(selectedElements);
+				menuManager.add(action );
 				createInsertElementMenu( menuManager,
 						GEFActionConstants.GROUP_EDIT );
 				createThemeMenu( menuManager, GEFActionConstants.GROUP_REST );

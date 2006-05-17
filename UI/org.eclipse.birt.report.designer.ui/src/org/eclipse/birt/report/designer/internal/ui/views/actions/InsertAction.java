@@ -135,6 +135,10 @@ public class InsertAction extends AbstractElementAction
 		if ( obj instanceof ReportElementModel )
 		{
 			return ( (ReportElementModel) obj ).getSlotHandle( );
+		}else 
+		if(obj instanceof SlotHandle)
+		{
+			return (SlotHandle)obj;
 		}
 		DesignElementHandle handle = (DesignElementHandle) obj;
 		if ( position == CURRENT )

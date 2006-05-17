@@ -165,9 +165,14 @@
 	      <visibility>
 	         <and>
 	            <objectClass name="org.eclipse.core.resources.IFile"/>
-	            <objectState
-	                  name="extension"
-	                  value="rpttemplate"/>
+             <or>
+                <objectState
+                      name="extension"
+                      value="rpttemplate"/>
+                <objectState
+                      name="extension"
+                      value="rptdesign"/>
+             </or>
 	         </and>
 	      </visibility>
 	   </viewerContribution> 
