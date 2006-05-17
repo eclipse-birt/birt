@@ -2633,9 +2633,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					+ dHorizontalSpacing, dY + dFullHeight / 2 - 1 ) );
 			tre.setTextPosition( TextRenderEvent.RIGHT );
 		}
-		tre.setLabel( la );
-		tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-		ipr.drawText( tre );
+		if ( la.isVisible( ) )
+		{
+			tre.setLabel( la );
+			tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+			ipr.drawText( tre );
+		}
 
 		if ( valueLa != null )
 		{
@@ -3055,7 +3058,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		// need backup original non-externalized value.
 		final String sRestoreValue = tre.updateFrom( lb, dScale, rtc );
-		ipr.drawText( tre );
+		if ( lb.getLabel( ).isVisible( ) )
+		{
+			ipr.drawText( tre );
+		}
 		lb.getLabel( ).getCaption( ).setValue( sRestoreValue );
 	}
 
