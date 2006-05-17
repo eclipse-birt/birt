@@ -207,19 +207,17 @@ public class ModelOdaAdapter
 
 		// set the data set parameter list.
 
-		// TODO DataSetDesign do not support parameters yet.
+		setHandle.getElement( )
+				.clearProperty( OdaDataSetHandle.PARAMETERS_PROP );
 
-		// setHandle.getElement( )
-		// .clearProperty( OdaDataSetHandle.PARAMETERS_PROP );
-
-		// List dataSetParams = newROMSetParams( setDesign.getParameters( ),
-		// setDesign.getOdaExtensionDataSourceId( ), setDesign
-		// .getOdaExtensionDataSetId( ) );
-		// PropertyValueValidationUtil.validateProperty( setHandle,
-		// OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
-		// setHandle.getElement( ).setProperty(
-		// OdaDataSetHandle.PARAMETERS_PROP,
-		// dataSetParams );
+		List dataSetParams = new DataSetParameterAdapter( ).newROMSetParams(
+				setDesign.getParameters( ), setDesign
+						.getOdaExtensionDataSourceId( ), setDesign
+						.getOdaExtensionDataSetId( ) );
+		PropertyValueValidationUtil.validateProperty( setHandle,
+				OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
+		setHandle.getElement( ).setProperty( OdaDataSetHandle.PARAMETERS_PROP,
+				dataSetParams );
 
 		// set the result sets
 
@@ -305,10 +303,8 @@ public class ModelOdaAdapter
 			setDesign
 					.setDataSourceDesign( createDataSourceDesign( sourceHandle ) );
 
-		// TODO DataSetDesign do not support parameters yet.
-
-		// setDesign.setParameters( newOdaDataSetParams( setHandle
-		// .parametersIterator( ) ) );
+		setDesign.setParameters( new DataSetParameterAdapter( )
+				.newOdaDataSetParams( setHandle.parametersIterator( ) ) );
 
 		setDesign.setPrimaryResultSet( ResultSetsAdapter
 				.newOdaResultSetDefinition( setHandle ) );
@@ -904,13 +900,10 @@ public class ModelOdaAdapter
 				}
 			}
 
-			// TODO DataSetDesign do not support parameters yet.
-
-			// updateROMStructureList( setHandle
-			// .getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP ),
-			// newROMSetParams( setDesign.getParameters( ), setDesign
-			// .getOdaExtensionDataSourceId( ), setDesign
-			// .getOdaExtensionDataSetId( ) ) );
+			updateROMDataSetParamList( setHandle, new DataSetParameterAdapter( )
+					.newROMSetParams( setDesign.getParameters( ), setDesign
+							.getOdaExtensionDataSourceId( ), setDesign
+							.getOdaExtensionDataSetId( ) ) );
 
 			ResultSetDefinition resultDefn = setDesign.getPrimaryResultSet( );
 			if ( resultDefn == null )
@@ -940,17 +933,17 @@ public class ModelOdaAdapter
 
 				// only the local data source can be used.
 
-				if ( isSourceChanged && sourceHandle != null 
+				if ( isSourceChanged && sourceHandle != null
 						&& !sourceHandle.getModuleHandle( ).isReadOnly( ) )
 				{
 					setHandle.setDataSource( sourceDesign.getName( ) );
 					updateDataSourceHandle( sourceDesign, sourceHandle );
 				}
-				
+
 				// if the source is not changed, and it is not in the included
 				// library, then we can update it.
 
-				if ( !isSourceChanged && sourceHandle != null 
+				if ( !isSourceChanged && sourceHandle != null
 						&& !sourceHandle.getModuleHandle( ).isReadOnly( ) )
 				{
 					updateDataSourceHandle( sourceDesign, sourceHandle );
@@ -984,10 +977,36 @@ public class ModelOdaAdapter
 	{
 		assert propHandle != null;
 
-		propHandle.clearValue( );
+		propHandle.setValue( null );
 
 		if ( structList == null || structList.isEmpty( ) )
 			return;
+
+		for ( int i = 0; i < structList.size( ); i++ )
+			propHandle.addItem( structList.get( i ) );
+	}
+
+	/**
+	 * Updates a strucutre list with the corresponding property handle.
+	 * 
+	 * @param propHandle
+	 *            the property handle
+	 * @param structList
+	 *            the structure list
+	 * @throws SemanticException
+	 *             if any strucutre has invalid value.
+	 */
+
+	private void updateROMDataSetParamList( OdaDataSetHandle setHandle,
+			List structList ) throws SemanticException
+	{
+		setHandle.setProperty( OdaDataSetHandle.PARAMETERS_PROP, null );
+
+		if ( structList == null || structList.isEmpty( ) )
+			return;
+
+		PropertyHandle propHandle = setHandle
+				.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP );
 
 		for ( int i = 0; i < structList.size( ); i++ )
 			propHandle.addItem( structList.get( i ) );
