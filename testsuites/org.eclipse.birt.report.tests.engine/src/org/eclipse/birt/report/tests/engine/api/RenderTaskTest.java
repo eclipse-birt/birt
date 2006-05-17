@@ -3,6 +3,8 @@ package org.eclipse.birt.report.tests.engine.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -138,7 +140,29 @@ public class RenderTaskTest extends EngineCase
 
 	public void testRender15( )
 	{
-		renderReport( "report_from_library1", "All" );
+		File fLib=new File(inputPath+"library1.rptlibrary");
+		if(fLib.exists( )){
+			try{
+				new File(outputPath).mkdirs( );
+				File tLib=new File(outputPath+"library1.rptlibrary");
+				FileInputStream fis=new FileInputStream(fLib);
+				FileOutputStream fos=new FileOutputStream(tLib);
+				byte[] contents=new byte[1024];
+				int len;
+				while((len=fis.read( contents ))>0){
+					fos.write( contents,0,len );
+				}
+				fis.close( );
+				fos.close( );
+				
+				renderReport( "report_from_library1", "All" );
+			}catch(Exception e){
+				e.printStackTrace( );
+				fail("Render library file failed. "+e.getLocalizedMessage( ));
+			}
+		}else{
+			fail("Library file doesn't exist!");
+		}
 	}
 
 	/*

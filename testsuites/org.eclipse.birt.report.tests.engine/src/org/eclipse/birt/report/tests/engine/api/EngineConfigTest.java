@@ -73,7 +73,6 @@ public class EngineConfigTest extends EngineCase {
 	public void testGetConfigMap(){
 				engineConfig.setConfigurationVariable( "config_var1","config_value");
 				assertEquals(engineConfig.getConfigMap().get("config_var1"),"config_value");
-				assertEquals(engineConfig.getConfigMap().size(),1);
 			}
 
 	/**
@@ -103,9 +102,9 @@ public class EngineConfigTest extends EngineCase {
 	 *
 	 */
 	public void testSetEngineHome(){
-		engineConfig.setEngineHome("c:/");
-		System.out.println(System.getProperty("BIRT_HOME"));
-		assertEquals("Not identical","c:/",System.getProperty("BIRT_HOME"));
+		engine.getConfig( ).setEngineHome("c:/");
+		
+		assertEquals("Not identical","c:/",engine.getConfig( ).getBIRTHome( ) );
 	}
 
 	/**
@@ -118,5 +117,10 @@ public class EngineConfigTest extends EngineCase {
 		engineConfig.setLogConfig("directory",Level.ALL);
 		assertEquals("Not identical",engineConfig.getConfigMap().get("LOG_DESTINATION"),"directory");
 		*/
+	}
+
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
 	}
 }
