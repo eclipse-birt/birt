@@ -30,12 +30,16 @@ public final class ExpressionUtil
 	private static String TOTAL_PREFIX = "TOTAL_COLUMN_";
 	private static int totalColumnSuffix = 0;
 
+	public static ITotalExprBindings prepareTotalExpressions( List exprs )
+	{
+		return prepareTotalExpressions( exprs, null );
+	}
 	/**
 	 * 
 	 * @param exprs
 	 * @return
 	 */
-	public static ITotalExprBindings prepareTotalExpressions( List exprs )
+	public static ITotalExprBindings prepareTotalExpressions( List exprs, String groupName )
 	{
 		
 		TotalExprBinding result = new TotalExprBinding();
@@ -49,7 +53,7 @@ public final class ExpressionUtil
 			if ( key instanceof String )
 			{
 				String expr = key == null ? null : key.toString( );
-				String newExpr = prepareTotalExpression( expr, l );
+				String newExpr = prepareTotalExpression( expr, l, groupName );
 				result.addColumnBindings( l );
 				result.addNewExpression( newExpr );
 			}
@@ -57,7 +61,7 @@ public final class ExpressionUtil
 			{
 				addConditionalExprBindings( result,
 						(IConditionalExpression) key,
-						l );
+						l, groupName );
 			}
 			else if ( key == null )
 			{
@@ -111,10 +115,14 @@ public final class ExpressionUtil
 	 * @param result
 	 * @param key
 	 */
-	private static void addConditionalExprBindings( TotalExprBinding result, IConditionalExpression key, List bindings )
+	private static void addConditionalExprBindings( TotalExprBinding result,
+			IConditionalExpression key, List bindings, String groupName )
 	{
 		IConditionalExpression ce = key;
-
+		
+		if( groupName!= null )
+			ce.setGroupName( groupName );
+		
 		String bindingName = TOTAL_PREFIX + totalColumnSuffix;
 		totalColumnSuffix++;
 
@@ -140,7 +148,7 @@ public final class ExpressionUtil
 	 * @return
 	 */
 	private static String prepareTotalExpression( String oldExpression,
-			List columnBindings )
+			List columnBindings, String groupName )
 	{
 		if ( oldExpression == null )
 			return null;
@@ -201,7 +209,7 @@ public final class ExpressionUtil
 
 								secondPart = prepareTotalExpression( oldExpression.substring( i
 										+ 1 - indicator.getRetrieveSize( ) ),
-										columnBindings );
+										columnBindings, groupName );
 							}
 							else
 							{
@@ -226,7 +234,7 @@ public final class ExpressionUtil
 							{
 								name = TOTAL_PREFIX + totalColumnSuffix;
 								totalColumnSuffix++;
-								columnBindings.add( new ColumnBinding( name, expr ) );
+								columnBindings.add( new ColumnBinding( name, expr, groupName ) );
 							}
 							
 							String newExpression = firstPart
@@ -450,11 +458,6 @@ class TotalExprBinding implements ITotalExprBindings
 			}
 		}
 	}
-	public List getNewExpression( Object key )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
 
 /**
@@ -525,10 +528,12 @@ class ColumnBinding implements IColumnBinding
 		this.expression = expression;
 	}
 
-	ColumnBinding( String name, String expression )
+	ColumnBinding( String name, String expression, String groupName )
 	{
 		this.columnName = name;
 		this.expression = new ScriptExpression( expression );
+		if( groupName != null )
+			this.expression.setGroupName( groupName );
 	}
 	
 	public String getResultSetColumnName( )
