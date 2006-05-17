@@ -541,7 +541,7 @@ public class ReportEngineService
 				masterPage, svgFlag, Boolean.TRUE, activeIds, htmlRenderContext );
 	}
 
-	synchronized private void runAndRenderReport( HttpServletRequest request,
+	private void runAndRenderReport( HttpServletRequest request,
 			IReportRunnable runnable, OutputStream outputStream, String format,
 			Locale locale, boolean rtl, Map parameters, boolean masterPage,
 			boolean svgFlag, Boolean embeddable, List activeIds,
