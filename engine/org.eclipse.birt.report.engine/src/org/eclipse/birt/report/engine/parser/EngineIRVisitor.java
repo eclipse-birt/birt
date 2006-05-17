@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.100 $ $Date: 2006/05/11 08:16:12 $
+ * @version $Revision: 1.101 $ $Date: 2006/05/15 11:27:36 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -938,6 +938,11 @@ class EngineIRVisitor extends DesignVisitor
 		
 		boolean supress = handle.suppressDuplicates( );
 		col.setSuppressDuplicate( supress );
+		
+		// Visibility
+		VisibilityDesign visibility = createVisibility( handle
+				.visibilityRulesIterator( ) );
+		col.setVisibility( visibility );
 		
 		currentElement = col;
 	}

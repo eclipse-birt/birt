@@ -26,9 +26,11 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
+import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
@@ -51,7 +53,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.31 $ $Date: 2006/05/15 11:27:35 $
+ * @version $Revision: 1.32 $ $Date: 2006/05/17 01:27:55 $
  */
 public abstract class ReportItemExecutor
 {
@@ -327,6 +329,56 @@ public abstract class ReportItemExecutor
 				buffer.append( rule.getFormat( ) );
 			}
 			content.getStyle( ).setVisibleFormat( buffer.toString( ) );
+		}
+	}
+	
+	/**
+	 * Sets the visibility property for column.
+	 */
+	protected void processColumnVisibility( ColumnDesign design, Column column )
+	{
+		VisibilityDesign visibility = design.getVisibility( );
+		boolean isFirst = true;
+		if ( visibility != null )
+		{
+			StringBuffer buffer = new StringBuffer( );
+			for ( int i = 0; i < visibility.count( ); i++ )
+			{
+				VisibilityRuleDesign rule = visibility.getRule( i );
+				String expr = rule.getExpression( );
+				Object result = null;
+				if ( expr != null )
+				{
+					result = context.evaluate( expr );
+				}
+				if ( result == null || !( result instanceof Boolean ) )
+				{
+					logger
+							.log(
+									Level.WARNING,
+									"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
+									rule.getExpression( ) );
+					continue;
+				}
+				boolean isHidden = ( (Boolean) result ).booleanValue( );
+				// The report element appears by default and if the result is
+				// not hidden, then ignore it.
+				if ( !isHidden )
+				{
+					continue;
+				}
+				// we should use rule as the string as
+				if ( isFirst )
+				{
+					isFirst = false;
+				}
+				else
+				{
+					buffer.append( ", " ); //$NON-NLS-1$
+				}
+				buffer.append( rule.getFormat( ) );
+			}
+			column.setVisibleFormat( buffer.toString( ) );
 		}
 	}
 	

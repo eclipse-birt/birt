@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.BirtTimer;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -63,7 +64,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.43 $ $Date: 2006/04/13 08:10:25 $
+ * @version $Revision: 1.44 $ $Date: 2006/04/18 07:08:29 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -134,6 +135,12 @@ public class TableItemExecutor extends ListingElementExecutor
 			Column column = new Column( );
 			column.setStyleClass( columnDesign.getStyleName( ) );
 			column.setWidth( columnDesign.getWidth( ) );
+			
+			InstanceID iid = new InstanceID( null, columnDesign.getID( ), null );
+			column.setInstanceID( iid );
+			
+			processColumnVisibility( columnDesign, column );
+			
 			tableContent.addColumn( column );
 		}
 		if ( context.isInFactory( ) )
@@ -169,7 +176,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.43 $ $Date: 2006/04/13 08:10:25 $
+	 * @version $Revision: 1.44 $ $Date: 2006/04/18 07:08:29 $
 	 */
 	private static class TABLEINFO
 	{

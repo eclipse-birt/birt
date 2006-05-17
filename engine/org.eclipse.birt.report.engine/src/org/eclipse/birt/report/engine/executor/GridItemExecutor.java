@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -34,7 +35,7 @@ import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.30 $ $Date: 2006/04/13 08:10:25 $
+ * @version $Revision: 1.31 $ $Date: 2006/04/18 07:08:29 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -91,6 +92,12 @@ public class GridItemExecutor extends QueryItemExecutor
 			Column column = new Column( );
 			column.setStyleClass( columnDesign.getStyleName( ) );
 			column.setWidth( columnDesign.getWidth( ) );
+
+			InstanceID iid = new InstanceID( null, columnDesign.getID( ), null );
+			column.setInstanceID( iid );
+			
+			processColumnVisibility( columnDesign, column );
+			
 			tableObj.addColumn( column );
 		}
 

@@ -46,6 +46,7 @@ import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
@@ -90,7 +91,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.96 $ $Date: 2006/05/16 03:36:55 $
+ * @version $Revision: 1.97 $ $Date: 2006/05/16 03:57:30 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -515,6 +516,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			reportDesign = report.getDesign( );	
 			ReportDesignHandle designHandle = reportDesign.getReportDesign( );
 			String title = designHandle.getStringProperty(  IModuleModel.TITLE_PROP );
+			if ( title == null )
+			{
+				// set the default title
+				if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+				{
+					HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
+					title = htmlOption.getHtmlTitle( );					
+				}
+			}
 			if ( title != null )
 			{
 				writer.openTag( HTMLTags.TAG_TITLE );
@@ -819,7 +829,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		// close the page tag ( DIV )
 		writer.closeTag( HTMLTags.TAG_DIV );
-	}
+	}	
 
 	/*
 	 * (non-Javadoc)
@@ -924,6 +934,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		for ( int i = 0; i < table.getColumnCount( ); i++ )
 		{
 			IColumn column = table.getColumn( i );
+			
+			if ( isColumnHidden( column ) )
+			{
+				continue;
+			}
 
 			writer.openTag( HTMLTags.TAG_COL );
 
@@ -947,9 +962,83 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-
+			
+			// Instance ID
+			InstanceID iid = column.getInstanceID( );			
+			if ( iid != null )
+			{
+				writer.attribute( "iid", iid.toString( ) );
+			}
+			
 			writer.closeNoEndTag( );
 		}
+	}
+	
+	/**
+	 * Pushes the Boolean indicating whether or not the item is hidden according	 
+	 * @param hidden
+	 */
+	public void push( boolean hidden )
+	{		
+		stack.push( new Boolean( hidden ) );
+	}
+	
+	/**
+	 * check whether to hide the column.
+	 * @param column
+	 * @return
+	 */
+	private boolean isColumnHidden( IColumn column )
+	{
+		String formats = column.getVisibleFormat( );
+		if ( formats != null
+				&& ( formats.indexOf( EngineIRConstants.FORMAT_TYPE_VIEWER ) >= 0 || formats
+						.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0 ) )
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * get the new colspan of the cell 
+	 * by checking the relational columns.
+	 * @param column
+	 * @return
+	 */
+	private int getNewColSpan( ICellContent cell )
+	{
+		int columnNumber = cell.getColumn( );
+		int colSpan = cell.getColSpan( );
+		ITableContent table = getTableOfCell(cell);
+		if (table == null)
+		{
+			return colSpan;
+		}
+		int newColSpan = colSpan;
+		for ( int i = 0; i < colSpan; i++ )
+		{
+			IColumn column = table.getColumn( columnNumber + i );
+			if ( isColumnHidden( column ) )
+			{
+				newColSpan--;
+			}
+		}
+		return newColSpan;
+	}
+	
+	private ITableContent getTableOfCell( ICellContent cell )
+	{
+		IElement parent = cell.getParent( );
+		while ( parent != null )
+		{
+			if ( parent instanceof ITableContent )
+			{
+				return (ITableContent) parent;
+			}
+			parent = parent.getParent( );
+		}
+		return null;
 	}
 
 	/*
@@ -1157,6 +1246,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( cell != null )
 		{
+			int colSpan = getNewColSpan( cell );
+			if ( colSpan < 1 )
+			{
+				push( true );
+				return;
+			}
+			push( false );
+				
 			// output 'td' tag
 			writer.openTag( HTMLTags.TAG_TD ); //$NON-NLS-1$
 
@@ -1164,7 +1261,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			setStyleName( cell.getStyleClass( ) );
 
 			// colspan
-			if ( ( cell.getColSpan( ) ) > 1 )
+			if ( colSpan > 1 )
 			{
 				writer.attribute( HTMLTags.ATTR_COLSPAN, cell.getColSpan( ) );
 			}
@@ -1220,10 +1317,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		if ( isHidden( ) )
 		{
+			pop( );
 			return;
 		}
 		logger.log( Level.FINE, "[HTMLReportEmitter] End cell." ); //$NON-NLS-1$
-
+		
+		pop( );
+		
 		writer.closeTag( HTMLTags.TAG_TD );
 	}
 

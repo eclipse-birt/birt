@@ -16,6 +16,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -24,7 +25,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * column content object
  * 
- * @version $Revision: 1.4 $ $Date: 2005/12/14 03:41:38 $
+ * @version $Revision: 1.5 $ $Date: 2006/01/11 06:29:02 $
  */
 public class Column implements IColumn
 {
@@ -32,6 +33,10 @@ public class Column implements IColumn
 	protected DimensionType width;
 
 	protected String styleClass;
+	
+	protected InstanceID instanceId;
+	
+	protected String visibleFormat;
 
 	/**
 	 * constructor use by serialize and deserialize
@@ -73,8 +78,28 @@ public class Column implements IColumn
 	public void setStyleClass( String styleClass )
 	{
 		this.styleClass = styleClass;
+	}	
+
+	public InstanceID getInstanceID( )
+	{
+		return instanceId;
 	}
 
+	public void setInstanceID( InstanceID id )
+	{
+		this.instanceId = id;
+	}
+
+	public String getVisibleFormat( )
+	{
+		return visibleFormat;
+	}
+
+	public void setVisibleFormat( String visibleFormat )
+	{
+		this.visibleFormat = visibleFormat;
+	}	
+	
 	/**
 	 * object document column version
 	 */
@@ -83,6 +108,8 @@ public class Column implements IColumn
 	final static int FIELD_NONE = -1;
 	final static int FIELD_WIDTH = 0;
 	final static int FIELD_STYLECLASS = 1;
+	final static int FIELD_INSTANCE_ID = 2;
+	final static int FIELD_VISIBLE_FORMAT = 3;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -95,6 +122,16 @@ public class Column implements IColumn
 		{
 			IOUtil.writeInt( out, FIELD_STYLECLASS );
 			IOUtil.writeString( out, styleClass );
+		}
+		if ( instanceId != null )
+		{
+			IOUtil.writeInt( out, FIELD_INSTANCE_ID );
+			IOUtil.writeString( out, instanceId.toString( ) );
+		}
+		if ( visibleFormat != null )
+		{
+			IOUtil.writeInt( out, FIELD_VISIBLE_FORMAT );
+			IOUtil.writeString( out, visibleFormat );
 		}
 	}
 
@@ -109,6 +146,13 @@ public class Column implements IColumn
 				break;
 			case FIELD_STYLECLASS :
 				styleClass = IOUtil.readString( in );
+				break;
+			case FIELD_INSTANCE_ID :
+				String value = IOUtil.readString( in );
+				instanceId = InstanceID.parse( value );
+				break;
+			case FIELD_VISIBLE_FORMAT :
+				visibleFormat = IOUtil.readString( in );
 				break;
 		}
 	}

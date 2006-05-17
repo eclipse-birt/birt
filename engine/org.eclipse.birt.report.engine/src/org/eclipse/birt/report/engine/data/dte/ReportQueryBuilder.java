@@ -55,6 +55,7 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
@@ -100,7 +101,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.62 $ $Date: 2006/05/16 08:19:09 $
+ * @version $Revision: 1.63 $ $Date: 2006/05/17 01:38:17 $
  */
 public class ReportQueryBuilder
 {
@@ -506,6 +507,16 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTableItem(org.eclipse.birt.report.engine.ir.TableItemDesign)
 		 */
+		public void handleColumn( ColumnDesign column )
+		{
+			transferVisibility( column );
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTableItem(org.eclipse.birt.report.engine.ir.TableItemDesign)
+		 */
 		public Object visitTableItem( TableItemDesign table, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( table );
@@ -522,6 +533,12 @@ public class ReportQueryBuilder
 			else
 			{
 				transferExpressions( table );
+				
+				for( int i = 0; i < table.getColumnCount( ); i++ )
+				{
+					handleColumn( table.getColumn( i ) );
+				}
+				
 				pushCurrentCondition( true );
 				handleTableBand( table.getHeader( ), value );
 				
@@ -1295,7 +1312,46 @@ public class ReportQueryBuilder
 				return (String) newExpressions.get( 0 );
 			}
 			return expr;
-		}		
+		}			
+		
+		/**
+		 * Transfer the old visibility expression to column dataBinding and bind it to the Query.
+		 * And create a new visibility expression to replace the old.
+		 */
+		private void transferVisibility( ColumnDesign column )
+		{
+			IBaseTransform trans = getTransform();
+			if (trans == null)
+			{
+				return;
+			}
+		
+			List expressions = new ArrayList( );
+			VisibilityDesign visibilities = column.getVisibility( );
+			if ( visibilities != null )
+			{
+				// get new expression bindings of this column's visibilities
+				for ( int i = 0; i < visibilities.count( ); i++ )
+				{
+					expressions
+							.add( visibilities.getRule( i ).getExpression( ) );
+				}
+				ITotalExprBindings totalExpressionBindings = ExpressionUtil
+					.prepareTotalExpressions( expressions );
+				
+				// add new column bindings to the query 
+				addNewColumnBindings( trans, totalExpressionBindings );
+				
+				// replace old expressions
+				int expressionIndex = 0;
+				List newExpressions = totalExpressionBindings.getNewExpression( );
+				for ( int i = 0; i < visibilities.count( ); i++ )
+				{
+					visibilities.getRule( i ).setExpression(
+							(String) newExpressions.get( expressionIndex++ ) );
+				}
+			}
+		}	
 	}
 	
 

@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * @see TableItemDesign
  * @see GridItemDesign
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.7 $ $Date: 2006/03/14 09:35:24 $
  */
 public class ColumnDesign extends StyledElementDesign
 {
@@ -29,7 +29,12 @@ public class ColumnDesign extends StyledElementDesign
 	 * suppressDuplicate
 	 */
 	protected boolean suppressDuplicate = false; 
-
+	
+	/**
+	 * Visibility property.
+	 */
+	protected VisibilityDesign visibility;
+	
 	/**
 	 * @return Returns the width.
 	 */
@@ -62,5 +67,20 @@ public class ColumnDesign extends StyledElementDesign
 	public boolean getSuppressDuplicate()
 	{
 		return suppressDuplicate;
+	}
+	
+	/**
+	 * @return Returns the visibility.
+	 */
+	public VisibilityDesign getVisibility( )
+	{
+		return visibility;
+	}
+	/**
+	 * @param visibility The visibility to set.
+	 */
+	public void setVisibility( VisibilityDesign visibility )
+	{
+		this.visibility = visibility;
 	}
 }

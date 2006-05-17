@@ -11,13 +11,14 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * column definition used by table content.
  * 
  * 
- * @version $Revision: 1.3 $ $Date: 2005/11/10 08:55:20 $
+ * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:46 $
  */
 public interface IColumn
 {
@@ -28,4 +29,13 @@ public interface IColumn
 	public DimensionType getWidth( );
 
 	public String getStyleClass();
+	
+	/**
+	 * get the instance id of the column.
+	 * the instance id is the unique id of the content.
+	 * @return
+	 */
+	public InstanceID getInstanceID();
+	
+	public String getVisibleFormat( );
 }
