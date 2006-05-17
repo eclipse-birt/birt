@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.computation;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -29,7 +28,6 @@ import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.util.EList;
 
 /**

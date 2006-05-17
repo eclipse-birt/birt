@@ -122,27 +122,27 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 	protected static final String TIMER = "T"; //$NON-NLS-1$
 
-	ISeriesRenderingHints srh;
+	protected ISeriesRenderingHints srh;
 
-	private IDisplayServer xs;
+	protected IDisplayServer xs;
 
-	private IDeviceRenderer ir;
+	protected IDeviceRenderer ir;
 
-	private DeferredCache dc;
+	protected DeferredCache dc;
 
-	private Chart cm;
+	protected Chart cm;
 
-	private Object oComputations;
+	protected Object oComputations;
 
-	private Series se;
+	protected Series se;
 
-	private SeriesDefinition sd;
+	protected SeriesDefinition sd;
 
 	/**
 	 * All renders associated with the chart provided for convenience and
 	 * inter-series calculations
 	 */
-	private BaseRenderer[] brna;
+	protected BaseRenderer[] brna;
 
 	/**
 	 * Identifies the series sequence # in the list of series renders
@@ -188,7 +188,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/**
 	 * The associated runtimeContext.
 	 */
-	private transient RunTimeContext rtc = null;
+	protected transient RunTimeContext rtc = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 

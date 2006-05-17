@@ -311,7 +311,7 @@ public final class PlotWithoutAxes
 				}
 				else if ( isZeroValue == true )
 				{
-					percentileValue = new Double ( (double)1.0 / iCount );
+					percentileValue = new Double ( 1.0 / iCount );
 				}
 
 				dpha[i] = new DataPointHints( dsiBaseValues.next( ),

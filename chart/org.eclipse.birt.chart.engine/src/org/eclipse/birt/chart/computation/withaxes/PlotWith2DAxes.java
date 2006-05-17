@@ -1803,7 +1803,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				}
 				else if ( isZeroValue == true )
 				{
-					percentileValue = new Double ( (double)1.0 / iOrthogonalCount );
+					percentileValue = new Double ( 1.0 / iOrthogonalCount );
 				}
 
 				dpa[i] = new DataPointHints( oDataBase,

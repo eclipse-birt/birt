@@ -7,7 +7,6 @@ package org.eclipse.birt.chart.aggregate;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Date;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 

@@ -23,13 +23,13 @@ import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.ValueFormatter;
-import org.eclipse.birt.chart.computation.Vector;
 import org.eclipse.birt.chart.computation.withaxes.AllAxes;
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
 import org.eclipse.birt.chart.computation.withaxes.Grid;
 import org.eclipse.birt.chart.computation.withaxes.IntersectionValue;
 import org.eclipse.birt.chart.computation.withaxes.OneAxis;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
+import org.eclipse.birt.chart.computation.withaxes.PlotWith3DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -119,8 +119,6 @@ public abstract class AxesRenderer extends BaseRenderer
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 
 	private Axis ax;
-
-	private Engine3D engine;
 
 	private boolean leftWallFill = false;
 	private boolean rightWallFill = false;
@@ -1233,6 +1231,9 @@ public abstract class AxesRenderer extends BaseRenderer
 		double dXStart = 0;
 		double dYStart = 0;
 		double dZStart = 0;
+		double dXEnd = 0;
+		double dYEnd = 0;
+		double dZEnd = 0;
 		int baseTickCount = 0;
 		int ancillaryTickCount = 0;
 		int orthogonalTickCount = 0;
@@ -1249,6 +1250,10 @@ public abstract class AxesRenderer extends BaseRenderer
 			dXStart = scPrimaryBase.getStart( );
 			dYStart = scPrimaryOrthogonal.getStart( );
 			dZStart = scAncillaryBase.getStart( );
+
+			dXEnd = scPrimaryBase.getEnd( );
+			dYEnd = scPrimaryOrthogonal.getEnd( );
+			dZEnd = scAncillaryBase.getEnd( );
 
 			baseTickCount = scPrimaryBase.getTickCordinates( ).length;
 			ancillaryTickCount = scAncillaryBase.getTickCordinates( ).length;
@@ -1347,59 +1352,81 @@ public abstract class AxesRenderer extends BaseRenderer
 				loa = new Location3D[4];
 
 				// Left Wall
-				// split to small planes to render.
-				for ( int i = 0; i < orthogonalTickCount - 1; i++ )
-				{
-					for ( int j = 0; j < ancillaryTickCount - 1; j++ )
-					{
-						loa[0] = Location3DImpl.create( dXStart, dYStart
-								+ yStep
-								* i, dZStart + zStep * j );
-						loa[1] = Location3DImpl.create( dXStart, dYStart
-								+ ( i + 1 )
-								* yStep, dZStart + j * zStep );
-						loa[2] = Location3DImpl.create( dXStart, dYStart
-								+ ( i + 1 )
-								* yStep, dZStart + ( j + 1 ) * zStep );
-						loa[3] = Location3DImpl.create( dXStart, dYStart
-								+ i
-								* yStep, dZStart + ( j + 1 ) * zStep );
-						pre.setPoints3D( loa );
-						pre.setBackground( cwa.getWallFill( ) );
-						pre.setOutline( ca.getOutline( ) );
-						getDeferredCache( ).addPlane( pre,
-								PrimitiveRenderEvent.DRAW
-										| PrimitiveRenderEvent.FILL );
-					}
-				}
+				loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
+				loa[1] = Location3DImpl.create( dXStart, dYEnd, dZStart );
+				loa[2] = Location3DImpl.create( dXStart, dYEnd, dZEnd );
+				loa[3] = Location3DImpl.create( dXStart, dYStart, dZEnd );
+				pre.setPoints3D( loa );
+				pre.setBackground( cwa.getWallFill( ) );
+				pre.setDoubleSided( true );
+				pre.setOutline( ca.getOutline( ) );
+				getDeferredCache( ).addPlane( pre,
+						PrimitiveRenderEvent.DRAW | PrimitiveRenderEvent.FILL );
+
+				// // split to small planes to render.
+				// for ( int i = 0; i < orthogonalTickCount - 1; i++ )
+				// {
+				// for ( int j = 0; j < ancillaryTickCount - 1; j++ )
+				// {
+				// loa[0] = Location3DImpl.create( dXStart, dYStart
+				// + yStep
+				// * i, dZStart + zStep * j );
+				// loa[1] = Location3DImpl.create( dXStart, dYStart
+				// + ( i + 1 )
+				// * yStep, dZStart + j * zStep );
+				// loa[2] = Location3DImpl.create( dXStart, dYStart
+				// + ( i + 1 )
+				// * yStep, dZStart + ( j + 1 ) * zStep );
+				// loa[3] = Location3DImpl.create( dXStart, dYStart
+				// + i
+				// * yStep, dZStart + ( j + 1 ) * zStep );
+				// pre.setPoints3D( loa );
+				// pre.setBackground( cwa.getWallFill( ) );
+				// pre.setOutline( ca.getOutline( ) );
+				// getDeferredCache( ).addPlane( pre,
+				// PrimitiveRenderEvent.DRAW
+				// | PrimitiveRenderEvent.FILL );
+				// }
+				// }
 				leftWallFill = true;
 
 				// Right Wall
-				// split to small planes to render.
-				for ( int i = 0; i < orthogonalTickCount - 1; i++ )
-				{
-					for ( int j = 0; j < baseTickCount - 1; j++ )
-					{
-						loa[0] = Location3DImpl.create( dXStart + j * xStep,
-								dYStart + i * yStep,
-								dZStart );
-						loa[1] = Location3DImpl.create( dXStart
-								+ ( j + 1 )
-								* xStep, dYStart + i * yStep, dZStart );
-						loa[2] = Location3DImpl.create( dXStart
-								+ ( j + 1 )
-								* xStep, dYStart + ( i + 1 ) * yStep, dZStart );
-						loa[3] = Location3DImpl.create( dXStart + j * xStep,
-								dYStart + ( i + 1 ) * yStep,
-								dZStart );
-						pre.setPoints3D( loa );
-						pre.setBackground( cwa.getWallFill( ) );
-						pre.setOutline( ca.getOutline( ) );
-						getDeferredCache( ).addPlane( pre,
-								PrimitiveRenderEvent.DRAW
-										| PrimitiveRenderEvent.FILL );
-					}
-				}
+				loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
+				loa[1] = Location3DImpl.create( dXEnd, dYStart, dZStart );
+				loa[2] = Location3DImpl.create( dXEnd, dYEnd, dZStart );
+				loa[3] = Location3DImpl.create( dXStart, dYEnd, dZStart );
+				pre.setPoints3D( loa );
+				pre.setBackground( cwa.getWallFill( ) );
+				pre.setDoubleSided( true );
+				pre.setOutline( ca.getOutline( ) );
+				getDeferredCache( ).addPlane( pre,
+						PrimitiveRenderEvent.DRAW | PrimitiveRenderEvent.FILL );
+
+				// // split to small planes to render.
+				// for ( int i = 0; i < orthogonalTickCount - 1; i++ )
+				// {
+				// for ( int j = 0; j < baseTickCount - 1; j++ )
+				// {
+				// loa[0] = Location3DImpl.create( dXStart + j * xStep,
+				// dYStart + i * yStep,
+				// dZStart );
+				// loa[1] = Location3DImpl.create( dXStart
+				// + ( j + 1 )
+				// * xStep, dYStart + i * yStep, dZStart );
+				// loa[2] = Location3DImpl.create( dXStart
+				// + ( j + 1 )
+				// * xStep, dYStart + ( i + 1 ) * yStep, dZStart );
+				// loa[3] = Location3DImpl.create( dXStart + j * xStep,
+				// dYStart + ( i + 1 ) * yStep,
+				// dZStart );
+				// pre.setPoints3D( loa );
+				// pre.setBackground( cwa.getWallFill( ) );
+				// pre.setOutline( ca.getOutline( ) );
+				// getDeferredCache( ).addPlane( pre,
+				// PrimitiveRenderEvent.DRAW
+				// | PrimitiveRenderEvent.FILL );
+				// }
+				// }
 				rightWallFill = true;
 			}
 
@@ -1412,31 +1439,42 @@ public abstract class AxesRenderer extends BaseRenderer
 					loa = new Location3D[4];
 				}
 
-				// split to small planes to render.
-				for ( int i = 0; i < baseTickCount - 1; i++ )
-				{
-					for ( int j = 0; j < ancillaryTickCount - 1; j++ )
-					{
-						loa[0] = Location3DImpl.create( dXStart + i * xStep,
-								dYStart,
-								dZStart + j * zStep );
-						loa[1] = Location3DImpl.create( dXStart + i * xStep,
-								dYStart,
-								dZStart + ( j + 1 ) * zStep );
-						loa[2] = Location3DImpl.create( dXStart
-								+ ( i + 1 )
-								* xStep, dYStart, dZStart + ( j + 1 ) * zStep );
-						loa[3] = Location3DImpl.create( dXStart
-								+ ( i + 1 )
-								* xStep, dYStart, dZStart + j * zStep );
-						pre.setPoints3D( loa );
-						pre.setBackground( cwa.getFloorFill( ) );
-						pre.setOutline( ca.getOutline( ) );
-						getDeferredCache( ).addPlane( pre,
-								PrimitiveRenderEvent.DRAW
-										| PrimitiveRenderEvent.FILL );
-					}
-				}
+				loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
+				loa[1] = Location3DImpl.create( dXStart, dYStart, dZEnd );
+				loa[2] = Location3DImpl.create( dXEnd, dYStart, dZEnd );
+				loa[3] = Location3DImpl.create( dXEnd, dYStart, dZStart );
+				pre.setPoints3D( loa );
+				pre.setBackground( cwa.getFloorFill( ) );
+				pre.setDoubleSided( true );
+				pre.setOutline( ca.getOutline( ) );
+				getDeferredCache( ).addPlane( pre,
+						PrimitiveRenderEvent.DRAW | PrimitiveRenderEvent.FILL );
+
+				// // split to small planes to render.
+				// for ( int i = 0; i < baseTickCount - 1; i++ )
+				// {
+				// for ( int j = 0; j < ancillaryTickCount - 1; j++ )
+				// {
+				// loa[0] = Location3DImpl.create( dXStart + i * xStep,
+				// dYStart,
+				// dZStart + j * zStep );
+				// loa[1] = Location3DImpl.create( dXStart + i * xStep,
+				// dYStart,
+				// dZStart + ( j + 1 ) * zStep );
+				// loa[2] = Location3DImpl.create( dXStart
+				// + ( i + 1 )
+				// * xStep, dYStart, dZStart + ( j + 1 ) * zStep );
+				// loa[3] = Location3DImpl.create( dXStart
+				// + ( i + 1 )
+				// * xStep, dYStart, dZStart + j * zStep );
+				// pre.setPoints3D( loa );
+				// pre.setBackground( cwa.getFloorFill( ) );
+				// pre.setOutline( ca.getOutline( ) );
+				// getDeferredCache( ).addPlane( pre,
+				// PrimitiveRenderEvent.DRAW
+				// | PrimitiveRenderEvent.FILL );
+				// }
+				// }
 				floorFill = true;
 			}
 		}
@@ -3211,20 +3249,27 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								if ( bRenderOrthogonal3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( dXMinorTick1,
-												y3d + daMinor[k],
-												dZ ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( dXMinorTick2,
-												y3d + daMinor[k],
-												dZ ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( dXMinorTick1,
+									// y3d + daMinor[k],
+									// dZ ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( dXMinorTick2,
+									// y3d + daMinor[k],
+									// dZ ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else
 								{
@@ -3248,10 +3293,11 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							if ( bRenderOrthogonal3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( dXTick1, y3d, dZ );
-								l3dre.setEnd3D( dXTick2, y3d, dZ );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( dXTick1, y3d, dZ );
+								// l3dre.setEnd3D( dXTick2, y3d, dZ );
+								// dc.addLine( l3dre );
 							}
 							else
 							{
@@ -3343,10 +3389,11 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					if ( bRenderOrthogonal3DAxis )
 					{
-						l3dre.setLineAttributes( liaMajorTick );
-						l3dre.setStart3D( dXTick1, y3d, dZ );
-						l3dre.setEnd3D( dXTick2, y3d, dZ );
-						dc.addLine( l3dre );
+						// !NOT RENDER TICKS FOR 3D AXES
+						// l3dre.setLineAttributes( liaMajorTick );
+						// l3dre.setStart3D( dXTick1, y3d, dZ );
+						// l3dre.setEnd3D( dXTick2, y3d, dZ );
+						// dc.addLine( l3dre );
 					}
 					else
 					{
@@ -3417,27 +3464,34 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								if ( bRenderOrthogonal3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										if ( y3d + daMinor[k] >= da3D[i + 1] )
-										{
-											// if current minor tick exceed the
-											// range of current unit, skip
-											continue;
-										}
-
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( dXMinorTick1,
-												y3d + daMinor[k],
-												dZ ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( dXMinorTick2,
-												y3d + daMinor[k],
-												dZ ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// if ( y3d + daMinor[k] >= da3D[i + 1] )
+									// {
+									// // if current minor tick exceed the
+									// // range of current unit, skip
+									// continue;
+									// }
+									//
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( dXMinorTick1,
+									// y3d + daMinor[k],
+									// dZ ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( dXMinorTick2,
+									// y3d + daMinor[k],
+									// dZ ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else
 								{
@@ -3471,10 +3525,11 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							if ( bRenderOrthogonal3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( dXTick1, y3d, dZ );
-								l3dre.setEnd3D( dXTick2, y3d, dZ );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( dXTick1, y3d, dZ );
+								// l3dre.setEnd3D( dXTick2, y3d, dZ );
+								// dc.addLine( l3dre );
 							}
 							else
 							{
@@ -3635,20 +3690,27 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								if ( bRenderOrthogonal3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( dXMinorTick1,
-												y3d + daMinor[k],
-												dZ ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( dXMinorTick2,
-												y3d + daMinor[k],
-												dZ ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( dXMinorTick1,
+									// y3d + daMinor[k],
+									// dZ ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( dXMinorTick2,
+									// y3d + daMinor[k],
+									// dZ ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else
 								{
@@ -3672,10 +3734,11 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							if ( bRenderOrthogonal3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( dXTick1, y3d, dZ );
-								l3dre.setEnd3D( dXTick2, y3d, dZ );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( dXTick1, y3d, dZ );
+								// l3dre.setEnd3D( dXTick2, y3d, dZ );
+								// dc.addLine( l3dre );
 							}
 							else
 							{
@@ -3820,20 +3883,27 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								if ( bRenderOrthogonal3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( dXMinorTick1,
-												y3d + daMinor[k],
-												dZ ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( dXMinorTick2,
-												y3d + daMinor[k],
-												dZ ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( dXMinorTick1,
+									// y3d + daMinor[k],
+									// dZ ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( dXMinorTick2,
+									// y3d + daMinor[k],
+									// dZ ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else
 								{
@@ -3857,10 +3927,11 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							if ( bRenderOrthogonal3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( dXTick1, y3d, dZ );
-								l3dre.setEnd3D( dXTick2, y3d, dZ );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( dXTick1, y3d, dZ );
+								// l3dre.setEnd3D( dXTick2, y3d, dZ );
+								// dc.addLine( l3dre );
 							}
 							else
 							{
@@ -4325,39 +4396,53 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								if ( bRenderBase3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( x3d
-												+ daMinor[k],
-												dYMinorTick1,
-												dZ ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( x3d
-												+ daMinor[k],
-												dYMinorTick2,
-												dZ ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( x3d
+									// + daMinor[k],
+									// dYMinorTick1,
+									// dZ ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( x3d
+									// + daMinor[k],
+									// dYMinorTick2,
+									// dZ ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else if ( bRenderAncillary3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( dX,
-												dYMinorTick1,
-												z3d + daMinor[k] ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( dX,
-												dYMinorTick2,
-												z3d + daMinor[k] ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( dX,
+									// dYMinorTick1,
+									// z3d + daMinor[k] ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( dX,
+									// dYMinorTick2,
+									// z3d + daMinor[k] ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else
 								{
@@ -4384,17 +4469,19 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							if ( bRenderBase3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( x3d, dYTick1, dZ );
-								l3dre.setEnd3D( x3d, dYTick2, dZ );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( x3d, dYTick1, dZ );
+								// l3dre.setEnd3D( x3d, dYTick2, dZ );
+								// dc.addLine( l3dre );
 							}
 							else if ( bRenderAncillary3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( dX, dYTick1, z3d );
-								l3dre.setEnd3D( dX, dYTick2, z3d );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( dX, dYTick1, z3d );
+								// l3dre.setEnd3D( dX, dYTick2, z3d );
+								// dc.addLine( l3dre );
 							}
 							else
 							{
@@ -4498,17 +4585,19 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						if ( bRenderBase3DAxis )
 						{
-							l3dre.setLineAttributes( liaMajorTick );
-							l3dre.setStart3D( x3d, dYTick1, dZ );
-							l3dre.setEnd3D( x3d, dYTick2, dZ );
-							dc.addLine( l3dre );
+							// !NOT RENDER TICKS FOR 3D AXES
+							// l3dre.setLineAttributes( liaMajorTick );
+							// l3dre.setStart3D( x3d, dYTick1, dZ );
+							// l3dre.setEnd3D( x3d, dYTick2, dZ );
+							// dc.addLine( l3dre );
 						}
 						else if ( bRenderAncillary3DAxis )
 						{
-							l3dre.setLineAttributes( liaMajorTick );
-							l3dre.setStart3D( dX, dYTick1, z3d );
-							l3dre.setEnd3D( dX, dYTick2, z3d );
-							dc.addLine( l3dre );
+							// !NOT RENDER TICKS FOR 3D AXES
+							// l3dre.setLineAttributes( liaMajorTick );
+							// l3dre.setStart3D( dX, dYTick1, z3d );
+							// l3dre.setEnd3D( dX, dYTick2, z3d );
+							// dc.addLine( l3dre );
 						}
 						else
 						{
@@ -4572,53 +4661,67 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								if ( bRenderBase3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										if ( x3d + daMinor[k] >= da3D[i + 1] )
-										{
-											// if current minor tick exceed the
-											// range of current unit, skip
-											continue;
-										}
-
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( x3d
-												+ daMinor[k],
-												dYMinorTick1,
-												dZ ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( x3d
-												+ daMinor[k],
-												dYMinorTick2,
-												dZ ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// if ( x3d + daMinor[k] >= da3D[i + 1] )
+									// {
+									// // if current minor tick exceed the
+									// // range of current unit, skip
+									// continue;
+									// }
+									//
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( x3d
+									// + daMinor[k],
+									// dYMinorTick1,
+									// dZ ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( x3d
+									// + daMinor[k],
+									// dYMinorTick2,
+									// dZ ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else if ( bRenderAncillary3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										if ( z3d + daMinor[k] >= da3D[i + 1] )
-										{
-											// if current minor tick exceed the
-											// range of current unit, skip
-											continue;
-										}
-
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( dX,
-												dYMinorTick1,
-												z3d + daMinor[k] ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( dX,
-												dYMinorTick2,
-												z3d + daMinor[k] ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// if ( z3d + daMinor[k] >= da3D[i + 1] )
+									// {
+									// // if current minor tick exceed the
+									// // range of current unit, skip
+									// continue;
+									// }
+									//
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( dX,
+									// dYMinorTick1,
+									// z3d + daMinor[k] ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( dX,
+									// dYMinorTick2,
+									// z3d + daMinor[k] ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else
 								{
@@ -4655,17 +4758,19 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							if ( bRenderBase3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( x3d, dYTick1, dZ );
-								l3dre.setEnd3D( x3d, dYTick2, dZ );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( x3d, dYTick1, dZ );
+								// l3dre.setEnd3D( x3d, dYTick2, dZ );
+								// dc.addLine( l3dre );
 							}
 							else if ( bRenderAncillary3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( dX, dYTick1, z3d );
-								l3dre.setEnd3D( dX, dYTick2, z3d );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( dX, dYTick1, z3d );
+								// l3dre.setEnd3D( dX, dYTick2, z3d );
+								// dc.addLine( l3dre );
 							}
 							else
 							{
@@ -4820,39 +4925,53 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								if ( bRenderBase3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( x3d
-												+ daMinor[k],
-												dYMinorTick1,
-												dZ ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( x3d
-												+ daMinor[k],
-												dYMinorTick2,
-												dZ ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( x3d
+									// + daMinor[k],
+									// dYMinorTick1,
+									// dZ ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( x3d
+									// + daMinor[k],
+									// dYMinorTick2,
+									// dZ ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else if ( bRenderAncillary3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( dX,
-												dYMinorTick1,
-												z3d + daMinor[k] ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( dX,
-												dYMinorTick2,
-												z3d + daMinor[k] ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( dX,
+									// dYMinorTick1,
+									// z3d + daMinor[k] ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( dX,
+									// dYMinorTick2,
+									// z3d + daMinor[k] ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else
 								{
@@ -4879,17 +4998,19 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							if ( bRenderBase3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( x3d, dYTick1, dZ );
-								l3dre.setEnd3D( x3d, dYTick2, dZ );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( x3d, dYTick1, dZ );
+								// l3dre.setEnd3D( x3d, dYTick2, dZ );
+								// dc.addLine( l3dre );
 							}
 							else if ( bRenderAncillary3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( dX, dYTick1, z3d );
-								l3dre.setEnd3D( dX, dYTick2, z3d );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( dX, dYTick1, z3d );
+								// l3dre.setEnd3D( dX, dYTick2, z3d );
+								// dc.addLine( l3dre );
 							}
 							else
 							{
@@ -5041,39 +5162,53 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								if ( bRenderBase3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( x3d
-												+ daMinor[k],
-												dYMinorTick1,
-												dZ ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( x3d
-												+ daMinor[k],
-												dYMinorTick2,
-												dZ ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( x3d
+									// + daMinor[k],
+									// dYMinorTick1,
+									// dZ ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( x3d
+									// + daMinor[k],
+									// dYMinorTick2,
+									// dZ ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else if ( bRenderAncillary3DAxis )
 								{
-									Line3DRenderEvent l3dreMinor = null;
-									for ( int k = 0; k < daMinor.length - 1; k++ )
-									{
-										l3dreMinor = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-												Line3DRenderEvent.class );
-										l3dreMinor.setLineAttributes( liaMinorTick );
-										l3dreMinor.setStart3D( Location3DImpl.create( dX,
-												dYMinorTick1,
-												z3d + daMinor[k] ) );
-										l3dreMinor.setEnd3D( Location3DImpl.create( dX,
-												dYMinorTick2,
-												z3d + daMinor[k] ) );
-										dc.addLine( l3dreMinor );
-									}
+									// !NOT RENDER TICKS FOR 3D AXES
+									// Line3DRenderEvent l3dreMinor = null;
+									// for ( int k = 0; k < daMinor.length - 1;
+									// k++ )
+									// {
+									// l3dreMinor = (Line3DRenderEvent) (
+									// (EventObjectCache) ipr ).getEventObject(
+									// StructureSource.createAxis( axModel ),
+									// Line3DRenderEvent.class );
+									// l3dreMinor.setLineAttributes(
+									// liaMinorTick );
+									// l3dreMinor.setStart3D(
+									// Location3DImpl.create( dX,
+									// dYMinorTick1,
+									// z3d + daMinor[k] ) );
+									// l3dreMinor.setEnd3D(
+									// Location3DImpl.create( dX,
+									// dYMinorTick2,
+									// z3d + daMinor[k] ) );
+									// dc.addLine( l3dreMinor );
+									// }
 								}
 								else
 								{
@@ -5101,17 +5236,19 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							if ( bRenderBase3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( x3d, dYTick1, dZ );
-								l3dre.setEnd3D( x3d, dYTick2, dZ );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( x3d, dYTick1, dZ );
+								// l3dre.setEnd3D( x3d, dYTick2, dZ );
+								// dc.addLine( l3dre );
 							}
 							else if ( bRenderAncillary3DAxis )
 							{
-								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.setStart3D( dX, dYTick1, z3d );
-								l3dre.setEnd3D( dX, dYTick2, z3d );
-								dc.addLine( l3dre );
+								// !NOT RENDER TICKS FOR 3D AXES
+								// l3dre.setLineAttributes( liaMajorTick );
+								// l3dre.setStart3D( dX, dYTick1, z3d );
+								// l3dre.setEnd3D( dX, dYTick2, z3d );
+								// dc.addLine( l3dre );
 							}
 							else
 							{
@@ -5395,73 +5532,29 @@ public abstract class AxesRenderer extends BaseRenderer
 	/**
 	 * Returns the 3D engine for this render.
 	 */
-	public final Engine3D get3DEngine( )
+	protected Engine3D get3DEngine( )
 	{
-		if ( engine == null )
+		if ( isDimension3D( ) )
 		{
-			double dScale = getDeviceScale( );
-
-			ChartWithAxes cwa = (ChartWithAxes) getModel( );
-
-			// Use a fixed light direction here.
-			Vector lightDirection = new Vector( -1, 1, -1, false );
-			// Vector lightDirection = new Vector( 0, 0, -1, false );
-			final Bounds bo = getPlotBounds( );
-
-			double width = bo.getWidth( );
-			double height = bo.getHeight( );
-
-			// TODO read from custom panning setting
-
-			// automatically adjust panning offset
-			if ( width > height && width != 0 )
-			{
-				// decrease y-offset
-				height += ( width - height ) * ( height / width ) / 4;
-			}
-			else if ( width < height && height != 0 )
-			{
-				// increase y-offset
-				height += ( height - width ) * ( width / height ) / 4;
-			}
-
-			engine = new Engine3D( cwa.getRotation( ),
-					lightDirection,
-					width,
-					height,
-					500 * dScale,
-					1500 * dScale,
-					10 * dScale,
-					10000 * dScale,
-					100 );
+			// delegate to 3d compuations.
+			return ( (PlotWith3DAxes) oComputations ).get3DEngine( );
 		}
 
-		return engine;
+		return null;
 	}
 
+	/**
+	 * Returns the panning offset for 3D engine.
+	 */
 	protected Location getPanningOffset( )
 	{
-		Bounds bo = getPlotBounds( );
-		double xOff = bo.getLeft( );
-		double yOff = bo.getTop( );
-		double width = bo.getWidth( );
-		double height = bo.getHeight( );
-
-		// TODO read from custom panning setting
-
-		// automatically adjust panning offset
-		if ( width > height && width != 0 )
+		if ( isDimension3D( ) )
 		{
-			// decrease y-offset
-			yOff -= ( width - height ) * ( height / width ) / 4;
-		}
-		else if ( width < height && height != 0 )
-		{
-			// increase y-offset
-			yOff += ( height - width ) * ( width / height ) / 4;
+			// delegate to 3d compuations.
+			return ( (PlotWith3DAxes) oComputations ).getPanningOffset( );
 		}
 
-		return LocationImpl.create( xOff, yOff );
+		return null;
 	}
 
 	/*

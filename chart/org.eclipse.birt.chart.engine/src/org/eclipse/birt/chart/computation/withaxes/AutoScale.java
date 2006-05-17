@@ -63,6 +63,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private double dEndShift;
 
+	private double dZoomFactor = 1.0;
+
 	private transient double dStart, dEnd;
 
 	private transient double[] daTickCoordinates;
@@ -1292,10 +1294,8 @@ public final class AutoScale extends Methods implements Cloneable
 			int iLabelLocation ) throws ChartException
 	{
 		if ( iType == TEXT || bCategoryScale )
-		// !MUST IGNORE the label visibility here.Don't check it!
-		// || !la.isSetVisible( )
-		// || ( la.isSetVisible( ) && !la.isVisible( ) ) )
 		{
+			// not for text and category style
 			return true;
 		}
 
@@ -1366,11 +1366,11 @@ public final class AutoScale extends Methods implements Cloneable
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 				{
-					x = da[i];
+					x = da[i] * dZoomFactor;
 				}
 				else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 				{
-					y = da[i];
+					y = da[i] * dZoomFactor;
 				}
 
 				la.getCaption( ).setValue( sText );
@@ -1444,11 +1444,11 @@ public final class AutoScale extends Methods implements Cloneable
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 				{
-					x = da[i];
+					x = da[i] * dZoomFactor;
 				}
 				else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 				{
-					y = da[i];
+					y = da[i] * dZoomFactor;
 				}
 
 				la.getCaption( ).setValue( sText );
@@ -1506,9 +1506,13 @@ public final class AutoScale extends Methods implements Cloneable
 				sText = sdf.format( cdt.getTime( ) );
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
-					x = da[i];
+				{
+					x = da[i] * dZoomFactor;
+				}
 				else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
-					y = da[i];
+				{
+					y = da[i] * dZoomFactor;
+				}
 
 				la.getCaption( ).setValue( sText );
 				try
@@ -1680,11 +1684,11 @@ public final class AutoScale extends Methods implements Cloneable
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 				{
-					x = this.daTickCoordinates[i];
+					x = this.daTickCoordinates[i] * dZoomFactor;
 				}
 				else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 				{
-					y = this.daTickCoordinates[i];
+					y = this.daTickCoordinates[i] * dZoomFactor;
 				}
 
 				la.getCaption( ).setValue( sText );
@@ -1877,6 +1881,37 @@ public final class AutoScale extends Methods implements Cloneable
 			FormatSpecifier fs, RunTimeContext rtc, int direction )
 			throws ChartException
 	{
+		return computeScale( xs,
+				ax,
+				dsi,
+				iType,
+				dStart,
+				dEnd,
+				oMinimum,
+				oMaximum,
+				oStep,
+				fs,
+				rtc,
+				direction,
+				1.0 );
+	}
+
+	/**
+	 * 
+	 * @param ax
+	 * @param dsi
+	 * @param iType
+	 * @param dStart
+	 * @param dEnd
+	 * 
+	 * @return
+	 */
+	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
+			DataSetIterator dsi, int iType, double dStart, double dEnd,
+			DataElement oMinimum, DataElement oMaximum, Double oStep,
+			FormatSpecifier fs, RunTimeContext rtc, int direction,
+			double zoomFactor ) throws ChartException
+	{
 		final Label la = ax.getLabel( );
 		final int iLabelLocation = ax.getLabelPosition( );
 		final int iOrientation = ax.getOrientation( );
@@ -1892,6 +1927,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.bCategoryScale = true;
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
+			sc.dZoomFactor = zoomFactor;
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.computeTicks( xs,
@@ -1944,6 +1980,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
+			sc.dZoomFactor = zoomFactor;
 
 			// OVERRIDE MINIMUM IF SPECIFIED
 			if ( oMinimum != null )
@@ -2139,6 +2176,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
+			sc.dZoomFactor = zoomFactor;
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.updateAxisMinMax( oMinValue, oMaxValue );
@@ -2265,6 +2303,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
+			sc.dZoomFactor = zoomFactor;
 
 			sc.computeTicks( xs,
 					la,
@@ -2422,6 +2461,32 @@ public final class AutoScale extends Methods implements Cloneable
 			boolean bConsiderStartEndLabels, AllAxes aax )
 			throws ChartException
 	{
+		return computeTicks( xs,
+				la,
+				iLabelLocation,
+				iOrientation,
+				dStart,
+				dEnd,
+				bConsiderStartEndLabels,
+				bConsiderStartEndLabels,
+				aax );
+	}
+
+	/**
+	 * 
+	 * @param la
+	 * @param iLabelLocation
+	 * @param iOrientation
+	 * @param dStart
+	 * @param dEnd
+	 * @param bConsiderStartEndLabels
+	 * @param aax
+	 */
+	public final int computeTicks( IDisplayServer xs, Label la,
+			int iLabelLocation, int iOrientation, double dStart, double dEnd,
+			boolean bConsiderStartLabel, boolean bConsiderEndLabel, AllAxes aax )
+			throws ChartException
+	{
 		int nTicks = 0;
 		double dLength = 0;
 		double dTickGap = 0;
@@ -2430,15 +2495,22 @@ public final class AutoScale extends Methods implements Cloneable
 				: iScaleDirection;
 		DataSetIterator dsi = getData( );
 
-		if ( bConsiderStartEndLabels )
+		if ( bConsiderStartLabel || bConsiderEndLabel )
 		{
 			computeAxisStartEndShifts( xs,
 					la,
 					iOrientation,
 					iLabelLocation,
 					aax );
-			dStart += dStartShift * iDirection;
-			dEnd += dEndShift * -iDirection;
+
+			if ( bConsiderStartLabel )
+			{
+				dStart += dStartShift * iDirection;
+			}
+			if ( bConsiderEndLabel )
+			{
+				dEnd += dEndShift * -iDirection;
+			}
 		}
 
 		if ( ( iType & TEXT ) == TEXT || bCategoryScale )
