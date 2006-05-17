@@ -1,0 +1,337 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.util;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
+import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
+import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
+import org.eclipse.birt.report.model.api.MemberHandle;
+import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.jface.util.Assert;
+
+/**
+ * Data utilities for UI
+ */
+
+public class DataUtil
+{
+
+	/**
+	 * Gets the columns list from the data set
+	 * 
+	 * @param handle
+	 *            the handle of the data set
+	 * @return the list of the columns
+	 * @throws SemanticException
+	 */
+	public static List getColumnList( DataSetHandle handle )
+			throws SemanticException
+	{
+		CachedMetaDataHandle meta = handle.getCachedMetaDataHandle( );
+		if ( meta == null )
+		{
+			DataSetUIUtil.updateColumnCache( handle );
+			meta = handle.getCachedMetaDataHandle( );
+		}
+		MemberHandle resultSet = meta.getResultSet( );
+		List result = new ArrayList( );
+		for ( int i = 0; i < resultSet.getListValue( ).size( ); i++ )
+		{
+			result.add( resultSet.getAt( i ) );
+		}
+		return result;
+	}
+
+	/**
+	 * Generate computed columns for the given report item with the closest data
+	 * set available.
+	 * 
+	 * @param handle
+	 *            the handle of the report item
+	 * 
+	 * @return true if succeed,or fail if no column generated.
+	 */
+	public static List generateComputedColumns( ReportItemHandle handle )
+			throws SemanticException
+	{
+		Assert.isNotNull( handle );
+		DataSetHandle dataSetHandle = handle.getDataSet( );
+		if ( dataSetHandle == null )
+		{
+			dataSetHandle = DEUtil.getBindingHolder( handle ).getDataSet( );
+		}
+		if ( dataSetHandle != null )
+		{
+			List resultSetColumnList = getColumnList( dataSetHandle );
+			ArrayList columnList = new ArrayList( );
+			for ( Iterator iter = resultSetColumnList.iterator( ); iter.hasNext( ); )
+			{
+				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iter.next( );
+				ComputedColumn column = StructureFactory.createComputedColumn( );
+				column.setName( resultSetColumn.getColumnName( ) );
+				column.setDataType( resultSetColumn.getDataType( ) );
+				column.setExpression( DEUtil.getExpression( resultSetColumn ) );
+				columnList.add( column );
+			}
+			return columnList;
+		}
+		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * Creates a query for the given data set
+	 * 
+	 * @param dataSet
+	 *            the handle of the data set
+	 * @return the query created
+	 * @throws BirtException
+	 */
+	public static final IPreparedQuery getPreparedQuery( DataEngine engine,
+			DataSetHandle dataSet ) throws BirtException
+	{
+		return getPreparedQuery( engine, dataSet, true );
+	}
+
+	/**
+	 * @param dataSet
+	 * @param useColumnHints
+	 * @return
+	 * @throws BirtException
+	 */
+	public static final IPreparedQuery getPreparedQuery( DataEngine engine,
+			DataSetHandle dataSet, boolean useColumnHints )
+			throws BirtException
+	{
+		return getPreparedQuery( engine, dataSet, useColumnHints, true );
+	}
+
+	/**
+	 * @param dataSet
+	 * @param useColumnHints
+	 * @param useFilters
+	 * @return
+	 * @throws BirtException
+	 */
+	public static final IPreparedQuery getPreparedQuery( DataEngine engine,
+			DataSetHandle dataSet, boolean useColumnHints, boolean useFilters )
+			throws BirtException
+	{
+		return getPreparedQuery( engine,
+				dataSet,
+				null,
+				useColumnHints,
+				useFilters );
+
+	}
+
+	/**
+	 * Gets prepared query, given Data set, Parameter binding, and
+	 * useColumnHints, useFilters information.
+	 * 
+	 * @param dataSet
+	 *            Given DataSet providing SQL query and parameters.
+	 * @param bindingParams
+	 *            Given Parameter bindings providing binded parameters, null if
+	 *            no binded parameters.
+	 * @param useColumnHints
+	 *            Using column hints flag.
+	 * @param useFilters
+	 *            Using filters flag.
+	 * @return IPreparedQeury
+	 * @throws BirtException
+	 */
+	public static final IPreparedQuery getPreparedQuery( DataEngine engine,
+			DataSetHandle dataSet, ParamBindingHandle[] bindingParams,
+			boolean useColumnHints, boolean useFilters ) throws BirtException
+	{
+		IBaseDataSetDesign dataSetDesign = getDataSetDesign( engine,
+				dataSet,
+				useColumnHints,
+				useFilters );
+		return engine.prepare( getQueryDefinition( dataSetDesign, bindingParams ) );
+	}
+
+	/**
+	 * 
+	 * @param dataSet
+	 * @param useColumnHints
+	 * @param useFilters
+	 * @return
+	 * @throws BirtException
+	 */
+	public static final IBaseDataSetDesign getDataSetDesign( DataEngine engine,
+			DataSetHandle dataSet, boolean useColumnHints, boolean useFilters )
+			throws BirtException
+	{
+		if ( dataSet != null )
+		{
+			ModelDteApiAdapter adaptor = new ModelDteApiAdapter( );
+			IBaseDataSetDesign dataSetDesign = adaptor.createDataSetDesign( dataSet );
+
+			if ( !useColumnHints )
+			{
+				dataSetDesign.getResultSetHints( ).clear( );
+			}
+			if ( !useFilters )
+			{
+				dataSetDesign.getFilters( ).clear( );
+			}
+			if ( !( dataSet instanceof JointDataSetHandle ) )
+			{
+				IBaseDataSourceDesign dataSourceDesign = adaptor.createDataSourceDesign( dataSet.getDataSource( ) );
+				engine.defineDataSource( dataSourceDesign );
+
+			}
+			if ( dataSet instanceof JointDataSetHandle )
+			{
+				defineSourceDataSets( engine, dataSet, dataSetDesign );
+			}
+			engine.defineDataSet( dataSetDesign );
+			return dataSetDesign;
+		}
+		return null;
+	}
+
+	/**
+	 * @param dataSet
+	 * @param dataSetDesign
+	 * @throws BirtException
+	 */
+	private static void defineSourceDataSets( DataEngine engine,
+			DataSetHandle dataSet, IBaseDataSetDesign dataSetDesign )
+			throws BirtException
+	{
+		List dataSets = dataSet.getModuleHandle( ).getAllDataSets( );
+		for ( int i = 0; i < dataSets.size( ); i++ )
+		{
+			DataSetHandle dsHandle = (DataSetHandle) dataSets.get( i );
+			if ( dsHandle.getName( ) != null )
+			{
+				if ( dsHandle.getName( )
+						.equals( ( (IJointDataSetDesign) dataSetDesign ).getLeftDataSetDesignName( ) )
+						|| dsHandle.getName( )
+								.equals( ( (IJointDataSetDesign) dataSetDesign ).getRightDataSetDesignName( ) ) )
+				{
+					getDataSetDesign( engine, dsHandle, true, true );
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param dataSetDesign
+	 * @param bindingParams
+	 * @return
+	 */
+	public static final QueryDefinition getQueryDefinition(
+			IBaseDataSetDesign dataSetDesign, ParamBindingHandle[] bindingParams )
+	{
+		return getQueryDefinition( dataSetDesign, bindingParams, -1 );
+	}
+
+	/**
+	 * @param dataSetDesign
+	 * @param bindingParams
+	 * @param i
+	 * @return
+	 */
+	public static QueryDefinition getQueryDefinition(
+			IBaseDataSetDesign dataSetDesign,
+			ParamBindingHandle[] bindingParams, int rowsToReturn )
+	{
+		if ( bindingParams == null || bindingParams.length == 0 )
+		{
+			return getQueryDefinition( dataSetDesign, rowsToReturn );
+		}
+		if ( dataSetDesign != null )
+		{
+			QueryDefinition defn = new QueryDefinition( null );
+			defn.setDataSetName( dataSetDesign.getName( ) );
+			if ( rowsToReturn > 0 )
+			{
+				defn.setMaxRows( rowsToReturn );
+			}
+
+			for ( int i = 0; i < bindingParams.length; i++ )
+			{
+				ParamBindingHandle param = bindingParams[i];
+				InputParameterBinding binding = new InputParameterBinding( param.getParamName( ),
+						new ScriptExpression( param.getExpression( ) ) );
+				defn.addInputParamBinding( binding );
+			}
+
+			return defn;
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param dataSetDesign
+	 * @param rowsToReturn
+	 * @return
+	 */
+	public static final QueryDefinition getQueryDefinition(
+			IBaseDataSetDesign dataSetDesign, int rowsToReturn )
+	{
+		if ( dataSetDesign != null )
+		{
+			QueryDefinition defn = new QueryDefinition( null );
+			defn.setDataSetName( dataSetDesign.getName( ) );
+			if ( rowsToReturn > 0 )
+			{
+				defn.setMaxRows( rowsToReturn );
+			}
+			List parameters = dataSetDesign.getParameters( );
+			Iterator iter = parameters.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				ParameterDefinition paramDefn = (ParameterDefinition) iter.next( );
+				if ( paramDefn.isInputMode( ) )
+				{
+					if ( paramDefn.getDefaultInputValue( ) != null )
+					{
+						InputParameterBinding binding = new InputParameterBinding( paramDefn.getName( ),
+								new ScriptExpression( paramDefn.getDefaultInputValue( )
+										.toString( ) ) );
+						defn.addInputParamBinding( binding );
+					}
+				}
+			}
+			return defn;
+		}
+		return null;
+	}
+}

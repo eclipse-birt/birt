@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.viewers.TreeViewer;
 
 /**
@@ -79,7 +81,14 @@ public class RefreshAction extends AbstractViewerAction
 		if ( isEnabled( ) )
 		{
 			DataSetHandle handle = (DataSetHandle) getSelectedObjects( ).getFirstElement( );
-			DataSetManager.getCurrentInstance( ).refresh( handle );
+			try
+			{
+				DataSetUIUtil.updateColumnCache( handle );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 			getSourceViewer( ).refresh( handle );
 		}
 	}

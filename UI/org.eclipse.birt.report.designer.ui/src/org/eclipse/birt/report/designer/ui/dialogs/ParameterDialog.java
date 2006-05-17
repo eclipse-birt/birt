@@ -17,18 +17,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -37,11 +35,14 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -269,7 +270,7 @@ public class ParameterDialog extends BaseDialog
 
 	private Composite valueArea;
 
-	private DataSetItemModel[] cachedColumns;
+	private List columnList;
 
 	private int maxStrLengthProperty;
 
@@ -1035,25 +1036,34 @@ public class ParameterDialog extends BaseDialog
 		}
 		if ( !onlyFilter )
 		{
-			cachedColumns = DataSetManager.getCurrentInstance( )
-					.getColumns( dataSetChooser.getText( ), true );
+			DataSetHandle dataSetHandle = inputParameter.getModuleHandle( )
+					.findDataSet( dataSetChooser.getText( ) );
 
+			try
+			{
+				columnList = DataUtil.getColumnList( dataSetHandle );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 			displayTextChooser.removeAll( );
 			displayTextChooser.add( NONE_DISPLAY_TEXT );
-			for ( int i = 0; i < cachedColumns.length; i++ )
+			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
-				displayTextChooser.add( cachedColumns[i].getName( ) );
+				displayTextChooser.add( ( (ResultSetColumnHandle) iter.next( ) ).getColumnName( ) );
 			}
 			displayTextChooser.setText( NONE_DISPLAY_TEXT );
 		}
 		String originalSelection = columnChooser.getText( );
 		columnChooser.removeAll( );
 
-		for ( int i = 0; i < cachedColumns.length; i++ )
+		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
-			if ( matchDataType( cachedColumns[i] ) )
+			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
+			if ( matchDataType( cachedColumn ) )
 			{
-				columnChooser.add( cachedColumns[i].getName( ) );
+				columnChooser.add( cachedColumn.getColumnName( ) );
 			}
 		}
 		if ( columnChooser.indexOf( originalSelection ) != -1 )
@@ -1068,31 +1078,30 @@ public class ParameterDialog extends BaseDialog
 		updateMessageLine( );
 	}
 
-	private boolean matchDataType( DataSetItemModel column )
+	private boolean matchDataType( ResultSetColumnHandle column )
 	{
-		if ( column.getDataType( ) == DataType.UNKNOWN_TYPE )
-		{
-			return false;
-		}
 		String type = getSelectedDataType( );
-		if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+		if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( column.getDataType( ) ) )
 		{
 			return true;
 		}
-		switch ( column.getDataType( ) )
+		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( column.getDataType( ) ) )
 		{
-			case DataType.BOOLEAN_TYPE :
-				return type.equals( DesignChoiceConstants.PARAM_TYPE_BOOLEAN );
-			case DataType.INTEGER_TYPE :
-				return type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
-						|| type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
-			case DataType.DATE_TYPE :
-				return type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME );
-			case DataType.DECIMAL_TYPE :
-				return type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
-						|| type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
-			case DataType.DOUBLE_TYPE :
-				return type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
+			return type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME );
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( column.getDataType( ) ) )
+		{
+			return type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL );
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( column.getDataType( ) ) )
+		{
+			return type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( column.getDataType( ) ) )
+		{
+			return type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT )
+					|| type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL );
 		}
 		return false;
 	}
@@ -1934,9 +1943,7 @@ public class ParameterDialog extends BaseDialog
 			return ERROR_MSG_NAME_IS_EMPTY;
 		}
 		if ( !name.equals( inputParameter.getName( ) )
-				&& SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findParameter( name ) != null )
+				&& inputParameter.getModuleHandle( ).findParameter( name ) != null )
 		{
 			return ERROR_MSG_DUPLICATED_NAME;
 		}
@@ -2358,11 +2365,12 @@ public class ParameterDialog extends BaseDialog
 
 	private String getExpression( String columnName )
 	{
-		for ( int i = 0; i < cachedColumns.length; i++ )
+		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
-			if ( cachedColumns[i].getName( ).equals( columnName ) )
+			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
+			if ( cachedColumn.getColumnName( ).equals( columnName ) )
 			{
-				return DEUtil.getExpression( cachedColumns[i] );
+				return DEUtil.getExpression( cachedColumn );
 			}
 		}
 		return null;
@@ -2371,11 +2379,12 @@ public class ParameterDialog extends BaseDialog
 
 	private String getColumnName( String expression )
 	{
-		for ( int i = 0; i < cachedColumns.length; i++ )
+		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
-			if ( DEUtil.getExpression( cachedColumns[i] ).equals( expression ) )
+			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
+			if ( DEUtil.getExpression( cachedColumn ).equals( expression ) )
 			{
-				return cachedColumns[i].getName( );
+				return cachedColumn.getColumnName( );
 			}
 		}
 		return null;

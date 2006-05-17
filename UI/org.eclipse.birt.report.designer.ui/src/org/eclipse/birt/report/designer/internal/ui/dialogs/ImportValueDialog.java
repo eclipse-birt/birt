@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
 
-import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -24,8 +26,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.util.Assert;
@@ -82,8 +84,10 @@ public class ImportValueDialog extends BaseDialog
 	private String currentDataSetName;
 	private ArrayList resultList = new ArrayList( );;
 
-	private DataSetItemModel[] columns;
+	private java.util.List columnList;
 	private int selectedColumnIndex;
+
+	private DataEngine engine;
 
 	private String style;
 
@@ -302,7 +306,7 @@ public class ImportValueDialog extends BaseDialog
 			{
 				selectedList.add( selected[i] );
 			}
-		}		
+		}
 		filteValues( );
 
 		if ( selected.length == 1 )
@@ -364,6 +368,19 @@ public class ImportValueDialog extends BaseDialog
 
 	protected boolean initDialog( )
 	{
+		try
+		{
+			engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+					null,
+					null,
+					null ) );
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
+
 		dataSetChooser.setItems( ChoiceSetFactory.getDataSets( ) );
 		dataSetChooser.select( 0 );
 		currentDataSetName = dataSetChooser.getText( );
@@ -373,23 +390,32 @@ public class ImportValueDialog extends BaseDialog
 
 	private void refreshColumns( )
 	{
-		columns = DataSetManager.getCurrentInstance( )
-				.getColumns( currentDataSetName, false );
+		DataSetHandle dataSetHandle = getDataSetHandle( );
+		try
+		{
+			columnList = DataUtil.getColumnList( dataSetHandle );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
 		columnChooser.removeAll( );
 		selectedColumnIndex = -1;
-		if ( columns.length == 0 )
+		if ( columnList.size( ) == 0 )
 		{
 			columnChooser.setItems( new String[0] );
 		}
 		else
 		{
-			ArrayList columnList = new ArrayList( );
-			for ( int i = 0; i < columns.length; i++ )
+			ArrayList matachedColumnList = new ArrayList( );
+			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
-				if ( matchType( columns[i] ) )
+				ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
+				if ( matchType( column ) )
 				{
-					columnChooser.add( columns[i].getDataSetColumnName( ) );
-					columnList.add( columns[i] );
+					columnChooser.add( column.getColumnName( ) );
+					matachedColumnList.add( column );
 					selectedColumnIndex = 0;
 				}
 			}
@@ -400,67 +426,53 @@ public class ImportValueDialog extends BaseDialog
 		refreshValues( );
 	}
 
-	/**
-	 * @deprecated
-	 */
-	private boolean matchType( DataSetItemModel model )
+	private boolean matchType( ResultSetColumnHandle column )
 	{
-		if ( model.getDataType( ) == DataType.UNKNOWN_TYPE )
-		{
-			return false;
-		}
-		if ( style.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+		if ( style.equals( DesignChoiceConstants.PARAM_TYPE_STRING )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( column.getDataType( ) ) )
 		{
 			return true;
 		}
-		switch ( model.getDataType( ) )
+		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( column.getDataType( ) ) )
 		{
-			case DataType.BOOLEAN_TYPE :
-				return style.equals( DesignChoiceConstants.PARAM_TYPE_BOOLEAN );
-			case DataType.INTEGER_TYPE :
-				return style.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
-						|| style.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
-			case DataType.DATE_TYPE :
-				return style.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME );
-			case DataType.DECIMAL_TYPE :
-				return style.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
-						|| style.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
-			case DataType.DOUBLE_TYPE :
-				return style.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
+			return style.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME );
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( column.getDataType( ) ) )
+		{
+			return style.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL );
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( column.getDataType( ) ) )
+		{
+			return style.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( column.getDataType( ) ) )
+		{
+			return style.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT )
+					|| style.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL );
 		}
 		return false;
 	}
 
-	private boolean matchType( ResultSetColumnHandle model )
-	{
-		return style.equals( model.getDataType( ) );
-	}
-	
 	private void refreshValues( )
 	{
 		resultList.clear( );
 		if ( columnChooser.isEnabled( ) )
 		{
-			DataSetItemModel selectedColumn = null;
+			ResultSetColumnHandle selectedColumn = null;
 			try
 			{
-				BaseQueryDefinition query = (BaseQueryDefinition) DataSetManager.getCurrentInstance( )
-						.getPreparedQuery( getDataSetHandle( ) )
+				BaseQueryDefinition query = (BaseQueryDefinition) DataUtil.getPreparedQuery( engine,
+						getDataSetHandle( ) )
 						.getReportQueryDefn( );
 				String queryExpr = null;
-				for ( int i = 0; i < columns.length; i++ )
+				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 				{
-					if ( columns[i].getName( )
+					ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
+					if ( column.getColumnName( )
 							.equals( columnChooser.getText( ) ) )
 					{
-						String colName = ( columns[i] ).getAlias( );
-
-						if ( colName == null || colName.trim( ).length( ) == 0 )
-						{
-							colName = ( columns[i] ).getName( );
-						}
-						queryExpr = DEUtil.getResultSetColumnExpression( colName );
-						selectedColumn = columns[i];
+						queryExpr = DEUtil.getResultSetColumnExpression( column.getColumnName( ) );
+						selectedColumn = column;
 						break;
 					}
 				}
@@ -471,11 +483,9 @@ public class ImportValueDialog extends BaseDialog
 				ScriptExpression expression = new ScriptExpression( queryExpr );
 				String columnBindingName = "_$_COLUMNBINDINGNAME_$_";
 				query.addResultSetExpression( columnBindingName, expression );
-				//query.addExpression( expression, BaseTransform.ON_EACH_ROW );
+				// query.addExpression( expression, BaseTransform.ON_EACH_ROW );
 
-				IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
-						.getEngine( )
-						.prepare( (IQueryDefinition) query );
+				IPreparedQuery preparedQuery = engine.prepare( (IQueryDefinition) query );
 				IQueryResults results = preparedQuery.execute( null );
 				if ( results != null )
 				{
@@ -486,7 +496,7 @@ public class ImportValueDialog extends BaseDialog
 						while ( iter.next( ) )
 						{
 							String result = null;
-							if ( selectedColumn.getDataType( ) == DataType.DATE_TYPE )
+							if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( selectedColumn.getDataType( ) ) )
 							{
 
 								result = formatter.format( iter.getDate( columnBindingName ) );
@@ -569,4 +579,14 @@ public class ImportValueDialog extends BaseDialog
 				.getReportDesignHandle( )
 				.findDataSet( currentDataSetName );
 	}
+
+	public boolean close( )
+	{
+		if ( engine != null )
+		{
+			engine.shutdown( );
+		}
+		return super.close( );
+	}
+
 }

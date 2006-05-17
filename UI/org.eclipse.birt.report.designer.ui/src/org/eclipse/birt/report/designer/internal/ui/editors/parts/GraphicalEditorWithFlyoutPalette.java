@@ -30,7 +30,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -103,7 +102,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.29 $ $Date: 2006/04/29 02:23:38 $
+ * @version $Revision: 1.30 $ $Date: 2006/05/16 10:12:17 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -413,9 +412,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		{
 			splitter.setExternalViewer( page.getPaletteViewer( ) );
 			page = null;
-		}
-		
-		DataSetManager.initCurrentInstance(getEditorInput( ) );
+		}		
 	}
 
 	/**
@@ -427,9 +424,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.removeColleague( this );
-		
-		DataSetManager.removeInstance(getEditorInput( ));
-
+			
 		// remove selection listener
 
 		getSite( ).getWorkbenchWindow( )

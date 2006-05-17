@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,26 +36,19 @@ import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -1052,7 +1044,8 @@ public class UIUtil
 		String namespace = getLibraryNamespace( moduleHandle, libraryPath );
 		if ( namespace != null )
 		{
-			moduleHandle.includeLibrary( DEUtil.getRelativedPath( ReportPlugin.getDefault( ).getResourcePreference( ),
+			moduleHandle.includeLibrary( DEUtil.getRelativedPath( ReportPlugin.getDefault( )
+					.getResourcePreference( ),
 					libraryPath ),
 					namespace );
 			// ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
@@ -1216,71 +1209,5 @@ public class UIUtil
 
 	}
 
-	/**
-	 * Gets the columns list from the data set
-	 * 
-	 * @param handle
-	 *            the handle of the data set
-	 * @return the list of the columns
-	 */
-	public static List getColumnList( DataSetHandle handle )
-	{
-		CachedMetaDataHandle meta = handle.getCachedMetaDataHandle( );
-		if ( meta == null )
-		{
-			DataSetManager.getCurrentInstance( ).refresh( handle );
-		}
-		MemberHandle resultSet = meta.getResultSet( );
-		List result = new ArrayList( );
-		for ( int i = 0; i < resultSet.getListValue( ).size( ); i++ )
-		{
-			result.add( resultSet.getAt( i ) );
-		}
-		return result;
-	}
-
-	/**
-	 * Generate computed columns for the given report item with the closest data
-	 * set available.
-	 * 
-	 * @param handle
-	 *            the handle of the report item
-	 * 
-	 * @return true if succeed,or fail if no column generated.
-	 */
-	public static List generateComputedColumns( ReportItemHandle handle )
-			throws SemanticException
-	{
-		Assert.isNotNull( handle );
-		DesignElementHandle holder = null;
-		DataSetHandle dataSetHandle = handle.getDataSet( );
-		if ( dataSetHandle != null )
-		{
-			holder = handle;
-		}
-		else
-		{
-			dataSetHandle = DEUtil.getBindingHolder( handle ).getDataSet( );
-			if ( dataSetHandle != null )
-			{
-				holder = DEUtil.getBindingHolder( handle );
-			}
-		}
-		if ( dataSetHandle != null )
-		{
-			List resultSetColumnList = getColumnList( dataSetHandle );
-			ArrayList columnList = new ArrayList( );
-			for ( Iterator iter = resultSetColumnList.iterator( ); iter.hasNext( ); )
-			{
-				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iter.next( );
-				ComputedColumn column = StructureFactory.createComputedColumn( );
-				column.setName( resultSetColumn.getColumnName( ) );
-				column.setDataType( resultSetColumn.getDataType( ) );
-				column.setExpression( DEUtil.getExpression( resultSetColumn ) );
-				columnList.add( column );
-			}
-			return columnList;
-		}
-		return Collections.EMPTY_LIST;
-	}
+	
 }

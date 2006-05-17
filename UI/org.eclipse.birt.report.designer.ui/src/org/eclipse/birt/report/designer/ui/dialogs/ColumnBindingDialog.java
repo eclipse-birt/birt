@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ComputedColumnExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ExpressionCellEditor;
@@ -78,7 +79,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ * Dialog to create and select column bindings
  */
 
 public class ColumnBindingDialog extends BaseDialog
@@ -722,7 +723,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private void generateBindingColumns( ) throws SemanticException
 	{
-		List columnList = UIUtil.generateComputedColumns( inputElement );
+		List columnList = DataUtil.generateComputedColumns( inputElement );
 		if ( columnList.size( ) > 0 )
 		{
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )

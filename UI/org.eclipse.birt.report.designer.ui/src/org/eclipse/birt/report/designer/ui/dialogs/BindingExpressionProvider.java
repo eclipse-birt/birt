@@ -12,9 +12,11 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -22,6 +24,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * 
@@ -67,7 +70,15 @@ public class BindingExpressionProvider extends ExpressionProvider
 		}
 		if ( parent instanceof DataSetHandle )
 		{
-			return UIUtil.getColumnList( (DataSetHandle) parent );
+			try
+			{
+				return DataUtil.getColumnList( (DataSetHandle) parent );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+				return Collections.EMPTY_LIST;
+			}
 		}
 		return super.getChildrenList( parent );
 	}
