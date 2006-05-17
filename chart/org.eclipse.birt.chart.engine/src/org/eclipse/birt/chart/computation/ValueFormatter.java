@@ -93,7 +93,7 @@ public final class ValueFormatter
 				}
 				else if ( oValue instanceof DateTimeDataElement )
 				{
-					if ( oCachedJavaFormatter instanceof DecimalFormat )
+					if ( oCachedJavaFormatter instanceof DateFormat )
 					{
 						return ( (DateFormat) oCachedJavaFormatter ).format( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) );
 					}

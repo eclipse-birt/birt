@@ -1503,7 +1503,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 			for ( int i = 0; i < da.length; i++ )
 			{
-				sText = sdf.format( cdt.getTime( ) );
+				sText = ValueFormatter.format( cdt, fs, rtc.getULocale( ), sdf );
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 				{
@@ -3010,7 +3010,7 @@ public final class AutoScale extends Methods implements Cloneable
 			IDateFormatWrapper sdf = null;
 			String sText = null;
 
-			if ( fs != null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
+			if ( fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
 			// ISN'T DEFINED
 			{
 				sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,

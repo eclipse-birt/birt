@@ -1092,7 +1092,7 @@ public abstract class PlotWithAxes extends Methods
 				if ( dYAxisLabelsThickness > scX.getEndShift( ) )
 				{
 					// REDUCE scX's STARTPOINT TO FIT THE Y-AXIS ON THE LEFT
-					dEnd = dX2 - scX.getEndShift( );
+					dEnd = dX2;
 					startEndChanged = true;
 				}
 				else
@@ -1106,7 +1106,7 @@ public abstract class PlotWithAxes extends Methods
 				if ( dYAxisLabelsThickness > scX.getStartShift( ) )
 				{
 					// REDUCE scX's STARTPOINT TO FIT THE Y-AXIS ON THE LEFT
-					dStart = dX2 - scX.getStartShift( );
+					dStart = dX2;
 					startEndChanged = true;
 				}
 				else
@@ -1116,14 +1116,14 @@ public abstract class PlotWithAxes extends Methods
 				dEnd = scX.getEnd( );
 			}
 
-			if ( startEndChanged )
-			{
-				scX.resetShifts( );
+			scX.resetShifts( );
 
-				// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
-				// IF
-				// OVERLAPS OCCUR
-				scX.setEndPoints( dStart, dEnd );
+			// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
+			// IF OVERLAPS OCCUR
+			scX.setEndPoints( dStart, dEnd );
+
+			if ( scX.getDirection( ) == BACKWARD )
+			{
 				scX.computeTicks( ids,
 						laXAxisLabels,
 						iXLabelLocation,
@@ -1131,33 +1131,65 @@ public abstract class PlotWithAxes extends Methods
 						dStart,
 						dEnd,
 						true,
+						!startEndChanged,
 						aax );
+			}
+			else
+			{
+				scX.computeTicks( ids,
+						laXAxisLabels,
+						iXLabelLocation,
+						HORIZONTAL,
+						dStart,
+						dEnd,
+						!startEndChanged,
+						true,
+						aax );
+			}
 
-				if ( !scX.isStepFixed( ) )
+			if ( !scX.isStepFixed( ) )
+			{
+				final Object[] oaMinMax = scX.getMinMax( );
+
+				while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
 				{
-					final Object[] oaMinMax = scX.getMinMax( );
-
-					while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
+					if ( !scX.zoomOut( ) )
 					{
-						if ( !scX.zoomOut( ) )
-						{
-							break;
-						}
-						scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-						int tickCount = scX.computeTicks( ids,
+						break;
+					}
+					scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+
+					int tickCount;
+					if ( scX.getDirection( ) == BACKWARD )
+					{
+						tickCount = scX.computeTicks( ids,
 								laXAxisLabels,
 								iXLabelLocation,
 								HORIZONTAL,
 								dStart,
 								dEnd,
 								true,
+								!startEndChanged,
 								aax );
-						if ( scX.getUnit( ) != null
-								&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
-								&& tickCount <= 3 )
-						{
-							break;
-						}
+					}
+					else
+					{
+						tickCount = scX.computeTicks( ids,
+								laXAxisLabels,
+								iXLabelLocation,
+								HORIZONTAL,
+								dStart,
+								dEnd,
+								!startEndChanged,
+								true,
+								aax );
+					}
+
+					if ( scX.getUnit( ) != null
+							&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
+							&& tickCount <= 3 )
+					{
+						break;
 					}
 				}
 			}
@@ -1166,16 +1198,14 @@ public abstract class PlotWithAxes extends Methods
 			// EXISTS OR SCALE IS RECOMPUTED
 			if ( scX.getDirection( ) == BACKWARD )
 			{
-				if ( startEndChanged
-						|| dYAxisLabelsThickness < scX.getEndShift( ) )
+				if ( dYAxisLabelsThickness < scX.getEndShift( ) )
 				{
 					dX = scX.getEnd( ) - ( dX2 - dX );
 				}
 			}
 			else
 			{
-				if ( startEndChanged
-						|| dYAxisLabelsThickness < scX.getStartShift( ) )
+				if ( dYAxisLabelsThickness < scX.getStartShift( ) )
 				{
 					dX = scX.getStart( ) - ( dX2 - dX );
 				}
@@ -1260,7 +1290,7 @@ public abstract class PlotWithAxes extends Methods
 				if ( dYAxisLabelsThickness > scX.getStartShift( ) )
 				{
 					// REDUCE scX's ENDPOINT TO FIT THE Y-AXIS ON THE RIGHT
-					dStart = dX1 + scX.getStartShift( );
+					dStart = dX1;
 					startEndChanged = true;
 				}
 				else
@@ -1274,7 +1304,7 @@ public abstract class PlotWithAxes extends Methods
 				if ( dYAxisLabelsThickness > scX.getEndShift( ) )
 				{
 					// REDUCE scX's ENDPOINT TO FIT THE Y-AXIS ON THE RIGHT
-					dEnd = dX1 + scX.getEndShift( );
+					dEnd = dX1;
 					startEndChanged = true;
 				}
 				else
@@ -1284,14 +1314,26 @@ public abstract class PlotWithAxes extends Methods
 				dStart = scX.getStart( );
 			}
 
-			if ( startEndChanged )
-			{
-				scX.resetShifts( );
+			scX.resetShifts( );
 
-				// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
-				// IF
-				// OVERLAPS OCCUR
-				scX.setEndPoints( dStart, dEnd );
+			// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
+			// IF OVERLAPS OCCUR
+			scX.setEndPoints( dStart, dEnd );
+
+			if ( scX.getDirection( ) == BACKWARD )
+			{
+				scX.computeTicks( ids,
+						laXAxisLabels,
+						iXLabelLocation,
+						HORIZONTAL,
+						dStart,
+						dEnd,
+						!startEndChanged,
+						true,
+						aax );
+			}
+			else
+			{
 				scX.computeTicks( ids,
 						laXAxisLabels,
 						iXLabelLocation,
@@ -1299,31 +1341,53 @@ public abstract class PlotWithAxes extends Methods
 						dStart,
 						dEnd,
 						true,
+						!startEndChanged,
 						aax );
-				if ( !scX.isStepFixed( ) )
+			}
+
+			if ( !scX.isStepFixed( ) )
+			{
+				final Object[] oaMinMax = scX.getMinMax( );
+				while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
 				{
-					final Object[] oaMinMax = scX.getMinMax( );
-					while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
+					if ( !scX.zoomOut( ) )
 					{
-						if ( !scX.zoomOut( ) )
-						{
-							break;
-						}
-						scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-						int tickCount = scX.computeTicks( ids,
+						break;
+					}
+					scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+
+					int tickCount;
+
+					if ( scX.getDirection( ) == BACKWARD )
+					{
+						tickCount = scX.computeTicks( ids,
+								laXAxisLabels,
+								iXLabelLocation,
+								HORIZONTAL,
+								dStart,
+								dEnd,
+								!startEndChanged,
+								true,
+								aax );
+					}
+					else
+					{
+						tickCount = scX.computeTicks( ids,
 								laXAxisLabels,
 								iXLabelLocation,
 								HORIZONTAL,
 								dStart,
 								dEnd,
 								true,
+								!startEndChanged,
 								aax );
-						if ( scX.getUnit( ) != null
-								&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
-								&& tickCount <= 3 )
-						{
-							break;
-						}
+					}
+
+					if ( scX.getUnit( ) != null
+							&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
+							&& tickCount <= 3 )
+					{
+						break;
 					}
 				}
 			}
@@ -1332,16 +1396,14 @@ public abstract class PlotWithAxes extends Methods
 			// EXISTS OR SCALE IS RECOMPUTED
 			if ( scX.getDirection( ) == BACKWARD )
 			{
-				if ( startEndChanged
-						|| dYAxisLabelsThickness < scX.getStartShift( ) )
+				if ( dYAxisLabelsThickness < scX.getStartShift( ) )
 				{
 					dX = scX.getStart( ) - ( dX1 - dX );
 				}
 			}
 			else
 			{
-				if ( startEndChanged
-						|| dYAxisLabelsThickness < scX.getEndShift( ) )
+				if ( dYAxisLabelsThickness < scX.getEndShift( ) )
 				{
 					dX = scX.getEnd( ) - ( dX1 - dX );
 				}
@@ -1352,7 +1414,6 @@ public abstract class PlotWithAxes extends Methods
 
 			axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dX1 - 1
 					: dX2 + 1 - dYAxisTitleThickness );
-
 		}
 		else
 		{
