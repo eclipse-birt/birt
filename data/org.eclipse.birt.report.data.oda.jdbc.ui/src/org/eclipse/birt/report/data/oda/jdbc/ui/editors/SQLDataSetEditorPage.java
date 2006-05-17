@@ -12,6 +12,7 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -19,18 +20,32 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DbObject;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.core.runtime.Preferences;
+import org.eclipse.datatools.connectivity.oda.IConnection;
+import org.eclipse.datatools.connectivity.oda.IDriver;
+import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
+import org.eclipse.datatools.connectivity.oda.IQuery;
+import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
+import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
+import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
+import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
+import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -96,7 +111,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.45 $ $Date: 2006/04/25 09:35:48 $
+ * @version $Revision: 1.46 $ $Date: 2006/05/11 06:21:46 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -135,6 +150,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	private static String COLUMN_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ColumnIcon";
 	
 	private String cachedSearchTxt = "";
+	private String formerQueryTxt = "";
 	private String cachedDbType = "";
 	private int cachedSchemaComboIndex = -1;
 	private DataSourceDesign prevDataSourceDesign;
@@ -207,9 +223,224 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	{
 		if ( design != null && doc != null )
 			design.setQueryText( doc.get( ) );
+		if ( !formerQueryTxt.equals( design.getQueryText( ) ) )
+		{
+			savePage( design );
+			formerQueryTxt = design.getQueryText( );
+		}
 		return design;
 	}
+	
+	/**
+	 * save resultset metadata and parameter metadata in dataset design
+	 * 
+	 * @param design
+	 */
+	private void savePage( DataSetDesign design )
+	{
+       // obtain query's result set metadata, and update
+        // the dataSetDesign with it
+        IConnection conn = null;
+		try
+		{
+			IDriver jdbcDriver = new OdaJdbcDriver( );
+			conn = jdbcDriver.getConnection( null );
+			java.util.Properties prop = new java.util.Properties( );
+			DataSourceDesign dataSourceDesign = design.getDataSourceDesign( );
+			if ( dataSourceDesign != null )
+			{
+				prop.put( Constants.ODADriverClass,
+						dataSourceDesign.getPublicProperties( )
+								.getProperty( Constants.ODADriverClass ) == null
+								? "" : dataSourceDesign.getPublicProperties( )
+										.getProperty( Constants.ODADriverClass ) );
+				prop.put( Constants.ODAURL,
+						dataSourceDesign.getPublicProperties( )
+								.getProperty( Constants.ODAURL ) == null ? ""
+								: dataSourceDesign.getPublicProperties( )
+										.getProperty( Constants.ODAURL ) );
+				prop.put( Constants.ODAUser,
+						dataSourceDesign.getPublicProperties( )
+								.getProperty( Constants.ODAUser ) == null ? ""
+								: dataSourceDesign.getPublicProperties( )
+										.getProperty( Constants.ODAUser ) );
+				prop.put( Constants.ODAPassword,
+						dataSourceDesign.getPublicProperties( )
+								.getProperty( Constants.ODAPassword ) == null
+								? "" : dataSourceDesign.getPublicProperties( )
+										.getProperty( Constants.ODAPassword ) );
+			}
+			conn.open( prop );
+			IQuery query = conn.newQuery( design.getOdaExtensionDataSetId( ) );
+			query.setMaxRows( 1 );
+			query.prepare( design.getQueryText( ) );
 
+			// set parameter metadata
+			IParameterMetaData paramMetaData = query.getParameterMetaData( );
+			mergeParameterMetaData( design, paramMetaData );
+			query.executeQuery( );
+
+			// set resultset metadata
+			IResultSetMetaData metadata = query.getMetaData( );
+			setResultSetMetaData( design, metadata );
+
+		}
+        catch( OdaException e )
+        {
+            // no result set definition available, reset in dataSetDesign
+        	design.setResultSets( null );
+        }
+        finally
+        {
+            closeConnection( conn );
+        }
+	}
+
+    /**
+     * 
+     * @param dataSetDesign
+     * @param md
+     * @throws OdaException
+     */
+    private void setResultSetMetaData( DataSetDesign dataSetDesign,
+			IResultSetMetaData md ) throws OdaException
+	{
+    	
+		ResultSetColumns columns = DesignSessionUtil.toResultSetColumnsDesign( md );
+
+		ResultSetDefinition resultSetDefn = DesignFactory.eINSTANCE.createResultSetDefinition( );
+		// jdbc does not support result set name
+		resultSetDefn.setResultSetColumns( columns );
+		// no exception; go ahead and assign to specified dataSetDesign
+		dataSetDesign.setPrimaryResultSet( resultSetDefn );
+		dataSetDesign.getResultSets( ).setDerivedMetaData( true );
+	}
+    
+    /**
+	 * merge paramter meta data between dataParameter and datasetDesign's
+	 * parameter.
+	 * 
+	 * @param dataSetDesign
+	 * @param md
+	 * @throws OdaException
+	 */
+	private void mergeParameterMetaData( DataSetDesign dataSetDesign,
+			IParameterMetaData md ) throws OdaException
+	{
+		DataSetParameters parameters = dataSetDesign.getParameters( );
+		DataSetParameters dataSetParameter = DesignSessionUtil.toDataSetParametersDesign( md );
+		if ( parameters == null
+				|| parameters.getParameterDefinitions( ).size( ) == 0 )
+		{
+			if ( dataSetParameter != null )
+			{
+				Iterator iter = dataSetParameter.getParameterDefinitions( )
+						.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					ParameterDefinition defn = (ParameterDefinition) iter.next( );
+					proccessParamDefn( defn, dataSetParameter );
+				}
+			}
+			dataSetDesign.setParameters( dataSetParameter );
+		}
+		else
+		{
+			int designParamSize = 0;
+			if ( dataSetParameter != null )
+				designParamSize = dataSetParameter.getParameterDefinitions( )
+						.size( );
+			int dataParamSize = parameters.getParameterDefinitions( ).size( );
+			while ( designParamSize > dataParamSize )
+			{
+				ParameterDefinition defn = (ParameterDefinition) dataSetParameter.getParameterDefinitions( )
+						.get( dataParamSize );
+
+				proccessParamDefn( defn, parameters );
+				parameters.getParameterDefinitions( ).add( defn );
+				designParamSize--;
+			}
+		}
+	}
+    
+    /**
+	 * Process the parameter definition for some special case
+	 * 
+	 * @param defn
+	 * @param parameters
+	 */
+	private void proccessParamDefn( ParameterDefinition defn,
+			DataSetParameters parameters )
+	{
+		if ( defn.getAttributes( ).getName( ) == null
+				|| defn.getAttributes( ).getName( ).trim( ).equals( "" ) )
+			defn.getAttributes( ).setName( getUniqueName( parameters ) );
+		// An interim solution for the parameter in/out mode,
+		// because the validtion on parameter will throw an
+		// exception
+		if ( !defn.isSetInOutMode( ) )
+		{
+			defn.setInOutMode( defn.getInOutMode( ) );
+		}
+		if ( defn.getAttributes( ).getNativeDataTypeCode( ) == Types.NULL )
+		{
+			defn.getAttributes( ).setNativeDataTypeCode( Types.CHAR );
+		}
+	}
+
+	/**
+	 * Get a unique name for dataset parameter
+	 * @param parameters
+	 * @return
+	 */
+    protected final String getUniqueName( DataSetParameters parameters )
+	{
+		int n = 1;
+		String prefix = "param"; //$NON-NLS-1$
+		StringBuffer buf = new StringBuffer( );
+		while ( buf.length( ) == 0 )
+		{
+			buf.append( prefix ).append( n++ );
+			if ( parameters != null )
+			{
+				Iterator iter = parameters.getParameterDefinitions( )
+						.iterator( );
+				if ( iter != null )
+				{
+					while ( iter.hasNext( ) && buf.length( ) > 0 )
+					{
+						ParameterDefinition parameter = (ParameterDefinition) iter.next( );
+						if ( buf.toString( )
+								.equalsIgnoreCase( parameter.getAttributes( )
+										.getName( ) ) )
+						{
+							buf.setLength( 0 );
+						}
+					}
+				}
+			}
+		}
+		return buf.toString( );
+	}
+
+	/**
+	 * close the connection
+	 * @param conn
+	 */
+    private void closeConnection( IConnection conn )
+	{
+		try
+		{
+			if ( conn != null )
+				conn.close( );
+		}
+		catch ( OdaException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+	}
+    
 	/**
 	 * 
 	 * @param parent
@@ -1734,9 +1965,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	 * 
 	 */
 	private void prepareUI()
-	{	
-		StyledText styledText = viewer.getTextWidget();
+	{
+		StyledText styledText = viewer.getTextWidget( );
 		String queryText = styledText.getText( );
+		this.formerQueryTxt = queryText;
 		if ( queryText != null
 				&& queryText.equalsIgnoreCase( getQueryPresetTextString( ) ) )
 		{
