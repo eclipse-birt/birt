@@ -584,6 +584,15 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 				}
 			}
 		}
+		// set total page
+		if(content instanceof IAutoTextContent)
+		{
+			IAutoTextContent autoText = (IAutoTextContent)content;
+			if ( autoText.getType() == IAutoTextContent.TOTAL_PAGE )
+			{
+				autoText.setText(String.valueOf(reportDoc.getPageCount()));	
+			}
+		}
 	}
 
 	/**
