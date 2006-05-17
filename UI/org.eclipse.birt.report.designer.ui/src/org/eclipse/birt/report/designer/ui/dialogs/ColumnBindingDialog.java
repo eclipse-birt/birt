@@ -79,7 +79,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Dialog to create and select column bindings
+ * 
  */
 
 public class ColumnBindingDialog extends BaseDialog
@@ -215,6 +215,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	};
 
+	private String highLightName = null;
 	private ICellModifier cellModifier = new ICellModifier( ) {
 
 		public boolean canModify( Object element, String property )
@@ -231,10 +232,11 @@ public class ColumnBindingDialog extends BaseDialog
 		{
 			if ( element == dummyChoice )
 			{
-				ComputedColumn column = StructureFactory.createComputedColumn( );
-				column.setName( DEFAULT_COLUMN_NAME );
+				ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
+						DEFAULT_COLUMN_NAME );
 				column.setExpression( "" ); //$NON-NLS-1$
 				addBinding( column );
+				highLightName = column.getName( );
 				return ""; //$NON-NLS-1$
 			}
 			ComputedColumnHandle handle = ( (ComputedColumnHandle) element );
@@ -318,8 +320,8 @@ public class ColumnBindingDialog extends BaseDialog
 						{
 							selectedNameChanged = true;
 						}
-						if ( DEFAULT_COLUMN_NAME.equals( ( (ComputedColumnHandle) element ).getName( ) )
-								&& !DEFAULT_COLUMN_NAME.equals( newName ) )
+						if (highLightName!=null && highLightName.equals( ( (ComputedColumnHandle) element ).getName( ) )
+								 && !highLightName.equals( newName ) )
 						{
 							bindingTable.getTable( )
 									.getItem( bindingTable.getTable( )
@@ -603,18 +605,10 @@ public class ColumnBindingDialog extends BaseDialog
 				if ( !bindingTable.getSelection( ).isEmpty( ) )
 				{
 					Object obj = ( (IStructuredSelection) bindingTable.getSelection( ) ).getFirstElement( );
-					if ( obj == dummyChoice && !existDefaultColumn( ) )
+					if ( obj == dummyChoice && !existHighLightColumn( ) )
 					{
 						bindingTable.refresh( );
-						bindingTable.getTable( )
-								.getItem( bindingTable.getTable( )
-										.getSelectionIndex( ) - 1 )
-								.setForeground( 1,
-										Display.getDefault( )
-												.getSystemColor( SWT.COLOR_BLUE ) );
-						bindingTable.getTable( )
-								.setSelection( bindingTable.getTable( )
-										.getSelectionIndex( ) - 1 );
+						setHihtLightColumn( );
 					}
 					else if ( obj instanceof ComputedColumnHandle )
 					{
@@ -629,31 +623,44 @@ public class ColumnBindingDialog extends BaseDialog
 
 		} );
 
-		initTableCellColor( );
+		// initTableCellColor( );
 
 		return parentComposite;
 	}
 
-	private boolean existDefaultColumn( )
+	private boolean existHighLightColumn( )
 	{
-
+		if ( highLightName == null )
+			return false;
 		for ( int i = 0; i < bindingTable.getTable( ).getItemCount( ); i++ )
 		{
 			TableItem item = bindingTable.getTable( ).getItem( i );
-			if ( item.getText( 1 ).equals( DEFAULT_COLUMN_NAME ) )
+			if ( item.getText( 1 ).equals( highLightName ) )
 				return true;
 		}
 		return false;
 	}
 
-	private void initTableCellColor( )
+	private void setHihtLightColumn( )
 	{
+		if ( highLightName == null )
+			return;
 		for ( int i = 0; i < bindingTable.getTable( ).getItemCount( ); i++ )
 		{
 			TableItem item = bindingTable.getTable( ).getItem( i );
-			if ( item.getText( 1 ).equals( DEFAULT_COLUMN_NAME ) )
+			if ( item.getText( 1 ).equals( highLightName ) )
+			{
 				item.setForeground( 1, Display.getDefault( )
 						.getSystemColor( SWT.COLOR_BLUE ) );
+				bindingTable.getTable( ).setSelection( i );
+			}
+			else
+			{
+				item.getForeground( 1 ).equals( Display.getDefault( )
+						.getSystemColor( SWT.COLOR_BLUE ) );
+				item.setForeground( 1, Display.getDefault( )
+						.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
+			}
 		}
 	}
 
@@ -709,15 +716,6 @@ public class ColumnBindingDialog extends BaseDialog
 		catch ( PropertyValueException e )
 		{
 			ExceptionHandler.handle( e );
-		}
-	}
-
-	private void removeBindingColumns( ) throws SemanticException
-	{
-		for ( int i = 0; i < bindingTable.getTable( ).getItemCount( ) - 1; i++ )
-		{
-			ComputedColumnHandle handle = (ComputedColumnHandle) bindingTable.getElementAt( i );
-			handle.drop( );
 		}
 	}
 
