@@ -17,7 +17,6 @@ import java.util.Iterator;
 
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
@@ -66,19 +65,6 @@ public class GroupAdapter extends GroupDefinition
 				FilterConditionHandle filterHandle = 
 					(FilterConditionHandle) filtersIt.next( );
 				this.addFilter( new FilterAdapter( filterHandle ));
-			}
-		}
-
-		// Add column bindings
-		Iterator bindingsIt = modelGroup.columnBindingsIterator( );
-		if ( bindingsIt != null )
-		{
-			while ( bindingsIt.hasNext( ) )
-			{
-				ComputedColumnHandle binding = 
-					(ComputedColumnHandle) bindingsIt.next( );
-				addResultSetExpression( binding.getName(),
-						new ExpressionAdapter( binding ) );
 			}
 		}
 	}
