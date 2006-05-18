@@ -479,6 +479,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			if ( !prePageChanges( oldPage, newPage ) )
 			{
 				super.setActivePage( oldPageIndex );
+				updateRelatedViews( );
+				return;
 			}
 		}
 		else
@@ -523,9 +525,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	private void updateRelatedViews( )
 	{
-		updatePaletteView( getActivePageInstance( ) );
-		updateOutLineView( getActivePageInstance( ) );
-		updateDateView( getActivePageInstance( ) );
+		updatePaletteView( getCurrentPageInstance( ) );
+		updateOutLineView( getCurrentPageInstance( ) );
+		updateDateView( getCurrentPageInstance( ) );
 	}
 
 	private boolean prePageChanges( Object oldPage, Object newPage )
@@ -824,7 +826,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	{
 		// getSite( ).getWorkbenchWindow( )
 		// .getPartService( )
-		// .removePartListener( this );		
+		// .removePartListener( this );
 
 		if ( fPalettePage != null )
 		{
@@ -891,6 +893,26 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				}
 			} );
 		}
+	}
+
+	/**
+	 * Returns current page instance if the currently selected page index is not
+	 * -1, or <code>null</code> if it is.
+	 * 
+	 * @return active page instance if selected, or <code>null</code> if no
+	 *         page is currently active.
+	 */
+
+	public IFormPage getCurrentPageInstance( )
+	{
+		int index = getCurrentPage( );
+		if ( index != -1 )
+		{
+			Object page = pages.get( index );
+			if ( page instanceof IFormPage )
+				return (IFormPage) page;
+		}
+		return null;
 	}
 
 }
