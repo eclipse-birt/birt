@@ -1,6 +1,8 @@
 <project name="base build file" default="Start" basedir=".">
 	
 	<property name="eclipse.home" value=""/>
+	<property name="src.dir" location="src"/>
+	<property name="bin.dir" location="bin"/>
 	<property name="tests.dir" value="utest"/>
 	<property name="application" value=""/>
 	<property name="data.dir" value="${data.path}/${module.name}/${tests.dir}/configuration/"/>
@@ -8,6 +10,15 @@
 	<property name="module.name" value=""/>
 	<property name="className" value=""/>
 	<property name="otherArgs" value=""/>
+	
+	<!-- classPath -->
+	
+	<path id="classPath">
+		<pathelement path="${bin.dir}"/>
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.junit_*/*.jar"/>
+		</fileset>
+	</path>
 	
 	<!-- initialize, initialize BIRT plug-in testing framework -->
 	
@@ -289,6 +300,17 @@
 				
 		</script>
 
+	</target>
+	
+	<!-- compile Test, compile this project -->
+	
+	<target name="compileTest" description="compile this project">
+		<mkdir dir="${bin.dir}"/>
+		<echo message="start compiling tests.core"/>
+		<javac srcdir="${src.dir}" destdir="${bin.dir}" source="1.4" target="1.4" debug="true" encoding="utf-8" failonerror="true">
+			<classpath refid="classPath"/>
+		</javac>
+		<echo message="end compiling tests.core"/>
 	</target>
 	
 	<!-- Start, start plug-in test(s) -->
