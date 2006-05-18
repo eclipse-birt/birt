@@ -31,12 +31,13 @@ import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.PlatformUI;
 
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.20 $ $Date: 2006/03/06 08:01:18 $
+ * @version $Revision: 1.21 $ $Date: 2006/03/28 10:43:48 $
  */
 public class Utility
 {
@@ -356,8 +357,13 @@ public class Utility
 		}
 		catch ( ClassNotFoundException e )
 		{
-			//TODO
-			ExceptionHandler.showException( null, "title", "msg", e );
+			ExceptionHandler.showException( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ),
+					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+					e.getLocalizedMessage( ),
+					e );
+
 		}
 
 		return new HashMap( );

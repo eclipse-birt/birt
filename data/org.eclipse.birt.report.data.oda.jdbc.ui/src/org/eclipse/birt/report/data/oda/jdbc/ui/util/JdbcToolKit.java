@@ -28,6 +28,7 @@ import java.util.zip.ZipFile;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
+import org.eclipse.ui.PlatformUI;
 
 public class JdbcToolKit
 {
@@ -285,8 +286,13 @@ public class JdbcToolKit
 			}
 			catch ( MalformedURLException e )
 			{
-				//TODO
-				ExceptionHandler.showException( null, "title", "msg", e );
+				ExceptionHandler.showException( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+						e.getLocalizedMessage( ),
+						e );
+
 			}
 		}
 		URLClassLoader urlClassLoader = new URLClassLoader( urlList,
@@ -353,8 +359,13 @@ public class JdbcToolKit
 		}
 		catch ( Exception e )
 		{
-			//TODO
-			ExceptionHandler.showException( null, "title", "msg", e );
+			ExceptionHandler.showException( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ),
+					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+					e.getLocalizedMessage( ),
+					e );
+
 		}
 		return (String[]) jarEntries.toArray( new String[jarEntries.size( )] );
 	}

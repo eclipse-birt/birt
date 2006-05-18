@@ -111,7 +111,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.46 $ $Date: 2006/05/11 06:21:46 $
+ * @version $Revision: 1.47 $ $Date: 2006/05/17 10:45:10 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -154,6 +154,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	private String cachedDbType = "";
 	private int cachedSchemaComboIndex = -1;
 	private DataSourceDesign prevDataSourceDesign;
+	private DataSetDesign dataSetDesign;
 	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
 	
 	static
@@ -781,7 +782,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	 */
 	private DataSetDesign getDataSetDesign( )
 	{
-		return this.getInitializationDesign( );
+		if ( dataSetDesign == null )
+			dataSetDesign = this.getInitializationDesign( );
+		return dataSetDesign;
 	}
 	
 	/**
@@ -1240,14 +1243,16 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 			{
 				
 				// Check if schema is supported
-				isSchemaSupported = metaDataProvider.isSchemaSupported();
- 
+				isSchemaSupported = metaDataProvider.isSchemaSupported( );
+
 			}
 		}
-		catch(Exception e)
+		catch ( Exception e )
 		{
-			//TODO
-			ExceptionHandler.showException( null, "title", "msg", e );
+			ExceptionHandler.showException( this.getShell( ),
+					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+					e.getLocalizedMessage( ),
+					e );
 		}
 	}
 	/**
@@ -1289,9 +1294,13 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 				isSchemaSupported = metaDataProvider.isSchemaSupported();
 			}
 		}
-		catch(Exception e)
+		catch ( Exception e )
 		{
-			ExceptionHandler.showException( null, "title", "msg", e );
+			ExceptionHandler.showException( this.getShell( ),
+					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+					e.getLocalizedMessage( ),
+					e );
+
 		}
 	}
 	

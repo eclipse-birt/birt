@@ -108,8 +108,13 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			}
 			catch ( SQLException e )
 			{
-				//TODO
-				ExceptionHandler.showException( null, "title", "msg", e );
+				ExceptionHandler.showException( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+						e.getLocalizedMessage( ),
+						e );
+				return null;
 			}
 			
 		}
@@ -194,10 +199,14 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			{
       			metaData = jdbcConnection.getMetaData();
 			}
-      		catch(SQLException e)
+      		catch ( SQLException e )
 			{
-    			//TODO
-    			ExceptionHandler.showException( null, "title", "msg", e );
+				ExceptionHandler.showException( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+						e.getLocalizedMessage( ),
+						e );
 			}
       	}
       

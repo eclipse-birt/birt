@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Exception dialog that displays an exception message in a message box, and
@@ -47,12 +48,19 @@ public class ExceptionDialog extends IconAndMessageDialog {
 	 */
 	protected ExceptionDialog(Shell parentShell, String title, String msg,
 								Throwable ex) {
-		super(parentShell);
+		super( parentShell );
 		this._title = title;
 		this.message = msg;
 		this._exception = ex;
-		this._display = parentShell.getDisplay();
-		setShellStyle(SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
+		if ( parentShell != null )
+			this._display = parentShell.getDisplay( );
+		else
+			this._display = PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( )
+					.getDisplay( );
+
+		setShellStyle( SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
 	}
 
 	/*

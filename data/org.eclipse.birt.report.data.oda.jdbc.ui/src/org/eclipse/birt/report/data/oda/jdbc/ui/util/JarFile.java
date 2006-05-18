@@ -21,7 +21,9 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
+import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Jar file information and related action like add jar, delelte jar, check jar
@@ -263,12 +265,22 @@ public class JarFile implements Serializable
 			return OdaJdbcDriver.getDriverDirectory();
 		}
 		catch ( IOException e )
-		{ // TODO
-			ExceptionHandler.showException( null, "title", "msg", e );
+		{
+			ExceptionHandler.showException( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ),
+					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+					e.getLocalizedMessage( ),
+					e );
 		}
 		catch ( OdaException e )
-		{ // TODO
-			ExceptionHandler.showException( null, "title", "msg", e );
+		{
+			ExceptionHandler.showException( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ),
+					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+					e.getLocalizedMessage( ),
+					e );
 		}
 
 		return null;

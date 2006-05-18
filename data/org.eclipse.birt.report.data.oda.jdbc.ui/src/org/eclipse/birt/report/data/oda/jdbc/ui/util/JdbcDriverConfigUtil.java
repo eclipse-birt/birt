@@ -20,6 +20,7 @@ import java.util.Set;
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.ui.PlatformUI;
 
 public class JdbcDriverConfigUtil
 {
@@ -78,13 +79,23 @@ public class JdbcDriverConfigUtil
 		}
 		catch ( OdaException e )
 		{
-			//TODO
-			ExceptionHandler.showException( null, "title", "msg", e );
+			ExceptionHandler.showException( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ),
+					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+					e.getLocalizedMessage( ),
+					e );
+
 		}
 		catch ( IOException e )
 		{
-			//TODO
-			ExceptionHandler.showException( null, "title", "msg", e );
+			ExceptionHandler.showException( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ),
+					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+					e.getLocalizedMessage( ),
+					e );
+
 		}
 		return null;
 	}

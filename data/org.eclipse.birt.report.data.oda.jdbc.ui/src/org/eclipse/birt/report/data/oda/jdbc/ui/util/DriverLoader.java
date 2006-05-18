@@ -12,9 +12,10 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.StringCharacterIterator;
-
+import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
 
 public final class DriverLoader
@@ -24,18 +25,25 @@ public final class DriverLoader
 	}
 
 	public static Connection getConnection( String driverClassName,
-			String connectionString, String userId,
-			String password ) throws SQLException
+			String connectionString, String userId, String password )
+			throws SQLException
 	{
 		try
 		{
-			return JDBCDriverManager.getInstance().getConnection( 
-				driverClassName, connectionString, userId, password);
+			return JDBCDriverManager.getInstance( )
+					.getConnection( driverClassName,
+							connectionString,
+							userId,
+							password );
 		}
 		catch ( Exception e )
 		{
-			//TODO
-			ExceptionHandler.showException( null, "title", "msg", e );
+			ExceptionHandler.showException( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ),
+					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+					e.getLocalizedMessage( ),
+					e );
 			return null;
 		}
 	}
