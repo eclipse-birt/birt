@@ -29,8 +29,6 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.ColumnHintHandle;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -559,6 +557,15 @@ public class InsertInLayoutUtil
 					model.getColumnName( ) );
 			bindingColumn.setDataType( model.getDataType( ) );
 			bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			if ( target instanceof DesignElementHandle )
+			{
+				if ( DEUtil.getGroupControlType( (DesignElementHandle)target )
+						.equals( DEUtil.TYPE_GROUP_GROUP ) )
+				{
+					bindingColumn.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle)target )
+							.get( 0 ) ).getName( ) );
+				}
+			}
 			DataSetHandle containerDataSet = DEUtil.getFirstDataSet( container );
 			container = DEUtil.getListingContainer( container );
 			if ( containerDataSet == null && container != null )
@@ -641,6 +648,15 @@ public class InsertInLayoutUtil
 					model.getColumnName( ) );
 			bindingColumn.setDataType( model.getDataType( ) );
 			bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			if ( target instanceof DesignElementHandle )
+			{
+				if ( DEUtil.getGroupControlType( (DesignElementHandle)target )
+						.equals( DEUtil.TYPE_GROUP_GROUP ) )
+				{
+					bindingColumn.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle)target )
+							.get( 0 ) ).getName( ) );
+				}
+			}
 			dataHandle.addColumnBinding( bindingColumn, false );
 			dataHandle.setDataSet( dataSet );
 		}

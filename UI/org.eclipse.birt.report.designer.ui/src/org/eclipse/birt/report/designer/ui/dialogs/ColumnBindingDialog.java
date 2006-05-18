@@ -235,6 +235,12 @@ public class ColumnBindingDialog extends BaseDialog
 				ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
 						DEFAULT_COLUMN_NAME );
 				column.setExpression( "" ); //$NON-NLS-1$
+				if ( DEUtil.getGroupControlType( inputElement )
+						.equals( DEUtil.TYPE_GROUP_GROUP ) )
+				{
+					column.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
+							.get( 0 ) ).getName( ) );
+				}
 				addBinding( column );
 				highLightName = column.getName( );
 				return ""; //$NON-NLS-1$
@@ -320,8 +326,9 @@ public class ColumnBindingDialog extends BaseDialog
 						{
 							selectedNameChanged = true;
 						}
-						if (highLightName!=null && highLightName.equals( ( (ComputedColumnHandle) element ).getName( ) )
-								 && !highLightName.equals( newName ) )
+						if ( highLightName != null
+								&& highLightName.equals( ( (ComputedColumnHandle) element ).getName( ) )
+								&& !highLightName.equals( newName ) )
 						{
 							bindingTable.getTable( )
 									.getItem( bindingTable.getTable( )
@@ -396,7 +403,7 @@ public class ColumnBindingDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite parentComposite = (Composite) super.createDialogArea( parent );
-		
+
 		if ( this.canSelect )
 		{
 			/**
@@ -420,7 +427,8 @@ public class ColumnBindingDialog extends BaseDialog
 			label.setLayoutData( new GridData( GridData.BEGINNING ) );
 
 			// add data set combo selection.
-			final CCombo combo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
+			final CCombo combo = new CCombo( composite, SWT.READ_ONLY
+					| SWT.BORDER );
 			combo.setBackground( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
@@ -475,7 +483,6 @@ public class ColumnBindingDialog extends BaseDialog
 				}
 			} );
 		}
-		
 		/*
 		 * generateButton = new Button( composite, SWT.PUSH );
 		 * generateButton.setText( BUTTON_GENERATE );

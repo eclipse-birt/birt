@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -96,6 +97,8 @@ public class DataUtil
 		{
 			List resultSetColumnList = getColumnList( dataSetHandle );
 			ArrayList columnList = new ArrayList( );
+			String groupType = DEUtil.getGroupControlType( handle );
+			List groupList = DEUtil.getGroups( handle );
 			for ( Iterator iter = resultSetColumnList.iterator( ); iter.hasNext( ); )
 			{
 				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iter.next( );
@@ -103,6 +106,10 @@ public class DataUtil
 				column.setName( resultSetColumn.getColumnName( ) );
 				column.setDataType( resultSetColumn.getDataType( ) );
 				column.setExpression( DEUtil.getExpression( resultSetColumn ) );
+				if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+				{
+					column.setAggregrateOn( ( (GroupHandle) groupList.get( 0 ) ).getName( ) );
+				}
 				columnList.add( column );
 			}
 			return columnList;
@@ -110,6 +117,7 @@ public class DataUtil
 		return Collections.EMPTY_LIST;
 	}
 
+	
 	/**
 	 * Creates a query for the given data set
 	 * 

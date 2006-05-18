@@ -56,7 +56,6 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -2128,7 +2127,60 @@ public class DEUtil
 				GroupHandle group = (GroupHandle) iter.next( );
 				groupList.add( group );
 			}
+			return groupList;
 		}
+
+		DesignElementHandle result = handle.getContainer( );
+		if ( result != null )
+		{
+			if ( result instanceof GroupHandle )
+			{
+				groupList.add( (GroupHandle) result );
+				return groupList;
+			}
+			return getGroups( result );
+		}
+
 		return groupList;
+	}
+	
+	/**
+	 * The group container is ListingHandler, list, table, and so on.
+	 */
+	public static final String TYPE_GROUP_LISTING = "listing";
+	
+	/**
+	 * The group container is GroupHandler
+	 */
+	public static final String TYPE_GROUP_GROUP = "group";
+	
+	/**
+	 * other container, has none group. 
+	 */
+	public static final String TYPE_GROUP_NONE = "none";
+	
+	/**
+	 * Return the group container type of the given element handle.
+	 * 
+	 * @param handle
+	 *            the handle of the element.
+	 * @return the group container type of the given element.
+	 */
+	public static String getGroupControlType(DesignElementHandle handle){
+		if ( handle instanceof ListingHandle )
+		{
+			return TYPE_GROUP_LISTING;
+		}
+
+		DesignElementHandle result = handle.getContainer( );
+		if ( result != null )
+		{
+			if ( result instanceof GroupHandle )
+			{
+				return TYPE_GROUP_GROUP;
+			}
+			return getGroupControlType( result );
+		}
+		return TYPE_GROUP_NONE;
 	}
 }
