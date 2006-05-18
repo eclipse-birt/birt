@@ -94,100 +94,40 @@ public class ScriptExecutor
 
 		Object o = null;
 		Class c = null;
-		ClassNotFoundException ex = null;
+		
 		try
 		{
-			try
-			{
-				// If not found in the cache, try creating one
-				c = Class.forName( className );
-			} catch ( ClassNotFoundException e )
-			{
-				ex = e;
-				// Try using web application's webapplication.projectclasspath
-				// to load it.
-				// This would be the case where the application is deployed on
-				// web server.
-				c = getClassUsingCustomClassPath( className,
-						WEBAPP_CLASSPATH_KEY, context );
-				if ( c == null )
-				{
-					// Try using the user.projectclasspath property to load it
-					// using the classpath specified. This would be the case
-					// when debugging is used
-					c = getClassUsingCustomClassPath( className,
-							PROJECT_CLASSPATH_KEY, context );
-					if ( c == null )
-					{
-						// The class is not on the current classpath.
-						// Try using the workspace.projectclasspath property
-						c = getClassUsingCustomClassPath( className,
-								WORKSPACE_CLASSPATH_KEY, context );
-					}
-				}
-			}
-
-			if ( c != null )
-				o = c.newInstance( );
-			else
-				// Didn't find the class using any method, so throw the
-				// exception
-				throw ex;
-		} catch ( ClassNotFoundException e )
+			ClassLoader classLoader = context.getApplicationClassLoader( );
+			c = classLoader.loadClass( className );
+			o = c.newInstance( );
+		}
+		catch ( ClassNotFoundException e )
 		{
-			log.log( Level.WARNING, ex.getMessage( ), ex );
+			log.log( Level.WARNING, e.getMessage( ), e );
 			if ( context != null )
 				context.addException( new EngineException(
 						MessageConstants.SCRIPT_CLASS_NOT_FOUND_ERROR,
-						new Object[] { className }, ex ) ); //$NON-NLS-1$
-		} catch ( IllegalAccessException e )
+						new Object[]{className}, e ) ); //$NON-NLS-1$
+		}
+		catch ( IllegalAccessException e )
 		{
-			log.log( Level.WARNING, ex.getMessage( ), ex );
+			log.log( Level.WARNING, e.getMessage( ), e );
 			if ( context != null )
 				context.addException( new EngineException(
 						MessageConstants.SCRIPT_CLASS_ILLEGAL_ACCESS_ERROR,
-						new Object[] { className }, ex ) ); //$NON-NLS-1$
-		} catch ( InstantiationException e )
+						new Object[]{className}, e ) ); //$NON-NLS-1$
+		}
+		catch ( InstantiationException e )
 		{
-			log.log( Level.WARNING, ex.getMessage( ), ex );
+			log.log( Level.WARNING, e.getMessage( ), e );
 			if ( context != null )
 				context.addException( new EngineException(
 						MessageConstants.SCRIPT_CLASS_INSTANTIATION_ERROR,
-						new Object[] { className }, ex ) ); //$NON-NLS-1$
+						new Object[]{className}, e ) ); //$NON-NLS-1$
 		}
 		return o;
 	}
-
-	private static Class getClassUsingCustomClassPath( String className,
-			String classPathKey, ExecutionContext context )
-	{
-		ClassLoader cl = null;
-		// If we have a context instance, we can use it to (enables caching of
-		// the class loaders)
-		if ( context != null )
-		{
-			ClassLoader loader = (ClassLoader)context.getAppContext().get(EngineConstants.APPCONTEXT_CLASSLOADER_KEY);
 			
-			cl = context.getCustomClassLoader( classPathKey, loader);
-		}
-		//No context available, use the static method (no caching used)
-		else
-			cl = ExecutionContext.getCustomClassLoader( classPathKey, (Map)null );
-		if ( cl == null )
-			return null;
-		try
-		{
-			return cl.loadClass( className );
-			// Note: If the class can
-			// not even be loadded by this
-			// loader either, null will be returned
-		} catch ( ClassNotFoundException e )
-		{
-			// Ignore
-		}
-		return null;
-	}
-
 	protected static void addClassCastException( ExecutionContext context,
 			ClassCastException e, String className, Class requiredInterface )
 	{

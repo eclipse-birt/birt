@@ -43,6 +43,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
@@ -77,7 +78,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.65 $ $Date: 2006/04/18 07:08:29 $
+ * @version $Revision: 1.66 $ $Date: 2006/04/29 07:40:16 $
  */
 public class ExecutionContext
 {
@@ -228,6 +229,8 @@ public class ExecutionContext
 
 	private HashMap dateFormatters = new HashMap( );
 
+	private ClassLoader applicationClassLoader;
+	
 	private Map classLoaderCache = new HashMap( );
 	
 	/**
@@ -287,6 +290,11 @@ public class ExecutionContext
 				.eval( "function registerGlobal( name, value) { _jsContext.registerGlobalBean(name, value); }" );
 		scriptContext
 				.eval( "function unregisterGlobal(name) { _jsContext.unregisterGlobalBean(name); }" );
+		
+		applicationClassLoader = new ApplicationClassLoader( );
+		scriptContext.getContext( ).setApplicationClassLoader(
+				applicationClassLoader );
+		
 	}
 
 	protected void initailizeScriptContext( Context cx, Scriptable scope )
@@ -1361,18 +1369,91 @@ public class ExecutionContext
 		return null;
 	}
 
-	public static ClassLoader getCustomClassLoader( String classPathKey,
-			Map cache )
+	/**
+	 * return application class loader.
+	 * The application class loader is used to load the report item event handle and 
+	 * java classes called in the javascript.
+	 * @return class loader
+	 */
+	public ClassLoader getApplicationClassLoader( )
 	{
-		return getCustomClassLoader( classPathKey, cache, null );
+		return applicationClassLoader;
 	}
 
-	public static ClassLoader getCustomClassLoader( String classPathKey,
-			Map cache, ClassLoader parent )
+	/**
+	 * the application class loader.
+	 * 
+	 *   The class loader first try to the load the class as following sequence:
+	 *   1. standard java class loader,
+	 *   2. classloader setted through the appContext.
+	 *   3. CLASSPATH setted by WEBAPP_CLASSPATH_KEY
+	 *   4. PROJECT_CLASSPATH_KEY
+	 *   5. WORKSAPCE_CLASSPATH_KEY
+	 *   
+	 */
+	private class ApplicationClassLoader extends ClassLoader
+	{
+
+		String[] classPathes = new String[]{
+				EngineConstants.WEBAPP_CLASSPATH_KEY,
+				EngineConstants.PROJECT_CLASSPATH_KEY,
+				EngineConstants.WORKSPACE_CLASSPATH_KEY};
+
+		public ApplicationClassLoader( )
+		{
+		}
+
+		public Class loadClass( String className )
+				throws ClassNotFoundException
+		{
+			try
+			{
+				try
+				{
+					// If not found in the cache, try creating one
+					return Class.forName( className );
+				}
+				catch ( ClassNotFoundException ex )
+				{
+					if ( appContext != null )
+					{
+						Object appLoader = appContext
+								.get( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
+						if ( appLoader instanceof ClassLoader )
+						{
+							return ( (ClassLoader) appLoader )
+									.loadClass( className );
+						}
+					}
+					throw ex;
+				}
+			}
+			catch ( ClassNotFoundException e )
+			{
+				for ( int i = 0; i < classPathes.length; i++ )
+				{
+					ClassLoader loader = getCustomClassLoader( classPathes[i] );
+					if ( loader != null )
+					{
+						try
+						{
+							return loader.loadClass( className );
+						}
+						catch ( Exception ex )
+						{
+						}
+					}
+				}
+				throw e;
+			}
+		}
+	}
+
+	protected ClassLoader getCustomClassLoader( String classPathKey )
 	{
 		Object o = null;
-		if ( cache != null )
-			o = cache.get( classPathKey );
+
+		o = classLoaderCache.get( classPathKey );
 		if ( o != null )
 			return (ClassLoader) o;
 		String classPath = System.getProperty( classPathKey );
@@ -1401,20 +1482,12 @@ public class ExecutionContext
 
 		if ( urls != null )
 		{
-			ClassLoader cl = new URLClassLoader( urls, parent == null
-					? ExecutionContext.class.getClassLoader( )
-					: parent );
-			if ( cache != null )
-				cache.put( classPathKey, cl );
+			ClassLoader cl = new URLClassLoader( urls, ExecutionContext.class
+					.getClassLoader( ) );
+			classLoaderCache.put( classPathKey, cl );
 			return cl;
 		}
 		return null;
-	}
-
-	public ClassLoader getCustomClassLoader( String classPathKey,
-			ClassLoader parent )
-	{
-		return getCustomClassLoader( classPathKey, classLoaderCache, parent );
 	}
 
 	/**
@@ -1447,5 +1520,4 @@ public class ExecutionContext
 	{
 		return dataSource;
 	}
-	
 }
