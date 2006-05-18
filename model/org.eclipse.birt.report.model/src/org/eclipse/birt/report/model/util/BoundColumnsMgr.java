@@ -14,9 +14,6 @@ package org.eclipse.birt.report.model.util;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.data.IColumnBinding;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
@@ -788,94 +785,4 @@ public abstract class BoundColumnsMgr
 
 	abstract protected void handleBoundsForParamBinding( DesignElement element,
 			Module module, String propValue );
-
-	/**
-	 * Converts the old value expression to the new result set column with
-	 * correspoding bound columns.
-	 * 
-	 * @param dataItems
-	 *            a list containing data items
-	 * @param module
-	 *            the root of the data items
-	 */
-
-	protected void dealCompatibleValueExpr( List dataItems, Module module )
-	{
-		if ( dataItems == null || dataItems.isEmpty( ) )
-			return;
-
-		for ( int i = 0; i < dataItems.size( ); i++ )
-		{
-			dealCompatibleValueExpr( (DataItem) dataItems.get( i ), module );
-		}
-	}
-
-	/**
-	 * Converts the old value expression to the new result set column with
-	 * correspoding bound columns.
-	 * 
-	 * @param obj
-	 *            the data item
-	 */
-
-	private void dealCompatibleValueExpr( DataItem obj, Module module )
-	{
-
-		String valueExpr = (String) obj.getLocalProperty( module,
-				DataItem.RESULT_SET_COLUMN_PROP );
-		if ( valueExpr == null )
-			return;
-
-		List newExprs = null;
-
-		try
-		{
-			newExprs = ExpressionUtil.extractColumnExpressions( valueExpr );
-		}
-		catch ( BirtException e )
-		{
-			newExprs = null;
-		}
-
-		if ( newExprs != null && newExprs.size( ) == 1 )
-		{
-			IColumnBinding column = (IColumnBinding) newExprs.get( 0 );
-
-			String newName = DataBoundColumnUtil.setupBoundDataColumn( obj,
-					column.getResultSetColumnName( ), column
-							.getBoundExpression( ), module );
-
-			if ( valueExpr.equals( ExpressionUtil.createRowExpression( column
-					.getResultSetColumnName( ) ) ) )
-			{
-				// set the property for the result set column property of
-				// DataItem.
-
-				obj.setProperty( DataItem.RESULT_SET_COLUMN_PROP, newName );
-
-				return;
-			}
-		}
-
-		if ( newExprs != null && newExprs.size( ) > 1 )
-		{
-			for ( int i = 0; i < newExprs.size( ); i++ )
-			{
-				IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
-				String newExpression = boundColumn.getBoundExpression( );
-				if ( newExpression == null )
-					continue;
-
-				DataBoundColumnUtil.setupBoundDataColumn( obj, boundColumn
-						.getResultSetColumnName( ), newExpression, module );
-			}
-		}
-
-		String newName = DataBoundColumnUtil.setupBoundDataColumn( obj,
-				valueExpr, valueExpr, module );
-
-		// set the property for the result set column property of DataItem.
-
-		obj.setProperty( DataItem.RESULT_SET_COLUMN_PROP, newName );
-	}
 }

@@ -11,67 +11,44 @@
 
 package org.eclipse.birt.report.model.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
  * Provides the API compatibility. The version control is to remember the
  * version number and corresponding elements. So that, provide specified
  * functions on the elements.
  * <p>
- * Currently, it remembers:
- * <ul>
- * <li>data items whose "setValueExpr" methods were called. The version number
- * is "3". 
- * </ul>
  */
 
 public class VersionControlMgr
 {
 
 	/**
-	 * The map to control the file version for backward compatibility.
+	 * The design file version.
 	 */
 
-	private List dataItems = null;
+	private String version = null;
 
 	/**
-	 * Adds a data item for the backward compatibility of the obsolete valueExpr
-	 * property of a data item.
+	 * Returns the current version. If the design file is created through codes,
+	 * the version is null.
 	 * 
-	 * @param element
-	 *            the data item
+	 * @return the version
 	 */
 
-	public void addValueExprCompatibleElement( DesignElement element )
+	public String getVersion( )
 	{
-		if ( element == null )
-			return;
-
-		if ( dataItems == null )
-		{
-			dataItems = new ArrayList( );
-		}
-		dataItems.add( element );
+		return version;
 	}
 
 	/**
-	 * Returns a list containing data items for the backward compatibility of
-	 * the obsolete valueExpr property of a data item. The version number for
-	 * this compatibility is "3".
+	 * Sets the design file version.
 	 * 
 	 * @param version
-	 *            the version number
+	 *            the version to set
 	 */
 
-	public List getCompatibleElement( String version )
+	public void setVersion( String version )
 	{
-		if ( "3".equalsIgnoreCase( version ) ) //$NON-NLS-1$
-			return dataItems;
-
-		return Collections.EMPTY_LIST;
+		this.version = version;
 	}
 }

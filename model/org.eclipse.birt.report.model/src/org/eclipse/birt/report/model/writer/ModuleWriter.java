@@ -140,7 +140,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * The compatibility to create bound columns.
 	 */
 
-	protected BoundColumnsWriterMgr boundColumnsMgr = new BoundColumnsWriterMgr( );
+	protected BoundColumnsWriterMgr boundColumnsMgr = null;
 
 	/**
 	 * Returns the module to write.
@@ -189,8 +189,14 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	private void writeFile( )
 	{
+		boundColumnsMgr = new BoundColumnsWriterMgr( getModule( )
+				.getVersionManager( ).getVersion( ) );
+
 		writer.literal( "<!-- Written by Eclipse BIRT 2.0 -->\r\n" ); //$NON-NLS-1$
 		getModule( ).apply( this );
+
+		getModule( ).getVersionManager( ).setVersion(
+				DesignSchemaConstants.REPORT_VERSION );
 	}
 
 	/**
@@ -1050,12 +1056,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		// write property bindings
 
 		writeStructureList( obj, Module.PROPERTY_BINDINGS_PROP );
-
-		List elements = getModule( ).getVersionManager( ).getCompatibleElement(
-				"3" ); //$NON-NLS-1$
-
-		boundColumnsMgr.dealCompatibleValueExpr( elements, getModule( ) );
-
 	}
 
 	/**
@@ -1313,6 +1313,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitDataItem( DataItem obj )
 	{
+		// provide bound column compatibility
+
+		boundColumnsMgr.dealData( obj, getModule( ) );
+		
 		writer.startElement( DesignSchemaConstants.DATA_TAG );
 
 		super.visitDataItem( obj );
@@ -1833,7 +1837,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, ScalarParameter.VALUE_TYPE_PROP );
 		property( obj, ScalarParameter.DATA_TYPE_PROP );
-		resourceKey( obj, ScalarParameter.PROMPT_TEXT_ID_PROP, ScalarParameter.PROMPT_TEXT_PROP );
+		resourceKey( obj, ScalarParameter.PROMPT_TEXT_ID_PROP,
+				ScalarParameter.PROMPT_TEXT_PROP );
 		property( obj, ScalarParameter.LIST_LIMIT_PROP );
 		property( obj, ScalarParameter.CONCEAL_VALUE_PROP );
 		property( obj, ScalarParameter.ALLOW_BLANK_PROP );

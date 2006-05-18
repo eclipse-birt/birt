@@ -189,8 +189,6 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 	public void setValueExpr( String expr ) throws SemanticException
 	{
 		setStringProperty( DataItemHandle.RESULT_SET_COLUMN_PROP, expr );
-		getModule( ).getVersionManager( ).addValueExprCompatibleElement(
-				getElement( ) );
 	}
 
 	/**

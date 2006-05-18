@@ -49,6 +49,25 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	private Set processedElement = new HashSet( );
 
 	/**
+	 * The design file version from parsing.
+	 */
+
+	private String version = null;
+
+	/**
+	 * Constructs a writer manager with the given design version.
+	 * 
+	 * @param version
+	 *            the design version
+	 */
+
+	protected BoundColumnsWriterMgr( String version )
+	{
+		super( );
+		this.version = version;
+	}
+
+	/**
 	 * Creates bound columns for the given element.
 	 * 
 	 * @param element
@@ -140,31 +159,89 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealCompatibleValueExpr(java.util.List,
-	 *      org.eclipse.birt.report.model.core.Module)
-	 */
-
-	protected void dealCompatibleValueExpr( List dataItems, Module module )
-	{
-		super.dealCompatibleValueExpr( dataItems, module );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealData(org.eclipse.birt.report.model.elements.DataItem,
 	 *      org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealData( DataItem element, Module module )
 	{
-		if ( processedElement.contains( element ) )
+		if ( version != null || processedElement.contains( element ) )
 			return;
 
 		processedElement.add( element );
 
 		super.dealData( element, module );
+		dealCompatibleValueExpr( element, module );
 	}
 
+	/**
+	 * Converts the old value expression to the new result set column with
+	 * correspoding bound columns.
+	 * 
+	 * @param obj
+	 *            the data item
+	 */
+
+	private void dealCompatibleValueExpr( DataItem obj, Module module )
+	{
+
+		String valueExpr = (String) obj.getLocalProperty( module,
+				DataItem.RESULT_SET_COLUMN_PROP );
+		if ( valueExpr == null )
+			return;
+
+		List newExprs = null;
+
+		try
+		{
+			newExprs = ExpressionUtil.extractColumnExpressions( valueExpr );
+		}
+		catch ( BirtException e )
+		{
+			newExprs = null;
+		}
+
+		if ( newExprs != null && newExprs.size( ) == 1 )
+		{
+			IColumnBinding column = (IColumnBinding) newExprs.get( 0 );
+
+			String newName = DataBoundColumnUtil.setupBoundDataColumn( obj,
+					column.getResultSetColumnName( ), column
+							.getBoundExpression( ), module );
+
+			if ( valueExpr.equals( ExpressionUtil.createRowExpression( column
+					.getResultSetColumnName( ) ) ) )
+			{
+				// set the property for the result set column property of
+				// DataItem.
+
+				obj.setProperty( DataItem.RESULT_SET_COLUMN_PROP, newName );
+
+				return;
+			}
+		}
+
+		if ( newExprs != null && newExprs.size( ) > 1 )
+		{
+			for ( int i = 0; i < newExprs.size( ); i++ )
+			{
+				IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
+				String newExpression = boundColumn.getBoundExpression( );
+				if ( newExpression == null )
+					continue;
+
+				DataBoundColumnUtil.setupBoundDataColumn( obj, boundColumn
+						.getResultSetColumnName( ), newExpression, module );
+			}
+		}
+
+		String newName = DataBoundColumnUtil.setupBoundDataColumn( obj,
+				valueExpr, valueExpr, module );
+
+		// set the property for the result set column property of DataItem.
+
+		obj.setProperty( DataItem.RESULT_SET_COLUMN_PROP, newName );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -173,7 +250,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	 */
 	protected void dealExtendedItem( ExtendedItem element, Module module )
 	{
-		if ( processedElement.contains( element ) )
+		if ( version != null || processedElement.contains( element ) )
 			return;
 
 		processedElement.add( element );
@@ -189,7 +266,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	 */
 	protected void dealGrid( GridItem element, Module module )
 	{
-		if ( processedElement.contains( element ) )
+		if ( version != null || processedElement.contains( element ) )
 			return;
 
 		processedElement.add( element );
@@ -205,7 +282,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	 */
 	protected void dealImage( ImageItem element, Module module )
 	{
-		if ( processedElement.contains( element ) )
+		if ( version != null || processedElement.contains( element ) )
 			return;
 
 		processedElement.add( element );
@@ -221,7 +298,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	 */
 	protected void dealLabel( Label element, Module module )
 	{
-		if ( processedElement.contains( element ) )
+		if ( version != null || processedElement.contains( element ) )
 			return;
 
 		processedElement.add( element );
@@ -237,7 +314,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	 */
 	protected void dealList( ListItem element, Module module )
 	{
-		if ( processedElement.contains( element ) )
+		if ( version != null || processedElement.contains( element ) )
 			return;
 
 		processedElement.add( element );
@@ -253,7 +330,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	 */
 	protected void dealScalarParameter( ScalarParameter element, Module module )
 	{
-		if ( processedElement.contains( element ) )
+		if ( version != null || processedElement.contains( element ) )
 			return;
 
 		processedElement.add( element );
@@ -269,7 +346,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	 */
 	protected void dealTable( TableItem element, Module module )
 	{
-		if ( processedElement.contains( element ) )
+		if ( version != null || processedElement.contains( element ) )
 			return;
 
 		processedElement.add( element );
@@ -286,7 +363,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	protected void dealTemplateReportItem( TemplateReportItem element,
 			Module module )
 	{
-		if ( processedElement.contains( element ) )
+		if ( version != null || processedElement.contains( element ) )
 			return;
 
 		processedElement.add( element );
@@ -302,7 +379,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	 */
 	protected void dealText( TextItem element, Module module )
 	{
-		if ( processedElement.contains( element ) )
+		if ( version != null || processedElement.contains( element ) )
 			return;
 
 		processedElement.add( element );
@@ -318,7 +395,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	 */
 	protected void dealTextData( TextDataItem element, Module module )
 	{
-		if ( processedElement.contains( element ) )
+		if ( version != null || processedElement.contains( element ) )
 			return;
 
 		processedElement.add( element );

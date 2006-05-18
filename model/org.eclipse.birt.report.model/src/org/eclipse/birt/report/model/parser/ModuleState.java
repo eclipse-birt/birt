@@ -98,6 +98,8 @@ public abstract class ModuleState extends DesignParseState
 			handler.setVersion( version );
 		}
 
+		module.getVersionManager( ).setVersion( handler.getVersion( ) );
+		
 		super.parseAttrs( attrs );
 	}
 
