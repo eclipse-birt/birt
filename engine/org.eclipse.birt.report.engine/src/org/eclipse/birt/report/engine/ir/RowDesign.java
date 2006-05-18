@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * 
  * @see GridItemDesign
  * @see TableItemDesign
- * @version $Revision: 1.7 $ $Date: 2005/11/17 16:50:43 $
+ * @version $Revision: 1.8 $ $Date: 2006/01/25 09:06:46 $
  */
 ///TODO: RowDesign is not a realy styled element. It only has a style, but has
 // no other attributes.
@@ -44,6 +44,26 @@ public class RowDesign extends ReportItemDesign
 	 * is this row should be visible 
 	 */
 	protected Expression hideExpr;
+
+	//TODO: this field should be removed
+	protected boolean isStartOfGroup = false;
+
+	/**
+	 * @return the isStartOfGroup
+	 */
+	public boolean isStartOfGroup( )
+	{
+		return isStartOfGroup;
+	}
+
+	
+	/**
+	 * @param isStartOfGroup the isStartOfGroup to set
+	 */
+	public void setStartOfGroup( boolean isStartOfGroup )
+	{
+		this.isStartOfGroup = isStartOfGroup;
+	}
 
 	/**
 	 * get cell count

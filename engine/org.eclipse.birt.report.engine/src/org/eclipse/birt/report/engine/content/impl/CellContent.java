@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.12 $ $Date: 2006/01/11 06:29:02 $
+ * @version $Revision: 1.13 $ $Date: 2006/01/20 14:55:38 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
@@ -47,6 +47,11 @@ public class CellContent extends AbstractContent implements ICellContent
 	 * column id, if equals to 0, get it from the design
 	 */
 	protected int column = -1;
+
+	/**
+	 * Flag indicading if this cell is the start of a group.
+	 */
+	protected boolean isStartOfGroup = false;
 
 	public int getContentType( )
 	{
@@ -141,6 +146,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	static final protected int FIELD_ROW_SPAN = 100;
 	static final protected int FIELD_COL_SPAN = 101;
 	static final protected int FIELD_COLUMN = 102;
+	static final protected int FIELD_START_OF_GROUP = 103;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -160,6 +166,11 @@ public class CellContent extends AbstractContent implements ICellContent
 			IOUtil.writeInt( out, FIELD_COLUMN );
 			IOUtil.writeInt( out, column );
 		}
+		if ( isStartOfGroup )
+		{
+			IOUtil.writeInt( out, FIELD_START_OF_GROUP );
+			IOUtil.writeBool( out, isStartOfGroup );
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in )
@@ -176,9 +187,21 @@ public class CellContent extends AbstractContent implements ICellContent
 			case FIELD_COLUMN :
 				column = IOUtil.readInt( in );
 				break;
+			case FIELD_START_OF_GROUP :
+				isStartOfGroup = IOUtil.readBool( in );
+				break;
 			default :
 				super.readField( version, filedId, in );
 		}
 	}
 
+	public boolean isStartOfGroup( )
+	{
+		return isStartOfGroup;
+	}
+
+	public void setStartOfGroup( boolean isStartOfGroup )
+	{
+		this.isStartOfGroup = isStartOfGroup;
+	}
 }

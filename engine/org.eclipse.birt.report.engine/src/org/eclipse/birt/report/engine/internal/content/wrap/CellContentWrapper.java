@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.13 $ $Date: 2006/01/20 14:55:38 $
+ * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:53 $
  */
 public class CellContentWrapper extends AbstractContentWrapper implements ICellContent
 {
@@ -122,5 +122,17 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 	public void setColumn( int column )
 	{
 		this.column = column;
+	}
+
+	public boolean isStartOfGroup( )
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setStartOfGroup( boolean isStartOfGroup )
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

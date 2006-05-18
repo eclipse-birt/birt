@@ -45,6 +45,8 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 public abstract class ListingElementExecutor extends QueryItemExecutor
 {
 
+	private static final int FIRST_GROUP_INDEX = 0;
+
 	/**
 	 * the cursor position in the query result.
 	 */
@@ -127,7 +129,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				}
 				rsetCursor++;
 				startTOCEntry( null );
-				accessDetail( listing, outputEmitter, rset );
+				accessDetail( listing, FIRST_GROUP_INDEX, outputEmitter, rset );
 				finishTOCEntry( );
 				if ( pageBreakInterval > 0 )
 				{
@@ -171,16 +173,16 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				// It start the group startGroup. It also start the
 				// groups from startGroup to groupCount.
 				groupIndex = startGroup - 1;
-				if ( groupIndex < 0 )
+				if ( groupIndex < FIRST_GROUP_INDEX )
 				{
-					groupIndex = 0;
+					groupIndex = FIRST_GROUP_INDEX;
 				}
 				while ( groupIndex < groupCount
 						&& ( hideGroupStartIndex == -1 || groupIndex < hideGroupStartIndex ) )
 				{
 					startGroupTOCEntry( );// open the group
 					startTOCEntry( null );// open the group header
-					accessGroupHeader( listing, groupIndex, outputEmitter );
+					accessGroupHeader( listing, groupIndex, outputEmitter, rset );
 					finishTOCEntry( );// close the group header
 					groupIndex++;
 
@@ -202,7 +204,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 			if ( !hideDetail )
 			{
-				accessDetail( listing, outputEmitter, rset );
+				accessDetail( listing, groupIndex, outputEmitter, rset );
 			}
 
 			finishGroupTOCEntry( );
@@ -229,7 +231,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				while ( groupIndex >= endGroup )
 				{
 					startTOCEntry( null ); // open the group footer
-					accessGroupFooter( listing, groupIndex, outputEmitter );
+					accessGroupFooter( listing, groupIndex, outputEmitter, rset );
 					finishTOCEntry( ); // close the group footer
 					finishGroupTOCEntry( ); // close the group
 					groupIndex--;
@@ -266,7 +268,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessGroupHeader( ListingDesign list, int index,
-			IContentEmitter emitter );
+			IContentEmitter emitter, IResultSet resultSet );
 
 	/**
 	 * create the group footer.
@@ -279,7 +281,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessGroupFooter( ListingDesign list, int index,
-			IContentEmitter emitter );
+			IContentEmitter emitter, IResultSet resultSet );
 
 	/**
 	 * create detail band.
@@ -289,7 +291,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 * @param emitter
 	 *            output emitter
 	 */
-	abstract protected void accessDetail( ListingDesign list,
+	abstract protected void accessDetail( ListingDesign list, int index,
 			IContentEmitter emitter, IResultSet resultSet );
 
 	/**

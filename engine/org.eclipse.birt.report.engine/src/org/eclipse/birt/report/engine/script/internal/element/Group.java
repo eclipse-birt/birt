@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IGroup;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
 
 public class Group extends ReportElement implements IGroup
 {
@@ -52,7 +53,7 @@ public class Group extends ReportElement implements IGroup
 		{
 		( (GroupHandle) handle ).setName( name );
 		}
-		catch (SemanticException e)
+		catch (NameException e)
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}

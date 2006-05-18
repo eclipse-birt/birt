@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.TableBandDesign;
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.11 $ $Date: 2006/01/20 14:55:38 $
+ * @version $Revision: 1.12 $ $Date: 2006/01/26 04:34:38 $
  */
 public class RowContent extends AbstractContent implements IRowContent
 {
@@ -35,6 +35,10 @@ public class RowContent extends AbstractContent implements IRowContent
 
 	protected int groupLevel = TableBandDesign.DEFAULT_BAND_LEVEL;
 	
+	protected String groupId = null;
+
+	protected boolean isStartOfGroup = false;
+
 	public int getRowType( )
 	{
 		return rowType;
@@ -89,7 +93,7 @@ public class RowContent extends AbstractContent implements IRowContent
 	static final protected int FIELD_ROWID = 800;
 	static final protected int FIELD_ROWTYPE = 801;
 	static final protected int FIELD_ROW_GROUPLEVEL = 802;
-	
+	static final protected int FIELD_ROW_GROUPID = 803;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -102,7 +106,11 @@ public class RowContent extends AbstractContent implements IRowContent
 			IOUtil.writeInt( out,  rowType );
 			IOUtil.writeInt( out,  FIELD_ROW_GROUPLEVEL );
 			IOUtil.writeInt( out,  groupLevel );
-			
+			if ( groupId != null )
+			{
+				IOUtil.writeInt( out,  FIELD_ROW_GROUPID );
+				IOUtil.writeString( out, groupId );
+			}
 		}
 	}
 
@@ -120,8 +128,39 @@ public class RowContent extends AbstractContent implements IRowContent
 			case FIELD_ROW_GROUPLEVEL :
 				groupLevel = IOUtil.readInt(in);
 				break;
+			case FIELD_ROW_GROUPID :
+				groupId = IOUtil.readString( in );
+				break;
 			default :
 				super.readField( version, filedId, in );
 		}
+	}
+
+	
+	/**
+	 * @return the groupId
+	 */
+	public String getGroupId( )
+	{
+		return groupId;
+	}
+
+	
+	/**
+	 * @param groupId the groupId to set
+	 */
+	public void setGroupId( String groupId )
+	{
+		this.groupId = groupId;
+	}
+
+	public boolean isStartOfGroup( )
+	{
+		return isStartOfGroup;
+	}
+
+	public void setStartOfGroup( boolean isStartOfGroup )
+	{
+		this.isStartOfGroup = isStartOfGroup;
 	}
 }

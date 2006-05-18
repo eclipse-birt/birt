@@ -64,7 +64,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.44 $ $Date: 2006/04/18 07:08:29 $
+ * @version $Revision: 1.45 $ $Date: 2006/05/17 05:42:09 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -176,7 +176,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.44 $ $Date: 2006/04/18 07:08:29 $
+	 * @version $Revision: 1.45 $ $Date: 2006/05/17 05:42:09 $
 	 */
 	private static class TABLEINFO
 	{
@@ -419,15 +419,19 @@ public class TableItemExecutor extends ListingElementExecutor
 	 * (non-Javadoc)
 	 * 
 	 */
-	protected void accessDetail( ListingDesign list, IContentEmitter emitter,
+	protected void accessDetail( ListingDesign list, int index, IContentEmitter emitter,
 			IResultSet resultSet )
 	{
-		accessTableBand( ( ( TableItemDesign ) list ).getDetail( ), emitter,
-				resultSet );
+		TableBandDesign band = ( (TableItemDesign) list ).getDetail( );
+		if ( band != null )
+		{
+			band.setBandLevel( index );
+		}
+		accessTableBand( band, emitter, resultSet );
 	}
 
 	protected void accessGroupHeader( ListingDesign list, int index,
-			IContentEmitter emitter )
+			IContentEmitter emitter, IResultSet resultSet )
 	{
 		groupIndex = index;
 		TableGroupDesign group = ( ( TableItemDesign ) list ).getGroup( index );
@@ -455,12 +459,12 @@ public class TableItemExecutor extends ListingElementExecutor
 			}
 			band.setBandType( TableBandDesign.GROUP_HEADER );
 			band.setBandLevel( index );
-			accessTableBand( band, outputEmitter, null );
+			accessTableBand( band, outputEmitter, resultSet );
 		}
 	}
 
 	protected void accessGroupFooter( ListingDesign list, int index,
-			IContentEmitter emitter )
+			IContentEmitter emitter, IResultSet resultSet )
 	{
 		// all cells with drop detail can be resolved.
 		if ( layoutEmitter != null )
@@ -474,7 +478,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			TableBandDesign band = group.getFooter( );
 			band.setBandType( TableBandDesign.GROUP_FOOTER );
 			band.setBandLevel( index );
-			accessTableBand( band, emitter, null );
+			accessTableBand( band, emitter, resultSet );
 		}
 		// all cells with drop all can be resolved.
 		if ( layoutEmitter != null )
@@ -508,6 +512,10 @@ public class TableItemExecutor extends ListingElementExecutor
 					break;
 				}
 				RowDesign rowDesign = band.getRow( i );
+				if ( band.getBandType( ) == band.GROUP_HEADER && i == 0 )
+				{
+					rowDesign.setStartOfGroup( true );
+				}
 				rowDesign.setBandType( band.getBandType( ) );
 				rowDesign.setGroupLevel( band.getBandLevel( ) );
 				accessRow( rowDesign, emitter, resultSet );
@@ -563,6 +571,12 @@ public class TableItemExecutor extends ListingElementExecutor
 						context );
 			}
 
+			if ( resultSet != null )
+			{
+				rowContent.setGroupId( resultSet.getGroupId( rowContent
+						.getGroupLevel( ) + 1 ) );
+			}
+
 			startTOCEntry( rowContent );
 			if ( emitter != null )
 			{
@@ -594,6 +608,11 @@ public class TableItemExecutor extends ListingElementExecutor
 				processVisibility( cell, cellContent );
 				processBookmark( cell, cellContent );
 				processAction( cell, cellContent );
+
+				if ( j == 0 && row.isStartOfGroup( ) )
+				{
+					cellContent.setStartOfGroup( true );
+				}
 
 				if ( context.isInFactory( ) )
 				{
@@ -652,6 +671,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		RowContent rCont = (RowContent)rowContent;
 		rCont.setRowType( row.getBandType( ) );
 		rCont.setGroupLevel( row.getGroupLevel( ) );
+		rCont.setStartOfGroup(  row.isStartOfGroup( ) );
 	}
 	
 	static List getValueExpressions( RowDesign row )

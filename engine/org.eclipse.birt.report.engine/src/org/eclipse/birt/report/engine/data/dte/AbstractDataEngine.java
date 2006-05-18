@@ -246,7 +246,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			IResultIterator ri = parentRI.getSecondaryIterator( subQueryName,
 					context.getSharedScope( ) );
 			assert ri != null;
-			resultSet = new DteResultSet( parent, subQueryName, ri );
+			resultSet = new DteResultSet( parent, subQuery, ri  );
 			rsets.addFirst( resultSet );
 			return resultSet;
 		}

@@ -18,7 +18,7 @@ import org.eclipse.birt.report.engine.content.IRowContent;
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.12 $ $Date: 2006/01/26 04:34:38 $
+ * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:53 $
  */
 public class RowContentWrapper extends AbstractContentWrapper
 		implements
@@ -82,6 +82,26 @@ public class RowContentWrapper extends AbstractContentWrapper
 	public void setRowID( int rowID )
 	{
 		rowContent.setRowID( rowID );
+	}
+
+	public String getGroupId( )
+	{
+		return rowContent.getGroupId( );
+	}
+
+	public void setGroupId( String groupId )
+	{
+		rowContent.setGroupId( groupId );
+	}
+
+	public boolean isStartOfGroup( )
+	{
+		return rowContent.isStartOfGroup( );
+	}
+
+	public void setStartOfGroup( boolean isStartOfGroup )
+	{
+		rowContent.setStartOfGroup( isStartOfGroup );
 	}
 
 }

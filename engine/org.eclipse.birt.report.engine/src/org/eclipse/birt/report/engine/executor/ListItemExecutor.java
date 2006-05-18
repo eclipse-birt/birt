@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.35 $ $Date: 2006/04/13 08:10:25 $
+ * @version $Revision: 1.36 $ $Date: 2006/04/18 07:08:29 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -163,7 +163,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	 *      org.eclipse.birt.report.engine.emitter.IContentEmitter,
 	 *      org.eclipse.birt.report.engine.api.script.ExpressionRow)
 	 */
-	protected void accessDetail( ListingDesign list, IContentEmitter emitter,
+	protected void accessDetail( ListingDesign list, int index, IContentEmitter emitter,
 			IResultSet resultSet )
 	{
 		accessListBand( ( ( ListItemDesign ) list ).getDetail( ), emitter,
@@ -190,10 +190,10 @@ public class ListItemExecutor extends ListingElementExecutor
 	 *      int, org.eclipse.birt.report.engine.emitter.IContentEmitter)
 	 */
 	protected void accessGroupFooter( ListingDesign list, int index,
-			IContentEmitter emitter )
+			IContentEmitter emitter, IResultSet resultSet )
 	{
 		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
-				.getFooter( ), emitter, null );
+				.getFooter( ), emitter, resultSet );
 	}
 
 	/*
@@ -203,10 +203,10 @@ public class ListItemExecutor extends ListingElementExecutor
 	 *      int, org.eclipse.birt.report.engine.emitter.IContentEmitter)
 	 */
 	protected void accessGroupHeader( ListingDesign list, int index,
-			IContentEmitter emitter )
+			IContentEmitter emitter, IResultSet resultSet )
 	{
 		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
-				.getHeader( ), emitter, null );
+				.getHeader( ), emitter, resultSet );
 	}
 
 	/*
