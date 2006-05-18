@@ -36,7 +36,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.document.RDSave;
+import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -673,7 +673,7 @@ public class ResultIterator implements IResultIterator
 		private IBaseQueryDefinition queryDefn;
 
 		// report document save and load instance
-		private RDSave rdSave;
+		private IRDSave rdSave;
 
 		// the name of sub query
 		private String subQueryName;
@@ -784,7 +784,7 @@ public class ResultIterator implements IResultIterator
 			{
 				isBasicSaved = true;
 				this.getRdSave( )
-						.saveResultIterator( (CachedResultSet) this.odiResult,
+						.saveResultIterator( this.odiResult,
 								this.groupLevel,
 								this.subQueryInfo );
 			}
@@ -879,9 +879,12 @@ public class ResultIterator implements IResultIterator
 		 */
 		private boolean needsSaveToDoc( )
 		{
-			if ( state == NOT_STARTED || state == CLOSED
-					|| context == null
-					|| context.getMode( ) != DataEngineContext.MODE_GENERATION )
+			if ( state == NOT_STARTED || state == CLOSED )
+				return false;
+			
+			if ( context == null
+					|| context.getMode( ) == DataEngineContext.DIRECT_PRESENTATION
+					|| context.getMode( ) == DataEngineContext.MODE_PRESENTATION )
 				return false;
 
 			return true;
@@ -891,14 +894,14 @@ public class ResultIterator implements IResultIterator
 		 * @return
 		 * @throws DataException
 		 */
-		private RDSave getRdSave( ) throws DataException
+		private IRDSave getRdSave( ) throws DataException
 		{
 			if ( rdSave == null )
 			{
 				rdSave = RDUtil.newSave( this.context,
 						this.queryDefn,
 						this.queryResultID,
-						( (CachedResultSet) odiResult ).getRowCount( ),
+						odiResult.getRowCount( ),
 						this.subQueryName,
 						this.subQueryIndex );
 			}

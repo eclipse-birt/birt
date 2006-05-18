@@ -14,6 +14,9 @@
 
 package org.eclipse.birt.data.engine.odi;
 
+import java.io.OutputStream;
+import java.util.Set;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
@@ -153,4 +156,19 @@ public interface IResultIterator
 	 * @return
 	 */
 	public IExecutorHelper getExecutorHelper();
+	
+	/**
+	 * TODO: Enhance me, since this is only a temp solution
+	 * 
+	 * @param resultClassStream
+	 * @param dataSetDataStream
+	 * @param groupInfoStream
+	 * @param isSubQuery
+	 * @throws DataException
+	 */
+	public void doSave( OutputStream resultSetStream,
+			OutputStream resultSetLenStream, OutputStream resultClassStream,
+			OutputStream dataSetDataStream, OutputStream groupInfoStream,
+			boolean isSubQuery, Set nameSet ) throws DataException;
+	
 }

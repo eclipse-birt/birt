@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.executor.transform;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
@@ -204,24 +205,25 @@ public class CachedResultSet implements IResultIterator
 	 * @param isSubQuery
 	 * @throws DataException
 	 */
-	public void doSave( OutputStream resultClassStream,
+	public void doSave( OutputStream resultSetStream,
+			OutputStream resultSetLenStream, OutputStream resultClassStream,
 			OutputStream dataSetDataStream, OutputStream groupInfoStream,
-			boolean isSubQuery ) throws DataException
+			boolean isSubQuery, Set nameSet ) throws DataException
 	{
 		assert groupInfoStream != null;
-		
+
 		// save group info
 		this.resultSetPopulator.getGroupProcessorManager( )
 				.getGroupCalculationUtil( )
 				.doSave( groupInfoStream );
-		
+
 		// save result class
 		if ( isSubQuery == false )
 		{
 			assert resultClassStream != null;
 			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( resultClassStream );
 		}
-		
+
 		// TODO: temp logic
 		if ( dataSetDataStream != null )
 		{

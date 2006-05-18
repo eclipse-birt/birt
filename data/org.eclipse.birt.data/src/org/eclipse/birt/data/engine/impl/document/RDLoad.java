@@ -14,19 +14,15 @@ package org.eclipse.birt.data.engine.impl.document;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
-import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprDataResultSet;
@@ -437,14 +433,29 @@ public class RDLoad
 	 */
 	private class LoadUtilHelper
 	{
+		// cache result class
+		private IResultClass resultClass;
+		
 		/**
 		 * @return result meta data
 		 * @throws DataException
 		 */
 		ResultMetaData loadResultMetaData( ) throws DataException
 		{
+			return new ResultMetaData( loadResultClass( ) );
+		}
+		
+		/**
+		 * @return
+		 * @throws DataException
+		 */
+		private IResultClass loadResultClass( ) throws DataException
+		{
+			if ( resultClass != null )
+				return resultClass;
+				
 			InputStream stream = streamManager.getSubInStream( DataEngineContext.RESULTCLASS_STREAM );
-			IResultClass resultClass = new ResultClass( stream );
+			resultClass = new ResultClass( stream );
 			try
 			{
 				stream.close( );
@@ -456,7 +467,7 @@ public class RDLoad
 						"Result Class" );
 			}
 
-			return new ResultMetaData( resultClass );
+			return resultClass;
 		}
 		
 		/**
@@ -467,39 +478,9 @@ public class RDLoad
 		{
 			if ( version == VersionManager.VERSION_2_0 )
 				throw new DataException( "Not supported in earlier version" );
-			
-			ExprMetaInfo[] exprMetas = loadExprMetadata( );
 
-			List newProjectedColumns = new ArrayList( );
-			for ( int i = 0; i < exprMetas.length; i++ )
-			{
-				String name = exprMetas[i].getName( );
-				Class clazz = DataType.getClass( exprMetas[i].getDataType( ) );
-				ResultFieldMetadata metaData = new ResultFieldMetadata( 0,
-						name,
-						name,
-						clazz,
-						clazz == null ? null : clazz.toString( ),
-						i == exprMetas.length - 1 ? true : false );
-				newProjectedColumns.add( metaData );
-			}
-			
-			InputStream inputStream = streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM );
-			ExprDataResultSet exprDataResultSet = new ExprDataResultSet( inputStream,
-					exprMetas,
-					new ResultClass( newProjectedColumns ) );
-					
-			return exprDataResultSet;
-		}
-		
-		/**
-		 * @throws DataException
-		 */
-		private ExprMetaInfo[] loadExprMetadata( ) throws DataException
-		{
 			InputStream inputStream = streamManager.getInStream( DataEngineContext.EXPR_META_STREAM );
 			ExprMetaInfo[] exprMetas = ExprMetaUtil.loadExprMetaInfo( inputStream );
-			
 			try
 			{
 				inputStream.close( );
@@ -508,8 +489,12 @@ public class RDLoad
 			{
 				// ignore
 			}
-			
-			return exprMetas;
+
+			ExprDataResultSet exprDataResultSet = new ExprDataResultSet( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM ),
+					exprMetas,
+					this.loadResultClass( ) );
+
+			return exprDataResultSet;
 		}
 		
 		/**

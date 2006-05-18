@@ -27,7 +27,10 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
  * 
@@ -50,17 +53,19 @@ public class ExprMetaUtil
 			Set nameSet, OutputStream outputStream ) throws DataException
 	{
 		instance.nameSet = nameSet;
+		
 		List exprMetaList = instance.prepareQueryDefn( queryDefn );
-
+		ExprMetaInfo[] exprMetas = (ExprMetaInfo[]) exprMetaList.toArray( new ExprMetaInfo[]{} );
+		
 		DataOutputStream dos = new DataOutputStream( outputStream );
 		try
 		{
-			int size = exprMetaList.size( );
+			int size = exprMetas.length;
 			IOUtil.writeInt( dos, size );
 
 			for ( int i = 0; i < size; i++ )
 			{
-				ExprMetaInfo exprMeta = (ExprMetaInfo) exprMetaList.get( i );
+				ExprMetaInfo exprMeta = exprMetas[i];
 				IOUtil.writeString( dos, exprMeta.getName( ) );
 				IOUtil.writeInt( dos, exprMeta.getGroupLevel( ) );
 				IOUtil.writeInt( dos, exprMeta.getDataType( ) );
@@ -135,13 +140,11 @@ public class ExprMetaUtil
 	public static ExprMetaInfo[] loadExprMetaInfo( InputStream inputStream )
 			throws DataException
 	{
-		ExprMetaInfo[] exprMetas = null;
-
 		DataInputStream dis = new DataInputStream( inputStream );
 		try
 		{
 			int size = IOUtil.readInt( dis );
-			exprMetas = new ExprMetaInfo[size + 2];
+			ExprMetaInfo[] exprMetas = new ExprMetaInfo[size];
 			for ( int i = 0; i < size; i++ )
 			{
 				exprMetas[i] = new ExprMetaInfo( );
@@ -151,23 +154,6 @@ public class ExprMetaUtil
 				exprMetas[i].setType( IOUtil.readInt( dis ) );
 				exprMetas[i].setJSText( IOUtil.readString( dis ) );
 			}
-			
-			final String FILTER_NAME = "_dte_inner_row_filter_";
-
-			exprMetas[size] = new ExprMetaInfo( );
-			exprMetas[size].setName( POS_NAME );
-			exprMetas[size].setGroupLevel( 0 );
-			exprMetas[size].setDataType( DataType.INTEGER_TYPE );
-			exprMetas[size].setType( ExprMetaInfo.SCRIPT_EXPRESSION );
-			exprMetas[size].setJSText( "dataSetRow._rowPosition" );
-
-			exprMetas[size + 1] = new ExprMetaInfo( );
-			exprMetas[size + 1].setName( FILTER_NAME );
-			exprMetas[size + 1].setGroupLevel( 0 );
-			exprMetas[size + 1].setType( ExprMetaInfo.SCRIPT_EXPRESSION );
-			exprMetas[size + 1].setDataType( DataType.BOOLEAN_TYPE );
-			exprMetas[size + 1].setJSText( null );
-
 			dis.close( );
 			return exprMetas;
 		}
@@ -176,4 +162,127 @@ public class ExprMetaUtil
 			throw new DataException( ResourceConstants.RD_LOAD_ERROR, e );
 		}
 	}
+	
+	/**
+	 * @param inExprMetas
+	 * @return
+	 */
+	public static ExprMetaInfo[] buildExprDataMetaInfo(
+			ExprMetaInfo[] inExprMetas )
+	{
+		ExprMetaInfo[] exprMetas = null;
+		if ( isBasedOnSecondRD( inExprMetas ) == false )
+		{
+			exprMetas = new ExprMetaInfo[inExprMetas.length + 2];
+			System.arraycopy( inExprMetas, 0, exprMetas, 0, inExprMetas.length );
+
+			ExprMetaInfo[] tempExprMetaInfo = getAssistExprMetaInfo( );
+			System.arraycopy( tempExprMetaInfo,
+					0,
+					exprMetas,
+					inExprMetas.length,
+					tempExprMetaInfo.length );
+		}
+		else
+		{
+			exprMetas = inExprMetas;
+		}
+		return exprMetas;
+	}
+	
+	/**
+	 * @param inputStreamMeta
+	 * @return
+	 * @throws DataException
+	 */
+	public static IResultClass buildExprDataResultClass(
+			ExprMetaInfo[] exprMetas )
+	{
+		List newProjectedColumns = new ArrayList( );
+		for ( int i = 0; i < exprMetas.length; i++ )
+		{
+			String name = exprMetas[i].getName( );
+			Class clazz = DataType.getClass( exprMetas[i].getDataType( ) );
+			ResultFieldMetadata metaData = new ResultFieldMetadata( 0,
+					name,
+					name,
+					clazz,
+					clazz == null ? null : clazz.toString( ),
+					i == exprMetas.length - 1 ? true : false );
+			newProjectedColumns.add( metaData );
+		}
+
+		return new ResultClass( newProjectedColumns );
+	}
+	
+	/**
+	 * @param exprMetas
+	 * @return
+	 */
+	public static boolean isBasedOnSecondRD( ExprMetaInfo[] exprMetas )
+	{
+		boolean isBasedOnSecondRD = false;
+		for ( int i = 0; i < exprMetas.length; i++ )
+		{
+			if ( exprMetas[i].getName( ).equals( ExprMetaUtil.POS_NAME ) )
+			{
+				isBasedOnSecondRD = true;
+				break;
+			}
+		}
+		return isBasedOnSecondRD;
+	}
+	
+	/**
+	 * @param resultClass
+	 * @return
+	 */
+	public static boolean isBasedOnSecondRD( IResultClass resultClass )
+	{
+		boolean isBasedOnSecondRD = false;
+		for ( int i = 0; i < resultClass.getFieldCount( ); i++ )
+		{
+			try
+			{
+				if ( resultClass.getFieldName( i + 1 )
+						.equals( ExprMetaUtil.POS_NAME ) )
+				{
+					isBasedOnSecondRD = true;
+					break;
+				}
+			}
+			catch ( DataException e )
+			{
+				// impossible, ignore it
+			}
+		}
+		return isBasedOnSecondRD;
+	}
+	
+	/**
+	 * @return
+	 */
+	private static ExprMetaInfo[] getAssistExprMetaInfo( )
+	{
+		final String FILTER_NAME = "_dte_inner_row_filter_";
+
+		ExprMetaInfo[] exprMetas = new ExprMetaInfo[2];
+
+		exprMetas[0] = new ExprMetaInfo( );
+		exprMetas[0].setName( POS_NAME );
+		exprMetas[0].setGroupLevel( 0 );
+		exprMetas[0].setDataType( DataType.INTEGER_TYPE );
+		exprMetas[0].setType( ExprMetaInfo.SCRIPT_EXPRESSION );
+		exprMetas[0].setJSText( "dataSetRow._rowPosition" );
+
+		exprMetas[1] = new ExprMetaInfo( );
+		exprMetas[1].setName( FILTER_NAME );
+		exprMetas[1].setGroupLevel( 0 );
+		exprMetas[1].setType( ExprMetaInfo.SCRIPT_EXPRESSION );
+		exprMetas[1].setDataType( DataType.BOOLEAN_TYPE );
+		exprMetas[1].setJSText( null );
+
+		return exprMetas;
+	}
+	
 }

@@ -34,6 +34,12 @@ public class DataEngineContext
 	public final static int DIRECT_PRESENTATION  = 3;
 	
 	/**
+	 * this is a special mode, that a query which is running on a report
+	 * document also needs to be stored into a report document.
+	 */
+	public final static int PRESENTATION_AND_GENERATION = 4;
+	
+	/**
 	 * AppContext and Data Set cache count setting decide whether cache is used,
 	 * which is default value for data engine context.
 	 */
@@ -77,6 +83,8 @@ public class DataEngineContext
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
 	 * When mode is MODE_PRESENTATION, the reader stream of archive will be used.
 	 * When mode is DIRECT_PRESENTATION, the archive will not be used.
+	 * When mode is PRESENTATION_AND_GENERATION, both the write stream and the read 
+	 * steram of archive will be used. 
 	 * 
 	 * @param mode
 	 * @param scope
@@ -102,15 +110,20 @@ public class DataEngineContext
 			IDocArchiveReader reader, IDocArchiveWriter writer )
 			throws BirtException
 	{
-		if ( !( mode == MODE_GENERATION || mode == MODE_PRESENTATION || mode == DIRECT_PRESENTATION ) )
+		if ( !( mode == MODE_GENERATION
+				|| mode == MODE_PRESENTATION || mode == DIRECT_PRESENTATION || mode == PRESENTATION_AND_GENERATION ) )
 			throw new DataException( ResourceConstants.RD_INVALID_MODE );
 
 		if ( writer == null && mode == MODE_GENERATION )
 			throw new DataException( ResourceConstants.RD_INVALID_ARCHIVE );
-		
+
 		if ( reader == null && mode == MODE_PRESENTATION )
 			throw new DataException( ResourceConstants.RD_INVALID_ARCHIVE );
-		
+
+		if ( ( writer == null || reader == null )
+				&& mode == PRESENTATION_AND_GENERATION )
+			throw new DataException( ResourceConstants.RD_INVALID_ARCHIVE );
+
 		this.mode = mode;
 		this.scope = scope;
 		this.reader = reader;

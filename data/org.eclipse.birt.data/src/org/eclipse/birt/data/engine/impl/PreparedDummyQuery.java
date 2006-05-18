@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -39,7 +40,7 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.document.RDSave;
+import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.script.JSDummyRowObject;
 import org.mozilla.javascript.Context;
@@ -712,7 +713,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		private IBaseQueryDefinition queryDefn;
 
 		// report document save and load instance
-		private RDSave rdSave;
+		private IRDSave rdSave;
 
 		private boolean isBasicSaved;
 
@@ -802,7 +803,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		 * @return
 		 * @throws DataException
 		 */
-		private RDSave getRdSave( ) throws DataException
+		private IRDSave getRdSave( ) throws DataException
 		{
 			if ( rdSave == null )
 			{
@@ -825,11 +826,14 @@ public class PreparedDummyQuery implements IPreparedQuery
 	{
 		/*
 		 * @see org.eclipse.birt.data.engine.executor.transform.CachedResultSet#doSave(java.io.OutputStream,
-		 *      java.io.OutputStream, java.io.OutputStream, boolean)
+		 *      java.io.OutputStream, java.io.OutputStream,
+		 *      java.io.OutputStream, java.io.OutputStream, boolean,
+		 *      java.util.Set)
 		 */
-		public void doSave( OutputStream resultClassStream,
+		public void doSave( OutputStream resultSetStream,
+				OutputStream resultSetLenStream, OutputStream resultClassStream,
 				OutputStream dataSetDataStream, OutputStream groupInfoStream,
-				boolean isSubQuery ) throws DataException
+				boolean isSubQuery, Set nameSet ) throws DataException
 		{
 			try
 			{

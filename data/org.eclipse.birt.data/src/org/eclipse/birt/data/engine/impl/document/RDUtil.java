@@ -28,16 +28,19 @@ public final class RDUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static RDSave newSave( DataEngineContext context,
+	public static IRDSave newSave( DataEngineContext context,
 			IBaseQueryDefinition queryDefn, String queryResultID, int rowCount,
 			String subQueryName, int subQueryIndex ) throws DataException
 	{
-		return new RDSave( context,
-				queryDefn,
-				queryResultID,
-				rowCount,
-				subQueryName,
-				subQueryIndex );
+		if (context.getMode() == DataEngineContext.MODE_GENERATION)
+			return new RDSave(context, queryDefn, queryResultID, rowCount,
+					subQueryName, subQueryIndex);
+		else if (context.getMode() == DataEngineContext.PRESENTATION_AND_GENERATION)
+			return new RDSave2(context, queryDefn, queryResultID, rowCount,
+					subQueryName, subQueryIndex);
+		else
+			assert false;
+		return null;
 	}
 
 	/**
