@@ -61,6 +61,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 {
 
 	/**
+	 * Viewer preview max rows limited
+	 */
+
+	private int maxRows;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param request
@@ -99,6 +105,11 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.reportDocumentName = ParameterAccessor.getReportDocument( request );
 		this.reportDesignName = ParameterAccessor.getReport( request );
 		this.format = ParameterAccessor.getFormat( request );
+		this.maxRows = ParameterAccessor.getMaxRows( request );
+
+		// Set preview report max rows
+
+		ReportEngineService.getInstance( ).setMaxRows( this.maxRows );
 
 		// Determine the report design and doc 's timestamp
 
@@ -399,6 +410,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		}
 	}
 
+	/**
+	 * @return the maxRows
+	 */
+	public int getMaxRows( )
+	{
+		return maxRows;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

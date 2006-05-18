@@ -445,7 +445,7 @@ public class ReportEngineService
 		}
 		catch ( EngineException e )
 		{
-			AxisFault fault = new AxisFault( );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
 			fault
 					.setFaultCode( new QName(
 							"ReportEngineService.renderImage( )" ) ); //$NON-NLS-1$
@@ -618,7 +618,7 @@ public class ReportEngineService
 		}
 		catch ( BirtException e )
 		{
-			AxisFault fault = new AxisFault( );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
 			fault.setFaultCode( new QName(
 					"ReportEngineService.runAndRenderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
@@ -673,7 +673,7 @@ public class ReportEngineService
 		catch ( BirtException e )
 		{
 			// Any Birt exception.
-			AxisFault fault = new AxisFault( );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
 			fault
 					.setFaultCode( new QName(
 							"ReportEngineService.runReport( )" ) ); //$NON-NLS-1$
@@ -796,7 +796,7 @@ public class ReportEngineService
 		}
 		catch ( BirtException e )
 		{
-			AxisFault fault = new AxisFault( );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
 			fault.setFaultCode( new QName(
 					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
@@ -804,7 +804,7 @@ public class ReportEngineService
 		}
 		catch ( Exception e )
 		{
-			AxisFault fault = new AxisFault( );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
 			fault.setFaultCode( new QName(
 					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
@@ -881,7 +881,7 @@ public class ReportEngineService
 		catch ( BirtException e )
 		{
 			e.printStackTrace( );
-			AxisFault fault = new AxisFault( );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
 			fault
 					.setFaultCode( new QName(
 							"ReportEngineService.getMetaData( )" ) ); //$NON-NLS-1$
@@ -891,7 +891,7 @@ public class ReportEngineService
 		catch ( Exception e )
 		{
 			e.printStackTrace( );
-			AxisFault fault = new AxisFault( );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
 			fault
 					.setFaultCode( new QName(
 							"ReportEngineService.getMetaData( )" ) ); //$NON-NLS-1$
@@ -1020,7 +1020,7 @@ public class ReportEngineService
 		}
 		catch ( Exception e )
 		{
-			AxisFault fault = new AxisFault( );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
 			fault
 					.setFaultCode( new QName(
 							"ReportEngineService.extractData( )" ) ); //$NON-NLS-1$
@@ -1221,5 +1221,18 @@ public class ReportEngineService
 		IBaseDataSetDesign dataSetDesign = modelAdaptor.adaptDataSet( dataSet );
 
 		requestSession.clearCache( sourceDesign, dataSetDesign );
+	}
+
+	/**
+	 * @param maxRows
+	 * 
+	 * @return void
+	 */
+	public void setMaxRows( int maxRows )
+	{
+		if ( config != null )
+		{
+			config.setMaxRowsPerQuery( maxRows );
+		}
 	}
 }

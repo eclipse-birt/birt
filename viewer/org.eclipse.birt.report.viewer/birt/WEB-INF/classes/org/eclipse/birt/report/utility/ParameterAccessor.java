@@ -158,6 +158,12 @@ public class ParameterAccessor
 	public static final String PARAM_RTL = "__rtl"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name that gives the preview max rows option.
+	 */
+
+	public static final String PARAM_MAXROWS = "__maxrows"; //$NON-NLS-1$
+
+	/**
 	 * Custom request headers to identify the request is a normal HTTP request
 	 * or a soap request by AJAX.
 	 */
@@ -252,6 +258,12 @@ public class ParameterAccessor
 	public static final String INIT_PARAM_BIRT_RESOURCE_PATH = "BIRT_RESOURCE_PATH"; //$NON-NLS-1$
 
 	/**
+	 * Servlet parameter name that gives preview report max rows limited.
+	 */
+
+	public static final String INIT_PARAM_VIEWER_MAXROWS = "BIRT_VIEWER_MAX_ROWS"; //$NON-NLS-1$
+
+	/**
 	 * UTF-8 encode constants.
 	 */
 
@@ -298,6 +310,12 @@ public class ParameterAccessor
 	 */
 
 	public static String workingFolder = null;
+
+	/**
+	 * Preview report max rows
+	 */
+
+	public static int maxRows;
 
 	/**
 	 * Current web application locale.
@@ -411,6 +429,7 @@ public class ParameterAccessor
 	
 	/**
 	 * Gets the query parameter string with the give name and value.
+	 * 
 	 * @param paramName
 	 * @param value
 	 * @return
@@ -443,6 +462,24 @@ public class ParameterAccessor
 		}
 
 		return PARAM_FORMAT_HTML; // The default format is html.
+	}
+
+	/**
+	 * Get preview max rows.
+	 * 
+	 * @param request
+	 *            http request
+	 * @return max rows
+	 */
+
+	public static int getMaxRows( HttpServletRequest request )
+	{
+		int curMaxRows = ParameterAccessor.getParameterAsInt( request,
+				PARAM_MAXROWS );
+		if ( curMaxRows <= 0 )
+			curMaxRows = maxRows;
+
+		return curMaxRows;
 	}
 
 	/**
@@ -921,6 +958,17 @@ public class ParameterAccessor
 						context
 								.getInitParameter( INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY ) )
 				.booleanValue( );
+
+		// Get preview report max rows parameter from Servlet Context
+		String s_maxRows = context.getInitParameter( INIT_PARAM_VIEWER_MAXROWS );
+		try
+		{
+			maxRows = Integer.valueOf( s_maxRows ).intValue( );
+		}
+		catch ( NumberFormatException e )
+		{
+			maxRows = -1;
+		}
 
 		clearDocuments( );
 	}
