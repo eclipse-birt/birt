@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,7 +60,7 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 
 		Oprand[] params = operation.getOprand( );
 		String reportDesignName = attrBean.getReportDesignName( );
-		Map paramMap = new HashMap( );
+		Map paramMap = new LinkedHashMap( );
 		for ( int i = 0; i < params.length; i++ )
 		{
 			Oprand param = params[i];
