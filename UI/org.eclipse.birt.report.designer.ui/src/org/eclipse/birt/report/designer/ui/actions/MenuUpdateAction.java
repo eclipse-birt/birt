@@ -144,10 +144,6 @@ public abstract class MenuUpdateAction extends SelectionAction
 		run( );
 	}
 
-	public void update( )
-	{
-	}
-
 	/**
 	 * Gets dynamic items of current menu to generate sub-menu. If the element
 	 * returns null, menu will generate separator.

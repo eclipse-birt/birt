@@ -26,7 +26,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.forms.editor.FormEditor;
 
 /**
- * 
+ * Master page set action
  */
 
 public class MasterPageAction extends MenuUpdateAction
@@ -90,6 +90,10 @@ public class MasterPageAction extends MenuUpdateAction
 			list.add( new MasterPageSelectionAction( (MasterPageHandle) iter.next( ) ) );
 		}
 		return list;
+	}
+
+	public void update( )
+	{
 	}
 
 }
