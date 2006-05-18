@@ -98,4 +98,9 @@ public class Action implements IAction
 	{
 		return content.getFormat();
 	}
+
+	public boolean isBookmark( )
+	{
+		return content.isBookmark( );
+	}
 }

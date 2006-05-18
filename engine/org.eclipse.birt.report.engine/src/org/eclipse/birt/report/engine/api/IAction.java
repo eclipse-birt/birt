@@ -85,4 +85,9 @@ public interface IAction
 	 * @return
 	 */
 	public String getFormat();
+
+	/**
+	 * Checks if the action is point to a bookmark.
+	 */
+	public boolean isBookmark();
 }
