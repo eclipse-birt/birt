@@ -183,6 +183,11 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 							return handle.getFormatType( );
 						}
 
+						public boolean isBookmark( )
+						{
+							return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
+						}
+
 					},
 							context );
 				}
@@ -287,6 +292,11 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 						public String getFormat( )
 						{
 							return handle.getFormatType( );
+						}
+						
+						public boolean isBookmark( )
+						{
+							return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
 						}
 
 					},
