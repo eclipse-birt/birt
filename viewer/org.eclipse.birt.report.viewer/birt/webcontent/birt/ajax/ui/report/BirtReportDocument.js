@@ -80,6 +80,18 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 	 */
 	__beh_print : function( id )
 	{
-		window.print();
+		var docObj = document.getElementById( 'Document' );
+		if ( docObj )
+		{
+			var pwin = window.open( "", "print", "height=0,width=0" ); 
+			pwin.document.write( docObj.innerHTML ); 
+			pwin.print( );
+			pwin.location.reload( );
+			pwin.close( );
+		}
+		else
+		{
+			window.print( );
+		}
 	}	
 });
