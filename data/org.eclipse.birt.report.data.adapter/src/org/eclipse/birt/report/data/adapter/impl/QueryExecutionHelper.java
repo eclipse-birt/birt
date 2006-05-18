@@ -94,8 +94,8 @@ class QueryExecutionHelper
 		DataSetHandle handle = null;
 		for ( int i = 0; i < l.size( ); i++ )
 		{
-			if ( ( (DataSetHandle) l.get( i ) ).getName( ) != null
-					&& ( (DataSetHandle) l.get( i ) ).getName( )
+			if ( ( (DataSetHandle) l.get( i ) ).getQualifiedName( ) != null
+					&& ( (DataSetHandle) l.get( i ) ).getQualifiedName( )
 							.equals( dataSetName ) )
 			{
 				handle = (DataSetHandle) l.get( i );
