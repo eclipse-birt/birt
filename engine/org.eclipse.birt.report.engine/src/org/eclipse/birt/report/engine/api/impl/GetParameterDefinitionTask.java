@@ -457,7 +457,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				
 				// Create a group to skip all of the duplicate values
 				GroupDefinition groupDef = new GroupDefinition( );
-				groupDef.setKeyExpression( valueStmt );
+				groupDef.setKeyColumn( valueColumnName );
 				queryDefn.addGroup( groupDef );
 				
 				queryDefn.setAutoBinding( true );
