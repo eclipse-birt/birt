@@ -508,7 +508,7 @@ public class FontDefinitionDialog
 			cmbFontNames.add( saFontNames[iC] );
 			if ( saFontNames[iC].equalsIgnoreCase( currentFont ) )
 			{
-				cmbFontNames.select( iC );
+				cmbFontNames.select( iC + 1 );
 			}
 		}
 		if ( cmbFontNames.getSelectionIndex( ) == -1 )
