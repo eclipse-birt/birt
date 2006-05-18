@@ -91,7 +91,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.99 $ $Date: 2006/05/17 08:50:17 $
+ * @version $Revision: 1.100 $ $Date: 2006/05/18 07:21:49 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1849,10 +1849,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			setStyleName( image.getStyleClass( ) );
 			setDisplayProperty( display, 0, styleBuffer );
 			
+			// bookmark
+			String bookmark = image.getBookmark( );				
 			if ( !isSelectHandleTableChart )
 			{
-				// bookmark
-				String bookmark = image.getBookmark( );				
 				if ( bookmark == null )
 				{
 					bookmark = generateUniqueID( );
@@ -1862,6 +1862,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				
 				// if the image is a chart, add it to active id list, and output type ��iid to html
 				setActiveIDTypeIID( image );
+			}
+			else
+			{
+				bookmark = generateUniqueID( );
+				setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
 			}
 			
 			String ext = image.getExtension( );
