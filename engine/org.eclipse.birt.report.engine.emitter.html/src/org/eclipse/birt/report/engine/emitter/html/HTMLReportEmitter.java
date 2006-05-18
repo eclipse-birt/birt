@@ -91,7 +91,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.102 $ $Date: 2006/05/18 09:10:01 $
+ * @version $Revision: 1.103 $ $Date: 2006/05/18 10:49:54 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -2378,6 +2378,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			return uri;
 		}
+		uri = url.toExternalForm( );
 		Image image = new Image( uri );
 		image.setReportRunnable( runnable );
 		image.setRenderOption( renderOption );
