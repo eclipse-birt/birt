@@ -91,7 +91,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.98 $ $Date: 2006/05/17 05:42:35 $
+ * @version $Revision: 1.99 $ $Date: 2006/05/17 08:50:17 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -980,7 +980,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void push( boolean hidden )
 	{		
-		stack.push( new Boolean( hidden ) );
+		boolean isHidden = false;
+		if ( !stack.empty( ) )
+		{
+			isHidden = ( (Boolean) stack.peek( ) ).booleanValue( );
+		}
+		if ( !isHidden )
+		{
+			isHidden = hidden;
+		}
+		stack.push( new Boolean( isHidden ) );		
 	}
 	
 	/**
@@ -1233,79 +1242,68 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#startCell(org.eclipse.birt.report.engine.content.ICellContent)
 	 */
 	public void startCell( ICellContent cell )
-	{
+	{				
+		int colSpan = getNewColSpan( cell );
+		if ( colSpan < 1 )
+		{
+			push( true );
+			return;
+		}
+		push( false );
+		
 		if ( isHidden( ) )
 		{
 			return;
-		}
-
-		// int span;
-		// int columnID;
-
+		}			
+		
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start cell." ); //$NON-NLS-1$
+			
+		// output 'td' tag
+		writer.openTag( HTMLTags.TAG_TD ); //$NON-NLS-1$
 
-		if ( cell != null )
+		// set the 'name' property
+		setStyleName( cell.getStyleClass( ) );
+
+		// colspan
+		if ( colSpan > 1 )
 		{
-			int colSpan = getNewColSpan( cell );
-			if ( colSpan < 1 )
-			{
-				push( true );
-				return;
-			}
-			push( false );
-				
-			// output 'td' tag
-			writer.openTag( HTMLTags.TAG_TD ); //$NON-NLS-1$
-
-			// set the 'name' property
-			setStyleName( cell.getStyleClass( ) );
-
-			// colspan
-			if ( colSpan > 1 )
-			{
-				writer.attribute( HTMLTags.ATTR_COLSPAN, colSpan );
-			}
-
-			// rowspan
-			if ( ( cell.getRowSpan( ) ) > 1 )
-			{
-				writer.attribute( HTMLTags.ATTR_ROWSPAN, cell.getRowSpan( ) );
-			}
-
-			// vertical align can only be used with tabelCell/Inline Element
-			StringBuffer styleBuffer = new StringBuffer( );
-			IStyle mergedStyle = cell.getStyle( );
-			String vAlign = null;
-			String textAlign = null;
-			if ( mergedStyle != null )
-			{
-				vAlign = mergedStyle.getVerticalAlign( );
-				textAlign = mergedStyle.getTextAlign( );
-			}
-			if ( vAlign == null )
-			{
-				IStyle cs = cell.getComputedStyle( );
-				vAlign = cs.getVerticalAlign( );
-				styleBuffer.append( "vertical-align: " );
-				styleBuffer.append( vAlign );
-				styleBuffer.append( ";" );
-			}
-			if ( textAlign == null )
-			{
-				IStyle cs = cell.getComputedStyle( );
-				textAlign = cs.getTextAlign( );
-				styleBuffer.append( "text-align: " );
-				styleBuffer.append( textAlign );
-				styleBuffer.append( ";" );
-			}
-
-			handleStyle( cell, styleBuffer );
-		}
-		else
-		{
-			writer.openTag( HTMLTags.TAG_TD );
+			writer.attribute( HTMLTags.ATTR_COLSPAN, colSpan );
 		}
 
+		// rowspan
+		if ( ( cell.getRowSpan( ) ) > 1 )
+		{
+			writer.attribute( HTMLTags.ATTR_ROWSPAN, cell.getRowSpan( ) );
+		}
+
+		// vertical align can only be used with tabelCell/Inline Element
+		StringBuffer styleBuffer = new StringBuffer( );
+		IStyle mergedStyle = cell.getStyle( );
+		String vAlign = null;
+		String textAlign = null;
+		if ( mergedStyle != null )
+		{
+			vAlign = mergedStyle.getVerticalAlign( );
+			textAlign = mergedStyle.getTextAlign( );
+		}
+		if ( vAlign == null )
+		{
+			IStyle cs = cell.getComputedStyle( );
+			vAlign = cs.getVerticalAlign( );
+			styleBuffer.append( "vertical-align: " );
+			styleBuffer.append( vAlign );
+			styleBuffer.append( ";" );
+		}
+		if ( textAlign == null )
+		{
+			IStyle cs = cell.getComputedStyle( );
+			textAlign = cs.getTextAlign( );
+			styleBuffer.append( "text-align: " );
+			styleBuffer.append( textAlign );
+			styleBuffer.append( ";" );
+		}
+
+		handleStyle( cell, styleBuffer );
 	}
 
 	/*
@@ -1315,14 +1313,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endCell( ICellContent cell )
 	{
-		if ( isHidden( ) )
+		if ( pop( ) )
 		{
-			pop( );
 			return;
 		}
 		logger.log( Level.FINE, "[HTMLReportEmitter] End cell." ); //$NON-NLS-1$
-		
-		pop( );
 		
 		writer.closeTag( HTMLTags.TAG_TD );
 	}
@@ -1763,6 +1758,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		Object generateBy = image.getGenerateBy( );
 		
 		// include select handle chart
+		boolean isSelectHandleTableChart = false;
 		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
 		{
 			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
@@ -1770,7 +1766,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			if ( htmlOption.getIncludeSelectionHandle( )
 					&& generateBy instanceof ExtendedItemDesign )
 			{
-				startSelectHandleTableChart( );
+				startSelectHandleTableChart( image );
+				isSelectHandleTableChart = true;
 			}
 		}		
 
@@ -1790,19 +1787,29 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.openTag( HTMLTags.TAG_EMBED );
 
 			// bookmark
-			String bookmark = image.getBookmark( );
-			if ( bookmark == null )
+			String bookmark = image.getBookmark( );				
+			
+			if ( !isSelectHandleTableChart )
+			{
+				if ( bookmark == null )
+				{
+					bookmark = generateUniqueID( );
+					image.setBookmark( bookmark );
+				}
+				setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
+				// If the image is a chart, add it to active id list, and output type ��iid to html
+				setActiveIDTypeIID(image);
+				
+			}
+			else
 			{
 				bookmark = generateUniqueID( );
-				image.setBookmark( bookmark );
+				setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
 			}
-			setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
-			// If the image is a chart, add it to active id list, and output type ��iid to html
-			setActiveIDTypeIID(image);
 			
-			//onresize gives the SVG a change to change its content
+			//	onresize gives the SVG a change to change its content
 			writer.attribute( "onresize", bookmark+".reload()"); //$NON-NLS-1$
-
+			
 			writer.attribute( HTMLTags.ATTR_TYPE, "image/svg+xml" ); //$NON-NLS-1$
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
 			setStyleName( image.getStyleClass( ) );
@@ -1841,19 +1848,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.openTag( HTMLTags.TAG_IMAGE ); //$NON-NLS-1$
 			setStyleName( image.getStyleClass( ) );
 			setDisplayProperty( display, 0, styleBuffer );
-
-			// bookmark
-			String bookmark = image.getBookmark( );
-			if ( bookmark == null )
-			{
-				bookmark = generateUniqueID( );
-				image.setBookmark( bookmark );
-			}
-			setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
 			
-			// if the image is a chart, add it to active id list, and output type ��iid to html
-			setActiveIDTypeIID(image);
-
+			if ( !isSelectHandleTableChart )
+			{
+				// bookmark
+				String bookmark = image.getBookmark( );				
+				if ( bookmark == null )
+				{
+					bookmark = generateUniqueID( );
+					image.setBookmark( bookmark );
+				}
+				setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
+				
+				// if the image is a chart, add it to active id list, and output type ��iid to html
+				setActiveIDTypeIID( image );
+			}
+			
 			String ext = image.getExtension( );
 			// FIXME special process, such as encoding etc
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
@@ -1967,9 +1977,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * bug128480
 	 * render chard with a highlight handle
 	 */
-	protected void startSelectHandleTableChart( )
+	protected void startSelectHandleTableChart( IContent content )
 	{
 		writer.openTag( HTMLTags.TAG_TABLE );
+		
+		// set the id and iid to the out table
+		// bookmark
+		String bookmark = content.getBookmark( );
+		if ( bookmark == null )
+		{
+			bookmark = generateUniqueID( );
+			content.setBookmark( bookmark );
+		}
+		setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
+		// If the image is a chart, add it to active id list, and output type ��iid to html
+		setActiveIDTypeIID( content );
+		
 		writer.attribute( HTMLTags.ATTR_STYLE, "width:100%" );
 		writer.openTag( HTMLTags.TAG_COL );
 		writer.attribute( HTMLTags.ATTR_STYLE, "width:5%;background-color:black" );
