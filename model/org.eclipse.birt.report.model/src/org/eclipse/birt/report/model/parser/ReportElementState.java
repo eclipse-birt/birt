@@ -16,6 +16,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
+import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
@@ -353,9 +355,13 @@ public abstract class ReportElementState extends DesignParseState
 
 		if ( parent == null )
 		{
-			handler.getErrorHandler( ).semanticWarning(
-					new ExtendsException( element, extendsName,
-							ExtendsException.DESIGN_EXCEPTION_NOT_FOUND ) );
+			handler
+					.getErrorHandler( )
+					.semanticWarning(
+							new InvalidParentException(
+									element,
+									extendsName,
+									InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND ) );
 			return;
 		}
 
@@ -424,10 +430,10 @@ public abstract class ReportElementState extends DesignParseState
 					handler
 							.getErrorHandler( )
 							.semanticError(
-									new ExtendsException(
+									new ExtendsForbiddenException(
 											content,
 											content.getElementName( ),
-											ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
+											ExtendsForbiddenException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
 					return;
 				}
 			}

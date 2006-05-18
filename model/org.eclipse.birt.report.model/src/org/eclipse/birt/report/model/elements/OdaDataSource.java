@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -222,13 +223,17 @@ public class OdaDataSource extends DataSource
 
 			if ( odaParent.extensionID != null
 					&& !odaParent.extensionID.equals( extensionID ) )
-				throw new ExtendsException( this, parent,
-						ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+				throw new WrongTypeException(
+						this,
+						parent,
+						WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
 
 			if ( extensionID != null
 					&& !extensionID.equals( odaParent.extensionID ) )
-				throw new ExtendsException( this, parent,
-						ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+				throw new WrongTypeException(
+						this,
+						parent,
+						WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
 		}
 	}
 

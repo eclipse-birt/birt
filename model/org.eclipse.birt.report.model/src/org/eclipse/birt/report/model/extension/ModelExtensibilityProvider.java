@@ -12,11 +12,11 @@
 package org.eclipse.birt.report.model.extension;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-
 
 /**
  * Abstract extensibility provider for Model extension point.
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 public abstract class ModelExtensibilityProvider extends ExtensibilityProvider
 {
-	
+
 	/**
 	 * The name of the extension which is used to extend the extendable element.
 	 */
@@ -34,14 +34,17 @@ public abstract class ModelExtensibilityProvider extends ExtensibilityProvider
 	/**
 	 * Constructs this provider with the element to extend, and extension name.
 	 * 
-	 * @param element the element to extend
-	 * @param extensionName the extension name
+	 * @param element
+	 *            the element to extend
+	 * @param extensionName
+	 *            the extension name
 	 */
-	
-	public ModelExtensibilityProvider( DesignElement element, String extensionName )
+
+	public ModelExtensibilityProvider( DesignElement element,
+			String extensionName )
 	{
 		super( element );
-		
+
 		this.extensionName = extensionName;
 	}
 
@@ -84,7 +87,7 @@ public abstract class ModelExtensibilityProvider extends ExtensibilityProvider
 
 		assert extensionName != null;
 		if ( !extensionName.equalsIgnoreCase( parentExt ) )
-			throw new ExtendsException( element, parent,
-					ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+			throw new WrongTypeException( element, parent,
+					WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
 	}
 }

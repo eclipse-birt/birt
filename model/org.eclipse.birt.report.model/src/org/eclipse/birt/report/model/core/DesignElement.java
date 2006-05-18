@@ -24,9 +24,12 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.CircularExtendsException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
+import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
@@ -2389,23 +2392,23 @@ public abstract class DesignElement
 
 		if ( parent == null )
 		{
-			throw new ExtendsException( this, extendsName,
-					ExtendsException.DESIGN_EXCEPTION_NOT_FOUND );
+			throw new InvalidParentException( this, extendsName,
+					InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
 		}
 		else if ( parent.getDefn( ) != defn )
 		{
-			throw new ExtendsException( this, parent,
-					ExtendsException.DESIGN_EXCEPTION_WRONG_TYPE );
+			throw new WrongTypeException( this, parent,
+					WrongTypeException.DESIGN_EXCEPTION_WRONG_TYPE );
 		}
 		else if ( parent == this )
 		{
-			throw new ExtendsException( this, extendsName,
-					ExtendsException.DESIGN_EXCEPTION_SELF_EXTEND );
+			throw new CircularExtendsException( this, extendsName,
+					CircularExtendsException.DESIGN_EXCEPTION_SELF_EXTEND );
 		}
 		else if ( parent.isKindOf( this ) )
 		{
-			throw new ExtendsException( this, parent,
-					ExtendsException.DESIGN_EXCEPTION_CIRCULAR );
+			throw new CircularExtendsException( this, parent,
+					CircularExtendsException.DESIGN_EXCEPTION_CIRCULAR );
 		}
 
 	}

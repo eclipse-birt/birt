@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.api.validators;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -74,8 +74,8 @@ public class ElementExtendsValidator extends AbstractElementValidator
 		if ( !StringUtil.isEmpty( element.getExtendsName( ) )
 				&& element.getExtendsElement( ) == null )
 		{
-			list.add( new ExtendsException( element, element.getExtendsName( ),
-					ExtendsException.DESIGN_EXCEPTION_NOT_FOUND ) );
+			list.add( new InvalidParentException( element, element.getExtendsName( ),
+					InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND ) );
 		}
 
 		return list;

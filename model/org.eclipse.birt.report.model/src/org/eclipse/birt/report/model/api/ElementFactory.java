@@ -15,9 +15,11 @@ import java.lang.reflect.Constructor;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
@@ -40,7 +42,6 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
-import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
@@ -938,8 +939,8 @@ public class ElementFactory
 			Library lib = module.getLibraryByLocation( root.getLocation( ) );
 			if ( lib == null )
 			{
-				throw new ExtendsException( null, baseElement.getElement( ),
-						ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_INCLUDE );
+				throw new InvalidParentException( null, baseElement.getElement( ),
+						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_INCLUDE );
 			}
 
 			DesignElement base = lib.getElementByID( baseElement.getID( ) );
@@ -950,8 +951,8 @@ public class ElementFactory
 			if ( base == null
 					|| base.getDefn( ) != baseElement.getElement( ).getDefn( ) )
 			{
-				throw new ExtendsException( null, baseElement.getName( ),
-						ExtendsException.DESIGN_EXCEPTION_NOT_FOUND );
+				throw new InvalidParentException( null, baseElement.getName( ),
+						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
 			}
 
 			return newElementFrom( name, base.getHandle( lib ) );

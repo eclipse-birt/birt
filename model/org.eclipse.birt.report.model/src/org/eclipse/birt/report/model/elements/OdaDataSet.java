@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -196,8 +197,8 @@ public class OdaDataSet extends SimpleDataSet
 		{
 			extensionID = (String) value;
 			if ( extensionID != null )
-				provider = ODAProviderFactory.getInstance( ).createODAProvider( this,
-						extensionID );
+				provider = ODAProviderFactory.getInstance( ).createODAProvider(
+						this, extensionID );
 			else
 				provider = null;
 		}
@@ -225,13 +226,17 @@ public class OdaDataSet extends SimpleDataSet
 
 			if ( odaParent.extensionID != null
 					&& !odaParent.extensionID.equals( extensionID ) )
-				throw new ExtendsException( this, parent,
-						ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+				throw new WrongTypeException(
+						this,
+						parent,
+						WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
 
 			if ( extensionID != null
 					&& !extensionID.equals( odaParent.extensionID ) )
-				throw new ExtendsException( this, parent,
-						ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+				throw new WrongTypeException(
+						this,
+						parent,
+						WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
 		}
 	}
 

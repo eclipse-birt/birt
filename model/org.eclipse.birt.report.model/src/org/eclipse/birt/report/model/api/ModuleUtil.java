@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -44,6 +45,7 @@ import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.parser.ModuleParserErrorHandler;
 import org.eclipse.birt.report.model.parser.ModuleParserHandler;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.VersionInfo;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.eclipse.birt.report.model.writer.IndentableXMLWriter;
@@ -485,20 +487,22 @@ public class ModuleUtil
 	}
 
 	/**
-	 * Checks if the version of a design file is of old version.
+	 * Checks whether the input stream holds a version number before some
+	 * specific features is supported. This method is used to remind user that
+	 * opening this stream may need to convert the original file automatically.
 	 * 
 	 * @param streamData
 	 *            the input stream
-	 * @return <code>-1</code> if the version of given file is lower than
-	 *         current version; <code>0</code> if they are equal; otherwise,
-	 *         return <code>1</code>.
-	 * @throws DesignFileException
-	 *             if any exception happens
+	 * @return a list whose entry is of <code>IVersionInfo</code> type. Each
+	 *         kind of automatical conversion information is stored in one
+	 *         instance of <code>IVersionInfo</code>. If the size of the
+	 *         return list is 0, there is no auto-conversion.
 	 */
 
-	public static int checkVersion( InputStream streamData )
+	private static List checkVersion( InputStream streamData )
 			throws DesignFileException
 	{
+		List rtnList = new ArrayList( );
 		VersionParserHandler handler = new VersionParserHandler( );
 
 		InputStream inputStreamToParse = streamData;
@@ -506,26 +510,68 @@ public class ModuleUtil
 			inputStreamToParse = new BufferedInputStream( streamData );
 
 		parse( handler, inputStreamToParse );
-		return StringUtil.compareVersion( handler.version, DesignSchemaConstants.REPORT_VERSION );
+
+		if ( StringUtil.compareVersion( handler.version,
+				VersionInfo.COLUMN_BINDING_FROM_VERSION ) < 1
+				&& StringUtil.compareVersion(
+						DesignSchemaConstants.REPORT_VERSION,
+						VersionInfo.COLUMN_BINDING_FROM_VERSION ) > 0 )
+			rtnList.add( new VersionInfo( handler.version,
+					VersionInfo.CONVERT_FOR_COLUMN_BINDING ) );
+
+		return rtnList;
 	}
 
 	/**
-	 * Checks if the version of a design file is of old version.
+	 * Checks whether the opening design file holds a version number before the
+	 * some specific features is supported. This method is used to remind user
+	 * that opening the file may need convert the original file automatically.
 	 * 
 	 * @param fileName
 	 *            the file name with full path of the design file
-	 * @return <code>-1</code> if the version of given file is lower than
-	 *         current version; <code>0</code> if they are equal; otherwise,
-	 *         return <code>1</code>.
-	 * @throws DesignFileException
-	 *             if any exception happens
-	 * @throws FileNotFoundException
+	 * @return a list whose entry is of <code>IVersionInfo</code> type. Each
+	 *         kind of automatical conversion information is stored in one
+	 *         instance of <code>IVersionInfo</code>. Note that if the design
+	 *         file does not exist, or it is an invalid design file, an instance
+	 *         of <code>IVersionInfo</code> will also generate. If the size of
+	 *         the return list is 0, there is no auto-conversion.
 	 */
 
-	public static int checkVersion( String fileName )
-			throws DesignFileException, FileNotFoundException
+	public static List checkVersion( String fileName )
 	{
-		return checkVersion( new BufferedInputStream( new FileInputStream(
-				fileName ) ) );
+		List rtnList = new ArrayList( );
+		InputStream inputStream = null;
+
+		try
+		{
+			inputStream = new BufferedInputStream( new FileInputStream(
+					fileName ) );
+			rtnList.addAll( checkVersion( inputStream ) );
+		}
+		catch ( FileNotFoundException e1 )
+		{
+			rtnList
+					.add( new VersionInfo( null,
+							VersionInfo.INVALID_DESIGN_FILE ) );
+		}
+		catch ( DesignFileException e1 )
+		{
+			rtnList
+					.add( new VersionInfo( null,
+							VersionInfo.INVALID_DESIGN_FILE ) );
+		}
+		finally
+		{
+			try
+			{
+				if ( inputStream != null )
+					inputStream.close( );
+			}
+			catch ( IOException e )
+			{
+			}
+		}
+
+		return rtnList;
 	}
 }

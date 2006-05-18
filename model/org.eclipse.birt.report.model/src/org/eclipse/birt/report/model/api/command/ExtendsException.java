@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api.command;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -27,7 +26,7 @@ public class ExtendsException extends SemanticException
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = 4652036899546927124L;
 
 	/**
@@ -44,71 +43,98 @@ public class ExtendsException extends SemanticException
 
 	/**
 	 * No element exists with the parent name.
+	 * 
+	 * @deprecated pushed down to sub class <code>InvalidParentException</code>
 	 */
 
-	public static final String DESIGN_EXCEPTION_NOT_FOUND = MessageConstants.EXTENDS_EXCEPTION_NOT_FOUND;
+	public static final String DESIGN_EXCEPTION_PARENT_NOT_FOUND = InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND;
 
 	/**
 	 * The parent element does not have the same type as the target element.
+	 * 
+	 * @deprecated pushed down to sub class <code>WrongTypeException</code>
 	 */
 
-	public static final String DESIGN_EXCEPTION_WRONG_TYPE = MessageConstants.EXTENDS_EXCEPTION_WRONG_TYPE;
+	public static final String DESIGN_EXCEPTION_WRONG_TYPE = WrongTypeException.DESIGN_EXCEPTION_WRONG_TYPE;
 
 	/**
 	 * The parent element does not have the same type of extension as the target
 	 * element. Both the parent and the target element are ExtendedItem.
+	 * 
+	 * @deprecated pushed down to sub class <code>WrongTypeException</code>
 	 */
 
-	public static final String DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE = MessageConstants.EXTENDS_EXCEPTION_WRONG_EXTENSION_TYPE;
+	public static final String DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE = WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE;
 
 	/**
 	 * The element does not allow to set extends explicitly.
+	 * 
+	 * @deprecated pushed down to sub class
+	 *             <code>ExtendsForbiddenException</code>
 	 */
 
-	public static final String DESIGN_EXCEPTION_EXTENDS_FORBIDDEN = MessageConstants.EXTENDS_EXCEPTION_EXTENDS_FORBIDDEN;
+	public static final String DESIGN_EXCEPTION_EXTENDS_FORBIDDEN = ExtendsForbiddenException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN;
 
 	/**
 	 * The element does not allow extensions.
+	 * 
+	 * @deprecated pushed down to sub class
+	 *             <code>ExtendsForbiddenException</code>
 	 */
 
-	public static final String DESIGN_EXCEPTION_CANT_EXTEND = MessageConstants.EXTENDS_EXCEPTION_CANT_EXTEND;
+	public static final String DESIGN_EXCEPTION_CANT_EXTEND = ExtendsForbiddenException.DESIGN_EXCEPTION_CANT_EXTEND;
 
 	/**
 	 * The element cannot extend from itself.
+	 * 
+	 * @deprecated pushed down to sub class
+	 *             <code>CircularExtendsException</code>
 	 */
 
-	public static final String DESIGN_EXCEPTION_SELF_EXTEND = MessageConstants.EXTENDS_EXCEPTION_SELF_EXTEND;
+	public static final String DESIGN_EXCEPTION_SELF_EXTEND = CircularExtendsException.DESIGN_EXCEPTION_SELF_EXTEND;
 
 	/**
 	 * The extension would create a cycle: a extends b extends a.
+	 * 
+	 * @deprecated pushed down to sub class
+	 *             <code>CircularExtendsException</code>
 	 */
 
-	public static final String DESIGN_EXCEPTION_CIRCULAR = MessageConstants.EXTENDS_EXCEPTION_CIRCULAR;
+	public static final String DESIGN_EXCEPTION_CIRCULAR = CircularExtendsException.DESIGN_EXCEPTION_CIRCULAR;
 
 	/**
 	 * The parent element has no name.
+	 * 
+	 * @deprecated pushed down to sub class <code>InvalidParentException</code>
 	 */
 
-	public static final String DESIGN_EXCEPTION_UNNAMED_PARENT = MessageConstants.EXTENDS_EXCEPTION_UNNAMED_PARENT;
+	public static final String DESIGN_EXCEPTION_UNNAMED_PARENT = InvalidParentException.DESIGN_EXCEPTION_UNNAMED_PARENT;
 
 	/**
 	 * The parent element not in component slot of report design.
+	 * 
+	 * @deprecated pushed down to sub class
+	 *             <code>ExtendsForbiddenException</code>
 	 */
 
-	public static final String DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT = MessageConstants.EXTENDS_EXCEPTION_PARENT_NOT_IN_COMPONENT;
+	public static final String DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT = ExtendsForbiddenException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT;
 
 	/**
 	 * The library of the parent element is not included.
+	 * 
+	 * @deprecated pushed down to sub class <code>InvalidParentException</code>
 	 */
 
-	public static final String DESIGN_EXCEPTION_PARENT_NOT_INCLUDE = MessageConstants.EXTENDS_EXCEPTION_PARENT_NOT_INCLUDE;
+	public static final String DESIGN_EXCEPTION_PARENT_NOT_INCLUDE = InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_INCLUDE;
 
 	/**
 	 * The element has no parent, it can not be localized.
+	 * 
+	 * @deprecated pushed down to sub class <code>InvalidParentException</code>
 	 */
-	
-	public static final String DESIGN_EXCEPTION_NO_PARENT = MessageConstants.EXTENDS_EXCEPTION_NO_PARENT;
-	
+
+	public static final String DESIGN_EXCEPTION_NO_PARENT = InvalidParentException.DESIGN_EXCEPTION_NO_PARENT;
+
 	/**
 	 * Constructor.
 	 * 
@@ -164,7 +190,8 @@ public class ExtendsException extends SemanticException
 
 	public String getLocalizedMessage( )
 	{
-		if ( sResourceKey == DESIGN_EXCEPTION_NOT_FOUND
+		// For backward compatibility
+		if ( sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_FOUND
 				|| sResourceKey == DESIGN_EXCEPTION_CANT_EXTEND
 				|| sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT )
 		{

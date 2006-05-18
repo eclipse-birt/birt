@@ -19,6 +19,8 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
+import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -81,8 +83,10 @@ public class ExtendsCommand extends AbstractElementCommand
 		// (inside a child) or the element already extends from another.
 
 		if ( element.isVirtualElement( ) )
-			throw new ExtendsException( element, base,
-					ExtendsException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN );
+			throw new ExtendsForbiddenException(
+					element,
+					base,
+					ExtendsForbiddenException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN );
 
 		if ( base == null && element.getExtendsName( ) == null )
 			return;
@@ -100,8 +104,8 @@ public class ExtendsCommand extends AbstractElementCommand
 			// Verify that the symbol exists and is the right type.
 
 			if ( !metaData.canExtend( ) )
-				throw new ExtendsException( element, base,
-						ExtendsException.DESIGN_EXCEPTION_CANT_EXTEND );
+				throw new ExtendsForbiddenException( element, base,
+						ExtendsForbiddenException.DESIGN_EXCEPTION_CANT_EXTEND );
 
 			ElementPropertyDefn propDefn = element
 					.getPropertyDefn( IDesignElementModel.EXTENDS_PROP );
@@ -146,9 +150,9 @@ public class ExtendsCommand extends AbstractElementCommand
 			DesignElement resolvedParent = null;
 			Module root = module;
 			if ( !metaData.canExtend( ) )
-				throw new ExtendsException( element,
-						newExtendsValue.getName( ),
-						ExtendsException.DESIGN_EXCEPTION_CANT_EXTEND );
+				throw new ExtendsForbiddenException( element, newExtendsValue
+						.getName( ),
+						ExtendsForbiddenException.DESIGN_EXCEPTION_CANT_EXTEND );
 
 			if ( !newExtendsValue.isResolved( ) )
 				resolvedParent = root.resolveElement( ReferenceValueUtil
@@ -160,9 +164,10 @@ public class ExtendsCommand extends AbstractElementCommand
 
 			DesignElement parent = newExtendsValue.getElement( );
 			if ( parent != null && parent != resolvedParent )
-				throw new ExtendsException( element,
+				throw new InvalidParentException(
+						element,
 						newExtendsValue.getName( ),
-						ExtendsException.DESIGN_EXCEPTION_NOT_FOUND );
+						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
 
 			if ( parent == null && resolvedParent != null )
 			{
@@ -179,10 +184,10 @@ public class ExtendsCommand extends AbstractElementCommand
 				if ( parent.getContainer( ).getDefn( ).isKindOf( moduleDefn )
 						|| parent.getContainerSlot( ) != Module.COMPONENT_SLOT )
 				{
-					throw new ExtendsException(
+					throw new ExtendsForbiddenException(
 							element,
 							newExtendsValue.getName( ),
-							ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT );
+							ExtendsForbiddenException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT );
 				}
 			}
 		}
@@ -264,8 +269,8 @@ public class ExtendsCommand extends AbstractElementCommand
 
 		String name = parent.getName( );
 		if ( StringUtil.isBlank( name ) )
-			throw new ExtendsException( element, "", //$NON-NLS-1$
-					ExtendsException.DESIGN_EXCEPTION_UNNAMED_PARENT );
+			throw new InvalidParentException( element, "", //$NON-NLS-1$
+					InvalidParentException.DESIGN_EXCEPTION_UNNAMED_PARENT );
 
 		Module module = parent.getRoot( );
 		if ( module instanceof Library )
@@ -297,8 +302,8 @@ public class ExtendsCommand extends AbstractElementCommand
 
 		String name = parent.getName( );
 		if ( StringUtil.isBlank( name ) )
-			throw new ExtendsException( element, "", //$NON-NLS-1$
-					ExtendsException.DESIGN_EXCEPTION_UNNAMED_PARENT );
+			throw new InvalidParentException( element, "", //$NON-NLS-1$
+					InvalidParentException.DESIGN_EXCEPTION_UNNAMED_PARENT );
 
 		setExtendsName( ReferenceValueUtil.needTheNamespacePrefix( parent
 				.getElement( ), parent.getModule( ), module ) );
@@ -318,8 +323,8 @@ public class ExtendsCommand extends AbstractElementCommand
 
 		DesignElement parent = element.getExtendsElement( );
 		if ( parent == null )
-			throw new ExtendsException( element, parent,
-					ExtendsException.DESIGN_EXCEPTION_NO_PARENT );
+			throw new InvalidParentException( element, parent,
+					InvalidParentException.DESIGN_EXCEPTION_NO_PARENT );
 
 		// Sanity check structure. Parent and the child must be in the same
 		// structure

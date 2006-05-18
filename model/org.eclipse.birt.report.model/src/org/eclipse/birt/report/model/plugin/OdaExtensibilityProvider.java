@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
@@ -105,8 +106,8 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 
 		assert extensionID != null;
 		if ( !extensionID.equalsIgnoreCase( parentExt ) )
-			throw new ExtendsException( element, parent,
-					ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+			throw new WrongTypeException( element, parent,
+					WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
 	}
 
 	/*
