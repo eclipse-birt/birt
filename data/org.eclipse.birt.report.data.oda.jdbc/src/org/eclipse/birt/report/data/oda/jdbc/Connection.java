@@ -128,7 +128,7 @@ public class Connection implements IConnection
 		for ( Enumeration enumeration = connProperties.propertyNames( ); enumeration.hasMoreElements( ); )
 		{
 			String propName = (String) enumeration.nextElement( );
-			if ( !propName.startsWith( "oda" ) )
+			if ( ! propName.startsWith( "oda" ) && ! propName.startsWith( "Oda" ) )
 			{
 				props.setProperty( propName,
 						connProperties.getProperty( propName ) );
