@@ -81,7 +81,7 @@
 	<property name="data.dir" location="../org.eclipse.birt.data" />
 	<property name="model.dir" location="../org.eclipse.birt.report.model"/>
 	<property name="js.dir" location="../org.mozilla.rhino" />
-	<property name="module.name" value = "org.eclipse.birt.report.data.adaptor" />
+	<property name="module.name" value = "org.eclipse.birt.report.data.adapter" />
 	<property name="src" location="src" />
 	<property name="test.src" location="test" />
 	
