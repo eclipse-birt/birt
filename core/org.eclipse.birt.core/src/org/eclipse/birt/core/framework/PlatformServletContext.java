@@ -99,38 +99,41 @@ public class PlatformServletContext implements IPlatformContext
 	private void copyResources( String resourcePath, String platform )
 	{
 		Set paths = context.getResourcePaths( resourcePath );
-		for ( Iterator it = paths.iterator( ); it.hasNext( ); )
+		if (paths != null)
 		{
-			String path = (String) it.next( );
-			File newFile = new File( platform, path.substring( RESOURCE_BASE
-					.length( ) ) );
-			if ( path.endsWith( "/" ) ) { //$NON-NLS-1$
-				newFile.mkdir( );
-				copyResources( path, platform );
-			}
-			else
+			for ( Iterator it = paths.iterator( ); it.hasNext( ); )
 			{
-				try
-				{
-					if ( newFile.createNewFile( ) )
-					{
-						InputStream is = context.getResourceAsStream( path );
-						OutputStream os = new FileOutputStream( newFile );
-						byte[] buffer = new byte[8192];
-						int bytesRead = is.read( buffer );
-						while ( bytesRead != -1 )
-						{
-							os.write( buffer, 0, bytesRead );
-							bytesRead = is.read( buffer );
-						}
-						is.close( );
-						os.close( );
-					}
+				String path = (String) it.next( );
+				File newFile = new File( platform, path.substring( RESOURCE_BASE
+						.length( ) ) );
+				if ( path.endsWith( "/" ) ) { //$NON-NLS-1$
+					newFile.mkdir( );
+					copyResources( path, platform );
 				}
-				catch ( IOException e )
+				else
 				{
-					log.log( Level.WARNING,
-							"Error copying resources {0} to platform.", e ); //$NON-NLS-1$
+					try
+					{
+						if ( newFile.createNewFile( ) )
+						{
+							InputStream is = context.getResourceAsStream( path );
+							OutputStream os = new FileOutputStream( newFile );
+							byte[] buffer = new byte[8192];
+							int bytesRead = is.read( buffer );
+							while ( bytesRead != -1 )
+							{
+								os.write( buffer, 0, bytesRead );
+								bytesRead = is.read( buffer );
+							}
+							is.close( );
+							os.close( );
+						}
+					}
+					catch ( IOException e )
+					{
+						log.log( Level.WARNING,
+								"Error copying resources {0} to platform.", e ); //$NON-NLS-1$
+					}
 				}
 			}
 		}

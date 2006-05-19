@@ -24,14 +24,14 @@ public class OSGILauncher
 	private static final String ECLIPSE_STARTER = "org.eclipse.core.runtime.adaptor.EclipseStarter";
 
 	private File platformDirectory;
-	private URLClassLoader frameworkClassLoader;
+	private ClassLoader frameworkClassLoader;
 	private ClassLoader frameworkContextClassLoader;
 
 	private Object bundleContext;
 
-	public void startup(PlatformConfig config ) throws BirtException
+	public void startup( PlatformConfig config ) throws BirtException
 	{
-		IPlatformContext context = config.getPlatformContext();
+		IPlatformContext context = config.getPlatformContext( );
 		if ( context == null )
 		{
 			throw new BirtException(
@@ -95,8 +95,7 @@ public class OSGILauncher
 		{
 			args = new String[]{"-clean"};
 		}
-		
-		
+
 		ClassLoader original = Thread.currentThread( ).getContextClassLoader( );
 		try
 		{
@@ -105,8 +104,21 @@ public class OSGILauncher
 					.setProperty(
 							"osgi.framework", frameworkUrl.toExternalForm( ) ); //$NON-NLS-1$//$NON-NLS-2$
 
+			ClassLoader loader = this.getClass( ).getClassLoader( );
 			frameworkClassLoader = new URLClassLoader( new URL[]{frameworkUrl},
-					this.getClass( ).getClassLoader( ) );
+					loader );
+			// frameworkClassLoader = new OSGIClassLoader(
+			// new URL[]{frameworkUrl}, loader );
+
+			try
+			{
+				loader.loadClass( "org.mozilla.javascript.Context" );
+				// frameworkClassLoader.loadClass( "org.mozilla.javascript.Context"
+			}
+			catch ( Exception ex )
+			{
+			}
+
 			Class clazz = frameworkClassLoader.loadClass( ECLIPSE_STARTER );
 
 			System.setProperty( "osgi.framework.useSystemProperties", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -365,5 +377,27 @@ public class OSGILauncher
 			ex.printStackTrace( );
 		}
 		return null;
+	}
+}
+
+class OSGIClassLoader extends ClassLoader
+{
+	ClassLoader parent;
+	ClassLoader urlClassLoader;
+	public OSGIClassLoader( URL[] urls, ClassLoader parent )
+	{
+		urlClassLoader = new URLClassLoader( urls, parent );
+	}
+
+	public Class loadClass( String name ) throws ClassNotFoundException
+	{
+		try
+		{
+			return parent.loadClass( name );
+		}
+		catch ( ClassNotFoundException ex )
+		{
+			return urlClassLoader.loadClass( name );
+		}
 	}
 }
