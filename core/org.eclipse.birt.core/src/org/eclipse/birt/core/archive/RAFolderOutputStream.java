@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import org.eclipse.birt.core.util.IOUtil;
 
 /**
  * RAOutputStream implementation for folder based report archive  
@@ -23,10 +24,33 @@ public class RAFolderOutputStream extends RAOutputStream
 {
 	private RandomAccessFile randomFile;
 	
+    /**
+     * The internal buffer where data is stored. 
+     */
+    protected byte buf[];
+
+    /**
+     * The number of valid bytes in the buffer. This value is always 
+     * in the range <tt>0</tt> through <tt>buf.length</tt>; elements 
+     * <tt>buf[0]</tt> through <tt>buf[count-1]</tt> contain valid 
+     * byte data.
+     */
+    protected int count;
+	
 	public RAFolderOutputStream( File file ) throws FileNotFoundException
 	{
 		this.randomFile = new RandomAccessFile( file, "rw" ); //$NON-NLS-1$
+		this.buf = new byte[IOUtil.RA_STREAM_BUFFER_LENGTH];
+		this.count = 0;
 	}
+	
+    /** Flush the internal buffer */
+    private void flushBuffer() throws IOException {
+        if (count > 0) {
+	    randomFile.write(buf, 0, count);
+	    count = 0;
+        }
+    }
 
     /**
      * The same behavior as OutputStream.write(). <br>
@@ -45,8 +69,11 @@ public class RAFolderOutputStream extends RAOutputStream
      *             output stream has been closed.
      */
 	public void write( int b ) throws IOException 
-	{	
-		randomFile.write( b );		
+	{
+		if (count >= buf.length) {
+		    flushBuffer();
+		}
+		buf[count++] = (byte)b;
 	}
 
     /**
@@ -61,7 +88,7 @@ public class RAFolderOutputStream extends RAOutputStream
      */
 	public void write(byte b[]) throws IOException
     {
-		randomFile.write( b );		
+		this.write(b, 0, b.length);		
     }
 
     /**
@@ -80,22 +107,52 @@ public class RAFolderOutputStream extends RAOutputStream
      */
     public void write(byte b[], int off, int len) throws IOException 
     {
-		randomFile.write( b, off, len );		
+    	if (len >= buf.length) {
+    	    /* If the request length exceeds the size of the output buffer,
+        	       flush the output buffer and then write the data directly.
+        	       In this way buffered streams will cascade harmlessly. */
+    	    flushBuffer();
+    	    randomFile.write(b, off, len);
+    	    return;
+    	}
+    	if (len > buf.length - count) {
+    	    flushBuffer();
+    	}
+    	System.arraycopy(b, off, buf, count, len);
+    	count += len;
     }
     
+    /**
+     * Same behavior as DataOutputStream.writeInt();
+     */
     public void writeInt(int v) throws IOException
     {
-    	randomFile.writeInt( v );
+		this.write( ( v >>> 24 ) & 0xFF );
+		this.write( ( v >>> 16 ) & 0xFF );
+		this.write( ( v >>> 8 ) & 0xFF );
+		this.write( ( v >>> 0 ) & 0xFF );
     }
     
+    /**
+     * Same behavior as DataOutputStream.writeLong();
+     */
     public void writeLong(long v) throws IOException
     {
-    	randomFile.writeLong( v );
+    	byte writeBuffer[] = new byte[8];
+        writeBuffer[0] = (byte)(v >>> 56);
+        writeBuffer[1] = (byte)(v >>> 48);
+        writeBuffer[2] = (byte)(v >>> 40);
+        writeBuffer[3] = (byte)(v >>> 32);
+        writeBuffer[4] = (byte)(v >>> 24);
+        writeBuffer[5] = (byte)(v >>> 16);
+        writeBuffer[6] = (byte)(v >>>  8);
+        writeBuffer[7] = (byte)(v >>>  0);
+        this.write(writeBuffer, 0, 8);
     }
     
     public long getOffset() throws IOException
     {
-    	return randomFile.getFilePointer( );
+    	return randomFile.getFilePointer( ) + count;
     }
 
 	/**
@@ -112,14 +169,28 @@ public class RAFolderOutputStream extends RAOutputStream
 	 */
 	public void seek( long localPos ) throws IOException 
 	{
-		randomFile.seek( localPos );
+		if ( localPos != this.getOffset() )
+		{
+			flushBuffer();
+			randomFile.seek( localPos );
+		}
 	}
-
+	
+	/**
+	 * Flush the stream.
+	 */
+	public void flush() throws IOException
+	{
+		flushBuffer();
+		super.flush();
+	}
+	
 	/**
 	 * Close the stream. If the stream is the only one in the underlying file, the file will be close too.
 	 */
     public void close() throws IOException 
     {
+    	flushBuffer();
    		randomFile.close(); // Since the the underlying random access file is created by us, we need to close it
    		super.close();
     }
