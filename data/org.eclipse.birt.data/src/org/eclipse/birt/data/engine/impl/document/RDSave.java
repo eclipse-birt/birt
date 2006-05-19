@@ -186,14 +186,29 @@ public class RDSave implements IRDSave
 				if ( isSubQuery == false )
 					streamForResultClass = streamManager.getOutStream( DataEngineContext.RESULTCLASS_STREAM );
 				OutputStream streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM );
-				odiResult.doSave( streamManager.getOutStream( DataEngineContext.EXPR_VALUE_STREAM ),
-						streamManager.getOutStream( DataEngineContext.ROWLENGTH_INFO_STREAM ),
+				
+				OutputStream streamForExprValue = null;
+				OutputStream streamForRowLen = null;
+				if ( context.getMode( ) == DataEngineContext.PRESENTATION_AND_GENERATION )
+				{
+					streamForExprValue = streamManager.getOutStream( DataEngineContext.EXPR_VALUE_STREAM );
+					streamForRowLen = streamManager.getOutStream( DataEngineContext.ROWLENGTH_INFO_STREAM );
+				}
+								
+				odiResult.doSave( streamForExprValue,
+						streamForRowLen,
 						streamForResultClass,
 						null,
 						streamForGroupInfo,
 						isSubQuery,
 						RDSave.this.exprNameSet );
 
+				if ( streamForExprValue != null )
+				{
+					streamForExprValue.close( );
+					streamForRowLen.close( );
+				}
+				
 				streamForGroupInfo.close( );
 				if ( streamForResultClass != null )
 					streamForResultClass.close( );
