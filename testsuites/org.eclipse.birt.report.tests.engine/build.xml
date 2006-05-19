@@ -7,6 +7,7 @@
 	<property name="data.dir" value="../org.eclipse.birt.data"/>
 	<property name="model.dir" value="../org.eclipse.birt.report.model"/>
 	<property name="engine.dir" value="../org.eclipse.birt.report.engine"/>
+	<property name="tests.core.dir" value="../org.eclipse.birt.tests.core"/>
 	<property name="application" value="org.eclipse.test.coretestapplication"/>
 	<property name="curr.data.path" value=".."/> <!-- locate tests.engine -->
 	<property name="module.name" value="org.eclipse.birt.report.tests.engine"/>
@@ -19,10 +20,11 @@
 	
 	<path id="classPath">
 		<pathelement path="${bin.dir}"/>
-		<pathelement path="${core.dir}/core.jar"/>
-		<pathelement path="${data.dir}/data.jar"/>
-		<pathelement path="${model.dir}/model.jar"/>
-		<pathelement path="${engine.dir}/engine.jar"/>
+		<pathelement path="${core.dir}/bin"/>
+		<pathelement path="${data.dir}/bin"/>
+		<pathelement path="${model.dir}/bin"/>
+		<pathelement path="${engine.dir}/bin"/>
+		<pathelement path="${tests.core.dir}/bin"/>
 		<fileset dir="../org.mozilla.rhino">
 			<include name="lib/*.jar"/>
 		</fileset>
