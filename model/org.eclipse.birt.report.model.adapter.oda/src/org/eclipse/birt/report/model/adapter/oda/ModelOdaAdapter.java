@@ -310,6 +310,61 @@ public class ModelOdaAdapter
 				.newOdaResultSetDefinition( setHandle ) );
 
 	}
+	
+	/**
+	 * Copies values of <code>sourceHandle</code> to <code>sourceDesign</code>.
+	 * 
+	 * @param setHandle
+	 *            the Model handle
+	 * @param setDesign
+	 *            the ODA data source design
+	 */
+
+	public void updateDataSetDesign( OdaDataSetHandle setHandle,
+			DataSetDesign setDesign, String propertyName )
+	{
+		if ( propertyName == null )
+			return;
+
+		// properties on ReportElement, like name, displayNames, etc.
+		if ( propertyName.equalsIgnoreCase( OdaDataSetHandle.NAME_PROP ) )
+			setDesign.setName( setHandle.getName( ) );
+		else if ( propertyName.equalsIgnoreCase( OdaDataSetHandle.DISPLAY_NAME_PROP ) )
+			setDesign.setDisplayName( setHandle.getDisplayName( ) );
+
+		// properties such as comments, extends, etc are kept in
+		// DataSourceHandle, not DataSourceDesign.
+
+		// scripts of DataSource are kept in
+		// DataSourceHandle, not DataSourceDesign.
+		else if ( propertyName.equalsIgnoreCase( OdaDataSourceHandle.EXTENSION_ID_PROP ) )
+			setDesign.setOdaExtensionDataSetId( setHandle.getExtensionID( ) );
+
+		else if ( propertyName.equalsIgnoreCase( OdaDataSetHandle.PRIVATE_DRIVER_PROPERTIES_PROP ) )
+			setDesign.setPrivateProperties( newOdaPrivateProperties( setHandle.privateDriverPropertiesIterator( ) ) );
+
+		else if ( propertyName.equalsIgnoreCase( OdaDataSetHandle.RESULT_SET_NAME_PROP ) )
+			setDesign.setPrimaryResultSetName( setHandle.getResultSetName( ) );
+
+		else if ( propertyName.equalsIgnoreCase( OdaDataSetHandle.QUERY_TEXT_PROP ) )
+			setDesign.setQueryText( setHandle.getQueryText( ) );
+
+		// create a new data source design for this set design.
+
+		else if ( propertyName.equalsIgnoreCase( OdaDataSetHandle.DATA_SOURCE_PROP ) )
+		{
+			OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) setHandle.getDataSource( );
+
+			if ( sourceHandle != null )
+				setDesign.setDataSourceDesign( createDataSourceDesign( sourceHandle ) );
+		}
+
+		else if ( propertyName.equalsIgnoreCase( OdaDataSetHandle.PARAMETERS_PROP ) )
+			setDesign.setParameters( new DataSetParameterAdapter( ).newOdaDataSetParams( setHandle.parametersIterator( ) ) );
+
+		else if ( propertyName.equalsIgnoreCase( OdaDataSetHandle.RESULT_SET_PROP ) )
+			setDesign.setPrimaryResultSet( ResultSetsAdapter.newOdaResultSetDefinition( setHandle ) );
+	}
 
 	/**
 	 * Copies values of <code>sourceHandle</code> to <code>sourceDesign</code>.
