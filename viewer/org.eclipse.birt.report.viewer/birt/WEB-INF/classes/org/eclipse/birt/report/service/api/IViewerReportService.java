@@ -219,7 +219,7 @@ public interface IViewerReportService
 	 * @return
 	 * @throws ReportServiceException
 	 */
-	long getPageCount( String docName, InputOptions options )
+	long getPageCount( String docName, InputOptions options, OutputOptions outputOptions )
 			throws ReportServiceException;
 
 	/**

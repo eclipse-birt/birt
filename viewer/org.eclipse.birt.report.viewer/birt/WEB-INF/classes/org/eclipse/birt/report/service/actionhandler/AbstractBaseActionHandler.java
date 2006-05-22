@@ -23,6 +23,7 @@ import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.OutputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
@@ -95,7 +96,8 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		return pageNumber > 0
-				&& pageNumber <= getReportService( ).getPageCount( documentName, options );
+				&& pageNumber <= getReportService( ).getPageCount(
+						documentName, options, new OutputOptions( ) );
 	}
 
 	/**
@@ -131,7 +133,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 					options.setOption( InputOptions.OPT_REQUEST, request );
 					if ( pageNumber <= 0
 							|| pageNumber > getReportService( ).getPageCount( documentName, 
-									options ) )
+									options, new OutputOptions( ) ) )
 					{
 						AxisFault fault = new AxisFault( );
 						fault.setFaultCode( new QName(

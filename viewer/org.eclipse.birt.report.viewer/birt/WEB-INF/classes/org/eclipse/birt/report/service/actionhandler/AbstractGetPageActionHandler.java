@@ -8,6 +8,7 @@ import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.OutputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.Data;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
@@ -133,7 +134,8 @@ public abstract class AbstractGetPageActionHandler extends
 		__activeIds = new ArrayList( );
 		__page = getReportService( ).getPage( __docName, __pageNumber + "", options,
 				__activeIds );
-		__totalPageNumber = getReportService( ).getPageCount( __docName, options );
+		__totalPageNumber = getReportService( ).getPageCount( __docName, options,
+				new OutputOptions( ) );
 	}
 
 	protected void prepareResponse( ) throws ReportServiceException, RemoteException

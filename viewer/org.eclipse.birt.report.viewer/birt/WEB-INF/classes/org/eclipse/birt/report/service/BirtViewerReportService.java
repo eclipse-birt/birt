@@ -46,6 +46,7 @@ import org.eclipse.birt.report.service.api.ExportedResultSet;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.OutputOptions;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ParameterGroupDefinition;
 import org.eclipse.birt.report.service.api.ParameterSelectionChoice;
@@ -323,7 +324,8 @@ public class BirtViewerReportService implements IViewerReportService
 		return transformTOCNode( node );
 	}
 
-	public long getPageCount( String docName, InputOptions options )
+	public long getPageCount( String docName, InputOptions options,
+			OutputOptions outputOptions )
 			throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )

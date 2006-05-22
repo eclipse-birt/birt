@@ -20,6 +20,7 @@ import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.OutputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.Data;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
@@ -88,7 +89,7 @@ public class BirtChangeParameterActionHandler
 		Page pageObj = new Page( );
 		pageObj.setPageNumber( String.valueOf( pageNumber ) ); //$NON-NLS-1$
 		pageObj.setTotalPage( String.valueOf( getReportService( ).getPageCount(
-				docName, options ) ) );
+				docName, options, new OutputOptions( ) ) ) );
 		Data data = new Data( );
 		data.setPage( pageObj );
 		updateData.setData( data );
