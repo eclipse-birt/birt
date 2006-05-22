@@ -53,6 +53,9 @@
 		<echo message="start building engine"/>
 		<ant dir="${engine.dir}" target="Jar" antfile="BuildEngine.xml" inheritAll="false" inheritrefs="false"/>
 		<echo message="end building engine"/>
+		<echo message="start building tests.core"/>
+		<ant dir="${tests.core.dir}" target="compileTest" antfile="build.xml" inheritAll="false" inheritrefs="false"/>
+		<echo message="end building tests.core"/>
 	</target>
 	
 	<!-- compile Test, compile this project -->
