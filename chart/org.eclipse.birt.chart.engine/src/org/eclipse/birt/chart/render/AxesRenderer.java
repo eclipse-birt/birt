@@ -2111,7 +2111,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 		}
 
-		if ( p.getClientArea( ).getOutline( ).isVisible( ) )
+		if ( !isDimension3D( ) && p.getClientArea( ).getOutline( ).isVisible( ) )
 		{
 			rre.setBounds( bo );
 			ipr.drawRectangle( rre );
