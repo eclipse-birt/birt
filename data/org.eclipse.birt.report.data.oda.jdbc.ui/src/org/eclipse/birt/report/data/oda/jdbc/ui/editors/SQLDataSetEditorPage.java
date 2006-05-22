@@ -111,7 +111,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.47 $ $Date: 2006/05/17 10:45:10 $
+ * @version $Revision: 1.48 $ $Date: 2006/05/18 03:55:58 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -1725,7 +1725,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 			public void dragOver( DropTargetEvent event )
 			{
 				event.feedback = DND.FEEDBACK_SCROLL
-						| DND.FEEDBACK_INSERT_BEFORE;
+						| DND.FEEDBACK_SELECT;
 			}
 
 			public void dragOperationChanged( DropTargetEvent event )
