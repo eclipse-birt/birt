@@ -12,19 +12,20 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.rmi.RemoteException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-
-import javax.xml.namespace.QName;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
-import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
@@ -56,22 +57,11 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		Map parameterMap = new HashMap( );
 
-		if ( operation != null )
-		{
-			Oprand[] oprands = operation.getOprand( );
-			for ( int i = 0; i < oprands.length; i++ )
-			{
-				String paramName = oprands[i].getName( );
-				String paramValue = oprands[i].getValue( );
-				parameterMap.put( paramName, paramValue );
-			}
-		}
-
-		String reportDesignName = attrBean.getReportDesignName( );
 		String docName = attrBean.getReportDocumentName( );
-		// TODO: Content type?
-		IViewerReportDesignHandle designHandle = new BirtViewerReportDesignHandle(
-				null, reportDesignName );
+
+		IViewerReportDesignHandle designHandle = attrBean
+				.getReportDesignHandle( context.getRequest( ) );
+
 		try
 		{
 			InputOptions options = new InputOptions( );
@@ -81,6 +71,47 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 					.isRtl( ) ) );
 			options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean(
 					attrBean.isDesigner( ) ) );
+
+			Collection parameterList = attrBean.getParameterList( );
+
+			Iterator paramIr = null;
+			if ( parameterList != null )
+				paramIr = parameterList.iterator( );
+
+			if ( operation != null )
+			{
+				Oprand[] oprands = operation.getOprand( );
+				for ( int i = 0; i < oprands.length; i++ )
+				{
+					String paramName = oprands[i].getName( );
+					Object paramValue = oprands[i].getValue( );
+
+					while ( paramIr != null && paramName != null
+							&& paramValue != null && paramIr.hasNext( ) )
+					{
+						ParameterDefinition parameterObj = (ParameterDefinition) paramIr
+								.next( );
+						if ( paramName.equals( parameterObj.getName( ) ) )
+						{
+							ReportParameterConverter converter = new ReportParameterConverter(
+									parameterObj.getPattern( ), attrBean
+											.getLocale( ) );
+
+							paramValue = converter.parse(
+									paramValue.toString( ), parameterObj
+											.getDataType( ) );
+
+							break;
+						}
+					}
+
+					if ( paramName != null && paramName.length( ) > 0 )
+					{
+						parameterMap.put( paramName, paramValue );
+					}
+				}
+			}
+
 			getReportService( ).runReport( designHandle, docName, options,
 					parameterMap );
 		}

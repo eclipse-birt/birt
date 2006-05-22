@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,7 +40,6 @@ import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
-
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -65,6 +63,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 */
 
 	private int maxRows;
+
+	/**
+	 * Report parameter definitions list
+	 */
+
+	private Collection parameterList = null;
 
 	/**
 	 * Constructor.
@@ -135,21 +139,21 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	{
 		this.reportDesignHandle = getDesignHandle( request );
 
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, request );
+		options.setOption( InputOptions.OPT_LOCALE, locale );
+		options.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
+
+		this.parameterList = this.getReportService( ).getParameterDefinitions(
+				reportDesignHandle, options, false );
+
 		// when in preview model, parse paramenters from config file
 		if ( isDesigner )
 		{
 			this.parseConfigVars( request );
 		}
 
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, request );
-		options.setOption( InputOptions.OPT_LOCALE, locale );
-		options.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
-
-		Collection parameterList = this.getReportService( )
-				.getParameterDefinitions( reportDesignHandle, options, false );
-
-		// TODO: Change parameters to be Map, not HashMap
+		// Change parameters to be Map, not HashMap
 		this.parameters = (HashMap) getParsedParameters( reportDesignHandle,
 				parameterList, request, options );
 
@@ -186,6 +190,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			// initial config map
 			if ( handle != null )
 			{
+				Iterator paramIr = null;
+				if ( parameterList != null )
+					paramIr = parameterList.iterator( );
+
 				Iterator configVars = handle.configVariablesIterator( );
 				while ( configVars != null && configVars.hasNext( ) )
 				{
@@ -196,10 +204,30 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						// check the parameter whether exist or not
 						String paramName = getParameterName( configVar
 								.getName( ) );
-						if ( paramName != null && paramName.length( ) > 0 )
+						Object paramValue = configVar.getValue( );
+
+						while ( paramIr != null && paramName != null
+								&& paramValue != null && paramIr.hasNext( ) )
 						{
-							this.configMap
-									.put( paramName, configVar.getValue( ) );
+							ParameterDefinition parameterObj = (ParameterDefinition) paramIr
+									.next( );
+							if ( paramName.equals( parameterObj.getName( ) ) )
+							{
+								ReportParameterConverter converter = new ReportParameterConverter(
+										parameterObj.getPattern( ), ULocale.US );
+
+								paramValue = converter.parse( paramValue
+										.toString( ), parameterObj
+										.getDataType( ) );
+
+								break;
+							}
+						}
+
+						if ( paramName != null && paramName.length( ) > 0
+								&& paramValue != null )
+						{
+							this.configMap.put( paramName, paramValue );
 						}
 					}
 				}
@@ -304,7 +332,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			}
 			catch ( EngineException e )
 			{
-				e.printStackTrace( );
+				this.exception = e;
 			}
 		}
 
@@ -378,7 +406,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			ParameterDefinition parameterObj ) throws ReportServiceException
 	{
 		String paramName = parameterObj.getName( );
-		String format = parameterObj.getDisplayFormat( );
 		Object paramValueObj = super
 				.getParamValueObject( request, parameterObj );
 		if ( paramValueObj != null )
@@ -397,17 +424,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			paramValueObj = this.parameterMap.get( paramName );
 		}
 
-		if ( paramValueObj != null )
-		{
-			ReportParameterConverter cfgConverter = new ReportParameterConverter(
-					format, Locale.US );
-			return cfgConverter.parse( paramValueObj.toString( ), parameterObj
-					.getDataType( ) );
-		}
-		else
-		{
-			return super.getParamValueObject( request, parameterObj );
-		}
+		return paramValueObj;
+
 	}
 
 	/**
@@ -417,13 +435,13 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	{
 		return maxRows;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.context.BaseAttributeBean#getReportTitle()
 	 */
-	
+
 	public String getReportTitle( )
 	{
 		String title = reportTitle;
@@ -440,6 +458,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			}
 		}
 		return title;
+	}
+
+	/**
+	 * @return the parameterList
+	 */
+	public Collection getParameterList( )
+	{
+		return parameterList;
 	}
 
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.File;
 import java.rmi.RemoteException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -23,6 +24,7 @@ import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -31,6 +33,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.service.api.IViewerReportService;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.soapengine.api.Data;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
@@ -86,7 +89,8 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 
 			// get report runnable
 			IReportRunnable runnable = (IReportRunnable) attrBean
-					.getReportDesignHandle( context.getRequest( ) ).getDesignObject( );
+					.getReportDesignHandle( context.getRequest( ) )
+					.getDesignObject( );
 
 			ModuleHandle model = runnable.getDesignHandle( ).getModuleHandle( );
 
@@ -94,19 +98,59 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 			Oprand[] op = this.operation.getOprand( );
 			if ( op != null )
 			{
+				Iterator paramIr = null;
+				if ( attrBean.getParameterList( ) != null )
+					paramIr = attrBean.getParameterList( ).iterator( );
+
 				for ( int i = 0; i < op.length; i++ )
 				{
 					ConfigVariable configVar = new ConfigVariable( );
 
-					ParameterHandle parameterHandle = model
-							.findParameter( op[i].getName( ) );
+					String paramName = op[i].getName( );
+					String paramValue = op[i].getValue( );
 
-					if ( parameterHandle != null )
+					// find the parameter
+					ParameterHandle parameterHandle = model
+							.findParameter( paramName );
+
+					if ( parameterHandle != null && paramValue != null
+							&& paramIr != null )
 					{
-						configVar.setName( op[i].getName( )
-								+ parameterHandle.getID( ) );
-						configVar.setValue( op[i].getValue( ) );
-						handle.addConfigVariable( configVar );
+						while ( paramIr.hasNext( ) )
+						{
+							ParameterDefinition parameterObj = (ParameterDefinition) paramIr
+									.next( );
+							if ( paramName.equals( parameterObj.getName( ) ) )
+							{
+								// convert current parameter to object with
+								// current locale
+								ReportParameterConverter converter = new ReportParameterConverter(
+										parameterObj.getPattern( ), attrBean
+												.getLocale( ) );
+
+								Object paramValueObj = converter
+										.parse( paramValue, parameterObj
+												.getDataType( ) );
+
+								// save parameter with fixed locale
+								converter = new ReportParameterConverter(
+										parameterObj.getPattern( ), ULocale.US );
+
+								paramValue = converter.format( paramValueObj );
+
+								break;
+							}
+						}
+
+						// if parameter value is not null, then save it to
+						// config file
+						if ( paramValue != null )
+						{
+							configVar.setName( paramName
+									+ parameterHandle.getID( ) );
+							configVar.setValue( paramValue );
+							handle.addConfigVariable( configVar );
+						}
 					}
 				}
 			}

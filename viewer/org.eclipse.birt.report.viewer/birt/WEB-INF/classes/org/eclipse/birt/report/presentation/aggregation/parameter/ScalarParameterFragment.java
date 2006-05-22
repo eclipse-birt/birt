@@ -20,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
-import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
-import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -29,8 +27,6 @@ import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -179,20 +175,9 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		if ( configMap != null && configMap.containsKey( parameter.getName( ) ) )
 		{
 			Object configObj = configMap.get( parameter.getName( ) );
-			String configValue = null;
-
 			if ( configObj != null )
 			{
-				configValue = configObj.toString( );
-			}
-
-			if ( configValue != null && configValue.length( ) > 0 )
-			{
-				ReportParameterConverter cfgConverter = new ReportParameterConverter(
-						format, Locale.US );
-				Object configValueObj = cfgConverter.parse( configValue,
-						parameter.getDataType( ) );
-				parameterDefaultValue = converter.format( configValueObj );
+				parameterDefaultValue = converter.format( configObj );
 			}
 		}
 

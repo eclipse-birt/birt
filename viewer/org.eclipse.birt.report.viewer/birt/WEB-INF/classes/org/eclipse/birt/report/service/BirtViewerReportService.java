@@ -75,25 +75,19 @@ public class BirtViewerReportService implements IViewerReportService
 			throws ReportServiceException
 	{
 		IReportRunnable runnable;
-		String reportDesignName = design.getFileName( );
 		HttpServletRequest request = (HttpServletRequest) runOptions
 				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) runOptions.getOption( InputOptions.OPT_LOCALE );
-		try
-		{
-			runnable = ReportEngineService.getInstance( ).openReportDesign(
-					reportDesignName );
-		}
-		catch ( EngineException e )
-		{
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
-		}
 
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
 				.getAttribute( "attributeBean" ); //$NON-NLS-1$
 		Map parsedParams = attrBean.getParameters( );
-		parsedParams.putAll( this.getParsedParameters( design, runOptions,
-				parameters ) );
+		if ( parameters != null )
+		{
+			parsedParams.putAll( parameters );
+		}
+
+		runnable = (IReportRunnable) design.getDesignObject( );
 
 		try
 		{
@@ -428,7 +422,6 @@ public class BirtViewerReportService implements IViewerReportService
 			OutputStream out, List activeIds ) throws ReportServiceException
 	{
 		// TODO: outputDocName is not used...
-		String reportDesignName = design.getFileName( );
 		HttpServletRequest request = (HttpServletRequest) options
 				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
@@ -441,25 +434,18 @@ public class BirtViewerReportService implements IViewerReportService
 		Boolean isRtl = (Boolean) options.getOption( InputOptions.OPT_RTL );
 		try
 		{
-			IReportRunnable runnable = ReportEngineService.getInstance( )
-					.openReportDesign( reportDesignName );
-
-			Map parsedParams = getParsedParameters( design, options, parameters );
+			IReportRunnable runnable = (IReportRunnable) design
+					.getDesignObject( );
 
 			ReportEngineService.getInstance( ).runAndRenderReport( request,
 					runnable, out, format, locale, isRtl.booleanValue( ),
-					parsedParams, isMasterPageContent.booleanValue( ),
+					parameters, isMasterPageContent.booleanValue( ),
 					svgFlag.booleanValue( ) );
 		}
 		catch ( RemoteException e )
 		{
 			throw new ReportServiceException( e.getLocalizedMessage( ) );
 		}
-		catch ( EngineException e )
-		{
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
-		}
-
 	}
 
 	public Object getParameterDefaultValue( IViewerReportDesignHandle design,
