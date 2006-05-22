@@ -140,7 +140,8 @@ public abstract class NEvaluator
 			}
 			
 			if ( N > MAX_N_VALUE )
-				throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_N + MAX_N_VALUE);
+				throw new DataException( ResourceConstants.INVALID_TOP_BOTTOM_N,
+						new Integer( MAX_N_VALUE ) );
 		}
 		
 		// Evaluate operand expression
