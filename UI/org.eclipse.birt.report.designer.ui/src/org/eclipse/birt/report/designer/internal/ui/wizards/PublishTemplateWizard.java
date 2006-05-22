@@ -87,7 +87,13 @@ public class PublishTemplateWizard extends Wizard
 		{
 			targetFolder.mkdirs( );
 		}
-		File targetFile = new File( targetFolder, fileName );
+		String targetFileName = fileName;
+		if(fileName.endsWith( ".rptdesign" ))
+		{
+			int index = fileName.lastIndexOf( "." );
+			targetFileName = fileName.substring( 0, index ) + ".rpttemplate"; 
+		}
+		File targetFile = new File( targetFolder, targetFileName );
 		if ( new File( filePath ).compareTo( targetFile ) == 0 )
 		{
 			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
