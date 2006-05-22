@@ -1199,19 +1199,22 @@ public abstract class AxesRenderer extends BaseRenderer
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 				RectangleRenderEvent.class );
 
-		// render client area shadow
-		if ( ca.getShadowColor( ) != null )
+		if ( !isDimension3D( ) )
 		{
-			rre.setBounds( bo.translateInstance( 3, 3 ) );
-			rre.setBackground( ca.getShadowColor( ) );
+			// render client area shadow
+			if ( ca.getShadowColor( ) != null )
+			{
+				rre.setBounds( bo.translateInstance( 3, 3 ) );
+				rre.setBackground( ca.getShadowColor( ) );
+				ipr.fillRectangle( rre );
+			}
+
+			// render client area
+			rre.setBounds( bo );
+			rre.setOutline( ca.getOutline( ) );
+			rre.setBackground( ca.getBackground( ) );
 			ipr.fillRectangle( rre );
 		}
-
-		// render client area
-		rre.setBounds( bo );
-		rre.setOutline( ca.getOutline( ) );
-		rre.setBackground( ca.getBackground( ) );
-		ipr.fillRectangle( rre );
 
 		// NOW THAT THE AXES HAVE BEEN COMPUTED, FILL THE INTERNAL PLOT AREA
 		double dSeriesThickness = pwa.getSeriesThickness( );
