@@ -67,10 +67,10 @@ public class FormatStringPage extends Composite implements IFormatPage
 	private static final String LABEL_CUSTOM_SETTING_TEXT = Messages.getString( "FormatStringPage.label.custom.settings.label" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_PREVIEW_STRING = Messages.getString( "FormatStringPage.label.preview.string" ); //$NON-NLS-1$
 
-	private static final String SAMPLE_TEXT_ZIP_CODE = "94103"; //$NON-NLS-1$
-	private static final String SAMPLE_TEXT_ZIP_C0DE4 = "941031234"; //$NON-NLS-1$
-	private static final String SAMPLE_TEXT_PHONE_NUMBER = "4155551111"; //$NON-NLS-1$
-	private static final String SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER = "123456789"; //$NON-NLS-1$
+	private static final String SAMPLE_TEXT_ZIP_CODE = Messages.getString( "FormatStringPage.SimpleTextZipCode" ); //$NON-NLS-1$
+	private static final String SAMPLE_TEXT_ZIP_C0DE4 = Messages.getString( "FormatStringPage.SimpleTextZipCode4" ); //$NON-NLS-1$
+	private static final String SAMPLE_TEXT_PHONE_NUMBER = Messages.getString( "FormatStringPage.PhoneNumber" ); //$NON-NLS-1$
+	private static final String SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER = Messages.getString( "FormatStringPage.SocialSecurityNumber" ); //$NON-NLS-1$
 
 	private static final String DEFAULT_PREVIEW_TEXT = Messages.getString( "FormatStringPage.default.preview.text" ); //$NON-NLS-1$
 
