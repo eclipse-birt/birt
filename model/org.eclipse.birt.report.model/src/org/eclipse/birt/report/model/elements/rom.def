@@ -1012,7 +1012,6 @@
   <Class displayNameID="Class.Total" name="Total" toolTipID="Class.Total.toolTip">	
 	<Member dataType="String" displayNameID="Class.Total.OVERALL" isStatic="true" name="OVERALL" toolTipID="Class.Total.OVERALL.toolTip"/>						
 	<Member dataType="String" displayNameID="Class.Total.NO_FILTER" isStatic="true" name="NO_FILTER" toolTipID="Class.Total.NO_FILTER.toolTip"/>						
-	<Member dataType="String" displayNameID="Class.Total.CURRENT_GROUP" isStatic="true" name="CURRENT_GROUP" toolTipID="Class.Total.CURRENT_GROUP.toolTip"/>						
 	<Method displayNameID="Class.Total.sum" isStatic="true" name="sum" returnType="number" toolTipID="Class.Total.sum.toolTip">
 		<Argument name="expr" tagID="Class.Total.sum.expr" type="number"/>
 		<Argument name="filter" tagID="Class.Total.sum.filter" type="String"/>			 
