@@ -79,7 +79,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Item;
@@ -89,7 +88,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -126,8 +124,8 @@ public class HyperlinkBuilder extends BaseDialog
 	private static final String ERROR_MSG_REPORT_REQUIRED = Messages.getString( "HyperlinkBuilder.ErrorMessage.ReportReqired" ); //$NON-NLS-1$
 	private static final String ERROR_MSG_INVALID_REPORT = Messages.getString( "HyperlinkBuilder.ErrorMessage.InvalidReport" ); //$NON-NLS-1$
 
-	private static final String TOOLTIP_BROWSE_FILE = "Browse for File"; //$NON-NLS-1$
-	private static final String TOOLTIP_EXPRESSION = "Open Expression Builder"; //$NON-NLS-1$
+	private static final String TOOLTIP_BROWSE_FILE = Messages.getString( "HyperlinkBuilder.BrowseForFile" ); //$NON-NLS-1$
+	private static final String TOOLTIP_EXPRESSION = Messages.getString( "HyperlinkBuilder.OpenExpression" ); //$NON-NLS-1$
 
 	private static final String REQUIED_MARK = "*"; //$NON-NLS-1$
 
