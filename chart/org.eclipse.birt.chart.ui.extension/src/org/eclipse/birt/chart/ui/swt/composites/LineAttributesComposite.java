@@ -250,11 +250,10 @@ public class LineAttributesComposite extends Composite
 
 	public void setEnabled( boolean bState )
 	{
-		boolean bEnableUI = true;
+		boolean bEnableUI = this.laCurrent.isVisible( );
 		if ( this.bEnableVisibility )
 		{
 			cbVisible.setEnabled( bState );
-			bEnableUI = cbVisible.getSelection( );
 		}
 		if ( this.bEnableStyles )
 		{

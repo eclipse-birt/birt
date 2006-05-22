@@ -10,6 +10,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -45,8 +46,6 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 	private transient FillChooserComposite cmbBlockColor;
 
 	private transient FillChooserComposite cmbClientAreaColor;
-
-	private transient Button btnArea;
 
 	/*
 	 * (non-Javadoc)
@@ -113,17 +112,24 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 					? Messages.getString( "ChartPlotSheetImpl.Label.AreaWithinAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background2" ) ); //$NON-NLS-1$
-
-		cmbClientAreaColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
-				| SWT.READ_ONLY, getContext( ), getChart( ).getPlot( )
-				.getClientArea( )
-				.getBackground( ), true, true );
+		// WithinAxes area is not supported in 3D
+		boolean isNot3D = getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL;
+		if ( isNot3D )
 		{
-			GridData gridData = new GridData( );
-			gridData.widthHint = 200;
-			cmbClientAreaColor.setLayoutData( gridData );
-			cmbClientAreaColor.addListener( this );
+			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background2" ) ); //$NON-NLS-1$
+
+			cmbClientAreaColor = new FillChooserComposite( cmpBasic,
+					SWT.DROP_DOWN | SWT.READ_ONLY,
+					getContext( ),
+					getChart( ).getPlot( ).getClientArea( ).getBackground( ),
+					true,
+					true );
+			{
+				GridData gridData = new GridData( );
+				gridData.widthHint = 200;
+				cmbClientAreaColor.setLayoutData( gridData );
+				cmbClientAreaColor.addListener( this );
+			}
 		}
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
@@ -155,7 +161,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 
 		ITaskPopupSheet popup = new PlotClientAreaSheet( Messages.getString( "ChartPlotSheetImpl.Label.AreaFormat" ), //$NON-NLS-1$
 				getContext( ) );
-		btnArea = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnArea = createToggleButton( cmp, popup.getTitle( ), popup );
 		btnArea.addSelectionListener( this );
 	}
 

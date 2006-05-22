@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -211,10 +212,15 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 	private void createClientArea( Group grpAreaWithin )
 	{
+		// WithinAxes area is not supported in 3D
+		boolean isNot3D = getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL;
 		Label lblShadow = new Label( grpAreaWithin, SWT.NONE );
-		GridData gdLBLShadow = new GridData( );
-		lblShadow.setLayoutData( gdLBLShadow );
-		lblShadow.setText( Messages.getString( "ClientAreaAttributeComposite.Lbl.Shadow" ) ); //$NON-NLS-1$
+		{
+			GridData gdLBLShadow = new GridData( );
+			lblShadow.setLayoutData( gdLBLShadow );
+			lblShadow.setText( Messages.getString( "ClientAreaAttributeComposite.Lbl.Shadow" ) ); //$NON-NLS-1$
+			lblShadow.setEnabled( isNot3D );
+		}
 
 		fccShadow = new FillChooserComposite( grpAreaWithin,
 				SWT.NONE,
@@ -222,17 +228,22 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 				getBlockForProcessing( ).getClientArea( ).getShadowColor( ),
 				false,
 				false );
-		GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
-		fccShadow.setLayoutData( gdFCCShadow );
-		fccShadow.addListener( this );
+		{
+			GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
+			fccShadow.setLayoutData( gdFCCShadow );
+			fccShadow.addListener( this );
+			fccShadow.setEnabled( isNot3D );
+		}
 
 		Group grpOutline = new Group( grpAreaWithin, SWT.NONE );
-		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
-		gdGRPOutline.horizontalSpan = 2;
-		gdGRPOutline.verticalSpan = 2;
-		grpOutline.setLayoutData( gdGRPOutline );
-		grpOutline.setLayout( new FillLayout( ) );
-		grpOutline.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Outline" ) ); //$NON-NLS-1$
+		{
+			GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
+			gdGRPOutline.horizontalSpan = 2;
+			gdGRPOutline.verticalSpan = 2;
+			grpOutline.setLayoutData( gdGRPOutline );
+			grpOutline.setLayout( new FillLayout( ) );
+			grpOutline.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Outline" ) ); //$NON-NLS-1$
+		}
 
 		outlineWithin = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
@@ -241,16 +252,21 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 				true,
 				true,
 				false );
-		outlineWithin.addListener( this );
+		{
+			outlineWithin.addListener( this );
+		}
 
 		icWithin = new InsetsComposite( grpAreaWithin,
 				SWT.NONE,
 				getBlockForProcessing( ).getClientArea( ).getInsets( ),
 				getChart( ).getUnits( ),
 				getContext( ).getUIServiceProvider( ) );
-		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
-		gdInsets.horizontalSpan = 2;
-		icWithin.setLayoutData( gdInsets );
+		{
+			GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
+			gdInsets.horizontalSpan = 2;
+			icWithin.setLayoutData( gdInsets );
+			icWithin.setEnabled( isNot3D );
+		}
 	}
 
 	private void populateLists( )
