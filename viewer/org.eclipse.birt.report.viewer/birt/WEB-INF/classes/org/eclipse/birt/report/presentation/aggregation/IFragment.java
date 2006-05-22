@@ -42,6 +42,13 @@ public interface IFragment
 	public String getClientName( );
 	
 	/**
+	 * Gets the title ID for the html page.
+	 * @return title id
+	 */
+	
+	public String getTitle( ); 
+	
+	/**
      * Is called to render the fragment. This may be a page, column or 
      * even a portlet.
      * 

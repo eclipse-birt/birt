@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
 import org.eclipse.birt.report.service.ReportEngineService;
@@ -125,7 +126,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 		if ( title == null || title.trim( ).length( ) <= 0 )
 		{
-			title = BirtResources.getString( "birt.viewer.title" ); //$NON-NLS-1$
+			title = BirtResources
+					.getString( ResourceConstants.BIRT_VIEWER_TITLE );
 		}
 		this.reportTitle = ParameterAccessor.htmlEncode( title );
 		this.__initParameters( request );

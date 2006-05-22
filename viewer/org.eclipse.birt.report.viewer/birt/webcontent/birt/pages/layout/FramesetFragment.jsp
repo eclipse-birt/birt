@@ -12,6 +12,7 @@
 <%@ page session="false" buffer="none" %>
 <%@ page import="org.eclipse.birt.report.presentation.aggregation.IFragment,
 				 org.eclipse.birt.report.context.BaseAttributeBean,
+				 org.eclipse.birt.report.resource.ResourceConstants,
 				 org.eclipse.birt.report.resource.BirtResources" %>
 
 <%-----------------------------------------------------------------------------
@@ -91,7 +92,7 @@
 						<TR>
 							<TD WIDTH="3px"/>
 							<TD>
-								<B><%= BirtResources.getString( "birt.viewer.title" )%></B>
+								<B><%= BirtResources.getString( ResourceConstants.BIRT_VIEWER_TITLE  )%></B>
 							</TD>
 							<TD ALIGN='right'>
 							</TD>

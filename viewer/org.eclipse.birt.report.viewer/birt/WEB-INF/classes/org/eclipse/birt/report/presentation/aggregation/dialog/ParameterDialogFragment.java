@@ -27,6 +27,8 @@ import org.eclipse.birt.report.presentation.aggregation.parameter.ComboBoxParame
 import org.eclipse.birt.report.presentation.aggregation.parameter.ParameterGroupFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.RadioButtonParameterFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.TextBoxParameterFragment;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -63,6 +65,16 @@ public class ParameterDialogFragment extends BaseDialogFragment
 	public String getClientName( )
 	{
 		return "Parameter"; //$NON-NLS-1$
+	}
+	
+	/**
+	 * Gets the title ID for the html page.
+	 * @return title id
+	 */
+	
+	public String getTitle( )
+	{
+		return BirtResources.getString( ResourceConstants.PARAMETER_DIALOG_TITLE );
 	}
 
 	protected void doService( HttpServletRequest request,

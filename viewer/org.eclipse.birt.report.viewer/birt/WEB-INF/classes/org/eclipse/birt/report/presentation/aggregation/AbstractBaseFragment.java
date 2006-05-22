@@ -158,6 +158,16 @@ abstract public class AbstractBaseFragment implements IFragment
 	{
 		return null;
 	}
+	
+	/**
+	 * Gets the title ID for the html page.
+	 * @return title id
+	 */
+	
+	public String getTitle( )
+	{
+		return null;
+	}
 
 	/**
 	 * Get children fragments.
