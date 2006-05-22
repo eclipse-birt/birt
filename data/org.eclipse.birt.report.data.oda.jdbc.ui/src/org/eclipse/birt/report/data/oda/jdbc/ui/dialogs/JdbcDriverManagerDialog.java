@@ -13,10 +13,8 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.dialogs;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.text.Collator;
-import java.text.ParseException;
-import java.text.RuleBasedCollator;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -40,7 +38,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -63,6 +61,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.text.Collator;
 
 /**
  * A dialog to manage Jdbc drivers.
@@ -98,7 +98,9 @@ public class JdbcDriverManagerDialog extends Dialog
 	
 	private static final int btnWidth = 90;
 	private static final int btnHeight = 24;
-
+	
+	private Comparator collator = Collator.getInstance( );
+	
 	/**
 	 * The constructor.
 	 * 
@@ -552,35 +554,43 @@ public class JdbcDriverManagerDialog extends Dialog
 	 */	
 	private void sortDriver( final int columnIndex, final boolean asc )
 	{
-		try
-		{
-			driverViewer.setSorter( new ViewerSorter( new RuleBasedCollator( ( (RuleBasedCollator) Collator.getInstance( ) ).getRules( ) ) {
+		driverViewer.setComparator( new ViewerComparator( new Comparator( ) {
 
-				public int compare( String source, String target )
-				{
-					int result = 0;
-					if ( columnIndex == 1 )
-						result = super.compare( getDriverClassName( source ),
-								getDriverClassName( target ) );
-					else if ( columnIndex == 2 )
-						result = super.compare( getDisplayName( source ),
-								getDisplayName( target ) );
-					else if ( columnIndex == 3 )
-						result = super.compare( getUrlTemplate( source ),
-								getUrlTemplate( target ) );
+			/*
+			 * @see java.util.Comparator#compare(java.lang.Object,
+			 *      java.lang.Object)
+			 */
+			public int compare( Object o1, Object o2 )
+			{
+				String source = (String) o1;
+				String target = (String) o2;
+				int result = 0;
+				if ( columnIndex == 1 )
+					result = this.compareStr( getDriverClassName( source ),
+							getDriverClassName( target ) );
+				else if ( columnIndex == 2 )
+					result = this.compareStr( getDisplayName( source ),
+							getDisplayName( target ) );
+				else if ( columnIndex == 3 )
+					result = this.compareStr( getUrlTemplate( source ),
+							getUrlTemplate( target ) );
 
-					if ( !asc )
-						return result;
-					else
-						return result *= -1;
-				}
-			} ) );
-		}
-		catch ( ParseException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
+				if ( !asc )
+					return result;
+				else
+					return result *= -1;
+			}
+
+			/**
+			 * @param o1
+			 * @param o2
+			 * @return
+			 */
+			private int compareStr( Object o1, Object o2 )
+			{
+				return collator.compare( o1, o2 );
+			}
+		} ) );
 
 		refreshDriver( );
 	}
@@ -629,33 +639,41 @@ public class JdbcDriverManagerDialog extends Dialog
 	 */	
 	private void sortJar( final int columnIndex, final boolean asc )
 	{
-		try
-		{
-			jarViewer.setSorter( new ViewerSorter( new RuleBasedCollator( ( (RuleBasedCollator) Collator.getInstance( ) ).getRules( ) ) {
+		jarViewer.setComparator( new ViewerComparator( new Comparator( ) {
 
-				public int compare( String source, String target )
-				{
-					int result = 0;
-					if ( columnIndex == 1 )
-						result = super.compare( getFileName( source ),
-								getFileName( target ) );
-					else if ( columnIndex == 2 )
-						result = super.compare( getFilePath( source ),
-								getFilePath( target ) );
+			/*
+			 * @see java.util.Comparator#compare(java.lang.Object,
+			 *      java.lang.Object)
+			 */
+			public int compare( Object o1, Object o2 )
+			{
+				String source = (String) o1;
+				String target = (String) o2;
+				int result = 0;
+				if ( columnIndex == 1 )
+					result = this.compareStr( getFileName( source ),
+							getFileName( target ) );
+				else if ( columnIndex == 2 )
+					result = this.compareStr( getFilePath( source ),
+							getFilePath( target ) );
 
-					if ( !asc )
-						return result;
-					else
-						return result *= -1;
-				}
-			} ) );
-		}
-		catch ( ParseException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
+				if ( !asc )
+					return result;
+				else
+					return result *= -1;
+			}
 
+			/**
+			 * @param o1
+			 * @param o2
+			 * @return
+			 */
+			private int compareStr( Object o1, Object o2 )
+			{
+				return collator.compare( o1, o2 );
+			}
+		} ) );
+		
 		refreshJar( );
 	}
 	
