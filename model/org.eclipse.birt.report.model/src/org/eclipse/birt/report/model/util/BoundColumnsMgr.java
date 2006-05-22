@@ -621,9 +621,7 @@ public abstract class BoundColumnsMgr
 	{
 		List values = (List) element.getLocalProperty( module,
 				Style.MAP_RULES_PROP );
-
-		if ( !( values == null || values.size( ) < 1 ) )
-		{
+		if ( values != null )
 			for ( int i = 0; i < values.size( ); i++ )
 			{
 				MapRule struct = (MapRule) values.get( i );
@@ -632,12 +630,10 @@ public abstract class BoundColumnsMgr
 				handleBoundsForValue( element, module, struct.getValue1( ) );
 				handleBoundsForValue( element, module, struct.getValue2( ) );
 			}
-		}
+
 		values = (List) element.getLocalProperty( module,
 				Style.HIGHLIGHT_RULES_PROP );
-
-		if ( !( values == null || values.size( ) < 1 ) )
-		{
+		if ( values != null )
 			for ( int i = 0; i < values.size( ); i++ )
 			{
 				HighlightRule struct = (HighlightRule) values.get( i );
@@ -646,7 +642,6 @@ public abstract class BoundColumnsMgr
 				handleBoundsForValue( element, module, struct.getValue1( ) );
 				handleBoundsForValue( element, module, struct.getValue2( ) );
 			}
-		}
 	}
 
 	/**

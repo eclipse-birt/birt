@@ -563,7 +563,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Removed unused bound columns from the element. Bound columns of nested
+	 * Removes unused bound columns from the element. Bound columns of nested
 	 * elements will not be removed. For example, if calls this method for a
 	 * list thaat contains a text-data, unused bound columns on list are
 	 * removed. While, unused columns on text-data still are kept.

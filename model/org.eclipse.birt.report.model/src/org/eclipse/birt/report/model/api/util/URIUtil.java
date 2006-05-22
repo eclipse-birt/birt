@@ -20,8 +20,6 @@ import java.net.URL;
 
 /**
  * Utility class to handle URI.
- * 
- * 
  */
 public class URIUtil
 {
@@ -39,7 +37,6 @@ public class URIUtil
 	 * the <code>uri</code>. For other cases, returns null.
 	 * <p>
 	 * For examples, following uri are supported:
-	 * 
 	 * <ul>
 	 * <li>file://C:/disk/test/data.file
 	 * <li>/C:/disk/test/data.file
@@ -48,7 +45,6 @@ public class URIUtil
 	 * <li>C:/disk/test/data.file
 	 * <li>./test/data.file
 	 * </ul>
-	 * 
 	 * 
 	 * @param uri
 	 *            the input uri
@@ -98,7 +94,6 @@ public class URIUtil
 	/**
 	 * Checks whether <code>filePath</code> is a valid file on the disk.
 	 * <code>filePath</code> can follow these scheme.
-	 * 
 	 * <ul>
 	 * <li>./../hello/
 	 * <li>C:\\hello\..\
@@ -150,7 +145,9 @@ public class URIUtil
 			if ( !objURI.getProtocol( ).equalsIgnoreCase( FILE_SCHEMA ) )
 				return null;
 
-			return objURI.getAuthority( ) + objURI.getPath( );
+			return objURI.getAuthority( ) == null ? objURI.getPath( ) : objURI
+					.getAuthority( )
+					+ objURI.getPath( );
 		}
 		catch ( MalformedURLException e )
 		{
@@ -170,7 +167,6 @@ public class URIUtil
 	 * @param filePath
 	 *            the file name
 	 * @return a valid URL String
-	 * 
 	 */
 
 	public static String convertFileNameToURLString( String filePath )
@@ -217,7 +213,6 @@ public class URIUtil
 	 * @param filePath
 	 *            the file name
 	 * @return a valid URL
-	 * 
 	 */
 
 	public static URL getDirectory( String filePath )
@@ -498,13 +493,13 @@ public class URIUtil
 	 * 
 	 * @param resourceDir
 	 *            the resource directory
-	 * @return <code>true</code> if the input string is a valid resource directory,
-	 *         <code>false</code> otherwise.
+	 * @return <code>true</code> if the input string is a valid resource
+	 *         directory, <code>false</code> otherwise.
 	 */
 
 	public static boolean isValidResourcePath( String resourceDir )
 	{
-		if (resourceDir == null)
+		if ( resourceDir == null )
 			return false;
 		File f = new File( resourceDir );
 		if ( f.isAbsolute( ) && f.exists( ) && f.isDirectory( ) )

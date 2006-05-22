@@ -119,19 +119,16 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 			newExprs = null;
 		}
 
-		if ( newExprs != null && newExprs.size( ) > 0 )
-		{
+		if ( newExprs != null )
 			for ( int i = 0; i < newExprs.size( ); i++ )
 			{
 				IColumnBinding column = (IColumnBinding) newExprs.get( i );
 				boundColumnNames.add( column.getResultSetColumnName( ) );
 			}
-
-		}
 	}
 
 	/**
-	 * Removed unused bound columns from the given element.
+	 * Removes unused bound columns from the given element.
 	 * 
 	 * @param elementHandle
 	 *            the element
