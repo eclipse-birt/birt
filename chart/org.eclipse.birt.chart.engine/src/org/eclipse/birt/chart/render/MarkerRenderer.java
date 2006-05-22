@@ -473,11 +473,26 @@ public final class MarkerRenderer
 
 		if ( bRendering3D )
 		{
+			final Location3D[] loa = new Location3D[4];
+			loa[0] = Location3DImpl.create( lo3d.getX( ) - iSize, lo3d.getY( )
+					- iSize, lo3d.getZ( ) );
+			loa[1] = Location3DImpl.create( lo3d.getX( ) + iSize, lo3d.getY( )
+					- iSize, lo3d.getZ( ) );
+			loa[2] = Location3DImpl.create( lo3d.getX( ) + iSize, lo3d.getY( )
+					+ iSize, lo3d.getZ( ) );
+			loa[3] = Location3DImpl.create( lo3d.getX( ) - iSize, lo3d.getY( )
+					+ iSize, lo3d.getZ( ) );
+
+			final Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+					Polygon3DRenderEvent.class );
+			pre.setPoints3D( loa );
+			pre.setDoubleSided( true );
+			preCopy = pre.copy( );
+
 			final Image3DRenderEvent ire = (Image3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Image3DRenderEvent.class );
 			ire.setLocation3D( lo3d );
 			ire.setImage( icon );
-			preCopy = ire.copy( );
 
 			dc.addPlane( ire, PrimitiveRenderEvent.FILL );
 		}
@@ -668,6 +683,7 @@ public final class MarkerRenderer
 			final Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Polygon3DRenderEvent.class );
 			pre.setPoints3D( loa );
+			pre.setDoubleSided( true );
 			preCopy = pre.copy( );
 
 			final Location3D[] loa1 = new Location3D[4];
@@ -882,9 +898,9 @@ public final class MarkerRenderer
 			loa[11] = Location3DImpl.create( lo3d.getX( ) - offset, lo3d.getY( )
 					+ iSize, lo3d.getZ( ) );
 			pre3d.setPoints3D( loa );
+			pre3d.setDoubleSided( true );
 			preCopy = pre3d.copy( );
 
-			pre3d.setDoubleSided( true );
 			pre3d.setBackground( paletteEntry );
 			pre3d.setOutline( la );
 			dc.addPlane( pre3d, PrimitiveRenderEvent.FILL
