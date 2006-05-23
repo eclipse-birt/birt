@@ -8,7 +8,7 @@
             device="org.eclipse.birt.chart.device.pdf.PDFRendererImpl"
             name="dv.PDF"
             format="PDF"
-            description="Scalable Vector Graphics"/>            
+            description="PDF Chart Renderer"/>            
    </extension>
    <extension
          point="org.eclipse.birt.chart.engine.displayservers">
