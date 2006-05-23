@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.editors.pages;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layout.ReportMasterPageEditor;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
@@ -21,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
@@ -101,7 +103,10 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 			updateStackActions( );
 
 		}
+		//reselect the selection
+		GraphicalViewer view = getGraphicalViewer( );
 
+		UIUtil.resetViewSelection( view, true );
 		return true;
 
 	}
