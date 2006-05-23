@@ -40,18 +40,12 @@ import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 public class NewTemplateWizard extends NewReportWizard
 {
 
-	private static final String WIZARDPAGE = Messages
-			.getString( "NewTemplateWizard.title.WizardPage" ); //$NON-NLS-1$
-	private static final String OPENING_FILE_FOR_EDITING = Messages
-			.getString( "NewTemplateWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
-	private static final String CREATING = Messages
-			.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
-	private static final String NEW_TEMPLATE_FILE_NAME_PREFIX = Messages
-			.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
-	private static final String NEW_TEMPLATE_DESCRIPTION = Messages
-			.getString( "NewTemplateWizard.pageDescription.createNewTemplate" ); //$NON-NLS-1$
-	private static final String NEW_TEMPLATE_TITLE = Messages
-			.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
+	private static final String WIZARDPAGE = Messages.getString( "NewTemplateWizard.title.WizardPage" ); //$NON-NLS-1$
+	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewTemplateWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
+	private static final String CREATING = Messages.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
+	private static final String NEW_TEMPLATE_FILE_NAME_PREFIX = Messages.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
+	private static final String NEW_TEMPLATE_DESCRIPTION = Messages.getString( "NewTemplateWizard.pageDescription.createNewTemplate" ); //$NON-NLS-1$
+	private static final String NEW_TEMPLATE_TITLE = Messages.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
 
 	public NewTemplateWizard( )
 	{
@@ -77,20 +71,14 @@ public class NewTemplateWizard extends NewReportWizard
 		addPage( newReportFileWizardPage );
 
 		resetUniqueCount( );
-		newReportFileWizardPage.setFileName( getUniqueReportName(
-				NEW_TEMPLATE_FILE_NAME_PREFIX, getFileExtension( ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		newReportFileWizardPage
-				.setContainerFullPath( getDefaultContainerPath( ) );
+		newReportFileWizardPage.setFileName( getUniqueReportName( NEW_TEMPLATE_FILE_NAME_PREFIX,
+				getFileExtension( ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 		newReportFileWizardPage.setDescription( NEW_TEMPLATE_DESCRIPTION );
 		newReportFileWizardPage.setTitle( NEW_TEMPLATE_TITLE );
 
 		settingPage = new WizardReportSettingPage( null );
-		settingPage
-				.setTitle( Messages
-						.getFormattedString(
-								"SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
-								new Object[]{Messages
-										.getString( "NewTemplateWizard.WizardPageTitle.Template" )} ) );//$NON-NLS-1$
+		settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) );//$NON-NLS-1$
 
 		addPage( settingPage );
 	}
@@ -107,8 +95,7 @@ public class NewTemplateWizard extends NewReportWizard
 
 	public boolean performFinish( )
 	{
-		final IPath containerName = newReportFileWizardPage
-				.getContainerFullPath( );
+		final IPath containerName = newReportFileWizardPage.getContainerFullPath( );
 		String fn = newReportFileWizardPage.getFileName( );
 		final String fileName;
 		if ( !fn.endsWith( getFileExtension( ) ) ) //$NON-NLS-1$
@@ -189,9 +176,11 @@ public class NewTemplateWizard extends NewReportWizard
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
 		IResource resource = (IContainer) ResourcesPlugin.getWorkspace( )
-				.getRoot( ).findMember( containerName );
+				.getRoot( )
+				.findMember( containerName );
 		IContainer container = null;
-		if ( resource == null || !resource.exists( )
+		if ( resource == null
+				|| !resource.exists( )
 				|| !( resource instanceof IContainer ) )
 		{
 			// create folder if not exist
@@ -232,14 +221,18 @@ public class NewTemplateWizard extends NewReportWizard
 				try
 				{
 					IEditorPart editorPart = IDE.openEditor( page, file, true );
-					ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
-					if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
-					    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
+					ModuleHandle model = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( );
+					if ( ReportPlugin.getDefault( )
+							.getEnableCommentPreference( ) )
+					{
+						model.setStringProperty( ModuleHandle.COMMENTS_PROP,
+								ReportPlugin.getDefault( )
+										.getCommentPreference( ) );
 					}
 					setReportSettings( model );
 					editorPart.doSave( null );
-					BasicNewProjectResourceWizard
-							.updatePerspective( getConfigElement( ) );
+					BasicNewProjectResourceWizard.updatePerspective( getConfigElement( ) );
 				}
 				catch ( Exception e )
 				{
