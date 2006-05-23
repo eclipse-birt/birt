@@ -272,27 +272,6 @@ public class ParameterDialog extends BaseDialog
 
 	private List columnList;
 
-	private int maxStrLengthProperty;
-
-	private int maxStrLengthOption;
-
-	private String[] PROPERTY_LABEL_STRING = {
-			LABEL_NAME,
-			LABEL_PROMPT_TEXT,
-			LABEL_PARAM_DATA_TYPE,
-			LABEL_DISPALY_TYPE,
-			LABEL_DEFAULT_VALUE,
-			LABEL_LIST_OF_VALUE,
-			LABEL_VALUES,
-			LABEL_SELECT_DISPLAY_TEXT,
-			LABEL_SELECT_VALUE_COLUMN,
-			LABEL_SELECT_DATA_SET,
-	};
-
-	private String[] OPTION_LABEL_STRING = {
-			LABEL_HELP_TEXT, LABEL_FORMAT, LABEL_LIST_LIMIT,
-	};
-
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
 		public void dispose( )
@@ -312,12 +291,6 @@ public class ParameterDialog extends BaseDialog
 			return elementsList.toArray( );
 		}
 	};
-
-	private int getMaxStrLength( Control control, String[] string )
-	{
-		int len = UIUtil.getMaxStringWidth( string, control );
-		return len;
-	}
 
 	private ITableLabelProvider labelProvider = new ITableLabelProvider( ) {
 
@@ -544,8 +517,6 @@ public class ParameterDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		maxStrLengthProperty = getMaxStrLength( parent, PROPERTY_LABEL_STRING );
-		maxStrLengthOption = getMaxStrLength( parent, OPTION_LABEL_STRING );
 		Composite composite = (Composite) super.createDialogArea( parent );
 		createPropertiesSection( composite );
 		createMoreOptionSection( composite );
@@ -559,7 +530,7 @@ public class ParameterDialog extends BaseDialog
 		propertiesSection.setLayout( new GridLayout( 2, false ) );
 		propertiesSection.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		createLabel( propertiesSection, LABEL_NAME, maxStrLengthProperty );
+		createLabel( propertiesSection, LABEL_NAME );
 		nameEditor = new Text( propertiesSection, SWT.BORDER );
 		nameEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		nameEditor.addModifyListener( new ModifyListener( ) {
@@ -569,12 +540,10 @@ public class ParameterDialog extends BaseDialog
 				updateMessageLine( );
 			}
 		} );
-		createLabel( propertiesSection, LABEL_PROMPT_TEXT, maxStrLengthProperty );
+		createLabel( propertiesSection, LABEL_PROMPT_TEXT );
 		promptTextEditor = new Text( propertiesSection, SWT.BORDER );
 		promptTextEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		createLabel( propertiesSection,
-				LABEL_PARAM_DATA_TYPE,
-				maxStrLengthProperty );
+		createLabel( propertiesSection, LABEL_PARAM_DATA_TYPE );
 		dataTypeChooser = new Combo( propertiesSection, SWT.READ_ONLY
 				| SWT.DROP_DOWN );
 		dataTypeChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -602,9 +571,7 @@ public class ParameterDialog extends BaseDialog
 				}
 			}
 		} );
-		createLabel( propertiesSection,
-				LABEL_DISPALY_TYPE,
-				maxStrLengthProperty );
+		createLabel( propertiesSection, LABEL_DISPALY_TYPE );
 		controlTypeChooser = new Combo( propertiesSection, SWT.READ_ONLY
 				| SWT.DROP_DOWN );
 		controlTypeChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -615,9 +582,7 @@ public class ParameterDialog extends BaseDialog
 				changeControlType( );
 			}
 		} );
-		createLabel( propertiesSection,
-				LABEL_LIST_OF_VALUE,
-				maxStrLengthProperty );
+		createLabel( propertiesSection, LABEL_LIST_OF_VALUE );
 		Composite choiceArea = new Composite( propertiesSection, SWT.NONE );
 		choiceArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		choiceArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, true ) );
@@ -649,7 +614,7 @@ public class ParameterDialog extends BaseDialog
 		gd.widthHint = 550;
 		gd.horizontalSpan = 2;
 		valueArea.setLayoutData( gd );
-		createLabel( propertiesSection, null, maxStrLengthProperty );
+		createLabel( propertiesSection, null );
 		errorMessageLine = new CLabel( propertiesSection, SWT.NONE );
 		errorMessageLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 	}
@@ -660,11 +625,11 @@ public class ParameterDialog extends BaseDialog
 		moreOptionSection.setText( GROUP_MORE_OPTION );
 		moreOptionSection.setLayout( new GridLayout( 2, false ) );
 		moreOptionSection.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		createLabel( moreOptionSection, LABEL_HELP_TEXT, maxStrLengthOption );
+		createLabel( moreOptionSection, LABEL_HELP_TEXT );
 		helpTextEditor = new Text( moreOptionSection, SWT.BORDER );
 		helpTextEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		createLabel( moreOptionSection, LABEL_FORMAT, maxStrLengthOption );
+		createLabel( moreOptionSection, LABEL_FORMAT );
 		Composite formatSection = new Composite( moreOptionSection, SWT.NONE );
 		formatSection.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		formatSection.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -683,7 +648,7 @@ public class ParameterDialog extends BaseDialog
 			}
 
 		} );
-		createLabel( moreOptionSection, null, maxStrLengthOption );
+		createLabel( moreOptionSection, null );
 		Group previewArea = new Group( moreOptionSection, SWT.NONE );
 		previewArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		previewArea.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
@@ -693,7 +658,7 @@ public class ParameterDialog extends BaseDialog
 		previewLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		// start create list limitation area
-		createLabel( moreOptionSection, LABEL_LIST_LIMIT, maxStrLengthOption ); //$NON-NLS-1$
+		createLabel( moreOptionSection, LABEL_LIST_LIMIT ); //$NON-NLS-1$
 
 		Composite limitArea = new Composite( moreOptionSection, SWT.NULL );
 		GridLayout layout = new GridLayout( 2, false );
@@ -720,7 +685,7 @@ public class ParameterDialog extends BaseDialog
 		values.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		// end
 
-		createLabel( moreOptionSection, null, maxStrLengthProperty ); // Dummy
+		createLabel( moreOptionSection, null ); // Dummy
 		Composite checkBoxArea = new Composite( moreOptionSection, SWT.NONE );
 		checkBoxArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		checkBoxArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -1341,7 +1306,7 @@ public class ParameterDialog extends BaseDialog
 
 	private void switchToCheckBox( )
 	{
-		createLabel( valueArea, LABEL_DEFAULT_VALUE, maxStrLengthProperty );
+		createLabel( valueArea, LABEL_DEFAULT_VALUE );
 		defaultValueChooser = new Combo( valueArea, SWT.READ_ONLY | SWT.BORDER );
 		defaultValueChooser.add( CHOICE_NO_DEFAULT );
 		defaultValueChooser.add( BOOLEAN_TRUE );
@@ -1369,7 +1334,7 @@ public class ParameterDialog extends BaseDialog
 
 	private void switchToList( )
 	{
-		createLabel( valueArea, LABEL_VALUES, maxStrLengthProperty );
+		createLabel( valueArea, LABEL_VALUES );
 		Composite tableArea = new Composite( valueArea, SWT.NONE );
 		tableArea.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 		tableArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -1415,8 +1380,7 @@ public class ParameterDialog extends BaseDialog
 		for ( int i = 0; i < columns.length; i++ )
 		{
 			TableColumn column = new TableColumn( table, SWT.LEFT );
-			column.setResizable( columns[i] != null
-					&& !COLUMN_IS_DEFAULT.equals( columns[i] ) );
+			column.setResizable( columns[i] != null );
 			if ( columns[i] != null )
 			{
 				column.setText( columns[i] );
@@ -1487,6 +1451,7 @@ public class ParameterDialog extends BaseDialog
 				refreshValueTable( );
 				updateMessageLine( );
 				updateButtons( );
+				changeDefault.getParent( ).layout( );
 			}
 		} );
 		delete = new Button( buttonBar, SWT.PUSH );
@@ -1506,7 +1471,7 @@ public class ParameterDialog extends BaseDialog
 	private void switchToText( )
 	{
 		createDefaultEditor( );
-		createLabel( valueArea, null, maxStrLengthProperty );
+		createLabel( valueArea, null );
 		createPromptLine( valueArea );
 	}
 
@@ -1523,7 +1488,7 @@ public class ParameterDialog extends BaseDialog
 		gd.horizontalSpan = 2;
 		composite.setLayoutData( gd );
 		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 3, false ) );
-		createLabel( composite, LABEL_SELECT_DATA_SET, maxStrLengthProperty );
+		createLabel( composite, LABEL_SELECT_DATA_SET );
 		dataSetChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		dataSetChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		dataSetChooser.addSelectionListener( new SelectionAdapter( ) {
@@ -1548,7 +1513,7 @@ public class ParameterDialog extends BaseDialog
 
 		} );
 
-		createLabel( composite, LABEL_SELECT_VALUE_COLUMN, maxStrLengthProperty );
+		createLabel( composite, LABEL_SELECT_VALUE_COLUMN );
 		columnChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		columnChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		columnChooser.addSelectionListener( new SelectionAdapter( ) {
@@ -1559,18 +1524,18 @@ public class ParameterDialog extends BaseDialog
 			}
 		} );
 
-		createLabel( composite, null, maxStrLengthProperty );
-		createLabel( composite, LABEL_SELECT_DISPLAY_TEXT, maxStrLengthProperty );
+		createLabel( composite, null );
+		createLabel( composite, LABEL_SELECT_DISPLAY_TEXT );
 		displayTextChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		displayTextChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		createLabel( composite, null, maxStrLengthProperty );
+		createLabel( composite, null );
 		createDefaultEditor( );
 		listLimit.setEditable( true );
 	}
 
 	private void createDefaultEditor( )
 	{
-		createLabel( valueArea, LABEL_DEFAULT_VALUE, maxStrLengthProperty );
+		createLabel( valueArea, LABEL_DEFAULT_VALUE );
 		defaultValueEditor = new Text( valueArea, SWT.BORDER );
 		defaultValueEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		defaultValueEditor.addModifyListener( new ModifyListener( ) {
@@ -1778,24 +1743,23 @@ public class ParameterDialog extends BaseDialog
 		super.okPressed( );
 	}
 
-	private void createLabel( Composite parent, String content, int width )
+	private void createLabel( Composite parent, String content )
 	{
 		Label label = new Label( parent, SWT.NONE );
 		if ( content != null )
 		{
 			label.setText( content );
 		}
-		setLabelLayoutData( label, width );
+		setLabelLayoutData( label );
 	}
 
-	private void setLabelLayoutData( Label label, int width )
+	private void setLabelLayoutData( Label label )
 	{
 		GridData gd = new GridData( );
 		if ( label.getText( ).equals( LABEL_VALUES ) )
 		{
 			gd.verticalAlignment = GridData.BEGINNING;
 		}
-		gd.widthHint = width;
 		label.setLayoutData( gd );
 
 	}
@@ -1864,7 +1828,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			changeDefault.setText( BUTTON_LABEL_SET_DEFAULT );
 		}
-		setButtonLayoutData( changeDefault );
+
 		changeDefault.setSelection( isDefault );
 		changeDefault.setEnabled( isEnable );
 
