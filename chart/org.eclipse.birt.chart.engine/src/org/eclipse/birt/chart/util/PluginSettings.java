@@ -183,9 +183,10 @@ public final class PluginSettings
 	 */
 	private static String[][] saAggregateFunctions = {
 			{
-					"Sum", "org.eclipse.birt.chart.aggregate.Sum" //$NON-NLS-1$ //$NON-NLS-2$
-			}, {
-					"Average", "org.eclipse.birt.chart.aggregate.Average" //$NON-NLS-1$ //$NON-NLS-2$
+					"Sum", "Sum", "org.eclipse.birt.chart.aggregate.Sum" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			},
+			{
+					"Average", "Average", "org.eclipse.birt.chart.aggregate.Average" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 	};
 
@@ -585,7 +586,7 @@ public final class PluginSettings
 									},
 									ULocale.getDefault( ) // LOCALE?
 							) );
-					return (IAggregateFunction) newInstance( saAggregateFunctions[i][1] );
+					return (IAggregateFunction) newInstance( saAggregateFunctions[i][2] );
 				}
 			}
 			logger.log( ILogger.FATAL,
@@ -707,11 +708,11 @@ public final class PluginSettings
 	}
 
 	/**
-	 * Returns a list of all aggregate functions registered via extension point
-	 * implementations (or simulated)
+	 * Returns a list of all aggregate function names registered via extension
+	 * point implementations (or simulated)
 	 * 
-	 * @return A list of all aggregate functions registered via extension point
-	 *         implementations (or simulated)
+	 * @return A list of all aggregate function names registered via extension
+	 *         point implementations (or simulated)
 	 */
 	public final String[] getRegisteredAggregateFunctions( )
 			throws ChartException
@@ -736,6 +737,41 @@ public final class PluginSettings
 			for ( int i = 0; i < saFunctions.length; i++ )
 			{
 				saFunctions[i] = saAggregateFunctions[i][0];
+			}
+			return saFunctions;
+		}
+	}
+
+	/**
+	 * Returns a list of all aggregate function display names registered via
+	 * extension point implementations (or simulated)
+	 * 
+	 * @return A list of all aggregate function display names registered via
+	 *         extension point implementations (or simulated)
+	 */
+	public final String[] getRegisteredAggregateFunctionDisplayNames( )
+			throws ChartException
+	{
+		if ( inEclipseEnv( ) )
+		{
+			String[][] aggs = getPluginXmlStrings( "aggregatefunctions", //$NON-NLS-1$
+					"aggregateFunction", //$NON-NLS-1$
+					"name", //$NON-NLS-1$
+					"displayName" ); //$NON-NLS-1$
+
+			final String[] saFunctions = new String[aggs.length];
+			for ( int i = 0; i < saFunctions.length; i++ )
+			{
+				saFunctions[i] = aggs[i][1];
+			}
+			return saFunctions;
+		}
+		else
+		{
+			final String[] saFunctions = new String[saAggregateFunctions.length];
+			for ( int i = 0; i < saFunctions.length; i++ )
+			{
+				saFunctions[i] = saAggregateFunctions[i][1];
 			}
 			return saFunctions;
 		}
@@ -948,23 +984,41 @@ public final class PluginSettings
 
 	/**
 	 * Registers an aggregate function implementation, the class should
-	 * implement the IAggregateFunction interface.
+	 * implement the IAggregateFunction interface. The displayName will be the
+	 * same as the name.
 	 * 
 	 * @param sName
 	 * @param sAggregateFunctionClass
 	 *            the full qualified class name of the implementor.
 	 */
-	synchronized public final void registerAggregateFunction( String sName,
+	public final void registerAggregateFunction( String sName,
 			String sAggregateFunctionClass )
 	{
-		String[][] newAggFuncs = new String[saAggregateFunctions.length + 1][2];
+		registerAggregateFunction( sName, sName, sAggregateFunctionClass );
+	}
+
+	/**
+	 * Registers an aggregate function implementation, the class should
+	 * implement the IAggregateFunction interface.
+	 * 
+	 * @param sName
+	 * @param sDisplayName
+	 * @param sAggregateFunctionClass
+	 *            the full qualified class name of the implementor.
+	 */
+	synchronized public final void registerAggregateFunction( String sName,
+			String sDisplayName, String sAggregateFunctionClass )
+	{
+		String[][] newAggFuncs = new String[saAggregateFunctions.length + 1][3];
 		for ( int i = 0; i < saAggregateFunctions.length; i++ )
 		{
 			newAggFuncs[i][0] = saAggregateFunctions[i][0];
 			newAggFuncs[i][1] = saAggregateFunctions[i][1];
+			newAggFuncs[i][2] = saAggregateFunctions[i][2];
 		}
 		newAggFuncs[saAggregateFunctions.length][0] = sName;
-		newAggFuncs[saAggregateFunctions.length][1] = sAggregateFunctionClass;
+		newAggFuncs[saAggregateFunctions.length][1] = sDisplayName;
+		newAggFuncs[saAggregateFunctions.length][2] = sAggregateFunctionClass;
 
 		saAggregateFunctions = newAggFuncs;
 	}

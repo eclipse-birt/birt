@@ -278,6 +278,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 					iscRotation.setLayoutData( gd );
 					iscRotation.setMaximum( 360 );
 					iscRotation.setMinimum( -360 );
+					iscRotation.setIncrement( 4 );
 					iscRotation.addListener( this );
 				}
 			}

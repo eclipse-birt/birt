@@ -39,9 +39,8 @@ import org.eclipse.swt.widgets.Spinner;
  * @author Actuate Corporation
  * 
  */
-public class SeriesGroupingComposite extends Composite
-		implements
-			SelectionListener
+public class SeriesGroupingComposite extends Composite implements
+		SelectionListener
 {
 
 	private transient Group grpContent = null;
@@ -245,6 +244,8 @@ public class SeriesGroupingComposite extends Composite
 		try
 		{
 			cmbAggregate.setItems( PluginSettings.instance( )
+					.getRegisteredAggregateFunctionDisplayNames( ) );
+			cmbAggregate.setData( PluginSettings.instance( )
 					.getRegisteredAggregateFunctions( ) );
 		}
 		catch ( ChartException e )
@@ -254,7 +255,7 @@ public class SeriesGroupingComposite extends Composite
 
 		if ( bEnableUI && grouping.getAggregateExpression( ) != null )
 		{
-			cmbAggregate.setText( grouping.getAggregateExpression( ) );
+			cmbAggregate.setText( getAggregateDisplayNameByName( grouping.getAggregateExpression( ) ) );
 		}
 		else
 		{
@@ -262,6 +263,38 @@ public class SeriesGroupingComposite extends Composite
 		}
 		lblAggregate.setEnabled( bEnableUI );
 		cmbAggregate.setEnabled( bEnableUI );
+	}
+
+	private String getAggregateNameByDisplayName( String displayName )
+	{
+		String[] names = (String[]) cmbAggregate.getData( );
+		String[] displayNames = cmbAggregate.getItems( );
+
+		for ( int i = 0; i < displayNames.length; i++ )
+		{
+			if ( displayName.equals( displayNames[i] ) )
+			{
+				return names[i];
+			}
+		}
+
+		return null;
+	}
+
+	private String getAggregateDisplayNameByName( String name )
+	{
+		String[] names = (String[]) cmbAggregate.getData( );
+		String[] displayNames = cmbAggregate.getItems( );
+
+		for ( int i = 0; i < names.length; i++ )
+		{
+			if ( name.equals( names[i] ) )
+			{
+				return displayNames[i];
+			}
+		}
+
+		return ""; //$NON-NLS-1$
 	}
 
 	private SeriesGrouping getGrouping( )
@@ -298,7 +331,7 @@ public class SeriesGroupingComposite extends Composite
 		}
 		else if ( oSource.equals( cmbAggregate ) )
 		{
-			getGrouping( ).setAggregateExpression( cmbAggregate.getText( ) );
+			getGrouping( ).setAggregateExpression( getAggregateNameByDisplayName( cmbAggregate.getText( ) ) );
 		}
 		else if ( oSource.equals( btnEnabled ) )
 		{
@@ -342,7 +375,5 @@ public class SeriesGroupingComposite extends Composite
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
 	}
-
-
 
 }

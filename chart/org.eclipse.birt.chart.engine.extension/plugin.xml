@@ -56,9 +56,11 @@
    <extension
          point="org.eclipse.birt.chart.engine.aggregatefunctions">
       <aggregateFunction
+            displayName="%Sum.displayName"
             function="org.eclipse.birt.chart.aggregate.Sum"
             name="Sum"/>
       <aggregateFunction
+            displayName="%Average.displayName"
             function="org.eclipse.birt.chart.aggregate.Average"
             name="Average"/>
    </extension>

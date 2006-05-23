@@ -46,20 +46,30 @@
          </documentation>
       </annotation>
       <complexType>
-         <attribute name="name" type="string">
+         <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
                   The name of the aggregate function.
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="function" type="string">
+         <attribute name="function" type="string" use="required">
             <annotation>
                <documentation>
                   The class providing the evaluation services for this aggregate function. This class should the implement IAggregateFunction interface.
                </documentation>
                <appInfo>
                   <meta.attribute kind="java"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="displayName" type="string">
+            <annotation>
+               <documentation>
+                  The display name of the aggregate function.
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
                </appInfo>
             </annotation>
          </attribute>
