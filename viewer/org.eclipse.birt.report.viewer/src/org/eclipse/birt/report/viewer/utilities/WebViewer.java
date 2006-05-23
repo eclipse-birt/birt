@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.viewer.utilities;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Locale;
@@ -62,6 +61,9 @@ public class WebViewer
 	 * Preference key for master page content flag.
 	 */
 	final public static String MASTER_PAGE_CONTENT = "master_page_content"; //$NON-NLS-1$
+
+	/** Preference key for max rows. */
+	final public static String PREVIEW_MAXROW = "preview_maxrow"; //$NON-NLS-1$
 
 	/**
 	 * locale mapping. Save some time.
@@ -131,6 +133,12 @@ public class WebViewer
 				.getString( SVG_FLAG );
 		boolean bSVGFlag = false;
 
+		// Get maxrows preference
+		String maxrows = ViewerPlugin.getDefault( ).getPluginPreferences( )
+				.getString( PREVIEW_MAXROW );
+		if ( maxrows == null )
+			maxrows = ""; //$NON-NLS-1$
+
 		// get -dir rtl option
 
 		boolean rtl = false;
@@ -142,7 +150,7 @@ public class WebViewer
 			Pattern pattern = Pattern.compile( regex );
 			for ( int i = 0; i < options.length; i++ )
 			{
-				String option = options[ i ];
+				String option = options[i];
 				if ( pattern.matcher( option ).matches( ) )
 				{
 					rtl = true;
@@ -176,7 +184,8 @@ public class WebViewer
 				+ "&__designer=" //$NON-NLS-1$
 				+ String.valueOf( inDesigner )
 				+ "&__masterpage=" + String.valueOf( bMasterPageContent ) //$NON-NLS-1$
-				+ "&__rtl=" + String.valueOf( rtl ); //$NON-NLS-1$
+				+ "&__rtl=" + String.valueOf( rtl )  //$NON-NLS-1$
+				+ "&__maxrows=" + maxrows; //$NON-NLS-1$
 	}
 
 	/**
