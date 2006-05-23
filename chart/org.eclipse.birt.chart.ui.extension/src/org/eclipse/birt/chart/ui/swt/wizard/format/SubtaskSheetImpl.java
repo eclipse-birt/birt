@@ -407,9 +407,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 			popupSheet = (ITaskPopupSheet) popupSheetRegistry.get( popupName );
 			popupSheet.getUI( popupShell );
 
-			// Replace accelerator key if it's used
-			String title = popupSheet.getTitle( ).replace( '&', ' ' );
-			getWizard( ).attachPopup( title, -1, -1 );
+			getWizard( ).attachPopup( popupSheet.getTitle( ), -1, -1 );
 
 			return true;
 		}

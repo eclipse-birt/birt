@@ -62,22 +62,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnShowLine;
 
-	// Toggle button group
-	private transient Button btnLabel;
-
-	private transient Button btnDialRegion;
-
-	private transient Button btnDialLabel;
-
-	private transient Button btnPieTitle;
-
-	private transient Button btnInteractivity;
-
 	private transient Button btnTrendline;
-
-	private transient Button btnLineMarker;
-
-	private transient Button btnPalette;
 
 	private transient Hashtable htSeriesAttributeUIProviders = null;
 
@@ -143,16 +128,16 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				popup = new DialLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
 						getContext( ),
 						getSeriesDefinitionForProcessing( ) );
-				btnDialLabel = createToggleButton( cmp,
-						popup.getTitle( ),
+				Button btnDialLabel = createToggleButton( cmp,
+						Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
 						popup );
 				btnDialLabel.addSelectionListener( this );
 
 				popup = new SeriesRegionSheet( Messages.getString( "SeriesYSheetImpl.Label.Region" ), //$NON-NLS-1$
 						getContext( ),
 						getSeriesDefinitionForProcessing( ) );
-				btnDialRegion = createToggleButton( cmp,
-						popup.getTitle( ),
+				Button btnDialRegion = createToggleButton( cmp,
+						Messages.getString( "SeriesYSheetImpl.Label.Region&" ), //$NON-NLS-1$
 						popup );
 				btnDialRegion.addSelectionListener( this );
 			}
@@ -161,15 +146,16 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				popup = new SeriesLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
 						getContext( ),
 						getSeriesDefinitionForProcessing( ) );
-				btnLabel = createToggleButton( cmp, popup.getTitle( ), popup );
+				Button btnLabel = createToggleButton( cmp,
+						Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
+						popup );
 				btnLabel.addSelectionListener( this );
 			}
 		}
 		else
 		{
 			// Disable Label properties for Stock series
-			btnLabel = new Button( cmp, SWT.NONE );
-			btnLabel.setVisible( false );
+			new Button( cmp, SWT.NONE ).setVisible( false );
 		}
 
 		// Titles for Pie series
@@ -178,7 +164,9 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			popup = new PieTitleSheet( Messages.getString( "SeriesYSheetImpl.Label.Titles" ), //$NON-NLS-1$
 					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
-			btnPieTitle = createToggleButton( cmp, popup.getTitle( ), popup );
+			Button btnPieTitle = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.Titles&" ), //$NON-NLS-1$
+					popup );
 			btnPieTitle.addSelectionListener( this );
 		}
 
@@ -188,7 +176,9 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.Markers" ), //$NON-NLS-1$
 					getContext( ),
 					(LineSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
-			btnLineMarker = createToggleButton( cmp, popup.getTitle( ), popup );
+			Button btnLineMarker = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.Markers&" ), //$NON-NLS-1$
+					popup );
 			btnLineMarker.addSelectionListener( this );
 		}
 
@@ -199,7 +189,9 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 						.getTriggers( ),
 				true,
 				false );
-		btnInteractivity = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnInteractivity = createToggleButton( cmp,
+				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
+				popup );
 		btnInteractivity.addSelectionListener( this );
 		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 
@@ -209,7 +201,9 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			popup = new SeriesTrendlineSheet( Messages.getString( "SeriesYSheetImpl.Label.Trendline" ), //$NON-NLS-1$
 					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
-			btnTrendline = createToggleButton( cmp, popup.getTitle( ), popup );
+			btnTrendline = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.Trendline&" ), //$NON-NLS-1$
+					popup );
 			btnTrendline.addSelectionListener( this );
 			btnTrendline.setEnabled( btnShowLine.getSelection( ) );
 		}
@@ -218,7 +212,9 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		popup = new SeriesPaletteSheet( Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
 				getContext( ),
 				getSeriesDefinitionForProcessing( ) );
-		btnPalette = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnPalette = createToggleButton( cmp,
+				Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ), //$NON-NLS-1$
+				popup );
 		btnPalette.addSelectionListener( this );
 	}
 

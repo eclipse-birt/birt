@@ -53,8 +53,6 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 
 	private static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
 
-	private transient Button btnSeriesPal;
-
 	private transient Label lblMinSlice;
 	private transient Label lblBottomPercent;
 	private transient Label lblLabel;
@@ -135,7 +133,9 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 		ITaskPopupSheet popup = new SeriesPaletteSheet( Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
 				getContext( ),
 				getSeriesDefinitionForProcessing( ) );
-		btnSeriesPal = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnSeriesPal = createToggleButton( cmp,
+				Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ), //$NON-NLS-1$
+				popup );
 		btnSeriesPal.addSelectionListener( this );
 	}
 

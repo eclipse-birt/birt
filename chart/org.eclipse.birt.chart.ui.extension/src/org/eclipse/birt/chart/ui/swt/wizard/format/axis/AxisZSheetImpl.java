@@ -48,12 +48,6 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnVisible;
 
-	private transient Button btnAxisTitle;
-
-	private transient Button btnGridlines;
-
-	private transient Button btnInteractivity;
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -121,18 +115,22 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		ITaskPopupSheet popup = new AxisTextSheet( Messages.getString( "AxisZSheetImpl.Label.TextFormat" ), //$NON-NLS-1$
+		ITaskPopupSheet popup = new AxisTextSheet( Messages.getString( "AxisYSheetImpl.Label.TextFormat" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
 				AngleType.Z );
-		btnAxisTitle = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnAxisTitle = createToggleButton( cmp,
+				Messages.getString( "AxisYSheetImpl.Label.TextFormat&" ), //$NON-NLS-1$
+				popup );
 		btnAxisTitle.addSelectionListener( this );
 
-		popup = new AxisGridLinesSheet( Messages.getString( "AxisZSheetImpl.Label.Gridlines" ), //$NON-NLS-1$
+		popup = new AxisGridLinesSheet( Messages.getString( "AxisYSheetImpl.Label.Gridlines" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
 				AngleType.Z );
-		btnGridlines = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnGridlines = createToggleButton( cmp,
+				Messages.getString( "AxisYSheetImpl.Label.Gridlines&" ), //$NON-NLS-1$
+				popup );
 		btnGridlines.addSelectionListener( this );
 
 		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
@@ -140,7 +138,9 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 				getAxisForProcessing( ).getTriggers( ),
 				false,
 				true );
-		btnInteractivity = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnInteractivity = createToggleButton( cmp,
+				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
+				popup );
 		btnInteractivity.addSelectionListener( this );
 		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 	}

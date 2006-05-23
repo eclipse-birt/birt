@@ -59,12 +59,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnTitleProp;
 
-	private transient Button btnBlockProp;
-
-	private transient Button btnGeneralProp;
-
-	private transient Button btnCustomProp;
-
 	private transient Button btnVisible;
 
 	private transient Button btnEnable;
@@ -273,23 +267,31 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		ITaskPopupSheet popup;
 		popup = new TitlePropertiesSheet( Messages.getString( "ChartSheetImpl.Text.TitleFormat" ), //$NON-NLS-1$
 				getContext( ) );
-		btnTitleProp = createToggleButton( cmp, popup.getTitle( ), popup );
+		btnTitleProp = createToggleButton( cmp,
+				Messages.getString( "ChartSheetImpl.Text.TitleFormat&" ), //$NON-NLS-1$
+				popup );
 		btnTitleProp.addSelectionListener( this );
 		btnTitleProp.setEnabled( getChart( ).getTitle( ).isVisible( ) );
 
 		popup = new BlockPropertiesSheet( Messages.getString( "ChartSheetImpl.Text.Outline" ), //$NON-NLS-1$
 				getContext( ) );
-		btnBlockProp = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnBlockProp = createToggleButton( cmp,
+				Messages.getString( "ChartSheetImpl.Text.Outline&" ), //$NON-NLS-1$
+				popup );
 		btnBlockProp.addSelectionListener( this );
 
 		popup = new MoreOptionsChartSheet( Messages.getString( "ChartSheetImpl.Text.GeneralProperties" ), //$NON-NLS-1$
 				getContext( ) );
-		btnGeneralProp = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnGeneralProp = createToggleButton( cmp,
+				Messages.getString( "ChartSheetImpl.Text.GeneralProperties&" ), //$NON-NLS-1$
+				popup );
 		btnGeneralProp.addSelectionListener( this );
 
 		popup = new CustomPropertiesSheet( Messages.getString( "ChartSheetImpl.Text.CustomProperties" ), //$NON-NLS-1$
 				getContext( ) );
-		btnCustomProp = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnCustomProp = createToggleButton( cmp,
+				Messages.getString( "ChartSheetImpl.Text.CustomProperties&" ), //$NON-NLS-1$
+				popup );
 		btnCustomProp.addSelectionListener( this );
 	}
 

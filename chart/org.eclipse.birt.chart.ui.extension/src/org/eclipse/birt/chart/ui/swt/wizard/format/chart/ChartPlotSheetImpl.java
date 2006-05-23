@@ -161,7 +161,8 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 
 		ITaskPopupSheet popup = new PlotClientAreaSheet( Messages.getString( "ChartPlotSheetImpl.Label.AreaFormat" ), //$NON-NLS-1$
 				getContext( ) );
-		Button btnArea = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnArea = createToggleButton( cmp,
+				Messages.getString( "ChartPlotSheetImpl.Label.AreaFormat&" ), popup ); //$NON-NLS-1$
 		btnArea.addSelectionListener( this );
 	}
 

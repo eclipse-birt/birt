@@ -247,28 +247,36 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		ITaskPopupSheet popup = new AxisScaleSheet( Messages.getString( "AxisYSheetImpl.Label.Scale" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ) );
-		Button btnScale = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnScale = createToggleButton( cmp,
+				Messages.getString( "AxisYSheetImpl.Label.Scale&" ), //$NON-NLS-1$
+				popup );
 		btnScale.addSelectionListener( this );
 
 		popup = new AxisTextSheet( Messages.getString( "AxisYSheetImpl.Label.TextFormat" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
 				getAxisAngleType( ) );
-		Button btnAxisTitle = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnAxisTitle = createToggleButton( cmp,
+				Messages.getString( "AxisYSheetImpl.Label.TextFormat&" ), //$NON-NLS-1$
+				popup );
 		btnAxisTitle.addSelectionListener( this );
 
 		popup = new AxisGridLinesSheet( Messages.getString( "AxisYSheetImpl.Label.Gridlines" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
 				getAxisAngleType( ) );
-		Button btnGridlines = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnGridlines = createToggleButton( cmp,
+				Messages.getString( "AxisYSheetImpl.Label.Gridlines&" ), //$NON-NLS-1$
+				popup );
 		btnGridlines.addSelectionListener( this );
 
 		// Marker is not supported for 3D
 		popup = new AxisMarkersSheet( Messages.getString( "AxisYSheetImpl.Label.Markers" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ) );
-		Button btnMarkers = createToggleButton( cmp, popup.getTitle( ), popup );
+		Button btnMarkers = createToggleButton( cmp,
+				Messages.getString( "AxisYSheetImpl.Label.Markers&" ), //$NON-NLS-1$
+				popup );
 		btnMarkers.addSelectionListener( this );
 		btnMarkers.setEnabled( !ChartUIUtil.is3DType( getChart( ) ) );
 
@@ -279,7 +287,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				false,
 				true );
 		Button btnInteractivity = createToggleButton( cmp,
-				popup.getTitle( ),
+				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
 				popup );
 		btnInteractivity.addSelectionListener( this );
 		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
