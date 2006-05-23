@@ -113,10 +113,11 @@ public class LibraryLayoutEditor extends ReportEditorWithPalette
 			if ( size != 0 )
 			{
 				obj = list.get( size - 1 );
+				SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( obj );
+				command.execute( );
+				return;
 			}
-			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( obj );
-			command.execute( );
-			return;
+			
 		}
 		super.handleSelectionChange( request );
 	}
