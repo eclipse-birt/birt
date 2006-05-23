@@ -49,6 +49,10 @@ public class ExpressionCompilerUtil
 			return false;
 		
 		String expression = expr.getText( );
+		if(expression.equals("row[\"__rownum\"]")||expression.equals("row.__rownum"))
+		{
+			return true;
+		}
 		return compile( expression, exprManager );
 
 	}
