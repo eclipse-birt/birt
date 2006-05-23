@@ -35,8 +35,6 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * Preview page.
  */
@@ -358,7 +356,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 			for ( int i = 0; i < parameters.size( ); i++ )
 			{
 				ScalarParameterHandle parameter = null;
-				
+
 				if ( parameters.get( i ) instanceof ScalarParameterHandle )
 				{
 					parameter = ( (ScalarParameterHandle) parameters.get( i ) );
@@ -368,7 +366,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 				String curName = null;
 				if ( parameter != null && parameter.getName( ) != null )
 				{
-					curName = parameter.getName( ) + parameter.getID( );
+					curName = parameter.getName( ) + "_" + parameter.getID( ); //$NON-NLS-1$
 				}
 
 				// if find the parameter exist, return true

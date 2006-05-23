@@ -19,9 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.engine.api.ReportParameterConverter;
-import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
-import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
@@ -60,21 +59,27 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 
-		Collection selectionList = service.getParameterSelectionList(
-				attrBean.getReportDesignHandle( request ), options,
-				parameterBean.getName( ) );
+		Collection selectionList = service.getParameterSelectionList( attrBean
+				.getReportDesignHandle( request ), options, parameterBean
+				.getName( ) );
 
 		if ( selectionList != null )
 		{
-			ReportParameterConverter converter = new ReportParameterConverter(
-					parameter.getPattern( ), locale );
+			// Get Scalar parameter handle
+			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
+					.findParameter( parameter.getName( ) );
 
 			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 			{
 				ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
 						.next( );
 
-				String value = converter.format( selectionItem.getValue( ) );
+				// Convert parameter value using locale format
+				String value = ParameterValidationUtil.getDisplayValue(
+						parameterHandle.getDataType( ), parameterHandle
+								.getPattern( ), selectionItem.getValue( ),
+						attrBean.getLocale( ) );
+
 				String label = selectionItem.getLabel( );
 				label = ( label == null || label.length( ) <= 0 )
 						? value

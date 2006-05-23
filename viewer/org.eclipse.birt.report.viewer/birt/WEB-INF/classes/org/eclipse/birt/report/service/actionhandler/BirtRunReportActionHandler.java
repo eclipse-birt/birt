@@ -12,20 +12,18 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.rmi.RemoteException;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.engine.api.ReportParameterConverter;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
-import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
@@ -55,10 +53,11 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 	protected void __execute( ) throws RemoteException
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
+		assert attrBean != null;
+
 		Map parameterMap = new HashMap( );
 
 		String docName = attrBean.getReportDocumentName( );
-
 		IViewerReportDesignHandle designHandle = attrBean
 				.getReportDesignHandle( context.getRequest( ) );
 
@@ -72,12 +71,7 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 			options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean(
 					attrBean.isDesigner( ) ) );
 
-			Collection parameterList = attrBean.getParameterList( );
-
-			Iterator paramIr = null;
-			if ( parameterList != null )
-				paramIr = parameterList.iterator( );
-
+			// convert parameter
 			if ( operation != null )
 			{
 				Oprand[] oprands = operation.getOprand( );
@@ -86,26 +80,20 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 					String paramName = oprands[i].getName( );
 					Object paramValue = oprands[i].getValue( );
 
-					while ( paramIr != null && paramName != null
-							&& paramValue != null && paramIr.hasNext( ) )
+					// find the parameter
+					ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
+							.findParameter( paramName );
+
+					if ( parameter != null && paramValue != null )
 					{
-						ParameterDefinition parameterObj = (ParameterDefinition) paramIr
-								.next( );
-						if ( paramName.equals( parameterObj.getName( ) ) )
-						{
-							ReportParameterConverter converter = new ReportParameterConverter(
-									parameterObj.getPattern( ), attrBean
-											.getLocale( ) );
-
-							paramValue = converter.parse(
-									paramValue.toString( ), parameterObj
-											.getDataType( ) );
-
-							break;
-						}
+						// use current locale to parse parameter
+						paramValue = ParameterValidationUtil.validate(
+								parameter.getDataType( ), parameter
+										.getPattern( ), paramValue.toString( ),
+								attrBean.getLocale( ) );
 					}
 
-					if ( paramName != null && paramName.length( ) > 0 )
+					if ( parameter != null )
 					{
 						parameterMap.put( paramName, paramValue );
 					}
@@ -115,9 +103,9 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 			getReportService( ).runReport( designHandle, docName, options,
 					parameterMap );
 		}
-		catch ( ReportServiceException e )
+		catch ( Exception e )
 		{
-			AxisFault fault = new AxisFault( );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
 			fault.setFaultReason( e.getMessage( ) );
 			throw fault;
 		}

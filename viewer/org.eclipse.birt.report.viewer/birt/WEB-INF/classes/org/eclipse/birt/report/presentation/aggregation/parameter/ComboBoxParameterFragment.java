@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.engine.api.ReportParameterConverter;
-import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -55,40 +55,50 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 			IViewerReportService service, ScalarParameterBean parameterBean,
 			Locale locale ) throws ReportServiceException
 	{
- 		ViewerAttributeBean attrBean = ( ViewerAttributeBean ) request
- 				.getAttribute( "attributeBean" ); //$NON-NLS-1$
- 		assert attrBean != null;
- 		
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+				.getAttribute( "attributeBean" ); //$NON-NLS-1$
+		assert attrBean != null;
+
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 
 		Collection selectionList = null;
 
- 		ParameterDefinition paramDef = parameterBean.getParameter( );
- 		if ( paramDef.getGroup( ) != null && paramDef.getGroup( ).cascade( ))
+		ParameterDefinition paramDef = parameterBean.getParameter( );
+		if ( paramDef.getGroup( ) != null && paramDef.getGroup( ).cascade( ) )
 		{
 			Map paramValues = attrBean.getParameters( );
 			selectionList = getParameterSelectionListForCascadingGroup(
-					attrBean.getReportDesignHandle( request ), service, paramValues, options );
-		} else
-			selectionList = service.getParameterSelectionList(
-					attrBean.getReportDesignHandle( request ), options,	parameter.getName( ) );
+					attrBean.getReportDesignHandle( request ), service,
+					paramValues, options );
+		}
+		else
+			selectionList = service.getParameterSelectionList( attrBean
+					.getReportDesignHandle( request ), options, parameter
+					.getName( ) );
 
 		parameterBean.setValueInList( false );
 
 		if ( selectionList != null )
 		{
-			ReportParameterConverter converter = new ReportParameterConverter(
-					parameter.getPattern( ), locale );
+			// Get Scalar parameter handle
+			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
+					.findParameter( parameter.getName( ) );
 
 			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 			{
-				ParameterSelectionChoice selectionItem = ( ParameterSelectionChoice  ) iter
+				ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
 						.next( );
 
-				String value = converter.format( selectionItem.getValue( ) );
+				// Convert parameter value using locale format
+				String value = ParameterValidationUtil.getDisplayValue(
+						parameterHandle.getDataType( ), parameterHandle
+								.getPattern( ), selectionItem.getValue( ),
+						attrBean.getLocale( ) );
+
 				String label = selectionItem.getLabel( );
-				label = ( label == null || label.length( ) <= 0 ) ? value
+				label = ( label == null || label.length( ) <= 0 )
+						? value
 						: label;
 				label = ParameterAccessor.htmlEncode( label );
 
@@ -108,17 +118,18 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 
 	private Collection getParameterSelectionListForCascadingGroup(
 			IViewerReportDesignHandle design, IViewerReportService service,
-			Map paramValues, InputOptions options ) throws ReportServiceException
+			Map paramValues, InputOptions options )
+			throws ReportServiceException
 	{
-		
-		ParameterGroupDefinition group = ( ParameterGroupDefinition ) parameter
+
+		ParameterGroupDefinition group = (ParameterGroupDefinition) parameter
 				.getGroup( );
 		int index = group.getParameters( ).indexOf( parameter );
 		Object[] groupKeys = new Object[index];
 		for ( int i = 0; i < index; i++ )
 		{
-			ParameterDefinition def = ( ParameterDefinition ) group
-				.getParameters( ).get( i );
+			ParameterDefinition def = (ParameterDefinition) group
+					.getParameters( ).get( i );
 			String parameterName = def.getName( );
 			groupKeys[i] = paramValues.get( parameterName );
 			if ( groupKeys[i] == null )

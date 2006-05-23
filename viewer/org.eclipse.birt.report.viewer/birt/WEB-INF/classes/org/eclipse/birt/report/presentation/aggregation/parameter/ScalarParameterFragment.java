@@ -19,15 +19,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
-import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -71,9 +71,10 @@ public class ScalarParameterFragment extends BirtBaseFragment
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
 				.getAttribute( "attributeBean" ); //$NON-NLS-1$
-		assert attrBean != null;
 
+		assert attrBean != null;
 		assert parameter != null;
+
 		ScalarParameterBean parameterBean = new ScalarParameterBean( parameter );
 		attrBean.setParameterBean( parameterBean );
 
@@ -123,12 +124,21 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		displayName = ParameterAccessor.htmlEncode( displayName );
 		parameterBean.setDisplayName( displayName );
 
-		// Default value.
+		// Directly get parameter values from AttributeBean
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+				.getAttribute( "attributeBean" ); //$NON-NLS-1$
+		assert attrBean != null;
 
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, request );
-		Object paramDefaultValueObj = service.getParameterDefaultValue(
-				designHandle, parameterBean.getName( ), options );
+		// parameter value.
+		Object paramValueObj = null;
+		String parameterValue = null;
+
+		if ( attrBean.getParametersAsString( ) != null )
+			paramValueObj = attrBean.getParametersAsString( ).get(
+					parameterBean.getName( ) );
+
+		if ( paramValueObj != null )
+			parameterValue = paramValueObj.toString( );
 
 		// isRequired
 		switch ( parameter.getDataType( ) )
@@ -137,15 +147,14 @@ public class ScalarParameterFragment extends BirtBaseFragment
 			{
 				// parame default value may be null if it allows "null" value
 				// assert paramDefaultValueObj instanceof String;
-
 				parameterBean.setRequired( false );
 
-				if ( paramDefaultValueObj == null && !parameter.allowNull( ) )
+				if ( paramValueObj == null && !parameter.allowNull( ) )
 				{
 					parameterBean.setRequired( true );
 				}
-				else if ( paramDefaultValueObj != null
-						&& ( (String) paramDefaultValueObj ).length( ) <= 0
+				else if ( paramValueObj != null
+						&& ( (String) paramValueObj ).length( ) <= 0
 						&& !parameter.allowBlank( ) )
 				{
 					parameterBean.setRequired( true );
@@ -155,20 +164,14 @@ public class ScalarParameterFragment extends BirtBaseFragment
 			}
 			default :
 			{
-				parameterBean.setRequired( paramDefaultValueObj == null );
+				parameterBean.setRequired( paramValueObj == null );
 				break;
 			}
 		}
 
-		// Current value
-		String format = parameter.getPattern( );
-		ReportParameterConverter converter = new ReportParameterConverter(
-				format, locale );
-		String parameterDefaultValue = converter.format( paramDefaultValueObj );
-
-		// Directly get parameter values from AttributeBean
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
-				.getAttribute( "attributeBean" ); //$NON-NLS-1$
+		// Get Scalar parameter handle
+		ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
+				.findParameter( parameter.getName( ) );
 
 		Map configMap = attrBean.getParameters( );
 
@@ -177,12 +180,15 @@ public class ScalarParameterFragment extends BirtBaseFragment
 			Object configObj = configMap.get( parameter.getName( ) );
 			if ( configObj != null )
 			{
-				parameterDefaultValue = converter.format( configObj );
+				parameterValue = ParameterValidationUtil
+						.getDisplayValue( parameterHandle.getDataType( ),
+								parameterHandle.getPattern( ), configObj,
+								attrBean.getLocale( ) );
 			}
 		}
 
 		parameterBean.setValue( ParameterAccessor.getReportParameter( request,
-				parameter.getName( ), parameterDefaultValue ) );
+				parameter.getName( ), parameterValue ) );
 
 	}
 
