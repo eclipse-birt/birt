@@ -19,8 +19,8 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -160,8 +160,8 @@ public final class ErrorDetail
 	 * editor, script editor and so on.
 	 * 
 	 */
-	
-	private String sub_editer = null;
+
+	private String subEditor = null;
 
 	/**
 	 * The error description, which is used for <code>toString()</code>.
@@ -171,14 +171,23 @@ public final class ErrorDetail
 	private StringBuffer description = new StringBuffer( );
 
 	/**
+	 * The default constructor.
+	 * 
+	 */
+
+	private ErrorDetail( )
+	{
+
+	}
+
+	/**
 	 * Constructs the error detail with a given exception.
 	 * 
 	 * @param e
 	 *            the exception types that can be translated are
 	 *            <code>XMLParserException</code>,
 	 *            <code>DesignParserException</code>,
-	 *            <code>SemanticException</code> , 
-	 *            <code>SAXException</code>.
+	 *            <code>SemanticException</code> , <code>SAXException</code>.
 	 */
 
 	public ErrorDetail( Exception e )
@@ -203,6 +212,10 @@ public final class ErrorDetail
 		{
 			translate( (SAXException) e );
 		}
+		else if ( e instanceof ExtendedElementException )
+		{
+			translate( (ExtendedElementException) e );
+		}
 		else if ( e instanceof ParserConfigurationException
 				|| e instanceof IOException )
 		{
@@ -212,16 +225,6 @@ public final class ErrorDetail
 		{
 			assert false;
 		}
-	}
-	
-	/**
-	 * The default constructor.
-	 * 
-	 */
-	
-	public ErrorDetail()
-	{
-		
 	}
 
 	/**
@@ -430,6 +433,55 @@ public final class ErrorDetail
 	}
 
 	/**
+	 * Translates the <code>ExtendedElementException</code> to printable
+	 * string.
+	 * 
+	 * @param e
+	 *            the runtime exception
+	 */
+
+	private void translate( ExtendedElementException e )
+	{
+		assert e != null;
+
+		subEditor = (String) e
+				.getProperty( ExtendedElementException.SUB_EDITOR );
+
+		String tempNumber = (String) e
+				.getProperty( ExtendedElementException.LINE_NUMBER );
+		if ( tempNumber != null )
+		{
+			try
+			{
+				lineNo = Integer.parseInt( tempNumber );
+			}
+			catch ( NumberFormatException formatExp )
+			{
+				lineNo = -1;
+			}
+		}
+
+		message = e.getLocalizedMessage( );
+		exceptionName = e.getClass( ).getName( );
+
+		description.append( "display in " );//$NON-NLS-1$
+		description.append( subEditor );
+		description.append( " ( line = " ); //$NON-NLS-1$
+		description.append( lineNo );
+		description.append( ") " ); //$NON-NLS-1$
+		description.append( exceptionName );
+		description.append( " (" ); //$NON-NLS-1$
+		description.append( "message : " ); //$NON-NLS-1$
+		description.append( message );
+		description.append( ")" ); //$NON-NLS-1$
+
+		if ( e.getCause( ) != null && e.getCause( ) instanceof RuntimeException )
+		{
+			translateRuntimeException( (RuntimeException) e.getCause( ) );
+		}
+	}
+
+	/**
 	 * Note output message are locale independent. ONLY for debugging, not
 	 * user-visible. Therefore, no NON-NLS required.
 	 * 
@@ -603,144 +655,15 @@ public final class ErrorDetail
 	}
 
 	/**
-	 * Sets the error type.
-	 * @param type
-	 *            The error type.
-	 */
-	 
-	public void setType( String type )
-	{
-		this.type = type;
-	}
-
-	/**
-	 * Sets the error code.
-	 * @param errorCode
-	 *            The error code.
-	 */
-	 
-	public void setErrorCode( String errorCode )
-	{
-		this.errorCode = errorCode;
-	}
-
-	/**
-	 * Sets line number.
-	 * @param lineNo
-	 *            The line number.
-	 */
-	 
-	public void setLineNo( int lineNo )
-	{
-		this.lineNo = lineNo;
-	}
-
-	/**
-	 * Sets the tag name.
-	 * @param tagName
-	 *            The tag name.
-	 */
-	 
-	public void setTagName( String tagName )
-	{
-		this.tagName = tagName;
-	}
-
-	/**
 	 * Returns the reference to the editor.
-	 * @return sub_editer
-	 * 			The reference to the editor.
+	 * 
+	 * @return The reference to the editor.For example graphic editor, xml
+	 *         source editor, script editor and so on.
 	 */
-	 
-	public String getSubEditer( )
-	{
-		return sub_editer;
-	}
 
-	/**
-	 * Sets the reference to the editor.
-	 * @param sub_editer
-	 *            The reference to the editor.
-	 */
-	 
-	public void setSubEditer( String sub_editer )
+	public String getSubEditor( )
 	{
-		this.sub_editer = sub_editer;
-	}
-
-	/**
-	 * Sets The element which causes error.
-	 * @param element
-	 *            The element which causes error.
-	 */
-	 
-	public void setElement( IDesignElement element )
-	{
-		this.element = (DesignElement)element;
-	}
-	
-	/**
-	 * Sets the error description.
-	 * @param description 
-	 * 			The error description to set.
-	 */
-	public void setDescription( String description )
-	{
-		this.description = new StringBuffer();
-		this.description.append( description );
-	}
-	
-	/**
-	 * Sets the error description.
-	 * @param description 
-	 * 			The error description to set.
-	 */
-	public void setDescription( StringBuffer description )
-	{
-		this.description = description;
-	}
-
-	/**
-	 * Returns the error description.
-	 * @return the description
-	 * 			The error description.
-	 */
-	public String getDescription( )
-	{
-		return description.toString( );
-	}
-
-	
-	/**
-	 * Sets the element which causes error.
-	 * @param element
-	 * 		    The element which causes error.
-	 */
-	public void setElement( DesignElement element )
-	{
-		this.element = element;
-	}
-
-	
-	/**
-	 * Setsthe name of the exception class.
-	 * @param exceptionName 
-	 * 			The name of the exception class to set.
-	 */
-	public void setExceptionName( String exceptionName )
-	{
-		this.exceptionName = exceptionName;
-	}
-
-	
-	/**
-	 * Sets the localized error message.
-	 * @param message 
-	 * 			The localized error message to set.
-	 */
-	public void setMessage( String message )
-	{
-		this.message = message;
+		return subEditor;
 	}
 
 }

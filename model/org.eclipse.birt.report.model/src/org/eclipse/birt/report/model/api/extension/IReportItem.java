@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api.extension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 
@@ -22,7 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
  * <p>
  * 
  * <pre>
- *              BIRT Extended Item &lt;--&gt; ExtendedItem 
+ *                 BIRT Extended Item &lt;--&gt; ExtendedItem 
  * </pre>
  * 
  * 
@@ -146,11 +147,10 @@ public interface IReportItem
 	 * use this to validate the values of properties, to ensure that a set of
 	 * values are consistent, etc.
 	 * 
-	 * @throws ExtendedElementException
-	 *             if the model is not valid
+	 * @return List List contains ExtendedElementException.
 	 */
 
-	public void validate( ) throws ExtendedElementException;
+	public List validate( );
 
 	/**
 	 * Creates deep copy of the IReportItem and return the new element.

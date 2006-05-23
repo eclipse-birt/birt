@@ -292,7 +292,7 @@ public class ExtendedItem extends ReportItem
 		if ( provider != null )
 			provider.initializeReportItem( module );
 		else
-			throw new ExtendedElementException(
+			throw new ExtendedElementException( this,
 					ExtendedElementException.PLUGIN_ID,
 					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION, null );
 
@@ -481,7 +481,7 @@ public class ExtendedItem extends ReportItem
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
 	 */
-	
+
 	public PropertySearchStrategy getStrategy( )
 	{
 		return ExtendedItemPropSearchStrategy.getInstance( );

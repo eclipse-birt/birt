@@ -374,7 +374,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
 		if ( extDefn == null )
-			throw new ExtendedElementException(
+			throw new ExtendedElementException( element,
 					ExtendedElementException.PLUGIN_ID,
 					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND, null );
 
@@ -553,17 +553,18 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			return reportItem.getScriptPropertyDefinition( );
 		return null;
 	}
-	
+
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.ExtensibilityProvider#hasLocalPropertyValues()
 	 */
-	
-	public boolean hasLocalPropertyValues()
+
+	public boolean hasLocalPropertyValues( )
 	{
-		if( !extensionPropValues.isEmpty() || reportItem != null )
+		if ( !extensionPropValues.isEmpty( ) || reportItem != null )
 			return true;
-		
+
 		return false;
 	}
 }

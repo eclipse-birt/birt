@@ -13,6 +13,8 @@ package org.eclipse.birt.report.model.api.extension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Extension adapter class for the IReportItem. By default, the report item will
@@ -98,9 +100,9 @@ public class ReportItem implements IReportItem, Cloneable
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#validate()
 	 */
 
-	public void validate( ) throws ExtendedElementException
+	public List validate( )
 	{
-		return;
+		return Collections.EMPTY_LIST;
 	}
 
 	/*
@@ -144,10 +146,12 @@ public class ReportItem implements IReportItem, Cloneable
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getScriptPropertyDefinition()
 	 */
-	
+
 	public IPropertyDefinition getScriptPropertyDefinition( )
 	{
 		return null;
