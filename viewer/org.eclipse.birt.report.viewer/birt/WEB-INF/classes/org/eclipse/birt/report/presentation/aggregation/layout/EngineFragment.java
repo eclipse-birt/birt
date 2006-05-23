@@ -14,18 +14,15 @@ package org.eclipse.birt.report.presentation.aggregation.layout;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.axis.AxisFault;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
-import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.service.actionhandler.BirtExtractDataActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderImageActionHandler;
@@ -42,6 +39,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  */
 public class EngineFragment extends BirtBaseFragment
 {
+
 	/**
 	 * Anything before do service.
 	 * 
@@ -66,6 +64,10 @@ public class EngineFragment extends BirtBaseFragment
 				.equalsIgnoreCase( ParameterAccessor.getFormat( request ) ) )
 		{
 			response.setContentType( "application/pdf" ); //$NON-NLS-1$
+			String filename = "BIRTReport" + System.currentTimeMillis( ); //$NON-NLS-1$
+			response
+					.setHeader(
+							"Content-Disposition", "inline; filename=" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		else
 		{
