@@ -456,16 +456,6 @@ public class ExtendedElement implements IReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.extension.IExtendedElement#validate()
-	 */
-	public void validate( ) throws ExtendedElementException
-	{
-		System.out.println( "validate operation is done " ); //$NON-NLS-1$
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#copy()
 	 */
 	public IReportItem copy( )
@@ -526,6 +516,11 @@ public class ExtendedElement implements IReportItem
 
 	public IPropertyDefinition getScriptPropertyDefinition( )
 	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List validate() {
 		// TODO Auto-generated method stub
 		return null;
 	}
