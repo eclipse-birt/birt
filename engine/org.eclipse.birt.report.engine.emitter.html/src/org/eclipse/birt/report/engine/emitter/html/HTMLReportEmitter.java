@@ -91,7 +91,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.105 $ $Date: 2006/05/19 07:19:17 $
+ * @version $Revision: 1.106 $ $Date: 2006/05/23 10:27:21 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -912,7 +912,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.attribute( HTMLTags.ATTR_STYLE, "width:18px;background-color:#cccccc" );
 		writer.closeTag( HTMLTags.TAG_COL );
 		writer.openTag( HTMLTags.TAG_COL );
-		writer.attribute( HTMLTags.ATTR_STYLE, "width:95%" );
+		//writer.attribute( HTMLTags.ATTR_STYLE, "width:95%" );
 		writer.closeTag( HTMLTags.TAG_COL );
 		writer.openTag( HTMLTags.TAG_TR );
 		writer.openTag( HTMLTags.TAG_TD );
@@ -2022,7 +2022,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.attribute( HTMLTags.ATTR_STYLE, "width:18px;background-color:#cccccc" );
 		writer.closeTag( HTMLTags.TAG_COL );
 		writer.openTag( HTMLTags.TAG_COL );
-		writer.attribute( HTMLTags.ATTR_STYLE, "width:95%" );
+		//writer.attribute( HTMLTags.ATTR_STYLE, "width:95%" );
 		writer.closeTag( HTMLTags.TAG_COL );
 		writer.openTag( HTMLTags.TAG_TR );
 		writer.openTag( HTMLTags.TAG_TD );
