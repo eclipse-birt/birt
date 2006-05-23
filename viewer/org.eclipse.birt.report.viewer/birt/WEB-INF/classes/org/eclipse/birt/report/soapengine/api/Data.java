@@ -44,6 +44,7 @@ public class Data  implements java.io.Serializable {
     private java.lang.String confirmation;
     private org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList;
     private org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation;
+    private org.eclipse.birt.report.soapengine.api.SortDefinitionList sortDefinitionList;
 
     public Data() {
     }
@@ -84,7 +85,8 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu,
            java.lang.String confirmation,
            org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList,
-           org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation) {
+           org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation,
+           org.eclipse.birt.report.soapengine.api.SortDefinitionList sortDefinitionList) {
            this.font = font;
            this.resultSets = resultSets;
            this.format = format;
@@ -121,6 +123,7 @@ public class Data  implements java.io.Serializable {
            this.confirmation = confirmation;
            this.tableLayoutList = tableLayoutList;
            this.availableOperation = availableOperation;
+           this.sortDefinitionList = sortDefinitionList;
     }
 
 
@@ -843,6 +846,26 @@ public class Data  implements java.io.Serializable {
         this.availableOperation = availableOperation;
     }
 
+
+    /**
+     * Gets the sortDefinitionList value for this Data.
+     * 
+     * @return sortDefinitionList
+     */
+    public org.eclipse.birt.report.soapengine.api.SortDefinitionList getSortDefinitionList() {
+        return sortDefinitionList;
+    }
+
+
+    /**
+     * Sets the sortDefinitionList value for this Data.
+     * 
+     * @param sortDefinitionList
+     */
+    public void setSortDefinitionList(org.eclipse.birt.report.soapengine.api.SortDefinitionList sortDefinitionList) {
+        this.sortDefinitionList = sortDefinitionList;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Data)) return false;
@@ -962,7 +985,10 @@ public class Data  implements java.io.Serializable {
               this.tableLayoutList.equals(other.getTableLayoutList()))) &&
             ((this.availableOperation==null && other.getAvailableOperation()==null) || 
              (this.availableOperation!=null &&
-              this.availableOperation.equals(other.getAvailableOperation())));
+              this.availableOperation.equals(other.getAvailableOperation()))) &&
+            ((this.sortDefinitionList==null && other.getSortDefinitionList()==null) || 
+             (this.sortDefinitionList!=null &&
+              this.sortDefinitionList.equals(other.getSortDefinitionList())));
         __equalsCalc = null;
         return _equals;
     }
@@ -1081,6 +1107,9 @@ public class Data  implements java.io.Serializable {
         }
         if (getAvailableOperation() != null) {
             _hashCode += getAvailableOperation().hashCode();
+        }
+        if (getSortDefinitionList() != null) {
+            _hashCode += getSortDefinitionList().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -1341,6 +1370,13 @@ public class Data  implements java.io.Serializable {
         elemField.setFieldName("availableOperation");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AvailableOperation"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AvailableOperation"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("sortDefinitionList");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortDefinitionList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortDefinitionList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
