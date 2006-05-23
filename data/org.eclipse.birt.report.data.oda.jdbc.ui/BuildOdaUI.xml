@@ -102,6 +102,7 @@
 			<include name="org.eclipse.swt*.jar" />
 			<include name="org.eclipse.datatools.connectivity*.jar"/>
             <include name="org.eclipse.datatools.connectivity*/*.jar"/>
+			<include name="com.ibm.icu*.jar"/>
 		</fileset>
 
 	</path>

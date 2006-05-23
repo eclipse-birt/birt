@@ -7,15 +7,13 @@ Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.birt.report.data.oda.jdbc,
  org.eclipse.datatools.connectivity.oda.design.ui,
- org.eclipse.core.resources,
- org.eclipse.draw2d,
- org.eclipse.gef,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
  org.eclipse.jface.text,
- org.eclipse.birt.report.data.oda.jdbc,
- org.apache.commons.codec
+ org.apache.commons.codec,
+ com.ibm.icu
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.birt.report.data.oda.jdbc.ui,
  org.eclipse.birt.report.data.oda.jdbc.ui.dialogs,
