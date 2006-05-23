@@ -179,8 +179,7 @@ public class SessionHandleAdapter
 		SimpleMasterPageHandle masterPage = null;
 		if ( handle.getMasterPages( ).getCount( ) == 0 )
 		{
-			masterPage = handle.getElementFactory( ).newSimpleMasterPage(
-					"Simple MasterPage" ); //$NON-NLS-1$
+			masterPage = handle.getElementFactory( ).newSimpleMasterPage(null); //$NON-NLS-1$
 			try
 			{
 				handle.getMasterPages( ).add( masterPage );
