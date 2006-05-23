@@ -129,7 +129,14 @@ BirtGetUpdatedObjectsResponseHandler.prototype = Object.extend( new BirtBaseResp
 			var datas = updates[i].getElementsByTagName( 'Data' );
 			if ( !datas || datas.length <= 0 ) continue;
 
-			var handler = eval( targets[0].firstChild.data );
+			var handler = null;
+			try
+			{
+				handler = eval( targets[0].firstChild.data );
+			}
+			catch ( e )
+			{
+			}
 			if ( !handler || !handler.__cb_bind ) continue;
 			
 			handler.__cb_bind( datas[0] );
