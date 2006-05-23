@@ -47,7 +47,7 @@ public interface DataSet extends EObject
 	 * @return the value of the '<em>Values</em>' attribute.
 	 * @see #setValues(Object)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getDataSet_Values()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" required="true"
+	 * @model unique="false" dataType="org.eclipse.birt.chart.model.data.Data" required="true"
 	 *        extendedMetaData="kind='element' name='Values'"
 	 * @generated
 	 */

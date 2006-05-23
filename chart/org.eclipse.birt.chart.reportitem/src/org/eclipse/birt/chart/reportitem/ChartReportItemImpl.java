@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -44,6 +45,8 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.RhinoException;
 
 /**
  * ChartReportItemImpl
@@ -469,6 +472,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 			else
 			{
 				cm.setScript( (String) value );
+	
 			}
 		}
 		else if ( propName.equals( "chart.instance" ) ) //$NON-NLS-1$
@@ -476,6 +480,24 @@ public final class ChartReportItemImpl extends ReportItem implements
 			this.cm = (Chart) value;
 		}
 
+	}
+
+	
+	protected void checkScriptSyntax( String string ) throws RhinoException
+	{
+		if ( string == null )
+			return;
+		
+		if ( !isJavaClassName( string ) )
+		{
+			Context cx = Context.enter();
+			cx.compileString(string, "chartScript", 1, null); //$NON-NLS-1$
+		}
+	}
+
+	protected boolean isJavaClassName( String string )
+	{
+		return ( string.matches( "\\w+(\\.\\w*)*" ) );
 	}
 
 	/*
@@ -486,9 +508,29 @@ public final class ChartReportItemImpl extends ReportItem implements
 	public List validate( )
 	{
 		logger.log( ILogger.INFORMATION,
-				Messages.getString( "ChartReportItemImpl.log.validate" ) ); //$NON-NLS-1$ 
-
-		return Collections.EMPTY_LIST;
+				Messages.getString( "ChartReportItemImpl.log.validate" ) ); //$NON-NLS-1$
+		List list = new ArrayList( );
+		if ( cm != null )
+		{
+			try
+			{
+				checkScriptSyntax( cm.getScript( ) );
+			}
+			catch (RhinoException e )
+			{
+				logger.log( e );
+				ExtendedElementException extendedException  = new ExtendedElementException( this.getHandle( ).getElement( ),
+						 ChartReportItemPlugin.ID , 
+						"exception.script.syntaxError",//$NON-NLS-1$
+						new Object[]{ e.getLocalizedMessage( )},
+						Messages.getResourceBundle( ) );
+				extendedException.setProperty( ExtendedElementException.LINE_NUMBER, String.valueOf( e.lineNumber( ) ) );
+				extendedException.setProperty( ExtendedElementException.SUB_EDITOR, "script" );//$NON-NLS-1$
+				list.add( extendedException );
+			}
+		}
+		return list;
+		 
 	}
 
 	/*

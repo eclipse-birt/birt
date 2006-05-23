@@ -1266,6 +1266,12 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEAttribute( dialRegionEClass, DIAL_REGION__INNER_RADIUS );
 		createEAttribute( dialRegionEClass, DIAL_REGION__OUTER_RADIUS );
 
+		eStringToDataSetMapEntryEClass = createEClass( ESTRING_TO_DATA_SET_MAP_ENTRY );
+		createEAttribute( eStringToDataSetMapEntryEClass,
+				ESTRING_TO_DATA_SET_MAP_ENTRY__KEY );
+		createEReference( eStringToDataSetMapEntryEClass,
+				ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE );
+
 		gridEClass = createEClass( GRID );
 		createEReference( gridEClass, GRID__LINE_ATTRIBUTES );
 		createEAttribute( gridEClass, GRID__TICK_STYLE );
@@ -1322,12 +1328,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEReference( seriesEClass, SERIES__TRIGGERS );
 		createEAttribute( seriesEClass, SERIES__TRANSLUCENT );
 		createEReference( seriesEClass, SERIES__CURVE_FITTING );
-
-		eStringToDataSetMapEntryEClass = createEClass( ESTRING_TO_DATA_SET_MAP_ENTRY );
-		createEAttribute( eStringToDataSetMapEntryEClass,
-				ESTRING_TO_DATA_SET_MAP_ENTRY__KEY );
-		createEReference( eStringToDataSetMapEntryEClass,
-				ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE );
 	}
 
 	/**
@@ -1419,7 +1419,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				"staggered", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getAxis_Interval( ),
 				theXMLTypePackage.getInt( ),
-				"interval", "0", 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"interval", "1", 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getAxis_MarkerLines( ),
 				this.getMarkerLine( ),
 				null,
@@ -1542,6 +1542,17 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		initEAttribute( getDialRegion_OuterRadius( ),
 				theXMLTypePackage.getDouble( ),
 				"outerRadius", null, 0, 1, DialRegion.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( eStringToDataSetMapEntryEClass,
+				Map.Entry.class,
+				"EStringToDataSetMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getEStringToDataSetMapEntry_Key( ),
+				theXMLTypePackage.getString( ),
+				"key", null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getEStringToDataSetMapEntry_Value( ),
+				theDataPackage.getDataSet( ),
+				null,
+				"value", null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( gridEClass,
 				Grid.class,
@@ -1709,7 +1720,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		initEReference( getSeries_DataSets( ),
 				this.getEStringToDataSetMapEntry( ),
 				null,
-				"dataSets", null, 0, -1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"dataSets", null, 1, -1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getSeries_LabelPosition( ),
 				theAttributePackage.getPosition( ),
 				"labelPosition", "Above", 0, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1727,17 +1738,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				this.getCurveFitting( ),
 				null,
 				"curveFitting", null, 0, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
-
-		initEClass( eStringToDataSetMapEntryEClass,
-				Map.Entry.class,
-				"EStringToDataSetMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
-		initEAttribute( getEStringToDataSetMapEntry_Key( ),
-				ecorePackage.getEString( ),
-				"key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
-		initEReference( getEStringToDataSetMapEntry_Value( ),
-				theDataPackage.getDataSet( ),
-				null,
-				"value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -1953,6 +1953,22 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "OuterRadius" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( eStringToDataSetMapEntryEClass, source, new String[]{
+				"name", "EStringToDataSetMapEntry", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getEStringToDataSetMapEntry_Key( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Key" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getEStringToDataSetMapEntry_Value( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Value" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( gridEClass, source, new String[]{
 				"name", "Grid", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$

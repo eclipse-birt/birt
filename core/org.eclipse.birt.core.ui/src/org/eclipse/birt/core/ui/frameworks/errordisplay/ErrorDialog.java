@@ -334,7 +334,8 @@ public class ErrorDialog implements SelectionListener
 
 	private String getOrganizedTrace( Throwable t )
 	{
-		StringBuffer sbTrace = new StringBuffer( "at:\n" ); //$NON-NLS-1$
+		StringBuffer sbTrace = new StringBuffer( t.getClass().getName() );
+		sbTrace.append( " at:\n" ); //$NON-NLS-1$
 		for ( int d = 0; d < MAX_TRACE_DEPTH; d++ )
 		{
 			if ( d > 0 )

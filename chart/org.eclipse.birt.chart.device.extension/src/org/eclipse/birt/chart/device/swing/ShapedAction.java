@@ -16,10 +16,13 @@ import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Action;
 
 /**
@@ -33,16 +36,18 @@ public final class ShapedAction
 
 	private final Shape _sh;
 
-	private final Action _ac;
+	private final Map _triggers = new HashMap();
+
 
 	/**
 	 * This constructor supports polygon shapes Future shapes (and corresponding
 	 * constructors) will be added later
 	 * 
+	 * @param source
 	 * @param loa
-	 * @param ac
+	 * @param clipping
 	 */
-	ShapedAction( StructureSource oSource, Location[] loa, Action ac, Shape clipping )
+	ShapedAction( StructureSource oSource, Location[] loa, Shape clipping )
 	{
 		_oSource = oSource;
 		final int[][] i2a = SwingRendererImpl.getCoordinatesAsInts( loa );
@@ -57,17 +62,17 @@ public final class ShapedAction
 		{
 			_sh = new Polygon( i2a[0], i2a[1], loa.length );
 		}
-		_ac = ac;
 	}
+
 
 	/**
 	 * This constructor supports shape definition via an ellipse
 	 * 
 	 * @param oSource
 	 * @param boEllipse
-	 * @param ac
+	 * @param clipping
 	 */
-	ShapedAction( StructureSource oSource, Bounds boEllipse, Action ac, Shape clipping )
+	ShapedAction( StructureSource oSource, Bounds boEllipse, Shape clipping )
 	{
 		_oSource = oSource;
 		if ( clipping != null )
@@ -87,21 +92,19 @@ public final class ShapedAction
 					boEllipse.getWidth( ),
 					boEllipse.getHeight( ) );
 		}
-		_ac = ac;
 	}
 
 	/**
 	 * This constructor supports shape definition via an elliptical arc
-	 * 
 	 * @param oSource
 	 * @param boEllipse
 	 * @param dStart
 	 * @param dExtent
 	 * @param iArcType
-	 * @param ac
+	 * @param clipping
 	 */
 	ShapedAction( StructureSource oSource, Bounds boEllipse, double dStart,
-			double dExtent, int iArcType, Action ac, Shape clipping )
+			double dExtent, int iArcType,  Shape clipping )
 	{
 		_oSource = oSource;
 		if ( clipping != null )
@@ -127,49 +130,8 @@ public final class ShapedAction
 					dExtent,
 					iArcType );
 		}
-		_ac = ac;
 	}
 
-	/**
-	 * This constructor supports polygon shapes Future shapes (and corresponding
-	 * constructors) will be added later
-	 * 
-	 * @param loa
-	 * @param ac
-	 * 
-	 */
-	ShapedAction( StructureSource oSource, Location[] loa, Action ac )
-	{
-		this( oSource, loa, ac, null );
-	}
-
-	/**
-	 * This constructor supports shape definition via an ellipse
-	 * 
-	 * @param oSource
-	 * @param boEllipse
-	 * @param ac
-	 */
-	ShapedAction( StructureSource oSource, Bounds boEllipse, Action ac )
-	{
-		this( oSource, boEllipse, ac, null );
-	}
-
-	/**
-	 * This constructor supports shape definition via an elliptical arc
-	 * 
-	 * @param oSource
-	 * @param boEllipse
-	 * @param dStart
-	 * @param dExtent
-	 * @param iArcType
-	 * @param ac
-	 */
-	ShapedAction( StructureSource oSource, Bounds boEllipse, double dStart,
-			double dExtent, int iArcType, Action ac )
-	{
-		this( oSource, boEllipse, dStart, dExtent, iArcType, ac, null );
-	}
 
 	/**
 	 * Returns the shape associated with current ShapedAction.
@@ -186,10 +148,11 @@ public final class ShapedAction
 	 * 
 	 * @return
 	 */
-	public final Action getAction( )
+	public final Action getActionForCondition( TriggerCondition condition )
 	{
-		return _ac;
+		return (Action)_triggers.get( condition );
 	}
+
 
 	/**
 	 * Returns the source object associated with current ShapedAction.
@@ -199,5 +162,11 @@ public final class ShapedAction
 	public final StructureSource getSource( )
 	{
 		return _oSource;
+	}
+
+	public void add( TriggerCondition tc, Action ac )
+	{
+		_triggers.put( tc, ac );
+		
 	}
 }

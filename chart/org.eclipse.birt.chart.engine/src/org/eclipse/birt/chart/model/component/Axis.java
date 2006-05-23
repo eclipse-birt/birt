@@ -606,7 +606,7 @@ public interface Axis extends EObject
 
 	/**
 	 * Returns the value of the '<em><b>Interval</b></em>' attribute.
-	 * The default value is <code>"0"</code>.
+	 * The default value is <code>"1"</code>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -617,7 +617,7 @@ public interface Axis extends EObject
 	 * @see #unsetInterval()
 	 * @see #setInterval(int)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Interval()
-	 * @model default="0" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 * @model default="1" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
 	 *        extendedMetaData="kind='element' name='Interval'"
 	 * @generated
 	 */

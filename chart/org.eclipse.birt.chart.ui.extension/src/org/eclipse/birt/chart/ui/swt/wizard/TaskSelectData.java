@@ -714,9 +714,11 @@ public class TaskSelectData extends SimpleTask
 		super.dispose( );
 		// No need to dispose other widgets
 		cmpTask = null;
-		previewPainter.dispose( );
+		if ( previewPainter != null )
+			previewPainter.dispose( );
 		previewPainter = null;
-		dynamicArea.dispose( );
+		if ( dynamicArea != null )
+			dynamicArea.dispose( );
 		dynamicArea = null;
 		// oldSample = null;
 

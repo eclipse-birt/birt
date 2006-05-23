@@ -202,12 +202,6 @@ public class SwtRendererImpl extends DeviceAdapter
 				final String sUrl = pre.getImage( ).getURL( );
 				img = (Image) _ids.loadImage( new URL( sUrl ) );
 			}
-			catch ( ChartException ilex )
-			{
-				throw new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.RENDERING,
-						ilex );
-			}
 			catch ( MalformedURLException muex )
 			{
 				throw new ChartException( ChartDeviceSwtActivator.ID,

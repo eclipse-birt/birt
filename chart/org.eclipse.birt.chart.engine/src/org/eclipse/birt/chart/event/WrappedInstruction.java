@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.event;
 import java.util.ArrayList;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.render.DeferredCache;
@@ -65,14 +66,20 @@ public final class WrappedInstruction implements Comparable
 	 */
 	public int compareTo( Object o )
 	{
-		try
-		{
 			Bounds bo = null;
 			if ( this.isModel( ) )
 			{
 				if ( o instanceof PrimitiveRenderEvent )
 				{
-					bo = ( (PrimitiveRenderEvent) o ).getBounds( );
+					try
+					{
+						bo = ( (PrimitiveRenderEvent) o ).getBounds( );
+					}
+					catch ( ChartException e )
+					{
+						assert false;
+						return -1;
+					}
 				}
 				else if ( o instanceof WrappedInstruction )
 				{
@@ -81,16 +88,20 @@ public final class WrappedInstruction implements Comparable
 			}
 			else
 			{
-				bo = pre.getBounds( );
+				try
+				{
+					bo = pre.getBounds( );
+				}
+				catch ( ChartException e )
+				{
+					assert false;
+					return 1;
+				}
 			}
 			return dc.isTransposed( ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ),
 					bo )
 					: PrimitiveRenderEvent.compareRegular( getBounds( ), bo );
-		}
-		catch ( Exception ex )
-		{
-			throw new RuntimeException( ex );
-		}
+
 	}
 
 	/**

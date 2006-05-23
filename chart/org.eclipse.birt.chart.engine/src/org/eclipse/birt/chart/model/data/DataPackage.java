@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.data;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -657,6 +658,16 @@ public interface DataPackage extends EPackage
 	int TRIGGER_FEATURE_COUNT = 3;
 
 	/**
+	 * The meta object id for the '<em>Data</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.lang.Object
+	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getData()
+	 * @generated
+	 */
+	int DATA = 17;
+
+	/**
 	 * Returns the meta object for class '
 	 * {@link org.eclipse.birt.chart.model.data.Action <em>Action</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -1130,6 +1141,18 @@ public interface DataPackage extends EPackage
 	EAttribute getTrigger_TriggerFlow( );
 
 	/**
+	 * Returns the meta object for data type '{@link java.lang.Object <em>Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Data</em>'.
+	 * @see java.lang.Object
+	 * @model instanceClass="java.lang.Object"
+	 *        extendedMetaData="name='Data'" 
+	 * @generated
+	 */
+	EDataType getData( );
+
+	/**
 	 * Returns the factory that creates the instances of the model. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1570,6 +1593,16 @@ public interface DataPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute TRIGGER__TRIGGER_FLOW = eINSTANCE.getTrigger_TriggerFlow( );
+
+		/**
+		 * The meta object literal for the '<em>Data</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.lang.Object
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getData()
+		 * @generated
+		 */
+		EDataType DATA = eINSTANCE.getData( );
 
 	}
 

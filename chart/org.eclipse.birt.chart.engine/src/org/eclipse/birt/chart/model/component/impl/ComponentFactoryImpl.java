@@ -95,6 +95,8 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return createDial( );
 			case ComponentPackage.DIAL_REGION :
 				return createDialRegion( );
+			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY :
+				return (EObject) createEStringToDataSetMapEntry( );
 			case ComponentPackage.GRID :
 				return createGrid( );
 			case ComponentPackage.LABEL :
@@ -109,8 +111,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return createScale( );
 			case ComponentPackage.SERIES :
 				return createSeries( );
-			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY :
-				return (EObject) createEStringToDataSetMapEntry( );
 			default :
 				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}

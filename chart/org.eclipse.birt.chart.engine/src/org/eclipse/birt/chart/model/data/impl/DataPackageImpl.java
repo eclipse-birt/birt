@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.birt.chart.model.type.impl.TypePackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -156,6 +157,13 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	 * @generated
 	 */
 	private EClass triggerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType dataEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package </b>, registered with
@@ -705,6 +713,16 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getData( )
+	{
+		return dataEDataType;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -807,6 +825,9 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		createEAttribute( triggerEClass, TRIGGER__CONDITION );
 		createEReference( triggerEClass, TRIGGER__ACTION );
 		createEAttribute( triggerEClass, TRIGGER__TRIGGER_FLOW );
+
+		// Create data types
+		dataEDataType = createEDataType( DATA );
 	}
 
 	/**
@@ -874,7 +895,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				DataSet.class,
 				"DataSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getDataSet_Values( ),
-				theXMLTypePackage.getAnySimpleType( ),
+				this.getData( ),
 				"values", null, 1, 1, DataSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( dateTimeDataElementEClass,
@@ -1022,6 +1043,11 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				theAttributePackage.getTriggerFlow( ),
 				"triggerFlow", "Capture", 0, 1, Trigger.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
+		// Initialize data types
+		initEDataType( dataEDataType,
+				Object.class,
+				"Data", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+
 		// Create resource
 		createResource( eNS_URI );
 
@@ -1062,6 +1088,9 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 						"name", "DataSetRepresentation" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
+		addAnnotation( dataEDataType, source, new String[]{
+				"name", "Data" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( dataElementEClass, source, new String[]{
 				"name", "DataElement", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$

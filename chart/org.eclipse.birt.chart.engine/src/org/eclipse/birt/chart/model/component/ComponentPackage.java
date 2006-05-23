@@ -514,7 +514,7 @@ public interface ComponentPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getLabel()
 	 * @generated
 	 */
-	int LABEL = 6;
+	int LABEL = 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.GridImpl <em>Grid</em>}' class.
@@ -523,7 +523,7 @@ public interface ComponentPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getGrid()
 	 * @generated
 	 */
-	int GRID = 5;
+	int GRID = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl <em>Marker Line</em>}' class.
@@ -532,7 +532,7 @@ public interface ComponentPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getMarkerLine()
 	 * @generated
 	 */
-	int MARKER_LINE = 7;
+	int MARKER_LINE = 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl <em>Marker Range</em>}' class.
@@ -541,7 +541,7 @@ public interface ComponentPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getMarkerRange()
 	 * @generated
 	 */
-	int MARKER_RANGE = 8;
+	int MARKER_RANGE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Outline</b></em>' containment reference.
@@ -716,6 +716,71 @@ public interface ComponentPackage extends EPackage
 	int DIAL_REGION_FEATURE_COUNT = MARKER_RANGE_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.NeedleImpl <em>Needle</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.component.impl.NeedleImpl
+	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getNeedle()
+	 * @generated
+	 */
+	int NEEDLE = 10;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl <em>Scale</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.component.impl.ScaleImpl
+	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getScale()
+	 * @generated
+	 */
+	int SCALE = 11;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl <em>Series</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl
+	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getSeries()
+	 * @generated
+	 */
+	int SERIES = 12;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl <em>EString To Data Set Map Entry</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl
+	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getEStringToDataSetMapEntry()
+	 * @generated
+	 */
+	int ESTRING_TO_DATA_SET_MAP_ENTRY = 5;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ESTRING_TO_DATA_SET_MAP_ENTRY__KEY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>EString To Data Set Map Entry</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ESTRING_TO_DATA_SET_MAP_ENTRY_FEATURE_COUNT = 2;
+
+	/**
 	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -881,16 +946,6 @@ public interface ComponentPackage extends EPackage
 	int MARKER_LINE_FEATURE_COUNT = 6;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.NeedleImpl <em>Needle</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.component.impl.NeedleImpl
-	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getNeedle()
-	 * @generated
-	 */
-	int NEEDLE = 9;
-
-	/**
 	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -916,15 +971,6 @@ public interface ComponentPackage extends EPackage
 	 * @ordered
 	 */
 	int NEEDLE_FEATURE_COUNT = 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl <em>Scale</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.component.impl.ScaleImpl
-	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getScale()
-	 * @generated
-	 */
-	int SCALE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' containment reference.
@@ -975,15 +1021,6 @@ public interface ComponentPackage extends EPackage
 	 * @ordered
 	 */
 	int SCALE_FEATURE_COUNT = 5;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl <em>Series</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl
-	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getSeries()
-	 * @generated
-	 */
-	int SERIES = 11;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -1085,43 +1122,6 @@ public interface ComponentPackage extends EPackage
 	 * @ordered
 	 */
 	int SERIES_FEATURE_COUNT = 11;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl <em>EString To Data Set Map Entry</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl
-	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getEStringToDataSetMapEntry()
-	 * @generated
-	 */
-	int ESTRING_TO_DATA_SET_MAP_ENTRY = 12;
-
-	/**
-	 * The feature id for the '<em><b>Key</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ESTRING_TO_DATA_SET_MAP_ENTRY__KEY = 0;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE = 1;
-
-	/**
-	 * The number of structural features of the '<em>EString To Data Set Map Entry</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ESTRING_TO_DATA_SET_MAP_ENTRY_FEATURE_COUNT = 2;
 
 	/**
 	 * Returns the meta object for class '
@@ -2141,8 +2141,11 @@ public interface ComponentPackage extends EPackage
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>EString To Data Set Map Entry</em>'.
 	 * @see java.util.Map.Entry
-	 * @model keyType="java.lang.String"
-	 *        valueType="org.eclipse.birt.chart.model.data.DataSet"
+	 * @model keyType="java.lang.String" keyUnique="false" keyDataType="org.eclipse.emf.ecore.xml.type.String" keyRequired="true"
+	 *        keyExtendedMetaData="kind='element' name='Key'"
+	 *        valueType="org.eclipse.birt.chart.model.data.DataSet" valueContainment="true" valueResolveProxies="false" valueRequired="true"
+	 *        valueExtendedMetaData="kind='element' name='Value'"
+	 *        extendedMetaData="name='EStringToDataSetMapEntry' kind='elementOnly'"
 	 * @generated
 	 */
 	EClass getEStringToDataSetMapEntry( );
@@ -2159,10 +2162,10 @@ public interface ComponentPackage extends EPackage
 	EAttribute getEStringToDataSetMapEntry_Key( );
 
 	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * Returns the meta object for the containment reference '{@link java.util.Map.Entry <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Value</em>'.
+	 * @return the meta object for the containment reference '<em>Value</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getEStringToDataSetMapEntry()
 	 * @generated
@@ -3028,7 +3031,7 @@ public interface ComponentPackage extends EPackage
 		EAttribute ESTRING_TO_DATA_SET_MAP_ENTRY__KEY = eINSTANCE.getEStringToDataSetMapEntry_Key( );
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Value</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

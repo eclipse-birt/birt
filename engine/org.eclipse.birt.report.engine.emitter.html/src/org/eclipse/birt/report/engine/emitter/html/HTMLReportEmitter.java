@@ -91,7 +91,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.106 $ $Date: 2006/05/23 10:27:21 $
+ * @version $Revision: 1.107 $ $Date: 2006/05/23 10:35:42 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -578,33 +578,52 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	private void appendErrorMessage( int index, ElementExceptionInfo info )
 	{
-		String errorId = "document.getElementById('error_detail" + index + "')";
-		String errorIcon = "document.getElementById('error_icon" + index + "')";
-		String onClick = "if (" + errorId + ".style.display == 'none') { "
-				+ errorIcon + ".innerHTML = '-'; " + errorId
-				+ ".style.display = 'block'; }" + "else { " + errorIcon
-				+ ".innerHTML = '+'; " + errorId + ".style.display = 'none'; }";
+		
 
 		EngineResourceHandle rc = EngineResourceHandle.getInstance( );
 		writer.writeCode( "			<div>" );
-		writer.writeCode( "				<span id=\"error_icon" + index
-				+ "\"  style=\"cursor:pointer\" onclick=\"" + onClick
-				+ "\" > + </span>" );
-		writer.writeCode( "				<span  id=\"error_title\">" );
-		writer.text( rc.getMessage( MessageConstants.REPORT_ERROR_MESSAGE,
-				new Object[]{info.getType( ), info.getElementInfo( )} ), false );
-		writer.writeCode( "</span>" );
-		writer.writeCode( "				<pre id=\"error_detail" + index
-				+ "\" style=\"display:none;\" >" );
+		writer.writeCode( "				<div  id=\"error_title\" style=\"text-decoration:underline\">" );
+		String name = info.getName( );
+		if ( name != null )
+		{
+			writer.text( rc.getMessage( MessageConstants.REPORT_ERROR_MESSAGE,
+				new Object[]{info.getType( ), name } ), false );
+		}
+		else
+		{
+			writer.text( rc.getMessage( MessageConstants.REPORT_ERROR_MESSAGE_WITH_ID,
+					new Object[]{info.getType( ), info.getID( ) } ), false );
+		}
+			writer.writeCode( "</div>" );//$NON-NLS-1$
+			
 		ArrayList errorList = info.getErrorList( );
 		ArrayList countList = info.getCountList( );
 		for ( int i = 0; i < errorList.size( ); i++ )
 		{
+			String errorId = "document.getElementById('error_detail" + index + "_" + i + "')";
+			String errorIcon = "document.getElementById('error_icon" + index + "_" + i + "')";
+			String onClick = "if (" + errorId + ".style.display == 'none') { "
+					+ errorIcon + ".innerHTML = '- '; " + errorId
+					+ ".style.display = 'block'; }" + "else { " + errorIcon
+					+ ".innerHTML = '+ '; " + errorId + ".style.display = 'none'; }";
+			writer.writeCode("<div>");
 			BirtException ex = (BirtException) errorList.get( i );
+			writer.writeCode( "<span id=\"error_icon" + index + "_" + i
+					+ "\"  style=\"cursor:pointer\" onclick=\"" + onClick
+					+ "\" > + </span>" );
+			
+			writer.text( ex.getLocalizedMessage( ) ); 
+			
+			
+		
+			writer.writeCode( "				<pre id=\"error_detail" + index + "_" + i //$NON-NLS-1$
+				+ "\" style=\"display:none;\" >" );//$NON-NLS-1$
+		
+			
 
 			String messageTitle = rc.getMessage(
 					MessageConstants.REPORT_ERROR_ID, new Object[]{
-							new Integer( i ), ex.getErrorCode( ),
+							ex.getErrorCode( ) ,
 							countList.get( i )} );
 			String detailTag = rc
 					.getMessage( MessageConstants.REPORT_ERROR_DETAIL );
@@ -612,13 +631,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			boolean indent = writer.isIndent( );
 			writer.setIndent( false );
 			writer.text( messageTitle, false );
-			writer.writeCode( "\r\n" );
+			writer.writeCode( "\r\n" );//$NON-NLS-1$
 			writer.text( detailTag, false );
 			writer.text( messageBody, false );
 			writer.setIndent( indent );
+			writer.writeCode( "				</pre>" ); //$NON-NLS-1$
+			writer.writeCode("</div>");
 		}
-		writer.writeCode( "				</pre>" );
-		writer.writeCode( "		</div>" ); //$NON-NLS-1$
+		
+		writer.writeCode( "</div>" ); //$NON-NLS-1$
+		writer.writeCode( "<br>" ); //$NON-NLS-1$
 	}
 
 	private String getDetailMessage( Throwable t )
@@ -646,8 +668,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.writeCode( "		<div>" );
 			writer.text( EngineResourceHandle.getInstance( ).getMessage(
 					MessageConstants.ERRORS_ON_REPORT_PAGE ), false );
+			
 			writer.writeCode( "</div>" );//$NON-NLS-1$
-
+			writer.writeCode( "<br>") ;//$NON-NLS-1$
 			Iterator it = errors.iterator( );
 			int index = 0;
 			while ( it.hasNext( ) )

@@ -128,8 +128,20 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * 
+	 * @param angleExtent The angle extent
+	 * @since 2.1
+	 */
+	
+	public final void setAngleExtent( double angleExtent )
+	{
+		this.dExtentInDegrees = angleExtent;
+	}
+	/**
 	 * @param endAngle
-	 *            The end arc angle to set.
+	 *            The angle extent
+	 * @deprecated in 2.1. Use setAngleExtent instead
+	 * @see #setAngleExtent(double)
 	 */
 	public final void setEndAngle( double endAngle )
 	{
@@ -156,7 +168,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	/**
 	 * @return Returns the width.
 	 */
-	public final double getWidth( )
+	public double getWidth( )
 	{
 		return dWidth;
 	}
@@ -165,7 +177,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 * @param radius
 	 *            The width to set.
 	 */
-	public final void setWidth( double width )
+	public void setWidth( double width )
 	{
 		this.dWidth = width;
 	}
@@ -173,7 +185,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	/**
 	 * @return Returns the height.
 	 */
-	public final double getHeight( )
+	public double getHeight( )
 	{
 		return dHeight;
 	}
@@ -182,7 +194,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 * @param radius
 	 *            The height to set.
 	 */
-	public final void setHeight( double height )
+	public void setHeight( double height )
 	{
 		this.dHeight = height;
 	}
@@ -219,7 +231,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @return
 	 */
-	public final Bounds getEllipseBounds( )
+	public Bounds getEllipseBounds( )
 	{
 		return BoundsImpl.create( loTopLeft.getX( ),
 				loTopLeft.getY( ),
@@ -232,7 +244,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#getBounds()
 	 */
-	public final Bounds getBounds( )
+	public Bounds getBounds( )
 	{
 		// use full bounds temporarialy
 		return getEllipseBounds( );

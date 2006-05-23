@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XML Spy v4.1 U (http://www.xmlspy.com) by David Michonneau (Actuate Corporation) -->
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by aa (ORiON) -->
-<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns="http://www.birt.eclipse.org/ChartModelAttribute">
+<xsd:schema xmlns="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.birt.eclipse.org/ChartModelAttribute">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
@@ -117,12 +117,12 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			This type defines the interactiviy settings for the chart.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Enable" type="xsd:boolean" default="true" minOccurs="0">
+			<xsd:element default="true" minOccurs="0" name="Enable" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation>Enable/Disable all interactive features, true by default</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LegendBehavior" type="LegendBehaviorType" minOccurs="0">
+			<xsd:element minOccurs="0" name="LegendBehavior" type="LegendBehaviorType">
 				<xsd:annotation>
 					<xsd:documentation>Three possible behaviours: None, Toggle the Serie visibility, Highlight the serie.</xsd:documentation>
 				</xsd:annotation>
@@ -370,7 +370,7 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			<xsd:enumeration value="Nabla"/>
 			<xsd:enumeration value="Diamond"/>
 			<xsd:enumeration value="Four_Diamonds"/>
-			<xsd:enumeration value="Button"/>
+			<xsd:enumeration value="Ellipse"/>
 			<xsd:enumeration value="Semi_Circle"/>
 			<xsd:enumeration value="Hexagon"/>
 			<xsd:enumeration value="Rectangle"/>
@@ -611,12 +611,12 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 		<xsd:complexContent>
 			<xsd:extension base="ActionValue">
 				<xsd:sequence>
-					<xsd:element name="Text" type="xsd:string" minOccurs="0">
+					<xsd:element minOccurs="0" name="Text" type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation>Short Description</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Accessibility" type="xsd:string" minOccurs="0">
+					<xsd:element minOccurs="0" name="Accessibility" type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation>Full Description</xsd:documentation>
 						</xsd:annotation>
@@ -720,7 +720,7 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			This type defines the list of rotated angles.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Angles" type="Angle3D" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="Angles" type="Angle3D"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:simpleType name="ID">
@@ -903,7 +903,7 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Entries" type="Fill" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" name="Entries" type="Fill">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Holds the entries contained in the palette.
@@ -1284,7 +1284,7 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 							<xsd:documentation>Specifies the suffix of the result.</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Delimiter" type="xsd:string" default="/">
+					<xsd:element default="/" name="Delimiter" type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation>Specifies the string as the fraction stroke. Default is "/".</xsd:documentation>
 						</xsd:annotation>
@@ -1344,12 +1344,12 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Fill" type="Fill" minOccurs="0">
+			<xsd:element minOccurs="0" name="Fill" type="Fill">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the fill for the marker.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="IconPalette" type="Palette" minOccurs="0">
+			<xsd:element minOccurs="0" name="IconPalette" type="Palette">
 				<xsd:annotation>
 					<xsd:documentation>Deprecated. Use Fill property instead.  This is kept just to maintain compatibility with old models.</xsd:documentation>
 				</xsd:annotation>
@@ -1363,7 +1363,7 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Components" type="DataPointComponent" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" name="Components" type="DataPointComponent">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the components (values) being shown in the data label.
@@ -1454,17 +1454,17 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 					<xsd:documentation>Specifies the font color for this style.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="BackgroundColor" type="ColorDefinition" minOccurs="0">
+			<xsd:element minOccurs="0" name="BackgroundColor" type="ColorDefinition">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the background color for this style.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="BackgroundImage" type="Image" minOccurs="0">
+			<xsd:element minOccurs="0" name="BackgroundImage" type="Image">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the background image for this style.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Padding" type="Insets" minOccurs="0">
+			<xsd:element minOccurs="0" name="Padding" type="Insets">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the padding for this style.</xsd:documentation>
 				</xsd:annotation>

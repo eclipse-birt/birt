@@ -65,12 +65,19 @@ final public class Logger
 					{
 						// setup the logger.
 						java.util.logging.Logger javaLogger = chartLogger.getJavaLogger( );
-						if ( javaLogger.getLevel( ).intValue( ) > Level.FINEST.intValue( ) )
+						try
 						{
-							javaLogger.setLevel( Level.FINEST );
+							if ( javaLogger.getLevel( ).intValue( ) > Level.FINEST.intValue( ) )
+							{
+								javaLogger.setLevel( Level.FINEST );
+							}
+							javaLogger.removeHandler( getTracingHandler( ) );
+							javaLogger.addHandler( getTracingHandler( ) );
 						}
-						javaLogger.removeHandler( getTracingHandler( ) );
-						javaLogger.addHandler( getTracingHandler( ) );
+						catch ( SecurityException e )
+						{
+							e.printStackTrace( );
+						}
 					}
 				}
 			}
@@ -85,7 +92,14 @@ final public class Logger
 		{
 			tracingHandler = new StreamHandler( System.out,
 					new SimpleFormatter( ) );
-			tracingHandler.setLevel( Level.ALL );
+			try
+			{
+				tracingHandler.setLevel( Level.ALL );
+			}
+			catch ( SecurityException e )
+			{
+				e.printStackTrace( );
+			}
 		}
 		return tracingHandler;
 	}

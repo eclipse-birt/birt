@@ -111,6 +111,11 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 			return createDialRegionAdapter( );
 		}
 
+		public Object caseEStringToDataSetMapEntry( Map.Entry object )
+		{
+			return createEStringToDataSetMapEntryAdapter( );
+		}
+
 		public Object caseGrid( Grid object )
 		{
 			return createGridAdapter( );
@@ -144,11 +149,6 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 		public Object caseSeries( Series object )
 		{
 			return createSeriesAdapter( );
-		}
-
-		public Object caseEStringToDataSetMapEntry( Map.Entry object )
-		{
-			return createEStringToDataSetMapEntryAdapter( );
 		}
 
 		public Object defaultCase( EObject object )

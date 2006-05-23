@@ -24,7 +24,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
@@ -101,6 +100,11 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 */
 	protected abstract int getImageType( );
 
+	JavaxImageIOWriter()
+	{
+		// By default do not cache images on disk
+		ImageIO.setUseCache( false );
+	}
 	/**
 	 * Updates the writer's parameters.
 	 * 
@@ -125,9 +129,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 */
 	public String getImageMap( )
 	{
-		Map triggerMap = getTriggers( );
+		List saList = getShapeActions( );
 
-		if ( triggerMap == null || triggerMap.size( ) == 0 )
+		if ( saList == null || saList.size( ) == 0 )
 		{
 			return null;
 		}
@@ -135,208 +139,147 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		// Generate image map using associated trigger list.
 		StringBuffer sb = new StringBuffer( );
 
-		// 1. onfocus
-		List al = (List) triggerMap.get( TriggerCondition.ONFOCUS_LITERAL );
-		if ( al != null )
+		for ( Iterator iter = saList.iterator( ); iter.hasNext( ); )
 		{
-			for ( int i = al.size( ) - 1; i >= 0; i-- )
+			ShapedAction sa = (ShapedAction) iter.next( );
+						
+			String coords = shape2polyCoords( sa.getShape( ) );
+			if ( coords != null )
 			{
 				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
-				ShapedAction sa = (ShapedAction) al.get( i );
-				Action ac = sa.getAction( );
-				String coords = shape2polyCoords( sa.getShape( ) );
-
-				if ( coords != null )
+				tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE );
+				tag.addAttribute( HTMLAttribute.COORDS, coords );
+				
+				boolean changed = false;
+				changed |= processOnFocus( sa, tag );
+				changed |= processOnBlur( sa, tag );
+				changed |= processOnClick( sa, tag );
+				changed |= processOnMouseOver( sa, tag );
+				if ( changed )
 				{
-					if ( checkSupportedAction( ac ) )
-					{
-						switch ( ac.getType( ).getValue( ) )
-						{
-							case ActionType.URL_REDIRECT :
-								URLValue uv = (URLValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF,
-										NO_OP_JAVASCRIPT );
-								tag.addAttribute( HTMLAttribute.ONFOCUS,
-										getJsURLRedirect( uv ) );
-								tag.addAttribute( HTMLAttribute.SHAPE,
-										POLY_SHAPE );
-								tag.addAttribute( HTMLAttribute.COORDS, coords );
-								sb.append( tag.toString( ) );
-								break;
-							case ActionType.SHOW_TOOLTIP :
-								// for onmouseover only.
-								break;
-							case ActionType.INVOKE_SCRIPT :
-								ScriptValue sv = (ScriptValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF,
-										NO_OP_JAVASCRIPT );
-								tag.addAttribute( HTMLAttribute.ONFOCUS,
-										eval( sv.getScript( ) ) );
-								tag.addAttribute( HTMLAttribute.SHAPE,
-										POLY_SHAPE );
-								tag.addAttribute( HTMLAttribute.COORDS, coords );
-								sb.append( tag.toString( ) );
-								break;
-						}
-					}
-					else
-					{
-						// not supported by image map.
-					}
+					sb.append( tag );
 				}
 			}
 		}
-
-		// 2. onblur
-		al = (List) triggerMap.get( TriggerCondition.ONBLUR_LITERAL );
-		if ( al != null )
-		{
-			for ( int i = al.size( ) - 1; i >= 0; i-- )
-			{
-				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
-				ShapedAction sa = (ShapedAction) al.get( i );
-				Action ac = sa.getAction( );
-				String coords = shape2polyCoords( sa.getShape( ) );
-
-				if ( coords != null )
-				{
-					if ( checkSupportedAction( ac ) )
-					{
-						switch ( ac.getType( ).getValue( ) )
-						{
-							case ActionType.URL_REDIRECT :
-								URLValue uv = (URLValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF,
-										NO_OP_JAVASCRIPT );
-								tag.addAttribute( HTMLAttribute.ONBLUR,
-										getJsURLRedirect( uv ) );
-								tag.addAttribute( HTMLAttribute.SHAPE,
-										POLY_SHAPE );
-								tag.addAttribute( HTMLAttribute.COORDS, coords );
-								sb.append( tag.toString( ) );
-								break;
-							case ActionType.SHOW_TOOLTIP :
-								// for onmouseover only.
-								break;
-							case ActionType.INVOKE_SCRIPT :
-								ScriptValue sv = (ScriptValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF,
-										NO_OP_JAVASCRIPT );
-								tag.addAttribute( HTMLAttribute.ONBLUR,
-										eval( sv.getScript( ) ) );
-								tag.addAttribute( HTMLAttribute.SHAPE,
-										POLY_SHAPE );
-								tag.addAttribute( HTMLAttribute.COORDS, coords );
-								sb.append( tag.toString( ) );
-								break;
-						}
-					}
-					else
-					{
-						// not supported by image map.
-					}
-				}
-			}
-		}
-
-		// 3. onclick
-		al = (List) triggerMap.get( TriggerCondition.ONCLICK_LITERAL );
-		if ( al != null )
-		{
-			for ( int i = al.size( ) - 1; i >= 0; i-- )
-			{
-				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
-				ShapedAction sa = (ShapedAction) al.get( i );
-				Action ac = sa.getAction( );
-				String coords = shape2polyCoords( sa.getShape( ) );
-
-				if ( coords != null )
-				{
-					if ( checkSupportedAction( ac ) )
-					{
-						switch ( ac.getType( ).getValue( ) )
-						{
-							case ActionType.URL_REDIRECT :
-								URLValue uv = (URLValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF,
-										eval( uv.getBaseUrl( ) ) );
-								tag.addAttribute( HTMLAttribute.TARGET,
-										eval( uv.getTarget( ) ) );
-								tag.addAttribute( HTMLAttribute.SHAPE,
-										POLY_SHAPE );
-								tag.addAttribute( HTMLAttribute.COORDS, coords );
-								sb.append( tag.toString( ) );
-								break;
-							case ActionType.SHOW_TOOLTIP :
-								// for onmouseover only.
-								break;
-							case ActionType.INVOKE_SCRIPT :
-								ScriptValue sv = (ScriptValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF,
-										NO_OP_JAVASCRIPT );
-								tag.addAttribute( HTMLAttribute.ONCLICK,
-										eval( sv.getScript( ) ) );
-								tag.addAttribute( HTMLAttribute.SHAPE,
-										POLY_SHAPE );
-								tag.addAttribute( HTMLAttribute.COORDS, coords );
-								sb.append( tag.toString( ) );
-								break;
-						}
-					}
-					else
-					{
-						// not supported by image map.
-					}
-				}
-			}
-		}
-
-		// 4. onmouseover
-		al = (List) triggerMap.get( TriggerCondition.ONMOUSEOVER_LITERAL );
-		if ( al != null )
-		{
-			for ( int i = al.size( ) - 1; i >= 0; i-- )
-			{
-				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
-				ShapedAction sa = (ShapedAction) al.get( i );
-				Action ac = sa.getAction( );
-				String coords = shape2polyCoords( sa.getShape( ) );
-
-				if ( coords != null )
-				{
-					if ( checkSupportedAction( ac ) )
-					{
-						switch ( ac.getType( ).getValue( ) )
-						{
-							case ActionType.URL_REDIRECT :
-								// not for onmouseover.
-								break;
-							case ActionType.SHOW_TOOLTIP :
-								TooltipValue tv = (TooltipValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.TITLE,
-										eval( tv.getText( ) ) );
-								tag.addAttribute( HTMLAttribute.ALT,
-										eval( tv.getText( ) ) );
-								tag.addAttribute( HTMLAttribute.SHAPE,
-										POLY_SHAPE );
-								tag.addAttribute( HTMLAttribute.COORDS, coords );
-								sb.append( tag.toString( ) );
-								break;
-							case ActionType.INVOKE_SCRIPT :
-								// not for onmouseover.
-								break;
-						}
-					}
-					else
-					{
-						// not supported by image map.
-					}
-				}
-			}
-		}
-
+		
 		return sb.toString( );
+
 	}
+	protected boolean processOnFocus( ShapedAction sa, HTMLTag tag )
+	{
+		
+		// 1. onfocus
+		Action ac = sa.getActionForCondition( TriggerCondition.ONFOCUS_LITERAL );
+		if ( checkSupportedAction( ac ) )
+		{
+			switch ( ac.getType( ).getValue( ) )
+			{
+				case ActionType.URL_REDIRECT :
+					URLValue uv = (URLValue) ac.getValue( );
+					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
+					tag.addAttribute( HTMLAttribute.ONFOCUS,
+							getJsURLRedirect( uv ) );
+					return true;
+				case ActionType.SHOW_TOOLTIP :
+					// for onmouseover only.
+					return false;
+				case ActionType.INVOKE_SCRIPT :
+					ScriptValue sv = (ScriptValue) ac.getValue( );
+					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
+					tag.addAttribute( HTMLAttribute.ONFOCUS,
+							eval( sv.getScript( ) ) );
+					return true;
+			}
+		}
+		return false;
+	}
+
+
+	protected boolean processOnBlur( ShapedAction sa, HTMLTag tag )
+	{
+		// 2. onblur
+		Action ac = sa.getActionForCondition( TriggerCondition.ONFOCUS_LITERAL );
+		if ( checkSupportedAction( ac ) )
+		{
+			switch ( ac.getType( ).getValue( ) )
+			{
+				case ActionType.URL_REDIRECT :
+					URLValue uv = (URLValue) ac.getValue( );
+					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
+					tag.addAttribute( HTMLAttribute.ONBLUR,
+							getJsURLRedirect( uv ) );
+					return true;
+				case ActionType.SHOW_TOOLTIP :
+					// for onmouseover only.
+					return false;
+				case ActionType.INVOKE_SCRIPT :
+					ScriptValue sv = (ScriptValue) ac.getValue( );
+					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
+					tag.addAttribute( HTMLAttribute.ONBLUR,
+							eval( sv.getScript( ) ) );
+					return true;
+			}
+		}
+		return false;
+	}
+
+	protected boolean processOnClick( ShapedAction sa, HTMLTag tag )
+	{
+		// 3. onclick
+		Action ac = sa.getActionForCondition( TriggerCondition.ONCLICK_LITERAL );
+		if ( checkSupportedAction( ac ) )
+		{
+			switch ( ac.getType( ).getValue( ) )
+
+			{
+				case ActionType.URL_REDIRECT :
+					URLValue uv = (URLValue) ac.getValue( );
+					tag.addAttribute( HTMLAttribute.HREF,
+							eval( uv.getBaseUrl( ) ) );
+					tag.addAttribute( HTMLAttribute.TARGET,
+							eval( uv.getTarget( ) ) );
+					return true;
+				case ActionType.SHOW_TOOLTIP :
+					// for onmouseover only.
+					return false;
+				case ActionType.INVOKE_SCRIPT :
+					ScriptValue sv = (ScriptValue) ac.getValue( );
+					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
+					tag.addAttribute( HTMLAttribute.ONCLICK,
+							eval( sv.getScript( ) ) );
+					return true;
+					
+			}
+		}
+		return false;
+	}
+
+	protected boolean processOnMouseOver( ShapedAction sa, HTMLTag tag )
+	{
+		// 4. onmouseover
+		Action ac = sa.getActionForCondition( TriggerCondition.ONMOUSEOVER_LITERAL );
+		if ( checkSupportedAction( ac ) )
+		{
+			switch ( ac.getType( ).getValue( ) )
+
+			{
+				case ActionType.URL_REDIRECT :
+					// not for onmouseover.
+					return false;
+				case ActionType.SHOW_TOOLTIP :
+					TooltipValue tv = (TooltipValue) ac.getValue( );
+					tag.addAttribute( HTMLAttribute.TITLE, eval( tv.getText( ) ) );
+					return true;
+				case ActionType.INVOKE_SCRIPT :
+					// not for onmouseover.
+					return false;
+			}
+		}
+		return false;
+	}
+
+		
+	
 
 	protected String getJsURLRedirect( URLValue uv )
 	{
@@ -425,8 +368,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	private boolean checkSupportedAction( Action action )
 	{
-		return ( action.getType( ) == ActionType.URL_REDIRECT_LITERAL
-				|| action.getType( ) == ActionType.SHOW_TOOLTIP_LITERAL || action.getType( ) == ActionType.INVOKE_SCRIPT_LITERAL );
+		return ( action != null && ( action.getType( ) == ActionType.URL_REDIRECT_LITERAL
+				|| action.getType( ) == ActionType.SHOW_TOOLTIP_LITERAL || action.getType( ) == ActionType.INVOKE_SCRIPT_LITERAL ) );
 	}
 
 	/**
@@ -624,6 +567,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		else if ( sProperty.equals( IDeviceRenderer.FILE_IDENTIFIER ) )
 		{
 			_oOutputIdentifier = oValue;
+		}
+		else if ( sProperty.equals(  IDeviceRenderer.CACHE_ON_DISK  ) )
+		{
+			ImageIO.setUseCache( ((Boolean)oValue).booleanValue( ) );
 		}
 	}
 

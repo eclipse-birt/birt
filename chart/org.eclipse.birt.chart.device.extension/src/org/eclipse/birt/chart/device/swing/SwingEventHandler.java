@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.device.swing;
 
 import java.awt.Cursor;
 import java.awt.Point;
-import java.awt.Shape;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -21,8 +21,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComponent;
 
@@ -67,11 +67,11 @@ public final class SwingEventHandler implements
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
 
-	private ShapedAction saTooltip = null;
+	private Action acTooltip = null;
 
 	private ShapedAction saHighlighted = null;
 
-	private final LinkedHashMap lhmAllTriggers;
+	private final Map lhmAllTriggers;
 
 	private final IUpdateNotifier iun;
 
@@ -84,7 +84,7 @@ public final class SwingEventHandler implements
 	 * @param _jc
 	 * @param _lcl
 	 */
-	SwingEventHandler( LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc,
+	SwingEventHandler( Map _lhmAllTriggers, IUpdateNotifier _jc,
 			ULocale _lcl )
 	{
 		lhmAllTriggers = _lhmAllTriggers;
@@ -97,50 +97,47 @@ public final class SwingEventHandler implements
 		return ( ( e.getButton( ) & MouseEvent.BUTTON1 ) == MouseEvent.BUTTON1 );
 	}
 
-	private final List getActionsForConditions( TriggerCondition[] tca )
+	private final ShapedAction getShapedActionForConditionPoint( TriggerCondition[] tca, Point p )
 	{
 		if ( tca == null || tca.length == 0 )
 		{
 			return null;
 		}
-
-		ArrayList al = new ArrayList( );
-
 		for ( int i = 0; i < tca.length; i++ )
 		{
-			ArrayList tal = (ArrayList) lhmAllTriggers.get( tca[i] );
+			List tal = (List) lhmAllTriggers.get( tca[i] );
 
 			if ( tal != null )
 			{
-				al.addAll( tal );
+				// iterate backwards to get the latest painted shape
+				for ( int j = tal.size( ) - 1; j >= 0; j-- )
+				{
+					ShapedAction sa = (ShapedAction)tal.get( j );
+					if ( p == null || sa.getShape( ).contains(  p ) )
+					{
+						return sa;
+					}
+				}
+				
 			}
-		}
-
-		if ( al.size( ) > 0 )
-		{
-			return al;
 		}
 
 		return null;
 	}
 
-	private void handleAction( List al, Object event )
+	private void handleAction( TriggerCondition[] tg,
+			InputEvent event )
 	{
-		handleAction( al, event, true );
+		handleAction( tg, event, true );
 	}
 
-	private synchronized void handleAction( List al, Object event,
-			boolean cleanState )
+	private synchronized void handleAction( TriggerCondition[] tg,
+			InputEvent event, boolean cleanState )
 	{
-		if ( al == null || event == null )
+		if ( tg == null || event == null )
 		{
 			return;
 		}
-
-		ShapedAction sa;
-		Shape sh;
-		Action ac;
-
 		Point p = null;
 
 		if ( event instanceof MouseEvent )
@@ -153,156 +150,157 @@ public final class SwingEventHandler implements
 			// TODO filter key ?
 		}
 
+		ShapedAction sa = getShapedActionForConditionPoint( tg, p );
+		if ( sa == null )
+			return;
+		
+		final StructureSource src = sa.getSource( );
+		Action ac = null;
+		for ( int i = 0; i < tg.length; i++ )
+		{
+			ac = sa.getActionForCondition( tg[i] );
+			if ( ac != null )
+				break;
+		}
+		if ( ac == null )
+			return;
 		boolean bFound = false;
 
-		// POLL EACH EVENT REGISTERED FOR MOUSE CLICKS
-		LOOP: for ( int i = 0; i < al.size( ); i++ )
+		switch ( ac.getType( ).getValue( ) )
 		{
-			sa = (ShapedAction) al.get( i );
-			sh = sa.getShape( );
-			if ( p == null || sh.contains( p ) )
-			{
-				ac = sa.getAction( );
-				final StructureSource src = sa.getSource( );
+			case ActionType.URL_REDIRECT :
+				final URLValue uv = (URLValue) ac.getValue( );
+				logger.log( ILogger.INFORMATION,
+						Messages.getString( "SwingEventHandler.info.redirect.url", lcl ) //$NON-NLS-1$
+								+ uv.getBaseUrl( ) );
+				DeviceUtil.openURL( uv.getBaseUrl( ) );
+				break;
 
-				switch ( ac.getType( ).getValue( ) )
+			case ActionType.SHOW_TOOLTIP :
+
+				if ( ac != acTooltip )
 				{
-					case ActionType.URL_REDIRECT :
-						final URLValue uv = (URLValue) ac.getValue( );
-						logger.log( ILogger.INFORMATION,
-								Messages.getString( "SwingEventHandler.info.redirect.url", lcl ) //$NON-NLS-1$
-										+ uv.getBaseUrl( ) );
-						DeviceUtil.openURL( uv.getBaseUrl( ) );
-						break LOOP;
-
-					case ActionType.SHOW_TOOLTIP :
-
-						if ( sa != saTooltip )
-						{
-							hideTooltip( );
-						}
-						saTooltip = sa;
-						bFound = true;
-						showTooltip( saTooltip );
-						break LOOP;
-
-					case ActionType.TOGGLE_VISIBILITY :
-						if ( src.getType( ) == StructureType.SERIES
-								|| src.getType( ) == StructureType.SERIES_DATA_POINT )
-						{
-							final Series seRT;
-							if ( src.getType( ) == StructureType.SERIES )
-							{
-								seRT = (Series) src.getSource( );
-							}
-							else
-							{
-								seRT = (Series) ( (WrappedStructureSource) src ).getParent( )
-										.getSource( );
-							}
-							logger.log( ILogger.INFORMATION,
-									Messages.getString( "SwingEventHandler.info.toggle.visibility", //$NON-NLS-1$
-											lcl )
-											+ seRT );
-							Series seDT = null;
-							try
-							{
-								seDT = findDesignTimeSeries( seRT );
-							}
-							catch ( ChartException oosx )
-							{
-								logger.log( oosx );
-								return;
-							}
-							seDT.setVisible( !seDT.isVisible( ) );
-							iun.regenerateChart( );
-							break LOOP;
-						}
-						break;
-
-					case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
-						if ( src.getType( ) == StructureType.SERIES
-								|| src.getType( ) == StructureType.SERIES_DATA_POINT )
-						{
-							final Series seRT;
-							if ( src.getType( ) == StructureType.SERIES )
-							{
-								seRT = (Series) src.getSource( );
-							}
-							else
-							{
-								seRT = (Series) ( (WrappedStructureSource) src ).getParent( )
-										.getSource( );
-							}
-							logger.log( ILogger.INFORMATION,
-									Messages.getString( "SwingEventHandler.info.toggle.datapoint.visibility", //$NON-NLS-1$
-											lcl )
-											+ seRT );
-							Series seDT = null;
-							try
-							{
-								seDT = findDesignTimeSeries( seRT );
-							}
-							catch ( ChartException oosx )
-							{
-								logger.log( oosx );
-								return;
-							}
-							seDT.getLabel( ).setVisible( !seDT.getLabel( )
-									.isVisible( ) );
-							iun.regenerateChart( );
-							break LOOP;
-						}
-						break;
-
-					case ActionType.HIGHLIGHT :
-						bFound = true;
-
-						boolean newRegion = saHighlighted == null;
-
-						if ( !newRegion )
-						{
-							if ( p == null
-									|| !saHighlighted.getShape( ).contains( p ) )
-							{
-								newRegion = true;
-							}
-						}
-
-						if ( newRegion )
-						{
-							saHighlighted = sa;
-							toggleHighlight( sa );
-							break LOOP;
-						}
-						break;
-
-					case ActionType.CALL_BACK :
-						if ( iun instanceof ICallBackNotifier )
-						{
-							final CallBackValue cv = (CallBackValue) ac.getValue( );
-							( (ICallBackNotifier) iun ).callback( event,
-									sa.getSource( ),
-									cv );
-						}
-						else
-						{
-							logger.log( ILogger.WARNING,
-									Messages.getString( "SwingEventHandler.info.improper.callback.notifier", //$NON-NLS-1$
-											new Object[]{
-												iun
-											},
-											lcl ) );
-						}
-						break LOOP;
+					hideTooltip( );
 				}
-			}
+
+				bFound = true;
+				showTooltip( ac);
+				break;
+
+			case ActionType.TOGGLE_VISIBILITY :
+				if ( src.getType( ) == StructureType.SERIES
+						|| src.getType( ) == StructureType.SERIES_DATA_POINT )
+				{
+					final Series seRT;
+					if ( src.getType( ) == StructureType.SERIES )
+					{
+						seRT = (Series) src.getSource( );
+					}
+					else
+					{
+						seRT = (Series) ( (WrappedStructureSource) src ).getParent( )
+								.getSource( );
+					}
+					logger.log( ILogger.INFORMATION,
+							Messages.getString( "SwingEventHandler.info.toggle.visibility", //$NON-NLS-1$
+									lcl )
+									+ seRT );
+					Series seDT = null;
+					try
+					{
+						seDT = findDesignTimeSeries( seRT );
+					}
+					catch ( ChartException oosx )
+					{
+						logger.log( oosx );
+						return;
+					}
+					seDT.setVisible( !seDT.isVisible( ) );
+					iun.regenerateChart( );
+					break;
+				}
+				break;
+
+			case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
+				if ( src.getType( ) == StructureType.SERIES
+						|| src.getType( ) == StructureType.SERIES_DATA_POINT )
+				{
+					final Series seRT;
+					if ( src.getType( ) == StructureType.SERIES )
+					{
+						seRT = (Series) src.getSource( );
+					}
+					else
+					{
+						seRT = (Series) ( (WrappedStructureSource) src ).getParent( )
+								.getSource( );
+					}
+					logger.log( ILogger.INFORMATION,
+							Messages.getString( "SwingEventHandler.info.toggle.datapoint.visibility", //$NON-NLS-1$
+									lcl )
+									+ seRT );
+					Series seDT = null;
+					try
+					{
+						seDT = findDesignTimeSeries( seRT );
+					}
+					catch ( ChartException oosx )
+					{
+						logger.log( oosx );
+						return;
+					}
+					seDT.getLabel( )
+							.setVisible( !seDT.getLabel( ).isVisible( ) );
+					iun.regenerateChart( );
+					break;
+				}
+				break;
+
+			case ActionType.HIGHLIGHT :
+				bFound = true;
+
+				boolean newRegion = saHighlighted == null;
+
+				if ( !newRegion )
+				{
+					if ( p == null || !saHighlighted.getShape( ).contains( p ) )
+					{
+						newRegion = true;
+					}
+				}
+
+				if ( newRegion )
+				{
+					saHighlighted = sa;
+					toggleHighlight( sa );
+					break;
+				}
+				break;
+
+			case ActionType.CALL_BACK :
+				if ( iun instanceof ICallBackNotifier )
+				{
+					final CallBackValue cv = (CallBackValue) ac.getValue( );
+					( (ICallBackNotifier) iun ).callback( event,
+							sa.getSource( ),
+							cv );
+				}
+				else
+				{
+					logger.log( ILogger.WARNING,
+							Messages.getString( "SwingEventHandler.info.improper.callback.notifier", //$NON-NLS-1$
+									new Object[]{
+										iun
+									},
+									lcl ) );
+				}
+				break;
 		}
 
-		if ( !bFound && saTooltip != null )
+		if ( !bFound && acTooltip != null )
 		{
 			hideTooltip( );
-			saTooltip = null;
+			acTooltip = null;
 		}
 
 		if ( cleanState || ( !bFound && saHighlighted != null ) )
@@ -324,13 +322,10 @@ public final class SwingEventHandler implements
 			return;
 		}
 
-		// FILTER OUT ALL TRIGGERS FOR MOUSE CLICKS ONLY
-		List al = getActionsForConditions( new TriggerCondition[]{
+		handleAction( new TriggerCondition[]{
 				TriggerCondition.MOUSE_CLICK_LITERAL,
 				TriggerCondition.ONCLICK_LITERAL
-		} );
-
-		handleAction( al, e );
+		}, e );
 	}
 
 	/**
@@ -527,7 +522,28 @@ public final class SwingEventHandler implements
 
 		return seDT;
 	}
-
+	
+	/**
+	 * Locates a category design-time series corresponding to a given cloned run-time
+	 * series.
+	 * 
+	 * @param seDT runtime Series
+	 * @return category Series
+	 */
+	private Series findCategorySeries( Series seDT )
+	{
+		final Chart cmDT = iun.getDesignTimeModel( );
+		if ( cmDT instanceof ChartWithAxes )
+		{
+			return (Series) ( (SeriesDefinition) ( (ChartWithAxes) cmDT ).getBaseAxes( )[0].getSeriesDefinitions( )
+					.get( 0 ) ).getSeries( ).get( 0 );
+		}
+		else
+		{
+			return (Series) ( (SeriesDefinition) ( (ChartWithoutAxes) cmDT ).getSeriesDefinitions( )
+					.get( 0 ) ).getSeries( ).get( 0 );
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -558,12 +574,9 @@ public final class SwingEventHandler implements
 			return;
 		}
 
-		// FILTER OUT ALL TRIGGERS FOR MOUSE DOWN ONLY
-		List al = getActionsForConditions( new TriggerCondition[]{
+		handleAction( new TriggerCondition[]{
 			TriggerCondition.ONMOUSEDOWN_LITERAL
-		} );
-
-		handleAction( al, e );
+		}, e );
 	}
 
 	/*
@@ -578,12 +591,9 @@ public final class SwingEventHandler implements
 			return;
 		}
 
-		// FILTER OUT ALL TRIGGERS FOR MOUSE UP ONLY
-		List al = getActionsForConditions( new TriggerCondition[]{
+		handleAction( new TriggerCondition[]{
 			TriggerCondition.ONMOUSEUP_LITERAL
-		} );
-
-		handleAction( al, e );
+		}, e );
 	}
 
 	/*
@@ -605,44 +615,28 @@ public final class SwingEventHandler implements
 		final Point p = e.getPoint( );
 
 		// 1. CHECK FOR MOUSE-CLICK TRIGGERS
-		List al = getActionsForConditions( new TriggerCondition[]{
+		ShapedAction sa = getShapedActionForConditionPoint( new TriggerCondition[]{
 				TriggerCondition.MOUSE_CLICK_LITERAL,
-				TriggerCondition.ONCLICK_LITERAL
-		} );
+				TriggerCondition.ONCLICK_LITERAL,
+				TriggerCondition.ONMOUSEDOWN_LITERAL
+		}, p );
 
-		if ( al != null )
+		if ( sa != null )
 		{
-			ShapedAction sa;
-			Shape sh;
-
-			// POLL EACH EVENT REGISTERED FOR MOUSE CLICKS
-			boolean bFound = false;
-			for ( int i = 0; i < al.size( ); i++ )
-			{
-				sa = (ShapedAction) al.get( i );
-				sh = sa.getShape( );
-				if ( sh.contains( p ) )
-				{
-					( (JComponent) iun.peerInstance( ) ).setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-					bFound = true;
-					break;
-				}
-			}
-
-			if ( !bFound )
-			{
+			( (JComponent) iun.peerInstance( ) ).setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+		}
+		else
+		{
 				( (JComponent) iun.peerInstance( ) ).setCursor( Cursor.getDefaultCursor( ) );
-			}
 		}
 
 		// 2. CHECK FOR MOUSE-HOVER CONDITION
-		al = getActionsForConditions( new TriggerCondition[]{
+
+		handleAction( new TriggerCondition[]{
 				TriggerCondition.MOUSE_HOVER_LITERAL,
 				TriggerCondition.ONMOUSEMOVE_LITERAL,
 				TriggerCondition.ONMOUSEOVER_LITERAL
-		} );
-
-		handleAction( al, e, false );
+		} , e, false );
 	}
 
 	/*
@@ -652,12 +646,9 @@ public final class SwingEventHandler implements
 	 */
 	public void keyPressed( KeyEvent e )
 	{
-		// FILTER OUT ALL TRIGGERS FOR KEY DOWN ONLY
-		List al = getActionsForConditions( new TriggerCondition[]{
+		handleAction( new TriggerCondition[]{
 			TriggerCondition.ONKEYDOWN_LITERAL
-		} );
-
-		handleAction( al, e );
+		}, e );
 	}
 
 	/*
@@ -667,13 +658,10 @@ public final class SwingEventHandler implements
 	 */
 	public void keyReleased( KeyEvent e )
 	{
-		// FILTER OUT ALL TRIGGERS FOR KEY UP/PRESS ONLY
-		List al = getActionsForConditions( new TriggerCondition[]{
+		handleAction(  new TriggerCondition[]{
 				TriggerCondition.ONKEYUP_LITERAL,
 				TriggerCondition.ONKEYPRESS_LITERAL
-		} );
-
-		handleAction( al, e );
+		} , e );
 	}
 
 	/*
@@ -690,9 +678,8 @@ public final class SwingEventHandler implements
 		( (JComponent) iun.peerInstance( ) ).setToolTipText( null );
 	}
 
-	private final void showTooltip( ShapedAction sa )
+	private final void showTooltip( Action ac )
 	{
-		Action ac = sa.getAction( );
 		TooltipValue tv = (TooltipValue) ac.getValue( );
 
 		// Handle character conversion of \n in the tooltip
@@ -714,7 +701,7 @@ public final class SwingEventHandler implements
 		{
 			return;
 		}
-
+		
 		final StructureSource src = (StructureSource) sa.getSource( );
 
 		if ( src.getType( ) == StructureType.SERIES
@@ -758,18 +745,18 @@ public final class SwingEventHandler implements
 			}
 			if ( sdDT != null )
 			{
-				for ( Iterator itr = sdDT.getSeriesPalette( )
-						.getEntries( )
-						.iterator( ); itr.hasNext( ); )
-				{
-					Object entry = itr.next( );
-					if ( entry instanceof ColorDefinition )
+					for ( Iterator itr = sdDT.getSeriesPalette( )
+							.getEntries( )
+							.iterator( ); itr.hasNext( ); )
 					{
+						Object entry = itr.next( );
+						if ( entry instanceof ColorDefinition )
+						{
 						performHighlight( (ColorDefinition) entry, highlight );
-						changed = true;
+							changed = true;
+						}
 					}
 				}
-			}
 
 			if ( highlight )
 			{

@@ -143,6 +143,14 @@ public class ComponentSwitch
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY :
+			{
+				Map.Entry eStringToDataSetMapEntry = (Map.Entry) theEObject;
+				Object result = caseEStringToDataSetMapEntry( eStringToDataSetMapEntry );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case ComponentPackage.GRID :
 			{
 				Grid grid = (Grid) theEObject;
@@ -195,14 +203,6 @@ public class ComponentSwitch
 			{
 				Series series = (Series) theEObject;
 				Object result = caseSeries( series );
-				if ( result == null )
-					result = defaultCase( theEObject );
-				return result;
-			}
-			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY :
-			{
-				Map.Entry eStringToDataSetMapEntry = (Map.Entry) theEObject;
-				Object result = caseEStringToDataSetMapEntry( eStringToDataSetMapEntry );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;

@@ -89,6 +89,12 @@ public interface IDeviceRenderer extends
 	 * of the corresponding display server (typically 96dpi)
 	 */
 	public static final String DPI_RESOLUTION = "device.resolution"; //$NON-NLS-1$
+
+	/**
+	 * A Property to enable/disable the caching of the image stream on disk 
+	 * Default is false.
+	 */
+	public static final Object CACHE_ON_DISK =  "device.renderer"; //$NON-NLS-1$
 	/**
 	 * Device-specific write-only properties that may be set for each device
 	 * renderer

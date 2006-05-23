@@ -35,8 +35,9 @@ import java.awt.image.ImageObserver;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
@@ -77,6 +78,7 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -91,9 +93,12 @@ public class SwingRendererImpl extends DeviceAdapter
 	/**
 	 * KEY = TRIGGER_CONDITION VAL = COLLECTION OF SHAPE-ACTION INSTANCES
 	 */
-	private final LinkedHashMap _lhmAllTriggers = new LinkedHashMap( );
-
-	private final Hashtable _htLineStyles = new Hashtable( );
+	private final Map _lhmAllTriggers = new HashMap( );
+	/**
+	 * key = ShapeAction, val = collection of trigger conditions
+	 */
+	private final List _allShapes = new LinkedList( );
+	private final Map _htLineStyles = new HashMap( );
 
 	protected Graphics2D _g2d;
 
@@ -119,7 +124,6 @@ public class SwingRendererImpl extends DeviceAdapter
 		{
 			logger.log( pex );
 		}
-
 	}
 
 	/**
@@ -226,6 +230,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		{
 			getDisplayServer( ).setDpiResolution( ( (Integer) oValue ).intValue( ) );
 		}
+
 
 	}
 
@@ -1536,6 +1541,25 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 	}
 
+	protected void registerTriggers( Trigger[] tga, ShapedAction sa)
+	{
+		TriggerCondition tc;
+		Action ac;
+		for ( int i = 0; i < tga.length; i++ )
+		{
+			tc = tga[i].getCondition( );
+			ac = tga[i].getAction( );
+			sa.add( tc, ac );
+			List al = (List) _lhmAllTriggers.get( tc );
+			if ( al == null )
+			{
+				al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
+				_lhmAllTriggers.put( tc, al );
+			}
+			al.add( sa );
+		}
+		this._allShapes.add( sa );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1545,7 +1569,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	{
 		if ( _iun == null )
 		{
-			logger.log( ILogger.WARNING,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "SwingRendererImpl.exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
 			return;
 		}
@@ -1556,30 +1580,23 @@ public class SwingRendererImpl extends DeviceAdapter
 			return;
 		}
 
+		// Get the shape Action for the event
+		ShapedAction sa = getShapedAction( iev );
+		
+		// Register the triggers in the shape and renderer.
+		registerTriggers( tga, sa );
+	}
+		
+	protected ShapedAction getShapedAction( InteractionEvent iev )
+	{
 		Shape clipping = _g2d.getClip( );
-
-		// CREATE AND SETUP THE SHAPES FOR INTERACTION
-		TriggerCondition tc;
-		ArrayList al;
 		final PrimitiveRenderEvent pre = iev.getHotSpot( );
 		if ( pre instanceof PolygonRenderEvent )
 		{
 			final Location[] loa = ( (PolygonRenderEvent) pre ).getPoints( );
-
-			for ( int i = 0; i < tga.length; i++ )
-			{
-				tc = tga[i].getCondition( );
-				al = (ArrayList) _lhmAllTriggers.get( tc );
-				if ( al == null )
-				{
-					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
-					_lhmAllTriggers.put( tc, al );
-				}
-				al.add( new ShapedAction( iev.getStructureSource( ),
-						loa,
-						tga[i].getAction( ),
-						clipping ) );
-			}
+			return new ShapedAction( iev.getStructureSource( ),
+					loa,				
+					clipping ) ;
 		}
 		else if ( pre instanceof RectangleRenderEvent )
 		{
@@ -1593,40 +1610,16 @@ public class SwingRendererImpl extends DeviceAdapter
 					bo.getTop( ) + bo.getHeight( ) );
 			loa[3] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
 					bo.getTop( ) );
-
-			for ( int i = 0; i < tga.length; i++ )
-			{
-				tc = tga[i].getCondition( );
-				al = (ArrayList) _lhmAllTriggers.get( tc );
-				if ( al == null )
-				{
-					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
-					_lhmAllTriggers.put( tc, al );
-				}
-				al.add( new ShapedAction( iev.getStructureSource( ),
-						loa,
-						tga[i].getAction( ),
-						clipping ) );
-			}
+			return new ShapedAction( iev.getStructureSource( ),
+					loa,
+					clipping );
 		}
 		else if ( pre instanceof OvalRenderEvent )
 		{
 			final Bounds boEllipse = ( (OvalRenderEvent) pre ).getBounds( );
-
-			for ( int i = 0; i < tga.length; i++ )
-			{
-				tc = tga[i].getCondition( );
-				al = (ArrayList) _lhmAllTriggers.get( tc );
-				if ( al == null )
-				{
-					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
-					_lhmAllTriggers.put( tc, al );
-				}
-				al.add( new ShapedAction( iev.getStructureSource( ),
-						boEllipse,
-						tga[i].getAction( ),
-						clipping ) );
-			}
+			return new ShapedAction( iev.getStructureSource( ),
+					boEllipse,					
+					clipping );
 		}
 		else if ( pre instanceof ArcRenderEvent )
 		{
@@ -1635,24 +1628,12 @@ public class SwingRendererImpl extends DeviceAdapter
 			double dStart = are.getStartAngle( );
 			double dExtent = are.getAngleExtent( );
 			int iArcType = toSwingArcType( are.getStyle( ) );
-
-			for ( int i = 0; i < tga.length; i++ )
-			{
-				tc = tga[i].getCondition( );
-				al = (ArrayList) _lhmAllTriggers.get( tc );
-				if ( al == null )
-				{
-					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
-					_lhmAllTriggers.put( tc, al );
-				}
-				al.add( new ShapedAction( iev.getStructureSource( ),
-						boEllipse,
-						dStart,
-						dExtent,
-						iArcType,
-						tga[i].getAction( ),
-						clipping ) );
-			}
+			return new ShapedAction( iev.getStructureSource( ),
+					boEllipse,
+					dStart,
+					dExtent,
+					iArcType,
+					clipping );
 		}
 		else if ( pre instanceof AreaRenderEvent )
 		{		
@@ -1666,22 +1647,13 @@ public class SwingRendererImpl extends DeviceAdapter
 					bo.getTop( ) + bo.getHeight( ) );
 			loa[3] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
 					bo.getTop( ) );
-
-			for ( int i = 0; i < tga.length; i++ )
-			{
-				tc = tga[i].getCondition( );
-				al = (ArrayList) _lhmAllTriggers.get( tc );
-				if ( al == null )
-				{
-					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
-					_lhmAllTriggers.put( tc, al );
-				}
-				al.add( new ShapedAction( iev.getStructureSource( ),
-						loa,
-						tga[i].getAction( ),
-						clipping ) );
-			}
+			return new ShapedAction( iev.getStructureSource( ),
+					loa,
+					clipping ) ;
+			
 		}
+		assert false;
+		return null;
 	}
 
 	/**
@@ -2012,6 +1984,11 @@ public class SwingRendererImpl extends DeviceAdapter
 		return _lhmAllTriggers;
 	}
 
+
+	protected List getShapeActions( )
+	{
+		return _allShapes;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

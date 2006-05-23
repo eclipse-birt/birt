@@ -627,34 +627,27 @@ public final class Generator
 		rtc.setScriptHandler( sh );
 
 		sh.setScriptClassLoader( iscl );
-
+		sh.setScriptContext( csc );
 		// initialize scripthandler.
-		try
+		if ( externalContext != null
+				&& externalContext.getScriptable( ) != null )
 		{
-			if ( externalContext != null
-					&& externalContext.getScriptable( ) != null )
-			{
-				sh.init( externalContext.getScriptable( ) );
-			}
-			else
-			{
-				sh.init( null );
-			}
-			sh.setRunTimeModel( cmRunTime );
-
-			final String sScriptContent = cmRunTime.getScript( );
-			if ( sScriptContent != null )
-			{
-				sh.register( sScriptContent );
-			}
+			sh.init( externalContext.getScriptable( ) );
 		}
-		catch ( ChartException sx )
+		else
 		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					sx );
+			sh.init( null );
 		}
+		sh.setRunTimeModel( cmRunTime );
+		
 
+		final String sScriptContent = cmRunTime.getScript( );
+		if ( sScriptContent != null )
+		{
+			sh.register( sScriptContent );
+		}
+		
+		
 		// Call the onPrepare script event function.
 		// not supported yet
 		/*
@@ -859,34 +852,27 @@ public final class Generator
 			rtc.setScriptHandler( sh );
 
 			sh.setScriptClassLoader( rtc.getScriptClassLoader( ) );
-
-			try
+			sh.setScriptContext( icsc );
+			
+			final String sScriptContent = cmRunTime.getScript( );
+			if ( externalContext != null
+					&& externalContext.getScriptable( ) != null )
 			{
-				final String sScriptContent = cmRunTime.getScript( );
-				if ( externalContext != null
-						&& externalContext.getScriptable( ) != null )
-				{
-					sh.init( externalContext.getScriptable( ) );
-				}
-				else
-				{
-					sh.init( null );
-				}
-				sh.setRunTimeModel( cmRunTime );
-
-				if ( sScriptContent != null
-						&& sScriptContent.length( ) > 0
-						&& rtc.isScriptingEnabled( ) )
-				{
-					sh.register( sScriptContent );
-				}
+				sh.init( externalContext.getScriptable( ) );
 			}
-			catch ( ChartException sx )
+			else
 			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						sx );
+				sh.init( null );
 			}
+			sh.setRunTimeModel( cmRunTime );
+
+			if ( sScriptContent != null
+					&& sScriptContent.length( ) > 0
+					&& rtc.isScriptingEnabled( ) )
+			{
+				sh.register( sScriptContent );
+			}
+			
 		}
 
 		// SETUP THE COMPUTATIONS
@@ -973,16 +959,8 @@ public final class Generator
 		Block bl = cmRunTime.getBlock( );
 		final LayoutManager lm = new LayoutManager( bl );
 		ScriptHandler.callFunction( sh, ScriptHandler.BEFORE_LAYOUT, cmRunTime );
-		try
-		{
-			lm.doLayout( ids, cmRunTime, bo, rtc );
-		}
-		catch ( ChartException oex )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					oex );
-		}
+		lm.doLayout( ids, cmRunTime, bo, rtc );
+
 		ScriptHandler.callFunction( sh, ScriptHandler.AFTER_LAYOUT, cmRunTime );
 
 		// COMPUTE THE PLOT AREA
@@ -1129,7 +1107,7 @@ public final class Generator
 			{
 				pwa.compute( boPlot );
 			}
-			catch ( Exception ex )
+			catch ( RuntimeException ex )
 			{
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.GENERATION,
@@ -1149,7 +1127,7 @@ public final class Generator
 			{
 				pwoa.compute( boPlot );
 			}
-			catch ( Exception ex )
+			catch ( RuntimeException ex )
 			{
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.GENERATION,
@@ -1200,38 +1178,22 @@ public final class Generator
 			if ( iType == WITH_AXES )
 			{
 				Bounds bo = ( (PlotWithAxes) gcs.getComputations( ) ).getPlotBounds( );
-				try
-				{
-					updateLegendInside( bo,
-							lg,
-							idr.getDisplayServer( ),
-							cm,
-							gcs.getRunTimeContext( ) );
-				}
-				catch ( ChartException gex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.RENDERING,
-							gex );
-				}
+				updateLegendInside( bo,
+						lg,
+						idr.getDisplayServer( ),
+						cm,
+						gcs.getRunTimeContext( ) );
+
 			}
 			else if ( iType == WITHOUT_AXES )
 			{
 				Bounds bo = ( (PlotWithoutAxes) gcs.getComputations( ) ).getBounds( );
-				try
-				{
-					updateLegendInside( bo,
-							lg,
-							idr.getDisplayServer( ),
-							cm,
-							gcs.getRunTimeContext( ) );
-				}
-				catch ( ChartException gex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.RENDERING,
-							gex );
-				}
+				updateLegendInside( bo,
+						lg,
+						idr.getDisplayServer( ),
+						cm,
+						gcs.getRunTimeContext( ) );
+
 			}
 		}
 
@@ -1271,7 +1233,7 @@ public final class Generator
 				br.render( lhm, bo ); // 'bo' MUST BE CLIENT AREA WITHIN ANY
 				// 'shell' OR 'frame'
 			}
-			catch ( Exception ex )
+			catch ( RuntimeException ex )
 			{
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.RENDERING,

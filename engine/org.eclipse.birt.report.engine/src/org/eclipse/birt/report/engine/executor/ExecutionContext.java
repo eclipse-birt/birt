@@ -78,7 +78,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.66 $ $Date: 2006/04/29 07:40:16 $
+ * @version $Revision: 1.67 $ $Date: 2006/05/18 05:26:36 $
  */
 public class ExecutionContext
 {
@@ -1089,18 +1089,21 @@ public class ExecutionContext
 			return element.getDefn( ).getName( );
 		}
 
-		public String getElementInfo( )
+		public String getName( )
 		{
 			if ( element == null )
 			{
 				return "report";
 			}
-			String name = element.getName( );
-			if ( name == null )
-			{
+			return element.getName( );
+		}
+		
+		public String getID( )
+		{
+			if ( element == null )
+				return null;
+			else
 				return String.valueOf( element.getID( ) );
-			}
-			return name;
 		}
 
 		public ArrayList getErrorList( )

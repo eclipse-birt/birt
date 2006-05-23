@@ -7,9 +7,13 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
+import java.util.Map;
+
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
@@ -57,7 +61,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 	protected String key = KEY_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getTypedValue() <em>Value</em>}' reference.
+	 * The cached value of the '{@link #getTypedValue() <em>Value</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getTypedValue()
@@ -120,20 +124,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 	 */
 	public DataSet getTypedValue( )
 	{
-		if ( value != null && value.eIsProxy( ) )
-		{
-			InternalEObject oldValue = (InternalEObject) value;
-			value = (DataSet) eResolveProxy( oldValue );
-			if ( value != oldValue )
-			{
-				if ( eNotificationRequired( ) )
-					eNotify( new ENotificationImpl( this,
-							Notification.RESOLVE,
-							ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE,
-							oldValue,
-							value ) );
-			}
-		}
 		return value;
 	}
 
@@ -142,9 +132,24 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public DataSet basicGetTypedValue( )
+	public NotificationChain basicSetTypedValue( DataSet newValue,
+			NotificationChain msgs )
 	{
-		return value;
+		DataSet oldValue = value;
+		value = newValue;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE,
+					oldValue,
+					newValue );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
 	}
 
 	/**
@@ -154,14 +159,47 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 	 */
 	public void setTypedValue( DataSet newValue )
 	{
-		DataSet oldValue = value;
-		value = newValue;
-		if ( eNotificationRequired( ) )
+		if ( newValue != value )
+		{
+			NotificationChain msgs = null;
+			if ( value != null )
+				msgs = ( (InternalEObject) value ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE,
+						null,
+						msgs );
+			if ( newValue != null )
+				msgs = ( (InternalEObject) newValue ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE,
+						null,
+						msgs );
+			msgs = basicSetTypedValue( newValue, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
 			eNotify( new ENotificationImpl( this,
 					Notification.SET,
 					ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE,
-					oldValue,
-					value ) );
+					newValue,
+					newValue ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove( InternalEObject otherEnd,
+			int featureID, NotificationChain msgs )
+	{
+		switch ( featureID )
+		{
+			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE :
+				return basicSetTypedValue( null, msgs );
+		}
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
@@ -176,9 +214,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__KEY :
 				return getTypedKey( );
 			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE :
-				if ( resolve )
-					return getTypedValue( );
-				return basicGetTypedValue( );
+				return getTypedValue( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}

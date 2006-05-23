@@ -50,7 +50,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	/**
 	 * 
 	 * @return
-	 * @throws UnsupportedFeatureException
+	 * @throws ChartException if not implemented by concrete class
 	 */
 	public Bounds getBounds( ) throws ChartException
 	{

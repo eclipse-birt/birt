@@ -586,7 +586,8 @@ class SwtEventHandler implements
 		// FILTER OUT ALL TRIGGERS FOR MOUSE UP/CLICK ONLY
 		List al = getActionsForConditions( new TriggerCondition[]{
 				TriggerCondition.ONMOUSEUP_LITERAL,
-				TriggerCondition.ONCLICK_LITERAL
+				TriggerCondition.ONCLICK_LITERAL,
+				TriggerCondition.MOUSE_CLICK_LITERAL,
 		} );
 
 		handleAction( al, e );
@@ -601,7 +602,9 @@ class SwtEventHandler implements
 	{
 		// 1. CHECK FOR MOUSE-CLICK TRIGGERS
 		List al = getActionsForConditions( new TriggerCondition[]{
-			TriggerCondition.ONCLICK_LITERAL
+			TriggerCondition.ONCLICK_LITERAL,
+			TriggerCondition.ONMOUSEDOWN_LITERAL,
+			TriggerCondition.MOUSE_CLICK_LITERAL
 		} );
 
 		if ( al != null )

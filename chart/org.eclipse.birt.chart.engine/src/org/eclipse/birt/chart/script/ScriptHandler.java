@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.script;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ImporterTopLevel;
-import org.mozilla.javascript.JavaScriptException;
+import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -375,11 +376,16 @@ public final class ScriptHandler extends ScriptableObject
 
 	private transient GeneratedChartState gcs = null;
 
+	/**
+	 * @deprecated locale is stored in IChartScriptContext
+	 */
 	private transient ULocale lcl = null;
 
 	private transient IScriptClassLoader iscl = null;
 
 	private transient List javaScriptFunctionNamesCache = null;
+
+	private IChartScriptContext csc;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/model" ); //$NON-NLS-1$
 
@@ -532,12 +538,10 @@ public final class ScriptHandler extends ScriptableObject
 			{
 				scope = cx.newObject( scPrototype );
 			}
-			catch ( JavaScriptException jsx )
+			catch ( RhinoException jsx )
 			{
 				Context.exit( );
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.SCRIPT,
-						jsx );
+				throw convertException( jsx );
 			}
 			scope.setPrototype( scPrototype );
 			// !don't reset the parent scope here.
@@ -577,9 +581,7 @@ public final class ScriptHandler extends ScriptableObject
 		}
 		catch ( Exception ex )
 		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.SCRIPT,
-					ex );
+			throw convertException( ex );
 		}
 
 		final Context cx = Context.enter( );
@@ -588,11 +590,9 @@ public final class ScriptHandler extends ScriptableObject
 		{
 			soNew = cx.newObject( scope, so.getClassName( ), null );
 		}
-		catch ( JavaScriptException ex )
+		catch ( RhinoException ex )
 		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.SCRIPT,
-					ex );
+			throw convertException( ex );
 		}
 		finally
 		{
@@ -623,9 +623,7 @@ public final class ScriptHandler extends ScriptableObject
 		}
 		catch ( Exception ex )
 		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.SCRIPT,
-					ex );
+			throw convertException( ex );
 		}
 
 		final Context cx = Context.enter( );
@@ -634,11 +632,9 @@ public final class ScriptHandler extends ScriptableObject
 		{
 			soNew = cx.newObject( scope, clsScriptable.getName( ), null );
 		}
-		catch ( JavaScriptException ex )
+		catch ( RuntimeException ex )
 		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.SCRIPT,
-					ex );
+			throw convertException( ex );
 		}
 		finally
 		{
@@ -727,8 +723,8 @@ public final class ScriptHandler extends ScriptableObject
 	 *            The Java object arguments passed to the function being
 	 *            executed
 	 */
-	private final Object callJavaScriptFunction( Function f, Object[] oaArgs )
-			throws ChartException
+	private final Object callJavaScriptFunction( Function f, Object[] oaArgs ) throws ChartException
+			
 	{
 		final Context cx = Context.enter( );
 		Object oReturnValue = null;
@@ -736,11 +732,9 @@ public final class ScriptHandler extends ScriptableObject
 		{
 			oReturnValue = f.call( cx, scope, scope, oaArgs );
 		}
-		catch ( Throwable ex )
+		catch( RhinoException ex )
 		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.SCRIPT,
-					ex );
+			throw convertException( ex );
 		}
 		finally
 		{
@@ -941,6 +935,7 @@ public final class ScriptHandler extends ScriptableObject
 		}
 		else
 		{
+			assert false;
 			Method mtd = (Method) JAVA_FUNTION_MAP.get( name );
 
 			try
@@ -964,7 +959,7 @@ public final class ScriptHandler extends ScriptableObject
 	 * @param oArg1
 	 */
 	public static final Object callFunction( ScriptHandler sh,
-			String sFunction, Object oArg1 )
+			String sFunction, Object oArg1 ) throws ChartException
 	{
 		if ( sh == null )
 		{
@@ -983,15 +978,9 @@ public final class ScriptHandler extends ScriptableObject
 			{
 				sh.ONE_ELEMENT_ARRAY[0] = oArg1;
 				Object oReturnValue = null;
-				try
-				{
-					oReturnValue = sh.callJavaScriptFunction( f,
+				oReturnValue = sh.callJavaScriptFunction( f,
 							sh.ONE_ELEMENT_ARRAY );
-				}
-				catch ( ChartException jsx )
-				{
-					logger.log( jsx );
-				}
+
 				return oReturnValue;
 			}
 			else
@@ -1010,7 +999,7 @@ public final class ScriptHandler extends ScriptableObject
 	 * @param oArg2
 	 */
 	public static final Object callFunction( ScriptHandler sh,
-			String sFunction, Object oArg1, Object oArg2 )
+			String sFunction, Object oArg1, Object oArg2 ) throws ChartException
 	{
 		if ( sh == null )
 		{
@@ -1031,15 +1020,9 @@ public final class ScriptHandler extends ScriptableObject
 				sh.TWO_ELEMENT_ARRAY[0] = oArg1;
 				sh.TWO_ELEMENT_ARRAY[1] = oArg2;
 				Object oReturnValue = null;
-				try
-				{
-					oReturnValue = sh.callJavaScriptFunction( f,
+				oReturnValue = sh.callJavaScriptFunction( f,
 							sh.TWO_ELEMENT_ARRAY );
-				}
-				catch ( ChartException jsx )
-				{
-					logger.log( jsx );
-				}
+
 				return oReturnValue;
 			}
 			else
@@ -1059,7 +1042,7 @@ public final class ScriptHandler extends ScriptableObject
 	 * @param oArg3
 	 */
 	public static final Object callFunction( ScriptHandler sh,
-			String sFunction, Object oArg1, Object oArg2, Object oArg3 )
+			String sFunction, Object oArg1, Object oArg2, Object oArg3 ) throws ChartException
 	{
 		if ( sh == null )
 		{
@@ -1082,15 +1065,9 @@ public final class ScriptHandler extends ScriptableObject
 				sh.THREE_ELEMENT_ARRAY[1] = oArg2;
 				sh.THREE_ELEMENT_ARRAY[2] = oArg3;
 				Object oReturnValue = null;
-				try
-				{
-					oReturnValue = sh.callJavaScriptFunction( f,
+				oReturnValue = sh.callJavaScriptFunction( f,
 							sh.THREE_ELEMENT_ARRAY );
-				}
-				catch ( ChartException jsx )
-				{
-					logger.log( jsx );
-				}
+
 				return oReturnValue;
 			}
 			else
@@ -1112,11 +1089,9 @@ public final class ScriptHandler extends ScriptableObject
 		{
 			return cx.evaluateString( scope, sScriptContent, "<cmd>", 1, null ); //$NON-NLS-1$
 		}
-		catch ( JavaScriptException jsx )
+		catch ( RhinoException jsx )
 		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.SCRIPT,
-					jsx );
+			throw convertException( jsx );
 		}
 		finally
 		{
@@ -1161,7 +1136,18 @@ public final class ScriptHandler extends ScriptableObject
 
 			if ( IChartEventHandler.class.isAssignableFrom( handlerClass ) )
 			{
-				javahandler = (IChartEventHandler) handlerClass.newInstance( );
+				try
+				{
+					javahandler = (IChartEventHandler) handlerClass.newInstance( );
+				}
+				catch ( InstantiationException e )
+				{
+					throw new ChartException( ChartEnginePlugin.ID, ChartException.ERROR, e );
+				}
+				catch ( IllegalAccessException e )
+				{
+					throw new ChartException( ChartEnginePlugin.ID, ChartException.ERROR, e );
+				}
 
 				logger.log( ILogger.INFORMATION,
 						Messages.getString( "Info.java.handler.loaded", //$NON-NLS-1$
@@ -1176,8 +1162,9 @@ public final class ScriptHandler extends ScriptableObject
 								ULocale.getDefault( ) ) );
 			}
 		}
-		catch ( Exception e )
+		catch ( ClassNotFoundException e )
 		{
+			// Not a Java class name, so this must be JavaScript code
 			javahandler = null;
 
 			logger.log( ILogger.INFORMATION,
@@ -1208,11 +1195,9 @@ public final class ScriptHandler extends ScriptableObject
 				}
 
 			}
-			catch ( Exception jsx )
+			catch ( RhinoException jsx )
 			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.SCRIPT,
-						jsx );
+				throw convertException( jsx );
 			}
 			finally
 			{
@@ -1222,4 +1207,36 @@ public final class ScriptHandler extends ScriptableObject
 
 	}
 
+	public void setScriptContext( IChartScriptContext csc )
+	{
+		this.csc = csc;
+		
+	}
+
+	protected ChartException convertException( Exception ex ) 
+	{
+		if ( ex instanceof RhinoException )
+		{
+			RhinoException e = (RhinoException)ex;
+			String lineSource = e.lineSource( );
+			String details = e.details( );
+			String lineNumber = String.valueOf( e.lineNumber( ) );
+			if ( lineSource == null )
+				lineSource = "";//$NON-NLS-1$
+			return new ChartException( ChartEnginePlugin.ID,
+				ChartException.SCRIPT, "exception.javascript.error",
+				new Object[]{ details, lineNumber , lineSource }, 
+				Messages.getResourceBundle( csc.getULocale( ) ),
+				e ); //$NON-NLS-1$
+		}
+		/* TODO convert those exceptions too
+		 else if ( ex instanceof IllegalAccessException )
+		{}
+		else if ( ex instanceof InstantiationException )
+		{}
+		else if ( ex instanceof InvocationTargetException )
+		{
+		}*/
+		else return new ChartException( ChartEnginePlugin.ID, ChartException.SCRIPT, ex );
+	}
 }

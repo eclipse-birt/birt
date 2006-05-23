@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.1 U (http://www.xmlspy.com) by David Michonneau (Actuate Corporation) -->
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by aa (ORiON) -->
-<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelComponent" xmlns="http://www.birt.eclipse.org/ChartModelComponent" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns="http://www.birt.eclipse.org/ChartModelComponent" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.birt.eclipse.org/ChartModelComponent">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
@@ -20,54 +21,54 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Title" type="Label" minOccurs="0">
+			<xsd:element minOccurs="0" name="Title" type="Label">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					This is the element title.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="SubTitle" type="Label" minOccurs="0">
+			<xsd:element minOccurs="0" name="SubTitle" type="Label">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					This is the element subtitle.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="TitlePosition" type="attribute:Position" minOccurs="0">
+			<xsd:element minOccurs="0" name="TitlePosition" type="attribute:Position">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies where the title for the axis should be displayed.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="AssociatedAxes" type="Axis" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="AssociatedAxes" type="Axis">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Holds the value orthogonal axes associated with this axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="AncillaryAxes" type="Axis" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="AncillaryAxes" type="Axis">
 				<xsd:annotation>
 					<xsd:documentation>Holds the value ancillary base axes associated with this axis.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="SeriesDefinitions" type="data:SeriesDefinition" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" name="SeriesDefinitions" type="data:SeriesDefinition">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Defines the source of the series. 
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="GapWidth" type="xsd:double" minOccurs="0">
+			<xsd:element minOccurs="0" name="GapWidth" type="xsd:double">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Holds the spacing between the first (or last) series marker and the edge of the unit on the axis. This is specified as a percentage.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Orientation" type="attribute:Orientation" minOccurs="0">
+			<xsd:element minOccurs="0" name="Orientation" type="attribute:Orientation">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the orientation of the Axis.
@@ -88,14 +89,14 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+			<xsd:element minOccurs="0" name="FormatSpecifier" type="attribute:FormatSpecifier">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the formatting for axis labels.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LabelPosition" type="attribute:Position" minOccurs="0">
+			<xsd:element minOccurs="0" name="LabelPosition" type="attribute:Position">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies where the labels for the axis should be displayed.
@@ -109,26 +110,26 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Interval" type="xsd:int" default="1" minOccurs="0">
+			<xsd:element default="1" minOccurs="0" name="Interval" type="xsd:int">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the showing interval for the labels.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="MarkerLines" type="MarkerLine" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="MarkerLines" type="MarkerLine">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Defines a set of markers for positions on the axis scale displayed as lines across the plot at those locations.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="MarkerRanges" type="MarkerRange" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="MarkerRanges" type="MarkerRange">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Defines a set of marker areas for a range of values on the axis displayed as filled rectangles extending across the plot between the start and end positions.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Triggers" type="data:Trigger" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="Triggers" type="data:Trigger">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Holds the triggers for the axis.
@@ -193,7 +194,7 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Visible" type="xsd:boolean" default="true" minOccurs="0">
+			<xsd:element default="true" minOccurs="0" name="Visible" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Determines visibility of the series.
@@ -207,7 +208,7 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="DataDefinition" type="data:Query" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" name="DataDefinition" type="data:Query">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Defines the source of the data for the series. (e.g. Database field which will provide the values for the series). 
@@ -228,28 +229,28 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="DataSets" type="data:DataSet" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" name="DataSets" type="EStringToDataSetMapEntry">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Holds the runtime data for the series.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LabelPosition" type="attribute:Position" minOccurs="0">
+			<xsd:element minOccurs="0" name="LabelPosition" type="attribute:Position">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies where the data label for the series should be displayed.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Stacked" type="xsd:boolean" minOccurs="0">
+			<xsd:element minOccurs="0" name="Stacked" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies whether the series is to be rendered stacked.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Triggers" type="data:Trigger" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="Triggers" type="data:Trigger">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Holds the triggers for the series.
@@ -263,7 +264,7 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="CurveFitting" type="CurveFitting" minOccurs="0">
+			<xsd:element minOccurs="0" name="CurveFitting" type="CurveFitting">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the curve fitting attributes for the series.</xsd:documentation>
 				</xsd:annotation>
@@ -356,14 +357,14 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+			<xsd:element minOccurs="0" name="FormatSpecifier" type="attribute:FormatSpecifier">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the formatting for marker line labels.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Triggers" type="data:Trigger" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="Triggers" type="data:Trigger">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Holds the triggers for the marker line.
@@ -421,14 +422,14 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+			<xsd:element minOccurs="0" name="FormatSpecifier" type="attribute:FormatSpecifier">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the formatting for marker range labels.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Triggers" type="data:Trigger" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="Triggers" type="data:Trigger">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Holds the triggers for the marker range.
@@ -458,14 +459,14 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="TickAttributes" type="attribute:LineAttributes" minOccurs="0">
+			<xsd:element minOccurs="0" name="TickAttributes" type="attribute:LineAttributes">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the formatting information for the tick.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="TickSize" type="xsd:double" minOccurs="0">
+			<xsd:element minOccurs="0" name="TickSize" type="xsd:double">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the formatting information for the tick.
@@ -532,14 +533,14 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Labels" type="Label" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" name="Labels" type="Label">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					A collection of labels holding preferences for the various labels used in a chart.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Blocks" type="layout:Block" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" name="Blocks" type="layout:Block">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					A collection of blocks holding preferences for the different blocks used in a chart.
@@ -566,7 +567,7 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LabelAnchor" type="attribute:Anchor" minOccurs="0">
+			<xsd:element minOccurs="0" name="LabelAnchor" type="attribute:Anchor">
 				<xsd:annotation>
 					<xsd:documentation>Specifies where the labels for the curve should be displayed.
 					</xsd:documentation>
@@ -578,12 +579,12 @@
 		<xsd:complexContent>
 			<xsd:extension base="MarkerRange">
 				<xsd:sequence>
-					<xsd:element name="InnerRadius" type="xsd:double" minOccurs="0">
+					<xsd:element minOccurs="0" name="InnerRadius" type="xsd:double">
 						<xsd:annotation>
 							<xsd:documentation>Specifies the percentage value of the inner radius of the dial region.</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="OuterRadius" type="xsd:double" minOccurs="0">
+					<xsd:element minOccurs="0" name="OuterRadius" type="xsd:double">
 						<xsd:annotation>
 							<xsd:documentation>Specifies the percentage value of the outer radius of the dial region.</xsd:documentation>
 						</xsd:annotation>
@@ -614,17 +615,17 @@
 			<xsd:documentation>			This type defines the basic elements that are expected in a dial chart. This can further be extended for special dial chart types.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="StartAngle" type="xsd:double" default="0" minOccurs="0">
+			<xsd:element default="0" minOccurs="0" name="StartAngle" type="xsd:double">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the start angle of the dial.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="StopAngle" type="xsd:double" default="180" minOccurs="0">
+			<xsd:element default="180" minOccurs="0" name="StopAngle" type="xsd:double">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the stop angle of the dial.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Radius" type="xsd:double" minOccurs="0">
+			<xsd:element minOccurs="0" name="Radius" type="xsd:double">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the radius of the dial.</xsd:documentation>
 				</xsd:annotation>
@@ -634,12 +635,12 @@
 					<xsd:documentation>Specifies the border line style.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Fill" type="attribute:Fill" minOccurs="0">
+			<xsd:element minOccurs="0" name="Fill" type="attribute:Fill">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the background fill style.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="DialRegions" type="DialRegion" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="DialRegions" type="DialRegion">
 				<xsd:annotation>
 					<xsd:documentation>Defines a set of areas for a range of values within a dial displayed as filled sections
 extending across the dial between the start and end positions.</xsd:documentation>
@@ -660,7 +661,7 @@ extending across the dial between the start and end positions.</xsd:documentatio
 					<xsd:documentation>Defines the scale for the dial.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="InverseScale" type="xsd:boolean" default="false">
+			<xsd:element default="false" name="InverseScale" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation>Defines if invert the scale during rendering(right to left)</xsd:documentation>
 				</xsd:annotation>
@@ -670,11 +671,17 @@ extending across the dial between the start and end positions.</xsd:documentatio
 					<xsd:documentation>Defines the properties for grid labels.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+			<xsd:element minOccurs="0" name="FormatSpecifier" type="attribute:FormatSpecifier">
 				<xsd:annotation>
 					<xsd:documentation>Format specifier for grid label.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType ecore:instanceClass="java.util.Map$Entry" name="EStringToDataSetMapEntry">
+		<xsd:sequence>
+			<xsd:element name="Key" type="xsd:string"/>
+			<xsd:element name="Value" type="data:DataSet"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>
