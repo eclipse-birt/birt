@@ -18,8 +18,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.command.NameCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -262,13 +264,47 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 						.next( );
 
 				String propName = propHandle.getPropertyDefn( ).getName( );
+
 				if ( DesignElement.EXTENDS_PROP.equals( propName ) )
 				{
 					// ignore extends property.
 					continue;
 				}
 
-				propHandle.clearValue( );
+				if ( DesignElement.NAME_PROP.equals( propName ) )
+				{
+					for ( Iterator elementIter = elements.iterator( ); elementIter
+							.hasNext( ); )
+					{
+						DesignElementHandle handle = (DesignElementHandle) elementIter
+								.next( );
+
+						NameCommand nameCmd = new NameCommand( module, handle
+								.getElement( ) );
+						try
+						{
+							nameCmd.checkName( null );
+						}
+						catch ( NameException e )
+						{
+							continue;
+						}
+
+						PropertyHandle tmpPropHandle = handle
+								.getPropertyHandle( propName );
+						if ( tmpPropHandle.isLocal( ) )
+							propHandle.clearValue( );
+					}
+				}
+				else
+				{
+					String localValue = propHandle.getLocalStringValue( );
+
+					if ( localValue != null )
+					{
+						propHandle.clearValue( );
+					}
+				}
 			}
 		}
 		catch ( SemanticException e )

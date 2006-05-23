@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -101,7 +102,7 @@ public class NameCommand extends AbstractElementCommand
 	 *             if the element name is not allowed to change.
 	 */
 
-	private void checkName( String name ) throws NameException
+	public void checkName( String name ) throws NameException
 	{
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
 
@@ -119,16 +120,23 @@ public class NameCommand extends AbstractElementCommand
 			if ( metaData.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_NAME_REQUIRED );
+
+			if ( ( module instanceof Library )
+					&& ( element.getContainer( ) instanceof Library ) )
+			{
+				throw new NameException( element, name,
+						NameException.DESIGN_EXCEPTION_NAME_REQUIRED );
+			}
 		}
 		else
 		{
 			if ( !isNameValidInContext( name ) )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_DUPLICATE );
-			
+
 			// Cannot set the name of an element when the name is not allowed.
 
-			if (  metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
+			if ( metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
 

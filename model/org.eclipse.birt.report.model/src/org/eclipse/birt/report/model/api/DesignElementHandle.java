@@ -575,11 +575,28 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public void clearAllProperties( ) throws SemanticException
 	{
 		List props = getDefn( ).getProperties( );
+
 		for ( int i = 0; i < props.size( ); i++ )
 		{
 			PropertyDefn propDefn = (PropertyDefn) props.get( i );
+			String propName = propDefn.getName( );
 
-			setProperty( propDefn.getName( ), null );
+			if ( ( DesignElement.NAME_PROP.equals( propName ) ) )
+			{
+				NameCommand nameCmd = new NameCommand(module, getElement());
+				try
+				{
+					nameCmd.checkName( null );
+				}
+				catch ( NameException e )
+				{
+					continue;
+				}
+			}
+
+			PropertyHandle propHandle = getPropertyHandle( propName );			
+			if ( propHandle.isLocal( ) )
+				propHandle.clearValue( );
 		}
 	}
 
