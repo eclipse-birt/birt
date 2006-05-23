@@ -658,13 +658,6 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			//
 			// public void run( )
 			// {
-			if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
-			{
-				GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance( );
-				GraphicalViewer view = editor.getGraphicalViewer( );
-
-				UIUtil.resetViewSelection( view, true );
-			}
 			// };
 
 			// } );
@@ -675,6 +668,14 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 				SessionHandleAdapter.getInstance( )
 						.setReportDesignHandle( getModel( ) );
+			}
+			
+			if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
+			{
+				GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance( );
+				GraphicalViewer view = editor.getGraphicalViewer( );
+
+				UIUtil.resetViewSelection( view, true );
 			}
 
 		}
