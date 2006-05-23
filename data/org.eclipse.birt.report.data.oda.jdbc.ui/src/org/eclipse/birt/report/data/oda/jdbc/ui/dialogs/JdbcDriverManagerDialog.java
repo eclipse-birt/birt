@@ -78,6 +78,18 @@ public class JdbcDriverManagerDialog extends Dialog
 	private Map jarMap, driverMap;
 	private TabFolder tabFolder;
 	
+	private static final String TEXT_ADDBUTTON = JdbcPlugin.getResourceString( "driverManagerDialog.text.Add" );//$NON-NLS-1$
+	private static final String TEXT_RESTOREBUTTON = JdbcPlugin.getResourceString( "driverManagerDialog.text.Restore" );//$NON-NLS-1$
+	private static final String TEXT_DELETEBUTTON = JdbcPlugin.getResourceString( "driverManagerDialog.text.Delete" );//$NON-NLS-1$
+	private static final String TEXT_EDITBUTTON = JdbcPlugin.getResourceString( "driverManagerDialog.text.Edit" );//$NON-NLS-1$
+
+	private static final String[] TEXT4BUTTON = {
+			TEXT_ADDBUTTON,
+			TEXT_RESTOREBUTTON,
+			TEXT_DELETEBUTTON,
+			TEXT_EDITBUTTON
+	};
+	
 	/**
 	 * a flag indicate whether the jar page has been changed
 	 */
@@ -96,8 +108,7 @@ public class JdbcDriverManagerDialog extends Dialog
 	 */
 	private Hashtable jarsToBeCopiedRuntime, jarsToBeDeletedRuntime;
 	
-	private static final int btnWidth = 90;
-	private static final int btnHeight = 24;
+	private int btnWidth = 90;
 	
 	private Comparator collator = Collator.getInstance( );
 	
@@ -174,8 +185,26 @@ public class JdbcDriverManagerDialog extends Dialog
 	 */
 	private void addTabPages( TabFolder tabFolder )
 	{
+		localizeButtonWidth( );
 		addJarPage( tabFolder );
 		addDriverPage( tabFolder );
+	}
+	
+	private void localizeButtonWidth( )
+	{
+		btnWidth = Math.max( getMaxStringWidth( TEXT4BUTTON ), btnWidth );
+	}
+
+	private int getMaxStringWidth( String[] strArray )
+	{
+		int maxWidth = -1;
+		for ( int i = 0; i < strArray.length; i++ )
+		{
+			int width = strArray[i].length( );
+			maxWidth = Math.max( maxWidth, width );
+		}
+
+		return convertWidthInCharsToPixels( maxWidth );
 	}
 	
 	/**
@@ -292,10 +321,9 @@ public class JdbcDriverManagerDialog extends Dialog
 		buttons.setLayout( layout );
 
 		addButton = new Button( buttons, SWT.PUSH );
-		addButton.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.Add" ) ); //$NON-NLS-1$
+		addButton.setText( TEXT_ADDBUTTON ); 
 		data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
 		data.widthHint = btnWidth;
-		data.heightHint = btnHeight;
 		addButton.setLayoutData( data );
 		addButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -306,10 +334,9 @@ public class JdbcDriverManagerDialog extends Dialog
 		} );
 
 		restoreButton = new Button( buttons, SWT.PUSH );
-		restoreButton.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.Restore" ) ); //$NON-NLS-1$
+		restoreButton.setText( TEXT_RESTOREBUTTON ); 
 		data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
 		data.widthHint = btnWidth;
-		data.heightHint = btnHeight;
 		restoreButton.setLayoutData( data );
 		restoreButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -320,10 +347,9 @@ public class JdbcDriverManagerDialog extends Dialog
 		} );
 
 		deleteButton = new Button( buttons, SWT.PUSH );
-		deleteButton.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.Delete" ) ); //$NON-NLS-1$
+		deleteButton.setText( TEXT_DELETEBUTTON ); 
 		data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
 		data.widthHint = btnWidth;
-		data.heightHint = btnHeight;
 		deleteButton.setLayoutData( data );
 		deleteButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -466,10 +492,9 @@ public class JdbcDriverManagerDialog extends Dialog
 		buttons.setLayout( layout );
 
 		editButton = new Button( buttons, SWT.PUSH );
-		editButton.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.Edit" ) ); //$NON-NLS-1$
+		editButton.setText( TEXT_EDITBUTTON ); 
 		data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
 		data.widthHint = btnWidth;
-		data.heightHint = btnHeight;
 		editButton.setLayoutData( data );
 		editButton.addSelectionListener( new SelectionAdapter( ) {
 
