@@ -22,6 +22,7 @@ import org.mozilla.javascript.Context;
  */
 public class ExpressionCompilerUtil
 {
+	private static final String ROWNUM = "__rownum";
 	private static ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
 
 	/**
@@ -44,15 +45,17 @@ public class ExpressionCompilerUtil
 	 */
 	public static boolean hasColumnRow( String name, ExprManager exprManager )
 	{
+		if( name == null )
+			return false;
+		if(name.equals( ROWNUM ))
+			return true;
+		
 		IScriptExpression expr = ( (IScriptExpression) exprManager.getExpr( name ));
 		if( expr == null )
 			return false;
 		
 		String expression = expr.getText( );
-		if(expression.equals("row[\"__rownum\"]")||expression.equals("row.__rownum"))
-		{
-			return true;
-		}
+
 		return compile( expression, exprManager );
 
 	}
@@ -107,6 +110,8 @@ public class ExpressionCompilerUtil
 			case CompiledExpression.TYPE_DIRECT_COL_REF :
 			{
 				String columnName = ( (ColumnReferenceExpression) expr ).getColumnName( );
+				if ( ROWNUM.equals(columnName))
+					return true;
 				if ( exprManager.getExpr( columnName )!=null )
 				{
 					String expression = ( (IScriptExpression) exprManager.getExpr( columnName ) ).getText( );
