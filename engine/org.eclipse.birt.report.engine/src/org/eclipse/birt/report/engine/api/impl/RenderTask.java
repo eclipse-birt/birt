@@ -72,6 +72,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		// load the informationf rom the report document
 		setParameterValues( reportDoc.getParameterValues( ) );
+		usingParameterValues( );
 		executionContext.registerGlobalBeans( reportDoc
 				.getGlobalVariables( null ) );
 	}
