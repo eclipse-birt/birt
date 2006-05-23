@@ -86,7 +86,9 @@ import com.ibm.icu.util.ULocale;
 public class CascadingParametersDialog extends BaseDialog
 {
 
-	private static final String LABEL_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.Label.promptText" ); //$NON-NLS-1$
+	private static final String LABEL_PROMPT_TEXT1 = Messages.getString( "CascadingParametersDialog.Label.promptText1" ); //$NON-NLS-1$
+	
+	private static final String LABEL_PROMPT_TEXT2 = Messages.getString( "CascadingParametersDialog.Label.promptText2" );
 
 	private static final String LABEL_VALUES = Messages.getString( "CascadingParametersDialog.Label.values" ); //$NON-NLS-1$
 
@@ -226,7 +228,8 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private String PROPERTY_LABEL_STRING[] = {
 			LABEL_PARAM_NAME,
-			LABEL_PROMPT_TEXT,
+			LABEL_PROMPT_TEXT1,
+			LABEL_PROMPT_TEXT2,
 			LABEL_DATA_TYPE,
 			LABEL_DISPLAY_TYPE,
 			LABEL_DEFAULT_VALUE
@@ -302,7 +305,7 @@ public class CascadingParametersDialog extends BaseDialog
 		cascadingNameEditor = new Text( group, SWT.BORDER );
 		cascadingNameEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		new Label( group, SWT.NULL ).setText( LABEL_PROMPT_TEXT );
+		new Label( group, SWT.NULL ).setText( LABEL_PROMPT_TEXT1 );
 		promptTextEditor = new Text( group, SWT.BORDER );
 		promptTextEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -450,7 +453,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		} );
 
-		createLabel( propertiesGroup, LABEL_PROMPT_TEXT, maxStrLengthProperty );
+		createLabel( propertiesGroup, LABEL_PROMPT_TEXT2, maxStrLengthProperty );
 
 		promptText = new Text( propertiesGroup, SWT.BORDER );
 		promptText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
