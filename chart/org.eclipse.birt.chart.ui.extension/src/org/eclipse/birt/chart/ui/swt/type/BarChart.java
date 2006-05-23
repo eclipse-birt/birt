@@ -265,6 +265,8 @@ public class BarChart extends DefaultChartTypeImpl
 				.add( sdX );
 
 		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+		
+		newChart.setUnitSpacing( 50 );
 
 		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) )
 		{
@@ -323,8 +325,6 @@ public class BarChart extends DefaultChartTypeImpl
 			newChart.setRotation( Rotation3DImpl.create( new Angle3D[]{
 				Angle3DImpl.create( -20, 45, 0 )
 			} ) );
-
-			newChart.setUnitSpacing( 50 );
 
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).clear( );
 
@@ -623,8 +623,6 @@ public class BarChart extends DefaultChartTypeImpl
 			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.create( new Angle3D[]{
 				Angle3DImpl.create( -20, 45, 0 )
 			} ) );
-
-			( (ChartWithAxes) currentChart ).setUnitSpacing( 50 );
 
 			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.clear( );

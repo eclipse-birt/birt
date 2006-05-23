@@ -615,8 +615,6 @@ public class AreaChart extends DefaultChartTypeImpl
 				Angle3DImpl.create( -20, 45, 0 )
 			} ) );
 
-			( (ChartWithAxes) currentChart ).setUnitSpacing( 50 );
-
 			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.clear( );
 
