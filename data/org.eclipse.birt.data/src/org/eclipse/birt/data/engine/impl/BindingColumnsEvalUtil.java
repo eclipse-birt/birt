@@ -13,9 +13,11 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -23,12 +25,21 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.impl.ResultIterator.RDSaveUtil;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
 /**
  * Evaluate a row of bound columns and meantime do something related with saving
  * the value of bound columns.
+ * 
+ * There is different behavior when query is running on dataset or report
+ * document. In the latter case, original binding column name is reserved and
+ * only the binding column can be added, not allowed for delete or change. So it
+ * is reasonable to assume that if the binding name is the same as one of
+ * original binding columns, the binding expression is also the same as that of
+ * the orignial one.
  */
 class BindingColumnsEvalUtil
 {
@@ -40,6 +51,9 @@ class BindingColumnsEvalUtil
 	private List allManualBindingExprs;
 	private List allAutoBindingExprs;
 
+	private boolean isBasedOnRD;
+	private EvalHelper evalHelper;
+	
 	private final static int MANUAL_BINDING = 1;
 	private final static int AUTO_BINDING = 2;
 
@@ -55,6 +69,17 @@ class BindingColumnsEvalUtil
 		this.odiResult = ri;
 		this.scope = scope;
 		this.saveUtil = saveUtil;
+		
+		try
+		{
+			this.isBasedOnRD = ExprMetaUtil.isBasedOnRD( ri.getResultClass( ) );
+			if ( this.isBasedOnRD == true )
+				this.evalHelper = new EvalHelper( ri );
+		}
+		catch ( DataException e )
+		{
+			// ignore, impossible
+		}
 
 		this.initBindingColumns( manualBindingExprs, autoBindingExprs );
 	}
@@ -142,16 +167,30 @@ class BindingColumnsEvalUtil
 	private void evaluateValue( BindingColumn bindingColumn, Map valueMap,
 			int exprType ) throws DataException
 	{
-		Object exprValue;
+		Object exprValue = null;
 		try
 		{
-			if ( exprType == MANUAL_BINDING )
-				exprValue = ExprEvaluateUtil.evaluateExpression( bindingColumn.baseExpr,
-						odiResult,
-						scope );
-			else
-				exprValue = ExprEvaluateUtil.evaluateRawExpression( bindingColumn.baseExpr,
-						scope );
+			boolean getValue = false;
+			if ( isBasedOnRD == true )
+			{
+				String columnName = bindingColumn.columnName;
+				if ( evalHelper.contains( columnName ) )
+				{
+					getValue = true;
+					exprValue = evalHelper.getValue( columnName );
+				}
+			}
+			
+			if ( getValue == false )
+			{
+				if ( exprType == MANUAL_BINDING )
+					exprValue = ExprEvaluateUtil.evaluateExpression( bindingColumn.baseExpr,
+							odiResult,
+							scope );
+				else
+					exprValue = ExprEvaluateUtil.evaluateRawExpression( bindingColumn.baseExpr,
+							scope );
+			}
 		}
 		catch ( BirtException e )
 		{
@@ -162,7 +201,7 @@ class BindingColumnsEvalUtil
 		if ( exprValue instanceof BirtException == false )
 			saveUtil.doSaveExpr( bindingColumn.columnName, exprValue );
 	}
-
+	
 	/**
 	 * A simple wrapper for binding column
 	 */
@@ -177,6 +216,65 @@ class BindingColumnsEvalUtil
 		{
 			this.columnName = columnName;
 			this.baseExpr = baseExpr;
+		}
+	}
+	
+	/**
+	 * Special case for query running based on report document. A life cycle
+	 * might be below:
+	 * 
+	 * 1: create an original report design
+	 * 
+	 * 2: running this design and save the result into a report document
+	 * 
+	 * 3: only modify the transformation of the report design 1 and continue
+	 * running the new report design based on the report document of step 2
+	 * 
+	 * 4: the column binding of the original report design can also used in the
+	 * new query result of step 3
+	 */
+	private class EvalHelper
+	{
+		private IResultIterator ri;
+		private Set columnNameSet;
+		
+		/**
+		 * @param ri
+		 */
+		private EvalHelper( IResultIterator ri )
+		{
+			this.ri = ri;
+			try
+			{
+				IResultClass resultClass = ri.getResultClass( );
+				
+				columnNameSet = new HashSet( );
+				for ( int i = 0; i < resultClass.getFieldCount( ); i++ )
+					columnNameSet.add( resultClass.getFieldName( i + 1 ) );
+			}
+			catch ( DataException e )
+			{
+				// impossible
+			}
+		}
+		
+		/**
+		 * @param columnName
+		 * @return
+		 */
+		private boolean contains( String columnName )
+		{
+			return columnNameSet.contains( columnName );
+		}
+		
+		/**
+		 * @param columnName
+		 * @return
+		 * @throws DataException
+		 */
+		private Object getValue( String columnName ) throws DataException
+		{
+			return ri.getCurrentResult( ).getFieldValue( columnName );
 		}
 	}
 

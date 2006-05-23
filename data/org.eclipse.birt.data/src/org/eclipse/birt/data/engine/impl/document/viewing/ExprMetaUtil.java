@@ -33,15 +33,18 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
- * 
+ * Utility for expression metadata.
  */
 public class ExprMetaUtil
 {
 	//
-	public final static String POS_NAME = "_dte_inner_row_ori_position_";
+	public  final static String POS_NAME 	= "_$$_dte_inner_row_id_$$_";	
+	private final static String FILTER_NAME = "_$$_dte_inner_row_filter_$$_";
 	
+	// an instance
 	private static ExprMetaUtil instance = new ExprMetaUtil( );
 	
+	// binding name set
 	private Set nameSet;
 	
 	/**
@@ -171,7 +174,7 @@ public class ExprMetaUtil
 			ExprMetaInfo[] inExprMetas )
 	{
 		ExprMetaInfo[] exprMetas = null;
-		if ( isBasedOnSecondRD( inExprMetas ) == false )
+		if ( isBasedOnRD( inExprMetas ) == false )
 		{
 			exprMetas = new ExprMetaInfo[inExprMetas.length + 2];
 			System.arraycopy( inExprMetas, 0, exprMetas, 0, inExprMetas.length );
@@ -219,7 +222,7 @@ public class ExprMetaUtil
 	 * @param exprMetas
 	 * @return
 	 */
-	public static boolean isBasedOnSecondRD( ExprMetaInfo[] exprMetas )
+	public static boolean isBasedOnRD( ExprMetaInfo[] exprMetas )
 	{
 		boolean isBasedOnSecondRD = false;
 		for ( int i = 0; i < exprMetas.length; i++ )
@@ -237,7 +240,7 @@ public class ExprMetaUtil
 	 * @param resultClass
 	 * @return
 	 */
-	public static boolean isBasedOnSecondRD( IResultClass resultClass )
+	public static boolean isBasedOnRD( IResultClass resultClass )
 	{
 		boolean isBasedOnSecondRD = false;
 		for ( int i = 0; i < resultClass.getFieldCount( ); i++ )
@@ -264,8 +267,6 @@ public class ExprMetaUtil
 	 */
 	private static ExprMetaInfo[] getAssistExprMetaInfo( )
 	{
-		final String FILTER_NAME = "_dte_inner_row_filter_";
-
 		ExprMetaInfo[] exprMetas = new ExprMetaInfo[2];
 
 		exprMetas[0] = new ExprMetaInfo( );
