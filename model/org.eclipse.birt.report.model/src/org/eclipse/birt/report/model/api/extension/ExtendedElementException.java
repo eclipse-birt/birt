@@ -31,6 +31,26 @@ public class ExtendedElementException extends SemanticException
 {
 
 	/**
+	 * The reference to the editor.For example graphic editor, xml source
+	 * editor, script editor and so on.
+	 * 
+	 */
+
+	public static final String SUB_EDITOR = "sub_editor"; //$NON-NLS-1$
+
+	/**
+	 * Number of line.
+	 */
+
+	public static final String LINE_NUMBER = "lineNo"; //$NON-NLS-1$
+
+	/**
+	 * Localized message.
+	 */
+
+	public static final String LOCALIZED_MESSAGE = "localized_message"; //$NON-NLS-1$
+
+	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
 
@@ -43,28 +63,10 @@ public class ExtendedElementException extends SemanticException
 	protected HashMap properties = new HashMap( );
 
 	/**
-	 * The reference to the editor.For example graphic editor, xml source
-	 * editor, script editor and so on.
-	 * 
-	 */
-
-	public static final String SUB_EDITOR = "sub_editor";
-
-	/**
-	 * Number of line.
-	 */
-
-	public static final String LINE_NUMBER = "lineNo";
-
-	/**
-	 * Localized message.
-	 */
-
-	public static final String LOCALIZED_MESSAGE = "localized_message";
-
-	/**
 	 * Constructs a new model exception with no cause object.
 	 * 
+	 * @param element
+	 *            The element with semantic error.
 	 * @param pluginId
 	 *            Returns the unique identifier of the plug-in associated with
 	 *            this exception
@@ -85,6 +87,8 @@ public class ExtendedElementException extends SemanticException
 	/**
 	 * Constructs a new model exception.
 	 * 
+	 * @param element
+	 *            The element with semantic error.
 	 * @param pluginId
 	 *            Returns the unique identifier of the plug-in associated with
 	 *            this exception
@@ -107,6 +111,8 @@ public class ExtendedElementException extends SemanticException
 	/**
 	 * Constructs a new model exception.
 	 * 
+	 * @param element
+	 *            The element with semantic error.
 	 * @param pluginId
 	 *            Returns the unique identifier of the plug-in associated with
 	 *            this exception
@@ -132,6 +138,8 @@ public class ExtendedElementException extends SemanticException
 	/**
 	 * Constructs a new model exception.
 	 * 
+	 * @param element
+	 *            The element with semantic error.
 	 * @param pluginId
 	 *            Returns the unique identifier of the plug-in associated with
 	 *            this exception
@@ -157,6 +165,8 @@ public class ExtendedElementException extends SemanticException
 	/**
 	 * Constructs a new model exception.
 	 * 
+	 * @param element
+	 *            The element with semantic error.
 	 * @param pluginId
 	 *            Returns the unique identifier of the plug-in associated with
 	 *            this exception
@@ -179,6 +189,8 @@ public class ExtendedElementException extends SemanticException
 	/**
 	 * Constructs a new model exception.
 	 * 
+	 * @param element
+	 *            The element with semantic error.
 	 * @param pluginId
 	 *            Returns the unique identifier of the plug-in associated with
 	 *            this exception
@@ -201,6 +213,8 @@ public class ExtendedElementException extends SemanticException
 	/**
 	 * Constructs a new model exception.
 	 * 
+	 * @param element
+	 *            The element with semantic error.
 	 * @param pluginId
 	 *            Returns the unique identifier of the plug-in associated with
 	 *            this exception
@@ -241,7 +255,7 @@ public class ExtendedElementException extends SemanticException
 	 * 
 	 * @param propName
 	 *            property name of extended element exception.
-	 * @return
+	 * @return value of extended element exception.
 	 */
 
 	public Object getProperty( String propName )
@@ -251,6 +265,8 @@ public class ExtendedElementException extends SemanticException
 
 	/**
 	 * Returns localized message.
+	 * 
+	 * @return localized message.
 	 */
 
 	public String getLocalizedMessage( )
