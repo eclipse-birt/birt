@@ -235,4 +235,54 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 
 		boundColumnNames.add( value );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealReportItem(org.eclipse.birt.report.model.elements.ReportItem,
+	 *      org.eclipse.birt.report.model.core.Module)
+	 */
+
+	protected void dealReportItem( ReportItem element, Module module )
+	{
+		super.dealReportItem( element, module );
+
+		List columnBindings = (List) element.getLocalProperty( module,
+				ReportItem.BOUND_DATA_COLUMNS_PROP );
+		if ( columnBindings != null )
+		{
+			for ( int i = 0; i < columnBindings.size( ); i++ )
+			{
+				ComputedColumn paramValue = (ComputedColumn) columnBindings
+						.get( i );
+				handleBoundsForValue( element, module, paramValue
+						.getExpression( ) );
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealScalarParameter(org.eclipse.birt.report.model.elements.ScalarParameter,
+	 *      org.eclipse.birt.report.model.core.Module)
+	 */
+
+	protected void dealScalarParameter( ScalarParameter element, Module module )
+	{
+		super.dealScalarParameter( element, module );
+
+		List columnBindings = (List) element.getLocalProperty( module,
+				ScalarParameterHandle.BOUND_DATA_COLUMNS_PROP );
+		if ( columnBindings != null )
+		{
+			for ( int i = 0; i < columnBindings.size( ); i++ )
+			{
+				ComputedColumn paramValue = (ComputedColumn) columnBindings
+						.get( i );
+				handleBoundsForValue( element, module, paramValue
+						.getExpression( ) );
+			}
+		}
+	}
 }

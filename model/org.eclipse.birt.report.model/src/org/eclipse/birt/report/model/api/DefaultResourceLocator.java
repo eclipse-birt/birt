@@ -17,7 +17,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.api.util.URIUtil;
-import org.eclipse.birt.report.model.core.DesignSession;
 
 /**
  * The default file search algorithm. It searches for a given file in the 'base'
@@ -56,15 +55,32 @@ public class DefaultResourceLocator implements IResourceLocator
 		try
 		{
 			// try absolute path search
-			
+
 			File f = new File( fileName );
 			if ( f.isAbsolute( ) )
 				return f.exists( ) && f.isFile( ) ? f.getCanonicalFile( )
 						.toURL( ) : null;
 
+			try
+			{
+				URL objURI = new URL( fileName );
+				if ( URIUtil.FILE_SCHEMA
+						.equalsIgnoreCase( objURI.getProtocol( ) ) )
+				{
+					f = new File( objURI.getPath( ) );
+					if ( f.isAbsolute( ) )
+						return f.exists( ) && f.isFile( ) ? f
+								.getCanonicalFile( ).toURL( ) : null;
+				}
+			}
+			catch ( MalformedURLException e )
+			{
+			}
+
 			// try file search based on resource path set on this session
-						
-			String resourcePath = moduleHandle.getModule( ).getSession( ).getBirtResourcePath( );
+
+			String resourcePath = moduleHandle.getModule( ).getSession( )
+					.getBirtResourcePath( );
 			if ( resourcePath != null )
 			{
 				f = new File( resourcePath, fileName );
@@ -73,7 +89,7 @@ public class DefaultResourceLocator implements IResourceLocator
 			}
 
 			// try file search based on path of the input module
-			
+
 			if ( moduleHandle == null )
 				return null;
 
@@ -83,9 +99,9 @@ public class DefaultResourceLocator implements IResourceLocator
 
 			if ( URIUtil.FILE_SCHEMA.equalsIgnoreCase( systemId.getProtocol( ) ) )
 				return tryFileSearch( systemId, fileName );
-			else
-				return new URL( systemId, URIUtil
-						.convertFileNameToURLString( fileName ) );
+
+			return new URL( systemId, URIUtil
+					.convertFileNameToURLString( fileName ) );
 		}
 		catch ( MalformedURLException e )
 		{
@@ -125,5 +141,4 @@ public class DefaultResourceLocator implements IResourceLocator
 
 		return null;
 	}
-
 }

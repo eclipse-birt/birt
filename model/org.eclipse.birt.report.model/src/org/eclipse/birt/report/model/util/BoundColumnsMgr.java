@@ -65,7 +65,7 @@ public abstract class BoundColumnsMgr
 	 *            the root of the report item
 	 */
 
-	private void dealReportItem( ReportItem element, Module module )
+	protected void dealReportItem( ReportItem element, Module module )
 	{
 		dealStyle( element, module );
 		String value = (String) element.getLocalProperty( module,
@@ -106,7 +106,6 @@ public abstract class BoundColumnsMgr
 						.getExpression( ) );
 			}
 		}
-
 	}
 
 	/**
@@ -197,6 +196,9 @@ public abstract class BoundColumnsMgr
 		{
 			List jsExprs = ( (ICompatibleReportItem) reportItem )
 					.getRowExpressions( );
+			for ( int i = 0; i < jsExprs.size( ); i++ )
+				handleBoundsForValue( element, module, (String) jsExprs.get( i ) );
+
 			Map updatedExprs = DataBoundColumnUtil.handleJavaExpression(
 					jsExprs, element, module );
 			( (ICompatibleReportItem) reportItem )
