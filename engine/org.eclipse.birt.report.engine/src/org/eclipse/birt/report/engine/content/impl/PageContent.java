@@ -71,17 +71,8 @@ public class PageContent extends AbstractContent implements IPageContent
 
 			orientation = page.getOrientation( );
 			pageType = page.getPageType( );
-			if ( EngineIRConstants.PAGE_ORIENTATION_LANDSCAPE.equals( page
-					.getOrientation( ) ) )
-			{
-				pageHeight = page.getPageWidth( );
-				pageWidth = page.getPageHeight( );
-			}
-			else
-			{
-				pageHeight = page.getPageHeight( );
-				pageWidth = page.getPageWidth( );
-			}
+			pageHeight = page.getPageHeight( );
+			pageWidth = page.getPageWidth( );
 			marginTop = page.getTopMargin( );
 			marginLeft = page.getLeftMargin( );
 			marginRight = page.getRightMargin( );
