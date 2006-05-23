@@ -57,6 +57,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
@@ -68,6 +70,8 @@ import com.ibm.icu.util.ULocale;
  */
 public class ChartUIUtil
 {
+	
+	public static final String FONT_AUTO = Messages.getString( "ChartUIUtil.Font.Auto" ); //$NON-NLS-1$
 
 	public static void setBackgroundColor( Control control, boolean selected,
 			Color color )
@@ -275,7 +279,7 @@ public class ChartUIUtil
 
 	public static String getFontName( FontDefinition font )
 	{
-		return font.getName( ) == null ? "Auto" : font.getName( ); //$NON-NLS-1$
+		return font.getName( ) == null ? FONT_AUTO : font.getName( );
 	}
 
 	public static TextAlignment getFontTextAlignment( FontDefinition font )
@@ -1011,6 +1015,27 @@ public class ChartUIUtil
 			return IChartType.THREE_DIMENSION_TYPE;
 		}
 		return IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE;
+	}
+	
+	/**
+	 * Sets the given help context id on the given control.
+	 * 
+	 * @param control
+	 *            the control on which to register the context id
+	 * @param contextId
+	 *            the context id to use when F1 help is invoked
+	 */
+	public static void bindHelp( Control control, String contextId )
+	{
+		try
+		{
+			IWorkbench workbench = PlatformUI.getWorkbench( );
+			workbench.getHelpSystem( ).setHelp( control, contextId );
+		}
+		catch ( RuntimeException e )
+		{
+			// Do nothing since there's no workbench
+		}
 	}
 
 }

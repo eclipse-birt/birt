@@ -120,10 +120,8 @@ public class FontDefinitionDialog
 
 	private transient ChartWizardContext wizardContext;
 
-	private static final String FONT_AUTO = "Auto"; //$NON-NLS-1$
-
 	private static final String[] FONT_SIZE = new String[]{
-			FONT_AUTO, "9", "10", "12", "14", "16", "18", "24", "36" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+			ChartUIUtil.FONT_AUTO, "9", "10", "12", "14", "16", "18", "24", "36" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 	};
 
 	public FontDefinitionDialog( Shell shellParent,
@@ -192,7 +190,7 @@ public class FontDefinitionDialog
 		{
 			cmbFontSizes.setItems( FONT_SIZE );
 			cmbFontSizes.setText( fdCurrent.isSetSize( )
-					? String.valueOf( (int) fdCurrent.getSize( ) ) : FONT_AUTO );
+					? String.valueOf( (int) fdCurrent.getSize( ) ) : ChartUIUtil.FONT_AUTO );
 			GridData gdISCFontSizes = new GridData( GridData.FILL_HORIZONTAL );
 			gdISCFontSizes.horizontalSpan = 3;
 			cmbFontSizes.setLayoutData( gdISCFontSizes );
@@ -498,8 +496,8 @@ public class FontDefinitionDialog
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
 		String[] saFontNames = ge.getAvailableFontFamilyNames( );
 		String currentFont = ChartUIUtil.getFontName( fdCurrent );
-		cmbFontNames.add( FONT_AUTO );
-		if ( FONT_AUTO.equals( currentFont ) )
+		cmbFontNames.add( ChartUIUtil.FONT_AUTO );
+		if ( ChartUIUtil.FONT_AUTO.equals( currentFont ) )
 		{
 			cmbFontNames.select( 0 );
 		}
@@ -681,7 +679,7 @@ public class FontDefinitionDialog
 		}
 		else if ( oSource.equals( cmbFontNames ) )
 		{
-			if ( cmbFontNames.getText( ).equals( FONT_AUTO ) )
+			if ( cmbFontNames.getText( ).equals( ChartUIUtil.FONT_AUTO ) )
 			{
 				fdCurrent.setName( null );
 			}
@@ -821,7 +819,7 @@ public class FontDefinitionDialog
 
 	private void handleFontSize( )
 	{
-		if ( cmbFontSizes.getText( ).equals( FONT_AUTO ) )
+		if ( cmbFontSizes.getText( ).equals( ChartUIUtil.FONT_AUTO ) )
 		{
 			fdCurrent.unsetSize( );
 		}
@@ -846,7 +844,7 @@ public class FontDefinitionDialog
 			if ( !isCorrect )
 			{
 				cmbFontSizes.setText( oldIsset
-						? String.valueOf( (int) oldValue ) : FONT_AUTO );
+						? String.valueOf( (int) oldValue ) : ChartUIUtil.FONT_AUTO );
 			}
 			else
 			{
