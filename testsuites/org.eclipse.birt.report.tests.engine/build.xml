@@ -14,7 +14,7 @@
 	<property name="tests.dir" value="report.tests.engine"/>
 	<property name="className" value="${module.name}.AllTests"/>
 	<property name="utest.report.dir" value="utestreports"/>
-	<property name="formatter" value="formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,&quot;${curr.data.path}/${module.name}/${utest.report.dir}/${module.name}.xml&quot;"/>
+	<property name="formatter" value="formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,&quot;${utest.report.dir}/${module.name}.xml&quot;"/>
 	
 	<!-- classPath -->
 	
