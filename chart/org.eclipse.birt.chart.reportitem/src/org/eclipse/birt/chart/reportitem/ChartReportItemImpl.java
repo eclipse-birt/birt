@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -482,10 +483,12 @@ public final class ChartReportItemImpl extends ReportItem implements
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElement#validate()
 	 */
-	public void validate( ) throws ExtendedElementException
+	public List validate( )
 	{
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemImpl.log.validate" ) ); //$NON-NLS-1$ 
+
+		return Collections.EMPTY_LIST;
 	}
 
 	/*
