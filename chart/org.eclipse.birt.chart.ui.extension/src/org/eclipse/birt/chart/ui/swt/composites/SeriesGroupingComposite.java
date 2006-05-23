@@ -255,9 +255,13 @@ public class SeriesGroupingComposite extends Composite implements
 
 		if ( bEnableUI && grouping.getAggregateExpression( ) != null )
 		{
-			cmbAggregate.setText( getAggregateDisplayNameByName( grouping.getAggregateExpression( ) ) );
+			int idx = getAggregateIndexByName( grouping.getAggregateExpression( ) );
+			if ( cmbAggregate.getItemCount( ) > idx )
+			{
+				cmbAggregate.select( idx );
+			}
 		}
-		else
+		else if ( cmbAggregate.getItemCount( ) > 0 )
 		{
 			cmbAggregate.select( 0 );
 		}
@@ -265,36 +269,19 @@ public class SeriesGroupingComposite extends Composite implements
 		cmbAggregate.setEnabled( bEnableUI );
 	}
 
-	private String getAggregateNameByDisplayName( String displayName )
+	private int getAggregateIndexByName( String name )
 	{
 		String[] names = (String[]) cmbAggregate.getData( );
-		String[] displayNames = cmbAggregate.getItems( );
-
-		for ( int i = 0; i < displayNames.length; i++ )
-		{
-			if ( displayName.equals( displayNames[i] ) )
-			{
-				return names[i];
-			}
-		}
-
-		return null;
-	}
-
-	private String getAggregateDisplayNameByName( String name )
-	{
-		String[] names = (String[]) cmbAggregate.getData( );
-		String[] displayNames = cmbAggregate.getItems( );
 
 		for ( int i = 0; i < names.length; i++ )
 		{
 			if ( name.equals( names[i] ) )
 			{
-				return displayNames[i];
+				return i;
 			}
 		}
 
-		return ""; //$NON-NLS-1$
+		return 0;
 	}
 
 	private SeriesGrouping getGrouping( )
@@ -331,7 +318,14 @@ public class SeriesGroupingComposite extends Composite implements
 		}
 		else if ( oSource.equals( cmbAggregate ) )
 		{
-			getGrouping( ).setAggregateExpression( getAggregateNameByDisplayName( cmbAggregate.getText( ) ) );
+			int idx = cmbAggregate.getSelectionIndex( );
+			String aggExpr = null;
+			if ( idx >= 0 )
+			{
+				String[] names = (String[]) cmbAggregate.getData( );
+				aggExpr = names[idx];
+			}
+			getGrouping( ).setAggregateExpression( aggExpr );
 		}
 		else if ( oSource.equals( btnEnabled ) )
 		{
