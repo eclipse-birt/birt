@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
@@ -20,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -28,6 +31,7 @@ import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
@@ -36,7 +40,10 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * Presents list band figure figure for list band edit part
@@ -46,7 +53,7 @@ public class ListBandControlFigure extends Figure
 {
 
 	public static final Dimension CONTROL_SIZE = new Dimension( 88, 19 );
-
+	private static final Insets DISPLAY_MARGIN = new Insets(15); 
 	private static final String TOOLTIP_LIST_DETAIL = Messages.getString( "ListBandControlFigure.tooltip.ListDetail" ); //$NON-NLS-1$
 	private static final String TOOLTIP_LIST_HEADER = Messages.getString( "ListBandControlFigure.tooltip.ListHeader" ); //$NON-NLS-1$
 	private static final String TOOLTIP_LIST_FOOTER = Messages.getString( "ListBandControlFigure.tooltip.ListFooter" ); //$NON-NLS-1$
@@ -114,7 +121,16 @@ public class ListBandControlFigure extends Figure
 	 */
 	public Dimension getPreferredSize( int wHint, int hHint )
 	{
-		return CONTROL_SIZE;
+		//return CONTROL_SIZE;//88, 19
+		Dimension dimension = new Dimension(0,CONTROL_SIZE.height);
+		List list = getChildren( );
+		for (int i=0; i<list.size(); i++)
+		{
+			Figure figure = (Figure)list.get( i );
+			dimension.width = dimension.width + figure.getSize( ).width;
+		}
+		return dimension;
+		//return super.getPreferredSize( wHint, hHint );
 	}
 
 	public static class ListBandControlVisible extends Figure implements
@@ -207,6 +223,7 @@ public class ListBandControlFigure extends Figure
 	{
 
 		private ListBandEditPart owner;
+		private String text = "";
 
 		/**
 		 * @param owner
@@ -215,8 +232,17 @@ public class ListBandControlFigure extends Figure
 		{
 			super( );
 			this.owner = owner;
-
-			setBounds( new Rectangle( 35, 0, 50, 19 ) );
+			text = ( ( (ListBandProxy) owner.getModel( ) ).getDisplayName( ) );
+			
+			Font font = getFont( );
+			if (font == null)
+			{
+				GC gc = new GC(new Shell());
+				font = gc.getFont();
+			}
+			int width = FigureUtilities.getTextWidth( text, font);
+			
+			setBounds( new Rectangle( 35, 0, width + DISPLAY_MARGIN.right, 19 ) );
 			setBorder( new MarginBorder( 8, 0, 0, 0 ) );
 		}
 
@@ -233,8 +259,7 @@ public class ListBandControlFigure extends Figure
 		protected void paintFigure( Graphics graphics )
 		{
 			Rectangle rect = getClientArea( ).getCopy( );
-			String text = ( ( (ListBandProxy) getOwner( ).getModel( ) ).getDisplayName( ) );
-
+			//String text = ( ( (ListBandProxy) getOwner( ).getModel( ) ).getDisplayName( ) );
 			graphics.setForegroundColor( ColorConstants.gray );
 			graphics.drawString( text, rect.x, rect.y - 6 );
 		}
