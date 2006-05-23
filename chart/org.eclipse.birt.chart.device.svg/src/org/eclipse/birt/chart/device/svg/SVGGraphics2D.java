@@ -272,6 +272,21 @@ public class SVGGraphics2D extends Graphics2D
 		translate( -x, -y );
 	}
 
+	public void fill( Shape shape, boolean defered )
+	{
+		Element tempDeferred = null;
+		if (!defered){
+			tempDeferred = deferStrokColor;
+			deferStrokColor = null;
+		}
+		currentElement = createGeneralPath( shape );
+		appendChild( currentElement );
+		setFillColor( currentElement );
+		if (!defered){
+			deferStrokColor = tempDeferred;
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -859,12 +874,12 @@ public class SVGGraphics2D extends Graphics2D
 			String alpha = alphaToString( color );
 			if ( alpha != null )
 				style += "fill-opacity:" + alpha + ";"; //$NON-NLS-1$ //$NON-NLS-2$
-			element.setAttribute( "style", style + "fill:" + serializeToString( color ) + ";" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			element.setAttribute( "style", style + "fill:" + serializeToString( color ) + ";stroke:none;" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		else
 		{
 			if ( paint instanceof SVGGradientPaint )
-				element.setAttribute( "style", style + "fill:url(#" + ( (SVGGradientPaint) paint ).getId( ) + ");" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				element.setAttribute( "style", style + "fill:url(#" + ( (SVGGradientPaint) paint ).getId( ) + ");stroke:none;" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		if (styleClass != null)
 			element.setAttribute("class", styleClass); //$NON-NLS-1$

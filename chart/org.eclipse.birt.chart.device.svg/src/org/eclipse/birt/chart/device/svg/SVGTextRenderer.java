@@ -299,7 +299,7 @@ final class SVGTextRenderer implements IConstants
 	private final void showLeftValue( IPrimitiveRenderer ipr, Location lo,
 			Label la, boolean bShadow )
 	{
-		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
+		SVGGraphics2D g2d = (SVGGraphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
 		double dX = lo.getX( ), dY = lo.getY( );
 		FontDefinition fd = la.getCaption( ).getFont( );
 		double dAngleInDegrees = fd.getRotation( );
@@ -357,7 +357,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dYHalfOffset ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -423,7 +423,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dFH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -484,7 +484,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -546,7 +546,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dFH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -608,7 +608,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dFH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -662,7 +662,7 @@ final class SVGTextRenderer implements IConstants
 	private final void showRightValue( IPrimitiveRenderer ipr, Location lo,
 			Label la, boolean bShadow )
 	{
-		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
+		SVGGraphics2D g2d = (SVGGraphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
 		double dX = lo.getX( ), dY = lo.getY( );
 		FontDefinition fd = la.getCaption( ).getFont( );
 		double dAngleInDegrees = fd.getRotation( );
@@ -721,7 +721,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dYHalfOffset ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -787,7 +787,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -853,7 +853,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dFH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -916,7 +916,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -979,7 +979,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -1036,7 +1036,7 @@ final class SVGTextRenderer implements IConstants
 	private final void showBottomValue( IPrimitiveRenderer ipr, Location lo,
 			Label la, boolean bShadow )
 	{
-		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
+		SVGGraphics2D g2d = (SVGGraphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
 		double dX = lo.getX( ), dY = lo.getY( );
 		FontDefinition fd = la.getCaption( ).getFont( );
 		// Color clrShadow = bShadow ? (Color)
@@ -1085,7 +1085,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -1148,7 +1148,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -1206,7 +1206,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -1270,7 +1270,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dYHalfOffset ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -1338,7 +1338,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dYHalfOffset ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -1397,7 +1397,7 @@ final class SVGTextRenderer implements IConstants
 	private final void showTopValue( IPrimitiveRenderer ipr, Location lo,
 			Label la, boolean bShadow )
 	{
-		final Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
+		final SVGGraphics2D g2d = (SVGGraphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
 		double dX = lo.getX( ), dY = lo.getY( );
 		final FontDefinition fd = la.getCaption( ).getFont( );
 		// final Color clrShadow = bShadow ? (Color)
@@ -1448,7 +1448,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dFH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -1515,7 +1515,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dFH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -1583,7 +1583,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dFH ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -1652,7 +1652,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dYHalfOffset ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
@@ -1718,7 +1718,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + 3,
 						( dY - dYHalfOffset ) + 3,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{
