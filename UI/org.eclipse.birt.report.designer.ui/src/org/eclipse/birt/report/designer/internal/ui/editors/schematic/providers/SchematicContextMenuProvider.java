@@ -58,6 +58,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshModuleH
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.ApplyThemeMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.DeleteStyleMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.EditStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertPasteColumnAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
@@ -120,6 +122,12 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	private static final String ELEMENT_MENU_ITEM_TEXT = Messages
 			.getString( "SchematicContextMenuProvider.Menu.insertElement" ); //$NON-NLS-1$
 
+	private static final String EDIT_STYLE_MENU_ITEM_TEXT = Messages
+	.getString( "SchematicContextMenuProvider.Menu.EditStyle" ); //$NON-NLS-1$
+	
+	private static final String DELETE_STYLE_MENU_ITEM_TEXT = Messages
+	.getString( "SchematicContextMenuProvider.Menu.DeleteStyle" ); //$NON-NLS-1$
+	
 	/** the action registry */
 	private final ActionRegistry actionRegistry;
 
@@ -641,6 +649,30 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		menu.add( subMenu );
 		menu.add( new Separator( ) );
+		
+		// add "Edit Style" menu
+		subMenu = new MenuManager( EDIT_STYLE_MENU_ITEM_TEXT );
+		subMenu.add( NoneAction.getInstance( ) );
+		subMenu.addMenuListener( new IMenuListener( ) {
+			public void menuAboutToShow( IMenuManager manager )
+			{
+				updateDynamicItems( EditStyleMenuAction.ID, manager );
+			}
+		} );
+		menu.add( subMenu );
+		
+		// add "Delete Style" menu
+		subMenu = new MenuManager( DELETE_STYLE_MENU_ITEM_TEXT );
+		subMenu.add( NoneAction.getInstance( ) );
+		subMenu.addMenuListener( new IMenuListener( ) {
+			public void menuAboutToShow( IMenuManager manager )
+			{
+				updateDynamicItems( DeleteStyleMenuAction.ID, manager );
+			}
+		} );
+		menu.add( subMenu );
+		menu.add( new Separator( ) );
+		
 		menu.add( getAction( ImportCSSStyleAction.ID ) );
 		menu.add( getAction( AddStyleAction.ID ) );
 		menuManager.appendToGroup( group_name, menu );
