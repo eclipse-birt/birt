@@ -13,6 +13,8 @@ Require-Bundle: org.eclipse.datatools.connectivity.oda,
  com.ibm.icu,
  org.junit;resolution:=optional
 Eclipse-LazyStart: true
-Export-Package: org.eclipse.birt.report.data.oda.xml,
- org.eclipse.birt.report.data.oda.xml.util,
- org.eclipse.birt.report.data.oda.xml.util.ui
+Export-Package: org.eclipse.birt.report.data.oda.xml; x-internal:=false,
+ org.eclipse.birt.report.data.oda.xml.impl; x-friends:="org.eclipse.birt.report.data.oda.xml.ui",
+ org.eclipse.birt.report.data.oda.xml.util; x-friends:="org.eclipse.birt.report.data.oda.xml.ui",
+ org.eclipse.birt.report.data.oda.xml.util.ui; x-friends:="org.eclipse.birt.report.data.oda.xml.ui"
+ 

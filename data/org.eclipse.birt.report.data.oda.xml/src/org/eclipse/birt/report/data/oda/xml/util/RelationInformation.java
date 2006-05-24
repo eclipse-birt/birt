@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.data.oda.xml.DataTypes;
+import org.eclipse.birt.report.data.oda.xml.impl.DataTypes;
 import org.eclipse.birt.report.data.oda.xml.i18n.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 

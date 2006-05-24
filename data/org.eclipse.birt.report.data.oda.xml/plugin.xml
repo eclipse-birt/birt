@@ -108,7 +108,7 @@
       </dataSet>
 	  <dataSource
             odaVersion="3.0.0"
-            driverClass="org.eclipse.birt.report.data.oda.xml.Driver"
+            driverClass="org.eclipse.birt.report.data.oda.xml.impl.Driver"
             defaultDisplayName="%datasource.name"
             id="org.eclipse.birt.report.data.oda.xml"
             setThreadContextClassLoader="false">

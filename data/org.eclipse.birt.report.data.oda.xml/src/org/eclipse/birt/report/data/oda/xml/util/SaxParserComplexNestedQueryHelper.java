@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.xml.util;
 
+
 /**
  * This is a helper class used by SaxParserConsumer to generate nested xml columns related
  * infomation.

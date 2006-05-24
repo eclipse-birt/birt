@@ -11,7 +11,7 @@
 package org.eclipse.birt.report.data.oda.xml.util;
 
 import org.eclipse.birt.report.data.oda.xml.Constants;
-import org.eclipse.birt.report.data.oda.xml.ResultSet;
+import org.eclipse.birt.report.data.oda.xml.impl.ResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
