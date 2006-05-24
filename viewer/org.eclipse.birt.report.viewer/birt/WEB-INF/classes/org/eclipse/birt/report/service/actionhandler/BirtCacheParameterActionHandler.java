@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.soapengine.api.Data;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
@@ -94,14 +95,32 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 					ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
 							.findParameter( paramName );
 
-					// if parameter value is not null, then save it to
-					// config file
-					if ( paramValue != null )
+					// convert the parameter from current locale to default
+					// locale format
+					if ( paramValue != null && parameter != null )
 					{
-						configVar
-								.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
-						configVar.setValue( paramValue );
-						handle.addConfigVariable( configVar );
+						try
+						{
+							Object paramValueObj = ParameterValidationUtil
+									.validate( parameter.getDataType( ),
+											parameter.getPattern( ),
+											paramValue, attrBean.getLocale( ) );
+
+							paramValue = ParameterValidationUtil
+									.getDisplayValue( parameter.getDataType( ),
+											parameter.getPattern( ),
+											paramValueObj, ULocale.US );
+
+							// add parameter to config file
+							configVar.setName( paramName
+									+ "_" + parameter.getID( ) ); //$NON-NLS-1$
+							configVar.setValue( paramValue );
+							handle.addConfigVariable( configVar );
+						}
+						catch ( Exception err )
+						{
+
+						}
 					}
 				}
 			}

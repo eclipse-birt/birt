@@ -213,11 +213,33 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						// check the parameter whether exist or not
 						String paramName = getParameterName( configVar
 								.getName( ) );
-						Object paramValue = configVar.getValue( );
+						String paramValue = configVar.getValue( );
 
-						if ( paramName != null && paramValue != null )
+						ScalarParameterHandle parameter = (ScalarParameterHandle) findParameter( paramName );
+
+						// convert parameter from default locale to current
+						// locale
+						if ( paramValue != null && parameter != null )
 						{
-							this.configMap.put( paramName, paramValue );
+							try
+							{
+								Object paramValueObj = ParameterValidationUtil
+										.validate( parameter.getDataType( ),
+												parameter.getPattern( ),
+												paramValue, ULocale.US );
+
+								paramValue = ParameterValidationUtil
+										.getDisplayValue( parameter
+												.getDataType( ), parameter
+												.getPattern( ), paramValueObj,
+												locale );
+								
+								this.configMap.put( paramName, paramValue );
+							}
+							catch ( Exception err )
+							{
+
+							}							
 						}
 					}
 				}

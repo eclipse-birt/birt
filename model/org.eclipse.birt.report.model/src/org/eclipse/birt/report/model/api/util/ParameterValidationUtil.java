@@ -147,7 +147,7 @@ public class ParameterValidationUtil
 	{
 
 		DateFormat formatter = DateFormat.getDateTimeInstance(
-				DateFormat.SHORT, DateFormat.MEDIUM, locale );
+				DateFormat.MEDIUM, DateFormat.MEDIUM, locale );
 		try
 		{
 			return formatter.parse( value );
