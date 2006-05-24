@@ -43,6 +43,7 @@ import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
+import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
@@ -111,7 +112,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.48 $ $Date: 2006/05/18 03:55:58 $
+ * @version $Revision: 1.49 $ $Date: 2006/05/22 08:36:06 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -329,7 +330,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 			IParameterMetaData md ) throws OdaException
 	{
 		DataSetParameters parameters = dataSetDesign.getParameters( );
-		DataSetParameters dataSetParameter = DesignSessionUtil.toDataSetParametersDesign( md );
+		DataSetParameters dataSetParameter = DesignSessionUtil.toDataSetParametersDesign( md,
+				ParameterMode.IN_LITERAL );
 		if ( parameters == null
 				|| parameters.getParameterDefinitions( ).size( ) == 0 )
 		{
@@ -376,13 +378,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		if ( defn.getAttributes( ).getName( ) == null
 				|| defn.getAttributes( ).getName( ).trim( ).equals( "" ) )
 			defn.getAttributes( ).setName( getUniqueName( parameters ) );
-		// An interim solution for the parameter in/out mode,
-		// because the validtion on parameter will throw an
-		// exception
-		if ( !defn.isSetInOutMode( ) )
-		{
-			defn.setInOutMode( defn.getInOutMode( ) );
-		}
 		if ( defn.getAttributes( ).getNativeDataTypeCode( ) == Types.NULL )
 		{
 			defn.getAttributes( ).setNativeDataTypeCode( Types.CHAR );
