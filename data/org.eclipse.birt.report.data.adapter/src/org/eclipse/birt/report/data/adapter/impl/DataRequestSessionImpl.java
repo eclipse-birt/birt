@@ -114,17 +114,19 @@ public class DataRequestSessionImpl extends DataRequestSession
 				useCache );
 	}
 
-	/**
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.lang.String)
+	/*
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet(org.eclipse.birt.report.model.api.DataSetHandle,
+	 *      java.util.Iterator, java.util.Iterator, java.lang.String)
 	 */
-	public Collection getColumnValueSet( DataSetHandle dataSet, Iterator columnBindings, 
-			Iterator inputParamBindings, String boundColumnName) throws BirtException
+	public Collection getColumnValueSet( DataSetHandle dataSet,
+			Iterator inputParamBindings, Iterator columnBindings,
+			String boundColumnName ) throws BirtException
 	{
 		assert dataSet != null;
 		// TODO: this is the inefficient implementation
 		// Need to enhance the implementation to verify that the column is bound to a data set column
-		
-		
+
+
 		// Run a query with the provided binding information. Group by bound column so we can 
 		// retrieve distinct values using the grouping feature
 		QueryDefinition query = new QueryDefinition();

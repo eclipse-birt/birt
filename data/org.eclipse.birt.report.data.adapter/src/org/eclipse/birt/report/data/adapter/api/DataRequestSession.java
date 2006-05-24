@@ -128,22 +128,6 @@ public abstract class DataRequestSession
 			throws BirtException;
 	
 	/**
-	 * Retrieves all distinct values of a data set column and return them in a Collection.
-	 * @param dataSet Handle of data set to query
-	 * @param columnBindings An iterator of ComputedColumnHandle objects that define 
-	 *           all column binding expressions
-	 * @param inputParamBindings  An iterator of ParamBindingHandle objects that defines
-	 *          bindings for the data set's input parameters
-	 * @param columnName Name of the bound column to retrieve values for
-	 * @return If boundColumnName is bound to a single data set column, this method returns a collection
-	 *       of distinct values for that data set column. If boundColumnName to mapped to any other type
-	 *       of expressions, an empty collection will be returned.
-	 */
-	public abstract Collection getColumnValueSet( DataSetHandle dataSet, 
-			Iterator columnBindings, Iterator inputParamBindings, String boundColumnName )
-			throws BirtException;
-	
-	/**
 	 * Get the metadata information from the specified DataSetHandle. It will
 	 * execute a query, force the cached metadata stored in the report design to
 	 * be updated with the latest data set metadata read from out source. When
@@ -160,7 +144,29 @@ public abstract class DataRequestSession
 	 */
 	public abstract IResultMetaData refreshMetaData( DataSetHandle dataSetHandle )
 			throws BirtException;
-
+	
+	/**
+	 * Retrieves all distinct values of a data set column and return them in a
+	 * Collection.
+	 * 
+	 * @param dataSet
+	 *            Handle of data set to query
+	 * @param columnBindings
+	 *            An iterator of ComputedColumnHandle objects that define all
+	 *            column binding expressions
+	 * @param inputParamBindings
+	 *            An iterator of ParamBindingHandle objects that defines
+	 *            bindings for the data set's input parameters
+	 * @param columnName
+	 *            Name of the bound column to retrieve values for
+	 * @return If boundColumnName is bound to a single data set column, this
+	 *         method returns a collection of distinct values for that data set
+	 *         column. If boundColumnName to mapped to any other type of
+	 *         expressions, an empty collection will be returned.
+	 */
+	public abstract Collection getColumnValueSet( DataSetHandle dataSet,
+			Iterator inputParamBindings, Iterator columnBindings,
+			String boundColumnName ) throws BirtException;
 	
 	/**
 	 * Use a default data engine to execute a query. Since Data Engine needs to
@@ -176,8 +182,9 @@ public abstract class DataRequestSession
 	 *                any error in execute query to get the query results
 	 */
 	public abstract IQueryResults executeQuery( QueryDefinition queryDefn,
-			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt )
-			throws BirtException;
+			Iterator inputParamBindings, Iterator filterIt,
+			Iterator columnBindings ) throws BirtException;
+	
 	/**
 	 * Loads query results with the provided ID from the report document used to
 	 * initialize this session.
