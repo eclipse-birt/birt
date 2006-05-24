@@ -79,7 +79,7 @@ public class DataEditPart extends LabelEditPart
 	{
 		super.refreshFigure( );
 
-		( (LabelFigure) getFigure( ) ).setToolTipText( ( (DataItemHandle) getModel( ) ).getValueExpr( ) );
+		( (LabelFigure) getFigure( ) ).setToolTipText( ( (DataItemHandle) getModel( ) ).getResultSetColumn() );
 	}
 
 	/*
@@ -111,7 +111,7 @@ public class DataEditPart extends LabelEditPart
 	 */
 	protected boolean hasText( )
 	{
-		String text = ( (DataItemHandle) getModel( ) ).getValueExpr( );
+		String text = ( (DataItemHandle) getModel( ) ).getResultSetColumn();
 
 		return ( text != null && text.length( ) > 0 );
 	}
