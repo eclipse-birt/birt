@@ -219,7 +219,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 		fAddButton.setText( Messages.getString( "HighlightsPreferencePage.text.Add" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		data.widthHint = Math.max( fAddButton.computeSize( -1, -1 ).x, 60 );
-		data.heightHint = 24;
+		//data.heightHint = 24;
 		fAddButton.setLayoutData( data );
 		fAddButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -233,7 +233,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 		fEditButton.setText( Messages.getString( "HighlightsPreferencePage.text.Edit" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		data.widthHint = Math.max( fEditButton.computeSize( -1, -1 ).x, 60 );
-		data.heightHint = 24;
+		//data.heightHint = 24;
 		fEditButton.setLayoutData( data );
 		fEditButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -247,7 +247,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 		fDeleteButton.setText( Messages.getString( "HighlightsPreferencePage.text.Delete" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		data.widthHint = Math.max( fDeleteButton.computeSize( -1, -1 ).x, 60 );
-		data.heightHint = 24;
+		//data.heightHint = 24;
 		fDeleteButton.setLayoutData( data );
 		fDeleteButton.addSelectionListener( new SelectionAdapter( ) {
 

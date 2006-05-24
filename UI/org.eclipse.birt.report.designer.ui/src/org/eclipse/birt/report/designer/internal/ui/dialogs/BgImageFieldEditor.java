@@ -122,7 +122,7 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 		numColumns--;
 
 		( (GridData) getButtonControl( null ).getLayoutData( ) ).horizontalSpan = numColumns;
-		( (GridData) getButtonControl( null ).getLayoutData( ) ).widthHint = 85;
+		( (GridData) getButtonControl( null ).getLayoutData( ) ).widthHint = Math.max( getButtonControl( null ).computeSize( SWT.DEFAULT, SWT.DEFAULT ).x, 85 );
 	}
 
 	/*
