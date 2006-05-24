@@ -21,8 +21,9 @@ import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
 
-public class BirtGetCascadeParameterActionHandler extends
-		AbstractGetCascadeParameterActionHandler
+public class BirtGetCascadeParameterActionHandler
+		extends
+			AbstractGetCascadeParameterActionHandler
 {
 
 	/**
@@ -40,7 +41,8 @@ public class BirtGetCascadeParameterActionHandler extends
 	protected void handleUpdate( CascadeParameter cascadeParameter )
 	{
 		Data data = new Data( );
-		data.setCascadeParameter( cascadeParameter );
+		if ( cascadeParameter != null )
+			data.setCascadeParameter( cascadeParameter.getSelectionList( ) );
 
 		UpdateData updateData = new UpdateData( );
 		updateData.setTarget( "birtParameterDialog" ); //$NON-NLS-1$
@@ -48,7 +50,7 @@ public class BirtGetCascadeParameterActionHandler extends
 
 		Update update = new Update( );
 		update.setUpdateData( updateData );
-		response.setUpdate( new Update[] { update } );
+		response.setUpdate( new Update[]{update} );
 	}
 
 	protected IViewerReportService getReportService( )

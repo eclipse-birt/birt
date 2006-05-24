@@ -21,8 +21,9 @@ import org.eclipse.birt.report.soapengine.api.ResultSets;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
 
-public class BirtQueryExportActionHandler extends
-		AbstractQueryExportActionHandler
+public class BirtQueryExportActionHandler
+		extends
+			AbstractQueryExportActionHandler
 {
 
 	/**
@@ -40,7 +41,8 @@ public class BirtQueryExportActionHandler extends
 	protected void handleUpdate( ResultSets resultSets )
 	{
 		Data data = new Data( );
-		data.setResultSets( resultSets );
+		if ( resultSets != null )
+			data.setResultSets( resultSets.getResultSet( ) );
 
 		UpdateData updateData = new UpdateData( );
 		updateData.setTarget( "birtSimpleExportDataDialog" ); //$NON-NLS-1$
@@ -49,7 +51,7 @@ public class BirtQueryExportActionHandler extends
 		Update update = new Update( );
 		update.setUpdateData( updateData );
 
-		response.setUpdate( new Update[] { update } );
+		response.setUpdate( new Update[]{update} );
 	}
 
 	protected IViewerReportService getReportService( )

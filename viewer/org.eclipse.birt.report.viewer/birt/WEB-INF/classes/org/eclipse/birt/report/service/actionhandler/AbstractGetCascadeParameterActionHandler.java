@@ -43,8 +43,9 @@ import org.eclipse.birt.report.soapengine.api.Oprand;
 import org.eclipse.birt.report.soapengine.api.SelectionList;
 import org.eclipse.birt.report.soapengine.api.Vector;
 
-public abstract class AbstractGetCascadeParameterActionHandler extends
-		AbstractBaseActionHandler
+public abstract class AbstractGetCascadeParameterActionHandler
+		extends
+			AbstractBaseActionHandler
 {
 
 	public AbstractGetCascadeParameterActionHandler( IContext context,
@@ -55,7 +56,7 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 
 	protected void __execute( ) throws RemoteException
 	{
-		BaseAttributeBean attrBean = ( BaseAttributeBean ) context.getBean( );
+		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean( );
 		assert attrBean != null;
 
 		Oprand[] params = operation.getOprand( );
@@ -99,33 +100,17 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 					.hasNext( ); )
 			{
 				selectionLists[i] = new SelectionList( );
-				String name = ( String ) it.next( );
+				String name = (String) it.next( );
 				selectionLists[i].setName( name );
-				List selections = ( List ) cascParamMap.get( name );
-				Vector vector = getVectorFromList( selections );
-				selectionLists[i].setSelections( vector );
+				List selections = (List) cascParamMap.get( name );
+				String[] selectionArray = new String[selections.size( )];
+				selections.toArray( selectionArray );
+				selectionLists[i].setSelections( selectionArray );
 				i++;
 			}
 			cascadeParameter.setSelectionList( selectionLists );
 		}
 		handleUpdate( cascadeParameter );
-	}
-
-	/**
-	 * Get vector from the list.
-	 * 
-	 * @param list
-	 * @return
-	 */
-	private Vector getVectorFromList( List list )
-	{
-		Vector selectionList = new Vector( );
-		selectionList.setValue( new String[list.size( )] );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			selectionList.setValue( i, ( String ) list.get( i ) );
-		}
-		return selectionList;
 	}
 
 	protected abstract void handleUpdate( CascadeParameter cascadeParameter );
@@ -140,7 +125,7 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 		Map ret = new HashMap( );
 		List remainingParamNames = new ArrayList( );
 
-		String firstName = ( String ) params.keySet( ).iterator( ).next( );
+		String firstName = (String) params.keySet( ).iterator( ).next( );
 
 		Collection paramDefs = getReportService( ).getParameterDefinitions(
 				design, options, false );
@@ -149,7 +134,7 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 
 		for ( Iterator it = paramDefs.iterator( ); it.hasNext( ); )
 		{
-			ParameterDefinition temp = ( ParameterDefinition ) it.next( );
+			ParameterDefinition temp = (ParameterDefinition) it.next( );
 			if ( temp.getName( ).equals( firstName ) )
 			{
 				paramDef = temp;
@@ -162,9 +147,9 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 			throw new ReportServiceException( "Invalid parameter: " + firstName );
 		}
 
- 		ParameterGroupDefinition group = paramDef.getGroup( );
+		ParameterGroupDefinition group = paramDef.getGroup( );
 
- 		if ( group != null )
+		if ( group != null )
 		{
 			if ( group.getParameterCount( ) > params.size( ) )
 			{
@@ -172,9 +157,9 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 						- params.size( );
 				for ( int i = 0; i < remainingParams; i++ )
 				{
-					ParameterDefinition def = ( ParameterDefinition ) group
- 							.getParameters( ).get( params.size( ) + i );
- 					remainingParamNames.add( def.getName( ) );
+					ParameterDefinition def = (ParameterDefinition) group
+							.getParameters( ).get( params.size( ) + i );
+					remainingParamNames.add( def.getName( ) );
 				}
 			}
 		}
@@ -209,8 +194,8 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 						}
 					}
 
-					listArray[k] = doQueryCascadeParameterSelectionList( design,
-							group.getName( ), keyValue, options );
+					listArray[k] = doQueryCascadeParameterSelectionList(
+							design, group.getName( ), keyValue, options );
 					ret.put( remainingParamNames.get( k ), listArray[k] );
 				}
 			}
@@ -224,7 +209,8 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 
 	private List doQueryCascadeParameterSelectionList(
 			IViewerReportDesignHandle design, String groupName,
-			Object[] groupKeys, InputOptions options ) throws RemoteException, ReportServiceException
+			Object[] groupKeys, InputOptions options ) throws RemoteException,
+			ReportServiceException
 	{
 		List selectionList = new ArrayList( );
 
@@ -238,13 +224,13 @@ public abstract class AbstractGetCascadeParameterActionHandler extends
 			int index = 0;
 			while ( iList != null && iList.hasNext( ) )
 			{
-				ParameterSelectionChoice item = ( ParameterSelectionChoice ) iList
+				ParameterSelectionChoice item = (ParameterSelectionChoice) iList
 						.next( );
 				if ( item != null && item.getValue( ) != null )
 				{
 					try
 					{
-						selectionList.add( index++, ( String ) DataTypeUtil
+						selectionList.add( index++, (String) DataTypeUtil
 								.convert( item.getValue( ),
 										DataType.STRING_TYPE ) );
 					}
