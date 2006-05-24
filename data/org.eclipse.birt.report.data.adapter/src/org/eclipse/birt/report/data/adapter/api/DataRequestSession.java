@@ -151,12 +151,12 @@ public abstract class DataRequestSession
 	 * 
 	 * @param dataSet
 	 *            Handle of data set to query
-	 * @param columnBindings
-	 *            An iterator of ComputedColumnHandle objects that define all
-	 *            column binding expressions
 	 * @param inputParamBindings
 	 *            An iterator of ParamBindingHandle objects that defines
 	 *            bindings for the data set's input parameters
+	 * @param columnBindings
+	 *            An iterator of ComputedColumnHandle objects that define all
+	 *            column binding expressions
 	 * @param columnName
 	 *            Name of the bound column to retrieve values for
 	 * @return If boundColumnName is bound to a single data set column, this
