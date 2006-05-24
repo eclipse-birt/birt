@@ -77,7 +77,6 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			if ( this.__mode == 'parameter' )
 			{
 				birtEventDispatcher.broadcastEvent( birtEvent.__E_CACHE_PARAMETER );
-//				this.__close( );
 			}
 			else if ( this.__mode == 'run' )
 			{
@@ -98,7 +97,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	{
 		if ( this.__mode == 'parameter' )
 		{
-			this.__close();
+			this.__cancel();
 		}
 		else
 		{
@@ -145,8 +144,19 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 */	
 	__close : function( )
 	{
-		window.opener = null;
-		window.close( );
+		window.status = "close";
+		//window.opener = null;
+		//window.close( );
+	},
+	
+	/**
+	 *	Click 'Cancel', close window.
+	 *
+	 *	@return, void
+	 */	
+	__cancel : function( )
+	{
+		window.status = "cancel";
 	}
 }
 );
