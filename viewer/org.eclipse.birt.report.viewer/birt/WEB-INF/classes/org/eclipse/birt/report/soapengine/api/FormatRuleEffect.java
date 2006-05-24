@@ -2,24 +2,18 @@
  * FormatRuleEffect.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class FormatRuleEffect  implements java.io.Serializable {
     private java.lang.String font;
-
     private java.lang.Double size;
-
     private java.lang.String color;
-
     private java.lang.String backgroundColor;
-
     private java.lang.Boolean bold;
-
     private java.lang.Boolean italic;
-
     private java.lang.Boolean underline;
 
     public FormatRuleEffect() {

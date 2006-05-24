@@ -2,22 +2,19 @@
  * TableColContextMenuState.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class TableColContextMenuState  implements java.io.Serializable {
-    /* Can set NoRepeatValue in a table column */
+    /** Can set NoRepeatValue in a table column */
     private boolean canNoRepeatValue;
-
-    /* Can unset NoRepeatValue in a table column */
+    /** Can unset NoRepeatValue in a table column */
     private boolean canRepeatValue;
-
-    /* Can expand a group column */
+    /** Can expand a group column */
     private boolean canExpand;
-
-    /* Can collapse a group column */
+    /** Can collapse a group column */
     private boolean canCollapse;
 
     public TableColContextMenuState() {
@@ -38,7 +35,7 @@ public class TableColContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canNoRepeatValue value for this TableColContextMenuState.
      * 
-     * @return canNoRepeatValue   * Can set NoRepeatValue in a table column
+     * @return canNoRepeatValue Can set NoRepeatValue in a table column
      */
     public boolean isCanNoRepeatValue() {
         return canNoRepeatValue;
@@ -48,7 +45,7 @@ public class TableColContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canNoRepeatValue value for this TableColContextMenuState.
      * 
-     * @param canNoRepeatValue   * Can set NoRepeatValue in a table column
+     * @param canNoRepeatValue Can set NoRepeatValue in a table column
      */
     public void setCanNoRepeatValue(boolean canNoRepeatValue) {
         this.canNoRepeatValue = canNoRepeatValue;
@@ -58,7 +55,7 @@ public class TableColContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canRepeatValue value for this TableColContextMenuState.
      * 
-     * @return canRepeatValue   * Can unset NoRepeatValue in a table column
+     * @return canRepeatValue Can unset NoRepeatValue in a table column
      */
     public boolean isCanRepeatValue() {
         return canRepeatValue;
@@ -68,7 +65,7 @@ public class TableColContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canRepeatValue value for this TableColContextMenuState.
      * 
-     * @param canRepeatValue   * Can unset NoRepeatValue in a table column
+     * @param canRepeatValue Can unset NoRepeatValue in a table column
      */
     public void setCanRepeatValue(boolean canRepeatValue) {
         this.canRepeatValue = canRepeatValue;
@@ -78,7 +75,7 @@ public class TableColContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canExpand value for this TableColContextMenuState.
      * 
-     * @return canExpand   * Can expand a group column
+     * @return canExpand Can expand a group column
      */
     public boolean isCanExpand() {
         return canExpand;
@@ -88,7 +85,7 @@ public class TableColContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canExpand value for this TableColContextMenuState.
      * 
-     * @param canExpand   * Can expand a group column
+     * @param canExpand Can expand a group column
      */
     public void setCanExpand(boolean canExpand) {
         this.canExpand = canExpand;
@@ -98,7 +95,7 @@ public class TableColContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canCollapse value for this TableColContextMenuState.
      * 
-     * @return canCollapse   * Can collapse a group column
+     * @return canCollapse Can collapse a group column
      */
     public boolean isCanCollapse() {
         return canCollapse;
@@ -108,7 +105,7 @@ public class TableColContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canCollapse value for this TableColContextMenuState.
      * 
-     * @param canCollapse   * Can collapse a group column
+     * @param canCollapse Can collapse a group column
      */
     public void setCanCollapse(boolean canCollapse) {
         this.canCollapse = canCollapse;

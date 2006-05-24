@@ -2,7 +2,7 @@
  * G_Info.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -13,14 +13,11 @@ package org.eclipse.birt.report.soapengine.api;
  */
 public class G_Info  implements java.io.Serializable {
     private int level;
-
-    /* The number of rows in group header */
+    /** The number of rows in group header */
     private int h_Count;
-
-    /* The number of rows in group footer */
+    /** The number of rows in group footer */
     private int f_Count;
-
-    /* The index of group header row */
+    /** The index of group header row */
     private int HR_Index;
 
     public G_Info() {
@@ -61,7 +58,7 @@ public class G_Info  implements java.io.Serializable {
     /**
      * Gets the h_Count value for this G_Info.
      * 
-     * @return h_Count   * The number of rows in group header
+     * @return h_Count The number of rows in group header
      */
     public int getH_Count() {
         return h_Count;
@@ -71,7 +68,7 @@ public class G_Info  implements java.io.Serializable {
     /**
      * Sets the h_Count value for this G_Info.
      * 
-     * @param h_Count   * The number of rows in group header
+     * @param h_Count The number of rows in group header
      */
     public void setH_Count(int h_Count) {
         this.h_Count = h_Count;
@@ -81,7 +78,7 @@ public class G_Info  implements java.io.Serializable {
     /**
      * Gets the f_Count value for this G_Info.
      * 
-     * @return f_Count   * The number of rows in group footer
+     * @return f_Count The number of rows in group footer
      */
     public int getF_Count() {
         return f_Count;
@@ -91,7 +88,7 @@ public class G_Info  implements java.io.Serializable {
     /**
      * Sets the f_Count value for this G_Info.
      * 
-     * @param f_Count   * The number of rows in group footer
+     * @param f_Count The number of rows in group footer
      */
     public void setF_Count(int f_Count) {
         this.f_Count = f_Count;
@@ -101,7 +98,7 @@ public class G_Info  implements java.io.Serializable {
     /**
      * Gets the HR_Index value for this G_Info.
      * 
-     * @return HR_Index   * The index of group header row
+     * @return HR_Index The index of group header row
      */
     public int getHR_Index() {
         return HR_Index;
@@ -111,7 +108,7 @@ public class G_Info  implements java.io.Serializable {
     /**
      * Sets the HR_Index value for this G_Info.
      * 
-     * @param HR_Index   * The index of group header row
+     * @param HR_Index The index of group header row
      */
     public void setHR_Index(int HR_Index) {
         this.HR_Index = HR_Index;

@@ -2,22 +2,17 @@
  * File.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class File  implements java.io.Serializable {
     private int index;
-
     private boolean isFile;
-
     private java.lang.String name;
-
     private java.lang.String fileType;
-
     private java.lang.String displayName;
-
     private java.lang.String description;
 
     public File() {

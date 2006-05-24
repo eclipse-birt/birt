@@ -2,22 +2,21 @@
  * JoinMetadata.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class JoinMetadata  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.IOReference[] IOList;
-
-    private org.eclipse.birt.report.soapengine.api.JoinDefinition[] joinList;
+    private org.eclipse.birt.report.soapengine.api.IOList IOList;
+    private org.eclipse.birt.report.soapengine.api.JoinList joinList;
 
     public JoinMetadata() {
     }
 
     public JoinMetadata(
-           org.eclipse.birt.report.soapengine.api.IOReference[] IOList,
-           org.eclipse.birt.report.soapengine.api.JoinDefinition[] joinList) {
+           org.eclipse.birt.report.soapengine.api.IOList IOList,
+           org.eclipse.birt.report.soapengine.api.JoinList joinList) {
            this.IOList = IOList;
            this.joinList = joinList;
     }
@@ -28,7 +27,7 @@ public class JoinMetadata  implements java.io.Serializable {
      * 
      * @return IOList
      */
-    public org.eclipse.birt.report.soapengine.api.IOReference[] getIOList() {
+    public org.eclipse.birt.report.soapengine.api.IOList getIOList() {
         return IOList;
     }
 
@@ -38,7 +37,7 @@ public class JoinMetadata  implements java.io.Serializable {
      * 
      * @param IOList
      */
-    public void setIOList(org.eclipse.birt.report.soapengine.api.IOReference[] IOList) {
+    public void setIOList(org.eclipse.birt.report.soapengine.api.IOList IOList) {
         this.IOList = IOList;
     }
 
@@ -48,7 +47,7 @@ public class JoinMetadata  implements java.io.Serializable {
      * 
      * @return joinList
      */
-    public org.eclipse.birt.report.soapengine.api.JoinDefinition[] getJoinList() {
+    public org.eclipse.birt.report.soapengine.api.JoinList getJoinList() {
         return joinList;
     }
 
@@ -58,7 +57,7 @@ public class JoinMetadata  implements java.io.Serializable {
      * 
      * @param joinList
      */
-    public void setJoinList(org.eclipse.birt.report.soapengine.api.JoinDefinition[] joinList) {
+    public void setJoinList(org.eclipse.birt.report.soapengine.api.JoinList joinList) {
         this.joinList = joinList;
     }
 
@@ -76,10 +75,10 @@ public class JoinMetadata  implements java.io.Serializable {
         _equals = true && 
             ((this.IOList==null && other.getIOList()==null) || 
              (this.IOList!=null &&
-              java.util.Arrays.equals(this.IOList, other.getIOList()))) &&
+              this.IOList.equals(other.getIOList()))) &&
             ((this.joinList==null && other.getJoinList()==null) || 
              (this.joinList!=null &&
-              java.util.Arrays.equals(this.joinList, other.getJoinList())));
+              this.joinList.equals(other.getJoinList())));
         __equalsCalc = null;
         return _equals;
     }
@@ -92,26 +91,10 @@ public class JoinMetadata  implements java.io.Serializable {
         __hashCodeCalc = true;
         int _hashCode = 1;
         if (getIOList() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getIOList());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getIOList(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getIOList().hashCode();
         }
         if (getJoinList() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getJoinList());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getJoinList(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getJoinList().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -126,16 +109,14 @@ public class JoinMetadata  implements java.io.Serializable {
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("IOList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOReference"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOList"));
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IO"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("joinList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "JoinList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "JoinDefinition"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "JoinList"));
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Join"));
         typeDesc.addFieldDesc(elemField);
     }
 

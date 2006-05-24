@@ -2,20 +2,16 @@
  * ChartAppearance.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class ChartAppearance  implements java.io.Serializable {
     private java.lang.Boolean showLegend;
-
     private java.lang.Boolean showValues;
-
     private org.eclipse.birt.report.soapengine.api.ChartLocation location;
-
     private java.lang.String width;
-
     private java.lang.String height;
 
     public ChartAppearance() {

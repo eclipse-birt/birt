@@ -2,22 +2,17 @@
  * NumberCategoryChoice.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class NumberCategoryChoice  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.CategoryChoice categoryChoice;
-
-    private java.lang.String[] decimalPlaces;
-
-    private java.lang.String[] symbol;
-
-    private java.lang.String[] symbolPosition;
-
-    private java.lang.String[] negativeNumberFormat;
-
+    private org.eclipse.birt.report.soapengine.api.Vector decimalPlaces;
+    private org.eclipse.birt.report.soapengine.api.Vector symbol;
+    private org.eclipse.birt.report.soapengine.api.Vector symbolPosition;
+    private org.eclipse.birt.report.soapengine.api.Vector negativeNumberFormat;
     private java.lang.Boolean useSeparator;
 
     public NumberCategoryChoice() {
@@ -25,10 +20,10 @@ public class NumberCategoryChoice  implements java.io.Serializable {
 
     public NumberCategoryChoice(
            org.eclipse.birt.report.soapengine.api.CategoryChoice categoryChoice,
-           java.lang.String[] decimalPlaces,
-           java.lang.String[] symbol,
-           java.lang.String[] symbolPosition,
-           java.lang.String[] negativeNumberFormat,
+           org.eclipse.birt.report.soapengine.api.Vector decimalPlaces,
+           org.eclipse.birt.report.soapengine.api.Vector symbol,
+           org.eclipse.birt.report.soapengine.api.Vector symbolPosition,
+           org.eclipse.birt.report.soapengine.api.Vector negativeNumberFormat,
            java.lang.Boolean useSeparator) {
            this.categoryChoice = categoryChoice;
            this.decimalPlaces = decimalPlaces;
@@ -64,7 +59,7 @@ public class NumberCategoryChoice  implements java.io.Serializable {
      * 
      * @return decimalPlaces
      */
-    public java.lang.String[] getDecimalPlaces() {
+    public org.eclipse.birt.report.soapengine.api.Vector getDecimalPlaces() {
         return decimalPlaces;
     }
 
@@ -74,7 +69,7 @@ public class NumberCategoryChoice  implements java.io.Serializable {
      * 
      * @param decimalPlaces
      */
-    public void setDecimalPlaces(java.lang.String[] decimalPlaces) {
+    public void setDecimalPlaces(org.eclipse.birt.report.soapengine.api.Vector decimalPlaces) {
         this.decimalPlaces = decimalPlaces;
     }
 
@@ -84,7 +79,7 @@ public class NumberCategoryChoice  implements java.io.Serializable {
      * 
      * @return symbol
      */
-    public java.lang.String[] getSymbol() {
+    public org.eclipse.birt.report.soapengine.api.Vector getSymbol() {
         return symbol;
     }
 
@@ -94,7 +89,7 @@ public class NumberCategoryChoice  implements java.io.Serializable {
      * 
      * @param symbol
      */
-    public void setSymbol(java.lang.String[] symbol) {
+    public void setSymbol(org.eclipse.birt.report.soapengine.api.Vector symbol) {
         this.symbol = symbol;
     }
 
@@ -104,7 +99,7 @@ public class NumberCategoryChoice  implements java.io.Serializable {
      * 
      * @return symbolPosition
      */
-    public java.lang.String[] getSymbolPosition() {
+    public org.eclipse.birt.report.soapengine.api.Vector getSymbolPosition() {
         return symbolPosition;
     }
 
@@ -114,7 +109,7 @@ public class NumberCategoryChoice  implements java.io.Serializable {
      * 
      * @param symbolPosition
      */
-    public void setSymbolPosition(java.lang.String[] symbolPosition) {
+    public void setSymbolPosition(org.eclipse.birt.report.soapengine.api.Vector symbolPosition) {
         this.symbolPosition = symbolPosition;
     }
 
@@ -124,7 +119,7 @@ public class NumberCategoryChoice  implements java.io.Serializable {
      * 
      * @return negativeNumberFormat
      */
-    public java.lang.String[] getNegativeNumberFormat() {
+    public org.eclipse.birt.report.soapengine.api.Vector getNegativeNumberFormat() {
         return negativeNumberFormat;
     }
 
@@ -134,7 +129,7 @@ public class NumberCategoryChoice  implements java.io.Serializable {
      * 
      * @param negativeNumberFormat
      */
-    public void setNegativeNumberFormat(java.lang.String[] negativeNumberFormat) {
+    public void setNegativeNumberFormat(org.eclipse.birt.report.soapengine.api.Vector negativeNumberFormat) {
         this.negativeNumberFormat = negativeNumberFormat;
     }
 
@@ -175,16 +170,16 @@ public class NumberCategoryChoice  implements java.io.Serializable {
               this.categoryChoice.equals(other.getCategoryChoice()))) &&
             ((this.decimalPlaces==null && other.getDecimalPlaces()==null) || 
              (this.decimalPlaces!=null &&
-              java.util.Arrays.equals(this.decimalPlaces, other.getDecimalPlaces()))) &&
+              this.decimalPlaces.equals(other.getDecimalPlaces()))) &&
             ((this.symbol==null && other.getSymbol()==null) || 
              (this.symbol!=null &&
-              java.util.Arrays.equals(this.symbol, other.getSymbol()))) &&
+              this.symbol.equals(other.getSymbol()))) &&
             ((this.symbolPosition==null && other.getSymbolPosition()==null) || 
              (this.symbolPosition!=null &&
-              java.util.Arrays.equals(this.symbolPosition, other.getSymbolPosition()))) &&
+              this.symbolPosition.equals(other.getSymbolPosition()))) &&
             ((this.negativeNumberFormat==null && other.getNegativeNumberFormat()==null) || 
              (this.negativeNumberFormat!=null &&
-              java.util.Arrays.equals(this.negativeNumberFormat, other.getNegativeNumberFormat()))) &&
+              this.negativeNumberFormat.equals(other.getNegativeNumberFormat()))) &&
             ((this.useSeparator==null && other.getUseSeparator()==null) || 
              (this.useSeparator!=null &&
               this.useSeparator.equals(other.getUseSeparator())));
@@ -203,48 +198,16 @@ public class NumberCategoryChoice  implements java.io.Serializable {
             _hashCode += getCategoryChoice().hashCode();
         }
         if (getDecimalPlaces() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getDecimalPlaces());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getDecimalPlaces(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getDecimalPlaces().hashCode();
         }
         if (getSymbol() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getSymbol());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getSymbol(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getSymbol().hashCode();
         }
         if (getSymbolPosition() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getSymbolPosition());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getSymbolPosition(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getSymbolPosition().hashCode();
         }
         if (getNegativeNumberFormat() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getNegativeNumberFormat());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getNegativeNumberFormat(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getNegativeNumberFormat().hashCode();
         }
         if (getUseSeparator() != null) {
             _hashCode += getUseSeparator().hashCode();
@@ -268,34 +231,30 @@ public class NumberCategoryChoice  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("decimalPlaces");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DecimalPlaces"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("symbol");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Symbol"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("symbolPosition");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SymbolPosition"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("negativeNumberFormat");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "NegativeNumberFormat"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("useSeparator");

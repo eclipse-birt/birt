@@ -2,127 +2,91 @@
  * Data.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class Data  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.Font font;
-
-    private org.eclipse.birt.report.soapengine.api.ResultSet[] resultSets;
-
+    private org.eclipse.birt.report.soapengine.api.ResultSets resultSets;
     private org.eclipse.birt.report.soapengine.api.Format format;
-
     private org.eclipse.birt.report.soapengine.api.TOC TOC;
-
     private org.eclipse.birt.report.soapengine.api.Export export;
-
-    private org.eclipse.birt.report.soapengine.api.SelectionList[] cascadeParameter;
-
+    private org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter;
     private org.eclipse.birt.report.soapengine.api.Filter filter;
-
-    private org.eclipse.birt.report.soapengine.api.Filter[] filterList;
-
-    private java.lang.String[] columnValues;
-
+    private org.eclipse.birt.report.soapengine.api.FilterList filterList;
+    private org.eclipse.birt.report.soapengine.api.Vector columnValues;
     private org.eclipse.birt.report.soapengine.api.Page page;
-
-    private org.eclipse.birt.report.soapengine.api.DataSet[] dataSets;
-
-    private org.eclipse.birt.report.soapengine.api.ReportElement[] reportElementList;
-
-    private org.eclipse.birt.report.soapengine.api.Theme[] themes;
-
-    private org.eclipse.birt.report.soapengine.api.ColumnDefinition[] columnDefs;
-
+    private org.eclipse.birt.report.soapengine.api.DataSetList dataSets;
+    private org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList;
+    private org.eclipse.birt.report.soapengine.api.ThemeList themes;
+    private org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs;
     private org.eclipse.birt.report.soapengine.api.SectionDefinition sectionDef;
-
     private org.eclipse.birt.report.soapengine.api.ChartProperties chart;
-
     private java.lang.String labelText;
-
     private org.eclipse.birt.report.soapengine.api.FileBrowsing fileBrowsing;
-
-    private org.eclipse.birt.report.soapengine.api.DataSource[] dataSources;
-
-    private org.eclipse.birt.report.soapengine.api.Binding[] bindingList;
-
+    private org.eclipse.birt.report.soapengine.api.DataSourceList dataSources;
+    private org.eclipse.birt.report.soapengine.api.BindingList bindingList;
     private org.eclipse.birt.report.soapengine.api.DataSet dataSetDef;
-
-    private org.eclipse.birt.report.soapengine.api.DataSet[] dataSetsToUse;
-
+    private org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse;
     private org.eclipse.birt.report.soapengine.api.DesignState designState;
-
     private org.eclipse.birt.report.soapengine.api.ToolbarState toolbarState;
-
     private java.lang.String redirectURL;
-
     private java.lang.String popupURL;
-
     private org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression;
-
     private org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata;
-
-    private org.eclipse.birt.report.soapengine.api.BoundDataColumn[] boundDataColumnList;
-
-    private org.eclipse.birt.report.soapengine.api.IOFieldList[] IOInfoList;
-
+    private org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList;
+    private org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList;
     private org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu;
-
     private org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState tableSectContextMenu;
-
     private org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu;
-
     private java.lang.String confirmation;
-
-    private org.eclipse.birt.report.soapengine.api.TableLayout[] tableLayoutList;
-
+    private org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList;
     private org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation;
-
-    private org.eclipse.birt.report.soapengine.api.SortDefinition[] sortDefinitionList;
+    private org.eclipse.birt.report.soapengine.api.SortDefinitionList sortDefinitionList;
 
     public Data() {
     }
 
     public Data(
            org.eclipse.birt.report.soapengine.api.Font font,
-           org.eclipse.birt.report.soapengine.api.ResultSet[] resultSets,
+           org.eclipse.birt.report.soapengine.api.ResultSets resultSets,
            org.eclipse.birt.report.soapengine.api.Format format,
            org.eclipse.birt.report.soapengine.api.TOC TOC,
            org.eclipse.birt.report.soapengine.api.Export export,
-           org.eclipse.birt.report.soapengine.api.SelectionList[] cascadeParameter,
+           org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter,
            org.eclipse.birt.report.soapengine.api.Filter filter,
-           org.eclipse.birt.report.soapengine.api.Filter[] filterList,
-           java.lang.String[] columnValues,
+           org.eclipse.birt.report.soapengine.api.FilterList filterList,
+           org.eclipse.birt.report.soapengine.api.Vector columnValues,
            org.eclipse.birt.report.soapengine.api.Page page,
-           org.eclipse.birt.report.soapengine.api.DataSet[] dataSets,
-           org.eclipse.birt.report.soapengine.api.ReportElement[] reportElementList,
-           org.eclipse.birt.report.soapengine.api.Theme[] themes,
-           org.eclipse.birt.report.soapengine.api.ColumnDefinition[] columnDefs,
+           org.eclipse.birt.report.soapengine.api.DataSetList dataSets,
+           org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList,
+           org.eclipse.birt.report.soapengine.api.ThemeList themes,
+           org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs,
            org.eclipse.birt.report.soapengine.api.SectionDefinition sectionDef,
            org.eclipse.birt.report.soapengine.api.ChartProperties chart,
            java.lang.String labelText,
            org.eclipse.birt.report.soapengine.api.FileBrowsing fileBrowsing,
-           org.eclipse.birt.report.soapengine.api.DataSource[] dataSources,
-           org.eclipse.birt.report.soapengine.api.Binding[] bindingList,
+           org.eclipse.birt.report.soapengine.api.DataSourceList dataSources,
+           org.eclipse.birt.report.soapengine.api.BindingList bindingList,
            org.eclipse.birt.report.soapengine.api.DataSet dataSetDef,
-           org.eclipse.birt.report.soapengine.api.DataSet[] dataSetsToUse,
+           org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse,
            org.eclipse.birt.report.soapengine.api.DesignState designState,
            org.eclipse.birt.report.soapengine.api.ToolbarState toolbarState,
            java.lang.String redirectURL,
            java.lang.String popupURL,
            org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression,
            org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata,
-           org.eclipse.birt.report.soapengine.api.BoundDataColumn[] boundDataColumnList,
-           org.eclipse.birt.report.soapengine.api.IOFieldList[] IOInfoList,
+           org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList,
+           org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList,
            org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu,
            org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState tableSectContextMenu,
            org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu,
            java.lang.String confirmation,
-           org.eclipse.birt.report.soapengine.api.TableLayout[] tableLayoutList,
+           org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList,
            org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation,
-           org.eclipse.birt.report.soapengine.api.SortDefinition[] sortDefinitionList) {
+           org.eclipse.birt.report.soapengine.api.SortDefinitionList sortDefinitionList) {
            this.font = font;
            this.resultSets = resultSets;
            this.format = format;
@@ -188,7 +152,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return resultSets
      */
-    public org.eclipse.birt.report.soapengine.api.ResultSet[] getResultSets() {
+    public org.eclipse.birt.report.soapengine.api.ResultSets getResultSets() {
         return resultSets;
     }
 
@@ -198,7 +162,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param resultSets
      */
-    public void setResultSets(org.eclipse.birt.report.soapengine.api.ResultSet[] resultSets) {
+    public void setResultSets(org.eclipse.birt.report.soapengine.api.ResultSets resultSets) {
         this.resultSets = resultSets;
     }
 
@@ -268,7 +232,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return cascadeParameter
      */
-    public org.eclipse.birt.report.soapengine.api.SelectionList[] getCascadeParameter() {
+    public org.eclipse.birt.report.soapengine.api.CascadeParameter getCascadeParameter() {
         return cascadeParameter;
     }
 
@@ -278,7 +242,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param cascadeParameter
      */
-    public void setCascadeParameter(org.eclipse.birt.report.soapengine.api.SelectionList[] cascadeParameter) {
+    public void setCascadeParameter(org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter) {
         this.cascadeParameter = cascadeParameter;
     }
 
@@ -308,7 +272,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return filterList
      */
-    public org.eclipse.birt.report.soapengine.api.Filter[] getFilterList() {
+    public org.eclipse.birt.report.soapengine.api.FilterList getFilterList() {
         return filterList;
     }
 
@@ -318,7 +282,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param filterList
      */
-    public void setFilterList(org.eclipse.birt.report.soapengine.api.Filter[] filterList) {
+    public void setFilterList(org.eclipse.birt.report.soapengine.api.FilterList filterList) {
         this.filterList = filterList;
     }
 
@@ -328,7 +292,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return columnValues
      */
-    public java.lang.String[] getColumnValues() {
+    public org.eclipse.birt.report.soapengine.api.Vector getColumnValues() {
         return columnValues;
     }
 
@@ -338,7 +302,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param columnValues
      */
-    public void setColumnValues(java.lang.String[] columnValues) {
+    public void setColumnValues(org.eclipse.birt.report.soapengine.api.Vector columnValues) {
         this.columnValues = columnValues;
     }
 
@@ -368,7 +332,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return dataSets
      */
-    public org.eclipse.birt.report.soapengine.api.DataSet[] getDataSets() {
+    public org.eclipse.birt.report.soapengine.api.DataSetList getDataSets() {
         return dataSets;
     }
 
@@ -378,7 +342,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param dataSets
      */
-    public void setDataSets(org.eclipse.birt.report.soapengine.api.DataSet[] dataSets) {
+    public void setDataSets(org.eclipse.birt.report.soapengine.api.DataSetList dataSets) {
         this.dataSets = dataSets;
     }
 
@@ -388,7 +352,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return reportElementList
      */
-    public org.eclipse.birt.report.soapengine.api.ReportElement[] getReportElementList() {
+    public org.eclipse.birt.report.soapengine.api.ReportElementList getReportElementList() {
         return reportElementList;
     }
 
@@ -398,7 +362,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param reportElementList
      */
-    public void setReportElementList(org.eclipse.birt.report.soapengine.api.ReportElement[] reportElementList) {
+    public void setReportElementList(org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList) {
         this.reportElementList = reportElementList;
     }
 
@@ -408,7 +372,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return themes
      */
-    public org.eclipse.birt.report.soapengine.api.Theme[] getThemes() {
+    public org.eclipse.birt.report.soapengine.api.ThemeList getThemes() {
         return themes;
     }
 
@@ -418,7 +382,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param themes
      */
-    public void setThemes(org.eclipse.birt.report.soapengine.api.Theme[] themes) {
+    public void setThemes(org.eclipse.birt.report.soapengine.api.ThemeList themes) {
         this.themes = themes;
     }
 
@@ -428,7 +392,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return columnDefs
      */
-    public org.eclipse.birt.report.soapengine.api.ColumnDefinition[] getColumnDefs() {
+    public org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup getColumnDefs() {
         return columnDefs;
     }
 
@@ -438,7 +402,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param columnDefs
      */
-    public void setColumnDefs(org.eclipse.birt.report.soapengine.api.ColumnDefinition[] columnDefs) {
+    public void setColumnDefs(org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs) {
         this.columnDefs = columnDefs;
     }
 
@@ -528,7 +492,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return dataSources
      */
-    public org.eclipse.birt.report.soapengine.api.DataSource[] getDataSources() {
+    public org.eclipse.birt.report.soapengine.api.DataSourceList getDataSources() {
         return dataSources;
     }
 
@@ -538,7 +502,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param dataSources
      */
-    public void setDataSources(org.eclipse.birt.report.soapengine.api.DataSource[] dataSources) {
+    public void setDataSources(org.eclipse.birt.report.soapengine.api.DataSourceList dataSources) {
         this.dataSources = dataSources;
     }
 
@@ -548,7 +512,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return bindingList
      */
-    public org.eclipse.birt.report.soapengine.api.Binding[] getBindingList() {
+    public org.eclipse.birt.report.soapengine.api.BindingList getBindingList() {
         return bindingList;
     }
 
@@ -558,7 +522,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param bindingList
      */
-    public void setBindingList(org.eclipse.birt.report.soapengine.api.Binding[] bindingList) {
+    public void setBindingList(org.eclipse.birt.report.soapengine.api.BindingList bindingList) {
         this.bindingList = bindingList;
     }
 
@@ -588,7 +552,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return dataSetsToUse
      */
-    public org.eclipse.birt.report.soapengine.api.DataSet[] getDataSetsToUse() {
+    public org.eclipse.birt.report.soapengine.api.DataSetList getDataSetsToUse() {
         return dataSetsToUse;
     }
 
@@ -598,7 +562,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param dataSetsToUse
      */
-    public void setDataSetsToUse(org.eclipse.birt.report.soapengine.api.DataSet[] dataSetsToUse) {
+    public void setDataSetsToUse(org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse) {
         this.dataSetsToUse = dataSetsToUse;
     }
 
@@ -728,7 +692,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return boundDataColumnList
      */
-    public org.eclipse.birt.report.soapengine.api.BoundDataColumn[] getBoundDataColumnList() {
+    public org.eclipse.birt.report.soapengine.api.BoundDataColumnList getBoundDataColumnList() {
         return boundDataColumnList;
     }
 
@@ -738,7 +702,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param boundDataColumnList
      */
-    public void setBoundDataColumnList(org.eclipse.birt.report.soapengine.api.BoundDataColumn[] boundDataColumnList) {
+    public void setBoundDataColumnList(org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList) {
         this.boundDataColumnList = boundDataColumnList;
     }
 
@@ -748,7 +712,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return IOInfoList
      */
-    public org.eclipse.birt.report.soapengine.api.IOFieldList[] getIOInfoList() {
+    public org.eclipse.birt.report.soapengine.api.IOInfoList getIOInfoList() {
         return IOInfoList;
     }
 
@@ -758,7 +722,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param IOInfoList
      */
-    public void setIOInfoList(org.eclipse.birt.report.soapengine.api.IOFieldList[] IOInfoList) {
+    public void setIOInfoList(org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList) {
         this.IOInfoList = IOInfoList;
     }
 
@@ -848,7 +812,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return tableLayoutList
      */
-    public org.eclipse.birt.report.soapengine.api.TableLayout[] getTableLayoutList() {
+    public org.eclipse.birt.report.soapengine.api.TableLayoutList getTableLayoutList() {
         return tableLayoutList;
     }
 
@@ -858,7 +822,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param tableLayoutList
      */
-    public void setTableLayoutList(org.eclipse.birt.report.soapengine.api.TableLayout[] tableLayoutList) {
+    public void setTableLayoutList(org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList) {
         this.tableLayoutList = tableLayoutList;
     }
 
@@ -888,7 +852,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @return sortDefinitionList
      */
-    public org.eclipse.birt.report.soapengine.api.SortDefinition[] getSortDefinitionList() {
+    public org.eclipse.birt.report.soapengine.api.SortDefinitionList getSortDefinitionList() {
         return sortDefinitionList;
     }
 
@@ -898,7 +862,7 @@ public class Data  implements java.io.Serializable {
      * 
      * @param sortDefinitionList
      */
-    public void setSortDefinitionList(org.eclipse.birt.report.soapengine.api.SortDefinition[] sortDefinitionList) {
+    public void setSortDefinitionList(org.eclipse.birt.report.soapengine.api.SortDefinitionList sortDefinitionList) {
         this.sortDefinitionList = sortDefinitionList;
     }
 
@@ -919,7 +883,7 @@ public class Data  implements java.io.Serializable {
               this.font.equals(other.getFont()))) &&
             ((this.resultSets==null && other.getResultSets()==null) || 
              (this.resultSets!=null &&
-              java.util.Arrays.equals(this.resultSets, other.getResultSets()))) &&
+              this.resultSets.equals(other.getResultSets()))) &&
             ((this.format==null && other.getFormat()==null) || 
              (this.format!=null &&
               this.format.equals(other.getFormat()))) &&
@@ -931,31 +895,31 @@ public class Data  implements java.io.Serializable {
               this.export.equals(other.getExport()))) &&
             ((this.cascadeParameter==null && other.getCascadeParameter()==null) || 
              (this.cascadeParameter!=null &&
-              java.util.Arrays.equals(this.cascadeParameter, other.getCascadeParameter()))) &&
+              this.cascadeParameter.equals(other.getCascadeParameter()))) &&
             ((this.filter==null && other.getFilter()==null) || 
              (this.filter!=null &&
               this.filter.equals(other.getFilter()))) &&
             ((this.filterList==null && other.getFilterList()==null) || 
              (this.filterList!=null &&
-              java.util.Arrays.equals(this.filterList, other.getFilterList()))) &&
+              this.filterList.equals(other.getFilterList()))) &&
             ((this.columnValues==null && other.getColumnValues()==null) || 
              (this.columnValues!=null &&
-              java.util.Arrays.equals(this.columnValues, other.getColumnValues()))) &&
+              this.columnValues.equals(other.getColumnValues()))) &&
             ((this.page==null && other.getPage()==null) || 
              (this.page!=null &&
               this.page.equals(other.getPage()))) &&
             ((this.dataSets==null && other.getDataSets()==null) || 
              (this.dataSets!=null &&
-              java.util.Arrays.equals(this.dataSets, other.getDataSets()))) &&
+              this.dataSets.equals(other.getDataSets()))) &&
             ((this.reportElementList==null && other.getReportElementList()==null) || 
              (this.reportElementList!=null &&
-              java.util.Arrays.equals(this.reportElementList, other.getReportElementList()))) &&
+              this.reportElementList.equals(other.getReportElementList()))) &&
             ((this.themes==null && other.getThemes()==null) || 
              (this.themes!=null &&
-              java.util.Arrays.equals(this.themes, other.getThemes()))) &&
+              this.themes.equals(other.getThemes()))) &&
             ((this.columnDefs==null && other.getColumnDefs()==null) || 
              (this.columnDefs!=null &&
-              java.util.Arrays.equals(this.columnDefs, other.getColumnDefs()))) &&
+              this.columnDefs.equals(other.getColumnDefs()))) &&
             ((this.sectionDef==null && other.getSectionDef()==null) || 
              (this.sectionDef!=null &&
               this.sectionDef.equals(other.getSectionDef()))) &&
@@ -970,16 +934,16 @@ public class Data  implements java.io.Serializable {
               this.fileBrowsing.equals(other.getFileBrowsing()))) &&
             ((this.dataSources==null && other.getDataSources()==null) || 
              (this.dataSources!=null &&
-              java.util.Arrays.equals(this.dataSources, other.getDataSources()))) &&
+              this.dataSources.equals(other.getDataSources()))) &&
             ((this.bindingList==null && other.getBindingList()==null) || 
              (this.bindingList!=null &&
-              java.util.Arrays.equals(this.bindingList, other.getBindingList()))) &&
+              this.bindingList.equals(other.getBindingList()))) &&
             ((this.dataSetDef==null && other.getDataSetDef()==null) || 
              (this.dataSetDef!=null &&
               this.dataSetDef.equals(other.getDataSetDef()))) &&
             ((this.dataSetsToUse==null && other.getDataSetsToUse()==null) || 
              (this.dataSetsToUse!=null &&
-              java.util.Arrays.equals(this.dataSetsToUse, other.getDataSetsToUse()))) &&
+              this.dataSetsToUse.equals(other.getDataSetsToUse()))) &&
             ((this.designState==null && other.getDesignState()==null) || 
              (this.designState!=null &&
               this.designState.equals(other.getDesignState()))) &&
@@ -1000,10 +964,10 @@ public class Data  implements java.io.Serializable {
               this.joinMetadata.equals(other.getJoinMetadata()))) &&
             ((this.boundDataColumnList==null && other.getBoundDataColumnList()==null) || 
              (this.boundDataColumnList!=null &&
-              java.util.Arrays.equals(this.boundDataColumnList, other.getBoundDataColumnList()))) &&
+              this.boundDataColumnList.equals(other.getBoundDataColumnList()))) &&
             ((this.IOInfoList==null && other.getIOInfoList()==null) || 
              (this.IOInfoList!=null &&
-              java.util.Arrays.equals(this.IOInfoList, other.getIOInfoList()))) &&
+              this.IOInfoList.equals(other.getIOInfoList()))) &&
             ((this.tableColContextMenu==null && other.getTableColContextMenu()==null) || 
              (this.tableColContextMenu!=null &&
               this.tableColContextMenu.equals(other.getTableColContextMenu()))) &&
@@ -1018,13 +982,13 @@ public class Data  implements java.io.Serializable {
               this.confirmation.equals(other.getConfirmation()))) &&
             ((this.tableLayoutList==null && other.getTableLayoutList()==null) || 
              (this.tableLayoutList!=null &&
-              java.util.Arrays.equals(this.tableLayoutList, other.getTableLayoutList()))) &&
+              this.tableLayoutList.equals(other.getTableLayoutList()))) &&
             ((this.availableOperation==null && other.getAvailableOperation()==null) || 
              (this.availableOperation!=null &&
               this.availableOperation.equals(other.getAvailableOperation()))) &&
             ((this.sortDefinitionList==null && other.getSortDefinitionList()==null) || 
              (this.sortDefinitionList!=null &&
-              java.util.Arrays.equals(this.sortDefinitionList, other.getSortDefinitionList())));
+              this.sortDefinitionList.equals(other.getSortDefinitionList())));
         __equalsCalc = null;
         return _equals;
     }
@@ -1040,15 +1004,7 @@ public class Data  implements java.io.Serializable {
             _hashCode += getFont().hashCode();
         }
         if (getResultSets() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getResultSets());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getResultSets(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getResultSets().hashCode();
         }
         if (getFormat() != null) {
             _hashCode += getFormat().hashCode();
@@ -1060,87 +1016,31 @@ public class Data  implements java.io.Serializable {
             _hashCode += getExport().hashCode();
         }
         if (getCascadeParameter() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getCascadeParameter());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getCascadeParameter(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getCascadeParameter().hashCode();
         }
         if (getFilter() != null) {
             _hashCode += getFilter().hashCode();
         }
         if (getFilterList() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getFilterList());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getFilterList(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getFilterList().hashCode();
         }
         if (getColumnValues() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getColumnValues());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getColumnValues(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getColumnValues().hashCode();
         }
         if (getPage() != null) {
             _hashCode += getPage().hashCode();
         }
         if (getDataSets() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getDataSets());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getDataSets(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getDataSets().hashCode();
         }
         if (getReportElementList() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getReportElementList());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getReportElementList(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getReportElementList().hashCode();
         }
         if (getThemes() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getThemes());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getThemes(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getThemes().hashCode();
         }
         if (getColumnDefs() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getColumnDefs());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getColumnDefs(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getColumnDefs().hashCode();
         }
         if (getSectionDef() != null) {
             _hashCode += getSectionDef().hashCode();
@@ -1155,40 +1055,16 @@ public class Data  implements java.io.Serializable {
             _hashCode += getFileBrowsing().hashCode();
         }
         if (getDataSources() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getDataSources());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getDataSources(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getDataSources().hashCode();
         }
         if (getBindingList() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getBindingList());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getBindingList(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getBindingList().hashCode();
         }
         if (getDataSetDef() != null) {
             _hashCode += getDataSetDef().hashCode();
         }
         if (getDataSetsToUse() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getDataSetsToUse());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getDataSetsToUse(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getDataSetsToUse().hashCode();
         }
         if (getDesignState() != null) {
             _hashCode += getDesignState().hashCode();
@@ -1209,26 +1085,10 @@ public class Data  implements java.io.Serializable {
             _hashCode += getJoinMetadata().hashCode();
         }
         if (getBoundDataColumnList() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getBoundDataColumnList());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getBoundDataColumnList(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getBoundDataColumnList().hashCode();
         }
         if (getIOInfoList() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getIOInfoList());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getIOInfoList(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getIOInfoList().hashCode();
         }
         if (getTableColContextMenu() != null) {
             _hashCode += getTableColContextMenu().hashCode();
@@ -1243,29 +1103,13 @@ public class Data  implements java.io.Serializable {
             _hashCode += getConfirmation().hashCode();
         }
         if (getTableLayoutList() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getTableLayoutList());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getTableLayoutList(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getTableLayoutList().hashCode();
         }
         if (getAvailableOperation() != null) {
             _hashCode += getAvailableOperation().hashCode();
         }
         if (getSortDefinitionList() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getSortDefinitionList());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getSortDefinitionList(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getSortDefinitionList().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -1287,10 +1131,9 @@ public class Data  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("resultSets");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ResultSets"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ResultSet"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ResultSets"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ResultSet"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("format");
@@ -1316,10 +1159,9 @@ public class Data  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("cascadeParameter");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CascadeParameter"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectionList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CascadeParameter"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectionList"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("filter");
@@ -1331,18 +1173,16 @@ public class Data  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("filterList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FilterList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Filter"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FilterList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Filter"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("columnValues");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnValues"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("page");
@@ -1354,34 +1194,30 @@ public class Data  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("dataSets");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSets"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSet"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSet"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("reportElementList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportElementList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportElement"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportElementList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Element"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("themes");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Themes"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Theme"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ThemeList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Theme"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("columnDefs");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnDefs"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnDefinition"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnDefinitionGroup"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnDef"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("sectionDef");
@@ -1414,18 +1250,16 @@ public class Data  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("dataSources");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSources"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSource"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSourceList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSource"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("bindingList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BindingList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Binding"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BindingList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Binding"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("dataSetDef");
@@ -1437,10 +1271,9 @@ public class Data  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("dataSetsToUse");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetsToUse"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSet"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSet"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("designState");
@@ -1487,18 +1320,16 @@ public class Data  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("boundDataColumnList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumnList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumn"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumnList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumn"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("IOInfoList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOInfoList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOFieldList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOInfoList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOFieldListArray"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("tableColContextMenu");
@@ -1531,10 +1362,9 @@ public class Data  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("tableLayoutList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayoutList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayout"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayoutList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayout"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("availableOperation");
@@ -1546,10 +1376,9 @@ public class Data  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("sortDefinitionList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortDefinitionList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortDefinition"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortDefinitionList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortDefinition"));
         typeDesc.addFieldDesc(elemField);
     }
 

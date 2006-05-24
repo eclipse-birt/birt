@@ -2,7 +2,7 @@
  * TableRowInfo.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -12,15 +12,13 @@ package org.eclipse.birt.report.soapengine.api;
  * information of a table row
  */
 public class TableRowInfo  implements java.io.Serializable {
-    /* The group level of this row. -1 is used to indicated table
-     * level rows. */
+    /** The group level of this row. -1 is used to indicated table level
+ * rows. */
     private int level;
-
-    /* The position of this row in the group header or group footer.
-     * Index starts from 0. */
+    /** The position of this row in the group header or group footer. Index
+ * starts from 0. */
     private int index;
-
-    /* Whether the row is in header or in footer */
+    /** Whether the row is in header or in footer */
     private boolean isHeader;
 
     public TableRowInfo() {
@@ -39,8 +37,8 @@ public class TableRowInfo  implements java.io.Serializable {
     /**
      * Gets the level value for this TableRowInfo.
      * 
-     * @return level   * The group level of this row. -1 is used to indicated table
-     * level rows.
+     * @return level The group level of this row. -1 is used to indicated table level
+ * rows.
      */
     public int getLevel() {
         return level;
@@ -50,8 +48,8 @@ public class TableRowInfo  implements java.io.Serializable {
     /**
      * Sets the level value for this TableRowInfo.
      * 
-     * @param level   * The group level of this row. -1 is used to indicated table
-     * level rows.
+     * @param level The group level of this row. -1 is used to indicated table level
+ * rows.
      */
     public void setLevel(int level) {
         this.level = level;
@@ -61,8 +59,8 @@ public class TableRowInfo  implements java.io.Serializable {
     /**
      * Gets the index value for this TableRowInfo.
      * 
-     * @return index   * The position of this row in the group header or group footer.
-     * Index starts from 0.
+     * @return index The position of this row in the group header or group footer. Index
+ * starts from 0.
      */
     public int getIndex() {
         return index;
@@ -72,8 +70,8 @@ public class TableRowInfo  implements java.io.Serializable {
     /**
      * Sets the index value for this TableRowInfo.
      * 
-     * @param index   * The position of this row in the group header or group footer.
-     * Index starts from 0.
+     * @param index The position of this row in the group header or group footer. Index
+ * starts from 0.
      */
     public void setIndex(int index) {
         this.index = index;
@@ -83,7 +81,7 @@ public class TableRowInfo  implements java.io.Serializable {
     /**
      * Gets the isHeader value for this TableRowInfo.
      * 
-     * @return isHeader   * Whether the row is in header or in footer
+     * @return isHeader Whether the row is in header or in footer
      */
     public boolean isIsHeader() {
         return isHeader;
@@ -93,7 +91,7 @@ public class TableRowInfo  implements java.io.Serializable {
     /**
      * Sets the isHeader value for this TableRowInfo.
      * 
-     * @param isHeader   * Whether the row is in header or in footer
+     * @param isHeader Whether the row is in header or in footer
      */
     public void setIsHeader(boolean isHeader) {
         this.isHeader = isHeader;
