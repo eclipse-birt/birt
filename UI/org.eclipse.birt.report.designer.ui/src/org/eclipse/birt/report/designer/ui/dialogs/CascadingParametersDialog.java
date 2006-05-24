@@ -85,18 +85,16 @@ import com.ibm.icu.util.ULocale;
 
 public class CascadingParametersDialog extends BaseDialog
 {
-
-	private static final String LABEL_PROMPT_TEXT1 = Messages.getString( "CascadingParametersDialog.Label.promptText1" ); //$NON-NLS-1$
 	
-	private static final String LABEL_PROMPT_TEXT2 = Messages.getString( "CascadingParametersDialog.Label.promptText2" );
+	private static final String LABEL_PARAMTER_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.Label.parameterPromptText" ); //$NON-NLS-1$
 
 	private static final String LABEL_VALUES = Messages.getString( "CascadingParametersDialog.Label.values" ); //$NON-NLS-1$
-
-	private static final String LABEL_LIST_LIMIT = Messages.getString( "CascadingParametersDialog.Label.listLimit" ); //$NON-NLS-1$
-
+	
 	private static final String LABEL_GROUP_GENERAL = Messages.getString( "CascadingParametersDialog.Label.group.general" ); //$NON-NLS-1$
 
 	private static final String LABEL_CASCADING_PARAMETER_NAME = Messages.getString( "CascadingParametersDialog.Label.cascadingParam.name" ); //$NON-NLS-1$
+	
+	private static final String LABEL_GROUP_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.Label.groupPromptText" ); //$NON-NLS-1$
 
 	// private static final String LABEL_GROUP_PROMPT_TEXT = Messages.getString(
 	// "CascadingParametersDialog.Label.promptText" ); //$NON-NLS-1$
@@ -114,6 +112,8 @@ public class CascadingParametersDialog extends BaseDialog
 	private static final String LABEL_GROUP_PROPERTIES = Messages.getString( "CascadingParametersDialog.Label.group.properties" ); //$NON-NLS-1$
 
 	private static final String LABEL_PARAM_NAME = Messages.getString( "CascadingParametersDialog.Label.param.name" ); //$NON-NLS-1$
+	
+	private static final String LABEL_LIST_LIMIT = Messages.getString( "CascadingParametersDialog.Label.listLimit" ); //$NON-NLS-1$
 
 	private static final String LABEL_DATA_TYPE = Messages.getString( "CascadingParametersDialog.Label.dataType" ); //$NON-NLS-1$
 
@@ -228,8 +228,8 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private String PROPERTY_LABEL_STRING[] = {
 			LABEL_PARAM_NAME,
-			LABEL_PROMPT_TEXT1,
-			LABEL_PROMPT_TEXT2,
+			LABEL_GROUP_PROMPT_TEXT,
+			LABEL_PARAMTER_PROMPT_TEXT,
 			LABEL_DATA_TYPE,
 			LABEL_DISPLAY_TYPE,
 			LABEL_DEFAULT_VALUE
@@ -305,7 +305,7 @@ public class CascadingParametersDialog extends BaseDialog
 		cascadingNameEditor = new Text( group, SWT.BORDER );
 		cascadingNameEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		new Label( group, SWT.NULL ).setText( LABEL_PROMPT_TEXT1 );
+		new Label( group, SWT.NULL ).setText( LABEL_GROUP_PROMPT_TEXT );
 		promptTextEditor = new Text( group, SWT.BORDER );
 		promptTextEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -453,7 +453,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		} );
 
-		createLabel( propertiesGroup, LABEL_PROMPT_TEXT2, maxStrLengthProperty );
+		createLabel( propertiesGroup, LABEL_PARAMTER_PROMPT_TEXT, maxStrLengthProperty );
 
 		promptText = new Text( propertiesGroup, SWT.BORDER );
 		promptText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
