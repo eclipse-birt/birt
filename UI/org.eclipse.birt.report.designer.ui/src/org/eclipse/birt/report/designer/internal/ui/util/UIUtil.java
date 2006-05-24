@@ -122,6 +122,28 @@ public class UIUtil
 		return width;
 	}
 
+	public static String AddQuote( String string )
+	{
+		if ( string != null
+				&& ( !( string.startsWith( "\"" ) && string.endsWith( "\"" ) ) ) )
+		{
+			return "\"" + string + "\"";
+		}
+		return string;
+	}
+
+	public static String RemoveQuote( String string )
+	{
+		if ( string != null
+				&& string.length( ) >= 2
+				&& string.startsWith( "\"" )
+				&& string.endsWith( "\"" ) )
+		{
+			return string.substring( 1, string.length( ) - 1 );
+		}
+		return string;
+	}
+
 	/**
 	 * Returns the maxinum length in pixels of given strings in a control.
 	 * 
@@ -1209,5 +1231,4 @@ public class UIUtil
 
 	}
 
-	
 }
