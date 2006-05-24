@@ -170,7 +170,6 @@ public class FontDefinitionDialog
 
 		Label lblFont = new Label( cmpContent, SWT.NONE );
 		GridData gdLFont = new GridData( );
-		gdLFont.heightHint = 22;
 		lblFont.setLayoutData( gdLFont );
 		lblFont.setText( Messages.getString( "FontDefinitionDialog.Lbl.Font" ) ); //$NON-NLS-1$
 
@@ -182,7 +181,6 @@ public class FontDefinitionDialog
 
 		Label lblSize = new Label( cmpContent, SWT.NONE );
 		GridData gdLSize = new GridData( );
-		gdLSize.heightHint = 22;
 		lblSize.setLayoutData( gdLSize );
 		lblSize.setText( Messages.getString( "FontDefinitionDialog.Lbl.Size" ) ); //$NON-NLS-1$
 
@@ -462,7 +460,6 @@ public class FontDefinitionDialog
 	private void createButtonPanel( )
 	{
 		GridData gdButtons = new GridData( GridData.FILL_HORIZONTAL );
-		gdButtons.heightHint = 30;
 		gdButtons.horizontalSpan = 9;
 		cmpButtons = new Composite( cmpContent, SWT.NONE );
 		cmpButtons.setLayoutData( gdButtons );
