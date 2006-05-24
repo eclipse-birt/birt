@@ -807,7 +807,7 @@ public class ResultIterator implements IResultIterator
 			{
 				isBasicSaved = true;
 				this.getRdSave( )
-						.saveResultIterator( (CachedResultSet) this.odiResult,
+						.saveResultIterator( this.odiResult,
 								this.groupLevel,
 								this.subQueryInfo );
 			}
