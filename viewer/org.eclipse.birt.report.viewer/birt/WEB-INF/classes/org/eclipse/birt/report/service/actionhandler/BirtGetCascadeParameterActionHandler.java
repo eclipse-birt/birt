@@ -41,8 +41,7 @@ public class BirtGetCascadeParameterActionHandler
 	protected void handleUpdate( CascadeParameter cascadeParameter )
 	{
 		Data data = new Data( );
-		if ( cascadeParameter != null )
-			data.setCascadeParameter( cascadeParameter.getSelectionList( ) );
+		data.setCascadeParameter( cascadeParameter );
 
 		UpdateData updateData = new UpdateData( );
 		updateData.setTarget( "birtParameterDialog" ); //$NON-NLS-1$

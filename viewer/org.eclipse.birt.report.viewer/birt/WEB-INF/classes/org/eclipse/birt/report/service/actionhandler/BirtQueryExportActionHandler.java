@@ -41,8 +41,7 @@ public class BirtQueryExportActionHandler
 	protected void handleUpdate( ResultSets resultSets )
 	{
 		Data data = new Data( );
-		if ( resultSets != null )
-			data.setResultSets( resultSets.getResultSet( ) );
+		data.setResultSets( resultSets );
 
 		UpdateData updateData = new UpdateData( );
 		updateData.setTarget( "birtSimpleExportDataDialog" ); //$NON-NLS-1$

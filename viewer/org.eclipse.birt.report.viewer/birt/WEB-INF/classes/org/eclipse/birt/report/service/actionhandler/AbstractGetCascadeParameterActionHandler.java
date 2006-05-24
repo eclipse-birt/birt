@@ -103,14 +103,30 @@ public abstract class AbstractGetCascadeParameterActionHandler
 				String name = (String) it.next( );
 				selectionLists[i].setName( name );
 				List selections = (List) cascParamMap.get( name );
-				String[] selectionArray = new String[selections.size( )];
-				selections.toArray( selectionArray );
-				selectionLists[i].setSelections( selectionArray );
+				Vector vector = getVectorFromList( selections );
+				selectionLists[i].setSelections( vector );
 				i++;
 			}
 			cascadeParameter.setSelectionList( selectionLists );
 		}
 		handleUpdate( cascadeParameter );
+	}
+
+	/**
+	 * Get vector from the list.
+	 * 
+	 * @param list
+	 * @return
+	 */
+	private Vector getVectorFromList( List list )
+	{
+		Vector selectionList = new Vector( );
+		selectionList.setValue( new String[list.size( )] );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			selectionList.setValue( i, (String) list.get( i ) );
+		}
+		return selectionList;
 	}
 
 	protected abstract void handleUpdate( CascadeParameter cascadeParameter );
