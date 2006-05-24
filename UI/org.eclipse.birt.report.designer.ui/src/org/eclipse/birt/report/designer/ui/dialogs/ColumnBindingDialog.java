@@ -91,7 +91,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	public static final String DEFAULT_DLG_TITLE = Messages.getString( "ColumnBindingDialog.DialogTitle" ); //$NON-NLS-1$
 
-	private static final String NONE = Messages.getString( "BindingPage.None" );//$NON-NLS-1$
+	private static final String NONE = Messages.getString( "ColumnBindingDialog.None" );//$NON-NLS-1$
 
 	private static final String LABEL_COLUMN_BINDINGS = Messages.getString( "ColumnBindingDialog.Label.DataSet" ); //$NON-NLS-1$
 
