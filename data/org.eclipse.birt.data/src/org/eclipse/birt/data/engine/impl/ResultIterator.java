@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -34,7 +33,6 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
@@ -741,32 +739,6 @@ public class ResultIterator implements IResultIterator
 				return null;
 
 			return this.subQueryName + "/" + this.subQueryIndex;
-		}
-
-		/**
-		 * @param dataExpr
-		 * @param value
-		 * @throws DataException
-		 */
-		void doSaveExpr( IBaseExpression dataExpr, Object value )
-				throws DataException
-		{
-			if ( needsSaveToDoc( ) == false )
-				return;
-
-			if ( isBasicSaved == false )
-			{
-				isBasicSaved = true;
-				this.getRdSave( )
-						.saveResultIterator( (CachedResultSet) this.odiResult,
-								this.groupLevel,
-								this.subQueryInfo );
-			}
-			
-			this.getRdSave( )
-					.saveExprValue( odiResult.getCurrentResultIndex( ),
-							dataExpr.getID( ),
-							value );
 		}
 		
 		/**

@@ -257,7 +257,6 @@ final class PreparedQuery
 	    	String exprText = ((IScriptExpression) expr).getText();
 	    	CompiledExpression handle = compiler.compile( exprText, reg, cx);
 	    	expr.setHandle( handle );
-	    	expr.setID( IDUtil.nextExprID( ) );
 	    }
 	    else if ( expr instanceof IConditionalExpression )
 	    {
@@ -275,7 +274,6 @@ final class PreparedQuery
 	    	// No separate preparation is required for the conditional expression 
 	    	// Set itself as the compiled handle
 	    	expr.setHandle( ce );
-	    	expr.setID( IDUtil.nextExprID( ) );
 	    }
 	    else
 	    {

@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
@@ -142,34 +141,6 @@ public class RDLoad
 		}
 	}
 	
-	/**
-	 * @param expr
-	 * @throws DataException 
-	 */
-	Object getValue( IBaseExpression expr ) throws DataException
-	{
-		try
-		{
-			if ( readIndex < currPos )
-			{
-				this.skipTo( currPos - 1 );
-				this.initCurrentRow( );
-			}
-			readIndex = currPos;
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-					e,
-					"Result Data" );
-		}
-
-		if ( exprValueMap.containsKey( expr.getID( ) ) == false )
-			throw new DataException( ResourceConstants.RD_EXPR_INVALID_ERROR );
-
-		return exprValueMap.get( expr.getID( ) );
-	}
-
 	/**
 	 * @param name
 	 * @return
