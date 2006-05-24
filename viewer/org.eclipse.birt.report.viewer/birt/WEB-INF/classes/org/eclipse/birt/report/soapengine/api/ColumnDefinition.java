@@ -2,24 +2,36 @@
  * ColumnDefinition.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class ColumnDefinition  implements java.io.Serializable {
     private int index;
+
     private java.lang.String header;
+
     private java.lang.Integer dataType;
+
     private java.lang.String expr;
+
     private java.lang.Integer newIndex;
+
     private java.lang.Boolean isGrouped;
+
     private org.eclipse.birt.report.soapengine.api.SortingDirection sortDir;
+
     private org.eclipse.birt.report.soapengine.api.AggregateDefinition[] aggregate;
+
     private org.eclipse.birt.report.soapengine.api.Font font;
+
     private org.eclipse.birt.report.soapengine.api.Format format;
+
     private org.eclipse.birt.report.soapengine.api.ColumnProperties properties;
-    private org.eclipse.birt.report.soapengine.api.FormatRuleSet formatRuleSet;
+
+    private org.eclipse.birt.report.soapengine.api.FormatRule[] formatRuleSet;
+
     private org.eclipse.birt.report.soapengine.api.BoundDataColumn boundDataColumn;
 
     public ColumnDefinition() {
@@ -37,7 +49,7 @@ public class ColumnDefinition  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.Font font,
            org.eclipse.birt.report.soapengine.api.Format format,
            org.eclipse.birt.report.soapengine.api.ColumnProperties properties,
-           org.eclipse.birt.report.soapengine.api.FormatRuleSet formatRuleSet,
+           org.eclipse.birt.report.soapengine.api.FormatRule[] formatRuleSet,
            org.eclipse.birt.report.soapengine.api.BoundDataColumn boundDataColumn) {
            this.index = index;
            this.header = header;
@@ -288,7 +300,7 @@ public class ColumnDefinition  implements java.io.Serializable {
      * 
      * @return formatRuleSet
      */
-    public org.eclipse.birt.report.soapengine.api.FormatRuleSet getFormatRuleSet() {
+    public org.eclipse.birt.report.soapengine.api.FormatRule[] getFormatRuleSet() {
         return formatRuleSet;
     }
 
@@ -298,7 +310,7 @@ public class ColumnDefinition  implements java.io.Serializable {
      * 
      * @param formatRuleSet
      */
-    public void setFormatRuleSet(org.eclipse.birt.report.soapengine.api.FormatRuleSet formatRuleSet) {
+    public void setFormatRuleSet(org.eclipse.birt.report.soapengine.api.FormatRule[] formatRuleSet) {
         this.formatRuleSet = formatRuleSet;
     }
 
@@ -367,7 +379,7 @@ public class ColumnDefinition  implements java.io.Serializable {
               this.properties.equals(other.getProperties()))) &&
             ((this.formatRuleSet==null && other.getFormatRuleSet()==null) || 
              (this.formatRuleSet!=null &&
-              this.formatRuleSet.equals(other.getFormatRuleSet()))) &&
+              java.util.Arrays.equals(this.formatRuleSet, other.getFormatRuleSet()))) &&
             ((this.boundDataColumn==null && other.getBoundDataColumn()==null) || 
              (this.boundDataColumn!=null &&
               this.boundDataColumn.equals(other.getBoundDataColumn())));
@@ -422,7 +434,15 @@ public class ColumnDefinition  implements java.io.Serializable {
             _hashCode += getProperties().hashCode();
         }
         if (getFormatRuleSet() != null) {
-            _hashCode += getFormatRuleSet().hashCode();
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getFormatRuleSet());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getFormatRuleSet(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
         }
         if (getBoundDataColumn() != null) {
             _hashCode += getBoundDataColumn().hashCode();
@@ -517,9 +537,10 @@ public class ColumnDefinition  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("formatRuleSet");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FormatRuleSet"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FormatRuleSet"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FormatRule"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
+        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FormatRule"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("boundDataColumn");

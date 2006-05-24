@@ -2,17 +2,19 @@
  * TableContextMenuState.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class TableContextMenuState  implements java.io.Serializable {
-    /** Can insert a chart in this section */
+    /* Can insert a chart in this section */
     private boolean canAddChart;
-    /** Can edit a chart in this section */
+
+    /* Can edit a chart in this section */
     private boolean canEditChart;
-    /** Can delete a chart in this section */
+
+    /* Can delete a chart in this section */
     private boolean canDeleteChart;
 
     public TableContextMenuState() {
@@ -31,7 +33,7 @@ public class TableContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canAddChart value for this TableContextMenuState.
      * 
-     * @return canAddChart Can insert a chart in this section
+     * @return canAddChart   * Can insert a chart in this section
      */
     public boolean isCanAddChart() {
         return canAddChart;
@@ -41,7 +43,7 @@ public class TableContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canAddChart value for this TableContextMenuState.
      * 
-     * @param canAddChart Can insert a chart in this section
+     * @param canAddChart   * Can insert a chart in this section
      */
     public void setCanAddChart(boolean canAddChart) {
         this.canAddChart = canAddChart;
@@ -51,7 +53,7 @@ public class TableContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canEditChart value for this TableContextMenuState.
      * 
-     * @return canEditChart Can edit a chart in this section
+     * @return canEditChart   * Can edit a chart in this section
      */
     public boolean isCanEditChart() {
         return canEditChart;
@@ -61,7 +63,7 @@ public class TableContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canEditChart value for this TableContextMenuState.
      * 
-     * @param canEditChart Can edit a chart in this section
+     * @param canEditChart   * Can edit a chart in this section
      */
     public void setCanEditChart(boolean canEditChart) {
         this.canEditChart = canEditChart;
@@ -71,7 +73,7 @@ public class TableContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canDeleteChart value for this TableContextMenuState.
      * 
-     * @return canDeleteChart Can delete a chart in this section
+     * @return canDeleteChart   * Can delete a chart in this section
      */
     public boolean isCanDeleteChart() {
         return canDeleteChart;
@@ -81,7 +83,7 @@ public class TableContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canDeleteChart value for this TableContextMenuState.
      * 
-     * @param canDeleteChart Can delete a chart in this section
+     * @param canDeleteChart   * Can delete a chart in this section
      */
     public void setCanDeleteChart(boolean canDeleteChart) {
         this.canDeleteChart = canDeleteChart;

@@ -2,7 +2,7 @@
  * S_Info.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -13,13 +13,17 @@ package org.eclipse.birt.report.soapengine.api;
  */
 public class S_Info  implements java.io.Serializable {
     private int level;
-    /** The number of rows in section header */
+
+    /* The number of rows in section header */
     private int h_Count;
-    /** The number of rows in section footer */
+
+    /* The number of rows in section footer */
     private int f_Count;
-    /** The index of section header row */
+
+    /* The index of section header row */
     private int HR_Index;
-    /** The index of chart row */
+
+    /* The index of chart row */
     private int CR_Index;
 
     public S_Info() {
@@ -62,7 +66,7 @@ public class S_Info  implements java.io.Serializable {
     /**
      * Gets the h_Count value for this S_Info.
      * 
-     * @return h_Count The number of rows in section header
+     * @return h_Count   * The number of rows in section header
      */
     public int getH_Count() {
         return h_Count;
@@ -72,7 +76,7 @@ public class S_Info  implements java.io.Serializable {
     /**
      * Sets the h_Count value for this S_Info.
      * 
-     * @param h_Count The number of rows in section header
+     * @param h_Count   * The number of rows in section header
      */
     public void setH_Count(int h_Count) {
         this.h_Count = h_Count;
@@ -82,7 +86,7 @@ public class S_Info  implements java.io.Serializable {
     /**
      * Gets the f_Count value for this S_Info.
      * 
-     * @return f_Count The number of rows in section footer
+     * @return f_Count   * The number of rows in section footer
      */
     public int getF_Count() {
         return f_Count;
@@ -92,7 +96,7 @@ public class S_Info  implements java.io.Serializable {
     /**
      * Sets the f_Count value for this S_Info.
      * 
-     * @param f_Count The number of rows in section footer
+     * @param f_Count   * The number of rows in section footer
      */
     public void setF_Count(int f_Count) {
         this.f_Count = f_Count;
@@ -102,7 +106,7 @@ public class S_Info  implements java.io.Serializable {
     /**
      * Gets the HR_Index value for this S_Info.
      * 
-     * @return HR_Index The index of section header row
+     * @return HR_Index   * The index of section header row
      */
     public int getHR_Index() {
         return HR_Index;
@@ -112,7 +116,7 @@ public class S_Info  implements java.io.Serializable {
     /**
      * Sets the HR_Index value for this S_Info.
      * 
-     * @param HR_Index The index of section header row
+     * @param HR_Index   * The index of section header row
      */
     public void setHR_Index(int HR_Index) {
         this.HR_Index = HR_Index;
@@ -122,7 +126,7 @@ public class S_Info  implements java.io.Serializable {
     /**
      * Gets the CR_Index value for this S_Info.
      * 
-     * @return CR_Index The index of chart row
+     * @return CR_Index   * The index of chart row
      */
     public int getCR_Index() {
         return CR_Index;
@@ -132,7 +136,7 @@ public class S_Info  implements java.io.Serializable {
     /**
      * Sets the CR_Index value for this S_Info.
      * 
-     * @param CR_Index The index of chart row
+     * @param CR_Index   * The index of chart row
      */
     public void setCR_Index(int CR_Index) {
         this.CR_Index = CR_Index;

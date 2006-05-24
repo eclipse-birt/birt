@@ -2,15 +2,18 @@
  * ChartProperties.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class ChartProperties  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.ChartType type;
+
     private org.eclipse.birt.report.soapengine.api.ChartDataBinding dataBinding;
+
     private org.eclipse.birt.report.soapengine.api.ChartLabels labels;
+
     private org.eclipse.birt.report.soapengine.api.ChartAppearance apperance;
 
     public ChartProperties() {

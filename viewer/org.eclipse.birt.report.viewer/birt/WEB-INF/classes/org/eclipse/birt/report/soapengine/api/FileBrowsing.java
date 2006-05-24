@@ -2,28 +2,36 @@
  * FileBrowsing.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class FileBrowsing  implements java.io.Serializable {
     private java.lang.String path;
+
+    private java.lang.String fileName;
+
     private org.eclipse.birt.report.soapengine.api.FileSearch search;
+
     private java.lang.String pathSeparator;
-    private org.eclipse.birt.report.soapengine.api.RepositoryPathSegmentList currentWorkingFolder;
-    private org.eclipse.birt.report.soapengine.api.FileList fileList;
+
+    private org.eclipse.birt.report.soapengine.api.RepositoryPathSegment[] currentWorkingFolder;
+
+    private org.eclipse.birt.report.soapengine.api.File[] fileList;
 
     public FileBrowsing() {
     }
 
     public FileBrowsing(
            java.lang.String path,
+           java.lang.String fileName,
            org.eclipse.birt.report.soapengine.api.FileSearch search,
            java.lang.String pathSeparator,
-           org.eclipse.birt.report.soapengine.api.RepositoryPathSegmentList currentWorkingFolder,
-           org.eclipse.birt.report.soapengine.api.FileList fileList) {
+           org.eclipse.birt.report.soapengine.api.RepositoryPathSegment[] currentWorkingFolder,
+           org.eclipse.birt.report.soapengine.api.File[] fileList) {
            this.path = path;
+           this.fileName = fileName;
            this.search = search;
            this.pathSeparator = pathSeparator;
            this.currentWorkingFolder = currentWorkingFolder;
@@ -48,6 +56,26 @@ public class FileBrowsing  implements java.io.Serializable {
      */
     public void setPath(java.lang.String path) {
         this.path = path;
+    }
+
+
+    /**
+     * Gets the fileName value for this FileBrowsing.
+     * 
+     * @return fileName
+     */
+    public java.lang.String getFileName() {
+        return fileName;
+    }
+
+
+    /**
+     * Sets the fileName value for this FileBrowsing.
+     * 
+     * @param fileName
+     */
+    public void setFileName(java.lang.String fileName) {
+        this.fileName = fileName;
     }
 
 
@@ -96,7 +124,7 @@ public class FileBrowsing  implements java.io.Serializable {
      * 
      * @return currentWorkingFolder
      */
-    public org.eclipse.birt.report.soapengine.api.RepositoryPathSegmentList getCurrentWorkingFolder() {
+    public org.eclipse.birt.report.soapengine.api.RepositoryPathSegment[] getCurrentWorkingFolder() {
         return currentWorkingFolder;
     }
 
@@ -106,7 +134,7 @@ public class FileBrowsing  implements java.io.Serializable {
      * 
      * @param currentWorkingFolder
      */
-    public void setCurrentWorkingFolder(org.eclipse.birt.report.soapengine.api.RepositoryPathSegmentList currentWorkingFolder) {
+    public void setCurrentWorkingFolder(org.eclipse.birt.report.soapengine.api.RepositoryPathSegment[] currentWorkingFolder) {
         this.currentWorkingFolder = currentWorkingFolder;
     }
 
@@ -116,7 +144,7 @@ public class FileBrowsing  implements java.io.Serializable {
      * 
      * @return fileList
      */
-    public org.eclipse.birt.report.soapengine.api.FileList getFileList() {
+    public org.eclipse.birt.report.soapengine.api.File[] getFileList() {
         return fileList;
     }
 
@@ -126,7 +154,7 @@ public class FileBrowsing  implements java.io.Serializable {
      * 
      * @param fileList
      */
-    public void setFileList(org.eclipse.birt.report.soapengine.api.FileList fileList) {
+    public void setFileList(org.eclipse.birt.report.soapengine.api.File[] fileList) {
         this.fileList = fileList;
     }
 
@@ -145,6 +173,9 @@ public class FileBrowsing  implements java.io.Serializable {
             ((this.path==null && other.getPath()==null) || 
              (this.path!=null &&
               this.path.equals(other.getPath()))) &&
+            ((this.fileName==null && other.getFileName()==null) || 
+             (this.fileName!=null &&
+              this.fileName.equals(other.getFileName()))) &&
             ((this.search==null && other.getSearch()==null) || 
              (this.search!=null &&
               this.search.equals(other.getSearch()))) &&
@@ -153,10 +184,10 @@ public class FileBrowsing  implements java.io.Serializable {
               this.pathSeparator.equals(other.getPathSeparator()))) &&
             ((this.currentWorkingFolder==null && other.getCurrentWorkingFolder()==null) || 
              (this.currentWorkingFolder!=null &&
-              this.currentWorkingFolder.equals(other.getCurrentWorkingFolder()))) &&
+              java.util.Arrays.equals(this.currentWorkingFolder, other.getCurrentWorkingFolder()))) &&
             ((this.fileList==null && other.getFileList()==null) || 
              (this.fileList!=null &&
-              this.fileList.equals(other.getFileList())));
+              java.util.Arrays.equals(this.fileList, other.getFileList())));
         __equalsCalc = null;
         return _equals;
     }
@@ -171,6 +202,9 @@ public class FileBrowsing  implements java.io.Serializable {
         if (getPath() != null) {
             _hashCode += getPath().hashCode();
         }
+        if (getFileName() != null) {
+            _hashCode += getFileName().hashCode();
+        }
         if (getSearch() != null) {
             _hashCode += getSearch().hashCode();
         }
@@ -178,10 +212,26 @@ public class FileBrowsing  implements java.io.Serializable {
             _hashCode += getPathSeparator().hashCode();
         }
         if (getCurrentWorkingFolder() != null) {
-            _hashCode += getCurrentWorkingFolder().hashCode();
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getCurrentWorkingFolder());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getCurrentWorkingFolder(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
         }
         if (getFileList() != null) {
-            _hashCode += getFileList().hashCode();
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getFileList());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getFileList(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -197,6 +247,14 @@ public class FileBrowsing  implements java.io.Serializable {
         elemField.setFieldName("path");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Path"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("fileName");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FileName"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
@@ -216,16 +274,18 @@ public class FileBrowsing  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("currentWorkingFolder");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CurrentWorkingFolder"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "RepositoryPathSegmentList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "RepositoryPathSegment"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
+        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Segment"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("fileList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FileList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FileList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "File"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
+        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "File"));
         typeDesc.addFieldDesc(elemField);
     }
 

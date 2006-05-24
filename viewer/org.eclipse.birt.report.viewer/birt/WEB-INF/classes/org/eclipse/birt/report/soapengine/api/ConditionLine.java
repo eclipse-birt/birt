@@ -2,27 +2,35 @@
  * ConditionLine.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class ConditionLine  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList;
+    private org.eclipse.birt.report.soapengine.api.ReportParameter[] reportParameterList;
+
     private java.lang.String logicOp;
+
     private boolean hasLeftBracket;
+
     private boolean hasNot;
+
     private java.lang.String row;
+
     private java.lang.String operator;
+
     private java.lang.String value1;
+
     private java.lang.String value2;
+
     private boolean hasRightBracket;
 
     public ConditionLine() {
     }
 
     public ConditionLine(
-           org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList,
+           org.eclipse.birt.report.soapengine.api.ReportParameter[] reportParameterList,
            java.lang.String logicOp,
            boolean hasLeftBracket,
            boolean hasNot,
@@ -48,7 +56,7 @@ public class ConditionLine  implements java.io.Serializable {
      * 
      * @return reportParameterList
      */
-    public org.eclipse.birt.report.soapengine.api.ReportParameterList getReportParameterList() {
+    public org.eclipse.birt.report.soapengine.api.ReportParameter[] getReportParameterList() {
         return reportParameterList;
     }
 
@@ -58,7 +66,7 @@ public class ConditionLine  implements java.io.Serializable {
      * 
      * @param reportParameterList
      */
-    public void setReportParameterList(org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList) {
+    public void setReportParameterList(org.eclipse.birt.report.soapengine.api.ReportParameter[] reportParameterList) {
         this.reportParameterList = reportParameterList;
     }
 
@@ -236,7 +244,7 @@ public class ConditionLine  implements java.io.Serializable {
         _equals = true && 
             ((this.reportParameterList==null && other.getReportParameterList()==null) || 
              (this.reportParameterList!=null &&
-              this.reportParameterList.equals(other.getReportParameterList()))) &&
+              java.util.Arrays.equals(this.reportParameterList, other.getReportParameterList()))) &&
             ((this.logicOp==null && other.getLogicOp()==null) || 
              (this.logicOp!=null &&
               this.logicOp.equals(other.getLogicOp()))) &&
@@ -267,7 +275,15 @@ public class ConditionLine  implements java.io.Serializable {
         __hashCodeCalc = true;
         int _hashCode = 1;
         if (getReportParameterList() != null) {
-            _hashCode += getReportParameterList().hashCode();
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getReportParameterList());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getReportParameterList(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
         }
         if (getLogicOp() != null) {
             _hashCode += getLogicOp().hashCode();
@@ -300,9 +316,10 @@ public class ConditionLine  implements java.io.Serializable {
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("reportParameterList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportParameterList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportParameterList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportParameter"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
+        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportParameter"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("logicOp");

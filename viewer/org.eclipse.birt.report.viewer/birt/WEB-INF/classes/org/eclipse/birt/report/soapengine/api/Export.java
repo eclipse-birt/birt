@@ -2,22 +2,24 @@
  * Export.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class Export  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.Vector availableColumns;
-    private org.eclipse.birt.report.soapengine.api.Vector selectedColumn;
+    private java.lang.String[] availableColumns;
+
+    private java.lang.String[] selectedColumn;
+
     private org.eclipse.birt.report.soapengine.api.ExportCriteria[] criteria;
 
     public Export() {
     }
 
     public Export(
-           org.eclipse.birt.report.soapengine.api.Vector availableColumns,
-           org.eclipse.birt.report.soapengine.api.Vector selectedColumn,
+           java.lang.String[] availableColumns,
+           java.lang.String[] selectedColumn,
            org.eclipse.birt.report.soapengine.api.ExportCriteria[] criteria) {
            this.availableColumns = availableColumns;
            this.selectedColumn = selectedColumn;
@@ -30,7 +32,7 @@ public class Export  implements java.io.Serializable {
      * 
      * @return availableColumns
      */
-    public org.eclipse.birt.report.soapengine.api.Vector getAvailableColumns() {
+    public java.lang.String[] getAvailableColumns() {
         return availableColumns;
     }
 
@@ -40,7 +42,7 @@ public class Export  implements java.io.Serializable {
      * 
      * @param availableColumns
      */
-    public void setAvailableColumns(org.eclipse.birt.report.soapengine.api.Vector availableColumns) {
+    public void setAvailableColumns(java.lang.String[] availableColumns) {
         this.availableColumns = availableColumns;
     }
 
@@ -50,7 +52,7 @@ public class Export  implements java.io.Serializable {
      * 
      * @return selectedColumn
      */
-    public org.eclipse.birt.report.soapengine.api.Vector getSelectedColumn() {
+    public java.lang.String[] getSelectedColumn() {
         return selectedColumn;
     }
 
@@ -60,7 +62,7 @@ public class Export  implements java.io.Serializable {
      * 
      * @param selectedColumn
      */
-    public void setSelectedColumn(org.eclipse.birt.report.soapengine.api.Vector selectedColumn) {
+    public void setSelectedColumn(java.lang.String[] selectedColumn) {
         this.selectedColumn = selectedColumn;
     }
 
@@ -106,10 +108,10 @@ public class Export  implements java.io.Serializable {
         _equals = true && 
             ((this.availableColumns==null && other.getAvailableColumns()==null) || 
              (this.availableColumns!=null &&
-              this.availableColumns.equals(other.getAvailableColumns()))) &&
+              java.util.Arrays.equals(this.availableColumns, other.getAvailableColumns()))) &&
             ((this.selectedColumn==null && other.getSelectedColumn()==null) || 
              (this.selectedColumn!=null &&
-              this.selectedColumn.equals(other.getSelectedColumn()))) &&
+              java.util.Arrays.equals(this.selectedColumn, other.getSelectedColumn()))) &&
             ((this.criteria==null && other.getCriteria()==null) || 
              (this.criteria!=null &&
               java.util.Arrays.equals(this.criteria, other.getCriteria())));
@@ -125,10 +127,26 @@ public class Export  implements java.io.Serializable {
         __hashCodeCalc = true;
         int _hashCode = 1;
         if (getAvailableColumns() != null) {
-            _hashCode += getAvailableColumns().hashCode();
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getAvailableColumns());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getAvailableColumns(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
         }
         if (getSelectedColumn() != null) {
-            _hashCode += getSelectedColumn().hashCode();
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getSelectedColumn());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getSelectedColumn(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
         }
         if (getCriteria() != null) {
             for (int i=0;
@@ -154,14 +172,16 @@ public class Export  implements java.io.Serializable {
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("availableColumns");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AvailableColumns"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
+        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("selectedColumn");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectedColumn"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
+        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("criteria");

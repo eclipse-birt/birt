@@ -2,19 +2,23 @@
  * ToolbarState.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class ToolbarState  implements java.io.Serializable {
-    /** can create a new report */
+    /* can create a new report */
     private boolean canNew;
+
     private boolean canUndo;
+
     private boolean canRedo;
-    /** where to save the design is known */
+
+    /* where to save the design is known */
     private boolean canSave;
-    /** the design is dirty */
+
+    /* the design is dirty */
     private boolean isDirty;
 
     public ToolbarState() {
@@ -37,7 +41,7 @@ public class ToolbarState  implements java.io.Serializable {
     /**
      * Gets the canNew value for this ToolbarState.
      * 
-     * @return canNew can create a new report
+     * @return canNew   * can create a new report
      */
     public boolean isCanNew() {
         return canNew;
@@ -47,7 +51,7 @@ public class ToolbarState  implements java.io.Serializable {
     /**
      * Sets the canNew value for this ToolbarState.
      * 
-     * @param canNew can create a new report
+     * @param canNew   * can create a new report
      */
     public void setCanNew(boolean canNew) {
         this.canNew = canNew;
@@ -97,7 +101,7 @@ public class ToolbarState  implements java.io.Serializable {
     /**
      * Gets the canSave value for this ToolbarState.
      * 
-     * @return canSave where to save the design is known
+     * @return canSave   * where to save the design is known
      */
     public boolean isCanSave() {
         return canSave;
@@ -107,7 +111,7 @@ public class ToolbarState  implements java.io.Serializable {
     /**
      * Sets the canSave value for this ToolbarState.
      * 
-     * @param canSave where to save the design is known
+     * @param canSave   * where to save the design is known
      */
     public void setCanSave(boolean canSave) {
         this.canSave = canSave;
@@ -117,7 +121,7 @@ public class ToolbarState  implements java.io.Serializable {
     /**
      * Gets the isDirty value for this ToolbarState.
      * 
-     * @return isDirty the design is dirty
+     * @return isDirty   * the design is dirty
      */
     public boolean isIsDirty() {
         return isDirty;
@@ -127,7 +131,7 @@ public class ToolbarState  implements java.io.Serializable {
     /**
      * Sets the isDirty value for this ToolbarState.
      * 
-     * @param isDirty the design is dirty
+     * @param isDirty   * the design is dirty
      */
     public void setIsDirty(boolean isDirty) {
         this.isDirty = isDirty;

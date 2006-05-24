@@ -2,24 +2,30 @@
  * TableLayout.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class TableLayout  implements java.io.Serializable {
-    /** Design id of table */
+    /* Design id of table */
     private long id;
-    /** Number of sections */
+
+    /* Number of sections */
     private int s_Count;
-    /** Number of ERNI groups */
+
+    /* Number of ERNI groups */
     private int g_Count;
-    /** The information of column header row */
+
+    /* The information of column header row */
     private org.eclipse.birt.report.soapengine.api.TableRowInfo CH_Row;
-    /** The information of the table level chart row */
+
+    /* The information of the table level chart row */
     private org.eclipse.birt.report.soapengine.api.TableRowInfo TC_Row;
-    private org.eclipse.birt.report.soapengine.api.TableSections sections;
-    private org.eclipse.birt.report.soapengine.api.TableGroups groups;
+
+    private org.eclipse.birt.report.soapengine.api.S_Info[] sections;
+
+    private org.eclipse.birt.report.soapengine.api.G_Info[] groups;
 
     public TableLayout() {
     }
@@ -30,8 +36,8 @@ public class TableLayout  implements java.io.Serializable {
            int g_Count,
            org.eclipse.birt.report.soapengine.api.TableRowInfo CH_Row,
            org.eclipse.birt.report.soapengine.api.TableRowInfo TC_Row,
-           org.eclipse.birt.report.soapengine.api.TableSections sections,
-           org.eclipse.birt.report.soapengine.api.TableGroups groups) {
+           org.eclipse.birt.report.soapengine.api.S_Info[] sections,
+           org.eclipse.birt.report.soapengine.api.G_Info[] groups) {
            this.id = id;
            this.s_Count = s_Count;
            this.g_Count = g_Count;
@@ -45,7 +51,7 @@ public class TableLayout  implements java.io.Serializable {
     /**
      * Gets the id value for this TableLayout.
      * 
-     * @return id Design id of table
+     * @return id   * Design id of table
      */
     public long getId() {
         return id;
@@ -55,7 +61,7 @@ public class TableLayout  implements java.io.Serializable {
     /**
      * Sets the id value for this TableLayout.
      * 
-     * @param id Design id of table
+     * @param id   * Design id of table
      */
     public void setId(long id) {
         this.id = id;
@@ -65,7 +71,7 @@ public class TableLayout  implements java.io.Serializable {
     /**
      * Gets the s_Count value for this TableLayout.
      * 
-     * @return s_Count Number of sections
+     * @return s_Count   * Number of sections
      */
     public int getS_Count() {
         return s_Count;
@@ -75,7 +81,7 @@ public class TableLayout  implements java.io.Serializable {
     /**
      * Sets the s_Count value for this TableLayout.
      * 
-     * @param s_Count Number of sections
+     * @param s_Count   * Number of sections
      */
     public void setS_Count(int s_Count) {
         this.s_Count = s_Count;
@@ -85,7 +91,7 @@ public class TableLayout  implements java.io.Serializable {
     /**
      * Gets the g_Count value for this TableLayout.
      * 
-     * @return g_Count Number of ERNI groups
+     * @return g_Count   * Number of ERNI groups
      */
     public int getG_Count() {
         return g_Count;
@@ -95,7 +101,7 @@ public class TableLayout  implements java.io.Serializable {
     /**
      * Sets the g_Count value for this TableLayout.
      * 
-     * @param g_Count Number of ERNI groups
+     * @param g_Count   * Number of ERNI groups
      */
     public void setG_Count(int g_Count) {
         this.g_Count = g_Count;
@@ -105,7 +111,7 @@ public class TableLayout  implements java.io.Serializable {
     /**
      * Gets the CH_Row value for this TableLayout.
      * 
-     * @return CH_Row The information of column header row
+     * @return CH_Row   * The information of column header row
      */
     public org.eclipse.birt.report.soapengine.api.TableRowInfo getCH_Row() {
         return CH_Row;
@@ -115,7 +121,7 @@ public class TableLayout  implements java.io.Serializable {
     /**
      * Sets the CH_Row value for this TableLayout.
      * 
-     * @param CH_Row The information of column header row
+     * @param CH_Row   * The information of column header row
      */
     public void setCH_Row(org.eclipse.birt.report.soapengine.api.TableRowInfo CH_Row) {
         this.CH_Row = CH_Row;
@@ -125,7 +131,7 @@ public class TableLayout  implements java.io.Serializable {
     /**
      * Gets the TC_Row value for this TableLayout.
      * 
-     * @return TC_Row The information of the table level chart row
+     * @return TC_Row   * The information of the table level chart row
      */
     public org.eclipse.birt.report.soapengine.api.TableRowInfo getTC_Row() {
         return TC_Row;
@@ -135,7 +141,7 @@ public class TableLayout  implements java.io.Serializable {
     /**
      * Sets the TC_Row value for this TableLayout.
      * 
-     * @param TC_Row The information of the table level chart row
+     * @param TC_Row   * The information of the table level chart row
      */
     public void setTC_Row(org.eclipse.birt.report.soapengine.api.TableRowInfo TC_Row) {
         this.TC_Row = TC_Row;
@@ -147,7 +153,7 @@ public class TableLayout  implements java.io.Serializable {
      * 
      * @return sections
      */
-    public org.eclipse.birt.report.soapengine.api.TableSections getSections() {
+    public org.eclipse.birt.report.soapengine.api.S_Info[] getSections() {
         return sections;
     }
 
@@ -157,7 +163,7 @@ public class TableLayout  implements java.io.Serializable {
      * 
      * @param sections
      */
-    public void setSections(org.eclipse.birt.report.soapengine.api.TableSections sections) {
+    public void setSections(org.eclipse.birt.report.soapengine.api.S_Info[] sections) {
         this.sections = sections;
     }
 
@@ -167,7 +173,7 @@ public class TableLayout  implements java.io.Serializable {
      * 
      * @return groups
      */
-    public org.eclipse.birt.report.soapengine.api.TableGroups getGroups() {
+    public org.eclipse.birt.report.soapengine.api.G_Info[] getGroups() {
         return groups;
     }
 
@@ -177,7 +183,7 @@ public class TableLayout  implements java.io.Serializable {
      * 
      * @param groups
      */
-    public void setGroups(org.eclipse.birt.report.soapengine.api.TableGroups groups) {
+    public void setGroups(org.eclipse.birt.report.soapengine.api.G_Info[] groups) {
         this.groups = groups;
     }
 
@@ -204,10 +210,10 @@ public class TableLayout  implements java.io.Serializable {
               this.TC_Row.equals(other.getTC_Row()))) &&
             ((this.sections==null && other.getSections()==null) || 
              (this.sections!=null &&
-              this.sections.equals(other.getSections()))) &&
+              java.util.Arrays.equals(this.sections, other.getSections()))) &&
             ((this.groups==null && other.getGroups()==null) || 
              (this.groups!=null &&
-              this.groups.equals(other.getGroups())));
+              java.util.Arrays.equals(this.groups, other.getGroups())));
         __equalsCalc = null;
         return _equals;
     }
@@ -229,10 +235,26 @@ public class TableLayout  implements java.io.Serializable {
             _hashCode += getTC_Row().hashCode();
         }
         if (getSections() != null) {
-            _hashCode += getSections().hashCode();
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getSections());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getSections(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
         }
         if (getGroups() != null) {
-            _hashCode += getGroups().hashCode();
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getGroups());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getGroups(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -278,16 +300,18 @@ public class TableLayout  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("sections");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Sections"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableSections"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "S_Info"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
+        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Section"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("groups");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Groups"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableGroups"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "G_Info"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
+        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Group"));
         typeDesc.addFieldDesc(elemField);
     }
 

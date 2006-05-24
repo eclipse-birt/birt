@@ -2,15 +2,17 @@
  * DesignState.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class DesignState  implements java.io.Serializable {
     private boolean isBlank;
+
     private boolean editable;
-    /** can create a new report */
+
+    /* can create a new report */
     private boolean canNew;
 
     public DesignState() {
@@ -69,7 +71,7 @@ public class DesignState  implements java.io.Serializable {
     /**
      * Gets the canNew value for this DesignState.
      * 
-     * @return canNew can create a new report
+     * @return canNew   * can create a new report
      */
     public boolean isCanNew() {
         return canNew;
@@ -79,7 +81,7 @@ public class DesignState  implements java.io.Serializable {
     /**
      * Sets the canNew value for this DesignState.
      * 
-     * @param canNew can create a new report
+     * @param canNew   * can create a new report
      */
     public void setCanNew(boolean canNew) {
         this.canNew = canNew;

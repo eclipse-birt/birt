@@ -2,21 +2,25 @@
  * TableSectionContextMenuState.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class TableSectionContextMenuState  implements java.io.Serializable {
-    /** Can insert a chart in this section */
+    /* Can insert a chart in this section */
     private boolean canAddChart;
-    /** Can edit a chart in this section */
+
+    /* Can edit a chart in this section */
     private boolean canEditChart;
-    /** Can delete a chart in this section */
+
+    /* Can delete a chart in this section */
     private boolean canDeleteChart;
-    /** Can expand a section */
+
+    /* Can expand a section */
     private boolean canExpand;
-    /** Can collapse a section */
+
+    /* Can collapse a section */
     private boolean canCollapse;
 
     public TableSectionContextMenuState() {
@@ -39,7 +43,7 @@ public class TableSectionContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canAddChart value for this TableSectionContextMenuState.
      * 
-     * @return canAddChart Can insert a chart in this section
+     * @return canAddChart   * Can insert a chart in this section
      */
     public boolean isCanAddChart() {
         return canAddChart;
@@ -49,7 +53,7 @@ public class TableSectionContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canAddChart value for this TableSectionContextMenuState.
      * 
-     * @param canAddChart Can insert a chart in this section
+     * @param canAddChart   * Can insert a chart in this section
      */
     public void setCanAddChart(boolean canAddChart) {
         this.canAddChart = canAddChart;
@@ -59,7 +63,7 @@ public class TableSectionContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canEditChart value for this TableSectionContextMenuState.
      * 
-     * @return canEditChart Can edit a chart in this section
+     * @return canEditChart   * Can edit a chart in this section
      */
     public boolean isCanEditChart() {
         return canEditChart;
@@ -69,7 +73,7 @@ public class TableSectionContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canEditChart value for this TableSectionContextMenuState.
      * 
-     * @param canEditChart Can edit a chart in this section
+     * @param canEditChart   * Can edit a chart in this section
      */
     public void setCanEditChart(boolean canEditChart) {
         this.canEditChart = canEditChart;
@@ -79,7 +83,7 @@ public class TableSectionContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canDeleteChart value for this TableSectionContextMenuState.
      * 
-     * @return canDeleteChart Can delete a chart in this section
+     * @return canDeleteChart   * Can delete a chart in this section
      */
     public boolean isCanDeleteChart() {
         return canDeleteChart;
@@ -89,7 +93,7 @@ public class TableSectionContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canDeleteChart value for this TableSectionContextMenuState.
      * 
-     * @param canDeleteChart Can delete a chart in this section
+     * @param canDeleteChart   * Can delete a chart in this section
      */
     public void setCanDeleteChart(boolean canDeleteChart) {
         this.canDeleteChart = canDeleteChart;
@@ -99,7 +103,7 @@ public class TableSectionContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canExpand value for this TableSectionContextMenuState.
      * 
-     * @return canExpand Can expand a section
+     * @return canExpand   * Can expand a section
      */
     public boolean isCanExpand() {
         return canExpand;
@@ -109,7 +113,7 @@ public class TableSectionContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canExpand value for this TableSectionContextMenuState.
      * 
-     * @param canExpand Can expand a section
+     * @param canExpand   * Can expand a section
      */
     public void setCanExpand(boolean canExpand) {
         this.canExpand = canExpand;
@@ -119,7 +123,7 @@ public class TableSectionContextMenuState  implements java.io.Serializable {
     /**
      * Gets the canCollapse value for this TableSectionContextMenuState.
      * 
-     * @return canCollapse Can collapse a section
+     * @return canCollapse   * Can collapse a section
      */
     public boolean isCanCollapse() {
         return canCollapse;
@@ -129,7 +133,7 @@ public class TableSectionContextMenuState  implements java.io.Serializable {
     /**
      * Sets the canCollapse value for this TableSectionContextMenuState.
      * 
-     * @param canCollapse Can collapse a section
+     * @param canCollapse   * Can collapse a section
      */
     public void setCanCollapse(boolean canCollapse) {
         this.canCollapse = canCollapse;

@@ -2,7 +2,7 @@
  * FilterExpression.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -12,11 +12,14 @@ package org.eclipse.birt.report.soapengine.api;
  * A complex type to represent the condition expression used in filter.
  */
 public class FilterExpression  implements java.io.Serializable {
-    /** Represents Equality operator, i.e., '=='. */
+    /* Represents Equality operator, i.e., '=='. */
     private org.eclipse.birt.report.soapengine.api.FilterClause clause;
+
     private org.eclipse.birt.report.soapengine.api.FilterExpression[] not;
+
     private org.eclipse.birt.report.soapengine.api.FilterExpression[] or;
-    /** Optional AND clause which can again be nested with AND/OR clauses */
+
+    /* Optional AND clause which can again be nested with AND/OR clauses */
     private org.eclipse.birt.report.soapengine.api.FilterExpression[] and;
 
     public FilterExpression() {
@@ -37,7 +40,7 @@ public class FilterExpression  implements java.io.Serializable {
     /**
      * Gets the clause value for this FilterExpression.
      * 
-     * @return clause Represents Equality operator, i.e., '=='.
+     * @return clause   * Represents Equality operator, i.e., '=='.
      */
     public org.eclipse.birt.report.soapengine.api.FilterClause getClause() {
         return clause;
@@ -47,7 +50,7 @@ public class FilterExpression  implements java.io.Serializable {
     /**
      * Sets the clause value for this FilterExpression.
      * 
-     * @param clause Represents Equality operator, i.e., '=='.
+     * @param clause   * Represents Equality operator, i.e., '=='.
      */
     public void setClause(org.eclipse.birt.report.soapengine.api.FilterClause clause) {
         this.clause = clause;
@@ -113,7 +116,7 @@ public class FilterExpression  implements java.io.Serializable {
     /**
      * Gets the and value for this FilterExpression.
      * 
-     * @return and Optional AND clause which can again be nested with AND/OR clauses
+     * @return and   * Optional AND clause which can again be nested with AND/OR clauses
      */
     public org.eclipse.birt.report.soapengine.api.FilterExpression[] getAnd() {
         return and;
@@ -123,7 +126,7 @@ public class FilterExpression  implements java.io.Serializable {
     /**
      * Sets the and value for this FilterExpression.
      * 
-     * @param and Optional AND clause which can again be nested with AND/OR clauses
+     * @param and   * Optional AND clause which can again be nested with AND/OR clauses
      */
     public void setAnd(org.eclipse.birt.report.soapengine.api.FilterExpression[] and) {
         this.and = and;

@@ -2,21 +2,22 @@
  * SelectionList.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class SelectionList  implements java.io.Serializable {
     private java.lang.String name;
-    private org.eclipse.birt.report.soapengine.api.Vector selections;
+
+    private java.lang.String[] selections;
 
     public SelectionList() {
     }
 
     public SelectionList(
            java.lang.String name,
-           org.eclipse.birt.report.soapengine.api.Vector selections) {
+           java.lang.String[] selections) {
            this.name = name;
            this.selections = selections;
     }
@@ -47,7 +48,7 @@ public class SelectionList  implements java.io.Serializable {
      * 
      * @return selections
      */
-    public org.eclipse.birt.report.soapengine.api.Vector getSelections() {
+    public java.lang.String[] getSelections() {
         return selections;
     }
 
@@ -57,7 +58,7 @@ public class SelectionList  implements java.io.Serializable {
      * 
      * @param selections
      */
-    public void setSelections(org.eclipse.birt.report.soapengine.api.Vector selections) {
+    public void setSelections(java.lang.String[] selections) {
         this.selections = selections;
     }
 
@@ -78,7 +79,7 @@ public class SelectionList  implements java.io.Serializable {
               this.name.equals(other.getName()))) &&
             ((this.selections==null && other.getSelections()==null) || 
              (this.selections!=null &&
-              this.selections.equals(other.getSelections())));
+              java.util.Arrays.equals(this.selections, other.getSelections())));
         __equalsCalc = null;
         return _equals;
     }
@@ -94,7 +95,15 @@ public class SelectionList  implements java.io.Serializable {
             _hashCode += getName().hashCode();
         }
         if (getSelections() != null) {
-            _hashCode += getSelections().hashCode();
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getSelections());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getSelections(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -115,8 +124,9 @@ public class SelectionList  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("selections");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Selections"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
+        elemField.setItemQName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
         typeDesc.addFieldDesc(elemField);
     }
 
