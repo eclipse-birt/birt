@@ -35,9 +35,12 @@ public class DataEngineContext
 	
 	/**
 	 * this is a special mode, that a query which is running on a report
-	 * document also needs to be stored into a report document.
+	 * document also needs to be stored into the same report document. This is a
+	 * update operation, and it is a combination mode of presentation and
+	 * generation. One note is in running in this mode, the report document must
+	 * be same for reading and writing.
 	 */
-	public final static int PRESENTATION_AND_GENERATION = 4;
+	public final static int MODE_UPDATE = 4;
 	
 	/**
 	 * AppContext and Data Set cache count setting decide whether cache is used,
@@ -111,7 +114,7 @@ public class DataEngineContext
 			throws BirtException
 	{
 		if ( !( mode == MODE_GENERATION
-				|| mode == MODE_PRESENTATION || mode == DIRECT_PRESENTATION || mode == PRESENTATION_AND_GENERATION ) )
+				|| mode == MODE_PRESENTATION || mode == DIRECT_PRESENTATION || mode == MODE_UPDATE ) )
 			throw new DataException( ResourceConstants.RD_INVALID_MODE );
 
 		if ( writer == null && mode == MODE_GENERATION )
@@ -121,7 +124,7 @@ public class DataEngineContext
 			throw new DataException( ResourceConstants.RD_INVALID_ARCHIVE );
 
 		if ( ( writer == null || reader == null )
-				&& mode == PRESENTATION_AND_GENERATION )
+				&& mode == MODE_UPDATE )
 			throw new DataException( ResourceConstants.RD_INVALID_ARCHIVE );
 
 		this.mode = mode;

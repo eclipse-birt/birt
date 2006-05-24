@@ -35,7 +35,7 @@ public final class RDUtil
 		if (context.getMode() == DataEngineContext.MODE_GENERATION)
 			return new RDSave(context, queryDefn, queryResultID, rowCount,
 					subQueryName, subQueryIndex);
-		else if (context.getMode() == DataEngineContext.PRESENTATION_AND_GENERATION)
+		else if (context.getMode() == DataEngineContext.MODE_UPDATE)
 			return new RDSave2(context, queryDefn, queryResultID, rowCount,
 					subQueryName, subQueryIndex);
 		else

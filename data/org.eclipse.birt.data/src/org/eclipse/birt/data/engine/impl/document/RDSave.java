@@ -189,7 +189,7 @@ public class RDSave implements IRDSave
 				
 				OutputStream streamForExprValue = null;
 				OutputStream streamForRowLen = null;
-				if ( context.getMode( ) == DataEngineContext.PRESENTATION_AND_GENERATION )
+				if ( context.getMode( ) == DataEngineContext.MODE_UPDATE )
 				{
 					streamForExprValue = streamManager.getOutStream( DataEngineContext.EXPR_VALUE_STREAM );
 					streamForRowLen = streamManager.getOutStream( DataEngineContext.ROWLENGTH_INFO_STREAM );
