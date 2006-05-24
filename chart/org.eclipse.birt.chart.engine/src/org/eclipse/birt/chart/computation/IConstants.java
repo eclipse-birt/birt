@@ -137,7 +137,7 @@ public interface IConstants
 
 	public static final String ONE_SPACE = " "; //$NON-NLS-1$
 
-	public static final String UNDEFINED_STRING = Messages.getString( "constant.undefined.string" ); //$NON-NLS-1$
+	public static final String UNDEFINED_STRING = EMPTY_STRING;
 
 	public static final String NULL_STRING = Messages.getString( "constant.null.string" ); //$NON-NLS-1$
 
