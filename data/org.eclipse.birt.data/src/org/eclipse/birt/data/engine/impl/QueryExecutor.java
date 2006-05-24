@@ -398,7 +398,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 								.length( ) == 0 ) )
 					throw new DataException( ResourceConstants.BAD_GROUP_EXPRESSION );
 				//TODO does the index of column significant?
-
+				
 				String expr = getGroupKeyExpression( src );
 				String groupName = "";
 				if ( expr.trim( ).equalsIgnoreCase( "row[0]" )
@@ -419,11 +419,12 @@ public abstract class QueryExecutor implements IQueryExecutor
 						&& ( src.getIntervalRange( ) != 0 ) )
 				{
 					try
-					{
+					{						
 						expr = ExpressionUtil.createGroupByExpression( src.getInterval( ),
 								src.getIntervalStart( ),
 								getGroupKeyExpression( src ),
-								src.getIntervalRange( ) );
+								src.getIntervalRange( ),
+								getColumnDataType(cx, expr));
 						
 					}
 					catch(BirtException be)
@@ -467,6 +468,34 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 	}
 
+	/**
+	 * get the data type of a expression
+	 * @param cx
+	 * @param expr
+	 * @return
+	 */
+	private int getColumnDataType( Context cx, String expr )
+	{
+		String columnName = QueryExecutorUtil.getColInfoFromJSExpr( cx, expr )
+				.getColumnName( );
+		if ( columnName == null )
+		{
+			return DataType.UNKNOWN_TYPE;
+		}
+		if ( columnName.equals( "__rownum" ) )
+		{
+			return DataType.INTEGER_TYPE;
+		}
+		Object baseExpr = ( this.baseQueryDefn.getResultSetExpressions( ).get( columnName ) );
+
+		if ( baseExpr == null )
+		{
+			return DataType.UNKNOWN_TYPE;
+		}
+
+		return ( (IBaseExpression) baseExpr ).getDataType( );
+	}
+	
 	/**
 	 * @param src
 	 * @return
