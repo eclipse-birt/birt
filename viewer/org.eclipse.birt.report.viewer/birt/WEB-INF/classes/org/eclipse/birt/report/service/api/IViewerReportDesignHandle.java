@@ -36,7 +36,7 @@ public interface IViewerReportDesignHandle
 	 * 
 	 * @return
 	 */
-	Object getDesignObject( );
+	Object getDesignObject( ) throws ReportServiceException;
 
 	/**
 	 * Set the design object

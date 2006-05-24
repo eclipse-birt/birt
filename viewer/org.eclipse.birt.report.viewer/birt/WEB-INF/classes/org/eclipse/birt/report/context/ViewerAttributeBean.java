@@ -275,7 +275,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 */
 	protected String getParameterDefaultValues(
 			IViewerReportDesignHandle design, String paramName,
-			InputOptions options )
+			InputOptions options ) throws ReportServiceException
 	{
 		assert design != null;
 
@@ -320,7 +320,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 *            String
 	 * @return String
 	 */
-	private String getParameterName( String configVarName )
+	private String getParameterName( String configVarName ) throws ReportServiceException
 	{
 		assert reportDesignHandle != null;
 
@@ -583,7 +583,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @return Map
 	 */
 	protected Map getParsedParametersAsString( Collection parameterList,
-			HttpServletRequest request, InputOptions options )
+			HttpServletRequest request, InputOptions options ) throws ReportServiceException
 	{
 		assert parameterList != null;
 
@@ -622,7 +622,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	/**
 	 * @return the parameter handle list
 	 */
-	private List getParameterList( )
+	private List getParameterList( ) throws ReportServiceException
 	{
 		IReportRunnable runnable = (IReportRunnable) this.reportDesignHandle
 				.getDesignObject( );
@@ -637,7 +637,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	/**
 	 * @return the parameter handle
 	 */
-	public ParameterHandle findParameter( String paramName )
+	public ParameterHandle findParameter( String paramName ) throws ReportServiceException
 	{
 		if ( paramName == null )
 			return null;
@@ -666,7 +666,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @see org.eclipse.birt.report.context.BaseAttributeBean#getReportTitle()
 	 */
 
-	public String getReportTitle( )
+	public String getReportTitle( ) throws ReportServiceException
 	{
 		String title = reportTitle;
 		if ( reportDesignHandle != null )

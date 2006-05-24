@@ -231,7 +231,7 @@ abstract public class BaseAttributeBean
 	/**
 	 * @return Returns the reportTitle.
 	 */
-	public String getReportTitle( )
+	public String getReportTitle( ) throws ReportServiceException
 	{
 		return reportTitle;
 	}
