@@ -285,17 +285,16 @@ public class LineAttributesComposite extends Composite
 
 	public void setLineAttributes( LineAttributes attributes )
 	{
+		if ( attributes == null )
+		{
+			// Create a default line attributes instance
+			attributes = AttributeFactory.eINSTANCE.createLineAttributes( );
+		}
 		laCurrent = attributes;
+		
 		if ( bEnableVisibility )
 		{
-			if ( laCurrent == null )
-			{
-				cbVisible.setSelection( false );
-			}
-			else
-			{
-				cbVisible.setSelection( attributes.isVisible( ) );
-			}
+			cbVisible.setSelection( laCurrent.isVisible( ) );
 			boolean bUIEnabled = cbVisible.getSelection( );
 			if ( bEnableStyles )
 			{
@@ -315,36 +314,15 @@ public class LineAttributesComposite extends Composite
 		}
 		if ( bEnableStyles )
 		{
-			if ( laCurrent == null )
-			{
-				cmbStyle.setLineStyle( getSWTLineStyle( LineStyle.SOLID_LITERAL ) );
-			}
-			else
-			{
-				cmbStyle.setLineStyle( getSWTLineStyle( attributes.getStyle( ) ) );
-			}
+			cmbStyle.setLineStyle( getSWTLineStyle( laCurrent.getStyle( ) ) );
 		}
 		if ( this.bEnableWidths )
 		{
-			if ( laCurrent == null )
-			{
-				cmbWidth.setLineWidth( 1 );
-			}
-			else
-			{
-				cmbWidth.setLineWidth( attributes.getThickness( ) );
-			}
+			cmbWidth.setLineWidth( laCurrent.getThickness( ) );
 		}
 		if ( this.bEnableColor )
 		{
-			if ( laCurrent == null )
-			{
-				cmbColor.setFill( null );
-			}
-			else
-			{
-				cmbColor.setFill( attributes.getColor( ) );
-			}
+			cmbColor.setFill( laCurrent.getColor( ) );
 			cmbColor.redraw( );
 		}
 		redraw( );

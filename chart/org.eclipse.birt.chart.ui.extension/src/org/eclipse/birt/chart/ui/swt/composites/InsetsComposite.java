@@ -11,13 +11,12 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.text.MessageFormat;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
@@ -133,9 +132,8 @@ public class InsetsComposite extends Composite implements Listener
 
 		grpInsets = new Group( this, SWT.NONE );
 		grpInsets.setLayout( glGroup );
-		grpInsets.setText( new MessageFormat( Messages.getString( "InsetsComposite.Lbl.Insets" ) ).format( new Object[]{ //$NON-NLS-1$
-			LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( sUnits )
-		} ) );
+		grpInsets.setText( Messages.getFormattedString( "InsetsComposite.Lbl.Insets", //$NON-NLS-1$
+				LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( sUnits ) ) );
 
 		lblTop = new Label( grpInsets, SWT.NONE );
 		GridData gdLTop = new GridData( GridData.VERTICAL_ALIGN_CENTER );
@@ -255,7 +253,8 @@ public class InsetsComposite extends Composite implements Listener
 				"Points", sUnits ); //$NON-NLS-1$
 		txtRight.setText( new Double( dblCurrent ).toString( ) );
 
-		this.grpInsets.setText( "Insets (in " + sUnits + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+		this.grpInsets.setText( Messages.getFormattedString( "InsetsComposite.Lbl.Insets", //$NON-NLS-1$
+				LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( sUnits ) ) );
 	}
 
 	public void addListener( Listener listener )
