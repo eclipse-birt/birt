@@ -116,11 +116,10 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	 * Listener, or <code>null</code> if none
 	 */
 	private java.util.List listeners = new ArrayList( );
-	
-	private Date defaultDate = new Date();
-	
+
+	private Date defaultDate = new Date( );
+
 	private String defaultDateTime = new DateFormatter( "Unformatted" ).format( defaultDate ); //$NON-NLS-1$
-	
 
 	/**
 	 * Constructs a page for formatting date time, default aligns the page
@@ -158,7 +157,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 	/**
 	 * Creates the contents of the page.
-	 *  
+	 * 
 	 */
 
 	protected void createContents( int pageAlignment2 )
@@ -716,7 +715,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		setCategory( category );
 
 		Date sampleDateTime = defaultDate;
-		if ( getPreviewText( ) != null && !getPreviewText().equals( defaultDateTime ))
+		if ( getPreviewText( ) != null
+				&& !getPreviewText( ).equals( defaultDateTime ) )
 		{
 			try
 			{
@@ -728,69 +728,12 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			}
 		}
 
-		if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED.equals( category ) )
-		{
-			String pattern = null;
-			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
-			setCategory( null );
-			setPattern( null );
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE.equals( category ) )
-		{
-			String pattern = FormatDateTimePattern.getPatternForCategory( category );
-			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
-			setPattern( pattern );
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE.equals( category ) )
-		{
-			String pattern = FormatDateTimePattern.getPatternForCategory( category );
-			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
-			setPattern( pattern );
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE.equals( category ) )
-		{
-			String pattern = FormatDateTimePattern.getPatternForCategory( category );
-			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
-			setPattern( pattern );
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE.equals( category ) )
-		{
-			String pattern = FormatDateTimePattern.getPatternForCategory( category );
-			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
-			setPattern( pattern );
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME.equals( category ) )
-		{
-			String pattern = FormatDateTimePattern.getPatternForCategory( category );
-			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
-			setPattern( pattern );
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME.equals( category ) )
-		{
-			String pattern = FormatDateTimePattern.getPatternForCategory( category );
-			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
-			setPattern( pattern );
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME.equals( category ) )
-		{
-			String pattern = FormatDateTimePattern.getPatternForCategory( category );
-			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
-			setPattern( pattern );
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( category ) )
+		if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( category ) )
 		{
 			String pattern = formatCode.getText( );
 			String fmtStr;
 			String text = previewTextBox.getText( );
-			if ( StringUtil.isBlank( text ) || defaultDateTime.equals(text))
+			if ( StringUtil.isBlank( text ) || defaultDateTime.equals( text ) )
 			{
 				fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
 			}
@@ -808,6 +751,18 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 			cusPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
+		}
+		else
+		{
+			String pattern = null;
+			if ( !DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED.equals( category ) )
+			{
+				pattern = FormatDateTimePattern.getPatternForCategory( category );
+			}
+			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
+			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			setPattern( pattern );
+
 		}
 
 		return;
@@ -1055,7 +1010,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 		new Label( group, SWT.NONE ).setText( LABEL_PREVIEW_DATETIME ); //$NON-NLS-1$
 		previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
-		previewTextBox.setText( defaultDateTime ); 
+		previewTextBox.setText( defaultDateTime );
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
 		{

@@ -718,7 +718,6 @@ public class FormatStringPage extends Composite implements IFormatPage
 			String pattern = null;
 			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
-			setCategory( null );
 			setPattern( null );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE.equals( category ) )

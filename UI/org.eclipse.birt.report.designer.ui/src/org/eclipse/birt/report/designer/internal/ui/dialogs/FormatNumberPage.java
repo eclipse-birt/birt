@@ -836,7 +836,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		String category = getCategory4DisplayName( typeChoicer.getText( ) );
 		if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED.equals( category ) )
 		{
-			setCategory( null );
+			setCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED );
 			setPattern( null );
 		}
 		else
