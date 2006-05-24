@@ -31,4 +31,10 @@ public interface IColumnBinding
 	 */
 	public String getBoundExpression();
 	
+	/**
+	 * Get the outer level of column expression
+	 * 
+	 * @return
+	 */
+	public int getOuterLevel( );
 }

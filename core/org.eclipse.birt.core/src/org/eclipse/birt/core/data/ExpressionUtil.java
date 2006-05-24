@@ -69,11 +69,38 @@ public final class ExpressionUtil
 	}
 
 	/**
+     * extract all column expression info excluding outer_level > 0
 	 * @param oldExpression
 	 * @return
 	 * @throws BirtException
 	 */
 	public static List extractColumnExpressions( String oldExpression )
+			throws BirtException
+	{
+		if ( oldExpression == null )
+			return new ArrayList( );
+
+		List exprList = ExpressionParserUtility.compileColumnExpression( oldExpression );
+		for ( int i = 0; i < exprList.size( ); )
+		{
+			IColumnBinding info = (IColumnBinding) exprList.get( i );
+			if ( info.getOuterLevel( ) != 0 )
+			{
+				exprList.remove( i );
+			}
+			else
+				i++;
+		}
+		return exprList;
+	}
+	
+	/**
+     * extract all column expression info, including outer_level >0 
+	 * @param oldExpression
+	 * @return
+	 * @throws BirtException
+	 */
+	public static List extractColumnInfo( String oldExpression )
 			throws BirtException
 	{
 		if ( oldExpression == null )
@@ -319,13 +346,22 @@ class ColumnBinding implements IColumnBinding
 
 	private String columnName;
 	private String expression;
+	private int level;
 
-	ColumnBinding( String name, String expression )
+	ColumnBinding( String columnName, String expression )
 	{
-		this.columnName = name;
+		this.columnName = columnName;
 		this.expression = expression;
+		this.level = 0;
 	}
-
+	
+	ColumnBinding( String columnName, String expression, int level )
+	{
+		this.columnName = columnName;
+		this.expression = expression;
+		this.level = level;
+	}
+	
 	public String getResultSetColumnName( )
 	{
 		return this.columnName;
@@ -334,6 +370,11 @@ class ColumnBinding implements IColumnBinding
 	public String getBoundExpression( )
 	{
 		return this.expression;
+	}
+
+	public int getOuterLevel( )
+	{
+		return level;
 	}
 
 }

@@ -56,7 +56,10 @@ class ExpressionParserUtility
 		try
 		{
 			ScriptOrFnNode tree = instance.parse( expression, context );
-			instance.CompiledExprFromTree( expression, context, tree, columnExprList );
+			instance.CompiledExprFromTree( expression,
+					context,
+					tree,
+					columnExprList );
 		}
 		catch ( Exception ex )
 		{
@@ -80,9 +83,8 @@ class ExpressionParserUtility
 	 * @param columnExprList
 	 * @throws BirtException
 	 */
-	private void CompiledExprFromTree( String expression,
-			Context context, ScriptOrFnNode tree, List columnExprList )
-			throws BirtException
+	private void CompiledExprFromTree( String expression, Context context,
+			ScriptOrFnNode tree, List columnExprList ) throws BirtException
 	{
 		if ( tree.getFirstChild( ) == tree.getLastChild( ) )
 		{
@@ -140,8 +142,8 @@ class ExpressionParserUtility
 	 * @param columnExprList
 	 * @throws BirtException
 	 */
-	private void processChild( Node parent, Node child,
-			ScriptOrFnNode tree, List columnExprList ) throws BirtException
+	private void processChild( Node parent, Node child, ScriptOrFnNode tree,
+			List columnExprList ) throws BirtException
 	{
 		switch ( child.getType( ) )
 		{
@@ -172,8 +174,8 @@ class ExpressionParserUtility
 	 * @param refNode
 	 * @throws BirtException
 	 */
-	private void compileDirectColRefExpr( Node refNode,
-			ScriptOrFnNode tree, List columnExprList ) throws BirtException
+	private void compileDirectColRefExpr( Node refNode, ScriptOrFnNode tree,
+			List columnExprList ) throws BirtException
 	{
 		assert ( refNode.getType( ) == Token.GETPROP || refNode.getType( ) == Token.GETELEM );
 
@@ -181,10 +183,44 @@ class ExpressionParserUtility
 		assert ( rowName != null );
 		if ( rowName.getType( ) != Token.NAME )
 		{
+			if ( refNode.getType( ) == Token.GETPROP
+					|| refNode.getType( ) == Token.GETELEM )
+			{
+				int level = compileOuterColRefExpr( refNode );
+				if ( level == -1 )
+				{
+					compileComplexExpr( refNode, tree, columnExprList );
+				}
+				else
+				{
+					Node nextNode = refNode.getLastChild( );
+					if ( nextNode.getType( ) == Token.STRING )
+					{
+						ColumnBinding info = new ColumnBinding( nextNode.getString( ),
+								"",
+								level );
+						columnExprList.add( info );
+					}
+				}
+				return;
+			}
 			compileComplexExpr( refNode, tree, columnExprList );
 			return;
 		}
+		else
+			compileSimpleColumnRefExpr( refNode, rowName, columnExprList );
+	}
 
+	/**
+	 * compile simple column ref expression
+	 * 
+	 * @param refNode
+	 * @param rowName
+	 * @param columnExprList
+	 */
+	private void compileSimpleColumnRefExpr( Node refNode, Node rowName,
+			List columnExprList )
+	{
 		String str = rowName.getString( );
 		assert ( str != null );
 		if ( !str.equals( ROW_INDICATOR ) )
@@ -196,10 +232,30 @@ class ExpressionParserUtility
 		if ( refNode.getType( ) == Token.GETPROP
 				&& rowColumn.getType( ) == Token.STRING )
 		{
-			if ( "_outer".equals( rowColumn.getString( ) ) 
-					 &&"__rownum".equals( rowColumn.getString( ) ) 
-					 &&"0".equals( rowColumn.getString( ) ))
+			int outer_count = 0;
+			if ( "__rownum".equals( rowColumn.getString( ) )
+					|| "0".equals( rowColumn.getString( ) ) )
 				return;
+			if ( "_outer".equals( rowColumn.getString( ) ) )
+			{
+				outer_count++;
+
+				Node outer_Node = refNode.getNext( );
+				Node before_Node = outer_Node;
+				while ( outer_Node != null
+						&& outer_Node.getString( ) != null
+						&&  "_outer".equals( outer_Node.getString( ) ) )
+				{
+					outer_count++;
+					before_Node = outer_Node;
+					outer_Node = outer_Node.getNext( );
+				}
+				ColumnBinding info = new ColumnBinding( before_Node.getString( ),
+						"",
+						outer_count );
+				columnExprList.add( info );
+				return;
+			}
 			ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
 					DATASETROW_INDICATOR
 							+ "[\"" + rowColumn.getString( ) + "\"]" );
@@ -210,14 +266,14 @@ class ExpressionParserUtility
 		{
 			if ( rowColumn.getType( ) == Token.NUMBER )
 			{
-				if( 0 == rowColumn.getDouble())
+				if ( 0 == rowColumn.getDouble( ) )
 					return;
-//				columnExprList.add( DATASETROW_INDICATOR
-//						+ "[" + (int) rowColumn.getDouble( ) + "]" );
+				// columnExprList.add( DATASETROW_INDICATOR
+				// + "[" + (int) rowColumn.getDouble( ) + "]" );
 			}
 			else if ( rowColumn.getType( ) == Token.STRING )
 			{
-				if("_rownum".equals( rowColumn.getString() ))
+				if ( "_rownum".equals( rowColumn.getString( ) ) )
 					return;
 				ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
 						DATASETROW_INDICATOR
@@ -225,6 +281,50 @@ class ExpressionParserUtility
 				columnExprList.add( binding );
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @param refNode
+	 * @return
+	 */
+	private int compileOuterColRefExpr( Node refNode )
+	{
+		int count = 0;
+		Node rowFirstNode = refNode.getFirstChild( );
+		if ( refNode.getType( ) == Token.GETPROP
+				|| refNode.getType( ) == Token.GETELEM )
+		{
+			if ( rowFirstNode.getType( ) == Token.NAME
+					&& rowFirstNode.getString( ).equals( ROW_INDICATOR ) )
+			{
+				Node rowColumn = rowFirstNode.getNext( );
+				if ( rowColumn.getType( ) == Token.STRING )
+				{
+					if ( "_outer".equals( rowColumn.getString( ) ) )
+						count++;
+				}
+				return count;
+			}
+			else if ( rowFirstNode.getType( ) == Token.GETPROP )
+			{
+				if ( compileOuterColRefExpr( rowFirstNode ) == -1 )
+					return -1;
+				else
+					count = count + compileOuterColRefExpr( rowFirstNode );
+				Node nextChild = rowFirstNode.getNext( );
+				if ( nextChild.getType( ) == Token.STRING )
+				{
+					if ( "_outer".equals( nextChild.getString( ) ) )
+						count++;
+				}
+			}
+			else
+				return -1;
+			return count;
+		}
+		else
+			return -1;
 	}
 
 	/**
@@ -286,8 +386,8 @@ class ExpressionParserUtility
 	 * @param complexNode
 	 * @throws BirtException
 	 */
-	private void compileComplexExpr( Node complexNode,
-			ScriptOrFnNode tree, List columnExprList ) throws BirtException
+	private void compileComplexExpr( Node complexNode, ScriptOrFnNode tree,
+			List columnExprList ) throws BirtException
 	{
 		Node child = complexNode.getFirstChild( );
 
@@ -329,8 +429,8 @@ class ExpressionParserUtility
 	 * @param columnExprList
 	 * @throws BirtException
 	 */
-	private void compileFunctionNode( FunctionNode node,
-			ScriptOrFnNode tree, List columnExprList ) throws BirtException
+	private void compileFunctionNode( FunctionNode node, ScriptOrFnNode tree,
+			List columnExprList ) throws BirtException
 	{
 		compileComplexExpr( node, tree, columnExprList );
 	}
@@ -342,8 +442,7 @@ class ExpressionParserUtility
 	 * @param tree
 	 * @return
 	 */
-	private int getFunctionIndex( String functionName,
-			ScriptOrFnNode tree )
+	private int getFunctionIndex( String functionName, ScriptOrFnNode tree )
 	{
 		int index = -1;
 		for ( int i = 0; i < tree.getFunctionCount( ); i++ )
