@@ -165,6 +165,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 	private transient int iRangeCount = 0;
 
 	private transient Axis axis;
+	
+	private transient String MARKER_LINE_LABEL = Messages.getString( "AxisMarkersSheet.MarkerLine.displayName" ); //$NON-NLS-1$
+
+	private transient String MARKER_RANGE_LABEL = Messages.getString( "AxisMarkersSheet.MarkerRange.displayName" ); //$NON-NLS-1$
 
 	public AxisMarkersSheet( String title, ChartWizardContext context, Axis axis )
 	{
@@ -737,7 +741,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 				return;
 			}
 			String sSelectedMarker = lstMarkers.getSelection( )[0];
-			boolean bLine = sSelectedMarker.startsWith( "MarkerLine" ); //$NON-NLS-1$
+			boolean bLine = sSelectedMarker.startsWith( MARKER_LINE_LABEL );
 			int iMarkerIndex = getMarkerIndex( );
 			if ( bLine )
 			{
@@ -910,7 +914,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 	{
 		String sSelectedMarker = lstMarkers.getSelection( )[0];
 		int iSelectionIndex = lstMarkers.getSelectionIndex( );
-		if ( sSelectedMarker.startsWith( "MarkerLine" ) ) //$NON-NLS-1$
+		if ( sSelectedMarker.startsWith( MARKER_LINE_LABEL ) )
 		{
 			return iSelectionIndex;
 		}
@@ -928,11 +932,11 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		iRangeCount = getAxisForProcessing( ).getMarkerRanges( ).size( );
 		for ( int iLines = 0; iLines < iLineCount; iLines++ )
 		{
-			lstMarkers.add( "MarkerLine - " + ( iLines + 1 ) ); //$NON-NLS-1$
+			lstMarkers.add( MARKER_LINE_LABEL + " - " + ( iLines + 1 ) ); //$NON-NLS-1$
 		}
 		for ( int iRanges = 0; iRanges < iRangeCount; iRanges++ )
 		{
-			lstMarkers.add( "MarkerRange - " + ( iRanges + 1 ) ); //$NON-NLS-1$
+			lstMarkers.add( MARKER_RANGE_LABEL + " - " + ( iRanges + 1 ) ); //$NON-NLS-1$
 		}
 	}
 
@@ -945,7 +949,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 	{
 		String sSelectedMarker = lstMarkers.getSelection( )[0];
 		// Switch stack layout topControl
-		if ( sSelectedMarker.startsWith( "MarkerLine" ) ) //$NON-NLS-1$
+		if ( sSelectedMarker.startsWith( MARKER_LINE_LABEL ) )
 		{
 			slMarkers.topControl = cmpLine;
 			grpGeneral.layout( );
@@ -1078,7 +1082,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 	{
 		String sSelectedMarker = lstMarkers.getSelection( )[0];
 		int iMarkerIndex = getMarkerIndex( );
-		if ( sSelectedMarker.startsWith( "MarkerLine" ) ) //$NON-NLS-1$
+		if ( sSelectedMarker.startsWith( MARKER_LINE_LABEL ) )
 		{
 			return ( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
 					.get( iMarkerIndex ) ).getLabel( );
