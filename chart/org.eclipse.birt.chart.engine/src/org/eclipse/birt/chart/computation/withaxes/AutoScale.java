@@ -1270,6 +1270,18 @@ public final class AutoScale extends Methods implements Cloneable
 					dMinAxis -= 2 * dStep;
 				}
 			}
+			// handle special case for min/max are both zero
+			if ( dMinValue == 0 && dMaxValue == 0 )
+			{
+				if ( dMinAxis >= 0 )
+				{
+					dMinAxis = -1;
+				}
+				if ( dMaxAxis <= 0 )
+				{
+					dMaxAxis = 1;
+				}
+			}
 
 			if ( !bMaximumFixed )
 			{
