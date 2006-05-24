@@ -68,9 +68,12 @@ public class DataUtil
 		}
 		MemberHandle resultSet = meta.getResultSet( );
 		List result = new ArrayList( );
-		for ( int i = 0; i < resultSet.getListValue( ).size( ); i++ )
+		if ( resultSet.getListValue( ) != null )
 		{
-			result.add( resultSet.getAt( i ) );
+			for ( int i = 0; i < resultSet.getListValue( ).size( ); i++ )
+			{
+				result.add( resultSet.getAt( i ) );
+			}
 		}
 		return result;
 	}

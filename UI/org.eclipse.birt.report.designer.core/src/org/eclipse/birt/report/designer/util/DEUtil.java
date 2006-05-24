@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -878,6 +879,11 @@ public class DEUtil
 		if ( model instanceof ResultSetColumnHandle )
 		{
 			return getResultSetColumnExpression( ( (ResultSetColumnHandle) model ).getColumnName( ) );
+		}
+		if ( model instanceof DataSetParameterHandle)
+		{
+			return IReportElementConstants.STOREDPROCUDURE_OUTPUT_PREFIX
+					+ "[\"" + escape( ( (DataSetParameterHandle) model ).getName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return null;
 	}

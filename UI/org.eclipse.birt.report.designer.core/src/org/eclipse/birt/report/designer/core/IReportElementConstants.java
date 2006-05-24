@@ -69,6 +69,9 @@ public interface IReportElementConstants
 	public static final String TEMPLATE_FILE_EXTENSION = "rpttemplate"; //$NON-NLS-1$
 	
 	public static final String LIBRARY_FILE_EXTENSION = "rptlibrary"; //$NON-NLS-1$
-	
+
 	public static final String DESIGN_FILE_EXTENSION = "rptdesign"; //$NON-NLS-1$
+	
+	public static final String STOREDPROCUDURE_OUTPUT_PREFIX = "outputParams"; //$NON-NLS-1$
+	
 }
