@@ -9,6 +9,7 @@ package org.eclipse.birt.report.soapengine.api;
 
 public class FilterClause  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.ColumnDefinition column;
+    private org.eclipse.birt.report.soapengine.api.BoundDataColumn columnName;
     private java.lang.String filterOp;
     private java.lang.String[] operand;
 
@@ -17,9 +18,11 @@ public class FilterClause  implements java.io.Serializable {
 
     public FilterClause(
            org.eclipse.birt.report.soapengine.api.ColumnDefinition column,
+           org.eclipse.birt.report.soapengine.api.BoundDataColumn columnName,
            java.lang.String filterOp,
            java.lang.String[] operand) {
            this.column = column;
+           this.columnName = columnName;
            this.filterOp = filterOp;
            this.operand = operand;
     }
@@ -42,6 +45,26 @@ public class FilterClause  implements java.io.Serializable {
      */
     public void setColumn(org.eclipse.birt.report.soapengine.api.ColumnDefinition column) {
         this.column = column;
+    }
+
+
+    /**
+     * Gets the columnName value for this FilterClause.
+     * 
+     * @return columnName
+     */
+    public org.eclipse.birt.report.soapengine.api.BoundDataColumn getColumnName() {
+        return columnName;
+    }
+
+
+    /**
+     * Sets the columnName value for this FilterClause.
+     * 
+     * @param columnName
+     */
+    public void setColumnName(org.eclipse.birt.report.soapengine.api.BoundDataColumn columnName) {
+        this.columnName = columnName;
     }
 
 
@@ -107,6 +130,9 @@ public class FilterClause  implements java.io.Serializable {
             ((this.column==null && other.getColumn()==null) || 
              (this.column!=null &&
               this.column.equals(other.getColumn()))) &&
+            ((this.columnName==null && other.getColumnName()==null) || 
+             (this.columnName!=null &&
+              this.columnName.equals(other.getColumnName()))) &&
             ((this.filterOp==null && other.getFilterOp()==null) || 
              (this.filterOp!=null &&
               this.filterOp.equals(other.getFilterOp()))) &&
@@ -126,6 +152,9 @@ public class FilterClause  implements java.io.Serializable {
         int _hashCode = 1;
         if (getColumn() != null) {
             _hashCode += getColumn().hashCode();
+        }
+        if (getColumnName() != null) {
+            _hashCode += getColumnName().hashCode();
         }
         if (getFilterOp() != null) {
             _hashCode += getFilterOp().hashCode();
@@ -155,6 +184,14 @@ public class FilterClause  implements java.io.Serializable {
         elemField.setFieldName("column");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Column"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnDefinition"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("columnName");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnName"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumn"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
