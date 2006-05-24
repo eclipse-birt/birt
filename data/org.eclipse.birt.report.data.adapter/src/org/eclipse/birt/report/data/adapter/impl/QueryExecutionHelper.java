@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -45,9 +46,10 @@ class QueryExecutionHelper
 	private DataEngine dataEngine;
 	private IModelAdapter modelAdaptor;
 	private ModuleHandle moduleHandle;
+	
+	private boolean useResultHints;
 
 	/**
-	 * 
 	 * @param dataEngine
 	 * @param modelAdaptor
 	 * @param moduleHandle
@@ -55,11 +57,35 @@ class QueryExecutionHelper
 	QueryExecutionHelper( DataEngine dataEngine, IModelAdapter modelAdaptor,
 			ModuleHandle moduleHandle )
 	{
+		this( dataEngine, modelAdaptor, moduleHandle, true );
+	}
+	
+	/**
+	 * @param dataEngine
+	 * @param modelAdaptor
+	 * @param moduleHandle
+	 * @param useResultHints
+	 */
+	QueryExecutionHelper( DataEngine dataEngine, IModelAdapter modelAdaptor,
+			ModuleHandle moduleHandle, boolean useResultHints )
+	{
 		this.dataEngine = dataEngine;
 		this.modelAdaptor = modelAdaptor;
 		this.moduleHandle = moduleHandle;
+		this.useResultHints = useResultHints;
 	}
 
+	/**
+	 * @param queryDefn
+	 * @return
+	 * @throws BirtException
+	 */
+	IQueryResults executeQuery( QueryDefinition queryDefn )
+			throws BirtException
+	{
+		return executeQuery( queryDefn, null, null, null );
+	}
+	
 	/**
 	 * 
 	 * @param queryDefn
@@ -204,7 +230,10 @@ class QueryExecutionHelper
 			defineSourceDataSets( (JointDataSetHandle) handle );
 		}
 
-		dataEngine.defineDataSet( this.modelAdaptor.adaptDataSet( handle ) );
+		BaseDataSetDesign baseDS = this.modelAdaptor.adaptDataSet( handle );
+		if ( useResultHints == false )
+			baseDS.getResultSetHints( ).clear( );
+		dataEngine.defineDataSet( baseDS );
 	}
 
 	/**

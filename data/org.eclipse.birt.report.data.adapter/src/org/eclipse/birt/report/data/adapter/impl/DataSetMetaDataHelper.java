@@ -28,12 +28,25 @@ import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 
 /**
+ * One note is the relationship between resultSet, columnHints and
+ * cachedMetaData. resultSet and columnHints are combined to be used as the
+ * additional column definition based on the column metadata of data set.
+ * cachedMetaData is retrieved from the data engine, and the time of its
+ * generation is after the resultSet and columnHints is applied to the original
+ * metadata. resultHint is processed before columnHints, and they corresponds to
+ * the IColumnDefinition of data engine.
  * 
+ * When refreshing the metadata of dataset handle, resultSet should not be added
+ * into data set design since resultSet is based on old metadata, and then it is
+ * no use for updated metadata. But it is a little different for script dataset.
+ * Since the metadata of script dataset comes from defined resultSet, the
+ * special case is resultSet needs to be added when it meets script data set.
  */
 public class DataSetMetaDataHelper
 {
@@ -78,7 +91,7 @@ public class DataSetMetaDataHelper
 		}
 		else
 		{
-			return getRealMetaData( dataSetHandle.getName( ) );
+			return getRealMetaData( dataSetHandle );
 		}
 	}
 
@@ -110,17 +123,18 @@ public class DataSetMetaDataHelper
 	 * @return
 	 * @throws BirtException
 	 */
-	private IResultMetaData getRealMetaData( String dataSetName )
+	private IResultMetaData getRealMetaData( DataSetHandle dataSetHandle )
 			throws BirtException
 	{
 		QueryDefinition query = new QueryDefinition( );
-		query.setDataSetName( dataSetName );
+		query.setDataSetName( dataSetHandle.getQualifiedName( ) );
 		query.setMaxRows( 1 );
-		return new QueryExecutionHelper( dataEngine, modelAdaptor, moduleHandle ).executeQuery( query,
-				null,
-				null,
-				null )
-				.getResultMetaData( );
+		
+		boolean useResultHints = dataSetHandle instanceof ScriptDataSetHandle;
+		return new QueryExecutionHelper( dataEngine,
+				modelAdaptor,
+				moduleHandle,
+				useResultHints ).executeQuery( query ).getResultMetaData( );
 	}
 
 	/**
@@ -147,7 +161,6 @@ public class DataSetMetaDataHelper
 		if ( needsSetCachedMetaData( dataSetHandle, rsMeta ) )
 		{
 			dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
-
 			if ( rsMeta != null && rsMeta.getColumnCount( ) != 0 )
 			{
 				for ( int i = 1; i <= rsMeta.getColumnCount( ); i++ )
@@ -162,6 +175,10 @@ public class DataSetMetaDataHelper
 							.addItem( rsc );
 				}
 			}
+			
+			if ( dataSetHandle instanceof ScriptDataSetHandle == false )
+				dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_PROP )
+						.clearValue( );
 		}
 
 		if ( e != null )
