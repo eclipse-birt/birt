@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.wizards;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -344,7 +343,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		GridData data = new GridData( GridData.BEGINNING );
 		previewLabel.setLayoutData( data );
 
-		templateList = new List( composite, SWT.BORDER );
+		templateList = new List( composite, SWT.BORDER | SWT.H_SCROLL );
 
 		createCustomTemplateList( );
 
@@ -354,7 +353,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		}
 
 		data = new GridData( GridData.BEGINNING | GridData.FILL_VERTICAL );
-		data.widthHint = 170;
+		data.widthHint = 200;
 		templateList.setLayoutData( data );
 
 		previewPane = new Composite( composite, 0 );
