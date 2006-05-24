@@ -117,20 +117,24 @@ public class DataColumnNameValidator extends AbstractElementValidator
 		DesignElement tmpElement = DataBoundColumnUtil
 				.findTargetOfBoundColumns( target, null, module );
 
-		List columns = (List) tmpElement.getProperty( module,
-				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-
-		if ( exists( columns, columnBindingName ) )
-			return true;
-
 		if ( tmpElement instanceof GroupElement )
 		{
 			tmpElement = tmpElement.getContainer( );
-			columns = (List) tmpElement.getProperty( module,
+			List columns = (List) tmpElement.getProperty( module,
 					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 			if ( exists( columns, columnBindingName ) )
 				return true;
+		}
+		else
+		{
+
+			List columns = (List) tmpElement.getProperty( module,
+					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+
+			if ( exists( columns, columnBindingName ) )
+				return true;
+
 		}
 
 		return false;

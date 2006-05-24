@@ -11,15 +11,21 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.DataColumnNameValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.elements.TableGroup;
+import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.xml.sax.SAXException;
 
 /**
@@ -83,7 +89,7 @@ public abstract class ListingItemState extends ReportItemState
 			GroupElement group = (GroupElement) groups.getContent( i );
 
 			handler.getModule( ).getNameManager( ).makeUniqueName( group );
-			
+
 			String groupName = (String) group.getLocalProperty( handler
 					.getModule( ), GroupElement.GROUP_NAME_PROP );
 
@@ -91,21 +97,153 @@ public abstract class ListingItemState extends ReportItemState
 				continue;
 
 			List columns = (List) handler.tempValue.get( group );
-			for ( int j = 0; j < columns.size( ); j++ )
-			{
-				ComputedColumn column = (ComputedColumn) columns.get( j );
-				column.setAggregrateOn( groupName );
-			}
+			if ( columns == null || columns.isEmpty( ) )
+				continue;
 
 			List tmpList = (List) element.getLocalProperty( handler.module,
 					ListingElement.BOUND_DATA_COLUMNS_PROP );
-			if ( tmpList != null )
-				tmpList.addAll( columns );
-			else
+
+			if ( tmpList == null )
+			{
+				tmpList = new ArrayList( );
 				element.setProperty( ListingElement.BOUND_DATA_COLUMNS_PROP,
-						columns );
+						tmpList );
+			}
+
+			for ( int j = 0; j < columns.size( ); j++ )
+			{
+				ComputedColumn column = (ComputedColumn) columns.get( j );
+
+				column.setAggregrateOn( groupName );
+
+				ComputedColumn foundColumn = checkMatchedBoundColumnForGroup(
+						tmpList, column.getExpression( ), column
+								.getAggregrateOn( ) );
+				if ( foundColumn == null
+						|| !foundColumn.getName( ).equals( column.getName( ) ) )
+				{
+					String newName = getUniqueBoundColumnNameForGroup( tmpList,
+							column );
+					column.setName( newName );
+					tmpList.add( column );
+				}
+			}
+
+			reCheckResultSetColumnName( group, tmpList );
 		}
 
 		super.end( );
+	}
+
+	/**
+	 * Returns the bound column of which expression and aggregateOn values are
+	 * equals to the input column.
+	 * 
+	 * @param columns
+	 *            the bound column list
+	 * @param column
+	 *            the input bound column
+	 * @return the matched bound column
+	 */
+
+	private ComputedColumn checkMatchedBoundColumnForGroup( List columns,
+			String expression, String aggregateOn )
+	{
+		if ( ( columns == null ) || ( columns.size( ) == 0 )
+				|| expression == null )
+			return null;
+
+		for ( int i = 0; i < columns.size( ); i++ )
+		{
+			ComputedColumn column = (ComputedColumn) columns.get( i );
+			if ( expression.equals( column.getExpression( ) ) )
+			{
+				if ( aggregateOn == null && column.getAggregrateOn( ) == null )
+					return column;
+
+				if ( aggregateOn != null
+						&& aggregateOn.equals( column.getAggregrateOn( ) ) )
+					return column;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Creates a unique bound column name in the column bound list.
+	 * 
+	 * @param columns
+	 *            the bound column list
+	 * @param checkColumn
+	 *            the column of which name to check
+	 * @return the newly created column name
+	 */
+
+	private String getUniqueBoundColumnNameForGroup( List columns,
+			ComputedColumn checkColumn )
+	{
+		String oldName = checkColumn.getName( );
+		String tmpName = oldName;
+		int index = 0;
+
+		while ( true )
+		{
+			ComputedColumn column = DataColumnNameValidator.getColumn( columns,
+					tmpName );
+			if ( column == null )
+				break;
+
+			tmpName = oldName + "_" + ++index; //$NON-NLS-1$
+		}
+
+		return tmpName;
+	}
+
+	/**
+	 * Reset the result column name for the data item. Since the bound column
+	 * name may recreated in this state, the corresponding result set colum must
+	 * be resetted.
+	 * 
+	 * @param group
+	 *            the group element
+	 * @param columns
+	 *            the bound column list
+	 */
+
+	private void reCheckResultSetColumnName( GroupElement group, List columns )
+	{
+		int level = -1;
+		if ( group instanceof TableGroup )
+			level = 3;
+		if ( group instanceof ListGroup )
+			level = 1;
+
+		LevelContentIterator contentIter = new LevelContentIterator( group,
+				level );
+		while ( contentIter.hasNext( ) )
+		{
+			DesignElement item = (DesignElement) contentIter.next( );
+			if ( !( item instanceof DataItem ) )
+				continue;
+
+			String resultSetColumn = (String) item.getLocalProperty(
+					handler.module, DataItem.RESULT_SET_COLUMN_PROP );
+
+			if ( StringUtil.isBlank( resultSetColumn ) )
+				continue;
+
+			ComputedColumn foundColumn = DataColumnNameValidator.getColumn(
+					columns, resultSetColumn );
+
+			assert foundColumn != null;
+
+			foundColumn = checkMatchedBoundColumnForGroup( columns, foundColumn
+					.getExpression( ), (String) group.getLocalProperty(
+					handler.module, GroupElement.GROUP_NAME_PROP ) );
+
+			item.setProperty( DataItem.RESULT_SET_COLUMN_PROP, foundColumn
+					.getName( ) );
+		}
 	}
 }

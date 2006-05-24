@@ -11,13 +11,17 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.xml.sax.SAXException;
@@ -76,14 +80,26 @@ class CompatibleMiscExpressionState extends ExpressionState
 		if ( value == null )
 			return;
 
-		setupBoundDataColumns( value );
+		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
+				element, null, handler.module );
+
+		setupBoundDataColumns( target, value );
 
 		// keep the expression as same.
 
 		doEnd( value );
 	}
 
-	protected void setupBoundDataColumns( String value )
+	/**
+	 * Creates bound columns.
+	 * 
+	 * @param target
+	 *            the target to add bound columns
+	 * @param value
+	 *            the expression value
+	 */
+
+	protected void setupBoundDataColumns( DesignElement target, String value )
 	{
 		if ( value == null )
 			return;
@@ -104,6 +120,12 @@ class CompatibleMiscExpressionState extends ExpressionState
 			return;
 		}
 
+		if ( target instanceof GroupElement )
+		{
+			appendBoundColumnsToGroup( (GroupElement) target, newExprs );
+			return;
+		}
+
 		for ( int i = 0; i < newExprs.size( ); i++ )
 		{
 			IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
@@ -111,8 +133,103 @@ class CompatibleMiscExpressionState extends ExpressionState
 			if ( newExpression == null )
 				continue;
 
-			DataBoundColumnUtil.setupBoundDataColumn( element, boundColumn
+			DataBoundColumnUtil.createBoundDataColumn( target, boundColumn
 					.getResultSetColumnName( ), newExpression, handler.module );
 		}
+	}
+
+	/**
+	 * Appends to the cached group bound columns. Becuase of "aggregateOn"
+	 * property on bound columns, has to add bound columns at end() function of
+	 * ListingElementState.
+	 * 
+	 * @param target
+	 *            the group element
+	 * @param newExprs
+	 *            bound columns returned by ExpressionUtil
+	 */
+
+	private void appendBoundColumnsToGroup( GroupElement target, List newExprs )
+	{
+		List newColumns = new ArrayList( );
+		for ( int i = 0; i < newExprs.size( ); i++ )
+		{
+			ComputedColumn column = StructureFactory.createComputedColumn( );
+			IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
+			String newExpression = boundColumn.getBoundExpression( );
+			if ( newExpression == null )
+				continue;
+
+			column.setName( boundColumn.getResultSetColumnName( ) );
+			column.setExpression( boundColumn.getBoundExpression( ) );
+			if ( !newColumns.contains( column ) )
+				newColumns.add( column );
+		}
+
+		appendBoundColumnsToCachedGroup( target, newColumns );
+	}
+
+	/**
+	 * Appends to the cached group bound columns. Becuase of "aggregateOn"
+	 * property on bound columns, has to add bound columns at end() function of
+	 * ListingElementState.
+	 * 
+	 * @param target
+	 *            the group element
+	 * @param newExprs
+	 *            bound columns returned by ExpressionUtil
+	 */
+
+	private void appendBoundColumnsToCachedGroup( GroupElement target,
+			List newColumns )
+	{
+		List boundColumns = (List) handler.tempValue.get( target );
+		if ( boundColumns == null )
+		{
+			handler.tempValue.put( target, newColumns );
+			return;
+		}
+
+		for ( int i = 0; i < newColumns.size( ); i++ )
+		{
+			ComputedColumn column = (ComputedColumn) newColumns.get( i );
+			boundColumns.add( column );
+		}
+	}
+
+	/**
+	 * Appends to the cached group bound columns. Becuase of "aggregateOn"
+	 * property on bound columns, has to add bound columns at end() function of
+	 * ListingElementState.
+	 * 
+	 * @param target
+	 *            the group element
+	 * @param boundName
+	 *            the bound column name
+	 * @param expression
+	 *            the bound column expression
+	 * @return the return bound name
+	 */
+
+	protected String appendBoundColumnsToCachedGroup( GroupElement target,
+			String boundName, String expression )
+	{
+		ComputedColumn column = StructureFactory.createComputedColumn( );
+		column.setName( boundName );
+		column.setExpression( expression );
+
+		List boundColumns = (List) handler.tempValue.get( target );
+		if ( boundColumns == null )
+		{
+			List newColumns = new ArrayList( );
+			newColumns.add( column );
+
+			handler.tempValue.put( target, newColumns );
+			return boundName;
+		}
+
+		boundColumns.add( column );
+
+		return boundName;
 	}
 }

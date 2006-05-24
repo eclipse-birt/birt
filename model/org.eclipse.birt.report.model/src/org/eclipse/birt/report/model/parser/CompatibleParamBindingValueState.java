@@ -87,7 +87,7 @@ public class CompatibleParamBindingValueState
 			if ( newExpression == null )
 				continue;
 
-			DataBoundColumnUtil.setupBoundDataColumn( target, boundColumn
+			DataBoundColumnUtil.createBoundDataColumn( target, boundColumn
 					.getResultSetColumnName( ), newExpression, handler.module );
 		}
 	}

@@ -17,6 +17,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.xml.sax.SAXException;
 
@@ -66,6 +67,9 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 			newExprs = null;
 		}
 
+		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
+				element, null, handler.module );
+
 		if ( newExprs != null && newExprs.size( ) == 1 )
 		{
 			IColumnBinding column = (IColumnBinding) newExprs.get( 0 );
@@ -73,10 +77,20 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 			if ( value.equals( ExpressionUtil.createRowExpression( column
 					.getResultSetColumnName( ) ) ) )
 			{
-				String newName = DataBoundColumnUtil.setupBoundDataColumn(
-						element, column.getResultSetColumnName( ), column
-								.getBoundExpression( ), handler.getModule( ) );
-
+				String newName = column.getResultSetColumnName( );
+				if ( target instanceof GroupElement )
+				{
+					newName = appendBoundColumnsToCachedGroup(
+							(GroupElement) target, newName, column
+									.getBoundExpression( ) );
+				}
+				else
+				{
+					newName = DataBoundColumnUtil.createBoundDataColumn(
+							target, newName, column.getBoundExpression( ),
+							handler.getModule( ) );
+				}
+				
 				// set the property for the result set column property of
 				// DataItem.
 
@@ -84,17 +98,26 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 
 				return;
 			}
-			else
-				setupBoundDataColumns( value );
+
+			setupBoundDataColumns( target, value );
 		}
 
 		if ( newExprs != null && newExprs.size( ) > 1 )
 		{
-			setupBoundDataColumns( value );
+			setupBoundDataColumns( target, value );
 		}
 
-		String newName = DataBoundColumnUtil.setupBoundDataColumn( element,
-				value, value, handler.getModule( ) );
+		String newName = value;
+		if ( target instanceof GroupElement )
+		{
+			newName = appendBoundColumnsToCachedGroup( (GroupElement) target,
+					value, value );
+		}
+		else
+		{
+			newName = DataBoundColumnUtil.createBoundDataColumn( target, value,
+					value, handler.getModule( ) );
+		}
 
 		// set the property for the result set column property of DataItem.
 

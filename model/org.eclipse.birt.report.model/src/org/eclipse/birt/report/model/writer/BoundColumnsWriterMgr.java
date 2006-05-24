@@ -11,28 +11,41 @@
 
 package org.eclipse.birt.report.model.writer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.DataColumnNameValidator;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GridItem;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
+import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.util.BoundColumnsMgr;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
  * The utility to provide backward compatibility of bound columns during writing
@@ -47,6 +60,12 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	 */
 
 	private Set processedElement = new HashSet( );
+
+	/**
+	 * 
+	 */
+
+	private Map cachedGroup = new HashMap( );
 
 	/**
 	 * The design file version from parsing.
@@ -95,6 +114,15 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			newExprs = null;
 		}
 
+		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
+				element, null, module );
+
+		if ( target instanceof GroupElement )
+		{
+			appendBoundColumnsToGroup( (GroupElement) target, newExprs );
+			return;
+		}
+
 		if ( newExprs != null && newExprs.size( ) >= 1 )
 		{
 			for ( int i = 0; i < newExprs.size( ); i++ )
@@ -104,10 +132,105 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 				if ( newExpression == null )
 					continue;
 
-				DataBoundColumnUtil.setupBoundDataColumn( element, boundColumn
+				DataBoundColumnUtil.createBoundDataColumn( target, boundColumn
 						.getResultSetColumnName( ), newExpression, module );
 			}
 		}
+	}
+
+	/**
+	 * Appends to the cached group bound columns. Becuase of "aggregateOn"
+	 * property on bound columns, has to add bound columns at end() function of
+	 * ListingElementState.
+	 * 
+	 * @param target
+	 *            the group element
+	 * @param newExprs
+	 *            bound columns returned by ExpressionUtil
+	 */
+
+	private void appendBoundColumnsToGroup( GroupElement target, List newExprs )
+	{
+		List newColumns = new ArrayList( );
+		for ( int i = 0; i < newExprs.size( ); i++ )
+		{
+			ComputedColumn column = StructureFactory.createComputedColumn( );
+			IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
+			String newExpression = boundColumn.getBoundExpression( );
+			if ( newExpression == null )
+				continue;
+
+			column.setName( boundColumn.getResultSetColumnName( ) );
+			column.setExpression( boundColumn.getBoundExpression( ) );
+			if ( !newColumns.contains( column ) )
+				newColumns.add( column );
+		}
+
+		appendBoundColumnsToCachedGroup( target, newColumns );
+	}
+
+	/**
+	 * Appends to the cached group bound columns. Becuase of "aggregateOn"
+	 * property on bound columns, has to add bound columns at end() function of
+	 * ListingElementState.
+	 * 
+	 * @param target
+	 *            the group element
+	 * @param newExprs
+	 *            bound columns returned by ExpressionUtil
+	 */
+
+	private void appendBoundColumnsToCachedGroup( GroupElement target,
+			List newColumns )
+	{
+		List boundColumns = (List) cachedGroup.get( target );
+		if ( boundColumns == null )
+		{
+			cachedGroup.put( target, newColumns );
+			return;
+		}
+
+		for ( int i = 0; i < newColumns.size( ); i++ )
+		{
+			ComputedColumn column = (ComputedColumn) newColumns.get( i );
+			boundColumns.add( column );
+		}
+	}
+
+	/**
+	 * Appends to the cached group bound columns. Becuase of "aggregateOn"
+	 * property on bound columns, has to add bound columns at end() function of
+	 * ListingElementState.
+	 * 
+	 * @param target
+	 *            the group element
+	 * @param boundName
+	 *            the bound column name
+	 * @param expression
+	 *            the bound column expression
+	 * @return the return bound name
+	 */
+
+	protected String appendBoundColumnsToCachedGroup( GroupElement target,
+			String boundName, String expression )
+	{
+		ComputedColumn column = StructureFactory.createComputedColumn( );
+		column.setName( boundName );
+		column.setExpression( expression );
+
+		List boundColumns = (List) cachedGroup.get( target );
+		if ( boundColumns == null )
+		{
+			List newColumns = new ArrayList( );
+			newColumns.add( column );
+
+			cachedGroup.put( target, newColumns );
+			return boundName;
+		}
+
+		boundColumns.add( column );
+
+		return boundName;
 	}
 
 	/**
@@ -200,13 +323,24 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			newExprs = null;
 		}
 
+		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
+				obj, null, module );
+
 		if ( newExprs != null && newExprs.size( ) == 1 )
 		{
 			IColumnBinding column = (IColumnBinding) newExprs.get( 0 );
 
-			String newName = DataBoundColumnUtil.setupBoundDataColumn( obj,
-					column.getResultSetColumnName( ), column
-							.getBoundExpression( ), module );
+			String newName = column.getResultSetColumnName( );
+			if ( target instanceof GroupElement )
+			{
+				appendBoundColumnsToCachedGroup( (GroupElement) target,
+						newName, column.getBoundExpression( ) );
+			}
+			else
+			{
+				newName = DataBoundColumnUtil.createBoundDataColumn( target,
+						newName, column.getBoundExpression( ), module );
+			}
 
 			if ( valueExpr.equals( ExpressionUtil.createRowExpression( column
 					.getResultSetColumnName( ) ) ) )
@@ -222,26 +356,45 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 
 		if ( newExprs != null && newExprs.size( ) > 1 )
 		{
-			for ( int i = 0; i < newExprs.size( ); i++ )
+			if ( target instanceof GroupElement )
 			{
-				IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
-				String newExpression = boundColumn.getBoundExpression( );
-				if ( newExpression == null )
-					continue;
+				appendBoundColumnsToCachedGroup( (GroupElement) target,
+						newExprs );
+			}
+			else
+			{
+				for ( int i = 0; i < newExprs.size( ); i++ )
+				{
+					IColumnBinding boundColumn = (IColumnBinding) newExprs
+							.get( i );
+					String newExpression = boundColumn.getBoundExpression( );
+					if ( newExpression == null )
+						continue;
 
-				DataBoundColumnUtil.setupBoundDataColumn( obj, boundColumn
-						.getResultSetColumnName( ), newExpression, module );
+					DataBoundColumnUtil.createBoundDataColumn( target,
+							boundColumn.getResultSetColumnName( ),
+							newExpression, module );
+				}
 			}
 		}
 
-		String newName = DataBoundColumnUtil.setupBoundDataColumn( obj,
-				valueExpr, valueExpr, module );
+		String newName = valueExpr;
+		if ( target instanceof GroupElement )
+		{
+			appendBoundColumnsToCachedGroup( (GroupElement) target, valueExpr,
+					valueExpr );
+		}
+		else
+		{
+			newName = DataBoundColumnUtil.createBoundDataColumn( target,
+					valueExpr, valueExpr, module );
+		}
 
 		// set the property for the result set column property of DataItem.
 
 		obj.setProperty( DataItem.RESULT_SET_COLUMN_PROP, newName );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -320,6 +473,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		processedElement.add( element );
 
 		super.dealList( element, module );
+
+		appendCachedBoundColumns( element, module );
 	}
 
 	/*
@@ -352,6 +507,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		processedElement.add( element );
 
 		super.dealTable( element, module );
+		
+		appendCachedBoundColumns( element, module );		
 	}
 
 	/*
@@ -403,4 +560,177 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		super.dealTextData( element, module );
 	}
 
+	/**
+	 * Returns the bound column of which expression and aggregateOn values are
+	 * equals to the input column.
+	 * 
+	 * @param columns
+	 *            the bound column list
+	 * @param column
+	 *            the input bound column
+	 * @return the matched bound column
+	 */
+
+	private ComputedColumn checkMatchedBoundColumnForGroup( List columns,
+			String expression, String aggregateOn )
+	{
+		if ( ( columns == null ) || ( columns.size( ) == 0 )
+				|| expression == null )
+			return null;
+
+		for ( int i = 0; i < columns.size( ); i++ )
+		{
+			ComputedColumn column = (ComputedColumn) columns.get( i );
+			if ( expression.equals( column.getExpression( ) ) )
+			{
+				if ( aggregateOn == null && column.getAggregrateOn( ) == null )
+					return column;
+
+				if ( aggregateOn != null
+						&& aggregateOn.equals( column.getAggregrateOn( ) ) )
+					return column;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Creates a unique bound column name in the column bound list.
+	 * 
+	 * @param columns
+	 *            the bound column list
+	 * @param checkColumn
+	 *            the column of which name to check
+	 * @return the newly created column name
+	 */
+
+	private String getUniqueBoundColumnNameForGroup( List columns,
+			ComputedColumn checkColumn )
+	{
+		String oldName = checkColumn.getName( );
+		String tmpName = oldName;
+		int index = 0;
+
+		while ( true )
+		{
+			ComputedColumn column = DataColumnNameValidator.getColumn( columns,
+					tmpName );
+			if ( column == null )
+				break;
+
+			tmpName = oldName + "_" + ++index; //$NON-NLS-1$
+		}
+
+		return tmpName;
+	}
+
+	/**
+	 * Reset the result column name for the data item. Since the bound column
+	 * name may recreated in this state, the corresponding result set colum must
+	 * be resetted.
+	 * 
+	 * @param group
+	 *            the group element
+	 * @param columns
+	 *            the bound column list
+	 */
+
+	private void reCheckResultSetColumnName( GroupElement group, List columns,
+			Module module )
+	{
+		int level = -1;
+		if ( group instanceof TableGroup )
+			level = 3;
+		if ( group instanceof ListGroup )
+			level = 1;
+
+		LevelContentIterator contentIter = new LevelContentIterator( group,
+				level );
+		while ( contentIter.hasNext( ) )
+		{
+			DesignElement item = (DesignElement) contentIter.next( );
+			if ( !( item instanceof DataItem ) )
+				continue;
+
+			String resultSetColumn = (String) item.getLocalProperty( module,
+					DataItem.RESULT_SET_COLUMN_PROP );
+
+			if ( StringUtil.isBlank( resultSetColumn ) )
+				continue;
+
+			ComputedColumn foundColumn = DataColumnNameValidator.getColumn(
+					columns, resultSetColumn );
+
+			assert foundColumn != null;
+
+			foundColumn = checkMatchedBoundColumnForGroup( columns, foundColumn
+					.getExpression( ), (String) group.getLocalProperty( module,
+					GroupElement.GROUP_NAME_PROP ) );
+
+			item.setProperty( DataItem.RESULT_SET_COLUMN_PROP, foundColumn
+					.getName( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.ReportItemState#end()
+	 */
+
+	private void appendCachedBoundColumns( ListingElement element, Module module )
+	{
+
+		Set elements = cachedGroup.keySet( );
+		ContainerSlot groups = element.getSlot( ListingElement.GROUP_SLOT );
+		for ( int i = 0; i < groups.getCount( ); i++ )
+		{
+			GroupElement group = (GroupElement) groups.getContent( i );
+
+			module.getNameManager( ).makeUniqueName( group );
+
+			String groupName = (String) group.getLocalProperty( module,
+					GroupElement.GROUP_NAME_PROP );
+
+			if ( !elements.contains( group ) )
+				continue;
+
+			List columns = (List) cachedGroup.get( group );
+			if ( columns == null || columns.isEmpty( ) )
+				continue;
+
+			List tmpList = (List) element.getLocalProperty( module,
+					ListingElement.BOUND_DATA_COLUMNS_PROP );
+
+			if ( tmpList == null )
+			{
+				tmpList = new ArrayList( );
+				element.setProperty( ListingElement.BOUND_DATA_COLUMNS_PROP,
+						tmpList );
+			}
+
+			for ( int j = 0; j < columns.size( ); j++ )
+			{
+				ComputedColumn column = (ComputedColumn) columns.get( j );
+
+				column.setAggregrateOn( groupName );
+
+				ComputedColumn foundColumn = checkMatchedBoundColumnForGroup(
+						tmpList, column.getExpression( ), column
+								.getAggregrateOn( ) );
+				if ( foundColumn == null
+						|| !foundColumn.getName( ).equals( column.getName( ) ) )
+				{
+					String newName = getUniqueBoundColumnNameForGroup( tmpList,
+							column );
+					column.setName( newName );
+					tmpList.add( column );
+				}
+			}
+
+			reCheckResultSetColumnName( group, tmpList, module );
+		}
+
+	}
 }
