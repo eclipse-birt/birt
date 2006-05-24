@@ -134,7 +134,7 @@ public class BindingExpressionProvider extends ExpressionProvider
 	public String getInsertText( Object element )
 	{
 		if ( element instanceof ResultSetColumnHandle
-				|| element instanceof ResultSetColumnHandle )
+				|| element instanceof DataSetParameterHandle )
 		{
 			return DEUtil.getExpression( element );
 		}
