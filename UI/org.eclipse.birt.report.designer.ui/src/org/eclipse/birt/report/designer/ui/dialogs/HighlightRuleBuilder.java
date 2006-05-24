@@ -73,8 +73,8 @@ public class HighlightRuleBuilder extends BaseDialog
 
 	static
 	{
-		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( HighlightRule.STRUCTURE_NAME,
-				HighlightRule.OPERATOR_MEMBER );
+		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet(
+				HighlightRule.STRUCTURE_NAME, HighlightRule.OPERATOR_MEMBER );
 		IChoice[] chs = chset.getChoices( );
 		OPERATOR = new String[chs.length][2];
 
@@ -111,10 +111,14 @@ public class HighlightRuleBuilder extends BaseDialog
 	public static int determineValueVisible( String operatorValue )
 	{
 		if ( DesignChoiceConstants.MAP_OPERATOR_ANY.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_FALSE.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_TRUE.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_NULL.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_NOT_NULL.equals( operatorValue ) )
+				|| DesignChoiceConstants.MAP_OPERATOR_FALSE
+						.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_TRUE
+						.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_NULL
+						.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_NOT_NULL
+						.equals( operatorValue ) )
 		{
 			return 0;
 		}
@@ -124,12 +128,15 @@ public class HighlightRuleBuilder extends BaseDialog
 				|| DesignChoiceConstants.MAP_OPERATOR_NE.equals( operatorValue )
 				|| DesignChoiceConstants.MAP_OPERATOR_GE.equals( operatorValue )
 				|| DesignChoiceConstants.MAP_OPERATOR_GT.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_LIKE.equals( operatorValue ) )
+				|| DesignChoiceConstants.MAP_OPERATOR_LIKE
+						.equals( operatorValue ) )
 		{
 			return 1;
 		}
-		else if ( DesignChoiceConstants.MAP_OPERATOR_BETWEEN.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_NOT_BETWEEN.equals( operatorValue ) )
+		else if ( DesignChoiceConstants.MAP_OPERATOR_BETWEEN
+				.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_NOT_BETWEEN
+						.equals( operatorValue ) )
 		{
 			return 2;
 		}
@@ -206,11 +213,14 @@ public class HighlightRuleBuilder extends BaseDialog
 	private boolean isBoldChanged, isItalicChanged, isUnderlineChanged,
 			isLinethroughChanged;
 
-	private static final String DEFAULT_CHOICE = Messages.getString( "HighlightRuleBuilderDialog.text.Default" ); //$NON-NLS-1$
+	private static final String DEFAULT_CHOICE = Messages
+			.getString( "HighlightRuleBuilderDialog.text.Default" ); //$NON-NLS-1$
 
-	private static final String[] SYSTEM_FONT_LIST = DEUtil.getSystemFontNames( );
+	private static final String[] SYSTEM_FONT_LIST = DEUtil
+			.getSystemFontNames( );
 
-	private static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
+	private static final String VALUE_OF_THIS_DATA_ITEM = Messages
+			.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
 	/**
 	 * Default constructor.
@@ -254,7 +264,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		createButtonBar( composite );
 
 		Label lb = new Label( innerParent, SWT.NONE );
-		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Condition" ) ); //$NON-NLS-1$
+		lb.setText( Messages
+				.getString( "HighlightRuleBuilderDialog.text.Condition" ) ); //$NON-NLS-1$
 
 		Composite condition = new Composite( innerParent, SWT.NONE );
 		condition.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -273,7 +284,10 @@ public class HighlightRuleBuilder extends BaseDialog
 				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
 						&& designHandle instanceof DataItemHandle )
 				{
-					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getName( ) ) );
+					expression
+							.setText( DEUtil
+									.getColumnExpression( ( (DataItemHandle) designHandle )
+											.getResultSetColumn( ) ) );
 				}
 				updateButtons( );
 			}
@@ -292,7 +306,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		gdata.heightHint = 20;
 		gdata.widthHint = 20;
 		expBuilder.setLayoutData( gdata );
-		expBuilder.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
+		expBuilder.setToolTipText( Messages
+				.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
 		expBuilder.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -357,7 +372,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		gdata.heightHint = 20;
 		gdata.widthHint = 20;
 		valBuilder1.setLayoutData( gdata );
-		valBuilder1.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
+		valBuilder1.setToolTipText( Messages
+				.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
 		valBuilder1.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -369,7 +385,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		createDummy( condition, 3 );
 
 		andLable = new Label( condition, SWT.NONE );
-		andLable.setText( Messages.getString( "HighlightRuleBuilderDialog.text.AND" ) ); //$NON-NLS-1$
+		andLable.setText( Messages
+				.getString( "HighlightRuleBuilderDialog.text.AND" ) ); //$NON-NLS-1$
 		andLable.setVisible( false );
 
 		createDummy( condition, 1 );
@@ -391,7 +408,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		gdata.heightHint = 20;
 		gdata.widthHint = 20;
 		valBuilder2.setLayoutData( gdata );
-		valBuilder2.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
+		valBuilder2.setToolTipText( Messages
+				.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
 		valBuilder2.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -407,7 +425,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		}
 
 		lb = new Label( innerParent, SWT.NONE );
-		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Format" ) ); //$NON-NLS-1$
+		lb.setText( Messages
+				.getString( "HighlightRuleBuilderDialog.text.Format" ) ); //$NON-NLS-1$
 
 		Composite format = new Composite( innerParent, SWT.NONE );
 		format.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -415,13 +434,18 @@ public class HighlightRuleBuilder extends BaseDialog
 		format.setLayout( glayout );
 
 		lb = new Label( format, 0 );
-		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Font" ) ); //$NON-NLS-1$
+		lb
+				.setText( Messages
+						.getString( "HighlightRuleBuilderDialog.text.Font" ) ); //$NON-NLS-1$
 
 		lb = new Label( format, 0 );
-		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Size" ) ); //$NON-NLS-1$
+		lb
+				.setText( Messages
+						.getString( "HighlightRuleBuilderDialog.text.Size" ) ); //$NON-NLS-1$
 
 		lb = new Label( format, 0 );
-		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Color" ) ); //$NON-NLS-1$
+		lb.setText( Messages
+				.getString( "HighlightRuleBuilderDialog.text.Color" ) ); //$NON-NLS-1$
 
 		createDummy( format, 4 );
 
@@ -429,7 +453,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		gdata = new GridData( );
 		gdata.widthHint = 100;
 		font.setLayoutData( gdata );
-		IChoiceSet fontSet = ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
+		IChoiceSet fontSet = ChoiceSetFactory.getElementChoiceSet(
+				ReportDesignConstants.STYLE_ELEMENT,
 				StyleHandle.FONT_FAMILY_PROP );
 		font.setData( fontSet );
 		font.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( fontSet,
@@ -457,8 +482,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		size = new FontSizeBuilder( format, SWT.None );
 		if ( designHandle != null )
 		{
-			size.setDefaultUnit( designHandle.getPropertyHandle( StyleHandle.FONT_SIZE_PROP )
-					.getDefaultUnit( ) );
+			size.setDefaultUnit( designHandle.getPropertyHandle(
+					StyleHandle.FONT_SIZE_PROP ).getDefaultUnit( ) );
 		}
 		gdata = new GridData( );
 		gdata.widthHint = 120;
@@ -476,14 +501,15 @@ public class HighlightRuleBuilder extends BaseDialog
 		gdata = new GridData( );
 		gdata.widthHint = 50;
 		color.setLayoutData( gdata );
-		color.setChoiceSet( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-				StyleHandle.COLOR_PROP ) );
+		color.setChoiceSet( ChoiceSetFactory.getElementChoiceSet(
+				ReportDesignConstants.STYLE_ELEMENT, StyleHandle.COLOR_PROP ) );
 		color.setRGB( null );
 		color.addListener( SWT.Modify, new Listener( ) {
 
 			public void handleEvent( Event event )
 			{
-				previewLabel.setForeground( ColorManager.getColor( color.getRGB( ) ) );
+				previewLabel.setForeground( ColorManager.getColor( color
+						.getRGB( ) ) );
 				previewLabel.redraw( );
 			}
 		} );
@@ -495,7 +521,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		fstyle.setLayout( new GridLayout( 4, false ) );
 
 		bold = createToggleButton( fstyle );
-		bold.setImage( ReportPlatformUIImages.getImage( AttributeConstant.FONT_WIDTH ) );
+		bold.setImage( ReportPlatformUIImages
+				.getImage( AttributeConstant.FONT_WIDTH ) );
 		bold.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -506,7 +533,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		} );
 
 		italic = createToggleButton( fstyle );
-		italic.setImage( ReportPlatformUIImages.getImage( AttributeConstant.FONT_STYLE ) );
+		italic.setImage( ReportPlatformUIImages
+				.getImage( AttributeConstant.FONT_STYLE ) );
 		italic.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -517,7 +545,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		} );
 
 		underline = createToggleButton( fstyle );
-		underline.setImage( ReportPlatformUIImages.getImage( AttributeConstant.TEXT_UNDERLINE ) );
+		underline.setImage( ReportPlatformUIImages
+				.getImage( AttributeConstant.TEXT_UNDERLINE ) );
 		underline.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -529,7 +558,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		} );
 
 		linethrough = createToggleButton( fstyle );
-		linethrough.setImage( ReportPlatformUIImages.getImage( AttributeConstant.TEXT_LINE_THROUGH ) );
+		linethrough.setImage( ReportPlatformUIImages
+				.getImage( AttributeConstant.TEXT_LINE_THROUGH ) );
 		linethrough.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -546,20 +576,24 @@ public class HighlightRuleBuilder extends BaseDialog
 		back.setLayout( glayout );
 
 		lb = new Label( back, 0 );
-		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.BackgroundColor" ) ); //$NON-NLS-1$
+		lb
+				.setText( Messages
+						.getString( "HighlightRuleBuilderDialog.text.BackgroundColor" ) ); //$NON-NLS-1$
 
 		backColor = new ColorBuilder( back, 0 );
 		gdata = new GridData( );
 		gdata.widthHint = 50;
 		backColor.setLayoutData( gdata );
-		backColor.setChoiceSet( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
+		backColor.setChoiceSet( ChoiceSetFactory.getElementChoiceSet(
+				ReportDesignConstants.STYLE_ELEMENT,
 				StyleHandle.BACKGROUND_COLOR_PROP ) );
 		backColor.setRGB( null );
 		backColor.addListener( SWT.Modify, new Listener( ) {
 
 			public void handleEvent( Event event )
 			{
-				previewLabel.setBackground( ColorManager.getColor( backColor.getRGB( ) ) );
+				previewLabel.setBackground( ColorManager.getColor( backColor
+						.getRGB( ) ) );
 				previewLabel.redraw( );
 			}
 		} );
@@ -571,7 +605,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		preview.setLayoutData( gdata );
 
 		lb = new Label( preview, SWT.NONE );
-		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Preview" ) ); //$NON-NLS-1$
+		lb.setText( Messages
+				.getString( "HighlightRuleBuilderDialog.text.Preview" ) ); //$NON-NLS-1$
 
 		Composite previewPane = new Composite( preview, SWT.BORDER );
 		glayout = new GridLayout( );
@@ -583,7 +618,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		previewPane.setLayoutData( gdata );
 
 		previewLabel = new PreviewLabel( previewPane, 0 );
-		previewLabel.setText( Messages.getString( "HighlightRuleBuilderDialog.text.PreviewContent" ) ); //$NON-NLS-1$
+		previewLabel.setText( Messages
+				.getString( "HighlightRuleBuilderDialog.text.PreviewContent" ) ); //$NON-NLS-1$
 		gdata = new GridData( GridData.FILL_BOTH );
 		previewLabel.setLayoutData( gdata );
 
@@ -620,8 +656,8 @@ public class HighlightRuleBuilder extends BaseDialog
 
 			public void paintControl( PaintEvent e )
 			{
-				e.gc.setForeground( titleArea.getDisplay( )
-						.getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
+				e.gc.setForeground( titleArea.getDisplay( ).getSystemColor(
+						SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
 				Rectangle bounds = titleArea.getClientArea( );
 				bounds.height = bounds.height - 2;
 				bounds.width = bounds.width - 1;
@@ -631,10 +667,10 @@ public class HighlightRuleBuilder extends BaseDialog
 
 		Label label = new Label( titleArea, SWT.NONE );
 		label.setBackground( background );
-		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
-				10,
+		label.setFont( FontManager.getFont( label.getFont( ).toString( ), 10,
 				SWT.BOLD ) );
-		label.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Title" ) ); //$NON-NLS-1$
+		label.setText( Messages
+				.getString( "HighlightRuleBuilderDialog.text.Title" ) ); //$NON-NLS-1$
 
 		return titleArea;
 	}
@@ -678,7 +714,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		previewLabel.setBold( bold.getSelection( ) );
 		previewLabel.setItalic( italic.getSelection( ) );
 		previewLabel.setForeground( ColorManager.getColor( color.getRGB( ) ) );
-		previewLabel.setBackground( ColorManager.getColor( backColor.getRGB( ) ) );
+		previewLabel
+				.setBackground( ColorManager.getColor( backColor.getRGB( ) ) );
 		previewLabel.setUnderline( underline.getSelection( ) );
 		previewLabel.setLinethrough( linethrough.getSelection( ) );
 
@@ -735,7 +772,8 @@ public class HighlightRuleBuilder extends BaseDialog
 			te = handle.getTestExpression( );
 		}
 
-		if ( designHandle instanceof DataItemHandle )
+		if ( designHandle instanceof DataItemHandle
+				&& ((DataItemHandle)designHandle).getResultSetColumn( )!=null)
 		{
 			control.add( VALUE_OF_THIS_DATA_ITEM );
 		}
@@ -845,7 +883,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		if ( handle != null )
 		{
 			// syn high light test expression from high light rule handle.
-			expression.setText( DEUtil.resolveNull( handle.getTestExpression( ) ) );
+			expression.setText( DEUtil
+					.resolveNull( handle.getTestExpression( ) ) );
 
 			operator.select( getIndexForOperatorValue( handle.getOperator( ) ) );
 
@@ -888,17 +927,25 @@ public class HighlightRuleBuilder extends BaseDialog
 		{
 			if ( handle.getColor( ).isSet( ) )
 			{
-				color.setRGB( DEUtil.getRGBValue( handle.getColor( ).getRGB( ) ) );
+				color
+						.setRGB( DEUtil.getRGBValue( handle.getColor( )
+								.getRGB( ) ) );
 			}
 			if ( handle.getBackgroundColor( ).isSet( ) )
 			{
-				backColor.setRGB( DEUtil.getRGBValue( handle.getBackgroundColor( )
-						.getRGB( ) ) );
+				backColor.setRGB( DEUtil.getRGBValue( handle
+						.getBackgroundColor( ).getRGB( ) ) );
 			}
-			bold.setSelection( DesignChoiceConstants.FONT_WEIGHT_BOLD.equals( handle.getFontWeight( ) ) );
-			italic.setSelection( DesignChoiceConstants.FONT_STYLE_ITALIC.equals( handle.getFontStyle( ) ) );
-			underline.setSelection( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( handle.getTextUnderline( ) ) );
-			linethrough.setSelection( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( handle.getTextLineThrough( ) ) );
+			bold.setSelection( DesignChoiceConstants.FONT_WEIGHT_BOLD
+					.equals( handle.getFontWeight( ) ) );
+			italic.setSelection( DesignChoiceConstants.FONT_STYLE_ITALIC
+					.equals( handle.getFontStyle( ) ) );
+			underline
+					.setSelection( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE
+							.equals( handle.getTextUnderline( ) ) );
+			linethrough
+					.setSelection( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH
+							.equals( handle.getTextLineThrough( ) ) );
 		}
 	}
 
@@ -997,8 +1044,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				}
 				else
 				{
-					rfm = designHandle.getPrivateStyle( )
-							.getFontFamilyHandle( )
+					rfm = designHandle.getPrivateStyle( ).getFontFamilyHandle( )
 							.getStringValue( );
 				}
 			}
@@ -1051,8 +1097,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			}
 			else
 			{
-				rfs = designHandle.getPrivateStyle( )
-						.getFontSize( )
+				rfs = designHandle.getPrivateStyle( ).getFontSize( )
 						.getStringValue( );
 			}
 		}
@@ -1080,13 +1125,17 @@ public class HighlightRuleBuilder extends BaseDialog
 
 			int colorValue = DEUtil.getRGBInt( color.getRGB( ) );
 			int backColorValue = DEUtil.getRGBInt( backColor.getRGB( ) );
-			String italicValue = italic.getSelection( ) ? DesignChoiceConstants.FONT_STYLE_ITALIC
+			String italicValue = italic.getSelection( )
+					? DesignChoiceConstants.FONT_STYLE_ITALIC
 					: DesignChoiceConstants.FONT_STYLE_NORMAL;
-			String weightValue = bold.getSelection( ) ? DesignChoiceConstants.FONT_WEIGHT_BOLD
+			String weightValue = bold.getSelection( )
+					? DesignChoiceConstants.FONT_WEIGHT_BOLD
 					: DesignChoiceConstants.FONT_WEIGHT_NORMAL;
-			String underlineValue = underline.getSelection( ) ? DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE
+			String underlineValue = underline.getSelection( )
+					? DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE
 					: DesignChoiceConstants.TEXT_UNDERLINE_NONE;
-			String lingthroughValue = linethrough.getSelection( ) ? DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH
+			String lingthroughValue = linethrough.getSelection( )
+					? DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH
 					: DesignChoiceConstants.TEXT_LINE_THROUGH_NONE;
 
 			// provider.setTestExpression( DEUtil.resolveNull(
@@ -1097,19 +1146,20 @@ public class HighlightRuleBuilder extends BaseDialog
 				HighlightRule rule = StructureFactory.createHighlightRule( );
 
 				rule.setProperty( HighlightRule.OPERATOR_MEMBER,
-						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
-				rule.setProperty( HighlightRule.VALUE1_MEMBER,
-						DEUtil.resolveNull( value1.getText( ) ) );
-				rule.setProperty( HighlightRule.VALUE2_MEMBER,
-						DEUtil.resolveNull( value2.getText( ) ) );
+						DEUtil.resolveNull( getValueForOperator( operator
+								.getText( ) ) ) );
+				rule.setProperty( HighlightRule.VALUE1_MEMBER, DEUtil
+						.resolveNull( value1.getText( ) ) );
+				rule.setProperty( HighlightRule.VALUE2_MEMBER, DEUtil
+						.resolveNull( value2.getText( ) ) );
 
 				/**
 				 * Sets our necessary style properties.
 				 */
 				if ( color.getRGB( ) != null )
 				{
-					rule.setProperty( HighlightRule.COLOR_MEMBER,
-							new Integer( colorValue ) );
+					rule.setProperty( HighlightRule.COLOR_MEMBER, new Integer(
+							colorValue ) );
 				}
 				if ( backColor.getRGB( ) != null )
 				{
@@ -1123,7 +1173,9 @@ public class HighlightRuleBuilder extends BaseDialog
 				}
 				if ( sizeValue != null )
 				{
-					rule.setProperty( HighlightRule.FONT_SIZE_MEMBER, sizeValue );
+					rule
+							.setProperty( HighlightRule.FONT_SIZE_MEMBER,
+									sizeValue );
 				}
 				if ( isItalicChanged )
 				{
@@ -1147,27 +1199,31 @@ public class HighlightRuleBuilder extends BaseDialog
 				}
 
 				// set test expression into highlight rule.
-				rule.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
+				rule.setTestExpression( DEUtil.resolveNull( expression
+						.getText( ) ) );
 
 				handle = provider.doAddItem( rule, handleCount );
 			}
 			else
 			{
-				handle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
+				handle
+						.setOperator( DEUtil
+								.resolveNull( getValueForOperator( operator
+										.getText( ) ) ) );
 
 				handle.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
-				if ( handle.getOperator( )
-						.equals( DesignChoiceConstants.MAP_OPERATOR_BETWEEN )
-						|| handle.getOperator( )
-								.equals( DesignChoiceConstants.MAP_OPERATOR_NOT_BETWEEN ) )
+				if ( handle.getOperator( ).equals(
+						DesignChoiceConstants.MAP_OPERATOR_BETWEEN )
+						|| handle.getOperator( ).equals(
+								DesignChoiceConstants.MAP_OPERATOR_NOT_BETWEEN ) )
 				{
 					handle.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
 				}
 
-				handle.getFontFamilyHandle( )
-						.setStringValue( DEUtil.resolveNull( familyValue ) );
-				handle.getFontSize( )
-						.setStringValue( DEUtil.resolveNull( sizeValue ) );
+				handle.getFontFamilyHandle( ).setStringValue(
+						DEUtil.resolveNull( familyValue ) );
+				handle.getFontSize( ).setStringValue(
+						DEUtil.resolveNull( sizeValue ) );
 				if ( color.getRGB( ) != null )
 				{
 					handle.getColor( ).setRGB( colorValue );
@@ -1202,7 +1258,8 @@ public class HighlightRuleBuilder extends BaseDialog
 				}
 
 				// set test expression into highlight rule.
-				handle.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
+				handle.setTestExpression( DEUtil.resolveNull( expression
+						.getText( ) ) );
 
 			}
 		}
@@ -1225,12 +1282,13 @@ public class HighlightRuleBuilder extends BaseDialog
 		{
 			initValue = ( (Combo) control ).getText( );
 		}
-		ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
-				initValue );
+		ExpressionBuilder expressionBuilder = new ExpressionBuilder(
+				getShell( ), initValue );
 
 		if ( designHandle != null )
 		{
-			expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+			expressionBuilder.setExpressionProvier( new ExpressionProvider(
+					designHandle ) );
 		}
 
 		if ( expressionBuilder.open( ) == OK )
