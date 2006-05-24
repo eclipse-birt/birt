@@ -23,11 +23,12 @@ import org.eclipse.birt.report.soapengine.processor.IProcessorFactory;
  */
 public class BaseProcessorFactory implements IProcessorFactory
 {
+
 	/**
 	 * Processor factory instance.
 	 */
 	protected static IProcessorFactory instance = null;
-	
+
 	/**
 	 * Get processor factory instance.
 	 * 
@@ -37,30 +38,31 @@ public class BaseProcessorFactory implements IProcessorFactory
 	 * @throws UnsupportedEncodingException
 	 * @throws FileNotFoundException
 	 */
-	public static synchronized IProcessorFactory getInstance( ) throws AxisFault
+	public static synchronized IProcessorFactory getInstance( )
+			throws AxisFault
 	{
 		if ( instance != null )
 		{
 			return instance;
 		}
-		
+
 		try
-		{ 
-			instance = ( IProcessorFactory ) Class.forName( "com.actuate.common.processor.ProcessorFactory" )
-				.newInstance( ); //$NON-NLS-1$
+		{
+			instance = (IProcessorFactory) Class
+					.forName( "com.actuate.common.processor.ProcessorFactory" ).newInstance( ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{
 			instance = null;
 		}
-		
+
 		if ( instance == null )
 		{
 			instance = new BaseProcessorFactory( );
 		}
-		
+
 		instance.init( );
-		
+
 		return instance;
 	}
 
@@ -70,26 +72,29 @@ public class BaseProcessorFactory implements IProcessorFactory
 	 * @throws UnsupportedEncodingException
 	 * @throws ValidationException
 	 * @throws MarshalException
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 */
 	public void init( ) throws AxisFault
 	{
 	}
 
-	public IComponentProcessor createProcessor( String category, ReportIdType component )
+	public IComponentProcessor createProcessor( String category,
+			ReportIdType component )
 	{
 		if ( component != null )
 		{
-			if ( ReportIdType._Document.equalsIgnoreCase( component.getValue( ) ) )
+			if ( ReportIdType._Document
+					.equalsIgnoreCase( component.getValue( ) ) )
 			{
 				return new BirtDocumentProcessor( );
 			}
-			else if ( ReportIdType._Table.equalsIgnoreCase( component.getValue( ) ) )
+			else if ( ReportIdType._Table.equalsIgnoreCase( component
+					.getValue( ) ) )
 			{
 				return new BirtTableProcessor( );
 			}
 		}
-		
+
 		return null;
 	}
 }

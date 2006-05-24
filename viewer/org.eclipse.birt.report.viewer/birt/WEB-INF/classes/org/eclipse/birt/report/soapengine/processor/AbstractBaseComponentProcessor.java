@@ -1,21 +1,27 @@
+
 package org.eclipse.birt.report.soapengine.processor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 import java.util.Hashtable;
+
 import javax.xml.namespace.QName;
+
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.actionhandler.IActionHandler;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
-import org.eclipse.birt.report.soapengine.processor.IComponentProcessor;
 
-public abstract class AbstractBaseComponentProcessor implements
-		IComponentProcessor
+public abstract class AbstractBaseComponentProcessor
+		implements
+			IComponentProcessor
 {
+
 	/**
 	 * Abstract methods.
 	 */
@@ -90,36 +96,39 @@ public abstract class AbstractBaseComponentProcessor implements
 		{
 			// TODO: need s common method for this.
 			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( this.getClass( ).getName( ) ) ); //$NON-NLS-1$
-			fault.setFaultString( "Error: Missing Operator!!!" ); //$NON-NLS-1$
+			fault.setFaultCode( new QName( this.getClass( ).getName( ) ) );
+			fault
+					.setFaultString( BirtResources
+							.getString( ResourceConstants.COMPONENT_PROCESSOR_EXCEPTION_MISSING_OPERATOR ) );
 			throw fault;
 		}
 
-		Method method = ( Method ) getOpMap( ).get( operator );
+		Method method = (Method) getOpMap( ).get( operator );
 		if ( method != null )
 		{
 			try
 			{
-				method.invoke( this, new Object[] { context, op, response } );
+				method.invoke( this, new Object[]{context, op, response} );
 			}
 			catch ( InvocationTargetException e )
 			{
-				AxisFault fault = AxisFault.makeFault( ( Exception ) e.getTargetException( ) );
+				AxisFault fault = AxisFault.makeFault( (Exception) e
+						.getTargetException( ) );
 				StringBuffer detail = new StringBuffer( );
 				StackTraceElement[] stackTraces = fault.getStackTrace( );
 				if ( stackTraces != null )
 				{
-					for( int i = 0; i < stackTraces.length; i++ )
+					for ( int i = 0; i < stackTraces.length; i++ )
 					{
 						detail.append( stackTraces[i].toString( ) );
-						detail.append( "<BR>" );  //$NON-NLS-1$
+						detail.append( "<BR>" ); //$NON-NLS-1$
 					}
 				}
 				else
 				{
-					detail.append( "There is no stack trace available." );  //$NON-NLS-1$
+					detail.append( "There is no stack trace available." ); //$NON-NLS-1$
 				}
-				
+
 				fault.setFaultDetailString( detail.toString( ) );
 				throw fault;
 			}
@@ -128,7 +137,7 @@ public abstract class AbstractBaseComponentProcessor implements
 				// TODO: clear this out.
 				AxisFault fault = new AxisFault( );
 				fault.setFaultCode( new QName( "Clear out this." ) ); //$NON-NLS-1$
-				fault.setFaultString( e.getMessage( ) ); //$NON-NLS-1$
+				fault.setFaultString( e.getLocalizedMessage( ) );
 				throw fault;
 			}
 		}
@@ -154,5 +163,5 @@ public abstract class AbstractBaseComponentProcessor implements
 	{
 		return InstanceID.parse( instanceId ).getComponentID( );
 	}
-	
+
 }

@@ -12,6 +12,8 @@ import javax.xml.namespace.QName;
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjects;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
@@ -37,7 +39,7 @@ public class BirtSoapBindingImpl implements BirtSoapPort
 			fault.setFaultCode( new QName(
 					"BirtSoapBindingImpl.getUpdatedObjects( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( context.getBean( ).getException( )
-					.getMessage( ) ); //$NON-NLS-1$
+					.getLocalizedMessage( ) );
 			throw fault;
 		}
 
@@ -54,7 +56,10 @@ public class BirtSoapBindingImpl implements BirtSoapPort
 				fault.setFaultCode( new QName(
 						"BirtSoapBindingImpl.getUpdatedObjects( )" ) ); //$NON-NLS-1$
 				fault
-						.setFaultString( "No handler can be found for this target. Target: " + op.getTarget( ) ); //$NON-NLS-1$
+						.setFaultString( BirtResources
+								.getFormattedString(
+										ResourceConstants.SOAP_BINDING_EXCEPTION_NO_HANDLER_FOR_TARGET,
+										new Object[]{op.getTarget( )} ) );
 				throw fault;
 			}
 

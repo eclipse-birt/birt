@@ -51,7 +51,7 @@ public interface IBirtConstants
 	// running viewer model.
 	public static final String VIEWER_RUN = "run"; //$NON-NLS-1$
 
-//	 request GET method.
+	// request GET method.
 	public static final String REQUEST_GET = "get"; //$NON-NLS-1$
 
 	// request POST method.
@@ -65,5 +65,9 @@ public interface IBirtConstants
 
 	// suffix of design config file
 	public static final String SUFFIX_DESIGN_CONFIG = "rptconfig"; //$NON-NLS-1$
+	
+	// 
+	public static final String ATTRIBUTE_BEAN = "attributeBean"; //$NON-NLS-1$
+	
 	
 }

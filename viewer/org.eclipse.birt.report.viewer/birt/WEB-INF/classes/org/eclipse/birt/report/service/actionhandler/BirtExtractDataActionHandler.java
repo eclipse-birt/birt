@@ -68,7 +68,7 @@ public class BirtExtractDataActionHandler extends AbstractBaseActionHandler
 		AxisFault fault = new AxisFault( );
 		fault.setFaultCode( new QName(
 				"BirtExtractDataActionHandler.execute( )" ) ); //$NON-NLS-1$
-		fault.setFaultString( e.getLocalizedMessage( ) ); //$NON-NLS-1$
+		fault.setFaultString( e.getLocalizedMessage( ) );
 		throw fault;
 	}
 

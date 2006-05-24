@@ -21,6 +21,8 @@ import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.OutputOptions;
@@ -132,13 +134,16 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 					InputOptions options = new InputOptions( );
 					options.setOption( InputOptions.OPT_REQUEST, request );
 					if ( pageNumber <= 0
-							|| pageNumber > getReportService( ).getPageCount( documentName, 
-									options, new OutputOptions( ) ) )
+							|| pageNumber > getReportService( )
+									.getPageCount( documentName, options,
+											new OutputOptions( ) ) )
 					{
 						AxisFault fault = new AxisFault( );
 						fault.setFaultCode( new QName(
 								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
-						fault.setFaultString( "Invalid page number." ); //$NON-NLS-1$
+						fault
+								.setFaultString( BirtResources
+										.getString( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
 						throw fault;
 					}
 
@@ -204,14 +209,16 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		java.util.Vector ids = new java.util.Vector( );
 		for ( int i = 0; i < activeIds.size( ); i++ )
 		{
-			String id = ( String ) activeIds.get( i );
+			String id = (String) activeIds.get( i );
 			int firstComma = id.indexOf( ',' );
-			if ( id == null || firstComma == -1 ) //$NON-NLS-1$
+			if ( id == null || firstComma == -1 )
 			{
 				AxisFault fault = new AxisFault( );
 				fault.setFaultCode( new QName(
 						"DocumentProcessor.parseReportId( )" ) ); //$NON-NLS-1$
-				fault.setFaultString( "Invalid id format. Id= " + id ); //$NON-NLS-1$
+				fault.setFaultString( BirtResources.getFormattedString(
+						ResourceConstants.ACTION_EXCEPTION_INVALID_ID_FORMAT,
+						new String[]{id} ) );
 				throw fault;
 			}
 
@@ -227,7 +234,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 					|| ReportIdType._Extended.equalsIgnoreCase( type ) )
 			{
 				ReportId reportId = new ReportId( );
-				reportId.setId( id.substring( 0, id.indexOf( ',' ) ) ); //$NON-NLS-1$
+				reportId.setId( id.substring( 0, id.indexOf( ',' ) ) );
 
 				if ( ReportIdType._Document.equalsIgnoreCase( type ) )
 				{
@@ -260,7 +267,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		ReportId[] reportIds = new ReportId[ids.size( )];
 		for ( int i = 0; i < ids.size( ); i++ )
 		{
-			reportIds[i] = ( ReportId ) ids.get( i );
+			reportIds[i] = (ReportId) ids.get( i );
 		}
 
 		return reportIds;

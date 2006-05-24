@@ -20,12 +20,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.birt.report.service.api.ParameterDefinition;
-import org.eclipse.birt.report.service.api.ParameterGroupDefinition;
-import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
-import org.eclipse.birt.report.presentation.aggregation.IFragment;
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ParameterGroupBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
+import org.eclipse.birt.report.presentation.aggregation.IFragment;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
+import org.eclipse.birt.report.service.api.ParameterGroupDefinition;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -68,7 +69,7 @@ public class ParameterGroupFragment extends BirtBaseFragment
 			HttpServletResponse response ) throws ServletException, IOException
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
-				.getAttribute( "attributeBean" ); //$NON-NLS-1$
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		assert attrBean != null;
 
 		assert parameterGroup != null;

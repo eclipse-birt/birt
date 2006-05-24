@@ -65,7 +65,7 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 		catch ( ReportServiceException e )
 		{
 			AxisFault fault = new AxisFault( );
-			fault.setFaultReason( e.getMessage( ) );
+			fault.setFaultReason( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 	}

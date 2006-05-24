@@ -20,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.CheckboxParameterFragment;
@@ -66,15 +67,17 @@ public class ParameterDialogFragment extends BaseDialogFragment
 	{
 		return "Parameter"; //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Gets the title ID for the html page.
+	 * 
 	 * @return title id
 	 */
-	
+
 	public String getTitle( )
 	{
-		return BirtResources.getString( ResourceConstants.PARAMETER_DIALOG_TITLE );
+		return BirtResources
+				.getString( ResourceConstants.PARAMETER_DIALOG_TITLE );
 	}
 
 	protected void doService( HttpServletRequest request,
@@ -87,13 +90,13 @@ public class ParameterDialogFragment extends BaseDialogFragment
 		options.setOption( InputOptions.OPT_REQUEST, request );
 
 		BaseAttributeBean attrBean = (BaseAttributeBean) request
-				.getAttribute( "attributeBean" ); //$NON-NLS-1$		
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		assert attrBean != null;
-		
+
 		try
 		{
-			parameters = service.getParameterDefinitions(
-					attrBean.getReportDesignHandle( request ), options, true );
+			parameters = service.getParameterDefinitions( attrBean
+					.getReportDesignHandle( request ), options, true );
 		}
 		catch ( ReportServiceException e )
 		{

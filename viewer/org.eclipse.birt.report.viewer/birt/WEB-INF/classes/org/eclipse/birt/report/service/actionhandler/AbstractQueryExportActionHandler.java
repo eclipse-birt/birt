@@ -53,14 +53,13 @@ public abstract class AbstractQueryExportActionHandler extends
 		try
 		{
 			String instanceID = operation.getTarget().getId();
-			String instanceType = operation.getTarget().getType().getValue();
 
 			InputOptions options = new InputOptions( );
 			options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 			//exportedResultSets = getReportService( ).getResultSetsMetadata(
 				//	docName, options );
 			
-			if(instanceID.equals("Document"))
+			if(instanceID.equals("Document")) //$NON-NLS-1$
 				exportedResultSets = getReportService( ).getResultSetsMetadata(
 						docName, options );
 			else
@@ -83,7 +82,7 @@ public abstract class AbstractQueryExportActionHandler extends
 		catch ( ReportServiceException e )
 		{
 			AxisFault fault = new AxisFault( );
-			fault.setFaultString( e.getLocalizedMessage( ) ); //$NON-NLS-1$
+			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 	}

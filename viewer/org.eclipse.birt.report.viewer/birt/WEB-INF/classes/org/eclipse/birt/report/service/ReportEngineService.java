@@ -961,7 +961,7 @@ public class ReportEngineService
 
 					for ( int i = 1; i < columnNames.length; i++ )
 					{
-						buf.append( ',' ); //$NON-NLS-1$
+						buf.append( ',' );
 						buf.append( columnNames[i] );
 					}
 
@@ -993,7 +993,7 @@ public class ReportEngineService
 
 						for ( int i = 1; i < columnNames.length; i++ )
 						{
-							buf.append( ',' ); //$NON-NLS-1$
+							buf.append( ',' );
 
 							try
 							{
@@ -1074,7 +1074,7 @@ public class ReportEngineService
 
 		boolean needQuote = false;
 		needQuote = ( value.indexOf( ',' ) != -1 )
-				|| ( value.indexOf( '"' ) != -1 ) //$NON-NLS-1$ //$NON-NLS-2$
+				|| ( value.indexOf( '"' ) != -1 )
 				|| ( value.indexOf( 0x0A ) != -1 )
 				|| value.startsWith( " " ) || value.endsWith( " " ); //$NON-NLS-1$ //$NON-NLS-2$
 		value = needQuote ? "\"" + value + "\"" : value; //$NON-NLS-1$ //$NON-NLS-2$

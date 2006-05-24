@@ -18,6 +18,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -56,7 +57,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 			Locale locale ) throws ReportServiceException
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
-				.getAttribute( "attributeBean" ); //$NON-NLS-1$
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		assert attrBean != null;
 
 		InputOptions options = new InputOptions( );

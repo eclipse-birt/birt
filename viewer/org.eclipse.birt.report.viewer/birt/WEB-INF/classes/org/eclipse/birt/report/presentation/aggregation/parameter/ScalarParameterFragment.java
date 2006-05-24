@@ -19,6 +19,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.context.ScalarParameterBean;
+import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
@@ -26,8 +29,6 @@ import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
-import org.eclipse.birt.report.context.ScalarParameterBean;
-import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -70,8 +71,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 			HttpServletResponse response ) throws ServletException, IOException
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
-				.getAttribute( "attributeBean" ); //$NON-NLS-1$
-
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		assert attrBean != null;
 		assert parameter != null;
 
@@ -126,7 +126,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 
 		// Directly get parameter values from AttributeBean
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
-				.getAttribute( "attributeBean" ); //$NON-NLS-1$
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		assert attrBean != null;
 
 		// parameter value.

@@ -29,6 +29,8 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -160,7 +162,11 @@ public abstract class AbstractGetCascadeParameterActionHandler
 
 		if ( paramDef == null )
 		{
-			throw new ReportServiceException( "Invalid parameter: " + firstName );
+			throw new ReportServiceException(
+					BirtResources
+							.getFormattedString(
+									ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_PARAMETER,
+									new String[]{firstName} ) );
 		}
 
 		ParameterGroupDefinition group = paramDef.getGroup( );

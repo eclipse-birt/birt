@@ -77,7 +77,7 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 		AxisFault fault = new AxisFault( );
 		fault.setFaultCode( new QName(
 				"BirtRunAndRenderActionHandler.execute( )" ) ); //$NON-NLS-1$
-		fault.setFaultString( e.getLocalizedMessage( ) ); //$NON-NLS-1$
+		fault.setFaultString( e.getLocalizedMessage( ) );
 		throw fault;
 	}
 

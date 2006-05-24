@@ -68,7 +68,7 @@ public class BirtChangeParameterActionHandler
 				new Boolean( isMasterContent ) );
 		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( svgFlag ) );
 		ByteArrayOutputStream page = getReportService( ).getPage( docName,
-				pageNumber + "", options, activeIds );
+				pageNumber + "", options, activeIds ); //$NON-NLS-1$
 
 		// Update instruction for document.
 		UpdateContent content = new UpdateContent( );
@@ -87,7 +87,7 @@ public class BirtChangeParameterActionHandler
 		UpdateData updateData = new UpdateData( );
 		updateData.setTarget( "navigationBar" ); //$NON-NLS-1$
 		Page pageObj = new Page( );
-		pageObj.setPageNumber( String.valueOf( pageNumber ) ); //$NON-NLS-1$
+		pageObj.setPageNumber( String.valueOf( pageNumber ) );
 		pageObj.setTotalPage( String.valueOf( getReportService( ).getPageCount(
 				docName, options, new OutputOptions( ) ) ) );
 		Data data = new Data( );

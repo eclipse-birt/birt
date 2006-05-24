@@ -29,6 +29,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.ICascadingParameterGroup;
@@ -41,6 +42,8 @@ import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.api.ExportedColumn;
 import org.eclipse.birt.report.service.api.ExportedResultSet;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
@@ -81,7 +84,7 @@ public class BirtViewerReportService implements IViewerReportService
 		Locale locale = (Locale) runOptions.getOption( InputOptions.OPT_LOCALE );
 
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
-				.getAttribute( "attributeBean" ); //$NON-NLS-1$
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		Map parsedParams = attrBean.getParameters( );
 		if ( parameters != null )
 		{
@@ -252,7 +255,8 @@ public class BirtViewerReportService implements IViewerReportService
 		if ( doc == null )
 		{
 			throw new ReportServiceException(
-					"There is no document file available for extracting the data." ); //$NON-NLS-1$
+					BirtResources
+							.getString( ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_DOCUMENT ) );
 		}
 
 		ResultSet[] resultSetArray;
@@ -270,7 +274,8 @@ public class BirtViewerReportService implements IViewerReportService
 		if ( resultSetArray == null || resultSetArray.length <= 0 )
 		{
 			throw new ReportServiceException(
-					"There is no result set available for extracting the data." ); //$NON-NLS-1$
+					BirtResources
+							.getString( ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_RESULT_SET ) );
 		}
 
 		return transformResultSetArray( resultSetArray );
@@ -317,7 +322,9 @@ public class BirtViewerReportService implements IViewerReportService
 
 		if ( node == null )
 		{
-			throw new ReportServiceException( "Invalid TOC query." ); //$NON-NLS-1$
+			throw new ReportServiceException(
+					BirtResources
+							.getString( ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_TOC ) );
 		}
 
 		doc.close( );
@@ -325,8 +332,7 @@ public class BirtViewerReportService implements IViewerReportService
 	}
 
 	public long getPageCount( String docName, InputOptions options,
-			OutputOptions outputOptions )
-			throws ReportServiceException
+			OutputOptions outputOptions ) throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( options ), docName );
@@ -649,7 +655,7 @@ public class BirtViewerReportService implements IViewerReportService
 			if ( request != null )
 			{
 				ViewerAttributeBean attrBean = (ViewerAttributeBean) request
-						.getAttribute( "attributeBean" ); //$NON-NLS-1$
+						.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 				assert attrBean != null;
 
 				reportDesignName = attrBean.getReportDesignName( );
@@ -658,8 +664,8 @@ public class BirtViewerReportService implements IViewerReportService
 					// if the report design name is not a valid file, then set
 					// it to null
 
-					if ( reportDesignName.endsWith( "\\" )
-							|| reportDesignName.endsWith( "/" ) )
+					if ( reportDesignName.endsWith( "\\" ) //$NON-NLS-1$
+							|| reportDesignName.endsWith( "/" ) ) //$NON-NLS-1$
 						reportDesignName = null;
 				}
 			}
@@ -775,7 +781,7 @@ public class BirtViewerReportService implements IViewerReportService
 			scalarParamHandle = (ScalarParameterHandle) handle;
 		String name = engineParam.getName( );
 
-		String pattern = scalarParamHandle == null ? "" : scalarParamHandle
+		String pattern = scalarParamHandle == null ? "" : scalarParamHandle //$NON-NLS-1$
 				.getPattern( );
 		String displayFormat = engineParam.getDisplayFormat( );
 		String displayName = engineParam.getDisplayName( );
