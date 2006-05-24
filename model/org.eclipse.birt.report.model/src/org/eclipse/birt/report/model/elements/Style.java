@@ -20,10 +20,14 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
@@ -294,5 +298,29 @@ public class Style extends StyleElement implements IStyleModel
 				DesignSchemaConstants.TEXT_WIDOWS_ATTRIB );
 		cssDictionary.put( Style.WORD_SPACING_PROP,
 				DesignSchemaConstants.TEXT_WORD_SPACING_ATTRIB );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.eclipse.birt.report.model.core.Module,
+	 *      int)
+	 */
+
+	public String getDisplayLabel( Module module, int level )
+	{
+		MetaDataDictionary meta = MetaDataDictionary.getInstance( );
+		PredefinedStyle selector = meta.getPredefinedStyle( name );
+		if ( selector == null )
+			return super.getDisplayLabel( module, level );
+
+		String displayLabel = ModelMessages.getMessage( selector
+				.getDisplayNameKey( ) );
+		if ( StringUtil.isBlank( displayLabel ) )
+		{
+			displayLabel = super.getDisplayLabel( module, level );
+		}
+
+		return displayLabel;
 	}
 }
