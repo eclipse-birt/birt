@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.parts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
@@ -133,6 +134,7 @@ public class ReportFocusTraverseManager
 			} else
 				return null;
 		}
+		ArrayList list = new ArrayList();
 		while (!found) {
 			IFigure parent = nextFocusOwner.getParent();
 			
@@ -148,15 +150,40 @@ public class ReportFocusTraverseManager
 			 */
 			List siblings = parent.getChildren();
 			int siblingPos = siblings.indexOf(nextFocusOwner);		
-
 			if (siblingPos < siblings.size() - 1) {
 				nextFocusOwner = ((IFigure)(siblings.get(siblingPos + 1)));
+				list.add( nextFocusOwner );
 				if (isFocusEligible(nextFocusOwner))
 					found = true;
-			} else {
+			}
+			else if (siblings.size() == 1)
+			{
 				nextFocusOwner = ((IFigure)(siblings.get(0)));
+				
 				if (isFocusEligible(nextFocusOwner))
+				{
 					found = true;
+				}
+				else
+				{
+					return null;
+				}
+			}
+			else {
+				nextFocusOwner = ((IFigure)(siblings.get(0)));
+				
+				if (isFocusEligible(nextFocusOwner))
+				{
+					found = true;
+				}
+				else if (list.contains( nextFocusOwner ))
+				{
+					return null;
+				}
+				else
+				{
+					list.add(nextFocusOwner);
+				}
 				
 			}		
 		}
@@ -183,6 +210,7 @@ public class ReportFocusTraverseManager
 		}
 		
 		boolean found = false;
+		ArrayList list = new ArrayList();
 	 	while (!found) {
 	 		IFigure parent = nextFocusOwner.getParent();
 			
@@ -207,14 +235,40 @@ public class ReportFocusTraverseManager
 			 */
 			if (siblingPos != 0) {
 				nextFocusOwner = ((IFigure)(siblings.get(siblingPos - 1)));
+				list.add( nextFocusOwner );
 				if (isFocusEligible(nextFocusOwner))
 					found = true;
 				
-			} else {
+				
+			}
+			else if (siblings.size() == 1)
+			{
+				nextFocusOwner = ((IFigure)(siblings.get(0)));
+				if (isFocusEligible(nextFocusOwner))
+				{
+					found = true;
+				}
+				else
+				{
+					return null;
+				}
+			}
+			else {
 				
 				nextFocusOwner = ((IFigure)(siblings.get(siblings.size() - 1)));
 				if (isFocusEligible(nextFocusOwner))
+				{
 					found = true;
+				}
+				else if (list.contains( nextFocusOwner ))
+				{
+					return null;
+				}
+				else
+				{
+					list.add( nextFocusOwner );
+				}
+				
 				
 			}
 		}
