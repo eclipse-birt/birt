@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -814,6 +816,10 @@ public class InsertInLayoutUtil
 			{
 				return false;
 			}
+			if ( !checkContainContainMulitItem( array, targetPart.getModel( ) ) )
+			{
+				return false;
+			}
 			for ( int i = 0; i < array.length; i++ )
 			{
 				if ( !handleValidateInsertToLayout( array[i], targetPart ) )
@@ -851,6 +857,26 @@ public class InsertInLayoutUtil
 		return false;
 	}
 
+	private static boolean checkContainContainMulitItem(Object[] objects, Object slotHandle)
+	{
+		SlotHandle handle = null;
+		if (slotHandle instanceof ReportElementModel)
+		{
+			handle = ((ReportElementModel)slotHandle).getSlotHandle( );
+		}
+		else if (slotHandle instanceof SlotHandle)
+		{
+			handle = (SlotHandle)slotHandle;
+		}
+		if (handle != null && objects != null && objects.length > 1)
+		{
+			if (!handle.getDefn( ).isMultipleCardinality( ))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 	/**
 	 * Checks if all the DataSetColumn has the same DataSet.
 	 * 
@@ -927,7 +953,9 @@ public class InsertInLayoutUtil
 		return ( container instanceof GridHandle
 				|| container instanceof TableHandle
 				|| container instanceof FreeFormHandle
-				|| container instanceof ListHandle || dropPart.getModel( ) instanceof ModuleHandle );
+				|| container instanceof ListHandle
+				|| container instanceof MasterPageHandle
+				|| dropPart.getModel( ) instanceof ModuleHandle );
 	}
 
 	/**
@@ -975,7 +1003,8 @@ public class InsertInLayoutUtil
 						ReportDesignConstants.DATA_ITEM ) )
 		{
 			// Validates target is report root
-			if ( target.getModel( ) instanceof ModuleHandle )
+			if ( target.getModel( ) instanceof ModuleHandle 
+					|| isMasterPageHeaderOrFooter( target.getModel( )))
 			{
 				return true;
 			}
@@ -992,6 +1021,19 @@ public class InsertInLayoutUtil
 								.hasNext( ) )
 						|| insertObj.getElementHandle( ).equals( dataSet );
 			}
+		}
+		return false;
+	}
+	
+	private static boolean isMasterPageHeaderOrFooter(Object obj)
+	{
+		if (!(obj instanceof ReportElementModel))
+		{
+			return false;
+		}
+		if (((ReportElementModel)obj).getSlotHandle( ).getElementHandle( ) instanceof MasterPageHandle)
+		{
+			return true;
 		}
 		return false;
 	}
