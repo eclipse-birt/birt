@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -77,14 +78,22 @@ public class ExtensionValidator extends AbstractElementValidator
 	{
 		List list = new ArrayList( );
 
-		if ( toValidate.getExtendedElement( ) != null )
+		if ( toValidate.getExtendedElement( ) == null )
 		{
-
-			List exceptions = toValidate.getExtendedElement( ).validate( );
-
-			if ( exceptions != null )
-				list.addAll( exceptions );
+			try
+			{
+				toValidate.initializeReportItem( module );		
+			}
+			catch ( ExtendedElementException e )
+			{
+				return list;
+			}
 		}
+		
+		List exceptions = toValidate.getExtendedElement( ).validate( );
+
+		if ( exceptions != null )
+			list.addAll( exceptions );
 
 		return list;
 	}
