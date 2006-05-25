@@ -54,6 +54,11 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	 * Whether current value is in the selection list.
 	 */
 	private boolean valueInList = true;
+
+	/**
+	 * Current parameter default value.
+	 */
+	private String defaultValue = null;	
 	
 	/**
 	 * Constructor.
@@ -252,4 +257,20 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	{
 		this.isRequired = isRequired;
 	}
+	
+	/**
+	 * @return the defaultValue
+	 */
+	public String getDefaultValue( )
+	{
+		return defaultValue;
+	}
+	
+	/**
+	 * @param defaultValue the defaultValue to set
+	 */
+	public void setDefaultValue( String defaultValue )
+	{
+		this.defaultValue = defaultValue;
+	}		
 }
