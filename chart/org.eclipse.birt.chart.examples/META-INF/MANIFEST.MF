@@ -16,5 +16,6 @@ Require-Bundle: org.eclipse.birt.chart.engine.extension,
  org.eclipse.birt.report.model,
  org.eclipse.birt.report.engine,
  org.eclipse.birt.chart.device.swt,
- org.eclipse.tomcat
+ org.eclipse.tomcat,
+ org.eclipse.birt.chart.device.pdf
 Eclipse-LazyStart: true
