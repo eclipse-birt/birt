@@ -101,7 +101,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.65 $ $Date: 2006/05/17 10:45:46 $
+ * @version $Revision: 1.66 $ $Date: 2006/05/18 01:45:28 $
  */
 public class ReportQueryBuilder
 {
@@ -1353,7 +1353,7 @@ public class ReportQueryBuilder
 		private void transferVisibility( ColumnDesign column )
 		{
 			IBaseQueryDefinition query = getParentQuery( );
-			if ( query != null )
+			if ( query == null )
 			{
 				return;
 			}
