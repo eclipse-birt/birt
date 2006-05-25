@@ -112,7 +112,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.49 $ $Date: 2006/05/22 08:36:06 $
+ * @version $Revision: 1.50 $ $Date: 2006/05/24 07:50:16 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -1808,7 +1808,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	private void createTextualQueryComposite( Composite parent )
 	{
 		
-        Composite composite = new Composite(parent, SWT.FILL);
+        Composite composite = new Composite( parent, SWT.FILL
+				| SWT.LEFT_TO_RIGHT );
         GridLayout layout = new GridLayout();
         layout.numColumns = 1;
         composite.setLayout(layout);
