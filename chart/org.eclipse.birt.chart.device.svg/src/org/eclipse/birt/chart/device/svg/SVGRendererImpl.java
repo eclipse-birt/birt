@@ -82,7 +82,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 
 
 
-	private SVGInteractiveRenderer ivRenderer;
+	protected SVGInteractiveRenderer ivRenderer;
 	
 	/**
 	 * 
@@ -129,7 +129,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	/**
 	 * 
 	 */
-	private Object oOutputIdentifier = null;
+	protected Object oOutputIdentifier = null;
 
 	/**
 	 * Document object that represents the SVG
@@ -154,7 +154,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#setProperty(java.lang.String,
 	 *      java.lang.Object)
 	 */
-	public final void setProperty( String sProperty, Object oValue )
+	public void setProperty( String sProperty, Object oValue )
 	{
 		super.setProperty( sProperty, oValue );
 		if ( sProperty.equals( IDeviceRenderer.UPDATE_NOTIFIER ) )
@@ -220,7 +220,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * @param os
 	 * @throws RenderingException
 	 */
-	public final void after( ) throws ChartException
+	public void after( ) throws ChartException
 	{
 		super.after( );
 		
