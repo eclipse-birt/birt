@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<!--
+ *************************************************************************
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ *
+ *  Build.xml
+ *
+ *  Created on 04/26/2005
+ *  Build script for project org.eclipse.birt.doc
+ *
+ * 
+ * The following are public targets callable by external users. 
+ * 
+ * "Clean" - Clean all objects created by this script. Individual project build script can not call this target; 
+ * "Jar" - Generate zip for this project.
+ *          There is no compile dependency on other projects.
+ *         eclipse.home should be passed in when Individual project build script  call this target; 
+ *          the property of "failonerror" should be set true(default) when compiling source code
+ * "UnitTest" - Run unit tests. This task must be called after calling Jar task,
+ *              so it needn't depend on Jar explicitly
+ * "Export" - Export the project, for instance, zip files are copied to a designated folder.
+ *            this task must be called after calling Jar task, so it needn't depend on Jar explicitly
+ * "JavaDoc" - generate java documents
+ *
+ * Usage:
+ *    ant [any one or more of the public targets] 
+ *        -Declipse.home=<your eclipse home> 
+ *
+ * Default target is "Jar".
+ *
+ * 
+ * This script may also additional targets. These targets are private to this build script only. 
+ *
+ *
+ * Notes:
+ *  1. classpath need to be set for junit.jar
+ *  2. This file now requires Ant 1.6
+ *
+ * Change History:
+ *
+ *    1. 04/26/2005: initial version
+ *
+-->
+
+<project name="BIRT Documentation Project" default="Jar" basedir=".">
+    <description>BIRT Documentation Project.</description>
+	<property file="build.properties"/>		
+	
+	<!-- set global properties for this build -->
+    <!-- Public properties, used by public targets, top level build script will pass on the value 
+	 	 at runtime. Properties will have there default value:
+		     eclipse.home
+		     utest.report.dir
+		     javadoc.dir
+		     plugin.version 
+	-->
+	
+	<!-- ===== Default value for public properties ============= -->
+	<property name="utest.report.dir" location="utestreports" />
+	<property name="javadoc.dir" location="docs/api" />
+	<property name="export.dir" location="export" />
+
+	<property name="eclipse.home" location="." />
+	
+	<property name="core.dir" value="../org.eclipse.birt.core" />
+	<property name="module.name" value = "org.eclipse.birt.doc.isv" />
+
+	<property name="data.dir" value="../org.eclipse.birt.data" />
+	<property name="data.javadoc.dir" value="data/api" />
+	<property name="designerui.dir" value="../org.eclipse.birt.report.designer.ui" />
+	<property name="engine.dir" value="../org.eclipse.birt.report.engine" />
+	<property name="engine.javadoc.dir" value="engine/api" />
+	<property name="engine.script.javadoc.dir" value="enginescript/api" />
+	<property name="model.dir" value="../org.eclipse.birt.report.model" />
+	<property name="model.javadoc.dir" value="model/api" />
+	<property name="oda.dir" value="../org.eclipse.datatools.connectivity.oda" />
+	<property name="oda.javadoc.dir" value="oda/api" />
+	<property name="oda.old.dir" value="../org.eclipse.birt.data.oda" />
+	<property name="oda.old.javadoc.dir" value="odaold/api" />
+	<property name="romdoc.dir" value="doc/rom" />
+	<property name="rotatedtextitem.dir" value="../org.eclipse.birt.sample.reportitem.rotatedtext" />
+
+	<!-- Generate zip for this project.
+		 Input parameters:
+		 	eclipse.home
+	-->
+	<target name="Jar" depends="Javadoc">
+		<zip destfile="./doc.zip"
+      basedir="."
+			includes="data/**,doc/**,engine/**,enginescript/**,oda/**,odaold/**,model/**,ref/**"
+		/>
+	</target>
+
+	<target name="ZipOnly">
+		<zip destfile="./doc.zip"
+      basedir="."
+			includes="data/**,doc/**,engine/**,enginescript/**,oda/**,odaold/**,model/**,ref/**"
+		/>
+	</target>
+	
+	<!-- Export the project, for instance, zip files are copied to a designated folder
+			 the dependency on Jar should implement in top level script by call sequence
+			 Parameters:
+			 		- ${export.dir} target directory to put the plugin binaries
+			 		- ${Bundle-Version} the version of bundle exported
+	-->
+	<target name="Export">
+		<property file="META-INF/MANIFEST.MF" />
+		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />
+	  <copy todir="${export.dir}/${plugin.package}">
+	    <fileset dir="." includes="plugin.xml,.project,META-INF/MANIFEST.MF,*Toc.xml,doc.zip,about.html,notices.html,about.ini,eclipse32.gif"/>
+	  </copy>
+	  <!-- Copy the BIRT example plugin.
+	   -->
+    <copy todir="${export.dir}/${plugin.package}/Samples/org.eclipse.birt.sample.reportitem.rotatedtext" failonerror="false">
+      <fileset dir="${rotatedtextitem.dir}"/>
+    </copy>
+		<tstamp>
+			<format property="TODAY" pattern="yyyyMMddHHmm" />
+		</tstamp>
+		<copy todir="${export.dir}/${module.name}_${Bundle-Version}" overwrite="true">
+			<fileset dir=".">
+				<include name="about.mappings" />
+			</fileset>
+			<filterchain>
+				<replacetokens>
+					<token key="Replace_By_Date" value="${TODAY}" />
+				</replacetokens>
+			</filterchain>
+
+		</copy>
+		<copy todir="${export.dir}/${module.name}_${Bundle-Version}" overwrite="true">
+			<fileset dir=".">
+				<include name="about.properties" />
+			</fileset>
+			<filterchain>
+				<replacetokens>
+					<token key="Replace_By_Version" value="${Bundle-Version}" />
+				</replacetokens>
+			</filterchain>
+
+		</copy>
+	</target>
+
+	<!-- Run Unit test.
+			 Parameters:
+			 		- ${utest.report.dir} target directory to put the unit test report
+	-->
+	<target name="UnitTest" description="run all the unit tests">
+	</target>
+
+	<!-- Clean all objects created by this script -->
+	<target name="Clean" depends="init" description="clean up">
+		<antcall target="cleanBuild"/>
+		<antcall target="cleanUnitTest"/>
+		<antcall target="cleanZip"/>
+	</target>
+
+	<!-- Generate the JavaDoc.
+	 -->
+	<target name="Javadoc">
+	    <antcall target = "engineJavadoc"/>
+	    <antcall target = "engineScriptJavadoc"/>
+    	<antcall target = "modelJavadoc"/>
+	    <!--antcall target = "odaJavadoc"/-->
+	    <antcall target = "odaoldJavadoc"/>
+    	<antcall target = "dataJavadoc"/>
+	</target>
+	
+	<target name="init" description="initialization">
+	</target>
+	
+	<target name="cleanBuild" description= "clean files generated by build">
+		<delete dir="${engine.javadoc.dir}"/>
+		<delete dir="${engine.script.javadoc.dir}"/>
+		<delete dir="${model.javadoc.dir}"/>
+		<delete dir="${data.javadoc.dir}"/>
+		<delete dir="${oda.javadoc.dir}"/>
+		<delete dir="${oda.old.javadoc.dir}"/>
+		<delete file="doc.zip" />
+	</target>
+	<target name="cleanUnitTest" description= "clean files generated by unit tests">
+	</target>
+	<target name="cleanZip" description = "clean zip files">
+		<delete file="doc.zip" />
+	</target>
+	
+	<target name="engineJavadoc">
+		<delete dir="${engine.javadoc.dir}"/>
+		<ant dir="${engine.dir}" antfile="BuildEngine.xml" target="APIJavaDoc" inheritall="false" inheritrefs="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+      		<property name="api.javadoc.dir" value="../${module.name}/${engine.javadoc.dir}" />
+		</ant>
+  </target>
+	
+	<target name="engineScriptJavadoc">
+		<delete dir="${engine.script.javadoc.dir}"/>
+		<ant dir="${engine.dir}" antfile="BuildEngine.xml" target="ScriptAPIJavaDoc" inheritall="false" inheritrefs="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+      		<property name="script.api.javadoc.dir" value="../${module.name}/${engine.script.javadoc.dir}" />
+		</ant>
+  </target>
+	
+	<target name="modelJavadoc">
+		<delete dir="${model.javadoc.dir}"/>
+		<ant dir="${model.dir}" antfile="BuildModel.xml" target="APIJavadoc" inheritall="false" inheritrefs="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+    		<property name="api.javadoc.dir" value="../${module.name}/${model.javadoc.dir}" />
+		</ant>
+  </target>
+	
+	<target name="dataJavadoc">
+		<delete dir="${data.javadoc.dir}"/>
+		<ant dir="${data.dir}" antfile="BuildData.xml" target="apiJavaDoc" inheritall="false" inheritrefs="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+     		<property name="api.javadoc.dir" value="../${module.name}/${data.javadoc.dir}" />
+		</ant>
+  </target>
+	
+	<!--target name="odaJavadoc">
+		<delete dir="${oda.javadoc.dir}"/>
+		<ant dir="${oda.dir}" antfile="build.xml" target="javadoc" inheritall="false" inheritrefs="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+	    	<property name="build.result.dir" value="../${module.name}" />
+	    	<property name="javadoc.dir" value="${oda.javadoc.dir}" />
+		</ant>
+  </target-->
+	
+	<target name="odaoldJavadoc">
+		<delete dir="${oda.old.javadoc.dir}"/>
+		<ant dir="${oda.old.dir}" antfile="BuildOda.xml" target="apiJavaDoc" inheritall="false" inheritrefs="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+ 	    	<property name="api.javadoc.dir" value="../${module.name}/${oda.old.javadoc.dir}" />
+		</ant>
+  </target>
+	
+</project>
+

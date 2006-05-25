@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT ISV Documentation
+Bundle-SymbolicName: org.eclipse.birt.doc.isv;singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.help
+Eclipse-LazyStart: true

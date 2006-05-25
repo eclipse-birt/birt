@@ -1,0 +1,741 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 transitional//EN">
+<html>
+<head>
+<title>Data Set Element (Eclipse BIRT ROM Documentation)</title>
+<link rel="stylesheet" href="../style/style.css" type="text/css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<p class="title">Eclipse BIRT Report Object Model (ROM)</p>
+<p class="subtitle">DataSet Element</p>
+<h1>Element Overview</h1>
+<div class="section-text">
+The data set element represents a result set retrieved 
+from an external data provider.</div>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Display Name:</td>
+<td>Data Set</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>XML Element:</td>
+<td><code>None</code></td></tr>
+<tr><td>Extends:</td>
+<td><a href="ReportElement.html">ReportElement</a></td></tr>
+<tr><td>Extendable:</td>
+<td>No</td></tr>
+<tr><td>Abstract:</td>
+<td>Yes</td></tr>
+<tr><td>Name Space:</td>
+<td>Data Sets</td></tr>
+<tr><td>Name Requirement:</td>
+<td>Required</td></tr>
+<tr><td>Allows User Properties:</td>
+<td>Yes</td></tr>
+<tr><td>Has Style:</td>
+<td>No</td></tr>
+</table>
+
+<h3>Property Summary</h3>
+
+<dl class="section-text">
+<dt><a href="#Property-cachedMetaData">cachedMetaData</a></dt>
+<dd>Cached derived data attributes of a data set.</dd>
+<dt><a href="#Property-cachedRowCount">cachedRowCount</a></dt>
+<dd>Number of rows that will be cached when the data rows are retrived from DB.</dd>
+<dt><a href="#Property-columnHints">columnHints</a></dt>
+<dd>Defines the report-related data attributes of the result set’s columns.</dd>
+<dt><a href="#Property-computedColumns">computedColumns</a></dt>
+<dd>User-defined columns in the result set.</dd>
+<dt><a href="#Property-dataSource">dataSource</a></dt>
+<dd>The database connection that the data set is used.</dd>
+<dt><a href="#Property-filter">filter</a></dt>
+<dd>An optional set of filters to apply to the result set before any other data transforms.</dd>
+<dt><a href="#Property-paramBindings">paramBindings</a></dt>
+<dd>A list of data set parameter binding elements that bind data set input parameters to BIRT expressions.</dd>
+<dt><a href="#Property-parameters">parameters</a></dt>
+<dd>Defines the data access attributes of the list of input and/or output parameters.</dd>
+<dt><a href="#Property-refTemplateParameter">refTemplateParameter</a></dt>
+<dd>Name of the template parameter definition.</dd>
+<dt><a href="#Property-resultSet">resultSet</a></dt>
+<dd>Defines the columns of the expected result set.</dd>
+</dl>
+
+<h3>Method Summary</h3>
+
+<dl class="section-text">
+<dt><a href="#Method-afterClose">afterClose</a></dt>
+<dd>Called just after BIRT closes the data set. Allows 
+the application to perform code-based cleanup.</dd>
+<dt><a href="#Method-afterOpen">afterOpen</a></dt>
+<dd>Called just after BIRT opens the data set. Allows the 
+application to perform any code-based initialization required for the data set.</dd>
+<dt><a href="#Method-beforeClose">beforeClose</a></dt>
+<dd>Called just before BIRT closes the data set. Allows 
+the application to perform code-based cleanup.</dd>
+<dt><a href="#Method-beforeOpen">beforeOpen</a></dt>
+<dd>Called just before BIRT opens the data set. Allows 
+the application to customize the data set properties.</dd>
+<dt><a href="#Method-onFetch">onFetch</a></dt>
+<dd>Called just after fetching each row before applying 
+filters or calculating computed columns.</dd>
+</dl>
+
+<h3>Inherited Properties</h3>
+
+<p class="section-text">
+<a href="ReportElement.html#Property-comments">comments</a>, 
+<a href="DesignElement.html#Property-customXml">customXml</a>, 
+<a href="ReportElement.html#Property-displayName">displayName</a>, 
+<a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
+<a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
+<a href="ReportElement.html#Property-extends">extends</a>, 
+<a href="ReportElement.html#Property-name">name</a>, 
+<a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
+<a href="DesignElement.html#Property-userProperties">userProperties</a>
+</p>
+<h3>Inherited Property Notes</h3>
+
+<dl class="section-text">
+<dt><a href="ReportElement.html#Property-name">name</a></dt>
+<dd>The name is required to identify a data set.</dd>
+</dl>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The Data Set element is an abstract element that includes 
+data-access and report-related properties and other content common to all kinds 
+of data sets. </p>
+
+<p>Its script methods execute as methods of a JavaScript 
+object that represents the data set. See the Data Scripting Objects section for 
+a description of the <code>DataSet</code> 
+scripting object.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>DataSet</span> scripting object</p></div>
+<h1>Property Detail</h1>
+
+<h2><a name="Property-cachedMetaData">cachedMetaData Property</a></h2>
+
+<p class="section-text">Cached derived data attributes of a data set.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../structs/CachedMetaData.html">CachedMetaData</a> Structure</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Cached metadata</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Defines the cached derived data attributes of a data 
+set. The BIRT designer uses the cached 
+information until the user initiates refresh and reconciles with the latest 
+derived data attributes provided by the connected data source. This 
+property is used during report design time only; its content is maintained by 
+the BIRT designer tool.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>CachedMetaData</span> structure</p></div>
+
+<hr>
+<h2><a name="Property-cachedRowCount">cachedRowCount Property</a></h2>
+
+<p class="section-text">Number of rows that will be cached when the data rows are retrived from DB.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#integer">integer</a></td></tr>
+<tr><td>Since:</td>
+<td>2.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Cached row count</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Number of rows that will be cached when the data rows are first time retrieved from DB, 
+the cached data will be used after that unless user choose to flush the cache. This will 
+speed up the report developing.</p></div>
+
+<hr>
+<h2><a name="Property-columnHints">columnHints Property</a></h2>
+
+<p class="section-text">Defines the report-related data attributes of the result set’s columns.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/ColumnHint.html">ColumnHint</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Column hints</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>In BIRT, a result set column can be defined with an 
+alias.&nbsp; Aliases are useful in cases where a column name is awkward, or is used 
+by multiple columns in a result set.</p>
+
+<p>BIRT reports provide a rich viewing experience. The user 
+can search the report, extract data to a file, export data to an OLAP system, 
+and more. Such operations work on the actual data set’s result set instead of on 
+the presentation of the data. Column hints let the report developer customize 
+the search and data extract experience.</p>
+
+<p>The column hint element provides a number of &quot;hints&quot; 
+about result set columns. The hints override BIRT defaults for how columns are 
+handled during viewing. Hints can be provided for both retrieved and computed 
+columns.</p>
+
+<p>Column hints are keyed to the data set’s primary result 
+set using names. The user must understand how to keep the hints in sync with the 
+data set when either the data set definition, or underlying data source, 
+changes.</p>
+
+<p>BIRT uses the column hints in the following cases:</p>
+
+<ul>
+<li>The report references a column using the alias defined in the column hint.</li>
+<li>The report references a column (retrieved or computed) that is also referenced by the column hint.</li>
+<li>The column hint has the Export attribute set to &quot;always&quot;.</li>
+</ul>
+
+<p>In each case, BIRT checks whether the data set provides 
+the requested column. If so, it continues processing the report.&nbsp; If not, it 
+issues a fatal runtime error.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>ColumnHint</span> structure</p></div>
+
+<hr>
+<h2><a name="Property-computedColumns">computedColumns Property</a></h2>
+
+<p class="section-text">User-defined columns in the result set.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/ComputedColumn.html">ComputedColumn</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Computed columns</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>A computed column is a user-defined column produced as an 
+expression of other columns within the data set’s primary result set. It is not 
+of the columns retrieved directly from the underlying data provider.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>ComputedColumn</span> structure</p></div>
+
+<hr>
+<h2><a name="Property-dataSource">dataSource Property</a></h2>
+
+<p class="section-text">The database connection that the data set is used.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../elements/DataSource.html">DataSource</a> Reference</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>Yes</td></tr>
+<tr><td>Display Name:</td>
+<td>Data source</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Name of the data source, that is the database connection this data set is using.</p></div>
+
+<hr>
+<h2><a name="Property-filter">filter Property</a></h2>
+
+<p class="section-text">An optional set of filters to apply to the result set before any other data transforms.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/FilterCondition.html">FilterCondition</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Filter</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>An optional set of filters that apply to the data set’s 
+primary result set.&nbsp; A data set’s filter is applied to each row of the retrieved 
+result set before any other data transforms.&nbsp; The filter expression should thus 
+not contain any aggregation functions.&nbsp; It usually references at least one 
+column from a data row, and may also reference a report parameter or other 
+scripting variable.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>Filter Criteria</span> structure</p>
+<p>Listing <code>filter</code> property</p>
+<p>ListingGroup <code>filter</code> 
+property</p></div>
+
+<hr>
+<h2><a name="Property-paramBindings">paramBindings Property</a></h2>
+
+<p class="section-text">A list of data set parameter binding elements that bind data set input parameters to BIRT expressions.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/ParamBinding.html">ParamBinding</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Parameter bindings</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>A list of data set parameter binding elements that bind 
+data set input parameters to BIRT expressions.&nbsp; Each ParamBinding structure 
+associates a parameter name with an expression. </p>
+
+<p>BIRT differentiates between data set parameters and 
+report parameters. Data set input parameters are not automatically exposed as 
+report parameters. However, the report developer can define report parameters 
+that match data set input parameters. In this case, data set input parameter 
+binding associates data set input parameters with the values of report 
+parameters.</p>
+
+<p>The Data Set element provides a list of parameter binding 
+elements that bind a value to each query parameter. </p>
+
+<p>The bind expression frequently includes a reference to a 
+report parameter, configuration variable, or a row in an outer query. However, 
+the expression can include any valid JavaScript expression.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>ParamBinding</span> structure</p>
+<p>Report Item <code>paramBindings</code> property</p></div>
+
+<hr>
+<h2><a name="Property-parameters">parameters Property</a></h2>
+
+<p class="section-text">Defines the data access attributes of the list of input and/or output parameters.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/DataSetParam.html">DataSetParam</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Parameters</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Many data sets allow parameters, which can be of input 
+and/or output modes. For some, the user must define the parameters as part of 
+the data set definition. For other data sets, the driver itself can provide the 
+set of parameter definitions from the information available in a data set query. 
+In the latter case, parameter definitions are derived data and <i>are not</i> 
+stored in the parameter definition.</p>
+
+<p>Some drivers refer to a parameter by position. Others can 
+refer to a parameter by name. Also, for some data sets, the data set definition 
+can omit parameter definitions for optional parameters not used within the 
+report. &nbsp;Not all parameter properties are required. If a property is omitted. 
+BIRT assumes that the data set implementation can provide it at run time. If the 
+driver cannot provide the information, then a runtime error occurs.&nbsp; This is an 
+optional list of data set parameter definitions, used only when the underlying 
+data provider cannot provide this information.&nbsp; When contradicting meta-data are 
+found between those provided dynamically by a data provider and&nbsp; those specified 
+in a data set definition, the data provider’s meta-data takes precedence.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>DataSetParam</span> structure</p>
+<p><code>ParamBinding</span> structure</p></div>
+
+<hr>
+<h2><a name="Property-refTemplateParameter">refTemplateParameter Property</a></h2>
+
+<p class="section-text">Name of the template parameter definition.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../elements/TemplateParameterDefinition.html">TemplateParameterDefinition</a> Reference</td></tr>
+<tr><td>Since:</td>
+<td>2.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Referred Template Parameter Definition</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>No</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>when a data set is created from an <i>template data set</i>,
+this property will reference to the base data set. </p></div>
+
+<hr>
+<h2><a name="Property-resultSet">resultSet Property</a></h2>
+
+<p class="section-text">Defines the columns of the expected result set.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/ResultSetColumn.html">ResultSetColumn</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Result set</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Defines the data access attributes of&nbsp; the list of 
+columns in the expected primary result set. This is an optional list of result 
+set column definitions, used only when the underlying data provider cannot 
+provide this information.&nbsp; When contradicting meta-data are found between those 
+provided dynamically by a data provider and&nbsp; those specified in a data set 
+definition, the data provider’s meta-data takes precedence.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>ResultSetColumn</span> structure</p></div>
+<h1>Method Detail</h1>
+
+<h2><a name="Method-afterClose">afterClose Method</a></h2>
+
+<p class="section-text">Called just after BIRT closes the data set. Allows 
+the application to perform code-based cleanup.</p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.afterClose(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Context:</td>
+<td>factory</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Called just after BIRT closes the data set. Allows the 
+application to perform code-based cleanup.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>beforeClose</code> method</p></div>
+
+<hr>
+<h2><a name="Method-afterOpen">afterOpen Method</a></h2>
+
+<p class="section-text">Called just after BIRT opens the data set. Allows the 
+application to perform any code-based initialization required for the data set.</p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.afterOpen(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Context:</td>
+<td>factory</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Called just after BIRT opens the data set. Allows the 
+application to perform any code-based initialization required for the data set.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>beforeOpen</code> method</p></div>
+
+<hr>
+<h2><a name="Method-beforeClose">beforeClose Method</a></h2>
+
+<p class="section-text">Called just before BIRT closes the data set. Allows 
+the application to perform code-based cleanup.</p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.beforeClose(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Context:</td>
+<td>factory</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Called just before BIRT closes the data set. Allows the 
+application to perform code-based cleanup.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>afterClose</code> method</p></div>
+
+<hr>
+<h2><a name="Method-beforeOpen">beforeOpen Method</a></h2>
+
+<p class="section-text">Called just before BIRT opens the data set. Allows 
+the application to customize the data set properties.</p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.beforeOpen(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Context:</td>
+<td>factory</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Called just before BIRT opens the data set. Allows the 
+application to customize the data set properties.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>afterOpen</code> method</p></div>
+
+<hr>
+<h2><a name="Method-onFetch">onFetch Method</a></h2>
+
+<p class="section-text">Called just after fetching each row before applying 
+filters or calculating computed columns.</p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onFetch(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Context:</td>
+<td>factory</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Called just after fetching each row before applying 
+filters or calculating computed columns.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>DataRow</code> scripting object</p></div>
+</body>
+</html>

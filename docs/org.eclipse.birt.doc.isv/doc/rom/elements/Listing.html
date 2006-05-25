@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 transitional//EN">
+<html>
+<head>
+<title>Listing Element (Eclipse BIRT ROM Documentation)</title>
+<link rel="stylesheet" href="../style/style.css" type="text/css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<p class="title">Eclipse BIRT Report Object Model (ROM)</p>
+<p class="subtitle">Listing Element</p>
+<h1>Element Overview</h1>
+<div class="section-text">
+Abstract base element that captures the behavior common 
+to lists and tables.</div>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Display Name:</td>
+<td>Listing</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>XML Element:</td>
+<td><code>None</code></td></tr>
+<tr><td>Extends:</td>
+<td><a href="ReportItem.html">ReportItem</a></td></tr>
+<tr><td>Extendable:</td>
+<td>No</td></tr>
+<tr><td>Abstract:</td>
+<td>Yes</td></tr>
+<tr><td>Name Space:</td>
+<td>Report Items</td></tr>
+<tr><td>Name Requirement:</td>
+<td>Not Supported</td></tr>
+<tr><td>Allows User Properties:</td>
+<td>Yes</td></tr>
+<tr><td>Has Style:</td>
+<td>Yes</td></tr>
+<tr><td>Default Style:</td>
+<td>None</td></tr>
+</table>
+
+<h3>Property Summary</h3>
+
+<dl class="section-text">
+<dt><a href="#Property-filter">filter</a></dt>
+<dd>Filter criteria to apply to each row in the List.</dd>
+<dt><a href="#Property-pageBreakInterval">pageBreakInterval</a></dt>
+<dd>Break the list into a new page on a numeric interval.</dd>
+<dt><a href="#Property-sort">sort</a></dt>
+<dd>The sort order for detail rows in the List.</dd>
+</dl>
+
+<h3>Inherited Properties</h3>
+
+<p class="section-text">
+<a href="ReportItem.html#Property-bookmark">bookmark</a>, 
+<a href="ReportElement.html#Property-comments">comments</a>, 
+<a href="DesignElement.html#Property-customXml">customXml</a>, 
+<a href="ReportItem.html#Property-dataSet">dataSet</a>, 
+<a href="ReportElement.html#Property-displayName">displayName</a>, 
+<a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
+<a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
+<a href="ReportElement.html#Property-extends">extends</a>, 
+<a href="ReportItem.html#Property-height">height</a>, 
+<a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportItem.html#Property-paramBindings">paramBindings</a>, 
+<a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
+<a href="ReportItem.html#Property-refTemplateParameter">refTemplateParameter</a>, 
+<a href="ReportItem.html#Property-style">style</a>, 
+<a href="ReportItem.html#Property-toc">toc</a>, 
+<a href="DesignElement.html#Property-userProperties">userProperties</a>, 
+<a href="ReportItem.html#Property-visibility">visibility</a>, 
+<a href="ReportItem.html#Property-width">width</a>, 
+<a href="ReportItem.html#Property-x">x</a>, 
+<a href="ReportItem.html#Property-y">y</a>
+</p>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The listing element is an abstract base element that 
+captures the commonality between the List and Table element. Both elements 
+support a data set, filtering, sorting, methods, and so on.</p>
+
+<p>See the List and Table items for the specific visual 
+differences between the two items.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p>Report Item for information on the data set, input 
+parameter bindings, and so on.</p></div>
+<h1>Property Detail</h1>
+
+<h2><a name="Property-filter">filter Property</a></h2>
+
+<p class="section-text">Filter criteria to apply to each row in the List.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/FilterCondition.html">FilterCondition</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Filter</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The filter property specifies filter criteria to apply to each row in the 
+data set. The filter can contain BIRT expressions (in JavaScript.) If you want 
+the database to do the filtering, put the filter criteria in the WHERE clause of 
+your query.</p></div>
+
+<hr>
+<h2><a name="Property-pageBreakInterval">pageBreakInterval Property</a></h2>
+
+<p class="section-text">Break the list into a new page on a numeric interval.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Page break interval</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>0</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Break the list into a new page on a numeric interval.</p></div>
+
+<hr>
+<h2><a name="Property-sort">sort Property</a></h2>
+
+<p class="section-text">The sort order for detail rows in the List.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/SortKey.html">SortKey</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Sorting</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Specifies the sorting of the rows within the detail band. This sorting is 
+done within BIRT. If you want the database to do the sorting, specify the sort 
+within the ORDER BY clause of your query.</p></div>
+</body>
+</html>
