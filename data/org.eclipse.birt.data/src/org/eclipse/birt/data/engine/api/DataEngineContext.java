@@ -75,12 +75,14 @@ public class DataEngineContext
 	public final static int GROUP_INFO_STREAM = 13;
 	public final static int SUBQUERY_INFO_STREAM = 14;
 	
+	public final static int ROW_INDEX_STREAM = 15;
+	
 	public final static int VERSION_INFO_STREAM = 21;
 	public final static int ROWLENGTH_INFO_STREAM = 22;
 	public final static int DATASET_DATA_STREAM = 23;
 	
 	public final static int EXPR_META_STREAM = 24;
-	public final static int TRANSFORM_INFO_STREAM = 25;
+	public final static int FILTER_INFO_STREAM = 25;
 
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
@@ -233,14 +235,29 @@ public class DataEngineContext
 	 * @param streamType
 	 * @return boolean value
 	 */
-	public boolean hasStream( String streamID, String subStreamID,
+	public boolean hasOutStream( String streamID, String subStreamID,
 			int streamType )
 	{
 		String relativePath = getPath( streamID, subStreamID, streamType );
 
-		if ( mode == MODE_GENERATION )
+		if ( writer != null )
 			return writer.exists( relativePath );
-		else if ( mode == MODE_PRESENTATION )
+		else
+			return false;
+	}
+	
+	/**
+	 * @param streamID
+	 * @param subStreamID
+	 * @param streamType
+	 * @return
+	 */
+	public boolean hasInStream( String streamID, String subStreamID,
+			int streamType )
+	{
+		String relativePath = getPath( streamID, subStreamID, streamType );
+
+		if ( reader != null )
 			return reader.exists( relativePath );
 		else
 			return false;
@@ -304,6 +321,9 @@ public class DataEngineContext
 			case SUBQUERY_INFO_STREAM :
 				relativePath = "SubQueryInfo";
 				break;
+			case ROW_INDEX_STREAM:
+				relativePath = "RowIndexInfo";
+				break;
 			case ROWLENGTH_INFO_STREAM :
 				relativePath = "RowLengthInfo";
 				break;
@@ -313,8 +333,8 @@ public class DataEngineContext
 			case EXPR_META_STREAM :
 				relativePath = "ExprMetaInfo";
 				break;
-			case TRANSFORM_INFO_STREAM :
-				relativePath = "TransformInfo";
+			case FILTER_INFO_STREAM :
+				relativePath = "FilterInfo";
 				break;
 			default :
 				assert false; // impossible

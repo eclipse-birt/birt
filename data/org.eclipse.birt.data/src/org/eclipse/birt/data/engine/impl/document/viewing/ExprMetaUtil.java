@@ -242,7 +242,16 @@ public class ExprMetaUtil
 	 */
 	public static boolean isBasedOnRD( IResultClass resultClass )
 	{
-		boolean isBasedOnSecondRD = false;
+		return getIdColumnPos( resultClass ) >= 0;
+	}
+	
+	/**
+	 * @param resultClass
+	 * @return
+	 */
+	public static int getIdColumnPos( IResultClass resultClass )
+	{
+		int columnPos = -1;
 		for ( int i = 0; i < resultClass.getFieldCount( ); i++ )
 		{
 			try
@@ -250,7 +259,7 @@ public class ExprMetaUtil
 				if ( resultClass.getFieldName( i + 1 )
 						.equals( ExprMetaUtil.POS_NAME ) )
 				{
-					isBasedOnSecondRD = true;
+					columnPos = i + 1;
 					break;
 				}
 			}
@@ -259,7 +268,33 @@ public class ExprMetaUtil
 				// impossible, ignore it
 			}
 		}
-		return isBasedOnSecondRD;
+		return columnPos;
+	}
+	
+	/**
+	 * @param resultClass
+	 * @return
+	 */
+	public static int getFilterColumnPos( IResultClass resultClass )
+	{
+		int filterColumnPos = -1;
+		for ( int i = 0; i < resultClass.getFieldCount( ); i++ )
+		{
+			try
+			{
+				if ( resultClass.getFieldName( i + 1 )
+						.equals( ExprMetaUtil.FILTER_NAME ) )
+				{
+					filterColumnPos = i + 1;
+					break;
+				}
+			}
+			catch ( DataException e )
+			{
+				// impossible, ignore it
+			}
+		}
+		return filterColumnPos;
 	}
 	
 	/**

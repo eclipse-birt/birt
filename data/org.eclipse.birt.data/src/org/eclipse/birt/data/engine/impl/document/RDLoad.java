@@ -20,9 +20,11 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
-import org.eclipse.birt.data.engine.impl.document.viewing.ExprDataResultSet;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprDataResultSet1;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprDataResultSet2;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
+import org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -115,7 +117,7 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	public ExprDataResultSet loadExprDataResultSet( ) throws DataException
+	public IExprDataResultSet loadExprDataResultSet( ) throws DataException
 	{
 		if ( version == VersionManager.VERSION_2_0 )
 			throw new DataException( "Not supported in earlier version than 2.1" );
@@ -135,9 +137,17 @@ public class RDLoad
 
 		// This is a special case, that the stream needs to be close at the code
 		// of ExprDataResultSet
-		ExprDataResultSet exprDataResultSet = new ExprDataResultSet( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM ),
-				exprMetas,
-				loadResultClass( ) );
+		IExprDataResultSet exprDataResultSet = null;
+		boolean isBasedOnSecondRD = streamManager.hasInStream( DataEngineContext.ROW_INDEX_STREAM );
+		if ( isBasedOnSecondRD == false )
+			exprDataResultSet = new ExprDataResultSet1( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM ),
+					streamManager.getInStream( DataEngineContext.ROWLENGTH_INFO_STREAM ),
+					exprMetas );
+		else
+			exprDataResultSet = new ExprDataResultSet2( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM ),
+					streamManager.getInStream( DataEngineContext.ROWLENGTH_INFO_STREAM ),
+					streamManager.getInStream( DataEngineContext.ROW_INDEX_STREAM ),
+					exprMetas );
 
 		return exprDataResultSet;
 	}

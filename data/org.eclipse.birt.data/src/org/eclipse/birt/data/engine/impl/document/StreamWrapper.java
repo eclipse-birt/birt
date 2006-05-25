@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.OutputStream;
@@ -17,67 +18,57 @@ import java.io.OutputStream;
  */
 public class StreamWrapper
 {
-	private OutputStream streamForExprValue;
-	private OutputStream streamForRowLen;
 	private OutputStream streamForResultClass;
 	private OutputStream streamForDataSet;
 	private OutputStream streamForGroupInfo;
-	
+	private OutputStream streamForRowIndexInfo;
+
 	/**
-	 * @param streamForExprValue
-	 * @param streamForRowLen
 	 * @param streamForResultClass
 	 * @param streamForDataSet
+	 * @param streamForGroupInfo
+	 * @param streamForRowIndexInfo
 	 */
-	public StreamWrapper( OutputStream streamForExprValue,
-			OutputStream streamForRowLen, OutputStream streamForResultClass,
-			OutputStream streamForDataSet, OutputStream streamForGroupInfo )
+	public StreamWrapper( OutputStream streamForResultClass,
+			OutputStream streamForDataSet, OutputStream streamForGroupInfo,
+			OutputStream streamForRowIndexInfo )
 	{
-		this.streamForExprValue = streamForExprValue;
-		this.streamForRowLen = streamForRowLen;
 		this.streamForResultClass = streamForResultClass;
 		this.streamForDataSet = streamForDataSet;
 		this.streamForGroupInfo = streamForGroupInfo;
+		this.streamForRowIndexInfo = streamForRowIndexInfo;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public OutputStream getStreamForExprValue()
+	public OutputStream getStreamForResultClass( )
 	{
-		return this.streamForExprValue;		
+		return this.streamForResultClass;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public OutputStream getStreamForRowLen()
+	public OutputStream getStreamForDataSet( )
 	{
-		return this.streamForRowLen;		
+		return this.streamForDataSet;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public OutputStream getStreamForResultClass()
+	public OutputStream getStreamForGroupInfo( )
 	{
-		return this.streamForResultClass;		
+		return this.streamForGroupInfo;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public OutputStream getStreamForDataSet()
+	public OutputStream getStreamForRowIndexInfo( )
 	{
-		return this.streamForDataSet;		
+		return streamForRowIndexInfo;
 	}
-	
-	/**
-	 * @return
-	 */
-	public OutputStream getStreamForGroupInfo()
-	{
-		return this.streamForGroupInfo;		
-	}
-	
+
 }

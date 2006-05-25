@@ -180,43 +180,43 @@ public class RDSave implements IRDSave
 			try
 			{
 				// save the information of result class and group information
-				boolean isSubQuery = streamManager.isSubquery( );
-
 				OutputStream streamForResultClass = null;
-				if ( isSubQuery == false )
-					streamForResultClass = streamManager.getOutStream( DataEngineContext.RESULTCLASS_STREAM );
-				OutputStream streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM );
+				OutputStream streamForGroupInfo = null;
 				
-				OutputStream streamForExprValue = null;
-				OutputStream streamForRowLen = null;
-				if ( context.getMode( ) == DataEngineContext.MODE_UPDATE )
+				OutputStream streamForRowIndexInfo = null;
+				
+				boolean isSubQuery = streamManager.isSubquery( );
+				if ( context.getMode( ) != DataEngineContext.MODE_UPDATE )
 				{
-					streamForExprValue = streamManager.getOutStream( DataEngineContext.EXPR_VALUE_STREAM );
-					streamForRowLen = streamManager.getOutStream( DataEngineContext.ROWLENGTH_INFO_STREAM );
+					if ( isSubQuery == false )
+						streamForResultClass = streamManager.getOutStream( DataEngineContext.RESULTCLASS_STREAM );
+					streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM );
+				}
+				else
+				{
+					streamForRowIndexInfo = streamManager.getOutStream( DataEngineContext.ROW_INDEX_STREAM );
 				}
 								
-				odiResult.doSave( new StreamWrapper( streamForExprValue,
-						streamForRowLen,
-						streamForResultClass,
+				odiResult.doSave( new StreamWrapper( streamForResultClass,
 						null,
-						streamForGroupInfo ),
+						streamForGroupInfo,
+						streamForRowIndexInfo ),
 						isSubQuery,
 						RDSave.this.exprNameSet );
-
-				if ( streamForExprValue != null )
-				{
-					streamForExprValue.close( );
-					streamForRowLen.close( );
-				}
 				
-				streamForGroupInfo.close( );
 				if ( streamForResultClass != null )
 					streamForResultClass.close( );
+				
+				if ( streamForGroupInfo != null )
+					streamForGroupInfo.close( );
+				
+				if ( streamForRowIndexInfo != null )
+					streamForRowIndexInfo.close( );
 
 				// save the information of sub query information
 				// notice, sub query name is used instead of sub query id
 				if ( isSubQuery == true
-						&& streamManager.hasSubStream( DataEngineContext.SUBQUERY_INFO_STREAM ) == false )
+						&& streamManager.hasOutSubStream( DataEngineContext.SUBQUERY_INFO_STREAM ) == false )
 				{
 					// save info related with sub query info
 					OutputStream streamForSubQuery = streamManager.getSubOutStream( DataEngineContext.SUBQUERY_INFO_STREAM );
