@@ -14,13 +14,10 @@ package org.eclipse.birt.data.engine.impl.document;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -31,13 +28,10 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Used in presentation
  */
-public class ResultIterator implements IResultIterator
+class ResultIterator implements IResultIterator
 {
 	// data engine context
 	private DataEngineContext context;
-	
-	// save and load util
-	private RDLoad valueLoader;
 	
 	// name of associated query results
 	private String queryResultID;
@@ -50,11 +44,8 @@ public class ResultIterator implements IResultIterator
 	// when sub query is used, its parent query index needs to be remembered
 	private int currParentIndex;
 	
-	//
-	protected org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
-	
-	// logger
-	private static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
+	// expression data result set
+	private ExprResultSet exprResultSet;
 	
 	/**
 	 * @param context
@@ -78,9 +69,8 @@ public class ResultIterator implements IResultIterator
 	 * @param rsCache
 	 * @throws DataException
 	 */
-	ResultIterator( DataEngineContext context,
-			IQueryResults queryResults, String queryResultID,
-			String subQueryName, int currParentIndex)
+	ResultIterator( DataEngineContext context, IQueryResults queryResults,
+			String queryResultID, String subQueryName, int currParentIndex )
 			throws DataException
 	{
 		super( );
@@ -94,113 +84,25 @@ public class ResultIterator implements IResultIterator
 		this.subQueryName = subQueryName;
 
 		this.currParentIndex = currParentIndex;
+		
+		this.prepare( );
 	}
 
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getSecondaryIterator(java.lang.String,
-	 *      org.mozilla.javascript.Scriptable)
-	 */
-	public IResultIterator getSecondaryIterator( String subQueryName,
-			Scriptable scope ) throws DataException
-	{
-		String parentQueryResultsID = null;
-		if ( this.subQueryName == null )
-		{
-			parentQueryResultsID = queryResultID;
-		}
-		else
-		{
-			parentQueryResultsID = queryResultID
-					+ "/" + this.subQueryName + "/" + this.subQueryIndex;
-		}
-
-		QueryResults queryResults = null;
-		try
-		{
-			queryResults = new QueryResults( context,
-					parentQueryResultsID,
-					getQueryResults( ).getResultMetaData( ), 
-					subQueryName,
-					this.getValueLoader( ).getCurrentIndex( ) );
-		}
-		catch ( BirtException e )
-		{
-			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-					e,
-					"Subquery" );
-		}
-
-		try
-		{
-			ResultIterator ri = (ResultIterator) queryResults.getResultIterator( );
-			ri.setSubQueryName( subQueryName );
-			return ri;
-		}
-		catch ( BirtException e )
-		{
-			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-					e,
-					"Subquery" );
-		}
-	}
-	
-	void setSubQueryName( String subQueryName )
-	{
-		this.subQueryName = subQueryName;
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#next()
-	 */
-    public boolean next( ) throws DataException
-	{
-    	return this.getValueLoader( ).next( );
-	}
-    
-    /*
-     * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowId()
-     */
-	public int getRowId( ) throws BirtException
-	{
-		return this.getValueLoader( ).getCurrentId( );
-	}
-	
-    /*
-     * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
-     */
-	public int getRowIndex( ) throws BirtException
-	{
-		return this.getValueLoader( ).getCurrentIndex( );
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#moveTo(int)
-	 */
-	public void moveTo( int rowIndex ) throws BirtException
-	{
-		this.getValueLoader( ).moveTo( rowIndex );		
-	}
-	
 	/**
-	 * 
+	 * @throws DataException
 	 */
-    private RDLoad getValueLoader( ) throws DataException
+	private void prepare( ) throws DataException
 	{
-		if ( this.valueLoader == null )
-		{
-			valueLoader = RDUtil.newLoad( this.context,
-					this.queryResultID,
-					this.subQueryName,
-					this.currParentIndex );
-
-			if ( this.subQueryName != null )
-				subQueryIndex = valueLoader.getSubQueryIndex( currParentIndex );
-
-		}
-
-		return valueLoader;
+		RDLoad valueLoader = RDUtil.newLoad( this.context,
+				this.queryResultID,
+				this.subQueryName,
+				this.currParentIndex );
+		if ( this.subQueryName != null )
+			subQueryIndex = valueLoader.getSubQueryIndex( currParentIndex );
+		
+		this.exprResultSet = valueLoader.loadExprResultSet( );
 	}
-
+	
     /*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getQueryResults()
 	 */
@@ -224,45 +126,13 @@ public class ResultIterator implements IResultIterator
 	{
 		return this.queryResults.getResultMetaData( );
 	}
-
+	
 	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#skipToEnd(int)
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#next()
 	 */
-	public void skipToEnd( int groupLevel ) throws BirtException
+    public boolean next( ) throws DataException
 	{
-		this.getValueLoader( ).skipToEnd( groupLevel );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getStartingGroupLevel()
-	 */
-	public int getStartingGroupLevel( ) throws BirtException
-	{
-		return this.getValueLoader( ).getStartingGroupLevel( );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getEndingGroupLevel()
-	 */
-	public int getEndingGroupLevel( ) throws BirtException
-	{
-		return this.getValueLoader( ).getEndingGroupLevel( );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#close()
-	 */
-	public void close( ) throws BirtException
-	{
-		this.getValueLoader( ).close( );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#findGroup(java.lang.Object[])
-	 */
-	public boolean findGroup( Object[] groupKeyValues ) throws BirtException
-	{
-		throw new DataException( "Not supported in presentation" );
+    	return this.exprResultSet.next( );
 	}
 	
 	/*
@@ -270,7 +140,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	public Object getValue( String name ) throws BirtException
 	{
-		return this.getValueLoader( ).getValue( name );
+		return this.exprResultSet.getValue( name );
 	}
 	
 	/*
@@ -336,5 +206,125 @@ public class ResultIterator implements IResultIterator
 	{
 		return DataTypeUtil.toBytes( getValue( name ) );
 	}
-
+	
+    /*
+     * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowId()
+     */
+	public int getRowId( ) throws BirtException
+	{
+		return this.exprResultSet.getCurrentId( );
+	}
+	
+    /*
+     * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
+     */
+	public int getRowIndex( ) throws BirtException
+	{
+		return this.exprResultSet.getCurrentIndex( );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#moveTo(int)
+	 */
+	public void moveTo( int rowIndex ) throws BirtException
+	{
+		this.exprResultSet.moveTo( rowIndex );		
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getStartingGroupLevel()
+	 */
+	public int getStartingGroupLevel( ) throws BirtException
+	{
+		return this.exprResultSet.getStartingGroupLevel( );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getEndingGroupLevel()
+	 */
+	public int getEndingGroupLevel( ) throws BirtException
+	{
+		return this.exprResultSet.getEndingGroupLevel( );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#skipToEnd(int)
+	 */
+	public void skipToEnd( int groupLevel ) throws BirtException
+	{
+		this.exprResultSet.skipToEnd( groupLevel );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getSecondaryIterator(java.lang.String,
+	 *      org.mozilla.javascript.Scriptable)
+	 */
+	public IResultIterator getSecondaryIterator( String subQueryName,
+			Scriptable scope ) throws DataException
+	{
+		String parentQueryResultsID = null;
+		if ( this.subQueryName == null )
+		{
+			parentQueryResultsID = queryResultID;
+		}
+		else
+		{
+			parentQueryResultsID = queryResultID
+					+ "/" + this.subQueryName + "/" + this.subQueryIndex;
+		}
+		
+		QueryResults queryResults = null;
+		try
+		{
+			queryResults = new QueryResults( context,
+					parentQueryResultsID,
+					getQueryResults( ).getResultMetaData( ), 
+					subQueryName,
+					this.exprResultSet.getCurrentIndex( ) );
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+					e,
+					"Subquery" );
+		}
+		
+		try
+		{
+			ResultIterator ri = (ResultIterator) queryResults.getResultIterator( );
+			ri.setSubQueryName( subQueryName );
+			return ri;
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+					e,
+					"Subquery" );
+		}
+	}
+	
+	/**
+	 * @param subQueryName
+	 */
+	void setSubQueryName( String subQueryName )
+	{
+		this.subQueryName = subQueryName;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#close()
+	 */
+	public void close( ) throws BirtException
+	{
+		this.exprResultSet.close( );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#findGroup(java.lang.Object[])
+	 */
+	public boolean findGroup( Object[] groupKeyValues ) throws BirtException
+	{
+		throw new DataException( "Not supported in presentation" );
+	}	
+	
 }
