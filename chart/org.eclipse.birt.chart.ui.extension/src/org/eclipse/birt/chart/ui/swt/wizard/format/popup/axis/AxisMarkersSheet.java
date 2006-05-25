@@ -311,6 +311,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		gdBTNLineFormatSpecifier.heightHint = 18;
 		gdBTNLineFormatSpecifier.widthHint = 18;
 		btnLineFormatSpecifier.setLayoutData( gdBTNLineFormatSpecifier );
+		btnLineFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
 		btnLineFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 		btnLineFormatSpecifier.addSelectionListener( this );
 		btnLineFormatSpecifier.getImage( )
@@ -405,6 +406,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		gdBTNStartFormatSpecifier.heightHint = 18;
 		gdBTNStartFormatSpecifier.widthHint = 18;
 		btnStartFormatSpecifier.setLayoutData( gdBTNStartFormatSpecifier );
+		btnStartFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
 		btnStartFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 		btnStartFormatSpecifier.addSelectionListener( this );
 		btnStartFormatSpecifier.getImage( )
@@ -427,6 +429,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		gdBTNEndFormatSpecifier.heightHint = 18;
 		gdBTNEndFormatSpecifier.widthHint = 18;
 		btnEndFormatSpecifier.setLayoutData( gdBTNEndFormatSpecifier );
+		btnEndFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
 		btnEndFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 		btnEndFormatSpecifier.addSelectionListener( this );
 		btnEndFormatSpecifier.getImage( )

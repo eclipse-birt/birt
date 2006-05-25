@@ -447,6 +447,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 		btnFormatSpecifier = new Button( grpDataPoint, SWT.PUSH );
 		GridData gdBTNFormatSpecifier = new GridData( );
 		btnFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
+		btnFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
 		btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 		btnFormatSpecifier.getImage( )
 				.setBackground( btnFormatSpecifier.getBackground( ) );
