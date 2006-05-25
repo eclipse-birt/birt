@@ -180,10 +180,9 @@ public class ScalarParameterFragment extends BirtBaseFragment
 			Object configObj = configMap.get( parameter.getName( ) );
 			if ( configObj != null )
 			{
-				parameterValue = ParameterValidationUtil
-						.getDisplayValue( parameterHandle.getDataType( ),
-								parameterHandle.getPattern( ), configObj,
-								attrBean.getLocale( ) );
+				parameterValue = ParameterValidationUtil.getDisplayValue( null,
+						parameterHandle.getPattern( ), configObj, attrBean
+								.getLocale( ) );
 			}
 		}
 

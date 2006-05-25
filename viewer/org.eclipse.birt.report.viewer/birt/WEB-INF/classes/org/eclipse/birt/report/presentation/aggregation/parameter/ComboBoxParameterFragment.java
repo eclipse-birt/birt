@@ -92,10 +92,9 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 						.next( );
 
 				// Convert parameter value using locale format
-				String value = ParameterValidationUtil.getDisplayValue(
-						parameterHandle.getDataType( ), parameterHandle
-								.getPattern( ), selectionItem.getValue( ),
-						attrBean.getLocale( ) );
+				String value = ParameterValidationUtil.getDisplayValue( null,
+						parameterHandle.getPattern( ),
+						selectionItem.getValue( ), attrBean.getLocale( ) );
 
 				String label = selectionItem.getLabel( );
 				label = ( label == null || label.length( ) <= 0 )

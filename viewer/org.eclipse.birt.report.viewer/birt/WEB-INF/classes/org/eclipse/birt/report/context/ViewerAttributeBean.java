@@ -233,13 +233,13 @@ public class ViewerAttributeBean extends BaseAttributeBean
 												.getDataType( ), parameter
 												.getPattern( ), paramValueObj,
 												locale );
-								
+
 								this.configMap.put( paramName, paramValue );
 							}
 							catch ( Exception err )
 							{
 
-							}							
+							}
 						}
 					}
 				}
@@ -299,9 +299,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		// convert default value object to locale format
 		if ( defaultValueObj != null && parameter != null )
 		{
-			defalutValue = ParameterValidationUtil.getDisplayValue( parameter
-					.getDataType( ), parameter.getPattern( ), defaultValueObj,
-					locale );
+			defalutValue = ParameterValidationUtil.getDisplayValue( null,
+					parameter.getPattern( ), defaultValueObj, locale );
 		}
 
 		// get parameter default value as string
@@ -320,7 +319,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 *            String
 	 * @return String
 	 */
-	private String getParameterName( String configVarName ) throws ReportServiceException
+	private String getParameterName( String configVarName )
+			throws ReportServiceException
 	{
 		assert reportDesignHandle != null;
 
@@ -558,9 +558,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			paramValueObj = this.parameterMap.get( paramName );
 
 			// Convert to locale string format
-			paramValueObj = ParameterValidationUtil.getDisplayValue( parameter
-					.getDataType( ), parameter.getPattern( ), paramValueObj,
-					locale );
+			paramValueObj = ParameterValidationUtil.getDisplayValue( null,
+					parameter.getPattern( ), paramValueObj, locale );
 		}
 
 		if ( paramValueObj != null )
@@ -583,7 +582,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @return Map
 	 */
 	protected Map getParsedParametersAsString( Collection parameterList,
-			HttpServletRequest request, InputOptions options ) throws ReportServiceException
+			HttpServletRequest request, InputOptions options )
+			throws ReportServiceException
 	{
 		assert parameterList != null;
 
@@ -637,7 +637,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	/**
 	 * @return the parameter handle
 	 */
-	public ParameterHandle findParameter( String paramName ) throws ReportServiceException
+	public ParameterHandle findParameter( String paramName )
+			throws ReportServiceException
 	{
 		if ( paramName == null )
 			return null;
