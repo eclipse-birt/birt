@@ -714,28 +714,32 @@ public class ParameterValidationUtil
 			return getDisplayValue( dataType, value, locale );
 		}
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-				.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType )
+				|| value instanceof Date )
 		{
 			DateFormatter formatter = new DateFormatter( locale );
 			formatter.applyPattern( format );
 			return formatter.format( (Date) value );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
-				.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType )
+				|| value instanceof Float || value instanceof Double )
 		{
 			NumberFormatter formatter = new NumberFormatter( locale );
 			formatter.applyPattern( format );
 			return formatter.format( ( (Double) value ).doubleValue( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
-				.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType )
+				|| value instanceof BigDecimal )
 		{
 			NumberFormatter formatter = new NumberFormatter( locale );
 			formatter.applyPattern( format );
 			return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
-				.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType )
+				|| value instanceof Boolean )
 		{
 			if ( ( (Boolean) value ).booleanValue( ) )
 			{
@@ -747,7 +751,8 @@ public class ParameterValidationUtil
 					BooleanPropertyType.BOOLEAN_FALSE_RESOURCE_KEY );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING
-				.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType )
+				|| value instanceof String )
 		{
 			StringFormatter formatter = new StringFormatter( locale );
 			formatter.applyPattern( format );
@@ -755,8 +760,9 @@ public class ParameterValidationUtil
 		}
 		else
 		{
-			assert false;
-			return null;
+			StringFormatter formatter = new StringFormatter( locale );
+			formatter.applyPattern( format );
+			return formatter.format( value.toString( ) );
 		}
 
 	}
@@ -812,26 +818,30 @@ public class ParameterValidationUtil
 			ULocale locale )
 	{
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-				.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType )
+				|| value instanceof Date )
 		{
 			DateFormat formatter = DateFormat.getDateTimeInstance(
 					DateFormat.MEDIUM, DateFormat.MEDIUM, locale );
 			return formatter.format( (Date) value );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
-				.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType )
+				|| value instanceof Float || value instanceof Double )
 		{
 			NumberFormat formatter = NumberFormat.getNumberInstance( locale );
 			return formatter.format( ( (Double) value ).doubleValue( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
-				.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType )
+				|| value instanceof BigDecimal )
 		{
 			NumberFormat formatter = NumberFormat.getNumberInstance( locale );
 			return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
-				.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType )
+				|| value instanceof Boolean )
 		{
 			if ( ( (Boolean) value ).booleanValue( ) )
 			{
@@ -843,14 +853,14 @@ public class ParameterValidationUtil
 					BooleanPropertyType.BOOLEAN_FALSE_RESOURCE_KEY );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING
-				.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType )
+				|| value instanceof String )
 		{
 			return (String) value;
 		}
 		else
 		{
-			assert false;
-			return null;
+			return value.toString( );
 		}
 	}
 }
