@@ -12,8 +12,11 @@
 package org.eclipse.birt.report.designer.ui.editors.pages;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.IMediatorState;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.script.JSEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
@@ -32,8 +35,6 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
@@ -95,12 +96,23 @@ public class ReportScriptFormPage extends ReportFormPage
 //			jsEditor.setIsModified( prePage.isDirty( ) );
 //		}
 
-		ISelection selection = new StructuredSelection( SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.getCurrentState( )
-				.getSelectionObject( ) );
+//		ISelection selection = new StructuredSelection( SessionHandleAdapter.getInstance( )
+//				.getMediator( )
+//				.getCurrentState( )
+//				.getSelectionObject( ) );
+		IMediatorState state = SessionHandleAdapter.getInstance( ).getMediator( ).getCurrentState( );
+		ReportRequest request = new ReportRequest( state.getSource( ));
+		List list = state.getSelectionObject( );
+		
+		request.setSelectionObject( list );
+		request.setType( ReportRequest.SELECTION );
 
-		jsEditor.handleSelectionChanged( selection );
+		// SessionHandleAdapter.getInstance().getMediator().pushState();
+		SessionHandleAdapter.getInstance( )
+				.getMediator( )
+				.notifyRequest( request );
+		
+		//jsEditor.handleSelectionChanged( selection );
 
 		return true;
 	}

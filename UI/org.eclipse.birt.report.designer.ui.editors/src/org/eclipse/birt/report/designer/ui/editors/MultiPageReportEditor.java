@@ -468,6 +468,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		{
 			return;
 		}
+		
 		if ( oldPageIndex != -1 )
 		{
 			Object oldPage = pages.get( oldPageIndex );
@@ -475,6 +476,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			// change to new page, must do it first, because must check old page
 			// is canleave.
 			super.pageChange( newPageIndex );
+			updateRelatedViews( );
 			// check new page status
 			if ( !prePageChanges( oldPage, newPage ) )
 			{
@@ -486,9 +488,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		else
 		{
 			super.pageChange( newPageIndex );
+			updateRelatedViews( );
 		}
-
-		updateRelatedViews( );
+		//updateRelatedViews( );
 		bingdingKey( newPageIndex );
 	}
 
@@ -652,15 +654,6 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( part == this )
 		{
-			// use the asynchronized execution to ensure correct active page
-			// index.
-			// Display.getCurrent( ).asyncExec( new Runnable( ) {
-			//
-			// public void run( )
-			// {
-			// };
-
-			// } );
 
 			if ( getEditorInput( ).exists( ) )
 			{
@@ -669,13 +662,20 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				SessionHandleAdapter.getInstance( )
 						.setReportDesignHandle( getModel( ) );
 			}
-			
-			if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
-			{
-				GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance( );
-				GraphicalViewer view = editor.getGraphicalViewer( );
 
-				UIUtil.resetViewSelection( view, true );
+			if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette
+					&& getActivePageInstance( ) instanceof IReportEditorPage )
+			{
+				Display.getCurrent( ).asyncExec( new Runnable( ) 
+				{
+					public void run( )
+					{
+						//UIUtil.resetViewSelection( view, true );
+						 ((IReportEditorPage)getActivePageInstance( )).onBroughtToTop(
+						 (IReportEditorPage)getActivePageInstance( ));
+					}
+				} );
+				// UIUtil.resetViewSelection( view, true );
 			}
 
 		}
