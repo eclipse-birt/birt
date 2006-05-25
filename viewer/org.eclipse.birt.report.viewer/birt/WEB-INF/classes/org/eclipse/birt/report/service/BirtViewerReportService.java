@@ -134,7 +134,7 @@ public class BirtViewerReportService implements IViewerReportService
 		Boolean isMasterPageContent = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		Boolean svgFlag = (Boolean) renderOptions
-				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+				.getOption( InputOptions.OPT_SVG_FLAG );
 		Long pageNum = Long.valueOf( pageID );
 		Boolean isRtl = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_RTL );
@@ -172,14 +172,14 @@ public class BirtViewerReportService implements IViewerReportService
 		// TODO: Implement
 		return null;
 	}
-	
-	public void renderReportlet( String docName,
-			String objectId, InputOptions renderOptions, List activeIds,
-			OutputStream out ) throws ReportServiceException
+
+	public void renderReportlet( String docName, String objectId,
+			InputOptions renderOptions, List activeIds, OutputStream out )
+			throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-			.openReportDocument( getReportDesignName( renderOptions ),
-					docName );
+				.openReportDocument( getReportDesignName( renderOptions ),
+						docName );
 		HttpServletRequest request = (HttpServletRequest) renderOptions
 				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) renderOptions
@@ -196,8 +196,8 @@ public class BirtViewerReportService implements IViewerReportService
 				.getOption( InputOptions.OPT_RTL );
 		try
 		{
-			ReportEngineService.getInstance( ).renderReportlet( out, request, doc,
-					objectId, isMasterPage, isSvg, null, locale,
+			ReportEngineService.getInstance( ).renderReportlet( out, request,
+					doc, objectId, isMasterPage, isSvg, null, locale,
 					isRtl.booleanValue( ) );
 			doc.close( );
 		}
@@ -224,7 +224,7 @@ public class BirtViewerReportService implements IViewerReportService
 				? false
 				: isMasterPageContent.booleanValue( );
 		Boolean svgFlag = (Boolean) renderOptions
-				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+				.getOption( InputOptions.OPT_SVG_FLAG );
 		boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
 		Boolean isRtl = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_RTL );
@@ -446,7 +446,7 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions options ) throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-			.openReportDocument( getReportDesignName( options ), docName );
+				.openReportDocument( getReportDesignName( options ), docName );
 		long pageNumber = doc.getPageNumber( objectId );
 		doc.close( );
 		return pageNumber;
@@ -463,7 +463,7 @@ public class BirtViewerReportService implements IViewerReportService
 		Boolean isMasterPageContent = (Boolean) options
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		Boolean svgFlag = (Boolean) options
-				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+				.getOption( InputOptions.OPT_SVG_FLAG );
 		String format = (String) options
 				.getOption( InputOptions.OPT_RENDER_FORMAT );
 		Boolean isRtl = (Boolean) options.getOption( InputOptions.OPT_RTL );

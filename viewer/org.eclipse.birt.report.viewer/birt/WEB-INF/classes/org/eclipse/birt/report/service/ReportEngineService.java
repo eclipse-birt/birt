@@ -594,6 +594,9 @@ public class ReportEngineService
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
+		HTMLRenderContext ctx = new HTMLRenderContext( );
+		ctx.setImageDirectory( "images" ); //$NON-NLS-1$
+		context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT, ctx );
 
 		if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 		{
@@ -660,8 +663,9 @@ public class ReportEngineService
 
 		HashMap context = new HashMap( );
 		// context.put( DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE );
-		context.put( "org.eclipse.birt.data.engine.dataset.cache.option",
-				Boolean.TRUE );
+		context
+				.put(
+						"org.eclipse.birt.data.engine.dataset.cache.option", Boolean.TRUE ); //$NON-NLS-1$
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
@@ -753,6 +757,9 @@ public class ReportEngineService
 							createHTMLrenderContext( svgFlag, request
 									.getServletPath( ) ) );
 		}
+		HTMLRenderContext ctx = new HTMLRenderContext( );
+		ctx.setImageDirectory( "images" ); //$NON-NLS-1$
+		context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT, ctx );
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
@@ -832,7 +839,7 @@ public class ReportEngineService
 
 	public void renderReportlet( OutputStream os, HttpServletRequest request,
 			IReportDocument reportDocument, String reportletId,
-			boolean masterPage, boolean svgFlag,  List activeIds, Locale locale,
+			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
 			boolean rtl ) throws RemoteException
 	{
 		assert reportDocument != null;
