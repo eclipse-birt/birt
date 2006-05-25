@@ -68,12 +68,10 @@ public class PDFRendererImpl extends SVGRendererImpl {
 		
 	}
 
-	@Override
 	public void enableInteraction(InteractionEvent ie) throws ChartException {
 		//no interactions since we are rendering a static image
 	}
 
-	@Override
 	public void setProperty(String sProperty, Object oValue) {
 		if ( sProperty.equals( IDeviceRenderer.UPDATE_NOTIFIER ) )
 		{
@@ -96,12 +94,10 @@ public class PDFRendererImpl extends SVGRendererImpl {
 			super.setProperty(sProperty, oValue);
 	}
 
-	@Override
 	protected void addGroupStructure(Object block) {
 		//no structure needed since this is a static image
 	}
 
-	@Override
 	public void after() throws ChartException {
 		
 		if ( oOutputIdentifier instanceof OutputStream ) // OUTPUT STREAM

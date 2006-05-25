@@ -24,17 +24,17 @@ public class PDFInteractiveRenderer extends SVGInteractiveRenderer {
 		super(locale);
 	}
 
-	@Override
+
 	public void addInteractivity() {
 		//no interactions since we are rendering a static image
 	}
 
-	@Override
+
 	protected void groupPrimitive(PrimitiveRenderEvent pre, boolean drawText) {
 		//no interactions since we are rendering a static image
 	}
 
-	@Override
+
 	protected void ungroupPrimitive(PrimitiveRenderEvent pre, boolean drawText) {
 		//no interactions since we are rendering a static image
 	}
