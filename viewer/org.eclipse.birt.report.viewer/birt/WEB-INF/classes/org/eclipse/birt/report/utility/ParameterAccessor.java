@@ -164,6 +164,12 @@ public class ParameterAccessor
 	public static final String PARAM_MAXROWS = "__maxrows"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name that gives the reportlet id.
+	 */
+
+	public static final String PARAM_REPORTLETID = "__reportletid"; //$NON-NLS-1$
+
+	/**
 	 * Custom request headers to identify the request is a normal HTTP request
 	 * or a soap request by AJAX.
 	 */
@@ -578,6 +584,19 @@ public class ParameterAccessor
 	{
 		int page = getParameterAsInt( request, PARAM_PAGE );
 		return page <= 0 ? 1 : page; // The default page value is 1.
+	}
+
+	/**
+	 * Get reportlet id from Http request.
+	 * 
+	 * @param request
+	 *            http request
+	 * @return reportlet id
+	 */
+
+	public static String getReportletId( HttpServletRequest request )
+	{
+		return getParameter( request, PARAM_REPORTLETID );
 	}
 
 	/**
@@ -1008,6 +1027,20 @@ public class ParameterAccessor
 	{
 		String imageName = getParameter( request, PARAM_IMAGEID );
 		return imageName != null && imageName.length( ) > 0;
+	}
+
+	/**
+	 * Check whether the request is to get reportlet.
+	 * 
+	 * @param request
+	 *            http request
+	 * @return is get reportlet or not
+	 */
+
+	public static boolean isGetReportlet( HttpServletRequest request )
+	{
+		String reprotLetId = getParameter( request, PARAM_REPORTLETID );
+		return reprotLetId != null && reprotLetId.length( ) > 0;
 	}
 
 	/**

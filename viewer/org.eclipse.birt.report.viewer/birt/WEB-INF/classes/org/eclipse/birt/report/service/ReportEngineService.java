@@ -66,6 +66,7 @@ import org.eclipse.birt.report.engine.api.IResultSetItem;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -793,6 +794,116 @@ public class ReportEngineService
 			else
 			{
 				renderTask.setPageNumber( pageNumber );
+				renderTask.render( );
+			}
+		}
+		catch ( BirtException e )
+		{
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
+			fault.setFaultCode( new QName(
+					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
+			fault.setFaultString( e.getLocalizedMessage( ) );
+			throw fault;
+		}
+		catch ( Exception e )
+		{
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
+			fault.setFaultCode( new QName(
+					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
+			fault.setFaultString( e.getLocalizedMessage( ) );
+			throw fault;
+		}
+		finally
+		{
+			renderTask.close( );
+		}
+	}
+
+	/**
+	 * Render report page.
+	 * 
+	 * @param os
+	 * @param reportDocument
+	 * @param pageNumber
+	 * @param svgFlag
+	 * @return report page content
+	 * @throws RemoteException
+	 */
+
+	public void renderReportlet( OutputStream os, HttpServletRequest request,
+			IReportDocument reportDocument, String reportletId,
+			boolean masterPage, boolean svgFlag,  List activeIds, Locale locale,
+			boolean rtl ) throws RemoteException
+	{
+		assert reportDocument != null;
+
+		OutputStream out = os;
+		if ( out == null )
+			out = new ByteArrayOutputStream( );
+
+		// Create render task.
+		IRenderTask renderTask = null;
+		synchronized ( this.getClass( ) )
+		{
+			renderTask = engine.createRenderTask( reportDocument );
+		}
+
+		HashMap context = new HashMap( );
+		String format = ParameterAccessor.getFormat( request );
+		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
+		{
+			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
+					createPDFrenderContext( ) );
+		}
+		else
+		{
+			context
+					.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+							createHTMLrenderContext( svgFlag, request
+									.getServletPath( ) ) );
+		}
+		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
+				request );
+		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+				ReportEngineService.class.getClassLoader( ) );
+		renderTask.setAppContext( context );
+
+		// Render option
+		HTMLRenderOption setting = new HTMLRenderOption( );
+		setting.setOutputStream( out );
+		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
+		{
+			setting.setOutputFormat( IBirtConstants.PDF_RENDER_FORMAT );
+			setting.setActionHandle( new ViewerHTMLActionHandler(
+					reportDocument, -1, locale, false, rtl ) );
+		}
+		else
+		{
+			setting.setOutputFormat( IBirtConstants.HTML_RENDER_FORMAT );
+			boolean isEmbeddable = false;
+			if ( ParameterAccessor.SERVLET_PATH_FRAMESET
+					.equalsIgnoreCase( request.getServletPath( ) ) )
+				isEmbeddable = true;
+			setting.setEmbeddable( isEmbeddable );
+			setting.setHtmlRtLFlag( rtl );
+			setting.setInstanceIDs( activeIds );
+			setting.setMasterPageContent( masterPage );
+			setting.setActionHandle( new ViewerHTMLActionHandler(
+					reportDocument, -1, locale, isEmbeddable, rtl ) );
+		}
+
+		renderTask.setRenderOption( setting );
+		renderTask.setLocale( locale );
+		InstanceID instanceId = InstanceID.parse( reportletId );
+
+		// Render designated page.
+		try
+		{
+			renderTask.setInstanceID( instanceId );
+			if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
+				renderTask.render( );
+			else
+			{
 				renderTask.render( );
 			}
 		}

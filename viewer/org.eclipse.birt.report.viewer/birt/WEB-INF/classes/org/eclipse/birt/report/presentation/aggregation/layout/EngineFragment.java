@@ -25,6 +25,7 @@ import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.service.actionhandler.BirtExtractDataActionHandler;
+import org.eclipse.birt.report.service.actionhandler.BirtGetReportletActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderImageActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRunAndRenderActionHandler;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
@@ -107,6 +108,12 @@ public class EngineFragment extends BirtBaseFragment
 				BirtRenderImageActionHandler renderImageHandler = new BirtRenderImageActionHandler(
 						context, op, upResponse );
 				renderImageHandler.execute( );
+			}
+			else if ( ParameterAccessor.isGetReportlet( request ) )
+			{
+				BirtGetReportletActionHandler getReportletHandler = new BirtGetReportletActionHandler(
+						context, op, upResponse );
+				getReportletHandler.execute( );
 			}
 			else
 			{

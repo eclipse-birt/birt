@@ -172,15 +172,39 @@ public class BirtViewerReportService implements IViewerReportService
 		// TODO: Implement
 		return null;
 	}
-
-	public ByteArrayOutputStream renderReportlet( String docName,
-			String objectId, InputOptions renderOptions, List activeIds )
-			throws ReportServiceException
+	
+	public void renderReportlet( String docName,
+			String objectId, InputOptions renderOptions, List activeIds,
+			OutputStream out ) throws ReportServiceException
 	{
-		// TODO: renderReportlet and getPageByObjectId should behave
-		// differently. renderReportlet should return all pages the object
-		// occurs in, while getPageByObjectId only returns the first
-		return getPageByObjectId( docName, objectId, renderOptions, activeIds );
+		IReportDocument doc = ReportEngineService.getInstance( )
+			.openReportDocument( getReportDesignName( renderOptions ),
+					docName );
+		HttpServletRequest request = (HttpServletRequest) renderOptions
+				.getOption( InputOptions.OPT_REQUEST );
+		Locale locale = (Locale) renderOptions
+				.getOption( InputOptions.OPT_LOCALE );
+		Boolean isMasterPageContent = (Boolean) renderOptions
+				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+		boolean isMasterPage = isMasterPageContent == null
+				? false
+				: isMasterPageContent.booleanValue( );
+		Boolean svgFlag = (Boolean) renderOptions
+				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+		boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
+		Boolean isRtl = (Boolean) renderOptions
+				.getOption( InputOptions.OPT_RTL );
+		try
+		{
+			ReportEngineService.getInstance( ).renderReportlet( out, request, doc,
+					objectId, isMasterPage, isSvg, null, locale,
+					isRtl.booleanValue( ) );
+			doc.close( );
+		}
+		catch ( RemoteException e )
+		{
+			throw new ReportServiceException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	public void renderReport( String docName, String pageRange,
@@ -421,8 +445,11 @@ public class BirtViewerReportService implements IViewerReportService
 	public long getPageNumberByObjectId( String docName, String objectId,
 			InputOptions options ) throws ReportServiceException
 	{
-		// TODO: Implement
-		return 0;
+		IReportDocument doc = ReportEngineService.getInstance( )
+			.openReportDocument( getReportDesignName( options ), docName );
+		long pageNumber = doc.getPageNumber( objectId );
+		doc.close( );
+		return pageNumber;
 	}
 
 	public void runAndRenderReport( IViewerReportDesignHandle design,

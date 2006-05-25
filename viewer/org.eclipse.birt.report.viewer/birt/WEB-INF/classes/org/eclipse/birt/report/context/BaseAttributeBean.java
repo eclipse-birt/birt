@@ -115,6 +115,11 @@ abstract public class BaseAttributeBean
 	protected String bookmark = null;
 
 	/**
+	 * Reportlet id.
+	 */
+	protected String reportletId = null;
+
+	/**
 	 * Report format of the request.
 	 */
 
@@ -178,6 +183,7 @@ abstract public class BaseAttributeBean
 	{
 		this.locale = ParameterAccessor.getLocale( request );
 		this.rtl = ParameterAccessor.isRtl( request );
+		this.reportletId = ParameterAccessor.getReportletId( request );
 		this.__init( request );
 	}
 
@@ -463,5 +469,15 @@ abstract public class BaseAttributeBean
 			HttpServletRequest request )
 	{
 		return reportDesignHandle;
+	}
+
+	public String getReportletId( )
+	{
+		return reportletId;
+	}
+
+	public void setReportletId( String reportletId )
+	{
+		this.reportletId = reportletId;
 	}
 }

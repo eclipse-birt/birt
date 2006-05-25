@@ -114,8 +114,8 @@ public interface IViewerReportService
 	 * @return
 	 * @throws ReportServiceException
 	 */
-	ByteArrayOutputStream renderReportlet( String docName, String objectId,
-			InputOptions renderOptions, List activeIds )
+	void renderReportlet( String docName, String objectId,
+			InputOptions renderOptions, List activeIds, OutputStream out )
 			throws ReportServiceException;
 
 	/**
