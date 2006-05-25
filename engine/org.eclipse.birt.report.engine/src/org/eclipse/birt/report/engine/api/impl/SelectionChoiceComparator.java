@@ -13,15 +13,26 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.util.Comparator;
 
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
+import org.eclipse.birt.report.engine.api.ReportParameterConverter;
+
+import com.ibm.icu.util.ULocale;
 
 public class SelectionChoiceComparator implements Comparator
 {
 
     protected boolean sortDisplayValue;
+    protected String format = null;
+    protected ULocale locale = null;
     
-    public SelectionChoiceComparator(boolean sortDisplayValue)
+    public SelectionChoiceComparator( boolean sortDisplayValue, String format, ULocale locale)
     {
         this.sortDisplayValue = sortDisplayValue;
+        this.format = format;
+        this.locale = locale;
+        if( null == this.locale)
+        {
+        	this.locale = ULocale.getDefault( );
+        }
     }
     
     public int compare(Object o1, Object o2)
@@ -35,6 +46,14 @@ public class SelectionChoiceComparator implements Comparator
             {
                 value1 = ((IParameterSelectionChoice) o1).getLabel();
                 value2 = ((IParameterSelectionChoice) o2).getLabel();
+                if( null == value1 )
+                {
+                	value1 = getDisplayValue( ((IParameterSelectionChoice) o1).getValue() );
+                }
+                if( null == value2 )
+                {
+                	value2 = getDisplayValue( ((IParameterSelectionChoice) o2).getValue() );
+                }
             }
             else
             {
@@ -75,4 +94,20 @@ public class SelectionChoiceComparator implements Comparator
         return -1;
     }
 
+
+	/**
+	 * convert value to display value
+	 * @param value
+	 */
+    private String getDisplayValue( Object value )
+    {
+    	if( null == value )
+    	{
+    		return null;
+    	}
+    	
+    	ReportParameterConverter converter = new ReportParameterConverter(
+				format, locale );
+    	return converter.format( value );
+    }
 }

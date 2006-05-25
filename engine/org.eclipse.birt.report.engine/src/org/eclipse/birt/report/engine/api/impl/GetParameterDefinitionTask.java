@@ -46,6 +46,8 @@ import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Defines an engine task that handles parameter definition retrieval
  */
@@ -356,7 +358,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 			if ( !fixedOrder )
 				Collections
-						.sort( choices, new SelectionChoiceComparator( true ) );
+						.sort( choices, new SelectionChoiceComparator( true, parameter.getPattern( ), ULocale.forLocale( locale ) ) );
 			return choices;
 
 		}
@@ -405,7 +407,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	 *            value type
 	 * @return
 	 */
-	private Collection createDynamicSelectionChoices( String dataSetName,
+	private Collection createDynamicSelectionChoices( String pattern, String dataSetName,
 			String labelStmt, String valueStmt, String dataType, int limit,
 			boolean fixedOrder )
 	{
@@ -492,7 +494,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 		}
 		if ( !fixedOrder )
-			Collections.sort( choices, new SelectionChoiceComparator( true ) );
+			Collections.sort( choices, new SelectionChoiceComparator( true, pattern, ULocale.forLocale( locale ) ) );
 		return choices;
 
 	}
@@ -724,7 +726,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			e.printStackTrace( );
 		}
 		if ( !parameter.isFixedOrder( ) )
-			Collections.sort( choices, new SelectionChoiceComparator( true ) );
+			Collections.sort( choices, new SelectionChoiceComparator( true, parameter.getPattern( ), ULocale.forLocale( locale ) ) );
 		return choices;
 	}
 
@@ -826,8 +828,9 @@ public class GetParameterDefinitionTask extends EngineTask
 		String valueExpr = parameter.getValueExpr( );
 		String labelExpr = parameter.getLabelExpr( );
 		int limit = parameter.getListlimit( );
+		String pattern = parameter.getPattern( );
 
-		return createDynamicSelectionChoices( dataSetName, labelExpr,
+		return createDynamicSelectionChoices( pattern, dataSetName, labelExpr,
 				valueExpr, dataType, limit, fixedOrder );
 	}
 }

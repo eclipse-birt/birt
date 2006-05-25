@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Defines a scalar parameter
  */
@@ -309,7 +311,7 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 			
 			//sort
 			if(!fixedOrder)
-				Collections.sort(selectionList, new SelectionChoiceComparator(sortDisplayValue));
+				Collections.sort(selectionList, new SelectionChoiceComparator( sortDisplayValue, displayFormat, ULocale.forLocale( locale ) ) );
 		}
 	}
 		
