@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -67,6 +68,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 	 */
 	public void getComponent( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_AXIS );
+		
 		final int COLUMN_NUMBER = ChartUIUtil.is3DType( getChart( ) ) ? 5 : 4;
 		cmpContent = new Composite( parent, SWT.NONE ) {
 

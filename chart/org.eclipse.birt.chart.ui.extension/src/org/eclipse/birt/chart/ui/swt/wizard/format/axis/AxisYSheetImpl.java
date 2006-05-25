@@ -12,7 +12,9 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.axis;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Actuate Corporation
@@ -30,5 +32,11 @@ public class AxisYSheetImpl extends AbstractAxisSubtask
 	protected int getAxisAngleType( )
 	{
 		return AngleType.Y;
+	}
+	
+	public void getComponent( Composite parent )
+	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YAXIS );
+		super.getComponent( parent );
 	}
 }

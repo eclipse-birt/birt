@@ -28,6 +28,8 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.CustomPropertiesS
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.MoreOptionsChartSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitlePropertiesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
@@ -81,6 +83,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 	 */
 	public void getComponent( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_CHART );
+		
 		init( );
 
 		cmpContent = new Composite( parent, SWT.NONE );

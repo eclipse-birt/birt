@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
@@ -112,6 +114,8 @@ public class ReportItemParametersDialog extends BaseDialog
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_DATA_SET_PARAMETER );
+		
 		Composite composite = (Composite) super.createDialogArea( parent );
 
 		buildUI( composite );

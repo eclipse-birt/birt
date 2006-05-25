@@ -27,6 +27,8 @@ import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
@@ -81,13 +83,10 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 		super( title, context, true );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
-	 */
-	public Composite getComponent( Composite parent )
+	protected Composite getComponent( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_PLOT_AREA_FORMAT );
+		
 		cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( new GridLayout( ) );
 

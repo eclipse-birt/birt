@@ -17,6 +17,8 @@ import java.util.Iterator;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -109,7 +111,9 @@ public class ExtendedItemFilterDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		Composite composite = (Composite) super.createDialogArea( parent );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_DATA_SET_FILTER );
+		
+		Composite composite = (Composite) super.createDialogArea( parent );		
 
 		initColumnNames( );
 		viewer = new PropertyHandleTableViewer( composite, true, true, true );

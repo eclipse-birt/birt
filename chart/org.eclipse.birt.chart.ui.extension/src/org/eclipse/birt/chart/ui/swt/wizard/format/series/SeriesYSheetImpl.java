@@ -38,6 +38,8 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesRegionSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesTrendlineSheet;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -73,6 +75,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 	 */
 	public void getComponent( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YSERIES );
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( );

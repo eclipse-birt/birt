@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup;
 
 import org.eclipse.birt.chart.ui.swt.composites.TriggerEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -40,6 +42,7 @@ public class InteractivitySheet extends AbstractPopupSheet
 
 	protected Composite getComponent( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_INTERACTIVITY );
 		return new TriggerEditorComposite( parent,
 				SWT.NONE,
 				triggers,

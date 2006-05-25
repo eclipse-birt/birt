@@ -72,6 +72,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -85,7 +86,7 @@ import org.eclipse.ui.PlatformUI;
 public class ColumnBindingDialog extends BaseDialog
 {
 
-	private static final String DEFAULT_COLUMN_NAME = "[result_set_col_name]";
+	private static final String DEFAULT_COLUMN_NAME = "[result_set_col_name]"; //$NON-NLS-1$
 
 	private static final String dummyChoice = "dummy"; //$NON-NLS-1$
 
@@ -375,22 +376,28 @@ public class ColumnBindingDialog extends BaseDialog
 
 	public ColumnBindingDialog( )
 	{
-		this( DEFAULT_DLG_TITLE, false );
+		super( DEFAULT_DLG_TITLE, false );
 	}
 
 	public ColumnBindingDialog( String title )
 	{
 		super( title, false );
 	}
-
+	
 	public ColumnBindingDialog( boolean canSelect )
 	{
-		this( DEFAULT_DLG_TITLE, canSelect );
+		super( DEFAULT_DLG_TITLE );
+		this.canSelect = canSelect;
 	}
 
-	public ColumnBindingDialog( String title, boolean canSelect )
+	public ColumnBindingDialog( Shell parent, boolean canSelect )
 	{
-		super( title );
+		this( parent, DEFAULT_DLG_TITLE, canSelect );
+	}
+
+	public ColumnBindingDialog( Shell parent, String title, boolean canSelect )
+	{
+		super( parent, title );
 		this.canSelect = canSelect;
 	}
 

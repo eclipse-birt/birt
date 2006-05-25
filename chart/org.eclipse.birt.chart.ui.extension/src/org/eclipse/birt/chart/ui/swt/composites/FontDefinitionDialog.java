@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -127,7 +128,7 @@ public class FontDefinitionDialog
 	public FontDefinitionDialog( Shell shellParent,
 			ChartWizardContext wizardContext, FontDefinition fdCurrent,
 			ColorDefinition cdCurrent, boolean isAlignmentEnabled )
-	{
+	{	
 		this.isAlignmentEnabled = isAlignmentEnabled;
 		this.wizardContext = wizardContext;
 		this.fdCurrent = fdCurrent == null ? FontDefinitionImpl.createEmpty( )
@@ -140,6 +141,8 @@ public class FontDefinitionDialog
 		shell = new Shell( shellParent, SWT.DIALOG_TRIM
 				| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		shell.setLayout( new FillLayout( ) );
+		ChartUIUtil.bindHelp( shell, ChartHelpContextIds.DIALOG_FONT_EDITOR );
+		
 		placeComponents( );
 		populateLists( );
 		shell.setText( Messages.getString( "FontDefinitionDialog.Title.FontDescriptor" ) ); //$NON-NLS-1$

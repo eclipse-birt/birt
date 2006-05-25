@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.emf.common.notify.Notification;
@@ -112,6 +113,7 @@ public class TaskSelectData extends SimpleTask
 
 	public Composite getUI( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.TASK_SELECT_DATA );
 		if ( cmpTask == null || cmpTask.isDisposed( ) )
 		{
 			cmpTask = new Composite( parent, SWT.NONE );
@@ -339,6 +341,7 @@ public class TaskSelectData extends SimpleTask
 			btnFilters.setLayoutData( gridData );
 			btnFilters.setText( Messages.getString( "TaskSelectData.Label.Filters" ) ); //$NON-NLS-1$
 			btnFilters.addSelectionListener( this );
+			ChartUIUtil.bindHelp( btnFilters, ChartHelpContextIds.DIALOG_DATA_SET_FILTER );
 		}
 
 		btnParameters = new Button( composite, SWT.NONE );
@@ -348,6 +351,7 @@ public class TaskSelectData extends SimpleTask
 			btnParameters.setLayoutData( gridData );
 			btnParameters.setText( Messages.getString( "TaskSelectData.Label.Parameters" ) ); //$NON-NLS-1$
 			btnParameters.addSelectionListener( this );
+			ChartUIUtil.bindHelp( btnParameters, ChartHelpContextIds.DIALOG_DATA_SET_PARAMETER );
 		}
 
 		btnBinding = new Button( composite, SWT.NONE );

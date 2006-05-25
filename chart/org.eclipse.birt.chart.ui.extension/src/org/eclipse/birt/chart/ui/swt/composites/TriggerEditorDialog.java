@@ -16,6 +16,8 @@ import java.util.Collection;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -79,6 +81,8 @@ public class TriggerEditorDialog implements SelectionListener
 		GridLayout gridLayout = new GridLayout( );
 		gridLayout.numColumns = 2;
 		shell.setLayout( new FillLayout( ) );
+		ChartUIUtil.bindHelp( shell, ChartHelpContextIds.POPUP_INTERACTIVITY );
+		
 		placeComponents( );
 		shell.setText( new MessageFormat( Messages.getString( "TriggerEditorDialog.Title.TriggerEditor" ) ).format( new Object[]{sTitle} ) ); //$NON-NLS-1$
 		shell.pack( );
@@ -93,19 +97,6 @@ public class TriggerEditorDialog implements SelectionListener
 				shell.getDisplay( ).sleep( );
 			}
 		}
-	}
-
-	/**
-	 * Invoking this constructor will cause some operation unavailable.
-	 * 
-	 * @param shellParent
-	 * @param triggers
-	 * @param sTitle
-	 * @deprecated
-	 */
-	public TriggerEditorDialog( Shell shellParent, EList triggers, String sTitle )
-	{
-		this( shellParent, triggers, null, sTitle, false, false );
 	}
 
 	private void placeComponents( )

@@ -1018,7 +1018,7 @@ public class ChartUIUtil
 	}
 	
 	/**
-	 * Sets the given help context id on the given control.
+	 * Sets the given help context id on the given control's shell.
 	 * 
 	 * @param control
 	 *            the control on which to register the context id
@@ -1030,7 +1030,7 @@ public class ChartUIUtil
 		try
 		{
 			IWorkbench workbench = PlatformUI.getWorkbench( );
-			workbench.getHelpSystem( ).setHelp( control, contextId );
+			workbench.getHelpSystem( ).setHelp( control.getShell( ), contextId );
 		}
 		catch ( RuntimeException e )
 		{

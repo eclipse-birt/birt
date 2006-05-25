@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
@@ -133,7 +134,6 @@ public class TaskSelectType extends SimpleTask
 	public TaskSelectType( )
 	{
 		super( Messages.getString( "TaskSelectType.TaskExp" ) ); //$NON-NLS-1$
-		// this.chartModel = chartModel;
 		if ( chartModel != null )
 		{
 			this.sType = chartModel.getType( );
@@ -155,6 +155,7 @@ public class TaskSelectType extends SimpleTask
 
 	public Composite getUI( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.TASK_SELECT_TYPE );
 		if ( cmpTask == null )
 		{
 			cmpTask = new Composite( parent, SWT.NONE );
@@ -169,7 +170,7 @@ public class TaskSelectType extends SimpleTask
 				this.chartModel = ( (ChartWizardContext) context ).getModel( );
 			}
 			placeComponents( );
-			updateAdapters( );
+			updateAdapters( );		
 		}
 
 		// Update dimension combo and related sub-types in case of axes changed

@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -76,6 +77,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 	 */
 	public void getComponent( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_SERIES );
 		final int COLUMN_CONTENT = 4;
 		cmpContent = new Composite( parent, SWT.NONE ) {
 

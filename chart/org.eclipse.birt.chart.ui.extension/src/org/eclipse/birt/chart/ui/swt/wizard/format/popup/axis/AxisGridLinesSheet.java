@@ -23,6 +23,8 @@ import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.type.ScatterChart;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -101,6 +103,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 
 	protected Composite getComponent( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_AXIS_GRIDLINES );
+		
 		// Layout for the content composite
 		GridLayout glContent = new GridLayout( );
 		glContent.numColumns = 2;

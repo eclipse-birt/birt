@@ -12,6 +12,8 @@
 package org.eclipse.birt.chart.reportitem.ui;
 
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.PreferencePage;
@@ -45,6 +47,8 @@ public class ChartPreferencePage extends PreferencePage implements
 
 	protected Control createContents( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.PREFERENCE_CHART );
+		
 		Composite cmpTop = new Composite( parent, SWT.NONE );
 		{
 			GridLayout layout = new GridLayout( 2, false );

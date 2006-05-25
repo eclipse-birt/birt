@@ -12,6 +12,8 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
@@ -65,6 +67,8 @@ public class FormatSpecifierDialog implements SelectionListener
 		GridLayout gridLayout = new GridLayout( );
 		gridLayout.numColumns = 2;
 		shell.setLayout( new FillLayout( ) );
+		ChartUIUtil.bindHelp( shell, ChartHelpContextIds.DIALOG_EDIT_FORMAT );
+		
 		placeComponents( );
 		shell.setText( Messages.getString( "FormatSpecifierDialog.Title.EditFormat" ) ); //$NON-NLS-1$
 		shell.pack( );

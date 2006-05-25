@@ -30,6 +30,8 @@ import org.eclipse.birt.chart.ui.swt.ChartDlg;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
@@ -45,6 +47,8 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
@@ -435,11 +439,16 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 			String sTitle ) throws ChartException
 	{
 		ExpressionBuilder eb = null;
+		Shell shell = null;
 
 		switch ( command )
 		{
 			case IUIServiceProvider.COMMAND_EXPRESSION :
-				eb = new ExpressionBuilder( value );
+				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
+						| SWT.RESIZE | SWT.APPLICATION_MODAL );
+				ChartUIUtil.bindHelp( shell,
+						ChartHelpContextIds.DIALOG_EXPRESSION_BUILDER );
+				eb = new ExpressionBuilder( shell, value );
 				ExpressionProvider ep = new ExpressionProvider( (ExtendedItemHandle) context );
 				ep.addFilter( new ExpressionFilter( ) {
 
@@ -474,7 +483,11 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 				}
 				break;
 			case IUIServiceProvider.COMMAND_HYPERLINK :
-				HyperlinkBuilder hb = new HyperlinkBuilder( );
+				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
+						| SWT.RESIZE | SWT.APPLICATION_MODAL );
+				ChartUIUtil.bindHelp( shell,
+						ChartHelpContextIds.DIALOG_EDIT_URL );
+				HyperlinkBuilder hb = new HyperlinkBuilder( shell );
 				try
 				{
 					hb.setInputString( value );

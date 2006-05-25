@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -49,7 +50,13 @@ import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 
 import com.ibm.icu.text.Collator;
 import com.ibm.icu.util.ULocale;
@@ -356,7 +363,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	protected int invokeNewDataSet( )
 	{
-		new NewDataSetAction( ).run( );
+		IAction action = new NewDataSetAction( );
+		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( action,
+				ChartHelpContextIds.DIALOG_NEW_DATA_SET );
+		action.run( );
 		return Window.OK;
 	}
 
@@ -375,7 +385,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	protected int invokeDataBinding( )
 	{
-		ColumnBindingDialog page = new ColumnBindingDialog( false ) {
+		Shell shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
+				| SWT.RESIZE | SWT.APPLICATION_MODAL );
+		ChartUIUtil.bindHelp( shell,
+				ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
+		ColumnBindingDialog page = new ColumnBindingDialog( shell, false ) {
 
 			protected void addBinding( ComputedColumn column )
 			{

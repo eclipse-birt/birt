@@ -16,6 +16,8 @@ import java.util.List;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -96,6 +98,8 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         shell.setText(Messages.getString("ExternalizedTextEditorDialog.Title.ExternalizeText")); //$NON-NLS-1$
         shell.setLayout(new FillLayout());
         this.defaultValue = defaultValue;
+        ChartUIUtil.bindHelp( shell, ChartHelpContextIds.DIALOG_EXTERNALIZE_TEXT );
+        
         placeComponents(shell);
         shell.pack();
         shell.setDefaultButton(btnAccept);

@@ -29,6 +29,8 @@ import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
@@ -84,6 +86,8 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 
 	protected Composite getComponent( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_CURVE_FITTING );
+		
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glMain = new GridLayout( );
