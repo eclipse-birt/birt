@@ -121,6 +121,17 @@
 			ID="<%= parameterBean.getName( ) + "_input"%>"
 			<%= ( !parameterBean.isValueInList( ) && parameterBean.getValue( ) != null )? "VALUE=\"" + ParameterAccessor.htmlEncode( parameterBean.getValue( ) ) + "\"": "" %>
 			>
+	<%
+		if ( !parameterBean.allowBlank( ) )
+		{
+	%>
+			<INPUT TYPE="HIDDEN"
+				ID="<%= parameterBean.getName( ) + "_notblank" %>" 
+				NAME="<%= parameterBean.getName( ) %>"
+				VALUE = "true">
+	<%
+		}
+	%>     			
 <%
 	}
 %>
