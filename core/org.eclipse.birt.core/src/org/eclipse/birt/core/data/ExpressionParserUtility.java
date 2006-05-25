@@ -49,7 +49,7 @@ class ExpressionParserUtility
 			throws BirtException
 	{
 		if ( expression == null || expression.trim( ).length( ) == 0 )
-			return null;
+			return new ArrayList( );
 		List columnExprList = new ArrayList( );
 		columnExprList.clear( );
 		Context context = Context.enter( );
