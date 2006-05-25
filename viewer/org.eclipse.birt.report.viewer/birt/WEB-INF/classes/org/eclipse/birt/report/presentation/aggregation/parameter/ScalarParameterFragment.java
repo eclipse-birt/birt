@@ -187,8 +187,11 @@ public class ScalarParameterFragment extends BirtBaseFragment
 			}
 		}
 
-		parameterBean.setValue( ParameterAccessor.getReportParameter( request,
-				parameter.getName( ), parameterValue ) );
+		// Set parameter current value
+		parameterBean.setValue( parameterValue );
+
+		// Set parameter default value
+		parameterBean.setDefaultValue( parameterHandle.getDefaultValue( ) );
 
 	}
 
