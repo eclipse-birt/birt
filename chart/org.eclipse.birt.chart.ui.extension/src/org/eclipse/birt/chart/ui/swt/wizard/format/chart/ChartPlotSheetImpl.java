@@ -10,7 +10,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -117,8 +116,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 		}
 
 		// WithinAxes area is not supported in 3D
-		boolean isNot3D = getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL;
-		if ( isNot3D )
+		if ( !ChartUIUtil.is3DType( getChart( ) ) )
 		{
 			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background2" ) ); //$NON-NLS-1$
 
@@ -136,7 +134,13 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 			}
 		}
 
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
+		// Following settings only work in some criteria
+		boolean is3DWallFloorSet = ChartUIUtil.is3DWallFloorSet( getChart( ) );
+		Label lblVisibleWithin = new Label( cmpBasic, SWT.NONE );
+		{
+			lblVisibleWithin.setText( Messages.getString( "ChartPlotSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
+			lblVisibleWithin.setEnabled( is3DWallFloorSet );
+		}
 
 		btnWithinVisible = new Button( cmpBasic, SWT.CHECK );
 		{
@@ -146,6 +150,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 					.getClientArea( )
 					.getOutline( )
 					.isVisible( ) );
+			btnWithinVisible.setEnabled( is3DWallFloorSet );
 		}
 
 		createButtonGroup( cmpContent );

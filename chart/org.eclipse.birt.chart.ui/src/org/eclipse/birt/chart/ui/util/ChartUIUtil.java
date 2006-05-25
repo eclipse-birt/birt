@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -1036,6 +1037,29 @@ public class ChartUIUtil
 		{
 			// Do nothing since there's no workbench
 		}
+	}
+	
+	/**
+	 * Returns whether wall/floor has been set if it's 3D chart.
+	 * 
+	 * @param chart
+	 *            Chart model
+	 * @return Returns whether wall/floor has been set if it's 3D chart. Returns
+	 *         true if chart is ChartWithoutAxes or not 3D
+	 */
+	public static boolean is3DWallFloorSet( Chart chart )
+	{
+		if ( !ChartUIUtil.is3DType( chart )
+				|| chart instanceof ChartWithoutAxes )
+		{
+			return true;
+		}
+		ChartWithAxes chartWithAxes = (ChartWithAxes) chart;
+		ColorDefinition wall = (ColorDefinition) chartWithAxes.getWallFill( );
+		ColorDefinition floor = (ColorDefinition) chartWithAxes.getFloorFill( );
+		return wall != null
+				&& wall.getTransparency( ) > 0 || floor != null
+				&& floor.getTransparency( ) > 0;
 	}
 
 }

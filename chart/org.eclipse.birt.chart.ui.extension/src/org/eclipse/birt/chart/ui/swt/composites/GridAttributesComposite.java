@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Grid;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -173,6 +174,7 @@ public class GridAttributesComposite extends Composite
 					true,
 					true );
 			liacLines.addListener( this );
+			liacLines.setEnabled( ChartUIUtil.is3DWallFloorSet( context.getModel( ) ) );
 		}
 
 		// Ticks group (unsupported in 3D)
@@ -180,52 +182,54 @@ public class GridAttributesComposite extends Composite
 				.getDimension( )
 				.getValue( ) != ChartDimension.THREE_DIMENSIONAL;
 
-		Group grpTicks = new Group( cmpContent, SWT.NONE );
+		if ( bTicksEnabled )
 		{
-			GridData gdGRPTicks = new GridData( GridData.FILL_BOTH );
-			gdGRPTicks.horizontalSpan = 2;
-			grpTicks.setLayoutData( gdGRPTicks );
-			grpTicks.setLayout( glTicks );
-			grpTicks.setText( Messages.getString( "GridAttributesComposite.Lbl.Ticks" ) ); //$NON-NLS-1$
-			grpTicks.setEnabled( bTicksEnabled );
+			Group grpTicks = new Group( cmpContent, SWT.NONE );
+			{
+				GridData gdGRPTicks = new GridData( GridData.FILL_BOTH );
+				gdGRPTicks.horizontalSpan = 2;
+				grpTicks.setLayoutData( gdGRPTicks );
+				grpTicks.setLayout( glTicks );
+				grpTicks.setText( Messages.getString( "GridAttributesComposite.Lbl.Ticks" ) ); //$NON-NLS-1$
+			}
+
+			// Line Attributes for Ticks
+			liacTicks = new LineAttributesComposite( grpTicks,
+					SWT.NONE,
+					context,
+					grid.getTickAttributes( ),
+					false,
+					false,
+					true );
+			{
+				GridData gdLIACTicks = new GridData( GridData.FILL_HORIZONTAL );
+				gdLIACTicks.horizontalSpan = 2;
+				liacTicks.setLayoutData( gdLIACTicks );
+				liacTicks.addListener( this );
+			}
+
+			// Tick Styles
+			lblStyle = new Label( grpTicks, SWT.NONE );
+			{
+				GridData gdLBLStyle = new GridData( );
+				gdLBLStyle.horizontalIndent = 4;
+				lblStyle.setLayoutData( gdLBLStyle );
+				lblStyle.setText( Messages.getString( "GridAttributesComposite.Lbl.Style" ) ); //$NON-NLS-1$
+				lblStyle.setEnabled( grid.getTickAttributes( ).isVisible( ) );
+			}
+
+			cmbTickStyle = new Combo( grpTicks, SWT.DROP_DOWN | SWT.READ_ONLY );
+			{
+				GridData gdCMBTickStyle = new GridData( GridData.FILL_HORIZONTAL );
+				cmbTickStyle.setLayoutData( gdCMBTickStyle );
+				cmbTickStyle.addSelectionListener( this );
+				cmbTickStyle.setEnabled( grid.getTickAttributes( ).isVisible( ) );
+			}
+
+			populateLists( );
+			setDefaultSelections( );
 		}
 
-		// Line Attributes for Ticks
-		liacTicks = new LineAttributesComposite( grpTicks,
-				SWT.NONE,
-				context,
-				grid.getTickAttributes( ),
-				false,
-				false,
-				true );
-		{
-			GridData gdLIACTicks = new GridData( GridData.FILL_HORIZONTAL );
-			gdLIACTicks.horizontalSpan = 2;
-			liacTicks.setLayoutData( gdLIACTicks );
-			liacTicks.addListener( this );
-			liacTicks.setEnabled( bTicksEnabled );
-		}
-
-		// Tick Styles
-		lblStyle = new Label( grpTicks, SWT.NONE );
-		{
-			GridData gdLBLStyle = new GridData( );
-			gdLBLStyle.horizontalIndent = 4;
-			lblStyle.setLayoutData( gdLBLStyle );
-			lblStyle.setText( Messages.getString( "GridAttributesComposite.Lbl.Style" ) ); //$NON-NLS-1$
-			lblStyle.setEnabled( bTicksEnabled && grid.getTickAttributes( ).isVisible( ) );
-		}
-
-		cmbTickStyle = new Combo( grpTicks, SWT.DROP_DOWN | SWT.READ_ONLY );
-		{
-			GridData gdCMBTickStyle = new GridData( GridData.FILL_HORIZONTAL );
-			cmbTickStyle.setLayoutData( gdCMBTickStyle );
-			cmbTickStyle.addSelectionListener( this );
-			cmbTickStyle.setEnabled( bTicksEnabled && grid.getTickAttributes( ).isVisible( ) );
-		}
-
-		populateLists( );
-		setDefaultSelections( );
 	}
 
 	private void populateLists( )
@@ -369,4 +373,5 @@ public class GridAttributesComposite extends Composite
 			( (Listener) vListeners.get( i ) ).handleEvent( event );
 		}
 	}
+
 }

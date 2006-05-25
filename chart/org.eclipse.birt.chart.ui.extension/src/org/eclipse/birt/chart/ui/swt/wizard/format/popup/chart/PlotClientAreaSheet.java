@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
-import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -85,8 +84,9 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_PLOT_AREA_FORMAT );
-		
+		ChartUIUtil.bindHelp( parent,
+				ChartHelpContextIds.POPUP_PLOT_AREA_FORMAT );
+
 		cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( new GridLayout( ) );
 
@@ -212,7 +212,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 	private void createClientArea( Group grpAreaWithin )
 	{
 		// WithinAxes area is not supported in 3D
-		boolean isNot3D = getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL;
+		boolean isNot3D = !ChartUIUtil.is3DType( getChart( ) );
 		Label lblShadow = new Label( grpAreaWithin, SWT.NONE );
 		{
 			GridData gdLBLShadow = new GridData( );
@@ -253,6 +253,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 				false );
 		{
 			outlineWithin.addListener( this );
+			outlineWithin.setEnabled( ChartUIUtil.is3DWallFloorSet( getChart( ) ) );
 		}
 
 		icWithin = new InsetsComposite( grpAreaWithin,
