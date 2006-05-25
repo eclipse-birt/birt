@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.command.ContentCommand;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -250,8 +251,8 @@ public class SlotHandle extends ElementDetailHandle
 		if ( currentModule != null && currentModule instanceof Library )
 			nameSpace = ( (Library) currentModule ).getNamespace( );
 
-		ModelUtil.reviseNameSpace( getElementHandle( ).getModule( ),
-				content, nameSpace );
+		ModelUtil.reviseNameSpace( getElementHandle( ).getModule( ), content,
+				nameSpace );
 
 		List exceptionList = content.validateWithContents( getModule( ) );
 		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
@@ -533,5 +534,16 @@ public class SlotHandle extends ElementDetailHandle
 	public boolean canContain( DesignElementHandle content )
 	{
 		return getElementHandle( ).canContain( slotID, content );
+	}
+
+	/**
+	 * Returns the definition of the current slot.
+	 * 
+	 * @return the definition of the slot
+	 */
+
+	public ISlotDefn getDefn( )
+	{
+		return getElement( ).getDefn( ).getSlot( slotID );
 	}
 }
