@@ -106,9 +106,10 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	{
 		PropertyChoice[] propertyChoices = property.getChoices( );
 
-		ChoiceSet choiceSet = new ChoiceSet( );
+		ChoiceSet choiceSet = null;
 		if ( propertyChoices != null && propertyChoices.length > 0 )
 		{
+			choiceSet = new ChoiceSet( );
 			IChoice[] choices = new ODAChoice[propertyChoices.length];
 			for ( int i = 0; i < propertyChoices.length; i++ )
 			{
