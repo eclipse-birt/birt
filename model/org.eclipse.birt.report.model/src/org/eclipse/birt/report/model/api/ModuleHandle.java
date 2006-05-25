@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.command.CustomMsgCommand;
@@ -2399,7 +2400,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		String name = null;
 		Object value = null;
-		Module module = (Module) getElement( );
+		Module root = (Module) getElement( );
 		Set propNames = properties.keySet( );
 
 		// initialize the properties for the reprot design.
@@ -2409,10 +2410,22 @@ public abstract class ModuleHandle extends DesignElementHandle
 			name = (String) itre.next( );
 			value = PropertyValueValidationUtil.validateProperty( this, name,
 					properties.get( name ) );
-			module.setProperty( name, value );
+			root.setProperty( name, value );
 		}
 
 		isInitialized = true;
 
+	}
+
+	/**
+	 * Returns the encoding of the design/library file. Currently, BIRT only
+	 * support UnicodeUtil.SIGNATURE_UTF_8.
+	 * 
+	 * @return the encoding of the file
+	 */
+
+	public String getFileEncoding( )
+	{
+		return UnicodeUtil.SIGNATURE_UTF_8;
 	}
 }
