@@ -493,8 +493,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 				adjustedBounds.getWidth( ),
 				adjustedBounds.getHeight( ) );
 
-		double dWZ = zoomScale * dPointToPixel;
-		double dW = dXDZ * zoomScale * dPointToPixel;
+		double dWZ = zoomScale;
+		double dW = dXDZ * zoomScale;
 		double dH = ( dW + dWZ ) / 2;
 		double dX = -dW / 2;
 		double dY = -dH / 2;
