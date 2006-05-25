@@ -61,12 +61,37 @@
 <%
 	}
 %>
+
+<%
+	if ( !parameterBean.allowNull( ) && !parameterBean.allowBlank( ) )
+	{
+%>
+		<INPUT TYPE="HIDDEN"
+			ID="<%= parameterBean.getName( ) + "_default" %>"
+			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getDefaultValue( ) == null )? "" : parameterBean.getDefaultValue( ) ) %>"
+			>
+<%
+	}
+%>
 		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
 			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			NAME="<%= parameterBean.getName( ) %>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
 			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getValue( ) == null )? "" : parameterBean.getValue( ) ) %>"
             >
+
+<%
+	if ( parameterBean.allowNull( ) && !parameterBean.allowBlank( ) )
+	{
+%>
+		<INPUT TYPE="HIDDEN"
+			ID="<%= parameterBean.getName( ) + "_notblank" %>" 
+			NAME="<%= parameterBean.getName( ) %>"
+			VALUE = "true">
+<%
+	}
+%>            
+
 <%
 	if ( parameterBean.allowNull( ) )
 	{
