@@ -39,6 +39,8 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BidiSegmentEvent;
+import org.eclipse.swt.custom.BidiSegmentListener;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -226,7 +228,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	private Label messageLine;
 
 	private String title;
-	
+
 	/**
 	 * Create an expression builder under the given parent shell with the given
 	 * initial expression
@@ -369,14 +371,14 @@ public class ExpressionBuilder extends TitleAreaDialog
 		expressionArea.setLayout( new GridLayout( 2, false ) );
 		expressionArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		Composite composite = new Composite( expressionArea, SWT.BORDER );
+		Composite composite = new Composite( expressionArea, SWT.BORDER | SWT.LEFT_TO_RIGHT );
 		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 
 		CompositeRuler ruler = new CompositeRuler( );
 		ruler.addDecorator( 0, new LineNumberRulerColumn( ) );
 		sourceViewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
-				| SWT.V_SCROLL );
+				| SWT.V_SCROLL);
 		// JSSyntaxContext context = new JSSyntaxContext( );
 		// try
 		// {
@@ -445,6 +447,16 @@ public class ExpressionBuilder extends TitleAreaDialog
 			}
 
 		} );
+
+		sourceViewer.getTextWidget( )
+				.addBidiSegmentListener( new BidiSegmentListener( ) {
+
+					public void lineGetSegments( BidiSegmentEvent event )
+					{
+						event.segments = UIUtil.getExpressionBidiSegments( event.lineText );
+					}
+				} );
+
 		buttonBar = new Composite( expressionArea, SWT.NONE );
 		buttonBar.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 		buttonBar.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );

@@ -14,9 +14,12 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
@@ -103,6 +106,11 @@ public class UIUtil
 
 	private static final String MSG_DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Title.ImportSuccessfully" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_MSG = Messages.getString( "ImportLibraryAction.Message.ImportSuccessfully" ); //$NON-NLS-1$
+
+	/**
+	 * Regex pattern for neutral chars in Bidi Algorithm.
+	 */
+	static Pattern punctuation = Pattern.compile( "\\p{Punct}||\\p{Blank}||\\p{Space}" ); //$NON-NLS-1$
 
 	/**
 	 * Returns the length in pixels of given string in a control.
@@ -1230,5 +1238,102 @@ public class UIUtil
 		return applyThemeHandle;
 
 	}
+	
+	/**
+	 * Get 
+	 * @param lineText
+	 * @return
+	 */
+	public static int[] getExpressionBidiSegments( String lineText )
+	{
+		if ( lineText == null || "".equals( lineText ) ) { //$NON-NLS-1$
+			return null;
+		}
+		int[] level = getExpressionBidiLevel( lineText );
+		int[] segments = new int[level.length];
+		int j = 0;
+		segments[j++] = 0;
+		for ( int i = 1; i < level.length; i++ )
+		{
+			if ( level[i] != level[i - 1] )
+				segments[j++] = i;
+		}
+		if ( j < segments.length )
+		{
+			int[] result = new int[j];
+			System.arraycopy( segments, 0, result, 0, j );
+			segments = result;
+		}
+		return segments;
+	}
 
+	/**
+	 * Get Bidi level of Expression String.
+	 * @param message
+	 * @return
+	 */
+	public static int[] getExpressionBidiLevel( String message )
+	{
+		java.text.Bidi bidi = new Bidi( message,
+				Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT );
+		int[] level = new int[message.length( )];
+		boolean bidiStart = false;
+		Stack bracket = new Stack( );
+		for ( int i = 0; i < message.length( ); i++ )
+		{
+			char c = message.charAt( i );
+			if ( isNeutral( c ) )
+			{
+				if ( ( c = getBracketLeft( c ) ) != '0' )
+				{
+					if ( bracket.empty( ) )
+					{
+						bracket.add( new Character( c ) );
+					}
+					else
+					{
+						if ( ( (Character) bracket.peek( ) ).charValue( ) == c )
+						{
+							bracket.pop( );
+							bidiStart = false;
+						}
+						else
+						{
+							bracket.add( new Character( c ) );
+						}
+					}
+				}
+				level[i] = bidiStart ? 1 : 0;
+			}
+			else
+			{
+				level[i] = bidi.getLevelAt( i );
+				if ( level[i] % 2 == 1 )
+				{
+					bidiStart = true;
+				}
+			}
+		}
+		return level;
+	}
+
+	private static char getBracketLeft( char c )
+	{
+		if ( c == '(' || c == '[' || c == '{' || c == '\'' || c == '\"' )
+			return c;
+		else if ( c == ')' )
+			return '(';
+		else if ( c == ']' )
+			return '[';
+		else if ( c == '}' )
+			return '{';
+		return '0';
+	}
+
+	private static boolean isNeutral( char c )
+	{
+		boolean match = punctuation.matcher( new StringBuffer( 0 ).append( c ) )
+				.matches( );
+		return match;
+	}
 }

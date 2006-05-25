@@ -11,13 +11,17 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.model.api.TextItemHandle;
@@ -30,12 +34,18 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextOperationTarget;
+import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BidiSegmentEvent;
+import org.eclipse.swt.custom.BidiSegmentListener;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyledText;
@@ -193,7 +203,6 @@ public class TextEditor extends BaseDialog
 	{
 
 		super( parentShell, title );
-
 		this.handle = handle;
 		if ( handle.getContent( ) != null )
 		{
@@ -449,7 +458,7 @@ public class TextEditor extends BaseDialog
 				| SWT.BORDER
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
-				| SWT.FULL_SELECTION );
+				| SWT.FULL_SELECTION | SWT.LEFT_TO_RIGHT );
 		textViewer.setDocument( new Document( ) );
 		textEditor = textViewer.getTextWidget( );
 		{
@@ -495,6 +504,14 @@ public class TextEditor extends BaseDialog
 			}
 
 		} );
+		textViewer.getTextWidget( )
+				.addBidiSegmentListener( new BidiSegmentListener( ) {
+
+					public void lineGetSegments( BidiSegmentEvent event )
+					{
+						event.segments = UIUtil.getExpressionBidiSegments( event.lineText );
+					}
+				} );
 
 		textViewer.configure( new SourceViewerConfiguration( ) );
 		textEditor.invokeAction( ST.TEXT_END );
@@ -1101,4 +1118,40 @@ public class TextEditor extends BaseDialog
 		setResult( handle );
 		super.okPressed( );
 	}
+
+	private int[] getBidiLineSegments( String lineText )
+	{
+		int[] seg = null;
+		if ( lineText != null
+				&& lineText.length( ) > 0
+				&& !new Bidi( lineText, Bidi.DIRECTION_LEFT_TO_RIGHT ).isLeftToRight( ) )
+		{
+			List list = new ArrayList( );
+
+			// Punctuations will be regarded as delimiter so that different
+			// splits could be rendered separately.
+			Object[] splits = lineText.split( "\\p{Punct}" );
+
+			// !=, <> etc. leading to "" will be filtered to meet the rule that
+			// segments must not have duplicates.
+			for ( int i = 0; i < splits.length; i++ )
+			{
+				if ( !splits[i].equals( "" ) )
+					list.add( splits[i] );
+			}
+			splits = list.toArray( );
+
+			// first segment must be 0
+			// last segment does not necessarily equal to line length
+			seg = new int[splits.length + 1];
+			for ( int i = 0; i < splits.length; i++ )
+			{
+				seg[i + 1] = lineText.indexOf( (String) splits[i], seg[i] )
+						+ ( (String) splits[i] ).length( );
+			}
+		}
+
+		return seg;
+	}
+
 }
