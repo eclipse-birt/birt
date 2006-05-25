@@ -376,8 +376,9 @@
     <topic label="Plug-ins for optional samples download" href="birt/birt-24-37.html" >
       <topic label="org.eclipse.birt.chart.engine.examples" href="birt/birt-24-38.html" />
       <topic label="org.eclipse.birt.sample.reportitem.rotatedtext" href="birt/birt-24-39.html" />
-      </topic>
-      </topic>
+    </topic>
+   </topic>
 
- </topic>
+  </topic>
+  <topic label="Legal" href="notices.html" />
 </toc>
