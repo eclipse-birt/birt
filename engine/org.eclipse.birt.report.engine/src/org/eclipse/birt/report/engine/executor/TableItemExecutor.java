@@ -64,7 +64,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.45 $ $Date: 2006/05/17 05:42:09 $
+ * @version $Revision: 1.46 $ $Date: 2006/05/18 09:10:26 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -132,13 +132,14 @@ public class TableItemExecutor extends ListingElementExecutor
 		for ( int i = 0; i < tableDesign.getColumnCount( ); i++ )
 		{
 			ColumnDesign columnDesign = tableDesign.getColumn( i );
-			Column column = new Column( );
+			Column column = new Column( report );
 			column.setStyleClass( columnDesign.getStyleName( ) );
 			column.setWidth( columnDesign.getWidth( ) );
 			
 			InstanceID iid = new InstanceID( null, columnDesign.getID( ), null );
 			column.setInstanceID( iid );
-			
+
+			processColumnStyle( columnDesign, column );
 			processColumnVisibility( columnDesign, column );
 			
 			tableContent.addColumn( column );
@@ -176,7 +177,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.45 $ $Date: 2006/05/17 05:42:09 $
+	 * @version $Revision: 1.46 $ $Date: 2006/05/18 09:10:26 $
 	 */
 	private static class TABLEINFO
 	{
@@ -512,7 +513,7 @@ public class TableItemExecutor extends ListingElementExecutor
 					break;
 				}
 				RowDesign rowDesign = band.getRow( i );
-				if ( band.getBandType( ) == band.GROUP_HEADER && i == 0 )
+				if ( band.getBandType( ) == TableBandDesign.GROUP_HEADER && i == 0 )
 				{
 					rowDesign.setStartOfGroup( true );
 				}

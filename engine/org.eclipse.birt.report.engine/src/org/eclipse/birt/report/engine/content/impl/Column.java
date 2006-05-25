@@ -18,17 +18,24 @@ import java.io.IOException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IColumn;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.dom.CompositeStyle;
+import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
+import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * 
  * column content object
  * 
- * @version $Revision: 1.5 $ $Date: 2006/01/11 06:29:02 $
+ * @version $Revision: 1.6 $ $Date: 2006/05/17 05:42:09 $
  */
 public class Column implements IColumn
 {
+	transient protected IReportContent report;
+
+	transient protected CSSEngine cssEngine;
 
 	protected DimensionType width;
 
@@ -38,11 +45,19 @@ public class Column implements IColumn
 	
 	protected String visibleFormat;
 
+	protected IStyle inlineStyle;
+
+	transient protected IStyle style;
+
+	transient protected IStyle computedStyle;
+
 	/**
 	 * constructor use by serialize and deserialize
 	 */
-	public Column( )
+	public Column( IReportContent report )
 	{
+		this.report = report;
+		this.cssEngine = report.getCSSEngine( );
 	}
 
 	/*
@@ -52,7 +67,17 @@ public class Column implements IColumn
 	 */
 	public IStyle getStyle( )
 	{
-		return null;
+		if ( style == null )
+		{
+			if ( inlineStyle == null )
+			{
+				inlineStyle = report.createStyle( );
+			}
+			String styleClass = getStyleClass( );
+			IStyle classStyle = report.findStyle( styleClass );
+			style = new CompositeStyle( classStyle, inlineStyle );
+		}
+		return style;
 	}
 
 	/*
@@ -101,6 +126,22 @@ public class Column implements IColumn
 	}	
 	
 	/**
+	 * @param style
+	 *            The style to set.
+	 */
+	public void setInlineStyle( IStyle style )
+	{
+		this.inlineStyle = style;
+		this.style = null;
+		this.computedStyle = null;
+	}
+
+	public IStyle getInlineStyle( )
+	{
+		return inlineStyle;
+	}
+
+	/**
 	 * object document column version
 	 */
 	static final protected int VERSION = 0;
@@ -110,6 +151,7 @@ public class Column implements IColumn
 	final static int FIELD_STYLECLASS = 1;
 	final static int FIELD_INSTANCE_ID = 2;
 	final static int FIELD_VISIBLE_FORMAT = 3;
+	final static int FIELD_INLINESTYLE = 8;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -133,6 +175,15 @@ public class Column implements IColumn
 			IOUtil.writeInt( out, FIELD_VISIBLE_FORMAT );
 			IOUtil.writeString( out, visibleFormat );
 		}
+		if ( inlineStyle != null )
+		{
+			String cssText = inlineStyle.getCssText( );
+			if ( cssText != null && cssText.length( ) != 0 )
+			{
+				IOUtil.writeInt( out, FIELD_INLINESTYLE );
+				IOUtil.writeString( out, cssText );
+			}
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in )
@@ -154,6 +205,14 @@ public class Column implements IColumn
 			case FIELD_VISIBLE_FORMAT :
 				visibleFormat = IOUtil.readString( in );
 				break;
+			case FIELD_INLINESTYLE :
+				String style = IOUtil.readString( in );
+				if ( style != null && style.length( ) != 0 )
+				{
+					inlineStyle = new StyleDeclaration( cssEngine );
+					inlineStyle.setCssText( style );
+				}
+				break;
 		}
 	}
 
@@ -173,5 +232,14 @@ public class Column implements IColumn
 		IOUtil.writeInt( out,  VERSION );
 		writeFields( out );
 		IOUtil.writeInt( out,  FIELD_NONE );
+	}
+
+	
+	/**
+	 * @return the cssEngine
+	 */
+	public CSSEngine getCssEngine( )
+	{
+		return cssEngine;
 	}
 }

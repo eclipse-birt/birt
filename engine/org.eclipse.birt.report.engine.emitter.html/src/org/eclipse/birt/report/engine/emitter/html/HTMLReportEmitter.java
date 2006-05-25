@@ -58,6 +58,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.dom.CellMergedStyle;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -91,7 +92,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.107 $ $Date: 2006/05/23 10:35:42 $
+ * @version $Revision: 1.108 $ $Date: 2006/05/23 21:46:17 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1303,32 +1304,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// vertical align can only be used with tabelCell/Inline Element
 		StringBuffer styleBuffer = new StringBuffer( );
-		IStyle mergedStyle = cell.getStyle( );
-		String vAlign = null;
-		String textAlign = null;
-		if ( mergedStyle != null )
-		{
-			vAlign = mergedStyle.getVerticalAlign( );
-			textAlign = mergedStyle.getTextAlign( );
-		}
-		if ( vAlign == null )
-		{
-			IStyle cs = cell.getComputedStyle( );
-			vAlign = cs.getVerticalAlign( );
-			styleBuffer.append( "vertical-align: " );
-			styleBuffer.append( vAlign );
-			styleBuffer.append( ";" );
-		}
-		if ( textAlign == null )
-		{
-			IStyle cs = cell.getComputedStyle( );
-			textAlign = cs.getTextAlign( );
-			styleBuffer.append( "text-align: " );
-			styleBuffer.append( textAlign );
-			styleBuffer.append( ";" );
-		}
 
+		handleColumnRelatedStyle( cell, styleBuffer );
 		handleStyle( cell, styleBuffer );
+
 		if ( cell.isStartOfGroup( ) )
 		{
 			//	include select handle table
@@ -1346,6 +1325,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 		}
+	}
+
+	private void handleColumnRelatedStyle( ICellContent cell,
+			StringBuffer styleBuffer )
+	{
+		IStyle style = new CellMergedStyle( cell );
+		AttributeBuilder.buildStyle( styleBuffer, style, this, true );
 	}
 
 	/*

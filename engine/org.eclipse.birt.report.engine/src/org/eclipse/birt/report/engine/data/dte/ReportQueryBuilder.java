@@ -255,7 +255,7 @@ public class ReportQueryBuilder
 			{
 				pushQuery( tempQuery );
 			}
-			transferExpressions( item );
+			transformExpressions( item );
 			return tempQuery;
 		}
 
@@ -280,7 +280,7 @@ public class ReportQueryBuilder
 		{
 			BaseQueryDefinition query = prepareVisit( container );
 
-			transferExpressions( container );
+			transformExpressions( container );
 
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 				container.getItem( i ).accept( this, value );
@@ -298,7 +298,7 @@ public class ReportQueryBuilder
 		{
 			BaseQueryDefinition query = prepareVisit( grid );
 
-			transferExpressions( grid );
+			transformExpressions( grid );
 
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
 				handleRow( grid.getRow( i ), value );
@@ -316,17 +316,17 @@ public class ReportQueryBuilder
 		{
 			BaseQueryDefinition query = prepareVisit( image );
 
-			transferExpressions( image );
+			transformExpressions( image );
 			if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
 			{
-				String newImageExpression = transferExpression( image.getImageExpression( ) );
-				String newImageFormat = transferExpression( image.getImageFormat( ) );
+				String newImageExpression = transformExpression( image.getImageExpression( ) );
+				String newImageFormat = transformExpression( image.getImageFormat( ) );
 				image.setImageExpression( newImageExpression, newImageFormat );
 			}
 			else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_URI
 					|| image.getImageSource( ) == ImageItemDesign.IMAGE_FILE )
 			{
-				String newImageUri = transferExpression( image.getImageUri( ) );
+				String newImageUri = transformExpression( image.getImageUri( ) );
 				image.setImageUri( newImageUri );
 			}
 
@@ -342,7 +342,7 @@ public class ReportQueryBuilder
 		public Object visitLabelItem( LabelItemDesign label, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( label );
-			transferExpressions( label );
+			transformExpressions( label );
 			finishVisit( query );
 			return value;
 		}
@@ -414,7 +414,7 @@ public class ReportQueryBuilder
 						IBaseQueryDefinition query = queries[0];
 						if ( query != null )
 						{
-							transferExpressions( item );			
+							transformExpressions( item );			
 						}
 					}
 				}
@@ -445,7 +445,7 @@ public class ReportQueryBuilder
 			else
 			{
 				pushReportItemQuery( query );
-				transferExpressions( list );
+				transformExpressions( list );
 				pushCurrentCondition( true );
 				visitListBand( list.getHeader( ), value );
 				
@@ -484,7 +484,7 @@ public class ReportQueryBuilder
 		public Object visitTextItem( TextItemDesign text, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( text );
-			transferExpressions( text );
+			transformExpressions( text );
 			HashMap exprs = text.getExpressions( );
 			if ( exprs != null )
 			{
@@ -493,7 +493,7 @@ public class ReportQueryBuilder
 				{
 					Map.Entry entry = (Map.Entry) ite.next( );
 					assert entry.getValue( ) instanceof String;
-					String newExpr = transferExpression( entry.getValue( ).toString( ) );
+					String newExpr = transformExpression( entry.getValue( ).toString( ) );
 					entry.setValue( newExpr );
 				}				
 			}
@@ -509,7 +509,7 @@ public class ReportQueryBuilder
 		 */
 		public void handleColumn( ColumnDesign column )
 		{
-			transferVisibility( column );
+			transformColumnExpressions( column );
 		}
 		
 		/*
@@ -532,7 +532,7 @@ public class ReportQueryBuilder
 			}
 			else
 			{
-				transferExpressions( table );
+				transformExpressions( table );
 				
 				for( int i = 0; i < table.getColumnCount( ); i++ )
 				{
@@ -590,8 +590,8 @@ public class ReportQueryBuilder
 				Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( multiLine );
-			transferExpressions( multiLine );
-			String newContent = transferExpression( multiLine.getContent( ) );
+			transformExpressions( multiLine );
+			String newContent = transformExpression( multiLine.getContent( ) );
 			multiLine.setContent( newContent );
 			finishVisit( query );
 			return value;
@@ -605,8 +605,8 @@ public class ReportQueryBuilder
 		public Object visitDataItem( DataItemDesign data, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( data );
-			transferExpressions( data );
-			String newValue = transferExpression( data.getValue( ) );
+			transformExpressions( data );
+			String newValue = transformExpression( data.getValue( ) );
 			data.setValue( newValue );
 			finishVisit( query );
 			return value;
@@ -702,7 +702,7 @@ public class ReportQueryBuilder
 		 */
 		protected void handleRow( RowDesign row, Object value )
 		{
-			transferExpressions( row );
+			transformExpressions( row );
 			for ( int i = 0; i < row.getCellCount( ); i++ )
 			{
 				CellDesign cell = row.getCell( i );
@@ -718,7 +718,7 @@ public class ReportQueryBuilder
 		 */
 		protected void handleCell( CellDesign cell, Object value )
 		{
-			transferExpressions( cell );
+			transformExpressions( cell );
 			for ( int i = 0; i < cell.getContentCount( ); i++ )
 				cell.getContent( i ).accept( this, value );
 		}		
@@ -1307,7 +1307,7 @@ public class ReportQueryBuilder
 		 * @param item
 		 *            the report design.
 		 */
-		private void transferExpressions( ReportItemDesign item )
+		private void transformExpressions( ReportItemDesign item )
 		{
 			IBaseQueryDefinition query = getParentQuery( );
 			if ( query != null )
@@ -1324,7 +1324,7 @@ public class ReportQueryBuilder
 		 * @param expr expression to be transfered.
 		 * return the transfered expression
 		 */
-		protected String transferExpression( String expr )
+		protected String transformExpression( String expr )
 		{
 			if ( expr == null )
 			{
@@ -1347,17 +1347,18 @@ public class ReportQueryBuilder
 		}			
 		
 		/**
-		 * Transfer the old visibility expression to column dataBinding and bind it to the Query.
-		 * And create a new visibility expression to replace the old.
+		 * Transfer the old visibility and hightlight expressions to column dataBinding and bind
+		 * it to the Query. And create new visibility and hightlight expressions to replace
+		 * the old.
 		 */
-		private void transferVisibility( ColumnDesign column )
+		private void transformColumnExpressions( ColumnDesign column )
 		{
 			IBaseQueryDefinition query = getParentQuery( );
 			if ( query == null )
 			{
 				return;
 			}
-		
+
 			List expressions = new ArrayList( );
 			VisibilityDesign visibilities = column.getVisibility( );
 			if ( visibilities != null )
@@ -1368,25 +1369,46 @@ public class ReportQueryBuilder
 					expressions
 							.add( visibilities.getRule( i ).getExpression( ) );
 				}
-				ITotalExprBindings totalExpressionBindings = ExpressionUtil
-					.prepareTotalExpressions( expressions, getCurrentGroupName( ) );
-				
-				// add new column bindings to the query 
-				addNewColumnBindings( query, totalExpressionBindings );
-				
-				// replace old expressions
-				int expressionIndex = 0;
-				List newExpressions = totalExpressionBindings.getNewExpression( );
+			}
+			HighlightDesign highlights = column.getHighlight( );
+			if ( highlights != null )
+			{
+				// get new expression bindings of this column's visibilities
+				for ( int i = 0; i < highlights.getRuleCount( ); i++ )
+				{
+					expressions.add( createConditionalExpression( highlights
+							.getRule( i ) ) );
+				}
+			}
+			ITotalExprBindings totalExpressionBindings = ExpressionUtil
+					.prepareTotalExpressions( expressions,
+							getCurrentGroupName( ) );
+
+			// add new column bindings to the query
+			addNewColumnBindings( query, totalExpressionBindings );
+
+			// replace old expressions
+			int expressionIndex = 0;
+			List newExpressions = totalExpressionBindings.getNewExpression( );
+			if ( visibilities != null )
+			{
 				for ( int i = 0; i < visibilities.count( ); i++ )
 				{
 					visibilities.getRule( i ).setExpression(
 							(String) newExpressions.get( expressionIndex++ ) );
 				}
 			}
+			if ( highlights != null )
+			{
+				for ( int i = 0; i < highlights.getRuleCount( ); i++ )
+				{
+					highlights.getRule( i ).setConditionExpr(
+							(String) newExpressions.get( expressionIndex++ ) );
+				}
+			}
+
 		}	
 		
-		
-
 		private void replaceOldExpressions( ReportItemDesign item,
 				ITotalExprBindings totalExpressionBindings )
 		{
@@ -1397,6 +1419,7 @@ public class ReportQueryBuilder
 			item.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
 			item.setOnCreate( (String) newExpressions.get( expressionIndex++ ) );
 			item.setOnRender( (String) newExpressions.get( expressionIndex++ ) );
+
 			HighlightDesign highlights = item.getHighlight( );
 			if ( highlights != null )
 			{
@@ -1406,6 +1429,7 @@ public class ReportQueryBuilder
 							(String) newExpressions.get( expressionIndex++ ) );
 				}
 			}
+			
 			MapDesign maps = item.getMap( );
 
 			if ( maps != null )

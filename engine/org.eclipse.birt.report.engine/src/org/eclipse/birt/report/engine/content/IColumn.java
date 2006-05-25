@@ -12,13 +12,14 @@
 package org.eclipse.birt.report.engine.content;
 
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * column definition used by table content.
  * 
  * 
- * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:46 $
+ * @version $Revision: 1.2 $ $Date: 2006/05/17 05:42:09 $
  */
 public interface IColumn
 {
@@ -38,4 +39,18 @@ public interface IColumn
 	public InstanceID getInstanceID();
 	
 	public String getVisibleFormat( );
+	
+	/**
+	 * @return inline style
+	 */
+	IStyle getInlineStyle( );
+
+	IStyle getStyle( );
+
+	void setInlineStyle( IStyle style );
+	
+	/**
+	 * @return the cssEngine
+	 */
+	public CSSEngine getCssEngine( );
 }

@@ -35,7 +35,7 @@ import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.31 $ $Date: 2006/04/18 07:08:29 $
+ * @version $Revision: 1.32 $ $Date: 2006/05/17 05:42:09 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -89,13 +89,14 @@ public class GridItemExecutor extends QueryItemExecutor
 		for ( int i = 0; i < gridItem.getColumnCount( ); i++ )
 		{
 			ColumnDesign columnDesign = gridItem.getColumn( i );
-			Column column = new Column( );
+			Column column = new Column( report );
 			column.setStyleClass( columnDesign.getStyleName( ) );
 			column.setWidth( columnDesign.getWidth( ) );
 
 			InstanceID iid = new InstanceID( null, columnDesign.getID( ), null );
 			column.setInstanceID( iid );
 			
+			processColumnStyle( columnDesign, column );
 			processColumnVisibility( columnDesign, column );
 			
 			tableObj.addColumn( column );

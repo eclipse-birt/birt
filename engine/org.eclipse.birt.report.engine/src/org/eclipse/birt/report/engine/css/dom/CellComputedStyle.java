@@ -6,7 +6,6 @@ import java.util.List;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IElement;
-import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
@@ -42,12 +41,8 @@ public class CellComputedStyle extends ComputedStyle
 				if ( columnId >= 0 && columnId < table.getColumnCount( ) )
 				{
 					IColumn column = table.getColumn( columnId );
-					String styleClass = column.getStyleClass( ); 
-					if (  styleClass != null )
-					{
-						columnStyle = elt.getReportContent( ).findStyle( styleClass );
-						cell = new StyledCell( elt );
-					}
+					columnStyle = column.getStyle( );
+					cell = new StyledCell( elt );
 				}
 			}
 		}
@@ -72,8 +67,7 @@ public class CellComputedStyle extends ComputedStyle
 		Value sv = s == null ? null : (Value) s.getProperty( index );
 		if ( sv == null && columnStyle != null
 				&& isBackgroundProperties( index )
-				&& rowStyle!=null
-				&& rowStyle.getProperty( index ) == null )
+				&& ( rowStyle == null || rowStyle.getProperty( index ) == null ) )
 		{
 			sv = (Value) columnStyle.getProperty( index );
 		}
@@ -186,29 +180,20 @@ public class CellComputedStyle extends ComputedStyle
 	{
 
 		private ITableContent tableContent;
-		private IStyle columnStyle;
-
+		private IColumn column;
+		
 		public StyledColumn( ITableContent table, int columnId )
 		{
 			this.tableContent = table;
 			if ( columnId >= 0 && columnId <= table.getColumnCount( ) )
 			{
-				IColumn column = table.getColumn( columnId );
-				String styleName = column.getStyleClass( );
-				if ( styleName != null )
-				{
-					IReportContent reportContent = table.getReportContent( );
-					if ( reportContent != null )
-					{
-						columnStyle = reportContent.findStyle( styleName );
-					}
-				}
+				column = table.getColumn( columnId );
 			}
 		}
 
 		public IStyle getStyle( )
 		{
-			return columnStyle;
+			return column.getStyle( );
 		}
 
 		public IElement getParent( )
@@ -218,7 +203,7 @@ public class CellComputedStyle extends ComputedStyle
 		
 		public CSSEngine getCSSEngine()
 		{
-			return tableContent.getCSSEngine();
+			return column.getCssEngine( );
 		}
 	}
 }

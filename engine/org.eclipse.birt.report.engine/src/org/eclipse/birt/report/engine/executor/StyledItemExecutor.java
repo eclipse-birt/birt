@@ -12,10 +12,13 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.net.URL;
+
+import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
+import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
 import org.eclipse.birt.report.engine.ir.HighlightRuleDesign;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
@@ -32,7 +35,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.25 $ $Date: 2006/04/26 07:33:49 $
+ * @version $Revision: 1.26 $ $Date: 2006/05/11 09:00:07 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -66,6 +69,23 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 		StyleDeclaration inlineStyle = createHighlightStyle( design
 				.getHighlight( ) );
 		content.setInlineStyle( inlineStyle );
+	}
+
+	/**
+	 * Gets the style from the original column design object, calculates the highlight
+	 * style, merges the teo styles and then sets them on the corresponding
+	 * column object.
+	 * 
+	 * @param column
+	 *            the target column object.
+	 * @param columnDesign
+	 *            the original column design object.
+	 */
+	protected void processColumnStyle( ColumnDesign columnDesign, IColumn column )
+	{
+		StyleDeclaration inlineStyle = createHighlightStyle( columnDesign
+				.getHighlight( ) );
+		column.setInlineStyle( inlineStyle );
 	}
 
 	/**
