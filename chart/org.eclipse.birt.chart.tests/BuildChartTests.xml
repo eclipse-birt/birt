@@ -69,6 +69,7 @@
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
 	<property name="chart.device.extension.dir" location="../org.eclipse.birt.chart.device.extension"/>
 	<property name="chart.device.svg.dir" location="../org.eclipse.birt.chart.device.svg"/>
+	<property name="chart.device.pdf.dir" location="../org.eclipse.birt.chart.device.pdf"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
 	<property name="chart.engine.extension.dir" location="../org.eclipse.birt.chart.engine.extension"/>
 
@@ -118,6 +119,9 @@
 			<include name="**/*.jar" />
 		</fileset>
 		<fileset dir="${chart.device.svg.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${chart.device.pdf.dir}">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
@@ -242,6 +246,12 @@
 			<property name="eclipse.version" value="${eclipse.version}" />
 		</ant>
 		<echo message="end call Jar task in ${chart.device.svg.dir}" />
+		<echo message="start call Jar task in ${chart.device.pdf.dir}" />
+		<ant dir="${chart.device.pdf.dir}" antfile="BuildChartDevicePDF.xml" target="Jar" inheritAll="false">
+			<property name="eclipse.home" value="${eclipse.home}" />
+			<property name="eclipse.version" value="${eclipse.version}" />
+		</ant>
+		<echo message="end call Jar task in ${chart.device.pdf.dir}" />
 	</target>
 
 	<target name="build" depends="Jar" description="package tests files" />

@@ -63,6 +63,11 @@ public class ImageOutputBaseTest extends TestCase {
 			generator3.generate();
 			generator3.flush();
 			assertTrue(FileUtil.compareFiles(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".svg"), new FileInputStream(workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".svg")));//$NON-NLS-1$//$NON-NLS-2$
+
+			PdfPrimitiveGen generator4 = new PdfPrimitiveGen(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.INDIR+dirName+File.separator+filename+ImageRenderTest.DRAWEXT), workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".pdf");//$NON-NLS-1$
+			generator4.generate();
+			generator4.flush();
+			assertTrue(FileUtil.compareFiles(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".pdf"), new FileInputStream(workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".pdf")));//$NON-NLS-1$//$NON-NLS-2$
 	}
 }
 

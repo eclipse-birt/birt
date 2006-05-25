@@ -32,5 +32,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.birt.chart.engine.extension,
  org.eclipse.birt.core,
  org.eclipse.emf.ecore,
- org.junit
+ org.junit,
+ org.eclipse.birt.chart.device.pdf
 Eclipse-LazyStart: true
