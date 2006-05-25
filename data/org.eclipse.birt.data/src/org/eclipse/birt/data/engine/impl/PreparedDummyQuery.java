@@ -12,7 +12,6 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -42,6 +41,7 @@ import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
+import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.script.JSDummyRowObject;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -825,23 +825,19 @@ public class PreparedDummyQuery implements IPreparedQuery
 	private class DummyCachedResult extends CachedResultSet
 	{
 		/*
-		 * @see org.eclipse.birt.data.engine.executor.transform.CachedResultSet#doSave(java.io.OutputStream,
-		 *      java.io.OutputStream, java.io.OutputStream,
-		 *      java.io.OutputStream, java.io.OutputStream, boolean,
-		 *      java.util.Set)
+		 * @see org.eclipse.birt.data.engine.executor.transform.CachedResultSet#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper,
+		 *      boolean, java.util.Set)
 		 */
-		public void doSave( OutputStream resultSetStream,
-				OutputStream resultSetLenStream, OutputStream resultClassStream,
-				OutputStream dataSetDataStream, OutputStream groupInfoStream,
+		public void doSave( StreamWrapper streamWrapper,
 				boolean isSubQuery, Set nameSet ) throws DataException
 		{
 			try
 			{
-				if ( resultClassStream != null )
-					IOUtil.writeInt( resultClassStream, 0 );
-				if ( dataSetDataStream != null )
-					IOUtil.writeInt( dataSetDataStream, 0 );
-				IOUtil.writeInt( groupInfoStream, 0 );
+				if ( streamWrapper.getStreamForResultClass( ) != null )
+					IOUtil.writeInt( streamWrapper.getStreamForResultClass( ), 0 );
+				if ( streamWrapper.getStreamForDataSet( ) != null )
+					IOUtil.writeInt( streamWrapper.getStreamForDataSet( ), 0 );
+				IOUtil.writeInt( streamWrapper.getStreamForGroupInfo( ), 0 );
 			}
 			catch ( IOException e )
 			{

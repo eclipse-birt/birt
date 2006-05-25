@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.data.engine.executor.transform;
 
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +26,7 @@ import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
+import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -198,37 +198,22 @@ public class CachedResultSet implements IResultIterator
 				.getCurrentGroupInfo( groupLevel );
 	}
 
-	/**
-	 * @param resultClassStream
-	 * @param resultSetStream
-	 * @param groupInfoStream
-	 * @param isSubQuery
-	 * @throws DataException
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper,
+	 *      boolean, java.util.Set)
 	 */
-	public void doSave( OutputStream resultSetStream,
-			OutputStream resultSetLenStream, OutputStream resultClassStream,
-			OutputStream dataSetDataStream, OutputStream groupInfoStream,
+	public void doSave( StreamWrapper streamsWrapper,
 			boolean isSubQuery, Set nameSet ) throws DataException
 	{
-		assert groupInfoStream != null;
-
 		// save group info
 		this.resultSetPopulator.getGroupProcessorManager( )
 				.getGroupCalculationUtil( )
-				.doSave( groupInfoStream );
+				.doSave( streamsWrapper.getStreamForGroupInfo( ) );
 
 		// save result class
 		if ( isSubQuery == false )
 		{
-			assert resultClassStream != null;
-			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( resultClassStream );
-		}
-
-		// TODO: temp logic
-		if ( dataSetDataStream != null )
-		{
-			// save data
-			this.resultSetPopulator.getCache( ).doSave( dataSetDataStream );
+			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ) );
 		}
 	}
 	

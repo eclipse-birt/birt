@@ -14,12 +14,12 @@
 
 package org.eclipse.birt.data.engine.odi;
 
-import java.io.OutputStream;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
+import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 
 /**
  * An iterator that an user can iterate to get 
@@ -160,15 +160,12 @@ public interface IResultIterator
 	/**
 	 * TODO: Enhance me, since this is only a temp solution
 	 * 
-	 * @param resultClassStream
-	 * @param dataSetDataStream
-	 * @param groupInfoStream
+	 * @param streamsWrapper
 	 * @param isSubQuery
+	 * @param nameSet
 	 * @throws DataException
 	 */
-	public void doSave( OutputStream resultSetStream,
-			OutputStream resultSetLenStream, OutputStream resultClassStream,
-			OutputStream dataSetDataStream, OutputStream groupInfoStream,
-			boolean isSubQuery, Set nameSet ) throws DataException;
+	public void doSave( StreamWrapper streamsWrapper, boolean isSubQuery,
+			Set nameSet ) throws DataException;
 	
 }

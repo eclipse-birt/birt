@@ -195,11 +195,11 @@ public class RDSave implements IRDSave
 					streamForRowLen = streamManager.getOutStream( DataEngineContext.ROWLENGTH_INFO_STREAM );
 				}
 								
-				odiResult.doSave( streamForExprValue,
+				odiResult.doSave( new StreamWrapper( streamForExprValue,
 						streamForRowLen,
 						streamForResultClass,
 						null,
-						streamForGroupInfo,
+						streamForGroupInfo ),
 						isSubQuery,
 						RDSave.this.exprNameSet );
 
