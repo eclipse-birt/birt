@@ -17,16 +17,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.extension.IMessages;
+import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
@@ -314,8 +320,44 @@ public class Style extends StyleElement implements IStyleModel
 		if ( selector == null )
 			return super.getDisplayLabel( module, level );
 
-		String displayLabel = ModelMessages.getMessage( selector
-				.getDisplayNameKey( ) );
+		// must scan all extension definition to found the corresponding element
+		// definition.
+		
+		List elementDefns = meta.getExtensions( );
+		ElementDefn elementDefn = null;
+		for ( int i = 0; i < elementDefns.size( ); i++ )
+		{
+			ElementDefn tmpElementDefn = (ElementDefn) elementDefns.get( i );
+			if ( name.equalsIgnoreCase( tmpElementDefn.getSelector( ) ) )
+			{
+				elementDefn = tmpElementDefn;
+				break;
+			}
+		}
+
+		String displayLabel = null;
+		if ( elementDefn != null )
+		{
+			if ( !( elementDefn instanceof PeerExtensionElementDefn ) )
+				throw new IllegalOperationException(
+						"Only report item extension can be created through this method." ); //$NON-NLS-1$
+
+			PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) elementDefn;
+			IReportItemFactory reportItemFactory = extDefn
+					.getReportItemFactory( );
+			if ( reportItemFactory == null )
+				return super.getDisplayLabel( module, level );
+			IMessages msgs = reportItemFactory.getMessages( );
+			if ( msgs == null )
+				return super.getDisplayLabel( module, level );
+
+			displayLabel = msgs.getMessage( selector.getDisplayNameKey( ),
+					ThreadResources.getLocale( ) );
+		}
+		else
+			displayLabel = ModelMessages.getMessage( selector
+					.getDisplayNameKey( ) );
+
 		if ( StringUtil.isBlank( displayLabel ) )
 		{
 			displayLabel = super.getDisplayLabel( module, level );
