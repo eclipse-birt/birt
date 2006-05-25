@@ -17,6 +17,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,9 +46,13 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.jface.window.Window;
+
+import com.ibm.icu.text.Collator;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Data service provider for chart builder.
@@ -399,6 +404,27 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return page.open( );
 	}
 
+	private StyleHandle[] getAllStyleHandles( )
+	{
+		StyleHandle[] list = (StyleHandle[]) getReportDesignHandle( ).getAllStyles( )
+				.toArray( new StyleHandle[0] );
+		Arrays.sort( list, new Comparator( ) {
+
+			Collator collator = Collator.getInstance( ULocale.getDefault( ) );
+
+			public int compare( Object o1, Object o2 )
+			{
+				StyleHandle s1 = (StyleHandle) o1;
+				StyleHandle s2 = (StyleHandle) o2;
+
+				return collator.compare( s1.getDisplayLabel( ),
+						s2.getDisplayLabel( ) );
+			}
+
+		} );
+		return list;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -406,13 +432,28 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	public String[] getAllStyles( )
 	{
-		List list = getReportDesignHandle( ).getAllStyles( );
-		String[] names = new String[list.size( )];
+		StyleHandle[] handles = getAllStyleHandles( );
+		String[] names = new String[handles.length];
 		for ( int i = 0; i < names.length; i++ )
 		{
-			names[i] = ( (SharedStyleHandle) list.get( i ) ).getName( );
+			names[i] = handles[i].getName( );
 		}
-		Arrays.sort( names );
+		return names;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getAllStyleDisplayNames()
+	 */
+	public String[] getAllStyleDisplayNames( )
+	{
+		StyleHandle[] handles = getAllStyleHandles( );
+		String[] names = new String[handles.length];
+		for ( int i = 0; i < names.length; i++ )
+		{
+			names[i] = handles[i].getDisplayLabel( );
+		}
 		return names;
 	}
 

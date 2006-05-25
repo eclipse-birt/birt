@@ -133,6 +133,11 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return new String[]{};
 	}
 
+	public String[] getAllStyleDisplayNames( )
+	{
+		return getAllStyles( );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -191,32 +196,37 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#commitDataBinding()
 	 */
 	public void commitDataBinding( )
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#rollbackDataBinding()
 	 */
 	public void rollbackDataBinding( )
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#startDataBinding()
 	 */
 	public void startDataBinding( )
 	{
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }

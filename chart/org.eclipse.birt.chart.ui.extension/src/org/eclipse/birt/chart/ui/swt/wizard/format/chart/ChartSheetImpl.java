@@ -47,10 +47,9 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class ChartSheetImpl extends SubtaskSheetImpl
-		implements
-			SelectionListener,
-			Listener
+public class ChartSheetImpl extends SubtaskSheetImpl implements
+		SelectionListener,
+		Listener
 {
 
 	private transient ExternalizedTextEditorComposite txtTitle = null;
@@ -234,16 +233,23 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		IDataServiceProvider idsp = getContext( ).getDataServiceProvider( );
 		if ( idsp != null )
 		{
-			String[] styles = idsp.getAllStyles( );
+			String[] allStyleNames = idsp.getAllStyles( );
+			String[] displayNames = idsp.getAllStyleDisplayNames( );
 
 			// Add None option to remove style
-			String[] selection = new String[styles.length + 1];
-			System.arraycopy( styles, 0, selection, 1, styles.length );
+			String[] selection = new String[displayNames.length + 1];
+			System.arraycopy( displayNames,
+					0,
+					selection,
+					1,
+					displayNames.length );
 			selection[0] = Messages.getString( "ChartSheetImpl.Label.None" ); //$NON-NLS-1$
 			cmbStyle.setItems( selection );
+			cmbStyle.setData( allStyleNames );
 
 			String sStyle = idsp.getCurrentStyle( );
-			cmbStyle.setText( ( sStyle == null ) ? selection[0] : sStyle );
+			int idx = getStyleIndex( sStyle );
+			cmbStyle.select( idx + 1 );
 
 			NameSet nameSet = LiteralHelper.legendBehaviorTypeSet;
 			cmbInteractivity.setItems( nameSet.getDisplayNames( ) );
@@ -251,6 +257,24 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 					.getLegendBehavior( )
 					.getName( ) ) );
 		}
+	}
+
+	private int getStyleIndex( String style )
+	{
+		String[] allStyleNames = (String[]) cmbStyle.getData( );
+
+		if ( style != null && allStyleNames != null )
+		{
+			for ( int i = 0; i < allStyleNames.length; i++ )
+			{
+				if ( style.equals( allStyleNames[i] ) )
+				{
+					return i;
+				}
+			}
+		}
+
+		return -1;
 	}
 
 	private void createButtonGroup( Composite parent )
@@ -342,12 +366,14 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		}
 		else if ( e.widget.equals( cmbStyle ) )
 		{
-			String sStyleName = cmbStyle.getText( );
-			if ( cmbStyle.getSelectionIndex( ) == 0 )
+			String[] allStyleNames = (String[]) cmbStyle.getData( );
+			String sStyle = null;
+			int idx = cmbStyle.getSelectionIndex( );
+			if ( idx > 0 )
 			{
-				sStyleName = null;
+				sStyle = allStyleNames[idx - 1];
 			}
-			getContext( ).getDataServiceProvider( ).setStyle( sStyleName );
+			getContext( ).getDataServiceProvider( ).setStyle( sStyle );
 			refreshPreview( );
 		}
 		else if ( e.widget.equals( btnEnablePreview ) )

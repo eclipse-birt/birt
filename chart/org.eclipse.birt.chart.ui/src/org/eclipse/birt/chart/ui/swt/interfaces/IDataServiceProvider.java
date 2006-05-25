@@ -43,14 +43,43 @@ public interface IDataServiceProvider
 	 */
 	public String getReportDataSet( );
 
+	/**
+	 * Returns all available style names.
+	 */
 	public String[] getAllStyles( );
 
+	/**
+	 * Returns all available style display names. Note the count should be
+	 * identical with getAllStyles().
+	 * 
+	 * @since 2.1
+	 */
+	public String[] getAllStyleDisplayNames( );
+
+	/**
+	 * Returns the name of current used style.
+	 */
 	public String getCurrentStyle( );
 
+	/**
+	 * Returns the prevew data header, e.g. column display names.
+	 * 
+	 * @return
+	 * @throws ChartException
+	 */
 	public String[] getPreviewHeader( ) throws ChartException;
 
+	/**
+	 * Returns the preview data
+	 * 
+	 * @return
+	 * @throws ChartException
+	 */
 	public List getPreviewData( ) throws ChartException;
 
+	/**
+	 * Sets the context object
+	 */
 	public void setContext( Object context );
 
 	/**
@@ -58,10 +87,13 @@ public interface IDataServiceProvider
 	 * bindings, filters, parameters.
 	 * 
 	 * @param datasetName
-	 *            Dataset name. Null means inheriting from container. 
+	 *            Dataset name. Null means inheriting from container.
 	 */
 	public void setDataSet( String datasetName );
 
+	/**
+	 * Sets current used style by specified style name.
+	 */
 	public void setStyle( String styleName );
 
 	/**
