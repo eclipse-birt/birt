@@ -28,6 +28,7 @@ import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 {
@@ -79,6 +80,23 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 				{
 					String paramName = oprands[i].getName( );
 					Object paramValue = oprands[i].getValue( );
+
+					// Check if parameter set to null
+					if ( ParameterAccessor.PARAM_ISNULL
+							.equalsIgnoreCase( paramName )
+							&& paramValue != null )
+					{
+						// find the parameter
+						ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
+								.findParameter( paramValue.toString( ) );
+						
+						if ( parameter != null)
+						{
+							// set parametet to null value
+							parameterMap.put( paramValue, null );
+							continue;
+						}
+					}
 
 					// find the parameter
 					ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
