@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -383,7 +384,7 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		super( title, false );
 	}
-	
+
 	public ColumnBindingDialog( boolean canSelect )
 	{
 		super( DEFAULT_DLG_TITLE );
@@ -547,7 +548,6 @@ public class ColumnBindingDialog extends BaseDialog
 				canSelect ? 25 : 20, 150, 70, 150, 150,
 		};
 
-		groupList = DEUtil.getGroups( inputElement );
 		groups = new String[groupList.size( ) + 1];
 		groups[0] = NONE;
 		for ( int i = 0; i < groupList.size( ); i++ )
@@ -878,7 +878,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private transient boolean enableAutoCommit = true;
 
-	private List groupList;
+	private List groupList = Collections.EMPTY_LIST;
 
 	private String[] groups;
 
@@ -900,4 +900,11 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		return inputElement.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP );
 	}
+
+	public void setGroupList( List groupList )
+	{
+		Assert.isNotNull( groupList );
+		this.groupList = groupList;
+	}
+
 }

@@ -6,6 +6,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ImageBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.TextEditor;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -61,6 +62,7 @@ public class ElementBuilderFactory
 		{
 			ColumnBindingDialog dialog = new ColumnBindingDialog( true );
 			dialog.setInput( (ReportItemHandle) handle );
+			dialog.setGroupList( DEUtil.getGroups( handle ) );
 			return ( dialog );
 		}
 		if ( handle instanceof ImageHandle )
