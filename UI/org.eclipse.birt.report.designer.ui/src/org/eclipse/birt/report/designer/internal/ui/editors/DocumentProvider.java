@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILog;
@@ -196,11 +197,13 @@ public abstract class DocumentProvider extends AbstractDocumentProvider
 	 */
 	protected IDocument createDocument( Object element ) throws CoreException
 	{
-
+		String encoding = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getFileEncoding( );
 		if ( element instanceof IEditorInput )
 		{
 			IDocument document = createEmptyDocument( );
-			if ( setDocumentContent( document, (IEditorInput) element ) )
+			if ( setDocumentContent( document, (IEditorInput) element, encoding ) )
 			{
 				setupDocument( element, document );
 				return document;
