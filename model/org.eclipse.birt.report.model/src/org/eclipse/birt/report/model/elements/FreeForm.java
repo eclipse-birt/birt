@@ -23,13 +23,12 @@ import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
  * This class represents a free-form element. A free-form holds a set of report
  * items positioned at arbitrary (x,y) positions relative to the upper left
  * corner of the free-form.
- *  
+ * 
  */
 
 public class FreeForm extends ReportItem implements IFreeFormModel
 {
 
-	
 	/**
 	 * The report items slot.
 	 */
@@ -57,18 +56,32 @@ public class FreeForm extends ReportItem implements IFreeFormModel
 	}
 
 	/**
-	 * Makes a clone of this free form element. The cloned free form 
-	 * contains list of contents, which are copied from the original
-	 * free form.
+	 * Makes a clone of this free form element. The cloned free form contains
+	 * list of contents, which are copied from the original free form.
 	 * 
 	 * @return the cloned free form object.
-	 * 	 
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	public Object clone( ) throws CloneNotSupportedException
 	{
 		FreeForm form = (FreeForm) super.clone( );
-		form.contents = (MultiElementSlot) contents.copy( form, REPORT_ITEMS_SLOT );
+		form.contents = (MultiElementSlot) contents.copy( form,
+				REPORT_ITEMS_SLOT );
+		return form;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.StyledElement#cloneForTemplate()
+	 */
+
+	public Object cloneForTemplate( ) throws CloneNotSupportedException
+	{
+		FreeForm form = (FreeForm) super.cloneForTemplate( );
+		form.contents = (MultiElementSlot) contents.cloneForTemplate( form,
+				REPORT_ITEMS_SLOT );
 		return form;
 	}
 

@@ -3338,21 +3338,17 @@ public abstract class DesignElement
 
 	public Object clone( ) throws CloneNotSupportedException
 	{
-		DesignElement element = (DesignElement) super.clone( );
+		DesignElement element = (DesignElement) baseClone( );
 
-		element.container = null;
-		element.listeners = null;
-		element.derived = null;
 		element.extendsRef = null;
-		element.cachedDefn = null;
-		element.handle = null;
 		element.baseId = NO_BASE_ID;
-		element.propValues = new HashMap( );
 
 		// copy user property definitions first, otherwise definition will not
 		// be found when copying property values
 
-		DesignElement current = this;
+		DesignElement current = isVirtualElement( )
+				? getVirtualParent( )
+				: getExtendsElement( );
 		Iterator iter = null;
 		while ( current != null )
 		{
@@ -3382,7 +3378,9 @@ public abstract class DesignElement
 		// the design tree, we will check the id and re-allocate a unique name
 		// for it. This is the same issue as the name does.
 
-		current = this;
+		current = isVirtualElement( )
+				? getVirtualParent( )
+				: getExtendsElement( );
 		while ( current != null )
 		{
 			iter = current.propValues.keySet( ).iterator( );
@@ -3401,20 +3399,6 @@ public abstract class DesignElement
 			current = current.isVirtualElement( )
 					? current.getVirtualParent( )
 					: current.getExtendsElement( );
-		}
-
-		// clear text-property of displayName
-
-		if ( element.propValues.get( DesignElement.DISPLAY_NAME_PROP ) != null )
-		{
-			element.propValues.remove( DesignElement.DISPLAY_NAME_PROP );
-		}
-
-		// clear text-property of displayNameID
-
-		if ( element.propValues.get( DesignElement.DISPLAY_NAME_ID_PROP ) != null )
-		{
-			element.propValues.remove( DesignElement.DISPLAY_NAME_ID_PROP );
 		}
 
 		return element;
@@ -3740,5 +3724,76 @@ public abstract class DesignElement
 		{
 			throw (PropertyValueException) errorList.get( 0 );
 		}
+	}
+
+	/**
+	 * The common logic for both clone and cloneForTemplate.
+	 * 
+	 * @return the clone element with reference to parent in library
+	 * @throws CloneNotSupportedException
+	 */
+
+	final private Object baseClone( ) throws CloneNotSupportedException
+	{
+		DesignElement element = (DesignElement) super.clone( );
+
+		element.container = null;
+		element.listeners = null;
+		element.derived = null;
+		element.cachedDefn = null;
+		element.handle = null;
+		element.propValues = new HashMap( );
+
+		if ( extendsRef != null )
+			element.extendsRef = (ElementRefValue) this.extendsRef.copy( );
+
+		Iterator iter = null;
+		if ( !isVirtualElement( ) && userProperties != null )
+		{
+			element.userProperties = new LinkedHashMap( );
+
+			iter = userProperties.keySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Object key = iter.next( );
+				UserPropertyDefn uDefn = (UserPropertyDefn) userProperties
+						.get( key );
+				element.userProperties.put( key, uDefn.copy( ) );
+			}
+		}
+
+		iter = propValues.keySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String key = (String) iter.next( );
+			PropertyDefn propDefn = getPropertyDefn( key );
+			Object value = propValues.get( key );
+			element.propValues
+					.put( key, ModelUtil.copyValue( propDefn, value ) );
+		}
+
+		// clear text-property of displayName
+
+		if ( element.propValues.get( DesignElement.DISPLAY_NAME_PROP ) != null )
+			element.propValues.remove( DesignElement.DISPLAY_NAME_PROP );
+
+		// clear text-property of displayNameID
+
+		if ( element.propValues.get( DesignElement.DISPLAY_NAME_ID_PROP ) != null )
+			element.propValues.remove( DesignElement.DISPLAY_NAME_ID_PROP );
+
+		return element;
+	}
+
+	/**
+	 * The clone method for template element.
+	 * 
+	 * @returnthe clone element with reference to parent in library
+	 * @throws CloneNotSupportedException
+	 */
+
+	public Object cloneForTemplate( ) throws CloneNotSupportedException
+	{
+		return (DesignElement) baseClone( );
 	}
 }

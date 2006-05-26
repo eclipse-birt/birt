@@ -33,6 +33,7 @@ public abstract class ListingElement extends ReportItem
 		implements
 			IListingElementModel
 {
+
 	/**
 	 * The set of slots for the listing.
 	 */
@@ -89,6 +90,24 @@ public abstract class ListingElement extends ReportItem
 		for ( int i = 0; i < slots.length; i++ )
 		{
 			element.slots[i] = slots[i].copy( element, i );
+		}
+		return element;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.StyledElement#cloneForTemplate()
+	 */
+
+	public Object cloneForTemplate( ) throws CloneNotSupportedException
+	{
+		ListingElement element = (ListingElement) super.cloneForTemplate( );
+		element.initSlots( );
+
+		for ( int i = 0; i < slots.length; i++ )
+		{
+			element.slots[i] = slots[i].cloneForTemplate( element, i );
 		}
 		return element;
 	}

@@ -229,4 +229,13 @@ public abstract class ReferenceableElement extends DesignElement
 		}
 	}
 
+	/**
+	 * Clears all clients.
+	 */
+
+	public void clearClients( )
+	{
+		clients = new ArrayList( );
+	}
+
 }

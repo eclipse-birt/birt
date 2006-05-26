@@ -409,6 +409,24 @@ public class ExtendedItem extends ReportItem
 		return clonedElement;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.StyledElement#cloneForTemplate()
+	 */
+
+	public Object cloneForTemplate( ) throws CloneNotSupportedException
+	{
+		ExtendedItem clonedElement = (ExtendedItem) super.cloneForTemplate( );
+
+		clonedElement.provider = new PeerExtensibilityProvider( clonedElement,
+				clonedElement.extensionName );
+
+		clonedElement.provider.copyFrom( provider );
+
+		return clonedElement;
+	}
+
 	/**
 	 * Tests whether the property is a dynamic property of extended element or
 	 * not.

@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Represents a slot that can contain one element, such as the content slot of
  * the section element.
- *  
+ * 
  */
 
 public class SingleElementSlot extends ContainerSlot
@@ -44,6 +44,23 @@ public class SingleElementSlot extends ContainerSlot
 		if ( content != null )
 		{
 			slot.content = (DesignElement) content.clone( );
+		}
+
+		return slot;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.ContainerSlot#cloneForTemplate()
+	 */
+
+	public Object cloneForTemplate( ) throws CloneNotSupportedException
+	{
+		SingleElementSlot slot = (SingleElementSlot) super.cloneForTemplate( );
+		if ( content != null )
+		{
+			slot.content = (DesignElement) content.cloneForTemplate( );
 		}
 
 		return slot;
@@ -90,7 +107,7 @@ public class SingleElementSlot extends ContainerSlot
 	 * 
 	 * @param element
 	 *            the design element to remove
-	 *  
+	 * 
 	 */
 
 	public void remove( DesignElement element )
@@ -98,7 +115,7 @@ public class SingleElementSlot extends ContainerSlot
 		assert content != null && content == element;
 		content = null;
 	}
-	
+
 	/**
 	 * Removes an element at the given position.
 	 * 
@@ -134,7 +151,7 @@ public class SingleElementSlot extends ContainerSlot
 	 * element if the slot is not empty.
 	 * 
 	 * @return the content list.
-	 *  
+	 * 
 	 */
 
 	public List getContents( )
@@ -149,7 +166,7 @@ public class SingleElementSlot extends ContainerSlot
 	 * Gets the number of contents in this slot.
 	 * 
 	 * @return 1 if the slot is not empty, otherwise 0 returned.
-	 *  
+	 * 
 	 */
 
 	public int getCount( )
@@ -201,13 +218,15 @@ public class SingleElementSlot extends ContainerSlot
 		return content;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.ContainerSlot#clear()
 	 */
-	
+
 	public void clear( )
 	{
-		this.content = null;		
+		this.content = null;
 	}
 
 }

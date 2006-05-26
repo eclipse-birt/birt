@@ -351,4 +351,22 @@ public class GridItem extends ReportItem implements IGridItemModel
 		return element;
 
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.StyledElement#cloneForTemplate()
+	 */
+
+	public Object cloneForTemplate( ) throws CloneNotSupportedException
+	{
+		GridItem element = (GridItem) super.cloneForTemplate( );
+		element.initSlots( );
+		for ( int i = 0; i < slots.length; i++ )
+		{
+			element.slots[i] = slots[i].cloneForTemplate( element, i );
+		}
+		return element;
+
+	}
 }

@@ -328,4 +328,18 @@ public class TableItem extends ListingElement implements ITableItemModel
 		return clonedTable;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ListingElement#cloneForTemplate()
+	 */
+
+	public Object cloneForTemplate( ) throws CloneNotSupportedException
+	{
+		TableItem clonedTable = (TableItem) super.cloneForTemplate( );
+		clonedTable.refreshRenderModel( table.getTable( ).getModule( ) );
+
+		return clonedTable;
+	}
+
 }

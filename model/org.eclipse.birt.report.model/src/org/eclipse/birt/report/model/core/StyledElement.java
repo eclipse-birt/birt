@@ -77,6 +77,22 @@ public abstract class StyledElement extends DesignElement
 		return element;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#cloneForTemplate()
+	 */
+
+	public Object cloneForTemplate( ) throws CloneNotSupportedException
+	{
+		StyledElement element = (StyledElement) super.cloneForTemplate( );
+		if ( style != null )
+			element.style = new ElementRefValue( null, style.getName( ) );
+		else
+			element.style = null;
+		return element;
+	}
+
 	/**
 	 * Gets the style which defined on this element itself. This method will try
 	 * to resolve the style.

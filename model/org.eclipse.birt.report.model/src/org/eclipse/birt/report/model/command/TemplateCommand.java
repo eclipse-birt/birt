@@ -381,7 +381,7 @@ public class TemplateCommand extends AbstractElementCommand
 
 			DesignElement defaultElement = null;
 
-			defaultElement = (DesignElement) base.clone( );
+			defaultElement = (DesignElement) base.cloneForTemplate( );
 
 			assert defaultElement != null;
 			ContentCommand contentCmd = null;

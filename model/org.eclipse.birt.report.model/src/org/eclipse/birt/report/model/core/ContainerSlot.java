@@ -66,8 +66,9 @@ public abstract class ContainerSlot implements Cloneable
 	 * @param posn
 	 *            position of the element that is to be removed.
 	 * @return the element that was removed from the list.
-	 * @throws    IndexOutOfBoundsException if index out of range <tt>(posn
-     * 		  &lt; 0 || posn &gt;= getCount())</tt>.
+	 * @throws IndexOutOfBoundsException
+	 *             if index out of range <tt>(posn
+	 * 		  &lt; 0 || posn &gt;= getCount())</tt>.
 	 */
 
 	public abstract Object remove( int posn );
@@ -144,12 +145,12 @@ public abstract class ContainerSlot implements Cloneable
 	 */
 
 	public abstract DesignElement getContent( int posn );
-	
+
 	/**
 	 * Removes all the contents of this container slot.
-	 *
+	 * 
 	 */
-	
+
 	public abstract void clear( );
 
 	/**
@@ -180,7 +181,19 @@ public abstract class ContainerSlot implements Cloneable
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
+
 	public Object clone( ) throws CloneNotSupportedException
+	{
+		return super.clone( );
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+
+	public Object cloneForTemplate( ) throws CloneNotSupportedException
 	{
 		return super.clone( );
 	}
@@ -204,6 +217,35 @@ public abstract class ContainerSlot implements Cloneable
 		try
 		{
 			newSlot = (ContainerSlot) clone( );
+			for ( int i = 0; i < newSlot.getCount( ); i++ )
+				newSlot.getContent( i ).setContainer( newContainer, slotID );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false;
+		}
+
+		return newSlot;
+	}
+
+	/**
+	 * Clone for template items.
+	 * 
+	 * @param newContainer
+	 *            the new container
+	 * @param slotID
+	 *            the slot id in the new container for the cloned element
+	 * @return the cloned element
+	 */
+	
+	public ContainerSlot cloneForTemplate( DesignElement newContainer,
+			int slotID )
+	{
+		ContainerSlot newSlot = null;
+
+		try
+		{
+			newSlot = (ContainerSlot) cloneForTemplate( );
 			for ( int i = 0; i < newSlot.getCount( ); i++ )
 				newSlot.getContent( i ).setContainer( newContainer, slotID );
 		}

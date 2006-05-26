@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.TemplateElement;
@@ -25,7 +26,7 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
  * make some changes about the cloned element, such as set some property values,
  * add some contents, delete some contents. Now, application can use the cloned
  * element with changes or with no change to transform this place holder and get
- * a real report item or data set. 
+ * a real report item or data set.
  * 
  * @see org.eclipse.birt.report.model.api.TemplateReportItemHandle
  * @see org.eclipse.birt.report.model.api.TemplateDataSetHandle
@@ -180,5 +181,25 @@ public abstract class TemplateElementHandle extends ReportElementHandle
 		if ( refTemplateParam == null )
 			return null;
 		return refTemplateParam.getDefaultElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#copy()
+	 */
+
+	public IDesignElement copy( )
+	{
+		try
+		{
+			return (DesignElement) getElement( ).cloneForTemplate( );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false;
+		}
+
+		return null;
 	}
 }

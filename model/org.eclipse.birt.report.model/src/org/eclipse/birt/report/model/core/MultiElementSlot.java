@@ -52,6 +52,24 @@ public class MultiElementSlot extends ContainerSlot
 		return slot;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.ContainerSlot#cloneForTemplate()
+	 */
+
+	public Object cloneForTemplate( ) throws CloneNotSupportedException
+	{
+		MultiElementSlot slot = (MultiElementSlot) super.cloneForTemplate( );
+		slot.contents = new ArrayList( );
+		for ( int i = 0; i < contents.size( ); i++ )
+		{
+			DesignElement e = (DesignElement) contents.get( i );
+			slot.contents.add( e.clone( ) );
+		}
+		return slot;
+	}
+
 	/**
 	 * Finds the position of the given design element in the slot.
 	 * 
@@ -114,7 +132,7 @@ public class MultiElementSlot extends ContainerSlot
 
 	public Object remove( int posn )
 	{
-		assert posn >= 0 && posn < getCount();
+		assert posn >= 0 && posn < getCount( );
 		return contents.remove( posn );
 	}
 
@@ -207,14 +225,16 @@ public class MultiElementSlot extends ContainerSlot
 		return (DesignElement) contents.get( posn );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.ContainerSlot#clear()
 	 */
-	
+
 	public void clear( )
 	{
 		this.contents.clear( );
-		
+
 	}
 
 }
