@@ -66,6 +66,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
@@ -583,7 +584,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 			if ( ( DesignElement.NAME_PROP.equals( propName ) ) )
 			{
-				NameCommand nameCmd = new NameCommand(module, getElement());
+				NameCommand nameCmd = new NameCommand( module, getElement( ) );
 				try
 				{
 					nameCmd.checkName( null );
@@ -594,7 +595,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				}
 			}
 
-			PropertyHandle propHandle = getPropertyHandle( propName );			
+			PropertyHandle propHandle = getPropertyHandle( propName );
 			if ( propHandle.isLocal( ) )
 				propHandle.clearValue( );
 		}
@@ -2196,6 +2197,22 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				cmd.setMember( memberRef, value );
 			}
 		}
+	}
+
+	/**
+	 * Returns externalized message.
+	 * 
+	 * @param textIDProp
+	 *            TEXT_ID_PROP
+	 * @param textProp
+	 *            TEXT_PROP
+	 * @return externalized message.
+	 */
+
+	public String getExternalizedValue( String textIDProp, String textProp )
+	{
+		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
+				textProp );
 	}
 
 }

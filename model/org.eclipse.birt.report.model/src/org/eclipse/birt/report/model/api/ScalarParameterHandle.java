@@ -18,7 +18,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
@@ -851,19 +850,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getDisplayPromptText( )
 	{
-		String textKey = getStringProperty( IScalarParameterModel.PROMPT_TEXT_ID_PROP );
-		if ( !StringUtil.isBlank( textKey ) )
-		{
-			// find in report.
-
-			String localizedText = getModule( ).getMessage( textKey );
-			if ( !StringUtil.isBlank( localizedText ) )
-				return localizedText;
-		}
-
-		// use static text.
-
-		return getStringProperty( IScalarParameterModel.PROMPT_TEXT_PROP );
+		return getExternalizedValue( IScalarParameterModel.PROMPT_TEXT_ID_PROP , IScalarParameterModel.PROMPT_TEXT_PROP );
 	}
 
 	/**

@@ -2316,19 +2316,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public String getDisplayDescription( )
 	{
-		String textKey = getStringProperty( Module.DESCRIPTION_ID_PROP );
-		if ( !StringUtil.isBlank( textKey ) )
-		{
-			// find in report.
-
-			String localizedText = getModule( ).getMessage( textKey );
-			if ( !StringUtil.isBlank( localizedText ) )
-				return localizedText;
-		}
-
-		// use static text.
-
-		return getStringProperty( Module.DESCRIPTION_PROP );
+		return getExternalizedValue( Module.DESCRIPTION_ID_PROP,
+				Module.DESCRIPTION_PROP );
 	}
 
 	/**

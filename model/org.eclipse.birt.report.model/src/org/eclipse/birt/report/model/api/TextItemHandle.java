@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.TextItem;
@@ -66,20 +65,8 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 
 	public String getDisplayContent( )
 	{
-		String textKey = getStringProperty( TextItem.CONTENT_RESOURCE_KEY_PROP );
-		;
-		if ( !StringUtil.isBlank( textKey ) )
-		{
-			// find in report.
-
-			String localizedText = getModule( ).getMessage( textKey );
-			if ( !StringUtil.isBlank( localizedText ) )
-				return localizedText;
-		}
-
-		// use static text.
-
-		return getStringProperty( TextItem.CONTENT_PROP );
+		return super.getExternalizedValue( TextItem.CONTENT_RESOURCE_KEY_PROP,
+				TextItem.CONTENT_PROP );
 	}
 
 	/**

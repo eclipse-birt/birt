@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
@@ -105,19 +104,9 @@ public class TemplateParameterDefinitionHandle extends ReportElementHandle
 
 	public String getDisplayDescription( )
 	{
-		String textKey = getStringProperty( ITemplateParameterDefinitionModel.DESCRIPTION_ID_PROP );
-		if ( !StringUtil.isBlank( textKey ) )
-		{
-			// find in report.
-
-			String localizedText = getModule( ).getMessage( textKey );
-			if ( !StringUtil.isBlank( localizedText ) )
-				return localizedText;
-		}
-
-		// use static text.
-
-		return getDescription( );
+		return getExternalizedValue(
+				ITemplateParameterDefinitionModel.DESCRIPTION_ID_PROP,
+				ITemplateParameterDefinitionModel.DESCRIPTION_PROP );
 	}
 
 	/**

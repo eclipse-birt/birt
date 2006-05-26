@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Handle to a structure within a list property. List properties contain objects
@@ -175,7 +176,7 @@ public class StructureHandle extends ValueHandle
 	 *            name of the member to set.
 	 * @param value
 	 *            value to set.
-	 *  
+	 * 
 	 */
 
 	protected final void setPropertySilently( String memberName, Object value )
@@ -284,6 +285,21 @@ public class StructureHandle extends ValueHandle
 
 		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.removeItem( listRef, getStructure( ) );
+	}
+
+	/**
+	 * Returns externalized message.
+	 * 
+	 * @param textIDProp
+	 *            TEXT_ID_PROP
+	 * @param textProp
+	 *            TEXT_PROP
+	 * @return externalized message.
+	 */
+
+	public String getExternalizedValue( String textIDProp, String textProp )
+	{
+		return ModelUtil.getExternalizedValue(  getElement() , textIDProp, textProp );
 	}
 
 }

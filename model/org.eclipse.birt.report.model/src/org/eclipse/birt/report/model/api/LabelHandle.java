@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Label;
@@ -70,19 +69,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public String getDisplayText( )
 	{
-		String textKey = getStringProperty( Label.TEXT_ID_PROP );
-		if ( !StringUtil.isBlank( textKey ) )
-		{
-			// find in report.
-
-			String localizedText = getModule( ).getMessage( textKey );
-			if ( !StringUtil.isBlank( localizedText ) )
-				return localizedText;
-		}
-
-		// use static text.
-
-		return getStringProperty( Label.TEXT_PROP );
+		return getExternalizedValue( Label.TEXT_ID_PROP , Label.TEXT_PROP );
 	}
 
 	/**

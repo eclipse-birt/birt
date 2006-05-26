@@ -934,4 +934,60 @@ public class ModelUtil
 			return null;
 		}
 	}
+
+	/**
+	 * Returns externalized message. If There is no externalized message, return
+	 * null.
+	 * 
+	 * @param element
+	 *            Design element.
+	 * @param propName
+	 *            Name of property
+	 * @return externalized message.
+	 */
+
+	private static String searchForExternalizedValue( DesignElement element,
+			String propIDName )
+	{
+		while ( element != null )
+		{
+			Module root = element.getRoot( );
+			String textKey = (String) element.getLocalProperty( root,
+					propIDName );
+			if ( !StringUtil.isBlank( textKey ) )
+			{
+				String externalizedText = root.getMessage( textKey );
+				return externalizedText;
+			}
+			element = element.getExtendsElement( );
+		}
+		return null;
+	}
+
+	/**
+	 * Returns externalized value.
+	 * 
+	 * @param element
+	 *            Design element.
+	 * @param propIDName
+	 *            ID of property
+	 * @param propName
+	 *            Name of property
+	 * @return externalized value.
+	 */
+
+	public static String getExternalizedValue( DesignElement element,
+			String propIDName, String propName )
+	{
+		if ( element == null )
+			return null;
+		String textKey = searchForExternalizedValue( element,
+				propIDName );
+		if ( !StringUtil.isBlank( textKey ) )
+			return textKey;
+
+		// use static text.
+
+		return element.getStringProperty( element.getRoot( ), propName );
+	}
 }
