@@ -13,19 +13,16 @@
  */ 
 package org.eclipse.birt.data.engine.executor;
 
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.ParamDefnAndValBinding;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
@@ -135,8 +132,8 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     // Names (or aliases) of columns in the projected result set
     protected String[]			projectedFields;
 	
-	// input/output parameter hints
-	private Collection paramDefnAndValBindings;
+	// input/output parameter hints (collection of ParameterHint objects)
+	private Collection parameterHints;
     
 	// input parameter values
 	private Collection inputParamValues;
@@ -177,16 +174,10 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         this.projectedFields = fieldNames;
     }
     
-    /*
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setParameterDefnAndDeftValBindings(java.util.Collection)
-     */
-	public void setParameterDefnAndValBindings( Collection collection )
+	public void setParameterHints( Collection parameterHints )
 	{
-        if ( collection == null || collection.isEmpty() )
-			return; 	// nothing to set
-        
         // assign to placeholder, for use later during prepare()
-		this.paramDefnAndValBindings = collection;
+		this.parameterHints = parameterHints;
 	}
 
     /*
@@ -306,40 +297,23 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	 */
 	private void addParameterDefns() throws DataException
 	{
-		if ( this.paramDefnAndValBindings == null )
+		if ( this.parameterHints == null )
 		    return;	// nothing to add
 
 		// iterate thru the collection to add parameter hints
-		Iterator list = this.paramDefnAndValBindings.iterator( );
-		while ( list.hasNext( ) )
+		Iterator it = this.parameterHints.iterator( );
+		while ( it.hasNext( ) )
 		{
-			ParamDefnAndValBinding paramDefnAndValBinding = (ParamDefnAndValBinding) list.next( );
-		    IParameterDefinition parameterDefn = paramDefnAndValBinding.getParamDefn();
-			ParameterHint parameterHint = new ParameterHint( parameterDefn.getName(), 
-															 parameterDefn.isInputMode(),
-															 parameterDefn.isOutputMode() );
-			if( isParameterPositionValid(parameterDefn.getPosition()))
-				parameterHint.setPosition( parameterDefn.getPosition( ) );
-
-			// following data types is not supported by odaconsumer currently
-			Class dataTypeClass = DataType.getClass( parameterDefn.getType( ) );
-			if ( dataTypeClass == DataType.AnyType.class
-					|| dataTypeClass == Boolean.class || dataTypeClass == Blob.class )
-			{
-				dataTypeClass = null;
-			}
-			parameterHint.setDataType( dataTypeClass );
-			parameterHint.setIsInputOptional( parameterDefn.isInputOptional( ) );
-			parameterHint.setDefaultInputValue( paramDefnAndValBinding.getValue() );
-			parameterHint.setIsNullable( parameterDefn.isNullable() );
+			ParameterHint parameterHint = (ParameterHint) it.next();
 			odaStatement.addParameterHint( parameterHint );
 			
 			//If the parameter is input parameter then add it to input value list.
 			if ( parameterHint.isInputMode( )
 					&& parameterHint.getDefaultInputValue( ) != null )
 			{
-				Object inputValue = convertToValue( parameterHint.getDefaultInputValue( ),
-						parameterDefn.getType( ) );
+				Object inputValue = convertToValue( 
+						parameterHint.getDefaultInputValue( ), 
+						parameterHint.getDataType());
 				if ( isParameterPositionValid(parameterHint.getPosition( )) )
 					this.setInputParamValue( parameterHint.getPosition( ),
 							inputValue );
@@ -658,51 +632,19 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
      * @return
      * @throws DataException
      */
-    private static Object convertToValue( String inputValue, int type )
+    private static Object convertToValue( String inputValue, Class typeClass )
 			throws DataException
 	{
-		//dataType can be refered from DataType's class type.
-		int dataType = type;
-		Object convertedResult = null;
 		try
 		{
-			if ( dataType == DataType.INTEGER_TYPE )
-			{
-				convertedResult = DataTypeUtil.toInteger( inputValue );
-			}
-			else if ( dataType == DataType.DOUBLE_TYPE )
-			{
-				convertedResult = DataTypeUtil.toDouble( inputValue );
-			}
-			else if ( dataType == DataType.STRING_TYPE )
-			{
-				convertedResult = inputValue;
-			}
-			else if ( dataType == DataType.DECIMAL_TYPE )
-			{
-				convertedResult = DataTypeUtil.toBigDecimal( inputValue );
-			}
-			else if ( dataType == DataType.DATE_TYPE )
-			{
-				convertedResult = DataTypeUtil.toDate( inputValue );
-			}
-			else if ( dataType == DataType.ANY_TYPE
-					|| dataType == DataType.UNKNOWN_TYPE )
-			{
-				convertedResult = DataTypeUtil.toAutoValue( inputValue );
-			}
-			else
-			{
-				convertedResult = inputValue;
-			}
-			return convertedResult;
+			return DataTypeUtil.convert( inputValue, typeClass);
 		}
 		catch ( Exception ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_CONVERT_PARAMETER_TYPE,
 					ex,
 					new Object[]{
-							inputValue, DataType.getClass( dataType )
+							inputValue, typeClass
 					} );
 		}
 	}

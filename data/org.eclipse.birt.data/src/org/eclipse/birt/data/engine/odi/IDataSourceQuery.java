@@ -107,18 +107,12 @@ public interface IDataSourceQuery extends IQuery
 	 */
 	//public String[] getResultProjection();
 	
-    /**
-     * Specify one or more input/output parameter definition to the
-     * ODI Executor for data access.  One is not required
-     * to provide hints for every expected parameter.
-     * Any parameter hints provided will be applied only 
-     * if the underlying data provider is not able to 
-     * provide corresponding runtime metadata.  
-     * @param parameterDefns	One or more parameter defns as a collection
-     * 				of birt.data.engine.api.queryDefn.ParamDefnAndDeftValBinding objects.
-     */
-	public void setParameterDefnAndValBindings( Collection ParamDefnAndValBindings );
-  
+	/**
+	 * Sets a collection of org.eclipse.birt.data.engine.odaconsumer.ParameterHint
+	 * object to provide parameter hints, and bound input parameter values
+	 */
+	public void setParameterHints( Collection parameterHints );
+	
     /**
      * Return a collection of input/output parameter hints associated with this query.
      * @return	A collection of one or more IParameterDefinition objects

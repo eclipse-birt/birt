@@ -188,6 +188,14 @@ public class JSDataSetImpl
 	}
 	
 	/**
+	 * Implements DataSet.inputParams
+	 */
+	public Scriptable getInputParams() throws BirtException
+	{
+		return dataSet.getJSInputParamsObject();
+	}
+	
+	/**
 	 * Implements DataSet._aggr_value (internal object)
 	 */
 	public Scriptable get_aggr_value()

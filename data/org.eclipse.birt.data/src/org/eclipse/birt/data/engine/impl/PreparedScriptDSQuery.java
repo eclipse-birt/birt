@@ -88,7 +88,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 	/**
 	 * Concrete class of DSQueryExecutor used in PreparedScriptDSQuery
 	 */
-	private class ScriptDSQueryExecutor extends DSQueryExecutor
+	class ScriptDSQueryExecutor extends DSQueryExecutor
 	{
 		private ResultClass resultClass;
 		private CustomDataSet customDataSet;
@@ -129,6 +129,9 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			List resultHints = dataSet.getResultSetHints( );
 			List computedColumns = dataSet.getComputedColumns();
 			List columnsList = new ArrayList( );
+			
+			// Resolve parameter binding
+			resolveDataSetParameters( true );
 			
 			// If a "describe" script or handler exists and it 
 			// returns true, use dynamic metadata; 

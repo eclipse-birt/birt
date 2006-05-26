@@ -45,10 +45,7 @@ public class DataSourceQuery extends BaseQuery
 		// do nothing
 	}
 
-	/*
-	 * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setParameterHints(java.util.Collection)
-	 */
-	public void setParameterDefnAndValBindings( Collection parameterDefns )
+	public void setParameterHints( Collection parameterDefns )
 	{
 		// do nothing		
 	}

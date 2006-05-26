@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Collection;
 import java.util.Map;
@@ -23,6 +25,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
@@ -31,11 +34,13 @@ import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.DataRow;
 import org.eclipse.birt.data.engine.script.DataSetJSEventHandler;
 import org.eclipse.birt.data.engine.script.JSDataSetImpl;
+import org.eclipse.birt.data.engine.script.JSInputParams;
 import org.eclipse.birt.data.engine.script.JSOutputParams;
 import org.eclipse.birt.data.engine.script.JSResultSetRow;
 import org.eclipse.birt.data.engine.script.JSRowObject;
@@ -84,12 +89,29 @@ public class DataSetRuntime implements IDataSetInstanceHandle
     private DataRow dataRow;
     /** Scriptable object implementing the Javascript "outputParams" property */
     private JSOutputParams jsOutputParamsObject;
+    /** Scriptable object implementing the Javascript "inputParams" property */
+    private JSInputParams jsInputParamsObject;
     /** Scriptable object implementing the internal "_aggr_value" property */
     private Scriptable jsAggrValueObject;
     private Scriptable jsTempAggrValueObject;   
     private IBaseDataSetEventHandler eventHandler;
     protected boolean isOpen;
 
+    /**
+     * Map of current named input parameter values (Name->Value), either set by scripts or by calculating
+     * param binding expressions
+     */
+    private Map inParamValues = new HashMap();
+    
+    /**
+     * Map of current named output parameter values(Name->value), either set by scripts or by getting
+     * the value from outsource
+     */
+    private Map outParamValues = new HashMap();
+    
+    // Special value tag to indicate that a parameter value has not been set
+    public static final Object UNSET_VALUE = Scriptable.NOT_FOUND;
+    
 	protected DataSetRuntime( IBaseDataSetDesign dataSetDesign,
 			IQueryExecutor queryExecutor )
 	{
@@ -100,6 +122,31 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		if ( dataSetDesign != null )
 			eventHandler = dataSetDesign.getEventHandler();
 		
+		// Initialze parameter value map; initially assign UNSET_VALUE to all named parameters
+		if ( dataSetDesign != null)
+		{
+			List params = dataSetDesign.getParameters();
+			if ( params != null )
+			{
+				Iterator it = params.iterator();
+				while (it.hasNext())
+				{
+					IParameterDefinition param = (IParameterDefinition)it.next();
+					String name = param.getName();
+					// Only named parameters are recorded for script access
+					if ( name != null )
+					{
+						// Note that a param can be both input and output
+						// In/out parameters are available in both lists
+						if ( param.isInputMode() )
+							inParamValues.put( name, UNSET_VALUE);
+						if ( param.isOutputMode() )
+							outParamValues.put( name, UNSET_VALUE);
+					}
+				}
+			}
+		}
+
 		/*
 		 * TODO: TEMPORARY the follow code is temporary. It will be removed once Engine takes over
 		 * script execution from DtE
@@ -139,10 +186,20 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	/**
 	 * Gets the instance of the Javascript 'outputParams' object for this data set
 	 */
+	public Scriptable getJSInputParamsObject()
+	{
+		if ( jsInputParamsObject == null )
+		{
+			jsInputParamsObject = new JSInputParams( this );
+		}
+		return jsInputParamsObject;
+	}
+	
+	/**
+	 * Gets the instance of the Javascript 'outputParams' object for this data set
+	 */
 	public Scriptable getJSOutputParamsObject()
 	{
-		if ( !isOpen )
-			return null;
 		if ( jsOutputParamsObject == null )
 		{
 			jsOutputParamsObject = new JSOutputParams( this );
@@ -654,5 +711,85 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		// Default implementation: no queryText support
 	}
 	
+	/**
+	 * Check if named input parameter exists in data set design
+	 */
+	public boolean hasInputParameter(String name )
+	{
+		return this.inParamValues.containsKey(name);
+	}
 	
+	/**
+	 * Gets the value of an input parameter. If the value has not been set,
+	 * UNSET_VALUE is returned. If named parameter does not exist, exception
+	 * is thrown
+	 */
+	public Object getInputParameterValue( String name ) throws BirtException
+	{
+		if ( inParamValues.containsKey(name) )
+			return inParamValues.get(name);
+		else
+			throw new DataException( ResourceConstants.NAMED_PARAMETER_NOT_FOUND, name );
+	}
+	
+	/**
+	 * Sets the value of an input parameter. If named parameter does not exist, exception
+	 * is thrown
+	 */
+	public void setInputParameterValue( String name, Object value ) throws BirtException
+	{
+		if ( inParamValues.containsKey(name) )
+			inParamValues.put(name, value);
+		else
+			throw new DataException( ResourceConstants.NAMED_PARAMETER_NOT_FOUND, name );
+	}
+	
+	/**
+	 * Check if named output parameter exists in data set design
+	 */
+	public boolean hasOutputParameter(String name )
+	{
+		return this.outParamValues.containsKey(name);
+	}
+	
+	/**
+	 * Gets the value of an output parameter. If the value has not been set,
+	 * UNSET_VALUE is returned. If named parameter does not exist, exception
+	 * is thrown
+	 */
+	public Object getOutputParameterValue( String name ) throws BirtException
+	{
+		if ( ! outParamValues.containsKey(name) )
+			throw new DataException( ResourceConstants.NAMED_PARAMETER_NOT_FOUND, name );
+		Object value = outParamValues.get(name);
+		if ( value == UNSET_VALUE )
+		{
+			// Value is not cached or set; see if we have an executed ODA query which
+			// provides the value
+			if ( queryExecutor instanceof PreparedOdaDSQuery.OdaDSQueryExecutor )
+			{
+				IPreparedDSQuery pq =
+					((PreparedOdaDSQuery.OdaDSQueryExecutor)queryExecutor).getPreparedOdiQuery();
+				if ( pq != null )
+				{
+					value = pq.getOutputParameterValue( name );
+					// Add value to cache
+					outParamValues.put( name, value );
+				}
+			}
+		}
+		return value;
+	}
+	
+	/**
+	 * Sets the value of an input parameter. If named parameter does not exist, exception
+	 * is thrown
+	 */
+	public void setOutputParameterValue( String name, Object value ) throws BirtException
+	{
+		if ( outParamValues.containsKey(name) )
+			outParamValues.put(name, value);
+		else
+			throw new DataException( ResourceConstants.NAMED_PARAMETER_NOT_FOUND, name );
+	}
 }
