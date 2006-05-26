@@ -90,7 +90,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String RESOURCE_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.resourcestore"; //$NON-NLS-1$
 	public static final String COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.comment.description.preferencestore";
 	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore";
-	public static final String BIRT_RESOURCE = "BIRTResource";
+	public static final String BIRT_RESOURCE = "resources";
 
 	private int nameCount = 0;
 
@@ -794,19 +794,36 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDefaultResourcePreference( )
 	{
-		String metaPath = Platform.getStateLocation( ReportPlugin.getDefault( )
-				.getBundle( ) ).toOSString( );
-		if ( !metaPath.endsWith( File.separator ) )
+//		String metaPath = Platform.getStateLocation( ReportPlugin.getDefault( )
+//				.getBundle( ) ).toOSString( );
+//		if ( !metaPath.endsWith( File.separator ) )
+//		{
+//			metaPath = metaPath + File.separator;
+//		}
+//		metaPath = metaPath + BIRT_RESOURCE;
+//		File targetFolder = new File( metaPath );
+//		if ( !targetFolder.exists( ) )
+//		{
+//			targetFolder.mkdirs( );
+//		}
+//		getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, metaPath ); //$NON-NLS-1$	
+		String defaultDir = new String( UIUtil.getHomeDirectory( ) );
+		defaultDir = defaultDir.replace( '\\', '/' ); //$NON-NLS-1$ //$NON-NLS-2$
+		if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
 		{
-			metaPath = metaPath + File.separator;
+			defaultDir = defaultDir + "/"; //$NON-NLS-1$
 		}
-		metaPath = metaPath + BIRT_RESOURCE;
-		File targetFolder = new File( metaPath );
+		defaultDir = defaultDir + BIRT_RESOURCE;
+		if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
+		{
+			defaultDir = defaultDir + "/"; //$NON-NLS-1$
+		}
+		File targetFolder = new File( defaultDir );
 		if ( !targetFolder.exists( ) )
 		{
 			targetFolder.mkdirs( );
 		}
-		getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, metaPath ); //$NON-NLS-1$		
+		getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, defaultDir ); //$NON-NLS-1$
 	}
 
 	/**

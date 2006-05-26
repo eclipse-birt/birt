@@ -26,59 +26,59 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
 
-
 /**
  * 
  */
 
 public class PublishLibraryWizard extends Wizard
 {
+
 	LibraryHandle handle;
-	
-	private static String windowTitle = Messages.getString("PublishLibraryDialog.ShellText");
-	private static String PAGE_TITLE = Messages.getString("PublishLibraryDialog.TitleArea");
+
+	private static String windowTitle = Messages.getString( "PublishLibraryDialog.ShellText" );
+	private static String PAGE_TITLE = Messages.getString( "PublishLibraryDialog.TitleArea" );
 	private static String PAGE_DESC = Messages.getString( "PublishLibraryDialog.Message" );
-	
-	private static String addLibraryTitle = Messages.getString("PublishLibraryDialog.AddLibrary");
+
+	private static String addLibraryTitle = Messages.getString( "PublishLibraryDialog.AddLibrary" );
 
 	private String filePath;
 	private String fileName;
 	private String folderName;
-	
+
 	private WizardLibrarySettingPage page;
 
 	public static int HAVE_HANDLE = 1;
 	public static int HAVE_NO_HANDLE = 0;
-	
+
 	int type;
-	
+
 	/**
 	 * 
 	 */
-	public PublishLibraryWizard(LibraryHandle handle ,String fileName, String folderName)
+	public PublishLibraryWizard( LibraryHandle handle, String fileName,
+			String folderName )
 	{
 		setWindowTitle( windowTitle );
 		this.fileName = fileName;
-		this.folderName = folderName;		
+		this.folderName = folderName;
 		this.handle = handle;
 		this.filePath = SessionHandleAdapter.getInstance( )
-		.getReportDesignHandle( )
-		.getFileName( );
+				.getReportDesignHandle( )
+				.getFileName( );
 		type = HAVE_HANDLE;
 	}
-	
+
 	/**
 	 * 
 	 */
-	public PublishLibraryWizard(String folderName)
+	public PublishLibraryWizard( String folderName )
 	{
 		setWindowTitle( addLibraryTitle );
 		this.fileName = null;
-		this.folderName = folderName;		
+		this.folderName = folderName;
 		this.handle = null;
 		type = HAVE_NO_HANDLE;
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -88,27 +88,29 @@ public class PublishLibraryWizard extends Wizard
 	public void addPages( )
 	{
 		page = new WizardLibrarySettingPage( type );
-		
-		if(type == HAVE_HANDLE)
+
+		if ( type == HAVE_HANDLE )
 		{
-			
+
 			page.setTitle( PAGE_TITLE );
 			page.setMessage( PAGE_DESC );
 
 			page.setFileName( fileName );
-			page.setfolderName( folderName );						
-		}else
-		if(type == HAVE_NO_HANDLE)
+			page.setfolderName( folderName );
+		}
+		else if ( type == HAVE_NO_HANDLE )
 		{
 			page.setTitle( Messages.getString( "PublishLibraryDialog.AddText" ) );
 			page.setMessage( Messages.getString( "PublishLibraryDialog.AddMessage" ) );
-			page.setfolderName( folderName );			
+			page.setfolderName( folderName );
 		}
 		page.setType( type );
 		addPage( page );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
 	public boolean performFinish( )
@@ -116,11 +118,11 @@ public class PublishLibraryWizard extends Wizard
 		// TODO Auto-generated method stub
 		fileName = page.getFileName( );
 		folderName = page.getFolder( );
-		if(type == HAVE_NO_HANDLE)
+		if ( type == HAVE_NO_HANDLE )
 		{
 			filePath = page.getSourceFileName( );
 		}
-		return publishiLibrary();
+		return publishiLibrary( );
 	}
 
 	/*
@@ -131,17 +133,18 @@ public class PublishLibraryWizard extends Wizard
 	public boolean canFinish( )
 	{
 		return page.canFinish( );
-	}	
-	
-	private boolean publishiLibrary()
+	}
+
+	private boolean publishiLibrary( )
 	{
 		// copy to library folder
-		
+
 		File targetFolder = new File( folderName );
-		if ( !targetFolder.isDirectory( ) )
+		if ( targetFolder.exists( ) && ( !targetFolder.isDirectory( ) ) )
 		{
 			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishLibraryAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishLibraryAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
+					Messages.getString( "PublishLibraryAction.wizard.notvalidfolder" ) );
+			//$NON-NLS-1$
 			return true;
 		}
 		if ( !targetFolder.exists( ) )
@@ -170,7 +173,7 @@ public class PublishLibraryWizard extends Wizard
 						new Object[]{
 							targetFile.getAbsolutePath( )
 						} );
-				MessageDialog d = new MessageDialog(UIUtil.getDefaultShell( ),
+				MessageDialog d = new MessageDialog( UIUtil.getDefaultShell( ),
 						Messages.getString( "SaveAsDialog.Question" ), //$NON-NLS-1$
 						null,
 						question,
@@ -190,9 +193,9 @@ public class PublishLibraryWizard extends Wizard
 			ExceptionHandler.handle( e );
 		}
 
-		return overwrite != 1;	
+		return overwrite != 1;
 	}
-	
+
 	private void copyFile( String in, File targetFile ) throws IOException
 	{
 		FileInputStream fis = new FileInputStream( in );
