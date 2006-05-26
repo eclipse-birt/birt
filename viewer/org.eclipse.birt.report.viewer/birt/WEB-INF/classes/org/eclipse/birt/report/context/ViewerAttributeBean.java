@@ -153,7 +153,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 		// when in preview model, parse parameters from config file
 		if ( isDesigner )
-			parseConfigVars( request );
+			parseConfigVars( request, parameterList );
 
 		// Get parameters as String Map
 		this.parametersAsString = getParsedParametersAsString( parameterList,
@@ -179,7 +179,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 *            HttpServletRequest
 	 * @return
 	 */
-	protected void parseConfigVars( HttpServletRequest request )
+	protected void parseConfigVars( HttpServletRequest request,
+			Collection parameterList )
 	{
 		assert reportDesignHandle != null;
 
@@ -204,6 +205,15 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			// initial config map
 			if ( handle != null )
 			{
+				Iterator parameters = parameterList.iterator( );
+				while ( parameters != null && parameters.hasNext( ) )
+				{
+					ScalarParameterHandle parameter = (ScalarParameterHandle) parameters
+							.next( );
+					if ( parameter != null && parameter.getName( ) != null )
+						this.configMap.put( parameter.getName( ), null );
+				}
+
 				Iterator configVars = handle.configVariablesIterator( );
 				while ( configVars != null && configVars.hasNext( ) )
 				{
@@ -233,14 +243,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 										.getDisplayValue( parameter
 												.getDataType( ), parameter
 												.getPattern( ), paramValueObj,
-												locale );
-
-								this.configMap.put( paramName, paramValue );
+												locale );								
 							}
 							catch ( Exception err )
 							{
-
+								paramValue = configVar.getValue( );
 							}
+							
+							this.configMap.put( paramName, paramValue );
 						}
 					}
 				}
@@ -516,6 +526,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 					}
 				}
 			}
+			else
+			{
+				params.put( paramName, null );
+			}
 		}
 		return params;
 	}
@@ -611,7 +625,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			String paramValue = getParamValueAsString( request, parameter );
 
 			// if parameter value is null, then set value to default value.
-			if ( paramValue == null )
+			if ( paramValue == null && !parameter.allowNull( ) )
 			{
 				paramValue = this.getParameterDefaultValues(
 						reportDesignHandle, paramName, options );

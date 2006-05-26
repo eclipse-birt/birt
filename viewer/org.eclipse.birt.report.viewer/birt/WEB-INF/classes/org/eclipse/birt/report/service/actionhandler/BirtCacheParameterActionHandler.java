@@ -117,17 +117,17 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 									.getDisplayValue( parameter.getDataType( ),
 											parameter.getPattern( ),
 											paramValueObj, ULocale.US );
-
-							// add parameter to config file
-							configVar.setName( paramName
-									+ "_" + parameter.getID( ) ); //$NON-NLS-1$
-							configVar.setValue( paramValue );
-							handle.addConfigVariable( configVar );
 						}
 						catch ( Exception err )
 						{
-
+							paramValue = op[i].getValue( );
 						}
+						
+						// add parameter to config file
+						configVar.setName( paramName
+								+ "_" + parameter.getID( ) ); //$NON-NLS-1$
+						configVar.setValue( paramValue );
+						handle.addConfigVariable( configVar );
 					}
 				}
 			}
