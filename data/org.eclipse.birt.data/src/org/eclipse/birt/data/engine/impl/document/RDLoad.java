@@ -145,9 +145,9 @@ public class RDLoad
 					streamManager.getInStream( DataEngineContext.ROWLENGTH_INFO_STREAM ),
 					exprMetas );
 		else
-			exprDataResultSet = new ExprDataResultSet2( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM ),
-					streamManager.getInStream( DataEngineContext.ROWLENGTH_INFO_STREAM ),
-					streamManager.getInStream( DataEngineContext.ROW_INDEX_STREAM ),
+			exprDataResultSet = new ExprDataResultSet2( streamManager.getRAInStream( DataEngineContext.EXPR_VALUE_STREAM ),
+					streamManager.getRAInStream( DataEngineContext.ROWLENGTH_INFO_STREAM ),
+					streamManager.getRAInStream( DataEngineContext.ROW_INDEX_STREAM ),
 					exprMetas );
 
 		return exprDataResultSet;
