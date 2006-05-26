@@ -20,6 +20,19 @@ import org.eclipse.birt.report.engine.util.FileUtil;
  * Default implementation for writing images in a form that is compatible with a
  * web browser's "HTML Complete" save option, i.e., writes images to a
  * predefined folder.
+ * 
+ * ImageDirectory: absolute path save the image into that directy, return the
+ * aboluste URL of that image.
+ * 
+ * ImageDirectory: null, treat it as "." ImageDirectory: relative relative to
+ * the base folder.
+ * 
+ * BaseFolder: parent folder of the output file, save the file into image
+ * directory and return the relative path (base on the base folder).
+ * 
+ * BaseFolder:null, use "." as the base folder and return the aboluste path,
+ * 
+ * 
  */
 public class HTMLCompleteImageHandler implements IHTMLImageHandler
 {
@@ -148,117 +161,115 @@ public class HTMLCompleteImageHandler implements IHTMLImageHandler
 				return (String) map.get( mapID );
 			}
 		}
-		String ret = null;
-		boolean returnRelativePath = true;
+
+		String imageDirectory = null;
 		if ( context != null && ( context instanceof HTMLRenderContext ) )
 		{
 			HTMLRenderContext myContext = (HTMLRenderContext) context;
-			String imageURL = myContext.getBaseImageURL( );
-			String imageDir = myContext.getImageDirectory( );
-			String reportName = (String) image.getRenderOption( )
-					.getOutputSetting( )
-					.get( RenderOptionBase.OUTPUT_FILE_NAME );
-			String reportBase = null;
-			if ( reportName != null )
-			{
-				reportBase = new File( new File( reportName ).getAbsolutePath( ) )
-						.getParent( );
-			}
-			else
-			{
-				reportBase = new File( "." ).getAbsolutePath( );
-			}
-			String imageAbsoluteDir = null;
-			if ( imageDir == null )
-			{
-				imageAbsoluteDir = reportBase;
-				imageURL = null;// return file path
-				imageDir = "."; //$NON-NLS-1$
-			}
-			else
-			{
-				if ( !FileUtil.isRelativePath( imageDir ) )
-				{
-					returnRelativePath = false;
-					imageAbsoluteDir = imageDir;
-				}
-				else
-				{
-					imageAbsoluteDir = reportBase + "/" + imageDir; //$NON-NLS-1$
-				}
-			}
-			String fileName;
-			File file;
-			synchronized ( HTMLCompleteImageHandler.class )
-			{
-				file = createUniqueFile( imageAbsoluteDir, prefix, image
-						.getExtension( ) );
-				fileName = file.getName( );
-				try
-				{
-					image.writeImage( file );
-				}
-				catch ( IOException e )
-				{
-					log.log( Level.SEVERE, e.getMessage( ), e );
-				}
-			}
-			if ( imageURL != null )
-			{
-				ret = imageURL + "/" + fileName; //$NON-NLS-1$
-			}
-			else
-			{
-				if ( returnRelativePath )
-				{
-					ret = imageDir + "/" + fileName; //$NON-NLS-1$
-				}
-				else
-				{
-					try
-					{
-						ret = file.toURL( ).toExternalForm( );
-					}
-					catch(Exception ex)
-					{
-						ret = file.getAbsolutePath( );
-					}
-				}
-			}
+			imageDirectory = myContext.getImageDirectory( );
+		}
+		if ( imageDirectory == null )
+		{
+			imageDirectory = ".";
+		}
+		String outputFile = (String) image.getRenderOption( )
+				.getOutputSetting( ).get( RenderOptionBase.OUTPUT_FILE_NAME );
 
-			if ( needMap )
-			{
-				map.put( mapID, ret );
-			}
+		boolean returnRelativePath = needRelativePath( outputFile,
+				imageDirectory );
+		String imageOutputDirectory = getImageOutputDirectory( outputFile,
+				imageDirectory );
+		File file = saveImage( image, prefix, imageOutputDirectory );
+		String outputPath = getOutputPath( returnRelativePath, imageDirectory,
+				file );
+		if ( needMap )
+		{
+			map.put( mapID, outputPath );
+		}
+		return outputPath;
+	}
 
+	private File saveImage( IImage image, String prefix,
+			String imageOutputDirectory )
+	{
+		File file;
+		synchronized ( HTMLCompleteImageHandler.class )
+		{
+			file = createUniqueFile( imageOutputDirectory, prefix, image
+					.getExtension( ) );
+			try
+			{
+				image.writeImage( file );
+			}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage( ), e );
+			}
+		}
+		return file;
+	}
+
+	private String getTempFile( )
+	{
+		return new File( "." ).getAbsolutePath( );
+	}
+
+	private boolean needRelativePath( String reportOutputFile,
+			String imageDirectory )
+	{
+		if ( reportOutputFile == null )
+		{
+			return false;
+		}
+		if ( !FileUtil.isRelativePath( imageDirectory ) )
+		{
+			return false;
+		}
+		return true;
+	}
+
+	private String getImageOutputDirectory( String reportOutputFile,
+			String imageDirectory )
+	{
+		if ( !FileUtil.isRelativePath( imageDirectory ) )
+		{
+			return imageDirectory;
+		}
+
+		String reportOutputDirectory;
+		if ( reportOutputFile == null )
+		{
+			reportOutputDirectory = getTempFile( );
 		}
 		else
 		{
-			ret = handleTempImage( image, prefix, needMap );
+			reportOutputDirectory = new File( reportOutputFile )
+					.getAbsoluteFile( ).getParent( );
 		}
-		return ret;
+
+		return reportOutputDirectory + File.separator + imageDirectory;
 	}
 
-	protected String handleTempImage( IImage image, String prefix, boolean needMap )
+	private String getOutputPath( boolean needRelativePath,
+			String imageDirectory, File outputFile )
 	{
-		try
+		String result = null;
+		if ( needRelativePath )
 		{
-
-			File imageFile = File.createTempFile( prefix, ".img" );
-			image.writeImage( imageFile );
-			String fileName = imageFile.getAbsolutePath( ); //$NON-NLS-1$
-			if ( needMap )
+			result = imageDirectory + File.separator + outputFile.getName( );
+		}
+		else
+		{
+			try
 			{
-				String mapID = getImageMapID( image );
-				map.put( mapID, fileName );
+				result = outputFile.toURL( ).toExternalForm( );
 			}
-			return fileName;
+			catch ( Exception ex )
+			{
+				result = outputFile.getAbsolutePath( );
+			}
 		}
-		catch ( IOException e )
-		{
-			log.log( Level.SEVERE, e.getMessage( ), e );
-		}
-		return "unknow.img";
+		return result;
 	}
 
 	/**
