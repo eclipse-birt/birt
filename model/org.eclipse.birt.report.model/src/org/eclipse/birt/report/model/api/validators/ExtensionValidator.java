@@ -16,9 +16,11 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -78,23 +80,34 @@ public class ExtensionValidator extends AbstractElementValidator
 	{
 		List list = new ArrayList( );
 
+		// if the module is a library and not includded by any report, it is not
+		// necessary to initialized it
+		// by the validate. This method will be called by the parser in the end
+		// document method. The library error information will not be displayed
+		// in the report design console.
 		if ( toValidate.getExtendedElement( ) == null )
 		{
-			try
+			if ( !( ( module instanceof Library ) && ( (Library) module )
+					.getHost( ) != null ) )
 			{
-				toValidate.initializeReportItem( module );		
-			}
-			catch ( ExtendedElementException e )
-			{
-				return list;
+				try
+				{
+					toValidate.initializeReportItem( module );
+				}
+				catch ( ExtendedElementException e )
+				{
+					return list;
+				}
 			}
 		}
-		
-		List exceptions = toValidate.getExtendedElement( ).validate( );
 
-		if ( exceptions != null )
-			list.addAll( exceptions );
+		if ( toValidate.getExtendedElement( ) != null )
+		{
+			List exceptions = toValidate.getExtendedElement( ).validate( );
 
+			if ( exceptions != null )
+				list.addAll( exceptions );
+		}
 		return list;
 	}
 }
