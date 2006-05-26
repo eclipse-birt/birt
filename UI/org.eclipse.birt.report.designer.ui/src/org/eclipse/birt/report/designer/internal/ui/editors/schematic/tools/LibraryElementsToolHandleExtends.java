@@ -24,6 +24,8 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.InvalidParentException;
+import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.jface.util.Assert;
 
 /**
@@ -79,17 +81,21 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 				}
 			}
 		}
-		catch ( ExtendsException e )
-		{
-			GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
-					e,
-					"Library.DND.messages.outofsync" );//$NON-NLS-1$
-			ExceptionHandler.handle( exception );
-		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			if(e instanceof InvalidParentException || e instanceof WrongTypeException)
+			{
+				GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
+						e,
+						"Library.DND.messages.outofsync" );//$NON-NLS-1$
+				ExceptionHandler.handle( exception );
+			}else
+			{
+				ExceptionHandler.handle( e );
+			}
+
 		}
+
 		return super.preHandleMouseUp( );
 	}
 
