@@ -52,11 +52,11 @@
          version="0.0.0"/>
          
    <includes
-         id="org.eclipse.birt.doc.isv.feature"
+         id="org.eclipse.birt.doc.isv"
          version="0.0.0"/>
          
    <includes
-         id="org.eclipse.birt.chart.doc.isv.feature"
+         id="org.eclipse.birt.chart.doc.isv"
          version="0.0.0"/>
    
 
