@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
+import org.eclipse.birt.report.model.api.util.OperatorUtil;
 
 /**
  * Represents the handle of style rule. This abstract class provides the common
@@ -40,8 +42,8 @@ public abstract class StyleRuleHandle extends StructureHandle
 
 	/**
 	 * Returns the operator. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>MAP_OPERATOR_EQ
 	 * <li>MAP_OPERATOR_NE
@@ -69,8 +71,8 @@ public abstract class StyleRuleHandle extends StructureHandle
 
 	/**
 	 * Sets the operator. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>MAP_OPERATOR_EQ
 	 * <li>MAP_OPERATOR_NE
@@ -96,7 +98,35 @@ public abstract class StyleRuleHandle extends StructureHandle
 
 	public void setOperator( String operator ) throws SemanticException
 	{
-		setProperty( StyleRule.OPERATOR_MEMBER, operator );
+		ActivityStack stack = getModule( ).getActivityStack( );
+		stack.startTrans( );
+		try
+		{
+			setProperty( StyleRule.OPERATOR_MEMBER, operator );
+			int level = OperatorUtil.computeStyleRuleOperatorLevel( operator );
+			switch ( level )
+			{
+				case OperatorUtil.OPERATOR_LEVEL_ONE :
+					setValue2( null );
+					break;
+				case OperatorUtil.OPERATOR_LEVEL_TWO :
+					break;
+				case OperatorUtil.OPERATOR_LEVEL_ZERO :
+					setValue2( null );
+					setValue1( null );
+					break;
+				case OperatorUtil.OPERATOR_LEVEL_NOT_EXIST :
+					break;
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
+
 	}
 
 	/**

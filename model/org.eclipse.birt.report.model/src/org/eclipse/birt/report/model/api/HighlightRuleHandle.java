@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
@@ -255,126 +253,6 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	public void setBorderTopStyle( String value ) throws SemanticException
 	{
 		setProperty( HighlightRule.BORDER_TOP_STYLE_MEMBER, value );
-	}
-
-	/**
-	 * Returns the operator of the highlight rule. The returned value is defined
-	 * in <code>DesignChoiceConstants</code> and can be one of:
-	 * <ul>
-	 * <li><code>MAP_OPERATOR_EQ</code>
-	 * <li><code>MAP_OPERATOR_NE</code>
-	 * <li><code>MAP_OPERATOR_LT</code>
-	 * <li><code>MAP_OPERATOR_LE</code>
-	 * <li><code>MAP_OPERATOR_GE</code>
-	 * <li><code>MAP_OPERATOR_GT</code>
-	 * <li><code>MAP_OPERATOR_BETWEEN</code>
-	 * <li><code>MAP_OPERATOR_NOT_BETWEEN</code>
-	 * <li><code>MAP_OPERATOR_NULL</code>
-	 * <li><code>MAP_OPERATOR_NOT_NULL</code>
-	 * <li><code>MAP_OPERATOR_TRUE</code>
-	 * <li><code>MAP_OPERATOR_FALSE</code>
-	 * <li><code>MAP_OPERATOR_LIKE</code>
-	 * <li><code>MAP_OPERATOR_ANY</code>
-	 * </ul>
-	 * 
-	 * @return the operator
-	 */
-
-	public String getOperator( )
-	{
-		return getStringProperty( HighlightRule.OPERATOR_MEMBER );
-
-	}
-
-	/**
-	 * Sets the operator of the highlight and if the operator is not between and
-	 * not between , delete value2 element in xml file . The input value is
-	 * defined in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
-	 * @param value
-	 *            the new operator
-	 * @throws SemanticException
-	 *             if the value is not one of above.
-	 * @see #getOperator( )
-	 */
-
-	public void setOperator( String value ) throws SemanticException
-	{
-		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( );
-		try
-		{
-			setProperty( HighlightRule.OPERATOR_MEMBER, value );
-			if ( ( DesignChoiceConstants.MAP_OPERATOR_EQ.equals( value ) )
-					|| ( DesignChoiceConstants.MAP_OPERATOR_GE.equals( value ) )
-					|| ( DesignChoiceConstants.MAP_OPERATOR_NE.equals( value ) )
-					|| ( DesignChoiceConstants.MAP_OPERATOR_LT.equals( value ) )
-					|| ( DesignChoiceConstants.MAP_OPERATOR_LE.equals( value ) )
-					|| ( DesignChoiceConstants.MAP_OPERATOR_GT.equals( value ) ) )
-			{
-				setValue2( null );
-			}
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
-
-		stack.commit( );
-	}
-
-	/**
-	 * Returns the value1 of the highlight. Value1 is the value for simple
-	 * conditions with the operators: <, <=, =, <>, >=, >, between, not between,
-	 * like.
-	 * 
-	 * @return the value1 as a string
-	 * @see #setValue1(String)
-	 */
-
-	public String getValue1( )
-	{
-		return getStringProperty( HighlightRule.VALUE1_MEMBER );
-	}
-
-	/**
-	 * Sets the value1 of the highlight. Value1 is the value for simple
-	 * conditions with the operators: <, <=, =, <>, >=, >, between, not between,
-	 * like.
-	 * 
-	 * @param value
-	 *            the new value1.
-	 */
-
-	public void setValue1( String value )
-	{
-		setPropertySilently( HighlightRule.VALUE1_MEMBER, value );
-	}
-
-	/**
-	 * Sets the value2 of the highlight rule. Value2 is the value for simple
-	 * conditions with the operators: between, not between.
-	 * 
-	 * @param value
-	 *            the new value2.
-	 */
-
-	public void setValue2( String value )
-	{
-		setPropertySilently( HighlightRule.VALUE2_MEMBER, value );
-	}
-
-	/**
-	 * Returns the value2 of the highlight rule. Value2 is the value for simple
-	 * conditions with the operators: between, not between.
-	 * 
-	 * @return the value2 as a string
-	 */
-
-	public String getValue2( )
-	{
-		return getStringProperty( HighlightRule.VALUE2_MEMBER );
 	}
 
 	/**

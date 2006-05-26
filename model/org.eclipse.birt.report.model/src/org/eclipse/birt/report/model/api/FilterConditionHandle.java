@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.util.OperatorUtil;
 
 /**
  * Represents one filter in the filter list of List, Table or their Groups.
@@ -152,7 +154,35 @@ public class FilterConditionHandle extends StructureHandle
 
 	public void setOperator( String operator ) throws SemanticException
 	{
-		setProperty( FilterCondition.OPERATOR_MEMBER, operator );
+
+		ActivityStack stack = getModule( ).getActivityStack( );
+		stack.startTrans( );
+		try
+		{
+			setProperty( FilterCondition.OPERATOR_MEMBER, operator );
+			int level = OperatorUtil.computeFilterOperatorLevel( operator );
+			switch ( level )
+			{
+				case OperatorUtil.OPERATOR_LEVEL_ONE :
+					setValue2( null );
+					break;
+				case OperatorUtil.OPERATOR_LEVEL_TWO :
+					break;
+				case OperatorUtil.OPERATOR_LEVEL_ZERO :
+					setValue2( null );
+					setValue1( null );
+					break;
+				case OperatorUtil.OPERATOR_LEVEL_NOT_EXIST :
+					break;
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
 	}
 
 	/**
