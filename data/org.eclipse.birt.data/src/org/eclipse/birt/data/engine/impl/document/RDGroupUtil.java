@@ -138,7 +138,27 @@ public final class RDGroupUtil
 	 */
 	public void setCacheProvider( CacheProvider cacheProvider )
 	{
-		this. cacheProvider = cacheProvider;
+		this.cacheProvider = cacheProvider;
+	}
+	
+	/**
+	 * use if with care
+	 * 
+	 * @param groups
+	 */
+	public List[] getGroups( )
+	{
+		return this.groups;
+	}
+
+	/**
+	 * use if with care
+	 * 
+	 * @param groups
+	 */
+	public void setGroups( List[] groups )
+	{
+		this.groups = groups;
 	}
 	
 	// Helper function to find information about a group, given the group level

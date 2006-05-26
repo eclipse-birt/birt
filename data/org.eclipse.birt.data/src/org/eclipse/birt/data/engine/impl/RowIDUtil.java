@@ -46,7 +46,7 @@ public class RowIDUtil
 	 */
 	private void init( IResultIterator ri ) throws DataException
 	{
-		rowIDPos = ri.getResultClass( ).getFieldCount( ) - 1;
+		rowIDPos = ri.getResultClass( ).getFieldCount( );
 		if ( rowIDPos > 0
 				&& ri.getResultClass( )
 						.getFieldName( rowIDPos )

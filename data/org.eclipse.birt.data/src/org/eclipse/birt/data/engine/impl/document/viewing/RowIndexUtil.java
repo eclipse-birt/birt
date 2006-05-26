@@ -20,9 +20,9 @@ import java.io.OutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 
 /**
- * 
+ * Wrap simple I/O for row index information.
  */
-class RowIndexUtil
+public class RowIndexUtil
 {
 	private DataOutputStream rowDos;
 	private DataInputStream rowDis;
@@ -30,7 +30,7 @@ class RowIndexUtil
 	/**
 	 * @param rowOs
 	 */
-	RowIndexUtil( OutputStream rowOs )
+	public RowIndexUtil( OutputStream rowOs )
 	{
 		rowDos = new DataOutputStream( rowOs );
 	}
@@ -38,7 +38,7 @@ class RowIndexUtil
 	/**
 	 * @param rowIs
 	 */
-	RowIndexUtil( InputStream rowIs )
+	public RowIndexUtil( InputStream rowIs )
 	{
 		rowDis = new DataInputStream( rowIs );
 	}
@@ -47,7 +47,7 @@ class RowIndexUtil
 	 * @param rowId
 	 * @param filterHint
 	 */
-	void write( int rowId )
+	public void write( int rowId )
 	{
 		try
 		{
@@ -62,7 +62,7 @@ class RowIndexUtil
 	/**
 	 * @return
 	 */
-	int read( )
+	public int read( )
 	{
 		try
 		{
@@ -77,7 +77,7 @@ class RowIndexUtil
 	/**
 	 *
 	 */
-	void close( )
+	public void close( )
 	{
 		try
 		{

@@ -39,7 +39,6 @@ public class ExprMetaUtil
 {
 	//
 	public  final static String POS_NAME 	= "_$$_dte_inner_row_id_$$_";	
-	private final static String FILTER_NAME = "_$$_dte_inner_row_filter_$$_";
 	
 	// an instance
 	private static ExprMetaUtil instance = new ExprMetaUtil( );
@@ -176,7 +175,7 @@ public class ExprMetaUtil
 		ExprMetaInfo[] exprMetas = null;
 		if ( isBasedOnRD( inExprMetas ) == false )
 		{
-			exprMetas = new ExprMetaInfo[inExprMetas.length + 2];
+			exprMetas = new ExprMetaInfo[inExprMetas.length + 1];
 			System.arraycopy( inExprMetas, 0, exprMetas, 0, inExprMetas.length );
 
 			ExprMetaInfo[] tempExprMetaInfo = getAssistExprMetaInfo( );
@@ -272,37 +271,11 @@ public class ExprMetaUtil
 	}
 	
 	/**
-	 * @param resultClass
-	 * @return
-	 */
-	public static int getFilterColumnPos( IResultClass resultClass )
-	{
-		int filterColumnPos = -1;
-		for ( int i = 0; i < resultClass.getFieldCount( ); i++ )
-		{
-			try
-			{
-				if ( resultClass.getFieldName( i + 1 )
-						.equals( ExprMetaUtil.FILTER_NAME ) )
-				{
-					filterColumnPos = i + 1;
-					break;
-				}
-			}
-			catch ( DataException e )
-			{
-				// impossible, ignore it
-			}
-		}
-		return filterColumnPos;
-	}
-	
-	/**
 	 * @return
 	 */
 	private static ExprMetaInfo[] getAssistExprMetaInfo( )
 	{
-		ExprMetaInfo[] exprMetas = new ExprMetaInfo[2];
+		ExprMetaInfo[] exprMetas = new ExprMetaInfo[1];
 
 		exprMetas[0] = new ExprMetaInfo( );
 		exprMetas[0].setName( POS_NAME );
@@ -310,13 +283,6 @@ public class ExprMetaUtil
 		exprMetas[0].setDataType( DataType.INTEGER_TYPE );
 		exprMetas[0].setType( ExprMetaInfo.SCRIPT_EXPRESSION );
 		exprMetas[0].setJSText( "dataSetRow._rowPosition" );
-
-		exprMetas[1] = new ExprMetaInfo( );
-		exprMetas[1].setName( FILTER_NAME );
-		exprMetas[1].setGroupLevel( 0 );
-		exprMetas[1].setType( ExprMetaInfo.SCRIPT_EXPRESSION );
-		exprMetas[1].setDataType( DataType.BOOLEAN_TYPE );
-		exprMetas[1].setJSText( null );
 
 		return exprMetas;
 	}

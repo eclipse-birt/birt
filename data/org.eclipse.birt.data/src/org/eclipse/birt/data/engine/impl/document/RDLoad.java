@@ -86,7 +86,11 @@ public class RDLoad
 	 */
 	ExprResultSet loadExprResultSet( ) throws DataException
 	{
-		return new ExprResultSet( streamManager, loadGroupUtil( ), version );
+		boolean isBasedOnSecondRD = streamManager.hasInStream( DataEngineContext.ROW_INDEX_STREAM );
+		return new ExprResultSet( streamManager,
+				loadGroupUtil( ),
+				version,
+				isBasedOnSecondRD );
 	}
 
 	/**
