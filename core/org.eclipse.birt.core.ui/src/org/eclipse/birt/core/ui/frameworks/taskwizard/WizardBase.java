@@ -874,7 +874,7 @@ class ButtonPanel extends Composite
 	public static final int ACCEPT = 2;
 	public static final int CANCEL = 3;
 
-	private static final int BUTTON_HEIGHT = 25;
+	private static final int BUTTON_HEIGHT = SWT.DEFAULT;
 	private static final int BUTTON_WIDTH = 70;
 
 	/**

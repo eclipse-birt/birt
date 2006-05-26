@@ -248,28 +248,12 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 	 * 
 	 * @param parent
 	 *            control parent
-	 * @param text
-	 *            text
+	 * @param popupName
+	 *            button text and registry key
+	 * @param popupSheet
+	 *            popup sheet
 	 * @return button control
 	 */
-	protected Button createToggleButton( Composite parent, String text )
-	{
-		Button button = new Button( parent, SWT.TOGGLE );
-		button.setText( text );
-
-		// Use GC to calculate the button width
-		GC gc = new GC( parent );
-		int width = Math.max( 80, gc.textExtent( text ).x );
-		gc.dispose( );
-
-		GridData gd = new GridData( );
-		gd.widthHint = width;
-		button.setLayoutData( gd );
-
-		popupButtonRegistry.put( text, button );
-		return button;
-	}
-
 	protected Button createToggleButton( Composite parent, String popupName,
 			ITaskPopupSheet popupSheet )
 	{
@@ -278,7 +262,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 
 		// Use GC to calculate the button width
 		GC gc = new GC( parent );
-		int width = Math.max( 80, gc.textExtent( popupName ).x );
+		int width = Math.max( 80, gc.textExtent( popupName ).x + 5 );
 		gc.dispose( );
 
 		GridData gd = new GridData( );
