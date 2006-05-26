@@ -11,7 +11,7 @@
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="NewReportWizard_ID" title="New Report - Create a new report">
 <description>Use this page to specify a parent folder and a file name for a new report project.
@@ -19,7 +19,7 @@
 If you created a project for the new report, you can select it as the parent folder.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="NewReportCopyWizard_ID" title="New Report - Select a report to copy">
 <description>Use this page to select a blank report, one of the report templates that are provided with the copy, or a previously created report, and then click <b>Finish</b>.
@@ -29,7 +29,7 @@ When you highlight a report template, a preview of the report is displayed to th
 If you select "Show Report Creation Cheat Sheet," the corresponding cheat sheet will be displayed, if one is available, when you click <b>Finish</b>.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_NewDataSource_ID" title="New Data Source - Select a Data Source Type or Choose a Connection&#10;Profile">
 <description>Use this page to select the type of data source that you want to include in your report, then specify the name of the data source.
@@ -37,7 +37,7 @@ If you select "Show Report Creation Cheat Sheet," the corresponding cheat sheet 
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_Dataset_ID" title="New Data Set">
 <description>Use this page to specify a name for the data set, the source of the data, and the data set type.
@@ -47,7 +47,7 @@ A <b>data set</b> is a query that specifies the data to retrieve from the data s
 The data set type indicates the type of query. For example, if your report connects to a JDBC data source, you use a SQL SELECT statement to specify the data to retrieve.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_DatasourceProfile_ID" title="Data Source Profile">
 <description>This screen displays a profile of the selected database.
@@ -55,7 +55,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_JDBC_Datasource_ID" title="New JDBC Data Source Profile">
 <description>Use this dialog box to define a new JDBC data source.
@@ -63,7 +63,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Dialog_JDBC_ManageDrivers_ID" title="Manage JDBC Drivers">
 <description>Use this dialog box to manage the available JDBC drivers and to add new ones.
@@ -71,7 +71,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_XML_Datasource_ID" title="New XML File Data Source Profile">
 <description>Use this dialog box to define an XML file data source.
@@ -79,7 +79,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_FlatfileDatasource_ID" title="New Flat File Data Source Profile">
 <description>Use this dialog box to define the profile for a new flat file
@@ -87,7 +87,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_ConnectionProfile_ID" title="New Data Source - Select a Connection Profile">
 <description>Use this dialog box to select a connection profile for creating a data source.
@@ -95,7 +95,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_JDBCDataset_ID" title="Query">
 <description>Use this dialog box to define an SQL query.
@@ -103,7 +103,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_XMLSample_ID" title="XML DataSet">
 <description>Use this dialog box to specify a sample XML source for data preview.
@@ -111,7 +111,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_XMLXPath_ID" title="Table Mapping">
 <description>Use this dialog box to map a table.
@@ -119,7 +119,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Dialog_XPathExpression_ID" title="Select or edit the XPath expression">
 <description>Use this dialog box to specify the XPath expression to be used.
@@ -127,7 +127,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_XML_ColumnMapping_ID" title="Column Mapping">
 <description>Use this page to map XML elements to columns.
@@ -135,7 +135,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Dialog_ColumnMapping_ID" title="Column Mapping">
 <description>Use this dialog box to map a column to an XPath expression.
@@ -143,7 +143,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_ScriptDataset_ID" title="New Data Set - Output columns">
 <description>Use this page to define output columns.
@@ -151,7 +151,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Dialog_SelectTableColumn_ID" title="Select Table - Select Column">
 <description>Use this dialog box to select columns for the data set.
@@ -159,7 +159,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Dialog_JDBCDriver_ID" title="Edit JDBC Drivers">
 <description>Use this dialog box to define a JDBC driver.
@@ -167,7 +167,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Wizard_JointDataSet_ID" title="New Data Set - Joint Data Set">
 <description>Use this page to define a joint data set by associating data sets and columns.
@@ -175,7 +175,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Dialog_DatasourceEdit_ID" title="Edit Data Source - Data Source">
 <description>Use this dialog box to enter URLs for the data source and schema.
@@ -183,7 +183,7 @@ The data set type indicates the type of query. For example, if your report conne
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Dialog_DatasetEdit_ID" title="Edit Data Set - Data Set">
 <description>Use this dialog box to define the attributes of a data set.
@@ -203,7 +203,7 @@ Selecting an item in the left pane of the dialog box has the following results:
   - Cache Preference - allows you to set data-set caching options.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="NewTemplateWizard_ID" title="New Template">
 <description>Use this wizard to define a new template for reports.
@@ -211,7 +211,7 @@ Selecting an item in the left pane of the dialog box has the following results:
 This type of file provides a structure for a standard report layout.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-19-1.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-19-1.html" label="A related topic"/>
 </context>
 <context id="NewLibraryWizard_ID" title="New Library">
 <description>Use this wizard to define a new library.
@@ -219,7 +219,7 @@ This type of file provides a structure for a standard report layout.
 This type of file stores customized report elements such as data sources, data sets, visual report items, and styles. Include a library in a report design to access the customized report elements
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-19-1.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-19-1.html" label="A related topic"/>
 </context>
 <context id="SaveReportAsWizard_ID" title="Save as">
 <description>Use this dialog box to specify the filename and location for the file that you are saving.
@@ -227,7 +227,7 @@ This type of file stores customized report elements such as data sources, data s
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="PublishTemplateWizard_ID" title="Publish To Template Folder">
 <description>Use this dialog box to make a template available for others to use.
@@ -235,7 +235,7 @@ This type of file stores customized report elements such as data sources, data s
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-19-1.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-19-1.html" label="A related topic"/>
 </context>
 <context id="FormatBuilder_ID" title="Format Builder">
 <description>Use this dialog box to control the formatting of strings.
@@ -243,7 +243,7 @@ This type of file stores customized report elements such as data sources, data s
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="ImportValueDialog_ID" title="Import Values">
 <description>Use this dialog box to import values into your report.
@@ -251,7 +251,7 @@ This type of file stores customized report elements such as data sources, data s
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="StyleBuilder_ID" title="New Style">
 <description>Use this dialog box to apply a style for to the report element that you selected in the layout editor. Use this dialog box also to define a new style; you can apply the style at this time, but you do not need to.
@@ -264,7 +264,7 @@ On the General page, specify one of the following settings:
   - To create a user-named style, specify a unique descriptive name for <b>Custom Style</b>. Make sure the name is not the same as any of the predefined style names. If you specify a name that is the same as a predefined style, your custom style takes precedence, and you will no longer be able to use the predefined style to apply cascading styles.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="ParameterGroupDialog_ID" title="New Parameter Group">
 <description>Use this dialog box to create a visual grouping of parameters.
@@ -272,7 +272,7 @@ On the General page, specify one of the following settings:
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-23-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-23-01.html" label="A related topic"/>
 </context>
 <context id="HyperlinkBuilder_ID" title="Hyperlink Options">
 <description>Use this page to define a link to another location
@@ -295,7 +295,7 @@ There are three major kinds of links:
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-23-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-23-01.html" label="A related topic"/>
 </context>
 <context id="ExpressionBuilder_ID" title="Expression Builder">
 <description>Use this dialog box to create expressions for any purpose that your report requires.
@@ -303,8 +303,8 @@ There are three major kinds of links:
 For example, you can create a computed field in your report layout, or create aggregate expressions to display summary information.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-05-1.html" label="A related topic"/>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-10-1.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-05-1.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-10-1.html" label="A related topic"/>
 </context>
 <context id="ParameterDialog_ID" title="New Parameter">
 <description>Use this dialog box to create a report parameter to allow users to filter your report. The report parameter prompts users to specify values that determine the rows to retrieve.
@@ -321,7 +321,7 @@ For date fields, you can select either Date Time or String. Specifying string da
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-13-1.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-13-1.html" label="A related topic"/>
 </context>
 <context id="CascadingParametersDialog_ID" title="New Cascading Parameter">
 <description>Use this dialog box to define a cascading parameter group.
@@ -329,7 +329,7 @@ For date fields, you can select either Date Time or String. Specifying string da
 A parameter group is a visual grouping of dynamic parameters. When the value of a particular parameter in the group depends on the value of another parameter, the parameter group is a cascading parameter group.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-23-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-23-01.html" label="A related topic"/>
 </context>
 <context id="ImageBuilder_ID" title="New Image Item">
 <description>Use this dialog box to insert an image directly on the page or in any container element.
@@ -341,7 +341,7 @@ In you are inserting an embedded image, select the <b>Embedded image</b> button,
 Typically, you insert data source images in the detail row of a table to display all the pictures stored in the data source. If you are entering an image that is stored in a data source, select the <b>Dynamic image</b> button, then click <b>Binding</b> to specify the data source.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-05-1.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-05-1.html" label="A related topic"/>
 </context>
 <context id="TableOptionDialog_ID" title="Insert Table">
 <description>Use this dialog box to insert a Table element.
@@ -349,7 +349,7 @@ Typically, you insert data source images in the detail row of a table to display
 The Table element presents data from a data set in using a tabular layout. The columns property is optional and defines the columns. The header appears at the top of the table, and on each new page. The table can contain groups. (Right-click in the table that you inserted and click <b>Insert Group</b>.) The footer displays totals and appears at the bottom of the table. The detail appears for every row in the data set.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-23-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-23-01.html" label="A related topic"/>
 </context>
 <context id="TextEditor_ID" title="Edit Text Item">
 <description>Use this dialog box to edit and format Text elements.
@@ -359,7 +359,7 @@ The Text element displays a multi-line block of text defined within the report. 
 The Text item allows the report developer to provide the text as part of the report design. Text can be in HTML or plain text format and can be localized. HTML text can contain placeholders for data and expressions, much like the mail merge feature of a word processing program.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-23-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-23-01.html" label="A related topic"/>
 </context>
 <context id="GroupDialog_ID" title="New Group">
 <description>Use this dialog box to define and configure groups.
@@ -367,7 +367,7 @@ The Text item allows the report developer to provide the text as part of the rep
 Grouping data in a report can make the data easier to interpret and use. For example, you can group customer data by credit limit.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-09-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-09-01.html" label="A related topic"/>
 </context>
 <context id="DataBindingDialog_ID" title="Data Binding">
 <description>Use this dialog box to specify the data set that contains the images that you want to insert.
@@ -375,7 +375,7 @@ Grouping data in a report can make the data easier to interpret and use. For exa
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-05-1.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-05-1.html" label="A related topic"/>
 </context>
 <context id="HighlightRuleBuilder_ID" title="New Highlight">
 <description>Use this dialog box specify the condition, or rule, for applying a particular format to the report element.
@@ -383,7 +383,7 @@ Grouping data in a report can make the data easier to interpret and use. For exa
 The dialog box helps you specify the If and Then parts of the rule by breaking them down to more specific parts.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-07-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-07-01.html" label="A related topic"/>
 </context>
 <context id="Preference_BIRT_DataSetEditor_ID" title="Preferences - Data Set Editor page">
 <description>Use this page to control how the Data Set Editor displays SQL queries and previews reports.
@@ -391,7 +391,7 @@ The dialog box helps you specify the If and Then parts of the rule by breaking t
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-04-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-04-01.html" label="A related topic"/>
 </context>
 <context id="Preference_BIRT_ElementNames_ID" title="Preferences - Element Names page">
 <description>Use this page to assign default names to elements of the Report Object Model (ROM).
@@ -399,7 +399,7 @@ The dialog box helps you specify the If and Then parts of the rule by breaking t
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-23-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-23-01.html" label="A related topic"/>
 </context>
 <context id="Preference_BIRT_Library_ID" title="Preferences - Library page">
 <description>Use this page to add or remove libraries.
@@ -413,7 +413,7 @@ A BIRT library includes both formatting information and rules that help you the 
 A library may start with a "style sheet": a set of common styles to apply to all reports within an application. The library can then add commonly used data sources, reusable components, translated text, images and more.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-19-1.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-19-1.html" label="A related topic"/>
 </context>
 <context id="Preference_BIRT_Preview_ID" title="Preferences - Preview page">
 <description>Use this page to control how reports are previewed in web browsers.
@@ -423,7 +423,7 @@ To add a browser, select Custom Browser and enter the command to open it.
 You can enable an SVG device renderer for the chart engine. This reference implementation (located in the org.eclipse.birt.chart.device.svg plug-in) defines basic SVG drawing primitives based on the SVG 1.1 specification.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-04-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-04-01.html" label="A related topic"/>
 </context>
 <context id="Preference_BIRT_PreviewServer_ID" title="Preferences - Preview Server page">
 <description>Use this page to set up an internal application server to preview your reports.
@@ -439,6 +439,6 @@ You can enable an SVG device renderer for the chart engine. This reference imple
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt-19-1.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-19-1.html" label="A related topic"/>
 </context>
 </contexts>

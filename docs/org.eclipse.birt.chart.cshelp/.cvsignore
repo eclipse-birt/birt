@@ -2,7 +2,8 @@
 *.bom
 *.log
 *.opt
-output
-doc.zip
+*.zip
 *_toc.xml
 *.chm
+export
+output
