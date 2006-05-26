@@ -125,9 +125,6 @@ public interface IReportEngine
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
 			IReportRunnable reportRunnable );
 
-	public IDataPreviewTask createDataPreviewTask(
-			IReportRunnable reportRunnable );
-
 	/**
 	 * returns all supported output formats through BIRT engine emitter
 	 * extensions

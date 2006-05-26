@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -514,7 +513,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.35 $ $Date: 2006/04/18 07:08:29 $
+	 * @version $Revision: 1.36 $ $Date: 2006/04/29 07:40:16 $
 	 */
 	static abstract class ParameterVisitor
 	{

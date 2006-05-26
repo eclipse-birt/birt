@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
-import org.eclipse.birt.report.engine.api.IDataPreviewTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -285,12 +284,6 @@ public class ReportEngine implements IReportEngine
 			IReportRunnable reportRunnable )
 	{
 		return helper.createGetParameterDefinitionTask( reportRunnable );
-	}
-
-	public IDataPreviewTask createDataPreviewTask(
-			IReportRunnable reportRunnable )
-	{
-		return helper.createDataPreviewTask( reportRunnable );
 	}
 
 	/**

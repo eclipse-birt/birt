@@ -177,12 +177,6 @@ public class ReportEngine implements IReportEngine
 		return engine.createGetParameterDefinitionTask( reportRunnable );
 	}
 
-	public IDataPreviewTask createDataPreviewTask(
-			IReportRunnable reportRunnable )
-	{
-		return engine.createDataPreviewTask( reportRunnable );
-	}
-
 	/**
 	 * returns all supported output formats through BIRT engine emitter
 	 * extensions

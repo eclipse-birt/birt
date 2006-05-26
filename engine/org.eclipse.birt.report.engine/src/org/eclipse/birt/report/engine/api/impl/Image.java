@@ -80,18 +80,15 @@ public class Image extends ReportPart implements IImage
 		this.source = IImage.FILE_IMAGE;
 		try
 		{
-			URL url = new URL( uri );
+			new URL( uri );
 			extension = FileUtil.getExtFromFileName( uri, FileUtil.SEPARATOR_URI );
 			return;
 		}
 		catch ( MalformedURLException e )
 		{
 		}
-		catch ( IOException e1 )
-		{
-		}
 
-			extension = FileUtil.getExtFromFileName( uri, FileUtil.SEPARATOR_PATH );
+		extension = FileUtil.getExtFromFileName( uri, FileUtil.SEPARATOR_PATH );
 	}
 
 	/**

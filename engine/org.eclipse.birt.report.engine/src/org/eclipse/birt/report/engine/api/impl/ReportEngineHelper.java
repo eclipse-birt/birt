@@ -22,7 +22,6 @@ import org.eclipse.birt.core.archive.FolderArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
-import org.eclipse.birt.report.engine.api.IDataPreviewTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -218,12 +217,6 @@ public class ReportEngineHelper
 			IReportRunnable reportRunnable )
 	{
 		return new GetParameterDefinitionTask( engine, reportRunnable );
-	}
-
-	public IDataPreviewTask createDataPreviewTask(
-			IReportRunnable reportRunnable )
-	{
-		return new DataPreviewTask( engine, reportRunnable );
 	}
 
 	/**
