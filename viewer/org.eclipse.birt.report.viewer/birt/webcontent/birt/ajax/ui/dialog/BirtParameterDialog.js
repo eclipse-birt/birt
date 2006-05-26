@@ -140,15 +140,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					// if the parameter neither has a value nor a default value, error
 					if( temp.value == "" )
 					{
-						if( tempDef && tempDef.defaultValue == "" )
+						if( tempDef )
 						{
 							temp.focus( );
 							alert( temp.name + " should have a value" );
 							return false;
-						}
-						if( tempDef )
-						{
-							this.__parameter[k].value = tempDef.defaultValue;
 						}
 						else
 						{
