@@ -200,7 +200,7 @@ public abstract class BoundColumnsMgr
 				handleBoundsForValue( element, module, (String) jsExprs.get( i ) );
 
 			Map updatedExprs = DataBoundColumnUtil.handleJavaExpression(
-					jsExprs, element, module );
+					jsExprs, element, module, null );
 			( (ICompatibleReportItem) reportItem )
 					.updateRowExpressions( updatedExprs );
 		}
@@ -684,7 +684,8 @@ public abstract class BoundColumnsMgr
 
 		List jsExprs = DataBoundColumnUtil.getExpressions( content, element,
 				module );
-		DataBoundColumnUtil.handleJavaExpression( jsExprs, element, module );
+		DataBoundColumnUtil.handleJavaExpression( jsExprs, element, module,
+				null );
 	}
 
 	/**

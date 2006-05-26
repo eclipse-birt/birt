@@ -101,7 +101,7 @@ public class TextItemState extends ReportItemState
 		List jsExprs = DataBoundColumnUtil.getExpressions( content, element,
 				handler.getModule( ) );
 		updateExpressions( content, DataBoundColumnUtil.handleJavaExpression(
-				jsExprs, element, handler.getModule( ) ) );
+				jsExprs, element, handler.getModule( ), handler.tempValue ) );
 	}
 
 	/**
