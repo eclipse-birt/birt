@@ -97,6 +97,15 @@ public class DataSetResultSet implements IDataSetPopulator
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public IResultClass getResultClass()
+	{
+		return this.rsMetaData;
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#close()
 	 */

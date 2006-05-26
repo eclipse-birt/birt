@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
+import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprDataResultSet1;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprDataResultSet2;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
@@ -174,6 +175,19 @@ public class RDLoad
 		}
 
 		return resultClass;
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	public DataSetResultSet loadDataSetData( ) throws DataException
+	{
+		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM );
+		BufferedInputStream buffStream = new BufferedInputStream( stream );
+		DataSetResultSet populator = new DataSetResultSet( buffStream, this.loadResultClass() );
+
+		return populator;
 	}
 	
 }

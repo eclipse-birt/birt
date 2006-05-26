@@ -205,16 +205,25 @@ public class CachedResultSet implements IResultIterator
 	public void doSave( StreamWrapper streamsWrapper,
 			boolean isSubQuery, Set nameSet ) throws DataException
 	{
-		// save group info
-		this.resultSetPopulator.getGroupProcessorManager( )
+		if( streamsWrapper.getStreamForGroupInfo()!= null)
+		{
+			// save group info
+			this.resultSetPopulator.getGroupProcessorManager( )
 				.getGroupCalculationUtil( )
 				.doSave( streamsWrapper.getStreamForGroupInfo( ) );
+		}	
 
 		// save result class
-		if ( isSubQuery == false )
+		if ( isSubQuery == false && streamsWrapper.getStreamForResultClass()!= null)
 		{
 			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ) );
 		}
+		
+		if ( streamsWrapper.getStreamForDataSet()!= null )
+		{
+			this.resultSetPopulator.getCache().doSave(
+				streamsWrapper.getStreamForDataSet());
+		}	
 	}
 	
 	/*

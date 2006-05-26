@@ -661,7 +661,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		if ( this.isExecuted )
 			return;
 
-		ExecutorHelper helper = new ExecutorHelper( this.queryScope );
+		ExecutorHelper helper = new ExecutorHelper( this.getQueryScope() );
 		helper.setParent( this.parentHelper );
 		eventHandler.setExecutorHelper( helper );
 

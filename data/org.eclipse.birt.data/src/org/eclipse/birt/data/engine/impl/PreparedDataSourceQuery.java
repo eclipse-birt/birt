@@ -54,7 +54,12 @@ abstract class PreparedDataSourceQuery
 		assert queryDefn != null;
 		
 		if ( queryDefn.getQueryResultsID( ) != null )
-			return new PreparedIVQuery( dataEngine, queryDefn );
+		{
+			if( queryDefn.getGroups()== null || queryDefn.getGroups().size() == 0)
+				return new PreparedIVQuery( dataEngine, queryDefn );
+			else 
+				return new PreparedIVDataSourceQuery(dataEngine,queryDefn, null, null);
+		}
 		
 		IBaseDataSetDesign dset = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
 		if ( dset == null )
