@@ -120,7 +120,7 @@ public class SmartCache implements ResultSetCache
 			throws DataException
 	{
 		int length = endIndex - startIndex;
-		if ( cacheRequest.getMaxRow( ) == 0
+		if ( cacheRequest.getMaxRow( ) <= 0
 				|| length <= cacheRequest.getMaxRow( ) )
 			cacheRequest.setMaxRow( length );
 
