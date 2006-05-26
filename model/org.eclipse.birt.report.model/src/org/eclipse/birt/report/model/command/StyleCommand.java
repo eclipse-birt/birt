@@ -146,8 +146,15 @@ public class StyleCommand extends AbstractElementCommand
 	protected void setStyleRefValue( ElementRefValue refValue )
 			throws StyleException
 	{
-		if ( refValue == null && element.getStyle( ) == null )
-			return;
+
+		if ( refValue == null )
+		{
+			if ( ( element instanceof StyledElement )
+					&& ( ( (StyledElement) element ).getStyleName( ) == null ) )
+			{
+				return;
+			}
+		}
 
 		doSetStyleRefValue( refValue );
 	}
