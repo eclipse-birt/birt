@@ -241,12 +241,12 @@ public class WebViewer
 
 		if ( WebViewer.PDF.equalsIgnoreCase( format ) )
 		{
-			root = createURL( "run", report, format, false ); //$NON-NLS-1$
+			root = createURL( "run", report, format, true ); //$NON-NLS-1$
 		}
 		else
 		{
 			root = createURL(
-					allowPage ? "frameset" : "run", report, format, false ) + "&" + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					allowPage ? "frameset" : "run", report, format, true ) + "&" + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		try

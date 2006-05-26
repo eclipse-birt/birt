@@ -545,7 +545,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			return paramValue;
 
 		Object paramValueObj = null;
-		if ( ParameterAccessor.isDesigner( request ) && this.configMap != null
+		if ( isDesigner
+				&& IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request
+						.getServletPath( ) ) && this.configMap != null
 				&& this.configMap.containsKey( paramName ) )
 		{
 			// Get value from config file

@@ -587,9 +587,12 @@ public class ReportEngineService
 
 		HashMap context = new HashMap( );
 
-		// context.put( DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE );
+		// context.put(DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE )running in
+		// designer enviroment; if running in deployment, set it to false
+		Boolean isDesigner = Boolean.valueOf( ParameterAccessor
+				.isDesigner( request ) );
 		context.put( "org.eclipse.birt.data.engine.dataset.cache.option", //$NON-NLS-1$
-				Boolean.TRUE );
+				isDesigner );
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
@@ -662,10 +665,13 @@ public class ReportEngineService
 		runTask.setParameterValues( parameters );
 
 		HashMap context = new HashMap( );
-		// context.put( DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE );
+		// context.put(DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE )running in
+		// designer enviroment; if running in deployment, set it to false
+		Boolean isDesigner = Boolean.valueOf( ParameterAccessor
+				.isDesigner( request ) );
 		context
 				.put(
-						"org.eclipse.birt.data.engine.dataset.cache.option", Boolean.TRUE ); //$NON-NLS-1$
+						"org.eclipse.birt.data.engine.dataset.cache.option", isDesigner ); //$NON-NLS-1$
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
@@ -1004,7 +1010,7 @@ public class ReportEngineService
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
 			fault
 					.setFaultCode( new QName(
-							"ReportEngineService.getMetaData( )" ) ); //$NON-NLS-1$
+							"ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -1014,7 +1020,7 @@ public class ReportEngineService
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
 			fault
 					.setFaultCode( new QName(
-							"ReportEngineService.getMetaData( )" ) ); //$NON-NLS-1$
+							"ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
