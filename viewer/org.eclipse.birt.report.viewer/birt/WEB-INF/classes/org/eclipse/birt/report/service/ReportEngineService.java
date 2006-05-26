@@ -482,6 +482,8 @@ public class ReportEngineService
 			renderContext.setBaseURL( this.contextPath
 					+ IBirtConstants.SERVLET_PATH_FRAMESET );
 		}
+		
+		renderContext.setImageDirectory( imageDirectory );
 		renderContext.setSupportedImageFormats( svgFlag
 				? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return renderContext;
@@ -597,9 +599,6 @@ public class ReportEngineService
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
-		HTMLRenderContext ctx = new HTMLRenderContext( );
-		ctx.setImageDirectory( "images" ); //$NON-NLS-1$
-		context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT, ctx );
 
 		if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 		{
@@ -763,9 +762,6 @@ public class ReportEngineService
 							createHTMLrenderContext( svgFlag, request
 									.getServletPath( ) ) );
 		}
-		HTMLRenderContext ctx = new HTMLRenderContext( );
-		ctx.setImageDirectory( "images" ); //$NON-NLS-1$
-		context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT, ctx );
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
