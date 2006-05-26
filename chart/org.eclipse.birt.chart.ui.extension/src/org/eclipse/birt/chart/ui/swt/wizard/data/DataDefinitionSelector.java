@@ -36,7 +36,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -405,8 +404,6 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 										0 );
 						if ( !isDimensionSupported )
 						{
-							WizardBase.displayException( new RuntimeException( currentDimension
-									+ Messages.getString( "DataDefinitionSelector.Exception.NotSupportedForMultipleAxes" ) ) ); //$NON-NLS-1$
 							getChart( ).setDimension( ChartUIUtil.getDimensionType( wizardContext.getChartType( )
 									.getDefaultDimension( ) ) );
 						}

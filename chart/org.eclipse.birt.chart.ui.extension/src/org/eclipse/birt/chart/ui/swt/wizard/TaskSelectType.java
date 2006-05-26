@@ -39,7 +39,6 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -770,8 +769,6 @@ public class TaskSelectType extends SimpleTask
 		// Select the previous selection or the default
 		if ( !isOldExist )
 		{
-			WizardBase.displayException( new RuntimeException( sDimension
-					+ Messages.getString( "TaskSelectType.Exception.NotSupportedForMultipleAxes" ) ) ); //$NON-NLS-1$
 			sDimension = chartType.getDefaultDimension( );
 		}
 		cbDimension.setText( sDimension );
