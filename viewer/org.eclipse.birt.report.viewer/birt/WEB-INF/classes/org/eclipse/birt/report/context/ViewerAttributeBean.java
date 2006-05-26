@@ -183,10 +183,13 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	{
 		assert reportDesignHandle != null;
 
+		this.configMap = new HashMap( );
+
 		// get report config filename
-		String reportConfigName = this.reportDesignName.replaceFirst(
-				IBirtConstants.SUFFIX_DESIGN_FILE,
-				IBirtConstants.SUFFIX_DESIGN_CONFIG );
+		String reportConfigName = ParameterAccessor
+				.getConfigFileName( reportDesignName );
+		if ( reportConfigName == null )
+			return;
 
 		// Generate the session handle
 		SessionHandle sessionHandle = DesignEngine.newSession( ULocale.US );
@@ -195,8 +198,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 		try
 		{
-			this.configMap = new HashMap( );
-
 			// Open report config file
 			handle = sessionHandle.openDesign( reportConfigName );
 
@@ -546,8 +547,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 		Object paramValueObj = null;
 		if ( isDesigner
-				&& IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request
-						.getServletPath( ) ) && this.configMap != null
+				&& ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request
+						.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_PARAMETER
+						.equalsIgnoreCase( request.getServletPath( ) ) )
+				&& this.configMap != null
 				&& this.configMap.containsKey( paramName ) )
 		{
 			// Get value from config file

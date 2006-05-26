@@ -54,6 +54,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 	// suffix of design file
 	public static final String SUFFIX_DESIGN_FILE = "rptdesign"; //$NON-NLS-1$
 
+	// suffix of template file
+	public static final String SUFFIX_TEMPLATE_FILE = "rpttemplate"; //$NON-NLS-1$
+
 	// suffix of design config file
 	public static final String SUFFIX_DESIGN_CONFIG = "rptconfig"; //$NON-NLS-1$
 
@@ -266,11 +269,10 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 	{
 		HashMap configVars = new HashMap( );
 
-		String reportDesignName = this.getFileUri( );
-
 		// get design config file name
-		String configFileName = reportDesignName.replaceFirst(
-				SUFFIX_DESIGN_FILE, SUFFIX_DESIGN_CONFIG );
+		String configFileName = getConfigFileName( this.getFileUri( ) );
+		if ( configFileName == null )
+			return configVars;
 
 		ReportDesignHandle handle = null;
 
@@ -445,5 +447,34 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 		}
 
 		return missingParameter;
+	}
+
+	/**
+	 * Parse config file name from report design filename.
+	 * 
+	 * @param reportDesignName
+	 *            String
+	 * @return String
+	 */
+
+	private String getConfigFileName( String reportDesignName )
+	{
+		if ( reportDesignName == null )
+			return null;
+
+		String configFileName = null;
+
+		if ( reportDesignName.endsWith( SUFFIX_DESIGN_FILE ) )
+		{
+			configFileName = reportDesignName.replaceFirst( SUFFIX_DESIGN_FILE,
+					SUFFIX_DESIGN_CONFIG );
+		}
+		else if ( reportDesignName.endsWith( SUFFIX_TEMPLATE_FILE ) )
+		{
+			configFileName = reportDesignName.replaceFirst(
+					SUFFIX_TEMPLATE_FILE, SUFFIX_DESIGN_CONFIG );
+		}
+
+		return configFileName;
 	}
 }

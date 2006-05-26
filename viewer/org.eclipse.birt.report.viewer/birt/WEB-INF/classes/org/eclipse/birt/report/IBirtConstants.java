@@ -59,14 +59,20 @@ public interface IBirtConstants
 
 	// suffix of design file
 	public static final String SUFFIX_DESIGN_FILE = "rptdesign"; //$NON-NLS-1$
-	
+
+	// suffix of template file
+	public static final String SUFFIX_TEMPLATE_FILE = "rpttemplate"; //$NON-NLS-1$
+
+	// suffix of library file
+	public static final String SUFFIX_LIBRARY_FILE = "rptlibrary"; //$NON-NLS-1$
+
 	// suffix of design document file
 	public static final String SUFFIX_DESIGN_DOCUMENT = "rptdocument"; //$NON-NLS-1$
 
 	// suffix of design config file
 	public static final String SUFFIX_DESIGN_CONFIG = "rptconfig"; //$NON-NLS-1$
 	
-	// 
+	// Attribute Bean
 	public static final String ATTRIBUTE_BEAN = "attributeBean"; //$NON-NLS-1$
 	
 	

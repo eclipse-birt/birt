@@ -33,6 +33,7 @@ import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 import com.ibm.icu.util.ULocale;
 
@@ -60,10 +61,16 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		{
 			// get design file name
 			String reportDesignName = attrBean.getReportDesignName( );
+
 			// get design config file name
-			String configFileName = reportDesignName.replaceFirst(
-					IBirtConstants.SUFFIX_DESIGN_FILE,
-					IBirtConstants.SUFFIX_DESIGN_CONFIG );
+			String configFileName = ParameterAccessor
+					.getConfigFileName( reportDesignName );
+			
+			if (configFileName == null)
+			{
+				handleUpdate( );
+				return;
+			}
 
 			// Generate the session handle
 			SessionHandle sessionHandle = DesignEngine.newSession( ULocale.US );

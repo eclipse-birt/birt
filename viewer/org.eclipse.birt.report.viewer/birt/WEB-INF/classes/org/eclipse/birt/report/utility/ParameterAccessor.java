@@ -28,6 +28,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.axis.AxisFault;
+import org.eclipse.birt.report.IBirtConstants;
 
 /**
  * Utilites class for all types of URl related operatnios.
@@ -432,7 +433,7 @@ public class ParameterAccessor
 		}
 		return queryString;
 	}
-	
+
 	/**
 	 * Gets the query parameter string with the give name and value.
 	 * 
@@ -440,7 +441,7 @@ public class ParameterAccessor
 	 * @param value
 	 * @return
 	 */
-	
+
 	public static String getQueryParameterString( String paramName, String value )
 	{
 		StringBuffer b = new StringBuffer( );
@@ -1418,4 +1419,35 @@ public class ParameterAccessor
 		return encodedString;
 	}
 
+	/**
+	 * Parse config file name from report design filename.
+	 * 
+	 * @param reportDesignName
+	 *            String
+	 * @return String
+	 */
+
+	public static String getConfigFileName( String reportDesignName )
+	{
+		if ( reportDesignName == null )
+			return null;
+
+		String configFileName = null;
+
+		if ( reportDesignName.endsWith( IBirtConstants.SUFFIX_DESIGN_FILE ) )
+		{
+			configFileName = reportDesignName.replaceFirst(
+					IBirtConstants.SUFFIX_DESIGN_FILE,
+					IBirtConstants.SUFFIX_DESIGN_CONFIG );
+		}
+		else if ( reportDesignName
+				.endsWith( IBirtConstants.SUFFIX_TEMPLATE_FILE ) )
+		{
+			configFileName = reportDesignName.replaceFirst(
+					IBirtConstants.SUFFIX_TEMPLATE_FILE,
+					IBirtConstants.SUFFIX_DESIGN_CONFIG );
+		}
+
+		return configFileName;
+	}
 }
