@@ -46,89 +46,59 @@ import org.eclipse.swt.graphics.Image;
 public class ExpressionProvider implements IExpressionProvider
 {
 
-	protected static class Operator
-	{
-
-		/**
-		 * The tooltip of the operator
-		 */
-		public String tooltip;
-		/**
-		 * The symbol of the operator
-		 */
-		public String symbol;
-
-		/**
-		 * The text to insert into the source viewer
-		 */
-		public String insertText;
-
-		Operator( String symbol, String tooltipKey )
-		{
-			this.symbol = symbol;
-			insertText = symbol;
-			this.tooltip = Messages.getString( tooltipKey );
-		}
-
-		Operator( String symbol, String tooltipKey, String insertText )
-		{
-			this( symbol, tooltipKey );
-			this.insertText = insertText;
-		}
-	}
-
-	protected static final String[] OPERATORS_ON_BAR = new String[]{
-			"+", //$NON-NLS-1$
-			"-", //$NON-NLS-1$
-			"*", //$NON-NLS-1$
-			"/", //$NON-NLS-1$
-			OPERATOR_SEPARATOR,
-			"!", //$NON-NLS-1$
-			"=", //$NON-NLS-1$
-			"<", //$NON-NLS-1$
-			">", //$NON-NLS-1$
-			OPERATOR_SEPARATOR,
-			"&", //$NON-NLS-1$
-			"|", //$NON-NLS-1$
-			"(", //$NON-NLS-1$
-			")" //$NON-NLS-1$
-	};
-
 	/** Arithmetic operators and their descriptions */
 	protected static final Operator[] OPERATORS_ASSIGNMENT = new Operator[]{
-			new Operator( "=", "ExpressionProvider.Operator.Assign" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "+=", "ExpressionProvider.Operator.AddTo" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "-=", "ExpressionProvider.Operator.SubFrom" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "*=", "ExpressionProvider.Operator.MultTo" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "/=", "ExpressionProvider.Operator.DividingFrom" ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "=", Messages.getString( "ExpressionProvider.Operator.Assign" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "+=", Messages.getString( "ExpressionProvider.Operator.AddTo" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "-=", Messages.getString( "ExpressionProvider.Operator.SubFrom" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "*=", Messages.getString( "ExpressionProvider.Operator.MultTo" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "/=", Messages.getString( "ExpressionProvider.Operator.DividingFrom" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 	};
 
 	/** Comparison operators and their descriptions */
 	protected static Operator[] OPERATORS_COMPARISON = new Operator[]{
-			new Operator( "==", "ExpressionProvider.Operator.Equals" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "<", "ExpressionProvider.Operator.Less" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "<=", "ExpressionProvider.Operator.LessEqual" ), //$NON-NLS-1$ //$NON-NLS-2$ 
-			new Operator( "!=", "ExpressionProvider.Operator.NotEqual" ), //$NON-NLS-1$ //$NON-NLS-2$ 
-			new Operator( ">", "ExpressionProvider.Operator.Greater" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( ">=", "ExpressionProvider.Operator.GreaterEquals" ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "==", Messages.getString( "ExpressionProvider.Operator.Equals" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "<", Messages.getString( "ExpressionProvider.Operator.Less" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "<=", Messages.getString( "ExpressionProvider.Operator.LessEqual" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
+			new Operator( "!=", Messages.getString( "ExpressionProvider.Operator.NotEqual" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
+			new Operator( ">", Messages.getString( "ExpressionProvider.Operator.Greater" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( ">=", Messages.getString( "ExpressionProvider.Operator.GreaterEquals" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 
 	};
 
 	/** Computational operators and their descriptions */
 	protected static final Operator[] OPERATORS_COMPUTATIONAL = new Operator[]{
-			new Operator( "+", "ExpressionProvider.Operator.Add" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "-", "ExpressionProvider.Operator.Sub" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "*", "ExpressionProvider.Operator.Mult" ), //$NON-NLS-1$ //$NON-NLS-2$
-			new Operator( "/", "ExpressionProvider.Operator.Dvides" ), //$NON-NLS-1$ //$NON-NLS-2$ 
-			new Operator( "++ ", "ExpressionProvider.Operator.Inc", "++" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-			new Operator( "-- ", "ExpressionProvider.Operator.Dec", "--" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			new Operator( "+", Messages.getString( "ExpressionProvider.Operator.Add" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "-", Messages.getString( "ExpressionProvider.Operator.Sub" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "*", Messages.getString( "ExpressionProvider.Operator.Mult" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "/", Messages.getString( "ExpressionProvider.Operator.Divides" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
+			new Operator( "++ ", Messages.getString( "ExpressionProvider.Operator.Inc" ) ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+			new Operator( "-- ", Messages.getString( "ExpressionProvider.Operator.Dec" ) ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	};
 
 	/** Logical operators and their descriptions */
 	protected static final Operator[] OPERATORS_LOGICAL = new Operator[]{
-			new Operator( "&&", "ExpressionProvider.Operator.And" ), //$NON-NLS-1$ //$NON-NLS-2$ 
-			new Operator( "||", "ExpressionProvider.Operator.Or" ) //$NON-NLS-1$ //$NON-NLS-2$ 
+			new Operator( "&&", Messages.getString( "ExpressionProvider.Operator.And" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
+			new Operator( "||", Messages.getString( "ExpressionProvider.Operator.Or" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
 
+	};
+
+	/** Default operators on the operator bar */
+	protected static final Operator[] OPERATORS_ON_BAR = new Operator[]{
+			OPERATORS_COMPUTATIONAL[0],
+			OPERATORS_COMPUTATIONAL[1],
+			OPERATORS_COMPUTATIONAL[2],
+			OPERATORS_COMPUTATIONAL[3],
+			OPERATOR_SEPARATOR,
+			new Operator( "!", Messages.getString( "ExpressionProvider.Operator.Not" ) ),//$NON-NLS-1$
+			new Operator( "=", Messages.getString( "ExpressionProvider.Operator.Equals" ) ),//$NON-NLS-1$
+			OPERATORS_COMPARISON[1],
+			OPERATORS_COMPARISON[4],
+			OPERATOR_SEPARATOR,
+			new Operator( "&", Messages.getString( "ExpressionProvider.Operator.BitAnd" ) ),//$NON-NLS-1$
+			new Operator( "|", Messages.getString( "ExpressionProvider.Operator.BitOr" ) ),//$NON-NLS-1$
+			new Operator( "(", Messages.getString( "ExpressionProvider.Operator.LeftBracket" ) ),//$NON-NLS-1$
+			new Operator( ")", Messages.getString( "ExpressionProvider.Operator.RightBracket" ) ),//$NON-NLS-1$
 	};
 
 	protected static final String DISPLAY_TEXT_ASSIGNMENT = Messages.getString( "ExpressionProvider.Operators.Assignment" ); //$NON-NLS-1$	
@@ -144,7 +114,7 @@ public class ExpressionProvider implements IExpressionProvider
 	protected static final Image IMAGE_STATIC_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER );
 
 	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
-	public static final String COLUMN_BINDINGS = Messages.getString("ExpressionProvider.Category.ColumnBinding");  //$NON-NLS-1$
+	public static final String COLUMN_BINDINGS = Messages.getString( "ExpressionProvider.Category.ColumnBinding" ); //$NON-NLS-1$
 	// public static final String DATASETS = Messages.getString(
 	// "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
 	public static final String PARAMETERS = Messages.getString( "ExpressionProvider.Category.Parameters" ); //$NON-NLS-1$
@@ -154,7 +124,7 @@ public class ExpressionProvider implements IExpressionProvider
 	protected static final String ALL = Messages.getString( "ExpressionProvider.Label.All" ); //$NON-NLS-1$
 
 	private static final String TOOLTIP_BINDING_PREFIX = Messages.getString( "ExpressionProvider.Tooltip.ColumnBinding" ); //$NON-NLS-1$
-	
+
 	protected DesignElementHandle elementHandle;
 
 	private List filterList;
@@ -205,7 +175,7 @@ public class ExpressionProvider implements IExpressionProvider
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getOperators()
 	 */
-	public String[] getOperators( )
+	public Operator[] getOperators( )
 	{
 		return OPERATORS_ON_BAR;
 	}
@@ -563,7 +533,7 @@ public class ExpressionProvider implements IExpressionProvider
 	{
 		if ( element instanceof Operator )
 		{
-			return ( (Operator) element ).insertText;
+			return ( (Operator) element ).insertString;
 		}
 		else if ( element instanceof ILocalizableInfo[] )
 		{

@@ -22,16 +22,17 @@ import org.eclipse.swt.graphics.Image;
 
 public interface IExpressionProvider
 {
-
-	public static final String OPERATOR_SEPARATOR = "operatorSeparator";
+	
+	/** The operator separator */
+	public static final Operator OPERATOR_SEPARATOR = new Operator( "operatorSeparator", null ); //$NON-NLS-1$
 
 	/**
 	 * Returns the operators which show on the operator bar.
 	 * 
-	 * @return a string array of operators, or null there is no operator bar.
+	 * @return an array of operators, or null there is no operator bar.
 	 */
 
-	public String[] getOperators( );
+	public Operator[] getOperators( );
 
 	/**
 	 * Returns the elements for category.

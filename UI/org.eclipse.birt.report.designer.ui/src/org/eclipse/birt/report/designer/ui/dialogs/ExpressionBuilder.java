@@ -464,7 +464,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private void createOperatorsBar( Composite parent )
 	{
-		String[] operators = provider.getOperators( );
+		Operator[] operators = provider.getOperators( );
 		if ( operators == null || operators.length == 0 )
 		{
 			return;
@@ -493,13 +493,14 @@ public class ExpressionBuilder extends TitleAreaDialog
 			button.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			if ( operators[i] != IExpressionProvider.OPERATOR_SEPARATOR )
 			{
-				button.setData( operators[i] );
-				String text = operators[i];
+				button.setData( operators[i].insertString );
+				String text = operators[i].symbol;
 				if ( text.indexOf( "&" ) != -1 ) //$NON-NLS-1$
 				{
 					text = text.replaceAll( "&", "&&" ); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				button.setText( text );
+				button.setToolTipText( operators[i].tooltip );
 				button.addSelectionListener( selectionAdapter );
 			}
 			else
