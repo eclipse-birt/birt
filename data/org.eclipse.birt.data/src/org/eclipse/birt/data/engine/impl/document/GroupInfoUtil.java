@@ -205,35 +205,36 @@ public class GroupInfoUtil {
 	private static boolean validateGroupLevel( List endLevelList, int[] indexArray )
 	{
 		assert endLevelList != null;
-		int firstChild = -1, startCount = 0;
-
-		GroupInfo baseInfo = (GroupInfo) endLevelList.get( 0 );
-
-		for ( int i = 1; i < endLevelList.size( ); i++ )
+		int index = 0;
+		for( int i = 0; i < indexArray.length; i++ )
 		{
-			GroupInfo info = (GroupInfo) endLevelList.get( i );
-			firstChild = info.firstChild;
-
-			while ( startCount < indexArray.length )
-			{
-				if ( indexArray[startCount] < firstChild
-						&& indexArray[startCount] >= baseInfo.firstChild )
-				{
-					startCount++;
-				}
-				else
-				{
-					break;
-				}
-			}
-			baseInfo = info;
+			index = findGroup( i, index, indexArray, endLevelList );
+			if( index == -1 )
+				return false;
 		}
-		if ( startCount + 1 == indexArray.length )
-			return true;
-		else
-			return false;
+		return true;
 	}
 
+	private static int findGroup( int arrayIndex, int startIndex, int[] indexArray, List endLevelList)
+	{
+		for ( int i = startIndex; i < endLevelList.size( ); i++ )
+		{
+			GroupInfo info = (GroupInfo) endLevelList.get( i );
+			int start = info.firstChild;
+			int end = -1;
+			if( i + 1 < endLevelList.size() )
+			{
+				end = ((GroupInfo) endLevelList.get( i + 1 )).firstChild - 1;
+			}
+			
+			if ( (end==-1 || indexArray[arrayIndex] <= end)
+						&& indexArray[arrayIndex] >= start )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
 	/**
 	 * 
 	 */
