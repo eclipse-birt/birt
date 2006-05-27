@@ -72,7 +72,7 @@
 	<property name="core.dir" location="../org.eclipse.birt.core" />
 	<property name="chart.engine.dir" value="../org.eclipse.birt.chart.engine" />
 	<property name="chart.device.extension" value="../org.eclipse.birt.chart.device.extension" />
-	<property name="chart.device.svg" value="../org.eclipse.birt.chart.svg" />
+	<property name="chart.device.svg" value="../org.eclipse.birt.chart.device.svg" />
 
 
 	<property name="def.emf.version" value="2.0.1" />
