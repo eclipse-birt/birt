@@ -151,7 +151,7 @@
 				<include name="**/*.def"/>
 				<include name="**/*.properties"/>
 			</fileset>
-			<fileset dir="." includes="about.html,plugin.xml,plugin.properties,.options,schema/**,lib/**,icons/**"/>
+			<fileset dir="." includes="about.html,plugin.xml,plugin*.properties,.options,schema/**,lib/**,icons/**"/>
 		</jar>
 	</target>
 	

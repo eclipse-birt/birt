@@ -17,6 +17,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.dialogs.Operator;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
@@ -232,7 +233,7 @@ public class ChartExpressionProvider extends ExpressionProvider
 	{
 		if ( element instanceof Operator )
 		{
-			return ( (Operator) element ).insertText;
+			return ( (Operator) element ).insertString;
 		}
 		else if ( element instanceof ILocalizableInfo[] )
 		{
