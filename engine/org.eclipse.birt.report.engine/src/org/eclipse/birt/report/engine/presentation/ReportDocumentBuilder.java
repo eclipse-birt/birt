@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -125,7 +126,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:51 $
+	 * @version $Revision: 1.2 $ $Date: 2006/04/12 05:40:32 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -208,7 +209,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:51 $
+	 * @version $Revision: 1.2 $ $Date: 2006/04/12 05:40:32 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{
@@ -405,6 +406,19 @@ public class ReportDocumentBuilder
 					{
 						logger.log( Level.SEVERE,
 								"Failed to save the report document", ex );
+					}
+					try
+					{
+						IDocArchiveWriter archive = document.getArchive( );
+						if ( archive != null )
+						{
+							archive.flush( );
+						}
+					}
+					catch(IOException ex)
+					{
+						logger.log( Level.SEVERE,
+								"Failed to flush the report document", ex );
 					}
 				}
 				// notify the page handler
