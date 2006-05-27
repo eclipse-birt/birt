@@ -96,6 +96,11 @@ public abstract class ListingItemState extends ReportItemState
 			if ( !elements.contains( group ) )
 				continue;
 
+			if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) >= 0 ) //$NON-NLS-1$
+			{
+				continue;
+			}
+
 			List columns = (List) handler.tempValue.get( group );
 			if ( columns == null || columns.isEmpty( ) )
 				continue;
@@ -110,26 +115,15 @@ public abstract class ListingItemState extends ReportItemState
 						tmpList );
 			}
 
-			for ( int j = 0; j < columns.size( ); j++ )
+			if ( StringUtil.compareVersion( handler.getVersion( ), "3" ) <= 0 ) //$NON-NLS-1$
 			{
-				ComputedColumn column = (ComputedColumn) columns.get( j );
-
-				column.setAggregrateOn( groupName );
-
-				ComputedColumn foundColumn = checkMatchedBoundColumnForGroup(
-						tmpList, column.getExpression( ), column
-								.getAggregrateOn( ) );
-				if ( foundColumn == null
-						|| !foundColumn.getName( ).equals( column.getName( ) ) )
-				{
-					String newName = getUniqueBoundColumnNameForGroup( tmpList,
-							column );
-					column.setName( newName );
-					tmpList.add( column );
-				}
+				addCachedListWithAggregateOnToListing( columns, tmpList, group,
+						groupName );
+				continue;
 			}
 
-			reCheckResultSetColumnName( group, tmpList );
+			addCachedListToListing( columns, tmpList, group, groupName );
+
 		}
 
 		super.end( );
@@ -244,6 +238,75 @@ public abstract class ListingItemState extends ReportItemState
 
 			item.setProperty( DataItem.RESULT_SET_COLUMN_PROP, foundColumn
 					.getName( ) );
+		}
+	}
+
+	/**
+	 * Add cached bound columns for the given group to the group's listing
+	 * container. This is for old design file that do not have bound column
+	 * features.
+	 * 
+	 * @param columns
+	 *            bound columns to add
+	 * @param tmpList
+	 *            bound column values of the listing container
+	 * @param group
+	 *            the list/table group
+	 * @param groupName
+	 *            the group name
+	 */
+
+	public void addCachedListWithAggregateOnToListing( List columns,
+			List tmpList, GroupElement group, String groupName )
+	{
+		for ( int j = 0; j < columns.size( ); j++ )
+		{
+			ComputedColumn column = (ComputedColumn) columns.get( j );
+
+			column.setAggregrateOn( groupName );
+
+			ComputedColumn foundColumn = checkMatchedBoundColumnForGroup(
+					tmpList, column.getExpression( ), column.getAggregrateOn( ) );
+			if ( foundColumn == null
+					|| !foundColumn.getName( ).equals( column.getName( ) ) )
+			{
+				String newName = getUniqueBoundColumnNameForGroup( tmpList,
+						column );
+				column.setName( newName );
+				tmpList.add( column );
+			}
+		}
+
+		reCheckResultSetColumnName( group, tmpList );
+	}
+
+	/**
+	 * Add cached bound columns for the given group to the group's listing
+	 * container. This method is for the design file with the bound column
+	 * feature and the group defined the bound column properties.
+	 * 
+	 * @param columns
+	 *            bound columns to add
+	 * @param tmpList
+	 *            bound column values of the listing container
+	 * @param group
+	 *            the list/table group
+	 * @param groupName
+	 *            the group name
+	 */
+
+	public void addCachedListToListing( List columns, List tmpList,
+			GroupElement group, String groupName )
+	{
+		for ( int j = 0; j < columns.size( ); j++ )
+		{
+			ComputedColumn column = (ComputedColumn) columns.get( j );
+
+			if ( !tmpList.contains( column ) )
+			{
+				column.setAggregrateOn( groupName );
+				tmpList.add( column );
+			}
 		}
 	}
 }
