@@ -13,11 +13,14 @@ package org.eclipse.birt.core.archive;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class FileArchiveWriter implements IDocArchiveWriter
 {
 	private String fileName;
 	private FolderArchiveWriter folderWriter; 			
+	private LinkedList openStreams = new LinkedList( );
 
 	/**
 	 * @param absolute fileName the archive file name
@@ -55,7 +58,13 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 */
 	public RAOutputStream createRandomAccessStream( String relativePath ) throws IOException
 	{
-		return folderWriter.createRandomAccessStream( relativePath );
+		RAOutputStream raOutputStream = folderWriter
+				.createRandomAccessStream( relativePath );
+		synchronized ( openStreams )
+		{
+			openStreams.add( raOutputStream );
+		}
+		return raOutputStream;
 	}
 	
 	/**
@@ -95,7 +104,66 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 */
 	public void finish() throws IOException
 	{
+		closeAllStream( );
 		folderWriter.toFileArchive( fileName );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#flush()
+	 */
+	public void flush( ) throws IOException
+	{
+		IOException ioex = null;
+		synchronized ( openStreams )
+		{
+			Iterator iter = openStreams.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				RAFolderOutputStream stream = (RAFolderOutputStream) iter
+						.next( );
+				if ( stream != null )
+				{
+					try
+					{
+						stream.flush( );
+					}
+					catch ( IOException ex )
+					{
+						ioex = ex;
+					}
+				}
+			}
+		}
+		if ( ioex != null )
+		{
+			throw ioex;
+		}
+	}
+	
+	protected void closeAllStream()
+	{
+		synchronized ( openStreams )
+		{
+			Iterator iter = openStreams.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				RAFolderOutputStream stream = (RAFolderOutputStream) iter
+						.next( );
+				if ( stream != null )
+				{
+					try
+					{
+						stream.close( );
+					}
+					catch ( IOException ex )
+					{
+					}
+				}
+			}
+			openStreams.clear( );
+		}
 	}
 
 }

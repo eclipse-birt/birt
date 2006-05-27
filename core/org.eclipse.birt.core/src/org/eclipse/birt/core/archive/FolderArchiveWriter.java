@@ -16,11 +16,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class FolderArchiveWriter implements IDocArchiveWriter
 {
 	private String folderName;
 	private IStreamSorter streamSorter = null;
+	private LinkedList openStreams = new LinkedList( );
 
 	/**
 	 * @param absolute fileName the archive file name
@@ -49,18 +52,24 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	 */
 	public RAOutputStream createRandomAccessStream( String relativePath ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
+		String path = ArchiveUtil.generateFullPath(folderName, relativePath);
 		File fd = new File(path);
 
-		ArchiveUtil.createParentFolder( fd );
-		
-		RAFolderOutputStream out = new RAFolderOutputStream( fd ); 
+		ArchiveUtil.createParentFolder(fd);
+
+		RAFolderOutputStream out = new RAFolderOutputStream(this, fd);
+		synchronized (openStreams) 
+		{
+			openStreams.add(out);
+		}
 		return out;
 	}
 
 	/**
-	 * Delete a stream from the archive. 
-	 * @param relativePath - the relative path of the stream
+	 * Delete a stream from the archive.
+	 * 
+	 * @param relativePath -
+	 *            the relative path of the stream
 	 * @return whether the delete operation was successful
 	 * @throws IOException
 	 */
@@ -106,7 +115,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	 */
 	public void finish() throws IOException
 	{
-		// Do nothing
+		closeAllStream( );
 	}
 	
 	/**
@@ -253,6 +262,72 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	    fis.close();
 	    
 	    return totalBytesWritten;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#flush()
+	 */
+	public void flush( ) throws IOException
+	{
+		IOException ioex = null;
+		synchronized ( openStreams )
+		{
+			Iterator iter = openStreams.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				RAFolderOutputStream stream = (RAFolderOutputStream) iter
+						.next( );
+				if ( stream != null )
+				{
+					try
+					{
+						stream.flush( );
+					}
+					catch ( IOException ex )
+					{
+						ioex = ex;
+					}
+				}
+			}
+		}
+		if ( ioex != null )
+		{
+			throw ioex;
+		}
+	}
+	
+	void removeStream(RAFolderOutputStream stream)
+	{
+		synchronized (openStreams)
+		{
+			openStreams.remove(stream);
+		}
+		//remove the stream out from the ouptutStreams.
+	}
+
+	protected void closeAllStream()
+	{
+		synchronized ( openStreams )
+		{
+			Iterator iter = openStreams.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				RAFolderOutputStream stream = (RAFolderOutputStream) iter
+						.next( );
+				if ( stream != null )
+				{
+					try
+					{
+						stream.close( );
+					}
+					catch ( IOException ex )
+					{
+					}
+				}
+			}
+			openStreams.clear( );
+		}
 	}
 
 }

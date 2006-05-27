@@ -78,4 +78,10 @@ public interface IDocArchiveWriter {
 	 * to a single file. This also closes and finishes using the archive.
 	 */
 	public void finish() throws IOException;
+	
+	/**
+	 * This function flushs all the buffers in the writer
+	 * @throws IOException
+	 */
+	public void flush( ) throws IOException;
 }

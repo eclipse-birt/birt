@@ -22,6 +22,8 @@ import org.eclipse.birt.core.util.IOUtil;
  */
 public class RAFolderOutputStream extends RAOutputStream
 {
+	FolderArchiveWriter archive;
+	
 	private RandomAccessFile randomFile;
 	
     /**
@@ -37,8 +39,9 @@ public class RAFolderOutputStream extends RAOutputStream
      */
     protected int count;
 	
-	public RAFolderOutputStream( File file ) throws FileNotFoundException
+	public RAFolderOutputStream( FolderArchiveWriter archive, File file ) throws FileNotFoundException
 	{
+		this.archive = archive;
 		this.randomFile = new RandomAccessFile( file, "rw" ); //$NON-NLS-1$
 		this.buf = new byte[IOUtil.RA_STREAM_BUFFER_LENGTH];
 		this.count = 0;
@@ -193,6 +196,7 @@ public class RAFolderOutputStream extends RAOutputStream
     	flushBuffer();
    		randomFile.close(); // Since the the underlying random access file is created by us, we need to close it
    		super.close();
+   		archive.removeStream( this );
     }
 
 }
