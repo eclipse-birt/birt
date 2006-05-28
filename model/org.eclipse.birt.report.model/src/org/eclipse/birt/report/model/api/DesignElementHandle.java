@@ -1556,6 +1556,29 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Deeply clones the current design element. The returned element will keep
+	 * all reference relation ship.
+	 * 
+	 * @return the copy of the design element
+	 */
+
+	public IDesignElement copyForTemplate( )
+	{
+
+		try
+		{
+			return (DesignElement) getElement( ).cloneForTemplate( );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false;
+		}
+
+		return null;
+
+	}
+
+	/**
 	 * Copies all properties to the target element. The following properties
 	 * will not be copied.
 	 * <ul>

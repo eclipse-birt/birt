@@ -72,39 +72,56 @@ import org.eclipse.ui.PlatformUI;
 public class DefaultNodeProvider implements INodeProvider
 {
 
-	public static final String BODY = Messages.getString( "DefaultNodeProvider.Tree.Body" ); //$NON-NLS-1$
+	public static final String BODY = Messages
+			.getString( "DefaultNodeProvider.Tree.Body" ); //$NON-NLS-1$
 
-	public static final String COMPONENTS = Messages.getString( "DefaultNodeProvider.Tree.Components" ); //$NON-NLS-1$
+	public static final String COMPONENTS = Messages
+			.getString( "DefaultNodeProvider.Tree.Components" ); //$NON-NLS-1$
 
-	public static final String PAGESETUP = Messages.getString( "DefaultNodeProvider.Tree.PageSetup" ); //$NON-NLS-1$
+	public static final String PAGESETUP = Messages
+			.getString( "DefaultNodeProvider.Tree.PageSetup" ); //$NON-NLS-1$
 
-	public static final String DATASOURCES = Messages.getString( "DefaultNodeProvider.Tree.DataSources" ); //$NON-NLS-1$
+	public static final String DATASOURCES = Messages
+			.getString( "DefaultNodeProvider.Tree.DataSources" ); //$NON-NLS-1$
 
-	public static final String DATASETS = Messages.getString( "DefaultNodeProvider.Tree.DataSets" ); //$NON-NLS-1$
+	public static final String DATASETS = Messages
+			.getString( "DefaultNodeProvider.Tree.DataSets" ); //$NON-NLS-1$
 
-	public static final String STYLES = Messages.getString( "DefaultNodeProvider.Tree.Styles" ); //$NON-NLS-1$
+	public static final String STYLES = Messages
+			.getString( "DefaultNodeProvider.Tree.Styles" ); //$NON-NLS-1$
 
-	public static final String THEMES = Messages.getString( "DefaultNodeProvider.Tree.Themes" ); //$NON-NLS-1$
+	public static final String THEMES = Messages
+			.getString( "DefaultNodeProvider.Tree.Themes" ); //$NON-NLS-1$
 
-	public static final String IMAGES = Messages.getString( "DefaultNodeProvider.Tree.Images" ); //$NON-NLS-1$
+	public static final String IMAGES = Messages
+			.getString( "DefaultNodeProvider.Tree.Images" ); //$NON-NLS-1$
 
-	public static final String PARAMETERS = Messages.getString( "DefaultNodeProvider.Tree.Parameters" ); //$NON-NLS-1$
+	public static final String PARAMETERS = Messages
+			.getString( "DefaultNodeProvider.Tree.Parameters" ); //$NON-NLS-1$
 
-	public static final String SCRATCHPAD = Messages.getString( "DefaultNodeProvider.Tree.Scratch" ); //$NON-NLS-1$
+	public static final String SCRATCHPAD = Messages
+			.getString( "DefaultNodeProvider.Tree.Scratch" ); //$NON-NLS-1$
 
-	public static final String MASTERPAGE = Messages.getString( "DefaultNodeProvider.Tree.MasterPages" ); //$NON-NLS-1$
+	public static final String MASTERPAGE = Messages
+			.getString( "DefaultNodeProvider.Tree.MasterPages" ); //$NON-NLS-1$
 
-	public static final String COLUMNHEADING_DISPALYNAME = Messages.getString( "DefaultNodeProvider.Tree.ColumnHedings" ); //$NON-NLS-1$
+	public static final String COLUMNHEADING_DISPALYNAME = Messages
+			.getString( "DefaultNodeProvider.Tree.ColumnHedings" ); //$NON-NLS-1$
 
-	public static final String DETAIL_DISPALYNAME = Messages.getString( "DefaultNodeProvider.Tree.Detail" ); //$NON-NLS-1$
+	public static final String DETAIL_DISPALYNAME = Messages
+			.getString( "DefaultNodeProvider.Tree.Detail" ); //$NON-NLS-1$
 
-	public static final String HEADER_DISPALYNAME = Messages.getString( "DefaultNodeProvider.Tree.Header" ); //$NON-NLS-1$
+	public static final String HEADER_DISPALYNAME = Messages
+			.getString( "DefaultNodeProvider.Tree.Header" ); //$NON-NLS-1$
 
-	public static final String FOOTER_DISPALYNAME = Messages.getString( "DefaultNodeProvider.Tree.Footer" ); //$NON-NLS-1$
+	public static final String FOOTER_DISPALYNAME = Messages
+			.getString( "DefaultNodeProvider.Tree.Footer" ); //$NON-NLS-1$
 
-	public static final String GROUPS_DISPALYNAME = Messages.getString( "DefaultNodeProvider.Tree.Groups" ); //$NON-NLS-1$
+	public static final String GROUPS_DISPALYNAME = Messages
+			.getString( "DefaultNodeProvider.Tree.Groups" ); //$NON-NLS-1$
 
-	public static final String MISSINGNAME = Messages.getString( "DefaultNodeProvider.Tree.Invalid" ); //$NON-NLS-1$
+	public static final String MISSINGNAME = Messages
+			.getString( "DefaultNodeProvider.Tree.Invalid" ); //$NON-NLS-1$
 
 	private Comparator comparator;
 
@@ -151,7 +168,8 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( copyAction.isEnabled( ) )
 			menu.add( copyAction );
 
-		if ( !( object instanceof DataSetItemModel ) || !( object instanceof ResultSetColumnHandle ))
+		if ( !( object instanceof DataSetItemModel )
+				|| !( object instanceof ResultSetColumnHandle ) )
 		{
 			menu.add( new PasteAction( object ) );
 		}
@@ -209,7 +227,9 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			if ( ( (ReportElementModel) model ).getSlotHandle( ) != null )
 			{
-				Object[] children = this.getChildrenBySlotHandle( ( (ReportElementModel) model ).getSlotHandle( ) );
+				Object[] children = this
+						.getChildrenBySlotHandle( ( (ReportElementModel) model )
+								.getSlotHandle( ) );
 				if ( comparator != null )
 				{
 					Arrays.sort( children, comparator );
@@ -265,7 +285,8 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( model instanceof DesignElementHandle
 				&& ( (DesignElementHandle) model ).getSemanticErrors( ).size( ) > 0 )
 		{
-			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+			return ReportPlatformUIImages
+					.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
 		if ( iconName != null )
 		{// if the getIconName is defined
@@ -337,13 +358,13 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_INSERT ) )
 		{
 			Map extendsData = request.getExtendedData( );
-			SlotHandle slotHandle = (SlotHandle) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_SLOT );
-			String type = (String) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_TYPE );
-			String position = (String) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_POSITION );
-			return performInsert( model,
-					slotHandle,
-					type,
-					position,
+			SlotHandle slotHandle = (SlotHandle) extendsData
+					.get( IRequestConstants.REQUEST_KEY_INSERT_SLOT );
+			String type = (String) extendsData
+					.get( IRequestConstants.REQUEST_KEY_INSERT_TYPE );
+			String position = (String) extendsData
+					.get( IRequestConstants.REQUEST_KEY_INSERT_POSITION );
+			return performInsert( model, slotHandle, type, position,
 					extendsData );
 		}
 		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_EDIT ) )
@@ -354,23 +375,23 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			return false;
 		}
-		if ( request.getType( )
-				.equals( IRequestConstants.REQUEST_CREATE_PLACEHOLDER ) )
+		if ( request.getType( ).equals(
+				IRequestConstants.REQUEST_CREATE_PLACEHOLDER ) )
 		{
 			return performCreatePlaceHolder( (ReportElementHandle) model );
 		}
-		if ( request.getType( )
-				.equals( IRequestConstants.REQUEST_TRANSFER_PLACEHOLDER ) )
+		if ( request.getType( ).equals(
+				IRequestConstants.REQUEST_TRANSFER_PLACEHOLDER ) )
 		{
 			return performTransferPlaceHolder( (TemplateElementHandle) model );
 		}
-		if ( request.getType( )
-				.equals( IRequestConstants.REQUST_REVERT_TO_REPORTITEM ) )
+		if ( request.getType( ).equals(
+				IRequestConstants.REQUST_REVERT_TO_REPORTITEM ) )
 		{
 			return performRevertToReportItem( (DesignElementHandle) model );
 		}
-		if ( request.getType( )
-				.equals( IRequestConstants.REQUST_REVERT_TO_TEMPLATEITEM ) )
+		if ( request.getType( ).equals(
+				IRequestConstants.REQUST_REVERT_TO_TEMPLATEITEM ) )
 		{
 			return performRevertToTemplateItem( (DesignElementHandle) model );
 		}
@@ -395,13 +416,13 @@ public class DefaultNodeProvider implements INodeProvider
 	private boolean performTransferPlaceHolder( TemplateElementHandle handle )
 	{
 		DesignElementHandle copiedHandle = handle.getDefaultElement( )
-				.copy( )
-				.getHandle( SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getModule( ) );
+				.copyForTemplate( ).getHandle(
+						SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( ).getModule( ) );
 		try
 		{
-			( (TemplateReportItemHandle) handle ).transformToReportItem( (ReportItemHandle) copiedHandle );
+			( (TemplateReportItemHandle) handle )
+					.transformToReportItem( (ReportItemHandle) copiedHandle );
 		}
 		catch ( SemanticException e )
 		{
@@ -437,9 +458,7 @@ public class DefaultNodeProvider implements INodeProvider
 		// in the current module.
 
 		DesignElement existedElement = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getModule( )
-				.getNameSpace( ns )
+				.getReportDesignHandle( ).getModule( ).getNameSpace( ns )
 				.getElement( name );
 
 		return ( existedElement == null ) ? false : true;
@@ -474,11 +493,9 @@ public class DefaultNodeProvider implements INodeProvider
 					desc = ( desc == null ) ? "" : desc; //$NON-NLS-1$
 				}
 
-				TemplateReportItemPropertiesDialog dialog = new TemplateReportItemPropertiesDialog( template.getDefaultElement( )
-						.getDefn( )
-						.getDisplayName( ),
-						name,
-						desc );
+				TemplateReportItemPropertiesDialog dialog = new TemplateReportItemPropertiesDialog(
+						template.getDefaultElement( ).getDefn( )
+								.getDisplayName( ), name, desc );
 				if ( dialog.open( ) == Window.OK )
 				{
 					name = (String) dialog.getName( ).trim( );
@@ -493,8 +510,12 @@ public class DefaultNodeProvider implements INodeProvider
 					else
 					{
 
-						ExceptionHandler.openErrorMessageBox( Messages.getString( "performCreatePlaceHolder.errorMessage.title" ), //$NON-NLS-1$
-								Messages.getString( "performCreatePlaceHolder.errorMessage.content" ) ); //$NON-NLS-1$
+						ExceptionHandler
+								.openErrorMessageBox(
+										Messages
+												.getString( "performCreatePlaceHolder.errorMessage.title" ), //$NON-NLS-1$
+										Messages
+												.getString( "performCreatePlaceHolder.errorMessage.content" ) ); //$NON-NLS-1$
 					}
 				}
 				else
@@ -514,8 +535,8 @@ public class DefaultNodeProvider implements INodeProvider
 
 	protected DesignElementHandle createElement( String type ) throws Exception
 	{
-		return ElementProcessorFactory.createProcessor( type )
-				.createElement( null );
+		return ElementProcessorFactory.createProcessor( type ).createElement(
+				null );
 	}
 
 	protected DesignElementHandle createElement( SlotHandle slotHandle,
@@ -524,15 +545,15 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( type == null )
 		{
 			List supportList = DEUtil.getElementSupportList( slotHandle );
-			if ( supportList.size( ) == 1 || supportList.get( 0 ) instanceof SimpleMasterPageHandle)
+			if ( supportList.size( ) == 1
+					|| supportList.get( 0 ) instanceof SimpleMasterPageHandle )
 			{
 				type = ( (IElementDefn) supportList.get( 0 ) ).getName( );
 			}
 			else
 			{
-				NewSectionDialog dialog = new NewSectionDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ),
+				NewSectionDialog dialog = new NewSectionDialog( PlatformUI
+						.getWorkbench( ).getDisplay( ).getActiveShell( ),
 						supportList );
 				if ( dialog.open( ) == Dialog.CANCEL )
 				{
@@ -551,7 +572,8 @@ public class DefaultNodeProvider implements INodeProvider
 
 		if ( extendData != null )
 		{
-			extendData.put( IRequestConstants.REQUEST_KEY_RESULT, elementHandle );
+			extendData
+					.put( IRequestConstants.REQUEST_KEY_RESULT, elementHandle );
 		}
 
 		if ( elementHandle == null )
@@ -566,8 +588,7 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			int pos = DNDUtil.calculateNextPosition( model,
 					DNDUtil.handleValidateTargetCanContain( model,
-							elementHandle,
-							true ) );
+							elementHandle, true ) );
 			if ( pos > 0 && position == InsertAction.ABOVE )
 			{
 				pos--;

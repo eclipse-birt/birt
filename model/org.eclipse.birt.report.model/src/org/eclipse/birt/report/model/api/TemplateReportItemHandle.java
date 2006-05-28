@@ -66,6 +66,8 @@ public class TemplateReportItemHandle extends TemplateElementHandle
 			throw new TemplateException(
 					getElement( ),
 					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
+		
+		module.makeUniqueName( reportItemHandle.element );
 		TemplateCommand cmd = new TemplateCommand( getModule( ), getContainer( )
 				.getElement( ) );
 		cmd.transformToReportItem( (TemplateReportItem) getElement( ),
