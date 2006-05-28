@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.birt.isv.doc"
+      id="org.eclipse.birt.doc.isv"
       label="Eclipse BIRT ISV Doc"
       version="2.1.0.qualifier"
       provider-name="Eclipse.org"
-      plugin="org.eclipse.birt.isv.doc">
+      plugin="org.eclipse.birt.doc.isv">
 
    <description url="http://www.eclipse.org/birt">
       %description
@@ -28,7 +28,7 @@
    </requires>
 
    <plugin
-         id="org.eclipse.birt.isv.doc"
+         id="org.eclipse.birt.doc.isv"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
