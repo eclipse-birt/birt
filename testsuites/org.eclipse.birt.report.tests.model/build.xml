@@ -117,6 +117,9 @@
 			<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="end call Jar task in ${model.dir}" level="info" />
+		<echo message="start building tests.core"/>
+		<ant dir="${tests.core.dir}" target="compileTest" antfile="build.xml" inheritAll="false" inheritrefs="false"/>
+		<echo message="end building tests.core"/>
 	</target>
 
 	<!-- private task, run unit test -->
