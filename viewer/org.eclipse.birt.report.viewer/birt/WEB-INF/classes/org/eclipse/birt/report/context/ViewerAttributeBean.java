@@ -208,10 +208,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				Iterator parameters = parameterList.iterator( );
 				while ( parameters != null && parameters.hasNext( ) )
 				{
-					ScalarParameterHandle parameter = (ScalarParameterHandle) parameters
-							.next( );
-					if ( parameter != null && parameter.getName( ) != null )
-						this.configMap.put( parameter.getName( ), null );
+					Object parameterHandle = parameters.next( );
+					if ( parameterHandle instanceof ScalarParameterHandle )
+					{
+						ScalarParameterHandle scalarParameterHandle = (ScalarParameterHandle) parameterHandle;
+						if ( scalarParameterHandle.getName( ) != null )
+							this.configMap.put(
+									scalarParameterHandle.getName( ), null );
+					}
 				}
 
 				Iterator configVars = handle.configVariablesIterator( );
