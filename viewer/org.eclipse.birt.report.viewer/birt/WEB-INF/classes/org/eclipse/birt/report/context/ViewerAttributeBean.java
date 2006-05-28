@@ -625,7 +625,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			String paramValue = getParamValueAsString( request, parameter );
 
 			// if parameter value is null, then set value to default value.
-			if ( paramValue == null && !parameter.allowNull( ) )
+			if ( paramValue == null
+					&& ( IBirtConstants.SERVLET_PATH_FRAMESET
+							.equalsIgnoreCase( request.getServletPath( ) ) || !this.configMap
+							.containsKey( paramName ) ) )
 			{
 				paramValue = this.getParameterDefaultValues(
 						reportDesignHandle, paramName, options );
