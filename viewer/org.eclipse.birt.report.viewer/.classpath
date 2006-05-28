@@ -6,5 +6,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="birt/WEB-INF/lib/axis.jar"/>
 	<classpathentry kind="lib" path="birt/WEB-INF/lib/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="birt/WEB-INF/lib/servlet.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
