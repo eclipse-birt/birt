@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.birt.cshelp.feature"
-      label="com.ibm.ccl.erf.cshelp.feature"
-      version="1.0.0">
+	id="org.eclipse.birt.cshelp"
+	label="%featureName"
+	provider-name="%providerName"
+	version="2.1.0.qualifier"
+	plugin="org.eclipse.birt.cshelp">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
-   </description>
-
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
-   </copyright>
-
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
-   </license>
+	<description url="http://www.eclipse.org/birt">
+		%description
+	</description>
+	
+	<copyright url="%copyrightURL">
+		%copyright
+	</copyright>
+	
+	<license url="%licenseURL">
+		%license
+	</license>
+	
+	<url>
+		<update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site"/>
+		<discovery label="BIRT update site" url="http://download.eclipse.org/birt/update-site"/>
+	</url>
 
    <plugin
          id="org.eclipse.birt.cshelp"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>
