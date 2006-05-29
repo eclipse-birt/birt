@@ -62,7 +62,7 @@ public final class PropertyHandleTableViewer
         mainControl.setLayout(layout);
 
         GridData data = null;
-        viewer = new TableViewer(mainControl, SWT.FULL_SELECTION);
+        viewer = new TableViewer(mainControl, SWT.FULL_SELECTION | SWT.BORDER );
         data = new GridData(GridData.FILL_BOTH);
         viewer.getControl().setLayoutData(data);
         
@@ -84,6 +84,7 @@ public final class PropertyHandleTableViewer
             btnData.heightHint = 20;
             btnUp = new Button(btnComposite, SWT.ARROW | SWT.UP);
             btnUp.setLayoutData(btnData);
+            btnUp.setToolTipText( Messages.getString("PropertyHandleTableViewer.Menu.Up") ); //$NON-NLS-1$
             btnUp.addSelectionListener(new SelectionListener(){
 
                 public void widgetSelected(SelectionEvent e)
@@ -122,6 +123,7 @@ public final class PropertyHandleTableViewer
             btnRemove = new Button(btnComposite, SWT.PUSH);
             btnRemove.setImage(PlatformUI.getWorkbench( ).getSharedImages( ).getImage( ISharedImages.IMG_TOOL_DELETE ));
             btnRemove.setLayoutData(btnData);
+            btnRemove.setToolTipText( Messages.getString("PropertyHandleTableViewer.Menu.Remove") ); //$NON-NLS-1$
             btnRemove.addSelectionListener(new SelectionListener(){
 
                 public void widgetSelected(SelectionEvent e)
@@ -140,6 +142,7 @@ public final class PropertyHandleTableViewer
             btnData.heightHint = 20;
             btnDown = new Button(btnComposite, SWT.ARROW | SWT.DOWN);
             btnDown.setLayoutData(btnData);
+            btnDown.setToolTipText( Messages.getString("PropertyHandleTableViewer.Menu.Down") ); //$NON-NLS-1$
             btnDown.addSelectionListener(new SelectionListener(){
 
                 public void widgetSelected(SelectionEvent e)

@@ -184,12 +184,12 @@ public final class PaletteEditorComposite extends Composite
 		btnUp = new Button( coControlPanel, SWT.ARROW | SWT.UP );
 		gd = new GridData( );
 		btnUp.setLayoutData( gd );
-		btnUp.setText( Messages.getString( "PaletteEditorComposite.Lbl.Up" ) ); //$NON-NLS-1$
+		btnUp.setToolTipText( Messages.getString( "PaletteEditorComposite.Lbl.Up" ) ); //$NON-NLS-1$
 		btnUp.addSelectionListener( this );
 		btnDown = new Button( coControlPanel, SWT.ARROW | SWT.DOWN );
 		gd = new GridData( );
 		btnDown.setLayoutData( gd );
-		btnDown.setText( Messages.getString( "PaletteEditorComposite.Lbl.Down" ) ); //$NON-NLS-1$
+		btnDown.setToolTipText( Messages.getString( "PaletteEditorComposite.Lbl.Down" ) ); //$NON-NLS-1$
 		btnDown.addSelectionListener( this );
 
 		addControlListener( this );

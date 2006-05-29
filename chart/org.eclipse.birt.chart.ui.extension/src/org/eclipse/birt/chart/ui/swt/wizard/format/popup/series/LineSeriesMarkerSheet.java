@@ -150,11 +150,13 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 
 		btnUp = new Button( grpTop, SWT.ARROW | SWT.UP );
 		{
+			btnUp.setToolTipText( Messages.getString( "PaletteEditorComposite.Lbl.Up" ) ); //$NON-NLS-1$
 			btnUp.addSelectionListener( this );
 		}
 
 		btnDown = new Button( grpTop, SWT.ARROW | SWT.DOWN );
 		{
+			btnDown.setToolTipText( Messages.getString( "PaletteEditorComposite.Lbl.Down" ) ); //$NON-NLS-1$
 			btnDown.addSelectionListener( this );
 		}
 
