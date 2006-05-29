@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.context;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -402,8 +403,25 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		{
 			try
 			{
-				reportRunnable = ReportEngineService.getInstance( )
-						.openReportDesign( this.reportDesignName );
+				// check the design file if exist
+				File file = new File( this.reportDesignName );
+				if ( file.exists( ) )
+				{
+					reportRunnable = ReportEngineService.getInstance( )
+							.openReportDesign( this.reportDesignName );
+				}
+				else
+				{
+					// try to get resource from war package
+					this.reportDesignName = ParameterAccessor.getParameter(
+							request, ParameterAccessor.PARAM_REPORT );
+
+					InputStream is = request.getSession( ).getServletContext( )
+							.getResourceAsStream( this.reportDesignName );
+
+					reportRunnable = ReportEngineService.getInstance( )
+							.openReportDesign( is );
+				}
 			}
 			catch ( EngineException e )
 			{
