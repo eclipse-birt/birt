@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ComputedColumnExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
@@ -26,7 +25,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.Expr
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -43,6 +41,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.CellEditor;
@@ -81,7 +80,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ * The dialog to select and edit column bindings
  */
 
 public class ColumnBindingDialog extends BaseDialog
@@ -461,46 +460,37 @@ public class ColumnBindingDialog extends BaseDialog
 					{
 						value = null;
 					}
-					if ( canChangeDataSet( value ) )
+					int rCode = canChangeDataSet( value );
+					if ( rCode == 2 )
 					{
-						try
-						{
-							startTrans( "" ); //$NON-NLS-1$
-							DataSetHandle dataSet = null;
-							if ( value != null )
-							{
-								dataSet = SessionHandleAdapter.getInstance( )
-										.getReportDesignHandle( )
-										.findDataSet( value );
-							}
-							inputElement.setDataSet( dataSet );
-							generateBindingColumns( );
-							getPropertyHandle( ).setStringValue( null );
-							commit( );
-						}
-						catch ( SemanticException e )
-						{
-							rollback( );
-							ExceptionHandler.handle( e );
-						}
+						combo.setText( getDataSetName( ) );
 					}
 					else
 					{
-						combo.setText( getDataSetName( ) );
+						try
+						{
+							DataSetHandle dataSet = null;
+							if ( value != null )
+							{
+								dataSet = inputElement.getModuleHandle( )
+										.findDataSet( value );
+							}
+							inputElement.setDataSet( dataSet );
+							getParameterBindingPropertyHandle( ).clearValue( );
+							if ( rCode == 0 )
+							{
+								inputElement.getColumnBindings( ).clearValue( );
+							}
+							generateBindingColumns( );							
+						}
+						catch ( SemanticException e )
+						{
+							ExceptionHandler.handle( e );
+						}
 					}
 				}
 			} );
 		}
-		/*
-		 * generateButton = new Button( composite, SWT.PUSH );
-		 * generateButton.setText( BUTTON_GENERATE );
-		 * generateButton.setLayoutData( new GridData( ) );
-		 * generateButton.addSelectionListener( new SelectionAdapter( ) {
-		 * 
-		 * public void widgetSelected( SelectionEvent e ) { try {
-		 * generateBindingColumns( ); } catch ( SemanticException e1 ) {
-		 * ExceptionHandler.handle( e1 ); } } } );
-		 */
 
 		/**
 		 * Binding table
@@ -818,19 +808,30 @@ public class ColumnBindingDialog extends BaseDialog
 		return DEUtil.getVisiableColumnBindingsList( inputElement );
 	}
 
-	private boolean canChangeDataSet( String newName )
+	private int canChangeDataSet( String newName )
 	{
 		String currentDataSetName = getDataSetName( );
-		if ( NONE.equals( currentDataSetName ) )
+		if ( NONE.equals( currentDataSetName )
+				&& !inputElement.columnBindingsIterator( ).hasNext( ) )
 		{
-			return true;
+			return 0;
 		}
-		else if ( !currentDataSetName.equals( newName ) )
+		else if ( currentDataSetName.equals( newName ) )
 		{
-			return MessageDialog.openQuestion( null,
-					Messages.getString( "dataBinding.title.changeDataSet" ), Messages.getString( "dataBinding.message.changeDataSet" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			return 2;
 		}
-		return false;
+		MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
+				Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
+				null,
+				Messages.getString( "dataBinding.message.changeDataSet" ),//$NON-NLS-1$
+				MessageDialog.INFORMATION,
+				new String[]{
+						IDialogConstants.YES_LABEL,
+						IDialogConstants.NO_LABEL,
+						IDialogConstants.CANCEL_LABEL,
+				},
+				0 );
+		return prefDialog.open( );
 	}
 
 	private String getDataSetName( )
@@ -847,56 +848,11 @@ public class ColumnBindingDialog extends BaseDialog
 		return dataSetName;
 	}
 
-	private void startTrans( String name )
-	{
-		if ( isEnableAutoCommit( ) )
-		{
-			getActionStack( ).startTrans( name );
-		}
-	}
-
-	private void commit( )
-	{
-		if ( isEnableAutoCommit( ) )
-		{
-			getActionStack( ).commit( );
-		}
-	}
-
-	private void rollback( )
-	{
-		if ( isEnableAutoCommit( ) )
-		{
-			getActionStack( ).rollback( );
-		}
-	}
-
-	private CommandStack getActionStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
-	}
-
-	private transient boolean enableAutoCommit = true;
-
 	private List groupList = Collections.EMPTY_LIST;
 
 	private String[] groups;
 
-	public boolean isEnableAutoCommit( )
-	{
-		return enableAutoCommit;
-	}
-
-	/**
-	 * @param enableAutoCommit
-	 *            The enableAutoCommit to set.
-	 */
-	public void setEnableAutoCommit( boolean enableAutoCommit )
-	{
-		this.enableAutoCommit = enableAutoCommit;
-	}
-
-	private PropertyHandle getPropertyHandle( )
+	private PropertyHandle getParameterBindingPropertyHandle( )
 	{
 		return inputElement.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP );
 	}

@@ -1885,19 +1885,6 @@ public class DEUtil
 		ReportItemHandle holder = getBindingHolder( handle );
 		if ( holder != null )
 		{
-			if ( holder instanceof ListingHandle
-					&& ( (ListingHandle) holder ).getDetail( ) == handle.getContainerSlotHandle( ) )
-			{
-				SlotHandle groupSlotHandle = ( (ListingHandle) holder ).getGroups( );
-				for ( Iterator iter = groupSlotHandle.iterator( ); iter.hasNext( ); )
-				{
-					GroupHandle group = (GroupHandle) iter.next( );
-					for ( Iterator columnIter = group.columnBindingsIterator( ); columnIter.hasNext( ); )
-					{
-						bindingList.add( columnIter.next( ) );
-					}
-				}
-			}
 			for ( DesignElementHandle elementHandle = handle.getContainer( ); elementHandle != holder.getContainer( ); elementHandle = elementHandle.getContainer( ) )
 			{
 				List subBindingList = new ArrayList( );
@@ -1931,7 +1918,7 @@ public class DEUtil
 			if ( handle instanceof ReportItemHandle )
 			{
 				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
-						&& ( (ReportItemHandle) handle ).columnBindingsIterator( )
+						|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
 								.hasNext( ) )
 				{
 					return (ReportItemHandle) handle;
