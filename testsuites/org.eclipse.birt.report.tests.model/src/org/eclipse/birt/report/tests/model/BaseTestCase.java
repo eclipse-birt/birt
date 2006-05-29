@@ -508,8 +508,11 @@ public abstract class BaseTestCase extends TestCase
 
 			while ( strA != null )
 			{
-				if ( strA.startsWith( "<report xmlns=" ) && strA //$NON-NLS-1$
-						.indexOf( "version=" ) != -1 ) //$NON-NLS-1$
+				if ( ( strA.startsWith( "<report xmlns=" ) && strA //$NON-NLS-1$
+						.indexOf( "version=" ) != -1 ) ||  //$NON-NLS-1$
+						( strA.startsWith( "<library xmlns=" ) && strA //$NON-NLS-1$
+								.indexOf( "version=" ) != -1 ) || //$NON-NLS-1$
+						strA.startsWith( "<property name=\"fileName\">" ) ) //$NON-NLS-1$ 
 				{
 					// ignore the comparasion of this line.
 
