@@ -92,7 +92,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.109 $ $Date: 2006/05/25 08:10:36 $
+ * @version $Revision: 1.110 $ $Date: 2006/05/26 10:41:56 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1321,7 +1321,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					// TODO: change the javascript name
 					writer.attribute( HTMLTags.ATTR_SRC,
 							"iv/images/collapsexpand.gif" );
-					writer.attribute( HTMLTags.ATTR_STYLE, "cursor:hand" );
+					writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
 					String bookmark = generateUniqueID( );
 					setBookmark( null, bookmark );
 					setActiveIDTypeIID( bookmark, "GROUP", null, -1);
