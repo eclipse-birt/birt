@@ -1,13 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model;
 
@@ -124,11 +122,11 @@ public abstract class BaseTestCase extends TestCase
 
 	protected static final ULocale TEST_LOCALE = new ULocale( "aa" ); //$NON-NLS-1$
 
-	public BaseTestCase()
+	public BaseTestCase( )
 	{
 		this( null );
 	}
-	
+
 	public BaseTestCase( String name )
 	{
 		super( name );
@@ -188,7 +186,7 @@ public abstract class BaseTestCase extends TestCase
 	{
 		sessionHandle = DesignEngine.newSession( locale );
 		designHandle = sessionHandle.createDesign( );
-		design = (ReportDesign)designHandle.getModule( );
+		design = (ReportDesign) designHandle.getModule( );
 
 		return designHandle;
 	}
@@ -224,11 +222,11 @@ public abstract class BaseTestCase extends TestCase
 
 		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
-		.newSessionHandle( locale );
+				.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
 		designHandle = sessionHandle.openDesign( fileName );
-		design = (ReportDesign)designHandle.getModule( );
+		design = (ReportDesign) designHandle.getModule( );
 	}
 
 	/**
@@ -311,7 +309,7 @@ public abstract class BaseTestCase extends TestCase
 
 		InputStream stream = theClass.getResourceAsStream( fileName );
 		designHandle = sessionHandle.openDesign( fileName, stream );
-		design = (ReportDesign)designHandle.getModule( );
+		design = (ReportDesign) designHandle.getModule( );
 	}
 
 	/**
@@ -348,7 +346,7 @@ public abstract class BaseTestCase extends TestCase
 	{
 		sessionHandle = DesignEngine.newSession( locale );
 		designHandle = sessionHandle.openDesign( fileName, is );
-		design = (ReportDesign)designHandle.getModule( );
+		design = (ReportDesign) designHandle.getModule( );
 	}
 
 	/**
@@ -507,26 +505,40 @@ public abstract class BaseTestCase extends TestCase
 
 			String strA = lineReaderA.readLine( ).trim( );
 			String strB = lineReaderB.readLine( ).trim( );
+
 			while ( strA != null )
 			{
-				if ( !strA.startsWith( "<property name=\"fileName\">" ) )
+				if ( strA.startsWith( "<report xmlns=" ) && strA //$NON-NLS-1$
+						.indexOf( "version=" ) != -1 ) //$NON-NLS-1$
 				{
-					same = strA.equals( strB );
-					if ( !same )
-					{
-						StringBuffer message = new StringBuffer( );
+					// ignore the comparasion of this line.
 
-						message.append( "line=" ); //$NON-NLS-1$
-						message.append( lineNo );
-						message.append( " is different:\n" );//$NON-NLS-1$
-						message.append( " The line from golden file: " );//$NON-NLS-1$
-						message.append( strA );
-						message.append( "\n" );//$NON-NLS-1$
-						message.append( " The line from output file: " );//$NON-NLS-1$
-						message.append( strB );
-						message.append( "\n" );//$NON-NLS-1$
-						throw new Exception( message.toString( ) );
-					}
+					strA = lineReaderA.readLine( );
+					strB = lineReaderB.readLine( );
+					if ( strA != null )
+						strA = strA.trim( );
+					if ( strB != null )
+						strB = strB.trim( );
+
+					lineNo++;
+					continue;
+				}
+
+				same = strA.equals( strB );
+				if ( !same )
+				{
+					StringBuffer message = new StringBuffer( );
+
+					message.append( "line=" ); //$NON-NLS-1$
+					message.append( lineNo );
+					message.append( " is different:\n" );//$NON-NLS-1$
+					message.append( " The line from golden file: " );//$NON-NLS-1$
+					message.append( strA );
+					message.append( "\n" );//$NON-NLS-1$
+					message.append( " The line from output file: " );//$NON-NLS-1$
+					message.append( strB );
+					message.append( "\n" );//$NON-NLS-1$
+					throw new Exception( message.toString( ) );
 				}
 
 				strA = lineReaderA.readLine( );
@@ -538,6 +550,7 @@ public abstract class BaseTestCase extends TestCase
 
 				lineNo++;
 			}
+
 			same = strA == null && strB == null;
 		}
 		finally
@@ -670,7 +683,7 @@ public abstract class BaseTestCase extends TestCase
 	{
 		saveAs( designHandle, filename );
 	}
-	
+
 	/**
 	 * Eventually, this method will call
 	 * {@link ReportDesignHandle#saveAs(String)}to save the output file of some
@@ -758,7 +771,7 @@ public abstract class BaseTestCase extends TestCase
 
 	protected String getClassFolder( )
 	{
-		
+
 		String pathBase = null;
 
 		ProtectionDomain domain = this.getClass( ).getProtectionDomain( );
