@@ -247,13 +247,13 @@ public class ViewerAttributeBean extends BaseAttributeBean
 										.getDisplayValue( parameter
 												.getDataType( ), parameter
 												.getPattern( ), paramValueObj,
-												locale );								
+												locale );
 							}
 							catch ( Exception err )
 							{
 								paramValue = configVar.getValue( );
 							}
-							
+
 							this.configMap.put( paramName, paramValue );
 						}
 					}
@@ -631,8 +631,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			// if parameter value is null, then set value to default value.
 			if ( paramValue == null
 					&& ( IBirtConstants.SERVLET_PATH_FRAMESET
-							.equalsIgnoreCase( request.getServletPath( ) ) || !this.configMap
-							.containsKey( paramName ) ) )
+							.equalsIgnoreCase( request.getServletPath( ) ) || ( this.configMap != null && !this.configMap
+							.containsKey( paramName ) ) ) )
 			{
 				paramValue = this.getParameterDefaultValues(
 						reportDesignHandle, paramName, options );
