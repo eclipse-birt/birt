@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.FreeForm;
@@ -296,11 +297,11 @@ public class DesignElementHandleTest extends BaseTestCase
 		// after add, cannot contain any more.
 
 		assertFalse( nestedTable.canContain( TableItem.GROUP_SLOT, tableGroup ) );
-		assertFalse( table.canContain( TableItem.GROUP_SLOT, tableGroup ) );
+		//assertFalse( table.canContain( TableItem.GROUP_SLOT, tableGroup ) );
 
 		tableGroup = factory.newTableGroup( );
 		tableGroup.setName( "Group1" ); //$NON-NLS-1$
-		assertFalse( nestedTable.canContain( TableItem.GROUP_SLOT, tableGroup ) );
+		assertFalse( table.canContain( TableItem.GROUP_SLOT, tableGroup ) );
 
 		// focus on list now.
 
@@ -312,39 +313,27 @@ public class DesignElementHandleTest extends BaseTestCase
 		ListGroupHandle listGroup = factory.newListGroup( );
 		listGroup.setName( "Group1" ); //$NON-NLS-1$
 
-		assertFalse( nestedList.canContain( ListItem.GROUP_SLOT, listGroup ) );
-		listGroup.setName( "Group2" ); //$NON-NLS-1$
-		assertFalse( nestedList.canContain( ListItem.GROUP_SLOT, listGroup ) );
-		listGroup.setName( "Group3" ); //$NON-NLS-1$
-		assertFalse( nestedList.canContain( ListItem.GROUP_SLOT, listGroup ) );
-
-		listGroup.setName( "Group4" ); //$NON-NLS-1$		
-		assertTrue( nestedList.canContain( ListItem.GROUP_SLOT, listGroup ) );
-
-		tableGroup.setName( "Group4" ); //$NON-NLS-1$
-		assertTrue( nestedTable.canContain( TableItem.GROUP_SLOT, tableGroup ) );
-		assertTrue( table.canContain( TableItem.GROUP_SLOT, tableGroup ) );
-
+		assertTrue(nestedList.canContain( ListItem.GROUP_SLOT, listGroup ));
+		assertFalse(table.canContain( TableItem.GROUP_SLOT, listGroup ));
+	
 		// creates a table with semantic error.
 
+		tableGroup = factory.newTableGroup( );
 		tableGroup.setName( "Group3" ); //$NON-NLS-1$
 		try
 		{
 			nestedTable.getGroups( ).add( tableGroup );
 			fail( );
 		}
-		catch ( ContentException e )
+		catch( NameException e )
 		{
-			assertEquals(
-					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT,
-					e.getErrorCode( ) );
+			assertEquals(NameException.DESIGN_EXCEPTION_DUPLICATE,e.getErrorCode( ));
 		}
 
 		// trick tests for add a semantic error.
 		tableGroup.setName( "TrickGroup" ); //$NON-NLS-1$
 		nestedTable.getGroups( ).add( tableGroup );
-		tableGroup.setName( "Group3" ); //$NON-NLS-1$
-
+		
 		// listGroup with the name "Group4"
 
 		assertTrue( nestedList.canContain( ListItem.GROUP_SLOT, listGroup ) );

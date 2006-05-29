@@ -137,7 +137,7 @@ public class JointDataSetHandleTest extends BaseTestCase{
 	    
 		jointds.addDataSet("ds1");
 		jointds.addDataSet("ds2");
-		assertUncallable( jointds, "paramBindingsIterator" ); //$NON-NLS-1$
+		assertFalse( jointds.paramBindingsIterator( ).hasNext( ) ); //$NON-NLS-1$
 		
 		List list = jointds.getListProperty(JointDataSet.DATA_SETS_PROP);
 		
@@ -169,24 +169,6 @@ public class JointDataSetHandleTest extends BaseTestCase{
 		
 		PropertyHandle prophandle = (PropertyHandle)jointds.getPropertyHandle( JointDataSetHandle.FILTER_PROP );
 		prophandle.addItem( filter );
-	}
-	private void assertUncallable( JointDataSetHandle dataSet, String methodName )
-	{
-		Class dataSetClass = dataSet.getClass( );
-		try
-		{
-			Method method = dataSetClass.getMethod( methodName, new Class[0] );
-			method.invoke( dataSet, new Object[0] );
-			fail( );
-		}
-		catch ( InvocationTargetException e )
-		{
-			assertTrue( e.getTargetException( ) instanceof IllegalOperationException );
-		}
-		catch ( Throwable e )
-		{
-			fail( );
-		}
 	}
 	
 }
