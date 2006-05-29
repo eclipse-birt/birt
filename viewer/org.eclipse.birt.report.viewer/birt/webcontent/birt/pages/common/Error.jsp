@@ -12,7 +12,8 @@
 <%@ page session="false" buffer="none" %>
 <%@ page import="org.eclipse.birt.core.exception.BirtException,
 				 org.eclipse.birt.report.utility.ParameterAccessor,
-				 org.eclipse.birt.report.resource.BirtResources" %>
+				 org.eclipse.birt.report.resource.BirtResources,
+				 java.io.PrintWriter" %>
 
 <%-----------------------------------------------------------------------------
 	Expected java beans
@@ -32,7 +33,20 @@
 	<BODY>
 		<TABLE CLASS="BirtViewer_Highlight_Label">
 			<TR><TD NOWRAP>
-				<%= ParameterAccessor.htmlEncode( new String( error.getMessage( ).getBytes( "ISO-8859-1" ),	"UTF-8" ) ) %>
+				<%
+					if ( error != null )
+					{
+						if ( error.getMessage( ) != null )
+						{
+							out.println( ParameterAccessor.htmlEncode( new String( error.getMessage( ).getBytes( "ISO-8859-1" ),"UTF-8" ) ) );
+						}
+						else
+						{
+							PrintWriter writer = new PrintWriter( out );									
+							error.printStackTrace( writer );				
+						}					
+					}
+				%>
 			</TD></TR>
 		</TABLE>
 	</BODY>

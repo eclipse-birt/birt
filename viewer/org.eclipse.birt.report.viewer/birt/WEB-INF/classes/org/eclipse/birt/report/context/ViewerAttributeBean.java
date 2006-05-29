@@ -152,7 +152,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		Collection parameterList = getParameterList( );
 
 		// when in preview model, parse parameters from config file
-		if ( isDesigner )
+		if ( this.isDesigner
+				&& !IBirtConstants.SERVLET_PATH_FRAMESET
+						.equalsIgnoreCase( request.getServletPath( ) ) )
 			parseConfigVars( request, parameterList );
 
 		// Get parameters as String Map
@@ -164,8 +166,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				this.reportDesignHandle, parameterList, request, options );
 
 		// Get parameter definition list
-		Collection parameterDefList = this.getReportService( )
-				.getParameterDefinitions( reportDesignHandle, options, false );
+		Collection parameterDefList = getReportService( )
+				.getParameterDefinitions( this.reportDesignHandle, options,
+						false );
 
 		// Check if miss parameter
 		this.missingParameter = validateParameters( parameterDefList,
@@ -182,13 +185,11 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	protected void parseConfigVars( HttpServletRequest request,
 			Collection parameterList )
 	{
-		assert reportDesignHandle != null;
-
 		this.configMap = new HashMap( );
 
 		// get report config filename
 		String reportConfigName = ParameterAccessor
-				.getConfigFileName( reportDesignName );
+				.getConfigFileName( this.reportDesignName );
 		if ( reportConfigName == null )
 			return;
 
@@ -292,7 +293,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			IViewerReportDesignHandle design, String paramName,
 			InputOptions options ) throws ReportServiceException
 	{
-		assert design != null;
+		if ( design == null )
+			return null;
 
 		String defalutValue = null;
 		Object defaultValueObj = null;
@@ -337,8 +339,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	private String getParameterName( String configVarName )
 			throws ReportServiceException
 	{
-		assert reportDesignHandle != null;
-
 		String paramName = null;
 
 		// Get parameter handle list
@@ -487,10 +487,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			Collection parameterList, HttpServletRequest request,
 			InputOptions options ) throws ReportServiceException
 	{
-		assert parameterList != null;
-		assert parametersAsString != null;
-
 		Map params = new HashMap( );
+		if ( parameterList == null || this.parametersAsString == null )
+			return params;
+
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
 			ScalarParameterHandle parameter = null;
@@ -506,7 +506,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				continue;
 
 			String paramName = parameter.getName( );
-			Object paramValueObj = parametersAsString.get( paramName );
+			Object paramValueObj = this.parametersAsString.get( paramName );
 
 			if ( paramValueObj != null )
 			{
@@ -564,7 +564,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			return paramValue;
 
 		Object paramValueObj = null;
-		if ( isDesigner
+		if ( this.isDesigner
 				&& ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request
 						.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_PARAMETER
 						.equalsIgnoreCase( request.getServletPath( ) ) )
@@ -608,9 +608,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			HttpServletRequest request, InputOptions options )
 			throws ReportServiceException
 	{
-		assert parameterList != null;
-
 		Map params = new HashMap( );
+		if ( parameterList == null )
+			return params;
+
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
 			ScalarParameterHandle parameter = null;
@@ -652,12 +653,16 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	{
 		IReportRunnable runnable = (IReportRunnable) this.reportDesignHandle
 				.getDesignObject( );
-		assert runnable != null;
 
-		ModuleHandle model = runnable.getDesignHandle( ).getModuleHandle( );
-		assert model != null;
+		ModuleHandle model = null;
 
-		return model.getFlattenParameters( );
+		if ( runnable != null )
+			model = runnable.getDesignHandle( ).getModuleHandle( );
+
+		if ( model != null )
+			return model.getFlattenParameters( );
+		else
+			return null;
 	}
 
 	/**
@@ -671,12 +676,16 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 		IReportRunnable runnable = (IReportRunnable) this.reportDesignHandle
 				.getDesignObject( );
-		assert runnable != null;
 
-		ModuleHandle model = runnable.getDesignHandle( ).getModuleHandle( );
-		assert model != null;
+		ModuleHandle model = null;
 
-		return model.findParameter( paramName );
+		if ( runnable != null )
+			model = runnable.getDesignHandle( ).getModuleHandle( );
+
+		if ( model != null )
+			return model.findParameter( paramName );
+		else
+			return null;
 	}
 
 	/**
