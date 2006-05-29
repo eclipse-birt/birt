@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
     <property name="theme">defaultTheme</property>
     <parameters>
         <scalar-parameter name="Parameter1" id="30">
@@ -49,17 +49,35 @@ from ROOT.SAMPLEDATA</property>
         <table name="myTable" id="7">
             <property name="width">100%</property>
             <property name="dataSet">db2ds</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CATEGORY</property>
+                    <expression name="expression">dataSetRow["CATEGORY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">VALUE1</property>
+                    <expression name="expression">dataSetRow["VALUE1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">VALUE2</property>
+                    <expression name="expression">dataSetRow["VALUE2"]</expression>
+                </structure>
+            </list-property>
             <column id="26">
                 <property name="repeat">1</property>
+                <property name="suppressDuplicates">false</property>
             </column>
             <column id="27">
                 <property name="repeat">1</property>
+                <property name="suppressDuplicates">false</property>
             </column>
             <column id="28">
                 <property name="repeat">1</property>
+                <property name="suppressDuplicates">false</property>
             </column>
             <header>
                 <row id="8">
+                    <property name="suppressDuplicates">false</property>
                     <cell id="9">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
@@ -91,13 +109,14 @@ from ROOT.SAMPLEDATA</property>
             </header>
             <detail>
                 <row id="15">
+                    <property name="suppressDuplicates">false</property>
                     <cell id="16">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                         <data id="17">
-                            <expression name="valueExpr">row["CATEGORY"]</expression>
+                            <property name="resultSetColumn">CATEGORY</property>
                         </data>
                     </cell>
                     <cell id="18">
@@ -106,7 +125,7 @@ from ROOT.SAMPLEDATA</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                         <data id="19">
-                            <expression name="valueExpr">row["VALUE1"]</expression>
+                            <property name="resultSetColumn">VALUE1</property>
                         </data>
                     </cell>
                     <cell id="20">
@@ -115,13 +134,14 @@ from ROOT.SAMPLEDATA</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                         <data id="21">
-                            <expression name="valueExpr">row["VALUE2"]</expression>
+                            <property name="resultSetColumn">VALUE2</property>
                         </data>
                     </cell>
                 </row>
             </detail>
             <footer>
                 <row id="22">
+                    <property name="suppressDuplicates">false</property>
                     <cell id="23">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
@@ -147,7 +167,13 @@ from ROOT.SAMPLEDATA</property>
             <expression name="uri">http://www.actuate.com/images/birt_flying_logo.jpg</expression>
         </image>
         <data name="myData" id="32">
-            <expression name="valueExpr">new Date()</expression>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">new Date()</property>
+                    <expression name="expression">new Date()</expression>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">new Date()</property>
         </data>
     </components>
 </library>

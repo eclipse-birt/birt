@@ -7,7 +7,7 @@
         <scalar-parameter name="Param 1" id="2">
             <property name="valueType">dynamic</property>
             <property name="dataType">dateTime</property>
-            <property name="promptText">abc</property>
+            <text-property name="promptText">abc</text-property>
             <property name="listLimit">20</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">dataset1</property>
