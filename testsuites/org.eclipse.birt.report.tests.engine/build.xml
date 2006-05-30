@@ -59,9 +59,9 @@
 		<mkdir dir="${bin.dir}"/>
 		<copy todir="${bin.dir}">
 			<fileset dir="${src.dir}">
-				<include name="**/input/**" />
-				<include name="**/golden/**" />
-				<include name="**/output/**" />
+				<include name="**/input/*.*"/>
+				<include name="**/input/resources/*.*"/>
+				<include name="**/messages.properties"/>
 			</fileset>
 		</copy>
 		<echo message="start compiling tests.engine"/>
