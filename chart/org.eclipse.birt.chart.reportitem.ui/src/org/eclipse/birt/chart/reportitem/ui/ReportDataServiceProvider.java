@@ -17,6 +17,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -46,16 +47,18 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
 import com.ibm.icu.text.Collator;
@@ -302,7 +305,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						.clearValue( );
 				itemHandle.getColumnBindings( ).clearValue( );
 
-				List columnList = DataUtil.generateComputedColumns( itemHandle );
+				List columnList = generateComputedColumns( itemHandle );
 				if ( columnList.size( ) > 0 )
 				{
 					for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
@@ -318,6 +321,44 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			ChartWizard.displayException( e );
 		}
+	}
+
+	/**
+	 * Generate computed columns for the given report item with the closest data
+	 * set available.
+	 * 
+	 * @param handle
+	 *            the handle of the report item. No aggregation created.
+	 * 
+	 * @return true if succeed,or fail if no column generated.
+	 * @see DataUtil#generateComputedColumns(ReportItemHandle)
+	 * 
+	 */
+	private List generateComputedColumns( ReportItemHandle handle )
+			throws SemanticException
+	{
+		Assert.isNotNull( handle );
+		DataSetHandle dataSetHandle = handle.getDataSet( );
+		if ( dataSetHandle == null )
+		{
+			dataSetHandle = DEUtil.getBindingHolder( handle ).getDataSet( );
+		}
+		if ( dataSetHandle != null )
+		{
+			List resultSetColumnList = DataUtil.getColumnList( dataSetHandle );
+			ArrayList columnList = new ArrayList( );
+			for ( Iterator iter = resultSetColumnList.iterator( ); iter.hasNext( ); )
+			{
+				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iter.next( );
+				ComputedColumn column = StructureFactory.createComputedColumn( );
+				column.setName( resultSetColumn.getColumnName( ) );
+				column.setDataType( resultSetColumn.getDataType( ) );
+				column.setExpression( DEUtil.getExpression( resultSetColumn ) );
+				columnList.add( column );
+			}
+			return columnList;
+		}
+		return Collections.EMPTY_LIST;
 	}
 
 	/**
