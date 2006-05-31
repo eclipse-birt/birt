@@ -93,10 +93,17 @@ class ResultIterator implements IResultIterator
 	 */
 	private void prepare( ) throws DataException
 	{
+		String rootID = QueryResultIDUtil.get1PartID( this.queryResultID );
+		String selfID = QueryResultIDUtil.get2PartID( this.queryResultID );
+		if ( selfID == null )
+			selfID = this.queryResultID;
+		
 		RDLoad valueLoader = RDUtil.newLoad( this.context,
-				this.queryResultID,
-				this.subQueryName,
-				this.currParentIndex );
+				new QueryResultInfo( rootID,
+						null,
+						selfID,
+						this.subQueryName,
+						this.currParentIndex ) );
 		if ( this.subQueryName != null )
 			subQueryIndex = valueLoader.getSubQueryIndex( currParentIndex );
 		

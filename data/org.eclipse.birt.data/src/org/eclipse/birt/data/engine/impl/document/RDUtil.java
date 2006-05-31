@@ -16,49 +16,70 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ * Provide the sevice to new instance of RDSave and RDLoad
  */
 public final class RDUtil
 {
 	/**
 	 * @param context
-	 * @param queryResultID
-	 * @param subQueryName
-	 * @param subQueryIndex
+	 * @param queryDefn
+	 * @param rowCount
+	 * @param queryResultInfo
 	 * @return
 	 * @throws DataException
 	 */
 	public static IRDSave newSave( DataEngineContext context,
-			IBaseQueryDefinition queryDefn, String queryResultID, int rowCount,
-			String subQueryName, int subQueryIndex ) throws DataException
+			IBaseQueryDefinition queryDefn, int rowCount,
+			QueryResultInfo queryResultInfo ) throws DataException
 	{
-		if (context.getMode() == DataEngineContext.MODE_GENERATION)
-			return new RDSave(context, queryDefn, queryResultID, rowCount,
-					subQueryName, subQueryIndex);
-		else if (context.getMode() == DataEngineContext.MODE_UPDATE)
-			return new RDSave2(context, queryDefn, queryResultID, rowCount,
-					subQueryName, subQueryIndex);
+		QueryResultInfo newQueryResultInfo = getRealQueryResultInfo( queryResultInfo );
+
+		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION )
+			return new RDSave( context, queryDefn, rowCount, newQueryResultInfo );
+		else if ( context.getMode( ) == DataEngineContext.MODE_UPDATE )
+			return new RDSave2( context,
+					queryDefn,
+					rowCount,
+					newQueryResultInfo );
 		else
 			assert false;
+
 		return null;
 	}
 
 	/**
+	 * @param queryResultInfo
+	 * @return
+	 */
+	private static QueryResultInfo getRealQueryResultInfo(
+			QueryResultInfo queryResultInfo )
+	{
+		String rootQueryResultID = null;
+		String selfQueryResultID = null;
+
+		selfQueryResultID = QueryResultIDUtil.get2PartID( queryResultInfo.getQueryResultID( ) );
+		if ( selfQueryResultID == null )
+			selfQueryResultID = queryResultInfo.getQueryResultID( );
+		else
+			rootQueryResultID = QueryResultIDUtil.get1PartID( queryResultInfo.getQueryResultID( ) );
+
+		return new QueryResultInfo( rootQueryResultID,
+				null,
+				selfQueryResultID,
+				queryResultInfo.getSubQueryName( ),
+				queryResultInfo.getIndex( ) );
+	}
+	
+	/**
 	 * @param context
-	 * @param queryResultID
-	 * @param subQueryName
-	 * @param currParentIndex
-	 * @return load util
+	 * @param queryResultInfo
+	 * @return
 	 * @throws DataException
 	 */
 	public static RDLoad newLoad( DataEngineContext context,
-			String queryResultID, String subQueryName, int currParentIndex )
-			throws DataException
+			QueryResultInfo queryResultInfo ) throws DataException
 	{
-		return new RDLoad( context,
-				queryResultID,
-				subQueryName,
-				currParentIndex );
+		return new RDLoad( context, queryResultInfo );
 	}
 
 }

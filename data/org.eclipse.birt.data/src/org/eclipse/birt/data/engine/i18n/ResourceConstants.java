@@ -138,6 +138,9 @@ public class ResourceConstants
 	public final static String BACKWARD_SEEK_ERROR = "data.engine.backwardSeekError";
 	public final static String START_ERROR = "data.engine.startError";
 	
+	// query running based on report document
+	public final static String RD_INVALID_FILTER = "data.engine.rd.errorfilters";
+	
 	// other error
 	public final static String SCRIPT_EVAL_ERROR = "data.engine.ScriptEvalError";
 	public final static String PREPARED_QUERY_CLOSED = "data.engine.PreparedQueryClosed";	

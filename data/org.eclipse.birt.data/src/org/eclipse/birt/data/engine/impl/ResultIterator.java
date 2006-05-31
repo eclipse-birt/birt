@@ -35,6 +35,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
+import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -872,10 +873,10 @@ public class ResultIterator implements IResultIterator
 			{
 				rdSave = RDUtil.newSave( this.context,
 						this.queryDefn,
-						this.queryResultID,
 						odiResult.getRowCount( ),
-						this.subQueryName,
-						this.subQueryIndex );
+						new QueryResultInfo( this.queryResultID,
+								this.subQueryName,
+								this.subQueryIndex ) );
 			}
 
 			return rdSave;

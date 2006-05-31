@@ -40,6 +40,8 @@ import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
+import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
+import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.script.JSDummyRowObject;
@@ -263,7 +265,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		public String getID( )
 		{
 			if ( queryResultID == null )
-				queryResultID = IDUtil.nextQursID( );
+				queryResultID = QueryResultIDUtil.nextID( );
 
 			return queryResultID;
 		}
@@ -809,10 +811,10 @@ public class PreparedDummyQuery implements IPreparedQuery
 			{
 				rdSave = RDUtil.newSave( this.context,
 						this.queryDefn != null ? this.queryDefn : subQueryDefn,
-						this.queryResultID,
 						1,
-						subQueryName,
-						subQueryIndex );
+						new QueryResultInfo( this.queryResultID,
+								subQueryName,
+								subQueryIndex ) );
 			}
 
 			return rdSave;

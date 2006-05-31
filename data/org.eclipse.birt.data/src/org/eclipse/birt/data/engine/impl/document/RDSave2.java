@@ -16,9 +16,9 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ * Used to save the query which is running based on a report document.
  */
-public class RDSave2 extends RDSave implements IRDSave
+class RDSave2 extends RDSave implements IRDSave
 {
 
 	/**
@@ -30,16 +30,11 @@ public class RDSave2 extends RDSave implements IRDSave
 	 * @param subQueryIndex
 	 * @throws DataException
 	 */
-	public RDSave2( DataEngineContext context, IBaseQueryDefinition queryDefn,
-			String queryResultID, int rowCount, String subQueryName,
-			int subQueryIndex ) throws DataException
+	RDSave2( DataEngineContext context, IBaseQueryDefinition queryDefn,
+			int rowCount, QueryResultInfo queryResultInfo )
+			throws DataException
 	{
-		super( context,
-				queryDefn,
-				queryResultID,
-				rowCount,
-				subQueryName,
-				subQueryIndex );
+		super( context, queryDefn, rowCount, queryResultInfo );
 	}
 
 	/*
@@ -57,7 +52,8 @@ public class RDSave2 extends RDSave implements IRDSave
 	 */
 	public void saveFinish( int currIndex ) throws DataException
 	{
-		this.saveForIV( );
+		this.saveUtilHelper.saveFilterInfo( );
+		this.saveUtilHelper.appendSelfToRoot( );
 	}
 
 }

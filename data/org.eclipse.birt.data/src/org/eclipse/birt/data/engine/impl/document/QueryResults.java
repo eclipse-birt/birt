@@ -86,9 +86,9 @@ public class QueryResults implements IQueryResults
 		if ( resultMetaData == null )
 		{
 			RDLoad rdLoad = RDUtil.newLoad( context,
-					queryResultID,
-					subQueryName,
-					currParentIndex );
+					new QueryResultInfo( queryResultID,
+							subQueryName,
+							currParentIndex ) );
 			this.resultMetaData = rdLoad.loadResultMetaData( );
 		}
 

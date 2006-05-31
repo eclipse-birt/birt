@@ -70,19 +70,22 @@ public class DataEngineContext
 	private int cacheCount;
 	
 	/** stream id for internal use, don't use it externally */
-	public final static int EXPR_VALUE_STREAM = 11;
-	public final static int RESULTCLASS_STREAM = 12;
-	public final static int GROUP_INFO_STREAM = 13;
-	public final static int SUBQUERY_INFO_STREAM = 14;
+	public final static int VERSION_INFO_STREAM = 11;
 	
-	public final static int ROW_INDEX_STREAM = 15;
+	public final static int DATASET_DATA_STREAM = 21;
+	public final static int RESULTCLASS_STREAM = 22;
 	
-	public final static int VERSION_INFO_STREAM = 21;
-	public final static int ROWLENGTH_INFO_STREAM = 22;
-	public final static int DATASET_DATA_STREAM = 23;
+	public final static int EXPR_VALUE_STREAM = 31;
+	public final static int ROWLENGTH_INFO_STREAM = 32;
+	public final static int EXPR_META_STREAM = 33;
 	
-	public final static int EXPR_META_STREAM = 24;
-	public final static int FILTER_INFO_STREAM = 25;
+	public final static int GROUP_INFO_STREAM = 41;
+	public final static int SUBQUERY_INFO_STREAM = 42;
+	public final static int FILTER_INFO_STREAM = 43;
+	
+	public final static int ROW_INDEX_STREAM = 51;
+	
+	public final static int QUERYID_INFO_STREAM = 61;
 
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
@@ -309,33 +312,41 @@ public class DataEngineContext
 		String relativePath = null;
 		switch ( streamType )
 		{
-			case EXPR_VALUE_STREAM :
-				relativePath = "ExprValue";
+			case DATASET_DATA_STREAM :
+				relativePath = "DataSetData";
 				break;
 			case RESULTCLASS_STREAM :
 				relativePath = "ResultClass";
 				break;
+				
+			case EXPR_VALUE_STREAM :
+				relativePath = "ExprValue";
+				break;
+			case ROWLENGTH_INFO_STREAM :
+				relativePath = "RowLengthInfo";
+				break;
+			case EXPR_META_STREAM :
+				relativePath = "ExprMetaInfo";
+				break;
+				
 			case GROUP_INFO_STREAM :
 				relativePath = "GroupInfo";
 				break;
 			case SUBQUERY_INFO_STREAM :
 				relativePath = "SubQueryInfo";
 				break;
-			case ROW_INDEX_STREAM:
-				relativePath = "RowIndexInfo";
-				break;
-			case ROWLENGTH_INFO_STREAM :
-				relativePath = "RowLengthInfo";
-				break;
-			case DATASET_DATA_STREAM :
-				relativePath = "DataSetData";
-				break;
-			case EXPR_META_STREAM :
-				relativePath = "ExprMetaInfo";
-				break;
 			case FILTER_INFO_STREAM :
 				relativePath = "FilterInfo";
 				break;
+							
+			case ROW_INDEX_STREAM:
+				relativePath = "RowIndexInfo";
+				break;
+			
+			case QUERYID_INFO_STREAM :
+				relativePath = "QueryIDInfo";
+				break;
+				
 			default :
 				assert false; // impossible
 		}

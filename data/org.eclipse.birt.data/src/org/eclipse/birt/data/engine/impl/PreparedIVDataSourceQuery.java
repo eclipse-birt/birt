@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
+import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
@@ -134,10 +135,10 @@ public class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		protected IResultIterator executeOdiQuery( IEventHandler eventHandler )
 				throws DataException
 		{
-			RDLoad rdLoad = RDUtil.newLoad( engine.getContext(),
-					queryDefn.getQueryResultsID(),
-					null,
-					-1 );
+			RDLoad rdLoad = RDUtil.newLoad( engine.getContext( ),
+					new QueryResultInfo( queryDefn.getQueryResultsID( ),
+							null,
+							-1 ) );
 			DataSetResultSet exprDataRS = rdLoad.loadDataSetData();
 			//IExprDataResultSet exprDataRS = rdLoad.loadExprDataResultSet();
 			IResultClass meta = exprDataRS.getResultClass();

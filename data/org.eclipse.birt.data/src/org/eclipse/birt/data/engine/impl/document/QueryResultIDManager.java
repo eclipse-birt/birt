@@ -1,0 +1,145 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.birt.data.engine.impl.document;
+
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
+import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+
+/**
+ * Manage the query result id
+ */
+public class QueryResultIDManager
+{
+	
+	/**
+	 * @param streamManager
+	 * @param filterList
+	 * @throws DataException
+	 */
+	public static void appendChildToRoot( StreamManager streamManager,
+			List filterList ) throws DataException
+	{
+		Map idMap = getIDMap( streamManager );
+
+		// write content
+		try
+		{
+			OutputStream os = streamManager.getRootOutStream( DataEngineContext.QUERYID_INFO_STREAM );
+			DataOutputStream dos = new DataOutputStream( os );
+
+			int size = idMap.size( );
+			IOUtil.writeInt( dos, size + 1 );
+			
+			if ( size > 0 )
+			{
+				Set entrySet = idMap.entrySet( );
+				Iterator it = entrySet.iterator( );
+				while ( it.hasNext( ) )
+				{
+					Map.Entry entry = (Entry) it.next( );
+					IOUtil.writeString( dos, (String) entry.getKey( ) );
+					IOUtil.writeInt( dos,
+							( (Integer) entry.getValue( ) ).intValue( ) );
+				}
+			}
+			
+			IOUtil.writeString( dos, streamManager.getWholeQueryResultID( ) );
+			IOUtil.writeInt( dos, FilterDefnUtil.hashCode( filterList ) );
+
+			dos.close( );
+			os.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
+		}
+	}
+	
+	/**
+	 * @param streamManager
+	 * @return
+	 * @throws DataException
+	 */
+	public static String getNextID( DataEngineContext context,
+			String rootQueryResultID ) throws DataException
+	{
+		StreamManager streamManager = new StreamManager( context,
+				new QueryResultInfo( rootQueryResultID, null, -1 ) );
+
+		Set idSet = getIDMap( streamManager ).keySet( );
+
+		String queryID = null;
+		while ( true )
+		{
+			queryID = QueryResultIDUtil.nextID( );
+			if ( idSet.contains( queryID ) == false )
+				break;
+		}
+
+		return queryID;
+	}
+	
+	/**
+	 * @param streamManager
+	 * @return
+	 * @throws DataException
+	 */
+	private static Map getIDMap( StreamManager streamManager )
+			throws DataException
+	{
+		Map idMap = new LinkedHashMap( );
+		if ( streamManager.hasInStream( DataEngineContext.QUERYID_INFO_STREAM,
+				StreamManager.ROOT_STREAM ) )
+		{
+			try
+			{
+				InputStream is = streamManager.getInStream( DataEngineContext.QUERYID_INFO_STREAM,
+						StreamManager.ROOT_STREAM );
+				BufferedInputStream buffIs = new BufferedInputStream( is );
+				DataInputStream dis = new DataInputStream( buffIs );
+
+				int existingNum = IOUtil.readInt( buffIs );
+
+				for ( int i = 0; i < existingNum; i++ )
+				{
+					idMap.put( IOUtil.readString( dis ),
+							new Integer( IOUtil.readInt( dis ) ) );
+				}
+
+				dis.close( );
+				buffIs.close( );
+				is.close( );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.RD_LOAD_ERROR, e );
+			}
+		}
+
+		return idMap;
+	}
+	
+}

@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.impl.document;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -46,14 +47,20 @@ public class RDLoad
 	 * @param currParentIndex
 	 * @throws DataException
 	 */
-	RDLoad( DataEngineContext context, String queryResultID,
-			String subQueryName, int currParentIndex ) throws DataException
+	RDLoad( DataEngineContext context, QueryResultInfo queryResultInfo )
+			throws DataException
 	{
-		subQueryUtil = new RDSubQueryUtil( context, queryResultID, subQueryName );
+		subQueryUtil = new RDSubQueryUtil( context,
+				queryResultInfo.getQueryResultID( ),
+				queryResultInfo.getSubQueryName( ) );
 		streamManager = new StreamManager( context,
-				queryResultID,
-				subQueryName,
-				subQueryName == null ? 0 : getSubQueryIndex( currParentIndex ) );
+				new QueryResultInfo( queryResultInfo.getRootQueryResultID( ),
+						queryResultInfo.getParentQueryResultID( ),
+						queryResultInfo.getQueryResultID( ),
+						queryResultInfo.getSubQueryName( ),
+						queryResultInfo.getSubQueryName( ) == null
+								? 0
+								: getSubQueryIndex( queryResultInfo.getIndex( ) ) ) );
 		
 		this.version = VersionManager.getVersion( context );
 	}
@@ -86,11 +93,10 @@ public class RDLoad
 	 */
 	ExprResultSet loadExprResultSet( ) throws DataException
 	{
-		boolean isBasedOnSecondRD = streamManager.hasInStream( DataEngineContext.ROW_INDEX_STREAM );
 		return new ExprResultSet( streamManager,
 				loadGroupUtil( ),
 				version,
-				isBasedOnSecondRD );
+				streamManager.isSecondRD( ) );
 	}
 
 	/**
@@ -99,7 +105,8 @@ public class RDLoad
 	 */
 	public RDGroupUtil loadGroupUtil( ) throws DataException
 	{
-		InputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM );
+		InputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,
+				StreamManager.ROOT_STREAM );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
 		RDGroupUtil rdGroupUtil = new RDGroupUtil( buffStream );
 		try
@@ -127,7 +134,8 @@ public class RDLoad
 		if ( version == VersionManager.VERSION_2_0 )
 			throw new DataException( "Not supported in earlier version than 2.1" );
 
-		InputStream inputStream = streamManager.getInStream( DataEngineContext.EXPR_META_STREAM );
+		InputStream inputStream = streamManager.getInStream( DataEngineContext.EXPR_META_STREAM,
+				StreamManager.ROOT_STREAM );
 		BufferedInputStream buffStream = new BufferedInputStream( inputStream );
 		ExprMetaInfo[] exprMetas = ExprMetaUtil.loadExprMetaInfo( buffStream );
 		try
@@ -143,15 +151,19 @@ public class RDLoad
 		// This is a special case, that the stream needs to be close at the code
 		// of ExprDataResultSet
 		IExprDataResultSet exprDataResultSet = null;
-		boolean isBasedOnSecondRD = streamManager.hasInStream( DataEngineContext.ROW_INDEX_STREAM );
-		if ( isBasedOnSecondRD == false )
-			exprDataResultSet = new ExprDataResultSet1( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM ),
-					streamManager.getInStream( DataEngineContext.ROWLENGTH_INFO_STREAM ),
+		if ( streamManager.isBasedOnSecondRD( ) == false )
+			exprDataResultSet = new ExprDataResultSet1( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
+					StreamManager.ROOT_STREAM ),
+					streamManager.getInStream( DataEngineContext.ROWLENGTH_INFO_STREAM,
+							StreamManager.ROOT_STREAM ),
 					exprMetas );
 		else
-			exprDataResultSet = new ExprDataResultSet2( streamManager.getRAInStream( DataEngineContext.EXPR_VALUE_STREAM ),
-					streamManager.getRAInStream( DataEngineContext.ROWLENGTH_INFO_STREAM ),
-					streamManager.getRAInStream( DataEngineContext.ROW_INDEX_STREAM ),
+			exprDataResultSet = new ExprDataResultSet2( streamManager.getRAInStream( DataEngineContext.EXPR_VALUE_STREAM,
+					StreamManager.ROOT_STREAM ),
+					streamManager.getRAInStream( DataEngineContext.ROWLENGTH_INFO_STREAM,
+							StreamManager.ROOT_STREAM ),
+					streamManager.getRAInStream( DataEngineContext.ROW_INDEX_STREAM,
+							StreamManager.PARENT_STREAM ),
 					exprMetas );
 
 		return exprDataResultSet;
@@ -187,11 +199,33 @@ public class RDLoad
 	 */
 	public DataSetResultSet loadDataSetData( ) throws DataException
 	{
-		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM );
+		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM,
+				StreamManager.ROOT_STREAM );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
 		DataSetResultSet populator = new DataSetResultSet( buffStream, this.loadResultClass() );
 
 		return populator;
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	public List loadFilterDefn( int streamPos ) throws DataException
+	{
+		InputStream inputStream = streamManager.getInStream( DataEngineContext.FILTER_INFO_STREAM,
+				streamPos );
+		List filterList = FilterDefnUtil.loadFilterDefn( inputStream );
+		try
+		{
+			inputStream.close( );
+		}
+		catch ( IOException e )
+		{
+			// ignore
+		}
+
+		return filterList;
 	}
 	
 }

@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -51,8 +52,10 @@ class QueryResults implements IQueryResults, IQueryService
 	private DataEngineContext 			context;
 	private Scriptable 					queryScope;
 	private int 						nestedLevel;
+	
 	// id of this instance
-	private String 						queryResultID;
+	private String                      rootQueryResultID;
+	private String 						selfQueryResultID;
 
 	// query service instance
 	private IServiceForQueryResults 	queryService;
@@ -86,10 +89,10 @@ class QueryResults implements IQueryResults, IQueryService
 	 */
 	public String getID( )
 	{
-		if ( queryResultID == null )
-			queryResultID = IDUtil.nextQursID( );
-		
-		return queryResultID;
+		if ( selfQueryResultID == null )
+			selfQueryResultID = QueryResultIDUtil.nextID( );
+
+		return QueryResultIDUtil.buildID( rootQueryResultID, selfQueryResultID );
 	}
 	
 	/*
@@ -237,6 +240,16 @@ class QueryResults implements IQueryResults, IQueryService
 	}
 	
 	/**
+	 * @param rootQueryResultID
+	 * @param selfQueryResultID
+	 */
+	void setID( String rootQueryResultID, String selfQueryResultID )
+	{
+		this.rootQueryResultID = rootQueryResultID;
+		this.selfQueryResultID = selfQueryResultID;
+	}
+	
+	/**
 	 * Set current queryresult ID for sub query. Sub query result ID can not be
 	 * generated independently, and it is needs to be attached with its parent
 	 * query.
@@ -245,7 +258,7 @@ class QueryResults implements IQueryResults, IQueryService
 	 */
 	void setID( String queryResultID )
 	{
-		this.queryResultID = queryResultID;
+		this.selfQueryResultID = queryResultID;
 	}
 	
 	/**
