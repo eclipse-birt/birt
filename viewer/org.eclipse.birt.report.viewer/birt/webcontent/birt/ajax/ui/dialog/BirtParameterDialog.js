@@ -118,7 +118,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			if( oSEC.length == 0 && ( oIEC.length == 1 || oIEC.length == 2 ) )
 			{
 				var temp = {};
-				var tempDef;
+				var tempDef = null;
 				if( oIEC.length == 1 )
 				{
 					temp = oIEC[0]
@@ -299,14 +299,14 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 */
 	__doSubmit : function( )
 	{
+		var action = window.location.href;
+		
 		var divObj = document.createElement( "DIV" );
 		document.body.appendChild( divObj );
 		divObj.style.display = "none";
 		
 		var formObj = document.createElement( "FORM" );
 		divObj.appendChild( formObj );
-		formObj.action = window.location.href;
-		formObj.method = "post";
 		
 		if ( this.__parameter != null )
 		{
@@ -317,9 +317,16 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				param.TYPE = "HIDDEN";
 				param.name = this.__parameter[i].name;
 				param.value = this.__parameter[i].value;
+				
+				//replace the URL parameter			
+				var reg = new RegExp( "&" + param.name + "[^&]*&*", "g" );
+				action = action.replace( reg, "&" );
 			}
 		}
-		
+
+		formObj.action = action;
+		formObj.method = "post";
+				
 		this.__l_hide( );
 		formObj.submit( );		
 	},
