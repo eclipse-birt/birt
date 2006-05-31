@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.text.ParseException;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -26,6 +27,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.text.NumberFormat;
 
 /**
  * This class is intended to be used in the ChartBuilder UI where direct changes
@@ -188,9 +191,11 @@ public class TextEditorComposite extends Composite
 				// Test if the text is a number format
 				try
 				{
-					Double.parseDouble( this.sText );
+					NumberFormat.getInstance( )
+					.parse( this.sText )
+					.doubleValue( );
 				}
-				catch ( NumberFormatException e )
+				catch ( ParseException e )
 				{
 					this.sText = defaultValue;
 					this.txtValue.setText( this.sText );

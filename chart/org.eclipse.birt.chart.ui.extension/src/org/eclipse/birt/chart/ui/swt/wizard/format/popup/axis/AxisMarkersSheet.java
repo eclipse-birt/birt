@@ -906,7 +906,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		String sValue = ""; //$NON-NLS-1$
 		if ( de instanceof NumberDataElement )
 		{
-			sValue = String.valueOf( ( (NumberDataElement) de ).getValue( ) );
+			sValue = String.valueOf( NumberFormat.getInstance( )
+					.format( ( (NumberDataElement) de ).getValue( ) ) );
 		}
 		else if ( de instanceof DateTimeDataElement )
 		{
@@ -1114,7 +1115,6 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			return NumberDataElementImpl.create( 0.0 );
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
-		NumberFormat nf = NumberFormat.getNumberInstance( );
 		if ( axis.getType( ).equals( AxisType.DATE_TIME_LITERAL )
 				&& !axis.isCategoryAxis( ) )
 		{
@@ -1132,8 +1132,9 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		}
 		try
 		{
-			Number numberElement = nf.parse( strDataElement );
-			return NumberDataElementImpl.create( numberElement.doubleValue( ) );
+			return NumberDataElementImpl.create( NumberFormat.getInstance( )
+					.parse( strDataElement )
+					.doubleValue( ) );
 		}
 		catch ( ParseException e1 )
 		{
