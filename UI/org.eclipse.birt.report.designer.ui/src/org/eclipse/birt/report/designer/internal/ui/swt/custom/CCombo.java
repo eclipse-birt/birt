@@ -19,6 +19,7 @@ import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.accessibility.AccessibleTextAdapter;
 import org.eclipse.swt.accessibility.AccessibleTextEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -129,6 +130,7 @@ public CCombo (Composite parent, int style) {
 		}
 	};
 	
+	
 	int [] comboEvents = {SWT.Dispose, SWT.Move, SWT.Resize};
 	for (int i=0; i<comboEvents.length; i++) this.addListener (comboEvents [i], listener);
 	
@@ -140,7 +142,13 @@ public CCombo (Composite parent, int style) {
 	
 	createPopup(null, -1);
 	initAccessible();
+	
 }
+
+public void addFocusListener (FocusListener listener) {
+	text.addFocusListener( listener );
+}
+
 static int checkStyle (int style) {
 	int mask = SWT.BORDER | SWT.READ_ONLY | SWT.FLAT | SWT.LEFT_TO_RIGHT | SWT.RIGHT_TO_LEFT;
 	return style & mask;
@@ -815,6 +823,16 @@ void listEvent (Event event) {
 			e.character = event.character;
 			e.keyCode = event.keyCode;
 			e.stateMask = event.stateMask;
+			if(event.character == SWT.CR){
+				dropDown (false);
+				int index = list.getSelectionIndex ();
+				if (index == -1) return;
+				text.setText (list.getItem (index));
+				text.selectAll ();
+				list.setSelection(index);
+				e.doit = event.doit;
+				notifyListeners(SWT.Selection, e);
+			}
 			notifyListeners(SWT.KeyUp, e);
 			break;
 		}
@@ -828,7 +846,7 @@ void listEvent (Event event) {
 			}
 			if (event.character == SWT.CR) {
 				// Enter causes default selection
-				dropDown (false);
+				//dropDown (false);
 				Event e = new Event();
 				e.time = event.time;
 				e.stateMask = event.stateMask;
