@@ -27,6 +27,7 @@ BirtEvent.prototype =
 	__E_CHANGE_PARAMETER : '__E_CHANGE_PARAMETER',  //Change parameter event.
 	__E_CACHE_PARAMETER : '__E_CACHE_PARAMETER',  //Cache parameter event.
 	__E_CASCADING_PARAMETER : '__E_CASCADING_PARAMETER',  //Cascading parameter event.
+	__E_PDF : '__E_PDF', // Create pdf event.
 	
 	/**
 	 *	Initialization routine required by "ProtoType" lib.

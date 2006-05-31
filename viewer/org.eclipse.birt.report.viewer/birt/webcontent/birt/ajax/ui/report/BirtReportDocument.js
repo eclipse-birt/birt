@@ -35,6 +35,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		this.__beh_toc_closure = this.__beh_toc.bindAsEventListener( this );
 		this.__beh_cacheParameter_closure = this.__beh_cacheParameter.bind( this );
 		this.__beh_print_closure = this.__beh_print.bind( this );
+		this.__beh_pdf_closure = this.__beh_pdf.bind( this );
 				
 		Event.observe( window, 'resize', this.__neh_resize_closure, false );
 		
@@ -46,6 +47,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_QUERY_EXPORT, this.__instance.id, this.__beh_export );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_CACHE_PARAMETER, this.__instance.id, this.__beh_cacheParameter_closure );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_PRINT, this.__instance.id, this.__beh_print_closure );
+		birtEventDispatcher.registerEventHandler( birtEvent.__E_PDF, this.__instance.id, this.__beh_pdf_closure );
 				
   		birtGetUpdatedObjectsResponseHandler.addAssociation( "Docum", this );
   		
@@ -93,5 +95,46 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		{
 			window.print( );
 		}
-	}	
+	},
+
+	/**
+	 *	Birt event handler for "pdf" event.
+	 *
+	 *	@id, document id (optional since there's only one document instance)
+	 *	@return, true indicating server call
+	 */
+	__beh_pdf : function( id )
+	{
+		// Collect parameters
+		if ( !birtParameterDialog.collect_parameter( ) )
+			return;
+		
+		var divObj = document.createElement( "DIV" );
+		document.body.appendChild( divObj );
+		divObj.style.display = "none";
+		
+		var formObj = document.createElement( "FORM" );
+		divObj.appendChild( formObj );
+				
+		if ( birtParameterDialog.__parameter != null )
+		{
+			for( var i = 0; i < birtParameterDialog.__parameter.length; i++ )	
+			{
+				var param = document.createElement( "INPUT" );
+				formObj.appendChild( param );
+				param.TYPE = "HIDDEN";
+				param.name = birtParameterDialog.__parameter[i].name;
+				param.value = birtParameterDialog.__parameter[i].value;				
+			}
+		}
+
+		// Replace "html" to "pdf"		
+		var action = window.location.href;		
+		var reg = new RegExp( "&__format=html", "g" );
+		action = action.replace( reg, "&__format=pdf" );
+		
+		formObj.action = action;
+		formObj.method = "post";			
+		formObj.submit( );
+	}		
 });

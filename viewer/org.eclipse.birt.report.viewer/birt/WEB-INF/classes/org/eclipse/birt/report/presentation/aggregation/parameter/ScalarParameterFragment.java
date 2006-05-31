@@ -138,7 +138,13 @@ public class ScalarParameterFragment extends BirtBaseFragment
 					parameterBean.getName( ) );
 
 		if ( paramValueObj != null )
+		{
 			parameterValue = paramValueObj.toString( );
+		}
+		else if ( !parameter.allowNull( ) && parameter.allowBlank( ) )
+		{
+			parameterValue = ""; //$NON-NLS-1$
+		}
 
 		// isRequired
 		switch ( parameter.getDataType( ) )
@@ -149,12 +155,12 @@ public class ScalarParameterFragment extends BirtBaseFragment
 				// assert paramDefaultValueObj instanceof String;
 				parameterBean.setRequired( false );
 
-				if ( paramValueObj == null && !parameter.allowNull( ) )
+				if ( parameterValue == null && !parameter.allowNull( ) )
 				{
 					parameterBean.setRequired( true );
 				}
-				else if ( paramValueObj != null
-						&& ( (String) paramValueObj ).length( ) <= 0
+				else if ( parameterValue != null
+						&& parameterValue.length( ) <= 0
 						&& !parameter.allowBlank( ) )
 				{
 					parameterBean.setRequired( true );

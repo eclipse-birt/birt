@@ -53,6 +53,11 @@
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
+					   <IMG NAME='pdf' SRC="birt/images/pdf.gif"
+					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.pdf" )%>" CLASS="birtviewer_clickable">
+					</TD>					
+					<TD WIDTH="6px"/>
+					<TD WIDTH="15px">
 					   <IMG NAME='print' SRC="birt/images/Print.gif"
 					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.print" )%>" CLASS="birtviewer_clickable">
 					</TD>					
