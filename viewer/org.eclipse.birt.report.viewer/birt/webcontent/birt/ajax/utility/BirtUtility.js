@@ -196,6 +196,10 @@ BirtUtility.prototype =
 			{
 				return eval( 'birtReportTable' );
 			}
+			else if ( type.toUpperCase( ) == 'Group'.toUpperCase( ) )
+			{
+				return eval( 'birtReportTable' );
+			}
 			else if ( type.toUpperCase( ) == 'Table_T'.toUpperCase( ) )
 			{
 				return eval( 'birtReportTable_T' );

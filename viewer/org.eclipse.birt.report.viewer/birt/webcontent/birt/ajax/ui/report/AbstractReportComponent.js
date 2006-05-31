@@ -51,16 +51,16 @@ AbstractReportComponent.prototype =
 	 *	@id, table object id
 	 *	@return, void
 	 */
-	__cb_installEventHandlers : function( id, children, bookmark )
+	__cb_installEventHandlers : function( id, children, bookmark, type )
 	{
 		if ( this.__local_installEventHandlers )
 		{
-			this.__local_installEventHandlers( id, children, bookmark );
+			this.__local_installEventHandlers( id, children, bookmark, type );
 		}
 		
 		var container = $( id );
 
-		container[ Constants.reportBase ] = true;
+		container[ Constants.reportBase ] = ( type != 'Group' );
 		container[ Constants.activeIds ] = [ ]; // Need to remember active children
 		container[ Constants.activeIdTypes ] = [ ]; // Need to remember active children types
 		
@@ -77,7 +77,6 @@ AbstractReportComponent.prototype =
 
 			var birtObj = null;
 			var birtObj = birtUtility.forType( oElementTypes[0].firstChild.data );
-
 			if ( !birtObj || !birtObj.__cb_installEventHandlers )
 			{
 				continue;
@@ -86,7 +85,7 @@ AbstractReportComponent.prototype =
 			container[ Constants.activeIds ].push( oElementIds[0].firstChild.data );
 			container[ Constants.activeIdTypes ].push( oElementTypes[0].firstChild.data );
 
-			birtObj.__cb_installEventHandlers( oElementIds[0].firstChild.data );
+			birtObj.__cb_installEventHandlers( oElementIds[0].firstChild.data, null, null, oElementTypes[0].firstChild.data );
 		}
 	},
 	
