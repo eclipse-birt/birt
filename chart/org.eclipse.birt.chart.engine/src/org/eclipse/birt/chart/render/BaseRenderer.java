@@ -2614,6 +2614,26 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 				TextRenderEvent.class );
+		
+		double dLaAngle = la.getCaption( ).getFont( ).getRotation( );
+		if ( isRightToLeft( ) )
+		{
+			dLaAngle = - dLaAngle;
+		}
+		double dDeltaHeight = 0;
+		if ( dLaAngle >= 0 && dLaAngle < 90 )
+		{
+			dDeltaHeight = ( bo.getHeight( ) + dFullHeight - dItemHeight ) / 2;
+		}
+		else if ( dLaAngle < 0 && dLaAngle > -90 )
+		{
+			dDeltaHeight = ( bo.getHeight( ) - dFullHeight + dItemHeight ) / 2;
+		}
+		else if ( dLaAngle == 90 || dLaAngle == -90 )
+		{
+			dDeltaHeight =  bo.getHeight( ) / 2 ;
+		}
+		
 		if ( isRightToLeft( ) )
 		{
 			tre.setLocation( LocationImpl.create( dX
@@ -2622,7 +2642,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					- 3
 					* dItemHeight
 					/ 2
-					- dHorizontalSpacing, dY + dFullHeight / 2 - 1 ) );
+					- dHorizontalSpacing, bo.getTop( ) + dDeltaHeight ) );
 			tre.setTextPosition( TextRenderEvent.LEFT );
 		}
 		else
@@ -2630,7 +2650,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			tre.setLocation( LocationImpl.create( dX
 					+ dLeftInset
 					+ ( 3 * dItemHeight / 2 )
-					+ dHorizontalSpacing, dY + dFullHeight / 2 - 1 ) );
+					+ dHorizontalSpacing, bo.getTop( ) + dDeltaHeight ) );
 			tre.setTextPosition( TextRenderEvent.RIGHT );
 		}
 		if ( la.isVisible( ) )

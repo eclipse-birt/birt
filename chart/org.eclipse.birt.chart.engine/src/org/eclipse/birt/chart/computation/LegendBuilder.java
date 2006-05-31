@@ -335,8 +335,20 @@ public final class LegendBuilder implements IConstants
 					la.getCaption( ).setValue( lgtext );
 					itm.reuse( la, maxWrappingSize );
 
-					double dFWidth = itm.getFullWidth( );
-					double dFHeight = itm.getFullHeight( );
+					BoundingBox bb = null;
+					try
+					{
+						bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+					}
+					catch ( IllegalArgumentException uiex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.RENDERING,
+								uiex );
+					}
+					
+					double dFWidth = bb.getWidth( );
+					double dFHeight = bb.getHeight( );
 
 					dDeltaHeight = insCA.getTop( )
 							+ dFHeight
@@ -374,8 +386,20 @@ public final class LegendBuilder implements IConstants
 					la.getCaption( ).setValue( sMinSliceLabel );
 					itm.reuse( la, maxWrappingSize );
 
-					double dFWidth = itm.getFullWidth( );
-					double dFHeight = itm.getFullHeight( );
+					BoundingBox bb = null;
+					try
+					{
+						bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+					}
+					catch ( IllegalArgumentException uiex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.RENDERING,
+								uiex );
+					}
+					
+					double dFWidth = bb.getWidth( );
+					double dFHeight = bb.getHeight( );
 
 					dDeltaHeight = insCA.getTop( )
 							+ dFHeight
@@ -447,9 +471,20 @@ public final class LegendBuilder implements IConstants
 						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la, maxWrappingSize );
 
-						dW = itm.getFullWidth( );
+						BoundingBox bb = null;
+						try
+						{
+							bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+						}
+						catch ( IllegalArgumentException uiex )
+						{
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.RENDERING,
+									uiex );
+						}
+						dW = bb.getWidth( );
 
-						double dFHeight = itm.getFullHeight( );
+						double dFHeight = bb.getHeight( );
 						double dExtraHeight = 0;
 						String extraText = null;
 
@@ -597,9 +632,20 @@ public final class LegendBuilder implements IConstants
 						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la, maxWrappingSize );
 
-						dW = itm.getFullWidth( );
+						BoundingBox bb = null;
+						try
+						{
+							bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+						}
+						catch ( IllegalArgumentException uiex )
+						{
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.RENDERING,
+									uiex );
+						}
+						dW = bb.getWidth( );
 
-						double dFHeight = itm.getFullHeight( );
+						double dFHeight = bb.getHeight( );
 						double dExtraHeight = 0;
 						String extraText = null;
 
@@ -816,9 +862,21 @@ public final class LegendBuilder implements IConstants
 					}
 					la.getCaption( ).setValue( lgtext );
 					itm.reuse( la, maxWrappingSize );
+					
+					BoundingBox bb = null;
+					try
+					{
+						bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+					}
+					catch ( IllegalArgumentException uiex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.RENDERING,
+								uiex );
+					}
 
-					double dFWidth = itm.getFullWidth( );
-					double dFHeight = itm.getFullHeight( );
+					double dFWidth = bb.getWidth( );
+					double dFHeight = bb.getHeight( );
 
 					dDeltaWidth = insCA.getLeft( )
 							+ dFWidth
@@ -856,8 +914,19 @@ public final class LegendBuilder implements IConstants
 					la.getCaption( ).setValue( sMinSliceLabel );
 					itm.reuse( la, maxWrappingSize );
 
-					double dFWidth = itm.getFullWidth( );
-					double dFHeight = itm.getFullHeight( );
+					BoundingBox bb = null;
+					try
+					{
+						bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+					}
+					catch ( IllegalArgumentException uiex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.RENDERING,
+								uiex );
+					}
+					double dFWidth = bb.getWidth( );
+					double dFHeight = bb.getHeight( );
 
 					dDeltaWidth = insCA.getLeft( )
 							+ dFWidth
@@ -928,10 +997,21 @@ public final class LegendBuilder implements IConstants
 						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la, maxWrappingSize );
 
-						dH = itm.getFullHeight( );
+						BoundingBox bb = null;
+						try
+						{
+							bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+						}
+						catch ( IllegalArgumentException uiex )
+						{
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.RENDERING,
+									uiex );
+						}
+						dH = bb.getHeight( );
 
 						double dFHeight = dH;
-						double dFWidth = itm.getFullWidth( );
+						double dFWidth = bb.getWidth( );
 						double dEHeight = 0;
 						String extraText = null;
 
@@ -1078,10 +1158,21 @@ public final class LegendBuilder implements IConstants
 						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la, maxWrappingSize );
 
-						dH = itm.getFullHeight( );
+						BoundingBox bb = null;
+						try
+						{
+							bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+						}
+						catch ( IllegalArgumentException uiex )
+						{
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.RENDERING,
+									uiex );
+						}
+						dH = bb.getHeight( );
 
 						double dFHeight = dH;
-						double dFWidth = itm.getFullWidth( );
+						double dFWidth = bb.getWidth( );
 						double dEHeight = 0;
 						String extraText = null;
 
@@ -1175,10 +1266,14 @@ public final class LegendBuilder implements IConstants
 								new Point( dWidth - dSeparatorThickness / 2,
 										dExtraHeight ),
 								0,
-								dMaxH,
+								dMaxH
+										+ insCA.getTop( )
+										+ insCA.getBottom( )
+										+ dVerticalSpacing,
 								null,
 								0,
 								null ) );
+
 					}
 				}
 
