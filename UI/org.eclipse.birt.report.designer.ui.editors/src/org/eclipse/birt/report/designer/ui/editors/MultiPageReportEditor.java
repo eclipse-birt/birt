@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEdito
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportMultiBookPage;
 import org.eclipse.birt.report.designer.internal.ui.extension.EditorContributorManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;

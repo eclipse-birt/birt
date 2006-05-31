@@ -326,7 +326,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 			editor.editorDirtyStateChanged( );
 		}
 		else
+		{
 			super.firePropertyChange( type );
+		}
 	}
 
 	protected IReportProvider getProvider( )

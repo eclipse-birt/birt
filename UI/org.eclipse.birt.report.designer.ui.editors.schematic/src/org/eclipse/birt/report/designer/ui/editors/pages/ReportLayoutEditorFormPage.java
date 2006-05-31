@@ -320,7 +320,9 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 			editor.editorDirtyStateChanged( );
 		}
 		else
+		{
 			super.firePropertyChange( type );
+		}
 	}
 
 	/*

@@ -74,7 +74,14 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 			setInput( prePage.getEditorInput( ) );
 		}
 
-		if ( prePage.isDirty( ) )
+		// if the model is dirty, save it at first.
+		if( isDirtyModel())
+		{
+			doSave( null );
+		}
+		
+		//save the last changes.
+		if ( prePage.isDirty( ))
 		{
 			prePage.doSave( null );
 		}
@@ -113,6 +120,15 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 		}
 
 		return true;
+	}
+
+	private boolean isDirtyModel( )
+	{
+		if( getModel( )!= null && getModel() instanceof ModuleHandle)
+		{
+			return ((ModuleHandle) getModel()).needsSave( );
+		}
+		return false;
 	}
 
 	/*
@@ -477,4 +493,21 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 
 		return configFileName;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#firePropertyChange(int)
+	 */
+	protected void firePropertyChange( int type )
+	{
+		if ( type == PROP_DIRTY )
+		{
+			editor.editorDirtyStateChanged( );
+		}
+		else
+		{
+			super.firePropertyChange( type );
+		}
+	}	
 }

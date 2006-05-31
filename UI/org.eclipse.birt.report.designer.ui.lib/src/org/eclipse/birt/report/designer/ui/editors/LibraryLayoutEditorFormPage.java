@@ -224,6 +224,8 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 			editor.editorDirtyStateChanged( );
 		}
 		else
+		{
 			super.firePropertyChange( type );
+		}
 	}
 }
