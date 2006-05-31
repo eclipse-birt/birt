@@ -43,6 +43,14 @@ public class RAFolderOutputStream extends RAOutputStream
 	{
 		this.archive = archive;
 		this.randomFile = new RandomAccessFile( file, "rw" ); //$NON-NLS-1$
+		try
+		{
+			this.randomFile.setLength( 0 );
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+		}
 		this.buf = new byte[IOUtil.RA_STREAM_BUFFER_LENGTH];
 		this.count = 0;
 	}
