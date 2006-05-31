@@ -11,7 +11,7 @@
 package org.eclipse.birt.data.engine.impl.document;
 
 /**
- * 
+ * Wrap the ID infromation of a query result.
  */
 public class QueryResultInfo
 {
@@ -23,9 +23,14 @@ public class QueryResultInfo
 	private int index;
 	
 	/**
+	 * The index parameter has different meaning in write/read. In writing, it
+	 * means the sub query index, but in reading, it means the parent row index.
+	 * 
+	 * @param rootQueryResultID
+	 * @param parentQueryResultID
 	 * @param queryResultID
 	 * @param subQueryName
-	 * @param subQueryIndex
+	 * @param index
 	 */
 	public QueryResultInfo( String rootQueryResultID,
 			String parentQueryResultID, String queryResultID,
