@@ -48,15 +48,15 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 		{
 			return false;
 		}
-		IReportItemBuilderUI builder = getbuilder( );
-		if ( builder != null )
-		{
-			// Open the builder for new element
-			if ( builder.open( handle ) == Window.CANCEL )
-			{
-				return false;
-			}
-		}
+//		IReportItemBuilderUI builder = getbuilder( );
+//		if ( builder != null )
+//		{
+//			// Open the builder for new element
+//			if ( builder.open( handle ) == Window.CANCEL )
+//			{
+//				return false;
+//			}
+//		}
 		setModel( handle );
 		return super.preHandleMouseUp( );
 	}

@@ -37,7 +37,7 @@ import org.eclipse.jface.window.Window;
 
 /**
  * add comment here
- *  
+ * 
  */
 public class ExtendedEditPart extends ReportElementEditPart
 {
@@ -72,7 +72,17 @@ public class ExtendedEditPart extends ReportElementEditPart
 	protected void createEditPolicies( )
 	{
 		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) );
+				new ReportComponentEditPolicy( ) {
+
+					public boolean understandsRequest( Request request )
+					{
+						if ( RequestConstants.REQ_DIRECT_EDIT.equals( request.getType( ) )
+								|| RequestConstants.REQ_OPEN.equals( request.getType( ) )
+								|| ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
+							return true;
+						return super.understandsRequest( request );
+					}
+				} );
 	}
 
 	/*
@@ -84,9 +94,9 @@ public class ExtendedEditPart extends ReportElementEditPart
 	{
 		getExtendedElementUI( ).updateFigure( getExtendedItemHandle( ),
 				getFigure( ) );
-		
+
 		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
-		
+
 		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
 				getFigure( ),
 				getConstraint( ) );
@@ -106,7 +116,7 @@ public class ExtendedEditPart extends ReportElementEditPart
 			type = DesignChoiceConstants.DISPLAY_BLOCK;
 		}
 		constraint.setDisplay( type );
-		constraint.setMargin(  getModelAdapter( ).getMargin( null ) ); 
+		constraint.setMargin( getModelAdapter( ).getMargin( null ) );
 		return constraint;
 	}
 
@@ -125,41 +135,40 @@ public class ExtendedEditPart extends ReportElementEditPart
 		IReportItemBuilderUI builder = ExtensionPointManager.getInstance( )
 				.getExtendedElementPoint( ( (ExtendedItemHandle) getModel( ) ).getExtensionName( ) )
 				.getReportItemBuilderUI( );
-		
-			
+
 		if ( builder != null )
 		{
-		    // Start a transaction before opening builder
-		    
-		    CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
-			final String transName = Messages.getFormattedString( "ExtendedEditPart.edit", new Object[] { getExtendedItemHandle( ).getExtensionName( ) } ); //$NON-NLS-1$
-		   
-            stack.startTrans( transName );
-            int result = Window.CANCEL;
-            try
-            {
-                result = builder.open( getExtendedItemHandle() );
-            }
-            catch ( RuntimeException e )
-            {
-                ExceptionHandler.handle( e );
-                stack.rollback();
-                return;
-            }
+			// Start a transaction before opening builder
 
-            if ( result == Window.OK )
-            {
-                stack.commit();
-                refreshVisuals();
-            }
-            else
-            {
-                stack.rollback();
-            }
-           
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			final String transName = Messages.getFormattedString( "ExtendedEditPart.edit", new Object[]{getExtendedItemHandle( ).getExtensionName( )} ); //$NON-NLS-1$
+
+			stack.startTrans( transName );
+			int result = Window.CANCEL;
+			try
+			{
+				result = builder.open( getExtendedItemHandle( ) );
+			}
+			catch ( RuntimeException e )
+			{
+				ExceptionHandler.handle( e );
+				stack.rollback( );
+				return;
+			}
+
+			if ( result == Window.OK )
+			{
+				stack.commit( );
+				refreshVisuals( );
+			}
+			else
+			{
+				stack.rollback( );
+			}
+
 		}
 	}
-
 
 	public IReportItemFigureProvider getExtendedElementUI( )
 	{
