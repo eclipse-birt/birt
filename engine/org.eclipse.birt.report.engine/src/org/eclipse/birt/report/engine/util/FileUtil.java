@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.14 $ $Date: 2005/11/17 16:50:52 $
+ * @version $Revision: 1.15 $ $Date: 2006/03/17 02:19:04 $
  */
 public class FileUtil
 {
@@ -65,6 +65,7 @@ public class FileUtil
 		fileExtension.put( "image/png", ".png" );  //$NON-NLS-1$//$NON-NLS-2$
 		fileExtension.put( "image/x-png", ".png" );  //$NON-NLS-1$//$NON-NLS-2$
 		fileExtension.put( "image/tif", ".tif" );  //$NON-NLS-1$//$NON-NLS-2$
+		fileExtension.put( "image/svg+xml", ".svg" );  //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**
