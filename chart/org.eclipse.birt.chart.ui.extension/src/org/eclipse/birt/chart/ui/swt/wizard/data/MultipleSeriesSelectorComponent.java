@@ -76,6 +76,10 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 			cmpLeft.setText( areaTitle );
 		}
 
+		if ( seriesDefnsArray.length > 2 )
+		{
+			wizardContext.setMoreAxesSupported( true );
+		}
 		if ( wizardContext.isMoreAxesSupported( ) )
 		{
 			selectors = new DataDefinitionSelector[1];
@@ -93,7 +97,8 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 			selectors = new DataDefinitionSelector[seriesDefnsArray.length];
 			for ( int i = 0; i < seriesDefnsArray.length; i++ )
 			{
-				// Remove the title when only single series, i.e. axisIndex is -1
+				// Remove the title when only single series, i.e. axisIndex is
+				// -1
 				int axisIndex = seriesDefnsArray.length == 1 ? -1 : i;
 				selectors[i] = new DataDefinitionSelector( axisIndex,
 						seriesDefnsArray[i],
