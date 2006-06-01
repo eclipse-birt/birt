@@ -346,7 +346,7 @@ public final class LegendBuilder implements IConstants
 								ChartException.RENDERING,
 								uiex );
 					}
-					
+
 					double dFWidth = bb.getWidth( );
 					double dFHeight = bb.getHeight( );
 
@@ -397,7 +397,7 @@ public final class LegendBuilder implements IConstants
 								ChartException.RENDERING,
 								uiex );
 					}
-					
+
 					double dFWidth = bb.getWidth( );
 					double dFHeight = bb.getHeight( );
 
@@ -458,7 +458,7 @@ public final class LegendBuilder implements IConstants
 						{
 							try
 							{
-								lgtext = ValueFormatter.format( obj,
+								lgtext = ValueFormatter.format( lgtext,
 										fs,
 										rtc.getULocale( ),
 										null );
@@ -474,7 +474,11 @@ public final class LegendBuilder implements IConstants
 						BoundingBox bb = null;
 						try
 						{
-							bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+							bb = Methods.computeBox( xs,
+									IConstants.ABOVE,
+									la,
+									0,
+									0 );
 						}
 						catch ( IllegalArgumentException uiex )
 						{
@@ -619,7 +623,7 @@ public final class LegendBuilder implements IConstants
 						{
 							try
 							{
-								lgtext = ValueFormatter.format( obj,
+								lgtext = ValueFormatter.format( lgtext,
 										fs,
 										rtc.getULocale( ),
 										null );
@@ -635,7 +639,11 @@ public final class LegendBuilder implements IConstants
 						BoundingBox bb = null;
 						try
 						{
-							bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+							bb = Methods.computeBox( xs,
+									IConstants.ABOVE,
+									la,
+									0,
+									0 );
 						}
 						catch ( IllegalArgumentException uiex )
 						{
@@ -862,7 +870,7 @@ public final class LegendBuilder implements IConstants
 					}
 					la.getCaption( ).setValue( lgtext );
 					itm.reuse( la, maxWrappingSize );
-					
+
 					BoundingBox bb = null;
 					try
 					{
@@ -984,7 +992,7 @@ public final class LegendBuilder implements IConstants
 						{
 							try
 							{
-								lgtext = ValueFormatter.format( obj,
+								lgtext = ValueFormatter.format( lgtext,
 										fs,
 										rtc.getULocale( ),
 										null );
@@ -1000,7 +1008,11 @@ public final class LegendBuilder implements IConstants
 						BoundingBox bb = null;
 						try
 						{
-							bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+							bb = Methods.computeBox( xs,
+									IConstants.ABOVE,
+									la,
+									0,
+									0 );
 						}
 						catch ( IllegalArgumentException uiex )
 						{
@@ -1145,7 +1157,7 @@ public final class LegendBuilder implements IConstants
 						{
 							try
 							{
-								lgtext = ValueFormatter.format( obj,
+								lgtext = ValueFormatter.format( lgtext,
 										fs,
 										rtc.getULocale( ),
 										null );
@@ -1161,7 +1173,11 @@ public final class LegendBuilder implements IConstants
 						BoundingBox bb = null;
 						try
 						{
-							bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+							bb = Methods.computeBox( xs,
+									IConstants.ABOVE,
+									la,
+									0,
+									0 );
 						}
 						catch ( IllegalArgumentException uiex )
 						{
