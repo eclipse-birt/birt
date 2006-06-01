@@ -1164,99 +1164,149 @@
 	</Method>		
 	<Method displayNameID="Class.Total.rank" isStatic="true" name="rank" returnType="number" toolTipID="Class.Total.rank.toolTip">
 		<Argument name="expr" tagID="Class.Total.rank.expr" type="String"/>
-		<Argument name="ascending" tagID="Class.Total.rank.ascending" type="boolean"/>			 			
+		<Argument name="ascending" tagID="Class.Total.rank.ascending" type="boolean"/>
+		<Argument name="filter" tagID="Class.Total.rank.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.rank.group" type="String"/>		 			
 	</Method>
 	<Method displayNameID="Class.Total.rank" isStatic="true" name="rank" returnType="number" toolTipID="Class.Total.rank.toolTip">
 		<Argument name="expr" tagID="Class.Total.rank.expr" type="number"/>
-		<Argument name="ascending" tagID="Class.Total.rank.ascending" type="boolean"/>			 			
+		<Argument name="ascending" tagID="Class.Total.rank.ascending" type="boolean"/>
+		<Argument name="filter" tagID="Class.Total.rank.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.rank.group" type="String"/>			 			
 	</Method>
 	<Method displayNameID="Class.Total.rank" isStatic="true" name="rank" returnType="number" toolTipID="Class.Total.rank.toolTip">
 		<Argument name="expr" tagID="Class.Total.rank.expr" type="Date"/>
-		<Argument name="ascending" tagID="Class.Total.rank.ascending" type="boolean"/>			 			
+		<Argument name="ascending" tagID="Class.Total.rank.ascending" type="boolean"/>
+		<Argument name="filter" tagID="Class.Total.rank.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.rank.group" type="String"/>			 			
 	</Method>
 	<Method displayNameID="Class.Total.percentRank" isStatic="true" name="percentRank" returnType="number" toolTipID="Class.Total.percentRank.toolTip">
-		<Argument name="expr" tagID="Class.Total.percentRank.expr" type="Date"/>	 			
+		<Argument name="expr" tagID="Class.Total.percentRank.expr" type="Date"/>
+		<Argument name="filter" tagID="Class.Total.percentRank.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.percentRank.group" type="String"/>	 			
 	</Method>
 	<Method displayNameID="Class.Total.percentRank" isStatic="true" name="percentRank" returnType="number" toolTipID="Class.Total.percentRank.toolTip">
-		<Argument name="expr" tagID="Class.Total.percentRank.expr" type="String"/>	 			
+		<Argument name="expr" tagID="Class.Total.percentRank.expr" type="String"/>
+		<Argument name="filter" tagID="Class.Total.percentRank.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.percentRank.group" type="String"/>	 			
 	</Method>
 	<Method displayNameID="Class.Total.percentRank" isStatic="true" name="percentRank" returnType="number" toolTipID="Class.Total.percentRank.toolTip">
-		<Argument name="expr" tagID="Class.Total.percentRank.expr" type="number"/>	 			
+		<Argument name="expr" tagID="Class.Total.percentRank.expr" type="number"/>
+		<Argument name="filter" tagID="Class.Total.percentRank.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.percentRank.group" type="String"/>	 			
 	</Method>
 	<Method displayNameID="Class.Total.percentile" isStatic="true" name="percentile" returnType="number" toolTipID="Class.Total.percentile.toolTip">
 		<Argument name="expr" tagID="Class.Total.percentile.expr" type="String"/>
-		<Argument name="pct" tagID="Class.Total.percentile.pct" type="number"/>			 			
+		<Argument name="pct" tagID="Class.Total.percentile.pct" type="number"/>
+		<Argument name="filter" tagID="Class.Total.percentile.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.percentile.group" type="String"/>			 			
 	</Method>
 	<Method displayNameID="Class.Total.percentile" isStatic="true" name="percentile" returnType="number" toolTipID="Class.Total.percentile.toolTip">
 		<Argument name="expr" tagID="Class.Total.percentile.expr" type="number"/>
-		<Argument name="pct" tagID="Class.Total.percentile.pct" type="number"/>			 			
+		<Argument name="pct" tagID="Class.Total.percentile.pct" type="number"/>
+		<Argument name="filter" tagID="Class.Total.percentile.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.percentile.group" type="String"/>			 			
 	</Method>
 	<Method displayNameID="Class.Total.percentile" isStatic="true" name="percentile" returnType="number" toolTipID="Class.Total.percentile.toolTip">
 		<Argument name="expr" tagID="Class.Total.percentile.expr" type="Date"/>
-		<Argument name="pct" tagID="Class.Total.percentile.pct" type="number"/>			 			
+		<Argument name="pct" tagID="Class.Total.percentile.pct" type="number"/>
+		<Argument name="filter" tagID="Class.Total.percentile.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.percentile.group" type="String"/>			 			
 	</Method>
 	<Method displayNameID="Class.Total.quartile" isStatic="true" name="quartile" returnType="number" toolTipID="Class.Total.quartile.toolTip">
 		<Argument name="expr" tagID="Class.Total.quartile.expr" type="Date"/>
-		<Argument name="quart" tagID="Class.Total.quartile.quart" type="number"/>			 			
+		<Argument name="quart" tagID="Class.Total.quartile.quart" type="number"/>
+		<Argument name="filter" tagID="Class.Total.quartile.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.quartile.group" type="String"/>			 			
 	</Method>
 	<Method displayNameID="Class.Total.quartile" isStatic="true" name="quartile" returnType="number" toolTipID="Class.Total.quartile.toolTip">
 		<Argument name="expr" tagID="Class.Total.quartile.expr" type="String"/>
-		<Argument name="quart" tagID="Class.Total.quartile.quart" type="number"/>			 			
+		<Argument name="quart" tagID="Class.Total.quartile.quart" type="number"/>
+		<Argument name="filter" tagID="Class.Total.quartile.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.quartile.group" type="String"/>			 			
 	</Method>
 	<Method displayNameID="Class.Total.quartile" isStatic="true" name="quartile" returnType="number" toolTipID="Class.Total.quartile.toolTip">
 		<Argument name="expr" tagID="Class.Total.quartile.expr" type="number"/>
-		<Argument name="quart" tagID="Class.Total.quartile.quart" type="number"/>			 			
+		<Argument name="quart" tagID="Class.Total.quartile.quart" type="number"/>
+		<Argument name="filter" tagID="Class.Total.quartile.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.quartile.group" type="String"/>			 			
 	</Method>
 	<Method displayNameID="Class.Total.percentSum" isStatic="true" name="percentSum" returnType="number" toolTipID="Class.Total.percentSum.toolTip">
 		<Argument name="expr" tagID="Class.Total.percentSum.expr" type="number"/>
+		<Argument name="filter" tagID="Class.Total.percentSum.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.percentSum.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isTopN" isStatic="true" name="isTopN" returnType="boolean" toolTipID="Class.Total.isTopN.toolTip">
 		<Argument name="expr" tagID="Class.Total.isTopN.expr" type="number"/>
 		<Argument name="n" tagID="Class.Total.isTopN.n" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isTopN.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isTopN.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isTopN" isStatic="true" name="isTopN" returnType="boolean" toolTipID="Class.Total.isTopN.toolTip">
 		<Argument name="expr" tagID="Class.Total.isTopN.expr" type="String"/>
 		<Argument name="n" tagID="Class.Total.isTopN.n" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isTopN.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isTopN.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isTopN" isStatic="true" name="isTopN" returnType="boolean" toolTipID="Class.Total.isTopN.toolTip">
 		<Argument name="expr" tagID="Class.Total.isTopN.expr" type="Date"/>
 		<Argument name="n" tagID="Class.Total.isTopN.n" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isTopN.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isTopN.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isTopNPercent" isStatic="true" name="isTopNPercent" returnType="boolean" toolTipID="Class.Total.isTopNPercent.toolTip">
 		<Argument name="expr" tagID="Class.Total.isTopNPercent.expr" type="Date"/>
 		<Argument name="pct" tagID="Class.Total.isTopNPercent.pct" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isTopNPercent.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isTopNPercent.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isTopNPercent" isStatic="true" name="isTopNPercent" returnType="boolean" toolTipID="Class.Total.isTopNPercent.toolTip">
 		<Argument name="expr" tagID="Class.Total.isTopNPercent.expr" type="String"/>
 		<Argument name="pct" tagID="Class.Total.isTopNPercent.pct" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isTopNPercent.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isTopNPercent.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isTopNPercent" isStatic="true" name="isTopNPercent" returnType="boolean" toolTipID="Class.Total.isTopNPercent.toolTip">
 		<Argument name="expr" tagID="Class.Total.isTopNPercent.expr" type="number"/>
 		<Argument name="pct" tagID="Class.Total.isTopNPercent.pct" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isTopNPercent.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isTopNPercent.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isBottomN" isStatic="true" name="isBottomN" returnType="boolean" toolTipID="Class.Total.isBottomN.toolTip">
 		<Argument name="expr" tagID="Class.Total.isBottomN.expr" type="number"/>
 		<Argument name="n" tagID="Class.Total.isBottomN.n" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isBottomN.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isBottomN.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isBottomN" isStatic="true" name="isBottomN" returnType="boolean" toolTipID="Class.Total.isBottomN.toolTip">
 		<Argument name="expr" tagID="Class.Total.isBottomN.expr" type="String"/>
 		<Argument name="n" tagID="Class.Total.isBottomN.n" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isBottomN.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isBottomN.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isBottomN" isStatic="true" name="isBottomN" returnType="boolean" toolTipID="Class.Total.isBottomN.toolTip">
 		<Argument name="expr" tagID="Class.Total.isBottomN.expr" type="Date"/>
 		<Argument name="n" tagID="Class.Total.isBottomN.n" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isBottomN.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isBottomN.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isBottomNPercent" isStatic="true" name="isBottomNPercent" returnType="boolean" toolTipID="Class.Total.isBottomNPercent.toolTip">
 		<Argument name="expr" tagID="Class.Total.isBottomNPercent.expr" type="Date"/>
 		<Argument name="pct" tagID="Class.Total.isBottomNPercent.pct" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isBottomNPercent.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isBottomNPercent.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isBottomNPercent" isStatic="true" name="isBottomNPercent" returnType="boolean" toolTipID="Class.Total.isBottomNPercent.toolTip">
 		<Argument name="expr" tagID="Class.Total.isBottomNPercent.expr" type="String"/>
 		<Argument name="pct" tagID="Class.Total.isBottomNPercent.pct" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isBottomNPercent.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isBottomNPercent.group" type="String"/>
 	</Method>
 	<Method displayNameID="Class.Total.isBottomNPercent" isStatic="true" name="isBottomNPercent" returnType="boolean" toolTipID="Class.Total.isBottomNPercent.toolTip">
 		<Argument name="expr" tagID="Class.Total.isBottomNPercent.expr" type="number"/>
 		<Argument name="pct" tagID="Class.Total.isBottomNPercent.pct" type="number"/>
+		<Argument name="filter" tagID="Class.Total.isBottomNPercent.filter" type="String"/>			 
+		<Argument name="group" tagID="Class.Total.isBottomNPercent.group" type="String"/>
 	</Method>
   </Class>
   <Class displayNameID="Class.DateTimeSpan" name="DateTimeSpan" toolTipID="Class.DateTimeSpan.toolTip">	
