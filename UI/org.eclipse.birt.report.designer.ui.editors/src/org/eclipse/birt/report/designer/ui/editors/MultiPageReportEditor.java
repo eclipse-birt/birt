@@ -490,9 +490,18 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			updateRelatedViews( );
 		}
 		//updateRelatedViews( );
-		bingdingKey( newPageIndex );
 	}
 
+	public void setFocus( )
+	{
+		super.setFocus( );
+		if ( getCurrentPage( ) < 0 || getCurrentPage( ) > pages.size( ) - 1 )
+		{
+			return;
+		}
+		bingdingKey( getCurrentPage( ) );
+	}
+	
 	// this is a bug because the getActiveEditor() return null, we should change
 	// the getActivePage()
 	// return the correct current page index.we may delete this method
