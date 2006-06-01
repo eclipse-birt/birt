@@ -8,7 +8,6 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.birt.data.engine.impl.document;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -34,27 +33,13 @@ public final class RDUtil
 	{
 		QueryResultInfo newQueryResultInfo = getRealQueryResultInfo( queryResultInfo );
 
-		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION )
-		{
+		if ( newQueryResultInfo.getRootQueryResultID( ) == null )
 			return new RDSave( context, queryDefn, rowCount, newQueryResultInfo );
-		}
-		else if ( context.getMode( ) == DataEngineContext.MODE_UPDATE )
-		{
-			if ( newQueryResultInfo.getRootQueryResultID( ) == null )
-				return new RDSave( context,
-						queryDefn,
-						rowCount,
-						newQueryResultInfo );
-			else
-				return new RDSave2( context,
-						queryDefn,
-						rowCount,
-						newQueryResultInfo );
-		}
 		else
-			assert false;
-
-		return null;
+			return new RDSave2( context,
+					queryDefn,
+					rowCount,
+					newQueryResultInfo );
 	}
 
 	/**
@@ -67,11 +52,11 @@ public final class RDUtil
 		String rootQueryResultID = null;
 		String selfQueryResultID = null;
 
-		selfQueryResultID = QueryResultIDUtil.get2PartID( queryResultInfo.getQueryResultID( ) );
+		selfQueryResultID = QueryResultIDUtil.get2PartID( queryResultInfo.getSelfQueryResultID( ) );
 		if ( selfQueryResultID == null )
-			selfQueryResultID = queryResultInfo.getQueryResultID( );
+			selfQueryResultID = queryResultInfo.getSelfQueryResultID( );
 		else
-			rootQueryResultID = QueryResultIDUtil.get1PartID( queryResultInfo.getQueryResultID( ) );
+			rootQueryResultID = QueryResultIDUtil.get1PartID( queryResultInfo.getSelfQueryResultID( ) );
 
 		return new QueryResultInfo( rootQueryResultID,
 				null,

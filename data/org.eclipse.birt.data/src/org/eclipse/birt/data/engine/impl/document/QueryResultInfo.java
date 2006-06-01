@@ -28,15 +28,15 @@ public class QueryResultInfo
 	 * 
 	 * @param rootQueryResultID
 	 * @param parentQueryResultID
-	 * @param queryResultID
+	 * @param selfQueryResultID
 	 * @param subQueryName
 	 * @param index
 	 */
 	public QueryResultInfo( String rootQueryResultID,
-			String parentQueryResultID, String queryResultID,
+			String parentQueryResultID, String selfQueryResultID,
 			String subQueryName, int index )
 	{
-		this( queryResultID, subQueryName, index );
+		this( selfQueryResultID, subQueryName, index );
 		this.rootQueryResultID = rootQueryResultID;
 		this.parentQueryResultID = parentQueryResultID;
 	}
@@ -72,7 +72,7 @@ public class QueryResultInfo
 	/**
 	 * @return
 	 */
-	String getQueryResultID( )
+	String getSelfQueryResultID( )
 	{
 		return this.queryResultID;
 	}

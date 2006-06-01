@@ -177,18 +177,22 @@ public class RDSave implements IRDSave
 			try
 			{
 				// save the information of result class and group information
+				OutputStream streamForDataSet = null;
 				OutputStream streamForResultClass = null;
+				
 				OutputStream streamForGroupInfo = null;
 				
 				OutputStream streamForRowIndexInfo = null;
-				OutputStream streamForDataSet = null;
 				
 				boolean isSubQuery = streamManager.isSubquery( );
-				if ( context.getMode( ) != DataEngineContext.MODE_UPDATE )
+				if ( streamManager.isSecondRD( ) == false )
 				{
-					if ( isSubQuery == false )
-						streamForResultClass = streamManager.getOutStream( DataEngineContext.RESULTCLASS_STREAM );					
-					streamForDataSet = streamManager.getOutStream( DataEngineContext.DATASET_DATA_STREAM );
+					if ( context.getMode( ) == DataEngineContext.MODE_GENERATION )
+					{
+						if ( isSubQuery == false )
+							streamForResultClass = streamManager.getOutStream( DataEngineContext.RESULTCLASS_STREAM );
+						streamForDataSet = streamManager.getOutStream( DataEngineContext.DATASET_DATA_STREAM );
+					}
 				}
 				else
 				{

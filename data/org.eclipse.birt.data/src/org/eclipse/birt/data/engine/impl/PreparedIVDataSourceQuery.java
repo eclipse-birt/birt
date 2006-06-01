@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
@@ -43,19 +44,19 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
- *
+ * When query is applied with a different group from the original group, this
+ * instance will be used to regenerate the query result.
  */
 public class PreparedIVDataSourceQuery extends PreparedDataSourceQuery 
 {
 	private DataEngineImpl engine;
 	private IQueryDefinition queryDefn;
 	
-	PreparedIVDataSourceQuery(DataEngineImpl dataEngine,
+	PreparedIVDataSourceQuery( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign,
-			Map appContext) throws DataException 
+			Map appContext ) throws DataException
 	{
-		super(dataEngine, queryDefn, dataSetDesign, appContext);
+		super( dataEngine, queryDefn, dataSetDesign, appContext );
 		this.queryDefn = queryDefn;
 		this.engine = dataEngine;
 	}	
@@ -78,6 +79,19 @@ public class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		return null;
 	}
 
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#execute(org.eclipse.birt.data.engine.api.IQueryResults,
+	 *      org.mozilla.javascript.Scriptable)
+	 */
+	public IQueryResults execute( IQueryResults outerResults, Scriptable scope )
+			throws DataException
+	{
+		QueryResults queryResults = (QueryResults) super.execute( outerResults,
+				scope );
+		queryResults.setID( queryDefn.getQueryResultsID( ) );
+		return queryResults;
+	}
+	
 	/**
 	 * 
 	 *

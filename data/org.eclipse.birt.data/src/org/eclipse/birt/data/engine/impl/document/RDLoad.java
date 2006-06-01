@@ -51,12 +51,12 @@ public class RDLoad
 			throws DataException
 	{
 		subQueryUtil = new RDSubQueryUtil( context,
-				queryResultInfo.getQueryResultID( ),
+				queryResultInfo.getSelfQueryResultID( ),
 				queryResultInfo.getSubQueryName( ) );
 		streamManager = new StreamManager( context,
 				new QueryResultInfo( queryResultInfo.getRootQueryResultID( ),
 						queryResultInfo.getParentQueryResultID( ),
-						queryResultInfo.getQueryResultID( ),
+						queryResultInfo.getSelfQueryResultID( ),
 						queryResultInfo.getSubQueryName( ),
 						queryResultInfo.getSubQueryName( ) == null
 								? 0
