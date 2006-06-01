@@ -263,7 +263,6 @@ public final class PlotWithoutAxes
 			udsh.reset( );
 
 			double total = 0;
-			boolean isZeroValue = true;
 
 			// get total orthogonal value.
 			for ( int i = 0; i < iCount; i++ )
@@ -272,18 +271,10 @@ public final class PlotWithoutAxes
 
 				if ( v instanceof Number )
 				{
-					if ( ( (Number) v ).doubleValue( ) != 0.0 )
-					{
-						isZeroValue = false;
-					}
 					total += ( (Number) v ).doubleValue( );
 				}
 				else if ( v instanceof NumberDataElement )
 				{
-					if ( ( (NumberDataElement) v ).getValue( ) != 0.0 )
-					{
-						isZeroValue = false;
-					}
 					total += ( (NumberDataElement) v ).getValue( );
 				}
 			}
@@ -309,9 +300,9 @@ public final class PlotWithoutAxes
 								/ total );
 					}
 				}
-				else if ( isZeroValue == true )
+				else
 				{
-					percentileValue = new Double ( 1.0 / iCount );
+					percentileValue = new Double ( 0 );
 				}
 
 				dpha[i] = new DataPointHints( dsiBaseValues.next( ),
