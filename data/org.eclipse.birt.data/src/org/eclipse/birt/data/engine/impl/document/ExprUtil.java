@@ -53,10 +53,10 @@ public class ExprUtil
 			IOUtil.writeInt( dos, CONDITIONAL_EXPRESSION );
 
 			IConditionalExpression condExpr = (IConditionalExpression) baseExpr;
-			saveScriptExpr( dos, condExpr.getExpression( ) );
+			saveBaseExpr( dos, condExpr.getExpression( ) );
 			IOUtil.writeInt( dos, condExpr.getOperator( ) );
-			saveScriptExpr( dos, condExpr.getOperand1( ) );
-			saveScriptExpr( dos, condExpr.getOperand2( ) );
+			saveBaseExpr( dos, condExpr.getOperand1( ) );
+			saveBaseExpr( dos, condExpr.getOperand2( ) );
 		}
 		else
 		{
@@ -79,10 +79,10 @@ public class ExprUtil
 		}
 		else if ( IOUtil.readInt( dis ) == CONDITIONAL_EXPRESSION )
 		{
-			IScriptExpression expr = loadScriptExpr( dis );
+			IScriptExpression expr = (IScriptExpression) loadBaseExpr( dis );
 			int operator = IOUtil.readInt( dis );
-			IScriptExpression op1 = loadScriptExpr( dis );
-			IScriptExpression op2 = loadScriptExpr( dis );
+			IScriptExpression op1 = (IScriptExpression) loadBaseExpr( dis );
+			IScriptExpression op2 = (IScriptExpression) loadBaseExpr( dis );
 
 			baseExpr = new ConditionalExpression( expr, operator, op1, op2 );
 		}
