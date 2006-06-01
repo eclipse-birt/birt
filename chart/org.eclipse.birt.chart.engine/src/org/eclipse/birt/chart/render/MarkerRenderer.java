@@ -48,6 +48,10 @@ import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
+/**
+ * Render the markers used in Line series and Area series.
+ *
+ */
 public final class MarkerRenderer
 {
 
@@ -105,6 +109,11 @@ public final class MarkerRenderer
 		}
 	}
 
+	/**
+	 * Choose the type of markers.
+	 * @param ipr
+	 * @throws ChartException
+	 */
 	public final void draw( IPrimitiveRenderer ipr ) throws ChartException
 	{
 		switch ( m.getType( ).getValue( ) )
@@ -1006,7 +1015,7 @@ public final class MarkerRenderer
 			are3d.setBackground( paletteEntry );
 			are3d.setOutline( la );
 			are3d.setStartAngle( -90.0 );
-			are3d.setEndAngle( 180.0 );
+			are3d.setAngleExtent( 180.0 );
 			are3d.setTopLeft3D( Location3DImpl.create( lo3d.getX( )
 					- iSize
 					- offset, lo3d.getY( ) + iSize, lo3d.getZ( ) ) );
@@ -1024,14 +1033,14 @@ public final class MarkerRenderer
 			if ( bTransposed )
 			{
 				are.setStartAngle( 0 );
-				are.setEndAngle( 180.0 );
+				are.setAngleExtent( 180.0 );
 				are.setBounds( BoundsImpl.create( lo.getX( ) - iSize, lo.getY( )
 						- offset, 2 * iSize, 2 * iSize ) );
 			}
 			else
 			{
 				are.setStartAngle( -90.0 );
-				are.setEndAngle( 180.0 );
+				are.setAngleExtent( 180.0 );
 				are.setBounds( BoundsImpl.create( lo.getX( ) - iSize - offset,
 						lo.getY( ) - iSize,
 						2 * iSize,
