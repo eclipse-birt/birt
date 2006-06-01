@@ -94,19 +94,28 @@ public class RDLoad
 	ExprResultSet loadExprResultSet( ) throws DataException
 	{
 		return new ExprResultSet( streamManager,
-				loadGroupUtil( ),
+				loadGroupUtil( StreamManager.SELF_STREAM ),
 				version,
 				streamManager.isSecondRD( ) );
 	}
-
+	
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	public RDGroupUtil loadGroupUtil( ) throws DataException
+	public RDGroupUtil loadRootGroupUtil( ) throws DataException
+	{
+		return loadGroupUtil( StreamManager.ROOT_STREAM );
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	private RDGroupUtil loadGroupUtil( int streamPos ) throws DataException
 	{
 		InputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,
-				StreamManager.ROOT_STREAM );
+				streamPos );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
 		RDGroupUtil rdGroupUtil = new RDGroupUtil( buffStream );
 		try

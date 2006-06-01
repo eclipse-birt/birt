@@ -189,12 +189,12 @@ public class RDSave implements IRDSave
 					if ( isSubQuery == false )
 						streamForResultClass = streamManager.getOutStream( DataEngineContext.RESULTCLASS_STREAM );					
 					streamForDataSet = streamManager.getOutStream( DataEngineContext.DATASET_DATA_STREAM );
-					streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM );
 				}
 				else
 				{
 					streamForRowIndexInfo = streamManager.getOutStream( DataEngineContext.ROW_INDEX_STREAM );
 				}
+				streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM );
 				
 				odiResult.doSave( new StreamWrapper( streamForResultClass,
 						streamForDataSet,
