@@ -82,9 +82,7 @@ public class ParameterGroupFragment extends BirtBaseFragment
 		displayName = ( displayName == null || displayName.length( ) <= 0 )
 				? parameterGroup.getDisplayName( )
 				: displayName;
-		displayName = ( displayName == null || displayName.length( ) <= 0 )
-				? parameterGroup.getName( )
-				: displayName;
+
 		displayName = ParameterAccessor.htmlEncode( displayName );
 		parameterGroupBean.setDisplayName( displayName );
 

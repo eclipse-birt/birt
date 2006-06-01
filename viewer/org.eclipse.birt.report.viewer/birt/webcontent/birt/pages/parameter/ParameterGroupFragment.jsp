@@ -30,6 +30,10 @@
 	ParameterGroupBean parameterGroupBean = ( ParameterGroupBean ) attributeBean.getParameterBean( );
 %>
 <TR><TD HEIGHT="16px" COLSPAN="2"></TD></TR>
+<%
+	if ( parameterGroupBean.getDisplayName( ) != null )
+	{
+%>
 <TR>
 	<TD NOWRAP>
 		<IMG SRC="birt/images/parameter_group.gif" ALT="<%= parameterGroupBean.getDisplayName( ) %>" />
@@ -38,10 +42,25 @@
 		<B><%= parameterGroupBean.getDisplayName( ) %></B>
 	</TD>
 </TR>
+<%
+	}
+%>
 <TR>
+<%
+	if ( parameterGroupBean.getDisplayName( ) != null )
+	{
+%>	
+	<TD NOWRAP></TD>
 	<TD NOWRAP>
-	</TD>
-	<TD NOWRAP>
+<%
+	}
+	else
+	{
+%>	
+	<TD COLSPAN="2" NOWRAP>
+<%
+	}
+%>	
 		<TABLE CLASS="birtviewer_parameter_dialog_Label">
 		<%
 			if ( fragments != null )
