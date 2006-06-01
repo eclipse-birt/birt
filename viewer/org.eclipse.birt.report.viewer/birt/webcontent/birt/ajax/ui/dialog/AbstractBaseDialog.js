@@ -79,7 +79,11 @@ AbstractBaseDialog.prototype =
 		this.okBtnLeft = $(id + "okButtonLeft"); //left part of background image
 		this.okBtnRight = $(id + "okButtonRight"); //right part of background image
 			//set OK button to enabled as default
-		this.__setOKButtonState(true);		
+		this.okBtn.className = "dialogBtnBarButtonEnabled";
+		this.okBtnLeft.className = "dialogBtnBarButtonLeftBackgroundEnabled";
+		this.okBtnRight.className = "dialogBtnBarButtonRightBackgroundEnabled";
+		Event.observe( this.okBtn, 'click', this.__neh_okay_closure , false );
+			//Cancel		
 		Event.observe( cancelBtn, 'click', this.__neh_cancel_closure , false );
 			
 			//Drag and Drop
@@ -204,10 +208,13 @@ AbstractBaseDialog.prototype =
 	{
 		if(enabled)
 		{
-			this.okBtn.className = "dialogBtnBarButtonEnabled";
-			this.okBtnLeft.className = "dialogBtnBarButtonLeftBackgroundEnabled";
-			this.okBtnRight.className = "dialogBtnBarButtonRightBackgroundEnabled";
-			Event.observe( this.okBtn, 'click', this.__neh_okay_closure , false );
+			if(this.okBtn.className == "dialogBtnBarButtonDisabled")
+			{
+				this.okBtn.className = "dialogBtnBarButtonEnabled";
+				this.okBtnLeft.className = "dialogBtnBarButtonLeftBackgroundEnabled";
+				this.okBtnRight.className = "dialogBtnBarButtonRightBackgroundEnabled";
+				Event.observe( this.okBtn, 'click', this.__neh_okay_closure , false );
+			}
 		}
 		else
 		{
@@ -301,14 +308,21 @@ AbstractBaseDialog.prototype =
 	{	
 		var contentHolder = $(this.contentHolderName);
 		var innerWidth = contentHolder.offsetWidth;
-		var outerWidth = this.__instance.offsetWidth;
-		var difference = outerWidth - innerWidth;
-		var newOuterWidth = this.contentHolderWidth + difference;
-		this.__instance.style.width = newOuterWidth + 'px';
+		var outerWidth = this.__instance.clientWidth;
+		var difference = outerWidth - innerWidth;			
 		contentHolder.style.width = this.contentHolderWidth + 'px';
-		
+		var newOuterWidth = contentHolder.offsetWidth + difference;
+		this.__instance.style.width = newOuterWidth + 'px';
+			
 		this.__iframe.style.width = this.__instance.offsetWidth + 'px';
 		this.__iframe.style.height = this.__instance.offsetHeight + 'px';
+			//move iframe to true top, left
+			//assumes that top/bottom left/right borders are same width
+		if(this.__iframe.clientWidth > 0)
+		{
+			this.__iframe.style.top = (this.__instance.clientHeight - this.__instance.offsetHeight)/2 + 'px';
+			this.__iframe.style.left = (this.__instance.clientWidth - this.__instance.offsetWidth)/2 + 'px';
+		}
 	},
 	
 	/**
