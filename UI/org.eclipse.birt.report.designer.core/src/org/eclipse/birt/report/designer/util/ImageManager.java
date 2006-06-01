@@ -12,15 +12,23 @@
 package org.eclipse.birt.report.designer.util;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.JPEGTranscoder;
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -197,7 +205,35 @@ public class ImageManager
 
 		try
 		{
-			in = url.openStream( );
+			if ( url.toString( ).toLowerCase( ).endsWith( ".svg" ) ) //$NON-NLS-1$
+			{
+				//convert svg image to JPEG image bytes
+				JPEGTranscoder transcoder = new JPEGTranscoder( );
+				// set the transcoding hints
+				transcoder.addTranscodingHint( JPEGTranscoder.KEY_QUALITY,
+						new Float( .8 ) );
+				// create the transcoder input
+				String svgURI = url.toString( );
+				TranscoderInput input = new TranscoderInput( svgURI );
+				// create the transcoder output
+				ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
+				TranscoderOutput output = new TranscoderOutput( ostream );
+				try
+				{
+					transcoder.transcode( input, output );
+				}
+				catch ( TranscoderException e )
+				{
+				}
+				// flush the stream 
+				ostream.flush( );
+				// use the outputstream as Image input stream.
+				in = new ByteArrayInputStream( ostream.toByteArray( ) );
+			}
+			else
+			{
+				in = url.openStream( );
+			}
 			image = new Image( null, in );
 		}
 		catch ( IOException e )
@@ -235,8 +271,8 @@ public class ImageManager
 			if ( path != null )
 			{
 				ModuleHandle designHandle = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ); 
-				//add by gao for lib
+						.getReportDesignHandle( );
+				// add by gao for lib
 				return designHandle.findResource( path, IResourceLocator.IMAGE );
 			}
 			return URI.create( uri ).toURL( );
@@ -250,8 +286,7 @@ public class ImageManager
 	 * @param name
 	 * @return key string
 	 */
-	public String generateKey(ModuleHandle reportDesignHandle,
-			String name )
+	public String generateKey( ModuleHandle reportDesignHandle, String name )
 	{
 		return reportDesignHandle.hashCode( ) + EMBEDDED_SUFFIX + name;
 	}
