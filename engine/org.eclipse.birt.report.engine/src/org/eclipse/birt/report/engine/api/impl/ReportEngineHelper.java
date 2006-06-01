@@ -290,14 +290,29 @@ public class ReportEngineHelper
 		IDocArchiveReader reader = null;
 		try
 		{
-			if ( docArchiveName.endsWith( "\\" )
-					|| docArchiveName.endsWith( "/" ) )
+			File file = new File( docArchiveName );
+			if ( file.exists( ) )
 			{
-				reader = new FolderArchiveReader( docArchiveName );
-			}
+				if ( file.isDirectory( ) )
+				{
+					reader = new FolderArchiveReader( docArchiveName );
+				}
+				else
+				{
+					reader = new FileArchiveReader( docArchiveName );
+				}
+			} 
 			else
 			{
-				reader = new FileArchiveReader( docArchiveName );
+				if ( docArchiveName.endsWith( "\\" )
+						|| docArchiveName.endsWith( "/" ) )
+				{
+					reader = new FolderArchiveReader( docArchiveName );
+				}
+				else
+				{
+					reader = new FileArchiveReader( docArchiveName );
+				}
 			}
 		}
 		catch ( IOException e )

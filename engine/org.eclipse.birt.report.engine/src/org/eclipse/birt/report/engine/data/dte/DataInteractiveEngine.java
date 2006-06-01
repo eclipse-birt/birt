@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -57,15 +58,26 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	protected HashMap rsetRelations = new HashMap( );
 
 	public DataInteractiveEngine( ExecutionContext context,
-			IDocArchiveReader reader )
+			IDocArchiveReader reader, IDocArchiveWriter writer )
 	{
 		super( context );
 		try
 		{
 			// create the DteData engine.
-			DataEngineContext dteContext = DataEngineContext.newInstance(
+			DataEngineContext dteContext;
+			if ( writer == null)
+			{
+				dteContext = DataEngineContext.newInstance(
 					DataEngineContext.MODE_PRESENTATION, context.getSharedScope( ),
 					reader, null );
+			}
+			else
+			{
+				dteContext = DataEngineContext.newInstance(
+						DataEngineContext.MODE_UPDATE, context.getSharedScope( ),
+						reader, writer );
+			}
+		
 			dteEngine = DataEngine.newDataEngine( dteContext );
 		}
 		catch ( Exception ex )

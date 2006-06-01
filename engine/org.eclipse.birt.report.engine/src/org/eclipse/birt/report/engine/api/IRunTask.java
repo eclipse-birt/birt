@@ -43,6 +43,7 @@ public interface IRunTask extends IEngineTask
 	public abstract void run( IDocArchiveWriter archive ) throws EngineException;
 	
 	/**
+	 * @deprecated
 	 * @param fArchive a folder archive that is used both as the data source, and as output
 	 *        The engine WILL overwrite the archive that is passed in! 
 	 * @throws EngineException throws exception when running report fails

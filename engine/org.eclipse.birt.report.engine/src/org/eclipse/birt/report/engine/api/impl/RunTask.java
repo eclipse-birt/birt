@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -79,13 +80,28 @@ public class RunTask extends AbstractRunTask implements IRunTask
 					"Report document name is not specified when running a report." ); //$NON-NLS-1$
 		try
 		{
-			if ( reportDocName.endsWith( "\\" ) || reportDocName.endsWith( "/" ) )
+			File file = new File( reportDocName );
+			if ( file.exists( ) )
 			{
-				archive = new FolderArchiveWriter( reportDocName );
-			}
+				if ( file.isDirectory( ) )
+				{
+					archive = new FolderArchiveWriter( reportDocName );
+				}
+				else
+				{
+					archive = new FileArchiveWriter( reportDocName );
+				}
+			} 
 			else
 			{
-				archive = new FileArchiveWriter( reportDocName );
+				if ( reportDocName.endsWith( "\\" ) || reportDocName.endsWith( "/" ) )
+				{
+					archive = new FolderArchiveWriter( reportDocName );
+				}
+				else
+				{
+					archive = new FileArchiveWriter( reportDocName );
+				}
 			}
 		}
 		catch ( IOException e )
@@ -230,6 +246,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		super.close( );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void run( FolderArchive fArchive ) throws EngineException
 	{
 		setDataSource( fArchive );

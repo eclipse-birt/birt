@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.data;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.data.dte.DataGenerationEngine;
@@ -24,7 +25,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
  * A factory class to create data engines. For now, only DtE data engine is
  * created in this factory.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/12/05 09:01:12 $
+ * @version $Revision: 1.12 $ $Date: 2006/04/29 07:40:12 $
  */
 public class DataEngineFactory
 {
@@ -67,8 +68,14 @@ public class DataEngineFactory
 		IDocArchiveReader dataSource = context.getDataSource( );
 		if (dataSource != null)
 		{
+			ReportDocumentWriter writer = context.getReportDocWriter();
+			IDocArchiveWriter archiverWriter = null;
+			if (writer != null)
+			{
+				archiverWriter = writer.getArchive();
+			}
 			return new DataInteractiveEngine( context, 
-					dataSource );
+					dataSource, archiverWriter );
 		}
 		//if get the report document writer is not null, that means we are in the g
 		ReportDocumentWriter writer = context.getReportDocWriter();
