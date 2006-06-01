@@ -13,28 +13,25 @@ package testutil;
 
 import java.io.File;
 
+import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
-import org.eclipse.birt.data.engine.api.querydefn.BaseTransform;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
-
-
-import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.ISortDefinition;
-
 
 import testutil.BaseTestCase;
 import testutil.JDBCDataSource;
@@ -315,7 +312,7 @@ abstract public class APITestCase extends BaseTestCase
 	 * @throws Exception
 	 */
 	protected void outputQueryResult( IResultIterator resultIt,
-			IBaseExpression[] expressions ) throws Exception
+			String[] expressions ) throws Exception
 	{
 		assert testOut!= null;
 
@@ -339,15 +336,42 @@ abstract public class APITestCase extends BaseTestCase
 	}
 	
 	/**
-	 * Evaluates an expression. Returns "EXCEPTION" if an exception happens
-	 * 
-	 * @return evaluation result of expression
+	 * @param queryDefn
+	 * @param exprName
+	 * @throws Exception
 	 */
-	protected String evalAsString( IBaseExpression expr, IResultIterator result )
+	protected void executeQuery( QueryDefinition queryDefn, String[] exprName )
+			throws Exception
+	{
+		IResultIterator resultIt = executeQuery( queryDefn );
+		testPrintln( "*****A new Report Start!*****" );
+		while ( resultIt.next( ) )
+		{
+			testPrint( "S:" );
+			testPrint( Integer.toString( resultIt.getStartingGroupLevel( ) ) );
+			testPrint( " E:" );
+			testPrint( Integer.toString( resultIt.getEndingGroupLevel( ) ) );
+			testPrint( " " );
+			for ( int i = 0; i < exprName.length; i++ )
+			{
+				testPrint( evalAsString( exprName[i], resultIt ) );
+				testPrint( "    " );
+			}
+			testPrintln( "" );
+		}
+		testPrintln( "" );
+	}
+	
+	/**
+	 * @param name
+	 * @param result
+	 * @return
+	 */
+	protected String evalAsString( String name, IResultIterator result )
 	{
 		try
 		{
-			Object val = result.getValue( expr );
+			Object val = result.getValue( name );
 			if ( val == null )
 				return "<null>";
 			else
@@ -392,6 +416,15 @@ abstract public class APITestCase extends BaseTestCase
 		return Util.instance.getExpressionsOfDefaultQuery( );
 	}
 	
+	protected String[] getBindingExpressionName( )
+	{
+		return Util.instance.getBindingExpressionName( );
+	}
+	
+	protected void populateQueryExprMapping(SubqueryDefinition subqueryDefn) 
+	{
+		Util.instance.populateQueryExprMapping(subqueryDefn);
+	}
 	/**
 	 * Utility
 	 */
@@ -399,9 +432,9 @@ abstract public class APITestCase extends BaseTestCase
 	{
 		private static Util instance = new Util( );
 		
-		private static QueryDefinition queryDefn;
 		private static BaseExpression[] expressions;
 		
+		private static String[] bindingNameRow;
 		/**
 		 * Create a general Query with groups,sorts and subquery
 		 * @param dataSetName
@@ -409,43 +442,89 @@ abstract public class APITestCase extends BaseTestCase
 		 */
 		protected IQueryDefinition getDefaultQueryDefn( String dataSetName ) 
 		{	
-			// 2.1 GroupKey
+			
+			String[] bindingNameGroup = new String[3];
+			bindingNameGroup[0] = "GROUP_COL0";
+			bindingNameGroup[1] = "GROUP_COL1";
+			bindingNameGroup[2] = "GROUP_COL2";
+			IBaseExpression[] bindingExprGroup = new IBaseExpression[3];
+			bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COL0" );
+			bindingExprGroup[1] = new ScriptExpression( "dataSetRow.COL1" );
+			bindingExprGroup[2] = new ScriptExpression( "dataSetRow.COL2" );
 			GroupDefinition[] groupDefn = new GroupDefinition[]{
-					new GroupDefinition( "group1" ),
-					new GroupDefinition( "group2"),
-					new GroupDefinition( "group3")
+					new GroupDefinition( "group1" ), new GroupDefinition( "group2" ),new GroupDefinition( "group3" )
 			};
-			groupDefn[0].setKeyExpression( "row.col0" );
-			groupDefn[1].setKeyExpression( "row.col1" );
-			groupDefn[2].setKeyExpression( "row.col2" );
+			groupDefn[0].setKeyExpression( "row.GROUP_COL0" );
+			groupDefn[1].setKeyExpression( "row.GROUP_COL1" );
+			groupDefn[2].setKeyExpression( "row.GROUP_COL2" );
 
-			// 2.2 SortKey
+			String[] bindingNameSort = new String[1];
+			bindingNameSort[0] = "SORT_COL3";
+			IBaseExpression[] bindingExprSort = new IBaseExpression[1];
+			bindingExprSort[0] = new ScriptExpression( "dataSetRow.COL3" );
 			SortDefinition[] sortDefn = new SortDefinition[]{
 				new SortDefinition( )
 			};
-			sortDefn[0].setExpression( "row.col3" );//.setColumn("col3");
+			sortDefn[0].setColumn( "SORT_COL3" );
 			sortDefn[0].setSortDirection( ISortDefinition.SORT_ASC );
 
+			bindingNameRow = new String[4];
+			bindingNameRow[0] = "ROW_COL0";
+			bindingNameRow[1] = "ROW_COL1";
+			bindingNameRow[2] = "ROW_COL2";
+			bindingNameRow[3] = "ROW_COL3";
 			// 2.3: ExpressionKey
 			expressions = new BaseExpression[]{
-					new ScriptExpression( "row.col0", 0 ),
-					new ScriptExpression( "row.col1", 0 ),
-					new ScriptExpression( "row.col2", 0 ),
-					new ScriptExpression( "row.col3", 0 )
+					new ScriptExpression( "dataSetRow.COL0", 0 ),
+					new ScriptExpression( "dataSetRow.COL1", 0 ),
+					new ScriptExpression( "dataSetRow.COL2", 0 ),
+					new ScriptExpression( "dataSetRow.COL3", 0 )
 			};
+			
+            return this.getQueryDefinition(bindingNameGroup, bindingExprGroup,
+					groupDefn, bindingNameSort, bindingExprSort, sortDefn,
+					null,null,null,
+					bindingNameRow, expressions, dataSetName);
+		}
+		
+		private QueryDefinition getQueryDefinition(String[] bindingNameGroup,
+				IBaseExpression[] bindingExprGroup, GroupDefinition[] groupDefn,
+				String[] bindingNameSort, IBaseExpression[] bindingExprSort,
+				SortDefinition[] sortDefn, String[] bindingNameFilter,
+				IBaseExpression[] bindingExprFilter, FilterDefinition[] filterDefn,
+				String[] bindingNameRow, IBaseExpression[] bindingExprRow, String dataSetName )
+		{
+			QueryDefinition queryDefn = new QueryDefinition();
+			queryDefn.setDataSetName(dataSetName);
 
-			queryDefn = new QueryDefinition( null );
+			// add transformation definition
+			if ( groupDefn != null )
+			{
+				if ( bindingNameGroup != null )
+					for ( int i = 0; i < bindingNameGroup.length; i++ )
+						queryDefn.addResultSetExpression( bindingNameGroup[i],
+								bindingExprGroup[i] );
+				for ( int i = 0; i < groupDefn.length; i++ )
+					queryDefn.addGroup( groupDefn[i] );
+			}
 
-			queryDefn.setDataSetName( dataSetName );
+			if ( sortDefn != null )
+			{
+				if ( bindingNameSort != null )
+					for ( int i = 0; i < bindingNameSort.length; i++ )
+						queryDefn.addResultSetExpression( bindingNameSort[i],
+								bindingExprSort[i] );
+				for ( int i = 0; i < sortDefn.length; i++ )
+					queryDefn.addSort( sortDefn[i] );
+			}
 
-			for ( int i = 0; i < groupDefn.length; i++ )
-				queryDefn.addGroup( groupDefn[i] );
-			for ( int i = 0; i < sortDefn.length; i++ )
-				queryDefn.addSort( sortDefn[i] );
-			for ( int i = 0; i < expressions.length; i++ )
-				queryDefn.addExpression( expressions[i], BaseTransform.ON_EACH_ROW );
-
+			// add value retrive tansformation
+			if (bindingNameRow != null)
+				for (int i = 0; i < bindingNameRow.length; i++)
+					queryDefn.addResultSetExpression(bindingNameRow[i],
+							expressions[i]);
 			return queryDefn;
+
 		}
 		
 		/**
@@ -463,32 +542,63 @@ abstract public class APITestCase extends BaseTestCase
 			SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST" );
 			groupDefn.addSubquery( subqueryDefn );
 			
-			GroupDefinition[] subGroupDefn = new GroupDefinition[]{
-				new GroupDefinition( "group2" )
-			};
-			subGroupDefn[0].setKeyExpression( "row.col2" );		
-			for ( int i = 0; i < subGroupDefn.length; i++ )
-			{
-				subqueryDefn.addGroup( subGroupDefn[i] );
+			String[] bindingNameGroup = new String[1];
+			bindingNameGroup[0] = "GROUP_COL2";
+			IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
+			bindingExprGroup[0] = new ScriptExpression("dataSetRow.COL2");
+			GroupDefinition[] subGroupDefn = new GroupDefinition[] { new GroupDefinition(
+					"group2") };
+			//subGroupDefn[0].setKeyExpression( "row.GROUP_COL2" );
+			subGroupDefn[0].setKeyExpression( "row.GROUP_COL2" );
+			
+			for (int k = 0; k < subGroupDefn.length; k++) {
+				if (bindingNameGroup != null)
+					for (int i = 0; i < bindingNameGroup.length; i++)
+						subqueryDefn.addResultSetExpression(
+								bindingNameGroup[i], bindingExprGroup[i]);
+				
+				for (int i = 0; i < subGroupDefn.length; i++)
+					subqueryDefn.addGroup(subGroupDefn[i]);
 			}
+			populateQueryExprMapping(subqueryDefn);
 			
 				// --- sub query of sub query
 				SubqueryDefinition subSubqueryDefn = new SubqueryDefinition( "IAMTEST2" );
 				subGroupDefn[0].addSubquery( subSubqueryDefn );
 				
-				GroupDefinition[] subSubGroupDefn = new GroupDefinition[]{
-					new GroupDefinition("group3")
-				};
-				subSubGroupDefn[0].setKeyExpression( "row.col3" );			
-				for ( int i = 0; i < subSubGroupDefn.length; i++ )
+				bindingNameGroup = new String[1];
+				bindingNameGroup[0] = "GROUP_COL3";
+			    bindingExprGroup = new IBaseExpression[1];
+				bindingExprGroup[0] = new ScriptExpression("dataSetRow.COL3");
+				GroupDefinition[] subSubGroupDefn = new GroupDefinition[] { new GroupDefinition(
+						"group3") };
+				//subSubGroupDefn[0].setKeyExpression( "row.GROUP_COL3" );
+				subSubGroupDefn[0].setKeyExpression( "row.GROUP_COL3" );
+				
+				for ( int k = 0; k < subSubGroupDefn.length; k++ )
 				{
-					subSubqueryDefn.addGroup( subSubGroupDefn[i] );
-				}			
+					if ( bindingNameGroup != null )
+						for ( int i = 0; i < bindingNameGroup.length; i++ )
+							subSubqueryDefn.addResultSetExpression( bindingNameGroup[i],
+								bindingExprGroup[i] );
+
+					for ( int i = 0; i < subSubGroupDefn.length; i++ )
+						subSubqueryDefn.addGroup( subSubGroupDefn[i] );
+				}
+				populateQueryExprMapping(subSubqueryDefn);
 				// --- sub query of sub query
 			
 			// ---------- end sub query ----------
 			
 			return queryDefn;
+		}
+
+		protected void populateQueryExprMapping(SubqueryDefinition subqueryDefn) {
+			/////TODO remove in future
+			for ( int i = 0; i < bindingNameRow.length; i++ )
+				subqueryDefn.addResultSetExpression( bindingNameRow[i],
+						expressions[i] );
+			/////////////////////////
 		}
 		
 		/**
@@ -498,7 +608,111 @@ abstract public class APITestCase extends BaseTestCase
 		protected BaseExpression[] getExpressionsOfDefaultQuery() {
 			return expressions;
 		}
+		
+		protected String[] getBindingExpressionName()
+		{
+			return bindingNameRow;
+		}
 	}
 	
+	/**
+	 * @param bindingNameGroup
+	 * @param bindingExprGroup
+	 * @param groupDefn
+	 * @param bindingNameSort
+	 * @param bindingExprSort
+	 * @param sortDefn
+	 * @param bindingNameFilter
+	 * @param bindingExprFilter
+	 * @param filterDefn
+	 * @param bindingNameRow
+	 * @param bindingExprRow
+	 * @throws Exception
+	 */
+	protected void createAndRunQuery( String[] bindingNameGroup,
+			IBaseExpression[] bindingExprGroup, GroupDefinition[] groupDefn,
+			String[] bindingNameSort, IBaseExpression[] bindingExprSort,
+			SortDefinition[] sortDefn, String[] bindingNameFilter,
+			IBaseExpression[] bindingExprFilter, FilterDefinition[] filterDefn,
+			String[] bindingNameRow, IBaseExpression[] bindingExprRow )
+			throws Exception
+	{
+		executeQuery( createQuery( bindingNameGroup,
+				bindingExprGroup,
+				groupDefn,
+				bindingNameSort,
+				bindingExprSort,
+				sortDefn,
+				bindingNameFilter,
+				bindingExprFilter,
+				filterDefn,
+				bindingNameRow,
+				bindingExprRow ), bindingNameRow );
+	}
+	
+	/**
+	 * @param bindingNameGroup
+	 * @param bindingExprGroup
+	 * @param groupDefn
+	 * @param bindingNameSort
+	 * @param bindingExprSort
+	 * @param sortDefn
+	 * @param bindingNameFilter
+	 * @param bindingExprFilter
+	 * @param filterDefn
+	 * @param bindingNameRow
+	 * @param bindingExprRow
+	 * @return
+	 * @throws Exception
+	 */
+	protected QueryDefinition createQuery( String[] bindingNameGroup,
+			IBaseExpression[] bindingExprGroup, GroupDefinition[] groupDefn,
+			String[] bindingNameSort, IBaseExpression[] bindingExprSort,
+			SortDefinition[] sortDefn, String[] bindingNameFilter,
+			IBaseExpression[] bindingExprFilter, FilterDefinition[] filterDefn,
+			String[] bindingNameRow, IBaseExpression[] bindingExprRow )
+			throws Exception
+	{
+		QueryDefinition queryDefn = newReportQuery( );
+
+		// add transformation definition
+		if ( groupDefn != null )
+		{
+			if ( bindingNameGroup != null )
+				for ( int i = 0; i < bindingNameGroup.length; i++ )
+					queryDefn.addResultSetExpression( bindingNameGroup[i],
+							bindingExprGroup[i] );
+			for ( int i = 0; i < groupDefn.length; i++ )
+				queryDefn.addGroup( groupDefn[i] );
+		}
+
+		if ( sortDefn != null )
+		{
+			if ( bindingNameSort != null )
+				for ( int i = 0; i < bindingNameSort.length; i++ )
+					queryDefn.addResultSetExpression( bindingNameSort[i],
+							bindingExprSort[i] );
+			for ( int i = 0; i < sortDefn.length; i++ )
+				queryDefn.addSort( sortDefn[i] );
+		}
+
+		if ( filterDefn != null )
+		{
+			if ( bindingNameFilter != null )
+				for ( int i = 0; i < bindingNameFilter.length; i++ )
+					queryDefn.addResultSetExpression( bindingNameFilter[i],
+							bindingExprFilter[i] );
+			for ( int i = 0; i < filterDefn.length; i++ )
+				queryDefn.addFilter( filterDefn[i] );
+		}
+
+		// add value retrive tansformation
+		if ( bindingNameRow != null )
+			for ( int i = 0; i < bindingNameRow.length; i++ )
+				queryDefn.addResultSetExpression( bindingNameRow[i],
+						bindingExprRow[i] );
+
+		return queryDefn;
+	}
 	
 }

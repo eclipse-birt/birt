@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Data Plug-in
+Bundle-SymbolicName: org.eclipse.birt.tests.data
+Bundle-Version: 2.1.0
+Bundle-Activator: org.eclipse.birt.tests.data.engine.plugin.DataPlugin
+Bundle-Localization: plugin
+Require-Bundle: org.junit;resolution:=optional,
+ org.eclipse.core.runtime,
+ org.eclipse.birt.data.oda,
+ org.eclipse.birt.data,
+ org.eclipse.birt.report.engine,
+ org.eclipse.birt.core,
+ org.apache.derby
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.birt.tests.data,
+ org.eclipse.birt.tests.data.engine.acceptance,
+ org.eclipse.birt.tests.data.engine.api,
+ org.eclipse.birt.tests.data.engine.regression,
+ org.eclipse.birt.tests.data.engine.smoke,
+ testutil
