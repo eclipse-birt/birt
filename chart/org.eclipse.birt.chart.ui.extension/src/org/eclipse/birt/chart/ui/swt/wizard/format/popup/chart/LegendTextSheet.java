@@ -153,6 +153,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				true,
 				true );
 		outlineText.addListener( this );
+		outlineText.setEnabled( true );
 
 		icText = new InsetsComposite( grpTxtArea,
 				SWT.NONE,
@@ -184,6 +185,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		{
 			lineSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			lineSeparator.addListener( this );
+			lineSeparator.setEnabled( true );
 		}
 
 		return cmpContent;
