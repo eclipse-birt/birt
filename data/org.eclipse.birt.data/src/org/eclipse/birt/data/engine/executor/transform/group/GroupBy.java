@@ -60,8 +60,13 @@ public abstract class GroupBy
 							} );
 				break;
 			default :
-				groupBy = new GroupByNumberRange( groupDefn );
+			{
+				if ( groupDefn.getIntervalRange( ) == 0 )
+					groupBy = new GroupByDistinctValue( );
+				else
+					groupBy = new GroupByNumberRange( groupDefn );
 				break;
+			}
 		}
 
 		groupBy.groupSpec = groupDefn;
