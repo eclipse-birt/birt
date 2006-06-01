@@ -547,8 +547,22 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		txtEndValue.setText( getValueAsString( range.getEndValue( ) ) );
 
 		// Update the radius fields
-		txtInnerRadius.setValue( range.getInnerRadius( ) );
-		txtOuterRadius.setValue( range.getOuterRadius( ) );
+		if ( range.isSetInnerRadius( ) )
+		{
+			txtInnerRadius.setValue( range.getInnerRadius( ) );
+		}
+		else
+		{
+			txtInnerRadius.unsetValue( );
+		}
+		if ( range.isSetOuterRadius( ) )
+		{
+			txtOuterRadius.setValue( range.getOuterRadius( ) );
+		}
+		else
+		{
+			txtOuterRadius.unsetValue( );
+		}
 
 		// Update the fill
 		fccRange.setFill( range.getFill( ) );
