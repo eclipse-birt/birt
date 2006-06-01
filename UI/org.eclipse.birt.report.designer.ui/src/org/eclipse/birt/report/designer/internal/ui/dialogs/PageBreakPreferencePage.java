@@ -87,7 +87,7 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( StyleHandle.PAGE_BREAK_BEFORE_PROP ),
 				getFieldEditorParent( ) );
 		gdata = new GridData( );
-		gdata.widthHint = 100;
+		gdata.widthHint = 120;
 		before.getComboBoxControl( getFieldEditorParent( ) )
 				.setLayoutData( gdata );
 
@@ -100,7 +100,7 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( StyleHandle.PAGE_BREAK_INSIDE_PROP ),
 				getFieldEditorParent( ) );
 		gdata = new GridData( );
-		gdata.widthHint = 100;
+		gdata.widthHint = 120;
 		inside.getComboBoxControl( getFieldEditorParent( ) )
 				.setLayoutData( gdata );
 
@@ -113,7 +113,7 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( StyleHandle.PAGE_BREAK_AFTER_PROP ),
 				getFieldEditorParent( ) );
 		gdata = new GridData( );
-		gdata.widthHint = 100;
+		gdata.widthHint = 120;
 		after.getComboBoxControl( getFieldEditorParent( ) )
 				.setLayoutData( gdata );
 
