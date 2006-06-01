@@ -470,15 +470,18 @@ public class ParameterBindingPage extends AttributePage
 			for ( Iterator iterator = dataHandle.parametersIterator( ); iterator.hasNext( ); )
 			{
 				DataSetParameterHandle handle = (DataSetParameterHandle) iterator.next( );
-				Object[] result = new Object[]{
-						handle, null
-				};
-				int index = bindingParametersNameList.indexOf( handle.getName( ) );
-				if ( index != -1 )
+				if ( handle.isInput( ) )
 				{
-					result[1] = bindingParametersList.get( index );
+					Object[] result = new Object[]{
+							handle, null
+					};
+					int index = bindingParametersNameList.indexOf( handle.getName( ) );
+					if ( index != -1 )
+					{
+						result[1] = bindingParametersList.get( index );
+					}
+					resultList.add( result );
 				}
-				resultList.add( result );
 			}
 			return resultList.toArray( );
 		}
