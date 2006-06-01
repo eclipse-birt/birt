@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.text.ParseException;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -19,23 +18,22 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-
-import com.ibm.icu.text.NumberFormat;
 
 /**
  * @author Actuate Corporation
  * 
  */
-public class InsetsComposite extends Composite implements Listener
+public class InsetsComposite extends Composite implements ModifyListener
 {
 
 	private transient String sUnits = null;
@@ -54,13 +52,13 @@ public class InsetsComposite extends Composite implements Listener
 
 	private transient Label lblRight = null;
 
-	private transient TextEditorComposite txtTop = null;
+	private transient LocalizedNumberEditorComposite txtTop = null;
 
-	private transient TextEditorComposite txtLeft = null;
+	private transient LocalizedNumberEditorComposite txtLeft = null;
 
-	private transient TextEditorComposite txtBottom = null;
+	private transient LocalizedNumberEditorComposite txtBottom = null;
 
-	private transient TextEditorComposite txtRight = null;
+	private transient LocalizedNumberEditorComposite txtRight = null;
 
 	private transient Vector vListeners = null;
 
@@ -146,7 +144,7 @@ public class InsetsComposite extends Composite implements Listener
 		lblTop.setLayoutData( gdLTop );
 		lblTop.setText( Messages.getString( "InsetsComposite.Lbl.Top" ) ); //$NON-NLS-1$
 
-		txtTop = new TextEditorComposite( grpInsets, SWT.BORDER );
+		txtTop = new LocalizedNumberEditorComposite( grpInsets, SWT.BORDER );
 		GridData gdTTop = new GridData( GridData.FILL_BOTH );
 		gdTTop.heightHint = 20;
 		gdTTop.widthHint = 45;
@@ -154,9 +152,8 @@ public class InsetsComposite extends Composite implements Listener
 		double dblPoints = insets.getTop( );
 		double dblCurrent = serviceprovider.getConvertedValue( dblPoints,
 				"Points", sUnits ); //$NON-NLS-1$
-		txtTop.setText( String.valueOf( NumberFormat.getInstance( )
-				.format( dblCurrent ) ) );
-		txtTop.addListener( this );
+		txtTop.setValue( dblCurrent );
+		txtTop.addModifyListener( this );
 
 		lblLeft = new Label( grpInsets, SWT.NONE );
 		GridData gdLLeft = new GridData( GridData.VERTICAL_ALIGN_CENTER );
@@ -164,7 +161,7 @@ public class InsetsComposite extends Composite implements Listener
 		lblLeft.setLayoutData( gdLLeft );
 		lblLeft.setText( Messages.getString( "InsetsComposite.Lbl.Left" ) ); //$NON-NLS-1$
 
-		txtLeft = new TextEditorComposite( grpInsets, SWT.BORDER );
+		txtLeft = new LocalizedNumberEditorComposite( grpInsets, SWT.BORDER );
 		GridData gdTLeft = new GridData( GridData.FILL_BOTH );
 		gdTLeft.heightHint = 20;
 		gdTLeft.widthHint = 45;
@@ -172,9 +169,8 @@ public class InsetsComposite extends Composite implements Listener
 		dblPoints = insets.getLeft( );
 		dblCurrent = serviceprovider.getConvertedValue( dblPoints,
 				"Points", sUnits ); //$NON-NLS-1$
-		txtLeft.setText( String.valueOf( NumberFormat.getInstance( )
-				.format( dblCurrent ) ) );
-		txtLeft.addListener( this );
+		txtLeft.setValue( dblCurrent );
+		txtLeft.addModifyListener( this );
 
 		lblBottom = new Label( grpInsets, SWT.NONE );
 		GridData gdLBottom = new GridData( GridData.VERTICAL_ALIGN_CENTER );
@@ -182,7 +178,7 @@ public class InsetsComposite extends Composite implements Listener
 		lblBottom.setLayoutData( gdLBottom );
 		lblBottom.setText( Messages.getString( "InsetsComposite.Lbl.Bottom" ) ); //$NON-NLS-1$
 
-		txtBottom = new TextEditorComposite( grpInsets, SWT.BORDER );
+		txtBottom = new LocalizedNumberEditorComposite( grpInsets, SWT.BORDER );
 		GridData gdTBottom = new GridData( GridData.FILL_BOTH );
 		gdTBottom.heightHint = 20;
 		gdTBottom.widthHint = 45;
@@ -190,9 +186,8 @@ public class InsetsComposite extends Composite implements Listener
 		dblPoints = insets.getBottom( );
 		dblCurrent = serviceprovider.getConvertedValue( dblPoints,
 				"Points", sUnits ); //$NON-NLS-1$
-		txtBottom.setText( String.valueOf( NumberFormat.getInstance( )
-				.format( dblCurrent ) ) );
-		txtBottom.addListener( this );
+		txtBottom.setValue( dblCurrent );
+		txtBottom.addModifyListener( this );
 
 		lblRight = new Label( grpInsets, SWT.NONE );
 		GridData gdLRight = new GridData( GridData.VERTICAL_ALIGN_CENTER );
@@ -200,7 +195,7 @@ public class InsetsComposite extends Composite implements Listener
 		lblRight.setLayoutData( gdLRight );
 		lblRight.setText( Messages.getString( "InsetsComposite.Lbl.Right" ) ); //$NON-NLS-1$
 
-		txtRight = new TextEditorComposite( grpInsets, SWT.BORDER );
+		txtRight = new LocalizedNumberEditorComposite( grpInsets, SWT.BORDER );
 		GridData gdTRight = new GridData( GridData.FILL_BOTH );
 		gdTRight.heightHint = 20;
 		gdTRight.widthHint = 45;
@@ -208,9 +203,8 @@ public class InsetsComposite extends Composite implements Listener
 		dblPoints = insets.getRight( );
 		dblCurrent = serviceprovider.getConvertedValue( dblPoints,
 				"Points", sUnits ); //$NON-NLS-1$
-		txtRight.setText( String.valueOf( NumberFormat.getInstance( )
-				.format( dblCurrent ) ) );
-		txtRight.addListener( this );
+		txtRight.setValue( dblCurrent );
+		txtRight.addModifyListener( this );
 	}
 
 	public void setEnabled( boolean bState )
@@ -245,26 +239,22 @@ public class InsetsComposite extends Composite implements Listener
 		double dblPoints = insets.getBottom( );
 		double dblCurrent = serviceprovider.getConvertedValue( dblPoints,
 				"Points", sUnits ); //$NON-NLS-1$
-		txtBottom.setText( String.valueOf( NumberFormat.getInstance( )
-				.format( dblCurrent ) ) );
+		txtBottom.setValue( dblCurrent );
 
 		dblPoints = insets.getLeft( );
 		dblCurrent = serviceprovider.getConvertedValue( dblPoints,
 				"Points", sUnits ); //$NON-NLS-1$
-		txtLeft.setText( String.valueOf( NumberFormat.getInstance( )
-				.format( dblCurrent ) ) );
+		txtLeft.setValue( dblCurrent );
 
 		dblPoints = insets.getTop( );
 		dblCurrent = serviceprovider.getConvertedValue( dblPoints,
 				"Points", sUnits ); //$NON-NLS-1$
-		txtTop.setText( String.valueOf( NumberFormat.getInstance( )
-				.format( dblCurrent ) ) );
+		txtTop.setValue( dblCurrent );
 
 		dblPoints = insets.getRight( );
 		dblCurrent = serviceprovider.getConvertedValue( dblPoints,
 				"Points", sUnits ); //$NON-NLS-1$
-		txtRight.setText( String.valueOf( NumberFormat.getInstance( )
-				.format( dblCurrent ) ) );
+		txtRight.setValue( dblCurrent );
 
 		this.grpInsets.setText( Messages.getFormattedString( "InsetsComposite.Lbl.Insets", //$NON-NLS-1$
 				LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( sUnits ) ) );
@@ -283,123 +273,43 @@ public class InsetsComposite extends Composite implements Listener
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
 	 */
-	public void handleEvent( Event event )
+	public void modifyText( ModifyEvent event )
 	{
 		double dblCurrent = -1;
 		double dblPoints = -1;
 		if ( event.widget.equals( txtTop ) )
 		{
-			try
-			{
-				try
-				{
-					dblCurrent = NumberFormat.getInstance( )
-							.parse( txtTop.getText( ) )
-							.doubleValue( );
-				}
-				catch ( ParseException e )
-				{
-					e.printStackTrace( );
-				}
-				dblPoints = serviceprovider.getConvertedValue( dblCurrent,
-						sUnits,
-						"Points" ); //$NON-NLS-1$
-				insets.setTop( dblPoints );
-			}
-			catch ( NumberFormatException e1 )
-			{
-				dblPoints = insets.getTop( );
-				dblCurrent = serviceprovider.getConvertedValue( dblPoints,
-						"Points", sUnits ); //$NON-NLS-1$
-				txtTop.setText( String.valueOf( NumberFormat.getInstance( )
-						.format( dblCurrent ) ) );
-			}
+			dblCurrent = txtTop.getValue( );
+			dblPoints = serviceprovider.getConvertedValue( dblCurrent,
+					sUnits,
+					"Points" ); //$NON-NLS-1$
+			insets.setTop( dblPoints );
 		}
 		else if ( event.widget.equals( txtLeft ) )
 		{
-			try
-			{
-				try
-				{
-					dblCurrent = NumberFormat.getInstance( )
-							.parse( txtLeft.getText( ) )
-							.doubleValue( );
-				}
-				catch ( ParseException e )
-				{
-					e.printStackTrace( );
-				}
-				dblPoints = serviceprovider.getConvertedValue( dblCurrent,
-						sUnits,
-						"Points" ); //$NON-NLS-1$
-				insets.setLeft( dblPoints );
-			}
-			catch ( NumberFormatException e1 )
-			{
-				dblPoints = insets.getLeft( );
-				dblCurrent = serviceprovider.getConvertedValue( dblPoints,
-						"Points", sUnits ); //$NON-NLS-1$
-				txtLeft.setText( String.valueOf( NumberFormat.getInstance( )
-						.format( dblCurrent ) ) );
-			}
+			dblCurrent = txtLeft.getValue( );
+			dblPoints = serviceprovider.getConvertedValue( dblCurrent,
+					sUnits,
+					"Points" ); //$NON-NLS-1$
+			insets.setLeft( dblPoints );
 		}
 		else if ( event.widget.equals( txtBottom ) )
 		{
-			try
-			{
-				try
-				{
-					dblCurrent = NumberFormat.getInstance( )
-							.parse( txtBottom.getText( ) )
-							.doubleValue( );
-				}
-				catch ( ParseException e )
-				{
-					e.printStackTrace( );
-				}
-				dblPoints = serviceprovider.getConvertedValue( dblCurrent,
-						sUnits,
-						"Points" ); //$NON-NLS-1$
-				insets.setBottom( dblPoints );
-			}
-			catch ( NumberFormatException e1 )
-			{
-				dblPoints = insets.getBottom( );
-				dblCurrent = serviceprovider.getConvertedValue( dblPoints,
-						"Points", sUnits ); //$NON-NLS-1$
-				txtBottom.setText( String.valueOf( NumberFormat.getInstance( )
-						.format( dblCurrent ) ) );
-			}
+			dblCurrent = txtBottom.getValue( );
+			dblPoints = serviceprovider.getConvertedValue( dblCurrent,
+					sUnits,
+					"Points" ); //$NON-NLS-1$
+			insets.setBottom( dblPoints );
 		}
 		else if ( event.widget.equals( txtRight ) )
 		{
-			try
-			{
-				try
-				{
-					dblCurrent = NumberFormat.getInstance( )
-							.parse( txtRight.getText( ) )
-							.doubleValue( );
-				}
-				catch ( ParseException e )
-				{
-					e.printStackTrace( );
-				}
-				dblPoints = serviceprovider.getConvertedValue( dblCurrent,
-						sUnits,
-						"Points" ); //$NON-NLS-1$
-				insets.setRight( dblPoints );
-			}
-			catch ( NumberFormatException e1 )
-			{
-				dblPoints = insets.getRight( );
-				dblCurrent = serviceprovider.getConvertedValue( dblPoints,
-						"Points", sUnits ); //$NON-NLS-1$
-				txtRight.setText( String.valueOf( NumberFormat.getInstance( )
-						.format( dblCurrent ) ) );
-			}
+			dblCurrent = txtRight.getValue( );
+			dblPoints = serviceprovider.getConvertedValue( dblCurrent,
+					sUnits,
+					"Points" ); //$NON-NLS-1$
+			insets.setRight( dblPoints );
 		}
 	}
 }

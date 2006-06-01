@@ -80,10 +80,9 @@ import com.ibm.icu.util.TimeZone;
  * 
  */
 
-public class AxisMarkersSheet extends AbstractPopupSheet
-		implements
-			SelectionListener,
-			Listener
+public class AxisMarkersSheet extends AbstractPopupSheet implements
+		SelectionListener,
+		Listener
 {
 
 	private transient Composite cmpContent;
@@ -167,7 +166,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 	private transient int iRangeCount = 0;
 
 	private transient Axis axis;
-	
+
 	private transient String MARKER_LINE_LABEL = Messages.getString( "AxisMarkersSheet.MarkerLine.displayName" ); //$NON-NLS-1$
 
 	private transient String MARKER_RANGE_LABEL = Messages.getString( "AxisMarkersSheet.MarkerRange.displayName" ); //$NON-NLS-1$
@@ -181,7 +180,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 	protected Composite getComponent( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_AXIS_MARKERS );
-		
+
 		// Layout for the main composite
 		GridLayout glContent = new GridLayout( );
 		glContent.numColumns = 2;
@@ -276,7 +275,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			GridData gd = new GridData( );
 			gd.horizontalIndent = 5;
 			lblLineLabel.setLayoutData( gd );
-			lblLineLabel.setText( Messages.getString("AxisMarkersSheet.Label.Label")  ); //$NON-NLS-1$
+			lblLineLabel.setText( Messages.getString( "AxisMarkersSheet.Label.Label" ) ); //$NON-NLS-1$
 		}
 
 		txtLineEText = new ExternalizedTextEditorComposite( cmpLine,
@@ -372,7 +371,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			GridData gd = new GridData( );
 			gd.horizontalIndent = 5;
 			lblRangeLabel.setLayoutData( gd );
-			lblRangeLabel.setText( Messages.getString("AxisMarkersSheet.Label.Label") ); //$NON-NLS-1$
+			lblRangeLabel.setText( Messages.getString( "AxisMarkersSheet.Label.Label" ) ); //$NON-NLS-1$
 		}
 
 		txtRangeEText = new ExternalizedTextEditorComposite( cmpRange,
@@ -906,8 +905,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		String sValue = ""; //$NON-NLS-1$
 		if ( de instanceof NumberDataElement )
 		{
-			sValue = String.valueOf( NumberFormat.getInstance( )
-					.format( ( (NumberDataElement) de ).getValue( ) ) );
+			sValue = NumberFormat.getInstance( )
+					.format( ( (NumberDataElement) de ).getValue( ) );
 		}
 		else if ( de instanceof DateTimeDataElement )
 		{

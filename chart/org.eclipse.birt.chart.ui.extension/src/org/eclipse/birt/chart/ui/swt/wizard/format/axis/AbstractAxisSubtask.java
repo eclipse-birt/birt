@@ -66,10 +66,9 @@ import com.ibm.icu.util.TimeZone;
  * @author Actuate Corporation
  * 
  */
-abstract class AbstractAxisSubtask extends SubtaskSheetImpl
-		implements
-			Listener,
-			SelectionListener
+abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
+		Listener,
+		SelectionListener
 {
 
 	private transient ExternalizedTextEditorComposite txtTitle;
@@ -331,7 +330,8 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		}
 		else if ( de instanceof NumberDataElement )
 		{
-			return String.valueOf( ( (NumberDataElement) de ).getValue( ) );
+			return NumberFormat.getInstance( )
+					.format( ( (NumberDataElement) de ).getValue( ) );
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -339,7 +339,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	private DataElement getTypedDataElement( String strDataElement )
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
-		NumberFormat nf = NumberFormat.getNumberInstance( );
+		NumberFormat nf = NumberFormat.getInstance( );
 		try
 		{
 			// First try Date

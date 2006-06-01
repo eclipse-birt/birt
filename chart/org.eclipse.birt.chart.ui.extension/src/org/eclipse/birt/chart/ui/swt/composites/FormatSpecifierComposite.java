@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.text.MessageFormat;
-
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
@@ -44,7 +42,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
@@ -52,9 +49,8 @@ import org.eclipse.swt.widgets.Text;
  * @author Actuate Corporation
  * 
  */
-public class FormatSpecifierComposite extends Composite
-		implements
-			SelectionListener
+public class FormatSpecifierComposite extends Composite implements
+		SelectionListener
 {
 
 	private transient Button btnUndefined = null;
@@ -351,19 +347,6 @@ public class FormatSpecifierComposite extends Composite
 		return this.formatspecifier;
 	}
 
-	private void handleFormatError( String val )
-	{
-		MessageBox mbox = new MessageBox( this.getShell( ), SWT.ICON_WARNING
-				| SWT.OK );
-		mbox.setText( Messages.getString( "FormatSpecifierComposite.error.Title" ) ); //$NON-NLS-1$
-		mbox.setMessage( MessageFormat.format( Messages.getString( "FormatSpecifierComposite.error.Message" ), //$NON-NLS-1$
-				new Object[]{
-					val
-				} ) );
-
-		mbox.open( );
-	}
-
 	private FormatSpecifier buildFormatSpecifier( )
 	{
 		FormatSpecifier fs = null;
@@ -529,18 +512,17 @@ public class FormatSpecifierComposite extends Composite
 		void setEnabled( boolean enabled );
 	}
 
-	private class NumberStandardComposite extends Composite
-			implements
-				IFormatSpecifierUIComponent,
-				SelectionListener,
-				ModifyListener
+	private class NumberStandardComposite extends Composite implements
+			IFormatSpecifierUIComponent,
+			SelectionListener,
+			ModifyListener
 	{
 
 		private transient Text txtPrefix = null;
 
 		private transient Text txtSuffix = null;
 
-		private transient Text txtMultiplier = null;
+		private transient LocalizedNumberEditorComposite txtMultiplier = null;
 
 		private transient Spinner iscFractionDigits = null;
 
@@ -589,7 +571,8 @@ public class FormatSpecifierComposite extends Composite
 			lblMultiplier.setLayoutData( gdLBLMultiplier );
 			lblMultiplier.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Multiplier" ) ); //$NON-NLS-1$
 
-			txtMultiplier = new Text( this, SWT.BORDER | SWT.SINGLE );
+			txtMultiplier = new LocalizedNumberEditorComposite( this,
+					SWT.BORDER | SWT.SINGLE );
 			GridData gdTXTMultiplier = new GridData( GridData.FILL_HORIZONTAL );
 			gdTXTMultiplier.widthHint = 60;
 			txtMultiplier.setLayoutData( gdTXTMultiplier );
@@ -619,21 +602,14 @@ public class FormatSpecifierComposite extends Composite
 					formatspecifier = NumberFormatSpecifierImpl.create( );
 					( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
 					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getSelection( ) );
-					try
+
+					if ( txtMultiplier.isSetValue( ) )
 					{
-						String str = txtMultiplier.getText( );
-						if ( str.length( ) > 0 )
-						{
-							( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( str ).doubleValue( ) );
-						}
-						else
-						{
-							( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
-						}
+						( (NumberFormatSpecifier) formatspecifier ).setMultiplier( txtMultiplier.getValue( ) );
 					}
-					catch ( NumberFormatException e1 )
+					else
 					{
-						handleFormatError( txtMultiplier.getText( ) );
+						( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
 					}
 				}
 				( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
@@ -645,21 +621,13 @@ public class FormatSpecifierComposite extends Composite
 					formatspecifier = NumberFormatSpecifierImpl.create( );
 					( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
 					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getSelection( ) );
-					try
+					if ( txtMultiplier.isSetValue( ) )
 					{
-						String str = txtMultiplier.getText( );
-						if ( str.length( ) > 0 )
-						{
-							( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( str ).doubleValue( ) );
-						}
-						else
-						{
-							( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
-						}
+						( (NumberFormatSpecifier) formatspecifier ).setMultiplier( txtMultiplier.getValue( ) );
 					}
-					catch ( NumberFormatException e1 )
+					else
 					{
-						handleFormatError( txtMultiplier.getText( ) );
+						( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
 					}
 				}
 				( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
@@ -673,20 +641,13 @@ public class FormatSpecifierComposite extends Composite
 					( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
 					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getSelection( ) );
 				}
-				try
+				if ( txtMultiplier.isSetValue( ) )
 				{
-					if ( "".equals( txtMultiplier.getText( ) ) ) //$NON-NLS-1$
-					{
-						( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
-					}
-					else
-					{
-						( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( txtMultiplier.getText( ) ).doubleValue( ) );
-					}
+					( (NumberFormatSpecifier) formatspecifier ).setMultiplier( txtMultiplier.getValue( ) );
 				}
-				catch ( NumberFormatException e1 )
+				else
 				{
-					handleFormatError( txtMultiplier.getText( ) );
+					( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
 				}
 			}
 			bEnableEvents = true;
@@ -717,13 +678,10 @@ public class FormatSpecifierComposite extends Composite
 					str = ""; //$NON-NLS-1$
 				}
 				txtSuffix.setText( str );
-				str = String.valueOf( ( (NumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
-				if ( str == null
-						|| !( (NumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) ) )
+				if ( ( (NumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) ) )
 				{
-					str = ""; //$NON-NLS-1$
+					txtMultiplier.setValue( ( (NumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
 				}
-				txtMultiplier.setText( str );
 				iscFractionDigits.setSelection( ( (NumberFormatSpecifier) formatspecifier ).getFractionDigits( ) );
 			}
 		}
@@ -734,17 +692,9 @@ public class FormatSpecifierComposite extends Composite
 			( (NumberFormatSpecifier) fs ).setPrefix( txtPrefix.getText( ) );
 			( (NumberFormatSpecifier) fs ).setSuffix( txtSuffix.getText( ) );
 			( (NumberFormatSpecifier) fs ).setFractionDigits( iscFractionDigits.getSelection( ) );
-			if ( txtMultiplier.getText( ).length( ) > 0 )
+			if ( txtMultiplier.isSetValue( ) )
 			{
-				try
-				{
-					( (NumberFormatSpecifier) fs ).setMultiplier( Double.valueOf( txtMultiplier.getText( ) )
-							.doubleValue( ) );
-				}
-				catch ( NumberFormatException e )
-				{
-					handleFormatError( txtMultiplier.getText( ) );
-				}
+				( (NumberFormatSpecifier) fs ).setMultiplier( txtMultiplier.getValue( ) );
 			}
 			return fs;
 		}
@@ -759,17 +709,9 @@ public class FormatSpecifierComposite extends Composite
 					formatspecifier = NumberFormatSpecifierImpl.create( );
 					( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
 					( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
-					try
+					if ( txtMultiplier.isSetValue( ) )
 					{
-						String str = txtMultiplier.getText( );
-						if ( str.length( ) > 0 )
-						{
-							( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( str ).doubleValue( ) );
-						}
-					}
-					catch ( NumberFormatException e1 )
-					{
-						handleFormatError( txtMultiplier.getText( ) );
+						( (NumberFormatSpecifier) formatspecifier ).setMultiplier( txtMultiplier.getValue( ) );
 					}
 				}
 				( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getSelection( ) );
@@ -785,9 +727,8 @@ public class FormatSpecifierComposite extends Composite
 
 	}
 
-	private class DateStandardComposite extends Composite
-			implements
-				IFormatSpecifierUIComponent
+	private class DateStandardComposite extends Composite implements
+			IFormatSpecifierUIComponent
 	{
 
 		private transient Combo cmbDateType = null;
@@ -876,15 +817,14 @@ public class FormatSpecifierComposite extends Composite
 		}
 	}
 
-	private class NumberAdvancedComposite extends Composite
-			implements
-				IFormatSpecifierUIComponent,
-				ModifyListener
+	private class NumberAdvancedComposite extends Composite implements
+			IFormatSpecifierUIComponent,
+			ModifyListener
 	{
 
 		private transient Text txtNumberPattern = null;
 
-		private transient Text txtAdvMultiplier = null;
+		private transient LocalizedNumberEditorComposite txtAdvMultiplier = null;
 
 		private NumberAdvancedComposite( Composite parent )
 		{
@@ -909,7 +849,8 @@ public class FormatSpecifierComposite extends Composite
 			lblAdvMultiplier.setLayoutData( gdLBLAdvMultiplier );
 			lblAdvMultiplier.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Multiplier" ) ); //$NON-NLS-1$
 
-			txtAdvMultiplier = new Text( this, SWT.BORDER | SWT.SINGLE );
+			txtAdvMultiplier = new LocalizedNumberEditorComposite( this,
+					SWT.BORDER | SWT.SINGLE );
 			GridData gdTXTAdvMultiplier = new GridData( GridData.FILL_HORIZONTAL );
 			txtAdvMultiplier.setLayoutData( gdTXTAdvMultiplier );
 			txtAdvMultiplier.addModifyListener( this );
@@ -930,14 +871,11 @@ public class FormatSpecifierComposite extends Composite
 		{
 			if ( formatspecifier instanceof JavaNumberFormatSpecifier )
 			{
-				String str = String.valueOf( ( (JavaNumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
-				if ( str == null
-						|| !( (JavaNumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getJavaNumberFormatSpecifier_Multiplier( ) ) )
+				if ( ( (JavaNumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getJavaNumberFormatSpecifier_Multiplier( ) ) )
 				{
-					str = ""; //$NON-NLS-1$
+					txtAdvMultiplier.setValue( ( (JavaNumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
 				}
-				txtAdvMultiplier.setText( str );
-				str = ( (JavaNumberFormatSpecifier) formatspecifier ).getPattern( );
+				String str = ( (JavaNumberFormatSpecifier) formatspecifier ).getPattern( );
 				if ( str == null )
 				{
 					str = ""; //$NON-NLS-1$
@@ -949,17 +887,9 @@ public class FormatSpecifierComposite extends Composite
 		public FormatSpecifier buildFormatSpecifier( )
 		{
 			FormatSpecifier fs = JavaNumberFormatSpecifierImpl.create( txtNumberPattern.getText( ) );
-			if ( txtAdvMultiplier.getText( ).length( ) > 0 )
+			if ( txtAdvMultiplier.isSetValue( ) )
 			{
-				try
-				{
-					( (JavaNumberFormatSpecifierImpl) fs ).setMultiplier( Double.valueOf( txtAdvMultiplier.getText( ) )
-							.doubleValue( ) );
-				}
-				catch ( NumberFormatException e )
-				{
-					handleFormatError( txtAdvMultiplier.getText( ) );
-				}
+				( (JavaNumberFormatSpecifierImpl) fs ).setMultiplier( txtAdvMultiplier.getValue( ) );
 			}
 			return fs;
 		}
@@ -981,20 +911,13 @@ public class FormatSpecifierComposite extends Composite
 				{
 					formatspecifier = JavaNumberFormatSpecifierImpl.create( txtNumberPattern.getText( ) );
 				}
-				try
+				if ( txtAdvMultiplier.isSetValue( ) )
 				{
-					if ( "".equals( txtAdvMultiplier.getText( ) ) ) //$NON-NLS-1$
-					{
-						( (JavaNumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getJavaNumberFormatSpecifier_Multiplier( ) );
-					}
-					else
-					{
-						( (JavaNumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( txtAdvMultiplier.getText( ) ).doubleValue( ) );
-					}
+					( (JavaNumberFormatSpecifier) formatspecifier ).setMultiplier( txtAdvMultiplier.getValue( ) );
 				}
-				catch ( NumberFormatException e1 )
+				else
 				{
-					handleFormatError( txtAdvMultiplier.getText( ) );
+					( (JavaNumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getJavaNumberFormatSpecifier_Multiplier( ) );
 				}
 			}
 			else if ( oSource.equals( txtNumberPattern ) )
@@ -1010,10 +933,9 @@ public class FormatSpecifierComposite extends Composite
 
 	}
 
-	private class DateAdvancedComposite extends Composite
-			implements
-				IFormatSpecifierUIComponent,
-				ModifyListener
+	private class DateAdvancedComposite extends Composite implements
+			IFormatSpecifierUIComponent,
+			ModifyListener
 	{
 
 		private transient Text txtDatePattern = null;
@@ -1090,11 +1012,10 @@ public class FormatSpecifierComposite extends Composite
 
 	}
 
-	private class NumberFractionComposite extends Composite
-			implements
-				IFormatSpecifierUIComponent,
-				ModifyListener,
-				SelectionListener
+	private class NumberFractionComposite extends Composite implements
+			IFormatSpecifierUIComponent,
+			ModifyListener,
+			SelectionListener
 	{
 
 		/**
@@ -1290,8 +1211,8 @@ public class FormatSpecifierComposite extends Composite
 
 		private FractionNumberFormatSpecifier getFormatSpecifier( )
 		{
-			return formatspecifier instanceof FractionNumberFormatSpecifier
-					? (FractionNumberFormatSpecifier) formatspecifier : dummyFs;
+			return formatspecifier instanceof FractionNumberFormatSpecifier ? (FractionNumberFormatSpecifier) formatspecifier
+					: dummyFs;
 		}
 
 		public FormatSpecifier buildFormatSpecifier( )

@@ -25,7 +25,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -33,6 +33,8 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -50,10 +52,10 @@ import org.eclipse.swt.widgets.Listener;
  * Legend - Layout
  */
 
-public class LegendLayoutSheet extends AbstractPopupSheet
-		implements
-			Listener,
-			SelectionListener
+public class LegendLayoutSheet extends AbstractPopupSheet implements
+		Listener,
+		ModifyListener,
+		SelectionListener
 {
 
 	private transient Combo cmbAnchor;
@@ -78,7 +80,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 	private transient Button btnVisible;
 
-	private transient TextEditorComposite txtWrapping = null;
+	private transient LocalizedNumberEditorComposite txtWrapping;
 
 	// private transient Label lblHorizontalSpacing;
 	//
@@ -108,7 +110,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	protected Composite getComponent( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_LEGEND_LAYOUT );
-		
+
 		bEnableUI = getBlockForProcessing( ).isVisible( );
 
 		Composite cmpContent = new Composite( parent, SWT.NONE );
@@ -230,13 +232,13 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		lblWrapping.setText( Messages.getString( "LegendLayoutSheet.Label.WrappingWidth" ) ); //$NON-NLS-1$
 		lblWrapping.setEnabled( bEnableUI );
 
-		txtWrapping = new TextEditorComposite( cmpLegLeft, SWT.BORDER
-				| SWT.SINGLE, true );
+		txtWrapping = new LocalizedNumberEditorComposite( cmpLegLeft,
+				SWT.BORDER | SWT.SINGLE );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			txtWrapping.setLayoutData( gd );
-			txtWrapping.setText( String.valueOf( getBlockForProcessing( ).getWrappingSize( ) ) );
-			txtWrapping.addListener( this );
+			txtWrapping.setValue( getBlockForProcessing( ).getWrappingSize( ) );
+			txtWrapping.addModifyListener( this );
 		}
 
 		// lblVerticalSpacing = new Label( cmpLegLeft, SWT.NONE );
@@ -331,6 +333,19 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 */
+	public void modifyText( ModifyEvent e )
+	{
+		if ( e.widget.equals( txtWrapping ) )
+		{
+			getBlockForProcessing( ).setWrappingSize( txtWrapping.getValue( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
 	public void handleEvent( Event event )
@@ -364,23 +379,6 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		else if ( event.widget.equals( icLegend ) )
 		{
 			getBlockForProcessing( ).setInsets( (Insets) event.data );
-		}
-		else if ( event.widget.equals( txtWrapping ) )
-		{
-			String text = (String) event.data;
-			double wrappingSize = 0;
-			try
-			{
-				if ( text.trim( ).length( ) > 0 )
-				{
-					wrappingSize = Double.parseDouble( text );
-				}
-			}
-			catch ( NumberFormatException ex )
-			{
-				// Do nothing
-			}
-			getBlockForProcessing( ).setWrappingSize( wrappingSize );
 		}
 		// else if ( event.widget.equals( iscHSpacing ) )
 		// {

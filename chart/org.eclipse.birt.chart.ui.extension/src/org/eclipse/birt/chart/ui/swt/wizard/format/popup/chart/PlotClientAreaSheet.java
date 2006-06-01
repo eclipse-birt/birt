@@ -23,7 +23,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -31,6 +31,8 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -47,10 +49,10 @@ import org.eclipse.swt.widgets.Listener;
  * 
  */
 
-public class PlotClientAreaSheet extends AbstractPopupSheet
-		implements
-			Listener,
-			SelectionListener
+public class PlotClientAreaSheet extends AbstractPopupSheet implements
+		Listener,
+		ModifyListener,
+		SelectionListener
 {
 
 	private transient Composite cmpContent;
@@ -71,9 +73,9 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 	private transient IntegerSpinControl iscHSpacing;
 
-	private transient TextEditorComposite txtHeight;
+	private transient LocalizedNumberEditorComposite txtHeight;
 
-	private transient TextEditorComposite txtWidth;
+	private transient LocalizedNumberEditorComposite txtWidth;
 
 	private transient FillChooserComposite fccShadow;
 
@@ -95,8 +97,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 			grpAreaIncluding.setLayout( new GridLayout( 4, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			grpAreaIncluding.setLayoutData( gd );
-			grpAreaIncluding.setText( getChart( ) instanceof ChartWithAxes
-					? Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.PlotArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			grpAreaIncluding.setText( getChart( ) instanceof ChartWithAxes ? Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.PlotArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		Label lblAnchor = new Label( grpAreaIncluding, SWT.NONE );
@@ -163,12 +164,19 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 		new Label( grpAreaIncluding, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.HeightHint" ) ); //$NON-NLS-1$
 
-		txtHeight = new TextEditorComposite( grpAreaIncluding, SWT.BORDER, true );
+		txtHeight = new LocalizedNumberEditorComposite( grpAreaIncluding,
+				SWT.BORDER );
 		{
-			txtHeight.setDefaultValue( "-1" ); //$NON-NLS-1$
 			txtHeight.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			txtHeight.setText( String.valueOf( getBlockForProcessing( ).getHeightHint( ) ) );
-			txtHeight.addListener( this );
+			if ( getBlockForProcessing( ).isSetHeightHint( ) )
+			{
+				txtHeight.setValue( getBlockForProcessing( ).getHeightHint( ) );
+			}
+			else
+			{
+				txtHeight.setValue( -1 );
+			}
+			txtHeight.addModifyListener( this );
 		}
 
 		icIncluding = new InsetsComposite( grpAreaIncluding,
@@ -183,12 +191,19 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 		new Label( grpAreaIncluding, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.WidthHint" ) ); //$NON-NLS-1$
 
-		txtWidth = new TextEditorComposite( grpAreaIncluding, SWT.BORDER, true );
+		txtWidth = new LocalizedNumberEditorComposite( grpAreaIncluding,
+				SWT.BORDER );
 		{
-			txtWidth.setDefaultValue( "-1" ); //$NON-NLS-1$
-			txtWidth.setText( String.valueOf( getBlockForProcessing( ).getWidthHint( ) ) );
 			txtWidth.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			txtWidth.addListener( this );
+			if ( getBlockForProcessing( ).isSetWidthHint( ) )
+			{
+				txtWidth.setValue( getBlockForProcessing( ).getWidthHint( ) );
+			}
+			else
+			{
+				txtWidth.setValue( -1 );
+			}
+			txtWidth.addModifyListener( this );
 		}
 
 		new Label( grpAreaIncluding, SWT.NONE );
@@ -200,8 +215,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 			grpAreaWithin.setLayout( new GridLayout( 4, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			grpAreaWithin.setLayoutData( gd );
-			grpAreaWithin.setText( getChart( ) instanceof ChartWithAxes
-					? Messages.getString( "ChartPlotSheetImpl.Label.AreaWithinAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			grpAreaWithin.setText( getChart( ) instanceof ChartWithAxes ? Messages.getString( "ChartPlotSheetImpl.Label.AreaWithinAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		createClientArea( grpAreaWithin );
@@ -287,6 +301,37 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 */
+	public void modifyText( ModifyEvent e )
+	{
+		if ( e.widget.equals( txtHeight ) )
+		{
+			if ( txtHeight.isSetValue( ) )
+			{
+				getBlockForProcessing( ).setHeightHint( txtHeight.getValue( ) );
+			}
+			else
+			{
+				getBlockForProcessing( ).unsetHeightHint( );
+			}
+		}
+		else if ( e.widget.equals( txtWidth ) )
+		{
+			if ( txtWidth.isSetValue( ) )
+			{
+				getBlockForProcessing( ).setWidthHint( txtWidth.getValue( ) );
+			}
+			else
+			{
+				getBlockForProcessing( ).unsetWidthHint( );
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
 	public void handleEvent( Event event )
@@ -360,20 +405,6 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 		{
 			getBlockForProcessing( ).getClientArea( )
 					.setInsets( (Insets) event.data );
-		}
-		else if ( event.widget.equals( txtHeight ) )
-		{
-			if ( event.type == TextEditorComposite.TEXT_MODIFIED )
-			{
-				getBlockForProcessing( ).setHeightHint( Double.parseDouble( (String) event.data ) );
-			}
-		}
-		else if ( event.widget.equals( txtWidth ) )
-		{
-			if ( event.type == TextEditorComposite.TEXT_MODIFIED )
-			{
-				getBlockForProcessing( ).setWidthHint( Double.parseDouble( (String) event.data ) );
-			}
 		}
 	}
 

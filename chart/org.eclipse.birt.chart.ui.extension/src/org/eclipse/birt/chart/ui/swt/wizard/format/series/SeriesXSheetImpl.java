@@ -20,8 +20,8 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.SeriesGroupingComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
@@ -29,6 +29,8 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -45,10 +47,10 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class SeriesXSheetImpl extends SubtaskSheetImpl
-		implements
-			Listener,
-			SelectionListener
+public class SeriesXSheetImpl extends SubtaskSheetImpl implements
+		Listener,
+		ModifyListener,
+		SelectionListener
 {
 
 	private transient Combo cmbSorting = null;
@@ -59,7 +61,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 	private transient Label lblBottomPercent;
 	private transient Label lblLabel;
 	private transient Combo cmbMinSlice;
-	private transient TextEditorComposite txtMinSlice;
+	private transient LocalizedNumberEditorComposite txtMinSlice;
 	private transient ExternalizedTextEditorComposite txtLabel = null;
 
 	private final static String TOOLTIP_MINIMUM_SLICE = Messages.getString( "PieBottomAreaComponent.Label.AnySliceWithASize" ); //$NON-NLS-1$
@@ -163,18 +165,19 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 		{
 			cmbMinSlice.setToolTipText( TOOLTIP_MINIMUM_SLICE );
 			cmbMinSlice.setItems( MINMUM_SLICE_ITEMS );
-			cmbMinSlice.setText( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( )
-					? MINMUM_SLICE_ITEMS[0] : MINMUM_SLICE_ITEMS[1] );
+			cmbMinSlice.setText( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) ? MINMUM_SLICE_ITEMS[0]
+					: MINMUM_SLICE_ITEMS[1] );
 			cmbMinSlice.addSelectionListener( this );
 		}
 
-		txtMinSlice = new TextEditorComposite( cmpMinSlice, SWT.BORDER );
+		txtMinSlice = new LocalizedNumberEditorComposite( cmpMinSlice,
+				SWT.BORDER );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			txtMinSlice.setLayoutData( gridData );
 			txtMinSlice.setToolTipText( TOOLTIP_MINIMUM_SLICE );
-			txtMinSlice.setText( String.valueOf( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) ) );
-			txtMinSlice.addListener( this );
+			txtMinSlice.setValue( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) );
+			txtMinSlice.addModifyListener( this );
 		}
 
 		lblBottomPercent = new Label( cmpMinSlice, SWT.NONE );
@@ -198,8 +201,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 				-1,
 				keys,
 				getContext( ).getUIServiceProvider( ),
-				( (ChartWithoutAxes) getChart( ) ).getMinSliceLabel( ) != null
-						? ( (ChartWithoutAxes) getChart( ) ).getMinSliceLabel( )
+				( (ChartWithoutAxes) getChart( ) ).getMinSliceLabel( ) != null ? ( (ChartWithoutAxes) getChart( ) ).getMinSliceLabel( )
 						: "" ); //$NON-NLS-1$
 		{
 			GridData gdTXTTitle = new GridData( GridData.FILL_HORIZONTAL );
@@ -253,6 +255,20 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 */
+	public void modifyText( ModifyEvent e )
+	{
+		if ( e.getSource( ) == txtMinSlice )
+		{
+			( (ChartWithoutAxes) getChart( ) ).setMinSlice( txtMinSlice.getValue( ) );
+			txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
 	public void handleEvent( Event event )
@@ -262,18 +278,6 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			if ( event.widget.equals( txtLabel ) )
 			{
 				( (ChartWithoutAxes) getChart( ) ).setMinSliceLabel( txtLabel.getText( ) );
-			}
-			else if ( event.widget.equals( txtMinSlice ) )
-			{
-				try
-				{
-					( (ChartWithoutAxes) getChart( ) ).setMinSlice( Double.parseDouble( txtMinSlice.getText( ) ) );
-				}
-				catch ( Exception ex )
-				{
-					( (ChartWithoutAxes) getChart( ) ).setMinSlice( 0 );
-				}
-				txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
 			}
 		}
 	}

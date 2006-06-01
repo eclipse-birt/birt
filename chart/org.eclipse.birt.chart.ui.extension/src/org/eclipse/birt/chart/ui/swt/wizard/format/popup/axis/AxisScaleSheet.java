@@ -332,7 +332,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		}
 		else if ( de instanceof NumberDataElement )
 		{
-			return String.valueOf( ( (NumberDataElement) de ).getValue( ) );
+			return NumberFormat.getInstance( ).format( ( (NumberDataElement) de ).getValue( ) );
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -340,7 +340,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 	private DataElement getTypedDataElement( String strDataElement )
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
-		NumberFormat nf = NumberFormat.getNumberInstance( );
+		NumberFormat nf = NumberFormat.getInstance( );
 		try
 		{
 			// First try Date
