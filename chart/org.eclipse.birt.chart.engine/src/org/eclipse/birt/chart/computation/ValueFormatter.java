@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
 
@@ -101,13 +102,24 @@ public final class ValueFormatter
 			}
 			else
 			{
-				if ( oValue instanceof NumberDataElement )
+				if ( oValue instanceof Double )
 				{
-					return String.valueOf( ( (NumberDataElement) oValue ).getValue( ) );
+					return NumberFormat.getInstance( lcl )
+							.format( ( (Double) oValue ).doubleValue( ) );
+				}
+				else if ( oValue instanceof NumberDataElement )
+				{
+					return NumberFormat.getInstance( lcl )
+							.format( ( (NumberDataElement) oValue ).getValue( ) );
+				}
+				else if ( oValue instanceof Calendar )
+				{
+					return DateFormat.getInstance( ).format( oValue );
 				}
 				else if ( oValue instanceof DateTimeDataElement )
 				{
-					return String.valueOf( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) );
+					return DateFormat.getInstance( )
+							.format( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) );
 				}
 			}
 		}
@@ -141,13 +153,24 @@ public final class ValueFormatter
 		}
 		else
 		{
-			if ( oValue instanceof NumberDataElement )
+			if ( oValue instanceof Double )
 			{
-				return String.valueOf( ( (NumberDataElement) oValue ).getValue( ) );
+				return NumberFormat.getInstance( lcl )
+						.format( ( (Double) oValue ).doubleValue( ) );
+			}
+			else if ( oValue instanceof NumberDataElement )
+			{
+				return NumberFormat.getInstance( lcl )
+						.format( ( (NumberDataElement) oValue ).getValue( ) );
+			}
+			else if ( oValue instanceof Calendar )
+			{
+				return DateFormat.getInstance( ).format( oValue );
 			}
 			else if ( oValue instanceof DateTimeDataElement )
 			{
-				return String.valueOf( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) );
+				return DateFormat.getInstance( )
+						.format( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) );
 			}
 		}
 		return oValue.toString( );

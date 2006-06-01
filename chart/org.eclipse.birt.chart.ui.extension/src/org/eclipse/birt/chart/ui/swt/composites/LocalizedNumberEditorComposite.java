@@ -24,7 +24,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
@@ -86,8 +85,9 @@ public class LocalizedNumberEditorComposite extends Composite implements
 		txtValue.addModifyListener( this );
 		txtValue.addFocusListener( this );
 		txtValue.addKeyListener( this );
-		
-		txtValue.setBackground( Display.getDefault( ).getSystemColor( SWT.COLOR_CYAN ) );
+		//		
+		// txtValue.setBackground( Display.getDefault( ).getSystemColor(
+		// SWT.COLOR_CYAN ) );
 	}
 
 	/*
