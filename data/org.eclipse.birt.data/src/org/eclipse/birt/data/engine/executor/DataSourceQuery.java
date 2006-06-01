@@ -545,7 +545,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	private int getCorrectParamIndex( int index ) throws DataException
 	{
 		if ( index <= 0 )
-			throw new DataException( "Invalid output parameter index: " + index );
+			throw new DataException( ResourceConstants.INVALID_OUTPUT_PARAMETER_INDEX, new Integer(index) );
 		
 		int newIndex = 0; // 1-based
 		int curOutputIndex = 0; // 1-based
@@ -570,8 +570,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		}
 
 		if ( curOutputIndex < index )
-			throw new DataException( "Output parameter index is out of bound"
-					+ index );
+			throw new DataException( ResourceConstants.OUTPUT_PARAMETER_OUT_OF_BOUND,new Integer(index));
 
 		return newIndex;
 	}
@@ -606,7 +605,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		}
 
 		if ( isValid == false )
-			throw new DataException( "Invalid output parameter name" + name );
+			throw new DataException( ResourceConstants.INVALID_OUTPUT_PARAMETER_NAME, name );
 	}
 	
 	/*

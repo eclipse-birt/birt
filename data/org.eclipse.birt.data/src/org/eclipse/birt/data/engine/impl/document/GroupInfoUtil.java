@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupInfo;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * Utility class to manipulate group information.
@@ -98,7 +99,7 @@ public class GroupInfoUtil {
 		}
 		else
 		{
-			throw new DataException( "The index array is invalid" );
+			throw new DataException( ResourceConstants.INDEX_ARRAY_INVALID );
 		}
 		return cleanUnUsedGroupInstance(doRefactorOnGroupInfo( groups, deleteNumMap ));
 	}
@@ -178,7 +179,7 @@ public class GroupInfoUtil {
 				&& groupInfo.firstChild - baseInfo.firstChild == deletedNum )
 			return false;
 		else
-			throw new DataException( "The removed group item is not correct" );
+			throw new DataException( ResourceConstants.GROUP_ITEM_INCORRECT );
 	}
 	
 	/**

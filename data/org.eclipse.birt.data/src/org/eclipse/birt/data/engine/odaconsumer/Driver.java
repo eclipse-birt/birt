@@ -506,7 +506,7 @@ class Driver
             {
                 sm_logger.logp( Level.WARNING, sm_className, methodName,
                         "Not able to get Data Engine plugin directory.", ex );
-                throw new DataException( ex.getLocalizedMessage(), ex );
+                throw new DataException( ex.getLocalizedMessage( ), ex.getCause( ) );
             }
         }
 
@@ -514,7 +514,7 @@ class Driver
         {
             sm_logger.logp( Level.WARNING, sm_className, methodName,
                     "Not able to determine ODA consumer default log directory." );
-            throw new DataException( "" );    // no log directory
+            throw new DataException( ResourceConstants.CANNOT_FIND_LOG_DIRECTORY );    // no log directory
        }
 
         return defaultLogDir;

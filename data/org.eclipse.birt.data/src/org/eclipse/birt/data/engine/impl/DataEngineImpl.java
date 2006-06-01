@@ -115,7 +115,7 @@ public class DataEngineImpl extends DataEngine
 	public IQueryResults getQueryResults( String queryResultID ) throws DataException
 	{
 		if ( context.getMode( ) != DataEngineContext.MODE_PRESENTATION )
-			throw new DataException( "wrong status" );
+			throw new DataException( ResourceConstants.WRONG_STATUS );
 
 		return new QueryResults( this.context, queryResultID );
 	}

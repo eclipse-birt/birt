@@ -331,7 +331,7 @@ class ResultIterator implements IResultIterator
 	 */
 	public boolean findGroup( Object[] groupKeyValues ) throws BirtException
 	{
-		throw new DataException( "Not supported in presentation" );
+		throw new DataException( ResourceConstants.NOT_SUPPORT_IN_PRESENTATION );
 	}	
 	
 }

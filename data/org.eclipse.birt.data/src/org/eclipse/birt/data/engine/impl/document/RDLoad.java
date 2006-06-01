@@ -132,7 +132,7 @@ public class RDLoad
 	public IExprDataResultSet loadExprDataResultSet( ) throws DataException
 	{
 		if ( version == VersionManager.VERSION_2_0 )
-			throw new DataException( "Not supported in earlier version than 2.1" );
+			throw new DataException( ResourceConstants.WRONG_VERSION );
 
 		InputStream inputStream = streamManager.getInStream( DataEngineContext.EXPR_META_STREAM,
 				StreamManager.ROOT_STREAM );

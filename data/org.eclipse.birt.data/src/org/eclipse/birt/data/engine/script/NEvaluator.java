@@ -109,7 +109,7 @@ public abstract class NEvaluator
 				}
 				catch ( BirtException e1 )
 				{
-					throw new DataException( e1.getLocalizedMessage( ) );
+					throw DataException.wrap( e1 );
 				}
 			}
 			else

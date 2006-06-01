@@ -225,7 +225,7 @@ public class FilterByRow implements IResultObjectEvent
 				}
 				catch ( BirtException e2 )
 				{
-					throw new DataException( e2.getLocalizedMessage( ) );
+					throw DataException.wrap( e2 );
 				}
 				
 				if ( result == null )

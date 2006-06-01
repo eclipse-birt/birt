@@ -191,7 +191,7 @@ public class DataEngineContext
 			throws BirtException
 	{
 		if ( this.mode != DIRECT_PRESENTATION )
-			throw new DataException( "cache function only works for DIRECT_PRESENTATION mode." );
+			throw new DataException( ResourceConstants.CACHE_FUNCTION_WRONG_MODE );
 
 		this.cacheOption = option;
 		this.cacheCount = cacheCount;

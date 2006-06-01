@@ -279,7 +279,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		}
 		catch ( BirtException e )
 		{
-			throw new DataException( e.getMessage( ) );
+			throw DataException.wrap(e);
 		}
 
 	}

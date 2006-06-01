@@ -422,7 +422,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		private void checkOpened( ) throws BirtException
 		{
 			if ( openStatus != IN_ROW )
-				throw new DataException( "" );
+				throw new DataException( ResourceConstants.RESULTITERATOR_NOT_OPEN );
 		}
 
 		/**
@@ -492,7 +492,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 			}
 			else
 			{
-				throw new DataException( "is ended" );
+				throw new DataException( ResourceConstants.RESULTITERATOR_CLOSED );
 			}
 		}
 		
@@ -522,7 +522,8 @@ public class PreparedDummyQuery implements IPreparedQuery
 			this.checkOpened( );
 
 			if ( rowIndex > 0 )
-				throw new DataException( "" );
+				throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
+						new Integer( rowIndex ) );
 		}
 
 
@@ -616,7 +617,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 			this.checkOpened( );
 
 			if ( groupLevel > 0 )
-				throw new DataException( "invalid group level value" );
+				throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL, new Integer(groupLevel) );
 		}
 
 		/*

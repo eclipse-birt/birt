@@ -159,6 +159,19 @@ public class ResourceConstants
 	public static final String NO_ROW_UPDATE="data.engine.NoRowUpdate";
 	public static final String BAD_DATA_TYPE= "data.engine.BadDataType";
 	public static final String BAD_DATA_EXPRESSION="data.engine.BadDataExpression";
+	
+	public static final String CACHE_FUNCTION_WRONG_MODE="data.engine.cacheFunctionWrongMode";
+	public static final String INDEX_ARRAY_INVALID="data.engine.document.invalidIndexArray";
+	public static final String GROUP_ITEM_INCORRECT="data.engine.document.invalidGroupItem";
+	public static final String RESULTITERATOR_NOT_OPEN="data.engine.resultIteratorNotOpen";
+	public static final String RESULTITERATOR_CLOSED="data.engine.resultIteratorClosed";
+	public static final String INVALID_OUTPUT_PARAMETER_INDEX="data.engine.invalidOutputParameterIndex";
+	public static final String OUTPUT_PARAMETER_OUT_OF_BOUND="data.engine.outputParameterOutOfBound";
+	public static final String INVALID_OUTPUT_PARAMETER_NAME="data.engine.invalidOutputParameterName";
+	public static final String NOT_SUPPORT_IN_PRESENTATION="data.engine.document.notSupportInPresentation";
+	public static final String WRONG_STATUS="data.engine.wrongStatus";
+	public static final String WRONG_VERSION="data.engine.wrongVersion";
+	public static final String UNSUPPORT_OPERATION_EXCEPTION="data.engine.unsupportOperationException";
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
@@ -254,5 +267,5 @@ public class ResourceConstants
 	public final static String CANNOT_GET_PARAMETER_METADATA = "odaconsumer.CannotGetParameterMetaData";
 	public final static String CANNOT_LOAD_ODA_ADAPTER = "odaconsumer.CannotLoadOdaAdapter";
 	public final static String MUST_SPECIFY_COLUMN_NAME = "odaconsumer.MustSpecifyColumnName";
-	
+	public final static String CANNOT_FIND_LOG_DIRECTORY = "odaconsumer.CannotFindLogDirectory";
 }
