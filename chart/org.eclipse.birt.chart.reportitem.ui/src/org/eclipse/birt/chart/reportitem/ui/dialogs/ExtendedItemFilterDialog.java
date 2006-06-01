@@ -54,8 +54,10 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
@@ -111,12 +113,16 @@ public class ExtendedItemFilterDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_DATA_SET_FILTER );
-		
-		Composite composite = (Composite) super.createDialogArea( parent );		
+		ChartUIUtil.bindHelp( parent,
+				ChartHelpContextIds.DIALOG_DATA_SET_FILTER );
+
+		( (GridData) parent.getLayoutData( ) ).heightHint = 200;
+		Composite composite = (Composite) super.createDialogArea( parent );
 
 		initColumnNames( );
 		viewer = new PropertyHandleTableViewer( composite, true, true, true );
+		viewer.getControl( ).setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		
 		TableColumn column = new TableColumn( viewer.getViewer( ).getTable( ),
 				SWT.LEFT );
 		column.setText( " " ); //$NON-NLS-1$
@@ -178,6 +184,8 @@ public class ExtendedItemFilterDialog extends BaseDialog
 		setupEditors( );
 		addListeners( );
 
+		pageActivated( );
+		
 		SessionHandleAdapter.getInstance( )
 				.getCommandStack( )
 				.startTrans( "Modify Filters" ); //$NON-NLS-1$
@@ -193,7 +201,7 @@ public class ExtendedItemFilterDialog extends BaseDialog
 		}
 		columnNameEditor = new ComboBoxExpressionCellEditor( viewer.getViewer( )
 				.getTable( ), columnExpressions, SWT.NONE );
-		IExpressionProvider expressionProvider = new ExpressionProvider(reportItemHandle);
+		IExpressionProvider expressionProvider = new ExpressionProvider( reportItemHandle );
 		columnNameEditor.setExpressionProvider( expressionProvider );
 		// columnNameEditor.addFilter( new DataSetExpressionFilter( ) );
 
@@ -399,7 +407,7 @@ public class ExtendedItemFilterDialog extends BaseDialog
 					}
 				}
 			}
-		} );
+		} );		
 	}
 
 	private void addListeners( )
@@ -512,25 +520,17 @@ public class ExtendedItemFilterDialog extends BaseDialog
 		return -1;
 	}
 
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see
-	// org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#pageActivated()
-	// */
-	// public void pageActivated( )
-	// {
-	// // getContainer( ).setMessage( Messages.getString(
-	// // "dataset.editor.filters" ), IMessageProvider.NONE ); //$NON-NLS-1$
-	// initColumnNames( );
-	// if ( columnExpressions != null )
-	// {
-	// columnNameEditor.setItems( columnExpressions );
-	// }
-	// // The proeprties of the various controls on the page
-	// // will be set depending on the filters
-	// setPageProperties( );
-	// }
+	private void pageActivated( )
+	{
+		initColumnNames( );
+		if ( columnExpressions != null )
+		{
+			columnNameEditor.setItems( columnExpressions );
+		}
+		// The proeprties of the various controls on the page
+		// will be set depending on the filters
+		setPageProperties( );
+	}
 
 	/**
 	 * Depending on the value of the Filters the properties of various controls
