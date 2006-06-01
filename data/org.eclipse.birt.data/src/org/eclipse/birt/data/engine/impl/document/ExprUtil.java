@@ -63,37 +63,7 @@ public class ExprUtil
 			assert false;
 		}
 	}
-
-	/**
-	 * @param dis
-	 * @return
-	 * @throws IOException
-	 */
-	public static IBaseExpression loadBaseExpr( DataInputStream dis )
-			throws IOException
-	{
-		IBaseExpression baseExpr = null;
-		if ( IOUtil.readInt( dis ) == SCRIPT_EXPRESSION )
-		{
-			return loadScriptExpr( dis );
-		}
-		else if ( IOUtil.readInt( dis ) == CONDITIONAL_EXPRESSION )
-		{
-			IScriptExpression expr = (IScriptExpression) loadBaseExpr( dis );
-			int operator = IOUtil.readInt( dis );
-			IScriptExpression op1 = (IScriptExpression) loadBaseExpr( dis );
-			IScriptExpression op2 = (IScriptExpression) loadBaseExpr( dis );
-
-			baseExpr = new ConditionalExpression( expr, operator, op1, op2 );
-		}
-		else
-		{
-			assert IOUtil.readInt( dis ) == NULL_EXPRESSION;
-		}
-
-		return baseExpr;
-	}
-
+	
 	/**
 	 * @param dos
 	 * @param scriptExpr
@@ -105,6 +75,41 @@ public class ExprUtil
 		IOUtil.writeString( dos, scriptExpr.getText( ) );
 		IOUtil.writeInt( dos, scriptExpr.getDataType( ) );
 		IOUtil.writeString( dos, scriptExpr.getGroupName( ) );
+	}
+	
+	/**
+	 * @param dis
+	 * @return
+	 * @throws IOException
+	 */
+	public static IBaseExpression loadBaseExpr( DataInputStream dis )
+			throws IOException
+	{
+		int exprType = IOUtil.readInt( dis );
+		
+		if ( exprType == NULL_EXPRESSION )
+		{
+			return null;
+		}
+		if ( exprType == SCRIPT_EXPRESSION )
+		{
+			return loadScriptExpr( dis );
+		}
+		else if ( exprType == CONDITIONAL_EXPRESSION )
+		{
+			IScriptExpression expr = (IScriptExpression) loadBaseExpr( dis );
+			int operator = IOUtil.readInt( dis );
+			IScriptExpression op1 = (IScriptExpression) loadBaseExpr( dis );
+			IScriptExpression op2 = (IScriptExpression) loadBaseExpr( dis );
+
+			return new ConditionalExpression( expr, operator, op1, op2 );
+		}
+		else
+		{
+			assert false;
+
+			return null;
+		}
 	}
 
 	/**
