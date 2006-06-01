@@ -146,6 +146,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * the url encoding
 	 */
 	protected String urlEncoding = null;
+	
+	/**
+	 * should we output the report as Right To Left
+	 */
+	protected boolean htmlRtLFlag = false;
+	
+	protected boolean includeSelectionHandler = false;
+	
+	protected List ouputInstanceIDs = null;
 
 	/**
 	 * specified the current page number, starting from 0
@@ -339,6 +348,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				actionHandler = actHandler;
 			}
+			htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
+			includeSelectionHandler = htmlOption.getIncludeSelectionHandle( );
+			ouputInstanceIDs = htmlOption.getInstanceIDs( );
 		}
 
 		writer = new HTMLWriter( );
@@ -471,19 +483,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		// If it is the body style and htmlRtLFlag has been set true, 
 		// remove the text-align included in the style.
-		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		if ( htmlRtLFlag )
 		{
-			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
-			boolean htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
-			if ( htmlRtLFlag )
+			String reportStyleName = report == null ? null : report.getDesign( )
+					.getRootStyleName( );
+			if ( reportStyleName != null )
 			{
-				String reportStyleName = report == null ? null : report.getDesign( )
-						.getRootStyleName( );
-				if ( reportStyleName != null )
-				{
-					IStyle style =  report.findStyle( reportStyleName );
-					style.removeProperty( "text-align" );
-				}
+				IStyle style =  report.findStyle( reportStyleName );
+				style.removeProperty( "text-align" );
 			}
 		}
 		
@@ -762,15 +769,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// out put the page tag
 		writer.openTag( HTMLTags.TAG_DIV );
-		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		if ( htmlRtLFlag )
 		{
-			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
-			boolean htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
-			if ( htmlRtLFlag )
-			{
-				writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
-			}
+			writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
 		}
+		
 		if ( pageNo > 1 )
 		{
 			writer.attribute( HTMLTags.ATTR_STYLE, "page-break-before: always;" );
@@ -911,13 +914,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		// include select handle table
-		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		if ( includeSelectionHandler )
 		{
-			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
-		
 			Object generateBy = table.getGenerateBy( );
-			if ( htmlOption.getIncludeSelectionHandle( )
-					&& generateBy instanceof TableItemDesign )
+			if ( generateBy instanceof TableItemDesign )
 			{
 				startSelectHandleTable( );
 			}
@@ -1087,13 +1087,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		//	include select handle table
-		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		if ( includeSelectionHandler )
 		{
-			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
-			Object generateBy = table.getGenerateBy();
-			
-			if ( htmlOption.getIncludeSelectionHandle( )
-					&& generateBy instanceof TableItemDesign )
+			Object generateBy = table.getGenerateBy( );
+			if ( generateBy instanceof TableItemDesign )
 			{
 				endSelectHandleTable( );
 			}
@@ -1311,22 +1308,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( cell.isStartOfGroup( ) )
 		{
 			//	include select handle table
-			if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+			if ( includeSelectionHandler )
 			{
-				HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
-				if ( htmlOption.getIncludeSelectionHandle( ) )
-				{
-					// TODO: change the output tag
-					writer.openTag( HTMLTags.TAG_IMAGE );
-					// TODO: change the javascript name
-					writer.attribute( HTMLTags.ATTR_SRC,
-							"iv/images/collapsexpand.gif" );
-					writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
-					String bookmark = generateUniqueID( );
-					setBookmark( null, bookmark );
-					setActiveIDTypeIID( bookmark, "GROUP", null, -1);
-					writer.closeTag( HTMLTags.TAG_IMAGE );
-				}
+				writer.openTag( HTMLTags.TAG_IMAGE );
+				writer.attribute( HTMLTags.ATTR_SRC,
+						"iv/images/collapsexpand.gif" );
+				writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
+				String bookmark = generateUniqueID( );
+				setBookmark( null, bookmark );
+				setActiveIDTypeIID( bookmark, "GROUP", null, -1 );
+				writer.closeTag( HTMLTags.TAG_IMAGE );
 			}
 		}
 	}
@@ -1791,12 +1782,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		// include select handle chart
 		boolean isSelectHandleTableChart = false;
-		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		if ( includeSelectionHandler  )
 		{
-			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
-			
-			if ( htmlOption.getIncludeSelectionHandle( )
-					&& generateBy instanceof ExtendedItemDesign )
+			if ( generateBy instanceof ExtendedItemDesign )
 			{
 				startSelectHandleTableChart( image );
 				isSelectHandleTableChart = true;
@@ -1997,12 +1985,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.closeTag( tag );
 		
 		// include	select handle chart
-		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		if ( includeSelectionHandler )
 		{
-			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
-			
-			if ( htmlOption.getIncludeSelectionHandle( )
-					&& generateBy instanceof ExtendedItemDesign )
+			if ( generateBy instanceof ExtendedItemDesign )
 			{
 				endSelectHandleTableChart( );
 			}
@@ -2509,16 +2494,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected void exportElementID( String bookmark,
 			String type, long componentID )
 	{
-		if ( renderOption instanceof HTMLRenderOption )
+		if ( ouputInstanceIDs != null )
 		{
-			List htmlIds = ( (HTMLRenderOption) renderOption )
-					.getInstanceIDs( );
-			if ( htmlIds != null && bookmark != null )
+			if ( bookmark != null )
 			{
 				assert type != null;
-				String newBookmark = bookmark + "," + type 
-						+ "," + new Long( componentID ).toString();
-				htmlIds.add( newBookmark );
+				String newBookmark = bookmark + "," + type + ","
+						+ new Long( componentID ).toString( );
+				ouputInstanceIDs.add( newBookmark );
 			}
 		}
 	}
