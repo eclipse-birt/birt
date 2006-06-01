@@ -24,6 +24,7 @@ import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
+import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.actionhandler.BirtExtractDataActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetReportletActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderImageActionHandler;
@@ -129,7 +130,7 @@ public class EngineFragment extends BirtBaseFragment
 			// retrieved.
 			// Any include and forward throws exception.
 			// Better to move this error handle into engine.
-			String message = "<html><body><font color=\"red\">" //$NON-NLS-1$ 
+			String message = "<html><head><title>" + BirtResources.getString( "birt.viewer.title.error" ) + "</title><body><font color=\"red\">" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
 					+ ParameterAccessor.htmlEncode( fault.getFaultString( ) )
 					+ "</font></body></html>"; //$NON-NLS-1$
 			out.write( message.getBytes( ) );

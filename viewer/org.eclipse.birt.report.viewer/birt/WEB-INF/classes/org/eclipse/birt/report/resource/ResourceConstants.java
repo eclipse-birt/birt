@@ -48,4 +48,8 @@ public interface ResourceConstants
 	// component processor exception
 	
 	public static final String COMPONENT_PROCESSOR_EXCEPTION_MISSING_OPERATOR = "birt.viewer.componentProcessorException.MISSING_OPERATOR"; //$NON-NLS-1$
+	
+	// stack trace title
+	
+	public static final String EXCEPTION_DIALOG_STACK_TRACE = "birt.viewer.exceptionDialog.stackTrace"; //$NON-NLS-1$
 }

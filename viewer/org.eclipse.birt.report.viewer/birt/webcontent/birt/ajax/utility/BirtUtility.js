@@ -374,9 +374,17 @@ BirtUtility.prototype =
  		
  		return selectedColumns;
  	},
+ 	
+ 	// trim all the space in the input
+ 	trim: function(str)
+ 	{
+    	return str.replace(/(^\s+)([^\s]*)(\s+$)/, '$2');
+	},
 	
 	noComma : "" //just to avoid javascript syntax errors
 }
+
+var birtUtility = new BirtUtility( );
 
 /**
  *	Extend prototype's Event.
