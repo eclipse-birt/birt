@@ -453,7 +453,7 @@ public final class LegendBuilder implements IConstants
 					{
 						se = (Series) al.get( i );
 						Object obj = se.getSeriesIdentifier( );
-						String lgtext = String.valueOf( obj );
+						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
 						{
 							try
@@ -614,7 +614,7 @@ public final class LegendBuilder implements IConstants
 					{
 						se = (Series) al.get( i );
 						Object obj = se.getSeriesIdentifier( );
-						String lgtext = String.valueOf( obj );
+						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
 						{
 							try
@@ -979,7 +979,7 @@ public final class LegendBuilder implements IConstants
 					{
 						se = (Series) al.get( i );
 						Object obj = se.getSeriesIdentifier( );
-						String lgtext = String.valueOf( obj );
+						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
 						{
 							try
@@ -1140,7 +1140,7 @@ public final class LegendBuilder implements IConstants
 					{
 						se = (Series) al.get( i );
 						Object obj = se.getSeriesIdentifier( );
-						String lgtext = String.valueOf( obj );
+						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
 						{
 							try
