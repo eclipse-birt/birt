@@ -375,12 +375,24 @@ BirtUtility.prototype =
  		return selectedColumns;
  	},
  	
- 	// trim all the space in the input
- 	trim: function(str)
- 	{
-    	return str.replace(/(^\s+)([^\s]*)(\s+$)/, '$2');
+	// trim left blanks
+	ltrim: function ( str )
+	{
+		return str.replace( /^\s*/, '');
 	},
 	
+	// trim right blanks
+	rtrim: function ( str )
+	{
+		return str.replace( /\s*$/, ''); 
+	},
+
+	// trim left and right blanks
+	trim: function ( str )
+	{
+		return this.rtrim( this.ltrim( str ) );
+	},
+		
 	noComma : "" //just to avoid javascript syntax errors
 }
 

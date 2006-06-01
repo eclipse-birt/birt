@@ -138,17 +138,17 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					// deal with "text" parameter
 					this.__parameter[k].name = temp.name;
 					// if the parameter neither has a value nor a default value, error
-					if( temp.value == "" )
+					if( birtUtility.trim( temp.value ) == '' )
 					{
 						if( tempDef )
 						{
 							temp.focus( );
-							alert( temp.name + " should have a value" );
+							alert( temp.name + ' cannot be blank' );
 							return false;
 						}
 						else
 						{
-							this.__parameter[k].value = "";
+							this.__parameter[k].value = temp.value;
 						}
 					}
 					else
@@ -182,10 +182,10 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							var temp = oIEC[j+2];
 							if ( temp && temp.value == 'true' )
 							{
-								if ( oIEC[j+1].value == '' )
+								if ( birtUtility.trim( oIEC[j+1].value ) == '' )
 								{
 									oIEC[j+1].focus( );
-									alert( temp.name + " should have a value" );
+									alert( temp.name + ' cannot be blank' );
 									return false;
 								}
 							}
