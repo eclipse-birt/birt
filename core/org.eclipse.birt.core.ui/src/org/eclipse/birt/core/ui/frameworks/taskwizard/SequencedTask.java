@@ -1,3 +1,13 @@
+/***********************************************************************
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
@@ -5,10 +15,17 @@ import java.util.Vector;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * @deprecated For later use
+ * 
+ */
 class SequencedTask implements ITask
 {
 
@@ -118,5 +135,83 @@ class SequencedTask implements ITask
 	public String getDescription( ULocale locale )
 	{
 		return sLabel;
+	}
+
+	public void createControl( Composite parent )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void dispose( )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public Control getControl( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getDescription( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getErrorMessage( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Image getImage( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getMessage( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getTitle( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void performHelp( )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setDescription( String description )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setImageDescriptor( ImageDescriptor image )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setTitle( String title )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setVisible( boolean visible )
+	{
+		// TODO Auto-generated method stub
+
 	}
 }

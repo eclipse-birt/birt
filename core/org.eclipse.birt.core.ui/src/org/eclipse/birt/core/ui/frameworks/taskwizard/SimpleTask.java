@@ -1,3 +1,13 @@
+/***********************************************************************
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
@@ -6,58 +16,39 @@ import java.util.List;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-
-import com.ibm.icu.util.ULocale;
 
 public class SimpleTask implements ITask
 {
 
-	private transient Composite cmpTask = null;
+	protected transient Composite topControl = null;
 	protected transient IWizardContext context = null;
 	protected transient WizardBase container = null;
-	private transient String sLabel = ""; //$NON-NLS-1$
+	private transient String sDesc = ""; //$NON-NLS-1$
+	private transient String sTitle = ""; //$NON-NLS-1$
 	private transient List errorList = new ArrayList( );
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#getUI(org.eclipse.swt.widgets.Composite)
-	 */
-	public Composite getUI( Composite parent )
+	private void placeComponents( Composite parent )
 	{
-		if ( cmpTask == null || cmpTask.isDisposed( ) )
-		{
-			cmpTask = new Composite( parent, SWT.NONE );
-			cmpTask.setLayout( new FillLayout( ) );
-			placeComponents( );
-		}
-		return cmpTask;
-	}
-
-	private void placeComponents( )
-	{
-		Label lbl = new Label( cmpTask, SWT.SHADOW_IN | SWT.CENTER );
+		Label lbl = new Label( parent, SWT.SHADOW_IN | SWT.CENTER );
 		lbl.setText( "This is a placeholder for the task : " //$NON-NLS-1$
-				+ getDisplayLabel( ULocale.getDefault( ) ) );
-	}
-
-	public String getDisplayLabel( ULocale locale )
-	{
-		return sLabel;
+				+ getTitle( ) );
 	}
 
 	public SimpleTask( )
 	{
-		sLabel = "Task"; //$NON-NLS-1$
+		setTitle( "Task" ); //$NON-NLS-1$
 	}
 
-	public SimpleTask( String sLabel )
+	public SimpleTask( String title )
 	{
-		this.sLabel = sLabel;
+		setTitle( title );
 	}
 
 	/*
@@ -127,14 +118,86 @@ public class SimpleTask implements ITask
 
 	public void dispose( )
 	{
-		cmpTask = null;
+		topControl = null;
 		context = null;
 		container = null;
 		errorList.clear( );
 	}
 
-	public String getDescription( ULocale locale )
+	public void createControl( Composite parent )
 	{
-		return sLabel;
+		if ( topControl == null || topControl.isDisposed( ) )
+		{
+			topControl = new Composite( parent, SWT.NONE );
+			topControl.setLayout( new FillLayout( ) );
+			placeComponents( topControl );
+		}
+	}
+
+	public Control getControl( )
+	{
+		return topControl;
+	}
+
+	public String getDescription( )
+	{
+		return sDesc;
+	}
+
+	public String getErrorMessage( )
+	{
+		return sDesc;
+	}
+
+	/**
+	 * @deprecated For later use
+	 */
+	public Image getImage( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getMessage( )
+	{
+		return sDesc;
+	}
+
+	public String getTitle( )
+	{
+		return sTitle;
+	}
+
+	/**
+	 * @deprecated For later use
+	 */
+	public void performHelp( )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setDescription( String description )
+	{
+		this.sDesc = description;
+	}
+
+	/**
+	 * @deprecated For later use
+	 */
+	public void setImageDescriptor( ImageDescriptor image )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setTitle( String title )
+	{
+		this.sTitle = title;
+	}
+
+	public void setVisible( boolean visible )
+	{
+		getControl( ).setVisible( visible );
 	}
 }

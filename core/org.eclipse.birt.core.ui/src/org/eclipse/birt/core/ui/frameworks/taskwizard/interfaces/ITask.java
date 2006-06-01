@@ -1,30 +1,21 @@
+/***********************************************************************
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.jface.dialogs.IDialogPage;
 
-import com.ibm.icu.util.ULocale;
-
-public interface ITask
+public interface ITask extends IDialogPage
 {
-
-	public Composite getUI( Composite parent );
-
-	/**
-	 * Returns the brief display text for this task
-	 * 
-	 * @param locale
-	 */
-	public String getDisplayLabel( ULocale locale );
-
-	/**
-	 * Returns the description for this task
-	 * 
-	 * @param locale
-	 * @since 2.1
-	 */
-	public String getDescription( ULocale locale );
 
 	/**
 	 * Called just before the UI for this Task is shown. Intended for the UI to

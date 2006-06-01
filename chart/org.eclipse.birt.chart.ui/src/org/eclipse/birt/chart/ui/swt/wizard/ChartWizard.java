@@ -28,7 +28,6 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -136,7 +135,7 @@ public class ChartWizard extends WizardBase
 		}
 	}
 
-	public void widgetDisposed( DisposeEvent e )
+	public void dispose( )
 	{
 		if ( getContext( ) != null )
 		{
@@ -156,7 +155,7 @@ public class ChartWizard extends WizardBase
 				ChartCacheManager.getInstance( ).dispose( );
 			}
 		}
-		super.widgetDisposed( e );
+		super.dispose( );
 	}
 
 	public EContentAdapter getAdapter( )

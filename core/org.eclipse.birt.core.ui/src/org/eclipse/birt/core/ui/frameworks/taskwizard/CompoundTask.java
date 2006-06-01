@@ -1,43 +1,30 @@
+/***********************************************************************
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
 import java.util.LinkedHashMap;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
-import org.eclipse.swt.widgets.Composite;
 
-import com.ibm.icu.util.ULocale;
-
-public class CompoundTask implements ITask
+public class CompoundTask extends SimpleTask
 {
 
 	private transient LinkedHashMap subtasks = new LinkedHashMap( );
-	protected transient IWizardContext context = null;
-	protected transient WizardBase container = null;
 	protected transient ISubtaskSheet sCurrentTaskSheet = null;
-	private transient String sCurrentSubtask = ""; //$NON-NLS-1$
-	private transient String sLabel = ""; //$NON-NLS-1$	
+	private transient String sCurrentSubtask = ""; //$NON-NLS-1$	
 
-	public CompoundTask( String sLabel )
+	public CompoundTask( String title )
 	{
-		this.sLabel = sLabel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#getUI(org.eclipse.swt.widgets.Composite)
-	 */
-	public Composite getUI( Composite parent )
-	{
-		return null;
-	}
-
-	public String getDisplayLabel( ULocale locale )
-	{
-		return sLabel;
+		super( title );
 	}
 
 	public void addSubtask( String sSubtaskPath, ISubtaskSheet subtask )
@@ -90,60 +77,9 @@ public class CompoundTask implements ITask
 		return sCurrentTaskSheet;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#setContext(org.eclipse.birt.frameworks.taskwizard.interfaces.IWizardContext)
-	 */
-	public void setContext( IWizardContext context )
-	{
-		this.context = context;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#getContext()
-	 */
-	public IWizardContext getContext( )
-	{
-		return this.context;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#setUIProvider(org.eclipse.birt.frameworks.taskwizard.WizardBase)
-	 */
-	public void setUIProvider( WizardBase wizard )
-	{
-		this.container = wizard;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#getErrors()
-	 */
-	public String[] getErrors( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#setErrorHints(java.lang.Object[])
-	 */
-	public void setErrorHints( Object[] errorHints )
-	{
-		// TODO Auto-generated method stub
-
-	}
-
 	public void dispose( )
 	{
+		super.dispose( );
 		// Dispose current subtask
 		if ( sCurrentTaskSheet != null )
 		{
@@ -151,10 +87,5 @@ public class CompoundTask implements ITask
 		}
 		sCurrentTaskSheet = null;
 		subtasks.clear( );
-	}
-
-	public String getDescription( ULocale locale )
-	{
-		return sLabel;
 	}
 }

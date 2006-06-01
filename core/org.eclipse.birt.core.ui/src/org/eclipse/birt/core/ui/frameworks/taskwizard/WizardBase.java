@@ -1,6 +1,17 @@
+/***********************************************************************
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 
@@ -9,7 +20,15 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IRegistrationLi
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.birt.core.ui.i18n.Messages;
-import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IDialogPage;
+import org.eclipse.jface.dialogs.IPageChangeProvider;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.util.SafeRunnable;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -22,24 +41,16 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import com.ibm.icu.util.ULocale;
-
-public class WizardBase
-		implements
-			IRegistrationListener,
-			SelectionListener,
-			ControlListener,
-			DisposeListener
+public class WizardBase implements IRegistrationListener
 {
 
 	// HOLDS ALL TASKS ADDED TO THIS INVOCATION...THIS IS NOT A CACHE
@@ -52,42 +63,18 @@ public class WizardBase
 	// HOLDS COLLECTION OF TASK IDS IN SEQUENCE...FOR INDEXING
 	private transient Vector vTaskIDs = null;
 
-	private transient Display display = null;
-
-	private transient Shell shell = null;
-
-	private transient Shell shellPopup = null;
-
-	private transient CTabFolder cmpTaskContainer = null;
-
-	private transient ButtonPanel buttonpanel = null;
-
 	private transient String sCurrentActiveTask = null;
 
 	protected transient IWizardContext context = null;
 
-	private transient String sWizardID = "org.eclipse.birt.framework.taskwizard.prototype.SampleWizard"; //$NON-NLS-1$
-
-	private transient int iWizardHeightMinimum = 100;
-
-	private transient int iWizardWidthMinimum = 100;
-
-	private transient String wizardTitle = "Task Wizard"; //$NON-NLS-1$
-
-	private transient String strHeader = ""; //$NON-NLS-1$
-
-	private transient Label lblHeader;
-
-	private transient Image imgShell = null;
-
-	private transient Image imgHeader = null;
+	private transient String sWizardID = "org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase"; //$NON-NLS-1$
 
 	private transient Shell shellParent = null;
 
 	// TRANSIENT STORAGE FOR ERRORS REPORTED BY TASKS USING 'errorDisplay()'
 	private transient Object[] errorHints = null;
 
-	private transient boolean bWasCancelled = true;
+	private WizardBaseDialog dialog;
 
 	/**
 	 * Launches the wizard with the specified tasks in 'Available' state...and
@@ -107,110 +94,10 @@ public class WizardBase
 	{
 		// Update initial context
 		context = initialContext;
+		dialog.tmpTaskArray = sTasks;
+		dialog.tmpTopTaskId = topTaskId;
 
-		// Initialize UI elements
-		GridLayout glShell = new GridLayout( );
-		glShell.marginHeight = 0;
-		glShell.marginWidth = 0;
-		glShell.verticalSpacing = 0;
-
-		display = Display.getDefault( );
-		if ( shellParent == null )
-		{
-			shell = new Shell( display, SWT.DIALOG_TRIM
-					| SWT.RESIZE | SWT.APPLICATION_MODAL );
-		}
-		else
-		{
-			shell = new Shell( shellParent, SWT.DIALOG_TRIM
-					| SWT.RESIZE | SWT.APPLICATION_MODAL );
-		}
-
-		// Set shell properties
-		shell.setLayout( glShell );
-		shell.setSize( iWizardWidthMinimum, iWizardHeightMinimum );
-		shell.setText( wizardTitle );
-		if ( imgShell != null )
-		{
-			shell.setImage( imgShell );
-		}
-		shell.addControlListener( this );
-
-		placeComponents( );
-
-		// Add tasks
-		String[] allTasks = TasksManager.instance( )
-				.getTasksForWizard( sWizardID );
-		// ADD DEFAULT TASKS AS DEFINED BY EXTENSIONS
-		for ( int i = 0; i < allTasks.length; i++ )
-		{
-			addTask( allTasks[i] );
-		}
-		// ADD TASKS SPECIFIED DURING INVOCATION
-		if ( sTasks != null && sTasks.length > 0 )
-		{
-			for ( int i = 0; i < sTasks.length; i++ )
-			{
-				if ( !vTaskIDs.contains( sTasks[i] ) )
-				{
-					addTask( sTasks[i] );
-				}
-			}
-		}
-
-		// Open the specified task
-		if ( topTaskId == null )
-		{
-			if ( vTaskIDs.size( ) > 0 )
-			{
-				sCurrentActiveTask = vTaskIDs.get( 0 ).toString( );
-				if ( vTaskIDs.size( ) > 1 )
-				{
-					buttonpanel.setButtonEnabled( ButtonPanel.NEXT, true );
-				}
-			}
-		}
-		else
-		{
-			assert vTaskIDs.contains( topTaskId );
-			sCurrentActiveTask = topTaskId;
-			int taskIndex = vTaskIDs.indexOf( topTaskId );
-			cmpTaskContainer.setSelection( taskIndex );
-			if ( taskIndex > 0 )
-			{
-				buttonpanel.setButtonEnabled( ButtonPanel.BACK, true );
-			}
-			if ( taskIndex < vTaskIDs.size( ) - 1 )
-			{
-				buttonpanel.setButtonEnabled( ButtonPanel.NEXT, true );
-			}
-		}
-
-		if ( getCurrentTask( ) != null )
-		{
-			getCurrentTask( ).setContext( initialContext );
-			switchTo( sCurrentActiveTask );
-		}
-
-		shell.setLocation( ( display.getClientArea( ).width / 2 - ( shell.getSize( ).x / 2 ) ),
-				( display.getClientArea( ).height / 2 )
-						- ( shell.getSize( ).y / 2 ) );
-
-		shell.addDisposeListener( this );
-		shell.open( );
-		while ( !shell.isDisposed( ) )
-		{
-			if ( !display.readAndDispatch( ) )
-			{
-				display.sleep( );
-			}
-		}
-
-		if ( !bWasCancelled )
-		{
-			return this.context;
-		}
-		return null;
+		return dialog.open( ) == Window.OK ? this.context : null;
 	}
 
 	/**
@@ -226,14 +113,9 @@ public class WizardBase
 		return open( null, null, initialContext );
 	}
 
-	public void enable( String sTaskID )
+	public void firePageChanged( IDialogPage taskPage )
 	{
-		// TODO: Handle enabling of a task
-	}
-
-	public void disable( String sTaskID )
-	{
-		// TODO: Handle disabling of a task
+		dialog.firePageChanged( new PageChangedEvent( dialog, taskPage ) );
 	}
 
 	public void addTask( String sTaskID )
@@ -253,11 +135,11 @@ public class WizardBase
 		}
 		// REGISTER WIZARDBASE INSTANCE WITH TASK
 		task.setUIProvider( this );
-		String sLabel = task.getDisplayLabel( ULocale.getDefault( ) );
+		String sLabel = task.getTitle( );
 
 		// Create the blank tab item. UI is only created after the first
 		// initializtion.
-		CTabItem item = new CTabItem( cmpTaskContainer, SWT.NONE );
+		CTabItem item = new CTabItem( dialog.getTabContainer( ), SWT.NONE );
 		item.setText( sLabel );
 
 		// DO NOT ADD DUPLICATE TASKS
@@ -266,7 +148,7 @@ public class WizardBase
 			availableTasks.put( sTaskID, task );
 			vTaskLabels.add( sLabel );
 			vTaskIDs.add( sTaskID );
-			cmpTaskContainer.layout( );
+			dialog.getTabContainer( ).layout( );
 		}
 	}
 
@@ -316,8 +198,6 @@ public class WizardBase
 			}
 			this.context = getCurrentTask( ).getContext( );
 		}
-		// Clear any existing popup
-		detachPopup( );
 
 		// Update current active task ID
 		sCurrentActiveTask = sTaskID;
@@ -332,86 +212,37 @@ public class WizardBase
 		// Clear errorHints
 		errorHints = null;
 
-		// Set the description for each task
-		String strDesc = getCurrentTask( ).getDescription( ULocale.getDefault( ) );
-		if ( strDesc != null )
-		{
-			lblHeader.setText( strDesc );
-		}
-		
-		// Update or create UI
-		if ( cmpTaskContainer.getSelectionIndex( ) < 0 )
-		{
-			cmpTaskContainer.setSelection( 0 );
-		}
-		CTabItem currentItem = cmpTaskContainer.getItem( cmpTaskContainer.getSelectionIndex( ) );
-		Composite cmpTask = getCurrentTask( ).getUI( cmpTaskContainer );
-		if ( currentItem.getControl( ) == null )
-		{
-			currentItem.setControl( cmpTask );
-		}
-		cmpTask.layout( );
+		// Clear any existing popup
+		detachPopup( );
 
-		// Pack every task to show as much as possible
-		packWizard( );
+		// Switch UI
+		dialog.switchTask( );
 	}
 
 	public Shell createPopupContainer( )
 	{
-		// CLEAR ANY EXISTING POPUP
-		if ( shellPopup != null && !shellPopup.isDisposed( ) )
-		{
-			shellPopup.dispose( );
-		}
-		// CREATE AND DISPLAY THE NEW POPUP
-		if ( shellPopup == null || shellPopup.isDisposed( ) )
-		{
-			// Make the popup modal on the Linux platform. See bugzilla#123386
-			int shellStyle = SWT.DIALOG_TRIM | SWT.RESIZE;
-			if ( SWT.getPlatform( ).indexOf( "win32" ) < 0 ) //$NON-NLS-1$
-			{
-				shellStyle |= SWT.APPLICATION_MODAL;
-			}
-			shellPopup = new Shell( shell, shellStyle );
-			shellPopup.setLayout( new FillLayout( ) );
-		}
-		return shellPopup;
+		return dialog.createPopupContainer( );
 	}
 
 	public Shell getPopupContainer( )
 	{
-		return shellPopup;
+		return dialog.getPopupContainer( );
 	}
 
 	/**
 	 * Attaches the popup window.
 	 * 
 	 * @param sPopupTitle
-	 *            '&' will be removed for accelerator key, if the popup title is
-	 *            from the control text.
+	 *            popup title
 	 */
 	public void attachPopup( String sPopupTitle, int iWidth, int iHeight )
 	{
-		shellPopup.setText( sPopupTitle );
-		// IF PREFERRED SIZE IS SPECIFIED USE IT...ELSE USE PACK
-		if ( iWidth != -1 && iHeight != -1 )
-		{
-			shellPopup.setSize( iWidth, iHeight );
-		}
-		else
-		{
-			shellPopup.pack( );
-		}
-		setPopupLocation( );
-		shellPopup.open( );
+		dialog.attachPopup( sPopupTitle, iWidth, iHeight );
 	}
 
 	public void detachPopup( )
 	{
-		if ( shellPopup != null && !shellPopup.isDisposed( ) )
-		{
-			shellPopup.close( );
-		}
+		dialog.detachPopup( );
 	}
 
 	public void updateContext( IWizardContext wizardcontext )
@@ -454,12 +285,27 @@ public class WizardBase
 			String strTitle, Image imgTitle, String strHeader, Image imgHeader )
 	{
 		this( sID );
-		this.iWizardWidthMinimum = iInitialWidth;
-		this.iWizardHeightMinimum = iInitialHeight;
-		this.wizardTitle = strTitle;
-		this.imgShell = imgTitle;
-		this.strHeader = strHeader;
-		this.imgHeader = imgHeader;
+
+		Shell shell;
+		if ( shellParent == null )
+		{
+			shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
+					| SWT.RESIZE | SWT.APPLICATION_MODAL );
+		}
+		else
+		{
+			shell = new Shell( shellParent, SWT.DIALOG_TRIM
+					| SWT.RESIZE | SWT.APPLICATION_MODAL );
+		}
+
+		dialog = new WizardBaseDialog( shell,
+				iInitialWidth,
+				iInitialHeight,
+				strTitle,
+				imgTitle );
+
+		// dialog.setMessage( strHeader );
+		dialog.setTitleImage( imgHeader );
 	}
 
 	public WizardBase( )
@@ -546,101 +392,15 @@ public class WizardBase
 	}
 
 	/**
-	 * Sets the minimum size of the wizard
-	 * 
-	 * @param iWidth
-	 *            width minimum
-	 * @param iHeight
-	 *            height minimum
-	 */
-	public void setMinimumSize( int iWidth, int iHeight )
-	{
-		iWizardWidthMinimum = iWidth;
-		iWizardHeightMinimum = iHeight;
-	}
-
-	/**
 	 * Sets the parent shell
 	 * 
 	 * @param parentShell
 	 *            parent shell. Null indicates current Display is used.
 	 * 
 	 */
-	public void setParentShell( Shell parentShell )
+	protected void setParentShell( Shell parentShell )
 	{
 		this.shellParent = parentShell;
-	}
-
-	private void placeComponents( )
-	{
-		// Initialize and layout UI components of the framework
-		Composite cmpHeader = new Composite( shell, SWT.NONE );
-		{
-			cmpHeader.setBackground( Display.getDefault( )
-					.getSystemColor( SWT.COLOR_WHITE ) );
-			GridLayout layout = new GridLayout( 2, false );
-			layout.marginHeight = 0;
-			layout.marginWidth = 0;
-			layout.verticalSpacing = 5;
-			layout.horizontalSpacing = 0;
-			cmpHeader.setLayout( layout );
-			cmpHeader.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		}
-
-		Label lblTitle = new Label( cmpHeader, SWT.NONE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalIndent = 10;
-			gd.verticalIndent = 5;
-			lblTitle.setLayoutData( gd );
-			lblTitle.setBackground( Display.getDefault( )
-					.getSystemColor( SWT.COLOR_WHITE ) );
-			lblTitle.setFont( JFaceResources.getBannerFont( ) );
-			lblTitle.setText( wizardTitle );
-		}
-
-		if ( imgHeader != null )
-		{
-			Label lblImage = new Label( cmpHeader, SWT.NONE );
-			GridData gd = new GridData( );
-			gd.verticalSpan = 2;
-			lblImage.setLayoutData( gd );
-			lblImage.setImage( imgHeader );
-		}
-
-		lblHeader = new Label( cmpHeader, SWT.WRAP );
-		{
-			GridData gd = new GridData( GridData.FILL_VERTICAL );
-			gd.horizontalIndent = 15;
-			gd.widthHint = iWizardWidthMinimum - 50;
-			lblHeader.setLayoutData( gd );
-			lblHeader.setBackground( Display.getDefault( )
-					.getSystemColor( SWT.COLOR_WHITE ) );
-			lblHeader.setText( strHeader );
-		}
-
-		Label lblSeparator = new Label( shell, SWT.SEPARATOR | SWT.HORIZONTAL );
-		lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		cmpTaskContainer = new CTabFolder( shell, SWT.TOP | SWT.FLAT );
-		{
-			cmpTaskContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-			cmpTaskContainer.setTabHeight( 25 );
-			// cmpTaskContainer.setSimple( false );
-			cmpTaskContainer.addSelectionListener( this );
-		}
-
-		lblSeparator = new Label( shell, SWT.SEPARATOR | SWT.HORIZONTAL );
-		lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		Composite cmpButton = new Composite( shell, SWT.NONE );
-		{
-			cmpButton.setLayout( new GridLayout( ) );
-			GridData gd = new GridData( );
-			gd.horizontalAlignment = SWT.END;
-			cmpButton.setLayoutData( gd );
-		}
-		buttonpanel = new ButtonPanel( cmpButton, SWT.NONE, this );
 	}
 
 	/**
@@ -677,157 +437,25 @@ public class WizardBase
 		// FEATURE...AND COULD TAKE ACTION ACCORDINGLY.
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.getSource( ) instanceof Button )
-		{
-			String sCmd = ( (Button) e.getSource( ) ).getText( );
-			if ( sCmd.equals( Messages.getString( "WizardBase.Next" ) ) ) //$NON-NLS-1$
-			{
-				int i = vTaskIDs.indexOf( this.sCurrentActiveTask );
-				if ( i < vTaskIDs.size( ) - 1 )
-				{
-					cmpTaskContainer.setSelection( i + 1 );
-					this.switchTo( (String) vTaskIDs.get( i + 1 ) );
-					buttonpanel.setButtonEnabled( ButtonPanel.BACK, true );
-				}
-				if ( i == vTaskIDs.size( ) - 2 )
-				{
-					buttonpanel.setButtonEnabled( ButtonPanel.NEXT, false );
-				}
-			}
-			else if ( sCmd.equals( Messages.getString( "WizardBase.Back" ) ) ) //$NON-NLS-1$
-			{
-				int i = vTaskIDs.indexOf( this.sCurrentActiveTask );
-				if ( i > 0 )
-				{
-					cmpTaskContainer.setSelection( i - 1 );
-					this.switchTo( (String) vTaskIDs.get( i - 1 ) );
-					buttonpanel.setButtonEnabled( ButtonPanel.NEXT, true );
-				}
-				if ( i == 1 )
-				{
-					// Just switched to first tab
-					buttonpanel.setButtonEnabled( ButtonPanel.BACK, false );
-				}
-			}
-			else if ( sCmd.equals( Messages.getString( "WizardBase.Finish" ) ) ) //$NON-NLS-1$
-			{
-				final String[] saMessages = validate( );
-				if ( saMessages != null && saMessages.length > 0 )
-				{
-					ErrorDialog ed = new ErrorDialog( shellParent,
-							Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
-							Messages.getString( "WizardBase.error.FollowingErrorsReportedWhileVerifying" ), //$NON-NLS-1$
-							saMessages,
-							new String[]{} );
-					if ( ed.getOption( ) == ErrorDialog.OPTION_ACCEPT )
-					{
-						// Stop quitting to fix manually
-						return;
-					}
-				}
-				this.bWasCancelled = false;
-				shell.dispose( );
-			}
-			else if ( sCmd.equals( Messages.getString( "WizardBase.Cancel" ) ) ) //$NON-NLS-1$
-			{
-				// Ensure context is not null to dispose
-				shell.dispose( );
-				context = null;
-			}
-		}
-		else if ( e.getSource( ) instanceof CTabFolder )
-		{
-			String sCmd = ( (CTabItem) e.item ).getText( );
-			int indexLabel = vTaskLabels.indexOf( sCmd );
-			if ( indexLabel >= 0 )
-			{
-				switchTo( (String) vTaskIDs.get( indexLabel ) );
-				buttonpanel.setButtonEnabled( ButtonPanel.NEXT,
-						indexLabel < vTaskIDs.size( ) - 1 );
-				buttonpanel.setButtonEnabled( ButtonPanel.BACK, indexLabel > 0 );
-			}
-		}
-	}
-
 	/**
 	 * Validates before pressing OK.
 	 * 
 	 * @return validation results
 	 * 
 	 */
-	public String[] validate( )
+	protected String[] validate( )
 	{
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
-	}
-
-	private void setPopupLocation( )
-	{
-		if ( shellPopup != null && !shellPopup.isDisposed( ) )
-		{
-			int x = 0;
-			if ( shell.getLocation( ).x
-					+ shell.getSize( ).x + shellPopup.getSize( ).x > display.getClientArea( ).width )
-			{
-				// Avoid the popup exceeds the right border of the display area
-				x = display.getClientArea( ).width - shellPopup.getSize( ).x;
-			}
-			else
-			{
-				x = shell.getLocation( ).x + shell.getSize( ).x;
-			}
-			shellPopup.setLocation( x, shell.getLocation( ).y + 20 );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.ControlEvent)
-	 */
-	public void controlMoved( ControlEvent e )
-	{
-		setPopupLocation( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.ControlEvent)
-	 */
-	public void controlResized( ControlEvent e )
-	{
-		setPopupLocation( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.DisposeEvent)
-	 */
-	public void widgetDisposed( DisposeEvent e )
+	public void dispose( )
 	{
 		// TODO Add cleanup code here...including removal of adapters
 	}
 
-	public void setTitle( String wizardTitle )
+	protected void setTitle( String wizardTitle )
 	{
-		this.wizardTitle = wizardTitle;
+		dialog.wizardTitle = wizardTitle;
 	}
 
 	/**
@@ -836,128 +464,522 @@ public class WizardBase
 	 */
 	public void packWizard( )
 	{
-		boolean changed = false;
-		Point wizardSize = shell.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		int iWizardWidth = Math.max( wizardSize.x, iWizardWidthMinimum );
-		int iWizardHeight = Math.max( wizardSize.y, iWizardHeightMinimum );
-		Point oldSize = shell.getSize( );
-		if ( oldSize.x < iWizardWidth )
-		{
-			oldSize.x = iWizardWidth;
-			changed = true;
-		}
-		if ( oldSize.y < iWizardHeight )
-		{
-			oldSize.y = iWizardHeight;
-			changed = true;
-		}
-		if ( changed )
-		{
-			shell.setSize( oldSize );
-			shell.layout( );
-		}
-	}
-}
-
-class ButtonPanel extends Composite
-{
-
-	private transient WizardBase wb = null;
-
-	private transient Button btnPrevious = null;
-	private transient Button btnNext = null;
-	private transient Button btnAccept = null;
-	private transient Button btnCancel = null;
-
-	public static final int BACK = 0;
-	public static final int NEXT = 1;
-	public static final int ACCEPT = 2;
-	public static final int CANCEL = 3;
-
-	private static final int BUTTON_HEIGHT = SWT.DEFAULT;
-	private static final int BUTTON_WIDTH = 70;
-
-	/**
-	 * @param parent
-	 * @param style
-	 */
-	public ButtonPanel( Composite parent, int style, WizardBase wb )
-	{
-		super( parent, style );
-		this.wb = wb;
-		placeComponents( );
+		dialog.packWizard( );
 	}
 
-	private void placeComponents( )
+	final class WizardBaseDialog extends TitleAreaDialog
+			implements
+				SelectionListener,
+				ControlListener,
+				DisposeListener,
+				IPageChangeProvider
 	{
-		RowLayout rlButtons = new RowLayout( SWT.HORIZONTAL );
-		rlButtons.marginWidth = 10;
-		rlButtons.spacing = 5;
-		rlButtons.wrap = false;
-		rlButtons.justify = false;
 
-		this.setLayout( rlButtons );
-		this.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+		private ListenerList pageChangedListeners = new ListenerList( );
 
-		btnPrevious = new Button( this, SWT.NONE );
-		btnPrevious.setText( Messages.getString( "WizardBase.Back" ) ); //$NON-NLS-1$
-		btnPrevious.addSelectionListener( wb );
-		btnPrevious.setLayoutData( new RowData( btnPrevious.getText( ).length( ) < 8
-				? BUTTON_WIDTH : SWT.DEFAULT,
-				BUTTON_HEIGHT ) );
-		// DISABLED INITIALLY
-		btnPrevious.setEnabled( false );
+		private transient CTabFolder cmpTaskContainer;
 
-		btnNext = new Button( this, SWT.NONE );
-		btnNext.setText( Messages.getString( "WizardBase.Next" ) ); //$NON-NLS-1$
-		btnNext.addSelectionListener( wb );
-		btnNext.setLayoutData( new RowData( btnNext.getText( ).length( ) < 8
-				? BUTTON_WIDTH : SWT.DEFAULT, BUTTON_HEIGHT ) );
-		// DISABLED INITIALLY
-		btnNext.setEnabled( false );
+		private transient int iWizardHeightMinimum = 100;
 
-		btnAccept = new Button( this, SWT.NONE );
-		btnAccept.setText( Messages.getString( "WizardBase.Finish" ) ); //$NON-NLS-1$
-		btnAccept.addSelectionListener( wb );
-		btnAccept.setLayoutData( new RowData( btnAccept.getText( ).length( ) < 8
-				? BUTTON_WIDTH : SWT.DEFAULT,
-				BUTTON_HEIGHT ) );
+		private transient int iWizardWidthMinimum = 100;
 
-		btnCancel = new Button( this, SWT.NONE );
-		btnCancel.setText( Messages.getString( "WizardBase.Cancel" ) ); //$NON-NLS-1$
-		btnCancel.addSelectionListener( wb );
-		btnCancel.setLayoutData( new RowData( btnCancel.getText( ).length( ) < 8
-				? BUTTON_WIDTH : SWT.DEFAULT,
-				BUTTON_HEIGHT ) );
-	}
+		private transient String wizardTitle = "Task Wizard"; //$NON-NLS-1$
 
-	void setButtonEnabled( int iButton, boolean bState )
-	{
-		Button currentButton = null;
-		switch ( iButton )
+		private transient Image imgShell = null;
+
+		private transient Shell shellPopup = null;
+
+		private transient String[] tmpTaskArray;
+		private transient String tmpTopTaskId;
+
+		public WizardBaseDialog( Shell parentShell, int iInitialWidth,
+				int iInitialHeight, String strTitle, Image imgTitle )
 		{
-			case BACK :
-				currentButton = btnPrevious;
-				break;
-			case NEXT :
-				currentButton = btnNext;
-				break;
-			case ACCEPT :
-				currentButton = btnAccept;
-				break;
-			case CANCEL :
-				currentButton = btnCancel;
-				break;
+			super( parentShell );
+			setHelpAvailable( true );
+
+			this.iWizardWidthMinimum = iInitialWidth;
+			this.iWizardHeightMinimum = iInitialHeight;
+			this.wizardTitle = strTitle;
+			this.imgShell = imgTitle;
 		}
-		if ( currentButton != null )
+
+		protected void setShellStyle( int newShellStyle )
 		{
-			currentButton.setEnabled( bState );
-			if ( bState )
+			super.setShellStyle( newShellStyle
+					| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+		}
+
+		private void configureTaskArea( String[] sTasks, String topTaskId )
+		{
+			// Set shell properties
+			getShell( ).setText( wizardTitle );
+			setTitle( wizardTitle );
+			if ( imgShell != null )
 			{
-				// Make the enabled button get focus explicitly, to avoid the
-				// tab item getting
-				currentButton.setFocus( );
+				getShell( ).setImage( imgShell );
+			}
+			getShell( ).addControlListener( this );
+			getShell( ).addDisposeListener( this );
+
+			// Add tasks
+			String[] allTasks = TasksManager.instance( )
+					.getTasksForWizard( WizardBase.this.sWizardID );
+			// ADD DEFAULT TASKS AS DEFINED BY EXTENSIONS
+			for ( int i = 0; i < allTasks.length; i++ )
+			{
+				addTask( allTasks[i] );
+			}
+			// ADD TASKS SPECIFIED DURING INVOCATION
+			if ( sTasks != null && sTasks.length > 0 )
+			{
+				for ( int i = 0; i < sTasks.length; i++ )
+				{
+					if ( !vTaskIDs.contains( sTasks[i] ) )
+					{
+						addTask( sTasks[i] );
+					}
+				}
+			}
+
+			// Open the specified task
+			if ( topTaskId == null )
+			{
+				if ( vTaskIDs.size( ) > 0 )
+				{
+					sCurrentActiveTask = vTaskIDs.get( 0 ).toString( );
+				}
+			}
+			else
+			{
+				assert vTaskIDs.contains( topTaskId );
+				sCurrentActiveTask = topTaskId;
+				int taskIndex = vTaskIDs.indexOf( topTaskId );
+				cmpTaskContainer.setSelection( taskIndex );
+			}
+
+			if ( getCurrentTask( ) != null )
+			{
+				getCurrentTask( ).setContext( WizardBase.this.context );
+				switchTo( sCurrentActiveTask );
+			}
+		}
+
+		protected void initializeBounds( )
+		{
+			super.initializeBounds( );
+			// Ensure the dialog is on the center. There seems to be a bug in
+			// jface. If not configure the location manually, the location is
+			// random in each opening.
+			getShell( ).setLocation( ( getShell( ).getDisplay( )
+					.getClientArea( ).width / 2 - ( getShell( ).getSize( ).x / 2 ) ),
+					( getShell( ).getDisplay( ).getClientArea( ).height / 2 )
+							- ( getShell( ).getSize( ).y / 2 ) );
+		}
+
+		protected Control createDialogArea( Composite parent )
+		{
+			// create the top level composite for the dialog area
+			Composite composite = new Composite( parent, SWT.NONE );
+			{
+				GridLayout layout = new GridLayout( );
+				layout.marginHeight = 0;
+				layout.marginWidth = 0;
+				layout.verticalSpacing = 0;
+				layout.horizontalSpacing = 0;
+				composite.setLayout( layout );
+				composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+				composite.setFont( parent.getFont( ) );
+			}
+
+			Label lblSeparator = new Label( composite, SWT.SEPARATOR
+					| SWT.HORIZONTAL );
+			lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+			// Initialize and layout UI components of the framework
+			cmpTaskContainer = new CTabFolder( composite, SWT.TOP | SWT.FLAT );
+			{
+				cmpTaskContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+				cmpTaskContainer.setTabHeight( 25 );
+				// cmpTaskContainer.setSimple( false );
+				cmpTaskContainer.addSelectionListener( this );
+			}
+
+			lblSeparator = new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL );
+			lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+			configureTaskArea( tmpTaskArray, tmpTopTaskId );
+
+			// Set width hint for message label in case the description message
+			// is too long
+			FormData layoutData = (FormData) getTitleImageLabel( ).getParent( )
+					.getLayoutData( );
+			layoutData.width = iWizardWidthMinimum;
+
+			return composite;
+		}
+
+		protected void createButtonsForButtonBar( Composite parent )
+		{
+			createButton( parent,
+					IDialogConstants.BACK_ID,
+					Messages.getString( "WizardBase.Back" ), //$NON-NLS-1$
+					false );
+			createButton( parent,
+					IDialogConstants.NEXT_ID,
+					Messages.getString( "WizardBase.Next" ),//$NON-NLS-1$
+					false );
+			createButton( parent,
+					IDialogConstants.FINISH_ID,
+					Messages.getString( "WizardBase.Finish" ),//$NON-NLS-1$
+					false );
+			createButton( parent,
+					IDialogConstants.CANCEL_ID,
+					Messages.getString( "WizardBase.Cancel" ),//$NON-NLS-1$
+					false );
+
+			// Update buttons status
+			int taskIndex = vTaskIDs.indexOf( sCurrentActiveTask );
+			if ( taskIndex > 0 )
+			{
+				getButton( IDialogConstants.BACK_ID ).setEnabled( true );
+			}
+			else
+			{
+				getButton( IDialogConstants.BACK_ID ).setEnabled( false );
+			}
+			if ( taskIndex < vTaskIDs.size( ) - 1 )
+			{
+				getButton( IDialogConstants.NEXT_ID ).setEnabled( true );
+			}
+			else
+			{
+				getButton( IDialogConstants.NEXT_ID ).setEnabled( false );
+			}
+			getButton( IDialogConstants.CANCEL_ID ).setFocus( );
+		}
+
+		protected void buttonPressed( int buttonId )
+		{
+			if ( IDialogConstants.FINISH_ID == buttonId )
+			{
+				okPressed( );
+			}
+			else if ( IDialogConstants.CANCEL_ID == buttonId )
+			{
+				cancelPressed( );
+			}
+			else if ( IDialogConstants.BACK_ID == buttonId )
+			{
+				backPressed( );
+			}
+			else if ( IDialogConstants.NEXT_ID == buttonId )
+			{
+				nextPressed( );
+			}
+		}
+
+		void switchTask( )
+		{
+			// Set the description for each task
+			String strDesc = getCurrentTask( ).getDescription( );
+			if ( strDesc != null )
+			{
+				setMessage( strDesc );
+			}
+
+			// Update or create UI
+			if ( getTabContainer( ).getSelectionIndex( ) < 0 )
+			{
+				getTabContainer( ).setSelection( 0 );
+			}
+			CTabItem currentItem = getTabContainer( ).getItem( getTabContainer( ).getSelectionIndex( ) );
+			getCurrentTask( ).createControl( getTabContainer( ) );
+			if ( currentItem.getControl( ) == null )
+			{
+				currentItem.setControl( getCurrentTask( ).getControl( ) );
+			}
+
+			// Pack every task to show as much as possible
+			packWizard( );
+
+			// Notify page changed to refresh help page
+			firePageChanged( new PageChangedEvent( this, getCurrentTask( ) ) );
+		}
+
+		private void backPressed( )
+		{
+			int i = vTaskIDs.indexOf( WizardBase.this.sCurrentActiveTask );
+			if ( i > 0 )
+			{
+				cmpTaskContainer.setSelection( i - 1 );
+				switchTo( (String) vTaskIDs.get( i - 1 ) );
+				getButton( IDialogConstants.NEXT_ID ).setEnabled( true );
+			}
+			if ( i == 1 )
+			{
+				// Just switched to first tab
+				getButton( IDialogConstants.BACK_ID ).setEnabled( false );
+			}
+		}
+
+		private void nextPressed( )
+		{
+			int i = vTaskIDs.indexOf( WizardBase.this.sCurrentActiveTask );
+			if ( i < vTaskIDs.size( ) - 1 )
+			{
+				cmpTaskContainer.setSelection( i + 1 );
+				switchTo( (String) vTaskIDs.get( i + 1 ) );
+				getButton( IDialogConstants.BACK_ID ).setEnabled( true );
+			}
+			if ( i == vTaskIDs.size( ) - 2 )
+			{
+				getButton( IDialogConstants.NEXT_ID ).setEnabled( false );
+			}
+		}
+
+		protected void okPressed( )
+		{
+			final String[] saMessages = validate( );
+			if ( saMessages != null && saMessages.length > 0 )
+			{
+				ErrorDialog ed = new ErrorDialog( shellParent,
+						Messages.getString( "WizardBase.error.ErrorsEncountered" ),//$NON-NLS-1$
+						Messages.getString( "WizardBase.error.FollowingErrorsReportedWhileVerifying" ), //$NON-NLS-1$
+						saMessages,
+						new String[]{} );
+				if ( ed.getOption( ) == ErrorDialog.OPTION_ACCEPT )
+				{
+					// Stop quitting to fix manually
+					return;
+				}
+			}
+			super.okPressed( );
+		}
+
+		/**
+		 * Sets the minimum size of the wizard
+		 * 
+		 * @param iWidth
+		 *            width minimum
+		 * @param iHeight
+		 *            height minimum
+		 */
+		public void setMinimumSize( int iWidth, int iHeight )
+		{
+			iWizardWidthMinimum = iWidth;
+			iWizardHeightMinimum = iHeight;
+		}
+
+		public Shell createPopupContainer( )
+		{
+			// CLEAR ANY EXISTING POPUP
+			if ( shellPopup != null && !shellPopup.isDisposed( ) )
+			{
+				shellPopup.dispose( );
+			}
+			// CREATE AND DISPLAY THE NEW POPUP
+			if ( shellPopup == null || shellPopup.isDisposed( ) )
+			{
+				// Make the popup modal on the Linux platform. See
+				// bugzilla#123386
+				int shellStyle = SWT.DIALOG_TRIM | SWT.RESIZE;
+				if ( SWT.getPlatform( ).indexOf( "win32" ) < 0 ) //$NON-NLS-1$
+				{
+					shellStyle |= SWT.APPLICATION_MODAL;
+				}
+				shellPopup = new Shell( getShell( ), shellStyle );
+				shellPopup.setLayout( new FillLayout( ) );
+			}
+			return shellPopup;
+		}
+
+		public Shell getPopupContainer( )
+		{
+			return shellPopup;
+		}
+
+		/**
+		 * Attaches the popup window.
+		 * 
+		 * @param sPopupTitle
+		 *            '&' will be removed for accelerator key, if the popup
+		 *            title is from the control text.
+		 */
+		public void attachPopup( String sPopupTitle, int iWidth, int iHeight )
+		{
+			shellPopup.setText( sPopupTitle );
+			// IF PREFERRED SIZE IS SPECIFIED USE IT...ELSE USE PACK
+			if ( iWidth != -1 && iHeight != -1 )
+			{
+				shellPopup.setSize( iWidth, iHeight );
+			}
+			else
+			{
+				shellPopup.pack( );
+			}
+			setPopupLocation( );
+			shellPopup.open( );
+		}
+
+		public void detachPopup( )
+		{
+			if ( shellPopup != null && !shellPopup.isDisposed( ) )
+			{
+				shellPopup.close( );
+			}
+		}
+
+		/**
+		 * Packs the wizard to display enough size
+		 * 
+		 */
+		public void packWizard( )
+		{
+			boolean changed = false;
+			Point wizardSize = getShell( ).computeSize( SWT.DEFAULT,
+					SWT.DEFAULT );
+			int iWizardWidth = Math.max( wizardSize.x, iWizardWidthMinimum );
+			int iWizardHeight = Math.max( wizardSize.y, iWizardHeightMinimum );
+			Point oldSize = getShell( ).getSize( );
+			if ( oldSize.x < iWizardWidth )
+			{
+				oldSize.x = iWizardWidth;
+				changed = true;
+			}
+			if ( oldSize.y < iWizardHeight )
+			{
+				oldSize.y = iWizardHeight;
+				changed = true;
+			}
+			if ( changed )
+			{
+				getShell( ).setSize( oldSize );
+				getShell( ).layout( );
+			}
+		}
+
+		CTabFolder getTabContainer( )
+		{
+			return cmpTaskContainer;
+		}
+
+		public void widgetDefaultSelected( SelectionEvent e )
+		{
+			// TODO Auto-generated method stub
+
+		}
+
+		public void widgetSelected( SelectionEvent e )
+		{
+			if ( e.getSource( ) instanceof CTabFolder )
+			{
+				String sCmd = ( (CTabItem) e.item ).getText( );
+				int indexLabel = vTaskLabels.indexOf( sCmd );
+				if ( indexLabel >= 0 )
+				{
+					switchTo( (String) vTaskIDs.get( indexLabel ) );
+					getButton( IDialogConstants.NEXT_ID ).setEnabled( indexLabel < vTaskIDs.size( ) - 1 );
+					getButton( IDialogConstants.BACK_ID ).setEnabled( indexLabel > 0 );
+				}
+			}
+
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.ControlEvent)
+		 */
+		public void controlMoved( ControlEvent e )
+		{
+			setPopupLocation( );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.ControlEvent)
+		 */
+		public void controlResized( ControlEvent e )
+		{
+			setPopupLocation( );
+		}
+
+		private void setPopupLocation( )
+		{
+			if ( shellPopup != null && !shellPopup.isDisposed( ) )
+			{
+				int x = 0;
+				if ( getShell( ).getLocation( ).x
+						+ getShell( ).getSize( ).x + shellPopup.getSize( ).x > getShell( ).getDisplay( )
+						.getClientArea( ).width )
+				{
+					// Avoid the popup exceeds the right border of the display
+					// area
+					x = getShell( ).getDisplay( ).getClientArea( ).width
+							- shellPopup.getSize( ).x;
+				}
+				else
+				{
+					x = getShell( ).getLocation( ).x + getShell( ).getSize( ).x;
+				}
+				shellPopup.setLocation( x, getShell( ).getLocation( ).y + 20 );
+			}
+		}
+
+		public void widgetDisposed( DisposeEvent e )
+		{
+			Iterator tasks = availableTasks.values( ).iterator( );
+			while ( tasks.hasNext( ) )
+			{
+				( (ITask) tasks.next( ) ).dispose( );
+			}
+			WizardBase.this.dispose( );
+		}
+
+		public void addPageChangedListener( IPageChangedListener listener )
+		{
+			pageChangedListeners.add( listener );
+		}
+
+		public Object getSelectedPage( )
+		{
+			return getCurrentTask( );
+		}
+
+		public void removePageChangedListener( IPageChangedListener listener )
+		{
+			pageChangedListeners.remove( listener );
+		}
+
+		/**
+		 * Notifies any selection changed listeners that the selected page has
+		 * changed. Only listeners registered at the time this method is called
+		 * are notified.
+		 * 
+		 * @param event
+		 *            a selection changed event
+		 * 
+		 * @see IPageChangedListener#pageChanged
+		 * 
+		 * @since 2.1
+		 */
+		private void firePageChanged( final PageChangedEvent event )
+		{
+			Object[] listeners = pageChangedListeners.getListeners( );
+			for ( int i = 0; i < listeners.length; i++ )
+			{
+				final IPageChangedListener l = (IPageChangedListener) listeners[i];
+				SafeRunnable.run( new SafeRunnable( ) {
+
+					public void run( )
+					{
+						l.pageChanged( event );
+					}
+				} );
 			}
 		}
 	}
+
 }

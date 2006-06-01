@@ -17,12 +17,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.plugin.CoreUIPlugin;
+import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
@@ -36,21 +36,7 @@ import org.eclipse.swt.widgets.Shell;
 public final class UIHelper
 {
 
-	private HashMap imageRegistry;
-
-	private static UIHelper instance;
-
 	private static boolean STANDALONE_MODE = System.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
-
-	private UIHelper( )
-	{
-		imageRegistry = new HashMap( );
-	}
-
-	private static UIHelper getInstance( )
-	{
-		return instance;
-	}
 
 	/**
 	 * This is a helper method created to get the location on screen of a
@@ -173,10 +159,7 @@ public final class UIHelper
 	}
 
 	/**
-	 * This is a convenience method to get an imgIcon from a URL. If cache
-	 * mechanism enabled, the Image will be cached into a registry and be
-	 * cleaned up <code>setImageCached( boolean )</code>. Or users need to
-	 * dispose the Image.
+	 * This is a convenience method to get an imgIcon from a URL.
 	 * 
 	 * @param sPluginRelativePath
 	 *            The URL for the imgIcon.
@@ -185,58 +168,14 @@ public final class UIHelper
 	 */
 	public static Image getImage( String sPluginRelativePath )
 	{
-		if ( getInstance( ) == null )
+		ImageRegistry registry = JFaceResources.getImageRegistry( );
+		Image image = registry.get( sPluginRelativePath );
+		if ( image == null )
 		{
-			return createImage( sPluginRelativePath );
+			image = createImage( sPluginRelativePath );
+			registry.put( sPluginRelativePath, image );
 		}
-		if ( !getInstance( ).imageRegistry.containsKey( sPluginRelativePath ) )
-		{
-
-			getInstance( ).imageRegistry.put( sPluginRelativePath,
-					createImage( sPluginRelativePath ) );
-		}
-
-		return (Image) getInstance( ).imageRegistry.get( sPluginRelativePath );
-	}
-
-	/**
-	 * Enables or disables the Image cache mechanism.
-	 * 
-	 * @param isEnabled
-	 *            true: enable cache; false disable cache and clean up all
-	 *            registered Image resource
-	 */
-	public synchronized static void setImageCached( boolean isEnabled )
-	{
-		if ( isEnabled )
-		{
-			if ( instance == null )
-			{
-				instance = new UIHelper( );
-			}
-		}
-		else
-		{
-			cleanup( );
-			instance = null;
-		}
-	}
-
-	private static void cleanup( )
-	{
-		if ( getInstance( ) != null )
-		{
-			for ( Iterator iterator = getInstance( ).imageRegistry.values( )
-					.iterator( ); iterator.hasNext( ); )
-			{
-				Image image = (Image) iterator.next( );
-				if ( !image.isDisposed( ) )
-				{
-					image.dispose( );
-				}
-			}
-			getInstance( ).imageRegistry.clear( );
-		}
+		return image;
 	}
 
 	/**

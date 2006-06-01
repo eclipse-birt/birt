@@ -27,7 +27,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TasksManager;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.utils.UIHelper;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * A wizard launcher for Chart builder.
@@ -108,12 +108,13 @@ public class ChartWizardLauncher
 		{
 			System.out.println( "Wizard was cancelled!" ); //$NON-NLS-1$
 		}
-
-		dispose( );
 	}
 
 	static void init( )
 	{
+		// Create display
+		Display.getDefault( );
+
 		if ( !UIHelper.isEclipseMode( ) )
 		{
 			// Registers the wizard task and the chart wizard
@@ -138,23 +139,6 @@ public class ChartWizardLauncher
 			{
 				WizardBase.displayException( e );
 			}
-
-		}
-		// Enables image registry manually. When using eclipse workbench,
-		// following operations are invoked automatically.
-		if ( !Platform.isRunning( ) )
-		{
-			UIHelper.setImageCached( true );
-			org.eclipse.birt.chart.ui.util.UIHelper.setImageCached( true );
-		}
-	}
-
-	static void dispose( )
-	{
-		if ( !Platform.isRunning( ) )
-		{
-			UIHelper.setImageCached( false );
-			org.eclipse.birt.chart.ui.util.UIHelper.setImageCached( false );
 		}
 	}
 }
