@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -86,13 +87,21 @@ public class GroupPropertyHandle
 
 		// use the value set on the first element as the base value.
 
-		String baseValue = elemHandle.getStringProperty( propDefn.getName( ) );
+		Object baseValue = null;
+		if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE)
+			baseValue = elemHandle.getProperty( propDefn.getName( ) );
+		else
+			baseValue = elemHandle.getStringProperty( propDefn.getName( ) );
 
 		while ( iter.hasNext( ) )
 		{
 			elemHandle = (DesignElementHandle) iter.next( );
-			String value = elemHandle.getStringProperty( propDefn.getName( ) );
-
+			Object value = null;
+			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE)
+				value = elemHandle.getProperty( propDefn.getName( ) );
+			else
+				value = elemHandle.getStringProperty( propDefn.getName( ) );
+			
 			if ( baseValue == null )
 			{
 				if ( value != null )
