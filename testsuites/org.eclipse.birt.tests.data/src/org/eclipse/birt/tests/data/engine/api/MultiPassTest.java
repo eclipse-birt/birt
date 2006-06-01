@@ -34,6 +34,8 @@ public class MultiPassTest extends DataTestCase {
 				new ScriptExpression( "row.COUNTRY", 0 ),
 				new ScriptExpression( "row.AMOUNT", 2 ),
 				new ScriptExpression( "Total.Sum( row.AMOUNT )", 2 ) };
+		
+		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE"};
 
 		GroupDefinition[] groupDef = new GroupDefinition[]{ new GroupDefinition( "G1" ), new GroupDefinition( "G2" ) };
 		groupDef[0].setKeyExpression(
@@ -47,16 +49,16 @@ public class MultiPassTest extends DataTestCase {
 		queryDefn.addGroup( groupDef[1] );
 		
 		
-		queryDefn.addExpression(expressions[0], BaseTransform.ON_EACH_ROW);
-		queryDefn.addExpression(expressions[1], BaseTransform.AFTER_LAST_ROW);	
+		queryDefn.addResultSetExpression( names[0], expressions[0] );
+		queryDefn.addResultSetExpression( names[1], expressions[1] );	
 		
 		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
-		IQueryResults queryResults = preparedQuery.execute( null );
+		IQueryResults queryResults = preparedQuery.execute( jsScope );
 		IResultIterator resultIt = queryResults.getResultIterator( );
 		assertTrue( resultIt.next() );
 
-		resultIt.getValue( expressions[0] );
-		resultIt.getValue( expressions[1] );		
+		resultIt.getValue( names[0] );
+		resultIt.getValue( names[1] );		
 	}
 	
 }

@@ -33,30 +33,29 @@ public class MultiPass_FilterTest extends DataTestCase {
 	public void test_FilteWithTopN() throws Exception
 	{
 		// Test a SQL with duplicate column name (quite common with join data sets)
-		String testSQL =  "select COUNTRY, AMOUNT from " + getTestTableName( );
+		String testSQL =  "select COUNTRY, AMOUNT from " + getTestTableName( ); //$NON-NLS-1$
 		((OdaDataSetDesign)this.dataSet).setQueryText( testSQL );
 		
-		IBaseExpression[] expressions = new IBaseExpression[]{
-				new ScriptExpression( "row.COUNTRY", 0 ),
-				new ScriptExpression( "row.AMOUNT", 2 )};
-
+		ScriptExpression[] expressions = new ScriptExpression[2];
+		expressions[0] = new ScriptExpression( "row.COUNTRY" ); //$NON-NLS-1$
+		expressions[1] = new ScriptExpression( "row.AMOUNT" ); //$NON-NLS-1$
 	
 		FilterDefinition filterDef = new FilterDefinition (
-				new ConditionalExpression("row.AMOUNT",IConditionalExpression.OP_TOP_N,"1") );
+				new ConditionalExpression("row.AMOUNT",IConditionalExpression.OP_TOP_N,"1") );  //$NON-NLS-1$//$NON-NLS-2$
 		
 		// define a query design				
 		QueryDefinition queryDefn = newReportQuery( );		
 		
 		queryDefn.addFilter( filterDef );
 		
-		queryDefn.addExpression(expressions[0], BaseTransform.ON_EACH_ROW);
-		queryDefn.addExpression(expressions[1], BaseTransform.AFTER_LAST_ROW);	
+		queryDefn.addResultSetExpression( "COL_COUNTRY", expressions[0] ); //$NON-NLS-1$
+		queryDefn.addResultSetExpression( "COL_AMOUNT", expressions[1] );	 //$NON-NLS-1$
 		
 		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
 		IQueryResults queryResults = preparedQuery.execute( null );
 		IResultIterator resultIt = queryResults.getResultIterator( );
 
-		outputQueryResult( resultIt, expressions );	
+		outputQueryResult( resultIt, new String[]{ "COL_COUNTRY", "COL_AMOUNT"} );	  //$NON-NLS-1$//$NON-NLS-2$
 		checkOutputFile( );	
 	}
 	
@@ -75,26 +74,28 @@ public class MultiPass_FilterTest extends DataTestCase {
 			new ScriptExpression( "row.AMOUNT",2 ),	
 			new ScriptExpression( "row.SALE_DATE",6 )
 		};
-		
+		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE"};
+
 		
 		FilterDefinition filterDefn = new FilterDefinition(
 				new ConditionalExpression("row.SALE_DATE", IConditionalExpression.OP_BOTTOM_N,"3"));
 		
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( this.dataSet.getName( ) );
-//		QueryDefinition queryDefn = newReportQuery( );
 		
 		queryDefn.addFilter( filterDefn );
 		
-		queryDefn.addExpression(expressions[0], BaseTransform.ON_EACH_ROW);
-		queryDefn.addExpression(expressions[1], BaseTransform.ON_EACH_ROW);
-		queryDefn.addExpression(expressions[2], BaseTransform.ON_EACH_ROW);
+		for( int i = 0; i < expressions.length; i ++ )
+		{
+			queryDefn.addResultSetExpression( names[i], expressions[ i ] );
+		}
+
 		
 		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
 		IQueryResults queryResults = preparedQuery.execute( null );
 		IResultIterator resultIt = queryResults.getResultIterator( );
 
-		outputQueryResult( resultIt, expressions );
+		outputQueryResult( resultIt, names );
 		checkOutputFile( );					
 		
 	}
@@ -116,22 +117,19 @@ public class MultiPass_FilterTest extends DataTestCase {
 				new ScriptExpression( "row.SALE_DATE" )
 		};
 		
+		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE"};
+		
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( this.dataSet.getName( ) );
-		int expreLength = expressions.length;
-		int i = 0;
-		while ( i < expreLength )
+
+		
+		for( int i = 0; i < expressions.length; i ++ )
 		{
-			queryDefn.addExpression( expressions[ i ],BaseTransform.ON_EACH_ROW );
-			i++;			
+			queryDefn.addResultSetExpression( names[i], expressions[ i ] );
 		}
 		
 		FilterDefinition filterDefn = new FilterDefinition( 
 				new ConditionalExpression( "Total.sum(row.AMOUNT,null,1)", IConditionalExpression.OP_TOP_PERCENT, "50" ) );
-		
-//		FilterDefinition filterDefn = new FilterDefinition(
-//				new ScriptExpression(   "Total.sum(row.Amount,null,1) > 7000" )
-//					);
 		GroupDefinition groupDefn = new GroupDefinition( ); 
 		groupDefn.setKeyExpression( "row.COUNTRY" );
 		groupDefn.addFilter( filterDefn );
@@ -141,7 +139,7 @@ public class MultiPass_FilterTest extends DataTestCase {
 		IQueryResults queryResults = preparedQuery.execute( null );
 		IResultIterator resultIt = queryResults.getResultIterator( );
 		
-		outputQueryResult( resultIt, expressions );
+		outputQueryResult( resultIt, names );
 		checkOutputFile( );
 		
 	}
@@ -164,14 +162,13 @@ public class MultiPass_FilterTest extends DataTestCase {
 				new ScriptExpression( "row.SALE_DATE" )				
 		};
 		
+		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE"};
+		
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( this.dataSet.getName( ) );
-		int expreLength = expressions.length;
-		int i = 0;
-		while ( i < expreLength )
+		for( int i = 0; i < expressions.length; i ++ )
 		{
-			queryDefn.addExpression( expressions[ i ],BaseTransform.ON_EACH_ROW );
-			i++;			
+			queryDefn.addResultSetExpression( names[i], expressions[ i ] );
 		}
 		
 		
@@ -190,7 +187,7 @@ public class MultiPass_FilterTest extends DataTestCase {
 		IQueryResults queryResults = preparedQuery.execute( null );
 		IResultIterator resultIt = queryResults.getResultIterator( );
 		
-		outputQueryResult( resultIt, expressions );
+		outputQueryResult( resultIt, names );
 		checkOutputFile( );
 		
 	}
@@ -214,15 +211,14 @@ public class MultiPass_FilterTest extends DataTestCase {
 				new ScriptExpression( "row.AMOUNT" ),
 				new ScriptExpression( "row.SALE_DATE" )				
 		};
+		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE"};
+		
 		
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( this.dataSet.getName( ) );
-		int expreLength = expressions.length;
-		int i = 0;
-		while ( i < expreLength )
+		for( int i = 0; i < expressions.length; i ++ )
 		{
-			queryDefn.addExpression( expressions[ i ],BaseTransform.ON_EACH_ROW );
-			i++;			
+			queryDefn.addResultSetExpression( names[i], expressions[ i ] );
 		}
 		
 		
@@ -271,14 +267,13 @@ public class MultiPass_FilterTest extends DataTestCase {
 				new ScriptExpression( "row.SALE_DATE" )				
 		};
 		
+		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE"};
+		
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( this.dataSet.getName( ) );
-		int expreLength = expressions.length;
-		int i = 0;
-		while ( i < expreLength )
+		for( int i = 0; i < expressions.length; i ++ )
 		{
-			queryDefn.addExpression( expressions[ i ],BaseTransform.ON_EACH_ROW );
-			i++;			
+			queryDefn.addResultSetExpression( names[i], expressions[ i ] );
 		}
 		
 		

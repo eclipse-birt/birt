@@ -37,6 +37,8 @@ public class MultiPass_SortTest extends DataTestCase {
 				new ScriptExpression( "row.AMOUNT", 2 ),
 				new ScriptExpression( "Total.runningSum(row.AMOUNT)", 2 ) };
 
+		String names[] = { "COL_COUNTRY", "COL_AMOUNT" };
+		
 		SortDefinition[] sortDef = new SortDefinition[]{ new SortDefinition() };
 		sortDef[0].setExpression( "row.AMOUNT/Total.sum(row.AMOUNT)" );
 		sortDef[0].setSortDirection( ISortDefinition.SORT_DESC );		
@@ -45,29 +47,31 @@ public class MultiPass_SortTest extends DataTestCase {
 		QueryDefinition queryDefn = newReportQuery( );
 		queryDefn.addSort(sortDef[0]);		
 		
-		queryDefn.addExpression(expressions[0], BaseTransform.ON_EACH_ROW);
-		queryDefn.addExpression(expressions[1], BaseTransform.AFTER_LAST_ROW);	
+		for( int i = 0; i < 2; i ++ )
+		{
+			queryDefn.addResultSetExpression( names[i], expressions[ i ] );
+		}
 		
 		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
 		IQueryResults queryResults = preparedQuery.execute( null );
 		IResultIterator resultIt = queryResults.getResultIterator( );
 		assertTrue( resultIt.next() );		
-		resultIt.getValue( expressions[0] );
-		resultIt.getValue( expressions[1] );	
-		System.out.print( resultIt.getValue( expressions[0] ) );
-		System.out.print( resultIt.getValue( expressions[1] ) );		
+		resultIt.getValue( names[0] );
+		resultIt.getValue( names[1] );	
+		System.out.print( resultIt.getValue( names[0] ) );
+		System.out.print( resultIt.getValue( names[1] ) );		
 		resultIt.next();
-		System.out.print( resultIt.getValue( expressions[0] ) );
-		System.out.print( resultIt.getValue( expressions[1] ) );
+		System.out.print( resultIt.getValue( names[0] ) );
+		System.out.print( resultIt.getValue( names[1] ) );
 		resultIt.next();
-		System.out.print( resultIt.getValue( expressions[0] ) );
-		System.out.print( resultIt.getValue( expressions[1] ) );
+		System.out.print( resultIt.getValue( names[0] ) );
+		System.out.print( resultIt.getValue( names[1] ) );
 		resultIt.next();
-		System.out.print( resultIt.getValue( expressions[0] ) );
-		System.out.print( resultIt.getValue( expressions[1] ) );
+		System.out.print( resultIt.getValue( names[0] ) );
+		System.out.print( resultIt.getValue( names[1] ) );
 		resultIt.next();
-		System.out.print( resultIt.getValue( expressions[0] ) );
-		System.out.print( resultIt.getValue( expressions[1] ) );	
+		System.out.print( resultIt.getValue( names[0] ) );
+		System.out.print( resultIt.getValue( names[1] ) );	
 	}
 
 
@@ -85,6 +89,8 @@ public class MultiPass_SortTest extends DataTestCase {
 				new ScriptExpression( "row.COUNTRY", 0 ),
 				new ScriptExpression( "row.AMOUNT", 2 ) };
 		
+		String names[] = { "COL_COUNTRY", "COL_AMOUNT" };
+		
 		SortDefinition sortDefn = new SortDefinition();
 		sortDefn.setExpression( "Total.sum( row.AMOUNT )" );
 		sortDefn.setSortDirection( sortDefn.SORT_DESC );	
@@ -95,8 +101,8 @@ public class MultiPass_SortTest extends DataTestCase {
 				
 		// define a query design				
 		QueryDefinition queryDefn = newReportQuery( );
-		queryDefn.addExpression(expressions[0], BaseTransform.ON_EACH_ROW);
-		queryDefn.addExpression(expressions[1], BaseTransform.AFTER_LAST_ROW);	
+		queryDefn.addResultSetExpression(names[0], expressions[0]);
+		queryDefn.addResultSetExpression(names[1], expressions[1]);	
 		
 		queryDefn.addGroup( groupDefn[0]);			
 		
@@ -106,7 +112,7 @@ public class MultiPass_SortTest extends DataTestCase {
 		IResultIterator resultIt = queryResults.getResultIterator( );
 		assertTrue( resultIt.next() );
 
-		outputQueryResult( executeQuery( queryDefn ), expressions );
+		outputQueryResult( executeQuery( queryDefn ), names );
 		checkOutputFile();
 		
 	}
