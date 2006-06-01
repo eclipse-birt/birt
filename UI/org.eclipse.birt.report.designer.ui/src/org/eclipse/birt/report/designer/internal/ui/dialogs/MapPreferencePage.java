@@ -266,6 +266,8 @@ public class MapPreferencePage extends BaseStylePreferencePage
 				moveUp( );
 			}
 		} );
+		fMoveUpButton.setToolTipText(Messages
+				.getString("MapPreferencePage.toolTipText.Up"));
 
 		fMoveDownButton = new Button( buttons, SWT.ARROW );
 		fMoveDownButton.setAlignment( SWT.DOWN );
@@ -280,6 +282,8 @@ public class MapPreferencePage extends BaseStylePreferencePage
 				moveDown( );
 			}
 		} );
+		fMoveDownButton.setToolTipText(Messages
+				.getString("MapPreferencePage.toolTipText.Down"));
 
 		fTableViewer.setInput( model );
 

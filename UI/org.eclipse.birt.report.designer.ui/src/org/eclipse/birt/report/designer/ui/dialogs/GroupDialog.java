@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
+import org.eclipse.birt.report.designer.internal.ui.util.HelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
@@ -206,6 +207,7 @@ public class GroupDialog extends BaseDialog
 
 		createFilterSortingArea( topComposite );
 
+//		UIUtil.bindHelp( parent,HelpContextIds.GROUP_DIALOG_ID ); 
 		return topComposite;
 	}
 
@@ -231,6 +233,8 @@ public class GroupDialog extends BaseDialog
 
 		Button exprButton = new Button( tocArea, SWT.PUSH );
 		exprButton.setText( "..." ); //$NON-NLS-1$
+		exprButton.setToolTipText(Messages
+				.getString("GroupDialog.toolTipText.openExprButton"));
 		exprButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -332,6 +336,8 @@ public class GroupDialog extends BaseDialog
 
 		Button exprButton = new Button( keyArea, SWT.PUSH );
 		exprButton.setText( "..." ); //$NON-NLS-1$
+		exprButton.setToolTipText(Messages
+				.getString("GroupDialog.toolTipText.openExprButton"));
 		exprButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )

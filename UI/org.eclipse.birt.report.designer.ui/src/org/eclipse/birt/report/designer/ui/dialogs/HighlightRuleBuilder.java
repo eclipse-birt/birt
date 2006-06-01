@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PreviewLabel;
+import org.eclipse.birt.report.designer.internal.ui.util.HelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ColorBuilder;
@@ -531,6 +533,8 @@ public class HighlightRuleBuilder extends BaseDialog
 				updatePreview( );
 			}
 		} );
+		bold.setToolTipText(Messages
+				.getString("HighlightRuleBuilderDialog.tooltip.Bold"));
 
 		italic = createToggleButton( fstyle );
 		italic.setImage( ReportPlatformUIImages
@@ -543,6 +547,8 @@ public class HighlightRuleBuilder extends BaseDialog
 				updatePreview( );
 			}
 		} );
+		italic.setToolTipText(Messages
+				.getString("HighlightRuleBuilderDialog.tooltip.Italic"));
 
 		underline = createToggleButton( fstyle );
 		underline.setImage( ReportPlatformUIImages
@@ -556,6 +562,8 @@ public class HighlightRuleBuilder extends BaseDialog
 				previewLabel.redraw( );
 			}
 		} );
+		underline.setToolTipText(Messages
+				.getString("HighlightRuleBuilderDialog.tooltip.Underline"));
 
 		linethrough = createToggleButton( fstyle );
 		linethrough.setImage( ReportPlatformUIImages
@@ -569,6 +577,9 @@ public class HighlightRuleBuilder extends BaseDialog
 				previewLabel.redraw( );
 			}
 		} );
+		linethrough
+				.setToolTipText(Messages
+						.getString("HighlightRuleBuilderDialog.tooltip.Text_Line_Through"));
 
 		Composite back = new Composite( innerParent, SWT.NONE );
 		back.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -671,7 +682,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				SWT.BOLD ) );
 		label.setText( Messages
 				.getString( "HighlightRuleBuilderDialog.text.Title" ) ); //$NON-NLS-1$
-
+//		UIUtil.bindHelp( parent,HelpContextIds.HIGHLIGHT_RULE_BUILDER_ID ); 
 		return titleArea;
 	}
 

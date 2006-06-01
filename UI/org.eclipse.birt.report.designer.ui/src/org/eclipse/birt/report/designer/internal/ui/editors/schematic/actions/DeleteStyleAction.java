@@ -45,12 +45,9 @@ public class DeleteStyleAction extends DynamicItemAction
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+	 * (non-Javadoc) Method declared on IAction.
 	 */
-	protected boolean calculateEnabled( )
-	{
+	public boolean isEnabled() {
 		return action.isEnabled( );
 	}
 

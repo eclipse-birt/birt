@@ -41,13 +41,17 @@ public class EditStyleAction extends DynamicItemAction
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+	 * (non-Javadoc) Method declared on IAction.
 	 */
-	protected boolean calculateEnabled( )
-	{
-		return true;
+	public boolean isEnabled() {
+		if(handle.canEdit( ))
+		{
+			return true;	
+		}else
+		{
+			return false;
+		}
+		
 	}
 
 	/*

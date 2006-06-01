@@ -270,6 +270,8 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 				moveUp( );
 			}
 		} );
+		fMoveUpButton.setToolTipText(Messages
+				.getString("HighlightsPreferencePage.toolTipText.Up"));
 
 		fMoveDownButton = new Button( buttons, SWT.ARROW );
 		fMoveDownButton.setAlignment( SWT.DOWN );
@@ -284,6 +286,8 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 				moveDown( );
 			}
 		} );
+		fMoveDownButton.setToolTipText(Messages
+				.getString("HighlightsPreferencePage.toolTipText.Down"));
 
 		fTableViewer.setInput( model );
 
