@@ -94,77 +94,68 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 
 		Group grpAreaIncluding = new Group( cmpContent, SWT.NONE );
 		{
-			grpAreaIncluding.setLayout( new GridLayout( 4, false ) );
+			grpAreaIncluding.setLayout( new GridLayout( 2, true ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			grpAreaIncluding.setLayoutData( gd );
 			grpAreaIncluding.setText( getChart( ) instanceof ChartWithAxes ? Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.PlotArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
+		
+		Composite leftComp = new Composite( grpAreaIncluding, SWT.NONE );
+		GridData gdL = new GridData( GridData.FILL_HORIZONTAL );
+		leftComp.setLayout( new GridLayout( 2, false) );
+		leftComp.setLayoutData( gdL );
+		Composite rightComp = new Composite( grpAreaIncluding, SWT.NONE );
+		GridData gdR = new GridData( GridData.FILL_HORIZONTAL );
+		rightComp.setLayout( new GridLayout( 1, false) );
+		rightComp.setLayoutData( gdR );
 
-		Label lblAnchor = new Label( grpAreaIncluding, SWT.NONE );
+		Label lblAnchor = new Label( leftComp, SWT.NONE );
 		GridData gdLBLAnchor = new GridData( );
 		lblAnchor.setLayoutData( gdLBLAnchor );
 		lblAnchor.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Anchor" ) ); //$NON-NLS-1$
 
-		cmbAnchor = new Combo( grpAreaIncluding, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbAnchor = new Combo( leftComp, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCBAnchor = new GridData( GridData.FILL_HORIZONTAL );
 		cmbAnchor.setLayoutData( gdCBAnchor );
 		cmbAnchor.addSelectionListener( this );
-
-		Group grpOutline = new Group( grpAreaIncluding, SWT.NONE );
-		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
-		gdGRPOutline.horizontalSpan = 2;
-		gdGRPOutline.verticalSpan = 4;
-		gdGRPOutline.widthHint = 150;
-		grpOutline.setLayoutData( gdGRPOutline );
-		grpOutline.setLayout( new FillLayout( ) );
-		grpOutline.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Outline" ) ); //$NON-NLS-1$
-
-		outlineIncluding = new LineAttributesComposite( grpOutline,
-				SWT.NONE,
-				getContext( ),
-				getBlockForProcessing( ).getOutline( ),
-				true,
-				true,
-				false );
-		outlineIncluding.addListener( this );
-
-		Label lblStretch = new Label( grpAreaIncluding, SWT.NONE );
+		
+		Label lblStretch = new Label( leftComp, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			lblStretch.setLayoutData( gd );
 			lblStretch.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Stretch" ) ); //$NON-NLS-1$
 		}
 
-		cmbStretch = new Combo( grpAreaIncluding, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbStretch = new Combo( leftComp, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			cmbStretch.setLayoutData( gd );
 			cmbStretch.addSelectionListener( this );
 		}
 
-		Label lblVerticalSpacing = new Label( grpAreaIncluding, SWT.NONE );
+		Label lblVerticalSpacing = new Label( leftComp, SWT.NONE );
 		lblVerticalSpacing.setLayoutData( new GridData( ) );
 		lblVerticalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.VerticalSpacing" ) ); //$NON-NLS-1$
 
-		iscVSpacing = new IntegerSpinControl( grpAreaIncluding,
+		iscVSpacing = new IntegerSpinControl( leftComp,
 				SWT.NONE,
 				getBlockForProcessing( ).getVerticalSpacing( ) );
 		iscVSpacing.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		iscVSpacing.addListener( this );
 
-		Label lblHorizontalSpacing = new Label( grpAreaIncluding, SWT.NONE );
+		Label lblHorizontalSpacing = new Label( leftComp, SWT.NONE );
 		lblHorizontalSpacing.setLayoutData( new GridData( ) );
 		lblHorizontalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.HorizontalSpacing" ) ); //$NON-NLS-1$
 
-		iscHSpacing = new IntegerSpinControl( grpAreaIncluding,
+		iscHSpacing = new IntegerSpinControl( leftComp,
 				SWT.NONE,
 				getBlockForProcessing( ).getHorizontalSpacing( ) );
 		iscHSpacing.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		iscHSpacing.addListener( this );
 
-		new Label( grpAreaIncluding, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.HeightHint" ) ); //$NON-NLS-1$
+		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.HeightHint" ) ); //$NON-NLS-1$
 
-		txtHeight = new LocalizedNumberEditorComposite( grpAreaIncluding,
+		txtHeight = new LocalizedNumberEditorComposite( leftComp,
 				SWT.BORDER );
 		{
 			txtHeight.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -179,19 +170,9 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 			txtHeight.addModifyListener( this );
 		}
 
-		icIncluding = new InsetsComposite( grpAreaIncluding,
-				SWT.NONE,
-				getBlockForProcessing( ).getInsets( ),
-				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ) );
-		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
-		gdInsets.horizontalSpan = 2;
-		gdInsets.verticalSpan = 3;
-		icIncluding.setLayoutData( gdInsets );
+		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.WidthHint" ) ); //$NON-NLS-1$
 
-		new Label( grpAreaIncluding, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.WidthHint" ) ); //$NON-NLS-1$
-
-		txtWidth = new LocalizedNumberEditorComposite( grpAreaIncluding,
+		txtWidth = new LocalizedNumberEditorComposite( leftComp,
 				SWT.BORDER );
 		{
 			txtWidth.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -206,9 +187,29 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 			txtWidth.addModifyListener( this );
 		}
 
-		new Label( grpAreaIncluding, SWT.NONE );
+		Group grpOutline = new Group( rightComp, SWT.NONE );
+		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
+		gdGRPOutline.widthHint = 150;
+		grpOutline.setLayoutData( gdGRPOutline );
+		grpOutline.setLayout( new FillLayout( ) );
+		grpOutline.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Outline" ) ); //$NON-NLS-1$
 
-		new Label( grpAreaIncluding, SWT.NONE );
+		outlineIncluding = new LineAttributesComposite( grpOutline,
+				SWT.NONE,
+				getContext( ),
+				getBlockForProcessing( ).getOutline( ),
+				true,
+				true,
+				false );
+		outlineIncluding.addListener( this );
+		
+		icIncluding = new InsetsComposite( rightComp,
+				SWT.NONE,
+				getBlockForProcessing( ).getInsets( ),
+				getChart( ).getUnits( ),
+				getContext( ).getUIServiceProvider( ) );
+		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
+		icIncluding.setLayoutData( gdInsets );
 
 		Group grpAreaWithin = new Group( cmpContent, SWT.NONE );
 		{
