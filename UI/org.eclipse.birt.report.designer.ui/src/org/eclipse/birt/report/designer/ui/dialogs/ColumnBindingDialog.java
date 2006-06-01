@@ -92,7 +92,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	public static final String DEFAULT_DLG_TITLE = Messages.getString( "ColumnBindingDialog.DialogTitle" ); //$NON-NLS-1$
 
-	private static final String NONE = Messages.getString( "ColumnBindingDialog.None" );//$NON-NLS-1$
+	private static final String ALL = Messages.getString( "ColumnBindingDialog.All" );//$NON-NLS-1$
 
 	private static final String LABEL_COLUMN_BINDINGS = Messages.getString( "ColumnBindingDialog.Label.DataSet" ); //$NON-NLS-1$
 
@@ -184,7 +184,7 @@ public class ColumnBindingDialog extends BaseDialog
 				case 4 :
 					String value = handle.getAggregrateOn( );
 					if ( value == null )
-						text = NONE;
+						text = ALL;
 					else
 						text = value;
 					break;
@@ -441,7 +441,7 @@ public class ColumnBindingDialog extends BaseDialog
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 			String[] dataSets = ChoiceSetFactory.getDataSets( );
 			String[] newList = new String[dataSets.length + 1];
-			newList[0] = NONE;
+			newList[0] = ALL;
 			System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
 			combo.setItems( newList );
 			String dataSetName = getDataSetName( );
@@ -456,7 +456,7 @@ public class ColumnBindingDialog extends BaseDialog
 				public void widgetSelected( SelectionEvent event )
 				{
 					String value = combo.getText( );
-					if ( value.equals( NONE ) )
+					if ( value.equals( ALL ) )
 					{
 						value = null;
 					}
@@ -539,7 +539,7 @@ public class ColumnBindingDialog extends BaseDialog
 		};
 
 		groups = new String[groupList.size( ) + 1];
-		groups[0] = NONE;
+		groups[0] = ALL;
 		for ( int i = 0; i < groupList.size( ); i++ )
 		{
 			groups[i + 1] = ( (GroupHandle) groupList.get( i ) ).getName( );
@@ -811,7 +811,7 @@ public class ColumnBindingDialog extends BaseDialog
 	private int canChangeDataSet( String newName )
 	{
 		String currentDataSetName = getDataSetName( );
-		if ( NONE.equals( currentDataSetName )
+		if ( ALL.equals( currentDataSetName )
 				&& !inputElement.columnBindingsIterator( ).hasNext( ) )
 		{
 			return 0;
@@ -838,12 +838,12 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		if ( inputElement.getDataSet( ) == null )
 		{
-			return NONE;
+			return ALL;
 		}
 		String dataSetName = inputElement.getDataSet( ).getQualifiedName( );
 		if ( StringUtil.isBlank( dataSetName ) )
 		{
-			dataSetName = NONE;
+			dataSetName = ALL;
 		}
 		return dataSetName;
 	}
