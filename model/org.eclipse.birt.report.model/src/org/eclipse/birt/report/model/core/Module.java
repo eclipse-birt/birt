@@ -917,8 +917,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public String getMessage( String resourceKey, ULocale locale )
 	{
 		if ( StringUtil.isBlank( resourceKey ) )
-			return ""; //$NON-NLS-1$
-
+			return null; 
+		
 		if ( locale == null )
 			locale = ThreadResources.getLocale( );
 
@@ -932,7 +932,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		String baseName = getStringProperty( this, INCLUDE_RESOURCE_PROP );
 		if ( baseName == null )
-			return ""; //$NON-NLS-1$
+			return null;
 
 		// try the resource path first.
 

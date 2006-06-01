@@ -127,8 +127,8 @@ class BundleHelper
 	 *            <code>null</code>, the locale for the current thread will
 	 *            be used instead.
 	 * @return the corresponding locale-dependent messages. Return
-	 *         <code>""</code> if resoueceKey is blank or the message is not
-	 *         found.
+	 *         <code>""</code> if resoueceKey is blank. Return
+	 *         <code>null</code> if the message is not found.
 	 * 
 	 */
 
@@ -143,7 +143,7 @@ class BundleHelper
 				return translation;
 		}
 
-		return ""; //$NON-NLS-1$
+		return null;
 	}
 
 	/**
