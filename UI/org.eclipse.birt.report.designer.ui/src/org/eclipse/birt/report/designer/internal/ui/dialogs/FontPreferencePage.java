@@ -90,7 +90,7 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 		((GridData) color.getColorSelector().getLayoutData()).widthHint = 96;
 
 		((GridData) size.getComboBoxControl(getFieldEditorParent())
-				.getLayoutData()).widthHint = 88;
+				.getLayoutData()).widthHint = 108;
 		((GridData) size.getMeasureControl(getFieldEditorParent())
 				.getLayoutData()).widthHint = 50;
 
