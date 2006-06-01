@@ -193,8 +193,17 @@ public class GroupInfoUtil {
 			int deletedNum, int level )
 	{
 		List levelList = groups[level];
-		GroupInfo groupInfo = (GroupInfo) levelList.get( groupIndex );
-		groupInfo.firstChild = -2;
+		GroupInfo deletedGroup = (GroupInfo) levelList.get(groupIndex);
+		int index = groupIndex + 1;
+		GroupInfo groupInfo;
+		while ( index < levelList.size( ) )
+		{
+			groupInfo = (GroupInfo) levelList.get( index );
+			if (groupInfo.firstChild > 0 && groupInfo.firstChild > deletedGroup.firstChild )
+				groupInfo.firstChild = groupInfo.firstChild - deletedNum;
+			index++;
+		}
+		deletedGroup.firstChild = -2;
 	}
 	
 	/**
