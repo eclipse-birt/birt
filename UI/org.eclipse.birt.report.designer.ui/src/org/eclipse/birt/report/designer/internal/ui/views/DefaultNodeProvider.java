@@ -415,8 +415,7 @@ public class DefaultNodeProvider implements INodeProvider
 
 	private boolean performTransferPlaceHolder( TemplateElementHandle handle )
 	{
-		DesignElementHandle copiedHandle = handle.getDefaultElement( )
-				.copyForTemplate( ).getHandle(
+		DesignElementHandle copiedHandle = handle.copyDefaultElement( ).getHandle(
 						SessionHandleAdapter.getInstance( )
 								.getReportDesignHandle( ).getModule( ) );
 		try
