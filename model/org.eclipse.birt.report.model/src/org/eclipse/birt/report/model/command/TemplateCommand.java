@@ -469,6 +469,8 @@ public class TemplateCommand extends AbstractElementCommand
 					templateItem,
 					TemplateException.DESIGN_EXCEPTION_TRANSFORM_TO_REPORT_ITEM_FORBIDDEN );
 
+		module.rename( reportItem );
+
 		ActivityStack stack = getActivityStack( );
 
 		stack.startTrans( );

@@ -37,8 +37,6 @@ import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -52,7 +50,6 @@ import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.command.ShiftLibraryCommand;
 import org.eclipse.birt.report.model.command.ThemeCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
@@ -1343,27 +1340,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		if ( elementHandle == null )
 			return;
-
-		IElementDefn defn = elementHandle.getElement( ).getDefn( );
-
-		if ( defn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME
-				|| elementHandle.getModuleHandle( ) instanceof LibraryHandle
-				|| elementHandle.getName( ) != null )
-			module.makeUniqueName( elementHandle.getElement( ) );
-
-		for ( int i = 0; i < defn.getSlotCount( ); i++ )
-		{
-			ContainerSlot slot = elementHandle.getElement( ).getSlot( i );
-
-			if ( slot != null )
-			{
-				for ( int pos = 0; pos < slot.getCount( ); pos++ )
-				{
-					DesignElement innerElement = slot.getContent( pos );
-					rename( innerElement.getHandle( module ) );
-				}
-			}
-		}
+		module.rename( elementHandle.getElement( ) );
 	}
 
 	/**

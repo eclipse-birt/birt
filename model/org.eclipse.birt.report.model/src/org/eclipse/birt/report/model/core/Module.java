@@ -26,9 +26,11 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.activity.ReadOnlyActivityStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
@@ -2387,6 +2389,46 @@ public abstract class Module extends DesignElement implements IModuleModel
 			name = baseName + ++index;
 		}
 		image.setName( name.trim( ) );
+	}
+
+	/**
+	 * Checks the element name in name space of this report.
+	 * 
+	 * <ul>
+	 * <li>If the element name is required and duplicate name is found in name
+	 * space, rename the element with a new unique name.
+	 * <li>If the element name is not required, clear the name.
+	 * </ul>
+	 * 
+	 * @param element
+	 *            the element handle whose name is need to check.
+	 */
+
+	public void rename( DesignElement element )
+	{
+		if ( element == null )
+			return;
+
+		IElementDefn defn = element.getDefn( );
+
+		if ( defn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME
+				|| element.getRoot( ) instanceof Library
+				|| element.getName( ) != null )
+			makeUniqueName( element );
+
+		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		{
+			ContainerSlot slot = element.getSlot( i );
+
+			if ( slot != null )
+			{
+				for ( int pos = 0; pos < slot.getCount( ); pos++ )
+				{
+					DesignElement innerElement = slot.getContent( pos );
+					rename( innerElement );
+				}
+			}
+		}
 	}
 
 	/**
