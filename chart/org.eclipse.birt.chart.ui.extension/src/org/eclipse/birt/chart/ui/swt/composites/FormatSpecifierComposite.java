@@ -269,8 +269,8 @@ public class FormatSpecifierComposite extends Composite implements
 	private void populateLists( )
 	{
 		this.bEnableEvents = false;
-		cmbDataType.add( "Number" ); //$NON-NLS-1$
-		cmbDataType.add( "Date/Time" ); //$NON-NLS-1$
+		cmbDataType.add( Messages.getString("FormatSpecifierComposite.Lbl.Number") ); //$NON-NLS-1$
+		cmbDataType.add( Messages.getString("FormatSpecifierComposite.Lbl.DateTime") ); //$NON-NLS-1$
 
 		if ( formatspecifier == null )
 		{

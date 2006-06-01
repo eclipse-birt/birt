@@ -44,15 +44,12 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * 
@@ -77,10 +74,6 @@ public class TaskFormatChart extends TreeCompoundTask
 	// visible UI Sheets (Order IS important)
 	// Key: nodePath; Value: subtask
 	private transient LinkedHashMap htVisibleSheets = null;
-
-	// visible UI node name (Order IS important)
-	// Key: nodePath; Value: node name
-	private transient LinkedHashMap htVisibleDisplayName = null;
 
 	private transient int iBaseSeriesCount = 0;
 
@@ -130,11 +123,7 @@ public class TaskFormatChart extends TreeCompoundTask
 	public TaskFormatChart( )
 	{
 		super( Messages.getString( "TaskFormatChart.TaskExp" ) ); //$NON-NLS-1$
-	}
-
-	public String getDescription( ULocale locale )
-	{
-		return Messages.getString( "TaskFormatChart.Task.Description" ); //$NON-NLS-1$
+		setDescription( Messages.getString( "TaskFormatChart.Task.Description" ) ); //$NON-NLS-1$
 	}
 
 	protected void populateSubtasks( )
@@ -142,7 +131,6 @@ public class TaskFormatChart extends TreeCompoundTask
 		super.populateSubtasks( );
 
 		htVisibleSheets = new LinkedHashMap( 12 );
-		htVisibleDisplayName = new LinkedHashMap( 12 );
 		htSheetCollections = new Hashtable( );
 
 		// Get collection of registered Sheets
@@ -195,7 +183,7 @@ public class TaskFormatChart extends TreeCompoundTask
 
 			// Initially ALL registered sheets are visible
 			htVisibleSheets.put( sNodePath, sheet );
-			htVisibleDisplayName.put( sNodePath, entry.getDisplayName( ) );
+			sheet.setTitle( entry.getDisplayName( ) );
 
 			addSubtask( sNodePath, sheet );
 		}
@@ -218,26 +206,29 @@ public class TaskFormatChart extends TreeCompoundTask
 			Object oVal = htVisibleSheets.get( sKey );
 			if ( oVal instanceof Vector )
 			{
-				for ( int i = 0; i < ( (Vector) oVal ).size( ); i++ )
+				Vector vector = (Vector) oVal;
+				for ( int i = 0; i < vector.size( ); i++ )
 				{
 					String sSuffix = ""; //$NON-NLS-1$
-					if ( ( (Vector) oVal ).size( ) > 1 )
+					if ( vector.size( ) > 1 )
 					{
 						sSuffix = INDEX_SEPARATOR + String.valueOf( i + 1 );
 					}
-					// If parent is dynamic as well
-					String sParentKey = sKey.substring( 0,
-							sKey.lastIndexOf( "." ) ); //$NON-NLS-1$
-					Object oParentVal = htVisibleSheets.get( sParentKey );
-					if ( oParentVal != null && oParentVal instanceof Vector )
+					// // If parent is dynamic as well
+					// String sParentKey = sKey.substring( 0,
+					// sKey.lastIndexOf( NavTree.SEPARATOR ) );
+					// Object oParentVal = htVisibleSheets.get( sParentKey );
+					// if ( oParentVal != null && oParentVal instanceof Vector )
+					// {
+					// getNavigatorTree( ).addNode( sParentKey
+					// + sSuffix
+					// + NavTree.SEPARATOR
+					// + sKey.substring( sKey.lastIndexOf( NavTree.SEPARATOR ) )
+					// + sSuffix );
+					// }
+					// else
 					{
-						getNavigatorTree( ).addNode( sParentKey
-								+ sSuffix
-								+ "." + sKey.substring( sKey.lastIndexOf( "." ) ) + sSuffix ); //$NON-NLS-1$ //$NON-NLS-2$
-					}
-					else
-					{
-						String displayName = (String) htVisibleDisplayName.get( sKey );
+						String displayName = ( (ISubtaskSheet) vector.get( i ) ).getTitle( );
 						if ( displayName != null
 								&& displayName.trim( ).length( ) > 0 )
 						{
@@ -254,7 +245,7 @@ public class TaskFormatChart extends TreeCompoundTask
 			else
 			{
 				getNavigatorTree( ).addNode( sKey,
-						(String) htVisibleDisplayName.get( sKey ) );
+						( (ISubtaskSheet) oVal ).getTitle( ) );
 			}
 		}
 	}
@@ -435,18 +426,17 @@ public class TaskFormatChart extends TreeCompoundTask
 		return ( (ChartWizardContext) getContext( ) ).getModel( );
 	}
 
-	public Composite getUI( Composite parent )
+	public void createControl( Composite parent )
 	{
 		manipulateCompatible( );
-		Composite cmp = super.getUI( parent );
+		super.createControl( parent );
 		if ( previewPainter == null )
 		{
 			// Invoke this only once
-			createPreviewPainter( );			
+			createPreviewPainter( );
 		}
 		doLivePreviewWithoutRenderModel( );
 		previewPainter.renderModel( getCurrentModelState( ) );
-		return cmp;
 	}
 
 	protected Composite createContainer( Composite parent )
@@ -487,7 +477,7 @@ public class TaskFormatChart extends TreeCompoundTask
 		GridData gridData = new GridData( GridData.FILL_BOTH );
 		gridData.heightHint = 250;
 		cmpPreview.setLayoutData( gridData );
-		
+
 		Label label = new Label( cmpPreview, SWT.NONE );
 		{
 			label.setFont( JFaceResources.getBannerFont( ) );
@@ -712,13 +702,18 @@ public class TaskFormatChart extends TreeCompoundTask
 		}
 	}
 
-	public void widgetDisposed( DisposeEvent e )
+	public void dispose( )
 	{
-		super.widgetDisposed( e );
+		super.dispose( );
 
-		htVisibleSheets.clear( );
-		htVisibleDisplayName.clear( );
-		htSheetCollections.clear( );
+		if ( htVisibleSheets != null )
+		{
+			htVisibleSheets.clear( );
+		}
+		if ( htSheetCollections != null )
+		{
+			htSheetCollections.clear( );
+		}
 
 		previewCanvas = null;
 		if ( previewPainter != null )

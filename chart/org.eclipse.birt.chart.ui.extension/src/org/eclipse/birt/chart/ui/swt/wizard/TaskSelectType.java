@@ -46,8 +46,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -64,21 +62,16 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * TaskSelectType
  */
 public class TaskSelectType extends SimpleTask
 		implements
 			SelectionListener,
-			DisposeListener,
 			ITaskChangeListener
 {
 
 	private transient Chart chartModel = null;
-
-	private transient Composite cmpTask = null;
 
 	private transient Composite cmpPreview = null;
 
@@ -133,6 +126,8 @@ public class TaskSelectType extends SimpleTask
 	public TaskSelectType( )
 	{
 		super( Messages.getString( "TaskSelectType.TaskExp" ) ); //$NON-NLS-1$
+		setDescription( Messages.getString( "TaskSelectType.Task.Description" ) ); //$NON-NLS-1$
+
 		if ( chartModel != null )
 		{
 			this.sType = chartModel.getType( );
@@ -147,29 +142,22 @@ public class TaskSelectType extends SimpleTask
 		htTypes = new LinkedHashMap( );
 	}
 
-	public String getDescription( ULocale locale )
+	public void createControl( Composite parent )
 	{
-		return Messages.getString( "TaskSelectType.Task.Description" ); //$NON-NLS-1$
-	}
-
-	public Composite getUI( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.TASK_SELECT_TYPE );
-		if ( cmpTask == null )
+		if ( topControl == null || topControl.isDisposed( ) )
 		{
-			cmpTask = new Composite( parent, SWT.NONE );
+			topControl = new Composite( parent, SWT.NONE );
 			GridLayout gridLayout = new GridLayout( );
 			gridLayout.marginWidth = 100;
-			cmpTask.setLayout( gridLayout );
-			cmpTask.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
+			topControl.setLayout( gridLayout );
+			topControl.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
 					| GridData.GRAB_VERTICAL ) );
-			cmpTask.addDisposeListener( this );
 			if ( context != null )
 			{
 				this.chartModel = ( (ChartWizardContext) context ).getModel( );
 			}
 			placeComponents( );
-			updateAdapters( );		
+			updateAdapters( );
 		}
 
 		// Update dimension combo and related sub-types in case of axes changed
@@ -182,7 +170,9 @@ public class TaskSelectType extends SimpleTask
 			cmpMisc.layout( );
 		}
 		doLivePreview( );
-		return cmpTask;
+
+		ChartUIUtil.bindHelp( getControl( ),
+				ChartHelpContextIds.TASK_SELECT_TYPE );
 	}
 
 	private void placeComponents( )
@@ -207,7 +197,7 @@ public class TaskSelectType extends SimpleTask
 
 	private void createPreviewArea( )
 	{
-		cmpPreview = new Composite( cmpTask, SWT.NONE );
+		cmpPreview = new Composite( topControl, SWT.NONE );
 		cmpPreview.setLayout( new GridLayout( ) );
 
 		GridData gridData = new GridData( GridData.FILL_BOTH );
@@ -228,7 +218,7 @@ public class TaskSelectType extends SimpleTask
 
 	private void createTypeArea( )
 	{
-		cmpType = new Composite( cmpTask, SWT.NONE );
+		cmpType = new Composite( topControl, SWT.NONE );
 		cmpType.setLayout( new GridLayout( 2, false ) );
 		cmpType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createHeader( );
@@ -239,7 +229,7 @@ public class TaskSelectType extends SimpleTask
 
 	private void createMiscArea( )
 	{
-		cmpMisc = new Composite( cmpTask, SWT.NONE );
+		cmpMisc = new Composite( topControl, SWT.NONE );
 		cmpMisc.setLayout( new GridLayout( 4, false ) );
 		cmpMisc.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -1014,13 +1004,15 @@ public class TaskSelectType extends SimpleTask
 		}
 	}
 
-	public void widgetDisposed( DisposeEvent e )
+	public void dispose( )
 	{
 		super.dispose( );
 		// No need to dispose other widgets
-		cmpTask = null;
 		chartModel = null;
-		previewPainter.dispose( );
+		if ( previewPainter != null )
+		{
+			previewPainter.dispose( );
+		}
 		previewPainter = null;
 		sSubType = null;
 		sType = null;

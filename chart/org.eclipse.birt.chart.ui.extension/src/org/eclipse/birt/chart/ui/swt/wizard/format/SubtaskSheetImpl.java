@@ -18,7 +18,6 @@ import java.util.Map;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.swt.SheetPlaceHolder;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.TreeCompoundTask;
@@ -27,10 +26,12 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.CompoundTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -48,6 +49,8 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 {
 
 	private transient String sNodePath = ""; //$NON-NLS-1$
+
+	private transient String sTitle = ""; //$NON-NLS-1$
 
 	private transient int subtaskIndex = 0;
 
@@ -76,14 +79,14 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		super( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
-	 */
 	public void getComponent( Composite parent )
 	{
 		cmpContent = new SheetPlaceHolder( parent, SWT.NONE, "" ); //$NON-NLS-1$
+	}
+
+	public void createControl( Composite parent )
+	{
+		getComponent( parent );
 	}
 
 	public Object onHide( )
@@ -97,16 +100,6 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		popupButtonRegistry.clear( );
 		popupSheetRegistry.clear( );
 		return getContext( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISheet#setIgnoreNotifications(boolean)
-	 */
-	public void setIgnoreNotifications( boolean bIgnoreNotifications )
-	{
-		ChartAdapter.ignoreNotifications( bIgnoreNotifications );
 	}
 
 	public void onShow( Object context, Object container )
@@ -406,5 +399,97 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 	private void setCurrentPopupSelection( String lastPopup )
 	{
 		lastPopupRegistry.put( getContext( ).getWizardID( ), lastPopup );
+	}
+
+	/**
+	 * @deprecated For later use
+	 */
+	public void dispose( )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public Control getControl( )
+	{
+		return cmpContent;
+	}
+
+	/**
+	 * @deprecated For later use
+	 */
+	public String getDescription( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @deprecated For later use
+	 */
+	public String getErrorMessage( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @deprecated For later use
+	 */
+	public Image getImage( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @deprecated For later use
+	 */
+	public String getMessage( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getTitle( )
+	{
+		return this.sTitle;
+	}
+
+	/**
+	 * @deprecated For later use
+	 */
+	public void performHelp( )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * @deprecated For later use
+	 */
+	public void setDescription( String description )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * @deprecated For later use
+	 */
+	public void setImageDescriptor( ImageDescriptor image )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setTitle( String title )
+	{
+		this.sTitle = title;
+	}
+
+	public void setVisible( boolean visible )
+	{
+		getControl( ).setVisible( visible );
 	}
 }

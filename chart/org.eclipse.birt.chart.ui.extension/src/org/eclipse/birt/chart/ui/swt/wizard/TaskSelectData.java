@@ -47,8 +47,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -64,8 +62,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * 
  */
@@ -73,15 +69,12 @@ import com.ibm.icu.util.ULocale;
 public class TaskSelectData extends SimpleTask
 		implements
 			SelectionListener,
-			DisposeListener,
 			ITaskChangeListener,
 			Listener
 {
 
 	private final static int CENTER_WIDTH_HINT = 400;
 	private transient ChartPreviewPainter previewPainter = null;
-
-	private transient Composite cmpTask = null;
 
 	private transient Composite cmpPreview = null;
 	private transient Canvas previewCanvas = null;
@@ -99,31 +92,23 @@ public class TaskSelectData extends SimpleTask
 	private transient SelectDataDynamicArea dynamicArea;
 	private transient String BLANK_DATASET = ""; //$NON-NLS-1$
 
-	// private SampleData oldSample = null;
-
 	public TaskSelectData( )
 	{
 		super( Messages.getString( "TaskSelectData.TaskExp" ) ); //$NON-NLS-1$
+		setDescription( Messages.getString( "TaskSelectData.Task.Description" ) ); //$NON-NLS-1$
 	}
 
-	public String getDescription( ULocale locale )
+	public void createControl( Composite parent )
 	{
-		return Messages.getString( "TaskSelectData.Task.Description" ); //$NON-NLS-1$
-	}
-
-	public Composite getUI( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.TASK_SELECT_DATA );
-		if ( cmpTask == null || cmpTask.isDisposed( ) )
+		if ( topControl == null || topControl.isDisposed( ) )
 		{
-			cmpTask = new Composite( parent, SWT.NONE );
+			topControl = new Composite( parent, SWT.NONE );
 			GridLayout gridLayout = new GridLayout( 3, false );
 			gridLayout.marginWidth = 10;
 			gridLayout.marginHeight = 10;
-			cmpTask.setLayout( gridLayout );
-			cmpTask.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
+			topControl.setLayout( gridLayout );
+			topControl.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
 					| GridData.GRAB_VERTICAL ) );
-			cmpTask.addDisposeListener( this );
 
 			dynamicArea = new SelectDataDynamicArea( this );
 			getCustomizeUI( ).init( );
@@ -139,7 +124,9 @@ public class TaskSelectData extends SimpleTask
 		doLivePreview( );
 		// Refresh all data definitino text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
-		return cmpTask;
+
+		ChartUIUtil.bindHelp( getControl( ),
+				ChartHelpContextIds.TASK_SELECT_DATA );
 	}
 
 	protected void customizeUI( )
@@ -176,23 +163,23 @@ public class TaskSelectData extends SimpleTask
 		{
 			createHeadArea( );// place two rows
 
-			new Label( cmpTask, SWT.NONE );
-			createDataSetArea( cmpTask );
-			new Label( cmpTask, SWT.NONE );
+			new Label( topControl, SWT.NONE );
+			createDataSetArea( topControl );
+			new Label( topControl, SWT.NONE );
 
-			new Label( cmpTask, SWT.NONE );
-			createDataPreviewTableArea( cmpTask );
-			createDataPreviewButtonArea( cmpTask );
+			new Label( topControl, SWT.NONE );
+			createDataPreviewTableArea( topControl );
+			createDataPreviewButtonArea( topControl );
 
-			new Label( cmpTask, SWT.NONE );
-			Label description = new Label( cmpTask, SWT.WRAP );
+			new Label( topControl, SWT.NONE );
+			Label description = new Label( topControl, SWT.WRAP );
 			{
 				GridData gd = new GridData( );
 				gd.widthHint = CENTER_WIDTH_HINT;
 				description.setLayoutData( gd );
 				description.setText( Messages.getString( "TaskSelectData.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
 			}
-			new Label( cmpTask, SWT.NONE );
+			new Label( topControl, SWT.NONE );
 		}
 		finally
 		{
@@ -205,7 +192,7 @@ public class TaskSelectData extends SimpleTask
 	private void createHeadArea( )
 	{
 		{
-			Composite cmpLeftContainer = ChartUIUtil.createCompositeWrapper( cmpTask );
+			Composite cmpLeftContainer = ChartUIUtil.createCompositeWrapper( topControl );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 					| GridData.VERTICAL_ALIGN_CENTER );
 			gridData.verticalSpan = 2;
@@ -214,7 +201,7 @@ public class TaskSelectData extends SimpleTask
 		}
 		createPreviewArea( );
 		{
-			Composite cmpRightContainer = ChartUIUtil.createCompositeWrapper( cmpTask );
+			Composite cmpRightContainer = ChartUIUtil.createCompositeWrapper( topControl );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 					| GridData.VERTICAL_ALIGN_CENTER );
 			gridData.verticalSpan = 2;
@@ -222,7 +209,7 @@ public class TaskSelectData extends SimpleTask
 			getCustomizeUI( ).createRightBindingArea( cmpRightContainer );
 		}
 		{
-			Composite cmpBottomContainer = ChartUIUtil.createCompositeWrapper( cmpTask );
+			Composite cmpBottomContainer = ChartUIUtil.createCompositeWrapper( topControl );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 					| GridData.VERTICAL_ALIGN_BEGINNING );
 			cmpBottomContainer.setLayoutData( gridData );
@@ -232,7 +219,7 @@ public class TaskSelectData extends SimpleTask
 
 	private void createPreviewArea( )
 	{
-		cmpPreview = ChartUIUtil.createCompositeWrapper( cmpTask );
+		cmpPreview = ChartUIUtil.createCompositeWrapper( topControl );
 		{
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			gridData.widthHint = CENTER_WIDTH_HINT;
@@ -341,7 +328,6 @@ public class TaskSelectData extends SimpleTask
 			btnFilters.setLayoutData( gridData );
 			btnFilters.setText( Messages.getString( "TaskSelectData.Label.Filters" ) ); //$NON-NLS-1$
 			btnFilters.addSelectionListener( this );
-			ChartUIUtil.bindHelp( btnFilters, ChartHelpContextIds.DIALOG_DATA_SET_FILTER );
 		}
 
 		btnParameters = new Button( composite, SWT.NONE );
@@ -351,7 +337,6 @@ public class TaskSelectData extends SimpleTask
 			btnParameters.setLayoutData( gridData );
 			btnParameters.setText( Messages.getString( "TaskSelectData.Label.Parameters" ) ); //$NON-NLS-1$
 			btnParameters.addSelectionListener( this );
-			ChartUIUtil.bindHelp( btnParameters, ChartHelpContextIds.DIALOG_DATA_SET_PARAMETER );
 		}
 
 		btnBinding = new Button( composite, SWT.NONE );
@@ -405,7 +390,7 @@ public class TaskSelectData extends SimpleTask
 		cmbDataSet.setEnabled( !bDS );
 		btnNewData.setEnabled( !bDS
 				&& getDataServiceProvider( ).isInvokingSupported( ) );
-		
+
 		if ( bDS )
 		{
 			// Initializes column bindings from container
@@ -713,18 +698,20 @@ public class TaskSelectData extends SimpleTask
 				|| getDataServiceProvider( ).getBoundDataSet( ) != null;
 	}
 
-	public void widgetDisposed( DisposeEvent e )
+	public void dispose( )
 	{
 		super.dispose( );
 		// No need to dispose other widgets
-		cmpTask = null;
 		if ( previewPainter != null )
+		{
 			previewPainter.dispose( );
+		}
 		previewPainter = null;
 		if ( dynamicArea != null )
+		{
 			dynamicArea.dispose( );
+		}
 		dynamicArea = null;
-		// oldSample = null;
 
 		// Restore color registry
 		ColorPalette.getInstance( ).restore( );
