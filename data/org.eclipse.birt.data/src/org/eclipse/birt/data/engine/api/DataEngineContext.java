@@ -265,6 +265,19 @@ public class DataEngineContext
 		else
 			return false;
 	}
+	
+	/**
+	 * @param streamID
+	 * @param subStreamID
+	 * @param streamType
+	 */
+	public void dropStream( String streamID, String subStreamID, int streamType )
+	{
+		String relativePath = getPath( streamID, subStreamID, streamType );
+		
+		if ( writer != null )
+			writer.dropStream( relativePath );
+	}
 
 	/**
 	 * According to the paramters of streamID, subStreamID and streamType, an

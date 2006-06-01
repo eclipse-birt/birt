@@ -36,6 +36,30 @@ public class QueryResultIDManager
 	
 	/**
 	 * @param streamManager
+	 * @return
+	 * @throws DataException
+	 */
+	public static String getNextID( DataEngineContext context,
+			String rootQueryResultID ) throws DataException
+	{
+		StreamManager streamManager = new StreamManager( context,
+				new QueryResultInfo( rootQueryResultID, null, -1 ) );
+
+		Set idSet = getIDMap( streamManager ).keySet( );
+
+		String queryID = null;
+		while ( true )
+		{
+			queryID = QueryResultIDUtil.nextID( );
+			if ( idSet.contains( queryID ) == false )
+				break;
+		}
+
+		return queryID;
+	}
+	
+	/**
+	 * @param streamManager
 	 * @param filterList
 	 * @throws DataException
 	 */
@@ -83,30 +107,6 @@ public class QueryResultIDManager
 	 * @return
 	 * @throws DataException
 	 */
-	public static String getNextID( DataEngineContext context,
-			String rootQueryResultID ) throws DataException
-	{
-		StreamManager streamManager = new StreamManager( context,
-				new QueryResultInfo( rootQueryResultID, null, -1 ) );
-
-		Set idSet = getIDMap( streamManager ).keySet( );
-
-		String queryID = null;
-		while ( true )
-		{
-			queryID = QueryResultIDUtil.nextID( );
-			if ( idSet.contains( queryID ) == false )
-				break;
-		}
-
-		return queryID;
-	}
-	
-	/**
-	 * @param streamManager
-	 * @return
-	 * @throws DataException
-	 */
 	private static Map getIDMap( StreamManager streamManager )
 			throws DataException
 	{
@@ -140,6 +140,23 @@ public class QueryResultIDManager
 		}
 
 		return idMap;
+	}
+	
+	/**
+	 * @param streamManager
+	 * @param filterList
+	 * @throws DataException
+	 */
+	public static void cleanChildOfRoot( StreamManager streamManager )
+			throws DataException
+	{
+		if ( streamManager.hasInStream( DataEngineContext.QUERYID_INFO_STREAM,
+				StreamManager.SELF_STREAM ) == false )
+			return;
+		
+		//TODO: remove the folder
+		
+		streamManager.dropSelfStream( DataEngineContext.QUERYID_INFO_STREAM );
 	}
 	
 }

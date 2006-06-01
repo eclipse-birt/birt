@@ -98,10 +98,18 @@ public class RDSave implements IRDSave
 	/**
 	 * @throws DataException
 	 */
-	protected void saveForIV( ) throws DataException
+	private void saveForIV( ) throws DataException
 	{
 		// save expression metadata and transformation info
-		this.saveUtilHelper.saveExprMetadata( );
+		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION )
+		{
+			this.saveUtilHelper.saveExprMetadata( );
+		}
+		else
+		{
+			this.saveUtilHelper.cleanChildOfRoot( );
+		}
+
 		this.saveUtilHelper.saveFilterInfo( );
 	}
 	
@@ -285,6 +293,14 @@ public class RDSave implements IRDSave
 		{
 			QueryResultIDManager.appendChildToRoot( streamManager,
 					queryDefn.getFilters( ) );
+		}
+		
+		/**
+		 * @throws DataException
+		 */
+		protected void cleanChildOfRoot( ) throws DataException
+		{
+			QueryResultIDManager.cleanChildOfRoot( streamManager );
 		}
 	}	
 	
