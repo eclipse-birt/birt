@@ -67,7 +67,7 @@ public class WizardBase implements IRegistrationListener
 
 	protected transient IWizardContext context = null;
 
-	private transient String sWizardID = "org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase"; //$NON-NLS-1$
+	private transient String sWizardID = ""; //$NON-NLS-1$
 
 	private transient Shell shellParent = null;
 
@@ -111,6 +111,19 @@ public class WizardBase implements IRegistrationListener
 	public IWizardContext open( IWizardContext initialContext )
 	{
 		return open( null, null, initialContext );
+	}
+
+	/**
+	 * Sets the minimum size of the wizard
+	 * 
+	 * @param iWidth
+	 *            width minimum
+	 * @param iHeight
+	 *            height minimum
+	 */
+	public void setMinimumSize( int iWidth, int iHeight )
+	{
+		dialog.setMinimumSize( iWidth, iHeight );
 	}
 
 	public void firePageChanged( IDialogPage taskPage )
@@ -252,14 +265,7 @@ public class WizardBase implements IRegistrationListener
 
 	public WizardBase( String sID )
 	{
-		this.sWizardID = sID;
-		// Initialize tasks manager...so that extensions get processed if they
-		// haven't already
-		TasksManager.instance( );
-		// Initialize instance variables
-		availableTasks = new LinkedHashMap( );
-		vTaskLabels = new Vector( );
-		vTaskIDs = new Vector( );
+		this( sID, SWT.DEFAULT, SWT.DEFAULT, null, null, null, null );
 	}
 
 	/**
@@ -284,7 +290,14 @@ public class WizardBase implements IRegistrationListener
 	public WizardBase( String sID, int iInitialWidth, int iInitialHeight,
 			String strTitle, Image imgTitle, String strHeader, Image imgHeader )
 	{
-		this( sID );
+		this.sWizardID = sID;
+		// Initialize tasks manager...so that extensions get processed if they
+		// haven't already
+		TasksManager.instance( );
+		// Initialize instance variables
+		availableTasks = new LinkedHashMap( );
+		vTaskLabels = new Vector( );
+		vTaskIDs = new Vector( );
 
 		Shell shell;
 		if ( shellParent == null )
@@ -310,13 +323,7 @@ public class WizardBase implements IRegistrationListener
 
 	public WizardBase( )
 	{
-		// Initialize tasks manager...so that extensions get processed if they
-		// haven't already
-		TasksManager.instance( );
-		// Initialize instance variables
-		availableTasks = new LinkedHashMap( );
-		vTaskLabels = new Vector( );
-		vTaskIDs = new Vector( );
+		this( "org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -567,6 +574,8 @@ public class WizardBase implements IRegistrationListener
 
 		protected void initializeBounds( )
 		{
+			configureTaskArea( tmpTaskArray, tmpTopTaskId );
+			
 			super.initializeBounds( );
 			// Ensure the dialog is on the center. There seems to be a bug in
 			// jface. If not configure the location manually, the location is
@@ -607,8 +616,6 @@ public class WizardBase implements IRegistrationListener
 
 			lblSeparator = new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL );
 			lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-			configureTaskArea( tmpTaskArray, tmpTopTaskId );
 
 			// Set width hint for message label in case the description message
 			// is too long
