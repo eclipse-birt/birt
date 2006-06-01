@@ -194,12 +194,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 	protected IModuleNameSpace moduleNameSpaces[] = new IModuleNameSpace[NAME_SPACE_COUNT];
 
 	/**
-	 * The set of slots for the module.
-	 */
-
-	protected ContainerSlot slots[] = null;
-
-	/**
 	 * Internal table to store a bunch of user-defined messages. One message can
 	 * be defined in several translations, one translation per locale.
 	 */
@@ -657,14 +651,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 			module.nameSpaces[i] = new NameSpace( );
 			module.moduleNameSpaces[i] = ModuleNameScopeFactory
 					.createElementNameSpace( module, i );
-		}
-
-		// clone slot
-
-		module.initSlots( );
-		for ( int i = 0; i < slots.length; i++ )
-		{
-			module.slots[i] = slots[i].copy( module, i );
 		}
 
 		// clone theme property
@@ -1252,17 +1238,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		assert slot >= 0 && slot < getSlotCount( );
 		return slots[slot];
-	}
-
-	/**
-	 * Privates method to create the slots.
-	 */
-
-	protected void initSlots( )
-	{
-		slots = new ContainerSlot[getSlotCount( )];
-		for ( int i = 0; i < slots.length; i++ )
-			slots[i] = new MultiElementSlot( );
 	}
 
 	/**

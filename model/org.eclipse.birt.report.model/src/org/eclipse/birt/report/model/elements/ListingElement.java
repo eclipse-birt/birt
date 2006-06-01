@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
 /**
@@ -33,13 +32,6 @@ public abstract class ListingElement extends ReportItem
 		implements
 			IListingElementModel
 {
-
-	/**
-	 * The set of slots for the listing.
-	 */
-
-	protected ContainerSlot slots[] = null;
-
 	/**
 	 * Default constructor.
 	 */
@@ -61,55 +53,6 @@ public abstract class ListingElement extends ReportItem
 	{
 		super( theName );
 		initSlots( );
-	}
-
-	/**
-	 * Private method to initialize the slots within this element.
-	 */
-
-	private void initSlots( )
-	{
-		slots = new ContainerSlot[getDefn( ).getSlotCount( )];
-		for ( int i = 0; i < slots.length; i++ )
-			slots[i] = new MultiElementSlot( );
-	}
-
-	/**
-	 * Makes a clone of this listing element. The cloned element contains all of
-	 * the copied slot defined in the original one.
-	 * 
-	 * @return the cloned listing element.
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		ListingElement element = (ListingElement) super.clone( );
-		element.initSlots( );
-
-		for ( int i = 0; i < slots.length; i++ )
-		{
-			element.slots[i] = slots[i].copy( element, i );
-		}
-		return element;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.StyledElement#cloneForTemplate()
-	 */
-
-	public Object cloneForTemplate( ) throws CloneNotSupportedException
-	{
-		ListingElement element = (ListingElement) super.cloneForTemplate( );
-		element.initSlots( );
-
-		for ( int i = 0; i < slots.length; i++ )
-		{
-			element.slots[i] = slots[i].cloneForTemplate( element, i );
-		}
-		return element;
 	}
 
 	/**

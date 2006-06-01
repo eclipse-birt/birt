@@ -60,12 +60,12 @@ public class MultiElementSlot extends ContainerSlot
 
 	public Object cloneForTemplate( ) throws CloneNotSupportedException
 	{
-		MultiElementSlot slot = (MultiElementSlot) super.cloneForTemplate( );
+		MultiElementSlot slot = (MultiElementSlot) super.clone( );
 		slot.contents = new ArrayList( );
 		for ( int i = 0; i < contents.size( ); i++ )
 		{
 			DesignElement e = (DesignElement) contents.get( i );
-			slot.contents.add( e.clone( ) );
+			slot.contents.add( e.cloneForTemplate( ) );
 		}
 		return slot;
 	}

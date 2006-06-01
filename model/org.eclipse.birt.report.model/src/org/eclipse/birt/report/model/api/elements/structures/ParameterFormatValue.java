@@ -16,7 +16,7 @@ import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 
 /**
- * Represents the format structure of scalar parameter.
+ * Represents the format for the default value of scalar parameter.
  * 
  */
 

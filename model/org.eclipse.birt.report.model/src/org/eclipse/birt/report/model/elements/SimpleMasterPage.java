@@ -33,13 +33,6 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
 
 public class SimpleMasterPage extends MasterPage implements ISimpleMasterPageModel
 {
-
-	/**
-	 * Slots to hold items defined either in page header or page footer.
-	 */
-
-	protected ContainerSlot slots[] = null;
-
 	/**
 	 * Default Constructor.
 	 */
@@ -47,7 +40,7 @@ public class SimpleMasterPage extends MasterPage implements ISimpleMasterPageMod
 	public SimpleMasterPage( )
 	{
 		super( );
-		initSlot( );
+		initSlots( );
 	}
 
 	/**
@@ -60,39 +53,9 @@ public class SimpleMasterPage extends MasterPage implements ISimpleMasterPageMod
 	public SimpleMasterPage( String theName )
 	{
 		super( theName );
-		initSlot( );
+		initSlots( );
 	}
 
-	/**
-	 * Initializes the slot of this simple master page.
-	 *  
-	 */
-
-	private void initSlot( )
-	{
-		slots = new ContainerSlot[SLOT_COUNT];
-		for ( int i = 0; i < SLOT_COUNT; i++ )
-			slots[i] = new SingleElementSlot( );
-	}
-
-	/**
-	 * Makes a clone of this simple master page.
-	 * 
-	 * @return the cloned simple master page element.
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		SimpleMasterPage page = (SimpleMasterPage) super.clone( );
-		page.initSlot( );
-		for ( int i = 0; i < slots.length; i++ )
-		{
-			page.slots[i] = slots[i].copy( page, i );
-		}
-		return page;
-	}
 
 	/**
 	 * Return the handle of this element.

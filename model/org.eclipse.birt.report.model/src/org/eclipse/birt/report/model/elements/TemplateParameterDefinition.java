@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
-import org.eclipse.birt.report.model.core.SingleElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 
 /**
@@ -50,15 +49,13 @@ public class TemplateParameterDefinition extends ReferenceableElement
 	 * template parameter definition.
 	 */
 
-	protected ContainerSlot defaultContent = new SingleElementSlot( );
-
 	/**
 	 * Default constructor.
 	 */
 
 	public TemplateParameterDefinition( )
 	{
-		
+		initSlots( );
 	}
 
 	/**
@@ -71,6 +68,7 @@ public class TemplateParameterDefinition extends ReferenceableElement
 	public TemplateParameterDefinition( String theName )
 	{
 		super( theName );
+		initSlots( );
 	}
 
 	/*
@@ -149,21 +147,7 @@ public class TemplateParameterDefinition extends ReferenceableElement
 	public ContainerSlot getSlot( int slot )
 	{
 		assert ( slot == DEFAULT_SLOT );
-		return defaultContent;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#clone()
-	 */
-
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		TemplateParameterDefinition templateParam = (TemplateParameterDefinition) super
-				.clone( );
-		templateParam.defaultContent = defaultContent.copy( templateParam, DEFAULT_SLOT );
-		return templateParam;
+		return slots[DEFAULT_SLOT];
 	}
 
 	/**
@@ -299,5 +283,5 @@ public class TemplateParameterDefinition extends ReferenceableElement
 			return null;
 		assert defaultElement.getCount( ) == 1;
 		return (DesignElement) defaultElement.getContent( 0 );
-	}	
+	}
 }

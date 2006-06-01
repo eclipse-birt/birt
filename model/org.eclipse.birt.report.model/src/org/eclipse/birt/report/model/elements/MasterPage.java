@@ -62,14 +62,6 @@ public abstract class MasterPage extends StyledElement
 		super( theName );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
-	 */
-
-	abstract public void apply( ElementVisitor visitor );
-
 	/**
 	 * Returns the size of the page in application units. Considers the page
 	 * type and orientation. If the page type is set to one of the standard

@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.strategy.GroupElementPropSearchStrategy;
@@ -50,29 +49,12 @@ public abstract class GroupElement extends DesignElement
 	protected int groupLevel = LEVEL_NOT_SET;
 
 	/**
-	 * The set of slots for the group.
-	 */
-
-	protected ContainerSlot slots[] = null;
-
-	/**
 	 * Default constructor. Note that groups do not have names.
 	 */
 
 	public GroupElement( )
 	{
 		initSlots( );
-	}
-
-	/**
-	 * Privates method to create the slots.
-	 */
-
-	private void initSlots( )
-	{
-		slots = new ContainerSlot[SLOT_COUNT];
-		for ( int i = 0; i < slots.length; i++ )
-			slots[i] = new MultiElementSlot( );
 	}
 
 	/*
@@ -153,27 +135,6 @@ public abstract class GroupElement extends DesignElement
 		return list;
 	}
 
-	/**
-	 * Makes a clone of this group element. The cloned element contains all of
-	 * the copied slot defined in the original one.
-	 * 
-	 * @return the cloned group element.
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		GroupElement element = (GroupElement) super.clone( );
-		element.initSlots( );
-
-		for ( int i = 0; i < slots.length; i++ )
-		{
-			element.slots[i] = slots[i].copy( element, i );
-		}
-		return element;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -208,8 +169,8 @@ public abstract class GroupElement extends DesignElement
 	public Object getFactoryProperty( Module module, ElementPropertyDefn prop )
 	{
 		if ( !prop.isStyleProperty( ) )
-		    return super.getFactoryProperty( module, prop );
-		else
-			return getStrategy( ).getPropertyFromElement( module, this, prop );
+			return super.getFactoryProperty( module, prop );
+
+		return getStrategy( ).getPropertyFromElement( module, this, prop );
 	}
 }

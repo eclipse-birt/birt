@@ -188,15 +188,15 @@ public abstract class ContainerSlot implements Cloneable
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Clones the slot and keep the element baseId and extends relationship.
 	 * 
-	 * @see java.lang.Object#clone()
+	 * @return return the cloned slot
+	 * 
+	 * @throws CloneNotSupportedException
 	 */
 
-	public Object cloneForTemplate( ) throws CloneNotSupportedException
-	{
-		return super.clone( );
-	}
+	abstract public Object cloneForTemplate( )
+			throws CloneNotSupportedException;
 
 	/**
 	 * Returns the cloned slot with new container. The new container is what
@@ -237,9 +237,8 @@ public abstract class ContainerSlot implements Cloneable
 	 *            the slot id in the new container for the cloned element
 	 * @return the cloned element
 	 */
-	
-	public ContainerSlot cloneForTemplate( DesignElement newContainer,
-			int slotID )
+
+	public ContainerSlot copyForTemplate( DesignElement newContainer, int slotID )
 	{
 		ContainerSlot newSlot = null;
 

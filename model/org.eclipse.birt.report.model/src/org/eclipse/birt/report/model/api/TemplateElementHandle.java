@@ -202,4 +202,25 @@ public abstract class TemplateElementHandle extends ReportElementHandle
 
 		return null;
 	}
+
+	/**
+	 * Returns a copy for the default element in the template element.
+	 * 
+	 * @return a clone element of the default element
+	 */
+
+	public IDesignElement copyDefaultElement( )
+	{
+		try
+		{
+			return (IDesignElement) getDefaultElement( ).getElement( )
+					.cloneForTemplate( );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false;
+		}
+
+		return null;
+	}
 }

@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 
 /**
@@ -88,12 +87,6 @@ public class GridItem extends ReportItem implements IGridItemModel
 {
 
 	/**
-	 * The set of slots for the listing.
-	 */
-
-	protected ContainerSlot slots[] = null;
-
-	/**
 	 * Default Constructor.
 	 */
 
@@ -114,17 +107,6 @@ public class GridItem extends ReportItem implements IGridItemModel
 	{
 		super( theName );
 		initSlots( );
-	}
-
-	/**
-	 * Privates method to create the slots.
-	 */
-
-	private void initSlots( )
-	{
-		slots = new ContainerSlot[SLOT_COUNT];
-		for ( int i = 0; i < slots.length; i++ )
-			slots[i] = new MultiElementSlot( );
 	}
 
 	/*
@@ -334,39 +316,4 @@ public class GridItem extends ReportItem implements IGridItemModel
 		return displayLabel;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		GridItem element = (GridItem) super.clone( );
-		element.initSlots( );
-		for ( int i = 0; i < slots.length; i++ )
-		{
-			element.slots[i] = slots[i].copy( element, i );
-		}
-		return element;
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.StyledElement#cloneForTemplate()
-	 */
-
-	public Object cloneForTemplate( ) throws CloneNotSupportedException
-	{
-		GridItem element = (GridItem) super.cloneForTemplate( );
-		element.initSlots( );
-		for ( int i = 0; i < slots.length; i++ )
-		{
-			element.slots[i] = slots[i].cloneForTemplate( element, i );
-		}
-		return element;
-
-	}
 }

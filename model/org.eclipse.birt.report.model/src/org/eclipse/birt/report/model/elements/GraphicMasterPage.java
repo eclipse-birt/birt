@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.validators.MasterPageMultiColumnValidat
 import org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
 
 /**
@@ -33,21 +32,16 @@ import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
  * report, the content area is the area inside the margins defined by each
  * column. Note that each page has only one content area, though that content
  * area can be divided into multiple columns. That is, a page has one content
- * area. If a page has multiple columns, the column layout is ¡°overlayed¡± on top
- * of the content area. Use the
+ * area. If a page has multiple columns, the column layout is ¡°overlayed¡± on
+ * top of the content area. Use the
  * {@link org.eclipse.birt.report.model.api.GraphicMasterPageHandle}class to
  * access the content slot of the graphic master page.
- *  
+ * 
  */
-public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageModel
+public class GraphicMasterPage extends MasterPage
+		implements
+			IGraphicMaterPageModel
 {
-
-	
-	/**
-	 * Holds the report items that reside directly on the page.
-	 */
-
-	protected MultiElementSlot contents = new MultiElementSlot( );
 
 	/**
 	 * Default Constructor.
@@ -56,6 +50,7 @@ public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageMo
 	public GraphicMasterPage( )
 	{
 		super( );
+		initSlots( );
 	}
 
 	/**
@@ -68,21 +63,7 @@ public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageMo
 	public GraphicMasterPage( String theName )
 	{
 		super( theName );
-	}
-
-	/**
-	 * Makes a clone of this graphic master element. The cloned master page
-	 * contains list of contents, which are copied from the original element.
-	 * 
-	 * @return the cloned graphic master page object.
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		GraphicMasterPage page = (GraphicMasterPage) super.clone( );
-		page.contents = (MultiElementSlot) contents.copy( page, CONTENT_SLOT );
-		return page;
+		initSlots( );
 	}
 
 	/*
@@ -94,7 +75,7 @@ public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageMo
 	public ContainerSlot getSlot( int slot )
 	{
 		assert slot == CONTENT_SLOT;
-		return contents;
+		return slots[CONTENT_SLOT];
 	}
 
 	/**

@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
@@ -34,19 +33,13 @@ import org.eclipse.birt.report.model.elements.strategy.CellPropSearchStrategy;
 
 public class Cell extends StyledElement implements ICellModel
 {
-
-	/**
-	 * Holds the report items that reside directly on the cell.
-	 */
-
-	protected ContainerSlot content = new MultiElementSlot( );
-
 	/**
 	 * Default Constructor.
 	 */
 
 	public Cell( )
 	{
+		initSlots( );
 	}
 
 	/*
@@ -54,25 +47,10 @@ public class Cell extends StyledElement implements ICellModel
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
 	 */
-	
+
 	public PropertySearchStrategy getStrategy( )
 	{
 		return CellPropSearchStrategy.getInstance( );
-	}
-
-	/**
-	 * Makes a clone of this cell element. The cloned cell contains the cloned
-	 * content which was in the original cell if any.
-	 * 
-	 * @return the cloned cell.
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		Cell cell = (Cell) super.clone( );
-		cell.content = content.copy( cell, CONTENT_SLOT );
-		return cell;
 	}
 
 	/**
@@ -89,7 +67,7 @@ public class Cell extends StyledElement implements ICellModel
 	public ContainerSlot getSlot( int slot )
 	{
 		assert ( slot == CONTENT_SLOT );
-		return content;
+		return slots[CONTENT_SLOT];
 	}
 
 	/*
@@ -187,24 +165,4 @@ public class Cell extends StyledElement implements ICellModel
 		return getIntProperty( module, COLUMN_PROP );
 	}
 
-//	/**
-//	 * Tests if the property of a cell is inheritable in the context.
-//	 * <p>
-//	 * If the cell resides in the row and the property is "vertical-align",
-//	 * return <code>true</code>. Otherwise, return the value from its super
-//	 * class.
-//	 * 
-//	 * @see org.eclipse.birt.report.model.core.DesignElement#isInheritableProperty(org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
-//	 */
-//
-//	protected boolean isInheritableProperty( ElementPropertyDefn prop )
-//	{
-//		assert prop != null;
-//
-//		if ( Style.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) )
-//				&& getContainer( ) instanceof TableRow )
-//			return true;
-//
-//		return super.isInheritableProperty( prop );
-//	}
 }

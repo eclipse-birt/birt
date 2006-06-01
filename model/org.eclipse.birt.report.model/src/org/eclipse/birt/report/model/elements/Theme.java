@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
@@ -33,7 +32,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 
 public class Theme extends ReferenceableElement implements IThemeModel
 {
-
 	/**
 	 * Constructor.
 	 */
@@ -41,6 +39,7 @@ public class Theme extends ReferenceableElement implements IThemeModel
 	public Theme( )
 	{
 		super( );
+		initSlots( );
 	}
 
 	/**
@@ -53,14 +52,9 @@ public class Theme extends ReferenceableElement implements IThemeModel
 	public Theme( String theName )
 	{
 		super( theName );
+		initSlots( );
 	}
-
-	/**
-	 * Holds the cells that reside directly on the row.
-	 */
-
-	protected ContainerSlot contents = new MultiElementSlot( );
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -121,7 +115,7 @@ public class Theme extends ReferenceableElement implements IThemeModel
 	public ContainerSlot getSlot( int slot )
 	{
 		assert ( slot == STYLES_SLOT );
-		return contents;
+		return slots[STYLES_SLOT];
 	}
 
 	/*
@@ -138,42 +132,26 @@ public class Theme extends ReferenceableElement implements IThemeModel
 	/**
 	 * Returns the style with the given name.
 	 * 
-	 * @param name
+	 * @param styleName
 	 *            the style name
 	 * @return the corresponding style
 	 */
 
-	public StyleElement findStyle( String name )
+	public StyleElement findStyle( String styleName )
 	{
 		StyleElement style = null;
 
-		for ( int i = 0; i < contents.getCount( ); i++ )
+		for ( int i = 0; i < slots[STYLES_SLOT].getCount( ); i++ )
 		{
-			StyleElement tmpStyle = (StyleElement) contents.getContent( i );
-			if ( tmpStyle.getName( ).equalsIgnoreCase( name ) )
+			StyleElement tmpStyle = (StyleElement) slots[STYLES_SLOT]
+					.getContent( i );
+			if ( tmpStyle.getName( ).equalsIgnoreCase( styleName ) )
 			{
 				style = tmpStyle;
 				break;
 			}
 		}
 		return style;
-	}
-
-	/**
-	 * Makes a clone of this theme element. The cloned theme contains the cloned
-	 * content which was in the original theme if any.
-	 * 
-	 * @return the cloned theme.
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		Theme newTheme = (Theme) super.clone( );
-		newTheme.contents = (ContainerSlot) contents.copy( newTheme,
-				STYLES_SLOT );
-		return newTheme;
 	}
 
 	/*
@@ -184,18 +162,18 @@ public class Theme extends ReferenceableElement implements IThemeModel
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	protected List checkContent( Module module, DesignElement container,
+	protected List checkContent( Module module, DesignElement tmpContainer,
 			int slotId, DesignElement content )
 	{
-		List errors = super.checkContent( module, container, slotId, content );
-		if ( !errors.isEmpty( ) )
-			return errors;
+		List tmpErrors = super.checkContent( module, tmpContainer, slotId, content );
+		if ( !tmpErrors.isEmpty( ) )
+			return tmpErrors;
 
-		errors.addAll( ThemeStyleNameValidator.getInstance( )
+		tmpErrors.addAll( ThemeStyleNameValidator.getInstance( )
 				.validateForAddingStyle( (ThemeHandle) getHandle( module ),
 						content.getName( ) ) );
 
-		return errors;
+		return tmpErrors;
 
 	}
 }

@@ -102,26 +102,4 @@ public abstract class ReportItem extends StyledElement
 	{
 		return ReportItemPropSearchStrategy.getInstance( );
 	}
-
-	// /**
-	// * Tests if the property of a cell is inheritable in the context.
-	// * <p>
-	// * If the cell resides in the row and the property is "vertical-align",
-	// * return <code>true</code>. Otherwise, return the value from its super
-	// * class.
-	// *
-	// * @see
-	// org.eclipse.birt.report.model.core.DesignElement#isInheritableProperty(org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
-	// */
-	//
-	// protected boolean isInheritableProperty( ElementPropertyDefn prop )
-	// {
-	// assert prop != null;
-	//
-	// if ( Style.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) )
-	// && getContainer( ) instanceof Cell )
-	// return true;
-	//
-	// return super.isInheritableProperty( prop );
-	// }
 }

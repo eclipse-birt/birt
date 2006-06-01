@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.CellOverlappingValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
@@ -32,30 +31,13 @@ public class TableRow extends StyledElement implements ITableRowModel
 {
 
 	/**
-	 * Holds the cells that reside directly on the row.
-	 */
-
-	protected ContainerSlot contents = new MultiElementSlot( );
-
-	/**
 	 * Default constructor.
 	 */
 
 	public TableRow( )
 	{
 		super( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		TableRow row = (TableRow) super.clone( );
-		row.contents = contents.copy( row, CONTENT_SLOT );
-		return row;
+		initSlots( );
 	}
 
 	/*
@@ -67,7 +49,7 @@ public class TableRow extends StyledElement implements ITableRowModel
 	public ContainerSlot getSlot( int slot )
 	{
 		assert ( slot == CONTENT_SLOT );
-		return contents;
+		return slots[CONTENT_SLOT];
 	}
 
 	/**
@@ -79,7 +61,7 @@ public class TableRow extends StyledElement implements ITableRowModel
 
 	public List getContentsSlot( )
 	{
-		return contents.getContents( );
+		return slots[CONTENT_SLOT].getContents( );
 	}
 
 	/*
@@ -144,10 +126,10 @@ public class TableRow extends StyledElement implements ITableRowModel
 	public int getColumnCount( Module module )
 	{
 		int colCount = 0;
-		int cellCount = contents.getCount( );
+		int cellCount = slots[CONTENT_SLOT].getCount( );
 		for ( int i = 0; i < cellCount; i++ )
 		{
-			Cell cell = (Cell) contents.getContent( i );
+			Cell cell = (Cell) slots[CONTENT_SLOT].getContent( i );
 			int posn = cell.getColumn( module );
 			int span = cell.getColSpan( module );
 
@@ -180,5 +162,4 @@ public class TableRow extends StyledElement implements ITableRowModel
 
 		return list;
 	}
-
 }

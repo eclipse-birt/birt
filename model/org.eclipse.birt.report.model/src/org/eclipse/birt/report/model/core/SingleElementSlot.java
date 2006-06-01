@@ -57,7 +57,7 @@ public class SingleElementSlot extends ContainerSlot
 
 	public Object cloneForTemplate( ) throws CloneNotSupportedException
 	{
-		SingleElementSlot slot = (SingleElementSlot) super.cloneForTemplate( );
+		SingleElementSlot slot = (SingleElementSlot) super.clone( );
 		if ( content != null )
 		{
 			slot.content = (DesignElement) content.cloneForTemplate( );

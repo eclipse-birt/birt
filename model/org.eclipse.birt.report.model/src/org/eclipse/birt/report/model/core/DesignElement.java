@@ -516,6 +516,18 @@ public abstract class DesignElement
 {
 
 	/**
+	 * Constant indicate that the element has no virtual parent.
+	 */
+
+	public final static long NO_BASE_ID = -1;
+
+	/**
+	 * Constant indicate that the element has no id.
+	 */
+
+	public final static long NO_ID = 0;
+
+	/**
 	 * The max length the display label for every element. If the length exceeds
 	 * this limit, the exceeding part will be shown as "...".
 	 */
@@ -615,16 +627,10 @@ public abstract class DesignElement
 	protected List errors;
 
 	/**
-	 * Constant indicate that the element has no virtual parent.
+	 * The set of slots for the design element. If the design element has no
 	 */
 
-	public final static long NO_BASE_ID = -1;
-
-	/**
-	 * Constant indicate that the element has no id.
-	 */
-
-	public final static long NO_ID = 0;
+	protected ContainerSlot slots[] = null;
 
 	/**
 	 * Support for id inheritance. If it is set, base id must be larger than
@@ -3401,7 +3407,51 @@ public abstract class DesignElement
 					: current.getExtendsElement( );
 		}
 
+		// clear text-property of displayName
+
+		if ( element.propValues.get( DesignElement.DISPLAY_NAME_PROP ) != null )
+			element.propValues.remove( DesignElement.DISPLAY_NAME_PROP );
+
+		// clear text-property of displayNameID
+
+		if ( element.propValues.get( DesignElement.DISPLAY_NAME_ID_PROP ) != null )
+			element.propValues.remove( DesignElement.DISPLAY_NAME_ID_PROP );
+
+		// clone slots.
+
+		int slotCount = getDefn( ).getSlotCount( );
+		if ( slotCount > 0 )
+		{
+			element.slots = new ContainerSlot[slotCount];
+
+			for ( int i = 0; i < slotCount; i++ )
+			{
+				element.slots[i] = slots[i].copy( element, i );
+			}
+		}
 		return element;
+	}
+
+	/**
+	 * Creates the slot with the definition.
+	 */
+
+	protected final void initSlots( )
+	{
+		int slotCount = getDefn( ).getSlotCount( );
+
+		if ( slotCount == 0 )
+			return;
+
+		slots = new ContainerSlot[slotCount];
+		for ( int i = 0; i < slotCount; i++ )
+		{
+			SlotDefn slot = (SlotDefn) getDefn( ).getSlot( i );
+			if ( slot.isMultipleCardinality( ) )
+				slots[i] = new MultiElementSlot( );
+			else
+				slots[i] = new SingleElementSlot( );
+		}
 	}
 
 	/**
@@ -3772,28 +3822,35 @@ public abstract class DesignElement
 					.put( key, ModelUtil.copyValue( propDefn, value ) );
 		}
 
-		// clear text-property of displayName
-
-		if ( element.propValues.get( DesignElement.DISPLAY_NAME_PROP ) != null )
-			element.propValues.remove( DesignElement.DISPLAY_NAME_PROP );
-
-		// clear text-property of displayNameID
-
-		if ( element.propValues.get( DesignElement.DISPLAY_NAME_ID_PROP ) != null )
-			element.propValues.remove( DesignElement.DISPLAY_NAME_ID_PROP );
-
 		return element;
 	}
 
 	/**
 	 * The clone method for template element.
 	 * 
-	 * @returnthe clone element with reference to parent in library
+	 * @return the clone element with reference to parent in library
 	 * @throws CloneNotSupportedException
 	 */
 
 	public Object cloneForTemplate( ) throws CloneNotSupportedException
 	{
-		return (DesignElement) baseClone( );
+		DesignElement clonedElement = (DesignElement) baseClone( );
+
+		// clone slots.
+
+		int slotCount = getDefn( ).getSlotCount( );
+		if ( slotCount == 0 )
+			return clonedElement;
+
+		clonedElement.slots = new ContainerSlot[slotCount];
+
+		for ( int i = 0; i < slots.length; i++ )
+		{
+			clonedElement.slots[i] = slots[i]
+					.copyForTemplate( clonedElement, i );
+		}
+
+		return clonedElement;
+
 	}
 }

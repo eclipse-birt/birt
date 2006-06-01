@@ -35,32 +35,12 @@ public class ParameterGroup extends DesignElement
 {
 
 	/**
-	 * The report items slot.
-	 */
-
-	MultiElementSlot parameters = new MultiElementSlot( );
-
-	/**
 	 * Default constructor.
 	 */
 
 	public ParameterGroup( )
 	{
-	}
-
-	/**
-	 * Makes a clone of this parameter group element.
-	 * 
-	 * @return the cloned paremeter group element.
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		ParameterGroup group = (ParameterGroup) super.clone( );
-		group.parameters = (MultiElementSlot) parameters.copy( group,
-				PARAMETERS_SLOT );
-		return group;
+		initSlots( );
 	}
 
 	/**
@@ -73,6 +53,7 @@ public class ParameterGroup extends DesignElement
 	public ParameterGroup( String theName )
 	{
 		super( theName );
+		initSlots( );
 	}
 
 	/*
@@ -84,7 +65,7 @@ public class ParameterGroup extends DesignElement
 	public ContainerSlot getSlot( int slot )
 	{
 		assert slot == PARAMETERS_SLOT;
-		return parameters;
+		return slots[PARAMETERS_SLOT];
 	}
 
 	/*
