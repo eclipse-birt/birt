@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -31,6 +32,8 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -48,10 +51,10 @@ import org.eclipse.swt.widgets.Spinner;
  * @author Actuate Corporation
  * 
  */
-public class PieSeriesAttributeComposite extends Composite
-		implements
-			Listener,
-			SelectionListener
+public class PieSeriesAttributeComposite extends Composite implements
+		Listener,
+		ModifyListener,
+		SelectionListener
 {
 
 	private transient Group grpLeaderLine = null;
@@ -77,7 +80,7 @@ public class PieSeriesAttributeComposite extends Composite
 	private transient Label lblExpDistance;
 	private transient Label lblRatio;
 	private transient Spinner iscExplosion;
-	private transient TextEditorComposite txtRatio;
+	private transient LocalizedNumberEditorComposite txtRatio;
 
 	private final static String TOOLTIP_EXPLODE_SLICE_WHEN = Messages.getString( "PieBottomAreaComponent.Label.TheExplosionCondition" ); //$NON-NLS-1$
 	private final static String TOOLTIP_EXPLOSION_DISTANCE = Messages.getString( "PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion" ); //$NON-NLS-1$
@@ -273,14 +276,15 @@ public class PieSeriesAttributeComposite extends Composite
 			lblRatio.setToolTipText( TOOLTIP_RATIO );
 		}
 
-		txtRatio = new TextEditorComposite( cmpBottomBindingArea, SWT.BORDER );
+		txtRatio = new LocalizedNumberEditorComposite( cmpBottomBindingArea,
+				SWT.BORDER );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
 			txtRatio.setLayoutData( gridData );
 			txtRatio.setToolTipText( TOOLTIP_RATIO );
-			txtRatio.setText( String.valueOf( series.getRatio( ) ) );
-			txtRatio.addListener( this );
+			txtRatio.setValue( series.getRatio( ) );
+			txtRatio.addModifyListener( this );
 		}
 
 	}
@@ -291,6 +295,19 @@ public class PieSeriesAttributeComposite extends Composite
 		cmbLeaderLine.setItems( ns.getDisplayNames( ) );
 		cmbLeaderLine.select( ns.getSafeNameIndex( series.getLeaderLineStyle( )
 				.getName( ) ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 */
+	public void modifyText( ModifyEvent e )
+	{
+		if ( e.widget.equals( txtRatio ) )
+		{
+			series.setRatio( txtRatio.getValue( ) );
+		}
 	}
 
 	/*
@@ -329,18 +346,6 @@ public class PieSeriesAttributeComposite extends Composite
 		else if ( event.widget.equals( txtExplode ) )
 		{
 			series.setExplosionExpression( txtExplode.getText( ) );
-		}
-		else if ( event.widget.equals( txtRatio ) )
-		{
-			String strRatio = txtRatio.getText( );
-			if ( strRatio == "" || Double.parseDouble( strRatio ) < 0.0 ) //$NON-NLS-1$
-			{
-				series.setRatio( 0.0 );
-			}
-			else
-			{
-				series.setRatio( Double.parseDouble( strRatio ) );
-			}
 		}
 	}
 

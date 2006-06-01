@@ -26,9 +26,11 @@ import org.eclipse.birt.chart.ui.swt.composites.DialTicksDialog;
 import org.eclipse.birt.chart.ui.swt.composites.HeadStyleAttributeComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -43,17 +45,17 @@ import org.eclipse.swt.widgets.Listener;
 /**
  * Implement Meter Chart -> Orthogonal Series -> Series Details
  */
-public class MeterSeriesAttributeComposite extends Composite
-		implements
-			Listener,
-			SelectionListener
+public class MeterSeriesAttributeComposite extends Composite implements
+		Listener,
+		ModifyListener,
+		SelectionListener
 {
 
 	private transient Composite cmpContent = null;
 
 	private transient Composite cmpButton = null;
 
-	private transient TextEditorComposite txtRadius = null;
+	private transient LocalizedNumberEditorComposite txtRadius = null;
 
 	private transient IntegerSpinControl iscStartAngle = null;
 
@@ -133,12 +135,15 @@ public class MeterSeriesAttributeComposite extends Composite
 		lblRadius.setLayoutData( gdLBLRadius );
 		lblRadius.setText( Messages.getString( "MeterSeriesAttributeComposite.Lbl.Radius" ) ); //$NON-NLS-1$
 
-		txtRadius = new TextEditorComposite( cmpContent, SWT.BORDER
+		txtRadius = new LocalizedNumberEditorComposite( cmpContent, SWT.BORDER
 				| SWT.SINGLE );
 		GridData gdTXTRadius = new GridData( GridData.FILL_HORIZONTAL );
-		txtRadius.setText( String.valueOf( series.getDial( ).getRadius( ) ) );
+		if ( series.getDial( ).isSetRadius( ) )
+		{
+			txtRadius.setValue( series.getDial( ).getRadius( ) );
+		}
 		txtRadius.setLayoutData( gdTXTRadius );
-		txtRadius.addListener( this );
+		txtRadius.addModifyListener( this );
 
 		Label lblStartAngle = new Label( cmpContent, SWT.NONE );
 		GridData gdLBLStartAngle = new GridData( GridData.HORIZONTAL_ALIGN_END );
@@ -227,16 +232,31 @@ public class MeterSeriesAttributeComposite extends Composite
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 */
+	public void modifyText( ModifyEvent e )
+	{
+		if ( e.widget.equals( txtRadius ) )
+		{
+			if ( txtRadius.isSetValue( ) )
+			{
+				series.getDial( ).setRadius( txtRadius.getValue( ) );
+			}
+			else
+			{
+				series.getDial( ).unsetRadius( );
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
 	public void handleEvent( Event event )
 	{
-		if ( event.widget.equals( txtRadius ) )
-		{
-			series.getDial( )
-					.setRadius( Double.parseDouble( trimString( txtRadius.getText( ) ) ) );
-		}
-		else if ( event.widget.equals( iscStartAngle ) )
+		if ( event.widget.equals( iscStartAngle ) )
 		{
 			series.getDial( )
 					.setStartAngle( ( (Integer) event.data ).intValue( ) );
@@ -292,12 +312,4 @@ public class MeterSeriesAttributeComposite extends Composite
 		}
 	}
 
-	private String trimString( String input )
-	{
-		if ( input.trim( ).length( ) == 0 )
-		{
-			return "0.0"; //$NON-NLS-1$
-		}
-		return input.trim( );
-	}
 }

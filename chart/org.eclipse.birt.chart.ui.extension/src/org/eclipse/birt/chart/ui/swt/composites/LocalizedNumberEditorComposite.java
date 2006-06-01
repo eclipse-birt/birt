@@ -85,9 +85,6 @@ public class LocalizedNumberEditorComposite extends Composite implements
 		txtValue.addModifyListener( this );
 		txtValue.addFocusListener( this );
 		txtValue.addKeyListener( this );
-		//		
-		// txtValue.setBackground( Display.getDefault( ).getSystemColor(
-		// SWT.COLOR_CYAN ) );
 	}
 
 	/*
@@ -114,6 +111,13 @@ public class LocalizedNumberEditorComposite extends Composite implements
 	public boolean isSetValue( )
 	{
 		return bValueIsSet;
+	}
+
+	public void unsetValue( )
+	{
+		bValueIsSet = false;
+		dValue = 0;
+		txtValue.setText( "" ); //$NON-NLS-1$
 	}
 
 	public void setValue( double value )

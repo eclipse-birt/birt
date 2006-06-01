@@ -27,10 +27,13 @@ import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -50,10 +53,10 @@ import com.ibm.icu.text.NumberFormat;
  * 
  */
 
-public class SeriesRegionSheet extends AbstractPopupSheet
-		implements
-			SelectionListener,
-			Listener
+public class SeriesRegionSheet extends AbstractPopupSheet implements
+		SelectionListener,
+		ModifyListener,
+		Listener
 {
 
 	private transient Composite cmpContent;
@@ -82,11 +85,11 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 
 	private transient Label lblInnerRadius = null;
 
-	private transient TextEditorComposite txtInnerRadius = null;
+	private transient LocalizedNumberEditorComposite txtInnerRadius = null;
 
 	private transient Label lblOuterRadius = null;
 
-	private transient TextEditorComposite txtOuterRadius = null;
+	private transient LocalizedNumberEditorComposite txtOuterRadius = null;
 
 	private transient Label lblRangeFill = null;
 
@@ -235,12 +238,12 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		lblInnerRadius.setLayoutData( gdLBLInnerRadius );
 		lblInnerRadius.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.InnerRadius" ) ); //$NON-NLS-1$
 
-		txtInnerRadius = new TextEditorComposite( cmpRangeValue, SWT.BORDER
-				| SWT.SINGLE );
+		txtInnerRadius = new LocalizedNumberEditorComposite( cmpRangeValue,
+				SWT.BORDER | SWT.SINGLE );
 		GridData gdTXTInnerRadius = new GridData( GridData.FILL_HORIZONTAL );
 		gdTXTInnerRadius.horizontalSpan = 2;
 		txtInnerRadius.setLayoutData( gdTXTInnerRadius );
-		txtInnerRadius.addListener( this );
+		txtInnerRadius.addModifyListener( this );
 
 		lblOuterRadius = new Label( cmpRangeValue, SWT.NONE );
 		GridData gdLBLOuterRadius = new GridData( );
@@ -248,12 +251,12 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		lblOuterRadius.setLayoutData( gdLBLOuterRadius );
 		lblOuterRadius.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius" ) ); //$NON-NLS-1$
 
-		txtOuterRadius = new TextEditorComposite( cmpRangeValue, SWT.BORDER
-				| SWT.SINGLE );
+		txtOuterRadius = new LocalizedNumberEditorComposite( cmpRangeValue,
+				SWT.BORDER | SWT.SINGLE );
 		GridData gdTXTOuterRadius = new GridData( GridData.FILL_HORIZONTAL );
 		gdTXTOuterRadius.horizontalSpan = 2;
 		txtOuterRadius.setLayoutData( gdTXTOuterRadius );
-		txtOuterRadius.addListener( this );
+		txtOuterRadius.addModifyListener( this );
 
 		// Fill
 		lblRangeFill = new Label( cmpRange, SWT.NONE );
@@ -370,14 +373,6 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 			int iMarkerIndex = getMarkerIndex( );
 			( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ) ).setEndValue( this.getTypedDataElement( txtEndValue.getText( ) ) );
 		}
-		else if ( event.widget.equals( txtInnerRadius ) )
-		{
-			( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setInnerRadius( Double.parseDouble( trimString( txtInnerRadius.getText( ) ) ) );
-		}
-		else if ( event.widget.equals( txtOuterRadius ) )
-		{
-			( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setOuterRadius( Double.parseDouble( trimString( txtOuterRadius.getText( ) ) ) );
-		}
 		else if ( event.widget.equals( liacMarkerRange ) )
 		{
 			if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
@@ -403,6 +398,37 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 				( (DialRegion) getDialForProcessing( ).getDialRegions( )
 						.get( getMarkerIndex( ) ) ).getOutline( )
 						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 */
+	public void modifyText( ModifyEvent e )
+	{
+		if ( e.widget.equals( txtInnerRadius ) )
+		{
+			if ( txtInnerRadius.isSetValue( ) )
+			{
+				( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setInnerRadius( txtInnerRadius.getValue( ) );
+			}
+			else
+			{
+				( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).unsetInnerRadius( );
+			}
+		}
+		else if ( e.widget.equals( txtOuterRadius ) )
+		{
+			if ( txtOuterRadius.isSetValue( ) )
+			{
+				( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setOuterRadius( txtOuterRadius.getValue( ) );
+			}
+			else
+			{
+				( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).unsetOuterRadius( );
 			}
 		}
 	}
@@ -481,9 +507,8 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 
 	private String getValueAsString( DataElement de )
 	{
-		String sValue = ""; //$NON-NLS-1$
-		sValue = String.valueOf( ( (NumberDataElement) de ).getValue( ) );
-		return sValue;
+		return NumberFormat.getInstance( )
+				.format( ( (NumberDataElement) de ).getValue( ) );
 	}
 
 	private int getMarkerIndex( )
@@ -500,7 +525,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		iRangeCount = getDialForProcessing( ).getDialRegions( ).size( );
 		for ( int iRanges = 0; iRanges < iRangeCount; iRanges++ )
 		{
-			lstMarkers.add( "DialRegion - " + ( iRanges + 1 ) ); //$NON-NLS-1$
+			lstMarkers.add( Messages.getString( "SeriesRegionSheet.message.dialRegion" ) + ( iRanges + 1 ) ); //$NON-NLS-1$
 		}
 	}
 
@@ -522,8 +547,8 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		txtEndValue.setText( getValueAsString( range.getEndValue( ) ) );
 
 		// Update the radius fields
-		txtInnerRadius.setText( String.valueOf( range.getInnerRadius( ) ) );
-		txtOuterRadius.setText( String.valueOf( range.getOuterRadius( ) ) );
+		txtInnerRadius.setValue( range.getInnerRadius( ) );
+		txtOuterRadius.setValue( range.getOuterRadius( ) );
 
 		// Update the fill
 		fccRange.setFill( range.getFill( ) );
@@ -573,8 +598,8 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 	{
 		txtStartValue.setText( "" ); //$NON-NLS-1$
 		txtEndValue.setText( "" ); //$NON-NLS-1$
-		txtInnerRadius.setText( "0.0" ); //$NON-NLS-1$
-		txtOuterRadius.setText( "0.0" ); //$NON-NLS-1$
+		txtInnerRadius.unsetValue( );
+		txtOuterRadius.unsetValue( );
 		fccRange.setFill( null );
 		liacMarkerRange.setLineAttributes( null );
 		liacMarkerRange.layout( );
@@ -596,7 +621,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		{
 			return NumberDataElementImpl.create( 0.0 );
 		}
-		NumberFormat nf = NumberFormat.getNumberInstance( );
+		NumberFormat nf = NumberFormat.getInstance( );
 
 		try
 		{
@@ -609,12 +634,4 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		}
 	}
 
-	private String trimString( String input )
-	{
-		if ( input.trim( ).length( ) == 0 )
-		{
-			return "0.0"; //$NON-NLS-1$
-		}
-		return input.trim( );
-	}
 }
