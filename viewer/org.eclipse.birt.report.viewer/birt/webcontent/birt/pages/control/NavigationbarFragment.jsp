@@ -56,35 +56,40 @@
 					</TD>
 					
 					<TD WIDTH="15px">
-						<IMG SRC="birt/images/FirstPage_disabled.gif" NAME='first'
+						<INPUT TYPE="image" SRC="birt/images/FirstPage_disabled.gif" NAME='first'
+							ALT="<%= BirtResources.getString( "birt.viewer.navbar.first" )%>" 
 							TITLE="<%= BirtResources.getString( "birt.viewer.navbar.first" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="2px"/>
 					<TD WIDTH="15px">
-						<IMG SRC="birt/images/PreviousPage_disabled.gif" NAME='previous'
+						<INPUT TYPE="image" SRC="birt/images/PreviousPage_disabled.gif" NAME='previous' 
+							ALT="<%= BirtResources.getString( "birt.viewer.navbar.previous" )%>" 
 							TITLE="<%= BirtResources.getString( "birt.viewer.navbar.previous" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="2px"/>
 					<TD WIDTH="15px">
-						<IMG SRC="birt/images/NextPage_disabled.gif" NAME='next'
+						<INPUT TYPE="image" SRC="birt/images/NextPage_disabled.gif" NAME='next'
+						    ALT="<%= BirtResources.getString( "birt.viewer.navbar.next" )%>" 
 							TITLE="<%= BirtResources.getString( "birt.viewer.navbar.next" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="2px"/>
 					<TD WIDTH="15px">
-						<IMG SRC="birt/images/LastPage_disabled.gif" NAME='last'
+						<INPUT TYPE="image" SRC="birt/images/LastPage_disabled.gif" NAME='last'
+						    ALT="<%= BirtResources.getString( "birt.viewer.navbar.last" )%>"
 							TITLE="<%= BirtResources.getString( "birt.viewer.navbar.last" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					
 					<TD WIDTH="8px"/>
 					
-					<TD ALIGN="right" WIDTH="80px"><b><%= BirtResources.getString( "birt.viewer.navbar.lable.goto" )%></b></TD>
+					<TD ALIGN="right" WIDTH="80px"><LABEL for="gotoPage"><b><%= BirtResources.getString( "birt.viewer.navbar.lable.goto" )%></b></LABEL></TD>
 					<TD WIDTH="2px"/>
 					<TD ALIGN="right" WIDTH="50px">
 						<INPUT ID='gotoPage' TYPE='text' VALUE='' MAXLENGTH="8" SIZE='5' CLASS="birtviewer_navbar_input">
 					</TD>
 					<TD WIDTH="4px"/>
 					<TD ALIGN="right" WIDTH="10px">
-						<IMG SRC="birt/images/Go.gif" NAME='goto'
+						<INPUT TYPE="image" SRC="birt/images/Go.gif" NAME='goto'
+						    ALT="<%= BirtResources.getString( "birt.viewer.navbar.goto" )%>" 
 							TITLE="<%= BirtResources.getString( "birt.viewer.navbar.goto" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>

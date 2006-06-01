@@ -46,12 +46,15 @@ BirtToolbar.prototype = Object.extend( new AbstractBaseToolbar( ),
 	 */
 	__cb_installEventHandlers : function( )
 	{
-		var oImgs = this.__instance.getElementsByTagName( "img" );
+		var oImgs = this.__instance.getElementsByTagName( 'INPUT' );
 		if ( oImgs )
 		{
 			for ( var i = 0; i < oImgs.length; i++ )
 			{
-				Event.observe( oImgs[i], 'click', this.__neh_click_closure, false );
+				if ( oImgs[i].type == 'image' )
+				{
+					Event.observe( oImgs[i], 'click', this.__neh_click_closure, false );
+				}
 			}
 		}
 	},

@@ -38,28 +38,33 @@
 				<TR>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
-					   <IMG NAME='toc' SRC="birt/images/Toc.gif"
-					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.toc" )%>" CLASS="birtviewer_clickable">
+					   <INPUT TYPE="image" NAME='toc' SRC="birt/images/Toc.gif"
+					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.toc" )%>"
+					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.toc" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
-					   <IMG NAME='parameter' SRC="birt/images/ChangeParameter.gif"
-					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.parameter" )%>" CLASS="birtviewer_clickable">
+					   <INPUT TYPE="image" NAME='parameter' SRC="birt/images/ChangeParameter.gif"
+					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.parameter" )%>"	
+					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.parameter" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
-					   <IMG NAME='export' SRC="birt/images/ExportData.gif"
-					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.export" )%>" CLASS="birtviewer_clickable">
+					   <INPUT TYPE="image" NAME='export' SRC="birt/images/ExportData.gif"
+					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.export" )%>"
+					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.export" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
-					   <IMG NAME='pdf' SRC="birt/images/pdf.gif"
-					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.pdf" )%>" CLASS="birtviewer_clickable">
+					   <INPUT TYPE="image" NAME='pdf' SRC="birt/images/pdf.gif"
+					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.pdf" )%>"
+					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.pdf" )%>" CLASS="birtviewer_clickable">
 					</TD>					
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
-					   <IMG NAME='print' SRC="birt/images/Print.gif"
-					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.print" )%>" CLASS="birtviewer_clickable">
+					   <INPUT TYPE="image" NAME='print' SRC="birt/images/Print.gif"
+					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.print" )%>"
+					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.print" )%>" CLASS="birtviewer_clickable">
 					</TD>					
 					<TD ALIGN='right'>
 					<%
