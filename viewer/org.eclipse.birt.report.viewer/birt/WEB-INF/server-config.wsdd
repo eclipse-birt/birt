@@ -753,6 +753,14 @@
       />
       <typeMapping
         xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:SelectItemChoice"
+        type="java:org.eclipse.birt.report.soapengine.api.SelectItemChoice"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:NumberCategoryChoiceList"
         type="java:org.eclipse.birt.report.soapengine.api.NumberCategoryChoiceList"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"

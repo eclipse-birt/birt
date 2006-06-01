@@ -42,8 +42,8 @@ import org.eclipse.birt.report.soapengine.api.CascadeParameter;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
+import org.eclipse.birt.report.soapengine.api.SelectItemChoice;
 import org.eclipse.birt.report.soapengine.api.SelectionList;
-import org.eclipse.birt.report.soapengine.api.Vector;
 
 public abstract class AbstractGetCascadeParameterActionHandler
 		extends
@@ -105,8 +105,8 @@ public abstract class AbstractGetCascadeParameterActionHandler
 				String name = (String) it.next( );
 				selectionLists[i].setName( name );
 				List selections = (List) cascParamMap.get( name );
-				Vector vector = getVectorFromList( selections );
-				selectionLists[i].setSelections( vector );
+				SelectItemChoice[] SelectItemChoices = getVectorFromList( selections );
+				selectionLists[i].setSelections( SelectItemChoices );
 				i++;
 			}
 			cascadeParameter.setSelectionList( selectionLists );
@@ -120,13 +120,12 @@ public abstract class AbstractGetCascadeParameterActionHandler
 	 * @param list
 	 * @return
 	 */
-	private Vector getVectorFromList( List list )
+	private SelectItemChoice[] getVectorFromList( List list )
 	{
-		Vector selectionList = new Vector( );
-		selectionList.setValue( new String[list.size( )] );
+		SelectItemChoice[] selectionList = new SelectItemChoice[list.size( )];
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			selectionList.setValue( i, (String) list.get( i ) );
+			selectionList[i].setValue( (String) list.get( i ) );
 		}
 		return selectionList;
 	}
