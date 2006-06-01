@@ -101,7 +101,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.66 $ $Date: 2006/05/18 01:45:28 $
+ * @version $Revision: 1.68 $ $Date: 2006/05/25 08:10:11 $
  */
 public class ReportQueryBuilder
 {
@@ -280,8 +280,6 @@ public class ReportQueryBuilder
 		{
 			BaseQueryDefinition query = prepareVisit( container );
 
-			transformExpressions( container );
-
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 				container.getItem( i ).accept( this, value );
 
@@ -297,8 +295,6 @@ public class ReportQueryBuilder
 		public Object visitGridItem( GridItemDesign grid, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( grid );
-
-			transformExpressions( grid );
 
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
 				handleRow( grid.getRow( i ), value );
@@ -316,7 +312,6 @@ public class ReportQueryBuilder
 		{
 			BaseQueryDefinition query = prepareVisit( image );
 
-			transformExpressions( image );
 			if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
 			{
 				String newImageExpression = transformExpression( image.getImageExpression( ) );
@@ -342,7 +337,6 @@ public class ReportQueryBuilder
 		public Object visitLabelItem( LabelItemDesign label, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( label );
-			transformExpressions( label );
 			finishVisit( query );
 			return value;
 		}
@@ -484,7 +478,6 @@ public class ReportQueryBuilder
 		public Object visitTextItem( TextItemDesign text, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( text );
-			transformExpressions( text );
 			HashMap exprs = text.getExpressions( );
 			if ( exprs != null )
 			{
@@ -590,7 +583,6 @@ public class ReportQueryBuilder
 				Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( multiLine );
-			transformExpressions( multiLine );
 			String newContent = transformExpression( multiLine.getContent( ) );
 			multiLine.setContent( newContent );
 			finishVisit( query );
@@ -605,7 +597,6 @@ public class ReportQueryBuilder
 		public Object visitDataItem( DataItemDesign data, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( data );
-			transformExpressions( data );
 			String newValue = transformExpression( data.getValue( ) );
 			data.setValue( newValue );
 			finishVisit( query );
