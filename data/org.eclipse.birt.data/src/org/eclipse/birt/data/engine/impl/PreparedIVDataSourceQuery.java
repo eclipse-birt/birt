@@ -67,7 +67,7 @@ public class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 	protected QueryExecutor newExecutor() 
 	{
 		return new IVDataSourceExecutor(engine.getSharedScope(), queryDefn,
-				new AggregateTable());
+				this.preparedQuery.getAggrTable( ));
 	}
 
 	/**

@@ -112,7 +112,7 @@ abstract class PreparedDataSourceQuery
 	private DataEngineImpl dataEngine;
 	private IQueryDefinition queryDefn;
 	private IBaseDataSetDesign dataSetDesign;	
-	private PreparedQuery preparedQuery;
+	protected PreparedQuery preparedQuery;
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
