@@ -14,25 +14,24 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import com.ibm.icu.util.Currency;
-import com.ibm.icu.util.ULocale;
+
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.FormatCurrencyNumPattern;
+import org.eclipse.birt.report.designer.util.FormatCustomNumPattern;
+import org.eclipse.birt.report.designer.util.FormatFixedNumPattern;
+import org.eclipse.birt.report.designer.util.FormatNumberPattern;
+import org.eclipse.birt.report.designer.util.FormatPercentNumPattern;
+import org.eclipse.birt.report.designer.util.FormatScientificNumPattern;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.designer.util.FormatNumberPattern;
-import org.eclipse.birt.report.designer.util.FormatCustomNumPattern;
-import org.eclipse.birt.report.designer.util.FormatCurrencyNumPattern;
-import org.eclipse.birt.report.designer.util.FormatFixedNumPattern;
-import org.eclipse.birt.report.designer.util.FormatPercentNumPattern;
-import org.eclipse.birt.report.designer.util.FormatScientificNumPattern;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.FocusEvent;
@@ -55,6 +54,10 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.util.Currency;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Format number page for formatting numbers.
@@ -490,16 +493,21 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	private String getPatternForCategory( String category )
 	{
-		String pattern;
+		String pattern = null;
 		if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( category ) )
 		{
-			String sym = "\u00A4";// 'OX' currency symbol
+			pattern = "\u00A4###,##0.00"; //$NON-NLS-1$
 			Currency currency = Currency.getInstance( ULocale.getDefault( ) );
 			if ( currency != null )
 			{
-				sym = currency.getSymbol( );
+				String symbol = currency.getSymbol( );
+				NumberFormat formater = NumberFormat.getCurrencyInstance( );
+				String result = formater.format( 1 );
+				if ( result.endsWith( symbol ) )
+				{
+					pattern = "###,##0.00\u00A4";//$NON-NLS-1$
+				}
 			}
-			pattern = sym + "###,##0.00"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED.equals( category ) )
 		{
