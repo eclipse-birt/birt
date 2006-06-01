@@ -254,11 +254,11 @@ class QueryResults implements IQueryResults, IQueryService
 	 * generated independently, and it is needs to be attached with its parent
 	 * query.
 	 * 
-	 * @param queryResultID
+	 * @param selfQueryResultID
 	 */
-	void setID( String queryResultID )
+	void setID( String selfQueryResultID )
 	{
-		this.selfQueryResultID = queryResultID;
+		this.setID( null, selfQueryResultID );
 	}
 	
 	/**
