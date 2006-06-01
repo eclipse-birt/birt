@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
@@ -112,7 +114,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.50 $ $Date: 2006/05/24 07:50:16 $
+ * @version $Revision: 1.51 $ $Date: 2006/05/25 02:07:38 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -189,6 +191,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		} 
 	}
  
+	/**
+	 * constructor
+	 * @param pageName
+	 */
 	public SQLDataSetEditorPage( String pageName )
 	{
 		super( pageName );
@@ -205,17 +211,233 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	}
 	
 	/**
+	 * create page control for sql edit page
+	 * 
+	 * @param parent
+	 * @return
+	 */
+	private Control createPageControl( Composite parent )
+	{
+		SashForm SashForm = new SashForm( parent, SWT.HORIZONTAL );
+		SashForm.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		initialize( );
+
+		initJdbcInfo( );
+
+		createTableSelectionComposite( SashForm );
+
+		// Populate the available Items
+		populateAvailableDbObjects( );
+
+		createTextualQueryComposite( SashForm );
+
+		setSashFormWeights( SashForm );
+
+		return SashForm;
+	}
+	
+	/**
 	 * initial dataset control
-	 *
+	 * 
 	 */
 	private void initializeControl( )
 	{
 		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );
-		setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE);
+		setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
 		refreshPage( );
 		prepareUI( );
 	}
 	
+	/**
+	 * initialize image property
+	 * 
+	 */
+	private void initialize( )
+	{
+		tableImage = JFaceResources.getImage( TABLE_ICON );
+		viewImage = JFaceResources.getImage( VIEW_ICON );
+		schemaImage = JFaceResources.getImage( SCHEMA_ICON );
+		dataBaseImage = JFaceResources.getImage( DATABASE_ICON );
+		columnImage = JFaceResources.getImage( COLUMN_ICON );
+	}
+
+
+	/**
+	 *  Initializes the Jdbc related information , used  by this page
+	 * ( such as the Jdbc Connection , Catalog Name etc )
+	 *
+	 */
+	protected void initJdbcInfo()
+	{
+		createMetaDataProvider( );
+
+		prevDataSourceDesign = this.getDataSetDesign( ).getDataSourceDesign( );
+		jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceDesign);
+		
+		validConnection = (jdbcConnection == null) ? false: true; 
+		
+		try
+		{
+			if ( jdbcConnection != null )
+			{
+				
+				// Check if schema is supported
+				isSchemaSupported = metaDataProvider.isSchemaSupported( );
+
+			}
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.showException( this.getShell( ),
+					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+					e.getLocalizedMessage( ),
+					e );
+		}
+	}
+	
+	/**
+	 * Creates the composite, for displaying the list of available db objects
+	 * 
+	 * @param parent
+	 */
+	private void createTableSelectionComposite( Composite parent )
+	{
+		Composite tablescomposite = new Composite( parent, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+
+		tablescomposite.setLayout( layout );
+		{
+			GridData data = new GridData( GridData.FILL_BOTH );
+			data.grabExcessVerticalSpace = true;
+			tablescomposite.setLayoutData( data );
+		}
+
+		// Available Items
+		Label dataSourceLabel = new Label( tablescomposite, SWT.LEFT );
+		dataSourceLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.availableItems" ) );//$NON-NLS-1$
+		{
+			GridData data = new GridData( );
+			dataSourceLabel.setLayoutData( data );
+		}
+
+		availableDbObjectsTree = new Tree( tablescomposite, SWT.BORDER
+				| SWT.MULTI );
+
+		{
+			GridData data = new GridData( GridData.FILL_BOTH );
+			data.grabExcessHorizontalSpace = true;
+			data.grabExcessVerticalSpace = true;
+			data.heightHint = 150;
+			availableDbObjectsTree.setLayoutData( data );
+		}
+
+		availableDbObjectsTree.addMouseListener( new MouseAdapter( ) {
+
+			public void mouseDoubleClick( MouseEvent e )
+			{
+				populateEventData( e );
+				insertText( (String) e.data );
+			}
+		} );
+		availableDbObjectsTree.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+				if ( event.widget.getClass( ) != null )
+					handleAvailabeTreeSelection( );
+			}
+
+			private void handleAvailabeTreeSelection( )
+			{
+				TreeItem items[] = availableDbObjectsTree.getSelection( );
+				for ( int i = 0; i < items.length; i++ )
+				{
+					if ( items[i].getGrayed( ) )
+					{
+						availableDbObjectsTree.setRedraw( false );
+						availableDbObjectsTree.deselectAll( );
+						availableDbObjectsTree.setRedraw( true );
+						availableDbObjectsTree.redraw( );
+					}
+				}
+			}
+		} );
+
+		// Group for selecting the Tables etc
+		// Searching the Tables and Views
+		Group selectTableGroup = new Group( tablescomposite, SWT.FILL );
+		{
+			GridLayout groupLayout = new GridLayout( );
+			groupLayout.numColumns = 3;
+			// groupLayout.horizontalSpacing = 10;
+			groupLayout.verticalSpacing = 10;
+			selectTableGroup.setLayout( groupLayout );
+
+			GridData data = new GridData( GridData.FILL_HORIZONTAL );
+			selectTableGroup.setLayoutData( data );
+		}
+
+		schemaLabel = new Label( selectTableGroup, SWT.LEFT );
+		schemaLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.schema" ) );
+
+		schemaCombo = new Combo( selectTableGroup, SWT.READ_ONLY );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		schemaCombo.setLayoutData( gd );
+		enableSchemaComponent( isSchemaSupported );
+
+		Label FilterLabel = new Label( selectTableGroup, SWT.LEFT );
+		FilterLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.filter" ) );
+
+		searchTxt = new Text( selectTableGroup, SWT.BORDER );
+		{
+			GridData data = new GridData( GridData.FILL_HORIZONTAL );
+			data.horizontalSpan = 2;
+			searchTxt.setLayoutData( data );
+		}
+
+		// Select Type
+		Label selectTypeLabel = new Label( selectTableGroup, SWT.NONE );
+		selectTypeLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.selecttype" ) );
+
+		// Filter Combo
+		filterComboViewer = new ComboViewer( selectTableGroup, SWT.READ_ONLY );
+		setFilterComboContents( filterComboViewer );
+		filterComboViewer.getControl( )
+				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		// Find Button
+		Button findButton = new Button( selectTableGroup, SWT.NONE );
+		findButton.setText( JdbcPlugin.getResourceString( "tablepage.button.filter" ) );//$NON-NLS-1$
+
+		// Add listener to the find button
+		findButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+				PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.asyncExec( new Runnable( ) {
+
+							public void run( )
+							{
+								populateAvailableDbObjects( );
+
+							}
+
+						} );
+			}
+		} );
+
+		setupIdentifierQuoteStringCheckBox( selectTableGroup );
+
+		setRootElement( );
+
+		// Create the drag source on the tree
+		addDragSupportToTree( );
+	}
+		
     /*
 	 * (non-Javadoc)
 	 * 
@@ -310,12 +532,19 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
     	
 		ResultSetColumns columns = DesignSessionUtil.toResultSetColumnsDesign( md );
 
-		ResultSetDefinition resultSetDefn = DesignFactory.eINSTANCE.createResultSetDefinition( );
-		// jdbc does not support result set name
-		resultSetDefn.setResultSetColumns( columns );
-		// no exception; go ahead and assign to specified dataSetDesign
-		dataSetDesign.setPrimaryResultSet( resultSetDefn );
-		dataSetDesign.getResultSets( ).setDerivedMetaData( true );
+		if ( columns != null )
+		{
+			ResultSetDefinition resultSetDefn = DesignFactory.eINSTANCE.createResultSetDefinition( );
+			// jdbc does not support result set name
+			resultSetDefn.setResultSetColumns( columns );
+			// no exception; go ahead and assign to specified dataSetDesign
+			dataSetDesign.setPrimaryResultSet( resultSetDefn );
+			dataSetDesign.getResultSets( ).setDerivedMetaData( true );
+		}
+		else
+		{
+			dataSetDesign.setResultSets( null );
+		}
 	}
     
     /**
@@ -436,33 +665,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 			e.printStackTrace( );
 		}
 	}
-    
-	/**
-	 * 
-	 * @param parent
-	 * @return
-	 */
-	public Control createPageControl( Composite parent )
-	{
-		SashForm SashForm = new SashForm( parent, SWT.HORIZONTAL );
-		SashForm.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		initialize( );
-
-		initJdbcInfo( );
-
-		createTableSelectionComposite( SashForm );
-
-		// Populate the available Items
-		populateAvailableDbObjects( );
-
-		createTextualQueryComposite( SashForm );
-
-		setSashFormWeights( SashForm );
-
-		return SashForm;
-	}
-	
 	/**
 	 * Sets Splitter Weights.
 	 * if left side is too wide,set weights with default value 40,60.  
@@ -487,142 +690,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		}
 		
 	}
-	
-	/**
-	 * Creates the composite,  for displaying the list of available db objects
-	 * @param parent
-	 */
-	private void createTableSelectionComposite( Composite parent )
-	{
-		Composite tablescomposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
-		
-		tablescomposite.setLayout(layout);
-		{
-			GridData data = new GridData(GridData.FILL_BOTH);
-			data.grabExcessVerticalSpace = true;
-			tablescomposite.setLayoutData(data);
-		}
-		
-		// Available Items 
-		Label dataSourceLabel = new Label( tablescomposite, SWT.LEFT );
-		dataSourceLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.availableItems" ) );//$NON-NLS-1$
-		{
-			GridData data = new GridData();
-			dataSourceLabel.setLayoutData(data);
-		}
-		
-		availableDbObjectsTree = new Tree(tablescomposite, SWT.BORDER|SWT.MULTI );
-		
-		{
-			GridData data = new GridData(GridData.FILL_BOTH);
-			data.grabExcessHorizontalSpace = true;
-			data.grabExcessVerticalSpace = true;
-			data.heightHint = 150;
-			availableDbObjectsTree.setLayoutData(data);
-		}
-		
-		availableDbObjectsTree.addMouseListener(new MouseAdapter() {
-			public void mouseDoubleClick(MouseEvent e) 
-			{
-				populateEventData( e );
-				insertText( (String) e.data );
-			}
-		});
-		availableDbObjectsTree.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-			  if ( event.widget.getClass() != null )
-				 handleAvailabeTreeSelection();
-			}
 
-			private void handleAvailabeTreeSelection() {
-				TreeItem items[] = availableDbObjectsTree.getSelection();	
-				for ( int i = 0; i <items.length; i++ )
-				{
-					if ( items[i].getGrayed() )
-					{
-						availableDbObjectsTree.setRedraw(false);
-						availableDbObjectsTree.deselectAll();
-						availableDbObjectsTree.setRedraw(true);	
-						availableDbObjectsTree.redraw();	
-					}
-				}
-			}
-		  });
-
-		// Group for selecting the Tables etc
-		// Searching the Tables and Views
-		Group selectTableGroup = new Group(tablescomposite, SWT.FILL);
-		{
-			GridLayout groupLayout = new GridLayout();
-			groupLayout.numColumns = 3;
-			//groupLayout.horizontalSpacing = 10;
-			groupLayout.verticalSpacing = 10;
-			selectTableGroup.setLayout(groupLayout);
-			
-			GridData data = new GridData(GridData.FILL_HORIZONTAL);
-			selectTableGroup.setLayoutData(data);
-		}
-		
-		schemaLabel = new Label( selectTableGroup, SWT.LEFT );
-		schemaLabel.setText( JdbcPlugin.getResourceString("tablepage.label.schema") );
-
-		schemaCombo = new Combo( selectTableGroup, SWT.READ_ONLY );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
-		schemaCombo.setLayoutData( gd );
-		enableSchemaComponent( isSchemaSupported );
-	
-		Label FilterLabel = new Label(selectTableGroup, SWT.LEFT);
-		FilterLabel.setText(JdbcPlugin.getResourceString("tablepage.label.filter"));
-		
-		searchTxt = new Text(selectTableGroup, SWT.BORDER) ;
-		{
-			GridData data = new GridData(GridData.FILL_HORIZONTAL);
-			data.horizontalSpan = 2;
-			searchTxt.setLayoutData(data);
-		}
-		
-		// Select Type
-		Label selectTypeLabel = new Label(selectTableGroup, SWT.NONE);
-		selectTypeLabel.setText(JdbcPlugin.getResourceString("tablepage.label.selecttype"));
-		
-		// Filter Combo
-		filterComboViewer = new ComboViewer(selectTableGroup, SWT.READ_ONLY);
-		setFilterComboContents(filterComboViewer);
-		filterComboViewer.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	
-		// Find Button
-		Button findButton = new Button(selectTableGroup, SWT.NONE);
-		findButton.setText(JdbcPlugin.getResourceString("tablepage.button.filter"));//$NON-NLS-1$
-		
-		// Add listener to the find button
-		findButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent event )
-			{
-				PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.asyncExec( new Runnable( ) {
-
-							public void run( )
-							{
-								populateAvailableDbObjects( );
-
-							}
-
-						} );
-			}
-		} );
-		
-		setupIdentifierQuoteStringCheckBox( selectTableGroup );
-		
-		setRootElement();
-		
-		//	 Create the drag source on the tree
-		addDragSupportToTree();   
-	}
-	
 	/**
 	 * 
 	 * @param group
@@ -674,11 +742,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		DbType allType = new DbType(DbType.ALL_TYPE, JdbcPlugin.getResourceString("tablepage.text.All"));
 		DbType procedureType = new DbType(DbType.PROCEDURE_TYPE,JdbcPlugin.getResourceString("tablepage.text.procedure"));
 		// Populate the Types of Data bases objects which can be retrieved
-		dbTypeList.add(allType);
-		dbTypeList.add(tableType);
-		dbTypeList.add(viewType);
-		if(metaDataProvider.isSchemaSupported()) 
-			dbTypeList.add(procedureType);
+		dbTypeList.add( allType );
+		dbTypeList.add( tableType );
+		dbTypeList.add( viewType );
+		if ( metaDataProvider.isProcedureSupported( ) )
+			dbTypeList.add( procedureType );
         filterComboViewer.setContentProvider(new IStructuredContentProvider(){
 
             public Object[] getElements(Object inputElement)
@@ -1052,7 +1120,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		ResultSet tablesRs = null;
 		ArrayList procedureRs = null;
 		String catalogName = metaDataProvider.getCatalog( );
-
+		tableList = new ArrayList( );
+		
 		String namePattern = null;
 		String[] tableType = null;
 		cachedSearchTxt = searchTxt.getText( );
@@ -1106,7 +1175,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 							numberOfTable );
 				}
 				int count = 0;
-				tableList = new ArrayList( );
 				while ( tablesRs.next( ) && count < numberOfTable )
 				{
 					String tableName = tablesRs.getString( "TABLE_NAME" );
@@ -1201,55 +1269,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	{
 		return metadata.connect( dataSourceDesign );
 	}
-	
-	private void initialize()
-	{
-//		dataSourceImage = JFaceResources.getImage( PAGE_ICON );
-		
-		tableImage = JFaceResources.getImage( TABLE_ICON );
-		
-		viewImage = JFaceResources.getImage( VIEW_ICON );
-		
-		schemaImage = JFaceResources.getImage(SCHEMA_ICON);
-		
-		dataBaseImage = JFaceResources.getImage(DATABASE_ICON);
-		
-		columnImage = JFaceResources.getImage(COLUMN_ICON);
-		
-	}
 
-	/**
-	 *  Initializes the Jdbc related information , used  by this page
-	 * ( such as the Jdbc Connection , Catalog Name etc )
-	 *
-	 */
-	protected void initJdbcInfo()
-	{
-		createMetaDataProvider( );
-
-		prevDataSourceDesign = this.getDataSetDesign( ).getDataSourceDesign( );
-		jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceDesign);
-		
-		validConnection = (jdbcConnection == null) ? false: true; 
-		
-		try
-		{
-			if ( jdbcConnection != null )
-			{
-				
-				// Check if schema is supported
-				isSchemaSupported = metaDataProvider.isSchemaSupported( );
-
-			}
-		}
-		catch ( Exception e )
-		{
-			ExceptionHandler.showException( this.getShell( ),
-					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
-					e.getLocalizedMessage( ),
-					e );
-		}
-	}
 	/**
 	 *  Create Metadata Provider
 	 */

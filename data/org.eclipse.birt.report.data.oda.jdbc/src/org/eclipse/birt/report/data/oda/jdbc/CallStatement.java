@@ -426,8 +426,8 @@ public class CallStatement implements IAdvancedQuery
 			for ( int index = 0; index < positionArray.length; index++ )
 			{
 				int position = positionArray[index];
-				if ( paramInfo.getParameterMode( position ) == IParameterMetaData.parameterModeInOut
-						|| paramInfo.getParameterMode( position ) == IParameterMetaData.parameterModeOut )
+				if ( position <= paramInfo.getParameterCount( )
+						&& ( paramInfo.getParameterMode( position ) == IParameterMetaData.parameterModeInOut || paramInfo.getParameterMode( position ) == IParameterMetaData.parameterModeOut ) )
 					registerOutParameter( index + 1,
 							paramInfo.getParameterType( position ) );
 			}
