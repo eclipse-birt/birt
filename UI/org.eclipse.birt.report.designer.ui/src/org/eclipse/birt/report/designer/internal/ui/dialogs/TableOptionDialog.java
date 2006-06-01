@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.swt.SWT;
@@ -196,6 +198,8 @@ public class TableOptionDialog extends BaseDialog
 		gdata.horizontalSpan = 2;
 		chkbox.setLayoutData( gdata );
 
+		UIUtil.bindHelp( parent,IHelpContextIds.TABLE_OPTION_DIALOG_ID ); 
+		
 		return composite;
 	}
 

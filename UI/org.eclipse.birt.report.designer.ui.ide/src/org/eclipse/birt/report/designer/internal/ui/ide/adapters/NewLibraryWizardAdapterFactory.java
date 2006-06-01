@@ -19,6 +19,7 @@ import java.net.URL;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -39,6 +40,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -74,6 +76,8 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 		INewLibraryCreationPage
 {
 
+	
+	
 	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewLibraryWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
 	private static final String CREATING = Messages.getString( "NewLibraryWizard.text.Creating" ); //$NON-NLS-1$
 	
@@ -86,6 +90,14 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 //	private static final String WIZARDPAGE = Messages.getString( "NewLibraryWizard.title.WizardPage" ); //$NON-NLS-1$
 //	private static final String NEW = Messages.getString( "NewLibraryWizard.title.New" ); //$NON-NLS-1$
 
+    /** (non-Javadoc)
+     * Method declared on IDialogPage.
+     */
+    public void createControl(Composite parent) {
+    	super.createControl( parent );
+    	UIUtil.bindHelp( getControl(), IHelpContextIds.NEW_LIBRARY_WIZARD_ID );    	
+    }
+    
 	public NewLibraryCreationPage( String pageName,
 			IStructuredSelection selection )
 	{

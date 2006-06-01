@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.ui.ide.wizards;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.resources.IWorkspace;
@@ -58,6 +60,22 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 		
 		fileExtension = fileType;
 	}
+	
+    /** (non-Javadoc)
+     * Method declared on IDialogPage.
+     */
+    public void createControl(Composite parent) {
+    	super.createControl( parent );    	
+    	if(fileExtension.equals( IReportElementConstants.TEMPLATE_FILE_EXTENSION ))
+    	{
+    		UIUtil.bindHelp( getControl(),IHelpContextIds.NEW_TEMPLATE_WIZARD_ID );
+    	}else
+    	if(fileExtension.equals( IReportElementConstants.DESIGN_FILE_EXTENSION ))
+    	{
+    		UIUtil.bindHelp( getControl(),IHelpContextIds.NEW_REPORT_WIZARD_ID );
+    	}
+    	
+    }
 	
 	/*
 	 * (non-Javadoc)

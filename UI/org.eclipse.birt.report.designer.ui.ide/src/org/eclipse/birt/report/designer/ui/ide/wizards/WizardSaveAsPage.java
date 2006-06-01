@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.ui.ide.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -128,6 +130,8 @@ public class WizardSaveAsPage extends WizardPage
 		setControl( composite );
 
 		initializeControls( );
+			
+		UIUtil.bindHelp( getControl(),IHelpContextIds.SAVE_AS_WIZARD_ID );  
 	}
 
 	/**

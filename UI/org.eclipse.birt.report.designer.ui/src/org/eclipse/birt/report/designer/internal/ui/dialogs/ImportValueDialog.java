@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -108,6 +109,7 @@ public class ImportValueDialog extends BaseDialog
 		Composite composite = (Composite) super.createDialogArea( parent );
 		createColumnSelectionArea( composite );
 		createValueSelectionArea( composite );
+		UIUtil.bindHelp( composite,IHelpContextIds.IMPORT_VALUE_DIALOG_ID );  
 		return composite;
 	}
 

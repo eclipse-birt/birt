@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.ui.preferences;
 import java.io.File;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -109,6 +111,7 @@ public class LibraryPreferencePage extends PreferencePage implements
 	 */
 	protected Control createContents( Composite parent )
 	{
+		UIUtil.bindHelp( parent,IHelpContextIds.PREFERENCE_BIRT_LIBRARY_ID ); 		
 		Composite mainComposite = new Composite( parent, SWT.NULL );
 
 		// Create a data that takes up the extra space in the dialog .

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -79,6 +81,20 @@ public class ParameterGroupGeneralPage extends TabPage
 		displayNameEditor = new Text( composite, SWT.BORDER | SWT.SINGLE );
 		displayNameEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING ) );
+	}
+	
+	/**
+	 * Creates the top level control of the page under the given parent
+	 * 
+	 * @param parent
+	 *            the parent composite
+	 * 
+	 * @return Returns the control
+	 */
+	public Composite createControl( Composite parent )
+	{
+		UIUtil.bindHelp( parent,IHelpContextIds.PARAMETER_GROUP_DIALOG_ID ); 
+		return super.createControl( parent );
 	}
 
 	/*

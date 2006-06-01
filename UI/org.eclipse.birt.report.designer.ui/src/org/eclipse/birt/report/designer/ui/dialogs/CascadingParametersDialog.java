@@ -21,6 +21,7 @@ import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ComboBoxCellEditor;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -270,6 +271,8 @@ public class CascadingParametersDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
+		UIUtil.bindHelp( parent,IHelpContextIds.CASCADING_PARAMETER_DIALOG_ID ); 
+		
 		GridData data = new GridData( );
 		data.widthHint = 600;
 

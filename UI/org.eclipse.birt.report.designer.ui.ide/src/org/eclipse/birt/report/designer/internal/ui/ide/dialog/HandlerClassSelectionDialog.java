@@ -12,9 +12,11 @@
 package org.eclipse.birt.report.designer.internal.ui.ide.dialog;
 
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.TwoPaneElementSelector;
 
 /**
@@ -51,7 +53,7 @@ public class HandlerClassSelectionDialog extends TwoPaneElementSelector
 	 */
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		//PlatformUI.getWorkbench().getHelpSystem().setHelp(newShell, new Object[] { IJavaHelpContextIds.MAINTYPE_SELECTION_DIALOG });
+//		PlatformUI.getWorkbench().getHelpSystem().setHelp(newShell, new Object[] { IJavaHelpContextIds.MAINTYPE_SELECTION_DIALOG });
 	}
 
 	/*

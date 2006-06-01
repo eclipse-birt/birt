@@ -88,6 +88,7 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -111,6 +112,7 @@ public class UIUtil
 	 * Regex pattern for neutral chars in Bidi Algorithm.
 	 */
 	static Pattern punctuation = Pattern.compile( "\\p{Punct}||\\p{Blank}||\\p{Space}" ); //$NON-NLS-1$
+	public static Object listArea;
 
 	/**
 	 * Returns the length in pixels of given string in a control.
@@ -1336,4 +1338,26 @@ public class UIUtil
 				.matches( );
 		return match;
 	}
+	
+	/**
+	 * Sets the given help context id on the given control's shell.
+	 * 
+	 * @param control
+	 *            the control on which to register the context id
+	 * @param contextId
+	 *            the context id to use when F1 help is invoked
+	 */
+	public static void bindHelp( Control control, String contextId )
+	{
+		try
+		{
+			IWorkbench workbench = PlatformUI.getWorkbench( );
+			workbench.getHelpSystem( ).setHelp( control, contextId );
+		}
+		catch ( RuntimeException e )
+		{
+			// Do nothing since there's no workbench
+		}
+	}
+	
 }

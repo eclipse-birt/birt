@@ -20,6 +20,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -374,6 +375,8 @@ public class HyperlinkBuilder extends BaseDialog
 						: 490 ) );
 		displayArea.setLayout( new GridLayout( 3, false ) );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		
+		UIUtil.bindHelp( parent,IHelpContextIds.HYPERLINK_BUILDER_ID ); 
 		return composite;
 	}
 

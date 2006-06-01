@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.ui.preferences;
 import java.util.Arrays;
 import java.util.Vector;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.preference.PreferencePage;
@@ -69,6 +71,8 @@ public class ElementNamesPreferencePage extends PreferencePage
 	protected Control createContents( Composite parent )
 	{
 
+		UIUtil.bindHelp( parent,IHelpContextIds.PREFERENCE_BIRT_ELEMENT_NAMES_ID ); 
+		
 		Composite mainComposite = new Composite( parent, SWT.BORDER );
 
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );

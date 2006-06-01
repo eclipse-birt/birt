@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BindingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -28,7 +30,7 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * TODO: Please document
  * 
- * @version $Revision: #3 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:15 $
  */
 public class DataBindingDialog extends Dialog
 {
@@ -62,6 +64,7 @@ public class DataBindingDialog extends Dialog
         data.heightHint = 300;
         page.setLayoutData(data);
         this.getShell().setText(Messages.getString("dataBinding.title")); //$NON-NLS-1$
+		UIUtil.bindHelp( parent,IHelpContextIds.DATA_BINDING_DIALOG_ID ); 
         return composite;
     }
 }

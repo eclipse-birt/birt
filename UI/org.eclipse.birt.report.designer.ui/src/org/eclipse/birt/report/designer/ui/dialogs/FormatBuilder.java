@@ -16,6 +16,8 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatDateTimePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatStringPage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.util.Assert;
@@ -87,6 +89,8 @@ public class FormatBuilder extends BaseDialog
 				break;
 		}
 		( (Composite) page ).setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		
+		UIUtil.bindHelp( composite,IHelpContextIds.FORMAT_BUILDER_ID );  
 		return composite;
 	}
 

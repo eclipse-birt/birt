@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
@@ -520,6 +521,7 @@ public class ParameterDialog extends BaseDialog
 		Composite composite = (Composite) super.createDialogArea( parent );
 		createPropertiesSection( composite );
 		createMoreOptionSection( composite );
+		UIUtil.bindHelp( parent,IHelpContextIds.PARAMETER_DIALOG_ID ); 
 		return composite;
 	}
 

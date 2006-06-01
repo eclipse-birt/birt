@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.preference.FieldEditor;
@@ -56,6 +58,7 @@ public class DateSetPreferencePage extends PreferencePage
 	 */
 	protected Control createContents( Composite parent )
 	{
+		UIUtil.bindHelp( parent,IHelpContextIds.PREFERENCE_BIRT_DATA_SET_EDITOR_ID ); 
 		Composite mainComposite = new Composite( parent, SWT.NONE );
 		GridData data = new GridData( GridData.FILL_HORIZONTAL);
 

@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSDocumentProvide
 import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSSourceViewerConfiguration;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -280,6 +281,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		createMessageLine( composite );
 		createListArea( composite );
 
+		UIUtil.bindHelp( parent,IHelpContextIds.EXPRESSION_BUILDER_ID ); 
 		return composite;
 
 	}

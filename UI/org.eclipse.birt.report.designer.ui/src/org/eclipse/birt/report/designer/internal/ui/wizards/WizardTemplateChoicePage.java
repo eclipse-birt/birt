@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -404,6 +405,8 @@ public class WizardTemplateChoicePage extends WizardPage
 		templateList.select( 0 );
 		templateListener.handleEvent( new Event( ) );
 		setControl( composite );
+		
+		UIUtil.bindHelp( getControl(),IHelpContextIds.NEW_REPORT_COPY_WIZARD_ID );
 	}
 
 	private void createCustomTemplateList( )

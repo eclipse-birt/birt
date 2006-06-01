@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.ui.ide.wizards;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.resources.ICommand;
@@ -84,7 +86,9 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 
 			public void createControl( Composite parent )
 			{
+				
 				super.createControl( parent );
+				UIUtil.bindHelp( getControl( ), IHelpContextIds.NEW_REPORT_PROJECT_ID );
 
 //				Group group = new Group( (Composite) super.getControl( ),
 //						SWT.NONE );

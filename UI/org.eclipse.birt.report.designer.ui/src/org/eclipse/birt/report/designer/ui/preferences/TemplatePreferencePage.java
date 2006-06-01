@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.preference.PreferencePage;
@@ -83,6 +85,7 @@ public class TemplatePreferencePage extends PreferencePage
 	 */
 	protected Control createContents( Composite parent )
 	{
+		UIUtil.bindHelp( parent,IHelpContextIds.PREFERENCE_BIRT_TEMPLATE_ID ); 		
 		Composite mainComposite = new Composite( parent, SWT.NULL );
 
 		GridData data = new GridData( GridData.FILL_HORIZONTAL
