@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -39,6 +40,7 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BidiSegmentEvent;
 import org.eclipse.swt.custom.BidiSegmentListener;
@@ -212,10 +214,23 @@ public class ExpressionBuilder extends TitleAreaDialog
 			}
 			if ( event.getSource( ) == functionTable )
 			{
-				String insertText = provider.getInsertText( selection.getFirstElement( ) );
-				if ( insertText != null )
+				if ( selection.getFirstElement( ) instanceof Object[] )
 				{
-					insertText( insertText );
+					ColumnBindingDialog dialog = new ColumnBindingDialog( );
+					Object[] inputArray = (Object[]) selection.getFirstElement( );
+					dialog.setInput( (ReportItemHandle) inputArray[1] );
+					if ( dialog.open( ) == Window.OK )
+					{
+						functionTable.refresh( );
+					}
+				}
+				else
+				{
+					String insertText = provider.getInsertText( selection.getFirstElement( ) );
+					if ( insertText != null )
+					{
+						insertText( insertText );
+					}
 				}
 				return;
 			}
@@ -281,7 +296,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		createMessageLine( composite );
 		createListArea( composite );
 
-		UIUtil.bindHelp( parent,IHelpContextIds.EXPRESSION_BUILDER_ID ); 
+		UIUtil.bindHelp( parent, IHelpContextIds.EXPRESSION_BUILDER_ID );
 		return composite;
 
 	}
@@ -373,14 +388,15 @@ public class ExpressionBuilder extends TitleAreaDialog
 		expressionArea.setLayout( new GridLayout( 2, false ) );
 		expressionArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		Composite composite = new Composite( expressionArea, SWT.BORDER | SWT.LEFT_TO_RIGHT );
+		Composite composite = new Composite( expressionArea, SWT.BORDER
+				| SWT.LEFT_TO_RIGHT );
 		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 
 		CompositeRuler ruler = new CompositeRuler( );
 		ruler.addDecorator( 0, new LineNumberRulerColumn( ) );
 		sourceViewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
-				| SWT.V_SCROLL);
+				| SWT.V_SCROLL );
 		// JSSyntaxContext context = new JSSyntaxContext( );
 		// try
 		// {

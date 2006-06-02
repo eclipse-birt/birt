@@ -72,8 +72,8 @@ public class ExpressionProvider implements IExpressionProvider
 			new Operator( "-", Messages.getString( "ExpressionProvider.Operator.Sub" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "*", Messages.getString( "ExpressionProvider.Operator.Mult" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "/", Messages.getString( "ExpressionProvider.Operator.Divides" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
-			new Operator( "++ ", Messages.getString( "ExpressionProvider.Operator.Inc" ) ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-			new Operator( "-- ", Messages.getString( "ExpressionProvider.Operator.Dec" ) ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			new Operator( "++ ", Messages.getString( "ExpressionProvider.Operator.Inc" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
+			new Operator( "-- ", Messages.getString( "ExpressionProvider.Operator.Dec" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
 	};
 
 	/** Logical operators and their descriptions */
@@ -90,15 +90,15 @@ public class ExpressionProvider implements IExpressionProvider
 			OPERATORS_COMPUTATIONAL[2],
 			OPERATORS_COMPUTATIONAL[3],
 			OPERATOR_SEPARATOR,
-			new Operator( "!", Messages.getString( "ExpressionProvider.Operator.Not" ) ),//$NON-NLS-1$
-			new Operator( "=", Messages.getString( "ExpressionProvider.Operator.Equals" ) ),//$NON-NLS-1$
+			new Operator( "!", Messages.getString( "ExpressionProvider.Operator.Not" ) ),//$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "=", Messages.getString( "ExpressionProvider.Operator.Equals" ) ),//$NON-NLS-1$ //$NON-NLS-2$
 			OPERATORS_COMPARISON[1],
 			OPERATORS_COMPARISON[4],
 			OPERATOR_SEPARATOR,
-			new Operator( "&", Messages.getString( "ExpressionProvider.Operator.BitAnd" ) ),//$NON-NLS-1$
-			new Operator( "|", Messages.getString( "ExpressionProvider.Operator.BitOr" ) ),//$NON-NLS-1$
-			new Operator( "(", Messages.getString( "ExpressionProvider.Operator.LeftBracket" ) ),//$NON-NLS-1$
-			new Operator( ")", Messages.getString( "ExpressionProvider.Operator.RightBracket" ) ),//$NON-NLS-1$
+			new Operator( "&", Messages.getString( "ExpressionProvider.Operator.BitAnd" ) ),//$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "|", Messages.getString( "ExpressionProvider.Operator.BitOr" ) ),//$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( "(", Messages.getString( "ExpressionProvider.Operator.LeftBracket" ) ),//$NON-NLS-1$ //$NON-NLS-2$
+			new Operator( ")", Messages.getString( "ExpressionProvider.Operator.RightBracket" ) ),//$NON-NLS-1$ //$NON-NLS-2$
 	};
 
 	protected static final String DISPLAY_TEXT_ASSIGNMENT = Messages.getString( "ExpressionProvider.Operators.Assignment" ); //$NON-NLS-1$	
@@ -360,6 +360,8 @@ public class ExpressionProvider implements IExpressionProvider
 			{
 				childrenList.add( iter.next( ) );
 			}
+			//add edit option
+			childrenList.add( new Object[]{Messages.getString("ExpressionProvider.EditBindings"), parent} ); //$NON-NLS-1$
 		}
 		return childrenList;
 	}
@@ -435,6 +437,10 @@ public class ExpressionProvider implements IExpressionProvider
 					displayText.append( ( (IMemberInfo) info ).getDataType( ) );
 				}
 				return displayText.toString( );
+			}else{
+				Object[] inputArray = (Object[])element;
+				if(inputArray.length>0)
+					return inputArray[0].toString( );
 			}
 			return ALL;
 		}
@@ -475,7 +481,7 @@ public class ExpressionProvider implements IExpressionProvider
 		else if ( element instanceof ComputedColumnHandle )
 		{
 			return TOOLTIP_BINDING_PREFIX
-					+ ( (ComputedColumnHandle) element ).getExpression( ); //$NON-NLS-1$
+					+ ( (ComputedColumnHandle) element ).getExpression( );
 		}
 		return getDisplayText( element );
 	}
