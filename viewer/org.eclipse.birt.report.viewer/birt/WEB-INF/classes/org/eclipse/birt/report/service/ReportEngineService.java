@@ -19,6 +19,7 @@ import java.io.OutputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -71,6 +72,10 @@ import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
@@ -482,7 +487,7 @@ public class ReportEngineService
 			renderContext.setBaseURL( this.contextPath
 					+ IBirtConstants.SERVLET_PATH_FRAMESET );
 		}
-		
+
 		renderContext.setImageDirectory( imageDirectory );
 		renderContext.setSupportedImageFormats( svgFlag
 				? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1004,9 +1009,8 @@ public class ReportEngineService
 		{
 			e.printStackTrace( );
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault
-					.setFaultCode( new QName(
-							"ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -1014,9 +1018,8 @@ public class ReportEngineService
 		{
 			e.printStackTrace( );
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault
-					.setFaultCode( new QName(
-							"ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -1356,5 +1359,81 @@ public class ReportEngineService
 		{
 			config.setMaxRowsPerQuery( maxRows );
 		}
+	}
+
+	/**
+	 * Collects all the distinct values for the given element and
+	 * bindColumnName. This method will traverse the design tree for the given
+	 * element and get the nearest binding column holder of it. The nearest
+	 * binding column holder must be a list or table item, and it defines a
+	 * distinct data set and bingding columns in it. If the element is null,
+	 * binding name is empty or the binding column holder is not found, then
+	 * return <code>Collections.EMPTY_LIST</code>.
+	 * 
+	 * @param bindingName
+	 * @param elementHandle
+	 * @return
+	 * @throws BirtException
+	 */
+
+	public List getMoreValues( String bindingName,
+			DesignElementHandle elementHandle ) throws BirtException
+	{
+		if ( bindingName == null || elementHandle == null
+				|| !( elementHandle instanceof ReportItemHandle ) )
+			return Collections.EMPTY_LIST;
+
+		// if there is no effective holder of bindings, return empty
+		ReportItemHandle reportItem = getBindingHolder( elementHandle );
+		if ( reportItem == null )
+			return Collections.EMPTY_LIST;
+
+		List selectValueList = new ArrayList( );
+		DataRequestSession session = DataRequestSession
+				.newSession( new DataSessionContext(
+						DataSessionContext.MODE_DIRECT_PRESENTATION, reportItem
+								.getModuleHandle( ) ) );
+		selectValueList.addAll( session.getColumnValueSet( reportItem
+				.getDataSet( ), reportItem.paramBindingsIterator( ), reportItem
+				.columnBindingsIterator( ), bindingName ) );
+		session.shutdown( );
+
+		return selectValueList;
+	}
+
+	/**
+	 * Returns the element handle which can save binding columns the given
+	 * element
+	 * 
+	 * @param handle
+	 *            the handle of the element which needs binding columns
+	 * @return the holder for the element,or itself if no holder available
+	 */
+
+	private ReportItemHandle getBindingHolder( DesignElementHandle handle )
+	{
+		if ( handle instanceof ReportElementHandle )
+		{
+			if ( handle instanceof ListingHandle )
+			{
+				return (ReportItemHandle) handle;
+			}
+			if ( handle instanceof ReportItemHandle )
+			{
+				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
+						|| ( (ReportItemHandle) handle )
+								.columnBindingsIterator( ).hasNext( ) )
+				{
+					return (ReportItemHandle) handle;
+				}
+			}
+			ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
+			if ( result == null && handle instanceof ReportItemHandle )
+			{
+				result = (ReportItemHandle) handle;
+			}
+			return result;
+		}
+		return null;
 	}
 }
