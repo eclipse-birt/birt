@@ -20,12 +20,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ReportGraphicsViewComposite;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -35,10 +34,15 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
@@ -120,7 +124,7 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		public Template( String reportPath ) throws DesignFileException
 		{
-			ReportDesignHandle reportDesign = (ReportDesignHandle) files.get( reportPath );
+			reportDesign = (ReportDesignHandle) files.get( reportPath );
 			if ( reportDesign == null )
 			{
 				reportDesign = SessionHandleAdapter.getInstance( )
@@ -153,6 +157,8 @@ public class WizardTemplateChoicePage extends WizardPage
 		private String picturePath;
 
 		private String cheatSheetId;
+
+		private ReportDesignHandle reportDesign;
 
 		public String getCheatSheetId( )
 		{
@@ -202,6 +208,11 @@ public class WizardTemplateChoicePage extends WizardPage
 		public void setTemplateDescription( String templateDescription )
 		{
 			this.templateDescription = templateDescription;
+		}
+
+		public ReportDesignHandle getReportDesignHandle( )
+		{
+			return this.reportDesign;
 		}
 
 		public void dispose( )
@@ -277,6 +288,8 @@ public class WizardTemplateChoicePage extends WizardPage
 	protected Map imageMap;
 
 	private Composite previewPane;
+
+	private Composite previewThumbnail;
 
 	public class TemplateType
 	{
@@ -364,12 +377,22 @@ public class WizardTemplateChoicePage extends WizardPage
 		gridLayout.verticalSpacing = 10;
 		previewPane.setLayout( gridLayout );
 
-		previewCanvas = new ImageCanvas( previewPane, SWT.BORDER );
-
+		Composite previewComposite = new Composite( previewPane, SWT.BORDER );
 		data = new GridData( GridData.BEGINNING );
 		data.heightHint = 229;
 		data.widthHint = 184;
-		previewCanvas.setLayoutData( data );
+		previewComposite.setLayoutData( data );
+		previewComposite.setLayout( new FormLayout( ) );
+
+		previewCanvas = new ImageCanvas( previewComposite );
+		previewThumbnail = new Composite( previewComposite, SWT.NONE );
+		FormData formData = new FormData( 184, 229 );
+		formData.left = new FormAttachment( previewComposite );
+		formData.top = new FormAttachment( previewComposite );
+		previewCanvas.setLayoutData( formData );
+		previewThumbnail.setLayoutData( formData );
+
+		previewThumbnail.setLayout( new FillLayout( ) );
 
 		Label descriptionTitle = new Label( previewPane, SWT.NONE );
 		descriptionTitle.setText( MESSAGE_DESCRIPTION );
@@ -461,9 +484,21 @@ public class WizardTemplateChoicePage extends WizardPage
 			previewPane.layout( );
 			String key = ( (Template) templates.get( selectedIndex ) ).getPicturePath( );
 			Object img = null;
-			if ( key == null || "".equals( key.trim( ) ) )
+			if ( key == null || "".equals( key.trim( ) ) ) //$NON-NLS-1$
 			{
-				img = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_TEMPLATE_NO_PREVIEW );
+				previewCanvas.setVisible( false );
+				previewThumbnail.setVisible( true );
+
+				Control[] children = previewThumbnail.getChildren( );
+				for ( int i = 0; i < children.length; i++ )
+				{
+					children[i].dispose( );
+				}
+				ReportGraphicsViewComposite thumbnail = new ReportGraphicsViewComposite( previewThumbnail,
+						SWT.NULL,
+						( (Template) templates.get( selectedIndex ) ).getReportDesignHandle( ) );
+
+				previewThumbnail.layout( );
 			}
 			else
 			{
@@ -475,11 +510,14 @@ public class WizardTemplateChoicePage extends WizardPage
 
 					imageMap.put( key, img );
 				}
-			}
 
-			previewCanvas.clear( );
-			previewCanvas.loadImage( ( (Image) img ) );
-			previewCanvas.showOriginal( );
+				previewCanvas.setVisible( true );
+				previewThumbnail.setVisible( false );
+
+				previewCanvas.clear( );
+				previewCanvas.loadImage( ( (Image) img ) );
+				previewCanvas.showOriginal( );
+			}
 
 			chkBox.setEnabled( !( ( (Template) templates.get( selectedIndex ) ).getCheatSheetId( )
 					.equals( "" ) || ( (Template) templates.get( selectedIndex ) ).getCheatSheetId( )
