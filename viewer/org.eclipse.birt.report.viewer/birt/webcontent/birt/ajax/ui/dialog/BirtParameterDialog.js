@@ -201,7 +201,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							{
 								this.__parameter[k].name = oIEC[j].value
 								this.__parameter[k].value = oIEC[j+1].value;
-								oIEC[j+1].value = "";
+								//oIEC[j+1].value = "";
 								k++;	            
 							}
 						}
