@@ -149,7 +149,7 @@ public class ReportItemParametersDialog extends BaseDialog
 				| SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
 		table.setLinesVisible( true );
 		table.setHeaderVisible( true );
-		GridData gridData = new GridData( );
+		GridData gridData = new GridData( GridData.FILL_BOTH );
 		gridData.heightHint = 100;
 		table.setLayoutData( gridData );
 		for ( int i = 0; i < columnNames.length; i++ )
@@ -168,6 +168,12 @@ public class ReportItemParametersDialog extends BaseDialog
 
 		createTableViewer( );
 
+	}
+	
+	protected void setShellStyle( int newShellStyle )
+	{
+		super.setShellStyle( newShellStyle
+				| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
 	}
 
 	protected void okPressed( )

@@ -57,7 +57,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
@@ -190,6 +189,12 @@ public class ExtendedItemFilterDialog extends BaseDialog
 				.getCommandStack( )
 				.startTrans( "Modify Filters" ); //$NON-NLS-1$
 		return composite;
+	}
+	
+	protected void setShellStyle( int newShellStyle )
+	{
+		super.setShellStyle( newShellStyle
+				| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
 	}
 
 	private void setupEditors( )
