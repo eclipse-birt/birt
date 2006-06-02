@@ -110,7 +110,7 @@ public final class EmptyWithAxes extends AxesRenderer
 				fPaletteEntry,
 				lia,
 				getModel( ).getDimension( ),
-				3,
+				3 * getDeviceScale(),
 				false );
 	}
 }

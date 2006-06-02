@@ -106,7 +106,7 @@ public final class EmptyWithoutAxes extends BaseRenderer
 				fPaletteEntry,
 				lia,
 				getModel( ).getDimension( ),
-				3,
+				3 * getDeviceScale( ),
 				false );
 	}
 }
