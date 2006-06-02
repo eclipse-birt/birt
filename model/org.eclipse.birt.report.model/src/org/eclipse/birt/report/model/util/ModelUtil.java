@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -981,13 +982,66 @@ public class ModelUtil
 	{
 		if ( element == null )
 			return null;
-		String textKey = searchForExternalizedValue( element,
-				propIDName );
+		String textKey = searchForExternalizedValue( element, propIDName );
 		if ( !StringUtil.isBlank( textKey ) )
 			return textKey;
 
 		// use static text.
 
 		return element.getStringProperty( element.getRoot( ), propName );
+	}
+
+	/**
+	 * Checks if report design contains the same library as the target library
+	 * which user wants to export. If no exception throws , that stands for user
+	 * can export report design to library. Comparing with the obsolute file
+	 * name path, if file is the same , throw <code>SemanticException</code>
+	 * which error code is include recursive error.
+	 * 
+	 * For example , the path of library is "C:\test\lib.xml" .The followings
+	 * will throw semantic exception:
+	 * 
+	 * <ul>
+	 * <li> design file and library in the same folder: </li>
+	 * <li> <list-property name="libraries"> <structure> <property
+	 * name="fileName">lib.xml</property> <property name="namespace">lib</property>
+	 * </structure> </list-property> </li>
+	 * </ul>
+	 * <ul>
+	 * <li> folder of design file is "C:\design" </li>
+	 * <li> <list-property name="libraries"> <structure> <property
+	 * name="fileName">..\test\lib.xml</property> <property
+	 * name="namespace">lib</property> </structure> </list-property> </li>
+	 * </ul>
+	 * 
+	 * @param designToExport
+	 *            handle of the report design to export
+	 * @param targetLibraryHandle
+	 *            handle of target library
+	 * @return if contains the same absolute file path , return true; else
+	 *         return false.
+	 * @throws SemanticException
+	 *             if absolut file path is the same between library included in
+	 *             report design and library.
+	 */
+
+	public static boolean hasLibrary( ReportDesignHandle designToExport,
+			LibraryHandle targetLibraryHandle )
+	{
+		String reportLocation = targetLibraryHandle.getModule( ).getLocation( );
+
+		List libList = designToExport.getModule( ).getAllLibraries( );
+
+		for ( Iterator libIter = libList.iterator( ); libIter.hasNext( ); )
+		{
+			Library library = (Library) libIter.next( );
+			String libLocation = library.getRoot( ).getLocation( );
+
+			if ( reportLocation.equals( libLocation ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

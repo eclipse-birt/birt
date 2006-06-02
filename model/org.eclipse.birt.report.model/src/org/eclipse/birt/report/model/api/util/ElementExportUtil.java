@@ -12,9 +12,11 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.parser.DesignParserException;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents the utility class to help export element and structure to library
@@ -375,6 +377,12 @@ public class ElementExportUtil
 			boolean genDefaultName ) throws SemanticException
 	{
 
+		if( ModelUtil.hasLibrary( designToExport, targetLibraryHandle ))
+		{
+			throw new SemanticException(
+					designToExport.getElement( ),
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY );
+		}
 		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
 		exporter.exportDesign( designToExport, canOverride, genDefaultName );
 	}
