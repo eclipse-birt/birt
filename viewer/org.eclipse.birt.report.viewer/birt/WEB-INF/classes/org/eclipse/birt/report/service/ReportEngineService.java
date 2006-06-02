@@ -1376,7 +1376,7 @@ public class ReportEngineService
 	 * @throws BirtException
 	 */
 
-	public List getMoreValues( String bindingName,
+	public List getColumnValueSet( String bindingName,
 			DesignElementHandle elementHandle ) throws BirtException
 	{
 		if ( bindingName == null || elementHandle == null
