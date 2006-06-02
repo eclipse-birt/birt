@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.data.dte;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -46,7 +47,14 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	 * data is geting from this archive.
 	 */
 	private IDocArchiveReader reader;
-
+	
+	private IDocArchiveWriter writer;
+	
+	/**
+	 * output stream used to save the resultset relations
+	 */
+	private DataOutputStream dos;
+	
 	/**
 	 * store relations of various query ResultSet. Such as relations between
 	 * parent ResultSet and nested query ResultSet.
@@ -86,6 +94,49 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			ex.printStackTrace( );
 		}
 		this.reader = reader;
+		this.writer = writer;
+	}
+	
+	
+	/**
+	 * save the metadata into the streams.
+	 * 
+	 * @param key
+	 */
+	private void storeDteMetaInfo( String pRsetId, long rowId, String queryId,
+			String rsetId )
+	{
+		if ( writer == null ){
+			return;
+		}
+		try
+		{
+			if ( dos == null )
+			{
+				dos = new DataOutputStream( writer.createRandomAccessStream( ReportDocumentConstants.DATA_META_STREAM ) );
+			}
+		}
+		catch ( IOException e )
+		{
+			logger.log( Level.SEVERE, e.getMessage( ) );
+			e.printStackTrace( );
+		}
+		
+		if ( null != dos )
+		{
+			try
+			{
+				IOUtil.writeString( dos, pRsetId );
+				IOUtil.writeLong( dos, rowId );
+				IOUtil.writeString( dos, queryId );
+				IOUtil.writeString( dos, rsetId );
+			}
+			catch ( IOException e )
+			{
+				logger.log( Level.SEVERE, e.getMessage( ) );
+				e.printStackTrace( );
+			}
+		}
 	}
 	
 	private void loadDteMetaInfo( )
@@ -178,7 +229,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			}
 			else
 			{
-				String pRsetId = parentQueryResults.getID( );
+				String pRsetId = parentResult.getBaseRSetID( );
 				long rowid = parentResult.getRawID( );
 
 				resultSetID = getResultID( pRsetId, rowid, queryID );
@@ -196,6 +247,8 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			
 			Scriptable scope = context.getSharedScope( );
 
+			String pRsetId = null; // id of the parent query restuls
+			long rowId = -1; // row id of the parent query results
 			IQueryResults dteResults; // the dteResults of this query
 			DteResultSet resultSet = null;
 			
@@ -207,14 +260,21 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			}
 			else
 			{
+				pRsetId = parentResult.getQueryResults( ).getID( );
+				rowId = parentResult.getRawID( );
+				
 				// this is the nest query, execute the query in the
 				// parent results
 				dteResults = pQuery.execute( parentQueryResults, scope );
 				resultSet = new DteResultSet( parentResult, dteResults );
 			}
+			resultSet.setBaseRSetID( resultSetID );
 		
 			rsets.addFirst( resultSet );
-
+			
+//			 save the
+			storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
+			
 			return resultSet;
 		}
 		catch ( BirtException be )
@@ -223,5 +283,24 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			context.addException( be );
 			return null;
 		}
+	}
+	
+
+	public void shutdown( )
+	{
+		rsets.clear( );
+
+		if ( null != dos )
+		{
+			try
+			{
+				dos.close( );
+			}
+			catch ( IOException e )
+			{
+			}
+			dos = null;
+		}
+		dteEngine.shutdown( );
 	}
 }

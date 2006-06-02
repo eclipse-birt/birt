@@ -310,7 +310,8 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	{
 		synchronized ( openStreams )
 		{
-			Iterator iter = openStreams.iterator( );
+			LinkedList streams = new LinkedList(openStreams);
+			Iterator iter = streams.iterator( );
 			while ( iter.hasNext( ) )
 			{
 				RAFolderOutputStream stream = (RAFolderOutputStream) iter
