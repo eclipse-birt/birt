@@ -102,15 +102,12 @@ public class RDSave implements IRDSave
 	{
 		// save expression metadata and transformation info
 		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION )
-		{
 			this.saveUtilHelper.saveExprMetadata( );
-		}
 		else
-		{
 			this.saveUtilHelper.cleanChildOfRoot( );
-		}
 
-		this.saveUtilHelper.saveFilterInfo( );
+		if ( this.streamManager.isSubquery( ) == false )
+			this.saveUtilHelper.saveFilterInfo( );
 	}
 	
 	/**
@@ -195,10 +192,10 @@ public class RDSave implements IRDSave
 				boolean isSubQuery = streamManager.isSubquery( );
 				if ( streamManager.isSecondRD( ) == false )
 				{
-					if ( context.getMode( ) == DataEngineContext.MODE_GENERATION )
+					if ( context.getMode( ) == DataEngineContext.MODE_GENERATION
+							&& isSubQuery == false )
 					{
-						if ( isSubQuery == false )
-							streamForResultClass = streamManager.getOutStream( DataEngineContext.RESULTCLASS_STREAM );
+						streamForResultClass = streamManager.getOutStream( DataEngineContext.RESULTCLASS_STREAM );
 						streamForDataSet = streamManager.getOutStream( DataEngineContext.DATASET_DATA_STREAM );
 					}
 				}
@@ -231,10 +228,12 @@ public class RDSave implements IRDSave
 				// save the information of sub query information
 				// notice, sub query name is used instead of sub query id
 				if ( isSubQuery == true
-						&& streamManager.hasOutSubStream( DataEngineContext.SUBQUERY_INFO_STREAM ) == false )
+						&& streamManager.hasOutStream( DataEngineContext.SUBQUERY_INFO_STREAM,
+								StreamManager.SUBROOT_STREAM ) == false )
 				{
 					// save info related with sub query info
-					OutputStream streamForSubQuery = streamManager.getSubOutStream( DataEngineContext.SUBQUERY_INFO_STREAM );
+					OutputStream streamForSubQuery = streamManager.getOutStream( DataEngineContext.SUBQUERY_INFO_STREAM,
+							StreamManager.SUBROOT_STREAM );
 					RDSubQueryUtil.doSave( streamForSubQuery,
 							groupLevel,
 							subQueryInfo );

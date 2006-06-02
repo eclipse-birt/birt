@@ -21,6 +21,8 @@ public class QueryResultIDUtil
 	private final static String QURE_ID_PREFIX = "QuRs";
 	private final static String QURE_ID_SEPARATOR = "_";
 	private final static String STREAM_ID_SEPARATOR = "/";
+	
+	private final static String SUBQUERY_ID_SEPARATOR = "/";
 
 	/**
 	 * No instance
@@ -111,6 +113,16 @@ public class QueryResultIDUtil
 		else
 			return _1partQueryResultID
 					+ STREAM_ID_SEPARATOR + _2partQueryResultID;
+	}
+	
+	/**
+	 * @param subQueryName
+	 * @param subQueryIndex
+	 * @return
+	 */
+	public static String buildSubQueryID( String subQueryName, int subQueryIndex )
+	{
+		return subQueryName + SUBQUERY_ID_SEPARATOR + subQueryIndex;
 	}
 
 }

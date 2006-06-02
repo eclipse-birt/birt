@@ -184,7 +184,8 @@ public class RDLoad
 	 */
 	private IResultClass loadResultClass( ) throws DataException
 	{
-		InputStream stream = streamManager.getSubInStream( DataEngineContext.RESULTCLASS_STREAM );
+		InputStream stream = streamManager.getInStream( DataEngineContext.RESULTCLASS_STREAM,
+				StreamManager.SUBROOT_STREAM );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
 		IResultClass resultClass = new ResultClass( buffStream );
 		try

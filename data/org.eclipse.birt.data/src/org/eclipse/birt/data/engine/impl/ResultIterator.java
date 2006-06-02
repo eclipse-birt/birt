@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.IDInfo;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
@@ -261,8 +262,8 @@ public class ResultIterator implements IResultIterator
 		{
 			rdSaveUtil = new RDSaveUtil( this.context,
 					this.resultService.getQueryDefn( ),
-					this.resultService.getQueryResults( ).getID( ),
-					this.odiResult );
+					this.odiResult,
+					new IDInfo( this.resultService.getQueryResults( ).getID( ) ) );
 		}
 		
 		return this.rdSaveUtil;
@@ -668,78 +669,34 @@ public class ResultIterator implements IResultIterator
 	{
 		// context info
 		private DataEngineContext context;
-		private String queryResultID;
 		private IBaseQueryDefinition queryDefn;
-
-		// report document save and load instance
-		private IRDSave rdSave;
-
-		// the name of sub query
-		private String subQueryName;
-		// the index of sub query in its corresponding group level
-		private int subQueryIndex;
-		// the group level
-		private int groupLevel;
-		// the group information of its sub query
-		private int[] subQueryInfo;
 
 		// odi result
 		private org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
 
+		// id wrapper
+		private IDInfo idInfo;
+		
+		// report document save and load instance
+		private IRDSave rdSave;
+		
+		// init flag
 		private boolean isBasicSaved;
 		
 		/**
 		 * @param context
-		 * @param queryResultID
+		 * @param queryDefn
 		 * @param odiResult
-		 */
-		public RDSaveUtil( DataEngineContext context,
-				IBaseQueryDefinition queryDefn, String queryResultID,
-				org.eclipse.birt.data.engine.odi.IResultIterator odiResult )
-		{
-			this( context,
-					queryDefn,
-					queryResultID,
-					odiResult,
-					null,
-					-1,
-					-1,
-					null );
-		}
-
-		/**
-		 * @param context
-		 * @param queryResultID
-		 * @param odiResult
-		 * @param subQueryName
-		 * @param subQueryIndex
-		 * @param subQueryInfo
+		 * @param idInfo
 		 */
 		RDSaveUtil( DataEngineContext context, IBaseQueryDefinition queryDefn,
-				String queryResultID,
 				org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
-				String subQueryName, int groupLevel, int subQueryIndex,
-				int[] subQueryInfo )
+				IDInfo idInfo )
 		{
 			this.context = context;
 			this.queryDefn = queryDefn;
-			this.queryResultID = queryResultID;
 			this.odiResult = odiResult;
-			this.subQueryName = subQueryName;
-			this.groupLevel = groupLevel;
-			this.subQueryIndex = subQueryIndex;
-			this.subQueryInfo = subQueryInfo;
-		}
-
-		/**
-		 * @return
-		 */
-		String getSubQueryID( )
-		{
-			if ( this.subQueryName == null )
-				return null;
-
-			return this.subQueryName + "/" + this.subQueryIndex;
+			this.idInfo = idInfo;
 		}
 		
 		/**
@@ -747,25 +704,9 @@ public class ResultIterator implements IResultIterator
 		 * @param value
 		 * @throws DataException
 		 */
-		void doSaveExpr( String name, Object value )
-				throws DataException
+		void doSaveExpr( String name, Object value ) throws DataException
 		{
-			if ( needsSaveToDoc( ) == false )
-				return;
-			
-			if ( isBasicSaved == false )
-			{
-				isBasicSaved = true;
-				this.getRdSave( )
-						.saveResultIterator( this.odiResult,
-								this.groupLevel,
-								this.subQueryInfo );
-			}
-			
-			this.getRdSave( )
-					.saveExprValue( odiResult.getCurrentResultIndex( ),
-							name,
-							value );
+			doSave( name, value, false );
 		}
 
 		/**
@@ -773,78 +714,39 @@ public class ResultIterator implements IResultIterator
 		 */
 		void doSaveFinish( ) throws DataException
 		{
+			doSave( null, null, true );
+		}
+		
+		/**
+		 * @throws DataException
+		 * 
+		 */
+		private void doSave( String name, Object value, boolean finish )
+				throws DataException
+		{
 			if ( needsSaveToDoc( ) == false )
 				return;
 
 			if ( isBasicSaved == false )
 			{
 				isBasicSaved = true;
-				this.getRdSave( )
-						.saveResultIterator( this.odiResult,
-								this.groupLevel,
-								this.subQueryInfo );
+				this.rdSave = RDUtil.newSave( this.context,
+						this.queryDefn,
+						odiResult.getRowCount( ),
+						new QueryResultInfo( this.idInfo.getQueryResultID( ),
+								this.idInfo.getsubQueryName( ),
+								this.idInfo.getsubQueryIndex( ) ) );
+				this.rdSave.saveResultIterator( this.odiResult,
+						this.idInfo.getGroupLevel( ),
+						this.idInfo.getSubQueryInfo( ) );
 			}
 
-			this.getRdSave( ).saveFinish( odiResult.getCurrentResultIndex( ) );
-		}
-		
-		/**
-		 * @param resultIt
-		 * @param subQueryName
-		 * @throws DataException
-		 */
-		private void processForSubQuery( String parentQueryID,
-				ResultIterator resultIt, String subQueryName )
-				throws DataException
-		{			
-			if ( needsSaveToDoc( ) == false )
-				return;
-			
-			QueryResults results = (QueryResults) resultIt.getQueryResults( );
-
-			// set query result id
-			if ( getSubQueryID( ) == null )
-				results.setID( parentQueryID );
+			if ( finish == false )
+				this.rdSave.saveExprValue( odiResult.getCurrentResultIndex( ),
+						name,
+						value );
 			else
-				results.setID( parentQueryID + "/" + this.getSubQueryID( ) );
-
-			if ( ( (ISubqueryDefinition) resultIt.resultService.getQueryDefn( ) ).applyOnGroup( ) )
-				// init RDSave util of sub query
-				resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
-						resultIt.resultService.getQueryDefn( ),
-						resultIt.getQueryResults( ).getID( ),
-						resultIt.odiResult,
-						subQueryName,
-						results.getGroupLevel( ),
-						odiResult.getCurrentGroupIndex( results.getGroupLevel( ) ),
-						odiResult.getGroupStartAndEndIndex( results.getGroupLevel( ) ) );
-			else
-				resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
-						resultIt.resultService.getQueryDefn( ),
-						resultIt.getQueryResults( ).getID( ),
-						resultIt.odiResult,
-						subQueryName,
-						1,
-						odiResult.getCurrentResultIndex( ),
-						getSpecialSubQueryInfo( odiResult.getRowCount( ) ) );
-		}
-		
-		/**
-		 * Generate sub query definition for such a sub query which is applied
-		 * to each row of parent query.
-		 * 
-		 * @param count
-		 * @return [0, 1, 1, 2, 2, 3...]
-		 */
-		private int[] getSpecialSubQueryInfo( int count )
-		{
-			int[] subQueryInfo = new int[count * 2];
-			for ( int i = 0; i < count; i++ )
-			{
-				subQueryInfo[2 * i] = i;
-				subQueryInfo[2 * i + 1] = i + 1;
-			}
-			return subQueryInfo;
+				this.rdSave.saveFinish( odiResult.getCurrentResultIndex( ) );
 		}
 		
 		/**
@@ -864,22 +766,41 @@ public class ResultIterator implements IResultIterator
 		}
 		
 		/**
-		 * @return
+		 * @param resultIt
+		 * @param subQueryName
 		 * @throws DataException
 		 */
-		private IRDSave getRdSave( ) throws DataException
+		private void processForSubQuery( String parentQueryID,
+				ResultIterator resultIt, String subQueryName )
+				throws DataException
 		{
-			if ( rdSave == null )
-			{
-				rdSave = RDUtil.newSave( this.context,
-						this.queryDefn,
-						odiResult.getRowCount( ),
-						new QueryResultInfo( this.queryResultID,
-								this.subQueryName,
-								this.subQueryIndex ) );
-			}
+			if ( needsSaveToDoc( ) == false )
+				return;
 
-			return rdSave;
+			QueryResults results = (QueryResults) resultIt.getQueryResults( );
+
+			// set query result id
+			results.setID( idInfo.buildSubQueryID( parentQueryID ) );
+
+			if ( ( (ISubqueryDefinition) resultIt.resultService.getQueryDefn( ) ).applyOnGroup( ) )
+				// init RDSave util of sub query
+				resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
+						resultIt.resultService.getQueryDefn( ),
+						resultIt.odiResult,
+						new IDInfo( resultIt.getQueryResults( ).getID( ),
+								subQueryName,
+								results.getGroupLevel( ),
+								odiResult.getCurrentGroupIndex( results.getGroupLevel( ) ),
+								odiResult.getGroupStartAndEndIndex( results.getGroupLevel( ) ) ) );
+			else
+				resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
+						resultIt.resultService.getQueryDefn( ),
+						resultIt.odiResult,
+						new IDInfo( resultIt.getQueryResults( ).getID( ),
+								subQueryName,
+								1,
+								odiResult.getCurrentResultIndex( ),
+								IDInfo.getSpecialSubQueryInfo( odiResult.getRowCount( ) ) ) );
 		}
 	}
 	
