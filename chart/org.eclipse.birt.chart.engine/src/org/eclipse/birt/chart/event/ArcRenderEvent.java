@@ -129,14 +129,16 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 
 	/**
 	 * 
-	 * @param angleExtent The angle extent
+	 * @param angleExtent
+	 *            The angle extent
 	 * @since 2.1
 	 */
-	
+
 	public final void setAngleExtent( double angleExtent )
 	{
 		this.dExtentInDegrees = angleExtent;
 	}
+
 	/**
 	 * @param endAngle
 	 *            The angle extent
@@ -239,6 +241,68 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 				dHeight );
 	}
 
+	private double normalizeDegrees( double angle )
+	{
+		if ( angle > 180.0 )
+		{
+			if ( angle <= ( 180.0 + 360.0 ) )
+			{
+				angle = angle - 360.0;
+			}
+			else
+			{
+				angle = Math.IEEEremainder( angle, 360.0 );
+				// IEEEremainder can return -180 here for some input values...
+				if ( angle == -180.0 )
+				{
+					angle = 180.0;
+				}
+			}
+		}
+		else if ( angle <= -180.0 )
+		{
+			if ( angle > ( -180.0 - 360.0 ) )
+			{
+				angle = angle + 360.0;
+			}
+			else
+			{
+				angle = Math.IEEEremainder( angle, 360.0 );
+				// IEEEremainder can return -180 here for some input values...
+				if ( angle == -180.0 )
+				{
+					angle = 180.0;
+				}
+			}
+		}
+		return angle;
+	}
+
+	private boolean containsAngle( double angle )
+	{
+		double angExt = getAngleExtent( );
+		boolean backwards = ( angExt < 0.0 );
+		if ( backwards )
+		{
+			angExt = -angExt;
+		}
+		if ( angExt >= 360 )
+		{
+			return true;
+		}
+		angle = normalizeDegrees( angle ) - normalizeDegrees( getStartAngle( ) );
+		if ( backwards )
+		{
+			angle = -angle;
+		}
+		if ( angle < 0.0 )
+		{
+			angle += 360.0;
+		}
+
+		return ( angle >= 0.0 ) && ( angle < angExt );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -246,116 +310,56 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 */
 	public Bounds getBounds( )
 	{
-		// use full bounds temporarialy
-		return getEllipseBounds( );
-		
-		//TODO calculate the actual bounds.
+		// calculate the actual bounds.
+		double x1, y1, x2, y2;
+		if ( getStyle( ) == SECTOR )
+		{
+			x1 = y1 = x2 = y2 = 0.0;
+		}
+		else
+		{
+			x1 = y1 = 1.0;
+			x2 = y2 = -1.0;
+		}
+		double angle = 0.0;
+		for ( int i = 0; i < 6; i++ )
+		{
+			if ( i < 4 )
+			{
+				// 0-3 are the four quadrants
+				angle += 90.0;
+				if ( !containsAngle( angle ) )
+				{
+					continue;
+				}
+			}
+			else if ( i == 4 )
+			{
+				// 4 is start angle
+				angle = getStartAngle( );
+			}
+			else
+			{
+				// 5 is end angle
+				angle += getAngleExtent( );
+			}
+			double rads = Math.toRadians( -angle );
+			double xe = Math.cos( rads );
+			double ye = Math.sin( rads );
+			x1 = Math.min( x1, xe );
+			y1 = Math.min( y1, ye );
+			x2 = Math.max( x2, xe );
+			y2 = Math.max( y2, ye );
+		}
+		double w = getWidth( );
+		double h = getHeight( );
+		x2 = ( x2 - x1 ) * 0.5 * w;
+		y2 = ( y2 - y1 ) * 0.5 * h;
+		x1 = getTopLeft( ).getX( ) + ( x1 * 0.5 + 0.5 ) * w;
+		y1 = getTopLeft( ).getY( ) + ( y1 * 0.5 + 0.5 ) * h;
 
-		// double dMinY = -1, dMinX = -1, dMaxY = -1, dMaxX = -1;
-		//
-		// final double dStart = getStartAngle( );
-		// final double dEnd = dStart + getAngleExtent( );
-		// final int iQStart = getQuadrant( dStart );
-		// final int iQEnd = getQuadrant( dEnd );
-		//
-		// double dXCosTheta = getWidth( )
-		// / 2
-		// * Math.cos( Math.toRadians( -dStart ) );
-		// double dYSinTheta = getHeight( )
-		// / 2
-		// * Math.sin( Math.toRadians( -dStart ) );
-		// double dX1 = ( loTopLeft.getX( ) + getWidth( ) / 2 ) + dXCosTheta;
-		// double dY1 = ( loTopLeft.getY( ) + getHeight( ) / 2 ) + dYSinTheta;
-		// dXCosTheta = getWidth( ) / 2 * Math.cos( Math.toRadians( -dEnd ) );
-		// dYSinTheta = getHeight( ) / 2 * Math.sin( Math.toRadians( -dEnd ) );
-		// double dX2 = loTopLeft.getX( ) + getWidth( ) / 2 + dXCosTheta;
-		// double dY2 = loTopLeft.getY( ) + getHeight( ) / 2 + dYSinTheta;
-		//
-		// int iQMin = Math.min( iQStart, iQEnd );
-		// int iQMax = Math.max( iQStart, iQEnd );
-		//
-		// // TEST QUADRANTS
-		// for ( int i = iQMin; i < iQMax; i++ )
-		// {
-		// if ( i == 1 )
-		// {
-		// dMinY = loTopLeft.getY( );
-		// }
-		// else if ( i == 2 )
-		// {
-		// dMinX = loTopLeft.getX( );
-		// }
-		// else if ( i == 3 )
-		// {
-		// dMaxY = loTopLeft.getY( ) + getHeight( );
-		// }
-		// }
-		//
-		// dMaxX = Math.max( dX1, dX2 ); // MAX-X NEEDS TO BE DEFINED
-		//
-		// if ( dMinY != -1 )
-		// {
-		// dMinY = Math.min( dMinY, Math.min( dY1, dY2 ) );
-		// }
-		// else
-		// // IF UNDEFINED DUE TO QUADRANT-1 SPAN
-		// {
-		// dMinY = Math.min( dY1, dY2 );
-		// }
-		//
-		// if ( dMinX != -1 )
-		// {
-		// dMinX = Math.min( dMinX, Math.min( dX1, dX2 ) );
-		// }
-		// else
-		// // IF UNDEFINED DUE TO QUADRANT-2 SPAN
-		// {
-		// dMinX = Math.min( dX1, dX2 );
-		// }
-		//
-		// if ( dMaxY != -1 )
-		// {
-		// dMaxY = Math.max( dMaxY, Math.min( dY1, dY2 ) );
-		// }
-		// else
-		// // IF UNDEFINED DUE TO QUADRANT-3 SPAN
-		// {
-		// dMaxY = Math.max( dY1, dY2 );
-		// }
-		//
-		// if ( getStyle( ) == SECTOR ) // ALSO INCLUDE THE ARC CIRCLE CENTER
-		// {
-		// final double dCenterX = loTopLeft.getX( ) + dWidth / 2;
-		// final double dCenterY = loTopLeft.getY( ) + dHeight / 2;
-		// dMinX = Math.min( dCenterX, dMinX );
-		// dMaxX = Math.max( dCenterX, dMaxX );
-		// dMinY = Math.min( dCenterY, dMinY );
-		// dMaxY = Math.max( dCenterY, dMaxY );
-		// }
-		// return BoundsImpl.create( dMinX, dMinY, dMaxX - dMinX, dMaxY - dMinY
-		// );
+		return BoundsImpl.create( x1, y1, x2, y2 );
 	}
-
-	// /**
-	// *
-	// * @param dAngle
-	// * @return
-	// */
-	// private static final int getQuadrant( double dAngle )
-	// {
-	// if ( dAngle < 0 )
-	// {
-	// dAngle = 360 + dAngle;
-	// }
-	// if ( dAngle >= 0 && dAngle < 90 )
-	// return 1;
-	// if ( dAngle >= 90 && dAngle < 180 )
-	// return 2;
-	// if ( dAngle >= 180 && dAngle < 270 )
-	// return 3;
-	// else
-	// return 4;
-	// }
 
 	/**
 	 * @return Returns the outline.
@@ -401,7 +405,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( ) throws ChartException
 	{
-		ArcRenderEvent are = new ArcRenderEvent( (StructureSource)source );
+		ArcRenderEvent are = new ArcRenderEvent( source );
 		if ( outline != null )
 		{
 			are.setOutline( LineAttributesImpl.copyInstance( outline ) );
