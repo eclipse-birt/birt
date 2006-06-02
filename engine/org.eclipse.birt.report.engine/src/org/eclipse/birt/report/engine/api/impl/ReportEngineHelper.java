@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.FolderArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
@@ -33,6 +34,7 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -85,6 +87,12 @@ public class ReportEngineHelper
 	public IReportRunnable openReportDesign( String designName )
 			throws EngineException
 	{
+		return openReportDesign(designName, (IResourceLocator)null);
+	}
+	
+	public IReportRunnable openReportDesign( String designName,
+			IResourceLocator locator ) throws EngineException
+	{
 		ReportDesignHandle designHandle;
 		File file = new File( designName );
 		if ( !file.exists( ) )
@@ -99,7 +107,18 @@ public class ReportEngineHelper
 
 		try
 		{
-			designHandle = new ReportParser( engine ).getDesignHandle( designName, null );
+			String resourcePath = null;
+			if (locator == null)
+			{
+				EngineConfig config = engine.getConfig( );
+				if ( config != null )
+				{
+					locator = config.getResourceLocator( );
+					resourcePath = config.getResourcePath( );
+				}
+			}
+			ReportParser parser = new ReportParser( locator, resourcePath );
+			designHandle = parser.getDesignHandle( designName, null );
 		}
 		catch ( DesignFileException e )
 		{
@@ -157,11 +176,27 @@ public class ReportEngineHelper
 	public IReportRunnable openReportDesign( String designName,
 			InputStream designStream ) throws EngineException
 	{
+		return openReportDesign(designName, designStream, null);
+	}
+
+	public IReportRunnable openReportDesign( String designName,
+			InputStream designStream, IResourceLocator locator ) throws EngineException
+	{
 		ReportDesignHandle designHandle;
 		try
 		{
-			designHandle = new ReportParser( engine ).getDesignHandle(
-					designName, designStream );
+			String resourcePath = null;
+			if (locator == null)
+			{
+				EngineConfig config = engine.getConfig( );
+				if ( config != null )
+				{
+					locator = config.getResourceLocator( );
+					resourcePath = config.getResourcePath( );
+				}
+			}
+			ReportParser parser = new ReportParser( locator, resourcePath );
+			designHandle = parser.getDesignHandle( designName, designStream );
 		}
 		catch ( DesignFileException e )
 		{
@@ -287,6 +322,12 @@ public class ReportEngineHelper
 	public IReportDocument openReportDocument( String systemId,
 			String docArchiveName ) throws EngineException
 	{
+		return openReportDocument(systemId, docArchiveName, null);
+	}
+	
+	public IReportDocument openReportDocument( String systemId,
+			String docArchiveName, IResourceLocator locator ) throws EngineException
+	{
 		IDocArchiveReader reader = null;
 		try
 		{
@@ -320,13 +361,15 @@ public class ReportEngineHelper
 			throw new EngineException( e.getLocalizedMessage( ) );
 		}
 
-		return openReportDocument( systemId, reader );
+		return openReportDocument( systemId, reader, locator );
 	}
 
-	private IReportDocument openReportDocument( String systemId,
-			IDocArchiveReader archive ) throws EngineException
+	public IReportDocument openReportDocument( String systemId,
+			IDocArchiveReader archive, IResourceLocator locator ) throws EngineException
 	{
-		return new ReportDocumentReader( systemId, engine, archive );
+		ReportDocumentReader reader = new ReportDocumentReader( systemId, engine, archive );
+		reader.setResourceLocator(locator);
+		return reader;
 	}
 
 	public IRunTask createRunTask( IReportRunnable runnable )

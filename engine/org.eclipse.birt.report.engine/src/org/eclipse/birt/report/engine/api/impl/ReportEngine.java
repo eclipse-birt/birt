@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IStatusHandler;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
@@ -215,7 +216,8 @@ public class ReportEngine implements IReportEngine
 	public IReportRunnable openReportDesign( String designName )
 			throws EngineException
 	{
-		return helper.openReportDesign( designName );
+		IResourceLocator locator = config.getResourceLocator( );
+		return helper.openReportDesign( designName, locator);
 	}
 	
 	/**
@@ -398,6 +400,27 @@ public class ReportEngine implements IReportEngine
 	public IReportDocument openReportDocument( String systemId,
 			String fileName ) throws EngineException
 	{
-		return helper.openReportDocument( systemId, fileName );
+		return openReportDocument( systemId, fileName, null );
+	}
+
+	public IReportRunnable openReportDesign( String designName, IResourceLocator locator ) throws EngineException
+	{
+		return helper.openReportDesign( designName, locator);
+	}
+
+	public IReportRunnable openReportDesign( String name, InputStream designStream, IResourceLocator locator ) throws EngineException
+	{
+		return helper.openReportDesign(name, designStream, locator);
+	}
+
+	public IReportDocument openReportDocument( String fileName, IResourceLocator locator ) throws EngineException
+	{
+		return openReportDocument( fileName, fileName, locator );
+	}
+
+	public IReportDocument openReportDocument( String systemId,
+			String fileName, IResourceLocator locator ) throws EngineException
+	{
+		return helper.openReportDocument( systemId, fileName, locator );
 	}
 }

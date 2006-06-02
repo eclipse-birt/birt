@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api;
 import java.io.InputStream;
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 
@@ -72,6 +73,9 @@ public interface IReportEngine
 	public IReportRunnable openReportDesign( String designName )
 			throws EngineException;
 	
+	public IReportRunnable openReportDesign( String designName,
+			IResourceLocator locator ) throws EngineException;
+
 	/**
 	 * opens a report designHandle and creates a report design runnable. From the
 	 * ReportRunnable object, embedded images and parameter definitions can be
@@ -104,6 +108,9 @@ public interface IReportEngine
 	public IReportRunnable openReportDesign( String name,
 			InputStream designStream ) throws EngineException;
 
+	public IReportRunnable openReportDesign( String name,
+			InputStream designStream, IResourceLocator locator )
+			throws EngineException;
 	/**
 	 * creates an engine task for running and rendering report directly to
 	 * output format
@@ -185,6 +192,8 @@ public interface IReportEngine
 	public IReportDocument openReportDocument( String fileName )
 			throws EngineException;
 
+	public IReportDocument openReportDocument( String fileName,
+			IResourceLocator locator ) throws EngineException;
 	/**
 	 * opens a report document and returns an IReportDocument object, from which
 	 * further information can be retrieved.
@@ -202,6 +211,8 @@ public interface IReportEngine
 	public IReportDocument openReportDocument( String systemId,
 			String fileName ) throws EngineException;
 
+	public IReportDocument openReportDocument( String systemId,
+			String fileName, IResourceLocator locator ) throws EngineException;
 	/**
 	 * creates a task that allows data extraction from a report document
 	 * 

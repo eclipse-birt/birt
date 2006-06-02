@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -280,5 +281,30 @@ public class ReportEngine implements IReportEngine
 			throws EngineException
 	{
 		return engine.openReportDocument( systemId, fileName );
+	}
+
+	public IReportRunnable openReportDesign( String designName,
+			IResourceLocator locator ) throws EngineException
+	{
+		return engine.openReportDesign( designName, locator );
+	}
+
+	public IReportRunnable openReportDesign( String name,
+			InputStream designStream, IResourceLocator locator )
+			throws EngineException
+	{
+		return engine.openReportDesign( name, designStream, locator );
+	}
+
+	public IReportDocument openReportDocument( String fileName,
+			IResourceLocator locator ) throws EngineException
+	{
+		return engine.openReportDocument( fileName, locator );
+	}
+
+	public IReportDocument openReportDocument( String systemId,
+			String fileName, IResourceLocator locator ) throws EngineException
+	{
+		return engine.openReportDocument( systemId, fileName, locator );
 	}
 }

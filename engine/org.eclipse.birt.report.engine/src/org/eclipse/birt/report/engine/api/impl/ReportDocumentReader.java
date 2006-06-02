@@ -40,6 +40,7 @@ import org.eclipse.birt.report.engine.internal.document.v1.PageHintReaderV1;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 
 public class ReportDocumentReader
 		implements
@@ -53,6 +54,7 @@ public class ReportDocumentReader
 	private IReportEngine engine;
 	private IDocArchiveReader archive;
 	private IReportRunnable reportRunnable;
+	private IResourceLocator locator;
 	/*
 	 * version, paramters, globalVariables are loaded from core stream.
 	 */
@@ -99,6 +101,13 @@ public class ReportDocumentReader
 		}
 	}
 
+	
+	void setResourceLocator( IResourceLocator locator )
+	{
+		this.locator = locator;
+	}
+	
+	
 	public IDocArchiveReader getArchive( )
 	{
 		return this.archive;
@@ -243,7 +252,7 @@ public class ReportDocumentReader
 			{
 				try
 				{
-					reportRunnable = engine.openReportDesign( name, stream );
+					reportRunnable = engine.openReportDesign( name, stream, locator );
 				}
 				catch ( Exception ex )
 				{
