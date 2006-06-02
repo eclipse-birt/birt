@@ -103,37 +103,30 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 	 *	@return, true indicating server call
 	 */
 	__beh_pdf : function( id )
-	{
-		// Collect parameters
-		if ( !birtParameterDialog.collect_parameter( ) )
-			return;
-		
-		var divObj = document.createElement( "DIV" );
-		document.body.appendChild( divObj );
-		divObj.style.display = "none";
-		
-		var formObj = document.createElement( "FORM" );
-		divObj.appendChild( formObj );
-				
-		if ( birtParameterDialog.__parameter != null )
+	{	
+		var docObj = document.getElementById( 'Document' );
+		if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
 		{
-			for( var i = 0; i < birtParameterDialog.__parameter.length; i++ )	
-			{
-				var param = document.createElement( "INPUT" );
-				formObj.appendChild( param );
-				param.TYPE = "HIDDEN";
-				param.name = birtParameterDialog.__parameter[i].name;
-				param.value = birtParameterDialog.__parameter[i].value;				
-			}
-		}
-
-		// Replace "html" to "pdf"		
-		var action = window.location.href;		
-		var reg = new RegExp( "&__format=html", "g" );
-		action = action.replace( reg, "&__format=pdf" );
+			alert ( "Report document should be generated first." );	
+			return;
+		}	
+		else
+		{	
+			var divObj = document.createElement( "DIV" );
+			document.body.appendChild( divObj );
+			divObj.style.display = "none";
 		
-		formObj.action = action;
-		formObj.method = "post";			
-		formObj.submit( );
+			var formObj = document.createElement( "FORM" );
+			divObj.appendChild( formObj );
+
+			// Replace "html" to "pdf"		
+			var action = window.location.href;		
+			var reg = new RegExp( "&__format=html", "g" );
+			action = action.replace( reg, "&__format=pdf" );
+
+			formObj.action = action;
+			formObj.method = "post";			
+			formObj.submit( );
+		}
 	}		
 });
