@@ -360,12 +360,12 @@ public class SVGInteractiveRenderer
 		if ( cmDT instanceof ChartWithAxes )
 		{
 			return (Series) ( (SeriesDefinition) ( (ChartWithAxes) cmDT ).getBaseAxes( )[0].getSeriesDefinitions( )
-					.get( 0 ) ).getSeries( ).get( 1 );
+					.get( 0 ) ).getRunTimeSeries( ).get( 0 );
 		}
 		else
 		{
 			return (Series) ( (SeriesDefinition) ( (ChartWithoutAxes) cmDT ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeries( ).get( 1 );
+					.get( 0 ) ).getRunTimeSeries( ).get( 0 );
 		}
 	}
 
