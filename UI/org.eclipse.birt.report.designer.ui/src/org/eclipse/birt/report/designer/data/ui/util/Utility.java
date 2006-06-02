@@ -36,6 +36,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * 
@@ -453,5 +455,13 @@ public class Utility
 			result = result.replaceAll( chars[0][i], chars[1][i] );
 		}
 		return result;
+	}
+	
+	public static void setSystemHelp( Control control, String contextId )
+	{
+		control.setFocus( );
+		PlatformUI.getWorkbench( )
+				.getHelpSystem( )
+				.setHelp( control, contextId );
 	}
 }
