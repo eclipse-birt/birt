@@ -110,6 +110,21 @@ public final class ExpressionUtil
 	}
 
 	/**
+     * whethter the expression has aggregation 
+	 * @param oldExpression
+	 * @return
+	 * @throws BirtException
+	 */
+	public static boolean hasAggregation( String expression )
+			throws BirtException
+	{
+		if ( expression == null )
+			return false;
+
+		return ExpressionParserUtility.hasAggregation( expression );
+	}
+	
+	/**
 	 * Return an IColumnBinding instance according to given oldExpression.
 	 * 
 	 * @param oldExpression

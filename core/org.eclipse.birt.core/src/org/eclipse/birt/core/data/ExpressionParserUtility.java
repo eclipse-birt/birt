@@ -35,8 +35,10 @@ class ExpressionParserUtility
 	private final String pluginId = "org.eclipse.birt.core";
 	private final String ROW_INDICATOR = "row";
 	private final String DATASETROW_INDICATOR = "dataSetRow";
+	private final static String TOTAL = "Total";
 	
 	private static ExpressionParserUtility instance = new ExpressionParserUtility( );
+	private static boolean hasAggregation = false;
 	
 	/**
 	 * compile the expression
@@ -74,6 +76,19 @@ class ExpressionParserUtility
 		return columnExprList;
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @throws BirtException 
+	 */
+	static boolean hasAggregation( String expression ) throws BirtException
+	{
+		hasAggregation = false;
+		compileColumnExpression( expression );
+		return hasAggregation;
+	}
+	
+	
 	/**
 	 * compile the expression from a script tree
 	 * 
@@ -354,6 +369,14 @@ class ExpressionParserUtility
 			ScriptOrFnNode tree, List columnExprList ) throws BirtException
 	{
 		Node firstChild = callNode.getFirstChild( );
+		if ( firstChild.getType( ) != Token.GETPROP )
+			return;
+
+		Node getPropLeftChild = firstChild.getFirstChild( );
+		if ( getPropLeftChild.getType( ) == Token.NAME
+				&& getPropLeftChild.getString( ).equals( TOTAL ) )
+			hasAggregation = true;
+
 		compileComplexExpr( firstChild, tree, columnExprList );
 	}
 
