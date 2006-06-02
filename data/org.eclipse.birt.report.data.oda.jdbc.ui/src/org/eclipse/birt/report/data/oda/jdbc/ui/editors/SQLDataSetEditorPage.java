@@ -114,7 +114,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.51 $ $Date: 2006/05/25 02:07:38 $
+ * @version $Revision: 1.52 $ $Date: 2006/06/01 10:19:58 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -159,6 +159,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	private DataSourceDesign prevDataSourceDesign;
 	private DataSetDesign dataSetDesign;
 	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
+	private final String CONEXT_ID_DATASET_JDBC = "org.eclipse.birt.cshelp.Wizard_JDBCDataset_ID";//$NON-NLS-1$
 	
 	static
 	{
@@ -208,6 +209,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	{
 		setControl( createPageControl( parent ) );
 		initializeControl( );
+		
+		getControl( ).setFocus( );
+		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( getControl( ),
+				this.CONEXT_ID_DATASET_JDBC );
 	}
 	
 	/**

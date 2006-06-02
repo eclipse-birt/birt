@@ -52,6 +52,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.jface.dialogs.IMessageProvider;
 
 /**
@@ -80,6 +81,7 @@ public class JDBCSelectionPageHelper
 	final private static String EMPTY_URL = JdbcPlugin.getResourceString( "error.emptyDatabaseUrl" );//$NON-NLS-1$
 
 	private final String JDBC_EXTENSION_ID="org.eclipse.birt.report.data.oda.jdbc";
+	private final String CONEXT_ID_DATASOURCE_JDBC = "org.eclipse.birt.cshelp.Wizard_JDBC_Datasource_ID";//$NON-NLS-1$
     
     JDBCSelectionPageHelper( WizardPage page )
 	{
@@ -228,6 +230,10 @@ public class JDBCSelectionPageHelper
 		addControlListeners( );
 		updateTestButton( );
 		verifyJDBCProperties( );
+		
+		content.setFocus( );
+		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( content,
+				CONEXT_ID_DATASOURCE_JDBC );
 	}
     
     /**

@@ -26,6 +26,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Helper class to create sampleDb selection page and property page
@@ -37,6 +38,7 @@ public class SampleDbSelectionPageHelper
     private PreferencePage m_propertyPage;
 
 	private static final String SAMPLE_DB_SCHEMA="ClassicModels";
+	private final String CONEXT_ID_DATASOURCE_SAMPLEDB = "org.eclipse.birt.cshelp.Wizard_DatasourceProfile_ID";//$NON-NLS-1$
 	private Label m_driverClass, m_driverURL, m_sampleUser;
 
     static final String DEFAULT_MESSAGE = 
@@ -73,6 +75,10 @@ public class SampleDbSelectionPageHelper
 		m_sampleUser = new Label( content, SWT.LEFT );
 		m_sampleUser.setText( SampleDBJDBCConnectionFactory.getDbUser( ) );//$NON-NLS-1$
 		setMessage( DEFAULT_MESSAGE );
+		
+		content.setFocus( );
+		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( content,
+				CONEXT_ID_DATASOURCE_SAMPLEDB );
 	}
     
     /**
