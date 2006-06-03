@@ -1,8 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<?NLS type="org.eclipse.help.contexts"?>
-
-<contexts>
-<context id="dummy_outer_container" title="BIRT Chart contexts">
+<?xml version="1.0" encoding="utf-8"?><?NLS type="org.eclipse.help.contexts"?><contexts><context id="dummy_outer_container" title="BIRT Chart contexts">
 <description/>
 </context>
 <context id="AreaFormat_ID" title="Area Format">
@@ -17,7 +13,7 @@ Use the Hint parameters for height and width to place constraints on the calcula
 Note: Before you can configure an outline, you must make it visible. To do this, in the Plot page, select the Visible check box for the outline that you want.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="ChartCustomProperties_ID" title="Custom Properties">
 <description>Use this dialog box to define keys associated with your chart.
@@ -25,7 +21,7 @@ Note: Before you can configure an outline, you must make it visible. To do this,
 To add a key, type the key name in the text box below the list of keys and click <b>Add</b>.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="ChartGeneralProperties_ID" title="General Properties">
 <description>Use this dialog box to set chart area properties.
@@ -33,7 +29,7 @@ To add a key, type the key name in the text box below the list of keys and click
 The fields available in this dialog box change according to the type of chart you are defining. For three-dimensional charts and charts with depth, for example, you can define values for the "wall" and "floor" of the chart, and use the Series Depth setting to control how deep you want the chart to look.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="CurveFitting_ID" title="Curve Fitting Line">
 <description>Use this dialog box to format the style, width, and color of the curve fitting line for the chart, and also to define and format an optional label.
@@ -41,7 +37,7 @@ The fields available in this dialog box change according to the type of chart yo
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="DataPointLabels_ID" title="Labels">
 <description>Use this dialog box to define and format labels for the value-series elements in your chart.
@@ -49,7 +45,7 @@ The fields available in this dialog box change according to the type of chart yo
 In addition to selecting the data to be displayed in the labels, you can specify how the labels look. For example, you can position them inside or outside their associated chart element, change the font attributes (by clicking the button next to the Font field), and specify a background, outline, or additional padding (by defining insets).
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="DataSetFilter_ID" title="Filters">
 <description>Use this dialog box to define filter expressions for selecting specific records to be included in your report.
@@ -59,8 +55,8 @@ For example, rather than display information about all customers, you can create
 To make entries, click on a field. For Value 2, specify a value only if you selected the Between or Not Between operator.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-13-1.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-13-1.html" label="A related topic"/>
 </context>
 <context id="DataSetParameter_ID" title="Parameters">
 <description>Use this dialog box to define data set parameters to allow the user to filter report data.
@@ -68,8 +64,8 @@ To make entries, click on a field. For Value 2, specify a value only if you sele
 If you bind a chart to a data set in which you defined parameters, it is possible to access those parameters by clicking <b>Chart</b>   &gt; <b>Select Data</b> .
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-13-1.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-13-1.html" label="A related topic"/>
 </context>
 <context id="EditURL_ID" title="Hyperlink Options">
 <description>Use this dialog box to link a chart to a web page, document, or image. You can also use it to link two reports, or two sections of a report.
@@ -77,7 +73,7 @@ If you bind a chart to a data set in which you defined parameters, it is possibl
 If you are linking to an external report in HTML format, select a Target option. Target is equivalent to the HTML Target attribute. The options define where the linked document will open. For example, Blank opens the document in a new browser window. For more information about Target, see HTML documentation about this attribute.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-18-1.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-18-1.html" label="A related topic"/>
 </context>
 <context id="ExpressionBuilder_ID" title="Expression Builder - Specify Data Definition">
 <description>Use this dialog box to create expressions.
@@ -85,8 +81,8 @@ If you are linking to an external report in HTML format, select a Target option.
 You can either type in the complete expression, or use the controls in the dialog box to guide you.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-11-01.html" label="A related topic"/>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-10-1.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-11-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-10-1.html" label="A related topic"/>
 </context>
 <context id="ExternalizeText_ID" title="Externalize Text">
 <description>Use this dialog box to externalize chart text elements. Externalizing text separates it from the chart in a file of its own and so makes localization easier.
@@ -94,7 +90,7 @@ You can either type in the complete expression, or use the controls in the dialo
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-20-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-20-01.html" label="A related topic"/>
 </context>
 <context id="FormatChartArea_ID" title="Edit Chart and New Chart: Chart Area">
 <description>Use this page to define the appearance of the area surrounding the chart, and to enable interactive linking for the chart area and the chart title.
@@ -102,7 +98,7 @@ You can either type in the complete expression, or use the controls in the dialo
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="FormatChartAxis_ID" title="Edit Chart and New Chart: Axis">
 <description>Use this page to define the appearance of the chart axes.
@@ -110,8 +106,8 @@ You can either type in the complete expression, or use the controls in the dialo
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-15-2.html" label="A related topic"/>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-15-2.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="FormatChartLegend_ID" title="Edit Chart and New Chart: Legend">
 <description>Use this page to define the title and the background color for the chart legend.
@@ -121,7 +117,7 @@ You can either type in the complete expression, or use the controls in the dialo
 Note: The legend title will not be visible unless the legend is visible. To make the legend visible, you may have to click Layout, and then select Visible in the Layout Legend dialog box.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="FormatChartPlot_ID" title="Edit Chart and New Chart: Plot">
 <description>Use this page to specify the background color for the area that is included within the axes and for the area that contains the axes. You can also choose whether to provide visible outlines for these areas.
@@ -131,7 +127,7 @@ For outline formatting options, click <b>Client Area</b>.
 To specify the background color for the area outside the axes, use the Chart Area page.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="FormatChartSeries_ID" title="Edit Chart and New Chart: Series">
 <description>Use this page to define the title and type of the series that are included in the graph.
@@ -139,7 +135,7 @@ To specify the background color for the area outside the axes, use the Chart Are
 Changing the "Color By" option changes which series is the basis for the color-coding in the chart. It also changes the legend to reflect the selected series.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="FormatChartXAxis_ID" title="Edit Chart and New Chart: X-Axis">
 <description>Use this page to specify title, type, and position of the x-axis with respect to the y-axis.
@@ -149,7 +145,7 @@ For additional formatting options, click <b>Scale</b>, <b>Text Format</b>, <b>Gr
 Note that if you want the x-axis title to be displayed, you may have to click <b>Text Format</b> and select <b>Visible</b>.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="FormatChartXSeries_ID" title="Edit Chart and New Chart: Category (X) Series">
 <description>Use this page to format the "category" series (x axis) of the chart.
@@ -166,7 +162,7 @@ You can also enable and define grouping. To define grouping, do the following
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
 </context>
 <context id="FormatChartYAxis_ID" title="Edit Chart and New Chart: Y-Axis">
 <description>Use this page to specify title, type, and position of the y-axis with respect to the x-axis.
@@ -176,7 +172,7 @@ For additional formatting options, click <b>Scale</b>, <b>Text Format</b>, <b>Gr
 Note that if you want the x-axis title to be displayed, you may have to click <b>Text Format</b> and select <b>Visible</b>.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="FormatChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series">
 <description>Use this page to format the properties of the "value" series (y axis) of the chart.
@@ -186,7 +182,7 @@ Note that you can select "Show Lines as Curves" to replace straight lines with c
 Use the <b>Labels</b>, <b>Interactivity</b>, <b>Curve Fitting Line</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="FormatData_ID" title="Edit Format">
 <description>Use this dialog box to define a format for the selected Data Type.
@@ -194,7 +190,7 @@ Use the <b>Labels</b>, <b>Interactivity</b>, <b>Curve Fitting Line</b>, and <b>S
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
 </context>
 <context id="Gridlines_ID" title="Gridlines">
 <description>Use this dialog box to display or hide the selected axis line and gridlines that run parallel to the axis. Use it also to customize their appearance.
@@ -202,7 +198,7 @@ Use the <b>Labels</b>, <b>Interactivity</b>, <b>Curve Fitting Line</b>, and <b>S
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="Interactivity_ID" title="Interactivity">
 <description>Use this dialog box to define interactive features of your chart, both the types of interactivity and the actions that trigger the interactive responses.
@@ -210,7 +206,7 @@ Use the <b>Labels</b>, <b>Interactivity</b>, <b>Curve Fitting Line</b>, and <b>S
 If you change a definition, click <b>Update</b> to apply it.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-18-1.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-18-1.html" label="A related topic"/>
 </context>
 <context id="LegendLayout_ID" title="Layout Legend">
 <description>Use this page to define the legend for the chart.
@@ -224,7 +220,7 @@ For additional formatting options, click <b>Text Format</b> and <b>Layout</b>.
 Note: If the legend is not displayed, click <b>Layout</b> and select Visible.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="Markers_ID" title="Markers">
 <description>Use this dialog box to create axis markers, define marker position and other marker properties, and define marker label properties. Markers can be single lines or ranges, and call attention to a specific location on the axis.
@@ -234,7 +230,7 @@ Select a marker in the text box to work with its definition.
 You can you can access additional formatting options by clicking the buttons to the right of the Value and Font fields.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="NewDataSet_ID" title="New Data Set">
 <description>Use this dialog box to define a data set for graphing.
@@ -242,7 +238,7 @@ You can you can access additional formatting options by clicking the buttons to 
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
 </context>
 <context id="Outline_ID" title="Outline">
 <description>Use this dialog box to indicate whether you want to frame the chart with a visible outline, and to specify the properties of the outline.
@@ -252,7 +248,7 @@ Specify insets to adjust the padding between chart and outline.
 The default unit for specifying insets is points. To change the default units, from the New Chart of Edit Chart dialog box, click <b>Format Chart</b>, then <b>Chart Area</b>, then <b>General Properties</b>.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="Scale_ID" title="Scale">
 <description>Use this dialog box to set the minimum and maximum values displayed on a numerical axis.
@@ -264,7 +260,7 @@ For both numerical and non-numerical axes, you can set the number of minor, or s
 Note: If the minor gridlines are not displayed, click <b>Gridlines</b>, then select Visible for Minor Grid.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="SelectChartData_ID" title="Edit Chart and New Chart: Select Data Set">
 <description>Use this page to select a data set, or click Create New to open the <b>New Data Set</b> dialog box.
@@ -272,7 +268,7 @@ Note: If the minor gridlines are not displayed, click <b>Gridlines</b>, then sel
 Bind columns of data to the chart by dragging the column head to the appropriate field.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
 </context>
 <context id="SelectChartType_ID" title="Edit Chart and New Chart: Select Chart Type">
 <description>Use this page to specify the type of chart you want.
@@ -286,7 +282,7 @@ Note: If you select an output format that your system does not support, you will
 Click <b>Finish</b> to save your selections.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-15-02.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-15-02.html" label="A related topic"/>
 </context>
 <context id="SeriesPalette_ID" title="Series Palette">
 <description>Use this dialog box to select colors for members of the series. Double-click a bar to display the options.
@@ -294,7 +290,7 @@ Click <b>Finish</b> to save your selections.
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="FontEditor_ID" title="Edit Font">
 <description>Use this dialog box to format the font for a text item. When you change an font option, the change is displayed in the Preview text box.
@@ -302,7 +298,7 @@ Click <b>Finish</b> to save your selections.
 You can set the orientation of the text item either by dragging the Rotation dial or by specifying degrees.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="TextFormat_ID" title="Text Format">
 <description>Use this dialog box to customize text format.
@@ -310,7 +306,7 @@ You can set the orientation of the text item either by dragging the Rotation dia
 This dialog box is used to format text for many graph elements. The fields that are available for input depend on the element that you are working with.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="TitleFormat_ID" title="Title Format">
 <description>Use this dialog box to format the title area and the title text.
@@ -320,7 +316,7 @@ You can define outlines for both title and title area, and also specify inset va
 If you want to change the title font, click <b>...</b> next to Format.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 <context id="Preferences_BIRTChart_ID" title="Preferences: Chart">
 <description>Use this page to enable or disable interactive chart previews as you modify the chart definition. Use it also to set the maximum number of rows in the chart data preview on the Select Data page of the chart builder.
@@ -328,6 +324,72 @@ If you want to change the title font, click <b>...</b> next to Format.
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="FormatChartZAxis_ID" title="Edit Chart and New Chart: Z-Axis">
+<description>Use this page to specify the title of the z-axis, and to specify whether the labels are visible.
+
+For additional formatting options, click <b>Text Format</b>, <b>Gridlines</b>, and <b>Interactivity</b>.
+
+Note that if you want the z-axis title to be displayed, you may have to click <b>Text Format</b> and select <b>Visible</b>.
+
+</description>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="FormatLineChartSeriesMarkers_ID" title="Markers">
+<description>Use this dialog box to add and remove line markers in your chart.
+
+
+
+</description>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="MeterChartRegions_ID" title="Regions">
+<description>Use this dialog box to add and remove regions in your chart, and to specify the properties of the regions that you add.
+
+
+
+</description>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="SelectDataBinding_ID" title="Select Data Binding">
+<description>Use this dialog box to bind data to columns, and to specify aggregations.
+
+Note that you can also bind data in the Select Data page by dragging and dropping.
+
+</description>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="GradientEditor_ID" title="Gradient Editor">
+<description>Use this dialog box to specify the starting and ending colors for gradual background color changes, and to specify the orientation of the gradient.
+
+
+
+</description>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="SelectImage_ID" title="Select Image">
+<description>Use this dialog box to select an image for the chart background.
+
+
+
+</description>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="FormatChartAreaBackground_ID" title="Format Chart Area Background">
+<description>Use this dialog box to format the chart background. For additional options (graduated color, custom color, and images), click the buttons.
+
+
+
+</description>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="BackgroundColor_ID" title="Color">
+<description>Use this dialog box to select the background color for the chart.
+
+
+
+</description>
+<topic href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
 </contexts>
