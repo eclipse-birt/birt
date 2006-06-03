@@ -119,10 +119,17 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 			var formObj = document.createElement( "FORM" );
 			divObj.appendChild( formObj );
 
-			// Replace "html" to "pdf"		
-			var action = window.location.href;		
+			// Replace "html" to "pdf"
+			var action = window.location.href;			
 			var reg = new RegExp( "&__format=html", "g" );
-			action = action.replace( reg, "&__format=pdf" );
+			if ( action.search( reg ) > -1 )
+			{
+				action = action.replace( reg, "&__format=pdf" );
+			}
+			else
+			{
+				action = action + '&__format=pdf';
+			}
 
 			formObj.action = action;
 			formObj.method = "post";			
