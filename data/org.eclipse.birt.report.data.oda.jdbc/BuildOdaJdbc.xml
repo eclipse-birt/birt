@@ -89,7 +89,7 @@
 
 	<path id="class.path">
 		<pathelement path="${dir.bin}" />
-		<pathelement path="derby.jar" />
+		<pathelement path="../org.apache.derby.core/derby.jar" />
 <!--	<fileset dir="${core.dir}">
 			<include name="core.jar"/>
 			<include name="lib/*.jar"/>

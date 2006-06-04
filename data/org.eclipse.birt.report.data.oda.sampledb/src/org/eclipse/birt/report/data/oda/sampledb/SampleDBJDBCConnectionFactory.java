@@ -14,6 +14,7 @@
 package org.eclipse.birt.report.data.oda.sampledb;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -49,7 +50,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 			throw new SQLException("Classic Models Inc. Sample Database Driver does not recognize url: " + driverClass);
 		}
 
-		String dbUrl = SampleDBConstants.getDBUrl( );
+		String dbUrl = SampledbPlugin.getDBUrl( );
 		
 		// Copy connection properties and replace user and password with fixed value
 		Properties props;
@@ -62,10 +63,14 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 		
 		try
 		{
-			return JDBCDriverManager.getInstance().getConnection( 
-					SampleDBConstants.DERBY_DRIVER_CLASS, dbUrl, props );
+			// Derby embedded driver should be in our class path since this plugin
+			// depends on the Derby plugin
+			// Note that we cannot go to JDBCDriverManager here to request connection -
+			// it may give us the wrong version of Derby! 
+			Class.forName( SampleDBConstants.DERBY_DRIVER_CLASS );
+			return DriverManager.getConnection( dbUrl, props);
 		}
-		catch (OdaException e)
+		catch ( Exception e)
 		{
 			throw new SQLException(e.getLocalizedMessage());
 		}

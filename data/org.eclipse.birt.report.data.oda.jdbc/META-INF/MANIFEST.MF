@@ -11,7 +11,8 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.datatools.connectivity.oda,
  com.ibm.icu,
  org.eclipse.core.runtime,
- org.junit;resolution:=optional
+ org.junit;resolution:=optional,
+ org.apache.derby.core;resolution:=optional
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.birt.report.data.oda.jdbc,
  org.eclipse.birt.report.data.oda.plugin
