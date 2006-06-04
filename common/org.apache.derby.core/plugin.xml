@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?> 
+<plugin 
+	 id="org.apache.derby.core" 
+	 name="Apache Derby Core Plug-in for Eclipse" 
+	 version="10.1.2.1"
+	 provider-name="The Apache Software Foundation">
+
+	 <runtime> 
+		 <library name="derby.jar"> 
+			 <export name="*"/> 
+		 </library> 
+		 <library name="derbyclient.jar"> 
+			 <export name="*"/> 
+		 </library> 
+		 <library name="derbytools.jar"> 
+			 <export name="*"/> 
+		 </library> 
+		 <library name="derbynet.jar"> 
+			 <export name="*"/> 
+		 </library> 
+	 </runtime> 
+	 <requires> 
+	 </requires> 
+</plugin>
