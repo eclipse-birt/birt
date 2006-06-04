@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="/org.eclipse.birt.report.data.oda.jdbc/derby.jar"/>
+	<classpathentry kind="lib" path="/org.apache.derby.core/derby.jar"/>
 	<classpathentry kind="src" path="/org.eclipse.birt.data.oda"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
