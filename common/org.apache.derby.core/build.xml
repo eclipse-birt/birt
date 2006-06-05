@@ -77,9 +77,37 @@
 		<property file="META-INF/MANIFEST.MF" />
 		<copy todir="${export.dir}/${module.name.version}">
 			<fileset dir=".">
-				<include name="lib/*.jar" />
-				<include name="META-INF/**" />
+				<exclude name="build.xml" />
+				<exclude name=".project" />
+				<exclude name=".classpath" />
+				<exclude name="CVS/*" />
+				<exclude name="build.properties" />
 			</fileset>
+		</copy>
+		<tstamp>
+			<format property="TODAY" pattern="yyyyMMddHHmm" />
+		</tstamp>
+		<copy todir="${export.dir}/${module.name.version}" overwrite="true">
+			<fileset dir=".">
+				<include name="about.mappings" />
+			</fileset>
+			<filterchain>
+				<replacetokens>
+					<token key="Replace_By_Date" value="${TODAY}" />
+				</replacetokens>
+			</filterchain>
+
+		</copy>
+		<copy todir="${export.dir}/${module.name.version}" overwrite="true">
+			<fileset dir=".">
+				<include name="about.properties" />
+			</fileset>
+			<filterchain>
+				<replacetokens>
+					<token key="Replace_By_Version" value="${Bundle-Version}" />
+				</replacetokens>
+			</filterchain>
+
 		</copy>
 	</target>
 
