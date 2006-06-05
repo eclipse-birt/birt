@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
@@ -84,6 +86,8 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 		formatPage = new FormatNumberPage( parent, SWT.NULL );
 		( (Composite) formatPage ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		initiateFormatPage( );
+		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),IHelpContextIds.STYLE_BUILDER_FORMATNUMBER_ID ); 
+
 	}
 
 	private void initiateFormatPage( )

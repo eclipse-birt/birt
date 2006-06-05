@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -129,6 +131,8 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 	{
 		super.createFieldEditors( );
 
+		UIUtil.bindHelp( parent,IHelpContextIds.STYLE_BUILDER_HIGHTLIGHTS_ID ); 
+		
 		final Composite innerParent = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.marginHeight = 0;

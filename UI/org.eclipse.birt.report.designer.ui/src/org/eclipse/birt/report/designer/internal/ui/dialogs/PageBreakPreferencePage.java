@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -118,6 +120,8 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 				.setLayoutData( gdata );
 
 		addField( after );
+		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),IHelpContextIds.STYLE_BUILDER_PAGEBREAK_ID ); 
+
 	}
 
 	private String[][] getChoiceArray( String propName )

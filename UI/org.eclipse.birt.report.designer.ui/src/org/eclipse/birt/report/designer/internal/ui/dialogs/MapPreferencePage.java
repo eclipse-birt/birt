@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -128,6 +130,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 	protected Control createContents( Composite ancestor )
 	{
 		super.createFieldEditors( );
+		UIUtil.bindHelp( ancestor,IHelpContextIds.STYLE_BUILDER_MAP_ID ); 
 
 		final Composite parent = new Composite( ancestor, SWT.NONE );
 		GridLayout layout = new GridLayout( );

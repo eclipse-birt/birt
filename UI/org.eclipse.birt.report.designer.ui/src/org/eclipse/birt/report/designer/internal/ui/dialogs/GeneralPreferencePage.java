@@ -98,7 +98,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );
 		addField( blank );
-		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),IHelpContextIds.STYLE_BUILDER_ID ); 
+		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),IHelpContextIds.STYLE_BUILDER_GERNERAL_ID ); 
 	}
 
 	/**

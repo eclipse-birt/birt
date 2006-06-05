@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.Comparator;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.CSSUtil;
@@ -190,6 +192,8 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 		sample.setText(Messages
 				.getString("FontPreferencePage.text.PreviewContent")); //$NON-NLS-1$
 		sample.setLayoutData(new GridData(GridData.FILL_BOTH));
+		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),IHelpContextIds.STYLE_BUILDER_FONT_ID ); 
+
 	}
 
 	/*

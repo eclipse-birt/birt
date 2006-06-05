@@ -40,7 +40,29 @@ public interface IHelpContextIds
 	
 	public static final String IMPORT_VALUE_DIALOG_ID = PREFIX + "ImportValueDialog_ID";
 	
-	public static final String STYLE_BUILDER_ID = PREFIX + "StyleBuilder_ID";
+	public static final String STYLE_BUILDER_GERNERAL_ID = PREFIX + "StyleBuilderGeneral_ID";
+	
+	public static final String STYLE_BUILDER_FONT_ID = PREFIX + "StyleBuilderFont_ID";
+
+	public static final String STYLE_BUILDER_BACKGROUND_ID = PREFIX + "StyleBuilderBackground_ID";
+
+	public static final String STYLE_BUILDER_TEXTBLOCK_ID = PREFIX + "StyleBuilderTextBlock_ID";
+
+	public static final String STYLE_BUILDER_BOX_ID = PREFIX + "StyleBuilderBox_ID";
+
+	public static final String STYLE_BUILDER_BORDER_ID = PREFIX + "StyleBuilderBorder_ID";
+
+	public static final String STYLE_BUILDER_FORMATNUMBER_ID = PREFIX + "StyleBuilderFormatNumber_ID";
+
+	public static final String STYLE_BUILDER_FORMATDATATIME_ID = PREFIX + "StyleBuilderFormatDateTime_ID";
+
+	public static final String STYLE_BUILDER_FORMATSTRING_ID = PREFIX + "StyleBuilderFormatString_ID";
+
+	public static final String STYLE_BUILDER_PAGEBREAK_ID = PREFIX + "StyleBuilderPageBreak_ID";
+
+	public static final String STYLE_BUILDER_MAP_ID = PREFIX + "StyleBuilderMap_ID";
+
+	public static final String STYLE_BUILDER_HIGHTLIGHTS_ID = PREFIX + "StyleBuilderHighlights_ID";
 	
 	public static final String PARAMETER_GROUP_DIALOG_ID = PREFIX + "ParameterGroupDialog_ID";
 

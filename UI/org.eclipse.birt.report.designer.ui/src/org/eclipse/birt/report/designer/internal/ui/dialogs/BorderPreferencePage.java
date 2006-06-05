@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -229,6 +231,9 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 		addField( widthRight );
 		addField( widthBottom );
 		addField( widthLeft );
+		
+		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),IHelpContextIds.STYLE_BUILDER_BORDER_ID ); 
+
 	}
 
 	private Group createGroupControl( Composite parent, String labelText,
