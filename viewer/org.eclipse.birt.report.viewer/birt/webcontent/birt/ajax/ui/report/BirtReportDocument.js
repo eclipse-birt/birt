@@ -81,19 +81,65 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 	 *	@return, true indicating server call
 	 */
 	__beh_print : function( id )
-	{
-		var docObj = document.getElementById( 'Document' );
-		if ( docObj )
+	{		
+		// If print the whole report
+		if ( confirm( "Do you want to print the whole report?" ) )
 		{
-			var pwin = window.open( "", "print" ); 
-			pwin.document.write( docObj.innerHTML ); 
-			pwin.print( );
-			pwin.location.reload( );
+			var action = window.location.href;
+			var reg = new RegExp( "/frameset[^\\?]*", "g" );
+			action = action.replace( reg, "/run" );
+
+			var divObj = document.createElement( "DIV" );
+			document.body.appendChild( divObj );
+			divObj.style.display = "none";
+			
+			var formObj = document.createElement( "FORM" );
+			divObj.appendChild( formObj );
+			
+			if ( !birtParameterDialog.collect_parameter( ) )
+				return;
+			
+			if ( birtParameterDialog.__parameter != null )
+			{
+				for( var i = 0; i < birtParameterDialog.__parameter.length; i++ )	
+				{
+					var param = document.createElement( "INPUT" );
+					formObj.appendChild( param );
+					param.TYPE = "HIDDEN";
+					param.name = birtParameterDialog.__parameter[i].name;
+					param.value = birtParameterDialog.__parameter[i].value;
+					
+					//replace the URL parameter			
+					var reg = new RegExp( "&" + param.name + "[^&]*&*", "g" );
+					action = action.replace( reg, "&" );
+				}
+			}	
+	
+			formObj.action = action;
+			formObj.method = "post";
+			formObj.submit( );
+					
+			window.print( );
 		}
 		else
 		{
-			window.print( );
-		}
+			var docObj = document.getElementById( "Document" );
+			if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
+			{
+				alert ( "Please generate the current report first." );
+				return;
+			}	
+			
+			var pwin = window.open( "", "print" ); 
+			if ( !pwin )
+			{
+				pwin = window;
+			}
+				
+			pwin.document.write( docObj.innerHTML ); 		
+			pwin.print( );
+			pwin.location.reload( );			
+		}		
 	},
 
 	/**
@@ -104,7 +150,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 	 */
 	__beh_pdf : function( id )
 	{	
-		var docObj = document.getElementById( 'Document' );
+		var docObj = document.getElementById( "Document" );
 		if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
 		{
 			alert ( "Report document should be generated first." );	
@@ -128,7 +174,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 			}
 			else
 			{
-				action = action + '&__format=pdf';
+				action = action + "&__format=pdf";
 			}
 
 			formObj.action = action;
