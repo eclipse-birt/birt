@@ -82,6 +82,7 @@
 	<property name="dtp.oda.consumer.dir" location="${dtp.home}/org.eclipse.datatools.connectivity.oda.consumer" />
 	<property name="oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
 	<property name="js.dir" location="../org.mozilla.rhino" />
+	<property name="derby.dir" location="../org.apache.derby.core" />
 	<property name="module.name" value = "org.eclipse.birt.data" />
 	<property name="src" location="src" />
 	<property name="test.src" location="test" />
@@ -110,8 +111,8 @@
 -->		<fileset dir="${birt.oda.dir}">
 			<include name="oda.jar"/>
 		</fileset>	
-		<fileset dir="${oda.jdbc.dir}">
-			<include name="derby.jar"/>
+		<fileset dir="${derby.dir}">
+			<include name="lib/derby.jar"/>
 		</fileset>
 		<fileset dir="${js.dir}/lib">
 			<include name="*.jar"/>
