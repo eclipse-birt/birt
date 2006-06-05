@@ -360,8 +360,9 @@ public class ExpressionProvider implements IExpressionProvider
 			{
 				childrenList.add( iter.next( ) );
 			}
-			//add edit option
-			childrenList.add( new Object[]{Messages.getString("ExpressionProvider.EditBindings"), parent} ); //$NON-NLS-1$
+			// add edit option
+			childrenList.add( new Object[]{
+					Messages.getString( "ExpressionProvider.EditBindings" ), parent} ); //$NON-NLS-1$
 		}
 		return childrenList;
 	}
@@ -437,12 +438,17 @@ public class ExpressionProvider implements IExpressionProvider
 					displayText.append( ( (IMemberInfo) info ).getDataType( ) );
 				}
 				return displayText.toString( );
-			}else{
-				Object[] inputArray = (Object[])element;
-				if(inputArray.length>0)
-					return inputArray[0].toString( );
 			}
-			return ALL;
+			Object[] inputArray = (Object[]) element;
+			if ( inputArray.length == 2
+					&& inputArray[1] instanceof ReportItemHandle )
+			{
+				return inputArray[0].toString( );
+			}
+			else
+			{
+				return ALL;
+			}
 		}
 		else if ( element instanceof String )
 		{

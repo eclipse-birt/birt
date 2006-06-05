@@ -216,21 +216,23 @@ public class ExpressionBuilder extends TitleAreaDialog
 			{
 				if ( selection.getFirstElement( ) instanceof Object[] )
 				{
-					ColumnBindingDialog dialog = new ColumnBindingDialog( );
 					Object[] inputArray = (Object[]) selection.getFirstElement( );
-					dialog.setInput( (ReportItemHandle) inputArray[1] );
-					if ( dialog.open( ) == Window.OK )
+					if ( inputArray.length == 2
+							&& inputArray[1] instanceof ReportItemHandle )
 					{
-						functionTable.refresh( );
+						ColumnBindingDialog dialog = new ColumnBindingDialog( );
+						dialog.setInput( (ReportItemHandle) inputArray[1] );
+						if ( dialog.open( ) == Window.OK )
+						{
+							functionTable.refresh( );
+						}
+						return;
 					}
 				}
-				else
+				String insertText = provider.getInsertText( selection.getFirstElement( ) );
+				if ( insertText != null )
 				{
-					String insertText = provider.getInsertText( selection.getFirstElement( ) );
-					if ( insertText != null )
-					{
-						insertText( insertText );
-					}
+					insertText( insertText );
 				}
 				return;
 			}
