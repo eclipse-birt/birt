@@ -2,35 +2,37 @@
 <feature
       id="org.eclipse.birt.chart.cshelp"
       label="%featureName"
-      provider-name="%providerName"
       version="2.1.0.qualifier"
+      provider-name="%providerName"
       plugin="org.eclipse.birt.chart.cshelp">
 
-	<description url="http://www.eclipse.org/birt">
-		%description
-	</description>
-	
-	<copyright url="%copyrightURL">
-		%copyright
-	</copyright>
-	
-	<license url="%licenseURL">
-		%license
-	</license>
-	
-	<url>
-		<update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site"/>
-		<discovery label="BIRT update site" url="http://download.eclipse.org/birt/update-site"/>
-	</url>
-	
-	<requires>
-      <import plugin="org.eclipse.help"/>
+   <description url="http://www.eclipse.org/birt">
+      %description
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site"/>
+      <discovery label="BIRT update site" url="http://download.eclipse.org/birt/update-site"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.help" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.core.runtime.compatibility" version="3.1.100" match="compatible"/>
    </requires>
-   
+
    <plugin
          id="org.eclipse.birt.chart.cshelp"
          download-size="0"
          install-size="0"
-         version="0.0.0" />
+         version="0.0.0"/>
 
 </feature>
