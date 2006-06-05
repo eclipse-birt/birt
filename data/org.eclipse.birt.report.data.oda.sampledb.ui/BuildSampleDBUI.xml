@@ -109,6 +109,7 @@
 			<include name="org.eclipse.ui*.jar"/>
 			<include name="org.eclipse.emf.ecore*.jar"/>
 			<include name="org.eclipse.emf.common*.jar"/>
+			<include name="org.eclipse.equinox.common_*.jar"/>
 			<include name="org.eclipse.datatools.connectivity*.jar"/>
             <include name="org.eclipse.datatools.connectivity*/*.jar"/>
 		</fileset>
