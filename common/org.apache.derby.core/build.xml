@@ -62,7 +62,7 @@
 	<!-- ===== Default value for public properties ============= -->
 
 	<property name="eclipse.home" location="." />
-	<property name="export.dir" location="." />
+	<property name="export.dir" location="./export" />
 	<property name="module.name.version" value="org.apache.derby.core_10.1.2" />
 
 	<!-- Generate zip for this project.
@@ -74,12 +74,11 @@
 	</target>
 
 	<target name="Export">
+		<property file="META-INF/MANIFEST.MF" />
 		<copy todir="${export.dir}/${module.name.version}">
 			<fileset dir=".">
-				<exclude name="build.xml" />
-				<exclude name=".project" />
-				<exclude name="CVS/*" />
-				<exclude name="build.properties" />
+				<include name="lib/*.jar" />
+				<include name="META-INF/**" />
 			</fileset>
 		</copy>
 	</target>
