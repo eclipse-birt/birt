@@ -271,7 +271,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 
 	private Marker createMarker( )
 	{
-		Marker marker = MarkerImpl.create( MarkerType.BOX_LITERAL, 5 );
+		Marker marker = MarkerImpl.create( MarkerType.BOX_LITERAL, 4 );
 		marker.eAdapters( ).addAll( series.eAdapters( ) );
 		return marker;
 	}
@@ -338,7 +338,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 						168,
 						218 ) : ColorDefinitionImpl.GREY( ),
 				renderMarker,
-				5,
+				4,
 				null,
 				false,
 				false );

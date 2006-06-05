@@ -239,7 +239,7 @@ public class MarkerEditorComposite extends Composite
 						168,
 						218 ) : ColorDefinitionImpl.GREY( ),
 				renderMarker,
-				5,
+				4,
 				null,
 				false,
 				false );
@@ -505,7 +505,7 @@ public class MarkerEditorComposite extends Composite
 			if ( typeName != null )
 			{
 				paintMarker( gc,
-						MarkerImpl.create( MarkerType.getByName( typeName ), 5 ),
+						MarkerImpl.create( MarkerType.getByName( typeName ), 4 ),
 						LocationImpl.create( MARKER_BLOCK_WIDTH / 2,
 								MARKER_BLOCK_HEIGHT / 2 ) );
 			}
