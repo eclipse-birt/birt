@@ -26,6 +26,7 @@ import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
@@ -130,7 +131,7 @@ public class DataSetMetaDataHelper
 		query.setDataSetName( dataSetHandle.getQualifiedName( ) );
 		query.setMaxRows( 1 );
 		
-		boolean useResultHints = dataSetHandle instanceof ScriptDataSetHandle;
+		boolean useResultHints = needsUseResultHint( dataSetHandle );
 		return new QueryExecutionHelper( dataEngine,
 				modelAdaptor,
 				moduleHandle,
@@ -222,6 +223,33 @@ public class DataSetMetaDataHelper
 				return true;
 		}
 
+		return false;
+	}
+	
+	/**
+	 * whether need to use result hint
+	 * 
+	 * @param dataSetHandle
+	 * @return
+	 */
+	private boolean needsUseResultHint( DataSetHandle dataSetHandle )
+	{
+		if ( dataSetHandle instanceof ScriptDataSetHandle )
+			return true;
+		else if ( dataSetHandle instanceof JointDataSetHandle )
+		{
+			List dataSets = ( (JointDataSetHandle) dataSetHandle ).getDataSetNames( );
+			for ( int i = 0; i < dataSets.size( ); i++ )
+			{
+				DataSetHandle dsHandle = ( (JointDataSetHandle) dataSetHandle ).getModuleHandle( )
+						.findDataSet( dataSets.get( i ).toString( ) );
+				if ( dsHandle != null
+						&& dsHandle instanceof ScriptDataSetHandle )
+				{
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 	
