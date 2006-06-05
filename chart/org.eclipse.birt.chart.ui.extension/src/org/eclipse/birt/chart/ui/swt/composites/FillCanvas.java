@@ -84,6 +84,7 @@ class FillCanvas extends Canvas implements PaintListener
 			GC gc = pe.gc;
 			if ( !this.isEnabled( ) )
 			{
+				//Disabled control
 				gc.setBackground( Display.getCurrent( )
 						.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
 				Color cFore = Display.getCurrent( )
@@ -121,6 +122,7 @@ class FillCanvas extends Canvas implements PaintListener
 			}
 			else
 			{
+				//Enabled control
 				if ( fCurrent == null
 						|| fCurrent instanceof ColorDefinition
 						&& ( (ColorDefinition) fCurrent ).getTransparency( ) == 0 )
@@ -201,6 +203,14 @@ class FillCanvas extends Canvas implements PaintListener
 								this.getSize( ).y - 4,
 								false );
 					}
+				}
+				
+				//Render a boundary line to indicate focus
+				if(isFocusControl( ))
+				{
+					gc.setLineStyle( SWT.LINE_DOT );
+					gc.setForeground( Display.getCurrent( ).getSystemColor( SWT.COLOR_BLACK ) );
+					gc.drawRectangle( 1, 1, getSize( ).x - 3, this.getSize( ).y - 3 );
 				}
 			}
 		}

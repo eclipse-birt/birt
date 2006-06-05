@@ -125,6 +125,8 @@ public class FillChooserComposite extends Composite
 
 	private transient ChartWizardContext wizardContext;
 
+	boolean isPressingKey = false;
+
 	/**
 	 * 
 	 * @param parent
@@ -135,7 +137,7 @@ public class FillChooserComposite extends Composite
 	 * @param bEnableGradient
 	 * @param bEnableImage
 	 * @param bEnableAuto
-	 *            Indicates whether auto button will be displayed. 
+	 *            Indicates whether auto button will be displayed.
 	 * @param bEnableTransparent
 	 *            Indicates whether transparent button will be displayed.
 	 */
@@ -245,6 +247,97 @@ public class FillChooserComposite extends Composite
 		btnDown.addSelectionListener( this );
 
 		addDisposeListener( this );
+
+		Listener listener = new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				canvasEvent( event );
+				return;
+			}
+		};
+
+		int[] textEvents = {
+				SWT.KeyDown,
+				SWT.KeyUp,
+				SWT.MouseDown,
+				SWT.MouseUp,
+				SWT.Traverse,
+				SWT.FocusIn,
+				SWT.FocusOut
+		};
+		for ( int i = 0; i < textEvents.length; i++ )
+		{
+			cnvSelection.addListener( textEvents[i], listener );
+		}
+
+	}
+
+	void handleFocus( int type )
+	{
+		if ( isDisposed( ) )
+			return;
+		switch ( type )
+		{
+			case SWT.FocusIn :
+			{
+				cnvSelection.redraw( );
+				break;
+			}
+			case SWT.FocusOut :
+			{
+				cnvSelection.redraw( );
+				break;
+			}
+		}
+	}
+
+	void canvasEvent( Event event )
+	{
+		switch ( event.type )
+		{
+			case SWT.FocusIn :
+			{
+				handleFocus( SWT.FocusIn );
+				break;
+			}
+			case SWT.FocusOut :
+			{
+				handleFocus( SWT.FocusOut );
+				break;
+			}
+			case SWT.KeyDown :
+			{
+				// At this point the widget may have been disposed.
+				// If so, do not continue.
+				if ( isDisposed( ) )
+					break;
+
+				if ( event.keyCode == SWT.ARROW_DOWN )
+				{
+					event.doit = true;
+					isPressingKey = true;
+					toggleDropDown( );
+					isPressingKey = false;
+					break;
+				}
+			}
+			case SWT.Traverse :
+			{
+				switch ( event.detail )
+				{
+					case SWT.TRAVERSE_RETURN :
+					case SWT.TRAVERSE_TAB_NEXT :
+					case SWT.TRAVERSE_TAB_PREVIOUS :
+					case SWT.TRAVERSE_ARROW_PREVIOUS :
+					case SWT.TRAVERSE_ARROW_NEXT :
+						event.doit = true;
+						cnvSelection.redraw( );
+				}
+
+				break;
+			}
+		}
 	}
 
 	private Color[] createColorMap( Display display )
@@ -325,7 +418,7 @@ public class FillChooserComposite extends Composite
 		{
 			iShellHeight += 30;
 		}
-		Shell shell = new Shell( this.getShell( ), SWT.NONE );
+		Shell shell = new Shell( this.getShell( ), SWT.NO_FOCUS );
 		shell.setLayout( new FillLayout( ) );
 		shell.setSize( iShellWidth, iShellHeight );
 
@@ -335,7 +428,7 @@ public class FillChooserComposite extends Composite
 		}
 		shell.setLocation( iXLoc, iYLoc );
 
-		cmpDropDown = new Composite( shell, SWT.NONE );
+		cmpDropDown = new Composite( shell, SWT.NO_FOCUS );
 		GridLayout glDropDown = new GridLayout( );
 		glDropDown.marginHeight = 2;
 		glDropDown.marginWidth = 2;
@@ -343,7 +436,6 @@ public class FillChooserComposite extends Composite
 		glDropDown.verticalSpacing = 4;
 		glDropDown.numColumns = 8;
 		cmpDropDown.setLayout( glDropDown );
-		cmpDropDown.addKeyListener( this );
 		cmpDropDown.addFocusListener( this );
 
 		if ( colorArray == null )
@@ -351,13 +443,14 @@ public class FillChooserComposite extends Composite
 			colorArray = createColorMap( getDisplay( ) );
 		}
 		ColorSelectionCanvas cnv = new ColorSelectionCanvas( cmpDropDown,
-				SWT.BORDER,
+				SWT.BORDER | SWT.NO_FOCUS,
 				colorArray );
 		GridData gdCnv = new GridData( GridData.FILL_BOTH );
 		gdCnv.horizontalSpan = 8;
 		gdCnv.heightHint = 110;
 		cnv.setLayoutData( gdCnv );
 		cnv.addMouseListener( this );
+
 		if ( this.fCurrent instanceof ColorDefinition )
 		{
 			cnv.setColor( new Color( this.getDisplay( ),
@@ -366,7 +459,7 @@ public class FillChooserComposite extends Composite
 					( (ColorDefinition) fCurrent ).getBlue( ) ) );
 		}
 
-		cmpButtons = new Composite( cmpDropDown, SWT.NONE | SWT.NO_FOCUS );
+		cmpButtons = new Composite( cmpDropDown, SWT.NO_FOCUS );
 		GridLayout glButtons = new GridLayout( );
 		glButtons.marginHeight = 3;
 		glButtons.marginWidth = 4;
@@ -377,7 +470,6 @@ public class FillChooserComposite extends Composite
 		GridData gdButtons = new GridData( GridData.FILL_HORIZONTAL );
 		gdButtons.horizontalSpan = 8;
 		cmpButtons.setLayoutData( gdButtons );
-		cmpButtons.addKeyListener( this );
 
 		// Layout for Transparency Composite
 		GridLayout glTransparency = new GridLayout( );
@@ -446,6 +538,8 @@ public class FillChooserComposite extends Composite
 			btnReset.setLayoutData( gdReset );
 			btnReset.setText( Messages.getString( "FillChooserComposite.Lbl.Transparent" ) ); //$NON-NLS-1$
 			btnReset.addSelectionListener( this );
+			btnReset.addFocusListener( this );
+			btnReset.addKeyListener( this );
 		}
 
 		if ( this.bAutoEnabled )
@@ -457,6 +551,8 @@ public class FillChooserComposite extends Composite
 			btnAuto.setLayoutData( gdGradient );
 			btnAuto.setText( Messages.getString( "FillChooserComposite.Lbl.Auto" ) ); //$NON-NLS-1$
 			btnAuto.addSelectionListener( this );
+			btnAuto.addFocusListener( this );
+			btnAuto.addKeyListener( this );
 		}
 
 		if ( this.bGradientEnabled )
@@ -468,6 +564,8 @@ public class FillChooserComposite extends Composite
 			btnGradient.setLayoutData( gdGradient );
 			btnGradient.setText( Messages.getString( "FillChooserComposite.Lbl.Gradient" ) ); //$NON-NLS-1$
 			btnGradient.addSelectionListener( this );
+			btnGradient.addFocusListener( this );
+			btnGradient.addKeyListener( this );
 		}
 
 		btnCustom = new Button( cmpButtons, SWT.NONE );
@@ -477,6 +575,8 @@ public class FillChooserComposite extends Composite
 		btnCustom.setLayoutData( gdCustom );
 		btnCustom.setText( Messages.getString( "FillChooserComposite.Lbl.CustomColor" ) ); //$NON-NLS-1$
 		btnCustom.addSelectionListener( this );
+		btnCustom.addFocusListener( this );
+		btnCustom.addKeyListener( this );
 
 		if ( this.bImageEnabled )
 		{
@@ -487,6 +587,8 @@ public class FillChooserComposite extends Composite
 			btnImage.setLayoutData( gdImage );
 			btnImage.setText( Messages.getString( "FillChooserComposite.Lbl.Image" ) ); //$NON-NLS-1$
 			btnImage.addSelectionListener( this );
+			btnImage.addFocusListener( this );
+			btnImage.addKeyListener( this );
 		}
 		shell.layout( );
 		shell.open( );
@@ -543,10 +645,12 @@ public class FillChooserComposite extends Composite
 			Point pLoc = UIHelper.getScreenLocation( cnvSelection );
 			createDropDownComponent( pLoc.x, pLoc.y
 					+ cnvSelection.getSize( ).y + 1 );
+
+			cmpButtons.setFocus( );
 		}
 		else
 		{
-			cmpDropDown.getShell( ).dispose( );
+			cmpDropDown.getShell( ).close( );
 		}
 	}
 
@@ -566,7 +670,7 @@ public class FillChooserComposite extends Composite
 		else if ( oSource.equals( this.btnImage ) )
 		{
 			ImageDialog idlg = new ImageDialog( this.getShell( ), fCurrent );
-			cmpDropDown.getParent( ).dispose( );
+			cmpDropDown.getShell( ).close( );
 			if ( idlg.open( ) == Window.OK )
 			{
 				Fill imgFill = idlg.getResult( );
@@ -583,18 +687,18 @@ public class FillChooserComposite extends Composite
 		{
 			this.setFill( ColorDefinitionImpl.TRANSPARENT( ) );
 			fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
-			cmpDropDown.getShell( ).dispose( );
+			cmpDropDown.getShell( ).close( );
 		}
 		else if ( oSource.equals( this.btnAuto ) )
 		{
 			setFill( null );
 			fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
-			cmpDropDown.getShell( ).dispose( );
+			cmpDropDown.getShell( ).close( );
 		}
 		else if ( oSource.equals( this.btnCustom ) )
 		{
 			ColorDialog cDlg = new ColorDialog( this.getShell( ), SWT.NONE );
-			cmpDropDown.getParent( ).dispose( );
+			cmpDropDown.getShell( ).close( );
 			int iTrans = 255;
 			if ( fCurrent instanceof ColorDefinition )
 			{
@@ -621,7 +725,7 @@ public class FillChooserComposite extends Composite
 		else if ( oSource.equals( this.btnGradient ) )
 		{
 			GradientEditorDialog ged = null;
-			cmpDropDown.getParent( ).dispose( );
+			cmpDropDown.getShell( ).close( );
 
 			if ( fCurrent instanceof Gradient )
 			{
@@ -740,7 +844,7 @@ public class FillChooserComposite extends Composite
 			addAdapters( cTmp );
 			setFill( cTmp );
 			fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
-			cmpDropDown.getShell( ).dispose( );
+			cmpDropDown.getShell( ).close( );
 		}
 	}
 
@@ -779,9 +883,9 @@ public class FillChooserComposite extends Composite
 	{
 		if ( cmpDropDown != null && !cmpDropDown.getShell( ).isDisposed( ) )
 		{
-			if ( e.keyCode == SWT.ESC )
+			if ( e.keyCode == SWT.ARROW_UP )
 			{
-				cmpDropDown.getShell( ).dispose( );
+				cmpDropDown.getShell( ).close( );
 				return;
 			}
 			else if ( e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR )
@@ -793,7 +897,7 @@ public class FillChooserComposite extends Composite
 					( (ColorDefinition) fCurrent ).setTransparency( this.iTransparency );
 				}
 				this.setFill( fCurrent );
-				cmpDropDown.getShell( ).dispose( );
+				cmpDropDown.getShell( ).close( );
 				return;
 			}
 		}
@@ -815,6 +919,7 @@ public class FillChooserComposite extends Composite
 	 */
 	public void focusGained( FocusEvent e )
 	{
+
 	}
 
 	/*
@@ -824,19 +929,24 @@ public class FillChooserComposite extends Composite
 	 */
 	public void focusLost( FocusEvent e )
 	{
-		if ( e.getSource( ).equals( cmpDropDown )
-				|| e.getSource( ).equals( srTransparency ) )
+		if ( isPopupControl( e.getSource( ) ) )
 		{
 			// Condition added to handle behavior under Linux
-			Control cTmp = Display.getCurrent( ).getCursorControl( );
+			Control cTmp = isPressingKey ? Display.getCurrent( )
+					.getFocusControl( ) : Display.getCurrent( )
+					.getCursorControl( );
 			if ( cTmp != null )
 			{
-				if ( cTmp.equals( btnGradient )
-						|| cTmp.equals( btnCustom )
-						|| cTmp.equals( btnReset )
-						|| cTmp.equals( btnAuto )
-						|| cTmp.equals( btnImage )
-						|| ( e.getSource( ).equals( cmpDropDown ) && cTmp.equals( srTransparency ) ) )
+				if ( isPopupControl( cTmp )
+						|| cTmp == cnvSelection || cTmp == btnDown )
+				// if ( cTmp.equals( cnvSelection )
+				// || cTmp.equals( btnGradient )
+				// || cTmp.equals( btnCustom )
+				// || cTmp.equals( btnReset )
+				// || cTmp.equals( btnAuto )
+				// || cTmp.equals( btnImage )
+				// || ( e.getSource( ).equals( cmpDropDown ) && cTmp.equals(
+				// srTransparency ) ) )
 				{
 					return;
 				}
@@ -847,9 +957,16 @@ public class FillChooserComposite extends Composite
 				}
 			}
 
-			cmpDropDown.getShell( ).dispose( );
+			cmpDropDown.getShell( ).close( );
 			return;
 		}
+	}
+
+	private boolean isPopupControl( Object control )
+	{
+		return control != null
+				&& control instanceof Control
+				&& ( (Control) control ).getShell( ) == cmpDropDown.getShell( );
 	}
 
 	private void addAdapters( Notifier notifier )
