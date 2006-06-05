@@ -34,6 +34,7 @@ import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -122,40 +123,47 @@ public class DataRequestSessionImpl extends DataRequestSession
 			Iterator inputParamBindings, Iterator columnBindings,
 			String boundColumnName ) throws BirtException
 	{
-		assert dataSet != null;
-		// TODO: this is the inefficient implementation
-		// Need to enhance the implementation to verify that the column is bound to a data set column
+		return getColumnValueSet( dataSet,
+				inputParamBindings,
+				columnBindings,
+				boundColumnName,
+				null );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.lang.String, int, int)
+	 */
+	public Collection getColumnValueSet( DataSetHandle dataSet,
+			Iterator inputParamBindings, Iterator columnBindings,
+			String boundColumnName, IRequestInfo requestInfo )
+			throws BirtException
+	{
+		IQueryResults queryResults = getGroupingQueryResults( dataSet,
+				inputParamBindings,
+				columnBindings,
+				boundColumnName );
+		IResultIterator resultIt = queryResults.getResultIterator( );
 
+		int maxRowCount = -1;
+		if ( requestInfo != null )
+		{
+			resultIt.moveTo( requestInfo.getStartRow( ) );
+			maxRowCount = requestInfo.getMaxRow( );
+		}
+		// Iterate through result, getting one column value per group, skipping
+		// group detail rows
+		ArrayList values = new ArrayList( );
 
-		// Run a query with the provided binding information. Group by bound column so we can 
-		// retrieve distinct values using the grouping feature
-		QueryDefinition query = new QueryDefinition();
-		query.setDataSetName( dataSet.getName());
-		GroupDefinition group = new GroupDefinition();
-		group.setKeyColumn( boundColumnName );
-		query.addGroup( group );
-		query.setUsesDetails(false);
-		
-		ModuleHandle moduleHandle = sessionContext.getModuleHandle();
-		if ( moduleHandle == null )
-			moduleHandle = dataSet.getModuleHandle();
-		
-		QueryExecutionHelper execHelper = new QueryExecutionHelper( 
-				this.dataEngine, this.modelAdaptor, moduleHandle );
-		IQueryResults results = execHelper.executeQuery( 
-				query, inputParamBindings, null, columnBindings);
-		IResultIterator resultIt = results.getResultIterator();
-		
-		// Iterate through result, getting one column value per group, skipping group detail rows
-		ArrayList values = new ArrayList();
-		while ( resultIt.next() )
+		while ( resultIt.next( ) && maxRowCount != 0 )
 		{
 			Object value = resultIt.getValue( boundColumnName );
-			values.add(value);
-			resultIt.skipToEnd(1);
+			values.add( value );
+			resultIt.skipToEnd( 1 );
+			maxRowCount--;
 		}
-		resultIt.close();
-		results.close();
+		resultIt.close( );
+		queryResults.close( );
 		
 		return values;
 	}
@@ -241,6 +249,48 @@ public class DataRequestSessionImpl extends DataRequestSession
 		dataEngine = null;
 	}
 
+	/**
+	 * get the distinct value of query
+	 * @param dataSet
+	 * @param inputParamBindings
+	 * @param columnBindings
+	 * @param boundColumnName
+	 * @return
+	 * @throws BirtException
+	 */
+	private IQueryResults getGroupingQueryResults( DataSetHandle dataSet,
+			Iterator inputParamBindings, Iterator columnBindings,
+			String boundColumnName ) throws BirtException
+	{
+		assert dataSet != null;
+		// TODO: this is the inefficient implementation
+		// Need to enhance the implementation to verify that the column is bound
+		// to a data set column
+
+		// Run a query with the provided binding information. Group by bound
+		// column so we can
+		// retrieve distinct values using the grouping feature
+		QueryDefinition query = new QueryDefinition( );
+		query.setDataSetName( dataSet.getName( ) );
+		GroupDefinition group = new GroupDefinition( );
+		group.setKeyColumn( boundColumnName );
+		query.addGroup( group );
+		query.setUsesDetails( false );
+
+		ModuleHandle moduleHandle = sessionContext.getModuleHandle( );
+		if ( moduleHandle == null )
+			moduleHandle = dataSet.getModuleHandle( );
+
+		QueryExecutionHelper execHelper = new QueryExecutionHelper( this.dataEngine,
+				this.modelAdaptor,
+				moduleHandle );
+		IQueryResults results = execHelper.executeQuery( query,
+				inputParamBindings,
+				null,
+				columnBindings );
+		return results;
+	}
+	
 	/**
 	 * Adapt all data sets and data sources defined in report design handle used
 	 * to initialize this session
