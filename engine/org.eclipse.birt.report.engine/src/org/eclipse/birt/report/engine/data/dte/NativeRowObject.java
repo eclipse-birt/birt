@@ -24,7 +24,7 @@ import org.mozilla.javascript.Scriptable;
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.4 $ $Date: 2006/04/21 07:13:02 $
+ * @version $Revision: 1.5 $ $Date: 2006/05/12 10:14:38 $
  */
 public class NativeRowObject implements Scriptable
 {
@@ -73,8 +73,9 @@ public class NativeRowObject implements Scriptable
 		}
 		else
 		{
-			while ( iter.hasNext( ) )
-			{
+			//now only find the expression in the current resultSet.
+			//while ( iter.hasNext( ) )
+			//{
 				IResultSet rset = (IResultSet) iter.next( );
 				try
 				{
@@ -82,8 +83,9 @@ public class NativeRowObject implements Scriptable
 				}
 				catch ( BirtException ex )
 				{
+					throw new EvaluatorException( ex.toString( ) );
 				}
-			}
+			//}
 		}
 		throw new EvaluatorException("Can't find the column: " + name);
 	}
