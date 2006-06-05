@@ -114,7 +114,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.52 $ $Date: 2006/06/01 10:19:58 $
+ * @version $Revision: 1.53 $ $Date: 2006/06/02 06:08:27 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -1662,22 +1662,30 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		TreeItem[] selection = availableDbObjectsTree.getSelection( );
 		if ( selection.length > 0 )
 		{
-			Object obj = selection[0].getData( );
-			// table
-			if ( obj instanceof DbObject )
+			String data = "";
+			for ( int i = 0; i < selection.length; i++ )
 			{
-				event.data = getDnDString( ( (DbObject) obj ).getName( ) );
+				Object obj = selection[i].getData( );
+				// table
+				if ( obj instanceof DbObject )
+				{
+					data += getDnDString( ( (DbObject) obj ).getName( ) );
+				}
+				// stored procedure
+				else if ( obj instanceof Procedure )
+				{
+					data += getDnDString( ( (Procedure) obj ).getProcedureNameWithSchema( ) );
+				}
+				// column
+				else
+				{
+					data += getDnDString( obj );
+				}
+
+				data += i != selection.length - 1 ? "," : "";
 			}
-			// stored procedure
-			else if ( obj instanceof Procedure )
-			{
-				event.data = getDnDString( ( (Procedure) obj ).getProcedureNameWithSchema( ) );
-			}
-			// column
-			else
-			{
-				event.data = getDnDString( selection[0].getData( ) );
-			}
+
+			event.data = data;
 		}
 	}
 	
