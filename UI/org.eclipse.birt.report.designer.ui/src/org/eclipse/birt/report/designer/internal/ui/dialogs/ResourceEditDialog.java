@@ -82,6 +82,8 @@ public class ResourceEditDialog extends BaseDialog
 
 	private boolean column1desc, column2desc;
 
+	private boolean listChanged;
+
 	/**
 	 * PropertyLabelProvider
 	 */
@@ -250,6 +252,8 @@ public class ResourceEditDialog extends BaseDialog
 				| SWT.APPLICATION_MODAL
 				| SWT.RESIZE );
 
+		listChanged = false;
+
 	}
 
 	/**
@@ -383,30 +387,37 @@ public class ResourceEditDialog extends BaseDialog
 	/**
 	 * Save the key/value to message file, if the file not exists, create it.
 	 */
-	private void saveMessage( )
+	private boolean saveMessage( )
 	{
 		if ( propFileName != null && folderName != null && content != null )
 		{
 			try
 			{
-				File f = new File( propFileName );
-
-				if ( !f.canWrite( ) )
+				if ( listChanged == true )
 				{
-					MessageDialog.openError( getShell( ),
-							Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ),
-							Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message",
-									new Object[]{
-										propFileName
-									} ) );
-					return;
+					File f = new File( propFileName );
+
+					if ( !f.canWrite( ) )
+					{
+						MessageDialog.openError( getShell( ),
+								Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ),
+								Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message",
+										new Object[]{
+											propFileName
+										} ) );
+						return false;
+					}
+
+					if ( f.canWrite( ) )
+					{
+						FileOutputStream fos = new FileOutputStream( f );
+
+						content.store( fos, "" ); //$NON-NLS-1$
+
+						fos.close( );
+					}
 				}
 
-				FileOutputStream fos = new FileOutputStream( f );
-
-				content.store( fos, "" ); //$NON-NLS-1$
-
-				fos.close( );
 			}
 			catch ( FileNotFoundException e )
 			{
@@ -420,18 +431,28 @@ public class ResourceEditDialog extends BaseDialog
 			{
 				ExceptionHandler.handle( e );
 			}
-			//reset resource property
-			//if property not change, event will not broadcast,
-			//so, must clean and reset property.
+			// reset resource property
+			// if property not change, event will not broadcast,
+			// so, must clean and reset property.
 			try
 			{
-				SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).setStringProperty( ModuleHandle.INCLUDE_RESOURCE_PROP, "" );
-				SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).setStringProperty( ModuleHandle.INCLUDE_RESOURCE_PROP, baseName );
+				SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.setStringProperty( ModuleHandle.INCLUDE_RESOURCE_PROP,
+								"" );
+				SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.setStringProperty( ModuleHandle.INCLUDE_RESOURCE_PROP,
+								baseName );
 			}
 			catch ( SemanticException e )
 			{
 			}
+
+			return true;
 		}
+
+		return false;
 	}
 
 	/*
@@ -607,6 +628,20 @@ public class ResourceEditDialog extends BaseDialog
 
 	private void addSelection( )
 	{
+
+		// if the file is read-only then change is not allowed.
+		File f = new File( propFileName );
+		if ( !f.canWrite( ) )
+		{
+			MessageDialog.openError( getShell( ),
+					Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ),
+					Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message",
+							new Object[]{
+								propFileName
+							} ) );			
+			return;
+		}
+		
 		String key = keyText.getText( );
 		String val = valueText.getText( );
 
@@ -615,6 +650,8 @@ public class ResourceEditDialog extends BaseDialog
 			content.put( key, val );
 
 			viewer.setInput( content );
+			
+			listChanged = true;
 
 			updateSelection( );
 		}
@@ -628,16 +665,33 @@ public class ResourceEditDialog extends BaseDialog
 
 	private void deleteSelection( )
 	{
-		if ( viewer.getTable( ).getSelectionIndex( ) != -1 )
+		if ( viewer.getTable( ).getSelectionIndex( ) == -1 )
 		{
-			String key = keyText.getText( );
-
-			content.remove( key );
-
-			viewer.getTable( ).remove( viewer.getTable( ).getSelectionIndex( ) );
-
-			updateSelection( );
+			return;
 		}
+		// if the file is read-only then change is not allowed.
+		File f = new File( propFileName );
+		if ( !f.canWrite( ) )
+		{
+			MessageDialog.openError( getShell( ),
+					Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ),
+					Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message",
+							new Object[]{
+								propFileName
+							} ) );			
+			return;
+		}
+
+		listChanged = true;
+		
+		String key = keyText.getText( );
+
+		content.remove( key );
+
+		viewer.getTable( ).remove( viewer.getTable( ).getSelectionIndex( ) );
+
+		updateSelection( );
+
 	}
 
 	private void updateButtonState( )
@@ -654,10 +708,16 @@ public class ResourceEditDialog extends BaseDialog
 	 */
 	protected void okPressed( )
 	{
-		saveMessage( );
-
-		setResult( viewer.getTable( ).getSelection( )[0].getText( 0 ) );
+		if ( saveMessage( ) == true )
+		{
+			setResult( viewer.getTable( ).getSelection( )[0].getText( 0 ) );
+		}
 
 		super.okPressed( );
+	}
+
+	public boolean isKeyValueListChanged( )
+	{
+		return listChanged;
 	}
 }
