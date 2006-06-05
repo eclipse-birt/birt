@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisGridLinesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisTextSheet;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -48,13 +49,9 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnVisible;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
-	 */
-	public void getComponent( Composite parent )
+	public void createControl( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_ZAXIS );
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			cmpContent.setLayout( new GridLayout( ) );

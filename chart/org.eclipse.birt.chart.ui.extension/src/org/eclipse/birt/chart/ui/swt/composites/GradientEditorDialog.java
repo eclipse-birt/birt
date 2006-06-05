@@ -17,6 +17,8 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
@@ -101,6 +103,9 @@ public class GradientEditorDialog
 		shell = new Shell( shellParent, SWT.DIALOG_TRIM
 				| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		shell.setLayout( new FillLayout( ) );
+		
+		ChartUIUtil.bindHelp( shell, ChartHelpContextIds.DIALOG_COLOR_GRADIENT );
+		
 		placeComponents( );
 		shell.setText( Messages.getString( "GradientEditorDialog.Lbl.GradientEditor" ) ); //$NON-NLS-1$
 		shell.setSize( 400, 320 );

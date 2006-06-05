@@ -23,6 +23,8 @@ import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -84,6 +86,7 @@ public class ImageDialog extends Dialog
 	protected Control createContents( Composite parent )
 	{
 		Control ct = super.createContents( parent );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_COLOR_IMAGE );
 		initDialog( );
 		return ct;
 	}
@@ -365,7 +368,7 @@ public class ImageDialog extends Dialog
 	}
 
 	/**
-	 * @return
+	 * @return image model in the form of Fill
 	 */
 	public Fill getResult( )
 	{

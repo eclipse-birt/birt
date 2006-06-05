@@ -38,6 +38,8 @@ public class ChartHelpContextIds
 
 	public static final String SUBTASK_YAXIS = PREFIX + "FormatChartYAxis_ID"; //$NON-NLS-1$
 
+	public static final String SUBTASK_ZAXIS = PREFIX + "FormatChartZAxis_ID"; //$NON-NLS-1$
+
 	public static final String SUBTASK_SERIES = PREFIX + "FormatChartSeries_ID"; //$NON-NLS-1$
 
 	public static final String SUBTASK_XSERIES = PREFIX
@@ -78,6 +80,12 @@ public class ChartHelpContextIds
 	public static final String POPUP_SERIES_CURVE_FITTING = PREFIX
 			+ "CurveFitting_ID"; //$NON-NLS-1$
 
+	public static final String POPUP_SERIES_LINE_MARKER = PREFIX
+			+ "FormatLineChartSeriesMarkers_ID"; //$NON-NLS-1$
+
+	public static final String POPUP_SERIES_METER_REGION = PREFIX
+			+ "MeterChartRegions_ID"; //$NON-NLS-1$
+
 	/** Used in interactivity popup and dialog */
 	public static final String POPUP_INTERACTIVITY = PREFIX
 			+ "Interactivity_ID"; //$NON-NLS-1$
@@ -92,8 +100,8 @@ public class ChartHelpContextIds
 	public static final String DIALOG_DATA_SET_PARAMETER = PREFIX
 			+ "DataSetParameter_ID"; //$NON-NLS-1$
 
-	// TODO add a key
-	public static final String DIALOG_DATA_SET_COLUMN_BINDING = PREFIX + ""; //$NON-NLS-1$
+	public static final String DIALOG_DATA_SET_COLUMN_BINDING = PREFIX
+			+ "SelectDataBinding_ID"; //$NON-NLS-1$
 
 	public static final String DIALOG_NEW_DATA_SET = PREFIX + "NewDataSet_ID"; //$NON-NLS-1$
 
@@ -108,6 +116,17 @@ public class ChartHelpContextIds
 			+ "ExternalizeText_ID"; //$NON-NLS-1$
 
 	public static final String DIALOG_FONT_EDITOR = PREFIX + "FontEditor_ID"; //$NON-NLS-1$
+
+	public static final String DIALOG_COLOR_GRADIENT = PREFIX
+			+ "GradientEditor_ID"; //$NON-NLS-1$
+
+	public static final String DIALOG_COLOR_IMAGE = PREFIX + "SelectImage_ID"; //$NON-NLS-1$
+
+	public static final String DIALOG_COLOR_BACKGROUND = PREFIX
+			+ "FormatChartAreaBackground_ID"; //$NON-NLS-1$
+
+	public static final String DIALOG_COLOR_CUSTOM = PREFIX
+			+ "BackgroundColor_ID"; //$NON-NLS-1$
 
 	/*----------PREFERENCE----------*/
 	public static final String PREFERENCE_CHART = PREFIX
