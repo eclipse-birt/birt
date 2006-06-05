@@ -26,10 +26,10 @@ Export-Package: org.eclipse.birt.report.model.api,
  org.eclipse.birt.report.model.i18n,
  org.eclipse.birt.report.model.metadata,
  org.eclipse.birt.report.model.parser
-Require-Bundle: org.eclipse.birt.core,
- org.eclipse.birt.data.oda,
- org.eclipse.datatools.connectivity.oda,
- org.apache.commons.codec,
- org.w3c.sac,
- org.mozilla.rhino
+Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)",
+ org.eclipse.birt.data.oda;bundle-version="[2.0.2,3.0.0)",
+ org.eclipse.datatools.connectivity.oda;bundle-version="[3.0.1,4.0.0)",
+ org.apache.commons.codec;bundle-version="[1.3.0,2.0.0)",
+ org.w3c.sac;bundle-version="[1.3.0,2.0.0)",
+ org.mozilla.rhino;bundle-version="[1.6.0,2.0.0)"
 Eclipse-LazyStart: true
