@@ -23,6 +23,10 @@
 		<discovery label="BIRT update site" url="http://download.eclipse.org/birt/update-site"/>
 	</url>
 	
+	<requires>
+      <import plugin="org.eclipse.help"/>
+   </requires>
+   
    <plugin
          id="org.eclipse.birt.chart.cshelp"
          download-size="0"
