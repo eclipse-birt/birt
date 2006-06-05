@@ -14,6 +14,7 @@ package org.eclipse.birt.core.archive;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import org.eclipse.birt.core.util.IOUtil;
 
 public class RAFileInputStream extends RAInputStream
 {
@@ -21,6 +22,11 @@ public class RAFileInputStream extends RAInputStream
 	private long startPos; 	// in parentFile, the position of the first character
 	private long endPos;   	// in parentFile, the position of EOF mark (not a valid character in the file)
 	private long cur;		// in current stream, the virtual file pointer in local file
+	
+	private byte buf[];
+	private int bufLen;  // total bytes in the buffer 
+	private int bufCur;  // the pointer in the buffer
+	
 	
 	/**
 	 * @param parentFile - underlying RandomAccess file
@@ -32,16 +38,24 @@ public class RAFileInputStream extends RAInputStream
 		this.parent = parentFile;
 		this.startPos = startPos;
 		this.endPos = endPos;
-		
-		try 
-		{
-			seekParent( 0 );
-		} 
-		catch (IOException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.buf = new byte [IOUtil.RA_STREAM_BUFFER_LENGTH];
+		this.cur = 0;
+		this.bufLen = 0;
+		this.bufCur = 0;
+	}
+	
+	private void readToBuffer() throws IOException
+	{
+		bufLen = 0;
+		bufCur = 0;
+		long availableSize = endPos - localPosToGlobalPos( cur );
+		if ( availableSize <= 0 )
+			return;
+		int len = (int) Math.min( buf.length, availableSize );
+		seekParent( cur );
+		bufLen = parent.read( buf, 0, len );
+		cur += bufLen;
+		return;
 	}
 
     /**
@@ -61,40 +75,59 @@ public class RAFileInputStream extends RAInputStream
      */
 	public int read() throws IOException 
 	{
-		if ( localPosToGlobalPos(cur) < endPos )
-		{
-			seekParent( cur );
-			int ret = parent.read();
-			if ( ret >= 0 )
-				cur++;
-			
-			return ret;
-		}
-		else
-		{
+		if ( bufLen <= 0 || bufLen == bufCur )
+			readToBuffer();
+		if ( bufLen <= 0 )
 			return -1;
-		}
+		return buf[ bufCur++ ] & 0xff;
 	}
 	
-	public int read( byte b[], int off, int len ) throws IOException
-	{
-		long parentPos = localPosToGlobalPos(cur);
-		long avaliableSize = endPos - parentPos;
-		if ( avaliableSize > 0)
+    /**
+     * The same behavior as InputStream.read(byte b[], int off, int len ).<br>
+     * Reads up to len bytes of data from the input stream into an array of bytes.
+     * If no byte is available because the end of the stream has been reached,
+     * the value <code>-1</code> is returned. This method blocks until input data
+     * is available, the end of the stream is detected, or an exception is thrown.
+     *
+     * <p> A subclass must provide an implementation of this method.
+     *
+     * @return     the total number of bytes read into the buffer, or <code>-1</code> 
+     * if there is no more data because the end of the stream has been reached
+     * @exception  IOException  if an I/O error occurs.
+     */
+    public int read(byte b[], int off, int len) throws IOException 
+    {
+        int n = 0;
+		do 
 		{
-			if (len > avaliableSize)
-			{
-				len = (int)avaliableSize;
-			}
-			seekParent( cur );
-			int size = parent.read( b, off, len );
-			if ( size > 0 )
-			{
-				cur += size;
-			}
-			return size;
-		}
-		return -1;
+		    int count = this.read1(b, off + n, len - n);
+		    if (count < 0)
+		    	break;
+		    n += count;
+		} while (n < len);
+		return (n > 0)? n : -1;
+    }
+
+    /**
+     * Read the data in the buffer up to len to an array of bytes.
+     * @param b
+     * @param off
+     * @param len
+     * @return
+     * @throws IOException
+     */
+    private int read1( byte b[], int off, int len ) throws IOException
+	{
+		if ( bufLen <= 0 || bufLen == bufCur )
+			readToBuffer();
+		if ( bufLen <= 0 )
+			return -1;
+		int availableSize = bufLen - bufCur;
+		if ( len > availableSize )
+			len = availableSize;
+    	System.arraycopy( buf, bufCur, b, off, len );
+    	bufCur += len;
+		return len;
 	}
 
     /**
@@ -205,13 +238,22 @@ public class RAFileInputStream extends RAInputStream
 		if ( localPosToGlobalPos(localPos) >= endPos )
 			throw new IOException("The seek position is out of range.");  //$NON-NLS-1$
 
-		seekParent( localPos );
-		cur = localPos;
+		if ( localPos < cur - bufLen || localPos > cur)
+		{
+			cur = localPos;
+			bufCur = 0;
+			bufLen = 0;
+		}
+		else
+		{
+			bufCur = bufLen - (int)(cur - localPos);
+		}
+		
 	}
 	
 	public long getOffset() throws IOException
 	{
-		return cur;
+		return cur - bufLen + bufCur;
 	}
 
 	public long length() throws IOException
