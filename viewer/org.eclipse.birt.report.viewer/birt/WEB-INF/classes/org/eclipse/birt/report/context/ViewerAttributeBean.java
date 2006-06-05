@@ -576,10 +576,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			// Get value from http request
 			paramValue = ParameterAccessor.getReportParameter( request,
 					paramName, null );
-		}
 
-		if ( paramValue != null )
 			return paramValue;
+		}
 
 		Object paramValueObj = null;
 		if ( this.isDesigner
@@ -649,6 +648,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 			// if parameter value is null, then set value to default value.
 			if ( paramValue == null
+					&& !ParameterAccessor.isReportParameterExist( request,
+							paramName )
 					&& ( IBirtConstants.SERVLET_PATH_FRAMESET
 							.equalsIgnoreCase( request.getServletPath( ) ) || ( this.configMap != null && !this.configMap
 							.containsKey( paramName ) ) ) )
