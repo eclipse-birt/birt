@@ -12,7 +12,7 @@ Export-Package: org.eclipse.birt.chart.ui.i18n,
  org.eclipse.birt.chart.ui.swt.interfaces,
  org.eclipse.birt.chart.ui.swt.wizard,
  org.eclipse.birt.chart.ui.util
-Require-Bundle: org.eclipse.ui;visibility:=reexport,
- org.eclipse.birt.core.ui;visibility:=reexport,
- org.eclipse.birt.chart.engine;visibility:=reexport
+Require-Bundle: org.eclipse.ui;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
+ org.eclipse.birt.core.ui;bundle-version="[2.1.0,3.0.0)";visibility:=reexport,
+ org.eclipse.birt.chart.engine;bundle-version="[2.1.0,3.0.0)";visibility:=reexport
 Eclipse-LazyStart: true

@@ -11,5 +11,5 @@ Export-Package: org.eclipse.birt.chart.aggregate,
  org.eclipse.birt.chart.engine.extension.i18n,
  org.eclipse.birt.chart.plugin,
  org.eclipse.birt.chart.render
-Require-Bundle: org.eclipse.birt.chart.engine
+Require-Bundle: org.eclipse.birt.chart.engine;bundle-version="[2.1.0,3.0.0)"
 Eclipse-LazyStart: true

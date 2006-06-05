@@ -13,7 +13,7 @@ Export-Package: org.eclipse.birt.core.ui.frameworks.errordisplay,
  org.eclipse.birt.core.ui.i18n,
  org.eclipse.birt.core.ui.plugin,
  org.eclipse.birt.core.ui.utils
-Require-Bundle: org.eclipse.swt;visibility:=reexport,
- org.eclipse.jface;visibility:=reexport,
- org.eclipse.birt.core;visibility:=reexport
+Require-Bundle: org.eclipse.swt;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
+ org.eclipse.jface;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
+ org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)";visibility:=reexport
 Eclipse-LazyStart: true
