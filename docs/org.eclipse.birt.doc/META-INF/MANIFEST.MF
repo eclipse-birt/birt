@@ -5,5 +5,5 @@ Bundle-SymbolicName: org.eclipse.birt.doc; singleton:=true
 Bundle-Version: 2.1.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.help
+Require-Bundle: org.eclipse.help;bundle-version="[3.2.0,4.0.0)"
 Eclipse-LazyStart: true
