@@ -93,6 +93,8 @@ public class ColumnBindingDialog extends BaseDialog
 	public static final String DEFAULT_DLG_TITLE = Messages.getString( "ColumnBindingDialog.DialogTitle" ); //$NON-NLS-1$
 
 	private static final String ALL = Messages.getString( "ColumnBindingDialog.All" );//$NON-NLS-1$
+	
+	private static final String NONE = Messages.getString( "ColumnBindingDialog.NONE" );//$NON-NLS-1$
 
 	private static final String LABEL_COLUMN_BINDINGS = Messages.getString( "ColumnBindingDialog.Label.DataSet" ); //$NON-NLS-1$
 
@@ -441,7 +443,7 @@ public class ColumnBindingDialog extends BaseDialog
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 			String[] dataSets = ChoiceSetFactory.getDataSets( );
 			String[] newList = new String[dataSets.length + 1];
-			newList[0] = ALL;
+			newList[0] = NONE;
 			System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
 			combo.setItems( newList );
 			String dataSetName = getDataSetName( );
@@ -456,7 +458,7 @@ public class ColumnBindingDialog extends BaseDialog
 				public void widgetSelected( SelectionEvent event )
 				{
 					String value = combo.getText( );
-					if ( value.equals( ALL ) )
+					if ( value.equals( NONE ) )
 					{
 						value = null;
 					}
@@ -481,7 +483,8 @@ public class ColumnBindingDialog extends BaseDialog
 							{
 								inputElement.getColumnBindings( ).clearValue( );
 							}
-							generateBindingColumns( );							
+							generateBindingColumns( );	
+							setHihtLightColumn( );
 						}
 						catch ( SemanticException e )
 						{
@@ -811,7 +814,7 @@ public class ColumnBindingDialog extends BaseDialog
 	private int canChangeDataSet( String newName )
 	{
 		String currentDataSetName = getDataSetName( );
-		if ( ALL.equals( currentDataSetName )
+		if ( NONE.equals( currentDataSetName )
 				&& !inputElement.columnBindingsIterator( ).hasNext( ) )
 		{
 			return 0;
@@ -838,12 +841,12 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		if ( inputElement.getDataSet( ) == null )
 		{
-			return ALL;
+			return NONE;
 		}
 		String dataSetName = inputElement.getDataSet( ).getQualifiedName( );
 		if ( StringUtil.isBlank( dataSetName ) )
 		{
-			dataSetName = ALL;
+			dataSetName = NONE;
 		}
 		return dataSetName;
 	}
