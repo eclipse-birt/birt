@@ -280,31 +280,41 @@ public class FontDefinitionDialog
 		}
 
 		btnBold = new Button( cmpFontStyle, SWT.TOGGLE );
-		GridData gdBBold = new GridData( );
-		btnBold.setLayoutData( gdBBold );
-		btnBold.setImage( UIHelper.getImage( "icons/obj16/fnt_style_bold.gif" ) ); //$NON-NLS-1$
-		btnBold.addSelectionListener( this );
-		btnBold.setSelection( fdCurrent.isSetBold( ) && fdCurrent.isBold( ) );
+		{
+			GridData gdBBold = new GridData( );
+			btnBold.setLayoutData( gdBBold );
+			btnBold.setImage( UIHelper.getImage( "icons/obj16/fnt_style_bold.gif" ) ); //$NON-NLS-1$
+			btnBold.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.Bold" ) ); //$NON-NLS-1$
+			btnBold.addSelectionListener( this );
+			btnBold.setSelection( fdCurrent.isSetBold( ) && fdCurrent.isBold( ) );
+		}
 
 		btnItalic = new Button( cmpFontStyle, SWT.TOGGLE );
-		GridData gdBItalic = new GridData( );
-		btnItalic.setLayoutData( gdBItalic );
-		btnItalic.setImage( UIHelper.getImage( "icons/obj16/fnt_style_italic.gif" ) ); //$NON-NLS-1$
-		btnItalic.addSelectionListener( this );
-		btnItalic.setSelection( fdCurrent.isSetItalic( )
-				&& fdCurrent.isItalic( ) );
+		{
+			GridData gdBItalic = new GridData( );
+			btnItalic.setLayoutData( gdBItalic );
+			btnItalic.setImage( UIHelper.getImage( "icons/obj16/fnt_style_italic.gif" ) ); //$NON-NLS-1$
+			btnItalic.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.Italic" ) ); //$NON-NLS-1$
+			btnItalic.addSelectionListener( this );
+			btnItalic.setSelection( fdCurrent.isSetItalic( )
+					&& fdCurrent.isItalic( ) );
+		}
 
 		btnUnderline = new Button( cmpFontStyle, SWT.TOGGLE );
-		GridData gdBUnderline = new GridData( );
-		btnUnderline.setLayoutData( gdBUnderline );
-		btnUnderline.setImage( UIHelper.getImage( "icons/obj16/fnt_style_underline.gif" ) ); //$NON-NLS-1$
-		btnUnderline.addSelectionListener( this );
-		btnUnderline.setSelection( fdCurrent.isSetUnderline( )
-				&& fdCurrent.isUnderline( ) );
+		{
+			GridData gdBUnderline = new GridData( );
+			btnUnderline.setLayoutData( gdBUnderline );
+			btnUnderline.setImage( UIHelper.getImage( "icons/obj16/fnt_style_underline.gif" ) ); //$NON-NLS-1$
+			btnUnderline.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.Underline" ) ); //$NON-NLS-1$
+			btnUnderline.addSelectionListener( this );
+			btnUnderline.setSelection( fdCurrent.isSetUnderline( )
+					&& fdCurrent.isUnderline( ) );
+		}
 
 		btnStrikethru = new Button( cmpFontStyle, SWT.TOGGLE );
 		{
 			btnStrikethru.setImage( UIHelper.getImage( "icons/obj16/fnt_style_Sthrough.gif" ) ); //$NON-NLS-1$
+			btnStrikethru.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.Strikethrough" ) ); //$NON-NLS-1$
 			btnStrikethru.addSelectionListener( this );
 			btnStrikethru.setSelection( fdCurrent.isSetStrikethrough( )
 					&& fdCurrent.isStrikethrough( ) );
