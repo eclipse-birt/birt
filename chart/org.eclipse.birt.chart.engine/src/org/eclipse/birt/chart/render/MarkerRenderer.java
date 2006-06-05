@@ -50,7 +50,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
  * Render the markers used in Line series and Area series.
- *
+ * 
  */
 public final class MarkerRenderer
 {
@@ -67,7 +67,7 @@ public final class MarkerRenderer
 
 	private final boolean bDeferred;
 
-	private int iSize;
+	private double iSize;
 
 	private final Object oSource;
 
@@ -96,7 +96,9 @@ public final class MarkerRenderer
 		oSource = _oSource;
 		m = _m;
 		bTransposed = _bTransposed;
-		iSize = ( _markerSize < 0 ) ? m.getSize( ) : _markerSize;
+		iSize = ( ( _markerSize < 0 ) ? m.getSize( ) : _markerSize )
+				* iRender.getDisplayServer( ).getDpiResolution( )
+				/ 72d;
 
 		bRendering3D = _lo instanceof Location3D;
 		if ( bRendering3D )
@@ -111,6 +113,7 @@ public final class MarkerRenderer
 
 	/**
 	 * Choose the type of markers.
+	 * 
 	 * @param ipr
 	 * @throws ChartException
 	 */
@@ -968,13 +971,17 @@ public final class MarkerRenderer
 			ore.setOutline( la );
 			ore.setLocation3D( new Location3D[]{
 					Location3DImpl.create( lo3d.getX( ) - iSize, lo3d.getY( )
-							+ iSize / 2, lo3d.getZ( ) ),
+							+ iSize
+							/ 2, lo3d.getZ( ) ),
 					Location3DImpl.create( lo3d.getX( ) - iSize, lo3d.getY( )
-							- iSize / 2, lo3d.getZ( ) ),
+							- iSize
+							/ 2, lo3d.getZ( ) ),
 					Location3DImpl.create( lo3d.getX( ) + iSize, lo3d.getY( )
-							- iSize / 2, lo3d.getZ( ) ),
+							- iSize
+							/ 2, lo3d.getZ( ) ),
 					Location3DImpl.create( lo3d.getX( ) + iSize, lo3d.getY( )
-							+ iSize / 2, lo3d.getZ( ) )
+							+ iSize
+							/ 2, lo3d.getZ( ) )
 			} );
 
 			preCopy = ore.copy( );
@@ -987,7 +994,8 @@ public final class MarkerRenderer
 					OvalRenderEvent.class );
 			ore.setBackground( paletteEntry );
 			ore.setBounds( BoundsImpl.create( lo.getX( ) - iSize, lo.getY( )
-					- iSize / 2, iSize * 2, iSize ) );
+					- iSize
+					/ 2, iSize * 2, iSize ) );
 			ore.setOutline( la );
 			preCopy = ore.copy( );
 

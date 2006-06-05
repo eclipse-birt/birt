@@ -1364,21 +1364,26 @@ public final class LegendBuilder implements IConstants
 				}
 			}
 
+			double shadowness = 3 * dScale;
+
 			switch ( iTitlePos )
 			{
 				case Position.ABOVE :
 				case Position.BELOW :
-					dHeight += bb.getHeight( );
-					dWidth = Math.max( dWidth, bb.getWidth( ) );
+					dHeight += bb.getHeight( ) + 2 * shadowness;
+					dWidth = Math.max( dWidth, bb.getWidth( ) + 2 * shadowness );
 					break;
 				case Position.LEFT :
 				case Position.RIGHT :
-					dWidth += bb.getWidth( );
-					dHeight = Math.max( dHeight, bb.getHeight( ) );
+					dWidth += bb.getWidth( ) + 2 * shadowness;
+					dHeight = Math.max( dHeight, bb.getHeight( )
+							+ 2
+							* shadowness );
 					break;
 			}
 
-			titleSize = SizeImpl.create( bb.getWidth( ), bb.getHeight( ) );
+			titleSize = SizeImpl.create( bb.getWidth( ) + 2 * shadowness,
+					bb.getHeight( ) + 2 * shadowness );
 		}
 
 		itm.dispose( ); // DISPOSE RESOURCE AFTER USE

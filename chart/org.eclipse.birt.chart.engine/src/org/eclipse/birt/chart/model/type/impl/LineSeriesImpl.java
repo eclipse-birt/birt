@@ -802,7 +802,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		{
 			getMarkers( ).clear( );
 			Marker marker = AttributeFactory.eINSTANCE.createMarker( );
-			marker.setSize( 5 );
+			marker.setSize( 4 );
 			marker.setType( MarkerType.BOX_LITERAL );
 			marker.setVisible( true );
 			getMarkers( ).add( marker );
@@ -957,7 +957,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 		final Marker m = AttributeFactory.eINSTANCE.createMarker( );
 		m.setType( MarkerType.BOX_LITERAL );
-		m.setSize( 5 );
+		m.setSize( 4 );
 		m.setVisible( true );
 		getMarkers( ).add( m );
 	}
