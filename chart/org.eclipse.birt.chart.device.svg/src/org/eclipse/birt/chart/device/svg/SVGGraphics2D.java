@@ -1253,7 +1253,8 @@ public class SVGGraphics2D extends Graphics2D
 			if ( index == -1 )
 			{
 				paints.add( gp );
-				definitions.appendChild( createGradientPaint( gp ) );
+				definitions.appendChild( createGradientPaint( gp, false ));
+				definitions.appendChild( createGradientPaint( gp, true ));
 			}
 			else
 			{
@@ -1268,10 +1269,13 @@ public class SVGGraphics2D extends Graphics2D
 	/***************************************************************************
 	 * Factory Methods
 	 **************************************************************************/
-	protected Element createGradientPaint( SVGGradientPaint paint )
+	protected Element createGradientPaint( SVGGradientPaint paint, boolean highlight )
 	{
 		Element elem = dom.createElement( "linearGradient" ); //$NON-NLS-1$
-		elem.setAttribute( "id", paint.getId( ) ); //$NON-NLS-1$
+		if (highlight)
+			elem.setAttribute( "id", paint.getId( )+"h" ); //$NON-NLS-1$
+		else
+			elem.setAttribute( "id", paint.getId( ) ); //$NON-NLS-1$
 		elem.setAttribute( "x1", Double.toString( paint.getPoint1( ).getX( ) ) ); //$NON-NLS-1$
 		elem.setAttribute( "y1", Double.toString( paint.getPoint1( ).getY( ) ) ); //$NON-NLS-1$
 		elem.setAttribute( "x2", Double.toString( paint.getPoint2( ).getX( ) ) ); //$NON-NLS-1$
@@ -1281,15 +1285,45 @@ public class SVGGraphics2D extends Graphics2D
 			elem.setAttribute( "spreadMethod", "repeat" ); //$NON-NLS-1$ //$NON-NLS-2$
 		Element startColor = dom.createElement( "stop" ); //$NON-NLS-1$
 		startColor.setAttribute( "offset", "0%" ); //$NON-NLS-1$ //$NON-NLS-2$
-		startColor.setAttribute( "stop-color", serializeToString( paint.getColor1( ) ) ); //$NON-NLS-1$
+		if (highlight)
+			startColor.setAttribute( "stop-color", serializeHighlightToString( paint.getColor1( ) ) ); //$NON-NLS-1$
+		else
+			startColor.setAttribute( "stop-color", serializeToString( paint.getColor1( ) ) ); //$NON-NLS-1$
 		elem.appendChild( startColor );
 		Element endColor = dom.createElement( "stop" ); //$NON-NLS-1$
 		endColor.setAttribute( "offset", "100%" ); //$NON-NLS-1$ //$NON-NLS-2$
-		endColor.setAttribute( "stop-color", serializeToString( paint.getColor2( ) ) ); //$NON-NLS-1$
+		if (highlight)
+			endColor.setAttribute( "stop-color", serializeHighlightToString( paint.getColor2( ) ) ); //$NON-NLS-1$
+		else
+			endColor.setAttribute( "stop-color", serializeToString( paint.getColor2( ) ) ); //$NON-NLS-1$
 		elem.appendChild( endColor );
 		return elem;
 	}
 
+	
+	private String serializeHighlightToString( Color cd )
+	{
+		if ( cd != null )
+		{
+			int red = (cd.getRed( ) + 255 ) / 2;
+			int green = (cd.getGreen( ) + 255 ) / 2 ;
+			int blue = (cd.getBlue( ) + 255 ) / 2 ;
+
+			String r = Integer.toHexString( red );
+			if ( red <= 0xF )
+				r = "0" + r; //$NON-NLS-1$
+			String g = Integer.toHexString( green );
+			if ( green <= 0xF )
+				g = "0" + g; //$NON-NLS-1$
+			String b = Integer.toHexString( blue);
+			if ( blue <= 0xF )
+				b = "0" + b; //$NON-NLS-1$
+
+			return "#" + r + g + b; //$NON-NLS-1$
+		}
+		return serializeToString(cd);
+	}
+	
 	protected Element createLine( double arg0, double arg1, double arg2,
 			double arg3 )
 	{

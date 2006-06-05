@@ -334,17 +334,37 @@ public final class EventHandlers
     	.append( "		   }\n" ) //$NON-NLS-1$
     	.append( "	   comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
     	.append( "	     }\n" ) //$NON-NLS-1$
-    	.append( "	     }\n" ) //$NON-NLS-1$				
-    	.append( "	function getNewStyle(style, index, styleAttr, highlight, lookUpTable, id){\n" ) //$NON-NLS-1$
+    	.append( "	     }\n" ) //$NON-NLS-1$			    	
+    	
+    	.append( "    	function getNewStyle(style, index, styleAttr, highlight, lookUpTable, id){\n" ) //$NON-NLS-1$
     	.append( "	     color = style.substring(index+styleAttr.length, style.length );\n" ) //$NON-NLS-1$
-    	.append( "	     rgbIndex = color.search(\"rgb\");\n" ) //$NON-NLS-1$
-    	.append( "	     if (rgbIndex == -1){\n" ) //$NON-NLS-1$
+   	
+    	.append( "             if (color.substring(0, 6).search(\"none\")  != -1) return style;\n" ) //$NON-NLS-1$
+    	.append( "              rgbIndex = color.search(\"rgb\");\n" ) //$NON-NLS-1$
+    	.append( "              if (rgbIndex == -1){\n" ) //$NON-NLS-1$
+    	.append( "          if (styleAttr == \"fill:\")\n" ) //$NON-NLS-1$
+    	.append( "             urlStr = /fill:\\s*url\\(#([^\\x27]+)\\);/g;\n" ) //$NON-NLS-1$
+    	.append( "         else\n" ) //$NON-NLS-1$
+    	.append( "             urlStr = /stroke:\\s*url\\(#([^\\x27]+)\\);/g;\n" ) //$NON-NLS-1$
+    	
+    	.append( "        result = urlStr.exec(style);\n" ) //$NON-NLS-1$
+    	.append( "        if (result != null){\n" ) //$NON-NLS-1$
+    	.append( "    		endOf= /\\w+h\\b/g;\n" ) //$NON-NLS-1$
+    	.append( "    		if (endOf.exec(result[1])== null){\n" ) //$NON-NLS-1$    	
+    	.append( "             return style.replace(urlStr, styleAttr+\"url(#\"+result[1]+\"h);\");\n")
+    	.append( "          }\n" ) //$NON-NLS-1$
+    	.append( "          else{\n" ) //$NON-NLS-1$
+    	.append( "             return style.replace(urlStr, styleAttr+\"url(#\"+result[1].substring(0, result[1].length-1)+\");\");\n")
+    	.append( "          }\n" ) //$NON-NLS-1$    	
+    	.append( "        }\n" ) //$NON-NLS-1$
+    	.append( "               else{\n" ) //$NON-NLS-1$
     	.append( "	        hexColor = color.substring(1, 7);\n" ) //$NON-NLS-1$
     	.append( "	        hc = getHighlight(hexColor, highlight, lookUpTable, id);\n" ) //$NON-NLS-1$
     	.append( "	        return style.replace(styleAttr+\"#\"+hexColor,styleAttr+hc);\n" ) //$NON-NLS-1$
+    	.append( "               }\n" ) //$NON-NLS-1$
     	.append( "	     }\n" ) //$NON-NLS-1$
     	.append( "	     else{\n" ) //$NON-NLS-1$
-	     .append( "	        bracketIndex = color.search(\"\\\\)\");\n" ) //$NON-NLS-1$
+    	.append( "	        bracketIndex = color.search(\"\\\\)\");\n" ) //$NON-NLS-1$
     	.append( "	        color = color.substring(0, bracketIndex);\n" ) //$NON-NLS-1$
     	.append( "	        hexColor = getHexFromRGB(color);\n" ) //$NON-NLS-1$
     	.append( "	        hc = getHighlight(hexColor, highlight, lookUpTable, id);\n" ) //$NON-NLS-1$
