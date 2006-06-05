@@ -69,13 +69,13 @@
 
 	<path id="class.path">
 
-<!--	<fileset dir="${core.dir}">
+		<fileset dir="${core.dir}">
 			<include name="core.jar"/>
 		</fileset>
 		<fileset dir="${core.dir}/lib">
 			<include name="*.jar"/>
 		</fileset>
-       <fileset dir="${dtp.oda.dir}">
+<!--	<fileset dir="${dtp.oda.dir}">
 			<include name="${dtp.oda.jar}"/>
 		</fileset>
 -->		<fileset dir="${oda.jdbc.dir}">
