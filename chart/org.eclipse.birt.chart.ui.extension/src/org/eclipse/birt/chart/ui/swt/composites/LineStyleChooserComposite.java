@@ -145,6 +145,29 @@ public class LineStyleChooserComposite extends Composite implements
 		gdBDown.heightHint = iSize;
 		btnDown.setLayoutData( gdBDown );
 		btnDown.addSelectionListener( this );
+		
+		Listener listener = new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				canvasEvent( event );
+				return;
+			}
+		};
+
+		int[] textEvents = {
+				SWT.KeyDown,
+				SWT.KeyUp,
+				SWT.MouseDown,
+				SWT.MouseUp,
+				SWT.Traverse,
+				SWT.FocusIn,
+				SWT.FocusOut
+		};
+		for ( int i = 0; i < textEvents.length; i++ )
+		{
+			cnvSelection.addListener( textEvents[i], listener );
+		}
 	}
 
 	public void setEnabled( boolean bState )
@@ -200,7 +223,6 @@ public class LineStyleChooserComposite extends Composite implements
 	 * Returns the current selected line style as an integer corresponding to
 	 * the appropriate SWT constants.
 	 * 
-	 * @return
 	 */
 	public int getLineStyle( )
 	{
@@ -339,7 +361,7 @@ public class LineStyleChooserComposite extends Composite implements
 		{
 			if ( e.keyCode == SWT.ESC )
 			{
-				cmpDropDown.getShell( ).dispose( );
+				cmpDropDown.getShell( ).close( );
 			}
 		}
 	}
@@ -382,6 +404,73 @@ public class LineStyleChooserComposite extends Composite implements
 			}
 
 			cmpDropDown.getShell( ).dispose( );
+		}
+	}
+	
+	private void handleFocus( int type )
+	{
+		if ( isDisposed( ) )
+			return;
+		switch ( type )
+		{
+			case SWT.FocusIn :
+			{
+				cnvSelection.redraw( );
+				break;
+			}
+			case SWT.FocusOut :
+			{
+				cnvSelection.redraw( );
+				break;
+			}
+		}
+	}
+
+	private void canvasEvent( Event event )
+	{
+		switch ( event.type )
+		{
+			case SWT.FocusIn :
+			{
+				handleFocus( SWT.FocusIn );
+				break;
+			}
+			case SWT.FocusOut :
+			{
+				handleFocus( SWT.FocusOut );
+				break;
+			}
+			case SWT.KeyDown :
+			{
+				// At this point the widget may have been disposed.
+				// If so, do not continue.
+				if ( isDisposed( ) )
+					break;
+
+				if ( event.keyCode == SWT.ARROW_DOWN )
+				{
+					event.doit = true;
+//					isPressingKey = true;
+					toggleDropDown( );
+//					isPressingKey = false;
+					break;
+				}
+			}
+			case SWT.Traverse :
+			{
+				switch ( event.detail )
+				{
+					case SWT.TRAVERSE_RETURN :
+					case SWT.TRAVERSE_TAB_NEXT :
+					case SWT.TRAVERSE_TAB_PREVIOUS :
+					case SWT.TRAVERSE_ARROW_PREVIOUS :
+					case SWT.TRAVERSE_ARROW_NEXT :
+						event.doit = true;
+						cnvSelection.redraw( );
+				}
+
+				break;
+			}
 		}
 	}
 }

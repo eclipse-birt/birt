@@ -80,6 +80,15 @@ public class LineCanvas extends Canvas implements PaintListener
         gc.setLineWidth(iLineWidth);
         gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
         gc.drawLine(10, this.getSize().y / 2, this.getSize().x - 10, this.getSize().y / 2);
+        
+		//Render a boundary line to indicate focus
+		if ( isEnabled( ) && isFocusControl( ) )
+		{
+			gc.setLineStyle( SWT.LINE_DOT );
+			gc.setForeground( Display.getCurrent( )
+					.getSystemColor( SWT.COLOR_BLACK ) );
+			gc.drawRectangle( 1, 1, getSize( ).x - 3, this.getSize( ).y - 3 );
+		}
     }
 
     public void setEnabled(boolean bState)
