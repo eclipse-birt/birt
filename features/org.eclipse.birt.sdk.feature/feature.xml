@@ -50,20 +50,26 @@
    <includes
          id="org.eclipse.birt.source"
          version="0.0.0"/>
-         
+
    <includes
          id="org.eclipse.birt.doc.isv"
          version="0.0.0"/>
-         
+
    <includes
          id="org.eclipse.birt.chart.doc.isv"
          version="0.0.0"/>
-   
 
-   <requires>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.ui"/>
-   </requires>
+   <includes
+         id="org.apache.batik.pdf"
+         version="0.0.0"/>
+
+   <includes
+         id="org.apache.batik"
+         version="0.0.0"/>
+
+   <includes
+         id="org.apache.xerces"
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.birt.sdk"

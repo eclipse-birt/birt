@@ -42,14 +42,19 @@
    <includes
          id="org.eclipse.birt.example"
          version="0.0.0"/>
-         
+
    <includes
- 	    id="org.eclipse.birt.chart.cshelp"
+         id="org.eclipse.birt.chart.cshelp"
          version="0.0.0"/>
-         
-    <includes
+
+   <includes
          id="org.eclipse.birt.cshelp"
          version="0.0.0"/>
+
+   <requires>
+      <import plugin="org.eclipse.draw2d" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.ui.workbench" version="3.2.0" match="compatible"/>
+   </requires>
 
    <plugin
          id="org.eclipse.birt"
