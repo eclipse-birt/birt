@@ -1,7 +1,6 @@
 package org.eclipse.birt.report.engine.api;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IResultMetaData;
 
 /**
  * A handle used to retrieve data stored in a report. Extraction results 

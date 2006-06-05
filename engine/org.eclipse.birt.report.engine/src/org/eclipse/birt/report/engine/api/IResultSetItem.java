@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api;
 
-import org.eclipse.birt.data.engine.api.IResultMetaData;
-
 public interface IResultSetItem {
 
 	/**

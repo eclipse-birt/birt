@@ -13,9 +13,9 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
+import org.eclipse.birt.report.engine.api.IResultMetaData;
 
 public class DataIterator implements IDataIterator
 {

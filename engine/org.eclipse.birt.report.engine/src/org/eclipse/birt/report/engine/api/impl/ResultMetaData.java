@@ -20,8 +20,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IResultMetaData;
 
 public class ResultMetaData implements IResultMetaData
 {
@@ -108,19 +108,9 @@ public class ResultMetaData implements IResultMetaData
 		return DataType.getName( type );
 	}
 
-	public String getColumnNativeTypeName( int index ) throws BirtException
-	{
-		return getColumnTypeName( index );
-	}
-
 	public String getColumnLabel( int index ) throws BirtException
 	{
 		return getColumnName( index );
-	}
-
-	public boolean isComputedColumn( int index ) throws BirtException
-	{
-		return false;
 	}
 
 	private int getColumnIndex( int index ) throws BirtException

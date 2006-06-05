@@ -1,7 +1,6 @@
 package org.eclipse.birt.report.engine.api;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IResultMetaData;
 
 /**
  * An iterator on a result set from a prepared and executed query.
