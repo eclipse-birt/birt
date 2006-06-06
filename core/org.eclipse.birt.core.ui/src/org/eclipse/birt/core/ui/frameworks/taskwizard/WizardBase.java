@@ -56,10 +56,6 @@ public class WizardBase implements IRegistrationListener
 	// HOLDS ALL TASKS ADDED TO THIS INVOCATION...THIS IS NOT A CACHE
 	private transient LinkedHashMap availableTasks = null;
 
-	// HOLDS COLLECTION OF TASK LABELS IN SEQUENCE...INDEX OF LABEL MATCHES
-	// CORRESPONDING INDEX OF TASK ID IN vTaskIDs
-	private transient Vector vTaskLabels = null;
-
 	// HOLDS COLLECTION OF TASK IDS IN SEQUENCE...FOR INDEXING
 	private transient Vector vTaskIDs = null;
 
@@ -148,20 +144,12 @@ public class WizardBase implements IRegistrationListener
 		}
 		// REGISTER WIZARDBASE INSTANCE WITH TASK
 		task.setUIProvider( this );
-		String sLabel = task.getTitle( );
-
-		// Create the blank tab item. UI is only created after the first
-		// initializtion.
-		CTabItem item = new CTabItem( dialog.getTabContainer( ), SWT.NONE );
-		item.setText( sLabel );
 
 		// DO NOT ADD DUPLICATE TASKS
 		if ( !vTaskIDs.contains( sTaskID ) )
 		{
 			availableTasks.put( sTaskID, task );
-			vTaskLabels.add( sLabel );
 			vTaskIDs.add( sTaskID );
-			dialog.getTabContainer( ).layout( );
 		}
 	}
 
@@ -179,7 +167,6 @@ public class WizardBase implements IRegistrationListener
 			availableTasks.remove( sTaskID );
 			int iTaskIndex = vTaskIDs.indexOf( sTaskID );
 			vTaskIDs.remove( iTaskIndex );
-			vTaskLabels.remove( iTaskIndex );
 			// SELECT THE FIRST TASK
 			switchTo( (String) vTaskIDs.get( 0 ) );
 		}
@@ -296,7 +283,6 @@ public class WizardBase implements IRegistrationListener
 		TasksManager.instance( );
 		// Initialize instance variables
 		availableTasks = new LinkedHashMap( );
-		vTaskLabels = new Vector( );
 		vTaskIDs = new Vector( );
 
 		Shell shell;
@@ -337,7 +323,6 @@ public class WizardBase implements IRegistrationListener
 		// Reset all instance variables to clear cached task instances
 		availableTasks.clear( );
 		vTaskIDs.clear( );
-		vTaskLabels.clear( );
 	}
 
 	/**
@@ -517,18 +502,8 @@ public class WizardBase implements IRegistrationListener
 					| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
 		}
 
-		private void configureTaskArea( String[] sTasks, String topTaskId )
+		private void configureTaskContext( String[] sTasks, String topTaskId )
 		{
-			// Set shell properties
-			getShell( ).setText( wizardTitle );
-			setTitle( wizardTitle );
-			if ( imgShell != null )
-			{
-				getShell( ).setImage( imgShell );
-			}
-			getShell( ).addControlListener( this );
-			getShell( ).addDisposeListener( this );
-
 			// Add tasks
 			String[] allTasks = TasksManager.instance( )
 					.getTasksForWizard( WizardBase.this.sWizardID );
@@ -561,21 +536,48 @@ public class WizardBase implements IRegistrationListener
 			{
 				assert vTaskIDs.contains( topTaskId );
 				sCurrentActiveTask = topTaskId;
-				int taskIndex = vTaskIDs.indexOf( topTaskId );
-				cmpTaskContainer.setSelection( taskIndex );
-			}
-
-			if ( getCurrentTask( ) != null )
-			{
-				getCurrentTask( ).setContext( WizardBase.this.context );
-				switchTo( sCurrentActiveTask );
 			}
 		}
 
 		protected void initializeBounds( )
 		{
-			configureTaskArea( tmpTaskArray, tmpTopTaskId );
-			
+			// Set shell properties
+			getShell( ).setText( wizardTitle );
+			setTitle( wizardTitle );
+			if ( imgShell != null )
+			{
+				getShell( ).setImage( imgShell );
+			}
+			getShell( ).addControlListener( this );
+			getShell( ).addDisposeListener( this );
+
+			// Add each task to container
+			String[] allTasks = TasksManager.instance( )
+					.getTasksForWizard( WizardBase.this.sWizardID );
+			for ( int i = 0; i < allTasks.length; i++ )
+			{
+				// Create the blank tab item.
+				CTabItem item = new CTabItem( getTabContainer( ),
+						SWT.NONE );
+				item.setText( TasksManager.instance( )
+						.getTask( allTasks[i] )
+						.getTitle( ) );
+				item.setData( allTasks[i] );
+			}
+
+			if ( tmpTopTaskId != null )
+			{
+				int taskIndex = vTaskIDs.indexOf( tmpTopTaskId );
+				cmpTaskContainer.setSelection( taskIndex );
+			}
+
+			// Open current task
+			if ( getCurrentTask( ) != null )
+			{
+				getCurrentTask( ).setContext( WizardBase.this.context );
+				switchTo( sCurrentActiveTask );
+			}
+
 			super.initializeBounds( );
 			// Ensure the dialog is on the center. There seems to be a bug in
 			// jface. If not configure the location manually, the location is
@@ -584,6 +586,12 @@ public class WizardBase implements IRegistrationListener
 					.getClientArea( ).width / 2 - ( getShell( ).getSize( ).x / 2 ) ),
 					( getShell( ).getDisplay( ).getClientArea( ).height / 2 )
 							- ( getShell( ).getSize( ).y / 2 ) );
+		}
+
+		public void create( )
+		{
+			configureTaskContext( tmpTaskArray, tmpTopTaskId );
+			super.create( );
 		}
 
 		protected Control createDialogArea( Composite parent )
@@ -881,11 +889,11 @@ public class WizardBase implements IRegistrationListener
 		{
 			if ( e.getSource( ) instanceof CTabFolder )
 			{
-				String sCmd = ( (CTabItem) e.item ).getText( );
-				int indexLabel = vTaskLabels.indexOf( sCmd );
+				String taskId = (String) e.item.getData( );
+				int indexLabel = vTaskIDs.indexOf( taskId );
 				if ( indexLabel >= 0 )
 				{
-					switchTo( (String) vTaskIDs.get( indexLabel ) );
+					switchTo( taskId );
 					getButton( IDialogConstants.NEXT_ID ).setEnabled( indexLabel < vTaskIDs.size( ) - 1 );
 					getButton( IDialogConstants.BACK_ID ).setEnabled( indexLabel > 0 );
 				}
