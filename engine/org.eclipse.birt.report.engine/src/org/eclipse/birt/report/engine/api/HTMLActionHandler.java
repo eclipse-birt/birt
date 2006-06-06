@@ -77,6 +77,10 @@ public class HTMLActionHandler implements IHTMLActionHandler
 			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
 		}
 
+		if ( baseURL == null )
+		{
+			baseURL = "run";
+		}
 		StringBuffer link = new StringBuffer( );
 		String reportName = action.getReportName( );
 
