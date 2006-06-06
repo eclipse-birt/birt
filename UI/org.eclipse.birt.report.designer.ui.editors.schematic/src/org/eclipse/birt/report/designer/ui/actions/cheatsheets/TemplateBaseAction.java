@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.ui.actions.cheatsheets;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layout.ReportLayoutEditor;
+import org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportLayoutEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.designer.ui.editors.pages.ReportLayoutEditorFormPage;

@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.ui.editors.pages;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layout.ReportLayoutEditor;
+import org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportLayoutEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;

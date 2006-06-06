@@ -13,10 +13,10 @@ package org.eclipse.birt.report.designer.ui.actions.cheatsheets;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportLayoutEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layout.ReportLayoutEditor;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;

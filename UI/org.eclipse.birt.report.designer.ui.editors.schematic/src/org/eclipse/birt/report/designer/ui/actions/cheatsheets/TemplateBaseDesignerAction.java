@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.actions.cheatsheets;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layout.ReportLayoutEditor;
+import org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportLayoutEditor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
 

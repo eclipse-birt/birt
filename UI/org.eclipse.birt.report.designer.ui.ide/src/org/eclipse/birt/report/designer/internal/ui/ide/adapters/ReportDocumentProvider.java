@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.xml.XMLPartitionScanner;
+import org.eclipse.birt.report.designer.internal.ui.editors.xml.XMLPartitionScanner;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;

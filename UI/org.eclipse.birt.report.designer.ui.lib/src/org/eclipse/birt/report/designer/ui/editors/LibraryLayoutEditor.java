@@ -20,9 +20,9 @@ import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditMode
 import org.eclipse.birt.report.designer.internal.lib.editparts.LibraryGraphicalPartFactory;
 import org.eclipse.birt.report.designer.internal.lib.palette.LibraryTemplateTransferDropTargetListener;
 import org.eclipse.birt.report.designer.internal.lib.views.outline.LibraryOutlinePage;
+import org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportEditorWithPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layout.ReportEditorWithPalette;
 import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
