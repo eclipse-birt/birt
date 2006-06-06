@@ -96,15 +96,15 @@ AbstractReportComponent.prototype =
 	 *	@id, object id
 	 *	@return, void
 	 */
-	__cb_disposeEventHandlers : function( id )
+	__cb_disposeEventHandlers : function( id, type )
 	{
 		if ( this.__local_disposeEventHandlers )
 		{
-			this.__local_disposeEventHandlers( id );
+			this.__local_disposeEventHandlers( id, type );
 		}
 
 		var container = $( id );
-      	
+		
 		var id = null;
 		while( container[ Constants.activeIds ].length > 0 )
 		{
@@ -115,7 +115,7 @@ AbstractReportComponent.prototype =
 			{
 				continue;
 			}
-			birtObj.__cb_disposeEventHandlers( id );
+			birtObj.__cb_disposeEventHandlers( id, type );
 		}
 	}
 }
