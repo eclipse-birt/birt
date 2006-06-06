@@ -653,27 +653,54 @@ public final class PaletteEditorComposite extends Composite implements
 	 */
 	public void keyPressed( KeyEvent e )
 	{
-		if ( e.keyCode == SWT.ARROW_DOWN )
+		switch ( e.keyCode )
 		{
-			if ( iSelectedIndex < elPaletteEntries.size( ) - 1 )
-			{
-				iSelectedIndex++;
+			case SWT.ARROW_DOWN :
+				if ( iSelectedIndex < elPaletteEntries.size( ) - 1 )
+				{
+					iSelectedIndex++;
+					scrollToView( iSelectedIndex );
+					coPaletteEntries.redraw( );
+				}
+				break;
+			case SWT.ARROW_UP :
+				if ( iSelectedIndex > 0 )
+				{
+					iSelectedIndex--;
+					scrollToView( iSelectedIndex );
+					coPaletteEntries.redraw( );
+				}
+				break;
+			case SWT.PAGE_DOWN :
+				iSelectedIndex += 8;
+				if ( iSelectedIndex > elPaletteEntries.size( ) )
+				{
+					iSelectedIndex = elPaletteEntries.size( ) - 1;
+				}
 				scrollToView( iSelectedIndex );
+				sb.setSelection( sb.getMaximum( )
+						* ( iSelectedIndex + 1 )
+						/ elPaletteEntries.size( ) );
 				coPaletteEntries.redraw( );
-			}
-		}
-		else if ( e.keyCode == SWT.ARROW_UP )
-		{
-			if ( iSelectedIndex > 0 )
-			{
-				iSelectedIndex--;
+				break;
+			case SWT.PAGE_UP :
+				iSelectedIndex -= 8;
+				if ( iSelectedIndex < 0 )
+				{
+					iSelectedIndex = 0;
+				}
 				scrollToView( iSelectedIndex );
+				sb.setSelection( sb.getMaximum( )
+						* iSelectedIndex
+						/ elPaletteEntries.size( ) );
 				coPaletteEntries.redraw( );
-			}
-		}
-		else if ( e.keyCode == SWT.TAB )
-		{
-			btnAdd.setFocus( );
+				break;
+			case SWT.TAB :
+				btnAdd.setFocus( );
+				break;
+			case SWT.ESC :
+				this.getShell( ).close( );
+				break;
 		}
 	}
 
