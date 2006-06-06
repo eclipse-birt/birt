@@ -77,7 +77,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			for ( var k = 0; k < selectionLists.length; k++ )
 			{
 				var param_name = selectionLists[k].getElementsByTagName( 'Name' )[0].firstChild.data;
-				var selections = selectionLists[k].getElementsByTagName( 'Value' );
+				var selections = selectionLists[k].getElementsByTagName( 'Selections' );
 				
 				var append_selection = document.getElementById( param_name + "_selection" );
 				var len = append_selection.options.length;
@@ -104,8 +104,8 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					}
 	
 					var oOption = document.createElement( "OPTION" );
-					oOption.text = selections[i].firstChild.data;
-					oOption.value = selections[i].firstChild.data;
+					oOption.text = selections[i].getElementsByTagName( 'Label' )[0].firstChild.data;
+					oOption.value = selections[i].getElementsByTagName( 'Value' )[0].firstChild.data;
 					append_selection.options.add( oOption );
 				}
 			}

@@ -125,7 +125,9 @@ public abstract class AbstractGetCascadeParameterActionHandler
 		SelectItemChoice[] selectionList = new SelectItemChoice[list.size( )];
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			selectionList[i].setValue( (String) list.get( i ) );
+			SelectItemChoice item = (SelectItemChoice) list.get( i );
+			selectionList[i] = new SelectItemChoice( item.getValue( ), item
+					.getLabel( ) );
 		}
 		return selectionList;
 	}
@@ -251,9 +253,12 @@ public abstract class AbstractGetCascadeParameterActionHandler
 				{
 					try
 					{
-						selectionList.add( index++, (String) DataTypeUtil
+						SelectItemChoice selectItemChoice = new SelectItemChoice( );
+						selectItemChoice.setLabel( item.getLabel( ) );
+						selectItemChoice.setValue( (String) DataTypeUtil
 								.convert( item.getValue( ),
 										DataType.STRING_TYPE ) );
+						selectionList.add( index++, selectItemChoice );
 					}
 					catch ( BirtException e )
 					{
