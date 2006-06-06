@@ -45,6 +45,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -131,8 +133,8 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 	{
 		super.createFieldEditors( );
 
-		UIUtil.bindHelp( parent,IHelpContextIds.STYLE_BUILDER_HIGHTLIGHTS_ID ); 
-		
+		UIUtil.bindHelp( parent, IHelpContextIds.STYLE_BUILDER_HIGHTLIGHTS_ID );
+
 		final Composite innerParent = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.marginHeight = 0;
@@ -223,7 +225,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 		fAddButton.setText( Messages.getString( "HighlightsPreferencePage.text.Add" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		data.widthHint = Math.max( fAddButton.computeSize( -1, -1 ).x, 60 );
-		//data.heightHint = 24;
+		// data.heightHint = 24;
 		fAddButton.setLayoutData( data );
 		fAddButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -237,7 +239,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 		fEditButton.setText( Messages.getString( "HighlightsPreferencePage.text.Edit" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		data.widthHint = Math.max( fEditButton.computeSize( -1, -1 ).x, 60 );
-		//data.heightHint = 24;
+		// data.heightHint = 24;
 		fEditButton.setLayoutData( data );
 		fEditButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -251,7 +253,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 		fDeleteButton.setText( Messages.getString( "HighlightsPreferencePage.text.Delete" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		data.widthHint = Math.max( fDeleteButton.computeSize( -1, -1 ).x, 60 );
-		//data.heightHint = 24;
+		// data.heightHint = 24;
 		fDeleteButton.setLayoutData( data );
 		fDeleteButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -261,37 +263,36 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 			}
 		} );
 
-		fMoveUpButton = new Button( buttons, SWT.ARROW );
-		fMoveUpButton.setAlignment( SWT.UP );
-		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
-		data.widthHint = 40;
-		data.heightHint = 24;
-		fMoveUpButton.setLayoutData( data );
-		fMoveUpButton.addSelectionListener( new SelectionAdapter( ) {
+		fMoveUpButton = new Button( buttons, SWT.PUSH );
+		fMoveUpButton.setText( Messages.getString( "FormPage.Button.Up" ) ); //$NON-NLS-1$
+		fMoveUpButton.setToolTipText( Messages.getString( "HighlightsPreferencePage.toolTipText.Up" ) ); //$NON-NLS-1$
 
-			public void widgetSelected( SelectionEvent e )
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.widthHint = Math.max( fMoveUpButton.computeSize( -1, -1 ).x, 60 );
+		// data.heightHint = 24;
+		fMoveUpButton.setLayoutData( data );
+		fMoveUpButton.addListener( SWT.Selection, new Listener( ) {
+
+			public void handleEvent( Event e )
 			{
 				moveUp( );
 			}
 		} );
-		fMoveUpButton.setToolTipText(Messages
-				.getString("HighlightsPreferencePage.toolTipText.Up"));
 
-		fMoveDownButton = new Button( buttons, SWT.ARROW );
-		fMoveDownButton.setAlignment( SWT.DOWN );
-		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
-		data.widthHint = 40;
-		data.heightHint = 24;
+		fMoveDownButton = new Button( buttons, SWT.PUSH );
+		fMoveDownButton.setText( Messages.getString( "FormPage.Button.Down" ) ); //$NON-NLS-1$
+		fMoveDownButton.setToolTipText( Messages.getString( "HighlightsPreferencePage.toolTipText.Down" ) ); //$NON-NLS-1$
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.widthHint = Math.max( fMoveDownButton.computeSize( -1, -1 ).x, 60 );
+		// data.heightHint = 24;
 		fMoveDownButton.setLayoutData( data );
-		fMoveDownButton.addSelectionListener( new SelectionAdapter( ) {
+		fMoveDownButton.addListener( SWT.Selection, new Listener( ) {
 
-			public void widgetSelected( SelectionEvent e )
+			public void handleEvent( Event e )
 			{
 				moveDown( );
 			}
 		} );
-		fMoveDownButton.setToolTipText(Messages
-				.getString("HighlightsPreferencePage.toolTipText.Down"));
 
 		fTableViewer.setInput( model );
 
@@ -358,12 +359,12 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 		{
 			fTableViewer.add( builder.getHandle( ) );
 
-			int itemCount = fTableViewer.getTable().getItemCount();
-			
-			fTableViewer.getTable().deselectAll();
+			int itemCount = fTableViewer.getTable( ).getItemCount( );
 
-			fTableViewer.getTable().select(itemCount -1);
-			
+			fTableViewer.getTable( ).deselectAll( );
+
+			fTableViewer.getTable( ).select( itemCount - 1 );
+
 			fTableViewer.getTable( ).setFocus( );
 
 			updateButtons( );

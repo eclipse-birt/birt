@@ -130,7 +130,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 	protected Control createContents( Composite ancestor )
 	{
 		super.createFieldEditors( );
-		UIUtil.bindHelp( ancestor,IHelpContextIds.STYLE_BUILDER_MAP_ID ); 
+		UIUtil.bindHelp( ancestor, IHelpContextIds.STYLE_BUILDER_MAP_ID );
 
 		final Composite parent = new Composite( ancestor, SWT.NONE );
 		GridLayout layout = new GridLayout( );
@@ -217,7 +217,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 		fAddButton.setText( Messages.getString( "MapPreferencePage.text.Add" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		data.widthHint = Math.max( fAddButton.computeSize( -1, -1 ).x, 60 );
-		//data.heightHint = 24;
+		// data.heightHint = 24;
 		fAddButton.setLayoutData( data );
 
 		fAddButton.addListener( SWT.Selection, new Listener( ) {
@@ -232,7 +232,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 		fEditButton.setText( Messages.getString( "MapPreferencePage.text.Edit" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		data.widthHint = Math.max( fEditButton.computeSize( -1, -1 ).x, 60 );
-		//data.heightHint = 24;
+		// data.heightHint = 24;
 		fEditButton.setLayoutData( data );
 		fEditButton.addListener( SWT.Selection, new Listener( ) {
 
@@ -246,7 +246,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 		fDeleteButton.setText( Messages.getString( "MapPreferencePage.text.Delete" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		data.widthHint = Math.max( fDeleteButton.computeSize( -1, -1 ).x, 60 );
-		//data.heightHint = 24;
+		// data.heightHint = 24;
 		fDeleteButton.setLayoutData( data );
 		fDeleteButton.addListener( SWT.Selection, new Listener( ) {
 
@@ -256,11 +256,12 @@ public class MapPreferencePage extends BaseStylePreferencePage
 			}
 		} );
 
-		fMoveUpButton = new Button( buttons, SWT.ARROW );
-		fMoveUpButton.setAlignment( SWT.UP );
+		fMoveUpButton = new Button( buttons, SWT.PUSH );
+		fMoveUpButton.setText( Messages.getString( "FormPage.Button.Up" ) ); //$NON-NLS-1$
+		fMoveUpButton.setToolTipText( Messages.getString( "MapPreferencePage.toolTipText.Up" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.widthHint = 40;
-		data.heightHint = 24;
+		data.widthHint = Math.max( fMoveUpButton.computeSize( -1, -1 ).x, 60 );
+		// data.heightHint = 24;
 		fMoveUpButton.setLayoutData( data );
 		fMoveUpButton.addListener( SWT.Selection, new Listener( ) {
 
@@ -269,14 +270,13 @@ public class MapPreferencePage extends BaseStylePreferencePage
 				moveUp( );
 			}
 		} );
-		fMoveUpButton.setToolTipText(Messages
-				.getString("MapPreferencePage.toolTipText.Up"));
 
-		fMoveDownButton = new Button( buttons, SWT.ARROW );
-		fMoveDownButton.setAlignment( SWT.DOWN );
+		fMoveDownButton = new Button( buttons, SWT.PUSH );
+		fMoveDownButton.setText( Messages.getString( "FormPage.Button.Down" ) ); //$NON-NLS-1$
+		fMoveDownButton.setToolTipText( Messages.getString( "MapPreferencePage.toolTipText.Down" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.widthHint = 40;
-		data.heightHint = 24;
+		data.widthHint = Math.max( fMoveDownButton.computeSize( -1, -1 ).x, 60 );
+		// data.heightHint = 24;
 		fMoveDownButton.setLayoutData( data );
 		fMoveDownButton.addListener( SWT.Selection, new Listener( ) {
 
@@ -285,8 +285,6 @@ public class MapPreferencePage extends BaseStylePreferencePage
 				moveDown( );
 			}
 		} );
-		fMoveDownButton.setToolTipText(Messages
-				.getString("MapPreferencePage.toolTipText.Down"));
 
 		fTableViewer.setInput( model );
 
