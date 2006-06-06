@@ -102,8 +102,9 @@ public class DataEditPart extends LabelEditPart
 			{
 				text = text.substring( 0, TRUNCATE_LENGTH - 2 ) + ELLIPSIS;
 			}
+			text = "[" + text + "]"; //$NON-NLS-1$//$NON-NLS-2$
 		}
-		return text;
+		return  text;
 	}
 
 	/*
