@@ -26,6 +26,11 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.ACC;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlEvent;
+import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.FocusEvent;
@@ -42,6 +47,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -60,13 +66,12 @@ import org.eclipse.swt.widgets.Slider;
 /**
  * FillChooserComposite
  */
-public class FillChooserComposite extends Composite
-		implements
-			SelectionListener,
-			MouseListener,
-			DisposeListener,
-			KeyListener,
-			FocusListener
+public class FillChooserComposite extends Composite implements
+		SelectionListener,
+		MouseListener,
+		DisposeListener,
+		KeyListener,
+		FocusListener
 {
 
 	private transient Composite cmpContentInner = null;
@@ -155,6 +160,7 @@ public class FillChooserComposite extends Composite
 		this.wizardContext = wizardContext;
 		init( );
 		placeComponents( );
+		initAccessible( );
 	}
 
 	/**
@@ -178,6 +184,7 @@ public class FillChooserComposite extends Composite
 		this.wizardContext = wizardContext;
 		init( );
 		placeComponents( );
+		initAccessible( );
 	}
 
 	/**
@@ -640,11 +647,13 @@ public class FillChooserComposite extends Composite
 		}
 
 		if ( cmpDropDown == null
-				|| cmpDropDown.isDisposed( ) || !cmpDropDown.isVisible( ) )
+				|| cmpDropDown.isDisposed( )
+				|| !cmpDropDown.isVisible( ) )
 		{
 			Point pLoc = UIHelper.getScreenLocation( cnvSelection );
 			createDropDownComponent( pLoc.x, pLoc.y
-					+ cnvSelection.getSize( ).y + 1 );
+					+ cnvSelection.getSize( ).y
+					+ 1 );
 
 			cmpButtons.setFocus( );
 		}
@@ -715,8 +724,8 @@ public class FillChooserComposite extends Composite
 			{
 				ColorDefinition cdNew = AttributeFactory.eINSTANCE.createColorDefinition( );
 				cdNew.set( rgb.red, rgb.green, rgb.blue );
-				cdNew.setTransparency( bTransparencyChanged
-						? this.iTransparency : iTrans );
+				cdNew.setTransparency( bTransparencyChanged ? this.iTransparency
+						: iTrans );
 				addAdapters( cdNew );
 				this.setFill( cdNew );
 				fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
@@ -938,7 +947,8 @@ public class FillChooserComposite extends Composite
 			if ( cTmp != null )
 			{
 				if ( isPopupControl( cTmp )
-						|| cTmp == cnvSelection || cTmp == btnDown )
+						|| cTmp == cnvSelection
+						|| cTmp == btnDown )
 				// if ( cTmp.equals( cnvSelection )
 				// || cTmp.equals( btnGradient )
 				// || cTmp.equals( btnCustom )
@@ -976,6 +986,54 @@ public class FillChooserComposite extends Composite
 			notifier.eAdapters( )
 					.addAll( wizardContext.getModel( ).eAdapters( ) );
 		}
+	}
+
+	void initAccessible( )
+	{
+		getAccessible( ).addAccessibleListener( new AccessibleAdapter( ) {
+
+			public void getHelp( AccessibleEvent e )
+			{
+				e.result = getToolTipText( );
+			}
+		} );
+
+		getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
+
+			public void getChildAtPoint( AccessibleControlEvent e )
+			{
+				Point testPoint = toControl( new Point( e.x, e.y ) );
+				if ( getBounds( ).contains( testPoint ) )
+				{
+					e.childID = ACC.CHILDID_SELF;
+				}
+			}
+
+			public void getLocation( AccessibleControlEvent e )
+			{
+				Rectangle location = getBounds( );
+				Point pt = toDisplay( new Point( location.x, location.y ) );
+				e.x = pt.x;
+				e.y = pt.y;
+				e.width = location.width;
+				e.height = location.height;
+			}
+
+			public void getChildCount( AccessibleControlEvent e )
+			{
+				e.detail = 0;
+			}
+
+			public void getRole( AccessibleControlEvent e )
+			{
+				e.detail = ACC.ROLE_COMBOBOX;
+			}
+
+			public void getState( AccessibleControlEvent e )
+			{
+				e.detail = ACC.STATE_NORMAL;
+			}
+		} );
 	}
 }
 

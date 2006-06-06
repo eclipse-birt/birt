@@ -14,9 +14,15 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.util.Vector;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.ACC;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlEvent;
+import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -74,6 +80,7 @@ public class IntegerSpinControl extends Composite
 		this.iCurrentValue = iCurrentValue;
 		init( );
 		placeComponents( );
+		initAccessible( );
 	}
 
 	/**
@@ -324,5 +331,43 @@ public class IntegerSpinControl extends Composite
 	public void setToolTipText( String string )
 	{
 		txtValue.setToolTipText( string );
+	}
+	
+	void initAccessible( ) {
+		getAccessible().addAccessibleListener(new AccessibleAdapter() {
+			public void getHelp(AccessibleEvent e) {
+				e.result = getToolTipText();
+			}
+		});
+		
+		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
+			public void getChildAtPoint(AccessibleControlEvent e) {
+				Point testPoint = toControl(new Point(e.x, e.y));
+				if (getBounds().contains(testPoint)) {
+					e.childID = ACC.CHILDID_SELF;
+				}
+			}
+			
+			public void getLocation(AccessibleControlEvent e) {
+				Rectangle location = getBounds();
+				Point pt = toDisplay(new Point(location.x, location.y));
+				e.x = pt.x;
+				e.y = pt.y;
+				e.width = location.width;
+				e.height = location.height;
+			}
+			
+			public void getChildCount(AccessibleControlEvent e) {
+				e.detail = 0;
+			}
+			
+			public void getRole(AccessibleControlEvent e) {
+				e.detail = ACC.ROLE_COMBOBOX;
+			}
+			
+			public void getState(AccessibleControlEvent e) {
+				e.detail = ACC.STATE_NORMAL;
+			}
+		});
 	}
 }

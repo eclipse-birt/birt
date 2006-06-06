@@ -16,12 +16,21 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.ACC;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlEvent;
+import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.eclipse.swt.accessibility.AccessibleTextAdapter;
+import org.eclipse.swt.accessibility.AccessibleTextEvent;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -40,11 +49,10 @@ import com.ibm.icu.text.NumberFormat;
  * 
  * @author Actuate Corporation
  */
-public class TextEditorComposite extends Composite
-		implements
-			ModifyListener,
-			FocusListener,
-			KeyListener
+public class TextEditorComposite extends Composite implements
+		ModifyListener,
+		FocusListener,
+		KeyListener
 {
 
 	private transient String sText = null;
@@ -94,6 +102,7 @@ public class TextEditorComposite extends Composite
 		this.isNumber = isNumber;
 		init( );
 		placeComponents( );
+		initAccessible( );
 	}
 
 	private void init( )
@@ -192,8 +201,8 @@ public class TextEditorComposite extends Composite
 				try
 				{
 					NumberFormat.getInstance( )
-					.parse( this.sText )
-					.doubleValue( );
+							.parse( this.sText )
+							.doubleValue( );
 				}
 				catch ( ParseException e )
 				{
@@ -270,5 +279,66 @@ public class TextEditorComposite extends Composite
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	void initAccessible( )
+	{
+		getAccessible( ).addAccessibleListener( new AccessibleAdapter( ) {
+
+			public void getHelp( AccessibleEvent e )
+			{
+				e.result = getToolTipText( );
+			}
+		} );
+
+		getAccessible( ).addAccessibleTextListener( new AccessibleTextAdapter( ) {
+
+			public void getCaretOffset( AccessibleTextEvent e )
+			{
+				e.offset = txtValue.getCaretPosition( );
+			}
+		} );
+
+		getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
+
+			public void getChildAtPoint( AccessibleControlEvent e )
+			{
+				Point testPoint = toControl( new Point( e.x, e.y ) );
+				if ( getBounds( ).contains( testPoint ) )
+				{
+					e.childID = ACC.CHILDID_SELF;
+				}
+			}
+
+			public void getLocation( AccessibleControlEvent e )
+			{
+				Rectangle location = getBounds( );
+				Point pt = toDisplay( new Point( location.x, location.y ) );
+				e.x = pt.x;
+				e.y = pt.y;
+				e.width = location.width;
+				e.height = location.height;
+			}
+
+			public void getChildCount( AccessibleControlEvent e )
+			{
+				e.detail = 0;
+			}
+
+			public void getRole( AccessibleControlEvent e )
+			{
+				e.detail = ACC.ROLE_TEXT;
+			}
+
+			public void getState( AccessibleControlEvent e )
+			{
+				e.detail = ACC.STATE_NORMAL;
+			}
+
+			public void getValue( AccessibleControlEvent e )
+			{
+				e.result = getText( );
+			}
+		} );
 	}
 }
