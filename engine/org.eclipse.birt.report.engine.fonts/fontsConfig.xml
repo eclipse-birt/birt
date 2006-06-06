@@ -44,7 +44,7 @@
 		<mapping name="sansserif" font-family="Helvetica"/>
 		<mapping name="monospace" font-family="Courier"/>
 		<mapping name="monospaced" font-family="Courier"/>
-		<mapping name="fantasy" font-family="ZapfDingbats"/>
+		<mapping name="fantasy" font-family="Times-Roman"/>
 		<mapping name="cursive" font-family="Times-Roman"/>
 		<mapping name="dialog" font-family="Helvetica"/>
 	</font-mappings>
