@@ -21,9 +21,7 @@ import org.eclipse.swt.accessibility.AccessibleControlAdapter;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -44,11 +42,10 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * LineWidthChooserComposite
  */
-public class LineWidthChooserComposite extends Composite implements
-		SelectionListener,
-		MouseListener,
-		KeyListener,
-		FocusListener
+public class LineWidthChooserComposite extends Composite
+		implements
+			SelectionListener,
+			MouseListener
 {
 
 	private transient Composite cmpContentInner = null;
@@ -158,16 +155,13 @@ public class LineWidthChooserComposite extends Composite implements
 
 			public void handleEvent( Event event )
 			{
-				canvasEvent( event );
+				handleEventCanvas( event );
 				return;
 			}
 		};
 
 		int[] textEvents = {
 				SWT.KeyDown,
-				SWT.KeyUp,
-				SWT.MouseDown,
-				SWT.MouseUp,
 				SWT.Traverse,
 				SWT.FocusIn,
 				SWT.FocusOut
@@ -212,8 +206,22 @@ public class LineWidthChooserComposite extends Composite implements
 		FillLayout fillDropDown = new FillLayout( );
 		fillDropDown.type = SWT.VERTICAL;
 		cmpDropDown.setLayout( fillDropDown );
-		cmpDropDown.addKeyListener( this );
-		cmpDropDown.addFocusListener( this );
+		
+		Listener listenerCmpDropDown = new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				handleEventCmpDropDown( event );
+			}
+		};
+		int[] eventsCmpDrowDown = {
+				SWT.KeyDown, SWT.FocusOut
+		};		
+		for ( int i = 0; i < eventsCmpDrowDown.length; i++ )
+		{
+			cmpDropDown.addListener( eventsCmpDrowDown[i], listenerCmpDropDown );
+		}
+
 		for ( int iC = 0; iC < this.iLineWidths.length; iC++ )
 		{
 			LineCanvas cnv = new LineCanvas( cmpDropDown,
@@ -225,6 +233,23 @@ public class LineWidthChooserComposite extends Composite implements
 		}
 		shell.layout( );
 		shell.open( );
+	}
+
+	void handleEventCmpDropDown( Event event )
+	{
+		switch ( event.type )
+		{
+			case SWT.KeyDown :
+			{
+				keyPressed( new KeyEvent( event ) );
+				break;
+			}
+			case SWT.FocusOut :
+			{
+				focusLost( new FocusEvent( event ) );
+				break;
+			}
+		}
 	}
 
 	/**
@@ -260,8 +285,7 @@ public class LineWidthChooserComposite extends Composite implements
 		}
 
 		if ( cmpDropDown == null
-				|| cmpDropDown.isDisposed( )
-				|| !cmpDropDown.isVisible( ) )
+				|| cmpDropDown.isDisposed( ) || !cmpDropDown.isVisible( ) )
 		{
 			Point pLoc = UIHelper.getScreenLocation( this );
 			createDropDownComponent( pLoc.x, pLoc.y + this.getSize( ).y );
@@ -366,11 +390,11 @@ public class LineWidthChooserComposite extends Composite implements
 	 * 
 	 * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.KeyEvent)
 	 */
-	public void keyPressed( KeyEvent e )
+	void keyPressed( KeyEvent e )
 	{
 		if ( cmpDropDown != null && !cmpDropDown.getShell( ).isDisposed( ) )
 		{
-			if ( e.keyCode == SWT.ESC )
+			if ( e.keyCode == SWT.ESC || e.keyCode == SWT.ARROW_UP )
 			{
 				cmpDropDown.getShell( ).dispose( );
 			}
@@ -380,27 +404,9 @@ public class LineWidthChooserComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.KeyEvent)
-	 */
-	public void keyReleased( KeyEvent e )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.FocusEvent)
-	 */
-	public void focusGained( FocusEvent e )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.FocusEvent)
 	 */
-	public void focusLost( FocusEvent e )
+	void focusLost( FocusEvent e )
 	{
 		if ( e.getSource( ).equals( cmpDropDown ) )
 		{
@@ -418,37 +424,18 @@ public class LineWidthChooserComposite extends Composite implements
 		}
 	}
 
-	private void handleFocus( int type )
-	{
-		if ( isDisposed( ) )
-			return;
-		switch ( type )
-		{
-			case SWT.FocusIn :
-			{
-				cnvSelection.redraw( );
-				break;
-			}
-			case SWT.FocusOut :
-			{
-				cnvSelection.redraw( );
-				break;
-			}
-		}
-	}
-
-	private void canvasEvent( Event event )
+	void handleEventCanvas( Event event )
 	{
 		switch ( event.type )
 		{
 			case SWT.FocusIn :
 			{
-				handleFocus( SWT.FocusIn );
+				cnvSelection.redraw( );
 				break;
 			}
 			case SWT.FocusOut :
 			{
-				handleFocus( SWT.FocusOut );
+				cnvSelection.redraw( );
 				break;
 			}
 			case SWT.KeyDown :
@@ -461,9 +448,7 @@ public class LineWidthChooserComposite extends Composite implements
 				if ( event.keyCode == SWT.ARROW_DOWN )
 				{
 					event.doit = true;
-					// isPressingKey = true;
 					toggleDropDown( );
-					// isPressingKey = false;
 					break;
 				}
 			}

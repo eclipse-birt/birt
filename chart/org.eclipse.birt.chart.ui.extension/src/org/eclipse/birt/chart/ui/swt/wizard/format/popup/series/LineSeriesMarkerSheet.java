@@ -38,9 +38,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.GC;
@@ -49,7 +47,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ScrollBar;
 
 /**
@@ -58,9 +58,7 @@ import org.eclipse.swt.widgets.ScrollBar;
 
 public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		implements
-			SelectionListener,
-			PaintListener,
-			MouseListener
+			SelectionListener
 {
 
 	private transient LineSeries series;
@@ -94,7 +92,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 	private transient MarkerEditorComposite currentMarkerEditor;
 
 	/** Holds the selected index of marker */
-	private transient int iSelectedIndex = -1;
+	private transient int iSelectedIndex = 0;
 
 	/** Holds the starting row of marker list */
 	private transient int iStartRow = 0;
@@ -108,15 +106,16 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_LINE_MARKER );
-		
-		Composite cmpContent = new Composite( parent, SWT.NONE );
+		ChartUIUtil.bindHelp( parent,
+				ChartHelpContextIds.POPUP_SERIES_LINE_MARKER );
+
+		Composite cmpContent = new Composite( parent, SWT.NO_FOCUS );
 		{
 			GridLayout layout = new GridLayout( );
 			cmpContent.setLayout( layout );
 		}
 
-		Group grpTop = new Group( cmpContent, SWT.NONE );
+		Group grpTop = new Group( cmpContent, SWT.NO_FOCUS );
 		{
 			GridLayout layout = new GridLayout( 5, false );
 			grpTop.setLayout( layout );
@@ -131,8 +130,23 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 			gd.widthHint = MARKER_ROW_MAX_NUMBER * MARKER_BLOCK_WIDTH + 10;
 			gd.heightHint = MARKER_COLUMN_MAX_NUMBER * MARKER_BLOCK_HEIGHT + 5;
 			cnvMarkers.setLayoutData( gd );
-			cnvMarkers.addPaintListener( this );
-			cnvMarkers.addMouseListener( this );
+
+			Listener canvasMarkerslistener = new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					handleEventCanvasMarkers( event );
+				}
+			};
+
+			int[] canvasMarkersEvents = {
+					SWT.KeyDown, SWT.MouseDown, SWT.Traverse, SWT.Paint
+			};
+			for ( int i = 0; i < canvasMarkersEvents.length; i++ )
+			{
+				cnvMarkers.addListener( canvasMarkersEvents[i],
+						canvasMarkerslistener );
+			}
 
 			updateScrollBar( );
 			cnvMarkers.getVerticalBar( ).addSelectionListener( this );
@@ -187,6 +201,61 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		}
 
 		return cmpContent;
+	}
+
+	void handleEventCanvasMarkers( Event event )
+	{
+		switch ( event.type )
+		{
+			case SWT.KeyDown :
+			{
+				if ( event.keyCode == SWT.ARROW_RIGHT )
+				{
+					if ( iSelectedIndex < getMarkers( ).size( ) - 1 )
+					{
+						iSelectedIndex++;
+						setEnabledState( );
+					}
+				}
+				else if ( event.keyCode == SWT.ARROW_LEFT )
+				{
+					if ( iSelectedIndex > 0 )
+					{
+						iSelectedIndex--;
+						setEnabledState( );
+					}
+				}
+				else if ( event.keyCode == SWT.ARROW_DOWN )
+				{
+					currentMarkerEditor.setFocus( );
+				}
+				else if ( event.keyCode == SWT.ESC )
+				{
+					cnvMarkers.getShell( ).close( );
+				}
+				break;
+			}
+			case SWT.Traverse :
+			{
+				switch ( event.detail )
+				{
+					case SWT.TRAVERSE_RETURN :
+					case SWT.TRAVERSE_TAB_NEXT :
+					case SWT.TRAVERSE_TAB_PREVIOUS :
+					case SWT.TRAVERSE_ARROW_PREVIOUS :
+					case SWT.TRAVERSE_ARROW_NEXT :
+						event.doit = true;
+						cnvMarkers.redraw( );
+				}
+				break;
+			}
+			case SWT.Paint :
+				paintControl( new PaintEvent( event ) );
+				break;
+			case SWT.MouseDown :
+				mouseDown( new MouseEvent( event ) );
+				break;
+		}
 	}
 
 	public void widgetSelected( SelectionEvent e )
@@ -276,7 +345,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		return marker;
 	}
 
-	public void paintControl( PaintEvent e )
+	void paintControl( PaintEvent e )
 	{
 		GC gc = e.gc;
 
@@ -369,13 +438,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 				1 );
 	}
 
-	public void mouseDoubleClick( MouseEvent e )
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	public void mouseDown( MouseEvent e )
+	void mouseDown( MouseEvent e )
 	{
 		if ( e.widget.equals( cnvMarkers ) )
 		{
@@ -391,12 +454,6 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 
 			setEnabledState( );
 		}
-	}
-
-	public void mouseUp( MouseEvent e )
-	{
-		// TODO Auto-generated method stub
-
 	}
 
 	private void setEnabledState( )

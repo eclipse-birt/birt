@@ -259,16 +259,13 @@ public class FillChooserComposite extends Composite implements
 
 			public void handleEvent( Event event )
 			{
-				canvasEvent( event );
+				handleEventCanvas( event );
 				return;
 			}
 		};
 
 		int[] textEvents = {
 				SWT.KeyDown,
-				SWT.KeyUp,
-				SWT.MouseDown,
-				SWT.MouseUp,
 				SWT.Traverse,
 				SWT.FocusIn,
 				SWT.FocusOut
@@ -280,37 +277,18 @@ public class FillChooserComposite extends Composite implements
 
 	}
 
-	void handleFocus( int type )
-	{
-		if ( isDisposed( ) )
-			return;
-		switch ( type )
-		{
-			case SWT.FocusIn :
-			{
-				cnvSelection.redraw( );
-				break;
-			}
-			case SWT.FocusOut :
-			{
-				cnvSelection.redraw( );
-				break;
-			}
-		}
-	}
-
-	void canvasEvent( Event event )
+	void handleEventCanvas( Event event )
 	{
 		switch ( event.type )
 		{
 			case SWT.FocusIn :
 			{
-				handleFocus( SWT.FocusIn );
+				cnvSelection.redraw( );
 				break;
 			}
 			case SWT.FocusOut :
 			{
-				handleFocus( SWT.FocusOut );
+				cnvSelection.redraw( );
 				break;
 			}
 			case SWT.KeyDown :

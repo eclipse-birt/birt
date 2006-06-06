@@ -58,7 +58,9 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 
@@ -66,10 +68,7 @@ import org.eclipse.swt.widgets.Spinner;
  * 
  */
 
-public class MarkerEditorComposite extends Composite
-		implements
-			MouseListener,
-			PaintListener
+public class MarkerEditorComposite extends Composite implements MouseListener
 {
 
 	/** Holds the width of each marker UI block */
@@ -117,9 +116,29 @@ public class MarkerEditorComposite extends Composite
 			gd.verticalAlignment = SWT.CENTER;
 			gd.grabExcessVerticalSpace = true;
 			cnvMarker.setLayoutData( gd );
-			cnvMarker.addPaintListener( this );
 			cnvMarker.addMouseListener( this );
 			cnvMarker.setToolTipText( getMarker( ).getType( ).getName( ) );
+
+			Listener listener = new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					canvasEvent( event );
+				}
+			};
+
+			int[] textEvents = {
+					SWT.KeyDown,
+					SWT.KeyUp,
+					SWT.Traverse,
+					SWT.FocusIn,
+					SWT.FocusOut,
+					SWT.Paint
+			};
+			for ( int i = 0; i < textEvents.length; i++ )
+			{
+				cnvMarker.addListener( textEvents[i], listener );
+			}
 		}
 
 		btnDropDown = new Button( this, SWT.ARROW | SWT.DOWN );
@@ -139,6 +158,57 @@ public class MarkerEditorComposite extends Composite
 		catch ( ChartException pex )
 		{
 			WizardBase.displayException( pex );
+		}
+	}
+
+	private void canvasEvent( Event event )
+	{
+		switch ( event.type )
+		{
+			case SWT.FocusIn :
+			{
+				cnvMarker.redraw( );
+				break;
+			}
+			case SWT.FocusOut :
+			{
+				cnvMarker.redraw( );
+				break;
+			}
+			case SWT.KeyDown :
+			{
+				// At this point the widget may have been disposed.
+				// If so, do not continue.
+				if ( isDisposed( ) )
+					break;
+
+				if ( event.keyCode == SWT.ARROW_DOWN )
+				{
+					event.doit = true;
+					toggleDropDown( );					
+				}
+				notifyListeners( SWT.KeyDown, event );
+				break;
+			}
+			case SWT.Traverse :
+			{
+				switch ( event.detail )
+				{
+					case SWT.TRAVERSE_RETURN :
+					case SWT.TRAVERSE_TAB_NEXT :
+					case SWT.TRAVERSE_TAB_PREVIOUS :
+					case SWT.TRAVERSE_ARROW_PREVIOUS :
+					case SWT.TRAVERSE_ARROW_NEXT :
+						event.doit = true;
+						cnvMarker.redraw( );
+				}
+
+				break;
+			}
+			case SWT.Paint :
+				paintMarker( event.gc, getMarker( ), LocationImpl.create( 10,
+						10 ) );
+				break;
 		}
 	}
 
@@ -167,7 +237,7 @@ public class MarkerEditorComposite extends Composite
 		}
 		else
 		{
-			cmpDropDown.getShell( ).dispose( );
+			cmpDropDown.getShell( ).close( );
 		}
 	}
 
@@ -178,7 +248,7 @@ public class MarkerEditorComposite extends Composite
 		int iYLoc = pLoc.y + btnDropDown.getParent( ).getSize( ).y;
 		int iShellWidth = MARKER_BLOCK_HEIGHT * MARKER_ROW_MAX_NUMBER + 15;
 		int iShellHeight = 150;
-		
+
 		if ( ( getStyle( ) & SWT.RIGHT_TO_LEFT ) != 0 )
 		{
 			iXLoc -= iShellWidth;
@@ -218,11 +288,6 @@ public class MarkerEditorComposite extends Composite
 
 	}
 
-	public void paintControl( PaintEvent e )
-	{
-		paintMarker( e.gc, getMarker( ), LocationImpl.create( 10, 10 ) );
-	}
-
 	private void paintMarker( GC gc, Marker currentMarker, Location location )
 	{
 		// Paint an icon sample, not a real icon in the Fill
@@ -257,6 +322,15 @@ public class MarkerEditorComposite extends Composite
 		catch ( ChartException ex )
 		{
 			WizardBase.displayException( ex );
+		}
+
+		// Render a boundary line to indicate focus
+		if ( cnvMarker.isFocusControl( ) )
+		{
+			gc.setLineStyle( SWT.LINE_DOT );
+			gc.setForeground( Display.getCurrent( )
+					.getSystemColor( SWT.COLOR_BLACK ) );
+			gc.drawRectangle( 0, 0, getSize( ).x - 21, this.getSize( ).y - 5 );
 		}
 
 	}
@@ -330,6 +404,16 @@ public class MarkerEditorComposite extends Composite
 		{
 			super( parent, style );
 			placeComponents( );
+			addListener( SWT.KeyDown, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					if ( event.keyCode == SWT.ARROW_UP )
+					{
+						getShell( ).close( );
+					}
+				}
+			} );
 		}
 
 		private void placeComponents( )
