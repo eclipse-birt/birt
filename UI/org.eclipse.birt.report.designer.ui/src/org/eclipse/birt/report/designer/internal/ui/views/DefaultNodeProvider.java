@@ -602,14 +602,6 @@ public class DefaultNodeProvider implements INodeProvider
 				slotHandle.add( elementHandle, pos );
 			}
 		}
-		if ( elementHandle instanceof ExtendedItemHandle )
-		{
-			if ( !ElementProcessorFactory.createProcessor( elementHandle )
-					.editElement( elementHandle ) )
-			{
-				return false;
-			}
-		}
 		return true;
 	}
 
