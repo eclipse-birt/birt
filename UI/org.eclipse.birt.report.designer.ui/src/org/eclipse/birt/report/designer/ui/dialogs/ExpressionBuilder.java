@@ -520,7 +520,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 					text = text.replaceAll( "&", "&&" ); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				button.setText( text );
-				button.setToolTipText( operators[i].tooltip );
+//				button.setToolTipText( operators[i].tooltip );
 				button.addSelectionListener( selectionAdapter );
 			}
 			else
