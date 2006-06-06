@@ -1286,7 +1286,9 @@ public class UIUtil
 			char c = message.charAt( i );
 			if ( isNeutral( c ) )
 			{
-				if ( ( c = getBracketLeft( c ) ) != '0' )
+				//Neutral char enclosed with ' or " should bidi with surround bidichar.
+				//otherwise should not bidi.
+				if ( c == '\'' || c == '\"' )
 				{
 					if ( bracket.empty( ) )
 					{
@@ -1305,7 +1307,7 @@ public class UIUtil
 						}
 					}
 				}
-				level[i] = bidiStart ? 1 : 0;
+				level[i] = bidiStart && !bracket.empty( ) ? 1 : 0;
 			}
 			else
 			{
@@ -1317,19 +1319,6 @@ public class UIUtil
 			}
 		}
 		return level;
-	}
-
-	private static char getBracketLeft( char c )
-	{
-		if ( c == '(' || c == '[' || c == '{' || c == '\'' || c == '\"' )
-			return c;
-		else if ( c == ')' )
-			return '(';
-		else if ( c == ']' )
-			return '[';
-		else if ( c == '}' )
-			return '{';
-		return '0';
 	}
 
 	private static boolean isNeutral( char c )
