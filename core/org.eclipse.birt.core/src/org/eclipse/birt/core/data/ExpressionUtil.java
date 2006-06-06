@@ -116,12 +116,18 @@ public final class ExpressionUtil
 	 * @throws BirtException
 	 */
 	public static boolean hasAggregation( String expression )
-			throws BirtException
 	{
 		if ( expression == null )
 			return false;
 
-		return ExpressionParserUtility.hasAggregation( expression );
+		try
+		{
+			return ExpressionParserUtility.hasAggregation( expression );
+		}
+		catch ( BirtException e )
+		{
+			return false;
+		}
 	}
 	
 	/**
