@@ -112,7 +112,7 @@
 			<include name="oda.jar"/>
 		</fileset>	
 		<fileset dir="${derby.dir}">
-			<include name="lib/derby.jar"/>
+			<include name="derby.jar"/>
 		</fileset>
 		<fileset dir="${js.dir}/lib">
 			<include name="*.jar"/>
