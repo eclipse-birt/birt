@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -243,7 +244,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
 	 *      java.lang.String, org.mozilla.javascript.Scriptable)
 	 */
-	public QueryResults execSubquery( IResultIterator iterator,
+	public IQueryResults execSubquery( IResultIterator iterator,
 			String subQueryName, Scriptable subScope ) throws DataException
 	{
 		return queryService.execSubquery( iterator, subQueryName, subScope );

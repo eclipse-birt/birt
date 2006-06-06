@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
@@ -31,7 +32,7 @@ public interface IPreparedQueryService
 	 * @return query execution result of sub query
 	 * @throws DataException
 	 */
-	QueryResults execSubquery( IResultIterator iterator, String subQueryName,
+	IQueryResults execSubquery( IResultIterator iterator, String subQueryName,
 			Scriptable subScope ) throws DataException;
 	
 }

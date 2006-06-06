@@ -55,7 +55,8 @@ abstract class PreparedDataSourceQuery
 		
 		if ( queryDefn.getQueryResultsID( ) != null )
 		{
-			if( queryDefn.getGroups()== null || queryDefn.getGroups().size() == 0)
+			if( (queryDefn.getGroups()== null || queryDefn.getGroups().size() == 0) 
+					&& (queryDefn.getSubqueries( )== null||queryDefn.getSubqueries( ).size( ) == 0))
 				return new PreparedIVQuery( dataEngine, queryDefn );
 			else 
 				return new PreparedIVDataSourceQuery(dataEngine,queryDefn, null, null);
@@ -199,7 +200,7 @@ abstract class PreparedDataSourceQuery
 	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
 	 *      java.lang.String, org.mozilla.javascript.Scriptable)
 	 */
-	public QueryResults execSubquery( IResultIterator iterator,
+	public IQueryResults execSubquery( IResultIterator iterator,
 			String subQueryName, Scriptable subScope ) throws DataException
 	{
 		return this.preparedQuery.execSubquery( iterator,

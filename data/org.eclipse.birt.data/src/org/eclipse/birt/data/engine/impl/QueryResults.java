@@ -359,7 +359,7 @@ class QueryResults implements IQueryResults, IQueryService
 		 * @see org.eclipse.birt.data.engine.impl.IResultService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
 		 *      java.lang.String, org.mozilla.javascript.Scriptable)
 		 */
-		public QueryResults execSubquery(
+		public IQueryResults execSubquery(
 				org.eclipse.birt.data.engine.odi.IResultIterator iterator,
 				String subQueryName, Scriptable subScope ) throws DataException
 		{

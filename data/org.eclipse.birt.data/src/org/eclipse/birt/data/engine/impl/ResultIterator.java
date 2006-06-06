@@ -430,7 +430,7 @@ public class ResultIterator implements IResultIterator
 	{
 		checkStarted( );
 		
-		QueryResults results = resultService.execSubquery( odiResult,
+		IQueryResults results = resultService.execSubquery( odiResult,
 				subQueryName,
 				subScope );
 		logger.logp( Level.FINE,
@@ -438,13 +438,23 @@ public class ResultIterator implements IResultIterator
 				"getSecondaryIterator",
 				"Returns the secondary result specified by a SubQuery" );
 
-		IResultIterator resultIt = results.getResultIterator( );
+		IResultIterator resultIt;
+		try
+		{
+			resultIt = results.getResultIterator( );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
 		
-		this.getRdSaveUtil( ).processForSubQuery( this.getQueryResults( )
-				.getID( ),
-				(ResultIterator) resultIt,
-				subQueryName );
-		
+		if ( resultIt instanceof ResultIterator )
+		{
+			this.getRdSaveUtil( ).processForSubQuery( this.getQueryResults( )
+					.getID( ),
+					(ResultIterator) resultIt,
+					subQueryName );
+		}
 		return resultIt;
 	}
 	

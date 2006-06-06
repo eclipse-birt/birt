@@ -404,11 +404,15 @@ public final class RDGroupUtil
 	 */
 	public int[] getGroupStartAndEndIndex( int groupLevel )
 	{
+		int max = -1;
+		if( this.cacheProvider != null )
+			max = this.cacheProvider.getCount();
+
 		if ( groupLevel == 0 )
 		{
 			return new int[]{
 					0,
-					cacheProvider.getCount( )
+					max
 			};
 		}
 
@@ -417,7 +421,7 @@ public final class RDGroupUtil
 		{
 			return new int[]{
 					0,
-					cacheProvider.getCount( )
+					max
 			};
 		}
 		else
@@ -431,11 +435,11 @@ public final class RDGroupUtil
 				startIndex = GroupUtil.getGroupFirstRowIndex( groupLevel,
 						startIndex,
 						this.groups,
-						this.cacheProvider.getCount( ) );
+						max );
 				endIndex = GroupUtil.getGroupFirstRowIndex( groupLevel,
 						endIndex,
 						this.groups,
-						this.cacheProvider.getCount( ) );
+						max );
 
 				unitInfo[i * 2] = startIndex;
 				unitInfo[i * 2 + 1] = endIndex;

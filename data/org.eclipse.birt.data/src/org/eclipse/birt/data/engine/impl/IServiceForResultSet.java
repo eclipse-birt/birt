@@ -76,7 +76,7 @@ public interface IServiceForResultSet
 	 * @return the query results of specified sub query
 	 * @throws DataException
 	 */
-	public QueryResults execSubquery( IResultIterator iterator,
+	public IQueryResults execSubquery( IResultIterator iterator,
 			String subQueryName, Scriptable subScope ) throws DataException;
 	
 }

@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
@@ -97,7 +98,7 @@ class PreparedSubquery implements IPreparedQueryService
 	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
 	 *      java.lang.String, org.mozilla.javascript.Scriptable)
 	 */
-	public QueryResults execSubquery( IResultIterator iterator, String subQueryName, Scriptable subScope ) throws DataException
+	public IQueryResults execSubquery( IResultIterator iterator, String subQueryName, Scriptable subScope ) throws DataException
 	{
 		return this.preparedQuery.execSubquery( iterator, subQueryName, subScope );
 	}
