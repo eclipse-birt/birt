@@ -35,7 +35,7 @@ import org.w3c.dom.css.CSSValue;
  * This is the base class for all the CSS engines.
  *
  * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: CSSEngine.java,v 1.3 2005/11/18 03:37:09 thuang Exp $
+ * @version $Id: CSSEngine.java,v 1.4 2005/11/22 09:59:57 wyan Exp $
  */
 public abstract class CSSEngine implements CSSConstants, CSSValueConstants{
 
@@ -338,7 +338,17 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants{
             throw new InternalError();
         }
     }
-    
+
+    /**
+     * if the prop is inheritable.
+     * @param propidx
+     * @return true, it is inheritable
+     */
+    public boolean isInheritedProperty( int propidx )
+	{
+		ValueManager vm = pm.getValueManager( propidx );
+		return vm.isInheritedProperty( );
+	}
     
     /**
      * compute a single style value. 

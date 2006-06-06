@@ -62,15 +62,70 @@ public class CellMergedStyle extends AbstractStyle
 		}
 	}
 
+	/**
+	 * 
+	 * <li>if the property is not defined in the column, return null.
+	 * 
+	 * <li>the property has been defined in the cell style, return null.
+	 * 
+	 * <li> property which has been defined in the column but not defined in the
+	 * cell.
+	 * <li>if it is not inheritable attributes
+	 * <ul>
+	 * <li>background: return NULL if it has been defined in row.
+	 * <li>otherwise: return the value defined in the column.
+	 * </ul>
+	 * <li>if it is inheritable attribute
+	 * <ul>
+	 * <li>if it is defined in the row, return NULL
+	 * <li>otherwise, return the value defined in the column
+	 * </ul>
+	 * </ul>
+	 */
 	public CSSValue getProperty( int index )
 	{
-		CSSValue value = null;
-		if ( ( !hasProperty( cellStyle, index ) )
-				&& ( isBackgroundProperties( index ) || !hasProperty( rowStyle,
-						index ) ) )
+		if ( cellStyle != null && cellStyle.getProperty( index ) != null )
 		{
-			value = getColumnStyleValue( index );
+			return null;
 		}
+		
+		if ( columnStyle == null )
+		{
+			return null;
+		}
+		
+		CSSValue value = columnStyle.getProperty( index );
+		if ( value == null )
+		{
+			return null;
+		}
+		// value != null
+		if ( !engine.isInheritedProperty( index ) )
+		{
+			if ( isBackgroundProperties( index ) )
+			{
+				if ( rowStyle != null )
+				{
+					CSSValue rowValue = rowStyle.getProperty( index );
+					if ( rowValue != null )
+					{
+						return null;
+					}
+				}
+			}
+		}
+		else
+		{
+			if ( rowStyle != null )
+			{
+				CSSValue rowValue = rowStyle.getProperty( index );
+				if ( rowValue != null )
+				{
+					return null;
+				}
+			}
+		}
+
 		return value;
 	}
 
@@ -100,15 +155,5 @@ public class CellMergedStyle extends AbstractStyle
 			return true;
 		}
 		return false;
-	}
-
-	private CSSValue getColumnStyleValue( int index )
-	{
-		return columnStyle == null ? null : columnStyle.getProperty( index );
-	}
-
-	private boolean hasProperty( IStyle style, int index )
-	{
-		return style != null && style.getProperty( index ) != null;
 	}
 }

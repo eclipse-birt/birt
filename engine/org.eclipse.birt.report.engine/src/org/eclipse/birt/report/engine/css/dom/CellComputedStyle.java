@@ -65,11 +65,31 @@ public class CellComputedStyle extends ComputedStyle
 		IStyle s = cell.getStyle( );
 
 		Value sv = s == null ? null : (Value) s.getProperty( index );
-		if ( sv == null && columnStyle != null
-				&& isBackgroundProperties( index )
-				&& ( rowStyle == null || rowStyle.getProperty( index ) == null ) )
+		
+		//none inheritable properties
+		//background color: if the property defined in the row is empty, use column's property.
+		//other properties, use the property of column directly.
+		if ( sv == null && columnStyle != null )
 		{
-			sv = (Value) columnStyle.getProperty( index );
+			if ( engine.isInheritedProperty( index ) == false )
+			{
+				if ( isBackgroundProperties( index ) )
+				{
+					Value rowValue = null;
+					if ( rowStyle != null )
+					{
+						rowValue = (Value) rowStyle.getProperty( index );
+					}
+					if ( rowValue == null )
+					{
+						sv = (Value) columnStyle.getProperty( index );
+					}
+				}
+				else
+				{
+					sv = (Value) columnStyle.getProperty( index );
+				}
+			}
 		}
 
 		Value cv = engine.resolveStyle( elt, index, sv, pcs );
