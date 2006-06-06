@@ -34,6 +34,8 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -58,14 +60,14 @@ import org.eclipse.swt.widgets.ScrollBar;
  * of fill definitions. Entries may be updated, new entries added at the end or
  * the existing fill entries may be removed.
  */
-public final class PaletteEditorComposite extends Composite
-		implements
-			PaintListener,
-			ControlListener,
-			DisposeListener,
-			SelectionListener,
-			MouseListener,
-			Listener
+public final class PaletteEditorComposite extends Composite implements
+		PaintListener,
+		ControlListener,
+		DisposeListener,
+		SelectionListener,
+		MouseListener,
+		Listener,
+		KeyListener
 {
 
 	/**
@@ -168,6 +170,7 @@ public final class PaletteEditorComposite extends Composite
 		btnAdd.setLayoutData( gd );
 		btnAdd.setText( Messages.getString( "PaletteEditorComposite.Lbl.Add" ) ); //$NON-NLS-1$
 		btnAdd.addSelectionListener( this );
+
 		fccNewEntry = new FillChooserComposite( coControlPanel,
 				SWT.NONE,
 				wizardContext,
@@ -176,11 +179,13 @@ public final class PaletteEditorComposite extends Composite
 				true );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		fccNewEntry.setLayoutData( gd );
+
 		btnRemove = new Button( coControlPanel, SWT.PUSH );
 		gd = new GridData( );
 		btnRemove.setLayoutData( gd );
 		btnRemove.setText( Messages.getString( "PaletteEditorComposite.Lbl.Remove" ) ); //$NON-NLS-1$
 		btnRemove.addSelectionListener( this );
+
 		btnUp = new Button( coControlPanel, SWT.ARROW | SWT.UP );
 		gd = new GridData( );
 		btnUp.setLayoutData( gd );
@@ -196,6 +201,7 @@ public final class PaletteEditorComposite extends Composite
 		addDisposeListener( this );
 		coPaletteEntries.addPaintListener( this );
 		coPaletteEntries.addMouseListener( this );
+		coPaletteEntries.addKeyListener( this );
 
 		final PluginSettings ps = PluginSettings.instance( );
 		try
@@ -348,7 +354,8 @@ public final class PaletteEditorComposite extends Composite
 		{
 			// ADJUST LOWER END IF WE GO BEYOND
 			int iY = ( iIndex - iStartIndex )
-					* iItemHeight - ( iViewY % iItemHeight );
+					* iItemHeight
+					- ( iViewY % iItemHeight );
 			if ( iY + iItemHeight > iViewHeight ) // BELOW THE LOWER EDGE
 			{
 				iViewY += iY + iItemHeight - iViewHeight;
@@ -637,5 +644,46 @@ public final class PaletteEditorComposite extends Composite
 	public void mouseUp( MouseEvent arg0 )
 	{
 		// NO ACTION HERE
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.KeyEvent)
+	 */
+	public void keyPressed( KeyEvent e )
+	{
+		if ( e.keyCode == SWT.ARROW_DOWN )
+		{
+			if ( iSelectedIndex < elPaletteEntries.size( ) - 1 )
+			{
+				iSelectedIndex++;
+				scrollToView( iSelectedIndex );
+				coPaletteEntries.redraw( );
+			}
+		}
+		else if ( e.keyCode == SWT.ARROW_UP )
+		{
+			if ( iSelectedIndex > 0 )
+			{
+				iSelectedIndex--;
+				scrollToView( iSelectedIndex );
+				coPaletteEntries.redraw( );
+			}
+		}
+		else if ( e.keyCode == SWT.TAB )
+		{
+			btnAdd.setFocus( );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.KeyEvent)
+	 */
+	public void keyReleased( KeyEvent e )
+	{
+		// TODO Auto-generated method stub
 	}
 }
