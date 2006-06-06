@@ -5,7 +5,7 @@ import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.BaseTransform;
+import org.eclipse.birt.data.engine.api.APITestCase.DataSourceInfo;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -13,11 +13,11 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.tests.data.DataTestCase;
 
+import testutil.APITestCase;
 import testutil.ConfigText;
 
-public class MultiPass_FilterTest extends DataTestCase {
+public class MultiPass_FilterTest extends APITestCase {
 	
 	
 	protected DataSourceInfo getDataSourceInfo() {

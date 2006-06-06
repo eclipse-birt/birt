@@ -23,7 +23,6 @@ import java.security.ProtectionDomain;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.core.framework.Platform;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
@@ -39,11 +38,11 @@ abstract public class BaseTestCase extends TestCase
 	protected Context jsContext;
 	protected Scriptable jsScope;
 
-	private static final String TEST_FOLDER = "src/";
-	private static final String OUTPUT_FOLDER = "output/";
+	private static final String TEST_FOLDER = "src";
+	private static final String OUTPUT_FOLDER = "output";
 	private static final String INPUT_FOLDER = "input";
 	private static final String GOLDEN_FOLDER = "golden";
-	private File classFolder;
+	private String classFolder;
 
 	/*
 	 * @see junit.framework.TestCase#setUp()
@@ -51,10 +50,6 @@ abstract public class BaseTestCase extends TestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		
-		System.setProperty( "BIRT_HOME", "./test" );
-		System.setProperty( "PROPERTY_RUN_UNDER_ECLIPSE", "false" );
-		Platform.initialize( null );
 		
 		// Create test output file
 		// We must make sure this folder will be created successfully
@@ -147,33 +142,40 @@ abstract public class BaseTestCase extends TestCase
 	 * 
 	 * @return the path where the test java source file locates.
 	 */
-	protected String getBaseFolder( )
+	private File getBaseFolder( )
 	{
-		String pathBase = null;
-
-		ProtectionDomain domain = this.getClass( ).getProtectionDomain( );
-		if ( domain != null )
+		if ( classFolder == null )
 		{
-			CodeSource source = domain.getCodeSource( );
-			if ( source != null )
-			{
-				URL url = source.getLocation( );
-				pathBase = url.getPath( );
+			String pathBase = null;
 
-				if ( pathBase.endsWith( "bin/" ) ) //$NON-NLS-1$
-					pathBase = pathBase.substring( 0, pathBase.length( ) - 4 );
-				if ( pathBase.endsWith( "bin" ) ) //$NON-NLS-1$
-					pathBase = pathBase.substring( 0, pathBase.length( ) - 3 );
+			ProtectionDomain domain = this.getClass( ).getProtectionDomain( );
+			if ( domain != null )
+			{
+				CodeSource source = domain.getCodeSource( );
+				if ( source != null )
+				{
+					URL url = source.getLocation( );
+					pathBase = url.getPath( );
+
+					if ( pathBase.endsWith( "bin/" ) ) //$NON-NLS-1$
+						pathBase = pathBase.substring( 0,
+								pathBase.length( ) - 4 );
+					if ( pathBase.endsWith( "bin" ) ) //$NON-NLS-1$
+						pathBase = pathBase.substring( 0,
+								pathBase.length( ) - 3 );
+				}
 			}
+
+			pathBase = pathBase + TEST_FOLDER + "/";
+			classFolder = pathBase.substring( 1 );
 		}
 
-		pathBase = pathBase + TEST_FOLDER;
 		String className = this.getClass( ).getName( );
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
 		className = className.substring( 0, lastDotIndex );
-		className = pathBase + className.replace( '.', '/' );
+		className = classFolder + className.replace( '.', '/' );
 
-		return className;
+		return new File( className );
 	}
 	
 	/**

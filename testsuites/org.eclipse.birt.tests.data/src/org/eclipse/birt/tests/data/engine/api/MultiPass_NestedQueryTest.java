@@ -12,11 +12,12 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.tests.data.DataTestCase;
 
+import testutil.APITestCase;
 import testutil.ConfigText;
+import testutil.APITestCase.DataSourceInfo;
 
-public class MultiPass_NestedQueryTest extends DataTestCase
+public class MultiPass_NestedQueryTest extends APITestCase
 {
 
 	protected void setUp( ) throws Exception

@@ -4,16 +4,16 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.BaseTransform;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.tests.data.DataTestCase;
 
+import testutil.APITestCase;
 import testutil.ConfigText;
+import testutil.APITestCase.DataSourceInfo;
 
-public class MultiPassTest extends DataTestCase {
+public class MultiPassTest extends APITestCase {
 
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo( ConfigText.getString( "Api.TestData.TableName" ),
