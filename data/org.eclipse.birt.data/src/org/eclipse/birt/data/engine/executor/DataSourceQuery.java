@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
+import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IParameterMetaData;
@@ -482,13 +483,53 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		
 		// Initialize CachedResultSet using the ODA result set
 		if ( DataSetCacheManager.getInstance( ).doesSaveToCache( ) == false )
-			return new CachedResultSet( this, resultMetadata, rs, eventHandler );
+		{
+			if ( !hasOutputParams( ) )
+				return new CachedResultSet( this,
+						resultMetadata,
+						rs,
+						eventHandler );
+			else
+			{
+				IDataSetPopulator populator = new OdaResultSet( rs );
+				return new CachedResultSet( this,
+						resultMetadata,
+						populator,
+						eventHandler );
+			}
+		}
 		else
 			return new CachedResultSet( this,
 					resultMetadata,
 					new DataSetResultCache( rs, resultMetadata ),
 					eventHandler );
     }
+   
+    /**
+     * 
+     * @return
+     * @throws DataException
+     */
+    private boolean hasOutputParams( ) throws DataException
+	{
+		Collection collection = getParameterMetaData( );
+		boolean hasOutputParam = false;
+		if ( collection != null )
+		{
+			Iterator it = collection.iterator( );
+			while ( it.hasNext( ) )
+			{
+				IParameterMetaData metaData = (IParameterMetaData) it.next( );
+
+				if ( metaData.isOutputMode( ).booleanValue( ) )
+				{
+					hasOutputParam = true;
+					break;
+				}
+			}
+		}
+		return hasOutputParam;
+	}
     
     /**
      *  set input parameter bindings
