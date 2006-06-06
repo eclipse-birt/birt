@@ -189,7 +189,13 @@ public class ChartWizard extends WizardBase
 			// Add adapters to chart model
 			chart.eAdapters( ).add( adapter );
 		}
-		if ( topTaskId == null )
+
+		if ( chart == null )
+		{
+			// If no chart model, always open the first task
+			topTaskId = null;
+		}
+		else if ( topTaskId == null )
 		{
 			// Try to get last opened task if no task specified
 			topTaskId = (String) lastTask.get( initialContext.getWizardID( ) );

@@ -109,7 +109,10 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 		{
 			( (ISelectDataComponent) list.get( i ) ).dispose( );
 		}
-		bottomArea.dispose( );
+		if ( bottomArea != null )
+		{
+			bottomArea.dispose( );
+		}
 		list.clear( );
 	}
 
