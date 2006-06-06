@@ -487,9 +487,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		else
 		{
 			super.pageChange( newPageIndex );
-			updateRelatedViews( );
 		}
-		//updateRelatedViews( );
+		updateRelatedViews( );
 	}
 
 	public void setFocus( )
