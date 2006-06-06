@@ -68,20 +68,16 @@
 			</div>
 			<div class="dialogBtnBar">
 				<div id="<%= fragment.getClientId( ) %>dialogCustomButtonContainer" class="dialogBtnBarButtonContainer">
-					<div id="<%= fragment.getClientId( ) %>okButton" class="dialogBtnBarButtonEnabled">
+					<div id="<%= fragment.getClientId( ) %>okButton">
 						<div id="<%= fragment.getClientId( ) %>okButtonLeft" class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
 						<div id="<%= fragment.getClientId( ) %>okButtonRight" class="dialogBtnBarButtonRightBackgroundEnabled"></div>
-						<span class="dialogBtnBarButtonText">
-						<%= BirtResources.getString( "birt.viewer.dialog.ok" ) %>
-						</span>
+						<input type="button" value='<%= BirtResources.getString( "birt.viewer.dialog.ok" ) %>' class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
 					</div>
 					<div class="dialogBtnBarDivider"></div>
-					<div id="<%= fragment.getClientId( ) %>cancelButton" class="dialogBtnBarButtonEnabled">
+					<div id="<%= fragment.getClientId( ) %>cancelButton">
 						<div class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
 						<div class="dialogBtnBarButtonRightBackgroundEnabled"></div>
-						<span class="dialogBtnBarButtonText">
-							<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>
-						</span>
+						<input type="button" value='<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>' class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
 					</div> 
 				</div>							
 			</div>

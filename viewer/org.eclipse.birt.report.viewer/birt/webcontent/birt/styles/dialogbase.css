@@ -139,10 +139,9 @@
 	margin-left: auto; 
 	margin-right: auto; 
 	margin-top: 6px; 
-	margin-bottom: 7px; 
-	position: relative; 
+	margin-bottom: 7px;
 	width: 166px; 
-	height:22px;
+	height:24px;
 }
 
 /* Space between OK and CANCEL */
@@ -157,7 +156,7 @@
 {
 	float: left;
 	cursor: pointer;
-	height: 22px;
+	height: 24px;
 	width: 80px;
 	overflow: hidden;
 	color: #ffffff; /* Font color */ 
@@ -170,7 +169,7 @@
 {
 	float: left;
 	cursor: default;
-	height: 22px;
+	height: 24px;
 	width: 80px;
 	overflow: hidden;
 	color: #cccccc; /* Font color */
@@ -186,8 +185,8 @@
 	background-repeat: no-repeat;
 	background-position: top left;
 	position: relative;
-	width: 6px;
-	height: 22px;
+	width: 0px;
+	height: 24px;
 	float: left;
 }
 
@@ -198,8 +197,8 @@
 	background-repeat: no-repeat;
 	background-position: top left;
 	position: relative;
-	width: 6px;
-	height: 22px;
+	width: 0px;
+	height: 24px;
 	float: left;
 }
 
@@ -210,8 +209,8 @@
 	background-repeat: no-repeat;
 	background-position: top right;
 	position: relative;
-	width: 6px;
-	height: 22px;
+	width: 0px;
+	height: 24px;
 	float: right;
 }
 
@@ -222,21 +221,16 @@
 	background-repeat: no-repeat;
 	background-position: top right;
 	position: relative;
-	width: 6px;
-	height: 22px;
+	width: 0px;
+	height: 24px;
 	float: right;
 }
 
 /* Text for OK and CANCEL buttons */
 .dialogBtnBarButtonText
-{
-	position: relative;
-	top: 0px;
-	float: clear;
+{	
 	font-family: tahoma, verdana, arial, sans-serif;
 	font-size: 11px;
 	font-weight: 600;
-	line-height: 23px; /* Setting line height 1 px larger moves text down 1px in Mozilla. Overflow in 
-							containing element is set to none to hide extra pixel. This allows text to be in
-							the same position relative to the top of its box in both Mozilla and IE. */
+	line-height: 22px;
 }
