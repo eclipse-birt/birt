@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchPart;
@@ -43,6 +44,8 @@ public class AddStyleAction extends ContextSelectionAction
 
 	/** action ID */
 	public static final String ID = "AddStyleAction"; //$NON-NLS-1$
+
+	private ThemeHandle themeHandle;
 
 	/**
 	 * Contructor
@@ -93,7 +96,14 @@ public class AddStyleAction extends ContextSelectionAction
 					.getActiveShell( ), styleHandle, StyleBuilder.DLG_TITLE_NEW );
 			if ( dialog.open( ) == Window.OK )
 			{
-				reportDesignHandle.getStyles( ).add( styleHandle );
+				if ( themeHandle != null )
+				{
+					themeHandle.getStyles( ).add( styleHandle );
+				}
+				else
+				{
+					reportDesignHandle.getStyles( ).add( styleHandle );
+				}
 				if ( !styleHandle.isPredefined( ) )
 				{
 					applyStyle( (SharedStyleHandle) styleHandle );
@@ -131,6 +141,11 @@ public class AddStyleAction extends ContextSelectionAction
 				e.printStackTrace( );
 			}
 		}
+	}
+
+	public void setThemeHandle( ThemeHandle themeHandle )
+	{
+		this.themeHandle = themeHandle;
 	}
 
 }

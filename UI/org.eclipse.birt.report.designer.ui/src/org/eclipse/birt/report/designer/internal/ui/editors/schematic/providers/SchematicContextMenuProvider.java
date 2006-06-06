@@ -16,8 +16,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddThemeStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteColumnAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteListGroupAction;
@@ -81,6 +83,7 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -104,30 +107,22 @@ import org.eclipse.ui.actions.ActionFactory;
 public class SchematicContextMenuProvider extends ContextMenuProvider
 {
 
-	private static final String INSERT_ROW_MENU_ITEM_TEXT = Messages
-			.getString( "SchematicContextMenuProvider.Menu.insertRow" ); //$NON-NLS-1$
+	private static final String INSERT_ROW_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.insertRow" ); //$NON-NLS-1$
 
-	private static final String EDIT_GROUP_MENU_ITEM_TEXT = Messages
-			.getString( "SchematicContextMenuProvider.Menu.EditGroup" ); //$NON-NLS-1$
+	private static final String EDIT_GROUP_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.EditGroup" ); //$NON-NLS-1$
 
-	private static final String APPLY_STYLE_MENU_ITEM_TEXT = Messages
-			.getString( "SchematicContextMenuProvider.Menu.Apply" ); //$NON-NLS-1$
+	private static final String APPLY_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Apply" ); //$NON-NLS-1$
 
-	private static final String STYLE_MENU_ITEM_TEXT = Messages
-			.getString( "SchematicContextMenuProvider.Menu.Style" ); //$NON-NLS-1$
+	private static final String STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Style" ); //$NON-NLS-1$
 
-	private static final String INSERT_MENU_ITEM_TEXT = Messages
-			.getString( "SchematicContextMenuProvider.Menu.Insert" ); //$NON-NLS-1$
+	private static final String INSERT_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Insert" ); //$NON-NLS-1$
 
-	private static final String ELEMENT_MENU_ITEM_TEXT = Messages
-			.getString( "SchematicContextMenuProvider.Menu.insertElement" ); //$NON-NLS-1$
+	private static final String ELEMENT_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.insertElement" ); //$NON-NLS-1$
 
-	private static final String EDIT_STYLE_MENU_ITEM_TEXT = Messages
-	.getString( "SchematicContextMenuProvider.Menu.EditStyle" ); //$NON-NLS-1$
-	
-	private static final String DELETE_STYLE_MENU_ITEM_TEXT = Messages
-	.getString( "SchematicContextMenuProvider.Menu.DeleteStyle" ); //$NON-NLS-1$
-	
+	private static final String EDIT_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.EditStyle" ); //$NON-NLS-1$
+
+	private static final String DELETE_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.DeleteStyle" ); //$NON-NLS-1$
+
 	/** the action registry */
 	private final ActionRegistry actionRegistry;
 
@@ -227,8 +222,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 			if ( isRootElementHandleClass( multiSelection ) )
 			{
-				Action action = new RefreshModuleHandleAction(selectedElements);
-				menuManager.add(action );
+				Action action = new RefreshModuleHandleAction( selectedElements );
+				menuManager.add( action );
 				createInsertElementMenu( menuManager,
 						GEFActionConstants.GROUP_EDIT );
 				createThemeMenu( menuManager, GEFActionConstants.GROUP_REST );
@@ -243,8 +238,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
 			if ( Policy.TRACING_MENU_SHOW )
 			{
-				System.out
-						.println( "Menu(for Editor) >> Shows for multi-selcetion." ); //$NON-NLS-1$
+				System.out.println( "Menu(for Editor) >> Shows for multi-selcetion." ); //$NON-NLS-1$
 			}
 		}
 
@@ -266,8 +260,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 			if ( ( (IStructuredSelection) getSelection( ) ).size( ) == 1 )
 			{
-				Object element = ( (IStructuredSelection) getSelection( ) )
-						.getFirstElement( );
+				Object element = ( (IStructuredSelection) getSelection( ) ).getFirstElement( );
 
 				if ( element instanceof LabelEditPart
 						|| element instanceof ImageEditPart )
@@ -276,15 +269,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					action.setAccelerator( SWT.F2 );
 					if ( element instanceof DataEditPart )
 					{
-						action
-								.setText( Messages
-										.getString( "SchematicContextMenuProvider.ActionText.editData" ) ); //$NON-NLS-1$
+						action.setText( Messages.getString( "SchematicContextMenuProvider.ActionText.editData" ) ); //$NON-NLS-1$
 					}
 					else
 					{
-						action
-								.setText( Messages
-										.getString( "SchematicContextMenuProvider.ActionText.editLabel" ) ); //$NON-NLS-1$
+						action.setText( Messages.getString( "SchematicContextMenuProvider.ActionText.editLabel" ) ); //$NON-NLS-1$
 					}
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 							action );
@@ -317,10 +306,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				if ( getRowHandles( ).size( ) != 0 )
 				{
-					MenuManager insertMenu = new MenuManager(
-							INSERT_MENU_ITEM_TEXT );
-					MenuManager rowMenu = new MenuManager(
-							INSERT_ROW_MENU_ITEM_TEXT );
+					MenuManager insertMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
+					MenuManager rowMenu = new MenuManager( INSERT_ROW_MENU_ITEM_TEXT );
 					rowMenu.add( getAction( InsertRowAboveAction.ID ) );
 					rowMenu.add( getAction( InsertRowBelowAction.ID ) );
 
@@ -349,8 +336,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 						new InsertPasteColumnAction( selectedElements ) );
 				if ( getColumnHandles( ).size( ) != 0 )
 				{
-					MenuManager subMenu = new MenuManager(
-							INSERT_MENU_ITEM_TEXT );
+					MenuManager subMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
 					subMenu.add( getAction( InsertColumnRightAction.ID ) );
 					subMenu.add( getAction( InsertColumnLeftAction.ID ) );
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
@@ -385,8 +371,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			if ( Policy.TRACING_MENU_SHOW )
 			{
 				System.out.println( "Menu(for Editor) >> Shows for " //$NON-NLS-1$
-						+ ( (DesignElementHandle) firstSelectedElement )
-								.getDefn( ).getDisplayName( ) );
+						+ ( (DesignElementHandle) firstSelectedElement ).getDefn( )
+								.getDisplayName( ) );
 			}
 		}
 		else if ( firstSelectedElement instanceof SlotHandle )
@@ -410,8 +396,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				System.out.println( "Menu(for Editor) >> Shows for the slot " //$NON-NLS-1$
 						+ ( (SlotHandle) firstSelectedElement ).getSlotID( )
 						+ " of " //$NON-NLS-1$
-						+ ( (SlotHandle) firstSelectedElement )
-								.getElementHandle( ).getDefn( )
+						+ ( (SlotHandle) firstSelectedElement ).getElementHandle( )
+								.getDefn( )
 								.getDisplayName( ) );
 			}
 		}
@@ -453,8 +439,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			if ( firstSelectedElement instanceof DesignElementHandle )
 			{
-				String elementName = ( (DesignElementHandle) firstSelectedElement )
-						.getDefn( ).getName( );
+				String elementName = ( (DesignElementHandle) firstSelectedElement ).getDefn( )
+						.getName( );
 				IMenuBuilder menuBuilder = ExtensionPointManager.getInstance( )
 						.getMenuBuilder( elementName );
 				if ( menuBuilder != null )
@@ -477,10 +463,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				|| multiSelection == DesignElementHandle.class
 				// report design
 				|| isRootElementHandleClass( multiSelection )
-				// saveral report items
+		// saveral report items
 				|| multiSelection == ReportItemHandle.class
 				// table and list
-//				|| multiSelection == ListHandle.class 
+				// || multiSelection == ListHandle.class
 				);
 	}
 
@@ -501,8 +487,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			RowHandle row;
 			if ( getFirstElement( ) instanceof CellHandle )
 			{
-				row = (RowHandle) ( (CellHandle) getFirstElement( ) )
-						.getContainer( );
+				row = (RowHandle) ( (CellHandle) getFirstElement( ) ).getContainer( );
 			}
 			else
 			{
@@ -512,8 +497,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				int slotID = row.getContainerSlotHandle( ).getSlotID( );
 				menuManager.appendToGroup( group_name,
-						InsertGroupActionFactory.createInsertGroupAction(
-								slotID, getSelectedObjects( ) ) );
+						InsertGroupActionFactory.createInsertGroupAction( slotID,
+								getSelectedObjects( ) ) );
 				return;
 			}
 
@@ -521,22 +506,19 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		if ( getFirstElement( ) instanceof SlotHandle )
 		{
-			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) )
-					.getElementHandle( );
+			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) ).getElementHandle( );
 			if ( !( container instanceof ListGroupHandle ) )
 			{
 				int slotID = ( (SlotHandle) getFirstElement( ) ).getSlotID( );
 				menuManager.appendToGroup( group_name,
-						InsertGroupActionFactory.createInsertGroupAction(
-								slotID, getSelectedObjects( ) ) );
+						InsertGroupActionFactory.createInsertGroupAction( slotID,
+								getSelectedObjects( ) ) );
 				return;
 			}
 		}
 
-		MenuManager subMenu = new MenuManager( Messages
-				.getString( "InsertGroupAction.actionMsg.group" ) ); //$NON-NLS-1$
-		Action[] actions = InsertGroupActionFactory
-				.getInsertGroupActions( getSelectedObjects( ) );
+		MenuManager subMenu = new MenuManager( Messages.getString( "InsertGroupAction.actionMsg.group" ) ); //$NON-NLS-1$
+		Action[] actions = InsertGroupActionFactory.getInsertGroupActions( getSelectedObjects( ) );
 		for ( int i = 0; i < actions.length; i++ )
 		{
 			subMenu.add( actions[i] );
@@ -588,8 +570,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		subMenu.add( action );
 
 		action = getAction( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID );
-		action
-				.setText( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_DISPLAY_TEXT );
+		action.setText( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_DISPLAY_TEXT );
 		subMenu.add( action );
 
 		/*
@@ -649,22 +630,24 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		menu.add( subMenu );
 		menu.add( new Separator( ) );
-		
+
 		// add "Edit Style" menu
 		subMenu = new MenuManager( EDIT_STYLE_MENU_ITEM_TEXT );
 		subMenu.add( NoneAction.getInstance( ) );
 		subMenu.addMenuListener( new IMenuListener( ) {
+
 			public void menuAboutToShow( IMenuManager manager )
 			{
 				updateDynamicItems( EditStyleMenuAction.ID, manager );
 			}
 		} );
 		menu.add( subMenu );
-		
+
 		// add "Delete Style" menu
 		subMenu = new MenuManager( DELETE_STYLE_MENU_ITEM_TEXT );
 		subMenu.add( NoneAction.getInstance( ) );
 		subMenu.addMenuListener( new IMenuListener( ) {
+
 			public void menuAboutToShow( IMenuManager manager )
 			{
 				updateDynamicItems( DeleteStyleMenuAction.ID, manager );
@@ -672,10 +655,35 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		} );
 		menu.add( subMenu );
 		menu.add( new Separator( ) );
-		
+
 		menu.add( getAction( ImportCSSStyleAction.ID ) );
-		menu.add( getAction( AddStyleAction.ID ) );
+		populateAddStyleAction( menu );
 		menuManager.appendToGroup( group_name, menu );
+	}
+
+	private void populateAddStyleAction( MenuManager menu )
+	{
+		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof ReportDesignHandle )
+		{
+			menu.add( getAction( AddStyleAction.ID ) );
+		}
+		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+		{
+			LibraryHandle libraryHandle = (LibraryHandle) SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
+			MenuManager subMenu = new MenuManager( "New Style" );
+
+			// AddThemeStyleAction
+			SlotHandle themeSlot = libraryHandle.getThemes( );
+			for ( Iterator iter = themeSlot.getContents( ).iterator( ); iter.hasNext( ); )
+			{
+				ThemeHandle theme = (ThemeHandle) iter.next( );
+				subMenu.add( new AddThemeStyleAction( theme,
+						(AddStyleAction) getAction( AddStyleAction.ID ) ) );
+			}
+			menu.add( subMenu );
+
+		}
 	}
 
 	/**
@@ -689,11 +697,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 */
 	private void createThemeMenu( IMenuManager menuManager, String group_name )
 	{
-		MenuManager menu = new MenuManager( Messages
-				.getString( "SchematicContextMenuProvider.Menu.Theme" ) );//$NON-NLS-1$
-		MenuManager subMenu = new MenuManager(
-				Messages
-						.getString( "SchematicContextMenuProvider.menutitle.applythemerule" ) );//$NON-NLS-1$
+		MenuManager menu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.Menu.Theme" ) );//$NON-NLS-1$
+		MenuManager subMenu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.menutitle.applythemerule" ) );//$NON-NLS-1$
 		subMenu.add( NoneAction.getInstance( ) );
 		subMenu.addMenuListener( new IMenuListener( ) {
 
@@ -732,8 +737,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		// If select on Group, no need to provide cascade menu
 		if ( getFirstElement( ) instanceof RowHandle )
 		{
-			DesignElementHandle container = ( (RowHandle) getFirstElement( ) )
-					.getContainer( );
+			DesignElementHandle container = ( (RowHandle) getFirstElement( ) ).getContainer( );
 			if ( container instanceof TableGroupHandle )
 			{
 				Action action = new EditGroupAction( null,
@@ -746,8 +750,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		if ( getFirstElement( ) instanceof SlotHandle )
 		{
-			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) )
-					.getElementHandle( );
+			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) ).getElementHandle( );
 			if ( container instanceof ListGroupHandle )
 			{
 				Action action = new EditGroupAction( null,
@@ -764,13 +767,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		if ( !getTableEditParts( ).isEmpty( ) )
 
 		{
-			parentHandle = (ListingHandle) ( (TableEditPart) getTableEditParts( )
-					.get( 0 ) ).getModel( );
+			parentHandle = (ListingHandle) ( (TableEditPart) getTableEditParts( ).get( 0 ) ).getModel( );
 		}
 		else if ( !getListEditParts( ).isEmpty( ) )
 		{
-			parentHandle = (ListingHandle) ( (ListEditPart) getListEditParts( )
-					.get( 0 ) ).getModel( );
+			parentHandle = (ListingHandle) ( (ListEditPart) getListEditParts( ).get( 0 ) ).getModel( );
 		}
 		else
 		{
@@ -944,8 +945,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 			else if ( obj instanceof TableCellEditPart )
 			{
-				TableEditPart parent2 = (TableEditPart) ( (TableCellEditPart) obj )
-						.getParent( );
+				TableEditPart parent2 = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
 				Object parent = parent2;
 				if ( parent instanceof GridEditPart )
 				{
@@ -985,8 +985,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 			else if ( obj instanceof ListBandEditPart )
 			{
-				ListEditPart parent2 = (ListEditPart) ( (ListBandEditPart) obj )
-						.getParent( );
+				ListEditPart parent2 = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
 				Object parent = parent2;
 				if ( !( listParts.contains( parent ) ) )
 				{

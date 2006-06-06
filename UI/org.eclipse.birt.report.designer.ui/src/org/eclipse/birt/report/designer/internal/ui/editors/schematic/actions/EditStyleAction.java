@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemA
 import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -37,7 +38,16 @@ public class EditStyleAction extends DynamicItemAction
 	{
 		this.handle = handle;
 		setId( ID );
-		setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+		if ( handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
+		{
+			setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
+					.getElementHandle( ) ).getName( ) + "."
+					+ DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+		}
+		else
+		{
+			setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+		}
 	}
 
 	/*

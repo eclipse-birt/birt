@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.command.StyleException;
 
 /**
@@ -56,7 +57,16 @@ public class ApplyStyleAction extends DynamicItemAction
 		}
 		else
 		{
-			setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+			if ( handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
+			{
+				setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
+						.getElementHandle( ) ).getName( ) + "." //$NON-NLS-1$
+						+ DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+			}
+			else
+			{
+				setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+			}
 		}
 	}
 
@@ -87,7 +97,8 @@ public class ApplyStyleAction extends DynamicItemAction
 		{
 			System.out.println( "Apply style rule action >> Run ..." ); //$NON-NLS-1$
 		}
-		CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack();
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
 		stack.startTrans( STACK_MSG_APPLY_STYLE );
 
 		try
@@ -95,8 +106,8 @@ public class ApplyStyleAction extends DynamicItemAction
 			List handles = getElementHandles( );
 			for ( int i = 0; i < handles.size( ); i++ )
 			{
-				( (DesignElementHandle) handles.get( i ) ).setStyle( isChecked( )
-						? handle : null );
+				( (DesignElementHandle) handles.get( i ) ).setStyle( isChecked( ) ? handle
+						: null );
 			}
 			stack.commit( );
 		}
@@ -109,13 +120,13 @@ public class ApplyStyleAction extends DynamicItemAction
 
 	/**
 	 * Gets models of selected elements
-	 *  
+	 * 
 	 */
 	protected List getElementHandles( )
 	{
 		if ( selectionHandles == null )
 		{
-			selectionHandles = InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart(getSelection( )))
+			selectionHandles = InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) ) )
 					.toList( );
 		}
 		return selectionHandles;

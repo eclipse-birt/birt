@@ -55,11 +55,13 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -880,7 +882,7 @@ public class DEUtil
 		{
 			return getResultSetColumnExpression( ( (ResultSetColumnHandle) model ).getColumnName( ) );
 		}
-		if ( model instanceof DataSetParameterHandle)
+		if ( model instanceof DataSetParameterHandle )
 		{
 			return IReportElementConstants.STOREDPROCUDURE_OUTPUT_PREFIX
 					+ "[\"" + escape( ( (DataSetParameterHandle) model ).getName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -1423,11 +1425,39 @@ public class DEUtil
 	 */
 	public static Iterator getStyles( Comparator comparator )
 	{
-		List styles = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getAllStyles( );
+		List styles = null;
+		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof ReportDesignHandle )
+		{
+			styles = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getAllStyles( );
+		}
+		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+		{
+			styles = new ArrayList();
+			ThemeHandle theme = ((LibraryHandle)SessionHandleAdapter.getInstance( ).getReportDesignHandle( )).getTheme( );
+			SlotHandle themeSlot = ((LibraryHandle)SessionHandleAdapter.getInstance( ).getReportDesignHandle( )).getThemes( );
+//			for ( Iterator iter = themeSlot.getContents( ).iterator( ); iter.hasNext( ); )
+//			{
+//				ThemeHandle theme = (ThemeHandle) iter.next( );
+////				for ( Iterator iterator = theme.getStyles( ).getContents( ).iterator( ); iterator.hasNext( ); )
+////				{
+////					SharedStyleHandle style = (SharedStyleHandle) iterator.next( );
+////					try
+////					{
+////						style.setName( theme.getName( ) + "." +style.getName( ) );
+////					}
+////					catch ( NameException e )
+////					{
+////					}
+////					styles.add( style );
+////				}
+//				styles.addAll( theme.getStyles( ).getContents( ) );
+//			}
+			styles.addAll( theme.getStyles( ).getContents( ) );
+		}
 
-		Object[] stylesArray = styles.toArray( );
+		Object[] stylesArray = (styles == null ? new Object[0] : styles.toArray( ));
 
 		if ( comparator != null )
 		{
@@ -2136,22 +2166,22 @@ public class DEUtil
 
 		return groupList;
 	}
-	
+
 	/**
 	 * The group container is ListingHandler, list, table, and so on.
 	 */
 	public static final String TYPE_GROUP_LISTING = "listing";
-	
+
 	/**
 	 * The group container is GroupHandler
 	 */
 	public static final String TYPE_GROUP_GROUP = "group";
-	
+
 	/**
-	 * other container, has none group. 
+	 * other container, has none group.
 	 */
 	public static final String TYPE_GROUP_NONE = "none";
-	
+
 	/**
 	 * Return the group container type of the given element handle.
 	 * 
@@ -2159,7 +2189,8 @@ public class DEUtil
 	 *            the handle of the element.
 	 * @return the group container type of the given element.
 	 */
-	public static String getGroupControlType(DesignElementHandle handle){
+	public static String getGroupControlType( DesignElementHandle handle )
+	{
 		if ( handle instanceof ListingHandle )
 		{
 			return TYPE_GROUP_LISTING;
