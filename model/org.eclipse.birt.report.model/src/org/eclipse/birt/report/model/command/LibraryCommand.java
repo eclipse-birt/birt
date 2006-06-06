@@ -385,7 +385,7 @@ public class LibraryCommand extends AbstractElementCommand
 		activityStack.flush( );
 
 		LibraryReloadedEvent event = new LibraryReloadedEvent( module
-				.getLibraryByLocation( location ) );
+				.getLibraryByLocation( url.toExternalForm( ) ) );
 
 		module.broadcast( event );
 	}
