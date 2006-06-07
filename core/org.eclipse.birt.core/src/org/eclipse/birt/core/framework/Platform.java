@@ -25,7 +25,7 @@ import org.osgi.framework.BundleContext;
  * 
  * This class is a singleton.
  * 
- * @version $Revision: 1.14 $ $Date: 2006/04/25 08:17:33 $
+ * @version $Revision: 1.15 $ $Date: 2006/04/26 08:18:09 $
  */
 public class Platform
 {
@@ -138,7 +138,6 @@ public class Platform
 	 */
 	public static IExtensionRegistry getExtensionRegistry( )
 	{
-		assert platform != null;
 		if ( platform != null )
 		{
 			return platform.getExtensionRegistry( );
@@ -154,7 +153,6 @@ public class Platform
 	 */
 	public static IBundle getBundle( String symbolicName )
 	{
-		assert platform != null;
 		if ( platform != null )
 		{
 			return platform.getBundle( symbolicName );
@@ -171,7 +169,6 @@ public class Platform
 	 */
 	public static URL find( IBundle bundle, IPlatformPath path )
 	{
-		assert platform != null;
 		if ( platform != null )
 		{
 			return platform.find( bundle, path );
@@ -198,7 +195,6 @@ public class Platform
 	 */
 	public static URL asLocalURL( URL url ) throws IOException
 	{
-		assert platform != null;
 		if ( platform != null )
 		{
 			return platform.asLocalURL( url );
