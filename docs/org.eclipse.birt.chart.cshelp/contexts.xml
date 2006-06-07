@@ -168,22 +168,66 @@ You can also enable and define grouping. To define grouping, do the following
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-16-01.html" label="A related topic"/>
 </context>
-<context id="FormatChartYAxis_ID" title="Edit Chart and New Chart: Y-Axis">
-<description>Use this page to specify title, type, and position of the y-axis with respect to the x-axis.
+<context id="FormatBarChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Bar Charts">
+<description>Use this page to format the bars and bar outlines in the chart.
 
-For additional formatting options, click <b>Scale</b>, <b>Text Format</b>, <b>Gridlines</b>, and <b>Markers</b>.
+Note that you can select "Show Curve Fitting Line" to add a curve fitting line in addition to the bars.
 
-Note that if you want the x-axis title to be displayed, you may have to click <b>Text Format</b> and select <b>Visible</b>.
+Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
-<context id="FormatChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series">
+<context id="FormatAreaChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Area Charts">
 <description>Use this page to format the properties of the "value" series (y axis) of the chart.
 
-Note that you can select "Show Lines as Curves" to replace straight lines with curves, and "Show Curve Fitting Line" to retain the straight lines and display the curves in addition.
+Note that you can select "Show Lines as Curves" to curve the line between data points, and "Show Curve Fitting Line" to add a curve fitting line to the chart.
 
-Use the <b>Labels</b>, <b>Interactivity</b>, <b>Curve Fitting Line</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="FormatLineChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Line Charts">
+<description>Use this page to format the properties of the "value" series (y axis) of the chart.
+
+Note that you can select "Show Lines as Curves" to replace straight lines between data points with curves, and "Show Curve Fitting Line" to add a curve fitting line to the chart.
+
+Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="FormatScatterChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Scatter Charts">
+<description>Use this page to format the properties of the "value" series (y axis) of the chart, including markers and lines.
+
+Note that you can select "Show Lines as Curves" to use curved lines between data points, and "Show Curve Fitting Line" to add a curve fitting line to the chart.
+
+Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="FormatStockChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Stock Charts">
+<description>Use this page to format the properties of the "value" series of the chart, including box color and candlestick line properties.
+
+Use the <b>Interactivity</b> and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="FormatPieChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Pie Charts">
+<description>Use this page to format the properties of the "value" series of the chart, including leader line properties and pie slice properties.
+
+Use the <b>Labels</b>, <b>Titles</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
+<context id="FormatMeterChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Meter Charts">
+<description>Use this page to format the properties of the "value" series of the chart, including the configuration of the dial and the needle.
+
+Use the <b>Labels</b>, <b>Regions</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
