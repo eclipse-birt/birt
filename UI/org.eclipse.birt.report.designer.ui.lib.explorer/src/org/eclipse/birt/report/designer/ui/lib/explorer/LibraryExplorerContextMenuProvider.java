@@ -14,13 +14,23 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 import java.io.File;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.ui.ContextMenuProvider;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddElementtoReport;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddLibraryAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddSelectedLibToCurrentReportDesignAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
 
@@ -36,6 +46,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	private RefreshLibExplorerAction refreshExplorerAction;
 	private AddLibraryAction addLibraryAction;
 	private AddSelectedLibToCurrentReportDesignAction useLibraryAction;
+
 
 	/**
 	 * constructor
@@ -95,6 +106,22 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 						menu.add( useLibraryAction );
 					}
 				}
+			}
+			else if ( selected instanceof ReportItemHandle 
+				|| selected instanceof DataSourceHandle
+				|| selected instanceof DataSetHandle
+				|| selected instanceof ParameterHandle
+				|| selected instanceof MasterPageHandle
+				|| selected instanceof EmbeddedImageHandle
+				)
+			{
+				if(selection.size( ) == 1)
+				{
+					AddElementtoReport addElementAction = new AddElementtoReport( (StructuredViewer) getViewer() );
+					addElementAction.setSelectedElement( selected );
+					menu.add( addElementAction );					
+				}
+
 			}
 		}
 		else
