@@ -45,6 +45,7 @@ import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -966,10 +967,10 @@ public class ReportEngineService
 		try
 		{
 			List resultSets = dataTask.getResultSetList( );
+			resultSetArray = new ResultSet[resultSets.size( )];
 
 			if ( resultSets != null && resultSets.size( ) > 0 )
 			{
-				resultSetArray = new ResultSet[resultSets.size( )];
 				for ( int k = 0; k < resultSets.size( ); k++ )
 				{
 					resultSetArray[k] = new ResultSet( );
@@ -1377,7 +1378,8 @@ public class ReportEngineService
 	 */
 
 	public List getColumnValueSet( String bindingName,
-			DesignElementHandle elementHandle ) throws BirtException
+			DesignElementHandle elementHandle, IRequestInfo requestInfo )
+			throws BirtException
 	{
 		if ( bindingName == null || elementHandle == null
 				|| !( elementHandle instanceof ReportItemHandle ) )
@@ -1395,7 +1397,7 @@ public class ReportEngineService
 								.getModuleHandle( ) ) );
 		selectValueList.addAll( session.getColumnValueSet( reportItem
 				.getDataSet( ), reportItem.paramBindingsIterator( ), reportItem
-				.columnBindingsIterator( ), bindingName ) );
+				.columnBindingsIterator( ), bindingName, requestInfo ) );
 		session.shutdown( );
 
 		return selectValueList;

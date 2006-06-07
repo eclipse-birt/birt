@@ -310,7 +310,7 @@ public class ParameterAccessor
 	 * File package name to store the documents.
 	 */
 
-	protected static final String DOCUMENTS_DIR = "Documents";//$NON-NLS-1$
+	protected static final String DOCUMENTS_DIR = "documents";//$NON-NLS-1$
 
 	/**
 	 * Report working folder.

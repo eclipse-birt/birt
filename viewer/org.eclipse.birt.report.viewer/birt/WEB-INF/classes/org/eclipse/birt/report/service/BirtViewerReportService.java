@@ -295,7 +295,7 @@ public class BirtViewerReportService implements IViewerReportService
 			e.printStackTrace( );
 			throw new ReportServiceException( e.getLocalizedMessage( ) );
 		}
-		if ( resultSetArray == null || resultSetArray.length <= 0 )
+		if ( resultSetArray == null || resultSetArray.length < 0 )
 		{
 			throw new ReportServiceException(
 					BirtResources
