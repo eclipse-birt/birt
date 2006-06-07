@@ -15,21 +15,16 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.HelpEvent;
-import org.eclipse.swt.events.HelpListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * Base class for most dialog in BIRT BaseDialog extends JFace Dialog to
+ * Base class for most dialog in BIRT BaseDialog extends JFace TrayDialog
  */
 
-public abstract class BaseDialog extends Dialog
+public abstract class BaseDialog extends TrayDialog
 {
 
 	/**
@@ -37,36 +32,9 @@ public abstract class BaseDialog extends Dialog
 	 */
 	private String title;
 
-	private String okLabel = IDialogConstants.OK_LABEL;
-
-	/**
-	 * The help button
-	 */
-	protected Button helpButton;
-
-	private boolean helpAvailable;
-
-	/**
-	 * The OK button
-	 */
-	protected Button okButton;
+	private String okLabel = null;
 
 	protected Object result;
-
-	/**
-	 * 
-	 * Creates a dialog under the eclipse platform window with the given title
-	 * and a help button. This constructor is equivalent to calling
-	 * <code>BaseDialog( Shell parentShell, String title, true )</code>.
-	 * 
-	 * @param title
-	 *            the title of the dialog
-	 */
-
-	protected BaseDialog( Shell parentShell, String title )
-	{
-		this( parentShell, title, true );
-	}
 
 	/**
 	 * 
@@ -80,7 +48,7 @@ public abstract class BaseDialog extends Dialog
 
 	protected BaseDialog( String title )
 	{
-		this( UIUtil.getDefaultShell( ), title, true );
+		this( UIUtil.getDefaultShell( ), title );
 	}
 
 	/**
@@ -90,30 +58,12 @@ public abstract class BaseDialog extends Dialog
 	 *            the parent shell
 	 * @param title
 	 *            the title of the dialog
-	 * @param needHelp
-	 *            to specify if needs a help button
 	 */
 
-	protected BaseDialog( Shell parentShell, String title, boolean needHelp )
+	protected BaseDialog( Shell parentShell, String title )
 	{
 		super( parentShell );
 		this.title = title;
-		// Disables help button
-		helpAvailable = false;
-	}
-
-	/**
-	 * Creates a dialog under the platform shell with the given title
-	 * 
-	 * @param title
-	 *            the title of the dialog
-	 * @param needHelp
-	 *            to specify if needs a help button
-	 */
-
-	protected BaseDialog( String title, boolean needHelp )
-	{
-		this( UIUtil.getDefaultShell( ), title, needHelp );
 	}
 
 	/**
@@ -149,61 +99,6 @@ public abstract class BaseDialog extends Dialog
 	}
 
 	/**
-	 * Creates and returns the contents of this dialog's button bar.
-	 * <p>
-	 * The <code>BaseDialog</code> implementation of this framework method
-	 * prevents the buttons from aligning with the same direction in order to
-	 * make Help button split with other buttons.
-	 * </p>
-	 * 
-	 * @param parent
-	 *            the parent composite to contain the button bar
-	 * @return the button bar control
-	 */
-	protected Control createButtonBar( Composite parent )
-	{
-		Composite composite = (Composite) super.createButtonBar( parent );
-		( (GridLayout) composite.getLayout( ) ).makeColumnsEqualWidth = false;
-		composite.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
-
-		return composite;
-	}
-
-	/**
-	 * Adds buttons to this dialog's button bar.
-	 * <p>
-	 * The <code>BaseDialog</code> overrides this framework to add Help Button
-	 * to the button bar.
-	 * </p>
-	 * 
-	 * @param parent
-	 *            the button bar composite
-	 */
-	protected void createButtonsForButtonBar( Composite parent )
-	{
-		if ( helpAvailable )
-		{
-			helpButton = createButton( parent,
-					IDialogConstants.HELP_ID,
-					IDialogConstants.HELP_LABEL,
-					false );
-			helpButton.addHelpListener( new HelpListener( ) {
-
-				public void helpRequested( HelpEvent e )
-				{
-					helpPressed( );
-				}
-			} );
-		}
-		// create OK and Cancel buttons by default
-		okButton = createButton( parent, IDialogConstants.OK_ID, okLabel, true );
-		createButton( parent,
-				IDialogConstants.CANCEL_ID,
-				IDialogConstants.CANCEL_LABEL,
-				false );
-	}
-
-	/**
 	 * Initialize the dialog after all controls have been created.The default
 	 * implement of this framework method does nothing.Subclassed may override
 	 * it.
@@ -214,64 +109,6 @@ public abstract class BaseDialog extends Dialog
 	protected boolean initDialog( )
 	{// Do nothing
 		return true;
-	}
-
-	/**
-	 * Sets the layout data of the button to a GridData with appropriate heights
-	 * and widths.
-	 * <p>
-	 * The <code>BaseDialog</code> override the method in order to make Help
-	 * button split with other buttons.
-	 * 
-	 * @param button
-	 *            the button to be set layout data to
-	 */
-	protected void setButtonLayoutData( Button button )
-	{
-		GridData gridData;
-		if ( button.getText( ).equals( IDialogConstants.HELP_LABEL ) )
-		{
-			gridData = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING
-					| GridData.VERTICAL_ALIGN_CENTER );
-			gridData.grabExcessHorizontalSpace = true;
-		}
-		else
-		{
-			gridData = new GridData( GridData.HORIZONTAL_ALIGN_END
-					| GridData.VERTICAL_ALIGN_CENTER );
-			if ( button.getText( ).equals( okLabel ) && !isHelpAvaiable( ) )
-			{
-				gridData.grabExcessHorizontalSpace = true;
-			}
-		}
-		gridData.heightHint = convertVerticalDLUsToPixels( IDialogConstants.BUTTON_HEIGHT );
-		int widthHint = convertHorizontalDLUsToPixels( IDialogConstants.BUTTON_WIDTH );
-		gridData.widthHint = Math.max( widthHint,
-				button.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
-		button.setLayoutData( gridData );
-	}
-
-	/**
-	 * Notifies that this dialog's button with the given id has been pressed.
-	 * <p>
-	 * The <code>BaseDialog</code> overrides this framework method to call
-	 * <code>helpPressed</code> if the help button is the pressed.
-	 * </p>
-	 * 
-	 * @param buttonId
-	 *            the id of the button that was pressed (see
-	 *            <code>IDialogConstants.*_ID</code> constants)
-	 */
-	protected void buttonPressed( int buttonId )
-	{
-		if ( buttonId == IDialogConstants.HELP_ID )
-		{
-			helpPressed( );
-		}
-		else
-		{
-			super.buttonPressed( buttonId );
-		}
 	}
 
 	/**
@@ -291,17 +128,6 @@ public abstract class BaseDialog extends Dialog
 		{
 			shell.setText( title );
 		}
-	}
-
-	/**
-	 * Notifies that the help button of this dialog has been pressed.
-	 * <p>
-	 * The <code>BaseDialog</code> default implementation of this framework
-	 * method does nothing. Subclasses may override if desired.
-	 * </p>
-	 */
-	protected void helpPressed( )
-	{// Do nothing
 	}
 
 	/**
@@ -348,16 +174,6 @@ public abstract class BaseDialog extends Dialog
 	}
 
 	/**
-	 * Returns if help button available.
-	 * 
-	 * @return true if help button available, else false.
-	 */
-	public boolean isHelpAvaiable( )
-	{
-		return helpAvailable;
-	}
-
-	/**
 	 * Gets the dialog result.
 	 * 
 	 * @return the dialog result.
@@ -375,6 +191,38 @@ public abstract class BaseDialog extends Dialog
 	final protected void setResult( Object value )
 	{
 		result = value;
+	}
+
+	/**
+	 * Creates a new button with the given id. Override this method to support
+	 * custom label for OK button
+	 * 
+	 * 
+	 * @param parent
+	 *            the parent composite
+	 * @param id
+	 *            the id of the button (see <code>IDialogConstants.*_ID</code>
+	 *            constants for standard dialog button ids)
+	 * @param label
+	 *            the label from the button
+	 * @param defaultButton
+	 *            <code>true</code> if the button is to be the default button,
+	 *            and <code>false</code> otherwise
+	 * 
+	 * @return the new button
+	 * 
+	 * @see #getCancelButton
+	 * @see #getOKButton()
+	 */
+
+	protected Button createButton( Composite parent, int id, String label,
+			boolean defaultButton )
+	{
+		if ( IDialogConstants.OK_ID == id && okLabel != null )
+		{
+			return super.createButton( parent, id, okLabel, defaultButton );
+		}
+		return super.createButton( parent, id, label, defaultButton );
 	}
 
 }

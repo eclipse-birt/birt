@@ -56,7 +56,7 @@ public class DeleteWarningDialog extends BaseDialog
 	 */
 	public DeleteWarningDialog( Shell parent, String title, List refrenceList )
 	{
-		super( parent, title, false );
+		super( parent, title );
 		setRefereceList( refrenceList );
 	}
 
@@ -70,7 +70,7 @@ public class DeleteWarningDialog extends BaseDialog
 	 */
 	public DeleteWarningDialog( Shell parent, String title )
 	{
-		super( parent, title, false );
+		super( parent, title );
 	}
 
 	/**

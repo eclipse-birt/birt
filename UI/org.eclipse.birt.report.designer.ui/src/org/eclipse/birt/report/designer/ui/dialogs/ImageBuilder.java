@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFil
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileLabelProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-// import org.eclipse.birt.report.designer.internal.ui.util.HelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
@@ -157,7 +156,7 @@ public class ImageBuilder extends BaseDialog
 	 */
 	public ImageBuilder( Shell parentShell, String title )
 	{
-		super( parentShell, title, false );
+		super( parentShell, title );
 	}
 
 	/**
@@ -168,7 +167,7 @@ public class ImageBuilder extends BaseDialog
 	public ImageBuilder( Shell parentShell, String title,
 			java.util.List dataSetList )
 	{
-		super( parentShell, title, false );
+		super( parentShell, title );
 		this.inputDataSetList = dataSetList;
 		this.dataSetList = new ArrayList( inputDataSetList );
 	}

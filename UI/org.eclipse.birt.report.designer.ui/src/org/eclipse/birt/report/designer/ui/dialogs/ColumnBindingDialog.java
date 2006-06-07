@@ -32,7 +32,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -383,12 +382,12 @@ public class ColumnBindingDialog extends BaseDialog
 
 	public ColumnBindingDialog( )
 	{
-		super( DEFAULT_DLG_TITLE, false );
+		super( DEFAULT_DLG_TITLE);
 	}
 
 	public ColumnBindingDialog( String title )
 	{
-		super( title, false );
+		super( title );
 	}
 
 	public ColumnBindingDialog( boolean canSelect )
