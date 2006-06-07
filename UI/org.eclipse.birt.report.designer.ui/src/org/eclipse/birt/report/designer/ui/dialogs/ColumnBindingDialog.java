@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -92,9 +93,11 @@ public class ColumnBindingDialog extends BaseDialog
 
 	public static final String DEFAULT_DLG_TITLE = Messages.getString( "ColumnBindingDialog.DialogTitle" ); //$NON-NLS-1$
 
-	private static final String ALL = Messages.getString( "ColumnBindingDialog.All" );//$NON-NLS-1$
-	
-	private static final String NONE = Messages.getString( "ColumnBindingDialog.NONE" );//$NON-NLS-1$
+	private static final String CHOICE_ALL = Messages.getString( "ColumnBindingDialog.Choice.All" );//$NON-NLS-1$
+
+	private static final String CHOICE_FROM_CONTAINER = Messages.getString( "ColumnBindingDialog.Choice.FromContainer" );//$NON-NLS-1$
+
+	private static final String CHOICE_NONE = Messages.getString( "ColumnBindingDialog.Choice.None" );//$NON-NLS-1$
 
 	private static final String LABEL_COLUMN_BINDINGS = Messages.getString( "ColumnBindingDialog.Label.DataSet" ); //$NON-NLS-1$
 
@@ -131,6 +134,8 @@ public class ColumnBindingDialog extends BaseDialog
 	private ExpressionCellEditor expressionCellEditor;
 
 	private String selectedColumnName = null;
+
+	private String NullChoice = null;
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
@@ -186,7 +191,7 @@ public class ColumnBindingDialog extends BaseDialog
 				case 4 :
 					String value = handle.getAggregrateOn( );
 					if ( value == null )
-						text = ALL;
+						text = CHOICE_ALL;
 					else
 						text = value;
 					break;
@@ -407,6 +412,17 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		Assert.isNotNull( input );
 		this.inputElement = input;
+		ReportItemHandle container = DEUtil.getBindingHolder( input.getContainer( ) );
+		if ( container != null
+				&& ( container.getDataSet( ) != null || container.columnBindingsIterator( )
+						.hasNext( ) ) )
+		{
+			NullChoice = CHOICE_FROM_CONTAINER;
+		}
+		else
+		{
+			NullChoice = CHOICE_NONE;
+		}
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -443,12 +459,19 @@ public class ColumnBindingDialog extends BaseDialog
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 			String[] dataSets = ChoiceSetFactory.getDataSets( );
 			String[] newList = new String[dataSets.length + 1];
-			newList[0] = NONE;
+			newList[0] = NullChoice;
 			System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
 			combo.setItems( newList );
-			String dataSetName = getDataSetName( );
 			combo.deselectAll( );
-			combo.setText( dataSetName );
+			String dataSetName = getDataSetName( );
+			if ( dataSetName != null )
+			{
+				combo.setText( dataSetName );
+			}
+			else
+			{
+				combo.select( 0 );
+			}
 			combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			gd = new GridData( );
 			gd.widthHint = 250;
@@ -457,15 +480,23 @@ public class ColumnBindingDialog extends BaseDialog
 
 				public void widgetSelected( SelectionEvent event )
 				{
-					String value = combo.getText( );
-					if ( value.equals( NONE ) )
+					String value = null;
+					if ( combo.getSelectionIndex( ) != 0 )
 					{
-						value = null;
+						value = combo.getText( );
 					}
 					int rCode = canChangeDataSet( value );
 					if ( rCode == 2 )
 					{
-						combo.setText( getDataSetName( ) );
+						String newName = getDataSetName( );
+						if ( newName != null )
+						{
+							combo.setText( newName );
+						}
+						else
+						{
+							combo.select( 0 );
+						}
 					}
 					else
 					{
@@ -483,7 +514,7 @@ public class ColumnBindingDialog extends BaseDialog
 							{
 								inputElement.getColumnBindings( ).clearValue( );
 							}
-							generateBindingColumns( );	
+							generateBindingColumns( );
 							setHihtLightColumn( );
 						}
 						catch ( SemanticException e )
@@ -542,7 +573,7 @@ public class ColumnBindingDialog extends BaseDialog
 		};
 
 		groups = new String[groupList.size( ) + 1];
-		groups[0] = ALL;
+		groups[0] = CHOICE_ALL;
 		for ( int i = 0; i < groupList.size( ); i++ )
 		{
 			groups[i + 1] = ( (GroupHandle) groupList.get( i ) ).getName( );
@@ -814,12 +845,13 @@ public class ColumnBindingDialog extends BaseDialog
 	private int canChangeDataSet( String newName )
 	{
 		String currentDataSetName = getDataSetName( );
-		if ( NONE.equals( currentDataSetName )
+		if ( currentDataSetName == null
 				&& !inputElement.columnBindingsIterator( ).hasNext( ) )
 		{
 			return 0;
 		}
-		else if ( currentDataSetName.equals( newName ) )
+		else if ( currentDataSetName == newName
+				|| ( currentDataSetName != null && currentDataSetName.equals( newName ) ) )
 		{
 			return 2;
 		}
@@ -841,12 +873,12 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		if ( inputElement.getDataSet( ) == null )
 		{
-			return NONE;
+			return null;
 		}
 		String dataSetName = inputElement.getDataSet( ).getQualifiedName( );
 		if ( StringUtil.isBlank( dataSetName ) )
 		{
-			dataSetName = NONE;
+			dataSetName = null;
 		}
 		return dataSetName;
 	}
