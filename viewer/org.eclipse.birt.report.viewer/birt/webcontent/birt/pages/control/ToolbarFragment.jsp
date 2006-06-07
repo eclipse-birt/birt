@@ -60,12 +60,6 @@
 					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.pdf" )%>"
 					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.pdf" )%>" CLASS="birtviewer_clickable">
 					</TD>					
-					<TD WIDTH="6px"/>
-					<TD WIDTH="15px">
-					   <INPUT TYPE="image" NAME='print' SRC="birt/images/Print.gif"
-					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.print" )%>"
-					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.print" )%>" CLASS="birtviewer_clickable">
-					</TD>					
 					<TD ALIGN='right'>
 					<%
 					if ( !ViewerServlet.isOpenSource( ) )
