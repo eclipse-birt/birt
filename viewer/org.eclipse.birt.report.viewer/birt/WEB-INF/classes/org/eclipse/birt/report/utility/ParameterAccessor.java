@@ -511,7 +511,20 @@ public class ParameterAccessor
 
 	public static Locale getLocale( HttpServletRequest request )
 	{
-		return getLocaleFromString( getParameter( request, PARAM_LOCALE ) );
+		Locale locale = null;
+
+		// Get Locale from URL parameter
+		locale = getLocaleFromString( getParameter( request, PARAM_LOCALE ) );
+
+		// Get Locale from client browser
+		if ( locale == null )
+			locale = request.getLocale( );
+
+		// Get Locale from Web Context
+		if ( locale == null )
+			locale = webAppLocale;
+
+		return locale;
 	}
 
 	/**
@@ -545,7 +558,7 @@ public class ParameterAccessor
 	{
 		if ( locale == null || locale.length( ) <= 0 )
 		{
-			return Locale.getDefault( );
+			return null;
 		}
 
 		int index = locale.indexOf( '_' );
@@ -970,8 +983,11 @@ public class ParameterAccessor
 					workingFolder.trim( ).length( ) - 1 );
 		}
 
+		// Get Web App Default Locale
 		webAppLocale = getLocaleFromString( context
 				.getInitParameter( INIT_PARAM_LOCALE ) );
+		if ( webAppLocale == null )
+			webAppLocale = Locale.getDefault( );
 
 		isWorkingFolderAccessOnly = Boolean
 				.valueOf(
