@@ -72,9 +72,16 @@ public class HTMLActionHandler implements IHTMLActionHandler
 	protected String buildDrillAction( IAction action, Object context )
 	{
 		String baseURL = null;
-		if ( context != null && context instanceof HTMLRenderContext )
+		if ( context != null )
 		{
-			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
+			if (context instanceof HTMLRenderContext)
+			{
+				baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
+			}
+			if (context instanceof PDFRenderContext)
+			{
+				baseURL = ( (PDFRenderContext) context ).getBaseURL( );
+			}
 		}
 
 		if ( baseURL == null )
@@ -146,8 +153,8 @@ public class HTMLActionHandler implements IHTMLActionHandler
 			link.append( "&__overwrite=true" ); //$NON-NLS-1$
 
 			// The search rules are not supported yet.
-			if ( !"pdf".equalsIgnoreCase( format )
-					&& action.getBookmark( ) != null )
+			if ( /*!"pdf".equalsIgnoreCase( format )
+					&&*/ action.getBookmark( ) != null )
 			{
 
 				try
