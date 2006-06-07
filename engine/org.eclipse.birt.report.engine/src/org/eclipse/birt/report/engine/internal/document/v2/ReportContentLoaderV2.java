@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
@@ -47,8 +48,8 @@ import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
+import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
-import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -813,6 +814,19 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 
 		public void visitTable( ITableContent table, Object value )
 		{
+			int colCount = table.getColumnCount( );
+			for ( int i = 0; i < colCount; i++ )
+			{
+				IColumn col = table.getColumn( i );
+				InstanceID id = col.getInstanceID( );
+				if ( id != null )
+				{
+					long cid = id.getComponentID( );
+					ColumnDesign colDesign = (ColumnDesign) report
+							.getReportItemByID( cid );
+					col.setGenerateBy( colDesign );
+				}
+			}
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startTable( table );
 		}

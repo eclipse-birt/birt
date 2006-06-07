@@ -23,13 +23,14 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.CompositeStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * 
  * column content object
  * 
- * @version $Revision: 1.6 $ $Date: 2006/05/17 05:42:09 $
+ * @version $Revision: 1.7 $ $Date: 2006/05/25 08:10:12 $
  */
 public class Column implements IColumn
 {
@@ -50,6 +51,8 @@ public class Column implements IColumn
 	transient protected IStyle style;
 
 	transient protected IStyle computedStyle;
+	
+	transient protected Object generateBy;
 
 	/**
 	 * constructor use by serialize and deserialize
@@ -87,7 +90,15 @@ public class Column implements IColumn
 	 */
 	public DimensionType getWidth( )
 	{
-		return width;
+		if ( width != null )
+		{
+			return width;
+		}
+		if ( generateBy instanceof ColumnDesign )
+		{
+			return ( (ColumnDesign) generateBy ).getWidth( );
+		}
+		return null;
 	}
 
 	public void setWidth( DimensionType width )
@@ -97,7 +108,15 @@ public class Column implements IColumn
 
 	public String getStyleClass( )
 	{
-		return styleClass;
+		if ( styleClass != null )
+		{
+			return styleClass;
+		}
+		if ( generateBy instanceof ColumnDesign )
+		{
+			return ( (ColumnDesign) generateBy ).getStyleName( );
+		}
+		return null;
 	}
 
 	public void setStyleClass( String styleClass )
@@ -139,6 +158,20 @@ public class Column implements IColumn
 	public IStyle getInlineStyle( )
 	{
 		return inlineStyle;
+	}
+	
+	/**
+	 * @param generateBy
+	 *            The generateBy to set.
+	 */
+	public void setGenerateBy( Object generateBy )
+	{
+		this.generateBy = generateBy;
+	}
+	
+	public Object getGenerateBy( )
+	{
+		return generateBy;
 	}
 
 	/**
