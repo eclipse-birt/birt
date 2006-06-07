@@ -65,4 +65,10 @@ public interface IHTMLRenderOption
 	 * output the HTML default title.
 	 */
 	public static final String HTML_TITLE = "htmlTitle"; //$NON-NLS-1$
+	/**
+	 * floating the page footer.
+	 *  
+	 * The value is an Boolean Object, the default is true.
+	 */
+	public static final String PAGEFOOTER_FLOAT_FLAG = "pageFooterFloatFlag"; //$NON-NLS-1$
 }

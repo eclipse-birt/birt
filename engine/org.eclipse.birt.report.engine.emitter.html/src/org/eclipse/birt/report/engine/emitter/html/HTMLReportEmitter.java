@@ -92,7 +92,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.112 $ $Date: 2006/06/01 05:55:04 $
+ * @version $Revision: 1.113 $ $Date: 2006/06/07 06:38:03 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -151,6 +151,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * should we output the report as Right To Left
 	 */
 	protected boolean htmlRtLFlag = false;
+	
+	protected boolean pageFooterFloatFlag = true;
 	
 	protected boolean includeSelectionHandler = false;
 	
@@ -348,6 +350,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				actionHandler = actHandler;
 			}
+			pageFooterFloatFlag = htmlOption.getPageFooterFloatFlag( );
 			htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
 			includeSelectionHandler = htmlOption.getIncludeSelectionHandle( );
 			ouputInstanceIDs = htmlOption.getInstanceIDs( );
@@ -814,9 +817,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				{
 					setStyleName( bodyStyleName );
 				}
-				AttributeBuilder.buildSize( styleBuffer,
-						HTMLTags.ATTR_MIN_HEIGHT,
-						masterPage.getPageHeight( ) );
+				if( !pageFooterFloatFlag )
+				{
+					AttributeBuilder.buildSize( styleBuffer,
+							HTMLTags.ATTR_MIN_HEIGHT,
+							masterPage.getPageHeight( ) );
+				}
 				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			}
 		}

@@ -201,4 +201,19 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	{
 		return (String) options.get( HTML_TITLE );
 	}
+	
+	public void setPageFooterFloatFlag( boolean option )
+	{
+		options.put( PAGEFOOTER_FLOAT_FLAG, new Boolean( option ) );
+	}
+
+	public boolean getPageFooterFloatFlag( )
+	{
+		Boolean value = (Boolean) options.get( PAGEFOOTER_FLOAT_FLAG );
+		if ( value != null )
+		{
+			return value.booleanValue( );
+		}
+		return true;
+	}
 }
