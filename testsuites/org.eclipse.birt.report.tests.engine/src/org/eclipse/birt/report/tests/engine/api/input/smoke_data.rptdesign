@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060510-0630 Build &lt;20060510-0630></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 Actuate Corporation.</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="sample" id="4">
+            <text-property name="displayName">sample</text-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <text-property name="displayName">Data Set</text-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CONTACTLASTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CONTACTFIRSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">SALESREPEMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">CREDITLIMIT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">sample</property>
+            <property name="queryText">select *
+from CLASSICMODELS.CUSTOMERS</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <data name="data1" id="6">
+            <list-property name="mapRules">
+                <structure>
+                    <expression name="testExpr">row["name"]</expression>
+                    <property name="operator">like</property>
+                    <expression name="value1">"%a%"</expression>
+                    <text-property name="display">like %a%</text-property>
+                </structure>
+            </list-property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">name</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <expression name="toc">"data1"</expression>
+            <property name="resultSetColumn">name</property>
+            <structure name="action">
+                <property name="linkType">bookmark-link</property>
+                <expression name="targetBookmark">"data3"</expression>
+                <property name="targetBookmarkType">bookmark</property>
+            </structure>
+        </data>
+        <data id="7">
+            <list-property name="highlightRules">
+                <structure>
+                    <property name="operator">like</property>
+                    <property name="backgroundColor">#00FFFF</property>
+                    <property name="fontFamily">cursive</property>
+                    <property name="fontSize">larger</property>
+                    <property name="fontStyle">italic</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="color">#0000FF</property>
+                    <property name="textUnderline">underline</property>
+                    <property name="textLineThrough">line-through</property>
+                    <expression name="testExpr">row["CUSTOMERNAME"]</expression>
+                    <expression name="value1">"%a%"</expression>
+                </structure>
+            </list-property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">CUSTOMERNAME</property>
+            <structure name="action">
+                <property name="formatType">html</property>
+                <property name="linkType">drill-through</property>
+                <property name="reportName">smoke_data.rptdesign</property>
+                <expression name="targetBookmark">"data3"</expression>
+                <property name="targetBookmarkType">bookmark</property>
+                <property name="targetWindow">_blank</property>
+                <property name="targetFileType">report-design</property>
+            </structure>
+        </data>
+        <data id="8">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">name</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <expression name="bookmark">"data3"</expression>
+            <property name="resultSetColumn">name</property>
+            <structure name="action">
+                <property name="linkType">hyperlink</property>
+                <expression name="uri">"http://www.actuate.com"</expression>
+                <property name="targetWindow">_blank</property>
+            </structure>
+        </data>
+        <data id="9">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">aa</property>
+                    <expression name="expression">"aa"</expression>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">aa</property>
+            <structure name="action">
+                <property name="linkType">hyperlink</property>
+                <expression name="uri">"http://www.actuate.com"</expression>
+                <property name="targetWindow">_blank</property>
+            </structure>
+        </data>
+    </body>
+</report>

@@ -137,8 +137,11 @@ public class RenderTaskTest extends EngineCase
 	{
 		renderReport( "multiple_masterpage", "All" ); 
 	}
-
-	public void testRender15( )
+	
+	public void testRender15(){
+		renderReport( "smoke_data", "All" );
+	}
+	public void testRender16( )
 	{
 		File fLib=new File(inputPath+"library1.rptlibrary");
 		if(fLib.exists( )){
@@ -268,6 +271,20 @@ public class RenderTaskTest extends EngineCase
 		InstanceID iid;
 		iid = findIid( "iid_reportlet", "EXTENDED" );
 		renderReportlet( "iid_reportlet", iid, "EXTENDED" );
+	}
+	
+	public void testRenderReportlet_complex_list( )
+	{
+		InstanceID iid;
+		iid = findIid( "iid_reportlet_complex", "LIST" );
+		renderReportlet( "iid_reportlet_complex", iid, "LIST" );
+	}
+
+	public void testRenderReportlet_complex_table( )
+	{
+		InstanceID iid;
+		iid = findIid( "iid_reportlet_complex", "TABLE" );
+		renderReportlet( "iid_reportlet_complex", iid, "TABLE" );
 	}
 
 	/*
@@ -410,7 +427,19 @@ public class RenderTaskTest extends EngineCase
 				task.setRenderOption( htmlRenderOptions );
 				task.setInstanceID( iid );
 				task.render( );
+				assertTrue( "Render reportlet-" + docName + " to html failed. ",
+						new File(outputFileName).exists( ) );
+				
+				outputFileName = outputPath + docName + "/pdf/" + type
+				+ ".pdf";
+				htmlRenderOptions.setOutputFileName( outputFileName );
+				htmlRenderOptions.setOutputFormat( "pdf" );
+				task.setRenderOption( htmlRenderOptions );
+				task.setInstanceID( iid );
+				task.render( );
 				task.close( );
+				assertTrue( "Render reportlet-" + docName + " to pdf failed. ",
+						new File(outputFileName).exists( ) );
 			}
 			catch ( Exception e )
 			{
