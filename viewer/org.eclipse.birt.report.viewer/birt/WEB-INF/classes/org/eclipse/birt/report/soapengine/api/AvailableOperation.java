@@ -8,37 +8,58 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class AvailableOperation  implements java.io.Serializable {
-    private boolean sortAsc;
-    private boolean sortDsc;
-    private boolean advancedSort;
-    private boolean addGroup;
-    private boolean deleteGroup;
-    private boolean hideColumn;
-    private boolean showColumns;
-    private boolean reorderColumns;
-    private boolean filter;
-    private boolean calculation;
-    private boolean aggregation;
-    private boolean changeFont;
-    private boolean format;
+    private java.lang.Boolean saveView;
+    private java.lang.Boolean applyView;
+    private java.lang.Boolean print;
+    private java.lang.Boolean export;
+    private java.lang.Boolean toc;
+    private java.lang.Boolean undo;
+    private java.lang.Boolean redo;
+    private java.lang.Boolean sortAsc;
+    private java.lang.Boolean sortDsc;
+    private java.lang.Boolean advancedSort;
+    private java.lang.Boolean addGroup;
+    private java.lang.Boolean deleteGroup;
+    private java.lang.Boolean hideColumn;
+    private java.lang.Boolean showColumns;
+    private java.lang.Boolean reorderColumns;
+    private java.lang.Boolean filter;
+    private java.lang.Boolean calculation;
+    private java.lang.Boolean aggregation;
+    private java.lang.Boolean changeFont;
+    private java.lang.Boolean format;
 
     public AvailableOperation() {
     }
 
     public AvailableOperation(
-           boolean sortAsc,
-           boolean sortDsc,
-           boolean advancedSort,
-           boolean addGroup,
-           boolean deleteGroup,
-           boolean hideColumn,
-           boolean showColumns,
-           boolean reorderColumns,
-           boolean filter,
-           boolean calculation,
-           boolean aggregation,
-           boolean changeFont,
-           boolean format) {
+           java.lang.Boolean saveView,
+           java.lang.Boolean applyView,
+           java.lang.Boolean print,
+           java.lang.Boolean export,
+           java.lang.Boolean toc,
+           java.lang.Boolean undo,
+           java.lang.Boolean redo,
+           java.lang.Boolean sortAsc,
+           java.lang.Boolean sortDsc,
+           java.lang.Boolean advancedSort,
+           java.lang.Boolean addGroup,
+           java.lang.Boolean deleteGroup,
+           java.lang.Boolean hideColumn,
+           java.lang.Boolean showColumns,
+           java.lang.Boolean reorderColumns,
+           java.lang.Boolean filter,
+           java.lang.Boolean calculation,
+           java.lang.Boolean aggregation,
+           java.lang.Boolean changeFont,
+           java.lang.Boolean format) {
+           this.saveView = saveView;
+           this.applyView = applyView;
+           this.print = print;
+           this.export = export;
+           this.toc = toc;
+           this.undo = undo;
+           this.redo = redo;
            this.sortAsc = sortAsc;
            this.sortDsc = sortDsc;
            this.advancedSort = advancedSort;
@@ -56,11 +77,151 @@ public class AvailableOperation  implements java.io.Serializable {
 
 
     /**
+     * Gets the saveView value for this AvailableOperation.
+     * 
+     * @return saveView
+     */
+    public java.lang.Boolean getSaveView() {
+        return saveView;
+    }
+
+
+    /**
+     * Sets the saveView value for this AvailableOperation.
+     * 
+     * @param saveView
+     */
+    public void setSaveView(java.lang.Boolean saveView) {
+        this.saveView = saveView;
+    }
+
+
+    /**
+     * Gets the applyView value for this AvailableOperation.
+     * 
+     * @return applyView
+     */
+    public java.lang.Boolean getApplyView() {
+        return applyView;
+    }
+
+
+    /**
+     * Sets the applyView value for this AvailableOperation.
+     * 
+     * @param applyView
+     */
+    public void setApplyView(java.lang.Boolean applyView) {
+        this.applyView = applyView;
+    }
+
+
+    /**
+     * Gets the print value for this AvailableOperation.
+     * 
+     * @return print
+     */
+    public java.lang.Boolean getPrint() {
+        return print;
+    }
+
+
+    /**
+     * Sets the print value for this AvailableOperation.
+     * 
+     * @param print
+     */
+    public void setPrint(java.lang.Boolean print) {
+        this.print = print;
+    }
+
+
+    /**
+     * Gets the export value for this AvailableOperation.
+     * 
+     * @return export
+     */
+    public java.lang.Boolean getExport() {
+        return export;
+    }
+
+
+    /**
+     * Sets the export value for this AvailableOperation.
+     * 
+     * @param export
+     */
+    public void setExport(java.lang.Boolean export) {
+        this.export = export;
+    }
+
+
+    /**
+     * Gets the toc value for this AvailableOperation.
+     * 
+     * @return toc
+     */
+    public java.lang.Boolean getToc() {
+        return toc;
+    }
+
+
+    /**
+     * Sets the toc value for this AvailableOperation.
+     * 
+     * @param toc
+     */
+    public void setToc(java.lang.Boolean toc) {
+        this.toc = toc;
+    }
+
+
+    /**
+     * Gets the undo value for this AvailableOperation.
+     * 
+     * @return undo
+     */
+    public java.lang.Boolean getUndo() {
+        return undo;
+    }
+
+
+    /**
+     * Sets the undo value for this AvailableOperation.
+     * 
+     * @param undo
+     */
+    public void setUndo(java.lang.Boolean undo) {
+        this.undo = undo;
+    }
+
+
+    /**
+     * Gets the redo value for this AvailableOperation.
+     * 
+     * @return redo
+     */
+    public java.lang.Boolean getRedo() {
+        return redo;
+    }
+
+
+    /**
+     * Sets the redo value for this AvailableOperation.
+     * 
+     * @param redo
+     */
+    public void setRedo(java.lang.Boolean redo) {
+        this.redo = redo;
+    }
+
+
+    /**
      * Gets the sortAsc value for this AvailableOperation.
      * 
      * @return sortAsc
      */
-    public boolean isSortAsc() {
+    public java.lang.Boolean getSortAsc() {
         return sortAsc;
     }
 
@@ -70,7 +231,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param sortAsc
      */
-    public void setSortAsc(boolean sortAsc) {
+    public void setSortAsc(java.lang.Boolean sortAsc) {
         this.sortAsc = sortAsc;
     }
 
@@ -80,7 +241,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return sortDsc
      */
-    public boolean isSortDsc() {
+    public java.lang.Boolean getSortDsc() {
         return sortDsc;
     }
 
@@ -90,7 +251,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param sortDsc
      */
-    public void setSortDsc(boolean sortDsc) {
+    public void setSortDsc(java.lang.Boolean sortDsc) {
         this.sortDsc = sortDsc;
     }
 
@@ -100,7 +261,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return advancedSort
      */
-    public boolean isAdvancedSort() {
+    public java.lang.Boolean getAdvancedSort() {
         return advancedSort;
     }
 
@@ -110,7 +271,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param advancedSort
      */
-    public void setAdvancedSort(boolean advancedSort) {
+    public void setAdvancedSort(java.lang.Boolean advancedSort) {
         this.advancedSort = advancedSort;
     }
 
@@ -120,7 +281,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return addGroup
      */
-    public boolean isAddGroup() {
+    public java.lang.Boolean getAddGroup() {
         return addGroup;
     }
 
@@ -130,7 +291,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param addGroup
      */
-    public void setAddGroup(boolean addGroup) {
+    public void setAddGroup(java.lang.Boolean addGroup) {
         this.addGroup = addGroup;
     }
 
@@ -140,7 +301,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return deleteGroup
      */
-    public boolean isDeleteGroup() {
+    public java.lang.Boolean getDeleteGroup() {
         return deleteGroup;
     }
 
@@ -150,7 +311,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param deleteGroup
      */
-    public void setDeleteGroup(boolean deleteGroup) {
+    public void setDeleteGroup(java.lang.Boolean deleteGroup) {
         this.deleteGroup = deleteGroup;
     }
 
@@ -160,7 +321,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return hideColumn
      */
-    public boolean isHideColumn() {
+    public java.lang.Boolean getHideColumn() {
         return hideColumn;
     }
 
@@ -170,7 +331,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param hideColumn
      */
-    public void setHideColumn(boolean hideColumn) {
+    public void setHideColumn(java.lang.Boolean hideColumn) {
         this.hideColumn = hideColumn;
     }
 
@@ -180,7 +341,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return showColumns
      */
-    public boolean isShowColumns() {
+    public java.lang.Boolean getShowColumns() {
         return showColumns;
     }
 
@@ -190,7 +351,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param showColumns
      */
-    public void setShowColumns(boolean showColumns) {
+    public void setShowColumns(java.lang.Boolean showColumns) {
         this.showColumns = showColumns;
     }
 
@@ -200,7 +361,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return reorderColumns
      */
-    public boolean isReorderColumns() {
+    public java.lang.Boolean getReorderColumns() {
         return reorderColumns;
     }
 
@@ -210,7 +371,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param reorderColumns
      */
-    public void setReorderColumns(boolean reorderColumns) {
+    public void setReorderColumns(java.lang.Boolean reorderColumns) {
         this.reorderColumns = reorderColumns;
     }
 
@@ -220,7 +381,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return filter
      */
-    public boolean isFilter() {
+    public java.lang.Boolean getFilter() {
         return filter;
     }
 
@@ -230,7 +391,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param filter
      */
-    public void setFilter(boolean filter) {
+    public void setFilter(java.lang.Boolean filter) {
         this.filter = filter;
     }
 
@@ -240,7 +401,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return calculation
      */
-    public boolean isCalculation() {
+    public java.lang.Boolean getCalculation() {
         return calculation;
     }
 
@@ -250,7 +411,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param calculation
      */
-    public void setCalculation(boolean calculation) {
+    public void setCalculation(java.lang.Boolean calculation) {
         this.calculation = calculation;
     }
 
@@ -260,7 +421,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return aggregation
      */
-    public boolean isAggregation() {
+    public java.lang.Boolean getAggregation() {
         return aggregation;
     }
 
@@ -270,7 +431,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param aggregation
      */
-    public void setAggregation(boolean aggregation) {
+    public void setAggregation(java.lang.Boolean aggregation) {
         this.aggregation = aggregation;
     }
 
@@ -280,7 +441,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return changeFont
      */
-    public boolean isChangeFont() {
+    public java.lang.Boolean getChangeFont() {
         return changeFont;
     }
 
@@ -290,7 +451,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param changeFont
      */
-    public void setChangeFont(boolean changeFont) {
+    public void setChangeFont(java.lang.Boolean changeFont) {
         this.changeFont = changeFont;
     }
 
@@ -300,7 +461,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @return format
      */
-    public boolean isFormat() {
+    public java.lang.Boolean getFormat() {
         return format;
     }
 
@@ -310,7 +471,7 @@ public class AvailableOperation  implements java.io.Serializable {
      * 
      * @param format
      */
-    public void setFormat(boolean format) {
+    public void setFormat(java.lang.Boolean format) {
         this.format = format;
     }
 
@@ -326,19 +487,66 @@ public class AvailableOperation  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            this.sortAsc == other.isSortAsc() &&
-            this.sortDsc == other.isSortDsc() &&
-            this.advancedSort == other.isAdvancedSort() &&
-            this.addGroup == other.isAddGroup() &&
-            this.deleteGroup == other.isDeleteGroup() &&
-            this.hideColumn == other.isHideColumn() &&
-            this.showColumns == other.isShowColumns() &&
-            this.reorderColumns == other.isReorderColumns() &&
-            this.filter == other.isFilter() &&
-            this.calculation == other.isCalculation() &&
-            this.aggregation == other.isAggregation() &&
-            this.changeFont == other.isChangeFont() &&
-            this.format == other.isFormat();
+            ((this.saveView==null && other.getSaveView()==null) || 
+             (this.saveView!=null &&
+              this.saveView.equals(other.getSaveView()))) &&
+            ((this.applyView==null && other.getApplyView()==null) || 
+             (this.applyView!=null &&
+              this.applyView.equals(other.getApplyView()))) &&
+            ((this.print==null && other.getPrint()==null) || 
+             (this.print!=null &&
+              this.print.equals(other.getPrint()))) &&
+            ((this.export==null && other.getExport()==null) || 
+             (this.export!=null &&
+              this.export.equals(other.getExport()))) &&
+            ((this.toc==null && other.getToc()==null) || 
+             (this.toc!=null &&
+              this.toc.equals(other.getToc()))) &&
+            ((this.undo==null && other.getUndo()==null) || 
+             (this.undo!=null &&
+              this.undo.equals(other.getUndo()))) &&
+            ((this.redo==null && other.getRedo()==null) || 
+             (this.redo!=null &&
+              this.redo.equals(other.getRedo()))) &&
+            ((this.sortAsc==null && other.getSortAsc()==null) || 
+             (this.sortAsc!=null &&
+              this.sortAsc.equals(other.getSortAsc()))) &&
+            ((this.sortDsc==null && other.getSortDsc()==null) || 
+             (this.sortDsc!=null &&
+              this.sortDsc.equals(other.getSortDsc()))) &&
+            ((this.advancedSort==null && other.getAdvancedSort()==null) || 
+             (this.advancedSort!=null &&
+              this.advancedSort.equals(other.getAdvancedSort()))) &&
+            ((this.addGroup==null && other.getAddGroup()==null) || 
+             (this.addGroup!=null &&
+              this.addGroup.equals(other.getAddGroup()))) &&
+            ((this.deleteGroup==null && other.getDeleteGroup()==null) || 
+             (this.deleteGroup!=null &&
+              this.deleteGroup.equals(other.getDeleteGroup()))) &&
+            ((this.hideColumn==null && other.getHideColumn()==null) || 
+             (this.hideColumn!=null &&
+              this.hideColumn.equals(other.getHideColumn()))) &&
+            ((this.showColumns==null && other.getShowColumns()==null) || 
+             (this.showColumns!=null &&
+              this.showColumns.equals(other.getShowColumns()))) &&
+            ((this.reorderColumns==null && other.getReorderColumns()==null) || 
+             (this.reorderColumns!=null &&
+              this.reorderColumns.equals(other.getReorderColumns()))) &&
+            ((this.filter==null && other.getFilter()==null) || 
+             (this.filter!=null &&
+              this.filter.equals(other.getFilter()))) &&
+            ((this.calculation==null && other.getCalculation()==null) || 
+             (this.calculation!=null &&
+              this.calculation.equals(other.getCalculation()))) &&
+            ((this.aggregation==null && other.getAggregation()==null) || 
+             (this.aggregation!=null &&
+              this.aggregation.equals(other.getAggregation()))) &&
+            ((this.changeFont==null && other.getChangeFont()==null) || 
+             (this.changeFont!=null &&
+              this.changeFont.equals(other.getChangeFont()))) &&
+            ((this.format==null && other.getFormat()==null) || 
+             (this.format!=null &&
+              this.format.equals(other.getFormat())));
         __equalsCalc = null;
         return _equals;
     }
@@ -350,19 +558,66 @@ public class AvailableOperation  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        _hashCode += (isSortAsc() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isSortDsc() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isAdvancedSort() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isAddGroup() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isDeleteGroup() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isHideColumn() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isShowColumns() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isReorderColumns() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isFilter() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isCalculation() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isAggregation() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isChangeFont() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        _hashCode += (isFormat() ? Boolean.TRUE : Boolean.FALSE).hashCode();
+        if (getSaveView() != null) {
+            _hashCode += getSaveView().hashCode();
+        }
+        if (getApplyView() != null) {
+            _hashCode += getApplyView().hashCode();
+        }
+        if (getPrint() != null) {
+            _hashCode += getPrint().hashCode();
+        }
+        if (getExport() != null) {
+            _hashCode += getExport().hashCode();
+        }
+        if (getToc() != null) {
+            _hashCode += getToc().hashCode();
+        }
+        if (getUndo() != null) {
+            _hashCode += getUndo().hashCode();
+        }
+        if (getRedo() != null) {
+            _hashCode += getRedo().hashCode();
+        }
+        if (getSortAsc() != null) {
+            _hashCode += getSortAsc().hashCode();
+        }
+        if (getSortDsc() != null) {
+            _hashCode += getSortDsc().hashCode();
+        }
+        if (getAdvancedSort() != null) {
+            _hashCode += getAdvancedSort().hashCode();
+        }
+        if (getAddGroup() != null) {
+            _hashCode += getAddGroup().hashCode();
+        }
+        if (getDeleteGroup() != null) {
+            _hashCode += getDeleteGroup().hashCode();
+        }
+        if (getHideColumn() != null) {
+            _hashCode += getHideColumn().hashCode();
+        }
+        if (getShowColumns() != null) {
+            _hashCode += getShowColumns().hashCode();
+        }
+        if (getReorderColumns() != null) {
+            _hashCode += getReorderColumns().hashCode();
+        }
+        if (getFilter() != null) {
+            _hashCode += getFilter().hashCode();
+        }
+        if (getCalculation() != null) {
+            _hashCode += getCalculation().hashCode();
+        }
+        if (getAggregation() != null) {
+            _hashCode += getAggregation().hashCode();
+        }
+        if (getChangeFont() != null) {
+            _hashCode += getChangeFont().hashCode();
+        }
+        if (getFormat() != null) {
+            _hashCode += getFormat().hashCode();
+        }
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -374,81 +629,143 @@ public class AvailableOperation  implements java.io.Serializable {
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AvailableOperation"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("saveView");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SaveView"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("applyView");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ApplyView"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("print");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Print"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("export");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Export"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("toc");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Toc"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("undo");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Undo"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("redo");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Redo"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("sortAsc");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortAsc"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("sortDsc");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortDsc"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("advancedSort");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AdvancedSort"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("addGroup");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AddGroup"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("deleteGroup");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DeleteGroup"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("hideColumn");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "HideColumn"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("showColumns");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ShowColumns"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("reorderColumns");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReorderColumns"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("filter");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Filter"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("calculation");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Calculation"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("aggregation");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Aggregation"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("changeFont");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ChangeFont"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("format");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Format"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
