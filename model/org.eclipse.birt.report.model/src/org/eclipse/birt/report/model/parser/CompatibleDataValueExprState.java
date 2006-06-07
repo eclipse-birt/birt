@@ -109,6 +109,13 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 
 		String trimmedValue = value.trim( );
 		String newName = trimmedValue;
+
+		if ( trimmedValue.length( ) == 0 )
+		{
+			doEnd( newName );
+			return;
+		}
+
 		if ( target instanceof GroupElement )
 		{
 			newName = appendBoundColumnsToCachedGroup( (GroupElement) target,
