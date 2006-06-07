@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
@@ -518,7 +520,25 @@ final class GroupBoundaryInfoComparator implements Comparator
 		}
 		else if ( obj1 instanceof Comparable )
 		{
-			return ( (Comparable) obj1 ).compareTo( obj2 );
+			Comparable comp1 = (Comparable) obj1;
+			Comparable comp2 = (Comparable) obj2;
+
+			// Integer can not be compared with Double.
+			if ( obj1.getClass( ) != obj2.getClass( )
+					&& obj1 instanceof Number && obj2 instanceof Number )
+			{
+				try
+				{
+					comp1 = (Comparable) DataTypeUtil.toDouble( obj1 );
+					comp2 = (Comparable) DataTypeUtil.toDouble( obj2 );
+				}
+				catch ( BirtException ex )
+				{
+					// impossible
+				}
+			}
+
+			return comp1.compareTo( comp2 );
 		}
 		else
 		{

@@ -178,7 +178,7 @@ public class CacheUtil
 			return result;
 		}
 		else if ( ob1 instanceof Comparable
-				&& ob1 instanceof Comparable )
+				&& ob2 instanceof Comparable )
 		{
 			Comparable comp1 = (Comparable) ob1;
 			Comparable comp2 = (Comparable) ob2;
@@ -186,7 +186,7 @@ public class CacheUtil
 			// Integer can not be compared with Double.
 				if ( ob1.getClass( ) != ob2.getClass( )
 					&& ob1 instanceof Number
-					&& ob1 instanceof Number )
+					&& ob2 instanceof Number )
 			{
 				try
 				{
