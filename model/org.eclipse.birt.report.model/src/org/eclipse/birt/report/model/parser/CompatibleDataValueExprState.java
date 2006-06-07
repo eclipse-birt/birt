@@ -90,7 +90,7 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 							target, newName, column.getBoundExpression( ),
 							handler.getModule( ) );
 				}
-				
+
 				// set the property for the result set column property of
 				// DataItem.
 
@@ -107,16 +107,17 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 			setupBoundDataColumns( target, value );
 		}
 
-		String newName = value;
+		String trimmedValue = value.trim( );
+		String newName = trimmedValue;
 		if ( target instanceof GroupElement )
 		{
 			newName = appendBoundColumnsToCachedGroup( (GroupElement) target,
-					value, value );
+					trimmedValue, trimmedValue );
 		}
 		else
 		{
-			newName = DataBoundColumnUtil.createBoundDataColumn( target, value,
-					value, handler.getModule( ) );
+			newName = DataBoundColumnUtil.createBoundDataColumn( target,
+					trimmedValue, trimmedValue, handler.getModule( ) );
 		}
 
 		// set the property for the result set column property of DataItem.
