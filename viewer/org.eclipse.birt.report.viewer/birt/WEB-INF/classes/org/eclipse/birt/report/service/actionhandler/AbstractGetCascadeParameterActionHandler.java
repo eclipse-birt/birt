@@ -126,8 +126,16 @@ public abstract class AbstractGetCascadeParameterActionHandler
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			SelectItemChoice item = (SelectItemChoice) list.get( i );
-			selectionList[i] = new SelectItemChoice( item.getValue( ), item
-					.getLabel( ) );
+			String label = item.getLabel( );
+			String value = item.getValue( );
+
+			if ( value == null )
+				continue;
+
+			if ( label == null )
+				label = value;
+
+			selectionList[i] = new SelectItemChoice( value, label );
 		}
 		return selectionList;
 	}
