@@ -429,14 +429,39 @@ public class Object3D
 	}
 
 	/**
+	 * Returns if current object is totally aside the given object. "outside" is
+	 * along the direction of the viewer vector.
+	 * 
 	 * @param obj
 	 * @return
 	 */
 	protected boolean testAside( Object3D obj, boolean outside )
 	{
+		if ( viewVa.length == 0 || obj.getViewerVectors( ).length == 0 )
+		{
+			// skip empty object.
+			return true;
+		}
+
 		if ( viewVa.length < 3 && obj.getViewerVectors( ).length < 3 )
 		{
-			// skip cases of both lines or points.
+			// handle two lines case
+			// if ( viewVa.length == 2 && obj.getViewerVectors( ).length == 2 )
+			// {
+			// Vector pv1 = new Vector( viewVa[0] );
+			// Vector pv2 = new Vector( viewVa[1] );
+			// Vector qv1 = new Vector( obj.getViewerVectors( )[0] );
+			// Vector qv2 = new Vector( obj.getViewerVectors( )[1] );
+			//
+			// pv1.sub( qv1 );
+			// pv2.sub( qv1 );
+			// qv2.sub( qv1 );
+			//
+			// return pv1.crossProduct( qv2 )
+			// .scalarProduct( qv2.crossProduct( pv2 ) ) >= 0;
+			// }
+
+			// TODO test two lines or point in a line.
 			return true;
 		}
 
@@ -447,7 +472,37 @@ public class Object3D
 
 		if ( viewVa.length < 3 )
 		{
-			normal = new Vector( obj.getNormal( ) );
+			// if ( viewVa.length == 2 )
+			// {
+			// /// find a proper normal vector for this line.
+			// Vector v1 = new Vector( obj.getViewerVectors( )[1] );
+			// v1.sub( obj.getViewerVectors( )[0] );
+			//
+			// // test line and polygon
+			// Vector lva = new Vector( viewVa[1] );
+			// lva.sub( viewVa[0] );
+			//
+			// double cos = Math.abs( lva.cosineValue( obj.getNormal( ) ) );
+			// System.out.println( "cosine: " + cos );
+			//
+			// if ( ChartUtil.mathEqual( cos, 1 ) )
+			// {
+			// normal = v1;
+			// }
+			// else
+			// {
+			// Vector plva = lva.crossProduct( obj.getNormal( ) );
+			// normal = plva.crossProduct( lva );
+			// }
+			//
+			// // normal = new Vector( obj.getNormal( ) );
+			// }
+			// else if ( viewVa.length == 1 )
+			{
+				// test point and polygon
+				// TODO
+				normal = new Vector( obj.getNormal( ) );
+			}
 		}
 		else
 		{
@@ -461,22 +516,11 @@ public class Object3D
 			normal.inverse( );
 		}
 
-		double d = -normal.get( 0 )
-				* ov.get( 0 )
-				- normal.get( 1 )
-				* ov.get( 1 )
-				- normal.get( 2 )
-				* ov.get( 2 );
+		double d = -normal.scalarProduct( ov );
 
 		for ( int i = 0; i < tva.length; i++ )
 		{
-			double p = tva[i].get( 0 )
-					* normal.get( 0 )
-					+ tva[i].get( 1 )
-					* normal.get( 1 )
-					+ tva[i].get( 2 )
-					* normal.get( 2 )
-					+ d;
+			double p = tva[i].scalarProduct( normal ) + d;
 
 			if ( outside )
 			{
@@ -501,21 +545,26 @@ public class Object3D
 	 * @param near
 	 * @return
 	 */
-	protected boolean testIntersect( Object3D near )
+	protected boolean testIntersect( Object3D near, Engine3D engine )
 	{
 		Vector[] va1 = getViewerVectors( );
 		Vector[] va2 = near.getViewerVectors( );
 
+		Vector v;
 		Polygon p1 = new Polygon( );
 		for ( int i = 0; i < va1.length; i++ )
 		{
-			p1.add( va1[i].get( 0 ), va1[i].get( 1 ) );
+			v = engine.perspective( va1[i] );
+			v = engine.view2Canvas( v );
+			p1.add( v.get( 0 ), v.get( 1 ) );
 		}
 
 		Polygon p2 = new Polygon( );
 		for ( int i = 0; i < va2.length; i++ )
 		{
-			p2.add( va2[i].get( 0 ), va2[i].get( 1 ) );
+			v = engine.perspective( va2[i] );
+			v = engine.view2Canvas( v );
+			p2.add( v.get( 0 ), v.get( 1 ) );
 		}
 
 		return p1.intersects( p2 );
@@ -543,7 +592,7 @@ public class Object3D
 	 * @param near
 	 * @return
 	 */
-	public boolean testSwap( Object3D near )
+	public boolean testSwap( Object3D near, Engine3D engine )
 	{
 		Object3D far = this;
 		boolean swap = false;
@@ -553,7 +602,7 @@ public class Object3D
 			{
 				if ( !( far.testAside( near, false ) ) )
 				{
-					if ( far.testIntersect( near ) )
+					if ( far.testIntersect( near, engine ) )
 					{
 						swap = true;
 					}

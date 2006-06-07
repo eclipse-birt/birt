@@ -3606,6 +3606,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				Polygon3DRenderEvent.class );
+		pre.setDoubleSided( false );
 
 		int nSides = loaFace.size( );
 

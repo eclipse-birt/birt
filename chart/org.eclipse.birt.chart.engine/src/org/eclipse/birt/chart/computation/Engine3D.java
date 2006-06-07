@@ -288,6 +288,17 @@ public final class Engine3D implements IConstants
 	}
 
 	/**
+	 * @param v
+	 * @return
+	 */
+	Vector perspective( Vector v )
+	{
+		Vector nv = new Vector( v );
+		nv.perspective( PERSPECTIVE_VALUE );
+		return nv;
+	}
+
+	/**
 	 * Translates the view frame.
 	 * 
 	 * @param v
@@ -607,8 +618,9 @@ public final class Engine3D implements IConstants
 			object3D.transform( transMatrix );
 			object3D.transform( M2V_MATRIX );
 
-			object3D.clip( this );
 			object3D.prepareZSort( );
+			
+			object3D.clip( this );
 			if ( object3D.getVectors( ).length < 2 )
 			{
 				return false;
@@ -707,7 +719,7 @@ public final class Engine3D implements IConstants
 
 			for ( Iterator itr = a3dre.iterator( ); itr.hasNext( ); )
 			{
-				PrimitiveRenderEvent pre = (PrimitiveRenderEvent)itr.next( );
+				PrimitiveRenderEvent pre = (PrimitiveRenderEvent) itr.next( );
 
 				if ( pre instanceof I3DRenderEvent )
 				{
@@ -721,7 +733,7 @@ public final class Engine3D implements IConstants
 						object3D.prepareZSort( );
 
 						object3D.clip( this );
-						
+
 						if ( object3D.getVectors( ).length < 1 )
 						{
 							itr.remove( );
@@ -831,7 +843,7 @@ public final class Engine3D implements IConstants
 
 					if ( far.testZOverlap( near ) )
 					{
-						if ( far.testSwap( near ) )
+						if ( far.testSwap( near, this ) )
 						{
 							rtList.set( i, event2 );
 							rtList.set( j, event );
