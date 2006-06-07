@@ -15,7 +15,7 @@
  *  build.xml
  *
  *  Created on 6/3/2006
- *  Build script for project org.apache.derby.core_10.1.2
+ *  Build script for project org.apache.derby.core_10.1.2.1
  *
  * 
  * The following are public targets callable by external users. 
@@ -63,7 +63,7 @@
 
 	<property name="eclipse.home" location="." />
 	<property name="export.dir" location="./export" />
-	<property name="module.name.version" value="org.apache.derby.core_10.1.2" />
+	<property name="module.name.version" value="org.apache.derby.core_10.1.2.1" />
 
 	<!-- Generate zip for this project.
 		 Input parameters:
