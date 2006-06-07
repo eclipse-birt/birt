@@ -510,9 +510,18 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
      * @return
      * @throws DataException
      */
-    private boolean hasOutputParams( ) throws DataException
+    private boolean hasOutputParams( )
 	{
-		Collection collection = getParameterMetaData( );
+		Collection collection = null;
+		try
+		{
+			collection = getParameterMetaData( );
+		}
+		catch ( DataException e )
+		{
+			return false;
+		}
+		
 		boolean hasOutputParam = false;
 		if ( collection != null )
 		{
