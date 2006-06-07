@@ -248,9 +248,12 @@ public class DataExtractionTask extends EngineTask
 				{
 					IQueryDefinition query = getQuery( queryId );
 					ResultMetaData metaData = (ResultMetaData) query2ResultMetaData.get( query );
-					IResultSetItem resultItem = new ResultSetItem( rsetName,
-							metaData );
-					resultMetaList.add( resultItem );
+					if( metaData.getColumnCount( ) > 0 )
+					{
+						IResultSetItem resultItem = new ResultSetItem( rsetName,
+								metaData );
+						resultMetaList.add( resultItem );
+					}
 				}
 			}
 		}
