@@ -212,7 +212,7 @@ public class LayoutCell
 
 	protected Cell getContent( )
 	{
-		return (Cell) content;
+		return content;
 	}
 
 	/**
@@ -295,9 +295,6 @@ public class LayoutCell
 
 	public CellHandle getCell( )
 	{
-		if ( !isCellStartPosition( ) )
-			return null;
-
 		return getCellRegardlessStartPosition( );
 	}
 

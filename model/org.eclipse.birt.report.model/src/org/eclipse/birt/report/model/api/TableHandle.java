@@ -13,6 +13,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.table.LayoutTableModel;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.ColumnHelper;
+import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 
@@ -335,8 +337,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * The insert action cannot be finished succesfully for cases like this:
 	 * 
 	 * <pre>
-	 *      		&lt;cell colSpan=&quot;1/&gt;&lt;cell colSpan=&quot;1/&gt;
-	 *      		&lt;cell colSpan=&quot;2/&gt;
+	 *                 		&lt;cell colSpan=&quot;1/&gt;&lt;cell colSpan=&quot;1/&gt;
+	 *                 		&lt;cell colSpan=&quot;2/&gt;
 	 * </pre>
 	 * 
 	 * if the user want to insert a column with cells to the column 2.
@@ -376,6 +378,56 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	protected CellHandle getCell( int row, int column )
 	{
 		return getLayoutModel( ).getCell( row, column );
+	}
+
+	/**
+	 * Gets the cell at the position where the given row and column intersect
+	 * within the given slot. The first row in the slot is count as 1. And so
+	 * on.
+	 * <p>
+	 * If <code>groupLevel</code> is less or equal than 0, then retrieve cell
+	 * from header/detail/footer. If not, return the cell from the given group.
+	 * 
+	 * @param slotId
+	 *            the slot id
+	 * @param groupLevel
+	 *            the group level indexing from 1. Or -1 if to get the cell from
+	 *            header/detail/footer.
+	 * @param row
+	 *            the row position indexing from 1
+	 * @param column
+	 *            the column position indexing from 1
+	 * @return the cell handle at the position if the cell exists, otherwise
+	 *         <code>null</code>
+	 */
+
+	public CellHandle getCell( int slotId, int groupLevel, int row, int column )
+	{
+		if ( groupLevel <= 0 )
+			return getLayoutModel( ).getCell( slotId, row, column );
+
+		return getLayoutModel( ).getCell( groupLevel, slotId, row, column );
+
+	}
+
+	/**
+	 * Figures out the column according to the index of the column.
+	 * 
+	 * @param module
+	 *            the report design
+	 * @param columnSlot
+	 *            the slot contains columns
+	 * @param columnNum
+	 *            the 1-based column number to search
+	 * 
+	 * @return the index of a column.
+	 */
+
+	public ColumnHandle findColumn( int columnNum )
+	{
+		TableColumn targetColumn = ColumnHelper.findColumn( module,
+				getColumns( ).getSlot( ), columnNum );
+		return (ColumnHandle) targetColumn.getHandle( module );
 	}
 
 }
