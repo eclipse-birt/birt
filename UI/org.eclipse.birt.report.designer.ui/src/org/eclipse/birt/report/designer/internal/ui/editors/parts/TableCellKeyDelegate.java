@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SelectColumnAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SelectRowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.draw2d.FigureCanvas;
@@ -27,6 +29,8 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.KeyStroke;
+import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
@@ -43,6 +47,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 	 * Positive - East.
 	 */
 	private int lastHDir;
+	private ActionRegistry actionRegistry;
 
 	/**
 	 * Records last vertical movement direction. 0 - None. Negative - North.
@@ -63,9 +68,20 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 	/**
 	 * Default Constuctor.
 	 */
-	public TableCellKeyDelegate( GraphicalViewer viewer )
+	public TableCellKeyDelegate( GraphicalViewer viewer,ActionRegistry actionRegistry  )
 	{
 		super( viewer );
+		this.actionRegistry = actionRegistry;
+		put( KeyStroke.getPressed('r', 114, SWT.ALT|SWT.SHIFT  ),
+				actionRegistry.getAction( SelectRowAction.ID) );
+		put( KeyStroke.getPressed('R', 114, SWT.ALT|SWT.SHIFT  ),
+				actionRegistry.getAction( SelectRowAction.ID) );
+		
+		put( KeyStroke.getPressed('c', 99, SWT.ALT|SWT.SHIFT  ),
+				actionRegistry.getAction( SelectColumnAction.ID) );
+		put( KeyStroke.getPressed('C', 99, SWT.ALT|SWT.SHIFT  ),
+				actionRegistry.getAction( SelectColumnAction.ID) );
+
 	}
 
 	/**

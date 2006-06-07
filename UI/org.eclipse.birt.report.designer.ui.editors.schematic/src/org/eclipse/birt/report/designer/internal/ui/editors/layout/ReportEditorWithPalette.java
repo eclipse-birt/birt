@@ -45,6 +45,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.Me
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.PastePartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.RevertToReportItemPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.RevertToTemplatePartAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SelectColumnAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SelectRowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.UseLibraryPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicalPartFactory;
@@ -411,6 +413,15 @@ abstract public class ReportEditorWithPalette extends
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
 
+		//add the selection row and column action
+		action = new SelectRowAction( this );
+		getActionRegistry( ).registerAction( action );
+		getSelectionActions( ).add( action.getId( ) );
+		
+		action = new SelectColumnAction( this );
+		getActionRegistry( ).registerAction( action );
+		getSelectionActions( ).add( action.getId( ) );
+		
 		registerInsertExtElementActions( );
 	}
 

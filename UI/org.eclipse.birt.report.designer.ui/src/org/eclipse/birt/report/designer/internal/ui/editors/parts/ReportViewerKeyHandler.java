@@ -53,7 +53,7 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler
 
 		put( KeyStroke.getPressed( SWT.F2, 0 ),
 				actionRegistry.getAction( GEFActionConstants.DIRECT_EDIT) );
-		tableDelgate = new TableCellKeyDelegate( viewer );
+		tableDelgate = new TableCellKeyDelegate( viewer, actionRegistry);
 	}
 
 	/**

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CellDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -416,5 +418,38 @@ public class TableUtil
 		}
 		
 		return width;
+	}
+	
+	/**
+	 * @param list
+	 * @return true if the all objectt int the list is CellHandle.
+	 */
+	public static boolean isAllCell(List list)
+	{
+		int size = list.size( );
+		for (int i=0; i<size; i++)
+		{
+			Object obj = list.get( i );
+			if (! (obj instanceof CellHandle))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * @param intValue
+	 * @return true if the int array is continuous.
+	 */
+	public static boolean isContinue(int[] intValue)
+	{
+		if (intValue == null || intValue.length < 2)
+		{
+			return true;
+		}
+		Arrays.sort( intValue );
+		int len = intValue.length;
+		return len - 1 == intValue[len - 1] - intValue[0];
 	}
 }
