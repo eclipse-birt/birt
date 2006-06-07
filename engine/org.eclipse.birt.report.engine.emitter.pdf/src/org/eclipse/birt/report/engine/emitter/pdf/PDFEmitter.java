@@ -505,6 +505,10 @@ public class PDFEmitter implements IAreaVisitor
 		float width = pdfMeasure(container.getWidth());
 		float height = pdfMeasure(container.getHeight());
 		
+		// draw background color for the container, if the backgound color is NOT set, draw nothing.
+		Color bc = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR));
+		drawBackgroundColor( bc, startX, startY, width, height );
+		
 		// Draws background image for the container. if the background image is NOT set, draw nothing.
 		drawBackgroundImage(style, startX, startY, width, height);
 		
