@@ -107,7 +107,10 @@ public class RDSave implements IRDSave
 			this.saveUtilHelper.cleanChildOfRoot( );
 
 		if ( this.streamManager.isSubquery( ) == false )
+		{
 			this.saveUtilHelper.saveFilterInfo( );
+			this.saveUtilHelper.saveGroupInfo( );
+		}
 	}
 	
 	/**
@@ -116,7 +119,7 @@ public class RDSave implements IRDSave
 	private void initSaveRowUtil( ) throws DataException
 	{
 		rowExprsOs = streamManager.getOutStream( DataEngineContext.EXPR_VALUE_STREAM );
-		rowLenOs = streamManager.getOutStream( DataEngineContext.ROWLENGTH_INFO_STREAM );
+		rowLenOs = streamManager.getOutStream( DataEngineContext.EXPR_ROWLEN_STREAM );
 
 		this.rowSaveUtil = new RowSaveUtil( rowCount,
 				rowExprsOs,
@@ -195,7 +198,7 @@ public class RDSave implements IRDSave
 					if ( context.getMode( ) == DataEngineContext.MODE_GENERATION
 							&& isSubQuery == false )
 					{
-						streamForResultClass = streamManager.getOutStream( DataEngineContext.RESULTCLASS_STREAM );
+						streamForResultClass = streamManager.getOutStream( DataEngineContext.DATASET_META_STREAM );
 						streamForDataSet = streamManager.getOutStream( DataEngineContext.DATASET_DATA_STREAM );
 					}
 				}
@@ -271,8 +274,26 @@ public class RDSave implements IRDSave
 		 */
 		protected void saveFilterInfo( ) throws DataException
 		{
-			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.FILTER_INFO_STREAM );
+			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.FILTER_DEFN_STREAM );
 			FilterDefnUtil.saveFilterDefn( outputStream, queryDefn.getFilters( ) );
+
+			try
+			{
+				outputStream.close( );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
+			}
+		}
+		
+		/**
+		 * @throws DataException
+		 */
+		protected void saveGroupInfo( ) throws DataException
+		{
+			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.GROUP_DEFN_STREAM );
+			GroupDefnUtil.saveGroupDefn( outputStream, queryDefn.getGroups( ) );
 
 			try
 			{

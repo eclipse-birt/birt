@@ -163,13 +163,13 @@ public class RDLoad
 		if ( streamManager.isBasedOnSecondRD( ) == false )
 			exprDataResultSet = new ExprDataResultSet1( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
 					StreamManager.ROOT_STREAM ),
-					streamManager.getInStream( DataEngineContext.ROWLENGTH_INFO_STREAM,
+					streamManager.getInStream( DataEngineContext.EXPR_ROWLEN_STREAM,
 							StreamManager.ROOT_STREAM ),
 					exprMetas );
 		else
 			exprDataResultSet = new ExprDataResultSet2( streamManager.getRAInStream( DataEngineContext.EXPR_VALUE_STREAM,
 					StreamManager.ROOT_STREAM ),
-					streamManager.getRAInStream( DataEngineContext.ROWLENGTH_INFO_STREAM,
+					streamManager.getRAInStream( DataEngineContext.EXPR_ROWLEN_STREAM,
 							StreamManager.ROOT_STREAM ),
 					streamManager.getRAInStream( DataEngineContext.ROW_INDEX_STREAM,
 							StreamManager.PARENT_STREAM ),
@@ -184,7 +184,7 @@ public class RDLoad
 	 */
 	private IResultClass loadResultClass( ) throws DataException
 	{
-		InputStream stream = streamManager.getInStream( DataEngineContext.RESULTCLASS_STREAM,
+		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_META_STREAM,
 				StreamManager.SUBROOT_STREAM );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
 		IResultClass resultClass = new ResultClass( buffStream );
@@ -223,7 +223,7 @@ public class RDLoad
 	 */
 	public List loadFilterDefn( int streamPos ) throws DataException
 	{
-		InputStream inputStream = streamManager.getInStream( DataEngineContext.FILTER_INFO_STREAM,
+		InputStream inputStream = streamManager.getInStream( DataEngineContext.FILTER_DEFN_STREAM,
 				streamPos );
 		List filterList = FilterDefnUtil.loadFilterDefn( inputStream );
 		try
@@ -236,6 +236,27 @@ public class RDLoad
 		}
 
 		return filterList;
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	public List loadGroupDefn( int streamPos ) throws DataException
+	{
+		InputStream inputStream = streamManager.getInStream( DataEngineContext.GROUP_DEFN_STREAM,
+				streamPos );
+		List groupList = GroupDefnUtil.loadGroupDefn( inputStream );
+		try
+		{
+			inputStream.close( );
+		}
+		catch ( IOException e )
+		{
+			// ignore
+		}
+
+		return groupList;
 	}
 	
 }

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl.document.viewing;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -197,81 +198,24 @@ public class NewInstanceHelper
 	 */
 	public static IBaseDataSetDesign newDataSetDesign( )
 	{
-		return new IBaseDataSetDesign( ) {
+		return new BaseDataSetDesign( );
+	}
+	
+	/**
+	 * @return
+	 */
+	public static IBaseDataSetDesign newIVDataSetDesign( )
+	{
+		return new BaseDataSetDesign( ) {
 
-			public String getName( )
-			{
-				return null;
-			}
+			List computedColumns = new ArrayList( );
 
-			public int getCacheRowCount( )
-			{
-				return 0;
-			}
-
-			public String getDataSourceName( )
-			{
-				return null;
-			}
-
+			/*
+			 * @see org.eclipse.birt.data.engine.impl.document.viewing.NewInstanceHelper.BaseDataSetDesign#getComputedColumns()
+			 */
 			public List getComputedColumns( )
 			{
-				return null;
-			}
-
-			public List getFilters( )
-			{
-				return null;
-			}
-
-			public List getParameters( )
-			{
-				return null;
-			}
-
-			public List getResultSetHints( )
-			{
-				return null;
-			}
-
-			public Collection getInputParamBindings( )
-			{
-				return null;
-			}
-
-			public String getBeforeOpenScript( )
-			{
-				return null;
-			}
-
-			public String getAfterOpenScript( )
-			{
-				return null;
-			}
-
-			public String getOnFetchScript( )
-			{
-				return null;
-			}
-
-			public String getBeforeCloseScript( )
-			{
-				return null;
-			}
-
-			public String getAfterCloseScript( )
-			{
-				return null;
-			}
-
-			public IBaseDataSetEventHandler getEventHandler( )
-			{
-				return null;
-			}
-
-			public boolean needDistinctValue( )
-			{
-				return false;
+				return this.computedColumns;
 			}
 		};
 	}
@@ -344,5 +288,86 @@ public class NewInstanceHelper
 		return new DataSetRuntime( dataSetDesign, queryExecutor ) {
 		};
 	}
+	
+	/**
+	 *
+	 */
+	private static class BaseDataSetDesign implements IBaseDataSetDesign
+	{
+		public String getName( )
+		{
+			return null;
+		}
+
+		public int getCacheRowCount( )
+		{
+			return 0;
+		}
+
+		public String getDataSourceName( )
+		{
+			return null;
+		}
+
+		public List getComputedColumns( )
+		{
+			return null;
+		}
+
+		public List getFilters( )
+		{
+			return null;
+		}
+
+		public List getParameters( )
+		{
+			return null;
+		}
+
+		public List getResultSetHints( )
+		{
+			return null;
+		}
+
+		public Collection getInputParamBindings( )
+		{
+			return null;
+		}
+
+		public String getBeforeOpenScript( )
+		{
+			return null;
+		}
+
+		public String getAfterOpenScript( )
+		{
+			return null;
+		}
+
+		public String getOnFetchScript( )
+		{
+			return null;
+		}
+
+		public String getBeforeCloseScript( )
+		{
+			return null;
+		}
+
+		public String getAfterCloseScript( )
+		{
+			return null;
+		}
+
+		public IBaseDataSetEventHandler getEventHandler( )
+		{
+			return null;
+		}
+
+		public boolean needDistinctValue( )
+		{
+			return false;
+		}
+	};
 
 }

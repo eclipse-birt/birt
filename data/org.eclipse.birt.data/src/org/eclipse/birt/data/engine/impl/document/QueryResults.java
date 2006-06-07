@@ -16,7 +16,6 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
-import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * This class be used in presentation to retrieve ResultIterator. It will have
@@ -38,9 +37,6 @@ public class QueryResults implements IQueryResults
 	// it can determins the sub query index in its group level.
 	private int currParentIndex;
 	
-	private int[] parentGroupInfo;
-	private int[] parentValidRowIDs;
-	
 	/**
 	 * @param context
 	 * @param queryResultID
@@ -56,28 +52,10 @@ public class QueryResults implements IQueryResults
 	 * @param resultMetaData
 	 * @param subQueryName
 	 * @param currParentIndex
-	 * @param groupInfo
-	 * @param validIndex
 	 */
-	public QueryResults( DataEngineContext context, String queryResultID,
+	QueryResults( DataEngineContext context, String queryResultID,
 			IResultMetaData resultMetaData, String subQueryName,
 			int currParentIndex )
-	{
-		this( context, queryResultID,
-				resultMetaData, subQueryName,
-				currParentIndex, null, null );
-	}
-	
-	/**
-	 * @param context
-	 * @param queryResultID
-	 * @param resultMetaData
-	 * @param subQueryName
-	 * @param currParentIndex
-	 */
-	public QueryResults( DataEngineContext context, String queryResultID,
-			IResultMetaData resultMetaData, String subQueryName,
-			int currParentIndex , int[] groupInfo, int[] validIndex)
 	{
 		assert context != null;
 		assert queryResultID != null;
@@ -90,9 +68,6 @@ public class QueryResults implements IQueryResults
 		this.resultMetaData = resultMetaData;
 		this.subQueryName = subQueryName;
 		this.currParentIndex = currParentIndex;
-		
-		this.parentGroupInfo = groupInfo;
-		this.parentValidRowIDs = validIndex;
 	}
 	
 	/*
@@ -135,75 +110,15 @@ public class QueryResults implements IQueryResults
 			}
 			else
 			{
-				int[] validIndex = populateValidRowIndex( );
 				resultIterator = new ResultIterator( context,
 						this,
 						queryResultID,
 						subQueryName,
-						currParentIndex,
-						validIndex);
+						currParentIndex );
 			}
 		}
 
 		return resultIterator;
-	}
-
-	/**
-	 * 
-	 * @return
-	 * @throws DataException
-	 */
-	private int[] populateValidRowIndex( ) throws DataException
-	{
-		int[] validIndex = null;
-		if (this.parentValidRowIDs != null
-				&& this.parentGroupInfo != null)
-		{
-			int start = 0;
-			int end = 0;
-
-			int rowIndex = 0;
-			for (int i = 0; i < this.parentValidRowIDs.length; i++) {
-				if (this.parentValidRowIDs[i] == this.currParentIndex) {
-					rowIndex = i;
-					break;
-				}
-			}
-
-			for (int i = 0; i < this.parentGroupInfo.length - 1; i = i + 2) {
-				if (rowIndex >= this.parentGroupInfo[i]
-						&& rowIndex < this.parentGroupInfo[i + 1]) {
-					start = this.parentGroupInfo[i];
-					end = this.parentGroupInfo[i + 1];
-					break;
-				}
-			}
-
-			validIndex = new int[end - start];
-			for (int i = 0; i < validIndex.length; i++) {
-				validIndex[i] = this.parentValidRowIDs[i + start];
-			}
-			
-			RDGroupUtil old = new RDGroupUtil(context.getInputStream(
-					queryResultID, null,
-					DataEngineContext.GROUP_INFO_STREAM));
-			int[] oldGroupInfo = old.getGroupStartAndEndIndex(1);
-			int dec = 0;
-			for (int i = 0; i < oldGroupInfo.length - 1; i = i + 2) 
-			{
-				if (validIndex[0] >= oldGroupInfo[i]
-						&& (validIndex[0] < oldGroupInfo[i + 1]|| oldGroupInfo[i+1]<0)) 
-				{
-					dec = oldGroupInfo[i];
-					break;
-				}
-			}
-			for( int i = 0; i < validIndex.length; i++ )
-			{
-				validIndex[i] = validIndex[i] - dec;
-			}
-		}
-		return validIndex;
 	}
 
 	/*
@@ -223,4 +138,3 @@ public class QueryResults implements IQueryResults
 	}
 
 }
-

@@ -63,6 +63,8 @@ final class PreparedQuery
 	// Map of Subquery name (String) to PreparedSubquery
 	private 	HashMap 				subQueryMap;
 	
+	private 	HashMap 				subQueryDefnMap;
+	
 	private 	static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
 	private 	ExprManager 			exprManager;
@@ -93,6 +95,7 @@ final class PreparedQuery
 		
 		this.exprManager = new ExprManager( );
 		this.subQueryMap = new HashMap( );
+		this.subQueryDefnMap = new HashMap( );
 		this.aggrTable = new AggregateTable( this.sharedScope,
 				queryDefn.getGroups( ) );
 
@@ -214,6 +217,10 @@ final class PreparedQuery
 					queryService,
 					groupLevel );
 			subQueryMap.put( subquery.getName(), pq);
+			
+			subQueryDefnMap.put( subquery.getName( ), new Object[]{
+					subquery, new Integer( groupLevel )
+			} );
 		}
 	}
 	
@@ -367,6 +374,24 @@ final class PreparedQuery
 				this.exprManager ),
 				executor.getQueryScope( ),
 				executor.getNestedLevel( ) + 1 );
+	}
+	
+	/**
+	 * @param subQueryName
+	 * @return
+	 */
+	ISubqueryDefinition getSubQueryDefn( String subQueryName )
+	{
+		return (ISubqueryDefinition) ( (Object[]) subQueryDefnMap.get( subQueryName ) )[0];
+	}
+	
+	/**
+	 * @param subQueryName
+	 * @return
+	 */
+	int getSubQueryLevel( String subQueryName )
+	{
+		return ( (Integer) ( (Object[]) subQueryDefnMap.get( subQueryName ) )[1] ).intValue( );
 	}
 	
 	/**

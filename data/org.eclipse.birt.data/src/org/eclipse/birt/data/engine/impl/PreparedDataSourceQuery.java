@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -54,13 +55,7 @@ abstract class PreparedDataSourceQuery
 		assert queryDefn != null;
 		
 		if ( queryDefn.getQueryResultsID( ) != null )
-		{
-			if( (queryDefn.getGroups()== null || queryDefn.getGroups().size() == 0) 
-					&& (queryDefn.getSubqueries( )== null||queryDefn.getSubqueries( ).size( ) == 0))
-				return new PreparedIVQuery( dataEngine, queryDefn );
-			else 
-				return new PreparedIVDataSourceQuery(dataEngine,queryDefn, null, null);
-		}
+			return PreparedIVQuery.newInstance( dataEngine, queryDefn );
 		
 		IBaseDataSetDesign dset = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
 		if ( dset == null )
@@ -109,10 +104,11 @@ abstract class PreparedDataSourceQuery
 
 		return preparedQuery;
 	}
-		
-	private DataEngineImpl dataEngine;
-	private IQueryDefinition queryDefn;
-	private IBaseDataSetDesign dataSetDesign;	
+	
+	private IBaseDataSetDesign dataSetDesign;
+	
+	protected DataEngineImpl dataEngine;
+	protected IQueryDefinition queryDefn;
 	protected PreparedQuery preparedQuery;
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
@@ -136,6 +132,32 @@ abstract class PreparedDataSourceQuery
 				dataEngine.getExpressionCompiler( ),
 				dataEngine.getSharedScope( ),
 				queryDefn,
+				this,
+				appContext );
+	}
+	
+	/**
+	 * @param dataEngine
+	 * @param baseQueryDefn
+	 * @param queryDefn
+	 * @param dataSetDesign
+	 * @param appContext
+	 * @throws DataException
+	 */
+	PreparedDataSourceQuery( DataEngineImpl dataEngine,
+			IBaseQueryDefinition baseQueryDefn, IQueryDefinition queryDefn,
+			IBaseDataSetDesign dataSetDesign,
+			Map appContext )
+			throws DataException
+	{
+		this.dataSetDesign = dataSetDesign;
+		this.queryDefn = queryDefn;
+		this.dataEngine = dataEngine;
+		
+		preparedQuery = new PreparedQuery( dataEngine.getContext( ),
+				dataEngine.getExpressionCompiler( ),
+				dataEngine.getSharedScope( ),
+				baseQueryDefn,
 				this,
 				appContext );
 	}

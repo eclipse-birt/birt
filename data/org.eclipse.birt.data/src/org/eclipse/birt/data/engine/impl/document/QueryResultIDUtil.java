@@ -110,6 +110,8 @@ public class QueryResultIDUtil
 	{
 		if ( _1partQueryResultID == null )
 			return _2partQueryResultID;
+		else if ( _2partQueryResultID == null )
+			return _1partQueryResultID;
 		else
 			return _1partQueryResultID
 					+ STREAM_ID_SEPARATOR + _2partQueryResultID;

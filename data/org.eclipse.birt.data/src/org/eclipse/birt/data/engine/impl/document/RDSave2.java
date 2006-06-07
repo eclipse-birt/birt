@@ -53,6 +53,7 @@ class RDSave2 extends RDSave implements IRDSave
 	public void saveFinish( int currIndex ) throws DataException
 	{
 		this.saveUtilHelper.saveFilterInfo( );
+		this.saveUtilHelper.saveGroupInfo( );
 		this.saveUtilHelper.appendSelfToRoot( );
 	}
 

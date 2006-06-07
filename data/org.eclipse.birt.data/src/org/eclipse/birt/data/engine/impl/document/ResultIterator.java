@@ -46,41 +46,20 @@ class ResultIterator implements IResultIterator
 	
 	// expression data result set
 	private ExprResultSet exprResultSet;
-
-	private int[] validIndex;
-	/**
-	 * @param context
-	 * @param queryResults
-	 * @param queryResultID
-	 * @throws DataException
-	 */
-	public ResultIterator( DataEngineContext context,
-			IQueryResults queryResults, String queryResultID )
-			throws DataException
-	{
-		this( context, queryResults, queryResultID, null, -1, null );
-	}
 	
 	/**
 	 * @param context
 	 * @param queryResults
 	 * @param queryResultID
-	 * @param subQueryName
-	 * @param currParentIndex
-	 * @throws DataException
+	 * @throws DataException 
 	 */
-	ResultIterator( DataEngineContext context, IQueryResults queryResults,
-			String queryResultID, String subQueryName, int currParentIndex )
+	ResultIterator( DataEngineContext context,
+			IQueryResults queryResults, String queryResultID )
 			throws DataException
 	{
-		this( context,
-				queryResults,
-				queryResultID,
-				subQueryName,
-				currParentIndex,
-				null );
+		this( context, queryResults, queryResultID, null, -1 );
 	}
-
+	
 	/**
 	 * @param context
 	 * @param queryResults
@@ -91,8 +70,8 @@ class ResultIterator implements IResultIterator
 	 * @throws DataException
 	 */
 	ResultIterator( DataEngineContext context, IQueryResults queryResults,
-			String queryResultID, String subQueryName, int currParentIndex,
-			int[] validIndex ) throws DataException
+			String queryResultID, String subQueryName, int currParentIndex )
+			throws DataException
 	{
 		super( );
 
@@ -105,8 +84,7 @@ class ResultIterator implements IResultIterator
 		this.subQueryName = subQueryName;
 
 		this.currParentIndex = currParentIndex;
-
-		this.validIndex = validIndex;
+		
 		this.prepare( );
 	}
 
@@ -161,29 +139,9 @@ class ResultIterator implements IResultIterator
 	 */
     public boolean next( ) throws DataException
 	{
-		if ( this.validIndex != null )
-		{
-			while ( this.exprResultSet.next( ) )
-			{
-				if ( isValidRowId( this.exprResultSet.getCurrentIndex( ) ) )
-					return true;
-			}
-			return false;
-		}
-		return this.exprResultSet.next( );
+    	return this.exprResultSet.next( );
 	}
-
-	//TODO
-	private boolean isValidRowId( int id )
-	{
-		for ( int i = 0; i < this.validIndex.length; i++ )
-		{
-			if ( id == this.validIndex[i] )
-				return true;
-		}
-		return false;
-	}
-
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getValue(java.lang.String)
 	 */
@@ -355,7 +313,7 @@ class ResultIterator implements IResultIterator
 	/**
 	 * @param subQueryName
 	 */
-	public void setSubQueryName( String subQueryName )
+	void setSubQueryName( String subQueryName )
 	{
 		this.subQueryName = subQueryName;
 	}

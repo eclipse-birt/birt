@@ -14,17 +14,14 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
@@ -47,16 +44,20 @@ import org.mozilla.javascript.Scriptable;
  * When query is applied with a different group from the original group, this
  * instance will be used to regenerate the query result.
  */
-public class PreparedIVDataSourceQuery extends PreparedDataSourceQuery 
+class PreparedIVDataSourceQuery extends PreparedDataSourceQuery 
 {
 	private DataEngineImpl engine;
 	private IQueryDefinition queryDefn;
 	
+	/**
+	 * @param dataEngine
+	 * @param queryDefn
+	 * @throws DataException
+	 */
 	PreparedIVDataSourceQuery( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign,
-			Map appContext ) throws DataException
+			IQueryDefinition queryDefn ) throws DataException
 	{
-		super( dataEngine, queryDefn, dataSetDesign, appContext );
+		super( dataEngine, queryDefn, null, null );
 		this.queryDefn = queryDefn;
 		this.engine = dataEngine;
 	}	
@@ -128,7 +129,7 @@ public class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		 */
 		protected DataSetRuntime newDataSetRuntime( ) throws DataException
 		{
-			 dSruntime = new DataSetRuntime( new IVDataSetDesign(),
+			 dSruntime = new DataSetRuntime( NewInstanceHelper.newIVDataSetDesign( ),
 					this );
 			
 			return dSruntime;
@@ -237,89 +238,6 @@ public class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		
 	}
 	
-	/**
-	 * 
-	 *
-	 */
-	private class IVDataSetDesign implements IBaseDataSetDesign
-	{
-		List computedColumns = new ArrayList();
-		public String getName() 
-		{
-			return null;
-		}
-
-		public int getCacheRowCount() 
-		{
-			return 0;
-		}
-
-		public boolean needDistinctValue() 
-		{
-			return false;
-		}
-
-		public String getDataSourceName() 
-		{
-			return null;
-		}
-
-		public List getComputedColumns() 
-		{
-			return this.computedColumns;
-		}
-
-		public List getFilters() 
-		{
-			return null;
-		}
-
-		public List getParameters() 
-		{
-			return null;
-		}
-
-		public List getResultSetHints() 
-		{
-			return null;
-		}
-
-		public Collection getInputParamBindings() 
-		{
-			return null;
-		}
-
-		public String getBeforeOpenScript() 
-		{
-			return null;
-		}
-
-		public String getAfterOpenScript() 
-		{
-			return null;
-		}
-
-		public String getOnFetchScript() 
-		{
-			return null;
-		}
-
-		public String getBeforeCloseScript() 
-		{
-			return null;
-		}
-
-		public String getAfterCloseScript() 
-		{
-			return null;
-		}
-
-		public IBaseDataSetEventHandler getEventHandler() 
-		{
-			return null;
-		}
-		
-	}
 }
 
 
