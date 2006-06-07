@@ -188,10 +188,6 @@ public final class ChartReportItemImpl extends ReportItem implements
 		this.oDesignerRepresentation = oDesignerRepresentation;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final Object getDesignerRepresentation( )
 	{
 		return oDesignerRepresentation;
@@ -211,9 +207,9 @@ public final class ChartReportItemImpl extends ReportItem implements
 			{
 				return SerializerImpl.instance( ).asXml( cm, true );
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
-				e.printStackTrace( );
+				logger.log( e );
 				return new ByteArrayOutputStream( );
 			}
 		}
@@ -497,7 +493,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 	protected boolean isJavaClassName( String string )
 	{
-		return ( string.matches( "\\w+(\\.\\w*)*" ) );
+		return ( string.matches( "\\w+(\\.\\w*)*" ) ); //$NON-NLS-1$
 	}
 
 	/*
@@ -541,7 +537,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 	public final IReportItem copy( )
 	{
 		final ChartReportItemImpl crii = new ChartReportItemImpl( handle );
-		crii.cm = (Chart) EcoreUtil.copy( cm );
+		crii.cm = cm == null ? null : (Chart) EcoreUtil.copy( cm );
 		return crii;
 	}
 
