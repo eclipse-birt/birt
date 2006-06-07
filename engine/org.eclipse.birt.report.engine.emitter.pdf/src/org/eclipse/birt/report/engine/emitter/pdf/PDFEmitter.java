@@ -40,6 +40,7 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
@@ -53,6 +54,7 @@ import org.eclipse.birt.report.engine.layout.util.PropertyUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.w3c.dom.css.CSSPrimitiveValue;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
@@ -406,12 +408,50 @@ public class PDFEmitter implements IAreaVisitor
 		drawBackgroundColor( bc, 0, pageHeight, pageWidth, pageHeight );
 		
 		//Draws background image for the new page. if the background image is NOT set, draw nothing.
+		drawBackgroundImage(page.getStyle(), 0, pageHeight, pageWidth, pageHeight);
+	}
+	/**
+	 * draw background image for the container
+	 * @param containerStyle   the style of the container we draw background image for
+	 * @param startX           the absolute horizontal position of the container
+	 * @param startY		   the absolute vertical position of the container
+	 * @param width            container width
+	 * @param height           container height
+	 */
+	private void drawBackgroundImage(IStyle containerStyle, float startX, float startY, float width, float height)
+	{
 		String bi = PropertyUtil.getBackgroundImage(
-        		page.getStyle().getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE));
-		drawBackgroundImage( bi, 0, pageHeight, pageWidth, pageHeight, 
-				PropertyUtil.getPercentageValue(page.getStyle().getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
-				PropertyUtil.getPercentageValue(page.getStyle().getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
-				page.getStyle().getBackgroundRepeat());
+				containerStyle.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE));
+		FloatValue positionValX = (FloatValue)containerStyle.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X);
+		FloatValue positionValY = (FloatValue)containerStyle.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y);
+		
+		if(bi == null || positionValX == null || positionValY == null)
+			return;
+		boolean xMode, yMode;
+		float positionX,positionY;
+		if( positionValX.getPrimitiveType() == CSSPrimitiveValue.CSS_PERCENTAGE)
+		{
+			positionX = PropertyUtil.getPercentageValue(positionValX);
+			xMode = true;
+		}
+		else
+		{
+			positionX = pdfMeasure( PropertyUtil.getDimensionValue(positionValX) );
+			xMode = false;
+		}
+		if(positionValY.getPrimitiveType() == CSSPrimitiveValue.CSS_PERCENTAGE)
+		{
+			positionY = PropertyUtil.getPercentageValue(positionValY);
+			yMode = true;
+		}
+		else
+		{
+			positionY = pdfMeasure( PropertyUtil.getDimensionValue(positionValY) );
+			yMode = false;
+		}
+		
+		drawBackgroundImage(bi, startX, startY, width, height,
+				positionX, positionY, containerStyle.getBackgroundRepeat(), xMode, yMode);
 	}
 
 	private class BorderInfo
@@ -465,16 +505,8 @@ public class PDFEmitter implements IAreaVisitor
 		float width = pdfMeasure(container.getWidth());
 		float height = pdfMeasure(container.getHeight());
 		
-		// Draws background color for the container, if the backgound color is NOT set, draw nothing.
-		Color bc = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR));
-		drawBackgroundColor( bc, startX, startY, width, height );
-		
 		// Draws background image for the container. if the background image is NOT set, draw nothing.
-		String bi = PropertyUtil.getBackgroundImage(style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE));
-		drawBackgroundImage( bi, startX, startY, width, height,
-				PropertyUtil.getPercentageValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
-				PropertyUtil.getPercentageValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
-				style.getBackgroundRepeat() );
+		drawBackgroundImage(style, startX, startY, width, height);
 		
 		// the width of each border
 		int borderTopWidth = PropertyUtil.getDimensionValue(
@@ -893,6 +925,148 @@ public class PDFEmitter implements IAreaVisitor
 		cbUnder.restoreState();
 	}
 	
+	private final class tplValueTriple
+	{
+		private final float tplOrigin;
+		private final float tplSize;
+		private final float translation;
+		public tplValueTriple(final float val1, final float val2, final float val3)
+		{
+			tplOrigin = val1;
+			tplSize = val2;
+			translation = val3;
+		}
+		float getTplOrigin()
+		{
+			return tplOrigin;
+		}
+		
+		float getTplSize()
+		{
+			return tplSize;
+		}
+		
+		float getTranslation()
+		{
+			return translation;
+		}
+		
+	}
+	/**
+	 * 
+	 * @param absPos
+	 *            the vertical position relative to its containing box
+	 * @param containerBaseAbsPos
+	 *            the absolute position of the container's top
+	 * @param containerSize
+	 *            container height
+	 * @param ImageSize
+	 *            the height of template which image lies in
+	 * @return a triple(the vertical position of template's left-bottom origin,
+	 *         template height, and image's vertical translation relative to the template )
+	 */
+	
+	private tplValueTriple computeTplVerticalValTriple(float absPos, float containerBaseAbsPos, float containerSize, float ImageSize)
+	{
+		float tplOrigin = 0.0f, tplSize = 0.0f, translation = 0.0f;
+		if(absPos <= 0)
+		{
+			if(ImageSize + absPos > 0 && ImageSize + absPos <= containerSize)
+			{
+				tplOrigin = containerBaseAbsPos - ImageSize - absPos;
+				tplSize = ImageSize + absPos;
+			}
+			else if(ImageSize + absPos > containerSize)
+			{
+				tplOrigin = containerBaseAbsPos - containerSize;
+				tplSize = containerSize;
+			}
+			else
+			{
+				//never draw
+			}
+			translation = 0;
+		}
+		else if(absPos >= containerSize)
+		{
+			//never draw
+		}
+		else
+		{
+			if(ImageSize + absPos <= containerSize)
+			{
+				tplOrigin = containerBaseAbsPos - ImageSize - absPos;
+				tplSize = ImageSize;
+				translation = 0.0f;
+			}
+			else
+			{
+				tplOrigin = containerBaseAbsPos - containerSize; 
+				tplSize = containerSize - absPos;
+				translation =  containerSize - absPos - ImageSize;
+			}
+			
+		}
+		return new tplValueTriple(tplOrigin, tplSize, translation);
+	}
+	
+	
+	/**
+	 * 
+	 * @param absPos
+	 *            the horizontal position relative to its containing box
+	 * @param containerBaseAbsPos
+	 *            the absolute position of the container's left side
+	 * @param containerSize
+	 *            container width
+	 * @param ImageSize
+	 *            the width of template which image lies in
+	 * @return a triple(the horizontal position of template's left-bottom origin,
+	 *         template width, and image's horizontal translation relative to the template )
+	 */
+	private tplValueTriple computeTplHorizontalValPair(float absPos, float containerBaseAbsPos, float containerSize, float ImageSize)
+	{
+		float tplOrigin = 0.0f, tplSize = 0.0f, translation = 0.0f;
+		if(absPos <= 0)
+		{
+			if(ImageSize + absPos > 0 && ImageSize + absPos <= containerSize)
+			{
+				tplOrigin = containerBaseAbsPos;
+				tplSize = ImageSize + absPos;
+			}
+			else if(ImageSize + absPos > containerSize)
+			{
+				tplOrigin = containerBaseAbsPos;
+				tplSize = containerSize;
+			}
+			else
+			{
+				//never create template
+			}
+			translation = absPos;
+		}
+		else if(absPos >= containerSize)
+		{
+			//	never create template
+		}
+		else
+		{
+			if(ImageSize + absPos <= containerSize)
+			{
+				tplOrigin = containerBaseAbsPos + absPos;
+				tplSize = ImageSize;
+			}
+			else
+			{
+				tplOrigin = containerBaseAbsPos + absPos; 
+				tplSize = containerSize - absPos;
+			}
+			translation = 0.0f;
+		}
+		return new tplValueTriple(tplOrigin, tplSize, translation);
+	
+	}
+	
 	/**
 	 * Draws the backgound image at the contentByteUnder of the pdf with the given offset
 	 * @param imageURI		the URI referring the image
@@ -903,228 +1077,245 @@ public class PDFEmitter implements IAreaVisitor
 	 * @param positionX		the offset X percentage relating to start X
 	 * @param positionY		the offset Y percentage relating to start Y
 	 * @param repeat		the background-repeat property
+	 * @param xMode			whether the horizontal position is a percentage value or not
+	 * @param yMode			whether the vertical position is a percentage value or not
 	 */
-	private void drawBackgroundImage(String imageURI, float x, float y, 
-			float width, float height, float positionX, float positionY, String repeat)
-	{
-		// If the image URI is empty, ignore it.
-		if ( null == imageURI )
-		{
+	private void drawBackgroundImage(String imageURI, float x, float y,
+			float width, float height, float positionX, float positionY,
+			String repeat, boolean xMode, boolean yMode) {
+		// the image URI is empty, ignore it.
+		if (null == imageURI) {
 			return;
 		}
-		
+
 		String id = imageURI;
-		if (reportDesign != null)
-		{
-			URL url = reportDesign.findResource(imageURI, IResourceLocator.IMAGE);
-			if (url != null)
-			{
+		if (reportDesign != null) {
+			URL url = reportDesign.findResource(imageURI,
+					IResourceLocator.IMAGE);
+			if (url != null) {
 				id = url.toExternalForm();
 			}
 		}
-		
-		if(id==null || "".equals(id)) //$NON-NLS-1$
+
+		if (id == null || "".equals(id)) //$NON-NLS-1$
 		{
 			return;
 		}
-		
-		// If the background-repeat property is empty, use "repeat" as the default.
-		if ( null == repeat)
-		{
+
+		// the background-repeat property is empty, use "repeat".
+		if (null == repeat) {
 			repeat = "repeat"; //$NON-NLS-1$
 		}
 		cbUnder.saveState();
 		Image img = null;
-		try
-		{
+		try {
 			img = Image.getInstance(id);
-			float absPosX = (width - img.scaledWidth()) * positionX;
-			float absPosY = (height - img.scaledHeight()) * positionY;
-			//"no-repeat":
+			float absPosX,absPosY;
+			if( xMode )
+			{
+				absPosX = (width - img.scaledWidth()) * positionX;
+			}
+			else
+			{
+				absPosX = positionX;
+			}
+			if(yMode)
+			{
+				absPosY = (height - img.scaledHeight()) * positionY;
+			}
+			else
+			{
+				absPosY = positionY;
+			}
+			// "no-repeat":
 			if ("no-repeat".equalsIgnoreCase(repeat)) //$NON-NLS-1$
 			{
-				if (height-absPosY>img.scaledHeight())
-				{
-					PdfTemplate templateWhole = cbUnder.createTemplate(
-							width-absPosX>img.scaledWidth() ? img.scaledWidth() : width-absPosX, img.scaledHeight());
-					templateWhole.addImage(img, img.scaledWidth(), 0, 0, img.scaledHeight(), 0, 0);
-					cbUnder.addTemplate(templateWhole, x+absPosX, y-absPosY-img.scaledHeight());
-				}
-				else
-				{
-					PdfTemplate templateWhole = cbUnder.createTemplate(
-							width-absPosX>img.scaledWidth() ? img.scaledWidth() : width-absPosX, 
-							absPosY>0 ? height-absPosY: height );
-					templateWhole.addImage(img, img.scaledWidth(), 0, 0, img.scaledHeight(), 
-							0, -img.scaledHeight()+height-absPosY);
-					cbUnder.addTemplate(templateWhole, x+absPosX, y-height);
-				}
+				tplValueTriple triple = computeTplHorizontalValPair(absPosX, x, width, img.scaledWidth());
+				float tplOriginX = triple.getTplOrigin();
+				float tplWidth = triple.getTplSize();
+				float translationX = triple.getTranslation();
+				triple = computeTplVerticalValTriple(absPosY, y, height, img.scaledHeight());
+				float tplOrininY = triple.getTplOrigin();
+				float tplHeight = triple.getTplSize();
+				float translationY = triple.getTranslation();
+				
+				PdfTemplate templateWhole = cbUnder.createTemplate(tplWidth, tplHeight);
+				templateWhole.addImage(img, img.scaledWidth(), 0, 0, img.scaledHeight(), translationX, translationY);
+				cbUnder.addTemplate(templateWhole, tplOriginX, tplOrininY);
+				
 			}
-			//"repeat-x":
+			// "repeat-x":
 			else if ("repeat-x".equalsIgnoreCase(repeat)) //$NON-NLS-1$
 			{
 				float remainX = width;
 				PdfTemplate template = null;
-				//If the width of the container is smaller than the scaled image width,
-				//the repeat will never happen. So it is not necessary to build a 
-				//template for futher usage.
-				if (width > img.scaledWidth())
-				{
-					if (height-absPosY > img.scaledHeight())
-					{
-						template = cbUnder.createTemplate(img.scaledWidth(), img.scaledHeight());
-						template.addImage(img, img.scaledWidth(), 0, 0, img.scaledHeight(), 0, 0);
-					}
-					else
-					{
-						template = cbUnder.createTemplate(img.scaledWidth(), height);
-						template.addImage(img, img.scaledWidth(), 0, 0, img.scaledHeight(), 
-								0, -img.scaledHeight()+height);
+				// If the width of the container is smaller than the scaled
+				// image width,
+				// the repeat will never happen. So it is not necessary to build
+				// a
+				// template for futher usage.
+				if (width > img.scaledWidth()) {
+					if (height - absPosY > img.scaledHeight()) {
+						template = cbUnder.createTemplate(img.scaledWidth(),
+								img.scaledHeight());
+						template.addImage(img, img.scaledWidth(), 0, 0, img
+								.scaledHeight(), 0, 0);
+					} else {
+						template = cbUnder.createTemplate(img.scaledWidth(),
+								height);
+						template.addImage(img, img.scaledWidth(), 0, 0, img
+								.scaledHeight(), 0, -img.scaledHeight()
+								+ height);
 					}
 				}
-				while ( remainX > 0 )
-				{
-					if(remainX<img.scaledWidth())
-					{
-						
-						if (height-absPosY>img.scaledHeight())
-						{
-							PdfTemplate templateX = cbUnder.createTemplate(remainX, img.scaledHeight());
-							templateX.addImage(img, img.scaledWidth(), 0, 0, img.scaledHeight(), 0, 0);
-							cbUnder.addTemplate(templateX, x+width-remainX, y-absPosY-img.scaledHeight());
+				while (remainX > 0) {
+					if (remainX < img.scaledWidth()) {
+
+						if (height - absPosY > img.scaledHeight()) {
+							PdfTemplate templateX = cbUnder.createTemplate(
+									remainX, img.scaledHeight());
+							templateX.addImage(img, img.scaledWidth(), 0, 0,
+									img.scaledHeight(), 0, 0);
+							cbUnder.addTemplate(templateX, x + width - remainX,
+									y - absPosY - img.scaledHeight());
+						} else {
+							PdfTemplate templateX = cbUnder.createTemplate(
+									remainX, height);
+							templateX.addImage(img, img.scaledWidth(), 0, 0,
+									img.scaledHeight(), 0, -img.scaledHeight()
+											+ height - absPosY);
+							cbUnder.addTemplate(templateX, x + width - remainX,
+									y - absPosY - height);
 						}
+						remainX = 0;
+					} else {
+						if (height - absPosY > img.scaledHeight())
+							cbUnder.addTemplate(template, x + width - remainX,
+									y - absPosY - img.scaledHeight());
 						else
-						{
-							PdfTemplate templateX = cbUnder.createTemplate(remainX, height);
-							templateX.addImage(img, img.scaledWidth(), 0, 0, 
-									img.scaledHeight(), 0, -img.scaledHeight()+height-absPosY);
-							cbUnder.addTemplate(templateX, x+width-remainX, y-absPosY-height);
-						}
-						remainX=0;
-					}
-					else
-					{
-						if (height-absPosY>img.scaledHeight())
-							cbUnder.addTemplate(template, x+width-remainX, y-absPosY-img.scaledHeight());
-						else
-							cbUnder.addTemplate(template, x+width-remainX, y-absPosY-height);
-						remainX-=img.scaledWidth();
+							cbUnder.addTemplate(template, x + width - remainX,
+									y - absPosY - height);
+						remainX -= img.scaledWidth();
 					}
 				}
 			}
-			//"repeat-y":
+			// "repeat-y":
 			else if ("repeat-y".equalsIgnoreCase(repeat)) //$NON-NLS-1$
 			{
 				float remainY = height;
-				//If the height of the container is smaller than the scaled image height,
-				//the repeat will never happen. So it is not necessary to build a 
-				//template for futher usage.
+				// If the height of the container is smaller than the scaled
+				// image height,
+				// the repeat will never happen. So it is not necessary to build
+				// a
+				// template for futher usage.
 				PdfTemplate template = null;
-				if (height > img.scaledHeight())
-				{
-					template = cbUnder.createTemplate(
-							width-absPosX>img.scaledWidth() ? img.scaledWidth() : width-absPosX, img.scaledHeight());
-					template.addImage(img, img.scaledWidth(), 0, 0, img.scaledHeight(), 0, 0);
+				if (height > img.scaledHeight()) {
+					template = cbUnder.createTemplate(width - absPosX > img
+							.scaledWidth() ? img.scaledWidth() : width
+							- absPosX, img.scaledHeight());
+					template.addImage(img, img.scaledWidth(), 0, 0, img
+							.scaledHeight(), 0, 0);
 				}
-				while ( remainY > 0 )
-				{
-					if(remainY<img.scaledHeight())
-					{
-						PdfTemplate templateY = cbUnder.createTemplate(
-								width-absPosX>img.scaledWidth() ? img.scaledWidth() : width-absPosX, remainY);
-						templateY.addImage(img, 
-								width>img.scaledWidth() ? img.scaledWidth() : width-absPosX, 0, 0, img.scaledHeight(), 
-								0, -(img.scaledHeight()-remainY));
-						cbUnder.addTemplate(templateY, x+absPosX, y-height);
-						remainY=0;
-					}
-					else
-					{
-						cbUnder.addTemplate(template, x+absPosX, y-height+remainY-img.scaledHeight());
-						remainY-=img.scaledHeight();
+				while (remainY > 0) {
+					if (remainY < img.scaledHeight()) {
+						PdfTemplate templateY = cbUnder.createTemplate(width
+								- absPosX > img.scaledWidth() ? img
+								.scaledWidth() : width - absPosX, remainY);
+						templateY.addImage(img, width > img.scaledWidth() ? img
+								.scaledWidth() : width - absPosX, 0, 0, img
+								.scaledHeight(), 0,
+								-(img.scaledHeight() - remainY));
+						cbUnder.addTemplate(templateY, x + absPosX, y - height);
+						remainY = 0;
+					} else {
+						cbUnder.addTemplate(template, x + absPosX, y - height
+								+ remainY - img.scaledHeight());
+						remainY -= img.scaledHeight();
 					}
 				}
 			}
-			//"repeat":
+			// "repeat":
 			else if ("repeat".equalsIgnoreCase(repeat)) //$NON-NLS-1$
-			{	
+			{
 				float remainX = width;
 				float remainY = height;
 				PdfTemplate template = null;
-				//If the width of the container is smaller than the scaled image width,
-				//the repeat will never happen. So it is not necessary to build a 
-				//template for futher usage.
-				if (width > img.scaledWidth() && height > img.scaledHeight())
-				{
-					template = cbUnder.createTemplate(img.scaledWidth(), img.scaledHeight());
-					template.addImage(img, img.scaledWidth(), 0, 0, img.scaledHeight(), 0, 0);
+				// If the width of the container is smaller than the scaled
+				// image width,
+				// the repeat will never happen. So it is not necessary to build
+				// a
+				// template for futher usage.
+				if (width > img.scaledWidth() && height > img.scaledHeight()) {
+					template = cbUnder.createTemplate(img.scaledWidth(), img
+							.scaledHeight());
+					template.addImage(img, img.scaledWidth(), 0, 0, img
+							.scaledHeight(), 0, 0);
 				}
-				
-				while (remainY > 0)
-				{
+
+				while (remainY > 0) {
 					remainX = width;
-					//the bottom line
-					if (remainY < img.scaledHeight())
-					{
-						while (remainX > 0)
-						{
+					// the bottom line
+					if (remainY < img.scaledHeight()) {
+						while (remainX > 0) {
 							// the right-bottom one
-							if (remainX < img.scaledWidth())
-							{
-								PdfTemplate templateXY = cbUnder.createTemplate(remainX, remainY);
-								templateXY.addImage(img,
-										img.scaledWidth(), 0, 0, img.scaledHeight(), 
-										0, -img.scaledHeight()+remainY);
-								cbUnder.addTemplate(templateXY, x+width-remainX, y-height);
+							if (remainX < img.scaledWidth()) {
+								PdfTemplate templateXY = cbUnder
+										.createTemplate(remainX, remainY);
+								templateXY.addImage(img, img.scaledWidth(), 0,
+										0, img.scaledHeight(), 0, -img
+												.scaledHeight()
+												+ remainY);
+								cbUnder.addTemplate(templateXY, x + width
+										- remainX, y - height);
 								remainX = 0;
 							} else
 							// non-right bottom line
 							{
-								PdfTemplate templateY = cbUnder.createTemplate(img.scaledWidth(),remainY);
-								templateY.addImage(img,
-										img.scaledWidth(), 0, 0, img.scaledHeight(),
-										0, -img.scaledHeight()+remainY);
-								cbUnder.addTemplate(templateY, x+width-remainX, y-height);
+								PdfTemplate templateY = cbUnder.createTemplate(
+										img.scaledWidth(), remainY);
+								templateY.addImage(img, img.scaledWidth(), 0,
+										0, img.scaledHeight(), 0, -img
+												.scaledHeight()
+												+ remainY);
+								cbUnder.addTemplate(templateY, x + width
+										- remainX, y - height);
 								remainX -= img.scaledWidth();
 							}
 						}
 						remainY = 0;
-					}
-					else
-					//non-bottom lines
+					} else
+					// non-bottom lines
 					{
-						while ( remainX > 0 )
-						{
-							//the right ones
-							if(remainX < img.scaledWidth())
-							{
-								PdfTemplate templateX = cbUnder.createTemplate(remainX, img.scaledHeight());
-								templateX.addImage(img, img.scaledWidth(), 0, 0, img.scaledHeight(), 0, 0);
-								cbUnder.addTemplate(templateX, x+width-remainX, y-height+remainY-img.scaledHeight());
-								remainX=0;
-							}
-							else
-							{
-								cbUnder.addTemplate(template, x+width-remainX, y-height+remainY-img.scaledHeight());
-								remainX-=img.scaledWidth();
+						while (remainX > 0) {
+							// the right ones
+							if (remainX < img.scaledWidth()) {
+								PdfTemplate templateX = cbUnder.createTemplate(
+										remainX, img.scaledHeight());
+								templateX.addImage(img, img.scaledWidth(), 0,
+										0, img.scaledHeight(), 0, 0);
+								cbUnder.addTemplate(templateX, x + width
+										- remainX, y - height + remainY
+										- img.scaledHeight());
+								remainX = 0;
+							} else {
+								cbUnder.addTemplate(template, x + width
+										- remainX, y - height + remainY
+										- img.scaledHeight());
+								remainX -= img.scaledWidth();
 							}
 						}
 						remainY -= img.scaledHeight();
 					}
 				}
 			}
-		} catch (IOException ioe)
-		{
-			logger.log( Level.WARNING, ioe.getMessage( ), ioe );
-		} catch (BadElementException bee)
-		{
-			logger.log( Level.WARNING, bee.getMessage( ), bee );
-		} catch (DocumentException de)
-		{
-			logger.log( Level.WARNING, de.getMessage( ), de );
-		} catch (RuntimeException re)
-		{
-			logger.log( Level.WARNING, re.getMessage( ), re );
+		} catch (IOException ioe) {
+			logger.log(Level.WARNING, ioe.getMessage(), ioe);
+		} catch (BadElementException bee) {
+			logger.log(Level.WARNING, bee.getMessage(), bee);
+		} catch (DocumentException de) {
+			logger.log(Level.WARNING, de.getMessage(), de);
+		} catch (RuntimeException re) {
+			logger.log(Level.WARNING, re.getMessage(), re);
 		}
 		cbUnder.restoreState();
 	}
