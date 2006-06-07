@@ -9,13 +9,14 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableColumn;
+import org.eclipse.birt.report.model.elements.TableRow;
 
 /**
  * Provides the insert and paste operation to the column band in the grid/table.
@@ -43,36 +44,11 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 
 	private int targetColumnIndex;
 
-	private ColumnBandData bandData = null;
-
 	List originalCells = null;
 
 	public ColumnBandInsertAction( ColumnBandAdapter adapter )
 	{
 		super( adapter );
-	}
-
-	private ColumnBandData prepareColumnBandData( )
-	{
-		ColumnBandData band = new ColumnBandData( );
-		band.setColumn( new TableColumn( ) );
-
-		List cells = new ArrayList( );
-		List slots = adapter.getRowContainerSlots( );
-		for ( int i = 0; i < slots.size( ); i++ )
-		{
-			SlotHandle slot = (SlotHandle) slots.get( i );
-
-			for ( int j = 0; j < slot.getCount( ); j++ )
-			{
-				RowHandle row = (RowHandle) slot.get( j );
-				cells.add( getCellContextInfo( new Cell( ), row ) );
-			}
-		}
-
-		band.setCells( cells );
-
-		return band;
 	}
 
 	/**
@@ -81,8 +57,9 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 	 * 
 	 * @param columnIndex
 	 *            the column index
-	 * @param data
-	 *            the copied column band data
+	 * @param insertFlag
+	 *            The column insert sign. 1 insert after position. -1 insert
+	 *            before position
 	 * @return <code>true</code> indicates the paste operation can be done.
 	 *         Otherwise <code>false</code>.
 	 */
@@ -94,6 +71,9 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 		targetColumnIndex = columnIndex;
 		if ( insertFlag == INSERT_BEFORE )
 			targetColumnIndex = targetColumnIndex - 1;
+
+		if ( targetColumnIndex > columnCount )
+			targetColumnIndex = columnCount;
 
 		// must be >=, since if the columnIndex == columnCount. It means that
 		// the column band is supposed to be appended at the far right-end of
@@ -112,22 +92,8 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 			originalCells = getCellsContextInfo( adapter
 					.getCellsUnderColumn( targetColumnIndex ) );
 
-			if ( !isRectangleArea( originalCells, 1 ) )
-				return false;
-
 			if ( !isValidInsertAndPasteArea( originalCells ) )
 				return false;
-		}
-
-		bandData = prepareColumnBandData( );
-		List cells = bandData.getCells( );
-		try
-		{
-			isSameLayout( cells, originalCells );
-		}
-		catch ( SemanticException e )
-		{
-			return false;
 		}
 
 		return true;
@@ -138,8 +104,9 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 	 * 
 	 * @param columnIndex
 	 *            the column index
-	 * @param data
-	 *            the copied column band data
+	 * @param insertFlag
+	 *            The column insert sign. 1 insert after position. -1 insert
+	 *            before position
 	 * @return a list containing post-parsing errors. Each element in the list
 	 *         is <code>ErrorDetail</code>.
 	 * @throws SemanticException
@@ -156,18 +123,13 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 					new String[]{adapter.getElementHandle( ).getName( )},
 					SemanticError.DESIGN_EXCEPTION_COLUMN_INSERT_FORBIDDEN );
 
-		TableColumn column = bandData.getColumn( );
-		List cells = bandData.getCells( );
+		TableColumn column = new TableColumn( );
 
+		adapter.getModule( ).getActivityStack( ).startTrans( );
 		try
 		{
-			if ( adapter instanceof TableColumnBandAdapter )
-				adapter.getModule( ).getActivityStack( ).startSilentTrans( );
-			else
-				adapter.getModule( ).getActivityStack( ).startTrans( );
-
 			pasteColumn( column, targetColumnIndex, true );
-			pasteCells( cells, originalCells, targetColumnIndex, true );
+			insertCells( targetColumnIndex );
 		}
 		catch ( SemanticException e )
 		{
@@ -176,7 +138,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 		}
 		adapter.getModule( ).getActivityStack( ).commit( );
 
-		return doPostPasteCheck( column, cells );
+		return Collections.EMPTY_LIST;
 	}
 
 	/**
@@ -209,4 +171,122 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 		return true;
 	}
 
+	/**
+	 * Inserts a new column band to the table/grid. If has a cell with colSpan >
+	 * 1 at the insert position, increases the colSpan.
+	 * 
+	 * @param originalCells
+	 *            a list containing cells that is to be deleted.
+	 * @param columnIndex
+	 *            the column index where copied cells are pasted
+	 * @param isInsert
+	 *            <code>true</code> if this is an insert and paste action.
+	 *            Otherwise <code>false</code>.
+	 * @throws SemanticException
+	 *             if any error occurs during pasting cells.
+	 */
+
+	private void insertCells( int columnIndex ) throws SemanticException
+	{
+
+		int slotCount = adapter.getElementHandle( ).getDefn( ).getSlotCount( );
+
+		// adds the copied cells to the destination.
+
+		for ( int i = 0; i < slotCount; i++ )
+		{
+			SlotHandle slot = adapter.getElementHandle( ).getSlot( i );
+			for ( int j = 0; j < slot.getCount( ); j++ )
+			{
+				DesignElementHandle content = slot.get( j );
+				if ( content instanceof RowHandle )
+				{
+					insertCell( (RowHandle) content, columnIndex );
+				}
+
+				if ( content instanceof GroupHandle )
+				{
+					insertCellsInGroup( (GroupHandle) content, columnIndex );
+				}
+			}
+
+		}
+
+	}
+
+	/**
+	 * Inserts a new cell to the given column position of the given row.
+	 * 
+	 * @param row
+	 *            the table row
+	 * @param columnIndex
+	 *            the 0-based column number
+	 * @throws SemanticException
+	 */
+
+	private void insertCell( RowHandle row, int columnIndex )
+			throws SemanticException
+	{
+		assert row != null;
+
+		// get correct insertion position information
+
+		int pos;
+		if ( columnIndex == 0 )
+			pos = 0;
+		else if ( columnIndex == adapter.getColumnCount( ) - 1 )
+			pos = -1;
+		else
+		{
+			CellHandle cell = adapter.findCell( row, columnIndex );
+			if ( cell == null )
+				return;
+
+			if ( cell.getColumnSpan( ) != 1 )
+			{
+				cell.setColumnSpan( cell.getColumnSpan( ) + 1 );
+				return;
+			}
+
+			pos = cell.getContainerSlotHandle( ).findPosn( cell ) + 1;
+		}
+
+		if ( pos != -1 )
+			row.addElement( new Cell( ).getHandle( adapter.getModule( ) ),
+					TableRow.CONTENT_SLOT, pos );
+		else
+			row.addElement( new Cell( ).getHandle( adapter.getModule( ) ),
+					TableRow.CONTENT_SLOT );
+
+	}
+
+	/**
+	 * Inserts a new cell to the given column position of rows in the given
+	 * gruop.
+	 * 
+	 * @param group
+	 *            the table group
+	 * @param columnIndex
+	 *            the 0-based column number
+	 * @throws SemanticException
+	 */
+	
+	private void insertCellsInGroup( GroupHandle group, int columnIndex )
+			throws SemanticException
+	{
+		assert group != null;
+
+		int slotCount = group.getDefn( ).getSlotCount( );
+		for ( int i = 0; i < slotCount; i++ )
+		{
+			SlotHandle slot = group.getSlot( i );
+
+			for ( int j = 0; j < slot.getCount( ); j++ )
+			{
+				DesignElementHandle content = slot.get( j );
+				if ( content instanceof RowHandle )
+					insertCell( (RowHandle) content, columnIndex );
+			}
+		}
+	}
 }
