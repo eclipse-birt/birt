@@ -83,6 +83,11 @@ public final class DesignerRepresentation extends Figure
 	/**
 	 * 
 	 */
+	private transient boolean bRtL;
+
+	/**
+	 * 
+	 */
 	private transient boolean bDirty = true;
 
 	/**
@@ -108,6 +113,8 @@ public final class DesignerRepresentation extends Figure
 	 */
 	DesignerRepresentation( ChartReportItemImpl crii )
 	{
+		bRtL = ReportItemUIUtil.isRtl( );
+
 		this.crii = crii;
 		if ( crii != null )
 		{
@@ -329,6 +336,10 @@ public final class DesignerRepresentation extends Figure
 				RunTimeContext rtc = new RunTimeContext( );
 				rtc.setScriptingEnabled( false );
 				rtc.setMessageLookup( new BIRTDesignerMessageLookup( crii.getHandle( ) ) );
+				if ( bRtL )
+				{
+					rtc.setRightToLeft( bRtL );
+				}
 				gr.render( idr,
 						gr.build( idr.getDisplayServer( ),
 								cm,

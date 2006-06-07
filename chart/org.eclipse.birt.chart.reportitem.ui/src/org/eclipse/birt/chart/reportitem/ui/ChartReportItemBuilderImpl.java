@@ -57,9 +57,8 @@ import com.ibm.icu.text.NumberFormat;
 /**
  * ChartReportItemBuilderImpl
  */
-public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
-		implements
-			IUIServiceProvider
+public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
+		IUIServiceProvider
 {
 
 	private static int iInstanceCount = 0;
@@ -204,11 +203,13 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 				ChartWizardContext context = new ChartWizardContext( cmClone );
 				context.setUIServiceProvider( this );
 				context.setDataServiceProvider( new ReportDataServiceProvider( eih ) );
+				context.setRtL( ReportItemUIUtil.isRtl( ) );
 				Object of = eih.getProperty( "outputFormat" ); //$NON-NLS-1$
 				if ( of instanceof String )
 				{
-					// GIF is deprecated in favor of PNG. Automatically update model
-					if (of.equals( "GIF" )) //$NON-NLS-1$
+					// GIF is deprecated in favor of PNG. Automatically update
+					// model
+					if ( of.equals( "GIF" ) ) //$NON-NLS-1$
 					{
 						context.setOutputFormat( "PNG" ); //$NON-NLS-1$
 					}
@@ -367,7 +368,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 	public final String getValue( String sKey )
 	{
 		String value = extendedHandle.getModuleHandle( ).getMessage( sKey );
-		if ( value == null || value.equals("" ) ) //$NON-NLS-1$
+		if ( value == null || value.equals( "" ) ) //$NON-NLS-1$
 		{
 			return sKey;
 		}
@@ -445,7 +446,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 		{
 			case IUIServiceProvider.COMMAND_EXPRESSION :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-						| SWT.RESIZE | SWT.APPLICATION_MODAL );
+						| SWT.RESIZE
+						| SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EXPRESSION_BUILDER );
 				eb = new ExpressionBuilder( shell, value );
@@ -484,7 +486,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 				break;
 			case IUIServiceProvider.COMMAND_HYPERLINK :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-						| SWT.RESIZE | SWT.APPLICATION_MODAL );
+						| SWT.RESIZE
+						| SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EDIT_URL );
 				HyperlinkBuilder hb = new HyperlinkBuilder( shell );

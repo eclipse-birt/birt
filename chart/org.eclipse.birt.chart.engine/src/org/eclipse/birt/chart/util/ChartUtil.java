@@ -56,7 +56,7 @@ public class ChartUtil
 
 	/**
 	 * Returns if the given two double values are equal within a small
-	 * precision, e.g. EPS=1E-10.
+	 * precision.
 	 * 
 	 * @param v1
 	 * @param v2
@@ -68,8 +68,21 @@ public class ChartUtil
 	}
 
 	/**
+	 * Returns if the given two double values are not equal within a small
+	 * precision.
+	 * 
+	 * @param v1
+	 * @param v2
+	 * @return
+	 */
+	public static final boolean mathNE( double v1, double v2 )
+	{
+		return Math.abs( v1 - v2 ) >= EPS;
+	}
+
+	/**
 	 * Returns if the given left double value is less than the given right value
-	 * within a small precision, e.g. EPS=1E-10.
+	 * within a small precision.
 	 * 
 	 * @param v1
 	 * @param v2
@@ -81,8 +94,21 @@ public class ChartUtil
 	}
 
 	/**
+	 * Returns if the given left double value is less than or equals to the
+	 * given right value within a small precision.
+	 * 
+	 * @param v1
+	 * @param v2
+	 * @return
+	 */
+	public static final boolean mathLE( double lv, double rv )
+	{
+		return ( rv - lv ) > EPS || Math.abs( lv - rv ) < EPS;
+	}
+
+	/**
 	 * Returns if the given left double value is greater than the given right
-	 * value within a small precision, e.g. EPS=1E-10.
+	 * value within a small precision.
 	 * 
 	 * @param v1
 	 * @param v2
@@ -91,6 +117,19 @@ public class ChartUtil
 	public static final boolean mathGT( double lv, double rv )
 	{
 		return ( lv - rv ) > EPS;
+	}
+
+	/**
+	 * Returns if the given left double value is greater than or equals to the
+	 * given right value within a small precision.
+	 * 
+	 * @param lv
+	 * @param rv
+	 * @return
+	 */
+	public static final boolean mathGE( double lv, double rv )
+	{
+		return ( lv - rv ) > EPS || Math.abs( lv - rv ) < EPS;
 	}
 
 	/**

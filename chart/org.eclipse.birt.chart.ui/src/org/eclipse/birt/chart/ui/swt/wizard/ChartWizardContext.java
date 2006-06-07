@@ -37,6 +37,7 @@ public class ChartWizardContext implements IWizardContext
 	private transient IDataServiceProvider dataProvider;
 	private transient IStyleProcessor processor;
 	private transient boolean isMoreAxesSupported;
+	private transient boolean isRtL;
 
 	public ChartWizardContext( Chart chartModel )
 	{
@@ -170,5 +171,23 @@ public class ChartWizardContext implements IWizardContext
 	public boolean isMoreAxesSupported( )
 	{
 		return isMoreAxesSupported;
+	}
+
+	/**
+	 * @return Returns if RtL flag is set.
+	 */
+	public boolean isRtL( )
+	{
+		return isRtL;
+	}
+
+	/**
+	 * Sets RtL flag.
+	 * 
+	 * @param isRtL
+	 */
+	public void setRtL( boolean isRtL )
+	{
+		this.isRtL = isRtL;
 	}
 }
