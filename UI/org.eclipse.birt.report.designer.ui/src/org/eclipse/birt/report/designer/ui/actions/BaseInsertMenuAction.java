@@ -154,63 +154,44 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 							.getActiveWorkbenchWindow( )
 							.getPartService( )
 							.getActivePart( );
-
+					IEditorPart epart = null;
 					if ( part instanceof AbstractMultiPageEditor )
 					{
-						IEditorPart epart = ( (AbstractMultiPageEditor) part ).getActivePageInstance( );
-
-						if ( epart instanceof GraphicalEditorWithFlyoutPalette )
-						{
-							GraphicalViewer viewer = ( (GraphicalEditorWithFlyoutPalette) epart ).getGraphicalViewer( );
-							Object cpart = viewer.getEditPartRegistry( )
-									.get( element );
-
-							if ( cpart instanceof EditPart )
-							{
-								viewer.flush( );
-								viewer.select( (EditPart) cpart );
-							}
-
-							if ( edit && cpart instanceof LabelEditPart )
-							{
-								( (LabelEditPart) cpart ).performDirectEdit( );
-							}
-						}
+						epart = ( (AbstractMultiPageEditor) part ).getActivePageInstance( );
 					}
 					else if ( part instanceof IReportEditor )
 					{
 						IEditorPart activeEditor = ( (IReportEditor) part ).getEditorPart( );
 						if ( activeEditor instanceof AbstractMultiPageEditor )
 						{
-							IEditorPart epart = ( (AbstractMultiPageEditor) activeEditor ).getActivePageInstance( );
+							epart = ( (AbstractMultiPageEditor) activeEditor ).getActivePageInstance( );
+						}
+					}
 
-							if ( epart instanceof GraphicalEditorWithFlyoutPalette )
-							{
-								GraphicalViewer viewer = ( (GraphicalEditorWithFlyoutPalette) epart ).getGraphicalViewer( );
-								Object cpart = viewer.getEditPartRegistry( )
-										.get( element );
+					if ( epart instanceof GraphicalEditorWithFlyoutPalette )
+					{
+						GraphicalViewer viewer = ( (GraphicalEditorWithFlyoutPalette) epart ).getGraphicalViewer( );
+						Object cpart = viewer.getEditPartRegistry( )
+								.get( element );
 
-								if ( cpart instanceof EditPart )
-								{
-									viewer.flush( );
-									viewer.select( (EditPart) cpart );
-								}
+						if ( cpart instanceof EditPart )
+						{
+							viewer.flush( );
+							viewer.select( (EditPart) cpart );
+						}
 
-								if ( edit && cpart instanceof LabelEditPart )
-								{
-									( (LabelEditPart) cpart ).performDirectEdit( );
-								}
-								else if ( edit
-										&& cpart instanceof ImageEditPart )
-								{
-									( (ImageEditPart) cpart ).performDirectEdit( );
-								}
-								else if ( edit
-										&& cpart instanceof ExtendedEditPart )
-								{
-									( (ExtendedEditPart) cpart ).performDirectEdit( );
-								}
-							}
+						if ( edit && cpart instanceof LabelEditPart )
+						{
+							( (LabelEditPart) cpart ).performDirectEdit( );
+						}
+						else if ( edit && cpart instanceof ImageEditPart )
+						{
+							( (ImageEditPart) cpart ).performDirectEdit( );
+						}
+						else if ( edit
+								&& cpart instanceof ExtendedEditPart )
+						{
+							( (ExtendedEditPart) cpart ).performDirectEdit( );
 						}
 					}
 				}
