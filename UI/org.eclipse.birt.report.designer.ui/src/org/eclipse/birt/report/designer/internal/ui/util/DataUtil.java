@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -109,9 +110,12 @@ public class DataUtil
 				column.setName( resultSetColumn.getColumnName( ) );
 				column.setDataType( resultSetColumn.getDataType( ) );
 				column.setExpression( DEUtil.getExpression( resultSetColumn ) );
-				if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+				if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
 				{
-					column.setAggregrateOn( ( (GroupHandle) groupList.get( 0 ) ).getName( ) );
+					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+						column.setAggregrateOn(( (GroupHandle) groupList.get( 0 ) ).getName( ) );
+					else if (groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+						column.setAggregrateOn( null );
 				}
 				columnList.add( column );
 			}

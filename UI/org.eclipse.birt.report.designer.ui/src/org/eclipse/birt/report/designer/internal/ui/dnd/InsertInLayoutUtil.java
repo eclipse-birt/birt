@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
@@ -516,7 +517,7 @@ public class InsertInLayoutUtil
 		bindingColumn.setExpression( DEUtil.getExpression( model ) );
 
 		dataHandle.addColumnBinding( bindingColumn, false );
-		dataHandle.setResultSetColumn( bindingColumn.getColumnName( ) );
+		dataHandle.setResultSetColumn( bindingColumn.getName( ) );
 		return dataHandle;
 	}
 
@@ -550,8 +551,6 @@ public class InsertInLayoutUtil
 
 		dataHandle.setResultSetColumn( model.getColumnName( ) );
 
-		boolean bindingExist = true;
-
 		if ( targetParent instanceof ReportItemHandle )
 		{
 			ReportItemHandle container = (ReportItemHandle) targetParent;
@@ -561,11 +560,14 @@ public class InsertInLayoutUtil
 			bindingColumn.setExpression( DEUtil.getExpression( model ) );
 			if ( target instanceof DesignElementHandle )
 			{
-				if ( DEUtil.getGroupControlType( (DesignElementHandle)target )
-						.equals( DEUtil.TYPE_GROUP_GROUP ) )
+				if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
 				{
-					bindingColumn.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle)target )
-							.get( 0 ) ).getName( ) );
+					String groupType = DEUtil.getGroupControlType( (DesignElementHandle) target );
+					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+						bindingColumn.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle) target )
+								.get( 0 ) ).getName( ) );
+					else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+						bindingColumn.setAggregrateOn( null );
 				}
 			}
 			DataSetHandle containerDataSet = DEUtil.getFirstDataSet( container );
@@ -652,11 +654,14 @@ public class InsertInLayoutUtil
 			bindingColumn.setExpression( DEUtil.getExpression( model ) );
 			if ( target instanceof DesignElementHandle )
 			{
-				if ( DEUtil.getGroupControlType( (DesignElementHandle)target )
-						.equals( DEUtil.TYPE_GROUP_GROUP ) )
+				if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
 				{
-					bindingColumn.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle)target )
-							.get( 0 ) ).getName( ) );
+					String groupType = DEUtil.getGroupControlType( (DesignElementHandle) target );
+					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+						bindingColumn.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle) target )
+								.get( 0 ) ).getName( ) );
+					else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+						bindingColumn.setAggregrateOn( null );
 				}
 			}
 			dataHandle.addColumnBinding( bindingColumn, false );
@@ -696,24 +701,24 @@ public class InsertInLayoutUtil
 		return dataHandle;
 	}
 
-	private static GroupHandle getGroupHandle( Object target )
-	{
-		DesignElementHandle handle = null;
-		if ( target instanceof CellHandle )
-		{
-			handle = ( (CellHandle) target ).getContainer( ).getContainer( );
-		}
-		else if ( target instanceof ListBandProxy )
-		{
-			handle = ( (ListBandProxy) target ).getElemtHandle( );
-		}
-
-		if ( handle instanceof GroupHandle )
-		{
-			return (GroupHandle) handle;
-		}
-		return null;
-	}
+//	private static GroupHandle getGroupHandle( Object target )
+//	{
+//		DesignElementHandle handle = null;
+//		if ( target instanceof CellHandle )
+//		{
+//			handle = ( (CellHandle) target ).getContainer( ).getContainer( );
+//		}
+//		else if ( target instanceof ListBandProxy )
+//		{
+//			handle = ( (ListBandProxy) target ).getElemtHandle( );
+//		}
+//
+//		if ( handle instanceof GroupHandle )
+//		{
+//			return (GroupHandle) handle;
+//		}
+//		return null;
+//	}
 
 	/**
 	 * Inserts invalid column string into the target. Add label if possible
@@ -734,7 +739,7 @@ public class InsertInLayoutUtil
 		// .newDataItem( null );
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
-		dataHandle.setValueExpr( expression );
+		dataHandle.setResultSetColumn( expression );
 
 		InsertInLayoutRule rule = new LabelAddRule( target );
 		if ( rule.canInsert( ) )
@@ -857,26 +862,28 @@ public class InsertInLayoutUtil
 		return false;
 	}
 
-	private static boolean checkContainContainMulitItem(Object[] objects, Object slotHandle)
+	private static boolean checkContainContainMulitItem( Object[] objects,
+			Object slotHandle )
 	{
 		SlotHandle handle = null;
-		if (slotHandle instanceof ReportElementModel)
+		if ( slotHandle instanceof ReportElementModel )
 		{
-			handle = ((ReportElementModel)slotHandle).getSlotHandle( );
+			handle = ( (ReportElementModel) slotHandle ).getSlotHandle( );
 		}
-		else if (slotHandle instanceof SlotHandle)
+		else if ( slotHandle instanceof SlotHandle )
 		{
-			handle = (SlotHandle)slotHandle;
+			handle = (SlotHandle) slotHandle;
 		}
-		if (handle != null && objects != null && objects.length > 1)
+		if ( handle != null && objects != null && objects.length > 1 )
 		{
-			if (!handle.getDefn( ).isMultipleCardinality( ))
+			if ( !handle.getDefn( ).isMultipleCardinality( ) )
 			{
 				return false;
 			}
 		}
 		return true;
 	}
+
 	/**
 	 * Checks if all the DataSetColumn has the same DataSet.
 	 * 
@@ -954,8 +961,7 @@ public class InsertInLayoutUtil
 				|| container instanceof TableHandle
 				|| container instanceof FreeFormHandle
 				|| container instanceof ListHandle
-				|| container instanceof MasterPageHandle
-				|| dropPart.getModel( ) instanceof ModuleHandle );
+				|| container instanceof MasterPageHandle || dropPart.getModel( ) instanceof ModuleHandle );
 	}
 
 	/**
@@ -1003,8 +1009,8 @@ public class InsertInLayoutUtil
 						ReportDesignConstants.DATA_ITEM ) )
 		{
 			// Validates target is report root
-			if ( target.getModel( ) instanceof ModuleHandle 
-					|| isMasterPageHeaderOrFooter( target.getModel( )))
+			if ( target.getModel( ) instanceof ModuleHandle
+					|| isMasterPageHeaderOrFooter( target.getModel( ) ) )
 			{
 				return true;
 			}
@@ -1024,14 +1030,14 @@ public class InsertInLayoutUtil
 		}
 		return false;
 	}
-	
-	private static boolean isMasterPageHeaderOrFooter(Object obj)
+
+	private static boolean isMasterPageHeaderOrFooter( Object obj )
 	{
-		if (!(obj instanceof ReportElementModel))
+		if ( !( obj instanceof ReportElementModel ) )
 		{
 			return false;
 		}
-		if (((ReportElementModel)obj).getSlotHandle( ).getElementHandle( ) instanceof MasterPageHandle)
+		if ( ( (ReportElementModel) obj ).getSlotHandle( ).getElementHandle( ) instanceof MasterPageHandle )
 		{
 			return true;
 		}

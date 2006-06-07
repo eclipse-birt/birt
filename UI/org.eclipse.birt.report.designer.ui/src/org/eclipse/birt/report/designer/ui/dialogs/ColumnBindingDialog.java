@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ComputedColumnExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
@@ -92,11 +93,11 @@ public class ColumnBindingDialog extends BaseDialog
 
 	public static final String DEFAULT_DLG_TITLE = Messages.getString( "ColumnBindingDialog.DialogTitle" ); //$NON-NLS-1$
 
-	private static final String CHOICE_ALL = Messages.getString( "ColumnBindingDialog.Choice.All" );//$NON-NLS-1$
+	private static final String ALL = Messages.getString( "ColumnBindingDialog.All" );//$NON-NLS-1$
 
-	private static final String CHOICE_FROM_CONTAINER = Messages.getString( "ColumnBindingDialog.Choice.FromContainer" );//$NON-NLS-1$
+	private static final String NONE_AGGREGATEON = Messages.getString( "ColumnBindingDialog.AGGREGATEON.NONE" );//$NON-NLS-1$
 
-	private static final String CHOICE_NONE = Messages.getString( "ColumnBindingDialog.Choice.None" );//$NON-NLS-1$
+	private static final String NONE = Messages.getString( "ColumnBindingDialog.NONE" );//$NON-NLS-1$
 
 	private static final String LABEL_COLUMN_BINDINGS = Messages.getString( "ColumnBindingDialog.Label.DataSet" ); //$NON-NLS-1$
 
@@ -133,8 +134,6 @@ public class ColumnBindingDialog extends BaseDialog
 	private ExpressionCellEditor expressionCellEditor;
 
 	private String selectedColumnName = null;
-
-	private String NullChoice = null;
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
@@ -189,8 +188,17 @@ public class ColumnBindingDialog extends BaseDialog
 					break;
 				case 4 :
 					String value = handle.getAggregrateOn( );
+					String groupType = DEUtil.getGroupControlType( inputElement );
 					if ( value == null )
-						text = CHOICE_ALL;
+					{
+						if ( ExpressionUtil.hasAggregation( handle.getExpression( ) )
+								&& groupType != DEUtil.TYPE_GROUP_NONE )
+						{
+							text = ALL;
+						}
+						else
+							text = NONE_AGGREGATEON;
+					}
 					else
 						text = value;
 					break;
@@ -232,6 +240,17 @@ public class ColumnBindingDialog extends BaseDialog
 			{
 				return false;
 			}
+			if ( COLUMN_AGGREGATEON.equals( property ) )
+			{
+				ComputedColumnHandle handle = ( (ComputedColumnHandle) element );
+				if ( !ExpressionUtil.hasAggregation( handle.getExpression( ) )
+						|| DEUtil.getGroupControlType( inputElement )
+								.equals( DEUtil.TYPE_GROUP_NONE ) )
+				{
+					return false;
+				}
+			}
+
 			return true;
 		}
 
@@ -242,11 +261,19 @@ public class ColumnBindingDialog extends BaseDialog
 				ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
 						DEFAULT_COLUMN_NAME );
 				column.setExpression( "" ); //$NON-NLS-1$
-				if ( DEUtil.getGroupControlType( inputElement )
-						.equals( DEUtil.TYPE_GROUP_GROUP ) )
+				String groupType = DEUtil.getGroupControlType( inputElement );
+				if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
 				{
-					column.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
-							.get( 0 ) ).getName( ) );
+					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+						column.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
+								.get( 0 ) ).getName( ) );
+					else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+						column.setAggregrateOn( null );
+				}
+				if ( !ExpressionUtil.hasAggregation( column.getExpression( ) )
+						|| groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
+				{
+					column.setAggregrateOn( null );
 				}
 				addBinding( column );
 				highLightName = column.getName( );
@@ -362,6 +389,20 @@ public class ColumnBindingDialog extends BaseDialog
 					else if ( COLUMN_EXPRESSION.equals( property ) )
 					{
 						bindingHandle.setExpression( (String) value );
+						String groupType = DEUtil.getGroupControlType( inputElement );
+						if ( ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) ) )
+						{
+							if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+								bindingHandle.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
+										.get( 0 ) ).getName( ) );
+							else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+								bindingHandle.setAggregrateOn( null );
+						}
+						if ( !ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) )
+								|| groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
+						{
+							bindingHandle.setAggregrateOn( null );
+						}
 					}
 					else if ( COLUMN_AGGREGATEON.equals( property ) )
 					{
@@ -382,7 +423,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	public ColumnBindingDialog( )
 	{
-		super( DEFAULT_DLG_TITLE);
+		super( DEFAULT_DLG_TITLE );
 	}
 
 	public ColumnBindingDialog( String title )
@@ -411,17 +452,6 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		Assert.isNotNull( input );
 		this.inputElement = input;
-		ReportItemHandle container = DEUtil.getBindingHolder( input.getContainer( ) );
-		if ( container != null
-				&& ( container.getDataSet( ) != null || container.columnBindingsIterator( )
-						.hasNext( ) ) )
-		{
-			NullChoice = CHOICE_FROM_CONTAINER;
-		}
-		else
-		{
-			NullChoice = CHOICE_NONE;
-		}
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -458,19 +488,12 @@ public class ColumnBindingDialog extends BaseDialog
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 			String[] dataSets = ChoiceSetFactory.getDataSets( );
 			String[] newList = new String[dataSets.length + 1];
-			newList[0] = NullChoice;
+			newList[0] = NONE;
 			System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
 			combo.setItems( newList );
-			combo.deselectAll( );
 			String dataSetName = getDataSetName( );
-			if ( dataSetName != null )
-			{
-				combo.setText( dataSetName );
-			}
-			else
-			{
-				combo.select( 0 );
-			}
+			combo.deselectAll( );
+			combo.setText( dataSetName );
 			combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			gd = new GridData( );
 			gd.widthHint = 250;
@@ -479,23 +502,15 @@ public class ColumnBindingDialog extends BaseDialog
 
 				public void widgetSelected( SelectionEvent event )
 				{
-					String value = null;
-					if ( combo.getSelectionIndex( ) != 0 )
+					String value = combo.getText( );
+					if ( value.equals( NONE ) )
 					{
-						value = combo.getText( );
+						value = null;
 					}
 					int rCode = canChangeDataSet( value );
 					if ( rCode == 2 )
 					{
-						String newName = getDataSetName( );
-						if ( newName != null )
-						{
-							combo.setText( newName );
-						}
-						else
-						{
-							combo.select( 0 );
-						}
+						combo.setText( getDataSetName( ) );
 					}
 					else
 					{
@@ -572,7 +587,7 @@ public class ColumnBindingDialog extends BaseDialog
 		};
 
 		groups = new String[groupList.size( ) + 1];
-		groups[0] = CHOICE_ALL;
+		groups[0] = ALL;
 		for ( int i = 0; i < groupList.size( ); i++ )
 		{
 			groups[i + 1] = ( (GroupHandle) groupList.get( i ) ).getName( );
@@ -844,13 +859,12 @@ public class ColumnBindingDialog extends BaseDialog
 	private int canChangeDataSet( String newName )
 	{
 		String currentDataSetName = getDataSetName( );
-		if ( currentDataSetName == null
+		if ( NONE.equals( currentDataSetName )
 				&& !inputElement.columnBindingsIterator( ).hasNext( ) )
 		{
 			return 0;
 		}
-		else if ( currentDataSetName == newName
-				|| ( currentDataSetName != null && currentDataSetName.equals( newName ) ) )
+		else if ( currentDataSetName.equals( newName ) )
 		{
 			return 2;
 		}
@@ -872,12 +886,12 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		if ( inputElement.getDataSet( ) == null )
 		{
-			return null;
+			return NONE;
 		}
 		String dataSetName = inputElement.getDataSet( ).getQualifiedName( );
 		if ( StringUtil.isBlank( dataSetName ) )
 		{
-			dataSetName = null;
+			dataSetName = NONE;
 		}
 		return dataSetName;
 	}
