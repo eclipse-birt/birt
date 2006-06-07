@@ -73,5 +73,15 @@ public class HeadStyleCanvas extends Canvas implements PaintListener
 			gc.drawOval(this.getSize().x - 14, this.getSize().y / 2 - 3,
 							6, 6);
 		}
+		
+		//Render a boundary line to indicate focus
+		if ( isEnabled( ) && isFocusControl( ) )
+		{
+			gc.setLineStyle( SWT.LINE_DOT );
+			gc.setLineWidth( 1 );
+			gc.setForeground( Display.getCurrent( )
+					.getSystemColor( SWT.COLOR_BLACK ) );
+			gc.drawRectangle( 1, 1, getSize( ).x - 3, this.getSize( ).y - 3 );
+		}
 	}
 }

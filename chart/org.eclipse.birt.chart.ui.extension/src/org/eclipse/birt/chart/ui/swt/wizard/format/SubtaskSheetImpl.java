@@ -255,7 +255,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 
 		// Use GC to calculate the button width
 		GC gc = new GC( parent );
-		int width = Math.max( 80, gc.textExtent( popupName ).x + 5 );
+		int width = Math.max( 80, gc.textExtent( popupName ).x + 8 );
 		gc.dispose( );
 
 		GridData gd = new GridData( );

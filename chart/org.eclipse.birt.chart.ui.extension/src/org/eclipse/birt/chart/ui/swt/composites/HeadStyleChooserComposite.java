@@ -22,9 +22,7 @@ import org.eclipse.swt.accessibility.AccessibleControlAdapter;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -47,9 +45,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class HeadStyleChooserComposite extends Composite implements
 		SelectionListener,
-		MouseListener,
-		KeyListener,
-		FocusListener
+		MouseListener
 {
 
 	private transient Composite cmpContentInner = null;
@@ -153,6 +149,89 @@ public class HeadStyleChooserComposite extends Composite implements
 		gdBDown.heightHint = iSize;
 		btnDown.setLayoutData( gdBDown );
 		btnDown.addSelectionListener( this );
+		
+		Listener listener = new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				handleEventCanvas( event );
+				return;
+			}
+		};
+
+		int[] textEvents = {
+				SWT.KeyDown,
+				SWT.Traverse,
+				SWT.FocusIn,
+				SWT.FocusOut
+		};
+		for ( int i = 0; i < textEvents.length; i++ )
+		{
+			cnvSelection.addListener( textEvents[i], listener );
+		}
+	}
+	
+	void handleEventCanvas( Event event )
+	{
+		switch ( event.type )
+		{
+			case SWT.FocusIn :
+			{
+				cnvSelection.redraw( );
+				break;
+			}
+			case SWT.FocusOut :
+			{
+				cnvSelection.redraw( );
+				break;
+			}
+			case SWT.KeyDown :
+			{
+				// At this point the widget may have been disposed.
+				// If so, do not continue.
+				if ( isDisposed( ) )
+					break;
+
+				if ( event.keyCode == SWT.ARROW_DOWN )
+				{
+					event.doit = true;
+					toggleDropDown( );
+					break;
+				}
+			}
+			case SWT.Traverse :
+			{
+				switch ( event.detail )
+				{
+					case SWT.TRAVERSE_RETURN :
+					case SWT.TRAVERSE_TAB_NEXT :
+					case SWT.TRAVERSE_TAB_PREVIOUS :
+					case SWT.TRAVERSE_ARROW_PREVIOUS :
+					case SWT.TRAVERSE_ARROW_NEXT :
+						event.doit = true;
+						cnvSelection.redraw( );
+				}
+
+				break;
+			}
+		}
+	}
+	
+	void handleEventCmpDropDown( Event event )
+	{
+		switch ( event.type )
+		{
+			case SWT.KeyDown :
+			{
+				keyPressed( new KeyEvent( event ) );
+				break;
+			}
+			case SWT.FocusOut :
+			{
+				focusLost( new FocusEvent( event ) );
+				break;
+			}
+		}
 	}
 
 	/**
@@ -170,8 +249,16 @@ public class HeadStyleChooserComposite extends Composite implements
 
 		cmpDropDown = new Composite( shell, SWT.NONE );
 		cmpDropDown.setLayout( fillDropDown );
-		cmpDropDown.addKeyListener( this );
-		cmpDropDown.addFocusListener( this );
+		
+		Listener listenerCmpDropDown = new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				handleEventCmpDropDown( event );
+			}
+		};		
+		cmpDropDown.addListener( SWT.KeyDown, listenerCmpDropDown );
+		cmpDropDown.addListener( SWT.FocusOut, listenerCmpDropDown );
 
 		for ( int iC = 0; iC < this.iLineDecorator.length; iC++ )
 		{
@@ -189,7 +276,6 @@ public class HeadStyleChooserComposite extends Composite implements
 	 * Returns the current selected head style as an integer corresponding to
 	 * the appropriate SWT constants.
 	 * 
-	 * @return
 	 */
 	public int getHeadStyle( )
 	{
@@ -316,13 +402,13 @@ public class HeadStyleChooserComposite extends Composite implements
 	 * 
 	 * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.KeyEvent)
 	 */
-	public void keyPressed( KeyEvent e )
+	void keyPressed( KeyEvent e )
 	{
 		if ( cmpDropDown != null && !cmpDropDown.getShell( ).isDisposed( ) )
 		{
-			if ( e.keyCode == SWT.ESC )
+			if ( e.keyCode == SWT.ESC || e.keyCode == SWT.ARROW_UP )
 			{
-				cmpDropDown.getShell( ).dispose( );
+				cmpDropDown.getShell( ).close( );
 			}
 		}
 	}
@@ -330,27 +416,9 @@ public class HeadStyleChooserComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.KeyEvent)
-	 */
-	public void keyReleased( KeyEvent e )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.FocusEvent)
-	 */
-	public void focusGained( FocusEvent e )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.FocusEvent)
 	 */
-	public void focusLost( FocusEvent e )
+	void focusLost( FocusEvent e )
 	{
 		if ( e.getSource( ).equals( cmpDropDown ) )
 		{
