@@ -48,7 +48,7 @@ public class VerticalAlignManager extends AbstractLengthManager {
 	}
 
 	public boolean isInheritedProperty() {
-		return true;
+		return false;
 	}
 
 	public Value getDefaultValue() {

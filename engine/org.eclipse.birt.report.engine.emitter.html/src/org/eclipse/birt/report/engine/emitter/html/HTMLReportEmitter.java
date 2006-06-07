@@ -92,7 +92,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.110 $ $Date: 2006/05/26 10:41:56 $
+ * @version $Revision: 1.112 $ $Date: 2006/06/01 05:55:04 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -548,9 +548,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		writer.openTag( HTMLTags.TAG_STYLE );
 		writer.attribute( HTMLTags.ATTR_TYPE, "text/css" ); //$NON-NLS-1$
-
-		// output general styles
-		writer.style( "*", "vertical-align: baseline;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 
 		IStyle style;
 		StringBuffer styleBuffer = new StringBuffer( );
@@ -1303,6 +1300,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		StringBuffer styleBuffer = new StringBuffer( );
 
 		handleColumnRelatedStyle( cell, styleBuffer );
+		handleVerticalAlign( cell, styleBuffer );
 		handleStyle( cell, styleBuffer );
 
 		if ( cell.isStartOfGroup( ) )
@@ -2478,6 +2476,32 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// output in-line style
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+	}
+	
+	/**
+	 * Handles the Vertical-Align property of the element content
+	 * 
+	 * @param element
+	 *            the styled element content
+	 * @param styleBuffer
+	 *            the StringBuffer instance
+	 */
+	protected void handleVerticalAlign( ICellContent element,
+			StringBuffer styleBuffer )
+	{
+		IStyle style = element.getComputedStyle( );
+		String verticalAlign = style.getVerticalAlign( );
+
+		if ( verticalAlign == null || verticalAlign.equals( "baseline" ) )
+		{
+			verticalAlign = "top";
+		}
+		if ( verticalAlign != null )
+		{
+			styleBuffer.append( "vertical-align: " );
+			styleBuffer.append( verticalAlign );
+			styleBuffer.append( ";" );
+		}
 	}
 
 	/**
