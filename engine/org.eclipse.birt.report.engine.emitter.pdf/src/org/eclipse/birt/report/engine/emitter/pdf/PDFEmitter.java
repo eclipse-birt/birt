@@ -18,9 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,10 +27,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.HTMLActionHandler;
+import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
@@ -51,6 +52,7 @@ import org.eclipse.birt.report.engine.layout.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.util.PropertyUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
@@ -68,9 +70,9 @@ import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * used to output the area tree in PDF file.
+ * Used to output the area tree in PDF file.
  * 
- * the objects passed in must be formated. Any unformated object
+ * The objects passed in must be formated. Any unformated object
  * will be discarded.
  * 
  * @version $Revision$ $Date$
@@ -78,24 +80,19 @@ import com.lowagie.text.pdf.PdfWriter;
 public class PDFEmitter implements IAreaVisitor
 {
 	/**
-	 * the default output pdf file name
+	 * The default output pdf file name
 	 */
 	public static final String REPORT_FILE = "Report.pdf"; //$NON-NLS-1$
 	
 	/**
-	 * the default image folder
+	 * The default image folder
 	 */
 	public static final String IMAGE_FOLDER = "image"; //$NON-NLS-1$
 	
 	/**
-	 * the output stream
+	 * The output stream
 	 */
 	private OutputStream output = null;
-	
-	/**
-	 * the emitter configturation
-	 */
-	//private PDFEmitterConfig ec = null;
 	
 	/**
 	 * The ratio of layout measure to iText measure
@@ -103,35 +100,35 @@ public class PDFEmitter implements IAreaVisitor
 	public static final float LAYOUT_TO_PDF_RATIO = 1000f;
 	
 	/**
-	 * the pdf Document object created by iText
+	 * The pdf Document object created by iText
 	 */
 	private Document doc = null;
 
 	/**
-	 * the Pdf Writer
+	 * The Pdf Writer
 	 */
 	private PdfWriter writer = null;
 	
 	/**
-	 * template for totalpage
-	 * */
+	 * Template for totalpage
+	 */
 	private PdfTemplate tpl = null;
 	private int tplWidth =0;
 	private int tplHeight =0;
 
 	/**
-	 * contentByte layer for pdf;
+	 * ContentByte layer for pdf,
 	 * cb covers cbUnder.
 	 */
 	private PdfContentByte cb, cbUnder = null;
 
 	/**
-	 * the height and width of the current pdf page.
+	 * The height and width of the current pdf page.
 	 */
 	private float pageHeight, pageWidth = 0f;
 	
 	/**
-	 * the logger logging the error, debug, warning messages.
+	 * The logger logging the error, debug, warning messages.
 	 */
 	protected static Logger logger = Logger.getLogger( PDFEmitter.class.getName( ) );
 	
@@ -140,7 +137,7 @@ public class PDFEmitter implements IAreaVisitor
 	protected IReportRunnable reportRunnable;
 	
 	protected ReportDesignHandle reportDesign;
-	
+
 	protected PDFRenderContext context;
 	
 	private Stack containerStack = new Stack();
@@ -157,7 +154,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * get the output format. here it returns "pdf".
+	 * Gets the output format. always returns "pdf".
 	 */
 	public String getOutputFormat()
 	{
@@ -165,17 +162,19 @@ public class PDFEmitter implements IAreaVisitor
 	}
 
 	/**
-	 * initialize the pdfEmitter
+	 * Initializes the pdfEmitter.
+	 * @param services 							the emitter svervices object.
 	 */
 	public void initialize(IEmitterServices services)
 	{
-		//get the output file name from RenderOptionBase.OUTPUT_FILE_NAME.
+		//Gets the output file name from RenderOptionBase.OUTPUT_FILE_NAME.
 		//It has the top preference.
 		this.reportRunnable = services.getReportRunnable();
 		if (reportRunnable != null)
 		{
 			reportDesign = (ReportDesignHandle)reportRunnable.getDesignHandle();
 		}
+	
 		Object renderContext = services.getRenderContext();
 		if(renderContext!=null && renderContext instanceof Map)
 		{
@@ -205,7 +204,7 @@ public class PDFEmitter implements IAreaVisitor
 			logger.log( Level.WARNING, fnfe.getMessage( ), fnfe );
 		}
 		
-		//while failed to get the outputStream from the output file name specified
+		//While failed to get the outputStream from the output file name specified
 		//from RenderOptionBase.OUTPUT_FILE_NAME, use RenderOptionBase.OUTPUT_STREAM
 		//to build the outputStream
 		if( output == null )
@@ -216,7 +215,7 @@ public class PDFEmitter implements IAreaVisitor
 				output = ( OutputStream ) value;
 			}
 			
-			//if the RenderOptionBase.OUTPUT_STREAM is NOT set, build the outputStream from the
+			//If the RenderOptionBase.OUTPUT_STREAM is NOT set, build the outputStream from the
 			//REPORT_FILE param defined in this file.
 			else
 			{
@@ -234,7 +233,8 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * new a document and create a PdfWriter
+	 * Creates a document and create a PdfWriter
+	 * @param rc 					the report content.
 	 */
 	public void start(IReportContent rc)
 	{
@@ -243,7 +243,11 @@ public class PDFEmitter implements IAreaVisitor
 		try
 		{
 			writer = PdfWriter.getInstance( doc, new BufferedOutputStream(output) );
-			
+			// Gets the title.	
+			ReportDesignHandle designHandle = report.getDesign( ).getReportDesign( );
+			String title = designHandle.getStringProperty(  IModuleModel.TITLE_PROP );
+			if ( null != title )
+				doc.addTitle( title );
 		}
 		catch( DocumentException de )
 		{
@@ -252,11 +256,12 @@ public class PDFEmitter implements IAreaVisitor
 	}
 
 	/**
-	 * close the document
+	 * Closes the document.
+	 * @param rc 					the report content.
 	 */
 	public void end(IReportContent rc)
 	{
-		//Before closing the document, we need to create TOC.
+		// Before closing the document, we need to create TOC.
 		TOCHandler tocHandler = new TOCHandler( rc.getTOC() );
 		TOCNode tocRoot = tocHandler.getTOCRoot();
 		if (true == tocRoot.getChildren().isEmpty())
@@ -287,7 +292,7 @@ public class PDFEmitter implements IAreaVisitor
 		int x = curPos.x + textArea.getX();
 		int y = curPos.y + textArea.getY();
 		drawTextAt(textArea, x, y, cb, pageHeight);
-		//Check if itself is the destination of a bookmark.
+		//Checks if itself is the destination of a bookmark.
 		//if so, make a bookmark; if not, do nothing
 		makeBookmark(textArea, curPos);
 		//handle hyper-link action
@@ -321,10 +326,10 @@ public class PDFEmitter implements IAreaVisitor
 	}
 
 	/**
-	 * If the container is a PageArea, this method news a pdf page.
+	 * If the container is a PageArea, this method creates a pdf page.
 	 * If the container is the other containerAreas, 
 	 * such as TableArea, or just the border of textArea/imageArea
-	 * draw the border and background of the container
+	 * this method draws the border and background of the given container.
 	 * @param container				the ContainerArea specified from layout
 	 */
 	public void startContainer(IContainerArea container)
@@ -352,17 +357,21 @@ public class PDFEmitter implements IAreaVisitor
 			}
 		}
 	}
-
-	public void endContainer(IContainerArea containerArea)
+	
+	/**
+	 * This method will be invoked while a containerArea ends. 
+	 * @param container				the ContainerArea specified from layout
+	 */
+	public void endContainer(IContainerArea container)
 	{
-		if (! containerStack.isEmpty())
+		if (!containerStack.isEmpty())
 		{
 			containerStack.pop();	
 		}
 	}
 
 	/**
-	 * create a new PDF page
+	 * Creates a new PDF page
 	 * @param page		the PageArea specified from layout
 	 */
 	protected void newPage( IContainerArea page )
@@ -370,10 +379,10 @@ public class PDFEmitter implements IAreaVisitor
 		pageHeight = pdfMeasure( page.getHeight() );
 		pageWidth = pdfMeasure( page.getWidth() );
 		
-		//set the pagesize of the new page
+		// Sets the pagesize of the new page
         Rectangle pageSize = new Rectangle(pageWidth, pageHeight);
 
-        //new a pdf page, get its contentByte and contentByteUnder
+        // Creates a pdf page, get its contentByte and contentByteUnder
 		try
 		{
 			doc.setPageSize(pageSize);
@@ -384,7 +393,7 @@ public class PDFEmitter implements IAreaVisitor
 				cbUnder = writer.getDirectContentUnder();
 		    }
 			doc.newPage();
-			//Add an invisible content to the document to make sure that a new page is created. 
+			//Adds an invisible content to the document to make sure that a new page is created. 
 			doc.add(Chunk.NEWLINE);
 		}
 		catch( DocumentException de )
@@ -392,11 +401,11 @@ public class PDFEmitter implements IAreaVisitor
 			logger.log( Level.SEVERE, de.getMessage( ), de );
 		}
 		
-		//draw background color for the container, if the backgound color is NOT set, draw nothing.
+		//Draws background color for the container, if the backgound color is NOT set, draw nothing.
 		Color bc = PropertyUtil.getColor(page.getStyle().getProperty(StyleConstants.STYLE_BACKGROUND_COLOR));
 		drawBackgroundColor( bc, 0, pageHeight, pageWidth, pageHeight );
 		
-		//draw background image for the new page. if the background image is NOT set, draw nothing.
+		//Draws background image for the new page. if the background image is NOT set, draw nothing.
 		String bi = PropertyUtil.getBackgroundImage(
         		page.getStyle().getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE));
 		drawBackgroundImage( bi, 0, pageHeight, pageWidth, pageHeight, 
@@ -430,7 +439,7 @@ public class PDFEmitter implements IAreaVisitor
 		}
 	}
 	/**
-	 * draw a container's border, and its background color/image if there is any.
+	 * Draws a container's border, and its background color/image if there is any.
 	 * @param container			the containerArea whose border and background need to be drawed
 	 */
 	protected void drawContainer( IContainerArea container )
@@ -456,18 +465,18 @@ public class PDFEmitter implements IAreaVisitor
 		float width = pdfMeasure(container.getWidth());
 		float height = pdfMeasure(container.getHeight());
 		
-		//draw background color for the container, if the backgound color is NOT set, draw nothing.
+		// Draws background color for the container, if the backgound color is NOT set, draw nothing.
 		Color bc = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR));
 		drawBackgroundColor( bc, startX, startY, width, height );
 		
-		//draw background image for the container. if the background image is NOT set, draw nothing.
+		// Draws background image for the container. if the background image is NOT set, draw nothing.
 		String bi = PropertyUtil.getBackgroundImage(style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE));
 		drawBackgroundImage( bi, startX, startY, width, height,
 				PropertyUtil.getPercentageValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
 				PropertyUtil.getPercentageValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
 				style.getBackgroundRepeat() );
 		
-		//the width of each border
+		// the width of each border
 		int borderTopWidth = PropertyUtil.getDimensionValue(
 				style.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH));
 		int borderLeftWidth = PropertyUtil.getDimensionValue(
@@ -477,7 +486,7 @@ public class PDFEmitter implements IAreaVisitor
 		int borderRightWidth = PropertyUtil.getDimensionValue(
 				style.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH));
 		
-		//the color of each border
+		// the color of each border
 		Color borderTopColor = PropertyUtil.getColor(
 				style.getProperty(StyleConstants.STYLE_BORDER_TOP_COLOR));
 		Color borderRightColor = PropertyUtil.getColor(
@@ -487,7 +496,7 @@ public class PDFEmitter implements IAreaVisitor
 		Color borderLeftColor = PropertyUtil.getColor(
 				style.getProperty(StyleConstants.STYLE_BORDER_LEFT_COLOR));
 		
-		//cache the border info
+		// Caches the border info
 		BorderInfo[] borders = new BorderInfo[4];
 		borders[BorderInfo.TOP_BORDER] = new BorderInfo(
 				layoutX, layoutY + borderTopWidth/2,
@@ -506,18 +515,18 @@ public class PDFEmitter implements IAreaVisitor
 				layoutX+borderLeftWidth/2, layoutY+ container.getHeight(), 
 				borderLeftWidth, borderLeftColor, container.getStyle().getBorderLeftStyle(), BorderInfo.LEFT_BORDER);
 		
-		// draw the four borders of the container if there are any. Each border is showed as a line.
+		// Draws the four borders of the container if there are any. Each border is showed as a line.
 		drawBorder(borders);
 		
-		//Check if itself is the destination of a bookmark.
-		//if so, make a bookmark; if not, do nothing
+		// Checks if itself is the destination of a bookmark.
+		// if so, make a bookmark; if not, do nothing
 		makeBookmark(container, curPos);
-		//handle hyper-link action
+		// Handles hyper-link action
 		handleHyperlinkAction(container, curPos);
 	}
 	
 	/**
-	 * draw a chunk of text at the pdf.
+	 * Draws a chunk of text at the pdf.
 	 * @param text					the textArea to be drawed.
 	 * @param textX					the X position of the textArea relative to current page.
 	 * @param textY					the Y position of the textArea relative to current page.
@@ -593,7 +602,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 
 	/**
-	 * drawImage at the contentByte
+	 * Draws image at the contentByte
 	 * @param image		the ImageArea specified from the layout
 	 */
 	protected void drawImage( IImageArea image )
@@ -625,8 +634,7 @@ public class PDFEmitter implements IAreaVisitor
 				img = Image.getInstance(((IImageContent) image.getContent())
 						.getData());
 			}
-			
-			
+				
 			//img.setDpi(5*img.getDpiX(),5*img.getDpiY());
 			// add the image to the given contentByte
 			cb.addImage(img, 
@@ -659,7 +667,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * draw the borders of a container.
+	 * Draws the borders of a container.
 	 * @param borders		the border info
 	 */
 	private void drawBorder(BorderInfo[] borders)
@@ -790,7 +798,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * draw a line from the start position to the end position with the given
+	 * Draws a line from the start position to the end position with the given
 	 * linewidth, color, and style at the given pdf layer.
 	 * 
 	 * @param startX			the start X coordinate of the line
@@ -841,7 +849,7 @@ public class PDFEmitter implements IAreaVisitor
 	
 
 	/**
-	 * draw a line with the line-style specified in advance.from the start position to 
+	 * Draws a line with the line-style specified in advance from the start position to 
 	 * the end position with the given linewidth, color, and style at the given pdf layer.
 	 * If the line-style is NOT set before invoking this method, 
 	 * "solid" will be used as the default line-style. 
@@ -865,7 +873,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * draw the background color at the contentByteUnder of the pdf
+	 * Draws the background color at the contentByteUnder of the pdf
 	 * @param color			the color to be drawed
 	 * @param x				the start X coordinate
 	 * @param y				the start Y coordinate
@@ -886,7 +894,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * draw the backgound image at the contentByteUnder of the pdf with the given offset
+	 * Draws the backgound image at the contentByteUnder of the pdf with the given offset
 	 * @param imageURI		the URI referring the image
 	 * @param x				the start X coordinate at the pdf where the image is positioned
 	 * @param y				the start Y coordinate at the pdf where the image is positioned
@@ -899,7 +907,7 @@ public class PDFEmitter implements IAreaVisitor
 	private void drawBackgroundImage(String imageURI, float x, float y, 
 			float width, float height, float positionX, float positionY, String repeat)
 	{
-		//the image URI is empty, ignore it.
+		// If the image URI is empty, ignore it.
 		if ( null == imageURI )
 		{
 			return;
@@ -920,7 +928,7 @@ public class PDFEmitter implements IAreaVisitor
 			return;
 		}
 		
-		//the background-repeat property is empty, use "repeat".
+		// If the background-repeat property is empty, use "repeat" as the default.
 		if ( null == repeat)
 		{
 			repeat = "repeat"; //$NON-NLS-1$
@@ -1155,7 +1163,7 @@ public class PDFEmitter implements IAreaVisitor
     	cb.setLineWidth(0.9f);
     	cb.setTextMatrix(x, y);
 	}
-	
+
 	private void simulateItalic(PdfContentByte cb, float x, float y)
 	{
 		float alpha = (float) Math.tan(0f * Math.PI / 180);
@@ -1163,10 +1171,8 @@ public class PDFEmitter implements IAreaVisitor
 		cb.setTextMatrix(1, alpha, beta, 1, x, y);
 	}
 	
-	
-	
 	/**
-	 * convert the layout measure to PDF, the measure of layout is 1000 times
+	 * Converts the layout measure to PDF, the measure of layout is 1000 times
 	 * larger than that of PDF
 	 * 
 	 * @param layoutMeasure
@@ -1179,7 +1185,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 
 	/**
-	 * convert the X coordinate of a point from layout to X coordinate in PDF
+	 * Converts the X coordinate of a point from layout to X coordinate in PDF
 	 * @param layoutX 		the X coordinate specified from layout
 	 * @return				the PDF X coordinate
 	 */
@@ -1189,7 +1195,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * convert the Y coordinate of a point from layout to Y coordinate in PDF
+	 * Converts the Y coordinate of a point from layout to Y coordinate in PDF
 	 * @param layoutY 		the Y coordinate specified from layout
 	 * @return				the PDF Y coordinate
 	 */
@@ -1199,7 +1205,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * convert the left X coordinate of an Area from layout 
+	 * Converts the left X coordinate of an Area from layout 
 	 * to the left X coordinate in PDF
 	 * @param layoutX 		the X coordinate specified from layout
 	 * @return				the PDF X coordinate
@@ -1210,7 +1216,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * convert the top Y coordinate of an Area from layout to the start Y coordinate in pdf. 
+	 * Converts the top Y coordinate of an Area from layout to the start Y coordinate in pdf. 
 	 * to the bottom Y coordinate in PDF
 	 * @param layoutY 		the Y coordinate specified from layout
 	 * @param areaHeight	the height of the area whose coordinate need to be converted.
@@ -1224,7 +1230,7 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * convert the top Y coordinate of an Area from layout to the start Y coordinate in pdf. 
+	 * Converts the top Y coordinate of an Area from layout to the start Y coordinate in pdf. 
 	 * to the bottom Y coordinate in PDF
 	 * @param layoutY 				the Y coordinate specified from layout
 	 * @param areaHeight			the height of the area whose coordinate need to be converted.
@@ -1239,12 +1245,12 @@ public class PDFEmitter implements IAreaVisitor
 	}
     
 	/**
-	 * Set current area as a bookmark. 
-	 * if current area does NOT contain any bookmark info,
+	 * Sets current area as a bookmark. 
+	 * If the current area does NOT contain any bookmark info,
 	 * this method does nothing.
 	 * 
 	 * @param area			the area which may need to be marked. 
-	 * @param curPos 		the position of the area's container relative to the page.
+	 * @param curPos 		the position, relative to the page, of the area's container.
 	 */
 	private void makeBookmark(IArea area, ContainerPosition curPos) 
 	{
@@ -1268,9 +1274,10 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * handle the hyperlink, bookmark and drillthrough
+	 * Handles the hyperlink, bookmark and drillthrough.
 	 * 
-	 * @param area			the area which may need to handle the hyperlink action
+	 * @param area			the area which needs to handle the hyperlink action.
+	 * @param curPos		the position of the container of current area.
 	 */
 	private void handleHyperlinkAction(IArea area, ContainerPosition curPos)
 	{
@@ -1297,83 +1304,6 @@ public class PDFEmitter implements IAreaVisitor
 									hlAction.getTargetWindow(), IHyperlinkAction.ACTION_BOOKMARK)) );
 					break;
 					
-				case IHyperlinkAction.ACTION_DRILLTHROUGH: 
-					String baseURL = null;
-					
-					if(context!=null)
-					{
-						baseURL = context.getBaseURL();
-					}
-					StringBuffer link = new StringBuffer( );
-
-					String reportName = hlAction.getReportName( );
-					if ( reportName != null && !reportName.equals( "" ) )//$NON-NLS-1$
-					{
-						String format = hlAction.getFormat();
-						if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
-			            {
-			    			link.append( baseURL.replaceFirst( "frameset", "run" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-			            }
-						else if ( "html".equalsIgnoreCase( format ) ) //$NON-NLS-1$
-			            {
-			    			link.append( baseURL ); 
-			            }
-							
-						link.append( "?__report=" );	//$NON-NLS-1$
-						try
-						{
-							link.append( URLEncoder.encode( reportName, "UTF-8" ) ); 	//$NON-NLS-1$
-						}
-						catch ( UnsupportedEncodingException e1 )
-						{
-							//It should not happen. Does nothing
-						}
-						if(format !=null && format.length()>0)
-						{
-							link.append( "&__format=" + format );//$NON-NLS-1$
-						}
-						//Adds the parameters
-						if ( hlAction.getParameterBindings( ) != null )
-						{
-							Iterator paramsIte = hlAction.getParameterBindings( ).entrySet( ).iterator( );
-							while ( paramsIte.hasNext( ) )
-							{
-								Map.Entry entry = (Map.Entry) paramsIte.next( );
-								try
-								{
-									String key = (String) entry.getKey( );
-									Object valueObj = entry.getValue( );
-									if ( valueObj != null )
-									{
-										String value = valueObj.toString( );
-										link.append( "&" + URLEncoder.encode( key, "UTF-8" ) //$NON-NLS-1$ //$NON-NLS-2$
-														+ "=" + URLEncoder.encode( value, "UTF-8" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-									}
-								}
-								catch ( UnsupportedEncodingException e )
-								{
-									// Does nothing
-								}
-							}
-						}
-					}
-					
-					//Adding overwrite.
-					link.append( "&__overwrite=true" ); //$NON-NLS-1$
-					
-					if ( hlAction.getBookmark() != null )
-					{
-						link.append( "&__bookmark=" ); //$NON-NLS-1$
-						link.append( hlAction.getBookmark() );
-					}
-					writer.addAnnotation( new PdfAnnotation( writer,
-							layoutPointX2PDF(areaX),
-							layoutPointY2PDF(areaY+area.getHeight()),
-							layoutPointX2PDF(areaX+area.getWidth()),
-							layoutPointY2PDF(areaY),
-		            		createPdfAction(link.toString( ), null, hlAction.getTargetWindow(), IHyperlinkAction.ACTION_DRILLTHROUGH )));
-					break;
-					
 				case IHyperlinkAction.ACTION_HYPERLINK: 
 					writer.addAnnotation( new PdfAnnotation( writer,
 							layoutPointX2PDF(areaX),
@@ -1381,6 +1311,18 @@ public class PDFEmitter implements IAreaVisitor
 							layoutPointX2PDF(areaX+area.getWidth()),
 							layoutPointY2PDF(areaY),
 							createPdfAction(hlAction.getHyperlink(), null, hlAction.getTargetWindow(), IHyperlinkAction.ACTION_HYPERLINK)) );
+					break;
+					
+				case IHyperlinkAction.ACTION_DRILLTHROUGH: 
+					Action act = new Action( hlAction );
+					IHTMLActionHandler actionHandler = new HTMLActionHandler();
+					String link = actionHandler.getURL( act, context );		
+					writer.addAnnotation( new PdfAnnotation( writer,
+							layoutPointX2PDF(areaX),
+							layoutPointY2PDF(areaY+area.getHeight()),
+							layoutPointX2PDF(areaX+area.getWidth()),
+							layoutPointY2PDF(areaY),
+		            		createPdfAction(link.toString(), null, hlAction.getTargetWindow(), IHyperlinkAction.ACTION_DRILLTHROUGH )));
 					break;
 				}
 			}
@@ -1392,10 +1334,10 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
-	 * create a PdfAction
+	 * Creates a PdfAction.
 	 * 
-	 * @param hyperlink			
-	 * @param bookmark
+	 * @param hyperlink			the hyperlink.
+	 * @param bookmark			the bookmark.
 	 * @param target			if target equals "_blank", the target will be opened in a new window,
 	 * 							else the target will be opened in the current window.
 	 * @return					the created PdfAction.
@@ -1403,13 +1345,13 @@ public class PDFEmitter implements IAreaVisitor
 	private PdfAction createPdfAction(String hyperlink, String bookmark, String target, int type)
 	{
 		if ("_blank".equalsIgnoreCase(target)) //$NON-NLS-1$
-		//open the target in a new window
+		// Opens the target in a new window.
 		{
 			return new PdfAction(hyperlink);
-			
 		}
 		else
-		//open the target in current window
+		
+		// Opens the target in the current window.
 		{
 			if (type==IHyperlinkAction.ACTION_BOOKMARK)
 			{
