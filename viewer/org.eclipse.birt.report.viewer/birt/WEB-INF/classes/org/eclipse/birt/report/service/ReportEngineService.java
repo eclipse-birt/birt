@@ -1369,10 +1369,12 @@ public class ReportEngineService
 	 * binding column holder must be a list or table item, and it defines a
 	 * distinct data set and bingding columns in it. If the element is null,
 	 * binding name is empty or the binding column holder is not found, then
-	 * return <code>Collections.EMPTY_LIST</code>.
+	 * return <code>Collections.EMPTY_LIST</code>. Caller can specify the max
+	 * row number and start row number by implement the interface IRequestInfo.
 	 * 
 	 * @param bindingName
 	 * @param elementHandle
+	 * @param requestInfo
 	 * @return
 	 * @throws BirtException
 	 */
@@ -1398,6 +1400,46 @@ public class ReportEngineService
 		selectValueList.addAll( session.getColumnValueSet( reportItem
 				.getDataSet( ), reportItem.paramBindingsIterator( ), reportItem
 				.columnBindingsIterator( ), bindingName, requestInfo ) );
+		session.shutdown( );
+
+		return selectValueList;
+	}
+
+	/**
+	 * Collects all the distinct values for the given element and
+	 * bindColumnName. This method will traverse the design tree for the given
+	 * element and get the nearest binding column holder of it. The nearest
+	 * binding column holder must be a list or table item, and it defines a
+	 * distinct data set and bingding columns in it. If the element is null,
+	 * binding name is empty or the binding column holder is not found, then
+	 * return <code>Collections.EMPTY_LIST</code>.
+	 * 
+	 * @param bindingName
+	 * @param elementHandle
+	 * @return
+	 * @throws BirtException
+	 */
+
+	public List getColumnValueSet( String bindingName,
+			DesignElementHandle elementHandle ) throws BirtException
+	{
+		if ( bindingName == null || elementHandle == null
+				|| !( elementHandle instanceof ReportItemHandle ) )
+			return Collections.EMPTY_LIST;
+
+		// if there is no effective holder of bindings, return empty
+		ReportItemHandle reportItem = getBindingHolder( elementHandle );
+		if ( reportItem == null )
+			return Collections.EMPTY_LIST;
+
+		List selectValueList = new ArrayList( );
+		DataRequestSession session = DataRequestSession
+				.newSession( new DataSessionContext(
+						DataSessionContext.MODE_DIRECT_PRESENTATION, reportItem
+								.getModuleHandle( ) ) );
+		selectValueList.addAll( session.getColumnValueSet( reportItem
+				.getDataSet( ), reportItem.paramBindingsIterator( ), reportItem
+				.columnBindingsIterator( ), bindingName ) );
 		session.shutdown( );
 
 		return selectValueList;
