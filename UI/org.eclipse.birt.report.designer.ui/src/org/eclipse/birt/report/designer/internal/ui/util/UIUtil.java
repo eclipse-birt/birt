@@ -88,6 +88,8 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -1240,9 +1242,8 @@ public class UIUtil
 		return applyThemeHandle;
 
 	}
-	
 	/**
-	 * Get 
+	 * Get
 	 * @param lineText
 	 * @return
 	 */
@@ -1327,7 +1328,7 @@ public class UIUtil
 				.matches( );
 		return match;
 	}
-	
+
 	/**
 	 * Sets the given help context id on the given control's shell.
 	 * 
@@ -1348,5 +1349,28 @@ public class UIUtil
 			// Do nothing since there's no workbench
 		}
 	}
-	
+
+	/**
+	 * Gets the ViewPart with the specified id
+	 * 
+	 * @param id
+	 *            the id of view part
+	 * 
+	 * @return Returns the view part, or null if not found
+	 */
+
+	public static IViewPart getView( String id )
+	{
+		IWorkbenchPage tPage = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( )
+				.getActivePage( );
+		IViewReference[] v = tPage.getViewReferences( );
+		int i;
+		for ( i = 0; i < v.length; i++ )
+		{
+			if ( v[i].getId( ).equals( id ) )
+				return (IViewPart) v[i].getPart( true );
+		}
+		return null;
+	}
 }
