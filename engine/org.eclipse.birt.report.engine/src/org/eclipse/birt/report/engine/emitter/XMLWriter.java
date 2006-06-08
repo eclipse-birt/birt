@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Output the content following the XML specification. Only when the events of
  * endding the writer, the stream is flushed explictly.
  * 
- * @version $Revision: 1.20 $ $Date: 2005/11/11 06:26:42 $
+ * @version $Revision: 1.21 $ $Date: 2006/01/11 06:29:02 $
  */
 public class XMLWriter
 {
@@ -202,6 +202,26 @@ public class XMLWriter
 	public void attribute( String attrName, String attrValue )
 	{
 		if ( attrValue != null && attrValue.length( ) > 0 )
+		{
+			printWriter.print( ' ' );
+			printWriter.print( attrName );
+			printWriter.print( "=\"" ); //$NON-NLS-1$
+			printWriter.print( escapeAttrValue( attrValue ) );
+			printWriter.print( '\"' );
+		}
+	}
+	
+	/**
+	 * Output the attribute whose value is not null but can be ""
+	 * 
+	 * @param attrName
+	 *            attribute name
+	 * @param attrValue
+	 *            attribute value
+	 */
+	public void attributeAllowEmpty( String attrName, String attrValue )
+	{
+		if ( attrValue != null )
 		{
 			printWriter.print( ' ' );
 			printWriter.print( attrName );
