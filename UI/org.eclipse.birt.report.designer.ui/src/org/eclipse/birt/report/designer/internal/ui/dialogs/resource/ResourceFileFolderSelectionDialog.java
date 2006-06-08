@@ -13,9 +13,13 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import java.io.File;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 
@@ -78,5 +82,14 @@ public class ResourceFileFolderSelectionDialog extends ElementTreeSelectionDialo
 		}
 		return null;
 	}
+	
+    /*
+     * @see Dialog#createDialogArea(Composite)
+     */
+    protected Control createDialogArea(Composite parent) {
+    	UIUtil.bindHelp(parent,IHelpContextIds.RESOURCE_SELECT_DIALOG_ID);
+    	return super.createDialogArea( parent );
+    	
+    }
 
 }

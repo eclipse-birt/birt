@@ -454,6 +454,8 @@ public class TextEditor extends BaseDialog
 	 */
 	private void createTextArea( Composite parent )
 	{
+		UIUtil.bindHelp(parent,IHelpContextIds.TEXT_EDITOR_ID);
+
 		IVerticalRuler ruler = null;
 		textViewer = new SourceViewer( parent, ruler, SWT.WRAP
 				| SWT.MULTI

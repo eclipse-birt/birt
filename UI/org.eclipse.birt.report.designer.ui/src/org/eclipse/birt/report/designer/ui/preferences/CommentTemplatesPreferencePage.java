@@ -1,6 +1,8 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.preference.PreferencePage;
@@ -88,6 +90,7 @@ public class CommentTemplatesPreferencePage extends PreferencePage implements
 		} );
 		handleChangeCommentText( );
 
+		UIUtil.bindHelp(parent,IHelpContextIds.PREFERENCE_BIRT_COMMENTTEMPLATE_ID);
 		return mainComposite;
 	}
 

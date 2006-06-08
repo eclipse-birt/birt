@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -217,6 +219,8 @@ public class MapRuleBuilder extends BaseDialog
 	 */
 	protected Control createContents( Composite parent )
 	{
+		UIUtil.bindHelp(parent,IHelpContextIds.INSERT_EDIT_MAP_RULE_DIALOG_ID);
+
 		GridData gdata;
 		GridLayout glayout;
 		Composite contents = new Composite( parent, SWT.NONE );

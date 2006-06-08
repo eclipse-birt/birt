@@ -15,6 +15,8 @@ import java.io.File;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -117,7 +119,7 @@ public class ResourcePreferencePage extends PreferencePage implements
 		new Label( mainComposite, SWT.NONE );
 
 		createBrowse( mainComposite );
-
+		UIUtil.bindHelp(parent,IHelpContextIds.PREFERENCE_BIRT_RESOURCE_ID);
 		return mainComposite;
 	}
 

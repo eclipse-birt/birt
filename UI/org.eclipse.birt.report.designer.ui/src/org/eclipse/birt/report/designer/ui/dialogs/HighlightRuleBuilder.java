@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PreviewLabel;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ColorBuilder;
@@ -642,7 +644,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				10,
 				SWT.BOLD ) );
 		label.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Title" ) ); //$NON-NLS-1$
-		// UIUtil.bindHelp( parent,HelpContextIds.HIGHLIGHT_RULE_BUILDER_ID );
+		UIUtil.bindHelp( parent,IHelpContextIds.HIGHLIGHT_RULE_BUILDER_ID );
 		return titleArea;
 	}
 

@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 //import org.eclipse.birt.report.designer.internal.ui.util.HelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
@@ -204,10 +205,8 @@ public class GroupDialog extends BaseDialog
 		createFieldArea( composite );
 		createGroupArea( composite );
 		createTOCArea( composite );
-
 		createFilterSortingArea( topComposite );
-
-//		UIUtil.bindHelp( parent,HelpContextIds.GROUP_DIALOG_ID ); 
+		UIUtil.bindHelp( parent,IHelpContextIds.GROUP_DIALOG_ID ); 
 		return topComposite;
 	}
 

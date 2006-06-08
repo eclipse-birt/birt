@@ -22,6 +22,8 @@ import java.util.Properties;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -462,6 +464,7 @@ public class ResourceEditDialog extends BaseDialog
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
+		UIUtil.bindHelp(parent,IHelpContextIds.RESOURCE_EDIT_DIALOG_ID);
 		loadMessage( );
 
 		final Composite innerParent = (Composite) super.createDialogArea( parent );

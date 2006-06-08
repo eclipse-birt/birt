@@ -35,6 +35,12 @@ public interface IHelpContextIds
 	
 	public static final String PUBLISH_TEMPLATE_WIZARD_ID = PREFIX + "PublishTemplateWizard_ID";
 	
+	public static final String IMPORT_CSS_STYLE_WIZARD_ID = PREFIX + "ImportCssStyle_ID";
+	
+	public static final String PUBLISH_LIBRARY_WIZARD_ID = PREFIX + "PuliblishLibraryDialog_ID";
+	
+	public static final String EXPORT_TO_LIBRARY_WIZARD_ID = PREFIX + "ExportToLibrary_ID";
+	
 	/*----------Control: Dialog----------*/	
 	public static final String FORMAT_BUILDER_ID = PREFIX + "FormatBuilder_ID"; 
 	
@@ -85,7 +91,23 @@ public interface IHelpContextIds
 	public static final String DATA_BINDING_DIALOG_ID = PREFIX + "DataBindingDialog_ID"; 
 	
 	public static final String HIGHLIGHT_RULE_BUILDER_ID = PREFIX + "HighlightRuleBuilder_ID" ;
+	
+	public static final String RESOURCE_SELECT_DIALOG_ID = PREFIX + "RresourceSelectDialog_ID";
 
+	public static final String CREATE_TEMPLATE_REPORT_ITEM_DIALOG_ID = PREFIX + "CreateTemplateReportItem_ID";
+	
+	public static final String INSERT_EDIT_MAP_RULE_DIALOG_ID = PREFIX + "AddEditMapRule_ID";
+	
+	public static final String ADD_EDIT_USER_PROPERTIES_DIALOG_ID = PREFIX + "AddEditUserProperties_ID";
+
+	public static final String ADD_EDIT_NAMED_EXPRESSION_DIALOG_ID = PREFIX + "AddEditNamedExpression_ID";
+	
+	public static final String RESOURCE_EDIT_DIALOG_ID = PREFIX + "ResourceEditDialog_ID";
+	
+	public static final String ADD_LIBRARY_DIALOG_ID = PREFIX + "AddLibraryDialog_ID";
+	
+	public static final String COLUMNBINDING_DIALOG_ID = PREFIX + "ColumnBindingDialog_ID";
+	
 	/*----------Control: Preference----------*/		
 	public static final String PREFERENCE_BIRT_DATA_SET_EDITOR_ID = PREFIX + "Preference_BIRT_DataSetEditor_ID";
 	
@@ -99,4 +121,7 @@ public interface IHelpContextIds
 	
 	public static final String PREFERENCE_BIRT_TEMPLATE_ID = PREFIX + "Preference_BIRT_Template_ID";
 	
+	public static final String PREFERENCE_BIRT_COMMENTTEMPLATE_ID = PREFIX + "Preference_BIRT_CommentTemplate_ID";
+	
+	public static final String PREFERENCE_BIRT_RESOURCE_ID = PREFIX + "Preference_BIRT_Resource_ID";
 }

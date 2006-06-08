@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -118,6 +119,19 @@ public class UserPropertyBuilder extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
+		
+		
+		
+		switch ( style )
+		{
+			case USER_PROPERTY :
+				UIUtil.bindHelp(parent,IHelpContextIds.ADD_EDIT_USER_PROPERTIES_DIALOG_ID);
+				break;
+			case NAMED_EXPRESSION :
+				UIUtil.bindHelp(parent,IHelpContextIds.ADD_EDIT_NAMED_EXPRESSION_DIALOG_ID);
+				break;
+		}
+		
 		Composite composite = (Composite) super.createDialogArea( parent );
 		GridLayout layout = new GridLayout( 2, false );
 		layout.marginHeight = layout.marginWidth = 10;

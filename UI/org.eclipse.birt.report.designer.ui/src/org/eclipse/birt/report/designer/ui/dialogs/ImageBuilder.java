@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFil
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileLabelProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
@@ -205,7 +206,7 @@ public class ImageBuilder extends BaseDialog
 
 		new Label( topCompostie, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-//		UIUtil.bindHelp( parent,HelpContextIds.IMAGE_BUIDLER_ID ); 
+		UIUtil.bindHelp( parent,IHelpContextIds.IMAGE_BUIDLER_ID ); 
 		return topCompostie;
 	}
 

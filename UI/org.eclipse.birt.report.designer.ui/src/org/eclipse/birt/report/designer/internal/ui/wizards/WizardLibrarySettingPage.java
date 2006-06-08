@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFil
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileLabelProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -166,6 +167,15 @@ public class WizardLibrarySettingPage extends WizardPage
 	 */
 	public void createControl( Composite parent )
 	{
+		if(type ==  PublishLibraryWizard.HAVE_NO_HANDLE )
+		{
+			UIUtil.bindHelp(parent,IHelpContextIds.PUBLISH_LIBRARY_WIZARD_ID);
+		}else
+		{
+			UIUtil.bindHelp(parent,IHelpContextIds.ADD_LIBRARY_DIALOG_ID);
+		}
+		
+		
 		Composite container = new Composite( parent, SWT.NONE );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.widthHint = 250;
@@ -251,8 +261,8 @@ public class WizardLibrarySettingPage extends WizardPage
 				ResourceFileLabelProvider labelProvider = new ResourceFileLabelProvider( );
 				ResourceFileContentProvider contentProvider = new ResourceFileContentProvider(false );
 				ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog(
-						UIUtil.getDefaultShell(),labelProvider,contentProvider);
-				
+						UIUtil.getDefaultShell(),labelProvider,contentProvider);				
+			
 				dialog.setAllowMultiple( false );
 				dialog.setTitle( Messages.getString( "WizardLibrarySettingPage.Resourcefile.Dialog.Title" ) ); //$NON-NLS-1$
 				dialog.setMessage( Messages.getString( "WizardLibrarySettingPage.Resourcefile.Dialog.Message" ) ); //$NON-NLS-1$

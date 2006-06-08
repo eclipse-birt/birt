@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.ComputedColumnExpres
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -456,6 +457,8 @@ public class ColumnBindingDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
+		
+		UIUtil.bindHelp(parent,IHelpContextIds.COLUMNBINDING_DIALOG_ID);
 		Composite parentComposite = (Composite) super.createDialogArea( parent );
 
 		if ( this.canSelect )

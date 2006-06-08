@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -74,6 +76,7 @@ public class TemplateReportItemPropertiesDialog extends BaseDialog
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
+		UIUtil.bindHelp(parent,IHelpContextIds.CREATE_TEMPLATE_REPORT_ITEM_DIALOG_ID);
 		Composite container = new Composite( parent, SWT.NONE );
 		GridLayout gridLayout = new GridLayout( );
 		gridLayout.marginWidth = 10;

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.wizards;
 
 import java.io.File;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -90,6 +91,7 @@ public class ExportReportWizardPage extends WizardPage implements Listener
 	 */
 	public void createControl( Composite parent )
 	{
+		UIUtil.bindHelp(parent,IHelpContextIds.EXPORT_TO_LIBRARY_WIZARD_ID);
 		Composite container = new Composite( parent, SWT.NONE );
 		GridLayout gridLayout = new GridLayout( );
 		gridLayout.numColumns = 3;
