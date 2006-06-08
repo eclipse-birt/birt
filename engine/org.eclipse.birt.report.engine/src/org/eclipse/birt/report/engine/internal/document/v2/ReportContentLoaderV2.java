@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -96,6 +97,9 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 
 		reportDoc = context.getReportDocument( );
 		dataEngine.prepare( report, context.getAppContext( ) );
+		
+		TOCNode root = reportDoc.findTOC( "/" );
+		reportContent.setTOC( root );
 	}
 
 	protected void openReaders( )
