@@ -399,7 +399,12 @@ BirtUtility.prototype =
 		if ( !target )
 			return;
 			
-		var oIEC = document.getElementById( target ).getElementsByTagName( "INPUT" );
+		var oTarget = document.getElementById( target );
+		var oIEC;
+		
+		if ( oTarget )
+			oIEC = oTarget.getElementsByTagName( "INPUT" );
+			
 		if ( oIEC )
 		{
 			for( var i = 0; i < oIEC.length; i++ )
