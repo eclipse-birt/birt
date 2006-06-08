@@ -162,10 +162,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.parametersAsString = getParsedParametersAsString( parameterList,
 				request, options );
 
-		// Get parameters as Object Map
-		this.parameters = (HashMap) getParsedParameters(
-				this.reportDesignHandle, parameterList, request, options );
-
 		// Get parameter definition list
 		Collection parameterDefList = getReportService( )
 				.getParameterDefinitions( this.reportDesignHandle, options,
@@ -174,6 +170,15 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		// Check if miss parameter
 		this.missingParameter = validateParameters( parameterDefList,
 				this.parametersAsString );
+
+		// Get parameters as String Map with default value
+		this.parametersAsString = getParsedParametersAsStringWithDefaultValue(
+				this.parametersAsString, request, options );
+
+		// Get parameters as Object Map
+		this.parameters = (HashMap) getParsedParameters(
+				this.reportDesignHandle, parameterList, request, options );
+
 	}
 
 	/**
@@ -646,6 +651,41 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			String paramName = parameter.getName( );
 			String paramValue = getParamValueAsString( request, parameter );
 
+			if ( paramName != null )
+				params.put( paramName, paramValue );
+		}
+
+		return params;
+	}
+
+	/**
+	 * get parsed parameters as string.
+	 * 
+	 * @param parsedParameters
+	 *            Map
+	 * @param request
+	 *            HttpServletRequest
+	 * @param options
+	 *            InputOptions
+	 * 
+	 * @return Map
+	 */
+	protected Map getParsedParametersAsStringWithDefaultValue(
+			Map parsedParameters, HttpServletRequest request,
+			InputOptions options ) throws ReportServiceException
+	{
+		if ( parsedParameters == null )
+		{
+			parsedParameters = new HashMap( );
+			return parsedParameters;
+		}
+
+		for ( Iterator iter = parsedParameters.keySet( ).iterator( ); iter
+				.hasNext( ); )
+		{
+			String paramName = iter.next( ).toString( );
+			Object paramValue = parsedParameters.get( paramName );
+
 			// if parameter value is null, then set value to default value.
 			if ( paramValue == null
 					&& !ParameterAccessor.isReportParameterExist( request,
@@ -656,13 +696,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			{
 				paramValue = this.getParameterDefaultValues(
 						reportDesignHandle, paramName, options );
-			}
 
-			if ( paramName != null )
-				params.put( paramName, paramValue );
+				parsedParameters.put( paramName, paramValue );
+			}
 		}
 
-		return params;
+		return parsedParameters;
 	}
 
 	/**
