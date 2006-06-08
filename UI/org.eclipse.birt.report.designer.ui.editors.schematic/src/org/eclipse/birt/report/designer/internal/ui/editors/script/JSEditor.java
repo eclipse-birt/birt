@@ -454,7 +454,6 @@ public class JSEditor extends StatusTextEditor implements
 		butReset = new Button( barPane, SWT.PUSH );
 		butReset.setText( Messages.getString( "JSEditor.Button.Reset" ) ); //$NON-NLS-1$
 		layoutData = new GridData( );
-		layoutData.heightHint = 20;
 		layoutData.horizontalIndent = 6;
 		butReset.setLayoutData( layoutData );
 		butReset.addSelectionListener( new SelectionListener( ) {
