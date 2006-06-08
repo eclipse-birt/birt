@@ -76,7 +76,6 @@ public class SampleDbSelectionPageHelper
 		m_sampleUser.setText( SampleDBJDBCConnectionFactory.getDbUser( ) );//$NON-NLS-1$
 		setMessage( DEFAULT_MESSAGE );
 		
-		content.setFocus( );
 		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( content,
 				CONEXT_ID_DATASOURCE_SAMPLEDB );
 	}

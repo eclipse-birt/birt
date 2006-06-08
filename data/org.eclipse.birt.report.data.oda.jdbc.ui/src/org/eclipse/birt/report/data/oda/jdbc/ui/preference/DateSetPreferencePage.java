@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.data.oda.jdbc.ui.preference;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.PreferencePage;
@@ -138,6 +140,9 @@ public class DateSetPreferencePage extends PreferencePage
 		}
 		maxDisplayTableEditor.setStringValue( defaultMaxTable );
 		
+		Utility.setSystemHelp( mainComposite,
+				IHelpConstants.CONEXT_ID_PREFERENCE_DATASET_JDBC );
+		
 		return mainComposite;
 	}
 
@@ -173,5 +178,16 @@ public class DateSetPreferencePage extends PreferencePage
 		JdbcPlugin.getDefault( ).savePluginPreferences( );
 		
 		return true;
+	}
+	
+    /*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
+	 */
+	public void setVisible( boolean visible )
+	{
+		super.setVisible( visible );
+		getControl( ).setFocus( );
 	}
 }

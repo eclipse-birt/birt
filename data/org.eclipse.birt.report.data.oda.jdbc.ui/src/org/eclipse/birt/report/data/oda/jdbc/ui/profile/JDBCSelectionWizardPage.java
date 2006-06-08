@@ -72,6 +72,17 @@ public class JDBCSelectionWizardPage extends DataSourceWizardPage
         return ( m_folderProperties != null ) ?
                     m_folderProperties : new Properties();
     }
+    
+    /*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
+	 */
+	public void setVisible( boolean visible )
+	{
+		super.setVisible( visible );
+		getControl( ).setFocus( );
+	}
 
 }
 

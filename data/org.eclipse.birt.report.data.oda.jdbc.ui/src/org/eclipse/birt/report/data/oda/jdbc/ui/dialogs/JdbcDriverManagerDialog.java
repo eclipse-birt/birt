@@ -24,12 +24,14 @@ import java.util.Map;
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverInfo;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JarFile;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -68,7 +70,7 @@ import com.ibm.icu.text.Collator;
  * A dialog to manage Jdbc drivers.
  */
 
-public class JdbcDriverManagerDialog extends Dialog
+public class JdbcDriverManagerDialog extends TrayDialog
 {
 
 	private TableViewer jarViewer, driverViewer;
@@ -176,6 +178,9 @@ public class JdbcDriverManagerDialog extends Dialog
 		});
 		initialize( );
 
+		Utility.setSystemHelp( composite,
+				IHelpConstants.CONEXT_ID_DATASOURCE_JDBC_MANAGEDRIVERS );
+		
 		return composite;
 	}
 

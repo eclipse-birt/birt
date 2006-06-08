@@ -30,6 +30,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DbObject;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
@@ -114,7 +115,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.53 $ $Date: 2006/06/02 06:08:27 $
+ * @version $Revision: 1.54 $ $Date: 2006/06/05 03:40:08 $
  */
 
 public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
@@ -159,7 +160,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	private DataSourceDesign prevDataSourceDesign;
 	private DataSetDesign dataSetDesign;
 	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
-	private final String CONEXT_ID_DATASET_JDBC = "org.eclipse.birt.cshelp.Wizard_JDBCDataset_ID";//$NON-NLS-1$
 	
 	static
 	{
@@ -210,9 +210,19 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		setControl( createPageControl( parent ) );
 		initializeControl( );
 		
+		Utility.setSystemHelp( getControl( ),
+				IHelpConstants.CONEXT_ID_DATASET_JDBC );
+	}
+	
+    /*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
+	 */
+	public void setVisible( boolean visible )
+	{
+		super.setVisible( visible );
 		getControl( ).setFocus( );
-		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( getControl( ),
-				this.CONEXT_ID_DATASET_JDBC );
 	}
 	
 	/**

@@ -27,6 +27,7 @@ import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
@@ -37,7 +38,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.21 $ $Date: 2006/03/28 10:43:48 $
+ * @version $Revision: 1.22 $ $Date: 2006/05/18 03:55:57 $
  */
 public class Utility
 {
@@ -518,5 +519,17 @@ public class Utility
 		{
 			//ignore
 		}
+	}
+	
+	/**
+	 * 
+	 * @param control
+	 * @param contextId
+	 */
+	public static void setSystemHelp( Control control, String contextId )
+	{
+		PlatformUI.getWorkbench( )
+				.getHelpSystem( )
+				.setHelp( control, contextId );
 	}
 }
