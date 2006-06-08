@@ -92,7 +92,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.114 $ $Date: 2006/06/07 09:06:07 $
+ * @version $Revision: 1.115 $ $Date: 2006/06/08 03:48:00 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1262,6 +1262,24 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.closeTag( HTMLTags.TAG_TR );
 	}
 
+	private boolean isCellInTableHead( ICellContent cell )
+	{
+		IElement row = cell.getParent( );
+		if ( row instanceof IRowContent )
+		{
+			IElement tableBand = row.getParent( );
+			if ( tableBand instanceof ITableBandContent )
+			{
+				int type = ( (ITableBandContent)tableBand ).getType( ); 
+				if ( type == ITableBandContent.BAND_HEADER )
+				{
+					return true;
+				}
+			}
+		}		
+		return false;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1284,8 +1302,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start cell." ); //$NON-NLS-1$
 			
-		// output 'td' tag
-		writer.openTag( HTMLTags.TAG_TD ); //$NON-NLS-1$
+		// output 'th' tag in table head, otherwise 'td' tag
+		boolean isInTableHead = isCellInTableHead( cell ); 
+		if ( isInTableHead )
+		{
+			writer.openTag( HTMLTags.TAG_TH ); //$NON-NLS-1$
+		}
+		else
+		{
+			writer.openTag( HTMLTags.TAG_TD ); //$NON-NLS-1$
+		}
 
 		// set the 'name' property
 		setStyleName( cell.getStyleClass( ) );
@@ -1307,8 +1333,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		handleColumnRelatedStyle( cell, styleBuffer );
 		handleVerticalAlign( cell, styleBuffer );
-		handleStyle( cell, styleBuffer );
-
+		
+		// set font weight to be normal if the cell use "th" tag while it is in table header.
+		if ( isInTableHead )
+		{
+			handleCellFont( cell, styleBuffer );
+		}
+		
+		handleStyle( cell, styleBuffer );		
+		
 		if ( cell.isStartOfGroup( ) )
 		{
 			//	include select handle table
@@ -1346,7 +1379,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		logger.log( Level.FINE, "[HTMLReportEmitter] End cell." ); //$NON-NLS-1$
 		
-		writer.closeTag( HTMLTags.TAG_TD );
+		if ( isCellInTableHead( cell ) )
+		{
+			writer.closeTag( HTMLTags.TAG_TH ); //$NON-NLS-1$
+		}
+		else
+		{
+			writer.closeTag( HTMLTags.TAG_TD ); //$NON-NLS-1$
+		}
 	}
 
 	/*
@@ -2517,7 +2557,35 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			styleBuffer.append( ";" );
 		}
 	}
-
+	
+	/**
+	 * Handles the font-weight property of the cell content
+	 * while the cell is in table header
+	 * 
+	 * @param element
+	 *            the styled element content
+	 * @param styleBuffer
+	 *            the StringBuffer instance
+	 */
+	protected void handleCellFont( ICellContent element,
+			StringBuffer styleBuffer )
+	{
+		IStyle style = element.getInlineStyle( );
+		String fontWeight = style.getFontWeight( );
+		if ( fontWeight == null )
+		{
+			style = element.getComputedStyle( );
+			fontWeight = style.getFontWeight( );
+			if ( fontWeight == null )
+			{
+				fontWeight = "normal";
+			}
+			styleBuffer.append( "font-weight: " );
+			styleBuffer.append( fontWeight );
+			styleBuffer.append( ";" );
+		}
+	}
+	
 	/**
 	 * adds the default table styles
 	 * 
