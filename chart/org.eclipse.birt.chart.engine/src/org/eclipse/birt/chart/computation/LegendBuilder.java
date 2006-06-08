@@ -52,10 +52,6 @@ import org.eclipse.birt.chart.render.BaseRenderer;
 public final class LegendBuilder implements IConstants
 {
 
-	private final double dHorizontalSpacing = 4;
-
-	private final double dVerticalSpacing = 4;
-
 	private Size sz;
 
 	/**
@@ -113,8 +109,10 @@ public final class LegendBuilder implements IConstants
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 		final ITextMetrics itm = xs.getTextMetrics( la );
 		double dItemHeight = itm.getFullHeight( );
+
 		Series se;
 		ArrayList al;
+		
 		double dScale = xs.getDpiResolution( ) / 72d;
 		Insets insCA = ca.getInsets( ).scaledInstance( dScale );
 		final boolean bPaletteByCategory = ( cm.getLegend( )
@@ -124,6 +122,9 @@ public final class LegendBuilder implements IConstants
 		Series seBase;
 		final List legendItems = new ArrayList( );
 
+		final double dHorizontalSpacing = 3 * dScale;
+		final double dVerticalSpacing = 3 * dScale;
+		
 		// Get maximum block width/height available
 		Block bl = cm.getBlock( );
 		Bounds boFull = bl.getBounds( ).scaledInstance( dScale );
@@ -539,7 +540,7 @@ public final class LegendBuilder implements IConstants
 								dExtraHeight = itm.getFullHeight( );
 								extraText = seLabel.getCaption( ).getValue( );
 
-								dDeltaHeight += dExtraHeight + 2;
+								dDeltaHeight += dExtraHeight + 2 * dScale;
 							}
 						}
 
@@ -704,7 +705,7 @@ public final class LegendBuilder implements IConstants
 								dExtraHeight = itm.getFullHeight( );
 								extraText = seLabel.getCaption( ).getValue( );
 
-								dDeltaHeight += itm.getFullHeight( ) + 2;
+								dDeltaHeight += itm.getFullHeight( ) + 2 * dScale;
 							}
 						}
 
@@ -1075,7 +1076,7 @@ public final class LegendBuilder implements IConstants
 								dEHeight = itm.getFullHeight( );
 								extraText = seLabel.getCaption( ).getValue( );
 
-								dH += dEHeight + 2;
+								dH += dEHeight + 2 * dScale;
 								dDeltaWidth = Math.max( dDeltaWidth,
 										itm.getFullWidth( ) );
 							}
@@ -1240,7 +1241,7 @@ public final class LegendBuilder implements IConstants
 								dEHeight = itm.getFullHeight( );
 								extraText = seLabel.getCaption( ).getValue( );
 
-								dH += dEHeight + 2;
+								dH += dEHeight + 2 * dScale;
 								dDeltaWidth = Math.max( dDeltaWidth,
 										itm.getFullWidth( ) );
 							}
