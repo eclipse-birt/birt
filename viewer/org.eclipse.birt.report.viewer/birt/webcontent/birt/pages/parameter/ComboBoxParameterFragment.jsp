@@ -80,6 +80,9 @@
 <%
 	if ( parameterBean.getSelectionList( ) != null )
 	{
+%>
+	<OPTION></OPTION>
+<%	
 		for ( int i = 0; i < parameterBean.getSelectionList( ).size( ); i++ )
 		{
 			String label = ( String ) parameterBean.getSelectionList( ).get( i );
