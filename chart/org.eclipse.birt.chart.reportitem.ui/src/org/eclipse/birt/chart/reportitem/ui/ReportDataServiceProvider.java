@@ -180,7 +180,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			QueryDefinition queryDefn = new QueryDefinition( );
 			queryDefn.setMaxRows( getMaxRow( ) );
-			queryDefn.setDataSetName( getDataSetFromHandle( ).getName( ) );
+			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
 
 			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.CACHE_USE_ALWAYS,
 					getReportDesignHandle( ) ) );
