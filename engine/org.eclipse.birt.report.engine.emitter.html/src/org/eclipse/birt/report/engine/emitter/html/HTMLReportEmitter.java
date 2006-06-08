@@ -92,7 +92,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.115 $ $Date: 2006/06/08 03:48:00 $
+ * @version $Revision: 1.116 $ $Date: 2006/06/08 07:17:05 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -236,6 +236,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected ContentEmitterVisitor contentVisitor;
 
+
+	private Stack detailRowStateStack = new Stack( );
 	/**
 	 * the constructor
 	 */
@@ -924,6 +926,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				startSelectHandleTable( );
 			}
+			detailRowStateStack.push( new DetailRowState( false, false ) );
 		}
 
 		writeColumns( table );
@@ -936,7 +939,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected void startSelectHandleTable( )
 	{
 		writer.openTag( HTMLTags.TAG_COL );
-		writer.attribute( HTMLTags.ATTR_STYLE, "width:18px;background-color:#cccccc" );
+		writer.attribute( HTMLTags.ATTR_CLASS, "table-side-bar-style" );
 		writer.closeTag( HTMLTags.TAG_COL );
 		writer.openTag( HTMLTags.TAG_COL );
 		//writer.attribute( HTMLTags.ATTR_STYLE, "width:95%" );
@@ -1097,6 +1100,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				endSelectHandleTable( );
 			}
+			detailRowStateStack.pop( );
 		}
 				
 		writer.closeTag( HTMLTags.TAG_TABLE );
@@ -1202,6 +1206,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			return;
 		}
+
+		if ( includeSelectionHandler )
+		{
+			if ( row.getRowType( ) == TableBandDesign.TABLE_DETAIL )
+			{
+				DetailRowState state = ( DetailRowState ) detailRowStateStack.peek( );
+				if ( ! state.isAfterStart && !state.isStartOfDetail )
+				{
+					state.isStartOfDetail = true;
+					state.isAfterStart = true;
+				}
+			}
+		}
 		writer.openTag( HTMLTags.TAG_TR );
 
 		setStyleName( row.getStyleClass( ) );
@@ -1256,6 +1273,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return;
 		}
 
+		if ( includeSelectionHandler )
+		{
+			DetailRowState state = (DetailRowState) detailRowStateStack.peek( );
+			if ( state.isStartOfDetail )
+			{
+				state.isStartOfDetail = false;
+			}
+		}
 		// assert currentData != null;
 		//
 		// currentData.adjustCols( );
@@ -1340,13 +1365,26 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			handleCellFont( cell, styleBuffer );
 		}
 		
-		handleStyle( cell, styleBuffer );		
-		
-		if ( cell.isStartOfGroup( ) )
+		handleStyle( cell, styleBuffer );
+
+		initializeCell( cell );
+	}
+
+	private void initializeCell( ICellContent cell )
+	{
+		if ( includeSelectionHandler )
 		{
-			//	include select handle table
-			if ( includeSelectionHandler )
+			if ( isStartOfDetail( ) || cell.isStartOfGroup( ) )
 			{
+				writer.openTag( HTMLTags.TAG_TABLE );
+				writer.attribute( HTMLTags.ATTR_HEIGHT, "100%" );
+				writer.openTag( HTMLTags.TAG_TR );
+				writer.openTag( HTMLTags.TAG_TD );
+			}
+			if ( cell.isStartOfGroup( ) )
+			{
+				// include select handle table
+				writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top" );
 				writer.openTag( HTMLTags.TAG_IMAGE );
 				writer.attribute( HTMLTags.ATTR_SRC,
 						"iv/images/collapsexpand.gif" );
@@ -1355,6 +1393,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				setBookmark( null, bookmark );
 				setActiveIDTypeIID( bookmark, "GROUP", null, -1 );
 				writer.closeTag( HTMLTags.TAG_IMAGE );
+				writer.closeTag( HTMLTags.TAG_TD );
+				writer.openTag( HTMLTags.TAG_TD );
 			}
 		}
 	}
@@ -1378,15 +1418,35 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return;
 		}
 		logger.log( Level.FINE, "[HTMLReportEmitter] End cell." ); //$NON-NLS-1$
-		
-		if ( isCellInTableHead( cell ) )
+
+		if ( includeSelectionHandler )
 		{
-			writer.closeTag( HTMLTags.TAG_TH ); //$NON-NLS-1$
+			if ( isStartOfDetail( ) )
+			{
+				// include select handle table
+				writer.closeTag( HTMLTags.TAG_TD );
+				writer.openTag( HTMLTags.TAG_TD );
+				writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top" );
+				writer.openTag( HTMLTags.TAG_IMAGE );
+				writer
+						.attribute( HTMLTags.ATTR_SRC,
+								"iv/images/columnicon.gif" );
+				writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
+				writer.attribute( HTMLTags.ATTR_COLUMN, cell
+						.getColumnInstance( ).getInstanceID( ).toString( ) );
+				String bookmark = generateUniqueID( );
+				setBookmark( null, bookmark );
+				setActiveIDTypeIID( bookmark, "COLOUMNINFO", null, -1 );
+				writer.closeTag( HTMLTags.TAG_IMAGE );
+			}
+			if ( isStartOfDetail( ) || cell.isStartOfGroup( ) )
+			{
+				writer.closeTag( HTMLTags.TAG_TD );
+				writer.closeTag( HTMLTags.TAG_TR );
+				writer.closeTag( HTMLTags.TAG_TABLE );
+			}
 		}
-		else
-		{
-			writer.closeTag( HTMLTags.TAG_TD ); //$NON-NLS-1$
-		}
+		writer.closeTag( HTMLTags.TAG_TD );
 	}
 
 	/*
@@ -2707,4 +2767,23 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 		}
 	}
+
+	public boolean isStartOfDetail( )
+	{
+		DetailRowState state = ( DetailRowState ) detailRowStateStack.peek( );
+		return state.isStartOfDetail;
+	}
+}
+
+class DetailRowState
+{
+	public DetailRowState( boolean isStartOfDetail, boolean  isAfterStart )
+	{
+		this.isStartOfDetail = isStartOfDetail;
+		this.isAfterStart = isAfterStart;
+	}
+
+	public boolean isStartOfDetail;
+
+	public boolean isAfterStart;
 }

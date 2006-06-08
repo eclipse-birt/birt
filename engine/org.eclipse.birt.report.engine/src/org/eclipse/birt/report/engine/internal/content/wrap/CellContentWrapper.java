@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.internal.content.wrap;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 
 /**
@@ -19,7 +20,7 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:53 $
+ * @version $Revision: 1.2 $ $Date: 2006/05/18 09:10:25 $
  */
 public class CellContentWrapper extends AbstractContentWrapper implements ICellContent
 {
@@ -126,13 +127,16 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 
 	public boolean isStartOfGroup( )
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return cell.isStartOfGroup( );
 	}
 
 	public void setStartOfGroup( boolean isStartOfGroup )
 	{
-		// TODO Auto-generated method stub
-		
+		cell.setStartOfGroup( isStartOfGroup );
+	}
+
+	public IColumn getColumnInstance( )
+	{
+		return cell.getColumnInstance( );
 	}
 }

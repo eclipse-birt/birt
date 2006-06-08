@@ -17,9 +17,13 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.ITableBandContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 
@@ -28,7 +32,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.13 $ $Date: 2006/01/20 14:55:38 $
+ * @version $Revision: 1.14 $ $Date: 2006/05/18 09:10:25 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
@@ -203,5 +207,33 @@ public class CellContent extends AbstractContent implements ICellContent
 	public void setStartOfGroup( boolean isStartOfGroup )
 	{
 		this.isStartOfGroup = isStartOfGroup;
+	}
+
+	public IColumn getColumnInstance( )
+	{
+		IColumn column = null;
+		IRowContent row = null;
+		if ( parent != null && parent instanceof IRowContent )
+		{
+			row = ( IRowContent ) parent;
+		}
+		if ( row != null )
+		{
+			IElement parentElt = row.getParent( );
+			if ( parentElt instanceof ITableBandContent )
+			{
+				parentElt = parentElt.getParent( );
+			}
+			ITableContent table = (ITableContent) parentElt;
+			if ( table != null )
+			{
+				int columnId = getColumn( );
+				if ( columnId >= 0 && columnId < table.getColumnCount( ) )
+				{
+					column = table.getColumn( columnId );
+				}
+			}
+		}
+		return column;
 	}
 }
