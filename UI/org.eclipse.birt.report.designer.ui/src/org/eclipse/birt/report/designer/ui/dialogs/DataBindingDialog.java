@@ -18,7 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BindingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -30,9 +30,9 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:15 $
+ * @version $Revision: 1.2 $ $Date: 2006/06/01 09:34:55 $
  */
-public class DataBindingDialog extends Dialog
+public class DataBindingDialog extends TrayDialog
 {
     ArrayList items = new ArrayList();
 

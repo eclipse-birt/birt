@@ -168,8 +168,7 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( copyAction.isEnabled( ) )
 			menu.add( copyAction );
 
-		if ( !( object instanceof DataSetItemModel )
-				|| !( object instanceof ResultSetColumnHandle ) )
+		if ( !( object instanceof ResultSetColumnHandle ) )
 		{
 			menu.add( new PasteAction( object ) );
 		}
