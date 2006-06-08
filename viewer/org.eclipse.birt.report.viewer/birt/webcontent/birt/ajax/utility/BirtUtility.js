@@ -392,6 +392,22 @@ BirtUtility.prototype =
 	{
 		return this.rtrim( this.ltrim( str ) );
 	},
+	
+	// set button if disabled
+	setButtonsDisabled: function ( target, flag )
+	{
+		if ( !target )
+			return;
+			
+		var oIEC = document.getElementById( target ).getElementsByTagName( "INPUT" );
+		if ( oIEC )
+		{
+			for( var i = 0; i < oIEC.length; i++ )
+			{
+				oIEC[i].disabled = flag;
+			}		
+		}
+	},
 		
 	noComma : "" //just to avoid javascript syntax errors
 }

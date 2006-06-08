@@ -351,6 +351,30 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	__cancel : function( )
 	{
 		window.status = "cancel";
-	}
+	},
+
+	/**
+	Called right before element is shown
+	*/
+	__preShow: function()
+	{
+		// disable the toolbar buttons
+		birtUtility.setButtonsDisabled ( "toolbar", true );
+		
+		// disable the Navigation Bar buttons
+		birtUtility.setButtonsDisabled ( "navigationBar", true );
+	},
+	
+	/**
+	Called before element is hidden
+	*/
+	__preHide: function()
+	{
+		// enable the toolbar buttons
+		birtUtility.setButtonsDisabled ( "toolbar", false );
+		
+		// enable the Navigation Bar buttons
+		birtUtility.setButtonsDisabled ( "navigationBar", false );		
+	}	
 }
 );
