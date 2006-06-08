@@ -348,7 +348,7 @@ public final class RDGroupUtil
 	 * @param hasNext
 	 * @throws DataException
 	 */
-	void next( boolean hasNext ) throws DataException
+	public void next( boolean hasNext ) throws DataException
 	{
 		// Adjust leaf group index
 		// Have we advanced into the next leaf group?

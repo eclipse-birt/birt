@@ -71,7 +71,9 @@ public class QueryResultIDManager
 		// write content
 		try
 		{
-			OutputStream os = streamManager.getRootOutStream( DataEngineContext.QUERYID_INFO_STREAM );
+			OutputStream os = streamManager.getOutStream( DataEngineContext.QUERYID_INFO_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE );
 			DataOutputStream dos = new DataOutputStream( os );
 
 			int size = idMap.size( );
@@ -90,7 +92,7 @@ public class QueryResultIDManager
 				}
 			}
 			
-			IOUtil.writeString( dos, streamManager.getWholeQueryResultID( ) );
+			IOUtil.writeString( dos, streamManager.getQueryResultUID( ) );
 			IOUtil.writeInt( dos, FilterDefnUtil.hashCode( filterList ) );
 
 			dos.close( );
@@ -104,6 +106,24 @@ public class QueryResultIDManager
 	
 	/**
 	 * @param streamManager
+	 * @param filterList
+	 * @throws DataException
+	 */
+	public static void cleanChildOfRoot( StreamManager streamManager )
+			throws DataException
+	{
+		if ( streamManager.hasInStream( DataEngineContext.QUERYID_INFO_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE ) == false )
+			return;
+		
+		//TODO: remove the folder
+		
+		//streamManager.dropSelfStream( DataEngineContext.QUERYID_INFO_STREAM );
+	}
+	
+	/**
+	 * @param streamManager
 	 * @return
 	 * @throws DataException
 	 */
@@ -112,12 +132,13 @@ public class QueryResultIDManager
 	{
 		Map idMap = new LinkedHashMap( );
 		if ( streamManager.hasInStream( DataEngineContext.QUERYID_INFO_STREAM,
-				StreamManager.ROOT_STREAM ) )
+				StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE ) )
 		{
 			try
 			{
 				InputStream is = streamManager.getInStream( DataEngineContext.QUERYID_INFO_STREAM,
-						StreamManager.ROOT_STREAM );
+						StreamManager.ROOT_STREAM,
+						StreamManager.BASE_SCOPE );
 				BufferedInputStream buffIs = new BufferedInputStream( is );
 				DataInputStream dis = new DataInputStream( buffIs );
 
@@ -140,23 +161,6 @@ public class QueryResultIDManager
 		}
 
 		return idMap;
-	}
-	
-	/**
-	 * @param streamManager
-	 * @param filterList
-	 * @throws DataException
-	 */
-	public static void cleanChildOfRoot( StreamManager streamManager )
-			throws DataException
-	{
-		if ( streamManager.hasInStream( DataEngineContext.QUERYID_INFO_STREAM,
-				StreamManager.SELF_STREAM ) == false )
-			return;
-		
-		//TODO: remove the folder
-		
-		streamManager.dropSelfStream( DataEngineContext.QUERYID_INFO_STREAM );
 	}
 	
 }

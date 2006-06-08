@@ -51,7 +51,8 @@ public class RDLoad
 			throws DataException
 	{
 		subQueryUtil = new RDSubQueryUtil( context,
-				queryResultInfo.getSelfQueryResultID( ),
+				QueryResultIDUtil.getRealStreamID( queryResultInfo.getRootQueryResultID( ),
+						queryResultInfo.getSelfQueryResultID( ) ),
 				queryResultInfo.getSubQueryName( ) );
 		streamManager = new StreamManager( context,
 				new QueryResultInfo( queryResultInfo.getRootQueryResultID( ),
@@ -93,8 +94,15 @@ public class RDLoad
 	 */
 	ExprResultSet loadExprResultSet( ) throws DataException
 	{
+		if ( streamManager.isSecondRD( ) == true
+				&& streamManager.isSubquery( ) == true )
+			return new ExprResultSet2( streamManager,
+					loadGroupUtil( StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE  ),
+					version,
+					streamManager.isSecondRD( ) );
+		
 		return new ExprResultSet( streamManager,
-				loadGroupUtil( StreamManager.SELF_STREAM ),
+				loadGroupUtil( StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE ),
 				version,
 				streamManager.isSecondRD( ) );
 	}
@@ -105,17 +113,18 @@ public class RDLoad
 	 */
 	public RDGroupUtil loadRootGroupUtil( ) throws DataException
 	{
-		return loadGroupUtil( StreamManager.ROOT_STREAM );
+		return loadGroupUtil( StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
 	}
 	
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	private RDGroupUtil loadGroupUtil( int streamPos ) throws DataException
+	private RDGroupUtil loadGroupUtil( int streamPos, int streamScope ) throws DataException
 	{
 		InputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,
-				streamPos );
+				streamPos,
+				streamScope );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
 		RDGroupUtil rdGroupUtil = new RDGroupUtil( buffStream );
 		try
@@ -144,7 +153,7 @@ public class RDLoad
 			throw new DataException( ResourceConstants.WRONG_VERSION );
 
 		InputStream inputStream = streamManager.getInStream( DataEngineContext.EXPR_META_STREAM,
-				StreamManager.ROOT_STREAM );
+				StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
 		BufferedInputStream buffStream = new BufferedInputStream( inputStream );
 		ExprMetaInfo[] exprMetas = ExprMetaUtil.loadExprMetaInfo( buffStream );
 		try
@@ -162,17 +171,22 @@ public class RDLoad
 		IExprDataResultSet exprDataResultSet = null;
 		if ( streamManager.isBasedOnSecondRD( ) == false )
 			exprDataResultSet = new ExprDataResultSet1( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
-					StreamManager.ROOT_STREAM ),
+					StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE ),
 					streamManager.getInStream( DataEngineContext.EXPR_ROWLEN_STREAM,
-							StreamManager.ROOT_STREAM ),
+							StreamManager.ROOT_STREAM,
+							StreamManager.BASE_SCOPE ),
 					exprMetas );
 		else
-			exprDataResultSet = new ExprDataResultSet2( streamManager.getRAInStream( DataEngineContext.EXPR_VALUE_STREAM,
-					StreamManager.ROOT_STREAM ),
-					streamManager.getRAInStream( DataEngineContext.EXPR_ROWLEN_STREAM,
-							StreamManager.ROOT_STREAM ),
-					streamManager.getRAInStream( DataEngineContext.ROW_INDEX_STREAM,
-							StreamManager.PARENT_STREAM ),
+			exprDataResultSet = new ExprDataResultSet2( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE ),
+					streamManager.getInStream( DataEngineContext.EXPR_ROWLEN_STREAM,
+							StreamManager.ROOT_STREAM,
+							StreamManager.BASE_SCOPE ),
+					streamManager.getInStream( DataEngineContext.ROW_INDEX_STREAM,
+							StreamManager.ROOT_STREAM,
+							StreamManager.PARENT_SCOPE ),
 					exprMetas );
 
 		return exprDataResultSet;
@@ -185,7 +199,7 @@ public class RDLoad
 	private IResultClass loadResultClass( ) throws DataException
 	{
 		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_META_STREAM,
-				StreamManager.SUBROOT_STREAM );
+				StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
 		IResultClass resultClass = new ResultClass( buffStream );
 		try
@@ -210,21 +224,18 @@ public class RDLoad
 	public DataSetResultSet loadDataSetData( ) throws DataException
 	{
 		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM,
-				StreamManager.ROOT_STREAM );
+				StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
 		DataSetResultSet populator = new DataSetResultSet( buffStream, this.loadResultClass() );
 
 		return populator;
 	}
 	
-	/**
-	 * @return
-	 * @throws DataException
-	 */
-	public List loadFilterDefn( int streamPos ) throws DataException
+	public List loadFilterDefn( int streamPos, int streamScope ) throws DataException
 	{
 		InputStream inputStream = streamManager.getInStream( DataEngineContext.FILTER_DEFN_STREAM,
-				streamPos );
+				streamPos,
+				streamScope );
 		List filterList = FilterDefnUtil.loadFilterDefn( inputStream );
 		try
 		{
@@ -237,15 +248,11 @@ public class RDLoad
 
 		return filterList;
 	}
-	
-	/**
-	 * @return
-	 * @throws DataException
-	 */
-	public List loadGroupDefn( int streamPos ) throws DataException
+		
+	public List loadGroupDefn( int streamPos, int streamScope ) throws DataException
 	{
 		InputStream inputStream = streamManager.getInStream( DataEngineContext.GROUP_DEFN_STREAM,
-				streamPos );
+				streamPos, streamScope );
 		List groupList = GroupDefnUtil.loadGroupDefn( inputStream );
 		try
 		{

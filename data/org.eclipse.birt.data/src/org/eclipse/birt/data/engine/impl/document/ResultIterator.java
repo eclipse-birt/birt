@@ -285,11 +285,11 @@ class ResultIterator implements IResultIterator
 		{
 			queryResults = new QueryResults( context,
 					parentQueryResultsID,
-					getQueryResults( ).getResultMetaData( ), 
+					null,//this.getResultMetaData( ), 
 					subQueryName,
 					this.exprResultSet.getCurrentIndex( ) );
 		}
-		catch ( BirtException e )
+		catch ( Exception e )
 		{
 			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
 					e,

@@ -118,8 +118,12 @@ public class RDSave implements IRDSave
 	 */
 	private void initSaveRowUtil( ) throws DataException
 	{
-		rowExprsOs = streamManager.getOutStream( DataEngineContext.EXPR_VALUE_STREAM );
-		rowLenOs = streamManager.getOutStream( DataEngineContext.EXPR_ROWLEN_STREAM );
+		rowExprsOs = streamManager.getOutStream( DataEngineContext.EXPR_VALUE_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.SELF_SCOPE );
+		rowLenOs = streamManager.getOutStream( DataEngineContext.EXPR_ROWLEN_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.SELF_SCOPE );
 
 		this.rowSaveUtil = new RowSaveUtil( rowCount,
 				rowExprsOs,
@@ -198,15 +202,22 @@ public class RDSave implements IRDSave
 					if ( context.getMode( ) == DataEngineContext.MODE_GENERATION
 							&& isSubQuery == false )
 					{
-						streamForResultClass = streamManager.getOutStream( DataEngineContext.DATASET_META_STREAM );
-						streamForDataSet = streamManager.getOutStream( DataEngineContext.DATASET_DATA_STREAM );
+						streamForResultClass = streamManager.getOutStream( DataEngineContext.DATASET_META_STREAM, StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE );
+						streamForDataSet = streamManager.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
+								StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE );
 					}
 				}
 				else
 				{
-					streamForRowIndexInfo = streamManager.getOutStream( DataEngineContext.ROW_INDEX_STREAM );
+					streamForRowIndexInfo = streamManager.getOutStream( DataEngineContext.ROW_INDEX_STREAM,
+							StreamManager.ROOT_STREAM,
+							StreamManager.SELF_SCOPE );
 				}
-				streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM );
+				streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM,
+						StreamManager.ROOT_STREAM,
+						StreamManager.SELF_SCOPE );
 				
 				odiResult.doSave( new StreamWrapper( streamForResultClass,
 						streamForDataSet,
@@ -232,11 +243,13 @@ public class RDSave implements IRDSave
 				// notice, sub query name is used instead of sub query id
 				if ( isSubQuery == true
 						&& streamManager.hasOutStream( DataEngineContext.SUBQUERY_INFO_STREAM,
-								StreamManager.SUBROOT_STREAM ) == false )
+								StreamManager.SUB_QUERY_ROOT_STREAM,
+								StreamManager.SELF_SCOPE ) == false )
 				{
 					// save info related with sub query info
 					OutputStream streamForSubQuery = streamManager.getOutStream( DataEngineContext.SUBQUERY_INFO_STREAM,
-							StreamManager.SUBROOT_STREAM );
+							StreamManager.SUB_QUERY_ROOT_STREAM,
+							StreamManager.SELF_SCOPE );
 					RDSubQueryUtil.doSave( streamForSubQuery,
 							groupLevel,
 							subQueryInfo );
@@ -256,7 +269,9 @@ public class RDSave implements IRDSave
 		 */
 		private void saveExprMetadata( ) throws DataException
 		{
-			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.EXPR_META_STREAM );
+			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.EXPR_META_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE );
 			ExprMetaUtil.saveExprMetaInfo( queryDefn, exprNameSet, outputStream );
 
 			try
@@ -274,7 +289,9 @@ public class RDSave implements IRDSave
 		 */
 		protected void saveFilterInfo( ) throws DataException
 		{
-			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.FILTER_DEFN_STREAM );
+			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.FILTER_DEFN_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE );
 			FilterDefnUtil.saveFilterDefn( outputStream, queryDefn.getFilters( ) );
 
 			try
@@ -292,7 +309,9 @@ public class RDSave implements IRDSave
 		 */
 		protected void saveGroupInfo( ) throws DataException
 		{
-			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.GROUP_DEFN_STREAM );
+			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.GROUP_DEFN_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE );
 			GroupDefnUtil.saveGroupDefn( outputStream, queryDefn.getGroups( ) );
 
 			try
