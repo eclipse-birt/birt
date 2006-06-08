@@ -39,6 +39,11 @@ public class HTMLRenderContext {
 	protected String imageDirectory;
 	
 	/**
+	 * HTML render option
+	 */
+	protected IRenderOption renderOption;
+	
+	/**
 	 * dummy constrictor 
 	 */
 	public HTMLRenderContext()
@@ -111,6 +116,22 @@ public class HTMLRenderContext {
 	 */
 	public String getSupportedImageFormats() {
 		return supportedImageFormats;
+	}
+	
+	/**
+	 * @return render options
+	 */
+	public void SetRenderOption( IRenderOption option )
+	{
+		renderOption = option;
+	}
+	
+	/**
+	 * @return render options
+	 */
+	public IRenderOption getRenderOption( )
+	{
+		return renderOption;
 	}
 	
 }
