@@ -457,9 +457,13 @@ public class Utility
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @param control
+	 * @param contextId
+	 */
 	public static void setSystemHelp( Control control, String contextId )
 	{
-		control.setFocus( );
 		PlatformUI.getWorkbench( )
 				.getHelpSystem( )
 				.setHelp( control, contextId );
