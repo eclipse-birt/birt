@@ -65,7 +65,8 @@
 	{
 %>
 		<INPUT TYPE="RADIO"
-			ID="<%= parameterBean.getName( ) + "_radio_selection" %>"
+			NAME="<%= parameterBean.getName( ) + "_radios" %>" 
+			ID="<%= parameterBean.getName( ) + "_radio_selection" %>" 
 			VALUE="<%= parameterBean.getName( ) %>"
 			<%= ( parameterBean.isValueInList( ) || ( parameterBean.allowNull( ) && parameterBean.getValue( ) == null) )? "CHECKED" : "" %>>
 
@@ -115,7 +116,8 @@
 %>
 		<BR>
 		<INPUT TYPE="RADIO"
-			ID="<%= parameterBean.getName( ) + "_radio_input"%>"
+			NAME="<%= parameterBean.getName( ) + "_radios" %>" 
+			ID="<%= parameterBean.getName( ) + "_radio_input"%>" 
 			VALUE="<%= parameterBean.getName( ) %>"
 			<%= ( !parameterBean.isValueInList( ) && parameterBean.getValue( ) != null  || !CHECKED )? "CHECKED" : "" %>>
 		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
