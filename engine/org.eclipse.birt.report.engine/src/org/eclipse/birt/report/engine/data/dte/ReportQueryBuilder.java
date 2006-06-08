@@ -101,7 +101,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.68 $ $Date: 2006/05/25 08:10:11 $
+ * @version $Revision: 1.69 $ $Date: 2006/06/01 03:49:38 $
  */
 public class ReportQueryBuilder
 {
@@ -808,10 +808,9 @@ public class ReportQueryBuilder
 			if ( queryStack.isEmpty( ) )
 				return null;
 
-			for ( int i = queryStack.size( ) - 1; i >= 0; i-- )
+			if ( queryStack.getLast( ) instanceof GroupDefinition )
 			{
-				if ( queryStack.get( i ) instanceof GroupDefinition )
-					return (GroupDefinition) queryStack.get( i );
+				return (GroupDefinition) queryStack.getLast( );
 			}
 			return null;
 
