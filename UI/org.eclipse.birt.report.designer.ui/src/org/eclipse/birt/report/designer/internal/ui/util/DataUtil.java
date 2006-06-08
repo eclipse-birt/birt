@@ -61,19 +61,23 @@ public class DataUtil
 	public static List getColumnList( DataSetHandle handle )
 			throws SemanticException
 	{
-		CachedMetaDataHandle meta = handle.getCachedMetaDataHandle( );
-		if ( meta == null )
-		{
-			DataSetUIUtil.updateColumnCache( handle );
-			meta = handle.getCachedMetaDataHandle( );
-		}
-		MemberHandle resultSet = meta.getResultSet( );
 		List result = new ArrayList( );
-		if ( resultSet.getListValue( ) != null )
+		if ( handle != null )
 		{
-			for ( int i = 0; i < resultSet.getListValue( ).size( ); i++ )
+			CachedMetaDataHandle meta = handle.getCachedMetaDataHandle( );
+			if ( meta == null )
 			{
-				result.add( resultSet.getAt( i ) );
+				DataSetUIUtil.updateColumnCache( handle );
+				meta = handle.getCachedMetaDataHandle( );
+			}
+			MemberHandle resultSet = meta.getResultSet( );
+
+			if ( resultSet.getListValue( ) != null )
+			{
+				for ( int i = 0; i < resultSet.getListValue( ).size( ); i++ )
+				{
+					result.add( resultSet.getAt( i ) );
+				}
 			}
 		}
 		return result;
@@ -103,9 +107,11 @@ public class DataUtil
 			ArrayList columnList = new ArrayList( );
 			String groupType = DEUtil.getGroupControlType( handle );
 			List groupList = DEUtil.getGroups( handle );
-			for ( Iterator iter = resultSetColumnList.iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = resultSetColumnList.iterator( ); iter
+					.hasNext( ); )
 			{
-				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iter.next( );
+				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iter
+						.next( );
 				ComputedColumn column = StructureFactory.createComputedColumn( );
 				column.setName( resultSetColumn.getColumnName( ) );
 				column.setDataType( resultSetColumn.getDataType( ) );
@@ -113,8 +119,9 @@ public class DataUtil
 				if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
 				{
 					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-						column.setAggregrateOn(( (GroupHandle) groupList.get( 0 ) ).getName( ) );
-					else if (groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+						column.setAggregrateOn( ( (GroupHandle) groupList
+								.get( 0 ) ).getName( ) );
+					else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
 						column.setAggregrateOn( null );
 				}
 				columnList.add( column );
@@ -124,7 +131,6 @@ public class DataUtil
 		return Collections.EMPTY_LIST;
 	}
 
-	
 	/**
 	 * Creates a query for the given data set
 	 * 
@@ -163,10 +169,7 @@ public class DataUtil
 			DataSetHandle dataSet, boolean useColumnHints, boolean useFilters )
 			throws BirtException
 	{
-		return getPreparedQuery( engine,
-				dataSet,
-				null,
-				useColumnHints,
+		return getPreparedQuery( engine, dataSet, null, useColumnHints,
 				useFilters );
 
 	}
@@ -191,11 +194,10 @@ public class DataUtil
 			DataSetHandle dataSet, ParamBindingHandle[] bindingParams,
 			boolean useColumnHints, boolean useFilters ) throws BirtException
 	{
-		IBaseDataSetDesign dataSetDesign = getDataSetDesign( engine,
-				dataSet,
-				useColumnHints,
-				useFilters );
-		return engine.prepare( getQueryDefinition( dataSetDesign, bindingParams ) );
+		IBaseDataSetDesign dataSetDesign = getDataSetDesign( engine, dataSet,
+				useColumnHints, useFilters );
+		return engine
+				.prepare( getQueryDefinition( dataSetDesign, bindingParams ) );
 	}
 
 	/**
@@ -213,7 +215,8 @@ public class DataUtil
 		if ( dataSet != null )
 		{
 			ModelDteApiAdapter adaptor = new ModelDteApiAdapter( );
-			IBaseDataSetDesign dataSetDesign = adaptor.createDataSetDesign( dataSet );
+			IBaseDataSetDesign dataSetDesign = adaptor
+					.createDataSetDesign( dataSet );
 
 			if ( !useColumnHints )
 			{
@@ -225,7 +228,8 @@ public class DataUtil
 			}
 			if ( !( dataSet instanceof JointDataSetHandle ) )
 			{
-				IBaseDataSourceDesign dataSourceDesign = adaptor.createDataSourceDesign( dataSet.getDataSource( ) );
+				IBaseDataSourceDesign dataSourceDesign = adaptor
+						.createDataSourceDesign( dataSet.getDataSource( ) );
 				engine.defineDataSource( dataSourceDesign );
 
 			}
@@ -254,10 +258,12 @@ public class DataUtil
 			DataSetHandle dsHandle = (DataSetHandle) dataSets.get( i );
 			if ( dsHandle.getName( ) != null )
 			{
-				if ( dsHandle.getName( )
-						.equals( ( (IJointDataSetDesign) dataSetDesign ).getLeftDataSetDesignName( ) )
-						|| dsHandle.getName( )
-								.equals( ( (IJointDataSetDesign) dataSetDesign ).getRightDataSetDesignName( ) ) )
+				if ( dsHandle.getName( ).equals(
+						( (IJointDataSetDesign) dataSetDesign )
+								.getLeftDataSetDesignName( ) )
+						|| dsHandle.getName( ).equals(
+								( (IJointDataSetDesign) dataSetDesign )
+										.getRightDataSetDesignName( ) ) )
 				{
 					getDataSetDesign( engine, dsHandle, true, true );
 				}
@@ -302,8 +308,9 @@ public class DataUtil
 			for ( int i = 0; i < bindingParams.length; i++ )
 			{
 				ParamBindingHandle param = bindingParams[i];
-				InputParameterBinding binding = new InputParameterBinding( param.getParamName( ),
-						new ScriptExpression( param.getExpression( ) ) );
+				InputParameterBinding binding = new InputParameterBinding(
+						param.getParamName( ), new ScriptExpression( param
+								.getExpression( ) ) );
 				defn.addInputParamBinding( binding );
 			}
 
@@ -333,14 +340,16 @@ public class DataUtil
 			Iterator iter = parameters.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				ParameterDefinition paramDefn = (ParameterDefinition) iter.next( );
+				ParameterDefinition paramDefn = (ParameterDefinition) iter
+						.next( );
 				if ( paramDefn.isInputMode( ) )
 				{
 					if ( paramDefn.getDefaultInputValue( ) != null )
 					{
-						InputParameterBinding binding = new InputParameterBinding( paramDefn.getName( ),
-								new ScriptExpression( paramDefn.getDefaultInputValue( )
-										.toString( ) ) );
+						InputParameterBinding binding = new InputParameterBinding(
+								paramDefn.getName( ), new ScriptExpression(
+										paramDefn.getDefaultInputValue( )
+												.toString( ) ) );
 						defn.addInputParamBinding( binding );
 					}
 				}
