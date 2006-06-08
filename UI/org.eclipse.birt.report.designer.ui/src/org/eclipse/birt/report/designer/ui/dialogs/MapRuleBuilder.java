@@ -219,10 +219,13 @@ public class MapRuleBuilder extends BaseDialog
 	{
 		GridData gdata;
 		GridLayout glayout;
+		Composite contents = new Composite( parent, SWT.NONE );
+		contents.setLayout( new GridLayout( ) );
+		contents.setLayoutData( new GridData( GridData.FILL_BOTH ) );		
 
-		createTitleArea( parent );
+		createTitleArea( contents );
 
-		Composite composite = new Composite( parent, 0 );
+		Composite composite = new Composite( contents, SWT.NONE );
 		glayout = new GridLayout( );
 		glayout.marginHeight = 0;
 		glayout.marginWidth = 0;
@@ -431,7 +434,7 @@ public class MapRuleBuilder extends BaseDialog
 	private Composite createTitleArea( Composite parent )
 	{
 		int margins = 2;
-		final Composite titleArea = new Composite( parent, SWT.NONE );
+		final Composite titleArea = new Composite( parent, SWT.NONE );		
 		FormLayout layout = new FormLayout( );
 		layout.marginHeight = margins;
 		layout.marginWidth = margins;
