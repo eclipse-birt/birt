@@ -7,11 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
-import org.eclipse.birt.report.presentation.aggregation.dialog.DialogContainerFragment;
-import org.eclipse.birt.report.presentation.aggregation.dialog.ExceptionDialogFragment;
-import org.eclipse.birt.report.presentation.aggregation.dialog.ParameterDialogFragment;
-import org.eclipse.birt.report.presentation.aggregation.layout.DocumentFragment;
-
 
 public class RequesterFragment extends BirtBaseFragment
 {
@@ -30,9 +25,7 @@ public class RequesterFragment extends BirtBaseFragment
 	 * Override build method.
 	 */
 	protected void build( )
-	{
-		addChild( new DocumentFragment( ) );
-		addChild( new DialogContainerFragment( new ExceptionDialogFragment( ) ) );
-		addChild( new DialogContainerFragment( new ParameterDialogFragment( ) ) );
+	{		
+		addChild( new ParameterFragment( ) );
 	}
 }
