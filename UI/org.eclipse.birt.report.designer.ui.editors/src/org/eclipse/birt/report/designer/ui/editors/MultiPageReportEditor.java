@@ -727,8 +727,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 					public void run( )
 					{
 						// UIUtil.resetViewSelection( view, true );
-						( (IReportEditorPage) getActivePageInstance( ) )
-								.onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
+						if(getActivePageInstance( )!=null)
+						{
+							( (IReportEditorPage) getActivePageInstance( ) )
+									.onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
+						}
 					}
 				} );
 				// UIUtil.resetViewSelection( view, true );

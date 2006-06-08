@@ -16,11 +16,19 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.ACC;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlEvent;
+import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.eclipse.swt.accessibility.AccessibleTextAdapter;
+import org.eclipse.swt.accessibility.AccessibleTextEvent;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -34,7 +42,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * Dialog to choose the table/grid row/column number when create a table/grid.
- *  
+ * 
  */
 public class TableOptionDialog extends BaseDialog
 {
@@ -198,8 +206,8 @@ public class TableOptionDialog extends BaseDialog
 		gdata.horizontalSpan = 2;
 		chkbox.setLayoutData( gdata );
 
-		UIUtil.bindHelp( parent,IHelpContextIds.TABLE_OPTION_DIALOG_ID ); 
-		
+		UIUtil.bindHelp( parent, IHelpContextIds.TABLE_OPTION_DIALOG_ID );
+
 		return composite;
 	}
 
@@ -286,10 +294,10 @@ public class TableOptionDialog extends BaseDialog
 
 					try
 					{
-						if(e.text.length( ) != 0)
+						if ( e.text.length( ) != 0 )
 						{
 							Integer.parseInt( e.text );
-						}						
+						}
 						e.doit = true;
 					}
 					catch ( Exception _ )
@@ -338,6 +346,69 @@ public class TableOptionDialog extends BaseDialog
 				public void handleEvent( Event e )
 				{
 					focusIn( );
+				}
+			} );
+			initAccessible( );
+		}
+
+		void initAccessible( )
+		{
+			AccessibleAdapter accessibleAdapter = new AccessibleAdapter( ) {
+
+				public void getName( AccessibleEvent e )
+				{
+					getHelp( e );
+				}
+
+				public void getHelp( AccessibleEvent e )
+				{
+					e.result = getToolTipText( );
+				}
+			};
+			getAccessible( ).addAccessibleListener( accessibleAdapter );
+			up.getAccessible( ).addAccessibleListener( accessibleAdapter );
+			down.getAccessible( ).addAccessibleListener( accessibleAdapter );
+
+			getAccessible( ).addAccessibleTextListener( new AccessibleTextAdapter( ) {
+
+				public void getCaretOffset( AccessibleTextEvent e )
+				{
+					e.offset = text.getCaretPosition( );
+				}
+			} );
+
+			getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
+
+				public void getChildAtPoint( AccessibleControlEvent e )
+				{
+					Point pt = toControl( new Point( e.x, e.y ) );
+					e.childID = ( getBounds( ).contains( pt ) ) ? ACC.CHILDID_SELF
+							: ACC.CHILDID_NONE;
+				}
+
+				public void getLocation( AccessibleControlEvent e )
+				{
+					Rectangle location = getBounds( );
+					Point pt = toDisplay( location.x, location.y );
+					e.x = pt.x;
+					e.y = pt.y;
+					e.width = location.width;
+					e.height = location.height;
+				}
+
+				public void getChildCount( AccessibleControlEvent e )
+				{
+					e.detail = 0;
+				}
+
+				public void getRole( AccessibleControlEvent e )
+				{
+					e.detail = ACC.ROLE_COMBOBOX;
+				}
+
+				public void getState( AccessibleControlEvent e )
+				{
+					e.detail = ACC.STATE_NORMAL;
 				}
 			} );
 

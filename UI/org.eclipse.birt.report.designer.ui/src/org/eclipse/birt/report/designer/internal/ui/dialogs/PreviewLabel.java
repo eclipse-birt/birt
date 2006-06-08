@@ -12,6 +12,12 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.ACC;
+import org.eclipse.swt.accessibility.Accessible;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlEvent;
+import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -20,9 +26,12 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 /**
  * A handy class for font style preview.
@@ -89,6 +98,86 @@ public class PreviewLabel extends Canvas
 				}
 			}
 		} );
+
+		addListener( SWT.Traverse, new Listener( ) {
+
+			public void handleEvent( Event e )
+			{
+				switch ( e.detail )
+				{
+					case SWT.TRAVERSE_PAGE_NEXT :
+					case SWT.TRAVERSE_PAGE_PREVIOUS :
+					case SWT.TRAVERSE_ARROW_NEXT :
+					case SWT.TRAVERSE_ARROW_PREVIOUS :
+					case SWT.TRAVERSE_RETURN :
+						e.doit = false;
+						return;
+				}
+				e.doit = true;
+			}
+		} );
+
+		initAccessible( );
+	}
+
+	void initAccessible( )
+	{
+		getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
+
+			public void getChildAtPoint( AccessibleControlEvent e )
+			{
+				Point pt = toControl( new Point( e.x, e.y ) );
+				e.childID = ( getBounds( ).contains( pt ) ) ? ACC.CHILDID_SELF
+						: ACC.CHILDID_NONE;
+			}
+
+			public void getLocation( AccessibleControlEvent e )
+			{
+				Rectangle location = getBounds( );
+				Point pt = toDisplay( location.x, location.y );
+				e.x = pt.x;
+				e.y = pt.y;
+				e.width = location.width;
+				e.height = location.height;
+			}
+
+			public void getChildCount( AccessibleControlEvent e )
+			{
+				e.detail = 0;
+			}
+
+			public void getRole( AccessibleControlEvent e )
+			{
+				e.detail = ACC.ROLE_LABEL;
+			}
+
+			public void getState( AccessibleControlEvent e )
+			{
+				e.detail = ACC.STATE_NORMAL;
+			}
+
+			public void getValue( AccessibleControlEvent e )
+			{
+				e.result = text;
+			}
+
+		} );
+
+		Accessible accessible = getAccessible( );
+		accessible.addAccessibleListener( new AccessibleAdapter( ) {
+
+			public void getName( AccessibleEvent e )
+			{
+				e.result = text;
+				if ( e.result == null )
+					getHelp( e );
+			}
+
+			public void getHelp( AccessibleEvent e )
+			{
+				e.result = getToolTipText( );
+			}
+		} );
 	}
 
 	private void initFields( )
@@ -123,7 +212,7 @@ public class PreviewLabel extends Canvas
 		fontWeight = WEIGHT_NORMAL;
 		isBold = false;
 		isItalic = false;
-		
+
 		if ( updateOnTheFly )
 		{
 			updateView( );
@@ -295,6 +384,7 @@ public class PreviewLabel extends Canvas
 		fontCreated = true;
 
 		this.redraw( );
+
 	}
 
 	protected void paintControl( PaintEvent e )

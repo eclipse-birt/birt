@@ -17,6 +17,11 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.accessibility.ACC;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlEvent;
+import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.PaintEvent;
@@ -26,6 +31,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -33,7 +39,7 @@ import org.eclipse.swt.widgets.ScrollBar;
 
 /**
  * Special Canvas class used to display the image.
- *  
+ * 
  */
 public class ImageCanvas extends Canvas
 {
@@ -56,6 +62,7 @@ public class ImageCanvas extends Canvas
 	public ImageCanvas( final Composite parent )
 	{
 		this( parent, 0 );
+		initAccessible( );
 	}
 
 	/**
@@ -63,7 +70,7 @@ public class ImageCanvas extends Canvas
 	 * 
 	 * @param parent
 	 * @param style
-	 *  
+	 * 
 	 */
 	public ImageCanvas( final Composite parent, int style )
 	{
@@ -83,6 +90,67 @@ public class ImageCanvas extends Canvas
 			}
 		} );
 		initScrollBars( );
+		initAccessible( );
+	}
+
+	void initAccessible( )
+	{
+		getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
+
+			public void getChildAtPoint( AccessibleControlEvent e )
+			{
+				Point testPoint = toControl( e.x, e.y );
+				if ( getBounds( ).contains( testPoint ) )
+				{
+					e.childID = ACC.CHILDID_SELF;
+				}
+			}
+
+			public void getLocation( AccessibleControlEvent e )
+			{
+				Rectangle location = getBounds( );
+				Point pt = toDisplay( location.x, location.y );
+				e.x = pt.x;
+				e.y = pt.y;
+				e.width = location.width;
+				e.height = location.height;
+			}
+
+			public void getChildCount( AccessibleControlEvent e )
+			{
+				e.detail = 0;
+			}
+
+			public void getRole( AccessibleControlEvent e )
+			{
+				e.detail = ACC.ROLE_LABEL;
+			}
+
+			public void getState( AccessibleControlEvent e )
+			{
+				e.detail = ACC.STATE_NORMAL;
+			}
+
+			public void getValue( AccessibleControlEvent e )
+			{
+				e.result = "Preview Image";
+			}
+
+		} );
+
+		AccessibleAdapter accessibleAdapter = new AccessibleAdapter( ) {
+
+			public void getHelp( AccessibleEvent e )
+			{
+				e.result = "Preview Image";
+			}
+
+			public void getName( AccessibleEvent e )
+			{
+				e.result = "Preview Image";
+			}
+		};
+		getAccessible( ).addAccessibleListener( accessibleAdapter );
 	}
 
 	/*
