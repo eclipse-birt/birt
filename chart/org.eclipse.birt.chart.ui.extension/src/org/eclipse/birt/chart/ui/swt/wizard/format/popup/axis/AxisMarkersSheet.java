@@ -300,7 +300,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 
 		txtValue = new TextEditorComposite( cmpLine,
 				SWT.BORDER | SWT.SINGLE,
-				true );
+				false );
 		GridData gdTXTValue = new GridData( GridData.FILL_HORIZONTAL );
 		txtValue.setLayoutData( gdTXTValue );
 		txtValue.addListener( this );
@@ -395,7 +395,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		lblStartValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.StartValue" ) ); //$NON-NLS-1$
 
 		txtStartValue = new TextEditorComposite( cmpRange, SWT.BORDER
-				| SWT.SINGLE, true );
+				| SWT.SINGLE, false );
 		GridData gdTXTStartValue = new GridData( GridData.FILL_HORIZONTAL );
 		txtStartValue.setLayoutData( gdTXTStartValue );
 		txtStartValue.addListener( this );
@@ -418,7 +418,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		lblEndValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.EndValue" ) ); //$NON-NLS-1$
 
 		txtEndValue = new TextEditorComposite( cmpRange, SWT.BORDER
-				| SWT.SINGLE, true );
+				| SWT.SINGLE, false );
 		GridData gdTXTEndValue = new GridData( GridData.FILL_HORIZONTAL );
 		txtEndValue.setLayoutData( gdTXTEndValue );
 		txtEndValue.addListener( this );
