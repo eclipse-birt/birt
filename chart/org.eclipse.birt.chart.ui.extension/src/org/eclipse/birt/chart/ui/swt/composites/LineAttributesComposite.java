@@ -248,7 +248,15 @@ public class LineAttributesComposite extends Composite
 		return ptSize;
 	}
 
+	/**
+	 * @deprecated To use {@link #setAttributesEnabled(boolean)}
+	 */
 	public void setEnabled( boolean bState )
+	{
+		setAttributesEnabled( bState );
+	}
+
+	public void setAttributesEnabled( boolean bState )
 	{
 		boolean bEnableUI = this.laCurrent.isVisible( );
 		if ( this.bEnableVisibility )
@@ -272,8 +280,8 @@ public class LineAttributesComposite extends Composite
 		}
 		this.bEnabled = bState;
 	}
-
-	public boolean isEnabled( )
+	
+	public boolean isAttributesEnabled( )
 	{
 		return this.bEnabled;
 	}

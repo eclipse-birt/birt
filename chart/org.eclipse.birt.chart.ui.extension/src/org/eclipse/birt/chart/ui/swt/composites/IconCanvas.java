@@ -159,7 +159,7 @@ public class IconCanvas extends Canvas
 
 		if ( horizontal != null )
 		{
-			horizontal.setIncrement( (int) ( getClientArea( ).width / 100 ) );
+			horizontal.setIncrement( ( getClientArea( ).width / 100 ) );
 			horizontal.setPageIncrement( getClientArea( ).width );
 
 			if ( imageBound.width * sx > cw )
@@ -175,13 +175,13 @@ public class IconCanvas extends Canvas
 				tx = ( cw - imageBound.width * sx ) / 2;
 			}
 			horizontal.setSelection( (int) ( -tx ) );
-			horizontal.setThumb( (int) ( getClientArea( ).width ) );
+			horizontal.setThumb( ( getClientArea( ).width ) );
 		}
 		ScrollBar vertical = getVerticalBar( );
 		if ( vertical != null )
 		{
-			vertical.setIncrement( (int) ( getClientArea( ).height / 100 ) );
-			vertical.setPageIncrement( (int) ( getClientArea( ).height ) );
+			vertical.setIncrement( ( getClientArea( ).height / 100 ) );
+			vertical.setPageIncrement( ( getClientArea( ).height ) );
 			if ( imageBound.height * sy > ch )
 			{
 				vertical.setMaximum( (int) ( imageBound.height * sy ) );
@@ -195,7 +195,7 @@ public class IconCanvas extends Canvas
 				ty = ( ch - imageBound.height * sy ) / 2;
 			}
 			vertical.setSelection( (int) ( -ty ) );
-			vertical.setThumb( (int) ( getClientArea( ).height ) );
+			vertical.setThumb( ( getClientArea( ).height ) );
 		}
 
 		af = AffineTransform.getScaleInstance( sx, sy );
@@ -210,7 +210,6 @@ public class IconCanvas extends Canvas
 	 * 
 	 * @param filename
 	 * 
-	 * @return
 	 */
 	public Image loadImage( String filename )
 	{
@@ -237,7 +236,6 @@ public class IconCanvas extends Canvas
 	 * Load the image from a URL.
 	 * 
 	 * @param url
-	 * @return
 	 */
 	public Image loadImage( URL url )
 	{
@@ -266,7 +264,6 @@ public class IconCanvas extends Canvas
 	 * 
 	 * @param filename
 	 * 
-	 * @return
 	 */
 	public Image loadImage( InputStream is )
 	{
