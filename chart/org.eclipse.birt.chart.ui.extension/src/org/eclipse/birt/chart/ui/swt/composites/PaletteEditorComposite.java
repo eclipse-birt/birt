@@ -671,6 +671,12 @@ public final class PaletteEditorComposite extends Composite implements
 					coPaletteEntries.redraw( );
 				}
 				break;
+			case SWT.CR :
+				if ( coPaletteEntries.isFocusControl( ) )
+				{
+					coEditor.setFocus( );
+				}
+				break;
 			case SWT.PAGE_DOWN :
 				iSelectedIndex += 8;
 				if ( iSelectedIndex > elPaletteEntries.size( ) )
