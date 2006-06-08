@@ -437,10 +437,6 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 						if ( curVal != null )
 							paramValue = curVal.toString( );
 					}
-					else
-					{
-						paramValue = parameter.getDefaultValue( );
-					}
 
 					if ( paramValue == null && !parameter.allowNull( ) )
 					{
