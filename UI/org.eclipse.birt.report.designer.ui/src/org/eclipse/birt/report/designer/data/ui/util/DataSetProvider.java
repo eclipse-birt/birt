@@ -795,32 +795,64 @@ public final class DataSetProvider
 		{
 			DataRequestSession session = getDataRequestSession( dataSet );
 
-			IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
-					.adaptDataSet( dataSet );
-
-			if ( !useColumnHints )
-			{
-				dataSetDesign.getResultSetHints( ).clear( );
-			}
-			if ( !useFilters )
-			{
-				dataSetDesign.getFilters( ).clear( );
-			}
-			if ( !( dataSet instanceof JointDataSetHandle ) )
-			{
-				IBaseDataSourceDesign dataSourceDesign = session.getModelAdaptor( )
-						.adaptDataSource( dataSet.getDataSource( ) );
-				session.defineDataSource( dataSourceDesign );
-
-			}
-			if ( dataSet instanceof JointDataSetHandle )
-			{
-				defineSourceDataSets( dataSet, dataSetDesign );
-			}
-			session.defineDataSet( dataSetDesign );
-			return dataSetDesign;
+			return getDataSetDesign( dataSet, useColumnHints, useFilters, session );
 		}
 		return null;
+	}
+
+	/**
+	 * 
+	 * @param session
+	 * @param dataSet
+	 * @param useColumnHints
+	 * @param useFilters
+	 * @return
+	 * @throws BirtException
+	 */
+	private IBaseDataSetDesign getDataSetDesign( DataRequestSession session,DataSetHandle dataSet,
+			boolean useColumnHints, boolean useFilters ) throws BirtException
+	{
+		if ( dataSet != null )
+		{
+			return getDataSetDesign( dataSet, useColumnHints, useFilters, session );
+		}
+		return null;
+	}
+	
+	/**
+	 * @param dataSet
+	 * @param useColumnHints
+	 * @param useFilters
+	 * @param session
+	 * @return
+	 * @throws BirtException
+	 */
+	private IBaseDataSetDesign getDataSetDesign( DataSetHandle dataSet, boolean useColumnHints, boolean useFilters, DataRequestSession session ) throws BirtException
+	{
+		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
+				.adaptDataSet( dataSet );
+
+		if ( !useColumnHints )
+		{
+			dataSetDesign.getResultSetHints( ).clear( );
+		}
+		if ( !useFilters )
+		{
+			dataSetDesign.getFilters( ).clear( );
+		}
+		if ( !( dataSet instanceof JointDataSetHandle ) )
+		{
+			IBaseDataSourceDesign dataSourceDesign = session.getModelAdaptor( )
+					.adaptDataSource( dataSet.getDataSource( ) );
+			session.defineDataSource( dataSourceDesign );
+
+		}
+		if ( dataSet instanceof JointDataSetHandle )
+		{
+			defineSourceDataSets( session, dataSet, dataSetDesign );
+		}
+		session.defineDataSet( dataSetDesign );
+		return dataSetDesign;
 	}
 	
 
@@ -829,7 +861,7 @@ public final class DataSetProvider
 	 * @param dataSetDesign
 	 * @throws BirtException
 	 */
-	private void defineSourceDataSets( DataSetHandle dataSet,
+	private void defineSourceDataSets( DataRequestSession session, DataSetHandle dataSet,
 			IBaseDataSetDesign dataSetDesign ) throws BirtException
 	{
 		List dataSets = dataSet.getModuleHandle( ).getAllDataSets( );
@@ -843,7 +875,7 @@ public final class DataSetProvider
 						|| dsHandle.getName( )
 								.equals( ( (IJointDataSetDesign) dataSetDesign ).getRightDataSetDesignName( ) ) )
 				{
-					getDataSetDesign( dsHandle, true, true );
+					getDataSetDesign( session,dsHandle, true, true );
 				}
 			}
 		}
