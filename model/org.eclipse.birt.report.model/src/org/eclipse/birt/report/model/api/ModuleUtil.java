@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.parser.ModuleParserErrorHandler;
 import org.eclipse.birt.report.model.parser.ModuleParserHandler;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionInfo;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
@@ -502,7 +503,6 @@ public class ModuleUtil
 	private static List checkVersion( InputStream streamData )
 			throws DesignFileException
 	{
-		List rtnList = new ArrayList( );
 		VersionParserHandler handler = new VersionParserHandler( );
 
 		InputStream inputStreamToParse = streamData;
@@ -511,15 +511,7 @@ public class ModuleUtil
 
 		parse( handler, inputStreamToParse );
 
-		if ( StringUtil.compareVersion( handler.version,
-				VersionInfo.COLUMN_BINDING_FROM_VERSION ) < 1
-				&& StringUtil.compareVersion(
-						DesignSchemaConstants.REPORT_VERSION,
-						VersionInfo.COLUMN_BINDING_FROM_VERSION ) > 0 )
-			rtnList.add( new VersionInfo( handler.version,
-					VersionInfo.CONVERT_FOR_COLUMN_BINDING ) );
-
-		return rtnList;
+		return ModelUtil.checkVersion( handler.version );
 	}
 
 	/**

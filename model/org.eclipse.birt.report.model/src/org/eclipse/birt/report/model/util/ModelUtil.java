@@ -37,7 +37,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
-import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -66,6 +65,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.parser.DesignParserException;
+import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.xml.sax.SAXException;
 
 import com.ibm.icu.text.CollationKey;
@@ -1043,5 +1043,31 @@ public class ModelUtil
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Returns a list whose entry is of <code>IVersionInfo</code> type. Each
+	 * kind of automatical conversion information is stored in one instance of
+	 * <code>IVersionInfo</code>. If the size of the return list is 0, there
+	 * is no conversion information.
+	 * 
+	 * @param version
+	 *            the design file version
+	 * @return a list containing <code>IVersionInfo</code>
+	 */
+
+	public static List checkVersion( String version )
+	{
+		List rtnList = new ArrayList( );
+
+		if ( StringUtil.compareVersion( version,
+				VersionInfo.COLUMN_BINDING_FROM_VERSION ) < 1
+				&& StringUtil.compareVersion(
+						DesignSchemaConstants.REPORT_VERSION,
+						VersionInfo.COLUMN_BINDING_FROM_VERSION ) > 0 )
+			rtnList.add( new VersionInfo( version,
+					VersionInfo.CONVERT_FOR_COLUMN_BINDING ) );
+
+		return rtnList;
 	}
 }

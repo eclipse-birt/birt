@@ -65,6 +65,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 import com.ibm.icu.util.ULocale;
 
@@ -1295,6 +1296,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public boolean needsSave( )
 	{
+		List versionInfos = ModelUtil.checkVersion( module.getVersionManager( )
+				.getVersion( ) );
+		if ( !versionInfos.isEmpty( ) )
+			return true;
+
 		return module.isDirty( );
 	}
 
