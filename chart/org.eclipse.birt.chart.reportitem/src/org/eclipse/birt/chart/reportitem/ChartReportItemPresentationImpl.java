@@ -36,6 +36,10 @@ import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.HTMLRenderContext;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
@@ -427,6 +431,23 @@ public final class ChartReportItemPresentationImpl extends
 					rowAdapter,
 					this.context ) );
 			rtc.setMessageLookup( new BIRTMessageLookup( context ) );
+
+			Object renderContext = context.getAppContext( )
+					.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
+
+			// read RtL flag from engine
+			if ( renderContext instanceof HTMLRenderContext )
+			{
+				IRenderOption renderOption = ( (HTMLRenderContext) renderContext ).getRenderOption( );
+				if ( renderOption instanceof HTMLRenderOption )
+				{
+					if ( ( (HTMLRenderOption) renderOption ).getHtmlRtLFlag( ) )
+					{
+						rtc.setRightToLeft( true );
+					}
+				}
+			}
+
 			gcs = gr.build( idr.getDisplayServer( ),
 					cm,
 					bo,
@@ -441,8 +462,7 @@ public final class ChartReportItemPresentationImpl extends
 			ByteArrayOutputStream baos = new ByteArrayOutputStream( );
 			BufferedOutputStream bos = new BufferedOutputStream( baos );
 
-			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER,
-					 bos);
+			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, bos );
 			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
 					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
