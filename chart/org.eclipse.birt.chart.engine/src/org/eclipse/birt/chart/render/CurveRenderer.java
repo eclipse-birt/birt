@@ -51,7 +51,7 @@ public final class CurveRenderer
 
 	private Spline spX = null, spY = null;
 
-	private double[] fa, faX, faY, faZ, lastX, lastY;
+	private double[] fa, faX, faY, faZ;
 
 	private final double zeroLocation;
 
@@ -251,7 +251,8 @@ public final class CurveRenderer
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.RENDERING,
 					"exception.curve.visibility.unset",//$NON-NLS-1$ 
-					Messages.getResourceBundle( iRender.getRunTimeContext( ).getULocale( ) ) );
+					Messages.getResourceBundle( iRender.getRunTimeContext( )
+							.getULocale( ) ) );
 		}
 
 		if ( !bFillArea && !lia.isVisible( ) )
@@ -632,9 +633,57 @@ public final class CurveRenderer
 		if ( bUseLastState )
 		{
 			Object obj = iRender.getRunTimeContext( )
-					.getState( AreaSeries.class );
-			lastX = null;
-			lastY = null;
+					.getState( BaseRenderer.FIXED_STACKED_SERIES_INDEX_KEY );
+
+			double[] lastFixedX = null;
+			double[] lastFixedY = null;
+
+			int lastVisbileSeriesIndex = iRender.getSeriesIndex( ) - 1;
+			// TODO this is just a temporary fix for stacked area rendering
+			if ( iRender instanceof AxesRenderer )
+			{
+				lastVisbileSeriesIndex = ( (AxesRenderer) iRender ).getPrevVisibleSiblingSeriesIndex( iRender.getSeriesIndex( ) );
+			}
+
+			if ( obj instanceof Integer
+					&& ( (Integer) obj ).intValue( ) == lastVisbileSeriesIndex )
+			{
+				// only search nearest previous values.
+				obj = iRender.getRunTimeContext( )
+						.getState( BaseRenderer.FIXED_STACKED_SERIES_LOCATION_KEY );
+
+				if ( obj instanceof List && ( (List) obj ).size( ) > 0 )
+				{
+					List lst = (List) obj;
+
+					for ( int i = 0; i < lst.size( ); i++ )
+					{
+						Object o = lst.get( i );
+
+						if ( o instanceof double[] )
+						{
+							if ( lastFixedX == null )
+							{
+								lastFixedX = new double[lst.size( )];
+								lastFixedY = new double[lastFixedX.length];
+							}
+
+							lastFixedX[i] = ( (double[]) o )[0];
+							lastFixedY[i] = ( (double[]) o )[1];
+						}
+						else
+						{
+							lastFixedX = null;
+							lastFixedY = null;
+							break;
+						}
+					}
+				}
+			}
+
+			obj = iRender.getRunTimeContext( ).getState( AreaSeries.class );
+			double[] lastX = null;
+			double[] lastY = null;
 
 			if ( obj instanceof List && ( (List) obj ).size( ) > 0 )
 			{
@@ -667,20 +716,31 @@ public final class CurveRenderer
 			if ( lastX != null )
 			{
 
-				Location[] pa = new Location[points.size( ) + lastX.length];
+				List lst = new ArrayList( );
 
 				for ( int i = 0; i < points.size( ); i++ )
 				{
 					double[] pt = (double[]) points.get( i );
-					pa[i] = LocationImpl.create( pt[0], pt[1] );
+					lst.add( LocationImpl.create( pt[0], pt[1] ) );
 				}
 
-				int l = points.size( );
-				for ( int i = lastX.length - 1; i >= 0; i-- )
+				if ( lastFixedX != null )
 				{
-					pa[l + lastX.length - 1 - i] = LocationImpl.create( lastX[i],
-							lastY[i] );
+					for ( int i = lastFixedX.length - 1; i >= 0; i-- )
+					{
+						lst.add( LocationImpl.create( lastFixedX[i],
+								lastFixedY[i] ) );
+					}
 				}
+				else
+				{
+					for ( int i = lastX.length - 1; i >= 0; i-- )
+					{
+						lst.add( LocationImpl.create( lastX[i], lastY[i] ) );
+					}
+				}
+
+				Location[] pa = (Location[]) lst.toArray( new Location[0] );
 
 				pre.setOutline( null );
 				pre.setPoints( pa );

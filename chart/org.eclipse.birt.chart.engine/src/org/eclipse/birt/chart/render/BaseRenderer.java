@@ -120,6 +120,10 @@ import org.eclipse.emf.common.util.EList;
 public abstract class BaseRenderer implements ISeriesRenderer
 {
 
+	protected final static String FIXED_STACKED_SERIES_LOCATION_KEY = "fixed_stacked_series_location_key"; //$NON-NLS-1$
+	
+	protected final static String FIXED_STACKED_SERIES_INDEX_KEY = "fixed_stacked_series_index_key"; //$NON-NLS-1$
+
 	protected static final String TIMER = "T"; //$NON-NLS-1$
 
 	protected ISeriesRenderingHints srh;
@@ -309,7 +313,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		return iSeriesIndex;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -2614,11 +2618,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 				TextRenderEvent.class );
-		
+
 		double dLaAngle = la.getCaption( ).getFont( ).getRotation( );
 		if ( isRightToLeft( ) )
 		{
-			dLaAngle = - dLaAngle;
+			dLaAngle = -dLaAngle;
 		}
 		double dDeltaHeight = 0;
 		if ( dLaAngle >= 0 && dLaAngle < 90 )
@@ -2631,9 +2635,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 		else if ( dLaAngle == 90 || dLaAngle == -90 )
 		{
-			dDeltaHeight =  bo.getHeight( ) / 2 ;
+			dDeltaHeight = bo.getHeight( ) / 2;
 		}
-		
+
 		if ( isRightToLeft( ) )
 		{
 			tre.setLocation( LocationImpl.create( dX

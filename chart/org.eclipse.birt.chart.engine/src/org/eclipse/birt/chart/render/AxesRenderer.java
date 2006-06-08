@@ -5498,6 +5498,68 @@ public abstract class AxesRenderer extends BaseRenderer
 		return ( getModel( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL );
 	}
 
+	/**
+	 * Returns previous visible series index by given index.
+	 * 
+	 * @param currentIndex
+	 * @return
+	 */
+	protected int getPrevVisibleSiblingSeriesIndex( int currentIndex )
+	{
+		SeriesDefinition sd = null;
+
+		Series se = getSeries( );
+
+		if ( se.eContainer( ) instanceof SeriesDefinition )
+		{
+			sd = (SeriesDefinition) se.eContainer( );
+		}
+
+		if ( sd != null )
+		{
+			int count = 0;
+			int idx = sd.getRunTimeSeries( ).indexOf( se );
+			if ( idx > 0 )
+			{
+				for ( int i = idx - 1; i >= 0; i-- )
+				{
+					count++;
+					if ( ( (Series) sd.getRunTimeSeries( ).get( i ) ).isVisible( ) )
+					{
+						return currentIndex - count;
+					}
+				}
+			}
+
+			Axis cax = getAxis( );
+
+			int iDefintionIndex = cax.getSeriesDefinitions( ).indexOf( sd );
+			int iDefinitionCount = cax.getSeriesDefinitions( ).size( );
+
+			if ( iDefinitionCount > 0 )
+			{
+				for ( int i = iDefintionIndex - 1; i >= 0; i-- )
+				{
+					sd = (SeriesDefinition) cax.getSeriesDefinitions( ).get( i );
+
+					int runtimeSeriesCount = sd.getRunTimeSeries( ).size( );
+
+					for ( int j = runtimeSeriesCount - 1; j >= 0; j-- )
+					{
+						count++;
+						if ( ( (Series) sd.getRunTimeSeries( ).get( j ) ).isVisible( ) )
+						{
+							return currentIndex - count;
+						}
+					}
+				}
+			}
+		}
+
+		return -1;
+
+	}
+
 	public final boolean isLastRuntimeSeriesInAxis( )
 	{
 		SeriesDefinition sd = null;
