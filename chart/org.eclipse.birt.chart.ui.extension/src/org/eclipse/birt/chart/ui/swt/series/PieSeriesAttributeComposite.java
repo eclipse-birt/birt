@@ -27,6 +27,8 @@ import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -114,6 +116,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 		this.series = (PieSeries) series;
 		init( );
 		placeComponents( );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YSERIES_PIE );
 	}
 
 	private void init( )

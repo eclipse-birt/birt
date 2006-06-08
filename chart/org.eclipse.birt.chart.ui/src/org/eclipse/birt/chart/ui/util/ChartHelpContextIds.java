@@ -45,8 +45,26 @@ public class ChartHelpContextIds
 	public static final String SUBTASK_XSERIES = PREFIX
 			+ "FormatChartXSeries_ID"; //$NON-NLS-1$
 
-	public static final String SUBTASK_YSERIES = PREFIX
-			+ "FormatChartYSeries_ID"; //$NON-NLS-1$
+	public static final String SUBTASK_YSERIES_BAR = PREFIX
+			+ "FormatBarChartYSeries_ID"; //$NON-NLS-1$
+
+	public static final String SUBTASK_YSERIES_LINE = PREFIX
+			+ "FormatLineChartYSeries_ID"; //$NON-NLS-1$
+
+	public static final String SUBTASK_YSERIES_AREA = PREFIX
+			+ "FormatAreaChartYSeries_ID"; //$NON-NLS-1$
+
+	public static final String SUBTASK_YSERIES_SCATTER = PREFIX
+			+ "FormatScatterChartYSeries_ID"; //$NON-NLS-1$
+
+	public static final String SUBTASK_YSERIES_STOCK = PREFIX
+			+ "FormatStockChartYSeries_ID"; //$NON-NLS-1$
+
+	public static final String SUBTASK_YSERIES_PIE = PREFIX
+			+ "FormatPieChartYSeries_ID"; //$NON-NLS-1$
+
+	public static final String SUBTASK_YSERIES_METER = PREFIX
+			+ "FormatMeterChartYSeries_ID"; //$NON-NLS-1$
 
 	/*----------POPUP----------*/
 	public static final String POPUP_CHART_TITLE_FORMAT = PREFIX

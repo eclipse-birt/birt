@@ -28,6 +28,8 @@ import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -104,6 +106,7 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		this.wizardContext = wizardContext;
 		init( );
 		placeComponents( );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YSERIES_METER );
 	}
 
 	private void init( )

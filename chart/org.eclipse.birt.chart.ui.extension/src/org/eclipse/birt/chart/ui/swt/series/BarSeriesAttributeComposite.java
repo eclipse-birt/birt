@@ -22,6 +22,8 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
@@ -84,6 +86,7 @@ public class BarSeriesAttributeComposite extends Composite
 		this.context = context;
 		init( );
 		placeComponents( );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YSERIES_BAR );
 	}
 
 	private void init( )

@@ -27,6 +27,8 @@ import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -97,6 +99,22 @@ public class LineSeriesAttributeComposite extends Composite
 		this.context = context;
 		init( );
 		placeComponents( );
+		
+		ChartUIUtil.bindHelp( parent, getHelpId( series ) );
+	}
+
+	private String getHelpId( Series series )
+	{
+		String helpId = ChartHelpContextIds.SUBTASK_YSERIES_LINE;
+		if ( series instanceof AreaSeries )
+		{
+			helpId = ChartHelpContextIds.SUBTASK_YSERIES_AREA;
+		}
+		else if ( series instanceof ScatterSeries )
+		{
+			helpId = ChartHelpContextIds.SUBTASK_YSERIES_SCATTER;
+		}
+		return helpId;
 	}
 
 	private void init( )
