@@ -19,16 +19,13 @@ import java.io.IOException;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.ui.IEditorPart;
 
 /**
  * The action used to add library to a report design
@@ -118,6 +115,10 @@ public class ImportLibraryAction extends Action
 			File targetFile = new File( resourceFolder, orgFile.getName( ) );
 			if ( targetFile.exists( ) )
 			{
+				if(targetFile.getAbsolutePath( ).equals( orgFile.getAbsolutePath( ) ))
+				{
+					return orgFile.getAbsolutePath( );
+				}
 				if ( MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
 						Messages.getString( "UseLibraryAction.Error.Title" ), //$NON-NLS-1$
 						Messages.getFormattedString( "UseLibraryAction.Error.Message", //$NON-NLS-1$
