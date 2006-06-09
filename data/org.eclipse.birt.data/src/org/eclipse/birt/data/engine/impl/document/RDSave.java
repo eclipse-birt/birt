@@ -196,6 +196,8 @@ public class RDSave implements IRDSave
 				
 				OutputStream streamForRowIndexInfo = null;
 				
+				OutputStream streamForParentIndexInfo = null;
+				
 				boolean isSubQuery = streamManager.isSubquery( );
 				if ( streamManager.isSecondRD( ) == false )
 				{
@@ -214,6 +216,12 @@ public class RDSave implements IRDSave
 					streamForRowIndexInfo = streamManager.getOutStream( DataEngineContext.ROW_INDEX_STREAM,
 							StreamManager.ROOT_STREAM,
 							StreamManager.SELF_SCOPE );
+
+					if ( context.getMode( ) == DataEngineContext.MODE_UPDATE
+							&& isSubQuery == true )
+						streamForParentIndexInfo = streamManager.getOutStream( DataEngineContext.SUBQUERY_PARENTINDEX_STREAM,
+								StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE );
 				}
 				streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM,
 						StreamManager.ROOT_STREAM,
@@ -222,7 +230,8 @@ public class RDSave implements IRDSave
 				odiResult.doSave( new StreamWrapper( streamForResultClass,
 						streamForDataSet,
 						streamForGroupInfo,
-						streamForRowIndexInfo ),
+						streamForRowIndexInfo,
+						streamForParentIndexInfo ),
 						isSubQuery,
 						RDSave.this.exprNameSet );
 				
@@ -238,6 +247,8 @@ public class RDSave implements IRDSave
 				if ( streamForDataSet != null )
 					streamForDataSet.close();
 
+				if ( streamForParentIndexInfo != null )
+					streamForParentIndexInfo.close( );
 				
 				// save the information of sub query information
 				// notice, sub query name is used instead of sub query id

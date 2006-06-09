@@ -84,10 +84,15 @@ public class DataEngineContext
 	public final static int FILTER_DEFN_STREAM = 43;
 	public final static int GROUP_DEFN_STREAM = 44;
 	
+	// row index to the base rd
 	public final static int ROW_INDEX_STREAM = 51;
 	
+	// manage query running on based rd
 	public final static int QUERYID_INFO_STREAM = 61;
-
+	
+	// parent index to the base subquery rd
+	public final static int SUBQUERY_PARENTINDEX_STREAM = 71;
+	
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
 	 * When mode is MODE_PRESENTATION, the reader stream of archive will be used.
@@ -332,17 +337,15 @@ public class DataEngineContext
 			case DATASET_META_STREAM :
 				relativePath = "ResultClass";
 				break;
-				
 			case EXPR_VALUE_STREAM :
 				relativePath = "ExprValue";
 				break;
 			case EXPR_ROWLEN_STREAM :
-				relativePath = "RowLengthInfo";
+				relativePath = "ExprRowLen";
 				break;
 			case EXPR_META_STREAM :
 				relativePath = "ExprMetaInfo";
 				break;
-				
 			case GROUP_INFO_STREAM :
 				relativePath = "GroupInfo";
 				break;
@@ -355,13 +358,14 @@ public class DataEngineContext
 			case GROUP_DEFN_STREAM:
 				relativePath = "GroupDefn";
 				break;
-				
 			case ROW_INDEX_STREAM:
-				relativePath = "RowIndexInfo";
+				relativePath = "RowIndex";
 				break;
-			
 			case QUERYID_INFO_STREAM :
 				relativePath = "QueryIDInfo";
+				break;
+			case SUBQUERY_PARENTINDEX_STREAM :
+				relativePath = "ParentIndex";
 				break;
 				
 			default :

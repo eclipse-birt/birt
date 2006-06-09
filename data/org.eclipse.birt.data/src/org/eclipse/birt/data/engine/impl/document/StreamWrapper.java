@@ -22,6 +22,7 @@ public class StreamWrapper
 	private OutputStream streamForDataSet;
 	private OutputStream streamForGroupInfo;
 	private OutputStream streamForRowIndexInfo;
+	private OutputStream streamForParentIndex;
 
 	/**
 	 * @param streamForResultClass
@@ -31,12 +32,13 @@ public class StreamWrapper
 	 */
 	public StreamWrapper( OutputStream streamForResultClass,
 			OutputStream streamForDataSet, OutputStream streamForGroupInfo,
-			OutputStream streamForRowIndexInfo )
+			OutputStream streamForRowIndexInfo, OutputStream streamForParentIndex )
 	{
 		this.streamForResultClass = streamForResultClass;
 		this.streamForDataSet = streamForDataSet;
 		this.streamForGroupInfo = streamForGroupInfo;
 		this.streamForRowIndexInfo = streamForRowIndexInfo;
+		this.streamForParentIndex = streamForParentIndex;
 	}
 
 	/**
@@ -69,6 +71,14 @@ public class StreamWrapper
 	public OutputStream getStreamForRowIndexInfo( )
 	{
 		return streamForRowIndexInfo;
+	}
+	
+	/**
+	 * @return
+	 */
+	public OutputStream getStreamForParentIndex( )
+	{
+		return streamForParentIndex;
 	}
 
 }

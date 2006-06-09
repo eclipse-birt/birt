@@ -97,7 +97,6 @@ public class RDLoad
 		if ( streamManager.isSecondRD( ) == true
 				&& streamManager.isSubquery( ) == true )
 			return new ExprResultSet2( streamManager,
-					loadGroupUtil( StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE  ),
 					version,
 					streamManager.isSecondRD( ) );
 		
