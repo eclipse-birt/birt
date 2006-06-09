@@ -82,6 +82,13 @@ public interface IExpressionProcessor
 			IComputedColumnsState computedColumns );
 
 	/**
+	 * Compile the exprssion in the given IComutedColumnState
+	 * @param filterState
+	 * @param computedColumns
+	 */
+	public void compileExpression( IComputedColumnsState computedColumns );
+
+	/**
 	 * Calculate the aggregations.If the aggregate pass level is less than or
 	 * equal to 1, the value of this aggregate is available. And the value will
 	 * be register in aggregate table.If the pass level is more than 1, the

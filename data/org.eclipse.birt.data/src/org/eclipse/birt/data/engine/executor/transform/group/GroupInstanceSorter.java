@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.executor.transform.group;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
@@ -79,11 +80,14 @@ public class GroupInstanceSorter
 		for ( int i = 0; i < this.populator.getQuery( ).getGrouping( ).length; i++ )
 		{
 			List groupSorts = this.populator.getQuery( ).getGrouping( )[i].getSorts( );
+			String name = this.populator.getQuery( ).getGrouping( )[i].getName( );
 			if ( groupSorts == null )
 				continue;
 			for ( int j = 0; j < groupSorts.size( ); j++ )
 			{
-				expressionList.add( ( (ISortDefinition) groupSorts.get( j ) ).getExpression( ) );
+				IBaseExpression expr = ( (ISortDefinition) groupSorts.get( j ) ).getExpression( ); 
+				expr.setGroupName( name );
+				expressionList.add( expr );
 				groupLevels.add( new Integer( i + 1 ) );
 			}
 		}

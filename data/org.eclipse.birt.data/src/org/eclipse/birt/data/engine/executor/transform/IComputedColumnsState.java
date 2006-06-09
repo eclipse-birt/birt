@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.data.engine.executor.transform;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
 /**
  * The implementation of this interface serve as data communication tool between
@@ -43,7 +43,7 @@ public interface IComputedColumnsState
 	 * @param index
 	 * @return
 	 */
-	public ScriptExpression getExpression( int index );
+	public IBaseExpression getExpression( int index );
 
 	/**
 	 * Mark the state of one ComputedColumn whose value is available

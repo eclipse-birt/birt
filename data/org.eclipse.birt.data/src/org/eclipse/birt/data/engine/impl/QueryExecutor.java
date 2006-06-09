@@ -27,6 +27,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -42,8 +43,10 @@ import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
+import org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.expression.FilterExpressionParser;
@@ -405,8 +408,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 								.trim( )
 								.length( ) == 0 ) )
 					throw new DataException( ResourceConstants.BAD_GROUP_EXPRESSION );
-				//TODO does the index of column significant?
-				
+					
 				String expr = getGroupKeyExpression( src );
 				String groupName = "";
 				if ( expr.trim( ).equalsIgnoreCase( "row[0]" )
@@ -677,6 +679,22 @@ public abstract class QueryExecutor implements IQueryExecutor
 		odiResult = executeOdiQuery( eventHandler );
 		//helper.setResultIterator( odiResult );
 
+		if (odiQuery instanceof BaseQuery) 
+		{
+			IExpressionProcessor ep = ((BaseQuery) odiQuery).getExprProcessor();
+
+			Map results = baseQueryDefn.getResultSetExpressions();
+			Object[] o = results.values().toArray();
+			Object[] names = results.keySet().toArray();
+			DummyICCState iccState = new DummyICCState(o, names);
+
+			ep.setResultIterator(odiResult);
+			while (!iccState.isFinish()) {
+				ep.compileExpression(iccState);
+				ep.calculate();
+			}
+
+		}
 		helper.setJSRowObject( this.dataSet.getJSResultRowObject( ) );
 
 		resetComputedColumns( );
@@ -697,6 +715,9 @@ public abstract class QueryExecutor implements IQueryExecutor
 				"Finish executing" );
 	}
 
+	/**
+	 * reset computed columns
+	 */
 	private void resetComputedColumns( )
 	{
 		List l = this.getDataSet( ).getComputedColumns( );
@@ -1163,5 +1184,106 @@ public abstract class QueryExecutor implements IQueryExecutor
 				getParameterValueString( dataTypeClass, paramValue) );
 		parameterHint.setIsNullable( paramDefn.isNullable() );
 		return parameterHint;
+	}
+}
+
+/**
+ * Class DummyICCState is used by ExpressionProcessor to calculate multipass 
+ * aggregations.
+ *
+ */
+class DummyICCState implements IComputedColumnsState
+{
+	Object[] exprs;
+	Object[] names;
+	boolean[] isValueAvailable;
+	
+	/**
+	 * 
+	 * @param exprs
+	 * @param names
+	 */
+	DummyICCState( Object[] exprs, Object[] names )
+	{
+		this.exprs = exprs;
+		this.names = names;
+		this.isValueAvailable= new boolean[exprs.length];
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#isValueAvailable(int)
+	 */
+	public boolean isValueAvailable( int index )
+	{
+		return this.isValueAvailable[index];
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getName(int)
+	 */
+	public String getName( int index )
+	{
+		return this.names[index].toString( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getExpression(int)
+	 */
+	public IBaseExpression getExpression( int index )
+	{
+		return (IBaseExpression) exprs[index];
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setValueAvailable(int)
+	 */
+	public void setValueAvailable( int index )
+	{
+		this.isValueAvailable[index] = true;		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getCount()
+	 */
+	public int getCount( )
+	{
+		return this.isValueAvailable.length;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getComputedColumn(int)
+	 */
+	public IComputedColumn getComputedColumn( int index )
+	{
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setModel(int)
+	 */
+	public void setModel( int model )
+	{
+			
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isFinish()
+	{
+		for( int i = 0; i < isValueAvailable.length; i++ )
+		{
+			if( !isValueAvailable[i] )
+				return false;
+		}
+		return true;
 	}
 }

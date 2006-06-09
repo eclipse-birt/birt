@@ -94,11 +94,14 @@ public class GroupInstanceFilter
 		for ( int i = 0; i < this.populator.getQuery( ).getGrouping( ).length; i++ )
 		{
 			List groupFilters = this.populator.getQuery( ).getGrouping( )[i].getFilters( );
+			String name = this.populator.getQuery( ).getGrouping( )[i].getName( );
 			if ( groupFilters == null )
 				continue;
 			for ( int j = 0; j < groupFilters.size( ); j++ )
 			{
-				expressionList.add( ( (IFilterDefinition) groupFilters.get( j ) ).getExpression( ) );
+				IBaseExpression expr = ( (IFilterDefinition) groupFilters.get( j ) ).getExpression( ); 
+				expr.setGroupName( name );
+				expressionList.add( expr );
 				groupLevels.add( new Integer( i + 1 ) );
 			}
 		}
