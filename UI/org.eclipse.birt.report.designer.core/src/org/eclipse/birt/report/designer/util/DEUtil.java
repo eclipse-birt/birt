@@ -105,19 +105,20 @@ public class DEUtil
 
 	static
 	{
-		propertiesMap.put( LabelHandle.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
+		propertiesMap
+				.put( LabelHandle.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
 		propertiesMap.put( TextItemHandle.CONTENT_PROP,
 				ELEMENT_LABELCONTENT_PROPERTY );
 
 		// do not support following element in release 2
-		notSupportList.add( DesignEngine.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.LINE_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.TEMPLATE_REPORT_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.FREE_FORM_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
+				ReportDesignConstants.LINE_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
+				ReportDesignConstants.TEMPLATE_REPORT_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
+				ReportDesignConstants.FREE_FORM_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
+				ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
 
 	}
 
@@ -146,8 +147,8 @@ public class DEUtil
 		List availableList = new ArrayList( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if ( parent.canContain( slotId,
-					( (IElementDefn) list.get( i ) ).getName( ) ) )
+			if ( parent.canContain( slotId, ( (IElementDefn) list.get( i ) )
+					.getName( ) ) )
 			{
 				availableList.add( list.get( i ) );
 			}
@@ -243,8 +244,8 @@ public class DEUtil
 		{
 			obj = ( (Class) obj ).getName( );
 		}
-		return obj.toString( )
-				.substring( obj.toString( ).lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
+		return obj.toString( ).substring(
+				obj.toString( ).lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
 	}
 
 	/**
@@ -257,12 +258,12 @@ public class DEUtil
 	 */
 	public static IElementDefn getElementDefn( String elementName )
 	{
-		IElementDefn defn = DesignEngine.getMetaDataDictionary( )
-				.getElement( elementName );
+		IElementDefn defn = DesignEngine.getMetaDataDictionary( ).getElement(
+				elementName );
 		if ( defn == null )
 		{
-			defn = DesignEngine.getMetaDataDictionary( )
-					.getExtension( elementName );
+			defn = DesignEngine.getMetaDataDictionary( ).getExtension(
+					elementName );
 		}
 		return defn;
 	}
@@ -296,7 +297,8 @@ public class DEUtil
 			}
 			else
 			{
-				displayName = handle.getDisplayLabel( DesignElementHandle.USER_LABEL );
+				displayName = handle
+						.getDisplayLabel( DesignElementHandle.USER_LABEL );
 			}
 			if ( !StringUtil.isBlank( displayName ) )
 			{
@@ -319,8 +321,7 @@ public class DEUtil
 	public static int getMasterPageAccount( )
 	{
 		SlotHandle slotHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getMasterPages( );
+				.getReportDesignHandle( ).getMasterPages( );
 
 		Iterator itor = slotHandle.iterator( );
 
@@ -391,7 +392,8 @@ public class DEUtil
 		assert parent instanceof DesignElementHandle;
 		assert child instanceof DesignElementHandle;
 
-		int slotID = ( (DesignElementHandle) parent ).findContentSlot( (DesignElementHandle) child );
+		int slotID = ( (DesignElementHandle) parent )
+				.findContentSlot( (DesignElementHandle) child );
 
 		return slotID;
 	}
@@ -436,7 +438,8 @@ public class DEUtil
 		// if after is null, insert at last
 		if ( element == null )
 		{
-			SlotHandle slotHandle = parent.getSlot( DEUtil.getDefaultSlotID( parent ) );
+			SlotHandle slotHandle = parent.getSlot( DEUtil
+					.getDefaultSlotID( parent ) );
 			if ( slotHandle != null )
 			{
 				return slotHandle.getCount( );
@@ -541,11 +544,9 @@ public class DEUtil
 		// added by gao if unit is "", set the unit is Design default unit
 		else if ( "".equals( units ) )//$NON-NLS-1$ 
 		{
-			units = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
+			units = SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
 					.getDefaultUnits( );
-			px = DimensionUtil.convertTo( measure,
-					units,
+			px = DimensionUtil.convertTo( measure, units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 		else if ( units == null )//$NON-NLS-1$
@@ -554,8 +555,7 @@ public class DEUtil
 		}
 		else
 		{
-			px = DimensionUtil.convertTo( measure,
-					units,
+			px = DimensionUtil.convertTo( measure, units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 
@@ -577,8 +577,7 @@ public class DEUtil
 		if ( handle.isSet( ) )
 		{
 			retValue = DimensionUtil.convertTo( handle.getMeasure( ),
-					handle.getUnits( ),
-					targetUnit ).getMeasure( );
+					handle.getUnits( ), targetUnit ).getMeasure( );
 		}
 		return retValue;
 	}
@@ -749,8 +748,7 @@ public class DEUtil
 			return null;
 		}
 
-		return new RGB( ( rgbValue >> 16 ) & 0xff,
-				( rgbValue >> 8 ) & 0xff,
+		return new RGB( ( rgbValue >> 16 ) & 0xff, ( rgbValue >> 8 ) & 0xff,
 				rgbValue & 0xff );
 	}
 
@@ -769,8 +767,7 @@ public class DEUtil
 			return -1;
 		}
 
-		return ( ( rgb.red & 0xff ) << 16 )
-				| ( ( rgb.green & 0xff ) << 8 )
+		return ( ( rgb.red & 0xff ) << 16 ) | ( ( rgb.green & 0xff ) << 8 )
 				| ( rgb.blue & 0xff );
 	}
 
@@ -788,13 +785,15 @@ public class DEUtil
 		{
 			if ( handle instanceof ReportItemHandle )
 			{
-				DesignElementHandle dataSet = ( (ReportItemHandle) handle ).getDataSet( );
+				DesignElementHandle dataSet = ( (ReportItemHandle) handle )
+						.getDataSet( );
 				if ( dataSet != null && !dataSetList.contains( dataSet ) )
 				{
 					dataSetList.add( dataSet );
 				}
 			}
-			for ( Iterator itor = getDataSetList( handle.getContainer( ) ).iterator( ); itor.hasNext( ); )
+			for ( Iterator itor = getDataSetList( handle.getContainer( ) )
+					.iterator( ); itor.hasNext( ); )
 			{
 				DesignElementHandle dataSet = (DesignElementHandle) itor.next( );
 				if ( !dataSetList.contains( dataSet ) )
@@ -819,7 +818,8 @@ public class DEUtil
 		List dataSetList = new ArrayList( );
 		if ( handle instanceof ReportElementHandle )
 		{
-			for ( Iterator itor = getDataSetList( handle.getContainer( ) ).iterator( ); itor.hasNext( ); )
+			for ( Iterator itor = getDataSetList( handle.getContainer( ) )
+					.iterator( ); itor.hasNext( ); )
 			{
 				DesignElementHandle dataSet = (DesignElementHandle) itor.next( );
 				if ( !dataSetList.contains( dataSet ) )
@@ -876,11 +876,13 @@ public class DEUtil
 		}
 		if ( model instanceof ComputedColumnHandle )
 		{
-			return getColumnExpression( ( (ComputedColumnHandle) model ).getName( ) );
+			return getColumnExpression( ( (ComputedColumnHandle) model )
+					.getName( ) );
 		}
 		if ( model instanceof ResultSetColumnHandle )
 		{
-			return getResultSetColumnExpression( ( (ResultSetColumnHandle) model ).getColumnName( ) );
+			return getResultSetColumnExpression( ( (ResultSetColumnHandle) model )
+					.getColumnName( ) );
 		}
 		if ( model instanceof DataSetParameterHandle )
 		{
@@ -922,8 +924,8 @@ public class DEUtil
 
 		if ( sp[0] != null && DEUtil.isValidNumber( sp[0] ) )
 		{
-			return (int) CSSUtil.convertToPoint( new DimensionValue( Double.parseDouble( sp[0] ),
-					sp[1] ) );
+			return (int) CSSUtil.convertToPoint( new DimensionValue( Double
+					.parseDouble( sp[0] ), sp[1] ) );
 		}
 
 		return 10;// as medium size.
@@ -988,7 +990,8 @@ public class DEUtil
 			{
 				for ( int i = 0; i < DesignerConstants.fontSizes.length - 1; i++ )
 				{
-					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM.equals( DesignerConstants.fontSizes[i][0] ) )
+					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM
+							.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
 						return DesignerConstants.fontSizes[i + 1][0];
 					}
@@ -1048,7 +1051,8 @@ public class DEUtil
 			{
 				for ( int i = DesignerConstants.fontSizes.length - 1; i > 0; i-- )
 				{
-					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM.equals( DesignerConstants.fontSizes[i][0] ) )
+					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM
+							.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
 						return DesignerConstants.fontSizes[i - 1][0];
 					}
@@ -1118,7 +1122,8 @@ public class DEUtil
 			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
-				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				String size = (String) DesignerConstants.fontMap
+						.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 				return Integer.parseInt( size );
 			}
 			if ( handle instanceof GroupHandle )
@@ -1157,7 +1162,8 @@ public class DEUtil
 		else
 		{
 			// return 10.
-			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			String size = (String) DesignerConstants.fontMap
+					.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 			return Integer.parseInt( size );
 		}
 	}
@@ -1169,7 +1175,8 @@ public class DEUtil
 			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
-				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				String size = (String) DesignerConstants.fontMap
+						.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 				return Integer.parseInt( size ) + 1;
 			}
 			if ( handle instanceof GroupHandle )
@@ -1202,16 +1209,19 @@ public class DEUtil
 				{
 					if ( fontSize.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
-						return Integer.parseInt( DesignerConstants.fontSizes[i + 1][1] );
+						return Integer
+								.parseInt( DesignerConstants.fontSizes[i + 1][1] );
 					}
 				}
-				return Integer.parseInt( DesignerConstants.fontSizes[DesignerConstants.fontSizes.length - 1][1] );
+				return Integer
+						.parseInt( DesignerConstants.fontSizes[DesignerConstants.fontSizes.length - 1][1] );
 			}
 		}
 		else
 		{
 			// return 10 + 1.
-			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			String size = (String) DesignerConstants.fontMap
+					.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 			return Integer.parseInt( size ) + 1;
 		}
 	}
@@ -1223,7 +1233,8 @@ public class DEUtil
 			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
-				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				String size = (String) DesignerConstants.fontMap
+						.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 				return Integer.parseInt( size ) - 1;
 			}
 			if ( handle instanceof GroupHandle )
@@ -1263,7 +1274,8 @@ public class DEUtil
 				{
 					if ( fontSize.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
-						return Integer.parseInt( DesignerConstants.fontSizes[i - 1][1] );
+						return Integer
+								.parseInt( DesignerConstants.fontSizes[i - 1][1] );
 					}
 				}
 				return Integer.parseInt( DesignerConstants.fontSizes[0][1] );
@@ -1272,7 +1284,8 @@ public class DEUtil
 		else
 		{
 			// return 10 -1.
-			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			String size = (String) DesignerConstants.fontMap
+					.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 			return Integer.parseInt( size ) - 1;
 		}
 	}
@@ -1317,7 +1330,8 @@ public class DEUtil
 	 */
 	public static String[] getSystemFontNames( Comparator comparator )
 	{
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
+		GraphicsEnvironment ge = GraphicsEnvironment
+				.getLocalGraphicsEnvironment( );
 
 		String[] fontNames = ge.getAvailableFontFamilyNames( );
 
@@ -1339,8 +1353,8 @@ public class DEUtil
 	{
 		ModuleHandle designHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
-		GroupElementHandle handle = GroupElementFactory.newGroupElement( designHandle,
-				modelList );
+		GroupElementHandle handle = GroupElementFactory.newGroupElement(
+				designHandle, modelList );
 		return handle;
 	}
 
@@ -1352,13 +1366,9 @@ public class DEUtil
 	 */
 	public static String escape( String str )
 	{
-		String[][] chars = {
-				{
-						"\\\\", "\"", "\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-				}, {
-						"\\\\\\\\", "\\\\\"", "\\\\\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-				}
-		};
+		String[][] chars = {{"\\\\", "\"", "\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+		}, {"\\\\\\\\", "\\\\\"", "\\\\\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+		}};
 		String result = str;
 		for ( int i = 0; i < chars[0].length; i++ )
 		{
@@ -1406,9 +1416,9 @@ public class DEUtil
 	 */
 	public static boolean isParameterGroup( Object transferSource )
 	{
-		return ( transferSource instanceof IDesignElement && ( (IDesignElement) transferSource ).getDefn( )
-				.getName( )
-				.equals( ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
+		return ( transferSource instanceof IDesignElement && ( (IDesignElement) transferSource )
+				.getDefn( ).getName( ).equals(
+						ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
 	}
 
 	/**
@@ -1429,35 +1439,40 @@ public class DEUtil
 		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof ReportDesignHandle )
 		{
 			styles = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getAllStyles( );
+					.getReportDesignHandle( ).getAllStyles( );
 		}
 		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
 		{
-			styles = new ArrayList();
-			ThemeHandle theme = ((LibraryHandle)SessionHandleAdapter.getInstance( ).getReportDesignHandle( )).getTheme( );
-			SlotHandle themeSlot = ((LibraryHandle)SessionHandleAdapter.getInstance( ).getReportDesignHandle( )).getThemes( );
-//			for ( Iterator iter = themeSlot.getContents( ).iterator( ); iter.hasNext( ); )
-//			{
-//				ThemeHandle theme = (ThemeHandle) iter.next( );
-////				for ( Iterator iterator = theme.getStyles( ).getContents( ).iterator( ); iterator.hasNext( ); )
-////				{
-////					SharedStyleHandle style = (SharedStyleHandle) iterator.next( );
-////					try
-////					{
-////						style.setName( theme.getName( ) + "." +style.getName( ) );
-////					}
-////					catch ( NameException e )
-////					{
-////					}
-////					styles.add( style );
-////				}
-//				styles.addAll( theme.getStyles( ).getContents( ) );
-//			}
+			styles = new ArrayList( );
+			ThemeHandle theme = ( (LibraryHandle) SessionHandleAdapter
+					.getInstance( ).getReportDesignHandle( ) ).getTheme( );
+			SlotHandle themeSlot = ( (LibraryHandle) SessionHandleAdapter
+					.getInstance( ).getReportDesignHandle( ) ).getThemes( );
+			// for ( Iterator iter = themeSlot.getContents( ).iterator( );
+			// iter.hasNext( ); )
+			// {
+			// ThemeHandle theme = (ThemeHandle) iter.next( );
+			// // for ( Iterator iterator = theme.getStyles( ).getContents(
+			// ).iterator( ); iterator.hasNext( ); )
+			// // {
+			// // SharedStyleHandle style = (SharedStyleHandle) iterator.next(
+			// );
+			// // try
+			// // {
+			// // style.setName( theme.getName( ) + "." +style.getName( ) );
+			// // }
+			// // catch ( NameException e )
+			// // {
+			// // }
+			// // styles.add( style );
+			// // }
+			// styles.addAll( theme.getStyles( ).getContents( ) );
+			// }
 			styles.addAll( theme.getStyles( ).getContents( ) );
 		}
 
-		Object[] stylesArray = (styles == null ? new Object[0] : styles.toArray( ));
+		Object[] stylesArray = ( styles == null ? new Object[0] : styles
+				.toArray( ) );
 
 		if ( comparator != null )
 		{
@@ -1620,8 +1635,7 @@ public class DEUtil
 	 */
 	public static List getDataSets( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
+		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
 				.getVisibleDataSets( );
 	}
 
@@ -1633,8 +1647,8 @@ public class DEUtil
 	private static Iterator getThemes( AlphabeticallyComparator comparator )
 	{
 		List themes = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
+				.getReportDesignHandle( ).getVisibleThemes(
+						IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 
 		Object[] themesArray = themes.toArray( );
 
@@ -1655,13 +1669,12 @@ public class DEUtil
 	{
 		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null )
 		{
-			return GroupElementFactory.newGroupElement( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ),
+			return GroupElementFactory.newGroupElement( SessionHandleAdapter
+					.getInstance( ).getReportDesignHandle( ),
 					Collections.EMPTY_LIST );
 		}
-		return GroupElementFactory.newGroupElement( SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ),
-				modelList );
+		return GroupElementFactory.newGroupElement( SessionHandleAdapter
+				.getInstance( ).getReportDesignHandle( ), modelList );
 
 	}
 
@@ -1739,15 +1752,18 @@ public class DEUtil
 		List methods = handle.getDefn( ).getLocalMethods( );
 		for ( Iterator iter = methods.iterator( ); iter.hasNext( ); )
 		{
-			IMethodInfo method = ( (ElementPropertyDefn) iter.next( ) ).getMethodInfo( );
+			IMethodInfo method = ( (ElementPropertyDefn) iter.next( ) )
+					.getMethodInfo( );
 			if ( method.getName( ).equals( methodName ) )
 			{
 				Iterator argumentListIterator = method.argumentListIterator( );
 				if ( argumentListIterator.hasNext( ) )
 				{
-					IArgumentInfoList argumentInfoList = (IArgumentInfoList) argumentListIterator.next( );
+					IArgumentInfoList argumentInfoList = (IArgumentInfoList) argumentListIterator
+							.next( );
 					int i = 0;
-					for ( Iterator iterator = argumentInfoList.argumentsIterator( ); iterator.hasNext( ); i++ )
+					for ( Iterator iterator = argumentInfoList
+							.argumentsIterator( ); iterator.hasNext( ); i++ )
 					{
 						Object arg = iterator.next( );
 						if ( argIndex == i )
@@ -1795,15 +1811,18 @@ public class DEUtil
 
 		for ( Iterator iter = methods.iterator( ); iter.hasNext( ); )
 		{
-			IMethodInfo method = ( (ElementPropertyDefn) iter.next( ) ).getMethodInfo( );
+			IMethodInfo method = ( (ElementPropertyDefn) iter.next( ) )
+					.getMethodInfo( );
 			if ( method.getName( ).equals( methodName ) )
 			{
 				Iterator argumentListIterator = method.argumentListIterator( );
 				if ( argumentListIterator.hasNext( ) )
 				{
-					IArgumentInfoList argumentInfoList = (IArgumentInfoList) argumentListIterator.next( );
+					IArgumentInfoList argumentInfoList = (IArgumentInfoList) argumentListIterator
+							.next( );
 					int i = 0;
-					for ( Iterator iterator = argumentInfoList.argumentsIterator( ); iterator.hasNext( ); i++ )
+					for ( Iterator iterator = argumentInfoList
+							.argumentsIterator( ); iterator.hasNext( ); i++ )
 					{
 						IArgumentInfo arg = (IArgumentInfo) iterator.next( );
 						argMap.put( arg.getName( ), arg.getType( ) );
@@ -1819,8 +1838,7 @@ public class DEUtil
 	 */
 	public static List getDataSources( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
+		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
 				.getVisibleDataSources( );
 	}
 
@@ -1862,18 +1880,21 @@ public class DEUtil
 			}
 			if ( handle instanceof ListingHandle )
 			{
-				SlotHandle groupSlotHandle = ( (ListingHandle) handle ).getGroups( );
-				for ( Iterator iter = groupSlotHandle.iterator( ); iter.hasNext( ); )
+				SlotHandle groupSlotHandle = ( (ListingHandle) handle )
+						.getGroups( );
+				for ( Iterator iter = groupSlotHandle.iterator( ); iter
+						.hasNext( ); )
 				{
 					GroupHandle group = (GroupHandle) iter.next( );
-					for ( Iterator columnIter = group.columnBindingsIterator( ); columnIter.hasNext( ); )
+					for ( Iterator columnIter = group.columnBindingsIterator( ); columnIter
+							.hasNext( ); )
 					{
 						bindingList.add( columnIter.next( ) );
 					}
 				}
 			}
-			bindingList.addAll( 0,
-					getAllColumnBindingList( handle.getContainer( ), true ) );
+			bindingList.addAll( 0, getAllColumnBindingList( handle
+					.getContainer( ), true ) );
 		}
 		return bindingList;
 	}
@@ -1915,7 +1936,9 @@ public class DEUtil
 		ReportItemHandle holder = getBindingHolder( handle );
 		if ( holder != null )
 		{
-			for ( DesignElementHandle elementHandle = handle.getContainer( ); elementHandle != holder.getContainer( ); elementHandle = elementHandle.getContainer( ) )
+			for ( DesignElementHandle elementHandle = handle.getContainer( ); elementHandle != holder
+					.getContainer( ); elementHandle = elementHandle
+					.getContainer( ) )
 			{
 				List subBindingList = new ArrayList( );
 				Iterator iterator = getBindingColumnIterator( elementHandle );
@@ -1948,14 +1971,15 @@ public class DEUtil
 			if ( handle instanceof ReportItemHandle )
 			{
 				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
-						|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
-								.hasNext( ) )
+						|| ( (ReportItemHandle) handle )
+								.columnBindingsIterator( ).hasNext( ) )
 				{
 					return (ReportItemHandle) handle;
 				}
 			}
 			ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
-			if ( result == null && handle instanceof ReportItemHandle )
+			if ( result == null && handle instanceof ReportItemHandle
+					&& !( handle instanceof GridHandle ) )
 			{
 				result = (ReportItemHandle) handle;
 			}
@@ -1983,10 +2007,12 @@ public class DEUtil
 		}
 		if ( dataSetHandle == null )
 		{
-			for ( DesignElementHandle elementHandle = handle; elementHandle != null; elementHandle = elementHandle.getContainer( ) )
+			for ( DesignElementHandle elementHandle = handle; elementHandle != null; elementHandle = elementHandle
+					.getContainer( ) )
 			{
 				if ( elementHandle instanceof ListingHandle
-						&& ( dataSetHandle = ( (ListingHandle) elementHandle ).getDataSet( ) ) != null )
+						&& ( dataSetHandle = ( (ListingHandle) elementHandle )
+								.getDataSet( ) ) != null )
 				{
 					return dataSetHandle;
 				}
@@ -2004,7 +2030,8 @@ public class DEUtil
 	public static ListingHandle getListingContainer(
 			DesignElementHandle container )
 	{
-		for ( DesignElementHandle elementHandle = container; elementHandle != null; elementHandle = elementHandle.getContainer( ) )
+		for ( DesignElementHandle elementHandle = container; elementHandle != null; elementHandle = elementHandle
+				.getContainer( ) )
 		{
 			if ( elementHandle instanceof ListingHandle )
 			{
@@ -2099,7 +2126,9 @@ public class DEUtil
 			DesignElementHandle baseElement )
 	{
 		int level = 0;
-		for ( DesignElementHandle elementHandle = baseElement; elementHandle.getContainer( ) != null; elementHandle = getBindingHolder( elementHandle ).getContainer( ), level++ )
+		for ( DesignElementHandle elementHandle = baseElement; elementHandle
+				.getContainer( ) != null; elementHandle = getBindingHolder(
+				elementHandle ).getContainer( ), level++ )
 		{
 			DesignElementHandle bindingHolder = getBindingHolder( elementHandle );
 			if ( bindingHolder == holder )
