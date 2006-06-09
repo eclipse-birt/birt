@@ -215,8 +215,15 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 								return false;
 							}
 							
-							// Check if select 'Null Value' option
 							var temp = oSEC[0].options[oSEC[0].selectedIndex].text;
+							if ( !temp )
+							{
+								oSEC[0].focus( );
+								alert( oIEC[j].value + " should have a value" );
+								return false;								
+							}
+							
+							// Check if select 'Null Value' option								
 							if( temp && temp != 'Null Value' )
 							{	
 								this.__parameter[k].name = oIEC[j].value;							

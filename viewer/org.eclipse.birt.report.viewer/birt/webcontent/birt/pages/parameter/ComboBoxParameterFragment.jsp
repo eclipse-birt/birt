@@ -24,6 +24,7 @@
 -----------------------------------------------------------------------------%>
 <%
 	ScalarParameterBean parameterBean = ( ScalarParameterBean ) attributeBean.getParameterBean( );
+	String encodedParameterName = ParameterAccessor.htmlEncode( parameterBean.getName( ) );
 %>
 <TR>
 	<TD NOWRAP>
@@ -46,17 +47,17 @@
 	<TD NOWRAP></TD>
 	<TD NOWRAP WIDTH="100%">
 		<INPUT TYPE="HIDDEN"
-			ID="<%= parameterBean.getName( ) + "_value" %>"
-			NAME="<%= parameterBean.getName( ) %>"
+			ID="<%= encodedParameterName + "_value" %>"
+			NAME="<%= encodedParameterName %>"
 			VALUE="<%= ParameterAccessor.htmlEncode( parameterBean.getValue( ) )%>">
 <%
 	if (parameterBean.allowNull())
 	{
 %>
 		<INPUT TYPE="HIDDEN"
-			ID="<%= parameterBean.getName( ) + "_hidden" %>"
+			ID="<%= encodedParameterName + "_hidden" %>"
 			NAME="<%= ParameterAccessor.PARAM_ISNULL %>"
-			VALUE="<%= ( parameterBean.getValue( ) == null )? parameterBean.getName( ) : "" %>">
+			VALUE="<%= ( parameterBean.getValue( ) == null )? encodedParameterName : "" %>">
 <%
 	}
 	
@@ -65,16 +66,16 @@
 	{
 %>
 		<INPUT TYPE="RADIO"
-			NAME="<%= parameterBean.getName( ) + "_radios" %>" 
-			ID="<%= parameterBean.getName( ) + "_radio_selection" %>" 
-			VALUE="<%= parameterBean.getName( ) %>"
+			NAME="<%= encodedParameterName + "_radios" %>" 
+			ID="<%= encodedParameterName + "_radio_selection" %>" 
+			VALUE="<%= encodedParameterName %>"
 			<%= ( parameterBean.isValueInList( ) || ( parameterBean.allowNull( ) && parameterBean.getValue( ) == null) )? "CHECKED" : "" %>>
 
 			<% CHECKED = ( parameterBean.isValueInList( ) || ( parameterBean.allowNull( ) && parameterBean.getValue( ) == null) ); %>
 <%
 	}
 %>
-		<SELECT ID="<%= parameterBean.getName( ) + "_selection"%>"
+		<SELECT ID="<%= encodedParameterName + "_selection"%>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
 			CLASS="birtviewer_parameter_dialog_Select"
 			>
@@ -116,14 +117,14 @@
 %>
 		<BR>
 		<INPUT TYPE="RADIO"
-			NAME="<%= parameterBean.getName( ) + "_radios" %>" 
-			ID="<%= parameterBean.getName( ) + "_radio_input"%>" 
-			VALUE="<%= parameterBean.getName( ) %>"
+			NAME="<%= encodedParameterName + "_radios" %>" 
+			ID="<%= encodedParameterName + "_radio_input"%>" 
+			VALUE="<%= encodedParameterName %>"
 			<%= ( !parameterBean.isValueInList( ) && parameterBean.getValue( ) != null  || !CHECKED )? "CHECKED" : "" %>>
 		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
 			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
-			ID="<%= parameterBean.getName( ) + "_input"%>"
+			ID="<%= encodedParameterName + "_input"%>"
 			<%= ( !parameterBean.isValueInList( ) && parameterBean.getValue( ) != null )? "VALUE=\"" + ParameterAccessor.htmlEncode( parameterBean.getValue( ) ) + "\"": "" %>
 			>
 	<%
@@ -131,8 +132,8 @@
 		{
 	%>
 			<INPUT TYPE="HIDDEN"
-				ID="<%= parameterBean.getName( ) + "_notblank" %>" 
-				NAME="<%= parameterBean.getName( ) %>"
+				ID="<%= encodedParameterName + "_notblank" %>" 
+				NAME="<%= encodedParameterName %>"
 				VALUE = "true">
 	<%
 		}

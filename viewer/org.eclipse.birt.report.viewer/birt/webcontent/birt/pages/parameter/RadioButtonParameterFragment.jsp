@@ -24,6 +24,7 @@
 -----------------------------------------------------------------------------%>
 <%
 	ScalarParameterBean parameterBean = ( ScalarParameterBean ) attributeBean.getParameterBean( );
+	String encodedParameterName = ParameterAccessor.htmlEncode( parameterBean.getName( ) );
 %>
 <TR>
 	<TD NOWRAP>
@@ -53,9 +54,9 @@
 	{
 %>
 	<INPUT TYPE="HIDDEN"
-		ID="<%= parameterBean.getName( ) + "_hidden" %>"
+		ID="<%= encodedParameterName + "_hidden" %>"
 		NAME="<%= ParameterAccessor.PARAM_ISNULL %>"
-		VALUE="<%= (parameterBean.getValue( ) == null)? parameterBean.getName( ) : "" %>">
+		VALUE="<%= (parameterBean.getValue( ) == null)? encodedParameterName : "" %>">
 <%
 		for ( int i = 0; i < parameterBean.getSelectionList( ).size( ); i++ )
 		{
@@ -63,7 +64,7 @@
 			String value = ( String ) parameterBean.getSelectionTable( ).get( label );
 %>
 	<INPUT TYPE="RADIO"
-		NAME="<%= parameterBean.getName( ) %>"
+		NAME="<%= encodedParameterName %>"
 		TITLE="<%= parameterBean.getToolTip( ) %>"
 		VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
 		<%= (parameterBean.getValue( ) != null && parameterBean.getValue( ).equalsIgnoreCase( value ) )? "CHECKED" : "" %>>
@@ -76,7 +77,7 @@
 		{
 %>
 	<INPUT TYPE="RADIO"
-		NAME="<%= parameterBean.getName( ) %>"
+		NAME="<%= encodedParameterName %>"
 		TITLE="<%= parameterBean.getToolTip( ) %>"
 		VALUE=""
 		<%= ( parameterBean.getValue( ) == null )? "CHECKED" : "" %>>

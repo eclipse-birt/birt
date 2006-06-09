@@ -24,6 +24,7 @@
 -----------------------------------------------------------------------------%>
 <%
 	ScalarParameterBean parameterBean = ( ScalarParameterBean ) attributeBean.getParameterBean( );
+	String encodedParameterName = ParameterAccessor.htmlEncode( parameterBean.getName( ) );
 %>
 <TR>
 	<TD NOWRAP>
@@ -47,13 +48,13 @@
 	<TD NOWRAP WIDTH="100%">
 		<%-- Parameter control --%>
 		<INPUT TYPE="HIDDEN"
-			ID="<%= parameterBean.getName( ) + "_hidden" %>"
-			NAME="<%= parameterBean.getName( ) %>"
+			ID="<%= encodedParameterName + "_hidden" %>"
+			NAME="<%= encodedParameterName %>"
 			VALUE="<%= parameterBean.getValue( ) %>">
 		<INPUT
 			TYPE="CHECKBOX"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
-			VALUE="<%= parameterBean.getName( ) %>"
+			VALUE="<%= encodedParameterName %>"
 			<%= "true".equalsIgnoreCase( parameterBean.getValue( ) ) ? "CHECKED" : "" %>
 			>
 	</TD>
