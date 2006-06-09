@@ -500,6 +500,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		StyleHandle styleHandle =  handle.getPrivateStyle( );
 
 		String family = (String) ( styleHandle.getFontFamilyHandle( ).getValue( ) );
+		//some font not defined in model is encolsed with quote.
+		family = DEUtil.RemoveQuote( family );
 		String FontFamily = (String) DesignerConstants.familyMap.get( family );
 
 		if ( FontFamily == null )

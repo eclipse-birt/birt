@@ -509,7 +509,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				updatePreview( );
 			}
 		} );
-		bold.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.Bold" ) );
+		bold.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.Bold" ) ); //$NON-NLS-1$
 
 		italic = createToggleButton( fstyle );
 		italic.setImage( ReportPlatformUIImages.getImage( AttributeConstant.FONT_STYLE ) );
@@ -521,7 +521,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				updatePreview( );
 			}
 		} );
-		italic.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.Italic" ) );
+		italic.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.Italic" ) ); //$NON-NLS-1$
 
 		underline = createToggleButton( fstyle );
 		underline.setImage( ReportPlatformUIImages.getImage( AttributeConstant.TEXT_UNDERLINE ) );
@@ -534,7 +534,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				previewLabel.redraw( );
 			}
 		} );
-		underline.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.Underline" ) );
+		underline.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.Underline" ) ); //$NON-NLS-1$
 
 		linethrough = createToggleButton( fstyle );
 		linethrough.setImage( ReportPlatformUIImages.getImage( AttributeConstant.TEXT_LINE_THROUGH ) );
@@ -547,7 +547,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				previewLabel.redraw( );
 			}
 		} );
-		linethrough.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.Text_Line_Through" ) );
+		linethrough.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.Text_Line_Through" ) ); //$NON-NLS-1$
 
 		Composite back = new Composite( innerParent, SWT.NONE );
 		back.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -644,7 +644,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				10,
 				SWT.BOLD ) );
 		label.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Title" ) ); //$NON-NLS-1$
-		UIUtil.bindHelp( parent,IHelpContextIds.HIGHLIGHT_RULE_BUILDER_ID );
+		UIUtil.bindHelp( parent, IHelpContextIds.HIGHLIGHT_RULE_BUILDER_ID );
 		return titleArea;
 	}
 
@@ -916,7 +916,8 @@ public class HighlightRuleBuilder extends BaseDialog
 	{
 		if ( handle != null )
 		{
-			String fm = handle.getFontFamilyHandle( ).getDisplayValue( );
+			String fm = DEUtil.RemoveQuote( handle.getFontFamilyHandle( )
+					.getDisplayValue( ) );
 
 			if ( innerSyncFamily( fm ) )
 			{
@@ -1039,7 +1040,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			{
 				if ( SYSTEM_FONT_LIST[i].equals( ftName ) )
 				{
-					return ftName;
+					return DEUtil.AddQuote( ftName );
 				}
 			}
 		}

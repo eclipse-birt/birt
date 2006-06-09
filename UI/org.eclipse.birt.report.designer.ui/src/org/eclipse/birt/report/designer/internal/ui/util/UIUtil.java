@@ -38,6 +38,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -52,6 +53,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -134,6 +136,11 @@ public class UIUtil
 		return width;
 	}
 
+	/**
+	 * @param string
+	 * @return
+	 * @deprecated see DEUtil.AddQuote( String string )
+	 */
 	public static String AddQuote( String string )
 	{
 		if ( string != null
@@ -144,6 +151,11 @@ public class UIUtil
 		return string;
 	}
 
+	/**
+	 * @param string
+	 * @return
+	 * @deprecated see DEUtil.RemoveQuote( String string )
+	 */
 	public static String RemoveQuote( String string )
 	{
 		if ( string != null
@@ -1242,8 +1254,10 @@ public class UIUtil
 		return applyThemeHandle;
 
 	}
+
 	/**
 	 * Get
+	 * 
 	 * @param lineText
 	 * @return
 	 */
@@ -1272,6 +1286,7 @@ public class UIUtil
 
 	/**
 	 * Get Bidi level of Expression String.
+	 * 
 	 * @param message
 	 * @return
 	 */
@@ -1287,8 +1302,9 @@ public class UIUtil
 			char c = message.charAt( i );
 			if ( isNeutral( c ) )
 			{
-				//Neutral char enclosed with ' or " should bidi with surround bidichar.
-				//otherwise should not bidi.
+				// Neutral char enclosed with ' or " should bidi with surround
+				// bidichar.
+				// otherwise should not bidi.
 				if ( c == '\'' || c == '\"' )
 				{
 					if ( bracket.empty( ) )
@@ -1372,5 +1388,28 @@ public class UIUtil
 				return (IViewPart) v[i].getPart( true );
 		}
 		return null;
+	}
+
+	/**
+	 * Check if the property should add quote.
+	 * Currently use in set fontfamily property.
+	 * @param elementName
+	 * @param property
+	 * @param value
+	 * @return
+	 */
+	public static boolean needAddQuote( String elementName, String property,
+			String value )
+	{
+		IChoice[] choices = ChoiceSetFactory.getElementChoiceSet( elementName,
+				property ).getChoices( );
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			if ( choices[i].getValue( ).equals( value ) )
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }

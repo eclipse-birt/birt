@@ -2236,4 +2236,38 @@ public class DEUtil
 		}
 		return TYPE_GROUP_NONE;
 	}
+	
+	/**
+	 * Get the string enclosed with quote.
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public static String AddQuote( String string )
+	{
+		if ( string != null
+				&& ( !( string.startsWith( "\"" ) && string.endsWith( "\"" ) ) ) ) //$NON-NLS-1$//$NON-NLS-2$
+		{
+			return "\"" + string + "\""; //$NON-NLS-1$//$NON-NLS-2$
+		}
+		return string;
+	}
+
+	/**
+	 * Remove the quote if the string enclosed width quote .
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public static String RemoveQuote( String string )
+	{
+		if ( string != null
+				&& string.length( ) >= 2
+				&& string.startsWith( "\"" ) //$NON-NLS-1$
+				&& string.endsWith( "\"" ) ) //$NON-NLS-1$
+		{
+			return string.substring( 1, string.length( ) - 1 );
+		}
+		return string;
+	}
 }
