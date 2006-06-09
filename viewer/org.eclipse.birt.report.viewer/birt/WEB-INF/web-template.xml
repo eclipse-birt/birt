@@ -61,6 +61,8 @@
 		<servlet-class>org.eclipse.birt.report.servlet.BirtEngineServlet</servlet-class>
 	</servlet>
 
+	@generated@
+	
 	<servlet-mapping>
 		<servlet-name>ViewerServlet</servlet-name>
 		<url-pattern>/frameset</url-pattern>
@@ -81,6 +83,6 @@
 		<url-pattern>/parameter</url-pattern>
 	</servlet-mapping>	
 
-	@generated@
+	
 	
 </web-app>
