@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IDataContent;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
@@ -41,6 +42,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.DataContent;
+import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.IResultSet;
@@ -75,6 +77,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	protected Report report;
 	protected IReportDocument reportDoc;
 	protected ReportContent reportContent;
+	protected IContent dummyReportContent;
 	/**
 	 * the offset of current read object. The object has been read out, setted
 	 * in loadContent();
@@ -94,6 +97,9 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		reportContent = (ReportContent) ContentFactory
 				.createReportContent( report );
 		context.setReportContent( reportContent );
+		
+		dummyReportContent = new LabelContent((ReportContent)reportContent);
+		dummyReportContent.setStyleClass(report.getRootStyleName());		
 
 		reportDoc = context.getReportDocument( );
 		dataEngine.prepare( report, context.getAppContext( ) );
@@ -568,6 +574,13 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	{
 		// set up the report content
 		content.setReportContent( reportContent );
+		
+		IElement parent = content.getParent( );
+		if ( parent == null )
+		{
+			content.setParent( dummyReportContent );
+		}	
+		
 		// set up the design object
 		InstanceID id = content.getInstanceID( );
 		if ( id != null )
