@@ -62,10 +62,16 @@ public class ReportDocumentBuilder
 	protected HashMap bookmarks = new HashMap( );
 
 	/**
-	 * bookmark index, contains instanceId, offset pair.
+	 * Reportlets index by instanceID, contains instanceId, offset pair.
 	 */
-	protected HashMap reportlets = new HashMap( );
+	protected HashMap reportletsIndexById = new HashMap( );
 
+	
+	/**
+	 * Reportlets index by bookmark, contains bookmark, offset pair.
+	 */
+	protected HashMap reportletsIndexByBookmark = new HashMap( );
+	
 	/**
 	 * report document used to save the informations.
 	 */
@@ -126,7 +132,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.2 $ $Date: 2006/04/12 05:40:32 $
+	 * @version $Revision: 1.3 $ $Date: 2006/05/27 04:31:33 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -168,7 +174,8 @@ public class ReportDocumentBuilder
 			// save the toc stream
 			document.saveTOC( report.getTOC( ) );
 			// save the instance id to the report document
-			document.saveReportlets( reportlets );
+			document.saveReportletsIdIndex( reportletsIndexById );
+			document.saveReprotletsBookmarkIndex( reportletsIndexByBookmark );
 		}
 
 		public void startContent( IContent content )
@@ -190,9 +197,17 @@ public class ReportDocumentBuilder
 						if ( iid != null )
 						{
 							String strIID = iid.toString( );
-							if ( reportlets.get( strIID ) == null )
+							if ( reportletsIndexById.get( strIID ) == null )
 							{
-								reportlets.put( strIID, new Long( offset ) );
+								reportletsIndexById.put( strIID, new Long( offset ) );
+							}
+						}
+						String bookmark = content.getBookmark( );
+						if ( bookmark != null )
+						{
+							if ( reportletsIndexByBookmark.get( bookmark ) == null )
+							{
+								reportletsIndexByBookmark.put( bookmark, new Long( offset ) );
 							}
 						}
 					}
@@ -209,7 +224,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.2 $ $Date: 2006/04/12 05:40:32 $
+	 * @version $Revision: 1.3 $ $Date: 2006/05/27 04:31:33 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{

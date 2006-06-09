@@ -119,4 +119,9 @@ public class TransientReportDocument implements IReportDocument
 	{
 		return globalVariables;
 	}
+
+	public long getBookmarkOffset( String bookmark )
+	{
+		return -1;
+	}
 }

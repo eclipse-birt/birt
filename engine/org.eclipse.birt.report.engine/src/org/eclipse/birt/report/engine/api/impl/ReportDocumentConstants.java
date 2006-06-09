@@ -50,11 +50,15 @@ public interface ReportDocumentConstants
 	 */
 	static final String CONTENT_FOLDER = "/content"; //$NON-NLS-1$
 	/**
-	 * reportlet index stream. save the offset of 
-	 * each streams.
+	 * reportlet index stream. save instance id and offset of each streams.
 	 * There is only one copy in one report document.
 	 */
-	static final String REPORTLET_STREAM = "/reportlet"; //$NON-NLS-1$
+	static final String REPORTLET_ID_INDEX_STREAM = "/reportlet"; //$NON-NLS-1$
+	/**
+	 * reportlet index stream. save bookmark and offset of each streams. There
+	 * is only one copy in one report document.
+	 */
+	static final String REPORTLET_BOOKMARK_INDEX_STREAM = "/reportletBookmarks"; //$NON-NLS-1$
 	/**
 	 * report content data. one copy for one report document.
 	 */

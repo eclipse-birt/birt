@@ -77,7 +77,9 @@ public class ReportDocumentReader
 	/** Map from TOC name to a list of TOCNodes */
 	private HashMap tocMapByName;
 	/** Map from the id to offset */
-	private HashMap reportlets;
+	private HashMap reportletsIndexById;
+	/** Map from the bookmark to offset */
+	private HashMap reportletsIndexByBookmark;
 	/** Design name */
 	private String designName;
 
@@ -589,16 +591,30 @@ public class ReportDocumentReader
 
 	public long getInstanceOffset( InstanceID iid )
 	{
+		if ( reportletsIndexById == null )
+		{
+			loadReportletStream( );
+		}
+		return getOffset( reportletsIndexById, iid.toString( ) );
+	}
+
+	public long getBookmarkOffset( String bookmark )
+	{
+		if ( reportletsIndexByBookmark == null )
+		{
+			loadReportletStream( );
+		}
+		return getOffset( reportletsIndexByBookmark, bookmark );
+	}
+
+	private long getOffset( Map index, String key )
+	{
 		// version 1.0.0 don't support this feature
 		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( getVersion( ) ) )
 		{
 			return -1;
 		}
-		if ( reportlets == null )
-		{
-			loadReportletStream( );
-		}
-		Long offset = (Long) reportlets.get( iid.toString( ) );
+		Long offset = (Long) index.get( key );
 		if ( offset != null )
 		{
 			return offset.longValue( );
@@ -608,19 +624,26 @@ public class ReportDocumentReader
 
 	private void loadReportletStream( )
 	{
+		reportletsIndexById = new HashMap( );
+		reportletsIndexByBookmark = new HashMap( );
+		loadReportletStream( reportletsIndexById, REPORTLET_ID_INDEX_STREAM);
+		loadReportletStream( reportletsIndexByBookmark, REPORTLET_BOOKMARK_INDEX_STREAM);
+	}
+
+	private void loadReportletStream( Map index, String streamName )
+	{
 		RAInputStream in = null;
 		try
 		{
-			reportlets = new HashMap( );
-			in = archive.getStream( REPORTLET_STREAM );
+			in = archive.getStream( streamName );
 			DataInputStream di = new DataInputStream( new BufferedInputStream(
 					in ) );
 			long count = IOUtil.readLong( di );
 			for ( long i = 0; i < count; i++ )
 			{
-				String instance = IOUtil.readString( di );
+				String key = IOUtil.readString( di );
 				long offset = IOUtil.readLong( di );
-				reportlets.put( instance, new Long( offset ) );
+				index.put( key, new Long( offset ) );
 			}
 			in.close( );
 		}

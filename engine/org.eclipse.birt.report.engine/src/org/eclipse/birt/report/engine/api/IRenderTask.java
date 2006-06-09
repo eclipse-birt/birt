@@ -75,6 +75,17 @@ public interface IRenderTask extends IEngineTask
     public abstract void setBookmark(String bookmark) throws EngineException;
 
     /**
+	 * Sets reportlet by bookmark. The reportlet represented by the bookmark
+	 * will be render.
+	 * 
+	 * @param bookmark
+	 *            the bookmark.
+	 * @throws EngineException
+	 *             if <code>bookmark</code> is invalid.
+	 */
+    public abstract void setReportlet(String bookmark) throws EngineException;
+
+    /**
 	 * render the whole report document or an output format
 	 * 
 	 * @throws EngineException if rendering fails

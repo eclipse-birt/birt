@@ -239,16 +239,15 @@ public class RenderTask extends EngineTask implements IRenderTask
 	}
 	
 	/**
-	 * @param pageNumber
-	 *            the page to be rendered
+	 * @param offset
+	 *            the offset of the reportlet to be rendered
 	 * @throws EngineException
 	 *             throws exception if there is a rendering error
 	 */
-	protected void doRender( InstanceID iid) throws EngineException
+	protected void doRenderReportlet( long offset ) throws OutOfMemoryError
 	{
 		try
 		{
-			long offset = reportDoc.getInstanceOffset( iid );
 			if (offset != -1)
 			{
 				// start the render
@@ -448,7 +447,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	public void setInstanceID( InstanceID iid ) throws EngineException
 	{
-		//TODO: replace the default implementation.
 		innerRender = new ReportletRender( iid );
 	}
 
@@ -470,6 +468,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 			throw new EngineException( "Can't find bookmark :{0}", bookmark ); //$NON-NLS-1$
 		}
 		innerRender = new PageRender( pageNumber );
+	}
+
+	public void setReportlet( String bookmark ) throws EngineException
+	{
+		innerRender = new ReportletRender( bookmark ); 
 	}
 
 	private interface InnerRender
@@ -521,15 +524,20 @@ public class RenderTask extends EngineTask implements IRenderTask
 	
 	private class ReportletRender implements InnerRender
 	{
-		private InstanceID iid;
+		private long offset;
 		ReportletRender(InstanceID iid)
 		{
-			this.iid = iid;
+			this.offset = reportDoc.getInstanceOffset( iid );
 		}
-		
+
+		ReportletRender( String bookmark )
+		{
+			this.offset = reportDoc.getBookmarkOffset( bookmark );
+		}
+
 		public void render( ) throws EngineException
 		{
-			RenderTask.this.doRender( iid );
+			RenderTask.this.doRenderReportlet( offset );
 		}
 	}
 }

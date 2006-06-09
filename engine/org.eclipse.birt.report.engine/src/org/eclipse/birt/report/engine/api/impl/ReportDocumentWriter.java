@@ -342,16 +342,25 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		}
 	}
 
-	public void saveReportlets( Map map )
+	public void saveReprotletsBookmarkIndex( Map bookmarkToOffset)
 	{
+		saveReportletsIndex( bookmarkToOffset, REPORTLET_BOOKMARK_INDEX_STREAM );
+	}
 
+	public void saveReportletsIdIndex( Map idToOffset )
+	{
+		saveReportletsIndex( idToOffset, REPORTLET_ID_INDEX_STREAM );
+	}
+
+	private void saveReportletsIndex( Map index, String streamName )
+	{
 		RAOutputStream out = null;
 		try
 		{
-			out = archive.createRandomAccessStream( REPORTLET_STREAM );
+			out = archive.createRandomAccessStream( streamName );
 			DataOutputStream output = new DataOutputStream( out );
-			IOUtil.writeLong( output, map.size( ) );
-			Iterator iter = map.entrySet( ).iterator( );
+			IOUtil.writeLong( output, index.size( ) );
+			Iterator iter = index.entrySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
 				Map.Entry entry = (Map.Entry) iter.next( );

@@ -86,7 +86,7 @@ public interface IReportDocument
 	public long getPageNumber( InstanceID iid );
 
 	/**
-	 * Given a report item instance idD, returns the offset of the report content
+	 * Given a report item instance id, returns the offset of the report content
 	 * (to support Reportlet).
 	 * 
 	 * @param iid
@@ -94,6 +94,16 @@ public interface IReportDocument
 	 * @return the offset in the content stream
 	 */
 	public long getInstanceOffset(InstanceID iid);
+	
+	/**
+	 * Given a report item bookmark, returns the offset of the report content
+	 * (to support Reportlet).
+	 * 
+	 * @param bookmark
+	 *            bookmark of the report item.
+	 * @return the offset in the content stream
+	 */
+	public long getBookmarkOffset(String bookmark);
 	
 	/**
 	 * Given a bookmark in a report, find the (first) page that the bookmark
