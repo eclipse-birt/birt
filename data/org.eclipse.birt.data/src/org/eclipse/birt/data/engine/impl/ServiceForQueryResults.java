@@ -95,6 +95,11 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			PreparedSubquery subQuery = (PreparedSubquery) queryService;
 			return subQuery.getGroupLevel( );
 		}
+		else if ( queryService instanceof PreparedIVSubQuery )
+		{
+			PreparedIVSubQuery subQuery = (PreparedIVSubQuery) queryService;
+			return subQuery.getGroupLevel( );
+		}
 		else
 		{
 			return 0;
