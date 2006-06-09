@@ -19,12 +19,17 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddElementtoRepor
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddLibraryAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddSelectedLibToCurrentReportDesignAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -105,13 +110,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 					}
 				}
 			}
-			else if ( selected instanceof ReportItemHandle 
-				|| selected instanceof DataSourceHandle
-				|| selected instanceof DataSetHandle
-				|| selected instanceof ParameterHandle
-				|| selected instanceof MasterPageHandle
-				|| selected instanceof EmbeddedImageHandle
-				)
+			else if (canAddtoReport(selected))
 			{
 				if(selection.size( ) == 1)
 				{
@@ -130,4 +129,32 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 			menu.add( addLibraryAction );
 		}
 	}
+	
+
+	protected boolean canAddtoReport( Object transfer )
+	{
+		if ( transfer instanceof ReportElementHandle || transfer instanceof EmbeddedImageHandle)
+		{
+			if ( transfer instanceof ScalarParameterHandle
+					&& ( (ScalarParameterHandle) transfer ).getContainer( ) instanceof CascadingParameterGroupHandle )
+			{
+				return false;
+			}
+			else if ( transfer instanceof StyleHandle
+					&& ( (StyleHandle) transfer ).getContainer( ) instanceof ThemeHandle )
+			{
+				return false;
+			}
+			else if (transfer instanceof ThemeHandle)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }
