@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.command.NameCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -265,7 +266,9 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 				String propName = propHandle.getPropertyDefn( ).getName( );
 
-				if ( DesignElement.EXTENDS_PROP.equals( propName ) )
+				if ( DesignElement.EXTENDS_PROP.equals( propName )
+						|| IExtendedItemModel.EXTENSION_NAME_PROP
+								.equals( propName ) )
 				{
 					// ignore extends property.
 					continue;
