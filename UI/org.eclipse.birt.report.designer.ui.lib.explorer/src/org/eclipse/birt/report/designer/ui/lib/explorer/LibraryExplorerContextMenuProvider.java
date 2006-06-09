@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 import java.io.File;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.ui.ContextMenuProvider;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddElementtoReport;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddLibraryAction;
@@ -25,7 +24,6 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
@@ -128,6 +126,8 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		{
 			refreshExplorerAction.setSelectedElement( null );
 			menu.add( refreshExplorerAction );
+			addLibraryAction.setFolder( null );
+			menu.add( addLibraryAction );
 		}
 	}
 }
