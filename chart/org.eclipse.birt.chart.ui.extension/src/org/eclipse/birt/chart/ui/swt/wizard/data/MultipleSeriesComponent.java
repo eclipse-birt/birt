@@ -24,9 +24,11 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -132,7 +134,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 				lblRightYGrouping = new Label( cmpGroup, SWT.WRAP );
 				{
 					GridData gd = new GridData( );
-					gd.widthHint = 100;
+					gd.widthHint = getStandardWidth( ) * 16;
 					lblRightYGrouping.setLayoutData( gd );
 					lblRightYGrouping.setText( strDesc );
 				}
@@ -160,6 +162,14 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 		};
 		subUIGroupY.createArea( parent );
 		components.add( subUIGroupY );
+	}
+
+	private int getStandardWidth( )
+	{
+		GC gc = new GC( Display.getCurrent( ) );
+		int width = gc.textExtent( "X" ).x; //$NON-NLS-1$
+		gc.dispose( );
+		return width;
 	}
 
 	public void selectArea( boolean selected, Object data )
