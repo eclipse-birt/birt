@@ -535,6 +535,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 			super.pageChange( newPageIndex );
 		}
 		updateRelatedViews( );
+		bingdingKey( newPageIndex );
 	}
 
 	public void setFocus( )
