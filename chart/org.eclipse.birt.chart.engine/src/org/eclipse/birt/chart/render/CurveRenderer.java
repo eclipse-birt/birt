@@ -154,7 +154,7 @@ public final class CurveRenderer
 		loa3d = ( bRendering3D ) ? new Location3D[4] : null;
 		if ( _tapeWidth == -1 )
 		{
-			dTapeWidth = _cwa.getSeriesThickness( );
+			dTapeWidth = _cwa.getSeriesThickness( ) * _render.getDeviceScale( );
 		}
 		else
 		{
@@ -503,12 +503,15 @@ public final class CurveRenderer
 							- dTapeWidth );
 					if ( cwa.isTransposed( ) )
 					{
-						loa[2].set( zeroLocation, y1 + kError - dTapeWidth );
+						loa[2].set( zeroLocation + dTapeWidth, y1
+								+ kError
+								- dTapeWidth );
 						loa[3].set( zeroLocation, y1 + kError );
 					}
 					else
 					{
-						loa[2].set( x1 + kError + dTapeWidth, zeroLocation );
+						loa[2].set( x1 + kError + dTapeWidth, zeroLocation
+								- dTapeWidth );
 						loa[3].set( x1 + kError, zeroLocation );
 					}
 				}
@@ -520,12 +523,13 @@ public final class CurveRenderer
 							- dTapeWidth );
 					if ( cwa.isTransposed( ) )
 					{
-						loa[2].set( zeroLocation, y2 + kError - dTapeWidth );
+						loa[2].set( zeroLocation + dTapeWidth, y2 + kError - dTapeWidth );
 						loa[3].set( zeroLocation, y2 + kError );
 					}
 					else
 					{
-						loa[2].set( x2 + kError + dTapeWidth, zeroLocation );
+						loa[2].set( x2 + kError + dTapeWidth, zeroLocation
+								- dTapeWidth );
 						loa[3].set( x2 + kError, zeroLocation );
 					}
 				}
