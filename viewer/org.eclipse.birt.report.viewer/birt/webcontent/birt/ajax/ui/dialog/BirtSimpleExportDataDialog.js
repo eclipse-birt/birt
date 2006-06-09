@@ -266,8 +266,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		hiddenForm.method = 'post';
 		hiddenForm.target = '_self';
 		var url = document.location.href;
-		var index = url.indexOf( "frameset" );
-		url = url.substring( 0, index ) + "download" + url.substring( index + 8, url.length - 1 );
+		url = url.replace( /[\/][a-zA-Z]+[?]/, '/download?' );
 		hiddenForm.action = url;
 		
 		// Pass over current element's iid.
