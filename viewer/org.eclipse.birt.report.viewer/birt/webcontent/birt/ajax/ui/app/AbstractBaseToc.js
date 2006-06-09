@@ -67,7 +67,7 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 	__neh_mouseout  : function ( event )
 	{
 		var obj = Event.element( event );
-		obj.style.background = "";
+		obj.style.background = "#FFFFFF";
 	},
 	
 	/**
@@ -130,15 +130,19 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			td1.appendChild( img );
 			td1.appendChild( document.createTextNode( " " ) );
 
-			var spantmp = document.createElement( "span" );
+			var spantmp = document.createElement( "input" );
 			var displaynames = tmp.getElementsByTagName( 'DisplayName' );
 			var displayname = displaynames[0].firstChild;
-			spantmp.innerHTML = displayname.data;
+			spantmp.type = "button";
+			spantmp.value = displayname.data;
+			spantmp.title = "TOC Link " + displayname.data;
 			spantmp.id =  'span_' + imgid;
 			spantmp.style.cursor = 'pointer';
 			spantmp.style.border = "0px";
 			spantmp.style.fontFamily = "Verdana";
 			spantmp.style.fontSize = "9pt";
+			spantmp.style.background = "#FFFFFF";
+			spantmp.style.overflow = "visible";
 			td1.appendChild( spantmp );
 			
 			tr1.appendChild( td1 );
