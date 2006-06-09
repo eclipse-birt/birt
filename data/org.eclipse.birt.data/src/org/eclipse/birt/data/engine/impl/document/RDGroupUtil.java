@@ -128,7 +128,7 @@ public final class RDGroupUtil
 	 * @param cacheProvider
 	 * @throws DataException
 	 */
-	RDGroupUtil( InputStream inputStream ) throws DataException
+	public RDGroupUtil( InputStream inputStream ) throws DataException
 	{
 		this( inputStream, null );
 	}
