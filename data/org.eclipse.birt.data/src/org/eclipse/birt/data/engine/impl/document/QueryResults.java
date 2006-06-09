@@ -85,10 +85,11 @@ public class QueryResults implements IQueryResults
 	{		
 		if ( resultMetaData == null )
 		{
+			String baseID = QueryResultIDUtil.get1PartID( queryResultID );
+			if ( baseID == null )
+				baseID = queryResultID;
 			RDLoad rdLoad = RDUtil.newLoad( context,
-					new QueryResultInfo( queryResultID,
-							subQueryName,
-							currParentIndex ) );
+					new QueryResultInfo( baseID, subQueryName, currParentIndex ) );
 			this.resultMetaData = rdLoad.loadResultMetaData( );
 		}
 

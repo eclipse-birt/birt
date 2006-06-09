@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
@@ -102,6 +103,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		Scriptable queryScope;
 		BaseQuery query;
 		DataSetRuntime dSruntime;
+		
 		IVDataSourceExecutor(Scriptable sharedScope,
 				IBaseQueryDefinition baseQueryDefn, AggregateTable aggrTable) 
 		{
@@ -135,6 +137,19 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			return dSruntime;
 		}
 
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#getResultMetaData()
+		 */
+		public IResultMetaData getResultMetaData( ) throws DataException
+		{
+			RDLoad rdLoad = RDUtil.newLoad( engine.getContext( ),
+					new QueryResultInfo( queryDefn.getQueryResultsID( ),
+							null,
+							-1 ) );
+			// TODO: enhanceme
+			return rdLoad.loadResultMetaData( );
+		}
+		
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
 		 */

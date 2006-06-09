@@ -80,7 +80,7 @@ public class RDLoad
 	 * @return result meta data
 	 * @throws DataException
 	 */
-	ResultMetaData loadResultMetaData( ) throws DataException
+	public ResultMetaData loadResultMetaData( ) throws DataException
 	{
 		return new ResultMetaData( loadResultClass( ) );
 	}

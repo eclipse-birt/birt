@@ -42,7 +42,7 @@ public class ExprUtil
 		{
 			IOUtil.writeInt( dos, NULL_EXPRESSION );
 		}
-		if ( baseExpr instanceof IScriptExpression )
+		else if ( baseExpr instanceof IScriptExpression )
 		{
 			IOUtil.writeInt( dos, SCRIPT_EXPRESSION );
 
