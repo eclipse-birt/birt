@@ -375,8 +375,8 @@ public class HyperlinkBuilder extends BaseDialog
 						: 490 ) );
 		displayArea.setLayout( new GridLayout( 3, false ) );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		
-		UIUtil.bindHelp( parent,IHelpContextIds.HYPERLINK_BUILDER_ID ); 
+
+		UIUtil.bindHelp( parent, IHelpContextIds.HYPERLINK_BUILDER_ID );
 		return composite;
 	}
 
@@ -590,6 +590,7 @@ public class HyperlinkBuilder extends BaseDialog
 				closeTargetReport( );
 				initTargetReport( documentEditor.getText( ) );
 				updateButtons( );
+				deSelectAnchor( );
 			}
 
 		} );
@@ -830,7 +831,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 					if ( filename != null )
 					{
-						filename = new File(filename).toURL( ).toString( );
+						filename = new File( filename ).toURL( ).toString( );
 						if ( needFilter )
 						{
 							filename = URIUtil.getRelativePath( getBasePath( ),
@@ -1118,6 +1119,11 @@ public class HyperlinkBuilder extends BaseDialog
 				}
 				selectRadio( targetGroup, reportDesignButton );
 			}
+			//edit mode, initail pre-setting
+			if ( inputHandle.getReportName( ) != null )
+			{
+				initTargetReport( inputHandle.getReportName( ) );
+			}
 
 			if ( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( inputHandle.getTargetBookmarkType( ) ) )
 			{
@@ -1129,7 +1135,6 @@ public class HyperlinkBuilder extends BaseDialog
 				tocButton.setSelection( true );
 				initAnchorChooser( targetReportHandle, true );
 			}
-
 			if ( inputHandle.getTargetBookmark( ) != null )
 			{
 				bookmarkEditor.setText( inputHandle.getTargetBookmark( ) );
@@ -1277,7 +1282,10 @@ public class HyperlinkBuilder extends BaseDialog
 	private List getAllTocNode( TOCNode parent )
 	{
 		List tocList = new ArrayList( );
-		tocList.add( parent.getDisplayString( ) );
+		if ( parent.getParent( ) != null )
+		{
+			tocList.add( parent.getDisplayString( ) );
+		}
 		List childToc = parent.getChildren( );
 		for ( Iterator iter = childToc.iterator( ); iter.hasNext( ); )
 		{
@@ -1385,6 +1393,7 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			catch ( EngineException e )
 			{
+				e.printStackTrace( );
 			}
 		}
 		else
