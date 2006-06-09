@@ -169,10 +169,10 @@ public class WizardLibrarySettingPage extends WizardPage
 	{
 		if(type ==  PublishLibraryWizard.HAVE_NO_HANDLE )
 		{
-			UIUtil.bindHelp(parent,IHelpContextIds.PUBLISH_LIBRARY_WIZARD_ID);
+			UIUtil.bindHelp(parent,IHelpContextIds.ADD_LIBRARY_DIALOG_ID);
 		}else
 		{
-			UIUtil.bindHelp(parent,IHelpContextIds.ADD_LIBRARY_DIALOG_ID);
+			UIUtil.bindHelp(parent,IHelpContextIds.PUBLISH_LIBRARY_WIZARD_ID);
 		}
 		
 		

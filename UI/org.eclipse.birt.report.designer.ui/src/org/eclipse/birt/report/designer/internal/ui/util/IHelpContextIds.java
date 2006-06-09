@@ -37,7 +37,7 @@ public interface IHelpContextIds
 	
 	public static final String IMPORT_CSS_STYLE_WIZARD_ID = PREFIX + "ImportCssStyle_ID";
 	
-	public static final String PUBLISH_LIBRARY_WIZARD_ID = PREFIX + "PuliblishLibraryDialog_ID";
+	public static final String PUBLISH_LIBRARY_WIZARD_ID = PREFIX + "PublishLibraryDialog_ID";
 	
 	public static final String EXPORT_TO_LIBRARY_WIZARD_ID = PREFIX + "ExportToLibrary_ID";
 	
@@ -92,7 +92,7 @@ public interface IHelpContextIds
 	
 	public static final String HIGHLIGHT_RULE_BUILDER_ID = PREFIX + "HighlightRuleBuilder_ID" ;
 	
-	public static final String RESOURCE_SELECT_DIALOG_ID = PREFIX + "RresourceSelectDialog_ID";
+	public static final String RESOURCE_SELECT_DIALOG_ID = PREFIX + "ResourceSelectDialog_ID";
 
 	public static final String CREATE_TEMPLATE_REPORT_ITEM_DIALOG_ID = PREFIX + "CreateTemplateReportItem_ID";
 	

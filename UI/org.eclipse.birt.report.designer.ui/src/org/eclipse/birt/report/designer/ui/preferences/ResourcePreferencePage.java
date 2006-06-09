@@ -55,7 +55,7 @@ public class ResourcePreferencePage extends PreferencePage implements
 	public static final String FOLDER_LABEL = Messages.getString( "ResourecePreferencePage.folder" ); //$NON-NLS-1$
 	public static final String BROWSER_BUTTON = Messages.getString( "ResourecePreferencePage.select" ); //$NON-NLS-1$
 	public static final String OPEN_DIALOG_TITLE = Messages.getString( "ResourecePreferencePage.openDialogTitle" ); //$NON-NLS-1$
-
+	public static final String OPEN_DILAOG_MESSAGE = Messages.getString( "ResourecePreferencePage.openDialogMessage" );
 	public static final String DIRCTORY = "resource"; //$NON-NLS-1$
 
 	/*
@@ -169,6 +169,7 @@ public class ResourcePreferencePage extends PreferencePage implements
 						.getActiveShell( ) );
 
 				dialog.setText( OPEN_DIALOG_TITLE );
+				dialog.setMessage( OPEN_DILAOG_MESSAGE );
 				String folderName = dialog.open( );
 				if ( folderName == null )
 				{
