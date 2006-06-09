@@ -16,6 +16,8 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
@@ -145,14 +147,11 @@ public class ParameterValidationUtil
 	static final Date doVidateDateTime( String value, ULocale locale )
 			throws ValidationValueException
 	{
-
-		DateFormat formatter = DateFormat.getDateTimeInstance(
-				DateFormat.MEDIUM, DateFormat.MEDIUM, locale );
 		try
 		{
-			return formatter.parse( value );
+			return DataTypeUtil.toDate( value , locale ) ;
 		}
-		catch ( ParseException e )
+		catch ( BirtException e )
 		{
 			throw new ValidationValueException( value,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
