@@ -88,6 +88,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	private long fModificationStamp = -1;;
 
 	protected IReportProvider reportProvider;
+	
+	
+	private boolean isChanging = false;
 
 	// this is a bug because the getActiveEditor() return null, we should change
 	// the getActivePage()
@@ -509,10 +512,14 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	protected void pageChange( int newPageIndex )
 	{
 		int oldPageIndex = getCurrentPage( );
+		
 		if ( oldPageIndex == newPageIndex )
 		{
+			isChanging = false;
+			bingdingKey( oldPageIndex );
 			return;
 		}
+		
 
 		if ( oldPageIndex != -1 )
 		{
@@ -520,6 +527,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 			Object newPage = pages.get( newPageIndex );
 			// change to new page, must do it first, because must check old page
 			// is canleave.
+			isChanging  = true;
 			super.pageChange( newPageIndex );
 			updateRelatedViews( );
 			// check new page status
@@ -529,13 +537,17 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 				updateRelatedViews( );
 				return;
 			}
+			else if (isChanging)
+			{
+				bingdingKey( newPageIndex );
+			}
+			isChanging = false;
 		}
 		else
 		{
 			super.pageChange( newPageIndex );
 		}
-		updateRelatedViews( );
-		bingdingKey( newPageIndex );
+		updateRelatedViews( );	
 	}
 
 	public void setFocus( )
