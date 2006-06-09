@@ -923,11 +923,15 @@ public final class AutoScale extends Methods implements Cloneable
 				double dMin = asDouble( oMinimum ).doubleValue( );
 				double dStep = asDouble( oStep ).doubleValue( );
 				nTicks = (int) Math.ceil( ( dMax - dMin ) / dStep ) + 1;
-				// ARTIFICIAL LIMIT TO TICK COUNT
-				if ( nTicks > 100 )
-				{
-					nTicks = 100;
-				}
+
+				// !Remove artificial limit for tick count.
+				// // ARTIFICIAL LIMIT TO TICK COUNT
+				// if ( nTicks > 100 )
+				// {
+				// nTicks = 100;
+				// }
+
+				// at least 2 ticks
 				if ( nTicks < 2 )
 				{
 					nTicks = 2;
@@ -2118,7 +2122,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				else
 				{
-					if ( !bFits && sc.getTickCount( ) == 2 )
+					if ( !bFits && sc.getTickCordinates( ).length == 2 )
 					{
 						break;
 					}
@@ -2137,7 +2141,7 @@ public final class AutoScale extends Methods implements Cloneable
 						false,
 						null );
 				bFits = sc.checkFit( xs, la, iLabelLocation );
-				if ( !bFits && sc.getTickCount( ) == 2 )
+				if ( !bFits && sc.getTickCordinates( ).length == 2 )
 				{
 					sc = scCloned;
 					break;
@@ -2237,7 +2241,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				else
 				{
-					if ( !bFits && sc.getTickCount( ) == 2 )
+					if ( !bFits && sc.getTickCordinates( ).length == 2 )
 					{
 						break;
 					}
@@ -2257,7 +2261,7 @@ public final class AutoScale extends Methods implements Cloneable
 						null );
 
 				bFits = sc.checkFit( xs, la, iLabelLocation );
-				if ( !bFits && sc.getTickCount( ) == 2 )
+				if ( !bFits && sc.getTickCordinates( ).length == 2 )
 				{
 					sc = scCloned;
 					break;
@@ -2420,7 +2424,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				else
 				{
-					if ( !bFits && sc.getTickCount( ) == 2 )
+					if ( !bFits && sc.getTickCordinates( ).length == 2 )
 					{
 						break;
 					}
@@ -2440,7 +2444,7 @@ public final class AutoScale extends Methods implements Cloneable
 						false,
 						null );
 				bFits = sc.checkFit( xs, la, iLabelLocation );
-				if ( !bFits && sc.getTickCount( ) == 2 )
+				if ( !bFits && sc.getTickCordinates( ).length == 2 )
 				{
 					sc = scCloned;
 					break;
