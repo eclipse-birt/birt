@@ -26,7 +26,7 @@ public class AdapterException extends BirtException
 			.getResourceBundle( );
 	
 	/** pluginId, probably this value should be obtained externally */
-	private final static String _pluginId = "org.eclipse.birt.report.data.adaptor";
+	private final static String _pluginId = "org.eclipse.birt.report.data.adapter";
 	
 	/** serialVersionUID */
 	private static final long serialVersionUID = 8571109940669957243L;

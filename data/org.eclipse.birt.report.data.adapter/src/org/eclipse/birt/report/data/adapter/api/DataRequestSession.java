@@ -64,7 +64,7 @@ public abstract class DataRequestSession
 	{
 		Platform.startup( platformConfig );
 
-		Object factory = Platform.createFactoryObject( IDataAdapterFactory.EXTENSION_DATA_ADAPTOR_FACTORY );
+		Object factory = Platform.createFactoryObject( IDataAdapterFactory.EXTENSION_DATA_ADAPTER_FACTORY );
 		if ( factory instanceof IDataAdapterFactory )
 		{
 			return ( (IDataAdapterFactory) factory ).createSession( context );

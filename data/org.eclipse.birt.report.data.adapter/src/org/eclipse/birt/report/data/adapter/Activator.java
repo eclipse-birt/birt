@@ -21,6 +21,6 @@ import org.eclipse.birt.core.plugin.BIRTPlugin;
 public class Activator extends BIRTPlugin 
 {
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.birt.report.data.adaptor";
+	public static final String PLUGIN_ID = "org.eclipse.birt.report.data.adapter";
 
 }

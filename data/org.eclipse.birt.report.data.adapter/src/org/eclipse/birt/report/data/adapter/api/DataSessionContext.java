@@ -114,7 +114,7 @@ public class DataSessionContext
 		throws BirtException
 	{
 		if ( !( mode == MODE_GENERATION || mode == MODE_PRESENTATION || mode == MODE_DIRECT_PRESENTATION ) )
-			throw new AdapterException( ResourceConstants.ADAPTOR_INVALID_MODE,
+			throw new AdapterException( ResourceConstants.ADAPTER_INVALID_MODE,
 					new Integer( mode ) );
 		
 		this.mode = mode;

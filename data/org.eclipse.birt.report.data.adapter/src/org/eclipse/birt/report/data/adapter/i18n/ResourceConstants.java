@@ -19,7 +19,7 @@ public class ResourceConstants
 {
 	public final static String LOAD_FACTORY_ERROR = "load.factory.error";	
 	public final static String CONEXT_NULL_ERROR = "context.null.error";	
-	public final static String ADAPTOR_INVALID_MODE="adaptor.invalid.mode";
+	public final static String ADAPTER_INVALID_MODE="adaptor.invalid.mode";
 	public final static String INVALID_CAHCE_OPTION="invalid.cache.option";
 	public final static String DATASOURCE_NULL_ERROR = "datasource.null.error";
 	public final static String DATASOURCE_EXID_ERROR = "datasource.exid.error";

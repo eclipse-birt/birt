@@ -23,7 +23,7 @@ public interface IDataAdapterFactory
 	 * 
 	 * @see org.eclipse.birt.core.framework.Platform#createFactoryObject(String)
 	 */
-	static final String EXTENSION_DATA_ADAPTOR_FACTORY = "org.eclipse.birt.report.data.adapter.DataAdapterFactory";
+	static final String EXTENSION_DATA_ADAPTER_FACTORY = "org.eclipse.birt.report.data.adapter.DataAdapterFactory";
 
 	/**
 	 * create a new report engine object.
