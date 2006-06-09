@@ -1296,11 +1296,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public boolean needsSave( )
 	{
-		List versionInfos = ModelUtil.checkVersion( module.getVersionManager( )
-				.getVersion( ) );
-		if ( !versionInfos.isEmpty( ) )
-			return true;
-
+		String version = module.getVersionManager( ).getVersion( );
+		if ( version != null )
+		{
+			List versionInfos = ModelUtil.checkVersion( version );
+			if ( !versionInfos.isEmpty( ) )
+				return true;
+		}
 		return module.isDirty( );
 	}
 

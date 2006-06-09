@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -205,8 +206,20 @@ abstract public class GroupElementHandle
 		{
 			DesignElementHandle elementHandle = (DesignElementHandle) iter
 					.next( );
-			if ( elementHandle.getElement( ).hasLocalPropertyValues( ) )
-				return true;
+
+			Iterator propIter = elementHandle.getPropertyIterator( );
+			while ( propIter.hasNext( ) )
+			{
+				PropertyHandle propertyHandle = (PropertyHandle) propIter
+						.next( );
+				String name = propertyHandle.getDefn( ).getName( );
+				if ( IDesignElementModel.EXTENDS_PROP.equals( name ) )
+					continue;
+				
+				if ( elementHandle.getElement( ).getLocalProperty(
+						elementHandle.getModule( ), name ) != null )
+					return true;
+			}
 		}
 
 		return false;
