@@ -1466,4 +1466,12 @@ public class ParameterAccessor
 
 		return configFileName;
 	}
+
+	/**
+	 * @return the isWorkingFolderAccessOnly
+	 */
+	public static boolean isWorkingFolderAccessOnly( )
+	{
+		return isWorkingFolderAccessOnly;
+	}	
 }

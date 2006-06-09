@@ -422,9 +422,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 					reportRunnable = ReportEngineService.getInstance( )
 							.openReportDesign( this.reportDesignName );
 				}
-				else
+				else if ( !ParameterAccessor.isWorkingFolderAccessOnly( ) )
 				{
-					// try to get resource from war package
+					// try to get resource from war package, when
+					// WORKING_FOLDER_ACCESS_ONLY set as false
 					this.reportDesignName = ParameterAccessor.getParameter(
 							request, ParameterAccessor.PARAM_REPORT );
 
