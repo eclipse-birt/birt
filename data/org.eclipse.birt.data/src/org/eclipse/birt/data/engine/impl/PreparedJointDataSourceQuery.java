@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
@@ -24,7 +25,9 @@ import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
@@ -50,11 +53,16 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 
 /**
- * This is an extension of PreparedDataSourceQuery. It is used to provide joint data set service.
+ * This is an extension of PreparedDataSourceQuery. It is used to provide joint
+ * data set service.
  */
 public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 {
+
 	private static final String COLUMN_NAME_SPLITTER = "::";
+
+	private static final String TEMP_COLUMN_STRING = ".*$TEMP_.*";
+
 	//
 	private IJointDataSetDesign dataSet;
 	private IDataSetPopulator populator;
@@ -63,11 +71,11 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private ResultIterator right;
 	private IJoinConditionMatcher matcher;
 	private int joinType;
-	
+
 	private DataEngineImpl dataEngine;
 	private IBaseDataSetDesign dataSetDesign;
 	private Map appContext;
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -86,19 +94,20 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		this.dataSetDesign = dataSetDesign;
 		this.appContext = appContext;
 	}
-	
+
 	/**
-	 * Initialize the instance.
+	 * Initialize the instance. The method includes heavyweight operations
+	 * such as ResultIterator population.
 	 * 
 	 * @param dataEngine
-	 * @param dataSetDesign
 	 * @param appContext
 	 * @throws DataException
 	 */
 	private void initialize( DataEngineImpl dataEngine, Map appContext )
 			throws DataException
 	{
-		int savedCacheOption = DataSetCacheManager.getInstance( ).suspendCache( );
+		int savedCacheOption = DataSetCacheManager.getInstance( )
+				.suspendCache( );
 
 		ResultIterator left = getSortedResultIterator( dataEngine,
 				dataSet.getLeftDataSetDesignName( ),
@@ -110,7 +119,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				appContext,
 				dataSet.getJoinConditions( ),
 				false );
-		
+
 		DataSetCacheManager.getInstance( ).setCacheOption( savedCacheOption );
 
 		this.left = left;
@@ -121,10 +130,42 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				left.getScope( ),
 				right.getScope( ),
 				dataSet.getJoinConditions( ) );
+	}
 
-		JointResultMetadata meta = getJointResultMetadata( left, right );
+	/**
+	 * Initialize the resultClass. This method is lightweight.
+	 * 
+	 * @param dataEngine
+	 * @param dataSetDesign
+	 * @param appContext
+	 * @throws DataException
+	 */
+	private void initializeResultClass( DataEngineImpl dataEngine, Map appContext )
+			throws DataException
+	{
+		try
+		{
+			IQueryResults left = getResultSetQuery( dataEngine,
+					dataSet.getLeftDataSetDesignName( ),
+					appContext,
+					dataSet.getJoinConditions( ),
+					false );
 
-		resultClass = meta.getResultClass( );
+			IQueryResults right = getResultSetQuery( dataEngine,
+					dataSet.getRightDataSetDesignName( ),
+					appContext,
+					dataSet.getJoinConditions( ),
+					false );
+
+			JointResultMetadata meta = getJointResultMetadata( left.getResultMetaData( ),
+					right.getResultMetaData( ) );
+
+			resultClass = meta.getResultClass( );
+		}
+		catch ( BirtException be )
+		{
+			throw DataException.wrap( be );
+		}
 	}
 
 	/**
@@ -134,7 +175,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	{
 		dataSet = (IJointDataSetDesign) dataSetDesign;
 	}
-	
+
 	/**
 	 * Return an instance of JointResultMeta.
 	 * 
@@ -143,25 +184,85 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @return
 	 * @throws DataException
 	 */
-	private JointResultMetadata getJointResultMetadata( ResultIterator left,
-			ResultIterator right ) throws DataException
+	private JointResultMetadata getJointResultMetadata( IResultMetaData left,
+			IResultMetaData right ) throws DataException
 	{
-		String leftPrefix = dataSet.getLeftDataSetDesignName( );
-		String rightPrefix = dataSet.getRightDataSetDesignName( );
-		if ( leftPrefix.equals( rightPrefix ) )
+		try
 		{
-			leftPrefix = leftPrefix + "1";
-			rightPrefix = rightPrefix + "2";
-		}
+			String leftPrefix = dataSet.getLeftDataSetDesignName( );
+			String rightPrefix = dataSet.getRightDataSetDesignName( );
+			if ( leftPrefix.equals( rightPrefix ) )
+			{
+				leftPrefix = leftPrefix + "1";
+				rightPrefix = rightPrefix + "2";
+			}
 
-		leftPrefix = leftPrefix + COLUMN_NAME_SPLITTER;
-		rightPrefix = rightPrefix + COLUMN_NAME_SPLITTER;
-		JointResultMetadata meta = populatorJointResultMetadata( left.getOdiResult( )
-				.getResultClass( ),
-				leftPrefix,
-				right.getOdiResult( ).getResultClass( ),
-				rightPrefix );
-		return meta;
+			leftPrefix = leftPrefix + COLUMN_NAME_SPLITTER;
+			rightPrefix = rightPrefix + COLUMN_NAME_SPLITTER;
+			JointResultMetadata meta = populatorJointResultMetadata( left,
+					leftPrefix,
+					right,
+					rightPrefix );
+			return meta;
+		}
+		catch ( BirtException be )
+		{
+			throw DataException.wrap( be );
+		}
+	}
+
+	/**
+	 * Gets the Java class used to represent the specified data type.
+	 * 
+	 * @param typeCode
+	 * @return
+	 */
+	private Class getTypeClass( int typeCode )
+	{
+		return DataType.getClass( typeCode );
+	}
+
+	/**
+	 * Gets the size of the temp customer columns
+	 * 
+	 * @param metaData
+	 * @return
+	 * @throws BirtException
+	 */
+	private int getTempColumnSize( IResultMetaData metaData )
+			throws BirtException
+	{
+		int size = 0;
+		for ( int i = 1; i <= metaData.getColumnCount( ); i++ )
+		{
+			if ( isTempColumn( metaData.getColumnName( i ) ) )
+			{
+				size++;
+			}
+			else
+			{
+				assert ( size == 0 );
+			}
+		}
+		return size;
+	}
+
+	/**
+	 * Check whether a column is a temp column according to column name.
+	 * @param columnName
+	 * @return
+	 */
+	private boolean isTempColumn( String columnName )
+	{
+		if ( columnName.length( ) < 7 )
+		{
+			return false;
+		}
+		if ( !columnName.matches( TEMP_COLUMN_STRING ) )
+		{
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -175,78 +276,139 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	private JointResultMetadata populatorJointResultMetadata(
-			IResultClass left, String leftPrefix, IResultClass right,
+			IResultMetaData left, String leftPrefix, IResultMetaData right,
 			String rightPrefix ) throws DataException
 	{
-		int length = left.getFieldCount( )
-		+ right.getFieldCount( )+ ((dataSet.getComputedColumns( )==null)?0:dataSet.getComputedColumns( ).size( ));
-		int[] index = new int[length];
-		int[] columnSource = new int[length];
-		List projectedColumns = new ArrayList( );
+		try
+		{
+			int leftTempColumnSize = getTempColumnSize( left );
+			int rightTempColumnSize = getTempColumnSize( right );
+			int length = ( left.getColumnCount( ) - leftTempColumnSize )
+					+ ( right.getColumnCount( ) - rightTempColumnSize )
+					+ ( ( dataSet.getComputedColumns( ) == null ) ? 0
+							: dataSet.getComputedColumns( ).size( ) );
+			int[] index = new int[length];
+			int[] columnSource = new int[length];
+			List projectedColumns = new ArrayList( );
 
-		for ( int i = 1; i <= left.getFieldCount( ); i++ )
-		{
-			index[i - 1] = i;
-			columnSource[i - 1] = JointResultMetadata.COLUMN_TYPE_LEFT;
-			projectedColumns.add( new ResultFieldMetadata( i,
-					leftPrefix + left.getFieldName( i ),
-					leftPrefix + left.getFieldName( i ),
-					left.getFieldValueClass( i ),
-					left.getFieldNativeTypeName( i ),
-					false ) );
-		}
-		for ( int i = left.getFieldCount( ) + 1; i <= left.getFieldCount( )+right.getFieldCount( ); i++ )
-		{
-			index[i - 1] = i - left.getFieldCount( );
-			columnSource[i - 1] = JointResultMetadata.COLUMN_TYPE_RIGHT;
-			projectedColumns.add( new ResultFieldMetadata( i,
-					rightPrefix
-							+ right.getFieldName( i - left.getFieldCount( ) ),
-					rightPrefix
-							+ right.getFieldName( i - left.getFieldCount( ) ),
-					right.getFieldValueClass( i - left.getFieldCount( ) ),
-					right.getFieldNativeTypeName( i - left.getFieldCount( ) ),
-					false ) );
-		}
-		if( dataSet.getComputedColumns( )!= null)
-		{
-			for( int i = 0; i <dataSet.getComputedColumns( ).size( ); i++)
+			for ( int i = 1; i <= ( left.getColumnCount( ) - leftTempColumnSize ); i++ )
 			{
-				IComputedColumn cc = (IComputedColumn)dataSet.getComputedColumns( ).get(i);
-				index[i + left.getFieldCount( ) + right.getFieldCount( ) ] = -1;
-				columnSource[i + left.getFieldCount( ) + right.getFieldCount( )] = JointResultMetadata.COLUMN_TYPE_COMPUTED;
+				index[i - 1] = i;
+				columnSource[i - 1] = JointResultMetadata.COLUMN_TYPE_LEFT;
 				projectedColumns.add( new ResultFieldMetadata( i,
-						cc.getName( ),
-						cc.getName( ),
-						DataType.getClass( cc.getDataType( ) ),
-						null,
-						true ) );
+						leftPrefix + left.getColumnName( i ),
+						leftPrefix + left.getColumnName( i ),
+						getTypeClass( left.getColumnType( i ) ),
+						left.getColumnNativeTypeName( i ),
+						false ) );
 			}
-		}
-		if ( dataSet.getResultSetHints( ) != null )
-		{
-			List hintList = dataSet.getResultSetHints( );
-			for ( int i = 0; i < hintList.size( ); i++ )
+			for ( int i = ( left.getColumnCount( ) - leftTempColumnSize ) + 1; i <= ( left.getColumnCount( ) - leftTempColumnSize )
+					+ ( right.getColumnCount( ) - rightTempColumnSize ); i++ )
 			{
-				IColumnDefinition columnDefinition = (IColumnDefinition) hintList.get( i );
-				for ( int j = 0; j < projectedColumns.size( ); j++ )
+				index[i - 1] = i
+						- ( left.getColumnCount( ) - leftTempColumnSize );
+				columnSource[i - 1] = JointResultMetadata.COLUMN_TYPE_RIGHT;
+				projectedColumns.add( new ResultFieldMetadata( i,
+						rightPrefix
+								+ right.getColumnName( i
+										- ( left.getColumnCount( ) - leftTempColumnSize ) ),
+						rightPrefix
+								+ right.getColumnName( i
+										- ( left.getColumnCount( ) - leftTempColumnSize ) ),
+						getTypeClass( right.getColumnType( i
+								- ( left.getColumnCount( ) - leftTempColumnSize ) ) ),
+						right.getColumnNativeTypeName( i
+								- ( left.getColumnCount( ) - leftTempColumnSize ) ),
+						false ) );
+			}
+
+			if ( dataSet.getComputedColumns( ) != null )
+			{
+				for ( int i = 0; i < dataSet.getComputedColumns( ).size( ); i++ )
 				{
-					ResultFieldMetadata resultFieldMetadata = (ResultFieldMetadata) projectedColumns.get( j );
-					if ( columnDefinition.getColumnName( )
-							.equals( resultFieldMetadata.getName( ) ) )
+					IComputedColumn cc = (IComputedColumn) dataSet.getComputedColumns( )
+							.get( i );
+					index[i
+							+ ( left.getColumnCount( ) - leftTempColumnSize )
+							+ ( right.getColumnCount( ) - rightTempColumnSize )] = -1;
+					columnSource[i
+							+ ( left.getColumnCount( ) - leftTempColumnSize )
+							+ ( right.getColumnCount( ) - rightTempColumnSize )] = JointResultMetadata.COLUMN_TYPE_COMPUTED;
+					projectedColumns.add( new ResultFieldMetadata( i,
+							cc.getName( ),
+							cc.getName( ),
+							DataType.getClass( cc.getDataType( ) ),
+							null,
+							true ) );
+				}
+			}
+			if ( dataSet.getResultSetHints( ) != null )
+			{
+				List hintList = dataSet.getResultSetHints( );
+				for ( int i = 0; i < hintList.size( ); i++ )
+				{
+					IColumnDefinition columnDefinition = (IColumnDefinition) hintList.get( i );
+					for ( int j = 0; j < projectedColumns.size( ); j++ )
 					{
-						resultFieldMetadata.setAlias( columnDefinition.getAlias( ) );
-						break;
+						ResultFieldMetadata resultFieldMetadata = (ResultFieldMetadata) projectedColumns.get( j );
+						if ( columnDefinition.getColumnName( )
+								.equals( resultFieldMetadata.getName( ) ) )
+						{
+							resultFieldMetadata.setAlias( columnDefinition.getAlias( ) );
+							break;
+						}
 					}
 				}
 			}
+
+			ResultClass resultClass = new ResultClass( projectedColumns );
+			return new JointResultMetadata( resultClass, columnSource, index );
 		}
-		ResultClass resultClass = new ResultClass( projectedColumns );
-		return new JointResultMetadata( resultClass, columnSource, index );
+		catch ( BirtException be )
+		{
+			throw DataException.wrap( be );
+		}
 	}
-	
+
 	/**
-	 * Return the ResultIterator which is sorted using expression in join condition.
+	 * Return the IQueryResults
+	 * 
+	 * @param dataEngine
+	 * @param dataSetDesignName
+	 * @param appContext
+	 * @param joinConditions
+	 * @param isLeftDataSet
+	 * @return
+	 * @throws DataException
+	 */
+	private IQueryResults getResultSetQuery( DataEngineImpl dataEngine,
+			String dataSetDesignName, Map appContext, List joinConditions,
+			boolean isLeftDataSet ) throws DataException
+	{
+		QueryDefinition queryDefinition = new QueryDefinition( );
+		queryDefinition.setDataSetName( dataSetDesignName );
+		IPreparedQuery preparedQuery;
+		try
+		{
+			preparedQuery = PreparedDataSourceQuery.newInstance( dataEngine,
+					queryDefinition,
+					appContext );
+
+			IQueryResults ri = preparedQuery.execute( null );
+
+			// assert ri instanceof ResultIterator;
+			return ri;
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( e.getMessage( ) );
+		}
+	}
+
+	/**
+	 * Return the ResultIterator which is sorted using expression in join
+	 * condition.
+	 * 
 	 * @param dataEngine
 	 * @param appContext
 	 * @return
@@ -254,8 +416,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @throws BirtException
 	 */
 	private ResultIterator getSortedResultIterator( DataEngineImpl dataEngine,
-			String dataSetDesignName, Map appContext,
-			List joinConditions, boolean isLeftDataSet ) throws DataException
+			String dataSetDesignName, Map appContext, List joinConditions,
+			boolean isLeftDataSet ) throws DataException
 	{
 		QueryDefinition queryDefinition = new QueryDefinition( );
 		queryDefinition.setDataSetName( dataSetDesignName );
@@ -286,6 +448,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 
 	/**
 	 * Add a sort expression to preparedQuery.
+	 * 
 	 * @param joinConditions
 	 * @param isLeftDataSet
 	 * @param preparedQuery
@@ -312,6 +475,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#newExecutor()
 	 */
 	protected QueryExecutor newExecutor( )
@@ -321,6 +485,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
 	 */
 	public Collection getParameterMetaData( ) throws BirtException
@@ -328,16 +493,17 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		return null;
 	}
 
-	 /**
-     * 
+	/**
+	 * 
 	 * Concrete class of DSQueryExecutor used in PreparedExtendedDSQuery
 	 * 
 	 */
 	private class JointDataSetQueryExecutor extends DSQueryExecutor
 	{
+
 		// prepared query
 		private IPreparedDSQuery odiPreparedQuery;
-		
+
 		/**
 		 * @return prepared query
 		 */
@@ -345,7 +511,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		{
 			return odiPreparedQuery;
 		}
-		
+
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()
 		 */
@@ -353,24 +519,22 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		{
 			return null;
 		}
-		
+
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
 		 */
 		protected IQuery createOdiQuery( ) throws DataException
 		{
 			setCurrentDataSet( dataSetDesign );
-			
+
 			// Lazzily initialize the PreparedJointDataSourceQuery here.
 			// The creation of JointDataSetQuery need IResultClass instance
-			// as input argment.We have to create ResultIterator instance
-			// in method "initialize()" for this is the only way to acquire
-			// IResultClass instances.
+			// as input argment.
 			if ( doesLoadFromCache( ) == false )
-				initialize( dataEngine, appContext );
+				initializeResultClass( dataEngine, appContext );
 			return new JointDataSetQuery( resultClass );
 		}
-		
+
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
@@ -380,7 +544,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			if ( doesLoadFromCache( ) == true )
 			{
 				DataSourceQuery dsQuery = new DataSourceQuery( );
-				
+
 				JointDataSetQuery jointQuery = (JointDataSetQuery) odiQuery;
 				dsQuery.setExprProcessor( jointQuery.getExprProcessor( ) );
 				List fetchEvents = jointQuery.getFetchEvents( );
@@ -390,18 +554,21 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				dsQuery.setMaxRows( jointQuery.getMaxRows( ) );
 				dsQuery.setOrdering( toList( jointQuery.getOrdering( ) ) );
 				dsQuery.setGrouping( toList( jointQuery.getGrouping( ) ) );
-				
+
 				return dsQuery.execute( eventHandler );
 			}
-			
-			JointResultMetadata jrm = getJointResultMetadata( left, right );
+
+			initialize( dataEngine, appContext );
+
+			JointResultMetadata jrm = getJointResultMetadata( left.getResultMetaData( ),
+					right.getResultMetaData( ) );
 			resultClass = jrm.getResultClass( );
 			populator = JointDataSetPopulatorFactory.getBinaryTreeDataSetPopulator( left.getOdiResult( ),
 					right.getOdiResult( ),
 					jrm,
 					matcher,
 					joinType );
-			
+
 			if ( doesSaveToCache( ) == false )
 				return new CachedResultSet( (BaseQuery) this.odiQuery,
 						resultClass,
@@ -413,7 +580,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 						new DataSetResultCache( populator, resultClass ),
 						eventHandler );
 		}
-		
+
 		/**
 		 * @param obs
 		 * @return
@@ -429,7 +596,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 
 			return obList;
 		}
-		
+
 		/**
 		 * @return
 		 */
@@ -437,7 +604,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		{
 			return DataSetCacheManager.getInstance( ).doesLoadFromCache( );
 		}
-		
+
 		/**
 		 * @return
 		 */
@@ -446,5 +613,4 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			return DataSetCacheManager.getInstance( ).doesSaveToCache( );
 		}
 	}
-	
 }
