@@ -17,13 +17,13 @@ import java.rmi.RemoteException;
 import javax.xml.namespace.QName;
 
 import org.apache.axis.AxisFault;
-import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -65,8 +65,8 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 			// get design config file name
 			String configFileName = ParameterAccessor
 					.getConfigFileName( reportDesignName );
-			
-			if (configFileName == null)
+
+			if ( configFileName == null )
 			{
 				handleUpdate( );
 				return;
@@ -108,24 +108,30 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 					{
 						try
 						{
-							Object paramValueObj = ParameterValidationUtil
-									.validate( parameter.getDataType( ),
-											parameter.getPattern( ),
-											paramValue, attrBean.getLocale( ) );
+							if ( !DesignChoiceConstants.PARAM_TYPE_STRING
+									.equalsIgnoreCase( parameter.getDataType( ) ) )
+							{
+								Object paramValueObj = ParameterValidationUtil
+										.validate( parameter.getDataType( ),
+												parameter.getPattern( ),
+												paramValue, attrBean
+														.getLocale( ) );
 
-							paramValue = ParameterValidationUtil
-									.getDisplayValue( parameter.getDataType( ),
-											parameter.getPattern( ),
-											paramValueObj, ULocale.US );
+								paramValue = ParameterValidationUtil
+										.getDisplayValue( parameter
+												.getDataType( ), parameter
+												.getPattern( ), paramValueObj,
+												ULocale.US );
+							}
 						}
 						catch ( Exception err )
 						{
 							paramValue = op[i].getValue( );
 						}
-						
+
 						// add parameter to config file
-						configVar.setName( paramName
-								+ "_" + parameter.getID( ) ); //$NON-NLS-1$
+						configVar
+								.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
 						configVar.setValue( paramValue );
 						handle.addConfigVariable( configVar );
 					}

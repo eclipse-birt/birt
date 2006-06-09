@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -245,16 +246,22 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						{
 							try
 							{
-								Object paramValueObj = ParameterValidationUtil
-										.validate( parameter.getDataType( ),
-												parameter.getPattern( ),
-												paramValue, ULocale.US );
+								if ( !DesignChoiceConstants.PARAM_TYPE_STRING
+										.equalsIgnoreCase( parameter
+												.getDataType( ) ) )
+								{
+									Object paramValueObj = ParameterValidationUtil
+											.validate(
+													parameter.getDataType( ),
+													parameter.getPattern( ),
+													paramValue, ULocale.US );
 
-								paramValue = ParameterValidationUtil
-										.getDisplayValue( parameter
-												.getDataType( ), parameter
-												.getPattern( ), paramValueObj,
-												locale );
+									paramValue = ParameterValidationUtil
+											.getDisplayValue( parameter
+													.getDataType( ), parameter
+													.getPattern( ),
+													paramValueObj, locale );
+								}
 							}
 							catch ( Exception err )
 							{
