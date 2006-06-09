@@ -350,8 +350,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			for ( Iterator iter = resultSetColumnList.iterator( ); iter.hasNext( ); )
 			{
 				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iter.next( );
-				ComputedColumn column = StructureFactory.createComputedColumn( );
-				column.setName( resultSetColumn.getColumnName( ) );
+				ComputedColumn column = StructureFactory.newComputedColumn( handle,
+						resultSetColumn.getColumnName( ) );
 				column.setDataType( resultSetColumn.getDataType( ) );
 				column.setExpression( DEUtil.getExpression( resultSetColumn ) );
 				columnList.add( column );
