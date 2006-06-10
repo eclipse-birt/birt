@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -72,7 +73,7 @@ public class ResultIterator implements IResultIterator
 	
 	// used for evaluate binding column value
 	private int 					lastRowIndex = -1;
-	private Map 					boundColumnValueMap;
+	private Map 					boundColumnValueMap = new HashMap( );
 	private BindingColumnsEvalUtil 	bindingColumnsEvalUtil;
 	
 	private int state = NOT_STARTED;
