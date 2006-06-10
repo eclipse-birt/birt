@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.util.IExprResultSet;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -45,7 +46,7 @@ class ResultIterator implements IResultIterator
 	private int currParentIndex;
 	
 	// expression data result set
-	private ExprResultSet exprResultSet;
+	private IExprResultSet exprResultSet;
 	
 	/**
 	 * @param context

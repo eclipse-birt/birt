@@ -21,12 +21,15 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
+import org.eclipse.birt.data.engine.impl.document.util.ExprDataResultSet1;
+import org.eclipse.birt.data.engine.impl.document.util.ExprDataResultSet2;
+import org.eclipse.birt.data.engine.impl.document.util.ExprResultSet;
+import org.eclipse.birt.data.engine.impl.document.util.ExprResultSet2;
+import org.eclipse.birt.data.engine.impl.document.util.IExprDataResultSet;
+import org.eclipse.birt.data.engine.impl.document.util.IExprResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
-import org.eclipse.birt.data.engine.impl.document.viewing.ExprDataResultSet1;
-import org.eclipse.birt.data.engine.impl.document.viewing.ExprDataResultSet2;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
-import org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -92,16 +95,17 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	ExprResultSet loadExprResultSet( ) throws DataException
+	IExprResultSet loadExprResultSet( ) throws DataException
 	{
 		if ( streamManager.isSecondRD( ) == true
 				&& streamManager.isSubquery( ) == true )
 			return new ExprResultSet2( streamManager,
 					version,
 					streamManager.isSecondRD( ) );
-		
+
 		return new ExprResultSet( streamManager,
-				loadGroupUtil( StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE ),
+				loadGroupUtil( StreamManager.ROOT_STREAM,
+						StreamManager.SELF_SCOPE ),
 				version,
 				streamManager.isSecondRD( ) );
 	}
@@ -172,9 +176,6 @@ public class RDLoad
 			exprDataResultSet = new ExprDataResultSet1( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.BASE_SCOPE ),
-					streamManager.getInStream( DataEngineContext.EXPR_ROWLEN_STREAM,
-							StreamManager.ROOT_STREAM,
-							StreamManager.BASE_SCOPE ),
 					exprMetas );
 		else
 			exprDataResultSet = new ExprDataResultSet2( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
