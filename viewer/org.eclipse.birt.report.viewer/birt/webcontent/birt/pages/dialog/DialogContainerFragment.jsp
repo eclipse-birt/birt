@@ -43,6 +43,7 @@
 			<table style="width: 100%; height: 100%; border-collapse: collapse">
 				<tr>
 					<td>
+						<label class="birtviewer_hidden_label" for="<%= fragment.getClientId( ) %>dialogCloseBtn"><%= BirtResources.getString( "birt.viewer.dialog.close" )%></label>						
 						<div id="<%= fragment.getClientId( ) %>dialogCloseBtn" class="dialogCloseBtn dCloseBtn"/>
 					</td>
 				</tr>
@@ -71,13 +72,17 @@
 					<div id="<%= fragment.getClientId( ) %>okButton">
 						<div id="<%= fragment.getClientId( ) %>okButtonLeft" class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
 						<div id="<%= fragment.getClientId( ) %>okButtonRight" class="dialogBtnBarButtonRightBackgroundEnabled"></div>
-						<input type="button" value='<%= BirtResources.getString( "birt.viewer.dialog.ok" ) %>' class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
+						<input type="button" value='<%= BirtResources.getString( "birt.viewer.dialog.ok" ) %>' 
+							title='<%= BirtResources.getString( "birt.viewer.dialog.ok" ) %>'  
+							class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
 					</div>
 					<div class="dialogBtnBarDivider"></div>
 					<div id="<%= fragment.getClientId( ) %>cancelButton">
 						<div class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
 						<div class="dialogBtnBarButtonRightBackgroundEnabled"></div>
-						<input type="button" value='<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>' class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
+						<input type="button" value='<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>' 
+							title='<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>'  
+							class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
 					</div> 
 				</div>							
 			</div>

@@ -30,7 +30,7 @@
 		</TR>
 		<TR>
 			<TD ALIGN="center">
-				<IMG SRC="birt/images/Loading.gif" />
+				<IMG SRC="birt/images/Loading.gif" ALT="Progress Bar Image"/>
 			</TD>
 		</TR>
 	</TABLE>

@@ -31,13 +31,13 @@
 		<IMG SRC="birt/images/parameter.gif" ALT="<%= parameterBean.getDisplayName( ) %>" TITLE="<%= parameterBean.getToolTip( ) %>"/>
 	</TD>
 	<TD NOWRAP>
-		<FONT TITLE="<%= parameterBean.getToolTip( ) %>"><%= parameterBean.getDisplayName( ) %>:</FONT>
+		<FONT TITLE="<%= parameterBean.getToolTip( ) %>"><LABEL FOR="<%= encodedParameterName + "_selection"%>"><%= parameterBean.getDisplayName( ) %>:</LABEL></FONT>
 		<%-- is required --%>
 		<%
 		if ( parameterBean.isRequired( ) )
 		{
 		%>
-			<FONT COLOR="red">*</FONT>
+			<FONT COLOR="red"><LABEL FOR="<%= encodedParameterName + "_selection"%>">*</LABEL></FONT>
 		<%
 		}
 		%>
@@ -65,6 +65,7 @@
 	if ( parameterBean.allowNewValues( ) ) // TODO: Editable
 	{
 %>
+		<LABEL FOR="<%= encodedParameterName + "_radio_selection" %>" CLASS="birtviewer_hidden_label">Select</LABEL>
 		<INPUT TYPE="RADIO"
 			NAME="<%= encodedParameterName + "_radios" %>" 
 			ID="<%= encodedParameterName + "_radio_selection" %>" 
@@ -116,11 +117,13 @@
 	{
 %>
 		<BR>
+		<LABEL FOR="<%= encodedParameterName + "_radio_input" %>" CLASS="birtviewer_hidden_label">Input</LABEL>
 		<INPUT TYPE="RADIO"
 			NAME="<%= encodedParameterName + "_radios" %>" 
 			ID="<%= encodedParameterName + "_radio_input"%>" 
 			VALUE="<%= encodedParameterName %>"
 			<%= ( !parameterBean.isValueInList( ) && parameterBean.getValue( ) != null  || !CHECKED )? "CHECKED" : "" %>>
+		<LABEL FOR="<%= encodedParameterName + "_input" %>" CLASS="birtviewer_hidden_label">Input text</LABEL>
 		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
 			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"

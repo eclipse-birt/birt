@@ -31,13 +31,13 @@
 		<IMG SRC="birt/images/parameter.gif" ALT="<%= parameterBean.getDisplayName( ) %>" TITLE="<%= parameterBean.getToolTip( ) %>"/>
 	</TD>
 	<TD NOWRAP>
-		<FONT TITLE="<%= parameterBean.getToolTip( ) %>"><%= parameterBean.getDisplayName( ) %>:</FONT>
+		<FONT TITLE="<%= parameterBean.getToolTip( ) %>"><LABEL FOR="<%= encodedParameterName %>"><%= parameterBean.getDisplayName( ) %>:</LABEL></FONT>
 		<%-- is required --%>
 		<%
 		if ( parameterBean.isRequired( ) )
 		{
 		%>
-			<FONT COLOR="red">*</FONT>
+			<FONT COLOR="red"><LABEL FOR="<%= encodedParameterName %>">*</LABEL></FONT>
 		<%
 		}
 		%>
@@ -51,8 +51,8 @@
 			ID="<%= encodedParameterName + "_hidden" %>"
 			NAME="<%= encodedParameterName %>"
 			VALUE="<%= parameterBean.getValue( ) %>">
-		<INPUT
-			TYPE="CHECKBOX"
+		<INPUT TYPE="CHECKBOX"
+			ID="<%= encodedParameterName %>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
 			VALUE="<%= encodedParameterName %>"
 			<%= "true".equalsIgnoreCase( parameterBean.getValue( ) ) ? "CHECKED" : "" %>

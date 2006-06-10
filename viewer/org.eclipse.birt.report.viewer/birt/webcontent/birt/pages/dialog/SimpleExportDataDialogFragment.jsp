@@ -25,7 +25,7 @@
 	<TR HEIGHT="5px"><TD></TD></TR>
 	<TR>
 		<TD>
-			<%= BirtResources.getString( "birt.viewer.dialog.exportdata.resultsets" )%>
+			<LABEL FOR="resultsets"><%= BirtResources.getString( "birt.viewer.dialog.exportdata.resultsets" )%></LABEL>
 		</TD>
 	</TR>
 	<TR>
@@ -39,7 +39,7 @@
 		<TD VALIGN="top">
 			<TABLE STYLE="font-size:8pt;">
 				<TR><TD>
-					<%= BirtResources.getString( "birt.viewer.dialog.exportdata.availablecolumn" )%>
+					<LABEL FOR="availableColumnSelect"><%= BirtResources.getString( "birt.viewer.dialog.exportdata.availablecolumn" )%></LABEL>
 				</TD></TR>
 				<TR><TD>
 					<SELECT ID="availableColumnSelect" SIZE="10" CLASS="birtviewer_exportdata_dialog_select">
@@ -52,19 +52,31 @@
 				<TR><TD>
 					<TABLE VALIGN="middle">
 						<TR><TD>
-							<INPUT TYPE="image" NAME="Addall" SRC="birt/images/AddAll.gif" CLASS="birtviewer_exportdata_dialog_button">
+							<INPUT TYPE="image" NAME="Addall" SRC="birt/images/AddAll.gif" 
+								ALT='<%= BirtResources.getString( "birt.viewer.dialog.exportdata.addall" )%>' 
+								TITLE='<%= BirtResources.getString( "birt.viewer.dialog.exportdata.addall" )%>' 
+								CLASS="birtviewer_exportdata_dialog_button">
 						</TD></TR>
 						<TR height="2px"><TD></TD></TR>
 						<TR><TD>
-							<INPUT TYPE="image" NAME="Add" SRC="birt/images/Add.gif" CLASS="birtviewer_exportdata_dialog_button">
+							<INPUT TYPE="image" NAME="Add" SRC="birt/images/Add.gif" 
+								ALT='<%= BirtResources.getString( "birt.viewer.dialog.exportdata.add" )%>' 
+								TITLE='<%= BirtResources.getString( "birt.viewer.dialog.exportdata.add" )%>' 								
+								CLASS="birtviewer_exportdata_dialog_button">
 						</TD></TR>
 						<TR height="2px"><TD></TD></TR>
 						<TR><TD>
-							<INPUT TYPE="image" NAME="Remove" SRC="birt/images/Remove_disabled.gif" CLASS="birtviewer_exportdata_dialog_button">
+							<INPUT TYPE="image" NAME="Remove" SRC="birt/images/Remove_disabled.gif" 
+								ALT='<%= BirtResources.getString( "birt.viewer.dialog.exportdata.remove" )%>' 
+								TITLE='<%= BirtResources.getString( "birt.viewer.dialog.exportdata.remove" )%>' 								
+								CLASS="birtviewer_exportdata_dialog_button">
 						</TD></TR>
 						<TR height="2px"><TD></TD></TR>
 						<TR><TD>
-							<INPUT TYPE="image" NAME="Removeall" SRC="birt/images/RemoveAll_disabled.gif" CLASS="birtviewer_exportdata_dialog_button">
+							<INPUT TYPE="image" NAME="Removeall" SRC="birt/images/RemoveAll_disabled.gif" 
+								ALT='<%= BirtResources.getString( "birt.viewer.dialog.exportdata.removeall" )%>' 
+								TITLE='<%= BirtResources.getString( "birt.viewer.dialog.exportdata.removeall" )%>' 								
+								CLASS="birtviewer_exportdata_dialog_button">
 						</TD></TR>
 					</TABLE>
 				</TD></TR>
@@ -73,7 +85,7 @@
 		<TD >
 			<TABLE STYLE="font-size:8pt;">
 				<TR><TD>
-					<%= BirtResources.getString( "birt.viewer.dialog.exportdata.selectedcolumn" )%>
+					<LABEL FOR="selectedColumnSelect"><%= BirtResources.getString( "birt.viewer.dialog.exportdata.selectedcolumn" )%></LABEL>
 				</TD></TR>
 				<TR><TD>
 					<SELECT ID="selectedColumnSelect" SIZE="10" CLASS="birtviewer_exportdata_dialog_select">

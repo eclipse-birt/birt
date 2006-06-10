@@ -65,10 +65,11 @@
 %>
 	<INPUT TYPE="RADIO"
 		NAME="<%= encodedParameterName %>"
+		ID="<%= encodedParameterName + i %>" 
 		TITLE="<%= parameterBean.getToolTip( ) %>"
 		VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
 		<%= (parameterBean.getValue( ) != null && parameterBean.getValue( ).equalsIgnoreCase( value ) )? "CHECKED" : "" %>>
-		<%= label %>
+		<LABEL FOR="<%= encodedParameterName + i %>"><%= label %></LABEL>
 	</INPUT>
 	<BR>
 <%
@@ -78,10 +79,11 @@
 %>
 	<INPUT TYPE="RADIO"
 		NAME="<%= encodedParameterName %>"
+		ID="<%= encodedParameterName + "_null" %>" 
 		TITLE="<%= parameterBean.getToolTip( ) %>"
 		VALUE=""
 		<%= ( parameterBean.getValue( ) == null )? "CHECKED" : "" %>>
-		Null Value
+		<LABEL FOR="<%= encodedParameterName + "_null" %>">Null Value</LABEL>
 	</INPUT>
 	<BR>
 <%
