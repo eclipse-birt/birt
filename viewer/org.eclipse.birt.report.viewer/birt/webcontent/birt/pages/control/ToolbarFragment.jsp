@@ -65,8 +65,8 @@
 					if ( !ViewerServlet.isOpenSource( ) )
 					{
 					%>
-						<A HREF="<%= ivUrl %>" style="color:#00868B">
-							<B><%= BirtResources.getString( "birt.viewer.toolbar.enableiv" )%></B>
+						<A HREF="<%= ivUrl %>">
+							<IMG SRC='birt/images/Interactive_view.gif' CLASS='birtviewer_clickable' />
 						</A>
 					<%
 					}
