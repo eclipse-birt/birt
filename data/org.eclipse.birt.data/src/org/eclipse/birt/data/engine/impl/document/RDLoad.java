@@ -104,7 +104,8 @@ public class RDLoad
 					streamManager.isSecondRD( ) );
 
 		return new ExprResultSet( streamManager,
-				loadGroupUtil( StreamManager.ROOT_STREAM,
+				RDLoadUtil.loadGroupUtil( streamManager,
+						StreamManager.ROOT_STREAM,
 						StreamManager.SELF_SCOPE ),
 				version,
 				streamManager.isSecondRD( ) );
@@ -116,31 +117,9 @@ public class RDLoad
 	 */
 	public RDGroupUtil loadRootGroupUtil( ) throws DataException
 	{
-		return loadGroupUtil( StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
-	}
-	
-	/**
-	 * @return
-	 * @throws DataException
-	 */
-	private RDGroupUtil loadGroupUtil( int streamPos, int streamScope ) throws DataException
-	{
-		InputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,
-				streamPos,
-				streamScope );
-		BufferedInputStream buffStream = new BufferedInputStream( stream );
-		RDGroupUtil rdGroupUtil = new RDGroupUtil( buffStream );
-		try
-		{
-			buffStream.close( );
-			stream.close( );
-		}
-		catch ( IOException e )
-		{
-			// ignore it
-		}
-
-		return rdGroupUtil;
+		return RDLoadUtil.loadGroupUtil( streamManager,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
 	}
 	
 	/**
@@ -231,6 +210,12 @@ public class RDLoad
 		return populator;
 	}
 	
+	/**
+	 * @param streamPos
+	 * @param streamScope
+	 * @return filter definition
+	 * @throws DataException
+	 */
 	public List loadFilterDefn( int streamPos, int streamScope ) throws DataException
 	{
 		InputStream inputStream = streamManager.getInStream( DataEngineContext.FILTER_DEFN_STREAM,
@@ -248,7 +233,13 @@ public class RDLoad
 
 		return filterList;
 	}
-		
+	
+	/**
+	 * @param streamPos
+	 * @param streamScope
+	 * @return group definition
+	 * @throws DataException
+	 */
 	public List loadGroupDefn( int streamPos, int streamScope ) throws DataException
 	{
 		InputStream inputStream = streamManager.getInStream( DataEngineContext.GROUP_DEFN_STREAM,

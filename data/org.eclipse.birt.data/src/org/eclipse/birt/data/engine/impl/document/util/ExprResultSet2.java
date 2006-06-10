@@ -10,14 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.document.util;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.document.RDGroupUtil;
+import org.eclipse.birt.data.engine.impl.document.RDLoadUtil;
 import org.eclipse.birt.data.engine.impl.document.StreamManager;
 
 /**
@@ -75,32 +74,9 @@ public class ExprResultSet2 extends ExprResultSet
 				rowInfoRAIs );
 		
 		this.rowCount = this.exprResultReader.getCount( );
-		this.rdGroupUtil = this.loadGroupUtil( StreamManager.ROOT_STREAM,
+		this.rdGroupUtil = RDLoadUtil.loadGroupUtil( streamManager,
+				StreamManager.ROOT_STREAM,
 				StreamManager.SELF_SCOPE );
-	}
-	
-	/**
-	 * @return
-	 * @throws DataException
-	 */
-	private RDGroupUtil loadGroupUtil( int streamPos, int streamScope ) throws DataException
-	{
-		InputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,
-				streamPos,
-				streamScope );
-		BufferedInputStream buffStream = new BufferedInputStream( stream );
-		RDGroupUtil rdGroupUtil = new RDGroupUtil( buffStream );
-		try
-		{
-			buffStream.close( );
-			stream.close( );
-		}
-		catch ( IOException e )
-		{
-			// ignore it
-		}
-
-		return rdGroupUtil;
 	}
 	
 }
