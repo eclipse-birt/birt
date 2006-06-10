@@ -76,17 +76,26 @@ AbstractBaseDialog.prototype =
 		// OK and Cancel buttons		
 		this.okBtn = $(id + "okButton");
 		var cancelBtn = $(id + "cancelButton");
+		
 		this.okBtnLeft = $(id + "okButtonLeft"); //left part of background image
 		this.okBtnRight = $(id + "okButtonRight"); //right part of background image
-			//set OK button to enabled as default
+		
+		//set OK button to enabled as default
 		this.okBtn.className = "dialogBtnBarButtonEnabled";
-		this.okBtnLeft.className = "dialogBtnBarButtonLeftBackgroundEnabled";
-		this.okBtnRight.className = "dialogBtnBarButtonRightBackgroundEnabled";
+		if ( this.okBtnLeft )
+		{
+			this.okBtnLeft.className = "dialogBtnBarButtonLeftBackgroundEnabled";
+		}
+		if ( this.okBtnRight )
+		{
+			this.okBtnRight.className = "dialogBtnBarButtonRightBackgroundEnabled";
+		}
+		
 		Event.observe( this.okBtn, 'click', this.__neh_okay_closure , false );
-			//Cancel		
+		//Cancel		
 		Event.observe( cancelBtn, 'click', this.__neh_cancel_closure , false );
 			
-			//Drag and Drop
+		//Drag and Drop
 		this.dragBarName = id + "dialogTitleBar";
 		var dragArea = $(this.dragBarName);	
 		Event.observe(dragArea, 'mousedown', this.mousedown_closure, false);
@@ -211,16 +220,28 @@ AbstractBaseDialog.prototype =
 			if(this.okBtn.className == "dialogBtnBarButtonDisabled")
 			{
 				this.okBtn.className = "dialogBtnBarButtonEnabled";
-				this.okBtnLeft.className = "dialogBtnBarButtonLeftBackgroundEnabled";
-				this.okBtnRight.className = "dialogBtnBarButtonRightBackgroundEnabled";
+				if ( this.okBtnLeft )
+				{
+					this.okBtnLeft.className = "dialogBtnBarButtonLeftBackgroundEnabled";
+				}
+				if ( this.okBtnRight )
+				{
+					this.okBtnRight.className = "dialogBtnBarButtonRightBackgroundEnabled";
+				}
 				Event.observe( this.okBtn, 'click', this.__neh_okay_closure , false );
 			}
 		}
 		else
 		{
 			this.okBtn.className = "dialogBtnBarButtonDisabled";
-			this.okBtnLeft.className = "dialogBtnBarButtonLeftBackgroundDisabled";
-			this.okBtnRight.className = "dialogBtnBarButtonRightBackgroundDisabled";
+			if ( this.okBtnLeft )
+			{
+				this.okBtnLeft.className = "dialogBtnBarButtonLeftBackgroundDisabled";
+			}
+			if ( this.okBtnRight )
+			{
+				this.okBtnRight.className = "dialogBtnBarButtonRightBackgroundDisabled";
+			}
 			Event.stopObserving( this.okBtn, 'click', this.__neh_okay_closure , false );
 		}
 	},
