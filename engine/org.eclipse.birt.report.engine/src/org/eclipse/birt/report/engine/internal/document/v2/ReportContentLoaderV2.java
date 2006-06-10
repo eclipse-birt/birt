@@ -400,7 +400,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	private void outputParent( IContent content ) throws IOException
 	{
 		IContent parent = (IContent) content.getParent( );
-		if ( parent != null )
+		if ( parent != null && parent != dummyReportContent  )
 		{
 			outputParent( parent );
 		}
