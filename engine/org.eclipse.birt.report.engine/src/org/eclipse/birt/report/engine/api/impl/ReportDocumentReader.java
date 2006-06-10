@@ -591,6 +591,10 @@ public class ReportDocumentReader
 
 	public long getInstanceOffset( InstanceID iid )
 	{
+		if ( iid == null )
+		{
+			return -1l;
+		}
 		if ( reportletsIndexById == null )
 		{
 			loadReportletStream( );
@@ -600,6 +604,10 @@ public class ReportDocumentReader
 
 	public long getBookmarkOffset( String bookmark )
 	{
+		if ( bookmark == null )
+		{
+			return -1l;
+		}
 		if ( reportletsIndexByBookmark == null )
 		{
 			loadReportletStream( );

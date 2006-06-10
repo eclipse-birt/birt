@@ -525,19 +525,35 @@ public class RenderTask extends EngineTask implements IRenderTask
 	private class ReportletRender implements InnerRender
 	{
 		private long offset;
-		ReportletRender(InstanceID iid)
+
+		ReportletRender(InstanceID iid) throws EngineException
 		{
 			this.offset = reportDoc.getInstanceOffset( iid );
+			if ( offset == -1 )
+			{
+				throw new EngineException(
+					"Invalid instance id :" + iid ); //$NON-NLS-1$
+			}
 		}
 
-		ReportletRender( String bookmark )
+		ReportletRender( String bookmark ) throws EngineException
 		{
 			this.offset = reportDoc.getBookmarkOffset( bookmark );
+			if ( offset == -1 )
+			{
+				throw new EngineException(
+					"Invalid bookmark :" + bookmark ); //$NON-NLS-1$
+			}
 		}
 
 		public void render( ) throws EngineException
 		{
 			RenderTask.this.doRenderReportlet( offset );
 		}
+	}
+
+	public void setInstanceID( String iid ) throws EngineException
+	{
+		setInstanceID( InstanceID.parse( iid ));
 	}
 }

@@ -58,6 +58,17 @@ public interface IRenderTask extends IEngineTask
     public abstract void setInstanceID(InstanceID iid) throws EngineException;
 
     /**
+	 * Sets id of instance which is a string type. If instance id is set, render
+	 * method will render the page which contains this instance.
+	 * 
+	 * @param iid
+	 *            the string type instance id of the instance.
+	 * @throws EngineException
+	 *             if <code>iid</code> is invalid.
+	 */
+    public abstract void setInstanceID(String iid) throws EngineException;
+
+    /**
      * Sets range of the pages to be rendered.
      *
      * @param pageRange range of the pages.

@@ -75,6 +75,10 @@ public class InstanceID
 
 	public static InstanceID parse( String instanceId )
 	{
+		if ( instanceId == null )
+		{
+			return null;
+		}
 		return parse( instanceId.toCharArray( ), 0, instanceId.length( ) );
 	}
 
