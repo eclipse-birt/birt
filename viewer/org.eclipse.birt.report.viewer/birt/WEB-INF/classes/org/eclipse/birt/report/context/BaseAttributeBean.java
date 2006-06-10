@@ -142,6 +142,11 @@ abstract public class BaseAttributeBean
 	protected boolean rtl = false;
 
 	/**
+	 * indicate whether the document is existed.
+	 */
+	protected boolean documentExisted = false;
+
+	/**
 	 * Abstract methods.
 	 */
 	abstract protected void __init( HttpServletRequest request )
@@ -461,7 +466,7 @@ abstract public class BaseAttributeBean
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @return the reportDesignHandle
 	 */

@@ -169,8 +169,11 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						false );
 
 		// Check if miss parameter
-		this.missingParameter = validateParameters( parameterDefList,
-				this.parametersAsString );
+		if ( documentExisted )
+			this.missingParameter = false;
+		else
+			this.missingParameter = validateParameters( parameterDefList,
+					this.parametersAsString );
 
 		// Get parameters as String Map with default value
 		this.parametersAsString = getParsedParametersAsStringWithDefaultValue(
@@ -401,12 +404,21 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		if ( reportDocumentInstance != null )
 		{
 			reportRunnable = reportDocumentInstance.getReportRunnable( );
+			
 			// in frameset mode, parse parameter values from document file
+			// if the path is frameset, copy the parameter value from document
+			// to run the report. If the _document parameter from url is not
+			// null, means user wants to preview the document, copy the
+			// parameter from the document to do the preview.
 			if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
-					.getServletPath( ) ) )
+					.getServletPath( ) )
+					|| ParameterAccessor.getParameter( request,
+							ParameterAccessor.PARAM_REPORT_DOCUMENT ) != null )
 			{
 				this.parameterMap = reportDocumentInstance.getParameterValues( );
+				this.documentExisted = true;
 			}
+			
 			reportDocumentInstance.close( );
 		}
 
