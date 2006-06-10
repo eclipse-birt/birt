@@ -513,14 +513,6 @@ You can enable an SVG device renderer for the chart engine. This reference imple
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-20-1.html" label="Localizing text"/>
 </context>
-<context id="Preference_BIRT_ResourceSelectDB_ID" title="Please select a folder">
-<description>Use this dialog box to select the default resource folder to use for the Library Explorer.
-
-
-
-</description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-20-1.html" label="Localizing text"/>
-</context>
 <context id="PublishLibraryDialog_ID" title="Publish Library">
 <description>Use this dialog box to publish a library to a resource folder.
 

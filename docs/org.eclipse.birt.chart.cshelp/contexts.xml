@@ -440,4 +440,14 @@ Note that you can also bind data in the Select Data page by dragging and droppin
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
 </context>
+<context id="FormatChartYAxis_ID" title="Edit Chart and New Chart: Y-Axis">
+<description>Use this page to specify title, type, and position of the y-axis with respect to the x-axis.
+
+For additional formatting options, click <b>Scale</b>, <b>Text Format</b>, <b>Gridlines</b>, and <b>Markers</b>.
+
+Note that if you want the x-axis title to be displayed, you may have to click <b>Text Format</b> and select <b>Visible</b>.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-01.html" label="A related topic"/>
+</context>
 </contexts>
