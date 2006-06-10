@@ -138,7 +138,9 @@ public final class SPParameterPositionUtil
 			}
 
 		}
-		if ( startPoint >= endPoint || startPoint == -1 )
+		if ( startPoint == -1 && endPoint == -1 )
+			return new char[0];
+		else if ( startPoint >= endPoint || startPoint == -1 )
 			throw new OdaException( "Illegal SP call" );
 		return sqlTxt.substring( startPoint, endPoint ).toCharArray( );
 	}
