@@ -73,6 +73,7 @@ public class CellMergedStyle extends AbstractStyle
 	 * <li>if it is not inheritable attributes
 	 * <ul>
 	 * <li>background: return NULL if it has been defined in row.
+	 * <li>vertical-align: return NULL if has been defined in row.
 	 * <li>otherwise: return the value defined in the column.
 	 * </ul>
 	 * <li>if it is inheritable attribute
@@ -103,6 +104,17 @@ public class CellMergedStyle extends AbstractStyle
 		if ( !engine.isInheritedProperty( index ) )
 		{
 			if ( isBackgroundProperties( index ) )
+			{
+				if ( rowStyle != null )
+				{
+					CSSValue rowValue = rowStyle.getProperty( index );
+					if ( rowValue != null )
+					{
+						return null;
+					}
+				}
+			}
+			if ( index == STYLE_VERTICAL_ALIGN )
 			{
 				if ( rowStyle != null )
 				{

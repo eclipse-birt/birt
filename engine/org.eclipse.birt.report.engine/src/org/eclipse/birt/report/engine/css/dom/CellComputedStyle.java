@@ -68,6 +68,7 @@ public class CellComputedStyle extends ComputedStyle
 		
 		//none inheritable properties
 		//background color: if the property defined in the row is empty, use column's property.
+		//vertical-align: if the row property is not null, use it, otherwise, use the column.
 		//other properties, use the property of column directly.
 		if ( sv == null && columnStyle != null )
 		{
@@ -81,6 +82,17 @@ public class CellComputedStyle extends ComputedStyle
 						rowValue = (Value) rowStyle.getProperty( index );
 					}
 					if ( rowValue == null )
+					{
+						sv = (Value) columnStyle.getProperty( index );
+					}
+				}
+				else if ( index == STYLE_VERTICAL_ALIGN )
+				{
+					if ( rowStyle != null )
+					{
+						sv = (Value) rowStyle.getProperty( index );
+					}
+					if ( sv == null )
 					{
 						sv = (Value) columnStyle.getProperty( index );
 					}

@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.23 $ $Date: 2006/03/27 03:20:17 $
+ * @version $Revision: 1.24 $ $Date: 2006/06/07 06:38:03 $
  */
 public class AttributeBuilder
 {
@@ -181,6 +181,14 @@ public class AttributeBuilder
 			String y = style.getBackgroundPositionY( );
 			if ( x != null || y != null )
 			{
+				if ( x == null )
+				{
+					x = "0pt";
+				}
+				if ( y == null )
+				{
+					y = "0pt";
+				}
 				addPropName( content, HTMLTags.ATTR_BACKGROUND_POSITION );
 				addPropValue( content, x );
 				addPropValue( content, y );
