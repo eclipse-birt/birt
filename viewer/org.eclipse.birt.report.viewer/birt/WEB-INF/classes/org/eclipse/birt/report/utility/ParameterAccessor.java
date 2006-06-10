@@ -168,7 +168,7 @@ public class ParameterAccessor
 	 * URL parameter name that gives the reportlet id.
 	 */
 
-	public static final String PARAM_REPORTLETID = "__reportletid"; //$NON-NLS-1$
+	public static final String PARAM_INSTANCEID = "__instanceid"; //$NON-NLS-1$
 
 	/**
 	 * Custom request headers to identify the request is a normal HTTP request
@@ -608,9 +608,9 @@ public class ParameterAccessor
 	 * @return reportlet id
 	 */
 
-	public static String getReportletId( HttpServletRequest request )
+	public static String getInstanceId( HttpServletRequest request )
 	{
-		return getParameter( request, PARAM_REPORTLETID );
+		return getParameter( request, PARAM_INSTANCEID );
 	}
 
 	/**
@@ -1056,8 +1056,8 @@ public class ParameterAccessor
 
 	public static boolean isGetReportlet( HttpServletRequest request )
 	{
-		String reprotLetId = getParameter( request, PARAM_REPORTLETID );
-		return reprotLetId != null && reprotLetId.length( ) > 0;
+		String instanceId = getParameter( request, PARAM_INSTANCEID );
+		return instanceId != null && instanceId.length( ) > 0;
 	}
 
 	/**

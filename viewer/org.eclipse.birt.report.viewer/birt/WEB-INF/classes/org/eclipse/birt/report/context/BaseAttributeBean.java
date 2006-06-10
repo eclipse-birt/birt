@@ -188,7 +188,7 @@ abstract public class BaseAttributeBean
 	{
 		this.locale = ParameterAccessor.getLocale( request );
 		this.rtl = ParameterAccessor.isRtl( request );
-		this.reportletId = ParameterAccessor.getReportletId( request );
+		this.reportletId = ParameterAccessor.getInstanceId( request );
 		this.__init( request );
 	}
 
