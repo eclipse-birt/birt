@@ -213,7 +213,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 	 *      org.eclipse.birt.data.engine.executor.IComputedColumnsState)
 	 */
 	public void compileFilter( List filters,
-			IComputedColumnsState computedColumns )
+			IComputedColumnsState computedColumns ) throws DataException
 	{
 		IBaseExpression baseExpression = null;
 		String expression = "";
@@ -276,10 +276,8 @@ public class ExpressionProcessor implements IExpressionProcessor
 						new Object[]{
 							expression
 						} );
-				assert operator != null;
-				if ( operator instanceof IScriptExpression )
-					operator.setHandle( new InvalidExpression( dataException ) );
-			}
+				throw dataException;
+			} 
 		}
 	}
 	

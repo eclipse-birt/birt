@@ -79,7 +79,7 @@ public interface IExpressionProcessor
 	 * @throws DataException
 	 */
 	public void compileFilter( List filterState,
-			IComputedColumnsState computedColumns );
+			IComputedColumnsState computedColumns ) throws DataException;
 
 	/**
 	 * Compile the exprssion in the given IComutedColumnState
