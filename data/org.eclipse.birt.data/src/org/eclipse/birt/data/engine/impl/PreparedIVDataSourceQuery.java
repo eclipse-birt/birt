@@ -59,6 +59,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			IQueryDefinition queryDefn ) throws DataException
 	{
 		super( dataEngine, queryDefn, null, null );
+		
 		this.queryDefn = queryDefn;
 		this.engine = dataEngine;
 	}	
@@ -67,10 +68,11 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#newExecutor()
 	 */
-	protected QueryExecutor newExecutor() 
+	protected QueryExecutor newExecutor( )
 	{
-		return new IVDataSourceExecutor(engine.getSharedScope(), queryDefn,
-				this.preparedQuery.getAggrTable( ));
+		return new IVDataSourceExecutor( engine.getSharedScope( ),
+				queryDefn,
+				this.preparedQuery.getAggrTable( ) );
 	}
 
 	/**
@@ -100,14 +102,19 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 	 */
 	private class IVDataSourceExecutor extends QueryExecutor
 	{
-		Scriptable queryScope;
-		BaseQuery query;
-		DataSetRuntime dSruntime;
-		
-		IVDataSourceExecutor(Scriptable sharedScope,
-				IBaseQueryDefinition baseQueryDefn, AggregateTable aggrTable) 
+		private Scriptable queryScope;
+		private BaseQuery query;
+		private DataSetRuntime dsRuntime;
+
+		/**
+		 * @param sharedScope
+		 * @param baseQueryDefn
+		 * @param aggrTable
+		 */
+		IVDataSourceExecutor( Scriptable sharedScope,
+				IBaseQueryDefinition baseQueryDefn, AggregateTable aggrTable )
 		{
-			super(sharedScope, baseQueryDefn, aggrTable);
+			super( sharedScope, baseQueryDefn, aggrTable );
 		}
 
 		/*
@@ -131,10 +138,10 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		 */
 		protected DataSetRuntime newDataSetRuntime( ) throws DataException
 		{
-			 dSruntime = new DataSetRuntime( NewInstanceHelper.newIVDataSetDesign( ),
+			 dsRuntime = new DataSetRuntime( NewInstanceHelper.newIVDataSetDesign( ),
 					this );
 			
-			return dSruntime;
+			return dsRuntime;
 		}
 
 		/*
@@ -155,7 +162,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		 */
 		protected IQuery createOdiQuery( ) throws DataException
 		{
-			query = new IVQuery();
+			query = NewInstanceHelper.newBaseQuery( );
 			return query;
 		}
 		
@@ -169,13 +176,15 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 					new QueryResultInfo( queryDefn.getQueryResultsID( ),
 							null,
 							-1 ) );
-			DataSetResultSet exprDataRS = rdLoad.loadDataSetData();
-			//IExprDataResultSet exprDataRS = rdLoad.loadExprDataResultSet();
-			IResultClass meta = exprDataRS.getResultClass();
+			DataSetResultSet dataSetResult = rdLoad.loadDataSetData( );
+			IResultClass meta = dataSetResult.getResultClass( );
+
+			IResultIterator resultIterator = new CachedResultSet( query,
+					populateResultClass( meta ),
+					dataSetResult,
+					eventHandler );
+			dataSetResult.close( );
 			
-			IResultIterator resultIterator = new CachedResultSet(query,
-					populateResultClass(meta), exprDataRS, eventHandler);
-			exprDataRS.close();
 			return resultIterator;
 		}
 		
@@ -185,11 +194,12 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		 * @return
 		 * @throws DataException
 		 */
-		private IResultClass populateResultClass(IResultClass meta) throws DataException 
+		private IResultClass populateResultClass( IResultClass meta )
+				throws DataException
 		{
-			List projectedColumns = new ArrayList();
-			populateOriginalResultMetaToList(meta, projectedColumns);
-			populateComputedColumnMetaToData(projectedColumns);
+			List projectedColumns = new ArrayList( );
+			addOriginalMetadata( meta, projectedColumns );
+			addComputedColumn( projectedColumns );
 			if ( dataSet.getResultSetHints( ) != null )
 			{
 				List hintList = dataSet.getResultSetHints( );
@@ -211,12 +221,17 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			return new ResultClass( projectedColumns );
 		}
 
-		private void populateComputedColumnMetaToData(List projectedColumns) {
-			if( dataSet.getComputedColumns( )!= null)
+		/**
+		 * @param projectedColumns
+		 */
+		private void addComputedColumn( List projectedColumns )
+		{
+			if ( dataSet.getComputedColumns( ) != null )
 			{
-				for( int i = 0; i <dataSet.getComputedColumns( ).size( ); i++)
+				for ( int i = 0; i < dataSet.getComputedColumns( ).size( ); i++ )
 				{
-					IComputedColumn cc = (IComputedColumn)dataSet.getComputedColumns( ).get(i);
+					IComputedColumn cc = (IComputedColumn) dataSet.getComputedColumns( )
+							.get( i );
 					projectedColumns.add( new ResultFieldMetadata( i,
 							cc.getName( ),
 							cc.getName( ),
@@ -227,8 +242,15 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			}
 		}
 
-		private void populateOriginalResultMetaToList(IResultClass meta, List projectedColumns) throws DataException {
-			for ( int i = 1; i <= meta.getFieldCount(); i++ )
+		/**
+		 * @param meta
+		 * @param projectedColumns
+		 * @throws DataException
+		 */
+		private void addOriginalMetadata( IResultClass meta,
+				List projectedColumns ) throws DataException
+		{
+			for ( int i = 1; i <= meta.getFieldCount( ); i++ )
 			{
 				projectedColumns.add( new ResultFieldMetadata( i,
 						meta.getFieldName( i ),
@@ -238,19 +260,6 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						false ) );
 			}
 		}
-	}
-	
-	/**
-	 * 
-	 *
-	 */
-	private class IVQuery extends BaseQuery
-	{
-
-		public void close() {
-						
-		}
-		
 	}
 	
 }

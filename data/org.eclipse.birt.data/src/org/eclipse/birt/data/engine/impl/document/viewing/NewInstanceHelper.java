@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.DataSourceRuntime;
@@ -370,4 +371,20 @@ public class NewInstanceHelper
 		}
 	};
 
+	/**
+	 * @return
+	 */
+	public static BaseQuery newBaseQuery( )
+	{
+		return new BaseQuery( ) {
+
+			/*
+			 * @see org.eclipse.birt.data.engine.odi.IQuery#close()
+			 */
+			public void close( )
+			{
+			}
+		};
+	}
+	
 }
