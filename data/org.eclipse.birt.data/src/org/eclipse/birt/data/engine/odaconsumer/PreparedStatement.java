@@ -1553,7 +1553,7 @@ public class PreparedStatement
 			}
 			catch( DataException ex )
 			{
-				// findInParameter is not supported
+				// findInParameter is not supported by underlying ODA driver
 				if( ex.getCause() instanceof UnsupportedOperationException )
 				{
 					sm_logger.exiting( sm_className, methodName, 0 );					
@@ -2641,7 +2641,7 @@ public class PreparedStatement
 	 */
 	public int findInParameter( String paramName ) throws DataException
 	{
-		String methodName = "findInParameter";
+		final String methodName = "findInParameter"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, paramName );
 		
 		try
@@ -2654,15 +2654,16 @@ public class PreparedStatement
 		catch( OdaException ex )
 		{
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot find input parameter.", ex );
+							"Cannot find input parameter by name.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_FIND_IN_PARAMETER, ex, 
 			                         new Object[] { paramName } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot find input parameter.", ex );
+            // this is common, and may be ignored by caller
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+							"Cannot find input parameter by name.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_FIND_IN_PARAMETER, ex, 
 			                         new Object[] { paramName } );
