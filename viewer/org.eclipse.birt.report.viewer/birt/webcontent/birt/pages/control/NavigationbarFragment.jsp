@@ -26,7 +26,6 @@
 <TR HEIGHT="25px">
 	<TD>
 		<DIV id="navigationBar">
-			<INPUT TYPE="HIDDEN" ID="error_blankpagenum" VALUE="<%= BirtResources.getString( "birt.viewer.navbar.error.blankpagenum" )%>"/>
 			<TABLE CELLSPACING="0" CELLPADDING="0" WIDTH="100%" HEIGHT="25px" CLASS="birtviewer_navbar">
 				<TR><TD></TD></TR>
 				<TR>
@@ -96,6 +95,8 @@
 					<TD WIDTH="6px"/>
 				</TR>
 			</TABLE>
+			<!-- Error Messages -->
+			<INPUT TYPE="HIDDEN" ID="error_blankpagenum" VALUE="<%= BirtResources.getString( "birt.viewer.navbar.error.blankpagenum" )%>"/>
 		</DIV>
 	</TD>
 </TR>
