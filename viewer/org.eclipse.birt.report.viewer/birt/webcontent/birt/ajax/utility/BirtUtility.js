@@ -200,6 +200,10 @@ BirtUtility.prototype =
 			{
 				return eval( 'birtReportTable' );
 			}
+			else if ( type.toUpperCase( ) == 'ColumnInfo'.toUpperCase( ) )
+			{
+				return eval( 'birtReportTable' );
+			}
 			else if ( type.toUpperCase( ) == 'Table_T'.toUpperCase( ) )
 			{
 				return eval( 'birtReportTable_T' );
