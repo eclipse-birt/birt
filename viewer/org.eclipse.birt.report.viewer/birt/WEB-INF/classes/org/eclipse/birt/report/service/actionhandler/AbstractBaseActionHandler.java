@@ -123,7 +123,9 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 					|| ReportIdType._Table.equalsIgnoreCase( type )
 					|| ReportIdType._Chart.equalsIgnoreCase( type )
 					|| ReportIdType._Extended.equalsIgnoreCase( type )
-					|| ReportIdType._Group.equalsIgnoreCase( type ) )
+					|| ReportIdType._Group.equalsIgnoreCase( type )
+					|| "ColoumnInfo".equalsIgnoreCase( type ) )
+					// TODO: emitter need to fix its name.
 			{
 				ReportId reportId = new ReportId( );
 				reportId.setId( id.substring( 0, id.indexOf( ',' ) ) );
@@ -144,6 +146,10 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 				else if ( ReportIdType._Group.equalsIgnoreCase( type ) )
 				{
 					reportId.setType( ReportIdType.Group );
+				}
+				else if ( "ColoumnInfo".equalsIgnoreCase( type ) )
+				{
+					reportId.setType( ReportIdType.ColumnInfo );
 				}
 
 				try
