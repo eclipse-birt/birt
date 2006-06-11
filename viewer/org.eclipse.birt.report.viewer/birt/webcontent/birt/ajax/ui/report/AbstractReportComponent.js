@@ -60,7 +60,7 @@ AbstractReportComponent.prototype =
 		
 		var container = $( id );
 
-		container[ Constants.reportBase ] = ( type != 'Group' );
+		container[ Constants.reportBase ] = ( type != 'Group' && type != 'ColumnInfo');
 		container[ Constants.activeIds ] = [ ]; // Need to remember active children
 		container[ Constants.activeIdTypes ] = [ ]; // Need to remember active children types
 		
