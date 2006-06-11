@@ -22,6 +22,7 @@ public class ReportIdType implements java.io.Serializable {
     public static final java.lang.String _Label = "Label";
     public static final java.lang.String _Table = "Table";
     public static final java.lang.String _Group = "Group";
+    public static final java.lang.String _ColumnInfo = "ColumnInfo";
     public static final java.lang.String _Chart_T = "Chart_T";
     public static final java.lang.String _Label_T = "Label_T";
     public static final java.lang.String _Table_T = "Table_T";
@@ -32,6 +33,7 @@ public class ReportIdType implements java.io.Serializable {
     public static final ReportIdType Label = new ReportIdType(_Label);
     public static final ReportIdType Table = new ReportIdType(_Table);
     public static final ReportIdType Group = new ReportIdType(_Group);
+    public static final ReportIdType ColumnInfo = new ReportIdType(_ColumnInfo);
     public static final ReportIdType Chart_T = new ReportIdType(_Chart_T);
     public static final ReportIdType Label_T = new ReportIdType(_Label_T);
     public static final ReportIdType Table_T = new ReportIdType(_Table_T);
