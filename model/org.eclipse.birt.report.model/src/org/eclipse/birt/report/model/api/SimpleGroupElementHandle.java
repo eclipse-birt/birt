@@ -337,8 +337,44 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 			if ( !( next instanceof DesignElementHandle ) )
 				return false;
 
-			if ( ( (DesignElementHandle) next ).getExtends( ) == null )
+			DesignElementHandle designHandle = (DesignElementHandle) next;
+
+			if ( designHandle.getExtends( ) == null )
 				return false;
+
+		}
+
+		// Each element has a parent.
+
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#hasVirtualExtendsElements()
+	 */
+
+	protected boolean allExtendedElements( )
+	{
+
+		if ( elements.isEmpty( ) )
+			return false;
+
+		for ( Iterator iter = elements.iterator( ); iter.hasNext( ); )
+		{
+			Object next = iter.next( );
+			if ( !( next instanceof DesignElementHandle ) )
+				return false;
+
+			DesignElementHandle elementHandle = (DesignElementHandle) next;
+
+			// Design without extends element and virtual extends element
+
+			if ( ( elementHandle.getExtends( ) == null )
+					&& ( elementHandle.getElement( ).getBaseId( ) <= 0 ) )
+				return false;
+
 		}
 
 		// Each element has a parent.

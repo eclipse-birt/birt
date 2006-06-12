@@ -198,7 +198,7 @@ abstract public class GroupElementHandle
 		if ( !isSameType( ) )
 			return false;
 
-		if ( !isExtendedElements( ) )
+		if ( !allExtendedElements( ) )
 			return false;
 
 		List elements = getElements( );
@@ -213,9 +213,10 @@ abstract public class GroupElementHandle
 				PropertyHandle propertyHandle = (PropertyHandle) propIter
 						.next( );
 				String name = propertyHandle.getDefn( ).getName( );
-				if ( IDesignElementModel.EXTENDS_PROP.equals( name ) )
+				if ( ( IDesignElementModel.NAME_PROP.equals( name ) )
+						|| ( IDesignElementModel.EXTENDS_PROP.equals( name ) ) )
 					continue;
-				
+
 				if ( elementHandle.getElement( ).getLocalProperty(
 						elementHandle.getModule( ), name ) != null )
 					return true;
@@ -224,6 +225,15 @@ abstract public class GroupElementHandle
 
 		return false;
 	}
+
+	/**
+	 * Checks if all elements have extends parents or virtual parents.
+	 * 
+	 * @return <code>true</code> If all elements have extend parents or virtual
+	 *         parents. Otherwise <code>false</code>;
+	 */
+
+	protected abstract boolean allExtendedElements( );
 
 	/**
 	 * Checks whether a property is read-only in the property sheet. The visible

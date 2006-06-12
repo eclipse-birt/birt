@@ -25,12 +25,24 @@ import org.eclipse.birt.report.model.core.Module;
 public class EmptyGroupElementHandle extends GroupElementHandle
 {
 
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#hasVirtualExtendsElements()
+	 */
+	
+	protected boolean allExtendedElements( )
+	{
+		return false;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getElements()
 	 */
-
+	
 	public List getElements( )
 	{
 		return Collections.EMPTY_LIST;
