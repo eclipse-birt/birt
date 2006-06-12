@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.IFormPage;
 import org.eclipse.ui.part.Page;
 
@@ -70,6 +69,10 @@ public class TreeViewPalettePage extends Page implements
 	 */
 	public void createControl( Composite parent )
 	{
+		if(getViewer()==null)
+		{
+			return;
+		}
 		tree = new Tree( parent, SWT.NONE );
 		treeCommon.setTree( tree );
 		treeCommon.setExpressionViewer( getViewer( ) );
@@ -152,14 +155,14 @@ public class TreeViewPalettePage extends Page implements
 		if ( activeEditor instanceof MultiPageReportEditor )
 		{
 
-			page = ( (MultiPageReportEditor) activeEditor ).getActivePageInstance( );
+			page = ( (MultiPageReportEditor) activeEditor ).getCurrentPageInstance( );
 		}
 		else if ( activeEditor instanceof IReportEditor )
 		{
 			IEditorPart editor = ( (IReportEditor) activeEditor ).getEditorPart( );
-			if ( editor instanceof FormEditor )
+			if ( editor instanceof MultiPageReportEditor )
 			{
-				page = ( (FormEditor) editor ).getActivePageInstance( );					
+				page = ( (MultiPageReportEditor) editor ).getCurrentPageInstance( );					
 			}
 		}
 		if ( page instanceof ReportScriptFormPage )
