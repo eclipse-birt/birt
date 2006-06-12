@@ -645,7 +645,15 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				bookmarkEditor.setText( anchorChooser.getText( ) );
+				if ( anchorChooser.getData( ) instanceof List )
+				{
+					List value = (List) anchorChooser.getData( );
+					bookmarkEditor.setText( (String) value.get( anchorChooser.getSelectionIndex( ) ) );
+				}
+				else
+				{
+					bookmarkEditor.setText( anchorChooser.getText( ) );
+				}
 				updateButtons( );
 			}
 
@@ -1119,7 +1127,7 @@ public class HyperlinkBuilder extends BaseDialog
 				}
 				selectRadio( targetGroup, reportDesignButton );
 			}
-			//edit mode, initail pre-setting
+			// edit mode, initail pre-setting
 			if ( inputHandle.getReportName( ) != null )
 			{
 				initTargetReport( inputHandle.getReportName( ) );
@@ -1255,7 +1263,8 @@ public class HyperlinkBuilder extends BaseDialog
 			if ( isToc )
 			{
 				TOCNode rootTocNode = ( (IReportDocument) handle ).findTOC( null );
-				anchorChooser.setItems( (String[]) getAllTocNode( rootTocNode ).toArray( new String[0] ) );
+				anchorChooser.setItems( (String[]) getAllTocDisplayString( rootTocNode ).toArray( new String[0] ) );
+				anchorChooser.setData( getAllTocBookmark( rootTocNode ) );
 			}
 			else
 			{
@@ -1279,7 +1288,23 @@ public class HyperlinkBuilder extends BaseDialog
 		bookmarkEditor.setText( "" ); //$NON-NLS-1$
 	}
 
-	private List getAllTocNode( TOCNode parent )
+	private List getAllTocBookmark( TOCNode parent )
+	{
+		List tocList = new ArrayList( );
+		if ( parent.getParent( ) != null )
+		{
+			tocList.add( parent.getBookmark( ) );
+		}
+		List childToc = parent.getChildren( );
+		for ( Iterator iter = childToc.iterator( ); iter.hasNext( ); )
+		{
+			TOCNode node = (TOCNode) iter.next( );
+			tocList.addAll( getAllTocBookmark( node ) );
+		}
+		return tocList;
+	}
+
+	private List getAllTocDisplayString( TOCNode parent )
 	{
 		List tocList = new ArrayList( );
 		if ( parent.getParent( ) != null )
@@ -1290,7 +1315,7 @@ public class HyperlinkBuilder extends BaseDialog
 		for ( Iterator iter = childToc.iterator( ); iter.hasNext( ); )
 		{
 			TOCNode node = (TOCNode) iter.next( );
-			tocList.addAll( getAllTocNode( node ) );
+			tocList.addAll( getAllTocDisplayString( node ) );
 		}
 		return tocList;
 	}
