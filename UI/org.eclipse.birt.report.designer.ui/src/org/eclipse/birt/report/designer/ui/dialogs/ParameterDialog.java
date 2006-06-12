@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -336,10 +337,13 @@ public class ParameterDialog extends BaseDialog
 			}
 			else if ( columnIndex == valueIndex + 1 )
 			{
-				text = choice.getLabel( );
-				if ( text == null )
+				if ( choice != dummyChoice )
 				{
-					text = format( choice.getValue( ) );
+					text = choice.getLabel( );
+					if ( text == null )
+					{
+						text = format( choice.getValue( ) );
+					}
 				}
 			}
 			if ( text == null )
@@ -521,7 +525,7 @@ public class ParameterDialog extends BaseDialog
 		Composite composite = (Composite) super.createDialogArea( parent );
 		createPropertiesSection( composite );
 		createMoreOptionSection( composite );
-		UIUtil.bindHelp( parent,IHelpContextIds.PARAMETER_DIALOG_ID ); 
+		UIUtil.bindHelp( parent, IHelpContextIds.PARAMETER_DIALOG_ID );
 		return composite;
 	}
 
@@ -1790,6 +1794,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( isStatic( ) )
 			{
+				makeUniqueAndValid( );
 				refreshValueTable( );
 			}
 			updateMessageLine( );
@@ -1919,7 +1924,7 @@ public class ParameterDialog extends BaseDialog
 	private void refreshValueTable( )
 	{
 		if ( valueTable != null && !valueTable.getTable( ).isDisposed( ) )
-		{
+		{			
 			valueTable.refresh( );
 			updateTableButtons( );
 		}
@@ -2054,28 +2059,61 @@ public class ParameterDialog extends BaseDialog
 		}
 		try
 		{
-			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
-			{
-				DataTypeUtil.toBoolean( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( getSelectedDataType( ) ) )
-			{
-				DataTypeUtil.toBigDecimal( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
-			{
-				DataTypeUtil.toDate( value, ULocale.US );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
-			{
-				DataTypeUtil.toDouble( value );
-			}
+			getValue( value );
 		}
 		catch ( BirtException e )
 		{
 			return ERROR_MSG_MISMATCH_DATA_TYPE;
 		}
 		return null;
+	}
+
+	private boolean isEqual( String value1, String value2 )
+	{
+		Object v1 = null;
+		Object v2 = null;
+		try
+		{
+			v1 = getValue( value1 );
+			v2 = getValue( value2 );
+		}
+		catch ( BirtException e )
+		{
+		}
+		if ( v1 == null )
+		{
+			return v2 == null;
+		}
+		if ( v1 instanceof Double && v2 instanceof Double )
+		{
+			return ( (Double) v1 ).compareTo( v2 ) == 0;
+		}
+		if ( v1 instanceof BigDecimal && v2 instanceof BigDecimal )
+		{
+			return ( (BigDecimal) v1 ).compareTo( v2 ) == 0;
+		}
+		return v1.equals( v2 );
+	}
+
+	private Object getValue( String value ) throws BirtException
+	{
+		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
+		{
+			return DataTypeUtil.toBoolean( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( getSelectedDataType( ) ) )
+		{
+			return DataTypeUtil.toBigDecimal( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+		{
+			return DataTypeUtil.toDate( value, ULocale.US );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
+		{
+			return DataTypeUtil.toDouble( value );
+		}
+		return value;
 	}
 
 	private IChoiceSet getFormatChoiceSet( String type )
@@ -2161,7 +2199,7 @@ public class ParameterDialog extends BaseDialog
 		for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 		{
 			SelectionChoice choice = (SelectionChoice) iter.next( );
-			if ( !choice.equals( selectedChoice ) )
+			if ( choice != selectedChoice )
 			{
 				String value = null;
 				if ( COLUMN_VALUE.equals( property ) )
@@ -2180,47 +2218,9 @@ public class ParameterDialog extends BaseDialog
 						value = LABEL_NULL;
 					}
 				}
-				if ( !( value == null ^ newValue == null ) )
+				if ( isEqual( value, newValue ) )
 				{
-					if ( newValue == null )
-					{
-						return true;
-					}
-					if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( getSelectedDataType( ) ) )
-					{
-						try
-						{
-							if ( DataTypeUtil.toBigDecimal( value )
-									.compareTo( DataTypeUtil.toBigDecimal( newValue ) ) == 0 )
-							{
-								return true;
-							}
-						}
-						catch ( BirtException e )
-						{
-						}
-					}
-					else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
-					{
-						try
-						{
-							if ( DataTypeUtil.toDouble( value )
-									.compareTo( DataTypeUtil.toDouble( newValue ) ) == 0 )
-							{
-								return true;
-							}
-						}
-						catch ( BirtException e )
-						{
-						}
-					}
-					else
-					{
-						if ( value.equals( newValue ) )
-						{
-							return true;
-						}
-					}
+					return true;
 				}
 			}
 		}
@@ -2303,8 +2303,15 @@ public class ParameterDialog extends BaseDialog
 
 		String choiceValue = choice.getValue( );
 		String defaultValue = convertToStandardFormat( this.defaultValue );
-		return ( choice != dummyChoice && ( ( canBeNull( )
-				&& choiceValue == null && defaultValue == null ) || ( choiceValue != null && choiceValue.equals( defaultValue ) ) ) );
+		if ( choice != dummyChoice )
+		{
+			if ( canBeNull( ) && choiceValue == null && defaultValue == null )
+			{
+				return true;
+			}
+			return choiceValue != null && isEqual( choiceValue, defaultValue );
+		}
+		return false;
 	}
 
 	private boolean isStatic( )
