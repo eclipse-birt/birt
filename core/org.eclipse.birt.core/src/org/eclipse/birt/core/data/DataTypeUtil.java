@@ -251,8 +251,18 @@ public final class DataTypeUtil
 		}
 		else if ( source instanceof Double )
 		{
-			double doubleValue = ( (Double) source ).doubleValue( );
-			return new BigDecimal( doubleValue );
+			Double d2 = (Double) source;
+			if ( d2.isNaN( ) || d2.isInfinite( ) )
+			{
+				throw new BirtException( pluginId,
+						ResourceConstants.CONVERT_FAILS,
+						new Object[]{
+								d2.isNaN( ) ? "NaN" : "infinite value",
+								"BigDecimal"
+						},
+						resourceBundle );
+			}
+			return new BigDecimal( d2.doubleValue( ) );
 		}
 		else if ( source instanceof String )
 		{
