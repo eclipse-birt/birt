@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.104 $ $Date: 2006/06/01 03:49:38 $
+ * @version $Revision: 1.105 $ $Date: 2006/06/12 08:22:38 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -351,8 +351,8 @@ class EngineIRVisitor extends DesignVisitor
 		page.setPageType( handle.getPageType( ) );
 
 		// Master page width and height
-		DimensionValue effectWidth = handle.getEffectiveWidth( );
-		DimensionValue effectHeight = handle.getEffectiveHeight( );
+		DimensionValue effectWidth = handle.getPageWidth();
+		DimensionValue effectHeight = handle.getPageHeight();
 		DimensionType width = null;
 		DimensionType height = null;
 		if ( effectWidth != null )
