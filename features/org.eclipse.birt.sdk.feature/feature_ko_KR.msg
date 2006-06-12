@@ -21,7 +21,7 @@ featureName=Eclipse BIRT Report Designer Framework SDK
 providerName=Eclipse.org
 
 # "updateSiteName" property - label for the update site
-updateSiteName=Eclipse.org update site
+updateSiteName=Business Intellegence and Reporting Tool (BIRT) Updates
 
 # "description" property - description of the feature
 description=Eclipse Business Intelligence and Reporting Tools(BIRT) Report Designer 플러그인,  런타임 및 사용 설명서
