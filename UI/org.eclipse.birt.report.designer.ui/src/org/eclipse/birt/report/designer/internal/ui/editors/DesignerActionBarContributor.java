@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors;
 
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
@@ -28,7 +27,6 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIP
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryAction;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditGroupMenuAction;
@@ -41,7 +39,6 @@ import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
 import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.DeleteRetargetAction;
@@ -355,8 +352,8 @@ public class DesignerActionBarContributor extends
 		MenuManager newMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.page" ), "birtPage" ); //$NON-NLS-1$ //$NON-NLS-2$
 		newMenu.add( new Separator( PAGE_SET_GROUP ) );
 		newMenu.add( new Separator( PAGE_SET_GROUP_END ) );
-		newMenu.add( getAction( GEFActionConstants.ZOOM_IN ) );
-		newMenu.add( getAction( GEFActionConstants.ZOOM_OUT ) );
+//		newMenu.add( getAction( GEFActionConstants.ZOOM_IN ) );
+//		newMenu.add( getAction( GEFActionConstants.ZOOM_OUT ) );
 		newMenu.add( new Separator( ) );
 		return newMenu;
 	}
