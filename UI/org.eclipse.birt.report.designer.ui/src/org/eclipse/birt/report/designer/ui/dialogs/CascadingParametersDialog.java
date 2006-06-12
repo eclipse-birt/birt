@@ -811,9 +811,16 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private DataSetHandle getDataSet( ScalarParameterHandle handle )
 	{
-		if ( !isSingle( ) && handle.getDataSetName( ) != null )
+		if ( !isSingle( )  )
 		{
-			return getDataSet( handle.getDataSetName( ) );
+			if(handle.getDataSetName( ) != null)
+			{
+				return getDataSet( handle.getDataSetName( ) );
+			}
+			else
+			{
+				return null;
+			}
 		}
 		return inputParameterGroup.getDataSet( );
 	}
