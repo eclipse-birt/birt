@@ -99,13 +99,15 @@ public abstract class AbstractGetPageActionHandler
 		__bean = context.getBean( );
 		__docName = __getReportDocument( );
 		__checkDocumentExists( );
-		
+			
 		// Get total page count.
 		InputOptions getPageCountOptions = new InputOptions( );
 		getPageCountOptions.setOption( InputOptions.OPT_LOCALE, __bean.getLocale( ) );
 		getPageCountOptions.setOption( InputOptions.OPT_RTL, new Boolean( __bean.isRtl( ) ) );
 		getPageCountOptions.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		OutputOptions outputOptions = new OutputOptions( );
+		InputOptions options = new InputOptions( );
+		
 		__totalPageNumber = getReportService( ).getPageCount( __docName, getPageCountOptions,
 				outputOptions );
 		Boolean isCompleted = ( Boolean ) outputOptions.getOption(
@@ -114,16 +116,21 @@ public abstract class AbstractGetPageActionHandler
 		{
 			__isCompleted = isCompleted.booleanValue( );
 		}
-
+		
 		__bookmark = getBookmark( operation.getOprand( ), __bean );
 
+		if ( isToc( operation.getOprand( ), __bean ) )
+		{
+			__bookmark = ( getReportService( ) ).findTocByName( __docName,
+					__bookmark, options );
+
+		}
 		__pageNumber = getPageNumber( context.getRequest( ), operation
 				.getOprand( ), __docName );
 
 		// No valid page number check bookmark from soap message.
 		if ( !isValidPageNumber( context.getRequest( ), __pageNumber, __docName ) )
 		{
-			InputOptions options = new InputOptions( );
 			options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 			__pageNumber = getReportService( ).getPageNumberByBookmark(
 					__docName, __bookmark, options );
@@ -168,6 +175,7 @@ public abstract class AbstractGetPageActionHandler
 		__activeIds = new ArrayList( );
 		__page = getReportService( ).getPage( __docName, __pageNumber + "", //$NON-NLS-1$
 				options, __activeIds );
+		
 	}
 
 	protected void prepareResponse( ) throws ReportServiceException,

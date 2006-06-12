@@ -355,6 +355,23 @@ public class BirtViewerReportService implements IViewerReportService
 		return transformTOCNode( node );
 	}
 
+	public String findTocByName( String docName, String name,
+			InputOptions options )
+	{
+
+		IReportDocument doc = ReportEngineService.getInstance( )
+				.openReportDocument( getReportDesignName( options ), docName );
+
+		String tocId = null;
+
+		if ( doc.findTOCByName( name ) != null
+				&& doc.findTOCByName( name ).size( ) > 0 )
+			return ( (TOCNode) doc.findTOCByName( name ).get( 0 ) ).getNodeID( );
+
+		return tocId;
+
+	}
+
 	public long getPageCount( String docName, InputOptions options,
 			OutputOptions outputOptions ) throws ReportServiceException
 	{

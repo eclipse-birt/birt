@@ -142,6 +142,11 @@ abstract public class BaseAttributeBean
 	protected boolean rtl = false;
 
 	/**
+	 * determin whether the link is a toc or bookmark
+	 */
+	protected boolean isToc = false;
+	
+	/**
 	 * indicate whether the document is existed.
 	 */
 	protected boolean documentExisted = false;
@@ -476,6 +481,14 @@ abstract public class BaseAttributeBean
 		return reportDesignHandle;
 	}
 
+	/**
+	 * @return the isToc
+	 */
+	public boolean isToc( )
+	{
+		return isToc;
+	}
+	
 	public String getReportletId( )
 	{
 		return reportletId;

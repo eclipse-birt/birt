@@ -19,6 +19,7 @@ public interface IBirtConstants
 	// Oprand Name Value pair: Names
 	static public final String OPRAND_PAGENO = "page"; //$NON-NLS-1$
 	static public final String OPRAND_BOOKMARK = "bookmark"; //$NON-NLS-1$
+	static public final String OPRAND_TOC = "isToc"; //$NON-NLS-1$
 	static public final String OPRAND_SVG = "svg"; //$NON-NLS-1$
 	static public final String OPRAND_PARAM = "param"; //$NON-NLS-1$
 	static public final String OPRAND_IID = "iid"; //$NON-NLS-1$
@@ -51,7 +52,7 @@ public interface IBirtConstants
 	// running viewer model.
 	public static final String VIEWER_RUN = "run"; //$NON-NLS-1$
 
-	// request GET method.
+//	 request GET method.
 	public static final String REQUEST_GET = "get"; //$NON-NLS-1$
 
 	// request POST method.

@@ -83,6 +83,141 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 	}
 
 	/**
+	 * Check whether the page number is valid or not.
+	 * 
+	 * @param pageNumber
+	 * @param document
+	 * @return
+	 * @throws RemoteException
+	 * @throws ReportServiceException
+	 */
+	protected boolean isValidPageNumber( HttpServletRequest request,
+			long pageNumber, String documentName ) throws RemoteException,
+			ReportServiceException
+	{
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, request );
+		return pageNumber > 0
+				&& pageNumber <= getReportService( ).getPageCount(
+						documentName, options, new OutputOptions( ) );
+	}
+
+	/**
+	 * Get page number from incoming soap request.
+	 * 
+	 * @param params
+	 * @param document
+	 * @return
+	 * @throws RemoteException
+	 * @throws ReportServiceException
+	 */
+	protected long getPageNumber( HttpServletRequest request, Oprand[] params,
+			String documentName ) throws RemoteException,
+			ReportServiceException
+	{
+		long pageNumber = -1;
+		if ( params != null && params.length > 0 )
+		{
+			for ( int i = 0; i < params.length; i++ )
+			{
+				if ( IBirtConstants.OPRAND_PAGENO.equalsIgnoreCase( params[i]
+						.getName( ) ) )
+				{
+					try
+					{
+						pageNumber = Integer.parseInt( params[i].getValue( ) );
+					}
+					catch ( NumberFormatException e )
+					{
+						pageNumber = -1;
+					}
+					InputOptions options = new InputOptions( );
+					options.setOption( InputOptions.OPT_REQUEST, request );
+					if ( pageNumber <= 0
+							|| pageNumber > getReportService( )
+									.getPageCount( documentName, options,
+											new OutputOptions( ) ) )
+					{
+						AxisFault fault = new AxisFault( );
+						fault.setFaultCode( new QName(
+								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
+						fault.setFaultString( "Invalid page number." ); //$NON-NLS-1$
+						throw fault;
+					}
+
+					break;
+				}
+			}
+		}
+
+		return pageNumber;
+	}
+
+	/**
+	 * Get page number by bookmark.
+	 * 
+	 * @param params
+	 * @param bean
+	 * @param document
+	 * @return
+	 * @throws RemoteException
+	 */
+	protected String getBookmark( Oprand[] params, BaseAttributeBean bean )
+	{
+		assert bean != null;
+
+		String bookmark = null;
+		if ( params != null && params.length > 0 )
+		{
+			for ( int i = 0; i < params.length; i++ )
+			{
+				if ( IBirtConstants.OPRAND_BOOKMARK.equalsIgnoreCase( params[i]
+						.getName( ) ) )
+				{
+					bookmark = params[i].getValue( );
+					break;
+				}
+			}
+		}
+
+		// Then use url bookmark.
+		if ( bookmark == null || bookmark.length( ) <= 0 )
+		{
+			bookmark = bean.getBookmark( );
+		}
+
+		return bookmark;
+	}
+
+	/**
+	 * returns true if the link is a toc, otherwise, return false means that is
+	 * a bookmark.
+	 * 
+	 * @param params
+	 * @param bean
+	 * @return
+	 */
+	protected boolean isToc( Oprand[] params, BaseAttributeBean bean )
+	{
+
+		if ( params != null && params.length > 0 )
+		{
+			for ( int i = 0; i < params.length; i++ )
+			{
+				if ( IBirtConstants.OPRAND_TOC.equalsIgnoreCase( params[i]
+						.getName( ) ) )
+				{
+					if ( "true".equalsIgnoreCase( params[i].getValue( ) ) )
+						return true;
+				}
+			}
+		}
+
+		return bean.isToc( );
+
+	}
+
+	/**
 	 * Paser returned report ids.
 	 * 
 	 * @param activeIds

@@ -310,4 +310,16 @@ public interface IViewerReportService
 	long getPageNumberByObjectId( String docName, String objectId,
 			InputOptions options ) throws ReportServiceException;
 
+	/**
+	 * Gets the toc id by the toc name.
+	 * 
+	 * @param docName
+	 * @param name
+	 * @param options
+	 * @return
+	 */
+
+	public String findTocByName( String docName, String name,
+			InputOptions options );
+
 }

@@ -158,10 +158,12 @@ public class ParameterAccessor
 
 	public static final String PARAM_RTL = "__rtl"; //$NON-NLS-1$
 
+	
+	public static final String _TOC = "__toc"; //$NON-NLS-1$
+
 	/**
 	 * URL parameter name that gives the preview max rows option.
 	 */
-
 	public static final String PARAM_MAXROWS = "__maxrows"; //$NON-NLS-1$
 
 	/**
@@ -1028,6 +1030,20 @@ public class ParameterAccessor
 		return inDEsigner;
 	}
 
+	
+	public static boolean isToc(HttpServletRequest request){
+		
+		boolean isToc = false;
+		
+
+		if ( "true".equalsIgnoreCase( getParameter( request,  _TOC) ) ) //$NON-NLS-1$
+		{
+			isToc = true;
+		}
+
+		return isToc;
+		
+	}
 	/***************************************************************************
 	 * For export data
 	 **************************************************************************/

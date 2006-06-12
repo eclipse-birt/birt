@@ -25,6 +25,7 @@ import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -43,6 +44,7 @@ import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 import com.ibm.icu.util.ULocale;
@@ -114,8 +116,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.reportDocumentName = ParameterAccessor.getReportDocument( request );
 		this.reportDesignName = ParameterAccessor.getReport( request );
 		this.format = ParameterAccessor.getFormat( request );
+		this.isToc = ParameterAccessor.isToc( request );
 		this.maxRows = ParameterAccessor.getMaxRows( request );
-
+		
 		// Set preview report max rows
 
 		ReportEngineService.getInstance( ).setMaxRows( this.maxRows );

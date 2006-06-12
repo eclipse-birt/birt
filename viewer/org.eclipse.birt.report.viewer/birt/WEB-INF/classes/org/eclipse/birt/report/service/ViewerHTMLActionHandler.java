@@ -309,9 +309,16 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 				{
 					// Does nothing
 				}
+
+				if ( !action.isBookmark( ) )
+				{
+					link.append( ParameterAccessor.getQueryParameterString(
+							ParameterAccessor._TOC, String.valueOf( true ) ) );
+
+				}
 			}
 		}
-		
+
 		if ( locale != null )
 		{
 			link.append( ParameterAccessor.getQueryParameterString(
