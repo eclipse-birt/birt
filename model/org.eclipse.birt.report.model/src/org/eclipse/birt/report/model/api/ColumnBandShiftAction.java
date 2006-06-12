@@ -225,6 +225,8 @@ class ColumnBandShiftAction extends ColumnBandAction
 	private void shiftCells( List cellInfos, int sourceIndex, int destIndex )
 			throws SemanticException
 	{
+		int targetIndex = destIndex;
+		
 		// adds the copied cells to the destination.
 
 		for ( int i = 0; i < cellInfos.size( ); i++ )
@@ -243,9 +245,15 @@ class ColumnBandShiftAction extends ColumnBandAction
 			cell.setColumn( 0 );
 
 			int oldPosn = row.getCells( ).findPosn( cell );
-			row.getCells( ).shift( cell, destIndex );
 
-			clearsCellColumnProperties( row, oldPosn, destIndex );
+			// adjust the position since the rule is first drop then add.
+
+			if ( oldPosn < destIndex )
+				targetIndex = destIndex - 1;
+				
+			row.getCells( ).shift( cell, targetIndex );
+
+			clearsCellColumnProperties( row, oldPosn, targetIndex );
 		}
 	}
 
