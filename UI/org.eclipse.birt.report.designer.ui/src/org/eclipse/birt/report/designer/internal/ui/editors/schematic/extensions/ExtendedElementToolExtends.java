@@ -36,6 +36,22 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 		this.extensionName = extensionName;
 	}
 
+	public boolean postHandleCreation( )
+	{
+		// TODO check extension setting here to decide if popup the builder
+		IReportItemBuilderUI builder = getbuilder( );
+		if ( builder != null )
+		{
+			// Open the builder for new element
+			if ( builder.open( (ExtendedItemHandle) getModel( ) ) == Window.CANCEL )
+			{
+				return false;
+			}
+		}
+
+		return super.postHandleCreation( );
+	}
+
 	public boolean preHandleMouseUp( )
 	{
 		// ExtendedItemHandle handle = SessionHandleAdapter.getInstance( )
@@ -48,15 +64,6 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 		{
 			return false;
 		}
-//		IReportItemBuilderUI builder = getbuilder( );
-//		if ( builder != null )
-//		{
-//			// Open the builder for new element
-//			if ( builder.open( handle ) == Window.CANCEL )
-//			{
-//				return false;
-//			}
-//		}
 		setModel( handle );
 		return super.preHandleMouseUp( );
 	}

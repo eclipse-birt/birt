@@ -158,6 +158,16 @@ public class ReportTemplateTransferDropTargetListener extends
 			if ( isTheme == false )
 			{
 				super.handleDrop( );
+
+				// fix bugzilla#145284
+				if ( !preHandle.postHandleCreation( ) )
+				{
+					SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.getCommandStack( )
+							.rollback( );
+					return;
+				}
 			}
 
 			SessionHandleAdapter.getInstance( )

@@ -20,7 +20,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ImageEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
-import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
@@ -188,11 +187,14 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 						{
 							( (ImageEditPart) cpart ).performDirectEdit( );
 						}
-						else if ( edit
-								&& cpart instanceof ExtendedEditPart )
-						{
-							( (ExtendedEditPart) cpart ).performDirectEdit( );
-						}
+						// fix bugzilla#145284
+						// TODO check extension setting here to decide if popup
+						// the builder
+						// else if ( edit
+						// && cpart instanceof ExtendedEditPart )
+						// {
+						// ( (ExtendedEditPart) cpart ).performDirectEdit( );
+						// }
 					}
 				}
 			}

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.extension;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
@@ -77,8 +76,11 @@ public class ExtendedEditPart extends ReportElementEditPart
 					public boolean understandsRequest( Request request )
 					{
 						if ( RequestConstants.REQ_DIRECT_EDIT.equals( request.getType( ) )
-								|| RequestConstants.REQ_OPEN.equals( request.getType( ) )
-								|| ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
+								|| RequestConstants.REQ_OPEN.equals( request.getType( ) ) )
+							// !creation request already processed in createion
+							// tool
+							// || ReportRequest.CREATE_ELEMENT.equals(
+							// request.getType( ) ) )
 							return true;
 						return super.understandsRequest( request );
 					}

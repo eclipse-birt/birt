@@ -17,7 +17,7 @@ import org.eclipse.gef.requests.CreateRequest;
 
 /**
  * Abstrct creation tool extension.
- *  
+ * 
  */
 public abstract class AbstractToolHandleExtends
 {
@@ -29,6 +29,18 @@ public abstract class AbstractToolHandleExtends
 	private Object model;
 
 	public abstract boolean preHandleMouseDown( );
+
+	/**
+	 * Process after creation
+	 * 
+	 * @deprecated tentative solution for bugzilla#145284, will be refactored
+	 *             later.
+	 */
+	public boolean postHandleCreation( )
+	{
+		// doing nothing by default
+		return true;
+	}
 
 	/**
 	 * Process before mouse up.
@@ -89,5 +101,10 @@ public abstract class AbstractToolHandleExtends
 	protected void setModel( Object obj )
 	{
 		model = obj;
+	}
+
+	protected Object getModel( )
+	{
+		return this.model;
 	}
 }

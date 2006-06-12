@@ -94,6 +94,18 @@ public class ReportCreationTool extends CreationTool
 		}
 
 		super.performCreation( button );
+
+		// fix bugzilla#145284
+		if ( preHandle != null && !preHandle.postHandleCreation( ) )
+		{
+			SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getCommandStack( )
+					.rollback( );
+			handleFinished( );
+			return;
+		}
+
 		SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getCommandStack( )
@@ -188,7 +200,7 @@ public class ReportCreationTool extends CreationTool
 
 			public void run( )
 			{
-				//modify 
+				// modify
 				Object editpart = viewer.getEditPartRegistry( ).get( model );
 
 				if ( editpart instanceof EditPart )
@@ -198,9 +210,9 @@ public class ReportCreationTool extends CreationTool
 				}
 				else
 				{
-					return ;
+					return;
 				}
-				Request request = new Request(ReportRequest.CREATE_ELEMENT);
+				Request request = new Request( ReportRequest.CREATE_ELEMENT );
 				if ( ( (EditPart) editpart ).understandsRequest( request ) )
 				{
 					( (EditPart) editpart ).performRequest( request );
@@ -234,7 +246,7 @@ public class ReportCreationTool extends CreationTool
 				|| IReportElementConstants.AUTOTEXT_CREATEDON.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_CREATEDBY.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_FILENAME.equalsIgnoreCase( template )
-				|| IReportElementConstants.AUTOTEXT_LASTPRINTED.equalsIgnoreCase( template ))
+				|| IReportElementConstants.AUTOTEXT_LASTPRINTED.equalsIgnoreCase( template ) )
 		{
 			type = ReportDesignConstants.TEXT_ITEM;
 		}
