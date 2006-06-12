@@ -42,7 +42,7 @@ public final class ExpressionUtil
 	public static String createRowExpression( String rowName )
 	{
 		return ROW_INDICATOR
-				+ "[\"" + ( rowName == null ? null : rowName.trim( ) ) + "\"]";
+				+ "[\"" + ( rowName == null ? "" : rowName.trim( ) ) + "\"]";
 	}
 
 	/**
@@ -54,7 +54,7 @@ public final class ExpressionUtil
 	public static String createDataSetRowExpression( String rowName )
 	{
 		return DATASET_ROW_INDICATOR
-				+ "[\"" + ( rowName == null ? null : rowName.trim( ) ) + "\"]";
+				+ "[\"" + ( rowName == null ? "" : rowName.trim( ) ) + "\"]";
 	}
 
 	/**
