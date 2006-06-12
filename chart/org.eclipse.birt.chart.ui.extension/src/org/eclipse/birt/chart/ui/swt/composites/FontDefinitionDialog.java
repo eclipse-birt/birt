@@ -793,7 +793,7 @@ public class FontDefinitionDialog
 			ascRotation.redraw( );
 			// TODO: Enable this if support for rotated text is added to
 			// fontcanvas
-			// updatePreview();
+			updatePreview();
 		}
 		else if ( e.widget.equals( fccColor ) )
 		{
@@ -869,6 +869,7 @@ public class FontDefinitionDialog
 	{
 		iscRotation.setValue( iNewAngle );
 		fdCurrent.setRotation( iNewAngle );
+		updatePreview( );
 	}
 
 	public void focusGained( FocusEvent e )

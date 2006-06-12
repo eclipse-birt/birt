@@ -11,14 +11,30 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.event.RectangleRenderEvent;
+import org.eclipse.birt.chart.event.TextRenderEvent;
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
+import org.eclipse.birt.chart.model.attribute.Text;
+import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
+import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -30,10 +46,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * @author Actuate Corporation
- * 
+ * FontCanvas
  */
-public class FontCanvas extends Canvas implements PaintListener
+public class FontCanvas extends Canvas implements
+		PaintListener,
+		DisposeListener
 {
 
 	private FontDefinition fdCurrent = null;
@@ -45,6 +62,8 @@ public class FontCanvas extends Canvas implements PaintListener
 	private boolean bUseAlignment = true;
 
 	private boolean bUseSize = true;
+
+	private IDeviceRenderer idr;
 
 	/**
 	 * @param parent
@@ -72,6 +91,17 @@ public class FontCanvas extends Canvas implements PaintListener
 		this.bUseColor = bUseColor;
 		this.bUseAlignment = bUseAlignment;
 		this.bUseSize = bUseSize;
+
+		try
+		{
+			idr = PluginSettings.instance( ).getDevice( "dv.SWT" ); //$NON-NLS-1$
+		}
+		catch ( ChartException pex )
+		{
+			idr = null;
+			WizardBase.displayException( pex );
+		}
+		addDisposeListener( this );
 		addPaintListener( this );
 	}
 
@@ -93,6 +123,88 @@ public class FontCanvas extends Canvas implements PaintListener
 	 */
 	public void paintControl( PaintEvent pe )
 	{
+		if ( idr != null && fdCurrent != null && bUseSize )
+		{
+			idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, pe.gc );
+
+			TextRenderEvent tre = new TextRenderEvent( this );
+			tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+
+			TextAlignment ta = TextAlignmentImpl.create( );
+			ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
+			ta.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
+			tre.setBlockAlignment( ta );
+
+			Bounds bo = BoundsImpl.create( 0,
+					0,
+					this.getSize( ).x,
+					this.getSize( ).y );
+			tre.setBlockBounds( bo );
+
+			String fontName = ChartUIUtil.getFontName( fdCurrent );
+			Text tx = TextImpl.create( fontName );
+			FontDefinition fd = FontDefinitionImpl.copyInstance( fdCurrent );
+			fd.setName( fontName );
+			if ( !fd.isSetSize( ) )
+			{
+				fd.setSize( 9 );
+			}
+			tx.setFont( fd );
+
+			ColorDefinition cdFore, cdBack;
+			if ( !this.isEnabled( ) )
+			{
+				Color cFore = Display.getCurrent( )
+						.getSystemColor( SWT.COLOR_DARK_GRAY );
+				Color cBack = Display.getCurrent( )
+						.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND );
+				cdFore = ColorDefinitionImpl.create( cFore.getRed( ),
+						cFore.getGreen( ),
+						cFore.getBlue( ) );
+				cdBack = ColorDefinitionImpl.create( cBack.getRed( ),
+						cBack.getGreen( ),
+						cBack.getBlue( ) );
+			}
+			else
+			{
+				Color cBack = Display.getCurrent( )
+						.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
+				cdBack = ColorDefinitionImpl.create( cBack.getRed( ),
+						cBack.getGreen( ),
+						cBack.getBlue( ) );
+				if ( cdCurrent != null && bUseColor )
+				{
+					cdFore = ColorDefinitionImpl.copyInstance( cdCurrent );
+				}
+				else
+				{
+					cdFore = ColorDefinitionImpl.BLACK( );
+				}
+			}
+			tx.setColor( cdFore );
+
+			Label lb = LabelImpl.create( );
+			lb.setBackground( cdBack );
+			lb.setCaption( tx );
+			tre.setLabel( lb );
+
+			RectangleRenderEvent rre = new RectangleRenderEvent( this );
+			rre.setBounds( bo );
+			rre.setBackground( cdBack );
+
+			try
+			{
+				idr.fillRectangle( rre );
+				idr.drawText( tre );
+			}
+			catch ( ChartException e )
+			{
+				// ignore;
+			}
+
+			return;
+		}
+
 		Font fSize = null;
 		Font fCurrent = null;
 		Color cFore = null;
@@ -111,7 +223,8 @@ public class FontCanvas extends Canvas implements PaintListener
 			cBack = Display.getCurrent( )
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
 			if ( cdCurrent != null
-					&& bUseColor && cdCurrent.getTransparency( ) > 0 )
+					&& bUseColor
+					&& cdCurrent.getTransparency( ) > 0 )
 			{
 				cFore = new Color( this.getDisplay( ),
 						cdCurrent.getRed( ),
@@ -129,10 +242,10 @@ public class FontCanvas extends Canvas implements PaintListener
 		if ( fdCurrent != null )
 		{
 			// Handle styles
-			int iStyle = ( fdCurrent.isSetBold( ) && fdCurrent.isBold( ) )
-					? SWT.BOLD : SWT.NORMAL;
-			iStyle |= ( fdCurrent.isSetItalic( ) && fdCurrent.isItalic( ) )
-					? SWT.ITALIC : iStyle;
+			int iStyle = ( fdCurrent.isSetBold( ) && fdCurrent.isBold( ) ) ? SWT.BOLD
+					: SWT.NORMAL;
+			iStyle |= ( fdCurrent.isSetItalic( ) && fdCurrent.isItalic( ) ) ? SWT.ITALIC
+					: iStyle;
 
 			String sFontName = ChartUIUtil.getFontName( fdCurrent );
 			if ( !bUseSize )
@@ -168,14 +281,16 @@ public class FontCanvas extends Canvas implements PaintListener
 						.equals( HorizontalAlignment.CENTER_LITERAL ) )
 				{
 					iStartX = this.getSize( ).x
-							/ 2 - ( getStringWidth( gc, sFontName ).x / 2 );
+							/ 2
+							- ( getStringWidth( gc, sFontName ).x / 2 );
 				}
 				else if ( ChartUIUtil.getFontTextAlignment( fdCurrent )
 						.getHorizontalAlignment( )
 						.equals( HorizontalAlignment.RIGHT_LITERAL ) )
 				{
 					iStartX = this.getSize( ).x
-							- getStringWidth( gc, sFontName ).x - 5;
+							- getStringWidth( gc, sFontName ).x
+							- 5;
 				}
 				if ( ChartUIUtil.getFontTextAlignment( fdCurrent )
 						.getVerticalAlignment( )
@@ -243,9 +358,10 @@ public class FontCanvas extends Canvas implements PaintListener
 
 				String sizeString = "(" + ( fdCurrent.isSetSize( ) ? String.valueOf( (int) fdCurrent.getSize( ) ) : "Auto" ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				Point pt = gc.textExtent( sizeString );
-				gc.drawText( sizeString,
-						this.getSize( ).x - pt.x - this.getBorderWidth( ) - 2,
-						( this.getSize( ).y - pt.y ) / 2 - 1 );
+				gc.drawText( sizeString, this.getSize( ).x
+						- pt.x
+						- this.getBorderWidth( )
+						- 2, ( this.getSize( ).y - pt.y ) / 2 - 1 );
 
 				fSize.dispose( );
 			}
@@ -262,6 +378,20 @@ public class FontCanvas extends Canvas implements PaintListener
 	private Point getStringWidth( GC gc, String sText )
 	{
 		return gc.textExtent( sText );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.DisposeEvent)
+	 */
+	public void widgetDisposed( DisposeEvent e )
+	{
+		if ( idr != null )
+		{
+			idr.dispose( );
+			idr = null;
+		}
 	}
 
 }
