@@ -506,37 +506,29 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     }
    
     /**
-     * 
+     * whether there is output paramters in data set design
      * @return
      * @throws DataException
      */
     private boolean hasOutputParams( )
 	{
-		Collection collection = null;
-		try
-		{
-			collection = getParameterMetaData( );
-		}
-		catch ( DataException e )
-		{
-			return false;
-		}
-		
 		boolean hasOutputParam = false;
-		if ( collection != null )
+
+		if ( this.parameterHints != null )
 		{
-			Iterator it = collection.iterator( );
+			Iterator it = this.parameterHints.iterator( );
 			while ( it.hasNext( ) )
 			{
-				IParameterMetaData metaData = (IParameterMetaData) it.next( );
+				ParameterHint hint = (ParameterHint) it.next( );
 
-				if ( metaData.isOutputMode( ).booleanValue( ) )
+				if ( hint.isOutputMode( ) )
 				{
 					hasOutputParam = true;
 					break;
 				}
-			}
+			}			
 		}
+		
 		return hasOutputParam;
 	}
     
