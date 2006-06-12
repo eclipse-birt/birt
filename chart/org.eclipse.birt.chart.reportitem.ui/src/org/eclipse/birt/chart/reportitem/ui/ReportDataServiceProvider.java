@@ -454,6 +454,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 				return list;
 			}
+			
+			protected void setShellStyle( int newShellStyle )
+			{
+				super.setShellStyle( newShellStyle
+						| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+			}
 		};
 		page.setInput( itemHandle );
 		return page.open( );
