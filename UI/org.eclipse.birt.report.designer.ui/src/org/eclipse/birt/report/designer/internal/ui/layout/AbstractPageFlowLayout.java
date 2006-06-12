@@ -103,6 +103,10 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 
 			public void zoomChanged( double zoom )
 			{
+				if (getOwner( ).getParent( ) == null)
+				{
+					return ;
+				}
 				setComsiteBounds( new Rectangle( ( getOwner( ).getViewer( )
 						.getControl( ).getBounds( ) ) ) );
 				layouRootLayer( );
