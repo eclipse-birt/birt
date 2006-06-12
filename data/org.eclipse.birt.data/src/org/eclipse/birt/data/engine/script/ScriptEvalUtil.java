@@ -725,10 +725,7 @@ public class ScriptEvalUtil
 				}
 				catch ( BirtException e )
 				{
-					throw new DataException( ResourceConstants.CONVERT_TO_DATATYPE_ERROR,
-							new Object[]{
-									expr4Exception, Double.class
-							} );
+					throw DataException.wrap( e );
 				}
 			}
 			else if ( obj instanceof Date )
