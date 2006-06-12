@@ -221,26 +221,27 @@ public class ModelOdaAdapter
 
 		// set the result sets
 
-		List resultRetColumns = ResultSetsAdapter.newROMResultSets( setDesign
-				.getPrimaryResultSet( ), setDesign
-				.getOdaExtensionDataSourceId( ), setDesign
-				.getOdaExtensionDataSetId( ) );
-		if ( resultRetColumns == null )
-		{
-			ResultSets sets = setDesign.getResultSets( );
-			if ( sets != null && !sets.getResultSetDefinitions( ).isEmpty( ) )
-				resultRetColumns = ResultSetsAdapter.newROMResultSets(
-						(ResultSetDefinition) sets.getResultSetDefinitions( )
-								.get( 0 ), setDesign
-								.getOdaExtensionDataSourceId( ), setDesign
-								.getOdaExtensionDataSetId( ) );
-
-		}
-
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.RESULT_SET_PROP, resultRetColumns );
-		setHandle.getElement( ).setProperty( OdaDataSetHandle.RESULT_SET_PROP,
-				resultRetColumns );
+		// List resultRetColumns = ResultSetsAdapter.newROMResultSets( setDesign
+		// .getPrimaryResultSet( ), setDesign
+		// .getOdaExtensionDataSourceId( ), setDesign
+		// .getOdaExtensionDataSetId( ) );
+		// if ( resultRetColumns == null )
+		// {
+		// ResultSets sets = setDesign.getResultSets( );
+		// if ( sets != null && !sets.getResultSetDefinitions( ).isEmpty( ) )
+		// resultRetColumns = ResultSetsAdapter.newROMResultSets(
+		// (ResultSetDefinition) sets.getResultSetDefinitions( )
+		// .get( 0 ), setDesign
+		// .getOdaExtensionDataSourceId( ), setDesign
+		// .getOdaExtensionDataSetId( ) );
+		//
+		// }
+		//
+		// PropertyValueValidationUtil.validateProperty( setHandle,
+		// OdaDataSetHandle.RESULT_SET_PROP, resultRetColumns );
+		// setHandle.getElement( ).setProperty(
+		// OdaDataSetHandle.RESULT_SET_PROP,
+		//				resultRetColumns );
 
 		// set the query text.
 
@@ -306,8 +307,8 @@ public class ModelOdaAdapter
 		setDesign.setParameters( new DataSetParameterAdapter( )
 				.newOdaDataSetParams( setHandle.parametersIterator( ) ) );
 
-		setDesign.setPrimaryResultSet( ResultSetsAdapter
-				.newOdaResultSetDefinition( setHandle ) );
+		// setDesign.setPrimaryResultSet( ResultSetsAdapter
+		// .newOdaResultSetDefinition( setHandle ) );
 
 	}
 
@@ -377,10 +378,10 @@ public class ModelOdaAdapter
 			setDesign.setParameters( new DataSetParameterAdapter( )
 					.newOdaDataSetParams( setHandle.parametersIterator( ) ) );
 
-		else if ( OdaDataSetHandle.RESULT_SET_PROP
-				.equalsIgnoreCase( propertyName ) )
-			setDesign.setPrimaryResultSet( ResultSetsAdapter
-					.newOdaResultSetDefinition( setHandle ) );
+		// else if ( OdaDataSetHandle.RESULT_SET_PROP
+		// .equalsIgnoreCase( propertyName ) )
+		// setDesign.setPrimaryResultSet( ResultSetsAdapter
+		// .newOdaResultSetDefinition( setHandle ) );
 	}
 
 	/**
@@ -987,11 +988,11 @@ public class ModelOdaAdapter
 							.getResultSetDefinitions( ).get( 0 );
 			}
 
-			updateROMStructureList( setHandle
-					.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP ),
-					ResultSetsAdapter.newROMResultSets( resultDefn, setDesign
-							.getOdaExtensionDataSourceId( ), setDesign
-							.getOdaExtensionDataSetId( ) ) );
+			// updateROMStructureList( setHandle
+			// .getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP ),
+			// ResultSetsAdapter.newROMResultSets( resultDefn, setDesign
+			// .getOdaExtensionDataSourceId( ), setDesign
+			// .getOdaExtensionDataSetId( ) ) );
 
 			setHandle.setResultSetName( setDesign.getPrimaryResultSetName( ) );
 
