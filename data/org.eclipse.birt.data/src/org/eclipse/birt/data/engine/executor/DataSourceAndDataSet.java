@@ -512,7 +512,7 @@ public class DataSourceAndDataSet
 		List list = new ArrayList( );
 		for ( int i = 0; i < computedCols.size( ); i++ )
 		{
-			IComputedColumn cc = (IComputedColumn) computedCols.get( 0 );
+			IComputedColumn cc = (IComputedColumn) computedCols.get( i );
 			if ( cc.getName( ).matches( "\\Q_{$TEMP_GROUP_\\E\\d*\\Q$}_\\E" )
 					|| cc.getName( ).matches( "\\Q_{$TEMP_SORT_\\E\\d*\\Q$}_\\E" )
 					|| cc.getName( ).matches( "\\Q_{$TEMP_FILTER_\\E\\d*\\Q$}_\\E" ))
