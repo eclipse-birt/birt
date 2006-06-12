@@ -36,6 +36,7 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	protected String 		helpText;
 	protected String 		helpTextKey;
 	protected String 		name;
+	protected String promptTextKey;
 	
 	protected String promptText;
 	
@@ -174,6 +175,11 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	{
 		this.helpTextKey = helpTextKey;
 	}
+	
+	public void setPromptTextKey(String promptTextKey)
+	{
+		this.promptTextKey = promptTextKey;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api2.IParameterDefnBase#getUserPropertyValues()
@@ -236,7 +242,14 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	 */
 	public String getPromptText( )	{
 		
-		return promptText;		
+		if (promptTextKey == null)
+			return promptText;
+		
+		String ret = reportDesignHandle.getMessage( promptTextKey, 
+				(locale == null ) ? Locale.getDefault() : locale);
+		if (ret == null || ret.length() == 0)
+			return promptText;
+		return ret;	
 	}
 	
 	/**
