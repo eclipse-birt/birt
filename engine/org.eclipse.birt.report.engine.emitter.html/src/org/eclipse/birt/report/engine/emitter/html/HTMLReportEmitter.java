@@ -92,7 +92,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.117 $ $Date: 2006/06/08 12:55:23 $
+ * @version $Revision: 1.118 $ $Date: 2006/06/10 03:45:19 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -926,7 +926,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				startSelectHandleTable( );
 			}
-			detailRowStateStack.push( new DetailRowState( false, false ) );
+			DetailRowState state = null;
+			if ( generateBy instanceof TableItemDesign )
+			{
+				state = new DetailRowState( false, false, true );
+			}
+			else
+			{
+				state = new DetailRowState( false, false, false );
+			}
+				
+			detailRowStateStack.push( state );
 		}
 
 		writeColumns( table );
@@ -1211,11 +1221,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			if ( row.getRowType( ) == TableBandDesign.TABLE_DETAIL )
 			{
-				DetailRowState state = ( DetailRowState ) detailRowStateStack.peek( );
-				if ( ! state.isAfterStart && !state.isStartOfDetail )
+				DetailRowState state = (DetailRowState) detailRowStateStack
+						.peek( );
+				if ( !state.hasOutput && !state.isStartOfDetail
+						&& state.isTable )
 				{
 					state.isStartOfDetail = true;
-					state.isAfterStart = true;
+					state.hasOutput = true;
 				}
 			}
 		}
@@ -2784,13 +2796,18 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 class DetailRowState
 {
-	public DetailRowState( boolean isStartOfDetail, boolean  isAfterStart )
+
+	public DetailRowState( boolean isStartOfDetail, boolean hasOutput,
+			boolean isTable )
 	{
 		this.isStartOfDetail = isStartOfDetail;
-		this.isAfterStart = isAfterStart;
+		this.hasOutput = hasOutput;
+		this.isTable = isTable;
 	}
 
 	public boolean isStartOfDetail;
 
-	public boolean isAfterStart;
+	public boolean hasOutput;
+
+	public boolean isTable;
 }
