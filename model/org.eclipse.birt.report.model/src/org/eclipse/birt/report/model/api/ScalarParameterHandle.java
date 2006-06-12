@@ -550,6 +550,24 @@ public class ScalarParameterHandle extends ParameterHandle
 	}
 
 	/**
+	 * Returns the handle for the data set defined on the parameter. If the
+	 * parameter do not define the data set name or if the data set is not
+	 * defined in the design/library scope, return <code>null</code>.
+	 * 
+	 * @return the handle to the data set
+	 */
+
+	public DataSetHandle getDataSet( )
+	{
+		DesignElement dataSet = ( (ScalarParameter) getElement( ) )
+				.getDataSetElement( module );
+		if ( dataSet == null )
+			return null;
+
+		return (DataSetHandle) dataSet.getHandle( dataSet.getRoot( ) );
+	}
+
+	/**
 	 * Sets the data set name of the dynamic list for this parameter.
 	 * 
 	 * @param dataSetName
@@ -812,7 +830,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	{
 		return getStringProperty( IScalarParameterModel.PROMPT_TEXT_PROP );
 	}
-	
+
 	/**
 	 * Set the value for the prompt text ID.
 	 * 
@@ -823,9 +841,11 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * 
 	 */
 
-	public void setPromptTextID( String promptIDValue ) throws SemanticException
+	public void setPromptTextID( String promptIDValue )
+			throws SemanticException
 	{
-		setStringProperty( IScalarParameterModel.PROMPT_TEXT_ID_PROP, promptIDValue );
+		setStringProperty( IScalarParameterModel.PROMPT_TEXT_ID_PROP,
+				promptIDValue );
 	}
 
 	/**
@@ -839,7 +859,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	{
 		return getStringProperty( IScalarParameterModel.PROMPT_TEXT_ID_PROP );
 	}
-	
+
 	/**
 	 * Returns the localized text for prompt text. If the localized text for the
 	 * text resource key is found, it will be returned. Otherwise, the static
@@ -850,7 +870,8 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getDisplayPromptText( )
 	{
-		return getExternalizedValue( IScalarParameterModel.PROMPT_TEXT_ID_PROP , IScalarParameterModel.PROMPT_TEXT_PROP );
+		return getExternalizedValue( IScalarParameterModel.PROMPT_TEXT_ID_PROP,
+				IScalarParameterModel.PROMPT_TEXT_PROP );
 	}
 
 	/**
@@ -949,9 +970,6 @@ public class ScalarParameterHandle extends ParameterHandle
 		return (ComputedColumnHandle) getPropertyHandle(
 				BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
 	}
-
-	
-
 
 	/**
 	 * Removed unused bound columns from the parameter. Bound columns of nested
