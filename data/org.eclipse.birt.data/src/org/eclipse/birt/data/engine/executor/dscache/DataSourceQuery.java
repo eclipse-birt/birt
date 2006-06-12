@@ -11,6 +11,7 @@
 package org.eclipse.birt.data.engine.executor.dscache;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
@@ -108,7 +109,18 @@ public class DataSourceQuery extends BaseQuery
 	{
 		return null;
 	}
-
+	
+	/**
+	 * Set temporary computed columns to DatasetCache. DatasetCache will use these
+	 * objects to produce ResultClass.
+	 * 
+	 * @param addedTempComputedColumn
+	 */
+	public void setTempComputedColumn( List addedTempComputedColumn )
+	{
+		getOdaCacheResultSet( ).setTempComputedColumn( addedTempComputedColumn);
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#execute()
 	 */
