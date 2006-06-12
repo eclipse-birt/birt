@@ -21,7 +21,7 @@ featureName=Eclipse BIRT Example
 providerName=Eclipse.org
 
 # "updateSiteName" property - label for the update site
-updateSiteName=Eclipse.org update site
+updateSiteName=Business Intellegence and Reporting Tool (BIRT) Updates
 
 # "description" property - description of the feature
 description=Eclipse 业务智能和报告工具 (BIRT) 报表设计器插件、运行时和用户文档。
