@@ -27,8 +27,9 @@ public interface ISaxParserConsumer
 	 * A new row would only started when the given xPath matches the root path of certain
 	 * table.
 	 * @param path
+	 * @param start
 	 */
-	public void detectNewRow(String path);
+	public void detectNewRow( String path, boolean start );
 	
 	/**
 	 * This method is used by sax parser to notify the ISaxParserConsumer so that it can

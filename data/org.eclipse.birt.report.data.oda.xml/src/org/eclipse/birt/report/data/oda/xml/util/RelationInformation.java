@@ -155,6 +155,18 @@ public class RelationInformation
 	}
 	
 	/**
+	 * Return the forward ref number of a column in certain table.
+	 * 
+	 * @param tableName
+	 * @param columnName
+	 * @return
+	 */
+	public int getTableColumnForwardRefNumber( String tableName, String columnName )
+	{
+		return ( (TableInfo) this.tableInfos.get( tableName ) ).getForwardRefNumber( columnName );
+	}
+	
+	/**
 	 * Return the type of a column in certain table.
 	 * 
 	 * @param tableName
@@ -313,6 +325,18 @@ class TableInfo
 	{
 		return ( (ColumnInfo) this.columnInfos.get( columnName ) ).getBackRefNumber();
 	}
+	
+	/**
+	 * Return the forward reference number of the column.
+	 * 
+	 * @param columnName
+	 * @return
+	 */
+	public int getForwardRefNumber( String columnName )
+	{
+		return ( (ColumnInfo) this.columnInfos.get( columnName ) ).getForwardRefNumber();
+	}
+	
 	/**
 	 * Return the defined data type of certain column.
 	 * 
@@ -563,6 +587,10 @@ class ColumnInfo
 	//mapping.
 	private int backRefNumber;
 	
+	//The forwardRefNumber is the number of element of the corrent column substract the number of
+	//elements contains in the common part of current root path. In case of not nested column path,
+	//the common part of current root path is the root path itself.
+	private int forwardRefNumber;
 	/**
 	 * 
 	 * @param index
@@ -582,7 +610,7 @@ class ColumnInfo
 			throw new OdaException( Messages.getString( "RelationInformation.InvalidDataTypeName" ) );
 		this.path = fixTrailingAttr( SaxParserUtil.processParentAxis( combineColumnPath( rootPath, relativePath ) ) );
 		this.originalPath = originalPath;
-		generateBackRefNumber( rootPath, originalPath );
+		this.initBackAndForwardRefNumbers( );
 	}
 
 	/**
@@ -603,9 +631,19 @@ class ColumnInfo
 	}
 	
 	/**
+	 * 
+	 *
+	 */
+	private void initBackAndForwardRefNumbers( )
+	{
+		this.generateBackRefNumber( this.originalPath );
+		this.generateForwardRefNumber( this.originalPath );
+	}
+	
+	/**
 	 * @param originalPath
 	 */
-	private void generateBackRefNumber( String rootPath, String originalPath )
+	private void generateBackRefNumber( String originalPath )
 	{
 		if ( this.originalPath.matches( ".*\\Q..\\E.*" ) )
 		{
@@ -649,6 +687,32 @@ class ColumnInfo
 		{
 			backRefNumber = 0;
 		}
+	}
+	
+	/**
+	 * 
+	 * @param originalPath
+	 */
+	private void generateForwardRefNumber( String originalPath )
+	{
+		String path = originalPath;
+		String[] split = path.split( "/" );
+		int elementCount = 0;
+		int _2dotAbbCount = 0;
+		for( int j = 0; j < split.length; j++ )
+		{
+			if( split[j].equals( ".." ))
+			{
+				_2dotAbbCount++;
+			}
+			else if ( ( !( split[j].trim( ).length( ) == 0 || split[j].trim( ).matches( "\\Q[@\\E.*" ) || split[j].trim( )
+							.matches( "\\Q@\\E.*" ) ))) 
+			{
+				elementCount++;
+			}
+		}
+		
+		this.forwardRefNumber = elementCount + this.backRefNumber - _2dotAbbCount;
 	}
 	
 	/**
@@ -731,5 +795,15 @@ class ColumnInfo
 	public int getBackRefNumber( )
 	{
 		return this.backRefNumber;
+	}
+	
+	/**
+	 * Return the forward ref number.
+	 * 
+	 * @return
+	 */
+	public int getForwardRefNumber( )
+	{
+		return this.forwardRefNumber;
 	}
 }

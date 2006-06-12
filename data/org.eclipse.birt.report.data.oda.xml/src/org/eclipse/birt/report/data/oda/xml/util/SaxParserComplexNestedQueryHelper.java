@@ -77,7 +77,7 @@ public class SaxParserComplexNestedQueryHelper implements ISaxParserConsumer
 	/**
 	 * The method would not be used in this implementation of ISaxParserConsumer.
 	 */
-	public void detectNewRow( String path )
+	public void detectNewRow( String path, boolean start )
 	{
 	}
 	

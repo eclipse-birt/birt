@@ -158,11 +158,11 @@ public class SaxParser extends DefaultHandler implements Runnable
 			this.currentElementRecoder.put(parentPath+UtilConstants.XPATH_SLASH+elementName, new Integer(((Integer)this.currentElementRecoder.get(parentPath+UtilConstants.XPATH_SLASH+elementName)).intValue()+1 )); 
 		}
 		pathHolder.push( elementName+"["+((Integer)this.currentElementRecoder.get(parentPath+UtilConstants.XPATH_SLASH+elementName)).intValue()+"]" );
-		
+		spConsumer.detectNewRow( pathHolder.getPath( ), true );
 		for ( int i = 0; i < atts.getLength( ); i++ )
 		{
 			spConsumer.manipulateData( getAttributePath( atts, i ), atts.getValue( i ) );
-			spConsumer.detectNewRow( getAttributePath( atts, i ) );
+			//spConsumer.detectNewRow( getAttributePath( atts, i ) );
 		}
 	}
 
@@ -193,7 +193,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 		//the heading and tailing junk spaces.
 		spConsumer.manipulateData( pathHolder.getPath( ), this.currentCacheValue.trim() );
 		this.currentCacheValue = "";
-		spConsumer.detectNewRow( pathHolder.getPath( ) );
+		spConsumer.detectNewRow( pathHolder.getPath( ), false );
 		//	this.currentElementRecoder.clear();
 		
 		String path = pathHolder.getPath();

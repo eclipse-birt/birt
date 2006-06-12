@@ -109,7 +109,7 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 	 * 
 	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#detectNewRow(java.lang.String)
 	 */
-	public void detectNewRow( String path )
+	public void detectNewRow( String path, boolean start )
 	{
 		// If not attribute
 		if ( !isAttribute( path ) )

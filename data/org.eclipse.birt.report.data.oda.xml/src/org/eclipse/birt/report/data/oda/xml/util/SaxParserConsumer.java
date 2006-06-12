@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.xml.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.birt.report.data.oda.xml.Constants;
 import org.eclipse.birt.report.data.oda.xml.impl.ResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -64,6 +69,9 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	
 	private NestedColumnUtil nestedColumnUtil;
 	
+	private List cachedRootRows;
+	private Map cachedTempRows;
+	private List cachedOrderedTempRowRoots;
 	/**
 	 * 
 	 * @param rs
@@ -88,6 +96,10 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		//must start from 0
 		currentRowNo = 0;
 
+		cachedTempRows = new HashMap();
+		cachedRootRows = new ArrayList();
+		cachedOrderedTempRowRoots = new ArrayList();
+		
 		cachedResultSet = new String[Constants.CACHED_RESULT_SET_LENGTH][resultSet.getMetaData().getColumnCount( )];
 		this.rootPath = relationInfo.getTableRootPath( tableName );
 		
@@ -127,30 +139,66 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	 */
 	public void manipulateData( String path, String value )
 	{
-		//get the table column names. 
-				
+		String currentRootPath = this.cachedRootRows.size( )==0?null:this.cachedRootRows.get( this.cachedRootRows.size( )-1 ).toString( );
+		if ( this.cachedRootRows.size( ) > 0 )
+		{
+			for ( int n = 0; n < this.cachedRootRows.size( ); n++ )
+			{
+				String currentRoot = this.cachedRootRows.get( n )
+						.toString( );
+				String[] os = n==0?this.cachedResultSet[this.cachedResultSetRowNo]:(String[]) this.cachedTempRows.get( currentRoot );
+
+				populateValueToResultArray( path, value, currentRoot, os );
+			}
+		}
+		else
+		{
+			populateValueToResultArray( path, value, currentRootPath, this.cachedResultSet[this.cachedResultSetRowNo] );
+		}
+	}
+
+	/**
+	 * @param path
+	 * @param value
+	 * @param currentRoot
+	 * @param os
+	 */
+	private void populateValueToResultArray( String path, String value, String currentRoot, String[] os )
+	{
 		for ( int i = 0; i < namesOfColumns.length; i++ )
 		{
-			//If the given path is same to the path of certain column
-			if ( SaxParserUtil.isSamePath( relationInfo.getTableColumnPath( tableName, namesOfColumns[i] ),
-					path ) )
+			// If the given path is same to the path of certain column
+			if ( columnPathMatch( currentRoot,
+					relationInfo.getTableColumnPath( tableName,
+							namesOfColumns[i] ),
+					path,
+					relationInfo.getTableColumnForwardRefNumber( tableName,
+							namesOfColumns[i] ) ) )
 			{
-				if ( isSimpleNestedColumn( namesOfColumns[i] ))
+				if ( isSimpleNestedColumn( namesOfColumns[i] ) )
 				{
-					this.nestedColumnUtil.update(namesOfColumns[i], path, value);
+					this.nestedColumnUtil.update( namesOfColumns[i],
+							path,
+							value );
 					continue;
 				}
-				//If the column in certain row has never been assigned the value,
-				//then populate the column value.
-				if ( cachedResultSet[cachedResultSetRowNo][i] == null )
-				{
-					//populate the column value.
-					cachedResultSet[cachedResultSetRowNo][i] = value;
-				}
+
+				if ( os[i] == null )
+					os[i] = value;
 			}
 		}
 	}
 
+	private boolean columnPathMatch( String rootPath, String tableColumnPath, String currentPath, int columnFowardRef )
+	{
+		if( rootPath!= null )
+		{
+			if(rootPath.split( "/" ).length + columnFowardRef != currentPath.split( "/" ).length)
+				return false;
+		}
+		return SaxParserUtil.isSamePath( tableColumnPath, currentPath );
+	}
+	
 	private boolean isSimpleNestedColumn( String columnName )
 	{
 		for( int i = 0; i < this.namesOfCachedSimpleNestedColumns.length; i++ )
@@ -164,22 +212,61 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	 *  (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#detectNewRow(java.lang.String)
 	 */
-	public void detectNewRow( String path )
+	public void detectNewRow( String path, boolean start )
 	{
-		//if the new row started.
+		// if the new row started.
 		if ( SaxParserUtil.isSamePath( rootPath, path ) )
 		{
-			populateNestedXMLDataMappingColumns( path );
-			
-			
-			if ( !isCurrentRowValid( ) )
-				return;
-			cachedResultSetRowNo++;
-			currentAvailableMaxLineNo++;
-			if ( cachedResultSetRowNo > Constants.CACHED_RESULT_SET_LENGTH - 1 )
+			if ( start )
 			{
-				sp.setStart( false );
-				cachedResultSetRowNo = 0;
+				if ( this.cachedRootRows.size( ) > 0 )
+				{
+					this.cachedOrderedTempRowRoots.add( path );
+					this.cachedTempRows.put( path,
+							new String[this.namesOfColumns.length] );
+				}
+				this.cachedRootRows.add( path );
+				return;
+			}
+			else
+			{
+				populateNestedXMLDataMappingColumns( path );
+				this.cachedRootRows.remove( path );
+				if( this.cachedRootRows.size( )>0)
+					return;
+				if ( !isCurrentRowValid( ) )
+					return;
+				cachedResultSetRowNo++;
+				currentAvailableMaxLineNo++;
+				if ( cachedResultSetRowNo > Constants.CACHED_RESULT_SET_LENGTH - 1 )
+				{
+					sp.setStart( false );
+					cachedResultSetRowNo = 0;
+				}
+				if( this.cachedOrderedTempRowRoots.size( ) > 0 )
+				{
+					int i = 0;
+					for( i = 0; i < this.cachedOrderedTempRowRoots.size( ); i++ )
+					{	
+						String[] result = (String[])this.cachedTempRows.get( this.cachedOrderedTempRowRoots.get( i ) );
+						this.cachedTempRows.remove( this.cachedOrderedTempRowRoots.get( i ) );
+						this.cachedResultSet[this.cachedResultSetRowNo] = result;
+						this.cachedResultSetRowNo++;
+						this.currentAvailableMaxLineNo++;
+						if ( cachedResultSetRowNo > Constants.CACHED_RESULT_SET_LENGTH - 1 )
+						{
+							sp.setStart( false );
+							cachedResultSetRowNo = 0;
+						}
+					}
+					List temp = new ArrayList();
+					for( int j = i+1; j<this.cachedOrderedTempRowRoots.size( );j++)
+					{
+						temp.add( this.cachedOrderedTempRowRoots.get( j ) );
+					}
+					this.cachedOrderedTempRowRoots = temp;
+				}
+				
 			}
 		}
 	}
@@ -190,18 +277,46 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	 */
 	private void populateNestedXMLDataMappingColumns( String currentRootPath )
 	{
-		for ( int i = 0; i < namesOfCachedComplexNestedColumns.length; i++)
+		if ( this.cachedRootRows.size( ) > 1 )
 		{
-			int j = getColumnIndex( namesOfCachedComplexNestedColumns[i]);
-			if ( j!= INVALID_COLUMN_INDEX)
-				cachedResultSet[cachedResultSetRowNo][j] = this.spNestedQueryHelper.getNestedColumnUtil().getNestedColumnValue(namesOfCachedComplexNestedColumns[i],currentRootPath);
-		}
+			String currentRoot = this.cachedRootRows.get( this.cachedRootRows.size( ) - 1 )
+			.toString( );
+			String[] os = (String[]) this.cachedTempRows.get( currentRoot );
+			for ( int i = 0; i < namesOfCachedComplexNestedColumns.length; i++ )
+			{
+				int j = getColumnIndex( namesOfCachedComplexNestedColumns[i] );
+				if ( j != INVALID_COLUMN_INDEX )
+					os[j] = this.spNestedQueryHelper.getNestedColumnUtil( )
+							.getNestedColumnValue( namesOfCachedComplexNestedColumns[i],
+									currentRootPath );
+			}
 
-		for ( int i = 0; i < namesOfCachedSimpleNestedColumns.length; i++)
+			for ( int i = 0; i < namesOfCachedSimpleNestedColumns.length; i++ )
+			{
+				int j = getColumnIndex( namesOfCachedSimpleNestedColumns[i] );
+				if ( j != INVALID_COLUMN_INDEX )
+					os[j] = this.nestedColumnUtil.getNestedColumnValue( namesOfCachedSimpleNestedColumns[i],
+							currentRootPath );
+			}
+		}
+		else
 		{
-			int j = getColumnIndex( namesOfCachedSimpleNestedColumns[i]);
-			if( j!= INVALID_COLUMN_INDEX )
-				cachedResultSet[cachedResultSetRowNo][j] = this.nestedColumnUtil.getNestedColumnValue( namesOfCachedSimpleNestedColumns[i], currentRootPath );
+			for ( int i = 0; i < namesOfCachedComplexNestedColumns.length; i++ )
+			{
+				int j = getColumnIndex( namesOfCachedComplexNestedColumns[i] );
+				if ( j != INVALID_COLUMN_INDEX )
+					cachedResultSet[cachedResultSetRowNo][j] = this.spNestedQueryHelper.getNestedColumnUtil( )
+							.getNestedColumnValue( namesOfCachedComplexNestedColumns[i],
+									currentRootPath );
+			}
+
+			for ( int i = 0; i < namesOfCachedSimpleNestedColumns.length; i++ )
+			{
+				int j = getColumnIndex( namesOfCachedSimpleNestedColumns[i] );
+				if ( j != INVALID_COLUMN_INDEX )
+					cachedResultSet[cachedResultSetRowNo][j] = this.nestedColumnUtil.getNestedColumnValue( namesOfCachedSimpleNestedColumns[i],
+							currentRootPath );
+			}
 		}
 	}
 
