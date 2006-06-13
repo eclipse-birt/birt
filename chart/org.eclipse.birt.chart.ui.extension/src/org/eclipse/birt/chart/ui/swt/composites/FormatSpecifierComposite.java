@@ -96,6 +96,9 @@ public class FormatSpecifierComposite extends Composite implements
 	private transient FormatSpecifier formatspecifier = null;
 
 	private transient boolean bEnableEvents = true;
+	
+	private final static int DATA_TYPE_NMUBER = 0;
+	private final static int DATA_TYPE_DATETIME = 1;
 
 	/**
 	 * @param parent
@@ -350,7 +353,7 @@ public class FormatSpecifierComposite extends Composite implements
 	private FormatSpecifier buildFormatSpecifier( )
 	{
 		FormatSpecifier fs = null;
-		if ( cmbDataType.getText( ).equals( "Date/Time" ) ) //$NON-NLS-1$
+		if ( cmbDataType.getSelectionIndex( ) == DATA_TYPE_DATETIME ) 
 		{
 			if ( this.btnAdvanced.getSelection( ) )
 			{
@@ -381,7 +384,7 @@ public class FormatSpecifierComposite extends Composite implements
 
 	private void updateUIState( )
 	{
-		if ( cmbDataType.getText( ).equals( "Number" ) ) //$NON-NLS-1$
+		if ( cmbDataType.getSelectionIndex( )==DATA_TYPE_NMUBER )
 		{
 			if ( this.btnStandard.getSelection( ) )
 			{
@@ -465,7 +468,7 @@ public class FormatSpecifierComposite extends Composite implements
 		}
 		if ( e.getSource( ).equals( cmbDataType ) )
 		{
-			if ( cmbDataType.getText( ).equals( "Number" ) ) //$NON-NLS-1$
+			if ( cmbDataType.getSelectionIndex( ) == DATA_TYPE_NMUBER )
 			{
 				slStandardDetails.topControl = cmpStandardNumberDetails;
 				slAdvancedDetails.topControl = cmpAdvancedNumberDetails;
