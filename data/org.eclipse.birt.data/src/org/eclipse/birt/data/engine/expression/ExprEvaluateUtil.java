@@ -68,12 +68,7 @@ public class ExprEvaluateUtil
 			}
 			catch ( BirtException e )
 			{
-				throw new DataException( ResourceConstants.INCONVERTIBLE_DATATYPE,
-						new Object[]{
-								value,
-								value.getClass( ),
-								DataType.getClass( dataExpr.getDataType( ) )
-						} );
+				throw DataException.wrap( e );
 			}
 		}
 		else if ( handle instanceof ConditionalExpression )
