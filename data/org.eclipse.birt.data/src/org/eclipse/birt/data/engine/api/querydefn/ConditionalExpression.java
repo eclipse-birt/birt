@@ -117,6 +117,26 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 			throw new UnsupportedOperationException("setDataType not supported for conditional expression.");
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseExpression#setGroupName(java.lang.String)
+	 */
+	public void setGroupName( String groupName )
+	{
+		if( this.expr!= null )
+			this.expr.setGroupName( groupName );
+		if( this.op1!= null )
+			this.op1.setGroupName( groupName );
+		if( this.op2!= null )
+			this.op2.setGroupName( groupName );
+		super.setGroupName( groupName );
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
 	private static ScriptExpression newJSExpression(String expr){
 		return expr==null?null:new ScriptExpression(expr);
 	}
