@@ -86,7 +86,7 @@ public final class DataSetUIUtil
 	 * @param dataSetHandle
 	 * @return
 	 */
-	public static boolean hasCachedMetaData( DataSetHandle dataSetHandle )
+	public static boolean hasMetaData( DataSetHandle dataSetHandle )
 	{
 		CachedMetaDataHandle metaData = dataSetHandle.getCachedMetaDataHandle( );
 		if ( metaData == null )
