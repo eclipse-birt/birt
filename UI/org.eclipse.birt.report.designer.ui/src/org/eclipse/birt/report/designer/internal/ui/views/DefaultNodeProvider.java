@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RenameAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -50,6 +51,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -380,8 +382,9 @@ public class DefaultNodeProvider implements INodeProvider
 	private boolean performRevertToTemplateItem( DesignElementHandle handle )
 	{
 		try
-		{
-			handle.revertToTemplate( "" ); //$NON-NLS-1$
+		{			
+			handle.revertToTemplate( ReportPlugin.getDefault( )
+					.getCustomName( ReportDesignConstants.TEMPLATE_REPORT_ITEM ) ); //$NON-NLS-1$
 		}
 		catch ( SemanticException e )
 		{
@@ -440,7 +443,8 @@ public class DefaultNodeProvider implements INodeProvider
 				.getNameSpace( ns )
 				.getElement( name );
 
-		return ( existedElement == null ) ? false : true;
+		return ( existedElement == null || existedElement == element ) ? false
+				: true;
 
 	}
 
@@ -457,7 +461,8 @@ public class DefaultNodeProvider implements INodeProvider
 			{
 				if ( template == null )
 				{
-					template = handle.createTemplateElement( null );
+					template = handle.createTemplateElement( ReportPlugin.getDefault( )
+							.getCustomName( ReportDesignConstants.TEMPLATE_REPORT_ITEM ) );
 				}
 
 				if ( name == null )

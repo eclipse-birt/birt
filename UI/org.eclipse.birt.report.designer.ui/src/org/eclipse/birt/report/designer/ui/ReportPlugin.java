@@ -15,13 +15,12 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import com.ibm.icu.util.StringTokenizer;
 
 import org.eclipse.birt.report.designer.core.CorePlugin;
-import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -32,16 +31,12 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
-import org.eclipse.core.internal.resources.Workspace;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.core.runtime.adaptor.LocationManager;
 import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -53,6 +48,8 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
+import com.ibm.icu.util.StringTokenizer;
 
 /**
  * The main plugin class to be used in the desktop.
@@ -88,11 +85,34 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String LIBRARY_PREFERENCE = "designer.library.preference.libraries.description.preferencestore"; //$NON-NLS-1$
 	public static final String TEMPLATE_PREFERENCE = "designer.preview.preference.template.description.preferencestore"; //$NON-NLS-1$
 	public static final String RESOURCE_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.resourcestore"; //$NON-NLS-1$
-	public static final String COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.comment.description.preferencestore";
-	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore";
-	public static final String BIRT_RESOURCE = "resources";
+	public static final String COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.comment.description.preferencestore"; //$NON-NLS-1$
+	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore"; //$NON-NLS-1$
+	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
 
 	private int nameCount = 0;
+
+	private static final List elementToFilte = Arrays.asList( new String[]{
+			ReportDesignConstants.AUTOTEXT_ITEM,
+			ReportDesignConstants.DATA_SET_ELEMENT,
+			ReportDesignConstants.DATA_SOURCE_ELEMENT,
+			ReportDesignConstants.EXTENDED_ITEM,
+			ReportDesignConstants.FREE_FORM_ITEM,
+			ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT,
+			ReportDesignConstants.JOINT_DATA_SET,
+			ReportDesignConstants.LINE_ITEM,
+			ReportDesignConstants.MASTER_PAGE_ELEMENT,
+			ReportDesignConstants.ODA_DATA_SET,
+			ReportDesignConstants.ODA_DATA_SOURCE,
+			"Parameter", //$NON-NLS-1$
+			ReportDesignConstants.RECTANGLE_ITEM,
+			ReportDesignConstants.REPORT_ITEM,
+			ReportDesignConstants.SCRIPT_DATA_SET,
+			ReportDesignConstants.SCRIPT_DATA_SOURCE,
+			ReportDesignConstants.SIMPLE_DATA_SET_ELEMENT,			
+			ReportDesignConstants.TEMPLATE_DATA_SET,
+			ReportDesignConstants.TEMPLATE_ELEMENT,
+			ReportDesignConstants.TEMPLATE_PARAMETER_DEFINITION,
+	} );
 
 	/**
 	 * The constructor.
@@ -145,8 +165,8 @@ public class ReportPlugin extends AbstractUIPlugin
 				.getContextSupport( )
 				.setKeyFilterEnabled( true );
 
-		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.ReportEditor" );
-		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.TemplateEditor" );
+		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.ReportEditor" ); //$NON-NLS-1$
+		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.TemplateEditor" ); //$NON-NLS-1$
 		addIgnoreViewID( IPageLayout.ID_OUTLINE );
 		addIgnoreViewID( AttributeView.ID );
 		addIgnoreViewID( PaletteView.ID );
@@ -302,7 +322,7 @@ public class ReportPlugin extends AbstractUIPlugin
 			{
 				try
 				{
-					url = new URL( "file:///" + key );
+					url = new URL( "file:///" + key ); //$NON-NLS-1$
 				}
 				catch ( MalformedURLException e )
 				{
@@ -382,8 +402,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	private void setDefaultElementNamePreference( IPreferenceStore store )
 	{
-		List tmpList;
-		tmpList = DesignEngine.getMetaDataDictionary( ).getElements( );
+		List tmpList = DesignEngine.getMetaDataDictionary( ).getElements( );
 		int i;
 		StringBuffer bufferDefaultName = new StringBuffer( );
 		StringBuffer bufferCustomName = new StringBuffer( );
@@ -397,7 +416,8 @@ public class ReportPlugin extends AbstractUIPlugin
 			nameOption = elementDefn.getNameOption( );
 
 			// only set names for the elements when the element can have a name
-			if ( nameOption == MetaDataConstants.NO_NAME )
+			if ( nameOption == MetaDataConstants.NO_NAME
+					|| filteName( elementDefn ) )
 			{
 				continue;
 			}
@@ -413,6 +433,11 @@ public class ReportPlugin extends AbstractUIPlugin
 		store.setDefault( DEFAULT_NAME_PREFERENCE, bufferDefaultName.toString( ) );
 		store.setDefault( CUSTOM_NAME_PREFERENCE, bufferCustomName.toString( ) );
 		store.setDefault( DESCRIPTION_PREFERENCE, bufferPreference.toString( ) );
+	}
+
+	private boolean filteName( IElementDefn elementDefn )
+	{
+		return elementToFilte.indexOf( elementDefn.getName( ) ) != -1;
 	}
 
 	/**
@@ -534,7 +559,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 *            The specified element name
 	 * @return String The custom name gotten
 	 */
-	public String getCustomName( Object defaultName )
+	public String getCustomName( String defaultName )
 	{
 		int i;
 		String[] defaultNameArray = getDefaultNamePreference( );
@@ -794,19 +819,21 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDefaultResourcePreference( )
 	{
-//		String metaPath = Platform.getStateLocation( ReportPlugin.getDefault( )
-//				.getBundle( ) ).toOSString( );
-//		if ( !metaPath.endsWith( File.separator ) )
-//		{
-//			metaPath = metaPath + File.separator;
-//		}
-//		metaPath = metaPath + BIRT_RESOURCE;
-//		File targetFolder = new File( metaPath );
-//		if ( !targetFolder.exists( ) )
-//		{
-//			targetFolder.mkdirs( );
-//		}
-//		getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, metaPath ); //$NON-NLS-1$	
+		// String metaPath = Platform.getStateLocation( ReportPlugin.getDefault(
+		// )
+		// .getBundle( ) ).toOSString( );
+		// if ( !metaPath.endsWith( File.separator ) )
+		// {
+		// metaPath = metaPath + File.separator;
+		// }
+		// metaPath = metaPath + BIRT_RESOURCE;
+		// File targetFolder = new File( metaPath );
+		// if ( !targetFolder.exists( ) )
+		// {
+		// targetFolder.mkdirs( );
+		// }
+		// getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, metaPath );
+		// //$NON-NLS-1$
 		String defaultDir = new String( UIUtil.getHomeDirectory( ) );
 		defaultDir = defaultDir.replace( '\\', '/' ); //$NON-NLS-1$ //$NON-NLS-2$
 		if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
@@ -888,7 +915,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setDefaultCommentPreference( )
 	{
 		getPreferenceStore( ).setDefault( COMMENT_PREFERENCE,
-				Messages.getString( "org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment" ) );
+				Messages.getString( "org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment" ) ); //$NON-NLS-1$
 	}
 
 	/**

@@ -44,9 +44,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * element. Thus, a name is given when an element is created.
  */
 
-public class ElementNamesPreferencePage extends PreferencePage
-		implements
-			IWorkbenchPreferencePage
+public class ElementNamesPreferencePage extends PreferencePage implements
+		IWorkbenchPreferencePage
 {
 
 	// The default width of the column
@@ -71,9 +70,10 @@ public class ElementNamesPreferencePage extends PreferencePage
 	protected Control createContents( Composite parent )
 	{
 
-		UIUtil.bindHelp( parent,IHelpContextIds.PREFERENCE_BIRT_ELEMENT_NAMES_ID ); 
-		
-		Composite mainComposite = new Composite( parent, SWT.BORDER );
+		UIUtil.bindHelp( parent,
+				IHelpContextIds.PREFERENCE_BIRT_ELEMENT_NAMES_ID );
+
+		Composite mainComposite = new Composite( parent, SWT.NONE );
 
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		data.grabExcessHorizontalSpace = true;
@@ -107,7 +107,10 @@ public class ElementNamesPreferencePage extends PreferencePage
 	{
 
 		int tableStyle = SWT.SINGLE
-				| SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION
+				| SWT.BORDER
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
+				| SWT.FULL_SELECTION
 				| SWT.HIDE_SELECTION;
 		table = new Table( parent, tableStyle );
 		GridData data = new GridData( GridData.FILL_BOTH );
@@ -200,10 +203,9 @@ public class ElementNamesPreferencePage extends PreferencePage
 	 * for the Table. It implements the IItemListViewer interface since it must
 	 * register changeListeners with the ItemContentList
 	 */
-	class ContentProvider
-			implements
-				IStructuredContentProvider,
-				IItemListViewer
+	class ContentProvider implements
+			IStructuredContentProvider,
+			IItemListViewer
 	{
 
 		/*
