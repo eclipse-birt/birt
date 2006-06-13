@@ -1924,7 +1924,7 @@ public class ParameterDialog extends BaseDialog
 	private void refreshValueTable( )
 	{
 		if ( valueTable != null && !valueTable.getTable( ).isDisposed( ) )
-		{			
+		{
 			valueTable.refresh( );
 			updateTableButtons( );
 		}
@@ -2205,6 +2205,10 @@ public class ParameterDialog extends BaseDialog
 				if ( COLUMN_VALUE.equals( property ) )
 				{
 					value = choice.getValue( );
+					if ( isEqual( value, newValue ) )
+					{
+						return true;
+					}
 				}
 				else if ( COLUMN_DISPLAY_TEXT.equals( property ) )
 				{
@@ -2217,10 +2221,10 @@ public class ParameterDialog extends BaseDialog
 					{
 						value = LABEL_NULL;
 					}
-				}
-				if ( isEqual( value, newValue ) )
-				{
-					return true;
+					if ( value.equals( newValue ) )
+					{
+						return true;
+					}
 				}
 			}
 		}
