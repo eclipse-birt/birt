@@ -14,6 +14,9 @@ package org.eclipse.birt.data.engine.expression;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -29,6 +32,7 @@ public final class ColumnReferenceExpression extends CompiledExpression
 	private String 	m_columnName;
 	private int 	m_columnIndex;
 	private String rowIndicator = "row";
+	private int dataType;
 	protected static Logger logger = Logger.getLogger( ColumnReferenceExpression.class.getName( ) );
 	
 	ColumnReferenceExpression( String rowInd, String columnName )
@@ -41,6 +45,7 @@ public final class ColumnReferenceExpression extends CompiledExpression
 		rowIndicator = rowInd; 
 		logger.exiting( ColumnReferenceExpression.class.getName( ),
 				"ColumnReferenceExpression" );
+		this.dataType = DataType.UNKNOWN_TYPE;
 	}
 	
 	ColumnReferenceExpression( String rowInd, int columnIndex )
@@ -118,7 +123,31 @@ public final class ColumnReferenceExpression extends CompiledExpression
 			expr.append('"');
 		}
 		expr.append(']');
-		return ScriptEvalUtil.evaluateJSAsExpr( context, scope, 
-					expr.toString( ),"ROM Expression", 0);
+		try
+		{
+			return DataTypeUtil.convert(ScriptEvalUtil.evaluateJSAsExpr( context, scope, 
+						expr.toString( ),"ROM Expression", 0),this.dataType);
+		} catch (BirtException e)
+		{
+			throw DataException.wrap(e);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param type
+	 */
+	public void setDataType( int type )
+	{
+		this.dataType = type;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getDataType( )
+	{
+		return this.dataType;
 	}
 }

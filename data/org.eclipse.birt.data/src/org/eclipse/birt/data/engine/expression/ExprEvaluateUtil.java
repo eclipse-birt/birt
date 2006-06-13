@@ -130,8 +130,17 @@ public class ExprEvaluateUtil
 				if ( idx == 0 )
 					return new Integer( odiResult.getCurrentResultIndex( ) );
 				else if ( odiResult.getCurrentResult( ) != null )
-					return odiResult.getCurrentResult( )
-							.getFieldValue( idx );
+				{	
+					try 
+					{
+						return DataTypeUtil.convert(odiResult.getCurrentResult( )
+								.getFieldValue( idx ),colref.getDataType());
+					}
+					catch (BirtException e) 
+					{
+						throw DataException.wrap(e);
+					}
+				}
 				else
 					return null;
 			}
@@ -142,8 +151,17 @@ public class ExprEvaluateUtil
 				if ( JSRowObject.ROW_POSITION.equals( name ) )
 					return new Integer( odiResult.getCurrentResultIndex( ) );
 				else if ( odiResult.getCurrentResult( ) != null )
-					return odiResult.getCurrentResult( )
-							.getFieldValue( name );
+				{
+					try 
+					{
+						return DataTypeUtil.convert(odiResult.getCurrentResult( )
+								.getFieldValue( name ),colref.getDataType());
+					}
+					catch (BirtException e) 
+					{
+						throw DataException.wrap(e);
+					}
+				}
 				else
 					return null;
 			}
