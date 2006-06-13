@@ -2635,7 +2635,7 @@
       <Trigger targetElement="MasterPage" validator="MasterPageContextContainmentValidator"/>
     </Slot>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Data" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.DataItem" name="Data" selector="number,string,date" since="1.0" xmlName="data">
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Data" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.DataItem" name="Data" selector="data" since="1.0" xmlName="data">
     <Property displayNameID="Element.Data.resultSetColumn" name="resultSetColumn" returnType="any" since="2.1" type="string" >  
 		<Trigger validator="DataColumnNameValidator"/>
 	</Property>
@@ -3153,7 +3153,7 @@
       <Trigger targetElement="MasterPage" validator="MasterPageContextContainmentValidator"/>
     </Slot>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Image" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ImageItem" name="Image" since="1.0" xmlName="image">
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Image" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ImageItem" name="Image" selector="image" since="1.0" xmlName="image">
     <Property displayNameID="Element.Image.altText" name="altText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Image.altTextID" name="altTextID" since="1.0" type="resourceKey"/>
     <Property displayNameID="Element.Image.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
@@ -3436,8 +3436,11 @@
   <Style displayNameID="Style.Label" name="label" reference="Label item" />
   <Style displayNameID="Style.Text" name="text" reference="Text item" />
   <Style displayNameID="Style.Grid" name="grid" reference="Grid item" />
- 
-<!--
+  <Style displayNameID="Style.Data" name="data" reference="Data item" />
+  <Style displayNameID="Style.Image" name="image" reference="Image item" />
+  <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" />
+			
+  <!--
   <Style displayNameID="Style.Chart" name="chart" reference="Chart" />
   <Style displayNameID="Style.ChartTitle" name="chart-title" reference="Chart Title" />
   <Style displayNameID="Style.ChartLegend" name="chart-legend" reference="Chart Legend" />
@@ -3491,7 +3494,6 @@
   <Style displayNameID="Style.Toc7" name="toc7" reference="Table-of-contents level 7" />
   <Style displayNameID="Style.Toc8" name="toc8" reference="Table-of-contents level 8" />
   <Style displayNameID="Style.Toc9" name="toc9" reference="Table-of-contents level 9" />
-  <Style displayNameID="Style.Data" name="data" reference="Data item" />
   <Style displayNameID="Style.Number" name="number" reference="Number data item" />
   <Style displayNameID="Style.String" name="string" reference="String data item" />
   <Style displayNameID="Style.FreeForm" name="free-form" reference="Free-form item" />
