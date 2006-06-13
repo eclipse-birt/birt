@@ -92,7 +92,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.119 $ $Date: 2006/06/12 06:40:00 $
+ * @version $Revision: 1.120 $ $Date: 2006/06/13 06:30:47 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1379,6 +1379,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		handleStyle( cell, styleBuffer );
 
+		writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
+		
 		initializeCell( cell );
 	}
 
@@ -1610,6 +1612,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// title
 		writer.attribute( HTMLTags.ATTR_TITLE, text.getHelpText( ) ); //$NON-NLS-1$
 
+		if( isTalbeTemplateElement( text ) )
+		{
+			//set lines to dotted lines
+			mergedStyle.setProperty( IStyle.STYLE_BORDER_TOP_STYLE, IStyle.DOTTED_VALUE );
+			mergedStyle.setProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE, IStyle.DOTTED_VALUE );
+			mergedStyle.setProperty( IStyle.STYLE_BORDER_LEFT_STYLE, IStyle.DOTTED_VALUE );
+			mergedStyle.setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.DOTTED_VALUE );
+			mergedStyle.setProperty( IStyle.STYLE_FONT_FAMILY, IStyle.SANS_SERIF_VALUE );
+		}
+		
 		// check 'can-shrink' property
 		handleShrink( display, mergedStyle, height, width, styleBuffer );
 		handleStyle( text, styleBuffer, false );
@@ -2781,10 +2793,30 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					// Resize table template element
 					IStyle style = content.getStyle( );
 					style.setProperty( IStyle.STYLE_CAN_SHRINK, IStyle.FALSE_VALUE );
-					content.setWidth( new DimensionType( 3, DimensionType.UNITS_IN ) );
-					content.setHeight( new DimensionType( 5, DimensionType.UNITS_IN ) );
+					content.setWidth( new DimensionType( 5, DimensionType.UNITS_IN ) );
 				}
 		}
+	}
+	
+	/**
+	 *  judge the content is belong table template element or not.
+	 * 
+	 * @param content
+	 *            the styled element content
+	 */
+	private boolean isTalbeTemplateElement( IContent content )
+	{
+		Object genBy = content.getGenerateBy( );
+		if( genBy instanceof TemplateDesign )
+		{
+			TemplateDesign template = (TemplateDesign) genBy;
+			String allowedType = template.getAllowedType( );
+			if ( "Table".equals(allowedType) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private boolean needColumnFilter( ICellContent cell )
