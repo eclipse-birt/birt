@@ -33,7 +33,7 @@ public class PDFChartGenerator {
 	 */
 	public static void generateChart(){
 		//Tell chart engine that we are running in stand alone mode.  Note running in an eclipse environment.
-		System.setProperty("STANDALONE", "true");
+		System.setProperty("STANDALONE", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		//Create the chart we want to render
 		Chart cm = ChartModels.createHSChart( );
