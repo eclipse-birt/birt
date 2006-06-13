@@ -349,7 +349,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 				String label = report
 						.getMessage( choice.getLabelKey( ), locale );
-				if ( label != null )
+				if ( label == null )
 				{
 					label = choice.getLabel( );
 				}
