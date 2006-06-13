@@ -118,7 +118,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.format = ParameterAccessor.getFormat( request );
 		this.isToc = ParameterAccessor.isToc( request );
 		this.maxRows = ParameterAccessor.getMaxRows( request );
-		
+
 		// Set preview report max rows
 
 		ReportEngineService.getInstance( ).setMaxRows( this.maxRows );
@@ -172,7 +172,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						false );
 
 		// Check if miss parameter
-		if ( documentExisted )
+		if ( documentInUrl )
 			this.missingParameter = false;
 		else
 			this.missingParameter = validateParameters( parameterDefList,
@@ -407,21 +407,23 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		if ( reportDocumentInstance != null )
 		{
 			reportRunnable = reportDocumentInstance.getReportRunnable( );
-			
+
 			// in frameset mode, parse parameter values from document file
 			// if the path is frameset, copy the parameter value from document
 			// to run the report. If the _document parameter from url is not
 			// null, means user wants to preview the document, copy the
 			// parameter from the document to do the preview.
 			if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
-					.getServletPath( ) )
-					|| ParameterAccessor.getParameter( request,
-							ParameterAccessor.PARAM_REPORT_DOCUMENT ) != null )
+					.getServletPath( ) ) )
+
 			{
 				this.parameterMap = reportDocumentInstance.getParameterValues( );
-				this.documentExisted = true;
 			}
-			
+
+			if ( ParameterAccessor.getParameter( request,
+					ParameterAccessor.PARAM_REPORT_DOCUMENT ) != null )
+				this.documentInUrl = true;
+
 			reportDocumentInstance.close( );
 		}
 

@@ -149,7 +149,7 @@ abstract public class BaseAttributeBean
 	/**
 	 * indicate whether the document is existed.
 	 */
-	protected boolean documentExisted = false;
+	public boolean documentInUrl = false;
 
 	/**
 	 * Abstract methods.

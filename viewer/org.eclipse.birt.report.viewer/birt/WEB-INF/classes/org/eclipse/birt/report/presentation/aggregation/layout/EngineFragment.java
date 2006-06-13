@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.presentation.aggregation.layout;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.rmi.RemoteException;
 
 import javax.servlet.ServletException;
@@ -28,6 +29,7 @@ import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.actionhandler.BirtExtractDataActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetReportletActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderImageActionHandler;
+import org.eclipse.birt.report.service.actionhandler.BirtRenderReportActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRunAndRenderActionHandler;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
@@ -115,6 +117,12 @@ public class EngineFragment extends BirtBaseFragment
 				BirtGetReportletActionHandler getReportletHandler = new BirtGetReportletActionHandler(
 						context, op, upResponse );
 				getReportletHandler.execute( );
+			}
+			else if ( context.getBean( ).documentInUrl )
+			{
+				BirtRenderReportActionHandler runReportHandler = new BirtRenderReportActionHandler(
+						context, op, upResponse, out );
+				runReportHandler.execute( );
 			}
 			else
 			{
