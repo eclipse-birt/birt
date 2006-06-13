@@ -93,7 +93,7 @@ public final class DataSetUIUtil
 			return false;
 		else
 		{
-			Iterator iter = metaData.iterator( );
+			Iterator iter = metaData.getResultSet( ).iterator( );
 			if ( iter.hasNext( ) )
 				return true;
 			else
