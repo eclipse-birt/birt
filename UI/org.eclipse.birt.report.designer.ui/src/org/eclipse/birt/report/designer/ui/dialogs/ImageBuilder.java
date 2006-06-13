@@ -890,7 +890,7 @@ public class ImageBuilder extends BaseDialog
 	{
 		for ( int i = 0; i < IMAGE_TYPES.length; i++ )
 		{
-			if ( fileName.endsWith( IMAGE_TYPES[i] ) )
+			if ( fileName.toLowerCase( ).endsWith( IMAGE_TYPES[i] ) )
 			{
 				return true;
 			}
