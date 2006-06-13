@@ -30,7 +30,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * column content object
  * 
- * @version $Revision: 1.7 $ $Date: 2006/05/25 08:10:12 $
+ * @version $Revision: 1.8 $ $Date: 2006/06/07 09:51:52 $
  */
 public class Column implements IColumn
 {
@@ -274,5 +274,14 @@ public class Column implements IColumn
 	public CSSEngine getCssEngine( )
 	{
 		return cssEngine;
+	}
+
+	public boolean hasDataItemsInDetail( )
+	{
+		if ( generateBy instanceof ColumnDesign )
+		{
+			return ( (ColumnDesign) generateBy ).hasDataItemsInDetail( );
+		}
+		return false;
 	}
 }

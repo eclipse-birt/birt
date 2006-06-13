@@ -92,7 +92,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.118 $ $Date: 2006/06/10 03:45:19 $
+ * @version $Revision: 1.119 $ $Date: 2006/06/12 06:40:00 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1386,7 +1386,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		if ( includeSelectionHandler )
 		{
-			if ( isStartOfDetail( ) || cell.isStartOfGroup( ) )
+			if ( needColumnFilter( cell ) || cell.isStartOfGroup( ) )
 			{
 				writer.openTag( HTMLTags.TAG_TABLE );
 				writer.attribute( HTMLTags.ATTR_HEIGHT, "100%" );
@@ -1433,7 +1433,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( includeSelectionHandler )
 		{
-			if ( isStartOfDetail( ) )
+			if ( needColumnFilter( cell ) )
 			{
 				// include select handle table
 				writer.closeTag( HTMLTags.TAG_TD );
@@ -1451,7 +1451,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				setActiveIDTypeIID( bookmark, "COLOUMNINFO", null, -1 );
 				writer.closeTag( HTMLTags.TAG_IMAGE );
 			}
-			if ( isStartOfDetail( ) || cell.isStartOfGroup( ) )
+			if ( needColumnFilter( cell ) || cell.isStartOfGroup( ) )
 			{
 				writer.closeTag( HTMLTags.TAG_TD );
 				writer.closeTag( HTMLTags.TAG_TR );
@@ -2787,10 +2787,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public boolean isStartOfDetail( )
+	private boolean needColumnFilter( ICellContent cell )
 	{
 		DetailRowState state = ( DetailRowState ) detailRowStateStack.peek( );
-		return state.isStartOfDetail;
+		if ( cell.getColumnInstance( ) == null )
+		{
+			return false;
+		}
+		return state.isStartOfDetail
+				&& cell.getColumnInstance( ).hasDataItemsInDetail( );
 	}
 }
 

@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * @see TableItemDesign
  * @see GridItemDesign
- * @version $Revision: 1.7 $ $Date: 2006/03/14 09:35:24 $
+ * @version $Revision: 1.8 $ $Date: 2006/05/17 05:42:10 $
  */
 public class ColumnDesign extends StyledElementDesign
 {
@@ -35,6 +35,11 @@ public class ColumnDesign extends StyledElementDesign
 	 */
 	protected VisibilityDesign visibility;
 	
+	/**
+	 * If the is any data item in the detail cell of this column.
+	 */
+	protected boolean hasDataItemsInDetail = false;
+
 	/**
 	 * @return Returns the width.
 	 */
@@ -82,5 +87,22 @@ public class ColumnDesign extends StyledElementDesign
 	public void setVisibility( VisibilityDesign visibility )
 	{
 		this.visibility = visibility;
+	}
+
+	
+	/**
+	 * @return the hasDataItemsInDetail
+	 */
+	public boolean hasDataItemsInDetail( )
+	{
+		return hasDataItemsInDetail;
+	}
+
+	/**
+	 * @param hasDataItemsInDetail the hasDataItemsInDetail to set
+	 */
+	public void setHasDataItemsInDetail( boolean hasDataItemsInDetail )
+	{
+		this.hasDataItemsInDetail = hasDataItemsInDetail;
 	}
 }

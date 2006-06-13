@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * column definition used by table content.
  * 
  * 
- * @version $Revision: 1.3 $ $Date: 2006/05/25 08:10:12 $
+ * @version $Revision: 1.4 $ $Date: 2006/06/07 09:52:02 $
  */
 public interface IColumn
 {
@@ -57,4 +57,6 @@ public interface IColumn
 	public void setGenerateBy( Object generateBy );
 	
 	public Object getGenerateBy( );
+
+	public boolean hasDataItemsInDetail( );
 }
