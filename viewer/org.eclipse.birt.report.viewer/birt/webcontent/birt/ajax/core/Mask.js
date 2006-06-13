@@ -23,7 +23,8 @@ Mask.prototype = {
 			this.__useIFrame = false;
 			this.__mask = document.createElement( 'div' );
 		}
-			//default opacity to zero
+		
+		//default opacity to zero
 		if(opacity)
 		{
 			debug("setting opacity to : " + opacity);
@@ -45,6 +46,8 @@ Mask.prototype = {
 		this.__mask.marginHeight = '0px';
 		this.__mask.marginWidth = '0px';
 		this.__mask.style.display = 'none';
+		// Support low version Mozilla/NS
+		this.__mask.style.MozOpacity = 0;
 		
 		if(useIframe)
 		{

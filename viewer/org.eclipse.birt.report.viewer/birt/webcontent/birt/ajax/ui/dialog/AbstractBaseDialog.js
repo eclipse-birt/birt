@@ -29,13 +29,13 @@ AbstractBaseDialog.prototype =
 		this.htmlId = htmlId;
 		this.visible = false;
 		
-			//references will be set for okay button so it can be enabled/disabled
+		//references will be set for okay button so it can be enabled/disabled
 		this.okButton = null;
 		this.okButtonLeft = null;
 		this.okButtonRight = null;
 		
-			//Instance is given a location within screen to avoid
-			//extra scroll bar creation
+		//Instance is given a location within screen to avoid
+		//extra scroll bar creation
 		this.__instance.style.top = '0px';
 		this.__instance.style.left = '0px';
 		
@@ -327,6 +327,14 @@ AbstractBaseDialog.prototype =
 	//TODO change so called once
 	__setWidth: function()
 	{	
+		// In Mozilla 1.4 or lower version, if don't set overflow as "auto",then
+		// clientWidth/clientHeight always return zero. The display is incorrect.
+		// So add the following section.
+		if ( this.__instance.clientWidth <= 0)
+		{
+			this.__instance.style.overflow = "auto";
+		}
+		
 		var contentHolder = $(this.contentHolderName);
 		var innerWidth = contentHolder.offsetWidth;
 		var outerWidth = this.__instance.clientWidth;
@@ -337,8 +345,9 @@ AbstractBaseDialog.prototype =
 			
 		this.__iframe.style.width = this.__instance.offsetWidth + 'px';
 		this.__iframe.style.height = this.__instance.offsetHeight + 'px';
-			//move iframe to true top, left
-			//assumes that top/bottom left/right borders are same width
+		
+		//move iframe to true top, left
+		//assumes that top/bottom left/right borders are same width
 		if(this.__iframe.clientWidth > 0)
 		{
 			this.__iframe.style.top = (this.__instance.clientHeight - this.__instance.offsetHeight)/2 + 'px';
