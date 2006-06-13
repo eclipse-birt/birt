@@ -450,7 +450,11 @@ public class URIUtil
 	public static String resolveAbsolutePath( String base, String relativePath )
 	{
 		// make sure that must be file protocol
-
+		
+		File file = new File( relativePath );
+		if( file.isAbsolute( ) )
+			return relativePath;
+		
 		String baseDir = getLocalPath( base );
 		String relativeDir = getLocalPath( relativePath );
 
