@@ -13,12 +13,10 @@ package org.eclipse.birt.report.model.api.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.zip.ZipEntry;
 
 /**
  * Utility class to handle URI.
@@ -178,7 +176,7 @@ public class URIUtil
 		{
 			File file = new File( uri );
 
-			if ( uri.contains( JAR_EXTENTION ) )
+			if ( uri.indexOf( JAR_EXTENTION ) != 0 )
 				return JAR_SCHEMA
 						+ ":" + FILE_SCHEMA + ":" + file.getAbsolutePath( ); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -257,7 +255,7 @@ public class URIUtil
 		}
 		catch ( MalformedURLException e )
 		{
-			if ( filePath.contains( JAR_EXTENTION ) )
+			if ( filePath.indexOf( JAR_EXTENTION )!=0 )
 				// try jar format
 				url = getJarDirectory( filePath );
 			else
@@ -576,35 +574,35 @@ public class URIUtil
 		File f = new File( resourceDir );
 
 		// TODO: support resource path with jar format.
-		
-//		if ( resourceDir.contains( JAR_EXTENTION ) )
-//		{
-//			if ( f.exists( ) )
-//				// TODO: check case like a.jar.txt
-//				return true;
-//			else
-//			{
-//				URL url;
-//				try
-//				{
-//					url = new URL( resourceDir );
-//					JarURLConnection connection = (JarURLConnection) url
-//							.openConnection( );
-//					connection.connect( );
-//					ZipEntry zip = connection.getJarEntry( );
-//					if ( zip != null && zip.isDirectory( ) )
-//						return true;
-//				}
-//				catch ( MalformedURLException e )
-//				{
-//					return false;
-//				}
-//				catch ( IOException e1 )
-//				{
-//					return false;
-//				}
-//			}
-//		}
+
+		// if ( resourceDir.contains( JAR_EXTENTION ) )
+		// {
+		// if ( f.exists( ) )
+		// // TODO: check case like a.jar.txt
+		// return true;
+		// else
+		// {
+		// URL url;
+		// try
+		// {
+		// url = new URL( resourceDir );
+		// JarURLConnection connection = (JarURLConnection) url
+		// .openConnection( );
+		// connection.connect( );
+		// ZipEntry zip = connection.getJarEntry( );
+		// if ( zip != null && zip.isDirectory( ) )
+		// return true;
+		// }
+		// catch ( MalformedURLException e )
+		// {
+		// return false;
+		// }
+		// catch ( IOException e1 )
+		// {
+		// return false;
+		// }
+		// }
+		// }
 
 		if ( f.isAbsolute( ) && f.exists( ) && f.isDirectory( ) )
 			return true;
