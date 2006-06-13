@@ -1,6 +1,5 @@
 package org.eclipse.birt.report.engine.api.script.instance;
 
-import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 public interface ICellInstance extends IReportElementInstance
 {

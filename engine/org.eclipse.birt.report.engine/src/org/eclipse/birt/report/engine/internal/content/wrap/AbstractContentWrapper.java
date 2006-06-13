@@ -30,7 +30,6 @@ abstract public class AbstractContentWrapper extends AbstractElement
 		implements
 			IContent
 {
-
 	protected IContent content;
 
 	public AbstractContentWrapper( IContent content )
@@ -44,9 +43,9 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * @see org.eclipse.birt.report.engine.content.IContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor,
 	 *      java.lang.Object)
 	 */
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		content.accept( visitor, value );
+		return content.accept( visitor, value );
 	}
 
 	/*
@@ -238,6 +237,16 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	{
 		return content.getY( );
 	}
+	
+	public Object getExtension( int extension )
+	{
+		return content.getExtension( extension );
+	}
+
+	public void setExtension( int extension, Object value )
+	{
+		content.setExtension( extension, value );
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -397,16 +406,6 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	public void setY( DimensionType y )
 	{
 		content.setY( y );
-	}
-
-	public void setOffset( long offset )
-	{
-		content.setOffset( offset );
-	}
-
-	public long getOffset( )
-	{
-		return content.getOffset( );
 	}
 
 	/*

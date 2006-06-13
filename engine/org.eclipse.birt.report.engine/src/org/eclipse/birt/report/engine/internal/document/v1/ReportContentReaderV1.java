@@ -35,12 +35,13 @@ import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.TableBandContent;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
+import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IReportContentReader;
 
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.2 $ $Date: 2006/04/12 05:40:33 $
+ * @version $Revision: 1.3 $ $Date: 2006/04/28 06:44:28 $
  */
 class ReportContentReaderV1 implements IReportContentReader
 {
@@ -181,7 +182,8 @@ class ReportContentReaderV1 implements IReportContentReader
 		DataInputStream oi = new DataInputStream( new ByteArrayInputStream(
 				buffer ) );
 		IContent content = readContent( oi );
-		content.setOffset( offset );
+		DocumentExtension ext = new DocumentExtension( offset );
+		content.setExtension( IContent.DOCUMENT_EXTENSION, ext );
 		return content;
 	}
 

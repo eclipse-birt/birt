@@ -24,9 +24,9 @@ public class ImageContent extends AbstractContentWrapper implements IImageConten
 	}
 
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitImage( this, value );
+		return visitor.visitImage( this, value );
 	}
 
 

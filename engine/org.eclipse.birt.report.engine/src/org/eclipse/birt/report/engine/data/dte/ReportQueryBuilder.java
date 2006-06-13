@@ -54,6 +54,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemQuery;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
+import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -66,8 +67,6 @@ import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
-import org.eclipse.birt.report.engine.ir.ListBandDesign;
-import org.eclipse.birt.report.engine.ir.ListGroupDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.MapDesign;
@@ -78,8 +77,6 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.RuleDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
-import org.eclipse.birt.report.engine.ir.TableBandDesign;
-import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
@@ -102,7 +99,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.70 $ $Date: 2006/06/08 03:45:16 $
+ * @version $Revision: 1.71 $ $Date: 2006/06/13 09:22:29 $
  */
 public class ReportQueryBuilder
 {
@@ -298,7 +295,9 @@ public class ReportQueryBuilder
 			BaseQueryDefinition query = prepareVisit( grid );
 
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
-				handleRow( grid.getRow( i ), value );
+			{
+				grid.getRow( i ).accept( this, value );
+			}
 
 			finishVisit( query );
 			return value;
@@ -430,11 +429,11 @@ public class ReportQueryBuilder
 			if ( query == null )
 			{
 				pushCurrentCondition( true );
-				visitListBand( list.getHeader( ), value );
+				handleListingBand( list.getHeader( ), value );
 				popCurrentCondition( );
 				
 				pushCurrentCondition( true );
-				visitListBand( list.getFooter( ), value );
+				handleListingBand( list.getFooter( ), value );
 				popCurrentCondition( );
 			}
 			else
@@ -442,14 +441,14 @@ public class ReportQueryBuilder
 				pushReportItemQuery( query );
 				transformExpressions( list );
 				pushCurrentCondition( true );
-				visitListBand( list.getHeader( ), value );
+				handleListingBand( list.getHeader( ), value );
 				
 				SlotHandle groupsSlot = ( (ListHandle) list.getHandle( ) )
 						.getGroups( );
 
 				for ( int i = 0; i < list.getGroupCount( ); i++ )
 				{
-					handleListGroup( list.getGroup( i ),
+					handleListingGroup( list.getGroup( i ),
 							(GroupHandle) groupsSlot.get( i ), value );
 				}
 				popCurrentCondition( );
@@ -459,11 +458,11 @@ public class ReportQueryBuilder
 					query.setUsesDetails( true );
 				}
 				pushCurrentCondition( false );
-				visitListBand( list.getDetail( ), value );
+				handleListingBand( list.getDetail( ), value );
 				popCurrentCondition( );
 				
 				pushCurrentCondition( true );
-				visitListBand( list.getFooter( ), value );
+				handleListingBand( list.getFooter( ), value );
 				popCurrentCondition( );
 				popReportItemQuery( );
 			}
@@ -517,11 +516,11 @@ public class ReportQueryBuilder
 			if ( query == null )
 			{
 				pushCurrentCondition( true );
-				handleTableBand( table.getHeader( ), value );
+				handleListingBand( table.getHeader( ), value );
 				popCurrentCondition( );
 				
 				pushCurrentCondition( true );
-				handleTableBand( table.getFooter( ), value );
+				handleListingBand( table.getFooter( ), value );
 				popCurrentCondition( );				
 			}
 			else
@@ -534,29 +533,29 @@ public class ReportQueryBuilder
 				}
 				
 				pushCurrentCondition( true );
-				handleTableBand( table.getHeader( ), value );
+				handleListingBand( table.getHeader( ), value );
 				
 				SlotHandle groupsSlot = ( (TableHandle) table.getHandle( ) )
 						.getGroups( );
 
 				for ( int i = 0; i < table.getGroupCount( ); i++ )
 				{
-					handleTableGroup( table.getGroup( i ),
+					handleListingGroup( table.getGroup( i ),
 							(GroupHandle) groupsSlot.get( i ), value );
 				}
 				popCurrentCondition( );
 
-				if ( table.getDetail( ).getRowCount( ) != 0 )
+				if ( table.getDetail( ).getContentCount( ) != 0 )
 				{
 					query.setUsesDetails( true );
 				}
 				
 				pushCurrentCondition( false );
-				handleTableBand( table.getDetail( ), value );
+				handleListingBand( table.getDetail( ), value );
 				popCurrentCondition( );
 				
 				pushCurrentCondition( true );				
-				handleTableBand( table.getFooter( ), value );
+				handleListingBand( table.getFooter( ), value );
 				popCurrentCondition( );
 			}
 			finishVisit( query );
@@ -608,7 +607,7 @@ public class ReportQueryBuilder
 		 * @param band
 		 *            the list band
 		 */
-		protected void visitListBand( ListBandDesign band, Object value )
+		public void handleListingBand( BandDesign band, Object value )
 		{
 			for ( int i = 0; i < band.getContentCount( ); i++ )
 			{
@@ -622,15 +621,14 @@ public class ReportQueryBuilder
 		 * @param handle
 		 *            handle to a grouping element
 		 */
-		protected void handleListGroup( ListGroupDesign group,
+		protected void handleListingGroup( GroupDesign group,
 				GroupHandle handle, Object value )
 		{
 			IGroupDefinition groupDefn = handleGroup( group, handle );
 
 			pushQuery( groupDefn );
-			visitListBand( group.getHeader( ), value );
-
-			visitListBand( group.getFooter( ), value );
+			handleListingBand( group.getHeader( ), value );
+			handleListingBand( group.getFooter( ), value );
 			popQuery( );
 		}
 
@@ -667,52 +665,30 @@ public class ReportQueryBuilder
 		}
 
 		/**
-		 * processes a band in a table
-		 */
-		protected void handleTableBand( TableBandDesign band, Object value )
-		{
-			for ( int i = 0; i < band.getRowCount( ); i++ )
-				handleRow( band.getRow( i ), value );
-		}
-
-		/**
-		 * processes a table group
-		 */
-		protected void handleTableGroup( TableGroupDesign group,
-				GroupHandle handle, Object value )
-		{
-			IGroupDefinition groupDefn = handleGroup( group, handle );
-			pushQuery( groupDefn );
-			handleTableBand( group.getHeader( ), value );
-
-			handleTableBand( group.getFooter( ), value );
-			popQuery( );
-		}		
-		
-		/**
 		 * visit content of a row
 		 */
-		protected void handleRow( RowDesign row, Object value )
+		public Object visitRow(RowDesign row, Object value)
 		{
 			transformExpressions( row );
 			for ( int i = 0; i < row.getCellCount( ); i++ )
 			{
 				CellDesign cell = row.getCell( i );
-				if ( cell != null )
-				{
-					handleCell( cell, value );
-				}
+				cell.accept( this, value );
 			}
+			return value;
 		}
 
 		/**
 		 * handles a cell in a row
 		 */
-		protected void handleCell( CellDesign cell, Object value )
+		public Object visitCell( CellDesign cell, Object value )
 		{
 			transformExpressions( cell );
 			for ( int i = 0; i < cell.getContentCount( ); i++ )
+			{
 				cell.getContent( i ).accept( this, value );
+			}
+			return value;
 		}		
 
 		protected void pushReportItemQuery( IBaseQueryDefinition query )

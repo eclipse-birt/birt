@@ -11,22 +11,18 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.util.BirtTimer;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
-import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
+import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
@@ -53,9 +49,9 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.35 $ $Date: 2006/04/18 07:08:29 $
+ * @version $Revision: 1.36 $ $Date: 2006/05/09 08:41:49 $
  */
-public class ReportExecutor
+public class ReportExecutor implements IReportExecutor
 {
 
 	protected static Logger logger = Logger.getLogger( ReportExecutor.class
@@ -63,10 +59,18 @@ public class ReportExecutor
 
 	// the report execution context
 	private ExecutionContext context;
-
-	// the engine IR visitor object to drive the report execution
-	private ReportExecutorVisitor builder;
-
+	
+	// the manager used to manage the executors.
+	private ExecutorManager manager;
+	
+	private IContentEmitter emitter;
+	
+	private ReportDesignHandle design;
+	
+	private Report report;
+	
+	private IReportContent reportContent;
+	
 	/**
 	 * constructor
 	 * 
@@ -76,80 +80,96 @@ public class ReportExecutor
 	 *            the report emitter
 	 * 
 	 */
-	public ReportExecutor( ExecutionContext context )
+	public ReportExecutor( ExecutionContext context, ReportDesignHandle design, IContentEmitter emitter )
 	{
 		this.context = context;
-		builder = new ReportExecutorVisitor( context );
+		this.manager = new ExecutorManager(context, emitter);
+		this.design = design;
+		this.emitter = emitter;
 	}
-
-	public void execute( ReportDesignHandle reportDesign,
-			IContentEmitter emitter )
+	
+	public IReportContent execute( )
 	{
-		Report report = new ReportParser( context ).parse( reportDesign );
-		execute( report, emitter );
-	}
-
-	/**
-	 * execute the report
-	 */
-	public void execute( Report report, IContentEmitter emitter )
-	{
-		BirtTimer timer = new BirtTimer( );
+		report = new ReportParser( context ).parse( design );
 		context.setReport( report );
-		IReportContent reportContent = ContentFactory
-				.createReportContent( report );
+		reportContent = new ReportContent( report );
 		context.setReportContent( reportContent );
 		TOCBuilder tocBuilder = new TOCBuilder( reportContent.getTOC( ) );
 		context.setTOCBuilder( tocBuilder );
 
 		// Prepare necessary data for this report
-		timer.restart( );
 		context.getDataEngine( ).prepare( report, context.getAppContext( ) );
-		timer.stop( );
-		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),
-				"Prepare report queries" ); // $NON-NLS-1$
 
-		timer.restart( );
 		if ( emitter != null )
 		{
 			emitter.start( reportContent );
 		}
-		IContent dummyReportContent = new LabelContent((ReportContent)reportContent);
-		dummyReportContent.setStyleClass(report.getRootStyleName());
-		context.pushContent(dummyReportContent);
-		// only top-level elements maybe have the master page reference for now
-		if ( report.getContentCount( ) > 0 )
-		{
-			for ( int i = 0; i < report.getContentCount( ); i++ )
-			{
-				if ( context.isCanceled( ) )
-				{
-					break;
-				}
-				report.getContent( i ).accept( builder, emitter );
-			}
-		}
-		context.popContent();
-
-		if ( emitter != null )
+		
+		//prepare to execute the child
+		currentItem = 0;
+		
+		return reportContent;
+	}
+	
+	public void close( )
+	{
+		if (emitter != null)
 		{
 			emitter.end( reportContent );
 		}
-		timer.stop( );
-		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),
-				"Running and rendering report" ); // $NON-NLS-1$
+	}
+	
+	int currentItem;
+	public IReportItemExecutor getNextChild( )
+	{
+		if ( hasNextChild() )
+		{
+			ReportItemDesign design = report.getContent( currentItem++ );
+			ReportItemExecutor executor = manager.createExecutor( null, design );
+			return executor;
+		}
+		return null;
 	}
 
+	public boolean hasNextChild( )
+	{
+		if (currentItem < report.getContentCount( ))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * execute the report
+	 */
+	public void execute( ReportDesignHandle report, IContentEmitter emitter )
+	{
+		execute( );
+		while ( hasNextChild( ) )
+		{
+			if ( context.isCanceled( ) )
+			{
+				break;
+			}
+			ReportItemExecutor executor = (ReportItemExecutor) getNextChild( );
+			ReportItemDesign design = executor.getDesign( );
+			executor.execute( design, emitter );
+		}
+		close( );
+	}
+
+	
 	public IPageContent executeMasterPage( int pageNo,
 			MasterPageDesign masterPage )
 	{
 		IReportContent reportContent = context.getReportContent( );
 		IPageContent pageContent = reportContent.createPageContent( );
+		
 		pageContent.setGenerateBy( masterPage );
 		pageContent.setPageNumber( pageNo );
-
 		context.setPageNumber( pageNo );
-		context.pushContent(pageContent);
+		
 		if ( masterPage instanceof SimpleMasterPageDesign )
 		{
 			// disable the tocBuilder
@@ -159,66 +179,60 @@ public class ReportExecutor
 			InstanceID iid = new InstanceID( null, pageDesign.getID( ), null );
 			pageContent.setInstanceID( iid );
 			
-			context.pushContent( pageContent.getPageHeader( ) );
+			//creat header, footer and body
+			IContent header = reportContent.createContainerContent( ) ;
+			header.setStyleClass(masterPage.getStyleName( ));
+			pageContent.setPageHeader( header );
+			header.setParent( pageContent );
+			IContentEmitter domEmitter = new DOMBuilderEmitter( header);
+			
+			ExecutorManager manager = new ExecutorManager( context, domEmitter);
 			for ( int i = 0; i < pageDesign.getHeaderCount( ); i++ )
 			{
-				pageDesign.getHeader( i ).accept( builder,
-						new PageContentBuilder( pageContent.getHeader( ) ) );
+				ReportItemDesign design = pageDesign.getHeader( i );
+				ReportItemExecutor executor = manager.createExecutor( null, design );
+				executor.execute( design, domEmitter );
 			}
-			context.popContent( );
+			
+			//create body
+			IContent body = reportContent.createContainerContent( ) ;
+			body.setStyleClass(masterPage.getBodyStyleName( ));
+			pageContent.setPageBody( body );
+			body.setParent( pageContent );
 
-			context.pushContent( pageContent.getPageFooter( ) );
+
+			//create footer
+			IContent footer = reportContent.createContainerContent( ) ;
+			footer.setStyleClass(masterPage.getStyleName( ));
+			pageContent.setPageFooter( footer );
+			footer.setParent( pageContent );
+
+			domEmitter = new DOMBuilderEmitter( footer);
+			manager = new ExecutorManager( context, domEmitter);
 			for ( int i = 0; i < pageDesign.getFooterCount( ); i++ )
 			{
-				pageDesign.getFooter( i ).accept( builder,
-						new PageContentBuilder( pageContent.getFooter( ) ) );
+				ReportItemDesign design = pageDesign.getFooter( i );
+				ReportItemExecutor executor = manager.createExecutor( null, design );
+				executor.execute( design, domEmitter );
 			}
-			context.popContent( );
 			// reenable the TOC
 			context.setTOCBuilder( tocBuilder );
 		}
-		context.popContent();
 		return pageContent;
-	}
-
-	protected static class PageContentBuilder extends ContentEmitterAdapter
-	{
-
-		List contents;
-		IContent parent;
-
-		public PageContentBuilder( List contents )
-		{
-			this.contents = contents;
-			this.parent = null;
-		}
-
-		public void startContent( IContent content )
-		{
-			if ( parent == null )
-			{
-				contents.add( content );
-			}
-			else
-			{
-				parent.getChildren( ).add( content );
-			}
-			parent = content;
-		}
-
-		public void endContent( IContent content )
-		{
-			if ( parent != null )
-			{
-				parent = (IContent) parent.getParent( );
-			}
-		}
-
 	}
 
 	public ExecutionContext getContext( )
 	{
 		return this.context;
 	}
+	
+	public ExecutorManager getManager()
+	{
+		return this.manager;
+	}
 
+	public IPageContent createPage( long pageNumber, MasterPageDesign pageDesign )
+	{
+		return null;
+	}
 }

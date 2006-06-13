@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance;
-import org.eclipse.birt.report.engine.content.impl.TextContent;
-import org.eclipse.birt.report.engine.content.impl.ForeignContent;
+import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
@@ -23,13 +23,13 @@ public class TextItemInstance extends ForeignTextInstance implements
 		ITextItemInstance
 {
 
-	public TextItemInstance( TextContent content, ExecutionContext context )
+	public TextItemInstance( ITextContent content, ExecutionContext context )
 	{
 		super( context );
 		setContent( content );
 	}
 
-	public TextItemInstance( ForeignContent content, ExecutionContext context )
+	public TextItemInstance( IForeignContent content, ExecutionContext context )
 	{
 		super( content, context );
 	}
@@ -41,8 +41,8 @@ public class TextItemInstance extends ForeignTextInstance implements
 	 */
 	public String getText( )
 	{
-		if ( content instanceof TextContent )
-			return ( ( TextContent ) content ).getText( );
+		if ( content instanceof ITextContent )
+			return ( ( ITextContent ) content ).getText( );
 		return super.getText( );
 	}
 
@@ -53,8 +53,8 @@ public class TextItemInstance extends ForeignTextInstance implements
 	 */
 	public void setText( String value )
 	{
-		if ( content instanceof TextContent )
-			( ( TextContent ) content ).setText( value );
+		if ( content instanceof ITextContent )
+			( ( ITextContent ) content ).setText( value );
 		else
 			super.setText( value );
 	}

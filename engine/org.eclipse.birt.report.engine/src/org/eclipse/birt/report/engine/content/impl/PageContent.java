@@ -14,7 +14,8 @@ package org.eclipse.birt.report.engine.content.impl;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -43,10 +44,7 @@ public class PageContent extends AbstractContent implements IPageContent
 	protected DimensionType marginRight;
 	protected DimensionType marginBottom;
 	transient protected IImageContent waterMark;
-	transient protected IContent body;
-	transient protected IContent header;
-	transient protected IContent footer;
-	
+
 	protected long pageNumber = -1;
 
 	public int getContentType( )
@@ -57,9 +55,7 @@ public class PageContent extends AbstractContent implements IPageContent
 	public PageContent( ReportContent report )
 	{
 		super( report );
-		header = report.createContainerContent( );
-		body = report.createContainerContent( );
-		footer = report.createContainerContent( );
+		children = new ArrayList( );
 	}
 
 	public void setGenerateBy( Object design )
@@ -94,15 +90,12 @@ public class PageContent extends AbstractContent implements IPageContent
 				footerHeight = new DimensionType( 0.25f,
 						EngineIRConstants.UNITS_IN );
 			}
-			header.setStyleClass( page.getStyleName( ) );
-			footer.setStyleClass( page.getStyleName() );			
-			body.setStyleClass( page.getBodyStyleName( ) );
 		}
 	}
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitPage( this, value );
+		return visitor.visitPage( this, value );
 	}
 
 	MasterPageDesign getMasterPage( )
@@ -138,32 +131,84 @@ public class PageContent extends AbstractContent implements IPageContent
 	/**
 	 * @deprecated
 	 */
-	public List getHeader( )
+	public Collection getHeader( )
 	{
-		return header.getChildren( );
+		IContent header = getPageHeader( );
+		if ( header != null )
+		{
+			return header.getChildren( );
+		}
+		return null;
 	}
 
 	/**
 	 * @deprecated
 	 */
-	public List getFooter( )
+	public Collection getFooter( )
 	{
-		return footer.getChildren( );
-	}
-	
-	public IContent getPageHeader()
+		IContent footer = getPageFooter( );
+		if ( footer != null )
 		{
-		return header;
+			return footer.getChildren( );
 		}
-	
-	public IContent getPageFooter()
-	{
-		return footer;
+		return null;
 	}
 
-	public IContent getPageBody()
+	public void setPageHeader( IContent header )
 	{
-		return body;
+		ArrayList cs = (ArrayList) children;
+		if ( cs.size( ) >= 1 )
+		{
+			cs.set( 0, header );
+		}
+		else
+		{
+			cs.ensureCapacity( 1 );
+			cs.add( 0, header );
+		}
+	}
+
+	public void setPageBody( IContent body )
+	{
+		ArrayList cs = (ArrayList) children;
+		if ( cs.size( ) >= 2 )
+		{
+			cs.set( 1, body );
+		}
+		else
+		{
+			cs.ensureCapacity( 2 );
+			cs.add( 1, body );
+		}
+	}
+
+	public void setPageFooter( IContent footer )
+	{
+		ArrayList cs = (ArrayList) children;
+		if ( cs.size( ) >= 3 )
+		{
+			cs.set( 2, footer );
+		}
+		else
+		{
+			cs.ensureCapacity( 3 );
+			cs.add( 2, footer );
+		}
+	}
+
+	public IContent getPageHeader( )
+	{
+		return (IContent) ( (ArrayList) children ).get( 0 );
+	}
+
+	public IContent getPageBody( )
+	{
+		return (IContent) ( (ArrayList) children ).get( 1 );
+	}
+
+	public IContent getPageFooter( )
+	{
+		return (IContent) ( (ArrayList) children ).get( 2 );
 	}
 
 	/**
@@ -256,6 +301,7 @@ public class PageContent extends AbstractContent implements IPageContent
 	 */
 	public IStyle getContentComputedStyle( )
 	{
+		IContent body = getPageBody( );
 		return body.getComputedStyle( );
 	}
 
@@ -264,6 +310,7 @@ public class PageContent extends AbstractContent implements IPageContent
 	 */
 	public IStyle getContentStyle( )
 	{
+		IContent body = getPageBody( );
 		return body.getStyle( );
 	}
 

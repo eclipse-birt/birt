@@ -14,11 +14,11 @@ package org.eclipse.birt.report.engine.script.internal;
 import org.eclipse.birt.report.engine.api.script.element.ICell;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ICellEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
-import org.eclipse.birt.report.engine.script.internal.element.Cell;
-import org.eclipse.birt.report.engine.script.internal.instance.CellInstance;
-import org.eclipse.birt.report.engine.content.impl.CellContent;
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.script.internal.element.Cell;
+import org.eclipse.birt.report.engine.script.internal.instance.CellInstance;
 import org.eclipse.birt.report.model.api.CellHandle;
 
 public class CellScriptExecutor extends ScriptExecutor
@@ -41,7 +41,7 @@ public class CellScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( CellContent content,
+	public static void handleOnCreate( ICellContent content,
 			ExecutionContext context, boolean fromGrid )
 	{
 		try
@@ -66,7 +66,7 @@ public class CellScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( CellContent content,
+	public static void handleOnRender( ICellContent content,
 			ExecutionContext context )
 	{
 		try

@@ -1,6 +1,10 @@
 
 package org.eclipse.birt.report.engine.executor.template;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,11 +15,11 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.template.TextTemplate;
-import org.eclipse.birt.report.engine.api.HTMLCompleteImageHandler;
-import org.eclipse.birt.report.engine.api.HTMLRenderContext;
-import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
-import org.eclipse.birt.report.engine.api.impl.Image;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.util.FileUtil;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 public class TemplateExecutor implements TextTemplate.Visitor
@@ -24,26 +28,34 @@ public class TemplateExecutor implements TextTemplate.Visitor
 	protected StringBuffer buffer;
 	protected HashMap values;
 	protected ExecutionContext context;
-	protected IHTMLImageHandler imageHandler;
-	protected Object renderContext;
+	protected File imageFolder;
+	protected HashMap imageCaches = new HashMap( );
 
-	public TemplateExecutor( ExecutionContext context,
-			IHTMLImageHandler imageHandler, Object renderContext )
+	public TemplateExecutor( ExecutionContext context )
 	{
 		this.context = context;
-		this.imageHandler = imageHandler;
-		this.renderContext = renderContext;
-		if ( imageHandler == null )
+		String tmpDir = null;
+		if ( context != null )
 		{
-			this.imageHandler = new HTMLCompleteImageHandler( );
+			IReportEngine engine = context.getEngine( );
+			if ( engine != null )
+			{
+				EngineConfig config = engine.getConfig( );
+				if ( config != null )
+				{
+					tmpDir = config.getTempDir( );
+				}
+			}
 		}
-
-		/*
-		 * Object im =
-		 * option.getOutputSetting().get(HTMLRenderOption.IMAGE_HANDLER); if (
-		 * im != null && im instanceof IHTMLImageHandler ) { imageHandler =
-		 * (IHTMLImageHandler) im; }
-		 */
+		if ( tmpDir == null )
+		{
+			tmpDir = System.getProperty( "java.io.tmpdir" );
+		}
+		if ( tmpDir == null )
+		{
+			tmpDir = ".";
+		}
+		imageFolder = new File( tmpDir );
 	}
 
 	public String execute( TextTemplate template, HashMap values )
@@ -129,6 +141,8 @@ public class TemplateExecutor implements TextTemplate.Visitor
 
 	public Object visitImage( TextTemplate.ImageNode node, Object value )
 	{
+		String imageName = null;
+		String imageExt = null;
 		Object imageContent = null;
 		if ( TextTemplate.ImageNode.IMAGE_TYPE_EXPR == node.getType( ) )
 		{
@@ -136,48 +150,75 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		}
 		else
 		{
-			EmbeddedImage image = context.getDesign( ).findImage(
-					node.getImageName( ) );
-			if ( image != null )
+			imageName = node.getImageName( );
+			if ( context != null )
 			{
-				imageContent = image
-						.getData( context.getDesign( ).getModule( ) );
+				ReportDesignHandle report = context.getDesign( );
+				if ( report != null )
+				{
+					EmbeddedImage image = report.findImage( imageName );
+					if ( image != null )
+					{
+						imageContent = image.getData( report.getModule( ) );
+						imageExt = FileUtil.getExtFromFileName( imageName );
+					}
+				}
 			}
 		}
 		if ( imageContent instanceof byte[] )
 		{
-			Image image = new Image( (byte[]) imageContent, null );
-			image.setRenderOption( context.getRenderOption( ) );
-			image.setReportRunnable( context.getRunnable( ) );
-
-			if ( imageHandler != null )
+			String src = saveToFile( imageName, imageExt, (byte[]) imageContent );
+			if ( src != null )
 			{
-				String src = imageHandler.onCustomImage( image, renderContext );
-				if ( src != null )
+				buffer.append( "<img src=\"" );
+				buffer.append( src );
+				buffer.append( "\" " );
+				Iterator iter = node.getAttributes( ).entrySet( ).iterator( );
+				while ( iter.hasNext( ) )
 				{
-					buffer.append( "<img src=\"" );
-					buffer.append( src );
-					buffer.append( "\" " );
-					Iterator iter = node.getAttributes( ).entrySet( )
-							.iterator( );
-					while ( iter.hasNext( ) )
-					{
-						Map.Entry entry = (Map.Entry) iter.next( );
+					Map.Entry entry = (Map.Entry) iter.next( );
 
-						Object attrName = entry.getKey( );
-						Object attrValue = entry.getValue( );
-						if ( attrName != null && attrValue != null )
-						{
-							buffer.append( attrName.toString( ) );
-							buffer.append( "=\"" );
-							buffer.append( attrValue.toString( ) );
-							buffer.append( "\" " );
-						}
+					Object attrName = entry.getKey( );
+					Object attrValue = entry.getValue( );
+					if ( attrName != null && attrValue != null )
+					{
+						buffer.append( attrName.toString( ) );
+						buffer.append( "=\"" );
+						buffer.append( attrValue.toString( ) );
+						buffer.append( "\" " );
 					}
-					buffer.append( ">" );
 				}
+				buffer.append( ">" );
 			}
 		}
 		return value;
+	}
+
+	protected String saveToFile( String name, String ext, byte[] content )
+	{
+		if ( name != null )
+		{
+			String file = (String) imageCaches.get( name );
+			if ( file != null )
+			{
+				return file;
+			}
+		}
+
+		try
+		{
+			File imageFile = File.createTempFile( "img", ext, imageFolder );
+			OutputStream out = new FileOutputStream( imageFile );
+			out.write( content );
+			out.close( );
+			String fileName = imageFile.toURL( ).toExternalForm( );
+			imageCaches.put( name, fileName );
+			return fileName;
+		}
+		catch ( IOException ex )
+		{
+			ex.printStackTrace( );
+		}
+		return null;
 	}
 }

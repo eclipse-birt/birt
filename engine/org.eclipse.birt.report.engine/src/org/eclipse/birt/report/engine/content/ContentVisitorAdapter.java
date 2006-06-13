@@ -4,73 +4,99 @@ package org.eclipse.birt.report.engine.content;
 public class ContentVisitorAdapter implements IContentVisitor
 {
 
-	public void visit(IContent content, Object value)
+	public Object visit(IContent content, Object value)
 	{
-		content.accept(this, value);
+		return content.accept(this, value);
 	}
 	
-	public void visitContent( IContent content, Object value )
+	public Object visitContent( IContent content, Object value )
 	{
+		return value;
 	}
 
-	public void visitPage( IPageContent page, Object value )
+	public Object visitPage( IPageContent page, Object value )
 	{
-		visitContent( page, value );
+		return visitContent( page, value );
 	}
 
-	public void visitContainer( IContainerContent container, Object value )
+	public Object visitContainer( IContainerContent container, Object value )
 	{
-		visitContent( container, value );
+		return visitContent( container, value );
 	}
 
-	public void visitTable( ITableContent table, Object value )
+	public Object visitTable( ITableContent table, Object value )
 	{
-		visitContent( table, value );
+		return visitContent( table, value );
 	}
 
-	public void visitTableBand( ITableBandContent tableBand, Object value )
+	public Object visitTableBand( ITableBandContent tableBand, Object value )
 	{
-		visitContent( tableBand, value );
-	}
-
-	public void visitRow( IRowContent row, Object value )
-	{
-		visitContent( row, value );
-	}
-
-	public void visitCell( ICellContent cell, Object value )
-	{
-		visitContent( cell, value );
-	}
-
-	public void visitText( ITextContent text, Object value )
-	{
-		visitContent( text, value );
+		return visitContent( tableBand, value );
 	}
 	
-	public void visitLabel(ILabelContent label, Object value)
+	public Object visitList( IListContent list, Object value )
 	{
-		visitText(label, value);
-	}
-	
-	public void visitAutoText(IAutoTextContent autoText, Object value)
-	{
-		visitText(autoText, value);
+		return visitContainer( list, value );
 	}
 
-	public void visitData(IDataContent data, Object value)
+	public Object visitListBand( IListBandContent listBand, Object value )
 	{
-		visitText(data, value);
-	}
-	
-	public void visitImage( IImageContent image, Object value )
-	{
-		visitContent( image, value );
+		return visitContainer( listBand, value );
 	}
 
-	public void visitForeign( IForeignContent content, Object value )
+	public Object visitRow( IRowContent row, Object value )
 	{
-		visitContent( content, value );
+		return visitContent( row, value );
+	}
+
+	public Object visitCell( ICellContent cell, Object value )
+	{
+		return visitContent( cell, value );
+	}
+
+	public Object visitText( ITextContent text, Object value )
+	{
+		return visitContent( text, value );
+	}
+	
+	public Object visitLabel(ILabelContent label, Object value)
+	{
+		return visitText(label, value);
+	}
+	
+	public Object visitAutoText(IAutoTextContent autoText, Object value)
+	{
+		return visitText(autoText, value);
+	}
+
+	public Object visitData(IDataContent data, Object value)
+	{
+		return visitText(data, value);
+	}
+	
+	public Object visitImage( IImageContent image, Object value )
+	{
+		return visitContent( image, value );
+	}
+
+	public Object visitForeign( IForeignContent content, Object value )
+	{
+		return visitContent( content, value );
+	}
+
+	public Object visitGroup( IGroupContent group, Object value )
+	{
+		return visitContent( group, value );
+	}
+
+	public Object visitListGroup( IListGroupContent group, Object value )
+	{
+		return visitGroup( group, value );
+	}
+
+	public Object visitTableGroup( ITableGroupContent group, Object value )
+	{
+		return visitGroup( group, value );
 	}
 
 }

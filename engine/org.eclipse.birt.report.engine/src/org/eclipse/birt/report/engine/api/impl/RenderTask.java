@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.ReportContentLoader;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
@@ -95,22 +96,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 		render( );
 	}
 
-	protected IContentEmitter createContentEmitter( ReportExecutor executor )
+	protected IContentEmitter createContentEmitter( )
 			throws EngineException
 	{
-		// create the emitter services object that is needed in the emitters.
-		EngineEmitterServices services = new EngineEmitterServices( this );
-
-		EngineConfig config = engine.getConfig( );
-		if ( config != null )
-		{
-			services.setEmitterConfig( config.getEmitterConfigs( ) );
-		}
-		services.setRenderOption( renderOptions );
-		services.setExecutor( executor );
-		services.setRenderContext( appContext );
-		services.setReportRunnable( runnable );
-
 		String format = executionContext.getOutputFormat( );
 		if ( format == null )
 		{
@@ -161,10 +149,27 @@ public class RenderTask extends EngineTask implements IRenderTask
 		// localized emitter
 		emitter = new LocalizedEmitter( executionContext, emitter );
 
+		return emitter;
+	}
+
+	private void initializeContentEmitter( IContentEmitter emitter,
+			ReportExecutor executor )
+	{
+		// create the emitter services object that is needed in the emitters.
+		EngineEmitterServices services = new EngineEmitterServices( this );
+
+		EngineConfig config = engine.getConfig( );
+		if ( config != null )
+		{
+			services.setEmitterConfig( config.getEmitterConfigs( ) );
+		}
+		services.setRenderOption( renderOptions );
+		services.setExecutor( executor );
+		services.setRenderContext( appContext );
+		services.setReportRunnable( runnable );
+
 		// emitter is not null
 		emitter.initialize( services );
-
-		return emitter;
 	}
 
 	/**
@@ -177,12 +182,17 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		try
 		{
+			IContentEmitter emitter = createContentEmitter( );
+			ReportDesignHandle reportDesign = executionContext.getDesign( );
+			ReportExecutor executor = new ReportExecutor( executionContext,
+					reportDesign, emitter );
+			executionContext.setExecutor( executor );
+
+			initializeContentEmitter( emitter, executor );
+
 			// start the render
 			ReportContentLoader loader = new ReportContentLoader(
 					executionContext );
-			ReportExecutor executor = new ReportExecutor( executionContext );
-			executionContext.setExecutor( executor );
-			IContentEmitter emitter = createContentEmitter( executor );
 			startRender( );
 			loader.loadPage( pageNumber, bodyOnly, emitter );
 			closeRender( );
@@ -218,9 +228,14 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 			ReportContentLoader loader = new ReportContentLoader(
 					executionContext );
-			ReportExecutor executor = new ReportExecutor( executionContext );
+
+			ReportDesignHandle reportDesign = executionContext.getDesign( );
+			IContentEmitter emitter = createContentEmitter( );
+			ReportExecutor executor = new ReportExecutor( executionContext,
+					reportDesign, emitter );
 			executionContext.setExecutor( executor );
-			IContentEmitter emitter = createContentEmitter( executor );
+			initializeContentEmitter( emitter, executor );
+
 			startRender( );
 			loader.loadPageRange( pageSequences, bodyOnly, emitter );
 			closeRender( );
@@ -253,9 +268,12 @@ public class RenderTask extends EngineTask implements IRenderTask
 				// start the render
 				ReportContentLoader loader = new ReportContentLoader(
 						executionContext );
-				ReportExecutor executor = new ReportExecutor( executionContext );
+				IContentEmitter emitter = createContentEmitter( );
+				ReportDesignHandle reportDesign = executionContext.getDesign( );
+				ReportExecutor executor = new ReportExecutor( executionContext,
+						reportDesign, emitter );
 				executionContext.setExecutor( executor );
-				IContentEmitter emitter = createContentEmitter( executor );
+				initializeContentEmitter( emitter, executor );
 				startRender( );
 				loader.loadReportlet(offset, emitter );
 				closeRender( );

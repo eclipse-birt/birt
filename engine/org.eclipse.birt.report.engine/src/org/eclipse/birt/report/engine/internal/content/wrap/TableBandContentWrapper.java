@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
  * table band content object There are three type: table header, table footer,
  * table body
  * 
- * @version $Revision: 1.8 $ $Date: 2006/01/20 14:55:38 $
+ * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:53 $
  */
 public class TableBandContentWrapper extends AbstractContentWrapper
 		implements
@@ -37,17 +37,24 @@ public class TableBandContentWrapper extends AbstractContentWrapper
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.ReportElementContent#accept(org.eclipse.birt.report.engine.content.ReportContentVisitor)
 	 */
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitTableBand( this, value );
-
+		return visitor.visitTableBand( this, value );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.content.ITableBandContent#getType()
-	 */
-	public int getType( )
+	public int getBandType( )
 	{
-		return bandContent.getType( );
+		return bandContent.getBandType( );
 	}
+
+	public void setBandType( int bandType )
+	{
+		bandContent.setBandType( bandType );
+	}
+
+	public String getGroupID( )
+	{
+		return bandContent.getGroupID( );
+	}
+
 }

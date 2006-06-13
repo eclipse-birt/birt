@@ -19,10 +19,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
 
@@ -30,7 +27,7 @@ import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.32 $ $Date: 2006/04/28 03:06:56 $
+ * @version $Revision: 1.33 $ $Date: 2006/05/16 02:30:34 $
  */
 public class TextItemExecutor extends QueryItemExecutor
 {
@@ -43,10 +40,9 @@ public class TextItemExecutor extends QueryItemExecutor
 	 * @param visitor
 	 *            the report executor visitor
 	 */
-	public TextItemExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	public TextItemExecutor( ExecutorManager manager)
 	{
-		super( context, visitor );
+		super( manager );
 	}
 
 	/**
@@ -61,49 +57,53 @@ public class TextItemExecutor extends QueryItemExecutor
 	 * <li> close the query
 	 * <li> pop up.
 	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute()
+	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute(IContentEmitter)
 	 */
-	public void execute( ReportItemDesign item, IContentEmitter emitter )
+	public IContent execute( )
 	{
-		TextItemDesign textItem = (TextItemDesign) item;
-		String contentType = ForeignContent.getTextRawType( textItem
-				.getTextType( ), textItem.getText( ) );
+		TextItemDesign textDesign = (TextItemDesign) getDesign();
+		String contentType = ForeignContent.getTextRawType( textDesign
+				.getTextType( ), textDesign.getText( ) );
 
 		if ( IForeignContent.HTML_TYPE.equals( contentType ) )
 		{
-			executeHtmlText( textItem, emitter );
+			return executeHtmlText( emitter );
 		}
 		else
 		{
-			executePlainText( textItem, emitter );
+			return executePlainText(emitter );
 		}
 	}
 
+	public void close( )
+	{
+		finishTOCEntry( );
+		closeQuery( );
+	}
+	
 	/**
 	 * execute the html text.
 	 * 
 	 * @param design
 	 * @param emitter
 	 */
-	protected void executeHtmlText( TextItemDesign design,
-			IContentEmitter emitter )
+	protected IContent executeHtmlText( IContentEmitter emitter )
 	{
-		IForeignContent content = report.createForeignContent( );
-		assert ( content instanceof ForeignContent );
-		IContent parent = context.getContent( );
-		context.pushContent( content );
+		TextItemDesign textDesign = (TextItemDesign) getDesign();
+		IForeignContent textContent = report.createForeignContent( );
+		setContent(textContent);
 
-		openResultSet( design );
-		accessQuery( design, emitter );
+		executeQuery( );
+		//accessQuery( );
 
-		initializeContent( parent, design, content );
+		initializeContent( textDesign, textContent );
 
-		processAction( design, content );
-		processBookmark( design, content );
-		processStyle( design, content );
-		processVisibility( design, content );
+		processAction( textDesign, textContent );
+		processBookmark( textDesign, textContent );
+		processStyle( textDesign, textContent );
+		processVisibility( textDesign, textContent );
 
-		HashMap exprs = design.getExpressions( );
+		HashMap exprs = textDesign.getExpressions( );
 		if ( exprs != null && !exprs.isEmpty( ) )
 		{
 			HashMap results = new HashMap( );
@@ -112,28 +112,26 @@ public class TextItemExecutor extends QueryItemExecutor
 			{
 				Map.Entry entry = (Map.Entry) iter.next( );
 				String expr = ( String ) entry.getValue( );
-				Object value = context.evaluate( expr );
+				Object value = evaluate( expr );
 				results.put( entry.getKey( ), value );
 			}
-			content.setRawValue( results );
+			textContent.setRawValue( results );
 		}
-		content.setRawType( IForeignContent.TEMPLATE_TYPE );
+		textContent.setRawType( IForeignContent.TEMPLATE_TYPE );
 
 		if ( context.isInFactory( ) )
 		{
-			TextItemScriptExecutor.handleOnCreate( (ForeignContent) content,
+			TextItemScriptExecutor.handleOnCreate( textContent,
 					context );
 		}
 		
 		startTOCEntry( content );
 		if ( emitter != null )
 		{
-			emitter.startForeign( content );
+			emitter.startForeign( textContent );
 		}
-		finishTOCEntry( );
-
-		closeResultSet( );
-		context.popContent( );
+		
+		return textContent;
 	}
 
 	/**
@@ -142,40 +140,37 @@ public class TextItemExecutor extends QueryItemExecutor
 	 * @param design
 	 * @param emitter
 	 */
-	protected void executePlainText( TextItemDesign design,
-			IContentEmitter emitter )
+	protected IContent executePlainText(IContentEmitter emitter)
 	{
-		ILabelContent content = report.createLabelContent( );
-		assert ( content instanceof LabelContent );
-		IContent parent = context.getContent( );
-		context.pushContent( content );
+		TextItemDesign textDesign = (TextItemDesign) getDesign();
+		
+		ILabelContent textContent = report.createLabelContent( );
+		setContent(textContent);
 
-		openResultSet( design );
-		accessQuery( design, emitter );
+		executeQuery( );
+		//accessQuery( design, emitter );
 
-		initializeContent( parent, design, content );
-		content.setLabelText( design.getText( ) );
-		content.setLabelKey( design.getTextKey( ) );
+		initializeContent( textDesign, textContent );
+		textContent.setLabelText( textDesign.getText( ) );
+		textContent.setLabelKey( textDesign.getTextKey( ) );
 
-		processAction( design, content );
-		processBookmark( design, content );
-		processStyle( design, content );
-		processVisibility( design, content );
+		processAction( textDesign, textContent );
+		processBookmark( textDesign, textContent );
+		processStyle( textDesign, textContent );
+		processVisibility( textDesign, textContent );
 
 		if ( context.isInFactory( ) )
 		{
-			TextItemScriptExecutor.handleOnCreate( (LabelContent) content,
+			TextItemScriptExecutor.handleOnCreate( textContent,
 					context );
 		}
 
 		startTOCEntry( content );
 		if ( emitter != null )
 		{
-			emitter.startLabel( content );
+			emitter.startLabel( textContent );
 		}
-		finishTOCEntry( );
-
-		closeResultSet( );
-		context.popContent( );
+		
+		return textContent;
 	}
 }

@@ -19,13 +19,11 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
 
 /**
  * writer used to create the content stream.
  *
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:51 $
  */
 abstract public class AbstractReportContentWriter
 		implements
@@ -45,7 +43,7 @@ abstract public class AbstractReportContentWriter
 	/**
 	 * use to writer the content into the disk.
 	 * 
-	 * @version $Revision: 1.9 $ $Date: 2006/02/20 05:28:16 $
+	 * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:51 $
 	 */
 	private class ContentWriterVisitor extends ContentVisitorAdapter
 	{
@@ -55,7 +53,7 @@ abstract public class AbstractReportContentWriter
 			visit( content, writer );
 		}
 
-		public void visitContent( IContent content, Object value )
+		public Object visitContent( IContent content, Object value )
 		{
 			IReportContentWriter writer = (IReportContentWriter) value;
 			try
@@ -72,9 +70,10 @@ abstract public class AbstractReportContentWriter
 			{
 				logger.log( Level.SEVERE, "write content failed" );
 			}
+			return value;
 		}
 
-		public void visitPage( IPageContent page, Object value )
+		public Object visitPage( IPageContent page, Object value )
 		{
 			IReportContentWriter writer = (IReportContentWriter) value;
 			try
@@ -99,35 +98,7 @@ abstract public class AbstractReportContentWriter
 			{
 				logger.log( Level.SEVERE, "write content failed" );
 			}
-
-		}
-
-		public void visitTable( ITableContent table, Object value )
-		{
-			IReportContentWriter writer = (IReportContentWriter) value;
-			try
-			{
-				writer.writeContent( table );
-				ITableBandContent header = table.getHeader( );
-				if ( header != null )
-				{
-					visitContent( header, value );
-				}
-				ITableBandContent footer = table.getFooter( );
-				if ( footer != null )
-				{
-					visitContent( footer, value );
-				}
-				ITableBandContent body = table.getBody( );
-				if ( body != null )
-				{
-					visitContent( body, value );
-				}
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.SEVERE, "write content failed" );
-			}
+			return value;
 		}
 	}
 

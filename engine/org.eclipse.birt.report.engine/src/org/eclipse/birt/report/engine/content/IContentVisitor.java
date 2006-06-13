@@ -14,24 +14,24 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Defines the visitor interface used mainly by a buffered emitter
  * 
- * @version $Revision: 1.2 $ $Date: 2005/11/21 15:35:49 $
+ * @version $Revision: 1.3 $ $Date: 2006/04/27 09:52:25 $
  */
 public interface IContentVisitor
 {
 
-	void visit(IContent content, Object value);
+	Object visit(IContent content, Object value);
 	
-	void visitContent(IContent content, Object value);
+	Object visitContent(IContent content, Object value);
 	
 	
-	void visitPage( IPageContent page , Object value);
+	Object visitPage( IPageContent page , Object value);
 
 	/**
 	 * visit content( free-form and list band)
 	 * 
 	 * @param content
 	 */
-	void visitContainer( IContainerContent container , Object value);
+	Object visitContainer( IContainerContent container , Object value);
 
 	/**
 	 * visit table content object
@@ -39,14 +39,28 @@ public interface IContentVisitor
 	 * @param table
 	 *            the table object
 	 */
-	void visitTable( ITableContent table , Object value);
+	Object visitTable( ITableContent table , Object value);
 
 	/**
 	 * visit table band
 	 * 
 	 * @param tableBand
 	 */
-	void visitTableBand( ITableBandContent tableBand , Object value);
+	Object visitTableBand( ITableBandContent tableBand, Object value );
+
+	/**
+	 * visit list content
+	 * @param list
+	 * @param value
+	 */
+	Object visitList( IListContent list, Object value );
+
+	/**
+	 * visit list band content
+	 * @param listBand
+	 * @param value
+	 */
+	Object visitListBand( IListBandContent listBand, Object value );
 
 	/**
 	 * visit the row content object
@@ -54,7 +68,7 @@ public interface IContentVisitor
 	 * @param row
 	 *            the row object
 	 */
-	void visitRow( IRowContent row , Object value);
+	Object visitRow( IRowContent row , Object value);
 
 	/**
 	 * visit cell content object
@@ -62,7 +76,7 @@ public interface IContentVisitor
 	 * @param cell
 	 *            the cell object
 	 */
-	void visitCell( ICellContent cell , Object value);
+	Object visitCell( ICellContent cell , Object value);
 
 	/**
 	 * visit the text content object
@@ -70,25 +84,31 @@ public interface IContentVisitor
 	 * @param text
 	 *            the text object
 	 */
-	void visitText( ITextContent text , Object value);
+	Object visitText( ITextContent text , Object value);
 	
-	void visitLabel(ILabelContent label, Object value);
+	Object visitLabel(ILabelContent label, Object value);
 	
-	void visitAutoText(IAutoTextContent autoText, Object value);
+	Object visitAutoText(IAutoTextContent autoText, Object value);
 	
-	void visitData(IDataContent data, Object value);
+	Object visitData(IDataContent data, Object value);
 
 	/**
 	 * visit image content
 	 * 
 	 * @param image
 	 */
-	void visitImage( IImageContent image , Object value);
+	Object visitImage( IImageContent image , Object value);
 
 	/**
 	 * visit exteded item
 	 * 
 	 * @param content
 	 */
-	void visitForeign( IForeignContent foreign , Object value);
+	Object visitForeign( IForeignContent foreign , Object value);
+	
+	Object visitGroup( IGroupContent group, Object value );
+	
+	Object visitListGroup(IListGroupContent group, Object value);
+	
+	Object visitTableGroup(ITableGroupContent group, Object value);
 }

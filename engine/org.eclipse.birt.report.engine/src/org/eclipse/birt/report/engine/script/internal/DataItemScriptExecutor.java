@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.script.internal;
 import org.eclipse.birt.report.engine.api.script.element.IDataItem;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataItemEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance;
-import org.eclipse.birt.report.engine.content.impl.DataContent;
+import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.DataItem;
@@ -41,7 +41,7 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( DataContent content,
+	public static void handleOnCreate( IDataContent content,
 			ExecutionContext context )
 	{
 		try
@@ -61,7 +61,7 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( DataContent content,
+	public static void handleOnRender( IDataContent content,
 			ExecutionContext context )
 	{
 		try

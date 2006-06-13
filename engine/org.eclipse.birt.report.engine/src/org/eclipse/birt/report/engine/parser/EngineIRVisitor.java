@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.106 $ $Date: 2006/06/12 09:14:36 $
+ * @version $Revision: 1.107 $ $Date: 2006/06/13 06:31:13 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -450,7 +450,9 @@ class EngineIRVisitor extends DesignVisitor
 
 		// Header
 		SlotHandle headerSlot = handle.getHeader( );
-		listItem.setHeader( createListBand( headerSlot ) );
+		ListBandDesign header = createListBand( headerSlot );
+		header.setBandType( ListBandDesign.BAND_HEADER );
+		listItem.setHeader( header );
 
 		// Multiple groups
 		SlotHandle groupsSlot = handle.getGroups( );
@@ -459,17 +461,23 @@ class EngineIRVisitor extends DesignVisitor
 			apply( groupsSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				listItem.addGroup( (ListGroupDesign) currentElement );
+				GroupDesign group = (GroupDesign) currentElement;
+				group.setGroupLevel(i);
+				listItem.addGroup( group );
 			}
 		}
 
 		// List detail
 		SlotHandle detailSlot = handle.getDetail( );
-		listItem.setDetail( createListBand( detailSlot ) );
+		ListBandDesign detail =createListBand( detailSlot );
+		detail.setBandType( ListBandDesign.BAND_DETAIL );
+		listItem.setDetail( detail );
 
 		// List Footer
 		SlotHandle footerSlot = handle.getFooter( );
-		listItem.setFooter( createListBand( footerSlot ) );
+		ListBandDesign footer =createListBand( footerSlot );
+		footer.setBandType( ListBandDesign.BAND_DETAIL );
+		listItem.setFooter( footer );
 
 		currentElement = listItem;
 	}
@@ -633,7 +641,7 @@ class EngineIRVisitor extends DesignVisitor
 		scalarParameter.setDisplayName( handle.getDisplayName( ) );
 		scalarParameter.setDisplayNameKey( handle.getDisplayNameKey( ) );
 
-		scalarParameter.setFormat( handle.getFormat( ) );
+		scalarParameter.setFormat( handle.getPattern( ) );
 		scalarParameter.setHelpText( handle.getHelpText( ) );
 		scalarParameter.setHelpTextKey( handle.getHelpTextKey( ) );
 		scalarParameter.setPromptText( handle.getPromptText( ) );
@@ -872,6 +880,7 @@ class EngineIRVisitor extends DesignVisitor
 		// Handle Table Header
 		SlotHandle headerSlot = handle.getHeader( );
 		TableBandDesign header = createTableBand( headerSlot );
+		header.setBandType( TableBandDesign.BAND_HEADER );
 		table.setHeader( header );
 
 		// Handle grouping in table
@@ -881,18 +890,22 @@ class EngineIRVisitor extends DesignVisitor
 			apply( groupSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				table.addGroup( (TableGroupDesign) currentElement );
+				GroupDesign group = (GroupDesign) currentElement;
+				group.setGroupLevel( i );
+				table.addGroup( group );
 			}
 		}
 
 		// Handle detail section
 		SlotHandle detailSlot = handle.getDetail( );
 		TableBandDesign detail = createTableBand( detailSlot );
+		detail.setBandType( TableBandDesign.BAND_DETAIL );
 		table.setDetail( detail );
 
 		// Handle table footer
 		SlotHandle footerSlot = handle.getFooter( );
 		TableBandDesign footer = createTableBand( footerSlot );
+		footer.setBandType( TableBandDesign.BAND_FOOTER );
 		table.setFooter( footer );
 
 		new TableItemDesignLayout( ).layout( table );
@@ -900,7 +913,7 @@ class EngineIRVisitor extends DesignVisitor
 		//setup the supressDuplicate property of the data items in the 
 		//detail band		
 		
-		detail = table.getDetail( );
+		detail = (TableBandDesign) table.getDetail( );
 		
 		for ( int i = 0; i < detail.getRowCount( ); i++ )
 		{
@@ -1130,7 +1143,10 @@ class EngineIRVisitor extends DesignVisitor
 		setupGroup( listGroup, handle );
 
 		ListBandDesign header = createListBand( handle.getHeader( ) );
+		header.setBandType( ListBandDesign.GROUP_HEADER );
+		header.setGroup( listGroup );
 		listGroup.setHeader( header );
+		listGroup.setHeaderRepeat( handle.repeatHeader( ) );
 
 		// flatten TOC on group to the first report item in group header
 		String tocExpr = handle.getTocExpression( );
@@ -1145,6 +1161,8 @@ class EngineIRVisitor extends DesignVisitor
 		}
 
 		ListBandDesign footer = createListBand( handle.getFooter( ) );
+		footer.setBandType( ListBandDesign.GROUP_FOOTER );
+		footer.setGroup( listGroup );
 		listGroup.setFooter( footer );
 
 		boolean hideDetail = handle.hideDetail( );
@@ -1167,7 +1185,10 @@ class EngineIRVisitor extends DesignVisitor
 		setupGroup( tableGroup, handle );
 
 		TableBandDesign header = createTableBand( handle.getHeader( ) );
+		header.setBandType( TableBandDesign.GROUP_HEADER );
+		header.setGroup( tableGroup );
 		tableGroup.setHeader( header );
+		tableGroup.setHeaderRepeat( handle.repeatHeader( ) );
 
 		// flatten TOC on group to the first report item in group header
 		String toc = handle.getTocExpression( );
@@ -1181,6 +1202,8 @@ class EngineIRVisitor extends DesignVisitor
 		}
 
 		TableBandDesign footer = createTableBand( handle.getFooter( ) );
+		footer.setBandType( TableBandDesign.GROUP_FOOTER );
+		footer.setGroup( tableGroup );
 		tableGroup.setFooter( footer );
 		
 		boolean hideDetail = handle.hideDetail( );
@@ -1232,6 +1255,7 @@ class EngineIRVisitor extends DesignVisitor
 	protected void setupGroup( GroupDesign group, GroupHandle handle )
 	{
 		// name
+		group.setID( handle.getID( ) );
 		group.setName( handle.getName( ) );
 		String pageBreakBefore = handle
 				.getStringProperty( StyleHandle.PAGE_BREAK_BEFORE_PROP );
@@ -2090,7 +2114,7 @@ class EngineIRVisitor extends DesignVisitor
 		// setup related scripts
 		setupReportItem( listing, handle );
 
-		listing.setPageBreakInterval( handle.getPageBreakInterval( ) );
+		//listing.setPageBreakInterval( handle.getPageBreakInterval( ) );
 		// setup scripts
 		// listing.setOnStart( handle.getOnStart( ) );
 		// listing.setOnRow( handle.getOnRow( ) );

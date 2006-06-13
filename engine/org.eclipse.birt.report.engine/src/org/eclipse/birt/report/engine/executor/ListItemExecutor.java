@@ -11,24 +11,15 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.logging.Level;
-
-import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.impl.ContainerContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
-import org.eclipse.birt.report.engine.ir.ListBandDesign;
+import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
-import org.eclipse.birt.report.engine.ir.ListingDesign;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.36 $ $Date: 2006/04/18 07:08:29 $
+ * @version $Revision: 1.37 $ $Date: 2006/05/18 09:10:26 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -39,10 +30,9 @@ public class ListItemExecutor extends ListingElementExecutor
 	 * @param visitor
 	 *            visitor object for driving the execution
 	 */
-	protected ListItemExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	protected ListItemExecutor( ExecutorManager manager )
 	{
-		super( context, visitor );
+		super( manager );
 	}
 
 	/**
@@ -66,159 +56,48 @@ public class ListItemExecutor extends ListingElementExecutor
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#load(org.eclipse.birt.report.engine.ir.ReportItemDesign,
 	 *      org.eclipse.birt.report.engine.emitter.IReportEmitter)
 	 */
-	public void execute( ReportItemDesign item, IContentEmitter emitter )
+	public IContent execute( )
 	{
-		ListItemDesign list = ( ListItemDesign ) item;
-		logger.log( Level.FINE, "start list item" ); //$NON-NLS-1$
+		ListItemDesign listDesign = ( ListItemDesign ) getDesign();
 
-		IContainerContent listContent = report.createContainerContent( );
-		assert ( listContent instanceof ContainerContent );
-		IContent parent = context.getContent( );
-		context.pushContent( listContent );
+		IListContent listContent = report.createListContent( );
+		setContent(listContent);
+		
+		executeQuery( );
 
-		openResultSet( list );
+		initializeContent( listDesign, listContent );
 
-		initializeContent( parent, item, listContent );
-
-		processAction( item, listContent );
-		processBookmark( item, listContent );
-		processStyle( item, listContent );
-		processVisibility( item, listContent );
+		processAction( listDesign, listContent );
+		processBookmark( listDesign, listContent );
+		processStyle( listDesign, listContent );
+		processVisibility( listDesign, listContent );
 
 		if ( context.isInFactory( ) )
 		{
 			ListScriptExecutor.handleOnCreate(
-					( ContainerContent ) listContent, context );
+					listContent, context );
 		}
-
 		startTOCEntry( listContent );
 		if ( emitter != null )
 		{
-			emitter.startContainer( listContent );
+			emitter.startList( listContent );
 		}
-
-		logger.log( Level.FINE, "start get list data" ); //$NON-NLS-1$
-		accessQuery( list, emitter );
-		logger.log( Level.FINE, "end get list data" ); //$NON-NLS-1$
-
+		
+		//prepare to execute the children
+		prepareToExecuteChildren();
+		
+		return listContent;
+	}
+	
+	public void close( )
+	{
+		IListContent listContent = (IListContent)getContent();
 		if ( emitter != null )
 		{
-			emitter.endContainer( listContent );
+			emitter.endList( listContent );
 		}
 
 		finishTOCEntry( );
-		closeResultSet( );
-		context.popContent( );
-		logger.log( Level.FINE, "end list item" ); //$NON-NLS-1$
-	}
-
-	/**
-	 * access list band, such as list header, group header, detail etc
-	 * 
-	 * @param band
-	 *            the list band
-	 * @param emitter
-	 *            the report emitter
-	 * @param expressionRow
-	 *            TODO
-	 * @param isDetail
-	 *            true if it is detail band
-	 */
-	private void accessListBand( ListBandDesign band, IContentEmitter emitter,
-			IResultSet resultSet )
-	{
-		if ( band != null && band.getContentCount( ) > 0 )
-		{
-			for ( int i = 0; i < band.getContentCount( ); i++ )
-			{
-				if ( context.isCanceled( ) )
-				{
-					break;
-				}
-				ReportItemDesign item = band.getContent( i );
-				if ( context.isInFactory( ) )
-				{
-					// TODO: Where do we get the content object from??
-					// It will throw out an NullPointException for list item, so
-					// remove it.
-					// DetailRowScriptExecutor.handleOnCreate( null,
-					// expressionResults, context );
-				}
-				if ( needPageBreak )
-				{
-					needPageBreak = false;
-				}
-				if ( item != null )
-				{
-					item.accept( this.visitor, emitter );
-				}
-			}
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ListingElementExecutor#accessDetail(org.eclipse.birt.report.engine.ir.ListingDesign,
-	 *      org.eclipse.birt.report.engine.emitter.IContentEmitter,
-	 *      org.eclipse.birt.report.engine.api.script.ExpressionRow)
-	 */
-	protected void accessDetail( ListingDesign list, int index, IContentEmitter emitter,
-			IResultSet resultSet )
-	{
-		accessListBand( ( ( ListItemDesign ) list ).getDetail( ), emitter,
-				resultSet );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ListingElementExecutor#accessFooter(org.eclipse.birt.report.engine.ir.ListingDesign,
-	 *      org.eclipse.birt.report.engine.emitter.IContentEmitter)
-	 */
-	protected void accessFooter( ListingDesign list, IContentEmitter emitter,
-			IResultSet resultSet )
-	{
-		accessListBand( ( ( ListItemDesign ) list ).getFooter( ), emitter,
-				resultSet );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ListingElementExecutor#accessGroupFooter(org.eclipse.birt.report.engine.ir.ListingDesign,
-	 *      int, org.eclipse.birt.report.engine.emitter.IContentEmitter)
-	 */
-	protected void accessGroupFooter( ListingDesign list, int index,
-			IContentEmitter emitter, IResultSet resultSet )
-	{
-		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
-				.getFooter( ), emitter, resultSet );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ListingElementExecutor#accessGroupHeader(org.eclipse.birt.report.engine.ir.ListingDesign,
-	 *      int, org.eclipse.birt.report.engine.emitter.IContentEmitter)
-	 */
-	protected void accessGroupHeader( ListingDesign list, int index,
-			IContentEmitter emitter, IResultSet resultSet )
-	{
-		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
-				.getHeader( ), emitter, resultSet );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ListingElementExecutor#accessHeader(org.eclipse.birt.report.engine.ir.ListingDesign,
-	 *      org.eclipse.birt.report.engine.emitter.IContentEmitter)
-	 */
-	protected void accessHeader( ListingDesign list, IContentEmitter emitter,
-			IResultSet resultSet )
-	{
-		accessListBand( ( ( ListItemDesign ) list ).getHeader( ), emitter,
-				resultSet );
+		closeQuery( );
 	}
 }

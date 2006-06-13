@@ -15,10 +15,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
@@ -27,7 +29,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.13 $ $Date: 2006/01/20 14:55:38 $
+ * @version $Revision: 1.14 $ $Date: 2006/05/25 08:10:12 $
  */
 public class TableContent extends AbstractContent implements ITableContent
 {
@@ -36,7 +38,7 @@ public class TableContent extends AbstractContent implements ITableContent
 	protected String caption;
 	protected String captionKey;
 
-	protected boolean headerRepeat;
+	protected Boolean headerRepeat;
 
 	public int getContentType( )
 	{
@@ -45,12 +47,29 @@ public class TableContent extends AbstractContent implements ITableContent
 
 	public void setHeaderRepeat( boolean headerRepeat )
 	{
-		this.headerRepeat = headerRepeat;
+		if (generateBy instanceof TableItemDesign)
+		{
+			if ( ( (TableItemDesign) generateBy ).isRepeatHeader( ) == headerRepeat )
+			{
+				this.headerRepeat = null;
+				return;
+			}
+		}
+		this.headerRepeat = Boolean.valueOf( headerRepeat );
 	}
 
 	public boolean isHeaderRepeat( )
 	{
-		return headerRepeat;
+		if ( headerRepeat != null )
+		{
+			return headerRepeat.booleanValue( );
+		}
+		if ( generateBy instanceof TableItemDesign )
+		{
+			return ( (TableItemDesign) generateBy ).isRepeatHeader( );
+		}
+
+		return false;
 	}
 
 	/**
@@ -59,14 +78,14 @@ public class TableContent extends AbstractContent implements ITableContent
 	 * @param item
 	 *            the table deign
 	 */
-	public TableContent( ReportContent report )
+	public TableContent( IReportContent report )
 	{
 		super( report );
 	}
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitTable( this, value );
+		return visitor.visitTable( this, value );
 	}
 
 	/**
@@ -128,11 +147,6 @@ public class TableContent extends AbstractContent implements ITableContent
 		return getTableBand( ITableBandContent.BAND_HEADER );
 	}
 
-	public ITableBandContent getBody( )
-	{
-		return getTableBand( ITableBandContent.BAND_BODY );
-	}
-
 	public ITableBandContent getFooter( )
 	{
 		return getTableBand( ITableBandContent.BAND_FOOTER );
@@ -145,12 +159,17 @@ public class TableContent extends AbstractContent implements ITableContent
 		{
 			return null;
 		}
-		for ( int i = 0; i < children.size( ); i++ )
+		Iterator iter = children.iterator( );
+		while ( iter.hasNext( ) )
 		{
-			tableBand = (ITableBandContent) children.get( i );
-			if ( tableBand.getType( ) == type )
+			Object child = iter.next( );
+			if ( child instanceof ITableBandContent )
 			{
-				return tableBand;
+				tableBand = (ITableBandContent) child;
+				if ( tableBand.getBandType( ) == type )
+				{
+					return tableBand;
+				}
 			}
 		}
 		return null;
@@ -185,8 +204,11 @@ public class TableContent extends AbstractContent implements ITableContent
 			IOUtil.writeInt( out, FIELD_CAPTIONKEY );
 			IOUtil.writeString( out, captionKey );
 		}
-		IOUtil.writeInt( out, FIELD_HEADERREPEAT );
-		IOUtil.writeBool( out, headerRepeat );
+		if ( headerRepeat != null )
+		{
+			IOUtil.writeInt( out, FIELD_HEADERREPEAT );
+			IOUtil.writeBool( out, headerRepeat.booleanValue( ) );
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in )
@@ -210,10 +232,11 @@ public class TableContent extends AbstractContent implements ITableContent
 				captionKey = IOUtil.readString( in );
 				break;
 			case FIELD_HEADERREPEAT :
-				headerRepeat = IOUtil.readBool( in );
+				headerRepeat = Boolean.valueOf( IOUtil.readBool( in ) );
 				break;
 			default :
 				super.readField( version, filedId, in );
 		}
 	}
+
 }

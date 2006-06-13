@@ -12,23 +12,25 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.script.element.IDesignElement;
 import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance;
+import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
+import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.impl.CellContent;
-import org.eclipse.birt.report.engine.content.impl.ContainerContent;
-import org.eclipse.birt.report.engine.content.impl.DataContent;
-import org.eclipse.birt.report.engine.content.impl.ForeignContent;
-import org.eclipse.birt.report.engine.content.impl.ImageContent;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
-import org.eclipse.birt.report.engine.content.impl.TableBandContent;
-import org.eclipse.birt.report.engine.content.impl.TableContent;
-import org.eclipse.birt.report.engine.content.impl.TextContent;
+import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Cell;
 import org.eclipse.birt.report.engine.script.internal.element.DataItem;
+import org.eclipse.birt.report.engine.script.internal.element.DynamicText;
 import org.eclipse.birt.report.engine.script.internal.element.Grid;
 import org.eclipse.birt.report.engine.script.internal.element.Image;
 import org.eclipse.birt.report.engine.script.internal.element.Label;
@@ -37,7 +39,6 @@ import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.engine.script.internal.element.ReportElement;
 import org.eclipse.birt.report.engine.script.internal.element.Row;
 import org.eclipse.birt.report.engine.script.internal.element.Table;
-import org.eclipse.birt.report.engine.script.internal.element.DynamicText;
 import org.eclipse.birt.report.engine.script.internal.element.TextItem;
 import org.eclipse.birt.report.engine.script.internal.instance.CellInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.DataItemInstance;
@@ -65,57 +66,88 @@ import org.eclipse.birt.report.model.api.TextItemHandle;
 public class ElementUtil
 {
 
+	static IContentVisitor instanceBuilder = new ContentVisitorAdapter()
+	{
+		public Object visit( IContent content, Object value )
+		{
+			return content.accept( this, value );
+		}
+
+		public Object visitCell( ICellContent cell, Object value )
+		{
+			ExecutionContext context = (ExecutionContext)value;
+			return new CellInstance( cell, context, false );			
+		}
+
+		public Object visitData( IDataContent data, Object value )
+		{
+			ExecutionContext context = (ExecutionContext)value;
+			return new DataItemInstance( data, context );
+		}
+
+		public Object visitForeign( IForeignContent foreign, Object value )
+		{
+			ExecutionContext context = (ExecutionContext)value;
+			if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) )
+					|| IForeignContent.TEXT_TYPE.equals( foreign.getRawType( ) )
+					|| IForeignContent.TEMPLATE_TYPE.equals( foreign.getRawType( ) ) )
+				return new TextItemInstance( foreign, context );
+			return null;
+		}
+
+		public Object visitImage( IImageContent image, Object value )
+		{
+			ExecutionContext context = (ExecutionContext)value;
+			return new ImageInstance( image, context );
+		}
+
+		public Object visitLabel( ILabelContent label, Object value )
+		{
+			ExecutionContext context = (ExecutionContext)value;
+			return new LabelInstance( label, context );
+
+		}
+
+		public Object visitList( IListContent list, Object value )
+		{
+			ExecutionContext context = (ExecutionContext)value;
+			return new ListInstance(list, context);
+		}
+
+		public Object visitRow( IRowContent row, Object value )
+		{
+			ExecutionContext context = (ExecutionContext)value;
+			return new RowInstance( row, context );
+		}
+
+		public Object visitTable( ITableContent table, Object value )
+		{
+			ExecutionContext context = (ExecutionContext)value;
+			Object genBy = table.getGenerateBy( );
+			if ( genBy instanceof TableItemDesign )
+				return new TableInstance( table, context );
+			else if ( genBy instanceof GridItemDesign )
+				return new GridInstance( table, context );
+			return null;
+		}
+
+		public Object visitText( ITextContent text, Object value )
+		{
+			ExecutionContext context = (ExecutionContext)value;
+			return new TextItemInstance( text, context );
+		}
+	};
 	public static IReportElementInstance getInstance( IElement element,
 			ExecutionContext context )
 	{
 		if ( element == null )
 			return null;
 
-		// No row data available, fromGrid doesn't matter
-		if ( element instanceof CellContent )
-			return new CellInstance( ( CellContent ) element, context, false );
-
-		if ( element instanceof DataContent )
-			return new DataItemInstance( ( DataContent ) element, context );
-
-		if ( element instanceof ImageContent )
-			return new ImageInstance( ( ImageContent ) element, context );
-
-		if ( element instanceof LabelContent )
-			return new LabelInstance( ( LabelContent ) element, context );
-
-		if ( element instanceof ContainerContent )
-			return new ListInstance( ( ContainerContent ) element, context );
-
-		// No row data available
-		if ( element instanceof RowContent )
-			return new RowInstance( ( RowContent ) element, context );
-
-		if ( element instanceof TableContent )
+		if (element instanceof IContent)
 		{
-			Object genBy = ( ( TableContent ) element ).getGenerateBy( );
-			if ( genBy instanceof TableItemDesign )
-				return new TableInstance( ( TableContent ) element, context );
-			else if ( genBy instanceof GridItemDesign )
-				return new GridInstance( ( TableContent ) element, context );
+			return (IReportElementInstance) instanceBuilder.visit(
+					(IContent) element, context );
 		}
-
-		if ( element instanceof TextContent )
-			return new TextItemInstance( ( TextContent ) element, context );
-
-		if ( element instanceof ForeignContent )
-		{
-			ForeignContent fc = ( ForeignContent ) element;
-			if ( IForeignContent.HTML_TYPE.equals( fc.getRawType( ) )
-					|| IForeignContent.TEXT_TYPE.equals( fc.getRawType( ) )
-					|| IForeignContent.TEMPLATE_TYPE.equals( fc.getRawType( ) ) )
-				return new TextItemInstance( fc, context );
-		}
-		if ( element instanceof TableBandContent )
-		{
-			return getInstance( element.getParent( ), context );
-		}
-
 		return null;
 	}
 

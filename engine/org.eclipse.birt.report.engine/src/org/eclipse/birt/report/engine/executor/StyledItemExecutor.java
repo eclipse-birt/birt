@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
 import org.eclipse.birt.report.engine.ir.HighlightRuleDesign;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -43,15 +42,12 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	/**
 	 * constructor
 	 * 
-	 * @param context
-	 *            the execution context.
 	 * @param visitor
-	 *            the visitor for report execution
+	 *            the report executor visitor
 	 */
-	protected StyledItemExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	protected StyledItemExecutor( ExecutorManager manager )
 	{
-		super( context, visitor );
+		super( manager );
 	}
 
 	/**
@@ -110,7 +106,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			HighlightRuleDesign rule = highlight.getRule( i );
 			if ( rule != null )
 			{
-				Object value = context.evaluate( rule.getConditionExpr( ) );
+				Object value = evaluate( rule.getConditionExpr( ) );
 				if ( ( value != null ) && ( value instanceof Boolean )
 						&& ( ( (Boolean) value ).booleanValue( ) ) )
 				{
@@ -155,7 +151,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				MapRuleDesign rule = map.getRule( i );
 				if ( rule != null )
 				{
-					Object value = context.evaluate( rule.getConditionExpr( ) );
+					Object value = evaluate( rule.getConditionExpr( ) );
 					if ( ( value != null ) && ( value instanceof Boolean )
 							&& ( ( (Boolean) value ).booleanValue( ) ) )
 					{

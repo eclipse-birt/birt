@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eclipse.birt.report.engine.content.IContent;
 
@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.content.IContent;
  * receive the input and construct the DOM strcuture 
  * of the received contents.
  *
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:48 $
+ * @version $Revision: 1.2 $ $Date: 2006/04/10 08:11:57 $
  */
 public class DOMBuilderEmitter extends ContentEmitterAdapter
 {
@@ -40,14 +40,24 @@ public class DOMBuilderEmitter extends ContentEmitterAdapter
 
 	public void startContent( IContent content )
 	{
-		List children = root.getChildren( );
 		if ( parent != null )
 		{
-			children = parent.getChildren( );
+			Collection children = parent.getChildren( );
+			if ( !children.contains( content ) )
+			{
+				children.add( content );
+			}
+			content.setParent( parent );
+
 		}
-		if ( !children.contains( content ) )
+		else
 		{
-			children.add( content );
+			Collection children = root.getChildren( );
+			if ( !children.contains( content ) )
+			{
+				children.add( content );
+			}
+			content.setParent( root );
 		}
 		parent = content;
 	}

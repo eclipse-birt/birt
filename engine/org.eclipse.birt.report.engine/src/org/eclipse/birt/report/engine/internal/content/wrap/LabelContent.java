@@ -29,9 +29,9 @@ public class LabelContent extends TextContent implements ILabelContent
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitLabel( this, value );
+		return visitor.visitLabel( this, value );
 	}
 
 	/* (non-Javadoc)

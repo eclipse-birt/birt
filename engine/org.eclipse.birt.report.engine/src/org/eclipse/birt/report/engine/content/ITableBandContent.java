@@ -15,19 +15,8 @@ package org.eclipse.birt.report.engine.content;
  * Provides the interfaces for the Table Band Content
  * 
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.4 $ $Date: 2005/11/11 06:26:46 $
  */
-public interface ITableBandContent extends IContent
+public interface ITableBandContent extends IBandContent
 {
-
-	public static final int BAND_HEADER = 0;
-	public static final int BAND_BODY = 1;
-	public static final int BAND_FOOTER = 2;
-
-	/**
-	 * get type
-	 * 
-	 * @return the type
-	 */
-	public int getType( );
 }

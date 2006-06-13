@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
+import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 public class LabelInstance extends ReportItemInstance implements ILabelInstance
 {
 
-	public LabelInstance( LabelContent label, ExecutionContext context  )
+	public LabelInstance( ILabelContent label, ExecutionContext context  )
 	{
 		super( label, context );
 	}
@@ -31,7 +31,7 @@ public class LabelInstance extends ReportItemInstance implements ILabelInstance
 	 */
 	public String getText( )
 	{
-		return ( ( LabelContent ) content ).getLabelText( );
+		return ( ( ILabelContent ) content ).getLabelText( );
 	}
 
 	/* (non-Javadoc)
@@ -39,7 +39,7 @@ public class LabelInstance extends ReportItemInstance implements ILabelInstance
 	 */
 	public void setText( String value )
 	{
-		( ( LabelContent ) content ).setLabelText( value );
+		( ( ILabelContent ) content ).setLabelText( value );
 	}
 
 }

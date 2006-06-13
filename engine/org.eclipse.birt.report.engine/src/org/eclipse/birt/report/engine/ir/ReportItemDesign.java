@@ -18,11 +18,10 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 /**
  * Report Item
  * 
- * @version $Revision: 1.11 $ $Date: 2006/02/27 07:35:59 $
+ * @version $Revision: 1.12 $ $Date: 2006/04/06 12:35:25 $
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {
-
 	/**
 	 * x position
 	 */
@@ -277,5 +276,4 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	{
 		return executionState;
 	}
-	
 }

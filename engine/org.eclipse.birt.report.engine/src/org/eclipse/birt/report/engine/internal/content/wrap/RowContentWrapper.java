@@ -13,12 +13,13 @@ package org.eclipse.birt.report.engine.internal.content.wrap;
 
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
 
 /**
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:53 $
+ * @version $Revision: 1.2 $ $Date: 2006/05/18 09:10:25 $
  */
 public class RowContentWrapper extends AbstractContentWrapper
 		implements
@@ -39,19 +40,9 @@ public class RowContentWrapper extends AbstractContentWrapper
 		rowContent = content;
 	}
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitRow( this, value );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.content.IRowContent#getGroupLevel()
-	 */
-	public int getGroupLevel( )
-	{
-		return rowContent.getGroupLevel( );
+		return visitor.visitRow( this, value );
 	}
 
 	/*
@@ -67,16 +58,6 @@ public class RowContentWrapper extends AbstractContentWrapper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IRowContent#getRowType()
-	 */
-	public int getRowType( )
-	{
-		return rowContent.getRowType( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.engine.content.IRowContent#setRowID(int)
 	 */
 	public void setRowID( int rowID )
@@ -84,24 +65,8 @@ public class RowContentWrapper extends AbstractContentWrapper
 		rowContent.setRowID( rowID );
 	}
 
-	public String getGroupId( )
+	public ITableContent getTable( )
 	{
-		return rowContent.getGroupId( );
+		return null;
 	}
-
-	public void setGroupId( String groupId )
-	{
-		rowContent.setGroupId( groupId );
-	}
-
-	public boolean isStartOfGroup( )
-	{
-		return rowContent.isStartOfGroup( );
-	}
-
-	public void setStartOfGroup( boolean isStartOfGroup )
-	{
-		rowContent.setStartOfGroup( isStartOfGroup );
-	}
-
 }

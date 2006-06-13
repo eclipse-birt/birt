@@ -12,13 +12,12 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IAbstractTextInstance;
 import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 public abstract class ForeignTextInstance extends ReportItemInstance implements
 		IAbstractTextInstance
 {
-	public ForeignTextInstance( ForeignContent content, ExecutionContext context )
+	public ForeignTextInstance( IForeignContent content, ExecutionContext context )
 	{
 		super( content, context );
 	}
@@ -35,7 +34,7 @@ public abstract class ForeignTextInstance extends ReportItemInstance implements
 	 */
 	public String getText( )
 	{
-		ForeignContent fc = ( ForeignContent ) content;
+		IForeignContent fc = ( IForeignContent ) content;
 		String type = fc.getRawType( );
 		if ( IForeignContent.TEMPLATE_TYPE.equals( type )
 				|| IForeignContent.HTML_TYPE.equals( type )
@@ -55,6 +54,6 @@ public abstract class ForeignTextInstance extends ReportItemInstance implements
 	 */
 	public void setText( String value )
 	{
-		( ( ForeignContent ) content ).setRawValue( value );
+		( ( IForeignContent ) content ).setRawValue( value );
 	}
 }

@@ -72,7 +72,7 @@ public class Image extends ReportPart implements IImage
 		id = uri;
 		if ( !FileUtil.isLocalResource( uri ) )
 		{
-			extension = FileUtil.getExtFromFileName( uri, FileUtil.SEPARATOR_URI );
+			extension = FileUtil.getExtFromFileName( uri );
 			this.source = IImage.URL_IMAGE;
 			return;
 		}
@@ -81,14 +81,14 @@ public class Image extends ReportPart implements IImage
 		try
 		{
 			new URL( uri );
-			extension = FileUtil.getExtFromFileName( uri, FileUtil.SEPARATOR_URI );
+			extension = FileUtil.getExtFromFileName( uri );
 			return;
 		}
 		catch ( MalformedURLException e )
 		{
 		}
 
-		extension = FileUtil.getExtFromFileName( uri, FileUtil.SEPARATOR_PATH );
+		extension = FileUtil.getExtFromFileName( uri );
 	}
 
 	/**

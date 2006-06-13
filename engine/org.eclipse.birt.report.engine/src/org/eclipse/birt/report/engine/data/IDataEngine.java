@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 /**
  * Defines a set of data-related functions that engine needs from a data engine
  * 
- * @version $Revision: 1.14 $ $Date: 2006/04/14 03:56:51 $
+ * @version $Revision: 1.15 $ $Date: 2006/04/28 10:14:17 $
  */
 public interface IDataEngine
 {
@@ -93,10 +93,4 @@ public interface IDataEngine
 	 * @return retuan a dataEngine of DTE.
 	 */
 	DataEngine getDataEngine( );
-	
-	/**
-	 * get current resultset
-	 * @return
-	 */
-	IResultSet getResultSet();
 }

@@ -15,51 +15,19 @@ package org.eclipse.birt.report.engine.ir;
  * group defined in table item
  * 
  * @see TableItemDesign
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public class TableGroupDesign extends GroupDesign
 {
-
-	/**
-	 * Header band.
-	 */
-	protected TableBandDesign header = null;
-	/**
-	 * Footer band
-	 */
-	protected TableBandDesign footer = null;
-
-	/**
-	 * @return Returns the footer.
-	 */
-	public TableBandDesign getFooter( )
+	public TableGroupDesign( )
 	{
-		return footer;
+		header = new TableBandDesign( );
+		footer = new TableBandDesign( );
 	}
 
-	/**
-	 * @param footer
-	 *            The footer to set.
-	 */
-	public void setFooter( TableBandDesign footer )
+	public Object accept( IReportItemVisitor visitor, Object value )
 	{
-		this.footer = footer;
+		return visitor.visitTableGroup( this, value );
 	}
 
-	/**
-	 * @return Returns the header.
-	 */
-	public TableBandDesign getHeader( )
-	{
-		return header;
-	}
-
-	/**
-	 * @param header
-	 *            The header to set.
-	 */
-	public void setHeader( TableBandDesign header )
-	{
-		this.header = header;
-	}
 }

@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IListInstance;
-import org.eclipse.birt.report.engine.content.impl.ContainerContent;
+import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 public class ListInstance extends ReportItemInstance implements IListInstance
 {
 
-	public ListInstance( ContainerContent list, ExecutionContext context )
+	public ListInstance( IListContent list, ExecutionContext context )
 	{
 		super( list, context );
 	}

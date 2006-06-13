@@ -106,9 +106,9 @@ public class DataContent extends TextContent implements IDataContent
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitData( this, value );
+		return visitor.visitData( this, value );
 	}
 
 	static final protected int FIELD_VALUE = 300;

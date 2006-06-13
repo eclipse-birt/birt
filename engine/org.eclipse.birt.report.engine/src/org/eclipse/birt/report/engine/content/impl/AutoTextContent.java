@@ -54,9 +54,9 @@ public class AutoTextContent extends TextContent implements IAutoTextContent
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitAutoText( this, value );
+		return visitor.visitAutoText( this, value );
 	}
 	
 	static final protected int FIELD_TYPE = 650;

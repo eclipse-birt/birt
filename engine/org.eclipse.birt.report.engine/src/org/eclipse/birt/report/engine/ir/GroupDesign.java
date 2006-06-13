@@ -17,10 +17,14 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * used by ListItem and TableItem.
  * 
- * @version $Revision: 1.7 $ $Date: 2006/03/17 02:18:27 $
+ * @version $Revision: 1.8 $ $Date: 2006/03/27 11:15:41 $
  */
-public class GroupDesign
+public abstract class GroupDesign extends ReportItemDesign
 {
+	/**
+	 * group level, start from 0
+	 */
+	protected int groupLevel;
 	/**
 	 * group expression
 	 */
@@ -40,7 +44,22 @@ public class GroupDesign
 	 * group hideDetail
 	 */
 	protected boolean hideDetail;
+	
+	/**
+	 * does the header need to be repeated in each page.
+	 */
+	protected boolean headerRepeat;
 
+	/**
+	 * group header
+	 */
+	protected BandDesign header;
+	/**
+	 * group footer
+	 */
+	protected BandDesign footer;
+
+	
 	/**
 	 * @return Returns the name.
 	 */
@@ -91,5 +110,64 @@ public class GroupDesign
 	public void setPageBreakAfter(String pageBreak)
 	{
 		pageBreakAfter = pageBreak;
+	}
+	
+	public int getGroupLevel()
+	{
+		return groupLevel;
+	}
+	
+	public void setGroupLevel(int groupLevel)
+	{
+		this.groupLevel = groupLevel;
+	}
+
+	/**
+	 * @return Returns the footer.
+	 */
+	public BandDesign getFooter( )
+	{
+		return footer;
+	}
+
+	/**
+	 * @param footer
+	 *            The footer to set.
+	 */
+	public void setFooter( BandDesign footer )
+	{
+		this.footer = footer;
+	}
+
+	/**
+	 * @return Returns the header.
+	 */
+	public BandDesign getHeader( )
+	{
+		return header;
+	}
+
+	/**
+	 * @param header
+	 *            The header to set.
+	 */
+	public void setHeader( BandDesign header )
+	{
+		this.header = header;
+	}
+	
+	public boolean isHeaderRepeat()
+	{
+		return headerRepeat;
+	}
+	
+	public void setHeaderRepeat(boolean repeat)
+	{
+		headerRepeat = repeat;
+	}
+	
+	public Object accept( IReportItemVisitor visitor, Object value )
+	{
+		return visitor.visitGroup(this, value);
 	}
 }

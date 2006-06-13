@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.script.internal;
 import org.eclipse.birt.report.engine.api.script.element.IList;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IListEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IListInstance;
-import org.eclipse.birt.report.engine.content.impl.ContainerContent;
+import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.List;
@@ -40,7 +40,7 @@ public class ListScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( ContainerContent content,
+	public static void handleOnCreate( IListContent content,
 			ExecutionContext context )
 	{
 		try
@@ -59,7 +59,7 @@ public class ListScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( ContainerContent content,
+	public static void handleOnRender( IListContent content,
 			ExecutionContext context )
 	{
 		try

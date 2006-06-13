@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.script.internal;
 import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDynamicTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance;
-import org.eclipse.birt.report.engine.content.impl.ForeignContent;
+import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.DynamicText;
@@ -42,7 +42,7 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( ForeignContent content,
+	public static void handleOnCreate( IForeignContent content,
 			ExecutionContext context )
 	{
 		try
@@ -64,7 +64,7 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( ForeignContent content,
+	public static void handleOnRender( IForeignContent content,
 			ExecutionContext context )
 	{
 		try

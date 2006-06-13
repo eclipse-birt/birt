@@ -15,28 +15,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 
-import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
-import org.eclipse.birt.report.engine.content.ICellContent;
-import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IContentVisitor;
-import org.eclipse.birt.report.engine.content.IDataContent;
-import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.IImageContent;
-import org.eclipse.birt.report.engine.content.ILabelContent;
-import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.ITextContent;
 
 /**
  * a buffered report emitter that allows content objects from the engine to be
  * buffered before output to a specific format. Buffering is needed sometimes,
  * for handling drop, table, etc.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/11/10 08:55:18 $
+ * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:42 $
  */
 public class BufferedReportEmitter extends ContentEmitterAdapter
 {
@@ -77,167 +64,19 @@ public class BufferedReportEmitter extends ContentEmitterAdapter
 	 * @param end
 	 *            the end visitor
 	 */
-	protected void emitNode( BufferedNode node, IContentVisitor start,
-			IContentVisitor end )
+	protected void emitNode( BufferedNode node, IContentEmitter emitter )
 	{
-		node.getContent( ).accept( start , null);
+		IContent content = node.getContent( );
+		ContentEmitterUtil.startContent( content, emitter );
 		ArrayList children = node.getChildren( );
 		if ( children != null )
 		{
 			for ( int i = 0; i < children.size( ); i++ )
 			{
-				emitNode( (BufferedNode) children.get( i ), start, end );
+				emitNode( (BufferedNode) children.get( i ), emitter );
 			}
 		}
-		node.getContent( ).accept( end , null);
-	}
-
-	/**
-	 * @version $Revision: 1.3 $ $Date: 2005/11/10 08:55:18 $
-	 */
-	protected class BufferedEndVisitor extends ContentVisitorAdapter
-	{
-
-		/**
-		 * the composite report emitter
-		 */
-		private IContentEmitter emitter;
-
-		/**
-		 * constructor
-		 * 
-		 * @param emitter
-		 */
-		public BufferedEndVisitor( IContentEmitter emitter )
-		{
-			this.emitter = emitter;
-		}
-
-		public void visitPage( IPageContent page, Object value )
-		{
-			this.emitter.endPage( page );
-		}
-
-		public void visitContainer( IContainerContent container ,Object value)
-		{
-			this.emitter.endContainer( container );
-		}
-
-		public void visitTable( ITableContent table ,Object value)
-		{
-			this.emitter.endTable( table );
-		}
-
-		public void visitRow( IRowContent row ,Object value)
-		{
-			this.emitter.endRow( row );
-		}
-
-		public void visitCell( ICellContent cell,Object value )
-		{
-			this.emitter.endCell( cell );
-		}
-
-		public void visitTableBand( ITableBandContent tableBand ,Object value)
-		{
-			switch ( tableBand.getType( ) )
-			{
-				case ITableBandContent.BAND_HEADER :
-					emitter.endTableHeader( tableBand );
-					break;
-				case ITableBandContent.BAND_FOOTER :
-					emitter.endTableFooter( tableBand );
-					break;
-				case ITableBandContent.BAND_BODY :
-					emitter.endTableBody( tableBand );
-					break;
-			}
-		}
-	}
-
-	/**
-	 * @version $Revision: 1.3 $ $Date: 2005/11/10 08:55:18 $
-	 */
-	protected class BufferedStartVisitor extends ContentVisitorAdapter
-	{
-
-		private IContentEmitter emitter;
-
-		/**
-		 * constructor
-		 * 
-		 * @param emitter
-		 */
-		public BufferedStartVisitor( IContentEmitter emitter )
-		{
-			this.emitter = emitter;
-		}
-
-		public void visitPage( IPageContent page ,Object value)
-		{
-			emitter.startPage( page );
-		}
-
-		public void visitContainer( IContainerContent container ,Object value)
-		{
-			emitter.startContainer( container );
-		}
-
-		public void visitTable( ITableContent table ,Object value)
-		{
-			emitter.startTable( table );
-		}
-
-		public void visitTableBand( ITableBandContent tableBand ,Object value)
-		{
-			switch ( tableBand.getType( ) )
-			{
-				case ITableBandContent.BAND_HEADER :
-					emitter.startTableHeader( tableBand );
-					break;
-				case ITableBandContent.BAND_FOOTER :
-					emitter.startTableFooter( tableBand );
-					break;
-				case ITableBandContent.BAND_BODY :
-					emitter.startTableBody( tableBand );
-					break;
-			}
-		}
-
-		public void visitRow( IRowContent row ,Object value)
-		{
-			emitter.startRow( row );
-		}
-
-		public void visitCell( ICellContent cell ,Object value)
-		{
-			emitter.startCell( cell );
-		}
-
-		public void visitText( ITextContent text ,Object value)
-		{
-			emitter.startText( text );
-		}
-
-		public void visitImage( IImageContent image ,Object value)
-		{
-			emitter.startImage( image );
-		}
-
-		public void visitForeign( IForeignContent content ,Object value)
-		{
-			emitter.startForeign( content );
-		}
-		
-		public void visitLabel(ILabelContent label, Object value)
-		{
-			emitter.startLabel(label);
-		}
-		
-		public void visitData(IDataContent data, Object value)
-		{
-			emitter.startData(data);
-		}
+		ContentEmitterUtil.endContent( content, emitter );
 	}
 
 	/*
@@ -257,14 +96,11 @@ public class BufferedReportEmitter extends ContentEmitterAdapter
 
 	public void flush( )
 	{
-		IContentVisitor start = new BufferedStartVisitor( emitter );
-		IContentVisitor end = new BufferedEndVisitor( emitter );
-
 		Iterator nodeIter = contents.iterator( );
 		while ( nodeIter.hasNext( ) )
 		{
 			BufferedNode node = (BufferedNode) nodeIter.next( );
-			emitNode( node, start, end );
+			emitNode( node, emitter);
 		}
 	}
 

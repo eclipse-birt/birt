@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api.script;
 
-import org.eclipse.birt.core.exception.BirtException;
 
 /**
  * Represents the computed expression results that are bound to the current row.

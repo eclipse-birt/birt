@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.content.impl;
 
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.content.IReportContent;
 
 public class ContainerContent extends AbstractContent
 		implements
@@ -24,13 +25,13 @@ public class ContainerContent extends AbstractContent
 		return CONTAINER_CONTENT;
 	}
 
-	public ContainerContent( ReportContent report )
+	public ContainerContent( IReportContent report )
 	{
 		super( report );
 	}
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitContainer( this, value );
+		return visitor.visitContainer( this, value );
 	}
 }

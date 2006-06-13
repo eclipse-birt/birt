@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * The object represents the report content as a whole.
  * 
- * @version $Revision: 1.10 $ $Date: 2006/03/26 09:15:06 $
+ * @version $Revision: 1.11 $ $Date: 2006/04/27 09:52:25 $
  */
 public interface IReportContent
 {
@@ -53,6 +53,12 @@ public interface IReportContent
 	 * @return the TOC structure.
 	 */
 	public TOCNode getTOC( );
+	
+	/**
+	 * return root content
+	 * @return
+	 */
+	public IContent getRoot();
 
 	/**
 	 * The page content in the report content.
@@ -122,30 +128,17 @@ public interface IReportContent
 	 * @return the table.
 	 */
 	public ITableContent createTableContent( );
+	
+	public ITableGroupContent createTableGroupContent( );
+	
+	public ITableBandContent createTableBandContent( );
 
-	/**
-	 * create the table header. the table header can only be used in this
-	 * report.
-	 * 
-	 * @return the table header.
-	 */
-	public ITableBandContent createTableHeader( );
+	public IListContent createListContent( );
 
-	/**
-	 * create the table footer. the table footer can only be used in this
-	 * report.
-	 * 
-	 * @return the table footer.
-	 */
-	public ITableBandContent createTableFooter( );
-
-	/**
-	 * create the table body. the table body can only be used in this report.
-	 * 
-	 * @return the table body.
-	 */
-	public ITableBandContent createTableBody( );
-
+	public IListGroupContent createListGroupContent( );
+	
+	public IListBandContent createListBandContent( );
+	
 	/**
 	 * create the row content. the row can only be used in this report.
 	 * 

@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.script.internal;
 import org.eclipse.birt.report.engine.api.script.element.IRow;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IRowEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
+import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Row;
@@ -41,7 +41,7 @@ public class RowScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( RowContent content,
+	public static void handleOnCreate( IRowContent content,
 			ExecutionContext context )
 	{
 		try
@@ -60,7 +60,7 @@ public class RowScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( RowContent content,
+	public static void handleOnRender( IRowContent content,
 			ExecutionContext context )
 	{
 		try

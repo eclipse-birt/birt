@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.2 $ $Date: 2006/05/18 09:10:25 $
+ * @version $Revision: 1.3 $ $Date: 2006/06/08 12:55:33 $
  */
 public class CellContentWrapper extends AbstractContentWrapper implements ICellContent
 {
@@ -101,9 +101,9 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 		return cell.getRow();
 	}
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitCell( this, value );
+		return visitor.visitCell( this, value );
 	}
 
 	/**

@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
-import org.eclipse.birt.report.engine.content.impl.CellContent;
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
@@ -23,11 +23,11 @@ public class CellInstance extends ReportElementInstance
 			ICellInstance
 {
 
-	private CellContent cell;
+	private ICellContent cell;
 
 	private boolean fromGrid;
 
-	public CellInstance( CellContent cell, ExecutionContext context,
+	public CellInstance( ICellContent cell, ExecutionContext context,
 			boolean fromGrid )
 	{
 		super( cell, context );

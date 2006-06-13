@@ -13,17 +13,14 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * the AutoTextItem excutor
  * 
- * @version $Revision: 1.18 $ $Date: 2006/04/11 08:17:43 $
+ * @version $Revision: 1.1 $ $Date: 2006/04/27 09:52:26 $
  */
 public class AutoTextItemExecutor extends StyledItemExecutor
 {
@@ -31,16 +28,14 @@ public class AutoTextItemExecutor extends StyledItemExecutor
 	/**
 	 * constructor
 	 * 
-	 * @param context
-	 *            the excutor context
-	 * @param visitor
-	 *            the report executor visitor
+	 * @param manager
+	 *            the excutor manager which create this executor
 	 */
-	public AutoTextItemExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	public AutoTextItemExecutor( ExecutorManager manager )
 	{
-		super( context, visitor );
+		super( manager );
 	}
+
 
 	/**
 	 * execute a AutoText and output an AutoText item content. The execution process
@@ -53,48 +48,47 @@ public class AutoTextItemExecutor extends StyledItemExecutor
 	 * <li> call emitter to start the AutoText
 	 * <li> popup the AutoText.
 	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute()
+	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute(IContentEmitter)
 	 */
-	public void execute( ReportItemDesign item, IContentEmitter emitter )
+	public IContent execute( )
 	{
-		IAutoTextContent autoTextObj = report.createAutoTextContent( );
-		assert ( autoTextObj instanceof AutoTextContent );
-		IContent parent = context.getContent( );
+		AutoTextItemDesign textDesign = (AutoTextItemDesign)getDesign();
+		IAutoTextContent textContent = report.createAutoTextContent( );
+		setContent(textContent);
 
-		context.pushContent( autoTextObj );
+		initializeContent( textDesign, textContent );
+		processStyle( design, content );
+		processVisibility( design, content );
 		
-		initializeContent( parent, item, autoTextObj );
-
-		processStyle( item, autoTextObj );
-		processVisibility( item, autoTextObj );
-		
-		assert ( item instanceof AutoTextItemDesign );
-		String type = ((AutoTextItemDesign)item).getType();
+		String type = ((AutoTextItemDesign)design).getType();
 		if (DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER.equalsIgnoreCase(type))
 		{
-			autoTextObj.setType(IAutoTextContent.PAGE_NUMBER);
+			textContent.setType(IAutoTextContent.PAGE_NUMBER);
 			// If we can get the current page No., set it.
-			autoTextObj.setText(String.valueOf(context.getPageNumber()));
+			textContent.setText(String.valueOf(context.getPageNumber()));
 		}
 		else if (DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE.equalsIgnoreCase(type))
 		{
-			autoTextObj.setType(IAutoTextContent.TOTAL_PAGE);
+			textContent.setType(IAutoTextContent.TOTAL_PAGE);
 			long totalPage = context.getTotalPage();
 			if (totalPage <= 0)
 			{
-				autoTextObj.setText("---");
+				textContent.setText("---");
 			}
 			else
 			{
-				autoTextObj.setText(String.valueOf(context.getTotalPage()));
+				textContent.setText(String.valueOf(context.getTotalPage()));
 			}
-			
 		}
-		
+
 		if ( emitter != null )
 		{
-			emitter.startAutoText( autoTextObj );
+			emitter.startAutoText( textContent );
 		}
-		context.popContent( );
+		return textContent;
+	}
+	
+	public void close( )
+	{
 	}
 }

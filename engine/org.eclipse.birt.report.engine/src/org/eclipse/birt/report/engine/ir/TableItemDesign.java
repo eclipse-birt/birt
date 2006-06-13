@@ -17,11 +17,10 @@ import java.util.ArrayList;
  * 
  * Tabel item.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/17 16:50:43 $
  */
 public class TableItemDesign extends ListingDesign
 {
-
 	/**
 	 * table caption
 	 */
@@ -35,30 +34,7 @@ public class TableItemDesign extends ListingDesign
 	 * column defined
 	 */
 	protected ArrayList columns = new ArrayList( );
-	/**
-	 * header band
-	 */
-	protected TableBandDesign header;
 
-	/**
-	 * detail band
-	 */
-	protected TableBandDesign detail;
-	/**
-	 * footer band
-	 */
-	protected TableBandDesign footer;
-
-	protected boolean repeatHeader;
-
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean getRepeatHeader()
-	{
-		return repeatHeader;
-	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -67,23 +43,6 @@ public class TableItemDesign extends ListingDesign
 	public Object accept( IReportItemVisitor visitor, Object value )
 	{
 		return visitor.visitTableItem( this, value );
-	}
-
-	/**
-	 * @return Returns the repeatHeader.
-	 */
-	public boolean isRepeatHeader( )
-	{
-		return repeatHeader;
-	}
-
-	/**
-	 * @param repeatHeader
-	 *            The repeatHeader to set.
-	 */
-	public void setRepeatHeader( boolean repeatHeader )
-	{
-		this.repeatHeader = repeatHeader;
 	}
 
 	/**
@@ -119,60 +78,6 @@ public class TableItemDesign extends ListingDesign
 	{
 		assert ( index >= 0 && index < columns.size( ) );
 		return (ColumnDesign) columns.get( index );
-	}
-
-	/**
-	 * @return Returns the detail.
-	 */
-	public TableBandDesign getDetail( )
-	{
-		return detail;
-	}
-
-	/**
-	 * @param detail
-	 *            The detail to set.
-	 */
-	public void setDetail( TableBandDesign detail )
-	{
-		this.detail = detail;
-	}
-
-	/**
-	 * @return Returns the footer.
-	 */
-	public TableBandDesign getFooter( )
-	{
-		return footer;
-	}
-
-	/**
-	 * @param footer
-	 *            The footer to set.
-	 */
-	public void setFooter( TableBandDesign footer )
-	{
-		this.footer = footer;
-	}
-
-	public TableGroupDesign getGroup( int index )
-	{
-		assert ( index >= 0 && index < groups.size( ) );
-		return (TableGroupDesign) this.groups.get( index );
-	}
-
-	public void addGroup( TableGroupDesign group )
-	{
-		assert ( group != null );
-		this.groups.add( group );
-	}
-
-	/**
-	 * @return Returns the header.
-	 */
-	public TableBandDesign getHeader( )
-	{
-		return header;
 	}
 
 	/**

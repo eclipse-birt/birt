@@ -1,7 +1,7 @@
 
 package org.eclipse.birt.report.engine.content;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface IElement
 {
@@ -10,6 +10,6 @@ public interface IElement
 
 	public void setParent( IElement parent );
 	
-	public List getChildren();
+	public Collection getChildren();
 	
 }

@@ -210,6 +210,10 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	public String getTempDir( )
 	{
 		String tempDir = (String) getProperty( TEMP_DIR );
+		if (tempDir == null)
+		{
+			tempDir = System.getProperty( "java.io.tmpdir" );
+		}
 		return tempDir;
 	}
 

@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.content;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
@@ -23,9 +23,9 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * The content is defined by getBody().
  * 
- * @version $Revision: 1.3 $ $Date: 2005/12/06 05:26:11 $
+ * @version $Revision: 1.4 $ $Date: 2006/03/23 09:28:44 $
  */
-public interface IPageContent extends IContent
+public interface IPageContent extends IContainerContent
 {
 
 	/**
@@ -53,15 +53,21 @@ public interface IPageContent extends IContent
 	 */
 	public IImageContent getWaterMark( );
 
-	public List getHeader( );
+	public Collection getHeader( );
 
-	public List getFooter( );
+	public Collection getFooter( );
 
-	public IContent getPageHeader();
+	public IContent getPageHeader( );
+
+	public IContent getPageFooter( );
+
+	public IContent getPageBody( );
 	
-	public IContent getPageFooter();
-	
-	public IContent getPageBody();
+	public void setPageHeader( IContent header );
+
+	public void setPageFooter( IContent footer );
+
+	public void setPageBody( IContent body );
 
 	public DimensionType getMarginTop( );
 

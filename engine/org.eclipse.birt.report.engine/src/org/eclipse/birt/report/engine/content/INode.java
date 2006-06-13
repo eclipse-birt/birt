@@ -19,7 +19,7 @@ import java.util.Iterator;
  * implement memory management policy. The node may exist in disk or keep in the
  * memory.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/10/21 04:51:43 $
+ * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:45 $
  */
 public interface INode
 {
@@ -28,6 +28,14 @@ public interface INode
 
 	void setParent( INode parent );
 
+	INode getPrevious();
+	
+	void setPrevious(INode previous);
+	
+	INode getNext();
+	
+	void setNext(INode next);
+	
 	void appendChild( INode child );
 
 	Iterator getChildren( );

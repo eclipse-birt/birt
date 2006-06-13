@@ -70,10 +70,13 @@ abstract public class AbstractContent extends AbstractElement
 	protected String toc;
 	
 	transient protected long offset = -1;
+	
+	transient protected IContent lastChild = null;
 
 	public AbstractContent( IReportContent report )
 	{
 		this.report = report;
+		this.parent = report.getRoot();
 		this.cssEngine = report.getCSSEngine( );
 	}
 
@@ -116,9 +119,9 @@ abstract public class AbstractContent extends AbstractElement
 		return name;
 	}
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitContent( this, value );
+		return visitor.visitContent( this, value );
 	}
 
 	/**
@@ -391,14 +394,26 @@ abstract public class AbstractContent extends AbstractElement
 		return toc;
 	}
 
-	public long getOffset()
+	protected static final int LAST_EXTENSION = 2;
+	protected Object[] extensions;
+	public Object getExtension(int extension)
 	{
-		return offset;
+		if (extensions != null )
+		{
+			assert extension < LAST_EXTENSION;
+			return extensions[extension];
+		}
+		return null;
 	}
 	
-	public void setOffset(long offset)
+	public void setExtension(int extension, Object value)
 	{
-		this.offset = offset;
+		assert extension < LAST_EXTENSION;
+		if (extensions == null)
+		{
+			extensions = new Object[LAST_EXTENSION];
+		}
+		extensions[extension] = value;
 	}
 	/**
 	 * object document version

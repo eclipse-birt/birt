@@ -39,8 +39,8 @@ public class TextContent extends AbstractContentWrapper implements ITextContent
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitText( this, value );
+		return visitor.visitText( this, value );
 	}
 }

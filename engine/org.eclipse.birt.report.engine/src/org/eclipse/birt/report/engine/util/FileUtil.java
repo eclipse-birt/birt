@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.15 $ $Date: 2006/03/17 02:19:04 $
+ * @version $Revision: 1.16 $ $Date: 2006/06/01 06:27:24 $
  */
 public class FileUtil
 {
@@ -35,13 +35,6 @@ public class FileUtil
 	 * The default prefix for creating temporarily file.
 	 */
 	private static String DEFAULT_PREFIX = "Res"; //$NON-NLS-1$
-
-	public static final int SEPARATOR_PATH = 0;
-	public static final int SEPARATOR_URI = 1;
-	/**
-	 * The File/URI separator characters.
-	 */
-	public static final char separators[] = {File.separatorChar, '/'};
 
 	/**
 	 * The Log object that <code>FileUtil</code> uses to log the error, debug,
@@ -157,19 +150,21 @@ public class FileUtil
 	 * 
 	 * @param fileName
 	 *            The file name.
-	 * @param separatorFlag
-	 *            Specifies whether the file name uses File or URI separator
-	 *            character.
 	 * @return The file extension string containing the '.' character.
 	 */
-	public static String getExtFromFileName( String fileName, int separatorFlag )
+	public static String getExtFromFileName( String fileName )
 	{
 		if ( fileName != null )
 		{
-			int lastindex = fileName.lastIndexOf( '.' );
-			if ( lastindex > fileName.lastIndexOf( separators[separatorFlag] ) )
+			int lastIndex = fileName.lastIndexOf( '.' );
+			if ( lastIndex != -1 )
 			{
-				return fileName.substring( lastindex, fileName.length( ) );
+				String extName = fileName.substring( lastIndex );
+				if ( extName.indexOf( '/' ) == -1
+						&& extName.indexOf( '\\' ) == -1 )
+				{
+					return extName;
+				}
 			}
 		}
 		return null;

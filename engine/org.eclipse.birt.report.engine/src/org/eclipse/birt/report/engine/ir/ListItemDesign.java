@@ -19,105 +19,15 @@ package org.eclipse.birt.report.engine.ir;
  * In creating, a listing will be replace by one header, one footer, several
  * details (surround by groups, each row in dataset will create a detail).
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/17 16:50:43 $
  */
 public class ListItemDesign extends ListingDesign
 {
-
-	/**
-	 * listing header
-	 */
-	protected ListBandDesign header = new ListBandDesign( );
-	/**
-	 * detail, is created in report instance for each row in the data set.
-	 */
-	protected ListBandDesign detail = new ListBandDesign( );
-
-	/**
-	 * listing header, will be created in report instance at the end of list
-	 */
-	protected ListBandDesign footer = new ListBandDesign( );
-
 	/**
 	 * default constructor.
 	 */
 	public ListItemDesign( )
 	{
-	}
-
-	/**
-	 * get group at index.
-	 * 
-	 * @param index
-	 *            group index
-	 * @return group at index
-	 */
-	public ListGroupDesign getGroup( int index )
-	{
-		return (ListGroupDesign) groups.get( index );
-	}
-
-	/**
-	 * append a group into this listing. the group will be appended at the end
-	 * of this listing.
-	 * 
-	 * @param group
-	 *            group to be added
-	 */
-	public void addGroup( ListGroupDesign group )
-	{
-		this.groups.add( group );
-	}
-
-	/**
-	 * @return Returns the detail.
-	 */
-	public ListBandDesign getDetail( )
-	{
-		return detail;
-	}
-
-	/**
-	 * @param detail
-	 *            The detail to set.
-	 */
-	public void setDetail( ListBandDesign detail )
-	{
-		this.detail = detail;
-	}
-
-	/**
-	 * @return Returns the footer.
-	 */
-	public ListBandDesign getFooter( )
-	{
-		return footer;
-	}
-
-	/**
-	 * @param footer
-	 *            The footer to set.
-	 */
-	public void setFooter( ListBandDesign footer )
-	{
-		this.footer = footer;
-	}
-
-	/**
-	 * @return Returns the header.
-	 */
-	public ListBandDesign getHeader( )
-	{
-		return header;
-	}
-
-	/**
-	 * @param header
-	 *            The header to set.
-	 */
-	public void setHeader( ListBandDesign header )
-	{
-		this.header = header;
 	}
 
 	public Object accept( IReportItemVisitor visitor, Object value)

@@ -1,6 +1,5 @@
 package org.eclipse.birt.report.engine.api.script.instance;
 
-import org.eclipse.birt.report.engine.api.script.IRowData;
 
 public interface IRowInstance extends IReportElementInstance
 {

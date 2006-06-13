@@ -18,23 +18,12 @@ import java.util.ArrayList;
  * 
  * @see GridItemDesign
  * @see TableItemDesign
- * @version $Revision: 1.8 $ $Date: 2006/01/25 09:06:46 $
+ * @version $Revision: 1.9 $ $Date: 2006/05/18 09:10:26 $
  */
 ///TODO: RowDesign is not a realy styled element. It only has a style, but has
 // no other attributes.
 public class RowDesign extends ReportItemDesign
 {
-	/**
-	 * the table band type in which row resides.
-	 */
-	protected int bandType = TableBandDesign.TABLE_DETAIL;
-	
-	/**
-	 * the group level of the group which contains the current row.
-	 * This field is used to write the group level out with when the row is 
-	 * in the group header and group footer.
-	 */
-	protected int groupLevel = TableBandDesign.DEFAULT_BAND_LEVEL;
 	/**
 	 * cells in this row.
 	 */
@@ -75,24 +64,6 @@ public class RowDesign extends ReportItemDesign
 		return this.cells.size( );
 	}
 
-	public int getGroupLevel( )
-	{
-		return groupLevel;
-	}
-	
-	public void setGroupLevel( int groupLevel )
-	{
-		this.groupLevel = groupLevel;
-	}
-	
-	public int getBandType( )
-	{
-		return bandType;
-	}
-	public void setBandType( int bandType )
-	{
-		this.bandType = bandType;
-	}
 	/**
 	 * get Cell
 	 * 

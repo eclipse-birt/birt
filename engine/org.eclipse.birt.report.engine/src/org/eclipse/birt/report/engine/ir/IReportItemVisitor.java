@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * A visitor class against the report design.
  * 
- * @version $Revision: 1.6 $ $Date: 2006/02/27 07:35:59 $
+ * @version $Revision: 1.7 $ $Date: 2006/04/27 09:52:28 $
  */
 public interface IReportItemVisitor {
 
@@ -26,6 +26,9 @@ public interface IReportItemVisitor {
 	 */
 	Object visitFreeFormItem(FreeFormItemDesign container, Object value);
 
+	Object visitListing(ListingDesign listing, Object value);
+	
+	Object visitBand(BandDesign band, Object value);
 	/**
 	 * visit list item
 	 * 
@@ -34,6 +37,8 @@ public interface IReportItemVisitor {
 	 */
 	Object visitListItem(ListItemDesign list, Object value);
 
+	Object visitListBand(ListBandDesign band, Object value);
+	
 	/**
 	 * visit text item
 	 * 
@@ -90,6 +95,8 @@ public interface IReportItemVisitor {
 	 */
 	Object visitTableItem(TableItemDesign table, Object value);
 	
+	Object visitTableBand(TableBandDesign band, Object value);
+	
 	Object visitRow(RowDesign row, Object value);
 	
 	Object visitCell(CellDesign cell, Object value);
@@ -120,4 +127,10 @@ public interface IReportItemVisitor {
 	 * @return the value after the visit.
 	 */
 	Object visitTemplate( TemplateDesign template, Object value );
+	
+	Object visitGroup( GroupDesign group, Object value );
+	
+	Object visitListGroup(ListGroupDesign group, Object value);
+	
+	Object visitTableGroup(TableGroupDesign group, Object value);
 }

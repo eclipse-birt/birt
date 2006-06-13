@@ -23,8 +23,8 @@ public class ContainerContent extends AbstractContentWrapper
 		super( container );
 	}
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitContainer( this, value );
+		return visitor.visitContainer( this, value );
 	}
 }

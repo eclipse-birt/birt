@@ -29,17 +29,20 @@ import org.eclipse.birt.report.engine.content.impl.DataContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
+import org.eclipse.birt.report.engine.content.impl.ListBandContent;
+import org.eclipse.birt.report.engine.content.impl.ListContent;
 import org.eclipse.birt.report.engine.content.impl.PageContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.TableBandContent;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
+import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.4 $ $Date: 2006/04/13 06:40:25 $
+ * @version $Revision: 1.5 $ $Date: 2006/04/28 06:44:28 $
  */
 public class ReportContentReaderV2
 {
@@ -157,10 +160,20 @@ public class ReportContentReaderV2
 				textContent.readContent( oi );
 				object = textContent;
 				break;
-			case IContent.AUTOTEXT_CONTENT:
+			case IContent.AUTOTEXT_CONTENT :
 				AutoTextContent autoText = new AutoTextContent( reportContent );
 				autoText.readContent( oi );
 				object = autoText;
+				break;
+			case IContent.LIST_CONTENT :
+				ListContent list = new ListContent( reportContent );
+				list.readContent( oi );
+				object = list;
+				break;
+			case IContent.LIST_BAND_CONTENT :
+				ListBandContent listBand = new ListBandContent( reportContent );
+				listBand.readContent( oi );
+				object = listBand;
 				break;
 		}
 		return object;
@@ -198,15 +211,16 @@ public class ReportContentReaderV2
 		DataInputStream oi = new DataInputStream( new ByteArrayInputStream(
 				buffer ) );
 		IContent content = readContent( oi );
-		content.setOffset( offset );
+		DocumentExtension docExt = new DocumentExtension( offset );
+		content.setExtension( IContent.DOCUMENT_EXTENSION, entry );
 		if ( parentOffset != -1 )
 		{
 			IContent parent = loadContent( parentOffset );
 			content.setParent( parent );
 		}
 		offset = offset + 12 + size;
-		contentCache.addEntry( new ContentTreeCache.TreeEntry( content
-				.getOffset( ), parentOffset, offset, content ) );
+		contentCache.addEntry( new ContentTreeCache.TreeEntry( docExt
+				.getIndex( ), parentOffset, offset, content ) );
 		return content;
 	}
 
@@ -237,7 +251,8 @@ public class ReportContentReaderV2
 		DataInputStream oi = new DataInputStream( new ByteArrayInputStream(
 				buffer ) );
 		IContent content = readContent( oi );
-		content.setOffset( offset );
+		DocumentExtension docExt = new DocumentExtension( offset );
+		content.setExtension( IContent.DOCUMENT_EXTENSION, docExt );
 		IContent parent = null;
 		if ( parentOffset != -1 )
 		{
@@ -245,8 +260,8 @@ public class ReportContentReaderV2
 		}
 		content.setParent( parent );
 		offset = offset + 12 + size;
-		contentCache.addEntry( new ContentTreeCache.TreeEntry( content
-				.getOffset( ), parentOffset, offset, content ) );
+		contentCache.addEntry( new ContentTreeCache.TreeEntry( docExt
+				.getIndex( ), parentOffset, offset, content ) );
 		return content;
 	}
 

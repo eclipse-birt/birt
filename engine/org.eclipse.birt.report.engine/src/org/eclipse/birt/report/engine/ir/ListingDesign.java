@@ -16,10 +16,25 @@ import java.util.ArrayList;
 
 /**
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/21 08:22:48 $
  */
 abstract public class ListingDesign extends ReportItemDesign
 {
+
+	protected boolean repeatHeader;
+	
+	/**
+	 * header of the listing design.
+	 */
+	protected BandDesign header;
+	/**
+	 * footer of the listing design
+	 */
+	protected BandDesign footer;
+	/**
+	 * detail of the listing design
+	 */
+	protected BandDesign detail;
 	/**
 	 * the page break interval. it will create a softpage break
 	 * for each page break interval rows.
@@ -39,19 +54,53 @@ abstract public class ListingDesign extends ReportItemDesign
 	 * array list store the ISortDefn
 	 */
 	protected ArrayList sorts = new ArrayList();
-//	/**
-//	 * on start script
-//	 */
-//	protected String onStart;
-//	/**
-//	 * on row script
-//	 */
-//	protected String onRow;
-//	/**
-//	 * on finish script
-//	 */
-//	protected String onFinish;
 	
+	/**
+	 * @return Returns the repeatHeader.
+	 */
+	public boolean isRepeatHeader( )
+	{
+		return repeatHeader;
+	}
+
+	/**
+	 * @param repeatHeader
+	 *            The repeatHeader to set.
+	 */
+	public void setRepeatHeader( boolean repeatHeader )
+	{
+		this.repeatHeader = repeatHeader;
+	}
+	
+	public BandDesign getHeader()
+	{
+		return header;
+	}
+	
+	public void setHeader(BandDesign header)
+	{
+		this.header = header;
+	}
+
+	public BandDesign getFooter()
+	{
+		return footer;
+	}
+	
+	public void setFooter(BandDesign footer)
+	{
+		this.footer = footer;
+	}
+	
+	public BandDesign getDetail()
+	{
+		return detail;
+	}
+	
+	public void setDetail(BandDesign detail)
+	{
+		this.detail = detail;
+	}
 	/**
 	 * get all the groups in this listing.
 	 * 
@@ -72,6 +121,23 @@ abstract public class ListingDesign extends ReportItemDesign
 		return this.groups.size( );
 	}
 
+	public GroupDesign getGroup( int level )
+	{
+		return (GroupDesign) groups.get( level );
+	}
+
+	/**
+	 * append a group into this listing. the group will be appended at the end
+	 * of this listing.
+	 * 
+	 * @param group
+	 *            group to be added
+	 */
+	public void addGroup( GroupDesign group )
+	{
+		this.groups.add( group );
+	}
+
 	
 	/**
 	 * @return Returns the filters.
@@ -88,49 +154,6 @@ abstract public class ListingDesign extends ReportItemDesign
 		return sorts;
 	}
 	
-//	/**
-//	 * @return Returns the onFinish.
-//	 */
-//	public String getOnFinish( )
-//	{
-//		return onFinish;
-//	}
-//	/**
-//	 * @param onFinish The onFinish to set.
-//	 */
-//	public void setOnFinish( String onFinish )
-//	{
-//		this.onFinish = onFinish;
-//	}
-//	/**
-//	 * @return Returns the onRow.
-//	 */
-//	public String getOnRow( )
-//	{
-//		return onRow;
-//	}
-//	/**
-//	 * @param onRow The onRow to set.
-//	 */
-//	public void setOnRow( String onRow )
-//	{
-//		this.onRow = onRow;
-//	}
-//	/**
-//	 * @return Returns the onStart.
-//	 */
-//	public String getOnStart( )
-//	{
-//		return onStart;
-//	}
-//	/**
-//	 * @param onStart The onStart to set.
-//	 */
-//	public void setOnStart( String onStart )
-//	{
-//		this.onStart = onStart;
-//	}
-	
 	public void setPageBreakInterval(int interval)
 	{
 		this.pageBreakInterval = interval;
@@ -139,5 +162,10 @@ abstract public class ListingDesign extends ReportItemDesign
 	public int getPageBreakInterval()
 	{
 		return pageBreakInterval;
+	}
+	
+	public Object accept(IReportItemVisitor visitor, Object value)
+	{
+		return visitor.visitListing( this, value );
 	}
 }

@@ -104,8 +104,12 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 */
 	public void finish() throws IOException
 	{
-		closeAllStream( );
-		folderWriter.toFileArchive( fileName );
+		if (folderWriter != null)
+		{
+			closeAllStream( );
+			folderWriter.toFileArchive( fileName );
+			folderWriter = null;
+		}
 	}
 	
 	/*

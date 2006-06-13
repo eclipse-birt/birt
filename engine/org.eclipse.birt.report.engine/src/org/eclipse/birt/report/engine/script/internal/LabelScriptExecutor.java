@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.script.internal;
 import org.eclipse.birt.report.engine.api.script.element.ILabel;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ILabelEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
+import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Label;
@@ -41,7 +41,7 @@ public class LabelScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( LabelContent content,
+	public static void handleOnCreate( ILabelContent content,
 			ExecutionContext context )
 	{
 		try
@@ -61,7 +61,7 @@ public class LabelScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( LabelContent content,
+	public static void handleOnRender( ILabelContent content,
 			ExecutionContext context )
 	{
 		try

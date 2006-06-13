@@ -26,9 +26,8 @@ import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
+import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 
 public class ReportContentWriterV2 implements IReportContentWriter
 {
@@ -127,7 +126,12 @@ public class ReportContentWriterV2 implements IReportContentWriter
 		IContent parent = (IContent) content.getParent( );
 		if ( parent != null )
 		{
-			parentOffset = parent.getOffset( );
+			DocumentExtension docExt = (DocumentExtension) parent
+					.getExtension( IContent.DOCUMENT_EXTENSION );
+			if ( docExt != null )
+			{
+				parentOffset = docExt.getIndex( );
+			}
 		}
 
 		// get the byte[] of the content
@@ -142,11 +146,12 @@ public class ReportContentWriterV2 implements IReportContentWriter
 		stream.writeInt( values.length );
 		stream.write( values );
 
-		content.setOffset( offset );
+		DocumentExtension docExt = new DocumentExtension( offset );
+		content.setExtension( IContent.DOCUMENT_EXTENSION, docExt );
 
 		offset = offset + 8 + 4 + values.length;
 
-		return content.getOffset( );
+		return docExt.getIndex( );
 	}
 
 	/**
@@ -161,13 +166,19 @@ public class ReportContentWriterV2 implements IReportContentWriter
 	{
 		ContentWriterVisitor writer = new ContentWriterVisitor( );
 		writer.write( content, this );
-		return content.getOffset( );
+		DocumentExtension docExt = (DocumentExtension) content
+				.getExtension( IContent.DOCUMENT_EXTENSION );
+		if ( docExt != null )
+		{
+			return docExt.getIndex( );
+		}
+		return -1;
 	}
 
 	/**
 	 * use to writer the content into the disk.
 	 * 
-	 * @version $Revision: 1.9 $ $Date: 2006/02/20 05:28:16 $
+	 * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:46 $
 	 */
 	private static class ContentWriterVisitor extends ContentVisitorAdapter
 	{
@@ -201,7 +212,7 @@ public class ReportContentWriterV2 implements IReportContentWriter
 			}
 		}
 
-		public void visitContent( IContent content, Object value )
+		public Object visitContent( IContent content, Object value )
 		{
 			IReportContentWriter writer = (IReportContentWriter) value;
 			writeContent( writer, content );
@@ -211,9 +222,10 @@ public class ReportContentWriterV2 implements IReportContentWriter
 				IContent child = (IContent) iter.next( );
 				visitContent( child, value );
 			}
+			return value;
 		}
 
-		public void visitPage( IPageContent page, Object value )
+		public Object visitPage( IPageContent page, Object value )
 		{
 			IReportContentWriter writer = (IReportContentWriter) value;
 			writeContent( writer, page );
@@ -233,27 +245,7 @@ public class ReportContentWriterV2 implements IReportContentWriter
 				IContent content = (IContent) iter.next( );
 				visitContent( content, writer );
 			}
-		}
-
-		public void visitTable( ITableContent table, Object value )
-		{
-			IReportContentWriter writer = (IReportContentWriter) value;
-			writeContent( writer, table );
-			ITableBandContent header = table.getHeader( );
-			if ( header != null )
-			{
-				visitContent( header, value );
-			}
-			ITableBandContent footer = table.getFooter( );
-			if ( footer != null )
-			{
-				visitContent( footer, value );
-			}
-			ITableBandContent body = table.getBody( );
-			if ( body != null )
-			{
-				visitContent( body, value );
-			}
+			return value;
 		}
 	}
 }

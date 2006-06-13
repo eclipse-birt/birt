@@ -43,13 +43,8 @@ public class CellMergedStyle extends AbstractStyle
 		IRowContent row = (IRowContent) cell.getParent( );
 		if ( row != null )
 		{
-			IElement parentElt = row.getParent( );
 			rowStyle = row.getStyle();
-			if ( parentElt instanceof ITableBandContent )
-			{
-				parentElt = parentElt.getParent( );
-			}
-			ITableContent table = (ITableContent) parentElt;
+			ITableContent table = row.getTable( );
 			if ( table != null )
 			{
 				int columnId = cell.getColumn( );

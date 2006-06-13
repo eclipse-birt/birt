@@ -13,16 +13,14 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
 
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.17 $ $Date: 2005/12/03 05:34:28 $
+ * @version $Revision: 1.18 $ $Date: 2006/04/11 08:17:43 $
  */
 public class LabelItemExecutor extends QueryItemExecutor
 {
@@ -35,10 +33,9 @@ public class LabelItemExecutor extends QueryItemExecutor
 	 * @param visitor
 	 *            the report executor visitor
 	 */
-	public LabelItemExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	public LabelItemExecutor( ExecutorManager manager )
 	{
-		super( context, visitor );
+		super( manager );
 	}
 
 	/**
@@ -52,40 +49,41 @@ public class LabelItemExecutor extends QueryItemExecutor
 	 * <li> call emitter to start the label
 	 * <li> popup the label.
 	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute()
+	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute(IContentEmitter)
 	 */
-	public void execute( ReportItemDesign item, IContentEmitter emitter )
+	public IContent execute( )
 	{
-		ILabelContent labelObj = report.createLabelContent( );
-		assert ( labelObj instanceof LabelContent );
-		IContent parent = context.getContent( );
+		LabelItemDesign labelDesign = (LabelItemDesign)getDesign();
+		ILabelContent labelContent = report.createLabelContent( );
+		setContent(labelContent);
 
-		context.pushContent( labelObj );
-
-		openResultSet( item );
-		accessQuery( item, emitter );
+		executeQuery();
 		
-		initializeContent( parent, item, labelObj );
+		initializeContent( labelDesign, labelContent );
 
-		processAction( item, labelObj );
-		processBookmark( item, labelObj );
-		processStyle( item, labelObj );
-		processVisibility( item, labelObj );
+		processAction( labelDesign, labelContent );
+		processBookmark( labelDesign, labelContent );
+		processStyle( labelDesign, labelContent );
+		processVisibility( labelDesign, labelContent );
 
 		if ( context.isInFactory( ) )
 		{
-			LabelScriptExecutor.handleOnCreate( (LabelContent) labelObj,
+			LabelScriptExecutor.handleOnCreate( labelContent,
 					context );
 		}
 
-		startTOCEntry( labelObj );
-		if ( emitter != null )
-		{
-			emitter.startLabel( labelObj );
-		}
-		finishTOCEntry( );
+		startTOCEntry( labelContent );
 		
-		closeResultSet( );
-		context.popContent( );
+		if (emitter != null)
+		{
+			emitter.startLabel( labelContent );
+		}
+		return labelContent;
+	}
+	
+	public void close( )
+	{
+		finishTOCEntry( );
+		closeQuery( );
 	}
 }

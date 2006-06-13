@@ -17,19 +17,24 @@ import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.content.IListBandContent;
+import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
 /**
  * used to pass the content object to following process.
  * 
- * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:42 $
+ * @version $Revision: 1.2 $ $Date: 2006/04/27 09:52:25 $
  */
 public interface IContentEmitter
 {
@@ -68,17 +73,9 @@ public interface IContentEmitter
 	 */
 	void endTable( ITableContent table );
 
-	void startTableHeader( ITableBandContent band );
+	void startTableBand( ITableBandContent band );
 
-	void endTableHeader( ITableBandContent band );
-
-	void startTableBody( ITableBandContent band );
-
-	void endTableBody( ITableBandContent band );
-
-	void startTableFooter( ITableBandContent band );
-
-	void endTableFooter( ITableBandContent band );
+	void endTableBand( ITableBandContent band );
 
 	void startRow( IRowContent row );
 
@@ -87,6 +84,14 @@ public interface IContentEmitter
 	void startCell( ICellContent cell );
 
 	void endCell( ICellContent cell );
+	
+	void startList( IListContent list );
+
+	void endList( IListContent list );
+
+	void startListBand( IListBandContent listBand );
+
+	void endListBand( IListBandContent listBand );
 
 	void startContainer( IContainerContent container );
 
@@ -106,4 +111,16 @@ public interface IContentEmitter
 
 	void startContent( IContent content );
 	void endContent( IContent content);
+	
+	void startGroup( IGroupContent group );
+
+	void endGroup( IGroupContent group );
+
+	void startTableGroup( ITableGroupContent group );
+
+	void endTableGroup( ITableGroupContent group );
+
+	void startListGroup( IListGroupContent group );
+
+	void endListGroup( IListGroupContent group );
 }

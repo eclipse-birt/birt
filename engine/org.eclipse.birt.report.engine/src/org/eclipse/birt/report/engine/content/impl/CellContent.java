@@ -19,10 +19,9 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
-import org.eclipse.birt.report.engine.content.IElement;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
 import org.eclipse.birt.report.engine.ir.CellDesign;
@@ -68,7 +67,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	 * @param item
 	 *            cell design item
 	 */
-	public CellContent( ReportContent report )
+	public CellContent( IReportContent report )
 	{
 		super( report );
 	}
@@ -114,9 +113,9 @@ public class CellContent extends AbstractContent implements ICellContent
 			( (CellDesign) generateBy ).setDrop( drop );
 	}
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitCell( this, value );
+		return visitor.visitCell( this, value );
 	}
 
 	/**
@@ -219,12 +218,7 @@ public class CellContent extends AbstractContent implements ICellContent
 		}
 		if ( row != null )
 		{
-			IElement parentElt = row.getParent( );
-			if ( parentElt instanceof ITableBandContent )
-			{
-				parentElt = parentElt.getParent( );
-			}
-			ITableContent table = (ITableContent) parentElt;
+			ITableContent table = row.getTable( );
 			if ( table != null )
 			{
 				int columnId = getColumn( );

@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.ITableInstance;
-import org.eclipse.birt.report.engine.content.impl.TableContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 public class TableInstance extends ReportItemInstance implements ITableInstance
 {
 
-	public TableInstance( TableContent table, ExecutionContext context )
+	public TableInstance( ITableContent table, ExecutionContext context )
 	{
 		super( table, context );
 	}
@@ -31,7 +31,7 @@ public class TableInstance extends ReportItemInstance implements ITableInstance
 	 */
 	public String getCaption( )
 	{
-		return ( ( TableContent ) content ).getCaption( );
+		return ( ( ITableContent ) content ).getCaption( );
 	}
 
 	/* (non-Javadoc)
@@ -39,7 +39,7 @@ public class TableInstance extends ReportItemInstance implements ITableInstance
 	 */
 	public void setCaption( String caption )
 	{
-		( ( TableContent ) content ).setCaption( caption );
+		( ( ITableContent ) content ).setCaption( caption );
 	}
 
 	/* (non-Javadoc)
@@ -47,7 +47,7 @@ public class TableInstance extends ReportItemInstance implements ITableInstance
 	 */
 	public String getCaptionKey( )
 	{
-		return ( ( TableContent ) content ).getCaptionKey( );
+		return ( ( ITableContent ) content ).getCaptionKey( );
 	}
 
 	/* (non-Javadoc)
@@ -55,7 +55,7 @@ public class TableInstance extends ReportItemInstance implements ITableInstance
 	 */
 	public void setCaptionKey( String captionKey )
 	{
-		( ( TableContent ) content ).setCaptionKey( captionKey );
+		( ( ITableContent ) content ).setCaptionKey( captionKey );
 	}
 
 	/* (non-Javadoc)
@@ -63,7 +63,7 @@ public class TableInstance extends ReportItemInstance implements ITableInstance
 	 */
 	public boolean getRepeatHeader( )
 	{
-		return ( ( TableContent ) content ).isHeaderRepeat( );
+		return ( ( ITableContent ) content ).isHeaderRepeat( );
 	}
 
 	/* (non-Javadoc)
@@ -71,6 +71,6 @@ public class TableInstance extends ReportItemInstance implements ITableInstance
 	 */
 	public void setRepeatHeader( boolean repeat )
 	{
-		( ( TableContent ) content ).setHeaderRepeat( repeat );
+		( ( ITableContent ) content ).setHeaderRepeat( repeat );
 	}
 }

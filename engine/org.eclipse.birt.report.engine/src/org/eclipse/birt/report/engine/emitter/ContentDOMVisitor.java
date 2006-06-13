@@ -21,16 +21,20 @@ import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.content.IListBandContent;
+import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
 /**
  * visit the content and output the content to emitter
  * 
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2006/04/12 05:40:29 $
  */
 public class ContentDOMVisitor extends ContentVisitorAdapter
 {
@@ -47,92 +51,114 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 		visit( content, null );
 	}
 
-	public void visitPage( IPageContent page, Object value )
+	public Object visitPage( IPageContent page, Object value )
 	{
 		emitter.startPage( page );
 		visitChildren( page.getPageBody( ), value );
 		emitter.endPage( page );
+		return value;
 	}
 
-	public void visitContainer( IContainerContent container, Object value )
+	public Object visitContainer( IContainerContent container, Object value )
 	{
 		emitter.startContainer( container );
 		visitChildren( container, value );
 		emitter.endContainer( container );
+		return value;
 	}
 
-	public void visitTable( ITableContent table, Object value )
+	public Object visitTable( ITableContent table, Object value )
 	{
 		emitter.startTable( table );
 		visitChildren( table, value );
 		emitter.endTable( table );
+		return value;
 	}
 
-	public void visitTableBand( ITableBandContent tableBand, Object value )
+	public Object visitTableGroup(ITableGroupContent group, Object value)
 	{
-		switch ( tableBand.getType( ) )
-		{
-			case ITableBandContent.BAND_HEADER :
-				emitter.startTableHeader( tableBand );
-				break;
-			case ITableBandContent.BAND_FOOTER :
-				emitter.startTableFooter( tableBand );
-				break;
-			default :
-				emitter.startTableBody( tableBand );
-		}
-
+		emitter.startTableGroup( group );
+		visitChildren(group, value);
+		emitter.endTableGroup( group );
+		return value;
+	}
+	
+	public Object visitTableBand( ITableBandContent tableBand, Object value )
+	{
+		emitter.startTableBand( tableBand );
 		visitChildren( tableBand, value );
-		switch ( tableBand.getType( ) )
-		{
-			case ITableBandContent.BAND_HEADER :
-				emitter.endTableHeader( tableBand );
-				break;
-			case ITableBandContent.BAND_FOOTER :
-				emitter.endTableFooter( tableBand );
-				break;
-			default :
-				emitter.endTableBody( tableBand );
-		}
+		emitter.endTableBand( tableBand );
+		return value;
 	}
 
-	public void visitRow( IRowContent row, Object value )
+	public Object visitRow( IRowContent row, Object value )
 	{
 		emitter.startRow( row );
 		visitChildren( row, value );
 		emitter.endRow( row );
+		return value;
 	}
 
-	public void visitCell( ICellContent cell, Object value )
+	public Object visitCell( ICellContent cell, Object value )
 	{
 		emitter.startCell( cell );
 		visitChildren( cell, value );
 		emitter.endCell( cell );
+		return value;
 	}
 
-	public void visitText( ITextContent text, Object value )
+	public Object visitList( IListContent list, Object value )
+	{
+		emitter.startList( list );
+		visitChildren( list, value );
+		emitter.endList( list );
+		return value;
+	}
+
+	public Object visitListGroup(IListGroupContent group, Object value)
+	{
+		emitter.startListGroup( group );
+		visitChildren(group, value);
+		emitter.endListGroup( group );
+		return value;
+	}
+
+	public Object visitListBand( IListBandContent listBand, Object value )
+	{
+		emitter.startListBand( listBand );
+		visitChildren( listBand, value );
+		emitter.endListBand( listBand );
+		return value;
+	}
+	
+	public Object visitText( ITextContent text, Object value )
 	{
 		emitter.startText( text );
+		return value;
 	}
 
-	public void visitLabel( ILabelContent label, Object value )
+	public Object visitLabel( ILabelContent label, Object value )
 	{
 		emitter.startLabel( label );
+		return value;
 	}
 
-	public void visitData( IDataContent data, Object value )
+	public Object visitData( IDataContent data, Object value )
 	{
 		emitter.startData( data );
+		return value;
 	}
 
-	public void visitImage( IImageContent image, Object value )
+	public Object visitImage( IImageContent image, Object value )
 	{
 		emitter.startImage( image );
+		return value;
 	}
 
-	public void visitForeign( IForeignContent content, Object value )
+	public Object visitForeign( IForeignContent content, Object value )
 	{
 		emitter.startForeign( content );
+		return value;
 	}
 
 	protected void visitChildren( IContent container, Object value )

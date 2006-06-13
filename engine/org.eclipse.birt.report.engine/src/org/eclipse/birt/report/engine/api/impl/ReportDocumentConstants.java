@@ -89,4 +89,9 @@ public interface ReportDocumentConstants
 	 * version number, used by BIRT 2.1.
 	 */
 	static final String REPORT_DOCUMENT_VERSION_1_2_1 = "1.2.1";
+	
+	/**
+	 * version number, used by BIRT 2.1RC4.
+	 */
+	static final String REPORT_DOCUMENT_VERSION_1_2_1_RC4 = "1.2.1.RC4";
 }

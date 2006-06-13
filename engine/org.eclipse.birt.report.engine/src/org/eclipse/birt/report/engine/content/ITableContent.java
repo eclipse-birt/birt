@@ -11,13 +11,14 @@
 
 package org.eclipse.birt.report.engine.content;
 
+
 /**
  * Provides the interfaces for the Table Content
  * 
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.5 $ $Date: 2005/11/11 06:26:46 $
  */
-public interface ITableContent extends IContent
+public interface ITableContent extends IContainerContent
 {
 
 	int getColumnCount( );
@@ -30,15 +31,30 @@ public interface ITableContent extends IContent
 	 * @return Returns the caption.
 	 */
 	public String getCaption( );
+	
+	public void setCaption(String caption);
 
+	public String getCaptionKey();
+	
+	public void setCaptionKey(String key);
+	
 	/**
 	 * @return
 	 */
 	public boolean isHeaderRepeat( );
+	
+	public void setHeaderRepeat(boolean repeat);
 
+	/**
+	 * get the header band. return null if the table has no header.
+	 * @return
+	 */
 	public ITableBandContent getHeader( );
 
-	public ITableBandContent getBody( );
-
+	/**
+	 * get the footer band,return NULL if the table has no footer.
+	 * @return
+	 */
 	public ITableBandContent getFooter( );
+	
 }

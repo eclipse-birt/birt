@@ -12,25 +12,14 @@
 package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
-import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 
 /**
  * the gridItem excutor
@@ -48,10 +37,9 @@ public class GridItemExecutor extends QueryItemExecutor
 	 * @param visitor
 	 *            the report executor visitor
 	 */
-	public GridItemExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	public GridItemExecutor( ExecutorManager manager )
 	{
-		super( context, visitor );
+		super( manager );
 	}
 
 	/**
@@ -69,223 +57,86 @@ public class GridItemExecutor extends QueryItemExecutor
 	 * 
 	 * @see org.eclipse.birt.report.engine.excutor.ReportItemExcutor#excute()
 	 */
-	public void execute( ReportItemDesign item, IContentEmitter emitter )
+	public IContent execute( )
 	{
-		GridItemDesign gridItem = ( GridItemDesign ) item;
-		ITableContent tableObj = report.createTableContent( );
-		IContent parent = context.getContent( );
-		context.pushContent( tableObj );
+		GridItemDesign gridDesign = (GridItemDesign) getDesign( );
+		ITableContent tableContent = report.createTableContent( );
+		setContent(tableContent);
 
-		openResultSet( item );
-		accessQuery( item, emitter );
+		executeQuery( );
 
-		initializeContent( parent, item, tableObj );
+		initializeContent( gridDesign, tableContent );
 
-		processAction( item, tableObj );
-		processBookmark( item, tableObj );
-		processStyle( item, tableObj );
-		processVisibility( item, tableObj );
+		processAction( gridDesign, tableContent );
+		processBookmark( gridDesign, tableContent );
+		processStyle( gridDesign, tableContent );
+		processVisibility( gridDesign, tableContent );
 
-		for ( int i = 0; i < gridItem.getColumnCount( ); i++ )
+		for ( int i = 0; i < gridDesign.getColumnCount( ); i++ )
 		{
-			ColumnDesign columnDesign = gridItem.getColumn( i );
+			ColumnDesign columnDesign = gridDesign.getColumn( i );
 			Column column = new Column( report );
 			column.setGenerateBy( columnDesign );
-
+			
 			InstanceID iid = new InstanceID( null, columnDesign.getID( ), null );
 			column.setInstanceID( iid );
 			
 			processColumnStyle( columnDesign, column );
 			processColumnVisibility( columnDesign, column );
 			
-			tableObj.addColumn( column );
+			tableContent.addColumn( column );
 		}
 
 		if ( context.isInFactory( ) )
 		{
-			GridScriptExecutor.handleOnCreate( ( TableContent ) tableObj,
-					context );
+			GridScriptExecutor.handleOnCreate( tableContent, context );
 		}
-		startTOCEntry( tableObj );
+		
+		startTOCEntry( tableContent );
 		if ( emitter != null )
 		{
-			emitter.startTable( tableObj );
+			emitter.startTable( tableContent );
 		}
 
-		ITableBandContent body = report.createTableBody( );
-		initializeContent( tableObj, null, body );
+		// prepare to execute the children
+		curRowDesign = 0;
+		curRowContent = 0;
 
-		context.pushContent( body );
-
-		startTOCEntry( body );
+		return tableContent;
+	}
+	
+	public void close( )
+	{
+		ITableContent tableContent = (TableContent)getContent();
 		if ( emitter != null )
 		{
-			emitter.startTableBody( body );
-		}
-
-		for ( int i = 0; i < gridItem.getRowCount( ); i++ )
-		{
-			RowDesign row = gridItem.getRow( i );
-			if ( row != null )
-			{
-				if ( context.isCanceled( ) )
-				{
-					break;
-				}
-				executeRow( i, body, row, emitter );
-			}
-		}
-		if ( emitter != null )
-		{
-			emitter.endTableBody( body );
+			emitter.endTable( tableContent );
 		}
 		finishTOCEntry( );
-		context.popContent( );
-
-		if ( emitter != null )
-		{
-			emitter.endTable( tableObj );
-		}
-		finishTOCEntry( );
-		closeResultSet( );
-		context.popContent( );
+		closeQuery( );
 	}
 
-	/**
-	 * execute the row. The execution process is:
-	 * <li> create a row content
-	 * <li> push it into the context
-	 * <li> intialize the content.
-	 * <li> process bookmark, action, style and visibility
-	 * <li> call onCreate if necessary
-	 * <li> call emitter to start the row
-	 * <li> for each cell, execute the cell
-	 * <li> call emitter to close the row
-	 * <li> pop up the row.
-	 * 
-	 * @param rowId
-	 *            row id.
-	 * @param body
-	 *            table body.
-	 * @param row
-	 *            row design
-	 * @param emitter
-	 *            output emitter
-	 */
-	private void executeRow( int rowId, ITableBandContent body, RowDesign row,
-			IContentEmitter emitter )
+	int curRowDesign;
+	int curRowContent;
+
+	public boolean hasNextChild( )
 	{
-		IRowContent rowContent = report.createRowContent( );
-		rowContent.setRowID( rowId );
-		assert ( rowContent instanceof RowContent );
-		context.pushContent( rowContent );
-
-		initializeContent( body, row, rowContent );
-
-		processAction( row, rowContent );
-		processBookmark( row, rowContent );
-		processStyle( row, rowContent );
-		processVisibility( row, rowContent );
-
-		if ( context.isInFactory( ) )
-		{			
-			RowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
-					context );
-		}
-
-		startTOCEntry( rowContent );
-		if ( emitter != null )
-		{
-			emitter.startRow( rowContent );
-		}
-
-		for ( int j = 0; j < row.getCellCount( ); j++ )
-		{
-			if ( context.isCanceled( ) )
-			{
-				break;
-			}
-			CellDesign cell = row.getCell( j );
-			if ( cell != null )
-			{
-				executeCell( rowContent, cell, emitter );
-			}
-		}
-		if ( emitter != null )
-		{
-			emitter.endRow( rowContent );
-		}
-		finishTOCEntry( );
-		context.popContent( );
+		GridItemDesign gridDesign = (GridItemDesign) getDesign( );
+		return curRowDesign < gridDesign.getRowCount( );
 	}
 
-	/**
-	 * execute a cell. the execution process is:
-	 * <li> create a cell content
-	 * <li> push the content into the stack
-	 * <li> intialize the cell
-	 * <li> process the action, bookmark, style, visibility
-	 * <li> call onCreate if necessary
-	 * <li> call emitter to start the cell
-	 * <li> for each element in the cell, execute the element.
-	 * <li> call emiter to close the cell
-	 * <li> popup the cell.
-	 * 
-	 * @param rowContent
-	 *            row content
-	 * @param cell
-	 *            cell design
-	 * @param emitter
-	 *            output emitter
-	 */
-	private void executeCell( IRowContent rowContent, CellDesign cell,
-			IContentEmitter emitter )
+	public IReportItemExecutor getNextChild( )
 	{
-		ICellContent cellContent = report.createCellContent( );
-		assert ( cellContent instanceof CellContent );
-		context.pushContent( cellContent );
+		GridItemDesign gridDesign = (GridItemDesign) getDesign( );
 
-		initializeContent( rowContent, cell, cellContent );
-
-		cellContent.setColumn( cell.getColumn( ) );
-		cellContent.setColSpan( cell.getColSpan( ) );
-		cellContent.setRowSpan( cell.getRowSpan( ) );
-
-		processAction( cell, cellContent );
-		processBookmark( cell, cellContent );
-		processStyle( cell, cellContent );
-		processVisibility( cell, cellContent );
-
-		if ( context.isInFactory( ) )
+		if ( curRowDesign < gridDesign.getRowCount( ) )
 		{
-			CellScriptExecutor.handleOnCreate( ( CellContent ) cellContent,
-					context, true );
+			RowDesign rowDesign = gridDesign.getRow( curRowDesign++ );
+			RowExecutor rowExecutor = (RowExecutor)manager.createExecutor( this,
+					rowDesign );
+			rowExecutor.setRowId( curRowContent );
+			return rowExecutor;
 		}
-
-		startTOCEntry( cellContent );
-		if ( emitter != null )
-		{
-			emitter.startCell( cellContent );
-		}
-
-		for ( int m = 0; m < cell.getContentCount( ); m++ )
-		{
-			if ( context.isCanceled( ) )
-			{
-				break;
-			}
-			ReportItemDesign ri = cell.getContent( m );
-			if ( ri != null )
-			{
-				ri.accept( this.visitor, emitter );
-			}
-		}
-
-		if ( emitter != null )
-		{
-			emitter.endCell( cellContent );
-		}
-		finishTOCEntry( );
-		context.popContent( );
+		return null;
 	}
 }

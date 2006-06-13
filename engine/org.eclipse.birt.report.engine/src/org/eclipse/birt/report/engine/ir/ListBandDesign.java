@@ -11,62 +11,16 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import java.util.ArrayList;
 
 /**
  * List Band.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:41 $
  */
-public class ListBandDesign extends ReportElementDesign
+public class ListBandDesign extends BandDesign
 {
-
-	/**
-	 * section in the listBand
-	 */
-	protected ArrayList contents = new ArrayList( );
-
-	/**
-	 * get section in this band
-	 * 
-	 * @param index
-	 *            section index
-	 * @return Returns the sections.
-	 */
-	public ReportItemDesign getContent( int index )
+	public Object accept( IReportItemVisitor visitor, Object value )
 	{
-		assert ( index >= 0 && index < contents.size( ) );
-		return (ReportItemDesign) contents.get( index );
-	}
-
-	/**
-	 * get total sections
-	 * 
-	 * @return total count sections in this list band.
-	 */
-	public int getContentCount( )
-	{
-		return this.contents.size( );
-	}
-
-	/**
-	 * get all the sections.
-	 * 
-	 * @return array list contains all the sections
-	 */
-	public ArrayList getContents( )
-	{
-		return this.contents;
-	}
-
-	/**
-	 * set the section of this band
-	 * 
-	 * @param item
-	 *            The sections to set.
-	 */
-	public void addContent( ReportItemDesign item )
-	{
-		this.contents.add( item );
+		return visitor.visitListBand(this, value);
 	}
 }

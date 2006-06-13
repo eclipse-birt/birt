@@ -28,9 +28,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.core.framework.PlatformFileContext;
 
 /**
  * Defines a standalone reporting application that uses
@@ -40,7 +38,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.22 $ $Date: 2006/04/25 02:22:03 $
+ * @version $Revision: 1.23 $ $Date: 2006/04/25 08:18:00 $
  */
 public class ReportRunner
 {

@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.13 $ $Date: 2006/01/20 14:55:38 $
+ * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:53 $
  */
 public class TableContentWrapper extends AbstractContentWrapper
 		implements
@@ -45,9 +45,9 @@ public class TableContentWrapper extends AbstractContentWrapper
 		tableContent = content;
 	}
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitTable( this, value );
+		return visitor.visitTable( this, value );
 	}
 
 	/*
@@ -58,20 +58,6 @@ public class TableContentWrapper extends AbstractContentWrapper
 	public void addColumn( IColumn column )
 	{
 		tableContent.addColumn( column );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.content.ITableContent#getBody()
-	 */
-	public ITableBandContent getBody( )
-	{
-		if ( body == null )
-		{
-			body = new TableBandContentWrapper( tableContent.getBody( ) );
-		}
-		return body;
 	}
 
 	/*
@@ -113,7 +99,7 @@ public class TableContentWrapper extends AbstractContentWrapper
 	{
 		if ( footer == null )
 		{
-			footer = new TableBandContentWrapper( tableContent.getBody( ) );
+			footer = new TableBandContentWrapper( tableContent.getFooter( ) );
 		}
 		return footer;
 	}
@@ -127,7 +113,7 @@ public class TableContentWrapper extends AbstractContentWrapper
 	{
 		if ( header == null )
 		{
-			header = new TableBandContentWrapper( tableContent.getBody( ) );
+			header = new TableBandContentWrapper( tableContent.getHeader( ) );
 		}
 		return header;
 	}
@@ -142,4 +128,23 @@ public class TableContentWrapper extends AbstractContentWrapper
 		return tableContent.isHeaderRepeat( );
 	}
 
+	public String getCaptionKey( )
+	{
+		return tableContent.getCaptionKey( );
+	}
+
+	public void setCaption( String caption )
+	{
+		tableContent.setCaption(caption);
+	}
+
+	public void setCaptionKey( String key )
+	{
+		tableContent.setCaptionKey(key);
+	}
+
+	public void setHeaderRepeat( boolean repeat )
+	{
+		tableContent.setHeaderRepeat( repeat );
+	}
 }

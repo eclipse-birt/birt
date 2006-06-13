@@ -41,6 +41,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.impl.Image;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -48,15 +49,19 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.content.IListBandContent;
+import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.dom.CellMergedStyle;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
@@ -73,7 +78,6 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
@@ -92,7 +96,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.120 $ $Date: 2006/06/13 06:30:47 $
+ * @version $Revision: 1.121 $ $Date: 2006/06/13 09:38:00 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -790,7 +794,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.openTag( HTMLTags.TAG_DIV );		
 				handlePageStyle( page.getPageHeader().getStyleClass( ), page.getPageHeader().getStyle( ) );
 				
-				contentVisitor.visitList( page.getHeader( ), null );
+				contentVisitor.visitChildren( page.getPageHeader( ), null );
 				
 				//close the page header
 				writer.closeTag( HTMLTags.TAG_DIV );
@@ -852,7 +856,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.openTag( HTMLTags.TAG_DIV );				
 				handlePageStyle( page.getPageFooter().getStyleClass( ), page.getPageFooter().getStyle( ) );			
 				
-				contentVisitor.visitList( page.getFooter( ), null );
+				contentVisitor.visitChildren( page.getPageFooter( ), null );
 								
 				//close the page footer
 				writer.closeTag( HTMLTags.TAG_DIV );
@@ -1202,6 +1206,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.closeTag( HTMLTags.TAG_TFOOT );
 	}
 
+	boolean isRowInDetailBand(IRowContent row)
+	{
+		IBandContent band = (IBandContent)row.getParent( );
+		if (band.getBandType( ) == IBandContent.BAND_DETAIL)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1219,7 +1233,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( includeSelectionHandler )
 		{
-			if ( row.getRowType( ) == TableBandDesign.TABLE_DETAIL )
+			if ( isRowInDetailBand( row ) )
 			{
 				DetailRowState state = (DetailRowState) detailRowStateStack
 						.peek( );
@@ -1243,34 +1257,65 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, row
 				.getHeight( ) ); //$NON-NLS-1$
 		
-		setRowType( HTMLTags.ATTR_TYPE, row );
-		writer.attribute( HTMLTags.ATTR_GOURP_ID, row.getGroupId( ) );
-		writer.attribute( HTMLTags.ATTR_ROW_TYPE, row.getRowType( ) );
+		outputRowMetaData( row );
 		handleStyle( row, styleBuffer );
 	}
 	
-	protected void setRowType( String tagName, IRowContent rowContent )
+	protected IGroupContent getGroup(IBandContent bandContent)
 	{
-		if ( tagName != null && rowContent != null )
+		IContent parent = (IContent)bandContent.getParent();
+		if (parent instanceof IGroupContent)
 		{
-			int bandType = rowContent.getRowType( );
-			if ( bandType == TableBandDesign.TABLE_HEADER )
-			{
-				writer.attribute( tagName, "wrth" );
-			}
-			else if ( bandType == TableBandDesign.TABLE_FOOTER )
-			{
-				writer.attribute( tagName, "wrtf" );
-			}
-			else if ( bandType == TableBandDesign.GROUP_HEADER )
-			{
-				writer.attribute( tagName, "wrgh" + rowContent.getGroupLevel( ) );
-			}
-			else if ( bandType == TableBandDesign.GROUP_FOOTER )
-			{
-				writer.attribute( tagName, "wrgf" + rowContent.getGroupLevel( ) );
-			}
+			return (IGroupContent)parent;
 		}
+		return null;
+	}
+	
+	protected void outputRowMetaData( IRowContent rowContent )
+	{
+		Object parent = rowContent.getParent( );
+		if ( parent instanceof ITableBandContent )
+		{
+			ITableBandContent bandContent = (ITableBandContent) parent;
+			IGroupContent group = getGroup(bandContent);
+			if ( group != null )
+			{
+				writer.attribute( HTMLTags.ATTR_GOURP_ID, group.getGroupID( ) );
+			}
+			String rowType = null;
+			String metaType = null;
+
+			int bandType = bandContent.getBandType( );
+			if ( bandType == ITableBandContent.BAND_HEADER )
+			{
+				metaType = "wrth";
+				rowType = "header";
+			}
+			else if ( bandType == ITableBandContent.BAND_FOOTER )
+			{
+				metaType = "wrtf";
+				rowType = "footer";
+			}
+			else if ( bandType == ITableBandContent.BAND_GROUP_HEADER )
+			{
+				rowType = "group-header";
+				if ( group != null )
+				{
+					metaType = "wrgh" + group.getGroupLevel( );
+				}
+			}
+			else if ( bandType == ITableBandContent.BAND_GROUP_FOOTER )
+			{
+				rowType = "group-footer";
+				if ( group != null )
+				{
+					metaType = "wrgf" + group.getGroupLevel( );
+				}
+			}
+			writer.attribute( HTMLTags.ATTR_TYPE, metaType );
+			writer.attribute( HTMLTags.ATTR_ROW_TYPE, rowType );
+		}
+
 	}
 	
 	/*
@@ -1307,7 +1352,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			IElement tableBand = row.getParent( );
 			if ( tableBand instanceof ITableBandContent )
 			{
-				int type = ( (ITableBandContent)tableBand ).getType( ); 
+				int type = ( (ITableBandContent)tableBand ).getBandType( ); 
 				if ( type == ITableBandContent.BAND_HEADER )
 				{
 					return true;
@@ -2828,6 +2873,76 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		return state.isStartOfDetail
 				&& cell.getColumnInstance( ).hasDataItemsInDetail( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#endGroup(org.eclipse.birt.report.engine.content.IGroupContent)
+	 */
+	public void endGroup( IGroupContent group )
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#endListBand(org.eclipse.birt.report.engine.content.IListBandContent)
+	 */
+	public void endListBand( IListBandContent listBand )
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#endListGroup(org.eclipse.birt.report.engine.content.IListGroupContent)
+	 */
+	public void endListGroup( IListGroupContent group )
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#endTableBand(org.eclipse.birt.report.engine.content.ITableBandContent)
+	 */
+	public void endTableBand( ITableBandContent band )
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#endTableGroup(org.eclipse.birt.report.engine.content.ITableGroupContent)
+	 */
+	public void endTableGroup( ITableGroupContent group )
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#startGroup(org.eclipse.birt.report.engine.content.IGroupContent)
+	 */
+	public void startGroup( IGroupContent group )
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#startListBand(org.eclipse.birt.report.engine.content.IListBandContent)
+	 */
+	public void startListBand( IListBandContent listBand )
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#startListGroup(org.eclipse.birt.report.engine.content.IListGroupContent)
+	 */
+	public void startListGroup( IListGroupContent group )
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#startTableBand(org.eclipse.birt.report.engine.content.ITableBandContent)
+	 */
+	public void startTableBand( ITableBandContent band )
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#startTableGroup(org.eclipse.birt.report.engine.content.ITableGroupContent)
+	 */
+	public void startTableGroup( ITableGroupContent group )
+	{
 	}
 }
 

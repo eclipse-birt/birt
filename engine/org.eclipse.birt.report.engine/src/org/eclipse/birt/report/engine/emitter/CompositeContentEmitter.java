@@ -13,24 +13,30 @@ package org.eclipse.birt.report.engine.emitter;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.content.IListBandContent;
+import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
 /**
  * Emitter the input to mutiple outputs.
  *
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.2 $ $Date: 2006/04/05 13:22:48 $
  */
 public class CompositeContentEmitter extends ContentEmitterAdapter
 {
@@ -53,6 +59,78 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 			((IContentEmitter)emitters.get(i)).end(report);
 		}
 	}
+
+	public void endGroup( IGroupContent group )
+	{
+		for (int i = 0; i < emitters.size( ); i++)
+		{
+			((IContentEmitter)emitters.get(i)).endGroup(group);
+		}
+	}
+
+
+	public void endList( IListContent list )
+	{
+		for ( int i = 0; i < emitters.size( ); i++ )
+		{
+			( (IContentEmitter) emitters.get( i ) ).endList( list );
+		}
+	}
+
+
+	public void endListGroup( IListGroupContent group )
+	{
+		for ( int i = 0; i < emitters.size( ); i++ )
+		{
+			( (IContentEmitter) emitters.get( i ) ).endListGroup( group );
+		}
+	}
+
+
+	public void endTableGroup( ITableGroupContent group )
+	{
+		for ( int i = 0; i < emitters.size( ); i++ )
+		{
+			( (IContentEmitter) emitters.get( i ) ).endTableGroup( group );
+		}
+	}
+
+
+	public void startAutoText( IAutoTextContent autoText )
+	{
+		for ( int i = 0; i < emitters.size( ); i++ )
+		{
+			( (IContentEmitter) emitters.get( i ) ).startAutoText( autoText );
+		}
+	}
+
+
+	public void startGroup( IGroupContent group )
+	{
+		for ( int i = 0; i < emitters.size( ); i++ )
+		{
+			( (IContentEmitter) emitters.get( i ) ).startGroup( group );
+		}
+	}
+
+
+	public void startListGroup( IListGroupContent group )
+	{
+		for ( int i = 0; i < emitters.size( ); i++ )
+		{
+			( (IContentEmitter) emitters.get( i ) ).startListGroup( group );
+		}
+	}
+
+
+	public void startTableGroup( ITableGroupContent group )
+	{
+		for ( int i = 0; i < emitters.size( ); i++ )
+		{
+			( (IContentEmitter) emitters.get( i ) ).startTableGroup( group );
+		}
+	}
+
 
 	public void endCell( ICellContent cell )
 	{
@@ -93,7 +171,21 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 			((IContentEmitter)emitters.get(i)).endRow(row);
 		}
 	}
-
+	public void startTableBand( ITableBandContent band )
+	{
+		for (int i = 0; i < emitters.size(); i++)
+		{
+			((IContentEmitter)emitters.get(i)).startTableBand(band);
+		}
+	}
+	
+	public void endTableBand( ITableBandContent band )
+	{
+		for (int i = 0; i < emitters.size(); i++)
+		{
+			((IContentEmitter)emitters.get(i)).endTableBand(band);
+		}
+	}
 	public void endTable( ITableContent table )
 	{
 		for (int i = 0; i < emitters.size(); i++)
@@ -101,30 +193,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 			((IContentEmitter)emitters.get(i)).endTable(table);
 		}
 	}
-
-	public void endTableBody( ITableBandContent band )
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endTableBody(band);
-		}
-	}
-
-	public void endTableFooter( ITableBandContent band )
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endTableFooter(band);
-		}
-	}
-
-	public void endTableHeader( ITableBandContent band )
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endTableHeader(band);
-		}
-	}
+	
 
 	public String getOutputFormat( )
 	{
@@ -227,27 +296,26 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startTableBody( ITableBandContent band )
+	public void startListBand( IListBandContent band )
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
-			((IContentEmitter)emitters.get(i)).startTableBody(band);
+			((IContentEmitter)emitters.get(i)).startListBand(band);
+		}
+	}
+	public void endListBand( IListBandContent band )
+	{
+		for (int i = 0; i < emitters.size(); i++)
+		{
+			((IContentEmitter)emitters.get(i)).endListBand(band);
 		}
 	}
 
-	public void startTableFooter( ITableBandContent band )
+	public void startList( IListContent list )
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
-			((IContentEmitter)emitters.get(i)).startTableFooter(band);
-		}
-	}
-
-	public void startTableHeader( ITableBandContent band )
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startTableHeader(band);
+			((IContentEmitter)emitters.get(i)).startList(list);
 		}
 	}
 

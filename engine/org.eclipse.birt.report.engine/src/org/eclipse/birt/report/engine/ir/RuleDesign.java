@@ -11,12 +11,11 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
 
 
 /**
  * 
- * @version $Revision: 1.6 $ $Date: 2005/06/29 05:41:18 $
+ * @version $Revision: 1.7 $ $Date: 2006/04/26 07:33:48 $
  */
 public abstract class RuleDesign
 {

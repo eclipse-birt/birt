@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintWriterV2;
-import org.eclipse.birt.report.engine.internal.document.v2.ReportContentWriterV2;
+import org.eclipse.birt.report.engine.internal.document.v3.ReportContentWriterV3;
 import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
@@ -132,7 +132,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.3 $ $Date: 2006/05/27 04:31:33 $
+	 * @version $Revision: 1.4 $ $Date: 2006/06/09 09:35:30 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -143,7 +143,7 @@ public class ReportDocumentBuilder
 		{
 			try
 			{
-				writer = new ReportContentWriterV2( document );
+				writer = new ReportContentWriterV3( document );
 				writer.open( ReportDocumentConstants.CONTENT_STREAM );
 			}
 			catch ( IOException ex )
@@ -202,13 +202,14 @@ public class ReportDocumentBuilder
 								reportletsIndexById.put( strIID, new Long( offset ) );
 							}
 						}
-						String bookmark = content.getBookmark( );
-						if ( bookmark != null )
+					}
+					
+					String bookmark = content.getBookmark( );
+					if ( bookmark != null )
+					{
+						if ( reportletsIndexByBookmark.get( bookmark ) == null )
 						{
-							if ( reportletsIndexByBookmark.get( bookmark ) == null )
-							{
-								reportletsIndexByBookmark.put( bookmark, new Long( offset ) );
-							}
+							reportletsIndexByBookmark.put( bookmark, new Long( offset ) );
 						}
 					}
 				}
@@ -224,7 +225,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.3 $ $Date: 2006/05/27 04:31:33 $
+	 * @version $Revision: 1.4 $ $Date: 2006/06/09 09:35:30 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{
@@ -235,7 +236,7 @@ public class ReportDocumentBuilder
 		{
 			try
 			{
-				writer = new ReportContentWriterV2( document );
+				writer = new ReportContentWriterV3( document );
 				writer.open( ReportDocumentConstants.PAGE_STREAM );
 			}
 			catch ( IOException ex )

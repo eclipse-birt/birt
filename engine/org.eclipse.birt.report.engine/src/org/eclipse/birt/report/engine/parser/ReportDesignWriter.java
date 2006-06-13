@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.parser;
 
 import java.io.PrintWriter;
 import java.io.Writer;
-import com.ibm.icu.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -25,10 +24,10 @@ import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GraphicMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
+import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
-import org.eclipse.birt.report.engine.ir.ListGroupDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
@@ -40,15 +39,16 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
-import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
+import com.ibm.icu.text.DecimalFormat;
+
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.14 $ $Date: 2006/02/22 06:44:01 $
+ * @version $Revision: 1.15 $ $Date: 2006/04/06 12:35:26 $
  */
 class ReportDesignWriter
 {
@@ -140,14 +140,7 @@ class ReportDesignWriter
 			out.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" ); //$NON-NLS-1$
 			pushTag( "report" ); //$NON-NLS-1$
 			attribute( "units", report.getUnit( ) ); //$NON-NLS-1$
-			/*
-			 * if ( report.getDataSourceCount( ) > 0 ) { pushTag( "data-sources" );
-			 * for ( int i = 0; i < report.getDataSourceCount( ); i++ ) {
-			 * writeDataSource( report.getDataSource( i ) ); } popTag( ); } if (
-			 * report.getDataSetCount( ) > 0 ) { pushTag( "data-sets" ); for (
-			 * int i = 0; i < report.getDataSetCount( ); i++ ) { writeDataSet(
-			 * report.getDataSet( i ) ); } popTag( ); }
-			 */
+
 			if ( hasStyle && report.getStyleCount( ) > 0 )
 			{
 				pushTag( "styles" ); //$NON-NLS-1$
@@ -175,44 +168,6 @@ class ReportDesignWriter
 		}
 
 		/**
-		 * write the data source.
-		 * 
-		 * @param ds
-		 *            datas ource
-		 */
-		/*
-		 * private void writeDataSource( DataSourceDesign ds ) { assert ds
-		 * instanceof JdbcDataSourceDesign;
-		 * 
-		 * pushTag( "jdbc-data-source" ); writeReportElement( ds );
-		 * 
-		 * JdbcDataSourceDesign jdbcds = (JdbcDataSourceDesign) ds; attribute(
-		 * "user-name", jdbcds.getUserName( ) ); attribute( "password",
-		 * jdbcds.getPassword( ) ); text( jdbcds.getUrl( ) );
-		 * 
-		 * popTag( ); }
-		 */
-
-		/**
-		 * write out the data set
-		 * 
-		 * @param ds
-		 *            data set
-		 */
-		/*
-		 * private void writeDataSet( DataSetDesign ds ) { assert ds instanceof
-		 * SqlQueryDataSetDesign;
-		 * 
-		 * pushTag( "sql-query" ); writeReportElement( ds );
-		 * 
-		 * SqlQueryDataSetDesign sqlds = (SqlQueryDataSetDesign) ds; attribute(
-		 * "data-source", sqlds.getDataSource( ).getName( ) ); text(
-		 * sqlds.getStatement( ) );
-		 * 
-		 * popTag( ); }
-		 */
-
-		/**
 		 * write pagesetup
 		 * 
 		 * @param pageSetup
@@ -234,24 +189,26 @@ class ReportDesignWriter
 		 * @param band
 		 *            band
 		 */
-		private void writeListBand( String tag, ListBandDesign band )
+		public Object visitListBand( ListBandDesign band, Object value )
 		{
-			pushTag( tag );
+			pushTag( "band" );
 			for ( int i = 0; i < band.getContentCount( ); i++ )
 			{
-				band.getContent( i ).accept( this , null);
+				band.getContent( i ).accept( this, value );
 			}
 			popTag( );
+			return value;
 		}
 
-		private void writeTableBand( String tag, TableBandDesign band )
+		public Object visitTableBand( TableBandDesign band, Object value )
 		{
-			pushTag( tag );
-			for ( int i = 0; i < band.getRowCount( ); i++ )
+			pushTag( "band" );
+			for ( int i = 0; i < band.getContentCount( ); i++ )
 			{
-				writeRow( band.getRow( i ) );
+				band.getContent( i ).accept( this, value );
 			}
 			popTag( );
+			return value;
 		}
 
 		/**
@@ -349,37 +306,23 @@ class ReportDesignWriter
 			}
 		}
 
-		void writeListGroup( ListGroupDesign group )
+		public Object visitGroup( GroupDesign group, Object value )
 		{
 			pushTag( "group" ); //$NON-NLS-1$
 
 			if ( group.getHeader( ) != null )
 			{
-				writeListBand( "header", group.getHeader( ) ); //$NON-NLS-1$
+				group.getHeader().accept(this, value);
 			}
 			if ( group.getFooter( ) != null )
 			{
-				writeListBand( "footer", group.getFooter( ) ); //$NON-NLS-1$
+				group.getFooter().accept(this, value);
 			}
 			popTag( );
+			return value;
 		}
 
-		void writeTableGroup( TableGroupDesign group )
-		{
-			pushTag( "group" ); //$NON-NLS-1$
-
-			if ( group.getHeader( ) != null )
-			{
-				writeTableBand( "header", group.getHeader( ) ); //$NON-NLS-1$
-			}
-			if ( group.getFooter( ) != null )
-			{
-				writeTableBand( "footer", group.getFooter( ) ); //$NON-NLS-1$
-			}
-			popTag( );
-		}
-
-		public void visitTextItem( TextItemDesign text )
+		public Object visitTextItem( TextItemDesign text, Object value )
 		{
 			pushTag( "text" ); //$NON-NLS-1$
 			writeReportItem( text );
@@ -387,9 +330,10 @@ class ReportDesignWriter
 			attribute( "resource-key", text.getTextKey( ) ); //$NON-NLS-1$
 			text( text.getText( ) );
 			popTag( );
+			return value;
 		}
 
-		public void visitMultiLineItem( MultiLineItemDesign multiLine )
+		public Object visitMultiLineItem( MultiLineItemDesign multiLine , Object value)
 		{
 			pushTag( "multi-line" ); //$NON-NLS-1$
 			writeReportItem( multiLine );
@@ -400,50 +344,54 @@ class ReportDesignWriter
 			text( multiLine.getContent( ) );
 			popTag( );
 			popTag( );
+			return value;
 
 		}
 
-		public void visitListItem( ListItemDesign list )
+		public Object visitListItem( ListItemDesign list, Object value )
 		{
 			pushTag( "list" ); //$NON-NLS-1$
 			writeReportItem( list );
 			if ( list.getHeader( ) != null )
 			{
-				writeListBand( "header", list.getHeader( ) ); //$NON-NLS-1$
+				list.getHeader( ).accept( this, value );
 			}
 			for ( int i = 0; i < list.getGroupCount( ); i++ )
 			{
-				writeListGroup( list.getGroup( i ) );
+				list.getGroup( i ).accept( this, value );
 			}
 			if ( list.getDetail( ) != null )
 			{
-				writeListBand( "detail", list.getDetail( ) ); //$NON-NLS-1$
+				list.getDetail( ).accept( this, value );
 			}
 			if ( list.getFooter( ) != null )
 			{
-				writeListBand( "footer", list.getFooter( ) ); //$NON-NLS-1$
+				list.getFooter( ).accept( this, value );
 			}
 			popTag( );
+			return value;
 		}
 
-		public void visitDataItem( DataItemDesign data )
+		public Object visitDataItem( DataItemDesign data, Object value )
 		{
 			pushTag( "data" ); //$NON-NLS-1$
 			writeReportItem( data );
 			text( data.getValue( ) );
 			popTag( );
+			return value;
 		}
 
-		public void visitLabelItem( LabelItemDesign label )
+		public Object visitLabelItem( LabelItemDesign label, Object value )
 		{
 			pushTag( "label" ); //$NON-NLS-1$
 			writeReportItem( label );
 			attribute( "resource-key", label.getTextKey( ) ); //$NON-NLS-1$
 			text( label.getText( ) );
 			popTag( );
+			return value;
 		}
 
-		public void visitGridItem( GridItemDesign grid )
+		public Object visitGridItem( GridItemDesign grid, Object value )
 		{
 			pushTag( "grid" ); //$NON-NLS-1$
 			writeReportItem( grid );
@@ -456,6 +404,7 @@ class ReportDesignWriter
 				writeRow( grid.getRow( i ) );
 			}
 			popTag( );
+			return value;
 		}
 
 		protected void writeColumn( ColumnDesign column )
@@ -495,7 +444,7 @@ class ReportDesignWriter
 			popTag( );
 		}
 
-		public void visitTableItem( TableItemDesign table )
+		public Object visitTableItem( TableItemDesign table, Object value )
 		{
 			pushTag( "table" ); //$NON-NLS-1$
 			writeReportItem( table );
@@ -515,25 +464,27 @@ class ReportDesignWriter
 
 			if ( table.getHeader( ) != null )
 			{
-				writeTableBand( "header", table.getHeader( ) ); //$NON-NLS-1$
+				table.getHeader( ).accept( this, value );
 			}
 			for ( int i = 0; i < table.getGroupCount( ); i++ )
 			{
-				writeTableGroup( table.getGroup( i ) );
+				table.getGroup( i ).accept( this, value );
 			}
 			if ( table.getDetail( ) != null )
 			{
-				writeTableBand( "detail", table.getDetail( ) ); //$NON-NLS-1$
+				table.getDetail( ).accept( this, value );
 			}
 			if ( table.getFooter( ) != null )
 			{
-				writeTableBand( "footer", table.getFooter( ) ); //$NON-NLS-1$
+				table.getFooter( ).accept( this, value );
 			}
 			popTag( );
+			
+			return value;
 
 		}
 
-		public void visitImageItem( ImageItemDesign image )
+		public Object visitImageItem( ImageItemDesign image , Object value)
 		{
 			pushTag( "image" ); //$NON-NLS-1$
 			writeReportItem( image );
@@ -564,6 +515,7 @@ class ReportDesignWriter
 				writeAction( image.getAction( ) );
 			}
 			popTag( );
+			return value;
 		}
 
 		protected void writeAction( ActionDesign action )
@@ -588,7 +540,7 @@ class ReportDesignWriter
 			popTag( );
 		}
 
-		public void visitFreeFormItem( FreeFormItemDesign free )
+		public Object visitFreeFormItem( FreeFormItemDesign free, Object value )
 		{
 			pushTag( "free-form" ); //$NON-NLS-1$
 			writeReportItem( free );
@@ -597,6 +549,7 @@ class ReportDesignWriter
 				free.getItem( i ).accept( this , null);
 			}
 			popTag( );
+			return value;
 		}
 
 		protected boolean endTag = true;
@@ -689,5 +642,6 @@ class ReportDesignWriter
 				out.print( "    " ); //$NON-NLS-1$
 			}
 		}
+
 	}
 }

@@ -58,9 +58,9 @@ public class ImageContent extends AbstractContent implements IImageContent
 		super( content );
 	}
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitImage( this, value );
+		return visitor.visitImage( this, value );
 	}
 
 	public String getAltText( )

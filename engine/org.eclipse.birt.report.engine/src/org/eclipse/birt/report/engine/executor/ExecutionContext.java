@@ -39,6 +39,7 @@ import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.core.script.CoreJavaScriptWrapper;
 import org.eclipse.birt.core.script.IJavascriptWrapper;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -58,6 +59,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -78,7 +80,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.67 $ $Date: 2006/05/18 05:26:36 $
+ * @version $Revision: 1.68 $ $Date: 2006/05/23 21:46:38 $
  */
 public class ExecutionContext
 {
@@ -123,7 +125,7 @@ public class ExecutionContext
 	/**
 	 * utility used to create the report content
 	 */
-	private ReportExecutor executor;
+	private IReportExecutor executor;
 
 	/**
 	 * utility used to create the TOC
@@ -189,9 +191,18 @@ public class ExecutionContext
 	private IReportContent reportContent;
 
 	/**
-	 * A stack of content objects, with the current one on the top
+	 * the current executed design.
 	 */
-	private Stack reportContents = new Stack( );
+	private ReportItemDesign design;
+	/**
+	 * The current content element to be executed or loaded
+	 */
+	private IContent content;
+	
+	/**
+	 * the current opened result set 
+	 */
+	private IResultSet rset; 
 
 	/**
 	 * A stack of handle objects, with the current one on the top
@@ -238,6 +249,10 @@ public class ExecutionContext
 	 */
 	private IDocArchiveReader dataSource;
 
+	public ExecutionContext()
+	{
+		this(null, -1);
+	}
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
@@ -830,35 +845,27 @@ public class ExecutionContext
 	}
 
 	/**
-	 * @param obj
-	 */
-	public void pushContent( IContent obj )
-	{
-		reportContents.push( obj );
-		// newScope( obj );
-	}
-
-	/**
-	 * @return
-	 */
-	public IContent popContent( )
-	{
-		// exitScope( );
-		return (IContent) reportContents.pop( );
-	}
-
-	/**
 	 * @return
 	 */
 	public IContent getContent( )
 	{
-		if ( reportContents.empty( ) )
-		{
-			return null;
-		}
-		return (IContent) reportContents.peek( );
+		return content;
+	}
+	
+	public void setContent(IContent content)
+	{
+		this.content = content;
 	}
 
+	public ReportItemDesign getItemDesign()
+	{
+		return design;
+	}
+	
+	public void setItemDesign(ReportItemDesign design)
+	{
+		this.design = design;
+	}
 	/**
 	 * @param obj
 	 */
@@ -895,19 +902,11 @@ public class ExecutionContext
 	 */
 	public void addException( BirtException ex )
 	{
-		DesignElementHandle handle = null;
-		if ( !reportContents.empty( ) )
+		DesignElementHandle handle = getDesign( );
+		if ( design != null )
 		{
-			IContent content = getContent( );
-
-			ReportItemDesign design = null;
-			if ( content != null )
-				design = (ReportItemDesign) content.getGenerateBy( );
-
-			handle = design == null ? null : design.getHandle( );
+			handle = design.getHandle( );
 		}
-		else
-			handle = getHandle( );
 		addException( handle, ex );
 	}
 
@@ -1295,7 +1294,7 @@ public class ExecutionContext
 	 * 
 	 * @return report executor
 	 */
-	public ReportExecutor getExecutor( )
+	public IReportExecutor getExecutor( )
 	{
 		return executor;
 	}
@@ -1522,5 +1521,18 @@ public class ExecutionContext
 	public IDocArchiveReader getDataSource()
 	{
 		return dataSource;
+	}
+	
+	public IResultSet executeQuery( IResultSet parent,
+			IBaseQueryDefinition query ) throws BirtException
+	{
+		IDataEngine dataEngine = getDataEngine( );
+		rset = dataEngine.execute( parent, query );
+		return rset;
+	}
+
+	public IResultSet getResultSet( )
+	{
+		return rset;
 	}
 }

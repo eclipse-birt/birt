@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IImageInstance;
-import org.eclipse.birt.report.engine.content.impl.ImageContent;
+import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 public class ImageInstance extends ReportItemInstance implements IImageInstance
 {
 
-	public ImageInstance( ImageContent image, ExecutionContext context )
+	public ImageInstance( IImageContent image, ExecutionContext context )
 	{
 		super( image, context );
 	}
@@ -33,7 +33,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public String getAltText( )
 	{
-		return ( ( ImageContent ) content ).getAltText( );
+		return ( ( IImageContent ) content ).getAltText( );
 	}
 
 	/*
@@ -43,7 +43,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public void setAltText( String altText )
 	{
-		( ( ImageContent ) content ).setAltText( altText );
+		( ( IImageContent ) content ).setAltText( altText );
 	}
 
 	/*
@@ -53,7 +53,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public String getAltTextKey( )
 	{
-		return ( ( ImageContent ) content ).getAltTextKey( );
+		return ( ( IImageContent ) content ).getAltTextKey( );
 	}
 
 	/*
@@ -63,7 +63,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public void setAltTextKey( String altTextKey )
 	{
-		( ( ImageContent ) content ).setAltTextKey( altTextKey );
+		( ( IImageContent ) content ).setAltTextKey( altTextKey );
 	}
 
 	/*
@@ -73,7 +73,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public String getURI( )
 	{
-		return ( ( ImageContent ) content ).getURI( );
+		return ( ( IImageContent ) content ).getURI( );
 	}
 
 	/*
@@ -83,7 +83,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public void setURI( String uri )
 	{
-		( ( ImageContent ) content ).setURI( uri );
+		( ( IImageContent ) content ).setURI( uri );
 	}
 
 	/*
@@ -93,7 +93,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public int getImageSource( )
 	{
-		return ( ( ImageContent ) content ).getImageSource( );
+		return ( ( IImageContent ) content ).getImageSource( );
 	}
 
 	/*
@@ -103,7 +103,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public void setImageSource( int source )
 	{
-		( ( ImageContent ) content ).setImageSource( source );
+		( ( IImageContent ) content ).setImageSource( source );
 	}
 
 	/*
@@ -113,7 +113,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public String getImageName( )
 	{
-		return ( ( ImageContent ) content ).getURI( );
+		return ( ( IImageContent ) content ).getURI( );
 	}
 
 	/*
@@ -123,8 +123,8 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public void setImageName( String imageName )
 	{
-		( ( ImageContent ) content ).setImageSource( ImageContent.IMAGE_NAME );
-		( ( ImageContent ) content ).setURI( imageName );
+		( ( IImageContent ) content ).setImageSource( IImageContent.IMAGE_NAME );
+		( ( IImageContent ) content ).setURI( imageName );
 	}
 
 	/*
@@ -134,7 +134,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public byte[] getData( )
 	{
-		return ( ( ImageContent ) content ).getData( );
+		return ( ( IImageContent ) content ).getData( );
 	}
 
 	/*
@@ -145,7 +145,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public void setData( byte[] data )
 	{
-		( ( ImageContent ) content ).setData( data );
+		( ( IImageContent ) content ).setData( data );
 	}
 
 	/*
@@ -155,7 +155,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public String getMimeType( )
 	{
-		return ( ( ImageContent ) content ).getMIMEType( );
+		return ( ( IImageContent ) content ).getMIMEType( );
 	}
 
 	/*
@@ -165,7 +165,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	 */
 	public void setMimeType( String type )
 	{
-		( ( ImageContent ) content ).setMIMEType( type );
+		( ( IImageContent ) content ).setMIMEType( type );
 	}
 
 }

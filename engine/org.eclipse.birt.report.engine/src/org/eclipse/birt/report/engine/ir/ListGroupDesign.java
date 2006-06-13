@@ -14,51 +14,19 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * List group
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public class ListGroupDesign extends GroupDesign
 {
-
-	/**
-	 * group header
-	 */
-	protected ListBandDesign header = new ListBandDesign( );
-	/**
-	 * group footer
-	 */
-	protected ListBandDesign footer = new ListBandDesign( );
-
-	/**
-	 * @return Returns the footer.
-	 */
-	public ListBandDesign getFooter( )
+	public ListGroupDesign()
 	{
-		return footer;
+		header = new ListBandDesign( );
+		footer = new ListBandDesign( );
 	}
 
-	/**
-	 * @param footer
-	 *            The footer to set.
-	 */
-	public void setFooter( ListBandDesign footer )
+	public Object accept( IReportItemVisitor visitor, Object value )
 	{
-		this.footer = footer;
+		return visitor.visitListGroup(this, value);
 	}
-
-	/**
-	 * @return Returns the header.
-	 */
-	public ListBandDesign getHeader( )
-	{
-		return header;
-	}
-
-	/**
-	 * @param header
-	 *            The header to set.
-	 */
-	public void setHeader( ListBandDesign header )
-	{
-		this.header = header;
-	}
+	
 }

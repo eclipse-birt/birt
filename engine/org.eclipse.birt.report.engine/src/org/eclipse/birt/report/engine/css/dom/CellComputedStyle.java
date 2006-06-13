@@ -1,7 +1,7 @@
 
 package org.eclipse.birt.report.engine.css.dom;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
@@ -28,13 +28,8 @@ public class CellComputedStyle extends ComputedStyle
 		IRowContent row = (IRowContent) elt.getParent( );
 		if ( row != null )
 		{
-			IElement parentElt = row.getParent( );
 			rowStyle = row.getStyle();
-			if ( parentElt instanceof ITableBandContent )
-			{
-				parentElt = parentElt.getParent( );
-			}
-			ITableContent table = (ITableContent) parentElt;
+			ITableContent table = row.getTable( );
 			if ( table != null )
 			{
 				int columnId = elt.getColumn( );
@@ -132,7 +127,7 @@ public class CellComputedStyle extends ComputedStyle
 		{
 		}
 
-		public List getChildren( )
+		public Collection getChildren( )
 		{
 			return null;
 		}
@@ -184,12 +179,8 @@ public class CellComputedStyle extends ComputedStyle
 
 		public StyledRow( IRowContent rowContent, int columnId )
 		{
-			IElement parentElt = rowContent.getParent( );
-			if ( parentElt instanceof ITableBandContent )
-			{
-				parentElt = parentElt.getParent( );
-			}
-			column = new StyledColumn( (ITableContent) parentElt, columnId );
+			ITableContent table  = rowContent.getTable( );
+			column = new StyledColumn( table, columnId );
 			this.rowContent = rowContent;
 		}
 

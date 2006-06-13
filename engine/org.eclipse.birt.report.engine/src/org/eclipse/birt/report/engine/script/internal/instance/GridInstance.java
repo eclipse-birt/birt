@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IGridInstance;
-import org.eclipse.birt.report.engine.content.impl.TableContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 public class GridInstance extends ReportItemInstance implements IGridInstance
 {
 
-	public GridInstance( TableContent grid, ExecutionContext context )
+	public GridInstance( ITableContent grid, ExecutionContext context )
 	{
 		super( grid, context );
 	}

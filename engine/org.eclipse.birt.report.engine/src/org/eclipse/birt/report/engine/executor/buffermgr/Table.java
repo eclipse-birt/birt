@@ -12,7 +12,7 @@ package org.eclipse.birt.report.engine.executor.buffermgr;
 
 /**
  * 
- * @version $Revision: 1.4 $ $Date: 2005/11/10 09:18:10 $
+ * @version $Revision: 1.3 $ $Date: 2005/11/11 06:26:50 $
  */
 public class Table
 {
@@ -367,7 +367,7 @@ public class Table
 	 * remove the cell from table layout buffer. The grid cell used by this cell
 	 * fills EMPTY_CELL.
 	 * 
-	 * @param rowId
+	 * @param curRowContent
 	 *            row index
 	 * @param colId
 	 *            column index

@@ -32,7 +32,6 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
@@ -53,9 +52,9 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.32 $ $Date: 2006/05/17 01:27:55 $
+ * @version $Revision: 1.33 $ $Date: 2006/05/17 05:42:09 $
  */
-public abstract class ReportItemExecutor
+public abstract class ReportItemExecutor implements IReportItemExecutor
 {
 
 	/**
@@ -64,6 +63,11 @@ public abstract class ReportItemExecutor
 	protected static Logger logger = Logger.getLogger( ReportItemExecutor.class
 			.getName( ) );
 
+	/**
+	 * executor manager used to create this executor.
+	 */
+	protected ExecutorManager manager;
+	
 	/**
 	 * the report content
 	 */
@@ -75,9 +79,28 @@ public abstract class ReportItemExecutor
 	protected ExecutionContext context;
 
 	/**
-	 * the executor visitor
+	 * parent executor
 	 */
-	protected IReportItemVisitor visitor;
+	protected ReportItemExecutor parent;
+	
+	/**
+	 * the executed report design
+	 */
+	protected ReportItemDesign design;
+	
+	/**
+	 * emitter used to output the report content
+	 */
+	protected IContentEmitter emitter;
+	/**
+	 *  the create report content
+	 */
+	protected IContent content;
+	
+	/**
+	 * rset used to execute the parent
+	 */
+	protected IResultSet rset;
 
 	/**
 	 * construct a report item executor by giving execution context and report
@@ -88,12 +111,11 @@ public abstract class ReportItemExecutor
 	 * @param visitor
 	 *            the report executor visitor
 	 */
-	protected ReportItemExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	protected ReportItemExecutor( ExecutorManager manager )
 	{
-
-		this.context = context;
-		this.visitor = visitor;
+		this.manager = manager;
+		this.emitter = manager.emitter;
+		this.context = manager.context;
 		this.report = context.getReportContent( );
 	}
 
@@ -112,15 +134,89 @@ public abstract class ReportItemExecutor
 	 * @param emitter
 	 *            the report emitter
 	 */
-	public abstract void execute( ReportItemDesign item, IContentEmitter emitter );
+	public void execute( ReportItemDesign item, IContentEmitter emitter )
+	{
+		execute( );
+		while ( hasNextChild( ) )
+		{
+			if ( context.isCanceled( ) )
+			{
+				break;
+			}
+			ReportItemExecutor child = (ReportItemExecutor) getNextChild( );
+			child.execute( child.getDesign( ), emitter );
+		}
+		close( );
+	}
 
+	/**
+	 * does the executor has child executor
+	 * 
+	 * @return
+	 */
+	public boolean hasNextChild( )
+	{
+		return false;
+	}
+
+	public IReportItemExecutor getNextChild( )
+	{
+		return null;
+	}
+	
 	/**
 	 * reset the state of the report item executor. This operation will reset
 	 * all property of this object
 	 * 
 	 */
-	public void reset( )
+	void reset( )
 	{
+	}
+	
+	void setParent(ReportItemExecutor parent)
+	{
+		this.parent = parent;
+	}
+	
+	ReportItemExecutor getParent()
+	{
+		return parent;
+	}
+	
+	IContent getParentContent()
+	{
+		if (parent != null)
+		{
+			return parent.getContent( );
+		}
+		return null;
+	}
+	
+	void setDesign(ReportItemDesign design)
+	{
+		this.design = design;
+		context.setItemDesign( design );
+	}
+	
+	ReportItemDesign getDesign()
+	{
+		return design;
+	}
+	
+	IContent getContent()
+	{
+		return content;
+	}
+	
+	void setContent(IContent content)
+	{
+		context.setContent( content );
+		this.content = content;
+	}
+	
+	Object evaluate( String expr )
+	{
+		return context.evaluate( expr );
 	}
 
 	/**
@@ -135,7 +231,7 @@ public abstract class ReportItemExecutor
 		String bookmark = item.getBookmark( );
 		if ( bookmark != null )
 		{
-			Object tmp = context.evaluate( bookmark );
+			Object tmp = evaluate( bookmark );
 			if ( tmp != null )
 			{
 				itemContent.setBookmark( tmp.toString( ) );
@@ -144,7 +240,7 @@ public abstract class ReportItemExecutor
 		String toc = item.getTOC( );
 		if ( toc != null )
 		{
-			Object tmp = context.evaluate( toc );
+			Object tmp = evaluate( toc );
 			if ( tmp != null )
 			{
 				String tocLabel = "";
@@ -192,7 +288,7 @@ public abstract class ReportItemExecutor
 			{
 				case ActionDesign.ACTION_HYPERLINK :
 					assert action.getHyperlink( ) != null;
-					Object value = context.evaluate( action.getHyperlink( ) );
+					Object value = evaluate( action.getHyperlink( ) );
 					if ( value != null )
 					{
 						IHyperlinkAction obj = report.createActionContent( );
@@ -203,7 +299,7 @@ public abstract class ReportItemExecutor
 					break;
 				case ActionDesign.ACTION_BOOKMARK :
 					assert action.getBookmark( ) != null;
-					value = context.evaluate( action.getBookmark( ) );
+					value = evaluate( action.getBookmark( ) );
 					if ( value != null )
 					{
 						IHyperlinkAction obj = report.createActionContent( );
@@ -219,7 +315,7 @@ public abstract class ReportItemExecutor
 					String bookmarkExpr = drill.getBookmark( );
 					if ( bookmarkExpr != null )
 					{
-						value = context.evaluate( drill.getBookmark( ) );
+						value = evaluate( drill.getBookmark( ) );
 						if ( value != null )
 						{
 							bookmark = value.toString( );
@@ -241,7 +337,7 @@ public abstract class ReportItemExecutor
 							if ( valueObj != null )
 							{
 								String valueExpr = valueObj.toString( );
-								paramValue = context.evaluate( valueExpr );
+								paramValue = evaluate( valueExpr );
 							}
 							paramsVal.put( entry.getKey( ), paramValue );
 						}
@@ -299,7 +395,7 @@ public abstract class ReportItemExecutor
 				Object result = null;
 				if ( expr != null )
 				{
-					result = context.evaluate( expr );
+					result = evaluate( expr );
 				}
 				if ( result == null || !( result instanceof Boolean ) )
 				{
@@ -349,7 +445,7 @@ public abstract class ReportItemExecutor
 				Object result = null;
 				if ( expr != null )
 				{
-					result = context.evaluate( expr );
+					result = evaluate( expr );
 				}
 				if ( result == null || !( result instanceof Boolean ) )
 				{
@@ -384,7 +480,11 @@ public abstract class ReportItemExecutor
 	
 	protected DataID getDataID( )
 	{
-		IResultSet curRset = context.getDataEngine( ).getResultSet( );
+		IResultSet curRset = getResultSet( );
+		if (curRset == null)
+		{
+			curRset = getParentResultSet( );
+		}
 		if ( curRset != null )
 		{
 			return new DataID( curRset.getID( ), curRset.getCurrentPosition( ) );
@@ -392,19 +492,20 @@ public abstract class ReportItemExecutor
 		return null;
 	}
 
-	protected void initializeContent( IContent parent,
-			ReportElementDesign design, IContent content )
+	protected void initializeContent( ReportElementDesign design,
+			IContent content )
 	{
 		InstanceID pid = null;
+		IContent parent = getParentContent( );
 		if ( parent != null )
 		{
 			pid = parent.getInstanceID( );
+			content.setParent( parent );
 		}
 		InstanceID id = new InstanceID( pid, design == null ? -1 : design
 				.getID( ), getDataID( ) );
 		content.setInstanceID( id );
 		content.setGenerateBy( design );
-		content.setParent( parent );
 	}
 
 	/**
@@ -469,5 +570,29 @@ public abstract class ReportItemExecutor
 		{
 			tocBuilder.closeGroupEntry( );
 		}
+	}
+	
+	void setResultSet(IResultSet rset)
+	{
+		this.rset = rset;
+	}
+	
+	IResultSet getResultSet()
+	{
+		return rset;
+	}
+	
+	IResultSet getParentResultSet()
+	{
+		if (parent != null)
+		{
+			IResultSet rset = parent.getResultSet( );
+			if (rset == null)
+			{
+				rset = parent.getParentResultSet( );
+			}
+			return rset;
+		}
+		return null;
 	}
 }

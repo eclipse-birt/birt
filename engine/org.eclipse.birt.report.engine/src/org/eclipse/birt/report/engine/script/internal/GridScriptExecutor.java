@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.script.internal;
 import org.eclipse.birt.report.engine.api.script.element.IGrid;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IGridEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IGridInstance;
-import org.eclipse.birt.report.engine.content.impl.TableContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Grid;
@@ -40,7 +40,7 @@ public class GridScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( TableContent content,
+	public static void handleOnCreate( ITableContent content,
 			ExecutionContext context )
 	{
 		try
@@ -59,7 +59,7 @@ public class GridScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( TableContent content,
+	public static void handleOnRender( ITableContent content,
 			ExecutionContext context )
 	{
 		try

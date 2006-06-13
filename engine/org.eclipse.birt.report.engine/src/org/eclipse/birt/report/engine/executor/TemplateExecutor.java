@@ -15,8 +15,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 
 public class TemplateExecutor extends ReportItemExecutor
@@ -30,10 +28,9 @@ public class TemplateExecutor extends ReportItemExecutor
 	 * @param visitor
 	 *            the report executor visitor
 	 */
-	public TemplateExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	public TemplateExecutor( ExecutorManager manager )
 	{
-		super( context, visitor );
+		super( manager );
 	}
 
 	/**
@@ -45,17 +42,14 @@ public class TemplateExecutor extends ReportItemExecutor
 	 * <li> call emitter to start the text
 	 * <li> popup the text.
 	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute()
+	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute(IContentEmitter)
 	 */
-	public void execute( ReportItemDesign item, IContentEmitter emitter )
+	public IContent execute( )
 	{
-		TemplateDesign template = (TemplateDesign) item;
-		ILabelContent textObj = report.createLabelContent( );
-		IContent parent = context.getContent( );
+		TemplateDesign templateDesign = (TemplateDesign) design;
+		ILabelContent textContent = report.createLabelContent( );
 
-		context.pushContent( textObj );
-
-		IStyle style = textObj.getStyle( );
+		IStyle style = textContent.getStyle( );
 		style.setProperty( IStyle.STYLE_BORDER_TOP_COLOR, IStyle.GRAY_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_TOP_STYLE, IStyle.SOLID_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH, IStyle.THIN_VALUE );
@@ -71,17 +65,16 @@ public class TemplateExecutor extends ReportItemExecutor
 		style.setProperty( IStyle.STYLE_TEXT_ALIGN, IStyle.CENTER_VALUE );
 		style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, IStyle.MIDDLE_VALUE );
 
-		initializeContent( parent, item, textObj );
-		textObj.setLabelText( template.getPromptText( ) );
-		textObj.setLabelKey( template.getPromptTextKey( ) );
+		initializeContent( templateDesign, textContent );
+		textContent.setLabelText( templateDesign.getPromptText( ) );
+		textContent.setLabelKey( templateDesign.getPromptTextKey( ) );
 
-		processVisibility( item, textObj );
-
-		if ( emitter != null )
-		{
-			emitter.startLabel( textObj );
-		}
-		context.popContent( );
+		processVisibility( templateDesign, textContent );
+		
+		return textContent;
 	}
-
+	
+	public void close( )
+	{
+	}
 }

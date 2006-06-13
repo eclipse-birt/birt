@@ -19,11 +19,8 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.impl.ImageContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -56,7 +53,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.33 $ $Date: 2006/04/06 12:35:24 $
+ * @version $Revision: 1.34 $ $Date: 2006/04/28 03:06:56 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -69,10 +66,9 @@ public class ImageItemExecutor extends QueryItemExecutor
 	 * @param visitor
 	 *            The report visitor.
 	 */
-	public ImageItemExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	public ImageItemExecutor( ExecutorManager manager )
 	{
-		super( context, visitor );
+		super( manager );
 	}
 
 	/**
@@ -92,26 +88,24 @@ public class ImageItemExecutor extends QueryItemExecutor
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#excute(org.eclipse.birt.report.engine.ir.ReportItemDesign,
 	 *      org.eclipse.birt.report.engine.emitter.IReportEmitter)
 	 */
-	public void execute( ReportItemDesign item, IContentEmitter emitter )
+	public IContent execute( )
 	{
-		assert item instanceof ImageItemDesign;
-		ImageItemDesign imageItem = (ImageItemDesign) item;
+		ImageItemDesign imageDesign = (ImageItemDesign) getDesign();
+		
 		IImageContent imageContent = report.createImageContent( );
-		IContent parent = context.getContent( );
-		context.pushContent( imageContent );
+		setContent(imageContent);
+		
+		executeQuery( );
 
-		openResultSet( item );
-		accessQuery( item, emitter );
-
-		initializeContent( parent, item, imageContent );
+		initializeContent( imageDesign, imageContent );
 
 		// handle the Action and Bookmark values
-		processAction( item, imageContent );
-		processBookmark( item, imageContent );
-		processStyle( item, imageContent );
-		processVisibility( item, imageContent );
+		processAction( imageDesign, imageContent );
+		processBookmark( imageDesign, imageContent );
+		processStyle( imageDesign, imageContent );
+		processVisibility( imageDesign, imageContent );
 		
-		handleImage( imageItem, imageContent );
+		handleImage( imageDesign, imageContent );
 		
 		// execute the onCreate
 		if ( context.isInFactory( ) )
@@ -121,15 +115,18 @@ public class ImageItemExecutor extends QueryItemExecutor
 		}
 		
 		startTOCEntry( imageContent );
-		// forward to emitter for further processing
 		if ( emitter != null )
 		{
 			emitter.startImage( imageContent );
 		}
+		
+		return imageContent;
+	}
+	
+	public void close( )
+	{
 		finishTOCEntry( );
-		closeResultSet( );
-		context.popContent( );
-
+		closeQuery( );
 	}
 
 	protected void handleImage( ImageItemDesign imageDesign,
@@ -172,7 +169,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 			default :
 				logger.log( Level.SEVERE,
 						"[ImageItemExecutor] invalid image source" ); //$NON-NLS-1$
-				context.addException( new EngineException(
+				context.addException( imageDesign.getHandle( ), new EngineException(
 						MessageConstants.INVALID_IMAGE_SOURCE_TYPE_ERROR ) );
 
 				assert false;
@@ -189,7 +186,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		imageContent.setImageSource( IImageContent.IMAGE_URI );
 
 		assert uriExpr != null;
-		Object uriObj = context.evaluate( uriExpr );
+		Object uriObj = evaluate( uriExpr );
 		String strUri = null;
 		if ( uriObj != null )
 		{
@@ -256,14 +253,14 @@ public class ImageItemExecutor extends QueryItemExecutor
 
 		imageContent.setImageSource( IImageContent.IMAGE_EXPRESSION );
 
-		Object value = context.evaluate( imgExpr );
+		Object value = evaluate( imgExpr );
 		if ( value instanceof byte[] )
 		{
 			imgData = (byte[]) value;
 		}
 		if ( fmtExpr != null )
 		{
-			Object strValue = context.evaluate( fmtExpr );
+			Object strValue = evaluate( fmtExpr );
 			if ( strValue != null )
 			{
 				imgExt = strValue.toString( );
@@ -283,7 +280,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 			IImageContent imageContent )
 	{
 		String imageFile = "";
-		Object file = context.evaluate( fileExpr );
+		Object file = evaluate( fileExpr );
 		if ( file != null )
 		{
 			imageFile = file.toString( );
@@ -319,16 +316,16 @@ public class ImageItemExecutor extends QueryItemExecutor
 		// improve the performance.
 		imageContent.setURI( imageFile );
 		imageContent.setImageSource( IImageContent.IMAGE_FILE );
-		imageContent.setExtension( FileUtil.getExtFromFileName( imageFile,
-				FileUtil.SEPARATOR_PATH ) );
+		imageContent.setExtension( FileUtil.getExtFromFileName( imageFile ) );
 
 		if ( imageFile == null )
 		{
 			logger.log( Level.SEVERE,
 					"[ImageItemExecutor] Source image file is missing" ); //$NON-NLS-1$
-			context.addException( new EngineException(
+			context.addException( design.getHandle( ), new EngineException(
 					MessageConstants.MISSING_IMAGE_FILE_ERROR ) );
 
 		}
 	}
+	
 }

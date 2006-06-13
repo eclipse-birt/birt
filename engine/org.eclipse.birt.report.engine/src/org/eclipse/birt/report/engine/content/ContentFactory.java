@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.ir.Report;
  * In any case, the user gets the two different content object for any two
  * calls.
  * 
- * @version $Revision: 1.13 $ $Date: 2005/11/21 15:35:49 $
+ * @version $Revision: 1.14 $ $Date: 2005/12/02 11:57:06 $
  */
 public class ContentFactory
 {
@@ -36,7 +36,7 @@ public class ContentFactory
 	{
 		return new ReportContent( design );
 	}
-
+	
 	/**
 	 * create a report content.
 	 * 

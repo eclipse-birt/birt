@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.api.script.element.IImage;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IImageEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IImageInstance;
+import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -63,7 +64,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( ImageContent content,
+	public static void handleOnRender( IImageContent content,
 			ExecutionContext context )
 	{
 		try

@@ -11,123 +11,181 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-
 /**
  * Default implementation for IReportItemVisitor interface
  * 
- * @version $Revision: 1.6 $ $Date: 2006/02/27 07:35:59 $
+ * @version $Revision: 1.7 $ $Date: 2006/04/27 09:52:28 $
  */
 public class DefaultReportItemVisitorImpl implements IReportItemVisitor
 {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitFreeFormItem(org.eclipse.birt.report.engine.ir.FreeFormItemDesign)
 	 */
 	public Object visitFreeFormItem( FreeFormItemDesign container, Object value )
 	{
-		return visitReportItem(container, value);
+		return visitReportItem( container, value );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitListItem(org.eclipse.birt.report.engine.ir.ListItemDesign)
 	 */
-	public Object visitListItem( ListItemDesign list , Object value)
+	public Object visitListItem( ListItemDesign list, Object value )
 	{
-		return visitReportItem(list, value);
+		return visitListing( list, value );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitTextItem(org.eclipse.birt.report.engine.ir.TextItemDesign)
 	 */
-	public Object visitTextItem( TextItemDesign text , Object value)
+	public Object visitTextItem( TextItemDesign text, Object value )
 	{
-		return visitReportItem(text, value);
+		return visitReportItem( text, value );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitLabelItem(org.eclipse.birt.report.engine.ir.LabelItemDesign)
 	 */
-	public Object visitLabelItem( LabelItemDesign label , Object value)
+	public Object visitLabelItem( LabelItemDesign label, Object value )
 	{
-		return visitReportItem(label, value);
+		return visitReportItem( label, value );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitAutoTextItem(org.eclipse.birt.report.engine.ir.AutoTextItemDesign)
 	 */
-	public Object visitAutoTextItem( AutoTextItemDesign autoText , Object value)
+	public Object visitAutoTextItem( AutoTextItemDesign autoText, Object value )
 	{
-		return visitReportItem(autoText, value);
+		return visitReportItem( autoText, value );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitDataItem(org.eclipse.birt.report.engine.ir.DataItemDesign)
 	 */
-	public Object visitDataItem( DataItemDesign data , Object value)
+	public Object visitDataItem( DataItemDesign data, Object value )
 	{
-		return visitReportItem(data, value);
+		return visitReportItem( data, value );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitMultiLineItem(org.eclipse.birt.report.engine.ir.MultiLineItemDesign)
 	 */
-	public Object visitMultiLineItem( MultiLineItemDesign multiLine , Object value)
+	public Object visitMultiLineItem( MultiLineItemDesign multiLine,
+			Object value )
 	{
-		return visitReportItem(multiLine, value);
+		return visitReportItem( multiLine, value );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitGridItem(org.eclipse.birt.report.engine.ir.GridItemDesign)
 	 */
-	public Object visitGridItem( GridItemDesign grid , Object value)
+	public Object visitGridItem( GridItemDesign grid, Object value )
 	{
-		return visitReportItem(grid, value);
+		return visitReportItem( grid, value );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitTableItem(org.eclipse.birt.report.engine.ir.TableItemDesign)
 	 */
-	public Object visitTableItem( TableItemDesign table , Object value)
+	public Object visitTableItem( TableItemDesign table, Object value )
 	{
-		return visitReportItem(table, value);
+		return visitListing( table, value );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitImageItem(org.eclipse.birt.report.engine.ir.ImageItemDesign)
 	 */
-	public Object visitImageItem( ImageItemDesign image , Object value)
+	public Object visitImageItem( ImageItemDesign image, Object value )
 	{
-		return visitReportItem(image, value);
+		return visitReportItem( image, value );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitExtendedItem(org.eclipse.birt.report.engine.ir.ExtendedItemDesign)
 	 */
-	public Object visitExtendedItem( ExtendedItemDesign item , Object value)
+	public Object visitExtendedItem( ExtendedItemDesign item, Object value )
 	{
-		return visitReportItem(item, value);
+		return visitReportItem( item, value );
 	}
-	
+
 	/**
-	 * @param item the report item
+	 * @param item
+	 *            the report item
 	 */
-	public Object visitReportItem(ReportItemDesign item, Object value)
+	public Object visitReportItem( ReportItemDesign item, Object value )
 	{
 		return value;
 	}
-	
-	public Object visitRow(RowDesign row, Object value)
+
+	public Object visitRow( RowDesign row, Object value )
 	{
-		return visitReportItem(row, value);
+		return visitReportItem( row, value );
 	}
-	
-	public Object visitCell(CellDesign cell, Object value)
+
+	public Object visitCell( CellDesign cell, Object value )
 	{
-		return visitReportItem(cell, value);
+		return visitReportItem( cell, value );
 	}
 
 	public Object visitTemplate( TemplateDesign template, Object value )
 	{
 		return visitReportItem( template, value );
+	}
+
+	public Object visitListBand( ListBandDesign band, Object value )
+	{
+		return visitBand( band, value );
+	}
+
+	public Object visitTableBand( TableBandDesign band, Object value )
+	{
+		return visitBand( band, value );
+	}
+	
+	public Object visitBand(BandDesign band, Object value)
+	{
+		return visitReportItem(band, value);
+	}
+
+	public Object visitGroup( GroupDesign group, Object value )
+	{
+		return visitReportItem( group, value );
+	}
+
+	public Object visitListGroup( ListGroupDesign group, Object value )
+	{
+		return visitGroup( group, value );
+	}
+
+	public Object visitTableGroup( TableGroupDesign group, Object value )
+	{
+		return visitGroup( group, value );
+	}
+
+	public Object visitListing( ListingDesign listing, Object value )
+	{
+		return visitReportItem(listing, value);
 	}
 }

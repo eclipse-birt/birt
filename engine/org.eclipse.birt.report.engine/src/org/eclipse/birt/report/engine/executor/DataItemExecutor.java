@@ -13,11 +13,8 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
-import org.eclipse.birt.report.engine.content.impl.DataContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
 
 /**
@@ -29,17 +26,21 @@ import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.26 $ $Date: 2006/04/03 06:15:17 $
+ * @version $Revision: 1.27 $ $Date: 2006/04/28 03:06:56 $
  */
 public class DataItemExecutor extends QueryItemExecutor
 {
 
 	class DataItemExecutionState
 	{
-
 		Object lastValue;
 	}
 
+	/**
+	 * does the data content duplicate with the previous data content which
+	 * genertated by the same design
+	 */
+	boolean duplicated;
 	/**
 	 * construct a data item executor by giving execution context and report
 	 * executor visitor
@@ -49,10 +50,9 @@ public class DataItemExecutor extends QueryItemExecutor
 	 * @param itemEmitter
 	 *            the emitter
 	 */
-	public DataItemExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	public DataItemExecutor(ExecutorManager manager )
 	{
-		super( context, visitor );
+		super( manager);
 	}
 
 	/**
@@ -69,32 +69,29 @@ public class DataItemExecutor extends QueryItemExecutor
 	 * <li> close the data set if any
 	 * <li> pop the stack.
 	 * 
-	 * @see org.eclipse.birt.report.engine.excutor.ReportItemLoader#execute()
+	 * @see org.eclipse.birt.report.engine.excutor.ReportItemLoader#execute(IContentEmitter)
 	 */
-	public void execute( ReportItemDesign item, IContentEmitter emitter )
+	public IContent execute( )
 	{
-		DataItemDesign dataItem = (DataItemDesign) item;
-		IDataContent dataObj = report.createDataContent( );
-		assert ( dataObj instanceof DataContent );
-		IContent parent = context.getContent( );
-		context.pushContent( dataObj );
-
-		openResultSet( item );
-		accessQuery( item, emitter );
-
-		initializeContent( parent, item, dataObj );
-
-		processAction( item, dataObj );
-		processBookmark( item, dataObj );
-		processStyle( item, dataObj );
-		processVisibility( item, dataObj );
+		DataItemDesign dataDesign = (DataItemDesign) getDesign();
+		IDataContent dataContent = report.createDataContent( );
+		setContent(dataContent);
 		
-		Object value = context.evaluate( dataItem.getValue( ) );
+		executeQuery( );
+
+		initializeContent( dataDesign, dataContent );
+
+		processAction( dataDesign, dataContent );
+		processBookmark( dataDesign, dataContent );
+		processStyle( dataDesign, dataContent );
+		processVisibility( dataDesign, dataContent );
+		
+		Object value = context.evaluate( dataDesign.getValue( ) );
 		// should we suppress the duplicate
-		boolean duplicated = false;
-		if ( dataItem.getSuppressDuplicate( ) )
+		duplicated = false;
+		if ( dataDesign.getSuppressDuplicate( ) )
 		{
-			DataItemExecutionState state = (DataItemExecutionState) dataItem
+			DataItemExecutionState state = (DataItemExecutionState) dataDesign
 					.getExecutionState( );
 			if ( state != null )
 			{
@@ -108,33 +105,40 @@ public class DataItemExecutor extends QueryItemExecutor
 			if ( state == null )
 			{
 				state = new DataItemExecutionState( );
-				dataItem.setExecutionState( state );
+				dataDesign.setExecutionState( state );
 			}
 			state.lastValue = value;
 		}
-		dataObj.setValue( value );
+		dataContent.setValue( value );
 
 		// get the mapping value
-		processMappingValue( dataItem, dataObj );
+		processMappingValue( dataDesign, dataContent );
 
 		if ( context.isInFactory( ) )
 		{
-			DataItemScriptExecutor.handleOnCreate( (DataContent) dataObj,
+			DataItemScriptExecutor.handleOnCreate( dataContent,
 					context );
 		}
 		
 		if ( !duplicated )
 		{
-			startTOCEntry( dataObj );
-			// pass the text content instance to emitter
-			if ( emitter != null )
+			startTOCEntry( dataContent );
+			if (emitter != null)
 			{
-				emitter.startData( dataObj );
+				emitter.startData( dataContent );
 			}
+			return dataContent;
+		}
+		
+		return null;
+	}
+	
+	public void close( )
+	{
+		if ( !duplicated )
+		{
 			finishTOCEntry( );
 		}
-
-		closeResultSet( );
-		context.popContent( );
+		closeQuery( );
 	}
 }

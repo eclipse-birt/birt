@@ -1,7 +1,6 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
@@ -24,24 +23,5 @@ abstract public class AbstractRunTask extends EngineTask
 		// user defined configs are overload using system properties.
 		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
 		executionContext.getConfigs( ).putAll( System.getProperties( ) );
-
-		executor = new ReportExecutor( executionContext );
-		executionContext.setExecutor( executor );
 	}
-
-	protected void setupEmitterService( )
-	{
-		// create the emitter services object that is needed in the emitters.
-		services = new EngineEmitterServices( this );
-
-		EngineConfig config = engine.getConfig( );
-		if ( config != null )
-		{
-			services
-					.setEmitterConfig( engine.getConfig( ).getEmitterConfigs( ) );
-		}
-
-		services.setReportRunnable( runnable );
-	}
-	
 }

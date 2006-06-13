@@ -17,7 +17,7 @@ import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
-import org.eclipse.birt.report.engine.content.impl.AbstractContent;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -33,13 +33,13 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 public class ReportElementInstance implements IReportElementInstance
 {
 
-	protected AbstractContent content;
+	protected IContent content;
 
 	private ExecutionContext context;
 
 	private RowData rowData;
 
-	public ReportElementInstance( AbstractContent content,
+	public ReportElementInstance( IContent content,
 			ExecutionContext context )
 	{
 		this.content = content;
@@ -203,8 +203,7 @@ public class ReportElementInstance implements IReportElementInstance
 				if ( handle instanceof ReportItemHandle )
 				{
 					// get the current data set
-					IResultSet rset = context.getDataEngine( )
-							.getResultSet( );
+					IResultSet rset = context.getResultSet( );
 					// using the handle and the rste to create the row data.
 					rowData = new RowData( rset, (ReportItemHandle) handle );
 					return rowData;

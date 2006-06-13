@@ -313,7 +313,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 				coreStream = new DataOutputStream( new BufferedOutputStream(
 						out ) );
 				IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );
-				IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION_1_2_1 );
+				IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION_1_2_1_RC4 );
 				IOUtil.writeString( coreStream, designName );
 				IOUtil.writeMap( coreStream, paramters );
 				IOUtil.writeMap( coreStream, globalVariables );

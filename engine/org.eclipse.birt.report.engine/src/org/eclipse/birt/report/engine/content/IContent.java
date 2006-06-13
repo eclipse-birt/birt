@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * the content of report document.
  * 
- * @version $Revision: 1.7 $ $Date: 2006/04/27 09:52:25 $
+ * @version $Revision: 1.8 $ $Date: 2006/05/09 09:26:19 $
  */
 public interface IContent extends IElement, CSSStylableElement
 {
@@ -41,6 +41,11 @@ public interface IContent extends IElement, CSSStylableElement
 	final static int TABLE_CONTENT = 10;
 	final static int TEXT_CONTENT = 11;	
 	final static int AUTOTEXT_CONTENT =12;
+	final static int LIST_CONTENT = 13;	
+	final static int LIST_BAND_CONTENT = 14;
+	final static int GROUP_CONTENT = 15;
+	final static int LIST_GROUP_CONTENT = 16;
+	final static int TABLE_GROUP_CONTENT = 17;
 
 	/**
 	 * the content type, must be one of the predefines.
@@ -63,19 +68,10 @@ public interface IContent extends IElement, CSSStylableElement
 	 */
 	void setInstanceID(InstanceID id);
 	
-	/**
-	 * if the report is saved into the report document,
-	 * return the offset of that content.
-	 * It may be -1 if it was not saved.
-	 * @return
-	 */
-	long getOffset();
-	/**
-	 * the offset can only be setted by the content writer
-	 * or content loader
-	 * @param offset
-	 */
-	void setOffset(long offset);
+	static final int DOCUMENT_EXTENSION = 0;
+	static final int LAYOUT_EXTENSION = 1;
+	Object getExtension(int extension);
+	void setExtension(int extension, Object value);
 	
 	/**
 	 * return the report which contains/create this content.
@@ -123,7 +119,7 @@ public interface IContent extends IElement, CSSStylableElement
 	 * 
 	 * @param visitor
 	 */
-	void accept( IContentVisitor visitor, Object value );
+	Object accept( IContentVisitor visitor, Object value );
 
 	/**
 	 * @return the bookmark value

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

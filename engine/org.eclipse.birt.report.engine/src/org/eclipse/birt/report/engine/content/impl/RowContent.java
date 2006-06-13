@@ -16,49 +16,25 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.ir.TableBandDesign;
+import org.eclipse.birt.report.engine.content.ITableContent;
 
 /**
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.12 $ $Date: 2006/01/26 04:34:38 $
+ * @version $Revision: 1.13 $ $Date: 2006/05/18 09:10:25 $
  */
 public class RowContent extends AbstractContent implements IRowContent
 {
 	
 	protected int rowID = -1;	
 	
-	protected int rowType = TableBandDesign.TABLE_DETAIL;
-
-	protected int groupLevel = TableBandDesign.DEFAULT_BAND_LEVEL;
-	
-	protected String groupId = null;
-
 	protected boolean isStartOfGroup = false;
 
-	public int getRowType( )
-	{
-		return rowType;
-	}
-	
-	public void setRowType( int rowType )
-	{
-		this.rowType = rowType;
-	}
-	
-	public int getGroupLevel( )
-	{
-		return groupLevel;
-	}
-	
-	public void setGroupLevel( int groupLevel )
-	{
-		this.groupLevel = groupLevel;
-	}
-	
 	public int getContentType( )
 	{
 		return ROW_CONTENT;
@@ -70,14 +46,14 @@ public class RowContent extends AbstractContent implements IRowContent
 	 * @param row
 	 *            the row deign
 	 */
-	public RowContent( ReportContent report )
+	public RowContent( IReportContent report )
 	{
 		super( report );
 	}
 
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitRow( this, value );
+		return visitor.visitRow( this, value );
 	}
 
 	public int getRowID( )
@@ -88,7 +64,21 @@ public class RowContent extends AbstractContent implements IRowContent
 	public void setRowID(int rowID)
 	{
 		this.rowID = rowID;
-	}	
+	}
+	
+	public ITableContent getTable( )
+	{
+		IContent parent = (IContent) getParent( );
+		while ( parent != null )
+		{
+			if ( parent.getContentType( ) == IContent.TABLE_CONTENT )
+			{
+				return (ITableContent) parent;
+			}
+			parent = (IContent) parent.getParent( );
+		}
+		return null;
+	}
 
 	static final protected int FIELD_ROWID = 800;
 	static final protected int FIELD_ROWTYPE = 801;
@@ -102,15 +92,6 @@ public class RowContent extends AbstractContent implements IRowContent
 		{
 			IOUtil.writeInt( out,  FIELD_ROWID );
 			IOUtil.writeInt( out,  rowID );
-			IOUtil.writeInt( out,  FIELD_ROWTYPE );
-			IOUtil.writeInt( out,  rowType );
-			IOUtil.writeInt( out,  FIELD_ROW_GROUPLEVEL );
-			IOUtil.writeInt( out,  groupLevel );
-			if ( groupId != null )
-			{
-				IOUtil.writeInt( out,  FIELD_ROW_GROUPID );
-				IOUtil.writeString( out, groupId );
-			}
 		}
 	}
 
@@ -123,44 +104,16 @@ public class RowContent extends AbstractContent implements IRowContent
 				rowID = IOUtil.readInt(in);
 				break;
 			case FIELD_ROWTYPE :
-				rowType = IOUtil.readInt(in);
+				IOUtil.readInt(in);
 				break;
 			case FIELD_ROW_GROUPLEVEL :
-				groupLevel = IOUtil.readInt(in);
+				IOUtil.readInt(in);
 				break;
 			case FIELD_ROW_GROUPID :
-				groupId = IOUtil.readString( in );
+				IOUtil.readString( in );
 				break;
 			default :
 				super.readField( version, filedId, in );
 		}
-	}
-
-	
-	/**
-	 * @return the groupId
-	 */
-	public String getGroupId( )
-	{
-		return groupId;
-	}
-
-	
-	/**
-	 * @param groupId the groupId to set
-	 */
-	public void setGroupId( String groupId )
-	{
-		this.groupId = groupId;
-	}
-
-	public boolean isStartOfGroup( )
-	{
-		return isStartOfGroup;
-	}
-
-	public void setStartOfGroup( boolean isStartOfGroup )
-	{
-		this.isStartOfGroup = isStartOfGroup;
 	}
 }

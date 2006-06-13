@@ -32,7 +32,6 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.RowSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
@@ -51,10 +50,9 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 	 * @param visitor
 	 *            visitor class used to visit the extended item
 	 */
-	public ExtendedItemExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	public ExtendedItemExecutor( ExecutorManager manager )
 	{
-		super( context, visitor );
+		super( manager );
 	}
 
 	/**
@@ -68,47 +66,47 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 	 * <li> save the generate states into the foreign object
 	 * <li>
 	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute()
+	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute(IContentEmitter)
 	 */
-	public void execute( ReportItemDesign aItem, IContentEmitter emitter )
+	
+	public IContent execute( )
 	{
-		assert aItem instanceof ExtendedItemDesign;
-		ExtendedItemDesign item = (ExtendedItemDesign) aItem;
+		ExtendedItemDesign extDesign = (ExtendedItemDesign) design;
 
-		IForeignContent content = report.createForeignContent( );
+		IForeignContent extContent = report.createForeignContent( );
+		setContent(extContent);
 
-		IContent parent = context.getContent( );
-		context.pushContent( content );
-		
-		openResultSet( item );
-		accessQuery( item, emitter );
+		executeQuery( );
 
-		initializeContent( parent, item, content );
+		initializeContent( extDesign, extContent );
 
-		processAction( item, content );
-		processBookmark( item, content );
-		processStyle( item, content );
-		processVisibility( item, content );
+		processAction( extDesign, extContent );
+		processBookmark( extDesign, extContent );
+		processStyle( extDesign, extContent );
+		processVisibility( extDesign, extContent );
 
-		generateContent( item, content );
+		generateContent( extDesign, extContent );
 
 		if ( context.isInFactory( ) )
 		{
-			context.execute( item.getOnCreate( ) );
+			context.execute( extDesign.getOnCreate( ) );
 		}
 
-		startTOCEntry( content );
+		startTOCEntry( extContent );
 		if ( emitter != null )
 		{
-			emitter.startForeign( content );
+			emitter.startForeign( extContent );
 		}
-		finishTOCEntry( );
 		
-		closeResultSet( );
-
-		context.popContent( );
+		return extContent;
 	}
-
+	
+	public void close( )
+	{
+		finishTOCEntry( );
+		closeQuery( );
+	}
+	
 	protected void generateContent( ExtendedItemDesign item,
 			IForeignContent content )
 	{
@@ -198,12 +196,8 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 	{
 		assert item instanceof ExtendedItemDesign;
 		ExtendedItemDesign extItem = (ExtendedItemDesign) item;
-		IDataEngine dataEngine = context.getDataEngine( ); 
-		IResultSet parent = dataEngine.getResultSet( );
-		if ( rset != null && parent == rset)
-		{
-			parent = parent.getParent( );
-		}
+		IDataEngine dataEngine = context.getDataEngine( );
+		IResultSet parent = getParentResultSet( );
 		
 		IRowSet[] rowSets = null;
 		IBaseQueryDefinition[] queries = extItem.getQueries( );
@@ -243,4 +237,5 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 			}
 		}
 	}
+	
 }

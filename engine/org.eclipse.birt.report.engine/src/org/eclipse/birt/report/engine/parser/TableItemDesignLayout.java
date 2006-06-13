@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.executor.buffermgr.Table;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
+import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
@@ -24,7 +25,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 /**
  * calculate the cell id explictly.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/05/24 09:22:41 $
+ * @version $Revision: 1.3 $ $Date: 2005/11/11 06:26:47 $
  */
 public class TableItemDesignLayout
 {
@@ -88,18 +89,22 @@ public class TableItemDesignLayout
 
 	public void layout( TableItemDesign table )
 	{
-		layout = new Table(0, table.getColumnCount());
-		layoutBand( table.getHeader( ) );
+		layout = new Table( 0, table.getColumnCount( ) );
+		layoutBand( (TableBandDesign)table.getHeader( ) );
 		for ( int i = 0; i < table.getGroupCount( ); i++ )
 		{
-			layoutBand( table.getGroup( i ).getHeader( ) );
+			GroupDesign group = table.getGroup( i );
+			TableBandDesign header = (TableBandDesign) group.getHeader( );
+			layoutBand( header );
 		}
-		layoutBand( table.getDetail( ) );
+		layoutBand( (TableBandDesign)table.getDetail( ) );
 		for ( int i = table.getGroupCount( ) - 1; i >= 0; i-- )
 		{
-			layoutBand( table.getGroup( i ).getFooter( ) );
+			GroupDesign group = table.getGroup( i );
+			TableBandDesign footer = (TableBandDesign) group.getFooter( );
+			layoutBand( footer );
 		}
-		layoutBand( table.getFooter( ) );
+		layoutBand( (TableBandDesign)table.getFooter( ) );
 		normalize( );
 		for ( int i = table.getColumnCount( ); i < layout.getColCount( ); i++ )
 		{

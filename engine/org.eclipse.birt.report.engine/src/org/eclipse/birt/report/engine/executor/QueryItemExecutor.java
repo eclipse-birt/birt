@@ -1,25 +1,20 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
 abstract public class QueryItemExecutor extends StyledItemExecutor
 {
-
-	/**
-	 * result set used by this item.
-	 */
-	protected IResultSet rset;
 	protected boolean rsetEmpty;
 
-	protected QueryItemExecutor( ExecutionContext context,
-			IReportItemVisitor visitor )
+	protected QueryItemExecutor( ExecutorManager manager )
 	{
-		super( context, visitor );
+		super( manager );
 	}
 
 	/**
@@ -33,7 +28,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	 * @param ds
 	 *            the dataset object, null is valid
 	 */
-	protected void closeResultSet( )
+	protected void closeQuery( )
 	{
 		if ( rset != null )
 		{
@@ -54,17 +49,25 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	 *            the report item design
 	 * @return the DataSet object if not null, else return null
 	 */
-	protected void openResultSet( ReportItemDesign item )
+	protected void executeQuery( )
 	{
 		rset = null;
-		if ( item.getQuery( ) != null )
+		IBaseQueryDefinition query = design.getQuery( );
+		if ( query != null )
 		{
-			rset = context.getDataEngine( ).execute( item.getQuery( ) );
-			if ( rset != null )
+			IResultSet parentRset = getParentResultSet( );
+			try
 			{
-				rsetEmpty = !rset.next( );
+				rset = context.executeQuery( parentRset, query );
+				if ( rset != null )
+				{
+					rsetEmpty = !rset.next( );
+				}
 			}
-
+			catch ( BirtException ex )
+			{
+				context.addException( ex );
+			}
 		}
 	}
 
@@ -74,10 +77,10 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 
 	public DataID getDataID( )
 	{
-		IResultSet curRset = rset;
+		IResultSet curRset = getResultSet( );
 		if (curRset == null)
 		{
-			curRset = context.getDataEngine().getResultSet();
+			curRset = getParentResultSet( );
 		}
 		if ( curRset != null )
 		{
@@ -89,6 +92,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	public void reset( )
 	{
 		rset = null;
+		rsetEmpty = false;
 		super.reset( );
 	}
 }

@@ -25,12 +25,16 @@ import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.content.IListBandContent;
+import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
@@ -40,7 +44,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Report content is the result of report generation.
  * 
- * @version $Revision: 1.12 $ $Date: 2006/03/26 09:15:07 $
+ * @version $Revision: 1.13 $ $Date: 2006/04/27 09:52:28 $
  */
 public class ReportContent implements IReportContent
 {
@@ -62,6 +66,8 @@ public class ReportContent implements IReportContent
 	 * toc of this report
 	 */
 	private TOCNode tocRoot;
+	
+	private IContent root;
 
 	/**
 	 * default constructor.
@@ -70,6 +76,8 @@ public class ReportContent implements IReportContent
 	{
 		cssEngine = report.getCSSEngine( );
 		this.report = report;
+		this.root = createContainerContent();
+		this.root.setStyleClass( report.getRootStyleName( ) );
 	}
 
 	/**
@@ -100,6 +108,11 @@ public class ReportContent implements IReportContent
 		return cssEngine;
 	}
 
+	public IContent getRoot()
+	{
+		return this.root;
+	}
+	
 	public IPageContent getPageContent(long pageNumber)
 	{
 		return null;
@@ -119,7 +132,7 @@ public class ReportContent implements IReportContent
 	{
 		return new StyleDeclaration( cssEngine );
 	}
-
+	
 	public ICellContent createCellContent( )
 	{
 		return new CellContent( this );
@@ -135,37 +148,41 @@ public class ReportContent implements IReportContent
 		return new PageContent( this );
 	}
 
-	public ITableBandContent createTableHeader( )
-	{
-		TableBandContent band = new TableBandContent( this );
-		band.setType( ITableBandContent.BAND_HEADER );
-		return band;
-	}
-
-	public ITableBandContent createTableBody( )
-	{
-		TableBandContent band = new TableBandContent( this );
-		band.setType( ITableBandContent.BAND_BODY );
-		return band;
-	}
-
-	public ITableBandContent createTableFooter( )
-	{
-		TableBandContent band = new TableBandContent( this );
-		band.setType( ITableBandContent.BAND_FOOTER );
-		return band;
-	}
-
 	public IRowContent createRowContent( )
 	{
 		return new RowContent( this );
 	}
 
+	public IListContent createListContent( )
+	{
+		return new ListContent( this );
+	}
+
+	public IListGroupContent createListGroupContent( )
+	{
+		return new ListGroupContent( this );
+	}
+	
+	public IListBandContent createListBandContent( )
+	{
+		return new ListBandContent( this );
+	}
+	
 	public ITableContent createTableContent( )
 	{
 		return new TableContent( this );
 	}
+	
+	public ITableGroupContent createTableGroupContent( )
+	{
+		return new TableGroupContent( this );
+	}
 
+	public ITableBandContent createTableBandContent( )
+	{
+		return new TableBandContent( this );
+	}
+	
 	public ITextContent createTextContent( )
 	{
 		return new TextContent( this );
@@ -239,4 +256,5 @@ public class ReportContent implements IReportContent
 	{
 		this.tocRoot = root;
 	}
+
 }

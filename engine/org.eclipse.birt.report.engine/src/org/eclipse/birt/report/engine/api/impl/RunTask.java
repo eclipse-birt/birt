@@ -146,7 +146,29 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		writer.close( );
 	}
 
-	private IContentEmitter createContentEmitter( ReportExecutor executor )
+	private IContentEmitter createContentEmitter( )
+	{
+		ReportDocumentBuilder documentBuilder = new ReportDocumentBuilder(
+				executionContext, writer );
+		if ( pageHandler != null )
+		{
+			documentBuilder.setPageHandler( pageHandler );
+		}
+
+		HTMLPaginationBuilder paginationBuilder = new HTMLPaginationBuilder(
+				executionContext );
+		paginationBuilder.setOutputEmitter( documentBuilder.getPageEmitter( ) );
+		paginationBuilder.setLayoutPageHandler( documentBuilder
+				.getLayoutPageHandler( ) );
+
+		CompositeContentEmitter emitter = new CompositeContentEmitter( );
+		emitter.addEmitter( documentBuilder.getContentEmitter( ) );
+		emitter.addEmitter( paginationBuilder.getInputEmitter( ) );
+
+		return emitter;
+	}
+	
+	private void initializeContentEmitter(IContentEmitter emitter, ReportExecutor executor)
 	{
 		// create the emitter services object that is needed in the emitters.
 		EngineEmitterServices services = new EngineEmitterServices( this );
@@ -162,26 +184,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		services.setRenderContext( appContext );
 		services.setReportRunnable( runnable );
 
-		ReportDocumentBuilder documentBuilder = new ReportDocumentBuilder(
-				executionContext, writer );
-		if ( pageHandler != null )
-		{
-			documentBuilder.setPageHandler( pageHandler );
-		}
-
-		HTMLPaginationBuilder paginationBuilder = new HTMLPaginationBuilder(
-				executor );
-		paginationBuilder.setOutputEmitter( documentBuilder.getPageEmitter( ) );
-		paginationBuilder.setLayoutPageHandler( documentBuilder
-				.getLayoutPageHandler( ) );
-
-		CompositeContentEmitter emitter = new CompositeContentEmitter( );
-		emitter.addEmitter( documentBuilder.getContentEmitter( ) );
-		emitter.addEmitter( paginationBuilder.getInputEmitter( ) );
 		// emitter is not null
 		emitter.initialize( services );
-
-		return emitter;
 	}
 
 	/**
@@ -210,9 +214,12 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			writer.saveDesign( reportDesign );
 			writer.saveParamters( inputValues );
 			
-			ReportExecutor executor = new ReportExecutor( executionContext );
+			IContentEmitter emitter = createContentEmitter( );
+			
+			ReportExecutor executor = new ReportExecutor( executionContext, reportDesign, emitter );
 			executionContext.setExecutor( executor );
-			IContentEmitter emitter = createContentEmitter( executor );
+			
+			initializeContentEmitter(emitter, executor);
 
 			executionContext.openDataEngine( );
 			executor.execute( reportDesign, emitter );

@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.content.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.content.IElement;
@@ -19,7 +20,7 @@ public class AbstractElement implements IElement {
 
 	final static List EMPTY_CHILDREN_LIST = new ArrayList();
 	transient protected IElement parent;
-	transient protected ArrayList children;
+	transient protected Collection children;
 	
 	public AbstractElement ()
 	{
@@ -35,7 +36,7 @@ public class AbstractElement implements IElement {
 		this.parent = parent;
 	}
 	
-	public List getChildren()
+	public Collection getChildren()
 	{
 		if (children == null)
 		{

@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance;
-import org.eclipse.birt.report.engine.content.impl.DataContent;
+import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
@@ -22,7 +22,7 @@ public class DataItemInstance extends ReportItemInstance implements
 		IDataItemInstance
 {
 
-	public DataItemInstance( DataContent data, ExecutionContext context )
+	public DataItemInstance( IDataContent data, ExecutionContext context )
 	{
 		super( data, context );
 	}
@@ -34,7 +34,7 @@ public class DataItemInstance extends ReportItemInstance implements
 	 */
 	public Object getValue( )
 	{
-		return ( ( DataContent ) content ).getValue( );
+		return ( ( IDataContent ) content ).getValue( );
 	}
 
 }

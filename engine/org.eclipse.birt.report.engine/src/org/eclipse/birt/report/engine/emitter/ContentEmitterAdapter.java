@@ -7,13 +7,18 @@ import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.content.IListBandContent;
+import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
 public class ContentEmitterAdapter implements IContentEmitter
@@ -46,72 +51,71 @@ public class ContentEmitterAdapter implements IContentEmitter
 
 	public void startPage( IPageContent page )
 	{
-		startContent( page );
+		startContainer( page );
 	}
 
 	public void endPage( IPageContent page )
 	{
-		endContent( page );
+		endContainer( page );
 	}
 
 	public void startTable( ITableContent table )
 	{
-		startContent( table );
+		startContainer( table );
 	}
 
 	public void endTable( ITableContent table )
 	{
-		endContent( table );
+		endContainer( table );
 	}
 
-	public void startTableHeader( ITableBandContent band )
+	public void startTableBand(ITableBandContent band)
 	{
-		startContent( band );
+		startContainer(band);
 	}
-
-	public void endTableHeader( ITableBandContent band )
+	
+	public void endTableBand(ITableBandContent band)
 	{
-		endContent( band );
+		endContainer(band);
 	}
-
-	public void startTableBody( ITableBandContent band )
+	
+	public void startList( IListContent list )
 	{
-		startContent( band );
+		startContainer( list );
 	}
 
-	public void endTableBody( ITableBandContent band )
+	public void endList( IListContent list )
 	{
-		endContent( band );
+		endContainer( list );
 	}
 
-	public void startTableFooter( ITableBandContent band )
+	public void startListBand( IListBandContent listBand )
 	{
-		startContent( band );
+		startContainer( listBand );
 	}
 
-	public void endTableFooter( ITableBandContent band )
+	public void endListBand( IListBandContent listBand )
 	{
-		endContent( band );
+		endContainer( listBand );
 	}
-
 	public void startRow( IRowContent row )
 	{
-		startContent( row );
+		startContainer( row );
 	}
 
 	public void endRow( IRowContent row )
 	{
-		endContent( row );
+		endContainer( row );
 	}
 
 	public void startCell( ICellContent cell )
 	{
-		startContent( cell );
+		startContainer( cell );
 	}
 
 	public void endCell( ICellContent cell )
 	{
-		endContent( cell );
+		endContainer( cell );
 
 	}
 
@@ -157,6 +161,36 @@ public class ContentEmitterAdapter implements IContentEmitter
 		startContent( image );
 		endContent( image );
 
+	}
+
+	public void endGroup( IGroupContent group )
+	{
+		endContainer( group );
+	}
+
+	public void startGroup( IGroupContent group )
+	{
+		startContainer( group );
+	}
+
+	public void endListGroup( IListGroupContent group )
+	{
+		endGroup(group);
+	}
+
+	public void endTableGroup( ITableGroupContent group )
+	{
+		endGroup(group);
+	}
+
+	public void startListGroup( IListGroupContent group )
+	{
+		startGroup(group);
+	}
+
+	public void startTableGroup( ITableGroupContent group )
+	{
+		startGroup(group);
 	}
 
 }

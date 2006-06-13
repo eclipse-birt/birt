@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -34,14 +35,18 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.content.IListBandContent;
+import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.content.impl.DataContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
@@ -50,6 +55,7 @@ import org.eclipse.birt.report.engine.emitter.ContentDOMVisitor;
 import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -416,7 +422,8 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 				if (header == null)
 				{
 					//try to load the header content
-					reader.setOffset( table.getOffset( ) );
+					long offset = getIndex( table );
+					reader.setOffset( offset );
 					//skip the table object
 					reader.readContent( );
 					//read the header object
@@ -434,6 +441,24 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 				}
 			}
 		}
+/*		if (content instanceof IGroupContent)
+		{
+			IGroupContent group = (IGroupContent)content;
+			IBandContent header = group.getHeader();
+			if (header == null)
+			{
+				reader.setOffset( group.getOffset() );
+				//skip to the table object?
+				reader.readContent();
+				IContent headerContent = reader.readContent( );
+				loadFullContent(headerContent, reader);
+				group.setHeader(header);
+			}
+			if (header != null)
+			{
+				new ContentDOMVisitor().emit(header, emitter);
+			}
+		}*/
 	}
 
 	/**
@@ -590,25 +615,6 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			{
 				Object generateBy = findReportItem( designId );
 				content.setGenerateBy( generateBy );
-				if ( generateBy instanceof TemplateDesign )
-				{
-					TemplateDesign design = (TemplateDesign) generateBy;
-					if ( content instanceof ILabelContent )
-					{
-						ILabelContent labelContent = (ILabelContent) content;
-						labelContent.setLabelKey( design.getPromptTextKey( ) );
-						labelContent.setLabelText( design.getPromptText( ) );
-					}
-				}
-			}
-		}
-		// set total page
-		if(content instanceof IAutoTextContent)
-		{
-			IAutoTextContent autoText = (IAutoTextContent)content;
-			if ( autoText.getType() == IAutoTextContent.TOTAL_PAGE )
-			{
-				autoText.setText(String.valueOf(reportDoc.getPageCount()));	
 			}
 		}
 	}
@@ -706,21 +712,6 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 				}
 			}
 		}
-		if ( generateBy instanceof DataItemDesign
-				&& content instanceof DataContent )
-		{
-			DataItemDesign design = (DataItemDesign) generateBy;
-			DataContent data = (DataContent) content;
-			if ( design.getMap( ) == null )
-			{
-				String valueExpr = design.getValue( );
-				if ( valueExpr != null )
-				{
-					Object value = context.evaluate( valueExpr );
-					data.setValue( value );
-				}
-			}
-		}
 	}
 
 	protected void checkDataSet( DataID dataId, IResultSet rset )
@@ -751,34 +742,6 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	}
 
 	/**
-	 * push the content into stack
-	 * 
-	 * @param content
-	 */
-	protected void pushContent( IContent content )
-	{
-		context.pushContent( content );
-	}
-
-	/**
-	 * pop the content from the stack
-	 */
-	protected IContent popContent( )
-	{
-		return context.popContent( );
-	}
-
-	/**
-	 * get the first content from the content stack.
-	 * 
-	 * @return the first content in the stack.
-	 */
-	protected IContent peekContent( )
-	{
-		return context.getContent( );
-	}
-
-	/**
 	 * output the content to emitter
 	 * 
 	 * @param content
@@ -806,30 +769,33 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 
 	protected IContentVisitor outputStartVisitor = new IContentVisitor( ) {
 
-		public void visit( IContent content, Object value )
+		public Object visit( IContent content, Object value )
 		{
-			content.accept( this, value );
+			return content.accept( this, value );
 		}
 
-		public void visitContent( IContent content, Object value )
+		public Object visitContent( IContent content, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startContent( content );
+			return value;
 		}
 
-		public void visitPage( IPageContent page, Object value )
+		public Object visitPage( IPageContent page, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startPage( page );
+			return value;
 		}
 
-		public void visitContainer( IContainerContent container, Object value )
+		public Object visitContainer( IContainerContent container, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startContainer( container );
+			return value;
 		}
 
-		public void visitTable( ITableContent table, Object value )
+		public Object visitTable( ITableContent table, Object value )
 		{
 			int colCount = table.getColumnCount( );
 			for ( int i = 0; i < colCount; i++ )
@@ -846,161 +812,269 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			}
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startTable( table );
+			return value;
 		}
 
-		public void visitTableBand( ITableBandContent tableBand, Object value )
+		public Object visitTableBand( ITableBandContent tableBand, Object value )
 		{
+			setupGroupBand(tableBand);
 			IContentEmitter emitter = (IContentEmitter) value;
-			switch ( tableBand.getType( ) )
-			{
-				case ITableBandContent.BAND_HEADER :
-					emitter.startTableHeader( tableBand );
-					break;
-				case ITableBandContent.BAND_FOOTER :
-					emitter.startTableFooter( tableBand );
-					break;
-				default :
-					emitter.startTableBody( tableBand );
-					break;
-			}
+			emitter.startTableBand( tableBand );
+			return value;
 		}
 
-		public void visitRow( IRowContent row, Object value )
+		public Object visitRow( IRowContent row, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startRow( row );
+			return value;
 		}
 
-		public void visitCell( ICellContent cell, Object value )
+		public Object visitCell( ICellContent cell, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startCell( cell );
+			return value;
 		}
 
-		public void visitText( ITextContent text, Object value )
+		public Object visitText( ITextContent text, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startText( text );
+			return value;
 		}
 
-		public void visitLabel( ILabelContent label, Object value )
+		public Object visitLabel( ILabelContent label, Object value )
 		{
+			if ( label.getGenerateBy( ) instanceof TemplateDesign )
+			{
+				TemplateDesign design = (TemplateDesign) label.getGenerateBy( );
+				label.setLabelKey( design.getPromptTextKey( ) );
+				label.setLabelText( design.getPromptText( ) );
+			}
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startLabel( label );
+			return value;
 		}
 		
-		public void visitAutoText( IAutoTextContent autoText, Object value )
+		public Object visitAutoText( IAutoTextContent autoText, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
-			if ( autoText.getType() == IAutoTextContent.TOTAL_PAGE )
+			if(autoText.getType()==IAutoTextContent.TOTAL_PAGE)
 			{
 				autoText.setText(String.valueOf(reportDoc.getPageCount()));	
 			}
 			emitter.startAutoText( autoText );
+			return value;
 		}
 
-		public void visitData( IDataContent data, Object value )
+		public Object visitData( IDataContent data, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
+			if (data.getGenerateBy( ) instanceof DataItemDesign)
+			{
+				DataItemDesign design = (DataItemDesign) data.getGenerateBy( );
+				if ( design.getMap( ) == null )
+				{
+					String valueExpr = design.getValue( );
+					if ( valueExpr != null )
+					{
+						Object dataValue = context.evaluate( valueExpr );
+						data.setValue( dataValue );
+					}
+				}
+			}
+			
 			emitter.startData( data );
+			return value;
 		}
 
-		public void visitImage( IImageContent image, Object value )
+		public Object visitImage( IImageContent image, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startImage( image );
+			return value;
 		}
 
-		public void visitForeign( IForeignContent content, Object value )
+		public Object visitForeign( IForeignContent content, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startForeign( content );
+			return value;
+		}
+
+		public Object visitList( IListContent list, Object value )
+		{
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.startList( list );
+			return value;
+		}
+
+		public Object visitListBand( IListBandContent listBand, Object value )
+		{
+			setupGroupBand(listBand);
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.startListBand( listBand );
+			return value;
+		}
+		
+		protected void setupGroupBand( IBandContent bandContent )
+		{
+		}
+
+		public Object visitGroup( IGroupContent group, Object value )
+		{
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.startGroup( group );
+			return value;
+		}
+
+		public Object visitListGroup( IListGroupContent group, Object value )
+		{
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.startListGroup( group );
+			return value;
+		}
+
+		public Object visitTableGroup( ITableGroupContent group, Object value )
+		{
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.startTableGroup( group );
+			return value;
 		}
 
 	};
 
 	protected IContentVisitor outputEndVisitor = new IContentVisitor( ) {
 
-		public void visit( IContent content, Object value )
+		public Object visit( IContent content, Object value )
 		{
-			content.accept( this, value );
+			return content.accept( this, value );
 		}
 
-		public void visitContent( IContent content, Object value )
+		public Object visitContent( IContent content, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endContent( content );
+			return value;
 		}
 
-		public void visitPage( IPageContent page, Object value )
+		public Object visitPage( IPageContent page, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endPage( page );
+			return value;
 		}
 
-		public void visitContainer( IContainerContent container, Object value )
+		public Object visitContainer( IContainerContent container, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endContainer( container );
+			return value;
 		}
 
-		public void visitTable( ITableContent table, Object value )
+		public Object visitTable( ITableContent table, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTable( table );
+			return value;
 		}
 
-		public void visitTableBand( ITableBandContent tableBand, Object value )
+		public Object visitTableBand( ITableBandContent tableBand, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
-			switch ( tableBand.getType( ) )
-			{
-				case ITableBandContent.BAND_HEADER :
-					emitter.endTableHeader( tableBand );
-					break;
-				case ITableBandContent.BAND_FOOTER :
-					emitter.endTableFooter( tableBand );
-					break;
-				default :
-					emitter.endTableBody( tableBand );
-					break;
-			}
+			emitter.endTableBand( tableBand );
+			return value;
 		}
 
-		public void visitRow( IRowContent row, Object value )
+		public Object visitRow( IRowContent row, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endRow( row );
+			return value;
 		}
 
-		public void visitCell( ICellContent cell, Object value )
+		public Object visitCell( ICellContent cell, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endCell( cell );
+			return value;
 		}
 
-		public void visitText( ITextContent text, Object value )
+		public Object visitText( ITextContent text, Object value )
 		{
+			return value;
 		}
 
-		public void visitLabel( ILabelContent label, Object value )
+		public Object visitLabel( ILabelContent label, Object value )
 		{
+			return value;
+		}
+
+		public Object visitAutoText( IAutoTextContent autoText, Object value )
+		{
+			return value;
 		}
 		
-		public void visitAutoText( IAutoTextContent autoText, Object value )
+		public Object visitData( IDataContent data, Object value )
 		{
+			return value;
 		}
 
-		public void visitData( IDataContent data, Object value )
+		public Object visitImage( IImageContent image, Object value )
 		{
+			return value;
 		}
 
-		public void visitImage( IImageContent image, Object value )
+		public Object visitForeign( IForeignContent content, Object value )
 		{
+			return value;
 		}
 
-		public void visitForeign( IForeignContent content, Object value )
+		public Object visitList( IListContent list, Object value )
 		{
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.endList( list );
+			return value;
+		}
+
+		public Object visitListBand( IListBandContent listBand, Object value )
+		{
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.endListBand( listBand );
+			return value;
+		}
+
+		public Object visitGroup( IGroupContent group, Object value )
+		{
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.endGroup( group );
+			return value;
+		}
+
+		public Object visitListGroup( IListGroupContent group, Object value )
+		{
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.endListGroup( group );
+			return value;
+		}
+
+		public Object visitTableGroup( ITableGroupContent group, Object value )
+		{
+			IContentEmitter emitter = (IContentEmitter) value;
+			emitter.endTableGroup( group );
+			return value;
 		}
 	};
+	
+	long getIndex(IContent content)
+	{
+		DocumentExtension docExt = (DocumentExtension) content
+				.getExtension( IContent.DOCUMENT_EXTENSION );
+		if ( docExt != null )
+		{
+			return docExt.getIndex( );
+		}
+		return -1;
+	}
 }

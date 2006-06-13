@@ -14,8 +14,10 @@ package org.eclipse.birt.report.engine.script.internal;
 import org.eclipse.birt.report.engine.api.script.element.ITextItem;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITextItemEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
-import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -43,31 +45,31 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( TextContent content,
+	public static void handleOnCreate( ITextContent content,
 			ExecutionContext context )
 	{
 		internalOnCreate( content, context );
 	}
 
-	public static void handleOnRender( TextContent content,
+	public static void handleOnRender( ITextContent content,
 			ExecutionContext context )
 	{
 		internalOnRender( content, context );
 	}
 
-	public static void handleOnCreate( ForeignContent content,
+	public static void handleOnCreate( IForeignContent content,
 			ExecutionContext context )
 	{
 		internalOnCreate( content, context );
 	}
 
-	public static void handleOnRender( ForeignContent content,
+	public static void handleOnRender( IForeignContent content,
 			ExecutionContext context )
 	{
 		internalOnRender( content, context );
 	}
 
-	private static void internalOnCreate( AbstractContent content,
+	private static void internalOnCreate( IContent content,
 			ExecutionContext context )
 	{
 		try
@@ -76,10 +78,10 @@ public class TextItemScriptExecutor extends ScriptExecutor
 					.getGenerateBy( );
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
-				textItem = new TextItemInstance( ( TextContent ) content,
+				textItem = new TextItemInstance( ( ITextContent ) content,
 						context );
 			else if ( content instanceof ForeignContent )
-				textItem = new TextItemInstance( ( ForeignContent ) content,
+				textItem = new TextItemInstance( ( IForeignContent ) content,
 						context );
 
 			if ( handleJS( textItem, textItemDesign.getOnCreate( ), context )
@@ -96,7 +98,7 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	private static void internalOnRender( AbstractContent content,
+	private static void internalOnRender( IContent content,
 			ExecutionContext context )
 	{
 		try
@@ -105,10 +107,10 @@ public class TextItemScriptExecutor extends ScriptExecutor
 					.getGenerateBy( );
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
-				textItem = new TextItemInstance( ( TextContent ) content,
+				textItem = new TextItemInstance( ( ITextContent ) content,
 						context );
 			else if ( content instanceof ForeignContent )
-				textItem = new TextItemInstance( ( ForeignContent ) content,
+				textItem = new TextItemInstance( ( IForeignContent ) content,
 						context );
 			if ( handleJS( textItem, textItemDesign.getOnRender( ), context )
 					.didRun( ) )

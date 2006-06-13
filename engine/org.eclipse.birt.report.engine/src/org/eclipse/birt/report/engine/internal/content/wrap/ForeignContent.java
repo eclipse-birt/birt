@@ -32,9 +32,9 @@ public class ForeignContent extends AbstractContentWrapper
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	public void accept( IContentVisitor visitor, Object value )
+	public Object accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitForeign( this, value );
+		return visitor.visitForeign( this, value );
 	}
 
 	public String getRawType( )

@@ -13,34 +13,21 @@ package org.eclipse.birt.report.engine.presentation;
 
 import java.util.ArrayList;
 
-import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
-import org.eclipse.birt.report.engine.content.ICellContent;
-import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.IImageContent;
-import org.eclipse.birt.report.engine.content.IPageContent;
-import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.emitter.ContentDOMVisitor;
+import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 
-public class PageRegion extends WrappedEmitter
+public class PageRegion extends ContentEmitterAdapter
 {
-
-	private StartEmitterVisitor startEmitterVisitor;
-	private EndEmitterVisitor endEmitterVisitor;
-
 	// private DOMBuildingEmitter domBuilderEmitter;
+	IContentEmitter emitter;
 
 	public PageRegion( Page page )
 	{
-		super( page.getEmitter( ) );
-
-		startEmitterVisitor = new StartEmitterVisitor( emitter );
-		endEmitterVisitor = new EndEmitterVisitor( emitter );
+		emitter = page.getEmitter( );
 	}
 
 	public void open( IContent content )
@@ -51,7 +38,8 @@ public class PageRegion extends WrappedEmitter
 			int size = contents.size( ) - 1;
 			for ( int i = size; i >= 0; i-- )
 			{
-				openContent( (IContent) contents.get( i ) );
+				IContent parent = (IContent) contents.get( i );
+				ContentEmitterUtil.startContent( parent, emitter );
 			}
 		}
 	}
@@ -64,7 +52,8 @@ public class PageRegion extends WrappedEmitter
 			int size = contents.size( );
 			for ( int i = 0; i < size; i++ )
 			{
-				closeContent( (IContent) contents.get( i ) );
+				IContent parent = (IContent) contents.get( i );
+				ContentEmitterUtil.endContent( parent, emitter );
 			}
 		}
 	}
@@ -80,151 +69,34 @@ public class PageRegion extends WrappedEmitter
 		}
 		return list;
 	}
-
-	protected void openContent( IContent content )
+	
+	public void end( IReportContent report )
 	{
-		startEmitterVisitor.visit( content, null );
+		emitter.end( report );
 	}
 
-	protected void closeContent( IContent content )
+	public String getOutputFormat( )
 	{
-		endEmitterVisitor.visit( content, null );
+		return emitter.getOutputFormat( );
 	}
 
-	private class StartEmitterVisitor extends ContentVisitorAdapter
+	public void initialize( IEmitterServices service )
 	{
+		emitter.initialize( service );
+	}
 
-		IContentEmitter emitter;
-
-		public StartEmitterVisitor( IContentEmitter emitter )
-		{
-			this.emitter = emitter;
-		}
-
-		public void visitCell( ICellContent cell, Object value )
-		{
-			emitter.startCell( cell );
-		}
-
-		public void visitContainer( IContainerContent container, Object value )
-		{
-			emitter.startContainer( container );
-		}
-
-		public void visitContent( IContent content, Object value )
-		{
-			emitter.startContent( content );
-		}
-
-		public void visitForeign( IForeignContent content, Object value )
-		{
-			emitter.startForeign( content );
-		}
-
-		public void visitImage( IImageContent image, Object value )
-		{
-			emitter.startImage( image );
-		}
-
-		public void visitPage( IPageContent page, Object value )
-		{
-			emitter.startPage( page );
-		}
-
-		public void visitRow( IRowContent row, Object value )
-		{
-			emitter.startRow( row );
-		}
-
-		public void visitTable( ITableContent table, Object value )
-		{
-			emitter.startTable( table );
-			if ( table.isHeaderRepeat( ) )
-			{
-				// output the table header
-				ITableBandContent header = table.getHeader( );
-				if ( header != null )
-				{
-					new ContentDOMVisitor( ).emit( table.getHeader( ), emitter );
-				}
-			}
-		}
-
-		public void visitTableBand( ITableBandContent tableBand, Object value )
-		{
-			switch ( tableBand.getType( ) )
-			{
-				case ITableBandContent.BAND_HEADER :
-					emitter.startTableHeader( tableBand );
-					break;
-				case ITableBandContent.BAND_FOOTER :
-					emitter.startTableFooter( tableBand );
-					break;
-				case ITableBandContent.BAND_BODY :
-				default :
-					emitter.startTableBody( tableBand );
-					break;
-			}
-		}
-
-		public void visitText( ITextContent text, Object value )
-		{
-			emitter.startText( text );
-		}
-
-	};
-
-	private class EndEmitterVisitor extends ContentVisitorAdapter
+	public void start( IReportContent report )
 	{
+		emitter.start( report );
+	}
 
-		IContentEmitter emitter;
+	public void startContent( IContent content )
+	{
+		ContentEmitterUtil.startContent( content, emitter );
+	}
 
-		public EndEmitterVisitor( IContentEmitter emitter )
-		{
-			this.emitter = emitter;
-		}
-
-		public void visitCell( ICellContent cell, Object value )
-		{
-			emitter.endCell( cell );
-		}
-
-		public void visitContainer( IContainerContent container, Object value )
-		{
-			emitter.endContainer( container );
-		}
-
-		public void visitPage( IPageContent page, Object value )
-		{
-			emitter.endPage( page );
-		}
-
-		public void visitRow( IRowContent row, Object value )
-		{
-			emitter.endRow( row );
-		}
-
-		public void visitTable( ITableContent table, Object value )
-		{
-			emitter.endTable( table );
-		}
-
-		public void visitTableBand( ITableBandContent tableBand, Object value )
-		{
-			switch ( tableBand.getType( ) )
-			{
-				case ITableBandContent.BAND_HEADER :
-					emitter.endTableHeader( tableBand );
-					break;
-				case ITableBandContent.BAND_FOOTER :
-					emitter.endTableFooter( tableBand );
-					break;
-				case ITableBandContent.BAND_BODY :
-				default :
-					emitter.endTableBody( tableBand );
-					break;
-			}
-		}
-
+	public void endContent( IContent content )
+	{
+		ContentEmitterUtil.endContent( content, emitter );
 	}
 }
