@@ -197,7 +197,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 	public IResultSet execute( IBaseQueryDefinition query )
 	{
 		IResultSet parent = null;
-		if ( !rsets.isEmpty( ) )
+		// if the query has parent the set resultSet's parent 
+		if ( query.getParentQuery( ) != null && !rsets.isEmpty( ) )
 		{
 			parent = (IResultSet) rsets.getFirst( );
 		}
