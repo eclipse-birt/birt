@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
+import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
@@ -74,6 +75,30 @@ public final class DataSetUIUtil
 		}
 		
 		return dataSetHandle.getCachedMetaDataHandle( );
+	}
+	
+	/**
+	 * Whether there is cached metadata in datasetHandle. The current status of
+	 * datasetHandle will be processed, we won's do the refresh to retrieve the
+	 * metadata. If the cached metadata handle is null or metadata handle is
+	 * empty, return false.
+	 * 
+	 * @param dataSetHandle
+	 * @return
+	 */
+	public static boolean hasCachedMetaData( DataSetHandle dataSetHandle )
+	{
+		CachedMetaDataHandle metaData = dataSetHandle.getCachedMetaDataHandle( );
+		if ( metaData == null )
+			return false;
+		else
+		{
+			Iterator iter = metaData.iterator( );
+			if ( iter.hasNext( ) )
+				return true;
+			else
+				return false;
+		}
 	}
 	
 	/**
