@@ -60,11 +60,11 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * To get a handle for the data source, uses the following example:
  * 
  * <pre>
- *     
+ *        
+ *            
+ *        		DataSetHandle dataHandle = designHandle
+ *                findDataSet( &quot;My First Data Set &quot; );
  *         
- *     		DataSetHandle dataHandle = designHandle
- *             findDataSet( &quot;My First Data Set &quot; );
- *      
  * </pre>
  * 
  * <p>
@@ -458,33 +458,6 @@ public abstract class DataSetHandle extends ReportElementHandle
 	{
 
 		return getIntProperty( CACHED_ROW_COUNT_PROP );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#isValid()
-	 */
-
-	public boolean isValid( )
-	{
-		CachedMetaData metadata = (CachedMetaData) element.getProperty( module,
-				CACHED_METADATA_PROP );
-
-		if ( metadata != null )
-		{
-			List resultSet = (List) metadata.getProperty( module,
-					CachedMetaData.RESULT_SET_MEMBER );
-
-			if ( resultSet != null && resultSet.size( ) > 0 )
-			{
-				setValid( true );
-				return element.isValid( );
-			}
-		}
-
-		setValid( false );
-		return element.isValid( );
 	}
 
 	/**
