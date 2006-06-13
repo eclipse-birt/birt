@@ -118,7 +118,7 @@
 		</fileset>
 		
 		<fileset file="${core.dir}/*.jar" />
-		<pathelement path="${chart.engine.dir}/org.eclipse.birt.chart.engine_${Bundle-Version}.jar"/>
+		<fileset file="${chart.engine.dir}/org.eclipse.birt.chart.engine_*.jar"/>
 	</path>
 	
 	

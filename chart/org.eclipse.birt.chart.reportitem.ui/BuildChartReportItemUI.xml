@@ -139,10 +139,10 @@
 		<fileset file="${data.adapter.dir}/*.jar" />
 		<fileset file="${designer.core.dir}/*.jar" />
 		<fileset file="${designer.ui.dir}/*.jar" />
-		<pathelement path="${chart.engine.dir}/org.eclipse.birt.chart.engine_${Bundle-Version}.jar"/>
-		<pathelement path="${core.ui.dir}/org.eclipse.birt.core.ui_${Bundle-Version}.jar"/>
-		<pathelement path="${chart.ui.dir}/org.eclipse.birt.chart.ui_${Bundle-Version}.jar"/>
-		<pathelement path="${chart.reportitem.dir}/org.eclipse.birt.chart.reportitem_${Bundle-Version}.jar"/>
+		<fileset file="${chart.engine.dir}/org.eclipse.birt.chart.engine_*.jar"/>
+		<fileset file="${core.ui.dir}/org.eclipse.birt.core.ui_*.jar"/>
+		<fileset file="${chart.ui.dir}/org.eclipse.birt.chart.ui_*.jar"/>
+		<fileset file="${chart.reportitem.dir}/org.eclipse.birt.chart.reportitem_*.jar"/>
 	</path>
 	
 	<!-- Compile source code and generate jar for this project.
