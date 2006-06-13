@@ -18,10 +18,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.command.NameCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -267,47 +265,21 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 				String propName = propHandle.getPropertyDefn( ).getName( );
 
 				if ( DesignElement.EXTENDS_PROP.equals( propName )
+						|| DesignElement.NAME_PROP.equals( propName )
 						|| IExtendedItemModel.EXTENSION_NAME_PROP
 								.equals( propName ) )
 				{
-					// ignore extends property.
+					// ignore name, extends, extension id property.
 					continue;
 				}
 
-				if ( DesignElement.NAME_PROP.equals( propName ) )
+				Object localValue = propHandle.getLocalValue( );
+
+				if ( localValue != null )
 				{
-					for ( Iterator elementIter = elements.iterator( ); elementIter
-							.hasNext( ); )
-					{
-						DesignElementHandle handle = (DesignElementHandle) elementIter
-								.next( );
-
-						NameCommand nameCmd = new NameCommand( module, handle
-								.getElement( ) );
-						try
-						{
-							nameCmd.checkName( null );
-						}
-						catch ( NameException e )
-						{
-							continue;
-						}
-
-						PropertyHandle tmpPropHandle = handle
-								.getPropertyHandle( propName );
-						if ( tmpPropHandle.isLocal( ) )
-							propHandle.clearValue( );
-					}
+					propHandle.clearValue( );
 				}
-				else
-				{
-					String localValue = propHandle.getLocalStringValue( );
 
-					if ( localValue != null )
-					{
-						propHandle.clearValue( );
-					}
-				}
 			}
 		}
 		catch ( SemanticException e )

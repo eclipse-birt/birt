@@ -88,7 +88,7 @@ public class GroupPropertyHandle
 		// use the value set on the first element as the base value.
 
 		Object baseValue = null;
-		if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE)
+		if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			baseValue = elemHandle.getProperty( propDefn.getName( ) );
 		else
 			baseValue = elemHandle.getStringProperty( propDefn.getName( ) );
@@ -97,11 +97,11 @@ public class GroupPropertyHandle
 		{
 			elemHandle = (DesignElementHandle) iter.next( );
 			Object value = null;
-			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE)
+			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 				value = elemHandle.getProperty( propDefn.getName( ) );
 			else
 				value = elemHandle.getStringProperty( propDefn.getName( ) );
-			
+
 			if ( baseValue == null )
 			{
 				if ( value != null )
@@ -154,6 +154,30 @@ public class GroupPropertyHandle
 
 	public String getLocalStringValue( )
 	{
+		Object value = getLocalValue( );
+		if ( value == null )
+			return null;
+
+		DesignElementHandle element = (DesignElementHandle) handle
+				.getElements( ).get( 0 );
+
+		String localValue = propDefn.getStringValue( element
+				.getEffectiveModule( ), value );
+		return localValue;
+	}
+
+	/**
+	 * Value will be returned only if all values of this property are equal
+	 * within the collection of elements and one of them has a local value.
+	 * 
+	 * @return The value if all the element values for the property are equal
+	 *         and one of them has a local value. Return null, if elements have
+	 *         different value for the property or none of them has a local
+	 *         value.
+	 */
+
+	protected Object getLocalValue( )
+	{
 		if ( !shareSameValue( ) )
 			return null;
 		List elements = handle.getElements( );
@@ -163,10 +187,8 @@ public class GroupPropertyHandle
 					.get( i );
 			Object value = element.getElement( ).getLocalProperty(
 					element.getModule( ), propDefn );
-			String localValue = propDefn.getStringValue( element
-					.getEffectiveModule( ), value );
-			if ( localValue != null )
-				return localValue;
+			if ( value != null )
+				return value;
 		}
 		return null;
 	}
