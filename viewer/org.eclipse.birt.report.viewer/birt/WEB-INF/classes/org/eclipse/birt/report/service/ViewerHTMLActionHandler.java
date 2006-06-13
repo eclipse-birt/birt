@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -266,7 +267,12 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 						Object valueObj = entry.getValue( );
 						if ( valueObj != null )
 						{
-							String value = valueObj.toString( );
+							// TODO: here need the get the format from the
+							// parameter.
+							String value = ParameterValidationUtil
+									.getDisplayValue( null, null, valueObj,
+											locale );
+
 							link
 									.append( ParameterAccessor
 											.getQueryParameterString(
