@@ -78,10 +78,18 @@ public class ComputedColumn extends Structure
 	public static final String DATA_TYPE_MEMBER = "dataType"; //$NON-NLS-1$
 
 	/**
-	 * Name of the aggregrateOn member.
+	 * Name of the aggregateOn member.
 	 */
 
-	public static final String AGGREGRATEON_MEMBER = "aggregrateOn"; //$NON-NLS-1$
+	public static final String AGGREGATEON_MEMBER = "aggregateOn"; //$NON-NLS-1$
+
+	/**
+	 * Name of the aggregateOn member.
+	 * 
+	 * @deprecated
+	 */
+
+	public static final String AGGREGRATEON_MEMBER = AGGREGATEON_MEMBER;
 
 	/**
 	 * The column name.
@@ -320,6 +328,8 @@ public class ComputedColumn extends Structure
 	 * Returns the aggregrateOn expression to compute.
 	 * 
 	 * @return the aggregrateOn expression to compute.
+	 * 
+	 * @deprecated by {@link #getAggregateOn()}
 	 */
 
 	public String getAggregrateOn( )
@@ -328,14 +338,39 @@ public class ComputedColumn extends Structure
 	}
 
 	/**
-	 * Sets the aggregrateOn expression.
+	 * Sets the aggregateOn expression.
 	 * 
-	 * @param aggregrateOn
-	 *            the aggregrateOn expression to set
+	 * @param aggregateOn
+	 *            the aggregateOn expression to set
+	 * @deprecated by {@link #setAggregateOn(String)}
+	 * 
 	 */
 
-	public void setAggregrateOn( String aggregrateOn )
+	public void setAggregrateOn( String aggregateOn )
 	{
-		setProperty( AGGREGRATEON_MEMBER, aggregrateOn );
+		setAggregateOn( aggregateOn );
+	}
+
+	/**
+	 * Returns the aggregateOn expression to compute.
+	 * 
+	 * @return the aggregateOn expression to compute.
+	 */
+
+	public String getAggregateOn( )
+	{
+		return (String) getProperty( null, AGGREGATEON_MEMBER );
+	}
+
+	/**
+	 * Sets the aggregateOn expression.
+	 * 
+	 * @param aggregateOn
+	 *            the aggregateOn expression to set
+	 */
+
+	public void setAggregateOn( String aggregateOn )
+	{
+		setProperty( AGGREGATEON_MEMBER, aggregateOn );
 	}
 }

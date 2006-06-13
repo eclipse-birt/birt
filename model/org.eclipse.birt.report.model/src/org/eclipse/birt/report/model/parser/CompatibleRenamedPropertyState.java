@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Represents the state to rename the design file. In version 1, it renames two
@@ -48,6 +50,33 @@ class CompatibleRenamedPropertyState extends PropertyState
 			DesignElement element, String obsoletePropName )
 	{
 		super( theHandler, element );
+		this.obsoletePropName = obsoletePropName;
+	}
+
+	/**
+	 * Constructs a <code>CompatibleRenamedPropertyState</code> to parse an
+	 * obsolete property.
+	 * 
+	 * @param theHandler
+	 *            the parser handle
+	 * @param element
+	 *            the element that holds the obsolete property
+	 * @param propDefn
+	 *            the property defnition
+	 * @param struct
+	 *            the strucutre
+	 * @param obsoletePropName
+	 *            the name of the obsolete property.
+	 */
+
+	CompatibleRenamedPropertyState( ModuleParserHandler theHandler,
+			DesignElement element, PropertyDefn propDefn, IStructure struct,
+			String obsoletePropName )
+	{
+		super( theHandler, element );
+
+		this.propDefn = propDefn;
+		this.struct = struct;
 		this.obsoletePropName = obsoletePropName;
 	}
 

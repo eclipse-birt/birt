@@ -1728,7 +1728,7 @@
   	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.0" type="choice">
 		<Default>any</Default>
 	</Member>
-    <Member displayNameID="Structure.ComputedColumn.aggregrateOn" isIntrinsic="true" name="aggregrateOn" since="2.1" type="string" />	  
+    <Member displayNameID="Structure.ComputedColumn.aggregateOn" isIntrinsic="true" name="aggregateOn" since="2.1" type="string" />	  
   </Structure>
   <Structure displayNameID="Structure.ColumnHint" name="ColumnHint" since="1.0">
     <Member displayNameID="Structure.ColumnHint.columnName" name="columnName" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>

@@ -128,28 +128,54 @@ public class ComputedColumnHandle extends StructureHandle
 	}
 	
 	/**
-	 * Returns the aggregrateOn expression used to define this computed column.
+	 * Returns the aggregateOn expression used to define this computed column.
 	 * 
-	 * @return the aggregrateOn expression used to define this computed column
+	 * @return the aggregateOn expression used to define this computed column
+	 * 
+	 * @deprecated by {@link #getAggregateOn()}
 	 */
 
 	public String getAggregrateOn( )
 	{
-		return getStringProperty( ComputedColumn.AGGREGRATEON_MEMBER );
+		return getAggregateOn( );
 	}
 
 	/**
-	 * Sets the aggregrateOn expression used to define this computed column.
+	 * Sets the aggregateOn expression used to define this computed column.
 	 * 
-	 * @param aggregrateOn
-	 *            the aggregrateOn expression to set
+	 * @param aggregateOn
+	 *            the aggregateOn expression to set
+	 * @deprecated by {@link #setAggregateOn(String)}            
 	 */
 
-	public void setAggregrateOn( String aggregrateOn )
+	public void setAggregrateOn( String aggregateOn )
 	{
-		setPropertySilently( ComputedColumn.AGGREGRATEON_MEMBER, aggregrateOn );
+		setAggregateOn( aggregateOn );
 	}
 
+	/**
+	 * Returns the aggregateOn expression used to define this computed column.
+	 * 
+	 * @return the aggregateOn expression used to define this computed column
+	 */
+
+	public String getAggregateOn( )
+	{
+		return getStringProperty( ComputedColumn.AGGREGATEON_MEMBER );
+	}
+
+	/**
+	 * Sets the aggregateOn expression used to define this computed column.
+	 * 
+	 * @param aggregateOn
+	 *            the aggregateOn expression to set
+	 */
+
+	public void setAggregateOn( String aggregateOn )
+	{
+		setPropertySilently( ComputedColumn.AGGREGATEON_MEMBER, aggregateOn );
+	}
+	
 	/**
 	 * Returns the data type of this column. The possible values are defined in
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},

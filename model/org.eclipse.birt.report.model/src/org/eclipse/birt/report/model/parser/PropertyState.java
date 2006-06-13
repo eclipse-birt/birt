@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
@@ -28,6 +29,8 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
@@ -266,6 +269,17 @@ class PropertyState extends AbstractPropertyState
 			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
 					handler, element );
 			state.setName( name );
+			return state;
+		}
+
+		if ( struct instanceof ComputedColumn
+				&& "aggregrateOn".equalsIgnoreCase( name ) //$NON-NLS-1$
+				&& ( element instanceof ScalarParameter || element instanceof ReportItem )
+				& StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) <= 0 ) //$NON-NLS-1$
+		{
+			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+					handler, element, propDefn, struct, "aggregrateOn" ); //$NON-NLS-1$
+			state.setName( ComputedColumn.AGGREGATEON_MEMBER );
 			return state;
 		}
 
