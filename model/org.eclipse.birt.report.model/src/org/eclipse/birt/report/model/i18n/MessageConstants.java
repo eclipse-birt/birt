@@ -192,9 +192,10 @@ public interface MessageConstants
 	// ThemeException
 
 	public static final String THEME_EXCEPTION_NOT_FOUND = "Error.ThemeException.NOT_FOUND"; //$NON-NLS-1$
-
+	
 	// DesignParserException
 	public static final String DESIGN_PARSER_EXCEPTION_FILE_NOT_FOUND = "Error.DesignParserException.FILE_NOT_FOUND"; //$NON-NLS-1$
+	public static final String DESIGN_PARSER_EXCEPTION_FILE_FORMAT_NOT_SUPPORT = "Error.DesignParserException.FILE_FORMAT_NOT_SUPPORT"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_RGB_REQUIRED = "Error.DesignParserException.RGB_REQUIRED"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_COLOR_NAME_REQUIRED = "Error.DesignParserException.COLOR_NAME_REQUIRED"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_ILLEGAL_EXTENDS = "Error.DesignParserException.ILLEGAL_EXTENDS"; //$NON-NLS-1$

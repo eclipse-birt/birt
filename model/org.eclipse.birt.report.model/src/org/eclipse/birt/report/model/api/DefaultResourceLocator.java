@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.eclipse.birt.report.model.api.util.URIUtil;
 
@@ -61,16 +62,31 @@ public class DefaultResourceLocator implements IResourceLocator
 				return f.exists( ) && f.isFile( ) ? f.getCanonicalFile( )
 						.toURL( ) : null;
 
+			// try url search
 			try
 			{
 				URL objURI = new URL( fileName );
-				if ( URIUtil.FILE_SCHEMA
-						.equalsIgnoreCase( objURI.getProtocol( ) ) )
+				String protocol = objURI.getProtocol( );
+
+				if ( URIUtil.FILE_SCHEMA.equalsIgnoreCase( protocol ) )
 				{
 					f = new File( objURI.getPath( ) );
 					if ( f.isAbsolute( ) )
 						return f.exists( ) && f.isFile( ) ? f
 								.getCanonicalFile( ).toURL( ) : null;
+				}
+				else if ( URIUtil.JAR_SCHEMA.equalsIgnoreCase( protocol ) )
+				{
+					URLConnection jarConnection = objURI.openConnection( );
+					try
+					{
+						jarConnection.connect( );
+						return objURI;
+					}
+					catch ( IOException e1 )
+					{
+						return null;
+					}
 				}
 			}
 			catch ( MalformedURLException e )
@@ -99,12 +115,12 @@ public class DefaultResourceLocator implements IResourceLocator
 
 			if ( URIUtil.FILE_SCHEMA.equalsIgnoreCase( systemId.getProtocol( ) ) )
 				return tryFileSearch( systemId, fileName );
+			else if ( URIUtil.JAR_SCHEMA.equalsIgnoreCase( systemId
+					.getProtocol( ) ) )
+				return tryJarSearch( systemId, fileName );
 
 			return new URL( systemId, URIUtil
 					.convertFileNameToURLString( fileName ) );
-		}
-		catch ( MalformedURLException e )
-		{
 		}
 		catch ( IOException e )
 		{
@@ -140,5 +156,38 @@ public class DefaultResourceLocator implements IResourceLocator
 			return f.getCanonicalFile( ).toURL( );
 
 		return null;
+	}
+
+	/**
+	 * Return a url if the <code>fileName</code> can be found in the directory
+	 * <code>filePath</code>.
+	 * 
+	 * @param systemId
+	 *            the systemID to search
+	 * @param fileName
+	 *            the file name
+	 * @return the <code>URL</code> object. <code>null</code> if the file
+	 *         can not be found.
+	 * @throws IOException
+	 * @throws MalformedURLException
+	 */
+
+	private URL tryJarSearch( URL base, String fileName )
+	{
+		URL url = null;
+		try
+		{
+			url = new URL( base, fileName );
+			url.openConnection( ).connect( );
+		}
+		catch ( MalformedURLException e )
+		{
+		}
+		catch ( IOException e1 )
+		{
+			return null;
+		}
+
+		return url;
 	}
 }

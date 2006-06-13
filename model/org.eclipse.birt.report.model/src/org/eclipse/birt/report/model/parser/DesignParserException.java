@@ -36,6 +36,12 @@ public class DesignParserException extends ModelException
 	public static final String DESIGN_EXCEPTION_FILE_NOT_FOUND = MessageConstants.DESIGN_PARSER_EXCEPTION_FILE_NOT_FOUND;
 
 	/**
+	 * The design/library file was not found.
+	 */
+
+	public static final String DESIGN_EXCEPTION_FILE_FORMAT_NOT_SUPPORT = MessageConstants.DESIGN_PARSER_EXCEPTION_FILE_FORMAT_NOT_SUPPORT;
+	
+	/**
 	 * A custom color did not have a correct RGB value.
 	 */
 
@@ -243,6 +249,7 @@ public class DesignParserException extends ModelException
 	public String getLocalizedMessage( )
 	{
 		if ( sResourceKey == DESIGN_EXCEPTION_FILE_NOT_FOUND
+				|| sResourceKey == DESIGN_EXCEPTION_FILE_FORMAT_NOT_SUPPORT
 				|| sResourceKey == DESIGN_EXCEPTION_UNDEFINED_PROPERTY
 				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE
 				|| sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_VERSION

@@ -16,6 +16,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,6 +29,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.xml.sax.InputSource;
@@ -150,8 +154,36 @@ public abstract class ModuleReader
 		InputStream inputStream = null;
 		try
 		{
-			inputStream = new BufferedInputStream( new FileInputStream( handler
-					.getFileName( ) ) );
+			try
+			{
+				URL url = new URL( handler.getFileName( ) );
+				if ( URIUtil.JAR_SCHEMA.equalsIgnoreCase( url.getProtocol( ) ) )
+				{
+					URLConnection jarConnection = url.openConnection( );
+					jarConnection.connect( );
+					InputStream jarStream = jarConnection.getInputStream( );
+					inputStream = new BufferedInputStream( jarStream );
+					assert inputStream != null;
+				}
+			}
+			catch ( MalformedURLException e1 )
+			{
+				inputStream = new BufferedInputStream( new FileInputStream(
+						handler.getFileName( ) ) );
+			}
+			catch ( IOException e2 )
+			{
+				DesignParserException ex = new DesignParserException(
+						new String[]{handler.getFileName( )},
+						DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
+				List exceptionList = new ArrayList( );
+				exceptionList.add( ex );
+
+				logger.log( Level.SEVERE, "Not supported file format." ); //$NON-NLS-1$
+
+				throw new DesignFileException( handler.getFileName( ),
+						exceptionList );
+			}
 		}
 		catch ( FileNotFoundException e )
 		{

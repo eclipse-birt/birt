@@ -13,10 +13,12 @@ package org.eclipse.birt.report.model.api.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.zip.ZipEntry;
 
 /**
  * Utility class to handle URI.
@@ -25,10 +27,28 @@ public class URIUtil
 {
 
 	/**
-	 * 
+	 * File schema.
 	 */
 
 	public static final String FILE_SCHEMA = "file"; //$NON-NLS-1$
+
+	/**
+	 * URL with JAR protocol.
+	 */
+
+	public static final String JAR_SCHEMA = "jar"; //$NON-NLS-1$
+
+	/**
+	 * URL with JAR protocol.
+	 */
+
+	public static final String HTTP_SCHEMA = "http:"; //$NON-NLS-1$
+
+	/**
+	 * File with jar extention name.
+	 */
+
+	public static final String JAR_EXTENTION = ".jar"; //$NON-NLS-1$
 
 	/**
 	 * Checks <code>uri</code> is file path. If <code>uri</code> is an
@@ -81,7 +101,8 @@ public class URIUtil
 		{
 			// this is for files on the windows platforms.
 
-			if ( objURI.getScheme( ).length( ) == 1 )
+			if ( objURI.getScheme( ).length( ) == 1
+					|| objURI.getScheme( ).equalsIgnoreCase( JAR_SCHEMA ) )
 			{
 				return uri;
 			}
@@ -142,16 +163,24 @@ public class URIUtil
 		{
 			objURI = new URL( uri );
 
-			if ( !objURI.getProtocol( ).equalsIgnoreCase( FILE_SCHEMA ) )
+			if ( objURI.getProtocol( ).equalsIgnoreCase( FILE_SCHEMA ) )
+			{
+				return objURI.getAuthority( ) == null
+						? objURI.getPath( )
+						: objURI.getAuthority( ) + objURI.getPath( );
+			}
+			else if ( objURI.getProtocol( ).equalsIgnoreCase( JAR_SCHEMA ) )
+				return uri;
+			else
 				return null;
-
-			return objURI.getAuthority( ) == null ? objURI.getPath( ) : objURI
-					.getAuthority( )
-					+ objURI.getPath( );
 		}
 		catch ( MalformedURLException e )
 		{
 			File file = new File( uri );
+
+			if ( uri.contains( JAR_EXTENTION ) )
+				return JAR_SCHEMA
+						+ ":" + FILE_SCHEMA + ":" + file.getAbsolutePath( ); //$NON-NLS-1$ //$NON-NLS-2$
 
 			if ( uri.startsWith( FILE_SCHEMA ) )
 				return file.toURI( ).getSchemeSpecificPart( );
@@ -217,6 +246,9 @@ public class URIUtil
 
 	public static URL getDirectory( String filePath )
 	{
+		if ( filePath == null )
+			return null;
+
 		URL url = null;
 
 		try
@@ -225,15 +257,21 @@ public class URIUtil
 		}
 		catch ( MalformedURLException e )
 		{
+			if ( filePath.contains( JAR_EXTENTION ) )
+				// try jar format
+				url = getJarDirectory( filePath );
+			else
+				// follows the file protocol
+				url = getFileDirectory( filePath );
+
+			return url;
 		}
-
-		// follows the file protocol
-
-		if ( url == null )
-			return getFileDirectory( filePath );
 
 		if ( FILE_SCHEMA.equalsIgnoreCase( url.getProtocol( ) ) )
 			return getFileDirectory( url.getPath( ) );
+		else if ( JAR_SCHEMA.equalsIgnoreCase( url.getProtocol( ) )
+				&& !url.getPath( ).toLowerCase( ).startsWith( HTTP_SCHEMA ) )
+			return getJarDirectory( url.getPath( ) );
 
 		// rather then the file protocol
 
@@ -311,6 +349,35 @@ public class URIUtil
 		catch ( IOException e )
 		{
 		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the directory of a file path that is a filepath or a url with the
+	 * file protocol.
+	 * 
+	 * @param filePath
+	 *            the file url
+	 * @return a url for the directory of the file
+	 */
+
+	private static URL getJarDirectory( String filePath )
+	{
+		if ( filePath.startsWith( FILE_SCHEMA ) )
+			filePath = filePath.substring( 5 );
+
+		URL url = getFileDirectory( filePath );
+		if ( url != null )
+			try
+			{
+				return new URL( JAR_SCHEMA + ":" + FILE_SCHEMA + ":" //$NON-NLS-1$ //$NON-NLS-2$
+						+ url.getPath( ) + '/' );
+			}
+			catch ( MalformedURLException e )
+			{
+				assert false;
+			}
 
 		return null;
 	}
@@ -450,11 +517,11 @@ public class URIUtil
 	public static String resolveAbsolutePath( String base, String relativePath )
 	{
 		// make sure that must be file protocol
-		
+
 		File file = new File( relativePath );
-		if( file.isAbsolute( ) )
+		if ( file.isAbsolute( ) )
 			return relativePath;
-		
+
 		String baseDir = getLocalPath( base );
 		String relativeDir = getLocalPath( relativePath );
 
@@ -499,6 +566,7 @@ public class URIUtil
 	 *            the resource directory
 	 * @return <code>true</code> if the input string is a valid resource
 	 *         directory, <code>false</code> otherwise.
+	 * @throws MalformedURLException
 	 */
 
 	public static boolean isValidResourcePath( String resourceDir )
@@ -506,6 +574,38 @@ public class URIUtil
 		if ( resourceDir == null )
 			return false;
 		File f = new File( resourceDir );
+
+		// TODO: support resource path with jar format.
+		
+//		if ( resourceDir.contains( JAR_EXTENTION ) )
+//		{
+//			if ( f.exists( ) )
+//				// TODO: check case like a.jar.txt
+//				return true;
+//			else
+//			{
+//				URL url;
+//				try
+//				{
+//					url = new URL( resourceDir );
+//					JarURLConnection connection = (JarURLConnection) url
+//							.openConnection( );
+//					connection.connect( );
+//					ZipEntry zip = connection.getJarEntry( );
+//					if ( zip != null && zip.isDirectory( ) )
+//						return true;
+//				}
+//				catch ( MalformedURLException e )
+//				{
+//					return false;
+//				}
+//				catch ( IOException e1 )
+//				{
+//					return false;
+//				}
+//			}
+//		}
+
 		if ( f.isAbsolute( ) && f.exists( ) && f.isDirectory( ) )
 			return true;
 
