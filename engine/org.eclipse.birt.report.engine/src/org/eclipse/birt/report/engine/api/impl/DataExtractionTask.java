@@ -240,7 +240,11 @@ public class DataExtractionTask extends EngineTask
 					count = countObj.intValue( );
 				}
 				count++;
-				String rsetName = getQueryName( queryId ) + "_" + count;
+				String rsetName = getQueryName( queryId );
+				if( count > 0)
+				{
+					rsetName = rsetName + "_" + count;
+				}
 				queryCounts.put( queryId, new Integer( count ) );
 				rsetName2IdMapping.put( rsetName, rsetId );
 
