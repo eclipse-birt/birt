@@ -90,8 +90,7 @@ public abstract class AbstractGetTOCActionHandler extends
 				ToC child = ( ToC ) children.get( i );
 				childTOCNodes[i] = new TOC( );
 				childTOCNodes[i].setId( child.getID( ) );
-				childTOCNodes[i].setDisplayName( ParameterAccessor
-						.htmlEncode( child.getDisplayName( ) ) );
+				childTOCNodes[i].setDisplayName( child.getDisplayName( ) );
 				childTOCNodes[i].setBookmark( child.getBookmark( ) );
 				childTOCNodes[i].setIsLeaf( new Boolean(
 						child.getChildren( ) == null
