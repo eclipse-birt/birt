@@ -701,24 +701,24 @@ public class InsertInLayoutUtil
 		return dataHandle;
 	}
 
-//	private static GroupHandle getGroupHandle( Object target )
-//	{
-//		DesignElementHandle handle = null;
-//		if ( target instanceof CellHandle )
-//		{
-//			handle = ( (CellHandle) target ).getContainer( ).getContainer( );
-//		}
-//		else if ( target instanceof ListBandProxy )
-//		{
-//			handle = ( (ListBandProxy) target ).getElemtHandle( );
-//		}
-//
-//		if ( handle instanceof GroupHandle )
-//		{
-//			return (GroupHandle) handle;
-//		}
-//		return null;
-//	}
+	// private static GroupHandle getGroupHandle( Object target )
+	// {
+	// DesignElementHandle handle = null;
+	// if ( target instanceof CellHandle )
+	// {
+	// handle = ( (CellHandle) target ).getContainer( ).getContainer( );
+	// }
+	// else if ( target instanceof ListBandProxy )
+	// {
+	// handle = ( (ListBandProxy) target ).getElemtHandle( );
+	// }
+	//
+	// if ( handle instanceof GroupHandle )
+	// {
+	// return (GroupHandle) handle;
+	// }
+	// return null;
+	// }
 
 	/**
 	 * Inserts invalid column string into the target. Add label if possible
@@ -841,13 +841,8 @@ public class InsertInLayoutUtil
 		}
 		else if ( insertObj instanceof DataSetHandle )
 		{
-			if ( insertObj instanceof JointDataSetHandle )
-				return isHandleValid( (DataSetHandle) insertObj )
-						&& handleValidateDataSet( targetPart );
-			else
-				return isHandleValid( (DataSetHandle) insertObj )
-						&& ( (DataSetHandle) insertObj ).getDataSource( ) != null
-						&& handleValidateDataSet( targetPart );
+			return isHandleValid( (DataSetHandle) insertObj )
+					&& handleValidateDataSet( targetPart );
 		}
 		else if ( insertObj instanceof ResultSetColumnHandle )
 		{
@@ -1087,8 +1082,11 @@ public class InsertInLayoutUtil
 		// LibraryHandle )
 		// return false;
 		// }
-		return insertObj instanceof DataSetHandle
-				|| insertObj instanceof ResultSetColumnHandle
+		if ( insertObj instanceof DataSetHandle )
+		{
+			return DataSetUIUtil.hasMetaData( (DataSetHandle) insertObj );
+		}
+		return insertObj instanceof ResultSetColumnHandle
 				|| insertObj instanceof ScalarParameterHandle;
 	}
 
@@ -1184,6 +1182,14 @@ public class InsertInLayoutUtil
 
 	protected static boolean isHandleValid( DesignElementHandle handle )
 	{
+		if ( handle instanceof DataSetHandle )
+		{
+			if ( ( !( handle instanceof JointDataSetHandle ) && ( (DataSetHandle) handle ).getDataSource( ) == null )
+					|| !DataSetUIUtil.hasMetaData( (DataSetHandle) handle ) )
+			{
+				return false;
+			}
+		}
 		return handle.isValid( ) && handle.getSemanticErrors( ).isEmpty( );
 	}
 
