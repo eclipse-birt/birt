@@ -93,7 +93,7 @@ public final class DriverLoader
      * Tests whether the given connection properties can be used to obtain a connection.
      * @param driverClassName the name of driver class
      * @param connectionString the JDBC driver connection URL
-     * @param jndiUrl       the context URL to look up a JNDI Data Source name service; 
+     * @param jndiNameUrl   the JNDI name to look up a Data Source name service; 
 	 *						may be null or empty
      * @param userId        the login user id
      * @param password      the login password
@@ -102,11 +102,11 @@ public final class DriverLoader
      * @throws OdaException 
      */
     public static boolean testConnection( String driverClassName,
-            String connectionString, String jndiUrl, String userId,
+            String connectionString, String jndiNameUrl, String userId,
             String password ) throws OdaException 
     {
 		return JDBCDriverManager.getInstance().testConnection( driverClassName, 
-                connectionString, jndiUrl, userId, password );
+                connectionString, jndiNameUrl, userId, password );
 	}
     
 }

@@ -36,31 +36,31 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Internal implementation class for JNDI Data Source connection factory.
- * This supports the use of JNDI Name Service to look up a Data Source 
+ * This supports the use of a JNDI Name Service to look up a Data Source 
  * resource factory to get a JDBC pooled connection. 
  * <p> 
- * A new connection property for the URL of a JNDI Data Source name service 
+ * A new connection property for the JNDI name to look up a Data Source name service 
  * is added to the ODA JDBC data source definition.  
  * This optional property expects the full URL path, for use by a 
  * JNDI initial context to look up a Data Source resource factory.  
- * An JNDI URL path is specific to individual JNDI service provider.  
+ * A JNDI name URL path is specific to individual JNDI service provider.  
  * For example, "java:comp/env/jdbc/<dataSourceName>" for Tomcat.
  * <p>
  * A text field is also added to the oda.jdbc.ui data source designer pages 
- * for user input of the JNDI URL property value.
+ * for user input of the JNDI Data Source Name URL property value.
  * <p>  
  * Some JNDI service providers do not support client-side access.<br>
  * During design time when using the BIRT report designer, a JDBC data set 
  * would need to be designed using direct access to a JDBC driver connection.  
- * The JDBC data set query builder continues to use direct JDBC connection to 
+ * The ODA JDBC data set query builder continues to use direct JDBC connection to 
  * obtain its metadata.  Only those oda.jdbc.ui functions directly related to a 
  * data source design, such as Test Connection and Preview Results of a data set, 
- * are enhanced to use this factory to first attempt to use a JNDI URL, if specified.  
+ * are enhanced to use this factory to first attempt to use a JNDI Name URL, if specified.  
  * And if not successful for any reason, it falls back to use the JDBC driver URL.
  * <p>
  * Similarly at report runtime, such as during Report Preview, when a non-blank 
- * JNDI URL value is specified, the oda.jdbc run-time driver attempts to look up 
- * its JNDI name service to get a pooled JDBC connection.  
+ * JNDI Name URL value is specified, the oda.jdbc run-time driver attempts to look up 
+ * its JNDI data source name service to get a pooled JDBC connection.  
  * If such lookup is not successful for any reason, it falls back to use the 
  * JDBC driver URL directly to create a JDBC connection.
  * <p>
@@ -93,12 +93,12 @@ class JndiDataSource implements IConnectionFactory
     /* (non-Javadoc)
      * @see org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory#getConnection(java.lang.String, java.lang.String, java.util.Properties)
      */
-    public Connection getConnection( String driverClass, String jndiUrl, 
+    public Connection getConnection( String driverClass, String jndiNameUrl, 
                                     Properties connectionProperties ) 
         throws SQLException
     {
         final String methodName = "getConnection"; //$NON-NLS-1$
-        sm_logger.entering( sm_sourceClass, methodName, jndiUrl );
+        sm_logger.entering( sm_sourceClass, methodName, jndiNameUrl );
         
         // perform JNDI lookup to obtain resource manager connection factory
         Context initCtx = null;
@@ -106,7 +106,7 @@ class JndiDataSource implements IConnectionFactory
         try
         {
             initCtx = new InitialContext( getDriverJndiProperties() );
-            namedObject = initCtx.lookup( jndiUrl );
+            namedObject = initCtx.lookup( jndiNameUrl );
         }
         catch( Exception ex )
         {
@@ -122,7 +122,7 @@ class JndiDataSource implements IConnectionFactory
         }
 
         // check if specified url's object is of a DataSource type
-        validateDataSourceType( namedObject, jndiUrl );
+        validateDataSourceType( namedObject, jndiNameUrl );
         
         // obtain a java.sql.Connection resource from the data source pool
         Connection conn = getDataSourceConnection( (DataSource) namedObject, 
@@ -177,7 +177,7 @@ class JndiDataSource implements IConnectionFactory
      * Validate whether specified url's object is of a DataSource type.
      * @throws SQLException if unexpected resource type is found
      */
-    private void validateDataSourceType( Object namedObject, String jndiUrl )
+    private void validateDataSourceType( Object namedObject, String jndiNameUrl )
         throws SQLException
     {
         if( namedObject != null && namedObject instanceof DataSource )
@@ -189,7 +189,7 @@ class JndiDataSource implements IConnectionFactory
                 ( namedObject != null ) ? 
                     namedObject.getClass().getName() : "null" ); //$NON-NLS-1$
         String localizedMsg = getMessage( ResourceConstants.CONN_GET_ERROR );
-        String localizedMsgText = formatMessage( localizedMsg, jndiUrl );
+        String localizedMsgText = formatMessage( localizedMsg, jndiNameUrl );
         
         if( sm_logger.isLoggable( Level.INFO ) )
             sm_logger.info( localizedMsg + ". " + newMsgText ); //$NON-NLS-1$

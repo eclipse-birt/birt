@@ -125,7 +125,7 @@ public class JDBCDriverManager
      * if not available, directly from the specified driver and JDBC driver url.
      * @param driverClass   the class name of JDBC driver
      * @param url           JDBC connection URL
-     * @param jndiUrl       the context URL to look up a JNDI Data Source name service; 
+     * @param jndiNameUrl   the JNDI name to look up a Data Source name service; 
 	 *						may be null or empty
      * @param connectionProperties  properties for establising connection
      * @return              a JDBC connection
@@ -133,7 +133,7 @@ public class JDBCDriverManager
      * @throws OdaException
      */
     public Connection getConnection( String driverClass, String url, 
-                                String jndiUrl,
+                                String jndiNameUrl,
                                 Properties connectionProperties ) 
         throws SQLException, OdaException
     {
@@ -141,9 +141,9 @@ public class JDBCDriverManager
         if ( logger.isLoggable( Level.FINE ) )
             logger.fine( "Request JDBC Connection: driverClass=" + driverClass +  //$NON-NLS-1$
                         "; url=" + url +            //$NON-NLS-1$
-                        "; jndi url=" + jndiUrl );  //$NON-NLS-1$
+                        "; jndi name url=" + jndiNameUrl );  //$NON-NLS-1$
         
-        return doConnect( driverClass, url, jndiUrl, connectionProperties );
+        return doConnect( driverClass, url, jndiNameUrl, connectionProperties );
     }
 	
 	/**
@@ -151,7 +151,7 @@ public class JDBCDriverManager
 	 * or from IConnectionFactory defined in the extension
 	 */    
     private synchronized Connection doConnect( String driverClass, String url, 
-            String jndiDataSourceUrl,
+            String jndiNameUrl,
             Properties connectionProperties ) throws SQLException, OdaException
     {
 		assert ( url != null );
@@ -169,7 +169,7 @@ public class JDBCDriverManager
         
         // if JNDI Data Source URL is defined, try use name service to get connection
         Connection jndiDSConnection = 
-            getJndiDSConnection( driverClass, jndiDataSourceUrl, connectionProperties );
+            getJndiDSConnection( driverClass, jndiNameUrl, connectionProperties );
         
         if ( jndiDSConnection != null )      // successful
             return jndiDSConnection;         // done
@@ -195,24 +195,24 @@ public class JDBCDriverManager
     /**
      * Obtain a JDBC connection from a Data Source connection factory
      * via the specified JNDI name service. 
-     * May return null if no JNDI URL is specified, or not able to obtain
+     * May return null if no JNDI Name URL is specified, or not able to obtain
      * a connection from the JNDI name service.
      */
-    private synchronized Connection getJndiDSConnection( String driverClass, 
-                                            String jndiDataSourceUrl, 
+    private Connection getJndiDSConnection( String driverClass, 
+                                            String jndiNameUrl, 
                                             Properties connectionProperties )
     {
-        if ( jndiDataSourceUrl == null || jndiDataSourceUrl.length() == 0 )
+        if ( jndiNameUrl == null || jndiNameUrl.length() == 0 )
             return null;    // no JNDI Data Source URL defined
         
         if ( logger.isLoggable( Level.FINER ))
-            logger.finer( "Calling getJndiDSConnection: JNDI url=" + jndiDataSourceUrl ); //$NON-NLS-1$
+            logger.finer( "Calling getJndiDSConnection: JNDI name url=" + jndiNameUrl ); //$NON-NLS-1$
 
         IConnectionFactory factory = new JndiDataSource();            
         Connection jndiDSConnection = null;
         try
         {
-            jndiDSConnection = factory.getConnection( driverClass, jndiDataSourceUrl, 
+            jndiDSConnection = factory.getConnection( driverClass, jndiNameUrl, 
                                         connectionProperties );
         }
         catch( SQLException e )
@@ -387,7 +387,7 @@ public class JDBCDriverManager
      * Tests whether the given connection properties can be used to obtain a connection.
      * @param driverClassName the name of driver class
      * @param connectionString the JDBC driver connection URL
-     * @param jndiUrl       the context URL to look up a JNDI Data Source name service; 
+     * @param jndiNameUrl   the JNDI name to look up a Data Source name service; 
 	 *						may be null or empty
      * @param userId        the login user id
      * @param password      the login password
@@ -396,7 +396,7 @@ public class JDBCDriverManager
      * @throws OdaException 
      */
     public boolean testConnection( String driverClassName,
-            String connectionString, String jndiUrl,
+            String connectionString, String jndiNameUrl,
             String userId, String password )
         throws OdaException
     {		
@@ -413,10 +413,10 @@ public class JDBCDriverManager
             // no driverinfo extension for driverClass connectionFactory
             
             // if JNDI Data Source URL is defined, try use name service to get connection
-            if ( jndiUrl != null )
+            if ( jndiNameUrl != null )
             {
                 Connection jndiDSConnection = 
-                    getJndiDSConnection( driverClassName, jndiUrl, 
+                    getJndiDSConnection( driverClassName, jndiNameUrl, 
                             addUserAuthenticationProperties( null, userId, password ) );            
 
                 if ( jndiDSConnection != null )      // test connection successful

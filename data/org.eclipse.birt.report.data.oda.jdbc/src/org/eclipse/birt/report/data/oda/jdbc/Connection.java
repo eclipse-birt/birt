@@ -142,12 +142,12 @@ public class Connection implements IConnection
                                     props, user, pwd );
         
 		String driverClass = connProperties.getProperty( Constants.ODADriverClass );
-        String jndiUrl = connProperties.getProperty( Constants.ODAJndiURL );
+        String jndiNameUrl = connProperties.getProperty( Constants.ODAJndiURL );
 
 		try
 		{
 			jdbcConn = JDBCDriverManager.getInstance( )
-					.getConnection( driverClass, url, jndiUrl, props );
+					.getConnection( driverClass, url, jndiNameUrl, props );
 		}
 		catch ( SQLException e )
 		{
