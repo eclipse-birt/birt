@@ -99,9 +99,6 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 	 */
 	public void manipulateData( String path, String value )
 	{
-		String treamedPath = path.replaceAll( "\\Q[\\E\\d+\\Q]\\E", "" ).trim( );
-		this.insertNode( treamedPath );
-
 	}
 
 	/*
@@ -111,8 +108,10 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 	 */
 	public void detectNewRow( String path, boolean start )
 	{
+		String treamedPath = path.replaceAll( "\\Q[\\E\\d+\\Q]\\E", "" ).trim( );
+		this.insertNode( treamedPath );
 		// If not attribute
-		if ( !isAttribute( path ) )
+		if ( !isAttribute( path ) && start )
 		{
 			rowCount++;
 		}

@@ -162,7 +162,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 		for ( int i = 0; i < atts.getLength( ); i++ )
 		{
 			spConsumer.manipulateData( getAttributePath( atts, i ), atts.getValue( i ) );
-			//spConsumer.detectNewRow( getAttributePath( atts, i ) );
+			spConsumer.detectNewRow( getAttributePath( atts, i ),true );
 		}
 	}
 
