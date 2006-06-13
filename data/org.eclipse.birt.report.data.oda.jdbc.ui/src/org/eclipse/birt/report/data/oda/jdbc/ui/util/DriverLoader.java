@@ -73,7 +73,7 @@ public final class DriverLoader
 	}
 	
 	/**
-	 * The method which test whether the give connection properties can be used to create a connection
+	 * Tests whether the given connection properties can be used to create a connection.
 	 * @param driverClassName the name of driver class
 	 * @param connectionString the connection URL
 	 * @param userId the user id
@@ -85,7 +85,29 @@ public final class DriverLoader
 			String connectionString, String userId,
 			String password ) throws OdaException 
 	{
-		return JDBCDriverManager.getInstance().testConnection( driverClassName, connectionString, userId,password);
+        return testConnection( driverClassName, connectionString, null,
+                                userId, password );
+    }
+
+    /**
+     * Tests whether the given connection properties can be used to obtain a connection.
+     * @param driverClassName the name of driver class
+     * @param connectionString the JDBC driver connection URL
+     * @param jndiUrl       the context URL to look up a JNDI Data Source name service; 
+	 *						may be null or empty
+     * @param userId        the login user id
+     * @param password      the login password
+     * @return  true if the the specified properties are valid to obtain a connection;
+     *          false otherwise
+     * @throws OdaException 
+     */
+    public static boolean testConnection( String driverClassName,
+            String connectionString, String jndiUrl, String userId,
+            String password ) throws OdaException 
+    {
+		return JDBCDriverManager.getInstance().testConnection( driverClassName, 
+                connectionString, jndiUrl, userId, password );
 	}
+    
 }
 

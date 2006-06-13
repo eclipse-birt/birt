@@ -25,7 +25,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -33,6 +32,7 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.osgi.framework.Bundle;
 
 /**
@@ -43,8 +43,11 @@ import org.osgi.framework.Bundle;
  * to obtain an instance
  */
 public class JDBCDriverManager
-{
-	// Driver classes that we have registered with JDBC DriverManager
+{    
+    public static final String JDBC_USER_PROP_NAME = "user"; //$NON-NLS-1$
+    public static final String JDBC_PASSWORD_PROP_NAME = "password"; //$NON-NLS-1$
+
+    // Driver classes that we have registered with JDBC DriverManager
 	private  HashSet registeredDrivers = new HashSet();
 	
 	//
@@ -86,12 +89,11 @@ public class JDBCDriverManager
 	public Connection getConnection( String driverClass, String url, 
 			Properties connectionProperties ) throws SQLException, OdaException
 	{
-		if ( url == null )
-			throw new NullPointerException("getConnection: url is null ");
+        validateConnectionUrl( url );
 		if ( logger.isLoggable( Level.FINE ))
 			logger.fine("Request JDBC Connection: driverClass=" + 
 					(driverClass == null? "" : driverClass) + "; url=" + url);
-		return doConnect( driverClass, url, connectionProperties);
+		return doConnect( driverClass, url, null, connectionProperties );
 	}
 
 	/**
@@ -106,58 +108,146 @@ public class JDBCDriverManager
 	public  Connection getConnection( String driverClass, String url, 
 			String user, String password ) throws SQLException, OdaException
 	{
-		if ( url == null )
-			throw new NullPointerException("getConnection: url is null ");
+        validateConnectionUrl( url );
 		if ( logger.isLoggable( Level.FINE ))
 			logger.fine("Request JDBC Connection: driverClass=" + 
 					(driverClass == null? "" : driverClass) + "; url=" + url + 
 					"; user=" + ((user == null) ? "" : user));
 		
 		// Construct a Properties list with user/password properties
-		Properties props = new Properties();
-		if ( user != null )
-			props.setProperty( "user", user);
-		if ( password != null )
-			props.setProperty("password", password);
-		return doConnect( driverClass, url, props);
+		Properties props = addUserAuthenticationProperties( null, user, password );
+        
+        return doConnect( driverClass, url, null, props );
 	}
+    
+    /**
+     * Gets a JDBC connection from the specified JNDI data source URL, or
+     * if not available, directly from the specified driver and JDBC driver url.
+     * @param driverClass   the class name of JDBC driver
+     * @param url           JDBC connection URL
+     * @param jndiUrl       the context URL to look up a JNDI Data Source name service; 
+	 *						may be null or empty
+     * @param connectionProperties  properties for establising connection
+     * @return              a JDBC connection
+     * @throws SQLException
+     * @throws OdaException
+     */
+    public Connection getConnection( String driverClass, String url, 
+                                String jndiUrl,
+                                Properties connectionProperties ) 
+        throws SQLException, OdaException
+    {
+        validateConnectionUrl( url );
+        if ( logger.isLoggable( Level.FINE ) )
+            logger.fine( "Request JDBC Connection: driverClass=" + driverClass +  //$NON-NLS-1$
+                        "; url=" + url +            //$NON-NLS-1$
+                        "; jndi url=" + jndiUrl );  //$NON-NLS-1$
+        
+        return doConnect( driverClass, url, jndiUrl, connectionProperties );
+    }
 	
 	/**
 	 * Implementation of getConnection() methods. Gets connection from either java.sql.DriverManager, 
 	 * or from IConnectionFactory defined in the extension
-	 */
-	private synchronized Connection doConnect( String driverClass, String url, 
-			Properties connectionProperties ) throws SQLException, OdaException
-	{
+	 */    
+    private synchronized Connection doConnect( String driverClass, String url, 
+            String jndiDataSourceUrl,
+            Properties connectionProperties ) throws SQLException, OdaException
+    {
 		assert ( url != null );
 		IConnectionFactory factory = getDriverConnectionFactory (driverClass);
 		if ( factory != null )
 		{
 			// Use connection factory for connection
 			if ( logger.isLoggable( Level.FINER ))
-				logger.finer( "Calling IConnectionFactory.getConnection. driverClass=" + driverClass +
-						", url=" + url );
+				logger.finer( "Calling IConnectionFactory.getConnection. driverClass=" + driverClass + //$NON-NLS-1$
+						", url=" + url ); //$NON-NLS-1$
 			return factory.getConnection( driverClass, url, connectionProperties );
 		}
-		else
+        
+        // no driverinfo extension for driverClass connectionFactory
+        
+        // if JNDI Data Source URL is defined, try use name service to get connection
+        Connection jndiDSConnection = 
+            getJndiDSConnection( driverClass, jndiDataSourceUrl, connectionProperties );
+        
+        if ( jndiDSConnection != null )      // successful
+            return jndiDSConnection;         // done
+       
+        // no JNDI Data Source URL defined, or 
+        // not able to get a JNDI data source connection, 
+        // use the JDBC DriverManager instead to get a JDBC connection
+		loadAndRegisterDriver(driverClass);
+		if ( logger.isLoggable( Level.FINER ))
+			logger.finer( "Calling DriverManager.getConnection. url=" + url ); //$NON-NLS-1$
+		try
 		{
-			// Use DriverManager for connection
-			loadAndRegisterDriver(driverClass);
-			if ( logger.isLoggable( Level.FINER ))
-				logger.finer( "Calling DriverManager.getConnection. url=" + url );
-			try
-			{
-				return DriverManager.getConnection( url, connectionProperties );
-			}
-			catch ( RuntimeException e )
-			{
-				throw new JDBCException( ResourceConstants.CONN_GET_ERROR,
-						null,
-						e.getMessage( ) );
-			}
+			return DriverManager.getConnection( url, connectionProperties );
+		}
+		catch ( RuntimeException e )
+		{
+			throw new JDBCException( ResourceConstants.CONN_GET_ERROR,
+					null,
+					e.getMessage( ) );
 		}
 	}
+
+    /**
+     * Obtain a JDBC connection from a Data Source connection factory
+     * via the specified JNDI name service. 
+     * May return null if no JNDI URL is specified, or not able to obtain
+     * a connection from the JNDI name service.
+     */
+    private synchronized Connection getJndiDSConnection( String driverClass, 
+                                            String jndiDataSourceUrl, 
+                                            Properties connectionProperties )
+    {
+        if ( jndiDataSourceUrl == null || jndiDataSourceUrl.length() == 0 )
+            return null;    // no JNDI Data Source URL defined
+        
+        if ( logger.isLoggable( Level.FINER ))
+            logger.finer( "Calling getJndiDSConnection: JNDI url=" + jndiDataSourceUrl ); //$NON-NLS-1$
+
+        IConnectionFactory factory = new JndiDataSource();            
+        Connection jndiDSConnection = null;
+        try
+        {
+            jndiDSConnection = factory.getConnection( driverClass, jndiDataSourceUrl, 
+                                        connectionProperties );
+        }
+        catch( SQLException e )
+        {
+            // log and ignore exception
+            if ( logger.isLoggable( Level.INFO ))
+                logger.info( "getJndiDSConnection: Unable to get JNDI data source connection; " + e.toString() ); //$NON-NLS-1$
+        }
+        
+        return jndiDSConnection;
+    }
+    
+    /**
+     * Adds the specified user name and password to the
+     * specified collection as Jdbc driver properties.
+     * Creates a new collection if none is specified.
+     */
+    static Properties addUserAuthenticationProperties( Properties connProps,
+                                String user, String password )
+    {
+        if ( connProps == null )
+            connProps = new Properties();
+        if ( user != null )
+            connProps.setProperty( JDBC_USER_PROP_NAME, user );
+        if ( password != null )
+            connProps.setProperty( JDBC_PASSWORD_PROP_NAME, password );
+        return connProps;
+    }       
 	
+    private void validateConnectionUrl( String url )
+    {
+        if ( url == null )
+            throw new NullPointerException( "getConnection: url is null." );
+    }
+    
 	/** 
 	 * Searches extension registry for connection factory defined for driverClass. Returns an 
 	 * instance of the factory if there is a connection factory for the driver class. Returns null
@@ -289,7 +379,27 @@ public class JDBCDriverManager
 			String connectionString, String userId, String password )
 			throws OdaException
 	{
-		
+        return testConnection( driverClassName, connectionString, null,
+                                userId, password );
+    }
+    
+    /**
+     * Tests whether the given connection properties can be used to obtain a connection.
+     * @param driverClassName the name of driver class
+     * @param connectionString the JDBC driver connection URL
+     * @param jndiUrl       the context URL to look up a JNDI Data Source name service; 
+	 *						may be null or empty
+     * @param userId        the login user id
+     * @param password      the login password
+     * @return  true if the the specified properties are valid to obtain a connection;
+     *          false otherwise
+     * @throws OdaException 
+     */
+    public boolean testConnection( String driverClassName,
+            String connectionString, String jndiUrl,
+            String userId, String password )
+        throws OdaException
+    {		
 		boolean canConnect = false;
 		try
 		{
@@ -299,7 +409,26 @@ public class JDBCDriverManager
 				tryCreateConnection( driverClassName, connectionString, userId, password);
 				return true;
 			}
+            
+            // no driverinfo extension for driverClass connectionFactory
+            
+            // if JNDI Data Source URL is defined, try use name service to get connection
+            if ( jndiUrl != null )
+            {
+                Connection jndiDSConnection = 
+                    getJndiDSConnection( driverClassName, jndiUrl, 
+                            addUserAuthenticationProperties( null, userId, password ) );            
+
+                if ( jndiDSConnection != null )      // test connection successful
+                {
+                    closeConnection( jndiDSConnection );
+                    return true;
+                }
+            }
 			
+            // no JNDI Data Source URL defined, or 
+            // not able to get a JNDI data source connection, 
+            // use the JDBC DriverManager instead to get a JDBC connection
 			loadAndRegisterDriver( driverClassName );
 
 			// If the connections built upon the given driver has been tested
@@ -372,6 +501,21 @@ public class JDBCDriverManager
 		return true;
 	}
 	
+    private void closeConnection( Connection conn )
+    {
+        if ( conn == null )
+            return;     // nothing to close
+        
+        try
+        {
+            conn.close();
+        }
+        catch( SQLException e )
+        { 
+            /* ok to ignore */ 
+        }    
+    }
+    
 	private boolean isExpectedDriver( Driver driver, String className )
 	{
 		String actual;
@@ -413,7 +557,7 @@ public class JDBCDriverManager
 		Connection testConn = this.getConnection( driverClassName, 
 				connectionString, userId, password );
 		assert ( testConn != null );
-		testConn.close();
+        closeConnection( testConn );
 	}
 	
 	private  void loadAndRegisterDriver( String className ) 

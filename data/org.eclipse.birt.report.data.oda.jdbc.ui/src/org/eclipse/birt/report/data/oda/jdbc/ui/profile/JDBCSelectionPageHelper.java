@@ -20,7 +20,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
-import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
@@ -29,6 +28,8 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -54,8 +55,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.jface.dialogs.IMessageProvider;
 
 /**
  * Helper class for jdbc selection page and property page
@@ -66,18 +65,18 @@ public class JDBCSelectionPageHelper
     private WizardPage m_wizardPage;
     private PreferencePage m_propertyPage;
     
-    private static final String EMPTY_STRING = "";
+    private static final String EMPTY_STRING = ""; //$NON-NLS-1$
    
 	// combo viewer to show candidate driver class
 	private ComboViewer driverChooserCombo;
 
 	// Text of url, name and password
-	private Text jdbcUrl, userName, password;
+	private Text jdbcUrl, userName, password, jndiUrl;
 
 	// Button of manage driver and test connection
 	private Button manageButton, testButton;
 	
-    private String DEFAULT_MESSAGE; //$NON-NLS-1$
+    private String DEFAULT_MESSAGE;
 
 	// constant string
 	final private static String EMPTY_URL = JdbcPlugin.getResourceString( "error.emptyDatabaseUrl" );//$NON-NLS-1$
@@ -166,7 +165,7 @@ public class JDBCSelectionPageHelper
 				JDBCDriverInformation info = (JDBCDriverInformation) selection.getFirstElement( );
 				
 				String className = ( info != null ) ? info.getDriverClassName( )
-						: "";
+						: EMPTY_STRING;
 				if ( className.equalsIgnoreCase( driverClassName ) == true )
 					return;
 				driverClassName = className;
@@ -180,13 +179,16 @@ public class JDBCSelectionPageHelper
 					}
 					else
 					{
-						jdbcUrl.setText( "" ); //$NON-NLS-1$
+						jdbcUrl.setText( EMPTY_STRING );
 					}
 				}
+                // TODO - enhance driverinfo extension point and UI to include 
+                // driver-specific JNDI URL template and jndi properties file name
+                jndiUrl.setText( EMPTY_STRING );
 
 				// Clear off the user name and passwords
-				userName.setText( "" ); //$NON-NLS-1$
-				password.setText( "" ); //$NON-NLS-1$
+				userName.setText( EMPTY_STRING );
+				password.setText( EMPTY_STRING ); 
 				updateTestButton( );
 			}
 		} );
@@ -216,6 +218,17 @@ public class JDBCSelectionPageHelper
 		gridData.horizontalSpan = 2;
 		gridData.horizontalAlignment = SWT.FILL;
 		password.setLayoutData( gridData );
+
+        // JNDI Data Source URL
+        // TODO - externalize "&JNDI Data Source URL:" label when PII check-in is re-opened
+        // String jndiLabel = JdbcPlugin.getResourceString( "wizard.label.jndiurl" ); //$NON-NLS-1$
+        String jndiLabel = "&JNDI URL:";
+        new Label( content, SWT.RIGHT ).setText( jndiLabel );
+        jndiUrl = new Text( content, SWT.BORDER );
+        gridData = new GridData( );
+        gridData.horizontalSpan = 2;
+        gridData.horizontalAlignment = SWT.FILL;
+        jndiUrl.setLayoutData( gridData );
 
 		// Test connection
 		new Label( content, SWT.NONE );
@@ -264,7 +277,13 @@ public class JDBCSelectionPageHelper
 		if ( odaPassword == null )
 			odaPassword = EMPTY_STRING;
 		password.setText( odaPassword );
-		updateTestButton( );
+
+        String odaJndiUrl = profileProps.getProperty( Constants.ODAJndiURL );
+        if ( odaJndiUrl == null )
+            odaJndiUrl = EMPTY_STRING;
+        jndiUrl.setText( odaJndiUrl );
+
+        updateTestButton( );
 		verifyJDBCProperties( );
 	}
     
@@ -282,7 +301,7 @@ public class JDBCSelectionPageHelper
 		{
 			selection = new StructuredSelection( jdbcDriverInfo );
 		}
-		else if ( originalDriverClassName.trim( ).equals( "" ) )
+		else if ( originalDriverClassName.trim( ).length() == 0 )
 		{
 			return;
 		}
@@ -317,6 +336,8 @@ public class JDBCSelectionPageHelper
 				getODAUser( ) );
 		props.setProperty( Constants.ODAPassword,
 				getODAPassword( ) );
+        props.setProperty( Constants.ODAJndiURL,
+                getODAJndiUrl( ) );
 		return props;
     }
     
@@ -341,6 +362,13 @@ public class JDBCSelectionPageHelper
             return EMPTY_STRING;
 		return getTrimedString(password.getText( ));
 	}
+    
+    private String getODAJndiUrl( )
+    {
+        if( jndiUrl == null )
+            return EMPTY_STRING;
+        return getTrimedString( jndiUrl.getText( ) );
+    }
 
 	/**
 	 * get driver url
@@ -426,7 +454,7 @@ public class JDBCSelectionPageHelper
 			{
 				selection = new StructuredSelection( jdbcDriverInfo );
 			}
-			else if ( originalDriverClassName.trim( ).equals( "" ) )
+			else if ( originalDriverClassName.trim( ).length() == 0 )
 			{
 				return;
 			}
@@ -582,8 +610,12 @@ public class JDBCSelectionPageHelper
 		String userid = userName.getText( ).trim( );
 		String passwd = password.getText( );
 		String driverName = getSelectedDriverClassName( );
+        
+        String jndiUrlValue = getODAJndiUrl();
+        if( jndiUrlValue.length() == 0 )
+            jndiUrlValue = null;
 
-		return DriverLoader.testConnection( driverName, url, userid, passwd );
+		return DriverLoader.testConnection( driverName, url, jndiUrlValue, userid, passwd );
 	}
 	
 	/**

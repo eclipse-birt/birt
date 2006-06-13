@@ -2,8 +2,15 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
 public class Constants
 {
-    public static String ODAURL = "odaURL";
-    public static String ODAPassword = "odaPassword";
-    public static String ODAUser = "odaUser";
-    public static String ODADriverClass = "odaDriverClass";
+    public static final String ODAURL = 
+        org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAURL;
+    public static final String ODAPassword = 
+        org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAPassword;
+    public static final String ODAUser = 
+        org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAUser;
+    public static final String ODADriverClass = 
+        org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODADriverClass; 
+    public static final String ODAJndiURL = 
+        org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAJndiURL;
+
 }

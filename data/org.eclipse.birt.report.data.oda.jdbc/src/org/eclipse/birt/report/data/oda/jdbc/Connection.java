@@ -137,18 +137,17 @@ public class Connection implements IConnection
 
 		// Read user name and password
 		String user = connProperties.getProperty( Constants.ODAUser );
-		if ( user != null )
-			props.setProperty( "user", user );
-		String pwd = connProperties.getProperty( Constants.ODAPassword );
-		if ( pwd != null )
-			props.setProperty( "password", pwd );
-
+        String pwd = connProperties.getProperty( Constants.ODAPassword );
+        props = JDBCDriverManager.addUserAuthenticationProperties( 
+                                    props, user, pwd );
+        
 		String driverClass = connProperties.getProperty( Constants.ODADriverClass );
+        String jndiUrl = connProperties.getProperty( Constants.ODAJndiURL );
 
 		try
 		{
 			jdbcConn = JDBCDriverManager.getInstance( )
-					.getConnection( driverClass, url, props );
+					.getConnection( driverClass, url, jndiUrl, props );
 		}
 		catch ( SQLException e )
 		{
@@ -322,6 +321,7 @@ public class Connection implements IConnection
 		public static final String ODAUser = "odaUser";
 		public static final String ODADriverClass = "odaDriverClass";
 		public static final String ODADataSource = "odaDataSource";
+        public static final String ODAJndiURL = "odaJndiURL";
 	}
 
 }
