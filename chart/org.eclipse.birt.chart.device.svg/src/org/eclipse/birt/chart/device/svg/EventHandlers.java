@@ -155,8 +155,22 @@ public final class EventHandlers
 			.append( "		   textObj.addToParent(this.group.element);\n" ) //$NON-NLS-1$
 			.append( "	           TM.setContent(textObj, text);\n" ) //$NON-NLS-1$
 			.append( "	           var outline = textObj.element.getBBox();\n" ) //$NON-NLS-1$
-			.append( "		   this.rectangle.element.setAttributeNS(null, \"width\", (outline.width+2*this.xPadding));\n" ) //$NON-NLS-1$
-			.append( "		   this.rectangle.element.setAttributeNS(null, \"height\", (outline.height+6));\n" ) //$NON-NLS-1$
+			.append( "                   var tooltipHeight = outline.height+6;\n" ) //$NON-NLS-1$
+			.append( "                   var tooltipWidth = outline.width+2*this.xPadding;\n" ) //$NON-NLS-1$
+			.append( "                   var root=evt.target.ownerDocument.documentElement;\n" ) //$NON-NLS-1$
+			.append( "                   var rootWidth =root.getAttribute('width');\n" ) //$NON-NLS-1$
+			.append( "                   var rootHeight = root.getAttribute('height');\n" ) //$NON-NLS-1$
+			.append( "                   if (((y+tooltipHeight)> rootHeight) || ((x+tooltipWidth)> rootWidth)){\n" ) //$NON-NLS-1$
+			.append( "                      var transformX = x + this.xPadding;\n" ) //$NON-NLS-1$
+			.append( "                      var transformY = y+ this.yPadding;\n" ) //$NON-NLS-1$
+			.append( "                      if ((y+tooltipHeight)> rootHeight)\n" ) //$NON-NLS-1$
+			.append( "                        transformY  = (rootHeight-tooltipHeight)-this.yPadding;\n" ) //$NON-NLS-1$
+			.append( "                   if ((x+tooltipWidth)> rootWidth)\n" ) //$NON-NLS-1$
+			.append( "                        transformX  = (rootWidth-tooltipWidth)-this.xPadding;\n" ) //$NON-NLS-1$
+			.append( "                      this.group.element.setAttributeNS(null, \"transform\", \"translate(\"+(transformX*xScale)+\", \"+(transformY*yScale)+\")\");\n" ) //$NON-NLS-1$
+			.append( "                   }\n" ) //$NON-NLS-1$
+			.append( "                   this.rectangle.element.setAttributeNS(null, \"width\", tooltipWidth);\n" ) //$NON-NLS-1$
+			.append( "                   this.rectangle.element.setAttributeNS(null, \"height\", tooltipHeight);\n" ) //$NON-NLS-1$
 			.append( "		  }\n" ) //$NON-NLS-1$
 			.append( "		}\n" ) //$NON-NLS-1$
 			.append( "		TM.setContent = function TooltipManager_setContent(textElement, text){\n" ) //$NON-NLS-1$
@@ -426,13 +440,15 @@ public final class EventHandlers
 		//    	 input: 
 		//            e - the event that triggers the resize
 		////////////////////////////////////////////////////////////////
+		.append( "       var xScale = 1;\n" )//$NON-NLS-1$
+		.append( "       var yScale = 1;\n" )//$NON-NLS-1$
     	.append( "	function resizeSVG(e){\n" )//$NON-NLS-1$
     	.append( "    if(isIE()){\n" )//$NON-NLS-1$
 		.append( "       var root=e.target.ownerDocument.documentElement;\n" )//$NON-NLS-1$
 		.append( "       var hotSpot = e.target.ownerDocument.getElementById('hotSpots');\n" )//$NON-NLS-1$
 		.append( "       var g = e.target.ownerDocument.getElementById('outerG');\n" )//$NON-NLS-1$
-		.append( "       var xScale = (innerWidth) / root.getAttribute('width');\n" )//$NON-NLS-1$
-		.append( "       var yScale = (innerHeight) / root.getAttribute('height');\n" )//$NON-NLS-1$
+		.append( "       xScale = (innerWidth) / root.getAttribute('width');\n" )//$NON-NLS-1$
+		.append( "       yScale = (innerHeight) / root.getAttribute('height');\n" )//$NON-NLS-1$
 		.append( "       g.setAttributeNS(null, 'transform', 'scale('+xScale+','+yScale+')');\n" )//$NON-NLS-1$
 		.append( "       hotSpot.setAttributeNS(null, 'transform', 'scale('+xScale+','+yScale+')');\n" )//$NON-NLS-1$
 		.append( "     }\n" )//$NON-NLS-1$
