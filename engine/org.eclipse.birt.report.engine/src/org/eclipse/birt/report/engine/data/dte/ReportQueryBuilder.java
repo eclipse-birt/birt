@@ -84,6 +84,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
@@ -101,7 +102,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.69 $ $Date: 2006/06/01 03:49:38 $
+ * @version $Revision: 1.70 $ $Date: 2006/06/08 03:45:16 $
  */
 public class ReportQueryBuilder
 {
@@ -870,15 +871,11 @@ public class ReportQueryBuilder
 				// we has data set name defined, so test if we have column
 				// binding here.
 
-				if ( !designHandle.columnBindingsIterator( ).hasNext( ) )
+				if ( !needQuery( item ) )
 				{
-					// no column binding here, needn't create the query.
-					if (! (designHandle instanceof ListingHandle))
-					{
-						return null;
-					}
+					return null;
 				}
-
+				
 				// we have column binding, create a sub query.
 				return createSubQuery( item );
 			}
@@ -914,6 +911,36 @@ public class ReportQueryBuilder
 			return query;
 		}
 
+		/**
+		 * An item needs query when it satisfies following conditions:
+		 * <li>Has column bindings.
+		 * <li>Is a table or a list.
+		 * <li>Has hightlight rules and doesn't have parent query.
+		 * 
+		 * @param item
+		 *            the item.
+		 * @return true if it needs query.
+		 */
+		private boolean needQuery( ReportItemDesign item )
+		{
+			ReportItemHandle designHandle = (ReportItemHandle) item.getHandle( );
+			if ( designHandle.columnBindingsIterator( ).hasNext( ) )
+			{
+				return true;
+			}
+			if ( designHandle instanceof ListingHandle )
+			{
+				return true;
+			}
+			HighlightDesign highlight = item.getHighlight( );
+			if ( getParentQuery( ) == null && highlight != null
+					&& highlight.getRuleCount( ) > 0 )
+			{
+				return true;
+			}
+			return false;
+		}
+		
 		private void addSortAndFilter( ReportItemDesign item, BaseQueryDefinition query )
 		{
 			if ( item instanceof ListingDesign )
