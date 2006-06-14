@@ -175,7 +175,7 @@ public class GroupModelProvider
 		DataSetHandle dataSet = handle.getDataSet( );
 		if ( dataSet == null )
 			return EMPTY;
-		Iterator iterator = dataSet.resultSetIterator( );
+		Iterator iterator = dataSet.resultSetHintsIterator( );
 		if ( iterator == null )
 			return EMPTY;
 		ArrayList columns = new ArrayList( );

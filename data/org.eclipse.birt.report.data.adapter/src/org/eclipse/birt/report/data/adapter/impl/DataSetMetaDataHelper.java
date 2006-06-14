@@ -328,7 +328,10 @@ public class DataSetMetaDataHelper
 	private void updateModelColumn( DataSetHandle ds, String uniqueColumnName,
 			int index ) throws BirtException
 	{
-		PropertyHandle resultSetColumns = ds.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
+		PropertyHandle resultSetColumns = ds.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP );
+		if ( resultSetColumns == null )
+			return;
+
 		// update result set columns
 		Iterator iterator = resultSetColumns.iterator( );
 		boolean found = false;

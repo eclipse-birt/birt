@@ -167,7 +167,7 @@ class DataAdapterUtil
 		// now merge model's result set column info into existing columnDefn
 		// with same column name, otherwise create new columnDefn
 		// based on the model's result set column
-		elmtIter = modelDataSet.resultSetIterator( );
+		elmtIter = modelDataSet.resultSetHintsIterator( );
 		if ( elmtIter != null )
 		{
 			while ( elmtIter.hasNext( ) )

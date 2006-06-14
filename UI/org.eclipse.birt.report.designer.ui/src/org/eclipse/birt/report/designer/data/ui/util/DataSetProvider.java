@@ -270,9 +270,10 @@ public final class DataSetProvider
 		int columnCount = 0;
 		if ( metaData != null )
 			columnCount = metaData.getColumnCount( );
-		if ( dataSet.getPropertyHandle( DataSetHandle.RESULT_SET_PROP )
-				.iterator( )
-				.hasNext( ) )
+		if ( dataSet.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP ) != null
+				&& dataSet.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP )
+						.iterator( )
+						.hasNext( ) )
 		{
 			for ( int n = 0; n < columnCount; n++ )
 			{
@@ -283,7 +284,7 @@ public final class DataSetProvider
 						&& !columnLabel.equals( columnName.substring( 0,
 								columnName.lastIndexOf( RENAME_SEPARATOR ) ) ) )
 				{
-					dataSet.getPropertyHandle( DataSetHandle.RESULT_SET_PROP )
+					dataSet.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP )
 							.clearValue( );
 					return execute( dataSet,
 							useColumnHints,
@@ -331,9 +332,10 @@ public final class DataSetProvider
 		int columnCount = 0;
 		if ( metaData != null )
 			columnCount = metaData.getColumnCount( );
-		if ( dataSet.getPropertyHandle( DataSetHandle.RESULT_SET_PROP )
-				.iterator( )
-				.hasNext( ) )
+		if ( dataSet.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP ) != null
+				&& dataSet.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP )
+						.iterator( )
+						.hasNext( ) )
 		{
 			for ( int n = 0; n < columnCount; n++ )
 			{
@@ -344,7 +346,7 @@ public final class DataSetProvider
 						&& !columnLabel.equals( columnName.substring( 0,
 								columnName.lastIndexOf( RENAME_SEPARATOR ) ) ) )
 				{
-					dataSet.getPropertyHandle( DataSetHandle.RESULT_SET_PROP )
+					dataSet.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP )
 							.clearValue( );
 					return execute( dataSet,
 							queryDefn,
@@ -568,7 +570,7 @@ public final class DataSetProvider
 	{
 		// get the column hints
 		PropertyHandle handle = ds.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
-		PropertyHandle resultSetColumnHandle = ds.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
+		PropertyHandle resultSetColumnHandle = ds.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP );
 
 		Iterator iter = handle.iterator( );
 		if ( iter != null )
@@ -584,8 +586,9 @@ public final class DataSetProvider
 					// name from
 					// the result set column definition if any
 					String columnName = columns[n].getName( );
-					if ( columnName == null
-							|| columnName.trim( ).length( ) == 0 )
+					if ( resultSetColumnHandle != null
+							&& ( columnName == null || columnName.trim( )
+									.length( ) == 0 ) )
 					{
 						Iterator resultIter = resultSetColumnHandle.iterator( );
 						if ( resultIter != null )
@@ -671,9 +674,13 @@ public final class DataSetProvider
 	 */
 	private void updateModelColumn( DataSetHandle ds, DataSetViewData column )
 	{
-		PropertyHandle resultSetColumns = ds.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
+		PropertyHandle resultSetColumns = ds.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP );
+		if ( resultSetColumns == null )
+			return;
 		// update result set columns
 		Iterator iterator = resultSetColumns.iterator( );
+		if( iterator == null )
+			return;
 		boolean found = false;
 		while ( iterator.hasNext( ) )
 		{
