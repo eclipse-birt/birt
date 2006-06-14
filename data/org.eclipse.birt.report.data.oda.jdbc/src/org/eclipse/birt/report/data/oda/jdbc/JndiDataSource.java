@@ -36,51 +36,55 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Internal implementation class for JNDI Data Source connection factory.
- * This supports the use of a JNDI Name Service to look up a Data Source 
+ * <br>This supports the use of a JNDI Name Service to look up a Data Source 
  * resource factory to get a JDBC pooled connection. 
  * <p> 
- * A new connection property for the JNDI name to look up a Data Source name service 
- * is added to the ODA JDBC data source definition.  
- * This optional property expects the full URL path, for use by a 
+ * The ODA JDBC data source definition includes a connection property for the 
+ * JNDI name to look up a Data Source name service.  
+ * This optional property expects a full name path, for use by a 
  * JNDI initial context to look up a Data Source resource factory.  
- * A JNDI name URL path is specific to individual JNDI service provider.  
- * For example, "java:comp/env/jdbc/<dataSourceName>" for Tomcat.
+ * A JNDI name path can be specific to individual JNDI service provider,
+ * and/or custom data source configuration.  
+ * For example, "java:comp/env/jdbc/%dataSourceName%".
  * <p>
- * A text field is also added to the oda.jdbc.ui data source designer pages 
- * for user input of the JNDI Data Source Name URL property value.
+ * The ODA JDBC UI data source designer pages include a text field
+ * for user input of the JNDI data source name.
  * <p>  
+ * <i>JNDI name service vs. JDBC driver URL</i><p>
  * Some JNDI service providers do not support client-side access.<br>
- * During design time when using the BIRT report designer, a JDBC data set 
- * would need to be designed using direct access to a JDBC driver connection.  
- * The ODA JDBC data set query builder continues to use direct JDBC connection to 
- * obtain its metadata.  Only those oda.jdbc.ui functions directly related to a 
+ * At design time, when using the BIRT report designer, a JDBC data set 
+ * still needs to be designed using direct access to a JDBC driver connection.  
+ * The ODA JDBC data set query builder continues to use a direct JDBC connection to 
+ * obtain its metadata.  Only those design functions directly related to a 
  * data source design, such as Test Connection and Preview Results of a data set, 
- * are enhanced to use this factory to first attempt to use a JNDI Name URL, if specified.  
+ * would first attempt to use a JNDI name, if specified.  
  * And if not successful for any reason, it falls back to use the JDBC driver URL.
  * <p>
- * Similarly at report runtime, such as during Report Preview, when a non-blank 
- * JNDI Name URL value is specified, the oda.jdbc run-time driver attempts to look up 
+ * Similarly at report runtime, such as during Report Preview, when a
+ * JNDI name is specified, this oda.jdbc driver attempts to look up 
  * its JNDI data source name service to get a pooled JDBC connection.  
  * If such lookup is not successful for any reason, it falls back to use the 
  * JDBC driver URL directly to create a JDBC connection.
  * <p>
+ * <i>Context Environment Properties</i><p>
  * To simplify the task of setting up the JNDI initial context environment 
  * required by individual JNDI application, the oda.jdbc JNDI feature supports 
- * the use of a "jndi.properties" file, installed in the drivers sub-folder 
+ * the use of a "jndi.properties" resource file, installed in the drivers sub-folder 
  * of the oda.jdbc plugin.  
- * When deployed within a web application, it looks for the file in the 
- * web application's folder tree for the oda.jdbc's drivers sub-folder.
+ * When deployed within a web application, it looks for the file under the 
+ * web application's folder tree in the oda.jdbc's drivers sub-folder.
  * <br>Its use is optional.  When such file is not found or problem reading from it, 
  * an initial context adopts the default behavior to locate any JNDI resource files, 
  * as defined by <code>javax.naming.Context</code>.
- * Future enhancement may support the use of a driver-specific resource file.
+ * <br>Note that it is the user responsibility to configure the classpath to
+ * include the classes referenced by the environment properties.
  * <p>
- * Additional note: <br>
- * when a custom connection factory is associated with a specific JDBC driver class, 
+ * <i>oda.jdbc.driverinfo extensions</i><p>
+ * When a custom connection factory is associated with a specific JDBC driver class, 
  * by implementating the oda.jdbc.driverinfo extension point, it is responsible 
- * for the handling of the JNDI look up service, as appropriate.  
+ * for the handling of the JNDI look up service.  
  * In other words, a custom connection factory defined in a driverinfo extension 
- * overrides the default JNDI URL handling.
+ * overrides the default JNDI data source handling.
  */
 class JndiDataSource implements IConnectionFactory
 {
