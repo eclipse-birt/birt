@@ -59,13 +59,6 @@
          id="org.eclipse.birt.chart.doc.isv"
          version="0.0.0"/>
 
-   <includes
-         id="org.apache.batik"
-         version="0.0.0"/>
-
-   <includes
-         id="org.apache.xerces.feature"
-         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.birt.sdk"
