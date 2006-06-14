@@ -45,7 +45,7 @@
                <property
                      canInherit="true"
                      defaultDisplayName="JNDI URL"
-                     name="odaJndiURL"
+                     name="odaJndiName"
                      type="string"/>
             </propertyGroup>
             <propertyVisibility name="odaDataSource" visibility="hide"/>

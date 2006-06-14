@@ -71,7 +71,7 @@ public class JDBCSelectionPageHelper
 	private ComboViewer driverChooserCombo;
 
 	// Text of url, name and password
-	private Text jdbcUrl, userName, password, jndiUrl;
+	private Text jdbcUrl, userName, password, jndiName;
 
 	// Button of manage driver and test connection
 	private Button manageButton, testButton;
@@ -184,7 +184,7 @@ public class JDBCSelectionPageHelper
 				}
                 // TODO - enhance driverinfo extension point and UI to include 
                 // driver-specific JNDI URL template and jndi properties file name
-                jndiUrl.setText( EMPTY_STRING );
+                jndiName.setText( EMPTY_STRING );
 
 				// Clear off the user name and passwords
 				userName.setText( EMPTY_STRING );
@@ -220,15 +220,15 @@ public class JDBCSelectionPageHelper
 		password.setLayoutData( gridData );
 
         // JNDI Data Source URL
-        // TODO - externalize "&JNDI Data Source URL:" label when PII check-in is re-opened
-        // String jndiLabel = JdbcPlugin.getResourceString( "wizard.label.jndiurl" ); //$NON-NLS-1$
+        // TODO - externalize "&JNDI Data Source Name:" label when PII check-in is re-opened
+        // String jndiLabel = JdbcPlugin.getResourceString( "wizard.label.jndiname" ); //$NON-NLS-1$
         String jndiLabel = "&JNDI URL:";
         new Label( content, SWT.RIGHT ).setText( jndiLabel );
-        jndiUrl = new Text( content, SWT.BORDER );
+        jndiName = new Text( content, SWT.BORDER );
         gridData = new GridData( );
         gridData.horizontalSpan = 2;
         gridData.horizontalAlignment = SWT.FILL;
-        jndiUrl.setLayoutData( gridData );
+        jndiName.setLayoutData( gridData );
 
 		// Test connection
 		new Label( content, SWT.NONE );
@@ -278,10 +278,10 @@ public class JDBCSelectionPageHelper
 			odaPassword = EMPTY_STRING;
 		password.setText( odaPassword );
 
-        String odaJndiUrl = profileProps.getProperty( Constants.ODAJndiURL );
-        if ( odaJndiUrl == null )
-            odaJndiUrl = EMPTY_STRING;
-        jndiUrl.setText( odaJndiUrl );
+        String odaJndiName = profileProps.getProperty( Constants.ODAJndiName );
+        if ( odaJndiName == null )
+            odaJndiName = EMPTY_STRING;
+        jndiName.setText( odaJndiName );
 
         updateTestButton( );
 		verifyJDBCProperties( );
@@ -336,8 +336,8 @@ public class JDBCSelectionPageHelper
 				getODAUser( ) );
 		props.setProperty( Constants.ODAPassword,
 				getODAPassword( ) );
-        props.setProperty( Constants.ODAJndiURL,
-                getODAJndiUrl( ) );
+        props.setProperty( Constants.ODAJndiName,
+                getODAJndiName( ) );
 		return props;
     }
     
@@ -363,11 +363,11 @@ public class JDBCSelectionPageHelper
 		return getTrimedString(password.getText( ));
 	}
     
-    private String getODAJndiUrl( )
+    private String getODAJndiName( )
     {
-        if( jndiUrl == null )
+        if( jndiName == null )
             return EMPTY_STRING;
-        return getTrimedString( jndiUrl.getText( ) );
+        return getTrimedString( jndiName.getText( ) );
     }
 
 	/**
@@ -611,11 +611,11 @@ public class JDBCSelectionPageHelper
 		String passwd = password.getText( );
 		String driverName = getSelectedDriverClassName( );
         
-        String jndiUrlValue = getODAJndiUrl();
-        if( jndiUrlValue.length() == 0 )
-            jndiUrlValue = null;
+        String jndiNameValue = getODAJndiName();
+        if( jndiNameValue.length() == 0 )
+            jndiNameValue = null;
 
-		return DriverLoader.testConnection( driverName, url, jndiUrlValue, userid, passwd );
+		return DriverLoader.testConnection( driverName, url, jndiNameValue, userid, passwd );
 	}
 	
 	/**

@@ -142,7 +142,7 @@ public class Connection implements IConnection
                                     props, user, pwd );
         
 		String driverClass = connProperties.getProperty( Constants.ODADriverClass );
-        String jndiNameUrl = connProperties.getProperty( Constants.ODAJndiURL );
+        String jndiNameUrl = connProperties.getProperty( Constants.ODAJndiName );
 
 		try
 		{
@@ -321,7 +321,7 @@ public class Connection implements IConnection
 		public static final String ODAUser = "odaUser";
 		public static final String ODADriverClass = "odaDriverClass";
 		public static final String ODADataSource = "odaDataSource";
-        public static final String ODAJndiURL = "odaJndiURL";
+        public static final String ODAJndiName = "odaJndiName";
 	}
 
 }

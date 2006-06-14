@@ -10,7 +10,7 @@ public class Constants
         org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAUser;
     public static final String ODADriverClass = 
         org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODADriverClass; 
-    public static final String ODAJndiURL = 
-        org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAJndiURL;
+    public static final String ODAJndiName = 
+        org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAJndiName;
 
 }
