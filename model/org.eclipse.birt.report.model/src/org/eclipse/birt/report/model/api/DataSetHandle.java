@@ -60,11 +60,11 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * To get a handle for the data source, uses the following example:
  * 
  * <pre>
- *        
- *            
- *        		DataSetHandle dataHandle = designHandle
- *                findDataSet( &quot;My First Data Set &quot; );
  *         
+ *             
+ *         		DataSetHandle dataHandle = designHandle
+ *                 findDataSet( &quot;My First Data Set &quot; );
+ *          
  * </pre>
  * 
  * <p>
@@ -870,12 +870,15 @@ public abstract class DataSetHandle extends ReportElementHandle
 				if ( actionPropHandle != null )
 				{
 					Action action = (Action) actionPropHandle.getValue( );
-					ActionHandle actionHandle = (ActionHandle) action
-							.getHandle( actionPropHandle );
-					MemberHandle paramBindingsMemberHandle = actionHandle
-							.getMember( Action.PARAM_BINDINGS_MEMBER );
-					updateParamBindings( paramBindingsMemberHandle,
-							oldParamName, newParamName );
+					if ( action != null )
+					{
+						ActionHandle actionHandle = (ActionHandle) action
+								.getHandle( actionPropHandle );
+						MemberHandle paramBindingsMemberHandle = actionHandle
+								.getMember( Action.PARAM_BINDINGS_MEMBER );
+						updateParamBindings( paramBindingsMemberHandle,
+								oldParamName, newParamName );
+					}
 				}
 			}
 
