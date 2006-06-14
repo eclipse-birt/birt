@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -213,15 +214,14 @@ public class RDLoad
 	/**
 	 * @param streamPos
 	 * @param streamScope
-	 * @return filter definition
+	 * @return query definition
 	 * @throws DataException
 	 */
-	public List loadFilterDefn( int streamPos, int streamScope ) throws DataException
+	public IBaseQueryDefinition loadQueryDefn( int streamPos, int streamScope ) throws DataException
 	{
-		InputStream inputStream = streamManager.getInStream( DataEngineContext.FILTER_DEFN_STREAM,
-				streamPos,
-				streamScope );
-		List filterList = FilterDefnUtil.loadFilterDefn( inputStream );
+		InputStream inputStream = streamManager.getInStream( DataEngineContext.QUERY_DEFN_STREAM,
+				streamPos, streamScope );
+		IBaseQueryDefinition queryDefn = QueryDefnUtil.loadQueryDefn( inputStream );
 		try
 		{
 			inputStream.close( );
@@ -231,7 +231,19 @@ public class RDLoad
 			// ignore
 		}
 
-		return filterList;
+		return queryDefn;
+	}
+	
+	/**
+	 * @param streamPos
+	 * @param streamScope
+	 * @return filter definition
+	 * @throws DataException
+	 */
+	public List loadFilterDefn( int streamPos, int streamScope )
+			throws DataException
+	{
+		return loadQueryDefn( streamPos, streamScope ).getFilters( );
 	}
 	
 	/**
@@ -242,19 +254,7 @@ public class RDLoad
 	 */
 	public List loadGroupDefn( int streamPos, int streamScope ) throws DataException
 	{
-		InputStream inputStream = streamManager.getInStream( DataEngineContext.GROUP_DEFN_STREAM,
-				streamPos, streamScope );
-		List groupList = GroupDefnUtil.loadGroupDefn( inputStream );
-		try
-		{
-			inputStream.close( );
-		}
-		catch ( IOException e )
-		{
-			// ignore
-		}
-
-		return groupList;
+		return loadQueryDefn( streamPos, streamScope ).getGroups( );
 	}
 	
 }

@@ -51,8 +51,8 @@ public class GroupDefnUtil
 				IOUtil.writeString( dos, groupDefn.getKeyExpression( ) );
 				IOUtil.writeInt( dos, groupDefn.getSortDirection( ) );
 			}
-
-			dos.close( );
+			
+			dos.flush( );
 		}
 		catch ( IOException e )
 		{
@@ -85,8 +85,6 @@ public class GroupDefnUtil
 				groupDefn.setSortDirection( IOUtil.readInt( dis ) );
 				groupList.add( groupDefn );
 			}
-
-			dis.close( );
 		}
 		catch ( IOException e )
 		{

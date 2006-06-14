@@ -38,7 +38,6 @@ public interface IBaseExpression
      * Returns the handle associated with the expression.   
      * 
      * @return the expression execution handle.
-     * @deprecated
      */
     public abstract Object getHandle();
 

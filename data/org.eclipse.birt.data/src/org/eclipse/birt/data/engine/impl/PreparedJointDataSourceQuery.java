@@ -390,7 +390,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		IPreparedQuery preparedQuery;
 		try
 		{
-			preparedQuery = PreparedDataSourceQuery.newInstance( dataEngine,
+			preparedQuery = PreparedQueryUtil.newInstance( dataEngine,
 					queryDefinition,
 					appContext );
 
@@ -424,7 +424,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		IPreparedQuery preparedQuery;
 		try
 		{
-			preparedQuery = PreparedDataSourceQuery.newInstance( dataEngine,
+			preparedQuery = PreparedQueryUtil.newInstance( dataEngine,
 					queryDefinition,
 					appContext );
 			for ( int i = 0; i < joinConditions.size( ); i++ )

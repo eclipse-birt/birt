@@ -386,8 +386,9 @@ public class DataEngineImpl extends DataEngine
 			logger.fine( "Start to prepare query: "
 					+ LogUtil.toString( querySpec ) );
 
-		IPreparedQuery result = PreparedDataSourceQuery.newInstance( this,
-				querySpec, appContext );
+		IPreparedQuery result = PreparedQueryUtil.newInstance( this,
+				querySpec,
+				appContext );
 
 		configureDataSetCache( querySpec, appContext );
 		

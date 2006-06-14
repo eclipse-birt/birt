@@ -81,8 +81,7 @@ public class DataEngineContext
 	
 	public final static int GROUP_INFO_STREAM = 41;
 	public final static int SUBQUERY_INFO_STREAM = 42;
-	public final static int FILTER_DEFN_STREAM = 43;
-	public final static int GROUP_DEFN_STREAM = 44;
+	public final static int QUERY_DEFN_STREAM = 43;
 	
 	// row index to the base rd
 	public final static int ROW_INDEX_STREAM = 51;
@@ -352,11 +351,8 @@ public class DataEngineContext
 			case SUBQUERY_INFO_STREAM :
 				relativePath = "SubQueryInfo";
 				break;
-			case FILTER_DEFN_STREAM :
-				relativePath = "FilterDefn";
-				break;
-			case GROUP_DEFN_STREAM:
-				relativePath = "GroupDefn";
+			case QUERY_DEFN_STREAM :
+				relativePath = "QueryDefn";
 				break;
 			case ROW_INDEX_STREAM:
 				relativePath = "RowIndex";

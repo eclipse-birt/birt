@@ -14,19 +14,14 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
-import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
@@ -39,72 +34,6 @@ abstract class PreparedDataSourceQuery
 			IPreparedQuery,
 			IPreparedQueryService
 {
-	/**
-	 * Creates a new instance of the proper subclass based on the type of the
-	 * query passed in.
-	 * @param dataEngine
-	 * @param queryDefn
-	 * @param appContext	Application context map; could be null.
-	 * @return PreparedReportQuery
-	 * @throws DataException 
-	 */
-	static IPreparedQuery newInstance( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn, Map appContext ) throws DataException
-	{
-		assert dataEngine != null;
-		assert queryDefn != null;
-		
-		if ( queryDefn.getQueryResultsID( ) != null )
-			return PreparedIVQuery.newInstance( dataEngine, queryDefn );
-		
-		IBaseDataSetDesign dset = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
-		if ( dset == null )
-		{
-			// In new column binding feature, when ther is no data set,
-			// it is indicated that a dummy data set needs to be created
-			// internally. But using the dummy one, the binding expression only
-			// can refer to row object and no other object can be refered such
-			// as rows.
-			if ( queryDefn.getQueryResultsID( ) == null )
-				return new PreparedDummyQuery( dataEngine.getContext( ),
-						queryDefn,
-						dataEngine.getSharedScope( ) );
-		}
-
-		PreparedDataSourceQuery preparedQuery;
-		
-		if ( dset instanceof IScriptDataSetDesign )
-		{
-			preparedQuery = new PreparedScriptDSQuery( dataEngine,
-					queryDefn,
-					dset, appContext );
-		}
-		else if ( dset instanceof IOdaDataSetDesign )
-		{
-			preparedQuery = new PreparedOdaDSQuery( dataEngine,
-					queryDefn,
-					dset,
-					appContext );
-		}
-		else if ( dset instanceof IJointDataSetDesign )
-		{
-			preparedQuery = new PreparedJointDataSourceQuery( dataEngine, queryDefn, dset, appContext );
-		}
-		else
-		{
-			DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE,
-					dset.getName( ) );
-			logger.logp( Level.FINE,
-					PreparedDataSourceQuery.class.getName( ),
-					"newInstance",
-					"Unsupported data source type",
-					e );
-			throw e;
-		}
-
-		return preparedQuery;
-	}
-	
 	private IBaseDataSetDesign dataSetDesign;
 	
 	protected DataEngineImpl dataEngine;

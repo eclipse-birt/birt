@@ -51,7 +51,7 @@ public class FilterDefnUtil
 				ExprUtil.saveBaseExpr( dos, filterDefn.getExpression( ) );
 			}
 
-			dos.close( );
+			dos.flush( );
 		}
 		catch ( IOException e )
 		{
@@ -77,8 +77,6 @@ public class FilterDefnUtil
 				IBaseExpression baseExpr = ExprUtil.loadBaseExpr( dis );
 				filterList.add( new FilterDefinition( baseExpr ) );
 			}
-
-			dis.close( );
 		}
 		catch ( IOException e )
 		{

@@ -108,8 +108,7 @@ public class RDSave implements IRDSave
 
 		if ( this.streamManager.isSubquery( ) == false )
 		{
-			this.saveUtilHelper.saveFilterInfo( );
-			this.saveUtilHelper.saveGroupInfo( );
+			this.saveUtilHelper.saveQueryDefn( );
 		}
 	}
 	
@@ -169,7 +168,7 @@ public class RDSave implements IRDSave
 		/**
 		 * @param queryDefn
 		 */
-		private SaveUtilHelper(IBaseQueryDefinition queryDefn)
+		private SaveUtilHelper( IBaseQueryDefinition queryDefn )
 		{
 			this.queryDefn = queryDefn;
 		}
@@ -298,32 +297,12 @@ public class RDSave implements IRDSave
 		/**
 		 * @throws DataException
 		 */
-		protected void saveFilterInfo( ) throws DataException
+		protected void saveQueryDefn( ) throws DataException
 		{
-			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.FILTER_DEFN_STREAM,
+			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.QUERY_DEFN_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
-			FilterDefnUtil.saveFilterDefn( outputStream, queryDefn.getFilters( ) );
-
-			try
-			{
-				outputStream.close( );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
-			}
-		}
-		
-		/**
-		 * @throws DataException
-		 */
-		protected void saveGroupInfo( ) throws DataException
-		{
-			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.GROUP_DEFN_STREAM,
-					StreamManager.ROOT_STREAM,
-					StreamManager.SELF_SCOPE );
-			GroupDefnUtil.saveGroupDefn( outputStream, queryDefn.getGroups( ) );
+			QueryDefnUtil.saveQueryDefn( outputStream, queryDefn );
 
 			try
 			{
