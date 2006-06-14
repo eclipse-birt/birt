@@ -117,7 +117,7 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 		}
 
 		// Only parser the first 10000 elements
-		if ( rowCount > numberOfElementsAccessiable )
+		if ( rowCount >= numberOfElementsAccessiable )
 		{
 			assert sp != null;
 			sp.setStart( false );
