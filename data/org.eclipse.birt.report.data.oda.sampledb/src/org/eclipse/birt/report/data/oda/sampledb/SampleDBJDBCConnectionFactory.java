@@ -13,20 +13,23 @@
  */
 package org.eclipse.birt.report.data.oda.sampledb;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory;
-import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
-import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 {
 	private static final Logger logger = Logger.getLogger( SampleDBJDBCConnectionFactory.class.getName( ) );
+	private Driver derbyDriver;
 	
 	/**
 	 * Creates a new JDBC connection to the embedded sample database.
@@ -61,19 +64,102 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 		props.put( "user", SampleDBConstants.SAMPLE_DB_SCHEMA);
 		props.put( "password", "" );
 		
-		try
+		if ( logger.isLoggable( Level.FINE ))
 		{
-			// Derby embedded driver should be in our class path since this plugin
-			// depends on the Derby plugin
-			// Note that we cannot go to JDBCDriverManager here to request connection -
-			// it may give us the wrong version of Derby! 
-			Class.forName( SampleDBConstants.DERBY_DRIVER_CLASS );
-			return DriverManager.getConnection( dbUrl, props);
+			logger.fine( "Getting Sample DB JDBC connection. DriverClass=" + 
+					SampleDBConstants.DERBY_DRIVER_CLASS + ", Url=" + dbUrl);
 		}
-		catch ( Exception e)
+
+		if ( derbyDriver == null )
 		{
-			throw new SQLException(e.getLocalizedMessage());
+			try
+			{
+				ClassLoader cl = new DerbyClassLoader();
+				derbyDriver = (Driver) Class.forName(
+						SampleDBConstants.DERBY_DRIVER_CLASS, true, cl).newInstance();
+			}
+			catch ( Exception e)
+			{
+				logger.log( Level.WARNING, "Failed to load Derby embedded driver: " +
+						SampleDBConstants.DERBY_DRIVER_CLASS, e );
+				throw new SQLException (e.getLocalizedMessage());
+			}
 		}
+
+		return derbyDriver.connect( dbUrl, props);
+	}
+	
+	/**
+	 * Handles loading of Derby classes and resources to ensure that the right version of Derby
+	 * library is used. Works around DERBY-1228 (http://issues.apache.org/jira/browse/DERBY-1228)
+	 */
+	private static class DerbyClassLoader extends URLClassLoader
+	{
+		public DerbyClassLoader( ) 
+		{
+			super( new URL[0], DerbyClassLoader.class.getClassLoader() );
+			
+			// Locate Apache derby bundle
+			Bundle derbyBundle = Platform.getBundle( "org.apache.derby.core" );
+			if ( derbyBundle == null )
+			{
+				// Shoudn't happen
+				logger.severe( "Failed to get find plugin org.apache.derby.core" );
+			}
+			else
+			{
+				// Add derby.jar from this bundle to class path
+				URL fileURL = derbyBundle.getEntry( "derby.jar" );
+				addURL( fileURL );
+			}
+			
+		}
+		/**
+		 * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
+		 */
+		protected synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException
+		{
+			if ( name.startsWith("org.apache.derby") )
+			{
+				// All derby classes must be resolved against derby.jar in the plugin
+				// We will not check the parent class loader first. (this is the only difference 
+				// from the standard loadClass implementation)
+				Class c = findLoadedClass(name);
+				if (c == null) 
+				{
+					if ( logger.isLoggable( Level.FINER ))
+						logger.finer("Load derby class: " + name );
+			        c = findClass(name);
+				}
+				if (resolve) {
+				    resolveClass(c);
+				}
+				return c;
+			}
+			else
+			{
+				return super.loadClass(name, resolve);
+			}
+		}
+		
+		/**
+		 * @see java.lang.ClassLoader#getResource(java.lang.String)
+		 * Override this method to make sure Derby gets its resources from our Jar (such as version info)
+		 */
+		public URL getResource(String name)
+		{
+			if ( name.startsWith("org/apache/derby") || name.startsWith("/org/apache/derby") )
+			{
+				if ( logger.isLoggable( Level.FINER ))
+						logger.finer("Load derby resource: " + name );
+				return findResource(name);
+			}
+			else
+			{
+				return super.getResource(name);
+			}
+		}
+		
 	}
 	
 	/**

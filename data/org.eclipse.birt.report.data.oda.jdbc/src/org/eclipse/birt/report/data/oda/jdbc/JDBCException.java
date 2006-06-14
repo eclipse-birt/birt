@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import com.ibm.icu.util.ULocale;
+
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.SQLException;
 
@@ -47,10 +49,13 @@ public class JDBCException extends OdaException
 	{
 		super( errorCode, null, vendorCode );
 		this.errorCode = errorCode;
-		logger.logp( java.util.logging.Level.FINE,
-				JDBCException.class.getName( ),
-				"JDBCException",
-				errorCode );
+		if (logger.isLoggable( Level.FINE))
+		{
+			logger.logp( Level.FINE,
+					JDBCException.class.getName( ),
+					"JDBCException",
+					errorCode );
+		}
 	}
 
 	/**
@@ -65,10 +70,14 @@ public class JDBCException extends OdaException
 				ERROR_JDBC );
 		initCause( cause );
 		this.errorCode = errorCode;
-		logger.logp( java.util.logging.Level.FINE,
-				JDBCException.class.getName( ),
-				"JDBCException",
-				errorCode );
+		if (logger.isLoggable( Level.FINE))
+		{
+			logger.logp( Level.FINE,
+					JDBCException.class.getName( ),
+					"JDBCException",
+					errorCode );
+			logSQLException( logger, Level.FINE, cause );
+		}
 	}
 
 	/**
@@ -87,10 +96,14 @@ public class JDBCException extends OdaException
 		this.argv = new Object[]{
 			argv
 		};
-		logger.logp( java.util.logging.Level.FINE,
-				JDBCException.class.getName( ),
-				"JDBCException",
-				errorCode );
+		if (logger.isLoggable( Level.FINE))
+		{
+			logger.logp( Level.FINE,
+					JDBCException.class.getName( ),
+					"JDBCException",
+					errorCode );
+			logSQLException( logger, Level.FINE, cause );
+		}
 	}
 
 	/**
@@ -107,10 +120,15 @@ public class JDBCException extends OdaException
 		initCause( cause );
 		this.errorCode = errorCode;
 		this.argv = argv;
-		logger.logp( java.util.logging.Level.FINE,
-				JDBCException.class.getName( ),
-				"JDBCException",
-				errorCode );
+		
+		if (logger.isLoggable( Level.FINE))
+		{
+			logger.logp( java.util.logging.Level.FINE,
+					JDBCException.class.getName( ),
+					"JDBCException",
+					errorCode );
+			logSQLException( logger, Level.FINE, cause );
+		}
 	}
 
 	/*
@@ -128,13 +146,68 @@ public class JDBCException extends OdaException
 			msg = resourceHandle.getMessage( errorCode, argv );
 		}
 		
-		if ( this.getCause() != null )
+		Throwable cause = getCause();
+		if ( cause != null )
 		{
-			String extraMsg = this.getCause().getLocalizedMessage();
+			String extraMsg;
+			if ( cause instanceof SQLException )
+			{
+				extraMsg = getSQLExceptionMesssage( (SQLException) cause);
+			}
+			else
+			{
+				extraMsg = cause.getLocalizedMessage();
+			}
 			if ( extraMsg != null && extraMsg.length() > 0 )
 				msg += "\n" + extraMsg; 
 		}
 		return msg;
 	}
+	
+	/**
+	 * Utility function to log a SQLException to provided logger. 
+	 */ 
+	public static void logSQLException( Logger logger, Level logLevel, SQLException sqlException )
+	{
+		assert logger != null;
+		// SQL Exception may be chained. Need to log all exceptions
+		SQLException e = sqlException;
+		int count = 1;
+		while ( e != null )
+		{
+			logger.log( logLevel, "SQL Exception #" + count, e);
+			if ( ++count > 50 )
+			{
+				// Programmer's paranoia; don't get stuck in a loop
+				break;
+			}
+			e = e.getNextException();
+		}
+	}
 
+	/**
+	 * Utility function to concatenate all SQLException error messages  
+	 */ 
+	public static String getSQLExceptionMesssage( SQLException sqlException )
+	{
+		assert sqlException != null;
+		
+		// SQL Exception may be chained. Need to get all exception messages
+		String msg = new String();
+		
+		SQLException e = sqlException;
+		int count = 1;
+		while ( e != null )
+		{
+			msg += ("SQL error #") + count + ": " + e.getLocalizedMessage() + "\n";
+			
+			if ( ++count > 50 )
+			{
+				// Programmer's paranoia; don't get stuck in a loop
+				break;
+			}
+			e = e.getNextException();
+		}
+		return msg;
+	}
 }
