@@ -158,7 +158,6 @@ public class ParameterAccessor
 
 	public static final String PARAM_RTL = "__rtl"; //$NON-NLS-1$
 
-	
 	public static final String _TOC = "__toc"; //$NON-NLS-1$
 
 	/**
@@ -737,7 +736,7 @@ public class ParameterAccessor
 	 */
 	protected static void clearDocuments( )
 	{
-		String documentFolder = workingFolder + DOCUMENTS_DIR;
+		String documentFolder = workingFolder + File.separator + DOCUMENTS_DIR;
 		File file = new File( documentFolder );
 
 		boolean success = file.delete( );
@@ -1030,20 +1029,20 @@ public class ParameterAccessor
 		return inDEsigner;
 	}
 
-	
-	public static boolean isToc(HttpServletRequest request){
-		
-		boolean isToc = false;
-		
+	public static boolean isToc( HttpServletRequest request )
+	{
 
-		if ( "true".equalsIgnoreCase( getParameter( request,  _TOC) ) ) //$NON-NLS-1$
+		boolean isToc = false;
+
+		if ( "true".equalsIgnoreCase( getParameter( request, _TOC ) ) ) //$NON-NLS-1$
 		{
 			isToc = true;
 		}
 
 		return isToc;
-		
+
 	}
+
 	/***************************************************************************
 	 * For export data
 	 **************************************************************************/
@@ -1489,5 +1488,5 @@ public class ParameterAccessor
 	public static boolean isWorkingFolderAccessOnly( )
 	{
 		return isWorkingFolderAccessOnly;
-	}	
+	}
 }
