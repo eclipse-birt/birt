@@ -60,15 +60,11 @@
          version="0.0.0"/>
 
    <includes
-         id="org.apache.batik.pdf"
-         version="0.0.0"/>
-
-   <includes
          id="org.apache.batik"
          version="0.0.0"/>
 
    <includes
-         id="org.apache.xerces"
+         id="org.apache.xerces.feature"
          version="0.0.0"/>
 
    <plugin
