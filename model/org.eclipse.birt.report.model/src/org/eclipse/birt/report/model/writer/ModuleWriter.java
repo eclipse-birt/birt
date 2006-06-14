@@ -2415,10 +2415,11 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeStructureList( obj, DataSet.PARAMETERS_PROP );
 		writeStructureList( obj, DataSet.RESULT_SET_PROP );
+		writeStructureList( obj, DataSet.RESULT_SET_HINTS_PROP );
 		writeStructureList( obj, DataSet.COMPUTED_COLUMNS_PROP );
 		writeStructureList( obj, DataSet.COLUMN_HINTS_PROP );
 		writeStructureList( obj, DataSet.FILTER_PROP );
-
+		
 		CachedMetaData metadata = (CachedMetaData) obj.getLocalProperty(
 				getModule( ), DataSet.CACHED_METADATA_PROP );
 		if ( metadata != null )

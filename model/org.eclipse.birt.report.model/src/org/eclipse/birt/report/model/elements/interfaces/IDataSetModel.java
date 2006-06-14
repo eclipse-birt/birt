@@ -22,6 +22,12 @@ public interface IDataSetModel
 	 */
 
 	public static final String RESULT_SET_PROP = "resultSet"; //$NON-NLS-1$
+	
+	/**
+	 * The property name of the structures of the expected result set's hint.
+	 */
+
+	public static final String RESULT_SET_HINTS_PROP = "resultSetHints"; //$NON-NLS-1$
 
 	/**
 	 * The property name of the columns computed with expression.

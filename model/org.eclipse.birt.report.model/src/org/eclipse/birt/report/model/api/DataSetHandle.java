@@ -60,11 +60,11 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * To get a handle for the data source, uses the following example:
  * 
  * <pre>
- *         
- *             
- *         		DataSetHandle dataHandle = designHandle
- *                 findDataSet( &quot;My First Data Set &quot; );
  *          
+ *              
+ *          		DataSetHandle dataHandle = designHandle
+ *                  findDataSet( &quot;My First Data Set &quot; );
+ *           
  * </pre>
  * 
  * <p>
@@ -189,7 +189,24 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator resultSetIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.RESULT_SET_PROP );
+		PropertyHandle propHandle = getPropertyHandle( RESULT_SET_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
+
+	/**
+	 * Returns an iterator over hints of the result set columns. The iterator
+	 * returns instances of <code>ResultSetColumnHandle</code> that represents
+	 * hints of result set column object.
+	 * 
+	 * @return iterator over hints of result set columns.
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn
+	 */
+
+	public Iterator resultSetHintsIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( RESULT_SET_HINTS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}

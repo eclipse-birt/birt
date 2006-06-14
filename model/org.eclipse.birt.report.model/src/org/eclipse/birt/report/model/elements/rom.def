@@ -2031,6 +2031,7 @@
     <Property detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
 	  <Trigger validator="DataSetResultSetValidator"/>
 	</Property>
+	<Property detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSetHints" isList="true" name="resultSetHints" since="2.1" type="structure"/>
     <Property detailType="ColumnHint" displayNameID="Element.DataSet.columnHints" isList="true" name="columnHints" since="1.0" type="structure"/>
 	<Property detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" isList="false" name="cachedMetaData" since="1.0" type="structure"/>
   </Element>
