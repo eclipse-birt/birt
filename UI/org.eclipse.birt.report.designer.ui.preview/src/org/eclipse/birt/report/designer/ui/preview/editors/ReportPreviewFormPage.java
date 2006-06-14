@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterHtmlDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
@@ -506,4 +507,12 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 			super.firePropertyChange( type );
 		}
 	}	
+	protected void finalize( ) throws Throwable
+	{
+		if(Policy.TRACING_PAGE_CLOSE)
+		{
+			System.out.println("Report preview page finalized" ); //$NON-NLS-1$
+		}
+		super.finalize( );
+	}
 }

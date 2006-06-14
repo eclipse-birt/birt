@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEdito
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportMultiBookPage;
 import org.eclipse.birt.report.designer.internal.ui.extension.EditorContributorManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
@@ -89,7 +90,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	protected IReportProvider reportProvider;
 	
-	
+	private FormEditorSelectionProvider provider = new FormEditorSelectionProvider(this);
 	private boolean isChanging = false;
 
 	// this is a bug because the getActiveEditor() return null, we should change
@@ -171,7 +172,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		// getSite( ).getWorkbenchWindow( )
 		// .getPartService( )
 		// .addPartListener( this );
-		site.setSelectionProvider( new FormEditorSelectionProvider( this ) );
+		site.setSelectionProvider(provider );
 
 		IReportProvider provider = getProvider( );
 
@@ -900,6 +901,19 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	 */
 	public void dispose( )
 	{
+		//dispose page
+		List list = new ArrayList(pages);
+		int size = list.size( );
+		for (int i=0; i<size; i++)
+		{
+			Object obj =list.get( i );
+			if (obj instanceof IReportEditorPage)
+			{
+				((IReportEditorPage)obj).dispose( );
+				pages.remove( obj );
+			}
+		}
+		
 		// getSite( ).getWorkbenchWindow( )
 		// .getPartService( )
 		// .removePartListener( this );
@@ -916,10 +930,22 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		{
 			dataPage.dispose( );
 		}
+		getSite( ).setSelectionProvider(null );
 		// remove the mediator listener
 		SessionHandleAdapter.getInstance( ).getMediator( )
 				.removeGlobalColleague( this );
 		super.dispose( );
+		
+		
+	}
+	
+	protected void finalize( ) throws Throwable
+	{
+		if(Policy.TRACING_PAGE_CLOSE)
+		{
+			System.out.println("Report multi page finalized" ); //$NON-NLS-1$
+		}
+		super.finalize( );
 	}
 
 	public IEditorPart getEditorPart( )

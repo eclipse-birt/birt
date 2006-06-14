@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.texteditor.StatusTextEditor;
 
 public class XMLEditor extends StatusTextEditor
@@ -35,6 +36,7 @@ public class XMLEditor extends StatusTextEditor
 	{
 		colorManager.dispose( );
 		super.dispose( );
+		( (MultiPageEditorSite) getSite( ) ).dispose( );
 	}
 
 	public void refreshDocument( )

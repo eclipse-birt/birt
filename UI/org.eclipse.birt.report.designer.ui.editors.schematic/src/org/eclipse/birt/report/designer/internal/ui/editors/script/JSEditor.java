@@ -69,6 +69,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.editor.IFormPage;
+import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.StatusTextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -86,7 +87,7 @@ public class JSEditor extends StatusTextEditor implements
 
 	private static final String NO_EXPRESSION = Messages.getString( "JSEditor.Display.NoExpression" ); //$NON-NLS-1$
 
-	private final IEditorPart editingDomainEditor;
+	private IEditorPart editingDomainEditor;
 
 	/**
 	 * Check if text setting by selection changed.
@@ -179,8 +180,10 @@ public class JSEditor extends StatusTextEditor implements
 		// .getMediator( )
 		// .removeColleague( this );
 		selectionMap.clear( );
+		editingDomainEditor = null;
 		super.dispose( );
 		//( (ReportMultiPageEditorSite) getSite( ) ).dispose( );
+		( (MultiPageEditorSite) getSite( ) ).dispose( );
 	}
 
 	public void createPartControl( Composite parent )

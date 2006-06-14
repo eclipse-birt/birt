@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.ui.editors;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -346,4 +345,15 @@ public class ReportEditorProxy extends EditorPart implements
 		return instance;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals( Object obj )
+	{
+		if (obj == instance)
+		{
+			return true;
+		}
+		return super.equals( obj );
+	}
 }

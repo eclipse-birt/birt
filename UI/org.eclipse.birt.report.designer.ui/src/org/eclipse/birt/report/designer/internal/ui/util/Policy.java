@@ -42,6 +42,8 @@ public class Policy
 	public static final boolean TRACING_MENU_SHOW = getDebugOption( "menu.show" ); //$NON-NLS-1$
 
 	public static final boolean TRACING_PAGE_CHANGE = getDebugOption( "page.change" ); //$NON-NLS-1$
+	
+	public static final boolean TRACING_PAGE_CLOSE = getDebugOption( "page.close" ); //$NON-NLS-1$
 
 	/**	
 	 * Returns the debug option with the given id

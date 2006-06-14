@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.core.util.mediator.IMediatorState;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
@@ -342,6 +343,8 @@ public class ReportScriptFormPage extends ReportFormPage
 	public void dispose( )
 	{
 		super.dispose( );
+		
+		jsEditor.dispose( );
 		jsEditor = null;
 	}
 
@@ -403,5 +406,13 @@ public class ReportScriptFormPage extends ReportFormPage
 	private IReportProvider getProvider( )
 	{
 		return (IReportProvider) getEditor( ).getAdapter( IReportProvider.class );
+	}
+	protected void finalize( ) throws Throwable
+	{
+		if(Policy.TRACING_PAGE_CLOSE)
+		{
+			System.out.println("Report script page finalized" ); //$NON-NLS-1$
+		}
+		super.finalize( );
 	}
 }

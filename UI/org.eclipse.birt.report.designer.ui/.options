@@ -32,3 +32,6 @@ org.eclipse.birt.report.designer.ui/tracing/menu.show=false
 
 # Reports when page changes
 org.eclipse.birt.report.designer.ui/tracing/page.change=false
+
+# Reports finalize after editor closed
+org.eclipse.birt.report.designer.ui/tracing/page.close=false

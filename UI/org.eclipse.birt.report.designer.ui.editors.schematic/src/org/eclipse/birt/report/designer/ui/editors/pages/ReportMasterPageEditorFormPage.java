@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.editors.pages;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportMasterPageEditor;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
@@ -286,7 +287,7 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 	public void dispose( )
 	{
 
-		if ( getCommandStack( ) != null )
+		if ( getCommandStack( ) != null && getCommandStack( ) instanceof WrapperCommandStack)
 		{
 			WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
 			stack.removeCommandStackListener( getCommandStackListener( ) );
@@ -341,5 +342,14 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 		}
 
 		return provider;
+	}
+	protected void finalize( ) throws Throwable
+	{
+		if(Policy.TRACING_PAGE_CLOSE)
+		{
+			System.out.println("Report master page finalized" ); //$NON-NLS-1$
+		}
+
+		super.finalize( );
 	}
 }

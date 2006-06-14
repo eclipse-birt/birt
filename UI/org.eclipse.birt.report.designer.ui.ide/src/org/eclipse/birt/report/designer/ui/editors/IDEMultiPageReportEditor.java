@@ -375,7 +375,13 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		catch ( CoreException e )
 		{
 		}
+		if ( isWorkspaceResource )
+		{
+			getFile( getEditorInput( ) ).getWorkspace( )
+					.removeResourceChangeListener( resourceListener );
+		}
 		super.dispose( );
+		reportProvider = null;
 	}
 
 	/**
