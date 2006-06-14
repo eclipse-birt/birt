@@ -176,7 +176,7 @@ public class URIUtil
 		{
 			File file = new File( uri );
 
-			if ( uri.indexOf( JAR_EXTENTION ) != 0 )
+			if ( uri.indexOf( JAR_EXTENTION ) > -1 )
 				return JAR_SCHEMA
 						+ ":" + FILE_SCHEMA + ":" + file.getAbsolutePath( ); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -255,7 +255,7 @@ public class URIUtil
 		}
 		catch ( MalformedURLException e )
 		{
-			if ( filePath.indexOf( JAR_EXTENTION )!=0 )
+			if ( filePath.indexOf( JAR_EXTENTION ) > -1 )
 				// try jar format
 				url = getJarDirectory( filePath );
 			else
