@@ -139,9 +139,33 @@ class PreparedQueryUtil
 				-1 );
 		RDLoad rdLoad = RDUtil.newLoad( dataEngine.getContext( ),
 				queryResultInfo );
-		return GroupDefnUtil.isEqualGroups( queryDefn.getGroups( ),
+
+		boolean runningOnRS = GroupDefnUtil.isEqualGroups( queryDefn.getGroups( ),
 				rdLoad.loadGroupDefn( StreamManager.ROOT_STREAM,
 						StreamManager.BASE_SCOPE ) );
-	}	
+		if ( runningOnRS == false )
+			return false;
+		
+		runningOnRS = isCompatibleRSMap( rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE )
+				.getResultSetExpressions( ),
+				queryDefn.getResultSetExpressions( ) );
+		return runningOnRS;
+	}
+	
+	/**
+	 * @return
+	 */
+	private static boolean isCompatibleRSMap( Map oldMap, Map newMap )
+	{
+		if ( oldMap == newMap )
+			return true;
+		else if ( oldMap == null )
+			return newMap.size( ) == 0;
+		else if ( newMap == null )
+			return oldMap.size( ) == 0;
+
+		return oldMap.size( ) >= newMap.size( );
+	}
 	
 }
