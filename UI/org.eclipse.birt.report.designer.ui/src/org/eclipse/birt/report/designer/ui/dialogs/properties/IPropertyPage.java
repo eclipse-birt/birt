@@ -14,6 +14,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+/**
+ * An interface that provides methods of a property page.
+ * @deprecated   As of BIRT 2.1, replaced by
+ *      {@link org.eclipse.birt.report.designer.data.ui.property.IPropertyPage
+ *          org.eclipse.birt.report.designer.data.ui.property.IPropertyPage }.
+ */
 public interface IPropertyPage
 {
 

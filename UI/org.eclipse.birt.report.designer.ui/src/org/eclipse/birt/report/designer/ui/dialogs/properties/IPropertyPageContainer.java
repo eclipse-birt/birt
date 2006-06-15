@@ -17,7 +17,9 @@ package org.eclipse.birt.report.designer.ui.dialogs.properties;
  * It also provides a method for updating the message that is displayed on the container.
  * The container implementation can use this to display a title or just update the title. 
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/20 10:57:45 $
+ * @deprecated   As of BIRT 2.1, replaced by
+ *      {@link org.eclipse.birt.report.designer.data.ui.property.IPropertyPageContainer
+ *          org.eclipse.birt.report.designer.data.ui.property.IPropertyPageContainer }.
  */
 
 public interface IPropertyPageContainer
