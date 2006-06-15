@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -50,11 +51,11 @@ public class WizardLibrarySettingPage extends WizardPage
 
 	private static String PAGE_DESC = Messages.getString( "PublishLibraryDialog.Message" );
 	private static String PAGE_DESC2 = Messages.getString( "PublishLibraryDialog.AddMessage" );
-	
+
 	private static String LABEL_FILE_NAME = Messages.getString( "PublishLibraryDialog.Label.FileName" );
 
 	private static String LABEL_SOURCE_FILE_NAME = Messages.getString( "PublishLibraryDialog.Label.SourceFileName" );
-	
+
 	private static String LABEL_FOLDER = Messages.getString( "PublishLibraryDialog.Label.Folder" );
 
 	private static String BUTTON_BROWSE = Messages.getString( "PublishLibraryDialog.Label.Browse" );
@@ -68,11 +69,10 @@ public class WizardLibrarySettingPage extends WizardPage
 
 	private String dialogTitle = Messages.getString( "AddLibraryAction.Dialog.Tilte" ); //$NON-NLS-1$
 
-
 	private File selectedFolder;
 
 	private String fileExt = ".rptlibrary"; //$NON-NLS-1$
-	
+
 	private Status pageStatus;
 
 	private String fileName;
@@ -93,24 +93,23 @@ public class WizardLibrarySettingPage extends WizardPage
 			null );
 
 	private int type;
-	
 
-	
-	public void setType(int type)
+	public void setType( int type )
 	{
 		this.type = type;
 	}
-	
-	public String getSourceFileName()
+
+	public String getSourceFileName( )
 	{
-		if(sourceFileText != null && type == PublishLibraryWizard.HAVE_NO_HANDLE)
+		if ( sourceFileText != null
+				&& type == PublishLibraryWizard.HAVE_NO_HANDLE )
 		{
 			return sourceFileText.getText( );
 		}
-		
+
 		return null;
 	}
-	
+
 	public void setFileName( String fileName )
 	{
 		this.fileName = fileName;
@@ -133,17 +132,17 @@ public class WizardLibrarySettingPage extends WizardPage
 		return fileName;
 	}
 
-	
 	/**
 	 * @param pageName
 	 */
 	public WizardLibrarySettingPage( int type )
 	{
 		super( "" );
-		if(type ==  PublishLibraryWizard.HAVE_NO_HANDLE )
+		if ( type == PublishLibraryWizard.HAVE_NO_HANDLE )
 		{
 			pageStatus = new Status( IStatus.OK, PLUGIN_ID, 0, PAGE_DESC2, null );
-		}else
+		}
+		else
 		{
 			pageStatus = new Status( IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null );
 		}
@@ -167,15 +166,15 @@ public class WizardLibrarySettingPage extends WizardPage
 	 */
 	public void createControl( Composite parent )
 	{
-		if(type ==  PublishLibraryWizard.HAVE_NO_HANDLE )
+		if ( type == PublishLibraryWizard.HAVE_NO_HANDLE )
 		{
-			UIUtil.bindHelp(parent,IHelpContextIds.ADD_LIBRARY_DIALOG_ID);
-		}else
-		{
-			UIUtil.bindHelp(parent,IHelpContextIds.PUBLISH_LIBRARY_WIZARD_ID);
+			UIUtil.bindHelp( parent, IHelpContextIds.ADD_LIBRARY_DIALOG_ID );
 		}
-		
-		
+		else
+		{
+			UIUtil.bindHelp( parent, IHelpContextIds.PUBLISH_LIBRARY_WIZARD_ID );
+		}
+
 		Composite container = new Composite( parent, SWT.NONE );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.widthHint = 250;
@@ -184,27 +183,28 @@ public class WizardLibrarySettingPage extends WizardPage
 		GridLayout gridLayout = new GridLayout( );
 		gridLayout.numColumns = 3;
 		container.setLayout( gridLayout );
-		
-		if(type  == PublishLibraryWizard.HAVE_NO_HANDLE)
+
+		if ( type == PublishLibraryWizard.HAVE_NO_HANDLE )
 		{
 			new Label( container, SWT.NONE ).setText( LABEL_SOURCE_FILE_NAME );
-			int style =  SWT.BORDER | SWT.SINGLE ;
+			int style = SWT.BORDER | SWT.SINGLE;
 			sourceFileText = createText( container, 1, style );
 			sourceFileText.addModifyListener( new ModifyListener( ) {
+
 				public void modifyText( ModifyEvent e )
 				{
 					checkStatus( type );
 				}
 			} );
-			
+
 			Button chooseBtn = new Button( container, SWT.NONE );
 			chooseBtn.setText( BUTTON_BROWSE2 );
 			chooseBtn.addSelectionListener( new SelectionListener( ) {
 
 				public void widgetSelected( SelectionEvent e )
 				{
-					String sourceFileName = getFilePath();
-					if(sourceFileName != null)
+					String sourceFileName = getFilePath( );
+					if ( sourceFileName != null )
 					{
 						sourceFileText.setText( sourceFileName );
 						nameText.setText( sourceFileName.substring( sourceFileName.lastIndexOf( File.separator ) + 1 ) );
@@ -217,11 +217,11 @@ public class WizardLibrarySettingPage extends WizardPage
 
 				}
 			} );
-			
+
 		}
 
 		new Label( container, SWT.NONE ).setText( LABEL_FILE_NAME );
-		int style =  SWT.BORDER | SWT.SINGLE ;
+		int style = SWT.BORDER | SWT.SINGLE;
 		nameText = createText( container, 1, style );
 		new Label( container, SWT.NONE );
 		if ( fileName != null )
@@ -238,12 +238,12 @@ public class WizardLibrarySettingPage extends WizardPage
 		} );
 
 		new Label( container, SWT.NONE ).setText( LABEL_FOLDER );
-		style =  SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY;
+		style = SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY;
 		folderText = createText( container, 1, style );
 		if ( folder != null )
 		{
 			folderText.setText( folder );
-		}	
+		}
 		folderText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -259,19 +259,20 @@ public class WizardLibrarySettingPage extends WizardPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				ResourceFileLabelProvider labelProvider = new ResourceFileLabelProvider( );
-				ResourceFileContentProvider contentProvider = new ResourceFileContentProvider(false );
-				ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog(
-						UIUtil.getDefaultShell(),labelProvider,contentProvider);				
-			
+				ResourceFileContentProvider contentProvider = new ResourceFileContentProvider( false );
+				ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( UIUtil.getDefaultShell( ),
+						labelProvider,
+						contentProvider );
+
 				dialog.setAllowMultiple( false );
 				dialog.setTitle( Messages.getString( "WizardLibrarySettingPage.Resourcefile.Dialog.Title" ) ); //$NON-NLS-1$
 				dialog.setMessage( Messages.getString( "WizardLibrarySettingPage.Resourcefile.Dialog.Message" ) ); //$NON-NLS-1$
 
 				dialog.setValidator( new Validator( ) );
 
-				
-				dialog.setInput(ReportPlugin.getDefault( ).getResourcePreference( ));
-				if(dialog.open( ) == dialog.OK)
+				dialog.setInput( ReportPlugin.getDefault( )
+						.getResourcePreference( ) );
+				if ( dialog.open( ) == dialog.OK )
 				{
 					Object[] selected = dialog.getResult( );
 					if ( selected.length > 0 )
@@ -279,8 +280,7 @@ public class WizardLibrarySettingPage extends WizardPage
 						File file = (File) selected[0];
 						folderText.setText( file.getPath( ) );
 					}
-					
-					
+
 				}
 			}
 
@@ -295,21 +295,38 @@ public class WizardLibrarySettingPage extends WizardPage
 
 	}
 
-	
-	public void checkStatus(int type )
+	public void checkStatus( int type )
 	{
 		// Initialize a variable with the no error status
 		Status status = null;
-		if(type ==  PublishLibraryWizard.HAVE_NO_HANDLE )
+		if ( type == PublishLibraryWizard.HAVE_NO_HANDLE )
 		{
 			status = new Status( IStatus.OK, PLUGIN_ID, 0, PAGE_DESC2, null );
-		}else
+		}
+		else
 		{
 			status = new Status( IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null );
 		}
-		
-		
-		if ( isTextEmpty( nameText ) )
+
+		if ( type == PublishLibraryWizard.HAVE_NO_HANDLE
+				&& isTextEmpty( sourceFileText ) )
+		{
+			status = new Status( IStatus.ERROR,
+					PLUGIN_ID,
+					0,
+					Messages.getString( "PublishLibraryDialog.Message.SourceFileEmpty" ),
+					null );
+		}
+		else if ( type == PublishLibraryWizard.HAVE_NO_HANDLE
+				&& ( new File( sourceFileText.getText( ) ).isDirectory( ) || !new File( sourceFileText.getText( ) ).exists( ) ) )
+		{
+			status = new Status( IStatus.ERROR,
+					PLUGIN_ID,
+					0,
+					Messages.getFormattedString( "PublishLibraryDialog.Message.SourceFileNotFound",new String[]{sourceFileText.getText( )} ),
+					null );
+		}
+		else if ( isTextEmpty( nameText ) )
 		{
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
@@ -333,16 +350,7 @@ public class WizardLibrarySettingPage extends WizardPage
 					Messages.getString( "PublishLibraryDialog.Message.FolderEmpty" ),
 					null );
 		}
-		
-		if(type == PublishLibraryWizard.HAVE_NO_HANDLE && isTextEmpty(sourceFileText))
-		{
-			status = new Status( IStatus.ERROR,
-					PLUGIN_ID,
-					0,
-					Messages.getString( "PublishLibraryDialog.Message.SourceFileEmpty" ),
-					null );
-		}
-		
+
 		pageStatus = status;
 
 		// Show the most serious error
@@ -391,7 +399,7 @@ public class WizardLibrarySettingPage extends WizardPage
 				| GridData.GRAB_HORIZONTAL );
 		gridData.horizontalSpan = column;
 
-		text = new Text( container, style);
+		text = new Text( container, style );
 		text.setLayoutData( gridData );
 		return text;
 	}
@@ -403,7 +411,7 @@ public class WizardLibrarySettingPage extends WizardPage
 	{
 		return ( ( !isTextEmpty( nameText ) ) && ( !isTextEmpty( folderText ) ) && pageStatus.isOK( ) );
 	}
-	
+
 	private class Validator implements ISelectionStatusValidator
 	{
 
@@ -417,7 +425,7 @@ public class WizardLibrarySettingPage extends WizardPage
 			return OKStatus;
 		}
 	}
-	
+
 	private boolean isFileExists( String filePath )
 	{
 		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
@@ -430,7 +438,7 @@ public class WizardLibrarySettingPage extends WizardPage
 		}
 		return false;
 	}
-	
+
 	private String getFilePath( )
 	{
 		FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
@@ -468,5 +476,5 @@ public class WizardLibrarySettingPage extends WizardPage
 			return null;
 		}
 	}
-	
+
 }
