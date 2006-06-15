@@ -48,13 +48,20 @@ public abstract class AbstractChangeParameterActionHandler
 		{
 			long pageNumber = getPageNumber( context.getRequest( ), operation
 					.getOprand( ), docName );
-
+			
 			if ( !isValidPageNumber( context.getRequest( ), pageNumber, docName ) )
 			{
+				InputOptions options = new InputOptions( );
 				bookmark = getBookmark( operation.getOprand( ), attrBean );
+
+				if ( isToc( operation.getOprand( ), attrBean ) )
+				{
+					bookmark = ( getReportService( ) ).findTocByName( docName,
+							bookmark, options );
+				}
 				if ( bookmark != null && bookmark.length( ) > 0 )
 				{
-					InputOptions options = new InputOptions( );
+					
 					options.setOption( InputOptions.OPT_REQUEST, context
 							.getRequest( ) );
 					pageNumber = getReportService( ).getPageNumberByBookmark(
