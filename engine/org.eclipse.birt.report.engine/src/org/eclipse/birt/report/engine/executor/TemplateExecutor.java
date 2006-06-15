@@ -71,6 +71,11 @@ public class TemplateExecutor extends ReportItemExecutor
 
 		processVisibility( templateDesign, textContent );
 		
+		if ( emitter != null )
+		{
+			emitter.startLabel( textContent );
+		}
+		
 		return textContent;
 	}
 	
