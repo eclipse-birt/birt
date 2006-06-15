@@ -155,9 +155,23 @@
 		</jar>
 		<jar destfile="${api.jar.name}">
 			<fileset dir="${bin}">
-				<include name="org/eclipse/birt/report/data/adapter/api/**/*.class" />
-				<include name="org/eclipse/birt/report/data/adapter/i18n/*.*" />
-				<exclude name="org/eclipse/birt/report/data/adapter/i18n/package.html" />
+				<exclude name="**/Activator.class" />
+				
+				<include name="**/*.class" />
+				<include name="**/*.class" />
+				<include name="**/*.txt" />
+				<include name="**/*.xml" />
+				<include name="**/*.def" />
+				<include name="**/*.properties" />
+				<include name="**/*.jar" />
+				<exclude name="**/*Test.class" />
+				<exclude name="testutil/**" />
+				<exclude name="**/regre/**" />
+				<exclude name="**/perf/**" />
+				<exclude name="plugins/**" />
+				<exclude name="**/input/**" />
+				<exclude name="**/output/**" />
+				<exclude name="**/golden/**" />
 			</fileset>
 		</jar>
 	</target>
