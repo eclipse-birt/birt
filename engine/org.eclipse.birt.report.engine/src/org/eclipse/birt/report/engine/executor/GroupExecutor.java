@@ -10,8 +10,8 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 abstract public class GroupExecutor extends ReportItemExecutor
 {
-	boolean needPageBreak;
 	boolean endOfGroup;
+	boolean hiddenDetail;
 
 	ListingElementExecutor listingExecutor;
 
@@ -36,22 +36,30 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		{
 			return false;
 		}
-		IResultSet rset = listingExecutor.getResultSet( );
-		GroupDesign groupDesign = (GroupDesign)getDesign();
-		int endGroup = rset.getEndingGroupLevel( );
-		int groupLevel = groupDesign.getGroupLevel( ) + 1;
-		if (endGroup <= groupLevel)
+		
+		//FIXME: is it right? (hiden detail)
+		while ( !endOfGroup )
 		{
-			totalElements = 0;
-			currentElement = 0;
-			executableElements[totalElements++] = groupDesign.getFooter();
-			endOfGroup = true;
-			return true;
-		}
-		if ( rset.next( ) )
-		{
-			collectExecutableElements( );
-			return true;
+			IResultSet rset = listingExecutor.getResultSet( );
+			GroupDesign groupDesign = (GroupDesign)getDesign();
+			int endGroup = rset.getEndingGroupLevel( );
+			int groupLevel = groupDesign.getGroupLevel( ) + 1;
+			if (endGroup <= groupLevel)
+			{
+				totalElements = 0;
+				currentElement = 0;
+				executableElements[totalElements++] = groupDesign.getFooter();
+				endOfGroup = true;
+				return true;
+			}
+			if ( rset.next( ) )
+			{
+				collectExecutableElements( );
+				if ( currentElement < totalElements )
+				{
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -106,21 +114,25 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		//1 --> first group (0)
 		int groupLevel = groupDesign.getGroupLevel( ) + 1;
 		int startGroup = rset.getStartingGroupLevel( );
+		hiddenDetail = groupDesign.getHideDetail( );
 		if (startGroup <= groupLevel)
 		{
 			//this is the first record
 			executableElements[totalElements++] = groupDesign.getHeader( );
 		}
-		if (groupCount > groupLevel)
+		if ( !hiddenDetail )
 		{
-			executableElements[totalElements++] = listingDesign.getGroup( groupLevel );
-		}
-		else
-		{
-			executableElements[totalElements++] = listingDesign.getDetail( );
+			if (groupCount > groupLevel)
+			{
+				executableElements[totalElements++] = listingDesign.getGroup( groupLevel );
+			}
+			else 
+			{
+				executableElements[totalElements++] = listingDesign.getDetail( );
+			}
 		}
 		int endGroup = rset.getEndingGroupLevel( );
-		if (endGroup <= groupLevel)
+		if (endGroup <= groupLevel )
 		{
 			//this is the last record
 			executableElements[totalElements++] = groupDesign.getFooter( );
@@ -148,6 +160,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 	 */
 	protected void handlePageBreakBeforeOfGroup( )
 	{
+		boolean needPageBreak = false;		
 		GroupDesign groupDesign = (GroupDesign) design;
 		if ( groupDesign != null )
 		{
@@ -186,6 +199,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 
 	protected void handlePageBreakAfterOfGroup( )
 	{
+		boolean needPageBreak = false;
 		GroupDesign groupDesign = (GroupDesign) design;
 		if ( groupDesign != null )
 		{
