@@ -299,11 +299,13 @@ public final class ChartReportItemPresentationImpl extends
 				// Set back the cm into the handle from the engine, so that the
 				// chart inside the
 				// reportdesignhandle is the same as the one used during
-				// presentation.
+				// presentation. 
+				// No command should be executed, since it's a runtime operation
+				// Set the model directly through setModel and not setProperty
 				if ( cm != null && handle != null )
 				{
 					IReportItem item = handle.getReportItem( );
-					item.setProperty( "chart.instance", cm );//$NON-NLS-1$
+					((ChartReportItemImpl)item).setModel( cm );
 				}
 			}
 			ois.close( );
