@@ -30,6 +30,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 {
 	private static final Logger logger = Logger.getLogger( SampleDBJDBCConnectionFactory.class.getName( ) );
 	private Driver derbyDriver;
+	private DerbyClassLoader derbyClassLoader;
 	
 	/**
 	 * Creates a new JDBC connection to the embedded sample database.
@@ -70,13 +71,46 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 					SampleDBConstants.DERBY_DRIVER_CLASS + ", Url=" + dbUrl);
 		}
 
+		initClassLoaders();
+		
+		return getDerbyDriver().connect( dbUrl, props);
+	}
+	
+	/**
+	 * Sets up the thread context class loader to make sure that Derby works with our class loader
+	 */
+	private void initClassLoaders()
+	{
+		if ( derbyClassLoader == null )
+		{
+			// First time; create a derby class loader
+			derbyClassLoader = new DerbyClassLoader();
+		}
+		
+		// Set up context class loader every time
+		if ( derbyClassLoader.isGood() )
+		{
+			ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
+			if ( contextLoader != null && ! ( contextLoader instanceof ContextClassLoaderDelegator) )
+			{
+				// Replace context loader with a wrapper
+				Thread.currentThread().setContextClassLoader(
+						new ContextClassLoaderDelegator( contextLoader, derbyClassLoader ) );
+			}
+		}
+	}
+	
+	/**
+	 * Gets a new instance of Derby JDBC Driver
+	 */
+	private Driver getDerbyDriver() throws SQLException
+	{
 		if ( derbyDriver == null )
 		{
 			try
 			{
-				ClassLoader cl = new DerbyClassLoader();
-				derbyDriver = (Driver) Class.forName(
-						SampleDBConstants.DERBY_DRIVER_CLASS, true, cl).newInstance();
+				derbyDriver = (Driver) Class.forName( SampleDBConstants.DERBY_DRIVER_CLASS, 
+						true, derbyClassLoader ).newInstance();
 			}
 			catch ( Exception e)
 			{
@@ -85,8 +119,57 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 				throw new SQLException (e.getLocalizedMessage());
 			}
 		}
-
-		return derbyDriver.connect( dbUrl, props);
+		return derbyDriver;
+	}
+	
+	/**
+	 * Class loader to delegate Derby class and resource loading to our loader, and others 
+	 * to the default context loader
+	 */
+	private static class ContextClassLoaderDelegator extends ClassLoader
+	{
+		private DerbyClassLoader derbyLoader;
+		public ContextClassLoaderDelegator( ClassLoader defaultLoader, DerbyClassLoader derbyLoader)
+		{
+			super(defaultLoader);
+			assert derbyLoader != null;
+			assert derbyLoader.isGood();
+			this.derbyLoader = derbyLoader;
+		}
+		
+		/**
+		 * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
+		 */
+		protected synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException
+		{
+			if ( DerbyClassLoader.isDerbyClass(name) )
+			{
+				// Always delegate derby classes to derby class loader
+				return derbyLoader.loadClass( name, resolve);
+			}
+			else
+			{
+				// Delegate to default implementation, which will use parent classloader
+				return super.loadClass( name, resolve);
+			}
+		}
+		
+		/**
+		 * @see java.lang.ClassLoader#getResource(java.lang.String)
+		 */
+		public URL getResource(String name)
+		{
+			if ( DerbyClassLoader.isDerbyResource(name) )
+			{
+				// Always delegate derby resources to derby resource loader
+				return derbyLoader.getResource(name);
+			}			
+			else
+			{
+				// Delegate to default implementation, which will use parent classloader
+				return super.getResource( name);
+			}
+		}
 	}
 	
 	/**
@@ -95,6 +178,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 	 */
 	private static class DerbyClassLoader extends URLClassLoader
 	{
+		boolean isGood = false;
 		public DerbyClassLoader( ) 
 		{
 			super( new URL[0], DerbyClassLoader.class.getClassLoader() );
@@ -104,22 +188,46 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 			if ( derbyBundle == null )
 			{
 				// Shoudn't happen
-				logger.severe( "Failed to get find plugin org.apache.derby.core" );
+				logger.severe( "Failed to find plugin org.apache.derby.core" );
 			}
 			else
 			{
 				// Add derby.jar from this bundle to class path
 				URL fileURL = derbyBundle.getEntry( "derby.jar" );
-				addURL( fileURL );
+				if ( fileURL == null )
+				{
+					logger.severe( "Failed to find derby.jar in plugin org.apache.derby.core" );
+				}
+				else
+				{
+					addURL( fileURL );
+					isGood = true;
+				}
 			}
 			
 		}
+		
+		public static boolean isDerbyClass( String className )
+		{
+			return className.startsWith("org.apache.derby");
+		}
+		
+		public static boolean isDerbyResource( String name )
+		{
+			return name.startsWith("org/apache/derby") || name.startsWith("/org/apache/derby");
+		}
+		
+		public boolean isGood()
+		{
+			return isGood;
+		}
+		
 		/**
 		 * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
 		 */
 		protected synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException
 		{
-			if ( name.startsWith("org.apache.derby") )
+			if ( isGood && isDerbyClass(name) )
 			{
 				// All derby classes must be resolved against derby.jar in the plugin
 				// We will not check the parent class loader first. (this is the only difference 
@@ -148,7 +256,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 		 */
 		public URL getResource(String name)
 		{
-			if ( name.startsWith("org/apache/derby") || name.startsWith("/org/apache/derby") )
+			if ( isGood && isDerbyResource(name) )
 			{
 				if ( logger.isLoggable( Level.FINER ))
 						logger.finer("Load derby resource: " + name );
@@ -161,7 +269,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 		}
 		
 	}
-	
+		
 	/**
 	 * @return user name for db connection
 	 */
