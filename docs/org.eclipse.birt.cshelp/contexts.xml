@@ -612,4 +612,12 @@ Note that you must assign a resource file to the report before you can define lo
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-04-01.html" label="Retrieving data"/>
 </context>
+<context id="ParameterBindingDialog_ID" title="Dataset Parameter Binding">
+<description>This dialog box allows you to verify parameter bindings.
+
+Use the "Value" column to check or change the report parameter to which the data set parameter is bound.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-13-1.html" label="Enabling the user to filter data"/>
+</context>
 </contexts>
