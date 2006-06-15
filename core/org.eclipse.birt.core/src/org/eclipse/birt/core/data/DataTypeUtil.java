@@ -46,6 +46,9 @@ public final class DataTypeUtil
 
 	// Default Date/Time Style 
 	private static int DEFAULT_DATE_STYLE =DateFormat.MEDIUM;
+	
+	// cache DateFormatter of ICU
+	private static HashMap dfMap = new HashMap();
 
 	// resource bundle for exception messages 
 	public static ResourceBundle resourceBundle = ( new ResourceHandle( ULocale
@@ -905,7 +908,21 @@ public final class DataTypeUtil
 	 */
 	private static String toString( Date source, ULocale locale )
 	{
-		DateFormatter df = new DateFormatter( locale );
+		DateFormatter df = (DateFormatter) ( dfMap.get( locale ) );
+		if ( df == null )
+		{
+			// avoid any multi-thread issue
+			synchronized ( DataTypeUtil.class )
+			{
+				df = (DateFormatter) ( dfMap.get( locale ) );
+				if ( df == null )
+				{
+					df = new DateFormatter( locale );
+					dfMap.put( locale, df );
+				}
+			}
+		}
+
 		return df.format( (Date) source );
 	}
     
