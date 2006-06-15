@@ -1264,14 +1264,14 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				TOCNode rootTocNode = ( (IReportDocument) handle ).findTOC( null );
 				anchorChooser.setItems( (String[]) getAllTocDisplayString( rootTocNode ).toArray( new String[0] ) );
-				anchorChooser.setData( getAllTocBookmark( rootTocNode ) );
 			}
 			else
 			{
-				anchorChooser.setItems( (String[]) ( (IReportDocument) handle ).getBookmarks( )
-						.toArray( new String[0] ) );
+				anchorChooser.setItems( getDocumentBookmarks( (IReportDocument) handle ) );
 			}
 		}
+
+		bookmarkEditor.setText( "" ); //$NON-NLS-1$
 
 		String bookmark = inputHandle.getTargetBookmark( );
 		String[] chooserValues = anchorChooser.getItems( );
@@ -1280,28 +1280,27 @@ public class HyperlinkBuilder extends BaseDialog
 			for ( int i = 0; i < chooserValues.length; i++ )
 			{
 				if ( bookmark.equals( chooserValues[i] ) )
+				{
 					anchorChooser.select( i );
+					bookmarkEditor.setText( anchorChooser.getText( ) );
+				}
 			}
 		}
 
 		anchorChooser.setEnabled( anchorChooser.getItemCount( ) > 0 );
-		bookmarkEditor.setText( "" ); //$NON-NLS-1$
 	}
 
-	private List getAllTocBookmark( TOCNode parent )
+	private String[] getDocumentBookmarks( IReportDocument rdoc )
 	{
-		List tocList = new ArrayList( );
-		if ( parent.getParent( ) != null )
+		List bookmarks = rdoc.getBookmarks( );
+		String[] bookmarkArray = new String[bookmarks.size( )];
+		int i = 0;
+		for ( Iterator iter = bookmarks.iterator( ); iter.hasNext( ); )
 		{
-			tocList.add( parent.getBookmark( ) );
+			bookmarkArray[i] = "\"" + iter.next( ) + "\"";  //$NON-NLS-1$//$NON-NLS-2$
+			i++;
 		}
-		List childToc = parent.getChildren( );
-		for ( Iterator iter = childToc.iterator( ); iter.hasNext( ); )
-		{
-			TOCNode node = (TOCNode) iter.next( );
-			tocList.addAll( getAllTocBookmark( node ) );
-		}
-		return tocList;
+		return bookmarkArray;
 	}
 
 	private List getAllTocDisplayString( TOCNode parent )
@@ -1309,7 +1308,7 @@ public class HyperlinkBuilder extends BaseDialog
 		List tocList = new ArrayList( );
 		if ( parent.getParent( ) != null )
 		{
-			tocList.add( parent.getDisplayString( ) );
+			tocList.add( "\"" + parent.getDisplayString( ) + "\"" ); //$NON-NLS-1$//$NON-NLS-2$
 		}
 		List childToc = parent.getChildren( );
 		for ( Iterator iter = childToc.iterator( ); iter.hasNext( ); )
