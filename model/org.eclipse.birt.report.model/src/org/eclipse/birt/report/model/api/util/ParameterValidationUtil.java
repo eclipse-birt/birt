@@ -55,13 +55,13 @@ public class ParameterValidationUtil
 	 * the locale information, we will use it.
 	 */
 
-	private static ULocale DEFAULT_LOCALE = ULocale.US;
+	private static final ULocale DEFAULT_LOCALE = ULocale.US;
 
 	/**
 	 * Default date-time format string.
 	 */
 
-	public static final String DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss"; //$NON-NLS-1$
+	public static final String DEFAULT_DATETIME_FORMAT = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 
 	/**
 	 * Validates a input parameter value with the given data type. The returned
@@ -149,7 +149,7 @@ public class ParameterValidationUtil
 	{
 		try
 		{
-			return DataTypeUtil.toDate( value , locale ) ;
+			return DataTypeUtil.toDate( value, locale );
 		}
 		catch ( BirtException e )
 		{
@@ -672,6 +672,69 @@ public class ParameterValidationUtil
 	{
 		return getDisplayValue( dataType, format, value, ULocale
 				.forLocale( locale ) );
+	}
+
+	/**
+	 * Gets the display string for the value with default locale and default
+	 * format, The value must be the valid data type. That is:
+	 * 
+	 * <ul>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
+	 * must be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
+	 * be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
+	 * be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
+	 * be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
+	 * be <code>java.lang.String</code>.</li>
+	 * </ul>
+	 * 
+	 * @param value
+	 *  		the input value to validate
+	 * @return the formatted string
+	 */
+
+	static public String getDisplayValue( Object value )
+	{
+		if ( value instanceof Date )
+		{
+			DateFormatter formatter = new DateFormatter( DEFAULT_LOCALE );
+			formatter.applyPattern( DEFAULT_DATETIME_FORMAT );
+			return formatter.format( (Date) value );
+		}
+		else if ( value instanceof Float || value instanceof Double )
+		{
+			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );			
+			return formatter.format( ( (Double) value ).doubleValue( ) );
+		}
+		else if ( value instanceof BigDecimal )
+		{
+			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );			
+			return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
+		}
+		else if ( value instanceof Boolean )
+		{
+			if ( ( (Boolean) value ).booleanValue( ) )
+			{
+				return getMessage( DEFAULT_LOCALE,
+						BooleanPropertyType.BOOLEAN_TRUE_RESOURCE_KEY );
+			}
+
+			return getMessage( DEFAULT_LOCALE,
+					BooleanPropertyType.BOOLEAN_FALSE_RESOURCE_KEY );
+		}
+		else if ( value instanceof String )
+		{
+			StringFormatter formatter = new StringFormatter( DEFAULT_LOCALE );			
+			return formatter.format( (String) value );
+		}
+		else
+		{
+			StringFormatter formatter = new StringFormatter( DEFAULT_LOCALE );
+			return formatter.format( value.toString( ) );
+		}
 	}
 
 	/**

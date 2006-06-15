@@ -19,6 +19,7 @@ import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
@@ -89,8 +90,8 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 						// find the parameter
 						ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
 								.findParameter( paramValue.toString( ) );
-						
-						if ( parameter != null)
+
+						if ( parameter != null )
 						{
 							// set parametet to null value
 							parameterMap.put( paramValue, null );
@@ -104,11 +105,25 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 
 					if ( parameter != null && paramValue != null )
 					{
-						// use current locale to parse parameter
-						paramValue = ParameterValidationUtil.validate(
-								parameter.getDataType( ), parameter
-										.getPattern( ), paramValue.toString( ),
-								attrBean.getLocale( ) );
+						try
+						{
+							// use current locale to parse parameter
+							paramValue = ParameterValidationUtil
+									.validate( parameter.getDataType( ),
+											parameter.getPattern( ), paramValue
+													.toString( ), attrBean
+													.getLocale( ) );
+						}
+						catch ( ValidationValueException e )
+						{
+							// Convert string to object using default local
+							paramValue = ParameterValidationUtil
+									.validate(
+											parameter.getDataType( ),
+											ParameterValidationUtil.DEFAULT_DATETIME_FORMAT,
+											paramValue.toString( ) );
+						}
+
 					}
 
 					if ( parameter != null )

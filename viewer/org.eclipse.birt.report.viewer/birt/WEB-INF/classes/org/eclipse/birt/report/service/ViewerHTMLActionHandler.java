@@ -270,8 +270,7 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 							// TODO: here need the get the format from the
 							// parameter.
 							String value = ParameterValidationUtil
-									.getDisplayValue( null, null, valueObj,
-											locale );
+									.getDisplayValue( valueObj );
 
 							link
 									.append( ParameterAccessor

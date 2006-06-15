@@ -554,16 +554,29 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				continue;
 
 			String paramName = parameter.getName( );
-			Object paramValueObj = this.parametersAsString.get( paramName );
+			Object paramValueObj = this.parametersAsString.get( paramName );			
 
 			if ( paramValueObj != null )
 			{
-				// Convert locale string to object
 				try
 				{
-					paramValueObj = ParameterValidationUtil.validate( parameter
-							.getDataType( ), parameter.getPattern( ),
-							paramValueObj.toString( ), locale );
+					try
+					{
+						// Convert locale string to object
+						paramValueObj = ParameterValidationUtil.validate(
+								parameter.getDataType( ), parameter
+										.getPattern( ), paramValueObj
+										.toString( ), locale );
+					}
+					catch ( ValidationValueException e1 )
+					{
+						// Convert string to object using default local
+						paramValueObj = ParameterValidationUtil
+								.validate(
+										parameter.getDataType( ),
+										ParameterValidationUtil.DEFAULT_DATETIME_FORMAT,
+										paramValueObj.toString( ) );
+					}
 
 					params.put( paramName, paramValueObj );
 				}

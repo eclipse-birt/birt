@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
+
 /**
  * Defines a default action handler for HTML output format
  */
@@ -136,7 +138,8 @@ public class HTMLActionHandler implements IHTMLActionHandler
 						Object valueObj = entry.getValue( );
 						if ( valueObj != null )
 						{
-							String value = valueObj.toString( );
+							String value = ParameterValidationUtil
+									.getDisplayValue( valueObj );
 							link
 									.append( "&" + URLEncoder.encode( key, "UTF-8" ) //$NON-NLS-1$ //$NON-NLS-2$
 											+ "=" + URLEncoder.encode( value, "UTF-8" ) ); //$NON-NLS-1$ //$NON-NLS-2$
