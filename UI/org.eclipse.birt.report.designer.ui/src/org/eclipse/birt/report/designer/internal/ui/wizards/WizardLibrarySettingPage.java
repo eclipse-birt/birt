@@ -314,7 +314,7 @@ public class WizardLibrarySettingPage extends WizardPage
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getString( "PublishLibraryDialog.Message.SourceFileEmpty" ),
+					Messages.getString( "PublishLibraryDialog.Message.SourceFileEmpty" ), //$NON-NLS-1$
 					null );
 		}
 		else if ( type == PublishLibraryWizard.HAVE_NO_HANDLE
@@ -323,7 +323,7 @@ public class WizardLibrarySettingPage extends WizardPage
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getFormattedString( "PublishLibraryDialog.Message.SourceFileNotFound",new String[]{sourceFileText.getText( )} ),
+					Messages.getFormattedString( "AddLibraryAction.Error.FileNotFound",new String[]{sourceFileText.getText( )} ), //$NON-NLS-1$
 					null );
 		}
 		else if ( isTextEmpty( nameText ) )
