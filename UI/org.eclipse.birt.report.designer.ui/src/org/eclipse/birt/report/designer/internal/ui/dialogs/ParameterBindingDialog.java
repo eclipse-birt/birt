@@ -13,9 +13,11 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -23,11 +25,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * TODO: Please document
- * 
- * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:15 $
+ *  Dialog used for parameter binding
  */
-public class ParameterBindingDialog extends Dialog
+public class ParameterBindingDialog extends TrayDialog
 {
 
 	ArrayList items = new ArrayList( );
@@ -48,6 +48,7 @@ public class ParameterBindingDialog extends Dialog
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
+		UIUtil.bindHelp( parent, IHelpContextIds.PARAMETERBINDING_DIALOG_ID);
 		Composite composite = (Composite) super.createDialogArea( parent );
 		ParameterBindingPage page = new ParameterBindingPage( composite,
 				SWT.NONE );

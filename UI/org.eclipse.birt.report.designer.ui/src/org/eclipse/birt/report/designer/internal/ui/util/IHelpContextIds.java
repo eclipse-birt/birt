@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.util;
 
 /**
- * 
+ *  The interface is used for context-sensitive help IDs.
  */
 public interface IHelpContextIds
 {
@@ -107,6 +107,8 @@ public interface IHelpContextIds
 	public static final String ADD_LIBRARY_DIALOG_ID = PREFIX + "AddLibraryDialog_ID";
 	
 	public static final String COLUMNBINDING_DIALOG_ID = PREFIX + "ColumnBindingDialog_ID";
+	
+	public static final String PARAMETERBINDING_DIALOG_ID = PREFIX + "ParameterBindingDialog_ID";
 	
 	/*----------Control: Preference----------*/		
 	public static final String PREFERENCE_BIRT_DATA_SET_EDITOR_ID = PREFIX + "Preference_BIRT_DataSetEditor_ID";
