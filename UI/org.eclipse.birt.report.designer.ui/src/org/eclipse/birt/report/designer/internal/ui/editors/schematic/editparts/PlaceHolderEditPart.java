@@ -190,8 +190,11 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 			}
 			else
 			{
-				builder = ElementBuilderFactory.getInstance( ).createBuilder(
+				if(! (copiedHandle instanceof DataItemHandle))
+				{					
+					builder = ElementBuilderFactory.getInstance( ).createBuilder(
 						copiedHandle );
+				}
 				if ( builder == null )
 				{
 					performTransfer( );
@@ -213,12 +216,12 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 												.getResult( ) );
 
 							}
-							if ( copiedHandle instanceof DataItemHandle )
-							{
-								( (DataItemHandle) copiedHandle )
-										.setValueExpr( ( (ExpressionBuilder) builder )
-												.getResult( ) );
-							}
+//							if ( copiedHandle instanceof DataItemHandle )
+//							{
+//								( (DataItemHandle) copiedHandle )
+//										.setValueExpr( ( (ExpressionBuilder) builder )
+//												.getResult( ) );
+//							}
 						}
 						catch ( SemanticException e )
 						{
