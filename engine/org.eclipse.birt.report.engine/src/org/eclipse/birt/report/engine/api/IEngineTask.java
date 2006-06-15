@@ -12,11 +12,13 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
-import com.ibm.icu.util.ULocale;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * defines common features for an engine task. A task captures a set of operations that engine
@@ -126,4 +128,11 @@ public interface IEngineTask {
 	public void close();
 	
 	public void setDataSource( IDocArchiveReader dataSource );
+
+	/**
+	 * Gets all errors.
+	 * 
+	 * @return the errors list.
+	 */
+	public List getErrors( );
 }

@@ -96,7 +96,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.121 $ $Date: 2006/06/13 09:38:00 $
+ * @version $Revision: 1.122 $ $Date: 2006/06/13 15:38:38 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1208,7 +1208,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	boolean isRowInDetailBand(IRowContent row)
 	{
-		IBandContent band = (IBandContent)row.getParent( );
+		IElement parent = row.getParent( );
+		if ( !( parent instanceof IBandContent ) )
+		{
+			return false;
+		}
+		IBandContent band = (IBandContent)parent;
 		if (band.getBandType( ) == IBandContent.BAND_DETAIL)
 		{
 			return true;

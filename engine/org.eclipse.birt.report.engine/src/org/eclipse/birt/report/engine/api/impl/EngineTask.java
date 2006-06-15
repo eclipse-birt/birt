@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -513,7 +514,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.36 $ $Date: 2006/04/29 07:40:16 $
+	 * @version $Revision: 1.37 $ $Date: 2006/05/26 06:23:16 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -723,5 +724,10 @@ public abstract class EngineTask implements IEngineTask
 	public void setDataSource( IDocArchiveReader dataSource )
 	{
 		executionContext.setDataSource( dataSource );		
+	}
+	
+	public List getErrors( )
+	{
+		return executionContext.getErrors( );
 	}
 }

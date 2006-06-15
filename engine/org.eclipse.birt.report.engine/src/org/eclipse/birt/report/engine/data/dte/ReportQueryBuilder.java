@@ -99,7 +99,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.71 $ $Date: 2006/06/13 09:22:29 $
+ * @version $Revision: 1.72 $ $Date: 2006/06/13 15:37:46 $
  */
 public class ReportQueryBuilder
 {
@@ -107,8 +107,11 @@ public class ReportQueryBuilder
 	protected static Logger logger = Logger.getLogger( ReportQueryBuilder.class
 			.getName( ) );
 
+	private ExpressionUtil expressionUtil;
+
 	public ReportQueryBuilder( )
 	{
+		expressionUtil = new ExpressionUtil( );
 	}
 
 	/**
@@ -1328,7 +1331,7 @@ public class ReportQueryBuilder
 			{
 				List expressions = new ArrayList( );
 				expressions.add( expr );	
-				ITotalExprBindings totalExpressionBinding = ExpressionUtil
+				ITotalExprBindings totalExpressionBinding = expressionUtil
 					.prepareTotalExpressions( expressions, getCurrentGroupName( ) );
 				
 				addNewColumnBindings( query, totalExpressionBinding );
@@ -1373,7 +1376,7 @@ public class ReportQueryBuilder
 							.getRule( i ) ) );
 				}
 			}
-			ITotalExprBindings totalExpressionBindings = ExpressionUtil
+			ITotalExprBindings totalExpressionBindings = expressionUtil
 					.prepareTotalExpressions( expressions,
 							getCurrentGroupName( ) );
 
@@ -1579,7 +1582,7 @@ public class ReportQueryBuilder
 				}
 			}
 			
-			ITotalExprBindings totalExpressionBindings = ExpressionUtil
+			ITotalExprBindings totalExpressionBindings = expressionUtil
 					.prepareTotalExpressions( expressions, getCurrentGroupName( ) );
 			return totalExpressionBindings;
 		}

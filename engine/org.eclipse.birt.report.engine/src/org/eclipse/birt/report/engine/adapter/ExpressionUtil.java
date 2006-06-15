@@ -27,19 +27,21 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
  */
 public final class ExpressionUtil
 {
-	private static String TOTAL_PREFIX = "TOTAL_COLUMN_";
-	private static int totalColumnSuffix = 0;
+	private static final String TOTAL_PREFIX = "TOTAL_COLUMN_";
 
-	public static ITotalExprBindings prepareTotalExpressions( List exprs )
+	private int totalColumnSuffix = 0;
+
+	public ITotalExprBindings prepareTotalExpressions( List exprs )
 	{
 		return prepareTotalExpressions( exprs, null );
 	}
+
 	/**
 	 * 
 	 * @param exprs
 	 * @return
 	 */
-	public static ITotalExprBindings prepareTotalExpressions( List exprs, String groupName )
+	public ITotalExprBindings prepareTotalExpressions( List exprs, String groupName )
 	{
 		
 		TotalExprBinding result = new TotalExprBinding();
@@ -115,7 +117,7 @@ public final class ExpressionUtil
 	 * @param result
 	 * @param key
 	 */
-	private static void addConditionalExprBindings( TotalExprBinding result,
+	private void addConditionalExprBindings( TotalExprBinding result,
 			IConditionalExpression key, List bindings, String groupName )
 	{
 		IConditionalExpression ce = key;
@@ -147,7 +149,7 @@ public final class ExpressionUtil
 	 * @param oldExpression
 	 * @return
 	 */
-	private static String prepareTotalExpression( String oldExpression,
+	private String prepareTotalExpression( String oldExpression,
 			List columnBindings, String groupName )
 	{
 		if ( oldExpression == null )

@@ -80,7 +80,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.68 $ $Date: 2006/05/23 21:46:38 $
+ * @version $Revision: 1.69 $ $Date: 2006/06/13 15:37:16 $
  */
 public class ExecutionContext
 {
@@ -244,6 +244,7 @@ public class ExecutionContext
 	
 	private Map classLoaderCache = new HashMap( );
 	
+	private int MAX_ERRORS = 100;
 	/**
 	 * 
 	 */
@@ -1534,5 +1535,57 @@ public class ExecutionContext
 	public IResultSet getResultSet( )
 	{
 		return rset;
+	}
+
+	/**
+	 * Returns list or errors, the max count of the errors is
+	 * <code>MAX_ERRORS</code>
+	 * 
+	 * @return error list which has max error size limited to
+	 *         <code>MAX_ERRORS</code>
+	 */
+	public List getErrors( )
+	{
+		List errors = this.getAllErrors( );
+		if ( errors.size( ) > MAX_ERRORS )
+		{
+			errors = errors.subList( 0, MAX_ERRORS - 1 );
+		}
+		return errors;
+	}
+	
+	/**
+	 * Returns all errors.
+	 * 
+	 * @return list of all the errors.
+	 */
+	public List getAllErrors( )
+	{
+		List errors = new ArrayList( );
+		Iterator entries = elementExceptions.entrySet( ).iterator( );
+		while( entries.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) entries.next( );
+			List elementExceptions = ( (ElementExceptionInfo) entry.getValue( ) )
+					.getErrorList( );
+			errors.addAll( elementExceptions );
+		}
+		return errors;
+	}
+
+	/**
+	 * @return the mAX_ERRORS
+	 */
+	public int getMaxErrors( )
+	{
+		return MAX_ERRORS;
+	}
+	
+	/**
+	 * @param max_errors the mAX_ERRORS to set
+	 */
+	public void setMaxErrors( int maxErrors )
+	{
+		MAX_ERRORS = maxErrors;
 	}
 }

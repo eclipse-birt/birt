@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Image;
 import org.eclipse.birt.report.engine.script.internal.instance.ImageInstance;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 
 public class ImageScriptExecutor extends ScriptExecutor
@@ -87,7 +88,12 @@ public class ImageScriptExecutor extends ScriptExecutor
 	private static IImageEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{
-		ImageHandle handle = ( ImageHandle ) design.getHandle( );
+		DesignElementHandle designHandle = design.getHandle( );
+		if ( !( designHandle instanceof ImageHandle ))
+		{
+			return null;
+		}
+		ImageHandle handle = ( ImageHandle ) designHandle;
 		if ( handle == null )
 			return null;
 		return getEventHandler( handle, context );
