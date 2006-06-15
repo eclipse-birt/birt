@@ -12,6 +12,8 @@ package org.eclipse.birt.report.designer.data.ui.property;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage;
+import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPageContainer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -19,7 +21,7 @@ import org.eclipse.swt.widgets.Control;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/08 01:58:42 $
+ * @version $Revision: 1.1 $ $Date: 2006/04/20 10:57:45 $
  */
 
 public final class PropertyNode
