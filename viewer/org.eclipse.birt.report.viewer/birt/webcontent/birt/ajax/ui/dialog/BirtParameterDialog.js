@@ -345,9 +345,15 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 */	
 	__close : function( )
 	{
-		window.status = "close";
-		//window.opener = null;
-		//window.close( );
+		if ( BrowserUtility.__isIE( ) )
+		{
+			window.opener = null;
+			window.close( );
+		}
+		else
+		{
+			window.status = "close";
+		}
 	},
 	
 	/**
