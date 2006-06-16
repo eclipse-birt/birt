@@ -313,6 +313,8 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 				coreStream = new DataOutputStream( new BufferedOutputStream(
 						out ) );
 				IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );
+				//in BIRT 2.1.0.RC6 and final, use the document version *2.1.0*
+				//use document version *1.2.1.RC4*, only in 2.1.0.RC5
 				IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION_1_2_1_RC4 );
 				IOUtil.writeString( coreStream, designName );
 				IOUtil.writeMap( coreStream, paramters );
