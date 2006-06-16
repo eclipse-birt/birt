@@ -46,6 +46,7 @@ import org.eclipse.birt.report.engine.script.internal.instance.GridInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.ImageInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.LabelInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.ListInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.ReportElementInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.RowInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.TableInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.TextItemInstance;
@@ -71,6 +72,12 @@ public class ElementUtil
 		public Object visit( IContent content, Object value )
 		{
 			return content.accept( this, value );
+		}
+
+		public Object visitContent( IContent content, Object value )
+		{
+			ExecutionContext context = (ExecutionContext)value;
+			return new ReportElementInstance( content, context );
 		}
 
 		public Object visitCell( ICellContent cell, Object value )
