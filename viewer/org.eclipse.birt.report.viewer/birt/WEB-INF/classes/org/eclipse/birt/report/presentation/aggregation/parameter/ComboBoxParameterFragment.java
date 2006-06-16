@@ -91,15 +91,20 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 				ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
 						.next( );
 
-				// Convert parameter value using locale format
-				String value = ParameterValidationUtil.getDisplayValue( null,
-						parameterHandle.getPattern( ),
-						selectionItem.getValue( ), attrBean.getLocale( ) );
+				// Convert parameter value using standard format
+				String value = ParameterValidationUtil
+						.getDisplayValue( selectionItem.getValue( ) );
 
 				String label = selectionItem.getLabel( );
-				label = ( label == null || label.length( ) <= 0 )
-						? value
-						: label;
+				if ( label == null || label.length( ) <= 0 )
+				{
+					// If label is null or blank, then use the format parameter
+					// value for display
+					label = ParameterValidationUtil.getDisplayValue( null,
+							parameterHandle.getPattern( ), selectionItem
+									.getValue( ), attrBean.getLocale( ) );
+				}
+
 				label = ParameterAccessor.htmlEncode( label );
 
 				if ( label != null )
