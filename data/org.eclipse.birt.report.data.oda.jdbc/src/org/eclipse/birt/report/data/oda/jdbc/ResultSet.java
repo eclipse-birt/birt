@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -522,8 +523,18 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
-					e );
+			// especially for the PostgreSQL driver, which does blobs via byte
+			// array
+			try
+			{
+				byte[] bytes = rs.getBytes( columnName );
+				return new Blob( SqlBlobUtil.newBlob( new ByteArrayInputStream( bytes ) ) );
+			}
+			catch ( SQLException e2 )
+			{
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+						e2 );
+			}
 		}
 	}
 
@@ -554,8 +565,18 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
-					e );
+			// especially for the PostgreSQL driver, which does blobs via byte
+			// array
+			try
+			{
+				byte[] bytes = rs.getBytes( index );
+				return new Blob( SqlBlobUtil.newBlob( new ByteArrayInputStream( bytes ) ) );
+			}
+			catch ( SQLException e2 )
+			{
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+						e2 );
+			}
 		}
 	}
 
