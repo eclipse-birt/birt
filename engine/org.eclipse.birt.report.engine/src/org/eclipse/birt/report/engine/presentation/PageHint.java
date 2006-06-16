@@ -42,6 +42,12 @@ public class PageHint implements IPageHint
 		pageNumber = 0;
 		offset = -1;
 	}
+	
+	public PageHint( long pageNumber, long pageOffset  )
+	{
+		this.pageNumber = pageNumber;
+		offset = pageOffset;
+	}
 
 	public PageHint( long pageNumber, long pageOffset, long pageStart,
 			long pageEnd )

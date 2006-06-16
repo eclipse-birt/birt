@@ -16,6 +16,12 @@ public class DOMReportItemExecutor implements IReportItemExecutor
 	{
 		this.manager = manager;
 	}
+	
+	public DOMReportItemExecutor(IContent content)
+	{
+		this.content = content;
+		this.manager = new DOMReportItemExecutorManager();
+	}
 
 	void setContent( IContent content )
 	{

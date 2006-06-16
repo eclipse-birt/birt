@@ -367,7 +367,7 @@ public class Table
 	 * remove the cell from table layout buffer. The grid cell used by this cell
 	 * fills EMPTY_CELL.
 	 * 
-	 * @param curRowContent
+	 * @param rowId
 	 *            row index
 	 * @param colId
 	 *            column index

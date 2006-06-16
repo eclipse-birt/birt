@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.33 $ $Date: 2006/05/25 08:10:11 $
+ * @version $Revision: 1.35 $ $Date: 2006/06/13 15:37:16 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -134,7 +134,7 @@ public class GridItemExecutor extends QueryItemExecutor
 			RowDesign rowDesign = gridDesign.getRow( curRowDesign++ );
 			RowExecutor rowExecutor = (RowExecutor)manager.createExecutor( this,
 					rowDesign );
-			rowExecutor.setRowId( curRowContent );
+			rowExecutor.setRowId( curRowContent++ );
 			return rowExecutor;
 		}
 		return null;

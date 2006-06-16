@@ -12,6 +12,7 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 
 public class ReportReader extends AbstractReportReader
 {
+
 	public ReportReader( ExecutionContext context )
 	{
 		super( context );

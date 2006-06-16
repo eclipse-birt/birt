@@ -27,14 +27,18 @@ import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -90,7 +94,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 
 		TOCNode root = reportDoc.findTOC( "/" );
 		reportContent.setTOC( root );
-		
+
 		dataEngine = context.getDataEngine( );
 		dataEngine.prepare( report, context.getAppContext( ) );
 
@@ -159,7 +163,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 			{
 				Object generateBy = report.getReportItemByID( designId );
 				content.setGenerateBy( generateBy );
-				//System.out.println( generateBy.getClass( ));
+				// System.out.println( generateBy.getClass( ));
 				if ( generateBy instanceof ReportItemDesign )
 				{
 					context.setItemDesign( (ReportItemDesign) generateBy );
@@ -457,4 +461,43 @@ public abstract class AbstractReportReader implements IReportExecutor
 			}
 		}
 	};
+
+	public void execute( ReportDesignHandle reportDesign,
+			IContentEmitter emitter )
+	{
+		IReportContent reportContent = execute( );
+		if ( emitter != null )
+		{
+			emitter.start( reportContent );
+		}
+		while ( hasNextChild( ) )
+		{
+			IReportItemExecutor executor = getNextChild( );
+			execute( executor, emitter );
+		}
+		if ( emitter != null )
+		{
+			emitter.end( reportContent );
+		}
+		close( );
+	}
+
+	protected void execute( IReportItemExecutor executor,
+			IContentEmitter emitter )
+	{
+		IContent content = executor.execute( );
+		if ( emitter != null )
+		{
+			ContentEmitterUtil.startContent( content, emitter );
+		}
+		while ( executor.hasNextChild( ) )
+		{
+			IReportItemExecutor child = executor.getNextChild( );
+			execute( child, emitter );
+		}
+		if ( emitter != null )
+		{
+			ContentEmitterUtil.endContent( content, emitter );
+		}
+	}
 }

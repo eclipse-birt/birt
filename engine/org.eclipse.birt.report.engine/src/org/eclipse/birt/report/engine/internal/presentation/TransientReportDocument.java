@@ -52,7 +52,7 @@ public class TransientReportDocument implements IReportDocument
 
 	public String getVersion( )
 	{
-		return ReportDocumentConstants.REPORT_DOCUMENT_VERSION_1_2_1;
+		return ReportDocumentConstants.REPORT_DOCUMENT_VERSION_2_1_0;
 	}
 
 	public String getName( )

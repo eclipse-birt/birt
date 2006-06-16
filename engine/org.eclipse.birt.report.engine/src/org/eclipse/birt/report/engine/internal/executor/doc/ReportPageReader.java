@@ -228,7 +228,7 @@ public class ReportPageReader extends ReportReader
 			long pageNumber = nextPage + 1;
 			// test if it is in the current range
 			long[] pageRange = (long[]) outputPages.get( curPageRange );
-			if ( pageRange[0] >= pageNumber && pageRange[1] >= pageNumber )
+			if ( pageRange[0] <= pageNumber && pageRange[1] >= pageNumber )
 			{
 				return pageNumber;
 			}

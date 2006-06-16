@@ -16,7 +16,7 @@ import java.util.HashMap;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.executor.ReportExecutor;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
 
 /**
  * Defines interface to supply emitters with necessary information
@@ -64,5 +64,5 @@ public interface IEmitterServices
 	 */
 	public IEngineTask getTask( );
 	
-	public ReportExecutor getExecutor();
+	public IReportExecutor getExecutor();
 }

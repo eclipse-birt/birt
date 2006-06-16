@@ -16,7 +16,7 @@ import java.util.HashMap;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.executor.ReportExecutor;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
 
 /**
  * Provides necessray information to emitters
@@ -26,7 +26,7 @@ public class EngineEmitterServices implements IEmitterServices
 	/**
 	 * report executor
 	 */
-	public ReportExecutor executor;
+	public IReportExecutor executor;
 
 	/**
 	 * emitter configuration information
@@ -161,12 +161,12 @@ public class EngineEmitterServices implements IEmitterServices
 		return task;
 	}
 
-	public ReportExecutor getExecutor()
+	public IReportExecutor getExecutor()
 	{
 		return executor;
 	}
 	
-	public void setExecutor(ReportExecutor executor)
+	public void setExecutor(IReportExecutor executor)
 	{
 		this.executor = executor;
 	}

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.presentation;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +29,8 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintWriterV2;
@@ -36,6 +39,10 @@ import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
+import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
+import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
+import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 
 public class ReportDocumentBuilder
 {
@@ -104,24 +111,27 @@ public class ReportDocumentBuilder
 	{
 		this.executionContext = context;
 		this.document = document;
-		contentEmitter = new ContentEmitter( );
 		pageEmitter = new PageEmitter( );
 		layoutPageHandler = new LayoutPageHandler( );
+		contentEmitter = new ContentEmitter( );
 	}
 
 	public IContentEmitter getContentEmitter( )
 	{
 		return contentEmitter;
 	}
-
-	public IContentEmitter getPageEmitter( )
+	
+	public void build( )
 	{
-		return pageEmitter;
+		IReportExecutor executor = executionContext.getExecutor( );
+		IReportLayoutEngine engine = LayoutEngineFactory.createLayoutEngine( "html" );
+		engine.setPageHandler( layoutPageHandler);
+		engine.layout(executor, pageEmitter);
 	}
-
-	public ILayoutPageHandler getLayoutPageHandler( )
+	
+	void cancel()
 	{
-		return layoutPageHandler;
+		//FIXME: implement
 	}
 
 	public void setPageHandler( IPageHandler handler )
@@ -132,7 +142,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.4 $ $Date: 2006/06/09 09:35:30 $
+	 * @version $Revision: 1.5 $ $Date: 2006/06/13 15:37:42 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -225,7 +235,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.4 $ $Date: 2006/06/09 09:35:30 $
+	 * @version $Revision: 1.5 $ $Date: 2006/06/13 15:37:42 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{
@@ -283,10 +293,6 @@ public class ReportDocumentBuilder
 				logger.log( Level.SEVERE, "write page content failed", ex );
 				close( );
 			}
-		}
-
-		public void endPage( IPageContent page )
-		{
 		}
 
 		public void startContent( IContent content )
@@ -375,12 +381,22 @@ public class ReportDocumentBuilder
 			}
 		}
 
-		public void onPage( int pageNumber, Object context )
+		protected long getOffset( IContent content )
 		{
-
-			if ( context instanceof DefaultPaginationEmitter.LayoutContext )
+			DocumentExtension docExt = (DocumentExtension) content
+					.getExtension( IContent.DOCUMENT_EXTENSION );
+			if ( docExt != null )
 			{
-				DefaultPaginationEmitter.LayoutContext layoutContext = (DefaultPaginationEmitter.LayoutContext) context;
+				return docExt.getIndex( );
+			}
+			return -1;
+		}
+
+		public void onPage( long pageNumber, Object context )
+		{
+			if ( context instanceof HTMLLayoutContext )
+			{
+				HTMLLayoutContext htmlContext = (HTMLLayoutContext) context;
 
 				boolean checkpoint = false;
 				// check points for page 1, 10, 50, 100, 200 ...
@@ -391,10 +407,7 @@ public class ReportDocumentBuilder
 					checkpoint = true;
 				}
 
-				long startOffset = layoutContext.startOffset;
-				long endOffset = layoutContext.endOffset;
-
-				boolean reportFinished = layoutContext.finished;
+				boolean reportFinished = htmlContext.isFinished( );
 				if ( reportFinished )
 				{
 					writeTotalPage( pageNumber );
@@ -403,8 +416,15 @@ public class ReportDocumentBuilder
 				}
 				else
 				{
-					PageHint hint = new PageHint( pageNumber, pageOffset,
-							startOffset, endOffset );
+					ArrayList pageHint = htmlContext.getPageHint( );
+					PageHint hint = new PageHint( pageNumber, pageOffset );
+					for ( int i = 0; i < pageHint.size( ); i++ )
+					{
+						IContent[] range = (IContent[]) pageHint.get( i );
+						long startOffset = getOffset( range[0] );
+						long endOffset = getOffset( range[1] );
+						hint.addSection( startOffset, endOffset );
+					}
 					writePageHint( hint );
 					if ( checkpoint )
 					{
@@ -431,7 +451,7 @@ public class ReportDocumentBuilder
 							archive.flush( );
 						}
 					}
-					catch(IOException ex)
+					catch ( IOException ex )
 					{
 						logger.log( Level.SEVERE,
 								"Failed to flush the report document", ex );
@@ -442,7 +462,7 @@ public class ReportDocumentBuilder
 				{
 					IReportDocumentInfo docInfo = new ReportDocumentInfo(
 							executionContext, pageNumber, reportFinished );
-					pageHandler.onPage( pageNumber, checkpoint, docInfo );
+					pageHandler.onPage( (int) pageNumber, checkpoint, docInfo );
 				}
 			}
 		}

@@ -80,7 +80,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.69 $ $Date: 2006/06/13 15:37:16 $
+ * @version $Revision: 1.70 $ $Date: 2006/06/15 07:13:45 $
  */
 public class ExecutionContext
 {
@@ -1042,7 +1042,7 @@ public class ExecutionContext
 		{
 			return renderOption.getOutputFormat( );
 		}
-		return null;
+		return "html";
 	}
 
 	public class ElementExceptionInfo
@@ -1285,7 +1285,7 @@ public class ExecutionContext
 	 * 
 	 * @param executor
 	 */
-	public void setExecutor( ReportExecutor executor )
+	public void setExecutor( IReportExecutor executor )
 	{
 		this.executor = executor;
 	}

@@ -82,6 +82,8 @@ public class Fragment
 			// search the insert point in the edge tree
 			rightEdge = addFragment( rightEdge, rightEdges[i] );
 		}
+		//add it into right
+		rightEdge.segment.endSegment( Long.MIN_VALUE );
 	}
 
 	/**

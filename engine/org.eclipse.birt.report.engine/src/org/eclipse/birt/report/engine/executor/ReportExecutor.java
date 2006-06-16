@@ -49,7 +49,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.36 $ $Date: 2006/05/09 08:41:49 $
+ * @version $Revision: 1.37 $ $Date: 2006/06/13 15:37:16 $
  */
 public class ReportExecutor implements IReportExecutor
 {
@@ -231,8 +231,9 @@ public class ReportExecutor implements IReportExecutor
 		return this.manager;
 	}
 
-	public IPageContent createPage( long pageNumber, MasterPageDesign pageDesign )
+	public IPageContent createPage( long pageNumber,
+			MasterPageDesign masterDesign )
 	{
-		return null;
+		return executeMasterPage( (int) pageNumber, masterDesign );
 	}
 }

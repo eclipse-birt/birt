@@ -15,13 +15,14 @@ package org.eclipse.birt.report.engine.executor.buffermgr;
 /**
  * CELL in table layout
  * 
- * @version $Revision: 1.3 $ $Date: 2005/11/10 08:55:19 $
+ * @version $Revision: 1.2 $ $Date: 2005/11/11 06:26:50 $
  */
 public class Cell
 {
 	public interface Content
 	{
 		boolean isEmpty();
+		void reset( );
 	};
 	
 	final static Cell EMPTY_CELL = new Cell(Cell.CELL_EMPTY);

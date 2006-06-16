@@ -26,12 +26,10 @@ import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
-import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.presentation.HTMLPaginationBuilder;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -146,28 +144,6 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		writer.close( );
 	}
 
-	private IContentEmitter createContentEmitter( )
-	{
-		ReportDocumentBuilder documentBuilder = new ReportDocumentBuilder(
-				executionContext, writer );
-		if ( pageHandler != null )
-		{
-			documentBuilder.setPageHandler( pageHandler );
-		}
-
-		HTMLPaginationBuilder paginationBuilder = new HTMLPaginationBuilder(
-				executionContext );
-		paginationBuilder.setOutputEmitter( documentBuilder.getPageEmitter( ) );
-		paginationBuilder.setLayoutPageHandler( documentBuilder
-				.getLayoutPageHandler( ) );
-
-		CompositeContentEmitter emitter = new CompositeContentEmitter( );
-		emitter.addEmitter( documentBuilder.getContentEmitter( ) );
-		emitter.addEmitter( paginationBuilder.getInputEmitter( ) );
-
-		return emitter;
-	}
-	
 	private void initializeContentEmitter(IContentEmitter emitter, ReportExecutor executor)
 	{
 		// create the emitter services object that is needed in the emitters.
@@ -213,16 +189,25 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		{
 			writer.saveDesign( reportDesign );
 			writer.saveParamters( inputValues );
+
+			executionContext.openDataEngine( );
 			
-			IContentEmitter emitter = createContentEmitter( );
-			
+			ReportDocumentBuilder documentBuilder = new ReportDocumentBuilder(
+					executionContext, writer );
+			if ( pageHandler != null )
+			{
+				documentBuilder.setPageHandler( pageHandler );
+			}
+
+			IContentEmitter emitter = documentBuilder.getContentEmitter();
 			ReportExecutor executor = new ReportExecutor( executionContext, reportDesign, emitter );
 			executionContext.setExecutor( executor );
 			
 			initializeContentEmitter(emitter, executor);
 
-			executionContext.openDataEngine( );
-			executor.execute( reportDesign, emitter );
+			documentBuilder.build( );
+			
+			
 			executionContext.closeDataEngine( );
 
 			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );

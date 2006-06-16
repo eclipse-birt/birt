@@ -77,8 +77,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	private ExecutionContext context;
 	private Locale locale;
 	private String outputFormat;
-	protected IReportContent report;
-	protected ReportDesignHandle design;
 	protected HashMap templates = new HashMap( );
 	
 	public LocalizedContentVisitor( ExecutionContext context )
@@ -86,9 +84,18 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		this.context = context;
 		this.locale = context.getLocale( );
 		this.outputFormat = context.getOutputFormat( );
-		report = context.getReportContent( );
-		design = report.getDesign( ).getReportDesign( );
 	}
+	
+	IReportContent getReportContent( )
+	{
+		return context.getReportContent( );
+	}
+
+	ReportDesignHandle getReportDesign( )
+	{
+		return context.getDesign( );
+	}
+	
 	
 	public IContent localize(IContent content)
 	{
@@ -311,6 +318,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 */
 	public Object visitForeign( IForeignContent foreignContent, Object value )
 	{
+		IReportContent reportContent = getReportContent( );
+		
 		String rawFormat = foreignContent.getRawType( );
 		Object rawValue = foreignContent.getRawValue( );
 
@@ -336,7 +345,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			}
 			if ( rawValue instanceof byte[] )
 			{
-				IImageContent imageContent = report
+				IImageContent imageContent = reportContent
 						.createImageContent( foreignContent );
 				imageContent.setImageSource( IImageContent.IMAGE_EXPRESSION );
 				imageContent.setData( (byte[]) rawValue );
@@ -348,7 +357,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		if ( IForeignContent.TEXT_TYPE.equals( rawFormat ) )
 		{
 			TextItemScriptExecutor.handleOnRender( foreignContent, context );
-			ITextContent textContent = report
+			ITextContent textContent = reportContent
 					.createDataContent( foreignContent );
 			textContent.setText( rawValue == null ? "" : rawValue.toString( ) ); //$NON-NLS-1$
 			return textContent;
@@ -357,7 +366,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		if ( IForeignContent.VALUE_TYPE.equals( rawFormat ) )
 		{
 			DynamicTextScriptExecutor.handleOnRender( foreignContent, context );
-			IDataContent dataContent = report
+			IDataContent dataContent = reportContent
 					.createDataContent( foreignContent );
 			dataContent.setValue( rawValue );
 			processData( dataContent );
@@ -378,9 +387,10 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 */
 	private String localize( String key, String text )
 	{
-		if ( key != null && design != null )
+		ReportDesignHandle reportDesign = getReportDesign( ); 
+		if ( key != null && reportDesign != null )
 		{
-			String t = design.getMessage( key, locale );
+			String t = reportDesign.getMessage( key, locale );
 			if ( t != null )
 			{
 				return t;
@@ -601,6 +611,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		assert IForeignContent.EXTERNAL_TYPE.equals( content.getRawType( ) );
 		assert output != null;
 
+		IReportContent reportContent = getReportContent( );
+		
 		switch ( type )
 		{
 			case IReportItemPresentation.OUTPUT_NONE :
@@ -643,7 +655,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 				}
 
-				IImageContent imageObj = report.createImageContent( content );
+				IImageContent imageObj = reportContent.createImageContent( content );
 				// Set image map
 				imageObj.setImageSource( IImageContent.IMAGE_EXPRESSION );
 				imageObj.setData( imageContent );
@@ -654,7 +666,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 			case IReportItemPresentation.OUTPUT_AS_CUSTOM :
 
-				IDataContent dataObj = report.createDataContent( content );
+				IDataContent dataObj = reportContent.createDataContent( content );
 				dataObj.setValue( output );
 				processData( dataObj );
 				return dataObj;
@@ -665,7 +677,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				return content;
 
 			case IReportItemPresentation.OUTPUT_AS_TEXT :
-				ITextContent textObj = report.createTextContent( );
+				ITextContent textObj = reportContent.createTextContent( );
 				textObj.setText( output.toString( ) );
 				return textObj;
 				

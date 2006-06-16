@@ -1,16 +1,20 @@
+
 package org.eclipse.birt.report.engine.content;
+
+import org.eclipse.birt.report.engine.ir.BandDesign;
 
 public interface IBandContent extends IContainerContent
 {
-	public static final int BAND_HEADER = 0;
-	public static final int BAND_FOOTER = 2;
-	public static final int BAND_GROUP_HEADER = 3;
-	public static final int BAND_GROUP_FOOTER = 4;
-	public static final int BAND_DETAIL = 5;
+
+	public static final int BAND_HEADER = BandDesign.BAND_HEADER;
+	public static final int BAND_FOOTER = BandDesign.BAND_FOOTER;
+	public static final int BAND_GROUP_HEADER = BandDesign.GROUP_HEADER;
+	public static final int BAND_GROUP_FOOTER = BandDesign.GROUP_FOOTER;
+	public static final int BAND_DETAIL = BandDesign.BAND_DETAIL;
 
 	int getBandType( );
-	
-	void setBandType(int bandType);
-	
+
+	void setBandType( int bandType );
+
 	String getGroupID( );
 }

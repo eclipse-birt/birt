@@ -150,6 +150,21 @@ public class ReportItemReader implements IReportItemExecutor
 				DocumentExtension docExt = (DocumentExtension) content
 						.getExtension( IContent.DOCUMENT_EXTENSION );
 				child = docExt.getFirstChild( );
+				if (child != -1 && fragment != null)
+				{
+					if ( !fragment.inFragment( child ) )
+					{
+						Fragment childFragment = fragment.getNextFragment( -1 );
+						if ( childFragment != null )
+						{
+							child = childFragment.offset;
+						}
+						else
+						{
+							child = -1;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -221,6 +236,8 @@ public class ReportItemReader implements IReportItemExecutor
 				Fragment headerFrag = fragment.getFragment( headerOffset );
 				headerFrag.addFragment( new long[]{},
 						new long[]{Long.MAX_VALUE} );
+				//reset the child offset
+				child = headerOffset;
 			}
 		}
 	}

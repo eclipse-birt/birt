@@ -51,7 +51,7 @@ public class ContentVisitorAdapter implements IContentVisitor
 
 	public Object visitCell( ICellContent cell, Object value )
 	{
-		return visitContent( cell, value );
+		return visitContainer( cell, value );
 	}
 
 	public Object visitText( ITextContent text, Object value )

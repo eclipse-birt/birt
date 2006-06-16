@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.engine.content.impl;
 
 import java.util.Iterator;
@@ -6,35 +7,33 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.ir.TableItemDesign;
-
+import org.eclipse.birt.report.engine.ir.ListItemDesign;
 
 public class ListContent extends ContainerContent implements IListContent
 {
 
 	Boolean headerRepeat;
-	
+
 	public ListContent( IReportContent report )
 	{
 		super( report );
 	}
-	
+
 	public int getContentType( )
 	{
 		return LIST_CONTENT;
 	}
 
-	
 	public Object accept( IContentVisitor visitor, Object value )
 	{
-		return visitor.visitList(this, value);
+		return visitor.visitList( this, value );
 	}
 
 	public void setHeaderRepeat( boolean headerRepeat )
 	{
-		if (generateBy instanceof TableItemDesign)
+		if ( generateBy instanceof ListItemDesign )
 		{
-			if ( ( (TableItemDesign) generateBy ).isRepeatHeader( ) == headerRepeat )
+			if ( ( (ListItemDesign) generateBy ).isRepeatHeader( ) == headerRepeat )
 			{
 				this.headerRepeat = null;
 				return;
@@ -49,14 +48,14 @@ public class ListContent extends ContainerContent implements IListContent
 		{
 			return headerRepeat.booleanValue( );
 		}
-		if ( generateBy instanceof TableItemDesign )
+		if ( generateBy instanceof ListItemDesign )
 		{
-			return ( (TableItemDesign) generateBy ).isRepeatHeader( );
+			return ( (ListItemDesign) generateBy ).isRepeatHeader( );
 		}
 
 		return false;
 	}
-	
+
 	public IListBandContent getHeader( )
 	{
 		return getListBand( IListBandContent.BAND_HEADER );

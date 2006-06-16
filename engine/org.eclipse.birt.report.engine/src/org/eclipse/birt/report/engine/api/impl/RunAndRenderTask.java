@@ -23,11 +23,13 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.presentation.HTMLPaginationBuilder;
-import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
+import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
+import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
+import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -53,16 +55,11 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		super( engine, runnable );
 	}
 
-	private IContentEmitter createContentEmitter( )
-			throws EngineException
+	private IContentEmitter createContentEmitter( ) throws EngineException
 	{
 
 		String format = executionContext.getOutputFormat( );
-		if ( format == null )
-		{
-			format = "html"; //$NON-NLS-1$
-		}
-		
+
 		ExtensionManager extManager = ExtensionManager.getInstance( );
 		boolean supported = false;
 		Collection supportedFormats = extManager.getSupportedFormat( );
@@ -84,7 +81,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			throw new EngineException(
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 		}
-		
+
 		IContentEmitter emitter = null;
 		try
 		{
@@ -105,30 +102,11 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION );
 		}
 
-		// localized emitter
-		emitter = new LocalizedEmitter( executionContext, emitter );
-
-		// if we need do the paginate, do the paginate.
-		if ( format.equalsIgnoreCase( "html" ) ) //$NON-NLS-1$
-		{
-			boolean paginate = true;
-			if ( renderOptions instanceof HTMLRenderOption )
-			{
-				HTMLRenderOption htmlOption = (HTMLRenderOption) renderOptions;
-				paginate = htmlOption.getHtmlPagination( );
-			}
-			if ( paginate )
-			{
-				HTMLPaginationBuilder paginationBuilder = new HTMLPaginationBuilder(executionContext);
-				paginationBuilder.setOutputEmitter( emitter );
-				emitter = paginationBuilder.getInputEmitter( );
-			}
-		}
-
 		return emitter;
 	}
-	
-	private void initializeContentEmitter(IContentEmitter emitter, ReportExecutor executor)
+
+	private void initializeContentEmitter( IContentEmitter emitter,
+			IReportExecutor executor )
 	{
 		// create the emitter services object that is needed in the emitters.
 		EngineEmitterServices services = new EngineEmitterServices( this );
@@ -142,7 +120,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		services.setExecutor( executor );
 		services.setRenderContext( appContext );
 		services.setReportRunnable( runnable );
-		
+
 		// emitter is not null
 		emitter.initialize( services );
 	}
@@ -170,14 +148,38 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		try
 		{
 			IContentEmitter emitter = createContentEmitter( );
-			ReportExecutor executor = new ReportExecutor( executionContext, reportDesign, emitter );
-			executionContext.setExecutor( executor );
-			initializeContentEmitter(emitter, executor);
-			executor.execute( reportDesign, emitter );
+			IReportExecutor executor = new ReportExecutor( executionContext,
+					reportDesign, null );
+			IReportExecutor lExecutor = new LocalizedReportExecutor(
+					executionContext, executor );
+			executionContext.setExecutor( lExecutor );
+			initializeContentEmitter( emitter, lExecutor );
+
+			// if we need do the paginate, do the paginate.
+			String format = executionContext.getOutputFormat( );
+			boolean paginate = true;
+			if ( "html".equalsIgnoreCase( format ) ) //$NON-NLS-1$
+			{
+				if ( renderOptions instanceof HTMLRenderOption )
+				{
+					HTMLRenderOption htmlOption = (HTMLRenderOption) renderOptions;
+					paginate = htmlOption.getHtmlPagination( );
+				}
+			}
+
+			if ("pdf".equalsIgnoreCase( format ))
+			{
+				lExecutor.execute( reportDesign, emitter );
+			}
+			else
+			{
+				IReportLayoutEngine layoutEngine = LayoutEngineFactory
+						.createLayoutEngine( emitter.getOutputFormat( ) );
+				layoutEngine.layout( lExecutor, emitter );
+			}
 
 			closeRender( );
 			closeFactory( );
-
 		}
 		catch ( Exception ex )
 		{

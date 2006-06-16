@@ -80,26 +80,18 @@ public interface ReportDocumentConstants
 	 * core stream.
 	 */
 	static final String REPORT_DOCUMENT_TAG = "reportdocument";
-
 	/**
 	 * version number, following the document tag in the 
 	 * core stream, used by BIRT 2.0 before.
 	 */
 	static final String REPORT_DOCUMENT_VERSION_1_0_0 = "1.0.0";
-	
 	/**
 	 * version number, used by BIRT 2.1.
 	 */
 	static final String REPORT_DOCUMENT_VERSION_1_2_1 = "1.2.1";
 	
 	/**
-	 * version number, used by BIRT 2.1RC4.
-	 * And this version number will be deleted after BIRT 2.1RC5
-	 */
-	static final String REPORT_DOCUMENT_VERSION_1_2_1_RC4 = "1.2.1.RC4";
-	
-	/**
-	 * version number, used by BIRT 2.1RC6 and 2.1.0 final build
+	 * version number, used after BIRT 2.1RC5.
 	 */
 	static final String REPORT_DOCUMENT_VERSION_2_1_0 = "2.1.0";
 }
