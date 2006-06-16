@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -90,6 +92,7 @@ public class NewSectionDialog extends SelectionDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
+		UIUtil.bindHelp( parent,IHelpContextIds.NEW_SECTION_DIALOG ); 
 		Composite compo = (Composite) super.createDialogArea( parent );
 		GridLayout layout = (GridLayout) compo.getLayout( );
 		layout.numColumns = 1;

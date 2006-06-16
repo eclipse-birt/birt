@@ -110,6 +110,14 @@ public interface IHelpContextIds
 	
 	public static final String PARAMETERBINDING_DIALOG_ID = PREFIX + "ParameterBindingDialog_ID";
 	
+	public static final String DELETE_WARNING_DIALOG_ID = PREFIX + "DeleteWarningDialog_ID";
+	
+	public static final String NEW_SECTION_DIALOG = PREFIX + "NewSectionDialog_ID";
+	
+	public static final String DIMENSION_BUILDER_DIALOG_DIALOG = PREFIX + "DimensionBuilderDialog_ID";
+	
+	public static final String HANDLER_CLASS_SELECTION_DIALOG = PREFIX + "HandlerClassSelectionDialog_ID";
+
 	/*----------Control: Preference----------*/		
 	public static final String PREFERENCE_BIRT_DATA_SET_EDITOR_ID = PREFIX + "Preference_BIRT_DataSetEditor_ID";
 	

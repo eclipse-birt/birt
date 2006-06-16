@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.wizards;
 import java.io.File;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.core.resources.IResource;
@@ -72,7 +74,7 @@ public class WizardSaveAsPage extends WizardPage
 				locationModifyListener );
 
 		setControl( composite );
-
+		UIUtil.bindHelp( getControl(),IHelpContextIds.SAVE_AS_WIZARD_ID ); 
 	}
 
 	public void setOriginalFile( IEditorInput input )

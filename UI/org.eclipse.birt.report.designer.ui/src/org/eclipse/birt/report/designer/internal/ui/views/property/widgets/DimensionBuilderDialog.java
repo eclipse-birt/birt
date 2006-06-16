@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -83,6 +85,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
+		UIUtil.bindHelp( parent,IHelpContextIds.DIMENSION_BUILDER_DIALOG_DIALOG );  
 		Composite composite = (Composite) super.createDialogArea( parent );
 
 		GridLayout gridLayout = new GridLayout( );
