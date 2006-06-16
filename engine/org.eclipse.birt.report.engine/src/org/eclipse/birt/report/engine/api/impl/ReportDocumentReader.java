@@ -197,7 +197,7 @@ public class ReportDocumentReader
 		version = IOUtil.readString( di );
 		if ( !REPORT_DOCUMENT_TAG.equals( tag )
 				|| !( REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) || REPORT_DOCUMENT_VERSION_1_2_1
-						.equals( version ) ) )
+						.equals( version ) || REPORT_DOCUMENT_VERSION_1_2_1_RC4.equals( version ) ) )
 		{
 			logger
 					.log(
