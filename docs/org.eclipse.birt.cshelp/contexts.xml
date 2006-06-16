@@ -620,4 +620,27 @@ Use the "Value" column to check or change the report parameter to which the data
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-13-1.html" label="Enabling the user to filter data"/>
 </context>
+<context id="NewSectionDialog_ID" title="Insert Element">
+<description>Select an element to insert and click OK.
+
+
+
+</description>
+</context>
+<context id="DimensionBuilderDialog_ID" title="Reference Found">
+<description>To confirm deletion of the BIRT Report Designer data source, click Yes.
+
+
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-03-1.html" label="Connecting to a data source"/>
+</context>
+<context id="HandlerClassSelectionDialog_ID" title="Class Selection">
+<description>This dialog shows the available event handlers that are appropriate to the report item that you have currently selected in your report design.
+
+Select the one that you need to get the event handling behavior that you desire.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-21-1.html" label="Using scripting in a report design"/>
+</context>
 </contexts>
