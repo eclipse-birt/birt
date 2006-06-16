@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
+import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
@@ -49,6 +50,8 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 {
 	private DataEngineImpl engine;
 	private IQueryDefinition queryDefn;
+	
+	private String realBasedQueryID;
 	
 	/**
 	 * @param dataEngine
@@ -90,9 +93,18 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 	public IQueryResults execute( IQueryResults outerResults, Scriptable scope )
 			throws DataException
 	{
+		String basedID = queryDefn.getQueryResultsID( );
+		
+		String _1partID = QueryResultIDUtil.get1PartID( basedID );
+		if ( _1partID == null )
+			realBasedQueryID = basedID;
+		else
+			realBasedQueryID = _1partID;
+		
 		QueryResults queryResults = (QueryResults) super.execute( outerResults,
 				scope );
-		queryResults.setID( queryDefn.getQueryResultsID( ) );
+		queryResults.setID( realBasedQueryID );
+		
 		return queryResults;
 	}
 	
@@ -150,7 +162,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		public IResultMetaData getResultMetaData( ) throws DataException
 		{
 			RDLoad rdLoad = RDUtil.newLoad( engine.getContext( ),
-					new QueryResultInfo( queryDefn.getQueryResultsID( ),
+					new QueryResultInfo( realBasedQueryID,
 							null,
 							-1 ) );
 			// TODO: enhanceme
@@ -173,7 +185,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 				throws DataException
 		{
 			RDLoad rdLoad = RDUtil.newLoad( engine.getContext( ),
-					new QueryResultInfo( queryDefn.getQueryResultsID( ),
+					new QueryResultInfo( realBasedQueryID,
 							null,
 							-1 ) );
 			DataSetResultSet dataSetResult = rdLoad.loadDataSetData( );
