@@ -14,7 +14,9 @@ import org.eclipse.swt.graphics.Image;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2006/06/15 07:40:09 $
+ * @deprecated   As of BIRT 2.1, replaced by
+ *      {@link org.eclipse.birt.report.designer.data.ui.property.AbstractPropertyPage
+ *          org.eclipse.birt.report.designer.data.ui.property.AbstractPropertyPage }.
  */
 
 public abstract class AbstractPropertyPage implements IPropertyPage
