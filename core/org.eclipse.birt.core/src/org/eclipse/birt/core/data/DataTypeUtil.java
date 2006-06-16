@@ -194,7 +194,7 @@ public final class DataTypeUtil
 		{
 			try
 			{
-				return Integer.valueOf( (String) source );
+				return new Integer(Double.valueOf((String) source).intValue());
 			}
 			catch ( NumberFormatException e )
 			{
