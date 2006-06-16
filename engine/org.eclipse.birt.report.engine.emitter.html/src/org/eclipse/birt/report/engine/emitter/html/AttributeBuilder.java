@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.24 $ $Date: 2006/06/07 06:38:03 $
+ * @version $Revision: 1.25 $ $Date: 2006/06/10 03:45:19 $
  */
 public class AttributeBuilder
 {
@@ -102,6 +102,30 @@ public class AttributeBuilder
 			HTMLReportEmitter emitter )
 	{
 		buildStyle( content, style, emitter, true );
+	}
+	
+	public static void buildBackgroundStyle( StringBuffer content, IStyle style,
+			HTMLReportEmitter emitter )
+	{
+		if ( style == null )
+		{
+			return;
+		}
+		buildBackground( content, style, emitter );
+	}
+	
+	public static void buildPageStyle( StringBuffer content, IStyle style,
+			HTMLReportEmitter emitter )
+	{
+		if ( style == null )
+		{
+			return;
+		}
+		buildFont( content, style );
+		buildText( content, style, true );
+		buildBox( content, style );
+		buildPagedMedia( content, style );
+		buildVisual( content, style );
 	}
 
 	/**

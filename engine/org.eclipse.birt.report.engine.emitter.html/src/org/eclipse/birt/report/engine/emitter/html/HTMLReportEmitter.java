@@ -96,7 +96,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.122 $ $Date: 2006/06/13 15:38:38 $
+ * @version $Revision: 1.123 $ $Date: 2006/06/15 07:14:03 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -739,23 +739,23 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	}
 	/*** 
      * output the style of page header/footer/body.
-	 * In embedded HTML, we output the style as inline style, otherwise
-     * use the style name as the "class"
+     * The background style will not be out put.
 	 * @param styleName name of the style
 	 * @param style style object
 	 */
 	public void handlePageStyle( String styleName, IStyle style )
 	{
+		StringBuffer styleBuffer = new StringBuffer( );
 		if ( isEmbeddable )
 		{
-			StringBuffer styleBuffer = new StringBuffer( );
-			AttributeBuilder.buildStyle( styleBuffer, style, this );
-			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+			AttributeBuilder.buildPageStyle( styleBuffer, style, this );
 		}
 		else
 		{
-			setStyleName( styleName );					
+			IStyle classStyle = report.findStyle( styleName );
+			AttributeBuilder.buildPageStyle( styleBuffer, classStyle, this );
 		}	
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 	}
 
 	/*
@@ -775,6 +775,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// out put the page tag
 		writer.openTag( HTMLTags.TAG_DIV );
+		
+		// out put the background
+		if ( page != null )
+		{
+			Object genBy = page.getGenerateBy( );
+			if ( genBy instanceof MasterPageDesign )
+			{
+				MasterPageDesign masterPage = (MasterPageDesign) genBy;
+				String masterPageStyleName = masterPage.getStyleName( );
+				IStyle classStyle = report.findStyle( masterPageStyleName );
+				StringBuffer styleBuffer = new StringBuffer( );
+				AttributeBuilder.buildBackgroundStyle( styleBuffer, classStyle, this );
+				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+			}
+		}
+		
 		if ( htmlRtLFlag )
 		{
 			writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
@@ -817,11 +833,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				StringBuffer styleBuffer = new StringBuffer( );
 				if ( isEmbeddable )
 				{
-					AttributeBuilder.buildStyle( styleBuffer, bodyStyle, this );
+					AttributeBuilder.buildPageStyle( styleBuffer, bodyStyle, this );
 				}
 				else
 				{
-					setStyleName( bodyStyleName );
+					IStyle classStyle = report.findStyle( bodyStyleName );
+					AttributeBuilder.buildPageStyle( styleBuffer, classStyle, this );
 				}
 				if( !pageFooterFloatFlag )
 				{
