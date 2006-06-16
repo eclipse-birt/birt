@@ -123,9 +123,7 @@ class ExpressionParserUtility
 							ResourceConstants.INVALID_EXPRESSION );
 				}
 				Node exprNode = tree.getFirstChild( );
-				Node child = exprNode.getFirstChild( );
-				assert ( child != null );
-				processChild( exprNode, child, tree, columnExprList );
+				processChild( exprNode, tree, columnExprList );
 			}
 		}
 		else
@@ -157,7 +155,7 @@ class ExpressionParserUtility
 	 * @param columnExprList
 	 * @throws BirtException
 	 */
-	private void processChild( Node parent, Node child, ScriptOrFnNode tree,
+	private void processChild( Node child, ScriptOrFnNode tree,
 			List columnExprList ) throws BirtException
 	{
 		switch ( child.getType( ) )
@@ -171,11 +169,14 @@ class ExpressionParserUtility
 
 			case Token.GETPROP :
 			case Token.GETELEM :
+			case Token.SETPROP :
+			case Token.SETELEM :
+			{
 				compileDirectColRefExpr( child, tree, columnExprList );
 				break;
-
+			}
 			case Token.CALL :
-				compileAggregateExpr( parent, child, tree, columnExprList );
+				compileAggregateExpr( child, tree, columnExprList );
 				break;
 			default :
 				compileComplexExpr( child, tree, columnExprList );
@@ -192,14 +193,18 @@ class ExpressionParserUtility
 	private void compileDirectColRefExpr( Node refNode, ScriptOrFnNode tree,
 			List columnExprList ) throws BirtException
 	{
-		assert ( refNode.getType( ) == Token.GETPROP || refNode.getType( ) == Token.GETELEM );
+		assert ( refNode.getType( ) == Token.GETPROP
+				|| refNode.getType( ) == Token.GETELEM
+				|| refNode.getType( ) == Token.SETELEM || refNode.getType( ) == Token.SETPROP );
 
 		Node rowName = refNode.getFirstChild( );
 		assert ( rowName != null );
 		if ( rowName.getType( ) != Token.NAME )
 		{
 			if ( refNode.getType( ) == Token.GETPROP
-					|| refNode.getType( ) == Token.GETELEM )
+					|| refNode.getType( ) == Token.GETELEM
+					|| refNode.getType( ) == Token.SETELEM
+					|| refNode.getType( ) == Token.SETPROP )
 			{
 				int level = compileOuterColRefExpr( refNode );
 				if ( level == -1 )
@@ -223,7 +228,7 @@ class ExpressionParserUtility
 			return;
 		}
 		else
-			compileSimpleColumnRefExpr( refNode, rowName, columnExprList );
+			compileSimpleColumnRefExpr( refNode, tree, columnExprList );
 	}
 
 	/**
@@ -232,19 +237,25 @@ class ExpressionParserUtility
 	 * @param refNode
 	 * @param rowName
 	 * @param columnExprList
+	 * @throws BirtException 
 	 */
-	private void compileSimpleColumnRefExpr( Node refNode, Node rowName,
-			List columnExprList )
+	private void compileSimpleColumnRefExpr( Node refNode, ScriptOrFnNode tree,
+			List columnExprList ) throws BirtException
 	{
+		Node rowName = refNode.getFirstChild( );
 		String str = rowName.getString( );
 		assert ( str != null );
-		if ( !str.equals( ROW_INDICATOR ) )
-			return;
 
 		Node rowColumn = rowName.getNext( );
 		assert ( rowColumn != null );
 
-		if ( refNode.getType( ) == Token.GETPROP
+		if ( !str.equals( ROW_INDICATOR ) )
+		{
+			if ( rowColumn != null && rowColumn.getNext( ) != null )
+				processChild( rowColumn.getNext( ), tree, columnExprList );
+			return;
+		}
+		if ( ( refNode.getType( ) == Token.GETPROP || refNode.getType( ) == Token.SETPROP )
 				&& rowColumn.getType( ) == Token.STRING )
 		{
 			int outer_count = 0;
@@ -277,7 +288,8 @@ class ExpressionParserUtility
 			columnExprList.add( binding );
 		}
 
-		if ( refNode.getType( ) == Token.GETELEM )
+		if ( refNode.getType( ) == Token.GETELEM
+				|| refNode.getType( ) == Token.SETELEM )
 		{
 			if ( rowColumn.getType( ) == Token.NUMBER )
 			{
@@ -296,6 +308,8 @@ class ExpressionParserUtility
 				columnExprList.add( binding );
 			}
 		}
+		if ( rowColumn != null && rowColumn.getNext( ) != null )
+			processChild( rowColumn.getNext( ), tree, columnExprList );
 	}
 
 	/**
@@ -308,7 +322,9 @@ class ExpressionParserUtility
 		int count = 0;
 		Node rowFirstNode = refNode.getFirstChild( );
 		if ( refNode.getType( ) == Token.GETPROP
-				|| refNode.getType( ) == Token.GETELEM )
+				|| refNode.getType( ) == Token.GETELEM
+				|| refNode.getType( ) == Token.SETPROP
+				|| refNode.getType( ) == Token.SETELEM )
 		{
 			if ( rowFirstNode.getType( ) == Token.NAME
 					&& rowFirstNode.getString( ).equals( ROW_INDICATOR ) )
@@ -321,7 +337,8 @@ class ExpressionParserUtility
 				}
 				return count;
 			}
-			else if ( rowFirstNode.getType( ) == Token.GETPROP )
+			else if ( rowFirstNode.getType( ) == Token.GETPROP
+					|| rowFirstNode.getType( ) == Token.SETPROP )
 			{
 				if ( compileOuterColRefExpr( rowFirstNode ) == -1 )
 					return -1;
@@ -350,7 +367,7 @@ class ExpressionParserUtility
 	 * @param callNode
 	 * @throws BirtException
 	 */
-	private void compileAggregateExpr( Node parent, Node callNode,
+	private void compileAggregateExpr( Node callNode,
 			ScriptOrFnNode tree, List columnExprList ) throws BirtException
 	{
 		assert ( callNode.getType( ) == Token.CALL );
@@ -397,7 +414,7 @@ class ExpressionParserUtility
 			// need to hold on to the next argument because the tree extraction
 			// will cause us to lose the reference otherwise
 			Node nextArg = arg.getNext( );
-			processChild( callNode, arg, tree, columnExprList );
+			processChild( arg, tree, columnExprList );
 
 			arg = nextArg;
 		}
@@ -413,7 +430,6 @@ class ExpressionParserUtility
 			List columnExprList ) throws BirtException
 	{
 		Node child = complexNode.getFirstChild( );
-
 		while ( child != null )
 		{
 			if ( child.getType( ) == Token.FUNCTION )
@@ -423,7 +439,8 @@ class ExpressionParserUtility
 						tree,
 						columnExprList );
 			}
-			// keep reference to next child, since subsequent steps could lose
+			// keep reference to next child, since subsequent steps could
+			// lose
 			// the reference to it
 			Node nextChild = child.getNext( );
 
@@ -434,12 +451,12 @@ class ExpressionParserUtility
 					|| child.getType( ) == Token.FALSE
 					|| child.getType( ) == Token.NULL )
 			{
-				processChild( complexNode, child, tree, columnExprList );
+				processChild( child, tree, columnExprList );
 				child = nextChild;
 				continue;
 			}
 
-			processChild( complexNode, child, tree, columnExprList );
+			processChild( child, tree, columnExprList );
 			child = nextChild;
 		}
 	}
