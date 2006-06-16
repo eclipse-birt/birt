@@ -98,7 +98,9 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private static final String NONE_AGGREGATEON = Messages.getString( "ColumnBindingDialog.AGGREGATEON.NONE" );//$NON-NLS-1$
 
-	private static final String NONE = Messages.getString( "ColumnBindingDialog.NONE" );//$NON-NLS-1$
+	private static final String CHOICE_FROM_CONTAINER = Messages.getString( "ColumnBindingDialog.Choice.FromContainer" );//$NON-NLS-1$
+
+	private static final String CHOICE_NONE = Messages.getString( "ColumnBindingDialog.NONE" );//$NON-NLS-1$
 
 	private static final String LABEL_COLUMN_BINDINGS = Messages.getString( "ColumnBindingDialog.Label.DataSet" ); //$NON-NLS-1$
 
@@ -135,6 +137,8 @@ public class ColumnBindingDialog extends BaseDialog
 	private ExpressionCellEditor expressionCellEditor;
 
 	private String selectedColumnName = null;
+	
+	private String NullChoice = null;
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
@@ -453,6 +457,17 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		Assert.isNotNull( input );
 		this.inputElement = input;
+		ReportItemHandle container = DEUtil.getBindingHolder( input.getContainer( ) );
+		if ( container != null
+				&& ( container.getDataSet( ) != null || container.columnBindingsIterator( )
+						.hasNext( ) ) )
+		{
+			NullChoice = CHOICE_FROM_CONTAINER;
+		}
+		else
+		{
+			NullChoice = CHOICE_NONE;
+		}
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -491,12 +506,20 @@ public class ColumnBindingDialog extends BaseDialog
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 			String[] dataSets = ChoiceSetFactory.getDataSets( );
 			String[] newList = new String[dataSets.length + 1];
-			newList[0] = NONE;
+			newList[0] = NullChoice;
 			System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
 			combo.setItems( newList );
 			String dataSetName = getDataSetName( );
 			combo.deselectAll( );
-			combo.setText( dataSetName );
+			
+			if ( dataSetName != null )
+			{
+				combo.setText( dataSetName );
+			}
+			else
+			{
+				combo.select( 0 );
+			}
 			combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			gd = new GridData( );
 			gd.widthHint = 250;
@@ -505,15 +528,23 @@ public class ColumnBindingDialog extends BaseDialog
 
 				public void widgetSelected( SelectionEvent event )
 				{
-					String value = combo.getText( );
-					if ( value.equals( NONE ) )
+					String value = null;
+					if ( combo.getSelectionIndex( ) != 0 )
 					{
-						value = null;
+						value = combo.getText( );
 					}
 					int rCode = canChangeDataSet( value );
 					if ( rCode == 2 )
 					{
-						combo.setText( getDataSetName( ) );
+						String newName = getDataSetName( );
+						if ( newName != null )
+						{
+							combo.setText( newName );
+						}
+						else
+						{
+							combo.select( 0 );
+						}
 					}
 					else
 					{
@@ -862,12 +893,13 @@ public class ColumnBindingDialog extends BaseDialog
 	private int canChangeDataSet( String newName )
 	{
 		String currentDataSetName = getDataSetName( );
-		if ( NONE.equals( currentDataSetName )
+		if ( currentDataSetName == null
 				&& !inputElement.columnBindingsIterator( ).hasNext( ) )
 		{
 			return 0;
 		}
-		else if ( currentDataSetName.equals( newName ) )
+		else if ( currentDataSetName == newName
+				|| ( currentDataSetName != null && currentDataSetName.equals( newName ) ) )
 		{
 			return 2;
 		}
@@ -889,12 +921,12 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		if ( inputElement.getDataSet( ) == null )
 		{
-			return NONE;
+			return null;
 		}
 		String dataSetName = inputElement.getDataSet( ).getQualifiedName( );
 		if ( StringUtil.isBlank( dataSetName ) )
 		{
-			dataSetName = NONE;
+			dataSetName = null;
 		}
 		return dataSetName;
 	}
