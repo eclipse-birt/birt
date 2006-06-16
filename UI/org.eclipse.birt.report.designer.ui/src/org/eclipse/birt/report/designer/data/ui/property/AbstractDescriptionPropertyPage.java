@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.data.ui.property;
 
+import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -23,7 +24,7 @@ import org.eclipse.swt.widgets.Label;
  * TODO: Please document
  * 
  * @author Roshan Ail
- * @version $Revision: 1.2 $ $Date: 2005/02/25 02:13:44 $
+ * @version $Revision: 1.1 $ $Date: 2006/04/20 10:57:45 $
  */
 public abstract class AbstractDescriptionPropertyPage extends AbstractPropertyPage
 {
