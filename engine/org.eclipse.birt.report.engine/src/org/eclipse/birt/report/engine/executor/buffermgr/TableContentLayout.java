@@ -174,7 +174,7 @@ public class TableContentLayout
 	public void createCell( int cellId, int rowSpan, int colSpan,
 			Cell.Content content )
 	{
-		assert(cellId>0 && cellId<=colCount);
+		//assert(cellId>0 && cellId<=colCount);
 		//resolve real columnNumber and columnSpan
 		int columnNumber = cellId;
 		int columnSpan = colSpan;
