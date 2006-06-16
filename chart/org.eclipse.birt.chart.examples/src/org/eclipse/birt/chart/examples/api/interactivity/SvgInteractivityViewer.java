@@ -70,15 +70,7 @@ public class SvgInteractivityViewer extends Composite implements
 
 		PluginSettings.instance( ).registerDevice( "dv.SVG", //$NON-NLS-1$
 				"org.eclipse.birt.chart.device.svg.SVGRendererImpl" ); //$NON-NLS-1$
-
-		try
-		{
-			idr = PluginSettings.instance( ).getDevice( "dv.SVG" ); //$NON-NLS-1$
-		}
-		catch ( ChartException ex )
-		{
-			ex.printStackTrace( );
-		}
+		cm = InteractivityCharts.createHSChart( );
 
 	}
 
@@ -132,55 +124,64 @@ public class SvgInteractivityViewer extends Composite implements
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		int i = cbType.getSelectionIndex( );
-		switch ( i )
+		if ( e.widget == btn )
 		{
-			case 0 :
-				cm = InteractivityCharts.createHSChart( );
-				break;
-			case 1 :
-				cm = InteractivityCharts.createSTChart( );
-				break;
-			case 2 :
-				cm = InteractivityCharts.createTVChart( );
-				break;
-			case 3 :
-				cm = InteractivityCharts.createURChart( );
-				break;
+			int i = cbType.getSelectionIndex( );
+			switch ( i )
+			{
+				case 0 :
+					cm = InteractivityCharts.createHSChart( );
+					break;
+				case 1 :
+					cm = InteractivityCharts.createSTChart( );
+					break;
+				case 2 :
+					cm = InteractivityCharts.createTVChart( );
+					break;
+				case 3 :
+					cm = InteractivityCharts.createURChart( );
+					break;
+			}
+			
+			try
+			{
+				
+				RunTimeContext rtc = new RunTimeContext( );
+				rtc.setULocale( ULocale.getDefault( ) );
+
+				idr = PluginSettings.instance( ).getDevice( "dv.SVG" ); //$NON-NLS-1$
+				Generator gr = Generator.instance( );
+				GeneratedChartState gcs = null;
+				Bounds bo = BoundsImpl.create( 0, 0, 450, 300 );
+				gcs = gr.build( idr.getDisplayServer( ),
+						cm,
+						bo,
+						null,
+						rtc,
+						null );
+				
+				idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, "c:/test.svg" ); //$NON-NLS-1$
+				idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
+						new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
+
+				gr.render( idr, gcs );
+			}
+			catch ( ChartException ce )
+			{
+				ce.printStackTrace( );
+			}
+
+			Shell shell = new Shell( display );
+			shell.setSize( 620, 450 );
+			shell.setLayout( new GridLayout( ) );
+
+			Browser br = new Browser( shell, SWT.NONE );
+			br.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			br.setUrl( "c:/test.svg" );//$NON-NLS-1$		
+			br.setVisible( true );
+
+			shell.open( );
 		}
-
-		try
-		{
-			RunTimeContext rtc = new RunTimeContext( );
-			rtc.setULocale( ULocale.getDefault( ) );
-
-			final Generator gr = Generator.instance( );
-			GeneratedChartState gcs = null;
-			Bounds bo = BoundsImpl.create( 0, 0, 450, 300 );
-			gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, rtc, null );
-
-			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, "c:/test.svg" ); //$NON-NLS-1$
-
-			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
-					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
-
-			gr.render( idr, gcs );
-		}
-		catch ( ChartException ce )
-		{
-			ce.printStackTrace( );
-		}
-
-		Shell shell = new Shell( display );
-		shell.setSize( 620, 450 );
-		shell.setLayout( new GridLayout( ) );
-
-		Browser br = new Browser( shell, SWT.NONE );
-		br.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		br.setUrl( "c:/test.svg" );//$NON-NLS-1$		
-		br.setVisible( true );
-
-		shell.open( );
 	}
 
 	/* (non-Javadoc)
