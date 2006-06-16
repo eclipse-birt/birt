@@ -40,6 +40,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		this.report = report;
 		this.reportExecutor = executor;
 		this.emitter = emitter;
+		this.context.setPageEmpty( false );
 	}
 
 	public int getType( )
