@@ -106,7 +106,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	}
 
 	private void initializeContentEmitter( IContentEmitter emitter,
-			IReportExecutor executor )
+			ReportExecutor executor )
 	{
 		// create the emitter services object that is needed in the emitters.
 		EngineEmitterServices services = new EngineEmitterServices( this );
@@ -148,12 +148,12 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		try
 		{
 			IContentEmitter emitter = createContentEmitter( );
-			IReportExecutor executor = new ReportExecutor( executionContext,
+			ReportExecutor executor = new ReportExecutor( executionContext,
 					reportDesign, null );
 			IReportExecutor lExecutor = new LocalizedReportExecutor(
 					executionContext, executor );
-			executionContext.setExecutor( lExecutor );
-			initializeContentEmitter( emitter, lExecutor );
+			executionContext.setExecutor( executor );
+			initializeContentEmitter( emitter, executor );
 
 			// if we need do the paginate, do the paginate.
 			String format = executionContext.getOutputFormat( );
@@ -167,16 +167,10 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				}
 			}
 
-			if ("pdf".equalsIgnoreCase( format ))
-			{
-				lExecutor.execute( reportDesign, emitter );
-			}
-			else
-			{
-				IReportLayoutEngine layoutEngine = LayoutEngineFactory
+			
+			IReportLayoutEngine layoutEngine = LayoutEngineFactory
 						.createLayoutEngine( emitter.getOutputFormat( ) );
 				layoutEngine.layout( lExecutor, emitter );
-			}
 
 			closeRender( );
 			closeFactory( );

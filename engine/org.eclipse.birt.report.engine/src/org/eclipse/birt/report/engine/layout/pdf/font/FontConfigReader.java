@@ -1,0 +1,195 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.engine.layout.pdf.font;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+public class FontConfigReader
+{
+	/** The config xml file name */
+	private static final String CONFIG_FILE_PATH = "/fontsConfig.xml"; //$NON-NLS-1$
+	
+	private static final String TAG_MAPPING = "mapping"; //$NON-NLS-1$
+	private static final String TAG_PATH = "path"; //$NON-NLS-1$
+	private static final String TAG_ENCODING = "encoding"; //$NON-NLS-1$
+	
+	private static final String PROP_NAME = "name"; //$NON-NLS-1$
+	private static final String PROP_FONT_FAMILY = "font-family"; //$NON-NLS-1$
+	private static final String PROP_ENCODING = "encoding"; //$NON-NLS-1$
+	private static final String PROP_PATH = "path"; //$NON-NLS-1$
+	
+	private HashMap fontMapping = new HashMap();
+
+	private HashMap fontEncoding = new HashMap();
+
+	private ArrayList fontPaths = new ArrayList();
+
+	/** the logger logging the error, debug, warning messages. */
+	protected static Logger logger = Logger.getLogger(FontConfigReader.class.getName());
+
+	public boolean parseConfigFile()
+	{
+		try
+		{
+			Bundle bundle = Platform.getBundle("org.eclipse.birt.report.engine.fonts"); //$NON-NLS-1$
+			Path path = new Path(CONFIG_FILE_PATH);
+			URL fileURL = FileLocator.find(bundle, path, null);
+			if (null == fileURL)
+				return false;
+			InputStream cfgFile = fileURL.openStream();	
+			
+			InputStreamReader r = new InputStreamReader(
+					new BufferedInputStream(cfgFile), Charset.forName("UTF-8")); //$NON-NLS-1$
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(new InputSource(r));
+			
+			handleFontMappings(doc);
+			handleFontPaths(doc);
+			handleFontEncodings(doc);
+			return true;
+
+		} catch (SAXException se)
+		{
+			logger.log(Level.WARNING, se.getMessage(), se);
+			return false;
+		} catch (IOException ioe)
+		{
+			logger.log(Level.WARNING, ioe.getMessage(), ioe);
+			return false;
+		} catch (ParserConfigurationException pce)
+		{
+			logger.log(Level.WARNING, pce.getMessage(), pce);
+			return false;
+		}
+	}
+
+	public String getEmbededFontPath()
+	{
+		Bundle bundle = Platform.getBundle("org.eclipse.birt.report.engine.fonts"); //$NON-NLS-1$
+		Path path = new Path("/fonts"); //$NON-NLS-1$
+		
+		URL fileURL = FileLocator.find(bundle, path, null);
+		if ( null == fileURL )
+			return null;
+		String fontPath = null;
+		try
+		{
+			fontPath = FileLocator.toFileURL(fileURL).getPath();
+			//truncate the first '/';
+			return fontPath.substring(1);
+			
+		}catch(IOException ioe)
+		{
+			logger.log(Level.WARNING, ioe.getMessage(), ioe);
+			return null;
+		}
+	}
+	
+	public List getTrueTypeFontPaths()
+	{
+		return this.fontPaths;
+	}
+
+	public HashMap getFontMapping()
+	{
+		return this.fontMapping;
+	}
+
+	public HashMap getFontEncoding()
+	{
+		return this.fontEncoding;
+	}
+	
+	private void handleFontEncodings(Document doc)
+	{
+		NodeList encodings = doc.getDocumentElement().getElementsByTagName(TAG_ENCODING);
+		for (int i = 0; i < encodings.getLength(); i++)
+		{
+			Node node = encodings.item(i);
+			String fontFamily = getProperty(node, PROP_FONT_FAMILY);
+			String encoding = getProperty(node, PROP_ENCODING);
+			if (isValidValue(encoding) && isValidValue(fontFamily))
+				fontEncoding.put(fontFamily, encoding);
+		}
+	}
+
+	private void handleFontPaths(Document doc)
+	{
+		NodeList paths = doc.getDocumentElement().getElementsByTagName(TAG_PATH);
+		for (int i = 0; i < paths.getLength(); i++)
+		{
+			Node node = paths.item(i);
+			String path = getProperty(node, PROP_PATH);
+			if (isValidValue(path))
+				fontPaths.add(path);
+		}
+	}
+
+	private void handleFontMappings(Document doc)
+	{
+		NodeList mappings = doc.getDocumentElement().getElementsByTagName(TAG_MAPPING);
+		for (int i = 0; i < mappings.getLength(); i++)
+		{
+			Node node = mappings.item(i);
+			String name = getProperty(node, PROP_NAME);
+			String fontFamily = getProperty(node, PROP_FONT_FAMILY);
+			if (isValidValue(name) && isValidValue(fontFamily))
+				fontMapping.put(name, fontFamily);
+		}
+	}
+	
+	private boolean isValidValue(String propertyName)
+	{
+		return (null!= propertyName && !"".equalsIgnoreCase(propertyName)); //$NON-NLS-1$
+	}
+	
+	private String getProperty(Node node, String propertyName)
+	{
+		if (null == node)
+			return null;
+		NamedNodeMap atts = node.getAttributes();
+		if (null != atts)
+		{
+			Node property = atts.getNamedItem(propertyName);
+			if (null != property)
+				return property.getNodeValue();
+		}
+		return null;
+	}
+	
+}

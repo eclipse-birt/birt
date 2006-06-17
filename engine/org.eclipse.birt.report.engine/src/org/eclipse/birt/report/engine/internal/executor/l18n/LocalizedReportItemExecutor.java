@@ -33,7 +33,10 @@ class LocalizedReportItemExecutor implements IReportItemExecutor
 	public IContent execute( )
 	{
 		IContent content = executor.execute( );
-		content = l18nVisitor.localize( content );
+		if (content != null)
+		{
+			content = l18nVisitor.localize( content );
+		}
 		return content;
 	}
 

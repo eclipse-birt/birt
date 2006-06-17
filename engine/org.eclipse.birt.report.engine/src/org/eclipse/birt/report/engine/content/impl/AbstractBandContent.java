@@ -71,11 +71,8 @@ public class AbstractBandContent extends ContainerContent
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
-		if ( bandType != -1 )
-		{
-			IOUtil.writeInt( out, FIELD_TYPE );
-			IOUtil.writeInt( out, bandType );
-		}
+		IOUtil.writeInt( out, FIELD_TYPE );
+		IOUtil.writeInt( out, getBandType( ) );
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in )

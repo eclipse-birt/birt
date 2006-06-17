@@ -31,7 +31,11 @@ import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.ReportContentLoader;
+import org.eclipse.birt.report.engine.internal.executor.doc.ReportPageReader;
+import org.eclipse.birt.report.engine.internal.executor.doc.ReportletReader;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
+import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
+import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class RenderTask extends EngineTask implements IRenderTask
@@ -178,19 +182,38 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			IContentEmitter emitter = createContentEmitter( );
 			ReportDesignHandle reportDesign = executionContext.getDesign( );
-			IReportExecutor executor = new ReportExecutor( executionContext,
-					reportDesign, null );
-			executor = new LocalizedReportExecutor( executionContext, executor);
-			executionContext.setExecutor( executor );
-
-			initializeContentEmitter( emitter, executor );
-
-			// start the render
-			ReportContentLoader loader = new ReportContentLoader(
-					executionContext );
-			startRender( );
-			loader.loadPage( pageNumber, bodyOnly, emitter );
-			closeRender( );
+			String format = executionContext.getOutputFormat( );
+			if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
+			{
+				IReportExecutor executor = new ReportPageReader(
+						executionContext, pageNumber, false );
+				executor = new LocalizedReportExecutor( executionContext,
+						executor );
+				executionContext.setExecutor( executor );
+				initializeContentEmitter( emitter, executor );
+				IReportLayoutEngine layoutEngine = LayoutEngineFactory
+						.createLayoutEngine( format );
+				startRender( );
+				layoutEngine.layout( executor, emitter );
+				closeRender( );
+				executor.close( );
+			}
+			else
+			{
+				IReportExecutor executor = new ReportExecutor(
+						executionContext, reportDesign, null );
+				executor = new LocalizedReportExecutor( executionContext,
+						executor );
+				executionContext.setExecutor( executor );
+				initializeContentEmitter( emitter, executor );
+				// start the render
+				ReportContentLoader loader = new ReportContentLoader(
+						executionContext );
+				startRender( );
+				loader.loadPage( pageNumber, bodyOnly, emitter );
+				closeRender( );
+				executor.close( );
+			}
 		}
 		catch ( Exception ex )
 		{
@@ -220,21 +243,42 @@ public class RenderTask extends EngineTask implements IRenderTask
 		try
 		{
 			// start the render
-
-			ReportContentLoader loader = new ReportContentLoader(
-					executionContext );
-
 			ReportDesignHandle reportDesign = executionContext.getDesign( );
 			IContentEmitter emitter = createContentEmitter( );
-			IReportExecutor executor = new ReportExecutor( executionContext,
-					reportDesign, null );
-			executor = new LocalizedReportExecutor( executionContext, executor);
-			executionContext.setExecutor( executor );
-			initializeContentEmitter( emitter, executor );
-
-			startRender( );
-			loader.loadPageRange( pageSequences, bodyOnly, emitter );
-			closeRender( );
+			String format = executionContext.getOutputFormat( );
+			if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
+			{
+				IReportExecutor executor = new ReportPageReader(
+						executionContext, pageSequences, false );
+				executor = new LocalizedReportExecutor( executionContext,
+						executor );
+				executionContext.setExecutor( executor );
+				initializeContentEmitter( emitter, executor );
+				IReportLayoutEngine layoutEngine = LayoutEngineFactory
+						.createLayoutEngine( format );
+				startRender( );
+				layoutEngine.layout( executor, emitter );
+				closeRender( );
+				executor.close( );
+			}
+			else
+			{
+				IReportExecutor executor = new ReportExecutor(
+						executionContext, reportDesign, null );
+				executor = new LocalizedReportExecutor( executionContext,
+						executor );
+				executionContext.setExecutor( executor );
+				initializeContentEmitter( emitter, executor );
+				ReportContentLoader loader = new ReportContentLoader(
+						executionContext );
+				startRender( );
+				loader.loadPageRange( pageSequences, bodyOnly, emitter );
+				closeRender( );
+				executor.close( );
+			}
+			
+			
+			
 		}
 		catch ( Exception ex )
 		{
@@ -262,19 +306,41 @@ public class RenderTask extends EngineTask implements IRenderTask
 			if (offset != -1)
 			{
 				// start the render
-				ReportContentLoader loader = new ReportContentLoader(
-						executionContext );
+				
 				IContentEmitter emitter = createContentEmitter( );
 				ReportDesignHandle reportDesign = executionContext.getDesign( );
-				IReportExecutor executor = new ReportExecutor( executionContext,
-						reportDesign, null );
-				executor = new LocalizedReportExecutor( executionContext, executor);
-				executionContext.setExecutor( executor );
-				
-				initializeContentEmitter( emitter, executor );
-				startRender( );
-				loader.loadReportlet(offset, emitter );
-				closeRender( );
+				String format = executionContext.getOutputFormat( );
+				if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
+				{
+					IReportExecutor executor = new ReportletReader(
+							executionContext, offset );
+					executor = new LocalizedReportExecutor( executionContext,
+							executor );
+					executionContext.setExecutor( executor );
+					initializeContentEmitter( emitter, executor );
+					IReportLayoutEngine layoutEngine = LayoutEngineFactory
+							.createLayoutEngine( format );
+					startRender( );
+					layoutEngine.layout( executor, emitter );
+					closeRender( );
+					executor.close( );
+				}
+				else
+				{
+					ReportContentLoader loader = new ReportContentLoader(
+							executionContext );
+					IReportExecutor executor = new ReportExecutor(
+							executionContext, reportDesign, null );
+					executor = new LocalizedReportExecutor( executionContext,
+							executor );
+					executionContext.setExecutor( executor );
+
+					initializeContentEmitter( emitter, executor );
+					startRender( );
+					loader.loadReportlet( offset, emitter );
+					closeRender( );
+					executor.close( );
+				}
 			}
 		}
 		catch ( Exception ex )

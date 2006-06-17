@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
+import org.eclipse.birt.report.engine.toc.TOCEntry;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -52,7 +53,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.33 $ $Date: 2006/05/17 05:42:09 $
+ * @version $Revision: 1.34 $ $Date: 2006/06/13 15:37:16 $
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
@@ -101,6 +102,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 * rset used to execute the parent
 	 */
 	protected IResultSet rset;
+	
+	/**
+	 * toc created by this report item
+	 */
+	protected TOCEntry tocEntry;
 
 	/**
 	 * construct a report item executor by giving execution context and report
@@ -508,6 +514,19 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		content.setGenerateBy( design );
 	}
 
+	
+	TOCEntry getParentTOCEntry()
+	{
+		if (parent != null)
+		{
+			if (parent.tocEntry != null)
+			{
+				return parent.tocEntry;
+			}
+			return parent.getParentTOCEntry();
+		}
+		return null;
+	}
 	/**
 	 * starts a TOC entry, mostly used for non-leaf TOC entry, which can not be
 	 * closed until its children have been written.
@@ -526,7 +545,9 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				if ( tocLabel != null )
 				{
 					String bookmark = content.getBookmark( );
-					String tocId = tocBuilder.startEntry( tocLabel, bookmark );
+					TOCEntry parent = getParentTOCEntry();
+					tocEntry = tocBuilder.startEntry( parent, tocLabel, bookmark );
+					String tocId = tocEntry.getNode().getNodeID( );
 					if ( bookmark == null )
 					{
 						content.setBookmark( tocId );
@@ -534,7 +555,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					return;
 				}
 			}
-			tocBuilder.startEntry( null, null ); // starts a TOC entry
 		}
 	}
 
@@ -550,7 +570,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		TOCBuilder tocBuilder = context.getTOCBuilder( );
 		if ( tocBuilder != null )
 		{
-			tocBuilder.closeEntry( );
+			if (tocEntry != null)
+			{
+				tocBuilder.closeEntry( tocEntry );
+			}
 		}
 	}
 
@@ -559,7 +582,8 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		TOCBuilder tocBuilder = context.getTOCBuilder( );
 		if ( tocBuilder != null )
 		{
-			tocBuilder.startGroupEntry( );
+			TOCEntry entry = getParentTOCEntry();
+			tocEntry = tocBuilder.startGroupEntry( entry );
 		}
 	}
 
@@ -568,7 +592,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		TOCBuilder tocBuilder = context.getTOCBuilder( );
 		if ( tocBuilder != null )
 		{
-			tocBuilder.closeGroupEntry( );
+			tocBuilder.closeGroupEntry( tocEntry );
 		}
 	}
 	

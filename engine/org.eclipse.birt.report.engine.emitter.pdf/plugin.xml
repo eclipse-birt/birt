@@ -7,7 +7,7 @@
 	 	name = "Engine PDF Emitters">
 
         <emitter
-              class="org.eclipse.birt.report.engine.layout.impl.ReportLayoutEngine"
+              class="org.eclipse.birt.report.engine.emitter.pdf.PDFEmitter"
               format="pdf"
               id="org.eclipse.birt.report.engine.emitter.pdf"
               mimeType="application/pdf"/>

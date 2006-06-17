@@ -13,11 +13,3 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)",
  com.lowagie.itext;bundle-version="[1.3.0,2.0.0)"
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.pdf.plugin.PDFEmitterPlugin
-Export-Package: org.eclipse.birt.report.engine.emitter.pdf,
- org.eclipse.birt.report.engine.emitter.pdf.plugin,
- org.eclipse.birt.report.engine.layout,
- org.eclipse.birt.report.engine.layout.area,
- org.eclipse.birt.report.engine.layout.area.impl,
- org.eclipse.birt.report.engine.layout.hyphen,
- org.eclipse.birt.report.engine.layout.impl,
- org.eclipse.birt.report.engine.layout.util

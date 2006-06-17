@@ -12,7 +12,7 @@ public class LayoutEngineFactory
 			try
 			{
 				Class clazz = Class
-						.forName( "org.eclipse.birt.report.engine.layout.pdf.PDFReportLayoutEngine" );
+						.forName( "org.eclipse.birt.report.engine.layout.pdf.PDFReportLayoutEngine" ); //$NON-NLS-1$
 				Object engine = clazz.newInstance( );
 				return (IReportLayoutEngine) engine;
 			}

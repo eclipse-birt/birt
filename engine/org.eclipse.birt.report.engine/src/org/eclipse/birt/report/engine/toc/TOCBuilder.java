@@ -16,7 +16,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.TOCNode;
@@ -26,19 +25,11 @@ import org.eclipse.birt.report.engine.api.TOCNode;
  */
 public class TOCBuilder
 {
-
-	/**
-	 * the current TOC entry in the tree
-	 */
-	private TOCNode currentEntry;
-
 	/**
 	 * the root TOC entry
 	 */
-	private TOCNode rootEntry;
-
-	private Stack tocLevels = new Stack( );
-	private Stack groups = new Stack( );
+	private TOCNode rootNode;
+	private TOCEntry rootEntry;
 
 	/**
 	 * @param root
@@ -46,25 +37,34 @@ public class TOCBuilder
 	 */
 	public TOCBuilder( TOCNode root )
 	{
-		rootEntry = root;
-		currentEntry = rootEntry;
+		rootNode = root;
+		rootEntry = new TOCEntry( null, rootNode, rootNode );
 	}
 
-	public void startGroupEntry( )
+	public TOCEntry startGroupEntry( TOCEntry parent )
 	{
-		groups.push( tocLevels );
-		groups.push( rootEntry );
-		groups.push( currentEntry );
-		tocLevels = new Stack( );
-		rootEntry = currentEntry;
+		if (parent == null)
+		{
+			parent = rootEntry;
+		}
+		TOCEntry group = new TOCEntry( parent, parent.getNode( ), parent
+				.getNode( ) );
+		return group;
 	}
 
-	public void closeGroupEntry( )
+	public void closeGroupEntry( TOCEntry group )
 	{
-		assert tocLevels.isEmpty( );
-		currentEntry = (TOCNode) groups.pop( );
-		rootEntry = (TOCNode) groups.pop( );
-		tocLevels = (Stack) groups.pop( );
+		assert group != null;
+		TOCEntry parent = group.parent;
+		if ( parent != null && parent != rootEntry )
+		{
+			if (parent.node == parent.root) 
+			{
+				// this is a group entry, and it is the first child of that group,
+				// use that entry as parent of following entry of the same group.
+				parent.node = group.node;			
+			}
+		}
 	}
 
 	/**
@@ -72,37 +72,41 @@ public class TOCBuilder
 	 *            display string for the TOC entry
 	 * @param bookmark
 	 */
-	public String startEntry( String displayString, String bookmark )
+	public TOCEntry startEntry( TOCEntry parent, String displayString, String bookmark )
 	{
-		if ( displayString == null )
+		assert displayString != null;
+		assert bookmark != null;
+
+		if ( parent == null )
 		{
-			tocLevels.push( Boolean.FALSE );
-			return null;
+			parent = rootEntry;
 		}
-		tocLevels.push( Boolean.TRUE );
-		TOCNode entry = new TOCNode( );
-		String id = currentEntry.getNodeID( );
+		
+		TOCNode parentNode = parent.node;
+		TOCNode node = new TOCNode( );
+		String id = parentNode.getNodeID( );
 		if ( id == null )
 		{
 			id = "toc";
 		}
-		id = id + "_" + currentEntry.getChildren( ).size( );
+		id = id + "_" + parentNode.getChildren( ).size( );
 
 		// entry.nodeid is null
-		entry.setNodeID( id );
-		entry.setDisplayString( displayString );
-		entry.setBookmark( bookmark == null ? id : bookmark );
-		entry.setParent( currentEntry );
-		currentEntry.getChildren( ).add( entry );
-		currentEntry = entry;
-		return id;
+		node.setNodeID( id );
+		node.setDisplayString( displayString );
+		node.setBookmark( bookmark == null ? id : bookmark );
+		node.setParent( parentNode );
+		parentNode.getChildren( ).add( node );
+		
+		TOCEntry entry = new TOCEntry( parent, parent.getRoot( ), node );
+		return entry;
 	}
 
-	public String createEntry( String label, String bookmark )
+	public TOCEntry createEntry( TOCEntry parent, String label, String bookmark )
 	{
-		String id = startEntry( label, bookmark );
-		closeEntry( );
-		return id;
+		TOCEntry entry = startEntry( parent, label, bookmark );
+		closeEntry(entry);
+		return entry;
 	}
 
 	/**
@@ -110,28 +114,29 @@ public class TOCBuilder
 	 * entry. for group toc, we must create a root entry, and put all others
 	 * into the root entry.
 	 */
-	public void closeEntry( )
+	public void closeEntry( TOCEntry entry )
 	{
-		if ( tocLevels.pop( ) == Boolean.TRUE )
+		assert entry != null;
+		TOCEntry parent = entry.parent;
+		if ( parent != null && parent != rootEntry )
 		{
-			if ( groups.isEmpty( ) )
+			if (parent.node == parent.root) 
 			{
-				currentEntry = currentEntry.getParent( );
-			}
-			else
-			{
-				if ( currentEntry.getParent( ) != rootEntry )
-				{
-					currentEntry = currentEntry.getParent( );
-				}
+				// this is a group entry, and it is the first child of that group,
+				// use that entry as parent of following entry of the same group.
+				parent.node = entry.node;
 			}
 		}
-		assert currentEntry != null;
 	}
-
-	public TOCNode getTOCNode( )
+	
+	public TOCEntry getTOCEntry( )
 	{
 		return rootEntry;
+	}
+	
+	public TOCNode getTOCNode( )
+	{
+		return rootNode;
 	}
 
 	static public void write( TOCNode root, DataOutputStream out )

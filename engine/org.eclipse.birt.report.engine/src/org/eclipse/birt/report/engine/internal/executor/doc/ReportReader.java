@@ -7,12 +7,16 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.executor.ReportExecutor;
+import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 
 public class ReportReader extends AbstractReportReader
 {
 
+	IReportExecutor executor = null;
 	public ReportReader( ExecutionContext context )
 	{
 		super( context );
@@ -58,6 +62,12 @@ public class ReportReader extends AbstractReportReader
 
 	public IPageContent createPage( long pageNumber, MasterPageDesign pageDesign )
 	{
-		return null;
+		if(executor==null)
+		{
+			executor = new ReportExecutor(context, context.getReport( ).getReportDesign( ), null);
+			executor = new LocalizedReportExecutor( context,
+					executor );
+		}
+		return executor.createPage( pageNumber, pageDesign );
 	}
 }
