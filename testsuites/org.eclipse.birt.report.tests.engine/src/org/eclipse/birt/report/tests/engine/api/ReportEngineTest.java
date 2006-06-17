@@ -70,7 +70,7 @@ public class ReportEngineTest extends EngineCase {
 		input += System.getProperty("file.separator") ;
 		String designName=input+"report_engine.rptdesign";
 */
-		String designName=getBaseFolder()+System.getProperty("file.separator")
+		String designName=getClassFolder()+System.getProperty("file.separator")
 		+ INPUT_FOLDER+System.getProperty("file.separator")
 		+"report_engine.rptdesign";
 		
@@ -100,7 +100,7 @@ public class ReportEngineTest extends EngineCase {
 		String designName=input+"report_engine.rptdesign";
 */		
 
-		String designName=getBaseFolder()+System.getProperty("file.separator")
+		String designName=getClassFolder()+System.getProperty("file.separator")
 		+ INPUT_FOLDER+System.getProperty("file.separator")
 		+"report_engine.rptdesign";
 		
@@ -130,7 +130,7 @@ public class ReportEngineTest extends EngineCase {
 		input += System.getProperty("file.separator") ;
 		String designName=input+"parameter.rptdesign";
 */
-		String designName=getBaseFolder()+System.getProperty("file.separator")
+		String designName=getClassFolder()+System.getProperty("file.separator")
 		+ INPUT_FOLDER+System.getProperty("file.separator")
 		+"parameter.rptdesign";
 		

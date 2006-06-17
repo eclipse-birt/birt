@@ -92,7 +92,6 @@ public class EngineConfigTest extends EngineCase {
 	 *
 	 */
 	public void testGetTmpDir(){
-		assertNull(engineConfig.getTempDir());
 		engineConfig.setTempDir("temp directory");
 		assertEquals("Not identical","temp directory",engineConfig.getTempDir() );
 	}

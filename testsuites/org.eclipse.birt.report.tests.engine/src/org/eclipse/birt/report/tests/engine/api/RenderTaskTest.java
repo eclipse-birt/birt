@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import junit.framework.Test;
-
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.core.archive.FileArchiveWriter;
@@ -25,6 +24,7 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
 public class RenderTaskTest extends EngineCase
@@ -52,6 +52,8 @@ public class RenderTaskTest extends EngineCase
 
 	public static Test Suite( )
 	{
+//		TestSuite suite = new TestSuite( );
+//		suite.addTest(  TestSuite.createTest( RenderTaskTest.class, "testMethod" ) );
 		return new TestSuite( RenderTaskTest.class );
 	}
 
@@ -141,6 +143,7 @@ public class RenderTaskTest extends EngineCase
 	public void testRender15(){
 		renderReport( "smoke_data", "All" );
 	}
+	
 	public void testRender16( )
 	{
 		File fLib=new File(inputPath+"library1.rptlibrary");
@@ -167,6 +170,7 @@ public class RenderTaskTest extends EngineCase
 			fail("Library file doesn't exist!");
 		}
 	}
+	
 
 	/*
 	 * Test RenderTask when set page range
@@ -215,8 +219,9 @@ public class RenderTaskTest extends EngineCase
 	{
 		renderReport( "pages9", "abc" );
 	}
-
-	/*
+	
+	
+     /*
 	 * Test Rendertask when set bookmark
 	 */
 	public void testRenderBookmark_label( )
@@ -273,13 +278,25 @@ public class RenderTaskTest extends EngineCase
 		renderReportlet( "iid_reportlet", iid, "EXTENDED" );
 	}
 	
+	public void testRenderReportlet_bookmark( )
+	{
+		InstanceID iid;
+		renderReportlet( "reportlet_bookmark_toc", "bk_table" );
+	}
+	
+	public void testRenderReportlet_toc( )
+	{
+		renderReportlet( "reportlet_bookmark_toc", "toc_chart" );
+	}
+
 	public void testRenderReportlet_complex_list( )
 	{
 		InstanceID iid;
 		iid = findIid( "iid_reportlet_complex", "LIST" );
 		renderReportlet( "iid_reportlet_complex", iid, "LIST" );
 	}
-
+	
+	
 	public void testRenderReportlet_complex_table( )
 	{
 		InstanceID iid;
@@ -450,6 +467,70 @@ public class RenderTaskTest extends EngineCase
 		}
 	}
 
+	/*
+	 * render reportlet according to docfile and instance id
+	 */
+	protected void renderReportlet( String docName, String bookmark )
+	{
+		report_document = inputPath + docName + ".rptdocument";
+		report_design = inputPath + docName + ".rptdesign";
+
+		IRenderTask task;
+
+		boolean toc=false;
+		String s_toc=null;
+		if(bookmark.substring( 0, 3 ).equals( "toc" )){
+			toc=true;
+		}
+		// create directories to deposit output files
+		createDir( docName );
+		try
+		{
+			createReportDocument( report_design, report_document );
+			reportDoc = engine.openReportDocument( report_document );
+			task = engine.createRenderTask( reportDoc );
+			IRenderOption htmlRenderOptions = new HTMLRenderOption( );
+			HTMLRenderContext renderContext = new HTMLRenderContext( );
+			renderContext.setImageDirectory( "image" );
+			HashMap appContext = new HashMap( );
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					renderContext );
+			task.setAppContext( appContext );
+			outputFileName = outputPath + docName + "/html/" + bookmark
+					+ ".html";
+			htmlRenderOptions.setOutputFileName( outputFileName );
+			htmlRenderOptions.setOutputFormat( "html" );
+			
+			if(toc){
+				s_toc=((TOCNode)(reportDoc.findTOCByName( bookmark ).get( 0 ))).getBookmark( );
+			}
+			
+			task.setReportlet( s_toc );
+			task.setRenderOption( htmlRenderOptions );
+			task.render( );
+			assertTrue( "Render reportlet-" + docName + " to html failed. ",
+					new File(outputFileName).exists( ) );
+			
+			outputFileName = outputPath + docName + "/pdf/" + bookmark
+			+ ".pdf";
+			htmlRenderOptions.setOutputFileName( outputFileName );
+			htmlRenderOptions.setOutputFormat( "pdf" );
+			task.setRenderOption( htmlRenderOptions );
+			task.setReportlet( s_toc );
+			task.render( );
+			task.close( );
+			assertTrue( "Render reportlet-" + docName + " to pdf failed. ",
+					new File(outputFileName).exists( ) );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
+			assertTrue( "Render reportlet " + bookmark + "from" + docName
+					+ " failed. " + e.getLocalizedMessage( ), false );
+		}
+		
+	}
+
 	
 	protected void renderReport( String fileName, String pageRange )
 	{
@@ -540,6 +621,9 @@ public class RenderTaskTest extends EngineCase
 							+ pageRange + ".html";
 					removeFile( outputFileName );
 					htmlRenderOptions.setOutputFileName( outputFileName );
+					/**/
+					((HTMLRenderOption)htmlRenderOptions).setPageFooterFloatFlag( false );
+					/**/
 					task = engine.createRenderTask( reportDoc );
 					task.setLocale( Locale.ENGLISH );
 					task.setAppContext( appContext );
@@ -645,6 +729,7 @@ public class RenderTaskTest extends EngineCase
 					+ e.getLocalizedMessage( ), false );
 		}
 	}
+
 
 	
 	
