@@ -688,7 +688,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		String formats = column.getVisibleFormat( );
 		if ( formats != null
 				&& formats.length( ) > 0
-				&& ( formats.indexOf( format ) >= 0 || formats
+				&& ( formats.indexOf( format ) >= 0 || formats.toUpperCase( )
 						.indexOf( BIRTConstants.BIRT_ALL_VALUE.toUpperCase( ) ) >= 0 ) )
 		{
 			return true;
