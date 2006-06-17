@@ -172,6 +172,13 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			TableScriptExecutor.handleOnRender( table, context );
 		else if ( table.getGenerateBy( ) instanceof GridItemDesign )
 			GridScriptExecutor.handleOnRender( table, context );
+		
+		String captionText = table.getCaption( );
+		String captionKey = table.getCaptionKey( );
+
+		captionText = localize( captionKey, captionText );
+		table.setCaption( captionText );
+		
 		return table;
 	}
 
