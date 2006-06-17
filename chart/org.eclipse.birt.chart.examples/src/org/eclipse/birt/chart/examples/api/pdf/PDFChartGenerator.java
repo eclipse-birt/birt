@@ -53,7 +53,7 @@ public class PDFChartGenerator {
 			gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, rtc, null );
 
 			//Specify the file to write to. 
-			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, "d:/temp/test.pdf" ); //$NON-NLS-1$
+			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, "test.pdf" ); //$NON-NLS-1$
 
 			//generate the chart
 			gr.render( idr, gcs );
