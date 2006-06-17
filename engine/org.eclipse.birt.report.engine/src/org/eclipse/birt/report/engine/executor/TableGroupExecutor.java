@@ -29,6 +29,7 @@ public class TableGroupExecutor extends GroupExecutor
 		ITableGroupContent groupContent = report.createTableGroupContent( );
 		setContent(groupContent);
 		
+		restoreResultSet( );
 		initializeContent( groupDesign, groupContent );
 		handlePageBreakOfGroup( );
 

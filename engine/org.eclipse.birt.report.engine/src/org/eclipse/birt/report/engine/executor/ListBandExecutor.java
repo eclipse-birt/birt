@@ -21,6 +21,7 @@ public class ListBandExecutor extends StyledItemExecutor
 		IListBandContent bandContent = report.createListBandContent( );
 		setContent(bandContent);
 
+		restoreResultSet( );
 		initializeContent( bandDesign, bandContent );
 
 		startTOCEntry(bandContent);

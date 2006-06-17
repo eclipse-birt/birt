@@ -53,15 +53,17 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	{
 		rset = null;
 		IBaseQueryDefinition query = design.getQuery( );
+		IResultSet parentRset = getParentResultSet( );
+		context.setResultSet( parentRset );
 		if ( query != null )
 		{
-			IResultSet parentRset = getParentResultSet( );
 			try
 			{
 				rset = context.executeQuery( parentRset, query );
 				if ( rset != null )
 				{
 					rsetEmpty = !rset.next( );
+					return;
 				}
 			}
 			catch ( BirtException ex )

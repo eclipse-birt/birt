@@ -183,8 +183,6 @@ public class DataPresentationEngine extends AbstractDataEngine
 				resultSet = new DteResultSet( parentResult, queryResults );
 			}
 						
-			rsets.addFirst( resultSet );
-
 			return resultSet;
 		}
 		catch ( BirtException be )

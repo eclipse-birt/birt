@@ -6,6 +6,7 @@ import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
+import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 
 public class ReportItemReader implements IReportItemExecutor
@@ -208,9 +209,19 @@ public class ReportItemReader implements IReportItemExecutor
 					addHeaderToFragment( content );
 				}
 			}
+			else if ( genBy instanceof ListItemDesign )
+			{
+				ListItemDesign listDesign = (ListItemDesign) genBy;
+				if ( listDesign.isRepeatHeader( ) )
+				{
+					addHeaderToFragment( content );
+				}
+			}
 		}
 
 		IResultSet prset = parent == null ? null : parent.getResultSet( );
+		//restore the parent result set
+		reader.context.setResultSet(prset);
 		// open the query used by the content, locate the resource
 		rset = reader.openQuery( prset, content );
 		if ( rset == prset )

@@ -94,6 +94,10 @@ public abstract class AbstractReportReader implements IReportExecutor
 
 		TOCNode root = reportDoc.findTOC( "/" );
 		reportContent.setTOC( root );
+		
+		long totalPage = reportDoc.getPageCount( );
+		context.setTotalPage( totalPage );
+		reportContent.setTotalPage( totalPage );
 
 		dataEngine = context.getDataEngine( );
 		dataEngine.prepare( report, context.getAppContext( ) );

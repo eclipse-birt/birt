@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.34 $ $Date: 2006/06/13 15:37:16 $
+ * @version $Revision: 1.35 $ $Date: 2006/06/17 12:11:00 $
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
@@ -618,5 +618,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			return rset;
 		}
 		return null;
+	}
+	
+	protected void restoreResultSet()
+	{
+		context.setResultSet( getParentResultSet( ) );
 	}
 }

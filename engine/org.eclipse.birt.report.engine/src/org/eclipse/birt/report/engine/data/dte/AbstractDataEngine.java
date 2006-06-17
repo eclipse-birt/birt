@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.data.dte;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -49,7 +48,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 
 	protected HashMap queryIDMap = new HashMap( );
 
-	protected LinkedList rsets = new LinkedList( );
+	//protected LinkedList rsets = new LinkedList( );
 
 	protected String reportArchName = null;
 
@@ -67,7 +66,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			Scriptable scope = context.getScope( );
 			// register a js row object into the execution context, so
 			// we can use row["colName"] to get the column values
-			context.registerBean( "row", new NativeRowObject( scope, rsets ) );
+			context.registerBean( "row", new NativeRowObject( scope, context ) );
 		}
 		catch ( Exception ex )
 		{
@@ -196,15 +195,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 */
 	public IResultSet execute( IBaseQueryDefinition query )
 	{
-		IResultSet parent = null;
-		// if the query has parent or it's a qubquery
-		// we set the resultSet's parent		
-		if ( ( query.getParentQuery( ) != null || query instanceof ISubqueryDefinition )
-				&& !rsets.isEmpty( ) )
-		{
-			parent = (IResultSet) rsets.getFirst( );
-		}
-		return execute( parent, query );
+		return execute( null, query );
 	}
 	
 	/**
@@ -237,8 +228,6 @@ public abstract class AbstractDataEngine implements IDataEngine
 		// Extension Item may used to create the query stack, so we must do
 		// error handling.
 		assert query instanceof ISubqueryDefinition;
-		if ( rsets.isEmpty( ) )
-			return null;
 
 		DteResultSet resultSet;
 		try
@@ -250,7 +239,6 @@ public abstract class AbstractDataEngine implements IDataEngine
 					context.getSharedScope( ) );
 			assert ri != null;
 			resultSet = new DteResultSet( parent, subQuery, ri  );
-			rsets.addFirst( resultSet );
 			return resultSet;
 		}
 		catch ( BirtException e )
@@ -263,12 +251,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 
 	public void close( IResultSet rs )
 	{
-		rsets.remove( rs );
 	}
 
 	public void shutdown( )
 	{
-		rsets.clear( );
 		dteEngine.shutdown( );
 	}
 
@@ -316,14 +302,4 @@ public abstract class AbstractDataEngine implements IDataEngine
 	{
 		return dteEngine;
 	}
-
-	public IResultSet getResultSet( )
-	{
-		if ( !rsets.isEmpty( ) )
-		{
-			return (IResultSet) rsets.getFirst( );
-		}
-		return null;
-	}
-
 }

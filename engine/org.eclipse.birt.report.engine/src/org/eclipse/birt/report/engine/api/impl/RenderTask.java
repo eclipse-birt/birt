@@ -36,6 +36,7 @@ import org.eclipse.birt.report.engine.internal.executor.doc.ReportletReader;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
+import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutEmitter;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class RenderTask extends EngineTask implements IRenderTask
@@ -145,6 +146,12 @@ public class RenderTask extends EngineTask implements IRenderTask
 					format ); // $NON-NLS-1$
 			throw new EngineException(
 					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION );
+		}
+		
+		//the output will be paginate.
+		if (!bodyOnly)
+		{
+			emitter = new HTMLTableLayoutEmitter(emitter);
 		}
 		
 		return emitter;

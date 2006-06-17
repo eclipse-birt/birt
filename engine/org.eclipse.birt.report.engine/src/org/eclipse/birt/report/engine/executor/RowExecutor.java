@@ -53,6 +53,7 @@ public class RowExecutor extends StyledItemExecutor
 		IRowContent rowContent = report.createRowContent( );
 		setContent( rowContent );
 
+		restoreResultSet( );
 		initializeContent( rowDesign, rowContent );
 
 		processAction( rowDesign, rowContent );

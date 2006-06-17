@@ -12,7 +12,10 @@
 package org.eclipse.birt.report.engine.layout.html;
 
 import org.eclipse.birt.report.engine.content.IBandContent;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 
 public class HTMLListLM extends HTMLBlockStackingLM
 {
@@ -27,23 +30,36 @@ public class HTMLListLM extends HTMLBlockStackingLM
 		return LAYOUT_MANAGER_LIST;
 	}
 
+	boolean isFirstLayout;
+
+	public void initialize( HTMLAbstractLM parent, IContent content,
+			IReportItemExecutor executor, IContentEmitter emitter )
+	{
+		super.initialize( parent, content, executor, emitter );
+		isFirstLayout = true;
+	}
+
 	protected void repeatHeader( )
 	{
-		IListContent list = (IListContent) content;
-		if ( list.isHeaderRepeat( ) )
+		if ( !isFirstLayout )
 		{
-			IBandContent header = list.getHeader( );
-			if ( header != null )
+			IListContent list = (IListContent) content;
+			if ( list.isHeaderRepeat( ) )
 			{
-				boolean pageBreak = context.allowPageBreak( );
-				boolean skipPageHint = context.getSkipPageHint( );
-				context.setAllowPageBreak( pageBreak );
-				context.setSkipPageHint( true );
-				engine.layout( header, emitter );
-				context.setAllowPageBreak( pageBreak );
-				context.setSkipPageHint( skipPageHint );
+				IBandContent header = list.getHeader( );
+				if ( header != null )
+				{
+					boolean pageBreak = context.allowPageBreak( );
+					boolean skipPageHint = context.getSkipPageHint( );
+					context.setAllowPageBreak( pageBreak );
+					context.setSkipPageHint( true );
+					engine.layout( header, emitter );
+					context.setAllowPageBreak( pageBreak );
+					context.setSkipPageHint( skipPageHint );
+				}
 			}
 		}
+		isFirstLayout = false;
 	}
 
 	protected boolean layoutChildren( )

@@ -40,7 +40,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		this.report = report;
 		this.reportExecutor = executor;
 		this.emitter = emitter;
-		this.context.setPageEmpty( false );
 	}
 
 	public int getType( )
@@ -48,10 +47,15 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		return LAYOUT_MANAGER_PAGE;
 	}
 
+	boolean isLastPage = false;
 	public boolean layout( )
 	{
 		start( );
 		boolean hasNextPage = layoutChildren( );
+		if (hasNextPage == false)
+		{
+			isLastPage = true;
+		}
 		end( );
 		return hasNextPage;
 	}
@@ -82,6 +86,19 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 
 	protected void end( )
 	{
+		if (isLastPage)
+		{
+			if (pageNumber == 1)
+			{
+				context.setPageEmpty( false );
+			}
+			if (context.isPageEmpty( ))
+			{
+				//remove the last page number
+				pageNumber--;
+				context.setPageNumber( pageNumber );
+			}
+		}
 		if ( !context.isPageEmpty( ) )
 		{
 			assert pageContent != null;

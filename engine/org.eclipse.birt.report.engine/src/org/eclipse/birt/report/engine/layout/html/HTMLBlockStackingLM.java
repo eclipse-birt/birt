@@ -52,15 +52,18 @@ public class HTMLBlockStackingLM extends HTMLAbstractLM
 		{
 			childExecutor = (IReportItemExecutor) executor.getNextChild( );
 			IContent childContent = childExecutor.execute( );
-			childLayout = engine.createLayoutManager( this, childContent,
-					childExecutor, emitter );
-			hasNext = childLayout.layout( );
-			if ( hasNext )
+			if (childContent != null)
 			{
-				return true;
+				childLayout = engine.createLayoutManager( this, childContent,
+						childExecutor, emitter );
+				hasNext = childLayout.layout( );
+				if ( hasNext )
+				{
+					return true;
+				}
+				childLayout.close( );
 			}
 			childExecutor.close( );
-			childLayout.close( );
 		}
 		return false;
 	}

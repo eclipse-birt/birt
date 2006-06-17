@@ -132,7 +132,6 @@ public class DataGenerationEngine extends AbstractDataEngine
 						scope );
 				resultSet = new DteResultSet( resultSet, dteResults );
 			}
-			rsets.addFirst( resultSet );
 
 			// save the
 			storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
@@ -150,8 +149,6 @@ public class DataGenerationEngine extends AbstractDataEngine
 
 	public void shutdown( )
 	{
-		rsets.clear( );
-
 		if ( null != dos )
 		{
 			try

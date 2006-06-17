@@ -11,9 +11,10 @@ class Segment
 	class SegmentEdge
 	{
 
-		SegmentEdge( long offset )
+		SegmentEdge( long offset, boolean leftEdge )
 		{
 			this.offset = offset;
+			this.leftEdge = leftEdge;
 		}
 		long offset;
 		boolean leftEdge;
@@ -62,20 +63,18 @@ class Segment
 			if ( next.offset <= offset )
 			{
 				// insert it after the next
-				edge = new SegmentEdge( offset );
+				edge = new SegmentEdge( offset, left );
 				iter.next( );
 				iter.add( edge );
-				break;
+				return;
 			}
 		}
 		if ( edge == null )
 		{
 			// insert it at the end of the list
-			edge = new SegmentEdge( offset );
+			edge = new SegmentEdge( offset, left );
 			edges.addFirst( edge );
 		}
-
-		edge.leftEdge = left;
 	}
 
 	private static final long UNCLOSE_EDGE = -1;
@@ -117,11 +116,32 @@ class Segment
 	 * 
 	 * 
 	 */
-	private void normalize( )
+	public void normalize( )
 	{
+		// insert the first open in that segment if there is no open.
+		if ( !edges.isEmpty( ) )
+		{
+			SegmentEdge start = (SegmentEdge) edges.getFirst( );
+			if ( !start.leftEdge )
+			{
+				// assume it start from -1
+				start = new SegmentEdge( Long.MIN_VALUE, true );
+				edges.addFirst( start );
+			}
+			SegmentEdge end = (SegmentEdge) edges.getLast( );
+			if ( end.leftEdge )
+			{
+				// assume we need end to Long.MAX_VALUE
+				end = new SegmentEdge( Long.MAX_VALUE, false );
+				edges.addLast( end );
+			}
+		}
+		
 		ArrayList sects = new ArrayList( );
 		long leftEdge = UNCLOSE_EDGE;
 		long rightEdge = UNCLOSE_EDGE;
+		
+		//insert the last close edge in that segment if there is no close.
 		int status = STATUS_INIT;
 		for ( int i = 0; i < edges.size( ); i++ )
 		{

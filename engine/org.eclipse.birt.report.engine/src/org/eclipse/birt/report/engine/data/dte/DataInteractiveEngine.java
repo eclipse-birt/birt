@@ -269,8 +269,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				resultSet = new DteResultSet( parentResult, dteResults );
 			}
 			resultSet.setBaseRSetID( resultSetID );
-		
-			rsets.addFirst( resultSet );
 			
 //			 save the
 			storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
@@ -288,8 +286,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 
 	public void shutdown( )
 	{
-		rsets.clear( );
-
 		if ( null != dos )
 		{
 			try

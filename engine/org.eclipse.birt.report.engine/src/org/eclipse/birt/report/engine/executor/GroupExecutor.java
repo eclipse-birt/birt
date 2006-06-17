@@ -213,7 +213,8 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST
 					.equals( pageBreakAfter ) )
 			{
-				if ( rset.getEndingGroupLevel( ) > groupLevel )
+				int endGroup = rset.getEndingGroupLevel( );
+				if ( endGroup <= groupLevel + 1 )
 				{
 					needPageBreak = true;
 				}

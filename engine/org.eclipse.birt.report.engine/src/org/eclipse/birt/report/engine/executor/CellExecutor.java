@@ -24,6 +24,7 @@ public class CellExecutor extends StyledItemExecutor
 		ICellContent cellContent = report.createCellContent( );
 		setContent(cellContent);
 		
+		restoreResultSet( );
 		initializeContent( cellDesign, cellContent );
 
 		cellContent.setColumn( cellDesign.getColumn( ) );

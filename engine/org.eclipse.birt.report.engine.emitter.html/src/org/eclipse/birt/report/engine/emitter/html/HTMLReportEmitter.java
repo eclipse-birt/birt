@@ -78,6 +78,7 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
@@ -96,7 +97,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.123 $ $Date: 2006/06/15 07:14:03 $
+ * @version $Revision: 1.124 $ $Date: 2006/06/16 09:00:07 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -806,16 +807,33 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			if ( outputMasterPageContent )
 			{
-				//output DIV for page header
-				writer.openTag( HTMLTags.TAG_DIV );		
-				handlePageStyle( page.getPageHeader().getStyleClass( ), page.getPageHeader().getStyle( ) );
-				
-				contentVisitor.visitChildren( page.getPageHeader( ), null );
-				
-				//close the page header
-				writer.closeTag( HTMLTags.TAG_DIV );
+				// output DIV for page header
+				boolean showHeader = true;
+				Object genBy = page.getGenerateBy( );
+				if ( genBy instanceof SimpleMasterPageDesign )
+				{
+					SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
+					if ( !masterPage.isShowHeaderOnFirst( ) )
+					{
+						if ( page.getPageNumber( ) == 1 )
+						{
+							showHeader = false;
+						}
+					}
+				}
+				if ( showHeader )
+				{
+					writer.openTag( HTMLTags.TAG_DIV );
+					handlePageStyle( page.getPageHeader( ).getStyleClass( ),
+							page.getPageHeader( ).getStyle( ) );
+
+					contentVisitor.visitChildren( page.getPageHeader( ), null );
+
+					// close the page header
+					writer.closeTag( HTMLTags.TAG_DIV );
+				}
 			}
-			}
+		}
 		
 		// start output the page body , with the body style 
 		writer.openTag( HTMLTags.TAG_DIV );
@@ -869,14 +887,38 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			if ( outputMasterPageContent )
 			{
-				//start output the page footer
-				writer.openTag( HTMLTags.TAG_DIV );				
-				handlePageStyle( page.getPageFooter().getStyleClass( ), page.getPageFooter().getStyle( ) );			
-				
-				contentVisitor.visitChildren( page.getPageFooter( ), null );
-								
-				//close the page footer
-				writer.closeTag( HTMLTags.TAG_DIV );
+				boolean showFooter = true;
+				Object genBy = page.getGenerateBy( );
+				if ( genBy instanceof SimpleMasterPageDesign )
+				{
+					SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
+					if ( !masterPage.isShowFooterOnLast( ) )
+					{
+						long totalPage = page.getPageNumber( );
+						IReportContent report = page.getReportContent( );
+						if ( report != null )
+						{
+							totalPage = report.getTotalPage( );
+						}
+						if ( page.getPageNumber( ) ==  totalPage)
+						{
+							showFooter = false;
+						}
+					}
+				}
+				if ( showFooter )
+				{
+
+					// start output the page footer
+					writer.openTag( HTMLTags.TAG_DIV );
+					handlePageStyle( page.getPageFooter( ).getStyleClass( ),
+							page.getPageFooter( ).getStyle( ) );
+
+					contentVisitor.visitChildren( page.getPageFooter( ), null );
+
+					// close the page footer
+					writer.closeTag( HTMLTags.TAG_DIV );
+				}
 			}
 		}
 		

@@ -22,6 +22,7 @@ public class TableBandExecutor extends StyledItemExecutor
 		ITableBandContent bandContent = report.createTableBandContent( );
 		setContent(bandContent);
 
+		restoreResultSet( );
 		initializeContent( bandDesign, bandContent );
 		
 		startTOCEntry( bandContent );

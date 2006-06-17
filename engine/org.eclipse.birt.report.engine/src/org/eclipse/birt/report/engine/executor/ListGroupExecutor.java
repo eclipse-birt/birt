@@ -31,6 +31,7 @@ public class ListGroupExecutor extends GroupExecutor
 		IListGroupContent groupContent = report.createListGroupContent( );
 		setContent( groupContent );
 
+		restoreResultSet( );
 		initializeContent( groupDesign, groupContent );
 		handlePageBreakOfGroup( );
 

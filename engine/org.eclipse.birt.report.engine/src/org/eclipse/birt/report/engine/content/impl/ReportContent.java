@@ -44,7 +44,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Report content is the result of report generation.
  * 
- * @version $Revision: 1.13 $ $Date: 2006/04/27 09:52:28 $
+ * @version $Revision: 1.14 $ $Date: 2006/06/13 15:37:19 $
  */
 public class ReportContent implements IReportContent
 {
@@ -68,6 +68,8 @@ public class ReportContent implements IReportContent
 	private TOCNode tocRoot;
 	
 	private IContent root;
+	
+	private long totalPage;
 
 	/**
 	 * default constructor.
@@ -118,6 +120,24 @@ public class ReportContent implements IReportContent
 		return null;
 	}
 	
+	
+	/**
+	 * @return the pageNumber
+	 */
+	public long getTotalPage( )
+	{
+		return totalPage;
+	}
+
+	
+	/**
+	 * @param pageNumber the pageNumber to set
+	 */
+	public void setTotalPage( long totalPage )
+	{
+		this.totalPage = totalPage;
+	}
+
 	public IContent getContent(InstanceID id)
 	{
 		return null;

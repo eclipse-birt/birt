@@ -49,6 +49,7 @@ public class TemplateExecutor extends ReportItemExecutor
 		TemplateDesign templateDesign = (TemplateDesign) design;
 		ILabelContent textContent = report.createLabelContent( );
 
+		restoreResultSet( );
 		IStyle style = textContent.getStyle( );
 		style.setProperty( IStyle.STYLE_BORDER_TOP_COLOR, IStyle.GRAY_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_TOP_STYLE, IStyle.SOLID_VALUE );

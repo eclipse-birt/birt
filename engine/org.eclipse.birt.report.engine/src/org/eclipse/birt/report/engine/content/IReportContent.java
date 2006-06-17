@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * The object represents the report content as a whole.
  * 
- * @version $Revision: 1.11 $ $Date: 2006/04/27 09:52:25 $
+ * @version $Revision: 1.12 $ $Date: 2006/06/13 15:37:17 $
  */
 public interface IReportContent
 {
@@ -60,6 +60,7 @@ public interface IReportContent
 	 */
 	public IContent getRoot();
 
+	public long getTotalPage();
 	/**
 	 * The page content in the report content.
 	 * If the page is not exist, return NULL.

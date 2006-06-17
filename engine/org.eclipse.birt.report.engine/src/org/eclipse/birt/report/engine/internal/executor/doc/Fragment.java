@@ -84,6 +84,8 @@ public class Fragment
 		}
 		//add it into right
 		rightEdge.segment.endSegment( Long.MIN_VALUE );
+		
+		segment.normalize();
 	}
 
 	/**

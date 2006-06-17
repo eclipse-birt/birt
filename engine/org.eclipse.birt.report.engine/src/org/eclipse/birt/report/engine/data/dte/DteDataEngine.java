@@ -31,7 +31,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.42 $ $Date: 2006/05/09 09:26:18 $
+ * @version $Revision: 1.43 $ $Date: 2006/05/10 03:51:19 $
  */
 public class DteDataEngine extends AbstractDataEngine
 {
@@ -121,7 +121,6 @@ public class DteDataEngine extends AbstractDataEngine
 				resultSet = new DteResultSet( resultSet, dteResults );
 			}
 			
-			rsets.addFirst( resultSet );
 			return resultSet;
 		}
 		catch ( BirtException be )

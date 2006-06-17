@@ -57,6 +57,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.IResultSet;
@@ -80,7 +81,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.70 $ $Date: 2006/06/15 07:13:45 $
+ * @version $Revision: 1.71 $ $Date: 2006/06/16 11:02:26 $
  */
 public class ExecutionContext
 {
@@ -1161,6 +1162,10 @@ public class ExecutionContext
 		{
 			totalPage = pageNumber;
 			scriptContext.registerBean( "totalPage", new Long( totalPage ) );
+			if ( reportContent instanceof ReportContent )
+			{
+				( (ReportContent) reportContent ).setTotalPage( totalPage );
+			}
 		}
 	}
 
@@ -1535,6 +1540,11 @@ public class ExecutionContext
 	public IResultSet getResultSet( )
 	{
 		return rset;
+	}
+	
+	public void setResultSet(IResultSet rset)
+	{
+		this.rset = rset;
 	}
 
 	/**

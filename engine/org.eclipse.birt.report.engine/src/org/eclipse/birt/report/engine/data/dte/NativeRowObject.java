@@ -11,12 +11,10 @@
 
 package org.eclipse.birt.report.engine.data.dte;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Scriptable;
 
@@ -24,14 +22,15 @@ import org.mozilla.javascript.Scriptable;
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.5 $ $Date: 2006/05/12 10:14:38 $
+ * @version $Revision: 1.6 $ $Date: 2006/06/05 10:10:36 $
  */
 public class NativeRowObject implements Scriptable
 {
 
+	ExecutionContext context;
 	Scriptable prototype;
 	Scriptable parent;
-	LinkedList rsets;
+	IResultSet rset;
 
 	static final String JS_CLASS_NAME = "DataSetRow";
 
@@ -44,104 +43,91 @@ public class NativeRowObject implements Scriptable
 	{
 	}
 
-	public NativeRowObject( Scriptable parent, LinkedList rsets )
+	public NativeRowObject( Scriptable parent, ExecutionContext context )
 	{
 		setParentScope( parent );
-		this.rsets = rsets;
+		this.context = context;
 	}
 
+	public NativeRowObject( Scriptable parent, IResultSet rset )
+	{
+		setParentScope( parent );
+		this.rset = rset;
+	}
+
+	protected IResultSet getResultSet()
+	{
+		if (rset == null)
+		{
+			return context.getResultSet( );
+		}
+		return rset;
+	}
+	
 	public Object get( String name, Scriptable start )
 	{
+		IResultSet rset = getResultSet( );
+		if ( rset == null )
+		{
+			return null;
+		}
+
 		if ( "_outer".equals( name ) )
 		{
-			LinkedList outRsets = new LinkedList( );
-			outRsets.addAll( rsets );
-			if ( outRsets != null )
+			IResultSet parent = rset.getParent( );
+			if ( parent != null )
 			{
-				outRsets.removeFirst( );
+				return new NativeRowObject( start, parent );
 			}
-			return new NativeRowObject( start, outRsets );
+			return null;
 		}
-		Iterator iter = rsets.iterator( );
 		if ( "__rownum".equals( name ) )
 		{
-			if ( iter.hasNext( ) )
-			{
-				IResultSet rset = (IResultSet) iter.next( );
-				return new Long( rset.getCurrentPosition( ) );
-			}
+			return new Long( rset.getCurrentPosition( ) );
 		}
-		else
+		try
 		{
-			//now only find the expression in the current resultSet.
-			//while ( iter.hasNext( ) )
-			//{
-				IResultSet rset = (IResultSet) iter.next( );
-				try
-				{
-					return rset.getValue( name );
-				}
-				catch ( BirtException ex )
-				{
-					throw new EvaluatorException( ex.toString( ) );
-				}
-			//}
+			return rset.getValue( name );
 		}
-		throw new EvaluatorException("Can't find the column: " + name);
+		catch ( BirtException ex )
+		{
+			throw new EvaluatorException( ex.toString( ) );
+		}
 	}
 
 	public Object get( int index, Scriptable start )
 	{
 		if ( index == 0 )
 		{
-			return get( "__rownum",start );
+			return get( "__rownum", start );
 		}
 		return get( String.valueOf( index ), start );
-		
-		/*
-		if ( !rsets.isEmpty( ) )
-		{
-			IResultSet rset = (IResultSet) rsets.getFirst( );
-			try
-			{
-				IResultMetaData metaData = rset.getResultMetaData( );
-				if ( index >= 0 && index < metaData.getColumnCount( ) )
-				{
-					String name = metaData.getColumnName( index );
-					return rset.getValue( name );
-				}
-			}
-			catch ( BirtException ex )
-			{
-			}
-		}
 
-		return NOT_FOUND;
-		*/
 	}
 
 	public boolean has( String name, Scriptable start )
 	{
-		Iterator iter = rsets.iterator( );
-		while ( iter.hasNext( ) )
+		IResultSet rset = getResultSet( );
+		if ( rset == null )
 		{
-			IResultSet rset = (IResultSet) iter.next( );
-			try
+			return false;
+		}
+
+		try
+		{
+			IResultMetaData metaData = rset.getResultMetaData( );
+			for ( int i = 0; i < metaData.getColumnCount( ); i++ )
 			{
-				IResultMetaData metaData = rset.getResultMetaData( );
-				for ( int i = 0; i < metaData.getColumnCount( ); i++ )
+				String colName = metaData.getColumnName( i );
+				if ( colName.equals( name ) )
 				{
-					String colName = metaData.getColumnName( i );
-					if ( colName.equals( name ) )
-					{
-						return true;
-					}
+					return true;
 				}
 			}
-			catch ( BirtException ex )
-			{
-				// not exist
-			}
+		}
+		catch ( BirtException ex )
+		{
+			// not exist
 		}
 		return false;
 	}
@@ -189,23 +175,23 @@ public class NativeRowObject implements Scriptable
 
 	public Object[] getIds( )
 	{
-		if ( !rsets.isEmpty( ) )
+		IResultSet rset = getResultSet( );
+		if ( rset == null )
 		{
-			IResultSet rset = (IResultSet) rsets.getFirst( );
-			try
+			return null;
+		}
+		try
+		{
+			IResultMetaData metaData = rset.getResultMetaData( );
+			Object[] names = new Object[metaData.getColumnCount( )];
+			for ( int i = 0; i < names.length; i++ )
 			{
-				IResultMetaData metaData = rset.getResultMetaData( );
-				Object[] names = new Object[metaData.getColumnCount( )];
-				for ( int i = 0; i < names.length; i++ )
-				{
-					names[i] = metaData.getColumnName( i );
-				}
-				return names;
+				names[i] = metaData.getColumnName( i );
 			}
-			catch ( BirtException ex )
-			{
-			}
-
+			return names;
+		}
+		catch ( BirtException ex )
+		{
 		}
 		return null;
 	}
