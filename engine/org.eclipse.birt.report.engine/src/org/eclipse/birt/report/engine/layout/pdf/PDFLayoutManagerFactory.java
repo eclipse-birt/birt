@@ -229,6 +229,11 @@ public class PDFLayoutManagerFactory
 			}
 			else
 			{
+				String text = content.getText( );
+				if(text==null || "".equals( text ))
+				{
+					content.setText( " " );
+				}
 				return new PDFTextBlockContainerLM( context, parent, content,
 						emitter, executor );
 			}
