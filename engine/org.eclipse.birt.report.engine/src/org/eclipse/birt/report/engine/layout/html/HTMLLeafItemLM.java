@@ -28,7 +28,10 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 
 	public boolean layout( )
 	{
-		context.setPageEmpty( false );
+		if (status != STATUS_END)
+		{
+			context.setPageEmpty( false );
+		}
 		return super.layout( );
 	}
 	
