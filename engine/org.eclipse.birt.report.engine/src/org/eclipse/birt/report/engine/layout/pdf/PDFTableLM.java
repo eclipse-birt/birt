@@ -434,7 +434,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		IStyle leftCellContentStyle = null;
 		IStyle topCellStyle = null;
 
-		if ( rowID == currentRowID )
+		if ( rowID == currentRowID-1 )
 		{
 			if ( columnID > 0 && currentRowContent[columnID - 1] != null )
 			{
