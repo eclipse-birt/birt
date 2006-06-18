@@ -55,13 +55,11 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -1446,29 +1444,11 @@ public class DEUtil
 			styles = new ArrayList( );
 			ThemeHandle theme = ( (LibraryHandle) SessionHandleAdapter
 					.getInstance( ).getReportDesignHandle( ) ).getTheme( );
-			SlotHandle themeSlot = ( (LibraryHandle) SessionHandleAdapter
-					.getInstance( ).getReportDesignHandle( ) ).getThemes( );
-			// for ( Iterator iter = themeSlot.getContents( ).iterator( );
-			// iter.hasNext( ); )
-			// {
-			// ThemeHandle theme = (ThemeHandle) iter.next( );
-			// // for ( Iterator iterator = theme.getStyles( ).getContents(
-			// ).iterator( ); iterator.hasNext( ); )
-			// // {
-			// // SharedStyleHandle style = (SharedStyleHandle) iterator.next(
-			// );
-			// // try
-			// // {
-			// // style.setName( theme.getName( ) + "." +style.getName( ) );
-			// // }
-			// // catch ( NameException e )
-			// // {
-			// // }
-			// // styles.add( style );
-			// // }
-			// styles.addAll( theme.getStyles( ).getContents( ) );
-			// }
-			styles.addAll( theme.getStyles( ).getContents( ) );
+
+			if (theme != null)
+			{
+				styles.addAll(theme.getStyles().getContents());
+			}
 		}
 
 		Object[] stylesArray = ( styles == null ? new Object[0] : styles
