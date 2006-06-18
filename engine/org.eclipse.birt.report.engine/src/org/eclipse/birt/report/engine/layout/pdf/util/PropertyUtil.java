@@ -44,9 +44,9 @@ public class PropertyUtil
 	 */
     public static boolean isBoldFont(CSSValue value)
     {
-    	if(value instanceof StringValue && value!=null)
+    	if(value!=null)
         {
-    		String weight = ((StringValue)value).getStringValue();
+    		String weight = value.getCssText( );
     		if("bold".equals(weight.toLowerCase()) || "bolder".equals(weight.toLowerCase()) //$NON-NLS-1$ //$NON-NLS-2$
     	            || "600".equals(weight) || "700".equals(weight)  //$NON-NLS-1$//$NON-NLS-2$
     	            || "800".equals(weight) || "900".equals(weight))  //$NON-NLS-1$//$NON-NLS-2$
