@@ -92,7 +92,10 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 			{
 				// fill the contents
 				execute( content, executor );
-				pContent.getChildren( ).add( content );
+				if ( !pContent.getChildren( ).contains( content ) )
+				{
+					pContent.getChildren( ).add( content );
+				}
 			}
 			executor = new DOMReportItemExecutor( content );
 			executor.execute( );

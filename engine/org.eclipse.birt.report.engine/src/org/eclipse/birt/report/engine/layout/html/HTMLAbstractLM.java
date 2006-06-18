@@ -424,7 +424,10 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 				IContent childContent = childExecutor.execute( );
 				if ( childContent != null )
 				{
-					content.getChildren( ).add( childContent );
+					if ( !content.getChildren( ).contains( childContent ) )
+					{
+						content.getChildren( ).add( childContent );
+					}
 				}
 				execute( childContent, childExecutor );
 				childExecutor.close( );
