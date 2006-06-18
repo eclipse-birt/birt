@@ -75,7 +75,6 @@ public class TOCBuilder
 	public TOCEntry startEntry( TOCEntry parent, String displayString, String bookmark )
 	{
 		assert displayString != null;
-		assert bookmark != null;
 
 		if ( parent == null )
 		{
