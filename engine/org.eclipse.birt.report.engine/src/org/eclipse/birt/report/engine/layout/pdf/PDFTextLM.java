@@ -53,15 +53,9 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 
 		ITextContent textContent = (ITextContent) content;
 		String text = textContent.getText( );
-		if ( !PropertyUtil.isInlineElement( content ) )
-		{
-			if ( text == null && "".equals( text ) ) //$NON-NLS-1$
-			{
-				textContent.setText( " " ); //$NON-NLS-1$
-			}
-		}
 		if ( text != null && text.length( ) != 0 )
 		{
+			transform( textContent );
 			this.textContent = textContent;
 			comp = new Compositor( textContent, lineLM.getMaxAvaWidth( ), this );
 		}
@@ -71,7 +65,6 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 	{
 		if ( null == textContent )
 			return false;
-		transform( textContent );
 		pause = false;
 		return comp.compose( );
 	}
