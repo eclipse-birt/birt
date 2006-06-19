@@ -71,6 +71,7 @@ public class TableContentLayout
 		return realColCount;
 	}
 
+	boolean isRowHidden;
 	/**
 	 * create a row in the table model
 	 * 
@@ -86,6 +87,7 @@ public class TableContentLayout
 		}
 		if(!isRowHidden( rowContent ))
 		{
+			isRowHidden = false;
 			ensureSize( rowCount + 1, realColCount );
 			Row row = rows[rowCount];
 			row.rowId = currentRowID;
@@ -143,6 +145,7 @@ public class TableContentLayout
 		else
 		{
 			hiddenRowCount++;
+			isRowHidden = true;
 		}
 		
 			
@@ -174,6 +177,10 @@ public class TableContentLayout
 	public void createCell( int cellId, int rowSpan, int colSpan,
 			Cell.Content content )
 	{
+		if (isRowHidden)
+		{
+			return;
+		}
 		//assert(cellId>0 && cellId<=colCount);
 		//resolve real columnNumber and columnSpan
 		int columnNumber = cellId;
