@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.content.IContent;
@@ -23,9 +22,23 @@ import org.eclipse.birt.report.engine.layout.ILayoutManager;
 public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 {
 
+	/**
+	 * does the children has been intialized.
+	 */
+	protected boolean initializedChildren = false;
+	/**
+	 * all the inline children layouts
+	 */
 	protected List childrenLayouts = new ArrayList( );
+	/**
+	 * children executor.
+	 */
 	protected List childrenExecutors = new ArrayList( );
-	protected List childrenResults = new ArrayList( );
+
+	/**
+	 * the current finish status of all the chidren.
+	 */
+	protected List childrenFinished = new ArrayList();
 
 	public HTMLInlineStackingLM( HTMLLayoutManagerFactory factory )
 	{
@@ -43,34 +56,12 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 	{
 		childrenLayouts.clear( );
 		childrenExecutors.clear( );
-		childrenResults.clear( );
+		childrenFinished.clear();
 		super.close( );
-	}
-
-	public void cancel( )
-	{
-		Iterator iter = childrenLayouts.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			ILayoutManager layout = (ILayoutManager) iter.next( );
-			layout.cancel( );
-			layout.close( );
-		}
-		iter = childrenExecutors.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			IReportItemExecutor executor = (IReportItemExecutor) iter.next( );
-			executor.close( );
-		}
-		childrenLayouts.clear( );
-		childrenExecutors.clear( );
-		childrenResults.clear( );
-		super.cancel( );
 	}
 
 	private void initalizeChildren( )
 	{
-
 		while ( executor.hasNextChild( ) )
 		{
 			IReportItemExecutor childExecutor = (IReportItemExecutor) executor
@@ -80,40 +71,58 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 					childContent, childExecutor, emitter );
 			childrenLayouts.add( childLayout );
 			childrenExecutors.add( childExecutor );
-			childrenResults.add( Boolean.TRUE );
+			childrenFinished.add( Boolean.FALSE );
 		}
 	}
 
+	/**
+	 * layout the children, return if it should create a 
+	 * new page after this layout.
+	 * @return
+	 */
 	protected boolean resumeLayout( )
 	{
-		boolean hasNext = false;
+		boolean hasNextPage = false;
 		for ( int i = 0; i < childrenLayouts.size( ); i++ )
 		{
-			boolean childHasNext = ( (Boolean) childrenResults.get( i ) )
+			boolean childFinished = ( (Boolean) childrenFinished.get( i ) )
 					.booleanValue( );
-			if ( childHasNext )
+			if ( !childFinished )
 			{
 				ILayoutManager childLayout = (ILayoutManager) childrenLayouts
 						.get( i );
-				childHasNext = childLayout.layout( );
-				if ( childHasNext )
+				boolean childHasNewPage = childLayout.layout( );
+				if (childHasNewPage)
 				{
-					hasNext = true;
+					hasNextPage = true;
 				}
-				else
+				childFinished = childLayout.isFinished( );
+				if (childFinished)
 				{
 					childLayout.close( );
 					IReportItemExecutor childExecutor = (IReportItemExecutor) childrenExecutors
 							.get( i );
 					childExecutor.close( );
 				}
-				childrenResults.set( i, Boolean.valueOf( childHasNext ) );
+				childrenFinished.set( i, Boolean.valueOf( childFinished ) );
 			}
 		}
-		return hasNext;
+		return hasNextPage;
 	}
-
-	boolean initializedChildren = false;
+	
+	protected boolean isChildrenFinished( )
+	{
+		for ( int i = 0; i < childrenLayouts.size( ); i++ )
+		{
+			boolean childFinished = ( (Boolean) childrenFinished.get( i ) )
+					.booleanValue( );
+			if ( !childFinished )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	protected boolean layoutChildren( )
 	{
@@ -124,4 +133,5 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 		}
 		return resumeLayout( );
 	}
+	
 }

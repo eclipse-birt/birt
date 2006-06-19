@@ -74,6 +74,17 @@ public class HTMLLayoutContext
 	{
 		return finished;
 	}
+	
+	boolean cancelFlag = false;
+	void setCancelFlag(boolean flag)
+	{
+		cancelFlag = flag;
+	}
+	
+	boolean getCancelFlag()
+	{
+		return cancelFlag;
+	}
 
 	boolean skipPageHint = false;
 	ArrayList pageHint = new ArrayList( );

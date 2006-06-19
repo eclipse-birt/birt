@@ -29,13 +29,14 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
  */
 public abstract class ListingElementExecutor extends QueryItemExecutor
 {
+
 	/**
 	 * the cursor position in the query result.
 	 */
 	protected int rsetCursor;
 
 	protected boolean needPageBreak;
-	
+
 	/**
 	 * @param context
 	 *            execution context
@@ -79,7 +80,9 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		list.accept( new ClearDuplicateFlagVisitor( ), null );
 	}
 
-	protected class ClearDuplicateFlagVisitor extends DefaultReportItemVisitorImpl
+	protected class ClearDuplicateFlagVisitor
+			extends
+				DefaultReportItemVisitorImpl
 	{
 
 		public Object visitFreeFormItem( FreeFormItemDesign container,
@@ -94,17 +97,37 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 		public Object visitListing( ListingDesign list, Object value )
 		{
-			value = list.getHeader( ).accept( this, value );
+			BandDesign header = list.getHeader( );
+			if ( header != null )
+			{
+				value = header.accept( this, value );
+			}
 			for ( int i = 0; i < list.getGroupCount( ); i++ )
 			{
 				GroupDesign group = list.getGroup( i );
-				value = group.getHeader( ).accept( this, value );
-				value = group.getFooter( ).accept( this, value );
+				BandDesign groupHeader = group.getHeader( );
+				if ( groupHeader != null )
+				{
+					value = groupHeader.accept( this, value );
+				}
+				BandDesign groupFooter = group.getFooter( );
+				if ( groupFooter != null )
+				{
+					value = groupFooter.accept( this, value );
+				}
 			}
 
-			value = list.getDetail( ).accept( this, value );
+			BandDesign detail = list.getDetail( );
+			if ( detail != null )
+			{
+				value = detail.accept( this, value );
+			}
 
-			list.getFooter( ).accept( this, value );
+			BandDesign footer = list.getFooter( );
+			if ( footer != null )
+			{
+				value = footer.accept( this, value );
+			}
 			return null;
 		}
 
@@ -153,16 +176,20 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		public Object visitGroup( GroupDesign group, Object value )
 		{
 			BandDesign header = group.getHeader( );
-			value = header.accept( this, value );
+			if ( header != null )
+			{
+				value = header.accept( this, value );
+			}
 			BandDesign footer = group.getFooter( );
-			value = footer.accept( this, value );
+			if ( footer != null )
+			{
+				value = footer.accept( this, value );
+			}
 			return value;
 		}
 	}
-	
-	
 
-	public boolean hasNextChild()
+	public boolean hasNextChild( )
 	{
 		if ( currentElement < totalElements )
 		{
@@ -172,25 +199,25 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		{
 			return false;
 		}
-		
-		int endGroup = rset.getEndingGroupLevel( ); 
-		if ( endGroup <= 0)
+
+		int endGroup = rset.getEndingGroupLevel( );
+		if ( endGroup <= 0 )
 		{
-			ListingDesign listingDesign = (ListingDesign)getDesign();
+			ListingDesign listingDesign = (ListingDesign) getDesign( );
 			totalElements = 0;
 			currentElement = 0;
-			executableElements[totalElements++] = listingDesign.getFooter();
+			executableElements[totalElements++] = listingDesign.getFooter( );
 			endOfListing = true;
 			return true;
 		}
 		if ( rset.next( ) )
 		{
-			collectExecutableElements();
+			collectExecutableElements( );
 			return true;
 		}
 		return false;
 	}
-	
+
 	public IReportItemExecutor getNextChild( )
 	{
 		if ( hasNextChild( ) )
@@ -200,70 +227,90 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 			ReportItemExecutor nextExecutor = manager.createExecutor( this,
 					nextDesign );
-			if (nextExecutor instanceof GroupExecutor )
+			if ( nextExecutor instanceof GroupExecutor )
 			{
-				GroupExecutor groupExecutor = (GroupExecutor)nextExecutor;
+				GroupExecutor groupExecutor = (GroupExecutor) nextExecutor;
 				groupExecutor.setLisingExecutor( this );
 			}
 			return nextExecutor;
 		}
 		return null;
 	}
-	
-	//bands to be execute in current row.
+
+	// bands to be execute in current row.
 	ReportItemDesign[] executableElements;
-	//total bands in the executabelBands
+	// total bands in the executabelBands
 	int totalElements;
-	//band to be executed
+	// band to be executed
 	int currentElement;
 	boolean endOfListing;
-	
-	protected void prepareToExecuteChildren()
-	{
-		ListingDesign listingDesign = (ListingDesign)getDesign();
 
-		//prepare the bands to be executed. 
+	protected void prepareToExecuteChildren( )
+	{
+		ListingDesign listingDesign = (ListingDesign) getDesign( );
+
+		// prepare the bands to be executed.
 		executableElements = new ReportItemDesign[3];
-		if (rset == null || rsetEmpty)
+		if ( rset == null || rsetEmpty )
 		{
-			executableElements[totalElements++] = listingDesign.getHeader();;
-			executableElements[totalElements++] = listingDesign.getFooter();;
+			BandDesign header = listingDesign.getHeader( );
+			if ( header != null )
+			{
+				executableElements[totalElements++] = header;
+			}
+			BandDesign footer = listingDesign.getFooter( );
+			if ( footer != null )
+			{
+				executableElements[totalElements++] = footer;
+			}
 			endOfListing = true;
 		}
 		else
 		{
-			collectExecutableElements();
+			collectExecutableElements( );
 		}
 	}
-	
-	void collectExecutableElements()
+
+	void collectExecutableElements( )
 	{
 		currentElement = 0;
 		totalElements = 0;
 		endOfListing = false;
-		ListingDesign listingDesign = (ListingDesign)getDesign();
-		int groupCount = listingDesign.getGroupCount();
+		ListingDesign listingDesign = (ListingDesign) getDesign( );
+		int groupCount = listingDesign.getGroupCount( );
 		int startGroup = rset.getStartingGroupLevel( );
-		if (startGroup == 0)
+		if ( startGroup == 0 )
 		{
-			//this is the first record
-			executableElements[totalElements++] = listingDesign.getHeader( );
+			// this is the first record
+			BandDesign header = listingDesign.getHeader( );
+			if ( header != null )
+			{
+				executableElements[totalElements++] = header;
+			}
 		}
-		if (groupCount > 0)
+		if ( groupCount > 0 )
 		{
 			executableElements[totalElements++] = listingDesign.getGroup( 0 );
 		}
 		else
 		{
-			executableElements[totalElements++] = listingDesign.getDetail( );
+			BandDesign detail = listingDesign.getDetail( );
+			if ( detail != null )
+			{
+				executableElements[totalElements++] = detail;
+			}
 		}
 		int endGroup = rset.getEndingGroupLevel( );
-		if (endGroup <= 0)
+		if ( endGroup <= 0 )
 		{
-			//this is the last record
-			executableElements[totalElements++] = listingDesign.getFooter( );
+			// this is the last record
+			BandDesign footer = listingDesign.getFooter( );
+			if ( footer != null )
+			{
+				executableElements[totalElements++] = listingDesign.getFooter( );
+			}
 			endOfListing = true;
 		}
-		
+
 	}
 }

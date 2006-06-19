@@ -72,11 +72,13 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		context.setFinish(  false );
 		HTMLPageLM pageLM = new HTMLPageLM( this, report, executor, emitter );
 
-		boolean hasNext = pageLM.layout( );
-		while ( hasNext )
+		boolean finished = false;
+		do
 		{
-			hasNext = pageLM.layout( );
-		}
+			pageLM.layout( );
+			finished = pageLM.isFinished( );
+		} while ( !finished );
+		
 		pageLM.close( );
 
 		if ( emitter != null )

@@ -64,7 +64,6 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 		repeatHeader( );
 		boolean hasNext = super.layoutChildren( );
 		return hasNext;
-
 	}
 
 }

@@ -39,6 +39,11 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 	{
 		return false;
 	}
+	
+	protected boolean isChildrenFinished()
+	{
+		return true;
+	}
 
 	protected void processEndStatus( )
 	{

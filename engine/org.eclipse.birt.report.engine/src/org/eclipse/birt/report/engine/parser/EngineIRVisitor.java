@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.108 $ $Date: 2006/06/13 15:37:23 $
+ * @version $Revision: 1.109 $ $Date: 2006/06/16 11:02:32 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -450,10 +450,13 @@ class EngineIRVisitor extends DesignVisitor
 
 		// Header
 		SlotHandle headerSlot = handle.getHeader( );
-		ListBandDesign header = createListBand( headerSlot );
-		header.setBandType( ListBandDesign.BAND_HEADER );
-		listItem.setHeader( header );
-		listItem.setRepeatHeader( handle.repeatHeader( ) );
+		if ( headerSlot.getCount( ) > 0 )
+		{
+			ListBandDesign header = createListBand( headerSlot );
+			header.setBandType( ListBandDesign.BAND_HEADER );
+			listItem.setHeader( header );
+			listItem.setRepeatHeader( handle.repeatHeader( ) );
+		}
 
 		// Multiple groups
 		SlotHandle groupsSlot = handle.getGroups( );
@@ -470,15 +473,21 @@ class EngineIRVisitor extends DesignVisitor
 
 		// List detail
 		SlotHandle detailSlot = handle.getDetail( );
-		ListBandDesign detail =createListBand( detailSlot );
-		detail.setBandType( ListBandDesign.BAND_DETAIL );
-		listItem.setDetail( detail );
+		if ( detailSlot.getCount( ) > 0 )
+		{
+			ListBandDesign detail = createListBand( detailSlot );
+			detail.setBandType( ListBandDesign.BAND_DETAIL );
+			listItem.setDetail( detail );
+		}
 
 		// List Footer
 		SlotHandle footerSlot = handle.getFooter( );
-		ListBandDesign footer =createListBand( footerSlot );
-		footer.setBandType( ListBandDesign.BAND_DETAIL );
-		listItem.setFooter( footer );
+		if ( footerSlot.getCount( ) > 0 )
+		{
+			ListBandDesign footer = createListBand( footerSlot );
+			footer.setBandType( ListBandDesign.BAND_DETAIL );
+			listItem.setFooter( footer );
+		}
 
 		currentElement = listItem;
 	}
@@ -880,9 +889,12 @@ class EngineIRVisitor extends DesignVisitor
 
 		// Handle Table Header
 		SlotHandle headerSlot = handle.getHeader( );
-		TableBandDesign header = createTableBand( headerSlot );
-		header.setBandType( TableBandDesign.BAND_HEADER );
-		table.setHeader( header );
+		if ( headerSlot.getCount( ) > 0 )
+		{
+			TableBandDesign header = createTableBand( headerSlot );
+			header.setBandType( TableBandDesign.BAND_HEADER );
+			table.setHeader( header );
+		}
 
 		// Handle grouping in table
 		SlotHandle groupSlot = handle.getGroups( );
@@ -899,51 +911,59 @@ class EngineIRVisitor extends DesignVisitor
 
 		// Handle detail section
 		SlotHandle detailSlot = handle.getDetail( );
-		TableBandDesign detail = createTableBand( detailSlot );
-		detail.setBandType( TableBandDesign.BAND_DETAIL );
-		table.setDetail( detail );
+		if ( detailSlot.getCount( ) > 0 )
+		{
+			TableBandDesign detail = createTableBand( detailSlot );
+			detail.setBandType( TableBandDesign.BAND_DETAIL );
+			table.setDetail( detail );
+		}
 
 		// Handle table footer
 		SlotHandle footerSlot = handle.getFooter( );
-		TableBandDesign footer = createTableBand( footerSlot );
-		footer.setBandType( TableBandDesign.BAND_FOOTER );
-		table.setFooter( footer );
+		if ( footerSlot.getCount( ) > 0 )
+		{
+			TableBandDesign footer = createTableBand( footerSlot );
+			footer.setBandType( TableBandDesign.BAND_FOOTER );
+			table.setFooter( footer );
+		}
 
 		new TableItemDesignLayout( ).layout( table );
 
 		//setup the supressDuplicate property of the data items in the 
 		//detail band		
 		
-		detail = (TableBandDesign) table.getDetail( );
-		
-		for ( int i = 0; i < detail.getRowCount( ); i++ )
+		TableBandDesign detail = (TableBandDesign) table.getDetail( );
+		if ( detail != null )
 		{
-			RowDesign row = detail.getRow(i);
-			for (int j = 0; j < row.getCellCount( ); j++)
+			for ( int i = 0; i < detail.getRowCount( ); i++ )
 			{
-				CellDesign cell = row.getCell( j );
-				ColumnDesign column = table.getColumn( cell.getColumn( ) );
-				if ( column.getSuppressDuplicate( ) )
+				RowDesign row = detail.getRow( i );
+				for ( int j = 0; j < row.getCellCount( ); j++ )
 				{
-					for ( int k = 0; k < cell.getContentCount( ); k++ )
+					CellDesign cell = row.getCell( j );
+					ColumnDesign column = table.getColumn( cell.getColumn( ) );
+					if ( column.getSuppressDuplicate( ) )
 					{
-						ReportItemDesign item = cell.getContent( k );
-						if ( item instanceof DataItemDesign ) 
+						for ( int k = 0; k < cell.getContentCount( ); k++ )
 						{
-							DataItemDesign dataItem = ( DataItemDesign )item;
-							dataItem.setSuppressDuplicate( true );
+							ReportItemDesign item = cell.getContent( k );
+							if ( item instanceof DataItemDesign )
+							{
+								DataItemDesign dataItem = (DataItemDesign) item;
+								dataItem.setSuppressDuplicate( true );
+							}
 						}
 					}
-				}
-				if ( !column.hasDataItemsInDetail( ) )
-				{
-					for ( int k = 0; k < cell.getContentCount( ); k++ )
+					if ( !column.hasDataItemsInDetail( ) )
 					{
-						ReportItemDesign item = cell.getContent( k );
-						if ( item instanceof DataItemDesign ) 
+						for ( int k = 0; k < cell.getContentCount( ); k++ )
 						{
-							column.setHasDataItemsInDetail( true );
-							break;
+							ReportItemDesign item = cell.getContent( k );
+							if ( item instanceof DataItemDesign )
+							{
+								column.setHasDataItemsInDetail( true );
+								break;
+							}
 						}
 					}
 				}
@@ -1143,28 +1163,36 @@ class EngineIRVisitor extends DesignVisitor
 
 		setupGroup( listGroup, handle );
 
-		ListBandDesign header = createListBand( handle.getHeader( ) );
-		header.setBandType( ListBandDesign.GROUP_HEADER );
-		header.setGroup( listGroup );
-		listGroup.setHeader( header );
-		listGroup.setHeaderRepeat( handle.repeatHeader( ) );
-
-		// flatten TOC on group to the first report item in group header
-		String tocExpr = handle.getTocExpression( );
-		if ( null != tocExpr && !"".equals( tocExpr.trim( ) ) ) //$NON-NLS-1$
+		SlotHandle headerSlot = handle.getHeader( );
+		if ( headerSlot.getCount( ) > 0 )
 		{
-			if ( header.getContentCount( ) > 0 )
+			ListBandDesign header = createListBand( headerSlot );
+			header.setBandType( ListBandDesign.GROUP_HEADER );
+			header.setGroup( listGroup );
+			listGroup.setHeader( header );
+			listGroup.setHeaderRepeat( handle.repeatHeader( ) );
+
+			// flatten TOC on group to the first report item in group header
+			String tocExpr = handle.getTocExpression( );
+			if ( null != tocExpr && !"".equals( tocExpr.trim( ) ) ) //$NON-NLS-1$
 			{
-				ReportItemDesign item = (ReportItemDesign) header
-						.getContent( 0 );
-				item.setTOC( createExpression( tocExpr ) );
+				if ( header.getContentCount( ) > 0 )
+				{
+					ReportItemDesign item = (ReportItemDesign) header
+							.getContent( 0 );
+					item.setTOC( createExpression( tocExpr ) );
+				}
 			}
 		}
 
-		ListBandDesign footer = createListBand( handle.getFooter( ) );
-		footer.setBandType( ListBandDesign.GROUP_FOOTER );
-		footer.setGroup( listGroup );
-		listGroup.setFooter( footer );
+		SlotHandle footerSlot = handle.getFooter( );
+		if ( footerSlot.getCount( ) > 0 )
+		{
+			ListBandDesign footer = createListBand( footerSlot );
+			footer.setBandType( ListBandDesign.GROUP_FOOTER );
+			footer.setGroup( listGroup );
+			listGroup.setFooter( footer );
+		}
 
 		boolean hideDetail = handle.hideDetail( );
 		listGroup.setHideDetail( hideDetail );
@@ -1185,27 +1213,35 @@ class EngineIRVisitor extends DesignVisitor
 
 		setupGroup( tableGroup, handle );
 
-		TableBandDesign header = createTableBand( handle.getHeader( ) );
-		header.setBandType( TableBandDesign.GROUP_HEADER );
-		header.setGroup( tableGroup );
-		tableGroup.setHeader( header );
-		tableGroup.setHeaderRepeat( handle.repeatHeader( ) );
-
-		// flatten TOC on group to the first report item in group header
-		String toc = handle.getTocExpression( );
-		if ( null != toc && !"".equals( toc.trim( ) ) ) //$NON-NLS-1$
+		SlotHandle headerSlot = handle.getHeader( );
+		if ( headerSlot.getCount( ) > 0 )
 		{
-			if ( header.getRowCount( ) > 0 )
+			TableBandDesign header = createTableBand( handle.getHeader( ) );
+			header.setBandType( TableBandDesign.GROUP_HEADER );
+			header.setGroup( tableGroup );
+			tableGroup.setHeader( header );
+			tableGroup.setHeaderRepeat( handle.repeatHeader( ) );
+			
+			// flatten TOC on group to the first report item in group header
+			String toc = handle.getTocExpression( );
+			if ( null != toc && !"".equals( toc.trim( ) ) ) //$NON-NLS-1$
 			{
-				RowDesign row = header.getRow( 0 );
-				row.setTOC( createExpression( toc ) );
+				if ( header.getRowCount( ) > 0 )
+				{
+					RowDesign row = header.getRow( 0 );
+					row.setTOC( createExpression( toc ) );
+				}
 			}
 		}
 
-		TableBandDesign footer = createTableBand( handle.getFooter( ) );
-		footer.setBandType( TableBandDesign.GROUP_FOOTER );
-		footer.setGroup( tableGroup );
-		tableGroup.setFooter( footer );
+		SlotHandle footerSlot = handle.getFooter( );
+		if ( footerSlot.getCount( ) > 0 )
+		{
+			TableBandDesign footer = createTableBand( handle.getFooter( ) );
+			footer.setBandType( TableBandDesign.GROUP_FOOTER );
+			footer.setGroup( tableGroup );
+			tableGroup.setFooter( footer );
+		}
 		
 		boolean hideDetail = handle.hideDetail( );
 		tableGroup.setHideDetail( hideDetail );

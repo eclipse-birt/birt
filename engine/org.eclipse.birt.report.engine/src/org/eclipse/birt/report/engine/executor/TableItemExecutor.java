@@ -18,10 +18,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
-import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
-import org.eclipse.birt.report.engine.ir.ListingDesign;
-import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
 
@@ -36,7 +33,7 @@ import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.46 $ $Date: 2006/05/18 09:10:26 $
+ * @version $Revision: 1.49 $ $Date: 2006/06/13 15:37:16 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {

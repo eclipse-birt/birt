@@ -31,50 +31,58 @@ public class HTMLBlockStackingLM extends HTMLAbstractLM
 		return LAYOUT_MANAGER_BLOCK;
 	}
 
+	protected boolean isChildrenFinished()
+	{
+		return childExecutor == null && !executor.hasNextChild( );
+	}
+	
 	protected boolean layoutChildren( )
 	{
 		boolean hasNext = false;
-
+		
 		// first we need layout the remain content
 		if ( childLayout != null )
 		{
 			hasNext = childLayout.layout( );
+			if (childLayout.isFinished( ))
+			{
+				childLayout.close( );
+				childExecutor.close( );
+				childLayout = null;
+				childExecutor = null;
+			}
 			if ( hasNext )
 			{
 				return true;
 			}
-			childLayout.close( );
-			childExecutor.close( );
-			childLayout = null;
 		}
 		// then layout the next content
 		while ( executor.hasNextChild( ) )
 		{
 			childExecutor = (IReportItemExecutor) executor.getNextChild( );
 			IContent childContent = childExecutor.execute( );
-			if (childContent != null)
+			if ( childContent != null )
 			{
 				childLayout = engine.createLayoutManager( this, childContent,
 						childExecutor, emitter );
 				hasNext = childLayout.layout( );
-				if ( hasNext )
+				if (hasNext)
 				{
+					if (childLayout.isFinished( ))
+					{
+						childLayout.close( );
+						childExecutor.close( );
+						childLayout = null;
+						childExecutor = null;
+					}
 					return true;
 				}
 				childLayout.close( );
+				childLayout = null;
 			}
 			childExecutor.close( );
+			childExecutor = null;
 		}
 		return false;
-	}
-
-	public void cancel( )
-	{
-		if ( childLayout != null )
-		{
-			childLayout.cancel( );
-			childLayout.close( );
-			childExecutor.close( );
-		}
 	}
 }

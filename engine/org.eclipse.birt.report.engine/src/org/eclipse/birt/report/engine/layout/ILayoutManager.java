@@ -20,6 +20,8 @@ public interface ILayoutManager
 	 * @return true if page-break occurs, return false if end without page-break
 	 */
 	boolean layout( );
+	
+	boolean isFinished();
 
 	void cancel( );
 

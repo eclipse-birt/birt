@@ -176,15 +176,22 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 				start( );
 				boolean hasNext = layoutChildren( );
 				end( );
+				
+				if (isChildrenFinished())
+				{
+					status = STATUS_END;
+				}
+				else
+				{
+					status = STATUS_INPROGRESS;
+				}
 				if ( hasNext )
 				{
 					// there are sill some content to output,
 					// return to caller to creat the new page.
-					status = STATUS_INPROGRESS;
 					context.endContentWithPageBreak(content);
 					return true;
 				}
-				status = STATUS_END;
 				context.endContent(content);
 				// We need create an extra page for the following elements, so
 				// return true for next element.
@@ -198,6 +205,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	}
 
 	protected abstract boolean layoutChildren( );
+	
+	protected abstract boolean isChildrenFinished();
 
 	public boolean isFinished( )
 	{

@@ -40,6 +40,27 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		this.report = report;
 		this.reportExecutor = executor;
 		this.emitter = emitter;
+		this.executor = new IReportItemExecutor( ) {
+
+			public void close( )
+			{
+			}
+
+			public IContent execute( )
+			{
+				return pageContent;
+			}
+
+			public IReportItemExecutor getNextChild( )
+			{
+				return reportExecutor.getNextChild( );
+			}
+
+			public boolean hasNextChild( )
+			{
+				return reportExecutor.hasNextChild( );
+			}
+		};
 	}
 
 	public int getType( )
@@ -48,16 +69,22 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 	}
 
 	boolean isLastPage = false;
+
 	public boolean layout( )
 	{
 		start( );
 		boolean hasNextPage = layoutChildren( );
-		if (hasNextPage == false)
+		if ( isChildrenFinished( ) )
 		{
 			isLastPage = true;
 		}
 		end( );
 		return hasNextPage;
+	}
+	
+	public boolean isFinished( )
+	{
+		return isLastPage;
 	}
 
 	protected void pageBreakEvent( )
@@ -86,15 +113,15 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 
 	protected void end( )
 	{
-		if (isLastPage)
+		if ( isLastPage )
 		{
-			if (pageNumber == 1)
+			if ( pageNumber == 1 )
 			{
 				context.setPageEmpty( false );
 			}
-			if (context.isPageEmpty( ))
+			if ( context.isPageEmpty( ) )
 			{
-				//remove the last page number
+				// remove the last page number
 				pageNumber--;
 				context.setPageNumber( pageNumber );
 			}
@@ -111,39 +138,5 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			context.setPageEmpty( true );
 			context.clearPageHint( );
 		}
-	}
-
-	protected boolean layoutChildren( )
-	{
-		boolean hasNext = false;
-
-		// first we need layout the remain content
-		if ( childLayout != null )
-		{
-			hasNext = childLayout.layout( );
-			if ( hasNext )
-			{
-				return true;
-			}
-			childLayout.close( );
-			childExecutor.close( );
-			childLayout = null;
-		}
-		// then layout the next content
-		while ( reportExecutor.hasNextChild( ) )
-		{
-			childExecutor = (IReportItemExecutor) reportExecutor.getNextChild( );
-			IContent childContent = childExecutor.execute( );
-			childLayout = engine.createLayoutManager( this, childContent,
-					childExecutor, emitter );
-			hasNext = childLayout.layout( );
-			if ( hasNext )
-			{
-				return true;
-			}
-			childExecutor.close( );
-			childLayout.close( );
-		}
-		return false;
 	}
 }

@@ -98,7 +98,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.73 $ $Date: 2006/06/15 07:13:45 $
+ * @version $Revision: 1.74 $ $Date: 2006/06/17 12:28:57 $
  */
 public class ReportQueryBuilder
 {
@@ -455,7 +455,8 @@ public class ReportQueryBuilder
 				}
 				popCurrentCondition( );
 
-				if ( list.getDetail( ).getContentCount( ) != 0 )
+				BandDesign detail = list.getDetail( );
+				if ( detail != null && detail.getContentCount( ) != 0 )
 				{
 					query.setUsesDetails( true );
 				}
@@ -547,7 +548,8 @@ public class ReportQueryBuilder
 				}
 				popCurrentCondition( );
 
-				if ( table.getDetail( ).getContentCount( ) != 0 )
+				BandDesign detail = table.getDetail( );
+				if ( detail != null && detail.getContentCount( ) != 0 )
 				{
 					query.setUsesDetails( true );
 				}
@@ -611,9 +613,12 @@ public class ReportQueryBuilder
 		 */
 		public void handleListingBand( BandDesign band, Object value )
 		{
-			for ( int i = 0; i < band.getContentCount( ); i++ )
+			if ( band != null )
 			{
-				band.getContent( i ).accept( this, value );
+				for ( int i = 0; i < band.getContentCount( ); i++ )
+				{
+					band.getContent( i ).accept( this, value );
+				}
 			}
 		}
 

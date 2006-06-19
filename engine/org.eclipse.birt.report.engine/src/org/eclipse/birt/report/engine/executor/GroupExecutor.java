@@ -3,6 +3,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -48,7 +49,11 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			{
 				totalElements = 0;
 				currentElement = 0;
-				executableElements[totalElements++] = groupDesign.getFooter();
+				BandDesign footer = groupDesign.getFooter();
+				if (footer != null)
+				{
+					executableElements[totalElements++] = footer;
+				}
 				endOfGroup = true;
 				return true;
 			}
@@ -118,7 +123,11 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		if (startGroup <= groupLevel)
 		{
 			//this is the first record
-			executableElements[totalElements++] = groupDesign.getHeader( );
+			BandDesign header = groupDesign.getHeader( );
+			if (header != null)
+			{
+				executableElements[totalElements++] = header;
+			}
 		}
 		if ( !hiddenDetail )
 		{
@@ -128,14 +137,22 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			}
 			else 
 			{
-				executableElements[totalElements++] = listingDesign.getDetail( );
+				BandDesign detail = listingDesign.getDetail( );
+				if (detail != null)
+				{
+					executableElements[totalElements++] = listingDesign.getDetail( );
+				}
 			}
 		}
 		int endGroup = rset.getEndingGroupLevel( );
 		if (endGroup <= groupLevel )
 		{
 			//this is the last record
-			executableElements[totalElements++] = groupDesign.getFooter( );
+			BandDesign footer = groupDesign.getFooter( );
+			if (footer != null)
+			{
+				executableElements[totalElements++] = groupDesign.getFooter( );
+			}
 			if (endGroup <= groupLevel )
 			{
 				endOfGroup = true;

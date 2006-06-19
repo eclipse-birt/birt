@@ -556,7 +556,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.7 $ $Date: 2006/05/11 09:00:06 $
+	 * @version $Revision: 1.8 $ $Date: 2006/06/13 15:37:34 $
 	 */
 	protected class GenerateIDMapVisitor extends DefaultReportItemVisitorImpl
 	{
@@ -628,21 +628,36 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 		public Object visitListingItem( ListItemDesign list, Object value )
 		{
 			IDMaps.put( new Long( list.getID( ) ), list );
-			list.getHeader( ).accept( this, value);
+			if ( list.getHeader( ) != null )
+			{
+				list.getHeader( ).accept( this, value );
+			}
 			for ( int i = 0; i < list.getGroupCount( ); i++ )
 			{
 				list.getGroup( i ).accept( this, value );
 			}
-			list.getDetail( ).accept( this, value );
-			list.getFooter( ).accept(this, value );
+			if ( list.getDetail( ) != null )
+			{
+				list.getDetail( ).accept( this, value );
+			}
+			if ( list.getFooter( ) != null )
+			{
+				list.getFooter( ).accept( this, value );
+			}
 			return value;
 		}
-		
+
 		public Object visitGroup( GroupDesign group, Object value )
 		{
 			IDMaps.put( new Long( group.getID( ) ), group );
-			group.getHeader( ).accept( this, value );
-			group.getFooter( ).accept( this, value );
+			if ( group.getHeader( ) != null )
+			{
+				group.getHeader( ).accept( this, value );
+			}
+			if ( group.getFooter( ) != null )
+			{
+				group.getFooter( ).accept( this, value );
+			}
 			return value;
 		}
 
