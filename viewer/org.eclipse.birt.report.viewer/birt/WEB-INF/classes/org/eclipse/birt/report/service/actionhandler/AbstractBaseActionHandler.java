@@ -204,11 +204,10 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		{
 			for ( int i = 0; i < params.length; i++ )
 			{
-				if ( IBirtConstants.OPRAND_TOC.equalsIgnoreCase( params[i]
+				if ( IBirtConstants.OPRAND_BOOKMARK.equalsIgnoreCase( params[i]
 						.getName( ) ) )
 				{
-					if ( "true".equalsIgnoreCase( params[i].getValue( ) ) )
-						return true;
+						return false;
 				}
 			}
 		}
@@ -260,7 +259,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 					|| ReportIdType._Extended.equalsIgnoreCase( type )
 					|| ReportIdType._Group.equalsIgnoreCase( type )
 					|| "ColoumnInfo".equalsIgnoreCase( type ) )
-					// TODO: emitter need to fix its name.
+			// TODO: emitter need to fix its name.
 			{
 				ReportId reportId = new ReportId( );
 				reportId.setId( id.substring( 0, id.indexOf( ',' ) ) );
