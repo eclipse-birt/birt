@@ -49,6 +49,8 @@ public class GroupDefnUtil
 				IOUtil.writeString( dos, groupDefn.getName( ) );
 				IOUtil.writeString( dos, groupDefn.getKeyColumn( ) );
 				IOUtil.writeString( dos, groupDefn.getKeyExpression( ) );
+				IOUtil.writeInt( dos, groupDefn.getInterval( ) );
+				IOUtil.writeDouble( dos, groupDefn.getIntervalRange( ) );
 				IOUtil.writeInt( dos, groupDefn.getSortDirection( ) );
 				QueryDefnUtil.saveSubQuery( dos, groupDefn.getSubqueries( ) );
 			}
@@ -83,6 +85,8 @@ public class GroupDefnUtil
 					groupDefn.setKeyColumn( keyColumn );
 				else
 					groupDefn.setKeyExpression( keyExpr );
+				groupDefn.setInterval( IOUtil.readInt( dis ) );
+				groupDefn.setIntervalRange( IOUtil.readDouble( dis ) );
 				groupDefn.setSortDirection( IOUtil.readInt( dis ) );
 				groupDefn.getSubqueries( )
 						.addAll( QueryDefnUtil.loadSubQuery( dis ) );
