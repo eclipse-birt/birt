@@ -112,7 +112,10 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 	public void addCommandStackListener( CommandStackListener listener )
 	{
 		// use addCommandStackListener(ActivityStackListener) instead
-		assert false;
+		//this method will called by GEF.
+		//can't assert false.
+		//see bugzilla 147687
+//		assert false;
 	}
 
 	/*
@@ -124,7 +127,7 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 	public void removeCommandStackListener( CommandStackListener listener )
 	{
 		// use removeCommandStackListener(ActivityStackListener) instead
-		assert false;
+//		assert false;
 	}
 
 	public void setActivityStack( CommandStack ar )

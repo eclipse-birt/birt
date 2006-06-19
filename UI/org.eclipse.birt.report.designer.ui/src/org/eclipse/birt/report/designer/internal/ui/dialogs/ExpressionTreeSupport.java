@@ -148,7 +148,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			},
 			{
 					"/",//$NON-NLS-1$
-					Messages.getString( "ExpressionProvider.Operator.Dvides" ) //$NON-NLS-1$ 
+					Messages.getString( "ExpressionProvider.Operator.Divides" ) //$NON-NLS-1$ 
 			},
 			{
 					"++X ",//$NON-NLS-1$
