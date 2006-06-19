@@ -50,6 +50,7 @@ public class GroupDefnUtil
 				IOUtil.writeString( dos, groupDefn.getKeyColumn( ) );
 				IOUtil.writeString( dos, groupDefn.getKeyExpression( ) );
 				IOUtil.writeInt( dos, groupDefn.getSortDirection( ) );
+				QueryDefnUtil.saveSubQuery( dos, groupDefn.getSubqueries( ) );
 			}
 			
 			dos.flush( );
@@ -83,6 +84,8 @@ public class GroupDefnUtil
 				else
 					groupDefn.setKeyExpression( keyExpr );
 				groupDefn.setSortDirection( IOUtil.readInt( dis ) );
+				groupDefn.getSubqueries( )
+						.addAll( QueryDefnUtil.loadSubQuery( dis ) );
 				groupList.add( groupDefn );
 			}
 		}

@@ -303,7 +303,7 @@ public class RDSave implements IRDSave
 			OutputStream outputStream = streamManager.getOutStream( DataEngineContext.QUERY_DEFN_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
-			QueryDefnUtil.saveQueryDefn( outputStream, queryDefn );
+			QueryDefnUtil.saveBaseQueryDefn( outputStream, queryDefn );
 
 			try
 			{
