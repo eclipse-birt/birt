@@ -2,8 +2,8 @@
 <?eclipse version="3.0"?>
 <plugin>
 
-    	<extension
-	         point="org.eclipse.debug.core.launchConfigurationTypes">
+   <extension
+	    point="org.eclipse.debug.core.launchConfigurationTypes">
 	      <launchConfigurationType
 	            name="%report.debug"
 	            delegate="org.eclipse.birt.report.debug.ui.launcher.ReportLaunchConfigurationDelegate"
@@ -14,14 +14,14 @@
 	      </launchConfigurationType>
    </extension>
    
-    <extension
+   <extension
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">
-      <launchConfigurationTabGroup
-            type="org.eclipse.birt.report.debug.ui.ReportRuntimeWorkbench"
-            description="Run or debug a report Java program"
-            class="org.eclipse.birt.report.debug.ui.launching.ReportTabGroup"
-            id="org.eclipse.birt.report.debug.ui.launchConfigurationTabGroup.report">
-      </launchConfigurationTabGroup>
+    	  <launchConfigurationTabGroup
+ 	           type="org.eclipse.birt.report.debug.ui.ReportRuntimeWorkbench"
+	           description="Run or debug a report Java program"
+ 	           class="org.eclipse.birt.report.debug.ui.launching.ReportTabGroup"
+ 	           id="org.eclipse.birt.report.debug.ui.launchConfigurationTabGroup.report">
+    	  </launchConfigurationTabGroup>
    </extension>
    
 	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
@@ -32,17 +32,15 @@
 	    </launchConfigurationTypeImage>
 	</extension>
 	<extension point="org.eclipse.ui.startup">
-
      <startup class="org.eclipse.birt.report.debug.internal.ui.launcher.DebugStartupClass"/>
-
    </extension>
    
    <extension
          point="org.eclipse.debug.core.sourceLocators">
-      <sourceLocator
-            name="%javaSourceLocatorName"
-            class="org.eclipse.jdt.launching.sourcelookup.JavaSourceLocator"
-            id="org.eclipse.jdt.launching.javaSourceLocator">
-      </sourceLocator>
+   		   <sourceLocator
+        		name="%javaSourceLocatorName"
+            	class="org.eclipse.jdt.launching.sourcelookup.JavaSourceLocator"
+            	id="org.eclipse.jdt.launching.javaSourceLocator">
+   		   </sourceLocator>
    </extension>
 </plugin>

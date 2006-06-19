@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-   <extension-point id="multiPageEditorContributor" name="multiPageEditorContributor" schema="schema/multiPageEditorContributor.exsd"/>
-
+   <extension-point 
+   		id="multiPageEditorContributor" 
+   		name="multiPageEditorContributor" 
+   		schema="schema/multiPageEditorContributor.exsd"/>
 </plugin>

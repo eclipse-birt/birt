@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
 
-     <extension
+   <extension
          point="org.eclipse.core.runtime.applications"
          id="DesignerApplication"
          name="%ApplicationName">
@@ -153,4 +153,5 @@
          <newWizardShortcut id="org.eclipse.birt.report.designer.ui.rcp.wizards.NewLibraryWizard"/>
       </perspectiveExtension>
    </extension>
+   
 </plugin>

@@ -131,9 +131,8 @@
 	   	 <adapter type="org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory"/>
 	   </factory>
    </extension>
-
 	
-	 <extension
+   <extension
 	        point="org.eclipse.ui.activities">
 	     <activity
 	         description="%org.eclipse.birt.activity.description"
@@ -150,9 +149,9 @@
 	         activityId="org.eclipse.birt.activity"
 	         pattern="org\.eclipse\.birt\..*/.*"/>
 	     <defaultEnablement id="org.eclipse.birt.activity"/>
-	 </extension>
+	</extension>
 	 
-	 <extension point="org.eclipse.ui.popupMenus"> 
+	<extension point="org.eclipse.ui.popupMenus"> 
 	    <viewerContribution
 	         id="org.eclipse.birt.report.designer.ui.ide.report.publishTemplate"
 	         targetID="org.eclipse.ui.views.ResourceNavigator">
@@ -175,8 +174,7 @@
              </or>
 	         </and>
 	      </visibility>
-	   </viewerContribution> 
-	 
-	 </extension>	 
+	   </viewerContribution> 	 
+	</extension>	 
 
 </plugin>
