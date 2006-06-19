@@ -420,11 +420,16 @@ final class XSDFileSchemaTreePopulator
 					dataType = childNode.getValue( ).toString( );
 				childNode.setDataType( dataType );
 				childNode.setType( ATreeNode.ELEMENT_TYPE );
+				XSTypeDefinition xstype = ((XSElementDecl) ((XSParticleDecl) list.item(j))
+						.getTerm()).getTypeDefinition();
 				//Populate the complex data types under node.
 				if ((!dataType.equals("anyType"))
-						&& ((XSElementDecl) ((XSParticleDecl) list.item(j))
-								.getTerm()).getTypeDefinition() instanceof XSComplexTypeDecl)
-				{	ATreeNode n = findComplexElement(complexTypesRoot,dataType);
+						&&  xstype instanceof XSComplexTypeDecl)
+				{	
+					//First do a recursive call to populate all child complex type of current node.
+					if( xstype.getName() == null)
+						addParticleAndAttributeInfo( childNode, (XSComplexTypeDecl)xstype, complexTypesRoot );
+					ATreeNode n = findComplexElement(complexTypesRoot,dataType);
 					if( n!= null )
 					{
 						childNode.addChild(n.getChildren());
