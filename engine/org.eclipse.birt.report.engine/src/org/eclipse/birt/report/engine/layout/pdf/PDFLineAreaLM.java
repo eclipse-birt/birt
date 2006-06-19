@@ -55,6 +55,8 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 	protected HashMap positionMap = new HashMap( );
 
 	protected ContainerArea last = null;
+	
+	protected IReportItemExecutor unfinishedExecutor = null;
 
 	public PDFLineAreaLM( PDFLayoutEngineContext context, PDFStackingLM parent,
 			IContentEmitter emitter, IReportItemExecutor executor )
@@ -116,13 +118,27 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 			{
 				return true;
 			}
+			else
+			{
+				endLine();
+			}
 		}
-
-		while ( executor.hasNextChild( ) )
+		boolean childHasNext = false;
+		while ( executor.hasNextChild( ) || unfinishedExecutor!=null )
 		{
-			IReportItemExecutor childExecutor = executor.getNextChild( );
+			IReportItemExecutor childExecutor = null;
+			if(unfinishedExecutor!=null)
+			{
+				childExecutor = unfinishedExecutor;
+				unfinishedExecutor = null;
+			}
+			else
+			{
+				childExecutor = executor.getNextChild( );
+			}
 			assert ( childExecutor != null );
-			if ( handleChild( childExecutor ) )
+			childHasNext = handleChild( childExecutor ) || childHasNext;
+			if ( childHasNext && unfinishedExecutor!=null )
 			{
 				if ( lineFinished )
 				{
@@ -140,15 +156,23 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		IContent childContent = childExecutor.execute( );
 		PDFAbstractLM childLM = getFactory( ).createLayoutManager( this,
 				childContent, emitter, childExecutor );
-		childBreak = childLM.layout( );
-		if ( childBreak )
+		if(needLineBreak( childContent ))
 		{
-			if ( !childLM.isFinished( ) )
-			{
-				addChild( childLM );
-			}
+			unfinishedExecutor = childExecutor;
+			return !endLine();
 		}
-		return childBreak;
+		else
+		{
+			childBreak = childLM.layout( );
+			if ( childBreak )
+			{
+				if ( !childLM.isFinished( ) )
+				{
+					addChild( childLM );
+				}
+			}
+			return childBreak;
+		}
 	}
 
 	protected void createRoot( )
@@ -207,18 +231,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		align( );
 	}
 
-	/*
-	 * public boolean addArea(IArea area) { AbstractArea cArea =
-	 * (AbstractArea)area; int currentIP = getCurrentIP();
-	 * 
-	 * if(currentIP + cArea.getAllocatedWidth() >= getMaxAvaWidth() &&
-	 * root.getChildrenCount( )>0) { if(endLine()) { return addArea(area); }
-	 * else { return false; } } else { if(getMaxAvaHeight( )<cArea.getAllocatedHeight( ) &&
-	 * !parent.isPageEmpty()) { //change to new page, end current line boolean
-	 * end = endLine(); assert(end); return addArea(area); } else {
-	 * root.addChild(cArea); cArea.setAllocatedPosition(currentIP, 0);
-	 * setCurrentIP(currentIP +cArea.getAllocatedWidth()); return true; } } }
-	 */
+		 
 
 	public boolean addArea( IArea area )
 	{
@@ -338,5 +351,17 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 	public boolean isEmptyLine( )
 	{
 		return isRootEmpty( );
+	}
+	
+	private boolean needLineBreak(IContent content)
+	{
+		int specWidth = 0;
+		int avaWidth = getMaxAvaWidth( ) - this.getCurrentIP( );
+		int calWidth = getDimensionValue( content.getWidth( ) );
+		if ( calWidth > 0 && calWidth < getMaxAvaWidth() )
+		{
+			specWidth = calWidth;
+		}
+		return specWidth>avaWidth;
 	}
 }

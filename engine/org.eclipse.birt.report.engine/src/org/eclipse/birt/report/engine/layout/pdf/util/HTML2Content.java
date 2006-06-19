@@ -183,6 +183,10 @@ public class HTML2Content
 	
 	protected void processForeignData( IForeignContent foreign )
 	{
+		if(foreign.getChildren( )!=null && foreign.getChildren( ).size( )>0)
+		{
+			return;
+		}
 		HashMap styleMap = new HashMap( );
 		HTMLStyleProcessor htmlProcessor = new HTMLStyleProcessor( this.rootPath );
 		Object rawValue = foreign.getRawValue();

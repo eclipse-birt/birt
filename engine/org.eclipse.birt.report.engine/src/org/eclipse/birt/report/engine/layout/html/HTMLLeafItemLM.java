@@ -28,11 +28,12 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 
 	public boolean layout( )
 	{
-		if (status != STATUS_END)
+		boolean hasNext =  super.layout( );
+		if (status != STATUS_START)
 		{
 			context.setPageEmpty( false );
 		}
-		return super.layout( );
+		return hasNext;
 	}
 	
 	protected boolean layoutChildren( )
