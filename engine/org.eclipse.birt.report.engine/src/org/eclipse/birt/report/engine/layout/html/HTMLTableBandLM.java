@@ -57,21 +57,21 @@ public class HTMLTableBandLM extends HTMLListingBandLM
 	protected boolean layoutChildren( )
 	{
 
-		if ( bandType == IBandContent.BAND_GROUP_FOOTER )
+/*		if ( bandType == IBandContent.BAND_GROUP_FOOTER )
 		{
 			if ( !dropDetailResolved )
 			{
 				tbl.updateDropCells( groupLevel, false );
 				dropDetailResolved = false;
 			}
-		}
+		}*/
 		boolean hasNext = super.layoutChildren( );
 		if ( !hasNext )
 		{
-			if ( bandType == IBandContent.BAND_GROUP_FOOTER )
+/*			if ( bandType == IBandContent.BAND_GROUP_FOOTER )
 			{
 				tbl.updateDropCells( groupLevel, true );
-			}
+			}*/
 		}
 		return hasNext;
 	}

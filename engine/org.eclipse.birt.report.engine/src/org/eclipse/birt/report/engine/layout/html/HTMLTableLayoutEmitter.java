@@ -3,6 +3,7 @@ package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.Stack;
 
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -144,6 +145,11 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		else
 		{
 			// ContentEmitterUtil.startContent( band, emitter );
+			if (band.getBandType( ) == IBandContent.BAND_GROUP_FOOTER )
+			{
+				int groupLevel = getGroupLevel();
+				resolveCellsOfDrop( groupLevel, false );
+			}
 		}
 	}
 
@@ -156,6 +162,11 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		else
 		{
 			// ContentEmitterUtil.endContent( band, emitter );
+			if ( band.getBandType() == IBandContent.BAND_GROUP_FOOTER )
+			{
+				int groupLevel = getGroupLevel();
+				resolveCellsOfDrop( groupLevel, true );
+			}
 		}
 	}
 
