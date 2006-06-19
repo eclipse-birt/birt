@@ -308,8 +308,6 @@ public class BirtGetCascadeParameterActionHandler
 										.getLocale( ) );
 					}
 
-					label = ParameterAccessor.htmlEncode( label );
-
 					selectItemChoice.setLabel( label );
 					selectItemChoice.setValue( ParameterValidationUtil
 							.getDisplayValue( value ) );

@@ -105,8 +105,6 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 									.getValue( ), attrBean.getLocale( ) );
 				}
 
-				label = ParameterAccessor.htmlEncode( label );
-
 				if ( label != null )
 				{
 					parameterBean.getSelectionList( ).add( label );
