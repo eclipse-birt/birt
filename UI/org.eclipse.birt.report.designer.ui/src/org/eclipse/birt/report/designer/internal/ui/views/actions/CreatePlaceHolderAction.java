@@ -1,4 +1,13 @@
-
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
@@ -7,7 +16,6 @@ import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.viewers.IStructuredSelection;
 

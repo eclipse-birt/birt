@@ -9,7 +9,6 @@
  *     IBM Corporation - initial API and implementation
  *     Actuate Corporation - Copy and change to fit BIRT requirement 
  *******************************************************************************/
-
 package org.eclipse.birt.report.designer.internal.ui.editors.script;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
