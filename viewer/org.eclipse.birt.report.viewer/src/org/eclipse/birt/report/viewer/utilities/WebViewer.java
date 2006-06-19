@@ -236,7 +236,6 @@ public class WebViewer
 	 */
 	public static void display( String report, String format, boolean allowPage )
 	{
-		startWebApp( );
 		String root = null;
 
 		if ( WebViewer.PDF.equalsIgnoreCase( format ) )
@@ -272,7 +271,6 @@ public class WebViewer
 	 */
 	public static void display( String report, String format, Browser browser )
 	{
-		startWebApp( );
 		browser
 				.setUrl( createURL( "run", report, format, true ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -293,7 +291,6 @@ public class WebViewer
 	public static void display( String report, String format, Browser browser,
 			String servletName )
 	{
-		startWebApp( );
 		browser.setUrl( createURL( servletName, report, format, true )
 				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
 
