@@ -1195,11 +1195,12 @@ public class HyperlinkBuilder extends BaseDialog
 						{
 							parameterList.add( obj );
 						}
-						else if ( obj instanceof ParameterGroupHandle )
-						{
-							parameterList.addAll( ( (ParameterGroupHandle) obj ).getParameters( )
-									.getContents( ) );
-						}
+						//bug 147604
+//						else if ( obj instanceof ParameterGroupHandle )
+//						{
+//							parameterList.addAll( ( (ParameterGroupHandle) obj ).getParameters( )
+//									.getContents( ) );
+//						}
 					}
 					if ( newFilename.equals( inputHandle.getReportName( ) ) )
 					{
