@@ -206,14 +206,17 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			ListingDesign listingDesign = (ListingDesign) getDesign( );
 			totalElements = 0;
 			currentElement = 0;
-			executableElements[totalElements++] = listingDesign.getFooter( );
+			if ( listingDesign.getFooter( ) != null )
+			{
+				executableElements[totalElements++] = listingDesign.getFooter( );
+			}
 			endOfListing = true;
-			return true;
+			return currentElement < totalElements;
 		}
 		if ( rset.next( ) )
 		{
 			collectExecutableElements( );
-			return true;
+			return currentElement < totalElements;
 		}
 		return false;
 	}
@@ -307,7 +310,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			BandDesign footer = listingDesign.getFooter( );
 			if ( footer != null )
 			{
-				executableElements[totalElements++] = listingDesign.getFooter( );
+				executableElements[totalElements++] = footer;
 			}
 			endOfListing = true;
 		}

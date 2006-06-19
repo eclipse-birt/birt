@@ -55,7 +55,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 					executableElements[totalElements++] = footer;
 				}
 				endOfGroup = true;
-				return true;
+				return currentElement < totalElements ;
 			}
 			if ( rset.next( ) )
 			{
