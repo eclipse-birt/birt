@@ -965,8 +965,19 @@ public class ParameterAccessor
 
 	public synchronized static void initParameters( ServletConfig config )
 	{
+	}
+
+	/**
+	 * Initial the parameters class. Web.xml is in UTF-8 format. No need to do
+	 * encoding convertion.
+	 * 
+	 * @param context
+	 *            Servlet Context
+	 */
+
+	public synchronized static void initParameters( ServletContext context )
+	{
 		// Report root.in the web.xml has higher priority.
-		ServletContext context = config.getServletContext( );
 		workingFolder = context.getInitParameter( INIT_PARAM_REPORT_DIR );
 
 		if ( workingFolder == null || workingFolder.trim( ).length( ) <= 0 )
@@ -1009,7 +1020,7 @@ public class ParameterAccessor
 
 		clearDocuments( );
 	}
-
+	
 	/**
 	 * Check whether the viewer is used in designer or not.
 	 * 

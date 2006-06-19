@@ -15,6 +15,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Servlet Context Listener for BIRT viewer web application. Do some necessary
@@ -42,5 +43,6 @@ public class ViewerServletContextListener implements ServletContextListener
 	 */
 	public void contextInitialized( ServletContextEvent event )
 	{
+		ParameterAccessor.initParameters( event.getServletContext( ) );
 	}
 }
