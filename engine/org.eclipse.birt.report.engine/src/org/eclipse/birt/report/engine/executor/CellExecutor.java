@@ -7,7 +7,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
 
-public class CellExecutor extends StyledItemExecutor
+public class CellExecutor extends QueryItemExecutor
 {
 	protected CellExecutor( ExecutorManager manager )
 	{
@@ -24,7 +24,7 @@ public class CellExecutor extends StyledItemExecutor
 		ICellContent cellContent = report.createCellContent( );
 		setContent(cellContent);
 		
-		restoreResultSet( );
+		executeQuery( );
 		initializeContent( cellDesign, cellContent );
 
 		cellContent.setColumn( cellDesign.getColumn( ) );

@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.35 $ $Date: 2006/06/13 15:37:16 $
+ * @version $Revision: 1.36 $ $Date: 2006/06/16 11:02:26 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -81,7 +81,6 @@ public class GridItemExecutor extends QueryItemExecutor
 			InstanceID iid = new InstanceID( null, columnDesign.getID( ), null );
 			column.setInstanceID( iid );
 			
-			processColumnStyle( columnDesign, column );
 			processColumnVisibility( columnDesign, column );
 			
 			tableContent.addColumn( column );

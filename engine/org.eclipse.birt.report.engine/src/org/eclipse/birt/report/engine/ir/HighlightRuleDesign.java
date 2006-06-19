@@ -15,10 +15,24 @@ import org.eclipse.birt.report.engine.content.IStyle;
 
 /**
  * 
- * @version $Revision: 1.6 $ $Date: 2005/06/29 05:41:18 $
+ * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
  */
 public class HighlightRuleDesign extends RuleDesign
 {
+
+	public HighlightRuleDesign( HighlightRuleDesign rule )
+	{
+		this.operator = rule.operator;
+		this.expr = rule.expr;
+		this.style = rule.style;
+		this.testExpression = rule.testExpression;
+		this.value1 = rule.value1;
+		this.value2 = rule.value2;
+	}
+
+	public HighlightRuleDesign( )
+	{
+	}
 
 	/**
 	 * style defined in this rule.

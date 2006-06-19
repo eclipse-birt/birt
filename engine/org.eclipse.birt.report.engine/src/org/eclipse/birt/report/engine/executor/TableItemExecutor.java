@@ -33,7 +33,7 @@ import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.49 $ $Date: 2006/06/13 15:37:16 $
+ * @version $Revision: 1.50 $ $Date: 2006/06/19 05:03:03 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -89,7 +89,6 @@ public class TableItemExecutor extends ListingElementExecutor
 			InstanceID iid = new InstanceID( null, columnDesign.getID( ), null );
 			column.setInstanceID( iid );
 			
-			processColumnStyle( columnDesign, column );
 			processColumnVisibility( columnDesign, column );
 			
 			tableContent.addColumn( column );

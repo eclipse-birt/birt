@@ -7,7 +7,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 
-public class RowExecutor extends StyledItemExecutor
+public class RowExecutor extends QueryItemExecutor
 {
 	protected RowExecutor( ExecutorManager manager )
 	{
@@ -53,7 +53,7 @@ public class RowExecutor extends StyledItemExecutor
 		IRowContent rowContent = report.createRowContent( );
 		setContent( rowContent );
 
-		restoreResultSet( );
+		executeQuery( );
 		initializeContent( rowDesign, rowContent );
 
 		processAction( rowDesign, rowContent );

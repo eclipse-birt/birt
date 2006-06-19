@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
+import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -151,7 +152,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.110 $ $Date: 2006/06/19 05:03:02 $
+ * @version $Revision: 1.111 $ $Date: 2006/06/19 05:17:05 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -801,6 +802,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 
 		new TableItemDesignLayout( ).layout( grid );
+		applyColumnHighlight( grid );
 
 		currentElement = grid;
 	}
@@ -929,6 +931,7 @@ class EngineIRVisitor extends DesignVisitor
 
 		new TableItemDesignLayout( ).layout( table );
 
+		applyColumnHighlight( table );
 		//setup the supressDuplicate property of the data items in the 
 		//detail band		
 		
@@ -971,6 +974,70 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		
 		currentElement = table;
+	}
+
+	private void applyColumnHighlight( TableItemDesign table )
+	{
+		applyColumnHighlight( table, table.getDetail( ) );
+		for ( int i = 0; i < table.getGroupCount( ); i++ )
+		{
+			applyColumnHighlight( table, table.getGroup( i ).getHeader( ) );
+			applyColumnHighlight( table, table.getGroup( i ).getFooter( ) );
+		}
+	}
+
+	private void applyColumnHighlight( GridItemDesign grid )
+	{
+		for ( int i = 0; i < grid.getRowCount( ); i++ )
+		{
+			RowDesign row = grid.getRow( i );
+			for ( int j = 0; j < row.getCellCount( ); j++ )
+			{
+				CellDesign cell = row.getCell( j );
+				ColumnDesign column = grid.getColumn( cell.getColumn( ) );
+				applyColumnHighlight( column, cell );
+			}
+		}
+	}
+
+	private void applyColumnHighlight( TableItemDesign table, BandDesign band )
+	{
+		if ( band == null )
+		{
+			return;
+		}
+		for ( int i = 0; i < band.getContentCount( ); i++ )
+		{
+			ReportItemDesign content = band.getContent( i ); 
+			if ( content instanceof RowDesign)
+			{
+				RowDesign row = ( RowDesign ) content;
+				for ( int j = 0; j < row.getCellCount( ); j++)
+				{
+					CellDesign cell = row.getCell( j );
+					ColumnDesign column = table.getColumn( cell.getColumn( ) );
+					applyColumnHighlight( column, cell);
+				}
+			}
+		}
+	}
+
+	private void applyColumnHighlight( ColumnDesign column, CellDesign cell )
+	{
+		HighlightDesign columnHighlight = column.getHighlight( );
+		if ( columnHighlight != null && columnHighlight.getRuleCount( ) > 0 )
+		{
+			HighlightDesign cellHighlight = cell.getHighlight( );
+			if ( cellHighlight == null )
+			{
+				cellHighlight = new HighlightDesign( );
+				cell.setHighlight( cellHighlight );
+			}
+			for ( int i = 0; i < columnHighlight.getRuleCount( ); i++ )
+			{
+				cellHighlight.addRule( new HighlightRuleDesign( columnHighlight.getRule( i ) ) );
+			}
+		}
 	}
 
 	public void visitColumn( ColumnHandle handle )

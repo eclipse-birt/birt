@@ -82,6 +82,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -98,7 +99,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.74 $ $Date: 2006/06/17 12:28:57 $
+ * @version $Revision: 1.75 $ $Date: 2006/06/19 05:03:02 $
  */
 public class ReportQueryBuilder
 {
@@ -676,12 +677,13 @@ public class ReportQueryBuilder
 		 */
 		public Object visitRow(RowDesign row, Object value)
 		{
-			transformExpressions( row );
+			BaseQueryDefinition query = prepareVisit( row );
 			for ( int i = 0; i < row.getCellCount( ); i++ )
 			{
 				CellDesign cell = row.getCell( i );
 				cell.accept( this, value );
 			}
+			finishVisit( query );
 			return value;
 		}
 
@@ -690,11 +692,12 @@ public class ReportQueryBuilder
 		 */
 		public Object visitCell( CellDesign cell, Object value )
 		{
-			transformExpressions( cell );
+			BaseQueryDefinition query = prepareVisit( cell );
 			for ( int i = 0; i < cell.getContentCount( ); i++ )
 			{
 				cell.getContent( i ).accept( this, value );
 			}
+			finishVisit( query );
 			return value;
 		}		
 
@@ -835,7 +838,18 @@ public class ReportQueryBuilder
 		 */
 		protected BaseQueryDefinition createQuery( ReportItemDesign item )
 		{
-			ReportItemHandle designHandle = (ReportItemHandle) item.getHandle( );
+			DesignElementHandle handle = item.getHandle( );
+			if ( ! ( handle instanceof ReportItemHandle ) )
+			{
+				if ( !needQuery( item ) )
+				{
+					return null;
+				}
+				// we have column binding, create a sub query.
+				return createSubQuery( item );
+			}
+
+			ReportItemHandle designHandle = (ReportItemHandle) handle;
 
 			DataSetHandle dsHandle = designHandle.getDataSet( );
 
@@ -906,14 +920,18 @@ public class ReportQueryBuilder
 		 */
 		private boolean needQuery( ReportItemDesign item )
 		{
-			ReportItemHandle designHandle = (ReportItemHandle) item.getHandle( );
-			if ( designHandle.columnBindingsIterator( ).hasNext( ) )
+			DesignElementHandle handle = item.getHandle( );
+			if ( handle instanceof ReportItemHandle )
 			{
-				return true;
-			}
-			if ( designHandle instanceof ListingHandle )
-			{
-				return true;
+				ReportItemHandle designHandle = (ReportItemHandle) item.getHandle( );
+				if ( designHandle.columnBindingsIterator( ).hasNext( ) )
+				{
+					return true;
+				}
+				if ( designHandle instanceof ListingHandle )
+				{
+					return true;
+				}
 			}
 			HighlightDesign highlight = item.getHighlight( );
 			if ( getParentQuery( ) == null && highlight != null
@@ -942,8 +960,6 @@ public class ReportQueryBuilder
 
 		protected BaseQueryDefinition createSubQuery( ReportItemDesign item )
 		{
-			ReportItemHandle designHandle = (ReportItemHandle) item.getHandle( );
-
 			BaseQueryDefinition query = null;
 			IBaseTransform parentQuery = getTransform( );
 			// sub query must be defined in a transform
@@ -978,14 +994,20 @@ public class ReportQueryBuilder
 			query.setMaxRows( maxRows );
 
 			item.setQuery( query );
-			Iterator iter = designHandle.columnBindingsIterator( );
-			while ( iter.hasNext( ) )
+			if ( item.getHandle( ) instanceof ReportItemHandle )
 			{
-				ComputedColumnHandle binding = (ComputedColumnHandle) iter
-						.next( );
-				addColumBinding( query, binding );
+				ReportItemHandle designHandle = (ReportItemHandle) item
+						.getHandle( );
+
+				Iterator iter = designHandle.columnBindingsIterator( );
+				while ( iter.hasNext( ) )
+				{
+					ComputedColumnHandle binding = (ComputedColumnHandle) iter
+							.next( );
+					addColumBinding( query, binding );
+				}
 			}
-			
+
 			addSortAndFilter( item, query );
 			
 			if ( query instanceof IQueryDefinition )
