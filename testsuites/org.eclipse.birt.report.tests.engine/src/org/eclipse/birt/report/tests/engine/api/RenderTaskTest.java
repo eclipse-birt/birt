@@ -171,7 +171,6 @@ public class RenderTaskTest extends EngineCase
 		}
 	}
 	
-
 	/*
 	 * Test RenderTask when set page range
 	 */
@@ -351,8 +350,7 @@ public class RenderTaskTest extends EngineCase
 			}
 
 	}
-	
-	
+
 	
 	
 	
@@ -503,6 +501,8 @@ public class RenderTaskTest extends EngineCase
 			
 			if(toc){
 				s_toc=((TOCNode)(reportDoc.findTOCByName( bookmark ).get( 0 ))).getBookmark( );
+			}else{
+				s_toc=bookmark;
 			}
 			
 			task.setReportlet( s_toc );
@@ -622,7 +622,7 @@ public class RenderTaskTest extends EngineCase
 					removeFile( outputFileName );
 					htmlRenderOptions.setOutputFileName( outputFileName );
 					/**/
-					((HTMLRenderOption)htmlRenderOptions).setPageFooterFloatFlag( false );
+					((HTMLRenderOption)htmlRenderOptions).setMasterPageContent( false );
 					/**/
 					task = engine.createRenderTask( reportDoc );
 					task.setLocale( Locale.ENGLISH );
@@ -719,7 +719,7 @@ public class RenderTaskTest extends EngineCase
 						+ pageRange, pdfFile.length( ) != 0 );
 
 			}
-			task.close( );
+			task.close( );			
 
 		}
 		catch ( Exception e )

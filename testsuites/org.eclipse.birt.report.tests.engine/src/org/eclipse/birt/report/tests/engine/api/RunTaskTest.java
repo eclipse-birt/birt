@@ -2,6 +2,8 @@ package org.eclipse.birt.report.tests.engine.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -9,8 +11,12 @@ import junit.framework.TestSuite;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.HTMLRenderContext;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IPageHandler;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -38,6 +44,9 @@ public class RunTaskTest extends EngineCase {
 	 * Test two Run method with different argument. 
 	 *
 	 */
+	public void testtemp(){
+		runReport("SalesInvoice");
+	}
 	public void test1(){
 		runReport("case1");
 	}
@@ -105,6 +114,30 @@ public class RunTaskTest extends EngineCase {
 		}
 	}
 
+	public void testGetErrors(){
+		report_design=INPUT+"jdbc_exception.rptdesign";
+		String fileDocument=OUTPUT+"jdbc_exception.rptdocument";
+
+		try
+		{
+			runnable=engine.openReportDesign(report_design);
+			IRunTask task=engine.createRunTask(runnable);
+			task.run(fileDocument);
+				
+			if(task!=null){
+				assertTrue("IRunTask.getErrors() fails!",task.getErrors( ) !=null);
+				assertTrue("IRunTask.getErrors() returns wrong exception",
+						task.getErrors( ).get(0).getClass( ).toString( ).equalsIgnoreCase( "class org.eclipse.birt.data.engine.core.DataException" ));
+			}
+			task.close( );
+		}catch(Exception e){
+		}
+		
+	}
+
+
+	
+	
 	private void runReport(String report){
 		report_design=INPUT+report+".rptdesign";
 		String fileDocument=OUTPUT+report+".rptdocument";
@@ -123,6 +156,7 @@ public class RunTaskTest extends EngineCase {
 			assertTrue("Failed to generate document for "+report+ee.getLocalizedMessage(),false);
 		}
 	}
+	
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
