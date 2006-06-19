@@ -112,27 +112,6 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	}
 
 	/**
-	 * get the first table layout manager which is the ancestor of this layout
-	 * manager.
-	 * 
-	 * @return TableLayoutManager if any, NULL otherwise.
-	 */
-	protected HTMLTableLM getTableLayoutManager( )
-	{
-		HTMLAbstractLM lm = parent;
-		while ( lm != null )
-		{
-			if ( lm instanceof HTMLTableLM )
-			{
-				return (HTMLTableLM) lm;
-			}
-			lm = lm.getParent( );
-		}
-		assert false;
-		return null;
-	}
-
-	/**
 	 * layout the content and its children.
 	 * 
 	 * It can be called in three status: 1. start, the first time it is called,

@@ -11,15 +11,9 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
-import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 
 public class HTMLRowLM extends HTMLInlineStackingLM
 {
-
-	protected HTMLTableLM tbl;
-
 	public HTMLRowLM( HTMLLayoutManagerFactory factory )
 	{
 		super( factory );
@@ -28,13 +22,6 @@ public class HTMLRowLM extends HTMLInlineStackingLM
 	public int getType( )
 	{
 		return LAYOUT_MANAGER_ROW;
-	}
-
-	public void initialize( HTMLAbstractLM parent, IContent content,
-			IReportItemExecutor executor, IContentEmitter emitter )
-	{
-		super.initialize( parent, content, executor, emitter );
-		tbl = getTableLayoutManager( );
 	}
 
 	public boolean layout( )

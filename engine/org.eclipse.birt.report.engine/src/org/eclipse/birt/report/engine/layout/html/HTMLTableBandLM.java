@@ -23,7 +23,6 @@ public class HTMLTableBandLM extends HTMLListingBandLM
 {
 
 	protected boolean dropDetailResolved;
-	protected HTMLTableLM tbl;
 	protected int groupLevel = 0;
 	protected int bandType = IBandContent.BAND_DETAIL;
 
@@ -42,7 +41,6 @@ public class HTMLTableBandLM extends HTMLListingBandLM
 	{
 		// TODO Auto-generated method stub
 		super.initialize( parent, content, executor, emitter );
-		tbl = getTableLayoutManager( );
 		ITableBandContent tableBand = (ITableBandContent) content;
 		bandType = tableBand.getBandType( );
 		IElement pContent = tableBand.getParent( );
