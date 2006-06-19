@@ -1,8 +1,13 @@
-/*
- * Created on 2006-5-18
- * 
- * Copyright mol.com allright reserved.
- */
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.data.engine.impl.document;
 
@@ -11,23 +16,24 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
+/**
+ * Save util class
+ */
 public class RowSaveUtil
 {
 	private int lastRowIndex;
 	private int currentOffset;
-	private int currRowBytes;
-
-	private byte[] zeroBytes;
 
 	private int rowCount;
-
-	private boolean rowStart = true;
 	
 	//
 	private DataOutputStream rowExprsDos;
@@ -45,7 +51,6 @@ public class RowSaveUtil
 	{
 		this.rowCount = rowCount;
 		this.exprNameSet = exprNameSet;
-		this.currRowBytes = 0;
 		
 		this.rowExprsDos = new DataOutputStream( rowExprsOs );
 		this.rowLenDos = new DataOutputStream( rowLenOs );
@@ -53,36 +58,21 @@ public class RowSaveUtil
 
 	/**
 	 * @param currIndex
-	 * @param exprID
-	 * @param exprValue
+	 * @param valueMap
 	 * @throws DataException
 	 */
-	public void saveExprValue( int currIndex, String exprID, Object exprValue )
+	public void saveExprValue( int currIndex, Map valueMap )
 			throws DataException
-	{
-		initSave( false );
-
-		if ( currIndex != lastRowIndex )
-		{
-			this.saveWhenEndOneRow( currIndex );
-			lastRowIndex = currIndex;
-		}
-
-		saveWhenInOneRow( currIndex, exprID, exprValue );
-	}
-
-	/**
-	 * @param currIndex
-	 * @throws DataException
-	 */
-	private void saveWhenEndOneRow( int currIndex ) throws DataException
 	{
 		try
 		{
-			if ( currIndex > 0 )
-				this.currRowBytes += 4;
+			saveNullRowsBetween( lastRowIndex, currIndex );
+			
+			int rowBytes = saveExprValue( valueMap );
+			IOUtil.writeInt( this.rowLenDos, currentOffset );
+			currentOffset += rowBytes;
 
-			saveEndOfCurrRow( lastRowIndex, currIndex );
+			lastRowIndex = currIndex;
 		}
 		catch ( IOException e )
 		{
@@ -91,50 +81,48 @@ public class RowSaveUtil
 					"Result Data" );
 		}
 	}
-
+	
 	/**
 	 * @param currIndex
 	 * @param exprID
 	 * @param exprValue
 	 * @throws DataException
 	 */
-	private void saveWhenInOneRow( int currIndex, String exprID,
-			Object exprValue ) throws DataException
+	public int saveExprValue( Map valueMap ) throws DataException
 	{
+		initSave( false );
+
 		ByteArrayOutputStream tempBaos = new ByteArrayOutputStream( );
 		BufferedOutputStream tempBos = new BufferedOutputStream( tempBaos );
 		DataOutputStream tempDos = new DataOutputStream( tempBos );
 
 		try
 		{
-			if ( rowStart == true )
+			IOUtil.writeInt( tempDos, valueMap.size( ) );
+			Iterator it = valueMap.entrySet( ).iterator( );
+			while ( it.hasNext( ) )
 			{
-				if ( currIndex > 0 )
-					IOUtil.writeInt( this.rowExprsDos, RDIOUtil.RowSeparator );
-
-				IOUtil.writeInt( tempDos, RDIOUtil.ColumnSeparator );
+				Map.Entry entry = (Entry) it.next( );
+				String exprID = (String) entry.getKey( );
+				Object value = entry.getValue( );
+				IOUtil.writeString( tempDos, exprID );
+				IOUtil.writeObject( tempDos, value );
+				exprNameSet.add( exprID );
 			}
-			else
-			{
-				IOUtil.writeInt( tempDos, RDIOUtil.ColumnSeparator );
-			}
-
-			IOUtil.writeString( tempDos, exprID );
-			IOUtil.writeObject( tempDos, exprValue );
 
 			tempDos.flush( );
 			tempBos.flush( );
 			tempBaos.flush( );
 
 			byte[] bytes = tempBaos.toByteArray( );
-			currRowBytes += bytes.length;
+			int rowBytes = bytes.length;
 			IOUtil.writeRawBytes( this.rowExprsDos, bytes );
 
 			tempBaos = null;
 			tempBos = null;
 			tempDos = null;
-
-			rowStart = false;
+			
+			return rowBytes;
 		}
 		catch ( IOException e )
 		{
@@ -142,8 +130,6 @@ public class RowSaveUtil
 					e,
 					"Result Data" );
 		}
-
-		exprNameSet.add( exprID );
 	}
 
 	/**
@@ -156,7 +142,7 @@ public class RowSaveUtil
 
 		try
 		{
-			saveEndOfCurrRow( lastRowIndex, currIndex );
+			saveNullRowsBetween( lastRowIndex, currIndex );
 
 			rowExprsDos.close( );
 			rowLenDos.close( );
@@ -194,22 +180,7 @@ public class RowSaveUtil
 			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
 		}
 	}
-
-	/**
-	 * @param rowIndex
-	 * @throws IOException
-	 */
-	private void saveEndOfCurrRow( int lastRowIndex, int currIndex )
-			throws IOException
-	{
-		IOUtil.writeInt( this.rowLenDos, currentOffset );
-		currentOffset += currRowBytes;
-		this.rowStart = true;
-		this.currRowBytes = 0;
-
-		saveNullRowsBetween( lastRowIndex, currIndex );
-	}
-
+	
 	/**
 	 * @param lastRowIndex
 	 * @param currIndex
@@ -218,24 +189,13 @@ public class RowSaveUtil
 	private void saveNullRowsBetween( int lastRowIndex, int currIndex )
 			throws IOException
 	{
-		initZeroBytes( );
-
 		int gapRows = currIndex - lastRowIndex - 1;
 		for ( int i = 0; i < gapRows; i++ )
 		{
-			IOUtil.writeRawBytes( this.rowExprsDos, zeroBytes );
+			IOUtil.writeInt( this.rowExprsDos, 0 );
 			IOUtil.writeInt( this.rowLenDos, currentOffset );
-			currentOffset += zeroBytes.length;
+			currentOffset += IOUtil.INT_LENGTH;
 		}
 	}
-
-	/**
-	 * @throws IOException
-	 */
-	private void initZeroBytes( ) throws IOException
-	{
-		if ( this.zeroBytes == null )
-			this.zeroBytes = RDIOUtil.getZeroBytes( );
-	}
-
+	
 }

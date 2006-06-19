@@ -715,9 +715,9 @@ public class ResultIterator implements IResultIterator
 		 * @param value
 		 * @throws DataException
 		 */
-		void doSaveExpr( String name, Object value ) throws DataException
+		void doSaveExpr( Map valueMap ) throws DataException
 		{
-			doSave( name, value, false );
+			doSave( valueMap, false );
 		}
 
 		/**
@@ -725,14 +725,14 @@ public class ResultIterator implements IResultIterator
 		 */
 		void doSaveFinish( ) throws DataException
 		{
-			doSave( null, null, true );
+			doSave( null, true );
 		}
 		
 		/**
 		 * @throws DataException
 		 * 
 		 */
-		private void doSave( String name, Object value, boolean finish )
+		private void doSave( Map valueMap, boolean finish )
 				throws DataException
 		{
 			if ( needsSaveToDoc( ) == false )
@@ -754,8 +754,7 @@ public class ResultIterator implements IResultIterator
 
 			if ( finish == false )
 				this.rdSave.saveExprValue( odiResult.getCurrentResultIndex( ),
-						name,
-						value );
+						valueMap );
 			else
 				this.rdSave.saveFinish( odiResult.getCurrentResultIndex( ) );
 		}

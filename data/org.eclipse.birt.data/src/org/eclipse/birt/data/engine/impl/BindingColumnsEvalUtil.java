@@ -136,6 +136,7 @@ class BindingColumnsEvalUtil
 	Map getColumnsValue( ) throws DataException
 	{
 		Map exprValueMap = new HashMap( );
+		Map realValueMap = new HashMap( );
 
 		for ( int i = 0; i < allManualBindingExprs.size( ); i++ )
 		{
@@ -144,7 +145,10 @@ class BindingColumnsEvalUtil
 			while ( it.hasNext( ) )
 			{
 				BindingColumn bindingColumn = (BindingColumn) it.next( );
-				evaluateValue( bindingColumn, exprValueMap, MANUAL_BINDING );
+				Object exprValue = evaluateValue( bindingColumn, MANUAL_BINDING );
+				exprValueMap.put( bindingColumn.columnName, exprValue );
+				if ( exprValue instanceof BirtException == false )
+					realValueMap.put( bindingColumn.columnName, exprValue );
 			}
 		}
 
@@ -152,9 +156,13 @@ class BindingColumnsEvalUtil
 		while ( itr.hasNext( ) )
 		{
 			BindingColumn bindingColumn = (BindingColumn) itr.next( );
-			evaluateValue( bindingColumn, exprValueMap, AUTO_BINDING );
+			Object exprValue = evaluateValue( bindingColumn, AUTO_BINDING );
+			exprValueMap.put( bindingColumn.columnName, exprValue );
+			if ( exprValue instanceof BirtException == false )
+				realValueMap.put( bindingColumn.columnName, exprValue );
 		}
 
+		saveUtil.doSaveExpr( realValueMap );
 		return exprValueMap;
 	}
 
@@ -164,8 +172,8 @@ class BindingColumnsEvalUtil
 	 * @param valueMap
 	 * @throws DataException
 	 */
-	private void evaluateValue( BindingColumn bindingColumn, Map valueMap,
-			int exprType ) throws DataException
+	private Object evaluateValue( BindingColumn bindingColumn, int exprType )
+			throws DataException
 	{
 		Object exprValue = null;
 		try
@@ -196,10 +204,8 @@ class BindingColumnsEvalUtil
 		{
 			exprValue = e;
 		}
-		valueMap.put( bindingColumn.columnName, exprValue );
-
-		if ( exprValue instanceof BirtException == false )
-			saveUtil.doSaveExpr( bindingColumn.columnName, exprValue );
+		
+		return exprValue;
 	}
 	
 	/**

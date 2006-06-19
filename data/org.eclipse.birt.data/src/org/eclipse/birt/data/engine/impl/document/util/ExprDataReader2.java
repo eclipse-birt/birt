@@ -20,7 +20,6 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.document.RDIOUtil;
 import org.eclipse.birt.data.engine.impl.document.viewing.RowIndexUtil;
 
 /**
@@ -199,18 +198,12 @@ class ExprDataReader2 implements IExprDataReader
 	{
 		Map valueMap = new HashMap( );
 
-		while ( true )
+		int exprCount = IOUtil.readInt( rowExprsDis );
+		for ( int i = 0; i < exprCount; i++ )
 		{
-			if ( RDIOUtil.getSeperator( rowExprsDis ) == RDIOUtil.ColumnSeparator )
-			{
-				String exprID = IOUtil.readString( rowExprsDis );
-				Object exprValue = IOUtil.readObject( rowExprsDis );
-				valueMap.put( exprID, exprValue );
-			}
-			else
-			{
-				break;
-			}
+			String exprID = IOUtil.readString( rowExprsDis );
+			Object exprValue = IOUtil.readObject( rowExprsDis );
+			valueMap.put( exprID, exprValue );
 		}
 
 		return valueMap;

@@ -19,8 +19,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -40,8 +42,8 @@ import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
-import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
+import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.script.JSDummyRowObject;
@@ -409,6 +411,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		private Scriptable jsDummyRowObject;
 
 		private RDSaveUtil rdSaveUtil;
+		private Map exprValueMap;
 
 		private final static int NOT_START = 0;
 		private final static int IN_ROW = 1;
@@ -534,17 +537,64 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			checkOpened( );
 
-			IBaseExpression exprObject = this.exprManager.getExpr( name );
-			if ( exprObject == null )
+			if ( exprManager.getExpr( name ) == null )
 				throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
 						name );
 
-			Object value = ExprEvaluateUtil.evaluateRawExpression( exprObject,
-					queryScope );
-			this.getRdSaveUtil( ).doSaveExpr( name, value );
-			return value;
+			if ( exprValueMap == null )
+			{
+				exprValueMap = new HashMap( );
+				Map realValueMap = new HashMap( );
+				Map exprMap = getBindingMap( exprManager.getBindingExprs( ) );
+				Iterator it = exprMap.entrySet( ).iterator( );
+				while ( it.hasNext( ) )
+				{
+					Map.Entry entry = (Entry) it.next( );
+					String exprName = (String) entry.getKey( );
+					IBaseExpression baseExpr = (IBaseExpression) entry.getValue( );
+					Object exprValue = ExprEvaluateUtil.evaluateRawExpression( baseExpr,
+							queryScope );
+					exprValueMap.put( exprName, exprValue );
+					if ( exprValue instanceof BirtException == false )
+						realValueMap.put( exprName, exprValue );
+				}
+
+				this.getRdSaveUtil( ).doSaveExpr( exprValueMap );
+			}
+
+			return exprValueMap.get( name );
 		}
 
+		/**
+		 * @param manualBindingExprs
+		 * @return
+		 */
+		private Map getBindingMap( List manualBindingExprs )
+		{
+			Map exprMap = new HashMap( );
+			// put the expressions of array into a list
+			int size = manualBindingExprs.size( );
+			GroupBindingColumn[] groupBindingColumns = new GroupBindingColumn[size];
+			Iterator itr = manualBindingExprs.iterator( );
+			while ( itr.hasNext( ) )
+			{
+				GroupBindingColumn temp = (GroupBindingColumn) itr.next( );
+				groupBindingColumns[temp.getGroupLevel( )] = temp;
+			}
+			
+			for ( int i = 0; i < size; i++ )
+			{
+				itr = groupBindingColumns[i].getColumnNames( ).iterator( );
+				while ( itr.hasNext( ) )
+				{
+					String exprName = (String) itr.next( );
+					IBaseExpression baseExpr = groupBindingColumns[i].getExpression( exprName );
+					exprMap.put( exprName, baseExpr );
+				}
+			}
+			return exprMap;
+		}
+		
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBoolean(java.lang.String)
 		 */
@@ -738,7 +788,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		 * @param value
 		 * @throws DataException
 		 */
-		void doSaveExpr( String name, Object value ) throws DataException
+		void doSaveExpr( Map valueMap ) throws DataException
 		{
 			if ( needsSaveToDoc( ) == false )
 				return;
@@ -768,7 +818,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 						subQueryInfo );
 			}
 
-			this.getRdSave( ).saveExprValue( 0, name, value );
+			this.getRdSave( ).saveExprValue( 0, valueMap );
 		}
 
 		/**

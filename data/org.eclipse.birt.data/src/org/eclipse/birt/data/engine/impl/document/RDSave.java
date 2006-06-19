@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.impl.document;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -71,13 +72,13 @@ public class RDSave implements IRDSave
 	 * @see org.eclipse.birt.data.engine.impl.document.IRDSave#saveExprValue(int,
 	 *      java.lang.String, java.lang.Object)
 	 */
-	public void saveExprValue( int currIndex, String exprID, Object exprValue )
+	public void saveExprValue( int currIndex, Map valueMap )
 			throws DataException
 	{
 		if ( rowSaveUtil == null )
 			this.initSaveRowUtil( );
 
-		rowSaveUtil.saveExprValue( currIndex, exprID, exprValue );
+		rowSaveUtil.saveExprValue( currIndex, valueMap );
 	}
 
 	/*

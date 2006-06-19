@@ -20,7 +20,6 @@ import java.util.Map;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.document.RDIOUtil;
 import org.eclipse.birt.data.engine.impl.document.VersionManager;
 
 /**
@@ -190,31 +189,13 @@ class ExprDataReader1 implements IExprDataReader
 	private Map getValueMap( ) throws IOException
 	{
 		Map valueMap = new HashMap( );
-		if ( version == VersionManager.VERSION_2_0 )
+
+		int exprCount = IOUtil.readInt( rowExprsDis );
+		for ( int i = 0; i < exprCount; i++ )
 		{
-			int exprCount = IOUtil.readInt( rowExprsDis );
-			for ( int i = 0; i < exprCount; i++ )
-			{
-				String exprID = IOUtil.readString( rowExprsDis );
-				Object exprValue = IOUtil.readObject( rowExprsDis );
-				valueMap.put( exprID, exprValue );
-			}
-		}
-		else
-		{
-			while ( true )
-			{
-				if ( RDIOUtil.getSeperator( rowExprsDis ) == RDIOUtil.ColumnSeparator )
-				{
-					String exprID = IOUtil.readString( rowExprsDis );
-					Object exprValue = IOUtil.readObject( rowExprsDis );
-					valueMap.put( exprID, exprValue );
-				}
-				else
-				{
-					break;
-				}
-			}
+			String exprID = IOUtil.readString( rowExprsDis );
+			Object exprValue = IOUtil.readObject( rowExprsDis );
+			valueMap.put( exprID, exprValue );
 		}
 
 		return valueMap;

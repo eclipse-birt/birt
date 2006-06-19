@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.impl.document;
 
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 
@@ -24,8 +26,8 @@ public interface IRDSave
 	 * @param exprID
 	 * @param exprValue
 	 */
-	public void saveExprValue( int currIndex, String exprID,
-			Object exprValue ) throws DataException;
+	public void saveExprValue( int currIndex, Map valueMap )
+			throws DataException;
 
 	/**
 	 * Notify save needs to be finished
