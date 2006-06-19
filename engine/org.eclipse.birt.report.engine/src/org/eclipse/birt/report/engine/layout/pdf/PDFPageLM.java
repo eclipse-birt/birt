@@ -217,14 +217,24 @@ public class PDFPageLM extends PDFBlockContainerLM
 
 	protected void end( )
 	{
-		if ( !isFirst && isPageEmpty( ) )
+		if(isPageEmpty())
 		{
-			if ( isLast )
+			if(!isFirst)
 			{
-				pageNumber--;
-				resolveTotalPage( );
+				if ( isLast )
+				{
+					pageNumber--;
+					resolveTotalPage( );
+				}
+				return;
 			}
-			return;
+			else
+			{
+				if(!isLast)
+				{
+					return;
+				}
+			}
 		}
 
 		MasterPageDesign mp = getMasterPage( report );
