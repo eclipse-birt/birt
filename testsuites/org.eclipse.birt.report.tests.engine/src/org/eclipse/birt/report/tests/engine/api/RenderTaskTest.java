@@ -621,9 +621,6 @@ public class RenderTaskTest extends EngineCase
 							+ pageRange + ".html";
 					removeFile( outputFileName );
 					htmlRenderOptions.setOutputFileName( outputFileName );
-					/**/
-					((HTMLRenderOption)htmlRenderOptions).setMasterPageContent( false );
-					/**/
 					task = engine.createRenderTask( reportDoc );
 					task.setLocale( Locale.ENGLISH );
 					task.setAppContext( appContext );
