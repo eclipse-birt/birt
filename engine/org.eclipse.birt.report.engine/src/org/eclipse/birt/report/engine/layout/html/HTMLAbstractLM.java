@@ -236,7 +236,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		return false;
 	}
 
-	public boolean allowPageBreak( )
+	protected boolean allowPageBreak( )
 	{
 		return true;
 	}

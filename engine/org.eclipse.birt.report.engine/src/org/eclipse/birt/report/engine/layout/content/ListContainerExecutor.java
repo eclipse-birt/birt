@@ -5,6 +5,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 
@@ -112,6 +113,7 @@ public class ListContainerExecutor extends BlockStackingExecutor
 					if(repeat && (band.getBandType( )==IBandContent.BAND_HEADER || band.getBandType( )==IBandContent.BAND_GROUP_HEADER))
 					{
 						execute(next, nextContent);
+						next.close( );
 						next = new DOMReportItemExecutor(nextContent);
 						next.execute( );
 						nextContent.getParent( ).getChildren( ).add( nextContent );
@@ -146,11 +148,25 @@ public class ListContainerExecutor extends BlockStackingExecutor
 			while(executor.hasNextChild( ))
 			{
 				IReportItemExecutor childExecutor = executor.getNextChild( );
-				IContent childContent = childExecutor.execute( );
-				content.getChildren( ).add( childContent );
-				execute(childExecutor, childContent);
+				if(childExecutor!=null)
+				{
+					IContent childContent = childExecutor.execute( );
+					removePageBreak(childContent);
+					content.getChildren( ).add( childContent );
+					execute(childExecutor, childContent);
+					childExecutor.close( );
+				}
 			}
-			executor.close( );
+		}
+		
+		protected void removePageBreak(IContent content)
+		{
+			IStyle style = content.getStyle( );
+			if(style!=null)
+			{
+				style.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER, IStyle.AUTO_VALUE );
+				style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.AUTO_VALUE );
+			}
 		}
 		
 		

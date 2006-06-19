@@ -90,8 +90,6 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	protected RowArea lastRowArea = null;
 
-	protected ArrayList dropContentList = new ArrayList( );
-
 	protected TableLayoutInfo layoutInfo = null;
 
 	protected PDFTableRegionLM regionLM = null;
@@ -688,7 +686,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		String formats = column.getVisibleFormat( );
 		if ( formats != null
 				&& formats.length( ) > 0
-				&& ( formats.indexOf( format ) >= 0 || formats.toUpperCase( )
+				&& ( formats.toUpperCase( ).indexOf( format ) >= 0 || formats.toUpperCase( )
 						.indexOf( BIRTConstants.BIRT_ALL_VALUE.toUpperCase( ) ) >= 0 ) )
 		{
 			return true;

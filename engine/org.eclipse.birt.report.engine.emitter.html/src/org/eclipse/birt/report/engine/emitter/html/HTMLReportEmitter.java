@@ -1434,12 +1434,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startCell( ICellContent cell )
 	{				
-		int colSpan = getNewColSpan( cell );
-		if ( colSpan < 1 )
-		{
-			push( true );
-			return;
-		}
+		int colSpan = cell.getColSpan( );
+		
 		push( false );
 		
 		if ( isHidden( ) )

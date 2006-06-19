@@ -178,4 +178,15 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 	{
 		return executor;
 	}
+
+	protected boolean allowPageBreak( )
+	{
+		if( type == IBandContent.BAND_GROUP_HEADER || type== IBandContent.BAND_HEADER)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	
 }

@@ -101,4 +101,14 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 			executor.execute( );
 		}
 	}
+	
+	protected boolean allowPageBreak( )
+	{
+		int type = ( (IBandContent) content ).getBandType( );
+		if(type==IBandContent.BAND_HEADER || type==IBandContent.BAND_GROUP_HEADER)
+		{
+			return false;
+		}
+		return true;
+	}
 }

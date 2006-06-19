@@ -176,7 +176,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return status == STATUS_END;
 	}
 
-	public boolean allowPageBreak( )
+	protected boolean allowPageBreak( )
 	{
 		return true;
 	}
