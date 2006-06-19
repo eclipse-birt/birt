@@ -105,6 +105,7 @@ public class RowExecutor extends StyledItemExecutor
 			CellDesign cellDesign = rowDesign.getCell( currentCell++ );
 			CellExecutor executor = (CellExecutor) manager.createExecutor(
 					this, cellDesign );
+			executor.setStartOfGroup( startOfGroup && currentCell == 1 );
 			return executor;
 		}
 		return null;

@@ -85,4 +85,9 @@ public class CellExecutor extends StyledItemExecutor
 		}
 		return null;
 	}
+
+	public void setStartOfGroup( boolean startOfGroup )
+	{
+		this.startOfGroup = startOfGroup;
+	}
 }
