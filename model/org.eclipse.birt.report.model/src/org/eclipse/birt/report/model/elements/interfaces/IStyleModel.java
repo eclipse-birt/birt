@@ -65,9 +65,6 @@ public interface IStyleModel
 	public static final String MASTER_PAGE_PROP = "masterPage"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_BEFORE_PROP = "pageBreakBefore"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_AFTER_PROP = "pageBreakAfter"; //$NON-NLS-1$
-	/**
-	 * @deprecated
-	 */
 	public static final String PAGE_BREAK_INSIDE_PROP = "pageBreakInside"; //$NON-NLS-1$
 	public static final String SHOW_IF_BLANK_PROP = "showIfBlank"; //$NON-NLS-1$
 	public static final String STRING_FORMAT_PROP = "stringFormat"; //$NON-NLS-1$
