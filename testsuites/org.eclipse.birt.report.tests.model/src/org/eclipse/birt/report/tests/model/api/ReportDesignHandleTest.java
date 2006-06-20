@@ -428,9 +428,11 @@ public class ReportDesignHandleTest extends BaseTestCase
 		ElementFactory factory = new ElementFactory( design );
 		LabelHandle label = factory.newLabel( "Label1" ); //$NON-NLS-1$
 
+		designHandle.save( );
+		
 		SlotHandle slotHandle = designHandle.getBody( );
 		slotHandle.add( label );
-
+		
 		assertTrue( designHandle.needsSave( ) );
 		designHandle.getCommandStack( ).undo( );
 		//design.getActivityStack( ).undo( );
