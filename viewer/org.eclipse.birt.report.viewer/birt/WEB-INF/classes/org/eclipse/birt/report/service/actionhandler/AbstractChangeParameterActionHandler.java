@@ -71,19 +71,15 @@ public abstract class AbstractChangeParameterActionHandler
 								.getPageNumberByBookmark( docName, bookmark,
 										options );
 					}
+					useBookmark = true;
 				}
 				if ( !isValidPageNumber( context.getRequest( ), pageNumber,
 						docName ) )
 				{
-					AxisFault fault = new AxisFault( );
-					fault
-							.setFaultReason( BirtResources
-									.getFormattedString(
-											ResourceConstants.ACTION_EXCEPTION_INVALID_BOOKMARK,
-											new String[]{bookmark} ) );
-					throw fault;
+					pageNumber = 1;
+					useBookmark = false;
 				}
-				useBookmark = true;
+
 			}
 
 			doRenderPage( docName, pageNumber, svgFlag, attrBean
