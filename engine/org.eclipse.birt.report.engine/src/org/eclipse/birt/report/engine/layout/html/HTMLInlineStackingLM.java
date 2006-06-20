@@ -106,6 +106,10 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 				}
 				childrenFinished.set( i, Boolean.valueOf( childFinished ) );
 			}
+			else
+			{
+				context.skipContent( null );
+			}
 		}
 		return hasNextPage;
 	}
@@ -118,10 +122,10 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 					.booleanValue( );
 			if ( !childFinished )
 			{
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	protected boolean layoutChildren( )

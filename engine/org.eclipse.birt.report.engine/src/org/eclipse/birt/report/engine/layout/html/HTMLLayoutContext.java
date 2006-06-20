@@ -143,6 +143,19 @@ public class HTMLLayoutContext
 		}
 	}
 
+	public void skipContent(IContent content)
+	{
+		if ( !skipPageHint )
+		{
+			if ( startContent != null )
+			{
+				pageHint.add( new IContent[]{startContent, currentContent} );
+				startContent = null;
+				currentContent = null;
+			}
+		}
+	}
+	
 	public ArrayList getPageHint( )
 	{
 		ArrayList hint = new ArrayList( );

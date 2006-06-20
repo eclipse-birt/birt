@@ -231,7 +231,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 					.equals( pageBreakAfter ) )
 			{
 				int endGroup = rset.getEndingGroupLevel( );
-				if ( endGroup <= groupLevel + 1 )
+				if ( endGroup >= groupLevel + 1 )
 				{
 					needPageBreak = true;
 				}
