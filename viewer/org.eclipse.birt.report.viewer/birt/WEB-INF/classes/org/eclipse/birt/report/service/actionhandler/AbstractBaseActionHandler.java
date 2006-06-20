@@ -190,33 +190,6 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 	}
 
 	/**
-	 * returns true if the link is a toc, otherwise, return false means that is
-	 * a bookmark.
-	 * 
-	 * @param params
-	 * @param bean
-	 * @return
-	 */
-	protected boolean isToc( Oprand[] params, BaseAttributeBean bean )
-	{
-
-		if ( params != null && params.length > 0 )
-		{
-			for ( int i = 0; i < params.length; i++ )
-			{
-				if ( IBirtConstants.OPRAND_BOOKMARK.equalsIgnoreCase( params[i]
-						.getName( ) ) )
-				{
-						return false;
-				}
-			}
-		}
-
-		return bean.isToc( );
-
-	}
-
-	/**
 	 * Paser returned report ids.
 	 * 
 	 * @param activeIds

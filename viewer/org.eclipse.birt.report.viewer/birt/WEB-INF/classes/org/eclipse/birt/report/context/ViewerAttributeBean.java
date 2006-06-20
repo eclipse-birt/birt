@@ -116,7 +116,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.reportDocumentName = ParameterAccessor.getReportDocument( request );
 		this.reportDesignName = ParameterAccessor.getReport( request );
 		this.format = ParameterAccessor.getFormat( request );
-		this.isToc = ParameterAccessor.isToc( request );
 		this.maxRows = ParameterAccessor.getMaxRows( request );
 
 		// Set preview report max rows

@@ -40,7 +40,7 @@ public abstract class AbstractGetPageActionHandler
 	protected long __totalPageNumber;
 
 	protected boolean __isCompleted = true;
-	
+
 	protected boolean __useBookmark = false;
 
 	protected String __bookmark;
@@ -99,38 +99,34 @@ public abstract class AbstractGetPageActionHandler
 		__bean = context.getBean( );
 		__docName = __getReportDocument( );
 		__checkDocumentExists( );
-			
+
 		// Get total page count.
 		InputOptions getPageCountOptions = new InputOptions( );
-		getPageCountOptions.setOption( InputOptions.OPT_LOCALE, __bean.getLocale( ) );
-		getPageCountOptions.setOption( InputOptions.OPT_RTL, new Boolean( __bean.isRtl( ) ) );
-		getPageCountOptions.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+		getPageCountOptions.setOption( InputOptions.OPT_LOCALE, __bean
+				.getLocale( ) );
+		getPageCountOptions.setOption( InputOptions.OPT_RTL, new Boolean(
+				__bean.isRtl( ) ) );
+		getPageCountOptions.setOption( InputOptions.OPT_REQUEST, context
+				.getRequest( ) );
 		OutputOptions outputOptions = new OutputOptions( );
 		InputOptions options = new InputOptions( );
-		
-		__totalPageNumber = getReportService( ).getPageCount( __docName, getPageCountOptions,
-				outputOptions );
-		Boolean isCompleted = ( Boolean ) outputOptions.getOption(
-				OutputOptions.OPT_REPORT_GENERATION_COMPLETED );
+
+		__totalPageNumber = getReportService( ).getPageCount( __docName,
+				getPageCountOptions, outputOptions );
+		Boolean isCompleted = (Boolean) outputOptions
+				.getOption( OutputOptions.OPT_REPORT_GENERATION_COMPLETED );
 		if ( isCompleted != null )
 		{
 			__isCompleted = isCompleted.booleanValue( );
 		}
-		
-		__bookmark = getBookmark( operation.getOprand( ), __bean );
 
-		if ( isToc( operation.getOprand( ), __bean ) )
-		{
-			__bookmark = ( getReportService( ) ).findTocByName( __docName,
-					__bookmark, options );
-
-		}
 		__pageNumber = getPageNumber( context.getRequest( ), operation
 				.getOprand( ), __docName );
-
+		
 		// No valid page number check bookmark from soap message.
 		if ( !isValidPageNumber( context.getRequest( ), __pageNumber, __docName ) )
 		{
+			__bookmark = getBookmark( operation.getOprand( ), __bean );
 			options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 			__pageNumber = getReportService( ).getPageNumberByBookmark(
 					__docName, __bookmark, options );
@@ -138,14 +134,44 @@ public abstract class AbstractGetPageActionHandler
 			if ( !isValidPageNumber( context.getRequest( ), __pageNumber,
 					__docName ) )
 			{
-				AxisFault fault = new AxisFault( );
-				fault.setFaultReason( BirtResources.getFormattedString(
-						ResourceConstants.ACTION_EXCEPTION_INVALID_BOOKMARK,
-						new String[]{__bookmark} ) );
-				throw fault;
+				__bookmark = ( getReportService( ) ).findTocByName( __docName,
+						__bookmark, options );
+				__pageNumber = getReportService( ).getPageNumberByBookmark(
+						__docName, __bookmark, options );
+				if ( !isValidPageNumber( context.getRequest( ), __pageNumber,
+						__docName ) )
+				{
+					AxisFault fault = new AxisFault( );
+					fault
+							.setFaultReason( BirtResources
+									.getFormattedString(
+											ResourceConstants.ACTION_EXCEPTION_INVALID_BOOKMARK,
+											new String[]{__bookmark} ) );
+					throw fault;
+				}
+				__useBookmark = true;
 			}
-			__useBookmark = true;
+
 		}
+
+		// if ( !isValidPageNumber( context.getRequest( ), __pageNumber,
+		// __docName ) )
+		// {
+		// options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+		// __pageNumber = getReportService( ).getPageNumberByBookmark(
+		// __docName, __bookmark, options );
+		//
+		// if ( !isValidPageNumber( context.getRequest( ), __pageNumber,
+		// __docName ) )
+		// {
+		// AxisFault fault = new AxisFault( );
+		// fault.setFaultReason( BirtResources.getFormattedString(
+		// ResourceConstants.ACTION_EXCEPTION_INVALID_BOOKMARK,
+		// new String[]{__bookmark} ) );
+		// throw fault;
+		// }
+		// __useBookmark = true;
+		// }
 
 		// Verify the page number again.
 		if ( !isValidPageNumber( context.getRequest( ), __pageNumber, __docName ) )
@@ -175,7 +201,7 @@ public abstract class AbstractGetPageActionHandler
 		__activeIds = new ArrayList( );
 		__page = getReportService( ).getPage( __docName, __pageNumber + "", //$NON-NLS-1$
 				options, __activeIds );
-		
+
 	}
 
 	protected void prepareResponse( ) throws ReportServiceException,
@@ -207,7 +233,7 @@ public abstract class AbstractGetPageActionHandler
 
 		response.setUpdate( new Update[]{updateDocument, updateNavbar} );
 	}
-	
+
 	/**
 	 * Check whether the page number is valid or not.
 	 * 
@@ -260,8 +286,9 @@ public abstract class AbstractGetPageActionHandler
 						AxisFault fault = new AxisFault( );
 						fault.setFaultCode( new QName(
 								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
-						fault.setFaultString( BirtResources
-								.getString( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
+						fault
+								.setFaultString( BirtResources
+										.getString( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
 						throw fault;
 					}
 

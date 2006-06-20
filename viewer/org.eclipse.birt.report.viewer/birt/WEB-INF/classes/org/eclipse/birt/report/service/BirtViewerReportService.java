@@ -366,7 +366,7 @@ public class BirtViewerReportService implements IViewerReportService
 
 		if ( doc.findTOCByName( name ) != null
 				&& doc.findTOCByName( name ).size( ) > 0 )
-			return ( (TOCNode) doc.findTOCByName( name ).get( 0 ) ).getNodeID( );
+			return ( (TOCNode) doc.findTOCByName( name ).get( 0 ) ).getBookmark( );
 
 		return tocId;
 

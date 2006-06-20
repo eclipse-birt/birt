@@ -48,32 +48,42 @@ public abstract class AbstractChangeParameterActionHandler
 		{
 			long pageNumber = getPageNumber( context.getRequest( ), operation
 					.getOprand( ), docName );
-			
+
 			if ( !isValidPageNumber( context.getRequest( ), pageNumber, docName ) )
 			{
 				InputOptions options = new InputOptions( );
 				bookmark = getBookmark( operation.getOprand( ), attrBean );
 
-				if ( isToc( operation.getOprand( ), attrBean ) )
-				{
-					bookmark = ( getReportService( ) ).findTocByName( docName,
-							bookmark, options );
-				}
 				if ( bookmark != null && bookmark.length( ) > 0 )
 				{
-					
 					options.setOption( InputOptions.OPT_REQUEST, context
 							.getRequest( ) );
 					pageNumber = getReportService( ).getPageNumberByBookmark(
 							docName, bookmark, options );
-					useBookmark = true;
+
+					if ( !isValidPageNumber( context.getRequest( ), pageNumber,
+							docName ) )
+					{
+						bookmark = ( getReportService( ) ).findTocByName(
+								docName, bookmark, options );
+
+						pageNumber = getReportService( )
+								.getPageNumberByBookmark( docName, bookmark,
+										options );
+					}
 				}
 				if ( !isValidPageNumber( context.getRequest( ), pageNumber,
 						docName ) )
 				{
-					pageNumber = 1;
-					useBookmark = false;
+					AxisFault fault = new AxisFault( );
+					fault
+							.setFaultReason( BirtResources
+									.getFormattedString(
+											ResourceConstants.ACTION_EXCEPTION_INVALID_BOOKMARK,
+											new String[]{bookmark} ) );
+					throw fault;
 				}
+				useBookmark = true;
 			}
 
 			doRenderPage( docName, pageNumber, svgFlag, attrBean
@@ -94,7 +104,7 @@ public abstract class AbstractChangeParameterActionHandler
 			boolean svgFlag, boolean isMasterContent, boolean useBookmark,
 			String bookmark, Locale locale, boolean isRtl )
 			throws ReportServiceException, RemoteException;
-	
+
 	/**
 	 * Check whether the page number is valid or not.
 	 * 
