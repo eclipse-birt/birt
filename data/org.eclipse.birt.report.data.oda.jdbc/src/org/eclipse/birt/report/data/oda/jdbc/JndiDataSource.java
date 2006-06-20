@@ -115,6 +115,7 @@ class JndiDataSource implements IConnectionFactory
         catch( Exception ex )
         {
             sm_logger.info( ex.toString() );
+            sm_logger.exiting( sm_sourceClass, methodName, null );
             
             SQLException sqlEx = new SQLException( ex.getLocalizedMessage() );
             sqlEx.initCause( ex );
@@ -147,7 +148,7 @@ class JndiDataSource implements IConnectionFactory
         String username = connProps.getProperty( JDBCDriverManager.JDBC_USER_PROP_NAME );
         String password = connProps.getProperty( JDBCDriverManager.JDBC_PASSWORD_PROP_NAME );
         
-        if( username != null )  // user name is explicitly specified
+        if( username != null && username.length() > 0 )  // user name is explicitly specified
         {
             if( sm_logger.isLoggable( Level.FINER ) )
                 sm_logger.finer( "getDataSourceConnection: using getConnection( username, password ) from data source pool." ); //$NON-NLS-1$
@@ -241,6 +242,12 @@ class JndiDataSource implements IConnectionFactory
             jndiProps = null;
         }
         
+        if( sm_logger.isLoggable( Level.CONFIG ) )
+        {
+            int propertyCount = ( jndiProps == null ) ? 0 : jndiProps.size();
+            sm_logger.config( "Driver JNDI property count: " + propertyCount ); //$NON-NLS-1$
+        }
+        
         return jndiProps;
     }
     
@@ -288,7 +295,12 @@ class JndiDataSource implements IConnectionFactory
             // log and ignore exception
             sm_logger.info( methodName + e.toString() );
         }
-        
+
+        if( sm_logger.isLoggable( Level.CONFIG ) )
+            sm_logger.config( methodName + 
+                    jndiPropFile.getAbsolutePath() +
+                    " isValid= " + Boolean.valueOf( isValidFile ) ); //$NON-NLS-1$
+
         return isValidFile ? jndiPropFile : null;
     }
     
