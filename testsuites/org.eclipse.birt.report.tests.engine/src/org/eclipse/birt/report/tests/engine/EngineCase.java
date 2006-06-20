@@ -102,16 +102,18 @@ public abstract class EngineCase extends TestCase
 
 	/**
 	 * Create a report engine instance.
-	 * @throws BirtException 
+	 * 
+	 * @throws BirtException
 	 */
-	public IReportEngine createReportEngine( EngineConfig config ) throws BirtException
+	public IReportEngine createReportEngine( EngineConfig config )
+			throws BirtException
 	{
 		if ( config == null )
 		{
 			config = new EngineConfig( );
 		}
 
-		Platform.startup( new PlatformConfig() );
+		Platform.startup( new PlatformConfig( ) );
 		// assume we has in the platform
 		Object factory = Platform
 				.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
@@ -256,15 +258,14 @@ public abstract class EngineCase extends TestCase
 	 * @return the path name where the test java source file locates.
 	 */
 
-/*	protected String getClassFolder( )
-	{
-		String className = this.getClass( ).getName( );
-		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
-		className = className.substring( 0, lastDotIndex );
-		className = TEST_FOLDER + className.replace( '.', '/' );
-
-		return className;
-	}*/
+	/*
+	 * protected String getClassFolder( ) { String className = this.getClass(
+	 * ).getName( ); int lastDotIndex = className.lastIndexOf( "." );
+	 * //$NON-NLS-1$ className = className.substring( 0, lastDotIndex );
+	 * className = TEST_FOLDER + className.replace( '.', '/' );
+	 * 
+	 * return className; }
+	 */
 
 	protected String getClassFolder( )
 	{
@@ -294,7 +295,7 @@ public abstract class EngineCase extends TestCase
 
 		return className;
 	}
-	
+
 	/**
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
@@ -468,10 +469,11 @@ public abstract class EngineCase extends TestCase
 	 * @param doc
 	 * @param output
 	 * @param pageRange
-	 * @throws EngineException 
+	 * @throws EngineException
 	 */
 
-	protected void render_PDF( String doc, String output, String pageRange ) throws EngineException
+	protected void render_PDF( String doc, String output, String pageRange )
+			throws EngineException
 	{
 		render( "pdf", doc, output, pageRange ); //$NON-NLS-1$
 	}
@@ -496,7 +498,6 @@ public abstract class EngineCase extends TestCase
 		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
 				encoding );
 
-		
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( IMAGE_DIR );
 		HashMap appContext = new HashMap( );
@@ -505,7 +506,7 @@ public abstract class EngineCase extends TestCase
 		task.setAppContext( appContext );
 		task.setRenderOption( options );
 
-		task.setPageRange( pageRange ); 
+		task.setPageRange( pageRange );
 		task.render( );
 		task.close( );
 	}
@@ -602,6 +603,14 @@ public abstract class EngineCase extends TestCase
 					message.append( " The line from result file: " );//$NON-NLS-1$
 					message.append( strB );
 					message.append( "\n" );//$NON-NLS-1$
+
+					message.append( "Text after filtering: \n" ); //$NON-NLS-1$
+					message.append( " golden file: " ); //$NON-NLS-1$
+					message.append( filterA );
+					message.append( "\n" );//$NON-NLS-1$
+					message.append( " result file: " ); //$NON-NLS-1$
+					message.append( filterB );
+
 					throw new Exception( message.toString( ) );
 				}
 
@@ -639,17 +648,28 @@ public abstract class EngineCase extends TestCase
 	 * during comparasion.
 	 */
 
+	// Sample: id="AUTOGENBOOKMARK_6354527823361272054"
 	private final static Pattern PATTERN_ID_AUTOBOOKMARK = Pattern
 			.compile( "id[\\s]*=[\\s]*\"AUTOGENBOOKMARK_[\\d]+\"" ); //$NON-NLS-1$
+
+	// Sample:
 	private final static Pattern PATTERN_NAME_AUTOBOOKMARK = Pattern
 			.compile( "name[\\s]*=[\\s]*\"AUTOGENBOOKMARK_[\\d]+\"" ); //$NON-NLS-1$
+
+	// Sample: iid="/9(QuRs13:0)"
 	private final static Pattern PATTERN_IID = Pattern
 			.compile( "iid[\\s]*=[\\s]*\"/.*(.*)\"" ); //$NON-NLS-1$
-	private final static Pattern PATTERN_BG_IMAGE = Pattern
-			.compile( "background-image[\\s]*: url[(]'" + IMAGE_DIR + "/.*'[)]" ); //$NON-NLS-1$ //$NON-NLS-2$
-	private final static Pattern PATTERN_IMAGE_SOURCE = Pattern
-			.compile( "src=\"" + IMAGE_DIR + "/design[\\d]+\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 
+	// Sample: style="background-image:url(image\file44.jpg)"
+	private final static Pattern PATTERN_BG_IMAGE = Pattern
+			.compile( "background-image[\\s]*: url[(]'image.*'[)]" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+	// Sample: src="image/design31"
+	//         src="image\file31.jpg"
+	private final static Pattern PATTERN_IMAGE_SOURCE = Pattern
+	.compile( "src=\"image.*\"" ); //$NON-NLS-1$
+
+	
 	/**
 	 * Normalize some seeding values, lines that matches certain patterns will
 	 * be repalced by a replacement.
@@ -660,7 +680,7 @@ public abstract class EngineCase extends TestCase
 			{PATTERN_NAME_AUTOBOOKMARK, "REPLACEMENT_NAME_AUTOBOOKMARK"}, //$NON-NLS-1$
 			{PATTERN_IID, "REPLACEMENT_IID"}, //$NON-NLS-1$
 			{PATTERN_BG_IMAGE, "REPLACEMENT_BG_IMAGE"}, //$NON-NLS-1$
-			{PATTERN_IMAGE_SOURCE, "REPLACEMENT_IMAGE_SOURCE"} //$NON-NLS-1$
+			{PATTERN_IMAGE_SOURCE, "REPLACEMENT_IMAGE_SOURCE"}, //$NON-NLS-1$
 	};
 
 	/**
@@ -682,7 +702,11 @@ public abstract class EngineCase extends TestCase
 			String replacement = (String) FILTER_PATTERNS[i][1];
 
 			Matcher matcher = pattern.matcher( result );
-			result = matcher.replaceAll( replacement );
+			while( matcher.find( ))
+			{
+				result = matcher.replaceFirst( replacement );
+			}
+			// result = matcher.replaceAll( replacement );
 		}
 
 		return result;

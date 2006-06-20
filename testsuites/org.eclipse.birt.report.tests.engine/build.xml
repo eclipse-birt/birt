@@ -90,6 +90,8 @@
 	<!-- Report, create unit test report -->
 	
 	<target name="Report">
+		<mkdir dir="${utest.report.dir}"/>
+		
 		<junitreport todir="${utest.report.dir}">
 			<fileset dir="${utest.report.dir}">
 				<include name="*.xml" />
@@ -109,8 +111,5 @@
 	
 	<!-- run unit test (develop purpose) -->
 
-	<target name="utest" depends="compileTest,UnitTest,Report">
-		
-	</target>
-
+	<target name="utest" depends="compileTest,UnitTest,Report" />
 </project>

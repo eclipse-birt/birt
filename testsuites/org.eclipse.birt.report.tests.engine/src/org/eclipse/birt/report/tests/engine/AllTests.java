@@ -24,15 +24,15 @@ public class AllTests extends utility.BaseTestCase
 {
 	public static Test suite( )
 	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.tests.engine" );
+		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.tests.engine" ); //$NON-NLS-1$
 
 		List classes = new ArrayList( );
 		AllTests allTests = new AllTests( );
 
-		classes.addAll( allTests.getClasses( "org.eclipse.birt.report.tests.engine.api" ) );
-
+		classes.addAll( allTests.getClasses( "org.eclipse.birt.report.tests.engine.api" ) ); //$NON-NLS-1$
+		classes.addAll( allTests.getClasses( "org.eclipse.birt.report.tests.engine.regression" ) ); //$NON-NLS-1$
+		
 		Iterator iter = classes.iterator( );
-
 		while ( iter.hasNext( ) )
 		{
 			String next = ( String ) iter.next( );
