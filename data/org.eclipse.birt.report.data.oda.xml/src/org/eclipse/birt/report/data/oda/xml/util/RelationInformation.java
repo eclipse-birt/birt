@@ -127,7 +127,11 @@ public class RelationInformation
 	 */
 	public String getTableColumnPath( String tableName, String columnName )
 	{
-		return ( (TableInfo) this.tableInfos.get( tableName ) ).getPath( columnName );
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo!= null )
+			return ( (TableInfo) tableInfo ).getPath( columnName == null? "":columnName.trim( ) );
+		else
+			return null;
 	}
 
 	/**
@@ -139,7 +143,11 @@ public class RelationInformation
 	 */
 	public String getTableOriginalColumnPath( String tableName, String columnName )
 	{
-		return ( (TableInfo) this.tableInfos.get( tableName ) ).getOriginalPath( columnName );
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo != null )
+			return ( (TableInfo) tableInfo ).getOriginalPath( columnName == null? "":columnName.trim( ) );
+		else
+			return null;
 	}
 	
 	/**
@@ -151,7 +159,11 @@ public class RelationInformation
 	 */
 	public int getTableNestedColumnBackRefNumber( String tableName, String columnName )
 	{
-		return ( (TableInfo) this.tableInfos.get( tableName ) ).getBackRefNumber( columnName );
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo!= null )
+			return ( (TableInfo)tableInfo ).getBackRefNumber( columnName == null? "":columnName.trim( ) );
+		else
+			return -1;
 	}
 	
 	/**
@@ -163,8 +175,11 @@ public class RelationInformation
 	 */
 	public int getTableColumnForwardRefNumber( String tableName, String columnName )
 	{
-		return ( (TableInfo) this.tableInfos.get( tableName ) ).getForwardRefNumber( columnName );
-	}
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo!= null )
+			return ( (TableInfo)tableInfo ).getForwardRefNumber( columnName == null? "":columnName.trim( ) );
+		else
+			return -1;	}
 	
 	/**
 	 * Return the type of a column in certain table.
@@ -175,7 +190,11 @@ public class RelationInformation
 	 */
 	public String getTableColumnType( String tableName, String columnName )
 	{
-		return ( (TableInfo) this.tableInfos.get( tableName ) ).getType( columnName );
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo!= null )
+			return ( (TableInfo)tableInfo ).getType( columnName == null? "":columnName.trim( ) );
+		else
+			return null;
 	}
 
 	/**
@@ -186,7 +205,11 @@ public class RelationInformation
 	 */
 	public String[] getTableColumnNames( String tableName )
 	{
-		return ( (TableInfo) this.tableInfos.get( tableName ) ).getColumnNames( );
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo!= null )
+			return ( (TableInfo)tableInfo ).getColumnNames( );
+		else
+			return new String[0];
 	}
 
 	/**
@@ -197,7 +220,11 @@ public class RelationInformation
 	 */
 	public String[] getTableComplexNestedXMLColumnNames( String tableName )
 	{
-		return  ( (TableInfo) this.tableInfos.get( tableName ) ).getComplexNestXMLColumnNames();
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo!= null )
+			return ( (TableInfo)tableInfo ).getComplexNestXMLColumnNames( );
+		else
+			return new String[0];
 	}
 	
 	/**
@@ -208,7 +235,11 @@ public class RelationInformation
 	 */
 	public String[] getTableSimpleNestedXMLColumnNames( String tableName )
 	{
-		return  ( (TableInfo) this.tableInfos.get( tableName ) ).getSimpleNestXMLColumnNames();
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo!= null )
+			return ( (TableInfo)tableInfo ).getSimpleNestXMLColumnNames( );
+		else
+			return new String[0];
 	}
 	/**
 	 * Return the table root path.
@@ -218,7 +249,11 @@ public class RelationInformation
 	 */
 	public String getTableRootPath( String tableName )
 	{
-		return ( (TableInfo) this.tableInfos.get( tableName ) ).getRootPath( );
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo!= null )
+			return ( (TableInfo)tableInfo ).getRootPath( );
+		else
+			return null;
 	}
 	
 	/**
@@ -229,7 +264,11 @@ public class RelationInformation
 	 */
 	public String getTableOriginalRootPath( String tableName )
 	{
-		return ( (TableInfo) this.tableInfos.get( tableName ) ).getOriginalRootPath( );
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo!= null )
+			return ( (TableInfo)tableInfo ).getOriginalRootPath( );
+		else
+			return null;
 	}
 
 	/**
@@ -240,7 +279,11 @@ public class RelationInformation
 	 */
 	public HashMap getTableFilter( String tableName )
 	{
-		return ( (TableInfo) this.tableInfos.get( tableName ) ).getFilter( );
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo!= null )
+			return ( (TableInfo)tableInfo ).getFilter( );
+		else
+			return null;
 	}
 	
 	public Iterator getTableNames()
