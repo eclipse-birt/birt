@@ -33,8 +33,8 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * A style includes a collection of properties such as font face name, font
  * color, fill color and so on. A property is simply a (name, value) pair. The
  * name identifies the property, and the value is what has been set for the
- * property: ¡°red¡± or ¡°Arial¡± or ¡°10 pt.¡± A property value can be blank, meaning
- * that the user has not specified anything for that property.
+ * property: ¡°red¡± or ¡°Arial¡± or ¡°10 pt.¡± A property value can be blank,
+ * meaning that the user has not specified anything for that property.
  * <p>
  * Each style has a highlight. Each highlight rule has a condition and a set of
  * formatting options to apply if the rule is true. BIRT evaluates each rule in
@@ -43,10 +43,10 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * <p>
  * Each style has a map. The map has a condition and a set of rules. A map rule
  * transforms a value in the input into a different value for display. It works
- * best for fields with a limited set of values, such as converting ¡°Y¡± to ¡°Yes¡±
- * and ¡°N¡± to ¡°No¡±. Mappings with many rules are better handled in the data
- * access layer. Another common use of mapping is to convert a null value into a
- * display value, such as ¡°No Data.¡±
+ * best for fields with a limited set of values, such as converting ¡°Y¡± to
+ * ¡°Yes¡± and ¡°N¡± to ¡°No¡±. Mappings with many rules are better handled in
+ * the data access layer. Another common use of mapping is to convert a null
+ * value into a display value, such as ¡°No Data.¡±
  * 
  * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
  */
@@ -894,6 +894,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * </ul>
 	 * 
 	 * @return the page break inside property
+	 * @deprecated
 	 */
 
 	public String getPageBreakInside( )
@@ -914,6 +915,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	 *            the new page break inside property
 	 * @throws SemanticException
 	 *             if the value is not one of the above.
+	 * @deprecated
 	 */
 
 	public void setPageBreakInside( String value ) throws SemanticException
