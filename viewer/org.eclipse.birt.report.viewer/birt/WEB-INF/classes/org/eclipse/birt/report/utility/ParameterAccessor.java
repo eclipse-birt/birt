@@ -338,6 +338,12 @@ public class ParameterAccessor
 	protected static boolean isWorkingFolderAccessOnly = true;
 
 	/**
+	 * Flag indicating that if initialize the context.
+	 */
+
+	protected static boolean isInitContext = false;
+
+	/**
 	 * Get bookmark. If page exists, ignore bookmark.
 	 * 
 	 * @param request
@@ -965,6 +971,10 @@ public class ParameterAccessor
 
 	public synchronized static void initParameters( ServletConfig config )
 	{
+		if ( !isInitContext )
+		{
+			ParameterAccessor.initParameters( config.getServletContext( ) );
+		}
 	}
 
 	/**
@@ -977,6 +987,9 @@ public class ParameterAccessor
 
 	public synchronized static void initParameters( ServletContext context )
 	{
+		if ( isInitContext )
+			return;
+
 		// Report root.in the web.xml has higher priority.
 		workingFolder = context.getInitParameter( INIT_PARAM_REPORT_DIR );
 
@@ -1019,8 +1032,11 @@ public class ParameterAccessor
 		}
 
 		clearDocuments( );
+
+		// Finish init context
+		isInitContext = true;
 	}
-	
+
 	/**
 	 * Check whether the viewer is used in designer or not.
 	 * 
