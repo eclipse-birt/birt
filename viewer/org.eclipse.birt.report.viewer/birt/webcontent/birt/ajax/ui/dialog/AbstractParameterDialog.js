@@ -176,7 +176,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		var m = 0;
 		
 		var oTRC = table_param.getElementsByTagName( "TR" );
-		for( var i = 0; i < oTRC.length; i++ )
+		for( var i = 0; i < oTRC.length - 1; i++ )
 		{
 			var oSelect = oTRC[i].getElementsByTagName( "select" );
 			
