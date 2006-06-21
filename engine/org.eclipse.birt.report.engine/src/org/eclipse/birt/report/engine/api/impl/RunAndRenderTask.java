@@ -170,7 +170,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			
 			IReportLayoutEngine layoutEngine = LayoutEngineFactory
 						.createLayoutEngine( emitter.getOutputFormat( ) );
-			layoutEngine.layout( lExecutor, emitter , false);
+			layoutEngine.layout( lExecutor, emitter , paginate);
 
 			closeRender( );
 			closeFactory( );
