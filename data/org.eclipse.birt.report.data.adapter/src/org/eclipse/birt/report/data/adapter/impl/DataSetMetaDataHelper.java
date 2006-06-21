@@ -27,9 +27,11 @@ import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -276,7 +278,38 @@ public class DataSetMetaDataHelper
 			}
 		}
 
+		if ( !hasResultSetHint )
+		{
+			hasResultSetHint = checkHandleType( dataSetHandle );
+		}
 		return hasResultSetHint || hasColumnHint;
+	}
+	
+	/**
+	 * whether need to use result hint
+	 * 
+	 * @param dataSetHandle
+	 * @return
+	 */
+	private boolean checkHandleType( DataSetHandle dataSetHandle )
+	{
+		if ( dataSetHandle instanceof ScriptDataSetHandle )
+			return true;
+		else if ( dataSetHandle instanceof JointDataSetHandle )
+		{
+			List dataSets = ( (JointDataSetHandle) dataSetHandle ).getDataSetNames( );
+			for ( int i = 0; i < dataSets.size( ); i++ )
+			{
+				DataSetHandle dsHandle = ( (JointDataSetHandle) dataSetHandle ).getModuleHandle( )
+						.findDataSet( dataSets.get( i ).toString( ) );
+				if ( dsHandle != null
+						&& dsHandle instanceof ScriptDataSetHandle )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	/**
