@@ -472,6 +472,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 		{
 			DataException dataException = new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
 			cmptdColumn.setHandle( new InvalidExpression( dataException ) );
+			return;
 		}
 		try
 		{
