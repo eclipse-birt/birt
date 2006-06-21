@@ -69,9 +69,9 @@ public class BinaryTreeResultObjectSeeker implements IMatchResultObjectSeeker
 				startingIndex+= blockSize;
 				if( startingIndex < count )
 				{
-					max = matcher.getCompareValue( this.joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN );
 					cache.moveTo( startingIndex );
-										
+					max = matcher.getCompareValue( this.joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN );
+															
 					while( JointDataSetUtil.compare( matcher.getCompareValue( this.joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN ), max) == 0)
 					{
 						startingIndex++;
