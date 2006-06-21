@@ -298,6 +298,9 @@ public class BirtGetCascadeParameterActionHandler
 					Object value = item.getValue( );
 					String label = item.getLabel( );
 
+					if ( value == null )
+						continue;
+
 					if ( label == null || label.length( ) <= 0 )
 					{
 						// If label is null or blank, then use the format
@@ -308,10 +311,13 @@ public class BirtGetCascadeParameterActionHandler
 										.getLocale( ) );
 					}
 
-					selectItemChoice.setLabel( label );
-					selectItemChoice.setValue( ParameterValidationUtil
-							.getDisplayValue( value ) );
-					selectionList.add( index++, selectItemChoice );
+					if ( label != null )
+					{
+						selectItemChoice.setLabel( label );
+						selectItemChoice.setValue( ParameterValidationUtil
+								.getDisplayValue( value ) );
+						selectionList.add( index++, selectItemChoice );
+					}
 				}
 			}
 		}

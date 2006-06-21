@@ -95,6 +95,9 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 				String value = ParameterValidationUtil
 						.getDisplayValue( selectionItem.getValue( ) );
 
+				if ( value == null )
+					continue;
+				
 				String label = selectionItem.getLabel( );
 				if ( label == null || label.length( ) <= 0 )
 				{

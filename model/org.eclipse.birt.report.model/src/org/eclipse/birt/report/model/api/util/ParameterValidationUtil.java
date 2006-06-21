@@ -698,6 +698,9 @@ public class ParameterValidationUtil
 
 	static public String getDisplayValue( Object value )
 	{
+		if ( value == null )
+			return null;
+		
 		if ( value instanceof Date )
 		{
 			DateFormatter formatter = new DateFormatter( DEFAULT_LOCALE );
