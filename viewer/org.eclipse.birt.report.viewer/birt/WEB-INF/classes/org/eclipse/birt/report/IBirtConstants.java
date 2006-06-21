@@ -76,5 +76,6 @@ public interface IBirtConstants
 	// Attribute Bean
 	public static final String ATTRIBUTE_BEAN = "attributeBean"; //$NON-NLS-1$
 	
-	
+	// If Cascade parameter
+	public static final String IS_CASCADE = "isCascade"; //$NON-NLS-1$	
 }

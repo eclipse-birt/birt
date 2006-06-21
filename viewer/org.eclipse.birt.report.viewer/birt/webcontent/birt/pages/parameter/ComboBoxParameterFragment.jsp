@@ -12,6 +12,7 @@
 <%@ page session="false" buffer="none" %>
 <%@ page import="org.eclipse.birt.report.context.ScalarParameterBean,
 				 org.eclipse.birt.report.context.BaseAttributeBean,
+				 org.eclipse.birt.report.IBirtConstants,
 				 org.eclipse.birt.report.utility.ParameterAccessor" %>
 
 <%-----------------------------------------------------------------------------
@@ -135,7 +136,7 @@
 		{
 	%>
 			<INPUT TYPE="HIDDEN"
-				ID="<%= encodedParameterName + "_notblank" %>" 
+				ID="isNotBlank"  
 				NAME="<%= encodedParameterName %>"
 				VALUE = "true">
 	<%
@@ -144,5 +145,14 @@
 <%
 	}
 %>
+
+	<%
+		if ( parameterBean.isCascade( ) )
+		{
+	%>
+		<INPUT TYPE="HIDDEN" NAME="<%=IBirtConstants.IS_CASCADE%>" VALUE="true"/>
+	<%
+		}
+	%>
 	</TD>
 </TR>

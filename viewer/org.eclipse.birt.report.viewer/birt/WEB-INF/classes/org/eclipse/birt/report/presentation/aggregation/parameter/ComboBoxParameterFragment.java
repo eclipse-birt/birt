@@ -72,11 +72,19 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 			selectionList = getParameterSelectionListForCascadingGroup(
 					attrBean.getReportDesignHandle( request ), service,
 					paramValues, options );
+
+			// Set cascade flag as true
+			parameterBean.setCascade( true );
 		}
 		else
+		{
 			selectionList = service.getParameterSelectionList( attrBean
 					.getReportDesignHandle( request ), options, parameter
 					.getName( ) );
+
+			// Set cascade flag as false
+			parameterBean.setCascade( false );
+		}
 
 		parameterBean.setValueInList( false );
 

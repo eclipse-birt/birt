@@ -88,7 +88,7 @@
 	{
 %>
 		<INPUT TYPE="HIDDEN"
-			ID="<%= encodedParameterName + "_notblank" %>" 
+			ID="isNotBlank" 
 			NAME="<%= encodedParameterName %>"
 			VALUE = "true">
 <%

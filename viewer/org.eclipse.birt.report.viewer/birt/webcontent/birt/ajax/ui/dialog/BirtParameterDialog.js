@@ -70,6 +70,49 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	},
 
 	/**
+	 *	Intall the event handlers for cascade parameter.
+	 *
+	 *	@table_param, container table object.
+	 *	@counter, index of possible cascade parameter.
+	 *	@return, void
+	 */
+	__install_cascade_parameter_event_handler : function( table_param, counter )
+	{
+		var oSC = table_param.getElementsByTagName( "select" );
+		var matrix = new Array( );
+		var m = 0;
+		
+		var oTRC = table_param.getElementsByTagName( "TR" );
+		for( var i = 0; i < oTRC.length - 1; i++ )
+		{
+			var oSelect = oTRC[i].getElementsByTagName( "select" );
+			var oInput = oTRC[i].getElementsByTagName( "input" );
+			var oCascadeFlag = "";
+			
+			if ( oInput && oInput.length > 0 )
+			{
+				var oLastInput = oInput[oInput.length - 1];
+				if ( oLastInput.name == "isCascade" )
+					oCascadeFlag = oLastInput.value;
+			}
+			
+			// find select items to install event listener
+			if( oSelect.length > 0 && oCascadeFlag == "true" )
+			{
+				Event.observe( oSelect[0], 'change', this.__neh_click_select_closure, false );
+				if( !matrix[m] )
+				{
+					matrix[m] = {};
+				}
+				matrix[m].name = oSelect[0].id.substr( 0, oSelect[0].id.length - 10 );
+				matrix[m++].value = oSelect[0].value;
+			}
+		}
+		
+		this.__cascadingParameter[counter] = matrix;
+	},
+	
+	/**
 	 *	Collect parameters, include five cases appear in Birt1.0 Viewer.
 	 *
 	 *	@return, void
@@ -100,10 +143,10 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				continue;
 			}
 			
-			if( oSEC.length == 1 && oIEC.length <= 1 )
+			if( oSEC.length == 1 && oIEC.length <= 2 )
 			{
 				// deal with "select" parameter
-				if( oIEC.length == 1 )
+				if( oIEC.length > 0 )
 				{
 					this.__parameter[k].name = oIEC[0].name;
 				}
@@ -180,7 +223,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						{
 							//Check if allow blank
 							var temp = oIEC[j+2];
-							if ( temp && temp.value == 'true' )
+							if ( temp && temp.id == 'isNotBlank' && temp.value == 'true' )
 							{
 								if ( birtUtility.trim( oIEC[j+1].value ) == '' )
 								{
