@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.internal.content.wrap;
 
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 
@@ -19,7 +21,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.2 $ $Date: 2006/05/18 09:10:25 $
+ * @version $Revision: 1.3 $ $Date: 2006/06/13 15:37:29 $
  */
 public class RowContentWrapper extends AbstractContentWrapper
 		implements
@@ -68,5 +70,25 @@ public class RowContentWrapper extends AbstractContentWrapper
 	public ITableContent getTable( )
 	{
 		return null;
+	}
+
+	public IBandContent getBand( )
+	{
+		return rowContent.getBand( );
+	}
+
+	public IGroupContent getGroup( )
+	{
+		return rowContent.getGroup( );
+	}
+
+	public String getGroupId( )
+	{
+		return rowContent.getGroupId( );
+	}
+
+	public void setGroupId( String groupId )
+	{
+		rowContent.setGroupId( groupId );
 	}
 }

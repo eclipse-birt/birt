@@ -15,7 +15,7 @@ package org.eclipse.birt.report.engine.content;
  * Provides the interfaces for the Row AbstractContent
  * 
  * 
- * @version $Revision: 1.9 $ $Date: 2006/05/18 09:10:25 $
+ * @version $Revision: 1.10 $ $Date: 2006/06/13 15:37:17 $
  */
 public interface IRowContent extends IContainerContent
 {
@@ -24,4 +24,13 @@ public interface IRowContent extends IContainerContent
 	public void setRowID( int rowID );
 
 	public ITableContent getTable( );
+
+	public String getGroupId( );
+	
+	public void setGroupId( String groupId );
+
+	public IGroupContent getGroup( );
+
+	public IBandContent getBand( );
+
 }

@@ -97,7 +97,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.125 $ $Date: 2006/06/17 12:28:31 $
+ * @version $Revision: 1.127 $ $Date: 2006/06/19 05:16:35 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1342,10 +1342,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( parent instanceof ITableBandContent )
 		{
 			ITableBandContent bandContent = (ITableBandContent) parent;
-			IGroupContent group = getGroup(bandContent);
-			if ( group != null )
+			IGroupContent group = rowContent.getGroup( );
+			String groupId = rowContent.getGroupId( );
+			if ( groupId != null )
 			{
-				writer.attribute( HTMLTags.ATTR_GOURP_ID, group.getGroupID( ) );
+				writer.attribute( HTMLTags.ATTR_GOURP_ID, groupId );
 			}
 			String rowType = null;
 			String metaType = null;

@@ -1,8 +1,11 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
@@ -62,6 +65,7 @@ public class RowExecutor extends QueryItemExecutor
 		processVisibility( rowDesign, rowContent );
 
 		rowContent.setRowID( rowId );
+		setGroupId( rowContent );
 
 		if ( context.isInFactory( ) )
 		{
@@ -77,6 +81,28 @@ public class RowExecutor extends QueryItemExecutor
 		// prepare to execute the children
 		currentCell = 0;
 		return rowContent;
+	}
+
+	private void setGroupId( IRowContent rowContent )
+	{
+		IGroupContent group = rowContent.getGroup( );
+		IBandContent band = rowContent.getBand( );
+		IResultSet resultSet = getParentResultSet( );
+		if ( group != null && band != null && resultSet != null )
+		{
+			int bandType = band.getBandType( );
+			if ( bandType == IBandContent.BAND_DETAIL )
+			{
+				rowContent.setGroupId( resultSet.getGroupId( group
+						.getGroupLevel( ) + 2 ) );
+			}
+			else if ( bandType == IBandContent.BAND_GROUP_HEADER
+					|| bandType == IBandContent.BAND_GROUP_FOOTER )
+			{
+				rowContent.setGroupId( resultSet.getGroupId( group
+						.getGroupLevel( ) + 1 ) );
+			}
+		}
 	}
 
 	public void close( )

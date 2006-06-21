@@ -16,8 +16,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -26,7 +28,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.13 $ $Date: 2006/05/18 09:10:25 $
+ * @version $Revision: 1.14 $ $Date: 2006/06/13 15:37:19 $
  */
 public class RowContent extends AbstractContent implements IRowContent
 {
@@ -34,6 +36,8 @@ public class RowContent extends AbstractContent implements IRowContent
 	protected int rowID = -1;	
 	
 	protected boolean isStartOfGroup = false;
+
+	protected String groupId;
 
 	public int getContentType( )
 	{
@@ -93,6 +97,11 @@ public class RowContent extends AbstractContent implements IRowContent
 			IOUtil.writeInt( out,  FIELD_ROWID );
 			IOUtil.writeInt( out,  rowID );
 		}
+		if ( groupId != null )
+		{
+			IOUtil.writeInt( out,  FIELD_ROW_GROUPID );
+			IOUtil.writeString( out,  groupId );
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in )
@@ -110,10 +119,51 @@ public class RowContent extends AbstractContent implements IRowContent
 				IOUtil.readInt(in);
 				break;
 			case FIELD_ROW_GROUPID :
-				IOUtil.readString( in );
+				groupId = IOUtil.readString( in );
 				break;
 			default :
 				super.readField( version, filedId, in );
 		}
+	}
+
+	
+	/**
+	 * @return the groupId
+	 */
+	public String getGroupId( )
+	{
+		return groupId;
+	}
+
+	
+	/**
+	 * @param groupId the groupId to set
+	 */
+	public void setGroupId( String groupId )
+	{
+		this.groupId = groupId;
+	}
+
+	public IGroupContent getGroup(  )
+	{
+		IBandContent bandContent = getBand( );
+		if ( bandContent != null )
+		{
+			IContent parent = (IContent) bandContent.getParent();
+			if (parent instanceof IGroupContent)
+			{
+				return (IGroupContent)parent;
+			}
+		}
+		return null;
+	}
+
+	public IBandContent getBand( )
+	{
+		if ( parent instanceof IBandContent )
+		{
+			return (IBandContent) parent;
+		}
+		return null;
 	}
 }
