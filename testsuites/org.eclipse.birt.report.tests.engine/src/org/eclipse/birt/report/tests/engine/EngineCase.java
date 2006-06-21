@@ -50,6 +50,7 @@ import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
+import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.ReportRunner;
 
 /**
@@ -228,6 +229,10 @@ public abstract class EngineCase extends TestCase
 		}
 	}
 
+	/**
+	 * Remove a given file or directory recursively.
+	 * @param file
+	 */
 	public void removeFile( File file )
 	{
 		if ( file.isDirectory( ) )
@@ -246,7 +251,14 @@ public abstract class EngineCase extends TestCase
 			}
 		}
 	}
-
+	
+	
+	/**
+	 * Remove a given file or directory recursively.
+	 * @param file
+	 *  
+	 */
+	
 	public void removeFile( String file )
 	{
 		removeFile( new File( file ) );
@@ -256,15 +268,6 @@ public abstract class EngineCase extends TestCase
 	 * Locates the folder where the unit test java source file is saved.
 	 * 
 	 * @return the path name where the test java source file locates.
-	 */
-
-	/*
-	 * protected String getClassFolder( ) { String className = this.getClass(
-	 * ).getName( ); int lastDotIndex = className.lastIndexOf( "." );
-	 * //$NON-NLS-1$ className = className.substring( 0, lastDotIndex );
-	 * className = TEST_FOLDER + className.replace( '.', '/' );
-	 * 
-	 * return className; }
 	 */
 
 	protected String getClassFolder( )
@@ -365,15 +368,30 @@ public abstract class EngineCase extends TestCase
 	protected void runAndRender_HTML( String input, String output )
 			throws EngineException
 	{
-		runAndRender_HTML( input, output, null );
+		runAndRender( input, output, null, "html" ); //$NON-NLS-1$
+	}
+
+	
+	/**
+	 * Run and render the given design file into pdf file. If the input is
+	 * "a.xml", output html file will be named "a.pdf" under folder "output".
+	 * 
+	 * @param input
+	 * @throws EngineException
+	 */
+	
+	protected void runAndRender_PDF( String input, String output )
+			throws EngineException
+	{
+		runAndRender( input, output, null, "pdf" ); //$NON-NLS-1$
 	}
 
 	/**
 	 * RunAndRender a report with the given parameters.
 	 */
 
-	protected final void runAndRender_HTML( String input, String output,
-			Map paramValues ) throws EngineException
+	protected final void runAndRender( String input, String output,
+			Map paramValues, String format ) throws EngineException
 	{
 		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
 				+ "/" + output; //$NON-NLS-1$
@@ -395,17 +413,25 @@ public abstract class EngineCase extends TestCase
 
 		task.setLocale( Locale.ENGLISH );
 
-		IRenderOption options = new HTMLRenderOption( );
-		options.setOutputFileName( outputFile );
+		IRenderOption options = null;
+		if ( "pdf".equals( format ) ) //$NON-NLS-1$
+		{
+			options = new RenderOptionBase( );
+			options.setOutputFileName( outputFile );
+		}
+		else
+		{
+			options = new HTMLRenderOption( );
+			options.setOutputFileName( outputFile );
+			HTMLRenderContext renderContext = new HTMLRenderContext( );
+			renderContext.setImageDirectory( IMAGE_DIR );
+			HashMap appContext = new HashMap( );
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					renderContext );
+			task.setAppContext( appContext );
+		}
 
-		HTMLRenderContext renderContext = new HTMLRenderContext( );
-		renderContext.setImageDirectory( IMAGE_DIR );
-		HashMap appContext = new HashMap( );
-		appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
-				renderContext );
-		task.setAppContext( appContext );
-
-		options.setOutputFormat( FORMAT_HTML );
+		options.setOutputFormat( format );
 		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
 				ENCODING_UTF8 );
 
@@ -521,7 +547,7 @@ public abstract class EngineCase extends TestCase
 	 */
 
 	protected final void runAndThenRender( String input, String output,
-			String pageRange ) throws Exception
+			String pageRange, String format ) throws Exception
 	{
 		String tempDoc = "temp_123aaabbbccc789.rptdocument"; //$NON-NLS-1$
 
@@ -535,7 +561,10 @@ public abstract class EngineCase extends TestCase
 		try
 		{
 			copyFile( from, temp );
-			render_HTML( tempDoc, output, pageRange );
+			if ( "pdf".equals( format ) ) //$NON-NLS-1$
+				render_PDF( tempDoc, output, pageRange );
+			else
+				render_HTML( tempDoc, output, pageRange );
 		}
 		catch ( Exception e )
 		{
@@ -544,9 +573,7 @@ public abstract class EngineCase extends TestCase
 		finally
 		{
 			// remove the temp file on exit.
-			File tempFile = new File( temp );
-			if ( tempFile.exists( ) )
-				tempFile.delete( );
+			removeFile( temp );
 		}
 	}
 
@@ -665,11 +692,10 @@ public abstract class EngineCase extends TestCase
 			.compile( "background-image[\\s]*: url[(]'image.*'[)]" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	// Sample: src="image/design31"
-	//         src="image\file31.jpg"
+	// src="image\file31.jpg"
 	private final static Pattern PATTERN_IMAGE_SOURCE = Pattern
-	.compile( "src=\"image.*\"" ); //$NON-NLS-1$
+			.compile( "src=\"image.*\"" ); //$NON-NLS-1$
 
-	
 	/**
 	 * Normalize some seeding values, lines that matches certain patterns will
 	 * be repalced by a replacement.
@@ -702,7 +728,7 @@ public abstract class EngineCase extends TestCase
 			String replacement = (String) FILTER_PATTERNS[i][1];
 
 			Matcher matcher = pattern.matcher( result );
-			while( matcher.find( ))
+			while ( matcher.find( ) )
 			{
 				result = matcher.replaceFirst( replacement );
 			}
