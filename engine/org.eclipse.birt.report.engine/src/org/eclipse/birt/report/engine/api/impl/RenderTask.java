@@ -201,7 +201,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				IReportLayoutEngine layoutEngine = LayoutEngineFactory
 						.createLayoutEngine( format );
 				startRender( );
-				layoutEngine.layout( executor, emitter );
+				layoutEngine.layout( executor, emitter, true );
 				closeRender( );
 				executor.close( );
 			}
@@ -264,7 +264,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				IReportLayoutEngine layoutEngine = LayoutEngineFactory
 						.createLayoutEngine( format );
 				startRender( );
-				layoutEngine.layout( executor, emitter );
+				layoutEngine.layout( executor, emitter, true );
 				closeRender( );
 				executor.close( );
 			}
@@ -328,7 +328,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					IReportLayoutEngine layoutEngine = LayoutEngineFactory
 							.createLayoutEngine( format );
 					startRender( );
-					layoutEngine.layout( executor, emitter );
+					layoutEngine.layout( executor, emitter, true );
 					closeRender( );
 					executor.close( );
 				}

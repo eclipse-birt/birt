@@ -59,10 +59,12 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		return factory;
 	}
 
-	public void layout( IReportExecutor executor, IContentEmitter emitter )
+	public void layout( IReportExecutor executor, IContentEmitter emitter, boolean pagination )
 	{
 		this.executor = executor;
-
+		
+		this.context.setAllowPageBreak( pagination );
+		
 		IReportContent report = executor.execute( );
 		if ( emitter != null )
 		{

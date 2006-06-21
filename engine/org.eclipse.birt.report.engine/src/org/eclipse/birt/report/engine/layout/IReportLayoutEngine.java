@@ -20,7 +20,7 @@ public interface IReportLayoutEngine
 {
 	void setPageHandler( ILayoutPageHandler handle );
 	
-	void layout(IReportExecutor executor, IContentEmitter output);
+	void layout(IReportExecutor executor, IContentEmitter output, boolean pagination);
 	
 	void layout(IContent content, IContentEmitter output);
 	

@@ -56,7 +56,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 
 	}
 
-	public void layout( IReportExecutor executor, IContentEmitter output )
+	public void layout( IReportExecutor executor, IContentEmitter output, boolean pagination )
 	{
 		this.executor = executor;
 		IReportContent report = executor.execute( );

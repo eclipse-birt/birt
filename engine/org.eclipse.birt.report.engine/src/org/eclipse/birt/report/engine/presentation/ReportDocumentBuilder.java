@@ -126,7 +126,7 @@ public class ReportDocumentBuilder
 		IReportExecutor executor = executionContext.getExecutor( );
 		IReportLayoutEngine engine = LayoutEngineFactory.createLayoutEngine( "html" );
 		engine.setPageHandler( layoutPageHandler);
-		engine.layout(executor, pageEmitter);
+		engine.layout(executor, pageEmitter, true);
 	}
 	
 	void cancel()
@@ -142,7 +142,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.5 $ $Date: 2006/06/13 15:37:42 $
+	 * @version $Revision: 1.6 $ $Date: 2006/06/16 11:02:30 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -235,7 +235,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.5 $ $Date: 2006/06/13 15:37:42 $
+	 * @version $Revision: 1.6 $ $Date: 2006/06/16 11:02:30 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{

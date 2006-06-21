@@ -128,7 +128,7 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 		{
 			return value.booleanValue( );
 		}
-		return true;
+		return false;
 	}
 
 	public void setActionHandle( IHTMLActionHandler handler )
