@@ -127,7 +127,8 @@ public class QueryResults implements IQueryResults
 	 */
 	public void close( ) throws BirtException
 	{
-		resultIterator.close( );
+		if( resultIterator!= null )
+			resultIterator.close( );
 	}
 
 	/*
