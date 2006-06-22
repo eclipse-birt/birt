@@ -710,7 +710,7 @@ public class PDFEmitter implements IContentEmitter
 			float width = pdfMeasure(container.getWidth());
 			float height = pdfMeasure(container.getHeight());
 			
-			// draw background color for the container, if the backgound color is NOT set, draw nothing.
+			// Draws background color for the container, if the backgound color is NOT set, draw nothing.
 			Color bc = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR));
 			drawBackgroundColor( bc, startX, startY, width, height );
 			
@@ -929,15 +929,7 @@ public class PDFEmitter implements IContentEmitter
 					}
 					dbl.add(borders[i]);
 				}
-				if ( "solid".equalsIgnoreCase(borders[i].borderStyle) ) //$NON-NLS-1$
-				{
-					if (null == solid)
-					{
-						solid = new ArrayList();
-					}
-					solid.add(borders[i]);
-				}
-				if ( "dashed".equalsIgnoreCase(borders[i].borderStyle) ) //$NON-NLS-1$
+				else if ( "dashed".equalsIgnoreCase(borders[i].borderStyle) ) //$NON-NLS-1$
 				{
 					if (null == dashed)
 					{
@@ -945,13 +937,22 @@ public class PDFEmitter implements IContentEmitter
 					}
 					dashed.add(borders[i]);
 				}
-				if ( "dotted".equalsIgnoreCase(borders[i].borderStyle) ) //$NON-NLS-1$
+				else if ( "dotted".equalsIgnoreCase(borders[i].borderStyle) ) //$NON-NLS-1$
 				{
 					if (null == dotted)
 					{
 						dotted = new ArrayList();
 					}
 					dotted.add(borders[i]);
+				}
+				// Uses the solid style as default style.
+				else
+				{
+					if (null == solid)
+					{
+						solid = new ArrayList();
+					}
+					solid.add(borders[i]);
 				}
 			}
 	 		if ( null != dotted )
