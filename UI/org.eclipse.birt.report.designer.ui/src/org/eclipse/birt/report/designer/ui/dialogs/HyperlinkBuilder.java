@@ -1195,12 +1195,13 @@ public class HyperlinkBuilder extends BaseDialog
 						{
 							parameterList.add( obj );
 						}
-						//bug 147604
-//						else if ( obj instanceof ParameterGroupHandle )
-//						{
-//							parameterList.addAll( ( (ParameterGroupHandle) obj ).getParameters( )
-//									.getContents( ) );
-//						}
+						// bug 147604
+						// else if ( obj instanceof ParameterGroupHandle )
+						// {
+						// parameterList.addAll( ( (ParameterGroupHandle) obj
+						// ).getParameters( )
+						// .getContents( ) );
+						// }
 					}
 					if ( newFilename.equals( inputHandle.getReportName( ) ) )
 					{
@@ -1298,7 +1299,7 @@ public class HyperlinkBuilder extends BaseDialog
 		int i = 0;
 		for ( Iterator iter = bookmarks.iterator( ); iter.hasNext( ); )
 		{
-			bookmarkArray[i] = "\"" + iter.next( ) + "\"";  //$NON-NLS-1$//$NON-NLS-2$
+			bookmarkArray[i] = "\"" + iter.next( ) + "\""; //$NON-NLS-1$//$NON-NLS-2$
 			i++;
 		}
 		return bookmarkArray;
@@ -1399,12 +1400,17 @@ public class HyperlinkBuilder extends BaseDialog
 		if ( targetReportHandle instanceof ReportDesignHandle )
 		{
 			( (ReportDesignHandle) targetReportHandle ).close( );
-			targetReportHandle = null;
 		}
+		else if ( targetReportHandle instanceof IReportDocument )
+		{
+			( (IReportDocument) targetReportHandle ).close( );
+		}
+		targetReportHandle = null;
 	}
 
 	private void initTargetReport( String newFilename )
 	{
+		closeTargetReport( );
 		targetReportHandle = null;
 		String errorMessage = null;
 		if ( newFilename.endsWith( ".rptdocument" ) ) //$NON-NLS-1$
