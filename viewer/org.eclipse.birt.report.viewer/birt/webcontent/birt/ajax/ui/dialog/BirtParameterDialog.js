@@ -27,14 +27,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	Identify the parameter is null.
 	 */
 	__isnull : '__isnull',
-	
+ 	
 	/**
 	 *	Initialization routine required by "ProtoType" lib.
 	 *	@return, void
 	 */
 	initialize : function( id, mode )
 	{
-		this.initializeBase( id );
 		this.__mode = mode;
 		
 		if ( this.__mode == 'parameter' )
@@ -43,6 +42,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			var paramDialogTitleBar = $( id + 'dialogTitleBar' );
 			paramDialogTitleBar.style.display = 'none';			
 		}
+			    
+	    this.initializeBase( id );	    
 	},
 
 	/**
@@ -83,7 +84,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		var m = 0;
 		
 		var oTRC = table_param.getElementsByTagName( "TR" );
-		for( var i = 0; i < oTRC.length - 1; i++ )
+		for( var i = 0; i < oTRC.length; i++ )
 		{
 			var oSelect = oTRC[i].getElementsByTagName( "select" );
 			var oInput = oTRC[i].getElementsByTagName( "input" );
@@ -99,7 +100,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			// find select items to install event listener
 			if( oSelect.length > 0 && oCascadeFlag == "true" )
 			{
-				Event.observe( oSelect[0], 'change', this.__neh_click_select_closure, false );
+				if ( i < oTRC.length - 1 )
+				{
+					Event.observe( oSelect[0], 'change', this.__neh_click_select_closure, false );
+				}
+				
 				if( !matrix[m] )
 				{
 					matrix[m] = {};
@@ -143,8 +148,21 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				continue;
 			}
 			
-			if( oSEC.length == 1 && oIEC.length <= 2 )
+			if( oSEC.length == 1 && oIEC.length <= 3 )
 			{
+				// Check if select 'Null Value' option
+				var temp = oSEC[0].options[oSEC[0].selectedIndex].text;						
+				if( temp && temp == 'Null Value' )
+				{	
+					this.__parameter[k].name = this.__isnull;
+					if ( oIEC.length > 0 )
+						this.__parameter[k].value = oIEC[0].name;
+					else
+						this.__parameter[k].value = oSEC[0].name;
+					k++;
+					continue;
+				}
+							
 				// deal with "select" parameter
 				if( oIEC.length > 0 )
 				{
@@ -212,7 +230,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					//handle more cases
 				}
 			}
-			else if( oSEC.length <= 1 && oIEC.length > 2 )
+			else if( oSEC.length <= 1 && oIEC.length > 3 )
 			{
 				for( var j = 0; j < oIEC.length; j++ )
 				{
@@ -431,6 +449,6 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		
 		// enable the Navigation Bar buttons
 		birtUtility.setButtonsDisabled ( "navigationBar", false );		
-	}	
+	}
 }
 );
