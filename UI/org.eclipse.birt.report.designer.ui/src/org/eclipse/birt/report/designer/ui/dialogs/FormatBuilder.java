@@ -94,11 +94,17 @@ public class FormatBuilder extends BaseDialog
 		return composite;
 	}
 
+	/*
+	 * Set preview text
+	 */
 	public void setPreviewText( String previewText )
 	{
 		this.previewText = previewText;
 	}
-
+    
+	/*
+	 * Set format categrory and patten
+	 */
 	public void setInputFormat( String formatCategroy, String formatPattern )
 	{
 		Assert.isLegal( !StringUtil.isBlank( formatCategroy ) );

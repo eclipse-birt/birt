@@ -136,6 +136,13 @@ public class ItemContentList
 		return contents;
 	}
 
+	/**
+	 * Set content for ItemContent List
+	 * 
+	 * @param i
+	 * @param itemContent
+	 * @return
+	 */
 	public boolean setContent( int i, ItemContent itemContent )
 	{
 		if ( i < 0 || i >= contents.size( ) )
@@ -173,6 +180,8 @@ public class ItemContentList
 	}
 
 	/**
+	 * Remove a content from ItemContent List
+	 * 
 	 * @param content
 	 */
 	public void removeContent( ItemContent content )
@@ -184,6 +193,8 @@ public class ItemContentList
 	}
 
 	/**
+	 * Change all the ItemContent in List
+	 * 
 	 * @param content
 	 */
 	public void contentChanged( ItemContent content )
@@ -194,6 +205,8 @@ public class ItemContentList
 	}
 
 	/**
+	 * Remove listener for ItemContent List
+	 * 
 	 * @param viewer
 	 */
 	public void removeChangeListener( IItemListViewer viewer )
@@ -202,6 +215,8 @@ public class ItemContentList
 	}
 
 	/**
+	 * Add listener on ItemContentList changing
+	 * 
 	 * @param viewer
 	 */
 	public void addChangeListener( IItemListViewer viewer )

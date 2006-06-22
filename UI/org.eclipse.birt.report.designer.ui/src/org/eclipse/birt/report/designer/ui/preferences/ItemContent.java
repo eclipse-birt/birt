@@ -32,31 +32,58 @@ public class ItemContent
 		this.setCustomName( string );
 	}
 
+	/**
+	 * 
+	 * @return Return the default name of ItemContent
+	 */
 	public String getDefaultName( )
 	{
 		return defaultName;
 	}
 
+	/**
+	 * Set default name for ItemContent
+	 * 
+	 * @param string
+	 */
 	public void setDefaultName( String string )
 	{
 		defaultName = string.trim( );
 	}
 
+	/**
+	 * 
+	 * @return custom name of Itemcontent
+	 */
 	public String getCustomName( )
 	{
 		return customName;
 	}
 
+	/**
+	 * Set custom name for ItemContent
+	 * 
+	 * @param string
+	 */
 	public void setCustomName( String string )
 	{
 		customName = string.trim( );
 	}
 
+	/**
+	 * 
+	 * @return the description of ItemContent
+	 */
 	public String getDescription( )
 	{
 		return description;
 	}
 
+	/**
+	 * Set the description for ItemContent
+	 * 
+	 * @param string
+	 */
 	public void setDescription( String string )
 	{
 		description = string.trim( );

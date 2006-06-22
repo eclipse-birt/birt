@@ -27,7 +27,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 public class InsertPasteColumnAction extends AbstractViewAction
 {
 
-	private static final String DEFAULT_TEXT = Messages.getString("InsertPasteColumnAction.text"); //$NON-NLS-1$
+	private static final String DEFAULT_TEXT = Messages.getString( "InsertPasteColumnAction.text" ); //$NON-NLS-1$
 
 	public InsertPasteColumnAction( Object selectedObject )
 	{
@@ -35,7 +35,7 @@ public class InsertPasteColumnAction extends AbstractViewAction
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * Returns whether the InsertPasteColumn Action is enabled
 	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
@@ -58,6 +58,11 @@ public class InsertPasteColumnAction extends AbstractViewAction
 		return obj;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction#getSelection()
+	 */
 	public Object getSelection( )
 	{
 		Object selection = super.getSelection( );

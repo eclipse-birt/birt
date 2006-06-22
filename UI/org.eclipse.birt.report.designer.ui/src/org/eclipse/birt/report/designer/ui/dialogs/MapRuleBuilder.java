@@ -495,17 +495,26 @@ public class MapRuleBuilder extends BaseDialog
 		return txt;
 	}
 
+	/*
+	 * Update handle for the Map Rule builder
+	 */
 	public void updateHandle( MapRuleHandle handle, int handleCount )
 	{
 		this.handle = handle;
 		this.handleCount = handleCount;
 	}
 
+	/*
+	 * Set design handle for the Map Rule builder
+	 */
 	public void setDesignHandle( DesignElementHandle handle )
 	{
 		this.designHandle = handle;
 	}
 
+	/*
+	 * Return the hanle of Map Rule builder
+	 */
 	public MapRuleHandle getHandle( )
 	{
 		return handle;

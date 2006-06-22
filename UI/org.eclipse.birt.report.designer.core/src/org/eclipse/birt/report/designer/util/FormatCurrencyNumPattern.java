@@ -160,6 +160,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 	}
 
 	/**
+	 *  Get decPlaces.
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces( )
@@ -168,6 +169,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 	}
 
 	/**
+	 *  Set decPaces
 	 * @param decPlaces
 	 *            The decPlaces to set.
 	 */
@@ -210,7 +212,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		this.useBracket = useBracket;
 	}
 
-	/**
+	/** Get symbeol
 	 * @return Returns the symbol.
 	 */
 	public String getSymbol( )
@@ -218,7 +220,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		return symbol;
 	}
 
-	/**
+	/** Set symbol
 	 * @param symbol
 	 *            The symbol to set.
 	 */
@@ -227,7 +229,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		this.symbol = symbol;
 	}
 
-	/**
+	/** get SysmPos
 	 * @return Returns the symPos.
 	 */
 	public String getSymPos( )
@@ -235,7 +237,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		return symPos;
 	}
 
-	/**
+	/** Set symPos
 	 * @param symPos
 	 *            The symPos to set.
 	 */

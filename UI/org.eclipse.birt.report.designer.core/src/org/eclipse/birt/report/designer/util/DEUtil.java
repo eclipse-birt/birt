@@ -1419,7 +1419,7 @@ public class DEUtil
 						ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
 	}
 
-	/**
+	/** Get styles
 	 * @return Alphabetically sortted styles list.
 	 */
 	public static Iterator getStyles( )
@@ -1427,7 +1427,7 @@ public class DEUtil
 		return getStyles( new AlphabeticallyComparator( ) );
 	}
 
-	/**
+	/** Get styles
 	 * @param comparator
 	 * @return return styles list sortted with given comparator.
 	 */
@@ -1669,12 +1669,21 @@ public class DEUtil
 		return handle.getNamespace( ) != null;
 	}
 
+	/**
+	 * Get classes with default comparator
+	 * @return List of classes
+	 */
 	public static List getClasses( )
 	{
 
 		return getClasses( new AlphabeticallyComparator( ) );
 	}
 
+	/**
+	 * Get classes with specified comparator
+	 * @param comp the coparator
+	 * @return List of classes
+	 */
 	public static List getClasses( Comparator comp )
 	{
 		List classes = DesignEngine.getMetaDataDictionary( ).getClasses( );
@@ -1683,11 +1692,23 @@ public class DEUtil
 		return classes;
 	}
 
+	/**
+	 * Get methods with default comparator
+	 * @param classInfo
+	 * @return List of methods
+	 */
 	public static List getMethods( IClassInfo classInfo )
 	{
 		return getMethods( classInfo, new AlphabeticallyComparator( ) );
 	}
 
+	/**
+	 * Get methods with specified comparator
+	 * @param classInfo 
+	 * @param comp
+	 * 	The comparator
+	 * @return List of methods
+	 */
 	public static List getMethods( IClassInfo classInfo, Comparator comp )
 	{
 		List methods = classInfo.getMethods( );
@@ -1696,11 +1717,23 @@ public class DEUtil
 		return methods;
 	}
 
+	/**
+	 * Get members with default comparator
+	 * @param classInfo
+	 * @return List of members
+	 */
 	public static List getMembers( IClassInfo classInfo )
 	{
 		return getMembers( classInfo, new AlphabeticallyComparator( ) );
 	}
 
+	/**
+	 * Get members with specified comparator
+	 * @param classInfo 
+	 * @param comp
+	 * 	The comparator
+	 * @return List of methods
+	 */
 	public static List getMembers( IClassInfo classInfo, Comparator comp )
 	{
 		List members = classInfo.getMembers( );

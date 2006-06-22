@@ -191,7 +191,11 @@ public class ReportPlugin extends AbstractUIPlugin
 				.getHeaders( )
 				.get( org.osgi.framework.Constants.BUNDLE_VERSION );
 	}
-
+	
+	/**
+	 * Returns the infomation about the Build
+	 *
+	 */	
 	public static String getBuildInfo( )
 	{
 		return getResourceString( "Build" ); //$NON-NLS-1$
@@ -884,6 +888,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	}
 
 	/**
+	 * Add View ID into ignore view list.
 	 * @param str
 	 */
 	public void addIgnoreViewID( String str )
@@ -892,6 +897,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	}
 
 	/**
+	 * Remove View ID from ignore view list.
 	 * @param str
 	 */
 	public void removeIgnoreViewID( String str )
@@ -900,6 +906,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	}
 
 	/**
+	 * Test whether the View ID is in the ignore view list.
 	 * @param str
 	 * @return
 	 */

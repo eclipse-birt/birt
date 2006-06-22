@@ -119,7 +119,7 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 		return DEFAULT_FIXED_PATTERN;
 	}
 
-	/**
+	/** Get DecPlaces
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces( )
@@ -127,7 +127,7 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 		return decPlaces;
 	}
 
-	/**
+	/** Set DecPlaces
 	 * @param decPlaces
 	 *            The decPlaces to set.
 	 */
@@ -136,7 +136,7 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 		this.decPlaces = decPlaces;
 	}
 
-	/**
+	/** get UseSep
 	 * Returns useSep.
 	 */
 	public boolean getUseSep( )
@@ -145,6 +145,7 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 	}
 
 	/**
+	 *  Set useSep
 	 * @param useSep
 	 *            The useSep to set.
 	 */
@@ -154,14 +155,14 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 	}
 
 	/**
-	 * Returns useBrackte.
+	 * Returns useBracket.
 	 */
 	public boolean getUseBracket( )
 	{
 		return this.useBracket;
 	}
 
-	/**
+	/** Set useBracket
 	 * @param useBracket
 	 *            The useBracket to set.
 	 */

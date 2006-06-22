@@ -69,7 +69,11 @@ public class ApplyThemeAction extends DynamicItemAction
 			ExceptionHandler.handle( e );
 		}
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.action.Action#isEnabled()
+	 */
 	public boolean isEnabled( )
 	{
 		return true;

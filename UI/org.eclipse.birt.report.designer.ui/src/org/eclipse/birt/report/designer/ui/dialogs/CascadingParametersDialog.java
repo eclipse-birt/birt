@@ -673,7 +673,9 @@ public class CascadingParametersDialog extends BaseDialog
 		control.setLayoutData( gd );
 	}
 
-	// set input for dialog
+	/*
+	 * set input for dialog
+	 */ 
 	public void setInput( Object input )
 	{
 		Assert.isNotNull( input );

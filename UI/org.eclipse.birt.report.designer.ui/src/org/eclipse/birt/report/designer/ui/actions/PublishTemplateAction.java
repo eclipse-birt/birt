@@ -95,7 +95,9 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 		if ( editor != null )
 		{
 			if ( editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" )
-			|| editor.getEditorInput( ).getName( ).endsWith( ".rptdesign" ))
+					|| editor.getEditorInput( )
+							.getName( )
+							.endsWith( ".rptdesign" ) )
 			{
 				return true;
 			}
@@ -105,8 +107,6 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 	}
 
 }
-
-
 
 /**
  * PublishPage
@@ -201,7 +201,7 @@ class PublishPage extends WizardPage
 						.getActiveShell( ) );
 				dialog.setText( BROWSE_TITLE );
 				dialog.setFilterExtensions( new String[]{
-						"*.gif;*.jpg;*.png;*.ico;*.bmp"  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+					"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 				} );
 				String fileName = dialog.open( );
 				if ( fileName == null )
@@ -256,18 +256,29 @@ class PublishPage extends WizardPage
 		setControl( container );
 	}
 
+	/*
+	 * Return DisplayName if it is not null
+	 */
 	public String getDisplayName( )
 	{
 		return nameText.getText( ) == null ? STR_EMPTY : nameText.getText( )
 				.trim( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.DialogPage#getDescription()
+	 */
 	public String getDescription( )
 	{
 		return descText.getText( ) == null ? STR_EMPTY : descText.getText( )
 				.trim( );
 	}
 
+	/*
+	 * Return PreviewImagePath if it is not null
+	 */
 	public String getPreviewImagePath( )
 	{
 		return previewImageText.getText( ) == null ? STR_EMPTY

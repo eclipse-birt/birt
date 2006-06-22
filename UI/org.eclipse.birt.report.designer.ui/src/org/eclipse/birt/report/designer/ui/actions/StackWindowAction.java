@@ -197,7 +197,7 @@ public abstract class StackWindowAction implements
 					if ( activeEditor instanceof AbstractMultiPageEditor )
 					{
 						isEnabled = canDo( );
-						break;				
+						break;
 					}
 				}
 			}

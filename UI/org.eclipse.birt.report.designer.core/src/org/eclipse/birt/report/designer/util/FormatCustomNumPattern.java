@@ -51,7 +51,7 @@ public class FormatCustomNumPattern extends FormatNumberPattern
 		return;
 	}
 
-	/**
+	/** Get format code
 	 * @return Returns the fmtCode.
 	 */
 	public String getFmtCode( )

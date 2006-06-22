@@ -58,20 +58,20 @@ public class ShowPropertyAction extends Action
 			System.out.println( "Show property action >> Run ..." ); //$NON-NLS-1$
 		}
 		showView( );
-		//		ReportEditor editor = UIUtil.getActiveReportEditor( );
-		//		IViewReference[] viewReference = editor.getSite( )
-		//				.getPage( )
-		//				.getViewReferences( );
-		//		for ( int i = 0; i < viewReference.length; i++ )
-		//		{
-		//			IViewPart viewPart = viewReference[i].getView( false );
-		//			if ( viewPart instanceof PropertySheet )
-		//			{
-		//				( (PropertySheet) viewPart ).selectionChanged( editor,
-		//						new StructuredSelection( model ) );
-		//				( (PropertySheet) viewPart ).partActivated( editor );
-		//			}
-		//		}
+		// ReportEditor editor = UIUtil.getActiveReportEditor( );
+		// IViewReference[] viewReference = editor.getSite( )
+		// .getPage( )
+		// .getViewReferences( );
+		// for ( int i = 0; i < viewReference.length; i++ )
+		// {
+		// IViewPart viewPart = viewReference[i].getView( false );
+		// if ( viewPart instanceof PropertySheet )
+		// {
+		// ( (PropertySheet) viewPart ).selectionChanged( editor,
+		// new StructuredSelection( model ) );
+		// ( (PropertySheet) viewPart ).partActivated( editor );
+		// }
+		// }
 	}
 
 	private void showView( )

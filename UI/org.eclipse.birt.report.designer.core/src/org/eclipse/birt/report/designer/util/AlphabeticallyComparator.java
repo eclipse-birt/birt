@@ -29,6 +29,13 @@ public class AlphabeticallyComparator implements Comparator
 
 	private boolean ascending = true;
 
+
+	/**
+	 * Compare the two objects
+	 * @param o1 object1
+	 * @param 02 object2
+	 * @return the compare result
+	 */
 	public int compare( Object o1, Object o2 )
 	{
 		String name1=null;

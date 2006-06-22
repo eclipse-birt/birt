@@ -83,7 +83,8 @@ public class FormatNumberPattern
 //		createCategoryPatterns( );
 	}
 
-	/**
+	/** 
+	 *  Get category name
 	 * @return Returns the name.
 	 */
 	public String getCategory( )
@@ -91,7 +92,7 @@ public class FormatNumberPattern
 		return category;
 	}
 
-	/**
+	/** Get type
 	 * @return Returns the type.
 	 */
 	protected char getType( )
@@ -99,6 +100,11 @@ public class FormatNumberPattern
 		return type;
 	}
 
+	/**
+	 *  Set type
+	 * @param t
+	 * 	The type to set
+	 */
 	protected void setType( char t )
 	{
 		this.type = t;

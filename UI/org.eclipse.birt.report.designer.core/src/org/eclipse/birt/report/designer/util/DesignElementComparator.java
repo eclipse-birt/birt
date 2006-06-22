@@ -16,15 +16,20 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import com.ibm.icu.text.Collator;
 
 /**
- * 
+ *  The comparator for design element
  */
-
 public class DesignElementComparator implements Comparator
 {
 
 	private boolean ascending = true;
 	private int ret = 0;
 
+	/**
+	 * Compare the two objects
+	 * @param o1 object1
+	 * @param 02 object2
+	 * @return the compare result
+	 */
 	public int compare( Object o1, Object o2 )
 	{
 		String name1 = null;

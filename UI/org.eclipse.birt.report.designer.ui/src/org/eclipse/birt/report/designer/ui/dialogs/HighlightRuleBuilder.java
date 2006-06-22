@@ -709,6 +709,9 @@ public class HighlightRuleBuilder extends BaseDialog
 
 	}
 
+	/*
+	 * Set design handle for HighlightRule builder
+	 */
 	public void setDesignHandle( DesignElementHandle handle )
 	{
 		this.designHandle = handle;

@@ -18,12 +18,14 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 public class ReportItemLabelProvider implements IReportItemLabelProvider
 {
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemLabelProvider#getLabel(org.eclipse.birt.report.model.api.ExtendedItemHandle)
-     */
-    public String getLabel( ExtendedItemHandle handle )
-    {
-        return ""; //$NON-NLS-1$
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemLabelProvider#getLabel(org.eclipse.birt.report.model.api.ExtendedItemHandle)
+	 */
+	public String getLabel( ExtendedItemHandle handle )
+	{
+		return ""; //$NON-NLS-1$
+	}
 
 }

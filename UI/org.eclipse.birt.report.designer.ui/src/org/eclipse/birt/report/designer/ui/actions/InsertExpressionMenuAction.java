@@ -58,7 +58,7 @@ public class InsertExpressionMenuAction extends BaseInsertMenuAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.designer.ui.actions.BaseInsertMenuAction#run()
+	 * @see org.eclipse.birt.report.designer.ui.actions.BaseInsertMenuAction#run()
 	 */
 	public void run( )
 	{

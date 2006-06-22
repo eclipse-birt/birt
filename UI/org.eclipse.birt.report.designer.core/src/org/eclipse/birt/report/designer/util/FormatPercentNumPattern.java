@@ -146,7 +146,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		return DEFAULT_PERCENT_PATTERN;
 	}
 
-	/**
+	/**¡¡Get decPlaces
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces( )
@@ -154,7 +154,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		return decPlaces;
 	}
 
-	/**
+	/** Set decPlaces
 	 * @param decPlaces
 	 *            The decPlaces to set.
 	 */
@@ -171,7 +171,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		return this.useSep;
 	}
 
-	/**
+	/** Set UseSep
 	 * @param useSep
 	 *            The useSep to set.
 	 */
@@ -180,7 +180,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		this.useSep = useSep;
 	}
 
-	/**
+	/** get UseBracket
 	 * Returns useBracket.
 	 */
 	public boolean getUseBracket( )
@@ -189,7 +189,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		return this.useBracket;
 	}
 
-	/**
+	/** Set useBracket
 	 * @param useBracket
 	 *            The useBracket to set.
 	 */
@@ -207,6 +207,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	}
 
 	/**
+	 *  Set SymPos
 	 * @param symPos
 	 *            The symPos to set.
 	 */

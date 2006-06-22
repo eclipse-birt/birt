@@ -120,6 +120,13 @@ public class ImageManager
 		return image;
 	}
 
+	/**
+	 *  Get image from URI
+	 * @param uri
+	 * 	URI
+	 * @return
+	 *   The image gotten
+	 */
 	public Image getImage( String uri )
 	{
 		return getImage( uri, false );
@@ -283,7 +290,9 @@ public class ImageManager
 	 * Generate hash key.
 	 * 
 	 * @param reportDesignHandle
+	 *  Moudle handle
 	 * @param name
+	 *  Name
 	 * @return key string
 	 */
 	public String generateKey( ModuleHandle reportDesignHandle, String name )

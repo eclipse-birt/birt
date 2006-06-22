@@ -68,6 +68,7 @@ public abstract class ContextMenuProvider extends MenuManager implements
 	}
 
 	/**
+	 * Called when the menu is about to show.
 	 * @see IMenuListener#menuAboutToShow(IMenuManager)
 	 */
 	public void menuAboutToShow( IMenuManager menu )

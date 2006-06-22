@@ -453,6 +453,9 @@ public class ColumnBindingDialog extends BaseDialog
 		this.canSelect = canSelect;
 	}
 
+	/*
+	 * Set input for dialog
+	 */
 	public void setInput( ReportItemHandle input )
 	{
 		Assert.isNotNull( input );
@@ -940,6 +943,9 @@ public class ColumnBindingDialog extends BaseDialog
 		return inputElement.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP );
 	}
 
+	/*
+	 * Set data for Group List
+	 */
 	public void setGroupList( List groupList )
 	{
 		Assert.isNotNull( groupList );

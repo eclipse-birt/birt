@@ -44,6 +44,11 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+	 */
 	public void run( IAction action )
 	{
 
@@ -69,6 +74,12 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 		dialog.open( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
+	 *      org.eclipse.jface.viewers.ISelection)
+	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
 		action.setEnabled( isEnable( ) ); //$NON-NLS-1$

@@ -20,7 +20,7 @@ import org.eclipse.jface.action.Action;
 
 /**
  * Changes rule unit
- *  
+ * 
  */
 public class ChangeRulerUnitAction extends Action
 {
@@ -29,6 +29,7 @@ public class ChangeRulerUnitAction extends Action
 
 	/**
 	 * Constructor.
+	 * 
 	 * @param value
 	 * @param displayName
 	 */

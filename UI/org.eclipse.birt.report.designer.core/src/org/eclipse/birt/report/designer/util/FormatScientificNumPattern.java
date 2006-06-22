@@ -93,7 +93,7 @@ public class FormatScientificNumPattern extends FormatNumberPattern
 		return DEFAULT_SCIENTIFIC_PATTERN;
 	}
 
-	/**
+	/** Get DecPlaces
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces( )
@@ -101,7 +101,7 @@ public class FormatScientificNumPattern extends FormatNumberPattern
 		return decPlaces;
 	}
 
-	/**
+	/** Set DecPlaces 
 	 * @param decPlaces
 	 *            The decPlaces to set.
 	 */

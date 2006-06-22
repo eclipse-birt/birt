@@ -41,7 +41,7 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.15 $ $Date: 2005/12/20 10:32:14 $
+ * @version $Revision: 1.16 $ $Date: 2006/06/07 08:54:59 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -73,7 +73,7 @@ public class SelectValueDialog extends BaseDialog
 	}
 
 	/**
-	 *  
+	 *  Set handles for binding parameters
 	 */
 	public void setBindingParams( ParamBindingHandle[] handles )
 	{
@@ -164,12 +164,18 @@ public class SelectValueDialog extends BaseDialog
 		super.okPressed( );
 	}
 
+	/*
+	 * Return the first selected value if selected result is not null
+	 */
 	public String getSelectedValue( )
 	{
 		String[] result = (String[]) getResult( );
 		return ( result != null && result.length > 0 ) ? result[0] : null;
 	}
 
+	/*
+	 * Return all the selected value if selected result is not null
+	 */
 	public String[] getSelectedValues( )
 	{
 		String[] result = (String[]) getResult( );

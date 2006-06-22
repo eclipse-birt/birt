@@ -28,7 +28,7 @@ public class NoneAction extends Action
 	private static NoneAction instance;
 
 	/**
-	 *  
+	 * 
 	 */
 	public NoneAction( )
 	{
@@ -42,6 +42,9 @@ public class NoneAction extends Action
 		setText( text );
 	}
 
+	/*
+	 * Return the unique NoneAction instance
+	 */
 	public static NoneAction getInstance( )
 	{
 		if ( instance == null )
