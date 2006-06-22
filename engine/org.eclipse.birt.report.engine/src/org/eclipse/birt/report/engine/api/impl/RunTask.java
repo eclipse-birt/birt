@@ -28,8 +28,10 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -144,7 +146,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		writer.close( );
 	}
 
-	private void initializeContentEmitter(IContentEmitter emitter, ReportExecutor executor)
+	private void initializeContentEmitter(IContentEmitter emitter, IReportExecutor executor)
 	{
 		// create the emitter services object that is needed in the emitters.
 		EngineEmitterServices services = new EngineEmitterServices( this );
@@ -199,11 +201,14 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				documentBuilder.setPageHandler( pageHandler );
 			}
 
-			IContentEmitter emitter = documentBuilder.getContentEmitter();
-			ReportExecutor executor = new ReportExecutor( executionContext, reportDesign, emitter );
-			executionContext.setExecutor( executor );
+			IContentEmitter emitter = documentBuilder.getContentEmitter( );
+			ReportExecutor executor = new ReportExecutor( executionContext,
+					reportDesign, emitter );
+			IReportExecutor lExecutor = new LocalizedReportExecutor(
+					executionContext, executor );
+			executionContext.setExecutor( lExecutor );
 			
-			initializeContentEmitter(emitter, executor);
+			initializeContentEmitter(emitter, lExecutor);
 
 			documentBuilder.build( );
 			
