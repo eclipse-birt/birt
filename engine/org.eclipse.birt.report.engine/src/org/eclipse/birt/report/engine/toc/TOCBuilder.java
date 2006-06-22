@@ -31,6 +31,8 @@ public class TOCBuilder
 	private TOCNode rootNode;
 	private TOCEntry rootEntry;
 
+	public static final String TOC_PREFIX = "__TOC";//
+
 	/**
 	 * @param root
 	 *            the root for the TOC tree
@@ -86,7 +88,7 @@ public class TOCBuilder
 		String id = parentNode.getNodeID( );
 		if ( id == null )
 		{
-			id = "toc";
+			id = TOC_PREFIX;
 		}
 		id = id + "_" + parentNode.getChildren( ).size( );
 

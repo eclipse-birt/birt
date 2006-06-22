@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -332,7 +333,17 @@ public class ReportDocumentReader
 			loadBookmarks( );
 		}
 		ArrayList list = new ArrayList( );
-		list.addAll( bookmarks.keySet( ) );
+		Set bookmarkSet = bookmarks.keySet( );
+		Iterator iterator = bookmarkSet.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			String bookmark = (String)iterator.next( );
+			if ( bookmark != null
+					&& !bookmark.startsWith( TOCBuilder.TOC_PREFIX ) )
+			{
+				list.add( bookmark );
+			}
+		}
 		return list;
 	}
 
