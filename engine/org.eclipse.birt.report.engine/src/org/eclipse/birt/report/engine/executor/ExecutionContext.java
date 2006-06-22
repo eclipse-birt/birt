@@ -81,7 +81,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.71 $ $Date: 2006/06/16 11:02:26 $
+ * @version $Revision: 1.72 $ $Date: 2006/06/17 12:28:57 $
  */
 public class ExecutionContext
 {
@@ -250,6 +250,11 @@ public class ExecutionContext
 	 * 
 	 */
 	private IDocArchiveReader dataSource;
+	
+	/**
+	 * A list of reportItems which are current openning. 
+	 */
+	private List openningContents = new ArrayList( );
 
 	public ExecutionContext()
 	{
@@ -1597,5 +1602,32 @@ public class ExecutionContext
 	public void setMaxErrors( int maxErrors )
 	{
 		MAX_ERRORS = maxErrors;
+	}
+	
+	/**
+	 * @param content
+	 */
+	public void registerOnPageBreak( IContent content )
+	{
+		Object[] pageBreakEvent = new Object[]{rset, content};
+		openningContents.add( pageBreakEvent );
+	}
+	
+	public List getAllOnPageBreaks( )
+	{
+		return openningContents;
+	}
+	
+	public void unregisterOnPageBreak( IContent content )
+	{
+		for( int i = 0; i < openningContents.size( ); i++ )
+		{
+			Object[] pageBreakEvent = ( Object[] ) openningContents.get( i );
+			IContent contentOut = ( IContent ) pageBreakEvent[1];
+			if ( contentOut.equals( content ) )
+			{
+				openningContents.remove( i );
+			}
+		}
 	}
 }

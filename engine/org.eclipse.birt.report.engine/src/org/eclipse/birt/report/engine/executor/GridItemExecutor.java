@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.36 $ $Date: 2006/06/16 11:02:26 $
+ * @version $Revision: 1.37 $ $Date: 2006/06/19 09:27:56 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -64,7 +64,8 @@ public class GridItemExecutor extends QueryItemExecutor
 		setContent(tableContent);
 
 		executeQuery( );
-
+		context.registerOnPageBreak( content );		
+		
 		initializeContent( gridDesign, tableContent );
 
 		processAction( gridDesign, tableContent );
@@ -111,6 +112,7 @@ public class GridItemExecutor extends QueryItemExecutor
 		{
 			emitter.endTable( tableContent );
 		}
+		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
 	}

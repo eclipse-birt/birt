@@ -86,6 +86,28 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		}
 	}
 
+	public static void handleOnPageBreak( IForeignContent content,
+			ExecutionContext context )
+	{
+		try
+		{
+			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
+					.getGenerateBy( );
+			IDynamicTextInstance text = new DynamicTextInstance( content,
+					context );
+			if ( handleJS( text, textItemDesign.getOnPageBreak( ), context )
+					.didRun( ) )
+				return;
+			IDynamicTextEventHandler eh = getEventHandler( textItemDesign,
+					context );
+			if ( eh != null )
+				eh.onPageBreak( text, context.getReportContext( ) );
+		} catch ( Exception e )
+		{
+			addException( context, e );
+		}
+	}
+
 	private static IDynamicTextEventHandler getEventHandler(
 			ReportItemDesign design, ExecutionContext context )
 	{

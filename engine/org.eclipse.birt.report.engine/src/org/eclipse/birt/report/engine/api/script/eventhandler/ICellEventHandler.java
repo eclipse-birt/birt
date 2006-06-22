@@ -35,5 +35,10 @@ public interface ICellEventHandler
 	 * Handle the onRender event
 	 */
 	void onRender( ICellInstance cellInstance, IReportContext reportContext );
+	
+	/**
+	 * Handle the onPageBreak event
+	 */
+	void onPageBreak( ICellInstance cellInstance, IReportContext reportContext );
 
 }

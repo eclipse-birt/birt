@@ -36,4 +36,9 @@ public class ListEventAdapter implements IListEventHandler
 
 	}
 
+	public void onPageBreak( IListInstance list, IReportContext reportContext )
+	{
+		
+	}
+
 }

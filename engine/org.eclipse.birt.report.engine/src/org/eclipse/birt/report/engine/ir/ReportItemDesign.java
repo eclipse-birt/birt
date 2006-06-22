@@ -18,7 +18,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 /**
  * Report Item
  * 
- * @version $Revision: 1.12 $ $Date: 2006/04/06 12:35:25 $
+ * @version $Revision: 1.13 $ $Date: 2006/06/13 15:37:20 $
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {
@@ -62,6 +62,10 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 */
 	protected String onRender;
 	
+	/**
+	 * script called while on render
+	 */
+	protected String onPageBreak;	
 
 	/**
 	 * parameter bindings associated with this item
@@ -223,6 +227,20 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	public String getOnRender( )
 	{
 		return onRender;
+	}
+	/**
+	 * @param onPageBreak The onPageBreak to set.
+	 */
+	public void setOnPageBreak( String onPageBreak )
+	{
+		this.onPageBreak = onPageBreak;
+	}
+	/**
+	 * @return Returns the onPageBreak.
+	 */
+	public String getOnPageBreak( )
+	{
+		return onPageBreak;
 	}
 	/**
 	 * @param onRender The onRender to set.

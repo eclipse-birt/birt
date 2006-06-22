@@ -85,6 +85,26 @@ public class ImageScriptExecutor extends ScriptExecutor
 		}
 	}
 
+	public static void handleOnPageBreak( IImageContent content,
+			ExecutionContext context )
+	{
+		try
+		{
+			ReportItemDesign imageDesign = ( ReportItemDesign ) content
+					.getGenerateBy( );
+			IImageInstance image = new ImageInstance( content, context );
+			if ( handleJS( image, imageDesign.getOnPageBreak( ), context )
+					.didRun( ) )
+				return;
+			IImageEventHandler eh = getEventHandler( imageDesign, context );
+			if ( eh != null )
+				eh.onPageBreak( image, context.getReportContext( ) );
+		} catch ( Exception e )
+		{
+			addException( context, e );
+		}
+	}
+
 	private static IImageEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{

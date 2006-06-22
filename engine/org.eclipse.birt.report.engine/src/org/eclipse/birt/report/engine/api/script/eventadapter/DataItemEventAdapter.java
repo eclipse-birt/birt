@@ -34,4 +34,8 @@ public class DataItemEventAdapter implements IDataItemEventHandler
 	{
 	}
 
+	public void onPageBreak( IDataItemInstance data, IReportContext reportContext )
+	{		
+	}
+
 }

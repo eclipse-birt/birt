@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecuto
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
+import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
@@ -204,8 +205,11 @@ public class PDFPageLM extends PDFBlockContainerLM
 
 	protected void pageBreakEvent( )
 	{
-		// FIXME add pagebreak event handle
-
+		ILayoutPageHandler pageHandler = engine.getPageHandler( );
+		if ( pageHandler != null )
+		{
+			pageHandler.onPage( this.pageNumber, context );
+		}
 	}
 
 	protected void start( )

@@ -82,6 +82,26 @@ public class TableScriptExecutor extends ScriptExecutor
 		}
 	}
 
+	public static void handleOnPageBreak( ITableContent content,
+			ExecutionContext context )
+	{
+		try
+		{
+			ReportItemDesign tableDesign = ( ReportItemDesign ) content
+					.getGenerateBy( );
+			ITableInstance table = new TableInstance( content, context );
+			if ( handleJS( table, tableDesign.getOnPageBreak( ), context )
+					.didRun( ) )
+				return;
+			ITableEventHandler eh = getEventHandler( tableDesign, context );
+			if ( eh != null )
+				eh.onPageBreak( table, context.getReportContext( ) );
+		} catch ( Exception e )
+		{
+			addException( context, e );
+		}
+	}
+
 	private static ITableEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{

@@ -35,4 +35,9 @@ public interface IGridEventHandler
 	 */
 	void onRender( IGridInstance grid, IReportContext reportContext );
 
+	/**
+	 * Handle the onPageBreak event
+	 */
+	void onPageBreak( IGridInstance grid, IReportContext reportContext );
+
 }

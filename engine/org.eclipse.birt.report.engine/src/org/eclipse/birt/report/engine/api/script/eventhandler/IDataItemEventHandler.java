@@ -35,4 +35,9 @@ public interface IDataItemEventHandler
 	 * Handle the onRender event
 	 */
 	void onRender( IDataItemInstance data, IReportContext reportContext );
+	
+	/**
+	 * Handle the onPageBreak event
+	 */
+	void onPageBreak( IDataItemInstance data, IReportContext reportContext );
 }

@@ -152,7 +152,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.111 $ $Date: 2006/06/19 05:17:05 $
+ * @version $Revision: 1.112 $ $Date: 2006/06/19 09:27:56 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -486,7 +486,7 @@ class EngineIRVisitor extends DesignVisitor
 		if ( footerSlot.getCount( ) > 0 )
 		{
 			ListBandDesign footer = createListBand( footerSlot );
-			footer.setBandType( ListBandDesign.BAND_DETAIL );
+			footer.setBandType( ListBandDesign.BAND_FOOTER );
 			listItem.setFooter( footer );
 		}
 
@@ -1098,6 +1098,10 @@ class EngineIRVisitor extends DesignVisitor
 		row.setOnRender( ( (RowHandle) handle ).getOnRender( ) );
 
 		setHighlight( row, null );
+		/*
+		 * model hasn't send onPageBreak to us
+		row.setOnPageBreak( handle.getOnPageBreak( ) );
+		*/
 		
 		currentElement = row;
 	}
@@ -1190,6 +1194,10 @@ class EngineIRVisitor extends DesignVisitor
 		cell.setOnRender( handle.getOnRender( ) );
 
 		setHighlight( cell, null );
+		/*
+		 * model hasn't send onPageBreak to us
+		cell.setOnPageBreak( handle.getOnPageBreak( ) );
+		*/
 		
 		currentElement = cell;
 	}
@@ -1263,7 +1271,9 @@ class EngineIRVisitor extends DesignVisitor
 
 		boolean hideDetail = handle.hideDetail( );
 		listGroup.setHideDetail( hideDetail );
-
+		
+		listGroup.setOnPageBreak( handle.getOnPageBreak( ) );
+		
 		currentElement = listGroup;
 	}
 
@@ -1312,6 +1322,8 @@ class EngineIRVisitor extends DesignVisitor
 		
 		boolean hideDetail = handle.hideDetail( );
 		tableGroup.setHideDetail( hideDetail );
+		
+		tableGroup.setOnPageBreak( handle.getOnPageBreak( ) );
 		
 		currentElement = tableGroup;
 	}
@@ -1471,6 +1483,8 @@ class EngineIRVisitor extends DesignVisitor
 		item.setOnCreate( createExpression( onCreate ) );
 
 		item.setOnRender( handle.getOnRender( ) );
+		
+		item.setOnPageBreak( handle.getOnPageBreak( ) );
 
 		// Sets up the visibility
 		Iterator visibilityIter = handle.visibilityRulesIterator( );

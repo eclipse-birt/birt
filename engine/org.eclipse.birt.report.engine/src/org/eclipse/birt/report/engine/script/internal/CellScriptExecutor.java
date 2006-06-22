@@ -91,6 +91,32 @@ public class CellScriptExecutor extends ScriptExecutor
 			addException( context, e );
 		}
 	}
+	
+	public static void handleOnPageBreak( ICellContent content,
+			ExecutionContext context )
+	{
+		try
+		{
+			Object generateBy = content.getGenerateBy( );
+			if ( generateBy == null )
+			{
+				return;
+			}
+			ReportItemDesign cellDesign = ( ReportItemDesign ) generateBy; 
+			
+			//fromGrid doesn't matter here since row data is null
+			ICellInstance cell = new CellInstance( content, context,
+					false );
+			if ( handleJS( cell, cellDesign.getOnPageBreak( ), context ).didRun( ) )
+				return;
+			ICellEventHandler eh = getEventHandler( cellDesign, context );
+			if ( eh != null )
+				eh.onPageBreak( cell, context.getReportContext( ) );
+		} catch ( Exception e )
+		{
+			addException( context, e );
+		}
+	}
 
 	private static ICellEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )

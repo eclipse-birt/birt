@@ -80,6 +80,26 @@ public class DataItemScriptExecutor extends ScriptExecutor
 			addException( context, e );
 		}
 	}
+	
+	public static void handleOnPageBreak( IDataContent content,
+			ExecutionContext context )
+	{
+		try
+		{
+			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
+					.getGenerateBy( );
+			IDataItemInstance dataItem = new DataItemInstance( content, context );
+			if ( handleJS( dataItem, dataItemDesign.getOnPageBreak( ), context )
+					.didRun( ) )
+				return;
+			IDataItemEventHandler eh = getEventHandler( dataItemDesign, context );
+			if ( eh != null )
+				eh.onPageBreak( dataItem, context.getReportContext( ) );
+		} catch ( Exception e )
+		{
+			addException( context, e );
+		}
+	}
 
 	private static IDataItemEventHandler getEventHandler(
 			ReportItemDesign design, ExecutionContext context )

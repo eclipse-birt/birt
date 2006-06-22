@@ -36,4 +36,9 @@ public interface ITableEventHandler
 	 */
 	void onRender( ITableInstance table, IReportContext reportContext );
 
+	/**
+	 * Handle the onPageBreak event
+	 */
+	void onPageBreak( ITableInstance table, IReportContext reportContext );
+
 }

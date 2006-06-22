@@ -77,7 +77,8 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 		setContent(extContent);
 
 		executeQuery( );
-
+		context.registerOnPageBreak( content );		
+		
 		initializeContent( extDesign, extContent );
 
 		processAction( extDesign, extContent );
@@ -103,6 +104,7 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 	
 	public void close( )
 	{
+		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
 	}

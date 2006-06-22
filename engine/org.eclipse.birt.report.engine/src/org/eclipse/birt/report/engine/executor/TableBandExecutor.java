@@ -15,7 +15,6 @@ public class TableBandExecutor extends StyledItemExecutor
 	}
 
 	public IContent execute( )
-	
 	{
 		// start table band
 		TableBandDesign bandDesign = (TableBandDesign) getDesign( );
@@ -23,6 +22,8 @@ public class TableBandExecutor extends StyledItemExecutor
 		setContent(bandContent);
 
 		restoreResultSet( );
+		context.registerOnPageBreak( content );
+		
 		initializeContent( bandDesign, bandContent );
 		
 		startTOCEntry( bandContent );
@@ -44,6 +45,7 @@ public class TableBandExecutor extends StyledItemExecutor
 		{
 			emitter.endTableBand( bandContent );
 		}
+		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 	}
 

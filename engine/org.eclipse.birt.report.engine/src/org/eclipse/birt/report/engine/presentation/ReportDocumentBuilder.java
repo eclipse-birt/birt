@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
@@ -39,6 +40,7 @@ import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
@@ -104,7 +106,7 @@ public class ReportDocumentBuilder
 	/**
 	 * handle used to recive the layout page events
 	 */
-	protected ILayoutPageHandler layoutPageHandler;
+	protected CompositeLayoutPageHandler layoutPageHandler;
 
 	public ReportDocumentBuilder( ExecutionContext context,
 			ReportDocumentWriter document )
@@ -112,7 +114,9 @@ public class ReportDocumentBuilder
 		this.executionContext = context;
 		this.document = document;
 		pageEmitter = new PageEmitter( );
-		layoutPageHandler = new LayoutPageHandler( );
+		layoutPageHandler = new CompositeLayoutPageHandler();
+		layoutPageHandler.addPageHandler(new LayoutPageHandler( ));
+		layoutPageHandler.addPageHandler(new OnPageBreakLayoutPageHandle(context));
 		contentEmitter = new ContentEmitter( );
 	}
 
@@ -142,7 +146,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.6 $ $Date: 2006/06/16 11:02:30 $
+	 * @version $Revision: 1.7 $ $Date: 2006/06/21 08:22:55 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -235,7 +239,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.6 $ $Date: 2006/06/16 11:02:30 $
+	 * @version $Revision: 1.7 $ $Date: 2006/06/21 08:22:55 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{

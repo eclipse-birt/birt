@@ -36,4 +36,9 @@ public class TableEventAdapter implements ITableEventHandler
 
 	}
 
+	public void onPageBreak( ITableInstance table, IReportContext reportContext )
+	{
+		
+	}
+
 }

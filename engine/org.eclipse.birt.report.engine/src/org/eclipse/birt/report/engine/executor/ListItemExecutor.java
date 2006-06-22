@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.37 $ $Date: 2006/05/18 09:10:26 $
+ * @version $Revision: 1.38 $ $Date: 2006/06/13 15:37:16 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -64,7 +64,8 @@ public class ListItemExecutor extends ListingElementExecutor
 		setContent(listContent);
 		
 		executeQuery( );
-
+		context.registerOnPageBreak( content );		
+		
 		initializeContent( listDesign, listContent );
 
 		processAction( listDesign, listContent );
@@ -97,6 +98,7 @@ public class ListItemExecutor extends ListingElementExecutor
 			emitter.endList( listContent );
 		}
 
+		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
 	}

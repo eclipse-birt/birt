@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.script.eventadapter;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.element.ITextItem;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITextItemEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
 import org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance;
 
 /**
@@ -35,6 +36,16 @@ public class TextItemEventAdapter implements ITextItemEventHandler
 	public void onRender( ITextItemInstance text, IReportContext reportContext )
 	{
 
+	}
+
+	public void onPageBreak( ITextItemInstance text, IReportContext reportContext )
+	{
+		
+	}
+	
+	public void onPageBreak( ILabelInstance text, IReportContext reportContext )
+	{
+		
 	}
 
 }

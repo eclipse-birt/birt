@@ -13,11 +13,17 @@ package org.eclipse.birt.report.engine.api.script.eventadapter;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.element.ITableGroup;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITableGroupEventHandler;
+import org.eclipse.birt.report.engine.script.internal.instance.ReportElementInstance;
 
 public class TableGroupEventAdapter implements ITableGroupEventHandler
 {
 
 	public void onPrepare( ITableGroup tableGroup, IReportContext context )
+	{
+		
+	}
+
+	public void onPageBreak( ReportElementInstance tableGroup, IReportContext context )
 	{
 		
 	}

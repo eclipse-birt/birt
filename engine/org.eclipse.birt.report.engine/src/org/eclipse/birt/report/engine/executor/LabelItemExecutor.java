@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.18 $ $Date: 2006/04/11 08:17:43 $
+ * @version $Revision: 1.19 $ $Date: 2006/06/13 15:37:16 $
  */
 public class LabelItemExecutor extends QueryItemExecutor
 {
@@ -58,6 +58,7 @@ public class LabelItemExecutor extends QueryItemExecutor
 		setContent(labelContent);
 
 		executeQuery();
+		context.registerOnPageBreak( content );		
 		
 		initializeContent( labelDesign, labelContent );
 
@@ -83,6 +84,7 @@ public class LabelItemExecutor extends QueryItemExecutor
 	
 	public void close( )
 	{
+		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
 	}

@@ -33,7 +33,7 @@ import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.50 $ $Date: 2006/06/19 05:03:03 $
+ * @version $Revision: 1.51 $ $Date: 2006/06/19 09:27:56 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -72,7 +72,8 @@ public class TableItemExecutor extends ListingElementExecutor
 		setContent(tableContent);
 		
 		executeQuery( );
-
+		context.registerOnPageBreak( content );		
+		
 		initializeContent( tableDesign, tableContent );
 		processStyle( tableDesign, tableContent );
 		processVisibility( tableDesign, tableContent );
@@ -119,6 +120,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			emitter.endTable( tableContent );
 		}
 
+		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
 	}

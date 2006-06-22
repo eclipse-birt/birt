@@ -36,4 +36,8 @@ public class RowEventAdapter implements IRowEventHandler
 
 	}
 
+	public void onPageBreak( IRowInstance rowInstance, IReportContext reportContext )
+	{
+
+	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.element.ITextItem;
+import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
 import org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance;
 
 /**
@@ -35,5 +36,12 @@ public interface ITextItemEventHandler
 	 * Handle the onRender event
 	 */
 	void onRender( ITextItemInstance text, IReportContext reportContext );
+
+	/**
+	 * Handle the onPageBreak event
+	 */
+	void onPageBreak( ITextItemInstance text, IReportContext reportContext );
+	
+	void onPageBreak( ILabelInstance text, IReportContext reportContext );
 
 }

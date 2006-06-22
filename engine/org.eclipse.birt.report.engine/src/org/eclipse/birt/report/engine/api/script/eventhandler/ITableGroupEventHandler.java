@@ -12,10 +12,13 @@ package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.element.ITableGroup;
+import org.eclipse.birt.report.engine.script.internal.instance.ReportElementInstance;
 
 public interface ITableGroupEventHandler
 {
 
 	void onPrepare( ITableGroup tableGroup, IReportContext context);
+	
+	void onPageBreak( ReportElementInstance tableGroup, IReportContext context);
 	
 }

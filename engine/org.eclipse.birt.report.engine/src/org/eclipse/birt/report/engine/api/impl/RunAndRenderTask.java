@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -170,6 +171,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			
 			IReportLayoutEngine layoutEngine = LayoutEngineFactory
 						.createLayoutEngine( emitter.getOutputFormat( ) );
+			OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle( executionContext );
+			layoutEngine.setPageHandler( handle );
 			layoutEngine.layout( lExecutor, emitter , paginate);
 
 			closeRender( );

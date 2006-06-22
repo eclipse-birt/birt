@@ -38,4 +38,10 @@ public class DynamicTextEventAdapter implements IDynamicTextEventHandler
 
 	}
 
+	public void onPageBreak( IDynamicTextInstance text,
+			IReportContext reportContext )
+	{
+
+	}
+
 }

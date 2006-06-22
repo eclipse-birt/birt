@@ -36,4 +36,9 @@ public interface IListEventHandler
 	 */
 	void onRender( IListInstance list, IReportContext reportContext );
 
+	/**
+	 * Handle the onPageBreak event
+	 */
+	void onPageBreak( IListInstance list, IReportContext reportContext );
+
 }

@@ -200,24 +200,29 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		{
 			return false;
 		}
-
-		int endGroup = rset.getEndingGroupLevel( );
-		if ( endGroup <= 0 )
+		while ( !endOfListing )
 		{
-			ListingDesign listingDesign = (ListingDesign) getDesign( );
-			totalElements = 0;
-			currentElement = 0;
-			if ( listingDesign.getFooter( ) != null )
+			int endGroup = rset.getEndingGroupLevel( );
+			if ( endGroup <= 0 )
 			{
-				executableElements[totalElements++] = listingDesign.getFooter( );
+				ListingDesign listingDesign = (ListingDesign) getDesign( );
+				totalElements = 0;
+				currentElement = 0;
+				if ( listingDesign.getFooter( ) != null )
+				{
+					executableElements[totalElements++] = listingDesign.getFooter( );
+				}
+				endOfListing = true;
+				return currentElement < totalElements;
 			}
-			endOfListing = true;
-			return currentElement < totalElements;
-		}
-		if ( rset.next( ) )
-		{
-			collectExecutableElements( );
-			return currentElement < totalElements;
+			if ( rset.next( ) )
+			{
+				collectExecutableElements( );
+				if( currentElement < totalElements )
+				{
+					return true;
+				}
+			}
 		}
 		return false;
 	}

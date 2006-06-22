@@ -78,6 +78,25 @@ public class GridScriptExecutor extends ScriptExecutor
 		}
 	}
 
+	public static void handleOnPageBreak( ITableContent content,
+			ExecutionContext context )
+	{
+		try
+		{
+			ReportItemDesign gridDesign = ( ReportItemDesign ) content
+					.getGenerateBy( );
+			IGridInstance grid = new GridInstance( content, context );
+			if ( handleJS( grid, gridDesign.getOnPageBreak( ), context ).didRun( ) )
+				return;
+			IGridEventHandler eh = getEventHandler( gridDesign, context );
+			if ( eh != null )
+				eh.onPageBreak( grid, context.getReportContext( ) );
+		} catch ( Exception e )
+		{
+			addException( context, e );
+		}
+	}
+
 	private static IGridEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{

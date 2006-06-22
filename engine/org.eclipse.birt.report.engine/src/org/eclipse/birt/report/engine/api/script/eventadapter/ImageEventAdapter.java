@@ -36,4 +36,9 @@ public class ImageEventAdapter implements IImageEventHandler
 
 	}
 
+	public void onPageBreak( IImageInstance image, IReportContext reportContext )
+	{
+
+	}
+
 }

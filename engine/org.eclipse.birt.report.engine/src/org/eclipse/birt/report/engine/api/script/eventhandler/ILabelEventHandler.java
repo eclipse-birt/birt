@@ -35,4 +35,9 @@ public interface ILabelEventHandler
 	 * Handle the onRender event
 	 */
 	void onRender( ILabelInstance label, IReportContext reportContext );
+	
+	/**
+	 * Handle the onPageBreak event
+	 */
+	void onPageBreak( ILabelInstance label, IReportContext reportContext );
 }

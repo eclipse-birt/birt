@@ -50,6 +50,8 @@ public class TemplateExecutor extends ReportItemExecutor
 		ILabelContent textContent = report.createLabelContent( );
 
 		restoreResultSet( );
+		context.registerOnPageBreak( content );
+		
 		IStyle style = textContent.getStyle( );
 		style.setProperty( IStyle.STYLE_BORDER_TOP_COLOR, IStyle.GRAY_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_TOP_STYLE, IStyle.SOLID_VALUE );
@@ -82,5 +84,6 @@ public class TemplateExecutor extends ReportItemExecutor
 	
 	public void close( )
 	{
+		context.unregisterOnPageBreak( content );
 	}
 }

@@ -35,4 +35,10 @@ public interface IImageEventHandler
 	 */
 	void onRender( IImageInstance image, IReportContext reportContext );
 
+
+	/**
+	 * Handle the onPageBreak event
+	 */
+	void onPageBreak( IImageInstance image, IReportContext reportContext );
+
 }

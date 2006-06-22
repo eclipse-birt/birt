@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.script.eventadapter;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.element.IListGroup;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IListGroupEventHandler;
+import org.eclipse.birt.report.engine.script.internal.instance.ReportElementInstance;
 
 public class ListGroupEventAdapter implements IListGroupEventHandler
 {
@@ -21,5 +22,8 @@ public class ListGroupEventAdapter implements IListGroupEventHandler
 	{
 
 	}
+	public void onPageBreak( ReportElementInstance listGroup, IReportContext context )
+	{
 
+	}
 }

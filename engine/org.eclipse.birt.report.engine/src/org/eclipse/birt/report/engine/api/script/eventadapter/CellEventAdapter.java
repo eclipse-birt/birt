@@ -34,5 +34,10 @@ public class CellEventAdapter implements ICellEventHandler
 			IReportContext reportContext )
 	{
 	}
+	
+	public void onPageBreak( ICellInstance cellInstance,
+			IReportContext reportContext )
+	{
+	}
 
 }

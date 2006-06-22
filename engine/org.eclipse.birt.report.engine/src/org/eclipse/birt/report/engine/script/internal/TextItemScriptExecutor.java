@@ -56,6 +56,12 @@ public class TextItemScriptExecutor extends ScriptExecutor
 	{
 		internalOnRender( content, context );
 	}
+	
+	public static void handleOnPageBreak( ITextContent content,
+			ExecutionContext context )
+	{
+		internalOnPageBreak( content, context );
+	}
 
 	public static void handleOnCreate( IForeignContent content,
 			ExecutionContext context )
@@ -119,6 +125,34 @@ public class TextItemScriptExecutor extends ScriptExecutor
 			if ( eh != null )
 			{
 				eh.onRender( textItem, context.getReportContext( ) );
+			}
+		} catch ( Exception e )
+		{
+			addException( context, e );
+		}
+	}
+
+	private static void internalOnPageBreak( IContent content,
+			ExecutionContext context )
+	{
+		try
+		{
+			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
+					.getGenerateBy( );
+			ITextItemInstance textItem = null;
+			if ( content instanceof TextContent )
+				textItem = new TextItemInstance( ( ITextContent ) content,
+						context );
+			else if ( content instanceof ForeignContent )
+				textItem = new TextItemInstance( ( IForeignContent ) content,
+						context );
+			if ( handleJS( textItem, textItemDesign.getOnPageBreak( ), context )
+					.didRun( ) )
+				return;
+			ITextItemEventHandler eh = getEventHandler( textItemDesign, context );
+			if ( eh != null )
+			{
+				eh.onPageBreak( textItem, context.getReportContext( ) );
 			}
 		} catch ( Exception e )
 		{

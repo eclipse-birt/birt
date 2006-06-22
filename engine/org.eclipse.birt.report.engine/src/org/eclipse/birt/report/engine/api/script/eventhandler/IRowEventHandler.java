@@ -35,4 +35,9 @@ public interface IRowEventHandler
 	 */
 	void onRender( IRowInstance rowInstance, IReportContext reportContext );
 
+	/**
+	 * Handle the onPageBreak event
+	 */
+	void onPageBreak( IRowInstance rowInstance, IReportContext reportContext );
+
 }

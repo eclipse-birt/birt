@@ -36,4 +36,9 @@ public class GridEventAdapter implements IGridEventHandler
 
 	}
 
+	public void onPageBreak( IGridInstance grid, IReportContext reportContext )
+	{
+		
+	}
+
 }

@@ -36,4 +36,9 @@ public class LabelEventAdapter implements ILabelEventHandler
 
 	}
 
+	public void onPageBreak( ILabelInstance label, IReportContext reportContext )
+	{
+		
+	}
+
 }

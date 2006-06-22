@@ -30,4 +30,9 @@ public interface IDynamicTextEventHandler
 	 * Handle the onRender event
 	 */
 	void onRender( IDynamicTextInstance text, IReportContext reportContext );
+	
+	/**
+	 * Handle the onPageBreak event
+	 */
+	void onPageBreak( IDynamicTextInstance text, IReportContext reportContext );
 }

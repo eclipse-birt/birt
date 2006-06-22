@@ -79,6 +79,25 @@ public class RowScriptExecutor extends ScriptExecutor
 		}
 	}
 
+	public static void handleOnPageBreak( IRowContent content,
+			ExecutionContext context )
+	{
+		try
+		{
+			ReportItemDesign rowDesign = ( ReportItemDesign ) content
+					.getGenerateBy( );
+			IRowInstance row = new RowInstance( content, context );
+			if ( handleJS( row, rowDesign.getOnPageBreak( ), context ).didRun( ) )
+				return;
+			IRowEventHandler eh = getEventHandler( rowDesign, context );
+			if ( eh != null )
+				eh.onPageBreak( row, context.getReportContext( ) );
+		} catch ( Exception e )
+		{
+			addException( context, e );
+		}
+	}
+
 	private static IRowEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{

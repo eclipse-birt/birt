@@ -78,6 +78,25 @@ public class ListScriptExecutor extends ScriptExecutor
 		}
 	}
 
+	public static void handleOnPageBreak( IListContent content,
+			ExecutionContext context )
+	{
+		try
+		{
+			ReportItemDesign listDesign = ( ReportItemDesign ) content
+					.getGenerateBy( );
+			IListInstance list = new ListInstance( content, context );
+			if ( handleJS( list, listDesign.getOnPageBreak( ), context ).didRun( ) )
+				return;
+			IListEventHandler eh = getEventHandler( listDesign, context );
+			if ( eh != null )
+				eh.onPageBreak( list, context.getReportContext( ) );
+		} catch ( Exception e )
+		{
+			addException( context, e );
+		}
+	}
+
 	private static IListEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{

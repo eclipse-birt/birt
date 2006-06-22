@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.34 $ $Date: 2006/04/28 03:06:56 $
+ * @version $Revision: 1.35 $ $Date: 2006/06/13 15:37:16 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -96,7 +96,8 @@ public class ImageItemExecutor extends QueryItemExecutor
 		setContent(imageContent);
 		
 		executeQuery( );
-
+		context.registerOnPageBreak( content );		
+		
 		initializeContent( imageDesign, imageContent );
 
 		// handle the Action and Bookmark values
@@ -125,6 +126,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 	
 	public void close( )
 	{
+		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
 	}
