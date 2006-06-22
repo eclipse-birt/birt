@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.editors.pages;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportMasterPageEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -20,6 +21,7 @@ import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
@@ -351,5 +353,22 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 		}
 
 		super.finalize( );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 */
+	public void performRequest( ReportRequest request )
+	{
+		if ( ReportRequest.SELECTION.equals( request.getType( ) )
+				&& ( request.getSelectionModelList( ).size( ) == 1 )
+				&& request.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle 
+				&& ID.equals( editor.getActivePageInstance( ).getId( ) ))
+		{
+			handlerLoadMasterPage( request );
+			return;
+		}
+
+		super.performRequest( request );
 	}
 }
