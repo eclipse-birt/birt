@@ -95,18 +95,18 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 
 		addField( before );
 
-		ComboBoxFieldEditor inside = new ComboBoxFieldEditor( StyleHandle.PAGE_BREAK_INSIDE_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PAGE_BREAK_INSIDE_PROP )
-						.getDefn( )
-						.getDisplayNameID( ) ),
-				getChoiceArray( StyleHandle.PAGE_BREAK_INSIDE_PROP ),
-				getFieldEditorParent( ) );
-		gdata = new GridData( );
-		gdata.widthHint = 120;
-		inside.getComboBoxControl( getFieldEditorParent( ) )
-				.setLayoutData( gdata );
-
-		addField( inside );
+//		ComboBoxFieldEditor inside = new ComboBoxFieldEditor( StyleHandle.PAGE_BREAK_INSIDE_PROP,
+//				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PAGE_BREAK_INSIDE_PROP )
+//						.getDefn( )
+//						.getDisplayNameID( ) ),
+//				getChoiceArray( StyleHandle.PAGE_BREAK_INSIDE_PROP ),
+//				getFieldEditorParent( ) );
+//		gdata = new GridData( );
+//		gdata.widthHint = 120;
+//		inside.getComboBoxControl( getFieldEditorParent( ) )
+//				.setLayoutData( gdata );
+//
+//		addField( inside );
 
 		ComboBoxFieldEditor after = new ComboBoxFieldEditor( StyleHandle.PAGE_BREAK_AFTER_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PAGE_BREAK_AFTER_PROP )
