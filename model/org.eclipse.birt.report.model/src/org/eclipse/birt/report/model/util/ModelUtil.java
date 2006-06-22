@@ -70,7 +70,6 @@ import org.xml.sax.SAXException;
 
 import com.ibm.icu.text.CollationKey;
 import com.ibm.icu.text.Collator;
-import com.ibm.icu.util.SimpleTimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -896,18 +895,6 @@ public class ModelUtil
 		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
 				elementName );
 		return containElement( element, defn );
-	}
-
-	/**
-	 * Sets default time zone. Wrote this method becuase of bugs in ICUs.
-	 */
-
-	public static void setDefaultTimeZone( )
-	{
-		java.util.TimeZone defaultTimeZone = java.util.TimeZone.getDefault( );
-		SimpleTimeZone pdt = new SimpleTimeZone(
-				defaultTimeZone.getRawOffset( ), defaultTimeZone.getID( ) );
-		SimpleTimeZone.setDefault( pdt );
 	}
 
 	/**

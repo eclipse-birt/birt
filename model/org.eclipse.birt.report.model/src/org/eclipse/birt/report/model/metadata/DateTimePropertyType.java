@@ -59,7 +59,6 @@ public class DateTimePropertyType extends PropertyType
 
 	static
 	{
-		ModelUtil.setDefaultTimeZone( );
 		formatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss", DEFAULT_LOCALE ); //$NON-NLS-1$
 	}
 

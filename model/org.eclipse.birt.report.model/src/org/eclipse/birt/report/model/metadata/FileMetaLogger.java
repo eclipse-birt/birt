@@ -72,7 +72,6 @@ class FileMetaLogger implements IMetaLogger
 
 	static
 	{
-		ModelUtil.setDefaultTimeZone( );
 		df = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ); //$NON-NLS-1$
 	}
 
