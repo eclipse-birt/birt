@@ -7,7 +7,6 @@
       <deviceRenderer
             device="org.eclipse.birt.chart.device.pdf.PDFRendererImpl"
             name="dv.PDF"
-            format="PDF"
             description="PDF Chart Renderer"/>            
    </extension>
    <extension
