@@ -70,7 +70,8 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	public void initialize( FormEditor editor )
 	{
 		this.editor = editor;
-		setRangeIndicator( new Annotation(){} );
+		setRangeIndicator( new Annotation( ) {
+		} );
 	}
 
 	/*
@@ -83,10 +84,15 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		return editor;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 */
 	public void doSave( IProgressMonitor progressMonitor )
 	{
 		super.doSave( progressMonitor );
-		IReportProvider provider = getProvider();
+		IReportProvider provider = getProvider( );
 		if ( provider != null && getErrorLIine( ) == -1 )
 		{
 			ModuleHandle model = provider.getReportModuleHandle( getEditorInput( ),
@@ -226,7 +232,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 
 		if ( errorLine > -1 )
 		{
-//			Display.getCurrent( ).beep( );
+			// Display.getCurrent( ).beep( );
 			MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
 					Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
 					Messages.getString( "XMLSourcePage.Error.Dialog.Message.InvalidFile" ) ); //$NON-NLS-1$
@@ -352,10 +358,10 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			refreshDocument( );
 			markPageStale( IPageStaleType.NONE );
 		}
-		//ser the attribute view disedit.
+		// ser the attribute view disedit.
 		ReportRequest request = new ReportRequest( ReportXMLSourceEditorFormPage.this );
 		List list = new ArrayList( );
-		
+
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 
@@ -407,7 +413,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#getAdapter(java.lang.Class)
 	 */
 	public Object getAdapter( Class required )
@@ -422,25 +430,28 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		}
 		return super.getAdapter( required );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.xml.XMLEditor#getProvider()
 	 */
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider =  (IReportProvider) editor.getAdapter( IReportProvider.class );
-		if(provider == null)
+		IReportProvider provider = (IReportProvider) editor.getAdapter( IReportProvider.class );
+		if ( provider == null )
 		{
 			provider = super.getProvider( );
 		}
-		
+
 		return provider;
 	}
+
 	protected void finalize( ) throws Throwable
 	{
-		if(Policy.TRACING_PAGE_CLOSE)
+		if ( Policy.TRACING_PAGE_CLOSE )
 		{
-			System.out.println("Report source page finalized" ); //$NON-NLS-1$
+			System.out.println( "Report source page finalized" ); //$NON-NLS-1$
 		}
 		super.finalize( );
 	}

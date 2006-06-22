@@ -236,6 +236,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	}
 
+	/**
+	 * Get rows
+	 * @return The list of rows
+	 */
 	public List getRows( )
 	{
 		if ( checkDirty( ) || rowInfo.isEmpty( ) )
@@ -245,6 +249,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		return rows;
 	}
 
+	/**
+	 *  Clear the buffer.
+	 *
+	 */
 	protected void clearBuffer( )
 	{
 		rowInfo.clear( );
@@ -1274,26 +1282,50 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			cells = new Object[columnMunber];
 		}
 
+		/**
+		 * Get row display name
+		 * @return display name
+		 */
 		public String getRowDisplayName( )
 		{
 			return rowDisplayName;
 		}
 
+		/**
+		 *  Set row display name
+		 * @param rowDisplayName
+		 * 	Display name
+		 */
 		public void setRowDisplayName( String rowDisplayName )
 		{
 			this.rowDisplayName = rowDisplayName;
 		}
 
+		/**
+		 * Get type
+		 * @return type
+		 *  The type gotten
+		 */
 		public String getType( )
 		{
 			return type;
 		}
 
+		/**
+		 *  Set type
+		 *  @param type
+		 *   The type to set
+		 */
 		public void setType( String type )
 		{
 			this.type = type;
 		}
 
+		/**
+		 *  Add children
+		 * @param obj
+		 * @param index
+		 */
 		public void addChildren( Object obj, int index )
 		{
 			int cellSize = cells.length;
@@ -1358,6 +1390,11 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			return false;
 		}
 
+		/**
+		 *  Add children
+		 * @param c
+		 *  Children in collection
+		 */
 		public void addChildren( Collection c )
 		{
 			Iterator itor = c.iterator( );
@@ -1376,6 +1413,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			}
 		}
 
+		/**
+		 *  Get all the children in list
+		 * @return
+		 */
 		public List getAllChildren( )
 		{
 			ArrayList retValue = new ArrayList( );

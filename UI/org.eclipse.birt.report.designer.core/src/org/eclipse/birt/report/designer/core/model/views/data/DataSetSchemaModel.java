@@ -35,7 +35,7 @@ public class DataSetSchemaModel
 		this.schemaName = schemaName;
 	}
 
-	/**
+	/** Get dataset handle
 	 * @return Data set handle
 	 */
 	public DataSetHandle getDataSetHandle( )
@@ -43,7 +43,7 @@ public class DataSetSchemaModel
 		return dataSetHandle;
 	}
 
-	/**
+	/** Get schema name
 	 * @return Returns the schmma name.
 	 */
 	public String getSchemaName( )

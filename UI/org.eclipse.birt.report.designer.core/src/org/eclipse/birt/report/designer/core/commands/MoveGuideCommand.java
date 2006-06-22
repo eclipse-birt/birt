@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.gef.commands.Command;
 
 /**
- * add comment here
+ * Move Guide Command
  * 
  */
 public class MoveGuideCommand extends Command
@@ -33,6 +33,7 @@ public class MoveGuideCommand extends Command
 	private String propertyName;
 
 	/**
+	 *  Constructor 
 	 * @param delta
 	 * @param propertyName
 	 */
@@ -43,6 +44,9 @@ public class MoveGuideCommand extends Command
 		this.propertyName = propertyName;
 	}
 
+	/**
+	 *  Ececute this command 
+	 */
 	public void execute( )
 	{
 		ModuleHandle handle = SessionHandleAdapter.getInstance( )

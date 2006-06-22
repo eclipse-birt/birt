@@ -39,9 +39,8 @@ import org.eclipse.ui.forms.editor.FormEditor;
 /**
  * Preview page.
  */
-public class ReportPreviewFormPage extends ReportPreviewEditor
-		implements
-			IReportEditorPage
+public class ReportPreviewFormPage extends ReportPreviewEditor implements
+		IReportEditorPage
 {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.preview"; //$NON-NLS-1$
@@ -76,13 +75,13 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 		}
 
 		// if the model is dirty, save it at first.
-		if( isDirtyModel())
+		if ( isDirtyModel( ) )
 		{
 			doSave( null );
 		}
-		
-		//save the last changes.
-		if ( prePage.isDirty( ))
+
+		// save the last changes.
+		if ( prePage.isDirty( ) )
 		{
 			prePage.doSave( null );
 		}
@@ -125,9 +124,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 
 	private boolean isDirtyModel( )
 	{
-		if( getModel( )!= null && getModel() instanceof ModuleHandle)
+		if ( getModel( ) != null && getModel( ) instanceof ModuleHandle )
 		{
-			return ((ModuleHandle) getModel()).needsSave( );
+			return ( (ModuleHandle) getModel( ) ).needsSave( );
 		}
 		return false;
 	}
@@ -196,8 +195,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider = (IReportProvider) editor
-				.getAdapter( IReportProvider.class );
+		IReportProvider provider = (IReportProvider) editor.getAdapter( IReportProvider.class );
 
 		if ( provider == null )
 		{
@@ -221,57 +219,112 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 		return super.getAdapter( adapter );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms.editor.FormEditor)
+	 */
 	public void initialize( FormEditor editor )
 	{
 		this.editor = editor;
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.editor.IFormPage#getEditor()
+	 */
 	public FormEditor getEditor( )
 	{
 		return editor;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.editor.IFormPage#getManagedForm()
+	 */
 	public IManagedForm getManagedForm( )
 	{
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
+	 */
 	public void setActive( boolean active )
 	{
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.editor.IFormPage#isActive()
+	 */
 	public boolean isActive( )
 	{
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
+	 */
 	public boolean canLeaveThePage( )
 	{
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.editor.IFormPage#getIndex()
+	 */
 	public int getIndex( )
 	{
 		return 0;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.editor.IFormPage#setIndex(int)
+	 */
 	public void setIndex( int index )
 	{
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.editor.IFormPage#isEditor()
+	 */
 	public boolean isEditor( )
 	{
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.editor.IFormPage#selectReveal(java.lang.Object)
+	 */
 	public boolean selectReveal( Object object )
 	{
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
+	 */
 	public void setInput( IEditorInput input )
 	{
 		super.setInput( input );
@@ -302,7 +355,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 			File configFile = new File( configFileName );
 
 			// if config file existed, then delete it
-			if ( configFile != null && configFile.exists( )
+			if ( configFile != null
+					&& configFile.exists( )
 					&& configFile.isFile( ) )
 			{
 				handle = sessionHandle.openDesign( configFileName );
@@ -313,17 +367,14 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 					Iterator it = handle.configVariablesIterator( );
 					while ( it != null && it.hasNext( ) )
 					{
-						ConfigVariableHandle configVar = (ConfigVariableHandle) it
-								.next( );
+						ConfigVariableHandle configVar = (ConfigVariableHandle) it.next( );
 						if ( configVar != null && configVar.getName( ) != null )
 						{
 							// check the parameter whether exist or not
-							String paramName = getParameterName( configVar
-									.getName( ) );
+							String paramName = getParameterName( configVar.getName( ) );
 							if ( paramName != null && paramName.length( ) > 0 )
 							{
-								configVars
-										.put( paramName, configVar.getValue( ) );
+								configVars.put( paramName, configVar.getValue( ) );
 							}
 						}
 					}
@@ -421,8 +472,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 			{
 				if ( parameters.get( i ) instanceof ScalarParameterHandle )
 				{
-					ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters
-							.get( i ) );
+					ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters.get( i ) );
 
 					if ( parameter.isHidden( ) )
 					{
@@ -448,8 +498,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 					if ( paramValue != null
 							&& paramValue.trim( ).length( ) <= 0
 							&& !parameter.allowBlank( )
-							&& parameter.getDataType( ).equalsIgnoreCase(
-									DesignChoiceConstants.PARAM_TYPE_STRING ) )
+							&& parameter.getDataType( )
+									.equalsIgnoreCase( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 					{
 						missingParameter = true;
 						break;
@@ -484,13 +534,13 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 		}
 		else if ( reportDesignName.endsWith( SUFFIX_TEMPLATE_FILE ) )
 		{
-			configFileName = reportDesignName.replaceFirst(
-					SUFFIX_TEMPLATE_FILE, SUFFIX_DESIGN_CONFIG );
+			configFileName = reportDesignName.replaceFirst( SUFFIX_TEMPLATE_FILE,
+					SUFFIX_DESIGN_CONFIG );
 		}
 
 		return configFileName;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -506,12 +556,13 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 		{
 			super.firePropertyChange( type );
 		}
-	}	
+	}
+
 	protected void finalize( ) throws Throwable
 	{
-		if(Policy.TRACING_PAGE_CLOSE)
+		if ( Policy.TRACING_PAGE_CLOSE )
 		{
-			System.out.println("Report preview page finalized" ); //$NON-NLS-1$
+			System.out.println( "Report preview page finalized" ); //$NON-NLS-1$
 		}
 		super.finalize( );
 	}

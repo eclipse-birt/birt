@@ -152,22 +152,22 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 			}
 			else if ( delta.getKind( ) == IResourceDelta.CHANGED )
 			{
-//				final IFile newFile = ResourcesPlugin.getWorkspace( )
-//						.getRoot( )
-//						.getFile( delta.getFullPath( ) );
-//				Display display = getSite( ).getShell( ).getDisplay( );
-//				if ( ( delta.getFlags( ) & IResourceDelta.MARKERS ) == 0 )
-//				{
-//					// The file was overwritten somehow (could have been
-//					// replaced by another
-//					// version in the repository)
-//					display.asyncExec( new Runnable( ) {
-//
-//						public void run( )
-//						{
-//						}
-//					} );
-//				}
+				// final IFile newFile = ResourcesPlugin.getWorkspace( )
+				// .getRoot( )
+				// .getFile( delta.getFullPath( ) );
+				// Display display = getSite( ).getShell( ).getDisplay( );
+				// if ( ( delta.getFlags( ) & IResourceDelta.MARKERS ) == 0 )
+				// {
+				// // The file was overwritten somehow (could have been
+				// // replaced by another
+				// // version in the repository)
+				// display.asyncExec( new Runnable( ) {
+				//
+				// public void run( )
+				// {
+				// }
+				// } );
+				// }
 				// else if ( isEditorSaving( ) )
 				// {
 				// display.asyncExec( new Runnable( ) {
@@ -191,22 +191,23 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 
 		private void setAllInput( FileEditorInput input )
 		{
-			//This for a bug. When close editor, the resource listener fire to multi page editor, but all embedded pages disposed.
-			if(pages==null)
+			// This for a bug. When close editor, the resource listener fire to
+			// multi page editor, but all embedded pages disposed.
+			if ( pages == null )
 			{
 				return;
 			}
-			
+
 			setInput( input );
-			
-			if ( getEditorInput( ) !=null )
+
+			if ( getEditorInput( ) != null )
 			{
 				setPartName( getEditorInput( ).getName( ) );
 				firePropertyChange( IWorkbenchPartConstants.PROP_PART_NAME );
 				firePropertyChange( IWorkbenchPartConstants.PROP_PART_NAME );
 				getProvider( ).getReportModuleHandle( getEditorInput( ) )
-						.setFileName(
-								getProvider( ).getInputPath( getEditorInput( ) ).toOSString( ) );
+						.setFileName( getProvider( ).getInputPath( getEditorInput( ) )
+								.toOSString( ) );
 			}
 
 			for ( Iterator it = pages.iterator( ); it.hasNext( ); )
@@ -256,6 +257,11 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#partActivated(org.eclipse.ui.IWorkbenchPart)
+	 */
 	public void partActivated( IWorkbenchPart part )
 	{
 		super.partActivated( part );
@@ -354,6 +360,11 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 */
 	public void doSave( IProgressMonitor monitor )
 	{
 		super.doSave( monitor );
@@ -366,6 +377,11 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#dispose()
+	 */
 	public void dispose( )
 	{
 		try
@@ -398,25 +414,30 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#getAdapter(java.lang.Class)
+	 */
 	public Object getAdapter( Class type )
 	{
 		if ( type == ILibraryProvider.class )
 		{
-			return new LibraryProvider();
+			return new LibraryProvider( );
 		}
-		
+
 		if ( type == IReportProvider.class )
 		{
 
-			return getProvider();
+			return getProvider( );
 		}
-		
+
 		return super.getAdapter( type );
 	}
-	
-	protected IReportProvider getProvider()
+
+	protected IReportProvider getProvider( )
 	{
-		if(reportProvider == null)
+		if ( reportProvider == null )
 		{
 			reportProvider = new IDEFileReportProvider( );
 		}

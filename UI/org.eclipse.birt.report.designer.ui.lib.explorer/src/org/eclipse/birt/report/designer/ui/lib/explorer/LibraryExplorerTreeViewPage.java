@@ -258,6 +258,11 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		this.libraryProvider = provider;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.runtime.preferences.IEclipsePreferences$IPreferenceChangeListener#preferenceChange(org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent)
+	 */
 	public void preferenceChange( PreferenceChangeEvent event )
 	{
 		if ( ReportPlugin.RESOURCE_PREFERENCE.equals( event.getKey( ) ) )

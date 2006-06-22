@@ -75,22 +75,32 @@ public class WizardSaveAsPage extends WizardPage
 		super( pageName );
 	}
 
-	public boolean canFlipToNextPage()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.WizardPage#canFlipToNextPage()
+	 */
+	public boolean canFlipToNextPage( )
 	{
-		if(validatePage( ) == false)
+		if ( validatePage( ) == false )
 		{
 			return false;
 		}
-		
-		if(resourceGroup.getResource( ).endsWith( ".rpttemplate" ))
+
+		if ( resourceGroup.getResource( ).endsWith( ".rpttemplate" ) )
 		{
 			return true;
 		}
-		
+
 		return false;
-		
+
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 */
 	public void createControl( Composite parent )
 	{
 
@@ -121,17 +131,19 @@ public class WizardSaveAsPage extends WizardPage
 			}
 		};
 
-		resourceGroup = new ResourceAndContainerGroup( composite, listener,
+		resourceGroup = new ResourceAndContainerGroup( composite,
+				listener,
 				Messages.getString( "WizardSaveAsPage.FileLabel" ), //$NON-NLS-1$
 				"file", //$NON-NLS-1$
-				false, 200 );
+				false,
+				200 );
 		resourceGroup.setAllowExistingResources( true );
 
 		setControl( composite );
 
 		initializeControls( );
-			
-		UIUtil.bindHelp( getControl(),IHelpContextIds.SAVE_AS_WIZARD_ID );  
+
+		UIUtil.bindHelp( getControl( ), IHelpContextIds.SAVE_AS_WIZARD_ID );
 	}
 
 	/**
@@ -183,7 +195,7 @@ public class WizardSaveAsPage extends WizardPage
 	{
 		this.model = model;
 	}
-	
+
 	/**
 	 * Returns whether this page's visual components all contain valid values.
 	 * 
@@ -201,32 +213,39 @@ public class WizardSaveAsPage extends WizardPage
 				setErrorMessage( resourceGroup.getProblemMessage( ) );
 			return false;
 		}
-		if(resourceGroup.getResource( ) != null && model instanceof LibraryHandle)
+		if ( resourceGroup.getResource( ) != null
+				&& model instanceof LibraryHandle )
 		{
-			if(!resourceGroup.getResource( ).endsWith( ".rptlibrary" ))
+			if ( !resourceGroup.getResource( ).endsWith( ".rptlibrary" ) )
 			{
-				setErrorMessage(Messages.getString( "WizardReportSettingPage.Error.Library" ));
+				setErrorMessage( Messages.getString( "WizardReportSettingPage.Error.Library" ) );
 				return false;
 			}
 		}
-		
-		if(resourceGroup.getResource( ) != null && model instanceof ReportDesignHandle)
+
+		if ( resourceGroup.getResource( ) != null
+				&& model instanceof ReportDesignHandle )
 		{
-			if(!(resourceGroup.getResource( ).endsWith( ".rptdesign" )||resourceGroup.getResource( ).endsWith( ".rpttemplate" )))
+			if ( !( resourceGroup.getResource( ).endsWith( ".rptdesign" ) || resourceGroup.getResource( )
+					.endsWith( ".rpttemplate" ) ) )
 			{
-				setErrorMessage(Messages.getString( "WizardReportSettingPage.Error.ReportorTemplate" ));
+				setErrorMessage( Messages.getString( "WizardReportSettingPage.Error.ReportorTemplate" ) );
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
+	/**
+	 * Get the saving path
+	 * @return the saving path
+	 */
 	public IPath getResult( )
 	{
 
-		IPath path = resourceGroup.getContainerFullPath( ).append(
-				resourceGroup.getResource( ) );
+		IPath path = resourceGroup.getContainerFullPath( )
+				.append( resourceGroup.getResource( ) );
 
 		// If the user does not supply a file extension and if the save
 		// as dialog was provided a default file name append the extension
@@ -240,8 +259,7 @@ public class WizardSaveAsPage extends WizardPage
 			{
 				int pos = originalName.lastIndexOf( '.' );
 				if ( ++pos > 0 && pos < originalName.length( ) )
-					path = path
-							.addFileExtension( originalName.substring( pos ) );
+					path = path.addFileExtension( originalName.substring( pos ) );
 			}
 		}
 
@@ -250,14 +268,22 @@ public class WizardSaveAsPage extends WizardPage
 
 		if ( file.exists( ) )
 		{
-			String[] buttons = new String[]{IDialogConstants.YES_LABEL,
-					IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL};
-			String question = Messages.getFormattedString(
-					"WizardSaveAsPage.OverwriteQuestion", //$NON-NLS-1$
-					new Object[]{path.toOSString( )} );
-			MessageDialog d = new MessageDialog( getShell( ), Messages
-					.getString( "WizardSaveAsPage.Question" ), //$NON-NLS-1$
-					null, question, MessageDialog.QUESTION, buttons, 0 );
+			String[] buttons = new String[]{
+					IDialogConstants.YES_LABEL,
+					IDialogConstants.NO_LABEL,
+					IDialogConstants.CANCEL_LABEL
+			};
+			String question = Messages.getFormattedString( "WizardSaveAsPage.OverwriteQuestion", //$NON-NLS-1$
+					new Object[]{
+						path.toOSString( )
+					} );
+			MessageDialog d = new MessageDialog( getShell( ),
+					Messages.getString( "WizardSaveAsPage.Question" ), //$NON-NLS-1$
+					null,
+					question,
+					MessageDialog.QUESTION,
+					buttons,
+					0 );
 			int overwrite = d.open( );
 			switch ( overwrite )
 			{
@@ -364,8 +390,12 @@ class ResourceAndContainerGroup implements Listener
 			String resourceFieldLabel, String resourceType,
 			boolean showClosedProjects )
 	{
-		this( parent, client, resourceFieldLabel, resourceType,
-				showClosedProjects, SWT.DEFAULT );
+		this( parent,
+				client,
+				resourceFieldLabel,
+				resourceType,
+				showClosedProjects,
+				SWT.DEFAULT );
 	}
 
 	/**
@@ -427,17 +457,23 @@ class ResourceAndContainerGroup implements Listener
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		composite.setLayout( layout );
-		composite
-				.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
+		composite.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
 		composite.setFont( font );
 
 		// container group
 		if ( heightHint == SWT.DEFAULT )
-			containerGroup = new ContainerSelectionGroup( composite, this,
-					true, null, showClosedProjects );
+			containerGroup = new ContainerSelectionGroup( composite,
+					this,
+					true,
+					null,
+					showClosedProjects );
 		else
-			containerGroup = new ContainerSelectionGroup( composite, this,
-					true, null, showClosedProjects, heightHint );
+			containerGroup = new ContainerSelectionGroup( composite,
+					this,
+					true,
+					null,
+					showClosedProjects,
+					heightHint );
 
 		// resource name group
 		Composite nameGroup = new Composite( composite, SWT.NONE );
@@ -537,7 +573,8 @@ class ResourceAndContainerGroup implements Listener
 	 */
 	public void setContainerFullPath( IPath path )
 	{
-		IResource initial = ResourcesPlugin.getWorkspace( ).getRoot( )
+		IResource initial = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
 				.findMember( path );
 		if ( initial != null )
 		{
@@ -587,8 +624,7 @@ class ResourceAndContainerGroup implements Listener
 		if ( path == null )
 		{
 			problemType = PROBLEM_CONTAINER_EMPTY;
-			problemMessage = Messages
-					.getString( "WizardSaveAsPage.FolderEmpty" ); //$NON-NLS-1$
+			problemMessage = Messages.getString( "WizardSaveAsPage.FolderEmpty" ); //$NON-NLS-1$
 			return false;
 		}
 		IWorkspace workspace = ResourcesPlugin.getWorkspace( );
@@ -607,9 +643,7 @@ class ResourceAndContainerGroup implements Listener
 			if ( root.getFile( path ).exists( ) )
 			{
 				problemType = PROBLEM_PATH_OCCUPIED;
-				problemMessage = Messages
-						.getFormattedString(
-								"WizardSaveAsPage.PathOccupied", new Object[]{path.makeRelative( )} ); //$NON-NLS-1$
+				problemMessage = Messages.getFormattedString( "WizardSaveAsPage.PathOccupied", new Object[]{path.makeRelative( )} ); //$NON-NLS-1$
 				return false;
 			}
 			path = path.removeLastSegments( 1 );
@@ -636,8 +670,8 @@ class ResourceAndContainerGroup implements Listener
 		if ( !validateContainer( ) || !validateResourceName( ) )
 			return false;
 
-		IPath path = containerGroup.getContainerFullPath( ).append(
-				resourceNameField.getText( ) );
+		IPath path = containerGroup.getContainerFullPath( )
+				.append( resourceNameField.getText( ) );
 		return validateFullResourcePath( path );
 	}
 
@@ -665,8 +699,9 @@ class ResourceAndContainerGroup implements Listener
 		}
 
 		if ( !allowExistingResources
-				&& ( workspace.getRoot( ).getFolder( resourcePath ).exists( ) || workspace
-						.getRoot( ).getFile( resourcePath ).exists( ) ) )
+				&& ( workspace.getRoot( ).getFolder( resourcePath ).exists( ) || workspace.getRoot( )
+						.getFile( resourcePath )
+						.exists( ) ) )
 		{
 			problemType = PROBLEM_RESOURCE_EXIST;
 			problemMessage = Messages.getString( "WizardSaveAsPage.NameExists" ); //$NON-NLS-1$
@@ -689,16 +724,13 @@ class ResourceAndContainerGroup implements Listener
 
 		if ( resourceName.equals( "" ) ) {//$NON-NLS-1$
 			problemType = PROBLEM_RESOURCE_EMPTY;
-			problemMessage = Messages.getFormattedString(
-					"WizardSaveAsPage.EmptyName", new Object[]{resourceType} ); //$NON-NLS-1$
+			problemMessage = Messages.getFormattedString( "WizardSaveAsPage.EmptyName", new Object[]{resourceType} ); //$NON-NLS-1$
 			return false;
 		}
 
 		if ( !( new Path( "" ) ).isValidPath( resourceName ) ) { //$NON-NLS-1$
 			problemType = PROBLEM_NAME_INVALID;
-			problemMessage = Messages
-					.getFormattedString(
-							"WizardSaveAsPage.InvalidFileName", new Object[]{resourceName} ); //$NON-NLS-1$
+			problemMessage = Messages.getFormattedString( "WizardSaveAsPage.InvalidFileName", new Object[]{resourceName} ); //$NON-NLS-1$
 			return false;
 		}
 		return true;
@@ -727,11 +759,9 @@ class ContainerSelectionGroup extends Composite
 	TreeViewer treeViewer;
 
 	// the message to display at the top of this dialog
-	private static final String DEFAULT_MSG_NEW_ALLOWED = Messages
-			.getString( "WizardSaveAsPage.ContainerGroup" ); //$NON-NLS-1$
+	private static final String DEFAULT_MSG_NEW_ALLOWED = Messages.getString( "WizardSaveAsPage.ContainerGroup" ); //$NON-NLS-1$
 
-	private static final String DEFAULT_MSG_SELECT_ONLY = Messages
-			.getString( "WizardSaveAsPage.SelectFolder" ); //$NON-NLS-1$
+	private static final String DEFAULT_MSG_SELECT_ONLY = Messages.getString( "WizardSaveAsPage.SelectFolder" ); //$NON-NLS-1$
 
 	// sizing constants
 	private static final int SIZING_SELECTION_PANE_WIDTH = 320;
@@ -796,8 +826,12 @@ class ContainerSelectionGroup extends Composite
 			boolean allowNewContainerName, String message,
 			boolean showClosedProjects )
 	{
-		this( parent, listener, allowNewContainerName, message,
-				showClosedProjects, SIZING_SELECTION_PANE_HEIGHT );
+		this( parent,
+				listener,
+				allowNewContainerName,
+				message,
+				showClosedProjects,
+				SIZING_SELECTION_PANE_HEIGHT );
 	}
 
 	/**
@@ -848,7 +882,8 @@ class ContainerSelectionGroup extends Composite
 				containerNameField.setText( "" );//$NON-NLS-1$
 			else
 				containerNameField.setText( container.getFullPath( )
-						.makeRelative( ).toString( ) );
+						.makeRelative( )
+						.toString( ) );
 		}
 
 		// fire an event so the parent can update its controls
@@ -889,8 +924,7 @@ class ContainerSelectionGroup extends Composite
 		if ( allowNewContainerName )
 		{
 			containerNameField = new Text( this, SWT.SINGLE | SWT.BORDER );
-			containerNameField.setLayoutData( new GridData(
-					GridData.FILL_HORIZONTAL ) );
+			containerNameField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			containerNameField.addListener( SWT.Modify, listener );
 			containerNameField.setFont( this.getFont( ) );
 		}
@@ -926,20 +960,17 @@ class ContainerSelectionGroup extends Composite
 		ContainerContentProvider cp = new ContainerContentProvider( );
 		cp.showClosedProjects( showClosedProjects );
 		treeViewer.setContentProvider( cp );
-		treeViewer.setLabelProvider( WorkbenchLabelProvider
-				.getDecoratingWorkbenchLabelProvider( ) );
+		treeViewer.setLabelProvider( WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider( ) );
 		treeViewer.setSorter( new ViewerSorter( ) );
-		treeViewer
-				.addSelectionChangedListener( new ISelectionChangedListener( ) {
+		treeViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
-					public void selectionChanged( SelectionChangedEvent event )
-					{
-						IStructuredSelection selection = (IStructuredSelection) event
-								.getSelection( );
-						containerSelectionChanged( (IContainer) selection
-								.getFirstElement( ) ); // allow null
-					}
-				} );
+			public void selectionChanged( SelectionChangedEvent event )
+			{
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection( );
+				containerSelectionChanged( (IContainer) selection.getFirstElement( ) ); // allow
+				// null
+			}
+		} );
 		treeViewer.addDoubleClickListener( new IDoubleClickListener( ) {
 
 			public void doubleClick( DoubleClickEvent event )
@@ -947,8 +978,7 @@ class ContainerSelectionGroup extends Composite
 				ISelection selection = event.getSelection( );
 				if ( selection instanceof IStructuredSelection )
 				{
-					Object item = ( (IStructuredSelection) selection )
-							.getFirstElement( );
+					Object item = ( (IStructuredSelection) selection ).getFirstElement( );
 					if ( treeViewer.getExpandedState( item ) )
 						treeViewer.collapseToLevel( item, 1 );
 					else

@@ -41,10 +41,14 @@ public class SaveReportAsWizardDialog extends WizardDialog
 	{
 		super.finishPressed( );
 		IWizardPage page = getCurrentPage( );
-		IWizard wizard = page.getWizard();
-		this.saveAsPath = ( (SaveReportAsWizard) wizard ).getSaveAsPath();
+		IWizard wizard = page.getWizard( );
+		this.saveAsPath = ( (SaveReportAsWizard) wizard ).getSaveAsPath( );
 	}
 
+	/**
+	 * The saving path of report design
+	 * @return path
+	 */
 	public IPath getResult( )
 	{
 		return this.saveAsPath;

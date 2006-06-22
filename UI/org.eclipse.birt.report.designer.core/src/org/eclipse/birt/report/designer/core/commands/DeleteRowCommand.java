@@ -86,6 +86,12 @@ public class DeleteRowCommand extends Command
 		}
 	}
 
+	/**
+	 * Get the parent table
+	 * 
+	 * @return 
+	 * 		Return the parent table
+	 */
 	private Object getTableParent( )
 	{
 		DesignElementHandle parent = handle.getContainer( );
@@ -100,6 +106,12 @@ public class DeleteRowCommand extends Command
 		return null;
 	}
 	
+	/**
+	 *  Check whether the command can be executed or not
+	 * 
+	 * @return 
+	 * 		true or false
+	 */
 	public boolean canExecute( )
 	{
 		return super.canExecute( ) && ((RowHandle)handle).canDrop();

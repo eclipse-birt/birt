@@ -20,6 +20,11 @@ import org.eclipse.birt.report.designer.ui.editors.actions.EditorsActionBarContr
 public class LibraryActionBarContributor extends EditorsActionBarContributor
 {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.actions.EditorsActionBarContributor#getEditorId()
+	 */
 	public String getEditorId( )
 	{
 		return ReportEditorProxy.LIBRARY_EDITOR_ID;

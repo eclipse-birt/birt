@@ -38,7 +38,9 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 	public static final int DEFAULT_MINWIDTH = 20;
 
 	/**
+	 * Constructor
 	 * @param handle
+	 * 	The Columnhandle
 	 */
 	public ColumnHandleAdapter( ColumnHandle column )
 	{
@@ -48,7 +50,10 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 	/**
 	 * Constructor
 	 * 
-	 * @param handle
+	 * @param column
+	 * 	The columeHandle
+	 * @param mark
+	 * 	The help mark
 	 */
 	public ColumnHandleAdapter( ColumnHandle column, IModelAdapterHelper mark )
 	{
@@ -58,7 +63,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 	/**
 	 * Gets the width
 	 * 
-	 * @return
+	 * @return the width
 	 */
 	public int getWidth( )
 	{
@@ -102,7 +107,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 	 * Returns the raw column with, if it's a fix value, covert it to Pixel
 	 * unit, if it's a relative value or none, retain it.
 	 * 
-	 * @return
+	 * @return The raw width
 	 */
 	public String getRawWidth( )
 	{
@@ -138,6 +143,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 	 * If the user define the row height
 	 * 
 	 * @return
+	 *  <code>true</code> if defined, else false
 	 */
 	public boolean isCustomWidth( )
 	{
@@ -148,7 +154,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 	/**
 	 * Gets the columns number
 	 * 
-	 * @return
+	 * @return column number
 	 */
 	public int getColumnNumber( )
 	{
@@ -158,6 +164,11 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 		return adapter.getColumns( ).indexOf( getColumnHandle( ) ) + 1;
 	}
 
+	/**
+	 * Get table parent
+	 * @return
+	 * 	The table parent
+	 */
 	public Object getTableParent( )
 	{
 		DesignElementHandle element = getColumnHandle( ).getContainer( );
@@ -168,13 +179,19 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 		return element;
 	}
 
+	/**
+	 * Get column handle
+	 * @return
+	 *  The column handle
+	 */
 	private ColumnHandle getColumnHandle( )
 	{
 		return (ColumnHandle) getHandle( );
 	}
 
-	/**
-	 * @param rowHeight
+	/**Set width
+	 * @param columnWidth
+	 *  Column width
 	 * @throws SemanticException
 	 */
 	public void setWidth( int columnWidth ) throws SemanticException

@@ -33,6 +33,10 @@ public class ReportMediator
 	// suport the globol colleague
 	private static List globalListener = new ArrayList( );
 
+	/**
+	 * Add global colleague
+	 * @param colleague
+	 */
 	public void addGlobalColleague( IColleague colleague )
 	{
 		if ( !globalListener.contains( colleague ) )
@@ -301,6 +305,7 @@ public class ReportMediator
 		}
 
 		/**
+		 *  Get selected object
 		 * @return Returns the selectiobObject.
 		 */
 		public List getSelectionObject( )
@@ -309,6 +314,7 @@ public class ReportMediator
 		}
 
 		/**
+		 *  Set selected object
 		 * @param selectiobObject
 		 *            The selectiobObject to set.
 		 */

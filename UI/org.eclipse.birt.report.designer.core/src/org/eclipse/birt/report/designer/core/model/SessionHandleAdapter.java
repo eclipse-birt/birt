@@ -80,6 +80,11 @@ public class SessionHandleAdapter
 
 	}
 
+	/**
+	 * Get file type
+	 * @return
+	 *  File type
+	 */
 	public int getFileType( )
 	{
 		return type;
@@ -106,6 +111,7 @@ public class SessionHandleAdapter
 	}
 
 	/**
+	 * Get session handle
 	 * @return Session handle
 	 */
 
@@ -124,8 +130,9 @@ public class SessionHandleAdapter
 	/**
 	 * Open a design/library file.
 	 * @param fileName
+	 * 	The file name
 	 * @param input
-	 * @return
+	 *   The input stream
 	 * @throws DesignFileException
 	 */
 	public ModuleHandle init( String fileName, InputStream input,Map properties) throws DesignFileException
@@ -141,8 +148,9 @@ public class SessionHandleAdapter
 	/**
 	 * Open a design/library file.
 	 * @param fileName
+	 * 	The file name
 	 * @param input
-	 * @return
+	 *   The input stream
 	 * @throws DesignFileException
 	 */
 	public ModuleHandle init( String fileName, InputStream input) throws DesignFileException
@@ -157,6 +165,9 @@ public class SessionHandleAdapter
 
 	/**
 	 * @param handle
+	 * 	The moudle handle
+	 * @param properties
+	 * 	The properties
 	 */
 	private void postInit( ModuleHandle handle ,Map properties)
 	{
@@ -310,6 +321,11 @@ public class SessionHandleAdapter
 		mediatorMap.put( newObj, mediator );
 	}
 	
+	/**
+	 *  Clear the specified module handle
+	 * @param handle
+	 * 	The module handle
+	 */
 	public void clear(ModuleHandle handle )
 	{
 		mediatorMap.remove( handle );

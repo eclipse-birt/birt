@@ -46,11 +46,21 @@ public class MasterPageSelectionAction extends DynamicItemAction
 		setChecked( checked );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.action.Action#isEnabled()
+	 */
 	public boolean isEnabled( )
 	{
 		return handle != null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
 	public void run( )
 	{
 		UIUtil.getActiveReportEditor( )

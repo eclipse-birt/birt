@@ -37,8 +37,11 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 	public static final String CREATE_ELEMENT = "create element";
 	
 	private List listeners = new ArrayList();
-	/**
+	
+	/** 
+	 * Constructor
 	 * @param handle
+	 * The moudle handle
 	 */
 	public LibraryHandleAdapter( ModuleHandle handle )
 	{
@@ -46,19 +49,35 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 		setCurrentEditorModel(handle, CURRENTMODEL);
 	}
 	
+	/**
+	 *  Add listener
+	 * @param listener
+	 * 	The listener to add
+	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener)
 	{
+		
 		if (!listeners.contains(listener))
 		{
 			listeners.add(listener);
 		}
 	}
 	
+	/**
+	 *  Remove listener
+	 * @param listener
+	 * 	The listener to remove
+	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener)
 	{
 		listeners.remove(listener);
 	}
 	
+	/**
+	 * Fire property change
+	 * @param event
+	 * 	The property change event
+	 */
 	public void firePropertyChangeEvent(PropertyChangeEvent event)
 	{
 		int size = listeners.size();
@@ -81,6 +100,13 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 		//return getModuleHandle().getComponents().getContents( );
 	}
 	
+	/**
+	 * Get top container
+	 * @param currentModel
+	 * 	The specified object
+	 * @return
+	 * 	The sepecifed object's container
+	 */
 	private Object getTopContainer(Object currentModel)
 	{
 		Object obj = currentModel;
@@ -101,6 +127,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 		return obj;
 	}
 	/**
+	 * Get current eitor model
 	 * @return Returns the currentEditorModel.
 	 */
 	public Object getCurrentEditorModel( )
@@ -108,7 +135,10 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 		return currentEditorModel;
 	}
 	/**
-	 * @param currentEditorModel The currentEditorModel to set.
+	 * Get current eitor model
+	 *  
+	 * @param current The current editor model to set.
+	 * @param type	The type
 	 */
 	public void setCurrentEditorModel( Object current, String type)
 	{

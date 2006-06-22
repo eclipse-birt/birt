@@ -31,7 +31,12 @@ public class MasterPageAction extends MenuUpdateAction
 		super( null );
 	}
 
-		public List getItems( )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction#getItems()
+	 */
+	public List getItems( )
 	{
 		ArrayList list = new ArrayList( );
 		for ( Iterator iter = SessionHandleAdapter.getInstance( )
@@ -44,6 +49,11 @@ public class MasterPageAction extends MenuUpdateAction
 		return list;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.ui.actions.SelectionAction#update()
+	 */
 	public void update( )
 	{
 	}

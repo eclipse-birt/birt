@@ -54,6 +54,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 * Constructor
 	 * 
 	 * @param row
+	 * <code>RowHandle</code>
 	 */
 	public RowHandleAdapter( RowHandle row )
 	{
@@ -64,7 +65,10 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 * Constructor
 	 * 
 	 * @param row
+	 *  <code>RowHandle</code>
 	 * @param mark
+	 *  Helper mark
+	 * 
 	 */
 	public RowHandleAdapter( RowHandle row, IModelAdapterHelper mark )
 	{
@@ -122,6 +126,13 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 		return DEFAULT_MINHEIGHT;
 	}
 
+
+	/**
+	 * Get RowHandle
+	 * 
+	 * @return
+	 *  <code>RowHanle</code>
+	 */
 	private RowHandle getRowHandle( )
 	{
 		return (RowHandle) getHandle( );

@@ -35,7 +35,6 @@ import org.eclipse.draw2d.geometry.Point;
  * 
  * 
  */
-
 public abstract class DesignElementHandleAdapter
 {
 
@@ -47,7 +46,9 @@ public abstract class DesignElementHandleAdapter
 	 * constructor
 	 * 
 	 * @param element
+	 *   Design element handle
 	 * @param mark
+	 *   Helper mark
 	 */
 	public DesignElementHandleAdapter( DesignElementHandle element,
 			IModelAdapterHelper mark )
@@ -101,6 +102,7 @@ public abstract class DesignElementHandleAdapter
 	 * Gets the handle of the moudule handle
 	 * 
 	 * @return
+	 * 	The module hanle
 	 */
 	public ModuleHandle getModuleHandle( )
 	{
@@ -402,6 +404,13 @@ public abstract class DesignElementHandleAdapter
 		return getRepeat( handle.getStringProperty( StyleHandle.BACKGROUND_REPEAT_PROP ) );
 	}
 
+	/**
+	 *  Get the position from string
+	 * @param position
+	 * 	  The given string
+	 * @return
+	 *    The position
+	 */
 	private int getPosition( String position )
 	{
 		if ( DesignChoiceConstants.BACKGROUND_POSITION_LEFT.equals( position ) )
@@ -423,6 +432,13 @@ public abstract class DesignElementHandleAdapter
 		return PositionConstants.CENTER;
 	}
 
+	/**
+	 *  Get reppeat value
+	 * @param repeat
+	 * 	Given string
+	 * @return
+	 * 	The repeat value
+	 */
 	private int getRepeat( String repeat )
 	{
 		if ( DesignChoiceConstants.BACKGROUND_REPEAT_REPEAT_X.equals( repeat ) )

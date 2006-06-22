@@ -42,7 +42,7 @@ public class LibraryNode
 		return reportHandle;
 	}
 
-	/**
+	/** Get children
 	 * @return Array of embedded images.
 	 */
 	public Object[] getChildren( )

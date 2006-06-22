@@ -43,7 +43,7 @@ public class EmbeddedImageNode
 		return reportHandle;
 	}
 
-	/**
+	/** Get array of embedded images.
 	 * @return Array of embedded images.
 	 */
 	public Object[] getChildren( )

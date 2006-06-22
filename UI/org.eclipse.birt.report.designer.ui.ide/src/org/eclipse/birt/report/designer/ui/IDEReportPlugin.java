@@ -37,6 +37,11 @@ public class IDEReportPlugin extends AbstractUIPlugin
 		// TODO Auto-generated constructor stub
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 */
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );

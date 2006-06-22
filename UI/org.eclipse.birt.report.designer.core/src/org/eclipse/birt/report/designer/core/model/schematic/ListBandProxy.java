@@ -68,7 +68,9 @@ public class ListBandProxy
 	 * constructor
 	 * 
 	 * @param handle
+	 * 	Slot handle
 	 * @param name
+	 *  Given name
 	 */
 	public ListBandProxy( SlotHandle handle, String name )
 	{
@@ -99,6 +101,7 @@ public class ListBandProxy
 	}
 
 	/**
+	 *  Get slot handle which is corresponding model of list band
 	 * @return slot handle which is corresponding model of list band
 	 */
 	public SlotHandle getSlotHandle( )
@@ -143,6 +146,7 @@ public class ListBandProxy
 	}
 
 	/**
+	 * Get display
 	 * @return Display name
 	 */
 	public String getDisplayName( )
@@ -158,7 +162,8 @@ public class ListBandProxy
 		return handle.getSlotID( );
 	}
 
-	/**
+	/** 
+	 * Get the parent of slot handle
 	 * @return the parent of slot handle
 	 */
 	public DesignElementHandle getElemtHandle( )

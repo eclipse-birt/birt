@@ -25,15 +25,15 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
-
 /**
  * Creation page for Report Wizard without Advanced control
- *  
+ * 
  */
 public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 {
+
 	String fileExtension = IReportElementConstants.DESIGN_FILE_EXTENSION;
-	
+
 	/**
 	 * The Constructor.
 	 * 
@@ -54,29 +54,32 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 	 * @param fileType
 	 */
 	public WizardNewReportCreationPage( String pageName,
-			IStructuredSelection selection,String fileType )
+			IStructuredSelection selection, String fileType )
 	{
 		this( pageName, selection );
-		
+
 		fileExtension = fileType;
 	}
-	
-    /** (non-Javadoc)
-     * Method declared on IDialogPage.
-     */
-    public void createControl(Composite parent) {
-    	super.createControl( parent );    	
-    	if(fileExtension.equals( IReportElementConstants.TEMPLATE_FILE_EXTENSION ))
-    	{
-    		UIUtil.bindHelp( getControl(),IHelpContextIds.NEW_TEMPLATE_WIZARD_ID );
-    	}else
-    	if(fileExtension.equals( IReportElementConstants.DESIGN_FILE_EXTENSION ))
-    	{
-    		UIUtil.bindHelp( getControl(),IHelpContextIds.NEW_REPORT_WIZARD_ID );
-    	}
-    	
-    }
-	
+
+	/**
+	 * (non-Javadoc) Method declared on IDialogPage.
+	 */
+	public void createControl( Composite parent )
+	{
+		super.createControl( parent );
+		if ( fileExtension.equals( IReportElementConstants.TEMPLATE_FILE_EXTENSION ) )
+		{
+			UIUtil.bindHelp( getControl( ),
+					IHelpContextIds.NEW_TEMPLATE_WIZARD_ID );
+		}
+		else if ( fileExtension.equals( IReportElementConstants.DESIGN_FILE_EXTENSION ) )
+		{
+			UIUtil.bindHelp( getControl( ),
+					IHelpContextIds.NEW_REPORT_WIZARD_ID );
+		}
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -84,7 +87,7 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 	 */
 	protected void createAdvancedControls( Composite parent )
 	{
-		//does nothing here to remove the linked widget.
+		// does nothing here to remove the linked widget.
 	}
 
 	/*
@@ -94,7 +97,7 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 	 */
 	protected IStatus validateLinkedResource( )
 	{
-		//always return OK here.
+		// always return OK here.
 		return new Status( IStatus.OK, ReportPlugin.getDefault( )
 				.getBundle( )
 				.getSymbolicName( ), IStatus.OK, "", null ); //$NON-NLS-1$
@@ -113,7 +116,7 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 		{
 			String fn = getFileName( );
 
-			if ( !fn.endsWith( "." + fileExtension) ) //$NON-NLS-1$
+			if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
 			{
 				IPath resourcePath = getContainerFullPath( ).append( getFileName( )
 						+ "." + fileExtension ); //$NON-NLS-1$
@@ -133,13 +136,19 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 		return rt;
 	}
 
-	
+	/**
+	 * Get File extension
+	 * @return The file extension
+	 */
 	public String getFileExtension( )
 	{
 		return fileExtension;
 	}
 
-	
+	/**
+	 * Set file extension
+	 * @param fileExtension
+	 */
 	public void setFileExtension( String fileExtension )
 	{
 		this.fileExtension = fileExtension;

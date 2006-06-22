@@ -36,8 +36,12 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter
 	private static final String TRANS_LABEL_INCLUDE = Messages.getString( "TableHandleAdapter.transLabel.include" ); //$NON-NLS-1$
 
 	/**
+	 * Constructor
+	 * 
 	 * @param table
+	 * 	TableHandle
 	 * @param mark
+	 * 	Helper mark
 	 */
 	public TableGroupHandleAdapter( TableGroupHandle table,
 			IModelAdapterHelper mark )
@@ -45,6 +49,10 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter
 		super( table, mark );
 	}
 
+	/**
+	 *  Get table group handle
+	 * @return TableGroupHandle
+	 */
 	protected TableGroupHandle getTableGroupHandle( )
 	{
 		return (TableGroupHandle) getHandle( );
@@ -61,6 +69,13 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter
 		return slot.getCount( ) > 0;
 	}
 
+	/**
+	 *  Insert Row into slot handle
+	 * @param slotId
+	 * 		slot id to insert
+	 * @throws ContentException
+	 * @throws NameException
+	 */
 	public void insertRowInSlotHandle( int slotId ) throws ContentException,
 			NameException
 	{
@@ -73,6 +88,13 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter
 		transEnd( );
 	}
 
+	/**
+	 *  Delete Row into slot handle
+	 * @param slotId
+	 * 		slot id to delete
+	 * @throws ContentException
+	 * @throws NameException
+	 */
 	public void deleteRowInSlotHandle( int slotId ) throws SemanticException
 	{
 		transStar( TRANS_LABEL_NOT_INCLUDE
@@ -81,6 +103,13 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter
 		transEnd( );
 	}
 
+	/**
+	 *  Delete rows in rowsolt
+	 * @param rowSlot
+	 * 		the SoltHanle to delete
+	 * @throws ContentException
+	 * @throws NameException
+	 */
 	private void deleteRows( SlotHandle rowSlot ) throws SemanticException
 	{
 		int[] rows = new int[0];
@@ -100,6 +129,10 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter
 		getTableHandleAdapter( ).deleteRow( rows );
 	}
 
+	/**
+	 * Get Table handle adapter
+	 * @return TableHandleAdapter
+	 */
 	protected TableHandleAdapter getTableHandleAdapter( )
 	{
 		return HandleAdapterFactory.getInstance( )

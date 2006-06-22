@@ -51,6 +51,10 @@ public class HandleAdapterFactory
 
 	private Map map;
 
+	/**
+	 * Constructor
+	 *
+	 */
 	private HandleAdapterFactory( )
 	{
 		map = new WeakHashMap( );
@@ -60,7 +64,9 @@ public class HandleAdapterFactory
 	 * Get the design element handle adapter for specified report element handle
 	 * 
 	 * @param obj
+	 *  Given boject
 	 * @param mark
+	 *  Helper mark
 	 * @return
 	 */
 	public DesignElementHandleAdapter getDesignElementHandleAdapter(
@@ -157,9 +163,12 @@ public class HandleAdapterFactory
 		}
 
 	/**
+	 * Get extended item handle adapter
 	 * @param obj
+	 *            TextData instance
 	 * @param mark
-	 * @return
+	 *            Helper instance
+	 * @return Extended item adapter
 	 */
 	private ExtendedItemHandleAdapter getExtendedItemHandleAdapter( Object obj,
 			IModelAdapterHelper mark )
@@ -270,8 +279,9 @@ public class HandleAdapterFactory
 		return retValue;
 	}
 	
-	/**
-	 * @return
+	/** 	
+	 * Get report design handle adapter
+	 * @return Design handle adapter
 	 */
 	public ReportDesignHandleAdapter getReportDesignHandleAdapter( )
 	{
@@ -297,8 +307,9 @@ public class HandleAdapterFactory
 	}
 	
 	/**
-	 * @return
-	 */
+	 *  Get library handle adapter
+	 * @return LibraryHandleAdapter
+	 */  
 	public LibraryHandleAdapter getLibraryHandleAdapter( )
 	{
 		return getLibraryHandleAdapter(SessionHandleAdapter.getInstance( )
@@ -529,7 +540,13 @@ public class HandleAdapterFactory
 		removeRelated(obj);
 		map.remove( obj );
 	}
-	
+
+	/**
+	 * Remove cached adapter
+	 * 
+	 * @param obj
+	 *            Key to find the adapter
+	 */
 	private void removeRelated( Object obj )
 	{
 		Object handleAdaot = map.get(obj);
@@ -679,7 +696,6 @@ public class HandleAdapterFactory
 	 *            DataItem instance
 	 * @return Data Handle Adapter
 	 */
-
 	public DataItemHandleAdapter getDataItemHandleAdapter( Object obj )
 	{
 		return getDataItemHandleAdapter( obj, null );

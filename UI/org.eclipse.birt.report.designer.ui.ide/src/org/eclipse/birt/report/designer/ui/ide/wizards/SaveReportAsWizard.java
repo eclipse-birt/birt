@@ -70,7 +70,7 @@ public class SaveReportAsWizard extends Wizard
 		if ( model instanceof ReportDesignHandle )
 		{
 			settingPage = new WizardReportSettingPage( (ReportDesignHandle) model );
-			settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" )); //$NON-NLS-1$
+			settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) ); //$NON-NLS-1$
 			settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
 
 			addPage( settingPage );
@@ -110,6 +110,10 @@ public class SaveReportAsWizard extends Wizard
 		return true;
 	}
 
+	/**
+	 *  The path of report design to be saved
+	 * @return Path
+	 */
 	public IPath getSaveAsPath( )
 	{
 		return this.saveAsPath;

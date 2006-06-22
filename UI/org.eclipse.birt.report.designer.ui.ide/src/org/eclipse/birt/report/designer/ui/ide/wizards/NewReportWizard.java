@@ -358,19 +358,30 @@ public class NewReportWizard extends Wizard implements
 				NEW_REPORT_FILE_EXTENSION ) );//$NON-NLS-1$
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 
-//		settingPage = new WizardReportSettingPage( null );
-//		settingPage.setTitle( Messages.getFormattedString( "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
-//				new Object[]{
-//					Messages.getString( "NewReportWizard.wizardPageTitle.report" )} ) );//$NON-NLS-1$
-//		settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
-//		addPage( settingPage );
+		// settingPage = new WizardReportSettingPage( null );
+		// settingPage.setTitle( Messages.getFormattedString(
+		// "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
+		// new Object[]{
+		// Messages.getString( "NewReportWizard.wizardPageTitle.report" )} )
+		// );//$NON-NLS-1$
+		// settingPage.setMessage( Messages.getString(
+		// "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
+		// addPage( settingPage );
 	}
 
+	/**
+	 * Set unique count to zero
+	 * 
+	 */
 	void resetUniqueCount( )
 	{
 		UNIQUE_COUNTER = 0;
 	}
 
+	/**
+	 * Get the path of default container
+	 * 
+	 */
 	IPath getDefaultContainerPath( )
 	{
 		IWorkbenchWindow benchWindow = PlatformUI.getWorkbench( )
@@ -438,7 +449,8 @@ public class NewReportWizard extends Wizard implements
 		int counter = getCounter( prefix, ext );
 		return counter == 0 ? prefix + ext //$NON-NLS-1$
 		: prefix + "_" //$NON-NLS-1$
-				+ counter + ext; //$NON-NLS-1$
+				+ counter
+				+ ext; //$NON-NLS-1$
 	}
 
 	int getCounter( String prefix, String ext )
@@ -478,6 +490,15 @@ public class NewReportWizard extends Wizard implements
 	private static final List tmpList = new ArrayList( );
 	private IConfigurationElement configElement;
 
+	/**
+	 * Judge whether the name new report has been used
+	 * 
+	 * @param prefix
+	 * @param ext
+	 * @param count
+	 * @param res
+	 * @return
+	 */
 	boolean validDuplicate( String prefix, String ext, int count, IResource res )
 	{
 		if ( res != null && res.isAccessible( ) )
@@ -606,18 +627,24 @@ public class NewReportWizard extends Wizard implements
 				IWorkbench workbench = PlatformUI.getWorkbench( );
 				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
 				IWorkbenchPage page = window.getActivePage( );
-				
+
 				try
 				{
-				    	IEditorPart editorPart = IDE.openEditor( page, file, true );
-				    	ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
-					if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
-					    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
-					    model.save( );
-					    editorPart.doSave( null );
+					IEditorPart editorPart = IDE.openEditor( page, file, true );
+					ModuleHandle model = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( );
+					if ( ReportPlugin.getDefault( )
+							.getEnableCommentPreference( ) )
+					{
+						model.setStringProperty( ModuleHandle.COMMENTS_PROP,
+								ReportPlugin.getDefault( )
+										.getCommentPreference( ) );
+						model.save( );
+						editorPart.doSave( null );
 					}
-					//setReportSettings( ( (IDEReportEditor) editorPart ).getModel( ) );
-					//editorPart.doSave( null );
+					// setReportSettings( ( (IDEReportEditor) editorPart
+					// ).getModel( ) );
+					// editorPart.doSave( null );
 
 					BasicNewProjectResourceWizard.updatePerspective( configElement );
 					if ( showCheat && !cheatId.equals( "" ) ) //$NON-NLS-1$
@@ -735,21 +762,38 @@ public class NewReportWizard extends Wizard implements
 		this.configElement = config;
 	}
 
+	/**
+	 * Report design file extension
+	 * @return file extension
+	 */
 	public String getFileExtension( )
 	{
 		return fileExtension;
 	}
 
+	/**
+	 * Set file extension for report design
+	 * 
+	 * @param fileExtension
+	 */
 	public void setFileExtension( String fileExtension )
 	{
 		this.fileExtension = fileExtension;
 	}
 
+	/**
+	 * Get the selection
+	 * @return The selection
+	 */
 	public IStructuredSelection getSelection( )
 	{
 		return selection;
 	}
 
+	/**
+	 * Get configuration element
+	 * @return
+	 */
 	public IConfigurationElement getConfigElement( )
 	{
 		return configElement;
@@ -761,18 +805,18 @@ public class NewReportWizard extends Wizard implements
 	 * @param model
 	 * @throws IOException
 	 */
-//	void setReportSettings( Object model ) throws IOException
-//	{
-//		ReportDesignHandle handle = (ReportDesignHandle) model;
-//		try
-//		{
-//			handle.setDisplayName( settingPage.getDisplayName( ) );
-//			handle.setDescription( settingPage.getDescription( ) );
-//			handle.setIconFile( settingPage.getPreviewImagePath( ) );
-//		}
-//		catch ( SemanticException e )
-//		{
-//		}
-//		handle.save( );
-//	}
+	// void setReportSettings( Object model ) throws IOException
+	// {
+	// ReportDesignHandle handle = (ReportDesignHandle) model;
+	// try
+	// {
+	// handle.setDisplayName( settingPage.getDisplayName( ) );
+	// handle.setDescription( settingPage.getDescription( ) );
+	// handle.setIconFile( settingPage.getPreviewImagePath( ) );
+	// }
+	// catch ( SemanticException e )
+	// {
+	// }
+	// handle.save( );
+	// }
 }

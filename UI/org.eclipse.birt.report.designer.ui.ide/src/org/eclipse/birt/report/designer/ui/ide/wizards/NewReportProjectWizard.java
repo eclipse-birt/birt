@@ -53,11 +53,10 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 /**
  * BIRT Project Wizard. Implementation from BasicNewProjectResourceWizard
  * without references page and with report nature.
- *  
+ * 
  */
-public class NewReportProjectWizard extends BasicNewResourceWizard
-		implements
-			IExecutableExtension
+public class NewReportProjectWizard extends BasicNewResourceWizard implements
+		IExecutableExtension
 {
 
 	private WizardNewProjectCreationPage mainPage;
@@ -81,54 +80,56 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 	{
 		super.addPages( );
 
-		mainPage = new WizardNewProjectCreationPage( "basicNewProjectPage" )
-		{
+		mainPage = new WizardNewProjectCreationPage( "basicNewProjectPage" ) {
 
 			public void createControl( Composite parent )
 			{
-				
-				super.createControl( parent );
-				UIUtil.bindHelp( getControl( ), IHelpContextIds.NEW_REPORT_PROJECT_ID );
 
-//				Group group = new Group( (Composite) super.getControl( ),
-//						SWT.NONE );
-//				group.setText( Messages
-//						.getString( "NewReportProjectWizard.projectSetting" ) ); //$NON-NLS-1$
-//				GridLayout layout = new GridLayout( );
-//				layout.numColumns = 2;
-//				group.setLayout( layout );
-//				group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-//
-//				Button javaButton = createButton( group );
-//				javaButton.setText( Messages
-//						.getString( "NewReportProjectWizard.javaProject" ) );
-//				javaButton.addSelectionListener( new SelectionAdapter( )
-//				{
-//
-//					public void widgetSelected( SelectionEvent e )
-//					{
-//						isJavaProject = !isJavaProject;
-//						sourceText.setEnabled( isJavaProject );
-//						outputText.setEnabled( isJavaProject );
-//					}
-//				} );
-//
-//				createLabel( group, Messages
-//						.getString( "NewReportProjectWizard.src" ) ); //$NON-NLS-1$
-//				sourceText = createText( group );
-//
-//				IPreferenceStore store = PreferenceConstants
-//						.getPreferenceStore( );
-//				sourceText.setText( store
-//						.getString( PreferenceConstants.SRCBIN_SRCNAME ) );
-//				sourceText.setEnabled( isJavaProject );
-//
-//				createLabel( group, Messages
-//						.getString( "NewReportProjectWizard.bin" ) ); //$NON-NLS-1$
-//				outputText = createText( group );
-//				outputText.setText( store
-//						.getString( PreferenceConstants.SRCBIN_BINNAME ) );
-//				outputText.setEnabled( isJavaProject );
+				super.createControl( parent );
+				UIUtil.bindHelp( getControl( ),
+						IHelpContextIds.NEW_REPORT_PROJECT_ID );
+
+				// Group group = new Group( (Composite) super.getControl( ),
+				// SWT.NONE );
+				// group.setText( Messages
+				// .getString( "NewReportProjectWizard.projectSetting" ) );
+				// //$NON-NLS-1$
+				// GridLayout layout = new GridLayout( );
+				// layout.numColumns = 2;
+				// group.setLayout( layout );
+				// group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL )
+				// );
+				//
+				// Button javaButton = createButton( group );
+				// javaButton.setText( Messages
+				// .getString( "NewReportProjectWizard.javaProject" ) );
+				// javaButton.addSelectionListener( new SelectionAdapter( )
+				// {
+				//
+				// public void widgetSelected( SelectionEvent e )
+				// {
+				// isJavaProject = !isJavaProject;
+				// sourceText.setEnabled( isJavaProject );
+				// outputText.setEnabled( isJavaProject );
+				// }
+				// } );
+				//
+				// createLabel( group, Messages
+				// .getString( "NewReportProjectWizard.src" ) ); //$NON-NLS-1$
+				// sourceText = createText( group );
+				//
+				// IPreferenceStore store = PreferenceConstants
+				// .getPreferenceStore( );
+				// sourceText.setText( store
+				// .getString( PreferenceConstants.SRCBIN_SRCNAME ) );
+				// sourceText.setEnabled( isJavaProject );
+				//
+				// createLabel( group, Messages
+				// .getString( "NewReportProjectWizard.bin" ) ); //$NON-NLS-1$
+				// outputText = createText( group );
+				// outputText.setText( store
+				// .getString( PreferenceConstants.SRCBIN_BINNAME ) );
+				// outputText.setEnabled( isJavaProject );
 			}
 
 			/*
@@ -142,10 +143,8 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 			}
 
 		};//$NON-NLS-1$
-		mainPage
-				.setTitle( Messages.getString( "NewReportProjectWizard.title" ) ); //$NON-NLS-1$
-		mainPage.setDescription( Messages
-				.getString( "NewReportProjectWizard.description" ) ); //$NON-NLS-1$
+		mainPage.setTitle( Messages.getString( "NewReportProjectWizard.title" ) ); //$NON-NLS-1$
+		mainPage.setDescription( Messages.getString( "NewReportProjectWizard.description" ) ); //$NON-NLS-1$
 		this.addPage( mainPage );
 
 	}
@@ -180,17 +179,19 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 			newPath = mainPage.getLocationPath( );
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace( );
-		final IProjectDescription description = workspace
-				.newProjectDescription( newProjectHandle.getName( ) );
+		final IProjectDescription description = workspace.newProjectDescription( newProjectHandle.getName( ) );
 		description.setLocation( newPath );
 
 		String[] natures = null;
 		if ( isJavaProject )
 			natures = new String[]{
 					"org.eclipse.birt.report.designer.ui.reportprojectnature",
-					JavaCore.NATURE_ID};
+					JavaCore.NATURE_ID
+			};
 		else
-			natures = new String[]{"org.eclipse.birt.report.designer.ui.reportprojectnature"};
+			natures = new String[]{
+				"org.eclipse.birt.report.designer.ui.reportprojectnature"
+			};
 
 		description.setNatureIds( natures ); //$NON-NLS-1$
 
@@ -198,8 +199,7 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 			addJavaBuildSpec( description );
 
 		// create the new project operation
-		WorkspaceModifyOperation op = new WorkspaceModifyOperation( )
-		{
+		WorkspaceModifyOperation op = new WorkspaceModifyOperation( ) {
 
 			protected void execute( IProgressMonitor monitor )
 					throws CoreException
@@ -225,25 +225,17 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 			{
 				if ( ( (CoreException) t ).getStatus( ).getCode( ) == IResourceStatus.CASE_VARIANT_EXISTS )
 				{
-					MessageDialog
-							.openError(
-									getShell( ),
-									Messages
-											.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
-									Messages
-											.getFormattedString(
-													"NewReportProjectWizard.caseVariantExistsError", new String[]{newProjectHandle.getName( )} ) //$NON-NLS-1$,
-							);
+					MessageDialog.openError( getShell( ),
+							Messages.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
+							Messages.getFormattedString( "NewReportProjectWizard.caseVariantExistsError", new String[]{newProjectHandle.getName( )} ) //$NON-NLS-1$,
+					);
 				}
 				else
 				{
-					ErrorDialog
-							.openError(
-									getShell( ),
-									Messages
-											.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
-									null, // no special message
-									( (CoreException) t ).getStatus( ) );
+					ErrorDialog.openError( getShell( ),
+							Messages.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
+							null, // no special message
+							( (CoreException) t ).getStatus( ) );
 				}
 			}
 			else
@@ -252,14 +244,9 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 				// exceptions and errors may still occur.
 				ExceptionHandler.handle( e );
 
-				MessageDialog
-						.openError(
-								getShell( ),
-								Messages
-										.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
-								Messages
-										.getFormattedString(
-												"NewReportProjectWizard.internalError", new Object[]{t.getMessage( )} ) ); //$NON-NLS-1$
+				MessageDialog.openError( getShell( ),
+						Messages.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
+						Messages.getFormattedString( "NewReportProjectWizard.internalError", new Object[]{t.getMessage( )} ) ); //$NON-NLS-1$
 			}
 			return null;
 		}
@@ -326,14 +313,17 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 	{
 		super.init( workbench, currentSelection );
 		setNeedsProgressMonitor( true );
-		setWindowTitle( Messages
-				.getString( "NewReportProjectWizard.windowTitle" ) ); //$NON-NLS-1$
+		setWindowTitle( Messages.getString( "NewReportProjectWizard.windowTitle" ) ); //$NON-NLS-1$
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#getDefaultPageImage()
+	 */
 	public Image getDefaultPageImage( )
 	{
-		return ReportPlugin
-				.getImage( "/icons/wizban/create_project_wizard.gif" ); //$NON-NLS-1$
+		return ReportPlugin.getImage( "/icons/wizban/create_project_wizard.gif" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -390,53 +380,56 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 		BasicNewProjectResourceWizard.updatePerspective( configElement );
 	}
 
-//	private Button createButton( Composite container )
-//	{
-//		Button button = new Button( container, SWT.CHECK );
-//		GridData gd = new GridData( );
-//		gd.horizontalSpan = 2;
-//		button.setLayoutData( gd );
-//		return button;
-//	}
-//
-//	private Label createLabel( Composite container, String text )
-//	{
-//		Label label = new Label( container, SWT.NONE );
-//		label.setText( text );
-//		GridData gd = new GridData( );
-//		gd.horizontalIndent = 22;
-//		label.setLayoutData( gd );
-//		return label;
-//	}
-//
-//	private Text createText( Composite container )
-//	{
-//		Text text = new Text( container, SWT.BORDER | SWT.SINGLE );
-//		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-//		gd.widthHint = 300;
-//		text.setLayoutData( gd );
-//		text.addModifyListener( new ModifyListener( )
-//		{
-//
-//			public void modifyText( ModifyEvent e )
-//			{
-//				//					validatePage();
-//				mainPage.isPageComplete( );
-//			}
-//		} );
-//		return text;
-//	}
+	// private Button createButton( Composite container )
+	// {
+	// Button button = new Button( container, SWT.CHECK );
+	// GridData gd = new GridData( );
+	// gd.horizontalSpan = 2;
+	// button.setLayoutData( gd );
+	// return button;
+	// }
+	//
+	// private Label createLabel( Composite container, String text )
+	// {
+	// Label label = new Label( container, SWT.NONE );
+	// label.setText( text );
+	// GridData gd = new GridData( );
+	// gd.horizontalIndent = 22;
+	// label.setLayoutData( gd );
+	// return label;
+	// }
+	//
+	// private Text createText( Composite container )
+	// {
+	// Text text = new Text( container, SWT.BORDER | SWT.SINGLE );
+	// GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+	// gd.widthHint = 300;
+	// text.setLayoutData( gd );
+	// text.addModifyListener( new ModifyListener( )
+	// {
+	//
+	// public void modifyText( ModifyEvent e )
+	// {
+	// // validatePage();
+	// mainPage.isPageComplete( );
+	// }
+	// } );
+	// return text;
+	// }
 
 	private void addJavaBuildSpec( IProjectDescription description )
 	{
 		ICommand command = description.newCommand( );
 		command.setBuilderName( JavaCore.BUILDER_ID );
-		description.setBuildSpec( new ICommand[]{command} );
+		description.setBuildSpec( new ICommand[]{
+			command
+		} );
 	}
 
 	private void createSourceAndOutputFolder( IProject project )
 	{
-		if ( isJavaProject && sourceText.getText( ) != null
+		if ( isJavaProject
+				&& sourceText.getText( ) != null
 				&& sourceText.getText( ).trim( ).length( ) > 0 )
 		{
 			IFolder folder = project.getFolder( sourceText.getText( ) );
@@ -450,7 +443,8 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 					ExceptionHandler.handle( e );
 				}
 		}
-		if ( isJavaProject && outputText.getText( ) != null
+		if ( isJavaProject
+				&& outputText.getText( ) != null
 				&& outputText.getText( ).trim( ).length( ) > 0 )
 		{
 			IFolder folder = project.getFolder( outputText.getText( ) );
@@ -499,10 +493,12 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 	{
 		IClasspathEntry[] internalClassPathEntries = getInternalClassPathEntries( project );
 		IClasspathEntry[] entries = new IClasspathEntry[internalClassPathEntries.length + 1];
-		System.arraycopy( internalClassPathEntries, 0, entries, 0,
+		System.arraycopy( internalClassPathEntries,
+				0,
+				entries,
+				0,
 				internalClassPathEntries.length );
-		entries[entries.length - 1] = JavaCore.newContainerEntry( new Path(
-				"org.eclipse.jdt.launching.JRE_CONTAINER" ) );
+		entries[entries.length - 1] = JavaCore.newContainerEntry( new Path( "org.eclipse.jdt.launching.JRE_CONTAINER" ) );
 		return entries;
 	}
 
@@ -519,4 +515,3 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 		return entries;
 	}
 }
-

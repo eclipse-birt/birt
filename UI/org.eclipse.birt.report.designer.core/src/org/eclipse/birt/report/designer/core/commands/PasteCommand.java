@@ -185,6 +185,11 @@ public class PasteCommand extends Command
 		}
 	}
 
+	/**	
+	 *  Add this design element to report.
+	 *  @param newHandle
+	 *  	The design element to add
+	 */
 	private void addHandleToReport( DesignElementHandle newHandle )
 			throws ContentException, NameException
 	{
@@ -218,6 +223,9 @@ public class PasteCommand extends Command
 		}
 	}
 
+	/**
+	 * 	Caculate the paste position
+	 */
 	private void calculatePositionAndSlotId( )
 	{
 		DesignElementHandle container = null;
@@ -261,7 +269,12 @@ public class PasteCommand extends Command
 		}
 
 	}
-
+ /**
+ * 
+ *  Drop source handle
+ * @param oldHandle
+ * 		The source handle
+ */
 	private void dropSourceHandle( DesignElementHandle oldHandle )
 			throws SemanticException
 	{
@@ -271,6 +284,16 @@ public class PasteCommand extends Command
 		}
 	}
 
+/**
+ * Copy new handle
+ * @param element
+ *   The elemnent to copy
+ * @param currentDesignHandle
+ * 	 Current design handle
+ * @return
+ * 	 The copied handle
+ * @throws CloneNotSupportedException
+ */
 	private DesignElementHandle copyNewHandle( IDesignElement element,
 			ModuleHandle currentDesignHandle )
 			throws CloneNotSupportedException

@@ -26,14 +26,13 @@ import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.views.navigator.ResourceNavigator;
 
-
 /**
  * 
  */
 
 public class PublishTemplateNavigatorAction implements IViewActionDelegate
 {
-	
+
 	protected ResourceNavigator navigator;
 
 	/**
@@ -45,7 +44,7 @@ public class PublishTemplateNavigatorAction implements IViewActionDelegate
 		{
 			navigator = (ResourceNavigator) view;
 		}
-	}	
+	}
 
 	/**
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
@@ -61,15 +60,15 @@ public class PublishTemplateNavigatorAction implements IViewActionDelegate
 				ModuleHandle handle = SessionHandleAdapter.getInstance( )
 						.getSessionHandle( )
 						.openDesign( url );
-				
-				if (!(handle instanceof ReportDesignHandle ))
+
+				if ( !( handle instanceof ReportDesignHandle ) )
 				{
 					action.setEnabled( false );
 					return;
 				}
-				
+
 				WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
-						new PublishTemplateWizard( (ReportDesignHandle)handle ) );
+						new PublishTemplateWizard( (ReportDesignHandle) handle ) );
 				dialog.setPageSize( 500, 250 );
 				dialog.open( );
 
@@ -86,7 +85,7 @@ public class PublishTemplateNavigatorAction implements IViewActionDelegate
 			action.setEnabled( false );
 		}
 	}
-	
+
 	protected IFile getSelectedFile( )
 	{
 		if ( navigator != null )
@@ -102,9 +101,15 @@ public class PublishTemplateNavigatorAction implements IViewActionDelegate
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
+	 *      org.eclipse.jface.viewers.ISelection)
+	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
-		
-	}	
+
+	}
 
 }

@@ -59,6 +59,12 @@ public class NewTemplateWizard extends NewReportWizard
 		super( "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION ); //$NON-NLS-1$
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard#init(org.eclipse.ui.IWorkbench,
+	 *      org.eclipse.jface.viewers.IStructuredSelection)
+	 */
 	public void init( IWorkbench workbench, IStructuredSelection selection )
 	{
 		super.init( workbench, selection );
@@ -100,6 +106,11 @@ public class NewTemplateWizard extends NewReportWizard
 		return newReportFileWizardPage.isPageComplete( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard#performFinish()
+	 */
 	public boolean performFinish( )
 	{
 		final IPath containerName = newReportFileWizardPage.getContainerFullPath( );

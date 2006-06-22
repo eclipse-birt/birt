@@ -93,6 +93,11 @@ public class CorePlugin extends AbstractUIPlugin
 		return resourceBundle;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @org.eclipse.ui.plugin#start( BundleContext context )
+	 */
 	public void start( BundleContext context ) throws Exception
 	{
 		DEUtil.getSystemFontNames( );

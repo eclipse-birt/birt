@@ -154,7 +154,9 @@ public class CreateCommand extends Command
 	}
 	
 	/**
+	 *  Get the new object
 	 * @return
+	 *   Return the object
 	 */
 	public DesignElementHandle getNewObject()
 	{

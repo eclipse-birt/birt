@@ -28,7 +28,7 @@ public class PropertySheetRootElement
 		this.model = model;
 	}
 	
-	/**
+	/** Set model
 	 * @return model
 	 */
 	public Object getModel()
@@ -36,7 +36,7 @@ public class PropertySheetRootElement
 		return model;
 	}
 	
-	/**
+	/** Get display name
 	 * @return display name of root element
 	 */
 	public String getDisplayName()

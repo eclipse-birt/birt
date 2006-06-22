@@ -123,6 +123,7 @@ public class DataSetItemModel
 	}
 
 	/**
+	 *  Get name
 	 * @return Returns the name.
 	 */
 	public String getName( )
@@ -135,6 +136,7 @@ public class DataSetItemModel
 	}
 
 	/**
+	 *  Set name
 	 * @param name
 	 *            The name to set.
 	 */
@@ -143,7 +145,7 @@ public class DataSetItemModel
 		this.name = name;
 	}
 
-	/**
+	/** Get parent
 	 * @return Returns the parent.
 	 */
 	public Object getParent( )
@@ -151,7 +153,7 @@ public class DataSetItemModel
 		return parent;
 	}
 
-	/**
+	/** Set parent
 	 * @param parent
 	 *            The parent to set.
 	 */
@@ -160,7 +162,7 @@ public class DataSetItemModel
 		this.parent = parent;
 	}
 
-	/**
+	/** get position
 	 * @return Returns the position.
 	 */
 	public int getPosition( )
@@ -168,7 +170,7 @@ public class DataSetItemModel
 		return position;
 	}
 
-	/**
+	/** set position 
 	 * @param position
 	 *            The position to set.
 	 */
@@ -178,6 +180,7 @@ public class DataSetItemModel
 	}
 
 	/**
+	 * Get the alias
 	 * @return Returns the alias.
 	 */
 	public String getAlias( )
@@ -186,6 +189,7 @@ public class DataSetItemModel
 	}
 
 	/**
+	 * Set alias
 	 * @param alias
 	 *            The alias to set.
 	 */
@@ -195,6 +199,7 @@ public class DataSetItemModel
 	}
 
 	/**
+	 *  Get help text
 	 * @return Returns the helpText.
 	 */
 	public String getHelpText( )
@@ -202,7 +207,7 @@ public class DataSetItemModel
 		return helpText;
 	}
 
-	/**
+	/** Set help text
 	 * @param helpText
 	 *            The helpText to set.
 	 */
@@ -211,7 +216,7 @@ public class DataSetItemModel
 		this.helpText = helpText;
 	}
 
-	/**
+	/** Get dataset column name
 	 * @return Returns the dataSetColumnName.
 	 */
 	public String getDataSetColumnName( )
@@ -219,7 +224,7 @@ public class DataSetItemModel
 		return dataSetColumnName;
 	}
 
-	/**
+	/** Set dataset column name
 	 * @param dataSetColumnName
 	 *            The dataSetColumnName to set.
 	 */
@@ -228,7 +233,7 @@ public class DataSetItemModel
 		this.dataSetColumnName = dataSetColumnName;
 	}
 
-	/**
+	/**  Check whether ComputedColumn
 	 * @return Returns the isComputedColumn.
 	 */
 	public boolean isComputedColumn( )
@@ -236,7 +241,7 @@ public class DataSetItemModel
 		return isComputedColumn;
 	}
 
-	/**
+	/** Set the value isComputedColumn
 	 * @param isComputedColumn
 	 *            The isComputedColumn to set.
 	 */

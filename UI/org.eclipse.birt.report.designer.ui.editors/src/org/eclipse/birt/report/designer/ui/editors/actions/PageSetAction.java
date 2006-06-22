@@ -33,6 +33,11 @@ public class PageSetAction extends Action implements UpdateAction
 		update( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.ui.actions.UpdateAction#update()
+	 */
 	public void update( )
 	{
 		FormEditor editor = UIUtil.getActiveReportEditor( );
@@ -45,6 +50,11 @@ public class PageSetAction extends Action implements UpdateAction
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
 	public void run( )
 	{
 		UIUtil.getActiveReportEditor( ).setActivePage( pageId );

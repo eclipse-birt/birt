@@ -32,10 +32,14 @@ import org.eclipse.draw2d.geometry.Insets;
  * 
  *  
  */
-
 public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 {
-
+/**
+ * Constructor
+ * 
+ * @param handle
+ * 	Module handle
+ */
 	public ReportDesignHandleAdapter( ModuleHandle handle )
 	{
 		this( handle, null );
@@ -45,6 +49,9 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 * Constructor
 	 * 
 	 * @param handle
+	 * 	Module handle
+	 * @param mark
+	 *  Help mark
 	 */
 	public ReportDesignHandleAdapter( ModuleHandle handle,
 			IModelAdapterHelper mark )
@@ -67,6 +74,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 * Gets all the data source binding to report element.
 	 * 
 	 * @return
+	 *  Data source list
 	 */
 	public List getDataSources( )
 	{
@@ -77,7 +85,9 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 * Gets data source handle binding to report element
 	 * 
 	 * @param name
+	 * 	The name of specified data source
 	 * @return
+	 * 	specified data souce's handle
 	 */
 	public DataSourceHandle getDataSourceHandle( String name )
 	{
@@ -88,7 +98,9 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 * Provides naming check logic of data source name.
 	 * 
 	 * @param name
+	 * 	Specfied data source name
 	 * @return
+	 * 	<code>true</code> if the data source exists, else false
 	 */
 	public boolean checkDataSourceName( String name )
 	{
@@ -99,7 +111,9 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 * Provides naming check logic of data set name.
 	 * 
 	 * @param name
-	 * @return
+	 * 	Specified data set name
+	 *  @return
+	 *  <code>true</code> if the data set exists, else false
 	 */
 	public boolean checkDataSetName( String name )
 	{
@@ -110,6 +124,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 * Sets the ModuleHandle be adapted.
 	 * 
 	 * @param handle
+	 * 	the module handle
 	 */
 	public void setReportDesignHandle( ModuleHandle handle )
 	{
@@ -117,6 +132,8 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	}
 
 	/**
+	 *  Get master page handle
+	 * 
 	 * @return the master page instace of Report Design.
 	 */
 	public MasterPageHandle getMasterPage( )
@@ -128,6 +145,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 * Gets the master page instace of Report Design with specific position.
 	 * 
 	 * @param pos
+	 * 	The position
 	 * @return handle of masterpage.
 	 */
 	public MasterPageHandle getMasterPage( int pos )

@@ -41,6 +41,11 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		this.viewer = viewer;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.action.Action#isEnabled()
+	 */
 	public boolean isEnabled( )
 	{
 		LibraryHandle library = getSelectedLibrary( );
@@ -54,6 +59,11 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
 	public void run( )
 	{
 		if ( isEnabled( ) )
