@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.presentation.aggregation.layout;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.rmi.RemoteException;
 
 import javax.servlet.ServletException;
