@@ -195,7 +195,8 @@ public class ReportItemReader implements IReportItemExecutor
 			if ( genBy instanceof TableItemDesign )
 			{
 				TableItemDesign tableDesign = (TableItemDesign) genBy;
-				if ( tableDesign.isRepeatHeader( ) )
+				if ( tableDesign.isRepeatHeader( )
+						&& tableDesign.getHeader( ) != null )
 				{
 					addHeaderToFragment( content );
 				}
@@ -204,7 +205,8 @@ public class ReportItemReader implements IReportItemExecutor
 			else if ( genBy instanceof GroupDesign )
 			{
 				GroupDesign groupDesign = (GroupDesign) genBy;
-				if ( groupDesign.isHeaderRepeat( ) )
+				if ( groupDesign.isHeaderRepeat( )
+						&& groupDesign.getHeader( ) != null )
 				{
 					addHeaderToFragment( content );
 				}
@@ -212,7 +214,8 @@ public class ReportItemReader implements IReportItemExecutor
 			else if ( genBy instanceof ListItemDesign )
 			{
 				ListItemDesign listDesign = (ListItemDesign) genBy;
-				if ( listDesign.isRepeatHeader( ) )
+				if ( listDesign.isRepeatHeader( )
+						&& listDesign.getHeader( ) != null )
 				{
 					addHeaderToFragment( content );
 				}

@@ -66,7 +66,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 */
 	public void reset( )
 	{
-		this.rsetCursor = -1;
+		rsetCursor = -1;
+		needPageBreak = false;
 		super.reset( );
 	}
 

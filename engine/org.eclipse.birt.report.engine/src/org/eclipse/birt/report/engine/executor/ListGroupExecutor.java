@@ -15,8 +15,8 @@ public class ListGroupExecutor extends GroupExecutor
 
 	public void close( )
 	{
+		handlePageBreakAfterOfGroup( );
 		IListGroupContent groupContent = (IListGroupContent) getContent( );
-
 		if ( emitter != null )
 		{
 			emitter.endListGroup( groupContent );
@@ -33,7 +33,8 @@ public class ListGroupExecutor extends GroupExecutor
 
 		restoreResultSet( );
 		initializeContent( groupDesign, groupContent );
-		handlePageBreakOfGroup( );
+		handlePageBreakBeforeOfGroup( );
+		handlePageBreakAfterOfPreviousGroup( );
 
 		startGroupTOCEntry( );
 		if ( emitter != null )

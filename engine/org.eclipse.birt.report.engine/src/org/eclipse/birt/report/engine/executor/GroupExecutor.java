@@ -13,6 +13,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 {
 	boolean endOfGroup;
 	boolean hiddenDetail;
+	boolean needPageBreak;
 
 	ListingElementExecutor listingExecutor;
 
@@ -21,6 +22,15 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		super( manager );
 	}
 
+	public void reset( )
+	{
+		super.reset( );
+		endOfGroup = false;
+		hiddenDetail = false;
+		needPageBreak = false;
+		listingExecutor = null;
+	}
+	
 	void setLisingExecutor(ListingElementExecutor executor)
 	{
 		listingExecutor = executor;
@@ -160,12 +170,6 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		}
 	}
 	
-	protected void handlePageBreakOfGroup( )
-	{
-		handlePageBreakBeforeOfGroup( );
-		handlePageBreakAfterOfGroup( );
-	}
-
 	/**
 	 * handle the page-break-before of group. AUTO:
 	 * page-break-always-excluding_fist for top level group, none for others.
@@ -233,14 +237,51 @@ abstract public class GroupExecutor extends ReportItemExecutor
 				int endGroup = rset.getEndingGroupLevel( );
 				if ( endGroup >= groupLevel + 1 )
 				{
-					needPageBreak = true;
+					setPageBreakBeforeForNextGroup( );
 				}
 			}
+			
 			if ( needPageBreak )
 			{
 				content.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
 						IStyle.ALWAYS_VALUE );
 			}
+		}
+	}
+	
+	protected void handlePageBreakAfterOfPreviousGroup( )
+	{
+		if (parent instanceof GroupExecutor)
+		{
+			GroupExecutor pGroup = (GroupExecutor)parent; 
+			if (pGroup.needPageBreak)
+			{
+				content.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.ALWAYS_VALUE);
+				pGroup.needPageBreak = false;
+			}
+		}
+		else if (parent instanceof ListingElementExecutor)
+		{
+			ListingElementExecutor pList = (ListingElementExecutor)parent;
+			if (pList.needPageBreak)
+			{
+				content.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.ALWAYS_VALUE);
+				pList.needPageBreak = false;
+			}
+		}
+	}
+	
+	protected void setPageBreakBeforeForNextGroup()
+	{
+		if (parent instanceof GroupExecutor)
+		{
+			GroupExecutor pGroup = (GroupExecutor)parent; 
+			pGroup.needPageBreak = true;
+		}
+		else if (parent instanceof ListingElementExecutor)
+		{
+			ListingElementExecutor pList = (ListingElementExecutor)parent;
+			pList.needPageBreak = true;
 		}
 	}
 }
