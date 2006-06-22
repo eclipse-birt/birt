@@ -173,8 +173,10 @@ public class PDFTableLM extends PDFBlockStackingLM
 		CellWrapper[] newRowContent = new CellWrapper[columnNumber];
 		if ( currentRowID > 0 )
 		{
+			ArrayList removedDropCells = new ArrayList();
 			for ( int i = 0; i < columnNumber; i++ )
 			{
+				
 				if ( currentRowContent[i] != null )
 				{
 					int rowSpan = currentRowContent[i].rowSpan;
@@ -189,10 +191,13 @@ public class PDFTableLM extends PDFBlockStackingLM
 					{
 						// end span
 						newRowContent[i] = null;
-						removeDropAreaByIndex( i );
+						removedDropCells.add(new Integer(i));						
 					}
 				}
-
+			}
+			if(removedDropCells.size( )>0)
+			{
+				removeDropCells(removedDropCells);
 			}
 		}
 		lastRowContent = currentRowContent;
@@ -200,24 +205,66 @@ public class PDFTableLM extends PDFBlockStackingLM
 		currentRowContent = newRowContent;
 		currentRow = new RowWrapper( row, currentRowID );
 	}
-
-	protected void removeDropAreaByIndex( int index )
+	
+	protected void removeDropCells(ArrayList list)
 	{
+		int maxHeight = 0;
 		Iterator iter = dropList.iterator( );
+		ArrayList removedList = new ArrayList();
 		while ( iter.hasNext( ) )
 		{
 			DropCellInfo dropCell = (DropCellInfo) iter.next( );
-			if ( dropCell.cell.getColumnID( ) == index )
+			int columnID = dropCell.cell.getColumnID( );
+			if(list.contains( new Integer(columnID) ))
 			{
 				verticalAlign( dropCell.cell );
 				iter.remove( );
+				maxHeight = Math.max( maxHeight, dropCell.leftHeight );
+				removedList.add( dropCell);
+				
 			}
+		}
+		iter = dropList.iterator();
+		while(iter.hasNext())
+		{
+			DropCellInfo dropCell = (DropCellInfo) iter.next( );
+			int left = dropCell.leftHeight;
+			dropCell.leftHeight -= maxHeight;
+			if(dropCell.leftHeight < 0)
+			{
+				dropCell.cell.setHeight(dropCell.cell.getHeight( ) + maxHeight - left);
+				dropCell.leftHeight = 0;
+			}
+				
+		}
+		if(maxHeight>0)
+		{
+			if(lastRowArea!=null)
+			{
+				lastRowArea.setHeight( lastRowArea.getHeight( ) + maxHeight );
+				Iterator rowIter = lastRowArea.getChildren( );
+				while(rowIter.hasNext( ))
+				{
+					CellArea cell = (CellArea)rowIter.next( );
+					if(cell.getRowSpan() == 1)
+						cell.setHeight( cell.getHeight( ) + maxHeight );
+				}
+			}
+			Iterator removedIter = removedList.iterator( );
+			while(removedIter.hasNext( ))
+			{
+				DropCellInfo cell = (DropCellInfo)removedIter.next( );
+				cell.cell.setHeight( cell.cell.getHeight( ) + maxHeight - cell.leftHeight );
+			}
+			currentBP += maxHeight;
 		}
 	}
 
 	protected void removeDropAreaBySpan( int rowSpan )
 	{
+		int maxHeight = 0;
 		Iterator iter = dropList.iterator( );
+		ArrayList removedList = new ArrayList();
 		while ( iter.hasNext( ) )
 		{
 			DropCellInfo dropCell = (DropCellInfo) iter.next( );
@@ -225,7 +272,29 @@ public class PDFTableLM extends PDFBlockStackingLM
 			{
 				verticalAlign( dropCell.cell );
 				iter.remove( );
+				removedList.add( dropCell );
+				maxHeight = Math.max( maxHeight, dropCell.leftHeight );
 			}
+		}
+		if(maxHeight>0)
+		{
+			if(lastRowArea!=null)
+			{
+				lastRowArea.setHeight( lastRowArea.getHeight( ) + maxHeight );
+				Iterator rowIter = lastRowArea.getChildren( );
+				while(rowIter.hasNext( ))
+				{
+					CellArea cell = (CellArea)rowIter.next( );
+					cell.setHeight( cell.getHeight( ) + maxHeight );
+				}
+			}
+			Iterator removedIter = removedList.iterator( );
+			while(removedIter.hasNext( ))
+			{
+				DropCellInfo cell = (DropCellInfo)removedIter.next( );
+				cell.cell.setHeight( cell.cell.getHeight( ) + maxHeight - cell.leftHeight );
+			}
+			currentBP += maxHeight;
 		}
 	}
 
@@ -327,13 +396,23 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	protected void closeLayout( )
 	{
-		if ( root.getChildrenCount( ) == 0 )
+ 		if ( root.getChildrenCount( ) == 0 )
 		{
 			return;
 		}
+ 		ArrayList lastDropCells = new ArrayList();
+ 		Iterator it = dropList.iterator( );
+ 		while ( it.hasNext( ) )
+		{
+			DropCellInfo dropCell = (DropCellInfo) it.next( );
+			for (int columnID = dropCell.cell.getColumnID(); columnID < dropCell.cell
+					.getColumnID()
+					+ dropCell.cell.getColSpan(); columnID++)
+				lastDropCells.add(new Integer(columnID));
+		}
 		if ( !isLast )
 		{
-			updateAllUnresolvedCellArea( );
+			updateAllUnresolvedCellArea(lastDropCells);
 			root.setHeight( getCurrentBP( ) + getOffsetY( ) );
 			return;
 		}
@@ -349,7 +428,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 					bottomMaxBorder );
 			changed.add( cell.cell );
 		}
-		updateAllUnresolvedCellArea( );
+		
+		updateAllUnresolvedCellArea(lastDropCells);
 
 		if ( lastRowArea != null )
 		{
@@ -702,15 +782,44 @@ public class PDFTableLM extends PDFBlockStackingLM
 		return super.addArea( area );
 	}
 
-	protected void updateAllUnresolvedCellArea( )
+	protected void updateAllUnresolvedCellArea(ArrayList lastDropCells )
 	{
+		/*int maxHeight = 0;
 		Iterator iter = dropList.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			DropCellInfo dropCell = (DropCellInfo) iter.next( );
-			verticalAlign( dropCell.cell );
-			iter.remove( );
+			maxHeight = Math.max( maxHeight, dropCell.leftHeight );
 		}
+		if(maxHeight>0)
+		{
+			if(lastRowArea!=null)
+			{
+				lastRowArea.setHeight( lastRowArea.getHeight( ) + maxHeight );
+				Iterator rowIter = lastRowArea.getChildren( );
+				while(rowIter.hasNext( ))
+				{
+					CellArea cell = (CellArea)rowIter.next( );
+					
+					cell.setHeight( cell.getHeight( ) + maxHeight );
+					
+						
+				}
+			}
+			currentBP += maxHeight;
+		}
+		Iterator removedIter = dropList.iterator( );
+		while(removedIter.hasNext( ))
+		{
+			DropCellInfo cell = (DropCellInfo)removedIter.next( );
+			if(maxHeight>0)
+			{
+				cell.cell.setHeight( cell.cell.getHeight( ) + maxHeight - cell.leftHeight );
+			}
+			this.verticalAlign( cell.cell );
+			removedIter.remove( );
+		}*/
+		removeDropCells(lastDropCells);
 	}
 
 	public void updateUnresolvedCell( int groupLevel, boolean dropAll )
@@ -747,12 +856,13 @@ public class PDFTableLM extends PDFBlockStackingLM
 		{
 			CellArea cell = (CellArea) iter.next( );
 			// FIXME
-			height = Math.max( height, cell.getHeight( ) );
-			/*
-			 * if(cell.getRowSpan( )==1) { height = Math.max( height,
-			 * cell.getHeight( ) ); }
-			 */
 			int colID = cell.getColumnID( );
+			if ( currentRowContent[colID]!=null && currentRowContent[colID].rowSpan==1)
+			{
+				height = Math.max( height, cell.getHeight( ) );
+			}
+			 
+			
 			for ( int i = colID; i < cell.getColumnID( ) + cell.getColSpan( ); i++ )
 			{
 				hasCell[i] = true;
@@ -847,7 +957,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 			while ( iter.hasNext( ) )
 			{
 				CellArea cell = (CellArea) iter.next( );
-				if ( cell.getRowSpan( ) == 1 )
+				int colID = cell.getColumnID( );
+				if ( currentRowContent[colID]!=null && currentRowContent[colID].rowSpan==1)
 				{
 					cell.setHeight( height );
 					verticalAlign( cell );
