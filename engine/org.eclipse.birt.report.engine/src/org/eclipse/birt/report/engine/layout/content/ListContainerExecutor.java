@@ -76,7 +76,19 @@ public class ListContainerExecutor extends BlockStackingExecutor
 			if(currentRunIn!=null)
 			{
 				needUpdate = true;
-				return currentRunIn.getNextChild( );
+				IReportItemExecutor runInChild = currentRunIn.getNextChild( );
+				if(runInChild!=null)
+				{
+					IContent runInContent = runInChild.execute( );
+					if(runInContent!=null && 
+							(runInContent.getChildren( )==null || runInContent.getChildren( ).size( )==0))
+					{
+						execute(runInChild, runInContent);
+						runInChild.close( );
+						runInChild = new DOMReportItemExecutor(runInContent);
+					}
+				}
+				return runInChild;
 			}
 			assert(false);
 			return null;
@@ -171,5 +183,4 @@ public class ListContainerExecutor extends BlockStackingExecutor
 		
 		
 	}
-
 }

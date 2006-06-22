@@ -56,6 +56,8 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 
 	protected ContainerArea last = null;
 	
+	protected int expectedIP = 0;
+	
 	protected IReportItemExecutor unfinishedExecutor = null;
 
 	public PDFLineAreaLM( PDFLayoutEngineContext context, PDFStackingLM parent,
@@ -146,7 +148,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 				}
 			}
 		}
-		return false;
+		return childHasNext;
 	}
 
 	protected boolean handleChild( IReportItemExecutor childExecutor )
@@ -169,6 +171,10 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 				if ( !childLM.isFinished( ) )
 				{
 					addChild( childLM );
+					if(currentIP<expectedIP)
+					{
+						currentIP = expectedIP;
+					}
 				}
 			}
 			return childBreak;
@@ -361,6 +367,10 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		if ( calWidth > 0 && calWidth < getMaxAvaWidth() )
 		{
 			specWidth = calWidth;
+		}
+		if(specWidth<=avaWidth && specWidth>0)
+		{
+			expectedIP = currentIP + specWidth;
 		}
 		return specWidth>avaWidth;
 	}
