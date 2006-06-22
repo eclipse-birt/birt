@@ -38,7 +38,7 @@ import org.eclipse.birt.core.framework.Platform;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.23 $ $Date: 2006/04/25 08:18:00 $
+ * @version $Revision: 1.24 $ $Date: 2006/06/13 15:37:41 $
  */
 public class ReportRunner
 {
@@ -200,6 +200,7 @@ public class ReportRunner
 				options = new HTMLRenderOption( );
 				if ( "ReportletNoCSS".equals( htmlType ) )
 					( (HTMLRenderOption) options ).setEmbeddable( true );
+				((HTMLRenderOption)options).setHtmlPagination( true );
 			}
 			else
 			{
