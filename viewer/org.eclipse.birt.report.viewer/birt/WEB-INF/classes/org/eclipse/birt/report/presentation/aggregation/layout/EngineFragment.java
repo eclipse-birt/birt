@@ -26,6 +26,7 @@ import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.actionhandler.BirtExtractDataActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetReportletActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderImageActionHandler;
@@ -57,6 +58,7 @@ public class EngineFragment extends BirtBaseFragment
 	protected void doPreService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
+		String format = ParameterAccessor.getFormat( request );
 		if ( IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request
 				.getServletPath( ) ) )
 		{
@@ -64,8 +66,7 @@ public class EngineFragment extends BirtBaseFragment
 			response.setHeader(
 					"Content-Disposition", "inline; filename=exportdata.csv" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		else if ( ParameterAccessor.PARAM_FORMAT_PDF
-				.equalsIgnoreCase( ParameterAccessor.getFormat( request ) ) )
+		else if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 		{
 			response.setContentType( "application/pdf" ); //$NON-NLS-1$
 			String filename = "BIRTReport" + System.currentTimeMillis( ); //$NON-NLS-1$
@@ -75,7 +76,12 @@ public class EngineFragment extends BirtBaseFragment
 		}
 		else
 		{
-			response.setContentType( "text/html;charset=utf-8" ); //$NON-NLS-1$
+			String mimeType = ReportEngineService.getInstance( ).getMIMEType(
+					format );
+			if ( mimeType != null && mimeType.length( ) > 0 )
+				response.setContentType( mimeType + ";charset=utf-8"); //$NON-NLS-1$
+			else
+				response.setContentType( "text/html;charset=utf-8" ); //$NON-NLS-1$
 			response.setHeader( "cache-control", "no-cache" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}

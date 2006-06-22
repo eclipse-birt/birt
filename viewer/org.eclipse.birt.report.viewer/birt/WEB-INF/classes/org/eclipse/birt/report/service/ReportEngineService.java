@@ -1480,4 +1480,15 @@ public class ReportEngineService
 		}
 		return null;
 	}
+	
+	/**
+	 * Gets the mime-type of the given emitter format.
+	 * @param format
+	 * @return
+	 */
+	
+	public String getMIMEType(String format )
+	{
+		return engine.getMIMEType( format );
+	}
 }
