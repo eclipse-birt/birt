@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -38,6 +39,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * This class is intended to be used in the ChartBuilder UI where direct changes
@@ -54,6 +56,10 @@ public class TextEditorComposite extends Composite implements
 		FocusListener,
 		KeyListener
 {
+	
+	public static final int TYPE_NONE = 0;
+	public static final int TYPE_NUMBERIC = 1;
+	public static final int TYPE_DATETIME = 2;
 
 	private transient String sText = null;
 
@@ -71,7 +77,7 @@ public class TextEditorComposite extends Composite implements
 
 	private transient boolean bEnabled = true;
 
-	private transient boolean isNumber = false;
+	private transient int valueType = TYPE_NONE;
 
 	private transient String defaultValue = "0"; //$NON-NLS-1$
 
@@ -83,7 +89,7 @@ public class TextEditorComposite extends Composite implements
 	 */
 	public TextEditorComposite( Composite parent, int iStyle )
 	{
-		this( parent, iStyle, false );
+		this( parent, iStyle, TYPE_NONE );
 	}
 
 	/**
@@ -97,9 +103,22 @@ public class TextEditorComposite extends Composite implements
 	 */
 	public TextEditorComposite( Composite parent, int iStyle, boolean isNumber )
 	{
+		this( parent, iStyle, isNumber ? TYPE_NUMBERIC : TYPE_NONE );
+	}
+	
+	/**
+	 * 
+	 * @param parent
+	 * @param iStyle
+	 * @param valueType
+	 *            Value type for validation, valid type is {@link #TYPE_DATETIME},
+	 *            {@link #TYPE_NUMBERIC} or {@link #TYPE_NONE}
+	 */
+	public TextEditorComposite( Composite parent, int iStyle, int valueType )
+	{
 		super( parent, SWT.NONE );
 		this.iStyle = iStyle;
-		this.isNumber = isNumber;
+		this.valueType = valueType;
 		init( );
 		placeComponents( );
 		initAccessible( );
@@ -115,9 +134,13 @@ public class TextEditorComposite extends Composite implements
 	private void placeComponents( )
 	{
 		txtValue = new Text( this, iStyle );
-		if ( isNumber )
+		if ( valueType == TYPE_NUMBERIC )
 		{
 			txtValue.setToolTipText( Messages.getString( "TextEditorComposite.Tooltip.EnterDecimalOrFractionValue" ) ); //$NON-NLS-1$
+		}
+		else if ( valueType == TYPE_DATETIME )
+		{
+			txtValue.setToolTipText( "MM-dd-yyyy HH:mm:ss" ); //$NON-NLS-1$
 		}
 		txtValue.addModifyListener( this );
 		txtValue.addFocusListener( this );
@@ -168,10 +191,9 @@ public class TextEditorComposite extends Composite implements
 	}
 
 	private void fireEvent( )
-	{
-
+	{		
 		boolean isFractionConverted = false;
-		if ( this.isNumber )
+		if ( valueType == TYPE_NUMBERIC )
 		{
 			int iDelimiter = sText.indexOf( '/' );
 			if ( iDelimiter < 0 )
@@ -191,7 +213,7 @@ public class TextEditorComposite extends Composite implements
 				}
 				catch ( NumberFormatException e )
 				{
-					this.sText = defaultValue;
+					this.sText = defaultValue == null ? "" : defaultValue; //$NON-NLS-1$
 				}
 				this.txtValue.setText( sText );
 			}
@@ -206,9 +228,30 @@ public class TextEditorComposite extends Composite implements
 				}
 				catch ( ParseException e )
 				{
-					this.sText = defaultValue;
+					this.sText = defaultValue == null ? "" : defaultValue; //$NON-NLS-1$
 					this.txtValue.setText( this.sText );
 				}
+			}
+		}
+		else if ( valueType == TYPE_DATETIME )
+		{
+			SimpleDateFormat sdf = new SimpleDateFormat( "MM-dd-yyyy HH:mm:ss" ); //$NON-NLS-1$
+			try
+			{
+				sdf.parse( this.sText );
+			}
+			catch ( ParseException e )
+			{
+				if ( defaultValue == null  )
+				{
+					Date today = new Date( );
+					this.sText = sdf.format( today );
+				}
+				else
+				{
+					this.sText = defaultValue;
+				}
+				this.txtValue.setText( this.sText );
 			}
 		}
 

@@ -2369,10 +2369,8 @@ public final class AutoScale extends Methods implements Cloneable
 							ChartException.GENERATION,
 							"exception.invalid.maximum.scale.value", //$NON-NLS-1$
 							new Object[]{
-								sc.oMaximum
-										+ ax.getModelAxis( )
-												.getType( )
-												.getName( )
+									sc.oMaximum,
+									ax.getModelAxis( ).getType( ).getName( )
 							},
 							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}

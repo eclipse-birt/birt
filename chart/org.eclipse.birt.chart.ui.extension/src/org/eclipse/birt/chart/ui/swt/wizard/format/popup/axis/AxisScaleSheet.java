@@ -53,6 +53,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 			Listener,
 			SelectionListener
 {
+	private static final SimpleDateFormat _sdf = new SimpleDateFormat( "MM-dd-yyyy HH:mm:ss" ); //$NON-NLS-1$
 
 	private transient Composite cmpContent;
 
@@ -115,7 +116,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		lblMin.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Minimum" ) ); //$NON-NLS-1$
 
 		txtScaleMin = new TextEditorComposite( grpScale, SWT.BORDER
-				| SWT.SINGLE, true );
+				| SWT.SINGLE, getValueType( ) );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = 100;
@@ -130,7 +131,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		lblMax.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Maximum" ) ); //$NON-NLS-1$
 
 		txtScaleMax = new TextEditorComposite( grpScale, SWT.BORDER
-				| SWT.SINGLE, true );
+				| SWT.SINGLE, getValueType( ) );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = 100;
@@ -149,7 +150,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		lblStep.setEnabled( !bDateTimeAxisType );
 
 		txtScaleStep = new TextEditorComposite( grpScale, SWT.BORDER
-				| SWT.SINGLE, true );
+				| SWT.SINGLE, TextEditorComposite.TYPE_NUMBERIC );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = 100;
@@ -203,6 +204,19 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		// .getUnit( )
 		// .getName( ) ) );
 
+	}
+	
+	private int getValueType( )
+	{
+		if ( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL )
+		{
+			return TextEditorComposite.TYPE_NONE;
+		}
+		if ( getAxisForProcessing( ).getType( ) == AxisType.DATE_TIME_LITERAL )
+		{
+			return TextEditorComposite.TYPE_DATETIME;
+		}
+		return TextEditorComposite.TYPE_NUMBERIC;
 	}
 
 	/*
@@ -327,8 +341,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		{
 			Date dt = ( (DateTimeDataElement) de ).getValueAsCalendar( )
 					.getTime( );
-			SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
-			return sdf.format( dt );
+			return _sdf.format( dt );
 		}
 		else if ( de instanceof NumberDataElement )
 		{
@@ -339,12 +352,11 @@ public class AxisScaleSheet extends AbstractPopupSheet
 
 	private DataElement getTypedDataElement( String strDataElement )
 	{
-		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
 		NumberFormat nf = NumberFormat.getInstance( );
 		try
 		{
 			// First try Date
-			Date dateElement = sdf.parse( strDataElement );
+			Date dateElement = _sdf.parse( strDataElement );
 			Calendar cal = Calendar.getInstance( TimeZone.getDefault( ) );
 			cal.setTime( dateElement );
 			return DateTimeDataElementImpl.create( cal );
