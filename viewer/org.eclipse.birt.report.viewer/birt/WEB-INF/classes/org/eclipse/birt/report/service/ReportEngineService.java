@@ -84,6 +84,10 @@ import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
+/**
+ * Provides all the services from Engine.
+ */
+
 public class ReportEngineService
 {
 
@@ -122,6 +126,7 @@ public class ReportEngineService
 	/**
 	 * Constructor.
 	 * 
+	 * @param servletConfig 
 	 * @param config
 	 */
 	public ReportEngineService( ServletConfig servletConfig )
@@ -263,8 +268,7 @@ public class ReportEngineService
 
 	/**
 	 * Get engine instance.
-	 * 
-	 * @return
+	 * @return the single report engine service
 	 */
 	public static ReportEngineService getInstance( )
 	{
@@ -273,8 +277,9 @@ public class ReportEngineService
 
 	/**
 	 * Get engine instance.
+	 * @param servletConfig 
+	 * @throws BirtException 
 	 * 
-	 * @return engine instance
 	 */
 	public static void initEngineInstance( ServletConfig servletConfig )
 			throws BirtException
@@ -357,7 +362,8 @@ public class ReportEngineService
 	 * Open report design.
 	 * 
 	 * @param report
-	 * @return
+	 * @return the report runnable
+	 * @throws EngineException 
 	 */
 	synchronized public IReportRunnable openReportDesign( String report )
 			throws EngineException
@@ -383,7 +389,7 @@ public class ReportEngineService
 	 * createGetParameterDefinitionTask.
 	 * 
 	 * @param runnable
-	 * @return
+	 * @return the get parameter definition task
 	 */
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
 			IReportRunnable runnable )
@@ -439,7 +445,7 @@ public class ReportEngineService
 	 * 
 	 * @param imageId
 	 * @param outputStream
-	 * @throws EngineException
+	 * @throws RemoteException
 	 */
 	public void renderImage( String imageId, OutputStream outputStream )
 			throws RemoteException
@@ -468,7 +474,7 @@ public class ReportEngineService
 	 * 
 	 * @param svgFlag
 	 * @param servletPath
-	 * @return
+	 * @return HTML render context from the given arguments
 	 */
 	private HTMLRenderContext createHTMLrenderContext( boolean svgFlag,
 			String servletPath )
@@ -498,7 +504,7 @@ public class ReportEngineService
 	/**
 	 * Create PDF render context.
 	 * 
-	 * @return
+	 * @return the PDF render context
 	 */
 	private PDFRenderContext createPDFrenderContext( )
 	{
@@ -511,13 +517,17 @@ public class ReportEngineService
 
 	/**
 	 * Run and render a report,
+	 * @param request 
 	 * 
 	 * @param runnable
 	 * @param outputStream
 	 * @param format
 	 * @param locale
+	 * @param rtl 
 	 * @param parameters
+	 * @param masterPage 
 	 * @param svgFlag
+	 * @throws RemoteException 
 	 * @throws IOException
 	 */
 	public void runAndRenderReport( HttpServletRequest request,
@@ -532,12 +542,18 @@ public class ReportEngineService
 	/**
 	 * Run and render a report,
 	 * 
+	 * @param request
+	 * 
 	 * @param runnable
 	 * @param outputStream
 	 * @param locale
+	 * @param rtl
 	 * @param parameters
+	 * @param masterPage
 	 * @param svgFlag
 	 * @param activeIds
+	 * @param htmlRenderContext
+	 * @throws RemoteException
 	 * @throws IOException
 	 */
 	public void runAndRenderReport( HttpServletRequest request,
@@ -565,6 +581,8 @@ public class ReportEngineService
 		option.setOutputFormat( format );
 		option.setMasterPageContent( masterPage );
 		option.setHtmlRtLFlag( rtl );
+		option.setActionHandle( new ViewerHTMLActionHandler( locale, rtl,
+				masterPage ) );
 		// set a default title for the html page
 		option.setHtmlTitle( BirtResources
 				.getString( ResourceConstants.BIRT_VIEWER_TITLE ) );
@@ -646,6 +664,7 @@ public class ReportEngineService
 
 	/**
 	 * Run report.
+	 * @param request 
 	 * 
 	 * @param runnable
 	 * @param archive
@@ -706,10 +725,15 @@ public class ReportEngineService
 
 	/**
 	 * Render report page.
+	 * @param request 
 	 * 
 	 * @param reportDocument
 	 * @param pageNumber
+	 * @param masterPage 
 	 * @param svgFlag
+	 * @param activeIds 
+	 * @param locale 
+	 * @param rtl 
 	 * @return report page content
 	 * @throws RemoteException
 	 */
@@ -728,10 +752,14 @@ public class ReportEngineService
 	 * Render report page.
 	 * 
 	 * @param os
+	 * @param request 
 	 * @param reportDocument
 	 * @param pageNumber
+	 * @param masterPage 
 	 * @param svgFlag
-	 * @return report page content
+	 * @param activeIds 
+	 * @param locale 
+	 * @param rtl 
 	 * @throws RemoteException
 	 */
 
@@ -780,8 +808,10 @@ public class ReportEngineService
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
 		{
 			setting.setOutputFormat( IBirtConstants.PDF_RENDER_FORMAT );
-			setting.setActionHandle( new ViewerHTMLActionHandler(
-					reportDocument, pageNumber, locale, false, rtl ) );
+			setting
+					.setActionHandle( new ViewerHTMLActionHandler(
+							reportDocument, pageNumber, locale, false, rtl,
+							masterPage ) );
 		}
 		else
 		{
@@ -795,7 +825,8 @@ public class ReportEngineService
 			setting.setInstanceIDs( activeIds );
 			setting.setMasterPageContent( masterPage );
 			setting.setActionHandle( new ViewerHTMLActionHandler(
-					reportDocument, pageNumber, locale, isEmbeddable, rtl ) );
+					reportDocument, pageNumber, locale, isEmbeddable, rtl,
+					masterPage ) );
 		}
 
 		renderTask.setRenderOption( setting );
@@ -838,10 +869,15 @@ public class ReportEngineService
 	 * Render report page.
 	 * 
 	 * @param os
+	 * @param request 
 	 * @param reportDocument
+	 * @param reportletId 
+	 * @param masterPage 
 	 * @param pageNumber
 	 * @param svgFlag
-	 * @return report page content
+	 * @param activeIds 
+	 * @param locale 
+	 * @param rtl
 	 * @throws RemoteException
 	 */
 
@@ -890,7 +926,7 @@ public class ReportEngineService
 		{
 			setting.setOutputFormat( IBirtConstants.PDF_RENDER_FORMAT );
 			setting.setActionHandle( new ViewerHTMLActionHandler(
-					reportDocument, -1, locale, false, rtl ) );
+					reportDocument, -1, locale, false, rtl, masterPage ) );
 		}
 		else
 		{
@@ -903,8 +939,10 @@ public class ReportEngineService
 			setting.setHtmlRtLFlag( rtl );
 			setting.setInstanceIDs( activeIds );
 			setting.setMasterPageContent( masterPage );
-			setting.setActionHandle( new ViewerHTMLActionHandler(
-					reportDocument, -1, locale, isEmbeddable, rtl ) );
+			setting
+					.setActionHandle( new ViewerHTMLActionHandler(
+							reportDocument, -1, locale, isEmbeddable, rtl,
+							masterPage ) );
 		}
 
 		renderTask.setRenderOption( setting );
@@ -948,7 +986,7 @@ public class ReportEngineService
 	 * Get query result sets.
 	 * 
 	 * @param document
-	 * @return
+	 * @return the result sets from the document
 	 * @throws RemoteException
 	 */
 	public ResultSet[] getResultSets( IReportDocument document )
@@ -1036,6 +1074,7 @@ public class ReportEngineService
 	 * Extract data.
 	 * 
 	 * @param document
+	 * @param resultSetName 
 	 * @param id
 	 * @param columns
 	 * @param filters
@@ -1184,7 +1223,7 @@ public class ReportEngineService
 	 * double-quote characters.
 	 * 
 	 * @param value
-	 * @return
+	 * @return the cvs format string value
 	 * @throws RemoteException
 	 */
 	private String cvsConvertor( String value ) throws RemoteException
@@ -1213,7 +1252,7 @@ public class ReportEngineService
 	 * @param task
 	 * @param configVars
 	 * @param locale
-	 * @return
+	 * @return map of the request parameters
 	 */
 	public HashMap parseParameters( HttpServletRequest request,
 			IGetParameterDefinitionTask task, Map configVars, Locale locale )
@@ -1274,7 +1313,7 @@ public class ReportEngineService
 	 * 
 	 * @param task
 	 * @param parameters
-	 * @return
+	 * @return true if all the parameter values are valid, otherwise false
 	 */
 	public boolean validateParameters( IGetParameterDefinitionTask task,
 			Map parameters )
@@ -1351,8 +1390,6 @@ public class ReportEngineService
 
 	/**
 	 * @param maxRows
-	 * 
-	 * @return void
 	 */
 	public void setMaxRows( int maxRows )
 	{
@@ -1375,7 +1412,7 @@ public class ReportEngineService
 	 * @param bindingName
 	 * @param elementHandle
 	 * @param requestInfo
-	 * @return
+	 * @return list of available column value
 	 * @throws BirtException
 	 */
 
@@ -1416,7 +1453,7 @@ public class ReportEngineService
 	 * 
 	 * @param bindingName
 	 * @param elementHandle
-	 * @return
+	 * @return list of the avaliable column value
 	 * @throws BirtException
 	 */
 
@@ -1480,14 +1517,15 @@ public class ReportEngineService
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Gets the mime-type of the given emitter format.
+	 * 
 	 * @param format
-	 * @return
+	 * @return mime-type of the extended emitter format
 	 */
-	
-	public String getMIMEType(String format )
+
+	public String getMIMEType( String format )
 	{
 		return engine.getMIMEType( format );
 	}

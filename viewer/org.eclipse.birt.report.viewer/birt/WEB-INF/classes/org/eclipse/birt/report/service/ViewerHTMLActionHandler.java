@@ -18,10 +18,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -68,6 +70,12 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	protected boolean isRtl = false;
 
 	/**
+	 * if wanna use the master page, then set it to true.
+	 */
+
+	protected boolean isMasterPageContent = true;
+
+	/**
 	 * Constructor.
 	 */
 	public ViewerHTMLActionHandler( )
@@ -75,21 +83,43 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	}
 
 	/**
-	 * Constructor.
+	 * Constructor. This is for bookmark handler.
 	 * 
 	 * @param document
 	 * @param page
 	 * @param locale
+	 * @param isEmbeddable
+	 * @param isRtl
+	 * @param isMasterPageContent
 	 */
 
 	public ViewerHTMLActionHandler( IReportDocument document, long page,
-			Locale locale, boolean isEmbeddable, boolean isRtl )
+			Locale locale, boolean isEmbeddable, boolean isRtl,
+			boolean isMasterPageContent )
 	{
 		this.document = document;
 		this.page = page;
 		this.locale = locale;
 		this.isEmbeddable = isEmbeddable;
 		this.isRtl = isRtl;
+		this.isMasterPageContent = isMasterPageContent;
+	}
+
+	/**
+	 * Constructor. This is for drill-through handler.
+	 * 
+	 * @param locale
+	 * @param isEmbeddable
+	 * @param isRtl
+	 * @param isMasterPageContent
+	 */
+
+	public ViewerHTMLActionHandler( Locale locale, boolean isRtl,
+			boolean isMasterPageContent )
+	{
+		this.locale = locale;
+		this.isRtl = isRtl;
+		this.isMasterPageContent = isMasterPageContent;
 	}
 
 	/**
@@ -186,6 +216,12 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 					ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
 		}
 
+		// add isMasterPageContent
+
+		link.append( ParameterAccessor.getQueryParameterString(
+				ParameterAccessor.PARAM_MASTERPAGE, String
+						.valueOf( this.isMasterPageContent ) ) );
+
 		if ( realBookmark )
 		{
 			link.append( "#" ); //$NON-NLS-1$
@@ -212,10 +248,20 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	protected String buildDrillAction( IAction action, Object context )
 	{
 		String baseURL = null;
-		if ( context != null && context instanceof HTMLRenderContext )
+		if ( context != null )
 		{
-			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
+			if ( context instanceof HTMLRenderContext )
+			{
+				baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
+			}
+			if ( context instanceof PDFRenderContext )
+			{
+				baseURL = ( (PDFRenderContext) context ).getBaseURL( );
+			}
 		}
+
+		if ( baseURL == null )
+			baseURL = IBirtConstants.VIEWER_RUN;
 
 		StringBuffer link = new StringBuffer( );
 		String reportName = action.getReportName( );
@@ -298,34 +344,48 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 							ParameterAccessor.PARAM_OVERWRITE, String
 									.valueOf( true ) ) );
 
-			// The search rules are not supported yet.
-			if ( !ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format )
-					&& action.getBookmark( ) != null )
+			if ( locale != null )
+			{
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_LOCALE, locale.toString( ) ) );
+			}
+			if ( isRtl )
+			{
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
+			}
+			
+			// add isMasterPageContent
+
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_MASTERPAGE, String
+							.valueOf( this.isMasterPageContent ) ) );
+
+
+			// add bookmark
+			if ( action.getBookmark( ) != null )
 			{
 
 				try
 				{
-					link.append( ParameterAccessor.getQueryParameterString(
-							ParameterAccessor.PARAM_BOOKMARK, URLEncoder
-									.encode( action.getBookmark( ),
-											ParameterAccessor.UTF_8_ENCODE ) ) );
+					// In RUN mode, don't support bookmark as parameter
+					if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_RUN ) > 0 )
+					{
+						link.append( "#" ); //$NON-NLS-1$
+					}
+					else
+					{
+						link.append( "&__bookmark=" ); //$NON-NLS-1$
+					}
+
+					link.append( URLEncoder.encode( action.getBookmark( ),
+							ParameterAccessor.UTF_8_ENCODE ) );
 				}
 				catch ( UnsupportedEncodingException e )
 				{
 					// Does nothing
 				}
 			}
-		}
-
-		if ( locale != null )
-		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_LOCALE, locale.toString( ) ) );
-		}
-		if ( isRtl )
-		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
 		}
 
 		return link.toString( );

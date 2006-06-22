@@ -221,7 +221,7 @@ public class BirtViewerReportService implements IViewerReportService
 		Boolean isMasterPageContent = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		boolean isMasterPage = isMasterPageContent == null
-				? false
+				? true
 				: isMasterPageContent.booleanValue( );
 		Boolean svgFlag = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_SVG_FLAG );
