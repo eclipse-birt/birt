@@ -122,7 +122,7 @@ public abstract class AbstractGetPageActionHandler
 
 		__pageNumber = getPageNumber( context.getRequest( ), operation
 				.getOprand( ), __docName );
-		
+
 		// No valid page number check bookmark from soap message.
 		if ( !isValidPageNumber( context.getRequest( ), __pageNumber, __docName ) )
 		{
@@ -149,29 +149,11 @@ public abstract class AbstractGetPageActionHandler
 											new String[]{__bookmark} ) );
 					throw fault;
 				}
-				__useBookmark = true;
+		
 			}
+			__useBookmark= true;
 
 		}
-
-		// if ( !isValidPageNumber( context.getRequest( ), __pageNumber,
-		// __docName ) )
-		// {
-		// options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		// __pageNumber = getReportService( ).getPageNumberByBookmark(
-		// __docName, __bookmark, options );
-		//
-		// if ( !isValidPageNumber( context.getRequest( ), __pageNumber,
-		// __docName ) )
-		// {
-		// AxisFault fault = new AxisFault( );
-		// fault.setFaultReason( BirtResources.getFormattedString(
-		// ResourceConstants.ACTION_EXCEPTION_INVALID_BOOKMARK,
-		// new String[]{__bookmark} ) );
-		// throw fault;
-		// }
-		// __useBookmark = true;
-		// }
 
 		// Verify the page number again.
 		if ( !isValidPageNumber( context.getRequest( ), __pageNumber, __docName ) )
@@ -209,9 +191,12 @@ public abstract class AbstractGetPageActionHandler
 	{
 		// Update instruction for document part.
 		UpdateContent content = new UpdateContent( );
-		content.setContent( __page.toString( ) );
+//		String temp = __page.toString( ) ;
+//		temp= temp.replaceAll( "AUTOGENBOOKMARK_1", "bookmark" );
+		content.setContent( __page.toString( )  );
 		content.setTarget( "Document" ); //$NON-NLS-1$
 		content.setInitializationId( parseReportId( __activeIds ) );
+	
 		if ( __useBookmark )
 		{
 			content.setBookmark( __bookmark );
