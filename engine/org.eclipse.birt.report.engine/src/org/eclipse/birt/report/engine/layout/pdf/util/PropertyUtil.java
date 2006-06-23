@@ -79,6 +79,11 @@ public class PropertyUtil
     {
     	try
     	{
+    		if( lineHeight.equalsIgnoreCase( "normal" ))
+    		{
+    			//BUG 147861: we return *0* as the default value of the *lineLight*
+    			return 0;
+    		}
     		return Integer.parseInt(lineHeight);
     	}
     	catch(NumberFormatException ex)
