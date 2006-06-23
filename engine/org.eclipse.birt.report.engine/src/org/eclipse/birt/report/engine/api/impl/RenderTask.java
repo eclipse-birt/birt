@@ -150,9 +150,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 		
 		//the output will be paginate.
-		if (!bodyOnly)
+		if ( !bodyOnly )
 		{
-			emitter = new HTMLTableLayoutEmitter(emitter);
+			emitter = new HTMLTableLayoutEmitter( emitter, true );
 		}
 		
 		return emitter;

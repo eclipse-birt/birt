@@ -19,11 +19,17 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.executor.buffermgr.Cell;
 import org.eclipse.birt.report.engine.executor.buffermgr.Row;
 import org.eclipse.birt.report.engine.executor.buffermgr.TableContentLayout;
+import org.eclipse.birt.report.engine.internal.content.wrap.CellContentWrapper;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 
 public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 {
+
+	/**
+	 * If the nested table need to be layouted.
+	 */
+	private boolean needNestedLayout;
 
 	/**
 	 * the current table layout
@@ -38,13 +44,21 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	/**
 	 * emitter used to
 	 */
-	private BufferedReportEmitter cellEmitter;
+	private IContentEmitter cellEmitter;
 
 	private Stack groupStack = new Stack( );
 
 	public HTMLTableLayoutEmitter( IContentEmitter emitter )
 	{
 		this.emitter = emitter;
+		this.needNestedLayout = false;
+	}
+
+	public HTMLTableLayoutEmitter( IContentEmitter emitter,
+			boolean needNestedLayout )
+	{
+		this.emitter = emitter;
+		this.needNestedLayout = needNestedLayout;
 	}
 
 	public void end( IReportContent report )
@@ -208,7 +222,15 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
-			cellEmitter = new BufferedReportEmitter( emitter );
+			BufferedReportEmitter buffer = new BufferedReportEmitter( emitter );
+			if ( needNestedLayout )
+			{
+				cellEmitter = new HTMLTableLayoutEmitter( buffer, true );
+			}
+			else
+			{
+				cellEmitter = buffer;
+			}
 			int colId = cell.getColumn( );
 			int colSpan = cell.getColSpan( );
 			int rowSpan = cell.getRowSpan( );
@@ -225,7 +247,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 				}
 			}
 			layout.createCell( colId, rowSpan, colSpan, new CellContent( cell,
-					cellEmitter ) );
+					buffer ) );
 		}
 	}
 
@@ -309,24 +331,18 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 				if ( cell.getStatus( ) == Cell.CELL_USED )
 				{
 					CellContent content = (CellContent) cell.getContent( );
-					int oColumn = content.cell.getColumn( );
-					int oRowSpan = content.cell.getRowSpan( );
-					int oColSpan = content.cell.getColSpan( );
-					content.cell.setColumn( cell.getColId( ) );
-					content.cell.setRowSpan( cell.getRowSpan( ) );
-					content.cell.setColSpan( cell.getColSpan( ) );
+					CellContentWrapper tempCell = new CellContentWrapper(
+							content.cell ); 
+					tempCell.setColumn( cell.getColId( ) );
+					tempCell.setRowSpan( cell.getRowSpan( ) );
+					tempCell.setColSpan( cell.getColSpan( ) );
 
-					emitter.startCell( content.cell );
+					emitter.startCell( tempCell );
 					if ( content.buffer != null )
 					{
 						content.buffer.flush( );
-						// content.buffer.clear( );
 					}
-					emitter.endCell( content.cell );
-					content.cell.setColumn( oColumn );
-					content.cell.setRowSpan( oRowSpan );
-					content.cell.setColSpan( oColSpan );
-
+					emitter.endCell( tempCell );
 				}
 				if ( cell.getStatus( ) == Cell.CELL_EMPTY )
 				{
