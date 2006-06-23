@@ -8,7 +8,7 @@
 	border-style: outset;
 	border-width: 1px;
 	border-color: #CCCCCC;
-	background-color: #dbe4ee;
+	background-color: #808080;
 }
 
 /* Title bar background area */
@@ -92,7 +92,7 @@
 {
 	margin-left: 10px;
 	margin-right: 10px;
-	margin-top: 4px;
+	padding-top: 4px;
 }
 
 /* Border style of content area for individual dialog content */

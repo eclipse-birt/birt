@@ -51,40 +51,42 @@
 		</div>
 	</div>
 	<!-- overflow is set as workaround for Mozilla bug https://bugzilla.mozilla.org/show_bug.cgi?id=167801 -->		
-	<div  class="dialogBackground dBackground" style="overflow: auto;"> 
-		<div class="dialogContentContainers" id="<%= fragment.getClientId( ) %>dialogContentContainer">
-			<%
-				if ( fragment != null )
-				{
-					fragment.callBack( request, response );
-				}
-			%>
-		</div>
-		<div class="dialogBtnBarContainer">
-			<div>
-				<div class="dBtnBarDividerTop">
-				</div>
-				<div class="dBtnBarDividerBottom">
-				</div>
+	<div  class="dialogBackground" style="overflow: auto;"> 
+		<div class="dBackground">
+			<div class="dialogContentContainers" id="<%= fragment.getClientId( ) %>dialogContentContainer">
+				<%
+					if ( fragment != null )
+					{
+						fragment.callBack( request, response );
+					}
+				%>
 			</div>
-			<div class="dialogBtnBar">
-				<div id="<%= fragment.getClientId( ) %>dialogCustomButtonContainer" class="dialogBtnBarButtonContainer">
-					<div id="<%= fragment.getClientId( ) %>okButton">
-						<div id="<%= fragment.getClientId( ) %>okButtonLeft" class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
-						<div id="<%= fragment.getClientId( ) %>okButtonRight" class="dialogBtnBarButtonRightBackgroundEnabled"></div>
-						<input type="button" value='<%= BirtResources.getString( "birt.viewer.dialog.ok" ) %>' 
-							title='<%= BirtResources.getString( "birt.viewer.dialog.ok" ) %>'  
-							class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
+			<div class="dialogBtnBarContainer">
+				<div>
+					<div class="dBtnBarDividerTop">
 					</div>
-					<div class="dialogBtnBarDivider"></div>
-					<div id="<%= fragment.getClientId( ) %>cancelButton">
-						<div class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
-						<div class="dialogBtnBarButtonRightBackgroundEnabled"></div>
-						<input type="button" value='<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>' 
-							title='<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>'  
-							class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
-					</div> 
-				</div>							
+					<div class="dBtnBarDividerBottom">
+					</div>
+				</div>
+				<div class="dialogBtnBar">
+					<div id="<%= fragment.getClientId( ) %>dialogCustomButtonContainer" class="dialogBtnBarButtonContainer">
+						<div id="<%= fragment.getClientId( ) %>okButton">
+							<div id="<%= fragment.getClientId( ) %>okButtonLeft" class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
+							<div id="<%= fragment.getClientId( ) %>okButtonRight" class="dialogBtnBarButtonRightBackgroundEnabled"></div>
+							<input type="button" value='<%= BirtResources.getString( "birt.viewer.dialog.ok" ) %>' 
+								title='<%= BirtResources.getString( "birt.viewer.dialog.ok" ) %>'  
+								class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
+						</div>
+						<div class="dialogBtnBarDivider"></div>
+						<div id="<%= fragment.getClientId( ) %>cancelButton">
+							<div class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
+							<div class="dialogBtnBarButtonRightBackgroundEnabled"></div>
+							<input type="button" value='<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>' 
+								title='<%= BirtResources.getString( "birt.viewer.dialog.cancel" )%>'  
+								class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
+						</div> 
+					</div>							
+				</div>
 			</div>
 		</div>
 	</div>
