@@ -225,12 +225,26 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		if ( groupDesign != null )
 		{
 			String pageBreakAfter = groupDesign.getPageBreakAfter( );
-			int groupLevel = groupDesign.getGroupLevel( );
 			if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS
 					.equals( pageBreakAfter ) )
 			{
 				needPageBreak = true;
 			}
+			if ( needPageBreak )
+			{
+				content.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+						IStyle.ALWAYS_VALUE );
+			}
+		}
+	}
+	
+	protected void handlePageBreakAfterExclusingLast()
+	{
+		GroupDesign groupDesign = (GroupDesign) design;
+		if ( groupDesign != null )
+		{
+			String pageBreakAfter = groupDesign.getPageBreakAfter( );
+			int groupLevel = groupDesign.getGroupLevel( );
 			if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST
 					.equals( pageBreakAfter ) )
 			{
@@ -239,12 +253,6 @@ abstract public class GroupExecutor extends ReportItemExecutor
 				{
 					setPageBreakBeforeForNextGroup( );
 				}
-			}
-			
-			if ( needPageBreak )
-			{
-				content.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
-						IStyle.ALWAYS_VALUE );
 			}
 		}
 	}
