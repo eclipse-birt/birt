@@ -45,6 +45,12 @@ Describes one column within a table or grid.</div>
 <dd>The number of adjacent columns described by this element.</dd>
 <dt><a href="#Property-style">style</a></dt>
 <dd>Name of the style applied to this column.</dd>
+<dt><a href="#Property-suppressDuplicates">suppressDuplicates</a></dt>
+<dd></dd>
+<dt><a href="#Property-viewAction">viewAction</a></dt>
+<dd></dd>
+<dt><a href="#Property-visibility">visibility</a></dt>
+<dd></dd>
 <dt><a href="#Property-width">width</a></dt>
 <dd>The width of the column.</dd>
 </dl>
@@ -83,9 +89,6 @@ Describes one column within a table or grid.</div>
 <a href="Style.html#Property-paddingLeft">paddingLeft</a>, 
 <a href="Style.html#Property-paddingRight">paddingRight</a>, 
 <a href="Style.html#Property-paddingTop">paddingTop</a>, 
-<a href="Style.html#Property-pageBreakAfter">pageBreakAfter</a>, 
-<a href="Style.html#Property-pageBreakBefore">pageBreakBefore</a>, 
-<a href="Style.html#Property-pageBreakInside">pageBreakInside</a>, 
 <a href="Style.html#Property-showIfBlank">showIfBlank</a>, 
 <a href="Style.html#Property-stringFormat">stringFormat</a>, 
 <a href="Style.html#Property-textAlign">textAlign</a>, 
@@ -202,6 +205,119 @@ or a shared style.</p></p></div>
 
 <div class="section-text">
 <p>Style element in the <i>ROM Styles Specification</i>.</p></div>
+
+<hr>
+<h2><a name="Property-suppressDuplicates">suppressDuplicates Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Suppress duplicates</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>false</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-viewAction">viewAction Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (viewAction)</td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>View action</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>NoChange</td></tr>
+<tr><td>Inherited:</td>
+<td>No</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>NoChange</td>
+<td>No Change</td>
+<td>NoChange</td>
+<td></td></tr>
+<tr><td>Changed</td>
+<td>Changed</td>
+<td>Changed</td>
+<td></td></tr>
+<tr><td>Added</td>
+<td>Added</td>
+<td>Added</td>
+<td></td></tr>
+<tr><td>Deleted</td>
+<td>Deleted</td>
+<td>Deleted</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-visibility">visibility Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/HideRule.html">HideRule</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Visibility</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-width">width Property</a></h2>

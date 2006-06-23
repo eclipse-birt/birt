@@ -168,7 +168,8 @@ Describes a Style element.</div>
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
-<a href="DesignElement.html#Property-userProperties">userProperties</a>
+<a href="DesignElement.html#Property-userProperties">userProperties</a>, 
+<a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
 <h3>Description</h3>
 
@@ -647,7 +648,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>None</td>
+<td>No line style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -874,7 +875,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>None</td>
+<td>No line style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -1101,7 +1102,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>None</td>
+<td>No line style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -1328,7 +1329,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>None</td>
+<td>No line style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -1623,7 +1624,7 @@ Describes a Style element.</div>
 <td>inline</td>
 <td></td></tr>
 <tr><td>none</td>
-<td>None</td>
+<td>No display</td>
 <td>none</td>
 <td></td></tr>
 </tbody></table><br>
@@ -1961,7 +1962,7 @@ Describes a Style element.</div>
 <tr><td>Default Value:</td>
 <td>None</td></tr>
 <tr><td>Inherited:</td>
-<td>Yes</td></tr>
+<td>No</td></tr>
 <tr><td>Runtime Settable:</td>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
@@ -2529,7 +2530,7 @@ Describes a Style element.</div>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#choice">choice</a> (pageBreak)</td></tr>
+<td><a href="../types.html#choice">choice</a> (pageBreakAfter)</td></tr>
 <tr><td>Since:</td>
 <td>1.0</td></tr>
 <tr><td>Required:</td>
@@ -2568,17 +2569,9 @@ Describes a Style element.</div>
 <td>Avoid</td>
 <td>avoid</td>
 <td></td></tr>
-<tr><td>left</td>
-<td>Left</td>
-<td>left</td>
-<td></td></tr>
-<tr><td>right</td>
-<td>Right</td>
-<td>right</td>
-<td></td></tr>
-<tr><td>inherit</td>
-<td>Inherit</td>
-<td>inherit</td>
+<tr><td>always-excluding-last</td>
+<td>Always Excluding Last</td>
+<td>always-excluding-last</td>
 <td></td></tr>
 </tbody></table><br>
 
@@ -2590,7 +2583,7 @@ Describes a Style element.</div>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#choice">choice</a> (pageBreak)</td></tr>
+<td><a href="../types.html#choice">choice</a> (pageBreakBefore)</td></tr>
 <tr><td>Since:</td>
 <td>1.0</td></tr>
 <tr><td>Required:</td>
@@ -2629,17 +2622,9 @@ Describes a Style element.</div>
 <td>Avoid</td>
 <td>avoid</td>
 <td></td></tr>
-<tr><td>left</td>
-<td>Left</td>
-<td>left</td>
-<td></td></tr>
-<tr><td>right</td>
-<td>Right</td>
-<td>right</td>
-<td></td></tr>
-<tr><td>inherit</td>
-<td>Inherit</td>
-<td>inherit</td>
+<tr><td>always-excluding-first</td>
+<td>Always Excluding First</td>
+<td>always-excluding-first</td>
 <td></td></tr>
 </tbody></table><br>
 
@@ -2685,10 +2670,6 @@ Describes a Style element.</div>
 <tr><td>auto</td>
 <td>Auto</td>
 <td>auto</td>
-<td></td></tr>
-<tr><td>inherit</td>
-<td>Inherit</td>
-<td>inherit</td>
 <td></td></tr>
 </tbody></table><br>
 
@@ -2855,7 +2836,7 @@ Describes a Style element.</div>
 <tr><td>Default Value:</td>
 <td>none</td></tr>
 <tr><td>Inherited:</td>
-<td>No</td></tr>
+<td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
@@ -2871,7 +2852,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>None</td>
+<td>No line through text</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>line-through</td>
@@ -2900,7 +2881,7 @@ Describes a Style element.</div>
 <tr><td>Default Value:</td>
 <td>none</td></tr>
 <tr><td>Inherited:</td>
-<td>No</td></tr>
+<td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
@@ -2916,7 +2897,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>None</td>
+<td>No line over text</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>overline</td>
@@ -2973,7 +2954,7 @@ Describes a Style element.</div>
 <td>lowercase</td>
 <td></td></tr>
 <tr><td>none</td>
-<td>None</td>
+<td>No transformation</td>
 <td>none</td>
 <td></td></tr>
 </tbody></table><br>
@@ -2998,7 +2979,7 @@ Describes a Style element.</div>
 <tr><td>Default Value:</td>
 <td>none</td></tr>
 <tr><td>Inherited:</td>
-<td>No</td></tr>
+<td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
@@ -3014,7 +2995,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>None</td>
+<td>No underline</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>underline</td>
@@ -3058,25 +3039,9 @@ Describes a Style element.</div>
 <thead><tr><td>Name</td><td>Display Name</td>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
-<tr><td>baseline</td>
-<td>Baseline</td>
-<td>baseline</td>
-<td></td></tr>
-<tr><td>sub</td>
-<td>Subscript</td>
-<td>sub</td>
-<td></td></tr>
-<tr><td>super</td>
-<td>Superscript</td>
-<td>super</td>
-<td></td></tr>
 <tr><td>top</td>
 <td>Top</td>
 <td>top</td>
-<td></td></tr>
-<tr><td>text-top</td>
-<td>Text Top</td>
-<td>text-top</td>
 <td></td></tr>
 <tr><td>middle</td>
 <td>Middle</td>
@@ -3085,10 +3050,6 @@ Describes a Style element.</div>
 <tr><td>bottom</td>
 <td>Bottom</td>
 <td>bottom</td>
-<td></td></tr>
-<tr><td>text-bottom</td>
-<td>Text Bottom</td>
-<td>text-bottom</td>
 <td></td></tr>
 </tbody></table><br>
 

@@ -40,9 +40,7 @@ The report design element represents report as a whole.</div>
 
 <dl class="section-text">
 <dt><a href="#Property-cheatSheet">cheatSheet</a></dt>
-<dd></dd>
-<dt><a href="#Property-dataSourceBindings">dataSourceBindings</a></dt>
-<dd>List of bindings defined for report data sources.</dd>
+<dd>A string containing the file name of the cheat sheet.</dd>
 <dt><a href="#Property-displayName">displayName</a></dt>
 <dd>Display name of the report design</dd>
 <dt><a href="#Property-displayNameID">displayNameID</a></dt>
@@ -67,7 +65,8 @@ The report design element represents report as a whole.</div>
 <dt><a href="#Method-beforeRender">beforeRender</a></dt>
 <dd>Called before starting a presentation time action.</dd>
 <dt><a href="#Method-initialize">initialize</a></dt>
-<dd>Called when the report starts executing in the BIRT Report Engine.</dd>
+<dd>Called when the report starts executing in either the 
+Factory or Presentation engine.</dd>
 </dl>
 
 <h3>Slot Summary</h3>
@@ -143,7 +142,7 @@ cannot extend another design.</p>
 
 <h2><a name="Property-cheatSheet">cheatSheet Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">A string containing the file name of the cheat sheet.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -169,40 +168,10 @@ cannot extend another design.</p>
 <td>Top</td></tr>
 </table>
 
-
-<hr>
-<h2><a name="Property-dataSourceBindings">dataSourceBindings Property</a></h2>
-
-<p class="section-text">List of bindings defined for report data sources.</p>
-<h3>Details</h3>
-
-<table class="detail-table">
-<tr><td>Type:</td>
-<td>List of <a href="../structs/DataSourceParamBinding.html">DataSourceParamBinding</a> Structures</td></tr>
-<tr><td>Since:</td>
-<td>2.0</td></tr>
-<tr><td>Required:</td>
-<td>No</td></tr>
-<tr><td>Display Name:</td>
-<td>Data Source bindings</td></tr>
-<tr><td>JavaScript Type:</td>
-<td></td></tr>
-<tr><td>Default Value:</td>
-<td>None</td></tr>
-<tr><td>Inherited:</td>
-<td>Yes</td></tr>
-<tr><td>Runtime Settable:</td>
-<td>No</td></tr>
-<tr><td>Property Sheet Visibility:</td>
-<td>Hidden</td></tr>
-<tr><td>Property Sheet Group:</td>
-<td>Top</td></tr>
-</table>
-
 <h3>Description</h3>
 
 <div class="section-text">
-<p>Defines all the bindings from data sources to a BIRT expression.</p></div>
+<p>A string containing the file name of the cheat sheet used with this design.</p></div>
 
 <hr>
 <h2><a name="Property-displayName">displayName Property</a></h2>
@@ -542,7 +511,8 @@ initialize</code> method will be called only when the report is first loaded.</p
 <hr>
 <h2><a name="Method-initialize">initialize Method</a></h2>
 
-<p class="section-text">Called when the report starts executing in the BIRT Report Engine.</p>
+<p class="section-text">Called when the report starts executing in either the 
+Factory or Presentation engine.</p>
 <h3>Synopsis
 </h3>
 
@@ -564,7 +534,44 @@ initialize</code> method will be called only when the report is first loaded.</p
 <h3>Description</h3>
 
 <div class="section-text">
-<p>BIRT calls this method before calling any other method in the design. </p></div>
+<p>BIRT calls this method before calling any other method in 
+the design. </p>
+
+<p>BIRT calls this method at the start of the Factory and 
+Presentation engines, just after loading the imports, before opening the report 
+document. Implement this method to define global functions, objects, Java 
+imports and other resources used throughout the report.</p>
+
+<p>Libraries can also contain an init script and imports. 
+BIRT executes these scripts in the following order:</p>
+
+<ul>
+<li>For each library, in the order that the library is included:</li>
+
+<ul>
+<li>Locate, read and execute the imported scripts in the order they appear in 
+the Code Modules element.</li>
+<li>Execute the <code>initialize</code> script.</li>
+</ul>
+
+<li>For the report design itself.</li>
+
+<ul>
+<li>Locate, read and execute the imported scripts in the order they appear in 
+the Code Modules element.</li>
+<li>Execute the init script.</li>
+</ul>
+</ul>
+
+<p>In general, the <code>initialize</code> 
+method of a report design or library can reference resources defined in the
+<code>initialize</code> script of any included libraries, but 
+not visa-versa. This is the generally accepted meaning of an include.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p>Report Design <code>beforeFactory</code> method</p>
+<p>Report Design <code>beforeRender</code> method</p></div>
 <h1>Slot Detail</h1>
 
 <h2><a name="Slot-styles">styles Slot</a></h2>
@@ -685,7 +692,7 @@ this slot is unimportant.</p></div>
 <tr><td>XML Element:</td>
 <td><code>page-setup</code></td></tr>
 <tr><td>Contents:</td>
-<td><a href="MasterPage.html">MasterPage</a></td></tr>
+<td>List of <a href="GraphicMasterPage.html">GraphicMasterPage</a>, <a href="SimpleMasterPage.html">SimpleMasterPage</a></td></tr>
 </table>
 
 <h3>Description</h3>

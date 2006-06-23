@@ -36,6 +36,10 @@ Used when the hyperlink is used to run a report.</dd>
 <dd>An optional set of search criteria for the target report for a drill-though link.</dd>
 <dt><a href="#Property-targetBookmark">targetBookmark</a></dt>
 <dd>Target bookmark defined within this same report, or another report for a drill-though link.</dd>
+<dt><a href="#Property-targetBookmarkType">targetBookmarkType</a></dt>
+<dd></dd>
+<dt><a href="#Property-targetFileType">targetFileType</a></dt>
+<dd></dd>
 <dt><a href="#Property-targetWindow">targetWindow</a></dt>
 <dd>The name of the target browser window for the link.</dd>
 <dt><a href="#Property-uri">uri</a></dt>
@@ -213,7 +217,7 @@ target bookmark.</p>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>None</td>
+<td>No action link type</td>
 <td>none</td>
 <td>No link is defined.</td></tr>
 <tr><td>hyperlink</td>
@@ -399,6 +403,84 @@ report.</p></div>
 
 <div class="section-text">
 <p>Report Item <code>bookmark</code> Property</p></div>
+
+<hr>
+<h2><a name="Property-targetBookmarkType">targetBookmarkType Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (actionBookmarkType)</td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Target Bookmark Type</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>bookmark</td>
+<td>Bookmark</td>
+<td>bookmark</td>
+<td></td></tr>
+<tr><td>toc</td>
+<td>Table of Content</td>
+<td>toc</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-targetFileType">targetFileType Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (actionTargetFileType)</td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Target File Type</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>report-design</td>
+<td>Report Design</td>
+<td>report-design</td>
+<td></td></tr>
+<tr><td>report-document</td>
+<td>Report Document</td>
+<td>report-document</td>
+<td></td></tr>
+</tbody></table><br>
 
 <hr>
 <h2><a name="Property-targetWindow">targetWindow Property</a></h2>

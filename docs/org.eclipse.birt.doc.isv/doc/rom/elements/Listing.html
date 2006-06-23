@@ -44,8 +44,8 @@ to lists and tables.</div>
 <dl class="section-text">
 <dt><a href="#Property-filter">filter</a></dt>
 <dd>Filter criteria to apply to each row in the List.</dd>
-<dt><a href="#Property-pageBreakInterval">pageBreakInterval</a></dt>
-<dd>Break the list into a new page on a numeric interval.</dd>
+<dt><a href="#Property-repeatHeader">repeatHeader</a></dt>
+<dd>Whether to repeat the headings at the top of each page.</dd>
 <dt><a href="#Property-sort">sort</a></dt>
 <dd>The sort order for detail rows in the List.</dd>
 </dl>
@@ -54,6 +54,7 @@ to lists and tables.</div>
 
 <p class="section-text">
 <a href="ReportItem.html#Property-bookmark">bookmark</a>, 
+<a href="ReportItem.html#Property-boundDataColumns">boundDataColumns</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
 <a href="ReportItem.html#Property-dataSet">dataSet</a>, 
@@ -69,6 +70,7 @@ to lists and tables.</div>
 <a href="ReportItem.html#Property-style">style</a>, 
 <a href="ReportItem.html#Property-toc">toc</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
+<a href="ReportElement.html#Property-viewAction">viewAction</a>, 
 <a href="ReportItem.html#Property-visibility">visibility</a>, 
 <a href="ReportItem.html#Property-width">width</a>, 
 <a href="ReportItem.html#Property-x">x</a>, 
@@ -127,24 +129,24 @@ the database to do the filtering, put the filter criteria in the WHERE clause of
 your query.</p></div>
 
 <hr>
-<h2><a name="Property-pageBreakInterval">pageBreakInterval Property</a></h2>
+<h2><a name="Property-repeatHeader">repeatHeader Property</a></h2>
 
-<p class="section-text">Break the list into a new page on a numeric interval.</p>
+<p class="section-text">Whether to repeat the headings at the top of each page.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#string">string</a></td></tr>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
 <tr><td>Since:</td>
-<td>2.0</td></tr>
+<td>2.1</td></tr>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Page break interval</td></tr>
+<td>Repeat header</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
-<td>0</td></tr>
+<td>true</td></tr>
 <tr><td>Inherited:</td>
 <td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
@@ -158,7 +160,13 @@ your query.</p></div>
 <h3>Description</h3>
 
 <div class="section-text">
-<p>Break the list into a new page on a numeric interval.</p></div>
+<p>This property specifies whether to repeat the headings at 
+the top of each page. If true (the default), the headings repeat. If false, the 
+header appears only on the first page.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>header</code> slot</p></div>
 
 <hr>
 <h2><a name="Property-sort">sort Property</a></h2>

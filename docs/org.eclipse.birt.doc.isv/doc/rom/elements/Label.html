@@ -60,6 +60,8 @@ externalized.</dd>
 <dl class="section-text">
 <dt><a href="#Method-onCreate">onCreate</a></dt>
 <dd>Script executed when the element is created in the Factory.</dd>
+<dt><a href="#Method-onPageBreak">onPageBreak</a></dt>
+<dd></dd>
 <dt><a href="#Method-onPrepare">onPrepare</a></dt>
 <dd>It is for a script startup phase. No data binding yet. The design of an element can be changed here.</dd>
 <dt><a href="#Method-onRender">onRender</a></dt>
@@ -70,6 +72,7 @@ externalized.</dd>
 
 <p class="section-text">
 <a href="ReportItem.html#Property-bookmark">bookmark</a>, 
+<a href="ReportItem.html#Property-boundDataColumns">boundDataColumns</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
 <a href="ReportItem.html#Property-dataSet">dataSet</a>, 
@@ -85,6 +88,7 @@ externalized.</dd>
 <a href="ReportItem.html#Property-style">style</a>, 
 <a href="ReportItem.html#Property-toc">toc</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
+<a href="ReportElement.html#Property-viewAction">viewAction</a>, 
 <a href="ReportItem.html#Property-visibility">visibility</a>, 
 <a href="ReportItem.html#Property-width">width</a>, 
 <a href="ReportItem.html#Property-x">x</a>, 
@@ -119,6 +123,7 @@ externalized.</dd>
 <a href="Style.html#Property-fontStyle">fontStyle</a>, 
 <a href="Style.html#Property-fontVariant">fontVariant</a>, 
 <a href="Style.html#Property-fontWeight">fontWeight</a>, 
+<a href="Style.html#Property-highlightRules">highlightRules</a>, 
 <a href="Style.html#Property-letterSpacing">letterSpacing</a>, 
 <a href="Style.html#Property-lineHeight">lineHeight</a>, 
 <a href="Style.html#Property-marginBottom">marginBottom</a>, 
@@ -373,6 +378,29 @@ externalized. The text cannot contain internal formatting.</p></div>
 <p>Executed when the element is created in the Factory. Called after the item is created, but before 
 the item is saved to the report document file. See the scripting spec for additional information 
 about this script. Applications should perform visual customization in the on-render script instead.</p></div>
+
+<hr>
+<h2><a name="Method-onPageBreak">onPageBreak Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onPageBreak(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Context:</td>
+<td>presentation</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Method-onPrepare">onPrepare Method</a></h2>

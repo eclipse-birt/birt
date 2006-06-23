@@ -46,6 +46,8 @@ auto (default), left, center or right.</dd>
 <dd>Whether to allow a blank value for string parameters.</dd>
 <dt><a href="#Property-allowNull">allowNull</a></dt>
 <dd>Whether the value of the parameter can be null.</dd>
+<dt><a href="#Property-boundDataColumns">boundDataColumns</a></dt>
+<dd>Bindings the data set column and expressions with the property values..</dd>
 <dt><a href="#Property-concealValue">concealValue</a></dt>
 <dd>Hides the user’s entry by displaying asterisks or similar characters. Often 
 used for passwords.</dd>
@@ -72,6 +74,8 @@ value for each choice in a dynamic list.</dd>
 match one of the values in the static or dynamic selection list.</dd>
 <dt><a href="#Property-promptText">promptText</a></dt>
 <dd>The prompt text displayed when user input the parameter value.</dd>
+<dt><a href="#Property-promptTextID">promptTextID</a></dt>
+<dd></dd>
 <dt><a href="#Property-selectionList">selectionList</a></dt>
 <dd>Defines a selection list for the parameter: static 
 list of values from which the user can choose.</dd>
@@ -96,7 +100,8 @@ of each choice in a dynamic list.</dd>
 <a href="Parameter.html#Property-hidden">hidden</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
-<a href="DesignElement.html#Property-userProperties">userProperties</a>
+<a href="DesignElement.html#Property-userProperties">userProperties</a>, 
+<a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
 <h3>Inherited Methods</h3>
 
@@ -258,6 +263,46 @@ parameters of type other than string.</p></div>
 <p>Whether the value of the parameter can be null. The 
 default is false. The user must enter a value for the parameter if no default is 
 provided.</p></div>
+
+<hr>
+<h2><a name="Property-boundDataColumns">boundDataColumns Property</a></h2>
+
+<p class="section-text">Bindings the data set column and expressions with the property values..</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/ComputedColumn.html">ComputedColumn</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Bound data columns</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>
+<p>Property values of a scalar parameter can bind to a data set column  through bound data columns' names. If a data set column or expression are not bound in the data columns, the exeuction of the expression fails.</p>
+<p></p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p>&nbsp;</p></div>
 
 <hr>
 <h2><a name="Property-concealValue">concealValue Property</a></h2>
@@ -517,7 +562,7 @@ And, the parameter can require that the user select one of the choices.</p></div
 <tr><td>Inherited:</td>
 <td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
-<td>Yes</td></tr>
+<td>No</td></tr>
 <tr><td>Property Sheet Visibility:</td>
 <td>Visible</td></tr>
 <tr><td>Property Sheet Group:</td>
@@ -581,7 +626,7 @@ defined.</p></div>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#string">string</a></td></tr>
+<td><a href="../structs/ParameterFormatValue.html">ParameterFormatValue</a> Structure</td></tr>
 <tr><td>Since:</td>
 <td>1.0</td></tr>
 <tr><td>Required:</td>
@@ -597,7 +642,7 @@ defined.</p></div>
 <tr><td>Runtime Settable:</td>
 <td>No</td></tr>
 <tr><td>Property Sheet Visibility:</td>
-<td>Visible</td></tr>
+<td>Hidden</td></tr>
 <tr><td>Property Sheet Group:</td>
 <td>Top</td></tr>
 </table>
@@ -662,6 +707,10 @@ value for each choice in a dynamic list.</p>
 <div class="section-text">
 <p>An expression on the data row from the dynamic list data set that returns the 
 prompt for the choice. If omitted, then BIRT uses the value as the label.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p>&nbsp;</p></div>
 
 <hr>
 <h2><a name="Property-listLimit">listLimit Property</a></h2>
@@ -695,7 +744,8 @@ prompt for the choice. If omitted, then BIRT uses the value as the label.</p></d
 <h3>Description</h3>
 
 <div class="section-text">
-<p>Value for the list limitation number. This property is used to limit the parameter display list.</p></div>
+<p>Value for the list limitation number. If the limitation is provided, only the top-n choices will 
+be available in the parameter request dialog.</p></div>
 
 <hr>
 <h2><a name="Property-mustMatch">mustMatch Property</a></h2>
@@ -768,6 +818,36 @@ selection list.</p></div>
 
 <div class="section-text">
 <p>The text that will be displayed to the user when he/she is prompt for the parameter value.</p></div>
+
+<hr>
+<h2><a name="Property-promptTextID">promptTextID Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#resourceKey">resourceKey</a></td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Prompt text key</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-selectionList">selectionList Property</a></h2>

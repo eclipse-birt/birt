@@ -1,25 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 transitional//EN">
 <html>
 <head>
-<title>FreeForm Element (Eclipse BIRT ROM Documentation)</title>
+<title>AutoText Element (Eclipse BIRT ROM Documentation)</title>
 <link rel="stylesheet" href="../style/style.css" type="text/css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body>
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
-<p class="subtitle">FreeForm Element</p>
+<p class="subtitle">AutoText Element</p>
 <h1>Element Overview</h1>
 <div class="section-text">
-Container that use free-form layout which position an element at (x,y) location.</div>
+Describes the page number of the report.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
 <tr><td>Display Name:</td>
-<td>FreeForm</td></tr>
+<td>AutoText</td></tr>
 <tr><td>Since:</td>
-<td>reserved</td></tr>
+<td>2.1</td></tr>
 <tr><td>XML Element:</td>
-<td><code>null</code></td></tr>
+<td><code>auto-text</code></td></tr>
 <tr><td>Extends:</td>
 <td><a href="ReportItem.html">ReportItem</a></td></tr>
 <tr><td>Extendable:</td>
@@ -35,14 +35,14 @@ Container that use free-form layout which position an element at (x,y) location.
 <tr><td>Has Style:</td>
 <td>Yes</td></tr>
 <tr><td>Default Style:</td>
-<td><a href="../styles.html#free-form">free-form</a></td></tr>
+<td>None</td></tr>
 </table>
 
-<h3>Slot Summary</h3>
+<h3>Property Summary</h3>
 
 <dl class="section-text">
-<dt><a href="#Slot-reportItems">reportItems</a></dt>
-<dd>The report items that appear inside the free-form container.</dd>
+<dt><a href="#Property-type">type</a></dt>
+<dd>The display type of the auto text.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -94,7 +94,6 @@ Container that use free-form layout which position an element at (x,y) location.
 <a href="Style.html#Property-borderTopWidth">borderTopWidth</a>, 
 <a href="Style.html#Property-canShrink">canShrink</a>, 
 <a href="Style.html#Property-color">color</a>, 
-<a href="Style.html#Property-dateTimeFormat">dateTimeFormat</a>, 
 <a href="Style.html#Property-display">display</a>, 
 <a href="Style.html#Property-fontFamily">fontFamily</a>, 
 <a href="Style.html#Property-fontSize">fontSize</a>, 
@@ -104,72 +103,89 @@ Container that use free-form layout which position an element at (x,y) location.
 <a href="Style.html#Property-highlightRules">highlightRules</a>, 
 <a href="Style.html#Property-letterSpacing">letterSpacing</a>, 
 <a href="Style.html#Property-lineHeight">lineHeight</a>, 
-<a href="Style.html#Property-mapRules">mapRules</a>, 
 <a href="Style.html#Property-marginBottom">marginBottom</a>, 
 <a href="Style.html#Property-marginLeft">marginLeft</a>, 
 <a href="Style.html#Property-marginRight">marginRight</a>, 
 <a href="Style.html#Property-marginTop">marginTop</a>, 
 <a href="Style.html#Property-masterPage">masterPage</a>, 
-<a href="Style.html#Property-numberAlign">numberAlign</a>, 
 <a href="Style.html#Property-numberFormat">numberFormat</a>, 
-<a href="Style.html#Property-orphans">orphans</a>, 
 <a href="Style.html#Property-paddingBottom">paddingBottom</a>, 
 <a href="Style.html#Property-paddingLeft">paddingLeft</a>, 
 <a href="Style.html#Property-paddingRight">paddingRight</a>, 
 <a href="Style.html#Property-paddingTop">paddingTop</a>, 
 <a href="Style.html#Property-pageBreakAfter">pageBreakAfter</a>, 
 <a href="Style.html#Property-pageBreakBefore">pageBreakBefore</a>, 
-<a href="Style.html#Property-pageBreakInside">pageBreakInside</a>, 
 <a href="Style.html#Property-showIfBlank">showIfBlank</a>, 
-<a href="Style.html#Property-stringFormat">stringFormat</a>, 
 <a href="Style.html#Property-textAlign">textAlign</a>, 
-<a href="Style.html#Property-textIndent">textIndent</a>, 
 <a href="Style.html#Property-textLineThrough">textLineThrough</a>, 
 <a href="Style.html#Property-textOverline">textOverline</a>, 
 <a href="Style.html#Property-textTransform">textTransform</a>, 
 <a href="Style.html#Property-textUnderline">textUnderline</a>, 
 <a href="Style.html#Property-verticalAlign">verticalAlign</a>, 
 <a href="Style.html#Property-whiteSpace">whiteSpace</a>, 
-<a href="Style.html#Property-widows">widows</a>, 
 <a href="Style.html#Property-wordSpacing">wordSpacing</a>
 </p>
 <h3>Description</h3>
 
 <div class="section-text">
-<p>The simplest form of report layout is free-form. Free-form layout is best for layouts 
-that do not have a regular structure, such as a header for a tabular report. This layout 
-option needs little explanation.</p>
+<p> The autotext item can define page number or total page of the report. </p>
+<p>The developer defines pages to aid in report layout. 
+Each autotext can show one of followings:</p>
+<ul>
+<li>pageNumber: the current page number.</li>
 
-<p>A container item holds a collection of other report items. Every item in the container is
-positioned at an (x, y) location relative to the top left corner of the container. Free-form
-layout is very much like the layout in e.RD-Pro: elements can be positioned anywhere. A drawback
-of free-form layout is that items are not automatically repositioned depending on the size of 
-other elements. For example, if a large block of text is followed by another data item, the data 
-item may be hidden if the block of text becomes too large.</p></div>
-<h1>Slot Detail</h1>
+<li>totalPage: the count of pages in the report.</li>
 
-<h2><a name="Slot-reportItems">reportItems Slot</a></h2>
+</ul></div>
+<h1>Property Detail</h1>
 
-<p class="section-text">The report items that appear inside the free-form container.</p>
+<h2><a name="Property-type">type Property</a></h2>
+
+<p class="section-text">The display type of the auto text.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
-<tr><td>Display Name:</td>
-<td>Report Items</td></tr>
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (autoTextType)</td></tr>
 <tr><td>Since:</td>
-<td>reserved</td></tr>
-<tr><td>XML Element:</td>
-<td><code>report-items</code></td></tr>
-<tr><td>Contents:</td>
-<td>List of <a href="Data.html">Data</a>, <a href="ExtendedItem.html">ExtendedItem</a>, <a href="FreeForm.html">FreeForm</a>, <a href="Grid.html">Grid</a>, <a href="Image.html">Image</a>, <a href="Label.html">Label</a>, <a href="Line.html">Line</a>, <a href="List.html">List</a>, <a href="Rectangle.html">Rectangle</a>, <a href="Table.html">Table</a>, <a href="TemplateReportItem.html">TemplateReportItem</a>, <a href="Text.html">Text</a>, <a href="TextData.html">TextData</a></td></tr>
-<tr><td>Default Style:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>type of autotext</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
 <td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
 </table>
 
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>page-number</td>
+<td>Page Number</td>
+<td>page-number</td>
+<td>the current number of the page.</td></tr>
+<tr><td>total-page</td>
+<td>Total Page</td>
+<td>total-page</td>
+<td>the count of report pages.</td></tr>
+</tbody></table><br>
 <h3>Description</h3>
 
 <div class="section-text">
-<p>Contains any number of report items that appear inside the free-form
-container.</p></div>
+<p>An autotext item can show either the current page number or the page count in the report.
+</p></div>
 </body>
 </html>

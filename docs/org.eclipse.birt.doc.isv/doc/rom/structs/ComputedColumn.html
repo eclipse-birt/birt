@@ -23,6 +23,8 @@ A user-defined column in the result set.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Property-aggregateOn">aggregateOn</a></dt>
+<dd></dd>
 <dt><a href="#Property-dataType">dataType</a></dt>
 <dd>Column data type property.</dd>
 <dt><a href="#Property-expression">expression</a></dt>
@@ -39,6 +41,30 @@ expression of other columns within the data set. It is not one of the columns
 retrieved directly from the underlying data provider.</p></div>
 <h1>Property Detail</h1>
 
+<h2><a name="Property-aggregateOn">aggregateOn Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>AggregateOn Expression</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-dataType">dataType Property</a></h2>
 
 <p class="section-text">Column data type property.</p>
@@ -91,14 +117,6 @@ retrieved directly from the underlying data provider.</p></div>
 <td>Float</td>
 <td>float</td>
 <td></td></tr>
-<tr><td>structure</td>
-<td>Structure</td>
-<td>structure</td>
-<td></td></tr>
-<tr><td>table</td>
-<td>Table</td>
-<td>table</td>
-<td></td></tr>
 </tbody></table><br>
 <h3>Description</h3>
 
@@ -146,7 +164,7 @@ value assigned to the computed column.</p></div>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#string">string</a></td></tr>
+<td><a href="../types.html#name">name</a></td></tr>
 <tr><td>Since:</td>
 <td>1.0</td></tr>
 <tr><td>Required:</td>

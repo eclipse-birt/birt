@@ -41,6 +41,10 @@ Visual grouping of report cascading parameters.</div>
 <dl class="section-text">
 <dt><a href="#Property-dataSet">dataSet</a></dt>
 <dd>The name of the data set that provides data for the dynamic parameters within the group.</dd>
+<dt><a href="#Property-dataSetMode">dataSetMode</a></dt>
+<dd></dd>
+<dt><a href="#Property-promptText">promptText</a></dt>
+<dd></dd>
 </dl>
 
 <h3>Slot Summary</h3>
@@ -64,7 +68,8 @@ Visual grouping of report cascading parameters.</div>
 <a href="ReportElement.html#Property-name">name</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="ParameterGroup.html#Property-startExpanded">startExpanded</a>, 
-<a href="DesignElement.html#Property-userProperties">userProperties</a>
+<a href="DesignElement.html#Property-userProperties">userProperties</a>, 
+<a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
 <h3>Description</h3>
 
@@ -115,6 +120,81 @@ share a same data set.</p></div>
 <div class="section-text">
 <p>The name of the data set that provides data for the dynamic parameters within the group. 
 Parameters in a cascading parameter group share a same data set.</p></div>
+
+<hr>
+<h2><a name="Property-dataSetMode">dataSetMode Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (dataSetMode)</td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Single or multiple data sets</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>single</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>single</td>
+<td>Single data set</td>
+<td>single</td>
+<td></td></tr>
+<tr><td>multiple</td>
+<td>Multiple data set</td>
+<td>multiple</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-promptText">promptText Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Prompt text</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 <h1>Slot Detail</h1>
 
 <h2><a name="Slot-parameters">parameters Slot</a></h2>

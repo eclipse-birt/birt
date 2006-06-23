@@ -39,6 +39,8 @@ Represents a group break level within a table.</div>
 <h3>Method Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Method-onPageBreak">onPageBreak</a></dt>
+<dd></dd>
 <dt><a href="#Method-onPrepare">onPrepare</a></dt>
 <dd>It is for a script startup phase. No data binding yet. The design of an element can be changed here.</dd>
 </dl>
@@ -58,14 +60,19 @@ Represents a group break level within a table.</div>
 <a href="ListingGroup.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ListingGroup.html#Property-filter">filter</a>, 
 <a href="ListingGroup.html#Property-groupName">groupName</a>, 
+<a href="ListingGroup.html#Property-hideDetail">hideDetail</a>, 
 <a href="ListingGroup.html#Property-interval">interval</a>, 
 <a href="ListingGroup.html#Property-intervalBase">intervalBase</a>, 
 <a href="ListingGroup.html#Property-intervalRange">intervalRange</a>, 
 <a href="ListingGroup.html#Property-keyExpr">keyExpr</a>, 
+<a href="ListingGroup.html#Property-pageBreakAfter">pageBreakAfter</a>, 
+<a href="ListingGroup.html#Property-pageBreakBefore">pageBreakBefore</a>, 
+<a href="ListingGroup.html#Property-repeatHeader">repeatHeader</a>, 
 <a href="ListingGroup.html#Property-sort">sort</a>, 
 <a href="ListingGroup.html#Property-sortDirection">sortDirection</a>, 
 <a href="ListingGroup.html#Property-sortType">sortType</a>, 
-<a href="ListingGroup.html#Property-toc">toc</a>
+<a href="ListingGroup.html#Property-toc">toc</a>, 
+<a href="ListingGroup.html#Property-viewAction">viewAction</a>
 </p>
 <h3>Description</h3>
 
@@ -79,6 +86,29 @@ column from the query. If the group key is a time field then user often want to
 group on an <i>interval</i> such as month or quarter.</p></div>
 <h1>Method Detail</h1>
 
+<h2><a name="Method-onPageBreak">onPageBreak Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onPageBreak(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Context:</td>
+<td>presentation</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Method-onPrepare">onPrepare Method</a></h2>
 
 <p class="section-text">It is for a script startup phase. No data binding yet. The design of an element can be changed here.</p>

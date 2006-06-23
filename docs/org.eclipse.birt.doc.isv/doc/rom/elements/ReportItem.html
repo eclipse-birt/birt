@@ -43,6 +43,8 @@ Abstract base element for all visual report items.</div>
 <dl class="section-text">
 <dt><a href="#Property-bookmark">bookmark</a></dt>
 <dd>Defines this item as a hyperlink target.</dd>
+<dt><a href="#Property-boundDataColumns">boundDataColumns</a></dt>
+<dd>Bindings the data set column and expressions with the  property values..</dd>
 <dt><a href="#Property-dataSet">dataSet</a></dt>
 <dd>The name of the data set that provides data for this item.</dd>
 <dt><a href="#Property-height">height</a></dt>
@@ -76,7 +78,8 @@ Abstract base element for all visual report items.</div>
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
-<a href="DesignElement.html#Property-userProperties">userProperties</a>
+<a href="DesignElement.html#Property-userProperties">userProperties</a>, 
+<a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
 <h3>Description</h3>
 
@@ -152,6 +155,46 @@ the first item with that name.</p></p></div>
 <div class="section-text">
 <p>Action property on labels, data items, images and other 
 items.</p></div>
+
+<hr>
+<h2><a name="Property-boundDataColumns">boundDataColumns Property</a></h2>
+
+<p class="section-text">Bindings the data set column and expressions with the  property values..</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/ComputedColumn.html">ComputedColumn</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Bound data columns</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>
+<p>Property values of a report item can bind to a data set column or other expressions through bound data columns' names. If a data set column or expression are not bound in the data columns, the exeuction of the expression fails.</p>
+<p></p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p>&nbsp;</p></div>
 
 <hr>
 <h2><a name="Property-dataSet">dataSet Property</a></h2>
@@ -304,7 +347,7 @@ property</p></div>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Referred Template Parameter Definition</td></tr>
+<td>Referred template parameter definition</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -443,7 +486,7 @@ Contents for this item or its container.</p></p></div>
 
 <div class="section-text">
 <p><p>The visibility rules control when the item appears in the 
-report. An item can be completely hidden, in which case it won’t even be created 
+report. An item can be completely hidden, in which case it wonï¿½t even be created 
 in the Factory. For example, perhaps the Country item should appear for 
 international customers, but not domestic customers. An item can also be hidden 
 conditionally depending on the output format. For example, perhaps a hyperlink 

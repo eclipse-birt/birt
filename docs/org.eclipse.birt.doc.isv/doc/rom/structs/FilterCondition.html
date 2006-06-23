@@ -26,6 +26,8 @@ Defines a fileter criteria.</div>
 <dt><a href="#Property-expr">expr</a></dt>
 <dd>The name of a data row column or an aggregate 
 expression.</dd>
+<dt><a href="#Property-filterTarget">filterTarget</a></dt>
+<dd></dd>
 <dt><a href="#Property-operator">operator</a></dt>
 <dd>The operator to apply to the expression.</dd>
 <dt><a href="#Property-value1">value1</a></dt>
@@ -116,6 +118,45 @@ filter criteria will be applied to every row. Such behavior may be useful when
 testing, but seldom in a production report.</p></div>
 
 <hr>
+<h2><a name="Property-filterTarget">filterTarget Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (filterTarget)</td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Filter Target</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>DataSet</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>DataSet</td>
+<td>Data Set</td>
+<td>DataSet</td>
+<td></td></tr>
+<tr><td>ResultSet</td>
+<td>Result Set</td>
+<td>ResultSet</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
 <h2><a name="Property-operator">operator Property</a></h2>
 
 <p class="section-text">The operator to apply to the expression.</p>
@@ -145,12 +186,12 @@ testing, but seldom in a production report.</p></div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>eq</td>
-<td>Equal</td>
+<td>Equal to</td>
 <td>eq</td>
 <td>Relational 
     operator.</td></tr>
 <tr><td>ne</td>
-<td>Not Equal</td>
+<td>Not Equal to</td>
 <td>ne</td>
 <td>Relational 
     operator.</td></tr>
@@ -165,12 +206,12 @@ testing, but seldom in a production report.</p></div>
 <td>Relational 
     operator.</td></tr>
 <tr><td>ge</td>
-<td>Larger than or Equal</td>
+<td>Greater than or Equal</td>
 <td>ge</td>
 <td>Relational 
     operator.</td></tr>
 <tr><td>gt</td>
-<td>Larger than</td>
+<td>Greater than</td>
 <td>gt</td>
 <td>Relational 
     operator.</td></tr>
@@ -222,14 +263,17 @@ itself already expresses the full filter condition.</td></tr>
 <td>bottom-percent</td>
 <td>Accept the value only 
     if it is within the bottom percentage<i></i>of values.</td></tr>
-<tr><td>any</td>
-<td>Any</td>
-<td>any</td>
-<td>Acts as a &quot;no op&quot;; the 
-    filter condition always matches.</td></tr>
 <tr><td>match</td>
 <td>Match</td>
 <td>match</td>
+<td></td></tr>
+<tr><td>not-like</td>
+<td>Not Like</td>
+<td>not-like</td>
+<td></td></tr>
+<tr><td>not-match</td>
+<td>Not Match</td>
+<td>not-match</td>
 <td></td></tr>
 </tbody></table><br>
 <h3>Description</h3>
