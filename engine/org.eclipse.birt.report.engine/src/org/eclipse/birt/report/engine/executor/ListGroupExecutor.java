@@ -23,6 +23,7 @@ public class ListGroupExecutor extends GroupExecutor
 		}
 		context.unregisterOnPageBreak( content );
 		finishGroupTOCEntry( );
+		manager.releaseExecutor( ExecutorManager.LISTGROUPITEM, this );
 	}
 
 	public IContent execute( )

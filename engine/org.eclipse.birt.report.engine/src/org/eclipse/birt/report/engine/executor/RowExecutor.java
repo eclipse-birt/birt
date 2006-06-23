@@ -116,6 +116,7 @@ public class RowExecutor extends QueryItemExecutor
 		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
+		manager.releaseExecutor( ExecutorManager.ROWITEM, this );
 	}
 
 	int currentCell;

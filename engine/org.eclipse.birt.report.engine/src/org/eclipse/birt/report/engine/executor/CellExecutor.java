@@ -66,6 +66,7 @@ public class CellExecutor extends QueryItemExecutor
 		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
+		manager.releaseExecutor( ExecutorManager.CELLITEM, this );
 	}
 	
 	private int currentItem = 0;

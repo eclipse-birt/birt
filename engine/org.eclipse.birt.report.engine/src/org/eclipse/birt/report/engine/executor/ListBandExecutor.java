@@ -47,6 +47,7 @@ public class ListBandExecutor extends StyledItemExecutor
 		}
 		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
+		manager.releaseExecutor( ExecutorManager.LISTBANDITEM, this );
 	}
 
 	int currentItem;

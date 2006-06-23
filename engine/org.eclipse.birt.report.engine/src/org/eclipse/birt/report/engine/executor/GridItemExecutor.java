@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.37 $ $Date: 2006/06/19 09:27:56 $
+ * @version $Revision: 1.38 $ $Date: 2006/06/22 08:38:23 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -115,6 +115,7 @@ public class GridItemExecutor extends QueryItemExecutor
 		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
+		manager.releaseExecutor( ExecutorManager.GRIDITEM, this );
 	}
 
 	int curRowDesign;

@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.34 $ $Date: 2006/06/13 15:37:16 $
+ * @version $Revision: 1.35 $ $Date: 2006/06/22 08:38:23 $
  */
 public class TextItemExecutor extends QueryItemExecutor
 {
@@ -80,6 +80,7 @@ public class TextItemExecutor extends QueryItemExecutor
 		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
+		manager.releaseExecutor( ExecutorManager.TEXTITEM, this );
 	}
 	
 	/**

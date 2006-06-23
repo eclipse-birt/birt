@@ -107,6 +107,7 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
+		manager.releaseExecutor( ExecutorManager.EXTENDEDITEM, this );
 	}
 	
 	protected void generateContent( ExtendedItemDesign item,

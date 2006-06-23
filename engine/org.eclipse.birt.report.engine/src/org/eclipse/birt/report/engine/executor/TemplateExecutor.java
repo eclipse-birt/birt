@@ -85,5 +85,6 @@ public class TemplateExecutor extends ReportItemExecutor
 	public void close( )
 	{
 		context.unregisterOnPageBreak( content );
+		manager.releaseExecutor( ExecutorManager.TEMPLATEITEM, this );
 	}
 }

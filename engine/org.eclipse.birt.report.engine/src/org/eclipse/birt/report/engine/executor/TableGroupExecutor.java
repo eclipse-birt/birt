@@ -22,6 +22,7 @@ public class TableGroupExecutor extends GroupExecutor
 		}
 		context.unregisterOnPageBreak( content );
 		finishGroupTOCEntry( );
+		manager.releaseExecutor( ExecutorManager.TABLEGROUPITEM, this );
 	}
 
 	public IContent execute( )

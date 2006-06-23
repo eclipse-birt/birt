@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.35 $ $Date: 2006/06/13 15:37:16 $
+ * @version $Revision: 1.36 $ $Date: 2006/06/22 08:38:23 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -129,6 +129,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
+		manager.releaseExecutor( ExecutorManager.IMAGEITEM, this );
 	}
 
 	protected void handleImage( ImageItemDesign imageDesign,

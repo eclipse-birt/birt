@@ -47,6 +47,7 @@ public class TableBandExecutor extends StyledItemExecutor
 		}
 		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
+		manager.releaseExecutor( ExecutorManager.TABLEBANDITEM, this );
 	}
 
 	int currentRow;
