@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.internal.presentation;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -24,7 +25,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 /**
  * the report document information given out by the report document builder
  * 
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2006/04/12 05:40:32 $
  */
 public class ReportDocumentInfo implements IReportDocumentInfo
 {
@@ -34,6 +35,7 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 	protected boolean finished;
 	protected Map params = new HashMap( );
 	protected Map beans = new HashMap( );
+	protected List errors;
 
 	public ReportDocumentInfo( ExecutionContext context, long pageNumber,
 			boolean finished )
@@ -43,6 +45,7 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 		this.finished = finished;
 		params.putAll( context.getParams( ) );
 		beans.putAll( context.getGlobalBeans( ) );
+		errors = context.getErrors( );
 
 	}
 
@@ -77,5 +80,10 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 		IReportDocument document = engine.openReportDocument( documentName );
 
 		return new TransientReportDocument( document, pageNumber, params, beans );
+	}
+
+	public List getErrors( )
+	{
+		return errors;
 	}
 }
