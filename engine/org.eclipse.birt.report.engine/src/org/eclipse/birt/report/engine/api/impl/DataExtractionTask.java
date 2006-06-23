@@ -26,6 +26,7 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -251,12 +252,15 @@ public class DataExtractionTask extends EngineTask
 				if( null != query2ResultMetaData )
 				{
 					IQueryDefinition query = getQuery( queryId );
-					ResultMetaData metaData = (ResultMetaData) query2ResultMetaData.get( query );
-					if( metaData.getColumnCount( ) > 0 )
+					if ( isMasterQuery ( query ) )
 					{
-						IResultSetItem resultItem = new ResultSetItem( rsetName,
-								metaData );
-						resultMetaList.add( resultItem );
+						ResultMetaData metaData = (ResultMetaData) query2ResultMetaData.get( query );
+						if( metaData.getColumnCount( ) > 0 )
+						{
+							IResultSetItem resultItem = new ResultSetItem( rsetName,
+									metaData );
+							resultMetaList.add( resultItem );
+						}
 					}
 				}
 			}
@@ -283,6 +287,32 @@ public class DataExtractionTask extends EngineTask
 				}
 			}
 		}
+	}
+
+	private boolean isMasterQuery( IQueryDefinition query )
+	{
+		if ( query.getDataSetName( ) == null )
+		{
+			return false;
+		}
+		IBaseQueryDefinition parent = query.getParentQuery( ); 
+		while ( parent != null )
+		{
+			if ( parent instanceof IQueryDefinition )
+			{
+				IQueryDefinition parentQuery = (IQueryDefinition) parent;
+				if ( parentQuery.getDataSetName( ) != null )
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+			parent = parent.getParentQuery( );
+		}
+		return true;
 	}
 
 	/**
