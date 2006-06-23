@@ -8,13 +8,14 @@
 	border-style: outset;
 	border-width: 1px;
 	border-color: #CCCCCC;
+	background-color: #dbe4ee;
 }
 
 /* Title bar background area */
 .dialogTitleBar
 {
 	height: 20px;
-	background-color: #4682b4;
+	background-color: #808080;
 	cursor: move;	
 }
 
@@ -57,7 +58,7 @@
 	background-image: url("../images/Close.gif");
 	width: 14px;
 	height: 14px;
-	background-color: #4682b4;
+	background-color: #808080;
 	cursor: pointer;	 
 }
 
@@ -89,9 +90,9 @@
 
 .dBackground
 {
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 4px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 4px;
 }
 
 /* Border style of content area for individual dialog content */
@@ -130,14 +131,14 @@
 .dialogBtnBar
 {	
 	height: 30px;
-	text-align: center;
+	text-align: right;
 }
 
 /* Area holding both OK and CANCEL buttons */
 .dialogBtnBarButtonContainer
 {
 	margin-left: auto; 
-	margin-right: auto; 
+	margin-right: 0px; 
 	margin-top: 6px; 
 	margin-bottom: 7px;
 	width: 166px; 
@@ -159,10 +160,10 @@
 	height: 24px;
 	width: 80px;
 	overflow: hidden;
-	color: #ffffff; /* Font color */ 
-	background-color: #9C9C9C;
+	color: #000000; /* Font color */ 
+	/*background-color: #9C9C9C;
 	background-repeat: repeat-x;
-	background-position: top left;
+	background-position: top left;*/
 }
 
 .dialogBtnBarButtonDisabled
@@ -172,10 +173,10 @@
 	height: 24px;
 	width: 80px;
 	overflow: hidden;
-	color: #cccccc; /* Font color */
-	background-color: #9C9C9C;
+	color: #999999; /* Font color */
+	/*background-color: #9C9C9C;
 	background-repeat: repeat-x;
-	background-position: top left;
+	background-position: top left;*/
 }
 
 /* Left background image for OK and CANCEL buttons */
@@ -231,7 +232,7 @@
 {	
 	font-family: tahoma, verdana, arial, sans-serif;
 	font-size: 11px;
-	font-weight: 600;	
+	font-weight: 400;
 	text-align: center;
 	vertical-align: middle;
 }
