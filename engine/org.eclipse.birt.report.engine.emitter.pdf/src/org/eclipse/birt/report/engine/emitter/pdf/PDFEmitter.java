@@ -484,7 +484,10 @@ public class PDFEmitter implements IContentEmitter
 				PdfOutline root = cb.getRootOutline();
 				tocHandler.createTOC(tocRoot, root);
 			}
-			doc.close();
+			if(doc.isOpen( ))
+			{
+				doc.close();
+			}
 		}
 		
 		public void setTotalPage(ITextArea totalPage)

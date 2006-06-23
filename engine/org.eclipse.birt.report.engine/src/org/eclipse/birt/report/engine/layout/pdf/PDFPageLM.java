@@ -191,16 +191,23 @@ public class PDFPageLM extends PDFBlockContainerLM
 
 	public boolean layout( )
 	{
-		boolean childBreak = true;
-		start( );
-		childBreak = layoutChildren( );
-		if ( !childBreak )
+		if(!context.isCancel( ))
 		{
-			isLast = true;
+			boolean childBreak = true;
+			start( );
+			childBreak = layoutChildren( );
+			if ( !childBreak )
+			{
+				isLast = true;
+			}
+			end( );
+			return childBreak;
 		}
-		end( );
-
-		return childBreak;
+		else
+		{
+			cancel( );
+			return false;
+		}
 	}
 
 	protected void pageBreakEvent( )

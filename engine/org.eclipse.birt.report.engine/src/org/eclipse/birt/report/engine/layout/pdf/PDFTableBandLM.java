@@ -183,7 +183,7 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 	{
 		if( type == IBandContent.BAND_GROUP_HEADER || type== IBandContent.BAND_HEADER)
 		{
-			return false;
+			return !repeatHeader;
 		}
 		return true;
 	}

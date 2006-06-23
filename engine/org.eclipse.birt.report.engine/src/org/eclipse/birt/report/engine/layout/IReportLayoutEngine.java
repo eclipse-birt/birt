@@ -25,4 +25,6 @@ public interface IReportLayoutEngine
 	void layout(IContent content, IContentEmitter output);
 	
 	void layout(IReportItemExecutor executor, IContentEmitter output);
+	
+	void cancel();
 }

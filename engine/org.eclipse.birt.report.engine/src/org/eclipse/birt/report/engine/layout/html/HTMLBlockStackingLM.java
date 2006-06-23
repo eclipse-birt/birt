@@ -15,7 +15,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 
-public class HTMLBlockStackingLM extends HTMLAbstractLM
+public class HTMLBlockStackingLM extends HTMLStackingLM
 {
 
 	ILayoutManager childLayout;
@@ -57,7 +57,7 @@ public class HTMLBlockStackingLM extends HTMLAbstractLM
 			}
 		}
 		// then layout the next content
-		while ( executor.hasNextChild( ) )
+		while ( executor.hasNextChild( )&&!context.getCancelFlag( ) )
 		{
 			childExecutor = (IReportItemExecutor) executor.getNextChild( );
 			IContent childContent = childExecutor.execute( );

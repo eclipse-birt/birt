@@ -52,6 +52,19 @@ public class PDFLayoutEngineContext
 	protected int maxWidth;
 
 	protected int maxHeight;
+	
+	protected boolean cancel = false;
+	
+	
+	public void setCancel(boolean cancel)
+	{
+		this.cancel = cancel;
+	}
+	
+	public boolean isCancel()
+	{
+		return this.cancel;
+	}
 
 	public String getMasterPage( )
 	{

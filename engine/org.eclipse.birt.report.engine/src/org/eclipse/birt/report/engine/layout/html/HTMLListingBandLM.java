@@ -104,10 +104,23 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 	
 	protected boolean allowPageBreak( )
 	{
-		int type = ( (IBandContent) content ).getBandType( );
-		if(type==IBandContent.BAND_HEADER || type==IBandContent.BAND_GROUP_HEADER)
+		IBandContent band = (IBandContent) content;
+		int type = band.getBandType( );
+		if(type==IBandContent.BAND_HEADER)
 		{
-			return false;
+			IElement listContent = band.getParent( );
+			if(listContent instanceof IListContent)
+			{
+				return !((IListContent)listContent).isHeaderRepeat( );
+			}
+		}
+		else if( type==IBandContent.BAND_GROUP_HEADER)
+		{
+			IElement groupContent = band.getParent( );
+			if(groupContent instanceof IGroupContent)
+			{
+				return !((IGroupContent)groupContent).isHeaderRepeat( );
+			}
 		}
 		return true;
 	}

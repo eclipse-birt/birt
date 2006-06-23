@@ -131,4 +131,12 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	{
 		return this.pageHandler;
 	}
+	
+	public void cancel()
+	{
+		if(context!=null)
+		{
+			context.setCancelFlag( true );
+		}
+	}
 }

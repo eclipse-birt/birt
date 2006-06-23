@@ -72,6 +72,13 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 
 	public boolean layout( )
 	{
+		if(context.getCancelFlag( ))
+		{
+			close( );
+			isLastPage = true;
+			return false;
+		}
+		
 		start( );
 		boolean hasNextPage = layoutChildren( );
 		if ( isChildrenFinished( ) )

@@ -98,5 +98,13 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	{
 		return this.handle;
 	}
+	
+	public void cancel()
+	{
+		if(context!=null)
+		{
+			context.setCancel( true );
+		}
+	}
 
 }
