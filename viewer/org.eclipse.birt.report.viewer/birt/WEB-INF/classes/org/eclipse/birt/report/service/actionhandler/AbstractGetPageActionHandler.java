@@ -149,9 +149,9 @@ public abstract class AbstractGetPageActionHandler
 											new String[]{__bookmark} ) );
 					throw fault;
 				}
-		
+
 			}
-			__useBookmark= true;
+			__useBookmark = true;
 
 		}
 
@@ -191,12 +191,12 @@ public abstract class AbstractGetPageActionHandler
 	{
 		// Update instruction for document part.
 		UpdateContent content = new UpdateContent( );
-//		String temp = __page.toString( ) ;
-//		temp= temp.replaceAll( "AUTOGENBOOKMARK_1", "bookmark" );
-		content.setContent( __page.toString( )  );
+
+		content.setContent( __page.toString( ) );
+		
 		content.setTarget( "Document" ); //$NON-NLS-1$
 		content.setInitializationId( parseReportId( __activeIds ) );
-	
+
 		if ( __useBookmark )
 		{
 			content.setBookmark( __bookmark );
@@ -320,4 +320,5 @@ public abstract class AbstractGetPageActionHandler
 
 		return bookmark;
 	}
+
 }

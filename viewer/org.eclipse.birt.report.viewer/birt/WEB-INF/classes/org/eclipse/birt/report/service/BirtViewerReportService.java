@@ -151,6 +151,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
+			doc.close( );
 			throw new ReportServiceException( e.getLocalizedMessage( ) );
 		}
 	}
@@ -203,6 +204,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
+			doc.close( );
 			throw new ReportServiceException( e.getLocalizedMessage( ) );
 		}
 	}
@@ -244,6 +246,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
+			doc.close( );
 			throw new ReportServiceException( e.getLocalizedMessage( ) );
 		}
 	}
@@ -265,6 +268,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
+			doc.close( );
 			throw new ReportServiceException( e.getLocalizedMessage( ) );
 		}
 	}
@@ -292,6 +296,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
+			doc.close( );
 			e.printStackTrace( );
 			throw new ReportServiceException( e.getLocalizedMessage( ) );
 		}
@@ -346,6 +351,7 @@ public class BirtViewerReportService implements IViewerReportService
 
 		if ( node == null )
 		{
+			doc.close( );
 			throw new ReportServiceException(
 					BirtResources
 							.getString( ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_TOC ) );
@@ -368,6 +374,7 @@ public class BirtViewerReportService implements IViewerReportService
 				&& doc.findTOCByName( name ).size( ) > 0 )
 			return ( (TOCNode) doc.findTOCByName( name ).get( 0 ) ).getBookmark( );
 
+		doc.close( );
 		return tocId;
 
 	}
