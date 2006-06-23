@@ -83,7 +83,7 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	}
 
 	/**
-	 * Constructor. This is for bookmark handler.
+	 * Constructor. This is for renderTask.
 	 * 
 	 * @param document
 	 * @param page
@@ -106,7 +106,7 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	}
 
 	/**
-	 * Constructor. This is for drill-through handler.
+	 * Constructor. This is for runAndRender task.
 	 * 
 	 * @param locale
 	 * @param isEmbeddable
@@ -160,6 +160,9 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 
 	protected String buildBookmarkAction( IAction action, Object context )
 	{
+		if ( action == null || context == null )
+			return null;
+
 		StringBuffer link = new StringBuffer( );
 
 		boolean realBookmark = false;
@@ -183,27 +186,59 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		}
 
 		String baseURL = null;
-		if ( context != null && context instanceof HTMLRenderContext )
+		if ( context instanceof HTMLRenderContext )
 		{
 			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
+		}
+		if ( context instanceof PDFRenderContext )
+		{
+			baseURL = ( (PDFRenderContext) context ).getBaseURL( );
 		}
 
 		link.append( baseURL );
 		link.append( ParameterAccessor.QUERY_CHAR );
-		link.append( ParameterAccessor.PARAM_REPORT_DOCUMENT );
-		link.append( ParameterAccessor.EQUALS_OPERATOR );
-		String documentName = document.getName( );
 
-		try
+		// if the document is not null, then use it
+
+		if ( document != null )
 		{
-			documentName = URLEncoder.encode( documentName,
-					ParameterAccessor.UTF_8_ENCODE );
+			link.append( ParameterAccessor.PARAM_REPORT_DOCUMENT );
+			link.append( ParameterAccessor.EQUALS_OPERATOR );
+			String documentName = document.getName( );
+
+			try
+			{
+				documentName = URLEncoder.encode( documentName,
+						ParameterAccessor.UTF_8_ENCODE );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				// Does nothing
+			}
+			link.append( documentName );
 		}
-		catch ( UnsupportedEncodingException e )
+		else if ( action.getReportName( ) != null
+				&& action.getReportName( ).length( ) > 0 )
 		{
-			// Does nothing
+			link.append( ParameterAccessor.PARAM_REPORT );
+			link.append( ParameterAccessor.EQUALS_OPERATOR );
+			String reportName = action.getReportName( );
+			try
+			{
+				reportName = URLEncoder.encode( reportName,
+						ParameterAccessor.UTF_8_ENCODE );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				// do nothing
+			}
+			link.append( reportName );
 		}
-		link.append( documentName );
+		else
+		{
+			// its an iternal bookmark
+			return "#" + action.getActionString( ); //$NON-NLS-1$
+		}
 
 		if ( locale != null )
 		{
@@ -247,17 +282,17 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 	 */
 	protected String buildDrillAction( IAction action, Object context )
 	{
+		if ( action == null || context == null )
+			return null;
+
 		String baseURL = null;
-		if ( context != null )
+		if ( context instanceof HTMLRenderContext )
 		{
-			if ( context instanceof HTMLRenderContext )
-			{
-				baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
-			}
-			if ( context instanceof PDFRenderContext )
-			{
-				baseURL = ( (PDFRenderContext) context ).getBaseURL( );
-			}
+			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
+		}
+		if ( context instanceof PDFRenderContext )
+		{
+			baseURL = ( (PDFRenderContext) context ).getBaseURL( );
 		}
 
 		if ( baseURL == null )
@@ -354,13 +389,12 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 				link.append( ParameterAccessor.getQueryParameterString(
 						ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
 			}
-			
+
 			// add isMasterPageContent
 
 			link.append( ParameterAccessor.getQueryParameterString(
 					ParameterAccessor.PARAM_MASTERPAGE, String
 							.valueOf( this.isMasterPageContent ) ) );
-
 
 			// add bookmark
 			if ( action.getBookmark( ) != null )
