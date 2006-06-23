@@ -69,6 +69,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 	}
 
 	boolean isLastPage = false;
+	boolean isFirstPage = true;
 
 	public boolean layout( )
 	{
@@ -79,14 +80,70 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			return false;
 		}
 		
-		start( );
-		boolean hasNextPage = layoutChildren( );
+		boolean hasNextPage = false;
+		if (isFirstPage)
+		{
+			isFirstPage = false;
+			hasNextPage = layoutFirstPage( );
+		}
+		else
+		{
+			start( );
+			hasNextPage = layoutChildren( );
+		}
 		if ( isChildrenFinished( ) )
 		{
 			isLastPage = true;
 		}
 		end( );
 		return hasNextPage;
+	}
+	
+	private boolean layoutFirstPage( )
+	{
+		boolean hasNext = false;
+		boolean hasStartPage = false;
+		// try to get the first element
+		while ( executor.hasNextChild( )&&!context.getCancelFlag( ) )
+		{
+			childExecutor = (IReportItemExecutor) executor.getNextChild( );
+			IContent childContent = childExecutor.execute( );
+			if ( childContent != null )
+			{
+				if ( hasStartPage == false )
+				{
+					hasStartPage = true;
+					String masterPage = childContent.getStyle( )
+							.getMasterPage( );
+					context.setMasterPage( masterPage );
+					start( );
+				}
+				childLayout = engine.createLayoutManager( this, childContent,
+						childExecutor, emitter );
+				hasNext = childLayout.layout( );
+				if ( hasNext )
+				{
+					if ( childLayout.isFinished( ) )
+					{
+						childLayout.close( );
+						childExecutor.close( );
+						childLayout = null;
+						childExecutor = null;
+					}
+					return true;
+				}
+				childLayout.close( );
+				childLayout = null;
+			}
+			childExecutor.close( );
+			childExecutor = null;
+		}
+		//this is the last page
+		if (hasStartPage == false)
+		{
+			start( );
+		}
+		return false;
 	}
 	
 	public boolean isFinished( )
