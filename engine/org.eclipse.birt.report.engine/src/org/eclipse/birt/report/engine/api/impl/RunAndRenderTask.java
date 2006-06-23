@@ -44,6 +44,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 * specifies the emitter ID used for rendering the report
 	 */
 	protected String emitterID;
+	
+	protected IReportLayoutEngine layoutEngine;
 
 	/**
 	 * @param engine
@@ -133,11 +135,13 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 */
 	public void run( ) throws EngineException
 	{
+		setRunningFlag( true );
 		ReportDesignHandle reportDesign = executionContext.getDesign( );
 
 		// register default parameters and validate
 		if ( !validateParameters( ) )
 		{
+			setRunningFlag( false );
 			throw new EngineException(
 					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
 		}
@@ -168,12 +172,20 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				}
 			}
 
+			synchronized ( this )
+			{
+				if ( !executionContext.isCanceled( ) )
+				{
+					layoutEngine = LayoutEngineFactory.createLayoutEngine( emitter.getOutputFormat( ) );
+				}
+			}
 			
-			IReportLayoutEngine layoutEngine = LayoutEngineFactory
-						.createLayoutEngine( emitter.getOutputFormat( ) );
-			OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle( executionContext );
-			layoutEngine.setPageHandler( handle );
-			layoutEngine.layout( lExecutor, emitter , paginate);
+			if( layoutEngine != null )
+			{
+				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle( executionContext );
+				layoutEngine.setPageHandler( handle );
+				layoutEngine.layout( lExecutor, emitter , paginate);
+			}
 
 			closeRender( );
 			closeFactory( );
@@ -199,11 +211,24 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 					"Error happened while running the report.", t ); //$NON-NLS-1$
 			new EngineException( "Error happened while running the report", t ); //$NON-NLS-1$
 		}
+		finally
+		{
+			setRunningFlag( false );
+		}
 	}
 
 	public void setEmitterID( String id )
 	{
 		this.emitterID = id;
 
+	}
+	
+	protected void doCancel()
+	{
+		super.doCancel( );
+		if(layoutEngine!=null)
+		{
+			layoutEngine.cancel( );
+		}
 	}
 }

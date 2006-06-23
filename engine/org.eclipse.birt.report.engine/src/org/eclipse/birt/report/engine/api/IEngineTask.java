@@ -121,6 +121,12 @@ public interface IEngineTask {
 	 * Cancels the task.
 	 */
 	public void cancel();
+	
+	/**
+	 * Cancels the task with a signal.
+	 * The signal will be notified when the task finishes the cancel.
+	 */
+	public void cancel( Object signal );
 
 	/**
 	 * close the task, relese any resources. 

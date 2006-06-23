@@ -102,6 +102,8 @@ public class ReportDocumentBuilder
 	 * page handler used to recevie the document page events.
 	 */
 	protected IPageHandler pageHandler;
+	
+	protected IReportLayoutEngine engine;
 
 	/**
 	 * handle used to recive the layout page events
@@ -128,14 +130,18 @@ public class ReportDocumentBuilder
 	public void build( )
 	{
 		IReportExecutor executor = executionContext.getExecutor( );
-		IReportLayoutEngine engine = LayoutEngineFactory.createLayoutEngine( "html" );
+		engine = LayoutEngineFactory.createLayoutEngine( "html" );
 		engine.setPageHandler( layoutPageHandler);
 		engine.layout(executor, pageEmitter, true);
+		engine = null;
 	}
 	
-	void cancel()
+	public void cancel()
 	{
-		//FIXME: implement
+		if(engine!=null)
+		{
+			engine.cancel( );
+		}
 	}
 
 	public void setPageHandler( IPageHandler handler )
@@ -146,7 +152,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.7 $ $Date: 2006/06/21 08:22:55 $
+	 * @version $Revision: 1.8 $ $Date: 2006/06/22 08:38:23 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -239,7 +245,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.7 $ $Date: 2006/06/21 08:22:55 $
+	 * @version $Revision: 1.8 $ $Date: 2006/06/22 08:38:23 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{

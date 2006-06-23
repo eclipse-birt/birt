@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,6 +56,16 @@ public abstract class EngineTask implements IEngineTask
 			.getLogger( EngineTask.class.getName( ) );
 
 	protected static int id = 0;
+	
+	/**
+	 * is the task running or not.
+	 */
+	private boolean runningFlag = false;
+	
+	/**
+	 * store the signals which need be notified.
+	 */
+	private ArrayList notifyList = new ArrayList( );
 
 	/**
 	 * the contexts for running this task
@@ -501,20 +512,51 @@ public abstract class EngineTask implements IEngineTask
 		return inputValues.get( name );
 	}
 
+	protected void doCancel()
+	{
+		executionContext.cancel( );
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api.IEngineTask#cancel()
 	 */
-	public void cancel( )
+	synchronized public void cancel( )
 	{
-		executionContext.cancel( );
+		doCancel();
+		if( runningFlag )
+		{
+			try
+			{
+				wait( );
+			}
+			catch ( InterruptedException e )
+			{
+				return;
+			}
+		}
 	}
-
+	
+	synchronized public void cancel( Object signal )
+	{
+		assert (signal != null);
+		if( runningFlag )
+		{
+			notifyList.add( signal );
+			doCancel();
+		}
+		else
+		{
+			synchronized( signal )
+			{
+				signal.notifyAll( );
+			}
+		}
+	}
 
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.37 $ $Date: 2006/05/26 06:23:16 $
+	 * @version $Revision: 1.38 $ $Date: 2006/06/15 07:13:45 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -666,6 +708,7 @@ public abstract class EngineTask implements IEngineTask
 	public void close( )
 	{
 		executionContext.close( );
+		setRunningFlag( false );
 	}
 
 	protected void loadDesign( )
@@ -730,4 +773,27 @@ public abstract class EngineTask implements IEngineTask
 	{
 		return executionContext.getErrors( );
 	}
+	
+	synchronized protected void setRunningFlag( boolean flag )
+	{
+		if( runningFlag != flag )
+		{
+			runningFlag = flag;
+			if( !flag )
+			{
+				Iterator iter = notifyList.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					Object signal = iter.next( );
+					synchronized( signal )
+					{
+						signal.notifyAll( );
+					}
+				}
+				notifyAll( );
+				notifyList.clear();
+			}
+		}
+	}
+	
 }

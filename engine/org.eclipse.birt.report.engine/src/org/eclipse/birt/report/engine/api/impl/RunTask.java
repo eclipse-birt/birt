@@ -44,6 +44,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	private IDocArchiveWriter archive;
 	private ReportDocumentWriter writer;
 	private IPageHandler pageHandler;
+	private ReportDocumentBuilder documentBuilder;
 
 	/**
 	 * @param engine
@@ -174,11 +175,13 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	protected void doRun( ) throws EngineException
 	{
+		setRunningFlag( true );
 		ReportDesignHandle reportDesign = executionContext.getDesign( );
 
 		// using paramters
 		if ( !validateParameters( ) )
 		{
+			setRunningFlag( false );
 			throw new EngineException(
 					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
 		}
@@ -193,24 +196,35 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			writer.saveParamters( inputValues );
 
 			executionContext.openDataEngine( );
-			
-			ReportDocumentBuilder documentBuilder = new ReportDocumentBuilder(
-					executionContext, writer );
-			if ( pageHandler != null )
+
+			synchronized(this)
 			{
-				documentBuilder.setPageHandler( pageHandler );
+				if (!executionContext.isCanceled( ))
+				{
+					documentBuilder = new ReportDocumentBuilder(
+							executionContext, writer );
+				}
 			}
-
-			IContentEmitter emitter = documentBuilder.getContentEmitter( );
-			ReportExecutor executor = new ReportExecutor( executionContext,
-					reportDesign, emitter );
-			IReportExecutor lExecutor = new LocalizedReportExecutor(
-					executionContext, executor );
-			executionContext.setExecutor( lExecutor );
 			
-			initializeContentEmitter(emitter, lExecutor);
+			if ( documentBuilder != null )
+			{
+				if ( pageHandler != null )
+				{
+					documentBuilder.setPageHandler( pageHandler );
+				}
 
-			documentBuilder.build( );
+				IContentEmitter emitter = documentBuilder.getContentEmitter( );
+				ReportExecutor executor = new ReportExecutor( executionContext,
+						reportDesign,
+						emitter );
+				IReportExecutor lExecutor = new LocalizedReportExecutor( executionContext,
+						executor );
+				executionContext.setExecutor( lExecutor );
+
+				initializeContentEmitter( emitter, lExecutor );
+
+				documentBuilder.build( );
+			}
 			
 			
 			executionContext.closeDataEngine( );
@@ -233,8 +247,10 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		}
 		finally
 		{
+			documentBuilder = null;
 			closeReportDocument();
 			closeFactory();
+			setRunningFlag( false );
 		}
 	}
 
@@ -250,5 +266,14 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	{
 		setDataSource( fArchive );
 		run( ( IDocArchiveWriter ) fArchive );
+	}
+	
+	protected void doCancel( )
+	{
+		super.doCancel( );
+		if ( documentBuilder != null )
+		{
+			documentBuilder.cancel( );
+		}
 	}
 }
