@@ -126,7 +126,7 @@ public class ReportEngineService
 	/**
 	 * Constructor.
 	 * 
-	 * @param servletConfig 
+	 * @param servletConfig
 	 * @param config
 	 */
 	public ReportEngineService( ServletConfig servletConfig )
@@ -268,6 +268,7 @@ public class ReportEngineService
 
 	/**
 	 * Get engine instance.
+	 * 
 	 * @return the single report engine service
 	 */
 	public static ReportEngineService getInstance( )
@@ -277,8 +278,9 @@ public class ReportEngineService
 
 	/**
 	 * Get engine instance.
-	 * @param servletConfig 
-	 * @throws BirtException 
+	 * 
+	 * @param servletConfig
+	 * @throws BirtException
 	 * 
 	 */
 	public static void initEngineInstance( ServletConfig servletConfig )
@@ -363,7 +365,7 @@ public class ReportEngineService
 	 * 
 	 * @param report
 	 * @return the report runnable
-	 * @throws EngineException 
+	 * @throws EngineException
 	 */
 	synchronized public IReportRunnable openReportDesign( String report )
 			throws EngineException
@@ -517,17 +519,18 @@ public class ReportEngineService
 
 	/**
 	 * Run and render a report,
-	 * @param request 
+	 * 
+	 * @param request
 	 * 
 	 * @param runnable
 	 * @param outputStream
 	 * @param format
 	 * @param locale
-	 * @param rtl 
+	 * @param rtl
 	 * @param parameters
-	 * @param masterPage 
+	 * @param masterPage
 	 * @param svgFlag
-	 * @throws RemoteException 
+	 * @throws RemoteException
 	 * @throws IOException
 	 */
 	public void runAndRenderReport( HttpServletRequest request,
@@ -664,7 +667,8 @@ public class ReportEngineService
 
 	/**
 	 * Run report.
-	 * @param request 
+	 * 
+	 * @param request
 	 * 
 	 * @param runnable
 	 * @param archive
@@ -725,15 +729,16 @@ public class ReportEngineService
 
 	/**
 	 * Render report page.
-	 * @param request 
+	 * 
+	 * @param request
 	 * 
 	 * @param reportDocument
 	 * @param pageNumber
-	 * @param masterPage 
+	 * @param masterPage
 	 * @param svgFlag
-	 * @param activeIds 
-	 * @param locale 
-	 * @param rtl 
+	 * @param activeIds
+	 * @param locale
+	 * @param rtl
 	 * @return report page content
 	 * @throws RemoteException
 	 */
@@ -752,14 +757,14 @@ public class ReportEngineService
 	 * Render report page.
 	 * 
 	 * @param os
-	 * @param request 
+	 * @param request
 	 * @param reportDocument
 	 * @param pageNumber
-	 * @param masterPage 
+	 * @param masterPage
 	 * @param svgFlag
-	 * @param activeIds 
-	 * @param locale 
-	 * @param rtl 
+	 * @param activeIds
+	 * @param locale
+	 * @param rtl
 	 * @throws RemoteException
 	 */
 
@@ -835,7 +840,9 @@ public class ReportEngineService
 		// Render designated page.
 		try
 		{
-			if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
+			if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF )
+					|| IBirtConstants.SERVLET_PATH_RUN
+							.equalsIgnoreCase( request.getServletPath( ) ) )
 				renderTask.render( );
 			else
 			{
@@ -869,14 +876,14 @@ public class ReportEngineService
 	 * Render report page.
 	 * 
 	 * @param os
-	 * @param request 
+	 * @param request
 	 * @param reportDocument
-	 * @param reportletId 
-	 * @param masterPage 
+	 * @param reportletId
+	 * @param masterPage
 	 * @param pageNumber
 	 * @param svgFlag
-	 * @param activeIds 
-	 * @param locale 
+	 * @param activeIds
+	 * @param locale
 	 * @param rtl
 	 * @throws RemoteException
 	 */
@@ -1074,7 +1081,7 @@ public class ReportEngineService
 	 * Extract data.
 	 * 
 	 * @param document
-	 * @param resultSetName 
+	 * @param resultSetName
 	 * @param id
 	 * @param columns
 	 * @param filters
