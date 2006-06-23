@@ -204,7 +204,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle( executionContext );
 				layoutEngine.setPageHandler( handle );
 				startRender( );
-				layoutEngine.layout( executor, emitter, true );
+				layoutEngine.layout( executor, emitter, false );
 				closeRender( );
 				executor.close( );
 			}
@@ -335,7 +335,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle( executionContext );
 					layoutEngine.setPageHandler( handle );
 					startRender( );
-					layoutEngine.layout( executor, emitter, true );
+					layoutEngine.layout( executor, emitter, false );
 					closeRender( );
 					executor.close( );
 				}
