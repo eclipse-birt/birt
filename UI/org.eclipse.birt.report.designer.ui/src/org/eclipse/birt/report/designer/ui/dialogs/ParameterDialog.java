@@ -2170,8 +2170,8 @@ public class ParameterDialog extends BaseDialog
 				}
 				if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
 				{
-					previewString = new DateFormatter( formatCategroy != DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM ? formatCategroy
-							: formatPattern,
+					previewString = new DateFormatter( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) ? formatPattern 
+							:formatCategroy,
 							ULocale.getDefault( ) ).format( new Date( ) );
 				}
 				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
@@ -2189,8 +2189,18 @@ public class ParameterDialog extends BaseDialog
 			}
 		}
 		formatField.setText( displayFormat );
-		previewLabel.setText( previewString );
+		previewLabel.setText( convertNullString(previewString ));
 		changeFormat.setEnabled( choiceSet != null );
+	}
+	
+	private String convertNullString(String str)
+	{
+		if(str==null)
+		{
+			return "";//$NON-NLS-1$
+		}
+		return str;
+			
 	}
 
 	private boolean containValue( SelectionChoice selectedChoice,
