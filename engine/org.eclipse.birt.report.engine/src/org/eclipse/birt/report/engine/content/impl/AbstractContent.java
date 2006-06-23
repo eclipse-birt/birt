@@ -102,6 +102,11 @@ abstract public class AbstractContent extends AbstractElement
 		this.styleClass = content.getStyleClass( );
 		this.instanceId = content.getInstanceID( );
 		this.toc = content.getTOC( );
+		Object ext = content.getExtension( IContent.DOCUMENT_EXTENSION );
+		if ( ext != null )
+		{
+			setExtension( IContent.DOCUMENT_EXTENSION, ext );
+		}
 	}
 
 	public IReportContent getReportContent( )
