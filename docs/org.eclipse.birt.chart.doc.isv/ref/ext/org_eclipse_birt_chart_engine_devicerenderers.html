@@ -2,8 +2,8 @@
 <HTML>
 <HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Contains definition of chart device renderers</title>
-<style>@import url("file:/c:/Program Files/eclipse/plugins/org.eclipse.sdk_3.1.0/book.css");</style>
-<style>@import url("file:/c:/Program Files/eclipse/plugins/org.eclipse.platform.doc.isv_3.1.0/schema.css");</style>
+<style>@import url("file:/C:/Program Files/Eclipse3.2/eclipse/plugins/org.eclipse.sdk_3.2.0.v20060529/book.css");</style>
+<style>@import url("file:/C:/Program Files/Eclipse3.2/eclipse/configuration/org.eclipse.osgi/bundles/210/1/.cp/schema.css");</style>
 </HEAD>
 <BODY>
 <H1><CENTER>Contains definition of chart device renderers</CENTER></H1>
@@ -31,7 +31,7 @@ A device renderer extension point specifies a mapping entry between a device ren
 <ul class=ConfigMarkup id=attlistDesc>
 <li><b>name</b> - The name of the device renderer refers to a tag used to locate the device renderer implementing class. The naming convention uses a prefix of 'dv.'. Examples of device renderer names are dv.SWT and dv.SWING</li>
 <li><b>device</b> - The device attribute corresponds to the fully qualified class name that represents the implementing device renderer class. An example of the fully qualified device renderer class name is 'org.eclipse.birt.chart.device.swt.SwtRendererImpl'</li>
-<li><b>format</b> - @Since 2.0. The format attribute indicates a file format which this device renderer can generate, such as "BMP", "JPG", "GIF", etc.</li>
+<li><b>format</b> - @Since 2.0. The format attribute indicates a file format which this device renderer can generate, such as "BMP", "JPG", "PNG", etc.</li>
 <li><b>description</b> - @Since 2.0. The description of the device renderer elaborates the format detail if the "format" attribute exists or the functionality this device renderer holds.</li>
 </ul>
 <br><h6 class=CaptionFigColumn id=header>Examples: </h6><extension
@@ -43,10 +43,10 @@ A device renderer extension point specifies a mapping entry between a device ren
             device="org.eclipse.birt.chart.device.swt.SwtRendererImpl"
             name="dv.SWT"/>
       <deviceRenderer
-            device="org.eclipse.birt.chart.device.image.PngRendererImplOld"
+            device="org.eclipse.birt.chart.device.image.PngRendererImpl"
             name="dv.PNG24"/>
       <deviceRenderer
-            device="org.eclipse.birt.chart.device.image.GifRendererImplOld"
+            device="org.eclipse.birt.chart.device.image.GifRendererImpl"
             name="dv.GIF8"/>
       <deviceRenderer
             device="org.eclipse.birt.chart.device.image.PngRendererImpl"

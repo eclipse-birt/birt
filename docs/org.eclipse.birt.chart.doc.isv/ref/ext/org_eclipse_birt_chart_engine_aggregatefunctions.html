@@ -2,8 +2,8 @@
 <HTML>
 <HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>BIRT Chart Library Aggregate Function Extension</title>
-<style>@import url("file:/c:/Program Files/eclipse/plugins/org.eclipse.sdk_3.1.0/book.css");</style>
-<style>@import url("file:/c:/Program Files/eclipse/plugins/org.eclipse.platform.doc.isv_3.1.0/schema.css");</style>
+<style>@import url("file:/C:/Program Files/Eclipse3.2/eclipse/plugins/org.eclipse.sdk_3.2.0.v20060529/book.css");</style>
+<style>@import url("file:/C:/Program Files/Eclipse3.2/eclipse/configuration/org.eclipse.osgi/bundles/210/1/.cp/schema.css");</style>
 </HEAD>
 <BODY>
 <H1><CENTER>BIRT Chart Library Aggregate Function Extension</CENTER></H1>
@@ -23,7 +23,7 @@
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.aggregateFunction">aggregateFunction</a> EMPTY&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST aggregateFunction</p>
-<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>function&nbsp;CDATA #IMPLIED&gt;</p>
+<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>function&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>displayName&nbsp;CDATA #IMPLIED&gt;</p>
 <p></p>
 <p class=ConfigMarkup id=elementDesc>
 The definition of an Aggregate Function for use by the Chart Library.</p>
@@ -31,6 +31,7 @@ The definition of an Aggregate Function for use by the Chart Library.</p>
 <ul class=ConfigMarkup id=attlistDesc>
 <li><b>name</b> - The name of the aggregate function.</li>
 <li><b>function</b> - The class providing the evaluation services for this aggregate function. This class should the implement IAggregateFunction interface.</li>
+<li><b>displayName</b> - The display name of the aggregate function.</li>
 </ul>
 <br><h6 class=CaptionFigColumn id=header>Examples: </h6><extension point="org.eclipse.birt.chart.engine.aggregatefunctions">
         <aggregateFunction
