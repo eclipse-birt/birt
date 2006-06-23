@@ -16,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.EngineConstants;
-import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
@@ -347,6 +346,9 @@ public class PDFEmitter implements IContentEmitter
 
 		protected PDFRenderContext context;
 		
+		protected IEmitterServices services;
+		
+		
 		private Stack containerStack = new Stack();
 		
 		private class ContainerPosition
@@ -374,6 +376,7 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		public void initialize(IEmitterServices services)
 		{
+			this.services = services;
 			//Gets the output file name from RenderOptionBase.OUTPUT_FILE_NAME.
 			//It has the top preference.
 			this.reportRunnable = services.getReportRunnable();
@@ -1716,7 +1719,14 @@ public class PDFEmitter implements IContentEmitter
 						
 					case IHyperlinkAction.ACTION_DRILLTHROUGH: 
 						Action act = new Action( hlAction );
-						IHTMLActionHandler actionHandler = new HTMLActionHandler();
+						
+						IHTMLActionHandler actionHandler = null;
+						Object ac = services.getOption( RenderOptionBase.ACTION_HANDLER );
+						if ( ac != null && ac instanceof IHTMLActionHandler )
+						{
+							actionHandler = (IHTMLActionHandler) ac;
+						}
+						
 						String link = actionHandler.getURL( act, context );		
 						writer.addAnnotation( new PdfAnnotation( writer,
 								layoutPointX2PDF(areaX),
