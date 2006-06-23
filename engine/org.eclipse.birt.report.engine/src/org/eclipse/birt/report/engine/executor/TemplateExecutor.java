@@ -48,6 +48,7 @@ public class TemplateExecutor extends ReportItemExecutor
 	{
 		TemplateDesign templateDesign = (TemplateDesign) design;
 		ILabelContent textContent = report.createLabelContent( );
+		setContent(textContent);
 
 		restoreResultSet( );
 		context.registerOnPageBreak( content );
