@@ -119,6 +119,7 @@ public class RenderFolderDocumentTest extends EngineCase {
 			
 			htmlOption.setOutputFileName(htmlOutput);
 			HTMLRenderContext renderContext = new HTMLRenderContext( );
+			renderContext.setImageDirectory( "image" );
 			HashMap appContext = new HashMap( );
 			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );

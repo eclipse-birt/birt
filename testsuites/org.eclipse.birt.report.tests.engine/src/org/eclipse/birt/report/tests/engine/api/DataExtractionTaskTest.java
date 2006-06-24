@@ -57,7 +57,7 @@ public class DataExtractionTaskTest extends EngineCase
 			reportDoc=engine.openReportDocument( report_document );
 			IDataExtractionTask extractTask=engine.createDataExtractionTask( reportDoc );
 			
-			extractTask.selectResultSet( "t1_0" );
+			extractTask.selectResultSet( "t1" );
 			IFilterDefinition[] filterExpression=new IFilterDefinition[1];
 			filterExpression[0]=new FilterDefinition(new ConditionalExpression(
 					                    "row[\"territory\"]",ConditionalExpression.OP_EQ, "\"EMEA\"",null));
