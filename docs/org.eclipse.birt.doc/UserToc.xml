@@ -198,17 +198,17 @@
   <topic label="Using JavaScript to Write an Event Handler" href="birt/birt-22-1.html" >
     <topic label="How to use BIRT Report Designer to enter a JavaScript event handler" href="birt/birt-22-2.html" />
     <topic label="Determining method execution sequence" href="birt/birt-22-3.html" >
-      <topic label="Providing the ReportDesign.initialize code" href="birt/birt-22-3.html#wp187373" />
+      <topic label="Providing the ReportDesign.initialize code" href="birt/birt-22-3.html#wp222773" />
       </topic>
     <topic label="How to provide code for the ReportDesign.initialize method" href="birt/birt-22-4.html" >
-      <topic label="Providing the code for the methods you want to track" href="birt/birt-22-4.html#wp187400" />
-      <topic label="Providing the ReportDesign.afterFactory code" href="birt/birt-22-4.html#wp187408" />
+      <topic label="Providing the code for the methods you want to track" href="birt/birt-22-4.html#wp222827" />
+      <topic label="Providing the ReportDesign.afterFactory code" href="birt/birt-22-4.html#wp222836" />
       </topic>
-    <topic label="Tutorial 1:  Writing an event handler in JavaScript" href="birt/birt-22-5.html" >
-      <topic label="Task 1:  Open the report design" href="birt/birt-22-5.html#wp152597" />
-      <topic label="Task 2:  Create and initialize a counter in the Table.onCreate( ) method" href="birt/birt-22-5.html#wp138953" />
-      <topic label="Task 3:  Conditionally increment the counter in the Row.onCreate( ) method" href="birt/birt-22-5.html#wp194795" />
-      <topic label="Task 4:  Display the result, using the  ReportDesign.afterFactory( ) method" href="birt/birt-22-5.html#wp139017" />
+    <topic label="Tutorial 5:  Writing an event handler in JavaScript" href="birt/birt-22-5.html" >
+      <topic label="Task 1:  Open the report design" href="birt/birt-22-5.html#wp222878" />
+      <topic label="Task 2:  Create and initialize a counter in the Table.onCreate( ) method" href="birt/birt-22-5.html#wp222901" />
+      <topic label="Task 3:  Conditionally increment the counter in the Row.onCreate( ) method" href="birt/birt-22-5.html#wp222954" />
+      <topic label="Task 4:  Display the result, using the  ReportDesign.afterFactory( ) method" href="birt/birt-22-5.html#wp222996" />
       </topic>
       </topic>
   <topic label="Using Java to Write an Event Handler" href="birt/birt-23-1.html" >
