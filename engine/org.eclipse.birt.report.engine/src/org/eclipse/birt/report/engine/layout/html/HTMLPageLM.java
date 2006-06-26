@@ -69,7 +69,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 	}
 
 	boolean isLastPage = false;
-	boolean isFirstPage = true;
 
 	public boolean layout( )
 	{
@@ -79,32 +78,46 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			isLastPage = true;
 			return false;
 		}
-		
-		boolean hasNextPage = false;
-		if (isFirstPage)
-		{
-			isFirstPage = false;
-			hasNextPage = layoutFirstPage( );
-		}
-		else
-		{
-			start( );
-			hasNextPage = layoutChildren( );
-		}
+		boolean hasNextPage = layoutChildren( );
 		if ( isChildrenFinished( ) )
 		{
 			isLastPage = true;
 		}
+		if ( isLastPage && !hasStartPage && pageNumber == 0 )
+		{
+			start( );
+		}
 		end( );
 		return hasNextPage;
 	}
-	
-	private boolean layoutFirstPage( )
+
+	boolean hasStartPage = false;
+
+	protected boolean layoutChildren( )
 	{
 		boolean hasNext = false;
-		boolean hasStartPage = false;
-		// try to get the first element
-		while ( executor.hasNextChild( )&&!context.getCancelFlag( ) )
+		hasStartPage = false;
+		// first we need layout the remain content
+		if ( childLayout != null )
+		{
+			// we have handle the childLayout, so just ouptut the content
+			start( );
+			hasStartPage = true;
+			hasNext = childLayout.layout( );
+			if ( childLayout.isFinished( ) )
+			{
+				childLayout.close( );
+				childExecutor.close( );
+				childLayout = null;
+				childExecutor = null;
+			}
+			if ( hasNext )
+			{
+				return true;
+			}
+		}
+		// then layout the next content
+		while ( executor.hasNextChild( ) && !context.getCancelFlag( ) )
 		{
 			childExecutor = (IReportItemExecutor) executor.getNextChild( );
 			IContent childContent = childExecutor.execute( );
@@ -115,7 +128,10 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 					hasStartPage = true;
 					String masterPage = childContent.getStyle( )
 							.getMasterPage( );
-					context.setMasterPage( masterPage );
+					if ( masterPage != null )
+					{
+						context.setMasterPage( masterPage );
+					}
 					start( );
 				}
 				childLayout = engine.createLayoutManager( this, childContent,
@@ -137,11 +153,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			}
 			childExecutor.close( );
 			childExecutor = null;
-		}
-		//this is the last page
-		if (hasStartPage == false)
-		{
-			start( );
 		}
 		return false;
 	}
