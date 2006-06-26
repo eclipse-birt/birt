@@ -54,6 +54,7 @@ public class RowSaveUtil
 		
 		this.rowExprsDos = new DataOutputStream( rowExprsOs );
 		this.rowLenDos = new DataOutputStream( rowLenOs );
+		this.lastRowIndex = -1;
 	}
 
 	/**
@@ -66,6 +67,8 @@ public class RowSaveUtil
 	{
 		try
 		{
+			initSave( false );
+			
 			saveNullRowsBetween( lastRowIndex, currIndex );
 			
 			int rowBytes = saveExprValue( valueMap );
@@ -88,10 +91,8 @@ public class RowSaveUtil
 	 * @param exprValue
 	 * @throws DataException
 	 */
-	public int saveExprValue( Map valueMap ) throws DataException
+	private int saveExprValue( Map valueMap ) throws DataException
 	{
-		initSave( false );
-
 		ByteArrayOutputStream tempBaos = new ByteArrayOutputStream( );
 		BufferedOutputStream tempBos = new BufferedOutputStream( tempBaos );
 		DataOutputStream tempDos = new DataOutputStream( tempBos );
