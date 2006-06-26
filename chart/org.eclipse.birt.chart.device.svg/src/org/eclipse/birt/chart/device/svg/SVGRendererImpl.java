@@ -70,6 +70,7 @@ import org.w3c.dom.Element;
  */
 public class SVGRendererImpl extends SwingRendererImpl
 {
+
 	protected List scriptRefList = null;
 	protected List scriptCodeList = null;
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
@@ -78,12 +79,9 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * 
 	 */
 	private IUpdateNotifier _iun = null;
-	
-
-
 
 	protected SVGInteractiveRenderer ivRenderer;
-	
+
 	/**
 	 * 
 	 */
@@ -103,7 +101,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		}
 		else
 			_ids = new SVGDisplayServer( );
-		
+
 		ivRenderer = new SVGInteractiveRenderer( getULocale( ) );
 	}
 	/**
@@ -115,17 +113,16 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd".
 	 */
 	static private final String SVG_DTD = "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"; //$NON-NLS-1$
-	
+
 	/**
 	 * The SVG namespace http://www.w3.org/2000/svg
 	 */
 	static private final String XMLNS = "http://www.w3.org/2000/svg"; //$NON-NLS-1$
 	/**
-	 * The  xmlns:xlink is
-	 * "http://www.w3.org/1999/xlink".
+	 * The xmlns:xlink is "http://www.w3.org/1999/xlink".
 	 */
 	static private final String XMLNSXINK = "http://www.w3.org/1999/xlink"; //$NON-NLS-1$
-	
+
 	/**
 	 * 
 	 */
@@ -135,16 +132,15 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * Document object that represents the SVG
 	 */
 	protected Document dom;
-	
+
 	/**
 	 * SVG Graphic context
 	 */
 	protected SVGGraphics2D svggc;
-	
 
-	
 	/**
-	 * Property that determins if the SVG should resize to the containing element dimensions.
+	 * Property that determins if the SVG should resize to the containing
+	 * element dimensions.
 	 */
 	protected boolean _resizeSVG = false;
 
@@ -161,8 +157,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 		{
 			_iun = (IUpdateNotifier) oValue;
 			ivRenderer.setIUpdateNotifier( _iun );
-			
-		}		
+
+		}
 		else if ( sProperty.equals( IDeviceRenderer.EXPECTED_BOUNDS ) )
 		{
 			final Bounds bo = (Bounds) oValue;
@@ -171,8 +167,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 				dom = createSvgDocument( bo.getWidth( ), bo.getHeight( ) );
 				svggc = new SVGGraphics2D( dom );
 				ivRenderer.setSVG2D( svggc );
-				//Create the hotspot layer
-				ivRenderer.createHotspotLayer(dom);
+				// Create the hotspot layer
+				ivRenderer.createHotspotLayer( dom );
 				super.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, svggc );
 			}
 			catch ( Exception e )
@@ -186,31 +182,34 @@ public class SVGRendererImpl extends SwingRendererImpl
 		}
 		else if ( sProperty.equals( ISVGConstants.JAVASCRIPT_CODE_LIST ) )
 		{
-			scriptCodeList = (List)oValue;
+			scriptCodeList = (List) oValue;
 		}
 		else if ( sProperty.equals( ISVGConstants.JAVASCRIPT_URL_REF_LIST ) )
 		{
-			scriptRefList = (List)oValue;
+			scriptRefList = (List) oValue;
 		}
 		else if ( sProperty.equals( ISVGConstants.RESIZE_SVG ) )
 		{
-			_resizeSVG = ((Boolean)oValue).booleanValue();
+			_resizeSVG = ( (Boolean) oValue ).booleanValue( );
 		}
 	}
-	
 
-	
-	protected void addScripts(){
-		if (this.scriptCodeList != null){
-			for (int x = 0; x< scriptCodeList.size(); x++){
-				String code = (String)scriptCodeList.get(x);
-				((SVGGraphics2D)_g2d).addScript(code);				
+	protected void addScripts( )
+	{
+		if ( this.scriptCodeList != null )
+		{
+			for ( int x = 0; x < scriptCodeList.size( ); x++ )
+			{
+				String code = (String) scriptCodeList.get( x );
+				( (SVGGraphics2D) _g2d ).addScript( code );
 			}
 		}
-		if (this.scriptRefList != null){
-			for (int x = 0; x< scriptRefList.size(); x++){
-				String ref = (String)scriptRefList.get(x);
-				((SVGGraphics2D)_g2d).addScriptRef(ref);				
+		if ( this.scriptRefList != null )
+		{
+			for ( int x = 0; x < scriptRefList.size( ); x++ )
+			{
+				String ref = (String) scriptRefList.get( x );
+				( (SVGGraphics2D) _g2d ).addScriptRef( ref );
 			}
 		}
 	}
@@ -223,14 +222,14 @@ public class SVGRendererImpl extends SwingRendererImpl
 	public void after( ) throws ChartException
 	{
 		super.after( );
-		
+
 		ivRenderer.addInteractivity( );
-			addScripts();
-		((SVGGraphics2D)_g2d).flush();		
-		
-		//make sure we add the hotspot layer to the bottom layer of the svg
-		dom.getDocumentElement().appendChild(ivRenderer.getHotspotLayer( ));
-		
+		addScripts( );
+		( (SVGGraphics2D) _g2d ).flush( );
+
+		// make sure we add the hotspot layer to the bottom layer of the svg
+		dom.getDocumentElement( ).appendChild( ivRenderer.getHotspotLayer( ) );
+
 		if ( oOutputIdentifier instanceof OutputStream ) // OUTPUT STREAM
 		{
 			try
@@ -271,9 +270,9 @@ public class SVGRendererImpl extends SwingRendererImpl
 					},
 					null );
 		}
-		
+
 		ivRenderer.clear( );
-		
+
 	}
 
 	/**
@@ -295,8 +294,10 @@ public class SVGRendererImpl extends SwingRendererImpl
 			DOMSource source = new DOMSource( svgDocument );
 			StreamResult result = new StreamResult( writer );
 
-			//need to check if we should use sun's implementation of the transform factory.  This is needed to work with jdk1.4 and jdk1.5 with tomcat
-			checkForTransformFactoryImpl();
+			// need to check if we should use sun's implementation of the
+			// transform factory. This is needed to work with jdk1.4 and jdk1.5
+			// with tomcat
+			checkForTransformFactoryImpl( );
 			TransformerFactory transFactory = TransformerFactory.newInstance( );
 			Transformer transformer = transFactory.newTransformer( );
 
@@ -306,17 +307,24 @@ public class SVGRendererImpl extends SwingRendererImpl
 	}
 
 	/**
-	 * Check to see if we should change the implementation of the TransformFactory.
-	 *
+	 * Check to see if we should change the implementation of the
+	 * TransformFactory.
+	 * 
 	 */
-	private void checkForTransformFactoryImpl(){
-		try {
-			Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
-		} catch (ClassNotFoundException e) {
-			//Force using sun's implementation
-			System.setProperty("javax.xml.transform.TransformerFactory", "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl");
+	private void checkForTransformFactoryImpl( )
+	{
+		try
+		{
+			Class.forName( "org.apache.xalan.processor.TransformerFactoryImpl" ); //$NON-NLS-1$
+		}
+		catch ( ClassNotFoundException e )
+		{
+			// Force using sun's implementation
+			System.setProperty( "javax.xml.transform.TransformerFactory", //$NON-NLS-1$
+					"com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl" ); //$NON-NLS-1$
 		}
 	}
+
 	/**
 	 * Creates an SVG document and assigns width and height to the root "svg"
 	 * element.
@@ -332,14 +340,24 @@ public class SVGRendererImpl extends SwingRendererImpl
 		builder = factory.newDocumentBuilder( );
 		DOMImplementation domImpl = builder.getDOMImplementation( );
 		DocumentType dType = domImpl.createDocumentType( "svg", //$NON-NLS-1$
-				SVG_VERSION, SVG_DTD );
+				SVG_VERSION,
+				SVG_DTD );
 		Document svgDocument = domImpl.createDocument( XMLNS, "svg", dType ); //$NON-NLS-1$
-		svgDocument.getDocumentElement().setAttribute("xmlns", XMLNS); //$NON-NLS-1$
-		svgDocument.getDocumentElement().setAttribute("xmlns:xlink", XMLNSXINK); //$NON-NLS-1$
-	
-		if (_resizeSVG)
-			svgDocument.getDocumentElement().setAttribute("onload","resizeSVG(evt)"); //$NON-NLS-1$ //$NON-NLS-2$
-		
+		svgDocument.getDocumentElement( ).setAttribute( "xmlns", XMLNS ); //$NON-NLS-1$
+		svgDocument.getDocumentElement( )
+				.setAttribute( "xmlns:xlink", XMLNSXINK ); //$NON-NLS-1$
+
+		if ( _resizeSVG )
+		{
+			svgDocument.getDocumentElement( )
+					.setAttribute( "onload", "resizeSVG(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
+			// the onload() effect could be inaccurate, call onreisze again to
+			// ensure, Note onload() is still needed, because onresize may never
+			// be called.
+			svgDocument.getDocumentElement( )
+					.setAttribute( "onresize", "resizeSVG(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
 		return svgDocument;
 	}
 
@@ -361,17 +379,17 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	public void changeStructure( StructureChangeEvent scev )
 	{
-//		Object sourceObj = scev.getSource( );
-//		switch ( scev.getEventType( ) )
-//		{
-//			case StructureChangeEvent.BEFORE :
-//				addGroupStructure( sourceObj );
-//				break;
-//			case StructureChangeEvent.AFTER :
-//				removeGroupStructure( sourceObj );
-//				break;
-//
-//		}
+		// Object sourceObj = scev.getSource( );
+		// switch ( scev.getEventType( ) )
+		// {
+		// case StructureChangeEvent.BEFORE :
+		// addGroupStructure( sourceObj );
+		// break;
+		// case StructureChangeEvent.AFTER :
+		// removeGroupStructure( sourceObj );
+		// break;
+		//
+		// }
 	}
 
 	protected void removeGroupStructure( Object block )
@@ -438,17 +456,17 @@ public class SVGRendererImpl extends SwingRendererImpl
 					Messages.getString( "exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
 			return;
 		}
-		
+
 		Trigger[] triggers = ie.getTriggers( );
 		if ( triggers == null )
 		{
 			return;
 		}
 
-		///////////////////////////////////////////////
-		//Create the hotspot and add the hotspot on 
-		//the SVG hotspot layer
-		///////////////////////////////////////////////
+		// /////////////////////////////////////////////
+		// Create the hotspot and add the hotspot on
+		// the SVG hotspot layer
+		// /////////////////////////////////////////////
 		final PrimitiveRenderEvent pre = ie.getHotSpot( );
 		Element elm = null;
 
@@ -473,15 +491,18 @@ public class SVGRendererImpl extends SwingRendererImpl
 		{
 			final Bounds boRect = ( (RectangleRenderEvent) pre ).getBounds( );
 
-			elm = svggc.createRect(boRect.getLeft(), boRect.getTop(), boRect.getWidth(), boRect.getHeight());
+			elm = svggc.createRect( boRect.getLeft( ),
+					boRect.getTop( ),
+					boRect.getWidth( ),
+					boRect.getHeight( ) );
 		}
 		else if ( pre instanceof AreaRenderEvent )
-		{		
-			AreaRenderEvent are = (AreaRenderEvent)pre;
-						
+		{
+			AreaRenderEvent are = (AreaRenderEvent) pre;
+
 			final GeneralPath gp = new GeneralPath( );
 			PrimitiveRenderEvent subPre;
-			
+
 			for ( int i = 0; i < are.getElementCount( ); i++ )
 			{
 				subPre = are.getElement( i );
@@ -502,19 +523,17 @@ public class SVGRendererImpl extends SwingRendererImpl
 				{
 					final LineRenderEvent lre = (LineRenderEvent) subPre;
 					final Line2D.Double l2d = new Line2D.Double( lre.getStart( )
-							.getX( ),
-							lre.getStart( ).getY( ),
-							lre.getEnd( ).getX( ),
-							lre.getEnd( ).getY( ) );
+							.getX( ), lre.getStart( ).getY( ), lre.getEnd( )
+							.getX( ), lre.getEnd( ).getY( ) );
 					gp.append( l2d, true );
 				}
 			}
-			elm = svggc.createGeneralPath(gp);
-		}			
+			elm = svggc.createGeneralPath( gp );
+		}
 		else if ( pre instanceof ArcRenderEvent )
 		{
 			final ArcRenderEvent are = (ArcRenderEvent) pre;
-			
+
 			if ( are.getInnerRadius( ) >= 0
 					&& are.getOuterRadius( ) > 0
 					&& are.getInnerRadius( ) < are.getOuterRadius( ) )
@@ -545,14 +564,15 @@ public class SVGRendererImpl extends SwingRendererImpl
 				Area fArea = new Area( outerArc );
 				fArea.exclusiveOr( new Area( innerArc ) );
 
-//				Shape prevClip = _g2d.getClip( );
-//				_g2d.setClip( fArea );
+				// Shape prevClip = _g2d.getClip( );
+				// _g2d.setClip( fArea );
 				elm = svggc.createGeneralPath( fArea );
-//				_g2d.setClip( prevClip );
-			}		
+				// _g2d.setClip( prevClip );
+			}
 			else
 			{
-				elm = svggc.createGeneralPath( new Arc2D.Double( are.getTopLeft( ).getX( ),
+				elm = svggc.createGeneralPath( new Arc2D.Double( are.getTopLeft( )
+						.getX( ),
 						are.getTopLeft( ).getY( ),
 						are.getWidth( ),
 						are.getHeight( ),
@@ -560,16 +580,11 @@ public class SVGRendererImpl extends SwingRendererImpl
 						are.getAngleExtent( ),
 						toSwingArcType( are.getStyle( ) ) ) );
 			}
-			
+
 		}
-	
+
 		ivRenderer.prepareInteractiveEvent( elm, ie, triggers );
 	}
-
-	
-	
-
-		
 
 	/**
 	 * 
@@ -589,89 +604,96 @@ public class SVGRendererImpl extends SwingRendererImpl
 		}
 		return -1;
 	}
-	
 
-	
-	
-		
-	public void drawArc(ArcRenderEvent are) throws ChartException {
-		ivRenderer.groupPrimitive(are, false);
-		super.drawArc(are);
-		ivRenderer.ungroupPrimitive(are, false);
+	public void drawArc( ArcRenderEvent are ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( are, false );
+		super.drawArc( are );
+		ivRenderer.ungroupPrimitive( are, false );
 	}
 
-	public void drawArea(AreaRenderEvent are) throws ChartException {
-		ivRenderer.groupPrimitive(are, false);
-		super.drawArea(are);
-		ivRenderer.ungroupPrimitive(are, false);
+	public void drawArea( AreaRenderEvent are ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( are, false );
+		super.drawArea( are );
+		ivRenderer.ungroupPrimitive( are, false );
 	}
 
-	public void drawImage(ImageRenderEvent pre) throws ChartException {
-		ivRenderer.groupPrimitive(pre, false);
-		super.drawImage(pre);
-		ivRenderer.ungroupPrimitive(pre, false);
+	public void drawImage( ImageRenderEvent pre ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( pre, false );
+		super.drawImage( pre );
+		ivRenderer.ungroupPrimitive( pre, false );
 	}
-	
+
 	protected Image createImage( byte[] data )
 	{
-		return new SVGImage(super.createImage(data), null, data );
-	}
-	
-
-	public void drawLine(LineRenderEvent lre) throws ChartException {
-		ivRenderer.groupPrimitive(lre, false);
-		super.drawLine(lre);
-		ivRenderer.ungroupPrimitive(lre, false);
+		return new SVGImage( super.createImage( data ), null, data );
 	}
 
-	public void drawOval(OvalRenderEvent ore) throws ChartException {
-		ivRenderer.groupPrimitive(ore, false);
-		super.drawOval(ore);
-		ivRenderer.ungroupPrimitive(ore, false);
+	public void drawLine( LineRenderEvent lre ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( lre, false );
+		super.drawLine( lre );
+		ivRenderer.ungroupPrimitive( lre, false );
 	}
 
-	public void drawPolygon(PolygonRenderEvent pre) throws ChartException {
-		ivRenderer.groupPrimitive(pre, false);
-		super.drawPolygon(pre);
-		ivRenderer.ungroupPrimitive(pre, false);
+	public void drawOval( OvalRenderEvent ore ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( ore, false );
+		super.drawOval( ore );
+		ivRenderer.ungroupPrimitive( ore, false );
 	}
 
-	public void drawRectangle(RectangleRenderEvent rre) throws ChartException {
-		ivRenderer.groupPrimitive(rre, false);
-		super.drawRectangle(rre);
-		ivRenderer.ungroupPrimitive(rre, false);
+	public void drawPolygon( PolygonRenderEvent pre ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( pre, false );
+		super.drawPolygon( pre );
+		ivRenderer.ungroupPrimitive( pre, false );
 	}
 
-	public void fillArc(ArcRenderEvent are) throws ChartException {
-		ivRenderer.groupPrimitive(are, false);
-		super.fillArc(are);
-		ivRenderer.ungroupPrimitive(are, false);
+	public void drawRectangle( RectangleRenderEvent rre ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( rre, false );
+		super.drawRectangle( rre );
+		ivRenderer.ungroupPrimitive( rre, false );
 	}
 
-	public void fillArea(AreaRenderEvent are) throws ChartException {
-		ivRenderer.groupPrimitive(are, false);
-		super.fillArea(are);
-		ivRenderer.ungroupPrimitive(are, false);
+	public void fillArc( ArcRenderEvent are ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( are, false );
+		super.fillArc( are );
+		ivRenderer.ungroupPrimitive( are, false );
 	}
 
-	public void fillOval(OvalRenderEvent ore) throws ChartException {
-		ivRenderer.groupPrimitive(ore, false);
-		super.fillOval(ore);
-		ivRenderer.ungroupPrimitive(ore, false);
+	public void fillArea( AreaRenderEvent are ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( are, false );
+		super.fillArea( are );
+		ivRenderer.ungroupPrimitive( are, false );
 	}
 
-	public void fillPolygon(PolygonRenderEvent pre) throws ChartException {
-		ivRenderer.groupPrimitive(pre, false);
-		super.fillPolygon(pre);
-		ivRenderer.ungroupPrimitive(pre, false);
+	public void fillOval( OvalRenderEvent ore ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( ore, false );
+		super.fillOval( ore );
+		ivRenderer.ungroupPrimitive( ore, false );
 	}
 
-	public void fillRectangle(RectangleRenderEvent rre) throws ChartException {
-		ivRenderer.groupPrimitive(rre, false);
-		super.fillRectangle(rre);
-		ivRenderer.ungroupPrimitive(rre, false);
+	public void fillPolygon( PolygonRenderEvent pre ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( pre, false );
+		super.fillPolygon( pre );
+		ivRenderer.ungroupPrimitive( pre, false );
 	}
-	
+
+	public void fillRectangle( RectangleRenderEvent rre ) throws ChartException
+	{
+		ivRenderer.groupPrimitive( rre, false );
+		super.fillRectangle( rre );
+		ivRenderer.ungroupPrimitive( rre, false );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -679,7 +701,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
-		ivRenderer.groupPrimitive(tre, true);
+		ivRenderer.groupPrimitive( tre, true );
 		SVGTextRenderer tr = SVGTextRenderer.instance( (SVGDisplayServer) _ids );
 		switch ( tre.getAction( ) )
 		{
@@ -710,8 +732,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 						tre.getLabel( ) );
 				break;
 		}
-		ivRenderer.ungroupPrimitive(tre, true);
-	}	
-	
+		ivRenderer.ungroupPrimitive( tre, true );
+	}
 
 }
