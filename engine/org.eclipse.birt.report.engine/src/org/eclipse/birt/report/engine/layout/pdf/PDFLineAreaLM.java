@@ -216,7 +216,10 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		updateLine( );
 		align( );
 		boolean ret = true;
-		ret = parent.addArea( root );
+		if(root.getChildrenCount( )>0)
+		{
+			ret = parent.addArea( root );
+		}
 		lineFinished = true;
 		if ( ret )
 		{
