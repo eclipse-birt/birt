@@ -931,11 +931,13 @@ public class ModelUtil
 	 *            Design element.
 	 * @param propName
 	 *            Name of property
+	 * @param locale
+	 *            the locale
 	 * @return externalized message.
 	 */
 
 	private static String searchForExternalizedValue( DesignElement element,
-			String propIDName )
+			String propIDName, ULocale locale )
 	{
 		while ( element != null )
 		{
@@ -944,7 +946,7 @@ public class ModelUtil
 					propIDName );
 			if ( !StringUtil.isBlank( textKey ) )
 			{
-				String externalizedText = root.getMessage( textKey );
+				String externalizedText = root.getMessage( textKey, locale );
 				return externalizedText;
 			}
 			element = element.getExtendsElement( );
@@ -961,15 +963,18 @@ public class ModelUtil
 	 *            ID of property
 	 * @param propName
 	 *            Name of property
+	 * @param locale
+	 *            the locale
 	 * @return externalized value.
 	 */
 
 	public static String getExternalizedValue( DesignElement element,
-			String propIDName, String propName )
+			String propIDName, String propName, ULocale locale )
 	{
 		if ( element == null )
 			return null;
-		String textKey = searchForExternalizedValue( element, propIDName );
+		String textKey = searchForExternalizedValue( element, propIDName,
+				locale );
 		if ( !StringUtil.isBlank( textKey ) )
 			return textKey;
 

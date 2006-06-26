@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -68,6 +69,8 @@ import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Base class for all report elements. Provides a high-level interface to the
@@ -2203,16 +2206,34 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Returns externalized message.
 	 * 
 	 * @param textIDProp
-	 *            TEXT_ID_PROP
+	 *            the display key property name
 	 * @param textProp
-	 *            TEXT_PROP
+	 *            the property name
 	 * @return externalized message.
 	 */
 
 	public String getExternalizedValue( String textIDProp, String textProp )
 	{
 		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
-				textProp );
+				textProp, ThreadResources.getLocale( ) );
 	}
 
+	/**
+	 * Returns externalized message for the given locale.
+	 * 
+	 * @param textIDProp
+	 *            the display key property name
+	 * @param textProp
+	 *            the property name
+	 * @param locale
+	 *            the locale
+	 * @return externalized message.
+	 */
+
+	public String getExternalizedValue( String textIDProp, String textProp,
+			ULocale locale )
+	{
+		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
+				textProp, locale );
+	}
 }

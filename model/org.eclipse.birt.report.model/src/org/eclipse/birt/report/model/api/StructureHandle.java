@@ -22,9 +22,12 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Handle to a structure within a list property. List properties contain objects
@@ -291,15 +294,35 @@ public class StructureHandle extends ValueHandle
 	 * Returns externalized message.
 	 * 
 	 * @param textIDProp
-	 *            TEXT_ID_PROP
+	 *            the display key property name
 	 * @param textProp
-	 *            TEXT_PROP
+	 *            the property name
 	 * @return externalized message.
 	 */
 
 	public String getExternalizedValue( String textIDProp, String textProp )
 	{
-		return ModelUtil.getExternalizedValue(  getElement() , textIDProp, textProp );
+		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
+				textProp, ThreadResources.getLocale( ) );
+	}
+
+	/**
+	 * Returns externalized message for the given locale.
+	 * 
+	 * @param textIDProp
+	 *            the display key property name
+	 * @param textProp
+	 *            the property name
+	 * @param locale
+	 *            the locale
+	 * @return externalized message.
+	 */
+
+	public String getExternalizedValue( String textIDProp, String textProp,
+			ULocale locale )
+	{
+		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
+				textProp, locale );
 	}
 
 }
