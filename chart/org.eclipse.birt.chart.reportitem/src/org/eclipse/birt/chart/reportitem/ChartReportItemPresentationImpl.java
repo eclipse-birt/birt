@@ -492,30 +492,34 @@ public final class ChartReportItemPresentationImpl extends
 			}
 
 		}
-		catch ( BirtException ex )
+		catch ( BirtException birtException )
 		{
-			if ( ex.getCause( ) instanceof ChartException
-					&& ( (ChartException) ex.getCause( ) ).getType( ) == ChartException.ZERO_DATASET )
+			Throwable ex = birtException;
+			while ( ex.getCause() != null )
 			{
-				// if the Data set has zero lines, just log the error and
+				ex = ex.getCause( );
+			}
+			 
+			if ( ex instanceof ChartException
+					&& ( (ChartException) ex ).getType( ) == ChartException.ZERO_DATASET )
+			{
+				// if the Data set has zero lines, just 
 				// returns null gracefully.
-				logger.log( ex );
 				return null;
 			}
 
-			if ( ( ex.getCause( ) instanceof ChartException && ( (ChartException) ex.getCause( ) ).getType( ) == ChartException.INVALID_IMAGE_SIZE )
-					|| ( ex instanceof ChartException && ( (ChartException) ex ).getType( ) == ChartException.INVALID_IMAGE_SIZE ) )
+			if ( ( ex instanceof ChartException && ( (ChartException) ex ).getType( ) == ChartException.INVALID_IMAGE_SIZE ) )
 			{
 				// if the image size is invalid, this may caused by
 				// Display=None, lets ignore it.
-				logger.log( ex );
+				logger.log( birtException );
 				return null;
 			}
 
 			logger.log( ILogger.ERROR,
 					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsFailed" ) ); //$NON-NLS-1$
-			logger.log( ex );
-			throw ex;
+			logger.log( birtException );
+			throw birtException;
 		}
 		catch ( RuntimeException ex )
 		{
