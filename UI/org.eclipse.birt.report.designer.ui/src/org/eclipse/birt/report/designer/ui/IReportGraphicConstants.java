@@ -166,6 +166,9 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_SCRIPT_DATA_SOURCE_LINK = ReportDesignConstants.SCRIPT_DATA_SOURCE
 			+ "_"
 			+ LINK;
+	
+	public final static String ICON_ELEMENT_JOINT_DATA_SET_LINK = ReportDesignConstants.JOINT_DATA_SET
+			+ "_" + LINK;
 
 	// outline view icons
 	public final static String ICON_NODE_BODY = "Body"; //$NON-NLS-1$

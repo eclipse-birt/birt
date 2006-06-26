@@ -307,6 +307,11 @@ public class DataSetMetaDataHelper
 				{
 					return true;
 				}
+				else if ( dsHandle instanceof JointDataSetHandle )
+				{
+					if ( checkHandleType( dsHandle ) )
+						return true;
+				}
 			}
 		}
 		return false;

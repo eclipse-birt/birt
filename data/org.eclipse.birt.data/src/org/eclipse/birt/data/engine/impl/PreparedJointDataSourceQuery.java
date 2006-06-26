@@ -40,6 +40,7 @@ import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSourceQuery;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.jointdataset.IJoinConditionMatcher;
 import org.eclipse.birt.data.engine.impl.jointdataset.JoinConditionMatcher;
 import org.eclipse.birt.data.engine.impl.jointdataset.JointDataSetPopulatorFactory;
@@ -187,6 +188,11 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private JointResultMetadata getJointResultMetadata( IResultMetaData left,
 			IResultMetaData right ) throws DataException
 	{
+		// TODO: enhance me
+		if ( left == null || right == null )
+		{
+			throw new DataException( ResourceConstants.UNEXPECTED_ERROR );
+		}
 		try
 		{
 			String leftPrefix = dataSet.getLeftDataSetDesignName( );

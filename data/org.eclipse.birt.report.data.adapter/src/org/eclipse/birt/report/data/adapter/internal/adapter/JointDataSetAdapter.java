@@ -31,7 +31,7 @@ public class JointDataSetAdapter extends JointDataSetDesign
 {
 	public JointDataSetAdapter( JointDataSetHandle handle ) throws BirtException
 	{
-		super( handle.getName( ));
+		super( handle.getQualifiedName( ));
 		
 		Iterator it = handle.joinConditionsIterator( );
 	

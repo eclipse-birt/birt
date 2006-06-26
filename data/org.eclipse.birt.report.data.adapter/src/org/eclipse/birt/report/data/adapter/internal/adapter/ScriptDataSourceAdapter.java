@@ -26,7 +26,7 @@ public class ScriptDataSourceAdapter extends ScriptDataSourceDesign
 	public ScriptDataSourceAdapter( ScriptDataSourceHandle source ) 
 		throws BirtException
 	{
-		super(source.getName());
+		super( source.getQualifiedName( ) );
 
 		// TODO: event handler!!!!
 		
