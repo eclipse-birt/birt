@@ -56,7 +56,8 @@ public interface IStyleModel
 	public static final String TEXT_UNDERLINE_PROP = "textUnderline"; //$NON-NLS-1$
 	public static final String TEXT_OVERLINE_PROP = "textOverline"; //$NON-NLS-1$
 	public static final String TEXT_LINE_THROUGH_PROP = "textLineThrough"; //$NON-NLS-1$
-	//public static final String HIGHLIGHT_TEST_EXPR_PROP = "highlightTestExpr"; //$NON-NLS-1$
+	// public static final String HIGHLIGHT_TEST_EXPR_PROP =
+	// "highlightTestExpr"; //$NON-NLS-1$
 	public static final String HIGHLIGHT_RULES_PROP = "highlightRules"; //$NON-NLS-1$
 	public static final String MAP_RULES_PROP = "mapRules"; //$NON-NLS-1$
 	public static final String NUMBER_FORMAT_PROP = "numberFormat"; //$NON-NLS-1$
@@ -65,6 +66,9 @@ public interface IStyleModel
 	public static final String MASTER_PAGE_PROP = "masterPage"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_BEFORE_PROP = "pageBreakBefore"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_AFTER_PROP = "pageBreakAfter"; //$NON-NLS-1$
+	/**
+	 * @deprecated
+	 */
 	public static final String PAGE_BREAK_INSIDE_PROP = "pageBreakInside"; //$NON-NLS-1$
 	public static final String SHOW_IF_BLANK_PROP = "showIfBlank"; //$NON-NLS-1$
 	public static final String STRING_FORMAT_PROP = "stringFormat"; //$NON-NLS-1$
