@@ -51,6 +51,7 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
@@ -63,9 +64,13 @@ import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSValue;
+
+import com.ibm.icu.util.ULocale;
 
 
 public class LocalizedContentVisitor extends ContentVisitorAdapter
@@ -176,7 +181,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		String captionText = table.getCaption( );
 		String captionKey = table.getCaptionKey( );
 
-		captionText = localize( captionKey, captionText );
+		captionText = localize( table, captionKey, captionText );
 		table.setCaption( captionText );
 		
 		return table;
@@ -219,12 +224,12 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 */
 	protected void processData( IDataContent data )
 	{
-		String helpText = localize( data.getHelpKey( ), data.getHelpText( ) );
+		String helpText = localize( data, data.getHelpKey( ), data.getHelpText( ) );
 		data.setHelpText( helpText );
 		String text = ""; //$NON-NLS-1$
 		if ( data.getLabelKey( ) != null || data.getLabelText( ) != null )
 		{
-			text = localize( data.getLabelKey( ), data.getLabelText( ) );
+			text = localize( data, data.getLabelKey( ), data.getLabelText( ) );
 		}
 		else
 		{
@@ -297,10 +302,10 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 */
 	protected void processLabel( ILabelContent label )
 	{
-		String helpText = localize( label.getHelpKey( ), label.getHelpText( ) );
+		String helpText = localize( label, label.getHelpKey( ), label.getHelpText( ) );
 		label.setHelpText( helpText );
 
-		String text = localize( label.getLabelKey( ), label.getLabelText( ) );
+		String text = localize( label, label.getLabelKey( ), label.getLabelText( ) );
 		label.setText( text );
 	}
 
@@ -392,12 +397,16 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 *            default text
 	 * @return localized text.
 	 */
-	private String localize( String key, String text )
+	private String localize( IContent content, String key, String text )
 	{
-		ReportDesignHandle reportDesign = getReportDesign( ); 
-		if ( key != null && reportDesign != null )
+		assert ( content != null );
+		assert ( content.getGenerateBy( ) != null );
+		DesignElementHandle element = ( (ReportItemDesign) content
+				.getGenerateBy( ) ).getHandle( );
+		if ( key != null && element != null )
 		{
-			String t = reportDesign.getMessage( key, locale );
+			String t = ModuleUtil.getExternalizedValue( element, key, text,
+					ULocale.forLocale( locale ) );
 			if ( t != null )
 			{
 				return t;
@@ -415,9 +424,9 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 	protected void processImage( IImageContent image )
 	{
-		String altText = localize( image.getAltTextKey( ), image.getAltText( ) );
+		String altText = localize( image, image.getAltTextKey( ), image.getAltText( ) );
 		image.setAltText( altText );
-		String helpText = localize( image.getHelpKey( ), image.getHelpText( ) );
+		String helpText = localize( image, image.getHelpKey( ), image.getHelpText( ) );
 		image.setHelpText( helpText );
 	}
 
@@ -437,7 +446,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			TextItemDesign design = (TextItemDesign) foreignContent
 					.getGenerateBy( );
 
-			String text = localize( design.getTextKey( ), design.getText( ) );
+			String text = localize( foreignContent, design.getTextKey( ),
+					design.getText( ) );
 			String textType = design.getTextType( );
 
 			TextTemplate template = parseTemplate( text );

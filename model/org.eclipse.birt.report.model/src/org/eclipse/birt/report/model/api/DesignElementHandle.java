@@ -70,8 +70,6 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * Base class for all report elements. Provides a high-level interface to the
  * BIRT report model. This class provides generic services for all elements.
@@ -2216,24 +2214,5 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
 				textProp, ThreadResources.getLocale( ) );
-	}
-
-	/**
-	 * Returns externalized message for the given locale.
-	 * 
-	 * @param textIDProp
-	 *            the display key property name
-	 * @param textProp
-	 *            the property name
-	 * @param locale
-	 *            the locale
-	 * @return externalized message.
-	 */
-
-	public String getExternalizedValue( String textIDProp, String textProp,
-			ULocale locale )
-	{
-		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
-				textProp, locale );
 	}
 }

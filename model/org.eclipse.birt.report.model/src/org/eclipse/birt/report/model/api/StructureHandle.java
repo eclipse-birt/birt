@@ -27,8 +27,6 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * Handle to a structure within a list property. List properties contain objects
  * called structures. Structures have <em>members</em> that hold data values.
@@ -305,24 +303,4 @@ public class StructureHandle extends ValueHandle
 		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
 				textProp, ThreadResources.getLocale( ) );
 	}
-
-	/**
-	 * Returns externalized message for the given locale.
-	 * 
-	 * @param textIDProp
-	 *            the display key property name
-	 * @param textProp
-	 *            the property name
-	 * @param locale
-	 *            the locale
-	 * @return externalized message.
-	 */
-
-	public String getExternalizedValue( String textIDProp, String textProp,
-			ULocale locale )
-	{
-		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
-				textProp, locale );
-	}
-
 }

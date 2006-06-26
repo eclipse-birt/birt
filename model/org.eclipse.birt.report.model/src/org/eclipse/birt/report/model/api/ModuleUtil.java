@@ -55,6 +55,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Provides some tool methods about the modules.
  */
@@ -566,4 +568,45 @@ public class ModuleUtil
 
 		return rtnList;
 	}
+
+	/**
+	 * Returns externalized message for the given locale.
+	 * 
+	 * @param element
+	 *            the report element.
+	 * @param key
+	 *            the display key property value
+	 * @param value
+	 *            the property value
+	 * @param locale
+	 *            the locale
+	 * @return externalized message.
+	 */
+
+	public static String getExternalizedValue( DesignElementHandle element,
+			String key, String value, ULocale locale )
+	{
+		if (element == null)
+			return value;
+		
+		DesignElement tmpElement = element.getElement( );
+		while ( tmpElement != null )
+		{
+			Module root = tmpElement.getRoot( );
+			if ( root == null )
+				break;
+
+			String externalizedText = root.getMessage( key, locale );
+			if ( externalizedText != null )
+				return externalizedText;
+			
+			if (!tmpElement.isVirtualElement( ))		
+				tmpElement = tmpElement.getExtendsElement( );
+			else 
+				tmpElement = tmpElement.getVirtualParent( );
+		}
+
+		return value;
+	}
+
 }
