@@ -4,7 +4,7 @@
 	 id="org.apache.derby.core" 
 	 name="Apache Derby Core Plug-in for Eclipse" 
 	 version="10.1.2.1"
-	 provider-name="The Apache Software Foundation">
+	 provider-name="Eclipse.org">
 
 	 <runtime> 
 		 <library name="derby.jar"> 
