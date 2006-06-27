@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.content.impl.ListGroupContent;
 import org.eclipse.birt.report.engine.content.impl.TableGroupContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
+import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
@@ -86,8 +87,12 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 							(IDataContent) content, executionContext );
 					break;
 				case IContent.FOREIGN_CONTENT :
-					DynamicTextScriptExecutor.handleOnPageBreak(
-							(IForeignContent) content, executionContext );
+					// FIXME: handle the onPageBreak for other items
+					if ( design instanceof MultiLineItemDesign )
+					{
+						DynamicTextScriptExecutor.handleOnPageBreak(
+								(IForeignContent) content, executionContext );
+					}
 					break;
 				case IContent.IMAGE_CONTENT :
 					ImageScriptExecutor.handleOnPageBreak(
