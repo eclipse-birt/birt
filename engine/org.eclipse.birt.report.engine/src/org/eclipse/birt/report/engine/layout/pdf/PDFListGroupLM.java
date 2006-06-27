@@ -74,5 +74,11 @@ public class PDFListGroupLM extends PDFGroupLM
 	{
 		root = (ContainerArea) AreaFactory.createBlockContainer( content );
 	}
+	
+	protected void newContext()
+	{
+		super.newContext( );
+		repeatCount = 0;
+	}
 
 }
