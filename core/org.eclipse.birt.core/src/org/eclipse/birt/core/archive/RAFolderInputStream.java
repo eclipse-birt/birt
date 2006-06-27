@@ -17,12 +17,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import org.eclipse.birt.core.util.IOUtil;
+
 /**
  * RAInputStream implementation for folder based report archive  
  */
 public class RAFolderInputStream extends RAInputStream
 {
 	private RandomAccessFile randomFile;
+	private byte buf[];
+	private int bufLen;  // total bytes in the buffer 
+	private int bufCur;  // the pointer in the buffer
 	
 	/**
 	 * @param file - a regular file (i.e. stream) in the folder
@@ -31,8 +36,23 @@ public class RAFolderInputStream extends RAInputStream
 	public RAFolderInputStream( File file ) throws FileNotFoundException
 	{	
 		this.randomFile = new RandomAccessFile( file, "r" ); //$NON-NLS-1$
+		this.buf = new byte [IOUtil.RA_STREAM_BUFFER_LENGTH];
+		this.bufLen = 0;
+		this.bufCur = 0;
 	}
 
+	private void readToBuffer() throws IOException
+	{
+		bufLen = 0;
+		bufCur = 0;
+		long availableSize = randomFile.length() - randomFile.getFilePointer();
+		if ( availableSize <= 0 )
+			return;
+		int len = (int) Math.min( buf.length, availableSize );
+		bufLen = randomFile.read( buf, 0, len );
+		return;
+	}
+	
     /**
      * The same behavior as InputStream.read().<br>
      * Reads the next byte of data from the input stream. The value byte is
@@ -50,12 +70,59 @@ public class RAFolderInputStream extends RAInputStream
      */
 	public int read() throws IOException 
 	{
-		return randomFile.read();
+		if ( bufLen <= 0 || bufLen == bufCur )
+			readToBuffer();
+		if ( bufLen <= 0 )
+			return -1;
+		return buf[ bufCur++ ] & 0xff;
 	}
 	
+    /**
+     * The same behavior as InputStream.read(byte b[], int off, int len ).<br>
+     * Reads up to len bytes of data from the input stream into an array of bytes.
+     * If no byte is available because the end of the stream has been reached,
+     * the value <code>-1</code> is returned. This method blocks until input data
+     * is available, the end of the stream is detected, or an exception is thrown.
+     *
+     * <p> A subclass must provide an implementation of this method.
+     *
+     * @return     the total number of bytes read into the buffer, or <code>-1</code> 
+     * if there is no more data because the end of the stream has been reached
+     * @exception  IOException  if an I/O error occurs.
+     */
 	public int read( byte b[], int off, int len ) throws IOException
 	{
-		return randomFile.read( b, off, len );
+        int n = 0;
+		do 
+		{
+		    int count = this.read1(b, off + n, len - n);
+		    if (count < 0)
+		    	break;
+		    n += count;
+		} while (n < len);
+		return (n > 0)? n : -1;
+	}
+
+	/**
+     * Read the data in the buffer up to len to an array of bytes.
+     * @param b
+     * @param off
+     * @param len
+     * @return
+     * @throws IOException
+     */
+    private int read1( byte b[], int off, int len ) throws IOException
+	{
+		if ( bufLen <= 0 || bufLen == bufCur )
+			readToBuffer();
+		if ( bufLen <= 0 )
+			return -1;
+		int availableSize = bufLen - bufCur;
+		if ( len > availableSize )
+			len = availableSize;
+    	System.arraycopy( buf, bufCur, b, off, len );
+    	bufCur += len;
+		return len;
 	}
 
     /**
@@ -83,7 +150,7 @@ public class RAFolderInputStream extends RAInputStream
 	public int readInt() throws IOException 
 	{
 		byte ch[] = new byte[4];
-		randomFile.readFully(ch, 0, 4);
+		this.readFully(ch, 0, 4);
 		
 		int ret = 0;
 		for ( int i = 0; i < ch.length; i++ )
@@ -91,9 +158,37 @@ public class RAFolderInputStream extends RAInputStream
 		return ret;		
 	}
 	
+    /**
+     * Reads a signed 64-bit integer from this file. This method reads eight
+     * bytes from the file, starting at the current file pointer. 
+     * If the bytes read, in order, are 
+     * <code>b1</code>, <code>b2</code>, <code>b3</code>, 
+     * <code>b4</code>, <code>b5</code>, <code>b6</code>, 
+     * <code>b7</code>, and <code>b8,</code> where:
+     * <blockquote><pre>
+     *     0 &lt;= b1, b2, b3, b4, b5, b6, b7, b8 &lt;=255,
+     * </pre></blockquote>
+     * <p>
+     * then the result is equal to:
+     * <p><blockquote><pre>
+     *     ((long)b1 &lt;&lt; 56) + ((long)b2 &lt;&lt; 48)
+     *     + ((long)b3 &lt;&lt; 40) + ((long)b4 &lt;&lt; 32)
+     *     + ((long)b5 &lt;&lt; 24) + ((long)b6 &lt;&lt; 16)
+     *     + ((long)b7 &lt;&lt; 8) + b8
+     * </pre></blockquote>
+     * <p>
+     * This method blocks until the eight bytes are read, the end of the 
+     * stream is detected, or an exception is thrown. 
+     *
+     * @return     the next eight bytes of this file, interpreted as a
+     *             <code>long</code>.
+     * @exception  EOFException  if this file reaches the end before reading
+     *               eight bytes.
+     * @exception  IOException   if an I/O error occurs.
+     */
 	public long readLong() throws IOException
 	{
-		return randomFile.readLong( );
+		return ( (long) ( readInt( ) ) << 32 ) + ( readInt( ) & 0xFFFFFFFFL );
 	}
 	
     /**
@@ -113,7 +208,14 @@ public class RAFolderInputStream extends RAInputStream
      */
 	public final void readFully(byte b[], int off, int len) throws IOException
 	{
-		randomFile.readFully( b, off, len );
+        int n = 0;
+		do 
+		{
+		    int count = this.read(b, off + n, len - n);
+		    if (count < 0)
+		    	throw new EOFException();
+		    n += count;
+		} while (n < len);
 	}
 
 	/**
@@ -131,12 +233,22 @@ public class RAFolderInputStream extends RAInputStream
 	 */
 	public void seek( long localPos ) throws IOException 
 	{
-		randomFile.seek( localPos );
+		if ( localPos > randomFile.getFilePointer() || 
+				localPos < randomFile.getFilePointer() - bufLen )
+		{
+			randomFile.seek( localPos );
+			bufCur = 0;
+			bufLen = 0;
+		}
+		else
+		{
+			bufCur = bufLen - (int)(randomFile.getFilePointer() - localPos);
+		}
 	}
 	
 	public long getOffset() throws IOException
 	{
-		return randomFile.getFilePointer( );
+		return randomFile.getFilePointer( ) - bufLen + bufCur;
 	}
 	
 	public long length() throws IOException
