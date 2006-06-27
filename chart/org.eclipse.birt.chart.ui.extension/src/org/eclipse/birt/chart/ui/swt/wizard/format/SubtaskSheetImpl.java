@@ -366,7 +366,8 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 
 		detachPopup( );
 
-		if ( popupSheetRegistry.containsKey( popupName ) )
+		if ( popupSheetRegistry.containsKey( popupName )
+				&& ( (Button) popupButtonRegistry.get( popupName ) ).isEnabled( ) )
 		{
 			// Select the button
 			selectAllButtons( false );
