@@ -12,6 +12,8 @@ public class DesignState  implements java.io.Serializable {
     private boolean editable;
     /** can create a new report */
     private boolean canNew;
+    /** report name */
+    private java.lang.String rptName;
 
     public DesignState() {
     }
@@ -19,10 +21,12 @@ public class DesignState  implements java.io.Serializable {
     public DesignState(
            boolean isBlank,
            boolean editable,
-           boolean canNew) {
+           boolean canNew,
+           java.lang.String rptName) {
            this.isBlank = isBlank;
            this.editable = editable;
            this.canNew = canNew;
+           this.rptName = rptName;
     }
 
 
@@ -85,6 +89,26 @@ public class DesignState  implements java.io.Serializable {
         this.canNew = canNew;
     }
 
+
+    /**
+     * Gets the rptName value for this DesignState.
+     * 
+     * @return rptName report name
+     */
+    public java.lang.String getRptName() {
+        return rptName;
+    }
+
+
+    /**
+     * Sets the rptName value for this DesignState.
+     * 
+     * @param rptName report name
+     */
+    public void setRptName(java.lang.String rptName) {
+        this.rptName = rptName;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof DesignState)) return false;
@@ -99,7 +123,10 @@ public class DesignState  implements java.io.Serializable {
         _equals = true && 
             this.isBlank == other.isIsBlank() &&
             this.editable == other.isEditable() &&
-            this.canNew == other.isCanNew();
+            this.canNew == other.isCanNew() &&
+            ((this.rptName==null && other.getRptName()==null) || 
+             (this.rptName!=null &&
+              this.rptName.equals(other.getRptName())));
         __equalsCalc = null;
         return _equals;
     }
@@ -114,6 +141,9 @@ public class DesignState  implements java.io.Serializable {
         _hashCode += (isIsBlank() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         _hashCode += (isEditable() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         _hashCode += (isCanNew() ? Boolean.TRUE : Boolean.FALSE).hashCode();
+        if (getRptName() != null) {
+            _hashCode += getRptName().hashCode();
+        }
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -140,6 +170,12 @@ public class DesignState  implements java.io.Serializable {
         elemField.setFieldName("canNew");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CanNew"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("rptName");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "RptName"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

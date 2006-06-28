@@ -9,6 +9,7 @@ package org.eclipse.birt.report.soapengine.api;
 
 public class Update  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.UpdateContent updateContent;
+    private org.eclipse.birt.report.soapengine.api.UpdateDialog updateDialog;
     private org.eclipse.birt.report.soapengine.api.UpdateData updateData;
 
     public Update() {
@@ -16,8 +17,10 @@ public class Update  implements java.io.Serializable {
 
     public Update(
            org.eclipse.birt.report.soapengine.api.UpdateContent updateContent,
+           org.eclipse.birt.report.soapengine.api.UpdateDialog updateDialog,
            org.eclipse.birt.report.soapengine.api.UpdateData updateData) {
            this.updateContent = updateContent;
+           this.updateDialog = updateDialog;
            this.updateData = updateData;
     }
 
@@ -39,6 +42,26 @@ public class Update  implements java.io.Serializable {
      */
     public void setUpdateContent(org.eclipse.birt.report.soapengine.api.UpdateContent updateContent) {
         this.updateContent = updateContent;
+    }
+
+
+    /**
+     * Gets the updateDialog value for this Update.
+     * 
+     * @return updateDialog
+     */
+    public org.eclipse.birt.report.soapengine.api.UpdateDialog getUpdateDialog() {
+        return updateDialog;
+    }
+
+
+    /**
+     * Sets the updateDialog value for this Update.
+     * 
+     * @param updateDialog
+     */
+    public void setUpdateDialog(org.eclipse.birt.report.soapengine.api.UpdateDialog updateDialog) {
+        this.updateDialog = updateDialog;
     }
 
 
@@ -76,6 +99,9 @@ public class Update  implements java.io.Serializable {
             ((this.updateContent==null && other.getUpdateContent()==null) || 
              (this.updateContent!=null &&
               this.updateContent.equals(other.getUpdateContent()))) &&
+            ((this.updateDialog==null && other.getUpdateDialog()==null) || 
+             (this.updateDialog!=null &&
+              this.updateDialog.equals(other.getUpdateDialog()))) &&
             ((this.updateData==null && other.getUpdateData()==null) || 
              (this.updateData!=null &&
               this.updateData.equals(other.getUpdateData())));
@@ -92,6 +118,9 @@ public class Update  implements java.io.Serializable {
         int _hashCode = 1;
         if (getUpdateContent() != null) {
             _hashCode += getUpdateContent().hashCode();
+        }
+        if (getUpdateDialog() != null) {
+            _hashCode += getUpdateDialog().hashCode();
         }
         if (getUpdateData() != null) {
             _hashCode += getUpdateData().hashCode();
@@ -110,6 +139,13 @@ public class Update  implements java.io.Serializable {
         elemField.setFieldName("updateContent");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateContent"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateContent"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("updateDialog");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateDialog"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateDialog"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
