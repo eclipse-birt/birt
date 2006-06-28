@@ -49,7 +49,6 @@
 		<script src="birt/ajax/mh/BirtGetUpdatedObjectsResponseHandler.js" type="text/javascript"></script>
 
 		<script src="birt/ajax/ui/app/AbstractUIComponent.js" type="text/javascript"></script>
-		<script src="birt/ajax/ui/app/AbstractBaseProgressBar.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtProgressBar.js" type="text/javascript"></script>
 
  		<script src="birt/ajax/ui/report/AbstractReportComponent.js" type="text/javascript"></script>

@@ -199,9 +199,10 @@
 {
 	font-family:Verdana;
 	font-size:8pt;
-	background:#dbe4ee;
-	border-width:1px;
-	border-style:outset;
+	background:#FFFFFF;
+	border-width:2px;
+	border-style:solid;
+	border-color:#FF912F;
 	cursor:default;
 }
 
