@@ -56,7 +56,6 @@
 		<script src="birt/ajax/ui/app/AbstractUIComponent.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/AbstractBaseToolbar.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtToolbar.js" type="text/javascript"></script>
-		<script src="birt/ajax/ui/app/AbstractBaseNavigationBar.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtNavigationBar.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/AbstractBaseToc.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtToc.js" type="text/javascript"></script>

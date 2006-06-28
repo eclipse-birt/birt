@@ -10,13 +10,22 @@
  *****************************************************************************/
  
 /**
- *	BirtNavigationBar.
- *	TODO: comments.
+ *	BirtNavigationBar
+ *	...
  */
 BirtNavigationBar = Class.create( );
-
-BirtNavigationBar.prototype = Object.extend( new AbstractBaseNavigationBar( ),
+BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
 {
+	/**
+	 *	Total number of pages.
+	 */
+	__oTotalPage : null,
+	
+	/**
+	 *	Current page number.
+	 */
+	__oPageNumber : null,
+	
 	/**
 	 *	Initialization routine required by "ProtoType" lib.
 	 *	@return, void
@@ -89,6 +98,100 @@ BirtNavigationBar.prototype = Object.extend( new AbstractBaseNavigationBar( ),
 				}
 			}
 		}
-	}	
+	},
+
+	/**
+	 *	Handle native event 'click'.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */
+	__neh_click : function( event )
+	{
+		var pageNumber = parseInt( this.__oPageNumber.firstChild.data );
+		var totalPage = ( this.__oTotalPage.firstChild.data == '+' )? '+' : parseInt( this.__oTotalPage.firstChild.data );
+		
+		var oBtn = Event.element( event );
+		if ( oBtn )
+		{
+			switch ( oBtn.name )
+			{
+   				case 'first':
+ 				{
+ 					if ( pageNumber > 1 )
+ 					{
+						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : 1 } );
+					}
+ 					break;
+ 				}
+   				case 'previous':
+ 				{
+ 					if ( pageNumber > 1 )
+ 					{
+						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : pageNumber - 1 } );
+					}
+ 					break;
+ 				}
+   				case 'next':
+ 				{
+ 					if ( totalPage == '+' || pageNumber < totalPage )
+ 					{
+	 					birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : pageNumber + 1 } );
+ 					}
+ 					break;
+ 				}
+   				case 'last':
+ 				{
+ 					if ( totalPage == '+' || pageNumber < totalPage )
+ 					{
+ 						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : totalPage } );
+ 					}
+ 					break;
+ 				}
+   				case 'goto':
+   				{
+   					var oGotoPage = $( 'gotoPage' );
+   					var pageNo = oGotoPage.value;
+   					if ( pageNo != null && birtUtility.trim( pageNo ).length > 0 )
+ 						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : oGotoPage.value } );
+ 					else
+ 					{
+ 						oGotoPage.focus( );
+ 						var errMsg = $( 'error_blankpagenum' );
+ 						if ( errMsg )
+ 							alert( errMsg.value );
+ 						else
+	 						alert( 'Please enter the page number!');
+ 					}
+   					break;
+   				}
+				default:
+				{
+					break;
+				}	
+			}
+		}
+	},
+	
+	__get_current_page : function( )
+	{
+		return this.__oPageNumber.innerHTML;
+	},
+	
+	/**
+	 * Load current page. Triggered by init.
+	 */
+	__init_page : function( )
+	{
+		if ( this.__oPageNumber.firstChild )
+		{
+			var pageNumber = parseInt( this.__oPageNumber.firstChild.data );
+			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : pageNumber } );
+		}
+		else
+		{
+			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE );
+		}
+	}
 }
 );
