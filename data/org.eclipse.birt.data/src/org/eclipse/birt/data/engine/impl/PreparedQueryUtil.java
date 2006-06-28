@@ -11,10 +11,13 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
@@ -150,6 +153,10 @@ class PreparedQueryUtil
 		if ( runningOnRS == false )
 			return false;
 		
+		runningOnRS = !hasTopBottomNInFilter( queryDefn.getFilters( ) );
+		if ( runningOnRS == false)
+			return false;
+		
 		runningOnRS = isCompatibleRSMap( rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE )
 				.getResultSetExpressions( ),
@@ -163,6 +170,32 @@ class PreparedQueryUtil
 				queryDefn );
 		
 		return runningOnRS;
+	}
+
+	/**
+	 * @param filters
+	 * @return
+	 */
+	private static boolean hasTopBottomNInFilter( List filters )
+	{
+		if ( filters == null || filters.size( ) == 0 )
+			return false;
+		
+		for( int i = 0; i < filters.size( ); i++ )
+		{
+			Object o = ((IFilterDefinition)filters.get( i )).getExpression( );
+			if ( o instanceof IConditionalExpression )
+			{
+				int type = ((IConditionalExpression)o).getOperator( );
+				if( type == IConditionalExpression.OP_TOP_N 
+					|| type == IConditionalExpression.OP_BOTTOM_N
+					|| type == IConditionalExpression.OP_TOP_PERCENT
+					|| type == IConditionalExpression.OP_BOTTOM_PERCENT)
+				return true;	
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
