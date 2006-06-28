@@ -24,7 +24,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
-import org.eclipse.birt.data.engine.impl.ResultIterator.RDSaveUtil;
+import org.eclipse.birt.data.engine.impl.ResultIterator.RDSaveHelper;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -46,7 +46,7 @@ class BindingColumnsEvalUtil
 	// 
 	private IResultIterator odiResult;
 	private Scriptable scope;
-	private RDSaveUtil saveUtil;
+	private RDSaveHelper saveHelper;
 
 	private List allManualBindingExprs;
 	private List allAutoBindingExprs;
@@ -64,11 +64,11 @@ class BindingColumnsEvalUtil
 	 * @param serviceForResultSet
 	 */
 	BindingColumnsEvalUtil( IResultIterator ri, Scriptable scope,
-			RDSaveUtil saveUtil, List manualBindingExprs, Map autoBindingExprs )
+			RDSaveHelper saveUtil, List manualBindingExprs, Map autoBindingExprs )
 	{
 		this.odiResult = ri;
 		this.scope = scope;
-		this.saveUtil = saveUtil;
+		this.saveHelper = saveUtil;
 		
 		try
 		{
@@ -162,7 +162,7 @@ class BindingColumnsEvalUtil
 				realValueMap.put( bindingColumn.columnName, exprValue );
 		}
 
-		saveUtil.doSaveExpr( realValueMap );
+		saveHelper.doSaveExpr( realValueMap );
 		return exprValueMap;
 	}
 

@@ -52,10 +52,10 @@ public class ResultIterator implements IResultIterator
 {
 	// context of data engine
 	private DataEngineContext 		context;
-	private RDSaveUtil 				rdSaveUtil;
+	private RDSaveHelper 			rdSaveHelper;
 	private Scriptable 				scope;
 	
-	org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
+	private org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
 	
 	// needed service
 	private IServiceForResultSet 	resultService;
@@ -257,20 +257,19 @@ public class ResultIterator implements IResultIterator
 	/**
 	 * @return save util used in report document GENERATION time
 	 */
-	private RDSaveUtil getRdSaveUtil( )
+	private RDSaveHelper getRdSaveHelper( )
 	{
-		if ( this.rdSaveUtil == null )
+		if ( this.rdSaveHelper == null )
 		{
-			rdSaveUtil = new RDSaveUtil( this.context,
+			rdSaveHelper = new RDSaveHelper( this.context,
 					this.resultService.getQueryDefn( ),
 					this.odiResult,
 					new IDInfo( this.resultService.getQueryResults( ).getID( ) ) );
 		}
 		
-		return this.rdSaveUtil;
+		return this.rdSaveHelper;
 	}
 	
-	//------new method for bound column name------
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getValue(java.lang.String)
 	 */
@@ -296,7 +295,7 @@ public class ResultIterator implements IResultIterator
 			{
 				bindingColumnsEvalUtil = new BindingColumnsEvalUtil( this.odiResult,
 						this.scope,
-						this.getRdSaveUtil( ),
+						this.getRdSaveHelper( ),
 						this.resultService.getAllBindingExprs( ),
 						this.resultService.getAllAutoBindingExprs( ) );
 			}
@@ -451,7 +450,7 @@ public class ResultIterator implements IResultIterator
 		
 		if ( resultIt instanceof ResultIterator )
 		{
-			this.getRdSaveUtil( ).processForSubQuery( this.getQueryResults( )
+			this.getRdSaveHelper( ).processForSubQuery( this.getQueryResults( )
 					.getID( ),
 					(ResultIterator) resultIt,
 					subQueryName );
@@ -483,7 +482,7 @@ public class ResultIterator implements IResultIterator
 	public void close( ) throws BirtException
 	{
 		// save results when neededs
-		this.getRdSaveUtil( ).doSaveFinish( );
+		this.getRdSaveHelper( ).doSaveFinish( );
 
 		if ( odiResult != null )
 				odiResult.close( );
@@ -498,8 +497,6 @@ public class ResultIterator implements IResultIterator
 	}
 	
 	/**
-	 * Only for CachedResultSet test case
-	 * 
 	 * @return
 	 */
 	org.eclipse.birt.data.engine.odi.IResultIterator getOdiResult( )
@@ -676,7 +673,7 @@ public class ResultIterator implements IResultIterator
 	/**
 	 * Util class to help ResultIterator to save data into report document
 	 */
-	class RDSaveUtil
+	class RDSaveHelper
 	{
 		// context info
 		private DataEngineContext context;
@@ -700,7 +697,7 @@ public class ResultIterator implements IResultIterator
 		 * @param odiResult
 		 * @param idInfo
 		 */
-		RDSaveUtil( DataEngineContext context, IBaseQueryDefinition queryDefn,
+		RDSaveHelper( DataEngineContext context, IBaseQueryDefinition queryDefn,
 				org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
 				IDInfo idInfo )
 		{
@@ -794,7 +791,7 @@ public class ResultIterator implements IResultIterator
 
 			if ( ( (ISubqueryDefinition) resultIt.resultService.getQueryDefn( ) ).applyOnGroup( ) )
 				// init RDSave util of sub query
-				resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
+				resultIt.rdSaveHelper = new RDSaveHelper( resultIt.context,
 						resultIt.resultService.getQueryDefn( ),
 						resultIt.odiResult,
 						new IDInfo( resultIt.getQueryResults( ).getID( ),
@@ -803,7 +800,7 @@ public class ResultIterator implements IResultIterator
 								odiResult.getCurrentGroupIndex( results.getGroupLevel( ) ),
 								odiResult.getGroupStartAndEndIndex( results.getGroupLevel( ) ) ) );
 			else
-				resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
+				resultIt.rdSaveHelper = new RDSaveHelper( resultIt.context,
 						resultIt.resultService.getQueryDefn( ),
 						resultIt.odiResult,
 						new IDInfo( resultIt.getQueryResults( ).getID( ),

@@ -30,9 +30,10 @@ public class StreamWrapper
 	 * @param streamForGroupInfo
 	 * @param streamForRowIndexInfo
 	 */
-	public StreamWrapper( OutputStream streamForResultClass,
-			OutputStream streamForDataSet, OutputStream streamForGroupInfo,
-			OutputStream streamForRowIndexInfo, OutputStream streamForParentIndex )
+	public StreamWrapper( OutputStream streamForDataSet,
+			OutputStream streamForResultClass, OutputStream streamForGroupInfo,
+			OutputStream streamForRowIndexInfo,
+			OutputStream streamForParentIndex )
 	{
 		this.streamForResultClass = streamForResultClass;
 		this.streamForDataSet = streamForDataSet;
