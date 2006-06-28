@@ -79,7 +79,8 @@
 %>
 		<SELECT ID="<%= encodedParameterName + "_selection"%>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
-			CLASS="birtviewer_parameter_dialog_Select"
+			CLASS="birtviewer_parameter_dialog_Select" 
+			<%= ( parameterBean.allowNewValues( ) && ( !parameterBean.isValueInList( ) && parameterBean.getValue( ) != null  || !CHECKED ) )? "DISABLED='true'" : "" %>
 			>
 <%
 	if ( parameterBean.getSelectionList( ) != null )
@@ -129,7 +130,8 @@
 			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
 			ID="<%= encodedParameterName + "_input"%>"
-			<%= ( !parameterBean.isValueInList( ) && parameterBean.getValue( ) != null )? "VALUE=\"" + ParameterAccessor.htmlEncode( parameterBean.getValue( ) ) + "\"": "" %>
+			<%= ( !parameterBean.isValueInList( ) && parameterBean.getValue( ) != null )? "VALUE=\"" + ParameterAccessor.htmlEncode( parameterBean.getValue( ) ) + "\"": "" %> 
+			<%= ( parameterBean.isValueInList( ) || ( parameterBean.allowNull( ) && parameterBean.getValue( ) == null) )? "DISABLED='true'" : "" %> 
 			>
 	<%
 		if ( !parameterBean.allowBlank( ) )
