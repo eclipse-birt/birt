@@ -66,7 +66,8 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	}
 
 	/**
-	 * Delete a stream from the archive.
+	 * Delete a stream from the archive and make sure the stream has been
+	 * closed.
 	 * 
 	 * @param relativePath -
 	 *            the relative path of the stream
@@ -76,15 +77,8 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	public boolean dropStream( String relativePath )
 	{
 		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
-		File fd = new File(path);
-		
-		if ( fd.exists() &&
-			 fd.isFile() )
-		{
-			return fd.delete();
-		}
-		
-		return false;
+		File fd = new File( path );
+		return removeFileAndFolder( fd );
 	}
 
 	/* (non-Javadoc)
@@ -330,5 +324,32 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 			openStreams.clear( );
 		}
 	}
-
+	
+	/**
+	 * delete file or folder with its sub-folders and sub-files
+	 * 
+	 * @param file
+	 *            file/folder which need to be deleted
+	 * @return if files/folders can not be deleted, return false, or true
+	 */
+	private boolean removeFileAndFolder( File file )
+	{
+		assert ( file != null );
+		if ( file.isDirectory( ) )
+		{
+			File[] children = file.listFiles( );
+			if ( children != null )
+			{
+				for ( int i = 0; i < children.length; i++ )
+				{
+					removeFileAndFolder( children[i] );
+				}
+			}
+		}
+		if ( file.exists( ) )
+		{
+			return file.delete( );
+		}
+		return true;
+	}
 }
