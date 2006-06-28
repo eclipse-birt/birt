@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl.document.util;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -28,8 +26,7 @@ import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
  */
 public class ExprDataResultSet1 extends BaseExprDataResultSet
 {
-	private InputStream rowIs;
-	private BufferedInputStream rowBuffDis;
+	private RAInputStream rowRAIs;
 	
 	/**
 	 * @param rowIs,
@@ -38,13 +35,13 @@ public class ExprDataResultSet1 extends BaseExprDataResultSet
 	 *            the expression meta data
 	 * @throws DataException 
 	 */
-	public ExprDataResultSet1( RAInputStream rowIs, ExprMetaInfo[] inExprMetas )
+	public ExprDataResultSet1( RAInputStream rowRAIs, ExprMetaInfo[] inExprMetas )
 			throws DataException
 	{
 		super( inExprMetas );
 
-		this.rowIs = rowIs;
-		this.exprDataReader = new ExprDataReader1( rowIs,
+		this.rowRAIs = rowRAIs;
+		this.exprDataReader = new ExprDataReader1( rowRAIs,
 				null,
 				VersionManager.VERSION_2_1 );
 		this.rowCount = exprDataReader.getCount( );
@@ -54,15 +51,14 @@ public class ExprDataResultSet1 extends BaseExprDataResultSet
 	 * @see org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#close()
 	 */
 	public void close( )
-	{		
+	{
 		try
 		{
-			if ( rowIs != null )
+			if ( rowRAIs != null )
 			{
 				exprDataReader.close( );
-				rowBuffDis.close( );
-				rowIs.close( );
-				rowIs = null;
+				rowRAIs.close( );
+				rowRAIs = null;
 			}
 		}
 		catch ( IOException e )

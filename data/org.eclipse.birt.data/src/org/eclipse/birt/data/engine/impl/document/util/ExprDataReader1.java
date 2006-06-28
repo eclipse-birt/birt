@@ -34,8 +34,8 @@ class ExprDataReader1 implements IExprDataReader
 	private int INT_LENGTH;
 
 	private DataInputStream rowExprsDis;
-	private RAInputStream rowExprsIs;
-	private RAInputStream rowLenIs;
+	private RAInputStream rowExprsRAIs;
+	private RAInputStream rowLenRAIs;
 	
 	private int rowCount;
 	
@@ -43,17 +43,16 @@ class ExprDataReader1 implements IExprDataReader
 	private Map exprValueMap;
 
 	/**
-	 * @param rowExprsIs
-	 * @param rowLenIs
-	 * @param rowCount
+	 * @param rowExprsRAIs
+	 * @param rowLenRAIs
 	 * @param version
 	 */
-	ExprDataReader1( RAInputStream rowExprsIs, RAInputStream rowLenIs,
+	ExprDataReader1( RAInputStream rowExprsRAIs, RAInputStream rowLenRAIs,
 			int version ) throws DataException
 	{
 		try
 		{
-			rowCount = IOUtil.readInt( rowExprsIs );
+			rowCount = IOUtil.readInt( rowExprsRAIs );
 		}
 		catch ( IOException e )
 		{
@@ -62,9 +61,9 @@ class ExprDataReader1 implements IExprDataReader
 					"Result Data" );
 		}
 		
-		this.rowExprsDis = new DataInputStream( rowExprsIs );
-		this.rowExprsIs = rowExprsIs;
-		this.rowLenIs = rowLenIs;
+		this.rowExprsDis = new DataInputStream( rowExprsRAIs );
+		this.rowExprsRAIs = rowExprsRAIs;
+		this.rowLenRAIs = rowLenRAIs;
 				
 		this.version = version;
 
@@ -161,10 +160,11 @@ class ExprDataReader1 implements IExprDataReader
 		}
 		else
 		{
-			rowLenIs.seek( absoluteRowIndex * INT_LENGTH );
-			int rowOffsetAbsolute = IOUtil.readInt( rowLenIs );
-			rowExprsIs.seek( rowOffsetAbsolute + 4);
-			rowExprsDis = new DataInputStream( rowExprsIs );
+			rowLenRAIs.seek( absoluteRowIndex * INT_LENGTH );
+			int rowOffsetAbsolute = IOUtil.readInt( rowLenRAIs );
+			// 4 is the first bytes of row length
+			rowExprsRAIs.seek( rowOffsetAbsolute + 4 ); 
+			rowExprsDis = new DataInputStream( rowExprsRAIs );
 		}
 	}
 	
@@ -194,11 +194,10 @@ class ExprDataReader1 implements IExprDataReader
 		try
 		{
 			if ( rowExprsDis != null )
-				rowExprsDis.close();
-			if ( rowExprsIs != null )
-				rowExprsIs.close( );
-			if ( rowLenIs != null )
-				rowLenIs.close( );
+			{
+				rowExprsDis.close( );
+				rowExprsDis = null;
+			}
 		}
 		catch ( IOException e )
 		{

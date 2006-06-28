@@ -195,18 +195,22 @@ public class ExprResultSet implements IExprResultSet
 			if ( exprResultReader != null )
 			{
 				exprResultReader.close( );
+				exprResultReader = null;
 			}
 			if ( rowExprsRAIs != null )
 			{
 				rowExprsRAIs.close( );
+				rowExprsRAIs = null;
 			}
 			if ( rowLenRAIs != null )
 			{
 				rowLenRAIs.close( );
+				rowLenRAIs = null;
 			}
 			if ( rowInfoRAIs != null )
 			{
 				rowInfoRAIs.close( );
+				rowInfoRAIs = null;
 			}
 		}
 		catch ( IOException e )
