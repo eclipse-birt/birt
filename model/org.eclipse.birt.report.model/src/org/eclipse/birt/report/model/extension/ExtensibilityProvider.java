@@ -70,9 +70,17 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 
 		if ( extDefn != null && extDefn.getProperties( ) != null )
 		{
-			return extDefn.getProperties( );
+			List props = extDefn.getProperties( );
+			DesignElement e = this.element;
+			while ( e != null )
+			{
+				if ( e.getLocalUserProperties( ) != null )
+					props.addAll( e.getLocalUserProperties( ) );
+				e = e.getExtendsElement( );
+			}
+			return props;
 		}
-
+		
 		return Collections.EMPTY_LIST;
 	}
 
