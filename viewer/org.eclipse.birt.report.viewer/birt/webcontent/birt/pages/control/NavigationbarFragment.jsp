@@ -95,8 +95,13 @@
 					<TD WIDTH="6px"/>
 				</TR>
 			</TABLE>
-			<!-- Error Messages -->
-			<INPUT TYPE="HIDDEN" ID="error_blankpagenum" VALUE="<%= BirtResources.getString( "birt.viewer.navbar.error.blankpagenum" )%>"/>
 		</DIV>
 	</TD>
 </TR>
+
+<script type="text/javascript"> 
+// <![CDATA[
+	// Error msgs
+	Constants.error.invalidPageNumber = '<%= BirtResources.getString( "birt.viewer.navbar.error.blankpagenum" )%>';
+// ]]>
+</script>

@@ -150,18 +150,21 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
  				}
    				case 'goto':
    				{
+   					var iPageNo = -1;
    					var oGotoPage = $( 'gotoPage' );
    					var pageNo = oGotoPage.value;
    					if ( pageNo != null && birtUtility.trim( pageNo ).length > 0 )
+   					{
+   						iPageNo = parseInt( pageNo );
+   					}
+   					if ( iPageNo > 0 && iPageNo <= totalPage )
+   					{
  						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : oGotoPage.value } );
+   					}
  					else
  					{
  						oGotoPage.focus( );
- 						var errMsg = $( 'error_blankpagenum' );
- 						if ( errMsg )
- 							alert( errMsg.value );
- 						else
-	 						alert( 'Please enter the page number!');
+ 						alert( Constants.error.invalidPageNumber );
  					}
    					break;
    				}

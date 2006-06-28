@@ -53,6 +53,8 @@ var Constants = {
 	*/
 	context: "context",
 	
+	error : { },
+	
 	type: {UpdateRequest: "UpdateRequest"},
 	operation: "Operation",
 	target: "Target",
