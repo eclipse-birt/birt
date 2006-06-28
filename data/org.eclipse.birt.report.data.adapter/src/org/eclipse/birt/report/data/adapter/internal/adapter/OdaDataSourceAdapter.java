@@ -16,6 +16,7 @@ package org.eclipse.birt.report.data.adapter.internal.adapter;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.Constants;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
@@ -98,5 +99,22 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 						.getValue( ) );
 			}
 		}
+		
+		// TODO: move ModeDteApiAdpter there in future
+		addPropertyConfigurationId( this );
 	}
+	
+	/**
+	 * Adds the externalized property configuration id for use by 
+	 * a BIRT consumer application's propertyProvider extension.
+	 */
+	private void addPropertyConfigurationId( OdaDataSourceDesign dteSource )
+			throws BirtException
+	{
+		String configIdValue = dteSource.getExtensionID( )
+				+ Constants.ODA_PROP_CONFIG_KEY_SEPARATOR + dteSource.getName( );
+		dteSource.addPublicProperty( Constants.ODA_PROP_CONFIGURATION_ID,
+				configIdValue );
+	}
+	
 }
