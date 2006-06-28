@@ -117,9 +117,21 @@ public class QueryResultIDManager
 				StreamManager.BASE_SCOPE ) == false )
 			return;
 		
-		//TODO: remove the folder
-		
-		//streamManager.dropSelfStream( DataEngineContext.QUERYID_INFO_STREAM );
+		if ( false ) // waits for the support of core
+		{
+			Map map = getIDMap( streamManager );
+
+			Iterator it = map.entrySet( ).iterator( );
+			while ( it.hasNext( ) )
+			{
+				Map.Entry entry = (Entry) it.next( );
+				String queryID = (String) entry.getKey( );
+				String _2partID = QueryResultIDUtil.get2PartID( queryID );
+				streamManager.dropStream2( _2partID );
+			}
+		}
+
+		streamManager.dropStream1( DataEngineContext.QUERYID_INFO_STREAM );
 	}
 	
 	/**

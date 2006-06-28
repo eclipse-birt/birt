@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
@@ -29,10 +30,12 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
+import org.eclipse.birt.data.engine.impl.document.QueryResultIDManager;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
+import org.eclipse.birt.data.engine.impl.document.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.NewInstanceHelper;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -65,8 +68,42 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		
 		this.queryDefn = queryDefn;
 		this.engine = dataEngine;
+		
+		this.cleanUpOldRD( );
 	}	
 
+	/**
+	 * Since this query is running based on the data set, the old things stored
+	 * in report document is no more use, and it will be safter if they are all
+	 * removed.
+	 * 
+	 * @throws DataException 
+	 */
+	private void cleanUpOldRD( ) throws DataException
+	{
+		String basedID = this.queryDefn.getQueryResultsID( );
+		String _1partID = QueryResultIDUtil.get1PartID( basedID );
+		if ( _1partID != null )
+			basedID = _1partID;
+
+		// remove EXPR_VALUE_STREAM, EXPR_META_STREAM, EXPR_ROWLEN_STREAM
+		StreamManager streamManager = new StreamManager( engine.getContext( ),
+				new QueryResultInfo( null, null, basedID, null, -1 ) );
+
+		streamManager.dropStream1( DataEngineContext.EXPR_VALUE_STREAM );
+		streamManager.dropStream1( DataEngineContext.EXPR_META_STREAM );
+		streamManager.dropStream1( DataEngineContext.EXPR_ROWLEN_STREAM );
+
+		// remove GROUP_INFO_STREAM, QUERY_DEFN_STREAM
+		streamManager.dropStream1( DataEngineContext.GROUP_INFO_STREAM );
+		streamManager.dropStream1( DataEngineContext.QUERY_DEFN_STREAM );
+
+		// TODO: enhance me, remove all sub query information
+		
+		// remove QUERYID_INFO_STREAM
+		QueryResultIDManager.cleanChildOfRoot( streamManager );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#newExecutor()

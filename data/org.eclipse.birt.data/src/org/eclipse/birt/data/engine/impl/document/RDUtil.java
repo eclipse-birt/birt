@@ -36,10 +36,7 @@ public final class RDUtil
 		if ( newQueryResultInfo.getRootQueryResultID( ) == null )
 			return new RDSave( context, queryDefn, rowCount, newQueryResultInfo );
 		else
-			return new RDSave2( context,
-					queryDefn,
-					rowCount,
-					newQueryResultInfo );
+			return new RDSave2( context, queryDefn, newQueryResultInfo );
 	}
 
 	/**

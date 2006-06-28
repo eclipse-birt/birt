@@ -10,9 +10,12 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -21,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.GroupDefnUtil;
+import org.eclipse.birt.data.engine.impl.document.QueryDefnUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
@@ -150,6 +154,14 @@ class PreparedQueryUtil
 				StreamManager.BASE_SCOPE )
 				.getResultSetExpressions( ),
 				queryDefn.getResultSetExpressions( ) );
+
+		if ( runningOnRS == false )
+			return false;
+
+		runningOnRS = isCompatibleSubQuery( rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE ),
+				queryDefn );
+		
 		return runningOnRS;
 	}
 	
@@ -166,6 +178,35 @@ class PreparedQueryUtil
 			return oldMap.size( ) == 0;
 
 		return oldMap.size( ) >= newMap.size( );
+	}
+	
+	/**
+	 * @param oldSubQuery
+	 * @param newSubQuery
+	 * @return
+	 */
+	private static boolean isCompatibleSubQuery( IBaseQueryDefinition oldDefn,
+			IBaseQueryDefinition newDefn )
+	{		
+		boolean isComp = QueryDefnUtil.isCompatibleSQs( oldDefn.getSubqueries( ),
+				newDefn.getSubqueries( ) );
+
+		if ( isComp == false )
+			return false;
+
+		Iterator oldIt = oldDefn.getGroups( ).iterator( );
+		Iterator newIt = newDefn.getGroups( ).iterator( );
+		while ( newIt.hasNext( ) )
+		{
+			IGroupDefinition oldGroupDefn = (IGroupDefinition) oldIt.next( );
+			IGroupDefinition newGroupDefn = (IGroupDefinition) newIt.next( );
+			isComp = QueryDefnUtil.isCompatibleSQs( oldGroupDefn.getSubqueries( ),
+					newGroupDefn.getSubqueries( ) );
+			if ( isComp == false )
+				return false;
+		}
+
+		return true;
 	}
 	
 }

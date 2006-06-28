@@ -11,16 +11,22 @@
 
 package org.eclipse.birt.data.engine.impl.document;
 
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.odi.IResultIterator;
 
 /**
  * Used to save the query which is running based on a report document.
  */
-class RDSave2 extends RDSave implements IRDSave
+class RDSave2 implements IRDSave
 {
-
+	private DataEngineContext context;
+	private StreamManager streamManager;	
+	private RDSaveUtil saveUtilHelper;
+	
 	/**
 	 * @param context
 	 * @param queryDefn
@@ -31,17 +37,21 @@ class RDSave2 extends RDSave implements IRDSave
 	 * @throws DataException
 	 */
 	RDSave2( DataEngineContext context, IBaseQueryDefinition queryDefn,
-			int rowCount, QueryResultInfo queryResultInfo )
-			throws DataException
+			QueryResultInfo queryResultInfo ) throws DataException
 	{
-		super( context, queryDefn, rowCount, queryResultInfo );
+		this.context = context;
+
+		this.streamManager = new StreamManager( context, queryResultInfo );
+		this.saveUtilHelper = new RDSaveUtil( this.context.getMode( ),
+				queryDefn,
+				this.streamManager );
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.RDSave#saveExprValue(int,
-	 *      java.lang.String, java.lang.Object)
+	 *      java.util.Map)
 	 */
-	public void saveExprValue( int currIndex, String exprID, Object exprValue )
+	public void saveExprValue( int currIndex, Map valueMap )
 			throws DataException
 	{
 		// do nothing
@@ -53,7 +63,17 @@ class RDSave2 extends RDSave implements IRDSave
 	public void saveFinish( int currIndex ) throws DataException
 	{
 		this.saveUtilHelper.saveQueryDefn( );
-		this.saveUtilHelper.appendSelfToRoot( );
+		this.saveUtilHelper.saveChildQueryID( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.document.IRDSave#saveResultIterator(org.eclipse.birt.data.engine.odi.IResultIterator,
+	 *      int, int[])
+	 */
+	public void saveResultIterator( IResultIterator odiResult, int groupLevel,
+			int[] subQueryInfo ) throws DataException
+	{
+		saveUtilHelper.saveResultIterator( odiResult, groupLevel, subQueryInfo );
 	}
 
 }

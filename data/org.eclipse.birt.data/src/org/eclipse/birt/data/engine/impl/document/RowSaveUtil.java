@@ -16,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +29,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 /**
  * Save util class
  */
-public class RowSaveUtil
+class RowSaveUtil
 {
 	private int lastRowIndex;
 	private int currentOffset;
@@ -44,14 +45,16 @@ public class RowSaveUtil
 	private Set exprNameSet;
 
 	/**
-	 * 
+	 * @param rowCount
+	 * @param rowExprsOs
+	 * @param rowLenOs
 	 */
-	public RowSaveUtil( int rowCount, OutputStream rowExprsOs,
-			OutputStream rowLenOs, Set exprNameSet )
+	RowSaveUtil( int rowCount, OutputStream rowExprsOs,
+			OutputStream rowLenOs )
 	{
 		this.rowCount = rowCount;
-		this.exprNameSet = exprNameSet;
-		
+		this.exprNameSet = new HashSet( );
+
 		this.rowExprsDos = new DataOutputStream( rowExprsOs );
 		this.rowLenDos = new DataOutputStream( rowLenOs );
 		this.lastRowIndex = -1;
@@ -62,7 +65,7 @@ public class RowSaveUtil
 	 * @param valueMap
 	 * @throws DataException
 	 */
-	public void saveExprValue( int currIndex, Map valueMap )
+	void saveExprValue( int currIndex, Map valueMap )
 			throws DataException
 	{
 		try
@@ -134,10 +137,18 @@ public class RowSaveUtil
 	}
 
 	/**
+	 * @return
+	 */
+	Set getExprNameSet( )
+	{
+		return this.exprNameSet;
+	}
+	
+	/**
 	 * @param currIndex
 	 * @throws DataException
 	 */
-	public void saveFinish( int currIndex ) throws DataException
+	void saveFinish( int currIndex ) throws DataException
 	{
 		initSave( true );
 

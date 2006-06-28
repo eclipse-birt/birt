@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.executor.transform;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
@@ -200,30 +199,31 @@ public class CachedResultSet implements IResultIterator
 
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper,
-	 *      boolean, java.util.Set)
+	 *      boolean)
 	 */
-	public void doSave( StreamWrapper streamsWrapper,
-			boolean isSubQuery, Set nameSet ) throws DataException
+	public void doSave( StreamWrapper streamsWrapper, boolean isSubQuery )
+			throws DataException
 	{
-		if( streamsWrapper.getStreamForGroupInfo()!= null)
+		if ( streamsWrapper.getStreamForGroupInfo( ) != null )
 		{
 			// save group info
 			this.resultSetPopulator.getGroupProcessorManager( )
-				.getGroupCalculationUtil( )
-				.doSave( streamsWrapper.getStreamForGroupInfo( ) );
-		}	
+					.getGroupCalculationUtil( )
+					.doSave( streamsWrapper.getStreamForGroupInfo( ) );
+		}
 
 		// save result class
-		if ( isSubQuery == false && streamsWrapper.getStreamForResultClass()!= null)
+		if ( isSubQuery == false
+				&& streamsWrapper.getStreamForResultClass( ) != null )
 		{
 			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ) );
 		}
-		
-		if ( streamsWrapper.getStreamForDataSet()!= null )
+
+		if ( streamsWrapper.getStreamForDataSet( ) != null )
 		{
-			this.resultSetPopulator.getCache().doSave(
-				streamsWrapper.getStreamForDataSet());
-		}	
+			this.resultSetPopulator.getCache( )
+					.doSave( streamsWrapper.getStreamForDataSet( ) );
+		}
 	}
 	
 	/*

@@ -283,6 +283,17 @@ public class DataEngineContext
 		if ( writer != null )
 			writer.dropStream( relativePath );
 	}
+	
+	/**
+	 * Directly drop stream
+	 * 
+	 * @param streamPath
+	 */
+	public void dropStream( String streamPath )
+	{
+		if ( writer != null )
+			writer.dropStream( streamPath );
+	}
 
 	/**
 	 * According to the paramters of streamID, subStreamID and streamType, an

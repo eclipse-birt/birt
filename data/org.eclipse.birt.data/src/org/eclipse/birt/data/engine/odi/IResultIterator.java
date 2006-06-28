@@ -14,8 +14,6 @@
 
 package org.eclipse.birt.data.engine.odi;
 
-import java.util.Set;
-
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
@@ -162,10 +160,9 @@ public interface IResultIterator
 	 * 
 	 * @param streamsWrapper
 	 * @param isSubQuery
-	 * @param nameSet
 	 * @throws DataException
 	 */
-	public void doSave( StreamWrapper streamsWrapper, boolean isSubQuery,
-			Set nameSet ) throws DataException;
+	public void doSave( StreamWrapper streamsWrapper, boolean isSubQuery )
+			throws DataException;
 	
 }

@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -879,10 +878,10 @@ public class PreparedDummyQuery implements IPreparedQuery
 	{
 		/*
 		 * @see org.eclipse.birt.data.engine.executor.transform.CachedResultSet#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper,
-		 *      boolean, java.util.Set)
+		 *      boolean)
 		 */
-		public void doSave( StreamWrapper streamWrapper,
-				boolean isSubQuery, Set nameSet ) throws DataException
+		public void doSave( StreamWrapper streamWrapper, boolean isSubQuery )
+				throws DataException
 		{
 			try
 			{
