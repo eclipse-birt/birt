@@ -86,9 +86,12 @@
 	<BODY CLASS="BirtViewer_Body"  ONLOAD="javascript:init( );" LEFTMARGIN='0px' STYLE='overflow:hidden'>
 		<!-- Header section -->
 		<TABLE ID='layout' CELLSPACING='0' CELLPADDING='0' STYLE='width:100%;height:100%'>
-			<TR HEIGHT='25px'>
+			<TR CLASS='body_caption_top'>
+				<TD COLSPAN='2'></TD>
+			</TR>
+			<TR CLASS='body_caption' VALIGN='bottom'>
 				<TD COLSPAN='2'>
-					<TABLE BORDER=0 CELLSPACING="0" CELLPADDING="1px" WIDTH="100%" STYLE='font-family:Verdana;font-size:10pt;'>
+					<TABLE BORDER=0 CELLSPACING="0" CELLPADDING="1px" WIDTH="100%">
 						<TR>
 							<TD WIDTH="3px"/>
 							<TD>

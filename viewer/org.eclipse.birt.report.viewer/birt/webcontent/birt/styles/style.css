@@ -137,19 +137,38 @@
 }
 
 /******************************************************************************
+ * Body
+ *****************************************************************************/
+.body_caption_top
+{
+	height:4px;
+	background-color:#DDAA03;
+}
+
+.body_caption
+{
+	height:30px;
+	font-family:Verdana;
+	font-size:10pt;
+}
+
+
+
+/******************************************************************************
  * Toolbar
  ******************************************************************************/
 .birtviewer_toolbar
 {
-	background-color:#FFF9E5;
+	height:26px;
+	background-color:#CBCB97;
 	font-family:Verdana;
 	font-size:8pt;
 	border-top-width:1px;
 	border-top-style:solid;
-	border-top-color:gray;
+	border-top-color:#808080;
 	border-bottom-width:1px;
 	border-bottom-style:solid;
-	border-bottom-color:gray;
+	border-bottom-color:#808080;
 }
 
 /******************************************************************************
@@ -157,10 +176,11 @@
  ******************************************************************************/
 .birtviewer_navbar
 {
-	background-color:#FFF9E5;
+	height:26px;
+	background-color:#E6E6C6;
 	font-family:Verdana;
 	font-size:8pt;
-	border-left-color:black;
+	border-left-color:#808080;
 	border-left-style:solid;
 	border-left-width:1px;
 }
