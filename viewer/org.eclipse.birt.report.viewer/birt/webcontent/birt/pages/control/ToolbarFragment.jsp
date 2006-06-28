@@ -44,13 +44,13 @@
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
-					   <INPUT TYPE="image" NAME='parameter' SRC="birt/images/ChangeParameter.gif"
+					   <INPUT TYPE="image" NAME='parameter' SRC="birt/images/Report_parameters.gif"
 					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.parameter" )%>"	
 					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.parameter" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
-					   <INPUT TYPE="image" NAME='export' SRC="birt/images/ExportData.gif"
+					   <INPUT TYPE="image" NAME='export' SRC="birt/images/Export.gif"
 					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.export" )%>"
 					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.export" )%>" CLASS="birtviewer_clickable">
 					</TD>
@@ -66,7 +66,7 @@
 					{
 					%>
 						<A HREF="<%= ivUrl %>">
-							<IMG SRC='birt/images/Interactive_view.gif' CLASS='birtviewer_clickable' />
+							<IMG SRC='birt/images/Interactive_viewer.gif' CLASS='birtviewer_clickable' />
 						</A>
 					<%
 					}
