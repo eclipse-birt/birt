@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl.document.util;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.RAInputStream;
@@ -32,11 +30,6 @@ import org.eclipse.birt.data.engine.impl.document.VersionManager;
  */
 public class ExprResultSet implements IExprResultSet
 {	
-	private InputStream rowExprsIs;
-	private InputStream rowLenIs;	
-	private BufferedInputStream rowExprsBuffDis;
-	private BufferedInputStream rowLenBuffDis;
-	
 	protected RAInputStream rowExprsRAIs;
 	protected RAInputStream rowLenRAIs;
 	protected RAInputStream rowInfoRAIs;
@@ -76,20 +69,18 @@ public class ExprResultSet implements IExprResultSet
 	{
 		if ( this.isBasedOnSecondRD == false )
 		{
-			rowExprsIs = streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
+			rowExprsRAIs = streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
-			rowExprsBuffDis = new BufferedInputStream( rowExprsIs );
 			if ( version == VersionManager.VERSION_2_1 )
 			{
-				rowLenIs = streamManager.getInStream( DataEngineContext.EXPR_ROWLEN_STREAM,
+				rowLenRAIs = streamManager.getInStream( DataEngineContext.EXPR_ROWLEN_STREAM,
 						StreamManager.ROOT_STREAM,
 						StreamManager.SELF_SCOPE );
-				rowLenBuffDis = new BufferedInputStream( rowLenIs );
 			}
 			
-			this.exprResultReader = new ExprDataReader1( this.rowExprsBuffDis,
-					this.rowLenBuffDis,
+			this.exprResultReader = new ExprDataReader1( this.rowExprsRAIs,
+					this.rowLenRAIs,
 					this.version );
 			this.rowCount = exprResultReader.getCount( );
 		}
@@ -205,20 +196,16 @@ public class ExprResultSet implements IExprResultSet
 			{
 				exprResultReader.close( );
 			}
-			if ( rowExprsBuffDis != null )
-			{
-				rowExprsBuffDis.close( );
-				rowExprsIs.close( );
-			}
-			if ( rowLenBuffDis != null )
-			{
-				rowLenBuffDis.close( );
-				rowLenIs.close( );
-			}
 			if ( rowExprsRAIs != null )
 			{
 				rowExprsRAIs.close( );
+			}
+			if ( rowLenRAIs != null )
+			{
 				rowLenRAIs.close( );
+			}
+			if ( rowInfoRAIs != null )
+			{
 				rowInfoRAIs.close( );
 			}
 		}

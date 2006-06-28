@@ -15,6 +15,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
@@ -37,14 +38,13 @@ public class ExprDataResultSet1 extends BaseExprDataResultSet
 	 *            the expression meta data
 	 * @throws DataException 
 	 */
-	public ExprDataResultSet1( InputStream rowIs, ExprMetaInfo[] inExprMetas )
+	public ExprDataResultSet1( RAInputStream rowIs, ExprMetaInfo[] inExprMetas )
 			throws DataException
 	{
 		super( inExprMetas );
 
 		this.rowIs = rowIs;
-		this.rowBuffDis = new BufferedInputStream( rowIs );
-		this.exprDataReader = new ExprDataReader1( rowBuffDis,
+		this.exprDataReader = new ExprDataReader1( rowIs,
 				null,
 				VersionManager.VERSION_2_1 );
 		this.rowCount = exprDataReader.getCount( );

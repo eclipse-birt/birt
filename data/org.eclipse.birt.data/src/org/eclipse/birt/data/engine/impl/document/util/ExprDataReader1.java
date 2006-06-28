@@ -13,10 +13,10 @@ package org.eclipse.birt.data.engine.impl.document.util;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -29,15 +29,14 @@ import org.eclipse.birt.data.engine.impl.document.VersionManager;
 class ExprDataReader1 implements IExprDataReader
 {
 	private int currReadIndex;
-	private int lastReadIndex;
 	private int currRowIndex;
 
 	private int INT_LENGTH;
 
 	private DataInputStream rowExprsDis;
-	private DataInputStream rowLenDis;
+	private RAInputStream rowExprsIs;
+	private RAInputStream rowLenIs;
 	
-	//
 	private int rowCount;
 	
 	private int version;
@@ -49,7 +48,7 @@ class ExprDataReader1 implements IExprDataReader
 	 * @param rowCount
 	 * @param version
 	 */
-	ExprDataReader1( InputStream rowExprsIs, InputStream rowLenIs,
+	ExprDataReader1( RAInputStream rowExprsIs, RAInputStream rowLenIs,
 			int version ) throws DataException
 	{
 		try
@@ -64,14 +63,14 @@ class ExprDataReader1 implements IExprDataReader
 		}
 		
 		this.rowExprsDis = new DataInputStream( rowExprsIs );
-		if ( rowLenIs != null )
-			this.rowLenDis = new DataInputStream( rowLenIs );
+		this.rowExprsIs = rowExprsIs;
+		this.rowLenIs = rowLenIs;
 				
 		this.version = version;
-		
+
 		this.currReadIndex = 0;
 		this.currRowIndex = -1;
-
+		
 		this.INT_LENGTH = IOUtil.INT_LENGTH;
 	}
 	
@@ -162,24 +161,10 @@ class ExprDataReader1 implements IExprDataReader
 		}
 		else
 		{
-			int gapRow = currReadIndex - lastReadIndex;
-			if ( gapRow > 0 )
-				this.rowLenDis.skipBytes( gapRow * INT_LENGTH );
-			int rowOffsetRead = IOUtil.readInt( rowLenDis );
-			lastReadIndex = currReadIndex + 1;
-
-			gapRow = absoluteRowIndex - lastReadIndex;
-			if ( gapRow > 0 )
-				this.rowLenDis.skipBytes( gapRow * INT_LENGTH );
-			int rowOffsetAbsolute = IOUtil.readInt( rowLenDis );
-			lastReadIndex = absoluteRowIndex + 1;
-
-			int skipBytesLen = rowOffsetAbsolute - rowOffsetRead;
-
-			if ( skipBytesLen > 0 )
-				this.rowExprsDis.skipBytes( skipBytesLen );
-
-			currReadIndex = absoluteRowIndex;
+			rowLenIs.seek( absoluteRowIndex * INT_LENGTH );
+			int rowOffsetAbsolute = IOUtil.readInt( rowLenIs );
+			rowExprsIs.seek( rowOffsetAbsolute + 4);
+			rowExprsDis = new DataInputStream( rowExprsIs );
 		}
 	}
 	
@@ -209,9 +194,11 @@ class ExprDataReader1 implements IExprDataReader
 		try
 		{
 			if ( rowExprsDis != null )
-				rowExprsDis.close( );
-			if ( rowLenDis != null )
-				rowLenDis.close( );
+				rowExprsDis.close();
+			if ( rowExprsIs != null )
+				rowExprsIs.close( );
+			if ( rowLenIs != null )
+				rowLenIs.close( );
 		}
 		catch ( IOException e )
 		{
