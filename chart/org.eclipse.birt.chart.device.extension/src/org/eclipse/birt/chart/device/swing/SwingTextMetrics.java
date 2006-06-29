@@ -16,10 +16,14 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.text.AttributedString;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -53,6 +57,8 @@ public final class SwingTextMetrics extends TextAdapter
 	private final IDisplayServer xs;
 
 	private Insets ins = null;
+
+	private double cachedwidth;
 
 	/**
 	 * The constructor initializes a tiny image that provides a graphics context
@@ -118,6 +124,8 @@ public final class SwingTextMetrics extends TextAdapter
 		fm = g2d.getFontMetrics( f );
 		final FontRenderContext frc = g2d.getFontRenderContext( );
 
+		cachedwidth = Double.NaN;
+
 		String s = la.getCaption( ).getValue( );
 		if ( s == null )
 		{
@@ -127,7 +135,7 @@ public final class SwingTextMetrics extends TextAdapter
 		{
 			s = IConstants.ONE_SPACE;
 		}
-		String[] sa = splitOnBreaks( s, forceWrappingSize );
+		String[] sa = splitOnBreaks( s, forceWrappingSize, f );
 		if ( sa == null )
 		{
 			iLineCount = 1;
@@ -205,6 +213,13 @@ public final class SwingTextMetrics extends TextAdapter
 	 */
 	private final double stringWidth( )
 	{
+		if ( !Double.isNaN( cachedwidth ) )
+		{
+			return cachedwidth;
+		}
+
+		cachedwidth = 0;
+
 		Rectangle2D r2d;
 
 		if ( iLineCount > 1 )
@@ -231,7 +246,7 @@ public final class SwingTextMetrics extends TextAdapter
 			 * Fixed for java.awt.font.TextLine.getBounds() bug, when string is
 			 * blank, e.g. " ", it will return an negative result.
 			 */
-			return Math.max( 0, dMaxWidth );
+			cachedwidth = Math.max( 0, dMaxWidth );
 		}
 		else if ( iLineCount == 1 )
 		{
@@ -247,10 +262,10 @@ public final class SwingTextMetrics extends TextAdapter
 			 * Fixed for java.awt.font.TextLine.getBounds() bug, when string is
 			 * blank, e.g. " ", it will return an negative result.
 			 */
-			return Math.max( 0, w );
+			cachedwidth = Math.max( 0, w );
 		}
 
-		return 0;
+		return cachedwidth;
 	}
 
 	final double pointsToPixels( )
@@ -299,14 +314,16 @@ public final class SwingTextMetrics extends TextAdapter
 	 * @param s
 	 * @return
 	 */
-	private String[] splitOnBreaks( String s, double maxSize )
+	private String[] splitOnBreaks( String s, double maxSize, Font ft )
 	{
-		final ArrayList al = new ArrayList( );
+		List al = new ArrayList( );
 
+		// check hard break first
 		int i = 0, j;
 		do
 		{
 			j = s.indexOf( '\n', i );
+
 			if ( j == -1 )
 			{
 				j = s.length( );
@@ -314,85 +331,40 @@ public final class SwingTextMetrics extends TextAdapter
 			String ss = s.substring( i, j ).trim( );
 			if ( ss != null && ss.length( ) > 0 )
 			{
-				// check max size.
-				if ( maxSize > 0 )
+				al.add( ss );
+			}
+
+			i = j + 1;
+
+		} while ( j != -1 && j < s.length( ) );
+
+		// check wrapping
+		if ( maxSize > 0 )
+		{
+			List nal = new ArrayList( );
+
+			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			{
+				String ns = (String) itr.next( );
+
+				AttributedString as = new AttributedString( ns,
+						ft.getAttributes( ) );
+				LineBreakMeasurer lbm = new LineBreakMeasurer( as.getIterator( ),
+						g2d.getFontRenderContext( ) );
+
+				while ( lbm.getPosition( ) < ns.length( ) )
 				{
-					Rectangle2D size = fm.getStringBounds( ss, g2d );
-					if ( size.getWidth( ) > maxSize )
-					{
-						// try fuzzy match first
-						int estCount = (int) ( maxSize / size.getWidth( ) )
-								* ss.length( );
+					int next = lbm.nextOffset( (float) maxSize );
 
-						if ( estCount < 1 )
-						{
-							estCount = ss.length( );
-						}
+					String ss = ns.substring( lbm.getPosition( ), next );
+					lbm.setPosition( next );
 
-						String fs;
-						Rectangle2D fsize;
-						int curPos = 0;
-
-						while ( ss.length( ) > 0 )
-						{
-							fs = ss.substring( 0, Math.min( estCount,
-									ss.length( ) ) );
-							fsize = fm.getStringBounds( fs, g2d );
-
-							if ( fsize.getWidth( ) <= maxSize )
-							{
-								al.add( fs );
-								curPos = fs.length( );
-							}
-							else
-							{
-								boolean matched = false;
-
-								// decrease the count and test again.
-								int curCount = Math.min( estCount - 1,
-										ss.length( ) );
-								while ( curCount > 1 )
-								{
-									fs = ss.substring( 0, curCount );
-									fsize = fm.getStringBounds( fs, g2d );
-
-									if ( fsize.getWidth( ) <= maxSize )
-									{
-										al.add( fs );
-										curPos = fs.length( );
-										matched = true;
-										break;
-									}
-									else
-									{
-										curCount--;
-									}
-								}
-
-								if ( !matched )
-								{
-									al.add( fs );
-									curPos = fs.length( );
-								}
-							}
-
-							ss = ss.substring( curPos );
-							curPos = 0;
-						}
-
-					}
-					else
-					{
-						al.add( ss );
-					}
-				}
-				else
-				{
-					al.add( ss );
+					nal.add( ss );
 				}
 			}
-			i = j + 1;
-		} while ( j != -1 && j < s.length( ) );
+
+			al = nal;
+		}
 
 		final int n = al.size( );
 		if ( n == 1 || n == 0 )

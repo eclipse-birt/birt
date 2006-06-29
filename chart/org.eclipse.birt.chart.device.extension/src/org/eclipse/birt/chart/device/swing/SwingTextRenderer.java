@@ -329,6 +329,8 @@ final class SwingTextRenderer implements IConstants
 		final Insets ins = la.getInsets( )
 				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
 		final double shadowness = 3 * _sxs.getDpiResolution( ) / 72d;
+		// Swing is not friendly to empty string, check and skip for this case
+		final boolean bEmptyText = "".equals( la.getCaption( ).getValue( ) ); //$NON-NLS-1$
 		TextLayout tl;
 
 		final HorizontalAlignment ha = la.getCaption( )
@@ -373,27 +375,33 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY
+										- dYHalfOffset
+										+ ins.getTop( )
+										+ dH
+										* ( i + 1 ) - dD ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( dY
-									- dYHalfOffset
-									+ ins.getTop( )
-									+ dH
-									* ( i + 1 ) - dD ) );
 				}
 
 				// RENDER THE OUTLINE
@@ -437,23 +445,29 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < itm.getLineCount( ); i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) - ( dH * i ) ) - ins.getBottom( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( ( dY - dD ) - ( dH * i ) ) - ins.getBottom( ) ) );
 				}
 
 				// RENDER THE OUTLINE
@@ -498,23 +512,29 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) + ( dH * i ) ) + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( ( dY - dD ) + ( dH * i ) ) + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -558,24 +578,30 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
-					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
 
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( ( dY - dD ) - ( dH * ( iLC - i - 1 ) ) ) + ins.getTop( ) ) );
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) - ( dH * ( iLC - i - 1 ) ) ) + ins.getTop( ) ) );
+					}
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -618,23 +644,29 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) + ( dH * i ) ) + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( ( dY - dD ) + ( dH * i ) ) + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -686,6 +718,8 @@ final class SwingTextRenderer implements IConstants
 		final Insets ins = la.getInsets( )
 				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
 		final double shadowness = 3 * _sxs.getDpiResolution( ) / 72d;
+		// Swing is not friendly to empty string, check and skip for this case
+		final boolean bEmptyText = "".equals( la.getCaption( ).getValue( ) ); //$NON-NLS-1$
 		TextLayout tl;
 
 		final HorizontalAlignment ha = la.getCaption( )
@@ -731,30 +765,37 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY
+										- dYHalfOffset
+										+ ins.getTop( )
+										+ dH
+										* ( i + 1 ) - dD )
+						// (float)(((dY - dD) - ((iLC - i) * dH - (iLC + 1) *
+						// dH/2))
+						// + ins.getTop())
+						);
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( dY
-									- dYHalfOffset
-									+ ins.getTop( )
-									+ dH
-									* ( i + 1 ) - dD )
-					// (float)(((dY - dD) - ((iLC - i) * dH - (iLC + 1) * dH/2))
-					// + ins.getTop())
-					);
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -799,23 +840,29 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -861,23 +908,29 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( dY - dD - dH * ( iLC - i - 1 ) ) - ins.getBottom( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( dY - dD - dH * ( iLC - i - 1 ) ) - ins.getBottom( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -924,23 +977,29 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -987,23 +1046,29 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -1053,6 +1118,8 @@ final class SwingTextRenderer implements IConstants
 		final Insets ins = la.getInsets( )
 				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
 		final double shadowness = 3 * _sxs.getDpiResolution( ) / 72d;
+		// Swing is not friendly to empty string, check and skip for this case
+		final boolean bEmptyText = "".equals( la.getCaption( ).getValue( ) ); //$NON-NLS-1$
 		TextLayout tl;
 
 		final HorizontalAlignment ha = la.getCaption( )
@@ -1094,23 +1161,29 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD + dH * i + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( dY - dD + dH * i + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -1157,23 +1230,29 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD + dH * i + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( dY - dD + dH * i + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -1215,23 +1294,29 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD + dH * i + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( dY - dD + dH * i + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -1278,25 +1363,31 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) - ( ( iLC - i ) * dH - ( iLC + 1 )
+										* dH
+										/ 2 ) ) + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( ( dY - dD ) - ( ( iLC - i ) * dH - ( iLC + 1 )
-									* dH
-									/ 2 ) ) + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -1345,26 +1436,32 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < iLC; i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( dY - dD )
+										- dYHalfOffset
+										+ dH
+										* ( i + 1 ) + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( dY - dD )
-									- dYHalfOffset
-									+ dH
-									* ( i + 1 ) + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -1414,6 +1511,8 @@ final class SwingTextRenderer implements IConstants
 		final Insets ins = la.getInsets( )
 				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
 		final double shadowness = 3 * _sxs.getDpiResolution( ) / 72d;
+		// Swing is not friendly to empty string, check and skip for this case
+		final boolean bEmptyText = "".equals( la.getCaption( ).getValue( ) ); //$NON-NLS-1$
 		TextLayout tl;
 
 		final HorizontalAlignment ha = la.getCaption( )
@@ -1456,27 +1555,32 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-
-				for ( int i = 0; i < itm.getLineCount( ); i++ )
+				if ( !bEmptyText )
 				{
-					// tl = new TextLayout(itm.getLine(iLC - i - 1),
-					// g2d.getFont(), g2d.getFontRenderContext());
-					tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
+					{
+						// tl = new TextLayout(itm.getLine(iLC - i - 1),
+						// g2d.getFont(), g2d.getFontRenderContext());
+						tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
 
-					if ( bRightAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -1521,25 +1625,31 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < itm.getLineCount( ); i++ )
+				if ( !bEmptyText )
 				{
-					tl = new TextLayout( itm.getLine( iLC - i - 1 ),
-							g2d.getFont( ).getAttributes( ),
-							g2d.getFontRenderContext( ) );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = new TextLayout( itm.getLine( iLC - i - 1 ),
+								g2d.getFont( ).getAttributes( ),
+								g2d.getFontRenderContext( ) );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -1585,23 +1695,29 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < itm.getLineCount( ); i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -1653,24 +1769,30 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < itm.getLineCount( ); i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) - ( ( itm.getLineCount( ) - i )
+										* dH - ( iLC + 1 ) * dH / 2 ) ) + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( ( dY - dD ) - ( ( itm.getLineCount( ) - i )
-									* dH - ( iLC + 1 ) * dH / 2 ) ) + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -1718,24 +1840,30 @@ final class SwingTextRenderer implements IConstants
 				}
 
 				// RENDER THE TEXT
-				g2d.setColor( clrText );
-				for ( int i = 0; i < itm.getLineCount( ); i++ )
+				if ( !bEmptyText )
 				{
-					tl = ( (SwingTextMetrics) itm ).getLayout( i );
-					if ( bRightAligned )
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
 					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) - ( ( itm.getLineCount( ) - i )
+										* dH - ( iLC + 1 ) * dH / 2 ) ) + ins.getTop( ) ) );
 					}
-					else if ( bCenterAligned )
-					{
-						dW = tl.getBounds( ).getWidth( );
-						dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-					}
-					tl.draw( g2d,
-							(float) ( dX + dXOffset + ins.getLeft( ) ),
-							(float) ( ( ( dY - dD ) - ( ( itm.getLineCount( ) - i )
-									* dH - ( iLC + 1 ) * dH / 2 ) ) + ins.getTop( ) ) );
 				}
 
 				// RENDER THE OUTLINE/BORDER

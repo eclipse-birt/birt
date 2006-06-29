@@ -12,6 +12,8 @@
 package org.eclipse.birt.chart.device.swt;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -20,7 +22,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.TextLayout;
 
 /**
  * 
@@ -28,29 +30,16 @@ import org.eclipse.swt.graphics.Point;
 public final class SwtTextMetrics extends TextAdapter
 {
 
-	/**
-	 * 
-	 */
 	private int iLineCount = 0;
 
-	/**
-	 * 
-	 */
+	private double cachedWidth;
+
 	private String[] oText = null;
 
-	/**
-	 * 
-	 */
 	private GC gc = null;
 
-	/**
-	 * 
-	 */
 	private Label la = null;
 
-	/**
-	 * 
-	 */
 	private final IDisplayServer ids;
 
 	private Font font;
@@ -78,6 +67,8 @@ public final class SwtTextMetrics extends TextAdapter
 	 */
 	public final void reuse( Label la, double forceWrappingSize )
 	{
+		cachedWidth = Double.NaN;
+
 		String s = la.getCaption( ).getValue( );
 
 		if ( s == null )
@@ -183,25 +174,31 @@ public final class SwtTextMetrics extends TextAdapter
 	 */
 	private final double stringWidth( )
 	{
+		if ( !Double.isNaN( cachedWidth ) )
+		{
+			return cachedWidth;
+		}
+
+		cachedWidth = 0;
 		gc.setFont( getFont( ) );
-		double dWidth, dMaxWidth = 0;
+		double dWidth;
 		if ( iLineCount > 1 )
 		{
 			String[] sa = oText;
 			for ( int i = 0; i < iLineCount; i++ )
 			{
 				dWidth = gc.textExtent( sa[i] ).x;
-				if ( dWidth > dMaxWidth )
+				if ( dWidth > cachedWidth )
 				{
-					dMaxWidth = dWidth;
+					cachedWidth = dWidth;
 				}
 			}
 		}
 		else
 		{
-			dMaxWidth = gc.textExtent( oText[0] ).x;
+			cachedWidth = gc.textExtent( oText[0] ).x;
 		}
-		return dMaxWidth;
+		return cachedWidth;
 	}
 
 	public final double getFullHeight( )
@@ -241,17 +238,14 @@ public final class SwtTextMetrics extends TextAdapter
 	 */
 	private String[] splitOnBreaks( String s, double maxSize )
 	{
-		final ArrayList al = new ArrayList( );
+		List al = new ArrayList( );
 
-		if ( maxSize > 0 )
-		{
-			gc.setFont( getFont( ) );
-		}
-
+		// check hard break first
 		int i = 0, j;
 		do
 		{
 			j = s.indexOf( '\n', i );
+
 			if ( j == -1 )
 			{
 				j = s.length( );
@@ -259,84 +253,43 @@ public final class SwtTextMetrics extends TextAdapter
 			String ss = s.substring( i, j ).trim( );
 			if ( ss != null && ss.length( ) > 0 )
 			{
-				// check max size.
-				if ( maxSize > 0 )
+				al.add( ss );
+			}
+
+			i = j + 1;
+
+		} while ( j != -1 && j < s.length( ) );
+
+		// check wrapping
+		if ( maxSize > 0 )
+		{
+			TextLayout tl = new TextLayout( ( (SwtDisplayServer) ids ).getDevice( ) );
+			tl.setFont( getFont( ) );
+			tl.setWidth( (int) maxSize );
+
+			List nal = new ArrayList( );
+
+			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			{
+				String ns = (String) itr.next( );
+
+				tl.setText( ns );
+
+				int[] offsets = tl.getLineOffsets( );
+				String ss;
+
+				for ( i = 1; i < offsets.length; i++ )
 				{
-					Point size = gc.textExtent( ss );
-					if ( size.x > maxSize )
-					{
-						// try fuzzy match first
-						int estCount = (int) ( maxSize / size.x ) * ss.length( );
+					ss = ns.substring( offsets[i - 1], offsets[i] );
 
-						if ( estCount < 1 )
-						{
-							estCount = ss.length( );
-						}
-
-						String fs;
-						Point fsize;
-						int curPos = 0;
-
-						while ( ss.length( ) > 0 )
-						{
-							fs = ss.substring( 0, Math.min( estCount,
-									ss.length( ) ) );
-							fsize = gc.textExtent( fs );
-
-							if ( fsize.x <= maxSize )
-							{
-								al.add( fs );
-								curPos = fs.length( );
-							}
-							else
-							{
-								boolean matched = false;
-
-								// decrease the count and test again.
-								int curCount = Math.min( estCount - 1,
-										ss.length( ) );
-								while ( curCount > 1 )
-								{
-									fs = ss.substring( 0, curCount );
-									fsize = gc.textExtent( fs );
-
-									if ( fsize.x <= maxSize )
-									{
-										al.add( fs );
-										curPos = fs.length( );
-										matched = true;
-										break;
-									}
-									else
-									{
-										curCount--;
-									}
-								}
-
-								if ( !matched )
-								{
-									al.add( fs );
-									curPos = fs.length( );
-								}
-							}
-
-							ss = ss.substring( curPos );
-							curPos = 0;
-						}
-
-					}
-					else
-					{
-						al.add( ss );
-					}
-				}
-				else
-				{
-					al.add( ss );
+					nal.add( ss );
 				}
 			}
-			i = j + 1;
-		} while ( j != -1 && j < s.length( ) );
+
+			tl.dispose( );
+
+			al = nal;
+		}
 
 		final int n = al.size( );
 		if ( n == 1 || n == 0 )
