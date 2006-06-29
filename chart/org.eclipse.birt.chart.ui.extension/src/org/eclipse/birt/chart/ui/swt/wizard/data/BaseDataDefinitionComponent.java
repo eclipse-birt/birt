@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
-import org.eclipse.birt.chart.ui.swt.composites.RuleEditorDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
@@ -30,7 +29,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTarget;
@@ -69,8 +68,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	private transient Text txtDefinition = null;
 
 	private transient Button btnBuilder = null;
-
-	private transient Button btnRuleEditor = null;
 
 	private transient Button btnFormatEditor = null;
 
@@ -248,23 +245,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				WizardBase.displayException( e1 );
 			}
 		}
-		else if ( e.getSource( ).equals( btnRuleEditor ) )
-		{
-			RuleEditorDialog editor = new RuleEditorDialog( cmpTop.getShell( ),
-					(Query) EcoreUtil.copy( query ),
-					sTitle );
-			if ( !editor.wasCancelled( ) )
-			{
-				query.getRules( ).addAll( editor.getRules( ) );
-			}
-		}
 		else if ( e.getSource( ).equals( btnFormatEditor ) )
 		{
 			FormatSpecifier formatspecifier = seriesdefinition.getFormatSpecifier( );
 			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpTop.getShell( ),
 					formatspecifier,
 					sTitle );
-			if ( !editor.wasCancelled( ) )
+			if ( editor.open( ) == Window.OK )
 			{
 				if ( editor.getFormatSpecifier( ) == null )
 				{

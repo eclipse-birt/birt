@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -37,6 +38,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -47,7 +49,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  * 
  */
-public class FontDefinitionDialog
+public class FontDefinitionDialog extends TrayDialog
 		implements
 			SelectionListener,
 			Listener,
@@ -62,8 +64,6 @@ public class FontDefinitionDialog
 	private transient FontDefinition fdBackup = null;
 
 	private transient ColorDefinition cdBackup = null;
-
-	private transient Shell shell = null;
 
 	private transient Composite cmpContent = null;
 
@@ -107,14 +107,6 @@ public class FontDefinitionDialog
 
 	private transient FontCanvas fcPreview = null;
 
-	private transient Composite cmpButtons = null;
-
-	private transient Button btnAccept = null;
-
-	private transient Button btnCancel = null;
-
-	private transient boolean bCancelled = true;
-
 	private transient boolean isAlignmentEnabled = true;
 
 	private transient List listAlighmentButtons = new ArrayList( 9 );
@@ -122,13 +114,16 @@ public class FontDefinitionDialog
 	private transient ChartWizardContext wizardContext;
 
 	private static final String[] FONT_SIZE = new String[]{
-			ChartUIUtil.FONT_AUTO, "9", "10", "12", "14", "16", "18", "24", "36" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+			ChartUIUtil.FONT_AUTO,
+			"9", "10", "12", "14", "16", "18", "24", "36" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 	};
 
 	public FontDefinitionDialog( Shell shellParent,
 			ChartWizardContext wizardContext, FontDefinition fdCurrent,
 			ColorDefinition cdCurrent, boolean isAlignmentEnabled )
-	{	
+	{
+		super( shellParent );
+
 		this.isAlignmentEnabled = isAlignmentEnabled;
 		this.wizardContext = wizardContext;
 		this.fdCurrent = fdCurrent == null ? FontDefinitionImpl.createEmpty( )
@@ -138,28 +133,22 @@ public class FontDefinitionDialog
 		this.fdBackup = (FontDefinition) EcoreUtil.copy( this.fdCurrent );
 		this.cdBackup = this.cdCurrent == null ? null
 				: (ColorDefinition) EcoreUtil.copy( this.cdCurrent );
-		shell = new Shell( shellParent, SWT.DIALOG_TRIM
-				| SWT.RESIZE | SWT.APPLICATION_MODAL );
-		shell.setLayout( new FillLayout( ) );
-		ChartUIUtil.bindHelp( shell, ChartHelpContextIds.DIALOG_FONT_EDITOR );
-		
-		placeComponents( );
-		populateLists( );
-		shell.setText( Messages.getString( "FontDefinitionDialog.Title.FontDescriptor" ) ); //$NON-NLS-1$
-		shell.setSize( 450, isAlignmentEnabled ? 360 : 320 );
-		UIHelper.centerOnScreen( shell );
-		shell.layout( );
-		shell.open( );
-		while ( !shell.isDisposed( ) )
-		{
-			if ( !shell.getDisplay( ).readAndDispatch( ) )
-			{
-				shell.getDisplay( ).sleep( );
-			}
-		}
 	}
 
-	private void placeComponents( )
+	protected void setShellStyle( int newShellStyle )
+	{
+		super.setShellStyle( newShellStyle
+				| SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
+	}
+
+	protected Control createContents( Composite parent )
+	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_FONT_EDITOR );
+		getShell( ).setText( Messages.getString( "FontDefinitionDialog.Title.FontDescriptor" ) ); //$NON-NLS-1$
+		return super.createContents( parent );
+	}
+
+	protected Control createDialogArea( Composite parent )
 	{
 		GridLayout glContent = new GridLayout( );
 		glContent.verticalSpacing = 5;
@@ -168,8 +157,9 @@ public class FontDefinitionDialog
 		glContent.marginWidth = 7;
 		glContent.numColumns = 9;
 
-		cmpContent = new Composite( shell, SWT.NONE );
+		cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( glContent );
+		cmpContent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		Label lblFont = new Label( cmpContent, SWT.NONE );
 		GridData gdLFont = new GridData( );
@@ -191,7 +181,8 @@ public class FontDefinitionDialog
 		{
 			cmbFontSizes.setItems( FONT_SIZE );
 			cmbFontSizes.setText( fdCurrent.isSetSize( )
-					? String.valueOf( (int) fdCurrent.getSize( ) ) : ChartUIUtil.FONT_AUTO );
+					? String.valueOf( (int) fdCurrent.getSize( ) )
+					: ChartUIUtil.FONT_AUTO );
 			GridData gdISCFontSizes = new GridData( GridData.FILL_HORIZONTAL );
 			gdISCFontSizes.horizontalSpan = 3;
 			cmbFontSizes.setLayoutData( gdISCFontSizes );
@@ -237,30 +228,16 @@ public class FontDefinitionDialog
 
 		createRotationPanel( );
 
-		Label lblPreview = new Label( cmpContent, SWT.NONE );
-		{
-			lblPreview.setText( Messages.getString( "FontDefinitionDialog.Lbl.Preview" ) ); //$NON-NLS-1$
-			lblPreview.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
-		}
+		populateLists( );
 
-		FillLayout flPreview = new FillLayout( );
-		flPreview.marginHeight = 2;
-		flPreview.marginWidth = 3;
-		Composite grpPreview = new Composite( cmpContent, SWT.NONE );
-		GridData gdGRPPreview = new GridData( GridData.FILL_BOTH );
-		gdGRPPreview.horizontalSpan = 4;
-		grpPreview.setLayoutData( gdGRPPreview );
-		grpPreview.setLayout( flPreview );
+		return cmpContent;
+	}
 
-		fcPreview = new FontCanvas( grpPreview,
-				SWT.BORDER,
-				fdCurrent,
-				cdCurrent,
-				true,
-				true,
-				true );
-
-		createButtonPanel( );
+	protected void cancelPressed( )
+	{
+		this.fdCurrent = this.fdBackup;
+		this.cdCurrent = this.cdBackup;
+		super.cancelPressed( );
 	}
 
 	private void createFontStylePanel( )
@@ -427,15 +404,25 @@ public class FontDefinitionDialog
 			lblRotation.setText( Messages.getString( "FontDefinitionDialog.Lbl.Rotation" ) ); //$NON-NLS-1$
 		}
 
+		Composite cmpPanel = new Composite( cmpContent, SWT.NONE );
+		{
+			GridLayout layout = new GridLayout( 4, false );
+			layout.marginWidth = 0;
+			layout.marginHeight = 0;
+			cmpPanel.setLayout( layout );
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.horizontalSpan = 8;
+			cmpPanel.setLayoutData( gd );
+		}
+
 		GridLayout glRotation = new GridLayout( );
 		glRotation.verticalSpacing = 10;
 		glRotation.marginHeight = 0;
 		glRotation.marginWidth = 2;
 
-		Composite cmpRotation = new Composite( cmpContent, SWT.NONE );
+		Composite cmpRotation = new Composite( cmpPanel, SWT.NONE );
 		GridData gdGRPRotation = new GridData( GridData.FILL_VERTICAL );
-		gdGRPRotation.horizontalSpan = 2;
-		gdGRPRotation.heightHint = 100;
+		gdGRPRotation.heightHint = 150;
 		cmpRotation.setLayoutData( gdGRPRotation );
 		cmpRotation.setLayout( glRotation );
 
@@ -457,43 +444,35 @@ public class FontDefinitionDialog
 		iscRotation.setIncrement( 1 );
 		iscRotation.addListener( this );
 
-		Label lblDegrees = new Label( cmpContent, SWT.NONE );
+		Label lblDegrees = new Label( cmpPanel, SWT.NONE );
 		{
 			lblDegrees.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END
 					| GridData.GRAB_VERTICAL ) );
 			lblDegrees.setText( Messages.getString( "FontDefinitionDialog.Label.Degrees" ) ); //$NON-NLS-1$
 		}
+		
+		Label lblPreview = new Label( cmpPanel, SWT.NONE );
+		{
+			lblPreview.setText( Messages.getString( "FontDefinitionDialog.Lbl.Preview" ) ); //$NON-NLS-1$
+			lblPreview.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
+		}
 
-	}
+		FillLayout flPreview = new FillLayout( );
+		flPreview.marginHeight = 2;
+		flPreview.marginWidth = 3;
+		Composite grpPreview = new Composite( cmpPanel, SWT.NONE );
+		GridData gdGRPPreview = new GridData( GridData.FILL_BOTH );
+		grpPreview.setLayoutData( gdGRPPreview );
+		grpPreview.setLayout( flPreview );
 
-	private void createButtonPanel( )
-	{
-		GridData gdButtons = new GridData( GridData.FILL_HORIZONTAL );
-		gdButtons.horizontalSpan = 9;
-		cmpButtons = new Composite( cmpContent, SWT.NONE );
-		cmpButtons.setLayoutData( gdButtons );
-		GridLayout glButtons = new GridLayout( );
-		glButtons.numColumns = 7;
-		cmpButtons.setLayout( glButtons );
+		fcPreview = new FontCanvas( grpPreview,
+				SWT.BORDER,
+				fdCurrent,
+				cdCurrent,
+				true,
+				true,
+				true );
 
-		GridData gdSelect = new GridData( GridData.GRAB_HORIZONTAL );
-		gdSelect.horizontalSpan = 5;
-		Label lblBlank = new Label( cmpButtons, SWT.NO_FOCUS );
-		lblBlank.setLayoutData( gdSelect );
-
-		GridData gdAccept = new GridData( GridData.GRAB_HORIZONTAL );
-		gdAccept.horizontalSpan = 1;
-		btnAccept = new Button( cmpButtons, SWT.PUSH );
-		btnAccept.setText( Messages.getString( "Shared.Lbl.OK" ) ); //$NON-NLS-1$
-		btnAccept.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.Accept" ) ); //$NON-NLS-1$
-
-		GridData gdCancel = new GridData( GridData.GRAB_HORIZONTAL );
-		gdCancel.horizontalSpan = 1;
-		btnCancel = new Button( cmpButtons, SWT.PUSH );
-		btnCancel.setText( Messages.getString( "Shared.Lbl.Cancel" ) ); //$NON-NLS-1$
-
-		btnAccept.addSelectionListener( this );
-		btnCancel.addSelectionListener( this );
 	}
 
 	private void populateLists( )
@@ -596,15 +575,6 @@ public class FontDefinitionDialog
 				&& cdCurrent.getTransparency( ) == 0 ? null : cdCurrent;
 	}
 
-	/**
-	 * @return true if user clicked on cancel or closed the font dialog without
-	 *         clicking on 'Ok'.
-	 */
-	public boolean wasCancelled( )
-	{
-		return bCancelled;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -699,17 +669,6 @@ public class FontDefinitionDialog
 		{
 			handleFontSize( );
 		}
-		else if ( oSource.equals( btnAccept ) )
-		{
-			bCancelled = false;
-			shell.dispose( );
-		}
-		else if ( oSource.equals( btnCancel ) )
-		{
-			this.fdCurrent = this.fdBackup;
-			this.cdCurrent = this.cdBackup;
-			shell.dispose( );
-		}
 		else if ( oSource.equals( this.btnATopLeft ) )
 		{
 			fdCurrent.getAlignment( )
@@ -793,7 +752,7 @@ public class FontDefinitionDialog
 			ascRotation.redraw( );
 			// TODO: Enable this if support for rotated text is added to
 			// fontcanvas
-			updatePreview();
+			updatePreview( );
 		}
 		else if ( e.widget.equals( fccColor ) )
 		{
@@ -850,7 +809,8 @@ public class FontDefinitionDialog
 			if ( !isCorrect )
 			{
 				cmbFontSizes.setText( oldIsset
-						? String.valueOf( (int) oldValue ) : ChartUIUtil.FONT_AUTO );
+						? String.valueOf( (int) oldValue )
+						: ChartUIUtil.FONT_AUTO );
 			}
 			else
 			{

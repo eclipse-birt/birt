@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -192,7 +193,7 @@ public class FontDefinitionComposite extends Composite
 					fdCurrent,
 					cdCurrent,
 					isAlignmentEnabled );
-			if ( !fontDlg.wasCancelled( ) )
+			if ( fontDlg.open( ) == Window.OK )
 			{
 				fdCurrent = fontDlg.getFontDefinition( );
 				cdCurrent = fontDlg.getFontColor( );

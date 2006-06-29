@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -100,12 +101,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	 */
 	abstract protected int getAxisAngleType( );
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
-	 */
-	public void getComponent( Composite parent )
+	public void createControl( Composite parent )
 	{
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
@@ -467,7 +463,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
 					formatspecifier,
 					sAxisTitle );
-			if ( !editor.wasCancelled( ) )
+			if ( editor.open( ) == Window.OK )
 			{
 				if ( editor.getFormatSpecifier( ) == null )
 				{

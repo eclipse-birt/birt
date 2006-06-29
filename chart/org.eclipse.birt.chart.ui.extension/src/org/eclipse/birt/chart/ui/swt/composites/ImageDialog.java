@@ -26,8 +26,8 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.Text;
  * Dialog to build the image element.
  */
 
-public class ImageDialog extends Dialog
+public class ImageDialog extends TrayDialog
 {
 
 	final private static int URI_TYPE = 0;

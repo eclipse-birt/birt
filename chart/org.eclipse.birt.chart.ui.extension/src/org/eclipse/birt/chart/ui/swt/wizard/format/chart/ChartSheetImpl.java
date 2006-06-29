@@ -76,12 +76,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 	private transient Label lblLegendBehavior;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
-	 */
-	public void getComponent( Composite parent )
+	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_CHART );
 		
@@ -401,14 +396,14 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			new TriggerEditorDialog( cmpContent.getShell( ),
 					getChart( ).getTitle( ).getTriggers( ),
 					getContext( ),
-					Messages.getString( "ChartSheetImpl.Title.ChartTitle" ), false, true ); //$NON-NLS-1$
+					Messages.getString( "ChartSheetImpl.Title.ChartTitle" ), false, true ).open( ); //$NON-NLS-1$
 		}
 		else if ( e.widget.equals( btnChartAreaTriggers ) )
 		{
 			new TriggerEditorDialog( cmpContent.getShell( ),
 					getChart( ).getBlock( ).getTriggers( ),
 					getContext( ),
-					Messages.getString( "ChartSheetImpl.Title.ChartArea" ), false, true ); //$NON-NLS-1$
+					Messages.getString( "ChartSheetImpl.Title.ChartArea" ), false, true ).open( ); //$NON-NLS-1$
 		}
 
 	}

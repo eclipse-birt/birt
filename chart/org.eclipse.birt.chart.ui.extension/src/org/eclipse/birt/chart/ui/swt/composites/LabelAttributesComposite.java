@@ -55,6 +55,8 @@ public class LabelAttributesComposite extends Composite
 
 	private transient Button cbVisible = null;
 
+	private transient Label lblLabel = null;
+
 	private transient Label lblPosition = null;
 
 	private transient Label lblFill = null;
@@ -95,6 +97,8 @@ public class LabelAttributesComposite extends Composite
 
 	private transient LineAttributesComposite liacOutline = null;
 
+	private transient ExternalizedTextEditorComposite txtLabel = null;
+
 	private transient Vector vListeners = null;
 
 	public static final int VISIBILITY_CHANGED_EVENT = 1;
@@ -117,6 +121,8 @@ public class LabelAttributesComposite extends Composite
 
 	public static final int INSETS_CHANGED_EVENT = 10;
 
+	public static final int LABEL_CHANGED_EVENT = 11;
+
 	public static final int ALLOW_ALL_POSITION = 0;
 
 	public static final int ALLOW_VERTICAL_POSITION = 1;
@@ -125,21 +131,99 @@ public class LabelAttributesComposite extends Composite
 
 	public static final int ALLOW_INOUT_POSITION = 4;
 
-	private transient boolean bPositionEnabled = true;
-
-	private transient boolean bVisibilityEnabled = true;
-
 	private transient boolean bEnabled = true;
 
 	private int positionScope = 0;
 
-	private transient boolean bInsetsEnabled = true;
-
-	private transient boolean bShadowEnabled = true;
-
-	private transient boolean isAlignmentEnabled = true;
-
 	private transient ChartWizardContext wizardContext;
+
+	private transient LabelAttributesContext attributesContext;
+
+	/**
+	 * 
+	 * UI context for LabelAttributesComposite. Note that
+	 * {@link #isLabelEnabled} default value is false, others are all true.
+	 * 
+	 */
+	public static class LabelAttributesContext
+	{
+
+		public boolean isLabelEnabled = false;
+		public boolean isPositionEnabled = true;
+		public boolean isVisibilityEnabled = true;
+		public boolean isFontAlignmentEnabled = true;
+		public boolean isInsetsEnabled = true;
+		public boolean isShadowEnabled = true;
+	}
+
+	/**
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param wizardContext
+	 * @param attributesContext
+	 * @param sGroupName
+	 * @param lpCurrent
+	 * @param lblCurrent
+	 * @param sUnits
+	 * @since 2.1.1
+	 */
+	public LabelAttributesComposite( Composite parent, int style,
+			ChartWizardContext wizardContext,
+			LabelAttributesContext attributesContext, String sGroupName,
+			Position lpCurrent,
+			org.eclipse.birt.chart.model.component.Label lblCurrent,
+			String sUnits )
+	{
+		this( parent,
+				style,
+				wizardContext,
+				attributesContext,
+				sGroupName,
+				lpCurrent,
+				lblCurrent,
+				sUnits,
+				ALLOW_ALL_POSITION );
+	}
+
+	/**
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param wizardContext
+	 * @param attributesContext
+	 * @param sGroupName
+	 * @param lpCurrent
+	 * @param lblCurrent
+	 * @param sUnits
+	 * @param positionScope
+	 * @since 2.1.1
+	 */
+	public LabelAttributesComposite( Composite parent, int style,
+			ChartWizardContext wizardContext,
+			LabelAttributesContext attributesContext, String sGroupName,
+			Position lpCurrent,
+			org.eclipse.birt.chart.model.component.Label lblCurrent,
+			String sUnits, int positionScope )
+	{
+		super( parent, style );
+		this.wizardContext = wizardContext;
+		this.attributesContext = attributesContext;
+		this.sGroupName = sGroupName;
+		this.lpCurrent = lpCurrent;
+		this.lblCurrent = lblCurrent;
+		this.sUnits = sUnits;
+		this.fdCurrent = lblCurrent.getCaption( ).getFont( );
+		this.cdFont = lblCurrent.getCaption( ).getColor( );
+		this.fBackground = lblCurrent.getBackground( );
+		this.cdShadow = lblCurrent.getShadowColor( );
+		this.laCurrent = lblCurrent.getOutline( );
+		this.insets = lblCurrent.getInsets( );
+		this.positionScope = positionScope;
+
+		init( );
+		placeComponents( );
+	}
 
 	/**
 	 * 
@@ -171,10 +255,24 @@ public class LabelAttributesComposite extends Composite
 				bPositionEnabled,
 				bVisibilityEnabled,
 				wizardContext,
-				0,
+				ALLOW_ALL_POSITION,
 				isAlignmentEnabled );
 	}
 
+	/**
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param sGroupName
+	 * @param lpCurrent
+	 * @param lblCurrent
+	 * @param sUnits
+	 * @param bPositionEnabled
+	 * @param bVisibilityEnabled
+	 * @param wizardContext
+	 * @param positionScope
+	 * @param isAlignmentEnabled
+	 */
 	public LabelAttributesComposite( Composite parent, int style,
 			String sGroupName, Position lpCurrent,
 			org.eclipse.birt.chart.model.component.Label lblCurrent,
@@ -193,39 +291,14 @@ public class LabelAttributesComposite extends Composite
 		this.cdShadow = lblCurrent.getShadowColor( );
 		this.laCurrent = lblCurrent.getOutline( );
 		this.insets = lblCurrent.getInsets( );
-		this.bPositionEnabled = bPositionEnabled;
-		this.bVisibilityEnabled = bVisibilityEnabled;
 		this.wizardContext = wizardContext;
 		this.positionScope = positionScope;
-		this.isAlignmentEnabled = isAlignmentEnabled;
-		init( );
-		placeComponents( );
-	}
 
-	public LabelAttributesComposite( Composite parent, int style,
-			String sGroupName,
-			org.eclipse.birt.chart.model.component.Label lblCurrent,
-			String sUnits, boolean bPositionEnabled,
-			boolean bVisibilityEnabled, ChartWizardContext wizardContext,
-			boolean bInsetsEnabled, boolean bShadowEnabled,
-			boolean isAlignmentEnabled )
-	{
-		super( parent, style );
-		this.sGroupName = sGroupName;
-		this.lblCurrent = lblCurrent;
-		this.sUnits = sUnits;
-		this.fdCurrent = lblCurrent.getCaption( ).getFont( );
-		this.cdFont = lblCurrent.getCaption( ).getColor( );
-		this.fBackground = lblCurrent.getBackground( );
-		this.cdShadow = lblCurrent.getShadowColor( );
-		this.laCurrent = lblCurrent.getOutline( );
-		this.insets = lblCurrent.getInsets( );
-		this.bPositionEnabled = bPositionEnabled;
-		this.bVisibilityEnabled = bVisibilityEnabled;
-		this.wizardContext = wizardContext;
-		this.bInsetsEnabled = bInsetsEnabled;
-		this.bShadowEnabled = bShadowEnabled;
-		this.isAlignmentEnabled = isAlignmentEnabled;
+		attributesContext = new LabelAttributesContext( );
+		attributesContext.isPositionEnabled = bPositionEnabled;
+		attributesContext.isVisibilityEnabled = bVisibilityEnabled;
+		attributesContext.isFontAlignmentEnabled = isAlignmentEnabled;
+
 		init( );
 		placeComponents( );
 	}
@@ -281,7 +354,7 @@ public class LabelAttributesComposite extends Composite
 		cmpGeneral.setLayout( glGeneral );
 
 		boolean bEnableUI = bEnabled;
-		if ( bVisibilityEnabled )
+		if ( attributesContext.isVisibilityEnabled )
 		{
 			cbVisible = new Button( cmpGeneral, SWT.CHECK );
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
@@ -296,7 +369,30 @@ public class LabelAttributesComposite extends Composite
 			}
 		}
 
-		if ( bPositionEnabled )
+		if ( attributesContext.isLabelEnabled )
+		{
+			lblLabel = new Label( cmpGeneral, SWT.NONE );
+			{
+				GridData gd = new GridData( );
+				lblLabel.setLayoutData( gd );
+				lblLabel.setText( Messages.getString( "AxisMarkersSheet.Label.Label" ) ); //$NON-NLS-1$
+			}
+
+			txtLabel = new ExternalizedTextEditorComposite( cmpGeneral,
+					SWT.BORDER | SWT.SINGLE,
+					-1,
+					-1,
+					wizardContext.getUIServiceProvider( ).getRegisteredKeys( ),
+					wizardContext.getUIServiceProvider( ),
+					"" ); //$NON-NLS-1$
+			{
+				GridData gd = new GridData( GridData.FILL_BOTH );
+				txtLabel.setLayoutData( gd );
+				txtLabel.addListener( this );
+			}
+		}
+
+		if ( attributesContext.isPositionEnabled )
 		{
 			lblPosition = new Label( cmpGeneral, SWT.NONE );
 			GridData gdLBLPosition = new GridData( );
@@ -322,7 +418,7 @@ public class LabelAttributesComposite extends Composite
 				wizardContext,
 				this.fdCurrent,
 				this.cdFont,
-				this.isAlignmentEnabled );
+				attributesContext.isFontAlignmentEnabled );
 		GridData gdFDCFont = new GridData( GridData.FILL_BOTH );
 		gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 		gdFDCFont.widthHint = 96;
@@ -349,7 +445,7 @@ public class LabelAttributesComposite extends Composite
 		fccBackground.addListener( this );
 		fccBackground.setEnabled( bEnableUI );
 
-		if ( bShadowEnabled )
+		if ( attributesContext.isShadowEnabled )
 		{
 			lblShadow = new Label( cmpGeneral, SWT.NONE );
 			GridData gdLBLShadow = new GridData( );
@@ -385,9 +481,9 @@ public class LabelAttributesComposite extends Composite
 				true,
 				true );
 		liacOutline.addListener( this );
-		liacOutline.setEnabled( bEnableUI );
+		liacOutline.setAttributesEnabled( bEnableUI );
 
-		if ( bInsetsEnabled == true )
+		if ( attributesContext.isInsetsEnabled )
 		{
 			icInsets = new InsetsComposite( grpAttributes,
 					SWT.NONE,
@@ -408,7 +504,7 @@ public class LabelAttributesComposite extends Composite
 	public void setEnabled( boolean bState )
 	{
 		boolean bEnableUI = true;
-		if ( this.bVisibilityEnabled )
+		if ( attributesContext.isVisibilityEnabled )
 		{
 			bEnableUI = cbVisible.getSelection( );
 			cbVisible.setEnabled( bState );
@@ -427,7 +523,7 @@ public class LabelAttributesComposite extends Composite
 
 	private void populateLists( )
 	{
-		if ( bPositionEnabled )
+		if ( attributesContext.isPositionEnabled )
 		{
 			if ( positionScope == ALLOW_ALL_POSITION )
 			{
@@ -494,19 +590,24 @@ public class LabelAttributesComposite extends Composite
 		this.laCurrent = lblCurrent.getOutline( );
 
 		// update the UI
-		if ( this.bVisibilityEnabled )
+		if ( attributesContext.isVisibilityEnabled )
 		{
 			this.cbVisible.setSelection( lblCurrent.isVisible( ) );
 			setVisibleState( cbVisible.getSelection( ) && cbVisible.isEnabled( ) );
 		}
 
-		if ( this.bInsetsEnabled )
+		if ( attributesContext.isLabelEnabled )
+		{
+			this.txtLabel.setText( lbl.getCaption( ).getValue( ) );
+		}
+
+		if ( attributesContext.isInsetsEnabled )
 		{
 			this.insets = lblCurrent.getInsets( );
 			this.icInsets.setInsets( insets, this.sUnits );
 		}
 
-		if ( this.bShadowEnabled )
+		if ( attributesContext.isShadowEnabled )
 		{
 			this.cdShadow = lblCurrent.getShadowColor( );
 			this.fccShadow.setFill( cdShadow );
@@ -523,7 +624,7 @@ public class LabelAttributesComposite extends Composite
 	public void setLabelPosition( Position pos )
 	{
 		this.lpCurrent = pos;
-		if ( this.bPositionEnabled )
+		if ( attributesContext.isPositionEnabled )
 		{
 			this.cmbPosition.setText( LiteralHelper.fullPositionSet.getDisplayNameByName( lpCurrent.getName( ) ) );
 		}
@@ -568,7 +669,13 @@ public class LabelAttributesComposite extends Composite
 
 	private void setVisibleState( boolean isVisible )
 	{
-		if ( this.bPositionEnabled )
+		if ( attributesContext.isLabelEnabled )
+		{
+			lblLabel.setEnabled( isVisible );
+			txtLabel.setEnabled( isVisible );
+		}
+
+		if ( attributesContext.isPositionEnabled )
 		{
 			lblPosition.setEnabled( isVisible );
 			cmbPosition.setEnabled( isVisible );
@@ -578,17 +685,17 @@ public class LabelAttributesComposite extends Composite
 		fdcFont.setEnabled( isVisible );
 		fccBackground.setEnabled( isVisible );
 
-		if ( this.bShadowEnabled )
+		if ( attributesContext.isShadowEnabled )
 		{
 			lblShadow.setEnabled( isVisible );
 			fccShadow.setEnabled( isVisible );
 		}
-		if ( this.bInsetsEnabled )
+		if ( attributesContext.isInsetsEnabled )
 		{
 			icInsets.setEnabled( isVisible );
 		}
 		grpOutline.setEnabled( isVisible );
-		liacOutline.setEnabled( isVisible );
+		liacOutline.setAttributesEnabled( isVisible );
 	}
 
 	/*
@@ -603,11 +710,11 @@ public class LabelAttributesComposite extends Composite
 	public Point getPreferredSize( )
 	{
 		Point ptSize = new Point( 300, 130 );
-		if ( bVisibilityEnabled )
+		if ( attributesContext.isVisibilityEnabled )
 		{
 			ptSize.y += 30;
 		}
-		if ( bPositionEnabled )
+		if ( attributesContext.isPositionEnabled )
 		{
 			ptSize.y += 30;
 		}
@@ -656,6 +763,10 @@ public class LabelAttributesComposite extends Composite
 		else if ( event.widget.equals( icInsets ) )
 		{
 			eLabel.type = INSETS_CHANGED_EVENT;
+		}
+		else if ( event.widget.equals( txtLabel ) )
+		{
+			eLabel.type = LABEL_CHANGED_EVENT;
 		}
 		eLabel.data = event.data;
 		fireEvent( eLabel );

@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -142,14 +143,14 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         sKey = getKey(str);
         sCurrent = getValue(str);
         txtSelection.setText(getLocalizedValue(str));
-        if (sKey == null || sKey.length() == 0)
-        {
-            txtSelection.setEnabled(true);
-        }
-        else
-        {
-            txtSelection.setEnabled(false);
-        }
+//        if (sKey == null || sKey.length() == 0)
+//        {
+//            txtSelection.setEnabled(true);
+//        }
+//        else
+//        {
+//            txtSelection.setEnabled(false);
+//        }
     }
 
     public String getText()
@@ -225,21 +226,27 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
      */
     public void widgetSelected(SelectionEvent e)
     {
-        ExternalizedTextEditorDialog editor = new ExternalizedTextEditorDialog(getShell(), SWT.APPLICATION_MODAL,
-            buildString(), keys, serviceprovider);
-        String sTxt = editor.open( sCurrent );
-        if (sTxt != null)
-        {
-            this.setText(sTxt);
-            fireEvent();
-        }
+        ExternalizedTextEditorDialog editor = new ExternalizedTextEditorDialog( getShell( ),
+				buildString( ),
+				keys,
+				serviceprovider,
+				sCurrent );
+		if ( editor.open( ) == Window.OK )
+		{
+			String sTxt = editor.getResult( );
+			if ( sTxt != null )
+			{
+				this.setText( sTxt );
+				fireEvent( );
+			}
+		}
     }
 
     /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-     */
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
     public void widgetDefaultSelected(SelectionEvent e)
     {
     }

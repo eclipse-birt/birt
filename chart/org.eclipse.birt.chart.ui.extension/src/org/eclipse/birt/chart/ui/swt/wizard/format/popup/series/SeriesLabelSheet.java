@@ -46,6 +46,7 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -392,7 +393,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 	private void setEnabled( boolean bEnableUI )
 	{
 		grpOutline.setEnabled( bEnableUI );
-		liacOutline.setEnabled( bEnableUI );
+		liacOutline.setAttributesEnabled( bEnableUI );
 		icInsets.setEnabled( bEnableUI );
 
 		grpAttributes.setEnabled( bEnableUI );
@@ -693,7 +694,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 		FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
 				formatspecifier,
 				sContext );
-		if ( !editor.wasCancelled( ) )
+		if ( editor.open( ) == Window.OK )
 		{
 			if ( editor.getFormatSpecifier( ) == null )
 			{

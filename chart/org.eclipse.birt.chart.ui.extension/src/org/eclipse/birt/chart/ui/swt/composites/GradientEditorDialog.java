@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -29,6 +30,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -40,7 +42,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  * 
  */
-public class GradientEditorDialog
+public class GradientEditorDialog extends TrayDialog
 		implements
 			SelectionListener,
 			Listener,
@@ -50,12 +52,6 @@ public class GradientEditorDialog
 	private transient Composite cmpContent = null;
 
 	private transient Composite cmpGeneral = null;
-
-	private transient Composite cmpButtons = null;
-
-	private transient Button btnAccept = null;
-
-	private transient Button btnCancel = null;
 
 	private transient FillChooserComposite fccStartColor = null;
 
@@ -73,11 +69,7 @@ public class GradientEditorDialog
 
 	private transient Gradient gBackup = null;
 
-	private transient boolean bWasCancelled = true;
-
 	private transient FillCanvas cnvPreview = null;
-
-	private transient Shell shell = null;
 
 	private transient ChartWizardContext wizardContext;
 
@@ -88,37 +80,18 @@ public class GradientEditorDialog
 			ChartWizardContext wizardContext, Gradient gSelected,
 			ColorDefinition selectedColor )
 	{
+		super(shellParent);
+		
 		this.wizardContext = wizardContext;
-		this.gCurrent = gSelected;
-		if ( gCurrent != null )
+		if ( gSelected != null )
 		{
+			gCurrent = (Gradient) EcoreUtil.copy( gSelected );
 			gBackup = (Gradient) EcoreUtil.copy( gSelected );
 		}
 		else
 		{
 			gCurrent = AttributeFactory.eINSTANCE.createGradient( );
-
 			setGradientColor( gCurrent, selectedColor );
-		}
-		shell = new Shell( shellParent, SWT.DIALOG_TRIM
-				| SWT.RESIZE | SWT.APPLICATION_MODAL );
-		shell.setLayout( new FillLayout( ) );
-		
-		ChartUIUtil.bindHelp( shell, ChartHelpContextIds.DIALOG_COLOR_GRADIENT );
-		
-		placeComponents( );
-		shell.setText( Messages.getString( "GradientEditorDialog.Lbl.GradientEditor" ) ); //$NON-NLS-1$
-		shell.setSize( 400, 320 );
-		shell.setDefaultButton( btnAccept );
-		UIHelper.centerOnScreen( shell );
-		shell.layout( );
-		shell.open( );
-		while ( !shell.isDisposed( ) )
-		{
-			if ( !shell.getDisplay( ).readAndDispatch( ) )
-			{
-				shell.getDisplay( ).sleep( );
-			}
 		}
 	}
 
@@ -131,15 +104,31 @@ public class GradientEditorDialog
 				ColorDefinitionImpl.create( 0, 0, 254 ) );
 	}
 
-	private void placeComponents( )
+	protected Control createContents( Composite parent )
+	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_COLOR_GRADIENT );
+		getShell( ).setText( Messages.getString( "GradientEditorDialog.Lbl.GradientEditor" ) ); //$NON-NLS-1$
+		getShell( ).setSize( 420, 320 );
+		UIHelper.centerOnScreen( getShell( ) );
+		return super.createContents( parent );
+	}
+	
+	protected void setShellStyle( int newShellStyle )
+	{
+		super.setShellStyle( newShellStyle
+				| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+	}
+
+	protected Control createDialogArea( Composite parent )
 	{
 		GridLayout glContent = new GridLayout( );
 		glContent.numColumns = 2;
 		glContent.horizontalSpacing = 5;
 		glContent.verticalSpacing = 5;
 
-		cmpContent = new Composite( shell, SWT.NONE );
+		cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( glContent );
+		cmpContent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		GridLayout glGeneral = new GridLayout( );
 		glContent.numColumns = 2;
@@ -204,33 +193,7 @@ public class GradientEditorDialog
 		cnvPreview = new FillCanvas( grpPreview, SWT.NO_FOCUS );
 		cnvPreview.setFill( gCurrent );
 
-		GridLayout glButtons = new GridLayout( );
-		glButtons.numColumns = 2;
-		glButtons.horizontalSpacing = 5;
-		glButtons.verticalSpacing = 5;
-		glButtons.marginHeight = 2;
-		glButtons.marginWidth = 7;
-
-		cmpButtons = new Composite( cmpContent, SWT.NONE );
-		GridData gdCMPButtons = new GridData( GridData.FILL_HORIZONTAL );
-		gdCMPButtons.horizontalSpan = 4;
-		cmpButtons.setLayoutData( gdCMPButtons );
-		cmpButtons.setLayout( glButtons );
-
-		btnAccept = new Button( cmpButtons, SWT.PUSH );
-		GridData gdBTNAccept = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_END );
-		gdBTNAccept.grabExcessHorizontalSpace = true;
-		btnAccept.setLayoutData( gdBTNAccept );
-		btnAccept.setText( Messages.getString( "Shared.Lbl.OK" ) ); //$NON-NLS-1$
-		btnAccept.addSelectionListener( this );
-
-		btnCancel = new Button( cmpButtons, SWT.PUSH );
-		GridData gdBTNCancel = new GridData( GridData.HORIZONTAL_ALIGN_END );
-		gdBTNCancel.grabExcessHorizontalSpace = false;
-		btnCancel.setLayoutData( gdBTNCancel );
-		btnCancel.setText( Messages.getString( "Shared.Lbl.Cancel" ) ); //$NON-NLS-1$
-		btnCancel.addSelectionListener( this );
+		return cmpContent;
 	}
 
 	private void createRotationPanel( )
@@ -272,11 +235,13 @@ public class GradientEditorDialog
 
 	public Gradient getGradient( )
 	{
-		if ( bWasCancelled )
-		{
-			return gBackup;
-		}
 		return gCurrent;
+	}
+	
+	protected void cancelPressed( )
+	{
+		gCurrent = gBackup;
+		super.cancelPressed( );
 	}
 
 	/*
@@ -289,16 +254,6 @@ public class GradientEditorDialog
 		if ( e.getSource( ).equals( cbCyclic ) )
 		{
 			gCurrent.setCyclic( cbCyclic.getSelection( ) );
-		}
-		else if ( e.getSource( ).equals( btnAccept ) )
-		{
-			bWasCancelled = false;
-			shell.dispose( );
-		}
-		else if ( e.getSource( ).equals( btnCancel ) )
-		{
-			gCurrent = gBackup;
-			shell.dispose( );
 		}
 	}
 

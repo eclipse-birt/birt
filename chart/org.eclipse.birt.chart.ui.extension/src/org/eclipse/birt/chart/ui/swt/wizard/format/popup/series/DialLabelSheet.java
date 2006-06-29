@@ -21,11 +21,13 @@ import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -97,17 +99,17 @@ public class DialLabelSheet extends AbstractPopupSheet
 			btnFormatSpecifier.addSelectionListener( this );
 		}
 
+		LabelAttributesContext attributesContext = new LabelAttributesContext( );
+		attributesContext.isPositionEnabled = false;
+		attributesContext.isFontAlignmentEnabled = false;
 		lacTitle = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
+				getContext( ),
+				attributesContext,
+				null,
 				null,
 				getSeriesForProcessing( ).getDial( ).getLabel( ),
-				getChart( ).getUnits( ),
-				false,
-				true,
-				getContext( ),
-				true,
-				true,
-				false );
+				getChart( ).getUnits( ) );
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACTitle.horizontalSpan = 2;
 		lacTitle.setLayoutData( gdLACTitle );
@@ -181,7 +183,7 @@ public class DialLabelSheet extends AbstractPopupSheet
 			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
 					getSeriesForProcessing( ).getDial( ).getFormatSpecifier( ),
 					Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
-			if ( !editor.wasCancelled( ) )
+			if ( editor.open( ) == Window.OK )
 			{
 				getSeriesForProcessing( ).getDial( )
 						.setFormatSpecifier( editor.getFormatSpecifier( ) );
