@@ -347,6 +347,7 @@ public class HTML2Content
 			}
 			style = new StyleDeclaration(content.getCSSEngine());
 			style.setProperty( IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE );
+			style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE );
 			text.setInlineStyle(style);
 			
 			IContainerContent childContainer = new ContainerContent((ReportContent)content.getReportContent());
@@ -364,6 +365,7 @@ public class HTML2Content
 			{
 				StyleDeclaration style = new StyleDeclaration(content.getCSSEngine());
 				style.setProperty( IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE );
+				style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE );
 				TextContent text = new TextContent((ReportContent) content
 						.getReportContent());
 				addChild(content, text);
