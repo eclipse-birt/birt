@@ -105,6 +105,62 @@ public class FilterDefnUtil
 	}
 	
 	/**
+	 * @param oldFilterList
+	 * @param newFilterList
+	 * @return
+	 */
+	public static boolean isConflictFilter( List oldFilterList, List newFilterList )
+	{
+		if ( oldFilterList == null || oldFilterList.size( ) == 0 )
+			return false;
+
+		if ( newFilterList == null
+				|| newFilterList.size( ) < oldFilterList.size( ) )
+			return true;
+
+		for ( int i = 0; i < oldFilterList.size( ); i++ )
+		{
+			IFilterDefinition oldFilter = (IFilterDefinition) oldFilterList.get( i );
+			IFilterDefinition newFilter = (IFilterDefinition) newFilterList.get( i );
+			if ( FilterDefnUtil.isEqualFilter( oldFilter, newFilter ) == false )
+				return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * @param oldFilterList
+	 * @param newFilerList
+	 * @return
+	 * @throws DataException
+	 */
+	public static List getRealFilterList( List oldFilterList, List newFilterList )
+			throws DataException
+	{
+		if ( oldFilterList == null || oldFilterList.size( ) == 0 )
+			return newFilterList;
+
+		if ( newFilterList == null
+				|| newFilterList.size( ) < oldFilterList.size( ) )
+			throw new DataException( ResourceConstants.RD_INVALID_FILTER );
+
+		for ( int i = 0; i < oldFilterList.size( ); i++ )
+		{
+			IFilterDefinition oldFilter = (IFilterDefinition) oldFilterList.get( i );
+			IFilterDefinition newFilter = (IFilterDefinition) newFilterList.get( i );
+			if ( FilterDefnUtil.isEqualFilter( oldFilter, newFilter ) == false )
+				throw new DataException( ResourceConstants.RD_INVALID_FILTER );
+		}
+
+		List updatedList = new ArrayList( );
+		for ( int i = oldFilterList.size( ); i < newFilterList.size( ); i++ )
+			updatedList.add( newFilterList.get( i ) );
+
+		return updatedList;
+	}
+	
+	/**
 	 * @param filterDefn
 	 * @return
 	 */
