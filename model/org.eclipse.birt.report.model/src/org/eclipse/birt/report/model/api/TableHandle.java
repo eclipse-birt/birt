@@ -9,6 +9,12 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.table.LayoutTableModel;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -337,8 +343,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * The insert action cannot be finished succesfully for cases like this:
 	 * 
 	 * <pre>
-	 *                 		&lt;cell colSpan=&quot;1/&gt;&lt;cell colSpan=&quot;1/&gt;
-	 *                 		&lt;cell colSpan=&quot;2/&gt;
+	 *                      		&lt;cell colSpan=&quot;1/&gt;&lt;cell colSpan=&quot;1/&gt;
+	 *                      		&lt;cell colSpan=&quot;2/&gt;
 	 * </pre>
 	 * 
 	 * if the user want to insert a column with cells to the column 2.
@@ -430,4 +436,72 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		return (ColumnHandle) targetColumn.getHandle( module );
 	}
 
+	/**
+	 * Returns a list containing filters applied to the column at position of
+	 * colIndex.
+	 * 
+	 * @param colIndex
+	 *            the column index ranging from 0 to columnCount - 1
+	 * @return a list containing matched filter conditions
+	 */
+
+	public List getFilters( int colIndex )
+	{
+		if ( colIndex < 0 || colIndex >= getColumnCount( ) )
+			return Collections.EMPTY_LIST;
+
+		String expr = getResultSetColumn( colIndex );
+		if ( expr == null )
+			return null;
+
+		expr = ExpressionUtil.createRowExpression( expr );
+
+		Iterator iter = filtersIterator( );
+
+		List retValue = new ArrayList( );
+		while ( iter.hasNext( ) )
+		{
+			FilterConditionHandle condition = (FilterConditionHandle) iter
+					.next( );
+			String curExpr = condition.getExpr( );
+			if ( expr.equals( curExpr ) )
+				retValue.add( condition );
+
+		}
+		return retValue;
+	}
+
+	/**
+	 * Check all detail cells in the column, and retrun the first encountered
+	 * data item.
+	 * 
+	 * @param columnIndex
+	 *            0-based column index
+	 * @return the result set column of the data item
+	 */
+
+	private String getResultSetColumn( int columnIndex )
+	{
+		SlotHandle detail = getDetail( );
+
+		for ( int i = 0; i < detail.getCount( ); i++ )
+		{
+			CellHandle detailcell = getCell( TableHandle.DETAIL_SLOT, -1,
+					i + 1, columnIndex + 1 );
+			if ( detailcell == null )
+				continue;
+
+			Iterator it = detailcell.getContent( ).iterator( );
+			while ( it.hasNext( ) )
+			{
+				ReportItemHandle rptItem = (ReportItemHandle) it.next( );
+				if ( rptItem instanceof DataItemHandle )
+				{
+					return ( (DataItemHandle) rptItem ).getResultSetColumn( );
+				}
+			}
+		}
+
+		return null;
+	}
 }
