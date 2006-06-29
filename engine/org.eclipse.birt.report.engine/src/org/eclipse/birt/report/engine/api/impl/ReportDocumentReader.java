@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -162,8 +161,7 @@ public class ReportDocumentReader
 				RAInputStream in = archive.getStream( CORE_STREAM );
 				try
 				{
-					DataInputStream di = new DataInputStream(
-							new BufferedInputStream( in ) );
+					DataInputStream di = new DataInputStream( in );
 
 					// check the design name
 					checkVersion( di );
@@ -506,8 +504,7 @@ public class ReportDocumentReader
 		try
 		{
 			in = archive.getStream( BOOKMARK_STREAM );
-			DataInputStream di = new DataInputStream( new BufferedInputStream(
-					in ) );
+			DataInputStream di = new DataInputStream( in );
 			long count = IOUtil.readLong( di );
 			for ( long i = 0; i < count; i++ )
 			{
@@ -655,8 +652,7 @@ public class ReportDocumentReader
 		try
 		{
 			in = archive.getStream( streamName );
-			DataInputStream di = new DataInputStream( new BufferedInputStream(
-					in ) );
+			DataInputStream di = new DataInputStream( in );
 			long count = IOUtil.readLong( di );
 			for ( long i = 0; i < count; i++ )
 			{
