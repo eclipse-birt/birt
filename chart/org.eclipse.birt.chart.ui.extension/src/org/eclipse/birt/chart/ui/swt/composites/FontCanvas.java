@@ -131,8 +131,18 @@ public class FontCanvas extends Canvas implements
 			tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 
 			TextAlignment ta = TextAlignmentImpl.create( );
-			ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
-			ta.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
+			if ( fdCurrent != null )
+			{
+				ta.setHorizontalAlignment( ChartUIUtil.getFontTextAlignment( fdCurrent )
+						.getHorizontalAlignment( ) );
+				ta.setVerticalAlignment( ChartUIUtil.getFontTextAlignment( fdCurrent )
+						.getVerticalAlignment( ) );
+			}
+			else
+			{
+				ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
+				ta.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
+			}
 			tre.setBlockAlignment( ta );
 
 			Bounds bo = BoundsImpl.create( 0,
