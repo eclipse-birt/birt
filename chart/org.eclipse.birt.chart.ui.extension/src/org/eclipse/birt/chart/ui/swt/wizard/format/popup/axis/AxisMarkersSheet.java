@@ -324,6 +324,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			btnLineTriggers.setLayoutData( gd );
 			btnLineTriggers.setText( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
 			btnLineTriggers.addSelectionListener( this );
+			btnLineTriggers.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 		}
 
 		// Layout for the Marker Range composite
@@ -437,6 +438,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			btnRangeTriggers.setLayoutData( gd );
 			btnRangeTriggers.setText( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
 			btnRangeTriggers.addSelectionListener( this );
+			btnRangeTriggers.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 		}
 
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
@@ -979,7 +981,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		lblValue.setEnabled( bState );
 		txtValue.setEnabled( bState );
 		liacMarkerLine.setAttributesEnabled( bState );
-		btnLineTriggers.setEnabled( bState );
+		btnLineTriggers.setEnabled( bState && getChart( ).getInteractivity( ).isEnable( ) );
 
 		btnStartFormatSpecifier.setEnabled( bState );
 		btnEndFormatSpecifier.setEnabled( bState );
@@ -993,7 +995,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		lacLabel.setEnabled( bState );
 		lblRangeFill.setEnabled( bState );
 		fccRange.setEnabled( bState );
-		btnRangeTriggers.setEnabled( bState );
+		btnRangeTriggers.setEnabled( bState && getChart( ).getInteractivity( ).isEnable( ) );
 
 		this.grpGeneral.setEnabled( bState );
 		this.grpMarkerLine.setEnabled( bState );
