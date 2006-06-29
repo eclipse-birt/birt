@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.document.util;
 
-import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,10 +31,6 @@ class ExprDataReader2 implements IExprDataReader
 {
 	private RAInputStream rowExprsIs;
 	private RAInputStream rowLenIs;
-	
-	private BufferedInputStream rowBuffExprsDis;
-	private BufferedInputStream rowBuffLenDis;
-	private BufferedInputStream rowInfoBuffDis;
 	
 	private DataInputStream rowExprsDis;
 	
@@ -79,8 +74,7 @@ class ExprDataReader2 implements IExprDataReader
 			RAInputStream rowInfoIs ) throws DataException
 	{
 		this( rowExprsIs, rowLenIs );
-		this.rowInfoBuffDis = new BufferedInputStream( rowInfoIs );
-		this.rowInfoUtil = new RowIndexUtil( rowInfoBuffDis );
+		this.rowInfoUtil = new RowIndexUtil( rowInfoIs );
 		
 		try
 		{
@@ -184,11 +178,9 @@ class ExprDataReader2 implements IExprDataReader
 		currRowLenReadIndex = absoluteIndex + 1;
 		
 		rowLenIs.seek( absoluteIndex * 4 );
-		rowBuffLenDis = new BufferedInputStream( rowLenIs );
 		
-		rowExprsIs.seek( IOUtil.readInt( rowBuffLenDis ) + 4 );
-		rowBuffExprsDis = new BufferedInputStream( rowExprsIs );
-		rowExprsDis = new DataInputStream( rowBuffExprsDis );
+		rowExprsIs.seek( IOUtil.readInt( rowLenIs ) + 4 );
+		rowExprsDis = new DataInputStream( rowExprsIs );
 	}
 
 	/**
@@ -219,15 +211,7 @@ class ExprDataReader2 implements IExprDataReader
 			if ( rowExprsDis != null )
 			{
 				rowExprsDis.close( );
-				rowBuffExprsDis.close( );
-			}
-			if ( rowBuffLenDis != null )
-			{
-				rowBuffLenDis.close( );				
-			}
-			if ( rowInfoBuffDis != null )
-			{
-				rowInfoBuffDis.close( );
+				rowExprsDis = null;
 			}
 		}
 		catch ( IOException e )

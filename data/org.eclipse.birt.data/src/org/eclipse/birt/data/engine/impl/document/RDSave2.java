@@ -19,7 +19,9 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 
 /**
- * Used to save the query which is running based on a report document.
+ * Used to save the query which is running based on a report document and the
+ * result is based on the result set of report document instead of data set. For
+ * the latter case, RDSave class will be used.
  */
 class RDSave2 implements IRDSave
 {
