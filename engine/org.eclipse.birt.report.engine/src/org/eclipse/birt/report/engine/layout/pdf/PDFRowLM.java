@@ -81,7 +81,6 @@ public class PDFRowLM extends PDFInlineStackingLM
 			{
 				IReportItemExecutor childExecutor = executor.getNextChild( );
 				IContent childContent = childExecutor.execute( );
-				assert ( child != null );
 				PDFAbstractLM childLM = getFactory( ).createLayoutManager(
 						this, childContent, emitter, childExecutor );
 				addChild( childLM );

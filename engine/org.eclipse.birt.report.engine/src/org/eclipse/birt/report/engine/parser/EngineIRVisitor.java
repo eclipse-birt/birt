@@ -152,7 +152,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.112 $ $Date: 2006/06/19 09:27:56 $
+ * @version $Revision: 1.113 $ $Date: 2006/06/22 08:38:24 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -269,6 +269,24 @@ class EngineIRVisitor extends DesignVisitor
 				pageSetup.addMasterPage( (MasterPageDesign) currentElement );
 			}
 		}
+		
+		// If there is no master page, set a default one.		
+		if ( pageSlot.getCount( ) < 1 )
+		{
+			MasterPageDesign masterPage = new SimpleMasterPageDesign( );
+			masterPage.setName( "NewSimpleMasterPage" );
+			masterPage.setPageType( DesignChoiceConstants.PAGE_SIZE_US_LETTER );		
+			masterPage.setOrientation( "Auto" );
+			
+			DimensionType top = new DimensionType( 1, DimensionType.UNITS_IN );
+			DimensionType left = new DimensionType( 1.25, DimensionType.UNITS_IN );
+			DimensionType right = new DimensionType( 1.25, DimensionType.UNITS_IN );
+			DimensionType bottom = new DimensionType( 1, DimensionType.UNITS_IN );		
+			masterPage.setMargin( top, left, bottom, right );	
+			
+			pageSetup.addMasterPage( masterPage );
+		}
+		
 		// FIXME: add page sequence support
 		// Handle Page Sequence
 		// SlotHandle seqSlot = handle.getPageSequences( );
