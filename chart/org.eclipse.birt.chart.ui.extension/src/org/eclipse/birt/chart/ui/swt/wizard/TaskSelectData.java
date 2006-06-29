@@ -804,39 +804,52 @@ public class TaskSelectData extends SimpleTask
 
 	public void handleEvent( Event event )
 	{
-		if ( event.type == CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE
-				&& ( getDataServiceProvider( ).getBoundDataSet( ) != null || getDataServiceProvider( ).getReportDataSet( ) != null ) )
+		if ( getDataServiceProvider( ).getBoundDataSet( ) != null
+				|| getDataServiceProvider( ).getReportDataSet( ) != null )
 		{
-			MenuManager menuManager = new MenuManager( );
-			menuManager.setRemoveAllWhenShown( true );
-			menuManager.addMenuListener( new IMenuListener( ) {
-
-				public void menuAboutToShow( IMenuManager manager )
+			if ( event.type == CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE )
+			{
+				createMenu( ).setVisible( true );
+			}
+			else if ( event.type == CustomPreviewTable.FOCUS_IN )
+			{
+				if ( event.widget instanceof Button
+						&& ( (Button) event.widget ).getMenu( ) == null )
 				{
-					addMenu( manager, new HeaderShowAction( ) );
-					addMenu( manager, getBaseSeriesMenu( getChartModel( ) ) );
-					addMenu( manager,
-							getOrthogonalSeriesMenu( getChartModel( ) ) );
-					addMenu( manager, getGroupSeriesMenu( getChartModel( ) ) );
-					// manager.add( actionInsertAggregation );
+					( (Button) event.widget ).setMenu( createMenu( ) );
 				}
-
-				private void addMenu( IMenuManager manager, Object item )
-				{
-					if ( item instanceof IAction )
-					{
-						manager.add( (IAction) item );
-					}
-					else if ( item instanceof IContributionItem )
-					{
-						manager.add( (IContributionItem) item );
-					}
-				}
-			} );
-
-			Menu menu = menuManager.createContextMenu( tablePreview );
-			menu.setVisible( true );
+			}
 		}
+	}
+
+	private Menu createMenu( )
+	{
+		MenuManager menuManager = new MenuManager( );
+		menuManager.setRemoveAllWhenShown( true );
+		menuManager.addMenuListener( new IMenuListener( ) {
+
+			public void menuAboutToShow( IMenuManager manager )
+			{
+				addMenu( manager, new HeaderShowAction( ) );
+				addMenu( manager, getBaseSeriesMenu( getChartModel( ) ) );
+				addMenu( manager, getOrthogonalSeriesMenu( getChartModel( ) ) );
+				addMenu( manager, getGroupSeriesMenu( getChartModel( ) ) );
+			}
+
+			private void addMenu( IMenuManager manager, Object item )
+			{
+				if ( item instanceof IAction )
+				{
+					manager.add( (IAction) item );
+				}
+				else if ( item instanceof IContributionItem )
+				{
+					manager.add( (IContributionItem) item );
+				}
+			}
+		} );
+
+		return menuManager.createContextMenu( tablePreview );
 	}
 
 	private Object getBaseSeriesMenu( Chart chart )
