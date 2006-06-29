@@ -433,6 +433,10 @@ public class GetParameterDefinitionTask extends EngineTask
 
 				QueryDefinition queryDefn = new QueryDefinition( );
 				queryDefn.setDataSetName( dataSetName );
+				if( limit > 0)
+				{
+					queryDefn.setMaxRows( limit );
+				}
 
 				// add parameters if have any
 				Iterator paramIter = dataSet.paramBindingsIterator( );
@@ -772,6 +776,8 @@ public class GetParameterDefinitionTask extends EngineTask
 	        {
 	            Map.Entry entry = (Map.Entry)it.next();
 	            IResultIterator iter = (IResultIterator) entry.getValue();
+	            if( null == iter)
+	            	continue;
 	            try
 				{
 					IQueryResults iresult = iter.getQueryResults();
