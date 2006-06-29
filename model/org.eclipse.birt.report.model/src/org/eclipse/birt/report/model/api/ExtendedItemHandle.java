@@ -202,4 +202,58 @@ public class ExtendedItemHandle extends ReportItemHandle
 			return;
 		setStringProperty( propName, theScript );
 	}
+
+	/**
+	 * Returns the alternate text of this extended item.
+	 * 
+	 * @return the alternate text of the extended item.
+	 */
+
+	public String getAltText( )
+	{
+		return getStringProperty( ALT_TEXT_PROP );
+	}
+
+	/**
+	 * Returns the resource key of the alternate text of this extended item.
+	 * 
+	 * @return the resource key of the alternate text
+	 */
+
+	public String getAltTextKey( )
+	{
+		return getStringProperty( ALT_TEXT_KEY_PROP );
+	}
+
+	/**
+	 * Sets the alt text of this extended item.
+	 * 
+	 * @param altText
+	 *            the alt text
+	 * 
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setAltText( String altText ) throws SemanticException
+	{
+		setStringProperty( ALT_TEXT_PROP , altText );
+	}
+	
+	/**
+	 * Sets the alt text id of this extended item.
+	 * 
+	 * @param altTextKey
+	 *            the alt text id
+	 * 
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setAltTextKey( String altTextKey ) throws SemanticException
+	{
+		setStringProperty( ALT_TEXT_KEY_PROP , altTextKey );
+	}
+
+
 }

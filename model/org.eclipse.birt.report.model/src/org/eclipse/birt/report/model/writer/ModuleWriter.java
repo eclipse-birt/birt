@@ -1316,7 +1316,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		// provide bound column compatibility
 
 		boundColumnsMgr.dealData( obj, getModule( ) );
-		
+
 		writer.startElement( DesignSchemaConstants.DATA_TAG );
 
 		super.visitDataItem( obj );
@@ -1367,11 +1367,13 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.EXTENDED_ITEM_TAG );
 		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
 				ExtendedItem.EXTENSION_NAME_PROP );
-
+	
 		super.visitExtendedItem( obj );
-
+		
+		resourceKey( obj, ExtendedItem.ALT_TEXT_KEY_PROP,
+				ExtendedItem.ALT_TEXT_PROP );
+		
 		// write the extension item local properties
-
 		ExtensionElementDefn extDefn = obj.getExtDefn( );
 		if ( extDefn != null )
 		{
@@ -1403,7 +1405,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		// write filter properties for the extended item
 
 		writeStructureList( obj, ExtendedItem.FILTER_PROP );
-
+		
 		writer.endElement( );
 	}
 
@@ -2419,7 +2421,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructureList( obj, DataSet.COMPUTED_COLUMNS_PROP );
 		writeStructureList( obj, DataSet.COLUMN_HINTS_PROP );
 		writeStructureList( obj, DataSet.FILTER_PROP );
-		
+
 		CachedMetaData metadata = (CachedMetaData) obj.getLocalProperty(
 				getModule( ), DataSet.CACHED_METADATA_PROP );
 		if ( metadata != null )

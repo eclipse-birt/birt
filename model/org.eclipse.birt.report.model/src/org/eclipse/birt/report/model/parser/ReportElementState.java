@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * Base class for all report element parse states.
@@ -377,7 +378,7 @@ public abstract class ReportElementState extends DesignParseState
 
 		element.setExtendsElement( parent );
 		element.refreshStructureFromParent( module );
-		addTheVirualElementsToNamesapce( element );
+		
 	}
 
 	/**
@@ -582,4 +583,15 @@ public abstract class ReportElementState extends DesignParseState
 		}
 		return super.startElement( tagName );
 	}
+
+	public void end( ) throws SAXException
+	{
+		super.end( );
+		// if the element is a container and has extends
+		if ( getElement( ).getExtendsElement( ) != null && getElement().getDefn( ).isContainer( ) )
+		{
+			addTheVirualElementsToNamesapce( getElement( ) );
+		}
+	}
+
 }
