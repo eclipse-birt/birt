@@ -9,7 +9,12 @@
  *		Actuate Corporation - Initial implementation.
  *****************************************************************************/
 
-BirtDndManager = function( ) { };
+BirtDndManager = function( ) { 
+
+	//An item is dragging
+this.isDragging = false;
+
+};
 
 BirtDndManager.prototype = {
 
@@ -86,14 +91,18 @@ BirtDndManager.prototype = {
 		return function(element, event, dragType)
 		{
 			debug("default startDrag");
-			this.eventMouseout = this.elementMouseout.bindAsEventListener(this);
-		
-			this.__mousemoveHandlerFunction = this.__moveElement.bindAsEventListener(this);
-			this.__dropElementFunction = this.__dropElement.bindAsEventListener(this);
-		
-			var zIndex = this.__activateDragMask();
-			this.__elementSetUp(element, event, zIndex);
-			this.__startDragObservers(this.__mousemoveHandlerFunction, this.__dropElementFunction);
+			if(!this.isDragging)
+			{
+				this.eventMouseout = this.elementMouseout.bindAsEventListener(this);
+			
+				this.__mousemoveHandlerFunction = this.__moveElement.bindAsEventListener(this);
+				this.__dropElementFunction = this.__dropElement.bindAsEventListener(this);
+			
+				var zIndex = this.__activateDragMask();
+				this.__elementSetUp(element, event, zIndex);
+				this.__startDragObservers(this.__mousemoveHandlerFunction, this.__dropElementFunction);
+			}
+			this.isDragging = true;
 		}
 	},
 	
@@ -106,23 +115,27 @@ BirtDndManager.prototype = {
 		return function(element, event, dragType)
 		{
 			debug("custom startDrag");
-			
-			if(dragType == null) //There are no drop targets
+			if(!this.isDragging)
 			{
-				this.__mousemoveHandlerFunction = this.__moveElement.bindAsEventListener(this);
-				this.__dropElementFunction = this.__dropElement.bindAsEventListener(this);
+				
+				if(dragType == null) //There are no drop targets
+				{
+					this.__mousemoveHandlerFunction = this.__moveElement.bindAsEventListener(this);
+					this.__dropElementFunction = this.__dropElement.bindAsEventListener(this);
+				}
+				else
+				{
+					this.__dropTargetManager.setUpForDrag(dragType);
+					this.__mousemoveHandlerFunction = this.__moveElementWithTarget.bindAsEventListener(this);
+					this.__dropElementFunction = this.__dropElementWithTarget.bindAsEventListener(this);				
+				}		
+				this.eventMouseout = this.elementMouseout.bindAsEventListener(this);
+				
+				var zIndex = this.__activateDragMask();
+				this.__elementSetUp(element, event, zIndex);
+				this.__startDragObservers(this.__mousemoveHandlerFunction, this.__dropElementFunction);
 			}
-			else
-			{
-				this.__dropTargetManager.setUpForDrag(dragType);
-				this.__mousemoveHandlerFunction = this.__moveElementWithTarget.bindAsEventListener(this);
-				this.__dropElementFunction = this.__dropElementWithTarget.bindAsEventListener(this);				
-			}		
-			this.eventMouseout = this.elementMouseout.bindAsEventListener(this);
-			
-			var zIndex = this.__activateDragMask();
-			this.__elementSetUp(element, event, zIndex);
-			this.__startDragObservers(this.__mousemoveHandlerFunction, this.__dropElementFunction);
+			this.isDragging = true;
 		}
 	},
 	
@@ -280,13 +293,13 @@ BirtDndManager.prototype = {
 	
 	__dropElement: function(event)
 	{
-		debug("elementDropped ");
-		this.__deactivateDragMask();
-		this.currentDragElement.style.zIndex = this.currentDragElement.oldZIndex;
-			//TODO handle case of mouse dragged off browser
+		this.isDragging = false;
+
 	    Event.stopObserving(document, "mousemove", this.__mousemoveHandlerFunction);
 	    Event.stopObserving(document, "mouseup", this.__dropElementFunction);
 	    Event.stopObserving(document, "mouseout", this.eventMouseout);
+	    this.__deactivateDragMask();
+		this.currentDragElement.style.zIndex = this.currentDragElement.oldZIndex;
 	},
 	
 	__dropElementWithTarget: function(event)
