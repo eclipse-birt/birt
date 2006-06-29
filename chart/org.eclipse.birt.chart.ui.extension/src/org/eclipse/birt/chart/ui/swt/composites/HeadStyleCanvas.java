@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -22,60 +24,92 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * Draw the graphics within the HeadStyleChooser 
+ * Draw the graphics within the HeadStyleChooser
  * 
  */
-public class HeadStyleCanvas extends Canvas implements PaintListener 
+public class HeadStyleCanvas extends Canvas
+		implements
+			PaintListener,
+			FocusListener
 {
+
 	int iLineDecorator = 0;
 
-	public HeadStyleCanvas(Composite parent, int iStyle, int iLineDecorator) 
+	boolean isFocusIn = false;
+
+	public HeadStyleCanvas( Composite parent, int iStyle, int iLineDecorator )
 	{
-		super(parent, iStyle);
+		super( parent, iStyle );
 		this.iLineDecorator = iLineDecorator;
-		this.addPaintListener(this);
+		this.addPaintListener( this );
+		this.addFocusListener( this );
 	}
 
-	public int getHeadStyle() 
+	public int getHeadStyle( )
 	{
 		return this.iLineDecorator;
 	}
 
-	public void setHeadStyle(int iLineDecorator) 
+	public void setHeadStyle( int iLineDecorator )
 	{
 		this.iLineDecorator = iLineDecorator;
 	}
 
-	public void paintControl(PaintEvent pe) 
+	public void paintControl( PaintEvent pe )
 	{
+		if ( isEnabled( ) && isFocusControl( ) )
+		{
+			isFocusIn = true;
+		}
+
 		Color cForeground = null;
 		Color cBackground = null;
-		cForeground = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
-		cBackground = Display.getCurrent().getSystemColor(
-				SWT.COLOR_LIST_BACKGROUND);
+		cForeground = Display.getCurrent( ).getSystemColor( SWT.COLOR_BLACK );
+		cBackground = Display.getCurrent( )
+				.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
 
 		GC gc = pe.gc;
-		gc.setBackground(cBackground);
-		gc.setForeground(cForeground);
-		gc.setLineWidth(1);
-		gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
+		gc.setBackground( cBackground );
+		gc.fillRectangle( 0, 0, this.getSize( ).x, this.getSize( ).y );
 
-		gc.drawLine(10, this.getSize().y / 2, this.getSize().x - 10, this
-				.getSize().y / 2);
-		if (iLineDecorator == LineDecorator.ARROW) {
-			int[] points = { this.getSize().x - 15, this.getSize().y / 2 - 3,
-					this.getSize().x - 15, this.getSize().y / 2 + 3,
-					this.getSize().x - 10, this.getSize().y / 2 };	
-			gc.setLineWidth(3);
-			gc.drawPolygon(points);
-		} else if (iLineDecorator == LineDecorator.CIRCLE) {
-			gc.setLineWidth(4);
-			gc.drawOval(this.getSize().x - 14, this.getSize().y / 2 - 3,
-							6, 6);
+		// Render a gray background to indicate focus
+		if ( isFocusIn )
+		{
+			gc.setBackground( Display.getCurrent( )
+					.getSystemColor( SWT.COLOR_LIST_SELECTION ) );
+			gc.fillRectangle( 1, 1, getSize( ).x - 3, this.getSize( ).y - 3 );
 		}
-		
-		//Render a boundary line to indicate focus
-		if ( isEnabled( ) && isFocusControl( ) )
+
+		gc.setForeground( cForeground );
+		gc.setLineWidth( 1 );
+		gc.drawLine( 10,
+				this.getSize( ).y / 2,
+				this.getSize( ).x - 10,
+				this.getSize( ).y / 2 );
+		if ( iLineDecorator == LineDecorator.ARROW )
+		{
+			int[] points = {
+					this.getSize( ).x - 15,
+					this.getSize( ).y / 2 - 3,
+					this.getSize( ).x - 15,
+					this.getSize( ).y / 2 + 3,
+					this.getSize( ).x - 10,
+					this.getSize( ).y / 2
+			};
+			gc.setLineWidth( 3 );
+			gc.drawPolygon( points );
+		}
+		else if ( iLineDecorator == LineDecorator.CIRCLE )
+		{
+			gc.setLineWidth( 4 );
+			gc.drawOval( this.getSize( ).x - 14,
+					this.getSize( ).y / 2 - 3,
+					6,
+					6 );
+		}
+
+		// Render a boundary line to indicate focus
+		if ( isFocusIn )
 		{
 			gc.setLineStyle( SWT.LINE_DOT );
 			gc.setLineWidth( 1 );
@@ -83,5 +117,16 @@ public class HeadStyleCanvas extends Canvas implements PaintListener
 					.getSystemColor( SWT.COLOR_BLACK ) );
 			gc.drawRectangle( 1, 1, getSize( ).x - 3, this.getSize( ).y - 3 );
 		}
+	}
+
+	public void focusGained( FocusEvent e )
+	{
+		isFocusIn = true;
+
+	}
+
+	public void focusLost( FocusEvent e )
+	{
+		isFocusIn = false;
 	}
 }
