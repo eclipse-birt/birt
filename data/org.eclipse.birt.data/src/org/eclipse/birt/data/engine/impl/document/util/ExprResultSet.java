@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.CacheProvider;
 import org.eclipse.birt.data.engine.impl.document.RDGroupUtil;
+import org.eclipse.birt.data.engine.impl.document.RDLoadUtil;
 import org.eclipse.birt.data.engine.impl.document.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.VersionManager;
 
@@ -49,13 +50,12 @@ public class ExprResultSet implements IExprResultSet
 	 * @param rdGroupUtil
 	 * @throws DataException
 	 */
-	public ExprResultSet( StreamManager streamManager, RDGroupUtil rdGroupUtil,
-			int version, boolean isBasedOnSecondRD ) throws DataException
+	public ExprResultSet( StreamManager streamManager, int version,
+			boolean isBasedOnSecondRD ) throws DataException
 	{
 		this.streamManager = streamManager;
 		this.version = version;
 		this.isBasedOnSecondRD = isBasedOnSecondRD;
-		this.rdGroupUtil = rdGroupUtil;
 		
 		this.prepare( );
 		
@@ -67,6 +67,10 @@ public class ExprResultSet implements IExprResultSet
 	 */
 	protected void prepare( ) throws DataException
 	{
+		this.rdGroupUtil = RDLoadUtil.loadGroupUtil( streamManager,
+				StreamManager.ROOT_STREAM,
+				StreamManager.SELF_SCOPE );
+		
 		if ( this.isBasedOnSecondRD == false )
 		{
 			rowExprsRAIs = streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,

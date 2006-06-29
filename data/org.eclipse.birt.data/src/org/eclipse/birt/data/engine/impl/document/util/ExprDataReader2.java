@@ -41,7 +41,7 @@ class ExprDataReader2 implements IExprDataReader
 	
 	private int currRowLenReadIndex;
 	
-	private RowIndexUtil rowInfoUtil;
+	private RowIndexUtil rowIndexUtil;
 	
 	private int nextDestIndex; // TODO: enhanceme
 	
@@ -74,7 +74,7 @@ class ExprDataReader2 implements IExprDataReader
 			RAInputStream rowInfoIs ) throws DataException
 	{
 		this( rowExprsIs, rowLenIs );
-		this.rowInfoUtil = new RowIndexUtil( rowInfoIs );
+		this.rowIndexUtil = new RowIndexUtil( rowInfoIs );
 		
 		try
 		{
@@ -138,7 +138,7 @@ class ExprDataReader2 implements IExprDataReader
 	 */
 	protected int getNextDestIndex( int currIndex )
 	{
-		return rowInfoUtil.read( );
+		return rowIndexUtil.read( );
 	}
 	
 	/*

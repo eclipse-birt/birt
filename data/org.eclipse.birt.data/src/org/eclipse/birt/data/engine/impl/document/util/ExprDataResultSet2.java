@@ -43,14 +43,14 @@ public class ExprDataResultSet2 extends BaseExprDataResultSet
 			RAInputStream rowInfoIs, ExprMetaInfo[] inExprMetas )
 			throws DataException
 	{
-		super( inExprMetas );
-		
 		this.rowIs = rowIs;
 		this.rowLenIs = rowLenIs;
 		this.rowInfoIs = rowInfoIs;
 
-		this.exprDataReader = new ExprDataReader2( rowIs, rowLenIs, rowInfoIs );
+		IExprDataReader exprDataReader = new ExprDataReader2( rowIs, rowLenIs, rowInfoIs );
 		this.rowCount = exprDataReader.getCount( );
+		
+		super.init( inExprMetas, exprDataReader );
 	}
 	
 	/**
@@ -63,13 +63,13 @@ public class ExprDataResultSet2 extends BaseExprDataResultSet
 			int destRowIndex[], ExprMetaInfo[] inExprMetas )
 			throws DataException
 	{
-		super( inExprMetas );
-
 		this.rowIs = rowIs;
 		this.rowLenIs = rowLenIs;
 
-		this.exprDataReader = new ExprDataReader3( rowIs, rowLenIs, destRowIndex );
+		IExprDataReader exprDataReader = new ExprDataReader3( rowIs, rowLenIs, destRowIndex );
 		this.rowCount = exprDataReader.getCount( );
+		
+		super.init( inExprMetas, exprDataReader );
 	}
 	
 	
@@ -78,11 +78,12 @@ public class ExprDataResultSet2 extends BaseExprDataResultSet
 	 */
 	public void close( )
 	{
+		super.close( );
+		
 		try
 		{
 			if ( rowIs != null )
 			{
-				exprDataReader.close( );
 				rowIs.close( );
 				rowLenIs.close( );
 				rowIs = null;

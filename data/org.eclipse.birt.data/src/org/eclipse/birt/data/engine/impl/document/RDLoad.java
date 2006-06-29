@@ -105,9 +105,6 @@ public class RDLoad
 					streamManager.isSecondRD( ) );
 
 		return new ExprResultSet( streamManager,
-				RDLoadUtil.loadGroupUtil( streamManager,
-						StreamManager.ROOT_STREAM,
-						StreamManager.SELF_SCOPE ),
 				version,
 				streamManager.isSecondRD( ) );
 	}
@@ -136,7 +133,8 @@ public class RDLoad
 			throw new DataException( ResourceConstants.WRONG_VERSION );
 
 		InputStream inputStream = streamManager.getInStream( DataEngineContext.EXPR_META_STREAM,
-				StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
 		BufferedInputStream buffStream = new BufferedInputStream( inputStream );
 		ExprMetaInfo[] exprMetas = ExprMetaUtil.loadExprMetaInfo( buffStream );
 		try
@@ -179,7 +177,8 @@ public class RDLoad
 	private IResultClass loadResultClass( ) throws DataException
 	{
 		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_META_STREAM,
-				StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
 		IResultClass resultClass = new ResultClass( buffStream );
 		try
@@ -204,9 +203,11 @@ public class RDLoad
 	public DataSetResultSet loadDataSetData( ) throws DataException
 	{
 		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM,
-				StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
-		DataSetResultSet populator = new DataSetResultSet( buffStream, this.loadResultClass() );
+		DataSetResultSet populator = new DataSetResultSet( buffStream,
+				this.loadResultClass( ) );
 
 		return populator;
 	}
@@ -217,10 +218,12 @@ public class RDLoad
 	 * @return query definition
 	 * @throws DataException
 	 */
-	public IBaseQueryDefinition loadQueryDefn( int streamPos, int streamScope ) throws DataException
+	public IBaseQueryDefinition loadQueryDefn( int streamPos, int streamScope )
+			throws DataException
 	{
 		InputStream inputStream = streamManager.getInStream( DataEngineContext.QUERY_DEFN_STREAM,
-				streamPos, streamScope );
+				streamPos,
+				streamScope );
 		IBaseQueryDefinition queryDefn = QueryDefnUtil.loadQueryDefn( inputStream );
 		try
 		{
@@ -252,7 +255,8 @@ public class RDLoad
 	 * @return group definition
 	 * @throws DataException
 	 */
-	public List loadGroupDefn( int streamPos, int streamScope ) throws DataException
+	public List loadGroupDefn( int streamPos, int streamScope )
+			throws DataException
 	{
 		return loadQueryDefn( streamPos, streamScope ).getGroups( );
 	}

@@ -31,17 +31,17 @@ abstract class BaseExprDataResultSet implements IExprDataResultSet
 	private IResultClass rsMeta;
 	protected int rowCount;
 	
-	private ExprMetaInfo[] exprMetas;
-	
-	protected IExprDataReader exprDataReader;
+	private ExprMetaInfo[] exprMetas;	
+	private IExprDataReader exprDataReader;
 	
 	/**
 	 * @param inExprMetas
 	 */
-	BaseExprDataResultSet( ExprMetaInfo[] inExprMetas )
+	void init( ExprMetaInfo[] inExprMetas, IExprDataReader exprDataReader )
 	{
 		this.exprMetas = ExprMetaUtil.buildExprDataMetaInfo( inExprMetas );
 		this.rsMeta = ExprMetaUtil.buildExprDataResultClass( exprMetas );
+		this.exprDataReader = exprDataReader;
 	}
 	
 	/*
@@ -104,6 +104,18 @@ abstract class BaseExprDataResultSet implements IExprDataResultSet
 		rowData[exprFieldCount - 1] = new Integer( destIndex );
 
 		return new ResultObject( rsMeta, rowData );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprDataResultSet#close()
+	 */
+	public void close( )
+	{
+		if ( exprDataReader != null )
+		{
+			exprDataReader.close( );
+			exprDataReader = null;
+		}
 	}
 	
 }

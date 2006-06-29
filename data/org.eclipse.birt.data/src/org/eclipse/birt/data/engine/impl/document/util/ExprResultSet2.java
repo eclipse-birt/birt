@@ -36,7 +36,7 @@ public class ExprResultSet2 extends ExprResultSet
 	public ExprResultSet2( StreamManager streamManager, int version,
 			boolean isBasedOnSecondRD ) throws DataException
 	{
-		super( streamManager, null, version, isBasedOnSecondRD );
+		super( streamManager, version, isBasedOnSecondRD );
 	}
 
 	/*
@@ -44,6 +44,10 @@ public class ExprResultSet2 extends ExprResultSet
 	 */
 	protected void prepare( ) throws DataException
 	{
+		this.rdGroupUtil = RDLoadUtil.loadGroupUtil( streamManager,
+				StreamManager.ROOT_STREAM,
+				StreamManager.SELF_SCOPE );
+		
 		int parentIndex = 0;
 		try
 		{
@@ -56,7 +60,6 @@ public class ExprResultSet2 extends ExprResultSet
 		{
 			throw new DataException( e.getMessage( ) );
 		}
-		System.out.println( parentIndex );
 
 		rowExprsRAIs = streamManager.getInStream2( DataEngineContext.EXPR_VALUE_STREAM,
 				StreamManager.SUB_QUERY_STREAM,
@@ -74,9 +77,6 @@ public class ExprResultSet2 extends ExprResultSet
 				rowInfoRAIs );
 		
 		this.rowCount = this.exprResultReader.getCount( );
-		this.rdGroupUtil = RDLoadUtil.loadGroupUtil( streamManager,
-				StreamManager.ROOT_STREAM,
-				StreamManager.SELF_SCOPE );
 	}
 	
 }

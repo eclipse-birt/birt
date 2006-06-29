@@ -38,13 +38,13 @@ public class ExprDataResultSet1 extends BaseExprDataResultSet
 	public ExprDataResultSet1( RAInputStream rowRAIs, ExprMetaInfo[] inExprMetas )
 			throws DataException
 	{
-		super( inExprMetas );
-
 		this.rowRAIs = rowRAIs;
-		this.exprDataReader = new ExprDataReader1( rowRAIs,
+		IExprDataReader exprDataReader = new ExprDataReader1( rowRAIs,
 				null,
 				VersionManager.VERSION_2_1 );
 		this.rowCount = exprDataReader.getCount( );
+
+		super.init( inExprMetas, exprDataReader );
 	}
 	
 	/*
@@ -52,11 +52,12 @@ public class ExprDataResultSet1 extends BaseExprDataResultSet
 	 */
 	public void close( )
 	{
+		super.close( );
+		
 		try
 		{
 			if ( rowRAIs != null )
 			{
-				exprDataReader.close( );
 				rowRAIs.close( );
 				rowRAIs = null;
 			}
