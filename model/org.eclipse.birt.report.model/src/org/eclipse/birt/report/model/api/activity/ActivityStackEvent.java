@@ -41,6 +41,12 @@ public class ActivityStackEvent
 	public final static int UNDONE = 3;
 
 	/**
+	 * The outermost transaction is rolled back.
+	 */
+
+	public final static int ROLL_BACK = 4;
+
+	/**
 	 * The activity stack which changes.
 	 */
 
@@ -63,7 +69,8 @@ public class ActivityStackEvent
 
 	public ActivityStackEvent( ActivityStack theStack, int theAction )
 	{
-		assert theAction == DONE || theAction == REDONE || theAction == UNDONE;
+		assert theAction == DONE || theAction == REDONE || theAction == UNDONE
+				|| theAction == ROLL_BACK;
 
 		stack = theStack;
 		action = theAction;
