@@ -29,7 +29,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 
 /**
- *  
+ * This class implements an empty renderer for ChartWithoutAxes type.
  */
 public final class EmptyWithoutAxes extends BaseRenderer
 {
@@ -53,7 +53,8 @@ public final class EmptyWithoutAxes extends BaseRenderer
 								getClass( ).getName( ),
 								new Integer( iSeriesIndex + 1 ),
 								new Integer( iSeriesCount )
-						}, getRunTimeContext( ).getULocale( ) ) );
+						},
+						getRunTimeContext( ).getULocale( ) ) );
 	}
 
 	/*

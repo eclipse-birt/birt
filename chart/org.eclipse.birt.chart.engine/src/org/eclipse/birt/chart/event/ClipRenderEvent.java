@@ -21,15 +21,12 @@ import org.eclipse.birt.chart.model.attribute.Location;
 public final class ClipRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = -1609479639743164885L;
-	
+
 	private Location[] _loa;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public ClipRenderEvent( Object oSource )
 	{
@@ -45,6 +42,8 @@ public final class ClipRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the vertices of the clip.
+	 * 
 	 * @param loa
 	 *            The vertices associated with the polygon area to be clipped
 	 */
@@ -53,9 +52,14 @@ public final class ClipRenderEvent extends PrimitiveRenderEvent
 		_loa = loa;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
+	 */
 	public void reset( )
 	{
 		this._loa = null;
-		
+
 	}
 }

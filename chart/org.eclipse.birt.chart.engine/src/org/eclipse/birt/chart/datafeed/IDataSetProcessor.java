@@ -110,11 +110,11 @@ public interface IDataSetProcessor
 	 * retrieve localized resources for presentation.
 	 * 
 	 * @return The locale to be used
-	 * @deprecated
+	 * @deprecated use {@link #getULocale()} instead.
 	 * 
 	 */
 	public Locale getLocale( );
-	
+
 	/**
 	 * Provides the locale to device renderer implementations as needed to
 	 * retrieve localized resources for presentation.

@@ -27,7 +27,7 @@ import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * SimpleProcessor
+ * A default implementation for IStyleProcessor.
  */
 public final class SimpleProcessor implements IStyleProcessor
 {
@@ -40,7 +40,14 @@ public final class SimpleProcessor implements IStyleProcessor
 	{
 		TextAlignment ta = TextAlignmentImpl.create( );
 		FontDefinition font = FontDefinitionImpl.create( "SansSerif", //$NON-NLS-1$
-				12, false, false, false, false, false, 0, ta );
+				12,
+				false,
+				false,
+				false,
+				false,
+				false,
+				0,
+				ta );
 
 		defaultStyle = new SimpleStyle( font,
 				ColorDefinitionImpl.BLACK( ),
@@ -50,7 +57,7 @@ public final class SimpleProcessor implements IStyleProcessor
 	}
 
 	/**
-	 * @return
+	 * The access entry point.
 	 */
 	synchronized public static SimpleProcessor instance( )
 	{

@@ -309,8 +309,7 @@ public final class RunTimeContext implements Serializable
 	 * Returns the locale associated with this runtime context.
 	 * 
 	 * @return The locale associated with this runtime context.
-	 * @deprecated
-	 * @see #getULocale()
+	 * @deprecated use {@link #getULocale()} instead.
 	 */
 	public Locale getLocale( )
 	{
@@ -323,13 +322,13 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param lcl
 	 *            The locale associated with the runtime context.
-	 * @deprecated
+	 * @deprecated use {@link #setULocale(ULocale)} instead.
 	 */
 	public void setLocale( Locale lcl )
 	{
 		this.lcl = ULocale.forLocale( lcl );
 	}
-	
+
 	/**
 	 * Returns the locale associated with this runtime context.
 	 * 
@@ -368,15 +367,17 @@ public final class RunTimeContext implements Serializable
 			if ( lcl != null )
 			{
 				String language = lcl.getLanguage( );
-				// See ISO codes at http://www.unicode.org/unicode/onlinedat/languages.html
-				// RTL languages are Hebrew, Arabic, Urdu, Farsi (Persian), Yiddish
-				if (	language.equals(  "he"  ) || //$NON-NLS-1$
-						language.equals(  "iw"  ) || //$NON-NLS-1$
-						language.equals(  "ar"  ) || //$NON-NLS-1$
-						language.equals(  "fa"  ) || //$NON-NLS-1$
-						language.equals(  "ur"  ) || //$NON-NLS-1$
-						language.equals(  "yi"  ) || //$NON-NLS-1$
-						language.equals(  "ji"  )  ) //$NON-NLS-1$ 
+				// See ISO codes at
+				// http://www.unicode.org/unicode/onlinedat/languages.html
+				// RTL languages are Hebrew, Arabic, Urdu, Farsi (Persian),
+				// Yiddish
+				if ( language.equals( "he" ) || //$NON-NLS-1$
+						language.equals( "iw" ) || //$NON-NLS-1$
+						language.equals( "ar" ) || //$NON-NLS-1$
+						language.equals( "fa" ) || //$NON-NLS-1$
+						language.equals( "ur" ) || //$NON-NLS-1$
+						language.equals( "yi" ) || //$NON-NLS-1$
+						language.equals( "ji" ) ) //$NON-NLS-1$ 
 				{
 					iRightToLeft = 1;
 				}
@@ -533,11 +534,15 @@ public final class RunTimeContext implements Serializable
 				// b case
 				sKey = sDefaultValue;
 			}
-			String localizedValue = iml.getMessageValue( sKey, getLocale( ) );
+			String localizedValue = iml.getMessageValue( sKey, getULocale( ) );
 			if ( localizedValue == null || localizedValue.equals( "" ) ) //$NON-NLS-1$
+			{
 				return sDefaultValue;
+			}
 			else
+			{
 				return localizedValue;
+			}
 		}
 
 	}

@@ -112,7 +112,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 
 				if ( expList.size( ) > 0 )
 				{
-					return (String[]) expList.toArray( new String[0] );
+					return (String[]) expList.toArray( new String[expList.size( )] );
 				}
 			}
 			catch ( DesignFileException e )

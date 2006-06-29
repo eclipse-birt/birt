@@ -70,28 +70,21 @@ public abstract class DeviceAdapter extends EventObjectCache implements
 		// DO NOTHING IN NO-OP IMPL
 		return null;
 	}
-	
-	/**
-	 * A convenience method the provides the locale as needed to fetch localized
-	 * resources.
+
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return The locale instance
+	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#getLocale()
 	 */
 	public final Locale getLocale( )
 	{
-		final IDisplayServer ids = getDisplayServer( );
-		if ( ids == null )
-		{
-			return Locale.getDefault( );
-		}
-		return ids.getLocale( ); // ALREADY BEING CHECKED FOR NULL
+		return getULocale( ).toLocale( );
 	}
 
-	/**
-	 * A convenience method the provides the locale as needed to fetch localized
-	 * resources.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return The locale instance
+	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#getULocale()
 	 */
 	public final ULocale getULocale( )
 	{

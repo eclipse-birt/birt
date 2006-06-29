@@ -29,7 +29,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 
 /**
- * DeferredCache
+ * This class implements deferred rendering capability for chart.
  */
 public final class DeferredCache
 {
@@ -51,8 +51,7 @@ public final class DeferredCache
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/factory" ); //$NON-NLS-1$
 
 	/**
-	 * @param idr
-	 * @param c
+	 * The constructor.
 	 */
 	public DeferredCache( IDeviceRenderer idr, Chart c )
 	{
@@ -61,6 +60,7 @@ public final class DeferredCache
 	}
 
 	/**
+	 * Addes rendering event to cache.
 	 * 
 	 * @param pre
 	 *            As of now, supported types are RectanguleRenderEvent and
@@ -90,9 +90,8 @@ public final class DeferredCache
 	}
 
 	/**
-	 * Never use this for 3D rendering event.
-	 * 
-	 * @param wi
+	 * Adds wrapped rendering event to cache. Never use this for 3D rendering
+	 * event.
 	 */
 	public final void addModel( WrappedInstruction wi )
 	{
@@ -100,8 +99,7 @@ public final class DeferredCache
 	}
 
 	/**
-	 * 
-	 * @param lre
+	 * Adds line rendering event to cache.
 	 */
 	public final void addLine( LineRenderEvent lre )
 	{
@@ -121,8 +119,7 @@ public final class DeferredCache
 	}
 
 	/**
-	 * 
-	 * @param tre
+	 * Adds text rendering event to cache.
 	 */
 	public final void addLabel( TextRenderEvent tre )
 	{
@@ -137,8 +134,7 @@ public final class DeferredCache
 	}
 
 	/**
-	 * 
-	 * @param pre
+	 * Adds marker rendering event to cache.
 	 */
 	public final void addMarker( PrimitiveRenderEvent pre, int iInstruction )
 	{
@@ -164,7 +160,7 @@ public final class DeferredCache
 	}
 
 	/**
-	 * 
+	 * Flush the cache, perform all pending rendering tasks.
 	 */
 	public final void flush( ) throws ChartException
 	{
@@ -292,15 +288,17 @@ public final class DeferredCache
 	}
 
 	/**
-	 * Process the 3D rendering events.
-	 * 
-	 * @param engine
+	 * Pre-process all the 3D rendering events. This must be called before
+	 * {@link #flush()}.
 	 */
 	public void process3DEvent( Engine3D engine, double xOffset, double yOffset )
 	{
 		al3D = engine.processEvent( al3D, xOffset, yOffset );
 	}
 
+	/**
+	 * @return Returns if current rendering context is transposed.
+	 */
 	public boolean isTransposed( )
 	{
 		return bTransposed;

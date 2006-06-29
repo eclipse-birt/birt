@@ -18,21 +18,18 @@ import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * Image3DRenderEvent
+ * A rendering event type for rendering 3D Image object.
  */
 public final class Image3DRenderEvent extends ImageRenderEvent implements
 		I3DRenderEvent
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = -5027476689319210090L;
 
 	private Object3D object3D;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public Image3DRenderEvent( Object oSource )
 	{
@@ -40,7 +37,7 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 	}
 
 	/**
-	 * @param lo
+	 * Sets the 3D location of the image.
 	 */
 	public void setLocation3D( Location3D lo )
 	{
@@ -48,7 +45,7 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 	}
 
 	/**
-	 * @return
+	 * @return Returns the 3D location of the image.
 	 */
 	public Location3D getLocation3D( )
 	{
@@ -62,7 +59,7 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		Image3DRenderEvent ire = new Image3DRenderEvent( (StructureSource)source );
+		Image3DRenderEvent ire = new Image3DRenderEvent( source );
 
 		if ( object3D != null )
 		{
@@ -82,7 +79,9 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 		return ire;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
 	public Object3D getObject3D( )
@@ -90,8 +89,11 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 		return object3D;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double,
+	 *      double)
 	 */
 	public void prepare2D( double xOffset, double yOffset )
 	{
@@ -99,6 +101,11 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 		setLocation( points[0] );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ImageRenderEvent#reset()
+	 */
 	public void reset( )
 	{
 		this.object3D = null;

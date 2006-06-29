@@ -19,26 +19,37 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
- * PrimitiveRenderEvent
+ * This is the basic rendering event for each concrete rendering event to
+ * extend.
  */
 public abstract class PrimitiveRenderEvent extends ChartEvent implements
 		Comparable
 {
 
+	/**
+	 * A constant indicats a Drawing operation.
+	 */
 	public static final int DRAW = 1;
 
+	/**
+	 * A constant indicats a Filling operation.
+	 */
 	public static final int FILL = 2;
 
+	/**
+	 * An index value used internally. Note this is public only for
+	 * cross-package internal access.
+	 */
 	public int iObjIndex = 0;
 
 	private double dDepth = 0;
 
 	/**
-	 * Creates a Primitive Render Event from a source object.
-	 * The source can be of any type. Inside the chart engine, it is
-	 * a StructureSource object
+	 * Creates a Primitive Render Event from a source object. The source can be
+	 * of any type. Inside the chart engine, it is a StructureSource object
 	 * 
-	 * @param oSource The Source Object
+	 * @param oSource
+	 *            The Source Object
 	 * @see StructureSource
 	 */
 	public PrimitiveRenderEvent( Object oSource )
@@ -46,11 +57,13 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 		super( oSource );
 	}
 
-
 	/**
+	 * Returns the mimimum bounds required to contain the rendering area for
+	 * current event.
 	 * 
 	 * @return
-	 * @throws ChartException if not implemented by concrete class
+	 * @throws ChartException
+	 *             if not implemented by concrete class
 	 */
 	public Bounds getBounds( ) throws ChartException
 	{
@@ -64,7 +77,6 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	}
 
 	/**
-	 * 
 	 * @return A copy of this primitive rendering instruction implemented by
 	 *         subclasses
 	 * 
@@ -82,6 +94,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	}
 
 	/**
+	 * Compare two bounds regularly.
 	 * 
 	 * @param bo1
 	 * @param bo2
@@ -133,6 +146,13 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 		}
 	}
 
+	/**
+	 * Compare two bounds in transposed way.
+	 * 
+	 * @param bo1
+	 * @param bo2
+	 * @return
+	 */
 	public static final int compareTransposed( Bounds bo1, Bounds bo2 )
 	{
 		final double dMinY1 = bo1.getTop( );
@@ -256,6 +276,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	}
 
 	/**
+	 * Sets the depth of current event.
 	 * 
 	 * @param dDepth
 	 */
@@ -264,11 +285,8 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 		this.dDepth = dDepth;
 	}
 
-
-
 	/**
-	 * 
-	 * @return
+	 * @return Returns the depth of current event.
 	 */
 	public final double getDepth( )
 	{

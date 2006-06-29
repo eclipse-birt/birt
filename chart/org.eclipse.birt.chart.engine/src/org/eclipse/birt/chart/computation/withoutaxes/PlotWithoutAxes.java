@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.computation.withoutaxes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -92,7 +93,7 @@ public final class PlotWithoutAxes
 		EList el = cwoa.getSeriesDefinitions( );
 		ArrayList al = new ArrayList( );
 		( (ChartWithoutAxesImpl) cwoa ).recursivelyGetSeries( el, al, 0, 0 );
-		final Series[] sea = (Series[]) al.toArray( Series.EMPTY_ARRAY );
+		final Series[] sea = (Series[]) al.toArray( new Series[al.size( )] );
 
 		iSeries = sea.length;
 		iColumns = cwoa.getGridColumnCount( );
@@ -187,7 +188,7 @@ public final class PlotWithoutAxes
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 		final SeriesDefinition sd = (SeriesDefinition) elCategories.get( 0 );
-		final ArrayList al = sd.getRunTimeSeries( );
+		final List al = sd.getRunTimeSeries( );
 		if ( al.size( ) != 1 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,

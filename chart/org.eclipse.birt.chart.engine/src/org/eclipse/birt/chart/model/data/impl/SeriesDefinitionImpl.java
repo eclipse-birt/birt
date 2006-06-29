@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.data.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
@@ -721,7 +722,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * 
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getRunTimeSeries()
 	 */
-	public final ArrayList getRunTimeSeries( )
+	public final List getRunTimeSeries( )
 	{
 		final ArrayList alRTS = new ArrayList( );
 		final EList el = getSeries( );

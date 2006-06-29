@@ -57,8 +57,8 @@ public class UserDataSetHints
 			}
 		}
 
-		keys = (String[]) keyList.toArray( new String[0] );
-		dsis = (DataSetIterator[]) dsiList.toArray( new DataSetIterator[0] );
+		keys = (String[]) keyList.toArray( new String[keyList.size( )] );
+		dsis = (DataSetIterator[]) dsiList.toArray( new DataSetIterator[dsiList.size( )] );
 	}
 
 	/**

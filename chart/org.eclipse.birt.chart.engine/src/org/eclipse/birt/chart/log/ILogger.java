@@ -24,7 +24,7 @@ public interface ILogger
 	public static final int ALL = -1;
 
 	/**
-	 * All message type.
+	 * All tracing message type.
 	 */
 	public static final int TRACE = 0;
 

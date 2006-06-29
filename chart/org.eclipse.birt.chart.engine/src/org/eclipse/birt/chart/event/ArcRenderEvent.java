@@ -23,7 +23,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * ArcRenderEvent
+ * A rendering event type for rendering Arc object.
  */
 public class ArcRenderEvent extends PrimitiveRenderEvent
 {
@@ -50,14 +50,27 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 
 	protected int iStyle = SECTOR;
 
+	/**
+	 * The closure type for an open arc with no path segments connecting the two
+	 * ends of the arc segment.
+	 */
 	public static final int OPEN = 1;
 
+	/**
+	 * The closure type for an arc closed by drawing a straight line segment
+	 * from the start of the arc segment to the end of the arc segment.
+	 */
 	public static final int CLOSED = 2;
 
+	/**
+	 * The closure type for an arc closed by drawing straight line segments from
+	 * the start of the arc segment to the center of the full ellipse and from
+	 * that point to the end of the arc segment.
+	 */
 	public static final int SECTOR = 3;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public ArcRenderEvent( Object oSource )
 	{
@@ -84,7 +97,13 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return Returns the arc style.
+	 * @return Returns the arc style. The value must be one of these defined in
+	 *         this class:
+	 *         <ul>
+	 *         <li>{@link #OPEN}
+	 *         <li>{@link #CLOSED}
+	 *         <li>{@link #SECTOR}
+	 *         </ul>
 	 */
 	public final int getStyle( )
 	{
@@ -93,7 +112,13 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 
 	/**
 	 * @param style
-	 *            The arc style to set.
+	 *            The arc style to set. The value must be one of these defined
+	 *            in this class:
+	 *            <ul>
+	 *            <li>{@link #OPEN}
+	 *            <li>{@link #CLOSED}
+	 *            <li>{@link #SECTOR}
+	 *            </ul>
 	 */
 	public final void setStyle( int style )
 	{
@@ -110,6 +135,8 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the top-left location of the containing bounds.
+	 * 
 	 * @param loTopLeft
 	 *            The top left co-ordinates of the bounding elliptical box for
 	 *            the arc
@@ -120,7 +147,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return Returns the end arc angle.
+	 * @return Returns the angle extent of this arc.
 	 */
 	public final double getAngleExtent( )
 	{
@@ -128,6 +155,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the angle extent for this arc.
 	 * 
 	 * @param angleExtent
 	 *            The angle extent
@@ -140,10 +168,11 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the angle extent for this arc.
+	 * 
 	 * @param endAngle
 	 *            The angle extent
-	 * @deprecated in 2.1. Use setAngleExtent instead
-	 * @see #setAngleExtent(double)
+	 * @deprecated Use {@link #setAngleExtent()} instead.
 	 */
 	public final void setEndAngle( double endAngle )
 	{
@@ -159,6 +188,8 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the backgound for this arc.
+	 * 
 	 * @param ifBackground
 	 *            The background to set.
 	 */
@@ -168,7 +199,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return Returns the width.
+	 * @return Returns the width of the containing bounds.
 	 */
 	public double getWidth( )
 	{
@@ -176,6 +207,8 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the width for the containing bounds.
+	 * 
 	 * @param radius
 	 *            The width to set.
 	 */
@@ -185,7 +218,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return Returns the height.
+	 * @return Returns the height of the containing bounds.
 	 */
 	public double getHeight( )
 	{
@@ -193,6 +226,8 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the height for the containing bounds.
+	 * 
 	 * @param radius
 	 *            The height to set.
 	 */
@@ -210,6 +245,8 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the start angle for this arc.
+	 * 
 	 * @param startAngle
 	 *            The startAngle to set.
 	 */
@@ -219,6 +256,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the containing bounds of this arc.
 	 * 
 	 * @param bo
 	 */
@@ -230,6 +268,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Returns the full containing bounds of the complete ellipse.
 	 * 
 	 * @return
 	 */
@@ -370,6 +409,8 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the outline for this arc.
+	 * 
 	 * @param outline
 	 *            The outline to set.
 	 */
@@ -378,21 +419,37 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 		this.outline = outline;
 	}
 
+	/**
+	 * @return Returns the inner radius for this arc.
+	 */
 	public double getInnerRadius( )
 	{
 		return dInnerRadius;
 	}
 
+	/**
+	 * Sets the inner radius for this arc.
+	 * 
+	 * @param innerRadius
+	 */
 	public void setInnerRadius( double innerRadius )
 	{
 		dInnerRadius = innerRadius;
 	}
 
+	/**
+	 * @return Returns the outer radius for this arc.
+	 */
 	public double getOuterRadius( )
 	{
 		return dOuterRadius;
 	}
 
+	/**
+	 * Sets the outer radius for this arc.
+	 * 
+	 * @param outerRadius
+	 */
 	public void setOuterRadius( double outerRadius )
 	{
 		dOuterRadius = outerRadius;

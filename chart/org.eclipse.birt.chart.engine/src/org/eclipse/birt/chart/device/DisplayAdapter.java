@@ -91,6 +91,7 @@ public abstract class DisplayAdapter implements IDisplayServer
 	{
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -144,7 +145,12 @@ public abstract class DisplayAdapter implements IDisplayServer
 	{
 		return getULocale( ).toLocale( );
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IDisplayServer#getULocale()
+	 */
 	public final ULocale getULocale( )
 	{
 		return ( lcl == null ) ? ULocale.getDefault( ) : lcl;

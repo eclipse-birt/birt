@@ -20,9 +20,9 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.layout.Legend;
 
-
 /**
- * WrappedStructureSource
+ * This class defines a wrapped structure source object which could have a
+ * parent source for all chart events.
  */
 public class WrappedStructureSource extends StructureSource
 {
@@ -113,7 +113,8 @@ public class WrappedStructureSource extends StructureSource
 	 * @param title
 	 * @return
 	 */
-	public static StructureSource createLegendEntry( Legend lg, LegendEntryRenderingHints entry )
+	public static StructureSource createLegendEntry( Legend lg,
+			LegendEntryRenderingHints entry )
 	{
 		return new WrappedStructureSource( lg,
 				StructureType.LEGEND,

@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.util;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 
 /**
- * NameSet
+ * This class provides basic implementaion to hold a name and display name.
  */
 public class NameSet
 {

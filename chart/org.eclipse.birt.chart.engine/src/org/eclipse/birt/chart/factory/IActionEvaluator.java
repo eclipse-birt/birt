@@ -22,11 +22,7 @@ public interface IActionEvaluator
 
 	/**
 	 * Returns the expressions contained in the action. Could be null if not
-	 * contain any expression.
-	 * 
-	 * @param action
-	 * @param source
-	 * @return
+	 * containing any expression.
 	 */
 	String[] getActionExpressions( Action action, StructureSource source );
 }

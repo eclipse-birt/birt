@@ -12,20 +12,14 @@
 package org.eclipse.birt.chart.device;
 
 /**
- * This interface defines the capability for implementors to provide a image map
- * string.
+ * This interface defines the capability for implementors to provide an html
+ * image map string.
  */
 public interface IImageMapEmitter
 {
 
 	/**
-	 * Returns the image map string using given id. The evaluator is used to
-	 * parse the URL expression. If no evaluator given, treat the URL expression
-	 * as a plain string.
-	 * 
-	 * @param id
-	 * @param evaluator
-	 * @return
+	 * Returns the image map string by current emitter implementation.
 	 */
 	String getImageMap( );
 

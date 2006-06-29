@@ -12,7 +12,8 @@
 package org.eclipse.birt.chart.script;
 
 /**
- * An adapter class for IScriptClassLoader
+ * An adapter class for IScriptClassLoader. It first try to load class from
+ * current context, if fail, try to load by parent loader.
  */
 public class ScriptClassLoaderAdapter implements IScriptClassLoader
 {

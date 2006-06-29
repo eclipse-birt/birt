@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.component.Label;
 /**
  * Utility class for Charts.
  */
-
 public class ChartUtil
 {
 
@@ -44,7 +43,7 @@ public class ChartUtil
 	}
 
 	/**
-	 * Returns if the given label defines a shadow.
+	 * Returns if the given label has defined a shadow.
 	 * 
 	 * @param la
 	 * @return
@@ -196,7 +195,7 @@ public class ChartUtil
 	}
 
 	/**
-	 * Returns if two polygons intersect.
+	 * Returns if two polygons intersect each other.
 	 * 
 	 * @param pg1
 	 * @param pg2
@@ -214,7 +213,7 @@ public class ChartUtil
 
 	/**
 	 * Merges two fonts to the original one from a source. The original one can
-	 * not be null. Only consider inheritable properties.
+	 * not be null. ?Only consider inheritable properties.
 	 * 
 	 * @param original
 	 * @param source

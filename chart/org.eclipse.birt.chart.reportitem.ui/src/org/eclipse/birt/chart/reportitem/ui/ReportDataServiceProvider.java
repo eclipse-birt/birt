@@ -109,7 +109,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			list.add( ( (ComputedColumnHandle) iterator.next( ) ).getName( ) );
 		}
-		return (String[]) list.toArray( new String[0] );
+		return (String[]) list.toArray( new String[list.size( )] );
 	}
 
 	public final List getPreviewData( ) throws ChartException
@@ -427,7 +427,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	protected int invokeDataBinding( )
 	{
 		Shell shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-				| SWT.RESIZE | SWT.APPLICATION_MODAL );
+				| SWT.RESIZE
+				| SWT.APPLICATION_MODAL );
 		ChartUIUtil.bindHelp( shell,
 				ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
 		ColumnBindingDialog page = new ColumnBindingDialog( shell, false ) {
@@ -454,11 +455,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 				return list;
 			}
-			
+
 			protected void setShellStyle( int newShellStyle )
 			{
 				super.setShellStyle( newShellStyle
-						| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+						| SWT.DIALOG_TRIM
+						| SWT.RESIZE
+						| SWT.APPLICATION_MODAL );
 			}
 		};
 		page.setInput( itemHandle );
@@ -467,8 +470,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	private StyleHandle[] getAllStyleHandles( )
 	{
-		StyleHandle[] list = (StyleHandle[]) getReportDesignHandle( ).getAllStyles( )
-				.toArray( new StyleHandle[0] );
+		List sLst = getReportDesignHandle( ).getAllStyles( );
+		StyleHandle[] list = (StyleHandle[]) sLst.toArray( new StyleHandle[sLst.size( )] );
 		Arrays.sort( list, new Comparator( ) {
 
 			Collator collator = Collator.getInstance( ULocale.getDefault( ) );

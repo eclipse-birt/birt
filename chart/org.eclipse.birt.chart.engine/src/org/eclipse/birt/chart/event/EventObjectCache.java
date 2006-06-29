@@ -28,9 +28,8 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
  * An internal cache that provides reusable primitive (and block) rendering
- * event objects A local cache is created per generation sequence so issues with
- * multithreaded access shouldn't arise.
- * 
+ * event objects. A local cache is created per generation sequence so issues
+ * with multithreaded access shouldn't arise.
  */
 public class EventObjectCache
 {
@@ -49,14 +48,15 @@ public class EventObjectCache
 	}
 
 	/**
+	 * Creates or returns the requested event object from local cache.
+	 * 
 	 * @param oSource
 	 * @param cType
 	 * 
 	 * @return An instance of the requested event object that encapsulates
 	 *         rendering attributes
 	 */
-	public final ChartEvent getEventObject( Object oSource,
-			Class cType )
+	public final ChartEvent getEventObject( Object oSource, Class cType )
 	{
 		ChartEvent event = (ChartEvent) _htEvents.get( cType );
 		if ( event == null )
@@ -97,6 +97,7 @@ public class EventObjectCache
 	}
 
 	/**
+	 * Validates the line attributes.
 	 * 
 	 * @param oSource
 	 * @param lia
@@ -130,6 +131,7 @@ public class EventObjectCache
 	}
 
 	/**
+	 * Validates the color attributes.
 	 * 
 	 * @param cdEdge
 	 * @param fBackground
@@ -158,7 +160,13 @@ public class EventObjectCache
 		}
 		return cFG;
 	}
-	
+
+	/**
+	 * Checkes if given fill is fully transparent.
+	 * 
+	 * @param fill
+	 * @return
+	 */
 	protected final boolean isFullTransparent( Fill fill )
 	{
 		if ( fill == null )
@@ -180,5 +188,4 @@ public class EventObjectCache
 		return false;
 	}
 
-	
 }

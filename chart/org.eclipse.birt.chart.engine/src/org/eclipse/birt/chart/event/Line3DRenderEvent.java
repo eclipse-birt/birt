@@ -18,7 +18,7 @@ import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 
 /**
- * Line3DRenderEvent
+ * A rendering event type for rendering 3D Line object.
  */
 public final class Line3DRenderEvent extends LineRenderEvent implements
 		I3DRenderEvent
@@ -29,7 +29,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	private Object3D object3D;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public Line3DRenderEvent( Object oSource )
 	{
@@ -38,7 +38,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	}
 
 	/**
-	 * @param start
+	 * Sets the 3D start location of the line.
 	 */
 	public void setStart3D( Location3D start )
 	{
@@ -46,9 +46,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	}
 
 	/**
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Sets the 3D start location of the line.
 	 */
 	public void setStart3D( double x, double y, double z )
 	{
@@ -56,7 +54,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	}
 
 	/**
-	 * not a live object
+	 * Returns the 3D start location of this line. Not a live object
 	 * 
 	 * @return
 	 */
@@ -66,7 +64,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	}
 
 	/**
-	 * @param start
+	 * Sets the 3D end location of the line.
 	 */
 	public void setEnd3D( Location3D end )
 	{
@@ -74,9 +72,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	}
 
 	/**
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Sets the 3D end location of the line.
 	 */
 	public void setEnd3D( double x, double y, double z )
 	{
@@ -84,7 +80,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	}
 
 	/**
-	 * not a live object
+	 * Returns the 3D end location of this line. Not a live object
 	 * 
 	 * @return
 	 */
@@ -100,7 +96,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		Line3DRenderEvent lre = new Line3DRenderEvent( (StructureSource)source );
+		Line3DRenderEvent lre = new Line3DRenderEvent( source );
 		if ( lia != null )
 		{
 			lre.setLineAttributes( LineAttributesImpl.copyInstance( lia ) );
@@ -112,7 +108,9 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 		return lre;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
 	public Object3D getObject3D( )
@@ -120,8 +118,11 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 		return object3D;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double,
+	 *      double)
 	 */
 	public void prepare2D( double xOffset, double yOffset )
 	{
@@ -130,13 +131,15 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 		setEnd( points[1] );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#reset()
 	 */
 	public void reset( )
 	{
 		object3D = new Object3D( 2 );
-		super.reset();
+		super.reset( );
 	}
 
 }

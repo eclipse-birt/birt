@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.script;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +51,8 @@ import com.ibm.icu.util.ULocale;
  * This class forms the basis of script handling in the charting library. It
  * creates a default scope and/or subclasses from a predefined scope. It also
  * provides convenience methods for execution of functions defined in the scope.
+ * 
+ * @see IChartEventHandler
  */
 public final class ScriptHandler extends ScriptableObject
 {
@@ -245,51 +246,51 @@ public final class ScriptHandler extends ScriptableObject
 			+ "//function beforeDrawAxisTitle( axis, label, context ){}\n"; //$NON-NLS-1$
 
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String START_GENERATION = "startGeneration"; //$NON-NLS-1$
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String FINISH_GENERATION = "finishGeneration"; //$NON-NLS-1$
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String BEFORE_LAYOUT = "beforeLayout"; //$NON-NLS-1$
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String AFTER_LAYOUT = "afterLayout"; //$NON-NLS-1$
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String BEFORE_COMPUTATIONS = "beforeComputations"; //$NON-NLS-1$
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String AFTER_COMPUTATIONS = "afterComputations"; //$NON-NLS-1$
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String START_RENDERING = "startRendering"; //$NON-NLS-1$	
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String FINISH_RENDERING = "finishRendering"; //$NON-NLS-1$
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String START_COMPUTE_SERIES = "startComputeSeries"; //$NON-NLS-1$
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String FINISH_COMPUTE_SERIES = "finishComputeSeries"; //$NON-NLS-1$
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String BEFORE_DRAW_ELEMENT = "beforeDrawElement"; //$NON-NLS-1$
 	/**
-	 * @deprecated
+	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String AFTER_DRAW_ELEMENT = "afterDrawElement"; //$NON-NLS-1$
 
@@ -352,11 +353,19 @@ public final class ScriptHandler extends ScriptableObject
 
 	public static final String AFTER_DRAW_AXIS_TITLE = "afterDrawAxisTitle"; //$NON-NLS-1$
 
-	// Variables
+	/**
+	 * The pre-defined chart variable name to access base category data.
+	 */
 	public static final String BASE_VALUE = "categoryData"; //$NON-NLS-1$
 
+	/**
+	 * The pre-defined chart variable name to access orthogonal value data.
+	 */
 	public static final String ORTHOGONAL_VALUE = "valueData"; //$NON-NLS-1$
 
+	/**
+	 * The pre-defined chart variable name to access series value data.
+	 */
 	public static final String SERIES_VALUE = "valueSeriesName"; //$NON-NLS-1$
 
 	// PRE-DEFINED INSTANCES AVAILABLE FOR REUSE
@@ -419,7 +428,8 @@ public final class ScriptHandler extends ScriptableObject
 	}
 
 	/**
-	 * @deprecated Not used anymore.
+	 * @deprecated Not used anymore. This is kept for backward compatibility
+	 *             only.
 	 * @return An instance of the chart model used at design time
 	 */
 	public Object jsFunction_getDesignTimeModel( )
@@ -428,7 +438,8 @@ public final class ScriptHandler extends ScriptableObject
 	}
 
 	/**
-	 * @deprecated Call IChartScriptContext.getChartInstance() instead.
+	 * @deprecated Call IChartScriptContext.getChartInstance() instead. This is
+	 *             kept for backward compatibility only.
 	 * @return An instance of the chart model used at run time
 	 */
 	public Object jsFunction_getRunTimeModel( )
@@ -437,7 +448,8 @@ public final class ScriptHandler extends ScriptableObject
 	}
 
 	/**
-	 * @deprecated Not used anymore.
+	 * @deprecated Not used anymore. This is kept for backward compatibility
+	 *             only.
 	 * @return An instance of the run time model coupled with a computations and
 	 *         series filled with datasets
 	 */
@@ -447,7 +459,8 @@ public final class ScriptHandler extends ScriptableObject
 	}
 
 	/**
-	 * @deprecated Call IChartScriptContext.getLocale() instead.
+	 * @deprecated Call IChartScriptContext.getLocale() instead. This is kept
+	 *             for backward compatibility only.
 	 * @return The locale associated with the generation request
 	 */
 	public final Object jsFunction_getLocale( )
@@ -456,7 +469,8 @@ public final class ScriptHandler extends ScriptableObject
 	}
 
 	/**
-	 * @deprecated Not used anymore.
+	 * @deprecated Note used anymore. This is kept for backward compatibility
+	 *             only.
 	 * @param eo
 	 *            An EMF generated model object to be cloned
 	 * @return A cloned instance of the specified EMF generated model object
@@ -471,7 +485,8 @@ public final class ScriptHandler extends ScriptableObject
 	}
 
 	/**
-	 * @deprecated Not used anymore.
+	 * @deprecated Not used anymore. This is kept for backward compatibility
+	 *             only.
 	 * @param cm
 	 */
 	public final void setDesignTimeModel( Chart cmDesignTime )
@@ -481,7 +496,8 @@ public final class ScriptHandler extends ScriptableObject
 
 	/**
 	 * @deprecated Not used anymore. Use IChartScriptContext to store the
-	 *             run-time model now.
+	 *             run-time model now. This is kept for backward compatibility
+	 *             only.
 	 * @param cm
 	 */
 	public final void setRunTimeModel( Chart cmRunTime )
@@ -490,7 +506,8 @@ public final class ScriptHandler extends ScriptableObject
 	}
 
 	/**
-	 * @deprecated Not used anymore.
+	 * @deprecated Not used anymore. This is kept for backward compatibility
+	 *             only.
 	 * @param gcs
 	 */
 	public final void setGeneratedChartState( GeneratedChartState gcs )
@@ -500,7 +517,7 @@ public final class ScriptHandler extends ScriptableObject
 
 	/**
 	 * @deprecated Not used anymore. Use IChartScriptContext to store the locale
-	 *             now.
+	 *             now. This is kept for backward compatibility only.
 	 * @param lcl
 	 */
 	public final void setLocale( ULocale lcl )
@@ -509,7 +526,8 @@ public final class ScriptHandler extends ScriptableObject
 	}
 
 	/**
-	 * Sets the script classLoader.
+	 * Sets the script class loader. This loader is responsible to load all user
+	 * defined script class.
 	 * 
 	 * @param value
 	 */
@@ -723,8 +741,9 @@ public final class ScriptHandler extends ScriptableObject
 	 *            The Java object arguments passed to the function being
 	 *            executed
 	 */
-	private final Object callJavaScriptFunction( Function f, Object[] oaArgs ) throws ChartException
-			
+	private final Object callJavaScriptFunction( Function f, Object[] oaArgs )
+			throws ChartException
+
 	{
 		final Context cx = Context.enter( );
 		Object oReturnValue = null;
@@ -732,7 +751,7 @@ public final class ScriptHandler extends ScriptableObject
 		{
 			oReturnValue = f.call( cx, scope, scope, oaArgs );
 		}
-		catch( RhinoException ex )
+		catch ( RhinoException ex )
 		{
 			throw convertException( ex );
 		}
@@ -979,7 +998,7 @@ public final class ScriptHandler extends ScriptableObject
 				sh.ONE_ELEMENT_ARRAY[0] = oArg1;
 				Object oReturnValue = null;
 				oReturnValue = sh.callJavaScriptFunction( f,
-							sh.ONE_ELEMENT_ARRAY );
+						sh.ONE_ELEMENT_ARRAY );
 
 				return oReturnValue;
 			}
@@ -999,7 +1018,8 @@ public final class ScriptHandler extends ScriptableObject
 	 * @param oArg2
 	 */
 	public static final Object callFunction( ScriptHandler sh,
-			String sFunction, Object oArg1, Object oArg2 ) throws ChartException
+			String sFunction, Object oArg1, Object oArg2 )
+			throws ChartException
 	{
 		if ( sh == null )
 		{
@@ -1021,7 +1041,7 @@ public final class ScriptHandler extends ScriptableObject
 				sh.TWO_ELEMENT_ARRAY[1] = oArg2;
 				Object oReturnValue = null;
 				oReturnValue = sh.callJavaScriptFunction( f,
-							sh.TWO_ELEMENT_ARRAY );
+						sh.TWO_ELEMENT_ARRAY );
 
 				return oReturnValue;
 			}
@@ -1042,7 +1062,8 @@ public final class ScriptHandler extends ScriptableObject
 	 * @param oArg3
 	 */
 	public static final Object callFunction( ScriptHandler sh,
-			String sFunction, Object oArg1, Object oArg2, Object oArg3 ) throws ChartException
+			String sFunction, Object oArg1, Object oArg2, Object oArg3 )
+			throws ChartException
 	{
 		if ( sh == null )
 		{
@@ -1066,7 +1087,7 @@ public final class ScriptHandler extends ScriptableObject
 				sh.THREE_ELEMENT_ARRAY[2] = oArg3;
 				Object oReturnValue = null;
 				oReturnValue = sh.callJavaScriptFunction( f,
-							sh.THREE_ELEMENT_ARRAY );
+						sh.THREE_ELEMENT_ARRAY );
 
 				return oReturnValue;
 			}
@@ -1142,11 +1163,15 @@ public final class ScriptHandler extends ScriptableObject
 				}
 				catch ( InstantiationException e )
 				{
-					throw new ChartException( ChartEnginePlugin.ID, ChartException.ERROR, e );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.ERROR,
+							e );
 				}
 				catch ( IllegalAccessException e )
 				{
-					throw new ChartException( ChartEnginePlugin.ID, ChartException.ERROR, e );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.ERROR,
+							e );
 				}
 
 				logger.log( ILogger.INFORMATION,
@@ -1207,36 +1232,51 @@ public final class ScriptHandler extends ScriptableObject
 
 	}
 
+	/**
+	 * Sets the context object of current script handler.
+	 * 
+	 * @param csc
+	 */
 	public void setScriptContext( IChartScriptContext csc )
 	{
 		this.csc = csc;
-		
+
 	}
 
-	protected ChartException convertException( Exception ex ) 
+	/**
+	 * Converts general exception to more readable format.
+	 * 
+	 * @param ex
+	 * @return
+	 */
+	protected ChartException convertException( Exception ex )
 	{
 		if ( ex instanceof RhinoException )
 		{
-			RhinoException e = (RhinoException)ex;
+			RhinoException e = (RhinoException) ex;
 			String lineSource = e.lineSource( );
 			String details = e.details( );
 			String lineNumber = String.valueOf( e.lineNumber( ) );
 			if ( lineSource == null )
 				lineSource = "";//$NON-NLS-1$
 			return new ChartException( ChartEnginePlugin.ID,
-				ChartException.SCRIPT, "exception.javascript.error",
-				new Object[]{ details, lineNumber , lineSource }, 
-				Messages.getResourceBundle( csc.getULocale( ) ),
-				e ); //$NON-NLS-1$
+					ChartException.SCRIPT,
+					"exception.javascript.error", //$NON-NLS-1$
+					new Object[]{
+							details, lineNumber, lineSource
+					},
+					Messages.getResourceBundle( csc.getULocale( ) ),
+					e );
 		}
-		/* TODO convert those exceptions too
-		 else if ( ex instanceof IllegalAccessException )
-		{}
-		else if ( ex instanceof InstantiationException )
-		{}
-		else if ( ex instanceof InvocationTargetException )
-		{
-		}*/
-		else return new ChartException( ChartEnginePlugin.ID, ChartException.SCRIPT, ex );
+		/*
+		 * TODO convert those exceptions too else if ( ex instanceof
+		 * IllegalAccessException ) {} else if ( ex instanceof
+		 * InstantiationException ) {} else if ( ex instanceof
+		 * InvocationTargetException ) { }
+		 */
+		else
+			return new ChartException( ChartEnginePlugin.ID,
+					ChartException.SCRIPT,
+					ex );
 	}
 }

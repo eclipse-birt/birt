@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.eclipse.birt.chart.render.ISeriesRenderer;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
@@ -54,9 +55,6 @@ import com.ibm.icu.util.ULocale;
 public final class PluginSettings
 {
 
-	/**
-	 * 
-	 */
 	private static final String PLUGIN = "org.eclipse.birt.chart.engine"; //$NON-NLS-1$
 
 	/**
@@ -600,6 +598,12 @@ public final class PluginSettings
 		return null;
 	}
 
+	/**
+	 * Returns the localized display name of given Series Class.
+	 * 
+	 * @param seriesClassName
+	 * @return
+	 */
 	public final String getSeriesDisplayName( String seriesClassName )
 	{
 		String sDisplayName = seriesClassName;
@@ -990,6 +994,8 @@ public final class PluginSettings
 	 * @param sName
 	 * @param sAggregateFunctionClass
 	 *            the full qualified class name of the implementor.
+	 * 
+	 * @see IAggregateFunction
 	 */
 	public final void registerAggregateFunction( String sName,
 			String sAggregateFunctionClass )
@@ -1005,6 +1011,8 @@ public final class PluginSettings
 	 * @param sDisplayName
 	 * @param sAggregateFunctionClass
 	 *            the full qualified class name of the implementor.
+	 * 
+	 * @see IAggregateFunction
 	 */
 	synchronized public final void registerAggregateFunction( String sName,
 			String sDisplayName, String sAggregateFunctionClass )
@@ -1030,6 +1038,8 @@ public final class PluginSettings
 	 * @param sName
 	 * @param sDeviceClass
 	 *            the full qualified class name of the implementor.
+	 * 
+	 * @see IDeviceRenderer
 	 */
 	synchronized public final void registerDevice( String sName,
 			String sDeviceClass )
@@ -1082,6 +1092,8 @@ public final class PluginSettings
 	 * @param sName
 	 * @param sServerClass
 	 *            the full qualified class name of the implementor.
+	 * 
+	 * @see IDisplayServer
 	 */
 	synchronized public final void registerDisplayServer( String sName,
 			String sServerClass )
@@ -1110,6 +1122,8 @@ public final class PluginSettings
 	 * @param sRendererClass
 	 *            the full qualified class name of which implements the
 	 *            ISeriesRenderer interface.
+	 * 
+	 * @see ISeriesRenderer
 	 */
 	synchronized public final void registerSeriesRenderer( String sSeriesClass,
 			String sDataSetProcessorClass, String sRendererClass )

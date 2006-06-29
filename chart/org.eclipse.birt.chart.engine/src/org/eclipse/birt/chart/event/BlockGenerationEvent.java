@@ -14,35 +14,38 @@ package org.eclipse.birt.chart.event;
 import org.eclipse.birt.chart.model.layout.Block;
 
 /**
- * BlockGenerationEvent
+ * An event type for block generation.
  */
 public class BlockGenerationEvent extends ChartEvent
 {
 
-    /**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = 5869588499778117671L;
 
 	/**
-     * @param oSource
-     */
-    public BlockGenerationEvent(Object oSource)
-    {
-        super(oSource);
-    }
+	 * The constructor.
+	 */
+	public BlockGenerationEvent( Object oSource )
+	{
+		super( oSource );
+	}
 
-    /**
-     * 
-     * @param bl
-     */
-    public final void updateBlock(Block bl)
-    {
-        source = bl;
-    }
-    
-    public void reset()
-    {
-    	source = null;
-    }
+	/**
+	 * Updates the associated block object.
+	 * 
+	 * @param bl
+	 */
+	public void updateBlock( Block bl )
+	{
+		source = bl;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
+	 */
+	public void reset( )
+	{
+		source = null;
+	}
 }

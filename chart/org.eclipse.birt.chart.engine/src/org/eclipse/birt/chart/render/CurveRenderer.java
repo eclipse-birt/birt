@@ -231,11 +231,11 @@ public final class CurveRenderer
 
 		if ( ll instanceof Location3D[] )
 		{
-			return (Location3D[]) al.toArray( new Location3D[0] );
+			return (Location3D[]) al.toArray( new Location3D[al.size( )] );
 		}
 		else
 		{
-			return (Location[]) al.toArray( new Location[0] );
+			return (Location[]) al.toArray( new Location[al.size( )] );
 		}
 	}
 
@@ -281,11 +281,11 @@ public final class CurveRenderer
 
 				if ( loPoints instanceof Location3D[] )
 				{
-					tempPoints = (Location3D[]) al.toArray( new Location3D[0] );
+					tempPoints = (Location3D[]) al.toArray( new Location3D[al.size( )] );
 				}
 				else
 				{
-					tempPoints = (Location[]) al.toArray( new Location[0] );
+					tempPoints = (Location[]) al.toArray( new Location[al.size( )] );
 				}
 				faX = LocationImpl.getXArray( tempPoints );
 				faY = LocationImpl.getYArray( tempPoints );
@@ -744,7 +744,7 @@ public final class CurveRenderer
 					}
 				}
 
-				Location[] pa = (Location[]) lst.toArray( new Location[0] );
+				Location[] pa = (Location[]) lst.toArray( new Location[lst.size( )] );
 
 				pre.setOutline( null );
 				pre.setPoints( pa );

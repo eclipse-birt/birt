@@ -19,7 +19,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ * An {@link IMessageLookup} implementation for use in chart builder.
  */
 public class ChartBuilderMessageLookup implements IMessageLookup
 {
@@ -31,8 +31,11 @@ public class ChartBuilderMessageLookup implements IMessageLookup
 		this.serviceProvider = serviceProvider;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.String, java.util.Locale)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.String,
+	 *      java.util.Locale)
 	 */
 	public String getMessageValue( String sKey, Locale lcl )
 	{
@@ -41,6 +44,12 @@ public class ChartBuilderMessageLookup implements IMessageLookup
 		return serviceProvider.getValue( sKey );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.String,
+	 *      com.ibm.icu.util.ULocale)
+	 */
 	public String getMessageValue( String sKey, ULocale lcl )
 	{
 		if ( serviceProvider == null )

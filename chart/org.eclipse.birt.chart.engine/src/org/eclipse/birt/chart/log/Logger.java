@@ -19,9 +19,10 @@ import org.eclipse.birt.chart.internal.log.JavaUtilLoggerImpl;
 import org.eclipse.birt.core.framework.Platform;
 
 /**
- * Logger Class
+ * A centralized class to start use and manager loggers.
+ * 
+ * @see ILogger
  */
-
 final public class Logger
 {
 

@@ -115,18 +115,28 @@ public class TextAdapter implements ITextMetrics
 	{
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#getLocale()
+	 */
 	public final Locale getLocale( )
 	{
 		return getULocale( ).toLocale( );
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#getULocale()
+	 */
 	public final ULocale getULocale( )
 	{
 		return ( lcl == null ) ? ULocale.getDefault( ) : lcl;
 	}
 
 	/**
-	 * Sets the locale.
+	 * Sets current locale.
 	 * 
 	 * @param lcl
 	 */

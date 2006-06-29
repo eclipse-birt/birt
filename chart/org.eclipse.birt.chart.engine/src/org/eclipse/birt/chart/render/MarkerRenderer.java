@@ -49,8 +49,8 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
- * Render the markers used in Line series and Area series.
- * 
+ * This class implements marker rendering capability used in Line, Area or other
+ * series.
  */
 public final class MarkerRenderer
 {
@@ -83,6 +83,20 @@ public final class MarkerRenderer
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine.extension/render" ); //$NON-NLS-1$
 
+	/**
+	 * The constructor.
+	 * 
+	 * @param _render
+	 * @param _oSource
+	 * @param _lo
+	 * @param _la
+	 * @param _paletteEntry
+	 * @param _m
+	 * @param _markerSize
+	 * @param _dc
+	 * @param _bDeferred
+	 * @param _bTransposed
+	 */
 	public MarkerRenderer( IDeviceRenderer _render, Object _oSource,
 			Location _lo, LineAttributes _la, Fill _paletteEntry, Marker _m,
 			int _markerSize, DeferredCache _dc, boolean _bDeferred,
@@ -112,7 +126,7 @@ public final class MarkerRenderer
 	}
 
 	/**
-	 * Choose the type of markers.
+	 * Render the marker with given renderer.
 	 * 
 	 * @param ipr
 	 * @throws ChartException
@@ -1458,6 +1472,10 @@ public final class MarkerRenderer
 		}
 	}
 
+	/**
+	 * @return Returns the rendering event containing the area affected by last
+	 *         drawing operation.
+	 */
 	public PrimitiveRenderEvent getRenderArea( )
 	{
 		return preCopy;

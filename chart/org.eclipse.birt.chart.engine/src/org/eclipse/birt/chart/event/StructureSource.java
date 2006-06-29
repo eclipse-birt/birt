@@ -22,7 +22,7 @@ import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * This class defines a structure source object for chart rendering event.
+ * This class defines a structure source object for all chart events.
  */
 public class StructureSource
 {

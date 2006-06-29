@@ -83,18 +83,19 @@ public interface IDeviceRenderer extends
 	public static final String COMPRESSED_OUTPUT = "output.compressed"; //$NON-NLS-1$
 
 	/**
-	 * A property name that indicates the dpi (dots/pixels per inch) resolution to use 
-	 * when rendering to the device. This is used to convert 'points' in pixels
-	 * (a point is 1/72 inch). If not indicated, it will use the default dpi resolution 
-	 * of the corresponding display server (typically 96dpi)
+	 * A property name that indicates the dpi (dots/pixels per inch) resolution
+	 * to use when rendering to the device. This is used to convert 'points' in
+	 * pixels (a point is 1/72 inch). If not indicated, it will use the default
+	 * dpi resolution of the corresponding display server (typically 96dpi)
 	 */
 	public static final String DPI_RESOLUTION = "device.resolution"; //$NON-NLS-1$
 
 	/**
-	 * A Property to enable/disable the caching of the image stream on disk 
+	 * A Property to enable/disable the caching of the image stream on disk
 	 * Default is false.
 	 */
-	public static final Object CACHE_ON_DISK =  "device.renderer"; //$NON-NLS-1$
+	public static final Object CACHE_ON_DISK = "device.disk.cache"; //$NON-NLS-1$
+
 	/**
 	 * Device-specific write-only properties that may be set for each device
 	 * renderer
@@ -167,10 +168,10 @@ public interface IDeviceRenderer extends
 	 * retrieve localized resources for presentation.
 	 * 
 	 * @return The locale to be used
-	 * @deprecated
+	 * @deprecated use {@link #getULocale()} instead.
 	 */
 	Locale getLocale( );
-	
+
 	/**
 	 * Provides the locale to device renderer implementations as needed to
 	 * retrieve localized resources for presentation.

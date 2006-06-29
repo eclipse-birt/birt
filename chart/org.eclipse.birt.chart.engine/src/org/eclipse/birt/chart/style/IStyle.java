@@ -17,7 +17,7 @@ import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
 
 /**
- * IStyle
+ * This interface defines the general style elements supported by chart.
  */
 public interface IStyle
 {

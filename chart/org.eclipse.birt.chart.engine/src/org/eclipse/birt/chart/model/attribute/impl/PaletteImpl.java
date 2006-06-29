@@ -303,7 +303,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 			return;
 		}
 
-		Object[] array = lst.toArray( new Object[0] );
+		Object[] array = lst.toArray( );
 
 		lst.clear( );
 

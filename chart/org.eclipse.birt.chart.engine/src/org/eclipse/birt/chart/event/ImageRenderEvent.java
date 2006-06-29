@@ -20,14 +20,11 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * ImageRenderEvent
+ * A rendering event type for rendering Image object.
  */
 public class ImageRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = -5467310111862210812L;
 
 	protected Image img;
@@ -43,7 +40,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	protected boolean stretch = false;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public ImageRenderEvent( Object oSource )
 	{
@@ -51,7 +48,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param loc
+	 * Sets the location of the image.
 	 */
 	public void setLocation( Location loc )
 	{
@@ -59,7 +56,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param img
+	 * Sets the content of the image.
 	 */
 	public void setImage( Image img )
 	{
@@ -67,7 +64,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param pos
+	 * Sets the position of the image.
 	 */
 	public void setPosition( Position pos )
 	{
@@ -75,7 +72,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return
+	 * @return Returns the location of the image.
 	 */
 	public Location getLocation( )
 	{
@@ -83,7 +80,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return
+	 * @return Returns the content of the image.
 	 */
 	public Image getImage( )
 	{
@@ -91,7 +88,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return
+	 * @return Returns the position of the image.
 	 */
 	public Position getPosition( )
 	{
@@ -99,7 +96,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param width
+	 * Sets the width hint of the image.
 	 */
 	public void setWidth( int width )
 	{
@@ -107,7 +104,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param height
+	 * Sets the height hint of the image.
 	 */
 	public void setHeight( int height )
 	{
@@ -115,7 +112,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return
+	 * @return Returns the width hint of the image.
 	 */
 	public int getWidth( )
 	{
@@ -123,7 +120,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return
+	 * @return Returns the height hint of the image.
 	 */
 	public int getHeight( )
 	{
@@ -131,7 +128,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param val
+	 * Sets if stretch the image.
 	 */
 	public void setStretch( boolean val )
 	{
@@ -139,7 +136,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return
+	 * @return Returns if stretch the image.
 	 */
 	public boolean isStretch( )
 	{
@@ -153,7 +150,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( ) throws ChartException
 	{
-		ImageRenderEvent ire = new ImageRenderEvent( (StructureSource)source );
+		ImageRenderEvent ire = new ImageRenderEvent( source );
 
 		if ( loc != null )
 		{
@@ -193,6 +190,11 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 		idr.drawImage( this );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
+	 */
 	public void reset( )
 	{
 		this.loc = null;

@@ -22,18 +22,21 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * Area3DRenderEvent
+ * A rendering event type for rendering 3D Area object.
  */
 public class Area3DRenderEvent extends AreaRenderEvent implements
 		I3DRenderEvent
 {
 
+	private static final long serialVersionUID = -308233971777301084L;
+
+	/**
+	 * The constructor.
+	 */
 	public Area3DRenderEvent( Object oSource )
 	{
 		super( oSource );
 	}
-
-	private static final long serialVersionUID = -308233971777301084L;
 
 	/*
 	 * (non-Javadoc)
@@ -50,7 +53,7 @@ public class Area3DRenderEvent extends AreaRenderEvent implements
 				},
 				Messages.getResourceBundle( ) );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -77,7 +80,6 @@ public class Area3DRenderEvent extends AreaRenderEvent implements
 
 		return are;
 	}
-	
 
 	/*
 	 * (non-Javadoc)

@@ -37,9 +37,8 @@ import org.eclipse.swt.widgets.Text;
  * @author Actuate Corporation
  * 
  */
-public class ExternalizedTextEditorDialog extends TrayDialog
-		implements
-			SelectionListener
+public class ExternalizedTextEditorDialog extends TrayDialog implements
+		SelectionListener
 {
 
 	private transient String sResult = ""; //$NON-NLS-1$
@@ -91,7 +90,9 @@ public class ExternalizedTextEditorDialog extends TrayDialog
 	protected void setShellStyle( int newShellStyle )
 	{
 		super.setShellStyle( newShellStyle
-				| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+				| SWT.DIALOG_TRIM
+				| SWT.RESIZE
+				| SWT.APPLICATION_MODAL );
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -143,7 +144,10 @@ public class ExternalizedTextEditorDialog extends TrayDialog
 		lblValue.setText( Messages.getString( "ExternalizedTextEditorDialog.Lbl.DefaultValue" ) ); //$NON-NLS-1$
 
 		txtValue = new Text( cmpCurrent, SWT.BORDER
-				| SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL );
+				| SWT.MULTI
+				| SWT.WRAP
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL );
 		GridData gdTXTValue = new GridData( GridData.FILL_BOTH );
 		gdTXTValue.widthHint = 280;
 		gdTXTValue.heightHint = 40;
@@ -168,7 +172,10 @@ public class ExternalizedTextEditorDialog extends TrayDialog
 		lblExtValue.setText( Messages.getString( "ExternalizedTextEditorDialog.Lbl.ExternalizedValue" ) ); //$NON-NLS-1$
 
 		txtCurrent = new Text( cmpExtValue, SWT.BORDER
-				| SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL
+				| SWT.MULTI
+				| SWT.WRAP
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
 				| SWT.READ_ONLY );
 		GridData gdTXTCurrent = new GridData( GridData.FILL_BOTH );
 		gdTXTCurrent.widthHint = 280;
@@ -199,7 +206,7 @@ public class ExternalizedTextEditorDialog extends TrayDialog
 		else
 		{
 			Collections.sort( keys );
-			cmbKeys.setItems( (String[]) keys.toArray( new String[0] ) );
+			cmbKeys.setItems( (String[]) keys.toArray( new String[keys.size( )] ) );
 			String str = getKeyComponent( sResult );
 			if ( str != null && str.length( ) != 0 )
 			{
@@ -262,7 +269,8 @@ public class ExternalizedTextEditorDialog extends TrayDialog
 	private String getCurrentPropertyValue( )
 	{
 		if ( !cbExternalize.getSelection( )
-				|| sResult == null || "".equals( sResult ) ) //$NON-NLS-1$
+				|| sResult == null
+				|| "".equals( sResult ) ) //$NON-NLS-1$
 		{
 			return ""; //$NON-NLS-1$
 		}

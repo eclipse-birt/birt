@@ -27,8 +27,6 @@ public interface ITextMetrics
 	/**
 	 * Permits reuse of the text metrics instance for a new label with new
 	 * attributes.
-	 * 
-	 * @param la
 	 */
 	void reuse( Label la );
 
@@ -37,9 +35,6 @@ public interface ITextMetrics
 	 * attributes and a forcing wrapping size.
 	 * 
 	 * @since 2.1
-	 * 
-	 * @param la
-	 * 
 	 */
 	void reuse( Label la, double forceWrappingSize );
 
@@ -107,10 +102,10 @@ public interface ITextMetrics
 	 * Returns the locale associated with the text metrics implementer
 	 * 
 	 * @return The locale
-	 * @deprecated
+	 * @deprecated use {@link #getULocale()} instead.
 	 */
 	Locale getLocale( );
-	
+
 	/**
 	 * Returns the locale associated with the text metrics implementer
 	 * 

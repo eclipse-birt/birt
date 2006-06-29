@@ -16,6 +16,8 @@ import org.eclipse.birt.chart.model.Chart;
 /**
  * Defines methods that allow model updating via a device event handler used in
  * conjunction with a device renderer.
+ * 
+ * @see IDeviceRenderer
  */
 public interface IUpdateNotifier
 {

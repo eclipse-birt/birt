@@ -40,7 +40,8 @@ import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
 import org.eclipse.emf.common.util.AbstractEnumerator;
 
 /**
- * LiteralHelper
+ * This class helps to get the localized formats for enumerator attributes in
+ * chart model.
  */
 public class LiteralHelper
 {
@@ -165,9 +166,6 @@ public class LiteralHelper
 		// no instance.
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getAxisTypeSet( )
 	{
 		String prefix = "AxisType."; //$NON-NLS-1$
@@ -176,9 +174,6 @@ public class LiteralHelper
 		return new NameSet( prefix, suffix, toStringNameArray( AxisType.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getIntersectionTypeSet( )
 	{
 		String prefix = "IntersectionType."; //$NON-NLS-1$
@@ -189,9 +184,6 @@ public class LiteralHelper
 				toStringNameArray( IntersectionType.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getScaleUnitTypeSet( )
 	{
 		String prefix = "ScaleUnitType."; //$NON-NLS-1$
@@ -202,9 +194,6 @@ public class LiteralHelper
 				toStringNameArray( ScaleUnitType.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getSortOptionSet( )
 	{
 		String prefix = "SortOption."; //$NON-NLS-1$
@@ -215,9 +204,6 @@ public class LiteralHelper
 				toStringNameArray( SortOption.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getDataTypeSet( )
 	{
 		String prefix = "DataType."; //$NON-NLS-1$
@@ -226,9 +212,6 @@ public class LiteralHelper
 		return new NameSet( prefix, suffix, toStringNameArray( DataType.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getGroupingUnitTypeSet( )
 	{
 		String prefix = "GroupingUnitType."; //$NON-NLS-1$
@@ -239,9 +222,6 @@ public class LiteralHelper
 				toStringNameArray( GroupingUnitType.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getTriggerConditionSet( )
 	{
 		String prefix = "TriggerCondition."; //$NON-NLS-1$
@@ -264,9 +244,6 @@ public class LiteralHelper
 		} );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getActionTypeSet( )
 	{
 		String prefix = "ActionType."; //$NON-NLS-1$
@@ -277,9 +254,6 @@ public class LiteralHelper
 				toStringNameArray( ActionType.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getUnitsOfMeasurementSet( )
 	{
 		String prefix = "UnitsOfMeasurement."; //$NON-NLS-1$
@@ -290,9 +264,6 @@ public class LiteralHelper
 				toStringNameArray( UnitsOfMeasurement.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getRiserTypeSet( )
 	{
 		String prefix = "RiserType."; //$NON-NLS-1$
@@ -303,9 +274,6 @@ public class LiteralHelper
 				toStringNameArray( RiserType.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getMarkerTypeSet( )
 	{
 		String prefix = "MarkerType."; //$NON-NLS-1$
@@ -316,9 +284,6 @@ public class LiteralHelper
 				toStringNameArray( MarkerType.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getDataPointComponentTypeSet( )
 	{
 		String prefix = "DataPointComponentType."; //$NON-NLS-1$
@@ -329,9 +294,6 @@ public class LiteralHelper
 				toStringNameArray( DataPointComponentType.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getStretchSet( )
 	{
 		String prefix = "Stretch."; //$NON-NLS-1$
@@ -340,9 +302,6 @@ public class LiteralHelper
 		return new NameSet( prefix, suffix, toStringNameArray( Stretch.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getOrientationSet( )
 	{
 		String prefix = "Orientation."; //$NON-NLS-1$
@@ -353,9 +312,6 @@ public class LiteralHelper
 				toStringNameArray( Orientation.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getDirectionSet( )
 	{
 		String prefix = "Direction."; //$NON-NLS-1$
@@ -366,9 +322,6 @@ public class LiteralHelper
 				toStringNameArray( Direction.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getLegendItemTypeSet( )
 	{
 		String prefix = "LegendItemType."; //$NON-NLS-1$
@@ -379,9 +332,6 @@ public class LiteralHelper
 				toStringNameArray( LegendItemType.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getVerticalTickStyleSet( )
 	{
 		String prefix = "TickStyle."; //$NON-NLS-1$
@@ -394,9 +344,6 @@ public class LiteralHelper
 		} );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getHorizontalTickStyleSet( )
 	{
 		String prefix = "TickStyle."; //$NON-NLS-1$
@@ -409,9 +356,6 @@ public class LiteralHelper
 		} );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getFullTickStyleSet( )
 	{
 		String prefix = "TickStyle."; //$NON-NLS-1$
@@ -422,9 +366,6 @@ public class LiteralHelper
 				toStringNameArray( TickStyle.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getLeaderLineStyleSet( )
 	{
 		String prefix = "LeaderLineStyle."; //$NON-NLS-1$
@@ -435,9 +376,6 @@ public class LiteralHelper
 				toStringNameArray( LeaderLineStyle.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getAnchorSet( )
 	{
 		String prefix = "Anchor."; //$NON-NLS-1$
@@ -446,9 +384,6 @@ public class LiteralHelper
 		return new NameSet( prefix, suffix, toStringNameArray( Anchor.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getHorizontalPositionSet( )
 	{
 		String prefix = "Position."; //$NON-NLS-1$
@@ -460,9 +395,6 @@ public class LiteralHelper
 		} );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getVerticalPositionSet( )
 	{
 		String prefix = "Position."; //$NON-NLS-1$
@@ -474,9 +406,6 @@ public class LiteralHelper
 		} );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getInoutPositionSet( )
 	{
 		String prefix = "Position."; //$NON-NLS-1$
@@ -488,9 +417,6 @@ public class LiteralHelper
 		} );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getFullPositionSet( )
 	{
 		String prefix = "Position."; //$NON-NLS-1$
@@ -499,9 +425,6 @@ public class LiteralHelper
 		return new NameSet( prefix, suffix, toStringNameArray( Position.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getDateFormatDetailSet( )
 	{
 		String prefix = "DateFormatDetail."; //$NON-NLS-1$
@@ -512,9 +435,6 @@ public class LiteralHelper
 				toStringNameArray( DateFormatDetail.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getDateFormatTypeSet( )
 	{
 		String prefix = "DateFormatType."; //$NON-NLS-1$
@@ -525,9 +445,6 @@ public class LiteralHelper
 				toStringNameArray( DateFormatType.VALUES ) );
 	}
 
-	/**
-	 * @return
-	 */
 	private static NameSet getLegendBehaviorTypeSet( )
 	{
 		String prefix = "LegendBehaviorType."; //$NON-NLS-1$

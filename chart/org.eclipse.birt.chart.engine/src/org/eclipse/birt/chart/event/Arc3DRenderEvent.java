@@ -19,7 +19,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * Arc3DRenderEvent
+ * A rendering event type for rendering 3D Arc object.
  */
 public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
 {
@@ -28,16 +28,27 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
 
 	private Object3D object3D;
 
+	/**
+	 * The constructor.
+	 */
 	public Arc3DRenderEvent( Object oSource )
 	{
 		super( oSource );
 	}
 
+	/**
+	 * Sets the 3D top-left location of the arc bounds.
+	 * 
+	 * @param loc
+	 */
 	public void setTopLeft3D( Location3D loc )
 	{
 		object3D = new Object3D( loc );
 	}
 
+	/**
+	 * @return Returns the 3D top-left location of the arc bounds.
+	 */
 	public Location3D getTopLeft3D( )
 	{
 		return object3D.getLocation3D( )[0];
@@ -71,7 +82,7 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
 		are.setWidth( dWidth );
 		are.setHeight( dHeight );
 		are.setStartAngle( dStartInDegrees );
-		are.setEndAngle( dExtentInDegrees );
+		are.setAngleExtent( dExtentInDegrees );
 		are.setInnerRadius( dInnerRadius );
 		are.setOuterRadius( dOuterRadius );
 

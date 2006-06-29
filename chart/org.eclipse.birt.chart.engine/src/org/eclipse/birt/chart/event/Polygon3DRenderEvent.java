@@ -24,7 +24,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * Polygon3DRenderEvent
+ * A rendering event type for rendering 3D Polygon object.
  */
 public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		I3DRenderEvent
@@ -43,7 +43,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	private Fill runtimeBackground;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public Polygon3DRenderEvent( Object oSource )
 	{
@@ -61,6 +61,8 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	}
 
 	/**
+	 * Sets if this polygon is double sided.
+	 * 
 	 * @param value
 	 */
 	public void setDoubleSided( boolean value )
@@ -69,7 +71,8 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	}
 
 	/**
-	 * @return
+	 * @return Returns if this polygon is facing behind(along user's viewing
+	 *         direction).
 	 */
 	public boolean isBehind( )
 	{
@@ -77,7 +80,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	}
 
 	/**
-	 * @param value
+	 * Sets if this polygon is facing behind(along user's viewing direction).
 	 */
 	public void setBehind( boolean value )
 	{
@@ -107,7 +110,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	}
 
 	/**
-	 * @return
+	 * @return Returns the brightness of this polyogn(0.0 - 1.0).
 	 */
 	public double getBrightness( )
 	{
@@ -164,7 +167,6 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	}
 
 	/**
-	 * 
 	 * @return Returns the co-ordinates for each point in the polygon
 	 */
 	public Location3D[] getPoints3D( )
@@ -214,7 +216,11 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		return pre;
 	}
 
-	// must be implemented as the object is cached and reused.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PolygonRenderEvent#reset()
+	 */
 	public void reset( )
 	{
 		if ( object3D != null )

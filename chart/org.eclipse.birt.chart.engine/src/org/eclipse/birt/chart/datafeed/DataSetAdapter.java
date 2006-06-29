@@ -35,7 +35,7 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	 * An internal instance of the locale being used for processing
 	 */
 	private transient ULocale lcl = null;
-	
+
 	protected static final String DELIMITER = ","; //$NON-NLS-1$
 
 	/*
@@ -104,9 +104,14 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	 */
 	public Locale getLocale( )
 	{
-		return ( lcl == null ) ? Locale.getDefault( ) : lcl.toLocale( );
+		return getULocale( ).toLocale( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getULocale()
+	 */
 	public ULocale getULocale( )
 	{
 		return ( lcl == null ) ? ULocale.getDefault( ) : lcl;
@@ -123,6 +128,11 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 		this.lcl = lcl;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#toString(java.lang.Object[])
+	 */
 	public String toString( Object[] columnData ) throws ChartException
 	{
 		if ( columnData == null || columnData.length == 0 )

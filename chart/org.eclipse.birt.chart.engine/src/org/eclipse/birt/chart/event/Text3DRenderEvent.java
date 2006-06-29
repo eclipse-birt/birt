@@ -18,7 +18,7 @@ import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 
 /**
- * Text3DRenderEvent
+ * A rendering event type for rendering 3D text object.
  */
 public final class Text3DRenderEvent extends TextRenderEvent implements
 		I3DRenderEvent
@@ -29,7 +29,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	private Object3D object3D;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public Text3DRenderEvent( Object oSource )
 	{
@@ -37,7 +37,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	}
 
 	/**
-	 * @param loc
+	 * Sets the 3D location of the text.
 	 */
 	public void setLocation3D( Location3D loc )
 	{
@@ -45,7 +45,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	}
 
 	/**
-	 * @return
+	 * @return Returns the 3D location of the text.
 	 */
 	public Location3D getLocation3D( )
 	{
@@ -53,7 +53,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	}
 
 	/**
-	 * @param loa
+	 * Sets the 3D block bounds of the text.
 	 */
 	public void setBlockBounds3D( Location3D[] loa )
 	{
@@ -61,7 +61,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	}
 
 	/**
-	 * @return
+	 * @return Returns the 3D block bounds of the text.
 	 */
 	public Location3D[] getBlockBounds3D( )
 	{
@@ -75,7 +75,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		Text3DRenderEvent tre = new Text3DRenderEvent( (StructureSource)source );
+		Text3DRenderEvent tre = new Text3DRenderEvent( source );
 		tre.setAction( _iAction );
 		tre.setTextPosition( _iTextPosition );
 		if ( _la != null )
@@ -113,13 +113,18 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	{
 		Location[] points = object3D.getPoints2D( xOffset, yOffset );
 		setLocation( points[0] );
-		
+
 		if ( _iAction == Text3DRenderEvent.RENDER_TEXT_IN_BLOCK )
 		{
 			_iAction = Text3DRenderEvent.RENDER_TEXT_AT_LOCATION;
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.TextRenderEvent#reset()
+	 */
 	public void reset( )
 	{
 		object3D.reset( );

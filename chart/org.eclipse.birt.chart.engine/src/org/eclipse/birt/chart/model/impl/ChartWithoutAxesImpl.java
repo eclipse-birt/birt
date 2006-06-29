@@ -477,7 +477,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 			al.addAll( elOrthogonalSD );
 		}
 
-		return (SeriesDefinition[]) al.toArray( SeriesDefinition.EMPTY_ARRAY );
+		return (SeriesDefinition[]) al.toArray( new SeriesDefinition[al.size( )] );
 	}
 
 	/*
@@ -490,7 +490,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 		final ArrayList al = new ArrayList( 8 );
 		final EList el = getSeriesDefinitions( );
 		recursivelyGetSeries( el, al, 0, -1 );
-		return (Series[]) al.toArray( Series.EMPTY_ARRAY );
+		return (Series[]) al.toArray( new Series[al.size( )] );
 	}
 
 	/**

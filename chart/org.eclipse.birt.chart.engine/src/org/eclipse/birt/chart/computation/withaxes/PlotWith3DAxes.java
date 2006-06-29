@@ -712,7 +712,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 					data.add( String.valueOf( osea[i].getSeriesIdentifier( ) ) );
 				}
 
-				return new DataSetIterator( (String[]) data.toArray( new String[0] ) );
+				return new DataSetIterator( (String[]) data.toArray( new String[data.size( )] ) );
 			}
 		}
 

@@ -14,22 +14,31 @@ package org.eclipse.birt.chart.event;
 import org.eclipse.birt.chart.computation.IConstants;
 
 /**
- * TransformationEvent
+ * An event type for transformation.
  */
 public final class TransformationEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = -2322114654814388838L;
 
+	/**
+	 * Indicates the transformation type is undefined.
+	 */
 	public static final int UNDEFINED = IConstants.UNDEFINED;
 
+	/**
+	 * Indicates this is a scaling transformation.
+	 */
 	public static final int SCALE = 1;
 
+	/**
+	 * Indicates this is a tranlating transformatino.
+	 */
 	public static final int TRANSLATE = 2;
 
+	/**
+	 * Indicates this is a rotating transformation.
+	 */
 	public static final int ROTATE = 4;
 
 	private int _iTransform = UNDEFINED;
@@ -43,7 +52,7 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	private double _dRotationInDegrees = 0;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public TransformationEvent( Object oSource )
 	{
@@ -51,8 +60,13 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param iTransform
+	 * Sets the transformation type of this event. The value must be one of
+	 * these defined in this class:
+	 * <ul>
+	 * <li>{@link #SCALE}
+	 * <li>{@link #TRANSLATE}
+	 * <li>{@link #ROTATE}
+	 * </ul>
 	 */
 	public final void setTransform( int iTransform )
 	{
@@ -61,7 +75,14 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 
 	/**
 	 * 
-	 * @return
+	 * @return Returns the transformation type of this event. The value could be
+	 *         one of these defined in this class:
+	 *         <ul>
+	 *         <li>{@link #SCALE}
+	 *         <li>{@link #TRANSLATE}
+	 *         <li>{@link #ROTATE}
+	 *         <li>{@link #UNDEFINED}
+	 *         </ul>
 	 */
 	public final int getTransform( )
 	{
@@ -69,8 +90,7 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param dScale
+	 * Sets the scale of current event.
 	 */
 	public final void setScale( double dScale )
 	{
@@ -78,8 +98,7 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the scale of current event.
 	 */
 	public final double getScale( )
 	{
@@ -87,9 +106,7 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param dTranslateX
-	 * @param dTranslateY
+	 * Sets the translation of current event.
 	 */
 	public final void setTranslation( double dTranslateX, double dTranslateY )
 	{
@@ -98,8 +115,7 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the X translation of current event.
 	 */
 	public final double getTranslateX( )
 	{
@@ -107,8 +123,7 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the Y tranlation of current event.
 	 */
 	public final double getTranslateY( )
 	{
@@ -116,8 +131,7 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param dAngleInDegrees
+	 * Sets the rotation of current event.
 	 */
 	public final void setRotation( double dAngleInDegrees )
 	{
@@ -125,14 +139,20 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the rotation of current event.
 	 */
 	public final double getRotation( )
 	{
 		return _dRotationInDegrees;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
+	 */
 	public void reset( )
-	{ }
+	{
+		// no-op
+	}
 }

@@ -33,34 +33,16 @@ import com.ibm.icu.util.ULocale;
 public class CDateTime extends GregorianCalendar
 {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 
-	 */
 	private static final int MILLIS_IN_SECOND = 1000;
 
-	/**
-	 * 
-	 */
 	private static final int MILLIS_IN_MINUTE = MILLIS_IN_SECOND * 60;
 
-	/**
-	 * 
-	 */
 	private static final int MILLIS_IN_HOUR = MILLIS_IN_MINUTE * 60;
 
-	/**
-	 * 
-	 */
 	private static final int MILLIS_IN_DAY = MILLIS_IN_HOUR * 24;
 
-	/**
-	 * 
-	 */
 	private static final int[] iaUnitTypes = {
 			Calendar.MILLISECOND,
 			Calendar.SECOND,
@@ -71,9 +53,6 @@ public class CDateTime extends GregorianCalendar
 			Calendar.YEAR
 	};
 
-	/**
-	 * 
-	 */
 	private static final SimpleDateFormat _sdf = new SimpleDateFormat( "MM-dd-yyyy HH:mm:ss" ); //$NON-NLS-1$
 
 	/**
@@ -98,8 +77,8 @@ public class CDateTime extends GregorianCalendar
 	}
 
 	/**
-	 * A constructor that creates an instance from a given
-	 * <code>Calendar</code> value
+	 * A constructor that creates an instance from a given <code>Calendar</code>
+	 * value
 	 * 
 	 * @param c
 	 *            A previously defined Calendar instance
@@ -189,7 +168,7 @@ public class CDateTime extends GregorianCalendar
 	 * 
 	 * @param locale
 	 *            The locale for which the instance is being created
-	 * @deprecated
+	 * @deprecated use {@link #CDateTime(ULocale)} instead.
 	 */
 	public CDateTime( Locale aLocale )
 	{
@@ -227,12 +206,13 @@ public class CDateTime extends GregorianCalendar
 	 *            The timezone for which the instance is being created
 	 * @param locale
 	 *            The locale for which the instance is being created
+	 * @deprecated use {@link #CDateTime(TimeZone, ULocale)} instead.
 	 */
 	public CDateTime( TimeZone tz, Locale locale )
 	{
 		super( tz, locale );
 	}
-	
+
 	/**
 	 * A constructor that creates a default instance for a given timezone and
 	 * locale

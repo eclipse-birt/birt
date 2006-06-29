@@ -15,7 +15,8 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 
 /**
- * IStyleProcessor
+ * This interface allows access/manipulation to styles for granular chart
+ * components.
  */
 public interface IStyleProcessor
 {

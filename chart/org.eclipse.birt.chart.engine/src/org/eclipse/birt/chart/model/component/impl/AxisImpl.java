@@ -2318,7 +2318,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 			al.addAll( sd.getRunTimeSeries( ) );
 		}
 
-		return (Series[]) al.toArray( Series.EMPTY_ARRAY );
+		return (Series[]) al.toArray( new Series[al.size( )] );
 	}
 
 } // AxisImpl

@@ -12,14 +12,11 @@
 package org.eclipse.birt.chart.event;
 
 /**
- * StructureChangeEvent
+ * A event type indicates a structure change.
  */
 public final class StructureChangeEvent extends ChartEvent
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = -8897456257858266632L;
 
 	public static final int UNDEFINED = 0;
@@ -35,7 +32,7 @@ public final class StructureChangeEvent extends ChartEvent
 	private String sEventName = null;
 
 	/**
-	 * @param source
+	 * The constructor.
 	 */
 	public StructureChangeEvent( Object source )
 	{
@@ -43,13 +40,16 @@ public final class StructureChangeEvent extends ChartEvent
 	}
 
 	/**
+	 * Returns the event name.
+	 * 
 	 * @param bStripType
+	 *            Specifies if the name if striped.
 	 * @return
 	 */
 	public final String getEventName( boolean bStripType )
 	{
 		if ( bStripType ) // STRIP OUT THE 'before' OR 'after' PREFIX IF
-						  // REQUESTED
+		// REQUESTED
 		{
 			int iPrefixLength, iType = getEventType( );
 			if ( iType == BEFORE )
@@ -73,6 +73,8 @@ public final class StructureChangeEvent extends ChartEvent
 	}
 
 	/**
+	 * Sets the event name.
+	 * 
 	 * @param sEventName
 	 *            This must include the 'before' or 'after' prefix as defined by
 	 *            each of the constants in IStructureDefinition
@@ -106,10 +108,14 @@ public final class StructureChangeEvent extends ChartEvent
 		return UNDEFINED;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
+	 */
 	public void reset( )
 	{
 		// NO-OP
-		
 	}
 
 }

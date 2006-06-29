@@ -26,7 +26,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * AreaRenderEvent
+ * A rendering event type for rendering Area object.
  */
 public class AreaRenderEvent extends PrimitiveRenderEvent
 {
@@ -42,7 +42,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/event" ); //$NON-NLS-1$
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public AreaRenderEvent( Object oSource )
 	{
@@ -50,13 +50,18 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
+	 * Removes all sub events associated with current area.
 	 */
 	public final void clear( )
 	{
 		alLinesAndArcs.clear( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
+	 */
 	public void reset( )
 	{
 		alLinesAndArcs.clear( );
@@ -65,6 +70,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Add a sub event to this area.
 	 * 
 	 * @param pre
 	 */
@@ -74,8 +80,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the sub events count of this area.
 	 */
 	public final int getElementCount( )
 	{
@@ -84,6 +89,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 
 	/**
 	 * Returns the iterator for the subordinate event list.
+	 * 
 	 * @return
 	 */
 	public final Iterator iterator( )
@@ -92,6 +98,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Returns the specific sub event by given index.
 	 * 
 	 * @param i
 	 * @return
@@ -102,7 +109,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return Returns the fill.
+	 * @return Returns the background.
 	 */
 	public final Fill getBackground( )
 	{
@@ -110,6 +117,8 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the background of this area.
+	 * 
 	 * @param fill
 	 *            The fill to set.
 	 */
@@ -118,10 +127,10 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 		this.fill = fill;
 	}
 
-	/**
-	 * Returns the bounds of all combined elements in this 'area'
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#getBounds()
 	 */
 	public final Bounds getBounds( )
 	{
@@ -188,6 +197,8 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the outline of this area.
+	 * 
 	 * @param outline
 	 *            The outline to set.
 	 */

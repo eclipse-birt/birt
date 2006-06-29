@@ -26,14 +26,11 @@ import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
 
 /**
- * TextRenderEvent
+ * A rendering event type for rendering text object.
  */
 public class TextRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = 1683131722588162319L;
 
 	/**
@@ -97,34 +94,18 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	 */
 	protected Bounds _boBlock;
 
-	/**
-	 * 
-	 */
 	protected Label _la;
 
-	/**
-	 * 
-	 */
 	protected TextAlignment _taBlock;
 
-	/**
-	 * 
-	 */
 	protected int _iAction = UNDEFINED;
 
-	/**
-	 * 
-	 */
 	protected Location _lo;
 
-	/**
-	 * 
-	 */
 	protected int _iTextPosition;
 
 	/**
-	 * 
-	 * @param oSource
+	 * The constructor.
 	 */
 	public TextRenderEvent( Object oSource )
 	{
@@ -132,8 +113,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param boBlock
+	 * Sets the block bounds of the text.
 	 */
 	public final void setBlockBounds( Bounds boBlock )
 	{
@@ -141,8 +121,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the block bounds of the text.
 	 */
 	public final Bounds getBlockBounds( )
 	{
@@ -150,8 +129,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param la
+	 * Sets the label of the text.
 	 */
 	public final void setLabel( Label la )
 	{
@@ -159,8 +137,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the label of the text.
 	 */
 	public final Label getLabel( )
 	{
@@ -168,8 +145,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param taBlock
+	 * Sets the block alignment of the text.
 	 */
 	public final void setBlockAlignment( TextAlignment taBlock )
 	{
@@ -177,8 +153,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the block alignment of the text.
 	 */
 	public final TextAlignment getBlockAlignment( )
 	{
@@ -186,8 +161,13 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param iAction
+	 * Sets the action of current event. The value must be one of these defined
+	 * in this class:
+	 * <ul>
+	 * <li>{@link #RENDER_TEXT_AT_LOCATION}
+	 * <li>{@link #RENDER_TEXT_IN_BLOCK}
+	 * <li>{@link #RENDER_SHADOW_AT_LOCATION}
+	 * </ul>
 	 */
 	public final void setAction( int iAction )
 	{
@@ -195,8 +175,14 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the action of current event. The value could be one of
+	 *         these defined in this class:
+	 *         <ul>
+	 *         <li>{@link #RENDER_TEXT_AT_LOCATION}
+	 *         <li>{@link #RENDER_TEXT_IN_BLOCK}
+	 *         <li>{@link #RENDER_SHADOW_AT_LOCATION}
+	 *         <li>{@link #UNDEFINED}
+	 *         </ul>
 	 */
 	public final int getAction( )
 	{
@@ -204,8 +190,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param lo
+	 * Sets the location of the text.
 	 */
 	public final void setLocation( Location lo )
 	{
@@ -213,8 +198,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the location of the text.
 	 */
 	public final Location getLocation( )
 	{
@@ -222,8 +206,14 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param iTextPosition
+	 * Sets the position of the text. The value must be on of these defined in
+	 * this class:
+	 * <ul>
+	 * <li>{@link #LEFT}
+	 * <li>{@link #RIGHT}
+	 * <li>{@link #ABOVE}
+	 * <li>{@link #BELOW}
+	 * </ul>
 	 */
 	public final void setTextPosition( int iTextPosition )
 	{
@@ -231,8 +221,15 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the position of the text. The value could be on of these
+	 *         defined in this class:
+	 *         <ul>
+	 *         <li>{@link #LEFT}
+	 *         <li>{@link #RIGHT}
+	 *         <li>{@link #ABOVE}
+	 *         <li>{@link #BELOW}
+	 *         <li>{@link #UNDEFINED}
+	 *         </ul>
 	 */
 	public final int getTextPosition( )
 	{
@@ -240,8 +237,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param bl
+	 * Updates the event by given LabelBlock object.
 	 */
 	public final String updateFrom( LabelBlock lb, double dScale,
 			RunTimeContext rtc )
@@ -271,7 +267,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		final TextRenderEvent tre = new TextRenderEvent( (StructureSource)source );
+		final TextRenderEvent tre = new TextRenderEvent( source );
 		if ( _boBlock != null )
 		{
 			tre.setBlockBounds( BoundsImpl.copyInstance( _boBlock ) );
@@ -313,12 +309,17 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 		idr.drawText( this );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
+	 */
 	public void reset( )
 	{
 		_boBlock = null;
 		_la = null;
 		_lo = null;
 		_taBlock = null;
-		
+
 	}
 }

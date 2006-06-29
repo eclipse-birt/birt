@@ -23,7 +23,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * PolygonRenderEvent
+ * A rendering event type for rendering Polygon object.
  */
 public class PolygonRenderEvent extends PrimitiveRenderEvent
 {
@@ -37,7 +37,7 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 	protected Fill _ifBackground;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public PolygonRenderEvent( Object oSource )
 	{
@@ -45,9 +45,7 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param la
-	 *            Sets the co-ordinates for each point that defines the polygon
+	 * Sets the co-ordinates for each point that defines the polygon.
 	 */
 	public final void setPoints( Location[] la )
 	{
@@ -55,7 +53,6 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
 	 * @return Returns the co-ordinates for each point in the polygon
 	 */
 	public final Location[] getPoints( )
@@ -72,8 +69,7 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param cd
-	 *            The background fill attributes for the polygon
+	 * Sets the background fill attributes for the polygon
 	 */
 	public void setBackground( Fill ifBackground )
 	{
@@ -89,16 +85,17 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param ls
-	 *            The polygon outline attributes
+	 * Sets the polygon outline attributes
 	 */
 	public void setOutline( LineAttributes lia )
 	{
 		_lia = lia;
 	}
 
-	/**
-	 *  
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#getBounds()
 	 */
 	public Bounds getBounds( ) throws ChartException
 	{
@@ -114,7 +111,7 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		final PolygonRenderEvent pre = new PolygonRenderEvent( (StructureSource)source );
+		final PolygonRenderEvent pre = new PolygonRenderEvent( source );
 		if ( _loa != null )
 		{
 			final Location[] loa = new Location[this._loa.length];
@@ -159,11 +156,16 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 		idr.fillPolygon( this );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
+	 */
 	public void reset( )
 	{
 		this._ifBackground = null;
 		this._lia = null;
 		this._loa = null;
-		
+
 	}
 }

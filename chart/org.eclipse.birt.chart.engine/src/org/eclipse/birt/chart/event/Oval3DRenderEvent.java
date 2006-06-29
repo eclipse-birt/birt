@@ -22,7 +22,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * Oval3DRenderEvent
+ * A rendering event type for rendering 3D Oval object.
  */
 public class Oval3DRenderEvent extends OvalRenderEvent implements
 		I3DRenderEvent
@@ -33,7 +33,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 	private Object3D object3D;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public Oval3DRenderEvent( Object oSource )
 	{
@@ -41,7 +41,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 	}
 
 	/**
-	 * @param loa
+	 * Set 3D location of the event.
 	 */
 	public void setLocation3D( Location3D[] loa )
 	{
@@ -49,7 +49,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 	}
 
 	/**
-	 * @return
+	 * @return Returns the 3D location of the event.
 	 */
 	public Location3D[] getLocation3D( )
 	{
@@ -63,7 +63,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		final Oval3DRenderEvent ore = new Oval3DRenderEvent( (StructureSource)source );
+		final Oval3DRenderEvent ore = new Oval3DRenderEvent( source );
 		if ( object3D != null )
 		{
 			ore.object3D = new Object3D( object3D );
@@ -109,7 +109,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 				lst.add( points[i] );
 			}
 		}
-		points = (Location[]) lst.toArray( new Location[0] );
+		points = (Location[]) lst.toArray( new Location[lst.size( )] );
 
 		setBounds( BoundsImpl.create( points[0].getX( ),
 				points[0].getY( ),

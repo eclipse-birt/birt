@@ -35,13 +35,13 @@ public interface IChartScriptContext extends Serializable
 	Chart getChartInstance( );
 
 	/**
-	 * @return Returns the locale used by the engine.
-	 * @deprecated
+	 * @return Returns the locale of current context.
+	 * @deprecated Use {@link #getULocale()} instead.
 	 */
 	Locale getLocale( );
 
 	/**
-	 * @return Returns the locale used by the engine.
+	 * @return Returns the locale of current context.
 	 * @since 2.1
 	 */
 	ULocale getULocale( );
@@ -52,7 +52,8 @@ public interface IChartScriptContext extends Serializable
 	IExternalContext getExternalContext( );
 
 	/**
-	 * @return Returns a logger instance, to allow logging from script.
+	 * @return Returns an ILogger instance, to allow logging from script.
+	 * @see org.eclipse.birt.chart.log.ILogger
 	 */
 	ILogger getLogger( );
 }

@@ -20,14 +20,11 @@ import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 
 /**
- * InteractionEvent
+ * An event type for Interactivity.
  */
 public final class InteractionEvent extends ChartEvent
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = -3554746649816942383L;
 
 	private PrimitiveRenderEvent _pre = null;
@@ -35,23 +32,27 @@ public final class InteractionEvent extends ChartEvent
 	private final LinkedHashMap _lhmTriggers = new LinkedHashMap( );
 
 	/**
-	 * @param source
+	 * The constructor.
 	 */
 	public InteractionEvent( Object source )
 	{
 		super( source );
-		if ( ! ( source instanceof StructureSource ) )
+		if ( !( source instanceof StructureSource ) )
+		{
 			throw new IllegalArgumentException( );
-	}
-	
-	public StructureSource getStructureSource( )
-	{
-		return (StructureSource)super.getSource();
+		}
 	}
 
 	/**
-	 * 
-	 * @param pre
+	 * @return Returns the structur source of current event.
+	 */
+	public StructureSource getStructureSource( )
+	{
+		return (StructureSource) super.getSource( );
+	}
+
+	/**
+	 * Sets the hotspot area defined by given rendering event for current event.
 	 */
 	public final void setHotSpot( PrimitiveRenderEvent pre )
 	{
@@ -59,8 +60,7 @@ public final class InteractionEvent extends ChartEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the rendering event defining current hotspot area.
 	 */
 	public final PrimitiveRenderEvent getHotSpot( )
 	{
@@ -68,8 +68,7 @@ public final class InteractionEvent extends ChartEvent
 	}
 
 	/**
-	 * 
-	 * @param t
+	 * Adds trigger to current event.
 	 */
 	public final void addTrigger( Trigger t )
 	{
@@ -77,9 +76,7 @@ public final class InteractionEvent extends ChartEvent
 	}
 
 	/**
-	 * 
-	 * @param tc
-	 * @return
+	 * @return Returns the action for specific trigger condition.
 	 */
 	public final Action getAction( TriggerCondition tc )
 	{
@@ -87,9 +84,7 @@ public final class InteractionEvent extends ChartEvent
 	}
 
 	/**
-	 * 
-	 * @param tc
-	 * @return
+	 * @return Returns all triggers asscociated with current event.
 	 */
 	public final Trigger[] getTriggers( )
 	{
@@ -107,7 +102,9 @@ public final class InteractionEvent extends ChartEvent
 		return tga;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#reset()
 	 */
 	public void reset( )
@@ -117,7 +114,7 @@ public final class InteractionEvent extends ChartEvent
 	}
 
 	/**
-	 * @param oNewSource
+	 * Reuses current event by given new source object.
 	 */
 	public final void reuse( StructureSource oNewSource )
 	{

@@ -21,7 +21,7 @@ import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * SimpleStyle
+ * A default implementaitn for IStyle.
  */
 public final class SimpleStyle implements IStyle
 {
@@ -132,6 +132,8 @@ public final class SimpleStyle implements IStyle
 	}
 
 	/**
+	 * Sets the font of current style.
+	 * 
 	 * @param font
 	 */
 	public void setFont( FontDefinition font )
@@ -140,6 +142,8 @@ public final class SimpleStyle implements IStyle
 	}
 
 	/**
+	 * Sets the color of current style.
+	 * 
 	 * @param color
 	 */
 	public void setColor( ColorDefinition color )
@@ -148,6 +152,8 @@ public final class SimpleStyle implements IStyle
 	}
 
 	/**
+	 * Sets the background color of current style.
+	 * 
 	 * @param backcolor
 	 */
 	public void setBackgroundColor( ColorDefinition backcolor )
@@ -156,6 +162,8 @@ public final class SimpleStyle implements IStyle
 	}
 
 	/**
+	 * Sets the background image of current style.
+	 * 
 	 * @param backimage
 	 */
 	public void setBackgroundImage( Image backimage )
@@ -164,6 +172,8 @@ public final class SimpleStyle implements IStyle
 	}
 
 	/**
+	 * Sets the padding of current style.
+	 * 
 	 * @param padding
 	 */
 	public void setPadding( Insets padding )

@@ -34,10 +34,10 @@ public interface IMessageLookup
 	 *            retrieved.
 	 * 
 	 * @return An externalized message for the specified key and locale.
-	 * @deprecated
+	 * @deprecated use {@link #getMessageValue(String, ULocale)} instead.
 	 */
 	public String getMessageValue( String sKey, Locale lcl );
-	
+
 	/**
 	 * Retrieves an externalized text message value from a message base file
 	 * associated with the report design.

@@ -14,19 +14,13 @@ import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
 
 /**
- *  
+ * The empty IAggregateFunction adapter.
  */
 public abstract class AggregateFunctionAdapter implements IAggregateFunction
 {
 
-	/**
-	 *  
-	 */
 	private int iDataType = UNKNOWN;
 
-	/**
-	 *  
-	 */
 	private ULocale lcl = null;
 
 	/*

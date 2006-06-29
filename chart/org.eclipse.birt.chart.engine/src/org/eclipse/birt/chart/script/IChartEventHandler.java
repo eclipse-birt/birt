@@ -29,8 +29,10 @@ import org.eclipse.birt.chart.script.IChartScriptContext;
 
 /**
  * Script event handler interface for charts. This event handler provides
- * control on the chart databinding, generation and rendering. Please use
- * the adapter implementation ChartItem
+ * control on the chart databinding, generation and rendering. Please use the
+ * adapter implementation ChartItem
+ * 
+ * @see IChartScriptContext
  */
 public interface IChartEventHandler
 {

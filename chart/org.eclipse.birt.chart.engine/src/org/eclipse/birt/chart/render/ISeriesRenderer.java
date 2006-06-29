@@ -24,7 +24,7 @@ public interface ISeriesRenderer
 	 * @param p
 	 * @param isrh
 	 * 
-	 * @throws GenerationException
+	 * @throws ChartException
 	 */
 	public void compute( Bounds bo, Plot p, ISeriesRenderingHints isrh )
 			throws ChartException;
@@ -38,7 +38,7 @@ public interface ISeriesRenderer
 	 * @param p
 	 * @param isrh
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void renderSeries( IPrimitiveRenderer ipr, Plot p,
 			ISeriesRenderingHints isrh ) throws ChartException;
@@ -52,7 +52,7 @@ public interface ISeriesRenderer
 	 * @param fPaletteEntry
 	 * @param bo
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void renderLegendGraphic( IPrimitiveRenderer ipr, Legend lg,
 			Fill fPaletteEntry, Bounds bo ) throws ChartException;

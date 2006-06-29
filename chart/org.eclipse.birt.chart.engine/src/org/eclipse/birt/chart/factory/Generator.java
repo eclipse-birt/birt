@@ -112,11 +112,6 @@ public final class Generator
 	private IStyleProcessor implicitProcessor;
 
 	/**
-	 * Internally used.
-	 */
-	private static final LegendItemRenderingHints[] EMPTY_LIRHA = new LegendItemRenderingHints[0];
-
-	/**
 	 * The internal singleton Generator reference created lazily.
 	 */
 	private static Generator g = null;
@@ -579,7 +574,11 @@ public final class Generator
 	 *            Locale
 	 * @return a runtime context used by build( )
 	 * 
-	 * @deprecated
+	 * @throws ChartException
+	 * 
+	 * @deprecated use
+	 *             {@link #prepare(Chart, IExternalContext, IScriptClassLoader, ULocale)}
+	 *             instead.
 	 */
 	public RunTimeContext prepare( Chart model,
 			IExternalContext externalContext, IScriptClassLoader iscl,
@@ -590,7 +589,7 @@ public final class Generator
 				iscl,
 				ULocale.forLocale( locale ) );
 	}
-	
+
 	/**
 	 * Since v2, it must be called before build( ), and should only be called
 	 * once per design model.
@@ -602,6 +601,8 @@ public final class Generator
 	 * @param locale
 	 *            Locale
 	 * @return a runtime context used by build( )
+	 * 
+	 * @throws ChartException
 	 * 
 	 * @since 2.1
 	 */
@@ -639,15 +640,13 @@ public final class Generator
 			sh.init( null );
 		}
 		sh.setRunTimeModel( cmRunTime );
-		
 
 		final String sScriptContent = cmRunTime.getScript( );
 		if ( sScriptContent != null )
 		{
 			sh.register( sScriptContent );
 		}
-		
-		
+
 		// Call the onPrepare script event function.
 		// not supported yet
 		/*
@@ -677,9 +676,11 @@ public final class Generator
 	 * @return An instance of a generated chart state that encapsulates built
 	 *         chart information that may be subsequently rendered.
 	 * 
-	 * @throws GenerationException
+	 * @throws ChartException
 	 * 
-	 * @deprecated
+	 * @deprecated use
+	 *             {@link #build(IDisplayServer, Chart, Bounds, IExternalContext, RunTimeContext)}
+	 *             instead.
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
 			Chart cmDesignTime, Scriptable scParent, Bounds bo,
@@ -704,13 +705,16 @@ public final class Generator
 	 * @param rtc
 	 *            Encapsulates the runtime environment for the build process.
 	 * @param externalProcessor
-	 *            An external style processor.
+	 *            An external style processor. If this is null, an implicit
+	 *            processor will be used.
 	 * @return An instance of a generated chart state that encapsulates built
 	 *         chart information that may be subsequently rendered.
 	 * 
-	 * @throws GenerationException
+	 * @throws ChartException
 	 * 
-	 * @deprecated
+	 * @deprecated use
+	 *             {@link #build(IDisplayServer, Chart, Bounds, IExternalContext, RunTimeContext, IStyleProcessor)}
+	 *             instead.
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
 			Chart cmDesignTime, Scriptable scParent, Bounds bo,
@@ -735,7 +739,7 @@ public final class Generator
 
 		}, rtc, externalProcessor );
 	}
-	
+
 	/**
 	 * Builds and computes preferred sizes of various chart components offscreen
 	 * using the provided display server.
@@ -750,13 +754,10 @@ public final class Generator
 	 *            The bounds associated with the chart being built.
 	 * @param rtc
 	 *            Encapsulates the runtime environment for the build process.
-	 * @param externalProcessor
-	 *            An external style processor. If it's null, an implicit
-	 *            processor will be used.
 	 * @return An instance of a generated chart state that encapsulates built
 	 *         chart information that may be subsequently rendered.
 	 * 
-	 * @throws GenerationException
+	 * @throws ChartException
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
 			Chart cmDesignTime, Bounds bo, IExternalContext externalContext,
@@ -785,7 +786,7 @@ public final class Generator
 	 * @return An instance of a generated chart state that encapsulates built
 	 *         chart information that may be subsequently rendered.
 	 * 
-	 * @throws GenerationException
+	 * @throws ChartException
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
 			Chart cmDesignTime, Bounds bo, IExternalContext externalContext,
@@ -853,7 +854,7 @@ public final class Generator
 
 			sh.setScriptClassLoader( rtc.getScriptClassLoader( ) );
 			sh.setScriptContext( icsc );
-			
+
 			final String sScriptContent = cmRunTime.getScript( );
 			if ( externalContext != null
 					&& externalContext.getScriptable( ) != null )
@@ -872,7 +873,7 @@ public final class Generator
 			{
 				sh.register( sScriptContent );
 			}
-			
+
 		}
 
 		// SETUP THE COMPUTATIONS
@@ -1007,7 +1008,7 @@ public final class Generator
 				oComputations );
 
 		final Collection co = lhmRenderers.values( );
-		final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray( EMPTY_LIRHA );
+		final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray( new LegendItemRenderingHints[co.size( )] );
 		final int iSize = lhmRenderers.size( );
 		BaseRenderer br;
 
@@ -1082,7 +1083,7 @@ public final class Generator
 	 *            A previously built chart encapsulated in a transient
 	 *            structure.
 	 * 
-	 * @throws GenerationException
+	 * @throws ChartException
 	 */
 	public final void refresh( GeneratedChartState gcs ) throws ChartException
 	{
@@ -1156,7 +1157,7 @@ public final class Generator
 	 * @param gcs
 	 *            A previously built chart that needs to be rendered.
 	 * 
-	 * @throws GenerationException
+	 * @throws ChartException
 	 */
 	public final void render( IDeviceRenderer idr, GeneratedChartState gcs )
 			throws ChartException
@@ -1202,7 +1203,7 @@ public final class Generator
 
 		BaseRenderer br;
 		final Collection co = lhm.values( );
-		final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray( EMPTY_LIRHA );
+		final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray( new LegendItemRenderingHints[co.size( )] );
 		final DeferredCache dc = new DeferredCache( idr, cm ); // USED IN
 		// RENDERING
 		// ELEMENTS WITH
@@ -1271,7 +1272,7 @@ public final class Generator
 	 *            An instance of the chart model for which the legend position
 	 *            is updated.
 	 * 
-	 * @throws GenerationException
+	 * @throws ChartException
 	 */
 	private static final void updateLegendInside( Bounds boContainer,
 			Legend lg, IDisplayServer ids, Chart cm, RunTimeContext rtc )
@@ -1378,9 +1379,9 @@ public final class Generator
 	}
 
 	/**
-	 * SimpleContainer
+	 * A simple class used to pass object reference internally.
 	 */
-	class SimpleContainer
+	static class SimpleContainer
 	{
 
 		SimpleStyle style = null;

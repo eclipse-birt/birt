@@ -29,7 +29,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 
 /**
- *  
+ * This class implements an empty renderer for ChartWithAxes type.
  */
 public final class EmptyWithAxes extends AxesRenderer
 {
@@ -53,7 +53,8 @@ public final class EmptyWithAxes extends AxesRenderer
 								getClass( ).getName( ),
 								new Integer( iSeriesIndex + 1 ),
 								new Integer( iSeriesCount )
-						}, getRunTimeContext( ).getULocale( ) ) );
+						},
+						getRunTimeContext( ).getULocale( ) ) );
 	}
 
 	/*
@@ -110,7 +111,7 @@ public final class EmptyWithAxes extends AxesRenderer
 				fPaletteEntry,
 				lia,
 				getModel( ).getDimension( ),
-				3 * getDeviceScale(),
+				3 * getDeviceScale( ),
 				false );
 	}
 }

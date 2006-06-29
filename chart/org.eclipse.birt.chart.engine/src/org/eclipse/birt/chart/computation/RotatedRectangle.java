@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.chart.computation;
 
-import org.eclipse.birt.chart.internal.computations.Polygon;
+import java.util.List;
 
+import org.eclipse.birt.chart.internal.computations.Polygon;
 
 /**
  * RotatedRectangle
@@ -109,6 +110,7 @@ public final class RotatedRectangle extends Polygon
 	 */
 	public final Point[] asPoints( )
 	{
-		return (Point[]) getPoints( ).toArray( new Point[0] );
+		List pts = getPoints( );
+		return (Point[]) pts.toArray( new Point[pts.size( )] );
 	}
 }

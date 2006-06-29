@@ -21,7 +21,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * OvalRenderEvent
+ * A rendering event type for rendering Oval object.
  */
 public class OvalRenderEvent extends PrimitiveRenderEvent
 {
@@ -35,7 +35,7 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	protected Fill _ifBackground;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public OvalRenderEvent( Object oSource )
 	{
@@ -43,8 +43,7 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param bo
+	 * Sets the bounds of the oval.
 	 */
 	public final void setBounds( Bounds bo )
 	{
@@ -52,8 +51,7 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the bounds of the oval.
 	 */
 	public final Bounds getBounds( )
 	{
@@ -61,7 +59,7 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return Returns the cd.
+	 * @return Returns the background.
 	 */
 	public Fill getBackground( )
 	{
@@ -69,8 +67,7 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param cd
-	 *            The cd to set.
+	 * Sets the background attributes.
 	 */
 	public void setBackground( Fill ifBackground )
 	{
@@ -86,6 +83,8 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
+	 * Sets the outline attributes.
+	 * 
 	 * @param ls
 	 *            The outline to set.
 	 */
@@ -101,7 +100,7 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		final OvalRenderEvent ore = new OvalRenderEvent( (StructureSource)source );
+		final OvalRenderEvent ore = new OvalRenderEvent( source );
 		if ( _bo != null )
 		{
 			ore.setBounds( BoundsImpl.copyInstance( _bo ) );
@@ -139,11 +138,16 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 		idr.fillOval( this );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
+	 */
 	public void reset( )
 	{
 		this._bo = null;
 		this._ifBackground = null;
 		this._lia = null;
-		
+
 	}
 }

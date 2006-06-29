@@ -119,9 +119,7 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 * 
-	 * @param cause
-	 * 
-	 * @deprecated please use the version with plugIn ID.
+	 * @deprecated use {@link #ChartException(String, int, Throwable)} instead.
 	 */
 	public ChartException( final int type, Throwable cause )
 	{
@@ -141,9 +139,7 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 * 
-	 * @param cause
-	 * 
-	 * @deprecated please use the version with plugIn ID.
+	 * @deprecated use {@link #ChartException(String, int, String)} instead.
 	 */
 	public ChartException( final int type, String errorMsg )
 	{
@@ -160,10 +156,9 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 * 
-	 * @param sResourceKey
-	 * @param rb
-	 * 
-	 * @deprecated please use the version with plugIn ID.
+	 * @deprecated use
+	 *             {@link #ChartException(String, int, String, ResourceBundle)}
+	 *             instead.
 	 */
 	public ChartException( final int type, String sResourceKey,
 			ResourceBundle rb )
@@ -181,11 +176,9 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 * 
-	 * @param sResourceKey
-	 * @param oaArgs
-	 * @param rb
-	 * 
-	 * @deprecated please use the version with plugIn ID.
+	 * @deprecated use
+	 *             {@link #ChartException(String, int, String, Object[], ResourceBundle)}
+	 *             instead.
 	 */
 	public ChartException( final int type, String sResourceKey,
 			Object[] oaArgs, ResourceBundle rb )
@@ -203,11 +196,9 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 * 
-	 * @param sResourceKey
-	 * @param rb
-	 * @param thCause
-	 * 
-	 * @deprecated please use the version with plugIn ID.
+	 * @deprecated use
+	 *             {@link #ChartException(String, int, String, ResourceBundle, Throwable)}
+	 *             instead.
 	 */
 	public ChartException( final int type, String sResourceKey,
 			ResourceBundle rb, Throwable thCause )
@@ -225,12 +216,8 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 * 
-	 * @param sResourceKey
-	 * @param oaArgs
-	 * @param rb
-	 * @param thCause
-	 * 
-	 * @deprecated please use the version with plugIn ID.
+	 * @deprecated use ({@link #ChartException(String, int, String, Object[], ResourceBundle, Throwable)}
+	 *             instead.
 	 */
 	public ChartException( final int type, String sResourceKey,
 			Object[] oaArgs, ResourceBundle rb, Throwable thCause )
@@ -247,8 +234,6 @@ public class ChartException extends BirtException
 
 	/**
 	 * The constructor.
-	 * 
-	 * @param cause
 	 */
 	public ChartException( String pluginId, final int type, Throwable cause )
 	{
@@ -268,8 +253,6 @@ public class ChartException extends BirtException
 
 	/**
 	 * The constructor.
-	 * 
-	 * @param cause
 	 */
 	public ChartException( String pluginId, final int type, String errorMsg )
 	{
@@ -285,9 +268,6 @@ public class ChartException extends BirtException
 
 	/**
 	 * The constructor.
-	 * 
-	 * @param sResourceKey
-	 * @param rb
 	 */
 	public ChartException( String pluginId, final int type,
 			String sResourceKey, ResourceBundle rb )
@@ -304,10 +284,6 @@ public class ChartException extends BirtException
 
 	/**
 	 * The constructor.
-	 * 
-	 * @param sResourceKey
-	 * @param oaArgs
-	 * @param rb
 	 */
 	public ChartException( String pluginId, final int type,
 			String sResourceKey, Object[] oaArgs, ResourceBundle rb )
@@ -324,10 +300,6 @@ public class ChartException extends BirtException
 
 	/**
 	 * The constructor.
-	 * 
-	 * @param sResourceKey
-	 * @param rb
-	 * @param thCause
 	 */
 	public ChartException( String pluginId, final int type,
 			String sResourceKey, ResourceBundle rb, Throwable thCause )
@@ -344,11 +316,6 @@ public class ChartException extends BirtException
 
 	/**
 	 * The constructor.
-	 * 
-	 * @param sResourceKey
-	 * @param oaArgs
-	 * @param rb
-	 * @param thCause
 	 */
 	public ChartException( String pluginId, final int type,
 			String sResourceKey, Object[] oaArgs, ResourceBundle rb,
@@ -406,7 +373,7 @@ public class ChartException extends BirtException
 	}
 
 	/**
-	 * Returns the Chart exception type.
+	 * Returns the type of this Chart exception.
 	 * 
 	 * @return
 	 */

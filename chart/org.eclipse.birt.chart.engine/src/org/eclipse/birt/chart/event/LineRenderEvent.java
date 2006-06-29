@@ -21,14 +21,11 @@ import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 
 /**
- * LineRenderEvent
+ * A rendering event type for rendering Line object.
  */
 public class LineRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = 7216549683820618553L;
 
 	private Location loStart;
@@ -38,7 +35,7 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	protected LineAttributes lia;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public LineRenderEvent( Object oSource )
 	{
@@ -46,8 +43,7 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param _loStart
+	 * Sets the start location of the line.
 	 */
 	public final void setStart( Location _loStart )
 	{
@@ -55,8 +51,7 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the start location of the line.
 	 */
 	public final Location getStart( )
 	{
@@ -64,8 +59,7 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param _loEnd
+	 * Sets the end location of the line.
 	 */
 	public final void setEnd( Location _loEnd )
 	{
@@ -73,8 +67,7 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the end location of the line.
 	 */
 	public final Location getEnd( )
 	{
@@ -82,8 +75,7 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param _lia
+	 * Sets the line attributes of this event.
 	 */
 	public final void setLineAttributes( LineAttributes _lia )
 	{
@@ -91,16 +83,17 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the line attributes.
 	 */
 	public final LineAttributes getLineAttributes( )
 	{
 		return lia;
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#getBounds()
 	 */
 	public final Bounds getBounds( )
 	{
@@ -118,7 +111,7 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	 */
 	public PrimitiveRenderEvent copy( )
 	{
-		LineRenderEvent lre = new LineRenderEvent( (StructureSource)source );
+		LineRenderEvent lre = new LineRenderEvent( source );
 		if ( lia != null )
 		{
 			lre.setLineAttributes( LineAttributesImpl.copyInstance( lia ) );
@@ -156,11 +149,16 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 		idr.drawLine( this );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
+	 */
 	public void reset( )
 	{
 		this.loEnd = null;
 		this.loStart = null;
 		this.lia = null;
-		
+
 	}
 }

@@ -22,7 +22,8 @@ import org.eclipse.birt.chart.render.DeferredCache;
 import com.ibm.icu.util.ULocale;
 
 /**
- * WrappedInstruction
+ * This class wraps different types of rendering events. It could stand for one
+ * or a list of events.
  */
 public final class WrappedInstruction implements Comparable
 {
@@ -36,9 +37,7 @@ public final class WrappedInstruction implements Comparable
 	private PrimitiveRenderEvent pre = null;
 
 	/**
-	 * @param dc
-	 * @param alEvents
-	 * @param iInstruction
+	 * The constructor.
 	 */
 	public WrappedInstruction( DeferredCache dc, ArrayList alEvents,
 			int iInstruction )
@@ -49,7 +48,7 @@ public final class WrappedInstruction implements Comparable
 	}
 
 	/**
-	 *  
+	 * The constructor.
 	 */
 	public WrappedInstruction( DeferredCache dc, PrimitiveRenderEvent pre,
 			int iInstruction )
@@ -66,45 +65,46 @@ public final class WrappedInstruction implements Comparable
 	 */
 	public int compareTo( Object o )
 	{
-			Bounds bo = null;
-			if ( this.isModel( ) )
-			{
-				if ( o instanceof PrimitiveRenderEvent )
-				{
-					try
-					{
-						bo = ( (PrimitiveRenderEvent) o ).getBounds( );
-					}
-					catch ( ChartException e )
-					{
-						assert false;
-						return -1;
-					}
-				}
-				else if ( o instanceof WrappedInstruction )
-				{
-					bo = ( (WrappedInstruction) o ).getBounds( );
-				}
-			}
-			else
+		Bounds bo = null;
+		if ( this.isModel( ) )
+		{
+			if ( o instanceof PrimitiveRenderEvent )
 			{
 				try
 				{
-					bo = pre.getBounds( );
+					bo = ( (PrimitiveRenderEvent) o ).getBounds( );
 				}
 				catch ( ChartException e )
 				{
 					assert false;
-					return 1;
+					return -1;
 				}
 			}
-			return dc.isTransposed( ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ),
-					bo )
-					: PrimitiveRenderEvent.compareRegular( getBounds( ), bo );
+			else if ( o instanceof WrappedInstruction )
+			{
+				bo = ( (WrappedInstruction) o ).getBounds( );
+			}
+		}
+		else
+		{
+			try
+			{
+				bo = pre.getBounds( );
+			}
+			catch ( ChartException e )
+			{
+				assert false;
+				return 1;
+			}
+		}
+		return dc.isTransposed( ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ),
+				bo )
+				: PrimitiveRenderEvent.compareRegular( getBounds( ), bo );
 
 	}
 
 	/**
+	 * Returns the associated event.
 	 * 
 	 * @return
 	 */
@@ -114,8 +114,12 @@ public final class WrappedInstruction implements Comparable
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the associated instruction. The value could be one of
+	 *         these:
+	 *         <ul>
+	 *         <li>PrimitiveRenderEvent.DRAW
+	 *         <li>PrimitiveRenderEvent.FILL
+	 *         </ul>
 	 */
 	public final int getInstruction( )
 	{
@@ -134,9 +138,14 @@ public final class WrappedInstruction implements Comparable
 						super.toString( ),
 						new Boolean( isModel( ) ),
 						getBounds( )
-				}, ULocale.getDefault( ) );
+				},
+				ULocale.getDefault( ) );
 	}
 
+	/**
+	 * @return Returns the mimimum bounds required to contain the rendering area
+	 *         of associated rendering event.
+	 */
 	public final Bounds getBounds( )
 	{
 		if ( !isModel( ) )
@@ -176,11 +185,17 @@ public final class WrappedInstruction implements Comparable
 		return null;
 	}
 
+	/**
+	 * @return Returns if wraps multiple events currently.
+	 */
 	public boolean isModel( )
 	{
 		return pre == null;
 	}
 
+	/**
+	 * @return Returns list of events currently wraps.
+	 */
 	public ArrayList getModel( )
 	{
 		return alEvents;

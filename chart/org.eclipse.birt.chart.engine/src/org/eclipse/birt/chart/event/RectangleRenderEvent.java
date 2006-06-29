@@ -22,14 +22,11 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * RectangleRenderEvent
+ * A rendering event type for rendering Rectangle object.
  */
 public final class RectangleRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = -2020892672024222905L;
 
 	private Bounds _bo;
@@ -39,7 +36,7 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 	private Fill _ifBackground;
 
 	/**
-	 * @param oSource
+	 * The constructor.
 	 */
 	public RectangleRenderEvent( Object oSource )
 	{
@@ -55,8 +52,7 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param bo
-	 *            The bounds associated with this rectangle to set.
+	 * Sets the bounds associated with this rectangle.
 	 */
 	public void setBounds( Bounds bo )
 	{
@@ -72,8 +68,7 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param cd
-	 *            The background fill associated with the rectangle.
+	 * Sets the background fill associated with the rectangle.
 	 */
 	public void setBackground( Fill ifBackground )
 	{
@@ -81,7 +76,7 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @return Returns the ls.
+	 * @return Returns the outline.
 	 */
 	public LineAttributes getOutline( )
 	{
@@ -89,8 +84,7 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * @param ls
-	 *            The ls to set.
+	 * Sets the outline attributes of current rectangle.
 	 */
 	public void setOutline( LineAttributes lia )
 	{
@@ -98,8 +92,7 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 * 
-	 * @param bl
+	 * Updates current event by given Block object.
 	 */
 	public final void updateFrom( Block bl, double dScale )
 	{
@@ -115,7 +108,7 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 	 */
 	public final PrimitiveRenderEvent copy( )
 	{
-		final RectangleRenderEvent rre = new RectangleRenderEvent( (StructureSource)source );
+		final RectangleRenderEvent rre = new RectangleRenderEvent( source );
 		if ( _bo != null )
 		{
 			rre.setBounds( BoundsImpl.copyInstance( _bo ) );
@@ -153,11 +146,16 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 		idr.fillRectangle( this );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
+	 */
 	public void reset( )
 	{
 		this._bo = null;
 		this._ifBackground = null;
 		this._lia = null;
-		
+
 	}
 }
