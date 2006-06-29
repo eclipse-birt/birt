@@ -326,7 +326,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 		else if ( de instanceof NumberDataElement )
 		{
-			return NumberFormat.getInstance( )
+			return ChartUIUtil.getDefaultNumberFormatInstance( )
 					.format( ( (NumberDataElement) de ).getValue( ) );
 		}
 		return ""; //$NON-NLS-1$
@@ -335,7 +335,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	private DataElement getTypedDataElement( String strDataElement )
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
-		NumberFormat nf = NumberFormat.getInstance( );
+		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
 		try
 		{
 			// First try Date

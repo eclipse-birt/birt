@@ -159,7 +159,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 								.getBounds( );
 
 						// Modified to fix Bugzilla #99331
-						NumberFormat nf = NumberFormat.getInstance( );
+						NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
 
 						if ( eih.getWidth( ).getStringValue( ) == null )
 						{
@@ -238,7 +238,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 								.getBounds( );
 
 						// Modified to fix Bugzilla #99331
-						NumberFormat nf = NumberFormat.getInstance( );
+						NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
 
 						if ( eih.getWidth( ).getStringValue( ) == null )
 						{
@@ -347,7 +347,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			}
 		}
 
-		return (String[]) alProblems.toArray( QueryHelper.CAST_STRING_ARRAY );
+		return (String[]) alProblems.toArray( new String[alProblems.size( )] );
 	}
 
 	/*

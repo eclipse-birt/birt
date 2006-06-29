@@ -511,7 +511,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 
 	private String getValueAsString( DataElement de )
 	{
-		return NumberFormat.getInstance( )
+		return ChartUIUtil.getDefaultNumberFormatInstance( )
 				.format( ( (NumberDataElement) de ).getValue( ) );
 	}
 
@@ -639,7 +639,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		{
 			return NumberDataElementImpl.create( 0.0 );
 		}
-		NumberFormat nf = NumberFormat.getInstance( );
+		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
 
 		try
 		{

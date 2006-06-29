@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -38,7 +39,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 
 /**
@@ -222,7 +222,7 @@ public class TextEditorComposite extends Composite implements
 				// Test if the text is a number format
 				try
 				{
-					NumberFormat.getInstance( )
+					ChartUIUtil.getDefaultNumberFormatInstance( )
 							.parse( this.sText )
 							.doubleValue( );
 				}

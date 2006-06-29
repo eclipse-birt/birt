@@ -345,14 +345,14 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		}
 		else if ( de instanceof NumberDataElement )
 		{
-			return NumberFormat.getInstance( ).format( ( (NumberDataElement) de ).getValue( ) );
+			return ChartUIUtil.getDefaultNumberFormatInstance( ).format( ( (NumberDataElement) de ).getValue( ) );
 		}
 		return ""; //$NON-NLS-1$
 	}
 
 	private DataElement getTypedDataElement( String strDataElement )
 	{
-		NumberFormat nf = NumberFormat.getInstance( );
+		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
 		try
 		{
 			// First try Date

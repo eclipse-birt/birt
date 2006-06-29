@@ -61,6 +61,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
+import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.GregorianCalendar;
@@ -71,7 +72,7 @@ import com.ibm.icu.util.ULocale;
  */
 public class ChartUIUtil
 {
-	
+
 	public static final String FONT_AUTO = Messages.getString( "ChartUIUtil.Font.Auto" ); //$NON-NLS-1$
 
 	public static void setBackgroundColor( Control control, boolean selected,
@@ -124,6 +125,20 @@ public class ChartUIUtil
 			return ""; //$NON-NLS-1$
 		}
 		return "row[\"" + escape( colName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * Returns the default number format instance for default locale.
+	 * 
+	 * @return
+	 */
+	public static NumberFormat getDefaultNumberFormatInstance( )
+	{
+		NumberFormat numberFormat = NumberFormat.getInstance( );
+		// fix icu limitation which only allow 3 fraction digits as maximum by
+		// default. ?100 is enough.
+		numberFormat.setMaximumFractionDigits( 100 );
+		return numberFormat;
 	}
 
 	/**
@@ -389,7 +404,7 @@ public class ChartUIUtil
 					SeriesDefinition sdOrthogonal = (SeriesDefinition) itr.next( );
 					Series seDesignOrthogonal = sdOrthogonal.getDesignTimeSeries( );
 
-					ArrayList seRuntimes = sdOrthogonal.getRunTimeSeries( );
+					List seRuntimes = sdOrthogonal.getRunTimeSeries( );
 
 					sdOrthogonal.getSeries( ).removeAll( seRuntimes );
 
@@ -441,7 +456,7 @@ public class ChartUIUtil
 				SeriesDefinition sdOrthogonal = (SeriesDefinition) itr.next( );
 				Series seDesignOrthogonal = sdOrthogonal.getDesignTimeSeries( );
 
-				ArrayList seRuntimes = sdOrthogonal.getRunTimeSeries( );
+				List seRuntimes = sdOrthogonal.getRunTimeSeries( );
 
 				sdOrthogonal.getSeries( ).removeAll( seRuntimes );
 
@@ -480,7 +495,7 @@ public class ChartUIUtil
 		final List expressions;
 		final Object[] columnData;
 		expressions = Generator.instance( ).getRowExpressions( chart, null );
-		columnData = dataProvider.getDataForColumns( (String[]) expressions.toArray( new String[0] ),
+		columnData = dataProvider.getDataForColumns( (String[]) expressions.toArray( new String[expressions.size( )] ),
 				-1,
 				false );
 
@@ -1017,7 +1032,7 @@ public class ChartUIUtil
 		}
 		return IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE;
 	}
-	
+
 	/**
 	 * Sets the given help context id on the given control's shell.
 	 * 
@@ -1038,7 +1053,7 @@ public class ChartUIUtil
 			// Do nothing since there's no workbench
 		}
 	}
-	
+
 	/**
 	 * Returns whether wall/floor has been set if it's 3D chart.
 	 * 
@@ -1058,7 +1073,8 @@ public class ChartUIUtil
 		ColorDefinition wall = (ColorDefinition) chartWithAxes.getWallFill( );
 		ColorDefinition floor = (ColorDefinition) chartWithAxes.getFloorFill( );
 		return wall != null
-				&& wall.getTransparency( ) > 0 || floor != null
+				&& wall.getTransparency( ) > 0
+				|| floor != null
 				&& floor.getTransparency( ) > 0;
 	}
 

@@ -73,7 +73,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 
-import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
@@ -850,7 +849,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		String sValue = ""; //$NON-NLS-1$
 		if ( de instanceof NumberDataElement )
 		{
-			sValue = NumberFormat.getInstance( )
+			sValue = ChartUIUtil.getDefaultNumberFormatInstance( )
 					.format( ( (NumberDataElement) de ).getValue( ) );
 		}
 		else if ( de instanceof DateTimeDataElement )
@@ -1066,7 +1065,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		}
 		try
 		{
-			return NumberDataElementImpl.create( NumberFormat.getInstance( )
+			return NumberDataElementImpl.create( ChartUIUtil.getDefaultNumberFormatInstance( )
 					.parse( strDataElement )
 					.doubleValue( ) );
 		}

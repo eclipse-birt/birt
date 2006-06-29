@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -70,6 +71,8 @@ public class LocalizedNumberEditorComposite extends Composite implements
 
 	private transient int iStyle = SWT.NONE;
 
+	private transient NumberFormat numberFormat;
+
 	/**
 	 * Constructor.
 	 * 
@@ -83,6 +86,8 @@ public class LocalizedNumberEditorComposite extends Composite implements
 		vModifyListeners = new Vector( );
 		vFractionListeners = new Vector( );
 		this.setLayout( new FillLayout( ) );
+
+		numberFormat = ChartUIUtil.getDefaultNumberFormatInstance( );
 
 		placeComponents( );
 		initAccessible( );
@@ -134,7 +139,7 @@ public class LocalizedNumberEditorComposite extends Composite implements
 	{
 		bValueIsSet = true;
 		dValue = value;
-		txtValue.setText( NumberFormat.getInstance( ).format( value ) );
+		txtValue.setText( numberFormat.format( value ) );
 	}
 
 	public double getValue( )
@@ -255,12 +260,11 @@ public class LocalizedNumberEditorComposite extends Composite implements
 				String denominator = sText.substring( iDelimiter + 1 );
 				try
 				{
-					Number nume = NumberFormat.getInstance( ).parse( numerator );
-					Number deno = NumberFormat.getInstance( )
-							.parse( denominator );
+					Number nume = numberFormat.parse( numerator );
+					Number deno = numberFormat.parse( denominator );
 					dValue = nume.doubleValue( ) / deno.doubleValue( );
 					bValueIsSet = true;
-					sText = NumberFormat.getInstance( ).format( dValue );
+					sText = numberFormat.format( dValue );
 					this.txtValue.setText( sText );
 				}
 				catch ( ParseException e )
@@ -272,10 +276,10 @@ public class LocalizedNumberEditorComposite extends Composite implements
 			{
 				try
 				{
-					Number num = NumberFormat.getInstance( ).parse( sText );
+					Number num = numberFormat.parse( sText );
 					dValue = num.doubleValue( );
 					bValueIsSet = true;
-					sText = NumberFormat.getInstance( ).format( dValue );
+					sText = numberFormat.format( dValue );
 				}
 				catch ( ParseException e )
 				{
@@ -305,7 +309,7 @@ public class LocalizedNumberEditorComposite extends Composite implements
 			}
 		}
 	}
-	
+
 	void initAccessible( )
 	{
 		getAccessible( ).addAccessibleListener( new AccessibleAdapter( ) {
@@ -359,7 +363,7 @@ public class LocalizedNumberEditorComposite extends Composite implements
 			{
 				e.detail = ACC.STATE_NORMAL;
 			}
-			
+
 			public void getValue( AccessibleControlEvent e )
 			{
 				e.result = txtValue.getText( );
