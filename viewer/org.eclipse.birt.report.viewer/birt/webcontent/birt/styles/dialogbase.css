@@ -8,14 +8,14 @@
 	border-style: outset;
 	border-width: 1px;
 	border-color: #CCCCCC;
-	background-color: #808080;
+	background-color: gray;
 }
 
 /* Title bar background area */
 .dialogTitleBar
 {
 	height: 20px;
-	background-color: #808080;
+	background-color: gray;
 	cursor: move;	
 }
 
@@ -34,7 +34,7 @@
 	font-size: 11px; 
 	font-weight: bold; 
 	font-family: tahoma, verdana, arial, sans-serif;
-	color: #000000;
+	color: black;
 }
 
 .dTitleText
@@ -58,7 +58,7 @@
 	background-image: url("../images/Close.gif");
 	width: 14px;
 	height: 14px;
-	background-color: #808080;
+	background-color: gray;
 	cursor: pointer;	 
 }
 
@@ -85,7 +85,7 @@
 /* Background of dialog below title bar */
 .dialogBackground
 {
-	background-color: #dbe4ee;
+	background-color: #ECE9D8;
 }
 
 .dBackground
@@ -114,7 +114,7 @@
 .dBtnBarDividerTop
 {
 	height: 1px;
-	background-color: #808080;
+	background-color: gray;
 	overflow: hidden;
 }
 
@@ -160,7 +160,7 @@
 	height: 24px;
 	width: 80px;
 	overflow: hidden;
-	color: #000000; /* Font color */ 
+	color: black; /* Font color */ 
 	/*background-color: #9C9C9C;
 	background-repeat: repeat-x;
 	background-position: top left;*/
