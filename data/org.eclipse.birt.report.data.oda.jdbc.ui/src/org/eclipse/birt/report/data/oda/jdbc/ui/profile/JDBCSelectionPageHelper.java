@@ -103,6 +103,7 @@ public class JDBCSelectionPageHelper
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 3;
 		layout.verticalSpacing = 10;
+		layout.marginBottom = 10;
 		content.setLayout( layout );
 
 		GridData gridData;
