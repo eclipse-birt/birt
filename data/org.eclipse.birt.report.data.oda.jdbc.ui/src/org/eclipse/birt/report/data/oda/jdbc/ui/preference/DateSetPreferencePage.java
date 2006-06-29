@@ -140,7 +140,7 @@ public class DateSetPreferencePage extends PreferencePage
 		}
 		maxDisplayTableEditor.setStringValue( defaultMaxTable );
 		
-		Utility.setSystemHelp( mainComposite,
+		Utility.setSystemHelp( getControl( ),
 				IHelpConstants.CONEXT_ID_PREFERENCE_DATASET_JDBC );
 		
 		return mainComposite;
@@ -180,14 +180,4 @@ public class DateSetPreferencePage extends PreferencePage
 		return true;
 	}
 	
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
-	 */
-	public void setVisible( boolean visible )
-	{
-		super.setVisible( visible );
-		getControl( ).setFocus( );
-	}
 }
