@@ -68,8 +68,9 @@ public final class LayoutManager
 		Bounds boPlot = p.getBounds( );
 		Bounds boLegend = lg.getBounds( );
 
-		// always layout title first.
+		// Layout title in North Anchor by default.
 		Bounds boTitle = tb.getBounds( );
+		Anchor titleAnchor = tb.getAnchor( );
 		boTitle.setLeft( bo.getLeft( ) );
 		boTitle.setWidth( bo.getWidth( ) );
 		boTitle.setTop( bo.getTop( ) );
@@ -150,44 +151,129 @@ public final class LayoutManager
 						: plotWidthHint );
 				boPlot.setHeight( plotHeightHint < 0 ? ( bo.getHeight( ) - szTitle.getHeight( ) )
 						: plotHeightHint );
-
-				plotLeft = bo.getLeft( );
-				plotTop = bo.getTop( ) + szTitle.getHeight( );
-
-				// adjust left.
-				switch ( anchor.getValue( ) )
+				switch ( titleAnchor.getValue( ) )
 				{
 					case Anchor.EAST :
-					case Anchor.NORTH_EAST :
+					case Anchor.WEST :
+						boPlot.setWidth( plotWidthHint < 0 ? ( bo.getWidth( ) - szTitle.getWidth( ) )
+								: plotWidthHint );
+						boPlot.setHeight( plotHeightHint < 0 ? bo.getHeight( )
+								: plotHeightHint );
+						boTitle.setHeight( bo.getHeight( ) );
+						boTitle.setWidth( szTitle.getWidth( ) );
+						break;
+					case Anchor.SOUTH :
 					case Anchor.SOUTH_EAST :
-						plotLeft = plotLeft
+					case Anchor.SOUTH_WEST :
+						boTitle.setTop( bo.getTop( )
+								+ bo.getHeight( )
+								- szTitle.getHeight( ) );
+						break;
+				}
+
+				plotLeft = bo.getLeft( );
+				plotTop = bo.getTop( );
+				switch ( titleAnchor.getValue( ) )
+				{
+					case Anchor.WEST :
+						plotLeft = bo.getLeft( ) + szTitle.getWidth( );
+						break;
+					case Anchor.EAST :
+						boTitle.setLeft( bo.getLeft( )
 								+ bo.getWidth( )
-								- boPlot.getWidth( );
+								- szTitle.getWidth( ) );
 						break;
 					case Anchor.NORTH :
-					case Anchor.SOUTH :
-						plotLeft = plotLeft
-								+ ( bo.getWidth( ) - boPlot.getWidth( ) )
-								/ 2;
+					case Anchor.NORTH_EAST :
+					case Anchor.NORTH_WEST :
+						plotTop = bo.getTop( ) + szTitle.getHeight( );
+						break;
+				}
+
+				// adjust left.
+				switch ( titleAnchor.getValue( ) )
+				{
+					case Anchor.WEST :
+					case Anchor.EAST :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.EAST :
+							case Anchor.NORTH_EAST :
+							case Anchor.SOUTH_EAST :
+								plotLeft = plotLeft
+										+ bo.getWidth( )
+										- szTitle.getWidth( )
+										- boPlot.getWidth( );
+								break;
+							case Anchor.NORTH :
+							case Anchor.SOUTH :
+								plotLeft = plotLeft
+										+ ( bo.getWidth( ) - szTitle.getWidth( ) - boPlot.getWidth( ) )
+										/ 2;
+								break;
+						}
+						break;
+					default :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.EAST :
+							case Anchor.NORTH_EAST :
+							case Anchor.SOUTH_EAST :
+								plotLeft = plotLeft
+										+ bo.getWidth( )
+										- boPlot.getWidth( );
+								break;
+							case Anchor.NORTH :
+							case Anchor.SOUTH :
+								plotLeft = plotLeft
+										+ ( bo.getWidth( ) - boPlot.getWidth( ) )
+										/ 2;
+								break;
+						}
 						break;
 				}
 
 				// adjust top.
-				switch ( anchor.getValue( ) )
+				switch ( titleAnchor.getValue( ) )
 				{
-					case Anchor.SOUTH :
-					case Anchor.SOUTH_WEST :
-					case Anchor.SOUTH_EAST :
-						plotTop = plotTop
-								+ bo.getHeight( )
-								- szTitle.getHeight( )
-								- boPlot.getHeight( );
-						break;
 					case Anchor.WEST :
 					case Anchor.EAST :
-						plotTop = plotTop
-								+ ( bo.getHeight( ) - szTitle.getHeight( ) - boPlot.getHeight( ) )
-								/ 2;
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.SOUTH :
+							case Anchor.SOUTH_WEST :
+							case Anchor.SOUTH_EAST :
+								plotTop = plotTop
+										+ bo.getHeight( )
+										- boPlot.getHeight( );
+								break;
+							case Anchor.WEST :
+							case Anchor.EAST :
+								plotTop = plotTop
+										+ ( bo.getHeight( ) - boPlot.getHeight( ) )
+										/ 2;
+								break;
+						}
+						break;
+					default :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.SOUTH :
+							case Anchor.SOUTH_WEST :
+							case Anchor.SOUTH_EAST :
+								plotTop = plotTop
+										+ bo.getHeight( )
+										- szTitle.getHeight( )
+										- boPlot.getHeight( );
+								break;
+							case Anchor.WEST :
+							case Anchor.EAST :
+								plotTop = plotTop
+										+ ( bo.getHeight( )
+												- szTitle.getHeight( ) - boPlot.getHeight( ) )
+										/ 2;
+								break;
+						}
 						break;
 				}
 
@@ -199,56 +285,151 @@ public final class LayoutManager
 
 			case Position.RIGHT :
 			case Position.OUTSIDE :
-				boLegend.setTop( bo.getTop( ) + szTitle.getHeight( ) );
-				boLegend.setLeft( bo.getLeft( )
-						+ bo.getWidth( )
-						- szLegend.getWidth( ) );
 				boLegend.setWidth( szLegend.getWidth( ) );
 				boLegend.setHeight( bo.getHeight( ) - szTitle.getHeight( ) );
-
 				boPlot.setWidth( plotWidthHint < 0 ? ( bo.getWidth( ) - boLegend.getWidth( ) )
 						: plotWidthHint );
 				boPlot.setHeight( plotHeightHint < 0 ? ( bo.getHeight( ) - szTitle.getHeight( ) )
 						: plotHeightHint );
 
-				plotLeft = bo.getLeft( );
-				plotTop = bo.getTop( ) + szTitle.getHeight( );
-
-				// adjust left.
-				switch ( anchor.getValue( ) )
+				switch ( titleAnchor.getValue( ) )
 				{
 					case Anchor.EAST :
-					case Anchor.NORTH_EAST :
+					case Anchor.WEST :
+						boPlot.setWidth( plotWidthHint < 0 ? ( bo.getWidth( )
+								- boLegend.getWidth( ) - szTitle.getWidth( ) )
+								: plotWidthHint );
+						boPlot.setHeight( plotHeightHint < 0 ? bo.getHeight( )
+								: plotHeightHint );
+						boTitle.setHeight( bo.getHeight( ) );
+						boTitle.setWidth( szTitle.getWidth( ) );
+						boLegend.setHeight( bo.getHeight( ) );
+						break;
+					case Anchor.SOUTH :
 					case Anchor.SOUTH_EAST :
-						plotLeft = plotLeft
+					case Anchor.SOUTH_WEST :
+						boTitle.setTop( bo.getTop( )
+								+ bo.getHeight( )
+								- szTitle.getHeight( ) );
+						break;
+				}
+
+				boLegend.setTop( bo.getTop( ) );
+				boLegend.setLeft( bo.getLeft( )
+						+ bo.getWidth( )
+						- szLegend.getWidth( ) );
+
+				plotLeft = bo.getLeft( );
+				plotTop = bo.getTop( );
+				switch ( titleAnchor.getValue( ) )
+				{
+					case Anchor.WEST :
+						plotLeft = bo.getLeft( ) + szTitle.getWidth( );
+						break;
+					case Anchor.EAST :
+						boTitle.setLeft( bo.getLeft( )
 								+ bo.getWidth( )
-								- boLegend.getWidth( )
-								- boPlot.getWidth( );
+								- szTitle.getWidth( ) );
+						boLegend.setLeft( boTitle.getLeft( )
+								- szLegend.getWidth( ) );
 						break;
 					case Anchor.NORTH :
-					case Anchor.SOUTH :
-						plotLeft = plotLeft
-								+ ( bo.getWidth( ) - boLegend.getWidth( ) - boPlot.getWidth( ) )
-								/ 2;
+					case Anchor.NORTH_EAST :
+					case Anchor.NORTH_WEST :
+						plotTop = bo.getTop( ) + szTitle.getHeight( );
+						boLegend.setTop( bo.getTop( ) + szTitle.getHeight( ) );
+						break;
+				}
+
+				// adjust left.
+				switch ( titleAnchor.getValue( ) )
+				{
+					case Anchor.WEST :
+					case Anchor.EAST :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.EAST :
+							case Anchor.NORTH_EAST :
+							case Anchor.SOUTH_EAST :
+								plotLeft = plotLeft
+										+ bo.getWidth( )
+										- szTitle.getWidth( )
+										- boLegend.getWidth( )
+										- boPlot.getWidth( );
+								break;
+							case Anchor.NORTH :
+							case Anchor.SOUTH :
+								plotLeft = plotLeft
+										+ ( bo.getWidth( )
+												- szTitle.getWidth( )
+												- boLegend.getWidth( ) - boPlot.getWidth( ) )
+										/ 2;
+								break;
+						}
+						break;
+					default :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.EAST :
+							case Anchor.NORTH_EAST :
+							case Anchor.SOUTH_EAST :
+								plotLeft = plotLeft
+										+ bo.getWidth( )
+										- boLegend.getWidth( )
+										- boPlot.getWidth( );
+								break;
+							case Anchor.NORTH :
+							case Anchor.SOUTH :
+								plotLeft = plotLeft
+										+ ( bo.getWidth( )
+												- boLegend.getWidth( ) - boPlot.getWidth( ) )
+										/ 2;
+								break;
+						}
 						break;
 				}
 
 				// adjust top.
-				switch ( anchor.getValue( ) )
+				switch ( titleAnchor.getValue( ) )
 				{
-					case Anchor.SOUTH :
-					case Anchor.SOUTH_WEST :
-					case Anchor.SOUTH_EAST :
-						plotTop = plotTop
-								+ bo.getHeight( )
-								- szTitle.getHeight( )
-								- boPlot.getHeight( );
-						break;
 					case Anchor.WEST :
 					case Anchor.EAST :
-						plotTop = plotTop
-								+ ( bo.getHeight( ) - szTitle.getHeight( ) - boPlot.getHeight( ) )
-								/ 2;
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.SOUTH :
+							case Anchor.SOUTH_WEST :
+							case Anchor.SOUTH_EAST :
+								plotTop = plotTop
+										+ bo.getHeight( )
+										- boPlot.getHeight( );
+								break;
+							case Anchor.WEST :
+							case Anchor.EAST :
+								plotTop = plotTop
+										+ ( bo.getHeight( ) - boPlot.getHeight( ) )
+										/ 2;
+								break;
+						}
+						break;
+					default :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.SOUTH :
+							case Anchor.SOUTH_WEST :
+							case Anchor.SOUTH_EAST :
+								plotTop = plotTop
+										+ bo.getHeight( )
+										- szTitle.getHeight( )
+										- boPlot.getHeight( );
+								break;
+							case Anchor.WEST :
+							case Anchor.EAST :
+								plotTop = plotTop
+										+ ( bo.getHeight( )
+												- szTitle.getHeight( ) - boPlot.getHeight( ) )
+										/ 2;
+								break;
+						}
 						break;
 				}
 
@@ -258,8 +439,6 @@ public final class LayoutManager
 				break;
 
 			case Position.LEFT :
-				boLegend.setTop( bo.getTop( ) + szTitle.getHeight( ) );
-				boLegend.setLeft( bo.getLeft( ) );
 				boLegend.setWidth( szLegend.getWidth( ) );
 				boLegend.setHeight( bo.getHeight( ) - szTitle.getHeight( ) );
 
@@ -268,44 +447,141 @@ public final class LayoutManager
 				boPlot.setHeight( plotHeightHint < 0 ? ( bo.getHeight( ) - szTitle.getHeight( ) )
 						: plotHeightHint );
 
-				plotLeft = bo.getLeft( ) + szLegend.getWidth( );
-				plotTop = bo.getTop( ) + szTitle.getHeight( );
-
-				// adjust left.
-				switch ( anchor.getValue( ) )
+				switch ( titleAnchor.getValue( ) )
 				{
 					case Anchor.EAST :
-					case Anchor.NORTH_EAST :
+					case Anchor.WEST :
+						boPlot.setWidth( plotWidthHint < 0 ? ( bo.getWidth( )
+								- boLegend.getWidth( ) - szTitle.getWidth( ) )
+								: plotWidthHint );
+						boPlot.setHeight( plotHeightHint < 0 ? bo.getHeight( )
+								: plotHeightHint );
+						boTitle.setHeight( bo.getHeight( ) );
+						boTitle.setWidth( szTitle.getWidth( ) );
+						boLegend.setHeight( bo.getHeight( ) );
+						break;
+					case Anchor.SOUTH :
 					case Anchor.SOUTH_EAST :
-						plotLeft = plotLeft
+					case Anchor.SOUTH_WEST :
+						boTitle.setTop( bo.getTop( )
+								+ bo.getHeight( )
+								- szTitle.getHeight( ) );
+						break;
+				}
+
+				boLegend.setTop( bo.getTop( ) );
+				boLegend.setLeft( bo.getLeft( ) );
+
+				plotLeft = bo.getLeft( ) + szLegend.getWidth( );
+				plotTop = bo.getTop( );
+				switch ( titleAnchor.getValue( ) )
+				{
+					case Anchor.WEST :
+						boLegend.setLeft( bo.getLeft( ) + szTitle.getWidth( ) );
+						plotLeft = boLegend.getLeft( ) + szLegend.getWidth( );
+						break;
+					case Anchor.EAST :
+						boTitle.setLeft( bo.getLeft( )
 								+ bo.getWidth( )
-								- boLegend.getWidth( )
-								- boPlot.getWidth( );
+								- szTitle.getWidth( ) );
 						break;
 					case Anchor.NORTH :
-					case Anchor.SOUTH :
-						plotLeft = plotLeft
-								+ ( bo.getWidth( ) - boLegend.getWidth( ) - boPlot.getWidth( ) )
-								/ 2;
+					case Anchor.NORTH_EAST :
+					case Anchor.NORTH_WEST :
+						plotTop = bo.getTop( ) + szTitle.getHeight( );
+						boLegend.setTop( bo.getTop( ) + szTitle.getHeight( ) );
+						break;
+				}
+
+				// adjust left.
+				switch ( titleAnchor.getValue( ) )
+				{
+					case Anchor.WEST :
+					case Anchor.EAST :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.EAST :
+							case Anchor.NORTH_EAST :
+							case Anchor.SOUTH_EAST :
+								plotLeft = plotLeft
+										+ bo.getWidth( )
+										- szTitle.getWidth( )
+										- boLegend.getWidth( )
+										- boPlot.getWidth( );
+								break;
+							case Anchor.NORTH :
+							case Anchor.SOUTH :
+								plotLeft = plotLeft
+										+ ( bo.getWidth( )
+												- szTitle.getWidth( )
+												- boLegend.getWidth( ) - boPlot.getWidth( ) )
+										/ 2;
+								break;
+						}
+						break;
+					default :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.EAST :
+							case Anchor.NORTH_EAST :
+							case Anchor.SOUTH_EAST :
+								plotLeft = plotLeft
+										+ bo.getWidth( )
+										- boLegend.getWidth( )
+										- boPlot.getWidth( );
+								break;
+							case Anchor.NORTH :
+							case Anchor.SOUTH :
+								plotLeft = plotLeft
+										+ ( bo.getWidth( )
+												- boLegend.getWidth( ) - boPlot.getWidth( ) )
+										/ 2;
+								break;
+						}
 						break;
 				}
 
 				// adjust top.
-				switch ( anchor.getValue( ) )
+				switch ( titleAnchor.getValue( ) )
 				{
-					case Anchor.SOUTH :
-					case Anchor.SOUTH_WEST :
-					case Anchor.SOUTH_EAST :
-						plotTop = plotTop
-								+ bo.getHeight( )
-								- szTitle.getHeight( )
-								- boPlot.getHeight( );
-						break;
 					case Anchor.WEST :
 					case Anchor.EAST :
-						plotTop = plotTop
-								+ ( bo.getHeight( ) - szTitle.getHeight( ) - boPlot.getHeight( ) )
-								/ 2;
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.SOUTH :
+							case Anchor.SOUTH_WEST :
+							case Anchor.SOUTH_EAST :
+								plotTop = plotTop
+										+ bo.getHeight( )
+										- boPlot.getHeight( );
+								break;
+							case Anchor.WEST :
+							case Anchor.EAST :
+								plotTop = plotTop
+										+ ( bo.getHeight( ) - boPlot.getHeight( ) )
+										/ 2;
+								break;
+						}
+						break;
+					default :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.SOUTH :
+							case Anchor.SOUTH_WEST :
+							case Anchor.SOUTH_EAST :
+								plotTop = plotTop
+										+ bo.getHeight( )
+										- szTitle.getHeight( )
+										- boPlot.getHeight( );
+								break;
+							case Anchor.WEST :
+							case Anchor.EAST :
+								plotTop = plotTop
+										+ ( bo.getHeight( )
+												- szTitle.getHeight( ) - boPlot.getHeight( ) )
+										/ 2;
+								break;
+						}
 						break;
 				}
 
@@ -315,8 +591,6 @@ public final class LayoutManager
 				break;
 
 			case Position.ABOVE :
-				boLegend.setTop( bo.getTop( ) + szTitle.getHeight( ) );
-				boLegend.setLeft( bo.getLeft( ) );
 				boLegend.setWidth( bo.getWidth( ) );
 				boLegend.setHeight( szLegend.getHeight( ) );
 
@@ -326,48 +600,141 @@ public final class LayoutManager
 						- szTitle.getHeight( ) - boLegend.getHeight( ) )
 						: plotHeightHint );
 
-				plotLeft = bo.getLeft( );
-				plotTop = bo.getTop( )
-						+ szTitle.getHeight( )
-						+ boLegend.getHeight( );
-
-				// adjust left.
-				switch ( anchor.getValue( ) )
+				switch ( titleAnchor.getValue( ) )
 				{
 					case Anchor.EAST :
-					case Anchor.NORTH_EAST :
+					case Anchor.WEST :
+						boPlot.setWidth( plotWidthHint < 0 ? ( bo.getWidth( ) - szTitle.getWidth( ) )
+								: plotWidthHint );
+						boPlot.setHeight( plotHeightHint < 0 ? ( bo.getHeight( ) - boLegend.getHeight( ) )
+								: plotHeightHint );
+						boTitle.setHeight( bo.getHeight( ) );
+						boTitle.setWidth( szTitle.getWidth( ) );
+						boLegend.setWidth( bo.getWidth( ) - szTitle.getWidth( ) );
+						break;
+					case Anchor.SOUTH :
 					case Anchor.SOUTH_EAST :
-						plotLeft = plotLeft
+					case Anchor.SOUTH_WEST :
+						boTitle.setTop( bo.getTop( )
+								+ bo.getHeight( )
+								- szTitle.getHeight( ) );
+						break;
+				}
+
+				boLegend.setTop( bo.getTop( ) );
+				boLegend.setLeft( bo.getLeft( ) );
+				plotLeft = bo.getLeft( );
+				plotTop = bo.getTop( ) + boLegend.getHeight( );
+
+				switch ( titleAnchor.getValue( ) )
+				{
+					case Anchor.WEST :
+						boLegend.setLeft( bo.getLeft( ) + szTitle.getWidth( ) );
+						plotLeft = bo.getLeft( ) + szTitle.getWidth( );
+						break;
+					case Anchor.EAST :
+						boTitle.setLeft( bo.getLeft( )
 								+ bo.getWidth( )
-								- boPlot.getWidth( );
+								- szTitle.getWidth( ) );
 						break;
 					case Anchor.NORTH :
-					case Anchor.SOUTH :
-						plotLeft = plotLeft
-								+ ( bo.getWidth( ) - boPlot.getWidth( ) )
-								/ 2;
+					case Anchor.NORTH_EAST :
+					case Anchor.NORTH_WEST :
+						plotTop = bo.getTop( )
+								+ boLegend.getHeight( )
+								+ szTitle.getHeight( );
+						boLegend.setTop( bo.getTop( ) + szTitle.getHeight( ) );
+						break;
+				}
+
+				// adjust left.
+				switch ( titleAnchor.getValue( ) )
+				{
+					case Anchor.WEST :
+					case Anchor.EAST :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.EAST :
+							case Anchor.NORTH_EAST :
+							case Anchor.SOUTH_EAST :
+								plotLeft = plotLeft
+										+ bo.getWidth( )
+										- szTitle.getWidth( )
+										- boPlot.getWidth( );
+								break;
+							case Anchor.NORTH :
+							case Anchor.SOUTH :
+								plotLeft = plotLeft
+										+ ( bo.getWidth( ) - szTitle.getWidth( ) - boPlot.getWidth( ) )
+										/ 2;
+								break;
+						}
+						break;
+					default :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.EAST :
+							case Anchor.NORTH_EAST :
+							case Anchor.SOUTH_EAST :
+								plotLeft = plotLeft
+										+ bo.getWidth( )
+										- boPlot.getWidth( );
+								break;
+							case Anchor.NORTH :
+							case Anchor.SOUTH :
+								plotLeft = plotLeft
+										+ ( bo.getWidth( ) - boPlot.getWidth( ) )
+										/ 2;
+								break;
+						}
 						break;
 				}
 
 				// adjust top.
-				switch ( anchor.getValue( ) )
+				switch ( titleAnchor.getValue( ) )
 				{
-					case Anchor.SOUTH :
-					case Anchor.SOUTH_WEST :
-					case Anchor.SOUTH_EAST :
-						plotTop = plotTop
-								+ bo.getHeight( )
-								- szTitle.getHeight( )
-								- boLegend.getHeight( )
-								- boPlot.getHeight( );
-						break;
 					case Anchor.WEST :
 					case Anchor.EAST :
-						plotTop = plotTop
-								+ ( bo.getHeight( )
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.SOUTH :
+							case Anchor.SOUTH_WEST :
+							case Anchor.SOUTH_EAST :
+								plotTop = plotTop
+										+ bo.getHeight( )
+										- boLegend.getHeight( )
+										- boPlot.getHeight( );
+								break;
+							case Anchor.WEST :
+							case Anchor.EAST :
+								plotTop = plotTop
+										+ ( bo.getHeight( )
+												- boLegend.getHeight( ) - boPlot.getHeight( ) )
+										/ 2;
+								break;
+						}
+						break;
+					default :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.SOUTH :
+							case Anchor.SOUTH_WEST :
+							case Anchor.SOUTH_EAST :
+								plotTop = plotTop
+										+ bo.getHeight( )
 										- szTitle.getHeight( )
-										- boLegend.getHeight( ) - boPlot.getHeight( ) )
-								/ 2;
+										- boLegend.getHeight( )
+										- boPlot.getHeight( );
+								break;
+							case Anchor.WEST :
+							case Anchor.EAST :
+								plotTop = plotTop
+										+ ( bo.getHeight( )
+												- szTitle.getHeight( )
+												- boLegend.getHeight( ) - boPlot.getHeight( ) )
+										/ 2;
+								break;
+						}
 						break;
 				}
 
@@ -377,10 +744,6 @@ public final class LayoutManager
 				break;
 
 			case Position.BELOW :
-				boLegend.setTop( bo.getTop( )
-						+ bo.getHeight( )
-						- szLegend.getHeight( ) );
-				boLegend.setLeft( bo.getLeft( ) );
 				boLegend.setWidth( bo.getWidth( ) );
 				boLegend.setHeight( szLegend.getHeight( ) );
 
@@ -390,46 +753,146 @@ public final class LayoutManager
 						- boTitle.getHeight( ) - boLegend.getHeight( ) )
 						: plotHeightHint );
 
-				plotLeft = bo.getLeft( );
-				plotTop = bo.getTop( ) + szTitle.getHeight( );
-
-				// adjust left.
-				switch ( anchor.getValue( ) )
+				switch ( titleAnchor.getValue( ) )
 				{
 					case Anchor.EAST :
-					case Anchor.NORTH_EAST :
+					case Anchor.WEST :
+						boPlot.setWidth( plotWidthHint < 0 ? ( bo.getWidth( ) - szTitle.getWidth( ) )
+								: plotWidthHint );
+						boPlot.setHeight( plotHeightHint < 0 ? ( bo.getHeight( ) - boLegend.getHeight( ) )
+								: plotHeightHint );
+						boTitle.setHeight( bo.getHeight( ) );
+						boTitle.setWidth( szTitle.getWidth( ) );
+						boLegend.setWidth( bo.getWidth( ) - szTitle.getWidth( ) );
+						break;
+					case Anchor.SOUTH :
 					case Anchor.SOUTH_EAST :
-						plotLeft = plotLeft
+					case Anchor.SOUTH_WEST :
+						boTitle.setTop( bo.getTop( )
+								+ bo.getHeight( )
+								- szTitle.getHeight( ) );
+						break;
+				}
+
+				boLegend.setTop( bo.getTop( )
+						+ bo.getHeight( )
+						- szLegend.getHeight( ) );
+				boLegend.setLeft( bo.getLeft( ) );
+				plotLeft = bo.getLeft( );
+				plotTop = bo.getTop( );
+
+				switch ( titleAnchor.getValue( ) )
+				{
+					case Anchor.WEST :
+						boLegend.setLeft( bo.getLeft( ) + szTitle.getWidth( ) );
+						plotLeft = bo.getLeft( ) + szTitle.getWidth( );
+						break;
+					case Anchor.EAST :
+						boTitle.setLeft( bo.getLeft( )
 								+ bo.getWidth( )
-								- boPlot.getWidth( );
+								- szTitle.getWidth( ) );
 						break;
 					case Anchor.NORTH :
+					case Anchor.NORTH_EAST :
+					case Anchor.NORTH_WEST :
+						plotTop = bo.getTop( ) + szTitle.getHeight( );
+						break;
 					case Anchor.SOUTH :
-						plotLeft = plotLeft
-								+ ( bo.getWidth( ) - boPlot.getWidth( ) )
-								/ 2;
+					case Anchor.SOUTH_EAST :
+					case Anchor.SOUTH_WEST :
+						boLegend.setTop( boTitle.getTop( )
+								- szLegend.getHeight( ) );
+						break;
+				}
+
+				// adjust left.
+				switch ( titleAnchor.getValue( ) )
+				{
+					case Anchor.WEST :
+					case Anchor.EAST :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.EAST :
+							case Anchor.NORTH_EAST :
+							case Anchor.SOUTH_EAST :
+								plotLeft = plotLeft
+										+ bo.getWidth( )
+										- szTitle.getWidth( )
+										- boPlot.getWidth( );
+								break;
+							case Anchor.NORTH :
+							case Anchor.SOUTH :
+								plotLeft = plotLeft
+										+ ( bo.getWidth( ) - szTitle.getWidth( ) - boPlot.getWidth( ) )
+										/ 2;
+								break;
+						}
+						break;
+					default :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.EAST :
+							case Anchor.NORTH_EAST :
+							case Anchor.SOUTH_EAST :
+								plotLeft = plotLeft
+										+ bo.getWidth( )
+										- boPlot.getWidth( );
+								break;
+							case Anchor.NORTH :
+							case Anchor.SOUTH :
+								plotLeft = plotLeft
+										+ ( bo.getWidth( ) - boPlot.getWidth( ) )
+										/ 2;
+								break;
+						}
 						break;
 				}
 
 				// adjust top.
-				switch ( anchor.getValue( ) )
+				switch ( titleAnchor.getValue( ) )
 				{
-					case Anchor.SOUTH :
-					case Anchor.SOUTH_WEST :
-					case Anchor.SOUTH_EAST :
-						plotTop = plotTop
-								+ bo.getHeight( )
-								- szTitle.getHeight( )
-								- boLegend.getHeight( )
-								- boPlot.getHeight( );
-						break;
 					case Anchor.WEST :
 					case Anchor.EAST :
-						plotTop = plotTop
-								+ ( bo.getHeight( )
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.SOUTH :
+							case Anchor.SOUTH_WEST :
+							case Anchor.SOUTH_EAST :
+								plotTop = plotTop
+										+ bo.getHeight( )
+										- boLegend.getHeight( )
+										- boPlot.getHeight( );
+								break;
+							case Anchor.WEST :
+							case Anchor.EAST :
+								plotTop = plotTop
+										+ ( bo.getHeight( )
+												- boLegend.getHeight( ) - boPlot.getHeight( ) )
+										/ 2;
+								break;
+						}
+						break;
+					default :
+						switch ( anchor.getValue( ) )
+						{
+							case Anchor.SOUTH :
+							case Anchor.SOUTH_WEST :
+							case Anchor.SOUTH_EAST :
+								plotTop = plotTop
+										+ bo.getHeight( )
 										- szTitle.getHeight( )
-										- boLegend.getHeight( ) - boPlot.getHeight( ) )
-								/ 2;
+										- boLegend.getHeight( )
+										- boPlot.getHeight( );
+								break;
+							case Anchor.WEST :
+							case Anchor.EAST :
+								plotTop = plotTop
+										+ ( bo.getHeight( )
+												- szTitle.getHeight( )
+												- boLegend.getHeight( ) - boPlot.getHeight( ) )
+										/ 2;
+								break;
+						}
 						break;
 				}
 
