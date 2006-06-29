@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -38,15 +39,11 @@ import org.eclipse.swt.accessibility.AccessibleControlAdapter;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -182,12 +179,13 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				if ( isDisposed( ) )
 					break;
 
-				if ( event.keyCode == SWT.ARROW_DOWN )
+				if ( event.keyCode == SWT.ARROW_DOWN
+						|| event.keyCode == SWT.CR
+						|| event.keyCode == SWT.KEYPAD_CR )
 				{
 					event.doit = true;
-					toggleDropDown( );					
+					toggleDropDown( );
 				}
-				notifyListeners( SWT.KeyDown, event );
 				break;
 			}
 			case SWT.Traverse :
@@ -334,7 +332,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		}
 
 	}
-	
+
 	void initAccessible( )
 	{
 		getAccessible( ).addAccessibleListener( new AccessibleAdapter( ) {
@@ -385,11 +383,8 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 	private class MarkerDropDownEditorComposite extends Composite
 			implements
-				SelectionListener,
-				KeyListener,
-				FocusListener,
 				PaintListener,
-				MouseListener
+				Listener
 	{
 
 		private Spinner iscMarkerSize;
@@ -399,36 +394,31 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		private Composite cmpType;
 
 		private Group grpSize;
+		
+		boolean isPressingKey = false;
 
 		MarkerDropDownEditorComposite( Composite parent, int style )
 		{
 			super( parent, style );
 			placeComponents( );
-			addListener( SWT.KeyDown, new Listener( ) {
-
-				public void handleEvent( Event event )
-				{
-					if ( event.keyCode == SWT.ARROW_UP )
-					{
-						getShell( ).close( );
-					}
-				}
-			} );
 		}
 
 		private void placeComponents( )
 		{
 			GridLayout glDropDown = new GridLayout( );
 			this.setLayout( glDropDown );
-			this.addKeyListener( this );
-			this.addFocusListener( this );
+//			this.addListener( SWT.KeyDown, this );
+//			this.addListener( SWT.FocusOut, this );
 
 			btnMarkerVisible = new Button( this, SWT.CHECK );
 			{
 				btnMarkerVisible.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
 				btnMarkerVisible.setSelection( getMarker( ).isVisible( ) );
-				btnMarkerVisible.addSelectionListener( this );
-				btnMarkerVisible.addFocusListener( this );
+				btnMarkerVisible.addListener( SWT.Selection, this );
+				btnMarkerVisible.addListener( SWT.FocusOut, this );
+				btnMarkerVisible.addListener( SWT.KeyDown, this );
+				btnMarkerVisible.addListener( SWT.Traverse, this );
+				btnMarkerVisible.setFocus( );
 			}
 
 			cmpType = new Composite( this, SWT.NONE );
@@ -461,7 +451,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				{
 					// Fake node to make borders more smooth
 					cnvType.setToolTipText( typeDisplayNameSet[i] );
-					cnvType.addMouseListener( this );
+					cnvType.addListener( SWT.MouseDown, this );
 				}
 			}
 
@@ -477,15 +467,16 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				iscMarkerSize.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 				iscMarkerSize.setMinimum( 0 );
 				iscMarkerSize.setMaximum( 100 );
-				iscMarkerSize.addSelectionListener( this );
-				iscMarkerSize.addFocusListener( this );
+				iscMarkerSize.addListener( SWT.Selection, this );
+				iscMarkerSize.addListener( SWT.FocusOut, this );
+				iscMarkerSize.addListener( SWT.Traverse, this );
 				iscMarkerSize.setSelection( getMarker( ).getSize( ) );
 			}
 
 			setEnabledState( btnMarkerVisible.getSelection( ) );
 		}
 
-		public void widgetSelected( SelectionEvent e )
+		void widgetSelected( SelectionEvent e )
 		{
 			if ( e.widget.equals( btnMarkerVisible ) )
 			{
@@ -513,40 +504,14 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			}
 		}
 
-		public void widgetDefaultSelected( SelectionEvent e )
+		void focusLost( FocusEvent e )
 		{
-			// TODO Auto-generated method stub
-
-		}
-
-		public void keyPressed( KeyEvent e )
-		{
-			if ( !this.getShell( ).isDisposed( ) )
-			{
-				if ( e.keyCode == SWT.ESC )
-				{
-					this.getShell( ).dispose( );
-					return;
-				}
-			}
-
-		}
-
-		public void keyReleased( KeyEvent e )
-		{
-			// TODO Auto-generated method stub
-
-		}
-
-		public void focusGained( FocusEvent e )
-		{
-			// TODO Auto-generated method stub
-
-		}
-
-		public void focusLost( FocusEvent e )
-		{
-			Control currentControl = Display.getDefault( ).getCursorControl( );
+			Control currentControl = isPressingKey ? Display.getCurrent( )
+					.getFocusControl( ) : Display.getCurrent( )
+					.getCursorControl( );
+			// Set default value back
+			isPressingKey = false;
+			
 			// If current control is the dropdown button, that means users want
 			// to close it manually. Otherwise, close it silently when clicking
 			// other areas.
@@ -554,7 +519,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 					&& currentControl != cnvMarker
 					&& !isChildrenOfThis( currentControl ) )
 			{
-				this.getShell( ).dispose( );
+				this.getShell( ).close( );
 			}
 		}
 
@@ -650,13 +615,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			}
 		}
 
-		public void mouseDoubleClick( MouseEvent e )
-		{
-			// TODO Auto-generated method stub
-
-		}
-
-		public void mouseDown( MouseEvent e )
+		void mouseDown( MouseEvent e )
 		{
 			if ( e.widget instanceof Canvas )
 			{
@@ -666,8 +625,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				{
 					MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
 							getMarker( ).getFill( ) );
-
-					if ( iconDialog.applyMarkerIcon( ) )
+					if ( iconDialog.open( ) == Window.OK )
 					{
 						Fill resultFill = iconDialog.getFill( );
 						if ( resultFill.eAdapters( ).isEmpty( ) )
@@ -695,9 +653,42 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			}
 		}
 
-		public void mouseUp( MouseEvent e )
+		public void handleEvent( Event event )
 		{
+			switch ( event.type )
+			{
+				case SWT.FocusOut :
+					focusLost( new FocusEvent( event ) );
+					break;
 
+				case SWT.MouseDown :
+					mouseDown( new MouseEvent( event ) );
+					break;
+
+				case SWT.Selection :
+					widgetSelected( new SelectionEvent( event ) );
+					break;
+					
+				case SWT.KeyDown :
+					if ( event.keyCode == SWT.ARROW_UP
+							|| event.keyCode == SWT.ESC )
+					{
+						getShell( ).close( );
+					}
+					break;
+					
+				case SWT.Traverse:
+					switch ( event.detail )
+					{
+						case SWT.TRAVERSE_TAB_NEXT :
+						case SWT.TRAVERSE_TAB_PREVIOUS :
+							// Indicates getting focus control rather than cursor
+							// control
+							isPressingKey = true;
+					}
+					break;
+					
+			}
 		}
 
 	}

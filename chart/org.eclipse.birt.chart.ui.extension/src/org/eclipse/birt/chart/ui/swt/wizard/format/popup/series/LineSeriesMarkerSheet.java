@@ -225,7 +225,9 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 						setEnabledState( );
 					}
 				}
-				else if ( event.keyCode == SWT.ARROW_DOWN )
+				else if ( event.keyCode == SWT.ARROW_DOWN
+						|| event.keyCode == SWT.CR
+						|| event.keyCode == SWT.KEYPAD_CR )
 				{
 					currentMarkerEditor.setFocus( );
 				}
