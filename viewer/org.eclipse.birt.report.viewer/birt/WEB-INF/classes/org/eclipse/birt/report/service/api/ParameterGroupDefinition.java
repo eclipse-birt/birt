@@ -31,6 +31,8 @@ public class ParameterGroupDefinition
 	private boolean cascade;
 
 	private String promptText;
+	
+	private String helpText;
 
 	public ParameterGroupDefinition( String name, String displayName,
 			String promptText, List parameters, boolean cascade )
@@ -40,6 +42,22 @@ public class ParameterGroupDefinition
 		this.promptText = promptText;
 		this.parameters = parameters;
 		this.cascade = cascade;
+	}
+	
+	public ParameterGroupDefinition( String name, String displayName,
+			String promptText, List parameters, boolean cascade , String helpText)
+	{
+		this.name = name;
+		this.displayName = displayName;
+		this.promptText = promptText;
+		this.parameters = parameters;
+		this.cascade = cascade;
+		this.helpText = helpText;
+	}
+
+	public ParameterGroupDefinition( )
+	{
+		// todo
 	}
 
 	public String getName( )
@@ -65,6 +83,16 @@ public class ParameterGroupDefinition
 	public void setParameters( List parameters )
 	{
 		this.parameters = parameters;
+	}
+	
+	public String getHelpText( )
+	{
+		return this.helpText;
+	}
+
+	public void setHelpText( String helpText )
+	{
+		this.helpText = helpText;
 	}
 
 	public int getParameterCount( )

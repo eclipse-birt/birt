@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.context;
 
 import org.eclipse.birt.report.service.api.ParameterGroupDefinition;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Parameter group bean object used by parameter group related jsp pages.
@@ -49,5 +50,22 @@ public class ParameterGroupBean extends ParameterAttributeBean
 		}
 
 		return parameterGroup.getName( ); 
+	}
+	
+	/**
+	 * Adapt to ParameterGroupDefinition's getHelpText( ).
+	 * 
+	 * @return parameter group help text.
+	 */
+	public String getToolTip( )
+	{
+		String toolTip = ""; //$NON-NLS-1$
+
+		if ( parameterGroup != null && parameterGroup.getHelpText( ) != null )
+		{
+			toolTip = parameterGroup.getHelpText( );
+		}
+
+		return ParameterAccessor.htmlEncode( toolTip );
 	}
 }

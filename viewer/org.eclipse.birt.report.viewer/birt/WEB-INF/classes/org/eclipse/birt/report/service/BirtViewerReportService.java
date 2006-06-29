@@ -813,9 +813,12 @@ public class BirtViewerReportService implements IViewerReportService
 			IParameterGroupDefn engineParam, IGetParameterDefinitionTask task )
 	{
 		boolean cascade = engineParam instanceof ICascadingParameterGroup;
+		String name = engineParam.getName( );
+		String displayName = engineParam.getDisplayName( );
+		String helpText = engineParam.getHelpText( );
+		String promptText = engineParam.getPromptText( );
 		ParameterGroupDefinition paramGroup = new ParameterGroupDefinition(
-				engineParam.getName( ), engineParam.getDisplayName( ),
-				engineParam.getPromptText( ), null, cascade );
+				name, displayName, promptText, null, cascade , helpText );
 		List contents = convertParametersInGroup( engineParam.getContents( ),
 				paramGroup, task );
 		paramGroup.setParameters( contents );

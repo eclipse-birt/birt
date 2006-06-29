@@ -36,10 +36,10 @@
 %>
 <TR>
 	<TD NOWRAP>
-		<IMG SRC="birt/images/parameter_group.gif" ALT="<%= parameterGroupBean.getDisplayName( ) %>" />
+		<IMG SRC="birt/images/parameter_group.gif" ALT="<%= parameterGroupBean.getDisplayName( ) %>" TITLE="<%= parameterGroupBean.getToolTip( ) %>"/>
 	</TD>
 	<TD NOWRAP>
-		<B><%= parameterGroupBean.getDisplayName( ) %></B>
+		<FONT TITLE="<%= parameterGroupBean.getToolTip( ) %>"><B><%= parameterGroupBean.getDisplayName( ) %></B></FONT>
 	</TD>
 </TR>
 <%
