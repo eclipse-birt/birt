@@ -121,7 +121,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 {
 
 	protected final static String FIXED_STACKED_SERIES_LOCATION_KEY = "fixed_stacked_series_location_key"; //$NON-NLS-1$
-	
+
 	protected final static String FIXED_STACKED_SERIES_INDEX_KEY = "fixed_stacked_series_index_key"; //$NON-NLS-1$
 
 	protected static final String TIMER = "T"; //$NON-NLS-1$
@@ -207,6 +207,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Sets the context infomation for current renderer.
+	 * 
 	 * @param _cm
 	 * @param _o
 	 * @param _se
@@ -223,7 +225,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @param _dc
+	 * Sets the deferred cache used by current renderer.
 	 */
 	public final void set( DeferredCache _dc )
 	{
@@ -231,7 +233,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @param _ir
+	 * Sets the device renderer for current renderer.
 	 */
 	public final void set( IDeviceRenderer _ir )
 	{
@@ -239,7 +241,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @param _xs
+	 * Sets the diplay server for current renderer.
 	 */
 	public final void set( IDisplayServer _xs )
 	{
@@ -247,7 +249,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @param _srh
+	 * Sets the series rendering hints for current renderer.
 	 */
 	public final void set( ISeriesRenderingHints _srh )
 	{
@@ -255,7 +257,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @param _brna
+	 * Setes all associated renderers used for current chart rendering.
 	 */
 	public final void set( BaseRenderer[] _brna )
 	{
@@ -263,7 +265,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @param _rtc
+	 * Sets the runtime context object for current renderer.
 	 */
 	public final void set( RunTimeContext _rtc )
 	{
@@ -271,7 +273,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @return
+	 * @return Returns the series rendering hints for current renderer.
 	 */
 	public final ISeriesRenderingHints getSeriesRenderingHints( )
 	{
@@ -279,7 +281,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @return
+	 * @return Returns the display server for current renderer.
 	 */
 	public final IDisplayServer getXServer( )
 	{
@@ -287,9 +289,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * Returns the scale of current device against standard 72dpi (X/72).
-	 * 
-	 * @return
+	 * @return Returns the scale of current device against standard 72dpi
+	 *         (X/72).
 	 */
 	public final double getDeviceScale( )
 	{
@@ -297,7 +298,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @return
+	 * @return Returns the series definition associated with current renderer.
 	 */
 	public final SeriesDefinition getSeriesDefinition( )
 	{
@@ -305,7 +306,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * Identifies the series sequence # in the list of series renders
+	 * Identifies the series sequence # in the list of series renders(start from
+	 * 0).
 	 * 
 	 * @return The index of the Series being rendered
 	 */
@@ -313,10 +315,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		return iSeriesIndex;
 	}
-	
+
 	/**
-	 * 
-	 * @return
+	 * @return Returns the series count for current chart rendering.
 	 */
 	public final int getSeriesCount( )
 	{
@@ -324,8 +325,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return Returns the deferred cache associated with current renderer.
 	 */
 	public final DeferredCache getDeferredCache( )
 	{
@@ -345,7 +345,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @return
+	 * @return Returns the runtime context associated with current renderer.
 	 */
 	public final RunTimeContext getRunTimeContext( )
 	{
@@ -529,7 +529,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param lg
 	 * @param htRenderers
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void renderLegend( IPrimitiveRenderer ipr, Legend lg, Map htRenderers )
 			throws ChartException
@@ -794,7 +794,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 		final ITextMetrics itm = xs.getTextMetrics( la );
 
-		final double maxWrappingSize = lg.getWrappingSize( );
+		final double maxWrappingSize = lg.getWrappingSize( ) * dScale;
 		final double dItemHeight = itm.getFullHeight( );
 		final double dHorizontalSpacing = 4;
 		final double dVerticalSpacing = 4;
@@ -802,7 +802,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		Insets insCA = ca.getInsets( ).scaledInstance( dScale );
 
 		Series seBase;
-		ArrayList al;
+		List al;
 		LegendItemRenderingHints lirh;
 		Palette pa;
 		int iPaletteCount;
@@ -1183,6 +1183,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						for ( int i = 0; i < al.size( ); i++ )
 						{
 							seBase = (Series) al.get( i );
+
+							if ( !seBase.isVisible( ) )
+							{
+								continue;
+							}
+
 							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 
 							lih = liha[k++];
@@ -1235,7 +1241,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 						}
 
-						if ( j < seda.length - 1 )
+						if ( j < seda.length - 1 && k < liha.length )
 						{
 							lih = liha[k];
 
@@ -1421,6 +1427,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						for ( int i = 0; i < al.size( ); i++ )
 						{
 							seBase = (Series) al.get( i );
+
+							if ( !seBase.isVisible( ) )
+							{
+								continue;
+							}
+
 							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 
 							lih = liha[k++];
@@ -1473,7 +1485,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 						}
 
-						if ( j < seda.length - 1 )
+						if ( j < seda.length - 1 && k < liha.length )
 						{
 							lih = liha[k];
 
@@ -1928,6 +1940,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						for ( int i = 0; i < al.size( ); i++ )
 						{
 							seBase = (Series) al.get( i );
+
+							if ( !seBase.isVisible( ) )
+							{
+								continue;
+							}
+
 							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 
 							lih = liha[k++];
@@ -1972,7 +1990,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 						}
 
-						if ( j < seda.length - 1 )
+						if ( j < seda.length - 1 && k < liha.length )
 						{
 							lih = liha[k];
 
@@ -2176,6 +2194,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						for ( int i = 0; i < al.size( ); i++ )
 						{
 							seBase = (Series) al.get( i );
+
+							if ( !seBase.isVisible( ) )
+							{
+								continue;
+							}
+
 							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 
 							lih = liha[k++];
@@ -2220,7 +2244,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 						}
 
-						if ( j < seda.length - 1 )
+						if ( j < seda.length - 1 && k < liha.length )
 						{
 							lih = liha[k];
 
@@ -2625,7 +2649,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			dLaAngle = -dLaAngle;
 		}
 		double dDeltaHeight = 0;
-		if ( dLaAngle >= 0 && dLaAngle < 90 )
+		if ( dLaAngle > 0 && dLaAngle < 90 )
 		{
 			dDeltaHeight = ( bo.getHeight( ) + dFullHeight - dItemHeight ) / 2;
 		}
@@ -2633,7 +2657,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			dDeltaHeight = ( bo.getHeight( ) - dFullHeight + dItemHeight ) / 2;
 		}
-		else if ( dLaAngle == 90 || dLaAngle == -90 )
+		else if ( dLaAngle == 0 || dLaAngle == 90 || dLaAngle == -90 )
 		{
 			dDeltaHeight = bo.getHeight( ) / 2;
 		}
@@ -2720,10 +2744,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				loaHotspot[0] = LocationImpl.create( dTextStartX, dY );
 				loaHotspot[1] = LocationImpl.create( dTextStartX - dW, dY + 1 );
 				loaHotspot[2] = LocationImpl.create( dTextStartX - dW, dY
-						+ dItemHeight
+						+ dFullHeight
 						+ dExtraHeight );
 				loaHotspot[3] = LocationImpl.create( dTextStartX, dY
-						+ dItemHeight
+						+ dFullHeight
 						+ dExtraHeight );
 			}
 			else
@@ -2732,10 +2756,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				loaHotspot[0] = LocationImpl.create( dTextStartX, dY );
 				loaHotspot[1] = LocationImpl.create( dTextStartX + dW, dY + 1 );
 				loaHotspot[2] = LocationImpl.create( dTextStartX + dW, dY
-						+ dItemHeight
+						+ dFullHeight
 						+ dExtraHeight );
 				loaHotspot[3] = LocationImpl.create( dTextStartX, dY
-						+ dItemHeight
+						+ dFullHeight
 						+ dExtraHeight );
 			}
 
@@ -2853,7 +2877,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param p
 	 *            The Plot to render
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void renderPlot( IPrimitiveRenderer ipr, Plot p )
 			throws ChartException
@@ -2898,11 +2922,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Renders the background.
 	 * 
 	 * @param ipr
 	 * @param p
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	protected void renderBackground( IPrimitiveRenderer ipr, Plot p )
 			throws ChartException
@@ -2990,11 +3015,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Renders the block.
 	 * 
 	 * @param ipr
 	 * @param b
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	protected void renderBlock( IPrimitiveRenderer ipr, Block b, Object oSource )
 			throws ChartException
@@ -3008,11 +3034,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Renders the chart block.
 	 * 
 	 * @param ipr
 	 * @param b
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	protected void renderChartBlock( IPrimitiveRenderer ipr, Block b,
 			Object oSource ) throws ChartException
@@ -3061,11 +3088,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Renders label.
 	 * 
 	 * @param ipr
 	 * @param b
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void renderLabel( IPrimitiveRenderer ipr, Block b, Object oSource )
 			throws ChartException
@@ -3097,7 +3125,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param b
 	 *            The TitleBlock to render
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void renderTitle( IPrimitiveRenderer ipr, TitleBlock b )
 			throws ChartException
@@ -3155,6 +3183,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Creates empty renderer instance.
 	 * 
 	 * @param cm
 	 * @param oComputations
@@ -3182,7 +3211,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param oComputations
 	 * 
 	 * @return
-	 * @throws PluginException
+	 * @throws ChartException
 	 */
 	public static final BaseRenderer[] instances( Chart cm, RunTimeContext rtc,
 			Object oComputations ) throws ChartException
@@ -3200,7 +3229,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Axis axPrimaryBase = axa[0];
 			Series se;
 			AxesRenderer ar = null;
-			ArrayList al = new ArrayList( ), alRunTimeSeries;
+			List al = new ArrayList( ), alRunTimeSeries;
 			EList elBase, elOrthogonal;
 			SeriesDefinition sd = null;
 
@@ -3277,7 +3306,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			EList elBase = cwoa.getSeriesDefinitions( );
 			EList elOrthogonal;
 			SeriesDefinition sd, sdBase;
-			ArrayList alRuntimeSeries;
+			List alRuntimeSeries;
 
 			final Series[] sea = cwoa.getRunTimeSeries( );
 
@@ -3338,40 +3367,32 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		return brna;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.render.IModelAccess#getSeries()
+	/**
+	 * @return Returns series associated with current renderer.
 	 */
 	public final Series getSeries( )
 	{
 		return se;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.render.IModelAccess#getModel()
+	/**
+	 * @return Returns chart model associated with current renderer.
 	 */
 	public final Chart getModel( )
 	{
 		return cm;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.render.IModelAccess#getComputations()
+	/**
+	 * @return Returns computation object associated with current renderer.
 	 */
 	public final Object getComputations( )
 	{
 		return oComputations;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.render.IModelAccess#getDevice()
+	/**
+	 * @return Returns device renderer associated with current renderer.
 	 */
 	public final IDeviceRenderer getDevice( )
 	{
@@ -3625,9 +3646,17 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Finds particular Y value from given location list.
 	 * 
 	 * @param loa
+	 *            Location list.
 	 * @param iProperty
+	 *            This value must be one of following:
+	 *            <ul>
+	 *            <li>IConstants.MIN
+	 *            <li>IConstants.MAX
+	 *            <li>IConstants.AVERAGE
+	 *            </ul>
 	 * 
 	 * @return
 	 */
@@ -3663,9 +3692,17 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Finds particular X value from given location list.
 	 * 
 	 * @param loa
+	 *            Location list.
 	 * @param iProperty
+	 *            This value must be one of following:
+	 *            <ul>
+	 *            <li>IConstants.MIN
+	 *            <li>IConstants.MAX
+	 *            <li>IConstants.AVERAGE
+	 *            </ul>
 	 * 
 	 * @return
 	 */
@@ -3778,7 +3815,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @return
+	 * @return Returns the current cell bounds associated with current series.
+	 * @see #getCellBounds(int)
 	 */
 	protected final Bounds getCellBounds( )
 	{
@@ -3881,7 +3919,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @param dphs
+	 * This method validates the given datapoints.
 	 */
 	protected void validateNullDatapoint( DataPointHints[] dphs )
 			throws ChartException
@@ -3896,7 +3934,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * @param isrh
+	 * This method validates the dataset state from given series rendering
+	 * hints.
 	 */
 	protected void validateDataSetCount( ISeriesRenderingHints isrh )
 			throws ChartException
@@ -3924,9 +3963,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected static List filterNull( List ll )
 	{
 		ArrayList al = new ArrayList( );
-		for ( Iterator itr = ll.iterator( ); itr.hasNext( ); )
+		for ( int i = 0; i < ll.size( ); i++ )
 		{
-			double[] obj = (double[]) itr.next( );
+			double[] obj = (double[]) ll.get( i );
 
 			if ( obj == null || Double.isNaN( obj[0] ) || Double.isNaN( obj[1] ) )
 			{
@@ -3960,11 +3999,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		if ( ll instanceof Location3D[] )
 		{
-			return (Location3D[]) al.toArray( new Location3D[0] );
+			return (Location3D[]) al.toArray( new Location3D[al.size( )] );
 		}
 		else
 		{
-			return (Location[]) al.toArray( new Location[0] );
+			return (Location[]) al.toArray( new Location[al.size( )] );
 		}
 	}
 

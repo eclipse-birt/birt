@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * A helper class for Legend computation.
@@ -97,7 +98,6 @@ public final class LegendBuilder implements IConstants
 		// INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
 		final Orientation orientation = lg.getOrientation( );
 		final Direction direction = lg.getDirection( );
-		final double maxWrappingSize = lg.getWrappingSize( );
 
 		Label la = LabelImpl.create( );
 		la.setCaption( TextImpl.copyInstance( lg.getText( ) ) );
@@ -111,20 +111,22 @@ public final class LegendBuilder implements IConstants
 		double dItemHeight = itm.getFullHeight( );
 
 		Series se;
-		ArrayList al;
-		
+		List al;
+
 		double dScale = xs.getDpiResolution( ) / 72d;
 		Insets insCA = ca.getInsets( ).scaledInstance( dScale );
 		final boolean bPaletteByCategory = ( cm.getLegend( )
 				.getItemType( )
 				.getValue( ) == LegendItemType.CATEGORIES );
 
+		final double maxWrappingSize = lg.getWrappingSize( ) * dScale;
+
 		Series seBase;
 		final List legendItems = new ArrayList( );
 
 		final double dHorizontalSpacing = 3 * dScale;
 		final double dVerticalSpacing = 3 * dScale;
-		
+
 		// Get maximum block width/height available
 		Block bl = cm.getBlock( );
 		Bounds boFull = bl.getBounds( ).scaledInstance( dScale );
@@ -180,8 +182,8 @@ public final class LegendBuilder implements IConstants
 				// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 				SeriesDefinition sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
 						.get( 0 );
-				SeriesDefinition[] sdOrtho = (SeriesDefinition[]) sdBase.getSeriesDefinitions( )
-						.toArray( new SeriesDefinition[0] );
+				EList sdA = sdBase.getSeriesDefinitions( );
+				SeriesDefinition[] sdOrtho = (SeriesDefinition[]) sdA.toArray( new SeriesDefinition[sdA.size( )] );
 
 				DataSetIterator dsiOrtho = null;
 				BaseRenderer br;
@@ -189,8 +191,9 @@ public final class LegendBuilder implements IConstants
 
 				ENTRANCE: for ( int i = 0; i < sdOrtho.length; i++ )
 				{
-					Series[] alRuntimeSeries = (Series[]) sdOrtho[i].getRunTimeSeries( )
-							.toArray( new Series[0] );
+					List sdRuntimeSA = sdOrtho[i].getRunTimeSeries( );
+					Series[] alRuntimeSeries = (Series[]) sdRuntimeSA.toArray( new Series[sdRuntimeSA.size( )] );
+
 					for ( int j = 0; j < alRuntimeSeries.length; j++ )
 					{
 						try
@@ -450,9 +453,22 @@ public final class LegendBuilder implements IConstants
 				{
 					al = seda[j].getRunTimeSeries( );
 					FormatSpecifier fs = seda[j].getFormatSpecifier( );
+
+					boolean oneVisibleSerie = false;
+
 					for ( int i = 0; i < al.size( ); i++ )
 					{
 						se = (Series) al.get( i );
+
+						if ( se.isVisible( ) )
+						{
+							oneVisibleSerie = true;
+						}
+						else
+						{
+							continue;
+						}
+
 						Object obj = se.getSeriesIdentifier( );
 						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
@@ -572,7 +588,8 @@ public final class LegendBuilder implements IConstants
 					}
 
 					// SETUP HORIZONTAL SEPARATOR SPACING
-					if ( j < seda.length - 1
+					if ( oneVisibleSerie
+							&& j < seda.length - 1
 							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
 									.isVisible( ) ) )
 					{
@@ -615,9 +632,22 @@ public final class LegendBuilder implements IConstants
 				{
 					al = seda[j].getRunTimeSeries( );
 					FormatSpecifier fs = seda[j].getFormatSpecifier( );
+
+					boolean oneVisibleSerie = false;
+
 					for ( int i = 0; i < al.size( ); i++ )
 					{
 						se = (Series) al.get( i );
+
+						if ( se.isVisible( ) )
+						{
+							oneVisibleSerie = true;
+						}
+						else
+						{
+							continue;
+						}
+
 						Object obj = se.getSeriesIdentifier( );
 						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
@@ -705,7 +735,9 @@ public final class LegendBuilder implements IConstants
 								dExtraHeight = itm.getFullHeight( );
 								extraText = seLabel.getCaption( ).getValue( );
 
-								dDeltaHeight += itm.getFullHeight( ) + 2 * dScale;
+								dDeltaHeight += itm.getFullHeight( )
+										+ 2
+										* dScale;
 							}
 						}
 
@@ -736,18 +768,23 @@ public final class LegendBuilder implements IConstants
 								extraText ) );
 					}
 
-					dExtraWidth += dMaxW
-							+ insCA.getLeft( )
-							+ insCA.getRight( )
-							+ ( 3 * dItemHeight )
-							/ 2
-							+ dHorizontalSpacing;
+					if ( oneVisibleSerie )
+					{
+						dExtraWidth += dMaxW
+								+ insCA.getLeft( )
+								+ insCA.getRight( )
+								+ ( 3 * dItemHeight )
+								/ 2
+								+ dHorizontalSpacing;
+					}
+
 					dMaxW = 0;
 					dRealHeight = Math.max( dRealHeight, dHeight );
 					dHeight = 0;
 
 					// SETUP VERTICAL SEPARATOR SPACING
-					if ( j < seda.length - 1
+					if ( oneVisibleSerie
+							&& j < seda.length - 1
 							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
 									.isVisible( ) ) )
 					{
@@ -984,9 +1021,21 @@ public final class LegendBuilder implements IConstants
 					dWidth = 0;
 					al = seda[j].getRunTimeSeries( );
 					FormatSpecifier fs = seda[j].getFormatSpecifier( );
+					boolean oneVisibleSerie = false;
+
 					for ( int i = 0; i < al.size( ); i++ )
 					{
 						se = (Series) al.get( i );
+
+						if ( se.isVisible( ) )
+						{
+							oneVisibleSerie = true;
+						}
+						else
+						{
+							continue;
+						}
+
 						Object obj = se.getSeriesIdentifier( );
 						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
@@ -1107,16 +1156,20 @@ public final class LegendBuilder implements IConstants
 								extraText ) );
 					}
 
-					dExtraHeight += dMaxH
-							+ insCA.getTop( )
-							+ insCA.getBottom( )
-							+ dVerticalSpacing;
+					if ( oneVisibleSerie )
+					{
+						dExtraHeight += dMaxH
+								+ insCA.getTop( )
+								+ insCA.getBottom( )
+								+ dVerticalSpacing;
+					}
 					dMaxH = 0;
 					dRealWidth = Math.max( dRealWidth, dWidth );
 					dWidth = 0;
 
 					// SETUP HORIZONTAL SEPARATOR SPACING
-					if ( j < seda.length - 1
+					if ( oneVisibleSerie
+							&& j < seda.length - 1
 							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
 									.isVisible( ) ) )
 					{
@@ -1149,9 +1202,21 @@ public final class LegendBuilder implements IConstants
 				{
 					al = seda[j].getRunTimeSeries( );
 					FormatSpecifier fs = seda[j].getFormatSpecifier( );
+					boolean oneVisibleSerie = false;
+
 					for ( int i = 0; i < al.size( ); i++ )
 					{
 						se = (Series) al.get( i );
+
+						if ( se.isVisible( ) )
+						{
+							oneVisibleSerie = true;
+						}
+						else
+						{
+							continue;
+						}
+
 						Object obj = se.getSeriesIdentifier( );
 						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
@@ -1273,7 +1338,8 @@ public final class LegendBuilder implements IConstants
 					}
 
 					// SETUP VERTICAL SEPARATOR SPACING
-					if ( j < seda.length - 1
+					if ( oneVisibleSerie
+							&& j < seda.length - 1
 							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
 									.isVisible( ) ) )
 					{
@@ -1391,7 +1457,7 @@ public final class LegendBuilder implements IConstants
 
 		if ( rtc != null )
 		{
-			LegendItemHints[] liha = (LegendItemHints[]) legendItems.toArray( new LegendItemHints[0] );
+			LegendItemHints[] liha = (LegendItemHints[]) legendItems.toArray( new LegendItemHints[legendItems.size( )] );
 
 			// update context hints here.
 			LegendLayoutHints lilh = new LegendLayoutHints( SizeImpl.create( dWidth,
@@ -1449,12 +1515,11 @@ public final class LegendBuilder implements IConstants
 		}
 		else
 		{
-			Integer[] ia = (Integer[]) dup.toArray( new Integer[0] );
-			int[] pia = new int[ia.length];
+			int[] pia = new int[dup.size( )];
 
-			for ( int i = 0; i < ia.length; i++ )
+			for ( int i = 0; i < pia.length; i++ )
 			{
-				pia[i] = ia[i].intValue( );
+				pia[i] = ( (Integer) dup.get( i ) ).intValue( );
 			}
 			return pia;
 		}
