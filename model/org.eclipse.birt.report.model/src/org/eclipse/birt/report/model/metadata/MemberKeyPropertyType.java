@@ -16,24 +16,24 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
- * Element name property type. Represents the name of an element.
+ * Element name property type. Represents the key member of a structure.
  * 
  */
 
-public class NamePropertyType extends TextualPropertyType
+public class MemberKeyPropertyType extends TextualPropertyType
 {
 
 	/**
 	 * Display name key.
 	 */
 
-	private static final String DISPLAY_NAME_KEY = "Property.name"; //$NON-NLS-1$
+	private static final String DISPLAY_NAME_KEY = "Property.memberKey"; //$NON-NLS-1$
 
 	/**
 	 * Constructor.
 	 */
 
-	public NamePropertyType( )
+	public MemberKeyPropertyType( )
 	{
 		super( DISPLAY_NAME_KEY );
 	}
@@ -46,7 +46,7 @@ public class NamePropertyType extends TextualPropertyType
 
 	public int getTypeCode( )
 	{
-		return NAME_TYPE;
+		return MEMBER_KEY_TYPE;
 	}
 
 	/*
@@ -57,7 +57,7 @@ public class NamePropertyType extends TextualPropertyType
 
 	public String getName( )
 	{
-		return NAME_TYPE_NAME;
+		return MEMBER_KEY_NAME;
 	}
 
 	/*
@@ -77,7 +77,7 @@ public class NamePropertyType extends TextualPropertyType
 			if ( defn.isStructureMember( ) )
 				throw new PropertyValueException( value,
 						PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-						NAME_TYPE );
+						MEMBER_KEY_TYPE );
 			return null;
 		}
 		if ( value instanceof String )
@@ -89,22 +89,15 @@ public class NamePropertyType extends TextualPropertyType
 					throw new PropertyValueException(
 							value,
 							PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-							NAME_TYPE );
+							MEMBER_KEY_TYPE );
 				return null;
-			}
-			else if ( stringValue.indexOf( ReferenceValue.NAMESPACE_DELIMITER ) != -1 ) 
-			{
-					throw new PropertyValueException(
-							value,
-							PropertyValueException.DESIGN_EXCEPTION_DOT_FORBIDDEN,
-							NAME_TYPE );
 			}
 
 			return stringValue;
 		}
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				NAME_TYPE );
+				MEMBER_KEY_TYPE );
 	}
 
 	/*

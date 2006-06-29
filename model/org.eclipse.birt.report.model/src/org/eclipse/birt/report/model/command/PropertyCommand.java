@@ -472,7 +472,8 @@ public class PropertyCommand extends AbstractElementCommand
 		// if set the value to the name of a structure, must ensure this
 		// would not create duplicates.
 
-		if ( memberDefn.getTypeCode( ) == PropertyType.NAME_TYPE )
+		if ( memberDefn.getTypeCode( ) == PropertyType.NAME_TYPE
+				|| memberDefn.getTypeCode( ) == PropertyType.MEMBER_KEY_TYPE )
 			checkItemName( ref, (String) value );
 
 		// Ignore duplicate values, even if the current value is not local.

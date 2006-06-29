@@ -158,10 +158,16 @@ public interface IPropertyType
 	public static final int LITERAL_STRING_TYPE = 21; 
 	
 	/**
+	 * Type code for the key property type of a structure member.
+	 */
+
+	public static final int MEMBER_KEY_TYPE = 22;
+	
+	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 22;
+	public static final int TYPE_COUNT = 23;
 	
 	
 
@@ -304,6 +310,12 @@ public interface IPropertyType
 
 	public static final String LITERAL_STRING_TYPE_NAME = "literalString"; //$NON-NLS-1$
 
+	/**
+	 * Name the key property type of a structure member.
+	 */
+
+	public static final String MEMBER_KEY_NAME = "memberKey";
+	
 	
 	/**
 	 * Returns the localized display name.

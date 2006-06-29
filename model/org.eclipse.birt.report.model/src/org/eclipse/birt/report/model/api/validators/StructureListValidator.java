@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
 /**
@@ -176,9 +177,11 @@ public class StructureListValidator extends AbstractPropertyValidator
 			Iterator iter = propDefn.getStructDefn( ).propertiesIterator( );
 			while ( iter.hasNext( ) )
 			{
-				PropertyDefn memberDefn = (PropertyDefn) iter.next( );
+				StructPropertyDefn memberDefn = (StructPropertyDefn) iter
+						.next( );
 
-				if ( memberDefn.getTypeCode( ) == PropertyType.NAME_TYPE )
+				if ( memberDefn.getTypeCode( ) == PropertyType.NAME_TYPE
+						|| memberDefn.getTypeCode( ) == PropertyType.MEMBER_KEY_TYPE )
 				{
 					uniqueMember = memberDefn;
 					break;

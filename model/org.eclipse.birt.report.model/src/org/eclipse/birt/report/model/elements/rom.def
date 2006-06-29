@@ -1674,7 +1674,7 @@
     <Member displayNameID="Structure.IncludeScript.fileName" isIntrinsic="true" name="fileName" since="1.0" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.EmbeddedImage" name="EmbeddedImage" since="1.0">
-    <Member displayNameID="Structure.EmbeddedImage.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="name" valueRequired="true"/>
+    <Member displayNameID="Structure.EmbeddedImage.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
     <Member detailType="imageType" displayNameID="Structure.EmbeddedImage.type" isIntrinsic="true" name="type" runtimeSettable="false" since="1.0" type="choice"/>
     <Member displayNameID="Structure.EmbeddedImage.data" isIntrinsic="true" name="data" runtimeSettable="false" since="1.0" type="string"/>
   	<Member detailType="EmbeddedImage" displayNameID="Structure.EmbeddedImage.libReference" isIntrinsic="true" name="libReference" runtimeSettable="false" since="2.0" type="structRef"/>
@@ -1686,7 +1686,7 @@
     </Member>
   </Structure>
   <Structure displayNameID="Structure.ExtendedProperty" name="ExtendedProperty" since="1.0">
-    <Member displayNameID="Structure.ExtendedProperty.name" isIntrinsic="true" name="name" since="1.0" type="name"/>
+    <Member displayNameID="Structure.ExtendedProperty.name" isIntrinsic="true" name="name" since="1.0" type="memberKey"/>
     <Member displayNameID="Structure.ExtendedProperty.value" isIntrinsic="true" name="value" since="1.0" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.DataSetParam" name="DataSetParam" since="1.0">
@@ -1723,7 +1723,7 @@
     <Member displayNameID="Structure.ResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />
   </Structure>
   <Structure displayNameID="Structure.ComputedColumn" name="ComputedColumn" since="1.0">
-    <Member displayNameID="Structure.ComputedColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="name" valueRequired="true"/>
+    <Member displayNameID="Structure.ComputedColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
   	<Member context="factory" displayNameID="Structure.ComputedColumn.expression" isIntrinsic="true" name="expression" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
   	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.0" type="choice">
 		<Default>any</Default>
