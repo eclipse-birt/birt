@@ -30,14 +30,11 @@ import org.eclipse.birt.report.presentation.aggregation.parameter.RadioButtonPar
 import org.eclipse.birt.report.presentation.aggregation.parameter.TextBoxParameterFragment;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
-import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
-import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ParameterGroupDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Fragment help rendering parameter page in side bar.

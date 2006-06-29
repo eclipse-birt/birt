@@ -48,7 +48,6 @@ import org.eclipse.birt.report.soapengine.api.SelectItemChoice;
 import org.eclipse.birt.report.soapengine.api.SelectionList;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class BirtGetCascadeParameterActionHandler
 		extends
@@ -183,8 +182,8 @@ public class BirtGetCascadeParameterActionHandler
 
 		String firstName = (String) params.keySet( ).iterator( ).next( );
 
-		Collection paramDefs = getReportService( ).getParameterDefinitions(
-				design, options, false );
+		// Get parameter definiations list
+		Collection paramDefs = attrBean.getParameterDefList( );
 
 		ParameterDefinition paramDef = null;
 

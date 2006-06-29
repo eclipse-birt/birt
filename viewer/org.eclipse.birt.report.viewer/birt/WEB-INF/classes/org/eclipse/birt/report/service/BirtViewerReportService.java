@@ -372,7 +372,8 @@ public class BirtViewerReportService implements IViewerReportService
 
 		if ( doc.findTOCByName( name ) != null
 				&& doc.findTOCByName( name ).size( ) > 0 )
-			return ( (TOCNode) doc.findTOCByName( name ).get( 0 ) ).getBookmark( );
+			return ( (TOCNode) doc.findTOCByName( name ).get( 0 ) )
+					.getBookmark( );
 
 		doc.close( );
 		return tocId;
@@ -847,14 +848,11 @@ public class BirtViewerReportService implements IViewerReportService
 				? false
 				: scalarParamHandle.isMustMatch( );
 		boolean concealValue = engineParam.isValueConcealed( );
-		// Convert selection list
-		Collection selectionList = convertEngineParameterSelectionChoice( task
-				.getSelectionList( name ) );
 
 		ParameterDefinition param = new ParameterDefinition( name, pattern,
 				displayFormat, displayName, helpText, promptText, dataType,
 				controlType, hidden, allowNull, allowBlank, mustMatch,
-				concealValue, group, selectionList );
+				concealValue, group, null );
 		return param;
 	}
 
