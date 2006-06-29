@@ -44,10 +44,9 @@ import org.eclipse.swt.widgets.Spinner;
  * 
  */
 
-public class AxisGridLinesSheet extends AbstractPopupSheet
-		implements
-			SelectionListener,
-			Listener
+public class AxisGridLinesSheet extends AbstractPopupSheet implements
+		SelectionListener,
+		Listener
 {
 
 	private transient Composite cmpContent;
@@ -104,7 +103,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 	protected Composite getComponent( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_AXIS_GRIDLINES );
-		
+
 		// Layout for the content composite
 		GridLayout glContent = new GridLayout( );
 		glContent.numColumns = 2;
@@ -286,7 +285,10 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 
 		setStateOfMinorGrid( getAxisForProcessing( ).getMinorGrid( )
 				.getLineAttributes( )
-				.isVisible( ) );
+				.isVisible( )
+				|| getAxisForProcessing( ).getMinorGrid( )
+						.getTickAttributes( )
+						.isVisible( ) );
 
 		return cmpContent;
 	}
@@ -393,6 +395,9 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 					getAxisForProcessing( ).getMinorGrid( )
 							.getTickAttributes( )
 							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					setStateOfMinorGrid( getAxisForProcessing( ).getMinorGrid( )
+							.getTickAttributes( )
+							.isVisible( ) );
 					break;
 			}
 		}
