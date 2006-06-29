@@ -16,8 +16,9 @@ import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
-import org.eclipse.birt.chart.datafeed.ResultSetDataSet;
-import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
+
+import org.eclipse.birt.chart.internal.datafeed.ResultSetDataSet;
+import org.eclipse.birt.chart.internal.datafeed.ResultSetWrapper;
 
 public class ResultSetDataSetTest extends TestCase {
 	private String exp[] = { "Product", "Manufacturer", "Month" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

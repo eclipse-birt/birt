@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith3DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
-import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -557,9 +556,7 @@ public final class Generator
 			throws ChartException
 	{
 		DataProcessor helper = new DataProcessor( rtc, iae );
-		ResultSetWrapper wrapper = helper.mapToChartResultSet( expressionEvaluator,
-				chart );
-		helper.generateRuntimeSeries( chart, wrapper );
+		helper.generateRuntimeSeries( expressionEvaluator, chart );
 	}
 
 	/**

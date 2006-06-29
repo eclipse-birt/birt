@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import junit.framework.TestCase;
 
-import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
+import org.eclipse.birt.chart.internal.datafeed.ResultSetWrapper;
 
 public class ResultSetWrapperTest extends TestCase {
 
