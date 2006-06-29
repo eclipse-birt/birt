@@ -130,6 +130,9 @@ public class GetParameterDefinitionTask extends EngineTask
 				}
 				else if ( pBase instanceof ParameterGroupDefn )
 				{
+					( (ParameterGroupDefn) pBase )
+							.setReportDesign( (ReportDesignHandle) runnable
+									.getDesignHandle( ) );
 					Iterator iter2 = ( (ParameterGroupDefn) pBase )
 							.getContents( ).iterator( );
 					while ( iter2.hasNext( ) )

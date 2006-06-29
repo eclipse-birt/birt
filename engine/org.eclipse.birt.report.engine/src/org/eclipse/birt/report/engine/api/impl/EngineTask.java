@@ -60,7 +60,8 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * is the task running or not.
 	 */
-	private boolean runningFlag = false;
+	//private boolean runningFlag = false;
+	private Thread threadHandle = null;
 	
 	/**
 	 * store the signals which need be notified.
@@ -523,8 +524,12 @@ public abstract class EngineTask implements IEngineTask
 	synchronized public void cancel( )
 	{
 		doCancel();
-		if( runningFlag )
+		if( null != threadHandle )
 		{
+			if (Thread.currentThread( ).equals( threadHandle ))
+			{
+				return;
+			}
 			try
 			{
 				wait( );
@@ -539,7 +544,7 @@ public abstract class EngineTask implements IEngineTask
 	synchronized public void cancel( Object signal )
 	{
 		assert (signal != null);
-		if( runningFlag )
+		if( null != threadHandle )
 		{
 			notifyList.add( signal );
 			doCancel();
@@ -556,7 +561,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.38 $ $Date: 2006/06/15 07:13:45 $
+	 * @version $Revision: 1.39 $ $Date: 2006/06/23 10:08:35 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -776,24 +781,25 @@ public abstract class EngineTask implements IEngineTask
 	
 	synchronized protected void setRunningFlag( boolean flag )
 	{
-		if( runningFlag != flag )
+		if( flag && ( null == threadHandle ) )
 		{
-			runningFlag = flag;
-			if( !flag )
+			threadHandle = Thread.currentThread( );
+			
+		}
+		else if( !flag && ( null != threadHandle ) )
+		{
+			threadHandle = null;
+			Iterator iter = notifyList.iterator( );
+			while ( iter.hasNext( ) )
 			{
-				Iterator iter = notifyList.iterator( );
-				while ( iter.hasNext( ) )
+				Object signal = iter.next( );
+				synchronized( signal )
 				{
-					Object signal = iter.next( );
-					synchronized( signal )
-					{
-						signal.notifyAll( );
-					}
+					signal.notifyAll( );
 				}
-				notifyAll( );
-				notifyList.clear();
 			}
+			notifyAll( );
+			notifyList.clear();
 		}
 	}
-	
 }
