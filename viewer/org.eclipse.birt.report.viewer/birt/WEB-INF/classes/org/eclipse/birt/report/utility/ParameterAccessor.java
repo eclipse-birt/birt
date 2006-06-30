@@ -88,6 +88,7 @@ public class ParameterAccessor
 	 * Format parameter constants to display the report in html.
 	 */
 
+	public static final String PARAM_FORMAT_HTM = "htm"; //$NON-NLS-1$
 	public static final String PARAM_FORMAT_HTML = "html"; //$NON-NLS-1$
 
 	/**
@@ -1491,6 +1492,28 @@ public class ParameterAccessor
 		}
 
 		return configFileName;
+	}
+
+	/**
+	 * Validate the output format.
+	 * 
+	 * @param format
+	 *            String
+	 * @return boolean
+	 */
+	public static boolean validateFormat( String format )
+	{
+		// HTML output format
+		if ( ParameterAccessor.PARAM_FORMAT_HTM.equalsIgnoreCase( format )
+				|| ParameterAccessor.PARAM_FORMAT_HTML
+						.equalsIgnoreCase( format ) )
+			return true;
+
+		// PDF output format
+		if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
+			return true;
+
+		return false;
 	}
 
 	/**

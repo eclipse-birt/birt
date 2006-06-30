@@ -120,6 +120,22 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.reportDocumentName = ParameterAccessor.getReportDocument( request );
 		this.reportDesignName = ParameterAccessor.getReport( request );
 		this.format = ParameterAccessor.getFormat( request );
+
+		// Support htm output format as html format
+		if ( ParameterAccessor.PARAM_FORMAT_HTM.equalsIgnoreCase( this.format ) )
+		{
+			this.format = ParameterAccessor.PARAM_FORMAT_HTML;
+		}
+
+		// Check the output format, if don't support it, throw exception
+		if ( !ParameterAccessor.validateFormat( this.format ) )
+		{
+			this.exception = new Exception(
+					BirtResources
+							.getString( ResourceConstants.VIEWER_ERROR_UNSUPPORTEDFORMAT ) );
+			return;
+		}
+
 		this.maxRows = ParameterAccessor.getMaxRows( request );
 
 		// Set preview report max rows
