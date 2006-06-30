@@ -471,6 +471,9 @@ public class ParameterAccessor
 		String format = getParameter( request, PARAM_FORMAT );
 		if ( format != null && format.length( ) > 0 )
 		{
+			if ( PARAM_FORMAT_HTM.equalsIgnoreCase( format ) )
+				return PARAM_FORMAT_HTML;
+
 			return format;
 		}
 
@@ -1492,28 +1495,6 @@ public class ParameterAccessor
 		}
 
 		return configFileName;
-	}
-
-	/**
-	 * Validate the output format.
-	 * 
-	 * @param format
-	 *            String
-	 * @return boolean
-	 */
-	public static boolean validateFormat( String format )
-	{
-		// HTML output format
-		if ( ParameterAccessor.PARAM_FORMAT_HTM.equalsIgnoreCase( format )
-				|| ParameterAccessor.PARAM_FORMAT_HTML
-						.equalsIgnoreCase( format ) )
-			return true;
-
-		// PDF output format
-		if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
-			return true;
-
-		return false;
 	}
 
 	/**

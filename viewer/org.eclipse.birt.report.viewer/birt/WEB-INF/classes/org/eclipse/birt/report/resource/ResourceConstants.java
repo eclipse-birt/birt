@@ -53,7 +53,4 @@ public interface ResourceConstants
 	
 	public static final String EXCEPTION_DIALOG_STACK_TRACE = "birt.viewer.exceptionDialog.stackTrace"; //$NON-NLS-1$
 
-	// Viewer errors
-
-	public static final String VIEWER_ERROR_UNSUPPORTEDFORMAT = "birt.viewer.error.unsupportedformat"; //$NON-NLS-1$
 }
