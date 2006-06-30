@@ -174,6 +174,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				}
 				this.__parameter[k].value = oSEC[0].options[oSEC[0].selectedIndex].value;
 				k++;
+				
+				continue;
 			}
 			
 			if( oSEC.length == 0 && ( oIEC.length == 1 || oIEC.length == 2 ) )
@@ -230,7 +232,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					//handle more cases
 				}
 			}
-			else if( oSEC.length <= 1 && oIEC.length > 3 )
+			else if( oSEC.length <= 1 && oIEC.length >= 3 )
 			{
 				for( var j = 0; j < oIEC.length; j++ )
 				{
