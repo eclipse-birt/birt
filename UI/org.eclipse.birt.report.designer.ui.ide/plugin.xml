@@ -174,7 +174,25 @@
              </or>
 	         </and>
 	      </visibility>
-	   </viewerContribution> 	 
+	   </viewerContribution>
+     <viewerContribution
+           id="org.eclipse.birt.report.designer.ui.ide.report.publishLibrary"
+           targetID="org.eclipse.ui.views.ResourceNavigator">
+        <action
+              class="org.eclipse.birt.report.designer.ui.ide.navigator.PublishLibraryNavigatorAction"
+              enablesFor="1"
+              id="org.eclipse.birt.report.designer.ui.ide.navigator.publishLibrary"
+              label="%Action.PublishLibrary"
+              menubarPath="additions-end"/>
+        <visibility>
+           <and>
+              <objectClass name="org.eclipse.core.resources.IFile"/>
+              <objectState
+                    name="extension"
+                    value="rptlibrary"/>
+           </and>
+        </visibility>
+     </viewerContribution> 	 
 	</extension>	 
 
 </plugin>
