@@ -63,6 +63,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.css.dom.CellMergedStyle;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
@@ -81,8 +82,10 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
+import org.eclipse.birt.report.engine.util.HTMLUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -97,7 +100,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.127 $ $Date: 2006/06/19 05:16:35 $
+ * @version $Revision: 1.128 $ $Date: 2006/06/21 01:34:00 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -158,8 +161,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected boolean htmlRtLFlag = false;
 	
 	protected boolean pageFooterFloatFlag = true;
-	
-	protected boolean includeSelectionHandler = false;
+
+	protected boolean enableMetadata = false;
+
+	protected boolean displayFilterIcon = false;
 	
 	protected List ouputInstanceIDs = null;
 
@@ -359,7 +364,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			pageFooterFloatFlag = htmlOption.getPageFooterFloatFlag( );
 			htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
-			includeSelectionHandler = htmlOption.getIncludeSelectionHandle( );
+			enableMetadata = htmlOption.getEnableMetadata( );
+			displayFilterIcon = htmlOption.getDisplayFilterIcon( );
 			ouputInstanceIDs = htmlOption.getInstanceIDs( );
 		}
 
@@ -983,13 +989,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		// include select handle table
-		if ( includeSelectionHandler )
+		if ( enableMetadata )
 		{
 			Object generateBy = table.getGenerateBy( );
-			if ( generateBy instanceof TableItemDesign )
-			{
-				startSelectHandleTable( );
-			}
 			DetailRowState state = null;
 			if ( generateBy instanceof TableItemDesign )
 			{
@@ -1004,33 +1006,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writeColumns( table );
-	}
-
-	/**
-	 * bug128480
-	 * render table with a highlight handle
-	 */	
-	protected void startSelectHandleTable( )
-	{
-		writer.openTag( HTMLTags.TAG_COL );
-		writer.attribute( HTMLTags.ATTR_CLASS, "table-side-bar-style" );
-		writer.closeTag( HTMLTags.TAG_COL );
-		writer.openTag( HTMLTags.TAG_COL );
-		//writer.attribute( HTMLTags.ATTR_STYLE, "width:95%" );
-		writer.closeTag( HTMLTags.TAG_COL );
-		writer.openTag( HTMLTags.TAG_TR );
-		writer.openTag( HTMLTags.TAG_TD );
-		writer.closeTag( HTMLTags.TAG_TD );
-		writer.openTag( HTMLTags.TAG_TD );
-		writer.openTag( HTMLTags.TAG_TABLE );
-		writer.attribute( HTMLTags.ATTR_STYLE, "width:100%" );
-	}
-	
-	protected void endSelectHandleTable( )
-	{
-		writer.closeTag( HTMLTags.TAG_TABLE );
-		writer.closeTag( HTMLTags.TAG_TD );
-		writer.closeTag( HTMLTags.TAG_TR );
 	}
 
 	protected void writeColumns( ITableContent table )
@@ -1167,13 +1142,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		//	include select handle table
-		if ( includeSelectionHandler )
+		if ( enableMetadata )
 		{
-			Object generateBy = table.getGenerateBy( );
-			if ( generateBy instanceof TableItemDesign )
-			{
-				endSelectHandleTable( );
-			}
 			detailRowStateStack.pop( );
 		}
 				
@@ -1296,7 +1266,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return;
 		}
 
-		if ( includeSelectionHandler )
+		if ( enableMetadata )
 		{
 			if ( isRowInDetailBand( row ) )
 			{
@@ -1396,7 +1366,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return;
 		}
 
-		if ( includeSelectionHandler )
+		if ( enableMetadata )
 		{
 			DetailRowState state = (DetailRowState) detailRowStateStack.peek( );
 			if ( state.isStartOfDetail )
@@ -1493,12 +1463,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	private void initializeCell( ICellContent cell )
 	{
-		if ( includeSelectionHandler )
+		if ( enableMetadata )
 		{
 			if ( needColumnFilter( cell ) || cell.isStartOfGroup( ) )
 			{
 				writer.openTag( HTMLTags.TAG_TABLE );
 				writer.attribute( HTMLTags.ATTR_HEIGHT, "100%" );
+				writer.openTag( HTMLTags.TAG_COL );
+				writer.attribute( "style", "width:" + getRowIndent( cell ) + ";text-align:right" );
+				writer.closeNoEndTag( );
+				writer.openTag( HTMLTags.TAG_COL );
+				writer.closeNoEndTag( );
+				writer.openTag( HTMLTags.TAG_COL );
+				writer.closeNoEndTag( );
 				writer.openTag( HTMLTags.TAG_TR );
 				writer.openTag( HTMLTags.TAG_TD );
 			}
@@ -1518,6 +1495,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.openTag( HTMLTags.TAG_TD );
 			}
 		}
+	}
+
+	private String getRowIndent( ICellContent cell )
+	{
+		IRowContent row = ( RowContent )cell.getParent( );
+		int groupLevel = HTMLUtil.getGroupLevel( row );
+		if ( groupLevel >= 0 )
+		{
+			return String.valueOf( HTMLUtil.getGroupLevel( row ) * 16 ) + "px";
+		}
+		return "0px";
 	}
 
 	private void handleColumnRelatedStyle( ICellContent cell,
@@ -1540,7 +1528,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		logger.log( Level.FINE, "[HTMLReportEmitter] End cell." ); //$NON-NLS-1$
 
-		if ( includeSelectionHandler )
+		if ( enableMetadata )
 		{
 			if ( needColumnFilter( cell ) )
 			{
@@ -1552,6 +1540,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer
 						.attribute( HTMLTags.ATTR_SRC,
 								"iv/images/columnicon.gif" );
+				writer.attribute( HTMLTags.ATTR_ALT, HTMLUtil
+						.getColumnFilterText( cell ) );
 				writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
 				writer.attribute( HTMLTags.ATTR_COLUMN, cell
 						.getColumnInstance( ).getInstanceID( ).toString( ) );
@@ -1694,9 +1684,21 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// action
 		String tagName;
-		if ( handleAction( text.getHyperlinkAction( ) ) )
+		String selectHandleTag = null;
+		String url = validate( text.getHyperlinkAction( ) ); 
+		if ( url != null )
 		{
+			//output select class
+			if ( enableMetadata )
+			{
+				selectHandleTag = HTMLTags.TAG_SPAN;
+				writer.openTag( selectHandleTag );
+				writer.attribute( HTMLTags.ATTR_CLASS, "birt-text-design" ); //$NON-NLS-1$
+				setActiveIDTypeIID( text );
+				setBookmark( selectHandleTag, text.getBookmark( ) );
+			}
 			tagName = HTMLTags.TAG_A;
+			outputAction( text.getHyperlinkAction( ), url );
 			setDisplayProperty( display, DISPLAY_BLOCK | DISPLAY_INLINE_BLOCK,
 					styleBuffer );
 			AttributeBuilder.checkHyperlinkTextDecoration( mergedStyle,
@@ -1704,6 +1706,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
+			if ( enableMetadata )
+			{
+				selectHandleTag = getTagByType( display, DISPLAY_FLAG_ALL );
+				writer.openTag( selectHandleTag );
+				writer.attribute( HTMLTags.ATTR_CLASS, "birt-text-design" ); //$NON-NLS-1$
+				setActiveIDTypeIID( text );
+				setBookmark( selectHandleTag, text.getBookmark( ) );
+			}
 			tagName = openTagByType( display, DISPLAY_FLAG_ALL );
 			setDisplayProperty( display, DISPLAY_INLINE_BLOCK, styleBuffer );
 		}
@@ -1711,10 +1721,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		setStyleName( text.getStyleClass( ) );
 
 		// bookmark
-		setBookmark( tagName, text.getBookmark( ) );
-		
-		// If text is get from a label or template, add it to active id list, and output type & iid to html
-		setActiveIDTypeIID( text );
+		if ( !enableMetadata )
+		{
+			setBookmark( tagName, text.getBookmark( ) );
+		}
 		
 		// title
 		writer.attribute( HTMLTags.ATTR_TITLE, text.getHelpText( ) ); //$NON-NLS-1$
@@ -1768,6 +1778,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		
 		writer.closeTag( tagName );
+		if ( enableMetadata )
+		{
+			writer.closeTag( selectHandleTag );
+		}
 	}
 
 	/*
@@ -1798,9 +1812,21 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// action
 		String tagName;
-		if ( handleAction( foreign.getHyperlinkAction( ) ) )
+		String selectHandleTag = null;
+		String url = validate( foreign.getHyperlinkAction( ) );
+		if ( url != null )
 		{
+			if ( enableMetadata )
+			{
+				// output select class
+				selectHandleTag = HTMLTags.TAG_SPAN;
+				writer.openTag( selectHandleTag );
+				writer.attribute( HTMLTags.ATTR_CLASS, "birt-foreign-design" ); //$NON-NLS-1$
+				setActiveIDTypeIID( foreign );
+				setBookmark( selectHandleTag, foreign.getBookmark( ) );
+			}
 			tagName = HTMLTags.TAG_A;
+			outputAction( foreign.getHyperlinkAction( ), url );
 			setDisplayProperty( display, DISPLAY_BLOCK | DISPLAY_INLINE_BLOCK,
 					styleBuffer );
 			AttributeBuilder.checkHyperlinkTextDecoration( mergedStyle,
@@ -1808,6 +1834,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
+			if ( enableMetadata )
+			{
+				selectHandleTag = getTagByType( display, DISPLAY_FLAG_ALL );
+				writer.openTag( selectHandleTag );
+				writer.attribute( HTMLTags.ATTR_CLASS, "birt-foreign-design" ); //$NON-NLS-1$
+				setActiveIDTypeIID( foreign );
+				setBookmark( selectHandleTag, foreign.getBookmark( ) );
+			}
 			tagName = openTagByType( display, DISPLAY_FLAG_ALL );
 			setDisplayProperty( display, DISPLAY_INLINE_BLOCK, styleBuffer );
 		}
@@ -1815,7 +1849,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		setStyleName( foreign.getStyleClass( ) );
 
 		// bookmark
-		setBookmark( tagName, foreign.getBookmark( ) );
+		if ( !enableMetadata )
+		{
+			setBookmark( tagName, foreign.getBookmark( ) );
+		}
 
 		// title
 		writer.attribute( HTMLTags.ATTR_TITLE, foreign.getHelpText( ) );
@@ -1858,6 +1895,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// writer.text( text, !isHtml, !isHtml );
 
 		writer.closeTag( tagName );
+		if ( enableMetadata )
+		{
+			writer.closeTag( selectHandleTag );
+		}
 
 	}
 
@@ -2022,20 +2063,23 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		Object generateBy = image.getGenerateBy( );
 		
-		// include select handle chart
-		boolean isSelectHandleTableChart = false;
-		if ( includeSelectionHandler  )
-		{
-			if ( generateBy instanceof ExtendedItemDesign )
-			{
-				startSelectHandleTableChart( image );
-				isSelectHandleTableChart = true;
-			}
-		}		
-
 		StringBuffer styleBuffer = new StringBuffer( );
 		int display = checkElementType( image.getX( ), image.getY( ),
 				mergedStyle, styleBuffer );
+		boolean isSelectHandleTableChart = false;
+		if ( enableMetadata  )
+		{
+			if ( generateBy instanceof ExtendedItemDesign )
+			{
+				startSelectHandle( display, DISPLAY_BLOCK, "birt-chart-design" ); //$NON-NLS-1$
+				isSelectHandleTableChart = true;
+				// If the image is a chart, add it to active id list, and output type ��iid to html
+				setActiveIDTypeIID(image);				
+				String bookmark = generateUniqueID( );
+				setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
+			}
+		}		
+
 		String tag = openTagByType( display, DISPLAY_BLOCK );
 
 		// action
@@ -2059,16 +2103,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					image.setBookmark( bookmark );
 				}
 				setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
-				// If the image is a chart, add it to active id list, and output type ��iid to html
-				setActiveIDTypeIID(image);
-				
 			}
-			else
-			{
-				bookmark = generateUniqueID( );
-				setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
-			}
-			
+
 			//	onresize gives the SVG a change to change its content
 			writer.attribute( "onresize", bookmark+".reload()"); //$NON-NLS-1$
 			
@@ -2121,16 +2157,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					image.setBookmark( bookmark );
 				}
 				setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
-				
-				// if the image is a chart, add it to active id list, and output type ��iid to html
-				setActiveIDTypeIID( image );
 			}
-			else
-			{
-				bookmark = generateUniqueID( );
-				setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
-			}
-			
+
 			String ext = image.getExtension( );
 			// FIXME special process, such as encoding etc
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
@@ -2235,54 +2263,24 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.closeTag( tag );
 		
 		// include	select handle chart
-		if ( includeSelectionHandler )
+		if ( enableMetadata )
 		{
 			if ( generateBy instanceof ExtendedItemDesign )
 			{
-				endSelectHandleTableChart( );
+				endSelectHandle( display, DISPLAY_BLOCK);
 			}
-		}		
-
-	}
-	
-	/**
-	 * bug128480
-	 * render chard with a highlight handle
-	 */
-	protected void startSelectHandleTableChart( IContent content )
-	{
-		writer.openTag( HTMLTags.TAG_TABLE );
-		
-		// set the id and iid to the out table
-		// bookmark
-		String bookmark = content.getBookmark( );
-		if ( bookmark == null )
-		{
-			bookmark = generateUniqueID( );
-			content.setBookmark( bookmark );
 		}
-		setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
-		// If the image is a chart, add it to active id list, and output type ��iid to html
-		setActiveIDTypeIID( content );
-		
-		writer.attribute( HTMLTags.ATTR_STYLE, "width:100%" );
-		writer.openTag( HTMLTags.TAG_COL );
-		writer.attribute( HTMLTags.ATTR_STYLE, "width:18px;background-color:#cccccc" );
-		writer.closeTag( HTMLTags.TAG_COL );
-		writer.openTag( HTMLTags.TAG_COL );
-		//writer.attribute( HTMLTags.ATTR_STYLE, "width:95%" );
-		writer.closeTag( HTMLTags.TAG_COL );
-		writer.openTag( HTMLTags.TAG_TR );
-		writer.openTag( HTMLTags.TAG_TD );
-		writer.closeTag( HTMLTags.TAG_TD );
-		writer.openTag( HTMLTags.TAG_TD );
 	}
 	
-	protected void endSelectHandleTableChart( )
+	private void startSelectHandle( int display, int blockType, String cssClass )
 	{
-		writer.closeTag( HTMLTags.TAG_TD );
-		writer.closeTag( HTMLTags.TAG_TR );
-		writer.closeTag( HTMLTags.TAG_TABLE );		
+		writer.openTag( getTagByType( display, blockType ) );
+		writer.attribute( HTMLTags.ATTR_CLASS, cssClass );
+	}
+
+	private void endSelectHandle( int display, int blockType )
+	{
+		writer.closeTag( getTagByType( display, blockType ) );
 	}
 
 	/**
@@ -2549,20 +2547,29 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected String openTagByType( int display, int mask )
 	{
+		String tag = getTagByType( display, mask );
+		if ( tag != null)
+		{
+			writer.openTag( tag );
+		}
+		return tag;
+	}
+
+	private String getTagByType( int display, int mask )
+	{
 		int flag = display & mask;
+		String tag = null;
 		if ( ( flag & DISPLAY_BLOCK ) > 0 )
 		{
-			writer.openTag( HTMLTags.TAG_DIV );
-			return HTMLTags.TAG_DIV;
+			tag = HTMLTags.TAG_DIV;
 		}
 
 		if ( ( flag & DISPLAY_INLINE ) > 0 )
 		{
-			writer.openTag( HTMLTags.TAG_SPAN );
-			return HTMLTags.TAG_SPAN;
+			tag = HTMLTags.TAG_SPAN;
 		}
 
-		return null;
+		return tag;
 	}
 
 	/**
@@ -2611,31 +2618,53 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected boolean handleAction( IHyperlinkAction action )
 	{
+		String url = validate( action );
+		if ( url == null )
+		{
+			outputAction( action, url );
+		}
+		return url == null;
+	}
+
+	/**
+	 * Outputs an hyperlink action.
+	 * 
+	 * @param action
+	 *            the hyperlink action.
+	 */
+	protected void outputAction( IHyperlinkAction action, String url )
+	{
+		writer.openTag( HTMLTags.TAG_A );
+		writer.attribute( HTMLTags.ATTR_HREF, url );
+		writer.attribute( HTMLTags.ATTR_TARGET, action.getTargetWindow( ) );
+	}
+
+	/**
+	 * Judges if a hyperlink is valid.
+	 * 
+	 * @param action
+	 *            the hyperlink action
+	 * @return
+	 */
+	private String validate( IHyperlinkAction action )
+	{
 		if ( action == null )
 		{
-			return false;
+			return null;
 		}
 		Action act = new Action( action );
 
 		if ( actionHandler == null )
 		{
-			return false;
+			return null;
 		}
 
 		String link = actionHandler.getURL( act, renderContext );
-		boolean ret = ( link != null && !link.equals( "" ) ); //$NON-NLS-1$
-
-		if ( ret )
+		if ( link != null && !link.equals( "" ) )//$NON-NLS-1$
 		{
-
-			writer.openTag( HTMLTags.TAG_A );
-
-			writer.attribute( HTMLTags.ATTR_HREF, link );
-
-			writer.attribute( HTMLTags.ATTR_TARGET, action.getTargetWindow( ) );
+			return link;
 		}
-
-		return ret;
+		return null;
 	}
 
 	/**
@@ -2851,6 +2880,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			type = "LIST";
 		}
+		else if ( genBy instanceof TextItemDesign )
+		{
+			type = "TEXT";
+		}
 		if (type != null)
 		{
 			// Instance ID
@@ -2934,7 +2967,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return false;
 		}
 		return state.isStartOfDetail
-				&& cell.getColumnInstance( ).hasDataItemsInDetail( );
+				&& cell.getColumnInstance( ).hasDataItemsInDetail( )
+				&& displayFilterIcon;
 	}
 
 	/* (non-Javadoc)

@@ -27,7 +27,12 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	public static final String HTML_PAGINATION = "htmlPagination"; //$NON-NLS-1$
 	public static final String MASTER_PAGE_CONTENT = "htmlMasterPageContent"; //$NON-NLS-1$
 	public static final String OBSERVE_TEMPLATE_DEFAULT = "observeTemplateDefault"; //$NON-NLS-1$
+	/**
+	 * @deprecated includeSelectionHandle is replaced by eanableMetadata flag.
+	 */
 	public static final String HTML_INCLUDE_SELECTION_HANDLE = "includeSelectionHandle"; //$NON-NLS-1$
+	public static final String HTML_ENABLE_METADATA = "enableMetadata"; //$NON-NLS-1$
+	public static final String HTML_DISPLAY_FILTER_ICON = "displayFilterIcon"; //$NON-NLS-1$
 
 	/**
 	 * @return Returns the instanceIDs.
@@ -156,11 +161,17 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 		return false;
 	}
 	
+	/**
+	 * @deprecated includeSelectionHandle is replaced by eanableMetadata flag.
+	 */
 	public void setIncludeSelectionHandle(boolean option)
 	{
 		options.put( HTML_INCLUDE_SELECTION_HANDLE, new Boolean(option) );
 	}
 	
+	/**
+	 * @deprecated includeSelectionHandle is replaced by eanableMetadata flag.
+	 */
 	public boolean getIncludeSelectionHandle()
 	{
 		Boolean value = (Boolean) options.get( HTML_INCLUDE_SELECTION_HANDLE);
@@ -215,5 +226,53 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 			return value.booleanValue( );
 		}
 		return true;
+	}
+
+	/**
+	 * Sets the flag which indicating if metadata should be output.
+	 * 
+	 * @param enableMetadata
+	 *            the flag
+	 */
+	public void setEnableMetadata( boolean enableMetadata )
+	{
+		options.put( HTML_ENABLE_METADATA, new Boolean( enableMetadata ) );
+	}
+
+	/**
+	 * @return the enable metadata flag value.
+	 */
+	public boolean getEnableMetadata( )
+	{
+		Object value = options.get( HTML_ENABLE_METADATA );
+		if ( value instanceof Boolean )
+		{
+			return ( ( Boolean )value ).booleanValue( );
+		}
+		return false;
+	}
+
+	/**
+	 * Sets the flag indicationg that if filter icons should be displayed.
+	 * 
+	 * @param displayFilterIcon
+	 *            the flag
+	 */
+	public void setDisplayFilterIcon( boolean displayFilterIcon )
+	{
+		options.put( HTML_DISPLAY_FILTER_ICON, new Boolean( displayFilterIcon ) );
+	}
+
+	/**
+	 * @return the display filter icon flag value.
+	 */
+	public boolean getDisplayFilterIcon( )
+	{
+		Object value = options.get( HTML_DISPLAY_FILTER_ICON );
+		if ( value instanceof Boolean )
+		{
+			return ( ( Boolean )value ).booleanValue( );
+		}
+		return false;
 	}
 }
