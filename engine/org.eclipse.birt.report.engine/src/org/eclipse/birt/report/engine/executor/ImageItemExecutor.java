@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.36 $ $Date: 2006/06/22 08:38:23 $
+ * @version $Revision: 1.37 $ $Date: 2006/06/23 03:37:41 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -199,16 +199,13 @@ public class ImageItemExecutor extends QueryItemExecutor
 		{
 			strUri = uriExpr;
 		}
-		URL uri = null;
-		try
-		{
-			uri = new URL( strUri );
-		}
-		catch ( MalformedURLException e1 )
-		{
-		}
+		
+		ReportDesignHandle reportDesign = context.getDesign( );
+		URL uri = reportDesign.findResource( strUri,
+				IResourceLocator.IMAGE );
 		if ( uri != null )
 		{
+			strUri = uri.toExternalForm( );
 			if ( uri.getProtocol( ).equals( "file" ) )
 			{
 				handleFileImage( strUri, imageContent );

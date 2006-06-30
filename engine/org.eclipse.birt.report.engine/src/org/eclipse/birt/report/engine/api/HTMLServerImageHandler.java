@@ -73,7 +73,12 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 	public String onURLImage( IImage image, Object context )
 	{
 		assert ( image != null );
-		return image.getID( );
+		String uri = image.getID( );
+		if (uri.startsWith( "http:" ) || uri.startsWith( "https:" ))
+		{
+			return uri;
+		}
+		return handleImage( image, context, "uri", true ); //$NON-NLS-1$
 	}
 
 	/*
