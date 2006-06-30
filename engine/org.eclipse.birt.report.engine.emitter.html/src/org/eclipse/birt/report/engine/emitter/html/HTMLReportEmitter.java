@@ -2619,11 +2619,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected boolean handleAction( IHyperlinkAction action )
 	{
 		String url = validate( action );
-		if ( url == null )
+		if ( url != null )
 		{
 			outputAction( action, url );
 		}
-		return url == null;
+		return url != null;
 	}
 
 	/**
