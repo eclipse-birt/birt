@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.PublishTemplateWizard;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.jface.wizard.WizardDialog;
 
@@ -24,14 +25,15 @@ import org.eclipse.jface.wizard.WizardDialog;
 public class PublishTemplateViewAction extends AbstractViewAction
 {
 
-	private static String DISPLAY_TEXT = Messages.getString("PublishTemplateViewAction.action.displaytext");
-	private static String TEMPLATE_SUFFIX = Messages.getString("DefaultNodeProvider.template.suffix");
+	private static String DISPLAY_TEXT = Messages.getString( "PublishTemplateViewAction.action.displaytext" );
+	private static String TEMPLATE_SUFFIX = Messages.getString( "DefaultNodeProvider.template.suffix" );
+
 	/**
 	 * @param selectedObject
 	 */
 	public PublishTemplateViewAction( Object selectedObject )
 	{
-		super( selectedObject , DISPLAY_TEXT );
+		super( selectedObject, DISPLAY_TEXT );
 	}
 
 	/**
@@ -46,23 +48,28 @@ public class PublishTemplateViewAction extends AbstractViewAction
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
-	public boolean isEnabled() {
-		Object object = getSelection();
-		
-		if ( (object == null)||!(object instanceof ReportDesignHandle) )
+	public boolean isEnabled( )
+	{
+		Object object = getSelection( );
+
+		if ( ( object == null ) || !( object instanceof ReportDesignHandle ) )
 		{
 			return false;
 		}
-		ReportDesignHandle report = (ReportDesignHandle)object;
-		if(report.getModuleHandle( ).getFileName( ).endsWith( TEMPLATE_SUFFIX )
-		|| report.getModuleHandle( ).getFileName( ).endsWith( ".rptdesign" ))
+		ReportDesignHandle report = (ReportDesignHandle) object;
+		if ( report.getModuleHandle( )
+				.getFileName( )
+				.endsWith( TEMPLATE_SUFFIX )
+				|| ReportPlugin.getDefault( )
+						.isReportDesignFile( report.getModuleHandle( )
+								.getFileName( ) ) )
 		{
 			return true;
 		}
 		return false;
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -72,9 +79,9 @@ public class PublishTemplateViewAction extends AbstractViewAction
 	{
 
 		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
-				new PublishTemplateWizard( (ReportDesignHandle)getSelection() ));
+				new PublishTemplateWizard( (ReportDesignHandle) getSelection( ) ) );
 		dialog.setPageSize( 500, 250 );
 		dialog.open( );
 	}
-	
+
 }

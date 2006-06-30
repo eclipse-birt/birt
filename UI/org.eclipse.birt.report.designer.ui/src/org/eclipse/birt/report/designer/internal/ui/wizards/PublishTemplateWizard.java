@@ -94,10 +94,10 @@ public class PublishTemplateWizard extends Wizard
 			targetFolder.mkdirs( );
 		}
 		String targetFileName = fileName;
-		if(fileName.endsWith( ".rptdesign" ))
+		if ( ReportPlugin.getDefault( ).isReportDesignFile( fileName ) )
 		{
 			int index = fileName.lastIndexOf( "." );
-			targetFileName = fileName.substring( 0, index ) + ".rpttemplate"; 
+			targetFileName = fileName.substring( 0, index ) + ".rpttemplate";
 		}
 		File targetFile = new File( targetFolder, targetFileName );
 		if ( new File( filePath ).compareTo( targetFile ) == 0 )

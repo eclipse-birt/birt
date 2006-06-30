@@ -16,7 +16,6 @@ import java.io.File;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.internal.rcp.wizards.NewReportPageSupport;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -222,9 +221,11 @@ public class SaveAsDialog extends TitleAreaDialog
 		// If the user does not supply a file extension and if the save
 		// as dialog was provided a default file name append the extension
 		// of the default filename to the new name
-		if ( !path.toOSString( ).endsWith( IReportEditorContants.DESIGN_FILE_EXTENTION ) )
+		if ( !ReportPlugin.getDefault( )
+				.isReportDesignFile( path.toOSString( ) ) )
 		{
-			path.addFileExtension( IReportEditorContants.DESIGN_FILE_EXTENTION );
+			String[] parts = support.getInitialFileName( ).split( "\\." ); //$NON-NLS-1$
+			path = path.addFileExtension( parts[parts.length - 1] );
 		}
 
 		// If the path already exists then confirm overwrite.

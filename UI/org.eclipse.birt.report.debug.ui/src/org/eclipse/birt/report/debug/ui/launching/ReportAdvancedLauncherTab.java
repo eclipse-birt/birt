@@ -19,6 +19,7 @@ import java.util.TreeSet;
 import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.ReportLauncherUtils;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -64,8 +65,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		IReportLauncherSettings
 {
 
-	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$
-	private static final String DESIGN_FILE_EXTENTION = "rptdesign"; //$NON-NLS-1$
+	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$	
 	private Label fUseListRadio;
 	private CheckboxTreeViewer fPluginTreeViewer;
 	private Label fVisibleLabel;
@@ -141,12 +141,14 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 			IResource[] resources = project.members( );
 			if ( resources != null && resources.length > 0 )
 			{
+				List extesionNameList = ReportPlugin.getDefault( )
+						.getReportExtensionNameList( );
 				for ( int i = 0; i < resources.length; i++ )
 				{
 					IResource resource = resources[i];
 					// System.out.println(resource.getFullPath(
 					// ).toPortableString( ));
-					if ( DESIGN_FILE_EXTENTION.equals( resource.getFileExtension( ) ) )
+					if ( extesionNameList.contains( resource.getFileExtension( ) ) )
 					{
 						retValue.add( resource );
 					}

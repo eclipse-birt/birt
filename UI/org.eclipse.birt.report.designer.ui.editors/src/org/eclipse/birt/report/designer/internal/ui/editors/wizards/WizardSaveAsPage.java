@@ -13,10 +13,10 @@ package org.eclipse.birt.report.designer.internal.ui.editors.wizards;
 
 import java.io.File;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
@@ -74,7 +74,7 @@ public class WizardSaveAsPage extends WizardPage
 				locationModifyListener );
 
 		setControl( composite );
-		UIUtil.bindHelp( getControl(),IHelpContextIds.SAVE_AS_WIZARD_ID ); 
+		UIUtil.bindHelp( getControl( ), IHelpContextIds.SAVE_AS_WIZARD_ID );
 	}
 
 	public void setOriginalFile( IEditorInput input )
@@ -130,15 +130,18 @@ public class WizardSaveAsPage extends WizardPage
 		// If the user does not supply a file extension and if the save
 		// as dialog was provided a default file name append the extension
 		// of the default filename to the new name
-		if ( support.getInitialFileName( )
-				.endsWith( IReportEditorContants.DESIGN_FILE_EXTENTION )
-				&& !path.toOSString( )
-						.endsWith( IReportEditorContants.DESIGN_FILE_EXTENTION ) )
+		if ( ReportPlugin.getDefault( )
+				.isReportDesignFile( support.getInitialFileName( ) )
+				&& !ReportPlugin.getDefault( )
+						.isReportDesignFile( path.toOSString( ) ) )
 		{
-			path = path.addFileExtension( "rptdesign" ); //$NON-NLS-1$
+			String[] parts = support.getInitialFileName( ).split( "\\." ); //$NON-NLS-1$
+			path = path.addFileExtension( parts[parts.length - 1] );
 		}
-		else if ( support.getInitialFileName( ).endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION ) //$NON-NLS-1$
-				&& !path.toOSString( ).endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION ) ) //$NON-NLS-1$
+		else if ( support.getInitialFileName( )
+				.endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION ) //$NON-NLS-1$
+				&& !path.toOSString( )
+						.endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION ) ) //$NON-NLS-1$
 		{
 			path = path.addFileExtension( "rpttemplate" ); //$NON-NLS-1$
 		}

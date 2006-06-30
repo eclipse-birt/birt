@@ -35,4 +35,6 @@ public interface ITestConstants
 	String TEST_DESIGN_FILE = "test.rptdesign"; //$NON-NLS-1$
 
 	String TEST_EXTENSION_NAME = "TestingBall"; //$NON-NLS-1$
+
+	String TEST_FILE_EXTENSION_NAME = "rptdesign";//$NON-NLS-1$
 }

@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.Expr
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -39,7 +40,6 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
-import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -599,7 +599,8 @@ public class HyperlinkBuilder extends BaseDialog
 				documentEditor,
 				false,
 				true,
-				"*.rptdocument" ); //$NON-NLS-1$
+				new String[]{
+					"*.rptdocument"} ); //$NON-NLS-1$
 
 	}
 
@@ -807,16 +808,23 @@ public class HyperlinkBuilder extends BaseDialog
 	private Button createBrowerButton( Composite parent, final Text text,
 			final boolean needQuote, final boolean needFilter )
 	{
+		List extensionList = ReportPlugin.getDefault( )
+				.getReportExtensionNameList( );
+		String[] extensionNames = new String[extensionList.size( )];
+		for ( int i = 0; i < extensionNames.length; i++ )
+		{
+			extensionNames[i] = "*." + extensionList.get( i ); //$NON-NLS-1$
+		}
 		return createBrowerButton( parent,
 				text,
 				needQuote,
 				needFilter,
-				"*.rptdesign" ); //$NON-NLS-1$
+				extensionNames ); //$NON-NLS-1$
 	}
 
 	private Button createBrowerButton( Composite parent, final Text text,
 			final boolean needQuote, final boolean needFilter,
-			final String fileExt )
+			final String[] fileExt )
 	{
 		Button button = new Button( parent, SWT.PUSH );
 		button.setLayoutData( new GridData( ) );
@@ -829,9 +837,7 @@ public class HyperlinkBuilder extends BaseDialog
 				FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ) );
 				if ( needFilter )
 				{
-					dialog.setFilterExtensions( new String[]{
-						fileExt
-					} );
+					dialog.setFilterExtensions( fileExt );
 				}
 				try
 				{

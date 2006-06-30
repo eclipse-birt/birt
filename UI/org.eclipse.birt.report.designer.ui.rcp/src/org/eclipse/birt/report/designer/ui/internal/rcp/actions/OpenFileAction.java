@@ -12,9 +12,11 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp.actions;
 
 import java.io.File;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.rcp.nls.DesignerWorkbenchMessages;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
@@ -44,9 +46,20 @@ public class OpenFileAction extends Action implements
 {
 
 	private IWorkbenchWindow fWindow;
-	private static final String[] filterExtensions = new String[]{
-			"*.rptdesign;*.rptlibrary;*.rpttemplate"
-	};
+
+	private static String[] filterExtensions;
+
+	static
+	{
+		List list = ReportPlugin.getDefault( ).getReportExtensionNameList( );
+		filterExtensions = new String[list.size( ) + 2];
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			filterExtensions[i] = "*." + list.get( i ); //$NON-NLS-1$
+		}
+		filterExtensions[filterExtensions.length - 2] = "*.rptlibrary"; //$NON-NLS-1$
+		filterExtensions[filterExtensions.length - 1] = "*.rpttemplate"; //$NON-NLS-1$
+	}
 
 	public OpenFileAction( IWorkbenchWindow window )
 	{

@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.PublishTemplateWizard;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.jface.action.IAction;
@@ -94,10 +95,10 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 		IEditorPart editor = UIUtil.getActiveEditor( true );
 		if ( editor != null )
 		{
-			if ( editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" )
-					|| editor.getEditorInput( )
-							.getName( )
-							.endsWith( ".rptdesign" ) )
+			if ( editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" ) //$NON-NLS-1$
+					|| ReportPlugin.getDefault( )
+							.isReportDesignFile( editor.getEditorInput( )
+									.getName( ) ) )
 			{
 				return true;
 			}

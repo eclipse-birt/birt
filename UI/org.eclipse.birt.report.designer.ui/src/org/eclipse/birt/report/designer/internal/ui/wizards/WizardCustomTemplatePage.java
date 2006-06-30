@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.wizards;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.ResourceSorter;
 import org.eclipse.birt.report.designer.internal.ui.views.WorkbenchContentProvider;
@@ -131,8 +133,14 @@ public class WizardCustomTemplatePage extends WizardPage
 							.getRoot( )
 							.getLocation( )
 							.toOSString( ) );
-					dialog.setFilterExtensions( new String[]{
-						"*.rptdesign"} ); //$NON-NLS-1$
+					List extensionNameList = ReportPlugin.getDefault( )
+							.getReportExtensionNameList( );
+					String[] extensionNames = new String[extensionNameList.size( )];
+					for ( int i = 0; i < extensionNames.length; i++ )
+					{
+						extensionNames[i] = "*." + extensionNameList.get( i ); //$NON-NLS-1$
+					}
+					dialog.setFilterExtensions( extensionNames );
 					if ( dialog.open( ) != null )
 					{
 						inputText.setText( dialog.getFilterPath( )
@@ -182,7 +190,9 @@ public class WizardCustomTemplatePage extends WizardPage
 							if ( element instanceof IFile )
 							{
 								return ( (IResource) element ).isAccessible( )
-										&& "rptdesign".equals( ( (IResource) element ).getFileExtension( ) ); //$NON-NLS-1$
+										&& ReportPlugin.getDefault( )
+												.getReportExtensionNameList( )
+												.contains( ( (IResource) element ).getFileExtension( ) );
 							}
 							return false;
 						}
@@ -230,9 +240,21 @@ public class WizardCustomTemplatePage extends WizardPage
 	 */
 	protected void updateChkBox( )
 	{
-		String xmlPath = getReportPath( ).replaceFirst( ".rptdesign", ".xml" ); //$NON-NLS-1$ //$NON-NLS-2$
-		File f = new File( xmlPath );
-		chkBoxCheetSheet.setEnabled( f.exists( ) );
+		for ( Iterator iter = ReportPlugin.getDefault( )
+				.getReportExtensionNameList( )
+				.iterator( ); iter.hasNext( ); )
+		{
+			String extensionName = "." + iter.next( );
+			if ( getReportPath( ).endsWith( extensionName ) )
+			{
+				String xmlPath = getReportPath( ).substring( 0,
+						getReportPath( ).length( ) - extensionName.length( ) )
+						+ ".xml"; //$NON-NLS-1$ 
+				File f = new File( xmlPath );
+				chkBoxCheetSheet.setEnabled( f.exists( ) );
+				return;
+			}
+		}
 	}
 
 	/**

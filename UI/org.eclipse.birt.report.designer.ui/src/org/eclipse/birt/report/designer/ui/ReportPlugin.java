@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -34,6 +35,8 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
@@ -108,11 +111,13 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.REPORT_ITEM,
 			ReportDesignConstants.SCRIPT_DATA_SET,
 			ReportDesignConstants.SCRIPT_DATA_SOURCE,
-			ReportDesignConstants.SIMPLE_DATA_SET_ELEMENT,			
+			ReportDesignConstants.SIMPLE_DATA_SET_ELEMENT,
 			ReportDesignConstants.TEMPLATE_DATA_SET,
 			ReportDesignConstants.TEMPLATE_ELEMENT,
 			ReportDesignConstants.TEMPLATE_PARAMETER_DEFINITION,
 	} );
+
+	private List reportExtensionNames;
 
 	/**
 	 * The constructor.
@@ -191,11 +196,11 @@ public class ReportPlugin extends AbstractUIPlugin
 				.getHeaders( )
 				.get( org.osgi.framework.Constants.BUNDLE_VERSION );
 	}
-	
+
 	/**
 	 * Returns the infomation about the Build
-	 *
-	 */	
+	 * 
+	 */
 	public static String getBuildInfo( )
 	{
 		return getResourceString( "Build" ); //$NON-NLS-1$
@@ -889,6 +894,7 @@ public class ReportPlugin extends AbstractUIPlugin
 
 	/**
 	 * Add View ID into ignore view list.
+	 * 
 	 * @param str
 	 */
 	public void addIgnoreViewID( String str )
@@ -898,6 +904,7 @@ public class ReportPlugin extends AbstractUIPlugin
 
 	/**
 	 * Remove View ID from ignore view list.
+	 * 
 	 * @param str
 	 */
 	public void removeIgnoreViewID( String str )
@@ -907,6 +914,7 @@ public class ReportPlugin extends AbstractUIPlugin
 
 	/**
 	 * Test whether the View ID is in the ignore view list.
+	 * 
 	 * @param str
 	 * @return
 	 */
@@ -990,5 +998,62 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setEnableCommentPreference( boolean preference )
 	{
 		getPreferenceStore( ).setValue( ENABLE_COMMENT_PREFERENCE, preference ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Returns all available extension names for report design files.
+	 * 
+	 * @return the extension name lisr
+	 */
+	public List getReportExtensionNameList( )
+	{
+		if ( reportExtensionNames == null )
+		{
+			reportExtensionNames = new ArrayList( );
+			IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry( );
+			IConfigurationElement[] elements = extensionRegistry.getConfigurationElementsFor( "org.eclipse.ui.editors" ); //$NON-NLS-1$
+			for ( int i = 0; i < elements.length; i++ )
+			{
+
+				String id = elements[i].getAttribute( "id" ); //$NON-NLS-1$
+				if ( "org.eclipse.birt.report.designer.ui.editors.ReportEditor".equals( id ) ) //$NON-NLS-1$
+				{
+					String[] extensionNames = elements[i].getAttribute( "extensions" ) //$NON-NLS-1$
+							.split( "," ); //$NON-NLS-1$
+					for ( int j = 0; j < extensionNames.length; j++ )
+					{
+						extensionNames[j] = extensionNames[j].trim( );
+						if ( !reportExtensionNames.contains( extensionNames[j] ) )
+						{
+							reportExtensionNames.add( extensionNames[j] );
+						}
+					}
+				}
+			}
+		}
+		return reportExtensionNames;
+	}
+
+	/**
+	 * Checks if the file is a report design file by its file name
+	 * 
+	 * @return true if the extension name of the file can be recognized as a
+	 *         report design file, or false otherwise.
+	 */
+	public boolean isReportDesignFile( String filename )
+	{
+		if ( filename != null )
+		{
+			for ( Iterator iter = ReportPlugin.getDefault( )
+					.getReportExtensionNameList( )
+					.iterator( ); iter.hasNext( ); )
+			{
+				if ( filename.endsWith( "." + (String) iter.next( ) ) ) //$NON-NLS-1$
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

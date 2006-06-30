@@ -20,6 +20,7 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterHtmlDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
@@ -50,9 +51,6 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	private int staleType;
 
 	private FormEditor editor;
-
-	// suffix of design file
-	public static final String SUFFIX_DESIGN_FILE = "rptdesign"; //$NON-NLS-1$
 
 	// suffix of template file
 	public static final String SUFFIX_TEMPLATE_FILE = "rpttemplate"; //$NON-NLS-1$
@@ -527,10 +525,13 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 		String configFileName = null;
 
-		if ( reportDesignName.endsWith( SUFFIX_DESIGN_FILE ) )
+		if ( ReportPlugin.getDefault( ).isReportDesignFile( reportDesignName ) )
 		{
-			configFileName = reportDesignName.replaceFirst( SUFFIX_DESIGN_FILE,
-					SUFFIX_DESIGN_CONFIG );
+			String[] result = reportDesignName.split( "\\." ); //$NON-NLS-1$
+			String extensionName = result[result.length - 1];
+			configFileName = reportDesignName.substring( 0,
+					reportDesignName.length( ) - extensionName.length( ) )
+					+ SUFFIX_DESIGN_CONFIG;
 		}
 		else if ( reportDesignName.endsWith( SUFFIX_TEMPLATE_FILE ) )
 		{

@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -226,7 +227,8 @@ public class WizardSaveAsPage extends WizardPage
 		if ( resourceGroup.getResource( ) != null
 				&& model instanceof ReportDesignHandle )
 		{
-			if ( !( resourceGroup.getResource( ).endsWith( ".rptdesign" ) || resourceGroup.getResource( )
+			if ( !( ReportPlugin.getDefault( )
+					.isReportDesignFile( resourceGroup.getResource( ) ) || resourceGroup.getResource( )
 					.endsWith( ".rpttemplate" ) ) )
 			{
 				setErrorMessage( Messages.getString( "WizardReportSettingPage.Error.ReportorTemplate" ) );
@@ -239,6 +241,7 @@ public class WizardSaveAsPage extends WizardPage
 
 	/**
 	 * Get the saving path
+	 * 
 	 * @return the saving path
 	 */
 	public IPath getResult( )
