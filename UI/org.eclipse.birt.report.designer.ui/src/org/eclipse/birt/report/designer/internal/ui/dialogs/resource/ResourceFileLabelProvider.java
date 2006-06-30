@@ -26,7 +26,6 @@ import org.eclipse.ui.PlatformUI;
 
 public class ResourceFileLabelProvider extends LabelProvider
 {
-
 	private File rootFile;
 
 	private static final Image IMG_FOLDER = PlatformUI.getWorkbench( )
@@ -75,6 +74,34 @@ public class ResourceFileLabelProvider extends LabelProvider
 	 */
 	public String getText( Object element )
 	{
+		if ( element instanceof File )
+		{
+			if ( element.equals( rootFile ) )
+			{
+				String path = ( (File) element ).getAbsolutePath( );
+				String retString = path.substring( path.lastIndexOf( File.separator ) + 1 );
+				if(retString == null || retString.length( ) == 0)
+				{
+					retString = path;
+				}
+				return retString;
+			}
+			else
+			{
+				return ( (File) element ).getName( );
+			}
+		}
+		return super.getText( element );
+	}
+
+
+
+	/**
+	 * 
+	 * @return the absolute path of resource folder
+	 */
+	public String getToolTip(Object element )
+	{	
 		if ( element instanceof File )
 		{
 			if ( element.equals( rootFile ) )

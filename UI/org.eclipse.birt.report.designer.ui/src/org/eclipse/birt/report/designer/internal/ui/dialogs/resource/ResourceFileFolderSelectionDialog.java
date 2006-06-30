@@ -18,16 +18,23 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 
 /**
  * A dialog to select resource folder files or folder.
  */
 
-public class ResourceFileFolderSelectionDialog extends ElementTreeSelectionDialog
+public class ResourceFileFolderSelectionDialog extends
+		ElementTreeSelectionDialog
 {
 
 	private File rootFile;
@@ -70,6 +77,7 @@ public class ResourceFileFolderSelectionDialog extends ElementTreeSelectionDialo
 
 	/**
 	 * Get the relative path to BIRT resource folder.
+	 * 
 	 * @return
 	 */
 	public String getPath( )
@@ -82,14 +90,54 @@ public class ResourceFileFolderSelectionDialog extends ElementTreeSelectionDialo
 		}
 		return null;
 	}
-	
-    /*
-     * @see Dialog#createDialogArea(Composite)
-     */
-    protected Control createDialogArea(Composite parent) {
-    	UIUtil.bindHelp(parent,IHelpContextIds.RESOURCE_SELECT_DIALOG_ID);
-    	return super.createDialogArea( parent );
-    	
-    }
+
+	/*
+	 * @see Dialog#createDialogArea(Composite)
+	 */
+	protected Control createDialogArea( Composite parent )
+	{
+		UIUtil.bindHelp( parent, IHelpContextIds.RESOURCE_SELECT_DIALOG_ID );
+		Control control = super.createDialogArea( parent );
+		addToolTip( );
+		return control;
+
+	}
+
+	/**
+	 * Add Tooltip for root TreeItem.
+	 */
+	protected void addToolTip( )
+	{
+		final Tree tree = getTreeViewer( ).getTree( );
+		tree.addMouseTrackListener( new MouseTrackAdapter( ) {
+
+			public void mouseHover( MouseEvent event )
+			{
+				Widget widget = event.widget;
+				if ( widget == tree )
+				{
+					Point pt = new Point( event.x, event.y );
+					TreeItem item = tree.getItem( pt );
+
+					if ( item == null )
+					{
+						tree.setToolTipText( null );
+					}
+					else
+					{
+						if ( getTreeViewer( ).getLabelProvider( ) instanceof ResourceFileLabelProvider )
+						{
+							tree.setToolTipText( ( (ResourceFileLabelProvider) getTreeViewer( ).getLabelProvider( ) ).getToolTip( item.getData( ) ) );
+						}
+						else
+						{
+							tree.setToolTipText( null );
+						}
+
+					}
+				}
+			}
+		} );
+	}
 
 }
