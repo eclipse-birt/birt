@@ -2,9 +2,7 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.OutputStream;
-import java.rmi.RemoteException;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
@@ -45,29 +43,20 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	protected void __execute( ) throws RemoteException
+	protected void __execute( ) throws Exception
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		assert attrBean != null;
 
 		String docName = attrBean.getReportDocumentName( );
 
-		try
-		{
-			InputOptions options = new InputOptions( );
-			options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-			options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-			options.setOption( InputOptions.OPT_RTL, new Boolean( attrBean.isRtl( ) ) );
-			options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean(
-					attrBean.isDesigner( ) ) );
-			getReportService( ).renderReport( docName, null, options, os );
-		}
-		catch ( ReportServiceException e )
-		{
-			AxisFault fault = new AxisFault( );
-			fault.setFaultReason( e.getLocalizedMessage( ) );
-			throw fault;
-		}
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
+		options.setOption( InputOptions.OPT_RTL, new Boolean( attrBean.isRtl( ) ) );
+		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean(
+				attrBean.isDesigner( ) ) );
+		getReportService( ).renderReport( docName, null, options, os );
 	}
 
 	protected IViewerReportService getReportService( )

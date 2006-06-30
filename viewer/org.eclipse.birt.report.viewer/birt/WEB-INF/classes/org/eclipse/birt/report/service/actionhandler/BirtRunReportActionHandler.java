@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.report.service.actionhandler;
 
-import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -52,7 +50,7 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	protected void __execute( ) throws RemoteException
+	protected void __execute( ) throws Exception
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		assert attrBean != null;
@@ -63,85 +61,76 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 		IViewerReportDesignHandle designHandle = attrBean
 				.getReportDesignHandle( context.getRequest( ) );
 
-		try
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
+		options.setOption( InputOptions.OPT_RTL, new Boolean( attrBean
+				.isRtl( ) ) );
+		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean(
+				attrBean.isDesigner( ) ) );
+
+		// convert parameter
+		if ( operation != null )
 		{
-			InputOptions options = new InputOptions( );
-			options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-			options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-			options.setOption( InputOptions.OPT_RTL, new Boolean( attrBean
-					.isRtl( ) ) );
-			options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean(
-					attrBean.isDesigner( ) ) );
-
-			// convert parameter
-			if ( operation != null )
+			Oprand[] oprands = operation.getOprand( );
+			for ( int i = 0; i < oprands.length; i++ )
 			{
-				Oprand[] oprands = operation.getOprand( );
-				for ( int i = 0; i < oprands.length; i++ )
+				String paramName = oprands[i].getName( );
+				Object paramValue = oprands[i].getValue( );
+
+				// Check if parameter set to null
+				if ( ParameterAccessor.PARAM_ISNULL
+						.equalsIgnoreCase( paramName )
+						&& paramValue != null )
 				{
-					String paramName = oprands[i].getName( );
-					Object paramValue = oprands[i].getValue( );
-
-					// Check if parameter set to null
-					if ( ParameterAccessor.PARAM_ISNULL
-							.equalsIgnoreCase( paramName )
-							&& paramValue != null )
-					{
-						// find the parameter
-						ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
-								.findParameter( paramValue.toString( ) );
-
-						if ( parameter != null )
-						{
-							// set parametet to null value
-							parameterMap.put( paramValue, null );
-							continue;
-						}
-					}
-
 					// find the parameter
 					ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
-							.findParameter( paramName );
-
-					if ( parameter != null && paramValue != null )
-					{
-						try
-						{
-							// use current locale to parse parameter
-							paramValue = ParameterValidationUtil
-									.validate( parameter.getDataType( ),
-											parameter.getPattern( ), paramValue
-													.toString( ), attrBean
-													.getLocale( ) );
-						}
-						catch ( ValidationValueException e )
-						{
-							// Convert string to object using default local
-							paramValue = ParameterValidationUtil
-									.validate(
-											parameter.getDataType( ),
-											ParameterValidationUtil.DEFAULT_DATETIME_FORMAT,
-											paramValue.toString( ) );
-						}
-
-					}
+							.findParameter( paramValue.toString( ) );
 
 					if ( parameter != null )
 					{
-						parameterMap.put( paramName, paramValue );
+						// set parametet to null value
+						parameterMap.put( paramValue, null );
+						continue;
 					}
 				}
-			}
 
-			getReportService( ).runReport( designHandle, docName, options,
-					parameterMap );
+				// find the parameter
+				ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
+						.findParameter( paramName );
+
+				if ( parameter != null && paramValue != null )
+				{
+					try
+					{
+						// use current locale to parse parameter
+						paramValue = ParameterValidationUtil
+								.validate( parameter.getDataType( ),
+										parameter.getPattern( ), paramValue
+												.toString( ), attrBean
+												.getLocale( ) );
+					}
+					catch ( ValidationValueException e )
+					{
+						// Convert string to object using default local
+						paramValue = ParameterValidationUtil
+								.validate(
+										parameter.getDataType( ),
+										ParameterValidationUtil.DEFAULT_DATETIME_FORMAT,
+										paramValue.toString( ) );
+					}
+
+				}
+
+				if ( parameter != null )
+				{
+					parameterMap.put( paramName, paramValue );
+				}
+			}
 		}
-		catch ( Exception e )
-		{
-			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultReason( e.getMessage( ) );
-			throw fault;
-		}
+
+		getReportService( ).runReport( designHandle, docName, options,
+				parameterMap );
 	}
 
 	protected IViewerReportService getReportService( )

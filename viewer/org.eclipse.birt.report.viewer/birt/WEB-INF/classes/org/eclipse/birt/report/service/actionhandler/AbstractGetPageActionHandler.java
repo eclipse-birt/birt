@@ -63,7 +63,7 @@ public abstract class AbstractGetPageActionHandler
 	 * @param docName
 	 * @throws RemoteException
 	 */
-	abstract protected void __checkDocumentExists( ) throws RemoteException;
+	abstract protected void __checkDocumentExists( ) throws Exception;
 
 	/**
 	 * 
@@ -77,23 +77,14 @@ public abstract class AbstractGetPageActionHandler
 		super( context, operation, response );
 	}
 
-	protected void __execute( ) throws RemoteException
+	protected void __execute( ) throws Exception
 	{
-		try
-		{
-			prepareParameters( );
-			doExecution( );
-			prepareResponse( );
-		}
-		catch ( ReportServiceException e )
-		{
-			AxisFault fault = new AxisFault( );
-			fault.setFaultReason( e.getLocalizedMessage( ) );
-			throw fault;
-		}
+		prepareParameters( );
+		doExecution( );
+		prepareResponse( );
 	}
 
-	protected void prepareParameters( ) throws ReportServiceException,
+	protected void prepareParameters( ) throws Exception,
 			RemoteException
 	{
 		__bean = context.getBean( );

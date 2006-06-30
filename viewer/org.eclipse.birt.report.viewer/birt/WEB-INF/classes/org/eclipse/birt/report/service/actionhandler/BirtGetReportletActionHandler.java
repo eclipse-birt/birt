@@ -7,8 +7,6 @@ import java.io.OutputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import javax.servlet.ServletOutputStream;
-
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
@@ -42,20 +40,11 @@ public class BirtGetReportletActionHandler
 		super( context, operation, response );
 	}
 
-	protected void __execute( ) throws RemoteException
+	protected void __execute( ) throws Exception
 	{
-		try
-		{
-			prepareParameters( );
-			doExecution( );
-			prepareResponse( );
-		}
-		catch ( ReportServiceException e )
-		{
-			AxisFault fault = new AxisFault( );
-			fault.setFaultReason( e.getLocalizedMessage( ) );
-			throw fault;
-		}
+		prepareParameters( );
+		doExecution( );
+		prepareResponse( );
 	}
 
 	protected void prepareParameters( ) throws ReportServiceException,

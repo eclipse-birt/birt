@@ -57,7 +57,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 	/**
 	 * Abstract methods.
 	 */
-	abstract protected void __execute( ) throws RemoteException;
+	abstract protected void __execute( ) throws Exception;
 
 	/**
 	 * Constructor.
@@ -82,7 +82,15 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 	 */
 	public void execute( ) throws RemoteException
 	{
-		__execute( );
+		try
+		{
+			__execute( );
+		}
+		catch ( Exception e )
+		{
+			// Exception handle in action handler layer. 
+			throwAxisFault( e );
+		}
 	}
 
 	/**
@@ -359,6 +367,22 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		update.setUpdateData( updateData );
 		
 		return update;
+	}
+
+	/**
+	 * Handle exception.
+	 * 
+	 * @param e
+	 * @throws RemoteException
+	 */
+	protected void throwAxisFault( Exception e ) throws RemoteException
+	{
+		AxisFault fault = AxisFault.makeFault( e );
+		if ( e.getCause( ) != null )
+		{
+			fault.setStackTrace( e.getCause( ).getStackTrace( ) );
+		}
+		throw fault;
 	}
 
 	/**

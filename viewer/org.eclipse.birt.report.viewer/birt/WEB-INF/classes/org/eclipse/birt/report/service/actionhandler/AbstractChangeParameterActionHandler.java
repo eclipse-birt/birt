@@ -31,7 +31,7 @@ public abstract class AbstractChangeParameterActionHandler
 		super( context, operation, response );
 	}
 
-	protected void __execute( ) throws RemoteException
+	protected void __execute( ) throws Exception
 	{
 		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean( );
 		boolean svgFlag = getSVGFlag( operation.getOprand( ) );
@@ -44,54 +44,45 @@ public abstract class AbstractChangeParameterActionHandler
 
 		String docName = attrBean.getReportDocumentName( );
 
-		try
+		long pageNumber = getPageNumber( context.getRequest( ), operation
+				.getOprand( ), docName );
+
+		if ( !isValidPageNumber( context.getRequest( ), pageNumber, docName ) )
 		{
-			long pageNumber = getPageNumber( context.getRequest( ), operation
-					.getOprand( ), docName );
+			InputOptions options = new InputOptions( );
+			bookmark = getBookmark( operation.getOprand( ), attrBean );
 
-			if ( !isValidPageNumber( context.getRequest( ), pageNumber, docName ) )
+			if ( bookmark != null && bookmark.length( ) > 0 )
 			{
-				InputOptions options = new InputOptions( );
-				bookmark = getBookmark( operation.getOprand( ), attrBean );
+				options.setOption( InputOptions.OPT_REQUEST, context
+						.getRequest( ) );
+				pageNumber = getReportService( ).getPageNumberByBookmark(
+						docName, bookmark, options );
 
-				if ( bookmark != null && bookmark.length( ) > 0 )
-				{
-					options.setOption( InputOptions.OPT_REQUEST, context
-							.getRequest( ) );
-					pageNumber = getReportService( ).getPageNumberByBookmark(
-							docName, bookmark, options );
-
-					if ( !isValidPageNumber( context.getRequest( ), pageNumber,
-							docName ) )
-					{
-						bookmark = ( getReportService( ) ).findTocByName(
-								docName, bookmark, options );
-
-						pageNumber = getReportService( )
-								.getPageNumberByBookmark( docName, bookmark,
-										options );
-					}
-					useBookmark = true;
-				}
 				if ( !isValidPageNumber( context.getRequest( ), pageNumber,
 						docName ) )
 				{
-					pageNumber = 1;
-					useBookmark = false;
-				}
+					bookmark = ( getReportService( ) ).findTocByName(
+							docName, bookmark, options );
 
+					pageNumber = getReportService( )
+							.getPageNumberByBookmark( docName, bookmark,
+									options );
+				}
+				useBookmark = true;
+			}
+			if ( !isValidPageNumber( context.getRequest( ), pageNumber,
+					docName ) )
+			{
+				pageNumber = 1;
+				useBookmark = false;
 			}
 
-			doRenderPage( docName, pageNumber, svgFlag, attrBean
-					.isMasterPageContent( ), useBookmark, bookmark, attrBean
-					.getLocale( ), attrBean.isRtl( ) );
-		}
-		catch ( ReportServiceException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
 		}
 
+		doRenderPage( docName, pageNumber, svgFlag, attrBean
+				.isMasterPageContent( ), useBookmark, bookmark, attrBean
+				.getLocale( ), attrBean.isRtl( ) );
 	}
 
 	protected abstract void runReport( ) throws RemoteException;
@@ -160,9 +151,8 @@ public abstract class AbstractChangeParameterActionHandler
 						AxisFault fault = new AxisFault( );
 						fault.setFaultCode( new QName(
 								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
-						fault
-								.setFaultString( BirtResources
-										.getString( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
+						fault.setFaultString( BirtResources
+								.getString( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
 						throw fault;
 					}
 

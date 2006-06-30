@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.namespace.QName;
-
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -56,7 +53,7 @@ public abstract class AbstractGetCascadeParameterActionHandler
 		super( context, operation, response );
 	}
 
-	protected void __execute( ) throws RemoteException
+	protected void __execute( ) throws Exception
 	{
 		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean( );
 		assert attrBean != null;
@@ -74,20 +71,8 @@ public abstract class AbstractGetCascadeParameterActionHandler
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		IViewerReportDesignHandle designHandle = new BirtViewerReportDesignHandle(
 				null, reportDesignName );
-		Map cascParamMap = null;
-		try
-		{
-			cascParamMap = getParameterSelectionLists( designHandle, paramMap,
-					options );
-		}
-		catch ( ReportServiceException e )
-		{
-			// TODO: throw axis fault.
-			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( "TODO" ) ); //$NON-NLS-1$
-			fault.setFaultString( e.getMessage( ) );
-			throw fault;
-		}
+		Map cascParamMap = getParameterSelectionLists( designHandle, paramMap,
+				options );
 
 		/**
 		 * prepare response.

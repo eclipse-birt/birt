@@ -21,13 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.namespace.QName;
-
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
@@ -66,7 +62,7 @@ public class BirtGetCascadeParameterActionHandler
 		super( context, operation, response );
 	}
 
-	protected void __execute( ) throws RemoteException
+	protected void __execute( ) throws Exception
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		assert attrBean != null;
@@ -81,50 +77,30 @@ public class BirtGetCascadeParameterActionHandler
 
 		Map cascParamMap = null;
 
-		try
+		for ( int i = 0; i < params.length; i++ )
 		{
+			Oprand param = params[i];
 
-			for ( int i = 0; i < params.length; i++ )
-			{
-				Oprand param = params[i];
+			String paramName = param.getName( );
+			// convert parameter using standard format
+			// Get Scalar parameter handle
+			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
+					.findParameter( paramName );
 
-				String paramName = param.getName( );
-				// convert parameter using standard format
-				// Get Scalar parameter handle
-				ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
-						.findParameter( paramName );
+			if ( parameterHandle == null )
+				continue;
 
-				if ( parameterHandle == null )
-					continue;
+			// Convert string to object using default local
+			Object paramValue = ParameterValidationUtil.validate(
+					parameterHandle.getDataType( ),
+					ParameterValidationUtil.DEFAULT_DATETIME_FORMAT, param
+							.getValue( ) );
 
-				// Convert string to object using default local
-				Object paramValue = ParameterValidationUtil.validate(
-						parameterHandle.getDataType( ),
-						ParameterValidationUtil.DEFAULT_DATETIME_FORMAT, param
-								.getValue( ) );
-
-				paramMap.put( paramName, paramValue );
-			}
-
-			cascParamMap = getParameterSelectionLists( designHandle, paramMap,
-					options, attrBean );
+			paramMap.put( paramName, paramValue );
 		}
-		catch ( ReportServiceException e )
-		{
-			// TODO: throw axis fault.
-			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "TODO" ) ); //$NON-NLS-1$
-			fault.setFaultString( e.getMessage( ) );
-			throw fault;
-		}
-		catch ( ValidationValueException e1 )
-		{
-			// TODO Auto-generated catch block
-			AxisFault fault = new AxisFault( e1.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "TODO" ) ); //$NON-NLS-1$
-			fault.setFaultString( e1.getMessage( ) );
-			throw fault;
-		}
+
+		cascParamMap = getParameterSelectionLists( designHandle, paramMap,
+				options, attrBean );
 
 		/**
 		 * prepare response.

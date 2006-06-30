@@ -1,6 +1,5 @@
 package org.eclipse.birt.report.service.actionhandler;
 
-import java.rmi.RemoteException;
 import java.util.List;
 
 import org.apache.axis.AxisFault;
@@ -9,7 +8,6 @@ import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.service.api.ExportedColumn;
 import org.eclipse.birt.report.service.api.ExportedResultSet;
 import org.eclipse.birt.report.service.api.InputOptions;
-import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
@@ -44,47 +42,38 @@ public abstract class AbstractQueryExportActionHandler extends
 	 * 
 	 * @return
 	 */
-	protected void __execute( ) throws RemoteException
+	protected void __execute( ) throws Exception
 	{
 		BaseAttributeBean attrBean = ( BaseAttributeBean ) context.getBean( );
 		String docName = attrBean.getReportDocumentName( );
 
 		List exportedResultSets;
-		try
+		String instanceID = operation.getTarget().getId();
+
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+		//exportedResultSets = getReportService( ).getResultSetsMetadata(
+			//	docName, options );
+		
+		if(instanceID.equals("Document")) //$NON-NLS-1$
+			exportedResultSets = getReportService( ).getResultSetsMetadata(
+					docName, options );
+		else
+			exportedResultSets = getReportService( ).getResultSetsMetadata(
+					docName, instanceID, options ); 
+
+		if ( exportedResultSets == null )
 		{
-			String instanceID = operation.getTarget().getId();
-
-			InputOptions options = new InputOptions( );
-			options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-			//exportedResultSets = getReportService( ).getResultSetsMetadata(
-				//	docName, options );
-			
-			if(instanceID.equals("Document")) //$NON-NLS-1$
-				exportedResultSets = getReportService( ).getResultSetsMetadata(
-						docName, options );
-			else
-				exportedResultSets = getReportService( ).getResultSetsMetadata(
-						docName, instanceID, options ); 
-
-			if ( exportedResultSets == null )
-			{
-				// No result sets available
-				AxisFault fault = new AxisFault( );
-				fault.setFaultReason( "no result sets available." ); //$NON-NLS-1$
-				throw fault;
-			}
-
-			ResultSet[] resultSetArray = getResultSetArray( exportedResultSets );
-			ResultSets resultSets = new ResultSets( );
-			resultSets.setResultSet( resultSetArray );
-			handleUpdate( resultSets );
-		}
-		catch ( ReportServiceException e )
-		{
+			// No result sets available
 			AxisFault fault = new AxisFault( );
-			fault.setFaultString( e.getLocalizedMessage( ) );
+			fault.setFaultReason( "no result sets available." ); //$NON-NLS-1$
 			throw fault;
 		}
+
+		ResultSet[] resultSetArray = getResultSetArray( exportedResultSets );
+		ResultSets resultSets = new ResultSets( );
+		resultSets.setResultSet( resultSetArray );
+		handleUpdate( resultSets );
 	}
 
 	/**

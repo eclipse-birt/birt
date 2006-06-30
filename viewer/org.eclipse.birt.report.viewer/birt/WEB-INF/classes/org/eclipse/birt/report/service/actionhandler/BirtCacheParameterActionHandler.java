@@ -12,11 +12,7 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.File;
-import java.rmi.RemoteException;
 
-import javax.xml.namespace.QName;
-
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -52,106 +48,95 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		super( context, operation, response );
 	}
 
-	protected void __execute( ) throws RemoteException
+	protected void __execute( ) throws Exception
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		assert attrBean != null;
 
-		try
+		// get design file name
+		String reportDesignName = attrBean.getReportDesignName( );
+
+		// get design config file name
+		String configFileName = ParameterAccessor
+				.getConfigFileName( reportDesignName );
+
+		if ( configFileName == null )
 		{
-			// get design file name
-			String reportDesignName = attrBean.getReportDesignName( );
+			handleUpdate( );
+			return;
+		}
 
-			// get design config file name
-			String configFileName = ParameterAccessor
-					.getConfigFileName( reportDesignName );
+		// Generate the session handle
+		SessionHandle sessionHandle = DesignEngine.newSession( ULocale.US );
 
-			if ( configFileName == null )
+		File configFile = new File( configFileName );
+
+		// if config file existed, then delete it
+		if ( configFile != null && configFile.exists( )
+				&& configFile.isFile( ) )
+		{
+			configFile.delete( );
+		}
+
+		// create a new config file
+		ReportDesignHandle handle = sessionHandle.createDesign( );
+
+		// get parameters from operation
+		Oprand[] op = this.operation.getOprand( );
+		if ( op != null )
+		{
+			for ( int i = 0; i < op.length; i++ )
 			{
-				handleUpdate( );
-				return;
-			}
+				ConfigVariable configVar = new ConfigVariable( );
 
-			// Generate the session handle
-			SessionHandle sessionHandle = DesignEngine.newSession( ULocale.US );
+				String paramName = op[i].getName( );
+				String paramValue = op[i].getValue( );
 
-			File configFile = new File( configFileName );
+				// find the parameter
+				ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
+						.findParameter( paramName );
 
-			// if config file existed, then delete it
-			if ( configFile != null && configFile.exists( )
-					&& configFile.isFile( ) )
-			{
-				configFile.delete( );
-			}
-
-			// create a new config file
-			ReportDesignHandle handle = sessionHandle.createDesign( );
-
-			// get parameters from operation
-			Oprand[] op = this.operation.getOprand( );
-			if ( op != null )
-			{
-				for ( int i = 0; i < op.length; i++ )
+				// convert the parameter from current locale to default
+				// locale format
+				if ( paramValue != null && parameter != null )
 				{
-					ConfigVariable configVar = new ConfigVariable( );
-
-					String paramName = op[i].getName( );
-					String paramValue = op[i].getValue( );
-
-					// find the parameter
-					ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
-							.findParameter( paramName );
-
-					// convert the parameter from current locale to default
-					// locale format
-					if ( paramValue != null && parameter != null )
+					try
 					{
-						try
+						if ( !DesignChoiceConstants.PARAM_TYPE_STRING
+								.equalsIgnoreCase( parameter.getDataType( ) ) )
 						{
-							if ( !DesignChoiceConstants.PARAM_TYPE_STRING
-									.equalsIgnoreCase( parameter.getDataType( ) ) )
-							{
-								Object paramValueObj = ParameterValidationUtil
-										.validate( parameter.getDataType( ),
-												parameter.getPattern( ),
-												paramValue, attrBean
-														.getLocale( ) );
+							Object paramValueObj = ParameterValidationUtil
+									.validate( parameter.getDataType( ),
+											parameter.getPattern( ),
+											paramValue, attrBean
+													.getLocale( ) );
 
-								paramValue = ParameterValidationUtil
-										.getDisplayValue( parameter
-												.getDataType( ), parameter
-												.getPattern( ), paramValueObj,
-												ULocale.US );
-							}
+							paramValue = ParameterValidationUtil
+									.getDisplayValue( parameter
+											.getDataType( ), parameter
+											.getPattern( ), paramValueObj,
+											ULocale.US );
 						}
-						catch ( Exception err )
-						{
-							paramValue = op[i].getValue( );
-						}
-
-						// add parameter to config file
-						configVar
-								.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
-						configVar.setValue( paramValue );
-						handle.addConfigVariable( configVar );
 					}
+					catch ( Exception err )
+					{
+						paramValue = op[i].getValue( );
+					}
+
+					// add parameter to config file
+					configVar
+							.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
+					configVar.setValue( paramValue );
+					handle.addConfigVariable( configVar );
 				}
 			}
-
-			// save config file
-			handle.saveAs( configFileName );
-			handle.close( );
-
-			handleUpdate( );
 		}
-		catch ( Exception e )
-		{
-			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName(
-					"BirtCacheParameterActionHandler.__execute( )" ) ); //$NON-NLS-1$
-			fault.setFaultReason( e.getLocalizedMessage( ) );
-			throw fault;
-		}
+
+		// save config file
+		handle.saveAs( configFileName );
+		handle.close( );
+
+		handleUpdate( );
 	}
 
 	protected void handleUpdate( )

@@ -3,7 +3,6 @@ package org.eclipse.birt.report.service.actionhandler;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -16,7 +15,6 @@ import org.eclipse.birt.report.soapengine.api.Oprand;
 import org.eclipse.birt.report.soapengine.api.TOC;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public abstract class AbstractGetTOCActionHandler extends
 		AbstractBaseActionHandler
@@ -41,20 +39,11 @@ public abstract class AbstractGetTOCActionHandler extends
 		super( context, operation, response );
 	}
 
-	protected void __execute( ) throws RemoteException
+	protected void __execute( ) throws Exception
 	{
-		try
-		{
-			prepareParameters( );
-			doExecution( );
-			prepareResponse( );
-		}
-		catch ( ReportServiceException e )
-		{
-			AxisFault fault = new AxisFault( );
-			fault.setFaultReason( e.getLocalizedMessage( ) );
-			throw fault;
-		}
+		prepareParameters( );
+		doExecution( );
+		prepareResponse( );
 	}
 
 	protected void prepareParameters( ) throws ReportServiceException, RemoteException
