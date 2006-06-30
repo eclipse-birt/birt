@@ -61,6 +61,14 @@ public interface IModuleModel
 	public static final String BASE_PROP = "base"; //$NON-NLS-1$
 
 	/**
+	 * Name of the "symbolicName" property. This property is needed when search
+	 * resources in fragments. Usually it should be the plug-in id of the host
+	 * plug-in.
+	 */
+
+	public static final String SYMBOLIC_NAME_PROP = "symbolicName"; //$NON-NLS-1$
+
+	/**
 	 * Name of the default units property. These are the units assumed for any
 	 * dimension property that does not explicitly specify units.
 	 */
@@ -154,10 +162,10 @@ public interface IModuleModel
 	 */
 
 	public static final String THEME_PROP = "theme"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the "propertyBindings" property.
 	 */
-	
+
 	public static final String PROPERTY_BINDINGS_PROP = "propertyBindings"; //$NON-NLS-1$
 }

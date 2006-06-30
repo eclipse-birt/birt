@@ -1044,6 +1044,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, Module.UNITS_PROP );
 		property( obj, Module.BASE_PROP );
 		property( obj, Module.INCLUDE_RESOURCE_PROP );
+		property( obj, Module.SYMBOLIC_NAME_PROP );
 
 		resourceKey( obj, Module.TITLE_ID_PROP, Module.TITLE_PROP );
 		property( obj, Module.COMMENTS_PROP );

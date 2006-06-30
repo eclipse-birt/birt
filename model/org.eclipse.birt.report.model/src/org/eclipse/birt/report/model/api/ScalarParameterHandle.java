@@ -546,7 +546,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getDataSetName( )
 	{
-		return getStringProperty( ScalarParameter.DATASET_NAME_PROP );
+		return getStringProperty( DATASET_NAME_PROP );
 	}
 
 	/**

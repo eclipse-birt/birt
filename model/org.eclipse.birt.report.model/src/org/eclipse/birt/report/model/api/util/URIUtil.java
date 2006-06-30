@@ -43,6 +43,12 @@ public class URIUtil
 	public static final String HTTP_SCHEMA = "http:"; //$NON-NLS-1$
 
 	/**
+	 * URL with bundleresource protocol.
+	 */
+
+	public static final String BUNDLE_RESOURCE_SCHEMA = "bundleresource"; //$NON-NLS-1$
+
+	/**
 	 * File with jar extention name.
 	 */
 

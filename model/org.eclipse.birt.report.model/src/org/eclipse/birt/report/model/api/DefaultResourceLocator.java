@@ -18,6 +18,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 /**
  * The default file search algorithm. It searches for a given file in the 'base'
@@ -88,10 +90,18 @@ public class DefaultResourceLocator implements IResourceLocator
 						return null;
 					}
 				}
+				else
+					return objURI;
 			}
 			catch ( MalformedURLException e )
 			{
 			}
+
+			// try fragment search
+
+			URL url = tryFragmentSearch( moduleHandle, fileName );
+			if ( url != null )
+				return url;
 
 			// try file search based on resource path set on this session
 
@@ -116,8 +126,14 @@ public class DefaultResourceLocator implements IResourceLocator
 			if ( URIUtil.FILE_SCHEMA.equalsIgnoreCase( systemId.getProtocol( ) ) )
 				return tryFileSearch( systemId, fileName );
 			else if ( URIUtil.JAR_SCHEMA.equalsIgnoreCase( systemId
-					.getProtocol( ) ) )
+					.getProtocol( ) )
+					&& systemId.getPath( ).startsWith( URIUtil.FILE_SCHEMA ) )
 				return tryJarSearch( systemId, fileName );
+			else if ( URIUtil.BUNDLE_RESOURCE_SCHEMA.equalsIgnoreCase( systemId
+					.getProtocol( ) ) )
+				return tryFragmentSearch( moduleHandle, new URL( systemId,
+						URIUtil.convertFileNameToURLString( fileName ) )
+						.getPath( ) );
 
 			return new URL( systemId, URIUtil
 					.convertFileNameToURLString( fileName ) );
@@ -189,5 +205,33 @@ public class DefaultResourceLocator implements IResourceLocator
 		}
 
 		return url;
+	}
+
+	/**
+	 * Returns the url of resource which is in corresponding bundle.
+	 * 
+	 * @param moduleHandle
+	 *            module in which the bundle symbolic name is cached
+	 * @param fileName
+	 *            the relative file name
+	 * @return the url of resource if found
+	 */
+
+	private URL tryFragmentSearch( ModuleHandle moduleHandle, String fileName )
+	{
+		if ( moduleHandle == null )
+			return null;
+
+		String symbolicName = moduleHandle.getSymbolicName( );
+		if ( symbolicName == null )
+			return null;
+
+		Bundle bundle = Platform.getBundle( symbolicName );
+		if ( bundle != null )
+			return bundle.getResource( URIUtil
+					.convertFileNameToURLString( fileName ) );
+		else
+			return null;
+
 	}
 }

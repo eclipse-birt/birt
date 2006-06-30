@@ -2402,4 +2402,26 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		return UnicodeUtil.SIGNATURE_UTF_8;
 	}
+
+	/**
+	 * Gets symbolic name of this module if defined. This property is needed
+	 * when search resources in fragments. Usually it should be the plug-in id
+	 * of the host plug-in.
+	 */
+
+	public String getSymbolicName( )
+	{
+		return this.getStringProperty( SYMBOLIC_NAME_PROP );
+	}
+
+	/**
+	 * Sets symbolic name of this module. This property is needed when search
+	 * resources in fragments. Usually it should be the plug-in id of the host
+	 * plug-in.
+	 */
+
+	public void setSymbolicName( String symbolicName ) throws SemanticException
+	{
+		setStringProperty( SYMBOLIC_NAME_PROP, symbolicName );
+	}
 }
