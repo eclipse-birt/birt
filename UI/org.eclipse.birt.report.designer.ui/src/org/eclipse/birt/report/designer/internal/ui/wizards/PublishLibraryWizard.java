@@ -62,9 +62,7 @@ public class PublishLibraryWizard extends Wizard
 		this.fileName = fileName;
 		this.folderName = folderName;
 		this.handle = handle;
-		this.filePath = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getFileName( );
+		this.filePath = handle.getFileName( );
 		type = HAVE_HANDLE;
 	}
 
@@ -139,6 +137,13 @@ public class PublishLibraryWizard extends Wizard
 	{
 		// copy to library folder
 
+		if( !(new File(filePath).exists( )))
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishLibraryAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishLibraryAction.wizard.message.SourceFileNotExist" ) ); //$NON-NLS-1$
+			return true;
+		}
+		
 		File targetFolder = new File( folderName );
 		if ( targetFolder.exists( ) && ( !targetFolder.isDirectory( ) ) )
 		{

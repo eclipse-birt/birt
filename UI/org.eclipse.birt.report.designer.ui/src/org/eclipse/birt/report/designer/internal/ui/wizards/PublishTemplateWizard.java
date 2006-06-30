@@ -72,9 +72,15 @@ public class PublishTemplateWizard extends Wizard
 		String templateFolderPath = ReportPlugin.getDefault( )
 				.getTemplatePreference( );
 
-		String filePath = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getFileName( );
+		String filePath = handle.getFileName( );
+		
+		if( !(new File(filePath).exists( )))
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishTemplateAction.wizard.message.SourceFileNotExist" ) ); //$NON-NLS-1$
+			return true;
+		}
+		
 		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
 		File targetFolder = new File( templateFolderPath );
 		if ( !targetFolder.isDirectory( ) )
