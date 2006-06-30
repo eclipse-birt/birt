@@ -27,11 +27,14 @@ import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.OutputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
+import org.eclipse.birt.report.soapengine.api.Data;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
 import org.eclipse.birt.report.soapengine.api.ReportId;
 import org.eclipse.birt.report.soapengine.api.ReportIdType;
+import org.eclipse.birt.report.soapengine.api.Update;
+import org.eclipse.birt.report.soapengine.api.UpdateData;
 
 abstract public class AbstractBaseActionHandler implements IActionHandler
 {
@@ -311,6 +314,52 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 	}
 
 	protected abstract IViewerReportService getReportService( );
+
+	/**
+	 * Prepare the update list. TODO: move to base.
+	 * 
+	 * @param data
+	 * @param op
+	 * @param response
+	 */
+	protected void appendUpdate( GetUpdatedObjectsResponse response, Update update )
+	{
+		// response may already contain some Update instances.
+		Update[] oldUpdates = response.getUpdate( );
+		if ( oldUpdates == null || oldUpdates.length == 0 )
+		{
+			response.setUpdate( new Update[] { update } );
+		}
+		else
+		{
+			Update[] newUpdates = new Update[oldUpdates.length + 1];
+			for ( int idx = 0; idx < oldUpdates.length; idx++ )
+			{
+				newUpdates[idx] = oldUpdates[idx];
+			}
+			newUpdates[oldUpdates.length] = update;
+			response.setUpdate( newUpdates );
+		}
+	}
+
+	/**
+	 * util.
+	 * 
+	 * @param target
+	 * @param data
+	 * @return
+	 */
+	protected Update createUpdateData( String target, Data data )
+	{
+		UpdateData updateData = new UpdateData( );
+		updateData.setTarget( target );
+		updateData.setData( data );
+		
+		Update update = new Update( );
+		update.setUpdateData( updateData );
+		
+		return update;
+	}
 
 	/**
 	 * Get svg flag from incoming soap message.

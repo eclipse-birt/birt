@@ -271,9 +271,8 @@ public abstract class AbstractGetPageActionHandler
 						AxisFault fault = new AxisFault( );
 						fault.setFaultCode( new QName(
 								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
-						fault
-								.setFaultString( BirtResources
-										.getString( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
+						fault.setFaultString( BirtResources
+							.getString( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
 						throw fault;
 					}
 
