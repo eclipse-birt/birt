@@ -382,6 +382,10 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		{
 			fault.setStackTrace( e.getCause( ).getStackTrace( ) );
 		}
+		else
+		{
+			fault.setStackTrace( e.getStackTrace( ) );
+		}
 		throw fault;
 	}
 
