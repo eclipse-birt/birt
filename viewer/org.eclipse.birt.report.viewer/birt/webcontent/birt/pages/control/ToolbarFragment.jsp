@@ -66,7 +66,9 @@
 					{
 					%>
 						<A HREF="<%= ivUrl %>">
-							<IMG SRC='birt/images/Interactive_viewer.gif' CLASS='birtviewer_clickable' />
+							<IMG SRC='birt/images/Interactive_viewer.gif'
+								CLASS='birtviewer_clickable'
+								TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.enableiv" )%>" />
 						</A>
 					<%
 					}
