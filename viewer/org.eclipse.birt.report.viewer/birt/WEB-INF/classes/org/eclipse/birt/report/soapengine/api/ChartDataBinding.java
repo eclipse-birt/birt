@@ -12,6 +12,7 @@ public class ChartDataBinding  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.SectionDefinition section;
     private org.eclipse.birt.report.soapengine.api.AxisDataBinding XAxis;
     private org.eclipse.birt.report.soapengine.api.AxisDataBinding[] YAxis;
+    private int showXLabelsVertically;
 
     public ChartDataBinding() {
     }
@@ -20,11 +21,13 @@ public class ChartDataBinding  implements java.io.Serializable {
            java.lang.String tableId,
            org.eclipse.birt.report.soapengine.api.SectionDefinition section,
            org.eclipse.birt.report.soapengine.api.AxisDataBinding XAxis,
-           org.eclipse.birt.report.soapengine.api.AxisDataBinding[] YAxis) {
+           org.eclipse.birt.report.soapengine.api.AxisDataBinding[] YAxis,
+           int showXLabelsVertically) {
            this.tableId = tableId;
            this.section = section;
            this.XAxis = XAxis;
            this.YAxis = YAxis;
+           this.showXLabelsVertically = showXLabelsVertically;
     }
 
 
@@ -115,6 +118,26 @@ public class ChartDataBinding  implements java.io.Serializable {
         this.YAxis[i] = _value;
     }
 
+
+    /**
+     * Gets the showXLabelsVertically value for this ChartDataBinding.
+     * 
+     * @return showXLabelsVertically
+     */
+    public int getShowXLabelsVertically() {
+        return showXLabelsVertically;
+    }
+
+
+    /**
+     * Sets the showXLabelsVertically value for this ChartDataBinding.
+     * 
+     * @param showXLabelsVertically
+     */
+    public void setShowXLabelsVertically(int showXLabelsVertically) {
+        this.showXLabelsVertically = showXLabelsVertically;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof ChartDataBinding)) return false;
@@ -138,7 +161,8 @@ public class ChartDataBinding  implements java.io.Serializable {
               this.XAxis.equals(other.getXAxis()))) &&
             ((this.YAxis==null && other.getYAxis()==null) || 
              (this.YAxis!=null &&
-              java.util.Arrays.equals(this.YAxis, other.getYAxis())));
+              java.util.Arrays.equals(this.YAxis, other.getYAxis()))) &&
+            this.showXLabelsVertically == other.getShowXLabelsVertically();
         __equalsCalc = null;
         return _equals;
     }
@@ -170,6 +194,7 @@ public class ChartDataBinding  implements java.io.Serializable {
                 }
             }
         }
+        _hashCode += getShowXLabelsVertically();
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -206,6 +231,12 @@ public class ChartDataBinding  implements java.io.Serializable {
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AxisDataBinding"));
         elemField.setNillable(false);
         elemField.setMaxOccursUnbounded(true);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("showXLabelsVertically");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ShowXLabelsVertically"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 
