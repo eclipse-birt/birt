@@ -95,6 +95,7 @@ public class ResourceConstants
 	// column binding
 	public final static String INVALID_BOUND_COLUMN_NAME = "data.engine.InvalidBoundColumnName";
 	public final static String INVALID_GROUP_KEY = "data.engine.InvalidGroupKey";
+	public final static String COLUMN_BINDING_NOT_EXIST = "data.engine.ColumnBindingNotExist";
 	public final static String COLUMN_BINDING_CYCLE = "data.engine.ColumnBindingCycle";
 	// computed column value
 	public final static String EXPR_INVALID_COMPUTED_COLUMN= "data.engine.BadCompColExpr";

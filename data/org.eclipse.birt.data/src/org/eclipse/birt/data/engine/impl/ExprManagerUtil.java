@@ -76,12 +76,33 @@ class ExprManagerUtil
 			if(!ExpressionCompilerUtil.hasColumnRow( map.get( level ).toString( ), exprManager ))
 			{
 				exprManager.setEntryGroupLevel( ExprManager.OVERALL_GROUP );
+				if( !isColumnBindingExist(map.get( level ).toString( ) ))
+				{
+					throw new DataException( ResourceConstants.COLUMN_BINDING_NOT_EXIST, map.get( level ).toString( ));
+				}
 				throw new DataException( ResourceConstants.INVALID_GROUP_KEY, new Object[]{ map.get( level ).toString( ), level});
 			}
 		}
 		exprManager.setEntryGroupLevel( ExprManager.OVERALL_GROUP );
 	}
 	
+	/**
+	 * 
+	 * @param columnName
+	 * @return
+	 */
+	private boolean isColumnBindingExist( String columnName )
+	{
+		List bindings = exprManager.getBindingExprs( );
+		
+		for( int i = 0; i < bindings.size( ); i++ )
+		{
+			GroupBindingColumn gbc = (GroupBindingColumn)bindings.get( i );
+			if(gbc.getExpression( columnName) != null)
+				return true;
+		}
+		return false;
+	}
 	/**
 	 * Test whether there are dependency cycles in exprManager.
 	 * 
