@@ -23,7 +23,6 @@ import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemA
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.command.StyleException;
@@ -79,8 +78,14 @@ public class ApplyStyleAction extends DynamicItemAction
 		if ( handles.isEmpty( ) )
 			return false;
 		for ( int i = 0; i < handles.size( ); i++ )
-		{
-			if ( !( handles.get( i ) instanceof ReportElementHandle ) )
+		{			
+			if ( !( handles.get( i ) instanceof DesignElementHandle ) )
+			{
+				return false;
+			}
+			
+			DesignElementHandle handle = (DesignElementHandle)handles.get( i );
+			if(handle != null && handle.getDefn( ).hasStyle( ) == false)
 			{
 				return false;
 			}
