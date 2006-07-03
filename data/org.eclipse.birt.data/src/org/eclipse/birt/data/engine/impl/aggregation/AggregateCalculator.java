@@ -62,7 +62,7 @@ public class AggregateCalculator
 	/**
 	 * The table contains all aggregate expression
 	 */
-	private AggregateTable aggrTable;
+	private List aggrExprInfoList;
 
 	// The count of aggregate expression
 	private int aggrCount;
@@ -90,16 +90,14 @@ public class AggregateCalculator
 	public AggregateCalculator( AggregateTable aggrTable,
 			IResultIterator odiResult )
 	{
-		logger.entering( AggregateCalculator.class.getName( ),
-				"AggregateCalculator" );
-		
 		assert aggrTable != null;
 		assert odiResult != null;
 		
-		this.aggrTable = aggrTable;
+		this.aggrExprInfoList = aggrTable.getAggrExprInfoList( );
 		this.odiResult = odiResult;
 
-		aggrCount = aggrTable.getCount( );
+		aggrCount = aggrExprInfoList.size( );
+		
 		if ( aggrCount > 0 )
 		{
 			aggrValues = new List[aggrCount];
@@ -107,15 +105,13 @@ public class AggregateCalculator
 			for ( int i = 0; i < aggrCount; i++ )
 			{
 				aggrValues[i] = new ArrayList( );
-				AggregateTable.AggrExprInfo aggrInfo = aggrTable.getAggrInfo( i );
+				AggrExprInfo aggrInfo = getAggrInfo( i );
 			
 				// Initialize argument array for this aggregate expression
 				aggrArgs[i] = new Object[aggrInfo.aggregation.getParameterDefn( ).length];
 			}
-			accumulatorManagers = new AccumulatorManager[this.aggrTable.getCount()];
+			accumulatorManagers = new AccumulatorManager[aggrCount];
 		}
-		logger.exiting( AggregateCalculator.class.getName( ),
-				"AggregateCalculator" );
 	}
 	
 	/**
@@ -129,17 +125,17 @@ public class AggregateCalculator
 	{
 		logger.entering( AggregateCalculator.class.getName( ), "calculate" );
 		List validAggregations = new ArrayList();
-		boolean[] populateAggrValue = new boolean[this.aggrTable.getCount()];
+		boolean[] populateAggrValue = new boolean[this.aggrCount];
 			int count = 1;
-		for( int i = 0; i < this.aggrTable.getCount( ); i++)
+		for( int i = 0; i < this.aggrCount; i++)
 		{
 			validAggregations.add( new Integer(i));
-			if( this.aggrTable.getAggrInfo( i ).aggregation instanceof Aggregation 
-					&& ((Aggregation) this.aggrTable.getAggrInfo( i ).aggregation ).getNumberOfPasses( ) > 1)
+			if( this.getAggrInfo( i ).aggregation instanceof Aggregation 
+					&& ((Aggregation) this.getAggrInfo( i ).aggregation ).getNumberOfPasses( ) > 1)
 				populateAggrValue[i] = false;
 			else
 				populateAggrValue[i] = true;
-			accumulatorManagers[i] = new AccumulatorManager( this.aggrTable.getAggrInfo( i ).aggregation );
+			accumulatorManagers[i] = new AccumulatorManager( this.getAggrInfo( i ).aggregation );
 		}
 		
 		while ( validAggregations.size( ) > 0 )
@@ -169,6 +165,15 @@ public class AggregateCalculator
 		logger.exiting( AggregateCalculator.class.getName( ), "calculate" );
 	}
 
+	/**
+	 * Gets information about one aggregate expression in the table, given its
+	 * index
+	 */
+	private AggrExprInfo getAggrInfo( int i )
+	{
+		return (AggrExprInfo) aggrExprInfoList.get( i );
+	}
+	
 	/**
 	 * Make a pass to all aggregations. Iterator over entire result set. At each row, call
 	 * each aggregate aggregationtion.
@@ -219,8 +224,8 @@ public class AggregateCalculator
 	{
 		assert invalidAggrMsg != null;
 
-		if ( aggrTable.getAggrInfo( index ).aggregation.getType( ) == IAggregation.RUNNING_AGGR
-				|| endingGroupLevel <= aggrTable.getAggrInfo( index ).groupLevel )
+		if ( getAggrInfo( index ).aggregation.getType( ) == IAggregation.RUNNING_AGGR
+				|| endingGroupLevel <= getAggrInfo( index ).groupLevel )
 			aggrValues[index].add( invalidAggrMsg.get( new Integer( index ) ) );
 	}
 	
@@ -233,10 +238,10 @@ public class AggregateCalculator
 	 */
 	private void prepareNextIteration(List validAggregations, boolean[] populateAggrValue, int count) {
 		validAggregations.clear( );
-		for ( int i = 0; i < this.aggrTable.getCount( ); i++ )
+		for ( int i = 0; i < this.aggrCount; i++ )
 		{
 			this.accumulatorManagers[i].restart();
-			IAggregation temp = this.aggrTable.getAggrInfo( i ).aggregation;
+			IAggregation temp = this.getAggrInfo( i ).aggregation;
 			populateAggrValue[i] = false;
 			if ( temp instanceof Aggregation )
 			{
@@ -267,7 +272,7 @@ public class AggregateCalculator
 
 		assert aggrIndex >= 0 && aggrIndex < this.aggrCount;
 
-		AggregateTable.AggrExprInfo aggrInfo = aggrTable.getAggrInfo( aggrIndex );
+		AggrExprInfo aggrInfo = getAggrInfo( aggrIndex );
 
 		if ( !hasOdiResultDataRows )
 		{
@@ -343,7 +348,7 @@ public class AggregateCalculator
 			int endingGroupLevel, Scriptable scope, boolean populateValue )
 			throws DataException
 	{
-		AggregateTable.AggrExprInfo aggrInfo = aggrTable.getAggrInfo( aggrIndex );
+		AggrExprInfo aggrInfo = getAggrInfo( aggrIndex );
 		Accumulator acc = null;
 
 		boolean newGroup = false;
