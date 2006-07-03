@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
  * This is a wrapper class of all odi result set.It is used to enhance 
  * result-set processing algorithm.
  */
-class OdiResultSetWrapper
+public class OdiResultSetWrapper
 {
 	private Object resultSource;
 	
@@ -56,7 +56,7 @@ class OdiResultSetWrapper
 	 * 
 	 * @param rs
 	 */
-	OdiResultSetWrapper( IResultIterator rs )
+	public OdiResultSetWrapper( IResultIterator rs )
 	{
 		this.resultSource = rs;
 	}
@@ -82,7 +82,7 @@ class OdiResultSetWrapper
 	 * 
 	 * @return
 	 */
-	Object getWrappedOdiResultSet()
+	public Object getWrappedOdiResultSet()
 	{
 		return this.resultSource;
 	}

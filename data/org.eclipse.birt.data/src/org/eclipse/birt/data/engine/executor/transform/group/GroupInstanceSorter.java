@@ -26,7 +26,7 @@ import org.mozilla.javascript.Context;
 /**
  * The class which is used to do group instance sortings.
  */
-public class GroupInstanceSorter
+class GroupInstanceSorter
 {
 
 	private ResultSetPopulator populator;

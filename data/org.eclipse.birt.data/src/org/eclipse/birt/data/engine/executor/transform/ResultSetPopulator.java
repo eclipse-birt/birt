@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.SmartCache;
 import org.eclipse.birt.data.engine.executor.cache.SmartRowResultSet;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupProcessorManager;
+import org.eclipse.birt.data.engine.executor.transform.pass.PassManager;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -203,7 +204,7 @@ public class ResultSetPopulator
 	 */
 	public void populateResultSet( OdiResultSetWrapper odaResultSet ) throws DataException
 	{
-		new MultiPassRowProcessor( this ).pass( odaResultSet );
+		PassManager.populateResultSet( this, odaResultSet );
 	}
 
 	/**

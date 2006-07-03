@@ -32,9 +32,8 @@ import org.mozilla.javascript.Context;
 /**
  * The class which is used to do group instance filterings.
  */
-public class GroupInstanceFilter
+class GroupInstanceFilter
 {
-
 	private ResultSetPopulator populator;
 
 	private FilterPassController filterPass = new FilterPassController( );

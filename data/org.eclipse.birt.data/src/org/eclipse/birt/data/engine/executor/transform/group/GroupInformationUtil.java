@@ -57,6 +57,7 @@ public class GroupInformationUtil
 	GroupInformationUtil( GroupCalculationUtil groupCalculationUtil )
 	{
 		this.groupCalculationUtil = groupCalculationUtil;
+		this.groups = new List[0];
 	}
 
 	/**
