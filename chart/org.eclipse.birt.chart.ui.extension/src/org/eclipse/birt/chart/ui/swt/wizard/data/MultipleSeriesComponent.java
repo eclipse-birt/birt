@@ -12,21 +12,28 @@
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.eclipse.birt.chart.model.attribute.SortOption;
+import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -39,8 +46,6 @@ import org.eclipse.swt.widgets.Listener;
  */
 
 public class MultipleSeriesComponent extends DefaultSelectDataComponent
-		implements
-			Listener
 {
 
 	private transient EList[] seriesDefnsArray;
@@ -52,6 +57,8 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 	private static final String LABEL_GROUPING_YSERIES = Messages.getString( "MultipleSeriesComponent.Label.OptionalYSeriesGrouping" ); //$NON-NLS-1$
 	private static final String LABEL_GROUPING_OVERLAY = Messages.getString( "MultipleSeriesComponent.Label.OptionalOverlayGrouping" ); //$NON-NLS-1$
 	private static final String LABEL_GROUPING_WITHOUTAXIS = Messages.getString( "MultipleSeriesComponent.Label.OptionalGrouping" ); //$NON-NLS-1$
+
+	private static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
 
 	private transient ISelectDataCustomizeUI selectDataUI = null;
 
@@ -123,15 +130,12 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 		final String strDesc = getGroupingDescription( axisIndex );
 		ISelectDataComponent subUIGroupY = new DefaultSelectDataComponent( ) {
 
-			private transient Composite cmpGroup;
-			private transient Label lblRightYGrouping;
-
 			public Composite createArea( Composite parent )
 			{
-				cmpGroup = ChartUIUtil.createCompositeWrapper( parent );
+				Composite cmpGroup = ChartUIUtil.createCompositeWrapper( parent );
 				cmpGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-				lblRightYGrouping = new Label( cmpGroup, SWT.WRAP );
+				Label lblRightYGrouping = new Label( cmpGroup, SWT.WRAP );
 				{
 					GridData gd = new GridData( );
 					gd.widthHint = getStandardWidth( ) * 16;
@@ -145,17 +149,107 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 					selectedSeriesIndex = selectDataUI.getSeriesIndex( )[axisIndex];
 				}
 
+				final SeriesDefinition sd = ( (SeriesDefinition) seriesDefn.get( selectedSeriesIndex ) );
+
 				if ( seriesDefn != null && !seriesDefn.isEmpty( ) )
 				{
 					// Only display current selected series
 					ISelectDataComponent subUI = selectDataUI.getAreaComponent( ISelectDataCustomizeUI.GROUPING_SERIES,
-							( (SeriesDefinition) seriesDefn.get( selectedSeriesIndex ) ),
+							sd,
 							context,
 							sTitle );
-					subUI.addListener( MultipleSeriesComponent.this );
+					subUI.addListener( new Listener( ) {
+
+						public void handleEvent( Event event )
+						{
+							final String query = event.text;
+							// Copy the group query to other query definitions.
+							ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
+
+								public Object run( )
+								{
+									ChartUIUtil.setAllGroupingQueryExceptFirst( context.getModel( ),
+											query );
+									return null;
+								}
+
+							} );
+
+						}
+					} );
 					subUI.createArea( cmpGroup );
 					components.add( subUI );
 				}
+
+				Label lblSorting = new Label( cmpGroup, SWT.NONE );
+				lblSorting.setText( Messages.getString( "BaseSeriesDataSheetImpl.Lbl.DataSorting" ) ); //$NON-NLS-1$
+
+				final Combo cmbSorting = new Combo( cmpGroup, SWT.DROP_DOWN
+						| SWT.READ_ONLY );
+				cmbSorting.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+				// populate sorting combo
+				cmbSorting.add( UNSORTED_OPTION );
+				String[] nss = LiteralHelper.sortOptionSet.getDisplayNames( );
+				for ( int i = 0; i < nss.length; i++ )
+				{
+					cmbSorting.add( nss[i] );
+				}
+
+				// Select value
+				if ( !sd.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
+				{
+					cmbSorting.select( 0 );
+				}
+				else
+				{
+					// plus one for the first is unsorted option.
+					cmbSorting.select( LiteralHelper.sortOptionSet.getNameIndex( sd.getSorting( )
+							.getName( ) ) + 1 );
+				}
+				cmbSorting.addListener( SWT.Selection, new Listener( ) {
+
+					public void handleEvent( Event event )
+					{
+						if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
+						{
+							sd.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
+						}
+						else
+						{
+							sd.setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
+						}
+
+						// Update the query sortings of other series.
+						ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
+
+							public Object run( )
+							{
+								List sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
+								for ( int i = 0; i < sds.size( ); i++ )
+								{
+									if ( i != 0 )
+									{
+										// Except for the first, which should be
+										// changed manually.
+										SeriesDefinition sdf = (SeriesDefinition) sds.get( i );
+										if ( cmbSorting.getText( )
+												.equals( UNSORTED_OPTION ) )
+										{
+											sdf.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
+										}
+										else
+										{
+											sdf.setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
+										}
+									}
+								}
+								return null;
+							}
+						} );
+					}
+				} );
+
 				return cmpGroup;
 			}
 
@@ -201,11 +295,6 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 			return LABEL_GROUPING_YSERIES;
 		}
 		return LABEL_GROUPING_OVERLAY;
-	}
-
-	public void handleEvent( Event event )
-	{
-		fireEvent( event );
 	}
 
 }

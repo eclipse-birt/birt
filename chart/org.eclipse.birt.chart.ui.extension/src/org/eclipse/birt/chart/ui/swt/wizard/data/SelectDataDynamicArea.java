@@ -27,7 +27,6 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
@@ -37,14 +36,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 
 /**
  * 
  */
 
-public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
+public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 {
 
 	private transient ITask task = null;
@@ -245,7 +242,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 			ISelectDataComponent component = new MultipleSeriesComponent( seriesDefnArray,
 					getContext( ),
 					Messages.getString( "AbstractSelectDataCustomizeUI.Label.SeriesGrouping" ), this ); //$NON-NLS-1$
-			component.addListener( this );
 			subRightAreas.add( component );
 			component.createArea( cmpRightArea );
 		}
@@ -254,7 +250,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 			ISelectDataComponent component = new MultipleSeriesComponent( getValueSeriesDefinitionForProcessing( ),
 					getContext( ),
 					Messages.getString( "AbstractSelectDataCustomizeUI.Label.SeriesGrouping" ), this ); //$NON-NLS-1$
-			component.addListener( this );
 			subRightAreas.add( component );
 			component.createArea( cmpRightArea );
 		}
@@ -318,14 +313,5 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 	{
 		// Reset selected series index to 0
 		seriesIndex = new int[ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) )];
-	}
-
-	public void handleEvent( Event event )
-	{
-		// Copy the group query to other query definitions.
-		ChartAdapter.ignoreNotifications( true );
-		ChartUIUtil.setAllGroupingQueryExceptFirst( getChartModel( ),
-				event.text );
-		ChartAdapter.ignoreNotifications( false );
 	}
 }
