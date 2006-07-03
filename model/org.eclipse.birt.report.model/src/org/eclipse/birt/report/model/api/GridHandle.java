@@ -12,11 +12,13 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.CellHelper;
 import org.eclipse.birt.report.model.elements.GridItem;
+import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 
 /**
@@ -151,19 +153,6 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 		}
 
 		return true;
-
-		// GridColumnBandAdapter adapter = new GridColumnBandAdapter( );
-		//
-		// try
-		// {
-		// adapter.copyColumn( this, columnIndex );
-		// }
-		// catch ( SemanticException e )
-		// {
-		// return false;
-		// }
-		//
-		// return true;
 	}
 
 	/**
@@ -341,4 +330,228 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 		}
 		return shiftAction.checkTargetColumn( sourceColumn, destColumn );
 	}
+
+	/**
+	 * Checks whether the copy operation can be done with the given parameters.
+	 * 
+	 * @param parameters
+	 *            parameters needed by insert operation.
+	 * @return <code>true</code> if this row band can be copied. Otherwise
+	 *         <code>false</code>.
+	 * 
+	 */
+
+	public boolean canCopyRow( RowOperationParameters parameters )
+	{
+		if ( parameters == null )
+			return false;
+		RowBandCopyAction action = new RowBandCopyAction(
+				new GridRowBandAdapter( this ) );
+
+		return action.canCopy( parameters );
+	}
+
+	/**
+	 * Checks whether the paste operation can be done with the given parameters.
+	 * 
+	 * @param copiedRow
+	 *            the copied table row
+	 * @param parameters
+	 *            parameters needed by insert operation.
+	 * @return <code>true</code> indicates the paste operation can be done.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	public boolean canPasteRow( IDesignElement copiedRow,
+			RowOperationParameters parameters )
+	{
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof TableRow ) )
+			return false;
+		RowBandPasteAction pasteAction = new RowBandPasteAction(
+				new GridRowBandAdapter( this ) );
+
+		return pasteAction.canPaste( (TableRow) copiedRow, parameters );
+	}
+
+	/**
+	 * Checks whether the insert operation can be done with the given
+	 * parameters.
+	 * 
+	 * @param parameters
+	 *            parameters needed by insert operation.
+	 * @return <code>true</code> indicates the insert operation can be done.
+	 *         Otherwise <code>false</code>.
+	 */
+	public boolean canInsertRow( RowOperationParameters parameters )
+	{
+		if ( parameters == null )
+			return false;
+		RowBandInsertAction pasteAction = new RowBandInsertAction(
+				new GridRowBandAdapter( this ) );
+
+		return pasteAction.canInsert( parameters );
+	}
+
+	/**
+	 * Checks whether the insert and paste table row to the given destination
+	 * row with the given parameters.
+	 * 
+	 * @param copiedRow
+	 *            the copied table row
+	 * @param parameters
+	 *            parameters needed by insert operation.
+	 * @return <code>true</code> indicates the insert and paste operation can
+	 *         be done. Otherwise <code>false</code>.
+	 */
+
+	public boolean canInsertAndPasteRow( IDesignElement copiedRow,
+			RowOperationParameters parameters )
+	{
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof TableRow ) )
+			return false;
+
+		RowBandInsertAndPasteAction action = new RowBandInsertAndPasteAction(
+				new GridRowBandAdapter( this ) );
+
+		return action.canInsertAndPaste( (TableRow) copiedRow, parameters );
+	}
+
+	/**
+	 * Checks whether the shift operation can be done with the given the given
+	 * parameters.
+	 * 
+	 * @param parameters
+	 *            parameters needed by insert operation.
+	 * @return <code>true</code> indicates the shift operation can be done.
+	 *         Otherwise <code>false</code>.
+	 */
+	public boolean canShiftRow( RowOperationParameters parameters )
+	{
+		if ( parameters == null )
+			return false;
+		RowBandShiftAction action = new RowBandShiftAction(
+				new GridRowBandAdapter( this ) );
+
+		return action.canShift( parameters );
+	}
+
+	/**
+	 * Copies table row with the given parameters.
+	 * 
+	 * @param parameters
+	 *            parameters needed by insert operation.
+	 * @return a new <code>TableRow</code> instance
+	 * @throws SemanticException
+	 *             throw if paste operation is forbidden
+	 * @throws IllegalArgumentException
+	 *             throw if the input parameters are not valid
+	 */
+	public IDesignElement copyRow( RowOperationParameters parameters ) throws SemanticException
+	{
+		if( parameters == null )
+			throw new IllegalArgumentException( "empty row to copy." );//$NON-NLS-1$
+		RowBandCopyAction action = new RowBandCopyAction(
+				new GridRowBandAdapter( this ) );
+
+		return action.doCopy( parameters );
+
+	}
+
+	/**
+	 * Pastes table row to destination row with the given parameters.
+	 * 
+	 * @param copiedRow
+	 *            the copied table row
+	 * @param parameters
+	 *            parameters needed by insert operation.
+	 * @throws SemanticException
+	 *             throw if paste operation is forbidden
+	 * @throws IllegalArgumentException
+	 *             throw if the input parameters are not valid
+	 */
+
+	public void pasteRow( IDesignElement copiedRow,
+			RowOperationParameters parameters ) throws SemanticException
+	{
+		if ( copiedRow == null || parameters == null )
+			throw new IllegalArgumentException( "empty row to paste." );//$NON-NLS-1$
+		RowBandPasteAction pasteAction = new RowBandPasteAction(
+				new GridRowBandAdapter( this ) );
+
+		pasteAction.doPaste( (TableRow) copiedRow, parameters );
+	}
+
+	/**
+	 * Inserts table row to the given destination row with the given parameters.
+	 * 
+	 * @param parameters
+	 *            parameters needed by insert operation.
+	 * @throws SemanticException
+	 *             throw if paste operation is forbidden
+	 * @throws IllegalArgumentException
+	 *             throw if the input parameters are not valid
+	 */
+
+	public void insertRow( RowOperationParameters parameters )
+			throws SemanticException
+	{
+		if ( parameters == null )
+			throw new IllegalArgumentException( "empty row to insert." );//$NON-NLS-1$
+		RowBandInsertAction action = new RowBandInsertAction(
+				new GridRowBandAdapter( this ) );
+
+		action.doInsert( parameters );
+	}
+
+	/**
+	 * Inserts and paste table row to the given destination row with the given
+	 * parameters.
+	 * 
+	 * @param copiedRow
+	 *            the copied table row
+	 * @param parameters
+	 *            parameters needed by insert operation.
+	 * @throws SemanticException
+	 *             throw if paste operation is forbidden
+	 * @throws IllegalArgumentException
+	 *             throw if the input parameters are not valid
+	 */
+
+	public void insertAndPasteRow( IDesignElement copiedRow,
+			RowOperationParameters parameters ) throws SemanticException
+	{
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof TableRow ) )
+			throw new IllegalArgumentException( "empty row to insert and paste." );//$NON-NLS-1$
+
+		RowBandInsertAndPasteAction action = new RowBandInsertAndPasteAction(
+				new GridRowBandAdapter( this ) );
+
+		action.doInsertAndPaste( (TableRow) copiedRow, parameters );
+	}
+
+	/**
+	 * Shifts table row to the given destination row with the given parameters.
+	 * 
+	 * @param parameters
+	 *            parameters needed by insert operation.
+	 * @throws SemanticException
+	 *             throw if paste operation is forbidden
+	 * @throws IllegalArgumentException
+	 *             throw if the input parameters are not valid
+	 */
+
+	public void shiftRow( RowOperationParameters parameters )
+			throws SemanticException
+	{
+		if ( parameters == null )
+			throw new IllegalArgumentException( "empty row to shift." );//$NON-NLS-1$
+		RowBandShiftAction action = new RowBandShiftAction(
+				new GridRowBandAdapter( this ) );
+
+		action.doShift( parameters );
+	}
+
 }
