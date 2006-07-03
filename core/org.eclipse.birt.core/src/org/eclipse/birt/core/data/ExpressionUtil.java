@@ -220,7 +220,7 @@ public final class ExpressionUtil
 	 * @param oldExpression
 	 * @return
 	 */
-	public static String replaceRowsExpression( String oldExpression )
+	public static String updateParentQueryReferenceExpression( String oldExpression )
 	{
 		if ( oldExpression == null )
 			return null;
@@ -275,7 +275,7 @@ public final class ExpressionUtil
 								
 								String firstPart = oldExpression.substring( 0,
 										start - status.getRetrieveSize( ) - 4 );
-								String secondPart = replaceRowsExpression( oldExpression.substring( start
+								String secondPart = updateParentQueryReferenceExpression( oldExpression.substring( start
 										- status.getRetrieveSize( ) + end) );
 								String newExpression = firstPart
 										+ "row._outer" + secondPart;
