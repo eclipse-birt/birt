@@ -23,14 +23,13 @@ import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.datatools.connectivity.oda.consumer.helper.OdaDriver;
 import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.LogConfiguration;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
+import org.eclipse.datatools.connectivity.oda.consumer.helper.OdaDriver;
 import org.eclipse.datatools.connectivity.oda.util.manifest.DataSetType;
-import org.eclipse.datatools.connectivity.oda.util.manifest.DataTypeMapping;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 import org.eclipse.datatools.connectivity.oda.util.manifest.TraceLogging;
 
 /**
@@ -146,43 +145,19 @@ class Driver
 					"Cannot find data set element.", ex );
 			throw new DataException( ResourceConstants.INVALID_DATA_SET_TYPE, ex );
 		}
-
-		DataTypeMapping mapping = dsType.getDataTypeMapping( (short) nativeType );
 		
-		// no mapping found in data source extension configuration, return a default type
-		if( mapping == null )	
-			return Types.NULL;
-		
-		String odaType = mapping.getOdaScalarDataType();
-		
-		if( odaType.equalsIgnoreCase( "Date" ) )
-			return Types.DATE;
-		else if( odaType.equalsIgnoreCase( "Decimal" ) )
-			return Types.DECIMAL;
-		else if( odaType.equalsIgnoreCase( "Double" ) )
-			return Types.DOUBLE;
-		else if( odaType.equalsIgnoreCase( "Integer" ) )
-			return Types.INTEGER;
-		else if( odaType.equalsIgnoreCase( "String" ) )
-			return Types.CHAR;
-		else if( odaType.equalsIgnoreCase( "Time" ) )
-			return Types.TIME;
-		else if( odaType.equalsIgnoreCase( "Timestamp" ) )
-			return Types.TIMESTAMP;
-		else if( odaType.equalsIgnoreCase( "Blob" ) )
-			return Types.BLOB;
-		else if( odaType.equalsIgnoreCase( "Clob" ) )
-			return Types.CLOB;
-		else
-		{
-			// shouldn't be in here, the configuration should only have the 
-			// types above
+		int odaTypeCode = dsType.getDefaultOdaDataTypeCode( nativeType );
+        
+        // no mapping found in data source extension configuration, return a default type
+        if( odaTypeCode == Types.NULL )
+        {
 			sm_logger.logp( Level.WARNING, sm_className, methodName,
-					"Invalid ODA data type {0} specified in data source extension mapping.", odaType );
-			return Types.NULL;
+					"No ODA data type mapping found in data source extension for native data type ", 
+                    Integer.toString( nativeType ) );
 		}
+        return odaTypeCode;
 	}
-	
+
     /**
      * Passes the trace logging configuration values to the
      * ODA driver and its consumer helper.

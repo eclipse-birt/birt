@@ -19,8 +19,10 @@ import java.util.Map;
 
 import org.mozilla.javascript.Scriptable;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.DataEngineImpl;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * Data Engine API class.
@@ -57,25 +59,39 @@ abstract public class DataEngine
 	 * @return an instance of DataEngine under specified context
 	 */
     public static DataEngine newDataEngine( DataEngineContext context )
-    {    	
-    	if ( context == null )
+    {
+    	try
 		{
-			try
-			{
-				context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-						null,
-						null,
-						null );
-			}
-			catch ( BirtException e )
-			{
-				// impossible get here
-			}
+			return newDataEngine( null, context );
 		}
-    	
-		return new DataEngineImpl( context );
+		catch ( BirtException e )
+		{
+			// impossible to get here in normal case
+			throw new RuntimeException( e );
+		}
     }
+    
+    /**
+     * @param context
+     * @return
+     * @throws BirtException 
+     */
+    public static DataEngine newDataEngine( PlatformConfig platformConfig,
+			DataEngineContext dataContext ) throws BirtException
+	{
+		Platform.startup( platformConfig );
 
+		Object factory = Platform.createFactoryObject( IDataEngineFactory.EXTENSION_DATA_ENGINE_FACTORY );
+		if ( factory instanceof IDataEngineFactory )
+		{
+			return ( (IDataEngineFactory) factory ).createDataEngine( dataContext );
+		}
+		else
+		{
+			throw new DataException( ResourceConstants.LOAD_FACTORY_ERROR );
+		}
+	}
+    
     /**
 	 * Creates a new instance of DataEngine, using the specified Javascript
 	 * scope and home directory setting.
