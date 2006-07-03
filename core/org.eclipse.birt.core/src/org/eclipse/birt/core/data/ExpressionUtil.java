@@ -214,6 +214,83 @@ public final class ExpressionUtil
 	}
 
 	/**
+	 * Translate the old expression with "rows" as parent query indicator to new expression
+	 * using "row._outer" as parent query indicator.
+	 * 
+	 * @param oldExpression
+	 * @return
+	 */
+	public static String replaceRowsExpression( String oldExpression )
+	{
+		if ( oldExpression == null )
+			return null;
+
+		char[] chars = oldExpression.toCharArray( );
+
+		// 7 is the minium length of expression that can cantain a row
+		// expression
+		if ( chars.length < 7 )
+			return oldExpression;
+		else
+		{
+			ParseIndicator status = new ParseIndicator( 0,
+					0,
+					false,
+					false,
+					true,
+					true );
+
+			for ( int i = 0; i < chars.length; i++ )
+			{
+				status = getParseIndicator( chars,
+						i,
+						status.omitNextQuote( ),
+						status.getCandidateKey1( ),
+						status.getCandidateKey2( ) );
+
+				i = status.getNewIndex( );
+				if ( i >= status.getRetrieveSize( ) + 4 )
+				{
+					if ( status.isCandidateKey( )
+							&& chars[i - status.getRetrieveSize( ) - 4] == 'r'
+							&& chars[i - status.getRetrieveSize( ) - 3] == 'o'
+							&& chars[i - status.getRetrieveSize( ) - 2] == 'w'
+							&& chars[i - status.getRetrieveSize( ) - 1] == 's')
+					{
+						if ( i - status.getRetrieveSize( ) - 5 <= 0
+								|| isValidProceeding( chars[i
+										- status.getRetrieveSize( ) - 5] ) )
+						{
+							if ( chars[i] == ' '
+									|| chars[i] == '.' || chars[i] == '[' )
+							{
+								int start = i;
+								int end = 1;
+								//end is the offset of "[n]" in "rows[n]".
+								do
+								{
+									i++;
+									end++;
+								}while( i < chars.length && chars[i]!=']');
+								
+								String firstPart = oldExpression.substring( 0,
+										start - status.getRetrieveSize( ) - 4 );
+								String secondPart = replaceRowsExpression( oldExpression.substring( start
+										- status.getRetrieveSize( ) + end) );
+								String newExpression = firstPart
+										+ "row._outer" + secondPart;
+								return newExpression;
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+		return oldExpression;
+	}
+	/**
 	 * This method is used to provide information necessary for next step parsing.
 	 * 
 	 * @param chars
