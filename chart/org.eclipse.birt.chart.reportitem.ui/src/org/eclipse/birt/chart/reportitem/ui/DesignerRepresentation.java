@@ -25,8 +25,8 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.ChartDlg;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
@@ -122,7 +122,7 @@ public final class DesignerRepresentation extends Figure
 			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
 			if ( cm != null )
 			{
-				final IDisplayServer idsSWT = ChartDlg.getDisplayServer( ); // REUSE
+				final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); // REUSE
 				final Bounds bo = cm.getBlock( )
 						.getBounds( )
 						.scaledInstance( 72d / idsSWT.getDpiResolution( ) );
@@ -234,7 +234,7 @@ public final class DesignerRepresentation extends Figure
 		Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
 		if ( cm != null )
 		{
-			IDisplayServer ids = ChartDlg.getDisplayServer( );
+			IDisplayServer ids = ChartUIUtil.getDisplayServer( );
 			cm.getBlock( )
 					.getBounds( )
 					.setWidth( ChartUtil.convertPixelsToPoints( ids, dim.width ) );

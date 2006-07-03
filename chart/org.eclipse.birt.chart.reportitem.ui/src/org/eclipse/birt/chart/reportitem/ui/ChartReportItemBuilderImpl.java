@@ -26,7 +26,6 @@ import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.QueryHelper;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.ChartDlg;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -135,61 +134,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			// UI
 			this.extendedHandle = eih;
 
-			// True: use V1.0; False: use V2.0 prototype
-			boolean isOld = false;
-
-			if ( isOld )
-			{
-				final ChartDlg cdBuilder = new ChartDlg( cmClone,
-						this,
-						eih,
-						new ChartReportStyleProcessor( eih, true ) );
-
-				if ( cdBuilder.getChart( ) != null ) // NOT CANCELLED
-				{
-					// TODO: Added till the model team sorts out pass-through
-					// for
-					// setProperty
-					crii.executeSetModelCommand( eih, cm, cdBuilder.getChart( ) );
-
-					try
-					{
-						final Bounds bo = cdBuilder.getChart( )
-								.getBlock( )
-								.getBounds( );
-
-						// Modified to fix Bugzilla #99331
-						NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
-
-						if ( eih.getWidth( ).getStringValue( ) == null )
-						{
-							eih.setWidth( nf.format( bo.getWidth( ) ) + "pt" ); //$NON-NLS-1$
-						}
-						if ( eih.getHeight( ).getStringValue( ) == null )
-						{
-							eih.setHeight( nf.format( bo.getHeight( ) ) + "pt" ); //$NON-NLS-1$
-						}
-					}
-					catch ( SemanticException smx )
-					{
-						logger.log( smx );
-					}
-
-					if ( crii.getDesignerRepresentation( ) != null )
-					{
-						( (DesignerRepresentation) crii.getDesignerRepresentation( ) ).setDirty( true );
-					}
-
-					iInstanceCount--;
-					// Reset the ExtendedItemHandle instance since it is no
-					// longer
-					// needed
-					this.extendedHandle = null;
-
-					return Window.OK;
-				}
-			}
-			else
 			{
 				// Use workbench shell to open the dialog
 				Shell parentShell = null;
@@ -391,7 +335,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		double dResult = -1d;
 
 		// CONVERT FROM PIXELS
-		final IDisplayServer ids = ChartDlg.getDisplayServer( );
+		final IDisplayServer ids = ChartUIUtil.getDisplayServer( );
 		if ( sFromUnits.equalsIgnoreCase( "pixels" ) ) //$NON-NLS-1$
 		{
 			dOriginalValue = ( dOriginalValue * 72d ) / ids.getDpiResolution( );

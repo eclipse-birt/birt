@@ -17,7 +17,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.ChartDlg;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemFigureProvider;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -100,7 +100,7 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			}
 
 			// USE THE SWT DISPLAY SERVER TO CONVERT POINTS TO PIXELS
-			final IDisplayServer idsSWT = ChartDlg.getDisplayServer( ); // REUSE
+			final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); // REUSE
 			// Convert from pixels to points first...since DimensionUtil does
 			// not
 			// provide conversion services to and from

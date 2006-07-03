@@ -17,11 +17,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -50,6 +53,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
+import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -75,6 +79,28 @@ public class ChartUIUtil
 
 	public static final String FONT_AUTO = Messages.getString( "ChartUIUtil.Font.Auto" ); //$NON-NLS-1$
 
+	private static IDisplayServer swtDisplayServer = null;
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt" ); //$NON-NLS-1$
+
+	static
+	{
+		try
+		{
+			swtDisplayServer = PluginSettings.instance( )
+					.getDisplayServer( "ds.SWT" ); //$NON-NLS-1$
+		}
+		catch ( ChartException e )
+		{
+			logger.log( e );
+		}
+	}
+	
+	public static IDisplayServer getDisplayServer( )
+	{
+		return swtDisplayServer;
+	}
+	
 	public static void setBackgroundColor( Control control, boolean selected,
 			Color color )
 	{
@@ -130,7 +156,7 @@ public class ChartUIUtil
 	/**
 	 * Returns the default number format instance for default locale.
 	 * 
-	 * @return
+	 * @return the default number format
 	 */
 	public static NumberFormat getDefaultNumberFormatInstance( )
 	{

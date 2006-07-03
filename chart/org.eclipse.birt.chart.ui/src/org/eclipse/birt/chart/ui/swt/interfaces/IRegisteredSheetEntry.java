@@ -10,6 +10,8 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
+
 /**
  * @author Actuate Corporation
  *  
@@ -20,5 +22,5 @@ public interface IRegisteredSheetEntry
 
     public String getNodePath();
 
-    public ISheet getSheet();
+    public ISubtaskSheet getSheet();
 }

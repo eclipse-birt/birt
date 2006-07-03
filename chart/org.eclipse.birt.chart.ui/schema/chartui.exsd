@@ -66,7 +66,7 @@
                   A class implementing the ISheet interface that provides custom property editing for the model.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -97,13 +97,10 @@
          &lt;extension
          point=&quot;org.eclipse.birt.chart.ui.uisheets&quot;&gt;
       &lt;propertySheet
-            classDefinition=&quot;org.eclipse.birt.chart.ui.swt.general.GeneralSheetImpl&quot;
-   nodePath=&quot;General&quot;
-            nodeIndex=&quot;20&quot;/&gt;
-      &lt;propertySheet
-            classDefinition=&quot;org.eclipse.birt.chart.ui.swt.data.BaseAxisDataSheetImpl&quot;
-   nodePath=&quot;Data.X Axis&quot;
-            nodeIndex=&quot;21&quot;/&gt;
+            classDefinition=&quot;org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl&quot;
+            displayName=&quot;Series&quot;
+            nodeIndex=&quot;10&quot;
+            nodePath=&quot;Series&quot;/&gt;
 ...
    &lt;/extension&gt;
       </documentation>
@@ -114,7 +111,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         Please refer to the javadocs for the ISheet and ISheetListener interfaces in the  &lt;i&gt;org.eclipse.birt.chart.ui.swt.interfaces&lt;/i&gt; package.
+         Please refer to the javadocs for the ISubtaskSheet interfaces in the  &lt;i&gt;org.eclipse.birt.chart.ui.swt.interfaces&lt;/i&gt; package.
       </documentation>
    </annotation>
 
