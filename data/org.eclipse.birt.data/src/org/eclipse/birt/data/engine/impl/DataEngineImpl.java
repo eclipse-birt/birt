@@ -35,7 +35,6 @@ import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
-import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.script.JSDataSources;
@@ -49,7 +48,6 @@ import org.mozilla.javascript.Scriptable;
 public class DataEngineImpl extends DataEngine
 {
 	private Scriptable 				sharedScope;
-	private ExpressionCompiler		compiler;
 
 	// Map of data source name (string) to DataSourceRT, for defined data sources
 	private HashMap					dataSources = new HashMap();
@@ -94,7 +92,6 @@ public class DataEngineImpl extends DataEngine
 		new CoreJavaScriptInitializer( ).initialize( cx, sharedScope );
 		Context.exit( );
 				
-		compiler = new ExpressionCompiler( );		
 		dataSourceManager = new DataSourceManager( logger );
 		
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
@@ -519,14 +516,6 @@ public class DataEngineImpl extends DataEngine
 		return sharedScope;
 	}
 
-	/**
-	 * Gets the expression compiler used by this data engine
-	 */
-	ExpressionCompiler getExpressionCompiler( )
-	{
-		return compiler;
-	}
-
 	/*
 	 * @see org.eclipse.birt.data.engine.api.DataEngine#shutdown()
 	 */
@@ -567,7 +556,6 @@ public class DataEngineImpl extends DataEngine
 		sharedScope = null;
 		dataSetDesigns = null;
 		dataSources = null;
-		compiler = null;
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
 	}
 

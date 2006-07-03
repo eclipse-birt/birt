@@ -14,8 +14,6 @@ package org.eclipse.birt.data.engine.expression;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
@@ -43,157 +41,157 @@ import org.mozilla.javascript.Token;
  */
 public final class ExpressionCompiler
 {
-    private CompilerEnvirons m_compilerEnv;
-    
+    private String rowIndicator = STRING_ROW;
+	private boolean isDataSetMode = false;
+	
+	private CompilerEnvirons m_compilerEnv;
+	private AggregateRegistry registry;
+	
 	private final static String STRING_ROW = "row";
 	private final static String STRING_DATASETROW = "dataSetRow";
 	private final static String TOTAL = "Total";
-	public final static String AGGR_VALUE = "_aggr_value";
-
-	protected static Logger logger = Logger.getLogger( ExpressionCompiler.class.getName() );
+	private final static String AGGR_VALUE = "_aggr_value";
 	
-	private String rowIndicator = STRING_ROW;
-
-	private boolean isDataSetMode = false;
 	/**
-	 * Compiles a Javascript expression to produce a subclass of CompileExpression, which
-	 * contains the compiled form of the JS expression, after suitable replacement
-	 * of aggregate functin occurrences in the expression. Aggregate function calls
-	 * that appear in the expression are registered with the provided AggregateRegistry
-	 * instance. <p>
-	 * Aggregate registry can be null, in which case the provided expression is expected
-	 * NOT to contain aggregates. If it does, a DteException is thrown.
-	 * @param expression Text of expression to compile
-	 * @param registry Registry for aggregate expressions. Can be null if expression is not expected to contain aggregates
-	 * @param context Rhino context associated with current thread
-	 * @return
-	 * @throws DataException
-	 */	
-	public CompiledExpression compile( String expression, 
-								AggregateRegistry registry, 
-								Context context ) 
+	 * @param isDataSetMode
+	 */
+	public void setDataSetMode( boolean isDataSetMode )
 	{
-		logger.entering( ExpressionCompiler.class.getName( ),
-				"compile",
-				expression );
+		this.isDataSetMode = isDataSetMode;
+		if ( isDataSetMode )
+			this.rowIndicator = STRING_ROW;
+		else
+			this.rowIndicator = STRING_DATASETROW;
+	}
+	
+	/**
+	 * Compiles a Javascript expression to produce a subclass of
+	 * CompileExpression, which contains the compiled form of the JS expression,
+	 * after suitable replacement of aggregate functin occurrences in the
+	 * expression. Aggregate function calls that appear in the expression are
+	 * registered with the provided AggregateRegistry instance.
+	 * <p>
+	 * Aggregate registry can be null, in which case the provided expression is
+	 * expected NOT to contain aggregates. If it does, a DteException is thrown.
+	 * 
+	 * @param expression
+	 *            Text of expression to compile
+	 * @param registry
+	 *            Registry for aggregate expressions. Can be null if expression
+	 *            is not expected to contain aggregates
+	 * @param context
+	 *            Rhino context associated with current thread
+	 * @return
+	 */	
+	public CompiledExpression compile( String expression,
+			AggregateRegistry registry, Context context )
+	{
 		try
 		{
-			if(expression == null || expression.trim().length() == 0)
-			{
-				throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK);
-			}
-			
-			logger.logp( Level.FINER,
-					ExpressionCompiler.class.getName( ),
-					"compile",
-					"Start to compile expression to produce a CompileExpression",
-					expression );
+			if ( expression == null || expression.trim( ).length( ) == 0 )
+				throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
+
+			this.registry = registry;
 			ScriptOrFnNode tree = parse( expression, context );
-			return getCompiledExprFromTree( expression, context, registry, tree );
+			return getCompiledExprFromTree( expression, context, tree );
 		}
-		catch (Exception e)
+		catch ( Exception e )
 		{
 			// Here exception will not be thrown, since invalid
 			// expression is not such a fatal error that requires
 			// stop generating report.
 			DataException dataException = new DataException( ResourceConstants.INVALID_JS_EXPR,
-					 e, expression );
-			logger.logp( Level.FINE,
-					ExpressionCompiler.class.getName( ),
-					"compile",
-					"Expression is not valid.",
-					e );
+					e,
+					expression );
 			return new InvalidExpression( dataException );
-		}
-		finally
-		{
-			logger.logp( Level.FINER,
-					ExpressionCompiler.class.getName( ),
-					"compile",
-					"Finish compiling an expression" );
-			logger.exiting( ExpressionCompiler.class.getName( ), "compile" ); 			
 		}
 	}
 	
+	/**
+	 * @param expression
+	 * @param cx
+	 * @return
+	 */
 	private ScriptOrFnNode parse( String expression, Context cx )
 	{
-		logger.entering( ExpressionCompiler.class.getName( ),
-				"parse",
-				expression );
 		CompilerEnvirons compilerEnv = getCompilerEnv( cx ); 
 		Parser p = new Parser(compilerEnv, cx.getErrorReporter());
 		return p.parse( expression, null, 0 );
 	}
 	
-	// gets a CompiledExpression instance based on the parse tree that we got back 
-	// from the Rhino parser
-	private CompiledExpression getCompiledExprFromTree( 
-			String expression, 
-			Context context, 
-			AggregateRegistry registry, 
-			ScriptOrFnNode tree )
+	/**
+	 * gets a CompiledExpression instance based on the parse tree that we got
+	 * back from the Rhino parser
+	 * 
+	 * @param expression
+	 * @param context
+	 * @param tree
+	 * @return
+	 * @throws DataException
+	 */
+	private CompiledExpression getCompiledExprFromTree( String expression,
+			Context context, ScriptOrFnNode tree )
 		throws DataException
 	{
-		logger.entering( ExpressionCompiler.class.getName( ),
-				"getCompiledExprFromTree" );
 		CompiledExpression expr;
-		if ( tree.getFirstChild() == tree.getLastChild() )
+		if ( tree.getFirstChild( ) == tree.getLastChild( ) )
 		{
 			// A single expression
-			if ( tree.getFirstChild().getType() != Token.EXPR_RESULT &&
-				 tree.getFirstChild().getType() != Token.EXPR_VOID &&
-				 tree.getFirstChild().getType() != Token.BLOCK
-				 )
+			if ( tree.getFirstChild( ).getType( ) != Token.EXPR_RESULT
+					&& tree.getFirstChild( ).getType( ) != Token.EXPR_VOID
+					&& tree.getFirstChild( ).getType( ) != Token.BLOCK )
 			{
 				// This should never happen?
-				throw new DataException( ResourceConstants.INVALID_JS_EXPR, expression ); 
+				throw new DataException( ResourceConstants.INVALID_JS_EXPR,
+						expression );
 			}
-			Node exprNode = tree.getFirstChild();
-			Node child = exprNode.getFirstChild();
-			assert( child != null );
-			expr = processChild( context, registry, exprNode, child );
+			Node exprNode = tree.getFirstChild( );
+			Node child = exprNode.getFirstChild( );
+			assert ( child != null );
+			expr = processChild( context, exprNode, child );
 		}
 		else
 		{
-			// Multiple expressions exist; we should produce a ComplexExpression 
-			// However, individual subexpressions still needs to be processed to identify 
-			// the interesting subexpressions
-			expr = getComplexExpr( context, registry, tree );
+			// Multiple expressions exist; we should produce a ComplexExpression
+			// However, individual subexpressions still needs to be processed to
+			// identify the interesting subexpressions
+			expr = getComplexExpr( context, tree );
 		}
-		
-		if( expr instanceof BytecodeExpression )
+
+		if ( expr instanceof BytecodeExpression )
 			compileForBytecodeExpr( context, tree, expr );
-		
-		logger.exiting( ExpressionCompiler.class.getName( ),
-				"getCompiledExprFromTree",
-				expr );
+
 		return expr;
 	}
 
+	/**
+	 * @param context
+	 * @param tree
+	 * @param expr
+	 */
 	private void compileForBytecodeExpr( Context context, ScriptOrFnNode tree, 
 										 CompiledExpression expr )
 	{
-		logger.entering( ExpressionCompiler.class.getName( ),
-				"compileForBytecodeExpr",
-				new Object[]{
-						context, tree, expr
-				} );
 		assert ( expr instanceof BytecodeExpression );
+		
 		CompilerEnvirons compilerEnv = getCompilerEnv( context );
 		Interpreter compiler = new Interpreter( );
 		Object compiledOb = compiler.compile( compilerEnv, tree, null, false );
 		Script script = (Script) compiler.createScriptObject( compiledOb, null );
 		( (BytecodeExpression) expr ).setScript( script );
-		logger.exiting( ExpressionCompiler.class.getName( ),
-				"compileForBytecodeExpr" );
 	}
 
-	// returns the compiled expression from processing a child node
-	private CompiledExpression processChild( Context context, 
-											 AggregateRegistry registry, 
-											 Node parent, 
-											 Node child )
-		throws DataException
+	/**
+	 * returns the compiled expression from processing a child node
+	 * 
+	 * @param context
+	 * @param parent
+	 * @param child
+	 * @return
+	 * @throws DataException
+	 */
+	private CompiledExpression processChild( Context context, Node parent,
+			Node child ) throws DataException
 	{
 		CompiledExpression compiledExpr = null;
 		switch( child.getType() )
@@ -230,17 +228,24 @@ public final class ExpressionCompiler
                  break;
 				
 			case Token.CALL:
-				compiledExpr = getAggregateExpr( context, registry, parent, child );
+				compiledExpr = getAggregateExpr( context, parent, child );
 				break;
 		}
 		
 		if( compiledExpr == null )
-			compiledExpr = getComplexExpr( context, registry, child );
+			compiledExpr = getComplexExpr( context, child );
+		
 		return compiledExpr;
 	}
 	
-	// Check if the expression is a direct column reference type. If so, returns
-	// an instance of DirectColRefExpr that represents it; otherwise returns null.
+	/**
+	 * Check if the expression is a direct column reference type. If so, returns
+	 * an instance of DirectColRefExpr that represents it; otherwise returns
+	 * null.
+	 * 
+	 * @param refNode
+	 * @return
+	 */
 	private ColumnReferenceExpression getDirectColRefExpr( Node refNode )
 	{
 		// if it's a GETPROP or GETELEM with row on the left side, 
@@ -299,62 +304,65 @@ public final class ExpressionCompiler
 		return null;
 	}
 	
-	private AggregateExpression getAggregateExpr( Context context, 
-												  AggregateRegistry registry,
-												  Node parent, 
-												  Node callNode )
-		throws DataException
-	{
-		logger.entering( ExpressionCompiler.class.getName( ),
-				"getAggregateExpr" );
-		
+	/**
+	 * @param context
+	 * @param parent
+	 * @param callNode
+	 * @return
+	 * @throws DataException
+	 */
+	private AggregateExpression getAggregateExpr( Context context, Node parent,
+			Node callNode ) throws DataException
+	{		
 		assert( callNode.getType() == Token.CALL );
 		
 		IAggregation aggregation = getAggregationFunction( callNode );
 		// not an aggregation function being called, then it's considered 
 		// a complex expression
 		if( aggregation == null )
-		{
-			logger.exiting( ExpressionCompiler.class.getName( ), "getAggregateExpr" );
 			return null;
-		}
 		
 		AggregateExpression aggregateExpression = 
 			new AggregateExpression( aggregation );
 		
-		extractArguments( context, registry, aggregateExpression, callNode );
-		replaceAggregateNode( registry, aggregateExpression, parent, callNode );
+		extractArguments( context, aggregateExpression, callNode );
+		replaceAggregateNode( aggregateExpression, parent, callNode );
 		
-		logger.exiting( ExpressionCompiler.class.getName( ),
-				"getAggregateExpr",
-				aggregateExpression );
 		return aggregateExpression;
 	}
 	
-	private IAggregation getAggregationFunction( Node callNode ) throws DataException
+	/**
+	 * @param callNode
+	 * @return
+	 * @throws DataException
+	 */
+	private IAggregation getAggregationFunction( Node callNode )
+			throws DataException
 	{
-		// if this is an aggregation expression, then it'll be in the form of 
+		// if this is an aggregation expression, then it'll be in the form of
 		// Total.sum( row.x )
-		// This means the first child is a GETPROP node, and its left child is 
+		// This means the first child is a GETPROP node, and its left child is
 		// "Total" and its right child is "sum"
-		Node firstChild = callNode.getFirstChild();
-		if( firstChild.getType() != Token.GETPROP )
+		Node firstChild = callNode.getFirstChild( );
+		if ( firstChild.getType( ) != Token.GETPROP )
 			return null;
-		
-		Node getPropLeftChild = firstChild.getFirstChild();
-		if( getPropLeftChild.getType() != Token.NAME || 
-			! getPropLeftChild.getString().equals( TOTAL ) )
+
+		Node getPropLeftChild = firstChild.getFirstChild( );
+		if ( getPropLeftChild.getType( ) != Token.NAME
+				|| !getPropLeftChild.getString( ).equals( TOTAL ) )
 			return null;
-		
-		Node getPropRightChild = firstChild.getLastChild();
-		if( getPropRightChild.getType() != Token.STRING )
+
+		Node getPropRightChild = firstChild.getLastChild( );
+		if ( getPropRightChild.getType( ) != Token.STRING )
 			return null;
-		
-		String aggrFuncName = getPropRightChild.getString();
-		IAggregation agg = AggregationFactory.getInstance().getAggregation( aggrFuncName );
+
+		String aggrFuncName = getPropRightChild.getString( );
+		IAggregation agg = AggregationFactory.getInstance( )
+				.getAggregation( aggrFuncName );
 		if ( agg == null )
 		{
-			// Aggr function name after Total is invalid; this will eventuall cause
+			// Aggr function name after Total is invalid; this will eventuall
+			// cause
 			// an error. Report error now
 			throw new DataException( ResourceConstants.INVALID_TOTAL_NAME,
 					aggrFuncName );
@@ -362,11 +370,15 @@ public final class ExpressionCompiler
 		return agg;
 	}
 	
-	private void extractArguments( Context context, 
-								   AggregateRegistry registry,
-								   AggregateExpression aggregateExpression, 
-								   Node callNode )
-		throws DataException
+	/**
+	 * @param context
+	 * @param aggregateExpression
+	 * @param callNode
+	 * @throws DataException
+	 */
+	private void extractArguments( Context context,
+			AggregateExpression aggregateExpression, Node callNode )
+			throws DataException
 	{
 		Node arg = callNode.getFirstChild().getNext();
 		
@@ -376,8 +388,7 @@ public final class ExpressionCompiler
 			// will cause us to lose the reference otherwise
 			Node nextArg = arg.getNext();
 			
-			CompiledExpression expr = processChild( context, registry, 
-													callNode, arg );
+			CompiledExpression expr = processChild( context, callNode, arg );
 			if( ! ( expr instanceof BytecodeExpression ) )
 			{
 				aggregateExpression.addArgument( expr );
@@ -396,12 +407,15 @@ public final class ExpressionCompiler
 		}
 	}
 	
-	private void replaceAggregateNode( AggregateRegistry registry,
-									   AggregateExpression aggregateExpression, 
-									   Node parent, Node aggregateCallNode )
-		throws DataException
+	/**
+	 * @param aggregateExpression
+	 * @param parent
+	 * @param aggregateCallNode
+	 * @throws DataException
+	 */
+	private void replaceAggregateNode( AggregateExpression aggregateExpression,
+			Node parent, Node aggregateCallNode ) throws DataException
 	{
-		// TODO externalize for i18n
 		if( registry == null )
 			throw new DataException( ResourceConstants.INVALID_CALL_AGGR );
 		
@@ -413,30 +427,32 @@ public final class ExpressionCompiler
 		parent.replaceChild( aggregateCallNode, aggregateNode );
 	}
 	
-	private ComplexExpression getComplexExpr( Context context, 
-											  AggregateRegistry registry, 
-											  Node complexNode )
-		throws DataException
+	/**
+	 * @param context
+	 * @param complexNode
+	 * @return
+	 * @throws DataException
+	 */
+	private ComplexExpression getComplexExpr( Context context, Node complexNode )
+			throws DataException
 	{
-		logger.entering( ExpressionCompiler.class.getName( ), "getComplexExpr" );
 		ComplexExpression complexExpr = new ComplexExpression( );
 		Node child = complexNode.getFirstChild( );
 		complexExpr.addTokenList( new Integer( complexNode.getType( ) ) );
 		while ( child != null )
 		{
-			// keep reference to next child, since subsequent steps could lose 
+			// keep reference to next child, since subsequent steps could lose
 			// the reference to it
-			Node nextChild = child.getNext();
-			
+			Node nextChild = child.getNext( );
+
 			// do not include constants into the sub-expression list
-			if( child.getType() == Token.NUMBER || 
-				child.getType() == Token.STRING ||
-				child.getType() == Token.TRUE ||
-				child.getType() == Token.FALSE ||
-				child.getType() == Token.NULL )
+			if ( child.getType( ) == Token.NUMBER
+					|| child.getType( ) == Token.STRING
+					|| child.getType( ) == Token.TRUE
+					|| child.getType( ) == Token.FALSE
+					|| child.getType( ) == Token.NULL )
 			{
 				CompiledExpression subExpr = processChild( context,
-						registry,
 						complexNode,
 						child );
 				if ( subExpr instanceof ConstantExpression )
@@ -444,22 +460,23 @@ public final class ExpressionCompiler
 				child = nextChild;
 				continue;
 			}
-			
-			CompiledExpression subExpr = 
-				processChild( context, registry, complexNode, child );
+
+			CompiledExpression subExpr = processChild( context,
+					complexNode,
+					child );
 			complexExpr.addSubExpression( subExpr );
 			complexExpr.addTokenList( new Integer( child.getType( ) ) );
 			child = nextChild;
 		}
-		
+
 		flattenNestedComplexExprs( complexExpr );
-		
-		logger.exiting( ExpressionCompiler.class.getName( ),
-				"getComplexExpr",
-				complexExpr );
+
 		return complexExpr;
 	}
 	
+	/**
+	 * @param complexExpr
+	 */
 	private void flattenNestedComplexExprs( ComplexExpression complexExpr )
 	{
 		// need to flatten out the tree when there are nested ComplexExpressions 
@@ -510,6 +527,10 @@ public final class ExpressionCompiler
 		complexExpr.addContantsExpressions( interestingConstantExpr );
 	}
 
+	/**
+	 * @param context
+	 * @return
+	 */
 	private CompilerEnvirons getCompilerEnv( Context context )
 	{
 		if( m_compilerEnv == null )
@@ -520,15 +541,4 @@ public final class ExpressionCompiler
 		return m_compilerEnv;
 	}
 	
-	public void setDataSetMode( boolean isDataSetMode )
-	{
-		this.isDataSetMode  = isDataSetMode;
-		if( isDataSetMode )
-		{
-			this.rowIndicator = STRING_ROW;
-		}else
-		{
-			this.rowIndicator = STRING_DATASETROW;
-		}
-	}
 }

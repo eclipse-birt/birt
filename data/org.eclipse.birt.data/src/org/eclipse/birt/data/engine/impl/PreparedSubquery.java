@@ -78,7 +78,6 @@ class PreparedSubquery implements IPreparedQueryService
 				"PreparedSubquery starts up." );
 		
 		this.preparedQuery = new PreparedQuery( context,
-				exCompiler,
 				scope,
 				subquery,
 				this,

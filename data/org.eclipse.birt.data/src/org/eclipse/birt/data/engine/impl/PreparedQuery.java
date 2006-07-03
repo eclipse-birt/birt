@@ -70,14 +70,16 @@ final class PreparedQuery
 	private 	ExprManager 			exprManager;
 	
 	/**
-	 * @param engine
+	 * @param deContext
+	 * @param scope
 	 * @param queryDefn
+	 * @param queryService
+	 * @param appContext
 	 * @throws DataException
 	 */
-	PreparedQuery( DataEngineContext deContext, ExpressionCompiler exCompiler,
-			Scriptable scope, IBaseQueryDefinition queryDefn,
-			IPreparedQueryService queryService, Map appContext )
-			throws DataException
+	PreparedQuery( DataEngineContext deContext, Scriptable scope,
+			IBaseQueryDefinition queryDefn, IPreparedQueryService queryService,
+			Map appContext ) throws DataException
 	{
 		logger.logp( Level.FINE,
 				PreparedQuery.class.getName( ),
@@ -85,7 +87,7 @@ final class PreparedQuery
 				"PreparedQuery starts up." );
 		assert queryDefn != null;
 
-		this.expressionCompiler = exCompiler;
+		this.expressionCompiler = new ExpressionCompiler( );
 		this.dataEngineContext = deContext;
 		this.sharedScope = scope;
 
@@ -117,13 +119,13 @@ final class PreparedQuery
 			// Prepare all groups; note that the report query iteself
 			// is treated as a group (with group level 0 ), If there are group
 			// definitions that of invalid or duplicate group name, then throw
-			// exceptions.
-			
-			if( this.baseQueryDefn.getResultSetExpressions()!= null &&
-				this.baseQueryDefn.getResultSetExpressions().size()>0	)
+			// exceptions.			
+			if ( this.baseQueryDefn.getResultSetExpressions( ) != null
+					&& this.baseQueryDefn.getResultSetExpressions( ).size( ) > 0 )
 			{
 				this.expressionCompiler.setDataSetMode( false );
 			}
+			
 			List groups = baseQueryDefn.getGroups( );
 			IGroupDefinition group;
 			for ( int i = 0; i < groups.size( ); i++ )
@@ -238,7 +240,9 @@ final class PreparedQuery
 	    if ( expressions == null )
 	        return;
 	    
-	    AggregateRegistry reg = this.aggrTable.getAggrRegistry( groupLevel, afterGroup, isDetailedRow, cx );
+	    AggregateRegistry reg = this.aggrTable.getAggrRegistry( groupLevel,
+				isDetailedRow,
+				cx );
 	    Iterator it = expressions.iterator();
 	    while ( it.hasNext() )
 	    {

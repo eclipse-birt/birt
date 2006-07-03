@@ -50,7 +50,9 @@ final class AggregationTablePopulator
 			throws DataException
 	{
 		Context cx = Context.enter();
-		AggregateRegistry reg = table.getAggrRegistry( groupLvl, aftergroup, isDetailedRow, cx );
+		AggregateRegistry reg = table.getAggrRegistry( groupLvl,
+				isDetailedRow,
+				cx );
 		try
 		{
 			return reg.register( aggreObj.getAggregateExpr( ) );

@@ -58,7 +58,6 @@ abstract class PreparedDataSourceQuery
 		this.dataEngine = dataEngine;
 		
 		preparedQuery = new PreparedQuery( dataEngine.getContext( ),
-				dataEngine.getExpressionCompiler( ),
 				dataEngine.getSharedScope( ),
 				queryDefn,
 				this,
@@ -84,7 +83,6 @@ abstract class PreparedDataSourceQuery
 		this.dataEngine = dataEngine;
 		
 		preparedQuery = new PreparedQuery( dataEngine.getContext( ),
-				dataEngine.getExpressionCompiler( ),
 				dataEngine.getSharedScope( ),
 				baseQueryDefn,
 				this,
