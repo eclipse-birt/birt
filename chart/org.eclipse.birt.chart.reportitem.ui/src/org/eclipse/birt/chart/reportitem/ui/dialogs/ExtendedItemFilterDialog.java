@@ -16,17 +16,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.reportitem.ui.dialogs.widget.ExpressionValueCellEditor;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PropertyHandleTableViewer;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ComboBoxExpressionCellEditor;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ExpressionValueCellEditor;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
@@ -39,6 +38,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
@@ -57,14 +57,17 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * 
  */
 
-public class ExtendedItemFilterDialog extends BaseDialog
+public class ExtendedItemFilterDialog extends TrayDialog
 		implements
 			ITableLabelProvider,
 			ISelectionChangedListener
@@ -105,15 +108,26 @@ public class ExtendedItemFilterDialog extends BaseDialog
 	public ExtendedItemFilterDialog( ExtendedItemHandle reportItemHandle,
 			IDataServiceProvider dataServiceProvider )
 	{
-		super( Messages.getString( "dataset.editor.filters" ) ); //$NON-NLS-1$
+		super( getActiveShell( ) );
 		this.reportItemHandle = reportItemHandle;
 		this.dataServiceProvider = dataServiceProvider;
+	}
+
+	static Shell getActiveShell( )
+	{
+		Shell shell = PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( );
+		if ( shell == null )
+		{
+			shell = Display.getCurrent( ).getActiveShell( );
+		}
+		return shell;
 	}
 
 	protected Control createDialogArea( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent,
 				ChartHelpContextIds.DIALOG_DATA_SET_FILTER );
+		getShell( ).setText( Messages.getString( "dataset.editor.filters" ) ); //$NON-NLS-1$
 
 		( (GridData) parent.getLayoutData( ) ).heightHint = 200;
 		Composite composite = (Composite) super.createDialogArea( parent );
@@ -121,7 +135,7 @@ public class ExtendedItemFilterDialog extends BaseDialog
 		initColumnNames( );
 		viewer = new PropertyHandleTableViewer( composite, true, true, true );
 		viewer.getControl( ).setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		
+
 		TableColumn column = new TableColumn( viewer.getViewer( ).getTable( ),
 				SWT.LEFT );
 		column.setText( " " ); //$NON-NLS-1$
@@ -184,13 +198,13 @@ public class ExtendedItemFilterDialog extends BaseDialog
 		addListeners( );
 
 		pageActivated( );
-		
+
 		SessionHandleAdapter.getInstance( )
 				.getCommandStack( )
 				.startTrans( "Modify Filters" ); //$NON-NLS-1$
 		return composite;
 	}
-	
+
 	protected void setShellStyle( int newShellStyle )
 	{
 		super.setShellStyle( newShellStyle
@@ -412,7 +426,7 @@ public class ExtendedItemFilterDialog extends BaseDialog
 					}
 				}
 			}
-		} );		
+		} );
 	}
 
 	private void addListeners( )
