@@ -25,7 +25,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
-import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator.JSAggrValueObject;
+import org.eclipse.birt.data.engine.impl.aggregation.JSAggrValueObject;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;

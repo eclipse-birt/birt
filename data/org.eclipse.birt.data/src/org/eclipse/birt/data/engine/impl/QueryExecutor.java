@@ -51,7 +51,6 @@ import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.expression.FilterExpressionParser;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
@@ -74,8 +73,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 
 	private IBaseQueryDefinition baseQueryDefn;
 	private AggregateTable aggrTable;
-	private AggregateCalculator aggregates;
-
+	
 	// from PreparedQuery->PreparedDataSourceQuery->DataEngineImpl
 	private Scriptable sharedScope;
 	/** Externally provided query scope; can be null */
@@ -718,11 +716,8 @@ public abstract class QueryExecutor implements IQueryExecutor
 		this.dataSet.setResultSet( odiResult, false );
 
 		// Calculate aggregate values
-		aggregates = new AggregateCalculator( this.aggrTable, odiResult );
-
-		// Calculate aggregate values
-		aggregates.calculate( getQueryScope( ) );
-
+		this.aggrTable.calculate( odiResult, getQueryScope( ) );
+		
 		this.isExecuted = true;
 
 		logger.logp( Level.FINER,
@@ -791,7 +786,6 @@ public abstract class QueryExecutor implements IQueryExecutor
 
 		odiQuery = null;
 		odiDataSource = null;
-		aggregates = null;
 		odiResult = null;
 		queryScope = null;
 		isPrepared = false;
@@ -899,10 +893,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 */
 	public Scriptable getJSAggrValueObject( )
 	{
-		if ( aggregates != null )
-			return aggregates.getJSAggrValueObject( );
-		else
-			return null;
+		return this.aggrTable.getJSAggrValueObject( );
 	}
 
 	/*

@@ -20,8 +20,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -31,11 +29,8 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
-import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 
 /**
  * Calculation engine for aggregate expressions. Does runtime calculation of
@@ -69,16 +64,11 @@ public class AggregateCalculator
 	
 	// The Odi result
 	private IResultIterator odiResult;
-	// Whether odiResult has data rows
-	private boolean hasOdiResultDataRows;
 	
 	private AccumulatorManager[] accumulatorManagers;
 	
 	private Set invalidAggrSet;
 	private Map invalidAggrMsg;
-	
-	// Log constant
-	protected static Logger logger = Logger.getLogger( AggregateCalculator.class.getName( ) );
 
 	/**
 	 * For the given odi resultset, calcaulate the value of aggregate from
@@ -123,21 +113,20 @@ public class AggregateCalculator
 	 */
 	public void calculate( Scriptable scope ) throws DataException
 	{
-		logger.entering( AggregateCalculator.class.getName( ), "calculate" );
-		List validAggregations = new ArrayList();
+		List validAggregations = new ArrayList( );
 		boolean[] populateAggrValue = new boolean[this.aggrCount];
-			int count = 1;
-		for( int i = 0; i < this.aggrCount; i++)
+		int count = 1;
+		for ( int i = 0; i < this.aggrCount; i++ )
 		{
-			validAggregations.add( new Integer(i));
-			if( this.getAggrInfo( i ).aggregation instanceof Aggregation 
-					&& ((Aggregation) this.getAggrInfo( i ).aggregation ).getNumberOfPasses( ) > 1)
+			validAggregations.add( new Integer( i ) );
+			if ( this.getAggrInfo( i ).aggregation instanceof Aggregation
+					&& ( (Aggregation) this.getAggrInfo( i ).aggregation ).getNumberOfPasses( ) > 1 )
 				populateAggrValue[i] = false;
 			else
 				populateAggrValue[i] = true;
 			accumulatorManagers[i] = new AccumulatorManager( this.getAggrInfo( i ).aggregation );
 		}
-		
+
 		while ( validAggregations.size( ) > 0 )
 		{
 			int[] validAggregationArray = new int[validAggregations.size( )];
@@ -149,29 +138,17 @@ public class AggregateCalculator
 			if ( odiResult.getCurrentResult( ) == null )
 			{
 				// Empty result set; nothing to do
-				this.hasOdiResultDataRows = false;
 				return;
 			}
-			this.hasOdiResultDataRows = true;
 
-			pass(scope, populateAggrValue, validAggregationArray);
+			pass( scope, populateAggrValue, validAggregationArray );
 
 			// Rewind to first row
 			odiResult.first( 0 );
 
 			count++;
-			prepareNextIteration(validAggregations, populateAggrValue, count);
+			prepareNextIteration( validAggregations, populateAggrValue, count );
 		}
-		logger.exiting( AggregateCalculator.class.getName( ), "calculate" );
-	}
-
-	/**
-	 * Gets information about one aggregate expression in the table, given its
-	 * index
-	 */
-	private AggrExprInfo getAggrInfo( int i )
-	{
-		return (AggrExprInfo) aggrExprInfoList.get( i );
 	}
 	
 	/**
@@ -183,7 +160,9 @@ public class AggregateCalculator
 	 * @param validAggregationArray
 	 * @throws DataException
 	 */
-	private void pass(Scriptable scope, boolean[] populateAggrValue, int[] validAggregationArray) throws DataException {
+	private void pass( Scriptable scope, boolean[] populateAggrValue,
+			int[] validAggregationArray ) throws DataException
+	{
 		do
 		{
 			int startingGroupLevel = odiResult.getStartingGroupLevel( );
@@ -229,111 +208,6 @@ public class AggregateCalculator
 			aggrValues[index].add( invalidAggrMsg.get( new Integer( index ) ) );
 	}
 	
-	/**
-	 * Prepare next run of aggregation pass.
-	 * 
-	 * @param validAggregations
-	 * @param populateAggrValue
-	 * @param count
-	 */
-	private void prepareNextIteration(List validAggregations, boolean[] populateAggrValue, int count) {
-		validAggregations.clear( );
-		for ( int i = 0; i < this.aggrCount; i++ )
-		{
-			this.accumulatorManagers[i].restart();
-			IAggregation temp = this.getAggrInfo( i ).aggregation;
-			populateAggrValue[i] = false;
-			if ( temp instanceof Aggregation )
-			{
-				int passesNumber = ( (Aggregation) temp ).getNumberOfPasses( );
-				if ( count <= passesNumber )
-				{
-					validAggregations.add( new Integer( i ) );
-					if( count == passesNumber )
-					{
-						populateAggrValue[i] = true;
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Get the aggregate value
-	 * @param aggrIndex
-	 * @return
-	 * @throws DataException
-	 */
-	Object getAggregateValue( int aggrIndex ) throws DataException
-	{
-		logger.entering( AggregateCalculator.class.getName( ),
-				"getAggregateValue",
-				new Integer( aggrIndex ) );
-
-		assert aggrIndex >= 0 && aggrIndex < this.aggrCount;
-
-		AggrExprInfo aggrInfo = getAggrInfo( aggrIndex );
-
-		if ( !hasOdiResultDataRows )
-		{
-			if ( ( aggrInfo.aggregation  ).getName( ).equalsIgnoreCase( "COUNT" ) )
-
-				return new Integer( 0 );
-			else
-				return null;
-		}
-
-		try
-		{
-			/*
-			 * if ( aggrInfo.afterGroup ) { if ( odiResult.getEndingGroupLevel() >
-			 * aggrInfo.groupLevel ) { // Caller has broken the contract that
-			 * this aggregate can only be // requested at the end of a
-			 * group.Even though we can furnish the // result given current
-			 * implementation, the API requires that we // throw an error
-			 * DataException e = new DataException(
-			 * ResourceConstants.NOT_END_GROUP ); logger.logp( Level.FINE ,
-			 * DataEngineImpl.class.getName( ), "getAggregateValue", "This
-			 * aggregate expression is only available at the end of a group", e );
-			 * throw e; } }
-			 */
-
-			int groupIndex;
-
-			if ( aggrInfo.aggregation.getType( ) == IAggregation.SUMMARY_AGGR )
-			{
-				if ( aggrInfo.groupLevel == 0 )
-					// Aggregate on the whole list: there is only one group
-					groupIndex = 0;
-				else
-					groupIndex = odiResult.getCurrentGroupIndex( aggrInfo.groupLevel );
-			}
-			else
-				groupIndex = odiResult.getCurrentResultIndex( );
-
-			Object value = this.aggrValues[aggrIndex].get( groupIndex );
-			logger.exiting( AggregateCalculator.class.getName( ),
-					"getAggregateValue",
-					value );
-		
-			return value;
-
-		}
-		catch ( DataException e )
-		{
-			throw e;
-		}
-	}
-	
-	/**
-	 * Returns a scriptable object that implements the JS "_aggr_value" internal
-	 * object
-	 */
-	public Scriptable getJSAggrValueObject( )
-	{
-		return new JSAggrValueObject( );
-	}
-
 	/**
 	 * Calculate the value by row
 	 * 
@@ -384,11 +258,6 @@ public class AggregateCalculator
 			}
 			catch ( BirtException e )
 			{
-				logger.logp( Level.FINE,
-						DataEngineImpl.class.getName( ),
-						"onRow",
-						"An error is thrown by DataTypeUtil.",
-						e );
 				if ( invalidAggrMsg == null )
 					invalidAggrMsg = new HashMap( );
 				invalidAggrMsg.put( new Integer( aggrIndex ), e );
@@ -459,6 +328,57 @@ public class AggregateCalculator
 	}
 	
 	/**
+	 * Prepare next run of aggregation pass.
+	 * 
+	 * @param validAggregations
+	 * @param populateAggrValue
+	 * @param count
+	 */
+	private void prepareNextIteration( List validAggregations,
+			boolean[] populateAggrValue, int count )
+	{
+		validAggregations.clear( );
+		for ( int i = 0; i < this.aggrCount; i++ )
+		{
+			this.accumulatorManagers[i].restart( );
+			IAggregation temp = this.getAggrInfo( i ).aggregation;
+			populateAggrValue[i] = false;
+			if ( temp instanceof Aggregation )
+			{
+				int passesNumber = ( (Aggregation) temp ).getNumberOfPasses( );
+				if ( count <= passesNumber )
+				{
+					validAggregations.add( new Integer( i ) );
+					if ( count == passesNumber )
+					{
+						populateAggrValue[i] = true;
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Gets information about one aggregate expression in the table, given its
+	 * index
+	 */
+	private AggrExprInfo getAggrInfo( int i )
+	{
+		return (AggrExprInfo) aggrExprInfoList.get( i );
+	}
+	
+	/**
+	 * Returns a scriptable object that implements the JS "_aggr_value" internal
+	 * object
+	 */
+	public Scriptable getJSAggrValueObject( )
+	{
+		return new JSAggrValueObject( this.aggrExprInfoList,
+				this.odiResult,
+				this.aggrValues );
+	}
+	
+	/**
 	 * populate the aggregate value
 	 * 
 	 * @param scope
@@ -474,69 +394,16 @@ public class AggregateCalculator
 				aggrValues[i].add( value );
 		}
 	}
-
-	/**
-	 * Implements the Javascript object _aggr_value to assist in the evaluation
-	 * of expression containing aggregates
-	 */
-	public class JSAggrValueObject extends ScriptableObject
-	{
-
-		/**
-		 * serialVersionUID = 1L;
-		 */
-		private static final long serialVersionUID = 1L;
-
-		/*
-		 * @see org.mozilla.javascript.Scriptable#get(int,
-		 *      org.mozilla.javascript.Scriptable)
-		 */
-		public Object get( int index, Scriptable start )
-		{
-			if ( index < 0 || index >= aggrCount )
-			{
-				// Should never get here
-//				assert false;
-				return null;
-			}
-
-			try
-			{
-				return getAggregateValue( index );
-			}
-			catch ( DataException e )
-			{
-				throw Context.reportRuntimeError( e.getLocalizedMessage( ) );
-			}
-		}
-
-		/*
-		 * @see org.mozilla.javascript.Scriptable#getClassName()
-		 */
-		public String getClassName( )
-		{
-			return "_RESERVED_AGGR_VALUE";
-		}
-
-		/*
-		 * @see org.mozilla.javascript.Scriptable#has(int,
-		 *      org.mozilla.javascript.Scriptable)
-		 */
-		public boolean has( int index, Scriptable start )
-		{
-			return index > 0 && index < aggrCount;
-		}
-	}
 	
 	/**
 	 * A helper class that is used to manage the Accumulators of aggregations. 
 	 *
 	 */
-	class AccumulatorManager{
+	private class AccumulatorManager{
 		//
 		private IAggregation aggregation;
-		int cursor;
-		List cachedAcc;
+		private int cursor;
+		private List cachedAcc;
 		
 		/**
 		 * Constructor.

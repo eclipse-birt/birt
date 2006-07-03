@@ -17,7 +17,9 @@ package org.eclipse.birt.data.engine.impl.aggregation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
+import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -96,6 +98,33 @@ public final class AggregateTable
 	List getAggrExprInfoList( )
 	{
 		return this.aggrExprInfoList;
+	}
+
+	//------------------------------------------------------
+	
+	private AggregateCalculator cal;
+
+	/**
+	 * @param odiResult
+	 * @param scope
+	 * @throws DataException
+	 */
+	public void calculate( IResultIterator odiResult, Scriptable scope )
+			throws DataException
+	{
+		cal = new AggregateCalculator( this, odiResult );
+		cal.calculate( scope );
+	}
+
+	/**
+	 * @return
+	 */
+	public Scriptable getJSAggrValueObject( )
+	{
+		if ( cal == null )
+			return null;
+
+		return cal.getJSAggrValueObject( );
 	}
 	
 }
