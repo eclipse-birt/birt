@@ -181,6 +181,13 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CellDefinition");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.CellDefinition.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ChartAppearance");
             cachedSerQNames.add(qName);
             cls = org.eclipse.birt.report.soapengine.api.ChartAppearance.class;
@@ -776,13 +783,6 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
-            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateData");
-            cachedSerQNames.add(qName);
-            cls = org.eclipse.birt.report.soapengine.api.UpdateData.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
     }
     private void addBindings1() {
             java.lang.Class cls;
@@ -798,6 +798,13 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             java.lang.Class simpledf = org.apache.axis.encoding.ser.SimpleDeserializerFactory.class;
             java.lang.Class simplelistsf = org.apache.axis.encoding.ser.SimpleListSerializerFactory.class;
             java.lang.Class simplelistdf = org.apache.axis.encoding.ser.SimpleListDeserializerFactory.class;
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateData");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.UpdateData.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateDialog");
             cachedSerQNames.add(qName);
             cls = org.eclipse.birt.report.soapengine.api.UpdateDialog.class;

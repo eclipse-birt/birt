@@ -241,6 +241,14 @@
       />
       <typeMapping
         xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:CellDefinition"
+        type="java:org.eclipse.birt.report.soapengine.api.CellDefinition"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:ReportElementList"
         type="java:org.eclipse.birt.report.soapengine.api.ReportElementList"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
