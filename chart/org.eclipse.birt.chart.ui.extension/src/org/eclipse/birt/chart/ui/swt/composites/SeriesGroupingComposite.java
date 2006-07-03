@@ -340,20 +340,9 @@ public class SeriesGroupingComposite extends Composite implements
 				grp = sd.getGrouping( );
 			}
 			grp.setEnabled( btnEnabled.getSelection( ) );
-			boolean bEnableUI = btnEnabled.getSelection( );
 
-			lblType.setEnabled( bEnableUI );
-			cmbType.setEnabled( bEnableUI );
-
-			boolean bDate = DataType.DATE_TIME_LITERAL.getName( )
-					.equals( LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) ) );
-
-			lblUnit.setEnabled( bEnableUI & bDate );
-			cmbUnit.setEnabled( bEnableUI & bDate );
-			lblInterval.setEnabled( bEnableUI );
-			iscInterval.setEnabled( bEnableUI );
-			lblAggregate.setEnabled( bEnableUI );
-			cmbAggregate.setEnabled( bEnableUI );
+			// refresh UI
+			populateLists( );
 		}
 		else if ( oSource.equals( iscInterval ) )
 		{
