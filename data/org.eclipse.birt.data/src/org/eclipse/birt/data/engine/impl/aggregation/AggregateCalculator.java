@@ -1,5 +1,4 @@
-/*
- *************************************************************************
+/*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -8,10 +7,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
- *************************************************************************
- */
-
+ *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.aggregation;
 
 import java.util.ArrayList;
@@ -37,7 +33,7 @@ import org.mozilla.javascript.Scriptable;
  * aggregate expressions that appear in a report query or subquery. Stores
  * values of aggregate expressions.
  */
-public class AggregateCalculator
+class AggregateCalculator
 {
 
 	/**
@@ -77,13 +73,12 @@ public class AggregateCalculator
 	 * @param aggrTable
 	 * @param odiResult
 	 */
-	public AggregateCalculator( AggregateTable aggrTable,
-			IResultIterator odiResult )
+	AggregateCalculator( List aggrExprInfoList, IResultIterator odiResult )
 	{
-		assert aggrTable != null;
+		assert aggrExprInfoList != null;
 		assert odiResult != null;
 		
-		this.aggrExprInfoList = aggrTable.getAggrExprInfoList( );
+		this.aggrExprInfoList = aggrExprInfoList;
 		this.odiResult = odiResult;
 
 		aggrCount = aggrExprInfoList.size( );
@@ -111,7 +106,7 @@ public class AggregateCalculator
 	 * Javascript "row" object must be set up in the passed-in JS context and
 	 * bound to the passed in odiResult.
 	 */
-	public void calculate( Scriptable scope ) throws DataException
+	void calculate( Scriptable scope ) throws DataException
 	{
 		List validAggregations = new ArrayList( );
 		boolean[] populateAggrValue = new boolean[this.aggrCount];
@@ -371,7 +366,7 @@ public class AggregateCalculator
 	 * Returns a scriptable object that implements the JS "_aggr_value" internal
 	 * object
 	 */
-	public Scriptable getJSAggrValueObject( )
+	Scriptable getJSAggrValueObject( )
 	{
 		return new JSAggrValueObject( this.aggrExprInfoList,
 				this.odiResult,
@@ -383,7 +378,7 @@ public class AggregateCalculator
 	 * 
 	 * @param scope
 	 */
-	public void populateValue( JSAggrValueObject aggrValue )
+	void populateValue( JSAggrValueObject aggrValue )
 	{
 		if ( aggrValue == null)
 			return;

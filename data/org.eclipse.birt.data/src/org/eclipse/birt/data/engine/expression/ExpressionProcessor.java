@@ -23,7 +23,6 @@ import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
-import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.impl.aggregation.JSAggrValueObject;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -384,17 +383,23 @@ public class ExpressionProcessor implements IExpressionProcessor
 			setExpressionState( );
 			return;
 		}		
-		AggregateCalculator calculator = new AggregateCalculator( table,
-				this.resultIterator );
-
+		
 		// if the expression has the nested aggregate object, the pre_value of
 		// the temp_aggregate object should be populated in aggregate caculator
 		if ( helper.hasNestedAggregate( ) )
-			calculator.populateValue( (JSAggrValueObject) dataSet.getJSTempAggrValueObject( ) );
-		Scriptable aggrObj = calculator.getJSAggrValueObject( );
+		{
+			table.calculate( resultIterator,
+					dataSet.getScriptScope( ),
+					(JSAggrValueObject) dataSet.getJSTempAggrValueObject( ) );
+		}
+		else
+		{
+			table.calculate( resultIterator, dataSet.getScriptScope( ) );
+		}
+		
+		Scriptable aggrObj = table.getJSAggrValueObject( );
 		dataSet.setJSTempAggrValueObject( aggrObj );
-
-		calculator.calculate( dataSet.getScriptScope( ) );
+		
 		for ( int i = 0; i < aggrList.size( ); i++ )
 		{
 			AggregateObject obj = (AggregateObject) aggrList.get( i );

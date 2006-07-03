@@ -1,5 +1,4 @@
-/*
- *************************************************************************
+/*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -8,10 +7,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
- *************************************************************************
- */
-
+ *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.aggregation;
 
 import java.util.ArrayList;
@@ -72,6 +68,8 @@ public final class AggregateTable
 		this.baseQuery = query;
 	}
 	
+	//--------------registration of aggregation ------------------------------
+	
 	/**
 	 * Returns an implementation of the AggregateRegistry interface used by
 	 * ExpressionCompiler, to register aggregate expressions at the specified
@@ -91,18 +89,10 @@ public final class AggregateTable
 		aggrRegistry.prepare( groupDefns, scope, baseQuery, aggrExprInfoList );
 		return aggrRegistry;
 	}
-	
-	/**
-	 * @return
-	 */
-	List getAggrExprInfoList( )
-	{
-		return this.aggrExprInfoList;
-	}
 
-	//------------------------------------------------------
+	//--------------calculation of aggregation ------------------------------
 	
-	private AggregateCalculator cal;
+	private AggregateCalculator currentCalculator;
 
 	/**
 	 * @param odiResult
@@ -112,19 +102,34 @@ public final class AggregateTable
 	public void calculate( IResultIterator odiResult, Scriptable scope )
 			throws DataException
 	{
-		cal = new AggregateCalculator( this, odiResult );
-		cal.calculate( scope );
+		currentCalculator = new AggregateCalculator( aggrExprInfoList, odiResult );
+		currentCalculator.calculate( scope );
 	}
-
+	
+	/**
+	 * @param odiResult
+	 * @param scope
+	 * @param aggrValue
+	 * @throws DataException
+	 */
+	public void calculate( IResultIterator odiResult, Scriptable scope,
+			JSAggrValueObject aggrValue )
+			throws DataException
+	{
+		currentCalculator = new AggregateCalculator( aggrExprInfoList, odiResult );
+		currentCalculator.populateValue( aggrValue );
+		currentCalculator.calculate( scope );
+	}
+	
 	/**
 	 * @return
 	 */
 	public Scriptable getJSAggrValueObject( )
 	{
-		if ( cal == null )
+		if ( currentCalculator == null )
 			return null;
 
-		return cal.getJSAggrValueObject( );
+		return currentCalculator.getJSAggrValueObject( );
 	}
 	
 }
