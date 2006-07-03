@@ -178,7 +178,7 @@ public class TableHeaderContextContainmentValidator
 	{
 		ElementDefn listingDefn = (ElementDefn) MetaDataDictionary
 				.getInstance( ).getElement( ReportDesignConstants.LISTING_ITEM );
-		if ( !listingDefn.isKindOf( toAdd ) )
+		if ( !toAdd.isKindOf( listingDefn ) )
 			return Collections.EMPTY_LIST;
 
 		return doValidate( module, element, DesignElement.NO_SLOT );

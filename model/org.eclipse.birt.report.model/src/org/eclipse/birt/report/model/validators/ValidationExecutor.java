@@ -207,7 +207,7 @@ public class ValidationExecutor
 					.getInstance( ).getElement( targetName );
 			ElementDefn elementDefn = (ElementDefn) element.getDefn( );
 
-			if ( targetDefn.isKindOf( elementDefn ) || !onlyOnSelf )
+			if ( elementDefn.isKindOf( targetDefn ) || !onlyOnSelf )
 				nodes.add( new ValidationNode( element, triggerDefn ) );
 
 		}

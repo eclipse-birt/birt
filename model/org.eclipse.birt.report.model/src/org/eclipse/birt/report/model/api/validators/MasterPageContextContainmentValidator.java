@@ -188,7 +188,7 @@ public class MasterPageContextContainmentValidator
 	{
 		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
 				ReportDesignConstants.LISTING_ITEM );
-		boolean isAddListing = defn.isKindOf( toAdd );		
+		boolean isAddListing = toAdd.isKindOf( defn );
 		return doValidate( module, element, isAddListing );
 	}
 }

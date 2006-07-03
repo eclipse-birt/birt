@@ -866,7 +866,7 @@ public class ModelUtil
 				DesignElement e = (DesignElement) iter.next( );
 				IElementDefn targetDefn = e.getDefn( );
 
-				if ( defn.isKindOf( targetDefn ) )
+				if ( targetDefn.isKindOf( defn ) )
 					return true;
 
 				if ( containElement( e, defn ) )

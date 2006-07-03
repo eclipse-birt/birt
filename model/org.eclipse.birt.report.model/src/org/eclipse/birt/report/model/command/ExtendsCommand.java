@@ -181,7 +181,7 @@ public class ExtendsCommand extends AbstractElementCommand
 				IElementDefn moduleDefn = MetaDataDictionary.getInstance( )
 						.getElement( ReportDesignConstants.MODULE_ELEMENT );
 
-				if ( parent.getContainer( ).getDefn( ).isKindOf( moduleDefn )
+				if ( !parent.getContainer( ).getDefn( ).isKindOf( moduleDefn )
 						|| parent.getContainerSlot( ) != Module.COMPONENT_SLOT )
 				{
 					throw new ExtendsForbiddenException(

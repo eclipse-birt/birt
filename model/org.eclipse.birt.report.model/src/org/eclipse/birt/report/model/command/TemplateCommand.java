@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -95,13 +97,6 @@ public class TemplateCommand extends AbstractElementCommand
 			assert value instanceof ElementRefValue;
 			if ( ( (ElementRefValue) value ).getElement( ) == null )
 			{
-				// ElementRefValue refValue =
-				// resolveTemplateParameterDefinition(
-				// module, ( (ElementRefValue) value ).getName( ) );
-				// TemplateParameterDefinition templateParam =
-				// (TemplateParameterDefinition) refValue
-				// .getElement( );
-
 				TemplateParameterDefinition templateParam = resolveTemplateParameterDefinition(
 						module, ( (ElementRefValue) value ).getName( ) );
 
@@ -121,13 +116,6 @@ public class TemplateCommand extends AbstractElementCommand
 			assert value instanceof ElementRefValue;
 			if ( ( (ElementRefValue) value ).getElement( ) == null )
 			{
-				// ElementRefValue refValue =
-				// resolveTemplateParameterDefinition(
-				// module, ( (ElementRefValue) value ).getName( ) );
-				// TemplateParameterDefinition templateParam =
-				// (TemplateParameterDefinition) refValue
-				// .getElement( );
-
 				TemplateParameterDefinition templateParam = resolveTemplateParameterDefinition(
 						module, ( (ElementRefValue) value ).getName( ) );
 
@@ -163,10 +151,6 @@ public class TemplateCommand extends AbstractElementCommand
 
 		DesignElement resolvedElement = module.resolveElement( name, targetDefn
 				.getNameSpaceID( ), (ElementPropertyDefn) prop );
-		// IModuleNameSpace elementResolver = module
-		// .getModuleNameSpace( targetDefn.getNameSpaceID( ) );
-		// ElementRefValue refValue = elementResolver.resolve( name );
-		// return refValue;
 		return (TemplateParameterDefinition) resolvedElement;
 	}
 
@@ -219,7 +203,7 @@ public class TemplateCommand extends AbstractElementCommand
 	/**
 	 * If the template parameter reference is resolved and the definition is not
 	 * inserted to the module, then clone it and add the cloned definition into
-	 * module
+	 * module. The content may be a TemplateElement or a ReportItem.
 	 * 
 	 * @param obj
 	 * @param content
@@ -230,17 +214,56 @@ public class TemplateCommand extends AbstractElementCommand
 	private void addTemplateParameterDefinition( Object obj,
 			DesignElement content, int slotID ) throws ContentException
 	{
+		assert obj instanceof ElementRefValue;
 		ElementRefValue templateParam = (ElementRefValue) obj;
-		if ( templateParam == null || templateParam.getElement( ) == null )
+		if ( templateParam.getElement( ) == null )
 		{
-			throw new ContentException( element, slotID, content,
-					ContentException.DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT );
-		}
+			// a template element must define an explicit parameter definition
 
-		if ( !templateParam.isResolved( ) )
+			if ( content instanceof TemplateElement )
+				throw new ContentException(
+						element,
+						slotID,
+						content,
+						ContentException.DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT );
+			// if content is a ReportItem, then look the definition in the
+			// report, if found and type is identical, then let it be; otherwise
+			// clear parameter definition
+
+			else
+			{
+				try
+				{
+					PropertyCommand cmd = new PropertyCommand( module, content );
+					cmd
+							.clearProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
+				}
+				catch ( SemanticException e )
+				{
+					assert false;
+				}
+				return;
+			}
+		}
+		else if ( !( content instanceof TemplateElement ) )
 		{
+			try
+			{
+				if ( needClearParameterDefinition( content, templateParam
+						.getName( ) ) )
+				{
+					PropertyCommand cmd = new PropertyCommand( module, content );
+					cmd
+							.clearProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
+				}
+			}
+			catch ( SemanticException e )
+			{
+				assert false;
+			}
 			return;
 		}
+
 		TemplateParameterDefinition definition = (TemplateParameterDefinition) templateParam
 				.getElement( );
 		if ( module.findTemplateParameterDefinition( templateParam.getName( ) ) != definition )
@@ -269,6 +292,44 @@ public class TemplateCommand extends AbstractElementCommand
 				assert false;
 			}
 		}
+	}
+
+	/**
+	 * Determines whether to clear the parameter definition defined in the
+	 * content.
+	 * 
+	 * @param content
+	 *            the content to determine
+	 * @param parameterDefinitionName
+	 *            the parameter definition name defined in the content
+	 * @return true if need to clear the parameter definition, otherwise false
+	 */
+
+	private boolean needClearParameterDefinition( DesignElement content,
+			String parameterDefinitionName )
+	{
+		assert content != null && parameterDefinitionName != null;
+		TemplateParameterDefinition templateParam = module
+				.findTemplateParameterDefinition( parameterDefinitionName );
+
+		// if the parameter definition is found in the module, the allowed type
+		// is consistent with the current content instance, then let it be and
+		// not clear the parameter definition defined in the content
+
+		if ( templateParam != null )
+		{
+			String type = templateParam.getAllowedType( module );
+			IElementDefn allowedDefn = MetaDataDictionary.getInstance( )
+					.getElement( type );
+			if ( content.getDefn( ).isKindOf( allowedDefn ) )
+				return false;
+		}
+
+		// otherwise: 1) the parameter definition is not found in the module; or
+		// 2) the definition is found but content instance is not kind of the
+		// allowed type; then clear the parameter definition
+
+		return true;
 	}
 
 	/**

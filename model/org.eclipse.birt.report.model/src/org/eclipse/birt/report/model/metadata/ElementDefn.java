@@ -861,7 +861,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 				ElementDefn targetDefn = (ElementDefn) MetaDataDictionary
 						.getInstance( ).getElement( targetName );
 
-				if ( targetDefn.isKindOf( this ) )
+				if ( isKindOf( targetDefn ) )
 				{
 					getTriggerDefnSet( ).add( triggerDefn );
 				}
@@ -1304,10 +1304,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( type == null )
 			return false;
 
-		ElementDefn obj = ( (ElementDefn) type ).parent;
+		ElementDefn obj = this.parent;
 		while ( obj != null )
 		{
-			if ( obj == this )
+			if ( obj == type )
 				return true;
 			obj = obj.parent;
 		}

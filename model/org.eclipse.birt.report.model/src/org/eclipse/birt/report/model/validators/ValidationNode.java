@@ -107,7 +107,7 @@ public class ValidationNode
 			while ( toValidate != null )
 			{
 				ElementDefn elementDefn = (ElementDefn) toValidate.getDefn( );
-				if ( targetDefn.isKindOf( elementDefn ) )
+				if ( elementDefn.isKindOf( targetDefn ) )
 					break;
 
 				toValidate = toValidate.getContainer( );

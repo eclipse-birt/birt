@@ -300,7 +300,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 		while ( iter.hasNext( ) )
 		{
 			ElementDefn element = (ElementDefn) iter.next( );
-			if ( element.isKindOf( type ) )
+			if ( type.isKindOf( element ) )
 				return true;
 		}
 		return false;

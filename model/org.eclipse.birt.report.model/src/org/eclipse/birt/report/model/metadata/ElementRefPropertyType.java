@@ -178,7 +178,7 @@ public class ElementRefPropertyType extends PropertyType
 
 		// Check type.
 
-		if ( !targetDefn.isKindOf( target.getDefn( ) ) )
+		if ( !target.getDefn( ).isKindOf( targetDefn ) )
 			throw new PropertyValueException( target.getName( ),
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
 					PropertyType.ELEMENT_REF_TYPE );
@@ -212,7 +212,7 @@ public class ElementRefPropertyType extends PropertyType
 
 		// Check type.
 
-		if ( !targetDefn.isKindOf( target.getDefn( ) ) )
+		if ( !target.getDefn( ).isKindOf( targetDefn ) )
 			throw new PropertyValueException( target.getName( ),
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
 					PropertyType.ELEMENT_REF_TYPE );

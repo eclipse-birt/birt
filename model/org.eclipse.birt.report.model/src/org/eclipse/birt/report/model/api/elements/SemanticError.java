@@ -219,7 +219,6 @@ public class SemanticError extends SemanticException
 
 	public static final String DESIGN_EXCEPTION_COLUMN_INSERT_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_COLUMN_INSERT_FORBIDDEN;
 
-	
 	/**
 	 * Error code indicating the a cascading parameter is not typed as
 	 * "dynamic".
@@ -279,7 +278,7 @@ public class SemanticError extends SemanticException
 	 */
 
 	public static final String DESIGN_EXCEPTION_MISSING_COLUMN_BINDING = MessageConstants.SEMANTIC_ERROR_MISSING_COLUMN_BINDING;
-	
+
 	/**
 	 * The constant for the semantic error.
 	 */
@@ -387,7 +386,7 @@ public class SemanticError extends SemanticException
 			assert oaMessageArguments != null;
 
 			return ModelMessages.getMessage( sResourceKey, new String[]{
-					element.getName( ), (String) oaMessageArguments[0],
+					element.getIdentifier( ), (String) oaMessageArguments[0],
 					(String) oaMessageArguments[1]} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_DUPLICATE_GROUP_NAME
@@ -397,7 +396,7 @@ public class SemanticError extends SemanticException
 			assert oaMessageArguments != null;
 
 			return ModelMessages.getMessage( sResourceKey, new String[]{
-					element.getName( ), (String) oaMessageArguments[0]} );
+					element.getIdentifier( ), (String) oaMessageArguments[0]} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_IMAGE_FILE_NOT_EXIST
 				|| sResourceKey == DESIGN_EXCEPTION_INVALID_PROPERTY_NAME )
@@ -405,7 +404,7 @@ public class SemanticError extends SemanticException
 			assert oaMessageArguments != null;
 
 			return ModelMessages.getMessage( sResourceKey, new String[]{
-					(String) oaMessageArguments[0], element.getName( )} );
+					(String) oaMessageArguments[0], element.getIdentifier( )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_CUSTOM_COLOR_NAME
 				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_CUSTOM_COLOR_NAME
@@ -435,7 +434,7 @@ public class SemanticError extends SemanticException
 			if ( StringUtil.isBlank( name ) )
 			{
 				return ModelMessages.getMessage( sResourceKey,
-						new String[]{"The " + element.getElementName( )} ); //$NON-NLS-1$//$NON-NLS-2$
+						new String[]{"The " + element.getElementName( )} ); //$NON-NLS-1$
 			}
 			return ModelMessages
 					.getMessage(
