@@ -78,7 +78,11 @@ public class ResourceFileLabelProvider extends LabelProvider
 		{
 			if ( element.equals( rootFile ) )
 			{
-				String path = ( (File) element ).getAbsolutePath( );
+				String path = ( (File) element ).getPath( );
+				if(path == null || path.length( ) == 0)
+				{
+					return "";
+				}
 				String retString = path.substring( path.lastIndexOf( File.separator ) + 1 );
 				if(retString == null || retString.length( ) == 0)
 				{
