@@ -218,9 +218,10 @@ public final class ExpressionUtil
 	 * using "row._outer" as parent query indicator.
 	 * 
 	 * @param oldExpression
+	 * @param isParameterBinding
 	 * @return
 	 */
-	public static String updateParentQueryReferenceExpression( String oldExpression )
+	public static String updateParentQueryReferenceExpression( String oldExpression, boolean isParameterBinding )
 	{
 		if ( oldExpression == null )
 			return null;
@@ -276,9 +277,9 @@ public final class ExpressionUtil
 								String firstPart = oldExpression.substring( 0,
 										start - status.getRetrieveSize( ) - 4 );
 								String secondPart = updateParentQueryReferenceExpression( oldExpression.substring( start
-										- status.getRetrieveSize( ) + end) );
+										- status.getRetrieveSize( ) + end), isParameterBinding );
 								String newExpression = firstPart
-										+ "row._outer" + secondPart;
+										+ (isParameterBinding?"row":"row._outer") + secondPart;
 								return newExpression;
 							}
 						}
