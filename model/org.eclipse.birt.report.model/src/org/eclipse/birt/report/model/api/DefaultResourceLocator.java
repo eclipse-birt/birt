@@ -13,9 +13,9 @@ package org.eclipse.birt.report.model.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.core.runtime.Platform;
@@ -68,30 +68,10 @@ public class DefaultResourceLocator implements IResourceLocator
 			try
 			{
 				URL objURI = new URL( fileName );
-				String protocol = objURI.getProtocol( );
-
-				if ( URIUtil.FILE_SCHEMA.equalsIgnoreCase( protocol ) )
-				{
-					f = new File( objURI.getPath( ) );
-					if ( f.isAbsolute( ) )
-						return f.exists( ) && f.isFile( ) ? f
-								.getCanonicalFile( ).toURL( ) : null;
-				}
-				else if ( URIUtil.JAR_SCHEMA.equalsIgnoreCase( protocol ) )
-				{
-					URLConnection jarConnection = objURI.openConnection( );
-					try
-					{
-						jarConnection.connect( );
-						return objURI;
-					}
-					catch ( IOException e1 )
-					{
-						return null;
-					}
-				}
-				else
+				if ( isGlobalResource( objURI ) )
 					return objURI;
+				else
+					return tryLocalResourceSearch( objURI );
 			}
 			catch ( MalformedURLException e )
 			{
@@ -123,20 +103,13 @@ public class DefaultResourceLocator implements IResourceLocator
 			if ( systemId == null )
 				return null;
 
-			if ( URIUtil.FILE_SCHEMA.equalsIgnoreCase( systemId.getProtocol( ) ) )
-				return tryFileSearch( systemId, fileName );
-			else if ( URIUtil.JAR_SCHEMA.equalsIgnoreCase( systemId
-					.getProtocol( ) )
-					&& systemId.getPath( ).startsWith( URIUtil.FILE_SCHEMA ) )
-				return tryJarSearch( systemId, fileName );
-			else if ( URIUtil.BUNDLE_RESOURCE_SCHEMA.equalsIgnoreCase( systemId
-					.getProtocol( ) ) )
-				return tryFragmentSearch( moduleHandle, new URL( systemId,
-						URIUtil.convertFileNameToURLString( fileName ) )
-						.getPath( ) );
-
-			return new URL( systemId, URIUtil
+			url = new URL( systemId, URIUtil
 					.convertFileNameToURLString( fileName ) );
+
+			if ( isGlobalResource( url ) )
+				return url;
+			else
+				return tryLocalResourceSearch( url );
 		}
 		catch ( IOException e )
 		{
@@ -146,62 +119,53 @@ public class DefaultResourceLocator implements IResourceLocator
 	}
 
 	/**
-	 * Return a url if the <code>fileName</code> can be found in the directory
-	 * <code>filePath</code>.
+	 * Tests if the url indicates a global resource.
 	 * 
-	 * @param systemId
-	 *            the systemID to search
-	 * @param fileName
-	 *            the file name
-	 * @return the <code>URL</code> object. <code>null</code> if the file
-	 *         can not be found.
-	 * @throws IOException
-	 * @throws MalformedURLException
+	 * @param url
+	 * @return true if the url indicates to a global resource, false otherwise.
 	 */
 
-	private URL tryFileSearch( URL systemId, String fileName )
-			throws MalformedURLException, IOException
+	private boolean isGlobalResource( URL url )
 	{
-		File f = new File( systemId.getPath( ) );
-		if ( f.isDirectory( ) )
-			f = new File( f.getPath( ), fileName );
-		else
-			f = new File( f.getParent( ), fileName );
+		if ( URIUtil.FTP_SCHEMA.equalsIgnoreCase( url.getProtocol( ) )
+				|| URIUtil.HTTP_SCHEMA.equalsIgnoreCase( url.getProtocol( ) ) )
+			return true;
 
-		if ( f.isFile( ) && f.exists( ) )
-			return f.getCanonicalFile( ).toURL( );
+		if ( url.getFile( ).startsWith( URIUtil.FTP_SCHEMA )
+				|| url.getFile( ).startsWith( URIUtil.HTTP_SCHEMA ) )
+			return true;
 
-		return null;
+		return false;
 	}
 
 	/**
-	 * Return a url if the <code>fileName</code> can be found in the directory
-	 * <code>filePath</code>.
+	 * Search local resources.
 	 * 
-	 * @param systemId
-	 *            the systemID to search
-	 * @param fileName
-	 *            the file name
-	 * @return the <code>URL</code> object. <code>null</code> if the file
-	 *         can not be found.
-	 * @throws IOException
-	 * @throws MalformedURLException
+	 * @param url url of the resources.
+	 * @return url of the resource if found, null otherwise.
 	 */
-
-	private URL tryJarSearch( URL base, String fileName )
+	
+	private URL tryLocalResourceSearch( URL url )
 	{
-		URL url = null;
+		InputStream in = null;
 		try
 		{
-			url = new URL( base, fileName );
-			url.openConnection( ).connect( );
-		}
-		catch ( MalformedURLException e )
-		{
+			in = url.openStream( );
 		}
 		catch ( IOException e1 )
 		{
 			return null;
+		}
+		finally
+		{
+			if ( in != null )
+				try
+				{
+					in.close( );
+				}
+				catch ( IOException e )
+				{
+				}
 		}
 
 		return url;
