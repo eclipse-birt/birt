@@ -33,7 +33,7 @@ class DiskSortExport2 extends DiskDataExport
 
 	private MergeTempFileUtil tempFileUtil;
 
-	private List tempRowFiles;
+	private List currRowFiles;
 	
 	// private SortDataProvider dataProvider;
 	private MergeSortUtil mergeSortUtil;
@@ -69,7 +69,7 @@ class DiskSortExport2 extends DiskDataExport
 
 		mergeSortUtil = MergeSortUtil.getUtil( comparator );
 		
-		this.tempRowFiles = new ArrayList( );
+		this.currRowFiles = new ArrayList( );
 		this.inMemoryPos = -1;
 	}
 
@@ -101,7 +101,7 @@ class DiskSortExport2 extends DiskDataExport
 		MergeSortImpl mergeSortImpl = new MergeSortImpl( this.dataCountOfUnit,
 				this.mergeSortUtil,
 				this.tempFileUtil,
-				this.tempRowFiles );
+				this.currRowFiles );
 		this.goalRowIterator = mergeSortImpl.mergeSortOnUnits( );
 
 		return dataCountOfRest;
@@ -117,9 +117,8 @@ class DiskSortExport2 extends DiskDataExport
 			IRowResultSet rs, int dataCountOfUnit ) throws DataException,
 			IOException
 	{
-		exportLastRow( );
-		rowBuffer[inMemoryPos] = resultObject;
-
+		addNewRow( resultObject );
+		
 		int columnCount = rs.getMetaData( ).getFieldCount( );
 		int currDataCount = 1;
 		IResultObject odaObject = null;
@@ -131,67 +130,55 @@ class DiskSortExport2 extends DiskDataExport
 				ob[i] = odaObject.getFieldValue( i + 1 );
 
 			IResultObject rowData = resultObjectUtil.newResultObject( ob );
-
-			exportLastRow( );
-			rowBuffer[inMemoryPos] = rowData;
+			addNewRow( rowData );
+			
 			currDataCount++;
-
-			if ( inMemoryPos == dataCountOfUnit - 1 )
-			{
-				prepareNewTempRowFile( 0 );
-				mergeSortUtil.sortSelf( rowBuffer );
-			}
 		}
-
-		// Now all the rest rows exist in memory.
-		rowBuffer = interchange( rowBuffer, inMemoryPos );
-		mergeSortUtil.sortSelf( rowBuffer );
-		if ( tempRowFiles.size( ) <= dataCountOfUnit )
-		{
-			prepareNewTempRowFile( dataCountOfUnit - tempRowFiles.size( ) );
-		}
-		else
-		{
-			prepareNewTempRowFile( 0 );
-		}
-		// Output the rest rows
-		inMemoryPos = -1;
-		getLastTempFile( tempRowFiles ).writeRows( rowBuffer, rowBuffer.length );
-		getLastTempFile( tempRowFiles ).endWrite( );
+		
+		processLastUnit( );
 
 		return currDataCount;
 	}
 
 	/**
-	 * End write operation of the last temporary file and create a new temporary
-	 * file and initialize row buffer.
-	 * 
-	 * @param cacheSize
-	 */
-	private void prepareNewTempRowFile( int cacheSize )
-	{
-		RowFile rowFile = null;
-		if ( tempRowFiles.size( ) > 0 )
-		{
-			rowFile = (RowFile) ( tempRowFiles.get( tempRowFiles.size( ) - 1 ) );
-			rowFile.endWrite( );
-		}
-
-		rowFile = tempFileUtil.newTempFile( cacheSize );
-		tempRowFiles.add( rowFile );
-
-		inMemoryPos = -1;
-	}
-
-	/**
-	 * Write current result object to the current temparary file.
-	 * 
+	 * @param resultObject
 	 * @throws IOException
 	 */
-	private void exportLastRow( ) throws IOException
+	private void addNewRow( IResultObject resultObject ) throws IOException
 	{
 		inMemoryPos++;
-		getLastTempFile( tempRowFiles ).write( rowBuffer[inMemoryPos] );
+		getLastTempFile( currRowFiles ).write( rowBuffer[inMemoryPos] );
+
+		rowBuffer[inMemoryPos] = resultObject;
+
+		if ( inMemoryPos == dataCountOfUnit - 1 )
+		{
+			prepareNewTempRowFile( 0 );
+			mergeSortUtil.sortSelf( rowBuffer );
+		}
+	}
+	
+	/**
+	 * @throws IOException
+	 */
+	private void processLastUnit( ) throws IOException
+	{
+		// Now all the rest rows exist in memory.
+		rowBuffer = interchange( rowBuffer, inMemoryPos );
+		mergeSortUtil.sortSelf( rowBuffer );
+		if ( currRowFiles.size( ) <= dataCountOfUnit )
+		{
+			prepareNewTempRowFile( dataCountOfUnit - currRowFiles.size( ) );
+		}
+		else
+		{
+			prepareNewTempRowFile( 0 );
+		}
+
+		// Output the rest rows
+		inMemoryPos = -1;
+		getLastTempFile( currRowFiles ).writeRows( rowBuffer, rowBuffer.length );
+		getLastTempFile( currRowFiles ).endWrite( );
 	}
 
 	/**
@@ -214,7 +201,27 @@ class DiskSortExport2 extends DiskDataExport
 				- ( position + 1 ), ( position + 1 ) );
 		return tempBuffer;
 	}
+	
+	/**
+	 * End write operation of the last temporary file and create a new temporary
+	 * file and initialize row buffer.
+	 * 
+	 * @param cacheSize
+	 */
+	private void prepareNewTempRowFile( int cacheSize )
+	{
+		if ( currRowFiles.size( ) > 0 )
+		{
+			RowFile lastRowFile = (RowFile) ( currRowFiles.get( currRowFiles.size( ) - 1 ) );
+			lastRowFile.endWrite( );
+		}
 
+		RowFile rowFile = tempFileUtil.newTempFile( cacheSize );
+		currRowFiles.add( rowFile );
+
+		inMemoryPos = -1;
+	}
+	
 	/**
 	 * 
 	 * @return
