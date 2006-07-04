@@ -611,13 +611,13 @@ final class SwtTextRenderer implements IConstants
 			int iLineStyle = SWT.LINE_SOLID;
 			switch ( lia.getStyle( ).getValue( ) )
 			{
-				case ( LineStyle.DOTTED             ) :
+				case ( LineStyle.DOTTED              ) :
 					iLineStyle = SWT.LINE_DOT;
 					break;
-				case ( LineStyle.DASH_DOTTED             ) :
+				case ( LineStyle.DASH_DOTTED              ) :
 					iLineStyle = SWT.LINE_DASHDOT;
 					break;
-				case ( LineStyle.DASHED             ) :
+				case ( LineStyle.DASHED              ) :
 					iLineStyle = SWT.LINE_DASH;
 					break;
 			}
@@ -761,6 +761,12 @@ final class SwtTextRenderer implements IConstants
 
 		// R31Enhance.setTextAntialias( gc, 1 ); // SWT.ON
 
+		if ( fd.isUnderline( ) || fd.isStrikethrough( ) )
+		{
+			int lineWidth = (int) ( fd.getSize( ) / 12 );
+			gc.setLineWidth( lineWidth );
+		}
+
 		if ( R31Enhance.isR31Available( ) )
 		{
 			for ( int i = 0; i < itm.getLineCount( ); i++ )
@@ -779,6 +785,20 @@ final class SwtTextRenderer implements IConstants
 						(int) ( dXOffset + ins.getLeft( ) ),
 						(int) ( dH * i + ins.getTop( ) ),
 						true );
+				if ( fd.isUnderline( ) )
+				{
+					gc.drawLine( (int) ( dXOffset + ins.getLeft( ) ),
+							(int) ( dH * ( i + 1 ) + ins.getTop( ) ),
+							(int) ( dXOffset + ins.getLeft( ) + dW ),
+							(int) ( dH * ( i + 1 ) + ins.getTop( ) ) );
+				}
+				if ( fd.isStrikethrough( ) )
+				{
+					gc.drawLine( (int) ( dXOffset + ins.getLeft( ) ),
+							(int) ( dH * ( i + 0.5 ) + ins.getTop( ) ),
+							(int) ( dXOffset + ins.getLeft( ) + dW ),
+							(int) ( dH * ( i + 0.5 ) + ins.getTop( ) ) );
+				}
 			}
 		}
 		else
@@ -799,6 +819,20 @@ final class SwtTextRenderer implements IConstants
 						(int) ( dX + dXOffset + ins.getLeft( ) ),
 						(int) ( dY + dH * i + ins.getTop( ) ),
 						true );
+				if ( fd.isUnderline( ) )
+				{
+					gc.drawLine( (int) ( dX + dXOffset + ins.getLeft( ) ),
+							(int) ( dY + dH * ( i + 1 ) + ins.getTop( ) ),
+							(int) ( dX + dXOffset + ins.getLeft( ) + dW ),
+							(int) ( dY + dH * ( i + 1 ) + ins.getTop( ) ) );
+				}
+				if ( fd.isStrikethrough( ) )
+				{
+					gc.drawLine( (int) ( dX + dXOffset + ins.getLeft( ) ),
+							(int) ( dY + dH * ( i + 0.5 ) + ins.getTop( ) ),
+							(int) ( dX + dXOffset + ins.getLeft( ) + dW ),
+							(int) ( dY + dH * ( i + 0.5 ) + ins.getTop( ) ) );
+				}
 			}
 		}
 
@@ -904,6 +938,28 @@ final class SwtTextRenderer implements IConstants
 					(int) ( dX + ins.getLeft( ) ),
 					(int) ( dY - dH - dH * i + ins.getTop( ) ),
 					false );
+		}
+
+		int lineWidth = 0;
+		if ( fd.isUnderline( ) || fd.isStrikethrough( ) )
+		{
+			lineWidth = (int) ( fd.getSize( ) / 12 );
+			gc.setLineWidth( lineWidth );
+
+			if ( fd.isUnderline( ) )
+			{
+				gc.drawLine( (int) ( dX + ins.getLeft( ) ),
+						(int) ( dY - dFH + dH - lineWidth ),
+						(int) ( dX + ins.getLeft( ) + dFW ),
+						(int) ( dY - dFH + dH - lineWidth ) );
+			}
+			if ( fd.isStrikethrough( ) )
+			{
+				gc.drawLine( (int) ( dX + ins.getLeft( ) ),
+						(int) ( dY - dFH + dH * 0.5 - lineWidth ),
+						(int) ( dX + ins.getLeft( ) + dFW ),
+						(int) ( dY - dFH + dH * 0.5 - lineWidth ) );
+			}
 		}
 
 		clrText.dispose( );

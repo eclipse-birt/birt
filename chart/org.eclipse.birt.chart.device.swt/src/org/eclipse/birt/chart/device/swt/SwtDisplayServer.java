@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.device.swt;
 
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.net.URL;
 
 import org.eclipse.birt.chart.device.DisplayAdapter;
@@ -30,7 +29,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
@@ -41,24 +39,8 @@ import org.eclipse.swt.widgets.Display;
 public final class SwtDisplayServer extends DisplayAdapter
 {
 
-	private static final int WINDOWS = 1;
-
-	// private static final int LINUX = 2;
-
-	private static final int OTHER = 3;
-
-	private final int iOS;
-
-	/**
-	 * 
-	 */
 	private Device _d = null;
 
-
-
-	/**
-	 * 
-	 */
 	private double dScale = 1;
 
 	private int iDpiResolution = 0;
@@ -82,15 +64,6 @@ public final class SwtDisplayServer extends DisplayAdapter
 			logger.log( ex );
 			logger.log( ILogger.FATAL,
 					Messages.getString( "SwtDisplayServer.exception.display.server", getULocale( ) ) ); //$NON-NLS-1$
-		}
-		String sOS = System.getProperty( "os.name" ).toLowerCase( ); //$NON-NLS-1$
-		if ( sOS.indexOf( "windows" ) >= 0 ) //$NON-NLS-1$
-		{
-			iOS = WINDOWS;
-		}
-		else
-		{
-			iOS = OTHER;
 		}
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "SwtDisplayServer.info.display.server", //$NON-NLS-1$
@@ -116,61 +89,8 @@ public final class SwtDisplayServer extends DisplayAdapter
 		{
 			iStyle |= SWT.ITALIC;
 		}
-
-		// OS SPECIFIC STUFF GOES HERE
-		if ( iOS == WINDOWS )
-		{
-			final FontData fda = new FontData( fd.getName( ),
-					(int) Math.round( ( fd.getSize( ) ) * dScale ),
-					iStyle );
-
-			try
-			{
-				// This must be done using reflection as the data field is only
-				// available on Windows
-				Field data = FontData.class.getField( "data" ); //$NON-NLS-1$
-				Object fieldInstance = data.get( fda );
-				Class LOGFONTClass = data.getType( );
-				if ( fd.isStrikethrough( ) )
-				{
-					Field strikeOut = LOGFONTClass.getField( "lfStrikeOut" ); //$NON-NLS-1$
-					strikeOut.setByte( fieldInstance, (byte) 1 );
-				}
-				if ( fd.isUnderline( ) )
-				{
-					Field underline = LOGFONTClass.getField( "lfUnderline" ); //$NON-NLS-1$
-					underline.setByte( fieldInstance, (byte) 1 );
-				}
-				Field quality = LOGFONTClass.getField( "lfQuality" ); //$NON-NLS-1$
-				quality.setByte( fieldInstance, (byte) 1 );// ANTIALIASED_QUALITY
-
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( );
-			}
-
-			// IMPROVEMENTS PROVIDED IN ECLIPSE 3.1 M5
-			/*
-			 * org.eclipse.swt.internal.win32.LOGFONT lf = fda.data;
-			 * 
-			 * lf.lfQuality = 4; // ANTIALIASED_QUALITY if
-			 * (fd.isStrikethrough()) { lf.lfStrikeOut = 1; } if
-			 * (fd.isUnderline()) { lf.lfUnderline = 1; }
-			 */
-			// CAN'T DO THIS BECAUSE ROTATED TEXT GETS INTERNALLY CLIPPED IN SWT
-			// lf.lfOrientation = (int) (fd.getRotation() * 10);
-			// lf.lfEscapement = (int) (fd.getRotation() * 10);
-			return new Font( _d, fda );
-		}
-		else
-		// OTHER CASES
-		{
-			return new Font( _d,
-					fd.getName( ),
-					Math.round( ( fd.getSize( ) ) ),
-					iStyle );
-		}
+		return new Font( _d, fd.getName( ), (int) Math.round( ( fd.getSize( ) )
+				* dScale ), iStyle );
 	}
 
 	/*
