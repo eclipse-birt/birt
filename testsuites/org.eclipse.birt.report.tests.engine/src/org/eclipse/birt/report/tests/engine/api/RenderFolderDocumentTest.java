@@ -1,5 +1,6 @@
 package org.eclipse.birt.report.tests.engine.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
@@ -98,21 +99,109 @@ public class RenderFolderDocumentTest extends EngineCase {
 	}
 	
 
+	
+	/*
+	 * Verification:
+	 * Test whether folder and files 
+	 * can be dropped from folder-based report document
+	 * Test Method:
+	 * FolderArchiveWriter.dropStream( String relativePath )
+	 */
+	public void testDropFolder1(){
+		String report_design="report_document";
+		dropFolder(report_design,"content");		
+	}
+	
+	public void testDropFolder2(){
+		String report_design="report_document";
+		dropFolder(report_design,"Data");		
+	}
+
+	public void testDropFolder3(){
+		String report_design="report_document";
+		dropFolder(report_design,"design");		
+	}
+	
+	public void testDropFolder4(){
+		String report_design="report_document";
+		dropFolder(report_design,"");		
+	}
+
+	public void testDropFolder5(){
+		String report_design="report_document";
+		dropFolder(report_design,"nonexist");		
+	}
+	
+	private void dropFolder(String report_design, String dropDir){
+		
+		folderArchive=OUTPUT+"drop_"+report_design+separator;
+		String design=INPUT+report_design+".rptdesign";
+		try
+		{
+			createFolderDocument(design,folderArchive);
+			FolderArchiveWriter writer=new FolderArchiveWriter(folderArchive);
+			File doc=new File(folderArchive);
+			
+			if(doc.exists( )){
+				//delete content folder
+				doc=new File(folderArchive+separator+dropDir);
+				if(doc.exists( )){
+					writer.dropStream( dropDir );
+					assertFalse("FolderArchiveWriter failed to drop folder"+dropDir+" in document",doc.exists( ));
+				}
+			}
+			writer.finish( );
+		}
+		catch ( EngineException e )
+		{
+			e.printStackTrace();
+			fail("RunTask failed to create folder-based document!"+e.getLocalizedMessage( ));
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+			fail("RunTask failed to create folder-based document!"+e.getLocalizedMessage( ));
+		}
+	}
+
+	/**
+	 * create folder-based report document
+	 * @param design source report design with absolute path
+	 * @param folderDoc folderdocument with absolute path like "c:/doc/"
+	 * @throws IOException 
+	 * @throws EngineException 
+	 */
+	private void createFolderDocument(String design, String folderDoc) throws IOException, EngineException{
+		IRunTask runTask;
+		FolderArchiveWriter writer;
+		folderArchive=folderDoc;
+		
+		writer = new FolderArchiveWriter(folderArchive);
+		IReportRunnable runnable=engine.openReportDesign( design );
+		runTask=engine.createRunTask( runnable );
+		runTask.run( writer );
+		runTask.close( );
+		writer.finish( );
+			
+	}
+	
+	
+	/**
+	 * render output html from folder-based document
+	 * @param docName. The value must be "folderdocument_reportname"
+	 */
 	private void renderFolderDocument(String docName){
 		
-		IRunTask runTask;
 		String designName, report_design;
 		designName=docName.substring( 15 );
 		report_design=INPUT+designName+".rptdesign";
 
 		folderArchive=INPUT+docName+separator;
 		htmlOutput=OUTPUT+docName+".html";
+		new File(OUTPUT).mkdirs( );
 		try{
-			FolderArchiveWriter writer=new FolderArchiveWriter(folderArchive);
-			IReportRunnable runnable=engine.openReportDesign( report_design );
-			runTask=engine.createRunTask( runnable );
-			runTask.run( writer );
-			
+			createFolderDocument(report_design,folderArchive);
+
 			FolderArchiveReader reader=new FolderArchiveReader(folderArchive);
 			reportDoc=engine.openReportDocument(folderArchive);
 			renderTask=engine.createRenderTask(reportDoc);
@@ -133,12 +222,14 @@ public class RenderFolderDocumentTest extends EngineCase {
 			
 			assertNotNull(docName+".html failed to render from folder-based document",htmlOutput);
 			
+			reader.close( );
+			
 		}catch(IOException ioe){
 			ioe.printStackTrace();
-			assertTrue("IOException (when render "+docName+" folder-based document)",false);
+			assertTrue("IOException (when create and render "+docName+" folder-based document)",false);
 		}catch(EngineException ee){
 			ee.printStackTrace();
-			assertTrue("EngineException (when render "+docName+" folder-based document)",false);
+			assertTrue("EngineException (when create and render "+docName+" folder-based document)",false);
 		}
 		
 	}
