@@ -527,8 +527,7 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( type == null )
 		{
 			List supportList = DEUtil.getElementSupportList( slotHandle );
-			if ( supportList.size( ) == 1
-					|| supportList.get( 0 ) instanceof SimpleMasterPageHandle )
+			if ( supportList.size( ) == 1 )
 			{
 				type = ( (IElementDefn) supportList.get( 0 ) ).getName( );
 			}
