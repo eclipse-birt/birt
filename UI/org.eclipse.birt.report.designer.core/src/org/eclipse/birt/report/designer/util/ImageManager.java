@@ -121,11 +121,11 @@ public class ImageManager
 	}
 
 	/**
-	 *  Get image from URI
+	 * Get image from URI
+	 * 
 	 * @param uri
-	 * 	URI
-	 * @return
-	 *   The image gotten
+	 *            URI
+	 * @return The image gotten
 	 */
 	public Image getImage( String uri )
 	{
@@ -154,8 +154,56 @@ public class ImageManager
 		{
 			return image;
 		}
-		image = new Image( null,
-				new ByteArrayInputStream( embeddedImage.getData( handle.getModule( ) ) ) );
+
+		InputStream in = null;
+		try
+		{
+			if ( key.toLowerCase( ).endsWith( ".svg" ) ) //$NON-NLS-1$
+			{
+				// convert svg image to JPEG image bytes
+				JPEGTranscoder transcoder = new JPEGTranscoder( );
+				// set the transcoding hints
+				transcoder.addTranscodingHint( JPEGTranscoder.KEY_QUALITY,
+						new Float( .8 ) );
+				// create the transcoder input
+				TranscoderInput input = new TranscoderInput( new ByteArrayInputStream( embeddedImage.getData( handle.getModule( ) ) ) );
+				// create the transcoder output
+				ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
+				TranscoderOutput output = new TranscoderOutput( ostream );
+				try
+				{
+					transcoder.transcode( input, output );
+				}
+				catch ( TranscoderException e )
+				{
+				}
+				// flush the stream
+				ostream.flush( );
+				// use the outputstream as Image input stream.
+				in = new ByteArrayInputStream( ostream.toByteArray( ) );
+			}
+			else
+			{
+				in = new ByteArrayInputStream( embeddedImage.getData( handle.getModule( ) ) );
+			}
+		}
+		catch ( Exception e )
+		{
+		}
+		finally
+		{
+			if ( in != null )
+			{
+				try
+				{
+					in.close( );
+				}
+				catch ( IOException e )
+				{
+				}
+			}
+		}
+		image = new Image( null, in );
 		if ( image != null )
 		{
 			getImageRegistry( ).put( key, image );
@@ -214,7 +262,7 @@ public class ImageManager
 		{
 			if ( url.toString( ).toLowerCase( ).endsWith( ".svg" ) ) //$NON-NLS-1$
 			{
-				//convert svg image to JPEG image bytes
+				// convert svg image to JPEG image bytes
 				JPEGTranscoder transcoder = new JPEGTranscoder( );
 				// set the transcoding hints
 				transcoder.addTranscodingHint( JPEGTranscoder.KEY_QUALITY,
@@ -232,7 +280,7 @@ public class ImageManager
 				catch ( TranscoderException e )
 				{
 				}
-				// flush the stream 
+				// flush the stream
 				ostream.flush( );
 				// use the outputstream as Image input stream.
 				in = new ByteArrayInputStream( ostream.toByteArray( ) );
@@ -290,9 +338,9 @@ public class ImageManager
 	 * Generate hash key.
 	 * 
 	 * @param reportDesignHandle
-	 *  Moudle handle
+	 *            Moudle handle
 	 * @param name
-	 *  Name
+	 *            Name
 	 * @return key string
 	 */
 	public String generateKey( ModuleHandle reportDesignHandle, String name )

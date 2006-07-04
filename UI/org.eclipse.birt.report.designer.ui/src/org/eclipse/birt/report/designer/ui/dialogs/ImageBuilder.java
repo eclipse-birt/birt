@@ -80,11 +80,12 @@ public class ImageBuilder extends BaseDialog
 			".png",
 			".tif",
 			".tiff",
-			".ico"
+			".ico",
+			".svg"
 	};
 
 	private static final String[] IMAGE_FILEFILTERS = new String[]{
-		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico"
+		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"
 	};
 
 	// private static final String DLG_REMOVE_BUTTON = Messages.getString(
@@ -546,7 +547,7 @@ public class ImageBuilder extends BaseDialog
 								return;
 							}
 							
-							previewCanvas.loadImage( fullPath );
+							previewCanvas.loadImage( ImageManager.getInstance( ).loadImage( fullPath ) );
 							BirtImageLoader imageLoader = new BirtImageLoader( );
 							EmbeddedImage image = imageLoader.save( getModuleHandle( ),
 									fullPath,
