@@ -24,6 +24,8 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 public class RunAndRenderTaskTest extends EngineCase
 {
 
+	private Boolean cancelSignal=new Boolean(false);
+	
 	/**
 	 * Test methods in RunAndRenderTask class
 	 */
@@ -72,7 +74,7 @@ public class RunAndRenderTaskTest extends EngineCase
 		String input = getClassFolder( )
 				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
 				+ System.getProperty( "file.separator" ) + "pages9.rptdesign";
-		long bTime,eTime,timeSpan1,timeSpan2;
+		long bTime,eTime,timeSpan1,timeSpan2, timeSpan3;
 		try
 		{
 			IReportRunnable runnable = engine
@@ -91,6 +93,14 @@ public class RunAndRenderTaskTest extends EngineCase
 			task.close( );
 			timeSpan1=eTime-bTime;
 
+			CancelWithFlagTask cancelWithFlagTask = new CancelWithFlagTask( "cancelWithFlagTask", task );
+			cancelWithFlagTask.start( );
+			bTime=System.currentTimeMillis( );
+			task.run( );
+			eTime=System.currentTimeMillis( );
+			task.close( );
+			timeSpan2=eTime-bTime;
+
 			task=engine.createRunAndRenderTask( runnable );
 			task.setRenderOption( option );
 			task.setAppContext( new HashMap() );
@@ -98,9 +108,10 @@ public class RunAndRenderTaskTest extends EngineCase
 			task.run( );
 			eTime=System.currentTimeMillis( );
 			task.close( );
-			timeSpan2=eTime-bTime;
+			timeSpan3=eTime-bTime;
 
-			assertTrue("RunAndRenderTask.cancel() failed!",timeSpan2>timeSpan1);
+			assertTrue("RunAndRenderTask.cancel() failed!",timeSpan3>timeSpan1);
+			assertTrue("RunAndRenderTask.cancel(signal) failed!",timeSpan3>timeSpan2);
 		}
 		catch ( Exception e )
 		{
@@ -139,5 +150,37 @@ public class RunAndRenderTaskTest extends EngineCase
 		}
 
 	}
+
+
+	/*
+	 * A new thread to cancel existed runTask which return a flag
+	 */
+	private class CancelWithFlagTask extends Thread
+	{
+
+		private IRunAndRenderTask runTask;
+
+		public CancelWithFlagTask( String threadName, IRunAndRenderTask task )
+		{
+			super( threadName );
+			runTask = task;
+		}
+
+		public void run( )
+		{
+			try
+			{
+				Thread.currentThread( ).sleep( 100 );
+				runTask.cancel( cancelSignal );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( );
+				fail( "RunAndRenderTask.cancel() failed!" );
+			}
+		}
+
+	}
+
 
 }

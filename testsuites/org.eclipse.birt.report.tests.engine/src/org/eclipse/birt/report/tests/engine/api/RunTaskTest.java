@@ -21,12 +21,14 @@ import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
 public class RunTaskTest extends EngineCase {
 
+	private Boolean cancelSignal=new Boolean(false);
 	private String separator=System.getProperty("file.separator");
 	private String INPUT=getClassFolder()+separator+INPUT_FOLDER + separator ;
 	private String OUTPUT=getClassFolder()+separator+OUTPUT_FOLDER + separator ;
@@ -85,7 +87,7 @@ public class RunTaskTest extends EngineCase {
 	public void testCancel(){
 		report_design=INPUT+"pages9.rptdesign";
 		String fileDocument=OUTPUT+"cancel_pages9.rptdocument";
-		long bTime,eTime,timeSpan1,timeSpan2;
+		long bTime,eTime,timeSpan1,timeSpan2,timeSpan3;
 		try{
 			runnable=engine.openReportDesign(report_design);
 			IRunTask task=engine.createRunTask(runnable);
@@ -98,19 +100,30 @@ public class RunTaskTest extends EngineCase {
 			timeSpan1=eTime-bTime;
 			
 			task=engine.createRunTask(runnable);
+			CancelWithFlagTask cancelWithFlagTask=new CancelWithFlagTask("cancelWithFlagTask",task);
+			cancelWithFlagTask.start( );
+			bTime=System.currentTimeMillis( );
+			task.run(fileDocument);
+			eTime=System.currentTimeMillis( );
+			task.close();
+			timeSpan2=eTime-bTime;
+
+			
+			task=engine.createRunTask(runnable);
 			bTime=System.currentTimeMillis( );
 			task.run(fileDocument);
 			eTime=System.currentTimeMillis( );
 			task.close( );
-			timeSpan2=eTime-bTime;
+			timeSpan3=eTime-bTime;
 			
 			removeFile(fileDocument);
 			
-			assertTrue("RunTask.cancel() failed!",(timeSpan2>timeSpan1));
+			assertTrue("RunTask.cancel() failed!",(timeSpan3>timeSpan1));
+			assertTrue("RunTask.cancel(signal) failed!",(timeSpan3>timeSpan2));
 			
 		}catch(EngineException ee){
 			ee.printStackTrace();
-			//assertTrue("Failed to generate document for "+ee.getLocalizedMessage(),false);
+			fail("RunTask.cancel() failed!");
 		}
 	}
 
@@ -187,8 +200,37 @@ public class RunTaskTest extends EngineCase {
 				fail("RunTask.cancel() failed");
 			}
 		}
-
-		
-	}
 	
+	}
+
+	
+	/*
+	 * A new thread to cancel existed runTask which return a flag
+	 */
+	private class CancelWithFlagTask extends Thread
+	{
+
+		private IRunTask runTask;
+
+		public CancelWithFlagTask( String threadName, IRunTask task )
+		{
+			super( threadName );
+			runTask = task;
+		}
+
+		public void run( )
+		{
+			try
+			{
+				Thread.currentThread( ).sleep( 100 );
+				runTask.cancel( cancelSignal );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( );
+				fail( "RunTask.cancel(signal) failed" );
+			}
+		}
+
+	}
 }
