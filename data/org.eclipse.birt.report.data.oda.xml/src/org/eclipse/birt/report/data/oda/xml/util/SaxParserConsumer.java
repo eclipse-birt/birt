@@ -113,19 +113,29 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		if( namesOfCachedComplexNestedColumns.length > 0)
 		{
 			spNestedQueryHelper = new SaxParserComplexNestedQueryHelper(this,rinfo, xdis, tName);
-			if ( !spNestedQueryHelper.isPrepared( ) )
+			try
 			{
-				try
+				//First wait() will be ended when SaxParserComplexNestedQueryHelper
+				//calls wakeup().However, the thread (ref as thread A) hosts SaxParserComplexNestedQueryHelper is
+				//actually still running until all finish up jobs are done. The thread (ref as thread B) which host 
+				//this class should only be started when A is completely finish. So we 
+				//add a loop which check the status of SaxParserComplexNestedQueryHelper and 
+				//only all the program to proceed when A is actually finished.
+				synchronized ( this )
+				{
+					wait( );
+				}
+				while ( !spNestedQueryHelper.isPrepared( ) )
 				{
 					synchronized ( this )
 					{
-						wait( ) ;
+						wait( 5 );
 					}
 				}
-				catch ( InterruptedException e )
-				{
-					throw new OdaException( e.getLocalizedMessage() );
-				}
+			}
+			catch ( InterruptedException e )
+			{
+				throw new OdaException( e.getLocalizedMessage( ) );
 			}
 		}
 		sp = new SaxParser( xdis , this );
