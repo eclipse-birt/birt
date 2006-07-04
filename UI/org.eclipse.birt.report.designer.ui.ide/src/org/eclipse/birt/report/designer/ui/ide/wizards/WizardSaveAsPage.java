@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.ide.wizards;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,25 @@ import org.eclipse.ui.part.DrillDownComposite;
 public class WizardSaveAsPage extends WizardPage
 {
 
+	private static String EXTENSIONS = ".rptdesign";
+	static
+	{
+		List extensionList = ReportPlugin.getDefault( )
+				.getReportExtensionNameList( );
+		if ( !extensionList.isEmpty( ) )
+		{
+			EXTENSIONS = "." + extensionList.get( 0 );
+		}
+
+		for ( int i = 1; i < extensionList.size( ); i++ )
+		{
+			EXTENSIONS += ", ." + extensionList.get( i );
+		}
+	}
+	private static final String WRONG_EXTENSION = MessageFormat.format( Messages.getString( "WizardReportSettingPage.Error.ReportorTemplate" ),
+			new String[]{
+				EXTENSIONS
+			} );
 	private ResourceAndContainerGroup resourceGroup;
 	private IResource originalFile;
 	private String originalName;
@@ -231,7 +251,7 @@ public class WizardSaveAsPage extends WizardPage
 					.isReportDesignFile( resourceGroup.getResource( ) ) || resourceGroup.getResource( )
 					.endsWith( ".rpttemplate" ) ) )
 			{
-				setErrorMessage( Messages.getString( "WizardReportSettingPage.Error.ReportorTemplate" ) );
+				setErrorMessage( WRONG_EXTENSION );
 				return false;
 			}
 		}
