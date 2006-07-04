@@ -44,7 +44,7 @@ abstract class DiskDataExport
 	{
 		DiskDataExport dbExport;
 		if ( comparator != null )
-			dbExport = new DiskSortExport( infoMap, comparator, resultObjectUtil );
+			dbExport = new DiskSortExport2( infoMap, comparator, resultObjectUtil );
 		else
 			dbExport = new DiskDirectExport( infoMap, resultObjectUtil );
 
@@ -74,6 +74,18 @@ abstract class DiskDataExport
 	 */
 	public abstract int exportRestDataToDisk( IResultObject resultObject,
 			IRowResultSet rs ) throws DataException, IOException;
+	
+	/**
+	 * get a ObjectFileWithCache object for goal file 
+	 * @return
+	 */
+	public abstract IRowIterator getRowIterator();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public abstract void close();
 	
 	/**
 	 * A util method for sub class

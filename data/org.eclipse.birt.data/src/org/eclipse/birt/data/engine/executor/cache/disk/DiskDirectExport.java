@@ -25,23 +25,25 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  */
 class DiskDirectExport extends DiskDataExport
 {
-	private DataFileWriter dfw;
+	private RowFile rowFile;
 	private int dataCountOfUnit;
 	
 	/**
-	 * @param goalFile
+	 * @param rowFile
 	 */
 	DiskDirectExport( Map infoMap, ResultObjectUtil resultObjectUtil )
 	{
-		dfw = DataFileWriter.newInstance( new File( (String) infoMap.get( "goalFile" ) ),
-				resultObjectUtil );
 		dataCountOfUnit = Integer.parseInt( (String) infoMap.get( "dataCountOfUnit" ) );
+		rowFile = new RowFile( new File( (String) infoMap.get( "goalFile" ) ),
+				resultObjectUtil,
+				dataCountOfUnit );
 	}
-
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#exportStartDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject[])
 	 */
-	public void exportStartDataToDisk( IResultObject[] resultObjects ) throws IOException
+	public void exportStartDataToDisk( IResultObject[] resultObjects )
+			throws IOException
 	{
 		innerExportStartData( resultObjects );
 	}
@@ -50,12 +52,28 @@ class DiskDirectExport extends DiskDataExport
 	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#exportRestDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject,
 	 *      org.eclipse.birt.data.engine.executor.cache.RowResultSet)
 	 */
-	public int exportRestDataToDisk( IResultObject resultObject, IRowResultSet rs )
-			throws DataException, IOException
+	public int exportRestDataToDisk( IResultObject resultObject,
+			IRowResultSet rs ) throws DataException, IOException
 	{
-		int dataCountOfRest = innerExportRestData( resultObject, rs, dataCountOfUnit );
-		dfw.close( );
-		return dataCountOfRest;
+		int result = innerExportRestData( resultObject, rs, dataCountOfUnit );
+		rowFile.endWrite( );
+		return result;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#getRowIterator()
+	 */
+	public IRowIterator getRowIterator()
+	{
+		return rowFile;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#close()
+	 */
+	public void close( )
+	{
+		// do nothing
 	}
 	
 	/*
@@ -65,7 +83,7 @@ class DiskDirectExport extends DiskDataExport
 	protected void outputResultObjects( IResultObject[] resultObjects, int indexOfUnit )
 			throws IOException
 	{
-		dfw.write( resultObjects, resultObjects.length );
+		rowFile.writeRows( resultObjects, resultObjects.length );
 	}
 
 }

@@ -10,16 +10,15 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.cache.disk;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
-import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
+import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 
 /**
  * When available memory can not accomodate existing data, it will rely on this
@@ -31,11 +30,10 @@ class DiskCacheResultSet
 	private Map infoMap;
 	private int dataCount;
 	
-	private File goalFile;	
-	private DataFileReader goalFileReader;
-	
-	private DiskDataExport databaseExport;
+	private DiskDataExport databaseExport;	
 	private ResultObjectUtil resultObjectUtil;
+	
+	private IRowIterator rowIterator;
 	
 	/**
 	 * @param dataProvider
@@ -43,7 +41,6 @@ class DiskCacheResultSet
 	DiskCacheResultSet( Map infoMap )
 	{
 		this.infoMap = infoMap;
-		this.goalFile = new File( (String) infoMap.get( "goalFile" ) );
 	}
 
 	/**
@@ -76,6 +73,7 @@ class DiskCacheResultSet
 			IRowResultSet rs ) throws DataException, IOException
 	{
 		dataCount += databaseExport.exportRestDataToDisk( resultObject, rs );
+		rowIterator = databaseExport.getRowIterator( );
 	}
 	
 	/**
@@ -94,14 +92,7 @@ class DiskCacheResultSet
 	 */
 	public IResultObject nextRow( ) throws IOException
 	{
-		if ( goalFileReader == null )
-		{
-			//resultObjectUtil.startNewRead( );
-			goalFileReader = DataFileReader.newInstance( goalFile,
-					resultObjectUtil );
-		}
-		
-		return goalFileReader.read( 1 )[0];
+		return rowIterator.fetch( );
 	}
 	
 	/**
@@ -109,10 +100,7 @@ class DiskCacheResultSet
 	 */
 	public void reset( )
 	{
-		if ( goalFileReader != null )
-		{
-			goalFileReader.setReadFile( goalFile );
-		}
+		rowIterator.reset( );
 	}
 	
 	/**
@@ -120,10 +108,16 @@ class DiskCacheResultSet
 	 */
 	public void close( )
 	{
-		if ( goalFileReader != null )
-			goalFileReader.close( );
-		
-		databaseExport = null;
+		if ( rowIterator != null )
+		{
+			rowIterator.close( );
+			rowIterator = null;
+		}
+		if ( databaseExport != null )
+		{
+			databaseExport.close( );
+			databaseExport = null;
+		}
 		resultObjectUtil = null;
 	}
 	

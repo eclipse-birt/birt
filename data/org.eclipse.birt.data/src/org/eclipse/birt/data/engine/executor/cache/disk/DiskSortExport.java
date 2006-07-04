@@ -81,6 +81,22 @@ class DiskSortExport extends DiskDataExport
 	}
 	
 	/*
+	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#getRowIterator()
+	 */
+	public IRowIterator getRowIterator( )
+	{
+		return null;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#close()
+	 */
+	public void close( )
+	{
+		// do nothing
+	}
+	
+	/*
 	 * @see org.eclipse.birt.sort4.DataBaseExport#outputRowsUnit(org.eclipse.birt.sort4.RowData[],
 	 *      int)
 	 */

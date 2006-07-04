@@ -69,6 +69,32 @@ class MergeSortUtil
 		
 		Arrays.sort( self, comparator );
 	}
+	
+	/**
+	 * Get min object of a array
+	 * 
+	 * @param objects
+	 * @param length
+	 * @return the postion of min object
+	 */
+	public int getMinResultObject( IResultObject[] objects, int length )
+	{
+		IResultObject minObject = null;
+		int minObjectPos = -1;
+		
+		for ( int i = 0; i < length; i++ )
+		{
+			if ( objects[i] != null
+					&& ( minObject == null || ( compareResultObject( minObject,
+							objects[i] ) > 0 ) ) )
+			{
+				minObject = objects[i];
+				minObjectPos = i;
+			}
+		}
+		
+		return minObjectPos;
+	}
 
 	/**
 	 * Sort several arrays of resultobjects of once time
