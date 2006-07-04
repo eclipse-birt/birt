@@ -4,10 +4,10 @@ package org.eclipse.birt.report.engine.executor;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.internal.util.HTMLUtil;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
-import org.eclipse.birt.report.engine.util.HTMLUtil;
 
 public class RowExecutor extends QueryItemExecutor
 {
