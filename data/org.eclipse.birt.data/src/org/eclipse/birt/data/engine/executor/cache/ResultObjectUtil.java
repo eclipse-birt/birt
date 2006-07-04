@@ -100,7 +100,7 @@ public class ResultObjectUtil
 	 * @param ob
 	 * @return RowData
 	 */
-	ResultObject newResultObject( Object[] rowData )
+	public ResultObject newResultObject( Object[] rowData )
 	{
 		return new ResultObject( rsMetaData, rowData );
 	}

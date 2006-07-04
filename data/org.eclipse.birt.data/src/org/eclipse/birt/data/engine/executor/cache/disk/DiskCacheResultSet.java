@@ -34,7 +34,7 @@ class DiskCacheResultSet
 	private File goalFile;	
 	private DataFileReader goalFileReader;
 	
-	private DiskDataCache databaseExport;
+	private DiskDataExport databaseExport;
 	private ResultObjectUtil resultObjectUtil;
 	
 	/**
@@ -58,7 +58,7 @@ class DiskCacheResultSet
 		assert rsMetaData != null;
 		this.resultObjectUtil = ResultObjectUtil.newInstance( rsMetaData );
 		
-		databaseExport = DiskDataCache.newInstance( infoMap,
+		databaseExport = DiskDataExport.newInstance( infoMap,
 				comparator,
 				rsMetaData,
 				resultObjectUtil );		
