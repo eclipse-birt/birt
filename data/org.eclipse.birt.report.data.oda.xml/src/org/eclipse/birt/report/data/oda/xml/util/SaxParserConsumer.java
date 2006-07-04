@@ -112,14 +112,14 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		
 		if( namesOfCachedComplexNestedColumns.length > 0)
 		{
-			spNestedQueryHelper = new SaxParserComplexNestedQueryHelper(rinfo, xdis, tName);
-			while ( !spNestedQueryHelper.isPrepared( ) )
+			spNestedQueryHelper = new SaxParserComplexNestedQueryHelper(this,rinfo, xdis, tName);
+			if ( !spNestedQueryHelper.isPrepared( ) )
 			{
 				try
 				{
 					synchronized ( this )
 					{
-						wait( 1000 );
+						wait( ) ;
 					}
 				}
 				catch ( InterruptedException e )

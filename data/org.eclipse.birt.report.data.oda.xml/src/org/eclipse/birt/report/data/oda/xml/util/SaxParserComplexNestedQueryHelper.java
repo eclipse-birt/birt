@@ -31,7 +31,7 @@ public class SaxParserComplexNestedQueryHelper implements ISaxParserConsumer
 	private Thread spThread;
 	
 	private NestedColumnUtil nestedColumnUtil;
-
+	private SaxParserConsumer consumer;
 	
 	
 	/**
@@ -39,17 +39,17 @@ public class SaxParserComplexNestedQueryHelper implements ISaxParserConsumer
 	 * @param fileName
 	 * @param tName
 	 */
-	SaxParserComplexNestedQueryHelper( RelationInformation rinfo, XMLDataInputStream xdis, String tName)
+	SaxParserComplexNestedQueryHelper( SaxParserConsumer consumer, RelationInformation rinfo, XMLDataInputStream xdis, String tName)
 	{
 		
-		tableName = tName;
-		relationInfo = rinfo;
-		
-		namesOfNestedColumns = relationInfo.getTableComplexNestedXMLColumnNames( tableName );
-		nestedColumnUtil = new NestedColumnUtil( relationInfo, tableName, false);
-		sp = new SaxParser( xdis , this );
-		spThread = new Thread( sp );
-		spThread.start();
+		this.tableName = tName;
+		this.relationInfo = rinfo;
+		this.consumer = consumer;
+		this.namesOfNestedColumns = relationInfo.getTableComplexNestedXMLColumnNames( tableName );
+		this.nestedColumnUtil = new NestedColumnUtil( relationInfo, tableName, false);
+		this.sp = new SaxParser( xdis , this );
+		this.spThread = new Thread( sp );
+		this.spThread.start();
 	}
 	
 	/**
@@ -84,11 +84,11 @@ public class SaxParserComplexNestedQueryHelper implements ISaxParserConsumer
 
 	
 	/**
-	 * The method would not be used in this implementation of ISaxParserConsumer.
+	 * The method would wakeup the host SaxParserConsumer.
 	 */
 	public void wakeup( )
 	{
-		
+		consumer.wakeup( );
 	}
 	
 	/**
