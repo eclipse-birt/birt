@@ -185,7 +185,6 @@ public class PDFLayoutManagerFactory
 				return visitContent( foreign, value );
 			}
 			LabelContent label = new LabelContent( foreign );
-			label.setText( (String) foreign.getRawValue( ) );
 			return handleText( label );
 		}
 
