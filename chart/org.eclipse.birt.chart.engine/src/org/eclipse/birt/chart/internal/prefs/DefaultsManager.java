@@ -32,7 +32,7 @@ import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 
 /**
- * @author Administrator
+ * A utility class manages the chart default settings.
  */
 public final class DefaultsManager
 {
@@ -89,7 +89,7 @@ public final class DefaultsManager
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private DefaultsManager( )
 	{
@@ -109,7 +109,7 @@ public final class DefaultsManager
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private final void samplePreferences( )
 	{

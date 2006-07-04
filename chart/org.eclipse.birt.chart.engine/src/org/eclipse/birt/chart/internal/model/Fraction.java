@@ -14,9 +14,9 @@ package org.eclipse.birt.chart.internal.model;
 /**
  * Fraction class to represent a Fraction
  */
-
-public  class Fraction
+public class Fraction
 {
+
 	private long numerator = 0;
 
 	private long denominator = 1;
@@ -89,7 +89,7 @@ public  class Fraction
 	 */
 	public Fraction add( Long number )
 	{
-		numerator = numerator + denominator * number.longValue();
+		numerator = numerator + denominator * number.longValue( );
 		return this;
 	}
 
@@ -97,6 +97,7 @@ public  class Fraction
 	{
 		return toString( "/" ); //$NON-NLS-1$
 	}
+
 	public String toString( String separator )
 	{
 		if ( denominator != 1 )
