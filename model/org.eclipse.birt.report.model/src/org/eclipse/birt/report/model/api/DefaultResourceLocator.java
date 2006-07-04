@@ -55,64 +55,83 @@ public class DefaultResourceLocator implements IResourceLocator
 		if ( fileName == null )
 			return null;
 
+		// try absolute path search
+
 		try
 		{
-			// try absolute path search
-
 			File f = new File( fileName );
 			if ( f.isAbsolute( ) )
 				return f.exists( ) && f.isFile( ) ? f.getCanonicalFile( )
 						.toURL( ) : null;
+		}
+		catch ( IOException e )
+		{
+			return null;
+		}
 
-			// try url search
+		// try url search
+
+		try
+		{
+			URL objURI = new URL( fileName );
+			if ( isGlobalResource( objURI ) )
+				return objURI;
+
+			return tryLocalResourceSearch( objURI );
+		}
+		catch ( MalformedURLException e )
+		{
+			// ignore the error
+		}
+
+		// try fragment search
+
+		URL url = tryFragmentSearch( moduleHandle, fileName );
+		if ( url != null )
+			return url;
+
+		// try file search based on resource path set on this session
+
+		String resourcePath = moduleHandle.getModule( ).getSession( )
+				.getBirtResourcePath( );
+		if ( resourcePath != null )
+		{
+			File f = new File( resourcePath, fileName );
+
 			try
 			{
-				URL objURI = new URL( fileName );
-				if ( isGlobalResource( objURI ) )
-					return objURI;
-				else
-					return tryLocalResourceSearch( objURI );
-			}
-			catch ( MalformedURLException e )
-			{
-			}
-
-			// try fragment search
-
-			URL url = tryFragmentSearch( moduleHandle, fileName );
-			if ( url != null )
-				return url;
-
-			// try file search based on resource path set on this session
-
-			String resourcePath = moduleHandle.getModule( ).getSession( )
-					.getBirtResourcePath( );
-			if ( resourcePath != null )
-			{
-				f = new File( resourcePath, fileName );
 				if ( f.exists( ) && f.isFile( ) )
 					return f.getCanonicalFile( ).toURL( );
 			}
+			catch ( IOException e )
+			{
+				// ignore the error
+			}
 
-			// try file search based on path of the input module
+		}
 
-			if ( moduleHandle == null )
-				return null;
+		// try file search based on path of the input module
 
-			URL systemId = moduleHandle.getModule( ).getSystemId( );
-			if ( systemId == null )
-				return null;
+		if ( moduleHandle == null )
+			return null;
 
+		URL systemId = moduleHandle.getModule( ).getSystemId( );
+		if ( systemId == null )
+			return null;
+
+		try
+		{
 			url = new URL( systemId, URIUtil
 					.convertFileNameToURLString( fileName ) );
 
 			if ( isGlobalResource( url ) )
 				return url;
-			else
-				return tryLocalResourceSearch( url );
+
+			return tryLocalResourceSearch( url );
 		}
-		catch ( IOException e )
+		catch ( MalformedURLException e )
 		{
+			// ignore the error
 		}
 
 		return null;
@@ -122,6 +141,7 @@ public class DefaultResourceLocator implements IResourceLocator
 	 * Tests if the url indicates a global resource.
 	 * 
 	 * @param url
+	 *            the url to test
 	 * @return true if the url indicates to a global resource, false otherwise.
 	 */
 
@@ -131,8 +151,9 @@ public class DefaultResourceLocator implements IResourceLocator
 				|| URIUtil.HTTP_SCHEMA.equalsIgnoreCase( url.getProtocol( ) ) )
 			return true;
 
-		if ( url.getFile( ).startsWith( URIUtil.FTP_SCHEMA )
-				|| url.getFile( ).startsWith( URIUtil.HTTP_SCHEMA ) )
+		if ( url.getFile( ).toLowerCase( ).startsWith( URIUtil.FTP_SCHEMA )
+				|| url.getFile( ).toLowerCase( ).startsWith(
+						URIUtil.HTTP_SCHEMA ) )
 			return true;
 
 		return false;
@@ -141,10 +162,11 @@ public class DefaultResourceLocator implements IResourceLocator
 	/**
 	 * Search local resources.
 	 * 
-	 * @param url url of the resources.
+	 * @param url
+	 *            url of the resources.
 	 * @return url of the resource if found, null otherwise.
 	 */
-	
+
 	private URL tryLocalResourceSearch( URL url )
 	{
 		InputStream in = null;
@@ -194,8 +216,8 @@ public class DefaultResourceLocator implements IResourceLocator
 		if ( bundle != null )
 			return bundle.getResource( URIUtil
 					.convertFileNameToURLString( fileName ) );
-		else
-			return null;
+
+		return null;
 
 	}
 }
