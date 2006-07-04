@@ -169,9 +169,11 @@ public final class DataTypeUtil
 		{
 			return (Integer) source;
 		}
-		else if ( source instanceof BigDecimal )
+		else if ( source instanceof Number )
 		{
-			int intValue = ( (BigDecimal) source ).intValue( );
+			// This takes care of BigDecimal, BigInteger, Byte, Double, 
+			// Float, Long, Short
+			int intValue = ( (Number) source ).intValue( );
 			return new Integer( intValue );
 		}
 		else if ( source instanceof Boolean )
@@ -184,11 +186,6 @@ public final class DataTypeUtil
 		{
 			long longValue = ( (Date) source ).getTime( );
 			return new Integer( (int) longValue );
-		}
-		else if ( source instanceof Double )
-		{
-			int intValue = ( (Double) source ).intValue( );
-			return new Integer( intValue );
 		}
 		else if ( source instanceof String )
 		{
@@ -232,14 +229,30 @@ public final class DataTypeUtil
 		if ( source == null )
 			return null;
 		
-		if ( source instanceof Integer )
-		{
-			String str = ( (Integer) source ).toString( );
-			return new BigDecimal( str );
-		}
-		else if ( source instanceof BigDecimal )
+		if ( source instanceof BigDecimal )
 		{
 			return (BigDecimal) source;
+		}
+		else if ( source instanceof Number )
+		{
+			// This takes care of BigDecimal, BigInteger, Byte, Double, 
+			// Float, Long, Short, Integer
+			// An intermediate conversion using String is preferrable per JavaDoc
+			// comment in BigDecimal(String) constructor
+			String str = ( (Number) source ).toString( );
+			try
+			{
+				return new BigDecimal( str );
+			}
+			catch ( NumberFormatException e )
+			{
+				throw new BirtException( pluginId,
+						ResourceConstants.CONVERT_FAILS,
+						new Object[]{
+								str, "BigDecimal"
+						},
+						resourceBundle );
+			}
 		}
 		else if ( source instanceof Boolean )
 		{
@@ -251,21 +264,6 @@ public final class DataTypeUtil
 		{
 			long longValue = ( (Date) source ).getTime( );
 			return new BigDecimal( longValue );
-		}
-		else if ( source instanceof Double )
-		{
-			Double d2 = (Double) source;
-			if ( d2.isNaN( ) || d2.isInfinite( ) )
-			{
-				throw new BirtException( pluginId,
-						ResourceConstants.CONVERT_FAILS,
-						new Object[]{
-								d2.isNaN( ) ? "NaN" : "infinite value",
-								"BigDecimal"
-						},
-						resourceBundle );
-			}
-			return new BigDecimal( d2.doubleValue( ) );
 		}
 		else if ( source instanceof String )
 		{
@@ -318,23 +316,11 @@ public final class DataTypeUtil
 		{
 			return (Boolean) source;
 		}
-		else if ( source instanceof Integer )
+		else if ( source instanceof Number )
 		{
-			int intValue = ( (Integer) source ).intValue( );
-			if ( intValue == 0 )
-				return new Boolean( false );
-			return new Boolean( true );
-		}
-		else if ( source instanceof BigDecimal )
-		{
-			int intValue = ( (BigDecimal) source ).intValue( );
-			if ( intValue == 0 )
-				return new Boolean( false );
-			return new Boolean( true );
-		}
-		else if ( source instanceof Double )
-		{
-			int intValue = ( (Double) source ).intValue( );
+			// Takes care of all numeric types
+			
+			int intValue = ( (Number) source ).intValue( );
 			if ( intValue == 0 )
 				return new Boolean( false );
 			return new Boolean( true );
@@ -559,14 +545,14 @@ public final class DataTypeUtil
 		if ( source == null )
 			return null;
 		
-		if ( source instanceof Integer )
+		if ( source instanceof Double )
 		{
-			double doubleValue = ( (Integer) source ).doubleValue( );
-			return new Double( doubleValue );
+			return (Double) source;
 		}
-		else if ( source instanceof BigDecimal )
+		else if ( source instanceof Number )
 		{
-			double doubleValue = ( (BigDecimal) source ).doubleValue( );
+			// Takes care of all numeric types
+			double doubleValue = ( (Number) source ).doubleValue( );
 			return new Double( doubleValue );
 		}
 		else if ( source instanceof Boolean )
@@ -579,10 +565,6 @@ public final class DataTypeUtil
 		{
 			double doubleValue = ( (Date) source ).getTime( );
 			return new Double( doubleValue );
-		}
-		else if ( source instanceof Double )
-		{
-			return (Double) source;
 		}
 		else if ( source instanceof String )
 		{
