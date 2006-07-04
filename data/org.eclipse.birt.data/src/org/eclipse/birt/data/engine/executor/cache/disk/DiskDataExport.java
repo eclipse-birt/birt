@@ -44,7 +44,7 @@ abstract class DiskDataExport
 	{
 		DiskDataExport dbExport;
 		if ( comparator != null )
-			dbExport = new DiskMergeSortExport( infoMap, comparator, resultObjectUtil );
+			dbExport = new DiskSortExport( infoMap, comparator, resultObjectUtil );
 		else
 			dbExport = new DiskDirectExport( infoMap, resultObjectUtil );
 
