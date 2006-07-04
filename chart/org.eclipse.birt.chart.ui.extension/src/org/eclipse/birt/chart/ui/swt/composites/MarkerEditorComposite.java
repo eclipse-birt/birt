@@ -394,8 +394,13 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		private Composite cmpType;
 
 		private Group grpSize;
-		
+
 		boolean isPressingKey = false;
+
+		private final String[] typeDisplayNameSet = LiteralHelper.markerTypeSet.getDisplayNames( );
+		private final String[] typeNameSet = LiteralHelper.markerTypeSet.getNames( );
+
+		private int markerTypeIndex = -1;
 
 		MarkerDropDownEditorComposite( Composite parent, int style )
 		{
@@ -407,8 +412,6 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		{
 			GridLayout glDropDown = new GridLayout( );
 			this.setLayout( glDropDown );
-//			this.addListener( SWT.KeyDown, this );
-//			this.addListener( SWT.FocusOut, this );
 
 			btnMarkerVisible = new Button( this, SWT.CHECK );
 			{
@@ -431,9 +434,11 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				layout.verticalSpacing = 0;
 				cmpType.setLayout( layout );
 				cmpType.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+				cmpType.addListener( SWT.Traverse, this );
+				cmpType.addListener( SWT.KeyDown, this );
+				cmpType.addListener( SWT.FocusOut, this );
 			}
 
-			String[] typeDisplayNameSet = LiteralHelper.markerTypeSet.getDisplayNames( );
 			int modifiedSize = ( typeDisplayNameSet.length
 					/ MARKER_ROW_MAX_NUMBER + 1 )
 					* MARKER_ROW_MAX_NUMBER;
@@ -511,7 +516,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 					.getCursorControl( );
 			// Set default value back
 			isPressingKey = false;
-			
+
 			// If current control is the dropdown button, that means users want
 			// to close it manually. Otherwise, close it silently when clicking
 			// other areas.
@@ -540,11 +545,11 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		{
 			GC gc = e.gc;
 			int markerIndex = ( (Integer) e.widget.getData( ) ).intValue( );
-			int markerLength = LiteralHelper.markerTypeSet.getNames( ).length;
+			int markerLength = typeNameSet.length;
 			String typeName = null;
 			if ( markerIndex < markerLength )
 			{
-				typeName = LiteralHelper.markerTypeSet.getNames( )[markerIndex];
+				typeName = typeNameSet[markerIndex];
 				gc.setBackground( Display.getDefault( )
 						.getSystemColor( SWT.COLOR_INFO_BACKGROUND ) );
 				gc.fillRectangle( 0, 0, MARKER_BLOCK_WIDTH, MARKER_BLOCK_HEIGHT );
@@ -597,6 +602,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			// Draw the boarder of current marker
 			if ( getMarker( ).getType( ).getName( ).equals( typeName ) )
 			{
+				markerTypeIndex = markerIndex;
 				gc.setForeground( Display.getDefault( )
 						.getSystemColor( SWT.COLOR_RED ) );
 				gc.drawRectangle( 1,
@@ -615,40 +621,48 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			}
 		}
 
+		private void switchMarkerType( int newMarkerTypeIndex )
+		{
+			MarkerType newType = MarkerType.getByName( typeNameSet[newMarkerTypeIndex] );
+			if ( newType == MarkerType.ICON_LITERAL )
+			{
+				MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
+						getMarker( ).getFill( ) );
+				if ( iconDialog.open( ) == Window.OK )
+				{
+					Fill resultFill = iconDialog.getFill( );
+					if ( resultFill.eAdapters( ).isEmpty( ) )
+					{
+						// Add adapters to new EObject
+						resultFill.eAdapters( )
+								.addAll( getMarker( ).eAdapters( ) );
+					}
+					getMarker( ).setFill( resultFill );
+				}
+				else
+				{
+					// Without saving
+					return;
+				}
+			}
+
+			getMarker( ).setType( newType );
+			Control[] children = cmpType.getChildren( );
+			children[newMarkerTypeIndex].redraw( );
+			children[markerTypeIndex].redraw( );
+			updateMarkerPreview( );
+		}
+
 		void mouseDown( MouseEvent e )
 		{
 			if ( e.widget instanceof Canvas )
 			{
 				int markerIndex = ( (Integer) e.widget.getData( ) ).intValue( );
-				MarkerType newType = MarkerType.getByName( LiteralHelper.markerTypeSet.getNames( )[markerIndex] );
-				if ( newType == MarkerType.ICON_LITERAL )
-				{
-					MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
-							getMarker( ).getFill( ) );
-					if ( iconDialog.open( ) == Window.OK )
-					{
-						Fill resultFill = iconDialog.getFill( );
-						if ( resultFill.eAdapters( ).isEmpty( ) )
-						{
-							// Add adapters to new EObject
-							resultFill.eAdapters( )
-									.addAll( getMarker( ).eAdapters( ) );
-						}
-						getMarker( ).setFill( resultFill );
-					}
-					else
-					{
-						// Without saving
-						return;
-					}
-				}
-
-				getMarker( ).setType( newType );
-				updateMarkerPreview( );
+				switchMarkerType( markerIndex );
 
 				if ( !this.getShell( ).isDisposed( ) )
 				{
-					this.getShell( ).dispose( );
+					this.getShell( ).close( );
 				}
 			}
 		}
@@ -668,26 +682,59 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				case SWT.Selection :
 					widgetSelected( new SelectionEvent( event ) );
 					break;
-					
+
 				case SWT.KeyDown :
-					if ( event.keyCode == SWT.ARROW_UP
-							|| event.keyCode == SWT.ESC )
+					if ( event.keyCode == SWT.ESC )
 					{
 						getShell( ).close( );
 					}
+					else if ( event.widget == cmpType )
+					{
+						if ( event.keyCode == SWT.ARROW_LEFT )
+						{
+							if ( markerTypeIndex - 1 >= 0 )
+							{
+								switchMarkerType( markerTypeIndex - 1 );
+							}
+						}
+						else if ( event.keyCode == SWT.ARROW_RIGHT )
+						{
+							if ( markerTypeIndex + 1 < typeNameSet.length )
+							{
+								switchMarkerType( markerTypeIndex + 1 );
+							}
+						}
+						else if ( event.keyCode == SWT.ARROW_UP )
+						{
+							if ( markerTypeIndex - MARKER_ROW_MAX_NUMBER >= 0 )
+							{
+								switchMarkerType( markerTypeIndex
+										- MARKER_ROW_MAX_NUMBER );
+							}
+						}
+						else if ( event.keyCode == SWT.ARROW_DOWN )
+						{
+							if ( markerTypeIndex + MARKER_ROW_MAX_NUMBER < typeNameSet.length )
+							{
+								switchMarkerType( markerTypeIndex
+										+ MARKER_ROW_MAX_NUMBER );
+							}
+						}
+					}
 					break;
-					
-				case SWT.Traverse:
+
+				case SWT.Traverse :
 					switch ( event.detail )
 					{
 						case SWT.TRAVERSE_TAB_NEXT :
 						case SWT.TRAVERSE_TAB_PREVIOUS :
-							// Indicates getting focus control rather than cursor
-							// control
+							// Indicates getting focus control rather than
+							// cursor control
+							event.doit = true;
 							isPressingKey = true;
 					}
 					break;
-					
+
 			}
 		}
 

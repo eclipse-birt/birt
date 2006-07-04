@@ -209,24 +209,40 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		{
 			case SWT.KeyDown :
 			{
-				if ( event.keyCode == SWT.ARROW_RIGHT )
+				if ( event.keyCode == SWT.ARROW_LEFT )
 				{
-					if ( iSelectedIndex < getMarkers( ).size( ) - 1 )
-					{
-						iSelectedIndex++;
-						setEnabledState( );
-					}
-				}
-				else if ( event.keyCode == SWT.ARROW_LEFT )
-				{
-					if ( iSelectedIndex > 0 )
+					if ( iSelectedIndex - 1 >= 0 )
 					{
 						iSelectedIndex--;
 						setEnabledState( );
 					}
 				}
-				else if ( event.keyCode == SWT.ARROW_DOWN
-						|| event.keyCode == SWT.CR
+				else if ( event.keyCode == SWT.ARROW_RIGHT )
+				{
+					if ( iSelectedIndex + 1 < getMarkers( ).size( ) )
+					{
+						iSelectedIndex++;
+						setEnabledState( );
+					}
+				}
+				else if ( event.keyCode == SWT.ARROW_UP )
+				{
+					if ( iSelectedIndex - MARKER_ROW_MAX_NUMBER >= 0 )
+					{
+						iSelectedIndex -= MARKER_ROW_MAX_NUMBER;
+						setEnabledState( );
+					}
+				}
+				else if ( event.keyCode == SWT.ARROW_DOWN )
+				{
+					if ( iSelectedIndex + MARKER_ROW_MAX_NUMBER < getMarkers( ).size( ) )
+					{
+						iSelectedIndex += MARKER_ROW_MAX_NUMBER;
+						setEnabledState( );
+					}
+				}
+				
+				else if ( event.keyCode == SWT.CR
 						|| event.keyCode == SWT.KEYPAD_CR )
 				{
 					currentMarkerEditor.setFocus( );
@@ -450,7 +466,8 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 			if ( ix >= MARKER_ROW_MAX_NUMBER
 					|| iSelectedIndex >= getMarkers( ).size( ) )
 			{
-				iSelectedIndex = -1;
+				// Keep the previous selection if the current is out of bound
+				return;
 			}
 			this.cnvMarkers.redraw( );
 
