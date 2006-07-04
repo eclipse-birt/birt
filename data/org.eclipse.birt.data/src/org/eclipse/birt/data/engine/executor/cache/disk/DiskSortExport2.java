@@ -81,8 +81,7 @@ class DiskSortExport2 extends DiskDataExport
 	{
 		dataCountOfTotal = resultObjects.length;
 		System.arraycopy( resultObjects, 0, rowBuffer, 0, resultObjects.length );
-		mergeSortUtil.sortSelf( rowBuffer );
-		prepareNewTempRowFile( 0 );
+		inMemoryPos = this.dataCountOfUnit - 1;
 	}
 
 	/*
@@ -146,16 +145,17 @@ class DiskSortExport2 extends DiskDataExport
 	 */
 	private void addNewRow( IResultObject resultObject ) throws IOException
 	{
-		inMemoryPos++;
-		getLastTempFile( currRowFiles ).write( rowBuffer[inMemoryPos] );
-
-		rowBuffer[inMemoryPos] = resultObject;
-
 		if ( inMemoryPos == dataCountOfUnit - 1 )
 		{
 			prepareNewTempRowFile( 0 );
 			mergeSortUtil.sortSelf( rowBuffer );
+			inMemoryPos = -1;
 		}
+		
+		inMemoryPos++;
+		getCurrTempFile( currRowFiles ).write( rowBuffer[inMemoryPos] );
+
+		rowBuffer[inMemoryPos] = resultObject;
 	}
 	
 	/**
@@ -166,19 +166,16 @@ class DiskSortExport2 extends DiskDataExport
 		// Now all the rest rows exist in memory.
 		rowBuffer = interchange( rowBuffer, inMemoryPos );
 		mergeSortUtil.sortSelf( rowBuffer );
+		
+		int cacheSize = 0;
 		if ( currRowFiles.size( ) <= dataCountOfUnit )
-		{
-			prepareNewTempRowFile( dataCountOfUnit - currRowFiles.size( ) );
-		}
-		else
-		{
-			prepareNewTempRowFile( 0 );
-		}
-
+			cacheSize = dataCountOfUnit - currRowFiles.size( );
+		prepareNewTempRowFile( cacheSize );
+		
 		// Output the rest rows
 		inMemoryPos = -1;
-		getLastTempFile( currRowFiles ).writeRows( rowBuffer, rowBuffer.length );
-		getLastTempFile( currRowFiles ).endWrite( );
+		getCurrTempFile( currRowFiles ).writeRows( rowBuffer, rowBuffer.length );
+		getCurrTempFile( currRowFiles ).endWrite( );
 	}
 
 	/**
@@ -218,15 +215,13 @@ class DiskSortExport2 extends DiskDataExport
 
 		RowFile rowFile = tempFileUtil.newTempFile( cacheSize );
 		currRowFiles.add( rowFile );
-
-		inMemoryPos = -1;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	private static RowFile getLastTempFile( List files )
+	private static RowFile getCurrTempFile( List files )
 	{
 		return (RowFile) ( files.get( files.size( ) - 1 ) );
 	}
