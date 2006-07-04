@@ -115,7 +115,7 @@ public class DataColumnNameValidator extends AbstractElementValidator
 			DesignElement target, String columnBindingName )
 	{
 		DesignElement tmpElement = DataBoundColumnUtil
-				.findTargetOfBoundColumns( target, null, module );
+				.findTargetOfBoundColumns( target, module );
 
 		if ( tmpElement instanceof GroupElement )
 		{

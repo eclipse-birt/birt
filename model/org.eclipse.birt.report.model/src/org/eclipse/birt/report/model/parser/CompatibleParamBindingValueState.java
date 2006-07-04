@@ -61,7 +61,7 @@ public class CompatibleParamBindingValueState
 
 		// keep the expression as same.
 
-		doEnd( value );
+		doEnd( value, true );
 
 		List newExprs = null;
 
@@ -79,9 +79,12 @@ public class CompatibleParamBindingValueState
 			return;
 		}
 
-		DesignElement target = findTargetElement( );
+		DesignElement target = DataBoundColumnUtil
+				.findTargetElementOfParamBinding( element, handler.getModule( ) );
 		for ( int i = 0; i < newExprs.size( ); i++ )
 		{
+			// ignore the outer level here.
+
 			IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
 			String newExpression = boundColumn.getBoundExpression( );
 			if ( newExpression == null )
@@ -92,18 +95,4 @@ public class CompatibleParamBindingValueState
 		}
 	}
 
-	/**
-	 * Returns the nearest outer container that is either a list/table or a grid
-	 * with dataset.
-	 * 
-	 * @return the element has the dataSet value or <code>null</code> when not
-	 *         found.
-	 */
-
-	private DesignElement findTargetElement( )
-	{
-		return DataBoundColumnUtil.findTargetElementOfParamBinding( element,
-				handler.getModule( ) );
-
-	}
 }

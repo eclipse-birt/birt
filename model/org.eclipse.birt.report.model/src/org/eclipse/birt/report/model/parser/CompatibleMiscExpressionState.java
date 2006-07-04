@@ -20,6 +20,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -81,13 +82,52 @@ class CompatibleMiscExpressionState extends ExpressionState
 			return;
 
 		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
-				element, null, handler.module );
+				element, handler.module );
 
-		setupBoundDataColumns( target, value );
+		// if the value is on elements like data set and data source. Not
+		// require to create bound columns.
+		
+		if ( target != null )
+			setupBoundDataColumns( target, value );
 
 		// keep the expression as same.
 
 		doEnd( value );
+	}
+
+	/**
+	 * Changes rows[index] expression to the new format row._outer.
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.PropertyState#doEnd(java.lang.String)
+	 */
+
+	protected void doEnd( String value )
+	{
+		doEnd( value, false );
+	}
+
+	/**
+	 * Sets the property value. This method changes rows[index] expression to
+	 * the new format row._outer.
+	 * 
+	 * @param value
+	 *            the value to set. Can contains rows[index] expression or not.
+	 * @param isParamBindingValue
+	 *            <code>true</code> means the value is from parameter binding.
+	 *            Hence, it is not required to change from rows to row._outer.
+	 * 
+	 */
+
+	protected void doEnd( String value, boolean isParamBindingValue )
+	{
+		String newValue = value;
+
+		if ( StringUtil.trimString( value ) != null )
+		{
+			newValue = ExpressionUtil.updateParentQueryReferenceExpression(
+					value, isParamBindingValue );
+		}
+		super.doEnd( newValue );
 	}
 
 	/**
@@ -116,9 +156,34 @@ class CompatibleMiscExpressionState extends ExpressionState
 		}
 
 		if ( newExprs == null || newExprs.isEmpty( ) )
-		{
 			return;
+
+		List outerColumns = new ArrayList( );
+		List localColumns = new ArrayList( );
+		for ( int i = 0; i < newExprs.size( ); i++ )
+		{
+			IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
+			if ( boundColumn.getOuterLevel( ) < 1 )
+				localColumns.add( boundColumn );
+			else
+				outerColumns.add( boundColumn );
 		}
+
+		if ( !outerColumns.isEmpty( ) )
+		{
+			DesignElement tmpTarget = DataBoundColumnUtil
+					.findTargetOfBoundColumns( target, handler.module, 1 );
+			addBoundColumnsToTarget( tmpTarget, outerColumns );
+		}
+
+		addBoundColumnsToTarget( target, localColumns );
+	}
+
+	private void addBoundColumnsToTarget( DesignElement target, List newExprs )
+	{
+		assert target != null;
+		if ( newExprs.isEmpty( ) )
+			return;
 
 		if ( target instanceof GroupElement )
 		{

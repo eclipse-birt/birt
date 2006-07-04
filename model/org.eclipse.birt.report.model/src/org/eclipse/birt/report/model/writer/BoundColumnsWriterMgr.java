@@ -115,7 +115,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		}
 
 		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
-				element, null, module );
+				element, module );
 
 		if ( target instanceof GroupElement )
 		{
@@ -324,7 +324,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		}
 
 		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
-				obj, null, module );
+				obj, module );
 
 		if ( newExprs != null && newExprs.size( ) == 1 )
 		{

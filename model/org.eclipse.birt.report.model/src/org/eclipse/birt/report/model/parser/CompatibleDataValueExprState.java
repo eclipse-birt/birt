@@ -68,7 +68,7 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 		}
 
 		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
-				element, null, handler.module );
+				element, handler.module );
 
 		if ( newExprs != null && newExprs.size( ) == 1 )
 		{

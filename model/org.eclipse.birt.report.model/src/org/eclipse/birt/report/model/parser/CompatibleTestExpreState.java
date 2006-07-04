@@ -127,7 +127,7 @@ public class CompatibleTestExpreState extends CompatibleMiscExpressionState
 			return;
 		}
 		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
-				element, null, handler.module );
+				element, handler.module );
 
 		setupBoundDataColumns( target, value );
 		handler.tempValue.put( tempVeluekey, value );

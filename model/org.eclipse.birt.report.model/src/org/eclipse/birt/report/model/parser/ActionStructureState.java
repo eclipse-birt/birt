@@ -168,7 +168,7 @@ public class ActionStructureState extends StructureState
 					&& ( Action.URI_MEMBER.equalsIgnoreCase( name ) || Action.TARGET_BOOKMARK_MEMBER
 							.equalsIgnoreCase( name ) ) )
 			{
-				CompatibleURIState state = new CompatibleURIState( handler,
+				CompatibleMiscExpressionState state = new CompatibleMiscExpressionState( handler,
 						element );
 				state.setName( name );
 				state.struct = struct;

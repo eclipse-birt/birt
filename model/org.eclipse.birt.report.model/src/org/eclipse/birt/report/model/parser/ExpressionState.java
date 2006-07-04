@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataItem;
@@ -82,25 +81,6 @@ class ExpressionState extends PropertyState
 		if ( propDefn == null )
 			propDefn = element.getPropertyDefn( name );
 
-		if ( propDefn != null
-				&& propDefn.getValueType( ) == IPropertyDefn.USER_PROPERTY
-				&& StringUtil.compareVersion( handler.getVersion( ), "3.1.0" ) < 0 ) //$NON-NLS-1$
-		{
-			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
-					handler, element );
-			state.setName( name );
-			return state;
-		}
-
-		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) < 0 ) //$NON-NLS-1$
-				&& element instanceof ImageItem
-				&& struct == null
-				&& ImageItem.URI_PROP.equalsIgnoreCase( name ) )
-		{
-			CompatibleURIState state = new CompatibleURIState( handler, element );
-			state.setName( name );
-			return state;
-		}
 
 		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) < 0 ) //$NON-NLS-1$
 				&& element instanceof ImageItem
@@ -113,7 +93,7 @@ class ExpressionState extends PropertyState
 		}
 
 		if ( struct instanceof ParamBinding
-				&& StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ) //$NON-NLS-1$
+				&& StringUtil.compareVersion( handler.getVersion( ), "3.2.3" ) < 0 ) //$NON-NLS-1$
 		{
 			CompatibleParamBindingValueState state = new CompatibleParamBindingValueState(
 					handler, element, propDefn, struct );
@@ -121,7 +101,7 @@ class ExpressionState extends PropertyState
 			return state;
 		}
 
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ) //$NON-NLS-1$
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.3" ) < 0 ) //$NON-NLS-1$
 		{
 			if ( struct instanceof ComputedColumn
 					&& element instanceof DataItem )
