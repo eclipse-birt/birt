@@ -28,6 +28,10 @@ public class AvailableOperation  implements java.io.Serializable {
     private java.lang.Boolean aggregation;
     private java.lang.Boolean changeFont;
     private java.lang.Boolean format;
+    private java.lang.Boolean text;
+    private java.lang.Boolean alignLeft;
+    private java.lang.Boolean alignCenter;
+    private java.lang.Boolean alignRight;
 
     public AvailableOperation() {
     }
@@ -52,7 +56,11 @@ public class AvailableOperation  implements java.io.Serializable {
            java.lang.Boolean calculation,
            java.lang.Boolean aggregation,
            java.lang.Boolean changeFont,
-           java.lang.Boolean format) {
+           java.lang.Boolean format,
+           java.lang.Boolean text,
+           java.lang.Boolean alignLeft,
+           java.lang.Boolean alignCenter,
+           java.lang.Boolean alignRight) {
            this.saveView = saveView;
            this.applyView = applyView;
            this.print = print;
@@ -73,6 +81,10 @@ public class AvailableOperation  implements java.io.Serializable {
            this.aggregation = aggregation;
            this.changeFont = changeFont;
            this.format = format;
+           this.text = text;
+           this.alignLeft = alignLeft;
+           this.alignCenter = alignCenter;
+           this.alignRight = alignRight;
     }
 
 
@@ -475,6 +487,86 @@ public class AvailableOperation  implements java.io.Serializable {
         this.format = format;
     }
 
+
+    /**
+     * Gets the text value for this AvailableOperation.
+     * 
+     * @return text
+     */
+    public java.lang.Boolean getText() {
+        return text;
+    }
+
+
+    /**
+     * Sets the text value for this AvailableOperation.
+     * 
+     * @param text
+     */
+    public void setText(java.lang.Boolean text) {
+        this.text = text;
+    }
+
+
+    /**
+     * Gets the alignLeft value for this AvailableOperation.
+     * 
+     * @return alignLeft
+     */
+    public java.lang.Boolean getAlignLeft() {
+        return alignLeft;
+    }
+
+
+    /**
+     * Sets the alignLeft value for this AvailableOperation.
+     * 
+     * @param alignLeft
+     */
+    public void setAlignLeft(java.lang.Boolean alignLeft) {
+        this.alignLeft = alignLeft;
+    }
+
+
+    /**
+     * Gets the alignCenter value for this AvailableOperation.
+     * 
+     * @return alignCenter
+     */
+    public java.lang.Boolean getAlignCenter() {
+        return alignCenter;
+    }
+
+
+    /**
+     * Sets the alignCenter value for this AvailableOperation.
+     * 
+     * @param alignCenter
+     */
+    public void setAlignCenter(java.lang.Boolean alignCenter) {
+        this.alignCenter = alignCenter;
+    }
+
+
+    /**
+     * Gets the alignRight value for this AvailableOperation.
+     * 
+     * @return alignRight
+     */
+    public java.lang.Boolean getAlignRight() {
+        return alignRight;
+    }
+
+
+    /**
+     * Sets the alignRight value for this AvailableOperation.
+     * 
+     * @param alignRight
+     */
+    public void setAlignRight(java.lang.Boolean alignRight) {
+        this.alignRight = alignRight;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof AvailableOperation)) return false;
@@ -546,7 +638,19 @@ public class AvailableOperation  implements java.io.Serializable {
               this.changeFont.equals(other.getChangeFont()))) &&
             ((this.format==null && other.getFormat()==null) || 
              (this.format!=null &&
-              this.format.equals(other.getFormat())));
+              this.format.equals(other.getFormat()))) &&
+            ((this.text==null && other.getText()==null) || 
+             (this.text!=null &&
+              this.text.equals(other.getText()))) &&
+            ((this.alignLeft==null && other.getAlignLeft()==null) || 
+             (this.alignLeft!=null &&
+              this.alignLeft.equals(other.getAlignLeft()))) &&
+            ((this.alignCenter==null && other.getAlignCenter()==null) || 
+             (this.alignCenter!=null &&
+              this.alignCenter.equals(other.getAlignCenter()))) &&
+            ((this.alignRight==null && other.getAlignRight()==null) || 
+             (this.alignRight!=null &&
+              this.alignRight.equals(other.getAlignRight())));
         __equalsCalc = null;
         return _equals;
     }
@@ -617,6 +721,18 @@ public class AvailableOperation  implements java.io.Serializable {
         }
         if (getFormat() != null) {
             _hashCode += getFormat().hashCode();
+        }
+        if (getText() != null) {
+            _hashCode += getText().hashCode();
+        }
+        if (getAlignLeft() != null) {
+            _hashCode += getAlignLeft().hashCode();
+        }
+        if (getAlignCenter() != null) {
+            _hashCode += getAlignCenter().hashCode();
+        }
+        if (getAlignRight() != null) {
+            _hashCode += getAlignRight().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -764,6 +880,34 @@ public class AvailableOperation  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("format");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Format"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("text");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Text"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("alignLeft");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AlignLeft"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("alignCenter");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AlignCenter"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("alignRight");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AlignRight"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
