@@ -12,16 +12,17 @@
 package org.eclipse.birt.chart.tests.engine.internal;
 
 import junit.framework.TestCase;
-import org.eclipse.birt.chart.internal.factory.SortKey;
+
+import org.eclipse.birt.chart.internal.datafeed.GroupKey;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 
 public class SortKeyTest extends TestCase
 {
-	SortKey key;
+	GroupKey key;
 	
 	protected void setUp( )
 	{
-		key = new SortKey( "key", SortOption.ASCENDING_LITERAL ); //$NON-NLS-1$		
+		key = new GroupKey( "key", SortOption.ASCENDING_LITERAL ); //$NON-NLS-1$		
 	}
 	
 	protected void tearDown( )

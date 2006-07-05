@@ -15,7 +15,7 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.chart.internal.factory.TupleComparator;
+import org.eclipse.birt.chart.internal.datafeed.TupleComparator;
 
 /**
  * Test class for checking the correctness of compareObjects() method 

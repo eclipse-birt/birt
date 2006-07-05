@@ -12,13 +12,13 @@
 package org.eclipse.birt.chart.internal.datafeed;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -54,9 +54,14 @@ public final class ResultSetWrapper
 {
 
 	/**
-	 * An internally maintained list containing all rows of resultset data
+	 * An internally maintained list containing all rows of raw resultset data
 	 */
-	final List liResultSet;
+	final List rawResultSet;
+
+	/**
+	 * An internally maintained list containing all working resultset data
+	 */
+	final List workingResultSet;
 
 	/**
 	 * The column expressions associated with the resultset
@@ -80,20 +85,17 @@ public final class ResultSetWrapper
 	private final Hashtable htLookup;
 
 	/**
-	 * Indicates whether series grouping was applied on the resultset to prevent
-	 * duplicate grouping.
+	 * Indicates whether base series grouping was applied on the resultset to
+	 * prevent duplicate grouping.
 	 */
-	private boolean bGroupingApplied = false;
+	private boolean bBaseGroupingApplied = false;
+
+	private final GroupKey[] oaGroupKeys;
 
 	/**
 	 * A reusable instance that indicates no group breaks
 	 */
 	private static final int[] NO_GROUP_BREAKS = new int[0];
-
-	/**
-	 * flag indicates if group used.
-	 */
-	private final boolean bGrouped;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/datafeed" ); //$NON-NLS-1$
 
@@ -106,34 +108,47 @@ public final class ResultSetWrapper
 	 * @param liResultSet
 	 *            A list of rows that represent the actual resultset data
 	 *            content. Each row contains an Object[]
+	 * @param groupKeys
+	 *            An array of orthogonal grouping keys, if it's null or
+	 *            zero-length, no orthogonal grouping used.
 	 */
-	public ResultSetWrapper( Set stExpressionKeys, List liResultSet,
-			boolean bGrouped )
+	public ResultSetWrapper( Collection stExpressionKeys, List liResultSet,
+			GroupKey[] groupKeys )
 	{
-		this.liResultSet = liResultSet;
-		saExpressionKeys = (String[]) stExpressionKeys.toArray( new String[0] );
+		rawResultSet = liResultSet;
+
+		workingResultSet = new ArrayList( );
+		workingResultSet.addAll( rawResultSet );
+
+		saExpressionKeys = (String[]) stExpressionKeys.toArray( new String[stExpressionKeys.size( )] );
 		iaDataTypes = new int[saExpressionKeys.length];
-		setup( );
+		initializeMeta( );
+
 		htLookup = new Hashtable( );
 		for ( int i = 0; i < saExpressionKeys.length; i++ )
 		{
 			htLookup.put( saExpressionKeys[i], new Integer( i ) );
 		}
-		iaGroupBreaks = findGroupBreaks( bGrouped );
-		this.bGrouped = bGrouped;
+
+		oaGroupKeys = groupKeys;
+		iaGroupBreaks = findGroupBreaks( workingResultSet,
+				( oaGroupKeys != null && oaGroupKeys.length > 0 ) ? oaGroupKeys[0]
+						: null );
 	}
 
 	/**
 	 * Internally called to setup the structure of the resultset and initialize
 	 * any metadata associated with it
 	 */
-	private final void setup( )
+	private void initializeMeta( )
 	{
-		final Iterator it = liResultSet.iterator( );
+		final Iterator it = rawResultSet.iterator( );
+		final int iColumnCount = iaDataTypes.length;
+		final boolean[] boaFound = new boolean[iColumnCount];
 		Object[] oaTuple;
-		int iColumnCount = iaDataTypes.length;
-		boolean[] boaFound = new boolean[iColumnCount];
 		boolean bAllDone;
+
+		// TODO seems buggy here
 		while ( it.hasNext( ) )
 		{
 			oaTuple = (Object[]) it.next( );
@@ -172,13 +187,15 @@ public final class ResultSetWrapper
 						break;
 					}
 				}
+
 				if ( bAllDone )
 				{
 					return;
 				}
 			}
 		}
-		logger.log( ILogger.ERROR,
+
+		logger.log( ILogger.WARNING,
 				Messages.getString( "exception.resultset.data.type.retrieval.failed" //$NON-NLS-1$ 
 				) );
 	}
@@ -187,28 +204,21 @@ public final class ResultSetWrapper
 	 * Groups rows of data as specified in the grouping criteria for the series
 	 * definition
 	 * 
-	 * @param sd
-	 * @param sExpressionKey
-	 * 
-	 * @throws GenerationException
+	 * @throws ChartException
 	 */
-	public final void applySeriesGrouping( SeriesDefinition sd,
+	public void applyBaseSeriesGrouping( SeriesDefinition sd,
 			String[] saExpressionKeys ) throws ChartException
 	{
 		// PREVENT REDUNDANT GROUPING
-		if ( bGroupingApplied )
+		if ( bBaseGroupingApplied )
 		{
 			return;
 		}
-		bGroupingApplied = true;
+		bBaseGroupingApplied = true;
 
 		// VALIDATE SERIES GROUPING
 		final SeriesGrouping sg = sd.getGrouping( );
-		if ( sg == null )
-		{
-			return;
-		}
-		if ( !sg.isEnabled( ) )
+		if ( sg == null || !sg.isEnabled( ) )
 		{
 			return;
 		}
@@ -229,15 +239,13 @@ public final class ResultSetWrapper
 		catch ( ChartException pex )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
+					ChartException.DATA_BINDING,
 					pex );
 		}
 
-		// final int iGroupingInterval = sg.getGroupingInterval( );
 		final DataType dtGrouping = sg.getGroupType( );
 		if ( dtGrouping == DataType.NUMERIC_LITERAL )
 		{
-			// IDENTIFY THE MIN AND MAX IN THE DATASET
 			final Series seBaseDesignTime = sd.getDesignTimeSeries( );
 			final Query q = (Query) seBaseDesignTime.getDataDefinition( )
 					.get( 0 );
@@ -258,10 +266,11 @@ public final class ResultSetWrapper
 			{
 				so = sd.getSorting( );
 			}
-			groupNumerically( liResultSet,
+			groupNumerically( workingResultSet,
 					iSortColumnIndex,
 					so,
 					saExpressionKeys,
+					iaGroupBreaks,
 					null,
 					sg.getGroupingInterval( ),
 					iafa );
@@ -289,10 +298,11 @@ public final class ResultSetWrapper
 			{
 				so = sd.getSorting( );
 			}
-			groupDateTime( liResultSet,
+			groupDateTime( workingResultSet,
 					iSortColumnIndex,
 					so,
 					saExpressionKeys,
+					iaGroupBreaks,
 					null,
 					sg.getGroupingInterval( ),
 					sg.getGroupingUnit( ),
@@ -307,65 +317,30 @@ public final class ResultSetWrapper
 			final int iSortColumnIndex = ( (Integer) htLookup.get( q.getDefinition( ) ) ).intValue( );
 
 			SortOption so = null;
-			if ( !sd.isSetSorting( ) )
-			{
-				logger.log( ILogger.WARNING,
-						Messages.getString( "warn.unspecified.sorting", //$NON-NLS-1$
-								new Object[]{
-									sd
-								},
-								ULocale.getDefault( ) ) );
-				so = SortOption.ASCENDING_LITERAL;
-			}
-			else
+			// ! null sorting for text grouping is ok
+			if ( sd.isSetSorting( ) )
 			{
 				so = sd.getSorting( );
 			}
 
-			groupTextually( liResultSet,
+			groupTextually( workingResultSet,
 					iSortColumnIndex,
 					so,
 					saExpressionKeys,
+					iaGroupBreaks,
 					null,
 					sg.getGroupingInterval( ),
 					iafa );
 
 		}
-
-		// RE-COMPUTE GROUP BREAKS
-		iaGroupBreaks = findGroupBreaks( bGrouped );
 	}
 
-	/**
-	 * @param iSortColumnIndex
-	 * @param so
-	 * @param saExpressionKeys
-	 * @param ndeBaseReference
-	 * @param iGroupingInterval
-	 * @param iafa
-	 * 
-	 * @throws GenerationException
-	 */
-	private final void groupNumerically( List resultSet, int iSortColumnIndex,
-			SortOption so, String[] saExpressionKeys,
+	private void groupNumerically( List resultSet, int iSortColumnIndex,
+			SortOption so, String[] saExpressionKeys, int[] iaBreaks,
 			NumberDataElement ndeBaseReference, long iGroupingInterval,
 			IAggregateFunction[] iafa ) throws ChartException
 	{
-		Collections.sort( resultSet, new GroupingComparator( iSortColumnIndex,
-				so ) );
-		if ( ndeBaseReference == null )
-		{
-			Number obj = (Number) ( (Object[]) resultSet.get( 0 ) )[iSortColumnIndex];
-
-			// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
-			ndeBaseReference = NumberDataElementImpl.create( obj == null ? 0
-					: obj.doubleValue( ) );
-		}
-		final Iterator it = resultSet.iterator( );
-		Object[] oaTuple, oaSummarizedTuple = null;
-		int iGroupIndex = 0, iLastGroupIndex = 0;
-		boolean bFirst = true, bGroupBreak = false;
-		double dBaseReference = ndeBaseReference.getValue( );
+		new GroupingSorter( ).sort( resultSet, iSortColumnIndex, so, iaBreaks );
 
 		final int iOrthogonalSeriesCount = saExpressionKeys.length;
 		final int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];
@@ -374,94 +349,147 @@ public final class ResultSetWrapper
 			iaColumnIndexes[i] = ( (Integer) htLookup.get( saExpressionKeys[i] ) ).intValue( );
 		}
 
-		while ( it.hasNext( ) )
-		{
-			oaTuple = (Object[]) it.next( );
+		int iStartIndex = 0, iEndIndex;
+		int totalGroupCount = iaBreaks == null ? 1 : ( iaBreaks.length + 1 );
+		int totalRowCount = resultSet.size( );
 
-			if ( oaTuple[iSortColumnIndex] != null )
+		for ( int k = 0; k < totalGroupCount; k++ )
+		{
+			if ( k == totalGroupCount - 1 )
 			{
-				if ( iGroupingInterval == 0 )
-				{
-					iGroupIndex++;
-				}
-				else
-				{
-					iGroupIndex = (int) Math.floor( Math.abs( ( ( (Number) oaTuple[iSortColumnIndex] ).doubleValue( ) - dBaseReference )
-							/ iGroupingInterval ) );
-				}
+				iEndIndex = totalRowCount;
 			}
 			else
 			{
-				if ( iGroupingInterval == 0 )
-				{
-					iGroupIndex++;
-				}
-				else
-				{
-					// Treat null value as 0.
-					iGroupIndex = (int) Math.floor( Math.abs( dBaseReference
-							/ iGroupingInterval ) );
-				}
+				iEndIndex = iaBreaks[k];
 			}
 
-			if ( !bFirst )
+			NumberDataElement baseReference = ndeBaseReference;
+
+			if ( baseReference == null )
 			{
-				bGroupBreak = ( iLastGroupIndex != iGroupIndex );
+				// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
+				Number obj = (Number) ( (Object[]) resultSet.get( iStartIndex ) )[iSortColumnIndex];
+				baseReference = NumberDataElementImpl.create( obj == null ? 0
+						: obj.doubleValue( ) );
 			}
 
-			if ( bGroupBreak || bFirst )
+			Object[] oaTuple, oaSummarizedTuple = null;
+			int iGroupIndex = 0, iLastGroupIndex = 0;
+			boolean bFirst = true, bGroupBreak = false;
+			double dBaseReference = baseReference.getValue( );
+			List trashList = new ArrayList( );
+
+			for ( int j = iStartIndex; j < iEndIndex; j++ )
 			{
-				if ( oaSummarizedTuple != null ) // FIRST ROW IN GROUP
+				oaTuple = (Object[]) resultSet.get( j );
+
+				if ( oaTuple[iSortColumnIndex] != null )
 				{
-					for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+					if ( iGroupingInterval == 0 )
 					{
-						oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
-						iafa[i].initialize( ); // RESET
+						iGroupIndex++;
 					}
-					// KEEP base value as the axis label.
-					// oaSummarizedTuple[iSortColumnIndex] = new Double(
-					// iLastGroupIndex );
+					else
+					{
+						iGroupIndex = (int) Math.floor( Math.abs( ( ( (Number) oaTuple[iSortColumnIndex] ).doubleValue( ) - dBaseReference )
+								/ iGroupingInterval ) );
+					}
 				}
 				else
-				// FIRST ROW IN RS
 				{
-					bFirst = false;
+					if ( iGroupingInterval == 0 )
+					{
+						iGroupIndex++;
+					}
+					else
+					{
+						// Treat null value as 0.
+						iGroupIndex = (int) Math.floor( Math.abs( dBaseReference
+								/ iGroupingInterval ) );
+					}
 				}
-				oaSummarizedTuple = oaTuple;
-			}
-			else
-			{
-				it.remove( );
+
+				if ( !bFirst )
+				{
+					bGroupBreak = ( iLastGroupIndex != iGroupIndex );
+				}
+
+				if ( bGroupBreak || bFirst )
+				{
+					if ( oaSummarizedTuple != null ) // FIRST ROW IN GROUP
+					{
+						for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+						{
+							oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
+							iafa[i].initialize( ); // RESET
+						}
+
+						// reset base reference
+						Number obj = (Number) oaTuple[iSortColumnIndex];
+						baseReference = NumberDataElementImpl.create( obj == null ? 0
+								: obj.doubleValue( ) );
+						dBaseReference = baseReference.getValue( );
+						iGroupIndex = 0;
+					}
+					else
+					{
+						// FIRST ROW IN RS
+						bFirst = false;
+					}
+					oaSummarizedTuple = oaTuple;
+				}
+				else
+				{
+					trashList.add( new Integer( j ) );
+				}
+
+				for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+				{
+					try
+					{
+						iafa[i].accumulate( oaTuple[iaColumnIndexes[i]] );
+					}
+					catch ( IllegalArgumentException uiex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.GENERATION,
+								uiex );
+					}
+				}
+				iLastGroupIndex = iGroupIndex;
 			}
 
-			for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+			if ( oaSummarizedTuple != null ) // LAST ROW IN GROUP
 			{
-				try
+				for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
 				{
-					iafa[i].accumulate( oaTuple[iaColumnIndexes[i]] );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
+					oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
+					iafa[i].initialize( ); // reset
 				}
 			}
-			iLastGroupIndex = iGroupIndex;
+
+			for ( int i = 0; i < trashList.size( ); i++ )
+			{
+				resultSet.remove( ( (Integer) trashList.get( i ) ).intValue( )
+						- i );
+			}
+
+			int groupChange = trashList.size( );
+			trashList.clear( );
+
+			// update group breaks due to base data changes
+			if ( iaBreaks.length > 0 && groupChange > 0 )
+			{
+				for ( int j = k; j < iaBreaks.length; j++ )
+				{
+					iaBreaks[j] -= groupChange;
+				}
+			}
+
+			iStartIndex = iEndIndex - groupChange;
+			totalRowCount -= groupChange;
 		}
-
-		if ( oaSummarizedTuple != null ) // LAST ROW IN GROUP
-		{
-			for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
-			{
-				oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
-				// iafa[i].initialize(); // DO NOT NEED TO RESET ANYMORE
-			}
-			// KEEP base value as the axis label.
-			// oaSummarizedTuple[iSortColumnIndex] = new Double( iLastGroupIndex
-			// );
-		}
-
 	}
 
 	private int groupingUnit2CDateUnit( GroupingUnitType unit )
@@ -490,53 +518,13 @@ public final class ResultSetWrapper
 		return Calendar.MILLISECOND;
 	}
 
-	/**
-	 * @param iSortColumnIndex
-	 * @param so
-	 * @param saExpressionKeys
-	 * @param ndeBaseReference
-	 * @param iGroupingInterval
-	 * @param iafa
-	 * 
-	 * @throws GenerationException
-	 */
-	private final void groupDateTime( List resultSet, int iSortColumnIndex,
-			SortOption so, String[] saExpressionKeys,
+	private void groupDateTime( List resultSet, int iSortColumnIndex,
+			SortOption so, String[] saExpressionKeys, int[] iaBreaks,
 			CDateTime ndeBaseReference, long iGroupingInterval,
 			GroupingUnitType groupingUnit, IAggregateFunction[] iafa )
 			throws ChartException
 	{
-		Collections.sort( resultSet, new GroupingComparator( iSortColumnIndex,
-				so ) );
-		if ( ndeBaseReference == null )
-		{
-			Object obj = ( (Object[]) resultSet.get( 0 ) )[iSortColumnIndex];
-
-			// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
-			if ( obj instanceof CDateTime )
-			{
-				ndeBaseReference = (CDateTime) obj;
-			}
-			else if ( obj instanceof Calendar )
-			{
-				ndeBaseReference = new CDateTime( (Calendar) obj );
-			}
-			else if ( obj instanceof Date )
-			{
-				ndeBaseReference = new CDateTime( (Date) obj );
-			}
-			else
-			{
-				// set as the smallest Date.
-				ndeBaseReference = new CDateTime( 0 );
-			}
-		}
-
-		final Iterator it = resultSet.iterator( );
-		Object[] oaTuple, oaSummarizedTuple = null;
-		int iGroupIndex = 0, iLastGroupIndex = 0;
-		boolean bFirst = true, bGroupBreak = false;
-		CDateTime dBaseReference = ndeBaseReference;
+		new GroupingSorter( ).sort( resultSet, iSortColumnIndex, so, iaBreaks );
 
 		final int iOrthogonalSeriesCount = saExpressionKeys.length;
 		final int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];
@@ -547,145 +535,222 @@ public final class ResultSetWrapper
 
 		int cunit = groupingUnit2CDateUnit( groupingUnit );
 
-		while ( it.hasNext( ) )
-		{
-			oaTuple = (Object[]) it.next( );
+		int iStartIndex = 0, iEndIndex;
+		int totalGroupCount = iaBreaks == null ? 1 : ( iaBreaks.length + 1 );
+		int totalRowCount = resultSet.size( );
 
-			if ( oaTuple[iSortColumnIndex] != null )
+		for ( int k = 0; k < totalGroupCount; k++ )
+		{
+			if ( k == totalGroupCount - 1 )
 			{
-				if ( iGroupingInterval == 0 )
+				iEndIndex = totalRowCount;
+			}
+			else
+			{
+				iEndIndex = iaBreaks[k];
+			}
+
+			CDateTime baseReference = ndeBaseReference;
+
+			if ( baseReference == null )
+			{
+				Object obj = ( (Object[]) resultSet.get( iStartIndex ) )[iSortColumnIndex];
+
+				// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
+				if ( obj instanceof CDateTime )
 				{
-					iGroupIndex++;
+					baseReference = (CDateTime) obj;
+				}
+				else if ( obj instanceof Calendar )
+				{
+					baseReference = new CDateTime( (Calendar) obj );
+				}
+				else if ( obj instanceof Date )
+				{
+					baseReference = new CDateTime( (Date) obj );
 				}
 				else
 				{
-					CDateTime dBaseValue = null;
+					// set as the smallest Date.
+					baseReference = new CDateTime( 0 );
+				}
+			}
 
-					Object obj = oaTuple[iSortColumnIndex];
+			baseReference.clearBelow( cunit );
 
-					// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
-					if ( obj instanceof CDateTime )
+			Object[] oaTuple, oaSummarizedTuple = null;
+			int iGroupIndex = 0, iLastGroupIndex = 0;
+			boolean bFirst = true, bGroupBreak = false;
+			List trashList = new ArrayList( );
+
+			for ( int j = iStartIndex; j < iEndIndex; j++ )
+			{
+				oaTuple = (Object[]) resultSet.get( j );
+
+				if ( oaTuple[iSortColumnIndex] != null )
+				{
+					if ( iGroupingInterval == 0 )
 					{
-						dBaseValue = (CDateTime) obj;
-					}
-					else if ( obj instanceof Calendar )
-					{
-						dBaseValue = new CDateTime( (Calendar) obj );
-					}
-					else if ( obj instanceof Date )
-					{
-						dBaseValue = new CDateTime( (Date) obj );
+						iGroupIndex++;
 					}
 					else
 					{
-						dBaseValue = new CDateTime( );
+						CDateTime dBaseValue = null;
+
+						Object obj = oaTuple[iSortColumnIndex];
+
+						// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
+						if ( obj instanceof CDateTime )
+						{
+							dBaseValue = (CDateTime) obj;
+						}
+						else if ( obj instanceof Calendar )
+						{
+							dBaseValue = new CDateTime( (Calendar) obj );
+						}
+						else if ( obj instanceof Date )
+						{
+							dBaseValue = new CDateTime( (Date) obj );
+						}
+						else
+						{
+							dBaseValue = new CDateTime( );
+						}
+
+						double diff = CDateTime.computeDifference( dBaseValue,
+								baseReference,
+								cunit );
+
+						iGroupIndex = (int) Math.floor( Math.abs( diff
+								/ iGroupingInterval ) );
 					}
-
-					double diff = CDateTime.computeDifference( dBaseValue,
-							dBaseReference,
-							cunit );
-
-					iGroupIndex = (int) Math.floor( Math.abs( diff
-							/ iGroupingInterval ) );
-				}
-			}
-			else
-			{
-				if ( iGroupingInterval == 0 )
-				{
-					iGroupIndex++;
 				}
 				else
 				{
-					// Treat null value as the smallest date.
-					CDateTime dBaseValue = new CDateTime( 0 );
-
-					double diff = CDateTime.computeDifference( dBaseValue,
-							dBaseReference,
-							cunit );
-
-					iGroupIndex = (int) Math.floor( Math.abs( diff
-							/ iGroupingInterval ) );
-				}
-			}
-
-			if ( !bFirst )
-			{
-				bGroupBreak = ( iLastGroupIndex != iGroupIndex );
-			}
-
-			if ( bGroupBreak || bFirst )
-			{
-				if ( oaSummarizedTuple != null ) // FIRST ROW IN GROUP
-				{
-					for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+					if ( iGroupingInterval == 0 )
 					{
-						oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
-						iafa[i].initialize( ); // RESET
+						iGroupIndex++;
 					}
-					// KEEP base value as the axis label.
-					// oaSummarizedTuple[iSortColumnIndex] = new Double(
-					// iLastGroupIndex );
+					else
+					{
+						// Treat null value as the smallest date.
+						CDateTime dBaseValue = new CDateTime( 0 );
+
+						double diff = CDateTime.computeDifference( dBaseValue,
+								baseReference,
+								cunit );
+
+						iGroupIndex = (int) Math.floor( Math.abs( diff
+								/ iGroupingInterval ) );
+					}
+				}
+
+				if ( !bFirst )
+				{
+					bGroupBreak = ( iLastGroupIndex != iGroupIndex );
+				}
+
+				if ( bGroupBreak || bFirst )
+				{
+					if ( oaSummarizedTuple != null ) // FIRST ROW IN GROUP
+					{
+						for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+						{
+							oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
+							iafa[i].initialize( ); // RESET
+						}
+
+						// reset base reference
+						Object obj = oaTuple[iSortColumnIndex];
+
+						// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
+						if ( obj instanceof CDateTime )
+						{
+							baseReference = (CDateTime) obj;
+						}
+						else if ( obj instanceof Calendar )
+						{
+							baseReference = new CDateTime( (Calendar) obj );
+						}
+						else if ( obj instanceof Date )
+						{
+							baseReference = new CDateTime( (Date) obj );
+						}
+						else
+						{
+							// set as the smallest Date.
+							baseReference = new CDateTime( 0 );
+						}
+
+						baseReference.clearBelow( cunit );
+						iGroupIndex = 0;
+					}
+					else
+					{
+						// FIRST ROW IN RS
+						bFirst = false;
+					}
+					oaSummarizedTuple = oaTuple;
 				}
 				else
-				// FIRST ROW IN RS
 				{
-					bFirst = false;
+					trashList.add( new Integer( j ) );
 				}
-				oaSummarizedTuple = oaTuple;
-			}
-			else
-			{
-				it.remove( );
+
+				for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+				{
+					try
+					{
+						iafa[i].accumulate( oaTuple[iaColumnIndexes[i]] );
+					}
+					catch ( IllegalArgumentException uiex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.GENERATION,
+								uiex );
+					}
+				}
+				iLastGroupIndex = iGroupIndex;
 			}
 
-			for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+			if ( oaSummarizedTuple != null ) // LAST ROW IN GROUP
 			{
-				try
+				for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
 				{
-					iafa[i].accumulate( oaTuple[iaColumnIndexes[i]] );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
+					oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
+					iafa[i].initialize( ); // reset
 				}
 			}
-			iLastGroupIndex = iGroupIndex;
+
+			for ( int i = 0; i < trashList.size( ); i++ )
+			{
+				resultSet.remove( ( (Integer) trashList.get( i ) ).intValue( )
+						- i );
+			}
+
+			int groupChange = trashList.size( );
+			trashList.clear( );
+
+			// update group breaks due to base data changes
+			if ( iaBreaks.length > 0 && groupChange > 0 )
+			{
+				for ( int j = k; j < iaBreaks.length; j++ )
+				{
+					iaBreaks[j] -= groupChange;
+				}
+			}
+
+			iStartIndex = iEndIndex - groupChange;
+			totalRowCount -= groupChange;
 		}
-
-		if ( oaSummarizedTuple != null ) // LAST ROW IN GROUP
-		{
-			for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
-			{
-				oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
-				// iafa[i].initialize(); // DO NOT NEED TO RESET ANYMORE
-			}
-			// KEEP base value as the axis label.
-			// oaSummarizedTuple[iSortColumnIndex] = new Double( iLastGroupIndex
-			// );
-		}
-
 	}
 
-	private final void groupTextually( List resultSet, int iSortColumnIndex,
-			SortOption so, String[] saExpressionKeys, String ndeBaseReference,
-			long iGroupingInterval, IAggregateFunction[] iafa )
-			throws ChartException
+	private void groupTextually( List resultSet, int iSortColumnIndex,
+			SortOption so, String[] saExpressionKeys, int[] iaBreaks,
+			String ndeBaseReference, long iGroupingInterval,
+			IAggregateFunction[] iafa ) throws ChartException
 	{
-		Collections.sort( resultSet, new GroupingComparator( iSortColumnIndex,
-				so ) );
-		if ( ndeBaseReference == null )
-		{
-			// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
-			ndeBaseReference = ChartUtil.stringValue( ( (Object[]) resultSet.get( 0 ) )[iSortColumnIndex] );
-		}
-		final Iterator it = resultSet.iterator( );
-		Object[] oaTuple, oaSummarizedTuple = null;
-		int iGroupIndex = 0, iLastGroupIndex = 0, iGroupCounter = 0;
-		boolean bFirst = true, bGroupBreak = false;
-		String dBaseReference = ndeBaseReference;
+		new GroupingSorter( ).sort( resultSet, iSortColumnIndex, so, iaBreaks );
 
 		final int iOrthogonalSeriesCount = saExpressionKeys.length;
 		final int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];
@@ -694,163 +759,150 @@ public final class ResultSetWrapper
 			iaColumnIndexes[i] = ( (Integer) htLookup.get( saExpressionKeys[i] ) ).intValue( );
 		}
 
-		while ( it.hasNext( ) )
+		int iStartIndex = 0, iEndIndex;
+		int totalGroupCount = iaBreaks == null ? 1 : ( iaBreaks.length + 1 );
+		int totalRowCount = resultSet.size( );
+
+		for ( int k = 0; k < totalGroupCount; k++ )
 		{
-			oaTuple = (Object[]) it.next( );
-
-			if ( oaTuple[iSortColumnIndex] != null )
+			if ( k == totalGroupCount - 1 )
 			{
-				String dBaseValue = String.valueOf( oaTuple[iSortColumnIndex] );
-
-				if ( !dBaseValue.equals( dBaseReference ) )
-				{
-					iGroupCounter++;
-					dBaseReference = dBaseValue;
-				}
-
-				if ( iGroupCounter > iGroupingInterval )
-				{
-					iGroupIndex++;
-				}
+				iEndIndex = totalRowCount;
 			}
 			else
 			{
-				// current value is null, check last value.
-				if ( dBaseReference != null )
-				{
-					iGroupCounter++;
-					dBaseReference = null;
-				}
-
-				if ( iGroupCounter > iGroupingInterval )
-				{
-					iGroupIndex++;
-				}
+				iEndIndex = iaBreaks[k];
 			}
 
-			if ( !bFirst )
+			String baseReference = ndeBaseReference;
+
+			if ( baseReference == null )
 			{
-				bGroupBreak = ( iLastGroupIndex != iGroupIndex );
+				// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
+				baseReference = ChartUtil.stringValue( ( (Object[]) resultSet.get( iStartIndex ) )[iSortColumnIndex] );
 			}
 
-			if ( bGroupBreak )
-			{
-				// reset group counter
-				iGroupCounter = 0;
-			}
+			Object[] oaTuple, oaSummarizedTuple = null;
+			int iGroupIndex = 0, iLastGroupIndex = 0, iGroupCounter = 0;
+			boolean bFirst = true, bGroupBreak = false;
+			List trashList = new ArrayList( );
 
-			if ( bGroupBreak || bFirst )
+			for ( int j = iStartIndex; j < iEndIndex; j++ )
 			{
-				if ( oaSummarizedTuple != null ) // FIRST ROW IN GROUP
+				oaTuple = (Object[]) resultSet.get( j );
+
+				if ( oaTuple[iSortColumnIndex] != null )
 				{
-					for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+					String dBaseValue = String.valueOf( oaTuple[iSortColumnIndex] );
+
+					if ( !dBaseValue.equals( baseReference ) )
 					{
-						oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
-						iafa[i].initialize( ); // RESET
+						iGroupCounter++;
+						baseReference = dBaseValue;
 					}
-					// KEEP base value as the axis label.
-					// oaSummarizedTuple[iSortColumnIndex] = new Double(
-					// iLastGroupIndex );
+
+					if ( iGroupCounter > iGroupingInterval )
+					{
+						iGroupIndex++;
+					}
 				}
 				else
-				// FIRST ROW IN RS
 				{
-					bFirst = false;
-				}
-				oaSummarizedTuple = oaTuple;
-			}
-			else
-			{
-				it.remove( );
-			}
+					// current value is null, check last value.
+					if ( baseReference != null )
+					{
+						iGroupCounter++;
+						baseReference = null;
+					}
 
-			for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
-			{
-				try
+					if ( iGroupCounter > iGroupingInterval )
+					{
+						iGroupIndex++;
+					}
+				}
+
+				if ( !bFirst )
 				{
-					iafa[i].accumulate( oaTuple[iaColumnIndexes[i]] );
+					bGroupBreak = ( iLastGroupIndex != iGroupIndex );
 				}
-				catch ( IllegalArgumentException uiex )
+
+				if ( bGroupBreak )
 				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
+					// reset group counter
+					iGroupCounter = 0;
+				}
+
+				if ( bGroupBreak || bFirst )
+				{
+					if ( oaSummarizedTuple != null ) // FIRST ROW IN GROUP
+					{
+						for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+						{
+							oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
+							iafa[i].initialize( ); // RESET
+						}
+
+						// reset base reference
+						baseReference = ChartUtil.stringValue( oaTuple[iSortColumnIndex] );
+						iGroupIndex = 0;
+					}
+					else
+					{
+						// FIRST ROW IN RS
+						bFirst = false;
+					}
+					oaSummarizedTuple = oaTuple;
+				}
+				else
+				{
+					trashList.add( new Integer( j ) );
+				}
+
+				for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+				{
+					try
+					{
+						iafa[i].accumulate( oaTuple[iaColumnIndexes[i]] );
+					}
+					catch ( IllegalArgumentException uiex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.GENERATION,
+								uiex );
+					}
+				}
+				iLastGroupIndex = iGroupIndex;
+			}
+
+			if ( oaSummarizedTuple != null ) // LAST ROW IN GROUP
+			{
+				for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+				{
+					oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
+					iafa[i].initialize( ); // reset
 				}
 			}
-			iLastGroupIndex = iGroupIndex;
-		}
 
-		if ( oaSummarizedTuple != null ) // LAST ROW IN GROUP
-		{
-			for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+			for ( int i = 0; i < trashList.size( ); i++ )
 			{
-				oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
-				// iafa[i].initialize(); // DO NOT NEED TO RESET ANYMORE
-			}
-			// KEEP base value as the axis label.
-			// oaSummarizedTuple[iSortColumnIndex] = new Double( iLastGroupIndex
-			// );
-		}
-
-	}
-
-	/**
-	 * GroupingComparator
-	 */
-	private static final class GroupingComparator implements Comparator
-	{
-
-		private final int iSortKey;
-		private final boolean ascending;
-		private final Collator collator;
-
-		/**
-		 * @param iSortKey
-		 * @param so
-		 */
-		GroupingComparator( int iSortKey, SortOption so )
-		{
-			this.iSortKey = iSortKey;
-			this.ascending = ( so == null || so == SortOption.ASCENDING_LITERAL );
-			this.collator = Collator.getInstance( );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-		 */
-		public final int compare( Object o1, Object o2 )
-		{
-			final Object[] oaTuple1 = (Object[]) o1;
-			final Object[] oaTuple2 = (Object[]) o2;
-			final Object oC1 = oaTuple1[iSortKey];
-			final Object oC2 = oaTuple2[iSortKey];
-
-			if ( oC1 == null && oC2 == null )
-			{
-				return 0;
-			}
-			if ( oC1 == null && oC2 != null )
-			{
-				return ascending ? -1 : 1;
-			}
-			if ( oC1 != null && oC2 == null )
-			{
-				return ascending ? 1 : -1;
+				resultSet.remove( ( (Integer) trashList.get( i ) ).intValue( )
+						- i );
 			}
 
-			int ct;
-			if ( oC1 instanceof String )
+			int groupChange = trashList.size( );
+			trashList.clear( );
+
+			// update group breaks due to base data changes
+			if ( iaBreaks.length > 0 && groupChange > 0 )
 			{
-				ct = collator.compare( oC1.toString( ), oC2.toString( ) );
-			}
-			else
-			{
-				ct = ( (Comparable) oC1 ).compareTo( oC2 );
+				for ( int j = k; j < iaBreaks.length; j++ )
+				{
+					iaBreaks[j] -= groupChange;
+				}
 			}
 
-			return ascending ? ct : -ct;
+			iStartIndex = iEndIndex - groupChange;
+			totalRowCount -= groupChange;
 		}
 	}
 
@@ -861,7 +913,7 @@ public final class ResultSetWrapper
 	 * @return A pre-computed group count associated with the resultset wrapper
 	 *         instance
 	 */
-	public final int getGroupCount( )
+	public int getGroupCount( )
 	{
 		return iaGroupBreaks.length + 1;
 	}
@@ -872,7 +924,7 @@ public final class ResultSetWrapper
 	 * @param iGroupIndex
 	 * @return
 	 */
-	public final int getGroupRowCount( int iGroupIndex )
+	public int getGroupRowCount( int iGroupIndex )
 	{
 		int startRow = ( iGroupIndex <= 0 ) ? 0
 				: iaGroupBreaks[iGroupIndex - 1];
@@ -889,7 +941,7 @@ public final class ResultSetWrapper
 	 * @return A pre-computed column count associated with the resultset wrapper
 	 *         instance
 	 */
-	public final int getColumnCount( )
+	public int getColumnCount( )
 	{
 		return saExpressionKeys.length;
 	}
@@ -901,9 +953,9 @@ public final class ResultSetWrapper
 	 * @return The number of rows of data associated with the resultset wrapper
 	 *         instance
 	 */
-	public final int getRowCount( )
+	public int getRowCount( )
 	{
-		return liResultSet.size( );
+		return workingResultSet.size( );
 	}
 
 	/**
@@ -916,24 +968,20 @@ public final class ResultSetWrapper
 	 * 
 	 * @return The group key value associated with the requested group index
 	 */
-	public final Object getGroupKey( int iGroupIndex, String sExpressionKey )
+	public Object getGroupKey( int iGroupIndex, String sExpressionKey )
 	{
 		if ( !htLookup.containsKey( sExpressionKey ) )
 		{
 			return IConstants.UNDEFINED_STRING;
 		}
+
 		final int iColumnIndex = ( (Integer) htLookup.get( sExpressionKey ) ).intValue( );
 		final int iRow = ( iGroupIndex <= 0 ) ? 0
 				: iaGroupBreaks[iGroupIndex - 1];
-		Iterator it = liResultSet.iterator( );
-		int i = 0;
-		while ( it.hasNext( ) && i++ < iRow )
+
+		if ( iRow >= 0 && iRow < workingResultSet.size( ) )
 		{
-			it.next( );
-		}
-		if ( it.hasNext( ) )
-		{
-			return ( (Object[]) it.next( ) )[iColumnIndex];
+			return ( (Object[]) workingResultSet.get( iRow ) )[iColumnIndex];
 		}
 		return null; // THERE WAS NO DATA
 	}
@@ -949,19 +997,14 @@ public final class ResultSetWrapper
 	 * 
 	 * @return The group key value associated with the requested group index
 	 */
-	public final Object getGroupKey( int iGroupIndex, int iColumnIndex )
+	public Object getGroupKey( int iGroupIndex, int iColumnIndex )
 	{
 		final int iRow = ( iGroupIndex <= 0 ) ? 0
 				: iaGroupBreaks[iGroupIndex - 1];
-		Iterator it = liResultSet.iterator( );
-		int i = 0;
-		while ( it.hasNext( ) && i++ < iRow )
+
+		if ( iRow >= 0 && iRow < workingResultSet.size( ) )
 		{
-			it.next( );
-		}
-		if ( it.hasNext( ) )
-		{
-			return ( (Object[]) it.next( ) )[iColumnIndex];
+			return ( (Object[]) workingResultSet.get( iRow ) )[iColumnIndex];
 		}
 		return null; // THERE WAS NO DATA
 	}
@@ -978,8 +1021,7 @@ public final class ResultSetWrapper
 	 * 
 	 * @return An instance of the resultset subset
 	 */
-	public final ResultSetDataSet getSubset( int iGroupIndex,
-			String sExpressionKey )
+	public ResultSetDataSet getSubset( int iGroupIndex, String sExpressionKey )
 	{
 		return new ResultSetDataSet( this,
 				new int[]{
@@ -1002,8 +1044,7 @@ public final class ResultSetWrapper
 	 * 
 	 * @return An instance of the resultset subset
 	 */
-	public final ResultSetDataSet getSubset( int iGroupIndex,
-			EList elExpressionKeys )
+	public ResultSetDataSet getSubset( int iGroupIndex, EList elExpressionKeys )
 	{
 		final int n = elExpressionKeys.size( );
 		final int[] iaColumnIndexes = new int[n];
@@ -1033,8 +1074,7 @@ public final class ResultSetWrapper
 	 * 
 	 * @return An instance of the resultset subset
 	 */
-	public final ResultSetDataSet getSubset( int iGroupIndex,
-			String[] sExpressionKeys )
+	public ResultSetDataSet getSubset( int iGroupIndex, String[] sExpressionKeys )
 	{
 		if ( sExpressionKeys == null )
 		{
@@ -1070,7 +1110,7 @@ public final class ResultSetWrapper
 	 * 
 	 * @return An instance of the resultset subset
 	 */
-	public final ResultSetDataSet getSubset( int iGroupIndex, int iColumnIndex )
+	public ResultSetDataSet getSubset( int iGroupIndex, int iColumnIndex )
 	{
 		return new ResultSetDataSet( this,
 				new int[]{
@@ -1093,7 +1133,7 @@ public final class ResultSetWrapper
 	 * @return The resultset subset containing the requested columns and all
 	 *         rows of the resultset
 	 */
-	public final ResultSetDataSet getSubset( EList elExpressions )
+	public ResultSetDataSet getSubset( EList elExpressions )
 			throws ChartException
 	{
 		final int n = elExpressions.size( );
@@ -1130,7 +1170,7 @@ public final class ResultSetWrapper
 	 * @return The resultset subset containing the requested column and all rows
 	 *         of the resultset
 	 */
-	public final ResultSetDataSet getSubset( String sExpressionKey )
+	public ResultSetDataSet getSubset( String sExpressionKey )
 	{
 		return new ResultSetDataSet( this, new int[]{
 			( (Integer) htLookup.get( sExpressionKey ) ).intValue( )
@@ -1149,7 +1189,7 @@ public final class ResultSetWrapper
 	 * @return The resultset subset containing the requested columns and all
 	 *         rows of the resultset
 	 */
-	public final ResultSetDataSet getSubset( String[] sExpressionKeys )
+	public ResultSetDataSet getSubset( String[] sExpressionKeys )
 			throws ChartException
 	{
 		if ( sExpressionKeys == null )
@@ -1191,7 +1231,7 @@ public final class ResultSetWrapper
 	 * @return The resultset subset containing the requested column (specified
 	 *         by index) and all rows of the resultset
 	 */
-	public final ResultSetDataSet getSubset( int iColumnIndex )
+	public ResultSetDataSet getSubset( int iColumnIndex )
 	{
 		return new ResultSetDataSet( this, new int[]{
 			iColumnIndex
@@ -1205,7 +1245,7 @@ public final class ResultSetWrapper
 	 * @return an array have two return objects, first is the base value list,
 	 *         second is the index map for all grouped subset.
 	 */
-	public final Object[] getMergedGroupingBaseValues( int iColumnIndex,
+	public Object[] getMergedGroupingBaseValues( int iColumnIndex,
 			SortOption sorting )
 	{
 		int groupCount = getGroupCount( );
@@ -1363,7 +1403,7 @@ public final class ResultSetWrapper
 	 * @param iColumnIndex
 	 * @return
 	 */
-	public final int getColumnDataType( int iColumnIndex )
+	public int getColumnDataType( int iColumnIndex )
 	{
 		return iaDataTypes[iColumnIndex];
 	}
@@ -1375,9 +1415,9 @@ public final class ResultSetWrapper
 	 */
 	public Iterator iterator( )
 	{
-		if ( liResultSet != null )
+		if ( workingResultSet != null )
 		{
-			return liResultSet.iterator( );
+			return workingResultSet.iterator( );
 		}
 		return null;
 	}
@@ -1391,16 +1431,21 @@ public final class ResultSetWrapper
 	 * 
 	 * @return Row indexes containing changing group key values
 	 */
-	private final int[] findGroupBreaks( boolean bGrouped )
+	private int[] findGroupBreaks( List resultSet, GroupKey groupKey )
 	{
-		final int iColumnIndex = bGrouped ? 0 : -1;
-		if ( iColumnIndex == -1 )
+		if ( groupKey == null || groupKey.getKey( ) == null )
 		{
 			return NO_GROUP_BREAKS;
 		}
 
-		final Iterator it = liResultSet.iterator( );
-		final ArrayList al = new ArrayList( 16 );
+		// TODO support multiple keys for a single orthogonal series
+		Collections.sort( resultSet, new TupleComparator( new GroupKey[]{
+			groupKey
+		} ) );
+
+		final int iColumnIndex = groupKey.getKeyIndex( );
+		final Iterator it = resultSet.iterator( );
+		final ArrayList al = new ArrayList( 8 );
 		boolean bFirst = true;
 		Object oValue, oPreviousValue = null;
 		int iRowIndex = 0;
@@ -1491,4 +1536,110 @@ public final class ResultSetWrapper
 			return compareObjects( a.toString( ), b.toString( ) );
 		}
 	}
+
+	/**
+	 * GroupingComparator
+	 */
+	static final class GroupingSorter implements Comparator
+	{
+
+		private int iSortIndex;
+		private boolean ascending;
+		private Collator collator;
+
+		void sort( List resultSet, int iSortIndex, SortOption so,
+				int[] groupBreaks )
+		{
+			if ( so == null )
+			{
+				return;
+			}
+
+			this.iSortIndex = iSortIndex;
+			this.ascending = so == SortOption.ASCENDING_LITERAL;
+			this.collator = Collator.getInstance( );
+
+			if ( groupBreaks == null || groupBreaks.length == 0 )
+			{
+				Collections.sort( resultSet, this );
+			}
+			else
+			{
+				int totalCount = resultSet.size( );
+				int startGroupIndex = 0;
+				int endGroupIndex;
+				List tmpList = new ArrayList( );
+
+				// sort each group seperately
+				for ( int i = 0; i <= groupBreaks.length; i++ )
+				{
+					if ( i == groupBreaks.length )
+					{
+						endGroupIndex = totalCount;
+					}
+					else
+					{
+						endGroupIndex = groupBreaks[i];
+					}
+
+					tmpList.clear( );
+
+					// extract each group data
+					for ( int j = startGroupIndex; j < endGroupIndex; j++ )
+					{
+						tmpList.add( resultSet.get( j ) );
+					}
+
+					Collections.sort( tmpList, this );
+
+					// sort and set back
+					for ( int k = 0; k < tmpList.size( ); k++ )
+					{
+						resultSet.set( startGroupIndex + k, tmpList.get( k ) );
+					}
+
+					startGroupIndex = endGroupIndex;
+				}
+			}
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
+		public final int compare( Object o1, Object o2 )
+		{
+			final Object[] oaTuple1 = (Object[]) o1;
+			final Object[] oaTuple2 = (Object[]) o2;
+			final Object oC1 = oaTuple1[iSortIndex];
+			final Object oC2 = oaTuple2[iSortIndex];
+
+			if ( oC1 == null && oC2 == null )
+			{
+				return 0;
+			}
+			if ( oC1 == null && oC2 != null )
+			{
+				return ascending ? -1 : 1;
+			}
+			if ( oC1 != null && oC2 == null )
+			{
+				return ascending ? 1 : -1;
+			}
+
+			int ct;
+			if ( oC1 instanceof String )
+			{
+				ct = collator.compare( oC1.toString( ), oC2.toString( ) );
+			}
+			else
+			{
+				ct = ( (Comparable) oC1 ).compareTo( oC2 );
+			}
+
+			return ascending ? ct : -ct;
+		}
+	}
+
 }

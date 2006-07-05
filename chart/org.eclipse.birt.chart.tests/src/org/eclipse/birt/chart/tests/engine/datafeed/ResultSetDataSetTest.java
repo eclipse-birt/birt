@@ -41,7 +41,7 @@ public class ResultSetDataSetTest extends TestCase {
 	}
 	
 	ResultSetWrapper wrapper = new ResultSetWrapper(expressionKey,
-			result, true);
+			result, null);
 	
 	int[] iaColumnIndexes = {2};
 	ResultSetDataSet dataset = new ResultSetDataSet(wrapper, iaColumnIndexes, 0, 1 );

@@ -20,11 +20,17 @@ import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ * An internal factory help to generate IDateFormatWrapper.
  */
-
 public class DateFormatWrapperFactory
 {
+
+	/**
+	 * Prevent from instanciation
+	 */
+	private DateFormatWrapperFactory( )
+	{
+	}
 
 	/**
 	 * Returns a preferred format specifier for tick labels that represent axis
@@ -60,14 +66,14 @@ public class DateFormatWrapperFactory
 		switch ( iUnit )
 		{
 			case Calendar.YEAR :
-				df = new DateFormatWrapper( new SimpleDateFormat( "yyyy", //$NON-NLS-1$
+				df = new CommonDateFormatWrapper( new SimpleDateFormat( "yyyy", //$NON-NLS-1$
 						locale ) );
 				break;
 			case Calendar.MONTH :
 				df = new MonthDateFormat( locale );
 				break;
 			case Calendar.DATE :
-				df = new DateFormatWrapper( DateFormat.getDateInstance( DateFormat.LONG,
+				df = new CommonDateFormatWrapper( DateFormat.getDateInstance( DateFormat.LONG,
 						locale ) );
 				break;
 			case Calendar.HOUR_OF_DAY :
@@ -75,7 +81,7 @@ public class DateFormatWrapperFactory
 				break;
 			case Calendar.MINUTE :
 			case Calendar.SECOND :
-				df = new DateFormatWrapper( new SimpleDateFormat( "HH:mm:ss", //$NON-NLS-1$
+				df = new CommonDateFormatWrapper( new SimpleDateFormat( "HH:mm:ss", //$NON-NLS-1$
 						locale ) );
 				break;
 
@@ -83,12 +89,12 @@ public class DateFormatWrapperFactory
 		return df;
 	}
 
-	static class DateFormatWrapper implements IDateFormatWrapper
+	static class CommonDateFormatWrapper implements IDateFormatWrapper
 	{
 
 		private DateFormat formater;
 
-		public DateFormatWrapper( DateFormat formater )
+		public CommonDateFormatWrapper( DateFormat formater )
 		{
 			this.formater = formater;
 		}

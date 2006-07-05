@@ -28,7 +28,7 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.internal.factory.DataProcessor;
+import org.eclipse.birt.chart.internal.datafeed.DataProcessor;
 import org.eclipse.birt.chart.internal.factory.SqlDataRowEvaluator;
 import org.eclipse.birt.chart.internal.layout.LayoutManager;
 import org.eclipse.birt.chart.internal.script.ChartScriptContext;

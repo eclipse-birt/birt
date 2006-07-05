@@ -14,9 +14,9 @@ package org.eclipse.birt.chart.internal.factory;
 import java.util.Date;
 
 /**
- * 
+ * This interface defines a DateFormat wrapper. Note this interface is only
+ * intended to be used internally.
  */
-
 public interface IDateFormatWrapper
 {
 

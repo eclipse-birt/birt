@@ -519,6 +519,4 @@ public interface Series extends EObject
 	 */
 	DataSet getDataSet( String userkey );
 
-	static final Series[] EMPTY_ARRAY = new Series[0];
-
 } // Series
