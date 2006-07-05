@@ -234,7 +234,11 @@ public class ModelDteApiAdapter
 		IBaseDataSetEventHandler eventHandler = new DataSetScriptExecutor(
 				handle, context );
 
-		JointDataSetDesign dteDataSet = new JointDataSetDesign(handle.getName( ), jc.getLeftDataSet( ), jc.getRightDataSet( ), joinType, joinConditions);
+		JointDataSetDesign dteDataSet = new JointDataSetDesign( handle.getQualifiedName( ),
+				jc.getLeftDataSet( ),
+				jc.getRightDataSet( ),
+				joinType,
+				joinConditions );
 		dteDataSet.setEventHandler( eventHandler );
 		// Adapt base class properties
 		adaptBaseDataSet( handle, dteDataSet );
