@@ -29,6 +29,14 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 public class CacheUtil
 {
 	
+	/**
+	 * how many rows could be cached in memory when transformation is done, the
+	 * minimum value for it is 500. It is strongly recommended to give a high
+	 * value to it so as to get a good performance. If this value is not set,
+	 * the default value is 20,000.
+	 */
+	public final static String MEMCACHE_ROWNUMBER = "org.eclipse.birt.data.engine.memcache.rownumber";
+	
 	//--------------------service for SmartCache----------------------
 	
 	/**
@@ -41,9 +49,25 @@ public class CacheUtil
 		if ( memcachesizeOfTest != null )
 			return Integer.parseInt( memcachesizeOfTest );
 
+		// the row number can be specified precisely
+		String memoryCacheRowNum = System.getProperty( MEMCACHE_ROWNUMBER );
+		if ( memoryCacheRowNum != null )
+		{
+			int memCacheRowNum = 0;
+			try
+			{
+				memCacheRowNum = Double.valueOf( memoryCacheRowNum ).intValue( );
+			}
+			catch ( Exception e )
+			{
+				// ignore it
+			}
+			return Math.max( 500, memCacheRowNum );
+		}
+				
 		// real code starts here
 		int memoryCacheSize = 10; // default minimum value is 10M.
-		String memcachesize = System.getProperty( "birt.data.engine.memcachesize" );
+		String memcachesize = System.getProperty( "birt.data.engine.memcachesize" );  // deprecated
 		if ( memcachesize != null )
 		{
 			try
