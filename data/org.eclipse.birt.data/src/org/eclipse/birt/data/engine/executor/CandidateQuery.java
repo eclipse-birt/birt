@@ -24,7 +24,7 @@ import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
  * Implementation of ICandidateQuery
  */
 
-class CandidateQuery extends BaseQuery implements ICandidateQuery 
+public class CandidateQuery extends BaseQuery implements ICandidateQuery 
 {
 
 	private ICustomDataSet customDataSet;
