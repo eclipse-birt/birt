@@ -61,6 +61,7 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -107,6 +108,9 @@ public class DefaultNodeProvider implements INodeProvider
 
 	public static final String MISSINGNAME = Messages.getString( "DefaultNodeProvider.Tree.Invalid" ); //$NON-NLS-1$
 
+	public static final String WARNING_DIALOG_TITLE = Messages.getString( "DefaultNodeProvider.WarningDialog.Title" );
+
+	public static final String WARNING_DIALOG_MESSAGE_EMPTY_LIST = Messages.getString( "DefaultNodeProvider.WarningDialog.EmptyList" );
 	private Comparator comparator;
 
 	/**
@@ -382,7 +386,7 @@ public class DefaultNodeProvider implements INodeProvider
 	private boolean performRevertToTemplateItem( DesignElementHandle handle )
 	{
 		try
-		{			
+		{
 			handle.revertToTemplate( ReportPlugin.getDefault( )
 					.getCustomName( ReportDesignConstants.TEMPLATE_REPORT_ITEM ) ); //$NON-NLS-1$
 		}
@@ -527,6 +531,13 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( type == null )
 		{
 			List supportList = DEUtil.getElementSupportList( slotHandle );
+			if ( supportList.size( ) == 0 )
+			{
+				ExceptionHandler.openMessageBox( WARNING_DIALOG_TITLE,
+						WARNING_DIALOG_MESSAGE_EMPTY_LIST,
+						SWT.ICON_WARNING );
+				return null;
+			}else
 			if ( supportList.size( ) == 1 )
 			{
 				type = ( (IElementDefn) supportList.get( 0 ) ).getName( );
