@@ -186,54 +186,6 @@ BirtUtility.prototype =
 	},
 
 	/**
-	 *	Birt Class.
-	 */
-	forType : function( type )
-	{
-		if ( type )
-		{
-			if ( type.toUpperCase( ) == 'Table'.toUpperCase( ) )
-			{
-				return eval( 'birtReportTable' );
-			}
-			else if ( type.toUpperCase( ) == 'Group'.toUpperCase( ) )
-			{
-				return eval( 'birtReportTable' );
-			}
-			else if ( type.toUpperCase( ) == 'ColumnInfo'.toUpperCase( ) )
-			{
-				return eval( 'birtReportTable' );
-			}
-			else if ( type.toUpperCase( ) == 'Table_T'.toUpperCase( ) )
-			{
-				return eval( 'birtReportTable_T' );
-			}
-			else if ( type.toUpperCase( ) == 'Chart'.toUpperCase( ) )
-			{
-				return eval( 'birtReportChart' );
-			}
-			else if ( type.toUpperCase( ) == 'Chart_T'.toUpperCase( ) )
-			{
-				return eval( 'birtReportChart' );
-			}
-			else if ( type.toUpperCase( ) == 'Label'.toUpperCase( ) )
-			{
-				return eval( 'birtReportLabel' );
-			}
-			else if ( type.toUpperCase( ) == 'Label_T'.toUpperCase( ) )
-			{
-				return eval( 'birtReportLabel_T' );
-			}
-			else if ( type.toUpperCase( ) == 'Document'.toUpperCase( ) )
-			{
-				return eval( 'birtReportDocument' );
-			}
-		}
-		
-		return null;
-	},
-	
-	/**
 	 * Get a parameter specified in the URL. For example, if a URL is
 	 * http://localhost:8080/iportal/wr?__report=/16.webrptdesign&iPortalID=YPTDAGCNPOYSOS
 	 * getURLParameter(iPortalID) will return &iPortalID=YPTDAGCNPOYSOS

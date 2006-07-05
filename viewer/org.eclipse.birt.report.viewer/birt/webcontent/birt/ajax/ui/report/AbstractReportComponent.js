@@ -75,8 +75,8 @@ AbstractReportComponent.prototype =
 			var oElementIds = children[i].getElementsByTagName( 'Id' );
 			var oElementTypes = children[i].getElementsByTagName( 'Type' );
 
-			var birtObj = null;
-			var birtObj = birtUtility.forType( oElementTypes[0].firstChild.data );
+			var birtObj = ReportComponentIdRegistry.getObjectForType( oElementTypes[0].firstChild.data );
+			
 			if ( !birtObj || !birtObj.__cb_installEventHandlers )
 			{
 				continue;
@@ -110,7 +110,7 @@ AbstractReportComponent.prototype =
 		{
 			var id = container[ Constants.activeIds ].shift( )
 			var type = container[ Constants.activeIdTypes ].shift( );
-			var birtObj = birtUtility.forType( type );
+			var birtObj = ReportComponentIdRegistry.getObjectForType( type );
 			if ( !birtObj || !birtObj.__cb_disposeEventHandlers )
 			{
 				continue;
