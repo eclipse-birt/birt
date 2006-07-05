@@ -163,6 +163,28 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		if ( action == null || context == null )
 			return null;
 
+		// Get Base URL
+		String baseURL = null;
+		if ( context instanceof HTMLRenderContext )
+		{
+			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
+		}
+		if ( context instanceof PDFRenderContext )
+		{
+			baseURL = ( (PDFRenderContext) context ).getBaseURL( );
+		}
+
+		// Get bookmark
+		String bookmark = action.getBookmark( );
+
+		// In frameset mode, use javascript function to fire Ajax request to
+		// link to internal bookmark
+		if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0 )
+		{
+			return "javascript:catchBookmark('" + bookmark + "')"; //$NON-NLS-2$
+		}
+
+		// Save the URL String
 		StringBuffer link = new StringBuffer( );
 
 		boolean realBookmark = false;
@@ -174,7 +196,6 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 			realBookmark = ( pageNumber == this.page && !isEmbeddable );
 		}
 
-		String bookmark = action.getBookmark( );
 		try
 		{
 			bookmark = URLEncoder.encode( bookmark,
@@ -183,16 +204,6 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		catch ( UnsupportedEncodingException e )
 		{
 			// Does nothing
-		}
-
-		String baseURL = null;
-		if ( context instanceof HTMLRenderContext )
-		{
-			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
-		}
-		if ( context instanceof PDFRenderContext )
-		{
-			baseURL = ( (PDFRenderContext) context ).getBaseURL( );
 		}
 
 		link.append( baseURL );

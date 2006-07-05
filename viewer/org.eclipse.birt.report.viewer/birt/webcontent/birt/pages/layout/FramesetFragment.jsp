@@ -170,6 +170,13 @@
 		}
 		%>
 		}
+		
+		// When link to internal bookmark, use javascript to fire an Ajax request
+		function catchBookmark( bookmark )
+		{	
+			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "bookmark", value : bookmark } );		
+		}
+		
 	</script>
 </HTML>
 
