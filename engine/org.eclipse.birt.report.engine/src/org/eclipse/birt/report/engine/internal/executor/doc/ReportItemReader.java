@@ -2,6 +2,10 @@
 package org.eclipse.birt.report.engine.internal.executor.doc;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IGroupContent;
+import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.impl.ListContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
@@ -194,32 +198,40 @@ public class ReportItemReader implements IReportItemExecutor
 		if ( fragment != null )
 		{
 			Object genBy = content.getGenerateBy( );
-			if ( genBy instanceof TableItemDesign )
+			if ( content instanceof ITableContent )
 			{
-				TableItemDesign tableDesign = (TableItemDesign) genBy;
-				if ( tableDesign.isRepeatHeader( )
-						&& tableDesign.getHeader( ) != null )
+				if ( genBy instanceof TableItemDesign )
 				{
-					addHeaderToFragment( content );
-				}
-
-			}
-			else if ( genBy instanceof GroupDesign )
-			{
-				GroupDesign groupDesign = (GroupDesign) genBy;
-				if ( groupDesign.isHeaderRepeat( )
-						&& groupDesign.getHeader( ) != null )
-				{
-					addHeaderToFragment( content );
+					TableItemDesign tableDesign = (TableItemDesign) genBy;
+					if ( ( (ITableContent) content ).isHeaderRepeat( )
+							&& tableDesign.getHeader( ) != null )
+					{
+						addHeaderToFragment( content );
+					}
 				}
 			}
-			else if ( genBy instanceof ListItemDesign )
+			else if ( content instanceof IGroupContent )
 			{
-				ListItemDesign listDesign = (ListItemDesign) genBy;
-				if ( listDesign.isRepeatHeader( )
-						&& listDesign.getHeader( ) != null )
+				if ( genBy instanceof GroupDesign )
 				{
-					addHeaderToFragment( content );
+					GroupDesign groupDesign = (GroupDesign) genBy;
+					if ( ( (IGroupContent) content ).isHeaderRepeat( )
+							&& groupDesign.getHeader( ) != null )
+					{
+						addHeaderToFragment( content );
+					}
+				}
+			}
+			else if ( content instanceof IListContent )
+			{
+				if ( genBy instanceof ListItemDesign )
+				{
+					ListItemDesign listDesign = (ListItemDesign) genBy;
+					if ( ( (IListContent) content ).isHeaderRepeat( )
+							&& listDesign.getHeader( ) != null )
+					{
+						addHeaderToFragment( content );
+					}
 				}
 			}
 		}
