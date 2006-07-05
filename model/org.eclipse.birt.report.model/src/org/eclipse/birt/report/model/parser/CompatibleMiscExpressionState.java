@@ -176,7 +176,8 @@ class CompatibleMiscExpressionState extends ExpressionState
 			addBoundColumnsToTarget( tmpTarget, outerColumns );
 		}
 
-		addBoundColumnsToTarget( target, localColumns );
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ) //$NON-NLS-1$
+			addBoundColumnsToTarget( target, localColumns );
 	}
 
 	private void addBoundColumnsToTarget( DesignElement target, List newExprs )
