@@ -30,21 +30,17 @@ import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -59,17 +55,10 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 	private static final int HORIZONTAL_SPACING = 30;
 
-	private transient Cursor curHand = null;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
-	 */
-	public void getComponent( Composite parent )
+	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_AXIS );
-		
+
 		final int COLUMN_NUMBER = ChartUIUtil.is3DType( getChart( ) ) ? 5 : 4;
 		cmpContent = new Composite( parent, SWT.NONE ) {
 
@@ -184,27 +173,10 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 	}
 
-	public void onShow( Object context, Object container )
-	{
-		super.onShow( context, container );
-		curHand = new Cursor( Display.getDefault( ), SWT.CURSOR_HAND );
-	}
-
-	public Object onHide( )
-	{
-		curHand.dispose( );
-		return super.onHide( );
-	}
-
-	private class AxisOptionChoser
-			implements
-				SelectionListener,
-				Listener,
-				MouseListener,
-				MouseTrackListener
+	private class AxisOptionChoser implements SelectionListener, Listener
 	{
 
-		private transient Label lblAxis;
+		private transient Link linkAxis;
 		private transient Combo cmbTypes;
 		private transient Button btnVisible;
 		private transient FillChooserComposite cmbColor;
@@ -227,13 +199,10 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 		public void placeComponents( Composite parent )
 		{
-			lblAxis = new Label( parent, SWT.NONE );
+			linkAxis = new Link( parent, SWT.NONE );
 			{
-				lblAxis.setText( axisName );
-				lblAxis.setForeground( Display.getDefault( )
-						.getSystemColor( SWT.COLOR_DARK_BLUE ) );
-				lblAxis.addMouseListener( this );
-				lblAxis.addMouseTrackListener( this );
+				linkAxis.setText( "<a>" + axisName + "</a>" ); //$NON-NLS-1$//$NON-NLS-2$
+				linkAxis.addSelectionListener( this );
 			}
 
 			btnVisible = new Button( parent, SWT.CHECK );
@@ -306,6 +275,10 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 				// Set type and refresh the preview
 				axis.setType( axisType );
+			}
+			else if ( e.widget.equals( linkAxis ) )
+			{
+				switchTo( treeIndex );
 			}
 		}
 
@@ -426,38 +399,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 						.size( );
 			}
 			return iTmp;
-		}
-
-		public void mouseDoubleClick( MouseEvent e )
-		{
-			// TODO Auto-generated method stub
-
-		}
-
-		public void mouseDown( MouseEvent e )
-		{
-			switchTo( treeIndex );
-		}
-
-		public void mouseUp( MouseEvent e )
-		{
-
-		}
-
-		public void mouseEnter( MouseEvent e )
-		{
-			lblAxis.setCursor( curHand );
-		}
-
-		public void mouseExit( MouseEvent e )
-		{
-			lblAxis.setCursor( null );
-		}
-
-		public void mouseHover( MouseEvent e )
-		{
-			// TODO Auto-generated method stub
-
 		}
 
 		private void switchTo( int index )

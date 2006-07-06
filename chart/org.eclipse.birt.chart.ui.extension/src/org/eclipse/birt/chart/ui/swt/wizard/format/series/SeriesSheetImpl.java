@@ -35,21 +35,17 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -68,14 +64,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 	private transient Combo cmbColorBy;
 
-	private transient Cursor curHand = null;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
-	 */
-	public void getComponent( Composite parent )
+	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_SERIES );
 		final int COLUMN_CONTENT = 4;
@@ -215,34 +204,17 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 					? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
 			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
 					( seriesDefns.size( ) == 1 ? text
-							: ( text + " - " + ( i + 1 ) ) ) + ":", i, treeIndex++ ).placeComponents( cmpList ); //$NON-NLS-1$ //$NON-NLS-2$
+							: ( text + " - " + ( i + 1 ) ) ), i, treeIndex++ ).placeComponents( cmpList ); //$NON-NLS-1$
 		}
 	}
 
-	public void onShow( Object context, Object container )
-	{
-		super.onShow( context, container );
-		curHand = new Cursor( Display.getDefault( ), SWT.CURSOR_HAND );
-	}
-
-	public Object onHide( )
-	{
-		curHand.dispose( );
-		return super.onHide( );
-	}
-
-	private class SeriesOptionChoser
-			implements
-				SelectionListener,
-				Listener,
-				MouseListener,
-				MouseTrackListener
+	private class SeriesOptionChoser implements SelectionListener, Listener
 	{
 
 		private transient SeriesDefinition seriesDefn;
 		private transient String seriesName;
 
-		private transient Label lblSeries;
+		private transient Link linkSeries;
 		private transient ExternalizedTextEditorComposite txtTitle;
 		private transient Combo cmbTypes;
 		private transient Button btnVisible;
@@ -266,15 +238,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		{
 			Series series = seriesDefn.getDesignTimeSeries( );
 
-			lblSeries = new Label( parent, SWT.NONE );
+			linkSeries = new Link( parent, SWT.NONE );
 			{
-				GridData gd = new GridData( );
-				lblSeries.setLayoutData( gd );
-				lblSeries.setText( seriesName );
-				lblSeries.setForeground( Display.getDefault( )
-						.getSystemColor( SWT.COLOR_DARK_BLUE ) );
-				lblSeries.addMouseListener( this );
-				lblSeries.addMouseTrackListener( this );
+				linkSeries.setText( "<a>" + seriesName + "</a>" ); //$NON-NLS-1$//$NON-NLS-2$
+				linkSeries.addSelectionListener( this );
 			}
 
 			List keys = null;
@@ -302,7 +269,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				cmbTypes.setLayoutData( gd );
 				cmbTypes.addSelectionListener( this );
-				//Disable the conversion of the first series
+				// Disable the conversion of the first series
 				if ( iSeriesDefinitionIndex == 0 )
 				{
 					cmbTypes.setEnabled( false );
@@ -388,6 +355,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			else if ( e.getSource( ).equals( btnTranslucent ) )
 			{
 				series.setTranslucent( btnTranslucent.getSelection( ) );
+			}
+			else if ( e.getSource( ).equals( linkSeries ) )
+			{
+				switchTo( treeIndex );
 			}
 		}
 
@@ -502,38 +473,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 					e.printStackTrace( );
 				}
 			}
-		}
-
-		public void mouseDoubleClick( MouseEvent e )
-		{
-			// TODO Auto-generated method stub
-
-		}
-
-		public void mouseDown( MouseEvent e )
-		{
-			switchTo( treeIndex );
-		}
-
-		public void mouseUp( MouseEvent e )
-		{
-
-		}
-
-		public void mouseEnter( MouseEvent e )
-		{
-			lblSeries.setCursor( curHand );
-		}
-
-		public void mouseExit( MouseEvent e )
-		{
-			lblSeries.setCursor( null );
-		}
-
-		public void mouseHover( MouseEvent e )
-		{
-			// TODO Auto-generated method stub
-
 		}
 
 		private void switchTo( int index )
