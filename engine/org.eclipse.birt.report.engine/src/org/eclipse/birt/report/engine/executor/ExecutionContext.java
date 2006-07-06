@@ -81,7 +81,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.72 $ $Date: 2006/06/17 12:28:57 $
+ * @version $Revision: 1.73 $ $Date: 2006/06/22 08:38:22 $
  */
 public class ExecutionContext
 {
@@ -1629,5 +1629,27 @@ public class ExecutionContext
 				openningContents.remove( i );
 			}
 		}
+	}
+	
+	/**
+	 *  to remember the current report item is in master page or not.
+	 */
+	boolean isExecutingMasterPage = false;
+	
+	/**
+	 * Since the data set in master page will be executed in each page
+	 * and while the data set in report body will only be executed once,
+	 * we need to remember the current report item is in master page or not.
+	 * This will be used to help store the executed resultSetID and load it
+	 * to distinguish them.
+	 */
+	public void setExecutingMasterPage( boolean isExecutingMasterPage )
+	{
+		this.isExecutingMasterPage = isExecutingMasterPage;
+	}
+	
+	public boolean isExecutingMasterPage( )
+	{
+		return isExecutingMasterPage;
 	}
 }

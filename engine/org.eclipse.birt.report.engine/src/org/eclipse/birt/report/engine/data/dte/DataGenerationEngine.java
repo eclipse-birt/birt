@@ -176,7 +176,16 @@ public class DataGenerationEngine extends AbstractDataEngine
 			try
 			{
 				IOUtil.writeString( dos, pRsetId );
-				IOUtil.writeLong( dos, rowId );
+				// top query in master page then set the page number as row id
+				if ( pRsetId == null && context.isExecutingMasterPage( ) )
+				{
+					IOUtil.writeLong( dos, context.getPageNumber( ) );
+				}
+				else
+				{
+					IOUtil.writeLong( dos, rowId );
+				}
+				
 				IOUtil.writeString( dos, queryId );
 				IOUtil.writeString( dos, rsetId );
 			}

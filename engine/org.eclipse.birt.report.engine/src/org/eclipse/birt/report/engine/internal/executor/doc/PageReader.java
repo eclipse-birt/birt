@@ -19,12 +19,15 @@ class PageReader extends ReportItemReader
 	}
 
 	public IContent execute( )
-	{
+	{	
+		pageReader.context.setPageNumber( pageNumber );
+		pageReader.context.setExecutingMasterPage( true );
 		// return the PageContent which is loaded from the content
 		IContent content = pageReader.loadPageContent( pageNumber );
 		pageReader.initializeContent( content );
 		// execute extra intialization
 		pageReader.initalizeContentVisitor.visit( content, null );
+		pageReader.context.setExecutingMasterPage( false );
 		//setup the first child
 		Fragment childFrag = fragment.getNextFragment( -1 );
 		if (childFrag != null)

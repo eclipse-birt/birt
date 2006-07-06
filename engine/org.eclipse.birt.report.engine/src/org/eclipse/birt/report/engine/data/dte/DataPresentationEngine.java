@@ -154,7 +154,20 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 			if ( queryResults == null )
 			{
-				resultSetID = getResultID( null, -1, queryID );
+				// if the query is used in master page, the row id is set as page number
+				if ( context.isExecutingMasterPage( ) )
+				{
+					long pageNumber = context.getPageNumber( );
+					resultSetID = getResultID( null, pageNumber, queryID );
+					if ( resultSetID == null )
+					{
+						resultSetID = getResultID( null, -1, queryID );
+					}
+				}
+				else
+				{
+					resultSetID = getResultID( null, -1, queryID );
+				}
 			}
 			else
 			{
