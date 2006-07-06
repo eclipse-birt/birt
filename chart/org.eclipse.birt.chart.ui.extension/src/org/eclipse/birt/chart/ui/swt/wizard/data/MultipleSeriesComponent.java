@@ -58,8 +58,6 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 	private static final String LABEL_GROUPING_OVERLAY = Messages.getString( "MultipleSeriesComponent.Label.OptionalOverlayGrouping" ); //$NON-NLS-1$
 	private static final String LABEL_GROUPING_WITHOUTAXIS = Messages.getString( "MultipleSeriesComponent.Label.OptionalGrouping" ); //$NON-NLS-1$
 
-	private static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
-
 	private transient ISelectDataCustomizeUI selectDataUI = null;
 
 	private transient ArrayList components = new ArrayList( );
@@ -182,43 +180,31 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 				}
 
 				Label lblSorting = new Label( cmpGroup, SWT.NONE );
-				lblSorting.setText( Messages.getString( "BaseSeriesDataSheetImpl.Lbl.DataSorting" ) ); //$NON-NLS-1$
+				lblSorting.setText( Messages.getString( "MultipleSeriesComponent.Label.GroupSorting" ) ); //$NON-NLS-1$
 
 				final Combo cmbSorting = new Combo( cmpGroup, SWT.DROP_DOWN
 						| SWT.READ_ONLY );
 				cmbSorting.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 				// populate sorting combo
-				cmbSorting.add( UNSORTED_OPTION );
 				String[] nss = LiteralHelper.sortOptionSet.getDisplayNames( );
 				for ( int i = 0; i < nss.length; i++ )
 				{
 					cmbSorting.add( nss[i] );
 				}
 
-				// Select value
+				// Set ascending if group is unsorted
 				if ( !sd.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
 				{
-					cmbSorting.select( 0 );
+					initSorting( );
 				}
-				else
-				{
-					// plus one for the first is unsorted option.
-					cmbSorting.select( LiteralHelper.sortOptionSet.getNameIndex( sd.getSorting( )
-							.getName( ) ) + 1 );
-				}
+				cmbSorting.select( LiteralHelper.sortOptionSet.getNameIndex( sd.getSorting( )
+						.getName( ) ) );
 				cmbSorting.addListener( SWT.Selection, new Listener( ) {
 
 					public void handleEvent( Event event )
 					{
-						if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
-						{
-							sd.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
-						}
-						else
-						{
-							sd.setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
-						}
+						sd.setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
 
 						// Update the query sortings of other series.
 						ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
@@ -233,15 +219,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 										// Except for the first, which should be
 										// changed manually.
 										SeriesDefinition sdf = (SeriesDefinition) sds.get( i );
-										if ( cmbSorting.getText( )
-												.equals( UNSORTED_OPTION ) )
-										{
-											sdf.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
-										}
-										else
-										{
-											sdf.setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
-										}
+										sdf.setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
 									}
 								}
 								return null;
@@ -256,6 +234,27 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 		};
 		subUIGroupY.createArea( parent );
 		components.add( subUIGroupY );
+	}
+
+	/**
+	 * Set ascending for all series definitions
+	 * 
+	 */
+	private void initSorting( )
+	{
+		ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
+
+			public Object run( )
+			{
+				List sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
+				for ( int i = 0; i < sds.size( ); i++ )
+				{
+					SeriesDefinition sdf = (SeriesDefinition) sds.get( i );
+					sdf.setSorting( SortOption.ASCENDING_LITERAL );
+				}
+				return null;
+			}
+		} );
 	}
 
 	private int getStandardWidth( )
