@@ -317,12 +317,11 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 			String format = action.getFormat( );
 			if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 			{
-				link.append( baseURL.replaceFirst( "frameset", "run" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				baseURL = baseURL.replaceFirst( IBirtConstants.VIEWER_FRAMESET,
+						IBirtConstants.VIEWER_RUN );
 			}
-			else
-			{
-				link.append( baseURL );
-			}
+
+			link.append( baseURL );
 
 			link
 					.append( reportName.toLowerCase( )
@@ -382,13 +381,18 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 						// Does nothing
 					}
 				}
-			}
 
-			// Adding overwrite.
-			link
-					.append( ParameterAccessor.getQueryParameterString(
+				// Adding overwrite.
+				if ( !reportName.toLowerCase( ).endsWith(
+						ParameterAccessor.SUFFIX_REPORT_DOCUMENT )
+						&& baseURL
+								.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0 )
+				{
+					link.append( ParameterAccessor.getQueryParameterString(
 							ParameterAccessor.PARAM_OVERWRITE, String
 									.valueOf( true ) ) );
+				}
+			}
 
 			if ( locale != null )
 			{
