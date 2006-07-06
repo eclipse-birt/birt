@@ -115,6 +115,32 @@ public final class LayoutManager
 			}
 		}
 
+		// restrict lenged size to 1/3 of the total block size.
+		// TODO use better layout solution
+		switch ( po.getValue( ) )
+		{
+			case Position.ABOVE :
+			case Position.BELOW :
+				// restrict height
+				if ( szLegend.getHeight( ) > bo.getHeight( ) / 3 )
+				{
+					szLegend.setHeight( bo.getHeight( ) / 3 );
+				}
+				break;
+			case Position.LEFT :
+			case Position.RIGHT :
+			case Position.OUTSIDE:
+				// restrict width
+				if ( szLegend.getWidth( ) > bo.getWidth( ) / 3 )
+				{
+					szLegend.setWidth( bo.getWidth( ) / 3 );
+				}
+				break;
+			default :
+				// ignore other cases
+				break;
+		}
+
 		Anchor anchor = p.getAnchor( );
 
 		// swap west/east

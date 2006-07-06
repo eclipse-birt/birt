@@ -564,6 +564,18 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			sz.scale( dScale );
 
+			// validate legend size, restrict within the bounds.
+			// TODO this is requried due to the 1/3 size constraints policy in layoutManager,
+			// should use better solution.
+			if ( sz.getWidth( ) > bo.getWidth( ) )
+			{
+				sz.setWidth( bo.getWidth( ) );
+			}
+			if ( sz.getHeight( ) > bo.getHeight( ) )
+			{
+				sz.setHeight( bo.getHeight( ) );
+			}
+
 			// USE ANCHOR IN POSITIONING THE LEGEND CLIENT AREA WITHIN THE BLOCK
 			// SLACK SPACE
 			dX = bo.getLeft( ) + ( bo.getWidth( ) - sz.getWidth( ) ) / 2;
