@@ -1498,6 +1498,26 @@ public class ParameterAccessor
 	}
 
 	/**
+	 * Get current format of parameter.
+	 * 
+	 * @param request
+	 *            HttpServletRequest
+	 * @param paramName
+	 *            String
+	 * 
+	 * @return String
+	 */
+
+	public static String getFormat( HttpServletRequest request,
+			String paramName )
+	{
+		if ( request == null || paramName == null )
+			return null;
+
+		return getParameter( request, paramName + "_format" ); //$NON-NLS-1$
+	}
+
+	/**
 	 * @return the isWorkingFolderAccessOnly
 	 */
 	public static boolean isWorkingFolderAccessOnly( )

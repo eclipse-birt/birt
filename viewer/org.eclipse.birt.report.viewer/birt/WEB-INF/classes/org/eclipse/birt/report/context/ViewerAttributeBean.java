@@ -484,7 +484,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	protected void processReport( HttpServletRequest request ) throws Exception
 	{
 		File reportDocFile = new File( this.reportDocumentName );
-		// String reportDesignName = ParameterAccessor.getReport( request );
 		File reportDesignDocFile = new File( reportDesignName );
 
 		if ( reportDesignDocFile != null && reportDesignDocFile.exists( )
@@ -562,22 +561,34 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			{
 				try
 				{
-					try
+					String format = ParameterAccessor.getFormat( request,
+							paramName );
+					if ( format != null && format.length( ) > 0 )
 					{
-						// Convert locale string to object
+						// Convert object using the specific format
 						paramValueObj = ParameterValidationUtil.validate(
-								parameter.getDataType( ), parameter
-										.getPattern( ), paramValueObj
+								parameter.getDataType( ), format, paramValueObj
 										.toString( ), locale );
 					}
-					catch ( ValidationValueException e1 )
+					else
 					{
-						// Convert string to object using default local
-						paramValueObj = ParameterValidationUtil
-								.validate(
-										parameter.getDataType( ),
-										ParameterValidationUtil.DEFAULT_DATETIME_FORMAT,
-										paramValueObj.toString( ) );
+						try
+						{
+							// Convert locale string to object
+							paramValueObj = ParameterValidationUtil.validate(
+									parameter.getDataType( ), parameter
+											.getPattern( ), paramValueObj
+											.toString( ), locale );
+						}
+						catch ( ValidationValueException e1 )
+						{
+							// Convert string to object using default local
+							paramValueObj = ParameterValidationUtil
+									.validate(
+											parameter.getDataType( ),
+											ParameterValidationUtil.DEFAULT_DATETIME_FORMAT,
+											paramValueObj.toString( ) );
+						}
 					}
 
 					params.put( paramName, paramValueObj );
