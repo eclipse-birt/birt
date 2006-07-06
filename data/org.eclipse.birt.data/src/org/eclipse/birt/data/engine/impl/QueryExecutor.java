@@ -49,7 +49,6 @@ import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
 import org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
-import org.eclipse.birt.data.engine.expression.FilterExpressionParser;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
@@ -210,16 +209,11 @@ public abstract class QueryExecutor implements IQueryExecutor
 		// Run beforeOpen script now so the script can modify the DataSetRuntime properties
 		dataSet.beforeOpen( );
 
-		IExpressionProcessor exprProcessor = new ExpressionProcessor( null,
-				null,
-				dataSet,
-				null );
-
 		// Let subclass create a new and empty intance of the appropriate
 		// odi IQuery
 		odiQuery = createOdiQuery( );
 		odiQuery.setDistinctValueFlag( dataSet.needDistinctValue( ) );
-		odiQuery.setExprProcessor( exprProcessor );
+		odiQuery.setExprProcessor( new ExpressionProcessor( dataSet ) );
 		populateOdiQuery( );
 		prepareOdiQuery( );
 		isPrepared = true;
@@ -632,11 +626,13 @@ public abstract class QueryExecutor implements IQueryExecutor
 
 		if ( expr instanceof IConditionalExpression )
 		{
-			String expr4Exception = ( (ConditionalExpression) expr ).getExpression( )
-					.getText( );
 			try
 			{
-				new FilterExpressionParser( null, null ).compileFilterExpression( expr4Exception );
+				if ( odiQuery instanceof BaseQuery )
+				{
+					IExpressionProcessor ep = ( (BaseQuery) odiQuery ).getExprProcessor( );
+					return ep.hasAggregation( expr );
+				}
 			}
 			catch ( DataException e )
 			{
@@ -702,12 +698,11 @@ public abstract class QueryExecutor implements IQueryExecutor
 			Object[] names = results.keySet().toArray();
 			DummyICCState iccState = new DummyICCState(o, names);
 
-			ep.setResultIterator(odiResult);
-			while (!iccState.isFinish()) {
-				ep.compileExpression(iccState);
-				ep.calculate();
+			ep.setResultIterator( odiResult );
+			while ( !iccState.isFinish( ) )
+			{
+				ep.evaluateMultiPassExprOnCmp( iccState, false );
 			}
-
 		}
 		helper.setJSRowObject( this.dataSet.getJSResultRowObject( ) );
 

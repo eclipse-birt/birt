@@ -10,9 +10,16 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.expression;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.mozilla.javascript.Context;
@@ -26,6 +33,7 @@ public class ExpressionCompilerUtil
 	private static ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
 
 	/**
+	 * compile the expression
 	 * @param expr
 	 * @param registry
 	 * @param cx
@@ -33,6 +41,7 @@ public class ExpressionCompilerUtil
 	 */
 	public static CompiledExpression compile( String expr, Context cx )
 	{
+		expressionCompiler.setDataSetMode( true );
 		return expressionCompiler.compile( expr, null, cx );
 	}
 
@@ -59,7 +68,45 @@ public class ExpressionCompilerUtil
 		return compile( expression, exprManager );
 
 	}
+	
+	/**
+	 * 
+	 * @param expression
+	 * @return
+	 * @throws DataException
+	 */
+	public static List extractColumnExpression( IScriptExpression expression )
+			throws DataException
+	{
+		if ( expression == null )
+			return null;
+		List list = new ArrayList( );
+		populateColumnList( list, expression );
+		return list;
+	}
+	
+	/**
+	 * 
+	 * This utility method is to compile expression to get a list of column
+	 * expressions which is depended by given expression.
+	 * 
+	 * @param expression
+	 * @return
+	 * @throws DataException
+	 */
+	public static List extractColumnExpression(
+			IConditionalExpression expression ) throws DataException
+	{
+		if ( expression == null )
+			return null;
+		List list = new ArrayList( );
+		populateColumnList( list, expression.getExpression( ) );
+		populateColumnList( list, expression.getOperand1( ) );
+		populateColumnList( list, expression.getOperand2( ) );
+		return list;
 
+	}
+	
 	private static boolean compile( String expression, ExprManager exprManager )
 	{
 		Context context = Context.enter( );
@@ -140,6 +187,36 @@ public class ExpressionCompilerUtil
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * 
+	 * @param list
+	 * @param expression
+	 * @throws DataException
+	 */
+	private static void populateColumnList( List list,
+			IScriptExpression expression ) throws DataException
+	{
+		if ( expression != null )
+		{
+			List l;
+			try
+			{
+				l = ExpressionUtil.extractColumnExpressions( expression.getText( ) );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
+
+			for ( int i = 0; i < l.size( ); i++ )
+			{
+				IColumnBinding cb = (IColumnBinding) l.get( i );
+				if ( !list.contains( cb.getResultSetColumnName( ) ) )
+					list.add( cb.getResultSetColumnName( ) );
+			}
+		}
 	}
 
 }

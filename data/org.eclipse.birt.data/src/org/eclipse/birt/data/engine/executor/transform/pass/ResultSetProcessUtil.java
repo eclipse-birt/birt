@@ -136,11 +136,11 @@ class ResultSetProcessUtil extends RowProcessUtil
 
 				ep.setResultIterator( populator.getResultIterator( ) );
 
-				//Populate all temp computed columns ( used for query filtering,sorting )
+				// Populate all temp computed columns ( used for query
+				// filtering,sorting )
 				while ( !isICCStateFinish( ) )
 				{
-					ep.compileExpression( iccState );
-					ep.calculate( );
+					ep.evaluateMultiPassExprOnCmp( iccState, false );
 				}
 			}
 

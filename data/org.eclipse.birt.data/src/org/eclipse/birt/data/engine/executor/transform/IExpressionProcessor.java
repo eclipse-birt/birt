@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
-import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
@@ -62,50 +61,31 @@ public interface IExpressionProcessor
 	public Scriptable getScope( );
 
 	/**
-	 * Compile the compilable expression in the given IComputedColumnState
-	 * instance
 	 * 
-	 * @param computedColumns
-	 */
-	public void compileComputedColumn( IComputedColumnsState computedColumns );
-
-	/**
-	 * Compile the filter expression. If the filter contains the indirect nested
-	 * row reference, this is, it refers to the row object in computed columns,
-	 * then replace the field of expression and recompile the filter expression
+	 * Evaluate the aggregation list in IccStates.The aggragate type must be
+	 * COMPUTED_COLUMN_EXPR. Meanwhile, it will calculate the aggregations.If
+	 * the aggregate pass level is less than or equal to 1, the value of this
+	 * aggregate is available. And the value will be register in aggregate
+	 * table.If the pass level is more than 1, the value is not accessed. The
+	 * calculation will push to next time.
 	 * 
-	 * @param filterState
-	 * @param computedColumns
+	 * 
+	 * @param iccState
+	 * @param useResultSetMeta
 	 * @throws DataException
 	 */
-	public void compileFilter( List filterState,
-			IComputedColumnsState computedColumns ) throws DataException;
+	public void evaluateMultiPassExprOnCmp( IComputedColumnsState iccState,
+			boolean useResultSetMeta ) throws DataException;
 
 	/**
-	 * Compile the exprssion in the given IComutedColumnState
-	 * @param filterState
-	 * @param computedColumns
-	 */
-	public void compileExpression( IComputedColumnsState computedColumns );
-
-	/**
-	 * Calculate the aggregations.If the aggregate pass level is less than or
-	 * equal to 1, the value of this aggregate is available. And the value will
-	 * be register in aggregate table.If the pass level is more than 1, the
-	 * value is not accessed. The calculation will push to next time.
-	 * 
-	 */
-	public void calculate( ) throws DataException;
-
-	/**
-	 * Calculate the aggregation list on group.The aggragate type may be
+	 * Evaluate the aggregation list on group.The aggragate type may be
 	 * FILTER_ON_GROUP or SORT_ON_GROUP. groupLevel array contains every
 	 * aggragate group level.It can be referred to the aggregate's rationality
 	 * and calculation.
 	 * 
 	 */
-	public void calculate( Object[] aggrList, int[] groupLevel, int type )
-			throws DataException;
+	public void evaluateMultiPassExprOnGroup( Object[] exprArray,
+			int[] currentGroupLevel, int arrayType ) throws DataException;
 
 	/**
 	 * whether the expression list contains aggregate, if yes, return true. else
@@ -134,29 +114,28 @@ public interface IExpressionProcessor
 	public void setResultIterator( IResultIterator it );
 
 	/**
-	 * Set the result iterator against which the value of aggregations will be
-	 * calculated.
-	 * 
-	 * @param it
-	 */
-	public void setResultSetMetaData( IResultClass rsMetaData );
-
-	/**
 	 * Set the query to be used by ExpressionProcessor
 	 * 
 	 * @param query
 	 */
 	public void setQuery( BaseQuery query );
 
+
 	/**
-	 * Clear the temp variables when the IExpressionProcessor is no longer used.
-	 * 
+	 * Set the resultset populator
+	 * @param rsPopulator
 	 */
-	public void clear( );
-	
-	public void prepareComputedColumns( IComputedColumnsState iccState );
-	
 	public void setResultSetPopulator( ResultSetPopulator rsPopulator );
 	
+	/**
+	 * Set dataset mode: DATA_SET_MODE OR RESULT_SET_MODE
+	 * @param isDataSetMode
+	 */
 	public void setDataSetMode( boolean isDataSetMode );
+	
+	/**
+	 * Clear the expression processor
+	 *
+	 */
+	public void clear();
 }

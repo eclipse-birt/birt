@@ -140,4 +140,13 @@ public class JSAggrValueObject extends ScriptableObject
 		return (AggrExprInfo) this.aggrExprInfoList.get( i );
 	}
 	
+	/**
+	 * Get aggregation's count
+	 * @return
+	 */
+	int getAggrCount( )
+	{
+		return this.aggrExprInfoList.size( );
+	}
+	
 }

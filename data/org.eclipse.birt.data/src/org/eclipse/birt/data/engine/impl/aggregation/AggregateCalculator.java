@@ -380,9 +380,10 @@ class AggregateCalculator
 	 */
 	void populateValue( JSAggrValueObject aggrValue )
 	{
-		if ( aggrValue == null)
+		if ( aggrValue == null )
 			return;
-		for ( int i = 0; i < this.aggrCount; i++ )
+		assert ( aggrValues.length >= aggrValue.getAggrCount( ) );
+		for ( int i = 0; i < aggrValue.getAggrCount( ); i++ )
 		{
 			Object value = aggrValue.get( i, aggrValue );
 			if ( value != null )

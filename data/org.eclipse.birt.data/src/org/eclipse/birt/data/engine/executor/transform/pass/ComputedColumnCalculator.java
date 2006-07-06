@@ -209,15 +209,8 @@ class ComputedColumnCalculator
 		// instance.
 		populator.getExpressionProcessor( )
 				.setResultIterator( populator.getResultIterator( ) );
-		populator.getExpressionProcessor( )
-				.setResultSetMetaData( populator.getResultSetMetadata( ) );
 
-		// Compile the computed columns in iccState. The ones that can be
-		// evaluated in this pass would be marked as "available"
 		populator.getExpressionProcessor( )
-				.compileComputedColumn( iccState );
-
-		// Calculate the aggregation.
-		populator.getExpressionProcessor( ).calculate( );
+				.evaluateMultiPassExprOnCmp( iccState, true );
 	}
 }

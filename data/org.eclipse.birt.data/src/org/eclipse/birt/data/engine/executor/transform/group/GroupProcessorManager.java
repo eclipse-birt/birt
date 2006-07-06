@@ -122,7 +122,7 @@ public class GroupProcessorManager
 		{
 			groupLevelArray[i] = ( (Integer) groupLevelList.get( i ) ).intValue( );
 		}
-		this.exprProcessor.calculate( expressionList.toArray( ),
+		this.exprProcessor.evaluateMultiPassExprOnGroup( expressionList.toArray( ),
 				groupLevelArray,
 				type );
 	}

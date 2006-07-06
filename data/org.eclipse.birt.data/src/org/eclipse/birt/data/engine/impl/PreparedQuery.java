@@ -88,6 +88,7 @@ final class PreparedQuery
 		assert queryDefn != null;
 
 		this.expressionCompiler = new ExpressionCompiler( );
+		this.expressionCompiler.setDataSetMode( false );
 		this.dataEngineContext = deContext;
 		this.sharedScope = scope;
 

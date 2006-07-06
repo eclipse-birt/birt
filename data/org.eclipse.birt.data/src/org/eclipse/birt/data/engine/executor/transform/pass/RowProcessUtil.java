@@ -116,21 +116,6 @@ abstract class RowProcessUtil
 				}
 
 			}
-
-			if ( model == TransformationConstants.DATA_SET_MODEL )
-			{
-				this.populator.getExpressionProcessor( )
-						.prepareComputedColumns( iccState );
-			}
-			else if ( model == TransformationConstants.RESULT_SET_MODEL )
-			{
-	/*			iccState.setModel( TransformationConstants.DATA_SET_MODEL );
-				this.populator.getExpressionProcessor( )
-						.prepareComputedColumns( iccState );
-				iccState.setModel( TransformationConstants.RESULT_SET_MODEL );
-	*/			this.populator.getExpressionProcessor( )
-						.prepareComputedColumns( iccState );
-			}
 		}
 	}
 	

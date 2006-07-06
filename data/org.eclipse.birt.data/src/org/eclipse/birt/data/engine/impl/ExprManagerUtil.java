@@ -22,7 +22,6 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
-import org.eclipse.birt.data.engine.expression.ExpressionParserUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
@@ -131,9 +130,9 @@ class ExprManagerUtil
 				try
 				{
 					if ( expr instanceof IScriptExpression )
-						l = ExpressionParserUtil.extractColumnExpression( (IScriptExpression) expr );
+						l = ExpressionCompilerUtil.extractColumnExpression( (IScriptExpression) expr );
 					else if ( expr instanceof IConditionalExpression )
-						l = ExpressionParserUtil.extractColumnExpression( (IConditionalExpression) expr );
+						l = ExpressionCompilerUtil.extractColumnExpression( (IConditionalExpression) expr );
 				}
 				catch ( DataException e )
 				{
