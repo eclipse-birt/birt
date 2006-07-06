@@ -28,7 +28,7 @@
 <HTML>
 	<HEAD>
 		<TITLE><%= attributeBean.getReportTitle( ) %></TITLE>
-		<BASE href="<%= "http://" + request.getServerName( ) + ":" + request.getServerPort( ) + request.getContextPath( ) + fragment.getJSPRootPath( ) %>" >
+		<BASE href="<%= request.getScheme( ) + "://" + request.getServerName( ) + ":" + request.getServerPort( ) + request.getContextPath( ) + fragment.getJSPRootPath( ) %>" >
 		
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8">
 		<LINK REL="stylesheet" HREF="birt/styles/style.css" TYPE="text/css">

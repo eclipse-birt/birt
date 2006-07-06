@@ -21,9 +21,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <HTML>
 	<HEAD>
-		<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<TITLE>PARAMETER SELECTION PAGE</TITLE>
-		<BASE href="<%= "http://" + request.getServerName( ) + ":" + request.getServerPort( ) + request.getContextPath( ) + "/webcontent/frameset" %>" >
+		<BASE href="<%= request.getScheme( ) +"://" + request.getServerName( ) + ":" + request.getServerPort( ) + request.getContextPath( ) + "/webcontent/frameset" %>" >
 		
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8">
 		<LINK REL="stylesheet" HREF="birt/styles/style.css" TYPE="text/css">
