@@ -282,7 +282,7 @@ public class ResultIterator implements IResultIterator
 				"getValue",
 				"get of value binding column: " + LogUtil.toString( exprName ) );
 		
-		if ( this.resultService.getBaseExpression( exprName ) == null
+		if ( this.resultService.getBindingExpr( exprName ) == null
 				&& this.resultService.getAutoBindingExpr( exprName ) == null )
 			throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
 					exprName );

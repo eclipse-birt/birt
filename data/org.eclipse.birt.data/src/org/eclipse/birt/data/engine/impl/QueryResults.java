@@ -20,7 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -29,13 +28,9 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.expression.CompiledExpression;
-import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /** 
@@ -48,6 +43,9 @@ import org.mozilla.javascript.Scriptable;
  */
 class QueryResults implements IQueryResults, IQueryService
 {
+	// query service instance
+	private IServiceForQueryResults 	queryService;
+	
 	// context of data engine
 	private DataEngineContext 			context;
 	private Scriptable 					queryScope;
@@ -57,8 +55,6 @@ class QueryResults implements IQueryResults, IQueryService
 	private String                      rootQueryResultID;
 	private String 						selfQueryResultID;
 
-	// query service instance
-	private IServiceForQueryResults 	queryService;
 	private ResultIterator				iterator;
 		
 	private static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
@@ -68,20 +64,14 @@ class QueryResults implements IQueryResults, IQueryService
 	 * @param queryScope
 	 * @param nestedLevel
 	 */
-	QueryResults( IServiceForQueryResults queryService, Scriptable queryScope,
-			int nestedLevel )
+	QueryResults( IServiceForQueryResults queryService )
 	{
 		assert queryService != null;
 
-		this.context = queryService.getContext( );
 		this.queryService = queryService;
-		this.queryScope = queryScope;
-		this.nestedLevel = nestedLevel;
-
-		logger.logp( Level.FINER,
-				QueryResults.class.getName( ),
-				"QueryResults",
-				"QueryResults starts up" );
+		this.context = queryService.getContext( );
+		this.queryScope = queryService.getScope( );
+		this.nestedLevel = queryService.getNestedLevel( );
 	}
 		
 	/*
@@ -122,13 +112,6 @@ class QueryResults implements IQueryResults, IQueryService
 		{
 			throw e;
 		}
-		finally
-		{
-			logger.logp( Level.FINE,
-					QueryResults.class.getName( ),
-					"getResultMetaData",
-					"return the result metadata" );
-		}
 	}
 	
 	/*
@@ -141,20 +124,15 @@ class QueryResults implements IQueryResults, IQueryService
 	 */
 	public IResultIterator getResultIterator( ) throws DataException
 	{ 
-		logger.logp( Level.FINE,
-				QueryResults.class.getName( ),
-				"getResultIterator",
-				"start" );
-		
 		if ( queryService == null )
 			throw new DataException( ResourceConstants.RESULT_CLOSED );
 
 		if ( iterator == null )
 		{
 			// data row binding
-			this.initAutoBinding( );
-			if ( !( queryService.getPreparedQuery( ) instanceof PreparedIVQuery ) )
-				this.queryService.validateQueryColumBinding( );
+			this.queryService.initAutoBinding( );
+			this.queryService.validateQueryColumBinding( );
+			
 			iterator = new ResultIterator( new ResultService( context, this ),
 					queryService.executeQuery( ),
 					this.queryScope );
@@ -165,44 +143,6 @@ class QueryResults implements IQueryResults, IQueryService
 				"getResultIterator",
 				"finished" );
 		return iterator;
-	}
-	
-	/**
-	 * @throws BirtException
-	 */
-	private void initAutoBinding( ) throws DataException
-	{
-		if ( this.queryService.needAutoBinding( ) == false )
-			return;
-
-		Context cx = Context.enter( );
-		
-		IResultMetaData metaData = queryService.getResultMetaData( );
-		int columnCount = metaData.getColumnCount( );
-		for ( int i = 0; i < columnCount; i++ )
-		{
-			int colIndex = i + 1;
-			try
-			{
-				String colName = metaData.getColumnAlias( colIndex );
-				if ( colName == null )
-					colName = metaData.getColumnName( colIndex );
-				
-				ScriptExpression baseExpr = new ScriptExpression( "dataSetRow[\""
-						+ JavascriptEvalUtil.transformToJsConstants( colName )+ "\"]",
-						metaData.getColumnType( colIndex ) );
-				CompiledExpression compiledExpr = ExpressionCompilerUtil.compile( baseExpr.getText( ),
-						cx );
-				baseExpr.setHandle( compiledExpr );
-				this.queryService.addAutoBindingExpr( colName, baseExpr );
-			}
-			catch ( BirtException e )
-			{
-				// impossible, ignore
-			}
-		}
-		
-		Context.exit( );
 	}
 	
 	/*
@@ -218,10 +158,6 @@ class QueryResults implements IQueryResults, IQueryService
 		if ( this.queryService == null )
 		{
 			// already closed
-			logger.logp( Level.FINE,
-					QueryResults.class.getName( ),
-					"close",
-					"QueryResults is closed" );
 			return;
 		}
 
@@ -372,9 +308,9 @@ class QueryResults implements IQueryResults, IQueryService
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.IResultService#getBaseExpression(java.lang.String)
 		 */
-		public IBaseExpression getBaseExpression( String exprName )
+		public IBaseExpression getBindingExpr( String exprName )
 		{
-			return queryResults.queryService.getBaseExpression( exprName );
+			return queryResults.queryService.getBindingExpr( exprName );
 		}
 		
 		/*

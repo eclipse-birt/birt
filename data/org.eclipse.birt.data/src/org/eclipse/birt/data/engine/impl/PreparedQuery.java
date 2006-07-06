@@ -371,13 +371,13 @@ final class PreparedQuery
 		logger.finer( "Finish preparing the execution." );
 		
 	    return new QueryResults( new ServiceForQueryResults( this.dataEngineContext,
+				executor.getQueryScope( ),
+				executor.getNestedLevel( ) + 1,
 				dataSourceQuery,
 				queryService,
 				executor,
 				this.baseQueryDefn,
-				this.exprManager ),
-				executor.getQueryScope( ),
-				executor.getNestedLevel( ) + 1 );
+				this.exprManager ) );
 	}
 	
 	/**

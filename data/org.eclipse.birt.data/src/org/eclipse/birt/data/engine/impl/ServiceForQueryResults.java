@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -21,11 +23,15 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.CompiledExpression;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.JSResultSetRow;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -41,19 +47,24 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	private IBaseQueryDefinition 		queryDefn;
 	
 	private ExprManager					exprManager;
-	 
+	
+	private Scriptable 					scope;
+	private int 						nestedLevel;
+	
 	/**
 	 * @param reportQuery
 	 * @param query
 	 */
-	public ServiceForQueryResults( DataEngineContext context,
-			PreparedDataSourceQuery reportQuery, IPreparedQueryService query,
-			QueryExecutor queryExecutor, IBaseQueryDefinition queryDefn,
-			ExprManager exprManager )
+	public ServiceForQueryResults( DataEngineContext context, Scriptable scope,
+			int nestedLevel, PreparedDataSourceQuery reportQuery,
+			IPreparedQueryService query, QueryExecutor queryExecutor,
+			IBaseQueryDefinition queryDefn, ExprManager exprManager )
 	{
 		assert reportQuery != null && queryExecutor != null;
 
 		this.context = context;
+		this.scope = scope;
+		this.nestedLevel = nestedLevel;
 		this.reportQuery = reportQuery;
 		this.queryService = query;
 		this.queryExecutor = queryExecutor;
@@ -67,7 +78,23 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	public DataEngineContext getContext( )
 	{
 		return this.context;
-	}	
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#getScope()
+	 */
+	public Scriptable getScope( )
+	{
+		return this.scope;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#getNestedLevel()
+	 */
+	public int getNestedLevel( )
+	{
+		return this.nestedLevel;
+	}
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getQueryDefn()
@@ -84,7 +111,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	{
 		return this.reportQuery;
 	}
-
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getGroupLevel()
 	 */
@@ -105,7 +132,15 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			return 0;
 		}
 	}
-
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getDataSetRuntime(int)
+	 */
+	public DataSetRuntime getDataSetRuntime( )
+	{
+		return queryExecutor.getDataSet( );
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getDataSetRuntimeList()
 	 */
@@ -126,14 +161,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		
 		dsRuns[count - 1] = queryExecutor.getDataSet( );
 		return dsRuns;
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getDataSetRuntime(int)
-	 */
-	public DataSetRuntime getDataSetRuntime( )
-	{
-		return queryExecutor.getDataSet( );
 	}
 	
 	/*
@@ -220,10 +247,11 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * 
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getBaseExpr(java.lang.String)
 		 */
-		public IBaseExpression getBaseExpr(String name) {
-			if (name == null)
+		public IBaseExpression getBaseExpr( String name )
+		{
+			if ( name == null )
 				return null;
-			return ServiceForQueryResults.this.exprManager.getExpr(name);
+			return ServiceForQueryResults.this.exprManager.getExpr( name );
 		}
 
 		/*
@@ -267,40 +295,26 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		}
 	}
 
+	// ----------------related with column binding-----------------
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#validateQueryColumBinding()
+	 */
+	public void validateQueryColumBinding( ) throws DataException
+	{
+		if ( getPreparedQuery( ) instanceof PreparedIVQuery )
+			return;
+		
+		this.exprManager.validateColumnBinding( );
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getBaseExpression(java.lang.String)
 	 */
-	public IBaseExpression getBaseExpression( String exprName )
+	public IBaseExpression getBindingExpr( String exprName )
 	{
-		return exprManager.getExpr( exprName );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getExprManager()
-	 */
-	public ExprManager getExprManager( )
-	{
-		return exprManager;
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.impl.IQueryService#needAutoBinding()
-	 */
-	public boolean needAutoBinding( )
-	{
-		if ( this.queryDefn instanceof IQueryDefinition )
-			return ( (IQueryDefinition) queryDefn ).needAutoBinding( );
-
-		return false;
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.impl.IQueryService#addAutoBindingExpr(java.lang.String,
-	 *      org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public void addAutoBindingExpr( String exprName, IBaseExpression baseExpr )
-	{
-		this.exprManager.addAutoBindingExpr( exprName, baseExpr );
+		return this.exprManager.getExpr( exprName );
 	}
 	
 	/*
@@ -309,15 +323,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	public IScriptExpression getAutoBindingExpr( String exprName )
 	{
 		return this.exprManager.getAutoBindingExpr( exprName );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#validateQueryColumBinding()
-	 */
-	public void validateQueryColumBinding( ) throws DataException
-	{
-		this.exprManager.validateColumnBinding( );
 	}
 
 	/*
@@ -334,6 +339,56 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	public Map getAllAutoBindingExprs( )
 	{
 		return this.exprManager.getAutoBindingExprMap( );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#initAutoBinding()
+	 */
+	public void initAutoBinding( ) throws DataException
+	{
+		if ( needAutoBinding( ) == false )
+			return;
+
+		Context cx = Context.enter( );
+
+		IResultMetaData metaData = getResultMetaData( );
+		int columnCount = metaData.getColumnCount( );
+		for ( int i = 0; i < columnCount; i++ )
+		{
+			int colIndex = i + 1;
+			try
+			{
+				String colName = metaData.getColumnAlias( colIndex );
+				if ( colName == null )
+					colName = metaData.getColumnName( colIndex );
+
+				ScriptExpression baseExpr = new ScriptExpression( "dataSetRow[\""
+						+ JavascriptEvalUtil.transformToJsConstants( colName )
+						+ "\"]",
+						metaData.getColumnType( colIndex ) );
+				CompiledExpression compiledExpr = ExpressionCompilerUtil.compile( baseExpr.getText( ),
+						cx );
+				baseExpr.setHandle( compiledExpr );
+				this.exprManager.addAutoBindingExpr( colName, baseExpr );
+			}
+			catch ( BirtException e )
+			{
+				// impossible, ignore
+			}
+		}
+
+		Context.exit( );
+	}
+	
+	/**
+	 * @return
+	 */
+	private boolean needAutoBinding( )
+	{
+		if ( this.queryDefn instanceof IQueryDefinition )
+			return ( (IQueryDefinition) queryDefn ).needAutoBinding( );
+
+		return false;
 	}
 	
 }

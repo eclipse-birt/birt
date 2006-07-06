@@ -26,7 +26,7 @@ import org.mozilla.javascript.Scriptable;
  * Wrap the service which is provided for IResultIterator to make
  * IResultIterator knows only these information it needes.
  */
-public interface IServiceForResultSet
+interface IServiceForResultSet
 {
 	/**
 	 * @return
@@ -47,7 +47,7 @@ public interface IServiceForResultSet
 	 * @param exprName
 	 * @return
 	 */
-	public IBaseExpression getBaseExpression( String exprName );
+	public IBaseExpression getBindingExpr( String exprName );
 	
 	/**
 	 * @param exprName

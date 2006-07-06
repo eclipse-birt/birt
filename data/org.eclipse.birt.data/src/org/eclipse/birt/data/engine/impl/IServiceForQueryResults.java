@@ -28,13 +28,26 @@ import org.mozilla.javascript.Scriptable;
  * Wrap the service which is provided for IQueryResults to make IQueryResults
  * knows only these information it needes.
  */
-public interface IServiceForQueryResults
+interface IServiceForQueryResults
 {
 	/**
 	 * @return
 	 */
 	public DataEngineContext getContext( );
+	
+	/**
+	 * @return
+	 */
+	public Scriptable getScope( );
 
+	/**
+	 * If it is a nested query, this value indicates which level this query is
+	 * placed.
+	 * 
+	 * @return
+	 */
+	public int getNestedLevel( );
+	
 	/**
 	 * @return base query definition
 	 */
@@ -46,21 +59,31 @@ public interface IServiceForQueryResults
 	public IPreparedQuery getPreparedQuery( );
 	
 	/**
+	 * If it is a sub query, this value indicates which group level this query
+	 * is placed.
+	 * 
 	 * @return
 	 */
 	public int getGroupLevel( );
 
 	/**
-	 * @param count
+	 * Associated data set runtime instance.
+	 * 
+	 * @return
+	 */
+	public DataSetRuntime getDataSetRuntime( );
+	
+	/**
+	 * Associated data sets runtime, frou inner to outer.
+	 * 
+	 * @param count,
+	 *            how many levels needs to be traced.
 	 * @return
 	 */
 	public DataSetRuntime[] getDataSetRuntimes( int count );
 	
-	public DataSetRuntime getDataSetRuntime( );
-
 	/**
-	 * 
-	 * @return
+	 * @return meta data of data set
 	 * @throws DataException
 	 */
 	public IResultMetaData getResultMetaData( ) throws DataException;
@@ -82,52 +105,43 @@ public interface IServiceForQueryResults
 			String subQueryName, Scriptable subScope ) throws DataException;
 	
 	/**
-	 * 
+	 * close service
 	 */
 	public void close( );
-
+	
 	/**
-	 * @return
+	 * @return the valid property of defined column bindings
+	 * @throws DataException
 	 */
-	public boolean needAutoBinding( );
+	public void validateQueryColumBinding() throws DataException;
 	
 	/**
 	 * @param exprName
-	 * @param baseExpr
+	 * @return associated defined binding expression
 	 */
-	public void addAutoBindingExpr( String exprName, IBaseExpression baseExpr );
+	public IBaseExpression getBindingExpr( String exprName );
 	
 	/**
 	 * @param exprName
-	 * @return
-	 */
-	public IBaseExpression getBaseExpression( String exprName );
-	
-	/**
-	 * @param exprName
-	 * @return
+	 * @return associated defined auto binding expression
 	 */
 	public IScriptExpression getAutoBindingExpr( String exprName );
 	
 	/**
-	 * the element is GroupBindingColumn
-	 * 
 	 * @return
+	 * {@link org.eclipse.birt.data.engine.impl.GroupBindingColumn}
 	 */
 	public List getAllBindingExprs( );
 	
 	/**
-	 * map of bound column name with associated expression
-	 * 
-	 * @return
+	 * @return the map of <column name, associated expression>
 	 */
 	public Map getAllAutoBindingExprs( );
 	
 	/**
-	 * 
-	 * @return
-	 * @throws DataException 
+	 * init auto binding at the start time
+	 * @throws DataException
 	 */
-	public void validateQueryColumBinding() throws DataException;
+	public void initAutoBinding( ) throws DataException;
 	
 }
