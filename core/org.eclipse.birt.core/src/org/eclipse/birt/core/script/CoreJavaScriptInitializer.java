@@ -11,11 +11,12 @@
 
 package org.eclipse.birt.core.script;
 
-import org.eclipse.birt.core.script.bre.NativeBirtComp;
-import org.eclipse.birt.core.script.bre.NativeBirtDateTime;
-import org.eclipse.birt.core.script.bre.NativeBirtMath;
-import org.eclipse.birt.core.script.bre.NativeBirtStr;
+import org.eclipse.birt.core.script.bre.BirtComp;
+import org.eclipse.birt.core.script.bre.BirtDateTime;
+import org.eclipse.birt.core.script.bre.BirtMath;
+import org.eclipse.birt.core.script.bre.BirtStr;
 import org.mozilla.javascript.Context;
+
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -28,10 +29,14 @@ public class CoreJavaScriptInitializer implements IJavascriptInitializer
 		{
 			ScriptableObject.defineClass( scope, NativeFinance.class );
 			ScriptableObject.defineClass( scope, NativeDateTimeSpan.class );
-			ScriptableObject.defineClass( scope, NativeBirtDateTime.class );
-			ScriptableObject.defineClass( scope, NativeBirtMath.class );
-			ScriptableObject.defineClass( scope, NativeBirtStr.class );
-			ScriptableObject.defineClass( scope, NativeBirtComp.class );
+			ScriptableObject birtMath = new BirtMath();
+			ScriptableObject birtComp = new BirtComp();
+			ScriptableObject birtDateTime = new BirtDateTime();
+			ScriptableObject birtStr = new BirtStr();
+			ScriptableObject.putProperty( scope, birtMath.getClassName( ), birtMath );
+			ScriptableObject.putProperty( scope, birtComp.getClassName(), birtComp );
+			ScriptableObject.putProperty( scope, birtDateTime.getClassName( ), birtDateTime );
+			ScriptableObject.putProperty( scope, birtStr.getClassName( ), new BirtStr() );
 		}
 		catch ( Exception ex )
 		{
