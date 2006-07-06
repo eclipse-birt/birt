@@ -100,7 +100,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.130 $ $Date: 2006/06/30 09:33:27 $
+ * @version $Revision: 1.131 $ $Date: 2006/07/04 08:04:37 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -2111,14 +2111,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attribute( HTMLTags.ATTR_TYPE, "image/svg+xml" ); //$NON-NLS-1$
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
 			setStyleName( image.getStyleClass( ) );
-			StringBuffer buffer = new StringBuffer( );
+			setDisplayProperty( display, 0, styleBuffer );
 			// build size
-			AttributeBuilder.buildSize( buffer, HTMLTags.ATTR_WIDTH, image
+			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, image
 					.getWidth( ) ); //$NON-NLS-1$
-			AttributeBuilder.buildSize( buffer, HTMLTags.ATTR_HEIGHT, image
+			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, image
 					.getHeight( ) ); //$NON-NLS-1$
 			// handle inline style
-			handleStyle( image, buffer, false );
+			handleStyle( image, styleBuffer, false );
 			writer.closeNoEndTag( );
 		}
 		else
