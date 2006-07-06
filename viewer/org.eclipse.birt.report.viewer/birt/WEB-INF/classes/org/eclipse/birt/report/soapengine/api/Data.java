@@ -22,6 +22,7 @@ public class Data  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList;
     private org.eclipse.birt.report.soapengine.api.ThemeList themes;
     private org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs;
+    private org.eclipse.birt.report.soapengine.api.GroupDetail groupDetail;
     private org.eclipse.birt.report.soapengine.api.CellDefinition cellDef;
     private org.eclipse.birt.report.soapengine.api.SectionDefinition sectionDef;
     private org.eclipse.birt.report.soapengine.api.ChartProperties chart;
@@ -65,6 +66,7 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList,
            org.eclipse.birt.report.soapengine.api.ThemeList themes,
            org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs,
+           org.eclipse.birt.report.soapengine.api.GroupDetail groupDetail,
            org.eclipse.birt.report.soapengine.api.CellDefinition cellDef,
            org.eclipse.birt.report.soapengine.api.SectionDefinition sectionDef,
            org.eclipse.birt.report.soapengine.api.ChartProperties chart,
@@ -103,6 +105,7 @@ public class Data  implements java.io.Serializable {
            this.reportElementList = reportElementList;
            this.themes = themes;
            this.columnDefs = columnDefs;
+           this.groupDetail = groupDetail;
            this.cellDef = cellDef;
            this.sectionDef = sectionDef;
            this.chart = chart;
@@ -407,6 +410,26 @@ public class Data  implements java.io.Serializable {
      */
     public void setColumnDefs(org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs) {
         this.columnDefs = columnDefs;
+    }
+
+
+    /**
+     * Gets the groupDetail value for this Data.
+     * 
+     * @return groupDetail
+     */
+    public org.eclipse.birt.report.soapengine.api.GroupDetail getGroupDetail() {
+        return groupDetail;
+    }
+
+
+    /**
+     * Sets the groupDetail value for this Data.
+     * 
+     * @param groupDetail
+     */
+    public void setGroupDetail(org.eclipse.birt.report.soapengine.api.GroupDetail groupDetail) {
+        this.groupDetail = groupDetail;
     }
 
 
@@ -943,6 +966,9 @@ public class Data  implements java.io.Serializable {
             ((this.columnDefs==null && other.getColumnDefs()==null) || 
              (this.columnDefs!=null &&
               this.columnDefs.equals(other.getColumnDefs()))) &&
+            ((this.groupDetail==null && other.getGroupDetail()==null) || 
+             (this.groupDetail!=null &&
+              this.groupDetail.equals(other.getGroupDetail()))) &&
             ((this.cellDef==null && other.getCellDef()==null) || 
              (this.cellDef!=null &&
               this.cellDef.equals(other.getCellDef()))) &&
@@ -1067,6 +1093,9 @@ public class Data  implements java.io.Serializable {
         }
         if (getColumnDefs() != null) {
             _hashCode += getColumnDefs().hashCode();
+        }
+        if (getGroupDetail() != null) {
+            _hashCode += getGroupDetail().hashCode();
         }
         if (getCellDef() != null) {
             _hashCode += getCellDef().hashCode();
@@ -1245,6 +1274,13 @@ public class Data  implements java.io.Serializable {
         elemField.setFieldName("columnDefs");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnDefs"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnDefinitionGroup"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("groupDetail");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "GroupDetail"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "GroupDetail"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

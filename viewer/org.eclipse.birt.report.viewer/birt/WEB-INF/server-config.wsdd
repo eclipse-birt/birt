@@ -329,6 +329,14 @@
       />
       <typeMapping
         xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:GroupDetail"
+        type="java:org.eclipse.birt.report.soapengine.api.GroupDetail"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:TableGroups"
         type="java:org.eclipse.birt.report.soapengine.api.TableGroups"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
