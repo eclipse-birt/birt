@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ColumnDefinition  implements java.io.Serializable {
-    private int index;
+    private java.lang.Integer index;
+    private java.lang.String iid;
     private java.lang.String header;
     private java.lang.Integer dataType;
     private java.lang.String expr;
@@ -26,7 +27,8 @@ public class ColumnDefinition  implements java.io.Serializable {
     }
 
     public ColumnDefinition(
-           int index,
+           java.lang.Integer index,
+           java.lang.String iid,
            java.lang.String header,
            java.lang.Integer dataType,
            java.lang.String expr,
@@ -40,6 +42,7 @@ public class ColumnDefinition  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.FormatRuleSet formatRuleSet,
            org.eclipse.birt.report.soapengine.api.BoundDataColumn boundDataColumn) {
            this.index = index;
+           this.iid = iid;
            this.header = header;
            this.dataType = dataType;
            this.expr = expr;
@@ -60,7 +63,7 @@ public class ColumnDefinition  implements java.io.Serializable {
      * 
      * @return index
      */
-    public int getIndex() {
+    public java.lang.Integer getIndex() {
         return index;
     }
 
@@ -70,8 +73,28 @@ public class ColumnDefinition  implements java.io.Serializable {
      * 
      * @param index
      */
-    public void setIndex(int index) {
+    public void setIndex(java.lang.Integer index) {
         this.index = index;
+    }
+
+
+    /**
+     * Gets the iid value for this ColumnDefinition.
+     * 
+     * @return iid
+     */
+    public java.lang.String getIid() {
+        return iid;
+    }
+
+
+    /**
+     * Sets the iid value for this ColumnDefinition.
+     * 
+     * @param iid
+     */
+    public void setIid(java.lang.String iid) {
+        this.iid = iid;
     }
 
 
@@ -334,7 +357,12 @@ public class ColumnDefinition  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            this.index == other.getIndex() &&
+            ((this.index==null && other.getIndex()==null) || 
+             (this.index!=null &&
+              this.index.equals(other.getIndex()))) &&
+            ((this.iid==null && other.getIid()==null) || 
+             (this.iid!=null &&
+              this.iid.equals(other.getIid()))) &&
             ((this.header==null && other.getHeader()==null) || 
              (this.header!=null &&
               this.header.equals(other.getHeader()))) &&
@@ -382,7 +410,12 @@ public class ColumnDefinition  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        _hashCode += getIndex();
+        if (getIndex() != null) {
+            _hashCode += getIndex().hashCode();
+        }
+        if (getIid() != null) {
+            _hashCode += getIid().hashCode();
+        }
         if (getHeader() != null) {
             _hashCode += getHeader().hashCode();
         }
@@ -441,6 +474,14 @@ public class ColumnDefinition  implements java.io.Serializable {
         elemField.setFieldName("index");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Index"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("iid");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Iid"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
