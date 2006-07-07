@@ -25,7 +25,9 @@ public class InputOptions
 
 	public static final String OPT_REPORT_DESIGN = "reportDesign"; //$NON-NLS-1$
 
-	public static final String OPT_VERTICAL_BAR = "verticalBar"; //$NON-NLS-1$
+	public static final String OPT_ENABLE_METADATA = "enableMetaData"; //$NON-NLS-1$
+	
+	public static final String OPT_DISPLAY_FILTER_ICON = "DisplayFilterIcon"; //$NON-NLS-1$	 
 
     public static final String OUTPUT_FILE_TYPE = "outputFileType"; //$NON-NLS-1$
     
