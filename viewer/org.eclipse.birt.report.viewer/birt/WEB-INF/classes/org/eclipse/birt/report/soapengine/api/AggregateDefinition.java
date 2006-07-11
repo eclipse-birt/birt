@@ -2,7 +2,7 @@
  * AggregateDefinition.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -12,6 +12,7 @@ public class AggregateDefinition  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.AggregateSetting subTotal;
     private org.eclipse.birt.report.soapengine.api.AggregateSetting grandTotal;
     private java.lang.Integer intParameter;
+    private java.lang.String sortDir;
 
     public AggregateDefinition() {
     }
@@ -20,11 +21,13 @@ public class AggregateDefinition  implements java.io.Serializable {
            java.lang.String func,
            org.eclipse.birt.report.soapengine.api.AggregateSetting subTotal,
            org.eclipse.birt.report.soapengine.api.AggregateSetting grandTotal,
-           java.lang.Integer intParameter) {
+           java.lang.Integer intParameter,
+           java.lang.String sortDir) {
            this.func = func;
            this.subTotal = subTotal;
            this.grandTotal = grandTotal;
            this.intParameter = intParameter;
+           this.sortDir = sortDir;
     }
 
 
@@ -107,6 +110,26 @@ public class AggregateDefinition  implements java.io.Serializable {
         this.intParameter = intParameter;
     }
 
+
+    /**
+     * Gets the sortDir value for this AggregateDefinition.
+     * 
+     * @return sortDir
+     */
+    public java.lang.String getSortDir() {
+        return sortDir;
+    }
+
+
+    /**
+     * Sets the sortDir value for this AggregateDefinition.
+     * 
+     * @param sortDir
+     */
+    public void setSortDir(java.lang.String sortDir) {
+        this.sortDir = sortDir;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof AggregateDefinition)) return false;
@@ -130,7 +153,10 @@ public class AggregateDefinition  implements java.io.Serializable {
               this.grandTotal.equals(other.getGrandTotal()))) &&
             ((this.intParameter==null && other.getIntParameter()==null) || 
              (this.intParameter!=null &&
-              this.intParameter.equals(other.getIntParameter())));
+              this.intParameter.equals(other.getIntParameter()))) &&
+            ((this.sortDir==null && other.getSortDir()==null) || 
+             (this.sortDir!=null &&
+              this.sortDir.equals(other.getSortDir())));
         __equalsCalc = null;
         return _equals;
     }
@@ -153,6 +179,9 @@ public class AggregateDefinition  implements java.io.Serializable {
         }
         if (getIntParameter() != null) {
             _hashCode += getIntParameter().hashCode();
+        }
+        if (getSortDir() != null) {
+            _hashCode += getSortDir().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -186,6 +215,13 @@ public class AggregateDefinition  implements java.io.Serializable {
         elemField.setFieldName("intParameter");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IntParameter"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("sortDir");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortDir"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

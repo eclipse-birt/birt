@@ -2,7 +2,7 @@
  * AggregateSetting.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -10,15 +10,18 @@ package org.eclipse.birt.report.soapengine.api;
 public class AggregateSetting  implements java.io.Serializable {
     private java.lang.Boolean enable;
     private java.lang.Boolean showInFooter;
+    private java.lang.String groupName;
 
     public AggregateSetting() {
     }
 
     public AggregateSetting(
            java.lang.Boolean enable,
-           java.lang.Boolean showInFooter) {
+           java.lang.Boolean showInFooter,
+           java.lang.String groupName) {
            this.enable = enable;
            this.showInFooter = showInFooter;
+           this.groupName = groupName;
     }
 
 
@@ -61,6 +64,26 @@ public class AggregateSetting  implements java.io.Serializable {
         this.showInFooter = showInFooter;
     }
 
+
+    /**
+     * Gets the groupName value for this AggregateSetting.
+     * 
+     * @return groupName
+     */
+    public java.lang.String getGroupName() {
+        return groupName;
+    }
+
+
+    /**
+     * Sets the groupName value for this AggregateSetting.
+     * 
+     * @param groupName
+     */
+    public void setGroupName(java.lang.String groupName) {
+        this.groupName = groupName;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof AggregateSetting)) return false;
@@ -78,7 +101,10 @@ public class AggregateSetting  implements java.io.Serializable {
               this.enable.equals(other.getEnable()))) &&
             ((this.showInFooter==null && other.getShowInFooter()==null) || 
              (this.showInFooter!=null &&
-              this.showInFooter.equals(other.getShowInFooter())));
+              this.showInFooter.equals(other.getShowInFooter()))) &&
+            ((this.groupName==null && other.getGroupName()==null) || 
+             (this.groupName!=null &&
+              this.groupName.equals(other.getGroupName())));
         __equalsCalc = null;
         return _equals;
     }
@@ -95,6 +121,9 @@ public class AggregateSetting  implements java.io.Serializable {
         }
         if (getShowInFooter() != null) {
             _hashCode += getShowInFooter().hashCode();
+        }
+        if (getGroupName() != null) {
+            _hashCode += getGroupName().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -117,6 +146,13 @@ public class AggregateSetting  implements java.io.Serializable {
         elemField.setFieldName("showInFooter");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ShowInFooter"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("groupName");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "GroupName"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

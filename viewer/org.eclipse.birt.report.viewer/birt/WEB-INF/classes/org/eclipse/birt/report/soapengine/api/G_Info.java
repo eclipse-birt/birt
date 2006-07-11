@@ -2,7 +2,7 @@
  * G_Info.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -13,6 +13,7 @@ package org.eclipse.birt.report.soapengine.api;
  */
 public class G_Info  implements java.io.Serializable {
     private int level;
+    private java.lang.String groupName;
     /** The number of rows in group header */
     private int h_Count;
     /** The number of rows in group footer */
@@ -25,10 +26,12 @@ public class G_Info  implements java.io.Serializable {
 
     public G_Info(
            int level,
+           java.lang.String groupName,
            int h_Count,
            int f_Count,
            int HR_Index) {
            this.level = level;
+           this.groupName = groupName;
            this.h_Count = h_Count;
            this.f_Count = f_Count;
            this.HR_Index = HR_Index;
@@ -52,6 +55,26 @@ public class G_Info  implements java.io.Serializable {
      */
     public void setLevel(int level) {
         this.level = level;
+    }
+
+
+    /**
+     * Gets the groupName value for this G_Info.
+     * 
+     * @return groupName
+     */
+    public java.lang.String getGroupName() {
+        return groupName;
+    }
+
+
+    /**
+     * Sets the groupName value for this G_Info.
+     * 
+     * @param groupName
+     */
+    public void setGroupName(java.lang.String groupName) {
+        this.groupName = groupName;
     }
 
 
@@ -127,6 +150,9 @@ public class G_Info  implements java.io.Serializable {
         boolean _equals;
         _equals = true && 
             this.level == other.getLevel() &&
+            ((this.groupName==null && other.getGroupName()==null) || 
+             (this.groupName!=null &&
+              this.groupName.equals(other.getGroupName()))) &&
             this.h_Count == other.getH_Count() &&
             this.f_Count == other.getF_Count() &&
             this.HR_Index == other.getHR_Index();
@@ -142,6 +168,9 @@ public class G_Info  implements java.io.Serializable {
         __hashCodeCalc = true;
         int _hashCode = 1;
         _hashCode += getLevel();
+        if (getGroupName() != null) {
+            _hashCode += getGroupName().hashCode();
+        }
         _hashCode += getH_Count();
         _hashCode += getF_Count();
         _hashCode += getHR_Index();
@@ -159,6 +188,12 @@ public class G_Info  implements java.io.Serializable {
         elemField.setFieldName("level");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Level"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("groupName");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "GroupName"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
