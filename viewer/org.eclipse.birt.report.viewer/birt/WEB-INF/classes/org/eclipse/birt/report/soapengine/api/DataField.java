@@ -10,6 +10,7 @@ package org.eclipse.birt.report.soapengine.api;
 public class DataField  implements java.io.Serializable {
     private java.lang.String name;
     private java.lang.String id;
+    private java.lang.String type;
     private java.lang.String displayName;
     private java.lang.String description;
 
@@ -19,10 +20,12 @@ public class DataField  implements java.io.Serializable {
     public DataField(
            java.lang.String name,
            java.lang.String id,
+           java.lang.String type,
            java.lang.String displayName,
            java.lang.String description) {
            this.name = name;
            this.id = id;
+           this.type = type;
            this.displayName = displayName;
            this.description = description;
     }
@@ -65,6 +68,26 @@ public class DataField  implements java.io.Serializable {
      */
     public void setId(java.lang.String id) {
         this.id = id;
+    }
+
+
+    /**
+     * Gets the type value for this DataField.
+     * 
+     * @return type
+     */
+    public java.lang.String getType() {
+        return type;
+    }
+
+
+    /**
+     * Sets the type value for this DataField.
+     * 
+     * @param type
+     */
+    public void setType(java.lang.String type) {
+        this.type = type;
     }
 
 
@@ -125,6 +148,9 @@ public class DataField  implements java.io.Serializable {
             ((this.id==null && other.getId()==null) || 
              (this.id!=null &&
               this.id.equals(other.getId()))) &&
+            ((this.type==null && other.getType()==null) || 
+             (this.type!=null &&
+              this.type.equals(other.getType()))) &&
             ((this.displayName==null && other.getDisplayName()==null) || 
              (this.displayName!=null &&
               this.displayName.equals(other.getDisplayName()))) &&
@@ -147,6 +173,9 @@ public class DataField  implements java.io.Serializable {
         }
         if (getId() != null) {
             _hashCode += getId().hashCode();
+        }
+        if (getType() != null) {
+            _hashCode += getType().hashCode();
         }
         if (getDisplayName() != null) {
             _hashCode += getDisplayName().hashCode();
@@ -174,6 +203,13 @@ public class DataField  implements java.io.Serializable {
         elemField.setFieldName("id");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Id"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("type");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Type"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
