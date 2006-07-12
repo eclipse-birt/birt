@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  * this version, we also provide some new API for further implementation in the
  * future
  * 
- * @version $Revision: 1.8 $ $Date: 2005/08/11 05:22:56 $
+ * @version $Revision: 1.9 $ $Date: 2006/02/22 06:44:15 $
  */
 public class DateFormatter
 {
@@ -80,7 +80,9 @@ public class DateFormatter
 	 */
 	public DateFormatter( ULocale localeLoc )
 	{
-		locale = localeLoc;
+		// Leave locale to default if none provided
+		if ( localeLoc != null )
+			locale = localeLoc;
 		applyPattern( null );
 	}
 
@@ -102,7 +104,9 @@ public class DateFormatter
 	 */
 	public DateFormatter( String pattern, ULocale localeLoc )
 	{
-		locale = localeLoc;
+		// Leave locale to default if none provided
+		if ( localeLoc != null )
+			locale = localeLoc;
 		applyPattern( pattern );
 	}
 
