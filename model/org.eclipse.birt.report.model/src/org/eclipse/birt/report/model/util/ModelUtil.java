@@ -949,7 +949,15 @@ public class ModelUtil
 				String externalizedText = root.getMessage( textKey, locale );
 				return externalizedText;
 			}
-			element = element.getExtendsElement( );
+			
+			if ( DesignElement.NO_BASE_ID != element.getBaseId( ) )
+			{
+				element = element.getVirtualParent( );
+			}
+			else
+			{
+				element = element.getExtendsElement( );
+			}
 		}
 		return null;
 	}
