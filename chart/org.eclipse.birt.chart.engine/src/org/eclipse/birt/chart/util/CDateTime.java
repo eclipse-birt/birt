@@ -445,13 +445,12 @@ public class CDateTime extends GregorianCalendar
 		}
 		else if ( iUnit == Calendar.MONTH )
 		{
-			final double dDays = computeDifference( cdt1, cdt2, Calendar.DATE );
-			return dDays / 30.4375;
+			final double dYears = cdt1.getYear( ) - cdt2.getYear( );
+			return dYears * 12 + ( cdt1.getMonth( ) - cdt2.getMonth( ) );
 		}
 		else if ( iUnit == Calendar.YEAR )
 		{
-			final double dDays = computeDifference( cdt1, cdt2, Calendar.DATE );
-			return dDays / 365.25;
+			return cdt1.getYear( ) - cdt2.getYear( );
 		}
 		return 0;
 	}
