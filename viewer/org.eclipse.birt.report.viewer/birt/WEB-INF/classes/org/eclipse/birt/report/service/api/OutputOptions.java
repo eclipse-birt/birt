@@ -7,7 +7,7 @@ public class OutputOptions
 {
 	public static final String OPT_REPORT_GENERATION_COMPLETED = "completed"; //$NON-NLS-1$
 
-	// add options here that matches the common engine run or render options
+	public static final String OPT_CONNECTIONHANDLE = "connectionhandle"; //$NON-NLS-1$
 
 	private Map options;
 
