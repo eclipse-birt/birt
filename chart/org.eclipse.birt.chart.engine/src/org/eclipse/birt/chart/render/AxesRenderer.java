@@ -469,10 +469,6 @@ public abstract class AxesRenderer extends BaseRenderer
 				Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
 	}
 
-	/**
-	 * 
-	 * @param anc
-	 */
 	private static final TextAlignment anchorToAlignment( Anchor anc )
 	{
 		final TextAlignment ta = TextAlignmentImpl.create( ); // SET AS
@@ -1243,6 +1239,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		double xStep = 0;
 		double yStep = 0;
 		double zStep = 0;
+		Location panningOffset = null;
 
 		if ( isDimension3D( ) )
 		{
@@ -1265,6 +1262,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			xStep = scPrimaryBase.getUnitSize( );
 			yStep = scPrimaryOrthogonal.getUnitSize( );
 			zStep = scAncillaryBase.getUnitSize( );
+
+			panningOffset = getPanningOffset( );
 		}
 
 		if ( pwa.getDimension( ) == IConstants.TWO_5_D )
@@ -1554,9 +1553,10 @@ public abstract class AxesRenderer extends BaseRenderer
 								{
 									for ( int n = 0; n < ancillaryTickCount - 1; n++ )
 									{
-										if ( xa[k] + doaMinor[j] >= xa[k + 1] )
+										if ( ChartUtil.mathGE( xa[k]
+												+ doaMinor[j], xa[k + 1] ) )
 										{
-											// if current minor tick exceed the
+											// if current minor tick exceeds the
 											// range of current unit, skip
 											continue;
 										}
@@ -1583,9 +1583,10 @@ public abstract class AxesRenderer extends BaseRenderer
 								{
 									for ( int n = 0; n < orthogonalTickCount - 1; n++ )
 									{
-										if ( xa[k] + doaMinor[j] >= xa[k + 1] )
+										if ( ChartUtil.mathGE( xa[k]
+												+ doaMinor[j], xa[k + 1] ) )
 										{
-											// if current minor tick exceed the
+											// if current minor tick exceeds the
 											// range of current unit, skip
 											continue;
 										}
@@ -1614,9 +1615,10 @@ public abstract class AxesRenderer extends BaseRenderer
 								{
 									for ( int n = 0; n < ancillaryTickCount - 1; n++ )
 									{
-										if ( ya[k] + doaMinor[j] >= ya[k + 1] )
+										if ( ChartUtil.mathGE( ya[k]
+												+ doaMinor[j], ya[k + 1] ) )
 										{
-											// if current minor tick exceed the
+											// if current minor tick exceeds the
 											// range of current unit, skip
 											continue;
 										}
@@ -1641,9 +1643,10 @@ public abstract class AxesRenderer extends BaseRenderer
 								{
 									for ( int n = 0; n < baseTickCount - 1; n++ )
 									{
-										if ( ya[k] + doaMinor[j] >= ya[k + 1] )
+										if ( ChartUtil.mathGE( ya[k]
+												+ doaMinor[j], ya[k + 1] ) )
 										{
-											// if current minor tick exceed the
+											// if current minor tick exceeds the
 											// range of current unit, skip
 											continue;
 										}
@@ -1674,9 +1677,10 @@ public abstract class AxesRenderer extends BaseRenderer
 								{
 									for ( int n = 0; n < orthogonalTickCount - 1; n++ )
 									{
-										if ( za[k] + doaMinor[j] >= za[k + 1] )
+										if ( ChartUtil.mathGE( za[k]
+												+ doaMinor[j], za[k + 1] ) )
 										{
-											// if current minor tick exceed the
+											// if current minor tick exceeds the
 											// range of current unit, skip
 											continue;
 										}
@@ -1701,9 +1705,10 @@ public abstract class AxesRenderer extends BaseRenderer
 								{
 									for ( int n = 0; n < baseTickCount - 1; n++ )
 									{
-										if ( za[k] + doaMinor[j] >= za[k + 1] )
+										if ( ChartUtil.mathGE( za[k]
+												+ doaMinor[j], za[k + 1] ) )
 										{
-											// if current minor tick exceed the
+											// if current minor tick exceeds the
 											// range of current unit, skip
 											continue;
 										}
@@ -1743,10 +1748,13 @@ public abstract class AxesRenderer extends BaseRenderer
 						x = da[j];
 						for ( int k = 0; k < doaMinor.length; k++ )
 						{
-							if ( ( iDirection == 1 && x + doaMinor[k] >= da[j + 1] )
-									|| ( iDirection == -1 && x - doaMinor[k] <= da[j + 1] ) )
+							if ( ( iDirection == 1 && ChartUtil.mathGE( x
+									+ doaMinor[k], da[j + 1] ) )
+									|| ( iDirection == -1 && ChartUtil.mathLE( x
+											- doaMinor[k],
+											da[j + 1] ) ) )
 							{
-								// if current minor tick exceed the
+								// if current minor tick exceeds the
 								// range of current unit, skip
 								continue;
 							}
@@ -1778,10 +1786,12 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 					for ( int k = 0; k < doaMinor.length; k++ )
 					{
-						if ( ( iDirection == 1 && x + doaMinor[k] >= vnext )
-								|| ( iDirection == -1 && x - doaMinor[k] <= vnext ) )
+						if ( ( iDirection == 1 && ChartUtil.mathGE( x
+								+ doaMinor[k], vnext ) )
+								|| ( iDirection == -1 && ChartUtil.mathLE( x
+										- doaMinor[k], vnext ) ) )
 						{
-							// if current minor tick exceed the
+							// if current minor tick exceeds the
 							// range of current unit, skip
 							continue;
 						}
@@ -1815,10 +1825,13 @@ public abstract class AxesRenderer extends BaseRenderer
 						vnext = da[j + 1] - pwa.getSeriesThickness( );
 						for ( int k = 0; k < doaMinor.length; k++ )
 						{
-							if ( ( iDirection == 1 && y + doaMinor[k] >= vnext )
-									|| ( iDirection == -1 && y - doaMinor[k] <= vnext ) )
+							if ( ( iDirection == 1 && ChartUtil.mathGE( y
+									+ doaMinor[k], vnext ) )
+									|| ( iDirection == -1 && ChartUtil.mathLE( y
+											- doaMinor[k],
+											vnext ) ) )
 							{
-								// if current minor tick exceed the
+								// if current minor tick exceeds the
 								// range of current unit, skip
 								continue;
 							}
@@ -1849,10 +1862,12 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 					for ( int k = 0; k < doaMinor.length; k++ )
 					{
-						if ( ( iDirection == 1 && y + doaMinor[k] >= vnext )
-								|| ( iDirection == -1 && y - doaMinor[k] <= vnext ) )
+						if ( ( iDirection == 1 && ChartUtil.mathGE( y
+								+ doaMinor[k], vnext ) )
+								|| ( iDirection == -1 && ChartUtil.mathLE( y
+										- doaMinor[k], vnext ) ) )
 						{
-							// if current minor tick exceed the
+							// if current minor tick exceeds the
 							// range of current unit, skip
 							continue;
 						}
@@ -2764,7 +2779,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	}
 
 	/**
-	 * 
+	 * Renders the axis.
 	 * 
 	 * @param ipr
 	 * @param pl
@@ -2862,8 +2877,8 @@ public abstract class AxesRenderer extends BaseRenderer
 		Line3DRenderEvent l3dre = null;
 
 		double dXStart = 0;
-		double dZStart = 0;
 		double dXEnd = 0;
+		double dZStart = 0;
 		double dZEnd = 0;
 
 		if ( iDimension == IConstants.THREE_D )
@@ -5560,6 +5575,10 @@ public abstract class AxesRenderer extends BaseRenderer
 
 	}
 
+	/**
+	 * @return Returns if current rendering is the last series in associated
+	 *         axis.
+	 */
 	public final boolean isLastRuntimeSeriesInAxis( )
 	{
 		SeriesDefinition sd = null;
@@ -5622,10 +5641,8 @@ public abstract class AxesRenderer extends BaseRenderer
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.render.IModelAccess#getAxis()
+	/**
+	 * @return Returns the axis associated with current renderer.
 	 */
 	public final Axis getAxis( )
 	{
