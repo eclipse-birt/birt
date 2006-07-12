@@ -96,8 +96,8 @@ public class RevertToTemplateAction extends AbstractElementAction
 		return super.isEnabled( )
 				&& getSelectedElement( ).canTransformToTemplate( )
 				&& getSelectedElement( ).isTemplateParameterValue( )
-				// Can't create place holder in Simple Master Page
-				&& !( getSelectedElement( ).getContainer( ) instanceof SimpleMasterPageHandle )
+				// Remove this type check to fix bug 148330
+			//	&& !( getSelectedElement( ).getContainer( ) instanceof SimpleMasterPageHandle )
 				&& !( getSelectedElement( ).getRoot( ) instanceof LibraryHandle );
 	}
 
