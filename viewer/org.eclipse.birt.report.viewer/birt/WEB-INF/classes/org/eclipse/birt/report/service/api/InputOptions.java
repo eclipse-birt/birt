@@ -29,7 +29,9 @@ public class InputOptions
 	
 	public static final String OPT_DISPLAY_FILTER_ICON = "DisplayFilterIcon"; //$NON-NLS-1$	 
 
-    public static final String OUTPUT_FILE_TYPE = "outputFileType"; //$NON-NLS-1$
+	public static final String OPT_CONNECTIONHANDLE = "connectionHandle"; //$NON-NLS-1$	 
+
+	public static final String OUTPUT_FILE_TYPE = "outputFileType"; //$NON-NLS-1$
     
     public static final String OPT_RTL = "rtl"; //$NON-NLS-1$
 
