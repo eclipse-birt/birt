@@ -416,41 +416,116 @@ public class CDateTime extends GregorianCalendar
 	public static final double computeDifference( CDateTime cdt1,
 			CDateTime cdt2, int iUnit )
 	{
+		return computeDifference( cdt1, cdt2, iUnit, false );
+	}
+
+	/**
+	 * Computes the difference between two given datetime values as a fraction
+	 * for the requested field.
+	 * 
+	 * @param cdt1
+	 *            The first datetime value
+	 * @param cdt2
+	 *            The second datetime value
+	 * @param iUnit
+	 *            The field with respect to which the difference is being
+	 *            computed as a fraction
+	 * @param trimBelow
+	 *            Specifies if trim the unit below the given unit.
+	 * 
+	 * @return The fractional difference between the two specified datetime
+	 *         values
+	 */
+	public static final double computeDifference( CDateTime cdt1,
+			CDateTime cdt2, int iUnit, boolean trimBelow )
+	{
 		final long l1 = cdt1.getTimeInMillis( );
 		final long l2 = cdt2.getTimeInMillis( );
 		if ( iUnit == Calendar.MILLISECOND )
 		{
-			return ( l1 - l2 );
+			double rt = ( l1 - l2 );
+			if ( trimBelow )
+			{
+				rt = Math.floor( rt );
+			}
+			return rt;
 		}
 		else if ( iUnit == Calendar.SECOND )
 		{
-			return ( l1 - l2 ) / MILLIS_IN_SECOND;
+			double rt = ( l1 - l2 ) / MILLIS_IN_SECOND;
+			if ( trimBelow )
+			{
+				rt = Math.floor( rt );
+			}
+			return rt;
 		}
 		else if ( iUnit == Calendar.MINUTE )
 		{
-			return ( l1 - l2 ) / MILLIS_IN_MINUTE;
+			double rt = ( l1 - l2 ) / MILLIS_IN_MINUTE;
+			if ( trimBelow )
+			{
+				rt = Math.floor( rt );
+			}
+			return rt;
 		}
 		else if ( iUnit == Calendar.HOUR_OF_DAY )
 		{
-			return ( l1 - l2 ) / MILLIS_IN_HOUR;
+			double rt = ( l1 - l2 ) / MILLIS_IN_HOUR;
+			if ( trimBelow )
+			{
+				rt = Math.floor( rt );
+			}
+			return rt;
 		}
 		else if ( iUnit == Calendar.DATE )
 		{
-			return ( l1 - l2 ) / MILLIS_IN_DAY;
+			double rt = ( l1 - l2 ) / MILLIS_IN_DAY;
+			if ( trimBelow )
+			{
+				rt = Math.floor( rt );
+			}
+			return rt;
 		}
 		else if ( iUnit == Calendar.WEEK_OF_YEAR )
 		{
 			final double dDays = computeDifference( cdt1, cdt2, Calendar.DATE );
-			return dDays / 7.0;
+			double rt = dDays / 7.0;
+			if ( trimBelow )
+			{
+				rt = Math.floor( rt );
+			}
+			return rt;
 		}
 		else if ( iUnit == Calendar.MONTH )
 		{
-			final double dYears = cdt1.getYear( ) - cdt2.getYear( );
-			return dYears * 12 + ( cdt1.getMonth( ) - cdt2.getMonth( ) );
+			if ( trimBelow )
+			{
+				final double dYears = cdt1.getYear( ) - cdt2.getYear( );
+				return dYears * 12 + ( cdt1.getMonth( ) - cdt2.getMonth( ) );
+			}
+			else
+			{
+				// this is just an approximate result.
+				final double dDays = computeDifference( cdt1,
+						cdt2,
+						Calendar.DATE );
+				return dDays / 30.4375;
+			}
 		}
 		else if ( iUnit == Calendar.YEAR )
 		{
-			return cdt1.getYear( ) - cdt2.getYear( );
+			if ( trimBelow )
+			{
+				return cdt1.getYear( ) - cdt2.getYear( );
+			}
+			else
+			{
+				// this is just an approximate result.
+				final double dDays = computeDifference( cdt1,
+						cdt2,
+						Calendar.DATE );
+				return dDays / 365.25;
+			}
 		}
 		return 0;
 	}

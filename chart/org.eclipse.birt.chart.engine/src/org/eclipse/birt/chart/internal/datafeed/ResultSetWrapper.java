@@ -619,7 +619,8 @@ public final class ResultSetWrapper
 
 						double diff = CDateTime.computeDifference( dBaseValue,
 								baseReference,
-								cunit );
+								cunit,
+								true );
 
 						iGroupIndex = (int) Math.floor( Math.abs( diff
 								/ iGroupingInterval ) );
@@ -638,7 +639,8 @@ public final class ResultSetWrapper
 
 						double diff = CDateTime.computeDifference( dBaseValue,
 								baseReference,
-								cunit );
+								cunit,
+								true );
 
 						iGroupIndex = (int) Math.floor( Math.abs( diff
 								/ iGroupingInterval ) );
