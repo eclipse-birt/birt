@@ -131,8 +131,13 @@ public class LayoutTable
 			return null;
 
 		LayoutRow row = getSimpleSlot( slotId ).getLayoutRow( rowId - 1 );
+		if ( row == null )
+			return null;
 
 		LayoutCell cell = row.getLayoutCell( colId - 1 );
+		if ( cell == null )
+			return null;
+
 		return cell.getCell( );
 	}
 
@@ -166,7 +171,13 @@ public class LayoutTable
 			return null;
 
 		LayoutRow row = slot.getLayoutRow( rowId - 1 );
+		if ( row == null )
+			return null;
+		
 		LayoutCell cell = row.getLayoutCell( colId - 1 );
+
+		if ( cell == null )
+			return null;
 
 		return cell.getCell( );
 	}
