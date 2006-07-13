@@ -22,7 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-//import org.eclipse.birt.report.designer.internal.ui.util.HelpContextIds;
+// import org.eclipse.birt.report.designer.internal.ui.util.HelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
@@ -89,15 +89,18 @@ public class GroupDialog extends BaseDialog
 
 	private static final String GROUP_DLG_GROUP_NAME_LABEL = Messages.getString( "GroupDialog.Label.Name" ); //$NON-NLS-1$
 
-//	private static final String TAB_BINDING = Messages.getString( "GroupDialog.Tab.Binding" ); //$NON-NLS-1$
+	// private static final String TAB_BINDING = Messages.getString(
+	// "GroupDialog.Tab.Binding" ); //$NON-NLS-1$
 
 	private static final String TAB_SORTING = Messages.getString( "GroupDialog.Tab.Sorting" ); //$NON-NLS-1$
 
 	private static final String TAB_FILTER = Messages.getString( "GroupDialog.Tab.Filter" ); //$NON-NLS-1$	
 
-//	private static final String GROUP_DLG_INCLUDE_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.IncludeFooter" ); //$NON-NLS-1$
+	// private static final String GROUP_DLG_INCLUDE_FOOTER_LABEL =
+	// Messages.getString( "GroupDialog.Label.IncludeFooter" ); //$NON-NLS-1$
 
-//	private static final String GROUP_DLG_INCLUDE_HEADER_LABEL = Messages.getString( "GroupDialog.Label.IncludeHeader" ); //$NON-NLS-1$;
+	// private static final String GROUP_DLG_INCLUDE_HEADER_LABEL =
+	// Messages.getString( "GroupDialog.Label.IncludeHeader" ); //$NON-NLS-1$;
 
 	private static final String GROUP_DLG_HEADER_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.HeaderFooter" ); //$NON-NLS-1$
 
@@ -206,7 +209,7 @@ public class GroupDialog extends BaseDialog
 		createGroupArea( composite );
 		createTOCArea( composite );
 		createFilterSortingArea( topComposite );
-		UIUtil.bindHelp( parent,IHelpContextIds.GROUP_DIALOG_ID ); 
+		UIUtil.bindHelp( parent, IHelpContextIds.GROUP_DIALOG_ID );
 		return topComposite;
 	}
 
@@ -232,8 +235,7 @@ public class GroupDialog extends BaseDialog
 
 		Button exprButton = new Button( tocArea, SWT.PUSH );
 		exprButton.setText( "..." ); //$NON-NLS-1$
-		exprButton.setToolTipText(Messages
-				.getString("GroupDialog.toolTipText.openExprButton"));
+		exprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
 		exprButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -243,7 +245,7 @@ public class GroupDialog extends BaseDialog
 
 				if ( expressionBuilder.open( ) == OK )
 				{
-					tocEditor.setText( expressionBuilder.getResult( ) );
+					tocEditor.setText( expressionBuilder.getResult( ).trim( ) );
 				}
 			}
 		} );
@@ -335,8 +337,7 @@ public class GroupDialog extends BaseDialog
 
 		Button exprButton = new Button( keyArea, SWT.PUSH );
 		exprButton.setText( "..." ); //$NON-NLS-1$
-		exprButton.setToolTipText(Messages
-				.getString("GroupDialog.toolTipText.openExprButton"));
+		exprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
 		exprButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -457,7 +458,8 @@ public class GroupDialog extends BaseDialog
 		pagebreakGroup.setLayout( layout );
 
 		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString( "GroupDialog.PageBreakBefore" ) ); //$NON-NLS-1$
-		pagebreakBeforeCombo = new Combo( pagebreakGroup, SWT.NONE );
+		pagebreakBeforeCombo = new Combo( pagebreakGroup, SWT.READ_ONLY
+				| SWT.DROP_DOWN );
 		for ( int i = 0; i < pagebreakBeforeChoicesAll.length; i++ )
 		{
 			pagebreakBeforeCombo.add( pagebreakBeforeChoicesAll[i].getDisplayName( ) );
@@ -465,7 +467,8 @@ public class GroupDialog extends BaseDialog
 		pagebreakBeforeCombo.setData( pagebreakBeforeChoicesAll );
 
 		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString( "GroupDialog.PageBreakAfter" ) ); //$NON-NLS-1$
-		pagebreakAfterCombo = new Combo( pagebreakGroup, SWT.NONE );
+		pagebreakAfterCombo = new Combo( pagebreakGroup, SWT.READ_ONLY
+				| SWT.DROP_DOWN );
 		for ( int i = 0; i < pagebreakAfterChoicesAll.length; i++ )
 		{
 			pagebreakAfterCombo.add( pagebreakAfterChoicesAll[i].getDisplayName( ) );
@@ -496,17 +499,16 @@ public class GroupDialog extends BaseDialog
 
 		TabFolder tab = new TabFolder( group, SWT.TOP );
 		tab.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		
-		//TODO:remove databinding page by cnfree on 4.28.2006
+
+		// TODO:remove databinding page by cnfree on 4.28.2006
 		/*
-		TabItem bindingItem = new TabItem( tab, SWT.NONE );
-		FormPage bindingPage = new DataSetColumnBindingsFormPage( tab,
-				new DataSetColumnBindingsFormHandleProvider( ) );
-		bindingPage.setInput( list );
-		bindingItem.setText( TAB_BINDING );
-		bindingItem.setControl( bindingPage );
-		*/
-		
+		 * TabItem bindingItem = new TabItem( tab, SWT.NONE ); FormPage
+		 * bindingPage = new DataSetColumnBindingsFormPage( tab, new
+		 * DataSetColumnBindingsFormHandleProvider( ) ); bindingPage.setInput(
+		 * list ); bindingItem.setText( TAB_BINDING ); bindingItem.setControl(
+		 * bindingPage );
+		 */
+
 		TabItem filterItem = new TabItem( tab, SWT.NONE );
 		FormPage filterPage = new FormPage( tab,
 				FormPage.NORMAL_FUNCTION,
@@ -598,10 +600,25 @@ public class GroupDialog extends BaseDialog
 		tocEditor.setText( UIUtil.convertToGUIString( inputGroup.getTocExpression( ) ) );
 
 		index = getPagebreakBeforeIndex( inputGroup.getPageBreakBefore( ) );
-		pagebreakBeforeCombo.select( index );
+		if(index < 0 || index >= pagebreakBeforeCombo.getItemCount( ))
+		{
+			pagebreakBeforeCombo.setText( inputGroup.getPageBreakBefore( ) );
+		}else
+		{
+			pagebreakBeforeCombo.select( index );
+		}
+		
 
 		index = getPagebreakAfterIndex( inputGroup.getPageBreakAfter( ) );
-		pagebreakAfterCombo.select( index );
+		
+		if(index < 0 || index >= pagebreakAfterCombo.getItemCount( ))
+		{
+			pagebreakAfterCombo.setText( inputGroup.getPageBreakAfter( ) );
+		}else
+		{
+			pagebreakAfterCombo.select( index );
+		}
+		
 
 		if ( inputGroup.repeatHeader( ) )
 		{
