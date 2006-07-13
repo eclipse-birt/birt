@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 
 /**
  * Base class for parameter definition. 
@@ -240,16 +241,15 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	/**
 	 * @return Returns the prompt text.
 	 */
-	public String getPromptText( )	{
-		
-		if (promptTextKey == null)
+	public String getPromptText( )
+	{
+		if ( promptTextKey == null )
 			return promptText;
-		
-		String ret = reportDesignHandle.getMessage( promptTextKey, 
-				(locale == null ) ? Locale.getDefault() : locale);
-		if (ret == null || ret.length() == 0)
-			return promptText;
-		return ret;	
+
+		Locale theLocale = ( locale == null ) ? Locale.getDefault( ) : locale;
+		return handle.getExternalizedValue(
+				IScalarParameterModel.PROMPT_TEXT_ID_PROP,
+				IScalarParameterModel.PROMPT_TEXT_PROP, theLocale );
 	}
 	
 	/**

@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -69,6 +70,8 @@ import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Base class for all report elements. Provides a high-level interface to the
@@ -2214,5 +2217,43 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
 				textProp, ThreadResources.getLocale( ) );
+	}
+
+	/**
+	 * Returns externalized message.
+	 * 
+	 * @param textIDProp
+	 *            the display key property name
+	 * @param textProp
+	 *            the property name
+	 * @param locale
+	 *            the locale to externalize the message
+	 * @return externalized message.
+	 */
+
+	public String getExternalizedValue( String textIDProp, String textProp,
+			ULocale locale )
+	{
+		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
+				textProp, locale );
+	}
+
+	/**
+	 * Returns externalized message.
+	 * 
+	 * @param textIDProp
+	 *            the display key property name
+	 * @param textProp
+	 *            the property name
+	 * @param locale
+	 *            the locale to externalize the message
+	 * @return externalized message.
+	 */
+
+	public String getExternalizedValue( String textIDProp, String textProp,
+			Locale locale )
+	{
+		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
+				textProp, ULocale.forLocale( locale ) );
 	}
 }
