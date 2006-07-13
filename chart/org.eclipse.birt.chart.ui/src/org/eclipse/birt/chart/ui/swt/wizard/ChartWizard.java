@@ -65,14 +65,7 @@ public class ChartWizard extends WizardBase
 
 	public ChartWizard( )
 	{
-		super( WIZARD_ID,
-				CHART_WIZARD_WIDTH_MINMUM,
-				CHART_WIZARD_HEIGHT_MINMUM,
-				Messages.getString( "ChartWizard.Title.ChartBuilder" ), //$NON-NLS-1$
-				UIHelper.getImage( "icons/obj16/chartselector.gif" ), //$NON-NLS-1$
-				Messages.getString( "ChartWizard.Label.SelectChartTypeDataFormat" ), //$NON-NLS-1$
-				UIHelper.getImage( "icons/wizban/chartwizardtaskbar.gif" ) ); //$NON-NLS-1$
-		adapter = new ChartAdapter( this );
+		this( null );
 	}
 
 	/**
@@ -84,8 +77,15 @@ public class ChartWizard extends WizardBase
 	 */
 	public ChartWizard( Shell parentShell )
 	{
-		this( );
-		setParentShell( parentShell );
+		super( parentShell,
+				WIZARD_ID,
+				CHART_WIZARD_WIDTH_MINMUM,
+				CHART_WIZARD_HEIGHT_MINMUM,
+				Messages.getString( "ChartWizard.Title.ChartBuilder" ), //$NON-NLS-1$
+				UIHelper.getImage( "icons/obj16/chartselector.gif" ), //$NON-NLS-1$
+				Messages.getString( "ChartWizard.Label.SelectChartTypeDataFormat" ), //$NON-NLS-1$
+				UIHelper.getImage( "icons/wizban/chartwizardtaskbar.gif" ) ); //$NON-NLS-1$
+		adapter = new ChartAdapter( this );
 	}
 
 	public void addTask( String sTaskID )

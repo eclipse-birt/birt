@@ -272,11 +272,50 @@ public class WizardBase implements IRegistrationListener
 	 * @param strHeader
 	 *            the header description
 	 * @param imgHeader
-	 *            image displayed in the task bar. If null, leave blank.
+	 *            image displayed in the task bar. If null, leave blank. *
+	 * @deprecated To use
+	 *             {@link #WizardBase(Shell, String, int, int, String, Image, String, Image)}
 	 */
 	public WizardBase( String sID, int iInitialWidth, int iInitialHeight,
 			String strTitle, Image imgTitle, String strHeader, Image imgHeader )
 	{
+		this( null,
+				sID,
+				iInitialWidth,
+				iInitialHeight,
+				strTitle,
+				imgTitle,
+				strHeader,
+				imgHeader );
+	}
+
+	/**
+	 * Creates an instance of the wizard. Needs to invoke <code>open</code>
+	 * method to create the wizard dialog.
+	 * 
+	 * @param parentShell
+	 *            parent shell
+	 * @param sID
+	 *            wizard id
+	 * @param iInitialWidth
+	 *            width minimum
+	 * @param iInitialHeight
+	 *            height minimum
+	 * @param strTitle
+	 *            wizard title
+	 * @param imgTitle
+	 *            wizard image
+	 * @param strHeader
+	 *            the header description
+	 * @param imgHeader
+	 *            image displayed in the task bar. If null, leave blank.
+	 * @since 2.1.1
+	 */
+	public WizardBase( Shell parentShell, String sID, int iInitialWidth,
+			int iInitialHeight, String strTitle, Image imgTitle,
+			String strHeader, Image imgHeader )
+	{
+		this.shellParent = parentShell;
 		this.sWizardID = sID;
 		// Initialize tasks manager...so that extensions get processed if they
 		// haven't already
@@ -285,15 +324,10 @@ public class WizardBase implements IRegistrationListener
 		availableTasks = new LinkedHashMap( );
 		vTaskIDs = new Vector( );
 
-		Shell shell;
-		if ( shellParent == null )
+		Shell shell = shellParent;
+		if ( shell == null )
 		{
 			shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-					| SWT.RESIZE | SWT.APPLICATION_MODAL );
-		}
-		else
-		{
-			shell = new Shell( shellParent, SWT.DIALOG_TRIM
 					| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		}
 
@@ -381,18 +415,6 @@ public class WizardBase implements IRegistrationListener
 				// TODO: PROCEED WITHOUT FIXING THE PROBLEM
 			}
 		}
-	}
-
-	/**
-	 * Sets the parent shell
-	 * 
-	 * @param parentShell
-	 *            parent shell. Null indicates current Display is used.
-	 * 
-	 */
-	protected void setParentShell( Shell parentShell )
-	{
-		this.shellParent = parentShell;
 	}
 
 	/**
@@ -557,8 +579,7 @@ public class WizardBase implements IRegistrationListener
 			for ( int i = 0; i < allTasks.length; i++ )
 			{
 				// Create the blank tab item.
-				CTabItem item = new CTabItem( getTabContainer( ),
-						SWT.NONE );
+				CTabItem item = new CTabItem( getTabContainer( ), SWT.NONE );
 				item.setText( TasksManager.instance( )
 						.getTask( allTasks[i] )
 						.getTitle( ) );
@@ -579,13 +600,6 @@ public class WizardBase implements IRegistrationListener
 			}
 
 			super.initializeBounds( );
-			// Ensure the dialog is on the center. There seems to be a bug in
-			// jface. If not configure the location manually, the location is
-			// random in each opening.
-			getShell( ).setLocation( ( getShell( ).getDisplay( )
-					.getClientArea( ).width / 2 - ( getShell( ).getSize( ).x / 2 ) ),
-					( getShell( ).getDisplay( ).getClientArea( ).height / 2 )
-							- ( getShell( ).getSize( ).y / 2 ) );
 		}
 
 		public void create( )
