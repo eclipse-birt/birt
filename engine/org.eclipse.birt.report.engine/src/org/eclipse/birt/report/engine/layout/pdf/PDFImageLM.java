@@ -97,9 +97,9 @@ import com.lowagie.text.Image;
 public class PDFImageLM extends PDFLeafItemLM
 {
 
-	protected final static int DEFAULT_WIDHT = 100000;
+	protected final static int DEFAULT_WIDHT = 212000;
 
-	protected final static int DEFAULT_HEIGHT = 100000;
+	protected final static int DEFAULT_HEIGHT = 130000;
 
 	protected IImageContent image;
 
