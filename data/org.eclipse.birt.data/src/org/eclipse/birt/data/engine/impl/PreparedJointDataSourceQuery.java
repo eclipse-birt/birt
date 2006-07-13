@@ -608,7 +608,14 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		 */
 		private boolean doesLoadFromCache( )
 		{
-			return DataSetCacheManager.getInstance( ).doesLoadFromCache( );
+			PreparedJointDataSourceQuery self = PreparedJointDataSourceQuery.this;
+			return DataSetCacheManager.getInstance( )
+					.doesLoadFromCache( null,
+							dataSetDesign,
+							null,
+							DataSetCacheUtil.getCacheOption( self.dataEngine.getContext( ),
+									appContext ),
+							self.dataEngine.getContext( ).getCacheCount( ) );
 		}
 
 		/**
