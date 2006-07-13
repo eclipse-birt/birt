@@ -612,7 +612,7 @@ public class FillChooserComposite extends Composite
 
 	private void toggleDropDown( )
 	{
-		// fix for lInux, since it not send the event correctly to other than
+		// fix for Linux, since it not send the event correctly to other than
 		// current shell.
 		if ( bJustFocusLost )
 		{
@@ -878,7 +878,8 @@ public class FillChooserComposite extends Composite
 					if ( cTmp != null )
 					{
 						if ( isPopupControl( cTmp )
-								|| cTmp == cnvSelection || cTmp == btnDown )
+								|| SWT.getPlatform( ).indexOf( "win32" ) == 0//$NON-NLS-1$
+								&& ( cTmp.equals( cnvSelection ) || cTmp.equals( btnDown ) ) )
 						{
 							return;
 						}
