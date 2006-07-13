@@ -119,4 +119,9 @@ public interface IScalarParameterDefn extends IParameterDefn
 	 * @return the type of the parameter selection list
 	 */
 	public int getSelectionListType();
+	
+	/**
+	 * @return the default value
+	 */
+	public String getDefaultValue();
 }
