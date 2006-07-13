@@ -13,7 +13,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.util.ChartUtil;
 
 /**
- * Object3D
+ * This class represents a 3D object and is used to perform all 3d operations.
  */
 public class Object3D
 {
@@ -33,7 +33,7 @@ public class Object3D
 	private double zMax, zMin;
 
 	/**
-	 * @param points
+	 * Construction by an empty array of coordinates
 	 */
 	public Object3D( int points )
 	{
@@ -41,7 +41,7 @@ public class Object3D
 	}
 
 	/**
-	 * @param la
+	 * Construction by one 3d coordinate
 	 */
 	public Object3D( Location3D la )
 	{
@@ -51,7 +51,7 @@ public class Object3D
 	}
 
 	/**
-	 * @param loa
+	 * Construction by an array of 3d coordinates
 	 */
 	public Object3D( Location3D[] loa )
 	{
@@ -64,7 +64,7 @@ public class Object3D
 	}
 
 	/**
-	 * @param original
+	 * Construction by another Object3D object
 	 */
 	public Object3D( Object3D original )
 	{
@@ -89,7 +89,7 @@ public class Object3D
 	}
 
 	/**
-	 * @return
+	 * Returns the 3d coordinates for this object.
 	 */
 	public Location3D[] getLocation3D( )
 	{
@@ -106,8 +106,6 @@ public class Object3D
 	/**
 	 * returns the normal vector (pointing outside the enclosed volume for
 	 * oriented polygons.)
-	 * 
-	 * @return
 	 */
 	public Vector getNormal( )
 	{
@@ -132,8 +130,6 @@ public class Object3D
 
 	/**
 	 * Returns center of gravity of polygon
-	 * 
-	 * @return
 	 */
 	public Vector getCenter( )
 	{
@@ -175,7 +171,7 @@ public class Object3D
 	}
 
 	/**
-	 * @return
+	 * Returns maximum X value for this object
 	 */
 	public double getXMax( )
 	{
@@ -183,7 +179,7 @@ public class Object3D
 	}
 
 	/**
-	 * @return
+	 * Returns minimum X value for this object
 	 */
 	public double getXMin( )
 	{
@@ -191,7 +187,7 @@ public class Object3D
 	}
 
 	/**
-	 * @return
+	 * Returns maximum Y value for this object
 	 */
 	public double getYMax( )
 	{
@@ -199,7 +195,7 @@ public class Object3D
 	}
 
 	/**
-	 * @return
+	 * Returns minimum Y value for this object
 	 */
 	public double getYMin( )
 	{
@@ -207,7 +203,7 @@ public class Object3D
 	}
 
 	/**
-	 * @return
+	 * Returns maximum Z value for this object
 	 */
 	public double getZMax( )
 	{
@@ -215,7 +211,7 @@ public class Object3D
 	}
 
 	/**
-	 * @return
+	 * Returns minimum Z value for this object
 	 */
 	public double getZMin( )
 	{
@@ -223,7 +219,7 @@ public class Object3D
 	}
 
 	/**
-	 * @param m
+	 * Performs transformation by given matrix
 	 */
 	public void transform( Matrix m )
 	{
@@ -241,9 +237,6 @@ public class Object3D
 		}
 	}
 
-	/**
-	 * 
-	 */
 	private void computeExtremums( )
 	{
 		xMin = Double.MAX_VALUE;
@@ -269,7 +262,7 @@ public class Object3D
 	}
 
 	/**
-	 * @param engine
+	 * Check and clip vectors by given engine.
 	 */
 	public void clip( Engine3D engine )
 	{
@@ -357,11 +350,11 @@ public class Object3D
 			}
 				break;
 		}
-		va = (Vector[]) lst.toArray( new Vector[0] );
+		va = (Vector[]) lst.toArray( new Vector[lst.size( )] );
 	}
 
 	/**
-	 * 
+	 * Prepars for Z-sorting
 	 */
 	public void prepareZSort( )
 	{
@@ -379,10 +372,7 @@ public class Object3D
 
 	/**
 	 * Perspective transformation of the vectors.
-	 * 
-	 * @param distance
 	 */
-
 	public void perspective( double distance )
 	{
 		for ( int i = 0; i < va.length; i++ )
@@ -397,7 +387,7 @@ public class Object3D
 	}
 
 	/**
-	 * @return
+	 * Returns vectors in model frame for this object
 	 */
 	public Vector[] getVectors( )
 	{
@@ -405,7 +395,7 @@ public class Object3D
 	}
 
 	/**
-	 * @return
+	 * Returns vectors in viewer frame for this object
 	 */
 	public Vector[] getViewerVectors( )
 	{
@@ -413,9 +403,7 @@ public class Object3D
 	}
 
 	/**
-	 * @param xOffset
-	 * @param yOffset
-	 * @return
+	 * Returns the projected 2D coordinates for this object
 	 */
 	public Location[] getPoints2D( double xOffset, double yOffset )
 	{
@@ -428,14 +416,67 @@ public class Object3D
 		return locations;
 	}
 
+	private Vector getLineNormalToPlane( Vector p1, Vector p2, Object3D plane )
+	{
+		Vector dv = new Vector( p1 );
+		dv.sub( p2 );
+
+		int status = 0;
+
+		if ( dv.get( 0 ) == 0 )
+		{
+			status |= 1;
+		}
+		if ( dv.get( 1 ) == 0 )
+		{
+			status |= 2;
+		}
+		if ( dv.get( 2 ) == 0 )
+		{
+			status |= 4;
+		}
+
+		// plane equation:
+		// pn0*X + pn1*Y + pn2*Z + delta = 0
+		Vector pn = plane.getNormal( );
+		double delta = -plane.getViewerVectors( )[0].scalarProduct( pn );
+
+		switch ( status )
+		{
+			case 0 :
+				// no projection is zero
+				// line equation:
+				// (X-p1x)/dv0 = (Y-p1y)/dv1 = (Z-p1z)/dv2
+				break;
+			case 1 :
+				// X projection is Zero
+				// line equation:
+				// X=p1x; (Y-p1y)/dv1 = (Z-p1z)/dv2
+				break;
+			case 2 :
+				// Y projection is Zero
+				// line equation:
+				// Y=p1y; (X-p1x)/dv0 = (Z-p1z)/dv2
+				break;
+			case 4 :
+				// Z projection is Zero
+				// line equation:
+				// Z=p1z; (X-p1x)/dv0 = (Y-p1y)/dv1
+				break;
+			default :
+				// more than one projections are zero, shouldn't go here
+				assert false;
+				break;
+		}
+
+		return null;
+	}
+
 	/**
 	 * Returns if current object is totally aside the given object. "outside" is
 	 * along the direction of the viewer vector.
-	 * 
-	 * @param obj
-	 * @return
 	 */
-	protected boolean testAside( Object3D obj, boolean outside )
+	protected boolean testAside( Object3D obj, boolean outside, Engine3D engine )
 	{
 		if ( viewVa.length == 0 || obj.getViewerVectors( ).length == 0 )
 		{
@@ -474,7 +515,7 @@ public class Object3D
 		{
 			// if ( viewVa.length == 2 )
 			// {
-			// /// find a proper normal vector for this line.
+			// // / find a proper normal vector for this line.
 			// Vector v1 = new Vector( obj.getViewerVectors( )[1] );
 			// v1.sub( obj.getViewerVectors( )[0] );
 			//
@@ -482,8 +523,25 @@ public class Object3D
 			// Vector lva = new Vector( viewVa[1] );
 			// lva.sub( viewVa[0] );
 			//
-			// double cos = Math.abs( lva.cosineValue( obj.getNormal( ) ) );
+			// Vector vv = engine.view2model( lva );
+			// Vector nn = engine.view2model( obj.getNormal( ) );
+			//
+			// Vector tt = new Vector( 3, 0, 0, false );
+			// Vector tt2 = new Vector( 0, 3, 3, false );
+			//
+			// double cos = Math.abs( tt.cosineValue( tt2 ) );
 			// System.out.println( "cosine: " + cos );
+			//
+			// Matrix mm = engine.getTransformMatrix( );
+			//
+			// tt = tt.getMultiply( mm );
+			// tt2 = tt2.getMultiply( mm );
+			// cos = Math.abs( tt.cosineValue( tt2 ) );
+			//
+			// tt = engine.model2View( tt );
+			// tt2 = engine.model2View( tt2 );
+			//
+			// cos = Math.abs( tt.cosineValue( tt2 ) );
 			//
 			// if ( ChartUtil.mathEqual( cos, 1 ) )
 			// {
@@ -542,8 +600,7 @@ public class Object3D
 	}
 
 	/**
-	 * @param near
-	 * @return
+	 * Tests if two objects intersects.
 	 */
 	protected boolean testIntersect( Object3D near, Engine3D engine )
 	{
@@ -571,8 +628,7 @@ public class Object3D
 	}
 
 	/**
-	 * @param near
-	 * @return
+	 * Tests if two objects overlap in X diretion.
 	 */
 	protected boolean testXOverlap( Object3D near )
 	{
@@ -580,8 +636,7 @@ public class Object3D
 	}
 
 	/**
-	 * @param near
-	 * @return
+	 * Tests if two objects overlap in Y diretion.
 	 */
 	protected boolean testYOverlap( Object3D near )
 	{
@@ -589,8 +644,7 @@ public class Object3D
 	}
 
 	/**
-	 * @param near
-	 * @return
+	 * Tests if two objects need swapping.
 	 */
 	public boolean testSwap( Object3D near, Engine3D engine )
 	{
@@ -598,9 +652,9 @@ public class Object3D
 		boolean swap = false;
 		if ( far.testXOverlap( near ) && far.testYOverlap( near ) )
 		{
-			if ( !( near.testAside( far, true ) ) )
+			if ( !( near.testAside( far, true, engine ) ) )
 			{
-				if ( !( far.testAside( near, false ) ) )
+				if ( !( far.testAside( near, false, engine ) ) )
 				{
 					if ( far.testIntersect( near, engine ) )
 					{
@@ -613,11 +667,10 @@ public class Object3D
 	}
 
 	/**
-	 * @param near
-	 * @return
+	 * Tests if two objects overlap in Z diretion.
 	 */
 	public boolean testZOverlap( Object3D near )
 	{
-		return ( near.getZMin( ) <= this.getZMax( ) );
+		return ( ( this.getZMax( ) >= near.getZMax( ) && this.getZMin( ) < near.getZMax( ) ) || ( this.getZMax( ) < near.getZMax( ) && this.getZMax( ) > near.getZMin( ) ) );
 	}
 }
