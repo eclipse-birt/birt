@@ -72,6 +72,9 @@ public class WizardBase implements IRegistrationListener
 
 	private WizardBaseDialog dialog;
 
+	// Internal fields to detect if wizard needs pack.
+	private boolean packNeeded = true;
+
 	/**
 	 * Launches the wizard with the specified tasks in 'Available' state...and
 	 * the specified task sets as the 'Active' task.
@@ -252,7 +255,7 @@ public class WizardBase implements IRegistrationListener
 
 	public WizardBase( String sID )
 	{
-		this( sID, SWT.DEFAULT, SWT.DEFAULT, null, null, null, null );
+		this( null, sID, SWT.DEFAULT, SWT.DEFAULT, null, null, null, null );
 	}
 
 	/**
@@ -596,7 +599,12 @@ public class WizardBase implements IRegistrationListener
 			if ( getCurrentTask( ) != null )
 			{
 				getCurrentTask( ).setContext( WizardBase.this.context );
+
+				// Do not pack wizard since the bound has been calculated by
+				// jface
+				packNeeded = false;
 				switchTo( sCurrentActiveTask );
+				packNeeded = true;
 			}
 
 			super.initializeBounds( );
@@ -865,6 +873,10 @@ public class WizardBase implements IRegistrationListener
 		 */
 		public void packWizard( )
 		{
+			if ( !packNeeded )
+			{
+				return;
+			}
 			boolean changed = false;
 			Point wizardSize = getShell( ).computeSize( SWT.DEFAULT,
 					SWT.DEFAULT );
