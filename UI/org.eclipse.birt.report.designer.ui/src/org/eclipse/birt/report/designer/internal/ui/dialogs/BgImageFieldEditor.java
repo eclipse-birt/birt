@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -185,21 +186,31 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 
 				public void widgetSelected( SelectionEvent evt )
 				{
+					String ext[] = new String[]{
+						"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+					} ;
 					FileDialog fd = new FileDialog( parent.getShell( ),
 							SWT.OPEN );
-					fd.setFilterExtensions( new String[]{
-						"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-					} );
+					fd.setFilterExtensions(ext );
 					// fd.setFilterNames( new String[]{
 					// "SWT image" + " (gif, jpeg, png, ico, bmp)" //$NON-NLS-1$
 					// //$NON-NLS-2$
 					// } );
 
 					String file = fd.open( );
-					if ( file != null )
-					{
-						getTextControl( null ).setText( file );
-						valueChanged( VALUE );
+					if ( file != null )					
+					{					
+					// should check extensions in Linux enviroment
+						if ( checkExtensions( ext,file ) == false )
+						{
+							ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ),
+									Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) );
+						}else
+						{
+							getTextControl( null ).setText( file );
+							valueChanged( VALUE );
+						}
+
 					}
 				}
 			} );
@@ -219,6 +230,19 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 			return fText.getText( );
 		}
 		return getPreferenceStore( ).getString( getPreferenceName( ) );
+	}
+	
+	private boolean checkExtensions(String fileExt[], String fileName )
+	{		
+		for ( int i = 0; i < fileExt.length; i++ )
+		{
+			String ext = fileExt[i].substring(fileExt[i].lastIndexOf('.') );
+			if ( fileName.toLowerCase( ).endsWith( ext.toLowerCase( ) ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

@@ -144,7 +144,17 @@ public class WizardSelectCssStylePage extends WizardPage
 				String fileName = fileSelector.open( );
 				if ( fileName != null )
 				{
-					fileNameField.setText( fileName );
+					// should check extensions in Linux enviroment
+					if (checkExtensions( new String[]{"*.css;*.CSS"}, fileName ) == false )
+					{
+						ExceptionHandler.openErrorMessageBox( Messages.getString( "WizardSelectCssStylePage.FileNameError.Title" ),
+								Messages.getString( "WizardSelectCssStylePage.FileNameError.Message" ) );
+						
+					}else
+					{
+						fileNameField.setText( fileName );
+					}
+					
 				}
 			}
 		} );
@@ -443,5 +453,18 @@ public class WizardSelectCssStylePage extends WizardPage
 		setErrorMessage( null );
 		setMessage( null );
 		return true;
+	}
+	
+	private boolean checkExtensions(String fileExt[], String fileName )
+	{		
+		for ( int i = 0; i < fileExt.length; i++ )
+		{
+			String ext = fileExt[i].substring(fileExt[i].lastIndexOf('.') );
+			if ( fileName.toLowerCase( ).endsWith( ext.toLowerCase( ) ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

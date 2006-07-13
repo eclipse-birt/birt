@@ -846,7 +846,24 @@ public class HyperlinkBuilder extends BaseDialog
 
 					if ( filename != null )
 					{
-						filename = new File( filename ).toURL( ).toString( );
+						File file = new File( filename );
+						if(!(file.isFile( ) && file.exists( )))
+						{
+							ExceptionHandler.openErrorMessageBox( Messages.getString( "HyperlinkBuilder.FileNameError.Title" ),
+									Messages.getString( "HyperlinkBuilder.FileNameError.Message" ) );
+							return;
+						}
+						
+						filename = file.toURL( ).toString( );
+						
+						// should check extensions in Linux enviroment
+						if ( needFilter && checkExtensions( fileExt, filename ) == false )
+						{
+							ExceptionHandler.openErrorMessageBox( Messages.getString( "HyperlinkBuilder.FileNameError.Title" ),
+									Messages.getString( "HyperlinkBuilder.FileNameError.Message" ) );
+							return;
+						}
+						
 						if ( needFilter )
 						{
 							filename = URIUtil.getRelativePath( getBasePath( ),
@@ -859,10 +876,7 @@ public class HyperlinkBuilder extends BaseDialog
 						}
 						text.setText( filename );
 					}
-					else
-					{
-						text.setText( "" ); //$NON-NLS-1$
-					}
+
 					updateButtons( );
 				}
 				catch ( Exception ex )
@@ -1572,4 +1586,19 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 		return false;
 	}
+	
+	private boolean checkExtensions(String fileExt[], String fileName )
+	{		
+		for ( int i = 0; i < fileExt.length; i++ )
+		{
+			String ext = fileExt[i].substring(fileExt[i].lastIndexOf('.') );
+			if ( fileName.toLowerCase( ).endsWith( ext.toLowerCase( ) ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }
+
