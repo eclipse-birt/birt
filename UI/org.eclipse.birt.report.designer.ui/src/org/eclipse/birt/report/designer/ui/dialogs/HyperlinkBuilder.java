@@ -537,6 +537,7 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				selectRadio( targetGroup, reportDesignButton );
 				initTargetReport( locationEditor.getText( ) );
+				initParamterBindings( );
 				deSelectAnchor( );
 				updateButtons( );
 			}
