@@ -536,7 +536,8 @@ public class JSEditor extends StatusTextEditor implements
 		if ( editorUIEnabled == true )
 		{
 			// save the previous editor content.
-			saveModelIfNeeds( );
+//			saveModelIfNeeds( );
+			saveModel( );
 		}
 
 		if ( selection != null )
