@@ -11,6 +11,7 @@
  *************************************************************************/ 
 package org.eclipse.birt.data.engine.executor;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -58,6 +59,34 @@ public class DataSourceFactory implements IDataSourceFactory
 			IBaseDataSourceDesign dataSourceDesign, IBaseDataSetDesign dataSetDesign )
 	{
 		if ( DataSetCacheManager.getInstance( ).doesLoadFromCache( ) == false )
+		{
+			// TODO: connection pooling
+			return new DataSource( driverName, connProperties );
+		}
+		else
+		{
+			return new org.eclipse.birt.data.engine.executor.dscache.DataSource( dataSourceDesign instanceof ScriptDataSourceDesign );
+		}
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IDataSourceFactory#getDataSource(java.lang.String,
+	 *      java.util.Map,
+	 *      org.eclipse.birt.data.engine.api.IBaseDataSourceDesign,
+	 *      org.eclipse.birt.data.engine.api.IBaseDataSetDesign,
+	 *      java.util.Collection, int, int)
+	 */
+	public IDataSource getDataSource( String driverName, Map connProperties,
+			IBaseDataSourceDesign dataSourceDesign,
+			IBaseDataSetDesign dataSetDesign, Collection parameterBindings,
+			int cacheOption, int alwaysCacheRowCount )
+	{
+		if ( DataSetCacheManager.getInstance( )
+				.doesLoadFromCache( dataSourceDesign,
+						dataSetDesign,
+						parameterBindings,
+						cacheOption,
+						alwaysCacheRowCount ) == false )
 		{
 			// TODO: connection pooling
 			return new DataSource( driverName, connProperties );

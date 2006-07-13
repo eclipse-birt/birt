@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -56,10 +55,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign, appContext );
-		logger.logp( Level.FINER,
-				PreparedOdaDSQuery.class.getName( ),
-				"PreparedExtendedDSQuery",
-				"PreparedExtendedDSQuery starts up" );
 	}	
 	
 	/*
@@ -161,12 +156,18 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		        copyProperties( extDS.getPublicProperties(), 
 		        		extDS.getPrivateProperties() );
 		    	    
-		    // calls ODI Data Source Factory to provide an ODI data source object
-		    // that matches the given properties
-		    return DataSourceFactory.getFactory( ).getDataSource( driverName,
-					driverProps,
-					this.dataSource.getDesign( ),
-					this.dataSet.getDesign( ) );
+		    // calls ODI Data Source Factory to provide an ODI data source
+			// object that matches the given properties
+		    PreparedOdaDSQuery self = PreparedOdaDSQuery.this;
+			return DataSourceFactory.getFactory( )
+					.getDataSource( driverName,
+							driverProps,
+							this.dataSource.getDesign( ),
+							this.dataSet.getDesign( ),
+							self.queryDefn.getInputParamBindings( ),
+							DataSetCacheUtil.getCacheOption( self.dataEngine.getContext( ),
+									appContext ),
+							self.dataEngine.getContext( ).getCacheCount( ) );
 		}
 		
 		/*

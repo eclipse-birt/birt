@@ -10,13 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
@@ -45,9 +39,12 @@ import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
  */
 public class DataSetCacheManager
 {
-	// map of cache relationship
-	private Map cacheMap;
+	// whether cache is needed
+	private int cacheOption;
 
+	// how many rows needs to be always cached
+	private int alwaysCacheRowCount;
+		
 	// data set id and its cache count
 	private IBaseDataSourceDesign dataSourceDesign;
 	private IBaseDataSetDesign dataSetDesign;
@@ -55,19 +52,15 @@ public class DataSetCacheManager
 	
 	// current cache row count, its value is not possible be 0.
 	private int cacheRowCount;
-
-	//
+	
+	// map manager instance
+	private CacheMapManager cacheMapManager;
+	
+	// constant value
 	public final static int ALWAYS = 1;
 	public final static int DISABLE = 2;
 	public final static int DEFAULT = 3;
 	
-	// 
-	private int cacheOption;
-	private int alwaysCacheRowCount;
-
-	// folder util instance
-	private FolderUtil folderUtil;
-		
 	// instance
 	private static DataSetCacheManager cacheManager;
 
@@ -93,14 +86,13 @@ public class DataSetCacheManager
 	 */
 	private DataSetCacheManager( )
 	{
-		cacheMap = new HashMap( );
-		folderUtil = new FolderUtil( );
-		
 		dataSourceDesign = null;
 		dataSetDesign = null;
 		cacheRowCount = 0;
 		cacheOption = DEFAULT;
 		alwaysCacheRowCount = 0;
+		
+		cacheMapManager = new CacheMapManager( );
 	}
 	
 	/**
@@ -153,20 +145,17 @@ public class DataSetCacheManager
 	 */
 	public boolean doesSaveToCache( )
 	{
-		if ( basicCache( ) == false )
+		if ( needsToCache( this.dataSetDesign,
+				this.cacheOption,
+				this.alwaysCacheRowCount ) == false )
 			return false;
 
-		DataSourceAndDataSet ds = getDataSourceAndDataSet( );
-		String cacheDirStr = (String) this.cacheMap.get( ds );
-		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
-		{
-			return false;
-		}
-		else
-		{
-			this.cacheMap.put( ds, this.getCacheDirStr( ) );
-			return true;
-		}
+		return cacheMapManager.doesSaveToCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterBindings,
+				getCacheCount( this.cacheOption,
+						this.alwaysCacheRowCount,
+						this.cacheRowCount ) ) );
 	}
 
 	/**
@@ -174,32 +163,58 @@ public class DataSetCacheManager
 	 */
 	public boolean doesLoadFromCache( )
 	{
-		if ( basicCache( ) == false )
+		if ( needsToCache( this.dataSetDesign,
+				this.cacheOption,
+				this.alwaysCacheRowCount ) == false )
 			return false;
 
-		DataSourceAndDataSet ds = getDataSourceAndDataSet( );
-		String cacheDirStr = (String) this.cacheMap.get( ds );
-		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
-			return true;
-		else
+		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterBindings,
+				getCacheCount( this.cacheOption,
+						this.alwaysCacheRowCount,
+						this.cacheRowCount ) ) );
+	}
+	
+	/**
+	 * @param dataSourceDesign
+	 * @param dataSetDesign
+	 * @param parameterBindings
+	 * @param cacheOption
+	 * @param alwaysCacheRowCount
+	 * @return
+	 */
+	public boolean doesLoadFromCache( IBaseDataSourceDesign dataSourceDesign,
+			IBaseDataSetDesign dataSetDesign, Collection parameterBindings,
+			int cacheOption, int alwaysCacheRowCount )
+	{
+		if ( needsToCache( dataSetDesign, cacheOption, alwaysCacheRowCount ) == false )
 			return false;
+
+		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				dataSetDesign,
+				parameterBindings,
+				getCacheCount( this.cacheOption,
+						this.alwaysCacheRowCount,
+						this.cacheRowCount ) ) );
 	}
 	
 	/**
 	 * @return
 	 */
-	private boolean basicCache( )
+	private static boolean needsToCache( IBaseDataSetDesign dataSetDesign,
+			int cacheOption, int alwaysCacheRowCount )
 	{
 		if ( dataSetDesign == null )
 			return false;
 
-		if ( this.cacheOption == DISABLE )
+		if ( cacheOption == DISABLE )
 		{
 			return false;
 		}
-		else if ( this.cacheOption == ALWAYS )
+		else if ( cacheOption == ALWAYS )
 		{
-			if ( this.alwaysCacheRowCount == 0 )
+			if ( alwaysCacheRowCount == 0 )
 				return false;
 		}
 		else if ( dataSetDesign.getCacheRowCount( ) == 0 )
@@ -215,14 +230,14 @@ public class DataSetCacheManager
 	 */
 	public int getCacheRowCount( )
 	{
-		if ( this.cacheOption == ALWAYS )
+		if ( cacheOption == ALWAYS )
 		{
-			if ( this.alwaysCacheRowCount <= 0 )
+			if ( alwaysCacheRowCount <= 0 )
 				return Integer.MAX_VALUE;
 			else
-				return this.alwaysCacheRowCount;
+				return alwaysCacheRowCount;
 		}
-		else if ( this.cacheOption == DISABLE )
+		else if ( cacheOption == DISABLE )
 		{
 			return Integer.MAX_VALUE;
 		}
@@ -247,16 +262,11 @@ public class DataSetCacheManager
 		if ( dataSourceDesign2 == null || dataSetDesign2 == null )
 			return;
 
-		DataSourceAndDataSet ds = getDataSourceAndDataSet( dataSourceDesign2,
+		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( dataSourceDesign2,
 				dataSetDesign2,
 				null,
 				dataSetDesign2.getCacheRowCount( ) );
-		Object cacheDir = cacheMap.get( ds );
-		if ( cacheDir != null )
-		{
-			cacheMap.remove( ds );
-			folderUtil.deleteDir( (String) cacheDir );
-		}
+		cacheMapManager.clearCache( ds );
 	}
 
 	/**
@@ -264,7 +274,12 @@ public class DataSetCacheManager
 	 */
 	public String getSaveFolder( )
 	{
-		return (String) cacheMap.get( getDataSourceAndDataSet( ) );
+		return cacheMapManager.getSaveFolder( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterBindings,
+				getCacheCount( this.cacheOption,
+						this.alwaysCacheRowCount,
+						this.cacheRowCount ) ) );
 	}
 
 	/**
@@ -272,54 +287,28 @@ public class DataSetCacheManager
 	 */
 	public String getLoadFolder( )
 	{
-		return (String) cacheMap.get( getDataSourceAndDataSet( ) );
-	}
-
-	/**
-	 * @return
-	 */
-	private DataSourceAndDataSet getDataSourceAndDataSet( )
-	{
-		int cacheCount = 0;
-		if ( this.cacheOption == ALWAYS )
-			cacheCount = this.alwaysCacheRowCount;
-		else if ( this.cacheOption == DISABLE )
-			assert false;
-		else
-			cacheCount = this.cacheRowCount;
-
-		return getDataSourceAndDataSet( this.dataSourceDesign,
+		return cacheMapManager.getLoadFolder( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
 				this.parameterBindings,
-				cacheCount );
-	}
-		
-	/**
-	 * @param dataSourceDesign2
-	 * @param dataSetDesign2
-	 * @param paramBinds
-	 * @param cacheCount
-	 * @return
-	 */
-	private static DataSourceAndDataSet getDataSourceAndDataSet(
-			IBaseDataSourceDesign dataSourceDesign2,
-			IBaseDataSetDesign dataSetDesign2, Collection paramBinds,
-			int cacheCount )
-	{
-		return DataSourceAndDataSet.newInstance( dataSourceDesign2,
-				dataSetDesign2,
-				paramBinds,
-				cacheCount );
+				getCacheCount( this.cacheOption,
+						this.alwaysCacheRowCount,
+						this.cacheRowCount ) ) );
 	}
 	
 	/**
-	 * @return temp directory string, this folder name is unique and then
-	 *         different session will not influence each other, which can
-	 *         support multi-thread
+	 * @return
 	 */
-	private String getCacheDirStr( )
+	private static int getCacheCount( int cacheOption, int alwaysCacheRowCount,
+			int cacheRowCount )
 	{
-		return folderUtil.createSessionTempDir( );
+		int cacheCount = 0;
+		if ( cacheOption == ALWAYS )
+			cacheCount = alwaysCacheRowCount;
+		else if ( cacheOption == DISABLE )
+			assert false;
+		else
+			cacheCount = cacheRowCount;
+		return cacheCount;
 	}
 
 	/**
@@ -327,146 +316,14 @@ public class DataSetCacheManager
 	 * is for test.
 	 */
 	public void resetForTest( )
-	{
-		cacheMap = new HashMap( );
-		folderUtil = new FolderUtil( );
-		
+	{		
 		dataSourceDesign = null;
 		dataSetDesign = null;
 		cacheRowCount = 0;
 		cacheOption = DEFAULT;
 		alwaysCacheRowCount = 0;
+		
+		this.cacheMapManager.resetForTest( );
 	}
-
-	/**
-	 * Folder util class to manager temp folder
-	 */
-	private class FolderUtil
-	{
-		// temp root directory
-		private String tempRootDirStr = null;
-
-		/**
-		 * @return temp root dir directory
-		 */
-		private void createTempRootDir( )
-		{
-			if ( tempRootDirStr != null )
-				return;
-			
-			// system default temp dir is used
-			String tempDirStr = System.getProperty( "java.io.tmpdir" );
-			File tempDtEDir = new File( tempDirStr, "BirtDataCache" );
-			if ( tempDtEDir.exists( ) == false )
-			{
-				tempDtEDir.mkdir( );
-			}
-			else
-			{
-				File[] sessionsFolder = tempDtEDir.listFiles( );
-				for ( int i = 0; i < sessionsFolder.length; i++ )
-				{
-					File[] oneSessionFolder = sessionsFolder[i].listFiles( );
-					for ( int j = 0; j < oneSessionFolder.length; j++ )
-					{
-						// temp files
-						if ( oneSessionFolder[j].isDirectory( ) )
-						{
-							File[] oneSessionTempFiles = oneSessionFolder[j].listFiles( );
-							for ( int k = 0; k < oneSessionTempFiles.length; k++ )
-							{
-								oneSessionTempFiles[k].delete( );
-							}
-							oneSessionFolder[j].delete( );
-						}
-						// goal file
-						else
-						{
-							oneSessionFolder[j].delete( );
-						}
-					}
-					sessionsFolder[i].delete( );
-				}
-			}
-
-			try
-			{
-				tempRootDirStr = tempDtEDir.getCanonicalPath( );
-			}
-			catch ( IOException e )
-			{
-				// normally this exception will never be thrown
-			}
-		}
-
-		/**
-		 * @return session temp dir
-		 */
-		private String createSessionTempDir( )
-		{
-			this.createTempRootDir();
-			
-			String sessionTempDirStr;
-			final String prefix = "session_";
-
-			// second create the seesion temp folder
-			String[] filesName = new File( tempRootDirStr ).list( );
-			Arrays.sort( filesName, new Comparator( ) {
-
-				public int compare( Object o1, Object o2 )
-				{
-					String f1 = (String) o1;
-					String f2 = (String) o2;
-
-					int index1 = f1.indexOf( prefix );
-					int index2 = f2.indexOf( prefix );
-
-					if ( index1 < 0 || index2 < 0 )
-						return 0;
-
-					Integer i1 = Integer.valueOf( f1.substring( index1
-							+ prefix.length( ) ) );
-					Integer i2 = Integer.valueOf( f2.substring( index2
-							+ prefix.length( ) ) );
-					return i1.compareTo( i2 );
-				}
-			} );
-
-			// find which extension should be used
-			int maxIndex = -1;
-			for ( int i = filesName.length - 1; i >= 0; i-- )
-			{
-				int index = filesName[i].indexOf( prefix );
-				if ( index == 0 )
-				{
-					maxIndex = Integer.valueOf( filesName[i].substring( index
-							+ prefix.length( ) ) ).intValue( );
-					break;
-				}
-			}
-			maxIndex++;
-
-			sessionTempDirStr = tempRootDirStr
-					+ File.separator + prefix + maxIndex;
-			File file = new File( sessionTempDirStr );
-			file.mkdir( );
-
-			return sessionTempDirStr;
-		}
-
-		/**
-		 * Delete folder
-		 * 
-		 * @param dirStr
-		 */
-		private void deleteDir( String dirStr )
-		{
-			File sessionsFolder = new File( dirStr );
-			File[] sessionFiles = sessionsFolder.listFiles( );
-			for ( int i = 0; i < sessionFiles.length; i++ )
-				sessionFiles[i].delete( );
-			sessionsFolder.delete( );
-		}
-	}
-
+	
 }

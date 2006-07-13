@@ -39,6 +39,7 @@ abstract class PreparedDataSourceQuery
 	protected DataEngineImpl dataEngine;
 	protected IQueryDefinition queryDefn;
 	protected PreparedQuery preparedQuery;
+	protected Map appContext;
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
@@ -56,6 +57,7 @@ abstract class PreparedDataSourceQuery
 		this.dataSetDesign = dataSetDesign;
 		this.queryDefn = queryDefn;
 		this.dataEngine = dataEngine;
+		this.appContext = appContext;
 		
 		preparedQuery = new PreparedQuery( dataEngine.getContext( ),
 				dataEngine.getSharedScope( ),
@@ -81,6 +83,7 @@ abstract class PreparedDataSourceQuery
 		this.dataSetDesign = dataSetDesign;
 		this.queryDefn = queryDefn;
 		this.dataEngine = dataEngine;
+		this.appContext = appContext;
 		
 		preparedQuery = new PreparedQuery( dataEngine.getContext( ),
 				dataEngine.getSharedScope( ),

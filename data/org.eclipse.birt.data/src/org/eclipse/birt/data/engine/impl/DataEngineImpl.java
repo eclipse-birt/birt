@@ -414,42 +414,24 @@ public class DataEngineImpl extends DataEngine
 			return;
 		
 		IBaseDataSourceDesign dataSourceDesign = null;
-		if ( this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) != null )
-			dataSourceDesign = this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) )
-					.getDesign( );
+		DataSourceRuntime dsRuntime = this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) );
+		if ( dsRuntime != null )
+			dataSourceDesign = dsRuntime.getDesign( );
+		
 		DataSetCacheManager.getInstance( )
 				.setDataSourceAndDataSet( dataSourceDesign,
 						dataSetDesign,
 						querySpec.getInputParamBindings( ) );
-		
-		int cacheOption = context.getCacheOption( );
-		if ( cacheOption == DataEngineContext.CACHE_USE_ALWAYS )
+				
+		if ( context.getCacheOption( ) == DataEngineContext.CACHE_USE_ALWAYS )
 		{
-			DataSetCacheManager.getInstance( )
-					.setCacheOption( DataSetCacheManager.ALWAYS );
 			DataSetCacheManager.getInstance( )
 					.setAlwaysCacheRowCount( context.getCacheCount( ) );
 		}
-		else if ( cacheOption == DataEngineContext.CACHE_USE_DISABLE )
-		{
-			DataSetCacheManager.getInstance( )
-					.setCacheOption( DataSetCacheManager.DISABLE );
-		}
-		else if ( appContext != null )
-		{
-			Object option = appContext.get( DataEngine.DATASET_CACHE_OPTION );
-			if ( option != null && option.toString( ).equals( "true" ) )
-				DataSetCacheManager.getInstance( )
-						.setCacheOption( DataSetCacheManager.DEFAULT );
-			else
-				DataSetCacheManager.getInstance( )
-						.setCacheOption( DataSetCacheManager.DISABLE );
-		}
-		else
-		{
-			DataSetCacheManager.getInstance( )
-					.setCacheOption( DataSetCacheManager.DISABLE );
-		}
+		
+		DataSetCacheManager.getInstance( )
+				.setCacheOption( DataSetCacheUtil.getCacheOption( context,
+						appContext ) );
 	}
 	
 	/**

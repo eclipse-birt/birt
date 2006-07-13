@@ -99,10 +99,16 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 		protected IDataSource createOdiDataSource( )
 		{
 			// An empty odi data source is used for script data set
-			return DataSourceFactory.getFactory( ).getDataSource( null,
-					null,
-					this.dataSource.getDesign( ),
-					this.dataSet.getDesign( ) );
+			PreparedScriptDSQuery self = PreparedScriptDSQuery.this;
+			return DataSourceFactory.getFactory( )
+					.getDataSource( null,
+							null,
+							this.dataSource.getDesign( ),
+							this.dataSet.getDesign( ),
+							self.queryDefn.getInputParamBindings( ),
+							DataSetCacheUtil.getCacheOption( self.dataEngine.getContext( ),
+									appContext ),
+							self.dataEngine.getContext( ).getCacheCount( ) );
 		}
 	
 		/*

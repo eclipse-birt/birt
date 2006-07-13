@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.data.engine.odi;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -54,5 +55,22 @@ public interface IDataSourceFactory
     public IDataSource getDataSource( String driverName, Map connProperties,
 			IBaseDataSourceDesign dataSourceDesign,
 			IBaseDataSetDesign dataSetDesign );
+    
+    /**
+	 * Temp interface
+	 * 
+	 * @param driverName
+	 * @param connProperties
+	 * @param dataSourceDesign
+	 * @param dataSetDesign
+	 * @param parameterBindings
+	 * @param cacheOption
+	 * @param alwaysCacheRowCount
+	 * @return
+	 */
+	public IDataSource getDataSource( String driverName, Map connProperties,
+			IBaseDataSourceDesign dataSourceDesign,
+			IBaseDataSetDesign dataSetDesign, Collection parameterBindings,
+			int cacheOption, int alwaysCacheRowCount );
     
 }
