@@ -1,7 +1,11 @@
 package org.eclipse.birt.report.engine.emitter.pdf;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,6 +19,8 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.print.PrintTranscoder;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -854,7 +860,10 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		protected void drawImage( IImageArea image )
 		{	
+			
+			
 			Image img = null;
+			TranscoderInput ti = null;
 			cb.saveState();
 			ContainerPosition curPos;
 			if ( !containerStack.isEmpty() )
@@ -863,31 +872,90 @@ public class PDFEmitter implements IContentEmitter
 				curPos = new ContainerPosition(0, 0);
 			int imageX = curPos.x + image.getX();
 			int imageY = curPos.y + image.getY();
+			IImageContent imageContent = ((IImageContent) image.getContent());
+			
 			try
 			{
+				
+				boolean isSvg = false;
+				
 				//lookup the source type of the image area
-				switch (((IImageContent) image.getContent()).getImageSource())
+				switch (imageContent.getImageSource())
 				{
 				case IImageContent.IMAGE_FILE:
 				case IImageContent.IMAGE_URI:
 					if (null == ((IImageContent) image.getContent()).getURI())
 						return;
-					img = Image.getInstance(((IImageContent) image.getContent()).getURI());
+					
+					if(imageContent.getURI().endsWith(".svg")) {
+						isSvg = true;
+						ti = new TranscoderInput(imageContent.getURI());
+						
+					} else {
+						img = Image.getInstance(imageContent.getURI());
+					}
 					break;
 				case IImageContent.IMAGE_NAME:
 				case IImageContent.IMAGE_EXPRESSION:
-					if (null == ((IImageContent) image.getContent()).getData())
+					if (null == imageContent.getData())
 						return;
-					img = Image.getInstance(((IImageContent) image.getContent())
-							.getData());
+					isSvg = (( imageContent.getMIMEType( ) != null )
+							&& imageContent.getMIMEType( ).equalsIgnoreCase( "image/svg+xml" )) //$NON-NLS-1$
+							|| (( imageContent.getURI( ) != null )
+							&& imageContent.getURI( ).toLowerCase( ).endsWith( ".svg" )); //$NON-NLS-1$
+					if(isSvg)
+					{
+						ti = new TranscoderInput(new ByteArrayInputStream(imageContent.getData( ))); 					
+					} else {
+						img = Image.getInstance(imageContent
+								.getData());
+					}
+					
 				}
 					
 				//img.setDpi(5*img.getDpiX(),5*img.getDpiY());
 				// add the image to the given contentByte
-				cb.addImage(img, 
-						pdfMeasure(image.getWidth()), 0f, 0f, pdfMeasure(image.getHeight()),
-						layoutAreaX2PDF(imageX), 
-						layoutAreaY2PDF(imageY, image.getHeight()));
+
+				
+				if(!isSvg) {
+					cb.addImage(img, 
+							pdfMeasure(image.getWidth()), 0f, 0f, pdfMeasure(image.getHeight()),
+							layoutAreaX2PDF(imageX), 
+							layoutAreaY2PDF(imageY, image.getHeight()));
+				} else {
+					
+					try {
+
+						if(ti!=null)
+						{
+
+							double width = pdfMeasure(image.getWidth());
+							double height = pdfMeasure(image.getHeight());
+							double x = layoutAreaX2PDF(imageX);
+							double y = layoutAreaY2PDF(imageY, image.getHeight());
+							
+				            PdfTemplate template = cb.createTemplate(new Float(width).floatValue(), new Float(height).floatValue());
+				            Graphics2D g2 = template.createGraphics(new Float(width).floatValue(), new Float(height).floatValue());
+				            
+				            PrintTranscoder prm = new PrintTranscoder();
+				            prm.addTranscodingHint( PrintTranscoder.KEY_SCALE_TO_PAGE, new Boolean(true) );
+				            prm.transcode(ti, null);
+				            PageFormat pg = new PageFormat();
+				            Paper pp= new Paper();
+				            pp.setSize(width, height);
+				            pp.setImageableArea(0, 0, width, height);
+				            pg.setPaper(pp); 
+				            prm.print(g2, pg, 0); 
+				            g2.dispose(); 
+	
+				            cb.addTemplate(template, new Float(x).floatValue(), new Float(y).floatValue());
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+				}
 			} catch (BadElementException bee)
 			{
 				logger.log( Level.WARNING, bee.getMessage( ), bee );
@@ -912,6 +980,7 @@ public class PDFEmitter implements IContentEmitter
 			//handle hyper-link action
 			handleHyperlinkAction(image, curPos);
 		}
+
 		
 		/**
 		 * Draws the borders of a container.

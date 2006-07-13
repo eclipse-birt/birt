@@ -100,7 +100,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.131 $ $Date: 2006/07/04 08:04:37 $
+ * @version $Revision: 1.132 $ $Date: 2006/07/06 07:59:57 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -2086,8 +2086,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		boolean hasAction = handleAction( image.getHyperlinkAction( ) );
 
 		String imgUri = getImageURI( image );
-		boolean useSVG = ( image.getMIMEType( ) != null )
-				&& image.getMIMEType( ).equalsIgnoreCase( "image/svg+xml" ); //$NON-NLS-1$
+		boolean useSVG = (( image.getMIMEType( ) != null )
+				&& image.getMIMEType( ).equalsIgnoreCase( "image/svg+xml" )) //$NON-NLS-1$
+				|| (( image.getExtension( ) != null )
+				&& image.getExtension( ).equalsIgnoreCase( ".svg" )) //$NON-NLS-1$
+				|| (( image.getURI( ) != null )
+				&& image.getURI( ).toLowerCase( ).endsWith( ".svg" )); //$NON-NLS-1$
 		if ( useSVG )
 		{ // use svg
 			writer.openTag( HTMLTags.TAG_EMBED );
