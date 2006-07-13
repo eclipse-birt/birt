@@ -294,6 +294,7 @@ public class PDFImageLM extends PDFLeafItemLM
 		assert ( content instanceof IImageContent );
 		image = (IImageContent) content;
 		maxWidth = parent.getMaxAvaWidth( );
+		
 		Dimension content = getSpecifiedDimension( image );
 		IStyle style = image.getComputedStyle( );
 		root = (ContainerArea) AreaFactory.createInlineContainer( image, true,
@@ -306,45 +307,71 @@ public class PDFImageLM extends PDFLeafItemLM
 				.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) )
 				+ getDimensionValue( style
 						.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
+		int paddingWidth = getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_PADDING_LEFT ) )
+				+ getDimensionValue( style
+						.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) );
+		
 		IStyle areaStyle = root.getStyle( );
-		if ( marginWidth > maxWidth )
+		
+		if(marginWidth>maxWidth)
 		{
-			// remove margin
-			areaStyle.setMarginLeft( "0" ); //$NON-NLS-1$
-			areaStyle.setMarginRight( "0" ); //$NON-NLS-1$
+			//remove margin
+			areaStyle.setMarginLeft("0"); //$NON-NLS-1$
+			areaStyle.setMarginRight("0"); //$NON-NLS-1$
 			marginWidth = 0;
 		}
-		int maxContentWidth = maxWidth - marginWidth;
-		if ( content.getWidth( ) > maxContentWidth )
+		int maxContentWidthWithBorder = maxWidth - marginWidth;
+		if(borderWidth > maxContentWidthWithBorder)
 		{
-			content.setDimension( maxContentWidth,
-					(int) ( maxContentWidth / content.getRatio( ) ) );
-		}
-		if ( borderWidth > content.getWidth( ) )
-		{
-			// remove border
-			areaStyle.setProperty( IStyle.STYLE_BORDER_LEFT_WIDTH,
-					IStyle.NUMBER_0 );
-			areaStyle.setProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH,
-					IStyle.NUMBER_0 );
+			//remove border
+			areaStyle.setProperty(IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.NUMBER_0);
+			areaStyle.setProperty(IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.NUMBER_0);
 			borderWidth = 0;
 		}
-		ImageArea imageArea = (ImageArea) AreaFactory.createImageArea( image,
-				content );
-		root.addChild( imageArea );
+		int maxContentWidthWithoutBorder = maxContentWidthWithBorder - borderWidth;
+		if(paddingWidth > maxContentWidthWithoutBorder)
+		{
+			//remove padding
+			areaStyle.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0);
+			areaStyle.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0);
+			paddingWidth = 0;
+		}
+		int maxContentWidth = maxContentWidthWithoutBorder - paddingWidth;
+		if(content.getWidth() > maxContentWidth)
+		{
+			content.setDimension(maxContentWidth, (int)(maxContentWidth/content.getRatio()));
+		}
+		
+		ImageArea imageArea = (ImageArea)AreaFactory.createImageArea(image, content);
+		root.addChild(imageArea);
+		
+		int posX = (borderWidth==0 ? 0 : 
+				getDimensionValue(areaStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH)))
+				+ (paddingWidth ==0 ? 0 : 
+				getDimensionValue(areaStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT)));
+		int posY = getDimensionValue(areaStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH))
+					+ getDimensionValue(areaStyle.getProperty(StyleConstants.STYLE_PADDING_TOP));
+		
+		imageArea.setPosition( posX, posY );
+		
+		root.setWidth(content.getWidth()
+				+ ( borderWidth==0 ? 0 : 
+					(getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH))
+					+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH))))
+				+ ( paddingWidth==0 ? 0 : 
+					(getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_PADDING_LEFT))
+					+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_PADDING_RIGHT))))
+		);
+		root.setHeight(content.getHeight()
+				+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH))
+				+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH))
+				+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_PADDING_TOP))
+				+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_PADDING_BOTTOM))
+		);
 
-		imageArea
-				.setPosition(
-						getDimensionValue( areaStyle
-								.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) ),
-						getDimensionValue( areaStyle
-								.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) ) );
-		root.setWidth( content.getWidth( ) );
-		root.setHeight( content.getHeight( ) );
-		// padding for image is useless, remove padding
-		removePadding( areaStyle );
-		imageArea.setWidth( root.getContentWidth( ) );
-		imageArea.setHeight( root.getContentHeight( ) );
+		imageArea.setWidth(content.getWidth());
+		imageArea.setHeight(content.getHeight());
 	}
 
 }

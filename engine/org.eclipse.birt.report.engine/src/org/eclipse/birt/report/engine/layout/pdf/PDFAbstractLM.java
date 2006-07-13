@@ -484,12 +484,9 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		if ( style != null )
 		{
 			style.setProperty( IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.NUMBER_0 );
-			style
-					.setProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH,
-							IStyle.NUMBER_0 );
+			style.setProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.NUMBER_0 );
 			style.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH, IStyle.NUMBER_0 );
-			style.setProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH,
-					IStyle.NUMBER_0 );
+			style.setProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH, IStyle.NUMBER_0 );
 		}
 	}
 

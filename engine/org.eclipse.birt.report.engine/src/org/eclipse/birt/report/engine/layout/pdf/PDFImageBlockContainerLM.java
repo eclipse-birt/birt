@@ -44,9 +44,9 @@ public class PDFImageBlockContainerLM extends PDFBlockContainerLM
 								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) ) );
 	}
 
-	protected void newContext( )
+	protected void createRoot( )
 	{
-		super.newContext( );
+		super.createRoot( );
 		removeBoxProperty( root.getStyle( ) );
 	}
 
