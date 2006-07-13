@@ -37,7 +37,7 @@ public class BorderColorManager extends ColorManager {
 
 	public BorderColorManager (String propertyName)
 	{
-		super( propertyName, false, null );
+		super( propertyName, false, CSSValueConstants.BLACK_RGB_VALUE );
 	}
 	
 	/**
