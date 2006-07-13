@@ -67,7 +67,7 @@ public final class DataTypes
 	 */
 	public static int getType( String typeName ) throws OdaException
 	{
-		String preparedTypeName = typeName.trim( );
+		String preparedTypeName = typeName == null ? "":typeName.trim( );
 		if ( typeStringIntPair.containsKey( preparedTypeName ) )
 			return ( (Integer) typeStringIntPair.get( preparedTypeName ) ).intValue( );
 		throw new OdaException( ); //$NON-NLS-1$

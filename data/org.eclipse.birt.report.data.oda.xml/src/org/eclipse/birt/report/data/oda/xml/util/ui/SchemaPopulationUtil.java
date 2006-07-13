@@ -47,7 +47,6 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  */
 public class SchemaPopulationUtil
 {
-
 	/**
 	 * @param fileName
 	 * @throws MalformedURLException 
@@ -272,6 +271,7 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 final class XSDFileSchemaTreePopulator
 {
 	private static boolean includeAttribute = true;
+
 	/**
 	 * Populate the whole tree until all the leaves have no child.
 	 * 
@@ -401,9 +401,10 @@ final class XSDFileSchemaTreePopulator
 	 * 
 	 * @param node
 	 * @param complexType
+	 * @throws OdaException 
 	 */
 	private static void addParticleAndAttributeInfo( ATreeNode node,
-			XSComplexTypeDecl complexType, ATreeNode complexTypesRoot  )
+			XSComplexTypeDecl complexType, ATreeNode complexTypesRoot  ) throws OdaException
 	{
 		XSParticle particle = complexType.getParticle( );
 		if ( particle != null )
@@ -478,8 +479,9 @@ final class XSDFileSchemaTreePopulator
 	 * 
 	 * @param xsModel
 	 * @return	the root node of the tree.
+	 * @throws OdaException 
 	 */
-	private static ATreeNode populateComplexTypeTree( XSModel xsModel )
+	private static ATreeNode populateComplexTypeTree( XSModel xsModel ) throws OdaException
 	{
 		XSNamedMap map = xsModel.getComponents( XSTypeDefinition.COMPLEX_TYPE );
 
@@ -531,8 +533,9 @@ final class XSDFileSchemaTreePopulator
 	 * 
 	 * @param node the node to which the elements defined in particles should be populated into
 	 * @param list the XSObjectList which lists all particles.
+	 * @throws OdaException 
 	 */
-	private static void populateTreeNodeWithParticles( ATreeNode node, XSObjectList list )
+	private static void populateTreeNodeWithParticles( ATreeNode node, XSObjectList list ) throws OdaException
 	{
 		for ( int j = 0; j < list.getLength( ); j++ )
 		{

@@ -11,6 +11,10 @@
 package org.eclipse.birt.report.data.oda.xml.util.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.eclipse.birt.report.data.oda.xml.impl.DataTypes;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * The instance of this class is used as tree node of the xml schema tree that is passed to 
@@ -38,6 +42,44 @@ public class ATreeNode
 	//The data type is the complex type that defined in an xsd file.
 	private String dataType;
 
+	private static HashMap xmlTypeToDataType = new HashMap();
+	
+	static
+	{
+		try
+		{
+			xmlTypeToDataType.put( "string", DataTypes.getTypeString( DataTypes.STRING ) );
+			xmlTypeToDataType.put( "byte", DataTypes.getTypeString( DataTypes.INT ) );
+			xmlTypeToDataType.put( "decimal", DataTypes.getTypeString( DataTypes.BIGDECIMAL ) );
+			xmlTypeToDataType.put( "double", DataTypes.getTypeString( DataTypes.DOUBLE ) );
+			xmlTypeToDataType.put( "float", DataTypes.getTypeString( DataTypes.DOUBLE ) );
+			xmlTypeToDataType.put( "int", DataTypes.getTypeString( DataTypes.INT ) );
+			xmlTypeToDataType.put( "integer", DataTypes.getTypeString( DataTypes.INT ) );
+			xmlTypeToDataType.put( "negativeInteger", DataTypes.getTypeString( DataTypes.INT ) );
+			xmlTypeToDataType.put( "nonNegativeInteger", DataTypes.getTypeString( DataTypes.INT ) );
+			xmlTypeToDataType.put( "nonPositiveInteger", DataTypes.getTypeString( DataTypes.INT ) );
+			xmlTypeToDataType.put( "positiveInteger", DataTypes.getTypeString( DataTypes.INT ) );
+			xmlTypeToDataType.put( "short", DataTypes.getTypeString( DataTypes.INT ) );
+			xmlTypeToDataType.put( "date", DataTypes.getTypeString( DataTypes.DATE ) );
+			xmlTypeToDataType.put( "dateTime", DataTypes.getTypeString( DataTypes.TIME ) );
+			xmlTypeToDataType.put( "time", DataTypes.getTypeString( DataTypes.TIME ) );
+		}
+		catch ( OdaException e )
+		{
+			//Should not arrive here
+		}
+	}
+	
+	private static String getDataType( String type ) throws OdaException
+	{
+		Object result =  xmlTypeToDataType.get( type );
+		if( result == null )
+			return type;
+		else 
+			return result.toString( );
+			
+	}
+	
 	/**
 	 * 
 	 *
@@ -163,9 +205,10 @@ public class ATreeNode
 	 * Set the data type of tree node ( either attribute or element)
 	 * 
 	 * @param type
+	 * @throws OdaException 
 	 */
-	public void setDataType( String type )
+	public void setDataType( String type ) throws OdaException
 	{
-		this.dataType = type;
+		this.dataType = getDataType( type );
 	}
 }
