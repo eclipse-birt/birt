@@ -34,7 +34,9 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
  * One note is the relationship between resultSet, columnHints and
@@ -148,8 +150,129 @@ public class DataSetMetaDataHelper
 					moduleHandle,
 					true ).executeQuery( query ).getResultMetaData( );
 		}
-
+		if ( !( dataSetHandle instanceof ScriptDataSetHandle ) )
+			clearUnusedData( dataSetHandle, metaData );
 		return metaData;
+	}
+	
+	/**
+	 * 
+	 * @param dataSetHandle
+	 * @param metaData
+	 * @throws BirtException 
+	 */
+    private final void clearUnusedData( DataSetHandle dataSetHandle,
+			IResultMetaData metaData ) throws BirtException
+	{
+		clearUnusedColumnHints( dataSetHandle, metaData );
+		clearUnusedResultSetColumns( dataSetHandle, metaData );
+	}
+    
+    /**
+	 * clear unused column hints
+     * @throws BirtException 
+	 * 
+	 */
+	private final void clearUnusedColumnHints( DataSetHandle dataSetHandle,
+			IResultMetaData metaData ) throws BirtException
+	{
+
+		PropertyHandle handle = dataSetHandle.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
+		ArrayList list = handle.getListValue( );
+		if ( list != null )
+		{
+			int count = list.size( );
+			for ( int n = count - 1; n >= 0; n-- )
+			{
+				ColumnHint hint = (ColumnHint) list.get( n );
+				String columnName = (String) hint.getProperty( handle.getDesign( ),
+						ColumnHint.COLUMN_NAME_MEMBER );
+				boolean found = false;
+				if ( !isEmpty( hint, handle.getModule( ).getModuleHandle( ) ) )
+				{
+					for ( int m = 0; m < metaData.getColumnCount( ) && !found; m++ )
+					{
+						found = columnName.equals( metaData.getColumnName( m + 1 ) );
+					}
+				}
+
+				if ( !found )
+				{
+					try
+					{
+						// remove the item
+						handle.removeItem( hint );
+					}
+					catch ( PropertyValueException e )
+					{
+					}
+				}
+			}
+		}
+	}
+    
+	/**
+	 * 
+	 * @param hint
+	 * @param designHandle
+	 * @return
+	 */
+    private boolean isEmpty(ColumnHint hint, ModuleHandle designHandle)
+    {
+        String alias = (String)hint.getProperty(designHandle.getModule(), ColumnHint.ALIAS_MEMBER);
+        String displayName = (String)hint.getProperty(designHandle.getModule(), ColumnHint.DISPLAY_NAME_MEMBER);
+        String helpText = (String)hint.getProperty(designHandle.getModule(), ColumnHint.HELP_TEXT_MEMBER);
+        
+        return ( (alias == null || alias.trim().length() == 0) 
+                && (displayName == null || displayName.trim().length() == 0)
+                && (helpText == null || helpText.trim().length() == 0)
+                );
+    }
+    
+    /**
+     * 
+     * @param dataSetHandle
+     * @param metaData
+     * @throws BirtException 
+     */
+    private final void clearUnusedResultSetColumns(
+			DataSetHandle dataSetHandle, IResultMetaData metaData ) throws BirtException
+	{
+
+		PropertyHandle resultSetHintsPropertyHandle = dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP );
+
+		ArrayList list = null;
+
+		if ( resultSetHintsPropertyHandle != null )
+			list = resultSetHintsPropertyHandle.getListValue( );
+
+		if ( list != null )
+		{
+			int count = list.size( );
+			for ( int n = count - 1; n >= 0; n-- )
+			{
+				ResultSetColumn column = (ResultSetColumn) list.get( n );
+				boolean found = false;
+				for ( int m = 0; m < metaData.getColumnCount( ) && !found; m++ )
+				{
+					found = ( m + 1 == column.getPosition( ).intValue( ) )
+							&& ( column.getColumnName( ) == null || ( column.getColumnName( ).equals( metaData.getColumnName( m + 1 ) ) ) );
+				}
+
+				if ( !found )
+				{
+					try
+					{
+						// remove the item
+						if ( resultSetHintsPropertyHandle != null )
+							resultSetHintsPropertyHandle.removeItem( column );
+					}
+					catch ( PropertyValueException e )
+					{
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -258,8 +381,13 @@ public class DataSetMetaDataHelper
 		HashSet uniqueColumnNameSet = new HashSet( );
 
 		if ( metaData != null )
+		{
 			columnCount = metaData.getColumnCount( );
-
+			for ( int n = 0; n < columnCount; n++ )
+			{
+				orgColumnNameSet.add( metaData.getColumnName( n + 1 ) );
+			}
+		}
 		for ( int i = 0; i < columnCount; i++ )
 		{
 			String columnName = metaData.getColumnName( i + 1 );
