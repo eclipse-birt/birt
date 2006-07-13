@@ -46,7 +46,6 @@ public class DataSourceAndDataSet
 	private IBaseDataSourceDesign dataSourceDesign;
 	private IBaseDataSetDesign dataSetDesign;
 	private Collection parameterBindings;
-	private int cacheCount;
 
 	private final static int B_FALSE = 0;
 	private final static int B_UNKNOWN = 1;
@@ -59,14 +58,12 @@ public class DataSourceAndDataSet
 	 */
 	public static DataSourceAndDataSet newInstance(
 			IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign, Collection parameterBindings,
-			int cacheCount )
+			IBaseDataSetDesign dataSetDesign, Collection parameterBindings )
 	{
 		DataSourceAndDataSet dataSourceAndSet = new DataSourceAndDataSet( );
 		dataSourceAndSet.dataSourceDesign = dataSourceDesign;
 		dataSourceAndSet.dataSetDesign = dataSetDesign;
 		dataSourceAndSet.parameterBindings = parameterBindings;
-		dataSourceAndSet.cacheCount = cacheCount;
 		
 		return dataSourceAndSet;
 	}
@@ -96,7 +93,6 @@ public class DataSourceAndDataSet
 		IBaseDataSourceDesign dataSourceDesign2 = ( (DataSourceAndDataSet) obj ).dataSourceDesign;
 		IBaseDataSetDesign dataSetDesign2 = ( (DataSourceAndDataSet) obj ).dataSetDesign;
 		Collection parameterBindings2 = ( (DataSourceAndDataSet) obj ).parameterBindings;
-		int cacheCount2 = ( (DataSourceAndDataSet) obj ).cacheCount;
 
 		if ( this.dataSourceDesign == dataSourceDesign2 )
 		{
@@ -133,9 +129,6 @@ public class DataSourceAndDataSet
 		// parameter bindings compare
 		if ( this.isEqualParameterBindings( this.parameterBindings,
 				parameterBindings2 ) == false )
-			return false;
-
-		if ( this.cacheCount != cacheCount2 )
 			return false;
 
 		return true;

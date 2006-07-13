@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * Manage the cache map
  */
-public class CacheMapManager
+class CacheMapManager
 {
 	// map of cache relationship
 	private Map cacheMap;
@@ -29,7 +29,7 @@ public class CacheMapManager
 	private FolderUtil folderUtil;
 	
 	/**
-	 *
+	 * construction
 	 */
 	CacheMapManager( )
 	{

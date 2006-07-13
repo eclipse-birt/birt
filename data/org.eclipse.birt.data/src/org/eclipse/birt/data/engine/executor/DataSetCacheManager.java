@@ -50,9 +50,6 @@ public class DataSetCacheManager
 	private IBaseDataSetDesign dataSetDesign;
 	private Collection parameterBindings;
 	
-	// current cache row count, its value is not possible be 0.
-	private int cacheRowCount;
-	
 	// map manager instance
 	private CacheMapManager cacheMapManager;
 	
@@ -88,7 +85,6 @@ public class DataSetCacheManager
 	{
 		dataSourceDesign = null;
 		dataSetDesign = null;
-		cacheRowCount = 0;
 		cacheOption = DEFAULT;
 		alwaysCacheRowCount = 0;
 		
@@ -131,12 +127,10 @@ public class DataSetCacheManager
 	 */
 	public void setDataSourceAndDataSet(
 			IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign datasetDesign, Collection parameterBindings )
+			IBaseDataSetDesign dataSetDesign, Collection parameterBindings )
 	{
 		this.dataSourceDesign = dataSourceDesign;
-		this.dataSetDesign = datasetDesign;
-		if ( datasetDesign != null )
-			this.cacheRowCount = datasetDesign.getCacheRowCount( );
+		this.dataSetDesign = dataSetDesign;
 		this.parameterBindings = parameterBindings;
 	}
 
@@ -145,17 +139,14 @@ public class DataSetCacheManager
 	 */
 	public boolean doesSaveToCache( )
 	{
-		if ( needsToCache( this.dataSetDesign,
+		if ( DataSetCacheUtil.needsToCache( this.dataSetDesign,
 				this.cacheOption,
 				this.alwaysCacheRowCount ) == false )
 			return false;
 
 		return cacheMapManager.doesSaveToCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterBindings,
-				getCacheCount( this.cacheOption,
-						this.alwaysCacheRowCount,
-						this.cacheRowCount ) ) );
+				this.parameterBindings ) );
 	}
 
 	/**
@@ -163,17 +154,14 @@ public class DataSetCacheManager
 	 */
 	public boolean doesLoadFromCache( )
 	{
-		if ( needsToCache( this.dataSetDesign,
+		if ( DataSetCacheUtil.needsToCache( this.dataSetDesign,
 				this.cacheOption,
 				this.alwaysCacheRowCount ) == false )
 			return false;
 
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterBindings,
-				getCacheCount( this.cacheOption,
-						this.alwaysCacheRowCount,
-						this.cacheRowCount ) ) );
+				this.parameterBindings ) );
 	}
 	
 	/**
@@ -188,41 +176,17 @@ public class DataSetCacheManager
 			IBaseDataSetDesign dataSetDesign, Collection parameterBindings,
 			int cacheOption, int alwaysCacheRowCount )
 	{
-		if ( needsToCache( dataSetDesign, cacheOption, alwaysCacheRowCount ) == false )
+		if ( DataSetCacheUtil.needsToCache( dataSetDesign,
+				cacheOption,
+				alwaysCacheRowCount ) == false )
 			return false;
 
+		this.setDataSourceAndDataSet( dataSourceDesign,
+				dataSetDesign,
+				parameterBindings );
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				dataSetDesign,
-				parameterBindings,
-				getCacheCount( this.cacheOption,
-						this.alwaysCacheRowCount,
-						this.cacheRowCount ) ) );
-	}
-	
-	/**
-	 * @return
-	 */
-	private static boolean needsToCache( IBaseDataSetDesign dataSetDesign,
-			int cacheOption, int alwaysCacheRowCount )
-	{
-		if ( dataSetDesign == null )
-			return false;
-
-		if ( cacheOption == DISABLE )
-		{
-			return false;
-		}
-		else if ( cacheOption == ALWAYS )
-		{
-			if ( alwaysCacheRowCount == 0 )
-				return false;
-		}
-		else if ( dataSetDesign.getCacheRowCount( ) == 0 )
-		{
-			return false;
-		}
-
-		return true;
+				parameterBindings ) );
 	}
 	
 	/**
@@ -230,26 +194,12 @@ public class DataSetCacheManager
 	 */
 	public int getCacheRowCount( )
 	{
-		if ( cacheOption == ALWAYS )
-		{
-			if ( alwaysCacheRowCount <= 0 )
-				return Integer.MAX_VALUE;
-			else
-				return alwaysCacheRowCount;
-		}
-		else if ( cacheOption == DISABLE )
-		{
-			return Integer.MAX_VALUE;
-		}
-		else
-		{
-			if ( cacheRowCount == -1 )
-				return Integer.MAX_VALUE;
-			else
-				return cacheRowCount;
-		}
+		return DataSetCacheUtil.getCacheRowCount( cacheOption,
+				alwaysCacheRowCount,
+				this.dataSetDesign == null ? 0
+						: this.dataSetDesign.getCacheRowCount( ) );
 	}
-
+	
 	/**
 	 * Clear cache
 	 * 
@@ -264,8 +214,7 @@ public class DataSetCacheManager
 
 		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( dataSourceDesign2,
 				dataSetDesign2,
-				null,
-				dataSetDesign2.getCacheRowCount( ) );
+				null );
 		cacheMapManager.clearCache( ds );
 	}
 
@@ -276,10 +225,7 @@ public class DataSetCacheManager
 	{
 		return cacheMapManager.getSaveFolder( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterBindings,
-				getCacheCount( this.cacheOption,
-						this.alwaysCacheRowCount,
-						this.cacheRowCount ) ) );
+				this.parameterBindings ) );
 	}
 
 	/**
@@ -289,26 +235,7 @@ public class DataSetCacheManager
 	{
 		return cacheMapManager.getLoadFolder( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterBindings,
-				getCacheCount( this.cacheOption,
-						this.alwaysCacheRowCount,
-						this.cacheRowCount ) ) );
-	}
-	
-	/**
-	 * @return
-	 */
-	private static int getCacheCount( int cacheOption, int alwaysCacheRowCount,
-			int cacheRowCount )
-	{
-		int cacheCount = 0;
-		if ( cacheOption == ALWAYS )
-			cacheCount = alwaysCacheRowCount;
-		else if ( cacheOption == DISABLE )
-			assert false;
-		else
-			cacheCount = cacheRowCount;
-		return cacheCount;
+				this.parameterBindings ) );
 	}
 
 	/**
@@ -319,7 +246,6 @@ public class DataSetCacheManager
 	{		
 		dataSourceDesign = null;
 		dataSetDesign = null;
-		cacheRowCount = 0;
 		cacheOption = DEFAULT;
 		alwaysCacheRowCount = 0;
 		
