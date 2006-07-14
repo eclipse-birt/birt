@@ -100,7 +100,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.132 $ $Date: 2006/07/06 07:59:57 $
+ * @version $Revision: 1.133 $ $Date: 2006/07/13 07:08:33 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1469,13 +1469,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				writer.openTag( HTMLTags.TAG_TABLE );
 				writer.attribute( HTMLTags.ATTR_HEIGHT, "100%" );
+				writer.attribute( HTMLTags.ATTR_WIDTH, "100%" );
 				writer.openTag( HTMLTags.TAG_COL );
-				writer.attribute( "style", "width:" + getRowIndent( cell ) + ";text-align:right" );
-				writer.closeNoEndTag( );
-				writer.openTag( HTMLTags.TAG_COL );
-				writer.closeNoEndTag( );
-				writer.openTag( HTMLTags.TAG_COL );
-				writer.closeNoEndTag( );
+				if ( cell.isStartOfGroup( ))
+				{
+					writer.attribute( "style", "width:" + getRowIndent( cell ) + ";text-align:right" );
+					writer.closeNoEndTag( );
+					writer.openTag( HTMLTags.TAG_COL );
+					writer.closeNoEndTag( );
+					writer.openTag( HTMLTags.TAG_COL );
+					writer.closeNoEndTag( );
+				}
 				writer.openTag( HTMLTags.TAG_TR );
 				writer.openTag( HTMLTags.TAG_TD );
 			}
@@ -1685,15 +1689,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// action
 		String tagName;
 		String selectHandleTag = null;
-		String url = validate( text.getHyperlinkAction( ) ); 
+		String url = validate( text.getHyperlinkAction( ) );
+		boolean needMetadata = enableMetadata
+				&& text.getGenerateBy( ) instanceof LabelItemDesign;
 		if ( url != null )
 		{
 			//output select class
-			if ( enableMetadata )
+			if ( needMetadata )
 			{
 				selectHandleTag = HTMLTags.TAG_SPAN;
 				writer.openTag( selectHandleTag );
-				writer.attribute( HTMLTags.ATTR_CLASS, "birt-text-design" ); //$NON-NLS-1$
+				writer.attribute( HTMLTags.ATTR_CLASS, "birt-label-design" ); //$NON-NLS-1$
 				setActiveIDTypeIID( text );
 				setBookmark( selectHandleTag, text.getBookmark( ) );
 			}
@@ -1706,11 +1712,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
-			if ( enableMetadata )
+			if ( needMetadata )
 			{
 				selectHandleTag = getTagByType( display, DISPLAY_FLAG_ALL );
 				writer.openTag( selectHandleTag );
-				writer.attribute( HTMLTags.ATTR_CLASS, "birt-text-design" ); //$NON-NLS-1$
+				writer.attribute( HTMLTags.ATTR_CLASS, "birt-label-design" ); //$NON-NLS-1$
 				setActiveIDTypeIID( text );
 				setBookmark( selectHandleTag, text.getBookmark( ) );
 			}
@@ -1721,7 +1727,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		setStyleName( text.getStyleClass( ) );
 
 		// bookmark
-		if ( !enableMetadata )
+		if ( !needMetadata )
 		{
 			setBookmark( tagName, text.getBookmark( ) );
 		}
@@ -1778,7 +1784,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		
 		writer.closeTag( tagName );
-		if ( enableMetadata )
+		if ( needMetadata )
 		{
 			writer.closeTag( selectHandleTag );
 		}
@@ -2074,8 +2080,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				startSelectHandle( display, DISPLAY_BLOCK, "birt-chart-design" ); //$NON-NLS-1$
 				isSelectHandleTableChart = true;
 				// If the image is a chart, add it to active id list, and output type ��iid to html
+				String bookmark = image.getBookmark( );				
+				if ( bookmark == null )
+				{
+					bookmark = generateUniqueID( );
+					image.setBookmark( bookmark );
+				}
 				setActiveIDTypeIID(image);				
-				String bookmark = generateUniqueID( );
 				setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
 			}
 		}		
