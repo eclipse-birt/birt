@@ -348,8 +348,6 @@ public class DataEngineImpl extends DataEngine
 	public IPreparedQuery prepare( IQueryDefinition querySpec )
 		throws DataException
 	{
-		configureDataSetCache( querySpec, null );
-		
 	    return prepare( querySpec, null );
 	}
 
@@ -386,52 +384,10 @@ public class DataEngineImpl extends DataEngine
 		IPreparedQuery result = PreparedQueryUtil.newInstance( this,
 				querySpec,
 				appContext );
-
-		configureDataSetCache( querySpec, appContext );
 		
 		logger.fine( "Finished preparing query." );
 		logger.exiting( DataEngineImpl.class.getName( ), "prepare" );
 		return result;
-	}
-
-	/**
-	 * @param appContext
-	 */
-	private void configureDataSetCache( IQueryDefinition querySpec,
-			Map appContext )
-	{
-		if ( querySpec == null )
-			return;
-		
-		String queryResultID = querySpec.getQueryResultsID( );
-		if ( queryResultID != null )
-			return;
-		
-		String dataSetName = querySpec.getDataSetName( );
-		IBaseDataSetDesign dataSetDesign = this.getDataSetDesign( dataSetName );
-		
-		if ( dataSetDesign == null )
-			return;
-		
-		IBaseDataSourceDesign dataSourceDesign = null;
-		DataSourceRuntime dsRuntime = this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) );
-		if ( dsRuntime != null )
-			dataSourceDesign = dsRuntime.getDesign( );
-		
-		DataSetCacheManager.getInstance( )
-				.setDataSourceAndDataSet( dataSourceDesign,
-						dataSetDesign,
-						querySpec.getInputParamBindings( ) );
-				
-		if ( context.getCacheOption( ) == DataEngineContext.CACHE_USE_ALWAYS )
-		{
-			DataSetCacheManager.getInstance( )
-					.setAlwaysCacheRowCount( context.getCacheCount( ) );
-		}
-		
-		DataSetCacheManager.getInstance( )
-				.setCacheOption( DataSetCacheUtil.getCacheOption( context,
-						appContext ) );
 	}
 	
 	/**

@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -158,13 +159,37 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		    	    
 		    // calls ODI Data Source Factory to provide an ODI data source
 			// object that matches the given properties
-		    PreparedOdaDSQuery self = PreparedOdaDSQuery.this;
+			return getDataSource( driverName, driverProps );
+		}
+		
+		/**
+		 * @param driverName
+		 * @param driverProps
+		 * @return
+		 * @throws DataException
+		 */
+		private IDataSource getDataSource( String driverName, Map driverProps )
+				throws DataException
+		{
+			PreparedOdaDSQuery self = PreparedOdaDSQuery.this;
+
+			Collection paramHints = null;
+			if ( DataSetCacheManager.getInstance( )
+					.needsToCache( this.dataSet.getDesign( ),
+							DataSetCacheUtil.getCacheOption( dataEngine.getContext( ),
+									appContext ),
+							dataEngine.getContext( ).getCacheCount( ) ) == true )
+				paramHints = new ParameterUtil( null,
+						this.dataSet,
+						self.queryDefn,
+						this.getQueryScope( ) ).resolveDataSetParameters( true );
+
 			return DataSourceFactory.getFactory( )
 					.getDataSource( driverName,
 							driverProps,
 							this.dataSource.getDesign( ),
 							this.dataSet.getDesign( ),
-							self.queryDefn.getInputParamBindings( ),
+							paramHints,
 							DataSetCacheUtil.getCacheOption( self.dataEngine.getContext( ),
 									appContext ),
 							self.dataEngine.getContext( ).getCacheCount( ) );

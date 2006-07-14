@@ -24,7 +24,6 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
@@ -33,6 +32,7 @@ import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 
 /**
  * Wrap the design of data source and data set. This class will determins
@@ -45,7 +45,7 @@ public class DataSourceAndDataSet
 	/** current data source and data set for cache*/
 	private IBaseDataSourceDesign dataSourceDesign;
 	private IBaseDataSetDesign dataSetDesign;
-	private Collection parameterBindings;
+	private Collection paramterHints;
 
 	private final static int B_FALSE = 0;
 	private final static int B_UNKNOWN = 1;
@@ -58,12 +58,12 @@ public class DataSourceAndDataSet
 	 */
 	public static DataSourceAndDataSet newInstance(
 			IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign, Collection parameterBindings )
+			IBaseDataSetDesign dataSetDesign, Collection paramterHints )
 	{
 		DataSourceAndDataSet dataSourceAndSet = new DataSourceAndDataSet( );
 		dataSourceAndSet.dataSourceDesign = dataSourceDesign;
 		dataSourceAndSet.dataSetDesign = dataSetDesign;
-		dataSourceAndSet.parameterBindings = parameterBindings;
+		dataSourceAndSet.paramterHints = paramterHints;
 		
 		return dataSourceAndSet;
 	}
@@ -92,14 +92,14 @@ public class DataSourceAndDataSet
 
 		IBaseDataSourceDesign dataSourceDesign2 = ( (DataSourceAndDataSet) obj ).dataSourceDesign;
 		IBaseDataSetDesign dataSetDesign2 = ( (DataSourceAndDataSet) obj ).dataSetDesign;
-		Collection parameterBindings2 = ( (DataSourceAndDataSet) obj ).parameterBindings;
+		Collection paramterHints2 = ( (DataSourceAndDataSet) obj ).paramterHints;
 
 		if ( this.dataSourceDesign == dataSourceDesign2 )
 		{
 			if ( this.dataSetDesign == dataSetDesign2 )
 			{
-				if ( isEqualParameterBindings( this.parameterBindings,
-						parameterBindings2 ) )
+				if ( isEqualParamterHints( this.paramterHints,
+						paramterHints2 ) )
 					return true;
 			}
 			else if ( this.dataSetDesign == null || dataSetDesign2 == null )
@@ -127,8 +127,8 @@ public class DataSourceAndDataSet
 			return false;
 
 		// parameter bindings compare
-		if ( this.isEqualParameterBindings( this.parameterBindings,
-				parameterBindings2 ) == false )
+		if ( this.isEqualParamterHints( this.paramterHints,
+				paramterHints2 ) == false )
 			return false;
 
 		return true;
@@ -395,8 +395,6 @@ public class DataSourceAndDataSet
 				dataSetDesign2.getComputedColumns( ) ) == false
 				|| isEqualFilters( dataSetDesign.getFilters( ),
 						dataSetDesign2.getFilters( ) ) == false
-				|| isEqualParameterBindings( dataSetDesign.getInputParamBindings( ),
-						dataSetDesign2.getInputParamBindings( ) ) == false
 				|| isEqualParameters( dataSetDesign.getParameters( ),
 						dataSetDesign2.getParameters( ) ) == false
 				|| isEqualResultHints( dataSetDesign.getResultSetHints( ),
@@ -581,7 +579,7 @@ public class DataSourceAndDataSet
 	 * @param paramsBinding2
 	 * @return
 	 */
-	private boolean isEqualParameterBindings( Collection paramsBinding1,
+	private boolean isEqualParamterHints( Collection paramsBinding1,
 			Collection paramsBinding2 )
 	{
 		if ( paramsBinding1 == paramsBinding2 )
@@ -597,9 +595,9 @@ public class DataSourceAndDataSet
 		Iterator it2 = paramsBinding2.iterator( );
 		while ( it.hasNext( ) )
 		{
-			IInputParameterBinding pb = (IInputParameterBinding) it.next( );
-			IInputParameterBinding pb2 = (IInputParameterBinding) it2.next( );
-			if ( isEqualParameterBinding( pb, pb2 ) == false )
+			ParameterHint pb = (ParameterHint) it.next( );
+			ParameterHint pb2 = (ParameterHint) it2.next( );
+			if ( isEqualParameterHint( pb, pb2 ) == false )
 				return false;
 		}
 
@@ -611,12 +609,15 @@ public class DataSourceAndDataSet
 	 * @param pb2
 	 * @return
 	 */
-	private boolean isEqualParameterBinding( IInputParameterBinding pb,
-			IInputParameterBinding pb2 )
+	private boolean isEqualParameterHint( ParameterHint pb,
+			ParameterHint pb2 )
 	{
 		return pb.getPosition( ) == pb2.getPosition( )
 				&& isEqualString( pb.getName( ), pb2.getName( ) )
-				&& isEqualExpression( pb.getExpr( ), pb2.getExpr( ) );
+				&& isEqualString( pb.getDefaultInputValue( ),
+						pb2.getDefaultInputValue( ) )
+				&& isEqualString( pb.getDataType( ).toString( ),
+						pb2.getDataType( ).toString( ) );
 	}
 
 	/**

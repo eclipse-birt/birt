@@ -13,15 +13,19 @@
  */ 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
@@ -137,10 +141,79 @@ abstract class PreparedDataSourceQuery
 	public IQueryResults execute( IQueryResults outerResults, Scriptable scope )
 			throws DataException
 	{
+		this.configureDataSetCache( queryDefn,
+				appContext,
+				scope,
+				dataEngine.getSharedScope( ) );
+		
 		return preparedQuery.doPrepare( outerResults,
 				scope,
 				newExecutor( ),
 				this );
+	}
+	
+	/**
+	 * @param appContext
+	 * @throws DataException 
+	 */
+	private void configureDataSetCache( IQueryDefinition querySpec,
+			Map appContext, Scriptable scope1, Scriptable scope2 ) throws DataException
+	{
+		Scriptable scope = null;
+		if ( scope1 != null )
+			scope = scope1;
+		else
+			scope = scope2;
+		
+		if ( querySpec == null )
+			return;
+
+		String queryResultID = querySpec.getQueryResultsID( );
+		if ( queryResultID != null )
+			return;
+
+		String dataSetName = querySpec.getDataSetName( );
+		IBaseDataSetDesign dataSetDesign = this.dataEngine.getDataSetDesign( dataSetName );
+
+		if ( dataSetDesign == null )
+			return;
+
+		if ( DataSetCacheManager.getInstance( ).needsToCache( dataSetDesign,
+				DataSetCacheUtil.getCacheOption( dataEngine.getContext( ),
+						appContext ),
+				dataEngine.getContext( ).getCacheCount( ) ) == false )
+			return;
+		
+		Collection parameterHints = null;
+		
+		IBaseDataSourceDesign dataSourceDesign = null;
+		DataSourceRuntime dsRuntime = this.dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) );
+		if ( dsRuntime != null )
+		{
+			dataSourceDesign = dsRuntime.getDesign( );
+			DataSetRuntime dataSet = DataSetRuntime.newInstance( dataSetDesign,
+					null );
+			parameterHints = new ParameterUtil( null,
+					dataSet,
+					this.queryDefn,
+					scope ).resolveDataSetParameters( true );
+		}
+
+		DataSetCacheManager.getInstance( )
+				.setDataSourceAndDataSet( dataSourceDesign,
+						dataSetDesign,
+						parameterHints );
+
+		if ( dataEngine.getContext( ).getCacheOption( ) == DataEngineContext.CACHE_USE_ALWAYS )
+		{
+			DataSetCacheManager.getInstance( )
+					.setAlwaysCacheRowCount( dataEngine.getContext( )
+							.getCacheCount( ) );
+		}
+
+		DataSetCacheManager.getInstance( )
+				.setCacheOption( DataSetCacheUtil.getCacheOption( dataEngine.getContext( ),
+						appContext ) );
 	}
 	
 	/**
