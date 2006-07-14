@@ -139,9 +139,7 @@ public class DataSetCacheManager
 	 */
 	public boolean doesSaveToCache( )
 	{
-		if ( DataSetCacheUtil.needsToCache( this.dataSetDesign,
-				this.cacheOption,
-				this.alwaysCacheRowCount ) == false )
+		if ( needsToCache( dataSetDesign, cacheOption, alwaysCacheRowCount ) == false )
 			return false;
 
 		return cacheMapManager.doesSaveToCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
@@ -154,9 +152,7 @@ public class DataSetCacheManager
 	 */
 	public boolean doesLoadFromCache( )
 	{
-		if ( DataSetCacheUtil.needsToCache( this.dataSetDesign,
-				this.cacheOption,
-				this.alwaysCacheRowCount ) == false )
+		if ( needsToCache( dataSetDesign, cacheOption, alwaysCacheRowCount ) == false )
 			return false;
 
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
@@ -176,9 +172,7 @@ public class DataSetCacheManager
 			IBaseDataSetDesign dataSetDesign, Collection parameterHints,
 			int cacheOption, int alwaysCacheRowCount )
 	{
-		if ( DataSetCacheUtil.needsToCache( dataSetDesign,
-				cacheOption,
-				alwaysCacheRowCount ) == false )
+		if ( needsToCache( dataSetDesign, cacheOption, alwaysCacheRowCount ) == false )
 			return false;
 
 		this.setDataSourceAndDataSet( dataSourceDesign,
@@ -187,6 +181,20 @@ public class DataSetCacheManager
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				dataSetDesign,
 				parameterHints ) );
+	}
+	
+	/**
+	 * @param dataSetDesign
+	 * @param cacheOption
+	 * @param alwaysCacheRowCount
+	 * @return
+	 */
+	public boolean needsToCache( IBaseDataSetDesign dataSetDesign,
+			int cacheOption, int alwaysCacheRowCount )
+	{
+		return DataSetCacheUtil.needsToCache( dataSetDesign,
+				cacheOption,
+				alwaysCacheRowCount );
 	}
 	
 	/**
