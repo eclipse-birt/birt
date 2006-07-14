@@ -141,11 +141,9 @@ abstract class PreparedDataSourceQuery
 	public IQueryResults execute( IQueryResults outerResults, Scriptable scope )
 			throws DataException
 	{
-		this.configureDataSetCache( queryDefn,
-				appContext,
-				scope,
-				dataEngine.getSharedScope( ) );
-		
+		this.configureDataSetCache( queryDefn, appContext, scope != null
+				? scope : dataEngine.getSharedScope( ) );
+
 		return preparedQuery.doPrepare( outerResults,
 				scope,
 				newExecutor( ),
@@ -154,17 +152,11 @@ abstract class PreparedDataSourceQuery
 	
 	/**
 	 * @param appContext
-	 * @throws DataException 
+	 * @throws DataException
 	 */
 	private void configureDataSetCache( IQueryDefinition querySpec,
-			Map appContext, Scriptable scope1, Scriptable scope2 ) throws DataException
-	{
-		Scriptable scope = null;
-		if ( scope1 != null )
-			scope = scope1;
-		else
-			scope = scope2;
-		
+			Map appContext, Scriptable scope ) throws DataException
+	{		
 		if ( querySpec == null )
 			return;
 
