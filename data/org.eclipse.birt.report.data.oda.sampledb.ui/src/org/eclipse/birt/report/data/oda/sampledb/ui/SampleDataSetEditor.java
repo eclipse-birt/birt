@@ -123,4 +123,13 @@ public class SampleDataSetEditor extends DataSetWizardPage
 		}
 		return design;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#canLeave()
+	 */
+	protected boolean canLeave( )
+	{
+		return false;
+	}
 }

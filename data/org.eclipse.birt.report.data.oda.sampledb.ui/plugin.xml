@@ -52,11 +52,12 @@
       </dataSourceUI>
        <dataSetUI
              id="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"
+             initialPageId="org.eclipse.birt.report.data.oda.jdbc.ui.dataset"
              supportsInParameters="true"
              supportsOutParameters="false">
 		    <dataSetWizard class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizard"/>
             <dataSetPage
-                  id="org.eclipse.birt.report.data.oda.jdbc.ui.dataset2"
+                  id="org.eclipse.birt.report.data.oda.jdbc.ui.dataset"
                   wizardPageClass="org.eclipse.birt.report.data.oda.sampledb.ui.SampleDataSetEditor"
                   path="/"
                   displayName="%dataset.editor.page.query"/>
