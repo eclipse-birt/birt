@@ -48,7 +48,7 @@ public class DataSetCacheManager
 	// data set id and its cache count
 	private IBaseDataSourceDesign dataSourceDesign;
 	private IBaseDataSetDesign dataSetDesign;
-	private Collection parameterBindings;
+	private Collection parameterHints;
 	
 	// map manager instance
 	private CacheMapManager cacheMapManager;
@@ -127,11 +127,11 @@ public class DataSetCacheManager
 	 */
 	public void setDataSourceAndDataSet(
 			IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign, Collection parameterBindings )
+			IBaseDataSetDesign dataSetDesign, Collection parameterHints )
 	{
 		this.dataSourceDesign = dataSourceDesign;
 		this.dataSetDesign = dataSetDesign;
-		this.parameterBindings = parameterBindings;
+		this.parameterHints = parameterHints;
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class DataSetCacheManager
 
 		return cacheMapManager.doesSaveToCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterBindings ) );
+				this.parameterHints ) );
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class DataSetCacheManager
 
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterBindings ) );
+				this.parameterHints ) );
 	}
 	
 	/**
@@ -173,7 +173,7 @@ public class DataSetCacheManager
 	 * @return
 	 */
 	public boolean doesLoadFromCache( IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign, Collection parameterBindings,
+			IBaseDataSetDesign dataSetDesign, Collection parameterHints,
 			int cacheOption, int alwaysCacheRowCount )
 	{
 		if ( DataSetCacheUtil.needsToCache( dataSetDesign,
@@ -183,10 +183,10 @@ public class DataSetCacheManager
 
 		this.setDataSourceAndDataSet( dataSourceDesign,
 				dataSetDesign,
-				parameterBindings );
+				parameterHints );
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				dataSetDesign,
-				parameterBindings ) );
+				parameterHints ) );
 	}
 	
 	/**
@@ -225,7 +225,7 @@ public class DataSetCacheManager
 	{
 		return cacheMapManager.getSaveFolder( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterBindings ) );
+				this.parameterHints ) );
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class DataSetCacheManager
 	{
 		return cacheMapManager.getLoadFolder( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterBindings ) );
+				this.parameterHints ) );
 	}
 
 	/**
