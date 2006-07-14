@@ -96,7 +96,6 @@ public class PDFRowLM extends PDFInlineStackingLM
 			{
 				for ( int i = 0; i < children.size( ); i++ )
 				{
-					assert ( child != null );
 					ILayoutManager childLM = (ILayoutManager) children.get( i );
 					if ( childLM.layout( ) && !childBreak )
 					{
