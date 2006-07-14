@@ -742,8 +742,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 					&& !ParameterAccessor.isReportParameterExist( request,
 							paramName )
 					&& ( IBirtConstants.SERVLET_PATH_FRAMESET
-							.equalsIgnoreCase( request.getServletPath( ) ) || ( this.configMap != null && !this.configMap
-							.containsKey( paramName ) ) ) )
+							.equalsIgnoreCase( request.getServletPath( ) )
+							|| this.configMap == null || !this.configMap
+							.containsKey( paramName ) ) )
 			{
 				paramValue = this.getParameterDefaultValues(
 						reportDesignHandle, paramName, options );
