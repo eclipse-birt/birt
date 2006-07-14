@@ -317,11 +317,22 @@ public final class ResultSetWrapper
 			final int iSortColumnIndex = ( (Integer) htLookup.get( q.getDefinition( ) ) ).intValue( );
 
 			SortOption so = null;
-			// ! null sorting for text grouping is ok
-			if ( sd.isSetSorting( ) )
+
+			if ( !sd.isSetSorting( ) )
+			{
+				logger.log( ILogger.WARNING,
+						Messages.getString( "warn.unspecified.sorting", //$NON-NLS-1$
+								new Object[]{
+									sd
+								},
+								ULocale.getDefault( ) ) );
+				so = SortOption.ASCENDING_LITERAL;
+			}
+			else
 			{
 				so = sd.getSorting( );
 			}
+			
 
 			groupTextually( workingResultSet,
 					iSortColumnIndex,
