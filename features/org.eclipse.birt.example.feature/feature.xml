@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.birt.example"
-      label="Eclipse BIRT Example"
+      label="%featureName"
       version="2.1.0.qualifier"
       provider-name="Eclipse.org"
       plugin="org.eclipse.birt.example">
@@ -10,7 +10,7 @@
       %description
    </description>
 
-   <copyright url="http://www.example.com/copyright">
+   <copyright url="%copyrightURL">
       %copyright
    </copyright>
 
