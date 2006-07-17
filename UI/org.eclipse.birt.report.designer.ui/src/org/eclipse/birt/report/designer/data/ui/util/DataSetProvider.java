@@ -46,7 +46,6 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -203,122 +202,30 @@ public final class DataSetProvider
 	 * 
 	 * @throws BirtException
 	 */
-	public DataSetViewData[] populateAllOutputColumns( DataSetHandle dataSetHandle ) throws BirtException
+	public DataSetViewData[] populateAllOutputColumns(
+			DataSetHandle dataSetHandle ) throws BirtException
 	{
-		List resultSetList = null;
-		if ( dataSetHandle instanceof OdaDataSetHandle )
-		{
-			resultSetList = (List) dataSetHandle.getProperty( OdaDataSetHandle.RESULT_SET_PROP );
-			dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP )
-					.clearValue( );
-		}
-		else
-		{
-			return null;
-		}
-		
-		int columnCount = 0;
-		if ( resultSetList != null )
-			columnCount = resultSetList.size( );
-		List computedList = (List) dataSetHandle.getProperty( OdaDataSetHandle.COMPUTED_COLUMNS_PROP );
-		if ( computedList != null )
-			columnCount += computedList.size( );
-		
-		DataSetViewData[] items = new DataSetViewData[columnCount];
-		DataSetViewData item;
-		int index = 0;
-		// populate result set columns
-		if ( resultSetList != null )
-		{
-			ResultSetColumn resultSetColumn;
-			HashSet orgColumnNameSet = new HashSet( );
-			HashSet uniqueColumnNameSet = new HashSet( );
-			
-			for ( int n = 0; n < resultSetList.size( ); n++ )
-			{
-				orgColumnNameSet.add( ( (ResultSetColumn) resultSetList.get( n ) ).getColumnName( ) );
-			}
-			
-			for ( int i =0; i< resultSetList.size( ); i++ )
-			{
-				item = new DataSetViewData( );
-				resultSetColumn = (ResultSetColumn) resultSetList.get( i );
-				String uniqueName = getUniqueName( orgColumnNameSet,
-						uniqueColumnNameSet,
-						resultSetColumn.getColumnName( ),
-						i );
-				
-				item.setName( uniqueName );
+		DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+				dataSetHandle.getModuleHandle( ) );
+		DataRequestSession session = DataRequestSession.newSession( context );
 
-				uniqueColumnNameSet.add( uniqueName );
-				item.setDataTypeName( resultSetColumn.getDataType( ) );
-				item.setPosition( resultSetColumn.getPosition( ).intValue( ) );
-				item.setComputedColumn( false );
-				item.setDataSetColumnName( uniqueName );
+		IResultMetaData metaData = session.getDataSetMetaData( dataSetHandle,
+				false );
 
-				if ( !uniqueName.equals( resultSetColumn.getColumnName( ) ) )
-				{
-					updateModelColumn( dataSetHandle, item );
-				}
-				ColumnHintHandle columnHint = findColumnHint( dataSetHandle, uniqueName );
-				if ( columnHint != null )
-				{
-					item.setAlias( columnHint.getAlias( ) );
-					item.setDisplayName( columnHint.getDisplayName( ) );
-				}
-				items[index] = item;
-				index++;
-			}
+		DataSetViewData[] items = new DataSetViewData[metaData.getColumnCount( )];
 
-			// populate computed columns
-			if ( computedList != null )
-			{
-				ComputedColumn computedColumn;
-				Iterator computedColumnIterator = computedList.iterator( );
-				while ( computedColumnIterator.hasNext( ) )
-				{
-					item = new DataSetViewData( );
-					computedColumn = (ComputedColumn) computedColumnIterator.next( );
-					item.setName( computedColumn.getName( ) );
-					item.setDataTypeName( computedColumn.getDataType( ) );
-					item.setComputedColumn( true );
-					if ( findColumnHint( dataSetHandle,
-							computedColumn.getName( ) ) != null )
-					{
-						ColumnHintHandle columnHint = findColumnHint( dataSetHandle,
-								computedColumn.getName( ) );
-						item.setAlias( columnHint.getAlias( ) );
-						item.setDisplayName( columnHint.getDisplayName( ) );
-					}
-					items[index] = item;
-					index++;
-				}
-			}
-			return items;
-		}
-		return null;
-	}
-	
-	/**
-	 * find column hint according to the columnName
-	 * 
-	 * @param columnName
-	 * @return
-	 */
-	private ColumnHintHandle findColumnHint( DataSetHandle dataSetHandle, String columnName )
-	{
-		Iterator columnHintIter = dataSetHandle.columnHintsIterator( );
-
-		if ( columnHintIter != null )
+		for ( int i = 0; i < metaData.getColumnCount( ); i++ )
 		{
-			while ( columnHintIter.hasNext( ) )
-			{
-				ColumnHintHandle modelColumnHint = (ColumnHintHandle) columnHintIter.next( );
-				if ( modelColumnHint.getColumnName( ).equals( columnName ) )
-					return modelColumnHint;
-			}
+			items[i] = new DataSetViewData( );
+			items[i].setName( metaData.getColumnName( i + 1 ) );
+			items[i].setDataTypeName( metaData.getColumnTypeName( i + 1 ) );
+			items[i].setAlias( metaData.getColumnAlias( i + 1 ) );
+			items[i].setComputedColumn( metaData.isComputedColumn( i + 1 ) );
+			items[i].setPosition( i + 1 );
+			items[i].setDataType( metaData.getColumnType( i + 1 ) );
 		}
-		return null;
+		updateModel( dataSetHandle, items );
+		return items;
 	}
 
 	/**

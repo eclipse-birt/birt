@@ -119,7 +119,7 @@ class ResultMetaData implements IResultMetaData
 	 * @return
 	 * @throws AdapterException
 	 */
-	private IColumnDefinition getIndexedColumnDefinition( int index )
+	protected IColumnDefinition getIndexedColumnDefinition( int index )
 			throws AdapterException
 	{
 		if ( index < 1 || index > this.columnDefinitions.size( ) )

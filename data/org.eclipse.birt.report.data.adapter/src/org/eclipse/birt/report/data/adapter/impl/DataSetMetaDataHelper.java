@@ -138,17 +138,22 @@ public class DataSetMetaDataHelper
 		query.setDataSetName( dataSetHandle.getQualifiedName( ) );
 		query.setMaxRows( 1 );
 
-		IResultMetaData metaData = new QueryExecutionHelper( dataEngine,
-				modelAdaptor,
-				moduleHandle,
-				false ).executeQuery( query ).getResultMetaData( );
+		IResultMetaData metaData = MetaDataPopulator.retrieveResultMetaData( dataSetHandle );
 
-		if ( needsUseResultHint( dataSetHandle, metaData ) )
+		if ( metaData == null )
 		{
 			metaData = new QueryExecutionHelper( dataEngine,
 					modelAdaptor,
 					moduleHandle,
-					true ).executeQuery( query ).getResultMetaData( );
+					false ).executeQuery( query ).getResultMetaData( );
+
+			if ( needsUseResultHint( dataSetHandle, metaData ) )
+			{
+				metaData = new QueryExecutionHelper( dataEngine,
+						modelAdaptor,
+						moduleHandle,
+						true ).executeQuery( query ).getResultMetaData( );
+			}
 		}
 		if ( !( dataSetHandle instanceof ScriptDataSetHandle ) )
 			clearUnusedData( dataSetHandle, metaData );
