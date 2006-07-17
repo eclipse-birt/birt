@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Output the content following the XML specification. Only when the events of
  * endding the writer, the stream is flushed explictly.
  * 
- * @version $Revision: 1.21 $ $Date: 2006/01/11 06:29:02 $
+ * @version $Revision: 1.22 $ $Date: 2006/06/08 03:48:15 $
  */
 public class XMLWriter
 {
@@ -379,9 +379,11 @@ public class XMLWriter
 	{
 		StringBuffer result = null;
 		int spacePos = 1;
-		for ( int i = 0, max = s.length( ), delta = 0; i < max; i++ )
+		char[] s2char = s.toCharArray( );
+
+		for ( int i = 0, max = s2char.length, delta = 0; i < max; i++ )
 		{
-			char c = s.charAt( i );
+			char c = s2char[i];
 			String replacement = null;
 			if ( whitespace && c == ' ' )
 			{
@@ -453,9 +455,11 @@ public class XMLWriter
 	protected String escapeAttrValue( String s )
 	{
 		StringBuffer result = null;
-		for ( int i = 0, max = s.length( ), delta = 0; i < max; i++ )
+		char[] s2char = s.toCharArray( );
+
+		for ( int i = 0, max = s2char.length, delta = 0; i < max; i++ )
 		{
-			char c = s.charAt( i );
+			char c = s2char[i];
 			String replacement = null;
 			// Filters the char not defined.
 			if ( !( c == 0x9 || c == 0xA || c == 0xD
