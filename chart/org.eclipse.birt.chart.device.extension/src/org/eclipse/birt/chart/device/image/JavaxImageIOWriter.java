@@ -31,6 +31,7 @@ import javax.imageio.ImageWriter;
 import javax.imageio.event.IIOWriteWarningListener;
 import javax.imageio.stream.ImageOutputStream;
 
+import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IImageMapEmitter;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
@@ -39,6 +40,7 @@ import org.eclipse.birt.chart.device.swing.ShapedAction;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.device.util.HTMLAttribute;
 import org.eclipse.birt.chart.device.util.HTMLTag;
+import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -50,6 +52,10 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.model.data.DateTimeDataElement;
+import org.eclipse.birt.chart.model.data.NumberDataElement;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * JavaxImageIOWriter
@@ -70,7 +76,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
 
 	private final static String NO_OP_JAVASCRIPT = "javascript:void(0);"; //$NON-NLS-1$
+
 	private final static String POLY_SHAPE = "poly"; // //$NON-NLS-1$
+
+	private boolean bAddCallback = false;
 
 	/**
 	 * Returns the output format string for this writer.
@@ -100,11 +109,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 */
 	protected abstract int getImageType( );
 
-	JavaxImageIOWriter()
+	JavaxImageIOWriter( )
 	{
 		// By default do not cache images on disk
 		ImageIO.setUseCache( false );
 	}
+
 	/**
 	 * Updates the writer's parameters.
 	 * 
@@ -138,18 +148,18 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 		// Generate image map using associated trigger list.
 		StringBuffer sb = new StringBuffer( );
-
 		for ( Iterator iter = saList.iterator( ); iter.hasNext( ); )
 		{
 			ShapedAction sa = (ShapedAction) iter.next( );
-						
+			userCallback( sa, sb );
+
 			String coords = shape2polyCoords( sa.getShape( ) );
 			if ( coords != null )
 			{
 				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
 				tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE );
 				tag.addAttribute( HTMLAttribute.COORDS, coords );
-				
+
 				boolean changed = false;
 				changed |= processOnFocus( sa, tag );
 				changed |= processOnBlur( sa, tag );
@@ -161,13 +171,14 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				}
 			}
 		}
-		
+
 		return sb.toString( );
 
 	}
+
 	protected boolean processOnFocus( ShapedAction sa, HTMLTag tag )
 	{
-		
+
 		// 1. onfocus
 		Action ac = sa.getActionForCondition( TriggerCondition.ONFOCUS_LITERAL );
 		if ( checkSupportedAction( ac ) )
@@ -193,7 +204,6 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		}
 		return false;
 	}
-
 
 	protected boolean processOnBlur( ShapedAction sa, HTMLTag tag )
 	{
@@ -245,10 +255,27 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				case ActionType.INVOKE_SCRIPT :
 					ScriptValue sv = (ScriptValue) ac.getValue( );
 					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-					tag.addAttribute( HTMLAttribute.ONCLICK,
-							eval( sv.getScript( ) ) );
+					if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
+							.getType( ) ) )
+					{
+						final DataPointHints dph = (DataPointHints) sa.getSource( )
+								.getSource( );
+						String callbackFunction = "userCallBack("; //$NON-NLS-1$
+						callbackFunction += addDataValueToScript( dph.getBaseValue( ) );
+						callbackFunction += ","; //$NON-NLS-1$
+						callbackFunction += addDataValueToScript( dph.getOrthogonalValue( ) );
+						callbackFunction += ","; //$NON-NLS-1$
+						callbackFunction += addDataValueToScript( dph.getSeriesValue( ) );
+						callbackFunction += ");"; //$NON-NLS-1$
+						tag.addAttribute( HTMLAttribute.ONCLICK,
+								eval( callbackFunction ) );
+					}
+					else
+					{
+						tag.addAttribute( HTMLAttribute.ONCLICK,
+								eval( sv.getScript( ) ) );
+					}
 					return true;
-					
 			}
 		}
 		return false;
@@ -277,9 +304,6 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		}
 		return false;
 	}
-
-		
-	
 
 	protected String getJsURLRedirect( URLValue uv )
 	{
@@ -568,9 +592,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 			_oOutputIdentifier = oValue;
 		}
-		else if ( sProperty.equals(  IDeviceRenderer.CACHE_ON_DISK  ) )
+		else if ( sProperty.equals( IDeviceRenderer.CACHE_ON_DISK ) )
 		{
-			ImageIO.setUseCache( ((Boolean)oValue).booleanValue( ) );
+			ImageIO.setUseCache( ( (Boolean) oValue ).booleanValue( ) );
 		}
 	}
 
@@ -659,7 +683,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							stea[i].getMethodName( ),
 							String.valueOf( stea[i].getLineNumber( ) )
 					},
-					getULocale( ) ), x, y );
+					getULocale( ) ),
+					x,
+					y );
 			x = 40;
 			y += fm.getHeight( );
 		}
@@ -674,6 +700,54 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		}
 		expr = expr.replaceAll( "\"", "&quot;" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return expr;
+	}
+
+	private void userCallback( ShapedAction sa, StringBuffer sb )
+	{
+		Action ac = sa.getActionForCondition( TriggerCondition.ONCLICK_LITERAL );
+		if ( !bAddCallback && checkSupportedAction( ac ) )
+		{
+			if ( ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT
+					&& StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
+							.getType( ) ) )
+			{
+				ScriptValue sv = (ScriptValue) ac.getValue( );
+				sb.append( "<Script>" //$NON-NLS-1$
+						+ "function userCallBack(categoryData, valueData, seriesValueName){" //$NON-NLS-1$
+						+ eval( sv.getScript( ) )
+						+ "}</Script>" ); //$NON-NLS-1$
+				bAddCallback = true;
+			}
+		}
+	}
+
+	private String addDataValueToScript( Object oValue )
+	{
+		if ( oValue instanceof String )
+		{
+			return "'" + (String) oValue + "'";//$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else if ( oValue instanceof Double )
+		{
+			return ( (Double) oValue ).toString( );
+		}
+		else if ( oValue instanceof NumberDataElement )
+		{
+			return ( (NumberDataElement) oValue ).toString( );
+		}
+		else if ( oValue instanceof Calendar )
+		{
+			return "'" + ( (Calendar) oValue ).getTime( ).toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else if ( oValue instanceof DateTimeDataElement )
+		{
+			return "'" + ( (DateTimeDataElement) oValue ).getValueAsCalendar( )//$NON-NLS-1$ 
+					.toString( ) + "'";//$NON-NLS-1$
+		}
+		else
+		{
+			return "'" + oValue.toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
+		}
 	}
 
 }

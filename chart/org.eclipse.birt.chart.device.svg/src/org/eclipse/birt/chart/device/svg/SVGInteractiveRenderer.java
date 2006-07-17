@@ -42,6 +42,8 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.DateTimeDataElement;
+import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
@@ -49,6 +51,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -109,12 +112,12 @@ public class SVGInteractiveRenderer
 			return;
 		}
 
-	
 		// For now only group series elements
 		if ( pre.getSource( ) instanceof StructureSource )
 		{
 			StructureSource sourceObject = (StructureSource) pre.getSource( );
-			Series seDT = (Series) getElementFromSource( sourceObject, StructureType.SERIES );
+			Series seDT = (Series) getElementFromSource( sourceObject,
+					StructureType.SERIES );
 			if ( seDT != null )
 			{
 				String groupIdentifier = null;
@@ -130,7 +133,7 @@ public class SVGInteractiveRenderer
 						// Group by categories
 						DataPointHints dph = (DataPointHints) getElementFromSource( sourceObject,
 								StructureType.SERIES_DATA_POINT );
-						groupIdentifier += "index"; // $NON-NLS-1$
+						groupIdentifier += "index"; //$NON-NLS-1$
 						groupIdentifier += ( (DataPointHints) dph ).getIndex( );
 					}
 					else
@@ -168,7 +171,7 @@ public class SVGInteractiveRenderer
 					svg_g2d.pushParent( primGroup );
 					primGroup.setAttribute( "id", groupIdentifier + "_" + id ); //$NON-NLS-1$ //$NON-NLS-2$
 					primGroup.setAttribute( "style", "visibility:visible;" ); //$NON-NLS-1$ //$NON-NLS-2$
-					outerGroup.setAttribute( "id", groupIdentifier + "_" + id + "_g" ); //$NON-NLS-1$ //$NON-NLS-2$
+					outerGroup.setAttribute( "id", groupIdentifier + "_" + id + "_g" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					outerGroup.setAttribute( "style", "visibility:visible;" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 				}
@@ -208,22 +211,31 @@ public class SVGInteractiveRenderer
 				}
 
 			}
-			else{
-				Object designObject  = null;			
-				//check to see if this is the title block
-				if (getElementFromSource( sourceObject,	StructureType.TITLE ) != null){
-					designObject = sourceObject.getSource();
+			else
+			{
+				Object designObject = null;
+				// check to see if this is the title block
+				if ( getElementFromSource( sourceObject, StructureType.TITLE ) != null )
+				{
+					designObject = sourceObject.getSource( );
 				}
-				else if (getElementFromSource( sourceObject,	StructureType.CHART_BLOCK ) != null){
-					designObject = sourceObject.getSource();
+				else if ( getElementFromSource( sourceObject,
+						StructureType.CHART_BLOCK ) != null )
+				{
+					designObject = sourceObject.getSource( );
 				}
-				else if (getElementFromSource( sourceObject,	StructureType.PLOT ) != null){
-					designObject = sourceObject.getSource();
+				else if ( getElementFromSource( sourceObject,
+						StructureType.PLOT ) != null )
+				{
+					designObject = sourceObject.getSource( );
 				}
-				else if (getElementFromSource( sourceObject,	StructureType.AXIS ) != null){
-					designObject = sourceObject.getSource();
+				else if ( getElementFromSource( sourceObject,
+						StructureType.AXIS ) != null )
+				{
+					designObject = sourceObject.getSource( );
 				}
-				if (designObject != null){
+				if ( designObject != null )
+				{
 					String groupIdentifier = String.valueOf( designObject.hashCode( ) );
 					String id = Integer.toString( pre.hashCode( ) );
 					List components = (List) componentPrimitives.get( designObject );
@@ -232,7 +244,7 @@ public class SVGInteractiveRenderer
 						components = new ArrayList( );
 						componentPrimitives.put( designObject, components );
 					}
-	
+
 					// May have to group drawing instructions that come from
 					// the same primitive render events.
 					String idTemp = id;
@@ -242,9 +254,9 @@ public class SVGInteractiveRenderer
 						idTemp = id + "@" + counter; //$NON-NLS-1$
 						counter++;
 					}
-	
+
 					components.add( idTemp );
-	
+
 					// Create group element that will contain the drawing
 					// instructions that corresponds to the event
 					Element primGroup = svg_g2d.createElement( "g" ); //$NON-NLS-1$
@@ -252,11 +264,11 @@ public class SVGInteractiveRenderer
 					primGroup.setAttribute( "id", groupIdentifier + "_" + idTemp ); //$NON-NLS-1$ //$NON-NLS-2$
 					primGroup.setAttribute( "style", "visibility:visible;" ); //$NON-NLS-1$ //$NON-NLS-2$	
 					svg_g2d.setDeferStrokColor( primGroup );
-	
+
 				}
 
 			}
-			
+
 		}
 	}
 
@@ -297,21 +309,24 @@ public class SVGInteractiveRenderer
 					svg_g2d.popParent( );
 				}
 			}
-			else{
-				//check to see if this is the title block
-				if ((getElementFromSource( sourceObject,	StructureType.TITLE ) != null) ||
-					(getElementFromSource( sourceObject,	StructureType.AXIS ) != null)||
-					(getElementFromSource( sourceObject,	StructureType.CHART_BLOCK ) != null)||
-					(getElementFromSource( sourceObject,	StructureType.PLOT ) != null)){
+			else
+			{
+				// check to see if this is the title block
+				if ( ( getElementFromSource( sourceObject, StructureType.TITLE ) != null )
+						|| ( getElementFromSource( sourceObject,
+								StructureType.AXIS ) != null )
+						|| ( getElementFromSource( sourceObject,
+								StructureType.CHART_BLOCK ) != null )
+						|| ( getElementFromSource( sourceObject,
+								StructureType.PLOT ) != null ) )
+				{
 					svg_g2d.setDeferStrokColor( null );
 					svg_g2d.popParent( );
 				}
 			}
-			
+
 		}
 	}
-
-
 
 	/**
 	 * Helper function that will determine if the source object is a series
@@ -348,10 +363,11 @@ public class SVGInteractiveRenderer
 	}
 
 	/**
-	 * Locates a category design-time series corresponding to a given cloned run-time
-	 * series.
+	 * Locates a category design-time series corresponding to a given cloned
+	 * run-time series.
 	 * 
-	 * @param seDT runtime Series
+	 * @param seDT
+	 *            runtime Series
 	 * @return category Series
 	 */
 	private Series findCategorySeries( Series seDT )
@@ -403,17 +419,20 @@ public class SVGInteractiveRenderer
 	{
 		if ( elm != null )
 		{
-			//Need to check if we have a url redirect trigger.   We handle the interaction differently
+			// Need to check if we have a url redirect trigger. We handle the
+			// interaction differently
 			boolean redirect = false;
 			for ( int x = 0; x < triggers.length; x++ )
 			{
 				Trigger tg = triggers[x];
-				if ( tg.getAction( ).getType( ).getValue( ) == ActionType.URL_REDIRECT){
+				if ( tg.getAction( ).getType( ).getValue( ) == ActionType.URL_REDIRECT )
+				{
 					redirect = true;
 					break;
 				}
 			}
-			if (redirect){
+			if ( redirect )
+			{
 				Element aLink = svg_g2d.createElement( "a" ); //$NON-NLS-1$
 				Element group = svg_g2d.createElement( "g" ); //$NON-NLS-1$
 				group.appendChild( elm );
@@ -425,7 +444,7 @@ public class SVGInteractiveRenderer
 			}
 			else
 				hotspotLayer.appendChild( elm );
-			
+
 			for ( int x = 0; x < triggers.length; x++ )
 			{
 				Trigger tg = triggers[x];
@@ -447,39 +466,47 @@ public class SVGInteractiveRenderer
 								Element title = svg_g2d.dom.createElement( "title" ); //$NON-NLS-1$
 								title.appendChild( svg_g2d.dom.createTextNode( tooltipText ) );
 								elm.appendChild( title );
-								//on mouse over is actually two events to show the tooltip
-								if (scriptEvent.equals("onmouseover")){//$NON-NLS-1$
+								// on mouse over is actually two events to show
+								// the tooltip
+								if ( scriptEvent.equals( "onmouseover" ) ) {//$NON-NLS-1$
 									elm.setAttribute( "onmouseout", "TM.remove()" ); //$NON-NLS-1$ //$NON-NLS-2$
 									elm.setAttribute( "onmousemove", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
 								}
 								else
-									elm.setAttribute( scriptEvent, "TM.toggleToolTip(evt)" ); //$NON-NLS-1$ 
+									elm.setAttribute( scriptEvent,
+											"TM.toggleToolTip(evt)" ); //$NON-NLS-1$ 
 							}
 							break;
 						case ActionType.URL_REDIRECT :
 							URLValue urlValue = ( (URLValue) tg.getAction( )
 									.getValue( ) );
-							// See if this is an internal anchor link							
+							// See if this is an internal anchor link
 							if ( urlValue.getBaseUrl( ).startsWith( "#" ) ) { //$NON-NLS-1$
-								elm.setAttribute( scriptEvent, "top.document.location.hash='" + urlValue.getBaseUrl( ) + "';" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+								elm.setAttribute( scriptEvent,
+										"top.document.location.hash='" + urlValue.getBaseUrl( ) + "';" ); //$NON-NLS-1$ //$NON-NLS-2$ 
 								elm.setAttribute( "style", "cursor:pointer" ); //$NON-NLS-1$ //$NON-NLS-2$
 							}
 							else
 							{
 								String target = urlValue.getTarget( );
-								if (target == null)
-									target="null"; //$NON-NLS-1$
-								elm.setAttribute( scriptEvent, "redirect('"+target+"','"+urlValue.getBaseUrl( )+"')" ); //$NON-NLS-1$
-								
+								if ( target == null )
+									target = "null"; //$NON-NLS-1$
+								elm.setAttribute( scriptEvent,
+										"redirect('" + target + "','" + urlValue.getBaseUrl( ) + "')" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
 							}
 							break;
 
 						case ActionType.TOGGLE_VISIBILITY :
-						case ActionType.TOGGLE_DATA_POINT_VISIBILITY:
-						case ActionType.HIGHLIGHT:
-							addJSCodeOnElement( src, tg, elm, scriptEvent, tg.getAction( ).getType( ).getValue( ));
+						case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
+						case ActionType.HIGHLIGHT :
+							addJSCodeOnElement( src,
+									tg,
+									elm,
+									scriptEvent,
+									tg.getAction( ).getType( ).getValue( ) );
 							break;
-						
+
 						case ActionType.INVOKE_SCRIPT :
 
 							// lets see if we need to add accessibility
@@ -504,28 +531,66 @@ public class SVGInteractiveRenderer
 							}
 							else
 							{
-
-								// TODO add base, value, series name in callback
+								// Add categoryData, valueData, valueSeriesName in callback
 								String script = ( (ScriptValue) tg.getAction( )
 										.getValue( ) ).getScript( );
-								String callbackFunction = "callback" + Math.abs( script.hashCode( ) ) + "(evt," + src.getSource( ).hashCode( ) + ");"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+								String callbackFunction = "callback" //$NON-NLS-1$
+										+ Math.abs( script.hashCode( ) )
+										+ "(evt," + src.getSource( ).hashCode( );//$NON-NLS-1$ 
+									
+								if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
+								{
+									final DataPointHints dph = (DataPointHints) src.getSource( );
+									callbackFunction += ","; //$NON-NLS-1$
+									callbackFunction += addDataValueToScript( dph.getBaseValue( ) );
+									callbackFunction += ","; //$NON-NLS-1$
+									callbackFunction += addDataValueToScript( dph.getOrthogonalValue( ) );
+									callbackFunction += ","; //$NON-NLS-1$
+									callbackFunction += addDataValueToScript( dph.getSeriesValue( ) );
+								}
+								callbackFunction +=	");"; //$NON-NLS-1$
 								elm.setAttribute( scriptEvent, callbackFunction );
 								setCursor( elm );
 								if ( !( scripts.contains( script ) ) )
 								{
-
-									svg_g2d.addScript( "function callback" + Math.abs( script.hashCode( ) ) + "(evt,source)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+									svg_g2d.addScript( "function callback" + Math.abs( script.hashCode( ) ) + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 									scripts.add( script );
 								}
 							}
 							break;
-
 					}
-				} 
+				}
 			}
-
 		}
-
+	}
+	
+	private String addDataValueToScript( Object oValue )
+	{
+		if ( oValue instanceof String )
+		{
+			return "'" + (String) oValue + "'";//$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else if ( oValue instanceof Double )
+		{
+			return  ( (Double) oValue ).toString( ) ;
+		}
+		else if ( oValue instanceof NumberDataElement )
+		{
+			return ( (NumberDataElement) oValue ).toString( );
+		}
+		else if ( oValue instanceof Calendar )
+		{
+			return "'" + ( (Calendar) oValue ).getTime( ).toString( ) + "'" ;//$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else if ( oValue instanceof DateTimeDataElement )
+		{
+			return "'" + ( (DateTimeDataElement) oValue ).getValueAsCalendar( ).toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else
+		{
+			return "'" + oValue.toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
+		}
 	}
 
 	/**
@@ -580,7 +645,8 @@ public class SVGInteractiveRenderer
 
 			if ( !bFound )
 			{
-				// locate indexes for axis/seriesdefinition/series in runtime model
+				// locate indexes for axis/seriesdefinition/series in runtime
+				// model
 				for ( i = 0; i < axaOrthogonal.length; i++ )
 				{
 					elSD = axaOrthogonal[i].getSeriesDefinitions( );
@@ -779,8 +845,6 @@ public class SVGInteractiveRenderer
 		scripts.clear( );
 	}
 
-	
-
 	public Node getHotspotLayer( )
 	{
 		return hotspotLayer;
@@ -789,8 +853,8 @@ public class SVGInteractiveRenderer
 	public void createHotspotLayer( Document dom )
 	{
 		hotspotLayer = dom.createElement( "g" ); //$NON-NLS-1$
-		hotspotLayer.setAttribute( "id", "hotSpots" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		hotspotLayer.setAttribute( "style", "fill-opacity:0.01;fill:#FFFFFF;" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		hotspotLayer.setAttribute( "id", "hotSpots" ); //$NON-NLS-1$ //$NON-NLS-2$ 
+		hotspotLayer.setAttribute( "style", "fill-opacity:0.01;fill:#FFFFFF;" ); //$NON-NLS-1$ //$NON-NLS-2$ 
 	}
 
 	private ULocale getULocale( )
@@ -802,8 +866,9 @@ public class SVGInteractiveRenderer
 	{
 		return this._iun.getRunTimeModel( ).getLegend( ).getItemType( ) == LegendItemType.CATEGORIES_LITERAL;
 	}
-	
-	private void addJSCodeOnElement( StructureSource src, Trigger tg, Element elm, String scriptEvent, int type )
+
+	private void addJSCodeOnElement( StructureSource src, Trigger tg,
+			Element elm, String scriptEvent, int type )
 	{
 		final Series seRT = (Series) getElementFromSource( src,
 				StructureType.SERIES );
@@ -811,8 +876,9 @@ public class SVGInteractiveRenderer
 		{
 			Series seDT = null;
 			String groupIdentifier = null;
-			
-			// Create Group identifiers. Differs for color by categories or series
+
+			// Create Group identifiers. Differs for color by categories or
+			// series
 			if ( isColoredByCategories( ) )
 			{
 				seDT = findCategorySeries( seRT );
@@ -835,27 +901,27 @@ public class SVGInteractiveRenderer
 				{
 					logger.log( e );
 					return;
-				}	
+				}
 				groupIdentifier = String.valueOf( seDT.hashCode( ) );
 			}
 			boolean includeLabels = false;
 			boolean includeGraphics = false;
-			
+
 			String jsFunction = null;
-			switch( type )
+			switch ( type )
 			{
-				case ActionType.TOGGLE_VISIBILITY:
-					jsFunction = "toggleVisibility(evt, ";
+				case ActionType.TOGGLE_VISIBILITY :
+					jsFunction = "toggleVisibility(evt, "; //$NON-NLS-1$
 					includeLabels = true;
 					includeGraphics = true;
 					break;
-				case ActionType.TOGGLE_DATA_POINT_VISIBILITY:
-					jsFunction = "toggleLabelsVisibility(evt, ";
+				case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
+					jsFunction = "toggleLabelsVisibility(evt, "; //$NON-NLS-1$
 					includeLabels = true;
 					includeGraphics = false;
 					break;
-				case ActionType.HIGHLIGHT:
-					jsFunction = "highlight(evt, ";
+				case ActionType.HIGHLIGHT :
+					jsFunction = "highlight(evt, "; //$NON-NLS-1$
 					includeLabels = true;
 					includeGraphics = true;
 					break;
@@ -870,73 +936,75 @@ public class SVGInteractiveRenderer
 			{
 				StringBuffer sb = new StringBuffer( );
 				sb.append( groupIdentifier );
-				
+
 				sb.append( ",new Array(" ); //$NON-NLS-1$
-			
+
 				List labelComponents = (List) labelPrimitives.get( seDT );
-				List components = (List) componentPrimitives.get( seDT );	
-				
+				List components = (List) componentPrimitives.get( seDT );
+
 				Iterator iter = null;
 				// Apply action to graphics
-				if ( includeGraphics  && components != null)
+				if ( includeGraphics && components != null )
 				{
 					iter = components.iterator( );
-					appendArguments( sb, iter );	
+					appendArguments( sb, iter );
 					if ( includeLabels && labelComponents != null )
 					{
 						sb.append( "), new Array(" ); //$NON-NLS-1$
 					}
 				}
-				// Apply action to labels 
-				if ( includeLabels && labelComponents != null)
+				// Apply action to labels
+				if ( includeLabels && labelComponents != null )
 				{
 					iter = labelComponents.iterator( );
 					appendArguments( sb, iter );
 				}
-								
-			
+
 				sb.append( ")" ); //$NON-NLS-1$
-				
-				elm.setAttribute( scriptEvent, //$NON-NLS-1$
-								  jsFunction 
-								+ sb.toString( )
-								+ ")" ); //$NON-NLS-1$		
-				
+
+				elm.setAttribute( scriptEvent, 
+						jsFunction + sb.toString( ) + ")" ); //$NON-NLS-1$		
+
 				if ( tg.getCondition( ).getValue( ) == TriggerCondition.ONMOUSEOVER )
 				{
 					elm.setAttribute( "onmouseout", //$NON-NLS-1$
-									jsFunction 
-									+ sb.toString( )
-									+ ")" ); //$NON-NLS-1$		
+							jsFunction + sb.toString( ) + ")" ); //$NON-NLS-1$		
 				}
 				setCursor( elm );
 			}
 		}
-		else{
-			//the source is not a series object.  It may be a title, plot area or axis
-			Object designObject  = null;			
-			//check to see if this is the title block
-			if (getElementFromSource( src,	StructureType.TITLE ) != null){
-				designObject = src.getSource();
+		else
+		{
+			// the source is not a series object. It may be a title, plot area
+			// or axis
+			Object designObject = null;
+			// check to see if this is the title block
+			if ( getElementFromSource( src, StructureType.TITLE ) != null )
+			{
+				designObject = src.getSource( );
 			}
-			else if (getElementFromSource( src,	StructureType.PLOT ) != null){
-				designObject = src.getSource();
+			else if ( getElementFromSource( src, StructureType.PLOT ) != null )
+			{
+				designObject = src.getSource( );
 			}
-			else if (getElementFromSource( src,	StructureType.CHART_BLOCK ) != null){
-				designObject = src.getSource();
+			else if ( getElementFromSource( src, StructureType.CHART_BLOCK ) != null )
+			{
+				designObject = src.getSource( );
 			}
-			else if (getElementFromSource( src,	StructureType.AXIS ) != null){
-				designObject = src.getSource();
+			else if ( getElementFromSource( src, StructureType.AXIS ) != null )
+			{
+				designObject = src.getSource( );
 			}
-			if (designObject != null){
+			if ( designObject != null )
+			{
 				String jsFunction = null;
-				switch( type )
+				switch ( type )
 				{
-					case ActionType.TOGGLE_VISIBILITY:
-						jsFunction = "toggleVisibility(evt, ";
+					case ActionType.TOGGLE_VISIBILITY :
+						jsFunction = "toggleVisibility(evt, "; //$NON-NLS-1$
 						break;
-					case ActionType.HIGHLIGHT:
-						jsFunction = "highlight(evt, ";
+					case ActionType.HIGHLIGHT :
+						jsFunction = "highlight(evt, ";//$NON-NLS-1$
 						break;
 				}
 				if ( jsFunction == null )
@@ -945,41 +1013,37 @@ public class SVGInteractiveRenderer
 					return;
 				}
 
-				
-				List components = (List) componentPrimitives.get( designObject );	
-				
+				List components = (List) componentPrimitives.get( designObject );
+
 				Iterator iter = null;
 				// Apply action to graphics
-				if ( components != null)
+				if ( components != null )
 				{
 					String groupIdentifier = String.valueOf( designObject.hashCode( ) );
 					StringBuffer sb = new StringBuffer( );
 					sb.append( groupIdentifier );
-					
+
 					sb.append( ",new Array(" ); //$NON-NLS-1$
 					iter = components.iterator( );
-					appendArguments( sb, iter );	
-					
+					appendArguments( sb, iter );
+
 					sb.append( ")" ); //$NON-NLS-1$
-					
-					elm.setAttribute( scriptEvent, //$NON-NLS-1$
-									  jsFunction 
-									+ sb.toString( )
-									+ ")" ); //$NON-NLS-1$		
-					
+
+					elm.setAttribute( scriptEvent,
+							jsFunction + sb.toString( ) + ")" ); //$NON-NLS-1$		
+
 					if ( tg.getCondition( ).getValue( ) == TriggerCondition.ONMOUSEOVER )
 					{
 						elm.setAttribute( "onmouseout", //$NON-NLS-1$
-										jsFunction 
-										+ sb.toString( )
-										+ ")" ); //$NON-NLS-1$		
+								jsFunction + sb.toString( ) + ")" ); //$NON-NLS-1$		
 					}
 					setCursor( elm );
 				}
 			}
-			
+
 		}
 	}
+
 	private void appendArguments( StringBuffer sb, Iterator iter )
 	{
 		if ( iter != null )
