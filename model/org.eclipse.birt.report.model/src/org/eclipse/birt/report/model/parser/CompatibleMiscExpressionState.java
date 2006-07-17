@@ -86,9 +86,10 @@ class CompatibleMiscExpressionState extends ExpressionState
 
 		// if the value is on elements like data set and data source. Not
 		// require to create bound columns.
-		
+
 		if ( target != null )
-			setupBoundDataColumns( target, value );
+			setupBoundDataColumns( target, value, StringUtil.compareVersion(
+					handler.getVersion( ), "3.2.0" ) < 0 ); //$NON-NLS-1$
 
 		// keep the expression as same.
 
@@ -137,9 +138,14 @@ class CompatibleMiscExpressionState extends ExpressionState
 	 *            the target to add bound columns
 	 * @param value
 	 *            the expression value
+	 * @param createLocalColumns
+	 *            <code>true</code> if create local data bound columns.
+	 *            Otherwise, only create data bound columns on the outer data
+	 *            container.
 	 */
 
-	protected void setupBoundDataColumns( DesignElement target, String value )
+	protected void setupBoundDataColumns( DesignElement target, String value,
+			boolean createLocalColumns )
 	{
 		if ( value == null )
 			return;
@@ -176,13 +182,21 @@ class CompatibleMiscExpressionState extends ExpressionState
 			addBoundColumnsToTarget( tmpTarget, outerColumns );
 		}
 
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ) //$NON-NLS-1$
+		if ( createLocalColumns )
 			addBoundColumnsToTarget( target, localColumns );
 	}
 
-	private void addBoundColumnsToTarget( DesignElement target, List newExprs )
+	/**
+	 * Adds column bindings to the target element.
+	 * 
+	 * @param target
+	 *            the target element
+	 * @param newExprs
+	 *            a list containing column bindings
+	 */
+
+	protected void addBoundColumnsToTarget( DesignElement target, List newExprs )
 	{
-		assert target != null;
 		if ( newExprs.isEmpty( ) )
 			return;
 
@@ -259,7 +273,8 @@ class CompatibleMiscExpressionState extends ExpressionState
 		for ( int i = 0; i < newColumns.size( ); i++ )
 		{
 			ComputedColumn column = (ComputedColumn) newColumns.get( i );
-			boundColumns.add( column );
+			if ( !boundColumns.contains( column ) )
+				boundColumns.add( column );
 		}
 	}
 
@@ -294,7 +309,8 @@ class CompatibleMiscExpressionState extends ExpressionState
 			return boundName;
 		}
 
-		boundColumns.add( column );
+		if ( !boundColumns.contains( column ) )
+			boundColumns.add( column );
 
 		return boundName;
 	}

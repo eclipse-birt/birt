@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ImageItem;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
@@ -81,7 +82,6 @@ class ExpressionState extends PropertyState
 		if ( propDefn == null )
 			propDefn = element.getPropertyDefn( name );
 
-
 		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) < 0 ) //$NON-NLS-1$
 				&& element instanceof ImageItem
 				&& struct == null
@@ -104,8 +104,14 @@ class ExpressionState extends PropertyState
 		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.3" ) < 0 ) //$NON-NLS-1$
 		{
 			if ( struct instanceof ComputedColumn
-					&& element instanceof DataItem )
-				return super.jumpTo( );
+					&& element instanceof ReportItem
+					&& ComputedColumn.EXPRESSION_MEMBER.equals( name ) )
+			{
+				CompatibleBoundColumnExprState state = new CompatibleBoundColumnExprState(
+						handler, element, propDefn, struct );
+				state.setName( name );
+				return state;
+			}
 
 			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
 					handler, element );

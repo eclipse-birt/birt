@@ -11,22 +11,24 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.List;
-
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.xml.sax.SAXException;
 
 /**
- * Parse the value of ParamBinding in BIRT 2.1M5 to BIRT 2.1 RC0.
+ * Parses expression values in boundDataColumns from BIRT 2.1 to BIRT 2.1.1.
+ * This is for rows[] expressions. Includes these steps:
+ * <ul>
+ * <li>creates the bound data columns on the outer data container.
+ * <li>convert rows[] to row._outer.
+ * </ul>
+ * <p>
+ * This is a part of backward compatibility work from BIRT 2.1 to BIRT 2.1.1.
  */
 
-public class CompatibleParamBindingValueState
+public class CompatibleBoundColumnExprState
 		extends
 			CompatibleMiscExpressionState
 {
@@ -40,7 +42,7 @@ public class CompatibleParamBindingValueState
 	 *            the data item
 	 */
 
-	CompatibleParamBindingValueState( ModuleParserHandler theHandler,
+	CompatibleBoundColumnExprState( ModuleParserHandler theHandler,
 			DesignElement element, PropertyDefn propDefn, IStructure struct )
 	{
 		super( theHandler, element, propDefn, struct );
@@ -59,32 +61,16 @@ public class CompatibleParamBindingValueState
 		if ( value == null )
 			return;
 
+		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
+				element, handler.module );
+
+		// not to create bound data columns locally.
+
+		if ( target != null )
+			setupBoundDataColumns( target, value, false );
+
 		// keep the expression as same.
 
-		doEnd( value, true );
-
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) >= 0 ) //$NON-NLS-1$
-			return;
-
-		List newExprs = null;
-
-		try
-		{
-			newExprs = ExpressionUtil.extractColumnExpressions( value );
-		}
-		catch ( BirtException e )
-		{
-			newExprs = null;
-		}
-
-		if ( newExprs == null || newExprs.isEmpty( ) )
-		{
-			return;
-		}
-
-		DesignElement target = DataBoundColumnUtil
-				.findTargetElementOfParamBinding( element, handler.getModule( ) );
-
-		addBoundColumnsToTarget( target, newExprs );
+		doEnd( value );
 	}
 }

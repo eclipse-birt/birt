@@ -129,7 +129,8 @@ public class CompatibleTestExpreState extends CompatibleMiscExpressionState
 		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
 				element, handler.module );
 
-		setupBoundDataColumns( target, value );
+		setupBoundDataColumns( target, value,StringUtil.compareVersion(
+				handler.getVersion( ), "3.2.0" ) < 0); //$NON-NLS-1$
 		handler.tempValue.put( tempVeluekey, value );
 	}
 }
