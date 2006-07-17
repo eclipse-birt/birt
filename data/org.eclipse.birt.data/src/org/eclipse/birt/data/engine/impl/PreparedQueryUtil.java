@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.FilterDefnUtil;
 import org.eclipse.birt.data.engine.impl.document.GroupDefnUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryDefnUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
@@ -168,6 +169,21 @@ class PreparedQueryUtil
 		runningOnRS = isCompatibleSubQuery( rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE ),
 				queryDefn );
+		
+		if ( runningOnRS == false )
+			return false;
+		
+		IBaseQueryDefinition qd = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
+		List filters = qd.getFilters( );
+		
+		if ( FilterDefnUtil.isConflictFilter( filters, queryDefn.getFilters( ) ) )
+		{
+			runningOnRS = false;
+			filters = rdLoad.loadOriginalQueryDefn( StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE ).getFilters( );
+			FilterDefnUtil.getRealFilterList( filters, queryDefn.getFilters( ) );
+		}
 		
 		return runningOnRS;
 	}
