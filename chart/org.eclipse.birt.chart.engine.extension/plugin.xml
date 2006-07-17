@@ -63,5 +63,29 @@
             displayName="%Average.displayName"
             function="org.eclipse.birt.chart.aggregate.Average"
             name="Average"/>
+      <aggregateFunction
+            displayName="%Count.displayName"
+            function="org.eclipse.birt.chart.aggregate.Count"
+            name="Count"/>
+      <aggregateFunction
+            displayName="%DistinctCount.displayName"
+            function="org.eclipse.birt.chart.aggregate.DistinctCount"
+            name="DistinctCount"/>
+      <aggregateFunction
+            displayName="%First.displayName"
+            function="org.eclipse.birt.chart.aggregate.First"
+            name="First"/>
+      <aggregateFunction
+            displayName="%Last.displayName"
+            function="org.eclipse.birt.chart.aggregate.Last"
+            name="Last"/>
+      <aggregateFunction
+            displayName="%Min.displayName"
+            function="org.eclipse.birt.chart.aggregate.Min"
+            name="Min"/>
+      <aggregateFunction
+            displayName="%Max.displayName"
+            function="org.eclipse.birt.chart.aggregate.Max"
+            name="Max"/>
    </extension>
 </plugin>

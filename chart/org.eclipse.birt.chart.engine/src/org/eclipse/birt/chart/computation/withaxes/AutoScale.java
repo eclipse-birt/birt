@@ -2303,7 +2303,11 @@ public final class AutoScale extends Methods implements Cloneable
 			CDateTime cdtMinValue = new CDateTime( caMin );
 			CDateTime cdtMaxValue = new CDateTime( caMax );
 			int iUnit = CDateTime.getDifference( cdtMinValue, cdtMaxValue );
-
+			
+			// Can't detect a difference, assume ms
+			if ( iUnit == 0 )
+				iUnit = CDateTime.SECOND;
+			
 			CDateTime cdtMinAxis = cdtMinValue.backward( iUnit, 1 );
 			CDateTime cdtMaxAxis = cdtMaxValue.forward( iUnit, 1 );
 			cdtMinAxis.clearBelow( iUnit );
@@ -2346,8 +2350,8 @@ public final class AutoScale extends Methods implements Cloneable
 							ChartException.GENERATION,
 							"exception.invalid.minimum.scale.value", //$NON-NLS-1$ 
 							new Object[]{
-								sc.oMinimum
-										+ ax.getModelAxis( )
+										oMinimum,
+										 ax.getModelAxis( )
 												.getType( )
 												.getName( )
 							},
@@ -2377,6 +2381,7 @@ public final class AutoScale extends Methods implements Cloneable
 				sc.bMaximumFixed = true;
 			}
 
+			// TODO why is this commented out? Needs to be implemented
 			// OVERRIDE STEP IF SPECIFIED
 			/*
 			 * if (oStep != null) { sc.oStep = oStep; sc.bStepFixed = true; //

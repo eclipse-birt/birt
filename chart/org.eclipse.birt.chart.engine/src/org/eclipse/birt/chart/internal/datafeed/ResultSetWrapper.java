@@ -121,9 +121,10 @@ public final class ResultSetWrapper
 		workingResultSet.addAll( rawResultSet );
 
 		saExpressionKeys = (String[]) stExpressionKeys.toArray( new String[stExpressionKeys.size( )] );
+		
 		iaDataTypes = new int[saExpressionKeys.length];
-		initializeMeta( );
-
+		
+		
 		htLookup = new Hashtable( );
 		for ( int i = 0; i < saExpressionKeys.length; i++ )
 		{
@@ -134,6 +135,8 @@ public final class ResultSetWrapper
 		iaGroupBreaks = findGroupBreaks( workingResultSet,
 				( oaGroupKeys != null && oaGroupKeys.length > 0 ) ? oaGroupKeys[0]
 						: null );
+		
+		
 	}
 
 	/**
@@ -142,7 +145,7 @@ public final class ResultSetWrapper
 	 */
 	private void initializeMeta( )
 	{
-		final Iterator it = rawResultSet.iterator( );
+		final Iterator it = workingResultSet.iterator( );
 		final int iColumnCount = iaDataTypes.length;
 		final boolean[] boaFound = new boolean[iColumnCount];
 		Object[] oaTuple;
@@ -344,6 +347,9 @@ public final class ResultSetWrapper
 					iafa );
 
 		}
+		
+		
+		initializeMeta( );
 	}
 
 	private void groupNumerically( List resultSet, int iSortColumnIndex,
