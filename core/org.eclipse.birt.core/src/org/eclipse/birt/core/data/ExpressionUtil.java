@@ -79,33 +79,7 @@ public final class ExpressionUtil
 	public static List extractColumnExpressions( String oldExpression )
 			throws BirtException
 	{
-		if ( oldExpression == null )
-			return new ArrayList( );
-
-		List exprList = ExpressionParserUtility.compileColumnExpression( oldExpression );
-		for ( int i = 0; i < exprList.size( ); )
-		{
-			IColumnBinding info = (IColumnBinding) exprList.get( i );
-			if ( info.getOuterLevel( ) != 0 )
-			{
-				exprList.remove( i );
-			}
-			else
-				i++;
-		}
-		return exprList;
-	}
-	
-	/**
-     * extract all column expression info, including outer_level >0 
-	 * @param oldExpression
-	 * @return
-	 * @throws BirtException
-	 */
-	public static List extractColumnInfo( String oldExpression )
-			throws BirtException
-	{
-		if ( oldExpression == null )
+		if ( oldExpression == null || oldExpression.trim( ).length( ) == 0 )
 			return new ArrayList( );
 
 		return ExpressionParserUtility.compileColumnExpression( oldExpression );
