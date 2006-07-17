@@ -465,8 +465,14 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public void setParameterValues( Map params )
 	{
-		parameterChanged = true;
-		inputValues.putAll( params );
+		Iterator iterator = params.entrySet( ).iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iterator.next( );
+			String name = (String) entry.getKey();
+			Object value = entry.getValue();
+			setParameterValue( name, value);
+		}
 	}
 
 	/*
@@ -478,7 +484,16 @@ public abstract class EngineTask implements IEngineTask
 	public void setParameterValue( String name, Object value )
 	{
 		parameterChanged = true;
-		inputValues.put( name, value );
+		Object parameter = inputValues.get( name );
+		if ( parameter != null )
+		{
+			assert parameter instanceof ParameterAttribute;
+			(( ParameterAttribute )parameter).setValue( value );
+		}
+		else
+		{
+			inputValues.put( name, new ParameterAttribute( value, null ) );
+		}
 	}
 
 	/*
@@ -489,8 +504,7 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public void setValue( String name, Object value )
 	{
-		parameterChanged = true;
-		inputValues.put( name, value );
+		setParameterValue( name, value );
 	}
 
 	/*
@@ -500,7 +514,16 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public HashMap getParameterValues( )
 	{
-		return (HashMap) inputValues.clone( );
+		HashMap result = new HashMap( );
+		Iterator iterator = inputValues.entrySet( ).iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iterator.next( );
+			ParameterAttribute parameter = (ParameterAttribute) entry
+					.getValue( );
+			result.put( entry.getKey( ), parameter.getValue( ) );
+		}
+		return result;
 	}
 
 	/*
@@ -510,7 +533,45 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public Object getParameterValue( String name )
 	{
-		return inputValues.get( name );
+		Object parameter = inputValues.get( name );
+		if ( parameter == null )
+		{
+			return null;
+		}
+		assert parameter instanceof ParameterAttribute;
+		return ( (ParameterAttribute) parameter ).getValue( );
+	}
+
+	public void setParameter( String name, Object value, String displayText )
+	{
+		parameterChanged = true;
+		inputValues.put( name, new ParameterAttribute( value, displayText ) );
+	}
+
+	public String getParameterDisplayText( String name )
+	{
+		Object parameter = inputValues.get( name );
+		if ( parameter != null )
+		{
+			assert parameter instanceof ParameterAttribute;
+			return ( (ParameterAttribute) parameter ).getDisplayText( );
+		}
+		return null;
+	}
+
+	public void setParameterDisplayText( String name, String displayText )
+	{
+		parameterChanged = true;
+		Object parameter = inputValues.get( name );
+		if ( parameter != null )
+		{
+			assert parameter instanceof ParameterAttribute;
+			(( ParameterAttribute )parameter).setDisplayText( displayText );
+		}
+		else
+		{
+			inputValues.put( name, new ParameterAttribute( null, displayText ) );
+		}
 	}
 
 	protected void doCancel()
@@ -561,7 +622,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.39 $ $Date: 2006/06/23 10:08:35 $
+	 * @version $Revision: 1.40 $ $Date: 2006/06/29 08:02:22 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -678,12 +739,21 @@ public abstract class EngineTask implements IEngineTask
 		parameterChanged = false;
 
 		// clear previous settings
-		executionContext.getParams( ).clear( );
+		executionContext.clearParameters( );
 		runValues.clear( );
 
 		// set the user setting values into the execution context
-		executionContext.getParams( ).putAll( inputValues );
-		runValues.putAll( inputValues );
+		Iterator iterator = inputValues.entrySet( ).iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iterator.next( );
+			Object key = entry.getKey( );
+			ParameterAttribute attribute = (ParameterAttribute) entry
+					.getValue( );
+			runValues.put( key, attribute.getValue( ) );
+			executionContext.setParameter( (String) key, attribute.getValue( ),
+					attribute.getDisplayText( ) );
+		}
 
 		// use default value for the parameter without user value.
 		new ParameterVisitor( ) {
@@ -696,7 +766,7 @@ public abstract class EngineTask implements IEngineTask
 				{
 					Object value = convertToType( param.getDefaultValue( ),
 							param.getDataType( ) );
-					executionContext.getParams( ).put( name, value );
+					executionContext.setParameterValue( name, value );
 					runValues.put( name, value );
 				}
 				return true;

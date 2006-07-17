@@ -12,13 +12,14 @@
 package org.eclipse.birt.report.engine.script.internal;
 
 import java.io.Serializable;
-import com.ibm.icu.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+
+import com.ibm.icu.text.MessageFormat;
 
 /**
  * Implementation of the IReportContext interface
@@ -80,12 +81,12 @@ public class ReportContextImpl implements IReportContext
 
 	public Object getParameterValue( String name )
 	{
-		return context.getParams( ).get( name );
+		return context.getParameterValue( name );
 	}
 
 	public void setParameterValue( String name, Object value )
 	{
-		context.setParamter( name, value );
+		context.setParameterValue( name, value );
 	}
 
 	/**
@@ -138,5 +139,15 @@ public class ReportContextImpl implements IReportContext
 		if ( msg == null )
 			return "";
 		return MessageFormat.format( msg, params );
+	}
+
+	public String getParameterDisplayText( String name )
+	{
+		return context.getParameterDisplayText( name );
+	}
+
+	public void setParameterDisplayText( String name, String displayText )
+	{
+		context.setParameterDisplayText( name, displayText );
 	}
 }

@@ -38,6 +38,7 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v1.PageHintReaderV1;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
+import org.eclipse.birt.report.engine.internal.util.EngineIOUtil;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -169,7 +170,8 @@ public class ReportDocumentReader
 					// load the report design name, never used
 					IOUtil.readString( di );
 					// load the report paramters
-					parameters = (HashMap) IOUtil.readMap( di );
+					parameters = convertToCompatibleParameter( EngineIOUtil
+							.readMap( di ) );
 					// load the persistence object
 					globalVariables = (HashMap) IOUtil.readMap( di );
 					coreStreamLoaded = true;
@@ -188,6 +190,31 @@ public class ReportDocumentReader
 		{
 			logger.log( Level.SEVERE, "load cores tream failed", ex );
 		}
+	}
+
+	private HashMap convertToCompatibleParameter( Map parameters )
+	{
+		if ( parameters == null )
+		{
+			return null;
+		}
+		HashMap result = new HashMap( );
+		Iterator iterator = parameters.entrySet( ).iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iterator.next( );
+			Object value = entry.getValue( );
+			if ( value instanceof ParameterAttribute )
+			{
+				result.put( entry.getKey( ), value );
+			}
+			else
+			{
+				result.put( entry.getKey( ), new ParameterAttribute( value,
+						null ) );
+			}
+		}
+		return result;
 	}
 
 	protected void checkVersion( DataInputStream di ) throws IOException
@@ -642,8 +669,9 @@ public class ReportDocumentReader
 	{
 		reportletsIndexById = new HashMap( );
 		reportletsIndexByBookmark = new HashMap( );
-		loadReportletStream( reportletsIndexById, REPORTLET_ID_INDEX_STREAM);
-		loadReportletStream( reportletsIndexByBookmark, REPORTLET_BOOKMARK_INDEX_STREAM);
+		loadReportletStream( reportletsIndexById, REPORTLET_ID_INDEX_STREAM );
+		loadReportletStream( reportletsIndexByBookmark,
+				REPORTLET_BOOKMARK_INDEX_STREAM );
 	}
 
 	private void loadReportletStream( Map index, String streamName )

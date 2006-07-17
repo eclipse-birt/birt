@@ -39,6 +39,19 @@ public interface IReportContext
 	void setParameterValue( String name, Object value );
 
 	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	String getParameterDisplayText( String name );
+
+	/**
+	 * 
+	 * @param name
+	 * @param value
+	 */
+	void setParameterDisplayText( String name, String value );
+	/**
 	 * always return NULL as 125963
 	 * @param varName
 	 * @return

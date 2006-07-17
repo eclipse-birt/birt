@@ -118,6 +118,36 @@ public interface IEngineTask {
 	public boolean validateParameters( );
 	
 	/**
+	 * Sets parameter value and display text.
+	 * 
+	 * @param name
+	 *            parameter name.
+	 * @param value
+	 *            value.
+	 * @param displayText
+	 *            display text.
+	 */
+	public void setParameter( String name, Object value, String displayText );
+
+	/**
+	 * Gets parameter display text by parameter name.
+	 * 
+	 * @param name
+	 *            parameter name.
+	 * @return display text.
+	 */
+	public String getParameterDisplayText( String name);
+
+
+	/**
+	 * Sets display text of a parameter with specified name.
+	 *
+	 * @param name name of the parameter.
+	 * @param displayText display text to set.
+	 */
+	public void setParameterDisplayText( String name, String displayText );
+
+	/**
 	 * Cancels the task.
 	 */
 	public void cancel();

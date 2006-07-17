@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,6 +54,7 @@ import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.impl.ParameterAttribute;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -81,7 +83,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.73 $ $Date: 2006/06/22 08:38:22 $
+ * @version $Revision: 1.74 $ $Date: 2006/07/06 06:30:36 $
  */
 public class ExecutionContext
 {
@@ -303,7 +305,7 @@ public class ExecutionContext
 		// create script context used to execute the script statements
 		// register the global variables in the script context
 		scriptContext.registerBean( "report", new ReportObject( ) );
-		scriptContext.registerBean( "params", params ); //$NON-NLS-1$
+		scriptContext.registerBean( "params", new ScriptableParameters( params )); //$NON-NLS-1$
 		scriptContext.registerBean( "config", configs ); //$NON-NLS-1$
 		scriptContext.registerBean( "currentPage", new Long( pageNumber ) );
 		scriptContext.registerBean( "totalPage", new Long( totalPage ) );
@@ -731,9 +733,76 @@ public class ExecutionContext
 	 * @param name
 	 * @param value
 	 */
-	public void setParamter( String name, Object value )
+	public void setParameterValue( String name, Object value )
 	{
-		params.put( name, value );
+		Object parameter = params.get( name );
+		if ( parameter instanceof ParameterAttribute )
+		{
+			( (ParameterAttribute) parameter ).setValue( value );
+		}
+		else
+		{
+			params.put( name, new ParameterAttribute( value, null ) );
+		}
+	}
+
+	/**
+	 * @param name
+	 * @param value
+	 */
+	public void setParameter( String name, Object value, String displayText )
+	{
+		params.put( name, new ParameterAttribute( value, displayText ) );
+	}
+
+	public void clearParameters( )
+	{
+		params.clear( );
+	}
+
+	public Object getParameterValue( String name )
+	{
+		Object parameter = params.get( name );
+		if ( parameter != null )
+		{
+			return ( (ParameterAttribute) parameter ).getValue( );
+		}
+		return null;		
+	}
+
+	public Map getParameterValues( )
+	{
+		HashMap result = new HashMap( );
+		Set entries = params.entrySet( );
+		Iterator iterator = entries.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iterator.next( );
+			ParameterAttribute parameter = (ParameterAttribute) entry
+					.getValue( );
+			result.put( entry.getKey( ), parameter.getValue( ) );
+		}
+		return result;
+
+	}
+
+	public String getParameterDisplayText( String name )
+	{
+		Object parameter = params.get( name );
+		if ( parameter != null )
+		{
+			return ( (ParameterAttribute) parameter ).getDisplayText( );
+		}
+		return null;		
+	}
+	
+	public void setParameterDisplayText( String name, String displayText )
+	{
+		Object parameter = params.get( name );
+		if ( parameter != null )
+		{
+			( (ParameterAttribute) parameter ).setDisplayText( displayText );
+		}
 	}
 
 	/*
@@ -768,17 +837,6 @@ public class ExecutionContext
 	{
 		this.reportContent = content;
 		content.getErrors( ).addAll( onPrepareErrors );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.IPrensentationContext#getParams()
-	 */
-
-	public Map getParams( )
-	{
-		return params;
 	}
 
 	/**

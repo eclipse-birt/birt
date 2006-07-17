@@ -25,7 +25,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 /**
  * the report document information given out by the report document builder
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/12 05:40:32 $
+ * @version $Revision: 1.2 $ $Date: 2006/06/23 03:42:38 $
  */
 public class ReportDocumentInfo implements IReportDocumentInfo
 {
@@ -43,7 +43,7 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 		this.context = context;
 		this.pageNumber = pageNumber;
 		this.finished = finished;
-		params.putAll( context.getParams( ) );
+		params.putAll( context.getParameterValues( ) );
 		beans.putAll( context.getGlobalBeans( ) );
 		errors = context.getErrors( );
 

@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
+import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
@@ -81,7 +82,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		{
 			log.log( Level.SEVERE,
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
-			throw new EngineException(
+			throw new UnsupportedFormatException(
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 		}
 
@@ -189,6 +190,10 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 
 			closeRender( );
 			closeFactory( );
+		}
+		catch ( EngineException e )
+		{
+			throw e;
 		}
 		catch ( Exception ex )
 		{
