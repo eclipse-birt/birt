@@ -33,8 +33,9 @@ import org.mozilla.javascript.Token;
 class ExpressionParserUtility
 {
 	private final String pluginId = "org.eclipse.birt.core";
-	private final String ROW_INDICATOR = "row";
-	private final String DATASETROW_INDICATOR = "dataSetRow";
+	private final static String ROW_INDICATOR = "row";
+	private final static String ROWS_0_INDICATOR = "rows";
+	private final static String DATASETROW_INDICATOR = "dataSetRow";
 	private final static String TOTAL = "Total";
 	
 	private static ExpressionParserUtility instance = new ExpressionParserUtility( );
@@ -206,22 +207,8 @@ class ExpressionParserUtility
 					|| refNode.getType( ) == Token.SETELEM
 					|| refNode.getType( ) == Token.SETPROP )
 			{
-				int level = compileOuterColRefExpr( refNode );
-				if ( level == -1 )
-				{
-					compileComplexExpr( refNode, tree, columnExprList );
-				}
-				else
-				{
-					Node nextNode = refNode.getLastChild( );
-					if ( nextNode.getType( ) == Token.STRING )
-					{
-						ColumnBinding info = new ColumnBinding( nextNode.getString( ),
-								"",
-								level );
-						columnExprList.add( info );
-					}
-				}
+				compileOuterColRef( refNode, tree, columnExprList );
+				compileRowPositionRef( refNode, tree, columnExprList );
 				return;
 			}
 			compileComplexExpr( refNode, tree, columnExprList );
@@ -229,6 +216,74 @@ class ExpressionParserUtility
 		}
 		else
 			compileSimpleColumnRefExpr( refNode, tree, columnExprList );
+	}
+
+	/**
+	 * compile outer column expression
+	 * @param refNode
+	 * @param tree
+	 * @param columnExprList
+	 * @throws BirtException
+	 */
+	private void compileOuterColRef( Node refNode, ScriptOrFnNode tree,
+			List columnExprList ) throws BirtException
+	{
+		int level = compileOuterColRefExpr( refNode );
+		if ( level == -1 )
+		{
+			compileComplexExpr( refNode, tree, columnExprList );
+		}
+		else
+		{
+			Node nextNode = refNode.getLastChild( );
+			if ( nextNode.getType( ) == Token.STRING )
+			{
+				ColumnBinding info = new ColumnBinding( nextNode.getString( ),
+						"",
+						level );
+				columnExprList.add( info );
+			}
+		}
+		return;
+	}
+	
+	/**
+	 * compile row position expression
+	 * @param refNode
+	 * @param tree
+	 * @param columnExprList
+	 * @throws BirtException
+	 */
+	private void compileRowPositionRef( Node refNode, ScriptOrFnNode tree,
+			List columnExprList ) throws BirtException
+	{
+		Node rowFirstNode = refNode.getFirstChild( );
+
+		if ( rowFirstNode.getType( ) == Token.GETELEM
+				|| rowFirstNode.getType( ) == Token.SETELEM )
+		{
+			Node rowNode = rowFirstNode.getFirstChild( );
+			if ( rowNode != null
+					&& rowNode.getType( ) == Token.NAME
+					&& rowNode.getString( ).equals( ROWS_0_INDICATOR ) )
+			{
+				Node rowColumn = rowNode.getNext( );
+				if ( rowColumn.getDouble( ) == 0.0 )
+				{
+					rowColumn = rowFirstNode.getNext( );
+					if ( rowColumn.getType( ) == Token.STRING
+							&& ( refNode.getType( ) == Token.GETELEM || refNode.getType( ) == Token.SETELEM ) )
+					{
+						ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
+								DATASETROW_INDICATOR
+										+ "[\"" + rowColumn.getString( )
+										+ "\"]",
+								1 );
+						columnExprList.add( binding );;
+					}
+				}
+			}
+		}
 	}
 
 	/**
