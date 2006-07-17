@@ -49,7 +49,6 @@ public class JointDataSetPopulatorFactory
 	 */
 	public static IDataSetPopulator getBinaryTreeDataSetPopulator( IResultIterator left, IResultIterator right, JointResultMetadata meta, IJoinConditionMatcher jcm , int joinType ) throws DataException
 	{
-		IMatchResultObjectSeeker seeker = new BinaryTreeResultObjectSeeker( jcm, joinType );
-		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, seeker );
+		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, null );
 	}
 }

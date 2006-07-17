@@ -81,6 +81,22 @@ public class JoinConditionMatcher implements IJoinConditionMatcher
 	
 	/*
 	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.jointdataset.IJoinConditionMatcher#compare(java.lang.Object[], java.lang.Object[])
+	 */
+	public int compare(Object[] lObjects, Object[] rObjects ) throws DataException
+	{
+		int result = 0;
+		for( int i = 0; i < lObjects.length; i++)
+		{
+			result = JointDataSetUtil.compare( lObjects[i], rObjects[i] );
+			if( result != 0)
+				return result;
+		}
+		return 0;
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.jointdataset.IJoinConditionMatcher#getCompareValue(boolean)
 	 */
 	public Object[] getCompareValue( boolean isLeft ) throws DataException

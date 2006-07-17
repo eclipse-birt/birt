@@ -77,7 +77,8 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	{
 		if( !((joinType == IJointDataSetDesign.INNER_JOIN)||
 			  (joinType == IJointDataSetDesign.LEFT_OUTER_JOIN)||
-			  (joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN)))
+			  (joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN)||
+			  (joinType == IJointDataSetDesign.FULL_OUTER_JOIN)))
 			throw new DataException( ResourceConstants.INVALID_JOIN_TYPE);
 	}
 	

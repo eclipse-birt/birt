@@ -28,6 +28,14 @@ public interface IJoinConditionMatcher
 	boolean match() throws DataException;
 	
 	/**
+	 * Compares the two specified key objects.
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	int compare(Object[] lObjects, Object[] rObjects ) throws DataException;
+	
+	/**
 	 * Get list of compare values.
 	 * 
 	 * @param left
