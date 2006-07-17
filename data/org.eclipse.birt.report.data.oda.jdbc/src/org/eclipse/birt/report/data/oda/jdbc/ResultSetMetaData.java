@@ -167,21 +167,31 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 * @param index
 	 * @return int; column data type
 	 */
-	public int getColumnTypeForSpecialJDBCDriver( int index ) throws SQLException
+	public int getColumnTypeForSpecialJDBCDriver( int index )
 	{
-		// For oracle14 JDBC driver when getting
-		// the data type of one column, it returns java.sql.Types.Date for
-		// Timestamp type.
-		if ( "java.sql.Timestamp".equals( rsMetadata.getColumnClassName( index ) ) )
-			return Types.TIMESTAMP;
-		
-		// For mysql3.1.10 or 3.1.12 JDBC driver when getting
-		// the date type of one column, it may returns
-		// java.sql.Types.getColumnTypeForSpecialCases for varchar type.
-		if ( "java.lang.String".equals( rsMetadata.getColumnClassName( index ) ) )
-			return Types.VARCHAR;
-		
-		return Types.OTHER;
+		try
+		{
+			// For oracle14 JDBC driver when getting
+			// the data type of one column, it returns java.sql.Types.Date for
+			// Timestamp type.
+			if ( "java.sql.Timestamp".equals( rsMetadata.getColumnClassName( index ) ) )
+				return Types.TIMESTAMP;
+
+			// For mysql3.1.10 or 3.1.12 JDBC driver when getting
+			// the date type of one column, it may returns
+			// java.sql.Types.getColumnTypeForSpecialCases for varchar type.
+			if ( "java.lang.String".equals( rsMetadata.getColumnClassName( index ) ) )
+				return Types.VARCHAR;
+
+			return Types.OTHER;
+		}
+		catch ( Exception e )
+		{
+			// some data base might not support the method of
+			// ResultSetMetaData.getColumnClassName(), so an exception will be thrown out.
+			// in this case, Types.OTHER is simply return.
+			return Types.OTHER;
+		}
 	}
 
 	/*
