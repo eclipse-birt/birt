@@ -35,11 +35,6 @@ public interface IJointDataSetDesign extends IBaseDataSetDesign
 	public static int RIGHT_OUTER_JOIN = 2;
 	
 	/**
-	 * The integer value stands for a full outer join operator.
-	 */
-	public static int FULL_OUTER_JOIN = 3;
-
-	/**
 	 * This method returns the name of data set which servers as left operand of a
 	 * joint.
 	 * 

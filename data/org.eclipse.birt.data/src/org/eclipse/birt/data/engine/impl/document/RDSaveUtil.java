@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
@@ -234,11 +235,19 @@ class RDSaveUtil
 	 */
 	void saveQueryDefn( ) throws DataException
 	{
-		OutputStream outputStream = streamManager.getOutStream( DataEngineContext.QUERY_DEFN_STREAM,
+		OutputStream outputStream;
+		if ( ( (QueryDefinition) queryDefn ).getQueryResultsID( ) == null )
+		{
+			outputStream = streamManager.getOutStream( DataEngineContext.ORIGINAL_QUERY_DEFN_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE );
+			QueryDefnUtil.saveBaseQueryDefn( outputStream, queryDefn );
+		}
+
+		outputStream = streamManager.getOutStream( DataEngineContext.QUERY_DEFN_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.SELF_SCOPE );
 		QueryDefnUtil.saveBaseQueryDefn( outputStream, queryDefn );
-
 		try
 		{
 			outputStream.close( );

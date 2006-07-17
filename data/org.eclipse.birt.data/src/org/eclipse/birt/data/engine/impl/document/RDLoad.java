@@ -215,6 +215,21 @@ public class RDLoad
 	/**
 	 * @param streamPos
 	 * @param streamScope
+	 * @return
+	 * @throws DataException
+	 */
+	public IBaseQueryDefinition loadOriginalQueryDefn( int streamPos,
+			int streamScope ) throws DataException
+	{
+		InputStream inputStream = streamManager.getInStream( DataEngineContext.ORIGINAL_QUERY_DEFN_STREAM,
+				streamPos,
+				streamScope );
+		return loadQueryDefn( inputStream );
+	}
+	
+	/**
+	 * @param streamPos
+	 * @param streamScope
 	 * @return query definition
 	 * @throws DataException
 	 */
@@ -224,6 +239,16 @@ public class RDLoad
 		InputStream inputStream = streamManager.getInStream( DataEngineContext.QUERY_DEFN_STREAM,
 				streamPos,
 				streamScope );
+		return loadQueryDefn( inputStream );
+	}
+
+	/**
+	 * @param inputStream
+	 * @return
+	 * @throws DataException
+	 */
+	private IBaseQueryDefinition loadQueryDefn( InputStream inputStream ) throws DataException
+	{
 		IBaseQueryDefinition queryDefn = QueryDefnUtil.loadQueryDefn( inputStream );
 		try
 		{
