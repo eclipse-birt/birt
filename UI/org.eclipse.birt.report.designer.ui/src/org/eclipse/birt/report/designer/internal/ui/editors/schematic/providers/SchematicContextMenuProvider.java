@@ -15,16 +15,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddThemeStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteColumnAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteListGroupAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteRowAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditBindingAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction;
@@ -46,6 +44,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
@@ -110,6 +109,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	private static final String INSERT_ROW_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.insertRow" ); //$NON-NLS-1$
 
 	private static final String EDIT_GROUP_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.EditGroup" ); //$NON-NLS-1$
+
+	private static final String DELETE_GROUP_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.DeleteGroup" ); //$NON-NLS-1$
 
 	private static final String APPLY_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Apply" ); //$NON-NLS-1$
 
@@ -408,10 +409,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		if ( !getTableEditParts( ).isEmpty( ) )
 		{
 			createInsertGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
-			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
-					getAction( DeleteTableGroupAction.ID ) );
 			if ( getTableEditParts( ).size( ) == 1 )
 			{
+				createDeleteGroupMenus( menuManager,
+						GEFActionConstants.GROUP_ADD );
 				createEditGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 				Separator separator = new Separator( EditBindingAction.ID );
 				menuManager.add( separator );
@@ -423,10 +424,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		if ( !getListEditParts( ).isEmpty( ) )
 		{
 			createInsertGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
-			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
-					getAction( DeleteListGroupAction.ID ) );
 			if ( getListEditParts( ).size( ) == 1 )
 			{
+				createDeleteGroupMenus( menuManager,
+						GEFActionConstants.GROUP_ADD );
 				createEditGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 				Separator separator = new Separator( EditBindingAction.ID );
 				menuManager.add( separator );
@@ -999,4 +1000,136 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		}
 		return listParts;
 	}
+
+	/**
+	 * Creats sub menu in the specified action group of the specified menu
+	 * manager.
+	 * 
+	 * @param menuManager
+	 *            The menu manager contains the action group.
+	 * @param group_name
+	 *            The action group contains the sub menu.
+	 */
+	private void createDeleteGroupMenus( IMenuManager menuManager,
+			String group_name )
+	{
+		ReportElementEditPart editPart = null;
+		// If select on Group, no need to provide cascade menu
+		if ( getFirstElement( ) instanceof RowHandle )
+		{
+			DesignElementHandle container = ( (RowHandle) getFirstElement( ) ).getContainer( );
+			if ( container instanceof TableGroupHandle )
+			{
+				editPart = getTableEditPart( );
+				Action action = new DeleteGroupAction( editPart,
+						(TableGroupHandle) container);
+				action.setText( DELETE_GROUP_MENU_ITEM_TEXT );
+				menuManager.appendToGroup( group_name, action );
+				return;
+			}
+		}
+
+		if ( getFirstElement( ) instanceof SlotHandle )
+		{
+			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) ).getElementHandle( );
+			if ( container instanceof ListGroupHandle )
+			{
+				editPart = getListEditPart( );
+				Action action = new DeleteGroupAction( editPart,
+						(ListGroupHandle) container);
+				action.setText( DELETE_GROUP_MENU_ITEM_TEXT );
+				menuManager.appendToGroup( group_name, action );
+				return;
+			}
+		}
+
+		MenuManager subMenu = new MenuManager( DELETE_GROUP_MENU_ITEM_TEXT );
+		ListingHandle parentHandle = null;
+
+		if ( !getTableEditParts( ).isEmpty( ) )
+
+		{
+			parentHandle = (ListingHandle) ( (TableEditPart) getTableEditParts( ).get( 0 ) ).getModel( );
+			editPart = (TableEditPart) getTableEditParts( ).get( 0 );
+		}
+		else if ( !getListEditParts( ).isEmpty( ) )
+		{
+			parentHandle = (ListingHandle) ( (ListEditPart) getListEditParts( ).get( 0 ) ).getModel( );
+			editPart = (ListEditPart) getListEditParts( ).get( 0 );
+		}
+		else
+		{
+			return;
+		}
+
+		
+		SlotHandle handle = parentHandle.getGroups( );
+		Iterator iter = handle.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			GroupHandle groupHandle = (GroupHandle) iter.next( );
+			subMenu.add( new DeleteGroupAction( editPart, groupHandle ) );
+		}
+		
+		menuManager.appendToGroup( group_name, subMenu );
+	}
+
+	/**
+	 * Gets table edit part.
+	 * 
+	 * @return the table edit part
+	 */
+	protected TableEditPart getTableEditPart( )
+	{
+		List list = getSelectedObjects( );
+		if ( list.isEmpty( ) )
+		{
+			return null;
+		}
+		TableEditPart part = null;
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof TableEditPart )
+			{
+				part = (TableEditPart) obj;
+			}
+			else if ( obj instanceof TableCellEditPart )
+			{
+				part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
+			}
+		}
+		return part;
+	}
+
+	/**
+	 * Gets list edit part.
+	 * 
+	 * @return The current selected list edit part, null if no list edit part is
+	 *         selected.
+	 */
+	protected ListEditPart getListEditPart( )
+	{
+		List list = getSelectedObjects( );
+		if ( list.isEmpty( ) )
+		{
+			return null;
+		}
+		ListEditPart part = null;
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof ListEditPart )
+			{
+				part = (ListEditPart) obj;
+			}
+			else if ( obj instanceof ListBandEditPart )
+			{
+				part = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
+			}
+		}
+		return part;
+	}
+
+
 }

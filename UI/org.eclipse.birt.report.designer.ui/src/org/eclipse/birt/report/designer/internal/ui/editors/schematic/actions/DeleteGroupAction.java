@@ -12,46 +12,39 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemAction;
-import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.jface.window.Window;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.gef.EditPartViewer;
 
 /**
  * 
  */
 
-public class EditGroupAction extends DynamicItemAction
+public class DeleteGroupAction extends DynamicItemAction
 {
 
-	private static final String STACK_MSG_EDIT_GROUP = Messages.getString( "EditGroupAction.stackMsg.editGroup" ); //$NON-NLS-1$
+	private static final String STACK_MSG_DELETE_GROUP = Messages.getString( "DeleteGroupAction.stackMsg.deleteGroup" ); //$NON-NLS-1$
 
-	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction"; //$NON-NLS-1$
 
 	private GroupHandle handle;
 
-	/**
-	 * @param part
-	 */
-	public EditGroupAction( IWorkbenchPart part )
-	{
-		setId( ID );
-	}
+	private ReportElementEditPart editPart;
 
 	/**
 	 * @param part
 	 */
-	public EditGroupAction( IWorkbenchPart part, GroupHandle handle )
-	{
-		this.handle = handle;
-		setId( ID );
-		setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+	public DeleteGroupAction( ReportElementEditPart editPart,GroupHandle handle)
+	{		this.handle = handle;
+		this.editPart = editPart;
+		setId( ID );		setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
 	}
 
 	/*
@@ -61,8 +54,7 @@ public class EditGroupAction extends DynamicItemAction
 	 */
 	public boolean isEnabled( )
 	{
-		return //!DEUtil.getDataSetList( handle ).isEmpty( );
-		handle.canEdit( );
+		return handle.canDrop( );
 	}
 
 	/*
@@ -74,24 +66,29 @@ public class EditGroupAction extends DynamicItemAction
 	{
 		if ( Policy.TRACING_ACTIONS )
 		{
-			System.out.println( "Edit group action >> Run ..." ); //$NON-NLS-1$
+			System.out.println( "Delete group action >> Run ..." ); //$NON-NLS-1$
 		}
+
 		CommandStack stack = getActiveCommandStack( );
-		stack.startTrans( STACK_MSG_EDIT_GROUP ); //$NON-NLS-1$
-
-		GroupDialog dialog = new GroupDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), GroupDialog.GROUP_DLG_TITLE_EDIT );
-		dialog.setInput( handle );
-
-		if ( dialog.open( ) == Window.OK )
+		stack.startTrans( STACK_MSG_DELETE_GROUP ); //$NON-NLS-1$
+		
+		if ( handle.canDrop( ) )
 		{
-			stack.commit( );
-		}
-		else
-		{
-			stack.rollbackAll( );
-		}
+			EditPartViewer viewer = editPart.getViewer( );
+			try
+			{
+				handle.drop( );
+				stack.commit( );
+			}
+			catch ( SemanticException e )
+			{				
+				stack.rollbackAll( );
+				ExceptionHandler.handle( e );
+			}
+			viewer.select( editPart );
+		}				
+
+		
 	}
 
 	/**
@@ -103,4 +100,5 @@ public class EditGroupAction extends DynamicItemAction
 	{
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
+	
 }
