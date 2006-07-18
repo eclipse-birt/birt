@@ -283,7 +283,7 @@ public class ReportEngineService
 	 * @throws BirtException
 	 * 
 	 */
-	public static void initEngineInstance( ServletConfig servletConfig )
+	public synchronized static void initEngineInstance( ServletConfig servletConfig )
 			throws BirtException
 	{
 		if ( ReportEngineService.instance != null )
