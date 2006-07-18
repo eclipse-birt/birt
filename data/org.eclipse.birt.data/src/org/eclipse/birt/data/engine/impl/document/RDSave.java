@@ -12,6 +12,8 @@ package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,6 +42,8 @@ class RDSave implements IRDSave
 	
 	//
 	private int rowCount;
+	// TODO: enhance me, this set should be extracted from queryDefn
+	private IBaseQueryDefinition queryDefn;
 	private Set exprNameSet;
 	
 	//
@@ -60,6 +64,7 @@ class RDSave implements IRDSave
 	{
 		this.context = context;
 		this.rowCount = rowCount;
+		this.queryDefn = queryDefn;
 		
 		this.streamManager = new StreamManager( context, queryResultInfo );
 		this.rdSaveUtil = new RDSaveUtil( this.context.getMode( ),
@@ -134,6 +139,12 @@ class RDSave implements IRDSave
 	 */
 	private void saveForIV( ) throws DataException
 	{
+		if ( exprNameSet.size( ) == 0 )
+		{
+			// indicates there is no row in result set
+			exprNameSet = getExprNameSet( );
+		}
+		
 		// save expression metadata and transformation info
 		this.rdSaveUtil.saveExprMetadata( exprNameSet );
 
@@ -149,6 +160,24 @@ class RDSave implements IRDSave
 	{
 		VersionManager.setVersion( context, VersionManager.VERSION_2_1 );
 		this.rdSaveUtil.saveResultIterator( odiResult, groupLevel, subQueryInfo );
+	}
+	
+	/**
+	 * @return
+	 */
+	private Set getExprNameSet( )
+	{
+		Set set = new HashSet( );
+		Iterator it = this.queryDefn.getResultSetExpressions( )
+				.entrySet( )
+				.iterator( );
+		while ( it.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) it.next( );
+			set.add( entry.getKey( ) );
+		}
+
+		return set;
 	}
 	
 }
