@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.device.swing.ShapedAction;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.device.util.HTMLAttribute;
 import org.eclipse.birt.chart.device.util.HTMLTag;
+import org.eclipse.birt.chart.device.util.ScriptUtil;
 import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
@@ -52,10 +53,6 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Action;
-import org.eclipse.birt.chart.model.data.DateTimeDataElement;
-import org.eclipse.birt.chart.model.data.NumberDataElement;
-
-import com.ibm.icu.util.Calendar;
 
 /**
  * JavaxImageIOWriter
@@ -261,11 +258,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 						final DataPointHints dph = (DataPointHints) sa.getSource( )
 								.getSource( );
 						String callbackFunction = "userCallBack("; //$NON-NLS-1$
-						callbackFunction += addDataValueToScript( dph.getBaseValue( ) );
-						callbackFunction += ","; //$NON-NLS-1$
-						callbackFunction += addDataValueToScript( dph.getOrthogonalValue( ) );
-						callbackFunction += ","; //$NON-NLS-1$
-						callbackFunction += addDataValueToScript( dph.getSeriesValue( ) );
+						callbackFunction = ScriptUtil.script( callbackFunction,
+								dph );
 						callbackFunction += ");"; //$NON-NLS-1$
 						tag.addAttribute( HTMLAttribute.ONCLICK,
 								eval( callbackFunction ) );
@@ -702,6 +696,16 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		return expr;
 	}
 
+	/**
+	 * When 1). The action is supported, and the action type is INVOKE_SCRIPT.
+	 * 2). The script has not been added into ImageMap. 3). The action acts on
+	 * the value series area. Add the script into ImageMap.
+	 * 
+	 * @param sa
+	 *            ShapedAction
+	 * @param sb
+	 *            StringBuffer
+	 */
 	private void userCallback( ShapedAction sa, StringBuffer sb )
 	{
 		Action ac = sa.getActionForCondition( TriggerCondition.ONCLICK_LITERAL );
@@ -718,35 +722,6 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 						+ "}</Script>" ); //$NON-NLS-1$
 				bAddCallback = true;
 			}
-		}
-	}
-
-	private String addDataValueToScript( Object oValue )
-	{
-		if ( oValue instanceof String )
-		{
-			return "'" + (String) oValue + "'";//$NON-NLS-1$ //$NON-NLS-2$
-		}
-		else if ( oValue instanceof Double )
-		{
-			return ( (Double) oValue ).toString( );
-		}
-		else if ( oValue instanceof NumberDataElement )
-		{
-			return ( (NumberDataElement) oValue ).toString( );
-		}
-		else if ( oValue instanceof Calendar )
-		{
-			return "'" + ( (Calendar) oValue ).getTime( ).toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
-		}
-		else if ( oValue instanceof DateTimeDataElement )
-		{
-			return "'" + ( (DateTimeDataElement) oValue ).getValueAsCalendar( )//$NON-NLS-1$ 
-					.toString( ) + "'";//$NON-NLS-1$
-		}
-		else
-		{
-			return "'" + oValue.toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 

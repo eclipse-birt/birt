@@ -21,6 +21,7 @@ import java.util.Vector;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
+import org.eclipse.birt.chart.device.util.ScriptUtil;
 import org.eclipse.birt.chart.device.svg.i18n.Messages;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
@@ -42,8 +43,6 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.DateTimeDataElement;
-import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
@@ -51,7 +50,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -531,25 +529,23 @@ public class SVGInteractiveRenderer
 							}
 							else
 							{
-								// Add categoryData, valueData, valueSeriesName in callback
+								// Add categoryData, valueData, valueSeriesName
+								// in callback
 								String script = ( (ScriptValue) tg.getAction( )
 										.getValue( ) ).getScript( );
 
 								String callbackFunction = "callback" //$NON-NLS-1$
 										+ Math.abs( script.hashCode( ) )
 										+ "(evt," + src.getSource( ).hashCode( );//$NON-NLS-1$ 
-									
+
 								if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
 								{
 									final DataPointHints dph = (DataPointHints) src.getSource( );
 									callbackFunction += ","; //$NON-NLS-1$
-									callbackFunction += addDataValueToScript( dph.getBaseValue( ) );
-									callbackFunction += ","; //$NON-NLS-1$
-									callbackFunction += addDataValueToScript( dph.getOrthogonalValue( ) );
-									callbackFunction += ","; //$NON-NLS-1$
-									callbackFunction += addDataValueToScript( dph.getSeriesValue( ) );
+									callbackFunction = ScriptUtil.script( callbackFunction,
+											dph );
 								}
-								callbackFunction +=	");"; //$NON-NLS-1$
+								callbackFunction += ");"; //$NON-NLS-1$
 								elm.setAttribute( scriptEvent, callbackFunction );
 								setCursor( elm );
 								if ( !( scripts.contains( script ) ) )
@@ -562,34 +558,6 @@ public class SVGInteractiveRenderer
 					}
 				}
 			}
-		}
-	}
-	
-	private String addDataValueToScript( Object oValue )
-	{
-		if ( oValue instanceof String )
-		{
-			return "'" + (String) oValue + "'";//$NON-NLS-1$ //$NON-NLS-2$
-		}
-		else if ( oValue instanceof Double )
-		{
-			return  ( (Double) oValue ).toString( ) ;
-		}
-		else if ( oValue instanceof NumberDataElement )
-		{
-			return ( (NumberDataElement) oValue ).toString( );
-		}
-		else if ( oValue instanceof Calendar )
-		{
-			return "'" + ( (Calendar) oValue ).getTime( ).toString( ) + "'" ;//$NON-NLS-1$ //$NON-NLS-2$
-		}
-		else if ( oValue instanceof DateTimeDataElement )
-		{
-			return "'" + ( (DateTimeDataElement) oValue ).getValueAsCalendar( ).toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
-		}
-		else
-		{
-			return "'" + oValue.toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -962,8 +930,9 @@ public class SVGInteractiveRenderer
 
 				sb.append( ")" ); //$NON-NLS-1$
 
-				elm.setAttribute( scriptEvent, 
-						jsFunction + sb.toString( ) + ")" ); //$NON-NLS-1$		
+				elm.setAttribute( scriptEvent, jsFunction
+						+ sb.toString( )
+						+ ")" ); //$NON-NLS-1$		
 
 				if ( tg.getCondition( ).getValue( ) == TriggerCondition.ONMOUSEOVER )
 				{
@@ -1029,8 +998,9 @@ public class SVGInteractiveRenderer
 
 					sb.append( ")" ); //$NON-NLS-1$
 
-					elm.setAttribute( scriptEvent,
-							jsFunction + sb.toString( ) + ")" ); //$NON-NLS-1$		
+					elm.setAttribute( scriptEvent, jsFunction
+							+ sb.toString( )
+							+ ")" ); //$NON-NLS-1$		
 
 					if ( tg.getCondition( ).getValue( ) == TriggerCondition.ONMOUSEOVER )
 					{
