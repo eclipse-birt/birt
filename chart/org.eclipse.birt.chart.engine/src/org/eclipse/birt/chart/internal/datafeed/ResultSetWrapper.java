@@ -136,7 +136,7 @@ public final class ResultSetWrapper
 				( oaGroupKeys != null && oaGroupKeys.length > 0 ) ? oaGroupKeys[0]
 						: null );
 		
-		
+		initializeMeta();
 	}
 
 	/**
