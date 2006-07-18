@@ -180,7 +180,7 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 		{
 			Object builder = null;
 			TemplateElementHandle handle = getTemplateModel( );
-			copiedHandle = handle.getDefaultElement( ).copy( ).getHandle(
+			copiedHandle = handle.copyDefaultElement( ).getHandle(
 					handle.getModule( ) );
 
 			getCommandStack( )
