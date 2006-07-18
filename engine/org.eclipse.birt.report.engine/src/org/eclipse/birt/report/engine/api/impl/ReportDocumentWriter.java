@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.FolderArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
@@ -96,10 +97,11 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	 */
 	public void saveTOC( TOCNode node )
 	{
-		if ( node.getChildren( ).isEmpty( ) )
-		{
-			return;
-		}
+//		write a empty toc to the toc stream if there is no toc.
+//      if ( node.getChildren( ).isEmpty( ) )
+//		{
+//			return;
+//		}
 		RAOutputStream out = null;
 		try
 		{
