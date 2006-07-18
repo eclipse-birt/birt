@@ -13,6 +13,8 @@
  */ 
 package org.eclipse.birt.report.data.adapter.api;
 
+import java.util.Map;
+
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
@@ -69,6 +71,7 @@ public class DataSessionContext
 	private int cacheOption = CACHE_USE_DEFAULT;
 	private int cacheCount = 0;
 	private ModuleHandle moduleHandle;
+	private Map appContext;
 	
 	/**
 	 * Constructs a context in the provided mode. A context created using this
@@ -201,4 +204,21 @@ public class DataSessionContext
 		return moduleHandle;
 	}
 	
+	/**
+	 * Sets the application context to be passed to data engine and data drivers
+	 * @param context - task contexts in a map. The map contains name(String) - value pairs
+	 */
+	public void setAppContext(Map context)
+	{
+		this.appContext = context;
+	}
+	
+	/**
+	 * Gets the application context map for this request.
+	 * @returns Context as name(string) -> value map. Null if no application context has been set 
+	 */
+	public Map getAppContext()
+	{
+		return this.appContext;
+	}
 }

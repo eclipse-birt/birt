@@ -229,10 +229,12 @@ public abstract class DataRequestSession
 	 *            Specifies the data access and data transforms services needed
 	 *            from DtE to produce a set of query results.
 	 * @param appContext
-	 *            Application context data associated with this query.
+	 *            Application context data associated with this query. 
 	 *            appContext is passed to all data source and data set drivers
-	 *            involved with the query execution. Pass in null if no
-	 *            application context is available.
+	 *            involved with the query execution. Pass in null if the session
+	 *            applicaton context (set by DataSessionContext.setAppContext) is to
+	 *            to used. If not null, this context is used instead of the session
+	 *            application context
 	 * @return The <code>IPreparedQuery</code> object that contains a prepared
 	 *         query ready for execution.
 	 * @throws BirtException
@@ -241,6 +243,23 @@ public abstract class DataRequestSession
 	public abstract IPreparedQuery prepare( IQueryDefinition query,
 			Map appContext ) throws BirtException;
 
+	/**
+	 * Prepares a data query, and returns an IPreparedQuery instance which can
+	 * be subsequently executed to produce query results. Same as calling 
+	 * prepare( query, null). The default session application context is used
+	 * for this query.
+	 * 
+	 * @param querySpec
+	 *            Specifies the data access and data transforms services needed
+	 *            from DtE to produce a set of query results.
+	 * @return The <code>IPreparedQuery</code> object that contains a prepared
+	 *         query ready for execution.
+	 * @throws BirtException
+	 *             if error occurs during the preparation of querySpec
+	 */
+	public abstract IPreparedQuery prepare( IQueryDefinition query )
+			throws BirtException;
+	
 	/**
 	 * Provides a hint to DtE that the consumer is done with the given data
 	 * source, and that its resources can be safely released as appropriate.

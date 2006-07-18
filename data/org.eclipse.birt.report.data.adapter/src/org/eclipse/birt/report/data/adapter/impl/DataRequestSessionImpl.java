@@ -189,7 +189,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		return new QueryExecutionHelper( this.dataEngine,
 				this.modelAdaptor,
-				this.sessionContext.getModuleHandle( ) ).executeQuery( queryDefn,
+				this.sessionContext ).executeQuery( queryDefn,
 				paramBindingIt,
 				filterIt,
 				bindingIt );
@@ -221,7 +221,19 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedQuery prepare( IQueryDefinition query, Map appContext )
 			throws BirtException
 	{
+		if ( appContext == null )
+			// Use session app context
+			appContext = sessionContext.getAppContext();
 		return dataEngine.prepare( query, appContext );
+	}
+
+	/**
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.api.IQueryDefinition)
+	 */
+	public IPreparedQuery prepare(IQueryDefinition query) throws BirtException
+	{
+		// Use session app context
+		return dataEngine.prepare( query, this.sessionContext.getAppContext() );
 	}
 
 	/*
@@ -283,7 +295,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		QueryExecutionHelper execHelper = new QueryExecutionHelper( this.dataEngine,
 				this.modelAdaptor,
-				moduleHandle );
+				this.sessionContext );
 		IQueryResults results = execHelper.executeQuery( query,
 				inputParamBindings,
 				null,

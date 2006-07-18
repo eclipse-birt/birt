@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -45,7 +46,7 @@ class QueryExecutionHelper
 	//
 	private DataEngine dataEngine;
 	private IModelAdapter modelAdaptor;
-	private ModuleHandle moduleHandle;
+	private DataSessionContext sessionContext;
 	
 	private boolean useResultHints;
 
@@ -55,9 +56,9 @@ class QueryExecutionHelper
 	 * @param moduleHandle
 	 */
 	QueryExecutionHelper( DataEngine dataEngine, IModelAdapter modelAdaptor,
-			ModuleHandle moduleHandle )
+			DataSessionContext sessionContext )
 	{
-		this( dataEngine, modelAdaptor, moduleHandle, true );
+		this( dataEngine, modelAdaptor, sessionContext, true );
 	}
 	
 	/**
@@ -67,11 +68,11 @@ class QueryExecutionHelper
 	 * @param useResultHints
 	 */
 	QueryExecutionHelper( DataEngine dataEngine, IModelAdapter modelAdaptor,
-			ModuleHandle moduleHandle, boolean useResultHints )
+			DataSessionContext sessionContext, boolean useResultHints )
 	{
 		this.dataEngine = dataEngine;
 		this.modelAdaptor = modelAdaptor;
-		this.moduleHandle = moduleHandle;
+		this.sessionContext = sessionContext;
 		this.useResultHints = useResultHints;
 	}
 
@@ -103,7 +104,8 @@ class QueryExecutionHelper
 
 		populateQueryDefn( queryDefn, paramBindingIt, filterIt, bindingIt );
 
-		return dataEngine.prepare( queryDefn ).execute( null );
+		return dataEngine.prepare( queryDefn, sessionContext.getAppContext() )
+				.execute( null );
 	}
 
 	/**
@@ -116,19 +118,23 @@ class QueryExecutionHelper
 	{
 		String dataSetName = queryDefn.getDataSetName( );
 
-		List l = this.moduleHandle.getAllDataSets( );
-		DataSetHandle handle = null;
-		for ( int i = 0; i < l.size( ); i++ )
+		ModuleHandle module = sessionContext.getModuleHandle();
+		if ( module != null  )
 		{
-			if ( ( (DataSetHandle) l.get( i ) ).getQualifiedName( ) != null
-					&& ( (DataSetHandle) l.get( i ) ).getQualifiedName( )
-							.equals( dataSetName ) )
+			List l = module.getAllDataSets( );
+			DataSetHandle handle = null;
+			for ( int i = 0; i < l.size( ); i++ )
 			{
-				handle = (DataSetHandle) l.get( i );
+				if ( ( (DataSetHandle) l.get( i ) ).getQualifiedName( ) != null
+						&& ( (DataSetHandle) l.get( i ) ).getQualifiedName( )
+								.equals( dataSetName ) )
+				{
+					handle = (DataSetHandle) l.get( i );
+				}
 			}
+	
+			defineDataSet( handle );
 		}
-
-		defineDataSet( handle );
 	}
 
 	/**
