@@ -236,7 +236,8 @@ class RDSaveUtil
 	void saveQueryDefn( ) throws DataException
 	{
 		OutputStream outputStream;
-		if ( ( (QueryDefinition) queryDefn ).getQueryResultsID( ) == null )
+		if ( queryDefn instanceof QueryDefinition
+				&& ( (QueryDefinition) queryDefn ).getQueryResultsID( ) == null )
 		{
 			outputStream = streamManager.getOutStream( DataEngineContext.ORIGINAL_QUERY_DEFN_STREAM,
 					StreamManager.ROOT_STREAM,
