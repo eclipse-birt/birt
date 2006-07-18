@@ -147,7 +147,7 @@ import org.w3c.dom.NodeList;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.134 $ $Date: 2006/07/14 05:22:03 $
+ * @version $Revision: 1.135 $ $Date: 2006/07/17 10:23:29 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1795,6 +1795,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		// check 'can-shrink' property
 		handleShrink( display, mergedStyle, height, width, styleBuffer );
+		// export the text-align
+		String textAlign = text.getComputedStyle( ).getTextAlign( );
+		if ( textAlign != null )
+		{
+			styleBuffer.append( " text-align:" );
+			styleBuffer.append( textAlign );
+			styleBuffer.append( ";" );
+		}
 		handleStyle( text, styleBuffer, false );
 
 		
@@ -1811,13 +1819,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			textStyleBuffer.append( " vertical-align:" );
 			textStyleBuffer.append( verticalAlign );
 			textStyleBuffer.append( ";" );
-			String textAlign = mergedStyle.getTextAlign( );
-			if ( textAlign != null )
-			{
-				textStyleBuffer.append( " text-align:" );
-				textStyleBuffer.append( textAlign );
-				textStyleBuffer.append( ";" );
-			}
 			writer.attribute( HTMLTags.ATTR_STYLE, textStyleBuffer );
 
 			writer.text( textValue );
