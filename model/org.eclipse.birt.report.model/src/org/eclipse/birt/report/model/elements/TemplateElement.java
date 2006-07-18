@@ -16,11 +16,12 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
- * Abstract class for template elements. A template element is a place holder
- * to generate a real report item or data set element. Application reads the
+ * Abstract class for template elements. A template element is a place holder to
+ * generate a real report item or data set element. Application reads the
  * default element of it by method {@link #getDefaultElement(Module)} and clone
  * a new report item or data set based on the default element. Then application
  * can make some changes about the cloned element, such as set some property
@@ -162,9 +163,10 @@ public abstract class TemplateElement extends DesignElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#clone()
 	 */
 
-	public Object clone( ) throws CloneNotSupportedException
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
 	{
-		DesignElement element = (DesignElement) super.clone( );
+		DesignElement element = (DesignElement) super.doClone( policy );
 
 		// if template parameter definition is resolved, copy the resolved
 		// element to the result
@@ -175,8 +177,10 @@ public abstract class TemplateElement extends DesignElement
 		{
 			if ( templateParam.getElement( ) != null )
 			{
-				ElementRefValue ref = new ElementRefValue( null, templateParam.getElement( ) );
-				element.setProperty( DesignElement.REF_TEMPLATE_PARAMETER_PROP, ref );
+				ElementRefValue ref = new ElementRefValue( null, templateParam
+						.getElement( ) );
+				element.setProperty( DesignElement.REF_TEMPLATE_PARAMETER_PROP,
+						ref );
 			}
 
 		}

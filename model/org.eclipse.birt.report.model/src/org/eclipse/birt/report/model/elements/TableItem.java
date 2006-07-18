@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 
 /**
  * This class represents a table in design.A table is a list that is structured
@@ -320,23 +321,10 @@ public class TableItem extends ListingElement implements ITableItemModel
 	 * @see org.eclipse.birt.report.model.elements.ListingElement#clone()
 	 */
 
-	public Object clone( ) throws CloneNotSupportedException
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
 	{
-		TableItem clonedTable = (TableItem) super.clone( );
-		clonedTable.refreshRenderModel( table.getTable( ).getModule( ) );
-
-		return clonedTable;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.elements.ListingElement#cloneForTemplate()
-	 */
-
-	public Object cloneForTemplate( ) throws CloneNotSupportedException
-	{
-		TableItem clonedTable = (TableItem) super.cloneForTemplate( );
+		TableItem clonedTable = (TableItem) super.doClone( policy );
 		clonedTable.refreshRenderModel( table.getTable( ).getModule( ) );
 
 		return clonedTable;

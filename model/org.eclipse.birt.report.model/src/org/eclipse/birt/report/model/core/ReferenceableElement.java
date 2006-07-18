@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
@@ -69,9 +70,9 @@ public abstract class ReferenceableElement extends DesignElement
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	public Object clone( ) throws CloneNotSupportedException
+	public Object doClone( CopyPolicy policy ) throws CloneNotSupportedException
 	{
-		ReferenceableElement element = (ReferenceableElement) super.clone( );
+		ReferenceableElement element = (ReferenceableElement) super.doClone( policy );
 		element.clients = new ArrayList( );
 		return element;
 	}

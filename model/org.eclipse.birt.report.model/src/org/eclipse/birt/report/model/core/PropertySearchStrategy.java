@@ -153,6 +153,9 @@ public class PropertySearchStrategy
 		// Check if this element predefined style provides
 		// the property value
 
+		if ( module == null )
+			return null;
+
 		if ( prop.isStyleProperty( ) )
 		{
 			value = getPropertyFromSelfSelector( module, element, prop );

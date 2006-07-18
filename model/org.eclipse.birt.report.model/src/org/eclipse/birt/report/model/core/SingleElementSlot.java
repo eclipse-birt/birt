@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
+
 /**
  * Represents a slot that can contain one element, such as the content slot of
  * the section element.
@@ -38,29 +40,12 @@ public class SingleElementSlot extends ContainerSlot
 	 * @see java.lang.Object#clone()
 	 */
 
-	public Object clone( ) throws CloneNotSupportedException
+	public Object doClone( CopyPolicy policy ) throws CloneNotSupportedException
 	{
 		SingleElementSlot slot = (SingleElementSlot) super.clone( );
 		if ( content != null )
 		{
-			slot.content = (DesignElement) content.clone( );
-		}
-
-		return slot;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.ContainerSlot#cloneForTemplate()
-	 */
-
-	public Object cloneForTemplate( ) throws CloneNotSupportedException
-	{
-		SingleElementSlot slot = (SingleElementSlot) super.clone( );
-		if ( content != null )
-		{
-			slot.content = (DesignElement) content.cloneForTemplate( );
+			slot.content = (DesignElement) content.doClone( policy );
 		}
 
 		return slot;

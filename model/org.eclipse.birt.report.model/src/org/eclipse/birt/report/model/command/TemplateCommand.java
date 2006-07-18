@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.elements.TemplateFactory;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.strategy.CopyForTemplatePolicy;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -441,8 +442,8 @@ public class TemplateCommand extends AbstractElementCommand
 			// clone the base element and add it to the default slot
 
 			DesignElement defaultElement = null;
-
-			defaultElement = (DesignElement) base.cloneForTemplate( );
+			defaultElement = (DesignElement) base
+					.doClone( CopyForTemplatePolicy.getInstance( ) );
 
 			assert defaultElement != null;
 			ContentCommand contentCmd = null;

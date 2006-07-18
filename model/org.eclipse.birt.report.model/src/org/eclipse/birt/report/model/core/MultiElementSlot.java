@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
+
 /**
  * A slot that contains an ordered list of elements.
  * 
@@ -40,32 +42,15 @@ public class MultiElementSlot extends ContainerSlot
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	public Object clone( ) throws CloneNotSupportedException
+	
+	public Object doClone( CopyPolicy policy ) throws CloneNotSupportedException
 	{
 		MultiElementSlot slot = (MultiElementSlot) super.clone( );
 		slot.contents = new ArrayList( );
 		for ( int i = 0; i < contents.size( ); i++ )
 		{
 			DesignElement e = (DesignElement) contents.get( i );
-			slot.contents.add( e.clone( ) );
-		}
-		return slot;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.ContainerSlot#cloneForTemplate()
-	 */
-
-	public Object cloneForTemplate( ) throws CloneNotSupportedException
-	{
-		MultiElementSlot slot = (MultiElementSlot) super.clone( );
-		slot.contents = new ArrayList( );
-		for ( int i = 0; i < contents.size( ); i++ )
-		{
-			DesignElement e = (DesignElement) contents.get( i );
-			slot.contents.add( e.cloneForTemplate( ) );
+			slot.contents.add( e.doClone( policy ) );
 		}
 		return slot;
 	}

@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.elements.strategy.ExtendedItemPropSearchStrategy;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
@@ -397,27 +398,10 @@ public class ExtendedItem extends ReportItem
 	 * @see java.lang.Object#clone()
 	 */
 
-	public Object clone( ) throws CloneNotSupportedException
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
 	{
-		ExtendedItem clonedElement = (ExtendedItem) super.clone( );
-
-		clonedElement.provider = new PeerExtensibilityProvider( clonedElement,
-				clonedElement.extensionName );
-
-		clonedElement.provider.copyFrom( provider );
-
-		return clonedElement;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.StyledElement#cloneForTemplate()
-	 */
-
-	public Object cloneForTemplate( ) throws CloneNotSupportedException
-	{
-		ExtendedItem clonedElement = (ExtendedItem) super.cloneForTemplate( );
+		ExtendedItem clonedElement = (ExtendedItem) super.doClone( policy );
 
 		clonedElement.provider = new PeerExtensibilityProvider( clonedElement,
 				clonedElement.extensionName );

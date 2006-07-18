@@ -57,17 +57,4 @@ public abstract class DataSet extends ReferenceableElement
 		ev.setDeliveryPath( NotificationEvent.ELEMENT_CLIENT );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#cloneForTemplate()
-	 */
-
-	public Object cloneForTemplate( ) throws CloneNotSupportedException
-	{
-		ReferenceableElement element = (ReferenceableElement) super
-				.cloneForTemplate( );
-		element.clearClients( );
-		return element;
-	}
 }

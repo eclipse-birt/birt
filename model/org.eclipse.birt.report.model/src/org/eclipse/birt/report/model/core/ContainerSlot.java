@@ -14,6 +14,9 @@ package org.eclipse.birt.report.model.core;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
+
 /**
  * Represents a slot within an element. A slot is the ability for one element to
  * contain other elements. Many elements have one slot, some have multiple
@@ -176,28 +179,6 @@ public abstract class ContainerSlot implements Cloneable
 		insert( element, getCount( ) );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		return super.clone( );
-	}
-
-	/**
-	 * Clones the slot and keep the element baseId and extends relationship.
-	 * 
-	 * @return return the cloned slot
-	 * 
-	 * @throws CloneNotSupportedException
-	 */
-
-	abstract public Object cloneForTemplate( )
-			throws CloneNotSupportedException;
-
 	/**
 	 * Returns the cloned slot with new container. The new container is what
 	 * contains this cloned slot, so the container of all contents in the cloned
@@ -207,16 +188,20 @@ public abstract class ContainerSlot implements Cloneable
 	 *            the new container which contains the cloned slot.
 	 * @param slotID
 	 *            the slot id
+	 * @param policy
+	 *            the copy policy
 	 * @return the clone slot.
+	 * 
 	 */
 
-	public ContainerSlot copy( DesignElement newContainer, int slotID )
+	public ContainerSlot copy( DesignElement newContainer, int slotID,
+			CopyPolicy policy )
 	{
 		ContainerSlot newSlot = null;
 
 		try
 		{
-			newSlot = (ContainerSlot) clone( );
+			newSlot = (ContainerSlot) doClone( policy );
 			for ( int i = 0; i < newSlot.getCount( ); i++ )
 				newSlot.getContent( i ).setContainer( newContainer, slotID );
 		}
@@ -229,30 +214,16 @@ public abstract class ContainerSlot implements Cloneable
 	}
 
 	/**
-	 * Clone for template items.
+	 * Returns the cloned slot according the copy policy. The container of the
+	 * contents is not changed.
 	 * 
-	 * @param newContainer
-	 *            the new container
-	 * @param slotID
-	 *            the slot id in the new container for the cloned element
-	 * @return the cloned element
+	 * @param policy
+	 *            the copy policy
+	 * @return the cloned slot, the container of the contents is not changed.
+	 * @throws CloneNotSupportedException
 	 */
 
-	public ContainerSlot copyForTemplate( DesignElement newContainer, int slotID )
-	{
-		ContainerSlot newSlot = null;
+	abstract protected Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException;
 
-		try
-		{
-			newSlot = (ContainerSlot) cloneForTemplate( );
-			for ( int i = 0; i < newSlot.getCount( ); i++ )
-				newSlot.getContent( i ).setContainer( newContainer, slotID );
-		}
-		catch ( CloneNotSupportedException e )
-		{
-			assert false;
-		}
-
-		return newSlot;
-	}
 }

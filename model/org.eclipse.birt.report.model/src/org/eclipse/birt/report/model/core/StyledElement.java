@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
@@ -67,25 +68,9 @@ public abstract class StyledElement extends DesignElement
 	 * @see java.lang.Object#clone()
 	 */
 
-	public Object clone( ) throws CloneNotSupportedException
+	public Object doClone( CopyPolicy policy ) throws CloneNotSupportedException
 	{
-		StyledElement element = (StyledElement) super.clone( );
-		if ( style != null )
-			element.style = new ElementRefValue( null, style.getName( ) );
-		else
-			element.style = null;
-		return element;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#cloneForTemplate()
-	 */
-
-	public Object cloneForTemplate( ) throws CloneNotSupportedException
-	{
-		StyledElement element = (StyledElement) super.cloneForTemplate( );
+		StyledElement element = (StyledElement) super.doClone( policy );
 		if ( style != null )
 			element.style = new ElementRefValue( null, style.getName( ) );
 		else
@@ -110,6 +95,9 @@ public abstract class StyledElement extends DesignElement
 
 		if ( style.isResolved( ) )
 			return (StyleElement) style.getElement( );
+
+		if ( module == null )
+			return null;
 
 		DesignElement resolvedElement = module.resolveElement(
 				style.getName( ), Module.STYLE_NAME_SPACE,

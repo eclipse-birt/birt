@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -620,9 +621,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @see java.lang.Object#clone()
 	 */
 
-	public Object clone( ) throws CloneNotSupportedException
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
 	{
-		Module module = (Module) super.clone( );
+		Module module = (Module) super.doClone( policy );
 
 		// clear some attributes
 
@@ -671,7 +673,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 			{
 				module.libraries = new ArrayList( );
 				Library lib = (Library) ( (Library) libraries.get( i ) )
-						.clone( );
+						.doClone( policy );
 				lib.setHost( module );
 				module.libraries.add( lib );
 			}
@@ -917,8 +919,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public String getMessage( String resourceKey, ULocale locale )
 	{
 		if ( StringUtil.isBlank( resourceKey ) )
-			return null; 
-		
+			return null;
+
 		if ( locale == null )
 			locale = ThreadResources.getLocale( );
 

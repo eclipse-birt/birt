@@ -53,6 +53,8 @@ import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -1824,7 +1826,7 @@ public abstract class DesignElement
 	public void setExtendsElement( DesignElement base )
 	{
 		DesignElement oldExtends = getExtendsElement( );
-		if ( base == oldExtends )
+		if ( base == oldExtends && base != null )
 			return;
 		if ( oldExtends != null )
 			oldExtends.dropDerived( this );
@@ -3342,93 +3344,53 @@ public abstract class DesignElement
 	 * 
 	 */
 
-	public Object clone( ) throws CloneNotSupportedException
+	final public Object clone( ) throws CloneNotSupportedException
 	{
+		return doClone( CopyForPastePolicy.getInstance( ) );
+	}
+
+	/**
+	 * Generates a clone copy of this element. When a report element is cloned,
+	 * the basic principle is just copying the property value into the clone,
+	 * the other things, like container references, child list references,
+	 * listener references will not be cloned; that is, the clone is isolated
+	 * from the design tree until it is added into a target design tree. As for
+	 * the extends reference to the parent, which is in library, the copy policy
+	 * will be responsible for the specific dealing.
+	 * 
+	 * <p>
+	 * When inserting the cloned element into the design tree, user needs to
+	 * care about the element name confliction; that is, the client needs to
+	 * call the method
+	 * <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code>
+	 * to change the element names.
+	 * 
+	 * @return Object the cloned design element.
+	 * @throws CloneNotSupportedException
+	 *             if clone is not supported.
+	 */
+
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
+	{
+		// do the base clone, keep the reference to parent
+
 		DesignElement element = (DesignElement) baseClone( );
 
-		element.extendsRef = null;
-		element.baseId = NO_BASE_ID;
+		// do the specific work according the strategy instance
 
-		// copy user property definitions first, otherwise definition will not
-		// be found when copying property values
-
-		DesignElement current = isVirtualElement( )
-				? getVirtualParent( )
-				: getExtendsElement( );
-		Iterator iter = null;
-		while ( current != null )
-		{
-			if ( !current.isVirtualElement( ) && current.userProperties != null )
-			{
-				if ( element.userProperties == null )
-					element.userProperties = new LinkedHashMap( );
-
-				iter = current.userProperties.keySet( ).iterator( );
-				while ( iter.hasNext( ) )
-				{
-					Object key = iter.next( );
-					if ( element.userProperties.get( key ) != null )
-						continue;
-					UserPropertyDefn uDefn = (UserPropertyDefn) current.userProperties
-							.get( key );
-					element.userProperties.put( key, uDefn.copy( ) );
-				}
-			}
-
-			current = current.isVirtualElement( )
-					? current.getVirtualParent( )
-					: current.getExtendsElement( );
-		}
-
-		// the element id is the same as the matrix, then if we add the copy to
-		// the design tree, we will check the id and re-allocate a unique name
-		// for it. This is the same issue as the name does.
-
-		current = isVirtualElement( )
-				? getVirtualParent( )
-				: getExtendsElement( );
-		while ( current != null )
-		{
-			iter = current.propValues.keySet( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				String key = (String) iter.next( );
-				if ( element.propValues.get( key ) != null )
-					continue;
-
-				PropertyDefn propDefn = getPropertyDefn( key );
-				Object value = current.propValues.get( key );
-				element.propValues.put( key, ModelUtil.copyValue( propDefn,
-						value ) );
-			}
-
-			current = current.isVirtualElement( )
-					? current.getVirtualParent( )
-					: current.getExtendsElement( );
-		}
-
-		// clear text-property of displayName
-
-		if ( element.propValues.get( DesignElement.DISPLAY_NAME_PROP ) != null )
-			element.propValues.remove( DesignElement.DISPLAY_NAME_PROP );
-
-		// clear text-property of displayNameID
-
-		if ( element.propValues.get( DesignElement.DISPLAY_NAME_ID_PROP ) != null )
-			element.propValues.remove( DesignElement.DISPLAY_NAME_ID_PROP );
+		if ( policy != null )
+			policy.execute( this, element );
 
 		// clone slots.
-
 		int slotCount = getDefn( ).getSlotCount( );
 		if ( slotCount > 0 )
 		{
 			element.slots = new ContainerSlot[slotCount];
-
 			for ( int i = 0; i < slotCount; i++ )
-			{
-				element.slots[i] = slots[i].copy( element, i );
-			}
+				element.slots[i] = slots[i].copy( element, i, policy );
 		}
+
 		return element;
 	}
 
@@ -3825,32 +3787,4 @@ public abstract class DesignElement
 		return element;
 	}
 
-	/**
-	 * The clone method for template element.
-	 * 
-	 * @return the clone element with reference to parent in library
-	 * @throws CloneNotSupportedException
-	 */
-
-	public Object cloneForTemplate( ) throws CloneNotSupportedException
-	{
-		DesignElement clonedElement = (DesignElement) baseClone( );
-
-		// clone slots.
-
-		int slotCount = getDefn( ).getSlotCount( );
-		if ( slotCount == 0 )
-			return clonedElement;
-
-		clonedElement.slots = new ContainerSlot[slotCount];
-
-		for ( int i = 0; i < slots.length; i++ )
-		{
-			clonedElement.slots[i] = slots[i]
-					.copyForTemplate( clonedElement, i );
-		}
-
-		return clonedElement;
-
-	}
 }

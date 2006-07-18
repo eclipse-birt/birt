@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.strategy.CopyForTemplatePolicy;
 
 /**
  * Abstract handle for template elements. A template element is a place holder
@@ -183,26 +184,6 @@ public abstract class TemplateElementHandle extends ReportElementHandle
 		return refTemplateParam.getDefaultElement( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#copy()
-	 */
-
-	public IDesignElement copy( )
-	{
-		try
-		{
-			return (DesignElement) getElement( ).cloneForTemplate( );
-		}
-		catch ( CloneNotSupportedException e )
-		{
-			assert false;
-		}
-
-		return null;
-	}
-
 	/**
 	 * Returns a copy for the default element in the template element.
 	 * 
@@ -214,7 +195,7 @@ public abstract class TemplateElementHandle extends ReportElementHandle
 		try
 		{
 			return (IDesignElement) getDefaultElement( ).getElement( )
-					.cloneForTemplate( );
+					.doClone( CopyForTemplatePolicy.getInstance( ) );
 		}
 		catch ( CloneNotSupportedException e )
 		{
