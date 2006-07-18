@@ -189,7 +189,9 @@ public abstract class QueryExecutor implements IQueryExecutor
 				throw new DataException( ResourceConstants.RESULT_CLOSED );
 			}
 			this.nestedLevel = outerResults.getNestedLevel( );
-			this.setParentExecutorHelper( outerResults.getExecutorHelper( ) );
+			// TODO: check helper is null
+			IExecutorHelper helper = outerResults.getExecutorHelper( );
+			this.setParentExecutorHelper( helper );
 		}
 
 		// Create the data set runtime
