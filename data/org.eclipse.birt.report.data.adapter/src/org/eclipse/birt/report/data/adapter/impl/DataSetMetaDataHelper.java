@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
@@ -59,7 +60,7 @@ public class DataSetMetaDataHelper
 	//
 	private DataEngine dataEngine;
 	private IModelAdapter modelAdaptor;
-	private ModuleHandle moduleHandle;
+	private DataSessionContext sessionContext;
 
 	private static final char RENAME_SEPARATOR = '_';//$NON-NLS-1$
 	private static String UNNAME_PREFIX = "UNNAMED"; //$NON-NLS-1$
@@ -71,11 +72,11 @@ public class DataSetMetaDataHelper
 	 * @param moduleHandle
 	 */
 	DataSetMetaDataHelper( DataEngine dataEngine, IModelAdapter modelAdaptor,
-			ModuleHandle moduleHandle )
+			DataSessionContext sessionContext )
 	{
 		this.dataEngine = dataEngine;
 		this.modelAdaptor = modelAdaptor;
-		this.moduleHandle = moduleHandle;
+		this.sessionContext = sessionContext;
 	}
 
 	/**
@@ -144,14 +145,14 @@ public class DataSetMetaDataHelper
 		{
 			metaData = new QueryExecutionHelper( dataEngine,
 					modelAdaptor,
-					moduleHandle,
+					sessionContext,
 					false ).executeQuery( query ).getResultMetaData( );
 
 			if ( needsUseResultHint( dataSetHandle, metaData ) )
 			{
 				metaData = new QueryExecutionHelper( dataEngine,
 						modelAdaptor,
-						moduleHandle,
+						sessionContext,
 						true ).executeQuery( query ).getResultMetaData( );
 			}
 		}

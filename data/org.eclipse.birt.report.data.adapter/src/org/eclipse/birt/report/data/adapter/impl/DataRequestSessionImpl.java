@@ -111,7 +111,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		return new DataSetMetaDataHelper( this.dataEngine,
 				this.modelAdaptor,
-				this.sessionContext.getModuleHandle( ) ).getDataSetMetaData( dataSetHandle,
+				this.sessionContext ).getDataSetMetaData( dataSetHandle,
 				useCache );
 	}
 
@@ -176,7 +176,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		return new DataSetMetaDataHelper( this.dataEngine,
 				this.modelAdaptor,
-				this.sessionContext.getModuleHandle( ) ).refreshMetaData( dataSetHandle );
+				this.sessionContext ).refreshMetaData( dataSetHandle );
 	}
 
 	/*
