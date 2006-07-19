@@ -97,8 +97,7 @@ public class VersionInfo implements IVersionInfo
 	{
 		if ( infoCode == CONVERT_FOR_COLUMN_BINDING )
 		{
-			return ModelMessages.getMessage( CONVERT_INFO_MSG, new String[]{
-					COLUMN_BINDING_FROM_VERSION, COLUMN_BINDING_FEATURE} );
+			return ModelMessages.getMessage( CONVERT_INFO_MSG );
 		}
 
 		return ModelMessages.getMessage( INVALID_DESIGN_FILE_MSG );
