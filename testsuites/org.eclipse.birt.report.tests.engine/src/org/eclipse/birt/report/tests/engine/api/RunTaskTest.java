@@ -46,9 +46,6 @@ public class RunTaskTest extends EngineCase {
 	 * Test two Run method with different argument. 
 	 *
 	 */
-	public void testtemp(){
-		runReport("SalesInvoice");
-	}
 	public void test1(){
 		runReport("case1");
 	}
