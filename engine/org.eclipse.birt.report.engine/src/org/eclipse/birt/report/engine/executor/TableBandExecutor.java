@@ -69,7 +69,6 @@ public class TableBandExecutor extends StyledItemExecutor
 			RowExecutor rowExecutor = (RowExecutor) manager.createExecutor(
 					this, rowDesign );
 			rowExecutor.setRowId( tableExecutor.rowId++ );
-			rowExecutor.startOfGroup = false;
 			if ( bandDesign.getBandType( ) == TableBandDesign.GROUP_HEADER && currentRow == 1 )
 			{
 				//this row is the first row in that group

@@ -17,6 +17,13 @@ public class CellExecutor extends QueryItemExecutor
 	int cellId;
 	boolean startOfGroup;
 	
+	public void reset( )
+	{
+		super.reset( );
+		this.startOfGroup = false;
+		this.cellId = 0;
+	}
+
 	public IContent execute( )
 	{
 		CellDesign cellDesign = (CellDesign)getDesign();

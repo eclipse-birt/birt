@@ -306,7 +306,18 @@ public class ReportDocumentReader
 	public Map getParameterValues( )
 	{
 		loadCoreStream( );
-		return parameters;
+		Map result = new HashMap( );
+		if ( parameters != null )
+		{
+			Iterator iterator = parameters.entrySet( ).iterator( );
+			while ( iterator.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) iterator.next( );
+				result.put( entry.getKey( ), ( (ParameterAttribute) entry
+						.getValue( ) ).getValue( ) );
+			}
+		}
+		return result;
 	}
 
 	public long getPageCount( )

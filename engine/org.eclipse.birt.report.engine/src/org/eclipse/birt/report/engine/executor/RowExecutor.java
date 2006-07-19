@@ -19,6 +19,13 @@ public class RowExecutor extends QueryItemExecutor
 	int rowId;
 	boolean startOfGroup;
 
+	public void reset( )
+	{
+		super.reset( );
+		this.startOfGroup = false;
+		this.rowId = 0;
+	}
+
 	void setRowId( int rowId )
 	{
 		this.rowId = rowId;
