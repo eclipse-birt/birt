@@ -127,6 +127,10 @@ public class ResourceConstants
 	public final static String INVALID_TYPE_IN_EXPR = "data.engine.BadDataTypeCondExpr";
 	public final static String WRAPPED_BIRT_EXCEPTION = "data.engine.BirtException";
 	
+	// data set cache error
+	public final static String DATASETCACHE_SAVE_ERROR = "data.engine.datasetcache.save.error";
+	public final static String DATASETCACHE_LOAD_ERROR = "data.engine.datasetcache.load.error";
+	
 	// error related with data engine context
 	public final static String RD_INVALID_MODE = "data.engine.InvalidMode";
 	public final static String RD_INVALID_ARCHIVE = "data.engine.InvalidArchive";
