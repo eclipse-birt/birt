@@ -193,6 +193,13 @@
 			<property name="classname" value="org.eclipse.birt.report.model.adapter.oda.AllTests" />
 		</ant>
 		
+		<junitreport todir="${utest.report.dir}">
+			<fileset dir="${utest.report.dir}">
+				<include name="${module.name}.xml"/>
+			</fileset>
+			<report format="noframes" todir="${utest.report.dir}"/>
+	    </junitreport>
+		
 	</target>
 	
 	<!-- Clean the build environment -->
