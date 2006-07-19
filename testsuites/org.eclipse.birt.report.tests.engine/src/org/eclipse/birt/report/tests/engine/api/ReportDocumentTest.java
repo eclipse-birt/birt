@@ -27,11 +27,8 @@ import junit.framework.TestSuite;
 public class ReportDocumentTest extends EngineCase {
 
 	protected IReportRunnable reportRunnable;
-/*	protected String path="D:/TEMP/workspace3.1/org.eclipse.birt.report.tests.engine/";
-	protected String input="input",output="output",report_design,report_document;
-	protected String design_path=path+input+"/";
-	protected String reportDoc_path=path+output+"/";
-*/	
+	private String path=getClassFolder()+System.getProperty("file.separator");
+	
 	public ReportDocumentTest(String name) {
 		super(name);
 	}
@@ -51,12 +48,11 @@ public class ReportDocumentTest extends EngineCase {
 	 */
 	public void testReportDocument(){
 
-		String path=getClassFolder()+System.getProperty("file.separator");
 		String report_design=path+INPUT_FOLDER+System.getProperty("file.separator")+"report_document.rptdesign";
 		String report_document=path+OUTPUT_FOLDER+System.getProperty("file.separator")+"report_document";
 
 		try{
-			createReportDocument1(report_design,report_document);
+			createReportDocument_param(report_design,report_document);
 			IDocArchiveReader archive=new FileArchiveReader(report_document);
 			IReportDocument reportDoc=engine.openReportDocument(report_document);
 			
@@ -179,7 +175,6 @@ public class ReportDocumentTest extends EngineCase {
 	 * test abnormal input arguments
 	 */
 	public void testReportDocumentAbnormal(){
-		String path=getClassFolder()+System.getProperty("file.separator");
 		String report_design=path+INPUT_FOLDER+System.getProperty("file.separator")+"report_document.rptdesign";
 		String report_document=path+OUTPUT_FOLDER+System.getProperty("file.separator")+"report_document";
 
@@ -238,7 +233,6 @@ public class ReportDocumentTest extends EngineCase {
 	}
 	
 	
-	
 	/**
 	 * create the report document.
 	 * @throws Exception
@@ -257,11 +251,13 @@ public class ReportDocumentTest extends EngineCase {
 		//close the task, release the resource.
 		task.close( );
 	}
+	
+	
 	/**
-	 * create the report document.
+	 * create the report document, set inputParams for it.
 	 * @throws Exception
 	 */
-	protected void createReportDocument1(String reportdesign ,String reportdocument ) throws Exception
+	protected void createReportDocument_param(String reportdesign ,String reportdocument ) throws Exception
 	{
 		//open an report archive, it is a folder archive.
 		IDocArchiveWriter archive = new FileArchiveWriter( reportdocument );

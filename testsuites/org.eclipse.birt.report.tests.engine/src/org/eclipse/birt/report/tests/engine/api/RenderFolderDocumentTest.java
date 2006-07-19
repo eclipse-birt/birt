@@ -196,7 +196,7 @@ public class RenderFolderDocumentTest extends EngineCase {
 		designName=docName.substring( 15 );
 		report_design=INPUT+designName+".rptdesign";
 
-		folderArchive=INPUT+docName+separator;
+		folderArchive=OUTPUT+docName+separator;
 		htmlOutput=OUTPUT+docName+".html";
 		new File(OUTPUT).mkdirs( );
 		try{
