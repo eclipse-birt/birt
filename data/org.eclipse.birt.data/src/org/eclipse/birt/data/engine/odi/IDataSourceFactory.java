@@ -35,7 +35,11 @@ public interface IDataSourceFactory
      * @return	A new instance of IDataSource.
      */
     //public IDataSource newDataSource( String driverName );
-
+	
+	/**
+	 */
+    public IDataSource getEmptyDataSource( );
+    
     /**
      * Obtains a dedicated data source instance with the
      * specified driver name and connection properties.
@@ -52,22 +56,6 @@ public interface IDataSourceFactory
      * 					a Map of name-set pairs.
      * @return			An instance of IDataSource.
      */
-    public IDataSource getDataSource( String driverName, Map connProperties,
-			IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign );
-    
-    /**
-	 * Temp interface
-	 * 
-	 * @param driverName
-	 * @param connProperties
-	 * @param dataSourceDesign
-	 * @param dataSetDesign
-	 * @param parameterBindings
-	 * @param cacheOption
-	 * @param alwaysCacheRowCount
-	 * @return
-	 */
 	public IDataSource getDataSource( String driverName, Map connProperties,
 			IBaseDataSourceDesign dataSourceDesign,
 			IBaseDataSetDesign dataSetDesign, Collection parameterBindings,

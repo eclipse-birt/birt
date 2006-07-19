@@ -150,14 +150,9 @@ public class DataSetCacheManager
 	/**
 	 * @return
 	 */
-	public boolean doesLoadFromCache( )
+	public boolean doesLikeToCache( )
 	{
-		if ( needsToCache( dataSetDesign, cacheOption, alwaysCacheRowCount ) == false )
-			return false;
-
-		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterHints ) );
+		return needsToCache( dataSetDesign, cacheOption, alwaysCacheRowCount );
 	}
 	
 	/**
@@ -245,7 +240,21 @@ public class DataSetCacheManager
 				this.dataSetDesign,
 				this.parameterHints ) );
 	}
-
+	
+	/**
+	 * only for test
+	 * @return
+	 */
+	public boolean doesLoadFromCache( )
+	{
+		if ( needsToCache( dataSetDesign, cacheOption, alwaysCacheRowCount ) == false )
+			return false;
+		
+		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterHints ) );
+	}
+	
 	/**
 	 * Notice, this method is only for test, it can not be called unless its use
 	 * is for test.

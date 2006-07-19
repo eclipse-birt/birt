@@ -53,20 +53,12 @@ public class DataSourceFactory implements IDataSourceFactory
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.odi.IDataSourceFactory#getDataSource(java.lang.String, java.util.Map)
+	 * @see org.eclipse.birt.data.engine.odi.IDataSourceFactory#getNullDataSource()
 	 */
-	public IDataSource getDataSource( String driverName, Map connProperties,
-			IBaseDataSourceDesign dataSourceDesign, IBaseDataSetDesign dataSetDesign )
+	public IDataSource getEmptyDataSource(  )
 	{
-		if ( DataSetCacheManager.getInstance( ).doesLoadFromCache( ) == false )
-		{
-			// TODO: connection pooling
-			return new DataSource( driverName, connProperties );
-		}
-		else
-		{
-			return new org.eclipse.birt.data.engine.executor.dscache.DataSource( dataSourceDesign instanceof ScriptDataSourceDesign );
-		}
+		// TODO: connection pooling
+		return new DataSource( null, null );
 	}
 	
 	/*

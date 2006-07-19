@@ -193,10 +193,9 @@ class PreparedSubquery implements IPreparedQueryService
 		protected IQuery createOdiQuery( ) throws DataException
 		{
 			// An empty odi data source is used for sub query data set
-			return DataSourceFactory.getFactory( ).getDataSource( null,
-					null,
-					null,
-					null ).newCandidateQuery( );
+			return DataSourceFactory.getFactory( )
+					.getEmptyDataSource( )
+					.newCandidateQuery( );
 		}
 		
 		/*
