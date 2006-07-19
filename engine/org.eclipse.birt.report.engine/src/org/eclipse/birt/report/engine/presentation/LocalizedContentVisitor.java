@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IListContent;
@@ -66,6 +68,7 @@ import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSValue;
@@ -168,6 +171,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			ListScriptExecutor.handleOnRender( list,
 					context );
 		}
+		processHyperlinkAction( list );
 		return list;
 	}
 
@@ -184,18 +188,21 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		captionText = localize( table, captionKey, captionText );
 		table.setCaption( captionText );
 		
+		processHyperlinkAction( table );
 		return table;
 	}
 
 	public Object visitRow( IRowContent row, Object value )
 	{
 		RowScriptExecutor.handleOnRender( row, context );
+		processHyperlinkAction( row );
 		return row;
 	}
 
 	public Object visitCell( ICellContent cell, Object value )
 	{
 		CellScriptExecutor.handleOnRender( cell, context );
+		processHyperlinkAction( cell );
 		return cell;
 	}
 
@@ -209,6 +216,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	{
 		DataItemScriptExecutor.handleOnRender( data, context );
 		processData( data );
+		processHyperlinkAction( data );
 		return data;
 	}
 
@@ -287,6 +295,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		else if ( label.getGenerateBy( ) instanceof TextItemDesign )
 			TextItemScriptExecutor.handleOnRender( label, context );
 		processLabel( label );
+		processHyperlinkAction( label );
 		return label;
 	}
 
@@ -312,7 +321,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	public Object visitText( ITextContent text, Object value )
 	{
 		TextItemScriptExecutor.handleOnRender( text, context );
-		
+		processHyperlinkAction( text );
 		return value;
 	}
 
@@ -384,7 +393,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			processData( dataContent );
 			return dataContent;
 		}
-		
+		processHyperlinkAction( foreignContent );
 		return foreignContent;
 	}
 
@@ -419,6 +428,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	{
 		ImageScriptExecutor.handleOnRender( image, context );
 		processImage( image );
+		processHyperlinkAction( image );
 		return image;
 	}
 
@@ -789,6 +799,41 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				if ( rowSets[i] != null )
 				{
 					rowSets[i].close( );
+				}
+			}
+		}
+	}
+
+	public Object visitContent( IContent content, Object value )
+	{
+		if ( value instanceof IContent )
+		{
+			processHyperlinkAction( (IContent)value );
+		}
+		return value;
+	}
+	
+	private void processHyperlinkAction( IContent content )
+	{
+		if ( content != null )
+		{
+			IHyperlinkAction action = content.getHyperlinkAction( );
+			if ( action != null )
+			{
+				String reportName = action.getReportName( );
+				ReportDesignHandle design = context.getDesign( );
+				if ( design != null )
+				{
+					URL reportURL = design.findResource( reportName,
+							IResourceLocator.LIBRARY );
+					if ( reportURL != null )
+					{
+						String reportFile = reportURL.getFile( );
+						if ( reportFile != null )
+						{
+							action.setReportName( reportFile );
+						}
+					}
 				}
 			}
 		}

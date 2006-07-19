@@ -88,6 +88,8 @@ public interface IHyperlinkAction
 
 	public void setHyperlink( String hyperlink, String target );
 
+	public void setReportName( String reportName );
+	
 	public void setBookmark( String bookmark );
 
 	public void setBookmarkType( boolean isBookmark );

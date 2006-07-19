@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,8 +37,6 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCEntry;
-import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * Abstract class, Represents a report item executor. Report item executor
@@ -53,7 +50,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.35 $ $Date: 2006/06/17 12:11:00 $
+ * @version $Revision: 1.36 $ $Date: 2006/06/17 12:28:57 $
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
@@ -350,6 +347,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					}
 
 					String reportName = drill.getReportName( );
+					/* we do not set absoluted path here. we now changed this in render time
 					ReportDesignHandle design = context.getDesign( );
 					if ( design != null )
 					{
@@ -364,6 +362,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 							}
 						}
 					}
+					*/
 					String format = drill.getFormat( );
 					// XXX Do not support Search criteria
 					IHyperlinkAction obj = report.createActionContent( );

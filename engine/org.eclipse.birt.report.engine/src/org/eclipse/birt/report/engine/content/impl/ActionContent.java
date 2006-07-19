@@ -159,7 +159,12 @@ public class ActionContent implements IHyperlinkAction
 		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
 		return reportName;
 	}
-
+	
+	public void setReportName( String reportName )
+	{
+		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
+		this.reportName = reportName;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
