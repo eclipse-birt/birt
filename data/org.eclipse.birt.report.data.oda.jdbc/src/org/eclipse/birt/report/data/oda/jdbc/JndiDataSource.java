@@ -188,17 +188,16 @@ class JndiDataSource implements IConnectionFactory
         if( namedObject != null && namedObject instanceof DataSource )
             return;     // is of expected resource type
 
-        // TODO - externalize new message when PII checkin is re-opened
-        final String newMsg = "Found JNDI resource type ({0}); expecting javax.sql.DataSource type.";
-        String newMsgText = formatMessage( newMsg, 
-                ( namedObject != null ) ? 
-                    namedObject.getClass().getName() : "null" ); //$NON-NLS-1$
-        String localizedMsg = getMessage( ResourceConstants.CONN_GET_ERROR );
-        String localizedMsgText = formatMessage( localizedMsg, jndiNameUrl );
-        
+        // format exception message 
+        String localizedMsg = getMessage( ResourceConstants.CONN_GET_ERROR, jndiNameUrl );
+        localizedMsg += ". ";       //$NON-NLS-1$
+        localizedMsg += getMessage( ResourceConstants.JNDI_INVALID_RESOURCE,
+                                    ( namedObject != null ) ? 
+                                            namedObject.getClass().getName() : "null" ); //$NON-NLS-1$
+                
         if( sm_logger.isLoggable( Level.INFO ) )
-            sm_logger.info( localizedMsg + ". " + newMsgText ); //$NON-NLS-1$
-        throw new SQLException( localizedMsgText );
+            sm_logger.info( localizedMsg ); 
+        throw new SQLException( localizedMsg );
     }
     
     private void closeContext( Context ctx )
@@ -285,10 +284,10 @@ class JndiDataSource implements IConnectionFactory
         // TODO - add support of driver-specific property file name
         File jndiPropFile = new File( driversDir, JNDI_PROPERTIES );
         
-        boolean isValidFile = false;
+        boolean canReadFile = false;
         try
         {
-            isValidFile = ( jndiPropFile.isFile() && jndiPropFile.canRead() );
+            canReadFile = ( jndiPropFile.isFile() && jndiPropFile.canRead() );
         }
         catch( SecurityException e )
         {
@@ -299,25 +298,23 @@ class JndiDataSource implements IConnectionFactory
         if( sm_logger.isLoggable( Level.CONFIG ) )
             sm_logger.config( methodName + 
                     jndiPropFile.getAbsolutePath() +
-                    " isValid= " + Boolean.valueOf( isValidFile ) ); //$NON-NLS-1$
+                    " canReadFile = " + Boolean.valueOf( canReadFile ) ); //$NON-NLS-1$
 
-        return isValidFile ? jndiPropFile : null;
+        return canReadFile ? jndiPropFile : null;
     }
     
     /**
-     * Interim implementation until new user message can be externalized.
+     * Utility method to format externalized message, without using JDBCException.
      */
-    private String getMessage( String errorCode )
+    private String getMessage( String errorCode, String argument )
     {
         if( sm_resourceHandle == null )
             sm_resourceHandle = new JdbcResourceHandle( ULocale.getDefault() );
 
-        return sm_resourceHandle.getMessage( errorCode );
-    }
-
-    private String formatMessage( String msgText, String argument )
-    {
+        String msgText = sm_resourceHandle.getMessage( errorCode );
+        if( argument == null )
+            return msgText;
         return MessageFormat.format( msgText, new Object[]{ argument } );
     }
-    
+        
 }

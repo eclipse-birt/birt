@@ -221,9 +221,7 @@ public class JDBCSelectionPageHelper
 		password.setLayoutData( gridData );
 
         // JNDI Data Source URL
-        // TODO - externalize "&JNDI Data Source Name:" label when PII check-in is re-opened
-        // String jndiLabel = JdbcPlugin.getResourceString( "wizard.label.jndiname" ); //$NON-NLS-1$
-        String jndiLabel = "&JNDI URL:";
+        String jndiLabel = JdbcPlugin.getResourceString( "wizard.label.jndiname" ); //$NON-NLS-1$
         new Label( content, SWT.RIGHT ).setText( jndiLabel );
         jndiName = new Text( content, SWT.BORDER );
         gridData = new GridData( );

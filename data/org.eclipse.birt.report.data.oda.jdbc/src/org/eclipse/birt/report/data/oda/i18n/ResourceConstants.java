@@ -126,4 +126,6 @@ public class ResourceConstants
 	
 	public final static String CANNOT_INSTANTIATE_DRIVER="odajdbc.CannotInstantiateDriverClass";
 	public final static String CANNOT_INSTANTIATE_FACTORY="odajdbc.CannotInstantiateFactory";
+    
+    public final static String JNDI_INVALID_RESOURCE="odajdbc.jndi.InvalidJndiResource";
 }
