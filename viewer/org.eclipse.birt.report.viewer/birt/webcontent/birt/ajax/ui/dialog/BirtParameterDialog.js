@@ -331,11 +331,14 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	{
 		if( birtParameterDialog.collect_parameter( ) )
 		{
+			var action = window.location.href.toLowerCase( );
+			
 			if ( this.__mode == 'parameter' )
 			{
 				birtEventDispatcher.broadcastEvent( birtEvent.__E_CACHE_PARAMETER );
 			}
-			else if ( this.__mode == 'run' )
+			else if ( this.__mode == 'run' 
+					|| ( this.__mode == 'frameset' && action.indexOf( '&__format=pdf' ) > 0 ) )
 			{
 				this.__doSubmit( );
 			}
