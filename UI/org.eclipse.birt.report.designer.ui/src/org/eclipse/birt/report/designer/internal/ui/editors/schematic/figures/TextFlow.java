@@ -15,12 +15,11 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.FlowBoxWrapper;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.text.FlowBox;
 import org.eclipse.draw2d.text.TextFragmentBox;
 
 /**
@@ -147,9 +146,9 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	 */
 	public void paintTo( Graphics g, int xoff, int yoff )
 	{
+
 		TextFragmentBox frag;
 		List fragments = this.getFragments( );
-
 		assert this.getFont( ).getFontData( ).length > 0;
 
 		/**
@@ -157,24 +156,22 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		 */
 		int lineWidth = this.getFont( ).getFontData( )[0].getHeight( )
 				/ LINE_FACTOR + 1;
-
 		/**
 		 * Get the total fragments height first
 		 */
 		int totalHeight = 0;
-
 		for ( int i = 0; i < fragments.size( ); i++ )
 		{
-			FlowBoxWrapper wrapper = new FlowBoxWrapper( (FlowBox) fragments
-					.get( i ) );
-			totalHeight += wrapper.getHeight( );
+//			FlowBoxWrapper wrapper = new FlowBoxWrapper( (FlowBox) fragments
+//					.get( i ) );
+			totalHeight += ((TextFragmentBox)fragments.get( i )).getAscent( ) + ((TextFragmentBox)fragments.get( i )).getDescent( );
 		}
 
 		for ( int i = 0; i < fragments.size( ); i++ )
 		{
 			frag = (TextFragmentBox) fragments.get( i );
 
-			FlowBoxWrapper wrapper = new FlowBoxWrapper( frag );
+			//FlowBoxWrapper wrapper = new FlowBoxWrapper( frag );
 			String draw = null;
 
 			try
@@ -208,16 +205,26 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 			 * Calculates the adjusted left coordinate according to the
 			 * horizontal alignment style.
 			 */
+
+			// Here we need re-calculate the line width of fragments,
+			// since maybe the font style is changed
+			// See bugzilla item
+			int linew = FigureUtilities.getTextWidth( draw, g.getFont( ) );
+			frag.setWidth( linew );
+			
+
 			int left = calculateLeft( this.getSize( ).width, frag.getWidth( ) );
+
 			int top = calculateTop( this.getSize( ).height, totalHeight );
 
-			int realX = wrapper.getX( ) + left + xoff;
-			int realY = wrapper.getY( ) + top + yoff;
+			int realX = frag.getX( ) + left + xoff;
+			int realY = frag.getBaseline( )-frag.getAscent( ) + top + yoff;
+
 
 			if ( !isEnabled( ) )
 			{
-				g.setForegroundColor( ColorConstants.buttonLightest );
-				g.drawString( draw, realX + 1, realY + 1 );
+//				g.setForegroundColor( ColorConstants.buttonLightest );
+//				g.drawString( draw, realX + 1, realY + 1 );
 				g.setForegroundColor( ColorConstants.buttonDarker );
 				g.drawString( draw, realX, realY );
 			}
@@ -240,9 +247,8 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 				if ( textUnderline
 						.equals( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE ) )
 				{
-					g.drawLine( realX, realY + wrapper.getHeight( ) - 1, realX
-							+ frag.getWidth( ), realY + wrapper.getHeight( )
-							- 1 );
+					g.drawLine( realX, frag.getBaseline( )+ top + frag.getDescent( )-lineWidth , realX
+							+ frag.getWidth( ),  frag.getBaseline( )+top+frag.getDescent( )-lineWidth );
 				}
 
 				/**
@@ -251,12 +257,9 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 				if ( textLineThrough
 						.equals( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH ) )
 				{
-					g.drawLine( realX, realY
-							+ ( wrapper.getHeight( ) - lineWidth ) / 2, realX
-							+ frag.getWidth( ), realY
-							+ ( wrapper.getHeight( ) - lineWidth ) / 2 );
+					g.drawLine( realX,   frag.getBaseline( )+ top - frag.getAscent( )/2+ lineWidth, realX
+							+ frag.getWidth( ), frag.getBaseline( )+ top - frag.getAscent( )/2 + lineWidth);
 				}
-
 				/**
 				 * Processes the over-line style.
 				 */
@@ -271,7 +274,6 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 
 			g.restoreState( );
 		}
-
 	}
 
 	/*

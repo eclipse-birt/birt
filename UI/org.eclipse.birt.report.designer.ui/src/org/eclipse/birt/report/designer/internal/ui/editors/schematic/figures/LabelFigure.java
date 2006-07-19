@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.util.FlowBoxWrapper;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.StackLayout;
@@ -79,10 +78,10 @@ public class LabelFigure extends ReportElementFigure
 					for ( int i = 0; i < list.size( ); i++ )
 					{
 						box = (FlowBox) list.get( i );
-						FlowBoxWrapper wrapper = new FlowBoxWrapper(box);
-						left = Math.min( left, wrapper.getX() );
-						top = Math.min( top, wrapper.getY() );
-						bottom = Math.max( bottom, wrapper.getY() + wrapper.getHeight( ) );
+						
+						left = Math.min( left, box.getX() );
+						top = Math.min( top, box.getBaseline( )-box.getAscent( ) );
+						bottom = Math.max( bottom, box.getBaseline( )+box.getDescent( ) );
 					}
 
 					setBounds( new Rectangle( left,
