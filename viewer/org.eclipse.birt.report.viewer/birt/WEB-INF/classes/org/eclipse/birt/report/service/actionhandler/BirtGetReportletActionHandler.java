@@ -18,6 +18,7 @@ import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class BirtGetReportletActionHandler
 		extends AbstractBaseActionHandler
@@ -34,8 +35,8 @@ public class BirtGetReportletActionHandler
 	 * @param operation
 	 * @param response
 	 */
-	public BirtGetReportletActionHandler( IContext context, Operation operation,
-			GetUpdatedObjectsResponse response )
+	public BirtGetReportletActionHandler( IContext context,
+			Operation operation, GetUpdatedObjectsResponse response )
 	{
 		super( context, operation, response );
 	}
@@ -61,7 +62,8 @@ public class BirtGetReportletActionHandler
 	{
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_LOCALE, __bean.getLocale( ) );
-		options.setOption( InputOptions.OPT_RTL, new Boolean( __bean.isRtl( ) ) );
+		options
+				.setOption( InputOptions.OPT_RTL, new Boolean( __bean.isRtl( ) ) );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( false ) );
 		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
@@ -77,7 +79,9 @@ public class BirtGetReportletActionHandler
 		{
 			// TODO:
 		}
-		getReportService( ).renderReportlet( __docName, __reportletId, options, activeIds, out );
+
+		getReportService( ).renderReportlet( __docName, __reportletId, options,
+				activeIds, out );
 	}
 
 	/**
@@ -108,7 +112,7 @@ public class BirtGetReportletActionHandler
 			RemoteException
 	{
 	}
-	
+
 	/**
 	 * 
 	 */

@@ -954,12 +954,19 @@ public class ReportEngineService
 
 		renderTask.setRenderOption( setting );
 		renderTask.setLocale( locale );
-		InstanceID instanceId = InstanceID.parse( reportletId );
 
 		// Render designated page.
 		try
 		{
-			renderTask.setInstanceID( instanceId );
+			if ( ParameterAccessor.isIidReportlet( request ) )
+			{
+				InstanceID instanceId = InstanceID.parse( reportletId );
+				renderTask.setInstanceID( instanceId );
+			}
+			else
+			{
+				renderTask.setReportlet( reportletId );
+			}
 			if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
 				renderTask.render( );
 			else

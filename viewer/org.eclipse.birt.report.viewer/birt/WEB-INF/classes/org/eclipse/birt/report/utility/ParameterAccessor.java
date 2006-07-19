@@ -171,6 +171,11 @@ public class ParameterAccessor
 	public static final String PARAM_INSTANCEID = "__instanceid"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name to indicate whether need to run a reportlet.
+	 */
+	public static final String PARAM_ISREPORTLET = "__isreportlet";//$NON-NLS-1$
+
+	/**
 	 * Custom request headers to identify the request is a normal HTTP request
 	 * or a soap request by AJAX.
 	 */
@@ -617,9 +622,17 @@ public class ParameterAccessor
 	 * @return reportlet id
 	 */
 
-	public static String getInstanceId( HttpServletRequest request )
+	public static String getReportletId( HttpServletRequest request )
 	{
-		return getParameter( request, PARAM_INSTANCEID );
+
+		if ( isIidReportlet( request ) )
+			return getParameter( request, PARAM_INSTANCEID );
+
+		if ( isBookmarkReportlet( request ) )
+			return getParameter( request, PARAM_BOOKMARK );
+
+		return null;
+
 	}
 
 	/**
@@ -1086,6 +1099,37 @@ public class ParameterAccessor
 
 	public static boolean isGetReportlet( HttpServletRequest request )
 	{
+
+		return isBookmarkReportlet( request ) || isIidReportlet( request );
+	}
+
+	/**
+	 * if the PARAM_ISREPORTLET is trure and the PARAM_BOOKMARK is not null,
+	 * this method will return true. Otherwise, return false.
+	 * 
+	 * @param request
+	 * @return true for render the reportlet based on bookmark, else, false.
+	 */
+	public static boolean isBookmarkReportlet( HttpServletRequest request )
+	{
+		if ( "true"
+				.equalsIgnoreCase( getParameter( request, PARAM_ISREPORTLET ) ) )
+		{
+			String bookmark = getParameter( request, PARAM_BOOKMARK );
+			return bookmark != null && bookmark.length( ) > 0;
+		}
+		return false;
+	}
+
+	/**
+	 * if the PARAM_INSTANCEID parameter in the url is not null, then return
+	 * true to render the reportlet.
+	 * 
+	 * @param request
+	 * @return true for render the reprtlet based on the instance id.
+	 */
+	public static boolean isIidReportlet( HttpServletRequest request )
+	{
 		String instanceId = getParameter( request, PARAM_INSTANCEID );
 		return instanceId != null && instanceId.length( ) > 0;
 	}
@@ -1508,8 +1552,7 @@ public class ParameterAccessor
 	 * @return String
 	 */
 
-	public static String getFormat( HttpServletRequest request,
-			String paramName )
+	public static String getFormat( HttpServletRequest request, String paramName )
 	{
 		if ( request == null || paramName == null )
 			return null;

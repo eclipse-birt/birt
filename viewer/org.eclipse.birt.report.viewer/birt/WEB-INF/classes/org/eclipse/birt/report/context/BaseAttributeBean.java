@@ -193,7 +193,7 @@ abstract public class BaseAttributeBean
 	{
 		this.locale = ParameterAccessor.getLocale( request );
 		this.rtl = ParameterAccessor.isRtl( request );
-		this.reportletId = ParameterAccessor.getInstanceId( request );
+		this.reportletId = ParameterAccessor.getReportletId( request );
 		this.__init( request );
 	}
 
@@ -488,14 +488,10 @@ abstract public class BaseAttributeBean
 	{
 		return isToc;
 	}
-	
+
 	public String getReportletId( )
 	{
 		return reportletId;
 	}
 
-	public void setReportletId( String reportletId )
-	{
-		this.reportletId = reportletId;
-	}
 }
