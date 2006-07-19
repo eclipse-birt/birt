@@ -26,12 +26,13 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.ImporterTopLevel;
-import org.mozilla.javascript.NativeJavaObject;
+
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Undefined;
+import org.mozilla.javascript.Wrapper;
 
 /**
  * Utilities to faciliate the evaluation of Javascript expressions. Handles common evaluation
@@ -210,7 +211,7 @@ public class JavascriptEvalUtil
 	}
     
 	/**
-	 * Handles a Rhino script evaluation result, converting Javascript native objects
+	 * Handles a Rhino script evaluation result, converting Javascript object
 	 * into equivalent Java objects if necessary.
 	 * @param inputObj Object returned by rhino engine.
 	 * @return If inputObj is a native Javascript object, its equivalent Java object 
@@ -244,9 +245,9 @@ public class JavascriptEvalUtil
 				return inputObj.toString();
 			}
 		}
-		else if ( inputObj instanceof NativeJavaObject )
+		else if ( inputObj instanceof Wrapper )
 		{
-		    return ( (NativeJavaObject) inputObj ).unwrap( );
+		    return ( (Wrapper) inputObj ).unwrap( );
 		}
 		
 		return inputObj;
