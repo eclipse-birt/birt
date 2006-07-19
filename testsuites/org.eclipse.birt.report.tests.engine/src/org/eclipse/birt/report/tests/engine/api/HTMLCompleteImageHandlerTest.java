@@ -28,6 +28,8 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 
 public class HTMLCompleteImageHandlerTest extends EngineCase {
 
+	private String separator = System.getProperty( "file.separator" );
+	
 	/**
 	 * @param name
 	 */
@@ -50,11 +52,6 @@ public class HTMLCompleteImageHandlerTest extends EngineCase {
 	public void testOnDesignImage(){
 		try{
 			//Get embedded image byte array
-/*			String plug_path=EngineCase.PLUGIN_PATH;
-			String file_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_INPUT")
-						+System.getProperty("file.separator")+"EmbedImage.txt";
-			String path=plug_path+System.getProperty("file.separator")+file_path;
-*/			
 			String path=getClassFolder()+System.getProperty("file.separator")
 							+ INPUT_FOLDER+System.getProperty("file.separator")
 							+"EmbedImage.txt";
@@ -72,6 +69,8 @@ public class HTMLCompleteImageHandlerTest extends EngineCase {
 			//Test onDesignImage()
 			
 			HTMLRenderContext context=new HTMLRenderContext();
+			context.setImageDirectory( this.getClassFolder( )+separator+OUTPUT_FOLDER+
+										separator+"image" );
 			HTMLCompleteImageHandler imageHandler=new HTMLCompleteImageHandler();
 			Image image=new Image(imageBytes,"image1");
 			RenderOptionBase option=new RenderOptionBase();
@@ -93,8 +92,8 @@ public class HTMLCompleteImageHandlerTest extends EngineCase {
 			}while(true);
 			
 			String str=imageHandler.onDesignImage(image,context);
-			String strGet="./design1";
-			assertEquals("",str,strGet);
+			str=str.substring( 6);
+			assertTrue("Failed to get design image",new File(str).exists( ));
 			removeFile(str);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -123,11 +122,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase {
 	public void testOnCustomImage(){
 		try{
 			//Get embedded image byte array
-/*			String plug_path=EngineCase.PLUGIN_PATH;
-			String file_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_INPUT")
-						+System.getProperty("file.separator")+"EmbedImage.txt";
-			String path=plug_path+System.getProperty("file.separator")+file_path;
-*/			
+			
 			String path=getClassFolder()+System.getProperty("file.separator")
 			+ INPUT_FOLDER+System.getProperty("file.separator")
 			+"EmbedImage.txt";
@@ -141,6 +136,8 @@ public class HTMLCompleteImageHandlerTest extends EngineCase {
 			//Test onDesignImage()
 			
 			HTMLRenderContext context=new HTMLRenderContext();
+			context.setImageDirectory( this.getClassFolder( )+separator+OUTPUT_FOLDER+
+					separator+"image" );
 			HTMLCompleteImageHandler imageHandler=new HTMLCompleteImageHandler();
 			Image image=new Image(imageBytes,"image1");
 			RenderOptionBase option=new RenderOptionBase();
@@ -161,8 +158,8 @@ public class HTMLCompleteImageHandlerTest extends EngineCase {
 			}while(true);
 			
 			String str=imageHandler.onCustomImage(image,context);
-			String strGet="./custom2";
-			assertEquals("",str,strGet);
+			str=str.substring( 6 );
+			assertTrue("Failed to get custom image",new File(str).exists( ));
 			removeFile(str);
 		}catch(Exception e){
 			e.printStackTrace();
