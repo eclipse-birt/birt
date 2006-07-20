@@ -82,6 +82,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * <li><code>PARAM_TYPE_STRING</code>
 	 * <li><code>PARAM_TYPE_FLOAT</code>
 	 * <li><code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_INTEGER</code>
 	 * <li><code>PARAM_TYPE_DATETYPE</code>
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
@@ -94,7 +95,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getDataType( )
 	{
-		return getStringProperty( ScalarParameter.DATA_TYPE_PROP );
+		return getStringProperty( DATA_TYPE_PROP );
 	}
 
 	/**
@@ -106,6 +107,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * <li><code>PARAM_TYPE_STRING</code>
 	 * <li><code>PARAM_TYPE_FLOAT</code>
 	 * <li><code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_INTEGER</code>
 	 * <li><code>PARAM_TYPE_DATETYPE</code>
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
@@ -121,7 +123,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setDataType( String type ) throws SemanticException
 	{
-		setStringProperty( ScalarParameter.DATA_TYPE_PROP, type );
+		setStringProperty( DATA_TYPE_PROP, type );
 	}
 
 	/**
@@ -133,7 +135,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getDefaultValue( )
 	{
-		return getStringProperty( ScalarParameter.DEFAULT_VALUE_PROP );
+		return getStringProperty( DEFAULT_VALUE_PROP );
 	}
 
 	/**
@@ -148,7 +150,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setDefaultValue( String defaultValue ) throws SemanticException
 	{
-		setProperty( ScalarParameter.DEFAULT_VALUE_PROP, defaultValue );
+		setProperty( DEFAULT_VALUE_PROP, defaultValue );
 	}
 
 	/**
@@ -161,7 +163,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public boolean isConcealValue( )
 	{
-		return getBooleanProperty( ScalarParameter.CONCEAL_VALUE_PROP );
+		return getBooleanProperty( CONCEAL_VALUE_PROP );
 	}
 
 	/**
@@ -178,8 +180,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	public void setConcealValue( boolean concealValue )
 			throws SemanticException
 	{
-		setProperty( ScalarParameter.CONCEAL_VALUE_PROP, Boolean
-				.valueOf( concealValue ) );
+		setProperty( CONCEAL_VALUE_PROP, Boolean.valueOf( concealValue ) );
 	}
 
 	/**
@@ -191,7 +192,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public boolean allowNull( )
 	{
-		return getBooleanProperty( ScalarParameter.ALLOW_NULL_PROP );
+		return getBooleanProperty( ALLOW_NULL_PROP );
 	}
 
 	/**
@@ -207,8 +208,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setAllowNull( boolean allowNull ) throws SemanticException
 	{
-		setProperty( ScalarParameter.ALLOW_NULL_PROP, Boolean
-				.valueOf( allowNull ) );
+		setProperty( ALLOW_NULL_PROP, Boolean.valueOf( allowNull ) );
 	}
 
 	/**
@@ -220,7 +220,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public boolean allowBlank( )
 	{
-		return getBooleanProperty( ScalarParameter.ALLOW_BLANK_PROP );
+		return getBooleanProperty( ALLOW_BLANK_PROP );
 	}
 
 	/**
@@ -236,8 +236,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setAllowBlank( boolean allowNull ) throws SemanticException
 	{
-		setProperty( ScalarParameter.ALLOW_BLANK_PROP, Boolean
-				.valueOf( allowNull ) );
+		setProperty( ALLOW_BLANK_PROP, Boolean.valueOf( allowNull ) );
 	}
 
 	/**
@@ -388,7 +387,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getControlType( )
 	{
-		return getStringProperty( ScalarParameter.CONTROL_TYPE_PROP );
+		return getStringProperty( CONTROL_TYPE_PROP );
 	}
 
 	/**
@@ -414,7 +413,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setControlType( String controlType ) throws SemanticException
 	{
-		setStringProperty( ScalarParameter.CONTROL_TYPE_PROP, controlType );
+		setStringProperty( CONTROL_TYPE_PROP, controlType );
 	}
 
 	/**
@@ -435,7 +434,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getAlignment( )
 	{
-		return getStringProperty( ScalarParameter.ALIGNMENT_PROP );
+		return getStringProperty( ALIGNMENT_PROP );
 	}
 
 	/**
@@ -459,7 +458,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setAlignment( String align ) throws SemanticException
 	{
-		setStringProperty( ScalarParameter.ALIGNMENT_PROP, align );
+		setStringProperty( ALIGNMENT_PROP, align );
 	}
 
 	/**
@@ -472,7 +471,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public boolean isMustMatch( )
 	{
-		return getBooleanProperty( ScalarParameter.MUCH_MATCH_PROP );
+		return getBooleanProperty( MUCH_MATCH_PROP );
 	}
 
 	/**
@@ -488,8 +487,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setMustMatch( boolean mustMatch ) throws SemanticException
 	{
-		setProperty( ScalarParameter.MUCH_MATCH_PROP, Boolean
-				.valueOf( mustMatch ) );
+		setProperty( MUCH_MATCH_PROP, Boolean.valueOf( mustMatch ) );
 	}
 
 	/**
@@ -502,7 +500,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public boolean isFixedOrder( )
 	{
-		return getBooleanProperty( ScalarParameter.FIXED_ORDER_PROP );
+		return getBooleanProperty( FIXED_ORDER_PROP );
 	}
 
 	/**
@@ -518,8 +516,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setFixedOrder( boolean fixedOrder ) throws SemanticException
 	{
-		setProperty( ScalarParameter.FIXED_ORDER_PROP, Boolean
-				.valueOf( fixedOrder ) );
+		setProperty( FIXED_ORDER_PROP, Boolean.valueOf( fixedOrder ) );
 	}
 
 	/**
@@ -534,7 +531,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public Iterator choiceIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ScalarParameter.SELECTION_LIST_PROP );
+		PropertyHandle propHandle = getPropertyHandle( SELECTION_LIST_PROP );
 		return propHandle.iterator( );
 	}
 
@@ -578,7 +575,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setDataSetName( String dataSetName ) throws SemanticException
 	{
-		setStringProperty( ScalarParameter.DATASET_NAME_PROP, dataSetName );
+		setStringProperty( DATASET_NAME_PROP, dataSetName );
 	}
 
 	/**
@@ -591,7 +588,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getValueExpr( )
 	{
-		return getStringProperty( ScalarParameter.VALUE_EXPR_PROP );
+		return getStringProperty( VALUE_EXPR_PROP );
 	}
 
 	/**
@@ -608,7 +605,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setValueExpr( String valueExpr ) throws SemanticException
 	{
-		setStringProperty( ScalarParameter.VALUE_EXPR_PROP, valueExpr );
+		setStringProperty( VALUE_EXPR_PROP, valueExpr );
 	}
 
 	/**
@@ -621,7 +618,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getLabelExpr( )
 	{
-		return getStringProperty( ScalarParameter.LABEL_EXPR_PROP );
+		return getStringProperty( LABEL_EXPR_PROP );
 	}
 
 	/**
@@ -638,7 +635,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setLabelExpr( String labelExpr ) throws SemanticException
 	{
-		setStringProperty( ScalarParameter.LABEL_EXPR_PROP, labelExpr );
+		setStringProperty( LABEL_EXPR_PROP, labelExpr );
 	}
 
 	/**
@@ -712,6 +709,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * <li><code>PARAM_TYPE_STRING</code>
 	 * <li><code>PARAM_TYPE_FLOAT</code>
 	 * <li><code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_INTEGER</code>
 	 * <li><code>PARAM_TYPE_DATETYPE</code>
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
@@ -738,6 +736,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * <li><code>PARAM_TYPE_STRING</code>
 	 * <li><code>PARAM_TYPE_FLOAT</code>
 	 * <li><code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_INTEGER</code>
 	 * <li><code>PARAM_TYPE_DATETYPE</code>
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
@@ -776,7 +775,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getValueType( )
 	{
-		return getStringProperty( IScalarParameterModel.VALUE_TYPE_PROP );
+		return getStringProperty( VALUE_TYPE_PROP );
 	}
 
 	/**
@@ -816,7 +815,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setPromptText( String promptValue ) throws SemanticException
 	{
-		setStringProperty( IScalarParameterModel.PROMPT_TEXT_PROP, promptValue );
+		setStringProperty( PROMPT_TEXT_PROP, promptValue );
 	}
 
 	/**
@@ -828,7 +827,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getPromptText( )
 	{
-		return getStringProperty( IScalarParameterModel.PROMPT_TEXT_PROP );
+		return getStringProperty( PROMPT_TEXT_PROP );
 	}
 
 	/**
@@ -844,8 +843,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	public void setPromptTextID( String promptIDValue )
 			throws SemanticException
 	{
-		setStringProperty( IScalarParameterModel.PROMPT_TEXT_ID_PROP,
-				promptIDValue );
+		setStringProperty( PROMPT_TEXT_ID_PROP, promptIDValue );
 	}
 
 	/**
@@ -857,7 +855,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getPromptTextID( )
 	{
-		return getStringProperty( IScalarParameterModel.PROMPT_TEXT_ID_PROP );
+		return getStringProperty( PROMPT_TEXT_ID_PROP );
 	}
 
 	/**
@@ -870,8 +868,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getDisplayPromptText( )
 	{
-		return getExternalizedValue( IScalarParameterModel.PROMPT_TEXT_ID_PROP,
-				IScalarParameterModel.PROMPT_TEXT_PROP );
+		return getExternalizedValue( PROMPT_TEXT_ID_PROP, PROMPT_TEXT_PROP );
 	}
 
 	/**
@@ -887,7 +884,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setListlimit( int listLimit ) throws SemanticException
 	{
-		setIntProperty( IScalarParameterModel.LIST_LIMIT_PROP, listLimit );
+		setIntProperty( LIST_LIMIT_PROP, listLimit );
 	}
 
 	/**
@@ -899,7 +896,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public int getListlimit( )
 	{
-		return getIntProperty( IScalarParameterModel.LIST_LIMIT_PROP );
+		return getIntProperty( LIST_LIMIT_PROP );
 	}
 
 	/**

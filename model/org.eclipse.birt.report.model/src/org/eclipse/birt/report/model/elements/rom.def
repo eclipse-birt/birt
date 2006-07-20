@@ -179,6 +179,7 @@
     <Choice displayNameID="Choices.paramType.decimal" name="decimal"/>
     <Choice displayNameID="Choices.paramType.dateTime" name="dateTime"/>
     <Choice displayNameID="Choices.paramType.boolean" name="boolean"/>
+    <Choice displayNameID="Choices.paramType.integer" name="integer"/>
   </ChoiceType>
   <ChoiceType name="paramValueType">
     <Choice displayNameID="Choices.paramValueType.static" name="static"/>

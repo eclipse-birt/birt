@@ -250,6 +250,7 @@ public interface DesignChoiceConstants
 	public static final String PARAM_TYPE_DECIMAL = "decimal"; //$NON-NLS-1$
 	public static final String PARAM_TYPE_DATETIME = "dateTime"; //$NON-NLS-1$
 	public static final String PARAM_TYPE_BOOLEAN = "boolean"; //$NON-NLS-1$
+	public static final String PARAM_TYPE_INTEGER = "integer"; //$NON-NLS-1$
 
 	// paramValueType
 

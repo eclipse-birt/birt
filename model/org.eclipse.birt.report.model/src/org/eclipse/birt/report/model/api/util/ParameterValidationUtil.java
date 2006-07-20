@@ -42,6 +42,7 @@ import com.ibm.icu.util.UResourceBundle;
  * <li><code>PARAM_TYPE_DECIMAL</code></li>
  * <li><code>PARAM_TYPE_BOOLEAN</code></li>
  * <li><code>PARAM_TYPE_STRING</code></li>
+ * <li><code>PARAM_TYPE_INTEGER</code></li>
  * </ul>
  * 
  * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
@@ -113,6 +114,14 @@ public class ParameterValidationUtil
 				return null;
 			return new BigDecimal( number.doubleValue( ) );
 		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
+				.equalsIgnoreCase( dataType ) )
+		{
+			Number number = doValidateNumber( dataType, value, locale );
+			if ( number == null )
+				return null;
+			return new Integer( number.intValue( ) );
+		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
 				.equalsIgnoreCase( dataType ) )
 		{
@@ -180,12 +189,17 @@ public class ParameterValidationUtil
 		assert DesignChoiceConstants.PARAM_TYPE_FLOAT
 				.equalsIgnoreCase( dataType )
 				|| DesignChoiceConstants.PARAM_TYPE_DECIMAL
+						.equalsIgnoreCase( dataType )
+				|| DesignChoiceConstants.PARAM_TYPE_INTEGER
 						.equalsIgnoreCase( dataType );
 		value = StringUtil.trimString( value );
 		if ( value == null )
 			return null;
 
-		NumberFormat localeFormatter = NumberFormat.getNumberInstance( locale );
+		NumberFormat localeFormatter = DesignChoiceConstants.PARAM_TYPE_INTEGER
+				.equalsIgnoreCase( dataType ) ? NumberFormat
+				.getIntegerInstance( locale ) : NumberFormat
+				.getNumberInstance( locale );
 		try
 		{
 			// Parse in locale-dependent way.
@@ -375,6 +389,15 @@ public class ParameterValidationUtil
 				if ( number == null )
 					return null;
 				return new BigDecimal( number.doubleValue( ) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
+					.equalsIgnoreCase( dataType ) )
+			{
+				Number number = doValidateNumberByPattern( dataType, format,
+						value, locale );
+				if ( number == null )
+					return null;
+				return new Integer( number.intValue( ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_STRING
 					.equalsIgnoreCase( dataType ) )
@@ -618,6 +641,8 @@ public class ParameterValidationUtil
 		assert DesignChoiceConstants.PARAM_TYPE_FLOAT
 				.equalsIgnoreCase( dataType )
 				|| DesignChoiceConstants.PARAM_TYPE_DECIMAL
+						.equalsIgnoreCase( dataType )
+				|| DesignChoiceConstants.PARAM_TYPE_INTEGER
 						.equalsIgnoreCase( dataType );
 		if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED
 				.equalsIgnoreCase( format ) )
@@ -700,7 +725,7 @@ public class ParameterValidationUtil
 	{
 		if ( value == null )
 			return null;
-		
+
 		if ( value instanceof Date )
 		{
 			DateFormatter formatter = new DateFormatter( DEFAULT_LOCALE );
@@ -709,13 +734,18 @@ public class ParameterValidationUtil
 		}
 		else if ( value instanceof Float || value instanceof Double )
 		{
-			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );			
-			return formatter.format( ( (Double) value ).doubleValue( ) );
+			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );
+			return formatter.format( ( (Number) value ).doubleValue( ) );
 		}
 		else if ( value instanceof BigDecimal )
 		{
-			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );			
+			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );
 			return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
+		}
+		else if ( value instanceof Integer || value instanceof Long )
+		{
+			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );
+			return formatter.format( ( (Number) value ).longValue( ) );
 		}
 		else if ( value instanceof Boolean )
 		{
@@ -730,7 +760,7 @@ public class ParameterValidationUtil
 		}
 		else if ( value instanceof String )
 		{
-			StringFormatter formatter = new StringFormatter( DEFAULT_LOCALE );			
+			StringFormatter formatter = new StringFormatter( DEFAULT_LOCALE );
 			return formatter.format( (String) value );
 		}
 		else
@@ -792,7 +822,7 @@ public class ParameterValidationUtil
 		{
 			NumberFormatter formatter = new NumberFormatter( locale );
 			formatter.applyPattern( format );
-			return formatter.format( ( (Double) value ).doubleValue( ) );
+			return formatter.format( ( (Number) value ).doubleValue( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
 				.equalsIgnoreCase( dataType )
@@ -801,6 +831,14 @@ public class ParameterValidationUtil
 			NumberFormatter formatter = new NumberFormatter( locale );
 			formatter.applyPattern( format );
 			return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
+				.equalsIgnoreCase( dataType )
+				|| value instanceof Integer || value instanceof Long )
+		{
+			NumberFormatter formatter = new NumberFormatter( locale );
+			formatter.applyPattern( format );
+			return formatter.format( ( (Number) value ).longValue( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
 				.equalsIgnoreCase( dataType )
@@ -895,7 +933,7 @@ public class ParameterValidationUtil
 				|| value instanceof Float || value instanceof Double )
 		{
 			NumberFormat formatter = NumberFormat.getNumberInstance( locale );
-			return formatter.format( ( (Double) value ).doubleValue( ) );
+			return formatter.format( ( (Number) value ).doubleValue( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
 				.equalsIgnoreCase( dataType )
@@ -903,6 +941,13 @@ public class ParameterValidationUtil
 		{
 			NumberFormat formatter = NumberFormat.getNumberInstance( locale );
 			return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
+				.equalsIgnoreCase( dataType )
+				|| value instanceof Integer || value instanceof Long )
+		{
+			NumberFormat formatter = NumberFormat.getNumberInstance( locale );
+			return formatter.format( ( (Number) value ).longValue( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
 				.equalsIgnoreCase( dataType )
