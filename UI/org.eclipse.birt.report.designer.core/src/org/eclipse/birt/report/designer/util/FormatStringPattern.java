@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.util;
 
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 public class FormatStringPattern
@@ -37,19 +38,23 @@ public class FormatStringPattern
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE.equals( category ) )
 		{
-			pattern = "@@@@@"; //$NON-NLS-1$
+			pattern = Messages.getString( "FormatStringPage.simpleTexZipCodeFormat" );
+		//	pattern = "@@@@@"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4.equals( category ) )
 		{
-			pattern = "@@@@@-@@@@"; //$NON-NLS-1$
+			pattern = Messages.getString( "FormatStringPage.simpleTexZipCode4Format" );
+		//	pattern = "@@@@@-@@@@"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER.equals( category ) )
 		{
-			pattern = "(@@@)@@@-@@@@"; //$NON-NLS-1$
+			pattern = Messages.getString( "FormatStringPage.phoneNumberFormat" );
+		//	pattern = "(@@@)@@@-@@@@"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER.equals( category ) )
 		{
-			pattern = "@@@-@@-@@@@"; //$NON-NLS-1$
+			pattern = Messages.getString( "FormatStringPage.securityNumberFormat" );
+		//	pattern = "@@@-@@-@@@@"; //$NON-NLS-1$
 		}
 		else
 		{
