@@ -9,12 +9,9 @@ Bundle-Localization: plugin
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.birt.report.tests.model.acceptance,
  org.eclipse.birt.report.tests.model.api,
- org.eclipse.birt.report.tests.model.api.util,
  org.eclipse.birt.report.tests.model.APISamples,
  org.eclipse.birt.report.tests.model.compatibility,
  org.eclipse.birt.report.tests.model.regression,
- org.eclipse.birt.report.tests.model.reportItem,
- org.eclipse.birt.report.tests.model.reportItem.test,
  org.eclipse.birt.report.tests.model.smoke
 Require-Bundle: org.eclipse.birt.report.model,
  org.junit,
