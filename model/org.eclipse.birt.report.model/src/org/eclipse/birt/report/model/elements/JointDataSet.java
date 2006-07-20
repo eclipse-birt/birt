@@ -136,7 +136,7 @@ public class JointDataSet extends DataSet implements IJointDataSetModel
 		for ( int i = 0; i < dataSetsReferences.size( ); i++ )
 		{
 			results.add( ( (ElementRefValue) dataSetsReferences.get( i ) )
-					.getName( ) );
+					.getQualifiedReference( ) );
 		}
 		return results;
 	}

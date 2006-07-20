@@ -454,7 +454,7 @@ public class JoinCondition extends Structure
 			for ( dataSetIndex = 0; dataSetIndex < dataSetsReferences.size( ); dataSetIndex++ )
 			{
 				if ( ( (ElementRefValue) dataSetsReferences.get( dataSetIndex ) )
-						.getName( ).equals( dataSetName ) )
+						.getQualifiedReference( ).equals( dataSetName ) )
 				{
 					return;
 				}
