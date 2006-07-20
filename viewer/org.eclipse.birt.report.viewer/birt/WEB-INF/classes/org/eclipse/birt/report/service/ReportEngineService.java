@@ -283,8 +283,8 @@ public class ReportEngineService
 	 * @throws BirtException
 	 * 
 	 */
-	public synchronized static void initEngineInstance( ServletConfig servletConfig )
-			throws BirtException
+	public synchronized static void initEngineInstance(
+			ServletConfig servletConfig ) throws BirtException
 	{
 		if ( ReportEngineService.instance != null )
 		{
@@ -484,17 +484,14 @@ public class ReportEngineService
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( imageDirectory );
 		renderContext.setBaseImageURL( contextPath + imageBaseUrl );
-		if ( servletPath != null
-				&& servletPath.length( ) > 0
-				&& !servletPath
-						.equalsIgnoreCase( IBirtConstants.SERVLET_PATH_PREVIEW ) )
+		if ( servletPath != null && servletPath.length( ) > 0 )
 		{
 			renderContext.setBaseURL( this.contextPath + servletPath );
 		}
 		else
 		{
 			renderContext.setBaseURL( this.contextPath
-					+ IBirtConstants.SERVLET_PATH_FRAMESET );
+					+ IBirtConstants.SERVLET_PATH_RUN );
 		}
 
 		renderContext.setImageDirectory( imageDirectory );
@@ -506,13 +503,22 @@ public class ReportEngineService
 	/**
 	 * Create PDF render context.
 	 * 
+	 * @param servletPath
+	 * 
 	 * @return the PDF render context
 	 */
-	private PDFRenderContext createPDFrenderContext( )
+	private PDFRenderContext createPDFrenderContext( String servletPath )
 	{
 		PDFRenderContext renderContext = new PDFRenderContext( );
-		renderContext.setBaseURL( this.contextPath
-				+ IBirtConstants.SERVLET_PATH_RUN );
+		if ( servletPath != null && servletPath.length( ) > 0 )
+		{
+			renderContext.setBaseURL( this.contextPath + servletPath );
+		}
+		else
+		{
+			renderContext.setBaseURL( this.contextPath
+					+ IBirtConstants.SERVLET_PATH_RUN );
+		}
 		renderContext.setSupportedImageFormats( "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$
 		return renderContext;
 	}
@@ -630,7 +636,7 @@ public class ReportEngineService
 		if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 		{
 			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
-					createPDFrenderContext( ) );
+					createPDFrenderContext( request.getServletPath( ) ) );
 		}
 		else if ( htmlRenderContext != null )
 		{
@@ -792,7 +798,7 @@ public class ReportEngineService
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
 		{
 			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
-					createPDFrenderContext( ) );
+					createPDFrenderContext( request.getServletPath( ) ) );
 		}
 		else
 		{
@@ -911,7 +917,7 @@ public class ReportEngineService
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
 		{
 			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
-					createPDFrenderContext( ) );
+					createPDFrenderContext( request.getServletPath( ) ) );
 		}
 		else
 		{

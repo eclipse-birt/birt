@@ -314,13 +314,6 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 
 		if ( reportName != null && !reportName.equals( "" ) ) //$NON-NLS-1$
 		{
-			String format = action.getFormat( );
-			if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
-			{
-				baseURL = baseURL.replaceFirst( IBirtConstants.VIEWER_FRAMESET,
-						IBirtConstants.VIEWER_RUN );
-			}
-
 			link.append( baseURL );
 
 			link
@@ -338,6 +331,7 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 			}
 
 			// add format support
+			String format = action.getFormat( );
 			if ( format != null && format.length( ) > 0 )
 			{
 				link.append( ParameterAccessor.getQueryParameterString(
