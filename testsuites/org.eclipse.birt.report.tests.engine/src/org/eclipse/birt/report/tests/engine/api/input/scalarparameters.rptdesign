@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.v20060714-0934 Build &lt;20060714-0934></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <parameters>
+        <scalar-parameter name="p_string" id="4">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">abc</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="p_boolean" id="5">
+            <property name="valueType">static</property>
+            <property name="dataType">boolean</property>
+            <property name="controlType">check-box</property>
+            <property name="defaultValue">false</property>
+            <structure name="format"/>
+        </scalar-parameter>
+        <scalar-parameter name="p_conceal" id="6">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="concealValue">true</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">conceal</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="p_allowbn" id="7">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="allowNull">true</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="p_hidden" id="8">
+            <property name="hidden">false</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">hidden</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="p_datetime_format" id="10">
+            <property name="valueType">static</property>
+            <property name="dataType">dateTime</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">07/23/2006 10:20:30 AM</property>
+            <structure name="format">
+                <property name="category">Custom</property>
+                <property name="pattern">MM-yyyy</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="p_list" id="12">
+            <property name="valueType">static</property>
+            <property name="dataType">decimal</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">true</property>
+            <property name="defaultValue">2</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">1</property>
+                </structure>
+                <structure>
+                    <property name="value">2</property>
+                </structure>
+                <structure>
+                    <property name="value">3</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+        <scalar-parameter name="p_dispform_string" id="13">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">display format</property>
+            <structure name="format">
+                <property name="category">Custom</property>
+                <property name="pattern">(@@)</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="p_dispform_dt" id="14">
+            <property name="valueType">static</property>
+            <property name="dataType">dateTime</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Custom</property>
+                <property name="pattern">Short Date</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="p_dispform_num" id="15">
+            <property name="valueType">static</property>
+            <property name="dataType">decimal</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">123</property>
+            <structure name="format">
+                <property name="category">Scientific</property>
+                <property name="pattern">Scientific</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="p_combo_sort" id="16">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">true</property>
+            <property name="fixedOrder">false</property>
+            <property name="defaultValue">item2</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">item1</property>
+                </structure>
+                <structure>
+                    <property name="value">item2</property>
+                </structure>
+                <structure>
+                    <property name="value">item3</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+        <scalar-parameter name="p_align" id="17">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <property name="alignment">right</property>
+            <property name="defaultValue">p align</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+</report>
