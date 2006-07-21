@@ -2417,7 +2417,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitDataSet( obj );
 
 		writeStructureList( obj, DataSet.PARAMETERS_PROP );
-		writeStructureList( obj, DataSet.RESULT_SET_PROP );
 		writeStructureList( obj, DataSet.RESULT_SET_HINTS_PROP );
 		writeStructureList( obj, DataSet.COMPUTED_COLUMNS_PROP );
 		writeStructureList( obj, DataSet.COLUMN_HINTS_PROP );
@@ -2659,7 +2658,8 @@ public abstract class ModuleWriter extends ElementVisitor
 				OdaDataSet.EXTENSION_ID_PROP );
 
 		super.visitOdaDataSet( obj );
-
+		writeStructureList( obj, DataSet.RESULT_SET_PROP );
+		
 		if ( (String) obj.getLocalProperty( getModule( ),
 				OdaDataSet.QUERY_TEXT_PROP ) != null )
 		{
@@ -2846,6 +2846,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.JOINT_DATA_SET_TAG );
 		super.visitJointDataSet( obj );
 
+		writeStructureList( obj, DataSet.RESULT_SET_PROP );
 		writeSimplePropertyList( obj, JointDataSet.DATA_SETS_PROP );
 
 		writeStructureList( obj, JointDataSet.JOIN_CONDITONS_PROP );

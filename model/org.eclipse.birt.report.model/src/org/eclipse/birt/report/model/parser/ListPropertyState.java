@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -166,6 +167,10 @@ public class ListPropertyState extends AbstractPropertyState
 
 				if ( element instanceof Module
 						&& "includeLibraries".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+					return;
+
+				if ( element instanceof ScriptDataSet
+						&& "resultSet".equalsIgnoreCase( name ) ) //$NON-NLS-1$
 					return;
 
 				// If the property name is invalid, no error will be reported.
@@ -314,11 +319,21 @@ public class ListPropertyState extends AbstractPropertyState
 				&& ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
 						|| ScalarParameter.BOUND_DATA_COLUMNS_PROP
 								.equalsIgnoreCase( name ) || "boundDataColumns" //$NON-NLS-1$
-						.equalsIgnoreCase( name ) ) )
+				.equalsIgnoreCase( name ) ) )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
 					handler, element );
 			state.setName( name );
+			return state;
+		}
+
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.3" ) < 0 //$NON-NLS-1$
+				&& element instanceof ScriptDataSet
+				&& "resultSet".equals( name ) ) //$NON-NLS-1$
+		{
+			CompatibleRenameListPropertyState state = new CompatibleRenameListPropertyState(
+					handler, element, name );
+			state.setName( ScriptDataSet.RESULT_SET_HINTS_PROP );
 			return state;
 		}
 

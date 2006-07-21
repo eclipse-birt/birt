@@ -11,15 +11,11 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.List;
-
-import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
-import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
-import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -98,16 +94,16 @@ class SimpleDataSetState extends ReportElementState
 
 	public void end( ) throws SAXException
 	{
-		doCompatibleDataSetProperty( element );
-
 		DesignElement element = getElement( );
 		TemplateParameterDefinition refTemplateParam = element
 				.getTemplateParameterElement( handler.getModule( ) );
 		if ( refTemplateParam != null )
 		{
 			DesignElement defaultElement = refTemplateParam.getDefaultElement( );
+			IElementDefn elementDefn = element.getDefn( );
+			IElementDefn defaultElementDefn = defaultElement.getDefn( );
 
-			if ( !( defaultElement instanceof SimpleDataSet ) )
+			if ( elementDefn != defaultElementDefn )
 			{
 				handler
 						.getErrorHandler( )
@@ -119,35 +115,8 @@ class SimpleDataSetState extends ReportElementState
 														.getIdentifier( )},
 										DesignParserException.DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE ) );
 			}
-			else
-			{
-				doCompatibleDataSetProperty( defaultElement );
-			}
 		}
-		else
-		{
-			// fire an error
-		}
-		super.end( );
-	}
 
-	private void doCompatibleDataSetProperty( DesignElement dataSet )
-	{
-		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) < 0 ) ) //$NON-NLS-1$
-		{
-			List dataSetColumns = (List) dataSet.getProperty( null,
-					IDataSetModel.RESULT_SET_PROP );
-			Object dataSetHints = dataSet.getProperty( null,
-					IDataSetModel.RESULT_SET_HINTS_PROP );
-			if ( dataSetHints == null && dataSetColumns != null )
-				dataSet
-						.setProperty(
-								IDataSetModel.RESULT_SET_HINTS_PROP,
-								ModelUtil
-										.copyValue(
-												dataSet
-														.getPropertyDefn( IDataSetModel.RESULT_SET_HINTS_PROP ),
-												dataSetColumns ) );
-		}
+		super.end( );
 	}
 }

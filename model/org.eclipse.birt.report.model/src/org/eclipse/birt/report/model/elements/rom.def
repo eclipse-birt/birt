@@ -2020,19 +2020,16 @@
   </Element>
   <Element canExtend="true" displayNameID="Element.ScriptDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" name="ScriptDataSource" since="1.0" xmlName="script-data-source">
     <Method context="factory" displayNameID="Element.ScriptDataSource.open" name="open" since="1.0" toolTipID="Element.ScriptDataSource.open.toolTip" >
-      <Argument name="this" tagID="Element.ScriptDataSet.open.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance"/>
+      <Argument name="this" tagID="Element.ScriptDataSource.open.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance"/>
 	</Method>			
     <Method context="factory" displayNameID="Element.ScriptDataSource.close" name="close" since="1.0" toolTipID="Element.ScriptDataSource.close.toolTip" >
-      <Argument name="this" tagID="Element.ScriptDataSet.close.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance"/>
+      <Argument name="this" tagID="Element.ScriptDataSource.close.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance"/>
 	</Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSet" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSet" nameSpace="dataSet" since="2.1" xmlName="data-set">
     <Property detailType="DataSetParam" displayNameID="Element.DataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Property detailType="ComputedColumn" displayNameID="Element.DataSet.computedColumns" isList="true" name="computedColumns" since="1.0" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.DataSet.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
-    <Property detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
-	  <Trigger validator="DataSetResultSetValidator"/>
-	</Property>
 	<Property detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSetHints" isList="true" name="resultSetHints" since="2.1" type="structure"/>
     <Property detailType="ColumnHint" displayNameID="Element.DataSet.columnHints" isList="true" name="columnHints" since="1.0" type="structure"/>
 	<Property detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" isList="false" name="cachedMetaData" since="1.0" type="structure"/>
@@ -2081,6 +2078,9 @@
 	</Method>
   </Element>
   <Element canExtend="true" displayNameID="Element.OdaDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">
+    <Property detailType="ResultSetColumn" displayNameID="Element.OdaDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
+	  <Trigger validator="DataSetResultSetValidator"/>
+	</Property>	  	  
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="literalString"/>
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
@@ -2091,6 +2091,9 @@
     <PropertyVisibility name="privateDriverProperties" visibility="hide"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.JointDataSet" extends="DataSet" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.JointDataSet" name="JointDataSet" since="2.1" xmlName="joint-data-set">
+    <Property detailType="ResultSetColumn" displayNameID="Element.JointDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
+	  <Trigger validator="DataSetResultSetValidator"/>
+	</Property>	  
     <Property subType="element" detailType="DataSet" displayNameID="Element.JointDataSet.dataSets" name="dataSets" runtimeSettable="true" since="2.1" type="list"/>
     <Property detailType="JoinCondition" displayNameID="Element.JointDataSet.joinConditions" isList="true" name="joinConditions" runtimeSettable="true" since="2.1" type="structure"/>
   </Element>

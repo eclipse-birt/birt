@@ -11,15 +11,22 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * This class parses an extended data set. Note: this is temporary syntax, the
@@ -29,6 +36,7 @@ import org.xml.sax.Attributes;
 
 public class OdaDataSetState extends SimpleDataSetState
 {
+
 	/**
 	 * Old extension id of flat file in BIRT 1.0 or before.
 	 */
@@ -41,7 +49,6 @@ public class OdaDataSetState extends SimpleDataSetState
 
 	private static final String NEW_FLAT_FILE_ID = "org.eclipse.datatools.connectivity.oda.flatfile.dataSet"; //$NON-NLS-1$
 
-	
 	/**
 	 * Constructs the oda data set with the design file parser handler.
 	 * 
@@ -72,6 +79,7 @@ public class OdaDataSetState extends SimpleDataSetState
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );
+		element = new OdaDataSet( );
 	}
 
 	/*
@@ -148,23 +156,74 @@ public class OdaDataSetState extends SimpleDataSetState
 				if ( OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase( extensionID ) )
 					extensionID = NEW_FLAT_FILE_ID;
 			}
-			
+
 			if ( ODAProviderFactory.getInstance( ).createODAProvider( element,
 					extensionID ) == null )
 				return;
-				
-				if ( !ODAProviderFactory.getInstance( ).createODAProvider(
-						element, extensionID ).isValidODADataSetExtensionID(
-						extensionID ) )
-				{
-					SemanticError e = new SemanticError( element,
-							new String[]{extensionID},
-							SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
-					RecoverableError.dealMissingInvalidExtension( handler, e );
-				}
+
+			if ( !ODAProviderFactory.getInstance( ).createODAProvider( element,
+					extensionID ).isValidODADataSetExtensionID( extensionID ) )
+			{
+				SemanticError e = new SemanticError( element,
+						new String[]{extensionID},
+						SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
+				RecoverableError.dealMissingInvalidExtension( handler, e );
+			}
 		}
 
 		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.SimpleDataSetState#end()
+	 */
+
+	public void end( ) throws SAXException
+	{
+		super.end( );
+		
+		DesignElement tmpElement = getElement( );		
+		doCompatibleDataSetProperty( tmpElement );
+		
+		TemplateParameterDefinition refTemplateParam = tmpElement
+				.getTemplateParameterElement( handler.getModule( ) );
+		if ( refTemplateParam == null )
+			return;
+
+		doCompatibleDataSetProperty( refTemplateParam.getDefaultElement( ) );
+	}
+
+	/**
+	 * Copies the value from resultSet to resultSetHints.
+	 * 
+	 * @param dataSet
+	 *            the data set element
+	 */
+
+	private void doCompatibleDataSetProperty( DesignElement dataSet )
+	{
+		if ( dataSet == null )
+			return;
+
+		assert dataSet instanceof OdaDataSet;
+
+		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) < 0 ) ) //$NON-NLS-1$
+		{
+			List dataSetColumns = (List) dataSet.getProperty( null,
+					IDataSetModel.RESULT_SET_PROP );
+			Object dataSetHints = dataSet.getProperty( null,
+					IDataSetModel.RESULT_SET_HINTS_PROP );
+			if ( dataSetHints == null && dataSetColumns != null )
+				dataSet
+						.setProperty(
+								IDataSetModel.RESULT_SET_HINTS_PROP,
+								ModelUtil
+										.copyValue(
+												dataSet
+														.getPropertyDefn( IDataSetModel.RESULT_SET_HINTS_PROP ),
+												dataSetColumns ) );
+		}
+	}
 }

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -150,6 +152,23 @@ public class ScriptDataSetHandle extends DataSetHandle
 	public void setClose( String value ) throws SemanticException
 	{
 		setStringProperty( ScriptDataSet.CLOSE_METHOD, value );
+	}
+
+	/**
+	 * Returns an iterator over hints of the result set columns. The iterator
+	 * returns instances of <code>ResultSetColumnHandle</code> that represents
+	 * hints of result set column object.
+	 * 
+	 * @return iterator over hints of result set columns.
+	 * 
+	 * @deprecated by {#resultSetHintsIterator()}
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#resultSetIterator()
+	 */
+
+	public Iterator resultSetIterator( )
+	{
+		return super.resultSetHintsIterator( );
 	}
 
 }
