@@ -206,14 +206,15 @@ public class TableOptionDialog extends BaseDialog
 		gdata.horizontalSpan = 2;
 		chkbox.setLayoutData( gdata );
 
-		if(insertTable)
+		if ( insertTable )
 		{
 			UIUtil.bindHelp( parent, IHelpContextIds.TABLE_OPTION_DIALOG_ID );
-		}else
+		}
+		else
 		{
 			UIUtil.bindHelp( parent, IHelpContextIds.Grid_OPTION_DIALOG_ID );
-		}		
-		
+		}
+
 		return composite;
 	}
 
