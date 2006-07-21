@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.command;
 
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.api.command.NameSpaceEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -95,7 +96,7 @@ class RenameInNameSpaceRecord extends SimpleRecord
 	
 	public NotificationEvent getEvent( )
 	{
-		return null;
+		return new NameEvent( element, oldName, newName );
 	}
 
 }

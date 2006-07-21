@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.command.NameSpaceEvent;
+import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -203,7 +203,12 @@ public class NameSpaceRecord extends SimpleRecord
 
 	public NotificationEvent getEvent( )
 	{
-		return null;
+		NotificationEvent event = null;
+		if ( this.add )
+			event = new NameEvent( element, null, element.getName( ));
+		else
+			event = new NameEvent( element, element.getName( ), null );
+		return event;
 	}
 
 }
