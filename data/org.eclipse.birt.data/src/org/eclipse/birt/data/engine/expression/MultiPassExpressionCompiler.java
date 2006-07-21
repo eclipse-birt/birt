@@ -157,24 +157,46 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 						CompiledExpression expr = null;
 						if ( grandfather != null )
 						{
-							grandfather.replaceChild( parent,
-									tree.getFirstChild( ) );
-							expr = processChild( context,
-									false,
-									grandfather.getFirstChild( ),
-									tree.getFirstChild( ).getFirstChild( ),
-									grandfather );
+							if ( tree.getFirstChild( ) == tree.getLastChild( ) )
+							{
+								grandfather.replaceChild( parent,
+										tree.getFirstChild( ) );
+								expr = processChild( context,
+										false,
+										tree.getFirstChild( ),
+										tree.getFirstChild( ).getFirstChild( ),
+										grandfather );
+							}
+							else
+							{
+								grandfather.replaceChild( grandfather.getFirstChild( ),
+										tree.getFirstChild( ) );
+								grandfather.replaceChild( grandfather.getLastChild( ),
+										tree.getLastChild( ) );
+								expr = this.compileComplexExpr( context,
+										tree,
+										false );
+							}
 						}
 						else
 						{
-							parent.replaceChild( refNode, tree.getFirstChild( )
-									.getFirstChild( ) );
+							if ( tree.getFirstChild( ) == tree.getLastChild( ) )
+							{
+								parent.replaceChild( refNode,
+										tree.getFirstChild( ).getFirstChild( ) );
+								expr = processChild( context,
+										false,
+										parent,
+										tree.getFirstChild( ).getFirstChild( ),
+										grandfather );
 
-							expr = processChild( context,
-									false,
-									parent,
-									tree.getFirstChild( ).getFirstChild( ) , grandfather);
-
+							}
+							else
+							{
+								expr = this.compileComplexExpr( context,
+										tree,
+										false );
+							}						
 						}
 						currentGroupLevelList.remove( currentGroupLevelList.size( ) - 1 );
 						if ( expr != null )
