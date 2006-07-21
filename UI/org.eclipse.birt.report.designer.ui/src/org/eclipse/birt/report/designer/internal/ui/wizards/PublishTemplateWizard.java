@@ -177,18 +177,20 @@ public class PublishTemplateWizard extends Wizard
 
 		if ( overwrite == Window.OK )
 		{
-			copyIconFile( );
+			if(page.getPreviewImagePath( ) != null && page.getPreviewImagePath( ).trim().length( ) != 0 )
+			{
+				copyIconFile( page.getPreviewImagePath( ).trim() );
+			}
+			
 		}
 		return  overwrite != 1 ;
 	}
 
-	private int copyIconFile( )
+	private int copyIconFile( String filePath )
 	{
 		String templateFolderPath = ReportPlugin.getDefault( )
 				.getTemplatePreference( );
-
-		String filePath = page.getPreviewImagePath( );
-
+	
 		if ( !( new File( filePath ).exists( ) ) )
 		{
 			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
