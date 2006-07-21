@@ -83,6 +83,8 @@ public interface IHelpContextIds
 	public static final String IMAGE_BUIDLER_ID = PREFIX + "ImageBuilder_ID";
 	
 	public static final String TABLE_OPTION_DIALOG_ID = PREFIX + "TableOptionDialog_ID";
+
+	public static final String Grid_OPTION_DIALOG_ID = PREFIX + "GridOptionDialog_ID";
 	
 	public static final String TEXT_EDITOR_ID = PREFIX + "TextEditor_ID";
 	
