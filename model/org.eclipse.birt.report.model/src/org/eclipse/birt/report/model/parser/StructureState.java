@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
@@ -311,17 +312,6 @@ public class StructureState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( element instanceof OdaDataSet
-				&& OdaDataSet.DESIGNER_STATE_PROP.equalsIgnoreCase( name )
-				|| ( element instanceof OdaDataSource && OdaDataSource.DESIGNER_STATE_PROP
-						.equalsIgnoreCase( name ) ) )
-		{
-			OdaDesignerStateStructureState state = new OdaDesignerStateStructureState(
-					handler, element );
-			state.setName( name );
-			return state;
-		}
-
 		String propName = propDefn == null ? null : propDefn.getName( );
 
 		if ( ( element instanceof DataSet ) )
@@ -411,6 +401,9 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( CustomColor.CUSTOM_COLOR_STRUCT.toLowerCase( ),
 				CustomColor.class );
+
+		structDict.put( EmbeddedImage.EMBEDDED_IMAGE_STRUCT.toLowerCase( ),
+				EmbeddedImage.class );
 
 		structDict.put( FilterCondition.FILTER_COND_STRUCT.toLowerCase( ),
 				FilterCondition.class );

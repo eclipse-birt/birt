@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -218,6 +219,30 @@ public class ReportDesign extends Module implements IReportDesignModel
 		}
 
 		return rtnList;
+	}
+	
+	/**
+	 * Gets the thumbnail image in Base64 encoding.
+	 * 
+	 * @return the thumbnail image in Base64 encoding
+	 */
+
+	public byte[] getThumbnail( )
+	{
+		String data = getStringProperty( this, THUMBNAIL_PROP );
+		if ( data == null )
+			return null;
+
+		try
+		{
+			return data.getBytes( CHARSET );
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			assert false;
+		}
+
+		return null;
 	}
 
 }

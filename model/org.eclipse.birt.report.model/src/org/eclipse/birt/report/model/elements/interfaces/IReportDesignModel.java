@@ -61,6 +61,19 @@ public interface IReportDesignModel
 	 */
 	
 	public static final String CHEAT_SHEET_PROP = "cheatSheet"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property to store the thumbnail image for the design or
+	 * template.
+	 */
+	
+	public static final String THUMBNAIL_PROP = "thumbnail"; //$NON-NLS-1$
+	
+	/**
+	 * Encoding mode for the thumbnail image.
+	 */
+
+	public static final String CHARSET = "8859_1"; //$NON-NLS-1$
 
 	// Design slots
 	// See constants defined in the module class.

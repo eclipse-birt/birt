@@ -270,14 +270,6 @@ public class ListPropertyState extends AbstractPropertyState
 
 		if ( element instanceof Module )
 		{
-			if ( Module.IMAGES_PROP.equalsIgnoreCase( name ) )
-			{
-				AbstractPropertyState state = new EmbeddedImagePropertyListState(
-						handler, element );
-				state.setName( name );
-				return state;
-			}
-
 			if ( Module.INCLUDE_SCRIPTS_PROP.equalsIgnoreCase( name ) )
 			{
 				SimpleStructureListState state = new SimpleStructureListState(

@@ -203,10 +203,7 @@ public class NameSpaceRecord extends SimpleRecord
 
 	public NotificationEvent getEvent( )
 	{
-		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
-			return new NameSpaceEvent( root, nameSpaceID, NameSpaceEvent.ADD );
-
-		return new NameSpaceEvent( root, nameSpaceID, NameSpaceEvent.REMOVE );
+		return null;
 	}
 
 }

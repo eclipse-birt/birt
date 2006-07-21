@@ -38,7 +38,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * command and record are invoked and the record will eventually send out a kind
  * of NotificationEvent, when calling the {@link #getEventType()}of the event,
  * the return value will be one of the constants defined here.
- *  
+ * 
  */
 
 public abstract class NotificationEvent
@@ -66,7 +66,10 @@ public abstract class NotificationEvent
 
 	/**
 	 * The event type of NameSpaceEvent.
+	 * 
+	 * @deprecated since BIRT 2.1
 	 */
+	
 	public static final int NAME_SPACE_EVENT = 4;
 
 	/**
@@ -124,38 +127,37 @@ public abstract class NotificationEvent
 	 */
 
 	public static final int LAYOUT_CHANGED_EVENT = 14;
-	
+
 	/**
 	 * The event type of THEME_EVENT.
 	 */
 
 	public static final int THEME_EVENT = 15;
-	
 
 	/**
 	 * The event type of CONTENT_REPLACE_EVENT.
 	 */
-	
+
 	public static final int CONTENT_REPLACE_EVENT = 16;
-	
+
 	/**
 	 * The event type of TEMPLATE_TRANSFORM_EVENT.
 	 */
-	
+
 	public static final int TEMPLATE_TRANSFORM_EVENT = 17;
-	
+
 	/**
 	 * The event type of ELEMENT_LOCALIZE_EVENT
 	 */
-	
+
 	public static final int ELEMENT_LOCALIZE_EVENT = 18;
 
 	/**
 	 * The event type of LIBRARY_RELOADED_EVENT
 	 */
-	
+
 	public static final int LIBRARY_RELOADED_EVENT = 19;
-	
+
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
 

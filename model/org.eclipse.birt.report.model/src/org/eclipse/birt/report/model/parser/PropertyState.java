@@ -16,9 +16,11 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -34,6 +36,7 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
@@ -280,6 +283,29 @@ class PropertyState extends AbstractPropertyState
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, propDefn, struct, "aggregrateOn" ); //$NON-NLS-1$
 			state.setName( ComputedColumn.AGGREGATEON_MEMBER );
+			return state;
+		}
+
+		if ( element instanceof ReportDesign
+				&& IReportDesignModel.THUMBNAIL_PROP.equalsIgnoreCase( name ) )
+		{
+			Base64PropertyState state = new Base64PropertyState( handler,
+					element, IReportDesignModel.CHARSET );
+			state.setName( name );
+			return state;
+		}
+		
+		if ( struct instanceof EmbeddedImage && EmbeddedImage.DATA_MEMBER.equalsIgnoreCase( name ) )
+		{
+			Base64PropertyState state = new Base64PropertyState( handler, element, propDefn, struct, EmbeddedImage.CHARSET );
+			state.setName( name );
+			return state;
+		}
+		
+		if ( struct instanceof OdaDesignerState && OdaDesignerState.CONTENT_AS_BLOB_MEMBER.equalsIgnoreCase( name ) )
+		{
+			Base64PropertyState state = new Base64PropertyState( handler, element, propDefn, struct, OdaDesignerState.CHARSET );
+			state.setName( name );
 			return state;
 		}
 

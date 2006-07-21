@@ -95,8 +95,7 @@ class RenameInNameSpaceRecord extends SimpleRecord
 	
 	public NotificationEvent getEvent( )
 	{
-		return new NameSpaceEvent( module, nameSpaceID, element,
-				NameSpaceEvent.ELEMENT_RENAMED );
+		return null;
 	}
 
 }

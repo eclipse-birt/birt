@@ -17,6 +17,8 @@ import org.eclipse.birt.report.model.core.DesignElement;
 /**
  * Indicates that the contents of a name space changed.
  * 
+ * @deprecated Since BIRT 2.1, there will no such event send by BIRT
+ * 
  */
 
 public class NameSpaceEvent extends NotificationEvent

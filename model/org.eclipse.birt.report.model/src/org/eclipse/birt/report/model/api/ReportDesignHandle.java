@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -534,6 +535,50 @@ public class ReportDesignHandle extends ModuleHandle
 	public String getCheatSheet( )
 	{
 		return getStringProperty( CHEAT_SHEET_PROP );
+	}
+	
+	/**
+	 * Sets the thumbnail image encoded in ISO-8859-1.
+	 * 
+	 * @param data
+	 *            the thumbnail image to set
+	 * @throws SemanticException
+	 *             if the property is locked or not defined on this design.
+	 */
+
+	public void setThumbnail( byte[] data ) throws SemanticException
+	{
+		try
+		{
+			setStringProperty( THUMBNAIL_PROP, new String( data, CHARSET ) );
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			assert false;
+		}
+	}
+
+	/**
+	 * Gets the thumbnail image encoded in ISO-8859-1.
+	 * 
+	 * @return the thumbnail image
+	 */
+
+	public byte[] getThumbnail( )
+	{
+		return ( (ReportDesign) module ).getThumbnail( );
+	}
+	
+	/**
+	 * Deletes the thumbnail image in the design.
+	 * 
+	 * @throws SemanticException
+	 *             if the property is locked or not defined on this design.
+	 */
+
+	public void deleteThumbnail( ) throws SemanticException
+	{
+		clearProperty( THUMBNAIL_PROP );
 	}
 
 	/**

@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.report.model.writer;
 
+import java.io.UnsupportedEncodingException;
+
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -120,6 +123,29 @@ public class DesignWriter extends ModuleWriter
 				DesignSchemaConstants.BODY_TAG );
 		writeContents( obj, ReportDesign.SCRATCH_PAD_SLOT,
 				DesignSchemaConstants.SCRATCH_PAD_TAG );
+
+		// write thumbnail
+
+		try
+		{
+			byte[] thumbnail = design.getThumbnail( );
+			if ( thumbnail != null )
+			{
+				byte[] data = base.encode( design.getThumbnail( ) );
+				String value = new String( data, OdaDesignerState.CHARSET );
+
+				if ( value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
+					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
+							IReportDesignModel.THUMBNAIL_PROP, value, false );
+				else
+					writeLongIndentText( DesignSchemaConstants.PROPERTY_TAG,
+							IReportDesignModel.THUMBNAIL_PROP, value );
+			}
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			assert false;
+		}
 
 		// Embedded images
 
