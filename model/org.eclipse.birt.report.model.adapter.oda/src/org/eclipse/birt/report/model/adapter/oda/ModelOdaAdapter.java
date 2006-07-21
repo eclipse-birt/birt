@@ -213,7 +213,7 @@ public class ModelOdaAdapter
 		List dataSetParams = new DataSetParameterAdapter( ).newROMSetParams(
 				setDesign.getParameters( ), setDesign
 						.getOdaExtensionDataSourceId( ), setDesign
-						.getOdaExtensionDataSetId( ) );
+						.getOdaExtensionDataSetId( ), setHandle );
 		PropertyValueValidationUtil.validateProperty( setHandle,
 				OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
 		setHandle.getElement( ).setProperty( OdaDataSetHandle.PARAMETERS_PROP,
@@ -974,7 +974,7 @@ public class ModelOdaAdapter
 			updateROMDataSetParamList( setHandle, new DataSetParameterAdapter( )
 					.newROMSetParams( setDesign.getParameters( ), setDesign
 							.getOdaExtensionDataSourceId( ), setDesign
-							.getOdaExtensionDataSetId( ) ) );
+							.getOdaExtensionDataSetId( ), setHandle ) );
 
 			ResultSetDefinition resultDefn = setDesign.getPrimaryResultSet( );
 			if ( resultDefn == null )
