@@ -124,7 +124,7 @@ public class ListContainerExecutor extends BlockStackingExecutor
 					IListBandContent band = (IListBandContent)nextContent;
 					if(repeat && (band.getBandType( )==IBandContent.BAND_HEADER || band.getBandType( )==IBandContent.BAND_GROUP_HEADER))
 					{
-						execute(next, nextContent);
+						executeHeader(next, nextContent);
 						next.close( );
 						next = new DOMReportItemExecutor(nextContent);
 						next.execute( );
@@ -156,6 +156,21 @@ public class ListContainerExecutor extends BlockStackingExecutor
 		}
 		
 		protected void execute(IReportItemExecutor executor, IContent content)
+		{
+			while(executor.hasNextChild( ))
+			{
+				IReportItemExecutor childExecutor = executor.getNextChild( );
+				if(childExecutor!=null)
+				{
+					IContent childContent = childExecutor.execute( );
+					content.getChildren( ).add( childContent );
+					execute(childExecutor, childContent);
+					childExecutor.close( );
+				}
+			}
+		}
+		
+		protected void executeHeader(IReportItemExecutor executor, IContent content)
 		{
 			while(executor.hasNextChild( ))
 			{
