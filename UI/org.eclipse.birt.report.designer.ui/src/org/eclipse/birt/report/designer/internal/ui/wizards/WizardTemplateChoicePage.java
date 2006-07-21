@@ -122,15 +122,16 @@ public class WizardTemplateChoicePage extends WizardPage
 			this.cheatSheetId = cheatSheetId;
 		}
 
-		public Template( String reportPath ) throws DesignFileException
+		public Template( String reportName ) throws DesignFileException
 		{
-			reportDesign = (ReportDesignHandle) files.get( reportPath );
+			String fullName = convertFileName2Absolute(reportName);
+			reportDesign = (ReportDesignHandle) files.get( fullName );			
 			if ( reportDesign == null )
 			{
 				reportDesign = SessionHandleAdapter.getInstance( )
 						.getSessionHandle( )
-						.openDesign( reportPath );
-				files.put( reportPath, reportDesign );
+						.openDesign( fullName );
+				files.put( fullName, reportDesign );
 			}
 
 			// Todo: get description from report design.
@@ -144,7 +145,7 @@ public class WizardTemplateChoicePage extends WizardPage
 
 			picturePath = reportDesign.getIconFile( ) == null ? "" : reportDesign.getIconFile( );//$NON-NLS-1$
 			cheatSheetId = reportDesign.getCheatSheet( ) == null ? "" : reportDesign.getCheatSheet( );//$NON-NLS-1$
-			this.reportPath = reportPath;
+			this.reportPath = reportName;
 
 		}
 
@@ -231,43 +232,43 @@ public class WizardTemplateChoicePage extends WizardPage
 	protected Template[] preDefinedTemplates = new Template[]{
 			new Template( TITLE_BLANK_REPORT,
 					DESCRIPTION_BLANK_REPORT,
-					"/templates/blank_report.rptdesign", //$NON-NLS-1$
-					"/templates/blank_report.gif", //$NON-NLS-1$
+					"blank_report.rptdesign", //$NON-NLS-1$
+					"blank_report.gif", //$NON-NLS-1$
 					"" ), //$NON-NLS-1$
 			new Template( TITLE_FIRST_REPORT,
 					DESCRIPTION_FIRST_REPORT,
-					"/templates/blank_report.rptdesign", //$NON-NLS-1$
-					"/templates/first_report.gif", //$NON-NLS-1$
+					"blank_report.rptdesign", //$NON-NLS-1$
+					"first_report.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ), //$NON-NLS-1$
 			new Template( TITLE_SIMPLE_LISTING,
 					DESCRIPTION_SIMPLE_LISTING,
-					"/templates/simple_listing.rptdesign", //$NON-NLS-1$
-					"/templates/simple_listing.gif", //$NON-NLS-1$
+					"simple_listing.rptdesign", //$NON-NLS-1$
+					"simple_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.simplelisting" ), //$NON-NLS-1$
 			new Template( TITLE_GROUPED_LISTING,
 					DESCRIPTION_GROUPED_LISTING,
-					"/templates/grouped_listing.rptdesign", //$NON-NLS-1$
-					"/templates/grouped_listing.gif", //$NON-NLS-1$
+					"grouped_listing.rptdesign", //$NON-NLS-1$
+					"grouped_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.groupedlisting" ), //$NON-NLS-1$
 			new Template( TITLE_DUAL_COLUMN_LISTING,
 					DESCRIPTION_DUAL_COLUMN_LISTING,
-					"/templates/dual_column_listing.rptdesign", //$NON-NLS-1$
-					"/templates/dual_column_listing.gif", //$NON-NLS-1$
+					"dual_column_listing.rptdesign", //$NON-NLS-1$
+					"dual_column_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.dualcolumnlisting" ), //$NON-NLS-1$
 			new Template( TITLE_CHART_LISTING,
 					DESCRIPTION_CHART_LISTING,
-					"/templates/chart_listing.rptdesign", //$NON-NLS-1$
-					"/templates/chart_listing.gif", //$NON-NLS-1$
+					"chart_listing.rptdesign", //$NON-NLS-1$
+					"chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.chartlisting" ), //$NON-NLS-1$
 			new Template( TITLE_DUAL_COLUMN_CHART_LISTING,
 					DESCRIPTION_DUAL_COLUMN_CHART_LISTING,
-					"/templates/dual_column_chart_listing.rptdesign", //$NON-NLS-1$
-					"/templates/dual_column_chart_listing.gif", //$NON-NLS-1$
+					"dual_column_chart_listing.rptdesign", //$NON-NLS-1$
+					"dual_column_chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.dualchartlisting" ), //$NON-NLS-1$
 			new Template( TITLE_SIDE_BY_SIDE_CHART_LISTING,
 					DESCRIPTION_SIDE_BY_SIDE_CHART_LISTING,
-					"/templates/sidebyside_chart_listing.rptdesign", //$NON-NLS-1$
-					"/templates/sidebyside_chart_listing.gif", //$NON-NLS-1$
+					"sidebyside_chart_listing.rptdesign", //$NON-NLS-1$
+					"sidebyside_chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.sidebysidechartlisting" ), //$NON-NLS-1$
 	/*
 	 * new Template( TITLE_MAILING_LABELS, DESCRIPTION_MAILING_LABELS,
@@ -457,7 +458,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			{
 				try
 				{
-					templates.add( new Template( filesArray[i].getAbsolutePath( ) ) );
+					templates.add( new Template( filesArray[i].getName( ) ) );
 				}
 				catch ( Exception e )
 				{
@@ -483,6 +484,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			// we need to relayout if the new text has different number of lines
 			previewPane.layout( );
 			String key = ( (Template) templates.get( selectedIndex ) ).getPicturePath( );
+			key = convertFileName2Absolute(key);
 			Object img = null;
 			if ( key == null || "".equals( key.trim( ) ) ) //$NON-NLS-1$
 			{
@@ -567,4 +569,29 @@ public class WizardTemplateChoicePage extends WizardPage
 		}
 	}
 
+	private String convertFileName2Absolute(String fileName)
+	{
+		String fullPath = fileName;
+		String templateFolderPath = ReportPlugin.getDefault( )
+		.getTemplatePreference( );
+
+		if(templateFolderPath.indexOf( "\\" ) < 0 )
+		{
+			if(!templateFolderPath.endsWith( "/" ))
+			{
+				templateFolderPath = templateFolderPath + "/";
+			}
+			
+		}else // > 0
+		{
+			if(!templateFolderPath.endsWith( "\\" ))
+			{
+				templateFolderPath = templateFolderPath + "\\";
+			}
+		}
+		
+		fullPath = templateFolderPath + fileName;
+		
+		return fullPath;
+	}
 }

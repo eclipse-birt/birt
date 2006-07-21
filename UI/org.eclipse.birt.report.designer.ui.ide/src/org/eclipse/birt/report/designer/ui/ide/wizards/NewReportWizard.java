@@ -169,8 +169,9 @@ public class NewReportWizard extends Wizard implements
 		// else if ( !choicePage.isCustom( ) )
 		// {
 		// predefined template
+		String fullName = convertFileName2Absolute(templateChoicePage.getTemplate( ).getReportPath( ) );
 		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( templateChoicePage.getTemplate( ).getReportPath( ) ) );
+				new Path(fullName ) );
 		if ( url != null )
 		{
 			try
@@ -186,8 +187,7 @@ public class NewReportWizard extends Wizard implements
 		{
 			try
 			{
-				streamFromPage = new FileInputStream( templateChoicePage.getTemplate( )
-						.getReportPath( ) );
+				streamFromPage = new FileInputStream( fullName );
 			}
 			catch ( FileNotFoundException e )
 			{
@@ -819,4 +819,30 @@ public class NewReportWizard extends Wizard implements
 	// }
 	// handle.save( );
 	// }
+	
+	private String convertFileName2Absolute(String fileName)
+	{
+		String fullPath = fileName;
+		String templateFolderPath = ReportPlugin.getDefault( )
+		.getTemplatePreference( );
+
+		if(templateFolderPath.indexOf( "\\" ) < 0 )
+		{
+			if(!templateFolderPath.endsWith( "/" ))
+			{
+				templateFolderPath = templateFolderPath + "/";
+			}
+			
+		}else // > 0
+		{
+			if(!templateFolderPath.endsWith( "\\" ))
+			{
+				templateFolderPath = templateFolderPath + "\\";
+			}
+		}
+		
+		fullPath = templateFolderPath + fileName;
+		
+		return fullPath;
+	}
 }

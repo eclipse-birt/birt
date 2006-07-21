@@ -42,6 +42,20 @@ public class PublishTemplateWizard extends Wizard
 	private WizardReportSettingPage page;
 	private ReportDesignHandle handle;
 
+	private static final String[] IMAGE_TYPES = new String[]{
+			".bmp",
+			".jpg",
+			".jpeg",
+			".jpe",
+			".jfif",
+			".gif",
+			".png",
+			".tif",
+			".tiff",
+			".ico",
+			".svg"
+	};
+
 	public PublishTemplateWizard( ReportDesignHandle handle )
 	{
 		setWindowTitle( windowTitle );
@@ -73,14 +87,14 @@ public class PublishTemplateWizard extends Wizard
 				.getTemplatePreference( );
 
 		String filePath = handle.getFileName( );
-		
-		if( !(new File(filePath).exists( )))
+
+		if ( !( new File( filePath ).exists( ) ) )
 		{
 			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
 					Messages.getString( "PublishTemplateAction.wizard.message.SourceFileNotExist" ) ); //$NON-NLS-1$
 			return true;
 		}
-		
+
 		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
 		File targetFolder = new File( templateFolderPath );
 		if ( !targetFolder.isDirectory( ) )
@@ -161,7 +175,78 @@ public class PublishTemplateWizard extends Wizard
 			ExceptionHandler.handle( e );
 		}
 
-		return overwrite != 1;
+		if ( overwrite == Window.OK )
+		{
+			copyIconFile( );
+		}
+		return  overwrite != 1 ;
+	}
+
+	private int copyIconFile( )
+	{
+		String templateFolderPath = ReportPlugin.getDefault( )
+				.getTemplatePreference( );
+
+		String filePath = page.getPreviewImagePath( );
+
+		if ( !( new File( filePath ).exists( ) ) )
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotExist" ) ); //$NON-NLS-1$
+			return 1;
+		}
+
+		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
+		File targetFolder = new File( templateFolderPath );
+		String targetFileName = fileName;
+		if ( !checkExtensions( fileName ) )
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotValid" ) ); //$NON-NLS-1$
+			return 1;
+		}
+		File targetFile = new File( targetFolder, targetFileName );
+		if ( new File( filePath ).compareTo( targetFile ) == 0 )
+		{
+			// if the two files are the same one , then do nothing.
+			return 0;
+		}
+
+		int overwrite = Window.OK;
+		try
+		{
+			if ( targetFile.exists( ) )
+			{
+				String[] buttons = new String[]{
+						IDialogConstants.YES_LABEL,
+						IDialogConstants.NO_LABEL,
+						IDialogConstants.CANCEL_LABEL
+				};
+				String question = Messages.getFormattedString( "SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
+						new Object[]{
+							targetFile.getAbsolutePath( )
+						} );
+				MessageDialog d = new MessageDialog( getShell( ),
+						Messages.getString( "SaveAsDialog.Question" ), //$NON-NLS-1$
+						null,
+						question,
+						MessageDialog.QUESTION,
+						buttons,
+						0 );
+				overwrite = d.open( );
+			}
+			if ( overwrite == Window.OK
+					&& ( targetFile.exists( ) || ( !targetFile.exists( ) && targetFile.createNewFile( ) ) ) )
+			{
+				copyFile( filePath, targetFile );
+			}
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		return overwrite;
+
 	}
 
 	/**
@@ -185,7 +270,22 @@ public class PublishTemplateWizard extends Wizard
 			handle.setProperty( ModuleHandle.DESCRIPTION_PROP,
 					page.getDescription( ) );
 		if ( !page.getPreviewImagePath( ).equals( "" ) ) //$NON-NLS-1$
-			handle.setIconFile( page.getPreviewImagePath( ) );
+		{
+			int beginIndex = page.getPreviewImagePath( )
+					.lastIndexOf( File.separator );
+			String shortName = null;
+			if ( beginIndex + 1 >= page.getPreviewImagePath( ).length( ) )
+			{
+				shortName = page.getPreviewImagePath( );
+			}
+			else
+			{
+				shortName = page.getPreviewImagePath( )
+						.substring( beginIndex + 1 );
+
+			}
+			handle.setIconFile( shortName );
+		}
 		// if ( !page.getCheetSheetPath( ).equals( "" ) ) //$NON-NLS-1$
 		// handle.setCheetSheet( page.getCheetSheetPath( ) );
 
@@ -215,5 +315,17 @@ public class PublishTemplateWizard extends Wizard
 	public boolean canFinish( )
 	{
 		return page.canFinish( );
+	}
+
+	private boolean checkExtensions( String fileName )
+	{
+		for ( int i = 0; i < IMAGE_TYPES.length; i++ )
+		{
+			if ( fileName.toLowerCase( ).endsWith( IMAGE_TYPES[i] ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
