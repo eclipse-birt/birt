@@ -52,7 +52,7 @@ public class InputStreamURITest extends BaseTestCase
 		assertNull( url );
 		
 		url = rl.findResource( designHandle, "http://www.actuate.com/logo.gif", IResourceLocator.IMAGE );
-		assertNull( url );
+		assertNotNull( url );
 		
 	}
 }
