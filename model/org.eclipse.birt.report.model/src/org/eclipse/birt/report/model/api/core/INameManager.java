@@ -32,7 +32,7 @@ public interface INameManager
 	Module getHostModule( );
 
 	/**
-	 * Makes a unqiue name for the given element.
+	 * Makes a unique name for the given element.
 	 * 
 	 * @param element
 	 *            the element to make a unique name
@@ -53,6 +53,17 @@ public interface INameManager
 	 * @param element
 	 *            the element to drop
 	 */
-	
+
 	void dropElement( DesignElement element );
+
+	/**
+	 * Returns a unique name for the given element.
+	 * 
+	 * @param element
+	 *            the given element.
+	 * 
+	 * @return unique name.
+	 */
+
+	String getUniqueName( DesignElement element );
 }

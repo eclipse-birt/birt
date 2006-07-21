@@ -26,11 +26,9 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.activity.ReadOnlyActivityStack;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
@@ -1160,6 +1158,19 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public void makeUniqueName( DesignElement element )
 	{
 		nameManager.makeUniqueName( element );
+	}
+
+	/**
+	 * Returns a unique name for an element.
+	 * 
+	 * @param element
+	 *            the given element.
+	 * @return unique name of given element.
+	 */
+
+	public String getUniqueName( DesignElement element )
+	{
+		return nameManager.getUniqueName( element );
 	}
 
 	/**

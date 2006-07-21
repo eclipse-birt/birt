@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -240,7 +241,8 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( content instanceof GroupElement )
 			{
-				module.makeUniqueName( content );
+				String name = module.getUniqueName( content );
+				setGroupName( content, stack, name );
 			}
 		}
 		catch ( NameException e )
@@ -250,6 +252,28 @@ public class ContentCommand extends AbstractElementCommand
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Sets name of group element.
+	 * 
+	 * @param content
+	 *            group element.
+	 * @param stack
+	 *            activity stack.
+	 * @param name
+	 *            new group name.
+	 */
+
+	private void setGroupName( DesignElement content, ActivityStack stack,
+			String name )
+	{
+		if ( name != null && !name.equals( content.getName( ) ) )
+		{
+			PropertyRecord propertyRecord = new PropertyRecord( content,
+					IGroupElementModel.GROUP_NAME_PROP, name );
+			stack.execute( propertyRecord );
+		}
 	}
 
 	/**
