@@ -147,7 +147,7 @@ import org.w3c.dom.NodeList;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.135 $ $Date: 2006/07/17 10:23:29 $
+ * @version $Revision: 1.136 $ $Date: 2006/07/18 11:27:49 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1520,7 +1520,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				if ( cell.isStartOfGroup( ))
 				{
 					writer.openTag( HTMLTags.TAG_COL );
-					writer.attribute( "style", "width:" + getRowIndent( cell ) + ";text-align:right" );
+					writer.attribute( "style", "width:" + getRowIndent( cell ) );
 					writer.closeNoEndTag( );
 					writer.openTag( HTMLTags.TAG_COL );
 					writer.closeNoEndTag( );
@@ -1533,7 +1533,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			if ( cell.isStartOfGroup( ) )
 			{
 				// include select handle table
-				writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top" );
+				writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top" + ";text-align:right" );
 				writer.openTag( HTMLTags.TAG_IMAGE );
 				writer.attribute( HTMLTags.ATTR_SRC,
 						"iv/images/collapsexpand.gif" );
