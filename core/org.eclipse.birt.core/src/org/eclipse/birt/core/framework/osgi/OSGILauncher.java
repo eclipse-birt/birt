@@ -110,9 +110,15 @@ public class OSGILauncher
 			// frameworkClassLoader = new OSGIClassLoader(
 			// new URL[]{frameworkUrl}, loader );
 
+			//Weblogic 8.1SP6 contains old version JS.JAR, we need
+			//set pref-web-inf to true, if we set it to true, the
+			//URL classloader still loads the JS in weblogic, so 
+			//load the class explicitly.
 			try
 			{
 				loader.loadClass( "org.mozilla.javascript.Context" );
+				loader.loadClass( "org.mozilla.javascript.Scriptable" );
+				loader.loadClass( "org.mozilla.javascript.ScriptableObject" );
 				// frameworkClassLoader.loadClass( "org.mozilla.javascript.Context"
 			}
 			catch ( Exception ex )

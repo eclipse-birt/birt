@@ -25,7 +25,7 @@ import org.osgi.framework.BundleContext;
  * 
  * This class is a singleton.
  * 
- * @version $Revision: 1.15 $ $Date: 2006/04/26 08:18:09 $
+ * @version $Revision: 1.16 $ $Date: 2006/06/07 00:50:45 $
  */
 public class Platform
 {
@@ -100,6 +100,7 @@ public class Platform
 			launcher.shutdown( );
 			launcher = null;
 		}
+		platform = null;
 	}
 
 	/**
