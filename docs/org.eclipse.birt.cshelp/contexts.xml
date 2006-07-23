@@ -392,12 +392,20 @@ Typically, you insert data source images in the detail row of a table to display
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-05-1.html" label="A related topic"/>
 </context>
 <context id="TableOptionDialog_ID" title="Insert Table or Grid">
-<description>Use this dialog box to insert a Table element or a Grid element
+<description>Use this dialog box to insert a Table element.
 
 The Table element presents data from a data set in using a tabular layout. The columns property is optional and defines the columns. The header appears at the top of the table, and on each new page. The table can contain groups. (Right-click in the table that you inserted and click <b>Insert Group</b>.) The footer displays totals and appears at the bottom of the table. The detail appears for every row in the data set.
 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1.html" label="Designing a multi-page report"/>
+</context>
+<context id="GridOptionDialog_ID" title="Insert Grid">
+<description>Use this dialog box to insert a Grid element.
+
+Use a grid to arrange static elements, such as text and pictures, within a section.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1.html" label="Designing a Multipage Report"/>
 </context>
 <context id="TextEditor_ID" title="Edit Text Item">
 <description>Use this dialog box to edit and format Text elements.
