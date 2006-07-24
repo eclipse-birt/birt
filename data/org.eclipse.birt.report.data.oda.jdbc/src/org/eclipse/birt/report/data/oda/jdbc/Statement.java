@@ -125,7 +125,7 @@ public class Statement implements IQuery
 			 * call the JDBC Connection.prepareStatement(String) method to get
 			 * the preparedStatement
 			 */
-			this.preStat = conn.prepareStatement( formatQueryText( command ) );
+			this.preStat = conn.prepareStatement( SQLFormatter.formatQueryText( command ) );
 		}
 		catch ( SQLException e )
 		{
@@ -732,17 +732,6 @@ public class Statement implements IQuery
 		{
 			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CLEAR_PARAMETER_ERROR , ex );
 		}
-	}
-	
-	/**
-	 * Format Query Text
-	 * Simply replace all LF(10) with " "
-	 * @param source
-	 * @return
-	 */
-	private String formatQueryText( String source )
-	{
-		return source.trim( ).replaceAll( "\n", " " );
 	}
 	
 	/**

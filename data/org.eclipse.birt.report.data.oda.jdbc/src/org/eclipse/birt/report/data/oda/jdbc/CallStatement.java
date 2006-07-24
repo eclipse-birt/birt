@@ -136,9 +136,9 @@ public class CallStatement implements IAdvancedQuery
 			 * callableStatement
 			 */
 			procedureName = getProcedureName( command );
-			this.callStat = conn.prepareCall( formatQueryText( command ) );
-			paramUtil = new SPParameterPositionUtil( formatQueryText( command ),
-					'@' );
+			String queryText = SQLFormatter.formatQueryText( command );
+			this.callStat = conn.prepareCall( queryText );
+			paramUtil = new SPParameterPositionUtil( queryText, '@' );
 		}
 		catch ( SQLException e )
 		{
@@ -1473,17 +1473,6 @@ public class CallStatement implements IAdvancedQuery
 			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CLEAR_PARAMETER_ERROR,
 					ex );
 		}
-	}
-
-	/**
-	 * Format Query Text Simply replace all LF(10) with " "
-	 * 
-	 * @param source
-	 * @return
-	 */
-	private String formatQueryText( String source )
-	{
-		return source.replaceAll( "\n", " " );
 	}
 
 	/**
