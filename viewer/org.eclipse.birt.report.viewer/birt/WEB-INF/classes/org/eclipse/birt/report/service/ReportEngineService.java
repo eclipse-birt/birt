@@ -129,7 +129,7 @@ public class ReportEngineService
 	 * @param servletConfig
 	 * @param config
 	 */
-	public ReportEngineService( ServletConfig servletConfig )
+	private ReportEngineService( ServletConfig servletConfig )
 	{
 		System.setProperty( "RUN_UNDER_ECLIPSE", "false" ); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -367,7 +367,7 @@ public class ReportEngineService
 	 * @return the report runnable
 	 * @throws EngineException
 	 */
-	synchronized public IReportRunnable openReportDesign( String report )
+	public IReportRunnable openReportDesign( String report )
 			throws EngineException
 	{
 		return engine.openReportDesign( report );
@@ -381,8 +381,8 @@ public class ReportEngineService
 	 * @return IReportRunnable
 	 * @throws EngineException
 	 */
-	synchronized public IReportRunnable openReportDesign(
-			InputStream reportStream ) throws EngineException
+	public IReportRunnable openReportDesign( InputStream reportStream )
+			throws EngineException
 	{
 		return engine.openReportDesign( reportStream );
 	}
@@ -400,10 +400,7 @@ public class ReportEngineService
 
 		try
 		{
-			synchronized ( this.getClass( ) )
-			{
-				task = engine.createGetParameterDefinitionTask( runnable );
-			}
+			task = engine.createGetParameterDefinitionTask( runnable );
 		}
 		catch ( Exception e )
 		{
@@ -430,10 +427,7 @@ public class ReportEngineService
 
 		try
 		{
-			synchronized ( this.getClass( ) )
-			{
-				document = engine.openReportDocument( systemId, docName );
-			}
+			document = engine.openReportDocument( systemId, docName );
 		}
 		catch ( Exception e )
 		{
@@ -608,10 +602,7 @@ public class ReportEngineService
 
 		IRunAndRenderTask runAndRenderTask = null;
 
-		synchronized ( this.getClass( ) )
-		{
-			runAndRenderTask = engine.createRunAndRenderTask( runnable );
-		}
+		runAndRenderTask = engine.createRunAndRenderTask( runnable );
 
 		runAndRenderTask.setLocale( locale );
 		if ( parameters != null )
@@ -691,10 +682,7 @@ public class ReportEngineService
 
 		// Preapre the run report task.
 		IRunTask runTask = null;
-		synchronized ( this.getClass( ) )
-		{
-			runTask = engine.createRunTask( runnable );
-		}
+		runTask = engine.createRunTask( runnable );
 		runTask.setLocale( locale );
 		runTask.setParameterValues( parameters );
 
@@ -787,12 +775,8 @@ public class ReportEngineService
 			out = new ByteArrayOutputStream( );
 
 		// Create render task.
-		IRenderTask renderTask = null;
-		synchronized ( this.getClass( ) )
-		{
-			renderTask = engine.createRenderTask( reportDocument );
-		}
-
+		IRenderTask renderTask = engine.createRenderTask( reportDocument );
+		
 		HashMap context = new HashMap( );
 		String format = ParameterAccessor.getFormat( request );
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
@@ -906,11 +890,7 @@ public class ReportEngineService
 			out = new ByteArrayOutputStream( );
 
 		// Create render task.
-		IRenderTask renderTask = null;
-		synchronized ( this.getClass( ) )
-		{
-			renderTask = engine.createRenderTask( reportDocument );
-		}
+		IRenderTask renderTask = engine.createRenderTask( reportDocument );
 
 		HashMap context = new HashMap( );
 		String format = ParameterAccessor.getFormat( request );
@@ -1016,12 +996,8 @@ public class ReportEngineService
 
 		ResultSet[] resultSetArray = null;
 
-		IDataExtractionTask dataTask = null;
-		synchronized ( this.getClass( ) )
-		{
-			dataTask = engine.createDataExtractionTask( document );
-		}
-
+		IDataExtractionTask dataTask = engine.createDataExtractionTask( document );
+		
 		try
 		{
 			List resultSets = dataTask.getResultSetList( );
@@ -1122,10 +1098,7 @@ public class ReportEngineService
 		IDataIterator iData = null;
 		try
 		{
-			synchronized ( this.getClass( ) )
-			{
-				dataTask = engine.createDataExtractionTask( document );
-			}
+			dataTask = engine.createDataExtractionTask( document );
 			dataTask.selectResultSet( resultSetName );
 			dataTask.selectColumns( columnNames );
 			dataTask.setLocale( locale );
