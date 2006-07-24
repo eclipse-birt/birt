@@ -738,6 +738,8 @@ public class ParameterAccessor
 						.substring( temp.lastIndexOf( fileSeparator ) );
 			else
 				projectName = temp;
+
+			projectName = validateProjectName( projectName );
 		}
 		else
 			documentName = filePath;
@@ -748,6 +750,32 @@ public class ParameterAccessor
 		String documentPath = documentFolder + documentName;
 
 		return documentPath;
+
+	}
+
+	/**
+	 * make sure the project name is a valid folder name. If the name contains
+	 * ":", remove it. If the project name does not start with "\" or "/", add
+	 * the file separator at the beginning of the name. If the project name is
+	 * null, just return it.
+	 * 
+	 * @param projectName
+	 * @return
+	 */
+	private static String validateProjectName( String projectName )
+	{
+		if ( projectName == null )
+			return projectName;
+
+		if ( projectName.indexOf( ":" ) != -1 )
+			projectName = projectName.substring( 0, projectName.indexOf( ":" ) );
+
+		if ( !"\\".equals( projectName.substring( 0, 1 ) )
+				&& !"/".equals( projectName.substring( 0, 1 ) ) )
+		{
+			projectName = File.separator + projectName;
+		}
+		return projectName;
 
 	}
 
@@ -1566,5 +1594,17 @@ public class ParameterAccessor
 	public static boolean isWorkingFolderAccessOnly( )
 	{
 		return isWorkingFolderAccessOnly;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#finalize()
+	 */
+	protected void finalize( ) throws Throwable
+	{
+		// TODO Auto-generated method stub
+		this.isInitContext = false;
+		super.finalize( );
 	}
 }
