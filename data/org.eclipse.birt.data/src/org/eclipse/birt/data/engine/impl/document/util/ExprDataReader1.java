@@ -105,9 +105,13 @@ class ExprDataReader1 implements IExprDataReader
 	 */
 	public boolean next( ) throws DataException
 	{
-		this.currRowIndex++;
-		
-		return this.currRowIndex < this.rowCount;
+		if( this.currRowIndex < this.rowCount - 1)
+		{
+			this.currRowIndex++;
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	/*

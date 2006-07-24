@@ -247,6 +247,13 @@ public abstract class AbstractReportReader implements IReportExecutor
 				if ( rset != null )
 				{
 					long rowId = dataId.getRowID( );
+					
+					//rowId should not be -1. If rowId equals to -1 that means the result set is empty.
+					//call IResultIterator.next() to force result set start.
+					if ( rowId == -1 )
+					{
+						rset.next( );
+					}
 					if ( rowId != -1 && rowId != rset.getCurrentPosition( ) )
 					{
 						rset.skipTo( rowId );
