@@ -676,7 +676,7 @@ public class ImageBuilder extends BaseDialog
 					inputImage.setFile( uriEditor.getText( ).trim( ) );
 					break;
 				case URI_TYPE :
-					inputImage.setURI( uriEditor.getText( ).trim( ) );
+					inputImage.setURL( uriEditor.getText( ).trim( ) );
 					break;
 				case EMBEDDED_TYPE :
 					inputImage.setImageName( embeddedImageList.getSelection( )[0] );
