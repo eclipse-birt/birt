@@ -19,6 +19,8 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -284,6 +286,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 				ReportContentLoader loader = new ReportContentLoader(
 						executionContext );
 				startRender( );
+				IRenderOption renderOption = executionContext.getRenderOption( );
+				if ( renderOption instanceof HTMLRenderOption )
+				{
+					boolean htmlPagination = ( (HTMLRenderOption) renderOption )
+							.getHtmlPagination( );
+					bodyOnly = !htmlPagination;
+				}
 				loader.loadPageRange( pageSequences, bodyOnly, emitter );
 				closeRender( );
 				executor.close( );
