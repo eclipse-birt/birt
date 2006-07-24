@@ -58,6 +58,12 @@ public class PDFCellLM extends PDFBlockStackingLM
 
 	protected void createRoot( )
 	{
+		if(!isFirst)
+		{
+			int startColumn = cellContent.getColumn( );
+			int endColumn = startColumn + cellContent.getColSpan( );
+			columnWidth = tableLM.getCellWidth( startColumn, endColumn );
+		}
 		root = AreaFactory.createCellArea( cellContent );
 		tableLM.resolveBorderConflict( (CellArea) root );
 		root.setWidth( columnWidth );
