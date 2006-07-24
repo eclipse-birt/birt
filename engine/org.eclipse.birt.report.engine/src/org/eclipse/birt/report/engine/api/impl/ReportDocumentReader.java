@@ -82,18 +82,18 @@ public class ReportDocumentReader
 	/** Map from the bookmark to offset */
 	private HashMap reportletsIndexByBookmark;
 	/** Design name */
-	private String designName;
+	private String systemId;
 
 	public ReportDocumentReader( IReportEngine engine, IDocArchiveReader archive )
 	{
 		this( null, engine, archive );
 	}
 
-	public ReportDocumentReader( String designName, IReportEngine engine, IDocArchiveReader archive )
+	public ReportDocumentReader( String systemId, IReportEngine engine, IDocArchiveReader archive )
 	{
 		this.engine = engine;
 		this.archive = archive;
-		this.designName = designName;
+		this.systemId = systemId;
 		try
 		{
 			archive.open( );
@@ -167,8 +167,12 @@ public class ReportDocumentReader
 					// check the design name
 					checkVersion( di );
 
-					// load the report design name, never used
-					IOUtil.readString( di );
+					// load the report design name
+					String orgSystemId = IOUtil.readString( di );
+					if ( systemId == null )
+					{
+						systemId = orgSystemId;
+					}
 					// load the report paramters
 					parameters = convertToCompatibleParameter( EngineIOUtil
 							.readMap( di ) );
@@ -266,14 +270,15 @@ public class ReportDocumentReader
 	{
 		if ( reportRunnable == null )
 		{
+			loadCoreStream( );
 			String name = null;
-			if ( designName == null )
+			if ( systemId == null )
 			{
 				name = archive.getName( );
 			}
 			else
 			{
-				name = designName;
+				name = systemId;
 			}
 			InputStream stream = getDesignStream( );
 			if ( stream != null )

@@ -199,7 +199,8 @@ public interface IReportEngine
 	 * further information can be retrieved.
 	 * 
 	 * @param systemId
-	 *            the full path of the report design file
+	 *            the system id the opend document. It is used to access the resources with
+	 *            relative path in the report document. If it is NULL, a saved one is used.
 	 * @param fileName
 	 *            the report document name. report document is an archive in
 	 *            BIRT.

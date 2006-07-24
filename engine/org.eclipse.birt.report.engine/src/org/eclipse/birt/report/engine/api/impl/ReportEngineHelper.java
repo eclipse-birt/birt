@@ -12,8 +12,11 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -93,7 +96,6 @@ public class ReportEngineHelper
 	public IReportRunnable openReportDesign( String designName,
 			IResourceLocator locator ) throws EngineException
 	{
-		ReportDesignHandle designHandle;
 		File file = new File( designName );
 		if ( !file.exists( ) )
 		{
@@ -107,32 +109,27 @@ public class ReportEngineHelper
 
 		try
 		{
-			String resourcePath = null;
-			if (locator == null)
+			InputStream in = new FileInputStream( file );
+			String systemId = designName;
+			try
 			{
-				EngineConfig config = engine.getConfig( );
-				if ( config != null )
-				{
-					locator = config.getResourceLocator( );
-					resourcePath = config.getResourcePath( );
-				}
+				systemId = file.toURL( ).toString( );
 			}
-			ReportParser parser = new ReportParser( locator, resourcePath );
-			designHandle = parser.getDesignHandle( designName, null );
+			catch ( MalformedURLException ue )
+			{
+				systemId = designName;
+			}
+			return openReportDesign( systemId, in );
 		}
-		catch ( DesignFileException e )
+		catch ( FileNotFoundException ioe)
 		{
-			logger.log( Level.SEVERE,
-					"invalid design file {0}", file.getAbsolutePath( ) ); //$NON-NLS-1$
+			logger
+			.log( Level.SEVERE,
+					"{0} not found!", file.getAbsolutePath( ) ); //$NON-NLS-1$
 			throw new EngineException(
-					MessageConstants.INVALID_DESIGN_FILE_EXCEPTION, designName,
-					e );
+					MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION,
+					designName );
 		}
-		assert ( designHandle != null );
-		ReportRunnable runnable = new ReportRunnable( designHandle );
-		runnable.setReportName( designName );
-		runnable.setReportEngine( engine );
-		return runnable;
 	}
 
 	/**
