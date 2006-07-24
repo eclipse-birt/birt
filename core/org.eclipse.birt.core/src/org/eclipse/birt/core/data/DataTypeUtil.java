@@ -106,11 +106,11 @@ public final class DataTypeUtil
 		if ( source == null )
 			return null;
 
+		source = JavascriptEvalUtil.convertJavascriptValue( source );
+		
 		// here we assume the efficiency of if else is higher than switch case
 		if ( toType == DataType.UNKNOWN_TYPE || toType == DataType.ANY_TYPE )
 			return source;
-
-		source = JavascriptEvalUtil.convertJavascriptValue( source );
 
 		switch ( toType )
 		{
