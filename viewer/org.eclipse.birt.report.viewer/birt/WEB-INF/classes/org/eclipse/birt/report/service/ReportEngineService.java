@@ -1522,4 +1522,20 @@ public class ReportEngineService
 	{
 		return engine.getMIMEType( format );
 	}
+
+	/*
+	 * Shutdown ReportEngineService, set instance as null
+	 */
+	public static void shutdown( )
+	{
+		instance = null;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#finalize()
+	 */
+	protected void finalize( ) throws Throwable
+	{
+		Platform.shutdown( );	
+	}
 }

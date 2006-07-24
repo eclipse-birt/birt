@@ -1597,14 +1597,10 @@ public class ParameterAccessor
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#finalize()
+	 * Reset isInitContext flag
 	 */
-	protected void finalize( ) throws Throwable
+	public static void reset( )
 	{
-		// TODO Auto-generated method stub
-		this.isInitContext = false;
-		super.finalize( );
+		isInitContext = false;
 	}
 }

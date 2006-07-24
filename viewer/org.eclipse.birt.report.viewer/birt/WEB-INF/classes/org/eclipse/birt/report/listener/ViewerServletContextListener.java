@@ -15,6 +15,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -32,8 +33,12 @@ public class ViewerServletContextListener implements ServletContextListener
 	 */
 	public void contextDestroyed( ServletContextEvent event )
 	{
-		// When trying to destroy application, shutdown Platform.
-		Platform.shutdown( );
+		// When trying to destroy application, shutdown Platform and ReportEngineService.
+		//Platform.shutdown( );
+		//ReportEngineService.shutdown( );
+
+		// Reset initialized parameter
+		ParameterAccessor.reset( );
 	}
 
 	/*
