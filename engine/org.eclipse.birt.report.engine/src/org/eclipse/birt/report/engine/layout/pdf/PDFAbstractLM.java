@@ -335,7 +335,9 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		int pageCount = pageSetup.getMasterPageCount( );
 		if ( pageCount > 0 )
 		{
-			return pageSetup.getMasterPage( 0 );
+			MasterPageDesign pageDesign =  pageSetup.getMasterPage( 0 );
+			context.setMasterPage( pageDesign.getName( ) );
+			return pageDesign;
 		}
 		return null;
 	}
