@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
@@ -24,6 +25,7 @@ public class ExtractionResults implements IExtractionResults
 	protected IQueryResults queryResults;
 	protected IResultMetaData metaData;
 	protected IDataIterator iterator;
+	protected IResultIterator resultIterator;
 
 	ExtractionResults( IQueryResults queryResults, IResultMetaData metaData, String[] selectedColumns )
 	{
@@ -32,6 +34,13 @@ public class ExtractionResults implements IExtractionResults
 		this.metaData = metaData;
 	}
 
+	ExtractionResults( IResultIterator resultIterator, IResultMetaData metaData, String[] selectedColumns )
+	{
+		this.selectedColumns = selectedColumns;
+		this.resultIterator = resultIterator;
+		this.metaData = metaData;
+	}
+	
 	public IResultMetaData getResultMetaData( ) throws BirtException
 	{
 		return metaData;
@@ -41,8 +50,11 @@ public class ExtractionResults implements IExtractionResults
 	{
 		if ( iterator == null )
 		{
-			this.iterator = new DataIterator( this, queryResults
-					.getResultIterator( ), selectedColumns );
+			if( null == resultIterator && null != queryResults )
+			{
+				resultIterator = queryResults.getResultIterator( );
+			}
+			this.iterator = new DataIterator( this, resultIterator, selectedColumns );
 		}
 		return iterator;
 	}

@@ -99,7 +99,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.76 $ $Date: 2006/06/19 09:27:56 $
+ * @version $Revision: 1.77 $ $Date: 2006/06/22 08:38:24 $
  */
 public class ReportQueryBuilder
 {
@@ -382,18 +382,17 @@ public class ReportQueryBuilder
 					item.setQueries( queries );
 					for ( int i = 0; i < queries.length; i++ )
 					{
-						// only a regular query need add to list
 						if ( queries[i] != null )
 						{
+							this.queryIDs.put( queries[i], String
+									.valueOf( item.getID( ) )
+									+ "_" + String.valueOf( i ) );
+							ResultMetaData metaData = new ResultMetaData( queries[i] );
+							resultMetaData.put( queries[i], metaData );
+							registerQueryAndElement( queries[i], item );
 							if ( queries[i] instanceof IQueryDefinition )
 							{
-								this.queryIDs.put( queries[i], String
-										.valueOf( item.getID( ) )
-										+ "_" + String.valueOf( i ) );
 								this.queries.add( queries[i] );
-								ResultMetaData metaData = new ResultMetaData( (IQueryDefinition)queries[i] );
-								resultMetaData.put( queries[i], metaData );
-								registerQueryAndElement( queries[i], item );
 							}
 							else if ( queries[i] instanceof ISubqueryDefinition )
 							{
@@ -978,6 +977,9 @@ public class ReportQueryBuilder
 				query = new SubqueryDefinition( name );
 				parentQuery.getSubqueries( ).add( query );
 				
+				this.queryIDs.put( query, String.valueOf( item.getID( ) ) );
+				registerQueryAndElement( query, item );
+				
 				String currentCondition = getCurrentCondition( );
 				
 				if ( currentCondition.equals( String.valueOf( true ) ) )
@@ -1010,12 +1012,9 @@ public class ReportQueryBuilder
 
 			addSortAndFilter( item, query );
 			
-			if ( query instanceof IQueryDefinition )
-			{
-				ResultMetaData metaData = new ResultMetaData( (IQueryDefinition)query );
-				resultMetaData.put( query, metaData );
-			}
-			
+			ResultMetaData metaData = new ResultMetaData( query );
+			resultMetaData.put( query, metaData );
+		
 			return query;
 		}
 

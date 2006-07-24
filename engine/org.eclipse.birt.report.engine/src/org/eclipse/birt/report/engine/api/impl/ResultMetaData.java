@@ -28,19 +28,19 @@ public class ResultMetaData implements IResultMetaData
 
 	protected String[] selectedColumns;
 
-	public ResultMetaData( IQueryDefinition query, String[] selectedColumns )
+	public ResultMetaData( IBaseQueryDefinition query, String[] selectedColumns )
 	{
 		initializeMetaData( query );
 		this.selectedColumns = selectedColumns;
 	}
 
-	public ResultMetaData( IQueryDefinition query )
+	public ResultMetaData( IBaseQueryDefinition query )
 	{
 		initializeMetaData( query );
 		this.selectedColumns = null;
 	}
 
-	protected void initializeMetaData( IQueryDefinition query )
+	protected void initializeMetaData( IBaseQueryDefinition query )
 	{
 		appendMetaData( query );
 	}
