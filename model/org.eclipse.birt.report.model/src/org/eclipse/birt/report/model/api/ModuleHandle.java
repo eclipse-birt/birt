@@ -2424,4 +2424,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		setStringProperty( SYMBOLIC_NAME_PROP, symbolicName );
 	}
+
+	/**
+	 * Returns the system id of the module. It is the URL path of the module.
+	 * 
+	 * @return the system id of the module
+	 */
+
+	public URL getSystemId( )
+	{
+		return module.getSystemId( );
+	}
 }
