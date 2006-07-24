@@ -171,13 +171,13 @@ abstract class ColumnBandAdapter
 			int cellPos = getCellPosition( cell );
 
 			// found the cell
-			
+
 			if ( columnToInsert == cellPos )
 				return cell;
-						
+
 			// there was no corresponding cell on this row, should paste/insert
 			// on this position.
-			
+
 			else if ( columnToInsert < cellPos + cell.getColumnSpan( ) )
 				return cell;
 		}
@@ -185,7 +185,7 @@ abstract class ColumnBandAdapter
 		// not return yet, paste/insert to the end of this row.
 		return null;
 	}
-	
+
 	/**
 	 * Returns the number of rows in the element.
 	 * 
@@ -216,7 +216,25 @@ abstract class ColumnBandAdapter
 	 * @return new cell instances
 	 */
 
-	abstract protected List getCellsUnderColumn( int columnNumber );
+	protected List getCellsUnderColumn( int columnNumber )
+	{
+		return getCellsUnderColumn( columnNumber, true );
+	}
+
+	/**
+	 * Returns copied cells with the column number regardless whether the
+	 * current position is where the cell element begins to span.
+	 * 
+	 * 
+	 * @param columnNumber
+	 *            the column number
+	 * @param mustBeStartPosition
+	 *            <code>true</code> if it is. Otherwise <code>false</code>.
+	 * @return the matched cell
+	 */
+
+	abstract protected List getCellsUnderColumn( int columnNumber,
+			boolean mustBeStartPosition );
 
 	/**
 	 * Returns copied cells with the given slot and column number.
@@ -225,17 +243,21 @@ abstract class ColumnBandAdapter
 	 *            the slot
 	 * @param columnIndex
 	 *            the column number
+	 * @param mustBeStartPosition
+	 *            <code>true</code> if it is. Otherwise <code>false</code>.
 	 * @return new cell instances
 	 */
 
-	protected List getCellsInSlot( SlotHandle handle, int columnIndex )
+	protected List getCellsInSlot( SlotHandle handle, int columnIndex,
+			boolean mustBeStartPosition )
 	{
 		List retValue = new ArrayList( );
 
 		for ( int i = 0; i < handle.getCount( ); i++ )
 		{
 			RowHandle row = (RowHandle) handle.get( i );
-			CellHandle cell = getCellsInRow( row, columnIndex );
+			CellHandle cell = getCellsInRow( row, columnIndex,
+					mustBeStartPosition );
 			if ( cell != null )
 				retValue.add( cell );
 		}
@@ -259,10 +281,13 @@ abstract class ColumnBandAdapter
 	 *            the row
 	 * @param columnIndex
 	 *            the column number
+	 * @param mustBeStartPosition
+	 *            <code>true</code> if it is. Otherwise <code>false</code>.
 	 * @return a new cell instance
 	 */
 
-	private CellHandle getCellsInRow( RowHandle row, int columnIndex )
+	private CellHandle getCellsInRow( RowHandle row, int columnIndex,
+			boolean mustBeStartPosition )
 	{
 		SlotHandle cells = row.getCells( );
 
@@ -273,11 +298,15 @@ abstract class ColumnBandAdapter
 
 			if ( cellColumnIndex == columnIndex )
 				return cell;
+
+			if ( !mustBeStartPosition && cellColumnIndex < columnIndex
+					&& cellColumnIndex + cell.getColumnSpan( ) >= columnIndex )
+				return cell;
 		}
 
 		return null;
 	}
-	
+
 	/**
 	 * Returns a list containing rows.
 	 * 

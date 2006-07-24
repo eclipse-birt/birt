@@ -89,8 +89,8 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 		}
 		else
 		{
-			originalCells = getCellsContextInfo( adapter
-					.getCellsUnderColumn( targetColumnIndex ) );
+			originalCells = getCellsContextInfo( adapter.getCellsUnderColumn(
+					targetColumnIndex, false ) );
 
 			if ( !isValidInsertAndPasteArea( originalCells ) )
 				return false;
@@ -160,11 +160,8 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 		{
 			CellContextInfo contextInfo = (CellContextInfo) cells.get( i );
 			rowCount += contextInfo.getRowSpan( );
-
-			// TODO dropping effects
 		}
 
-		assert rowCount <= numOfRows;
 		if ( rowCount < numOfRows )
 			return false;
 
@@ -270,7 +267,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 	 *            the 0-based column number
 	 * @throws SemanticException
 	 */
-	
+
 	private void insertCellsInGroup( GroupHandle group, int columnIndex )
 			throws SemanticException
 	{

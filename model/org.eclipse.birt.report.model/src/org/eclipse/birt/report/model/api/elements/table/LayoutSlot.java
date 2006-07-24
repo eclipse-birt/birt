@@ -438,7 +438,7 @@ public class LayoutSlot
 		if ( rowId < 0 || rowId >= rows.size( ) )
 			return 0;
 
-		LayoutRow row = (LayoutRow) getLayoutRow( rowId );
+		LayoutRow row = getLayoutRow( rowId );
 		return row.findCellColumnPos( cell );
 	}
 

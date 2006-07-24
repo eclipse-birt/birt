@@ -65,12 +65,15 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellsUnderColumn(int)
+	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellsUnderColumn(int,
+	 *      boolean)
 	 */
 
-	protected List getCellsUnderColumn( int columnNumber )
+	protected List getCellsUnderColumn( int columnNumber,
+			boolean mustBeStartPosition )
 	{
-		return getCellsInSlot( element.getRows( ), columnNumber );
+		return getCellsInSlot( element.getRows( ), columnNumber,
+				mustBeStartPosition );
 	}
 
 	/*

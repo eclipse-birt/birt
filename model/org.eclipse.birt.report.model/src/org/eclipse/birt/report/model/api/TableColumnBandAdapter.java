@@ -65,30 +65,35 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 		return element.getColumns( );
 	}
 
-	/**
-	 * Returns copied cells with the column number.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param columnIndex
-	 *            the column number
-	 * @return new cell instances
+	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellsUnderColumn(int,
+	 *      boolean)
 	 */
 
-	protected List getCellsUnderColumn( int columnIndex )
+	protected List getCellsUnderColumn( int columnIndex,
+			boolean mustBeStartPosition )
 	{
 		List cells = new ArrayList( );
 
-		cells.addAll( getCellsInSlot( element.getHeader( ), columnIndex ) );
+		cells.addAll( getCellsInSlot( element.getHeader( ), columnIndex,
+				mustBeStartPosition ) );
 
 		SlotHandle groups = element.getGroups( );
 		for ( int i = 0; i < groups.getCount( ); i++ )
 		{
 			GroupHandle group = (GroupHandle) groups.get( i );
-			cells.addAll( getCellsInSlot( group.getHeader( ), columnIndex ) );
-			cells.addAll( getCellsInSlot( group.getFooter( ), columnIndex ) );
+			cells.addAll( getCellsInSlot( group.getHeader( ), columnIndex,
+					mustBeStartPosition ) );
+			cells.addAll( getCellsInSlot( group.getFooter( ), columnIndex,
+					mustBeStartPosition ) );
 		}
 
-		cells.addAll( getCellsInSlot( element.getDetail( ), columnIndex ) );
-		cells.addAll( getCellsInSlot( element.getFooter( ), columnIndex ) );
+		cells.addAll( getCellsInSlot( element.getDetail( ), columnIndex,
+				mustBeStartPosition ) );
+		cells.addAll( getCellsInSlot( element.getFooter( ), columnIndex,
+				mustBeStartPosition ) );
 
 		return cells;
 	}
@@ -203,7 +208,7 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 		}
 		return false;
 	}
-	
+
 	protected List getRowContainerSlots( )
 	{
 		List list = new ArrayList( );
