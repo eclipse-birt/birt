@@ -396,8 +396,16 @@ public class DataExtractionTask extends EngineTask
 
 		prepareMetaData( );
 
-		resultSetName = displayName;
-		instanceId = null;
+		if (displayName.startsWith( "InstanceId:" ))
+		{
+			resultSetName = null;
+			instanceId = InstanceID.parse( displayName.substring( 11 ) );
+		}
+		else
+		{
+			resultSetName = displayName;
+			instanceId = null;
+		}
 		selectedColumns = null;
 	}
 
@@ -421,6 +429,15 @@ public class DataExtractionTask extends EngineTask
 					rsetList.add( new ResultSetItem( rsetName, metaData ) );
 				}
 			}
+			else
+			{
+				IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
+				if (metaData != null)
+				{
+					rsetList.add( new ResultSetItem( "InstanceId:" + instanceId, metaData ) );
+				}
+			}
+				
 			return rsetList;
 
 		}
