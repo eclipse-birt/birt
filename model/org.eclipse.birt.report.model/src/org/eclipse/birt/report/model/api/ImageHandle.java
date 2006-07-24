@@ -189,6 +189,42 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	}
 
 	/**
+	 * Returns the image URI if the image source type is
+	 * <code>IMAGE_REF_TYPE_URL</code> or <code>IMAGE_REF_TYPE_FILE</code>.
+	 * 
+	 * @return the image URI if the image source type is
+	 *         <code>IMAGE_REF_TYPE_URL</code> , Otherwise, return
+	 *         <code>null</code>.
+	 */
+
+	public String getURL( )
+	{
+		if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL
+				.equalsIgnoreCase( getSource( ) ) )
+			return getStringProperty( ImageItem.URI_PROP );
+
+		return null;
+	}
+
+	/**
+	 * Returns the image URI if the image source type is
+	 * <code>IMAGE_REF_TYPE_URL</code> or <code>IMAGE_REF_TYPE_FILE</code>.
+	 * 
+	 * @return the image URI if the image source type is
+	 *         <code>IMAGE_REF_TYPE_FILE</code>. Otherwise, return
+	 *         <code>null</code>.
+	 */
+
+	public String getFile( )
+	{
+		if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE
+				.equalsIgnoreCase( getSource( ) ) )
+			return getStringProperty( ImageItem.URI_PROP );
+
+		return null;
+	}
+
+	/**
 	 * Returns the type expression of the image item if the image source type is
 	 * <code>IMAGE_REF_TYPE_EXPR</code>.
 	 * 
@@ -376,11 +412,29 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	 *             if the property is locked.
 	 */
 
-	public void setURI( String uri ) throws SemanticException
+	public void setURL( String url ) throws SemanticException
 	{
 		String source = DesignChoiceConstants.IMAGE_REF_TYPE_URL;
 
-		setURIProperty( uri, source );
+		setURIProperty( url, source );
+	}
+
+	/**
+	 * Sets the image uri property. The source type is
+	 * <code>IMAGE_REF_TYPE_URL</code>, and will automatically set in this
+	 * method.
+	 * 
+	 * @param uri
+	 *            the uri to be set.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 * @deprecated should use {@link #setFile(String)} or
+	 *             {@link #setURL(String)}.
+	 */
+
+	public void setURI( String uri ) throws SemanticException
+	{
+		setURL( uri );
 	}
 
 	/**

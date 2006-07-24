@@ -11,11 +11,15 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
+import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -91,8 +95,19 @@ public class ImageState extends ReportItemState
 				ImageItem.URI_PROP );
 		if ( !StringUtil.isEmpty( uri ) )
 		{
-			setProperty( ImageItem.SOURCE_PROP,
-					DesignChoiceConstants.IMAGE_REF_TYPE_URL );
+			uri = StringUtil.trimQuotes( uri );
+			try
+			{
+				URL url = new URL( uri );
+				setProperty( ImageItem.SOURCE_PROP,
+						DesignChoiceConstants.IMAGE_REF_TYPE_URL );
+			}
+			catch ( MalformedURLException e )
+			{
+				setProperty( ImageItem.SOURCE_PROP,
+						DesignChoiceConstants.IMAGE_REF_TYPE_FILE );
+			}
+
 			type++;
 		}
 
@@ -119,8 +134,10 @@ public class ImageState extends ReportItemState
 
 		if ( type > 1 )
 			handler
-					.getErrorHandler( ).semanticError( new DesignParserException(
-							DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
+					.getErrorHandler( )
+					.semanticError(
+							new DesignParserException(
+									DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
 	}
 
 	/*
@@ -133,7 +150,9 @@ public class ImageState extends ReportItemState
 	{
 		Module module = handler.getModule( );
 
-		checkImageType( );
+		if ( image.getLocalProperty( module, ImageItem.SOURCE_PROP ) == null
+				&& StringUtil.compareVersion( handler.getVersion( ), "3.2.3" ) < 1 )
+			checkImageType( );
 
 		String refType = image
 				.getStringProperty( module, ImageItem.SOURCE_PROP );
@@ -146,8 +165,10 @@ public class ImageState extends ReportItemState
 			if ( StringUtil.isEmpty( valueExpr ) )
 			{
 				handler
-						.getErrorHandler( ).semanticError( new DesignParserException(
-								DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE ) );
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE ) );
 			}
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL
@@ -159,8 +180,10 @@ public class ImageState extends ReportItemState
 			if ( StringUtil.isEmpty( uri ) )
 			{
 				handler
-						.getErrorHandler( ).semanticError( new DesignParserException(
-								DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE ) );
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE ) );
 			}
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
@@ -172,12 +195,13 @@ public class ImageState extends ReportItemState
 			if ( StringUtil.isEmpty( name ) )
 			{
 				handler
-						.getErrorHandler( ).semanticError( new DesignParserException(
-								DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE ) );
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE ) );
 			}
 		}
 
 		super.end( );
 	}
-
 }
