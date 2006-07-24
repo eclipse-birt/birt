@@ -43,6 +43,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.Region;
 
 /**
  * Contains useful methods for rendering text on an SWT graphics context
@@ -611,13 +612,13 @@ final class SwtTextRenderer implements IConstants
 			int iLineStyle = SWT.LINE_SOLID;
 			switch ( lia.getStyle( ).getValue( ) )
 			{
-				case ( LineStyle.DOTTED              ) :
+				case ( LineStyle.DOTTED                    ) :
 					iLineStyle = SWT.LINE_DOT;
 					break;
-				case ( LineStyle.DASH_DOTTED              ) :
+				case ( LineStyle.DASH_DOTTED                    ) :
 					iLineStyle = SWT.LINE_DASHDOT;
 					break;
-				case ( LineStyle.DASHED              ) :
+				case ( LineStyle.DASHED                    ) :
 					iLineStyle = SWT.LINE_DASH;
 					break;
 			}
@@ -674,6 +675,11 @@ final class SwtTextRenderer implements IConstants
 		// to restore original state.
 		Object rtr = null;
 
+		// In Linux-Cairo environment, the reverse transformation may damage the
+		// clipping area due to computing-precision lost, so we must record it
+		// manually here.
+		Region previousClipping = null;
+
 		if ( R31Enhance.isR31Available( ) )
 		{
 			r = new Rectangle( 0, 0, (int) dFW, (int) dFH );
@@ -717,6 +723,10 @@ final class SwtTextRenderer implements IConstants
 				R31Enhance.translate( gc, tr, (float) dX, (float) dY );
 				R31Enhance.translate( gc, rtr, (float) -dX, (float) -dY );
 			}
+
+			// if we are using transformation, record previous clipping first.
+			previousClipping = new Region( );
+			gc.getClipping( previousClipping );
 
 			R31Enhance.setTransform( gc, tr );
 		}
@@ -836,10 +846,17 @@ final class SwtTextRenderer implements IConstants
 			}
 		}
 
-		// apply reverse tranforming.
+		// apply reverse tranforming, this is necessary for Linux-Cairo
+		// environment.
 		R31Enhance.setTransform( gc, rtr );
-		// keep this null setting for other platforms.
+		// keep setting null transformation to reset for other platforms.
 		R31Enhance.setTransform( gc, null );
+		// if previous clipping is recorded, restore it here and dispose.
+		if ( previousClipping != null )
+		{
+			gc.setClipping( previousClipping );
+			previousClipping.dispose( );
+		}
 
 		R31Enhance.disposeTransform( rtr );
 		R31Enhance.disposeTransform( tr );
