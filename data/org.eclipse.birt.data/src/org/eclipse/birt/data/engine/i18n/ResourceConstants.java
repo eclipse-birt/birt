@@ -140,6 +140,7 @@ public class ResourceConstants
 	public final static String RD_LOAD_STREAM_ERROR = "data.engine.GetLoadStreamError";
 	public final static String RD_EXPR_NULL_ERROR = "data.engine.NullExpr";
 	public final static String RD_EXPR_INVALID_ERROR = "data.engine.InValidExpr";
+	public final static String RD_EXPR_RESULT_SET_NOT_START = "data.engine.ResultSetNotStart";
 	
 	public final static String INVALID_ROW_INDEX = "data.engine.invalidRowIndex";
 	public final static String BACKWARD_SEEK_ERROR = "data.engine.backwardSeekError";

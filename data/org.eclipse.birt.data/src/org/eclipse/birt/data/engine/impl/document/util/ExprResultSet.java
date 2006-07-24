@@ -121,8 +121,11 @@ public class ExprResultSet implements IExprResultSet
 	 */
 	public Object getValue( String name ) throws DataException
 	{
-		Map exprValueMap = this.exprResultReader.getRowValue( );
+		Map exprValueMap = this.exprResultReader.getRowValue( );     
 
+		if ( exprValueMap == null )
+			throw new DataException( ResourceConstants.RD_EXPR_RESULT_SET_NOT_START);
+		
 		if ( exprValueMap.containsKey( name ) == false )
 			throw new DataException( ResourceConstants.RD_EXPR_INVALID_ERROR );
 
