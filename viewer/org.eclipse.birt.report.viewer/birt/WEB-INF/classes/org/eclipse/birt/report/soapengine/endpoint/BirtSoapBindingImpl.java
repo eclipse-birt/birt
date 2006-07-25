@@ -57,7 +57,7 @@ public class BirtSoapBindingImpl implements BirtSoapPort
 						"BirtSoapBindingImpl.getUpdatedObjects( )" ) ); //$NON-NLS-1$
 				fault
 						.setFaultString( BirtResources
-								.getFormattedString(
+								.getMessage(
 										ResourceConstants.SOAP_BINDING_EXCEPTION_NO_HANDLER_FOR_TARGET,
 										new Object[]{op.getTarget( )} ) );
 				throw fault;

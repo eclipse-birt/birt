@@ -13,7 +13,8 @@
 <%@ page import="org.eclipse.birt.report.presentation.aggregation.IFragment,
 				 org.eclipse.birt.report.context.BaseAttributeBean,
 				 org.eclipse.birt.report.resource.ResourceConstants,
-				 org.eclipse.birt.report.resource.BirtResources" %>
+				 org.eclipse.birt.report.resource.BirtResources,
+				 org.eclipse.birt.report.utility.ParameterAccessor" %>
 
 <%-----------------------------------------------------------------------------
 	Expected java beans
@@ -93,7 +94,8 @@
 						<TR>
 							<TD WIDTH="3px"/>
 							<TD>
-								<B><%= BirtResources.getString( ResourceConstants.BIRT_VIEWER_TITLE  )%></B>
+								<B><%= BirtResources.getMessage( ResourceConstants.BIRT_VIEWER_TITLE  )%>
+								</B>
 							</TD>
 							<TD ALIGN='right'>
 							</TD>

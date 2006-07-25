@@ -25,28 +25,31 @@
 	<TR HEIGHT="5px"><TD></TD></TR>
 	<TR>
 		<TD><INPUT TYPE='radio' NAME="exportoption" VALUE="printoption1" CHECKED></TD>
-		<TD><%= BirtResources.getString( "birt.viewer.dialog.export.all" )%></TD>
+		<TD><%= 
+				BirtResources.getMessage( "birt.viewer.dialog.export.all" )
+			%>
+		</TD>
 	</TR>
 	<TR>
 		<TD></TD>
-		<TD><%= BirtResources.getString( "birt.viewer.dialog.export.all.detail" )%></TD>
+		<TD><%= BirtResources.getMessage( "birt.viewer.dialog.export.all.detail" )%></TD>
 	</TR>
 	<TR>
 		<TD><INPUT TYPE='radio' NAME="exportoption" VALUE="printoption2"></TD>
-		<TD><%= BirtResources.getString( "birt.viewer.dialog.export.modified" )%></TD>
+		<TD><%= BirtResources.getMessage( "birt.viewer.dialog.export.modified" )%></TD>
 	</TR>
 	<TR>
 		<TD></TD>
-		<TD><%= BirtResources.getString( "birt.viewer.dialog.export.modified.detail" )%></TD>
+		<TD><%= BirtResources.getMessage( "birt.viewer.dialog.export.modified.detail" )%></TD>
 	</TR>
 	<TR HEIGHT="5px"><TD></TD></TR>
 	<TR>
 		<TD></TD>
 		<TD>
-			<%= BirtResources.getString( "birt.viewer.dialog.export.format" )%>
+			<%= BirtResources.getMessage( "birt.viewer.dialog.export.format" )%>
 			<SELECT NAME='format' STYLE='width:150px;height:25px;font-size:8pt'>
-				<OPTION><%= BirtResources.getString( "birt.viewer.dialog.export.format.pdf" )%>
-				<OPTION><%= BirtResources.getString( "birt.viewer.dialog.export.format.excel" )%>
+				<OPTION><%= BirtResources.getMessage( "birt.viewer.dialog.export.format.pdf" )%>
+				<OPTION><%= BirtResources.getMessage( "birt.viewer.dialog.export.format.excel" )%>
 			</SELECT>
 		</TD>
 	</TR>

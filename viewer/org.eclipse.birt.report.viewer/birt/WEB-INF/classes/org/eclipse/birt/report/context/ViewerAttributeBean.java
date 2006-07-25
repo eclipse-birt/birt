@@ -45,6 +45,7 @@ import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
+
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -122,6 +123,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.format = ParameterAccessor.getFormat( request );
 		this.maxRows = ParameterAccessor.getMaxRows( request );
 
+		BirtResources.setLocale( ParameterAccessor.getLocale( request ) );
+
 		// Set preview report max rows
 
 		ReportEngineService.getInstance( ).setMaxRows( this.maxRows );
@@ -137,7 +140,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		if ( title == null || title.trim( ).length( ) <= 0 )
 		{
 			title = BirtResources
-					.getString( ResourceConstants.BIRT_VIEWER_TITLE );
+					.getMessage( ResourceConstants.BIRT_VIEWER_TITLE );
 		}
 		this.reportTitle = ParameterAccessor.htmlEncode( title );
 		this.__initParameters( request );
@@ -837,7 +840,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	{
 		return parametersAsString;
 	}
-	
+
 	/**
 	 * @return the parameterDefList
 	 */

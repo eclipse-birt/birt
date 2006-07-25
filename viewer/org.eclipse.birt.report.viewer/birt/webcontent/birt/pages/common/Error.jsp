@@ -26,7 +26,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
 	<HEAD>
-		<TITLE><%= BirtResources.getString( "birt.viewer.title.error" ) %></TITLE>
+		<TITLE>
+				<%= BirtResources.getMessage( "birt.viewer.title.error" )%>
+		</TITLE>
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
 		<LINK REL="stylesheet" HREF="<%= request.getContextPath( ) + "birt/styles/style.css" %>" TYPE="text/css">
 	</HEAD>

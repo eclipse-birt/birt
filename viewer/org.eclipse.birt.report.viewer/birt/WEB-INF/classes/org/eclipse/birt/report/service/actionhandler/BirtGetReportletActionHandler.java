@@ -18,11 +18,10 @@ import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 
-public class BirtGetReportletActionHandler
-		extends AbstractBaseActionHandler
+public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 {
+
 	protected BaseAttributeBean __bean;
 
 	protected String __docName;
@@ -103,7 +102,7 @@ public class BirtGetReportletActionHandler
 			AxisFault fault = new AxisFault( );
 			fault
 					.setFaultReason( BirtResources
-							.getString( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
+							.getMessage( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
 			throw fault;
 		}
 	}

@@ -225,7 +225,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 				AxisFault fault = new AxisFault( );
 				fault.setFaultCode( new QName(
 						"DocumentProcessor.parseReportId( )" ) ); //$NON-NLS-1$
-				fault.setFaultString( BirtResources.getFormattedString(
+				fault.setFaultString( BirtResources.getMessage(
 						ResourceConstants.ACTION_EXCEPTION_INVALID_ID_FORMAT,
 						new String[]{id} ) );
 				throw fault;

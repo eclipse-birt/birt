@@ -33,13 +33,16 @@
 					if ( fragments.size( ) <= 0 )
 					{
 					%>
-						<TR><TD><%= BirtResources.getString( "birt.viewer.error.noparameter" ) %></TD></TR>
+						<TR>
+							<TD><%= BirtResources.getMessage( "birt.viewer.error.noparameter" ) %>
+							</TD>
+						</TR>
 					<%
 					}
 					else
 					{
 					%>
-						<TR><TD COLSPAN="2"><%= BirtResources.getString( "birt.viewer.required" ) %></TD></TR>
+						<TR><TD COLSPAN="2"><%= BirtResources.getMessage( "birt.viewer.required" ) %></TD></TR>
 					<%
 						if ( fragments != null )
 						{

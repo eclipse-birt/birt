@@ -25,6 +25,7 @@ import org.eclipse.birt.report.soapengine.api.Page;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateContent;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public abstract class AbstractGetPageActionHandler
 		extends
@@ -84,8 +85,7 @@ public abstract class AbstractGetPageActionHandler
 		prepareResponse( );
 	}
 
-	protected void prepareParameters( ) throws Exception,
-			RemoteException
+	protected void prepareParameters( ) throws Exception, RemoteException
 	{
 		__bean = context.getBean( );
 		__docName = __getReportDocument( );
@@ -135,7 +135,7 @@ public abstract class AbstractGetPageActionHandler
 					AxisFault fault = new AxisFault( );
 					fault
 							.setFaultReason( BirtResources
-									.getFormattedString(
+									.getMessage(
 											ResourceConstants.ACTION_EXCEPTION_INVALID_BOOKMARK,
 											new String[]{__bookmark} ) );
 					throw fault;
@@ -152,7 +152,7 @@ public abstract class AbstractGetPageActionHandler
 			AxisFault fault = new AxisFault( );
 			fault
 					.setFaultReason( BirtResources
-							.getString( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
+							.getMessage( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
 			throw fault;
 		}
 
@@ -184,7 +184,7 @@ public abstract class AbstractGetPageActionHandler
 		UpdateContent content = new UpdateContent( );
 
 		content.setContent( __page.toString( ) );
-		
+
 		content.setTarget( "Document" ); //$NON-NLS-1$
 		content.setInitializationId( parseReportId( __activeIds ) );
 
@@ -262,8 +262,9 @@ public abstract class AbstractGetPageActionHandler
 						AxisFault fault = new AxisFault( );
 						fault.setFaultCode( new QName(
 								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
-						fault.setFaultString( BirtResources
-							.getString( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
+						fault
+								.setFaultString( BirtResources
+										.getMessage( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
 						throw fault;
 					}
 

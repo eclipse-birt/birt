@@ -17,10 +17,12 @@ import org.eclipse.birt.report.resource.ResourceConstants;
 /**
  * Fragment for report tool bar.
  * <p>
+ * 
  * @see BaseFragment
  */
 public class ExportReportDialogFragment extends BaseDialogFragment
 {
+
 	/**
 	 * Get unique id of the corresponding UI gesture.
 	 * 
@@ -28,7 +30,7 @@ public class ExportReportDialogFragment extends BaseDialogFragment
 	 */
 	public String getClientId( )
 	{
-		return "exportReportDialog";  //$NON-NLS-1$
+		return "exportReportDialog"; //$NON-NLS-1$
 	}
 
 	/**
@@ -38,16 +40,18 @@ public class ExportReportDialogFragment extends BaseDialogFragment
 	 */
 	public String getClientName( )
 	{
-		return "Export Report";  //$NON-NLS-1$
+		return "Export Report"; //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Gets the title ID for the html page.
+	 * 
 	 * @return title id
 	 */
-	
+
 	public String getTitle( )
 	{
-		return BirtResources.getString( ResourceConstants.EXPORT_REPORT_DIALOG_TITLE );
+		return BirtResources
+				.getMessage( ResourceConstants.EXPORT_REPORT_DIALOG_TITLE );
 	}
 }

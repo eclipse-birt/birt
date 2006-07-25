@@ -74,7 +74,7 @@ public class ParameterDialogFragment extends BaseDialogFragment
 	public String getTitle( )
 	{
 		return BirtResources
-				.getString( ResourceConstants.PARAMETER_DIALOG_TITLE );
+				.getMessage( ResourceConstants.PARAMETER_DIALOG_TITLE );
 	}
 
 	protected void doService( HttpServletRequest request,

@@ -99,7 +99,7 @@ public abstract class AbstractBaseComponentProcessor
 			fault.setFaultCode( new QName( this.getClass( ).getName( ) ) );
 			fault
 					.setFaultString( BirtResources
-							.getString( ResourceConstants.COMPONENT_PROCESSOR_EXCEPTION_MISSING_OPERATOR ) );
+							.getMessage( ResourceConstants.COMPONENT_PROCESSOR_EXCEPTION_MISSING_OPERATOR ) );
 			throw fault;
 		}
 

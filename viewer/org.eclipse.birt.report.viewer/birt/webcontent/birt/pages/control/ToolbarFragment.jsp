@@ -39,26 +39,26 @@
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='toc' SRC="birt/images/Toc.gif"
-					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.toc" )%>"
-					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.toc" )%>" CLASS="birtviewer_clickable">
+					   		TITLE="<%= BirtResources.getMessage( "birt.viewer.toolbar.toc" )%>"
+					   		ALT="<%= BirtResources.getMessage( "birt.viewer.toolbar.toc" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='parameter' SRC="birt/images/Report_parameters.gif"
-					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.parameter" )%>"	
-					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.parameter" )%>" CLASS="birtviewer_clickable">
+					   		TITLE="<%= BirtResources.getMessage( "birt.viewer.toolbar.parameter" )%>"	
+					   		ALT="<%= BirtResources.getMessage( "birt.viewer.toolbar.parameter" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='export' SRC="birt/images/Export.gif"
-					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.export" )%>"
-					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.export" )%>" CLASS="birtviewer_clickable">
+					   		TITLE="<%= BirtResources.getMessage( "birt.viewer.toolbar.export" )%>"
+					   		ALT="<%= BirtResources.getMessage( "birt.viewer.toolbar.export" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='pdf' SRC="birt/images/pdf.gif"
-					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.pdf" )%>"
-					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.pdf" )%>" CLASS="birtviewer_clickable">
+					   		TITLE="<%= BirtResources.getMessage( "birt.viewer.toolbar.pdf" )%>"
+					   		ALT="<%= BirtResources.getMessage( "birt.viewer.toolbar.pdf" )%>" CLASS="birtviewer_clickable">
 					</TD>					
 					<TD ALIGN='right'>
 					<%
@@ -68,7 +68,7 @@
 						<A HREF="<%= ivUrl %>">
 							<IMG SRC='birt/images/Interactive_viewer.gif'
 								CLASS='birtviewer_clickable'
-								TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.enableiv" )%>" />
+								TITLE="<%= BirtResources.getMessage( "birt.viewer.toolbar.enableiv" )%>" />
 						</A>
 					<%
 					}

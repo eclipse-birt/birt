@@ -65,7 +65,7 @@ public class BirtGetPageActionHandler extends AbstractGetPageActionHandler
 			AxisFault fault = new AxisFault( );
 			fault
 					.setFaultReason( BirtResources
-							.getString( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
+							.getMessage( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
 			throw fault;
 		}
 	}

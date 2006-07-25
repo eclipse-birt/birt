@@ -25,7 +25,9 @@
 	<TABLE WIDTH="250px" CLASS="birtviewer_progressbar" CELLSPACING="10px">
 		<TR>
 			<TD ALIGN="center">
-				<B><%= BirtResources.getString( "birt.viewer.progressbar.prompt" )%></B>
+				<B>
+					<%= BirtResources.getMessage( "birt.viewer.progressbar.prompt" )%>
+				</B>
 			</TD>
 		</TR>
 		<TR>

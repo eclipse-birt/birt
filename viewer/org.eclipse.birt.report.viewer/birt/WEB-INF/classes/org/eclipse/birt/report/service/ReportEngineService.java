@@ -588,7 +588,7 @@ public class ReportEngineService
 				masterPage ) );
 		// set a default title for the html page
 		option.setHtmlTitle( BirtResources
-				.getString( ResourceConstants.BIRT_VIEWER_TITLE ) );
+				.getMessage( ResourceConstants.BIRT_VIEWER_TITLE ) );
 
 		if ( embeddable != null )
 		{

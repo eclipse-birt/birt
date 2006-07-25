@@ -78,7 +78,7 @@ public class EngineFragment extends BirtBaseFragment
 			String mimeType = ReportEngineService.getInstance( ).getMIMEType(
 					format );
 			if ( mimeType != null && mimeType.length( ) > 0 )
-				response.setContentType( mimeType + ";charset=utf-8"); //$NON-NLS-1$
+				response.setContentType( mimeType + ";charset=utf-8" ); //$NON-NLS-1$
 			else
 				response.setContentType( "text/html;charset=utf-8" ); //$NON-NLS-1$
 			response.setHeader( "cache-control", "no-cache" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -143,7 +143,7 @@ public class EngineFragment extends BirtBaseFragment
 			// retrieved.
 			// Any include and forward throws exception.
 			// Better to move this error handle into engine.
-			String message = "<html><head><title>" + BirtResources.getString( "birt.viewer.title.error" ) + "</title><body><font color=\"red\">" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+			String message = "<html><head><title>" + BirtResources.getMessage( "birt.viewer.title.error" ) + "</title><body><font color=\"red\">" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
 					+ ParameterAccessor.htmlEncode( fault.getFaultString( ) )
 					+ "</font></body></html>"; //$NON-NLS-1$
 			out.write( message.getBytes( ) );

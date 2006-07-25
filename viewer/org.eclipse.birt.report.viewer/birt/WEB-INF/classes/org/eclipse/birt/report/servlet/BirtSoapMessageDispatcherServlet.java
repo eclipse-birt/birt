@@ -27,11 +27,12 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 {
+
 	/**
 	 * TODO: what's this?
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Versioning.
 	 */
@@ -83,7 +84,7 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	{
 		super.init( config );
 		ParameterAccessor.initParameters( config );
-		BirtResources.initResource( ParameterAccessor.getWebAppLocale( ) );
+		BirtResources.setLocale( ParameterAccessor.getWebAppLocale( ) );
 		__init( config );
 	}
 
@@ -105,7 +106,7 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 		{
 			return;
 		}
-		
+
 		IContext context = __getContext( request, response );
 
 		if ( context.getBean( ).getException( ) != null )
@@ -144,15 +145,17 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 		{
 			return;
 		}
-		
+
 		IContext context = __getContext( request, response );
 
 		try
 		{
 			__doPost( context );
-			
-			String requestType = request.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
-			if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP.equalsIgnoreCase( requestType ) )
+
+			String requestType = request
+					.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
+			if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
+					.equalsIgnoreCase( requestType ) )
 			{
 				super.doPost( request, response );
 			}
@@ -163,7 +166,7 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 		}
 		catch ( BirtException e )
 		{
-			e.printStackTrace();
+			e.printStackTrace( );
 			// Handle Birt exception.
 			// TODO: Raise axis fault
 		}

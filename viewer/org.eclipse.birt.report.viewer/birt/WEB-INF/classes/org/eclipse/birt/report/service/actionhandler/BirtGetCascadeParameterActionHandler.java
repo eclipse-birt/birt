@@ -177,7 +177,7 @@ public class BirtGetCascadeParameterActionHandler
 		{
 			throw new ReportServiceException(
 					BirtResources
-							.getFormattedString(
+							.getMessage(
 									ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_PARAMETER,
 									new String[]{firstName} ) );
 		}

@@ -284,7 +284,7 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			throw new ReportServiceException(
 					BirtResources
-							.getString( ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_DOCUMENT ) );
+							.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_DOCUMENT ) );
 		}
 
 		ResultSet[] resultSetArray;
@@ -304,7 +304,7 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			throw new ReportServiceException(
 					BirtResources
-							.getString( ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_RESULT_SET ) );
+							.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_RESULT_SET ) );
 		}
 
 		return transformResultSetArray( resultSetArray );
@@ -354,7 +354,7 @@ public class BirtViewerReportService implements IViewerReportService
 			doc.close( );
 			throw new ReportServiceException(
 					BirtResources
-							.getString( ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_TOC ) );
+							.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_TOC ) );
 		}
 
 		doc.close( );
@@ -818,7 +818,7 @@ public class BirtViewerReportService implements IViewerReportService
 		String helpText = engineParam.getHelpText( );
 		String promptText = engineParam.getPromptText( );
 		ParameterGroupDefinition paramGroup = new ParameterGroupDefinition(
-				name, displayName, promptText, null, cascade , helpText );
+				name, displayName, promptText, null, cascade, helpText );
 		List contents = convertParametersInGroup( engineParam.getContents( ),
 				paramGroup, task );
 		paramGroup.setParameters( contents );

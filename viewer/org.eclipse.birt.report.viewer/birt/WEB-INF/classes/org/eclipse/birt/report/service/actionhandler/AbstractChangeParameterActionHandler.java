@@ -19,6 +19,7 @@ import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public abstract class AbstractChangeParameterActionHandler
 		extends
@@ -62,17 +63,15 @@ public abstract class AbstractChangeParameterActionHandler
 				if ( !isValidPageNumber( context.getRequest( ), pageNumber,
 						docName ) )
 				{
-					bookmark = ( getReportService( ) ).findTocByName(
-							docName, bookmark, options );
+					bookmark = ( getReportService( ) ).findTocByName( docName,
+							bookmark, options );
 
-					pageNumber = getReportService( )
-							.getPageNumberByBookmark( docName, bookmark,
-									options );
+					pageNumber = getReportService( ).getPageNumberByBookmark(
+							docName, bookmark, options );
 				}
 				useBookmark = true;
 			}
-			if ( !isValidPageNumber( context.getRequest( ), pageNumber,
-					docName ) )
+			if ( !isValidPageNumber( context.getRequest( ), pageNumber, docName ) )
 			{
 				pageNumber = 1;
 				useBookmark = false;
@@ -151,8 +150,9 @@ public abstract class AbstractChangeParameterActionHandler
 						AxisFault fault = new AxisFault( );
 						fault.setFaultCode( new QName(
 								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
-						fault.setFaultString( BirtResources
-								.getString( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
+						fault
+								.setFaultString( BirtResources
+										.getMessage( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
 						throw fault;
 					}
 

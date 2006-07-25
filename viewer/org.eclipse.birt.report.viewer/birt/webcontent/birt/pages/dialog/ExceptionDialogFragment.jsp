@@ -38,7 +38,9 @@
 						
 							<TR>
 								<TD>
-									<%= BirtResources.getString( ResourceConstants.EXCEPTION_DIALOG_STACK_TRACE )%><BR>
+									<%= 
+										BirtResources.getMessage( ResourceConstants.EXCEPTION_DIALOG_STACK_TRACE )
+									%><BR>
 								</TD>
 							</TR>
 							<TR>

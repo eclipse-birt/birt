@@ -28,10 +28,12 @@
 				<TABLE ID="tabs" CELLSPACING="0" CELLPADDING="2">
 					<TR HEIGHT="20px">
 						<TD CLASS="birtviewer_dialog_tab_selected" NOWRAP>
-							<%= BirtResources.getString( "birt.viewer.dialog.exportdata.tab.field" )%>
+							<%= 
+								BirtResources.getMessage( "birt.viewer.dialog.exportdata.tab.field" )
+							%>
 						</TD>
 						<TD CLASS="birtviewer_dialog_tab_normal">
-							<%= BirtResources.getString( "birt.viewer.dialog.exportdata.tab.filter" )%>
+							<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.tab.filter" )%>
 						</TD>
 					</TR>
 				</TABLE>
@@ -45,11 +47,11 @@
 							<TR HEIGHT="5px"><TD></TD></TR>
 							<TR>
 								<TD>
-									<%= BirtResources.getString( "birt.viewer.dialog.exportdata.availablecolumn" )%>
+									<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.availablecolumn" )%>
 								</TD>
 								<TD></TD>
 								<TD>
-									<%= BirtResources.getString( "birt.viewer.dialog.exportdata.selectedcolumn" )%>
+									<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.selectedcolumn" )%>
 								</TD>
 							</TR>
 							<TR>
@@ -94,7 +96,7 @@
 							<TR HEIGHT="5px"><TD></TD></TR>
 							<TR>
 								<TD COLSPAN="3" STYLE="font-size:7pt">
-									<%= BirtResources.getString( "birt.viewer.dialog.exportdata.format" )%>
+									<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.format" )%>
 								</TD>
 							</TR>
 							<TR HEIGHT="5px"><TD></TD></TR>

@@ -83,7 +83,7 @@ abstract public class BaseReportEngineServlet extends AxisServlet
 	{
 		super.init( config );
 		ParameterAccessor.initParameters( config );
-		BirtResources.initResource( ParameterAccessor.getWebAppLocale( ) );
+		BirtResources.setLocale( ParameterAccessor.getWebAppLocale( ) );
 		__init( config );
 	}
 
