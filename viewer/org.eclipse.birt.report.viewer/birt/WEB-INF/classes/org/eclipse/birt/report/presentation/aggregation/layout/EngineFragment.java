@@ -68,10 +68,10 @@ public class EngineFragment extends BirtBaseFragment
 		else if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 		{
 			response.setContentType( "application/pdf" ); //$NON-NLS-1$
-			String filename = "BIRTReport" + System.currentTimeMillis( ); //$NON-NLS-1$
+			String filename = "BIRTReport"; //$NON-NLS-1$
 			response
 					.setHeader(
-							"Content-Disposition", "inline; filename=" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							"Content-Disposition", "inline; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		else
 		{
