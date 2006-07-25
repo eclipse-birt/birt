@@ -2104,12 +2104,88 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getPropertyBinding( String propName )
 	{
-		PropertyBinding propBinding = module.findPropertyBinding(
-				getElement( ), propName );
-		if ( propBinding == null )
+		if( propName == null )
 			return null;
+		
+		DesignElement element = getElement();
+		while ( element != null && element.getRoot( ) != null )
+		{
+			PropertyBinding propBinding = element.getRoot( ).findPropertyBinding(
+					element, propName );
+			if ( propBinding != null )
+				return propBinding.getValue( );
+			
+			if ( element.isVirtualElement( ) )
+			{
+				element = element.getVirtualParent( ) ;
+			}
+			else
+			{
+				element = element.getExtendsElement( );
+			}
+		}
+		return null;
+	}
 
-		return propBinding.getValue( );
+	/**
+	 * Gets all the defined property bindings for the given element. Each one in
+	 * the list is instance of <code>PropertyBinding</code>.
+	 * 
+	 * @return the property binding list defined for the element
+	 */
+
+	public List getPropertyBindings( )
+	{
+		List nameList = new ArrayList( );
+		List resultList = new ArrayList( );
+		
+		DesignElement element = getElement();
+		while( element != null && element.getRoot() != null)
+		{
+			List propBindings = element.getRoot( ).getPropertyBindings( element );
+			resultList.addAll( filterPropertyBindingName( propBindings, nameList ) );
+			
+			if ( element.isVirtualElement( ) )
+			{
+				element =  element.getVirtualParent( );
+			}
+			else
+			{
+				element = element.getExtendsElement( );
+			}
+		}
+		return resultList;
+	}
+
+	/**
+	 * Filters propery binding list.If the same name of property binding is
+	 * exist, filter it from result set.
+	 * 
+	 * @param propertyBindings
+	 *            each item is property binding.
+	 * @param nameList
+	 *            each item is name of property binding.
+	 * @return the property binding list.
+	 */
+
+	private List filterPropertyBindingName( List propertyBindings, List nameList )
+	{
+		if ( propertyBindings == null )
+			return Collections.EMPTY_LIST;
+
+		List resultList = new ArrayList( );
+		Iterator iterator = propertyBindings.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			PropertyBinding propBinding = (PropertyBinding) iterator.next( );
+			String name = propBinding.getName( );
+			if ( !nameList.contains( name ) )
+			{
+				resultList.add( propBinding );
+				nameList.add( name );
+			}
+		}
+		return resultList;
 	}
 
 	/**
