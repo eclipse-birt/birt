@@ -34,8 +34,8 @@ public class ViewerServletContextListener implements ServletContextListener
 	public void contextDestroyed( ServletContextEvent event )
 	{
 		// When trying to destroy application, shutdown Platform and ReportEngineService.
-		//Platform.shutdown( );
-		//ReportEngineService.shutdown( );
+		Platform.shutdown( );
+		ReportEngineService.shutdown( );
 
 		// Reset initialized parameter
 		ParameterAccessor.reset( );

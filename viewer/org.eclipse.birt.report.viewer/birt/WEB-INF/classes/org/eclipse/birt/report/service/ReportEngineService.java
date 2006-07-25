@@ -1531,11 +1531,4 @@ public class ReportEngineService
 		instance = null;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#finalize()
-	 */
-	protected void finalize( ) throws Throwable
-	{
-		Platform.shutdown( );	
-	}
 }
