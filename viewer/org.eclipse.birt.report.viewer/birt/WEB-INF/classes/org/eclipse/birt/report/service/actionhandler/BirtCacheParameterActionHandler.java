@@ -72,8 +72,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		File configFile = new File( configFileName );
 
 		// if config file existed, then delete it
-		if ( configFile != null && configFile.exists( )
-				&& configFile.isFile( ) )
+		if ( configFile != null && configFile.exists( ) && configFile.isFile( ) )
 		{
 			configFile.delete( );
 		}
@@ -92,8 +91,29 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 				String paramName = op[i].getName( );
 				String paramValue = op[i].getValue( );
 
+				ScalarParameterHandle parameter = null;
+
+				// if pass a null parameter
+				if ( paramName
+						.equalsIgnoreCase( ParameterAccessor.PARAM_ISNULL )
+						&& paramValue != null )
+				{
+					parameter = (ScalarParameterHandle) attrBean
+							.findParameter( paramValue );
+					if ( parameter != null )
+					{
+						// add null parameter to config file
+						configVar.setName( ParameterAccessor.PARAM_ISNULL );
+						configVar.setValue( paramValue
+								+ "_" + parameter.getID( ) ); //$NON-NLS-1$
+						handle.addConfigVariable( configVar );
+					}
+
+					continue;
+				}
+
 				// find the parameter
-				ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
+				parameter = (ScalarParameterHandle) attrBean
 						.findParameter( paramName );
 
 				// convert the parameter from current locale to default
@@ -108,14 +128,12 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 							Object paramValueObj = ParameterValidationUtil
 									.validate( parameter.getDataType( ),
 											parameter.getPattern( ),
-											paramValue, attrBean
-													.getLocale( ) );
+											paramValue, attrBean.getLocale( ) );
 
 							paramValue = ParameterValidationUtil
-									.getDisplayValue( parameter
-											.getDataType( ), parameter
-											.getPattern( ), paramValueObj,
-											ULocale.US );
+									.getDisplayValue( parameter.getDataType( ),
+											parameter.getPattern( ),
+											paramValueObj, ULocale.US );
 						}
 					}
 					catch ( Exception err )
@@ -124,8 +142,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 					}
 
 					// add parameter to config file
-					configVar
-							.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
+					configVar.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
 					configVar.setValue( paramValue );
 					handle.addConfigVariable( configVar );
 				}

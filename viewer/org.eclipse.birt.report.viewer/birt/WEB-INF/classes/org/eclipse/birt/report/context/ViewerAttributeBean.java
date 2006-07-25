@@ -224,19 +224,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			// initial config map
 			if ( handle != null )
 			{
-				Iterator parameters = parameterList.iterator( );
-				while ( parameters != null && parameters.hasNext( ) )
-				{
-					Object parameterHandle = parameters.next( );
-					if ( parameterHandle instanceof ScalarParameterHandle )
-					{
-						ScalarParameterHandle scalarParameterHandle = (ScalarParameterHandle) parameterHandle;
-						if ( scalarParameterHandle.getName( ) != null )
-							this.configMap.put(
-									scalarParameterHandle.getName( ), null );
-					}
-				}
-
 				Iterator configVars = handle.configVariablesIterator( );
 				while ( configVars != null && configVars.hasNext( ) )
 				{
@@ -244,11 +231,23 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							.next( );
 					if ( configVar != null && configVar.getName( ) != null )
 					{
-						// check the parameter whether exist or not
-						String paramName = getParameterName( configVar
-								.getName( ) );
+						String paramName = configVar.getName( );
 						String paramValue = configVar.getValue( );
 
+						// check if null parameter
+						if ( paramName
+								.equalsIgnoreCase( ParameterAccessor.PARAM_ISNULL )
+								&& paramValue != null )
+						{
+							String nullParamName = getParameterName( paramValue );
+							if ( nullParamName != null )
+								this.configMap.put( nullParamName, null );
+
+							continue;
+						}
+
+						// check the parameter whether exist or not
+						paramName = getParameterName( paramName );
 						ScalarParameterHandle parameter = (ScalarParameterHandle) findParameter( paramName );
 
 						// convert parameter from default locale to current
