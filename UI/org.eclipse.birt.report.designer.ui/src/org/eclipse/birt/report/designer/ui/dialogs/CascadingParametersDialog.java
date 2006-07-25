@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
@@ -86,15 +87,15 @@ import com.ibm.icu.util.ULocale;
 
 public class CascadingParametersDialog extends BaseDialog
 {
-	
+
 	private static final String LABEL_PARAMTER_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.Label.parameterPromptText" ); //$NON-NLS-1$
 
 	private static final String LABEL_VALUES = Messages.getString( "CascadingParametersDialog.Label.values" ); //$NON-NLS-1$
-	
+
 	private static final String LABEL_GROUP_GENERAL = Messages.getString( "CascadingParametersDialog.Label.group.general" ); //$NON-NLS-1$
 
 	private static final String LABEL_CASCADING_PARAMETER_NAME = Messages.getString( "CascadingParametersDialog.Label.cascadingParam.name" ); //$NON-NLS-1$
-	
+
 	private static final String LABEL_GROUP_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.Label.groupPromptText" ); //$NON-NLS-1$
 
 	// private static final String LABEL_GROUP_PROMPT_TEXT = Messages.getString(
@@ -113,7 +114,7 @@ public class CascadingParametersDialog extends BaseDialog
 	private static final String LABEL_GROUP_PROPERTIES = Messages.getString( "CascadingParametersDialog.Label.group.properties" ); //$NON-NLS-1$
 
 	private static final String LABEL_PARAM_NAME = Messages.getString( "CascadingParametersDialog.Label.param.name" ); //$NON-NLS-1$
-	
+
 	private static final String LABEL_LIST_LIMIT = Messages.getString( "CascadingParametersDialog.Label.listLimit" ); //$NON-NLS-1$
 
 	private static final String LABEL_DATA_TYPE = Messages.getString( "CascadingParametersDialog.Label.dataType" ); //$NON-NLS-1$
@@ -271,8 +272,8 @@ public class CascadingParametersDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
-		UIUtil.bindHelp( parent,IHelpContextIds.CASCADING_PARAMETER_DIALOG_ID ); 
-		
+		UIUtil.bindHelp( parent, IHelpContextIds.CASCADING_PARAMETER_DIALOG_ID );
+
 		GridData data = new GridData( );
 		data.widthHint = 600;
 
@@ -456,7 +457,9 @@ public class CascadingParametersDialog extends BaseDialog
 
 		} );
 
-		createLabel( propertiesGroup, LABEL_PARAMTER_PROMPT_TEXT, maxStrLengthProperty );
+		createLabel( propertiesGroup,
+				LABEL_PARAMTER_PROMPT_TEXT,
+				maxStrLengthProperty );
 
 		promptText = new Text( propertiesGroup, SWT.BORDER );
 		promptText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -675,7 +678,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	/*
 	 * set input for dialog
-	 */ 
+	 */
 	public void setInput( Object input )
 	{
 		Assert.isNotNull( input );
@@ -813,9 +816,9 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private DataSetHandle getDataSet( ScalarParameterHandle handle )
 	{
-		if ( !isSingle( )  )
+		if ( !isSingle( ) )
 		{
-			if(handle.getDataSetName( ) != null)
+			if ( handle.getDataSetName( ) != null )
 			{
 				return getDataSet( handle.getDataSetName( ) );
 			}
@@ -1408,7 +1411,8 @@ public class CascadingParametersDialog extends BaseDialog
 							.getName( );
 				}
 				else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( selectedDataType )
-						|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( selectedDataType ) )
+						|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( selectedDataType )
+						|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( selectedDataType ) )
 				{
 					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED )
 							.getName( );
@@ -1585,7 +1589,8 @@ public class CascadingParametersDialog extends BaseDialog
 			formatStr = new DateFormatter( pattern ).format( new Date( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
-				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
+				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type )
+				|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 		{
 			formatStr = new NumberFormatter( pattern ).format( DEFAULT_PREVIEW_NUMBER );
 		}
@@ -1717,6 +1722,10 @@ public class CascadingParametersDialog extends BaseDialog
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
 		{
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( columnHandle.getDataType( ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
+		{
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( columnHandle.getDataType( ) );
 		}
 		return false;
 	}

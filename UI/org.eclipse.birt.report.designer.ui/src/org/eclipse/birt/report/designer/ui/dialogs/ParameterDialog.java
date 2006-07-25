@@ -969,7 +969,12 @@ public class ParameterDialog extends BaseDialog
 			}
 
 		}
-
+		else
+		{
+			allowNull.setEnabled( false );
+			allowNull.setSelection( false );
+			checkBoxChange( allowBlank, CHECKBOX_ALLOW_BLANK );
+		}
 		if ( !DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
 		{
 			allowBlank.setEnabled( false );
@@ -2092,6 +2097,10 @@ public class ParameterDialog extends BaseDialog
 		{
 			return ( (BigDecimal) v1 ).compareTo( v2 ) == 0;
 		}
+		if ( v1 instanceof Integer && v2 instanceof Integer )
+		{
+			return ( (Integer) v1 ).compareTo( v2 ) == 0;
+		}
 		return v1.equals( v2 );
 	}
 
@@ -2112,6 +2121,10 @@ public class ParameterDialog extends BaseDialog
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
 		{
 			return DataTypeUtil.toDouble( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( getSelectedDataType( ) ) )
+		{
+			return DataTypeUtil.toInteger( value );
 		}
 		return value;
 	}
@@ -2170,8 +2183,8 @@ public class ParameterDialog extends BaseDialog
 				}
 				if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
 				{
-					previewString = new DateFormatter( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) ? formatPattern 
-							:formatCategroy,
+					previewString = new DateFormatter( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) ? formatPattern
+							: formatCategroy,
 							ULocale.getDefault( ) ).format( new Date( ) );
 				}
 				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
@@ -2189,18 +2202,18 @@ public class ParameterDialog extends BaseDialog
 			}
 		}
 		formatField.setText( displayFormat );
-		previewLabel.setText( convertNullString(previewString ));
+		previewLabel.setText( convertNullString( previewString ) );
 		changeFormat.setEnabled( choiceSet != null );
 	}
-	
-	private String convertNullString(String str)
+
+	private String convertNullString( String str )
 	{
-		if(str==null)
+		if ( str == null )
 		{
 			return "";//$NON-NLS-1$
 		}
 		return str;
-			
+
 	}
 
 	private boolean containValue( SelectionChoice selectedChoice,
