@@ -22,15 +22,17 @@
 	<property name="eclipse.home" location="." />
 	<property name="dtp.home" location=".." />
 
+	<property name="utest.report.dir" location="utestreports"/>
+	
 	<property name="core.dir" location="../org.eclipse.birt.core" />
 	<property name="data.oda.dir" location="../org.eclipse.birt.data.oda" />
 	<property name="data.oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
 	<property name="datatools.connectivity.oda.dir" location="../org.eclipse.datatools.connectivity.oda" />
 	<property name="testmodule.name" value="org.eclipse.birt.report.tests.chart" />
 
-	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
-	<property name="chart.engine.extension.dir" location="../org.eclipse.birt.chart.engine.extension"/>
-	<property name="chart.device.extension.dir" location="../org.eclipse.birt.chart.device.extension"/>
+	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine" />
+	<property name="chart.engine.extension.dir" location="../org.eclipse.birt.chart.engine.extension" />
+	<property name="chart.device.extension.dir" location="../org.eclipse.birt.chart.device.extension" />
 
 
 	<property name="src" location="src" />
@@ -41,7 +43,7 @@
 		<pathelement path="${bin}" />
 
 		<fileset dir="../org.mozilla.rhino">
-			<include name="lib/*.jar"/>
+			<include name="lib/*.jar" />
 		</fileset>
 
 		<fileset dir="..">
@@ -79,23 +81,16 @@
 
 	<target name="UnitTest">
 		<java fork="true" classname="org.eclipse.birt.report.tests.chart.AllTests">
-			<jvmarg value="-DSTANDALONE"/>
+			<jvmarg value="-DSTANDALONE" />
 
 			<classpath refid="class.path" />
 		</java>
 	</target>
 
-
-
 	<target name="Report">
-		<junitreport todir="${test.report.dir}">
-			<fileset dir="${test.report.xml.dir}">
-				<include name="*.xml" />
-				<exclude name="*TestSuites.xml" />
-			</fileset>
-
-			<report format="frames" todir="${test.report.dir}/" />
-		</junitreport>
+		<copy todir="${utest.report.dir}/acceptance" failonerror="false">
+			<fileset dir="acceptance" />
+		</copy>
 	</target>
 
 	<!-- Clean the build environment -->
