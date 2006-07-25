@@ -35,7 +35,7 @@ public class DataRowExpressionEvaluatorAdapter implements
 	 */
 	public Object evaluateGlobal( String expression )
 	{
-		return null;
+		return evaluate( expression );
 	}
 
 	/*

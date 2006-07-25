@@ -187,6 +187,16 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 						{
 							return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
 						}
+						
+						public String getSystemId( )
+						{
+							ModuleHandle mod = eih.getRoot( );
+							if ( mod != null )
+							{
+								return mod.getFileName( );
+							}
+							return null;
+						}
 
 					},
 							context );
@@ -222,15 +232,15 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 						public String getBookmark( )
 						{
-							return ChartUtil.stringValue( evaluator.evaluateGlobal( handle.getTargetBookmark( ) ) );
+							return ChartUtil.stringValue( evaluator.evaluate( handle.getTargetBookmark( ) ) );
 						}
 
 						public String getActionString( )
 						{
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-								return ChartUtil.stringValue( evaluator.evaluateGlobal( handle.getURI( ) ) );
+								return ChartUtil.stringValue( evaluator.evaluate( handle.getURI( ) ) );
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-								return ChartUtil.stringValue( evaluator.evaluateGlobal( handle.getTargetBookmark( ) ) );
+								return ChartUtil.stringValue( evaluator.evaluate( handle.getTargetBookmark( ) ) );
 							return null;
 						}
 
@@ -264,7 +274,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 							{
 								ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
 								map.put( pbh.getParamName( ),
-										evaluator.evaluateGlobal( pbh.getExpression( ) ) );
+										evaluator.evaluate( pbh.getExpression( ) ) );
 							}
 
 							return map;
@@ -278,7 +288,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 							{
 								SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
 								map.put( skh.getExpression( ),
-										evaluator.evaluateGlobal( skh.getExpression( ) ) );
+										evaluator.evaluate( skh.getExpression( ) ) );
 							}
 
 							return map;
@@ -297,6 +307,16 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 						public boolean isBookmark( )
 						{
 							return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
+						}
+						
+						public String getSystemId( )
+						{
+							ModuleHandle mod = eih.getRoot( );
+							if ( mod != null )
+							{
+								return mod.getFileName( );
+							}
+							return null;
 						}
 
 					},
