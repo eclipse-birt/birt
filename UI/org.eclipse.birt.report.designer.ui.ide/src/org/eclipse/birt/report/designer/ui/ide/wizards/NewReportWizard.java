@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
+import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage.Template;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -169,7 +170,8 @@ public class NewReportWizard extends Wizard implements
 		// else if ( !choicePage.isCustom( ) )
 		// {
 		// predefined template
-		String fullName = convertFileName2Absolute(templateChoicePage.getTemplate( ).getReportPath( ) );
+		Template selTemplate = templateChoicePage.getTemplate( );
+		String fullName = convertFileName2Absolute(selTemplate.isPredefined( ),selTemplate.getReportPath( ) );
 		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
 				new Path(fullName ) );
 		if ( url != null )
@@ -820,11 +822,18 @@ public class NewReportWizard extends Wizard implements
 	// handle.save( );
 	// }
 	
-	private String convertFileName2Absolute(String fileName)
+	private String convertFileName2Absolute(boolean predefined,String fileName)
 	{
 		String fullPath = fileName;
-		String templateFolderPath = ReportPlugin.getDefault( )
-		.getTemplatePreference( );
+		String templateFolderPath = null;
+		if(predefined)
+		{
+			templateFolderPath = UIUtil.getHomeDirectory( );
+		}else
+		{
+			templateFolderPath = ReportPlugin.getDefault( )
+			.getTemplatePreference( );			
+		}		
 
 		if(templateFolderPath.indexOf( "\\" ) < 0 )
 		{
@@ -842,7 +851,8 @@ public class NewReportWizard extends Wizard implements
 		}
 		
 		fullPath = templateFolderPath + fileName;
-		
+		fullPath = fullPath.replaceAll( "\\\\", "\\" );
+		fullPath = fullPath.replaceAll( "//", "/" );
 		return fullPath;
 	}
 }

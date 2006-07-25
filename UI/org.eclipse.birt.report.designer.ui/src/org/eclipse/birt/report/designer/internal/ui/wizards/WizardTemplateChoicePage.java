@@ -110,8 +110,14 @@ public class WizardTemplateChoicePage extends WizardPage
 	public class Template
 	{
 
+		private boolean isPredefined;
 		Map files = new HashMap( );
 
+		public boolean isPredefined()
+		{
+			return isPredefined;
+		}
+		
 		public Template( String name, String description, String reportPath,
 				String picturePath, String cheatSheetId )
 		{
@@ -120,18 +126,20 @@ public class WizardTemplateChoicePage extends WizardPage
 			this.reportPath = reportPath;
 			this.picturePath = picturePath;
 			this.cheatSheetId = cheatSheetId;
+			isPredefined = true;
 		}
 
 		public Template( String reportName ) throws DesignFileException
 		{
-			String fullName = convertFileName2Absolute(reportName);
+			isPredefined = false;
+			String fullName = convertFileName2Absolute(isPredefined,reportName);
 			reportDesign = (ReportDesignHandle) files.get( fullName );			
 			if ( reportDesign == null )
 			{
 				reportDesign = SessionHandleAdapter.getInstance( )
 						.getSessionHandle( )
 						.openDesign( fullName );
-				files.put( fullName, reportDesign );
+				files.put( fullName, reportDesign );				
 			}
 
 			// Todo: get description from report design.
@@ -232,44 +240,45 @@ public class WizardTemplateChoicePage extends WizardPage
 	protected Template[] preDefinedTemplates = new Template[]{
 			new Template( TITLE_BLANK_REPORT,
 					DESCRIPTION_BLANK_REPORT,
-					"blank_report.rptdesign", //$NON-NLS-1$
-					"blank_report.gif", //$NON-NLS-1$
+					"/templates/blank_report.rptdesign", //$NON-NLS-1$
+					"/templates/blank_report.gif", //$NON-NLS-1$
 					"" ), //$NON-NLS-1$
 			new Template( TITLE_FIRST_REPORT,
 					DESCRIPTION_FIRST_REPORT,
-					"blank_report.rptdesign", //$NON-NLS-1$
-					"first_report.gif", //$NON-NLS-1$
+					"/templates/blank_report.rptdesign", //$NON-NLS-1$
+					"/templates/first_report.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ), //$NON-NLS-1$
 			new Template( TITLE_SIMPLE_LISTING,
 					DESCRIPTION_SIMPLE_LISTING,
-					"simple_listing.rptdesign", //$NON-NLS-1$
-					"simple_listing.gif", //$NON-NLS-1$
+					"/templates/simple_listing.rptdesign", //$NON-NLS-1$
+					"/templates/simple_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.simplelisting" ), //$NON-NLS-1$
 			new Template( TITLE_GROUPED_LISTING,
 					DESCRIPTION_GROUPED_LISTING,
-					"grouped_listing.rptdesign", //$NON-NLS-1$
-					"grouped_listing.gif", //$NON-NLS-1$
+					"/templates/grouped_listing.rptdesign", //$NON-NLS-1$
+					"/templates/grouped_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.groupedlisting" ), //$NON-NLS-1$
 			new Template( TITLE_DUAL_COLUMN_LISTING,
 					DESCRIPTION_DUAL_COLUMN_LISTING,
-					"dual_column_listing.rptdesign", //$NON-NLS-1$
-					"dual_column_listing.gif", //$NON-NLS-1$
+					"/templates/dual_column_listing.rptdesign", //$NON-NLS-1$
+					"/templates/dual_column_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.dualcolumnlisting" ), //$NON-NLS-1$
 			new Template( TITLE_CHART_LISTING,
 					DESCRIPTION_CHART_LISTING,
-					"chart_listing.rptdesign", //$NON-NLS-1$
-					"chart_listing.gif", //$NON-NLS-1$
+					"/templates/chart_listing.rptdesign", //$NON-NLS-1$
+					"/templates/chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.chartlisting" ), //$NON-NLS-1$
 			new Template( TITLE_DUAL_COLUMN_CHART_LISTING,
 					DESCRIPTION_DUAL_COLUMN_CHART_LISTING,
-					"dual_column_chart_listing.rptdesign", //$NON-NLS-1$
-					"dual_column_chart_listing.gif", //$NON-NLS-1$
+					"/templates/dual_column_chart_listing.rptdesign", //$NON-NLS-1$
+					"/templates/dual_column_chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.dualchartlisting" ), //$NON-NLS-1$
 			new Template( TITLE_SIDE_BY_SIDE_CHART_LISTING,
 					DESCRIPTION_SIDE_BY_SIDE_CHART_LISTING,
-					"sidebyside_chart_listing.rptdesign", //$NON-NLS-1$
-					"sidebyside_chart_listing.gif", //$NON-NLS-1$
+					"/templates/sidebyside_chart_listing.rptdesign", //$NON-NLS-1$
+					"/templates/sidebyside_chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.sidebysidechartlisting" ), //$NON-NLS-1$
+
 	/*
 	 * new Template( TITLE_MAILING_LABELS, DESCRIPTION_MAILING_LABELS,
 	 * "/templates/mailing_labels.rptdesign", //$NON-NLS-1$
@@ -483,8 +492,8 @@ public class WizardTemplateChoicePage extends WizardPage
 			description.setText( ( (Template) templates.get( selectedIndex ) ).getTemplateDescription( ) );
 			// we need to relayout if the new text has different number of lines
 			previewPane.layout( );
-			String key = ( (Template) templates.get( selectedIndex ) ).getPicturePath( );
-			key = convertFileName2Absolute(key);
+			Template selTemplate = (Template) templates.get( selectedIndex );
+			String key = selTemplate.getPicturePath( );			
 			Object img = null;
 			if ( key == null || "".equals( key.trim( ) ) ) //$NON-NLS-1$
 			{
@@ -504,6 +513,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			}
 			else
 			{
+				key = convertFileName2Absolute(selTemplate.isPredefined(),key);
 				img = imageMap.get( key );
 
 				if ( img == null )
@@ -569,11 +579,18 @@ public class WizardTemplateChoicePage extends WizardPage
 		}
 	}
 
-	private String convertFileName2Absolute(String fileName)
+	private String convertFileName2Absolute(boolean predefined,String fileName)
 	{
 		String fullPath = fileName;
-		String templateFolderPath = ReportPlugin.getDefault( )
-		.getTemplatePreference( );
+		String templateFolderPath = null;
+		if(predefined)
+		{
+			templateFolderPath = UIUtil.getHomeDirectory( );
+		}else
+		{
+			templateFolderPath = ReportPlugin.getDefault( )
+			.getTemplatePreference( );			
+		}		
 
 		if(templateFolderPath.indexOf( "\\" ) < 0 )
 		{
@@ -591,7 +608,8 @@ public class WizardTemplateChoicePage extends WizardPage
 		}
 		
 		fullPath = templateFolderPath + fileName;
-		
+		fullPath = fullPath.replaceAll( "\\\\", "\\" );
+		fullPath = fullPath.replaceAll( "//", "/" );
 		return fullPath;
 	}
 }
