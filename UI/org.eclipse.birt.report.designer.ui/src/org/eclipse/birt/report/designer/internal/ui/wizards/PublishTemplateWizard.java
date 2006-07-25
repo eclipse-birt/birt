@@ -177,20 +177,21 @@ public class PublishTemplateWizard extends Wizard
 
 		if ( overwrite == Window.OK )
 		{
-			if(page.getPreviewImagePath( ) != null && page.getPreviewImagePath( ).trim().length( ) != 0 )
+			if ( page.getPreviewImagePath( ) != null
+					&& page.getPreviewImagePath( ).trim( ).length( ) != 0 )
 			{
-				copyIconFile( page.getPreviewImagePath( ).trim() );
+				copyIconFile( page.getPreviewImagePath( ).trim( ) );
 			}
-			
+
 		}
-		return  overwrite != 1 ;
+		return overwrite != 1;
 	}
 
 	private int copyIconFile( String filePath )
 	{
 		String templateFolderPath = ReportPlugin.getDefault( )
 				.getTemplatePreference( );
-	
+
 		if ( !( new File( filePath ).exists( ) ) )
 		{
 			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
@@ -268,17 +269,19 @@ public class PublishTemplateWizard extends Wizard
 				.openDesign( fileName );
 		if ( !page.getDisplayName( ).equals( "" ) ) //$NON-NLS-1$
 			handle.setDisplayName( page.getDisplayName( ) );
-		if ( !page.getDescription( ).equals( "" ) ) //$NON-NLS-1$
-			handle.setProperty( ModuleHandle.DESCRIPTION_PROP,
-					page.getDescription( ) );
+
+		handle.setProperty( ModuleHandle.DESCRIPTION_PROP,
+				page.getDescription( ) );
+
 		if ( !page.getPreviewImagePath( ).equals( "" ) ) //$NON-NLS-1$
 		{
 			int beginIndex = page.getPreviewImagePath( )
 					.lastIndexOf( File.separator );
 			String shortName = null;
-			if ( beginIndex + 1 >= page.getPreviewImagePath( ).length( ) )
+			if ( beginIndex + 1 >= page.getPreviewImagePath( ).length( )
+					|| beginIndex == -1 )
 			{
-				shortName = page.getPreviewImagePath( );
+				shortName = "";
 			}
 			else
 			{
@@ -287,6 +290,10 @@ public class PublishTemplateWizard extends Wizard
 
 			}
 			handle.setIconFile( shortName );
+		}
+		else
+		{
+			handle.setIconFile( "" );
 		}
 		// if ( !page.getCheetSheetPath( ).equals( "" ) ) //$NON-NLS-1$
 		// handle.setCheetSheet( page.getCheetSheetPath( ) );
