@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.document.viewing;
 
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
@@ -62,7 +64,6 @@ public class DummyEventHandler implements IEventHandler
 	 */
 	public IExecutorHelper getExecutorHelper( )
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -72,8 +73,16 @@ public class DummyEventHandler implements IEventHandler
 	 */
 	public void setExecutorHelper( IExecutorHelper helper )
 	{
-		// TODO Auto-generated method stub
-		
+				
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getExprs()
+	 */
+	public Map getColumnMappings( )
+	{
+		return null;
 	}
 	
 }

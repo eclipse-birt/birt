@@ -480,8 +480,8 @@ public class ExpressionProcessor implements IExpressionProcessor
 	 */
 	public void clear( )
 	{
-		if ( this.availabeAggrList != null )
-			this.availabeAggrList.clear( );
+		if ( availabeAggrList != null )
+			availabeAggrList.clear( );
 		availabeAggrList = null;
 	}
 }

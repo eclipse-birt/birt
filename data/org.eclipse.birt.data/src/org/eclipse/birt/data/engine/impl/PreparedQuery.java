@@ -214,7 +214,6 @@ final class PreparedQuery
 		{
 			ISubqueryDefinition subquery = (ISubqueryDefinition) subIt.next( );
 			PreparedSubquery pq = new PreparedSubquery( this.dataEngineContext,
-					this.expressionCompiler,
 					this.sharedScope,
 					subquery,
 					queryService,

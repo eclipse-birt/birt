@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -21,7 +18,6 @@ import org.mozilla.javascript.Scriptable;
 public class ExecutorHelper implements IExecutorHelper
 {
 	//
-	private Scriptable scope;	
 	private Scriptable jsRowObject;
 
 	//
@@ -30,17 +26,9 @@ public class ExecutorHelper implements IExecutorHelper
 	/**
 	 * @param scope
 	 */
-	public ExecutorHelper( Scriptable scope )
+	public ExecutorHelper( IExecutorHelper parent )
 	{
-		this.scope = scope;
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getScope()
-	 */
-	public Scriptable getScope()
-	{
-		return this.scope;
+		this.parent = parent;
 	}
 	
 	/*
@@ -57,22 +45,6 @@ public class ExecutorHelper implements IExecutorHelper
 	public Scriptable getJSRowObject( )
 	{
 		return jsRowObject;
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#evaluate(org.eclipse.birt.data.engine.api.IBaseExpression)
-	 */
-	public Object evaluate( IBaseExpression expr ) throws BirtException
-	{
-		return ExprEvaluateUtil.evaluateRawExpression2( expr, scope);
-	}
-	
-	/**
-	 * @param parent
-	 */
-	public void setParent( IExecutorHelper parent )
-	{
-		this.parent = parent;
 	}
 	
 	/**

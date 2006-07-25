@@ -28,7 +28,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
-import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -64,7 +63,7 @@ class PreparedSubquery implements IPreparedQueryService
 	 *            parent query. If 0, subquery is defined outside of any groups.
 	 * @throws DataException
 	 */
-	PreparedSubquery( DataEngineContext context, ExpressionCompiler exCompiler,
+	PreparedSubquery( DataEngineContext context,
 			Scriptable scope, ISubqueryDefinition subquery,
 			IPreparedQueryService queryService, int groupLevel ) throws DataException
 	{

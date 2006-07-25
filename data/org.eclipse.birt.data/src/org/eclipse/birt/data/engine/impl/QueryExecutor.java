@@ -25,7 +25,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -42,8 +41,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
-import org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState;
-import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
+
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
@@ -277,92 +275,12 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			// Set grouping
 			populateGrouping( cx );
+			
 			// Set sorting
-			List sorts = this.baseQueryDefn.getSorts( );
-			if ( sorts != null && !sorts.isEmpty( ) )
-			{
-				IQuery.SortSpec[] sortSpecs = new IQuery.SortSpec[sorts.size( )];
-				Iterator it = sorts.iterator( );
-				for ( int i = 0; it.hasNext( ); i++ )
-				{
-					ISortDefinition src = (ISortDefinition) it.next( );
-					int sortIndex = -1;
-					String sortKey = src.getColumn( );
-					if ( sortKey == null )
-						sortKey = src.getExpression( ).getText( );
-					else
-					{
-						sortKey = getColumnRefExpression( sortKey );
-					}
+			populateSorting( );
 
-					temporaryComputedColumns.add( new ComputedColumn( "_{$TEMP_SORT_"
-							+ i + "$}_",
-							sortKey,
-							DataType.ANY_TYPE ) );
-					sortIndex = -1;
-					sortKey = String.valueOf( "_{$TEMP_SORT_" + i + "$}_" );
-
-					IQuery.SortSpec dest = new IQuery.SortSpec( sortIndex,
-							sortKey,
-							src.getSortDirection( ) == ISortDefinition.SORT_ASC );
-					sortSpecs[i] = dest;
-				}
-				odiQuery.setOrdering( Arrays.asList( sortSpecs ) );
-			}
-
-			// set filter event
-			List dataSetFilters = new ArrayList( );
-			List queryFilters = new ArrayList( );
-			if ( dataSet.getFilters( ) != null )
-			{
-				dataSetFilters = dataSet.getFilters( );
-			}
-
-			if ( this.baseQueryDefn.getFilters( ) != null )
-			{
-				for ( int i = 0; i < this.baseQueryDefn.getFilters( ).size( ); i++ )
-				{
-					queryFilters.add( this.baseQueryDefn.getFilters( ).get( i ) );
-				}
-			}
-
-			//When prepare filters, the temporaryComputedColumns would also be effect.
-			List multipassFilters = prepareFilters( cx,
-					dataSetFilters,
-					queryFilters,
-					temporaryComputedColumns );
-
-			//******************populate the onFetchEvent below**********************/		    
-			List computedColumns = null;
-			// set computed column event
-			computedColumns = this.dataSet.getComputedColumns( );
-			if ( computedColumns == null )
-				computedColumns = new ArrayList( );
-			if ( computedColumns.size( ) > 0
-					|| temporaryComputedColumns.size( ) > 0 )
-			{
-				IResultObjectEvent objectEvent = new ComputedColumnHelper( this.dataSet,
-						computedColumns,
-						temporaryComputedColumns );
-				odiQuery.addOnFetchEvent( objectEvent );
-				this.dataSet.getComputedColumns( )
-						.addAll( temporaryComputedColumns );
-			}
-			if ( dataSet.getEventHandler( ) != null )
-			{
-				OnFetchScriptHelper event = new OnFetchScriptHelper( dataSet );
-				odiQuery.addOnFetchEvent( event );
-			}
-
-			if ( dataSetFilters.size( )
-					+ queryFilters.size( ) + multipassFilters.size( ) > 0 )
-			{
-				IResultObjectEvent objectEvent = new FilterByRow( dataSetFilters,
-						queryFilters,
-						multipassFilters,
-						dataSet );
-				odiQuery.addOnFetchEvent( objectEvent );
-			}
+			// set fetch event
+			populateFetchEvent( cx );
 
 			// specify max rows the query should fetch
 			odiQuery.setMaxRows( this.baseQueryDefn.getMaxRows( ) );
@@ -482,6 +400,107 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 	}
 
+	/**
+	 * Populate the sortings in a query.
+	 * 
+	 * @throws DataException
+	 */
+	private void populateSorting( ) throws DataException
+	{
+		List sorts = this.baseQueryDefn.getSorts( );
+		if ( sorts != null && !sorts.isEmpty( ) )
+		{
+			IQuery.SortSpec[] sortSpecs = new IQuery.SortSpec[sorts.size( )];
+			Iterator it = sorts.iterator( );
+			for ( int i = 0; it.hasNext( ); i++ )
+			{
+				ISortDefinition src = (ISortDefinition) it.next( );
+				int sortIndex = -1;
+				String sortKey = src.getColumn( );
+				if ( sortKey == null )
+					sortKey = src.getExpression( ).getText( );
+				else
+				{
+					sortKey = getColumnRefExpression( sortKey );
+				}
+
+				temporaryComputedColumns.add( new ComputedColumn( "_{$TEMP_SORT_"
+						+ i + "$}_",
+						sortKey,
+						DataType.ANY_TYPE ) );
+				sortIndex = -1;
+				sortKey = String.valueOf( "_{$TEMP_SORT_" + i + "$}_" );
+
+				IQuery.SortSpec dest = new IQuery.SortSpec( sortIndex,
+						sortKey,
+						src.getSortDirection( ) == ISortDefinition.SORT_ASC );
+				sortSpecs[i] = dest;
+			}
+			odiQuery.setOrdering( Arrays.asList( sortSpecs ) );
+		}
+	}
+	
+	/**
+	 * 
+	 * @param cx
+	 * @throws DataException
+	 */
+	private void populateFetchEvent( Context cx ) throws DataException
+	{
+		List dataSetFilters = new ArrayList( );
+		List queryFilters = new ArrayList( );
+		if ( dataSet.getFilters( ) != null )
+		{
+			dataSetFilters = dataSet.getFilters( );
+		}
+
+		if ( this.baseQueryDefn.getFilters( ) != null )
+		{
+			for ( int i = 0; i < this.baseQueryDefn.getFilters( ).size( ); i++ )
+			{
+				queryFilters.add( this.baseQueryDefn.getFilters( ).get( i ) );
+			}
+		}
+
+		//When prepare filters, the temporaryComputedColumns would also be effect.
+		List multipassFilters = prepareFilters( cx,
+				dataSetFilters,
+				queryFilters,
+				temporaryComputedColumns );
+
+		//******************populate the onFetchEvent below**********************/		    
+		List computedColumns = null;
+		// set computed column event
+		computedColumns = this.dataSet.getComputedColumns( );
+		if ( computedColumns == null )
+			computedColumns = new ArrayList( );
+		if ( computedColumns.size( ) > 0
+				|| temporaryComputedColumns.size( ) > 0 )
+		{
+			IResultObjectEvent objectEvent = new ComputedColumnHelper( this.dataSet,
+					computedColumns,
+					temporaryComputedColumns );
+			odiQuery.addOnFetchEvent( objectEvent );
+			this.dataSet.getComputedColumns( )
+					.addAll( temporaryComputedColumns );
+		}
+		if ( dataSet.getEventHandler( ) != null )
+		{
+			OnFetchScriptHelper event = new OnFetchScriptHelper( dataSet );
+			odiQuery.addOnFetchEvent( event );
+		}
+
+		if ( dataSetFilters.size( )
+				+ queryFilters.size( ) + multipassFilters.size( ) > 0 )
+		{
+			IResultObjectEvent objectEvent = new FilterByRow( dataSetFilters,
+					queryFilters,
+					multipassFilters,
+					dataSet );
+			odiQuery.addOnFetchEvent( objectEvent );
+		}
+	}
+	
 	/**
 	 * get the data type of a expression
 	 * @param cx
@@ -626,8 +645,8 @@ public abstract class QueryExecutor implements IQueryExecutor
 			{
 				if ( odiQuery instanceof BaseQuery )
 				{
-					IExpressionProcessor ep = ( (BaseQuery) odiQuery ).getExprProcessor( );
-					return ep.hasAggregation( expr );
+					return ( (BaseQuery) odiQuery ).getExprProcessor( )
+							.hasAggregation( expr );
 				}
 			}
 			catch ( DataException e )
@@ -677,31 +696,15 @@ public abstract class QueryExecutor implements IQueryExecutor
 		if ( this.isExecuted )
 			return;
 
-		ExecutorHelper helper = new ExecutorHelper( this.getQueryScope() );
-		helper.setParent( this.parentHelper );
+		ExecutorHelper helper = new ExecutorHelper( this.parentHelper );
+		
 		eventHandler.setExecutorHelper( helper );
 
 		// Execute the query
 		odiResult = executeOdiQuery( eventHandler );
-		//helper.setResultIterator( odiResult );
 
-		if (odiQuery instanceof BaseQuery) 
-		{
-			IExpressionProcessor ep = ((BaseQuery) odiQuery).getExprProcessor();
-
-			Map results = baseQueryDefn.getResultSetExpressions();
-			Object[] o = results.values().toArray();
-			Object[] names = results.keySet().toArray();
-			DummyICCState iccState = new DummyICCState(o, names);
-
-			ep.setResultIterator( odiResult );
-			while ( !iccState.isFinish( ) )
-			{
-				ep.evaluateMultiPassExprOnCmp( iccState, false );
-			}
-		}
 		helper.setJSRowObject( this.dataSet.getJSResultRowObject( ) );
-
+		
 		resetComputedColumns( );
 		// Bind the row object to the odi result set
 		this.dataSet.setResultSet( odiResult, false );
@@ -916,106 +919,4 @@ public abstract class QueryExecutor implements IQueryExecutor
 				(IQueryDefinition) this.baseQueryDefn,
 				this.getQueryScope( ) ).resolveDataSetParameters( evaluateValue );
 	}
-	
-	/**
-	 * Class DummyICCState is used by ExpressionProcessor to calculate multipass 
-	 * aggregations.
-	 *
-	 */
-	private class DummyICCState implements IComputedColumnsState
-	{
-		Object[] exprs;
-		Object[] names;
-		boolean[] isValueAvailable;
-		
-		/**
-		 * 
-		 * @param exprs
-		 * @param names
-		 */
-		DummyICCState( Object[] exprs, Object[] names )
-		{
-			this.exprs = exprs;
-			this.names = names;
-			this.isValueAvailable= new boolean[exprs.length];
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#isValueAvailable(int)
-		 */
-		public boolean isValueAvailable( int index )
-		{
-			return this.isValueAvailable[index];
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getName(int)
-		 */
-		public String getName( int index )
-		{
-			return this.names[index].toString( );
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getExpression(int)
-		 */
-		public IBaseExpression getExpression( int index )
-		{
-			return (IBaseExpression) exprs[index];
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setValueAvailable(int)
-		 */
-		public void setValueAvailable( int index )
-		{
-			this.isValueAvailable[index] = true;		
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getCount()
-		 */
-		public int getCount( )
-		{
-			return this.isValueAvailable.length;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getComputedColumn(int)
-		 */
-		public IComputedColumn getComputedColumn( int index )
-		{
-			return null;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setModel(int)
-		 */
-		public void setModel( int model )
-		{
-				
-		}
-		
-		/**
-		 * 
-		 * @return
-		 */
-		public boolean isFinish()
-		{
-			for( int i = 0; i < isValueAvailable.length; i++ )
-			{
-				if( !isValueAvailable[i] )
-					return false;
-			}
-			return true;
-		}
-	}
-	
 }

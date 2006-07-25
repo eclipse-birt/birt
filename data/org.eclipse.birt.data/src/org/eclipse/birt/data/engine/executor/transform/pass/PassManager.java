@@ -14,8 +14,13 @@ package org.eclipse.birt.data.engine.executor.transform.pass;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState;
+import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
@@ -78,6 +83,8 @@ public class PassManager
 		{
 			doMultiPass( odaResultSet, psController );
 		}
+		
+		calculateAggregationsInColumnBinding( );
 	}
 
 	/**
@@ -93,14 +100,10 @@ public class PassManager
 			if ( fetchEventsList[i] instanceof ComputedColumnHelper )
 			{
 				computedColumnHelper = (ComputedColumnHelper) fetchEventsList[i];
-				computedColumnHelper.setExecutorHelper( this.populator.getEventHandler( )
-						.getExecutorHelper( ) );
 			}
 			else if ( fetchEventsList[i] instanceof FilterByRow )
 			{
 				filterByRow = (FilterByRow) fetchEventsList[i];
-				filterByRow.setExecutorHelper( this.populator.getEventHandler( )
-						.getExecutorHelper( ) );
 			}
 		}
 	}
@@ -245,4 +248,139 @@ public class PassManager
 		if ( eventHandler != null )
 			eventHandler.handleEndOfDataSetProcess( this.populator.getResultIterator( ) );
 	}
+	
+	/**
+	 * Calculate the aggregations in column binding. Those aggregation might be explicitly defined
+	 * by user, or implicitly defined by engine ( use in highlight, TOC, mapping, etc.)
+	 * 
+	 * @throws DataException
+	 */
+	private void calculateAggregationsInColumnBinding( ) throws DataException
+	{
+		IExpressionProcessor ep = populator.getExpressionProcessor();
+
+		Map results = populator.getEventHandler( ).getColumnMappings( );
+	
+		DummyICCState iccState = new DummyICCState( results );
+
+		ep.setResultIterator( populator.getResultIterator( ) );
+		
+		while ( !iccState.isFinish( ) )
+		{
+			ep.evaluateMultiPassExprOnCmp( iccState, false );
+		}
+	}
+	/**
+	 * Class DummyICCState is used by ExpressionProcessor to calculate multipass 
+	 * aggregations.
+	 *
+	 */
+	private class DummyICCState implements IComputedColumnsState
+	{
+		private Object[] exprs;
+		private Object[] names;
+		private boolean[] isValueAvailable;
+		
+		/**
+		 * 
+		 * @param exprs
+		 * @param names
+		 * @throws DataException 
+		 */
+		DummyICCState( Map columnMappings ) throws DataException
+		{
+			this.exprs = columnMappings.values( ).toArray( );
+			this.names = columnMappings.keySet( ).toArray( );
+			this.isValueAvailable= new boolean[exprs.length];
+			/*for( int i = 0; i < exprs.length; i ++ )
+			{
+				if( populator.getExpressionProcessor( ).hasAggregation( (IBaseExpression)exprs[i]))
+				{
+					this.isValueAvailable[i] = false;
+				}else
+				{
+					this.isValueAvailable[i] = true;
+				}
+				
+			}*/
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#isValueAvailable(int)
+		 */
+		public boolean isValueAvailable( int index )
+		{
+			return this.isValueAvailable[index];
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getName(int)
+		 */
+		public String getName( int index )
+		{
+			return this.names[index].toString( );
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getExpression(int)
+		 */
+		public IBaseExpression getExpression( int index )
+		{
+			return (IBaseExpression) exprs[index];
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setValueAvailable(int)
+		 */
+		public void setValueAvailable( int index )
+		{
+			this.isValueAvailable[index] = true;		
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getCount()
+		 */
+		public int getCount( )
+		{
+			return this.isValueAvailable.length;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getComputedColumn(int)
+		 */
+		public IComputedColumn getComputedColumn( int index )
+		{
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setModel(int)
+		 */
+		public void setModel( int model )
+		{
+				
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public boolean isFinish()
+		{
+			for( int i = 0; i < isValueAvailable.length; i++ )
+			{
+				if( !isValueAvailable[i] )
+					return false;
+			}
+			return true;
+		}
+	}
+	
 }

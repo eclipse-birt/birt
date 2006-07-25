@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.data.engine.impl;
 
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -21,14 +19,6 @@ import org.mozilla.javascript.Scriptable;
  */
 public interface IExecutorHelper
 {
-
-	/**
-	 * Return the Scope.
-	 * 
-	 * @return
-	 */
-	public Scriptable getScope( );
-
 	/**
 	 * Return the parent of this IExecutorHelper.
 	 * @return
@@ -40,14 +30,4 @@ public interface IExecutorHelper
 	 * @return
 	 */
 	public Scriptable getJSRowObject( );
-	
-	/**
-	 * Evaluate an Expression.
-	 * 
-	 * @param expr
-	 * @return
-	 * @throws BirtException
-	 */
-	public Object evaluate( IBaseExpression expr ) throws BirtException;
-
 }

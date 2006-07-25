@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -265,9 +266,8 @@ class ParameterUtil
 		{
 			try
 			{
-				evaluateScope = outerResults.getQueryScope( );
-				evaluateResult = outerResults.getExecutorHelper( )
-						.evaluate( iParamBind.getExpr( ) );
+				evaluateResult = ExprEvaluateUtil.evaluateRawExpression2( iParamBind.getExpr( ),
+						outerResults.getQueryScope( ) );
 			}
 			catch ( BirtException e )
 			{

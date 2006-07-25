@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -202,7 +204,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		{
 			jsResultSetRow = new JSResultSetRow( resultIterator,
 					exprManager,
-					helper.getScope( ),
+					queryExecutor.getQueryScope( ),
 					helper );
 			getDataSetRuntime( ).setJSResultSetRow( jsResultSetRow );
 		}
@@ -270,6 +272,27 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		public void setExecutorHelper( IExecutorHelper helper )
 		{
 			this.helper = helper;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getColumnMappings()
+		 */
+		public Map getColumnMappings( )
+		{
+			Map result = new HashMap();
+			List groupBindingColumns = exprManager.getBindingExprs( );
+			for( int i = 0; i < groupBindingColumns.size( ); i++ )
+			{
+				GroupBindingColumn gbc = (GroupBindingColumn)groupBindingColumns.get( i );
+				Iterator it = gbc.getColumnNames( ).iterator( );
+				while ( it.hasNext( ) )
+				{
+					String name = it.next( ).toString( );
+					result.put( name, gbc.getExpression( name ) );
+				}
+			}
+			return result;
 		}
 	}
 	

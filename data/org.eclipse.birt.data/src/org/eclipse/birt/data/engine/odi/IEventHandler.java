@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.odi;
 
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
@@ -73,7 +75,9 @@ public interface IEventHandler
 	 * @return mapped base expression of the specified name
 	 */
 	IBaseExpression getBaseExpr( String name );
-
+	
+	Map getColumnMappings();
+	
 	/**
 	 * Get the ExecutorHelper instance bound to this IEventHandler.
 	 * 

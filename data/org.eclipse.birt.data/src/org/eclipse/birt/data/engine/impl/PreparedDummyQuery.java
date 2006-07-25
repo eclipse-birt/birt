@@ -350,16 +350,6 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			return new IExecutorHelper( ) {
 				
-				/**
-				 * @param IBaseExpression
-				 */
-				public Object evaluate( IBaseExpression expr )
-						throws BirtException
-				{
-					return ExprEvaluateUtil.evaluateRawExpression2( expr,
-							queryScope );
-				}
-
 				/*
 				 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getParent()
 				 */
@@ -368,14 +358,6 @@ public class PreparedDummyQuery implements IPreparedQuery
 					return null;
 				}
 
-				/*
-				 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getScope()
-				 */
-				public Scriptable getScope( )
-				{
-					return queryScope;
-				}
-				
 				/*
 				 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getJSRowObject()
 				 */

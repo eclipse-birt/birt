@@ -139,15 +139,6 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	{
 		this.currentModel = model;
 	}
-	
-	/**
-	 * 
-	 * @param helper
-	 */
-	public void setExecutorHelper( IExecutorHelper helper )
-	{
-		this.getCurrentInstance( ).setExecutorHelper( helper );
-	}
 }
 
 class ComputedColumnHelperInstance
@@ -166,8 +157,6 @@ class ComputedColumnHelperInstance
 
 	// prepared flag
 	private boolean isPrepared;
-
-	private IExecutorHelper helper;
 
 	protected static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
 
@@ -231,15 +220,6 @@ class ComputedColumnHelperInstance
 									dataSet.getScriptScope( ) );
 						else
 						{
-							if ( helper != null )
-								value = helper.evaluate( columnExprArray[i] );
-							else
-								value = ScriptEvalUtil.evalExpr( columnExprArray[i],
-										cx,
-										dataSet.getScriptScope( ),
-										"Filter",
-										0 );
-
 							value = ScriptEvalUtil.evaluateJSAsExpr( cx,
 									dataSet.getJSDataSetObject( ),
 									( (IScriptExpression) columnExprArray[i] ).getText( ),
@@ -342,10 +322,4 @@ class ComputedColumnHelperInstance
 
 		isPrepared = true;
 	}
-	
-	public void setExecutorHelper( IExecutorHelper helper )
-	{
-		this.helper = helper;
-	}
-
 }
