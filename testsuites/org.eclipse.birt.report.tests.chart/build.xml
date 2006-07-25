@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Birt Model Project" basedir="." default="utest">
+<project name="Birt Test Chart Project" basedir="." default="utest">
 
 	<!-- set global properties for this build -->
 	<!-- Public properties, used by public targets, top level build script
@@ -18,11 +18,6 @@
 	<!-- ===== Default value for public properties ============= -->
 	<property name="test.report.dir" location="report" />
 	<property name="test.report.xml.dir" location="${test.report.dir}/xml" />
-	<property name="test.javadoc.dir" location="doc" />
-
-	<property name="romdoc.output.dir" location="romdoc/gen" />
-	<property name="plugin.version" value="2.0.0" />
-	<property name="export.dir" location="export" />
 
 	<property name="eclipse.home" location="." />
 	<property name="dtp.home" location=".." />
@@ -31,128 +26,66 @@
 	<property name="data.oda.dir" location="../org.eclipse.birt.data.oda" />
 	<property name="data.oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
 	<property name="datatools.connectivity.oda.dir" location="../org.eclipse.datatools.connectivity.oda" />
-	<property name="module.dir" location="../org.eclipse.birt.report.chart.engine" />
 	<property name="testmodule.name" value="org.eclipse.birt.report.tests.chart" />
 
-	<property name="test.src.dir" location="src" />
-	<property name="test.build.dir" location="bin" />
-	<property name="test.lib.dir" location="lib" />
+	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
+	<property name="chart.engine.extension.dir" location="../org.eclipse.birt.chart.engine.extension"/>
+	<property name="chart.device.extension.dir" location="../org.eclipse.birt.chart.device.extension"/>
+
+
+	<property name="src" location="src" />
+	<property name="bin" location="bin" />
 
 	<!-- Class Path -->
 	<path id="class.path">
-		<fileset dir="${test.build.dir}">
-			<include name="**/*.class" />
+		<pathelement path="${bin}" />
+
+		<fileset dir="../org.mozilla.rhino">
+			<include name="lib/*.jar"/>
 		</fileset>
-		<pathelement path="${test.build.dir}" />
-		<pathelement path="${core.dir}/lib/js.jar" />
 
 		<fileset dir="..">
-			<include name="org.eclipse.emf*.jar" />
-			<include name="org.eclipse.swt*.jar" />
-
-			<include name="org.eclipse.birt.report.model/*.jar" />
-			<include name="org.eclipse.birt.report.model/lib/*.jar" />
 			<include name="org.eclipse.birt.chart.reportitem/reportitem.jar" />
-
-			<include name="org.eclipse.birt.chart.device.extension/device-extension.jar" />
-			<include name="org.eclipse.birt.chart.device.svg/device-svg.jar" />
+			<include name="org.eclipse.birt.chart.device.extension/*.jar" />
 			<include name="org.eclipse.birt.chart.engine.extension/*.jar" />
 			<include name="org.eclipse.birt.chart.engine/*.jar" />
 			<include name="org.eclipse.birt.core/*.jar" />
-
-			<include name="org.eclipse.birt.core/*.jar" />
-			<include name="org.eclipse.birt.core/lib/*.jar" />
-			<include name="org.eclipse.birt.data.oda/*.jar" />
-			<include name="org.eclipse.birt.data.oda.adapter.dtp/*.jar" />
-			<include name="org.eclipse.birt.report.data.oda.jdbc/*.jar" />
-			<include name="org.eclipse.birt.report.data.oda.sampledb/*.jar" />
-			<include name="org.eclipse.birt.data/*.jar" />
-
-			<include name="org.eclipse.birt.report.engine/*.jar" />
 		</fileset>
 
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="com.ibm.icu_*.jar" />
 			<include name="org.eclipse.emf*.jar" />
 		</fileset>
-
 	</path>
-
-
-	<!-- Export the project, for instance, jar files are copied to a designated folder
-		 the dependency on Jar should implement in top level script by call sequence	
-		 Parameters:
-		 		- ${export.dir} target directory to put the plugin binaries
-		 		- ${plugin.version} the version of plugin exported
-	 -->
-	<target name="Export">
-		<copy todir="${export.dir}/${module.name}_${plugin.version}" failonerror="false">
-			<fileset dir="." includes="model.jar,plugin.xml,about.html,.options,lib/**,schema/**" />
-		</copy>
-		<copy todir="${export.dir}/${module.name}_${plugin.version}/romdoc" failonerror="false">
-			<fileset dir="./romdoc/gen" includes="**/*.*" />
-		</copy>
-	</target>
-
 
 	<!-- Compile Model Test Files 
 		 javac.failonerror should be true.
 	-->
-	<target name="compileTest" description="Compile Data Test Files">
-		<delete dir="${test.build.dir}" />
-		<mkdir dir="${test.build.dir}" />
+	<target name="compileTest" description="Compile test codes" depends="buildDependents">
+		<mkdir dir="${bin}" />
 
-		<copy todir="${test.build.dir}">
-			<fileset dir="${test.src.dir}">
+		<copy todir="${bin}">
+			<fileset dir="${src}">
 				<include name="**/input/*.*" />
 				<include name="**/golden/*.*" />
 				<include name="**/*.properties" />
 			</fileset>
 		</copy>
 
-		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" source="1.4" target="1.4" debug="true" encoding="utf-8" failonerror="true">
+		<javac srcdir="${src}" destdir="${bin}" source="1.4" target="1.4" debug="true" encoding="utf-8" failonerror="true">
 			<classpath refid="class.path" />
 		</javac>
 	</target>
 
 	<target name="UnitTest">
-		<jar destfile="chartTest.jar">
-			<fileset dir="./bin">
-				<exclude name="**/*.class" />
-			</fileset>
-		</jar>
 		<java fork="true" classname="org.eclipse.birt.report.tests.chart.AllTests">
+			<jvmarg value="-DSTANDALONE"/>
+
 			<classpath refid="class.path" />
-			<!--jvmarg line="-jar"/-->
-			<!--sysproperty key="PLUGIN_PATH" value="${plugin-path}"/-->
-			<sysproperty key="STANDALONE" value="" />
 		</java>
 	</target>
 
-	<!-- Run Unit test.
-			 Parameters:
-			 		- ${utest.report.dir} target directory to put the unit test report
-			 		
-		 Notice: This public task UnitTest doesn't depend on complieSource, top level script 
-		 will ensure that compilation is successful before call this UnitTest.
-	-->
-	<target name="Test" depends="compileTest,APIJavadoc">
-		<delete dir="${test.report.xml.dir}" />
-		<mkdir dir="${test.report.xml.dir}" />
-		<junit printsummary="on" fork="true" dir="." haltonfailure="false" failureproperty="test.failed" showoutput="true">
 
-			<jvmarg value="-DBIRT_HOME=${eclipse.home}" />
-			<jvmarg value="-ea" />
-			<classpath refid="class.path" />
-			<formatter type="xml" usefile="true" />
-
-			<batchtest todir="${test.report.xml.dir}">
-				<fileset dir="${test.src.dir}">
-					<include name="**/AllTests.java" />
-				</fileset>
-			</batchtest>
-		</junit>
-	</target>
 
 	<target name="Report">
 		<junitreport todir="${test.report.dir}">
@@ -167,54 +100,26 @@
 
 	<!-- Clean the build environment -->
 	<target name="Clean">
-		<delete dir="${test.build.dir}" />
+		<delete dir="${bin}" />
 		<delete dir="${test.report.dir}" />
-		<delete dir="${test.javadoc.dir}" />
-		<delete dir="${export.dir}" />
-		<delete file="chartTest.jar" />
 	</target>
 
-
-	<!-- Generate the JavaDocs for public APIs. 
-			 Parameters:
-			 		- ${api.javadoc.dir} target directory to put the java document
-	 -->
-	<target name="APIJavadoc">
-		<delete dir="${test.javadoc.dir}" failonerror="false" />
-		<mkdir dir="${test.javadoc.dir}" />
-
-		<javadoc destdir="${test.javadoc.dir}" author="true" version="true" use="true" windowtitle="BIRT Engine API Tester- Provisional" doctitle="BIRT Engine API Tester(Provisional)" source="1.4" packagenames="${testmodule.name}.*">
-
-			<packageset dir="src" defaultexcludes="yes" />
-
-			<classpath refid="class.path" />
-		</javadoc>
-	</target>
 
 	<!-- Build the dependent projects -->
 	<target name="buildDependents" description="Build all the projects it depends on">
-		<echo message="start call Jar task in ${core.dir}" level="info" />
-		<ant dir="${core.dir}" antfile="BuildCore.xml" target="Jar" inheritall="false">
+		<echo message="start call Jar task in ${chart.engine.extension.dir}" level="info" />
+		<ant dir="${chart.engine.extension.dir}" antfile="BuildChartEngineExtension.xml" target="Jar" inheritall="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
-		<echo message="end call Jar task in ${core.dir}" level="info" />
+		<echo message="end call Jar task in ${chart.engine.extension.dir}" level="info" />
 
-		<!-- Building BIRT ODA triggers building of DTP ODA jar -->
-		<echo message="start call Jar task in ${data.oda.dir}" level="info" />
-		<echo message="dtp.home= ${dtp.home}" />
-		<ant dir="${data.oda.dir}" antfile="BuildOda.xml" target="Jar" inheritall="false">
+		<echo message="start call Jar task in ${chart.device.extension.dir}" level="info" />
+		<ant dir="${chart.device.extension.dir}" antfile="BuildChartDeviceExtension.xml" target="Jar" inheritall="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
-			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
-		<echo message="end call Jar task in ${data.oda.dir}" level="info" />
+		<echo message="end call Jar task in ${chart.device.extension.dir}" level="info" />
 	</target>
 
-
-	<!-- Unzip the testing plug-in -->
-	<target name="unzipTestingPlugin">
-		<unzip src="org.eclipse.birt.report.model.tests.zip" dest="${eclipse.home}/plugins/org.eclipse.birt.report.model.tests">
-		</unzip>
-	</target>
 
 	<!-- private task, run unit test -->
 	<target name="utest" depends="compileTest,UnitTest">
