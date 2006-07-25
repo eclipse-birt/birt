@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.report.service;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Locale;
@@ -233,7 +236,7 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		{
 			link.append( ParameterAccessor.PARAM_REPORT );
 			link.append( ParameterAccessor.EQUALS_OPERATOR );
-			String reportName = action.getReportName( );
+			String reportName = getReportName( action );
 			try
 			{
 				reportName = URLEncoder.encode( reportName,
@@ -310,7 +313,7 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 			baseURL = IBirtConstants.VIEWER_RUN;
 
 		StringBuffer link = new StringBuffer( );
-		String reportName = action.getReportName( );
+		String reportName = getReportName( action );
 
 		if ( reportName != null && !reportName.equals( "" ) ) //$NON-NLS-1$
 		{
@@ -432,5 +435,61 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		}
 
 		return link.toString( );
+	}
+	
+	String getReportName( IAction action )
+	{
+		String systemId = action.getSystemId( );
+		String reportName = action.getReportName( );
+		if ( systemId == null )
+		{
+			return reportName;
+		}
+		// if the reportName is an URL, use it directly
+		try
+		{
+			URL url = new URL( reportName );
+			if ("file".equals( url.getProtocol( ) ))
+			{
+				return url.getFile( );
+			}
+			return url.toExternalForm( );
+		}
+		catch ( MalformedURLException ex )
+		{
+		}
+		// if the system id is the URL, merget the report name with it
+		try
+		{
+			URL root = new URL( systemId );
+			URL url = new URL( root, reportName );
+			if ("file".equals( url.getProtocol( ) ))
+			{
+				return url.getFile( );
+			}
+			return url.toExternalForm( );
+		}
+		catch ( MalformedURLException ex )
+		{
+
+		}
+		// now the root should be a file and the report name is a file also
+		File file = new File( reportName );
+		if ( file.isAbsolute( ) )
+		{
+			return reportName;
+		}
+		
+		try
+		{
+			URL root = new File( systemId ).toURL( );
+			URL url = new URL(root, reportName);
+			assert "file".equals(url.getProtocol( ));
+			return url.getFile( );
+		}
+		catch(MalformedURLException ex)
+		{
+		}
+		return reportName;
 	}
 }

@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Map;
@@ -91,7 +94,7 @@ public class HTMLActionHandler implements IHTMLActionHandler
 			baseURL = "run";
 		}
 		StringBuffer link = new StringBuffer( );
-		String reportName = action.getReportName( );
+		String reportName = getReportName( action );
 
 		if ( reportName != null && !reportName.equals( "" ) ) //$NON-NLS-1$
 		{
@@ -262,5 +265,60 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		{
 		}
 	}
+	
+	String getReportName( IAction action )
+	{
+		String systemId = action.getSystemId( );
+		String reportName = action.getReportName( );
+		if ( systemId == null )
+		{
+			return reportName;
+		}
+		// if the reportName is an URL, use it directly
+		try
+		{
+			URL url = new URL( reportName );
+			if ("file".equals( url.getProtocol( ) ))
+			{
+				return url.getFile( );
+			}
+			return url.toExternalForm( );
+		}
+		catch ( MalformedURLException ex )
+		{
+		}
+		// if the system id is the URL, merget the report name with it
+		try
+		{
+			URL root = new URL( systemId );
+			URL url = new URL( root, reportName );
+			if ("file".equals( url.getProtocol( ) ))
+			{
+				return url.getFile( );
+			}
+			return url.toExternalForm( );
+		}
+		catch ( MalformedURLException ex )
+		{
 
+		}
+		// now the root should be a file and the report name is a file also
+		File file = new File( reportName );
+		if ( file.isAbsolute( ) )
+		{
+			return reportName;
+		}
+		
+		try
+		{
+			URL root = new File( systemId ).toURL( );
+			URL url = new URL(root, reportName);
+			assert "file".equals(url.getProtocol( ));
+			return url.getFile( );
+		}
+		catch(MalformedURLException ex)
+		{
+		}
+		return reportName;
+	}
 }

@@ -22,23 +22,19 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 public class Action implements IAction
 {
 	protected IHyperlinkAction content;
-	protected String actionString;
+	protected String systemId;
+
+	public Action( String systemId, IHyperlinkAction content )
+	{
+		this.systemId = systemId;
+		this.content = content;
+	}
 	
-	public Action(IHyperlinkAction content)
+	public Action( IHyperlinkAction content )
 	{
 		this.content = content;
-		switch(content.getType())
-		{
-			case IHyperlinkAction.ACTION_HYPERLINK: 
-				actionString = content.getHyperlink();
-				break;
-			case IHyperlinkAction.ACTION_BOOKMARK:
-				actionString = content.getBookmark();
-				break;
-			case IHyperlinkAction.ACTION_DRILLTHROUGH:
-				break;
-		}
 	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api2.IAction#getType()
 	 */
@@ -58,11 +54,23 @@ public class Action implements IAction
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api2.IAction#getActionString()
 	 */
-	public String getActionString()
+	public String getActionString( )
 	{
-		return actionString;
+		switch ( content.getType( ) )
+		{
+			case IHyperlinkAction.ACTION_HYPERLINK :
+				return content.getHyperlink( );
+			case IHyperlinkAction.ACTION_BOOKMARK :
+				return content.getBookmark( );
+		}
+		return null;
 	}
 
+	public String getSystemId()
+	{
+		return systemId;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api2.IAction#getReportName()
 	 */

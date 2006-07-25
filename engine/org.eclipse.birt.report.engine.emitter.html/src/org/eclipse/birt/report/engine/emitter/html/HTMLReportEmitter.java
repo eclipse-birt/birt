@@ -147,7 +147,7 @@ import org.w3c.dom.NodeList;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.136 $ $Date: 2006/07/18 11:27:49 $
+ * @version $Revision: 1.137 $ $Date: 2006/07/21 06:16:37 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -2725,7 +2725,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			return null;
 		}
-		Action act = new Action( action );
+		String systemId = runnable == null ? null : runnable.getReportName( );
+		Action act = new Action( systemId, action );
 
 		if ( actionHandler == null )
 		{

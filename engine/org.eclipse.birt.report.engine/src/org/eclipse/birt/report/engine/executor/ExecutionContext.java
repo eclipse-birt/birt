@@ -13,8 +13,8 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -83,7 +83,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.74 $ $Date: 2006/07/06 06:30:36 $
+ * @version $Revision: 1.75 $ $Date: 2006/07/17 03:24:01 $
  */
 public class ExecutionContext
 {
@@ -850,21 +850,22 @@ public class ExecutionContext
 	public void loadScript( String fileName )
 	{
 		ReportDesignHandle reportDesign = this.getDesign( );
+		URL url = null;
 		if ( reportDesign != null )
 		{
-			URL url = reportDesign.findResource( fileName,
+			url = reportDesign.findResource( fileName,
 					IResourceLocator.LIBRARY );
-			if ( url != null )
-			{
-				fileName = url.getFile( );
-			}
 		}
-		File scriptFile = new File( fileName );
-		// read the script in the file, and execution.
+		if (url == null)
+		{
+			return;
+		}
+		
+		// read the script in the URL, and execution.
 		try
 		{
 
-			FileInputStream in = new FileInputStream( scriptFile );
+			InputStream in = url.openStream( );
 			ByteArrayOutputStream out = new ByteArrayOutputStream( );
 			byte[] buffer = new byte[1024];
 			int size = in.read( buffer );
@@ -883,8 +884,8 @@ public class ExecutionContext
 					"loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
 					ex );
 			addException( new EngineException(
-					MessageConstants.SCRIPT_FILE_LOAD_ERROR, scriptFile
-							.getAbsolutePath( ), ex ) ); //$NON-NLS-1$
+					MessageConstants.SCRIPT_FILE_LOAD_ERROR, url.toString( ),
+					ex ) ); //$NON-NLS-1$
 			// TODO This is a fatal error. Should throw an exception.
 		}
 	}

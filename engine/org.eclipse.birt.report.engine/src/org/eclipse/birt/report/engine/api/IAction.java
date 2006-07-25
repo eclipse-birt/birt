@@ -55,6 +55,10 @@ public interface IAction
 	public String getActionString( );
 
 	/**
+	 * @return the system id of the report design which create this action.
+	 */
+	public String getSystemId( );
+	/**
 	 * @return the report name if action type is drillthrough, null otherwise
 	 */
 	public String getReportName( );

@@ -1763,6 +1763,9 @@ public class PDFEmitter implements IContentEmitter
 				int areaX = curPos.x + area.getX();
 				int areaY = curPos.y + area.getY();
 				IHyperlinkAction hlAction = content.getHyperlinkAction();
+				String systemId = reportRunnable == null
+						? null
+						: reportRunnable.getReportName( );
 				if ( null != hlAction )
 				try
 				{
@@ -1790,7 +1793,7 @@ public class PDFEmitter implements IContentEmitter
 						break;
 						
 					case IHyperlinkAction.ACTION_DRILLTHROUGH: 
-						Action act = new Action( hlAction );
+						Action act = new Action( systemId, hlAction );
 						
 						IHTMLActionHandler actionHandler = null;
 						Object ac = services.getOption( RenderOptionBase.ACTION_HANDLER );
