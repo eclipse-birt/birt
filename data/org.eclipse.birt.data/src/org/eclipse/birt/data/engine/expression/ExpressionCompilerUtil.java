@@ -213,7 +213,8 @@ public class ExpressionCompilerUtil
 			for ( int i = 0; i < l.size( ); i++ )
 			{
 				IColumnBinding cb = (IColumnBinding) l.get( i );
-				if ( !list.contains( cb.getResultSetColumnName( ) ) )
+				if ( !list.contains( cb.getResultSetColumnName( ) )
+						&& cb.getOuterLevel( ) == 0 )
 					list.add( cb.getResultSetColumnName( ) );
 			}
 		}
