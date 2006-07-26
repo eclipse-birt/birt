@@ -207,16 +207,28 @@ public class ReportDocumentReader
 		while ( iterator.hasNext( ) )
 		{
 			Map.Entry entry = (Map.Entry) iterator.next( );
-			Object value = entry.getValue( );
-			if ( value instanceof ParameterAttribute )
+			Object key = entry.getKey( );
+			Object valueObj = entry.getValue( );
+			ParameterAttribute paramAttr = null;
+			if ( valueObj instanceof ParameterAttribute )
 			{
-				result.put( entry.getKey( ), value );
+				paramAttr = (ParameterAttribute) valueObj;
 			}
-			else
+			else if ( valueObj instanceof Object[] )
 			{
-				result.put( entry.getKey( ), new ParameterAttribute( value,
-						null ) );
+				Object[] values = (Object[]) valueObj;
+				if ( values.length == 2 )
+				{
+					Object value = values[0];
+					String displayText = (String) values[1];
+					paramAttr = new ParameterAttribute( value, displayText );
+				}
 			}
+			if ( paramAttr == null )
+			{
+				paramAttr = new ParameterAttribute( valueObj, null );
+			}
+			result.put( key, paramAttr );
 		}
 		return result;
 	}

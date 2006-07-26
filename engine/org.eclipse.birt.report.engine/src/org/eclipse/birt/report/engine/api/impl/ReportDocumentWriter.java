@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.archive.FolderArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
@@ -267,7 +266,16 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	public void saveParamters( HashMap map )
 	{
 		paramters = new HashMap( );
-		paramters.putAll( map );
+		Iterator iter = map.entrySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iter.next( );
+			Object key = entry.getKey( );
+			ParameterAttribute valueObj = (ParameterAttribute) entry.getValue( );
+			Object value = valueObj.getValue( );
+			String display = valueObj.getDisplayText( );
+			paramters.put( key, new Object[]{value, display} );
+		}
 	}
 
 	public void savePersistentObjects( Map map )
