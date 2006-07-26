@@ -119,7 +119,7 @@ public class ReportEngineHelper
 			{
 				systemId = designName;
 			}
-			return openReportDesign( systemId, in );
+			return openReportDesign( systemId, in, locator);
 		}
 		catch ( FileNotFoundException ioe)
 		{
