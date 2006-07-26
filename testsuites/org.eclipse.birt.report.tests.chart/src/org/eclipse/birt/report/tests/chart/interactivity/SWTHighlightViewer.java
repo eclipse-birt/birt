@@ -15,12 +15,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
-import org.eclipse.birt.chart.device.IUpdateNotifier;
+import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.swt.SWT;
@@ -40,14 +41,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.MessageBox;
 
 /**
  * The selector of charts in SWT.
  * 
  */
 public final class SWTHighlightViewer extends Composite implements
-		PaintListener,
-		IUpdateNotifier,
+		PaintListener, 
+		ICallBackNotifier,
 		SelectionListener
 {
 	private IDeviceRenderer idr = null;
@@ -89,13 +91,13 @@ public final class SWTHighlightViewer extends Composite implements
 
 		la.setText( "Choose: " );//$NON-NLS-1$
 		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cbType.add("Area Chart");
-		cbType.add("Bar Chart");
-		cbType.add("Line Chart");
-		cbType.add("Meter Chart");
-		cbType.add("Pie Chart");
-		cbType.add("Scatter Chart");
-		cbType.add("Stock Chart");
+		cbType.add("Area Chart"); //$NON-NLS-1$
+		cbType.add("Bar Chart"); //$NON-NLS-1$
+		cbType.add("Line Chart");//$NON-NLS-1$
+		cbType.add("Meter Chart");//$NON-NLS-1$
+		cbType.add("Pie Chart");//$NON-NLS-1$
+		cbType.add("Scatter Chart");//$NON-NLS-1$
+		cbType.add("Stock Chart");//$NON-NLS-1$
 		cbType.select( 0 );
 
 		btn = new Button( cBottom, SWT.NONE );
@@ -294,6 +296,12 @@ public final class SWTHighlightViewer extends Composite implements
 	{
 		return contextMap.remove( key );
 	}
+	
+	public void callback( Object event, Object source, CallBackValue value )
+	{
+		MessageBox mb = new MessageBox ( this.getShell( ) );
+		mb.setText( value.getIdentifier( ) ); 
+		mb.open( );
+	}
 
 }
-
