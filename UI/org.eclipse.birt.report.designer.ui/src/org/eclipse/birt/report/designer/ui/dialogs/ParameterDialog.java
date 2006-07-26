@@ -1076,8 +1076,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( column.getDataType( ) ) )
 		{
-			return type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT )
-					|| type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL );
+			return type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER );
 		}
 		return false;
 	}
