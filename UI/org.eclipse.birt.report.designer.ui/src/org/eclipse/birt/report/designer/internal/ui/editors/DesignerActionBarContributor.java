@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
@@ -182,7 +183,8 @@ public class DesignerActionBarContributor extends
 		addRetargetAction( new RetargetAction( ApplyStyleMenuAction.ID, null ) );
 		addRetargetAction( new RetargetAction( EditStyleMenuAction.ID, null ) );
 		addRetargetAction( new RetargetAction( EditGroupMenuAction.ID, null ) );
-
+		addRetargetAction( new RetargetAction( InsertGroupMenuAction.ID, null ) );
+		
 		registerActions( new RegisterActions[]{
 			new RegisterActions( GEFActionConstants.TOGGLE_RULER_VISIBILITY,
 					Messages.getString( "DesignerActionBarContributor.menu.element-showRuler" ), //$NON-NLS-1$
@@ -302,6 +304,17 @@ public class DesignerActionBarContributor extends
 		// Element Menu
 		newMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element" ) ); //$NON-NLS-1$
 		contributeActionsToMenu( newMenu, elementActions );
+		
+		MenuManager InsertGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.element.group" ),InsertGroupMenuAction.ID ); //$NON-NLS-1$
+		InsertGroupMenu.add( NoneAction.getInstance( ) );
+		InsertGroupMenu.addMenuListener( new IMenuListener( ) {
+			public void menuAboutToShow( IMenuManager manager )
+			{
+				updateInsertGroupMenu( InsertGroupMenuAction.ID, manager );
+			}
+		} );
+		newMenu.add( InsertGroupMenu );		
+		
 		editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element-EditGroup" ) ); //$NON-NLS-1$
 		editGroupMenu.add( NoneAction.getInstance( ) );
 		editGroupMenu.addMenuListener( new IMenuListener( ) {
@@ -314,6 +327,33 @@ public class DesignerActionBarContributor extends
 		newMenu.add( editGroupMenu );
 		newMenu.add( new Separator( ) );
 		contributeStyleMenu( newMenu );
+		newMenu.addMenuListener( new IMenuListener( ) {
+			public void menuAboutToShow( IMenuManager manager )
+			{
+				IContributionItem addGroupMenu = manager.findUsingPath( AddGroupAction.ID );
+				IContributionItem insertGroupMenus = manager.findUsingPath( InsertGroupMenuAction.ID );		
+
+				if(addGroupMenu == null || insertGroupMenus == null)
+				{
+					return;
+				}
+				RetargetAction action = (RetargetAction) getAction( AddGroupAction.ID );
+				if ( action != null
+						&& action.getActionHandler( ) instanceof AddGroupAction )
+				{
+					if(action.getActionHandler( ).isEnabled( ))
+					{						
+						addGroupMenu.setVisible( true );
+						insertGroupMenus.setVisible( false );
+					}else
+					{
+						addGroupMenu.setVisible( false );
+						insertGroupMenus.setVisible( true );												
+					}
+					manager.update( true );
+				}
+			}
+		} );
 
 		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, newMenu );
 
@@ -330,6 +370,7 @@ public class DesignerActionBarContributor extends
 		menubar.update( );
 	}
 
+	
 	private void contributeActionsToMenu( MenuManager menu,
 			RegisterActions[] actions )
 	{
@@ -399,6 +440,17 @@ public class DesignerActionBarContributor extends
 			( (MenuUpdateAction) action.getActionHandler( ) ).updateMenu( (MenuManager) menu );
 		}
 	}
+	
+	private void updateInsertGroupMenu( String actionId, IMenuManager menu )
+	{
+		RetargetAction action = (RetargetAction) getAction( actionId );
+		if ( action != null
+				&& action.getActionHandler( ) instanceof InsertGroupMenuAction )
+		{
+			( (InsertGroupMenuAction) action.getActionHandler( ) ).updateMenu( (MenuManager) menu );
+		}
+	}
+	
 
 	private void updateEditMenu( IContributionManager menubar )
 	{
@@ -431,4 +483,56 @@ public class DesignerActionBarContributor extends
 			} );
 		}
 	}
+	
+//	/**
+//	 * @param menuManager
+//	 */
+//	private void createInsertGroupMenu( IMenuManager menuManager,
+//			String group_name )
+//	{
+//		if ( getFirstElement( ) instanceof CellHandle
+//				|| getFirstElement( ) instanceof RowHandle )
+//		{
+//			RowHandle row;
+//			if ( getFirstElement( ) instanceof CellHandle )
+//			{
+//				row = (RowHandle) ( (CellHandle) getFirstElement( ) ).getContainer( );
+//			}
+//			else
+//			{
+//				row = (RowHandle) getFirstElement( );
+//			}
+//			if ( !( row.getContainer( ) instanceof TableGroupHandle ) )
+//			{
+//				int slotID = row.getContainerSlotHandle( ).getSlotID( );
+//				menuManager.appendToGroup( group_name,
+//						InsertGroupActionFactory.createInsertGroupAction( slotID,
+//								getSelectedObjects( ) ) );
+//				return;
+//			}
+//
+//		}
+//
+//		if ( getFirstElement( ) instanceof SlotHandle )
+//		{
+//			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) ).getElementHandle( );
+//			if ( !( container instanceof ListGroupHandle ) )
+//			{
+//				int slotID = ( (SlotHandle) getFirstElement( ) ).getSlotID( );
+//				menuManager.appendToGroup( group_name,
+//						InsertGroupActionFactory.createInsertGroupAction( slotID,
+//								getSelectedObjects( ) ) );
+//				return;
+//			}
+//		}
+//
+//		MenuManager subMenu = new MenuManager( Messages.getString( "InsertGroupAction.actionMsg.group" ) ); //$NON-NLS-1$
+//		Action[] actions = InsertGroupActionFactory.getInsertGroupActions( getSelectedObjects( ) );
+//		for ( int i = 0; i < actions.length; i++ )
+//		{
+//			subMenu.add( actions[i] );
+//		}
+//		menuManager.appendToGroup( group_name, subMenu );
+//		return;
+//	}
 }

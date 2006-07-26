@@ -68,6 +68,7 @@ import org.eclipse.birt.report.designer.ui.actions.EditGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertExpressionMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
 import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
@@ -247,6 +248,10 @@ abstract public class ReportEditorWithPalette extends
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
 
+		action = new InsertGroupMenuAction( this );
+		getActionRegistry( ).registerAction( action );
+		getSelectionActions( ).add( action.getId( ) );	
+		
 		// add create place holder actions
 		action = new CreatePlaceHolderPartAction( this );
 		getActionRegistry( ).registerAction( action );

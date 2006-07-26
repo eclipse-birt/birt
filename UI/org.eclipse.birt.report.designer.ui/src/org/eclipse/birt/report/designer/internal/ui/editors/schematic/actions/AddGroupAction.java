@@ -11,14 +11,21 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -28,14 +35,15 @@ import org.eclipse.ui.IWorkbenchPart;
 public class AddGroupAction extends SelectionAction
 {
 
-	private static final String STACK_MSG_ADD_GROUP = Messages
-			.getString( "AddGroupAction.stackMsg.addGroup" ); //$NON-NLS-1$
+//	private static final String STACK_MSG_ADD_GROUP = Messages
+//			.getString( "AddGroupAction.stackMsg.addGroup" ); //$NON-NLS-1$
 
 	private static final String ACTION_MSG_ADD_GROUP = Messages
 			.getString( "AddGroupAction.actionMsg.addGroup" ); //$NON-NLS-1$
 
 	public static final String ID = "AddGroupAction"; //$NON-NLS-1$
 
+	private Action action = null;
 	/**
 	 * Constructor
 	 * 
@@ -55,7 +63,13 @@ public class AddGroupAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return getTableEditPart( ) != null ^ getListEditPart( ) != null;
+		//	return  getTableEditPart( ) != null ^ getListEditPart( ) != null;
+		action = getAction( );
+		if ( action != null )
+		{
+			return action.isEnabled( );
+		}
+		return false;
 	}
 
 	/**
@@ -64,28 +78,9 @@ public class AddGroupAction extends SelectionAction
 	 */
 	public void run( )
 	{
-		if ( Policy.TRACING_ACTIONS )
+		if(action != null)
 		{
-			System.out.println( "Add groupo action >> Run ..." ); //$NON-NLS-1$
-		}
-		CommandStack stack = getActiveCommandStack( );
-		stack.startTrans( STACK_MSG_ADD_GROUP );
-		boolean retValue = false;
-		if ( getTableEditPart( ) != null )
-		{
-			retValue = getTableEditPart( ).insertGroup( );
-		}
-		else
-		{
-			retValue = getListEditPart( ).insertGroup( );
-		}
-		if ( retValue )
-		{
-			stack.commit( );
-		}
-		else
-		{
-			stack.rollbackAll( );
+			action.run( );
 		}
 	}
 
@@ -111,13 +106,69 @@ public class AddGroupAction extends SelectionAction
 		return UIUtil.getListEditPart( getSelectedObjects( ) );
 	}
 
+
 	/**
-	 * Gets the activity stack of the report
+	 * Gets the first selected object.
 	 * 
-	 * @return returns the stack
+	 * @return The first selected object
 	 */
-	protected CommandStack getActiveCommandStack( )
+	protected Object getFirstElement( )
 	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+		Object[] array = getElements( ).toArray( );
+		if ( array.length > 0 )
+		{
+			return array[0];
+		}
+		return null;
 	}
+
+	/**
+	 * Gets element handles.
+	 * 
+	 * @return element handles
+	 */
+	protected List getElements( )
+	{
+		return InsertInLayoutUtil.editPart2Model( getSelection( ) ).toList( );
+	}
+	
+	private Action getAction( )
+	{
+		Action action = null;
+		if ( getFirstElement( ) instanceof CellHandle
+				|| getFirstElement( ) instanceof RowHandle )
+		{
+			RowHandle row;
+			if ( getFirstElement( ) instanceof CellHandle )
+			{
+				row = (RowHandle) ( (CellHandle) getFirstElement( ) ).getContainer( );
+			}
+			else
+			{
+				row = (RowHandle) getFirstElement( );
+			}
+			if ( !( row.getContainer( ) instanceof TableGroupHandle ) )
+			{
+				int slotID = row.getContainerSlotHandle( ).getSlotID( );
+				action = ( InsertGroupActionFactory.createInsertGroupAction( slotID,
+						getSelectedObjects( ) ) );
+				return action;
+			}
+
+		}
+
+		if ( getFirstElement( ) instanceof SlotHandle )
+		{
+			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) ).getElementHandle( );
+			if ( !( container instanceof ListGroupHandle ) )
+			{
+				int slotID = ( (SlotHandle) getFirstElement( ) ).getSlotID( );
+				action = InsertGroupActionFactory.createInsertGroupAction( slotID,
+						getSelectedObjects( ) );
+				return action;
+			}
+		}
+		return action;
+	}
+	
 }
