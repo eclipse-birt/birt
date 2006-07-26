@@ -22,14 +22,15 @@
 	<property name="eclipse.home" location="." />
 	<property name="dtp.home" location=".." />
 
-	<property name="utest.report.dir" location="utestreports"/>
-	
+	<property name="utest.report.dir" location="utestreports" />
+
 	<property name="core.dir" location="../org.eclipse.birt.core" />
 	<property name="data.oda.dir" location="../org.eclipse.birt.data.oda" />
 	<property name="data.oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
 	<property name="datatools.connectivity.oda.dir" location="../org.eclipse.datatools.connectivity.oda" />
 	<property name="testmodule.name" value="org.eclipse.birt.report.tests.chart" />
 
+	<property name="core.dir" location="../org.eclipse.birt.core" />
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine" />
 	<property name="chart.engine.extension.dir" location="../org.eclipse.birt.chart.engine.extension" />
 	<property name="chart.device.extension.dir" location="../org.eclipse.birt.chart.device.extension" />
@@ -102,6 +103,12 @@
 
 	<!-- Build the dependent projects -->
 	<target name="buildDependents" description="Build all the projects it depends on">
+		<echo message="start call Jar task in ${core.dir}" level="info" />
+		<ant dir="${core.dir}" antfile="BuildCore.xml" target="Jar" inheritall="false">
+			<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${core.dir}" level="info" />
+
 		<echo message="start call Jar task in ${chart.engine.extension.dir}" level="info" />
 		<ant dir="${chart.engine.extension.dir}" antfile="BuildChartEngineExtension.xml" target="Jar" inheritall="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
