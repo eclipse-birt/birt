@@ -37,7 +37,6 @@ public class BirtResources
 
 	private static ThreadLocal threadLocal = new ThreadLocal( );
 
-
 	/**
 	 * Sets the locale of current user-thread. This method should be called
 	 * before access to any localized message. If the locale is
@@ -108,6 +107,37 @@ public class BirtResources
 	}
 
 	/**
+	 * Returns the string from the plugin's resource bundle, or 'key' if not
+	 * found.
+	 * 
+	 * @param key
+	 *            resource key
+	 * @return resource string
+	 * @deprecated see getMessage( String key )
+	 */
+	public static String getString( String key )
+	{
+		return getMessage( key );
+	}
+
+	/**
+	 * Returns the string from the plugin's resource bundle, or 'key' if not
+	 * found.
+	 * 
+	 * @param key
+	 *            resource key
+	 * @param arguments
+	 *            list of arguments
+	 * @return locale string
+	 * @deprecated the getMessage( String key ) will returnt he formated
+	 *             message.
+	 */
+	public static String getFormattedString( String key, Object[] arguments )
+	{
+		return MessageFormat.format( getString( key ), arguments );
+	}
+
+	/**
 	 * Returns the resource handle with the locale of this thread. The resource
 	 * handle will be cached.
 	 * 
@@ -134,6 +164,5 @@ public class BirtResources
 
 		return resourceHandle;
 	}
-	
 
 }
