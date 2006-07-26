@@ -883,177 +883,139 @@ public final class PrimitiveCharts
 
 
 	public static final Chart showTooltip_StockChart() {
-		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
+		ChartWithAxes cwaStock = ChartWithAxesImpl.create( );
 
 		// Title
-		cwaStock.getTitle().getLabel().getCaption().setValue("Stock Chart");
-		TitleBlock tb = cwaStock.getTitle();
-		tb.setBackground(GradientImpl.create(ColorDefinitionImpl.create(0, 128,
-				0), ColorDefinitionImpl.create(128, 0, 0), 0, false));
-		tb.getLabel().getCaption().setColor(ColorDefinitionImpl.WHITE());
+		cwaStock.getTitle( ).getLabel( ).getCaption( ).setValue( "Stock Chart" );//$NON-NLS-1$
+		TitleBlock tb = cwaStock.getTitle( );
+		tb.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 0,
+				128,
+				0 ), ColorDefinitionImpl.create( 128, 0, 0 ), 0, false ) );
+		tb.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.WHITE( ) );
 
 		// Plot
-		cwaStock.getBlock().setBackground(
-				GradientImpl.create(ColorDefinitionImpl.create(196, 196, 196),
-						ColorDefinitionImpl.WHITE(), 90, false));
-		cwaStock.getPlot().getClientArea().getInsets().set(10, 10, 10, 10);
+		cwaStock.getBlock( )
+				.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 196,
+						196,
+						196 ),
+						ColorDefinitionImpl.WHITE( ),
+						90,
+						false ) );
+		cwaStock.getPlot( ).getClientArea( ).getInsets( ).set( 10, 10, 10, 10 );
 
 		// Legend
-		cwaStock.getLegend().setBackground(ColorDefinitionImpl.ORANGE());
+		cwaStock.getLegend( ).setBackground( ColorDefinitionImpl.ORANGE( ) );
 
 		// X-Axis
-		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaStock).getPrimaryBaseAxes()[0];
+		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaStock ).getPrimaryBaseAxes( )[0];
 
-		xAxisPrimary.getTitle().getCaption().setValue("X Axis");
-		xAxisPrimary.getTitle().getCaption()
-				.setColor(ColorDefinitionImpl.RED());
-		xAxisPrimary.getTitle().getCaption().setValue("Date");
-		xAxisPrimary.setTitlePosition(Position.ABOVE_LITERAL);
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "X Axis" );//$NON-NLS-1$
+		xAxisPrimary.getTitle( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.RED( ) );
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "Date" );//$NON-NLS-1$
+		xAxisPrimary.setTitlePosition( Position.ABOVE_LITERAL );
 
-		xAxisPrimary.getLabel().getCaption()
-				.setColor(ColorDefinitionImpl.RED());
-		xAxisPrimary.getLabel().getCaption().getFont().setRotation(65);
-		xAxisPrimary.setLabelPosition(Position.ABOVE_LITERAL);
+		xAxisPrimary.getLabel( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.RED( ) );
+		xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 65 );
+		xAxisPrimary.setLabelPosition( Position.ABOVE_LITERAL );
 
-		xAxisPrimary.setType(AxisType.DATE_TIME_LITERAL);
-		xAxisPrimary.getOrigin().setType(IntersectionType.MAX_LITERAL);
+		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.MAX_LITERAL );
 
-		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.ABOVE_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(255, 196, 196));
-		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
+		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.ABOVE_LITERAL );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.create( 255, 196, 196 ) );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
 
-		xAxisPrimary.setCategoryAxis(true);
+		xAxisPrimary.setCategoryAxis( true );
 
-		// Y-Axis (1)
-		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaStock)
-				.getPrimaryOrthogonalAxis(xAxisPrimary);
+		// Y-Axis
+		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaStock ).getPrimaryOrthogonalAxis( xAxisPrimary );
 
-		yAxisPrimary.getLabel().getCaption().setValue("Price Axis");
-		yAxisPrimary.getLabel().getCaption().setColor(
-				ColorDefinitionImpl.BLUE());
-		yAxisPrimary.setLabelPosition(Position.LEFT_LITERAL);
+		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Price Axis" );//$NON-NLS-1$
+		yAxisPrimary.getLabel( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.BLUE( ) );
+		yAxisPrimary.setLabelPosition( Position.LEFT_LITERAL );
 
-		yAxisPrimary.getTitle().getCaption().setValue(
-				"Microsoft ($ Stock Price)");
-		yAxisPrimary.getTitle().getCaption().setColor(
-				ColorDefinitionImpl.BLUE());
-		yAxisPrimary.setTitlePosition(Position.LEFT_LITERAL);
+		yAxisPrimary.getTitle( )
+				.getCaption( )
+				.setValue( "Microsoft ($ Stock Price)" );//$NON-NLS-1$
+		yAxisPrimary.getTitle( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.BLUE( ) );
+		yAxisPrimary.setTitlePosition( Position.LEFT_LITERAL );
 
-		yAxisPrimary.getScale().setMin(NumberDataElementImpl.create(24.5));
-		yAxisPrimary.getScale().setMax(NumberDataElementImpl.create(27.5));
-		yAxisPrimary.getScale().setStep(0.5);
+		yAxisPrimary.getScale( ).setMin( NumberDataElementImpl.create( 24.5 ) );
+		yAxisPrimary.getScale( ).setMax( NumberDataElementImpl.create( 27.5 ) );
+		yAxisPrimary.getScale( ).setStep( 0.5 );
 
-		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(196, 196, 255));
-		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.create( 196, 196, 255 ) );
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
 
-		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
-		yAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
-
-		// Y-Axis (2)
-		Axis yAxisOverlay = AxisImpl.create(Axis.ORTHOGONAL);
-
-		yAxisOverlay.getLabel().getCaption().setColor(
-				ColorDefinitionImpl.create(0, 128, 0));
-		yAxisOverlay.getLabel().getCaption().getFont().setRotation(-25);
-		yAxisOverlay.setLabelPosition(Position.RIGHT_LITERAL);
-
-		yAxisOverlay.getTitle().getCaption().setValue("Volume");
-		yAxisOverlay.getTitle().getCaption().setColor(
-				ColorDefinitionImpl.GREEN().darker());
-		yAxisOverlay.getTitle().getCaption().getFont().setRotation(90);
-		yAxisOverlay.getTitle().getCaption().getFont().setSize(16);
-		yAxisOverlay.getTitle().getCaption().getFont().setBold(true);
-		yAxisOverlay.getTitle().setVisible(true);
-		yAxisOverlay.setTitlePosition(Position.RIGHT_LITERAL);
-
-		yAxisOverlay.getLineAttributes().setColor(
-				ColorDefinitionImpl.create(0, 128, 0));
-
-		yAxisOverlay.setType(AxisType.LINEAR_LITERAL);
-		yAxisOverlay.setOrientation(Orientation.VERTICAL_LITERAL);
-
-		yAxisOverlay.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(64, 196, 64));
-		yAxisOverlay.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		yAxisOverlay.getMajorGrid().getLineAttributes().setVisible(true);
-		yAxisOverlay.getMajorGrid().setTickStyle(TickStyle.RIGHT_LITERAL);
-
-		yAxisOverlay.getOrigin().setType(IntersectionType.MAX_LITERAL);
-		yAxisOverlay.getScale().setMax(NumberDataElementImpl.create(180000000));
-		yAxisOverlay.getScale().setMin(NumberDataElementImpl.create(20000000));
-
-		xAxisPrimary.getAssociatedAxes().add(yAxisOverlay);
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		yAxisPrimary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
 
 		// Data Set
-		DateTimeDataSet dsDateValues = DateTimeDataSetImpl
-				.create(new Calendar[] { new CDateTime(2004, 12, 27),
-						new CDateTime(2004, 12, 23),
-						new CDateTime(2004, 12, 22),
-						new CDateTime(2004, 12, 21),
-						new CDateTime(2004, 12, 20),
-						new CDateTime(2004, 12, 17),
-						new CDateTime(2004, 12, 16),
-						new CDateTime(2004, 12, 15) });
+		DateTimeDataSet dsDateValues = DateTimeDataSetImpl.create( new Calendar[]{
+				new CDateTime( 2004, 12, 27 ),
+				new CDateTime( 2004, 12, 23 ),
+				new CDateTime( 2004, 12, 22 ),
+				new CDateTime( 2004, 12, 21 ),
+				new CDateTime( 2004, 12, 20 ),
+				new CDateTime( 2004, 12, 17 ),
+				new CDateTime( 2004, 12, 16 ),
+				new CDateTime( 2004, 12, 15 )
+		} );
 
-		StockDataSet dsStockValues = StockDataSetImpl.create(new StockEntry[] {
-				new StockEntry(27.01, 27.10, 26.82, 26.85),
-				new StockEntry(26.87, 27.15, 26.83, 27.01),
-				new StockEntry(26.84, 27.15, 26.78, 26.97),
-				new StockEntry(27.00, 27.17, 26.94, 27.07),
-				new StockEntry(27.01, 27.15, 26.89, 26.95),
-				new StockEntry(27.00, 27.32, 26.80, 26.96),
-				new StockEntry(27.15, 27.28, 27.01, 27.16),
-				new StockEntry(27.22, 27.40, 27.07, 27.11), });
-
-		NumberDataSet dsStockVolume = NumberDataSetImpl.create(new double[] {
-				55958500, 65801900, 63651900, 94646096, 85552800, 126184400,
-				88997504, 106303904 });
+		StockDataSet dsStockValues = StockDataSetImpl.create( new StockEntry[]{
+				new StockEntry( 27.01, 27.10, 26.82, 26.85 ),
+				new StockEntry( 26.87, 27.15, 26.83, 27.01 ),
+				new StockEntry( 26.84, 27.15, 26.78, 26.97 ),
+				new StockEntry( 27.00, 27.17, 26.94, 27.07 ),
+				new StockEntry( 27.01, 27.15, 26.89, 26.95 ),
+				new StockEntry( 27.00, 27.32, 26.80, 26.96 ),
+				new StockEntry( 27.15, 27.28, 27.01, 27.16 ),
+				new StockEntry( 27.22, 27.40, 27.07, 27.11 ),
+		} );
 
 		// X-Series
-		Series seBase = SeriesImpl.create();
-		seBase.setDataSet(dsDateValues);
-		SeriesDefinition sdX = SeriesDefinitionImpl.create();
-		sdX.getSeriesPalette().update(2);
-		xAxisPrimary.getSeriesDefinitions().add(sdX);
-		sdX.getSeries().add(seBase);
+		Series seBase = SeriesImpl.create( );
+		seBase.setDataSet( dsDateValues );
+
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		sdX.getSeriesPalette( ).update( 1 );
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getSeries( ).add( seBase );
 
 		// Y-Series
-		StockSeries ss = (StockSeries) StockSeriesImpl.create();
-		ss.setSeriesIdentifier("Stock Price");
-		ss.setLineAttributes(LineAttributesImpl.create(ColorDefinitionImpl
-				.create(239, 33, 3), LineStyle.SOLID_LITERAL, 1));
-		ss.setDataSet(dsStockValues);
+		StockSeries ss = (StockSeries) StockSeriesImpl.create( );
+		ss.setSeriesIdentifier( "Stock Price" );//$NON-NLS-1$
+		ss.getLineAttributes( ).setColor( ColorDefinitionImpl.BLUE( ) );
+		ss.setDataSet( dsStockValues );
+		ss.setCurveFitting( CurveFittingImpl.create( ) );
 		ss.getTriggers( )
 		.add( TriggerImpl.create( TriggerCondition.ONMOUSEOVER_LITERAL,
 				ActionImpl.create( ActionType.SHOW_TOOLTIP_LITERAL,
 						TooltipValueImpl.create( 500, null ) ) ) );
 
-		SeriesDefinition sdY1 = SeriesDefinitionImpl.create();
-
-		sdY1.getSeriesPalette().getEntries().clear();
-
-		final Fill[] fiaBase = {
-				ColorDefinitionImpl.BLUE(),
-				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
-						ColorDefinitionImpl.create(255, 255, 225), -35, false),
-				ColorDefinitionImpl.BLUE(), ColorDefinitionImpl.YELLOW(),
-				ColorDefinitionImpl.GREEN(),
-				ColorDefinitionImpl.PINK().brighter(),
-				ColorDefinitionImpl.CYAN().darker(), };
-		for (int i = 0; i < fiaBase.length; i++) {
-			sdY1.getSeriesPalette().getEntries().add(fiaBase[i]);
-		}
-
-		yAxisPrimary.getSeriesDefinitions().add(sdY1);
-		sdY1.getSeries().add(ss);
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.CYAN( ) );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		sdY.getSeries( ).add( ss );
 
 		return cwaStock;
 	}
@@ -2027,37 +1989,38 @@ public final class PrimitiveCharts
 	}
 	
 	public static final Chart toggleVisibility_StockChart() {
-		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
+		ChartWithAxes cwaStock = ChartWithAxesImpl.create( );
 
 		// Title
-		cwaStock.getTitle().getLabel().getCaption().setValue("Stock Chart");
-		TitleBlock tb = cwaStock.getTitle();
-		tb.setBackground(GradientImpl.create(ColorDefinitionImpl.create(0, 128,
-				0), ColorDefinitionImpl.create(128, 0, 0), 0, false));
-		tb.getLabel().getCaption().setColor(ColorDefinitionImpl.WHITE());
+		cwaStock.getTitle( ).getLabel( ).getCaption( ).setValue( "Stock Chart" );//$NON-NLS-1$
+		TitleBlock tb = cwaStock.getTitle( );
+		tb.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 0,
+				128,
+				0 ), ColorDefinitionImpl.create( 128, 0, 0 ), 0, false ) );
+		tb.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.WHITE( ) );
 
 		// Plot
-		cwaStock.getBlock().setBackground(
-				GradientImpl.create(ColorDefinitionImpl.create(196, 196, 196),
-						ColorDefinitionImpl.WHITE(), 90, false));
-		cwaStock.getPlot().getClientArea().getInsets().set(10, 10, 10, 10);
+		cwaStock.getBlock( )
+				.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 196,
+						196,
+						196 ),
+						ColorDefinitionImpl.WHITE( ),
+						90,
+						false ) );
+		cwaStock.getPlot( ).getClientArea( ).getInsets( ).set( 10, 10, 10, 10 );
 
 		// Legend
+//		cwaStock.getLegend( ).setBackground( ColorDefinitionImpl.ORANGE( ) );
 		Legend lg = cwaStock.getLegend();
 		lg.getText().getFont().setSize(16);
 		lg.getInsets().set(10, 5, 0, 0);
-
-		lg.getOutline().setStyle(LineStyle.DOTTED_LITERAL);
-		lg.getOutline().setColor(ColorDefinitionImpl.create(214, 100, 12));
-		lg.getOutline().setVisible(true);
-
-		lg.setBackground(GradientImpl.create(ColorDefinitionImpl.create(225,
+    	lg.setBackground(GradientImpl.create(ColorDefinitionImpl.create(225,
 				225, 255), ColorDefinitionImpl.create(255, 255, 225), -35,
 				false));
-		lg.setAnchor(Anchor.SOUTH_LITERAL);
-		lg.setItemType(LegendItemType.SERIES_LITERAL);
+//		lg.setAnchor(Anchor.SOUTH_LITERAL);
+//		lg.setItemType(LegendItemType.SERIES_LITERAL);
 
-		lg.getClientArea().setBackground(ColorDefinitionImpl.ORANGE());
+//		lg.getClientArea().setBackground(ColorDefinitionImpl.ORANGE());
 		lg.setPosition(Position.BELOW_LITERAL);
 		lg.setOrientation(Orientation.HORIZONTAL_LITERAL);
 		lg.getTriggers( )
@@ -2065,156 +2028,112 @@ public final class PrimitiveCharts
 				ActionImpl.create( ActionType.TOGGLE_VISIBILITY_LITERAL,
 						SeriesValueImpl.create( "not-used" ) ) ) ); //$NON-NLS-1$
 
-
 		// X-Axis
-		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaStock).getPrimaryBaseAxes()[0];
+		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaStock ).getPrimaryBaseAxes( )[0];
 
-		xAxisPrimary.getTitle().getCaption().setValue("X Axis");
-		xAxisPrimary.getTitle().getCaption()
-				.setColor(ColorDefinitionImpl.RED());
-		xAxisPrimary.getTitle().getCaption().setValue("Date");
-		xAxisPrimary.setTitlePosition(Position.ABOVE_LITERAL);
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "X Axis" );//$NON-NLS-1$
+		xAxisPrimary.getTitle( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.RED( ) );
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "Date" );//$NON-NLS-1$
+		xAxisPrimary.setTitlePosition( Position.ABOVE_LITERAL );
 
-		xAxisPrimary.getLabel().getCaption()
-				.setColor(ColorDefinitionImpl.RED());
-		xAxisPrimary.getLabel().getCaption().getFont().setRotation(65);
-		xAxisPrimary.setLabelPosition(Position.ABOVE_LITERAL);
+		xAxisPrimary.getLabel( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.RED( ) );
+		xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 65 );
+		xAxisPrimary.setLabelPosition( Position.ABOVE_LITERAL );
 
-		xAxisPrimary.setType(AxisType.DATE_TIME_LITERAL);
-		xAxisPrimary.getOrigin().setType(IntersectionType.MAX_LITERAL);
+		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.MAX_LITERAL );
 
-		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.ABOVE_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(255, 196, 196));
-		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
+		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.ABOVE_LITERAL );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.create( 255, 196, 196 ) );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
 
-		xAxisPrimary.setCategoryAxis(true);
+		xAxisPrimary.setCategoryAxis( true );
 
-		// Y-Axis (1)
-		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaStock)
-				.getPrimaryOrthogonalAxis(xAxisPrimary);
+		// Y-Axis
+		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaStock ).getPrimaryOrthogonalAxis( xAxisPrimary );
 
-		yAxisPrimary.getLabel().getCaption().setValue("Price Axis");
-		yAxisPrimary.getLabel().getCaption().setColor(
-				ColorDefinitionImpl.BLUE());
-		yAxisPrimary.setLabelPosition(Position.LEFT_LITERAL);
+		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Price Axis" );//$NON-NLS-1$
+		yAxisPrimary.getLabel( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.BLUE( ) );
+		yAxisPrimary.setLabelPosition( Position.LEFT_LITERAL );
 
-		yAxisPrimary.getTitle().getCaption().setValue(
-				"Microsoft ($ Stock Price)");
-		yAxisPrimary.getTitle().getCaption().setColor(
-				ColorDefinitionImpl.BLUE());
-		yAxisPrimary.setTitlePosition(Position.LEFT_LITERAL);
+		yAxisPrimary.getTitle( )
+				.getCaption( )
+				.setValue( "Microsoft ($ Stock Price)" );//$NON-NLS-1$
+		yAxisPrimary.getTitle( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.BLUE( ) );
+		yAxisPrimary.setTitlePosition( Position.LEFT_LITERAL );
 
-		yAxisPrimary.getScale().setMin(NumberDataElementImpl.create(24.5));
-		yAxisPrimary.getScale().setMax(NumberDataElementImpl.create(27.5));
-		yAxisPrimary.getScale().setStep(0.5);
+		yAxisPrimary.getScale( ).setMin( NumberDataElementImpl.create( 24.5 ) );
+		yAxisPrimary.getScale( ).setMax( NumberDataElementImpl.create( 27.5 ) );
+		yAxisPrimary.getScale( ).setStep( 0.5 );
 
-		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(196, 196, 255));
-		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.create( 196, 196, 255 ) );
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
 
-		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
-		yAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
-
-		// Y-Axis (2)
-		Axis yAxisOverlay = AxisImpl.create(Axis.ORTHOGONAL);
-
-		yAxisOverlay.getLabel().getCaption().setColor(
-				ColorDefinitionImpl.create(0, 128, 0));
-		yAxisOverlay.getLabel().getCaption().getFont().setRotation(-25);
-		yAxisOverlay.setLabelPosition(Position.RIGHT_LITERAL);
-
-		yAxisOverlay.getTitle().getCaption().setValue("Volume");
-		yAxisOverlay.getTitle().getCaption().setColor(
-				ColorDefinitionImpl.GREEN().darker());
-		yAxisOverlay.getTitle().getCaption().getFont().setRotation(90);
-		yAxisOverlay.getTitle().getCaption().getFont().setSize(16);
-		yAxisOverlay.getTitle().getCaption().getFont().setBold(true);
-		yAxisOverlay.getTitle().setVisible(true);
-		yAxisOverlay.setTitlePosition(Position.RIGHT_LITERAL);
-
-		yAxisOverlay.getLineAttributes().setColor(
-				ColorDefinitionImpl.create(0, 128, 0));
-
-		yAxisOverlay.setType(AxisType.LINEAR_LITERAL);
-		yAxisOverlay.setOrientation(Orientation.VERTICAL_LITERAL);
-
-		yAxisOverlay.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(64, 196, 64));
-		yAxisOverlay.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		yAxisOverlay.getMajorGrid().getLineAttributes().setVisible(true);
-		yAxisOverlay.getMajorGrid().setTickStyle(TickStyle.RIGHT_LITERAL);
-
-		yAxisOverlay.getOrigin().setType(IntersectionType.MAX_LITERAL);
-		yAxisOverlay.getScale().setMax(NumberDataElementImpl.create(180000000));
-		yAxisOverlay.getScale().setMin(NumberDataElementImpl.create(20000000));
-
-		xAxisPrimary.getAssociatedAxes().add(yAxisOverlay);
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		yAxisPrimary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
 
 		// Data Set
-		DateTimeDataSet dsDateValues = DateTimeDataSetImpl
-				.create(new Calendar[] { new CDateTime(2004, 12, 27),
-						new CDateTime(2004, 12, 23),
-						new CDateTime(2004, 12, 22),
-						new CDateTime(2004, 12, 21),
-						new CDateTime(2004, 12, 20),
-						new CDateTime(2004, 12, 17),
-						new CDateTime(2004, 12, 16),
-						new CDateTime(2004, 12, 15) });
+		DateTimeDataSet dsDateValues = DateTimeDataSetImpl.create( new Calendar[]{
+				new CDateTime( 2004, 12, 27 ),
+				new CDateTime( 2004, 12, 23 ),
+				new CDateTime( 2004, 12, 22 ),
+				new CDateTime( 2004, 12, 21 ),
+				new CDateTime( 2004, 12, 20 ),
+				new CDateTime( 2004, 12, 17 ),
+				new CDateTime( 2004, 12, 16 ),
+				new CDateTime( 2004, 12, 15 )
+		} );
 
-		StockDataSet dsStockValues = StockDataSetImpl.create(new StockEntry[] {
-				new StockEntry(27.01, 27.10, 26.82, 26.85),
-				new StockEntry(26.87, 27.15, 26.83, 27.01),
-				new StockEntry(26.84, 27.15, 26.78, 26.97),
-				new StockEntry(27.00, 27.17, 26.94, 27.07),
-				new StockEntry(27.01, 27.15, 26.89, 26.95),
-				new StockEntry(27.00, 27.32, 26.80, 26.96),
-				new StockEntry(27.15, 27.28, 27.01, 27.16),
-				new StockEntry(27.22, 27.40, 27.07, 27.11), });
-
-		NumberDataSet dsStockVolume = NumberDataSetImpl.create(new double[] {
-				55958500, 65801900, 63651900, 94646096, 85552800, 126184400,
-				88997504, 106303904 });
+		StockDataSet dsStockValues = StockDataSetImpl.create( new StockEntry[]{
+				new StockEntry( 27.01, 27.10, 26.82, 26.85 ),
+				new StockEntry( 26.87, 27.15, 26.83, 27.01 ),
+				new StockEntry( 26.84, 27.15, 26.78, 26.97 ),
+				new StockEntry( 27.00, 27.17, 26.94, 27.07 ),
+				new StockEntry( 27.01, 27.15, 26.89, 26.95 ),
+				new StockEntry( 27.00, 27.32, 26.80, 26.96 ),
+				new StockEntry( 27.15, 27.28, 27.01, 27.16 ),
+				new StockEntry( 27.22, 27.40, 27.07, 27.11 ),
+		} );
 
 		// X-Series
-		Series seBase = SeriesImpl.create();
-		seBase.setDataSet(dsDateValues);
-		SeriesDefinition sdX = SeriesDefinitionImpl.create();
-		sdX.getSeriesPalette().update(2);
-		xAxisPrimary.getSeriesDefinitions().add(sdX);
-		sdX.getSeries().add(seBase);
+		Series seBase = SeriesImpl.create( );
+		seBase.setDataSet( dsDateValues );
+
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		sdX.getSeriesPalette( ).update( 1 );
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getSeries( ).add( seBase );
 
 		// Y-Series
-		StockSeries ss = (StockSeries) StockSeriesImpl.create();
-		ss.setSeriesIdentifier("Stock Price");
-		ss.setLineAttributes(LineAttributesImpl.create(ColorDefinitionImpl
-				.create(239, 33, 3), LineStyle.SOLID_LITERAL, 1));
-		ss.setDataSet(dsStockValues);
+		StockSeries ss = (StockSeries) StockSeriesImpl.create( );
+		ss.setSeriesIdentifier( "Stock Price" );//$NON-NLS-1$
+		ss.getLineAttributes( ).setColor( ColorDefinitionImpl.BLUE( ) );
+		ss.setDataSet( dsStockValues );
+		ss.setCurveFitting( CurveFittingImpl.create( ) );
 
-		SeriesDefinition sdY1 = SeriesDefinitionImpl.create();
-
-		sdY1.getSeriesPalette().getEntries().clear();
-
-		final Fill[] fiaBase = {
-				ColorDefinitionImpl.BLUE(),
-				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
-						ColorDefinitionImpl.create(255, 255, 225), -35, false),
-				ColorDefinitionImpl.BLUE(), ColorDefinitionImpl.YELLOW(),
-				ColorDefinitionImpl.GREEN(),
-				ColorDefinitionImpl.PINK().brighter(),
-				ColorDefinitionImpl.CYAN().darker(), };
-		for (int i = 0; i < fiaBase.length; i++) {
-			sdY1.getSeriesPalette().getEntries().add(fiaBase[i]);
-		}
-
-		yAxisPrimary.getSeriesDefinitions().add(sdY1);
-		sdY1.getSeries().add(ss);
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.CYAN( ) );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		sdY.getSeries( ).add( ss );
 
 		return cwaStock;
 	}
@@ -3008,37 +2927,38 @@ public final class PrimitiveCharts
 	}
 	
 	public static final Chart highlight_StockChart() {
-		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
+		ChartWithAxes cwaStock = ChartWithAxesImpl.create( );
 
 		// Title
-		cwaStock.getTitle().getLabel().getCaption().setValue("Stock Chart");
-		TitleBlock tb = cwaStock.getTitle();
-		tb.setBackground(GradientImpl.create(ColorDefinitionImpl.create(0, 128,
-				0), ColorDefinitionImpl.create(128, 0, 0), 0, false));
-		tb.getLabel().getCaption().setColor(ColorDefinitionImpl.WHITE());
+		cwaStock.getTitle( ).getLabel( ).getCaption( ).setValue( "Stock Chart" );//$NON-NLS-1$
+		TitleBlock tb = cwaStock.getTitle( );
+		tb.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 0,
+				128,
+				0 ), ColorDefinitionImpl.create( 128, 0, 0 ), 0, false ) );
+		tb.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.WHITE( ) );
 
 		// Plot
-		cwaStock.getBlock().setBackground(
-				GradientImpl.create(ColorDefinitionImpl.create(196, 196, 196),
-						ColorDefinitionImpl.WHITE(), 90, false));
-		cwaStock.getPlot().getClientArea().getInsets().set(10, 10, 10, 10);
+		cwaStock.getBlock( )
+				.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 196,
+						196,
+						196 ),
+						ColorDefinitionImpl.WHITE( ),
+						90,
+						false ) );
+		cwaStock.getPlot( ).getClientArea( ).getInsets( ).set( 10, 10, 10, 10 );
 
 		// Legend
+//		cwaStock.getLegend( ).setBackground( ColorDefinitionImpl.ORANGE( ) );
 		Legend lg = cwaStock.getLegend();
 		lg.getText().getFont().setSize(16);
 		lg.getInsets().set(10, 5, 0, 0);
-
-		lg.getOutline().setStyle(LineStyle.DOTTED_LITERAL);
-		lg.getOutline().setColor(ColorDefinitionImpl.create(214, 100, 12));
-		lg.getOutline().setVisible(true);
-
-		lg.setBackground(GradientImpl.create(ColorDefinitionImpl.create(225,
+    	lg.setBackground(GradientImpl.create(ColorDefinitionImpl.create(225,
 				225, 255), ColorDefinitionImpl.create(255, 255, 225), -35,
 				false));
-		lg.setAnchor(Anchor.SOUTH_LITERAL);
-		lg.setItemType(LegendItemType.SERIES_LITERAL);
+//		lg.setAnchor(Anchor.SOUTH_LITERAL);
+//		lg.setItemType(LegendItemType.SERIES_LITERAL);
 
-		lg.getClientArea().setBackground(ColorDefinitionImpl.ORANGE());
+//		lg.getClientArea().setBackground(ColorDefinitionImpl.ORANGE());
 		lg.setPosition(Position.BELOW_LITERAL);
 		lg.setOrientation(Orientation.HORIZONTAL_LITERAL);
 		lg.getTriggers( )
@@ -3046,157 +2966,112 @@ public final class PrimitiveCharts
 				ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
 						SeriesValueImpl.create( "not-used" ) ) ) ); //$NON-NLS-1$
 
-
-
 		// X-Axis
-		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaStock).getPrimaryBaseAxes()[0];
+		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaStock ).getPrimaryBaseAxes( )[0];
 
-		xAxisPrimary.getTitle().getCaption().setValue("X Axis");
-		xAxisPrimary.getTitle().getCaption()
-				.setColor(ColorDefinitionImpl.RED());
-		xAxisPrimary.getTitle().getCaption().setValue("Date");
-		xAxisPrimary.setTitlePosition(Position.ABOVE_LITERAL);
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "X Axis" );//$NON-NLS-1$
+		xAxisPrimary.getTitle( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.RED( ) );
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "Date" );//$NON-NLS-1$
+		xAxisPrimary.setTitlePosition( Position.ABOVE_LITERAL );
 
-		xAxisPrimary.getLabel().getCaption()
-				.setColor(ColorDefinitionImpl.RED());
-		xAxisPrimary.getLabel().getCaption().getFont().setRotation(65);
-		xAxisPrimary.setLabelPosition(Position.ABOVE_LITERAL);
+		xAxisPrimary.getLabel( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.RED( ) );
+		xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 65 );
+		xAxisPrimary.setLabelPosition( Position.ABOVE_LITERAL );
 
-		xAxisPrimary.setType(AxisType.DATE_TIME_LITERAL);
-		xAxisPrimary.getOrigin().setType(IntersectionType.MAX_LITERAL);
+		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.MAX_LITERAL );
 
-		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.ABOVE_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(255, 196, 196));
-		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
+		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.ABOVE_LITERAL );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.create( 255, 196, 196 ) );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
 
-		xAxisPrimary.setCategoryAxis(true);
+		xAxisPrimary.setCategoryAxis( true );
 
-		// Y-Axis (1)
-		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaStock)
-				.getPrimaryOrthogonalAxis(xAxisPrimary);
+		// Y-Axis
+		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaStock ).getPrimaryOrthogonalAxis( xAxisPrimary );
 
-		yAxisPrimary.getLabel().getCaption().setValue("Price Axis");
-		yAxisPrimary.getLabel().getCaption().setColor(
-				ColorDefinitionImpl.BLUE());
-		yAxisPrimary.setLabelPosition(Position.LEFT_LITERAL);
+		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Price Axis" );//$NON-NLS-1$
+		yAxisPrimary.getLabel( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.BLUE( ) );
+		yAxisPrimary.setLabelPosition( Position.LEFT_LITERAL );
 
-		yAxisPrimary.getTitle().getCaption().setValue(
-				"Microsoft ($ Stock Price)");
-		yAxisPrimary.getTitle().getCaption().setColor(
-				ColorDefinitionImpl.BLUE());
-		yAxisPrimary.setTitlePosition(Position.LEFT_LITERAL);
+		yAxisPrimary.getTitle( )
+				.getCaption( )
+				.setValue( "Microsoft ($ Stock Price)" );//$NON-NLS-1$
+		yAxisPrimary.getTitle( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.BLUE( ) );
+		yAxisPrimary.setTitlePosition( Position.LEFT_LITERAL );
 
-		yAxisPrimary.getScale().setMin(NumberDataElementImpl.create(24.5));
-		yAxisPrimary.getScale().setMax(NumberDataElementImpl.create(27.5));
-		yAxisPrimary.getScale().setStep(0.5);
+		yAxisPrimary.getScale( ).setMin( NumberDataElementImpl.create( 24.5 ) );
+		yAxisPrimary.getScale( ).setMax( NumberDataElementImpl.create( 27.5 ) );
+		yAxisPrimary.getScale( ).setStep( 0.5 );
 
-		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(196, 196, 255));
-		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.create( 196, 196, 255 ) );
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
 
-		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
-		yAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
-
-		// Y-Axis (2)
-		Axis yAxisOverlay = AxisImpl.create(Axis.ORTHOGONAL);
-
-		yAxisOverlay.getLabel().getCaption().setColor(
-				ColorDefinitionImpl.create(0, 128, 0));
-		yAxisOverlay.getLabel().getCaption().getFont().setRotation(-25);
-		yAxisOverlay.setLabelPosition(Position.RIGHT_LITERAL);
-
-		yAxisOverlay.getTitle().getCaption().setValue("Volume");
-		yAxisOverlay.getTitle().getCaption().setColor(
-				ColorDefinitionImpl.GREEN().darker());
-		yAxisOverlay.getTitle().getCaption().getFont().setRotation(90);
-		yAxisOverlay.getTitle().getCaption().getFont().setSize(16);
-		yAxisOverlay.getTitle().getCaption().getFont().setBold(true);
-		yAxisOverlay.getTitle().setVisible(true);
-		yAxisOverlay.setTitlePosition(Position.RIGHT_LITERAL);
-
-		yAxisOverlay.getLineAttributes().setColor(
-				ColorDefinitionImpl.create(0, 128, 0));
-
-		yAxisOverlay.setType(AxisType.LINEAR_LITERAL);
-		yAxisOverlay.setOrientation(Orientation.VERTICAL_LITERAL);
-
-		yAxisOverlay.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(64, 196, 64));
-		yAxisOverlay.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		yAxisOverlay.getMajorGrid().getLineAttributes().setVisible(true);
-		yAxisOverlay.getMajorGrid().setTickStyle(TickStyle.RIGHT_LITERAL);
-
-		yAxisOverlay.getOrigin().setType(IntersectionType.MAX_LITERAL);
-		yAxisOverlay.getScale().setMax(NumberDataElementImpl.create(180000000));
-		yAxisOverlay.getScale().setMin(NumberDataElementImpl.create(20000000));
-
-		xAxisPrimary.getAssociatedAxes().add(yAxisOverlay);
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		yAxisPrimary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
 
 		// Data Set
-		DateTimeDataSet dsDateValues = DateTimeDataSetImpl
-				.create(new Calendar[] { new CDateTime(2004, 12, 27),
-						new CDateTime(2004, 12, 23),
-						new CDateTime(2004, 12, 22),
-						new CDateTime(2004, 12, 21),
-						new CDateTime(2004, 12, 20),
-						new CDateTime(2004, 12, 17),
-						new CDateTime(2004, 12, 16),
-						new CDateTime(2004, 12, 15) });
+		DateTimeDataSet dsDateValues = DateTimeDataSetImpl.create( new Calendar[]{
+				new CDateTime( 2004, 12, 27 ),
+				new CDateTime( 2004, 12, 23 ),
+				new CDateTime( 2004, 12, 22 ),
+				new CDateTime( 2004, 12, 21 ),
+				new CDateTime( 2004, 12, 20 ),
+				new CDateTime( 2004, 12, 17 ),
+				new CDateTime( 2004, 12, 16 ),
+				new CDateTime( 2004, 12, 15 )
+		} );
 
-		StockDataSet dsStockValues = StockDataSetImpl.create(new StockEntry[] {
-				new StockEntry(27.01, 27.10, 26.82, 26.85),
-				new StockEntry(26.87, 27.15, 26.83, 27.01),
-				new StockEntry(26.84, 27.15, 26.78, 26.97),
-				new StockEntry(27.00, 27.17, 26.94, 27.07),
-				new StockEntry(27.01, 27.15, 26.89, 26.95),
-				new StockEntry(27.00, 27.32, 26.80, 26.96),
-				new StockEntry(27.15, 27.28, 27.01, 27.16),
-				new StockEntry(27.22, 27.40, 27.07, 27.11), });
-
-		NumberDataSet dsStockVolume = NumberDataSetImpl.create(new double[] {
-				55958500, 65801900, 63651900, 94646096, 85552800, 126184400,
-				88997504, 106303904 });
+		StockDataSet dsStockValues = StockDataSetImpl.create( new StockEntry[]{
+				new StockEntry( 27.01, 27.10, 26.82, 26.85 ),
+				new StockEntry( 26.87, 27.15, 26.83, 27.01 ),
+				new StockEntry( 26.84, 27.15, 26.78, 26.97 ),
+				new StockEntry( 27.00, 27.17, 26.94, 27.07 ),
+				new StockEntry( 27.01, 27.15, 26.89, 26.95 ),
+				new StockEntry( 27.00, 27.32, 26.80, 26.96 ),
+				new StockEntry( 27.15, 27.28, 27.01, 27.16 ),
+				new StockEntry( 27.22, 27.40, 27.07, 27.11 ),
+		} );
 
 		// X-Series
-		Series seBase = SeriesImpl.create();
-		seBase.setDataSet(dsDateValues);
-		SeriesDefinition sdX = SeriesDefinitionImpl.create();
-		sdX.getSeriesPalette().update(2);
-		xAxisPrimary.getSeriesDefinitions().add(sdX);
-		sdX.getSeries().add(seBase);
+		Series seBase = SeriesImpl.create( );
+		seBase.setDataSet( dsDateValues );
+
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		sdX.getSeriesPalette( ).update( 1 );
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getSeries( ).add( seBase );
 
 		// Y-Series
-		StockSeries ss = (StockSeries) StockSeriesImpl.create();
-		ss.setSeriesIdentifier("Stock Price");
-		ss.setLineAttributes(LineAttributesImpl.create(ColorDefinitionImpl
-				.create(239, 33, 3), LineStyle.SOLID_LITERAL, 1));
-		ss.setDataSet(dsStockValues);
+		StockSeries ss = (StockSeries) StockSeriesImpl.create( );
+		ss.setSeriesIdentifier( "Stock Price" );//$NON-NLS-1$
+		ss.getLineAttributes( ).setColor( ColorDefinitionImpl.BLUE( ) );
+		ss.setDataSet( dsStockValues );
+		ss.setCurveFitting( CurveFittingImpl.create( ) );
 
-		SeriesDefinition sdY1 = SeriesDefinitionImpl.create();
-
-		sdY1.getSeriesPalette().getEntries().clear();
-
-		final Fill[] fiaBase = {
-				ColorDefinitionImpl.BLUE(),
-				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
-						ColorDefinitionImpl.create(255, 255, 225), -35, false),
-				ColorDefinitionImpl.BLUE(), ColorDefinitionImpl.YELLOW(),
-				ColorDefinitionImpl.GREEN(),
-				ColorDefinitionImpl.PINK().brighter(),
-				ColorDefinitionImpl.CYAN().darker(), };
-		for (int i = 0; i < fiaBase.length; i++) {
-			sdY1.getSeriesPalette().getEntries().add(fiaBase[i]);
-		}
-
-		yAxisPrimary.getSeriesDefinitions().add(sdY1);
-		sdY1.getSeries().add(ss);
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.CYAN( ) );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		sdY.getSeries( ).add( ss );
 
 		return cwaStock;
 	}
@@ -3912,154 +3787,130 @@ public final class PrimitiveCharts
 	}
 	
 	public static final Chart URLRedirect_StockChart() {
-		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
+		ChartWithAxes cwaStock = ChartWithAxesImpl.create( );
 
 		// Title
-		cwaStock.getTitle().getLabel().getCaption().setValue("Stock Chart");
-		TitleBlock tb = cwaStock.getTitle();
-		tb.setBackground(GradientImpl.create(ColorDefinitionImpl.create(0, 128,
-				0), ColorDefinitionImpl.create(128, 0, 0), 0, false));
-		tb.getLabel().getCaption().setColor(ColorDefinitionImpl.WHITE());
+		cwaStock.getTitle( ).getLabel( ).getCaption( ).setValue( "Stock Chart" );//$NON-NLS-1$
+		TitleBlock tb = cwaStock.getTitle( );
+		tb.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 0,
+				128,
+				0 ), ColorDefinitionImpl.create( 128, 0, 0 ), 0, false ) );
+		tb.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.WHITE( ) );
 
 		// Plot
-		cwaStock.getBlock().setBackground(
-				GradientImpl.create(ColorDefinitionImpl.create(196, 196, 196),
-						ColorDefinitionImpl.WHITE(), 90, false));
-		cwaStock.getPlot().getClientArea().getInsets().set(10, 10, 10, 10);
+		cwaStock.getBlock( )
+				.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 196,
+						196,
+						196 ),
+						ColorDefinitionImpl.WHITE( ),
+						90,
+						false ) );
+		cwaStock.getPlot( ).getClientArea( ).getInsets( ).set( 10, 10, 10, 10 );
 
 		// Legend
-		cwaStock.getLegend().setBackground(ColorDefinitionImpl.ORANGE());
+    	cwaStock.getLegend( ).setBackground( ColorDefinitionImpl.ORANGE( ) );
+
 
 		// X-Axis
-		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaStock).getPrimaryBaseAxes()[0];
+		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaStock ).getPrimaryBaseAxes( )[0];
 
-		xAxisPrimary.getTitle().getCaption().setValue("X Axis");
-		xAxisPrimary.getTitle().getCaption()
-				.setColor(ColorDefinitionImpl.RED());
-		xAxisPrimary.getTitle().getCaption().setValue("Date");
-		xAxisPrimary.setTitlePosition(Position.ABOVE_LITERAL);
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "X Axis" );//$NON-NLS-1$
+		xAxisPrimary.getTitle( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.RED( ) );
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "Date" );//$NON-NLS-1$
+		xAxisPrimary.setTitlePosition( Position.ABOVE_LITERAL );
 
-		xAxisPrimary.getLabel().getCaption()
-				.setColor(ColorDefinitionImpl.RED());
-		xAxisPrimary.getLabel().getCaption().getFont().setRotation(65);
-		xAxisPrimary.setLabelPosition(Position.ABOVE_LITERAL);
+		xAxisPrimary.getLabel( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.RED( ) );
+		xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 65 );
+		xAxisPrimary.setLabelPosition( Position.ABOVE_LITERAL );
 
-		xAxisPrimary.setType(AxisType.DATE_TIME_LITERAL);
-		xAxisPrimary.getOrigin().setType(IntersectionType.MAX_LITERAL);
+		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.MAX_LITERAL );
 
-		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.ABOVE_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(255, 196, 196));
-		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
+		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.ABOVE_LITERAL );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.create( 255, 196, 196 ) );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
 
-		xAxisPrimary.setCategoryAxis(true);
+		xAxisPrimary.setCategoryAxis( true );
 
-		// Y-Axis (1)
-		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaStock)
-				.getPrimaryOrthogonalAxis(xAxisPrimary);
+		// Y-Axis
+		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaStock ).getPrimaryOrthogonalAxis( xAxisPrimary );
 
-		yAxisPrimary.getLabel().getCaption().setValue("Price Axis");
-		yAxisPrimary.getLabel().getCaption().setColor(
-				ColorDefinitionImpl.BLUE());
-		yAxisPrimary.setLabelPosition(Position.LEFT_LITERAL);
+		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Price Axis" );//$NON-NLS-1$
+		yAxisPrimary.getLabel( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.BLUE( ) );
+		yAxisPrimary.setLabelPosition( Position.LEFT_LITERAL );
 
-		yAxisPrimary.getTitle().getCaption().setValue(
-				"Microsoft ($ Stock Price)");
-		yAxisPrimary.getTitle().getCaption().setColor(
-				ColorDefinitionImpl.BLUE());
-		yAxisPrimary.setTitlePosition(Position.LEFT_LITERAL);
+		yAxisPrimary.getTitle( )
+				.getCaption( )
+				.setValue( "Microsoft ($ Stock Price)" );//$NON-NLS-1$
+		yAxisPrimary.getTitle( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.BLUE( ) );
+		yAxisPrimary.setTitlePosition( Position.LEFT_LITERAL );
 
-		yAxisPrimary.getScale().setMin(NumberDataElementImpl.create(24.5));
-		yAxisPrimary.getScale().setMax(NumberDataElementImpl.create(27.5));
-		yAxisPrimary.getScale().setStep(0.5);
+		yAxisPrimary.getScale( ).setMin( NumberDataElementImpl.create( 24.5 ) );
+		yAxisPrimary.getScale( ).setMax( NumberDataElementImpl.create( 27.5 ) );
+		yAxisPrimary.getScale( ).setStep( 0.5 );
 
-		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(196, 196, 255));
-		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.create( 196, 196, 255 ) );
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
 
-		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
-		yAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
-
-		// Y-Axis (2)
-		Axis yAxisOverlay = AxisImpl.create(Axis.ORTHOGONAL);
-
-		yAxisOverlay.getLabel().getCaption().setColor(
-				ColorDefinitionImpl.create(0, 128, 0));
-		yAxisOverlay.getLabel().getCaption().getFont().setRotation(-25);
-		yAxisOverlay.setLabelPosition(Position.RIGHT_LITERAL);
-
-		yAxisOverlay.getTitle().getCaption().setValue("Volume");
-		yAxisOverlay.getTitle().getCaption().setColor(
-				ColorDefinitionImpl.GREEN().darker());
-		yAxisOverlay.getTitle().getCaption().getFont().setRotation(90);
-		yAxisOverlay.getTitle().getCaption().getFont().setSize(16);
-		yAxisOverlay.getTitle().getCaption().getFont().setBold(true);
-		yAxisOverlay.getTitle().setVisible(true);
-		yAxisOverlay.setTitlePosition(Position.RIGHT_LITERAL);
-
-		yAxisOverlay.getLineAttributes().setColor(
-				ColorDefinitionImpl.create(0, 128, 0));
-
-		yAxisOverlay.setType(AxisType.LINEAR_LITERAL);
-		yAxisOverlay.setOrientation(Orientation.VERTICAL_LITERAL);
-
-		yAxisOverlay.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.create(64, 196, 64));
-		yAxisOverlay.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		yAxisOverlay.getMajorGrid().getLineAttributes().setVisible(true);
-		yAxisOverlay.getMajorGrid().setTickStyle(TickStyle.RIGHT_LITERAL);
-
-		yAxisOverlay.getOrigin().setType(IntersectionType.MAX_LITERAL);
-		yAxisOverlay.getScale().setMax(NumberDataElementImpl.create(180000000));
-		yAxisOverlay.getScale().setMin(NumberDataElementImpl.create(20000000));
-
-		xAxisPrimary.getAssociatedAxes().add(yAxisOverlay);
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		yAxisPrimary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
 
 		// Data Set
-		DateTimeDataSet dsDateValues = DateTimeDataSetImpl
-				.create(new Calendar[] { new CDateTime(2004, 12, 27),
-						new CDateTime(2004, 12, 23),
-						new CDateTime(2004, 12, 22),
-						new CDateTime(2004, 12, 21),
-						new CDateTime(2004, 12, 20),
-						new CDateTime(2004, 12, 17),
-						new CDateTime(2004, 12, 16),
-						new CDateTime(2004, 12, 15) });
+		DateTimeDataSet dsDateValues = DateTimeDataSetImpl.create( new Calendar[]{
+				new CDateTime( 2004, 12, 27 ),
+				new CDateTime( 2004, 12, 23 ),
+				new CDateTime( 2004, 12, 22 ),
+				new CDateTime( 2004, 12, 21 ),
+				new CDateTime( 2004, 12, 20 ),
+				new CDateTime( 2004, 12, 17 ),
+				new CDateTime( 2004, 12, 16 ),
+				new CDateTime( 2004, 12, 15 )
+		} );
 
-		StockDataSet dsStockValues = StockDataSetImpl.create(new StockEntry[] {
-				new StockEntry(27.01, 27.10, 26.82, 26.85),
-				new StockEntry(26.87, 27.15, 26.83, 27.01),
-				new StockEntry(26.84, 27.15, 26.78, 26.97),
-				new StockEntry(27.00, 27.17, 26.94, 27.07),
-				new StockEntry(27.01, 27.15, 26.89, 26.95),
-				new StockEntry(27.00, 27.32, 26.80, 26.96),
-				new StockEntry(27.15, 27.28, 27.01, 27.16),
-				new StockEntry(27.22, 27.40, 27.07, 27.11), });
-
-		NumberDataSet dsStockVolume = NumberDataSetImpl.create(new double[] {
-				55958500, 65801900, 63651900, 94646096, 85552800, 126184400,
-				88997504, 106303904 });
+		StockDataSet dsStockValues = StockDataSetImpl.create( new StockEntry[]{
+				new StockEntry( 27.01, 27.10, 26.82, 26.85 ),
+				new StockEntry( 26.87, 27.15, 26.83, 27.01 ),
+				new StockEntry( 26.84, 27.15, 26.78, 26.97 ),
+				new StockEntry( 27.00, 27.17, 26.94, 27.07 ),
+				new StockEntry( 27.01, 27.15, 26.89, 26.95 ),
+				new StockEntry( 27.00, 27.32, 26.80, 26.96 ),
+				new StockEntry( 27.15, 27.28, 27.01, 27.16 ),
+				new StockEntry( 27.22, 27.40, 27.07, 27.11 ),
+		} );
 
 		// X-Series
-		Series seBase = SeriesImpl.create();
-		seBase.setDataSet(dsDateValues);
-		SeriesDefinition sdX = SeriesDefinitionImpl.create();
-		sdX.getSeriesPalette().update(2);
-		xAxisPrimary.getSeriesDefinitions().add(sdX);
-		sdX.getSeries().add(seBase);
+		Series seBase = SeriesImpl.create( );
+		seBase.setDataSet( dsDateValues );
+
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		sdX.getSeriesPalette( ).update( 1 );
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getSeries( ).add( seBase );
 
 		// Y-Series
-		StockSeries ss = (StockSeries) StockSeriesImpl.create();
-		ss.setSeriesIdentifier("Stock Price");
-		ss.setLineAttributes(LineAttributesImpl.create(ColorDefinitionImpl
-				.create(239, 33, 3), LineStyle.SOLID_LITERAL, 1));
-		ss.setDataSet(dsStockValues);
+		StockSeries ss = (StockSeries) StockSeriesImpl.create( );
+		ss.setSeriesIdentifier( "Stock Price" );//$NON-NLS-1$
+		ss.getLineAttributes( ).setColor( ColorDefinitionImpl.BLUE( ) );
+		ss.setDataSet( dsStockValues );
 		Trigger triger = TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
 				ActionImpl.create( ActionType.URL_REDIRECT_LITERAL,
 						URLValueImpl.create( "http://www.actuate.com", //$NON-NLS-1$
@@ -4068,25 +3919,12 @@ public final class PrimitiveCharts
 								null, //$NON-NLS-1$
 								null ) ) );
 		ss.getTriggers( ).add( triger );
+		ss.setCurveFitting( CurveFittingImpl.create( ) );
 
-		SeriesDefinition sdY1 = SeriesDefinitionImpl.create();
-
-		sdY1.getSeriesPalette().getEntries().clear();
-
-		final Fill[] fiaBase = {
-				ColorDefinitionImpl.BLUE(),
-				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
-						ColorDefinitionImpl.create(255, 255, 225), -35, false),
-				ColorDefinitionImpl.BLUE(), ColorDefinitionImpl.YELLOW(),
-				ColorDefinitionImpl.GREEN(),
-				ColorDefinitionImpl.PINK().brighter(),
-				ColorDefinitionImpl.CYAN().darker(), };
-		for (int i = 0; i < fiaBase.length; i++) {
-			sdY1.getSeriesPalette().getEntries().add(fiaBase[i]);
-		}
-
-		yAxisPrimary.getSeriesDefinitions().add(sdY1);
-		sdY1.getSeries().add(ss);
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.CYAN( ) );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		sdY.getSeries( ).add( ss );
 
 		return cwaStock;
 	}
