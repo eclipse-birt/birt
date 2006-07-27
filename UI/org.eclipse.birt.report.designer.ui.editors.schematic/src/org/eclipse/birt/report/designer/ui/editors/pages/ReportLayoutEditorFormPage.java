@@ -280,7 +280,10 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 		//reselect the selection
 		GraphicalViewer view = getGraphicalViewer( );
 
-		UIUtil.resetViewSelection( view, true );
+		if(view !=null)
+		{
+			UIUtil.resetViewSelection( view, true );
+		}
 		return true;
 	}
 
