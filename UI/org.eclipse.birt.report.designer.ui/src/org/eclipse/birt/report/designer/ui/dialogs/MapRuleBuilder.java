@@ -437,17 +437,18 @@ public class MapRuleBuilder extends BaseDialog
 
 	private Composite createTitleArea( Composite parent )
 	{
-		int margins = 2;
+		int heightMargins = 3;
+		int widthMargins = 8;
 		final Composite titleArea = new Composite( parent, SWT.NONE );		
 		FormLayout layout = new FormLayout( );
-		layout.marginHeight = margins;
-		layout.marginWidth = margins;
+		layout.marginHeight = heightMargins;
+		layout.marginWidth = widthMargins;
 		titleArea.setLayout( layout );
 
 		Display display = parent.getDisplay( );
 		Color background = JFaceColors.getBannerBackground( display );
 		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
-		layoutData.heightHint = 20 + ( margins * 3 );
+		layoutData.heightHint = 20 + ( heightMargins * 2 );
 		titleArea.setLayoutData( layoutData );
 		titleArea.setBackground( background );
 
