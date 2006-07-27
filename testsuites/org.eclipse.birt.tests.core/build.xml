@@ -6,6 +6,9 @@
 	<property name="tests.dir" value="utest"/>
 	<property name="application" value=""/>
 	<property name="data.dir" value="${data.path}/${module.name}/${tests.dir}/configuration/"/>
+	<property name="core.dir" value="../org.eclipse.birt.core"/>
+	<property name="engine.dir" value="../org.eclipse.birt.report.engine"/>
+	<property name="model.dir" value="../org.eclipse.birt.report.model"/>
 	<property name="confFilePath" value=""/>
 	<property name="module.name" value=""/>
 	<property name="className" value=""/>
@@ -13,10 +16,18 @@
 	
 	<!-- classPath -->
 	
-	<path id="classPath">
+	<path id="classPath">	
 		<pathelement path="${bin.dir}"/>
+		<pathelement path="${core.dir}/core.jar"/>
+		<pathelement path="${model.dir}/model.jar"/>
+		<pathelement path="${engine.dir}/engine.jar"/>
 		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
+			<include name="org.eclipse.core.runtime*.jar"/>
+			<include name="org.eclipse.osgi_*/*.jar"/>
+			<include name="org.eclipse.osgi*.jar"/>
 			<include name="org.junit_*/*.jar"/>
+			<include name="com.ibm.icu*.jar"/>
 		</fileset>
 	</path>
 	
