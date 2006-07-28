@@ -3462,6 +3462,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						logger.log( dfex );
 						sText = IConstants.NULL_STRING;
 					}
+					la.getCaption( ).setValue( sText );
 
 					y = (int) da[i];
 					if ( bRendering3D )
@@ -3605,7 +3606,6 @@ public abstract class AxesRenderer extends BaseRenderer
 										y3d,
 										dZEnd
 												+ pwa.getHorizontalSpacingInPixels( ) );
-								la.getCaption( ).setValue( sText );
 								t3dre.setLocation3D( lo3d );
 								t3dre.setTextPosition( TextRenderEvent.LEFT );
 								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
@@ -3625,7 +3625,6 @@ public abstract class AxesRenderer extends BaseRenderer
 							else
 							{
 								lo.set( sx, y );
-								la.getCaption( ).setValue( sText );
 								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 								ipr.drawText( tre );
 							}
@@ -3686,6 +3685,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							logger.log( dfex );
 							sText = IConstants.NULL_STRING;
 						}
+						la.getCaption( ).setValue( sText );
 					}
 
 					y = (int) da[i];
@@ -3826,7 +3826,6 @@ public abstract class AxesRenderer extends BaseRenderer
 										+ pwa.getHorizontalSpacingInPixels( ),
 										y3d,
 										dZ - pwa.getHorizontalSpacingInPixels( ) );
-								la.getCaption( ).setValue( sText );
 								t3dre.setLocation3D( lo3d );
 								t3dre.setTextPosition( TextRenderEvent.RIGHT );
 								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
@@ -3835,7 +3834,6 @@ public abstract class AxesRenderer extends BaseRenderer
 							else
 							{
 								lo.set( sx, y );
-								la.getCaption( ).setValue( sText );
 								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 								ipr.drawText( tre );
 
@@ -3881,6 +3879,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						logger.log( dfex );
 						sText = IConstants.NULL_STRING;
 					}
+					la.getCaption( ).setValue( sText );
 
 					y = (int) da[i];
 					if ( bRendering3D )
@@ -4007,7 +4006,6 @@ public abstract class AxesRenderer extends BaseRenderer
 										y3d,
 										dZEnd
 												+ pwa.getHorizontalSpacingInPixels( ) );
-								la.getCaption( ).setValue( sText );
 								t3dre.setLocation3D( lo3d );
 								t3dre.setTextPosition( TextRenderEvent.LEFT );
 								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
@@ -4027,7 +4025,6 @@ public abstract class AxesRenderer extends BaseRenderer
 							else
 							{
 								lo.set( sx, y );
-								la.getCaption( ).setValue( sText );
 								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 								ipr.drawText( tre );
 							}
@@ -4827,6 +4824,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							logger.log( dfex );
 							sText = IConstants.NULL_STRING;
 						}
+						la.getCaption( ).setValue( sText );
 
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
@@ -4868,7 +4866,6 @@ public abstract class AxesRenderer extends BaseRenderer
 													- pwa.getVerticalSpacingInPixels( ),
 											z3d );
 								}
-								la.getCaption( ).setValue( sText );
 								t3dre.setLocation3D( lo3d );
 								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 								dc.addLabel( t3dre );
@@ -4877,7 +4874,6 @@ public abstract class AxesRenderer extends BaseRenderer
 							else
 							{
 								lo.set( x, sy );
-								la.getCaption( ).setValue( sText );
 								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 								ipr.drawText( tre );
 							}
@@ -5071,6 +5067,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							logger.log( dfex );
 							sText = IConstants.NULL_STRING;
 						}
+						la.getCaption( ).setValue( sText );
 
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
@@ -5112,7 +5109,6 @@ public abstract class AxesRenderer extends BaseRenderer
 													- pwa.getVerticalSpacingInPixels( ),
 											z3d );
 								}
-								la.getCaption( ).setValue( sText );
 								t3dre.setLocation3D( lo3d );
 								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 								dc.addLabel( t3dre );
@@ -5120,7 +5116,6 @@ public abstract class AxesRenderer extends BaseRenderer
 							else
 							{
 								lo.set( x, sy );
-								la.getCaption( ).setValue( sText );
 								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 								ipr.drawText( tre );
 							}
@@ -5304,6 +5299,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							logger.log( dfex );
 							sText = IConstants.NULL_STRING;
 						}
+						la.getCaption( ).setValue( sText );
 
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
@@ -5345,7 +5341,6 @@ public abstract class AxesRenderer extends BaseRenderer
 													- pwa.getVerticalSpacingInPixels( ),
 											z3d );
 								}
-								la.getCaption( ).setValue( sText );
 								t3dre.setLocation3D( lo3d );
 								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 								dc.addLabel( t3dre );
@@ -5353,7 +5348,6 @@ public abstract class AxesRenderer extends BaseRenderer
 							else
 							{
 								lo.set( x, sy );
-								la.getCaption( ).setValue( sText );
 								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 								ipr.drawText( tre );
 							}
