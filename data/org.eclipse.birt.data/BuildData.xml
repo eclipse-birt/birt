@@ -102,13 +102,13 @@
 		<fileset dir="${core.dir}/lib">
 			<include name="*.jar"/>
 		</fileset>
-		<fileset dir="${dtp.oda.dir}">
+<!--	<fileset dir="${dtp.oda.dir}">
 			<include name="oda.jar"/>
 		</fileset>
 		<fileset dir="${dtp.oda.consumer.dir}">
 			<include name="odaconsumer-helper.jar"/>
 		</fileset>
-		<fileset dir="${birt.oda.dir}">
+-->		<fileset dir="${birt.oda.dir}">
 			<include name="oda.jar"/>
 		</fileset>	
 		<fileset dir="${derby.dir}">
@@ -240,14 +240,21 @@
 		</jar>
 	</target>
 
-	<!-- Run Unit Test -->
+	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
+	<!-- Run Unit test.
+			 Parameters:
+			 		- ${utest.report.dir} target directory to put the unit test report
+	-->
 	<target name="UnitTest" depends="compileTest, testDependency" description="run all the unit tests">
-		<ant dir="../org.eclipse.birt.core" antfile="BuildCore.xml" target="UnitTest" inheritAll="false" inheritRefs="false">			
-			<property name="dir.utest" value="utest" />
-			<property name="utest.report.dir" value="${utest.report.dir}" />
-			<property name="module.name" value="${module.name}" />
-			<property name="classname" value="org.eclipse.birt.data.engine.AllTests" />
-		</ant>
+		
+		<!-- run all tests in current directory -->
+		<!-- Create the log directory -->
+		<delete dir="${utest.report.dir}"/>
+		<mkdir dir="${utest.report.dir}" />
+
+		<!-- If condition is satisfied, then executes test cases against JDBC -->
+		<antcall target="testJDBC"/>
+
 	</target>
 	
 	<!-- Clean all objects created by this script -->
@@ -421,20 +428,20 @@
 		</ant>
 		<echo message="${module.name} end call Jar task in ${core.dir}"/>
 		
-     	<echo message="${module.name} start call Jar task in ${dtp.oda.dir}"/>
-		<ant dir="${dtp.oda.dir}" antfile ="buildAnt.xml" target="build.jars" inheritAll="false">
+<!--	<echo message="${module.name} start call Jar task in ${dtp.oda.dir}"/>
+		<ant dir="${dtp.oda.dir}" antfile ="build.xml" target="build.jars" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
 			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
 		<echo message="${module.name} end call Jar task in ${dtp.oda.dir}"/>
 		
 		<echo message="${module.name} start call Jar task in ${dtp.oda.consumer.dir}"/>
-		<ant dir="${dtp.oda.consumer.dir}" antfile ="buildAnt.xml" target="build.jars" inheritAll="false">
+		<ant dir="${dtp.oda.consumer.dir}" antfile ="build.xml" target="build.jars" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
 			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
 		<echo message="${module.name} end call Jar task in ${dtp.oda.consumer.dir}"/>
-	</target>
+-->	</target>
 	
 	<target name="testDependency">
 		<echo message="${module.name} start call Jar task in ${birt.oda.dir}"/>		
@@ -447,13 +454,13 @@
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda/plugin.xml" file="${birt.oda.dir}/plugin.xml"/>
 		
 		<echo message="${module.name} start call Jar task in ${dtp.oda.adapter.dir}"/>		
-		<!--ant dir="${dtp.oda.adapter.dir}" antfile="BuildDtpOdaAdapter.xml" target="Jar" inheritall="false">
+		<ant dir="${dtp.oda.adapter.dir}" antfile="BuildDtpOdaAdapter.xml" target="Jar" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
 		<echo message="${module.name} end call Jar task in ${oda.dtp.adapter.dir}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda.adapter.dtp/${dtp.oda.adapter.jar}" file="${dtp.oda.adapter.dir}/${dtp.oda.adapter.jar}"/>
-		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda.adapter.dtp/plugin.xml" file="${dtp.oda.adapter.dir}/plugin.xml"/-->
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda.adapter.dtp/plugin.xml" file="${dtp.oda.adapter.dir}/plugin.xml"/>
 		
 		<echo message="${module.name} start call Jar task in ${oda.jdbc.dir}"/>		
 		<ant dir="${oda.jdbc.dir}" antfile="BuildOdaJdbc.xml" target="Jar" inheritall="false">
@@ -479,7 +486,7 @@
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.datatools.connectivity.oda.flatfile/plugin.properties" file="${dtp.oda-flatfile.dir}/plugin.properties"/>
 		<mkdir dir="${test.src}/plugins/org.eclipse.datatools.connectivity.oda.flatfile/META-INF" />
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.datatools.connectivity.oda.flatfile/META-INF/MANIFEST.MF" file="${dtp.oda-flatfile.dir}/META-INF/MANIFEST.MF"/>
->	
+-->	
 		<echo message="${module.name} start call Jar task in ${testOdaDriver.dir}"/>		
 		<ant dir="${testOdaDriver.dir}" antfile="build.xml" target="build.jars" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
@@ -496,7 +503,7 @@
 		</ant>
 		<echo message="${module.name} end call Jar task in ${testBirtOdaDriver.dir}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/${testBirtOdaDriver.plugin.name}/testBirtDriver.jar" file="${testBirtOdaDriver.dir}/testBirtDriver.jar"/>
-		<copy overwrite="true" tofile="${test.src}/plugins/${testBirtOdaDriver.plugin.name}/plugin.xml" file="${testBirtOdaDriver.dir}/plugin.xml"/-->
+		<copy overwrite="true" tofile="${test.src}/plugins/${testBirtOdaDriver.plugin.name}/plugin.xml" file="${testBirtOdaDriver.dir}/plugin.xml"/>
 	</target>
 </project>
 
