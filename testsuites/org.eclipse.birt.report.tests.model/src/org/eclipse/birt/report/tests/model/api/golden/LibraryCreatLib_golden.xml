@@ -164,7 +164,8 @@ from ROOT.SAMPLEDATA</property>
             </footer>
         </table>
         <image name="myImage" id="31">
-            <expression name="uri">http://www.actuate.com/images/birt_flying_logo.jpg</expression>
+           <property name="source">url</property>
+           <expression name="uri">http://www.actuate.com/images/birt_flying_logo.jpg</expression>
         </image>
         <data name="myData" id="32">
             <list-property name="boundDataColumns">
