@@ -30,7 +30,6 @@ public class DummyEditpart extends ReportElementEditPart
 	public DummyEditpart( Object model )
 	{
 		super( model );
-		// TODO Auto-generated constructor stub
 	}
 
 	/*

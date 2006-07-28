@@ -181,7 +181,7 @@ public class TableLayout extends XYLayout
 
 				public void run( )
 				{  
-					getOwner().markDirty(true, true);
+					getOwner().reLayout( );
 				}
 			} );
 			return;
@@ -238,7 +238,7 @@ public class TableLayout extends XYLayout
 			int width = getColumnWidth( columnNumber, columnNumber + columnSpan );
 			int height = getRowHeight( rowNumber, rowNumber + rowSpan );
 
-			cellPart.markDirty( true, false );
+			//cellPart.markDirty( true, false );
 
 			setBoundsOfChild( container, figure, new Rectangle( x, y, width,
 					height ) );
@@ -1158,4 +1158,5 @@ public class TableLayout extends XYLayout
 	{
 		return calculateMinimumSize( container, wHint, hHint );
 	}
+	
 }

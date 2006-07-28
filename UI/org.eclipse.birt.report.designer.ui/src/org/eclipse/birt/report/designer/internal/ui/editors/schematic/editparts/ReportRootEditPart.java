@@ -9,8 +9,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.RootDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.draw2d.ColorConstants;
@@ -39,17 +39,14 @@ import org.eclipse.gef.editparts.ViewportAutoexposeHelper;
  */
 public class ReportRootEditPart extends ScalableFreeformRootEditPart
 {
-
-	private DeferredRefreshManager refreshManager;
-
 	/**
 	 * Constructor
 	 * 
 	 * @param manager
 	 */
-	public ReportRootEditPart( DeferredRefreshManager manager )
+	public ReportRootEditPart( )
 	{
-		this.refreshManager = manager;
+		super();
 	}
 
 	/*
@@ -62,15 +59,6 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 		return new RootDragTracker( );
 	}
 
-	/**
-	 * gets the DeferredRefreshManager, all editPart have only one.
-	 * 
-	 * @return
-	 */
-	public DeferredRefreshManager getRefreshManager( )
-	{
-		return refreshManager;
-	}
 
 	/**
 	 * Creates a layered pane and the layers that should be printed.
@@ -147,6 +135,10 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 	{
 		if ( adapter == AutoexposeHelper.class )
 			return new ReportViewportAutoexposeHelper( this );
+		if (adapter == IModelEventProcessor.class)
+		{
+			return getContents( ).getAdapter( IModelEventProcessor.class );
+		}
 		return super.getAdapter( adapter );
 	}
 

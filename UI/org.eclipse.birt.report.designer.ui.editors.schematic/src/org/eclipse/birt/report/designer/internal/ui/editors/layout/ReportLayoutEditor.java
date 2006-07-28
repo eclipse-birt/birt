@@ -23,7 +23,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.layout;
  *******************************************************************************/
 
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
-import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFactory;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -119,9 +118,6 @@ public class ReportLayoutEditor extends ReportEditorWithRuler
 //			}
 //			return page;
 //		}
-
-		if ( adapter == DeferredRefreshManager.class )
-			return getRefreshManager( );
 
 		return super.getAdapter( adapter );
 	}

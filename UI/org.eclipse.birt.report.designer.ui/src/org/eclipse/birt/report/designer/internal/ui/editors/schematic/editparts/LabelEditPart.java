@@ -24,8 +24,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
@@ -53,16 +51,6 @@ public class LabelEditPart extends ReportElementEditPart
 	 */
 	private static final String ELEMENT_DEFAULT_TEXT = Messages.getString( "LabelEditPart.Figure.Default" );//$NON-NLS-1$
 
-	public void markDirty( boolean bool, boolean notifyParent )
-	{
-		super.markDirty( bool, notifyParent );
-
-		// refresh label to adopt container's changes.
-		if ( bool )
-		{
-			refreshVisuals( );
-		}
-	}
 
 	/**
 	 * Constructor
@@ -103,28 +91,10 @@ public class LabelEditPart extends ReportElementEditPart
 		manager.show( );
 	}
 
-	
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notify(org.eclipse.birt.model.core.DesignElement,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
+	/**
+	 * @return
 	 */
-	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
-	{
-		markDirty( true );
-		refreshVisuals( );
-		//Fix bug 116829 Label height doesn't change with label font modification.
-		if ( arg1.getEventType( ) == NotificationEvent.PROPERTY_EVENT
-				&& ( (PropertyEvent) arg1 ).getPropertyName().equals(
-						StyleHandle.FONT_SIZE_PROP))
-		{
-			((LabelFigure)getFigure()).resetHeight();
-			getFigure().invalidateTree();
-		}
-	}
-
 	protected LabelHandleAdapter getLabelAdapter( )
 	{
 		return (LabelHandleAdapter) getModelAdapter( );

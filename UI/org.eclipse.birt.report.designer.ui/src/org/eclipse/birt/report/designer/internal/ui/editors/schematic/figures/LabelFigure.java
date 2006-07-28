@@ -351,11 +351,12 @@ public class LabelFigure extends ReportElementFigure
 		}
 	}
 	
-	/**
-	 * Retsets the label height.
+	/* (non-Javadoc)
+	 * @see org.eclipse.draw2d.Figure#setFont(org.eclipse.swt.graphics.Font)
 	 */
-	public void resetHeight()
+	public void setFont( Font f )
 	{
-		label.revalidate();
+		super.setFont( f );
+		label.setFont( f );
 	}
 }

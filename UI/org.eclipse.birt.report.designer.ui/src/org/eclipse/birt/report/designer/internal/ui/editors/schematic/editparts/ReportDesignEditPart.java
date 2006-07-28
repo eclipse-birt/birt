@@ -16,7 +16,6 @@ import java.beans.PropertyChangeListener;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
@@ -27,12 +26,11 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.Root
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.birt.report.designer.util.ColorManager;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -49,7 +47,7 @@ import org.eclipse.gef.tools.DeselectAllTracker;
  * other report elements puts on to it
  * </p>
  */
-public class ReportDesignEditPart extends ReportElementEditPart
+public class ReportDesignEditPart extends AbstractReportEditPart
 {
 
 	protected boolean showMargin = true;
@@ -125,37 +123,6 @@ public class ReportDesignEditPart extends ReportElementEditPart
 				.getChildren( );
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		switch ( ev.getEventType( ) )
-		{
-			case NotificationEvent.CONTENT_EVENT :
-			case NotificationEvent.STYLE_EVENT :
-			{
-				refresh( );
-				break;
-			}
-			case NotificationEvent.PROPERTY_EVENT :
-			case NotificationEvent.THEME_EVENT :
-			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT :
-			{
-				// if ( ReportDesignHandle.THEME_PROP.equalsIgnoreCase(
-				// ((PropertyEvent) ev )
-				// .getPropertyName( )) )
-				// {
-				// this.getFigure( ).invalidateTree( );
-				// }
-
-				refresh( );
-				this.markDirty( true );
-				break;
-			}
-			case NotificationEvent.LIBRARY_RELOADED_EVENT :
-			{
-				reloadTheChildren( );
-			}
-		}
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -209,16 +176,6 @@ public class ReportDesignEditPart extends ReportElementEditPart
 		refreshBackground( masterPageHandle );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notifyChildrenDirty(boolean)
-	 */
-	protected void notifyChildrenDirty( boolean bool )
-	{
-		super.notifyChildrenDirty( bool );
-		refreshVisuals( );
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -228,11 +185,7 @@ public class ReportDesignEditPart extends ReportElementEditPart
 	public void activate( )
 	{
 		super.activate( );
-		if ( ( (ReportDesignHandleAdapter) getModelAdapter( ) ).getMasterPage( ) != null )
-		{
-			( (ReportDesignHandleAdapter) getModelAdapter( ) ).getMasterPage( )
-					.addListener( this );
-		}
+
 		getFigure( ).setFocusTraversable( false );
 
 		getViewer( ).addPropertyChangeListener( new PropertyChangeListener( ) {
@@ -250,18 +203,12 @@ public class ReportDesignEditPart extends ReportElementEditPart
 		} );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.EditPart#deactivate()
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
 	 */
-	public void deactivate( )
+	public boolean isinterest( Object model )
 	{
-		super.deactivate( );
-		if ( ( (ReportDesignHandleAdapter) getModelAdapter( ) ).getMasterPage( ) != null )
-		{
-			( (ReportDesignHandleAdapter) getModelAdapter( ) ).getMasterPage( )
-					.removeListener( this );
-		}
+		return super.isinterest( model ) || model instanceof MasterPageHandle;
 	}
+	
 }

@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -129,7 +130,7 @@ public class AddGroupAction extends SelectionAction
 	 */
 	protected List getElements( )
 	{
-		return InsertInLayoutUtil.editPart2Model( getSelection( ) ).toList( );
+		return InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) )).toList( );
 	}
 	
 	private Action getAction( )

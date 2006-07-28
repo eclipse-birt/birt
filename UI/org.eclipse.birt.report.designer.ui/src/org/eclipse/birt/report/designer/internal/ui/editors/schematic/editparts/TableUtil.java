@@ -284,11 +284,26 @@ public class TableUtil
 		if ( selection == null || !( selection instanceof IStructuredSelection ) )
 			return new StructuredSelection( Collections.EMPTY_LIST );
 		List list = ( (IStructuredSelection) selection ).toList( );
+		list = filterRemoveEditpart(list);
 		List retValue = filletCellModel(list); 
 		
 		return new StructuredSelection(retValue);
 	}
 	
+	private static List filterRemoveEditpart(List list)
+	{
+		List retValue = new ArrayList(list);
+		int size = list.size( );
+		for ( int i = 0; i < size; i++ )
+		{
+			Object obj = list.get(i);
+			if (obj instanceof ReportElementEditPart && ((ReportElementEditPart)obj).isDelete( ))
+			{
+				retValue.remove( obj );
+			}
+		}
+		return retValue;
+	}
 	public static List filletCellModel(List list)
 	{
 		List retValue = new ArrayList(list);

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
@@ -21,7 +22,6 @@ import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
-import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
@@ -38,9 +38,7 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
@@ -72,7 +70,6 @@ import org.eclipse.swt.widgets.Display;
  * </p>
  */
 public abstract class ReportElementEditPart extends AbstractGraphicalEditPart implements
-		Listener,
 		IModelAdapterHelper
 {
 
@@ -289,7 +286,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		if ( isActive( ) )
 			return;
-		addModelListener( );
+		
 		super.activate( );
 
 		refreshPageClip( );
@@ -322,16 +319,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		getFigure( ).setFocusTraversable( true );
 	}
 
-	/**
-	 * adds model listener
-	 */
-	protected void addModelListener( )
-	{
-		if ( getModel( ) instanceof DesignElementHandle )
-		{
-			( (DesignElementHandle) getModel( ) ).addListener( this );
-		}
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -342,33 +329,11 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		if ( !isActive( ) )
 			return;
-
 		removeGuideFeedBack( );
 
-		removeModelLister( );
 		super.deactivate( );
 		HandleAdapterFactory.getInstance( ).remove( getModel( ) );
 	}
-
-	/**
-	 * Removes the model listener.
-	 */
-	protected void removeModelLister( )
-	{
-		if ( getModel( ) instanceof DesignElementHandle )
-		{
-			( (DesignElementHandle) getModel( ) ).removeListener( this );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.model.core.Listener#notify(org.eclipse.birt.model.core.DesignElement,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
-	 */
-	public abstract void elementChanged( DesignElementHandle arg0,
-			NotificationEvent arg1 );
 
 	/*
 	 * (non-Javadoc)
@@ -377,15 +342,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	protected abstract void createEditPolicies( );
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
-	 */
-	protected List getModelChildren( )
-	{
-		return super.getModelChildren( );
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -552,19 +508,39 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	private boolean isDirty = true;
 
-	protected final void refreshVisuals( )
+	public final void refreshVisuals( )
 	{
-		getRefreshManager( ).markEditPartForRefreshVisuals( this );
+		super.refreshVisuals( );
+		refreshFigure();
+		refreshReportChildren(this);
+		//added for must repaint
+		getFigure( ).repaint( );
 	}
-
-	protected void refreshChildren( )
-	{
-		getRefreshManager( ).markEditPartForRefreshChildren( this );
-	}
-
-	public final void refreshChildrenFigures( )
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
+	 */
+	public void refreshChildren( )
 	{
 		super.refreshChildren( );
+	}
+
+	public void refreshReportChildren(ReportElementEditPart parent)
+	{
+		List list = parent.getChildren( );
+		for (int i=0; i<list.size( ); i++)
+		{
+			Object part = list.get( i );
+			if (part instanceof ReportElementEditPart)
+			{
+				if (((ReportElementEditPart)part).isDelete( ))
+				{
+					continue;
+				}
+				((ReportElementEditPart)part).refreshFigure( );
+				refreshReportChildren((ReportElementEditPart)part);
+			}
+		}
 	}
 
 	public abstract void refreshFigure( );
@@ -689,49 +665,18 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#markDirty(boolean)
-	 */
-	public void markDirty( boolean bool )
-	{
-		markDirty( bool, true );
-	}
-
+	
 	/**
 	 * Marks edit part dirty
 	 * 
 	 * @param bool
 	 * @param notifyParent
 	 */
-	public void markDirty( boolean bool, boolean notifyParent )
+	public void markDirty( boolean bool)
 	{
-		this.isDirty = bool;
-		if ( notifyParent )
-		{
-			notifyChildrenDirty( bool );
-		}
-		if ( bool )
-		{
-			List list = getChildren( );
-			int size = list.size( );
-			for ( int i = 0; i < size; i++ )
-			{
-				( (ReportElementEditPart) list.get( i ) ).markDirty( bool,
-						false );
-			}
-		}
+		this.isDirty = bool;	
 	}
 
-	protected void notifyChildrenDirty( boolean bool )
-	{
-		Object parent = getParent( );
-		if ( parent != null && parent instanceof ReportElementEditPart )
-		{
-			( (ReportElementEditPart) parent ).notifyChildrenDirty( bool );
-		}
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -746,21 +691,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	protected DesignElementHandleAdapter getModelAdapter( )
 	{
 		return peer;
-	}
-
-	protected DeferredRefreshManager getRefreshManager( )
-	{
-		EditPart part = getParent( );
-
-		while ( !( part instanceof ReportRootEditPart ) )
-		{
-			part = part.getParent( );
-		}
-		if ( part instanceof ReportRootEditPart )
-		{
-			return ( (ReportRootEditPart) part ).getRefreshManager( );
-		}
-		return null;
 	}
 
 	/*
@@ -910,29 +840,38 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		return bool;
 	}
 	
-	/*
-	 * 
-	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
-	 */
-
-	protected void reloadTheChildren(  )
+	public void notifyModelChange( )
 	{
-		List list = new ArrayList(getChildren( ));
-		int size = list.size( );
-		
-		for ( int i = 0; i < size; i++ )
-		{		
-			EditPart part = (EditPart) list.get( i );
-			
-			removeChild( part );		
+		if (getParent()!= null && getParent( ) instanceof ReportElementEditPart)
+		{
+			((ReportElementEditPart)getParent( )).notifyModelChange( );
 		}
-		
-		list = getModelChildren( );
-		size = list.size( );
-		for ( int i = 0; i < size; i++ )
-		{		
-			Object model =  list.get( i );
-			addChild( createChild( model ), i );			
-		}
+	}
+	
+	/**
+	 * 
+	 */
+	protected void contentChange(Map info )
+	{
+		markDirty( true );
+		refresh( );
+	}
+	
+	/**
+	 * @param focus
+	 */
+	protected void propertyChange(Map info )
+	{
+		refreshVisuals( );
+	}
+	
+	
+	/**
+	 * @param model
+	 * @return
+	 */
+	public boolean isinterest(Object model)
+	{
+		return getModel( ).equals( model );
 	}
 }

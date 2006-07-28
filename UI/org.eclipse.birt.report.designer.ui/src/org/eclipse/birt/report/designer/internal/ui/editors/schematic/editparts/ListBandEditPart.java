@@ -26,9 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Li
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListControlDisplayNameFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListIconFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.ListData;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
@@ -59,17 +57,6 @@ public class ListBandEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#elementChanged(org.eclipse.birt.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
-	 */
-	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
-	{
-		// model is proxy node, so the listener do nothing
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies( )
@@ -89,7 +76,7 @@ public class ListBandEditPart extends ReportElementEditPart
 	 */
 	public void refreshFigure( )
 	{
-		// TODO set edit part property
+		//slothandle hasn't noe property now, so do nothing
 	}
 
 	/*

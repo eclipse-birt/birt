@@ -24,8 +24,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
-import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
-import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
@@ -41,7 +39,6 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -102,7 +99,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.30 $ $Date: 2006/05/16 10:12:17 $
+ * @version $Revision: 1.31 $ $Date: 2006/05/17 08:34:39 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -141,15 +138,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		getSite( ).getWorkbenchWindow( )
 				.getSelectionService( )
 				.addSelectionListener( getSelectionListener( ) );
-	}
-
-	/**
-	 * @return the wrapper command stack for GEF framework
-	 */
-	public WrapperCommandStack getWrapperCommandStack( )
-	{
-		return (WrapperCommandStack) getMultiPageEditor( ).getAdapter( CommandStack.class );
-
 	}
 
 	/**
@@ -545,7 +533,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	protected void createGraphicalViewer( Composite parent )
 	{
 		DeferredGraphicalViewer viewer = new DeferredGraphicalViewer( );
-		viewer.hookRefreshListener( getRefreshManager( ) );
+		
 		viewer.createControl( parent );
 		setGraphicalViewer( viewer );
 		configureGraphicalViewer( );
@@ -557,11 +545,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		// suport the mediator
 		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
 	}
-
-	/**
-	 * @return the DeferredRefreshManager
-	 */
-	protected abstract DeferredRefreshManager getRefreshManager( );
 
 	/**
 	 * A custom PalettePage that helps GraphicalEditorWithFlyoutPalette keep the

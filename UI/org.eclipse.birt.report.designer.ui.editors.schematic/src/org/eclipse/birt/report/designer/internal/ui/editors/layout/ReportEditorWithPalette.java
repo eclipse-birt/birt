@@ -18,9 +18,10 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
-import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.ReportViewerKeyHandler;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyPartAction;
@@ -90,7 +91,6 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
-import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -120,11 +120,11 @@ abstract public class ReportEditorWithPalette extends
 
 	private EditPartFactory editPartFactoy;
 
-	private DeferredRefreshManager refreshManger;
-
-	private CommandStack commandStack;
+	//private CommandStack commandStack;
 
 	private ModuleHandle model;
+	
+	private ModelEventManager manager = createModelEventManager( );
 
 	private FileReportProvider provider;
 
@@ -144,6 +144,22 @@ abstract public class ReportEditorWithPalette extends
 	public ReportEditorWithPalette( IEditorPart parent )
 	{
 		this( );
+	}
+	
+	/**
+	 * @return
+	 */
+	protected ModelEventManager createModelEventManager()
+	{
+		return new ModelEventManager();
+	}
+	
+	/**
+	 * @return
+	 */
+	protected ModelEventManager getModelEventManager()
+	{
+		return manager;
 	}
 
 	/*
@@ -472,11 +488,33 @@ abstract public class ReportEditorWithPalette extends
 
 		if ( getModel( ) != null )
 		{
-			viewer.setContents( getModel( ) );
+			getGraphicalViewer( ).setContents( getModel( ) );
+			hookModelEventManager( getModel());
 		}
-
 		viewer.addDropTargetListener( createTemplateTransferDropTargetListener( viewer ) );
-
+	}
+	
+	protected void hookModelEventManager(Object model)
+	{	
+		manager.hookRoot( model);
+		Object processor = getGraphicalViewer( ).getRootEditPart( ).getAdapter(IModelEventProcessor.class);
+		if (processor instanceof IModelEventProcessor)
+		{
+			manager.addModelEventProcessor( (IModelEventProcessor)processor );
+		}
+		if (getCommandStack( ) instanceof WrapperCommandStack)
+		{
+			manager.hookCommandStack( (WrapperCommandStack)getCommandStack( ) );
+		}
+	}
+	
+	protected void unhookModelEventManager(Object model)
+	{	
+		manager.unhookRoot( model);
+		if (getCommandStack( ) instanceof WrapperCommandStack)
+		{
+			manager.unhookCommandStack( (WrapperCommandStack)getCommandStack( ) );
+		}
 	}
 
 	protected TemplateTransferDropTargetListener createTemplateTransferDropTargetListener(
@@ -496,7 +534,7 @@ abstract public class ReportEditorWithPalette extends
 
 		GraphicalViewer viewer = getGraphicalViewer( );
 		ActionRegistry actionRegistry = getActionRegistry( );
-		ReportRootEditPart root = new ReportRootEditPart( getRefreshManager( ) );
+		ReportRootEditPart root = new ReportRootEditPart( );
 		viewer.setRootEditPart( root );
 
 		// hook zoom actions
@@ -535,17 +573,7 @@ abstract public class ReportEditorWithPalette extends
 		return editPartFactoy;
 	}
 
-	/**
-	 * @returns DefferedRefreshManger
-	 */
-	protected DeferredRefreshManager getRefreshManager( )
-	{
-		if ( refreshManger == null )
-		{
-			refreshManger = new DeferredRefreshManager( );
-		}
-		return refreshManger;
-	}
+
 
 	// /*
 	// * (non-Javadoc)
@@ -855,7 +883,7 @@ abstract public class ReportEditorWithPalette extends
 			// Add JS Editor as a selection listener to Outline view selections.
 			// outlinePage.addSelectionChangedListener( jsEditor );
 			DesignerOutlinePage outlinePage = new DesignerOutlinePage( getModel( ) );
-
+			manager.addModelEventProcessor( outlinePage.getModelProcessor( ) );
 			return outlinePage;
 		}
 
@@ -881,12 +909,13 @@ abstract public class ReportEditorWithPalette extends
 	 */
 	public void dispose( )
 	{
-		super.dispose( );
-		if ( commandStack != null )
+		if ( getCommandStack( ) != null )
 		{
-			commandStack.flush( );
-			commandStack = null;
+			getCommandStack( ).flush( );		
 		}
+		unhookModelEventManager( getModel( ) );
+		super.dispose( );
+		
+		manager = null;
 	}
-
 }

@@ -455,4 +455,26 @@ public abstract class DesignElementHandleAdapter
 		}
 		return 0;
 	}
+	
+	
+	/**
+	 * @param handle
+	 * @return
+	 */
+	public boolean isChildren(DesignElementHandle handle)
+	{
+		while (handle != null )
+		{
+			if (handle.equals( elementHandle ))
+			{
+				return true;
+			}
+			else
+			{
+				handle = handle.getContainer( );
+			}
+		}
+		return false;
+		
+	}
 }

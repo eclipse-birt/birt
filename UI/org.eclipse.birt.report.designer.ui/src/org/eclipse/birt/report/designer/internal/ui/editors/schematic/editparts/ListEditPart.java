@@ -13,8 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.ListHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SectionBorder;
@@ -31,14 +29,8 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ContentEvent;
-import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.core.IDesignElement;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -82,130 +74,6 @@ public class ListEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#elementChanged(org.eclipse.birt.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
-	 */
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		switch ( ev.getEventType( ) )
-		{
-			case NotificationEvent.CONTENT_EVENT :
-			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT :
-			{
-				if ( ev instanceof ContentEvent
-						&& ( (ContentEvent) ev ).getAction( ) == ContentEvent.REMOVE
-						&& ( ReportDesignConstants.LIST_GROUP_ELEMENT
-								.equals( ( (ContentEvent) ev ).getContent( )
-										.getDefn( ).getName( ) ) ) )
-				{
-					DesignElementHandle handle = ( (IDesignElement) ( (ContentEvent) ev )
-							.getContent( ) )
-							.getHandle( SessionHandleAdapter
-									.getInstance( )
-									.getReportDesignHandle( )
-									.getModule( ) );
-					handle.removeListener( this );
-					markDirty( true );
-
-					getListHandleAdapt( ).remove( handle );
-					refresh( );
-				}
-				else
-				{
-					if ( focus instanceof ListHandle )
-					{
-						addListBandEditPart( );
-					}
-					markDirty( true );
-					refreshChildren( );
-				}
-				break;
-			}
-			case NotificationEvent.ELEMENT_DELETE_EVENT :
-			{
-
-				focus.removeListener( this );
-
-				markDirty( true );
-				getListHandleAdapt( ).remove( focus );
-				refresh( );
-				break;
-			}
-			case NotificationEvent.PROPERTY_EVENT :
-			{
-				markDirty( true );
-				reLayout( );
-				refresh( );
-
-				PropertyEvent event = (PropertyEvent) ev;
-
-				if ( event.getPropertyName( ).startsWith( "border" ) )//$NON-NLS-1$
-				{
-					refreshVisuals( );
-				}
-				if ( event.getPropertyName( ).equals(
-						StyleHandle.PADDING_TOP_PROP )
-						|| event.getPropertyName( ).equals(
-								StyleHandle.PADDING_BOTTOM_PROP )
-						|| event.getPropertyName( ).equals(
-								StyleHandle.PADDING_LEFT_PROP )
-						|| event.getPropertyName( ).equals(
-								StyleHandle.PADDING_RIGHT_PROP ) )
-				{
-					getFigure( ).getParent( ).revalidate( );
-				}
-
-				break;
-			}
-			default :
-			{
-				markDirty( true );
-				reLayout( );
-				refresh( );
-				break;
-			}
-		}
-	}
-
-	/**
-	 * 
-	 */
-	private void addListBandEditPart( )
-	{
-		List list = getModelChildren( );
-		int size = list.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			ListBandProxy proxy = (ListBandProxy) list.get( i );
-			proxy.getElemtHandle( ).addListener( this );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#activate()
-	 */
-	public void activate( )
-	{
-
-		super.activate( );
-		addListBandEditPart( );
-	}
-
-	/**
-	 * layouts the figure
-	 */
-	private void reLayout( )
-	{
-		getFigure( ).invalidateTree( );
-
-		getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies( )
@@ -241,7 +109,7 @@ public class ListEditPart extends ReportElementEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
 	 */
-	protected void refreshChildren( )
+	public void refreshChildren( )
 	{
 		super.refreshChildren( );
 		List list = getChildren( );
@@ -317,20 +185,6 @@ public class ListEditPart extends ReportElementEditPart
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notifyChildrenDirty(boolean)
-	 */
-	protected void notifyChildrenDirty( boolean bool )
-	{
-		super.notifyChildrenDirty( bool );
-		if ( bool )
-		{
-			reLayout( );
-		}
-	}
-
 	/**
 	 * Check if inlucde header/footer
 	 * 
@@ -400,5 +254,20 @@ public class ListEditPart extends ReportElementEditPart
 		// are added
 		this.getViewer( ).setCursor( null );
 		super.addChildVisual( part, index );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
+	 */
+	public boolean isinterest( Object model )
+	{
+		if (model instanceof ListGroupHandle)
+		{
+			if (getModelAdapter( ).isChildren((DesignElementHandle )model))
+			{
+				return true;
+			}
+		}
+		return super.isinterest( model ) ;
 	}
 }

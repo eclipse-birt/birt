@@ -29,9 +29,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -86,70 +84,6 @@ public class TableCellEditPart extends ReportElementEditPart
 		figure.setOpaque( false );
 
 		return figure;
-	}
-
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		markDirty( true );
-		switch ( ev.getEventType( ) )
-		{
-			case NotificationEvent.CONTENT_EVENT :
-			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT:
-			{
-				( (TableEditPart) getParent( ) ).refreshChildren( );
-				refreshChildren( );
-				refreshVisuals( );
-				break;
-
-			}
-			case NotificationEvent.ELEMENT_DELETE_EVENT :
-			{
-				( (TableEditPart) getParent( ) ).refreshChildren( );
-				break;
-			}
-			case NotificationEvent.PROPERTY_EVENT :
-			{
-				refresh( );
-
-				PropertyEvent event = (PropertyEvent) ev;
-				if ( event.getPropertyName( ).startsWith( "border" ) )//$NON-NLS-1$
-				{
-					refreshVisuals( );
-					getFigure( ).invalidateTree( );
-				}
-				if ( CellHandle.COL_SPAN_PROP.equals( event.getPropertyName( ) )
-						|| CellHandle.ROW_SPAN_PROP.equals( event.getPropertyName( ) ) )
-				{
-					( (TableEditPart) getParent( ) ).refreshChildren( );
-					( (TableEditPart) getParent( ) ).reLayout( );
-				}
-
-				if ( event.getPropertyName( ).equals( StyleHandle.PADDING_TOP_PROP )
-						|| event.getPropertyName( ).equals(
-								StyleHandle.PADDING_BOTTOM_PROP )
-						|| event.getPropertyName( ).equals(
-								StyleHandle.PADDING_LEFT_PROP )
-						|| event.getPropertyName( ).equals(
-								StyleHandle.PADDING_RIGHT_PROP )
-						|| event.getPropertyName( ).equals(
-								StyleHandle.TEXT_ALIGN_PROP )
-						|| event.getPropertyName( ).equals(
-								StyleHandle.VERTICAL_ALIGN_PROP ) )
-				{
-					getFigure( ).getParent( ).revalidate( );
-				}
-				break;
-			}
-			case NotificationEvent.STYLE_EVENT :
-			{
-				( (TableEditPart) getParent( ) ).markDirty( true );
-				getFigure( ).getParent( ).revalidate( );
-				refresh( );
-			}
-			default :
-				break;
-		}
-
 	}
 
 	protected Dimension getCellDimension( )
@@ -237,7 +171,7 @@ public class TableCellEditPart extends ReportElementEditPart
 
 		refreshBackground( (DesignElementHandle) getModel( ) );
 	}
-
+	
 	/**
 	 * Draws the string when the cell is empty
 	 */

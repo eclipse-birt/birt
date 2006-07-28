@@ -31,7 +31,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Re
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -195,21 +194,6 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.core.Listener#elementChanged(org.eclipse.birt.report.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
-	 */
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( !isModelInModuleHandle( ) )
-		{
-			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( null );
-			command.execute( );
-		}
-
-	}
 
 	private boolean isModelInModuleHandle( )
 	{
@@ -295,5 +279,15 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 		installEditPolicy( EditPolicy.CONTAINER_ROLE,
 				new ReportContainerEditPolicy( ) );
+	}
+	
+	protected void notifyModelChange(Object focus )
+	{
+		super.notifyModelChange( focus );
+		if ( !isModelInModuleHandle( ) )
+		{
+			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( null );
+			command.execute( );
+		}
 	}
 }

@@ -19,10 +19,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.AreaFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPolicy;
@@ -96,18 +94,6 @@ public class AreaEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#elementChanged(org.eclipse.birt.model.core.DesignElement,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
-	 */
-	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
-	{
-		markDirty( true );
-		refresh( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
 	 */
 	public void refreshFigure( )
@@ -168,30 +154,4 @@ public class AreaEditPart extends ReportElementEditPart
 		return rect;
 	}
 
-	/**
-	 * adds model listener
-	 */
-	protected void addModelListener( )
-	{
-		super.addModelListener( );
-		if ( getModel( ) instanceof ReportElementModel )
-		{
-			( (ReportElementModel) getModel( ) ).getElementHandle( )
-					.addListener( this );
-		}
-
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#removeModelLister()
-	 */
-	protected void removeModelLister( )
-	{
-		super.removeModelLister( );
-		if ( getModel( ) instanceof ReportElementModel )
-		{
-			( (ReportElementModel) getModel( ) ).getElementHandle( )
-					.removeListener( this );
-		}
-	}
 }

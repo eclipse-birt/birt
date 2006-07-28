@@ -19,8 +19,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
-import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
-import org.eclipse.birt.report.designer.internal.ui.editors.notification.ReportDeferredUpdateManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AreaEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ISelectionHandlesEditPolicy;
@@ -69,12 +67,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 
 	public static final String PROPERTY_MARGIN_VISIBILITY = "Property Margin Visibility"; //$NON-NLS-1$
 
-	public void hookRefreshListener( DeferredRefreshManager refreshManager )
-	{
-		ReportDeferredUpdateManager updateManager = new ReportDeferredUpdateManager( );
-		updateManager.setRefreshManager( refreshManager );
-		getLightweightSystem( ).setUpdateManager( updateManager );
-	}
+	
 
 	/**
 	 * Sets the selection to the given selection and fires selection changed.
@@ -352,7 +345,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 						.getMediator( )
 						.notifyRequest( request );
 
-				DeferredGraphicalViewer.super.fireSelectionChanged( );
+				super.fireSelectionChanged( );
 				// SessionHandleAdapter.getInstance().getMediator().popState();
 //			}
 //

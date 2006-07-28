@@ -37,7 +37,6 @@ import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.Figure;
@@ -58,18 +57,6 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 	public PlaceHolderEditPart( Object model )
 	{
 		super( model );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notify(org.eclipse.birt.model.core.DesignElement,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
-	 */
-	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
-	{
-		markDirty( true );
-		refreshVisuals( );
 	}
 
 	protected void createEditPolicies( )

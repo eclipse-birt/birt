@@ -14,8 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -24,8 +22,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
 
 /**
  * 
@@ -49,8 +45,6 @@ public class DestroyEditPart extends DummyEditpart
 	public void refreshFigure( )
 	{
 		StyleHandle style = ( (DesignElementHandle) getModel( ) ).getPrivateStyle( );
-		Font font = getFont();
-		
 		( (LabelFigure) getFigure( ) ).setFont( FontManager.getFont("Dialog", 10, SWT.ITALIC) );
 		
 		//( (LabelFigure) getFigure( ) ).setImage( getImage( ) );
@@ -61,12 +55,6 @@ public class DestroyEditPart extends DummyEditpart
 		( (LabelFigure) getFigure( ) ).setDisplay( style.getDisplay( ) );
 
 		getFigure( ).setBorder( new LineBorder( 1 ) );
-	}
-
-	
-	private Image getImage( )
-	{
-		return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_MISSING_IMG );
 	}
 
 	/*

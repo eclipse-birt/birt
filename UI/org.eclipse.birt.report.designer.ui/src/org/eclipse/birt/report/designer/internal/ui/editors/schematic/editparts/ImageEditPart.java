@@ -29,7 +29,6 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -100,18 +99,6 @@ public class ImageEditPart extends ReportElementEditPart
 						return super.understandsRequest( request );
 					}
 				} );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notify(org.eclipse.birt.model.core.DesignElement,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
-	 */
-	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
-	{
-		markDirty( true );
-		this.refreshVisuals( );
 	}
 
 	/*
@@ -218,21 +205,6 @@ public class ImageEditPart extends ReportElementEditPart
 		else
 		{
 			stack.rollback( );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#markDirty(boolean,
-	 *      boolean)
-	 */
-	public void markDirty( boolean bool, boolean notifyParent )
-	{
-		super.markDirty( bool, notifyParent );
-		if ( bool )
-		{
-			refreshVisuals( );
 		}
 	}
 }

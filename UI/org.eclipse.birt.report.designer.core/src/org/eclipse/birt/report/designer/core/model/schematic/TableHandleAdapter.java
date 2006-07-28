@@ -807,6 +807,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 				.getRowHandleAdapter( copy );
 		List copyChildren = copyAdapt.getChildren( );
 
+		getModelAdaptHelper( ).markDirty( true );
 		TableHandleAdapter.RowUIInfomation info = getRowInfo( copy );
 		List list = info.getAllChildren( );
 

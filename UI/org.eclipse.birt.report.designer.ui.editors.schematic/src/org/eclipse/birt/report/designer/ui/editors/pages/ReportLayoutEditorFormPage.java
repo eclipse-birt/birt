@@ -273,6 +273,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 			if ( getModel( ) != null )
 			{
 				this.getGraphicalViewer( ).setContents( getModel( ) );
+				hookModelEventManager(getModel( ) );
 				markPageStale( IPageStaleType.NONE );
 			}
 			updateStackActions( );

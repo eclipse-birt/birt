@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.commands.DeleteColumnCommand;
@@ -47,18 +48,12 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
@@ -130,43 +125,6 @@ public class TableEditPart extends ReportElementEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.EditPart#activate()
-	 */
-	public void activate( )
-	{
-		super.activate( );
-		addListenerToChildren( );
-	}
-
-	/*
-	 * s (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.EditPart#deactivate()
-	 */
-	public void deactivate( )
-	{
-		super.deactivate( );
-		removeRowListener( );
-		removeColumnListener( );
-		removeGroupListener( );
-
-	}
-
-	private void removeGroupListener( )
-	{
-		if ( getModel( ) instanceof ListingHandle )
-		{
-			for ( Iterator it = ( (ListingHandle) getModel( ) ).getGroups( )
-					.iterator( ); it.hasNext( ); )
-			{
-				( (DesignElementHandle) it.next( ) ).removeListener( this );
-			}
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
 	protected IFigure createFigure( )
@@ -218,128 +176,21 @@ public class TableEditPart extends ReportElementEditPart implements
 		return getTableAdapter( ).getChildren( );
 	}
 
-	protected void addRowListener( )
-	{
-		List list = getRows( );
-		int size = list.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			RowHandle hanlde = (RowHandle) list.get( i );
-			hanlde.addListener( this );
-		}
-	}
 
-	protected void addColumnListener( )
+	/**
+	 * 
+	 */
+	protected void contentChange(Map info )
 	{
-		List list = getColumns( );
-		int size = list.size( );
-		for ( int i = 0; i < size; i++ )
+		super.contentChange( info );
+		Object action = info.get( GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
+		if (action instanceof Integer)
 		{
-			( (ColumnHandle) list.get( i ) ).addListener( this );
-		}
-	}
-
-	protected void removeColumnListener( )
-	{
-		List list = getColumns( );
-		int size = list.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			( (ColumnHandle) list.get( i ) ).removeListener( this );
-		}
-	}
-
-	protected void removeRowListener( )
-	{
-		List list = getRows( );
-		int size = list.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			( (RowHandle) list.get( i ) ).removeListener( this );
-		}
-	}
-
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( !isActive( ) )
-		{
-			return;
-		}
-		switch ( ev.getEventType( ) )
-		{
-			case NotificationEvent.CONTENT_EVENT :
+			if (((Integer)action).intValue( ) == ContentEvent.REMOVE)
 			{
-				markDirty( true );
-				if ( focus instanceof TableHandle
-						|| focus instanceof TableGroupHandle )
-				{
-					addListenerToChildren( );
-				}
-				refreshChildren( );
-				refreshVisuals( );
-
-				if ( ( (ContentEvent) ev ).getAction( ) == ContentEvent.REMOVE )
-				{
-					// this.getViewer( ).select( this );
-					reselectTable( );
-				}
-				break;
+				reselectTable( );
 			}
-			case NotificationEvent.PROPERTY_EVENT :
-			{
-
-				markDirty( true );
-				reLayout( );
-
-				PropertyEvent event = (PropertyEvent) ev;
-
-				if ( event.getPropertyName( ).startsWith( "border" ) )//$NON-NLS-1$
-				{
-					refreshVisuals( );
-				}
-				if ( event.getPropertyName( )
-						.equals( StyleHandle.PADDING_TOP_PROP )
-						|| event.getPropertyName( )
-								.equals( StyleHandle.PADDING_BOTTOM_PROP )
-						|| event.getPropertyName( )
-								.equals( StyleHandle.PADDING_LEFT_PROP )
-						|| event.getPropertyName( )
-								.equals( StyleHandle.PADDING_RIGHT_PROP ) )
-				{
-					invalidParent( );
-				}
-				if ( event.getPropertyName( )
-						.equals( ReportItemHandle.WIDTH_PROP )
-						|| event.getPropertyName( )
-								.equals( ReportItemHandle.HEIGHT_PROP ) )
-				{
-					invalidParent( );
-				}
-
-				refresh( );
-
-				break;
-			}
-			case NotificationEvent.ELEMENT_DELETE_EVENT :
-			case NotificationEvent.LAYOUT_CHANGED_EVENT :
-			{
-				markDirty( true );
-				refresh( );
-
-				break;
-			}
-			case NotificationEvent.STYLE_EVENT :
-			{
-				markDirty( true );
-
-				invalidParent( );
-
-				refresh( );
-			}
-			default :
-				break;
 		}
-
 	}
 
 	private void reselectTable( )
@@ -366,23 +217,12 @@ public class TableEditPart extends ReportElementEditPart implements
 	 */
 	public void reLayout( )
 	{
+		//layoutManagerLayout( );
+		notifyModelChange( );
 		getFigure( ).invalidateTree( );
-		getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( ) );
-	}
-
-	protected void invalidParent( )
-	{
-		getFigure( ).getParent( ).revalidate( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
-	 */
-	protected void refreshChildren( )
-	{
-		super.refreshChildren( );
+		//getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( ) );
+		getFigure( ).revalidate( );
+		
 	}
 
 	/*
@@ -432,8 +272,12 @@ public class TableEditPart extends ReportElementEditPart implements
 		for ( Iterator itr = getChildren( ).iterator( ); itr.hasNext( ); )
 		{
 			TableCellEditPart fg = (TableCellEditPart) itr.next( );
-			fg.updateBlankString( );
+			if (!fg.isDelete( ))
+			{
+				fg.updateBlankString( );
+			}
 		}
+		layoutManagerLayout( );
 	}
 
 	/**
@@ -548,6 +392,7 @@ public class TableEditPart extends ReportElementEditPart implements
 	{
 		FreeformLayeredPane layeredPane = new FreeformLayeredPane( );
 		FreeformLayer layer = new FreeformLayer( );
+		
 
 		layer.setLayoutManager( new TableLayout( this ) );
 		layeredPane.add( layer, PRIMARY_LAYER );
@@ -1190,9 +1035,9 @@ public class TableEditPart extends ReportElementEditPart implements
 		cellPart.setColumnSpan( colSpan );
 
 		removeMergeList( list );
-		getTableAdapter( ).transEnd( );
-		getViewer( ).setSelection( new StructuredSelection( cellPart ) );
 		getTableAdapter( ).reload( );
+		getTableAdapter( ).transEnd( );
+		getViewer( ).setSelection( new StructuredSelection( cellPart ) );	
 	}
 
 	// TODO move logic to adapt
@@ -1272,30 +1117,11 @@ public class TableEditPart extends ReportElementEditPart implements
 		return retValue;
 	}
 
-	protected void notifyChildrenDirty( boolean bool )
+	private void layoutManagerLayout()
 	{
-		super.notifyChildrenDirty( bool );
-
-		if ( bool )
-		{
-			reLayout( );
-			( (TableLayout) getContentPane( ).getLayoutManager( ) ).markDirty( );
-		}
+		( (TableLayout) getContentPane( ).getLayoutManager( ) ).markDirty( );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#markDirty(boolean)
-	 */
-	public void markDirty( boolean bool, boolean notifyParent )
-	{
-		super.markDirty( bool, notifyParent );
-		if ( bool )
-		{
-			( (TableLayout) getContentPane( ).getLayoutManager( ) ).markDirty( );
-		}
-	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -1438,13 +1264,6 @@ public class TableEditPart extends ReportElementEditPart implements
 		}
 	}
 
-	protected void addListenerToChildren( )
-	{
-		addGroupListener( );
-		addRowListener( );
-		addColumnListener( );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1455,17 +1274,6 @@ public class TableEditPart extends ReportElementEditPart implements
 		return getFigure( ).getParent( ).getClientArea( ).getSize( );
 	}
 
-	/**
-	 * 
-	 */
-	protected void addGroupListener( )
-	{
-		for ( Iterator it = ( (TableHandle) getModel( ) ).getGroups( )
-				.iterator( ); it.hasNext( ); )
-		{
-			( (DesignElementHandle) it.next( ) ).addListener( this );
-		}
-	}
 
 	public void showTargetFeedback( Request request )
 	{
@@ -1601,4 +1409,30 @@ public class TableEditPart extends ReportElementEditPart implements
 			return adapt.getRowNumber( );
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notifyModelChange()
+	 */
+	public void notifyModelChange( )
+	{
+		super.notifyModelChange( );
+		layoutManagerLayout( );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
+	 */
+	public boolean isinterest( Object model )
+	{
+		if (model instanceof RowHandle || model instanceof ColumnHandle 
+				|| model instanceof TableGroupHandle)
+		{
+			if (getModelAdapter( ).isChildren((DesignElementHandle )model))
+			{
+				return true;
+			}
+		}
+		return super.isinterest( model );
+	}
+	
 }

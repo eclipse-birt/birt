@@ -46,15 +46,12 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
@@ -430,59 +427,30 @@ public class DefaultNodeProvider implements INodeProvider
 		return true;
 	}
 
-	private boolean checkNameExist( DesignElement element, String name )
+	private boolean checkNameExist( DesignElementHandle handle, String name )
 	{
-		if ( name == null || name.length( ) == 0 )
-			return false;
-		ElementDefn metaData = (ElementDefn) element.getDefn( );
-		int ns = metaData.getNameSpaceID( );
-
-		// first found the element with the given name. Since the library
-		// has it own namespace -- prefix, the range of name check should be
-		// in the current module.
-
-		DesignElement existedElement = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getModule( )
-				.getNameSpace( ns )
-				.getElement( name );
-
-		return ( existedElement == null || existedElement == element ) ? false
-				: true;
-
+		DesignElementHandle element = handle.getModuleHandle( )
+				.findElement( name );
+		return element != null;
 	}
 
 	private boolean performCreatePlaceHolder( ReportElementHandle handle )
 	{
 		boolean bIsNameExist = false;
 		TemplateElementHandle template = null;
-		String name = null;
-		String desc = null;
-
-		do
+		String name = ReportPlugin.getDefault( )
+				.getCustomName( ReportDesignConstants.TEMPLATE_REPORT_ITEM );
+		if ( name == null )
 		{
-			try
+			name = "";
+		}
+		String desc = "";
+		try
+		{
+			
+			do
 			{
-				if ( template == null )
-				{
-					template = handle.createTemplateElement( ReportPlugin.getDefault( )
-							.getCustomName( ReportDesignConstants.TEMPLATE_REPORT_ITEM ) );
-				}
-
-				if ( name == null )
-				{
-					name = template.getName( );
-					name = ( name == null ) ? "" : name; //$NON-NLS-1$					
-				}
-
-				if ( desc == null )
-				{
-					desc = template.getDescription( );
-					desc = ( desc == null ) ? "" : desc; //$NON-NLS-1$
-				}
-
-				TemplateReportItemPropertiesDialog dialog = new TemplateReportItemPropertiesDialog( template.getDefaultElement( )
-						.getDefn( )
+				TemplateReportItemPropertiesDialog dialog = new TemplateReportItemPropertiesDialog( handle.getDefn( )
 						.getDisplayName( ),
 						name,
 						desc );
@@ -490,12 +458,11 @@ public class DefaultNodeProvider implements INodeProvider
 				{
 					name = (String) dialog.getName( ).trim( );
 					desc = (String) dialog.getResult( );
-
-					bIsNameExist = checkNameExist( template.getElement( ), name );
+					bIsNameExist = checkNameExist( handle, name );
 					if ( bIsNameExist == false )
 					{
+						template = handle.createTemplateElement( name );
 						template.setDescription( desc );
-						template.setName( name );
 					}
 					else
 					{
@@ -508,13 +475,13 @@ public class DefaultNodeProvider implements INodeProvider
 				{
 					return false;
 				}
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
-				return false;
-			}
-		} while ( bIsNameExist == true );
+			} while ( bIsNameExist == true );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
 
 		return true;
 	}
@@ -537,8 +504,8 @@ public class DefaultNodeProvider implements INodeProvider
 						WARNING_DIALOG_MESSAGE_EMPTY_LIST,
 						SWT.ICON_WARNING );
 				return null;
-			}else
-			if ( supportList.size( ) == 1 )
+			}
+			else if ( supportList.size( ) == 1 )
 			{
 				type = ( (IElementDefn) supportList.get( 0 ) ).getName( );
 			}

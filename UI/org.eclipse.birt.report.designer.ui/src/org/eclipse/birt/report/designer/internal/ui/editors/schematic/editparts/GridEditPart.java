@@ -18,9 +18,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.Ta
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
 
@@ -60,36 +57,6 @@ public class GridEditPart extends TableEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.model.core.DesignElement,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
-	 */
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( !isActive( ) )
-		{
-			return;
-		}
-		super.elementChanged( focus, ev );
-		switch ( ev.getEventType( ) )
-		{
-			case NotificationEvent.CONTENT_EVENT :
-			{
-				markDirty( true );
-				if ( focus instanceof GridHandle )
-				{
-					addListenerToChildren( );
-					refreshChildren( );
-				}
-				break;
-			}
-			default :
-				break;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createGuideHandle()
 	 */
 	protected AbstractGuideHandle createGuideHandle( )
@@ -99,25 +66,5 @@ public class GridEditPart extends TableEditPart
 		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_GRID ) );
 		return handle;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart#insertRow(int)
-	 */
-	public void insertRow( int rowNumber )
-	{
-		super.insertRow( rowNumber );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart#addListenerToChildren()
-	 */
-	protected void addListenerToChildren( )
-	{
-		addRowListener( );
-		addColumnListener( );
-	}
+	
 }
