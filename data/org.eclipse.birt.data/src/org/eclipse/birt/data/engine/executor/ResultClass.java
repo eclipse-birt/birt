@@ -31,10 +31,11 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  */
 public class ResultClass implements IResultClass
 {
-	private ResultFieldMetadata[] m_projectedColumns;
-	private HashMap m_nameToIdMapping;
-	private String[] m_fieldNames;
-	private int[] m_fieldDriverPositions;
+	private ResultFieldMetadata[] projectedCols;
+	private HashMap nameToIdMapping;
+	private String[] fieldNames;
+	private int[] fieldDriverPositions;
+	private ResultClassHelper resultClassHelper;
 	
 	public ResultClass( List projectedColumns )
 	{	
@@ -48,13 +49,13 @@ public class ResultClass implements IResultClass
 	 */
 	private void initColumnsInfo( List projectedColumns )
 	{
-		m_projectedColumns = new ResultFieldMetadata[projectedColumns.size( )];
-		m_nameToIdMapping = new HashMap( );
+		projectedCols = new ResultFieldMetadata[projectedColumns.size( )];
+		nameToIdMapping = new HashMap( );
 
 		for ( int i = 0, n = projectedColumns.size( ); i < n; i++ )
 		{
-			m_projectedColumns[i] = (ResultFieldMetadata) projectedColumns.get( i );
-			ResultFieldMetadata column = m_projectedColumns[i];
+			projectedCols[i] = (ResultFieldMetadata) projectedColumns.get( i );
+			ResultFieldMetadata column = projectedCols[i];
 
 			String upperCaseName = column.getName( );
 			//if ( upperCaseName != null )
@@ -70,9 +71,9 @@ public class ResultClass implements IResultClass
 			// makes this entry inaccessible by name, which is the intended
 			// behavior
 
-			if ( !m_nameToIdMapping.containsKey( upperCaseName ) )
+			if ( !nameToIdMapping.containsKey( upperCaseName ) )
 			{
-				m_nameToIdMapping.put( upperCaseName, index );
+				nameToIdMapping.put( upperCaseName, index );
 			}
 
 			String upperCaseAlias = column.getAlias( );
@@ -80,9 +81,9 @@ public class ResultClass implements IResultClass
 			//	upperCaseAlias = upperCaseAlias.toUpperCase( );
 			if ( upperCaseAlias != null
 					&& upperCaseAlias.length( ) > 0
-					&& !m_nameToIdMapping.containsKey( upperCaseAlias ) )
+					&& !nameToIdMapping.containsKey( upperCaseAlias ) )
 			{
-				m_nameToIdMapping.put( upperCaseAlias, index );
+				nameToIdMapping.put( upperCaseAlias, index );
 			}
 		}
 	}
@@ -156,13 +157,13 @@ public class ResultClass implements IResultClass
 		
 		DataOutputStream dos = new DataOutputStream( outputStream );
 		
-		int size = m_projectedColumns.length;
+		int size = projectedCols.length;
 		try
 		{
 			IOUtil.writeInt( outputStream, size );
 			for ( int i = 0; i < size; i++ )
 			{
-				ResultFieldMetadata column = m_projectedColumns[i];
+				ResultFieldMetadata column = projectedCols[i];
 
 				IOUtil.writeInt( dos, column.getDriverPosition( ) );
 				IOUtil.writeString( dos, column.getName( ) );
@@ -190,7 +191,7 @@ public class ResultClass implements IResultClass
 	
 	public int getFieldCount()
 	{
-		return m_projectedColumns.length;
+		return projectedCols.length;
 	}
 
 	// returns the field names in the projected order
@@ -202,49 +203,49 @@ public class ResultClass implements IResultClass
 
 	private String[] doGetFieldNames()
 	{
-		if( m_fieldNames == null )
+		if( fieldNames == null )
 		{
-			int size = m_projectedColumns.length;
-			m_fieldNames = new String[ size ];
+			int size = projectedCols.length;
+			fieldNames = new String[ size ];
 			for( int i = 0; i < size; i++ )
 			{
-				m_fieldNames[i] = m_projectedColumns[i].getName();
+				fieldNames[i] = projectedCols[i].getName();
 			}
 		}
 		
-		return m_fieldNames;
+		return fieldNames;
 	}
 
 	public int[] getFieldDriverPositions()
 	{
-		if( m_fieldDriverPositions == null )
+		if( fieldDriverPositions == null )
 		{
-			int size = m_projectedColumns.length;
-			m_fieldDriverPositions = new int[ size ];
+			int size = projectedCols.length;
+			fieldDriverPositions = new int[ size ];
 			for( int i = 0; i < size; i++ )
 			{
-				ResultFieldMetadata column = m_projectedColumns[i];
-				m_fieldDriverPositions[i] = column.getDriverPosition();
+				ResultFieldMetadata column = projectedCols[i];
+				fieldDriverPositions[i] = column.getDriverPosition();
 			}
 		}
 		
-		return m_fieldDriverPositions;
+		return fieldDriverPositions;
 	}
 	
 	public String getFieldName( int index ) throws DataException
 	{
-		return m_projectedColumns[index - 1].getName();
+		return projectedCols[index - 1].getName();
 	}
 
 	public String getFieldAlias( int index ) throws DataException
 	{
-		return m_projectedColumns[index - 1].getAlias();
+		return projectedCols[index - 1].getAlias();
 	}
 	
 	public int getFieldIndex( String fieldName )
 	{
 		Integer i = 
-			(Integer) m_nameToIdMapping.get( fieldName );//.toUpperCase( ) );
+			(Integer) nameToIdMapping.get( fieldName );//.toUpperCase( ) );
 		return ( i == null ) ? -1 : i.intValue();
 	}
 	
@@ -266,7 +267,7 @@ public class ResultClass implements IResultClass
 
 	public Class getFieldValueClass( int index ) throws DataException
 	{
-		return m_projectedColumns[index - 1].getDataType();
+		return projectedCols[index - 1].getDataType();
 	}
 
 	public boolean isCustomField( String fieldName ) throws DataException
@@ -277,23 +278,64 @@ public class ResultClass implements IResultClass
 
 	public boolean isCustomField( int index ) throws DataException
 	{
-		return m_projectedColumns[index - 1].isCustom();
+		return projectedCols[index - 1].isCustom();
 	}
 
 	public String getFieldLabel( int index ) throws DataException
 	{
-		return m_projectedColumns[index - 1].getLabel();
+		return projectedCols[index - 1].getLabel();
 	}
 	
 	public String getFieldNativeTypeName( int index ) throws DataException 
 	{
-		return m_projectedColumns[index - 1].getNativeTypeName();
+		return projectedCols[index - 1].getNativeTypeName();
 	}
 	
 	public ResultFieldMetadata getFieldMetaData( int index )
 			throws DataException
 	{
-		return m_projectedColumns[index - 1];
+		return projectedCols[index - 1];
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultClass#existCloborBlob()
+	 */
+	public boolean hasClobOrBlob( ) throws DataException
+	{
+		return getResultClasstHelper( ).hasClobOrBlob( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.odi.IResultClass#getClobIndexArray()
+	 */
+	public int[] getClobFieldIndexes( ) throws DataException
+	{
+		return getResultClasstHelper( ).getClobIndexArray( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.odi.IResultClass#getBlobIndexArray()
+	 */
+	public int[] getBlobFieldIndexes( ) throws DataException
+	{
+		return getResultClasstHelper( ).getBlobIndexArray( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.odi.IResultClass#getResultObjectHelper()
+	 */
+	public ResultClassHelper getResultClasstHelper( ) throws DataException
+	{
+		if ( resultClassHelper == null )
+			resultClassHelper = new ResultClassHelper( this );
+		return resultClassHelper;
 	}
 	
 }

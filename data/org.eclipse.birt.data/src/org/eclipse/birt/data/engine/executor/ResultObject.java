@@ -26,8 +26,8 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  */
 public class ResultObject implements IResultObject
 {
-	protected IResultClass m_resultClass;
-	protected Object[] m_fields;
+	private IResultClass resultClass;
+	private Object[] fields;
 	
 	public ResultObject( IResultClass resultClass, 
 						 Object[] fields )
@@ -39,11 +39,16 @@ public class ResultObject implements IResultObject
 		
 		assert( resultClass.getFieldCount() == fields.length );
 		
-		m_resultClass = resultClass;
+		this.resultClass = resultClass;
 		
 		try
 		{
-			initFieldValue( fields );
+			if ( resultClass.hasClobOrBlob( ) )
+				this.fields = convertClobAndBlob( fields,
+						resultClass.getClobFieldIndexes( ),
+						resultClass.getBlobFieldIndexes( ) );
+			else
+				this.fields = fields;
 		}
 		catch ( DataException e )
 		{
@@ -52,32 +57,36 @@ public class ResultObject implements IResultObject
 	}
 	
 	/**
+	 * Convert Clob type to string and Convert Blob type to byte[]
+	 * 
 	 * @param fields
 	 * @throws DataException
 	 */
-	private void initFieldValue( Object[] fields ) throws DataException
+	private Object[] convertClobAndBlob( Object[] fields, int[] clobIndex,
+			int[] blobIndex ) throws DataException
 	{
-		int length = fields.length;
-		m_fields = new Object[length];
-		
-		for ( int i = 0; i < length; i++ )
+
+		// computed column has no information of field native type,
+		// so a safe approach is by judging the value class.
+		for ( int i = 0; i < clobIndex.length; i++ )
 		{
-			if ( fields[i] != null )
+			if ( fields[clobIndex[i]] != null )
 			{
-				Object value = fields[i];
-
-				// computed column has no information of field native type,
-				// so a safe approach is by judging the value class.
-				Class valueClass = m_resultClass.getFieldValueClass( i + 1 );
-				assert valueClass != null;
-				if ( valueClass.isAssignableFrom( IClob.class ) && fields[i] instanceof IClob )
-					value = getClobValue( (IClob) fields[i] );
-				else if ( valueClass.isAssignableFrom( IBlob.class ) && fields[i] instanceof IBlob )
-					value = getBlobValue( (IBlob) fields[i] );
-
-				m_fields[i] = value;
+				if ( fields[clobIndex[i]] instanceof IClob )
+					fields[clobIndex[i]] = getClobValue( (IClob) fields[clobIndex[i]] );
 			}
 		}
+
+		for ( int i = 0; i < blobIndex.length; i++ )
+		{
+			if ( fields[blobIndex[i]] != null )
+			{
+				if ( fields[blobIndex[i]] instanceof IBlob )
+					fields[blobIndex[i]] = getBlobValue( (IBlob) fields[blobIndex[i]] );
+			}
+		}
+
+		return fields;
 	}
 	
 	/**
@@ -125,7 +134,7 @@ public class ResultObject implements IResultObject
 	 */
 	public IResultClass getResultClass( )
 	{
-		return m_resultClass;
+		return resultClass;
 	}
 
 	/*
@@ -133,7 +142,7 @@ public class ResultObject implements IResultObject
 	 */
 	public Object getFieldValue( String fieldName ) throws DataException
 	{
-		int fieldIndex = m_resultClass.getFieldIndex( fieldName );
+		int fieldIndex = resultClass.getFieldIndex( fieldName );
 
 		if ( fieldIndex < 1 )
 			throw new DataException( ResourceConstants.INVALID_FIELD_NAME,
@@ -148,7 +157,7 @@ public class ResultObject implements IResultObject
 	public Object getFieldValue( int fieldIndex ) throws DataException
 	{
 		validateFieldIndex( fieldIndex );
-		return m_fields[fieldIndex - 1];
+		return fields[fieldIndex - 1];
 	}
 
 	/*
@@ -157,7 +166,7 @@ public class ResultObject implements IResultObject
 	public void setCustomFieldValue( String fieldName, Object value )
 			throws DataException
 	{
-		int idx = m_resultClass.getFieldIndex( fieldName );
+		int idx = resultClass.getFieldIndex( fieldName );
 		setCustomFieldValue( idx, value );
 	}
 
@@ -168,8 +177,8 @@ public class ResultObject implements IResultObject
 	public void setCustomFieldValue( int fieldIndex, Object value )
 			throws DataException
 	{
-		if ( m_resultClass.isCustomField( fieldIndex ) )
-			m_fields[fieldIndex - 1] = value;
+		if ( resultClass.isCustomField( fieldIndex ) )
+			fields[fieldIndex - 1] = value;
 		else
 			throw new DataException( ResourceConstants.INVALID_CUSTOM_FIELD_INDEX,
 					new Integer( fieldIndex ) );
@@ -182,7 +191,7 @@ public class ResultObject implements IResultObject
 	 */
 	private void validateFieldIndex( int index ) throws DataException
 	{
-		if ( index < 1 || index > m_fields.length )
+		if ( index < 1 || index > fields.length )
 			throw new DataException( ResourceConstants.INVALID_FIELD_INDEX,
 					new Integer( index ) );
 	}
@@ -194,12 +203,12 @@ public class ResultObject implements IResultObject
 	 */
 	public String toString( )
 	{
-		StringBuffer buf = new StringBuffer( m_fields.length * 10 );
-		for ( int i = 0; i < m_fields.length; i++ )
+		StringBuffer buf = new StringBuffer( fields.length * 10 );
+		for ( int i = 0; i < fields.length; i++ )
 		{
 			if ( i > 0 )
 				buf.append( ',' );
-			buf.append( m_fields[i] == null ? "null" : m_fields[i].toString( ) );
+			buf.append( fields[i] == null ? "null" : fields[i].toString( ) );
 		}
 		return buf.toString( );
 	}
