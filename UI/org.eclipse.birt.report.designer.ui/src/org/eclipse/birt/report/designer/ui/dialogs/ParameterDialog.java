@@ -27,6 +27,9 @@ import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectionChoiceDialog;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.ITableAreaModifier;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.TableArea;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -50,9 +53,9 @@ import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -65,8 +68,6 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -81,7 +82,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -232,7 +232,8 @@ public class ParameterDialog extends BaseDialog
 
 	private boolean loading = true;
 
-	private static final SelectionChoice dummyChoice = StructureFactory.createSelectionChoice( );
+	// private static final SelectionChoice dummyChoice =
+	// StructureFactory.createSelectionChoice( );
 
 	private Text nameEditor, promptTextEditor, defaultValueEditor,
 			helpTextEditor, formatField;
@@ -289,7 +290,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			ArrayList list = ( (ArrayList) inputElement );
 			ArrayList elementsList = (ArrayList) list.clone( );
-			elementsList.add( dummyChoice );
+			// elementsList.add( dummyChoice );
 			return elementsList.toArray( );
 		}
 	};
@@ -326,18 +327,18 @@ public class ParameterDialog extends BaseDialog
 			else if ( columnIndex == valueIndex )
 			{
 
-				if ( choice == dummyChoice )
-				{
-					text = INPUT_PROPMT;
-				}
-				else
+				// if ( choice == dummyChoice )
+				// {
+				// text = INPUT_PROPMT;
+				// }
+				// else
 				{
 					text = choice.getValue( );
 				}
 			}
 			else if ( columnIndex == valueIndex + 1 )
 			{
-				if ( choice != dummyChoice )
+				// if ( choice != dummyChoice )
 				{
 					text = choice.getLabel( );
 					if ( text == null )
@@ -372,125 +373,62 @@ public class ParameterDialog extends BaseDialog
 
 	};
 
-	private ICellModifier cellModifier = new ICellModifier( ) {
+	private final ITableAreaModifier tableAreaModifier = new ITableAreaModifier( ) {
 
-		public boolean canModify( Object element, String property )
+		public boolean editItem( final Object element )
 		{
-			if ( property == null
-					|| ( element == dummyChoice && !COLUMN_VALUE.equals( property ) ) )
+			final SelectionChoice choice = (SelectionChoice) element;
+			boolean isDefault = isDefaultChoice( choice );
+			SelectionChoiceDialog dialog = new SelectionChoiceDialog( "Edit Selection Choice" );
+			dialog.setInput( choice );
+			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
+
+				public String validate( String displayLabel, String value )
+				{
+					return validateChoice( choice, displayLabel, value );
+				}
+
+			} );
+			if ( dialog.open( ) == Dialog.OK )
 			{
-				return false;
+				choice.setValue( convertToStandardFormat( choice.getValue( ) ) );
+				if ( isDefault )
+				{
+					defaultValue = choice.getValue( );
+				}
+				return true;
+			}
+			return false;
+		}
+
+		public boolean newItem( )
+		{
+			SelectionChoice choice = StructureFactory.createSelectionChoice( );
+			SelectionChoiceDialog dialog = new SelectionChoiceDialog( "New Selection Choice" );
+			dialog.setInput( choice );
+			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
+
+				public String validate( String displayLabel, String value )
+				{
+					return validateChoice( null, displayLabel, value );
+				}
+			} );
+			if ( dialog.open( ) == Dialog.OK )
+			{
+				choice.setValue( convertToStandardFormat( choice.getValue( ) ) );
+				choiceList.add( choice );
+				return true;
+			}
+			return false;
+		}
+
+		public boolean removeItem( Object[] elements )
+		{
+			for ( int i = 0; i < elements.length; i++ )
+			{
+				choiceList.remove( elements[i] );
 			}
 			return true;
-		}
-
-		public Object getValue( Object element, String property )
-		{
-			SelectionChoice choice = ( (SelectionChoice) element );
-			if ( choice == dummyChoice )
-			{
-				return ""; //$NON-NLS-1$
-			}
-			// if ( property.equals( COLUMN_IS_DEFAULT ) )
-			// {
-			// return ( new Boolean( choice.getValue( ).equals( defaultValue ) )
-			// );
-			// }
-			String value = null;
-			if ( COLUMN_VALUE.equals( property ) )
-			{
-				value = choice.getValue( );
-			}
-			else if ( COLUMN_DISPLAY_TEXT.equals( property ) )
-			{
-				value = choice.getLabel( );
-			}
-			if ( value == null )
-			{
-				value = ""; //$NON-NLS-1$
-			}
-			return value;
-		}
-
-		public void modify( Object element, String property, Object value )
-		{
-			if ( element instanceof Item )
-			{
-				element = ( (Item) element ).getData( );
-			}
-			SelectionChoice choice = ( (SelectionChoice) element );
-			// if ( COLUMN_IS_DEFAULT.equals( property ) )
-			// {
-			// if ( ( (Boolean) value ).booleanValue( ) )
-			// {
-			// defaultValue = choice.getValue( );
-			// }
-			// else
-			// {
-			// defaultValue = null;
-			// }
-			// }
-			// else
-			{
-				String newValue = UIUtil.convertToModelString( (String) value,
-						false );
-				if ( COLUMN_VALUE.equals( property ) )
-				{
-					String errorMessage = isValidValue( newValue );
-					if ( errorMessage != null )
-					{
-						ExceptionHandler.openMessageBox( ERROR_TITLE_INVALID_INPUT,
-								errorMessage,
-								SWT.ICON_INFORMATION );
-						return;
-					}
-					if ( choice.getLabel( ) == null
-							&& containValue( choice,
-									newValue,
-									COLUMN_DISPLAY_TEXT ) )
-					{
-						ExceptionHandler.openMessageBox( ERROR_TITLE_INVALID_INPUT,
-								ERROR_MSG_DUPLICATED_LABEL,
-								SWT.ICON_INFORMATION );
-						return;
-					}
-				}
-				newValue = convertToStandardFormat( newValue );
-				if ( containValue( choice, newValue, property ) )
-				{
-					if ( COLUMN_DISPLAY_TEXT.equals( property ) )
-					{
-						ExceptionHandler.openMessageBox( ERROR_TITLE_INVALID_INPUT,
-								ERROR_MSG_DUPLICATED_LABEL,
-								SWT.ICON_INFORMATION );
-					}
-					else
-					{
-						ExceptionHandler.openMessageBox( ERROR_TITLE_INVALID_INPUT,
-								ERROR_MSG_DUPLICATED_VALUE,
-								SWT.ICON_INFORMATION );
-					}
-					return;
-				}
-				if ( choice == dummyChoice )
-				{
-					choice = StructureFactory.createSelectionChoice( );
-					choiceList.add( choice );
-				}
-				if ( COLUMN_VALUE.equals( property ) )
-				{
-					if ( isDefaultChoice( choice ) )
-					{
-						defaultValue = newValue;
-					}
-					choice.setValue( newValue );
-				}
-				else if ( COLUMN_DISPLAY_TEXT.equals( property ) )
-				{
-					choice.setLabel( newValue );
-				}
-			}
-			refreshValueTable( );
 		}
 	};
 
@@ -1345,30 +1283,19 @@ public class ParameterDialog extends BaseDialog
 	private void switchToList( )
 	{
 		createLabel( valueArea, LABEL_VALUES );
-		Composite tableArea = new Composite( valueArea, SWT.NONE );
-		tableArea.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
+		Composite tableAreaComposite = new Composite( valueArea, SWT.NONE );
+		tableAreaComposite.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
+		tableAreaComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		TableArea tableArea = new TableArea( tableAreaComposite, SWT.SINGLE
+				| SWT.FULL_SELECTION
+				| SWT.BORDER, tableAreaModifier );
 		tableArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		Table table = new Table( tableArea, SWT.SINGLE
-				| SWT.FULL_SELECTION
-				| SWT.BORDER );
-		table.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		Table table = tableArea.getTable( );
 		table.setLinesVisible( true );
 		table.setHeaderVisible( true );
-		table.addKeyListener( new KeyAdapter( ) {
 
-			/**
-			 * @see org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt.events.KeyEvent)
-			 */
-			public void keyReleased( KeyEvent e )
-			{
-				// If Delete pressed, delete the selected row
-				if ( e.keyCode == SWT.DEL )
-				{
-					deleteRow( );
-				}
-			}
-		} );
 		String[] columns;
 		int[] columnWidth;
 		CellEditor[] cellEditors;
@@ -1397,13 +1324,13 @@ public class ParameterDialog extends BaseDialog
 			}
 			column.setWidth( columnWidth[i] );
 		}
-		valueTable = new TableViewer( table );
-		valueTable.setCellEditors( cellEditors );
+		valueTable = tableArea.getTableViewer( );
+		// valueTable.setCellEditors( cellEditors );
 		valueTable.setColumnProperties( columns );
 		valueTable.setContentProvider( contentProvider );
 		valueTable.setLabelProvider( labelProvider );
-		valueTable.setCellModifier( cellModifier );
-		valueTable.setInput( choiceList );
+		// valueTable.setCellModifier( cellModifier );
+		tableArea.setInput( choiceList );
 		valueTable.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
 			public void selectionChanged( SelectionChangedEvent event )
@@ -1412,7 +1339,7 @@ public class ParameterDialog extends BaseDialog
 			}
 
 		} );
-		Composite buttonBar = new Composite( tableArea, SWT.NONE );
+		Composite buttonBar = new Composite( tableAreaComposite, SWT.NONE );
 		buttonBar.setLayout( UIUtil.createGridLayoutWithoutMargin( 4, false ) );
 		buttonBar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		importValue = new Button( buttonBar, SWT.PUSH );
@@ -1474,7 +1401,7 @@ public class ParameterDialog extends BaseDialog
 				deleteRow( );
 			}
 		} );
-		createPromptLine( tableArea );
+		createPromptLine( tableAreaComposite );
 		updateTableButtons( );
 	}
 
@@ -1825,10 +1752,10 @@ public class ParameterDialog extends BaseDialog
 		else
 		{
 			selectedChoice = (SelectionChoice) ( (IStructuredSelection) valueTable.getSelection( ) ).getFirstElement( );
-			if ( selectedChoice == dummyChoice )
-			{
-				isEnable = false;
-			}
+			// if ( selectedChoice == dummyChoice )
+			// {
+			// isEnable = false;
+			// }
 		}
 		boolean isDefault = isEnable && isDefaultChoice( selectedChoice );
 		if ( isDefault )
@@ -2329,7 +2256,7 @@ public class ParameterDialog extends BaseDialog
 
 		String choiceValue = choice.getValue( );
 		String defaultValue = convertToStandardFormat( this.defaultValue );
-		if ( choice != dummyChoice )
+		// if ( choice != dummyChoice )
 		{
 			if ( canBeNull( ) && choiceValue == null && defaultValue == null )
 			{
@@ -2337,7 +2264,7 @@ public class ParameterDialog extends BaseDialog
 			}
 			return choiceValue != null && isEqual( choiceValue, defaultValue );
 		}
-		return false;
+		// return false;
 	}
 
 	private boolean isStatic( )
@@ -2411,4 +2338,26 @@ public class ParameterDialog extends BaseDialog
 		return displayName;
 	}
 
+	private String validateChoice( SelectionChoice choice, String displayLabel,
+			String value )
+	{
+		String errorMessage = isValidValue( value );
+		if ( errorMessage != null )
+		{
+			return errorMessage;
+		}
+		String newValue = convertToStandardFormat( value );
+		if ( ( displayLabel == null && containValue( choice,
+				newValue,
+				COLUMN_DISPLAY_TEXT ) )
+				|| ( containValue( choice, displayLabel, COLUMN_DISPLAY_TEXT ) ) )
+		{
+			return ERROR_MSG_DUPLICATED_LABEL;
+		}
+		if ( containValue( choice, newValue, COLUMN_VALUE ) )
+		{
+			return ERROR_MSG_DUPLICATED_VALUE;
+		}
+		return null;
+	}
 }
