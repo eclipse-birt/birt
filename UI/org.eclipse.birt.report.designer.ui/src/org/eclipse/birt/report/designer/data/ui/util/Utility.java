@@ -257,14 +257,15 @@ public class Utility
 	}
 	
     /**
-     * set script editor page active
-     *
-     */
-    public static void setScriptActivityEditor( )
+	 * set script editor page active The id must be same with
+	 * ReportScriptFormPage.ID
+	 */
+	public static void setScriptActivityEditor( )
 	{
-		if ( UIUtil.getActiveReportEditor( ).findPage( "report.script" ) != null ) //$NON-NLS-1$
+		final String SCRIPT_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.script";
+		if ( UIUtil.getActiveReportEditor( ).findPage( SCRIPT_EDITOR_ID ) != null ) //$NON-NLS-1$
 		{
-			UIUtil.getActiveReportEditor( ).setActivePage( "report.script" );//$NON-NLS-1$
+			UIUtil.getActiveReportEditor( ).setActivePage( SCRIPT_EDITOR_ID );//$NON-NLS-1$
 		}
 	}
     
